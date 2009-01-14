@@ -1,0 +1,1347 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		37A19EA80EF8790B00BA23B4 /* Copy & Build QC NES */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 37A19EAC0EF8790B00BA23B4 /* Build configuration list for PBXAggregateTarget "Copy & Build QC NES" */;
+			buildPhases = (
+				37A19EAB0EF8790B00BA23B4 /* ShellScript */,
+			);
+			dependencies = (
+				37A19EB20EF8794600BA23B4 /* PBXTargetDependency */,
+			);
+			name = "Copy & Build QC NES";
+			productName = "Copy & Build QC";
+		};
+		828E65E30E8467E900B1860B /* Copy & Build QC vanilla */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 828E65EC0E8467F600B1860B /* Build configuration list for PBXAggregateTarget "Copy & Build QC vanilla" */;
+			buildPhases = (
+				828E65E20E8467E900B1860B /* ShellScript */,
+			);
+			dependencies = (
+				1B32806A0E85784400FEDA2C /* PBXTargetDependency */,
+			);
+			name = "Copy & Build QC vanilla";
+			productName = "Copy & Build QC";
+		};
+		82C9C96F0F080C7F0071460B /* Distribution */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 82C9C97C0F080C810071460B /* Build configuration list for PBXAggregateTarget "Distribution" */;
+			buildPhases = (
+				82C9C96E0F080C7F0071460B /* ShellScript */,
+			);
+			dependencies = (
+				82C9C97E0F080C920071460B /* PBXTargetDependency */,
+			);
+			name = Distribution;
+			productName = Disribution;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		1B7594AF0E90C3E300FB5BF1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
+		1B807BDA0E90C0210086AB77 /* GameBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829B9CAB0E7F215700452894 /* GameBuffer.mm */; };
+		1B807BE20E90C0660086AB77 /* hqxx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45E840E886D0000B7B023 /* hqxx.cpp */; };
+		1B807BE30E90C0660086AB77 /* hq2x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45D710E88589000B7B023 /* hq2x.cpp */; };
+		1B807BE40E90C0660086AB77 /* hq3x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 824401380E84A82E004387DA /* hq3x.cpp */; };
+		1B807BE50E90C0660086AB77 /* scalebit.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF90510E7F486F004FDFE9 /* scalebit.c */; };
+		1B807BE70E90C0660086AB77 /* scale3x.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF903D0E7F4716004FDFE9 /* scale3x.c */; };
+		1B807BE90E90C0660086AB77 /* scale2x.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF8FE80E7F45D2004FDFE9 /* scale2x.c */; };
+		1B885E0A0F085EA500770B6D /* Scale2XPlus.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2XPlus.frag */; };
+		1B885E0B0F085EA500770B6D /* Scale2XPlus.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2XPlus.vert */; };
+		1B885E0E0F085EB200770B6D /* GameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B885E0C0F085EB200770B6D /* GameShader.m */; };
+		1B885E3C0F089A4400770B6D /* Scale2xHQ.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3A0F089A4400770B6D /* Scale2xHQ.frag */; };
+		1B885E3D0F089A4400770B6D /* Scale2xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */; };
+		1B885E8F0F089F1B00770B6D /* Scale2XSALSmart.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E8D0F089F1B00770B6D /* Scale2XSALSmart.frag */; };
+		1B885E900F089F1B00770B6D /* Scale2XSALSmart.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E8E0F089F1B00770B6D /* Scale2XSALSmart.vert */; };
+		1B885E930F089F8A00770B6D /* Scale4xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E910F089F8A00770B6D /* Scale4xHQ.vert */; };
+		1B885E940F089F8A00770B6D /* Scale4xHQ.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E920F089F8A00770B6D /* Scale4xHQ.frag */; };
+		1B885EC20F08A13500770B6D /* Scale4x.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC00F08A13500770B6D /* Scale4x.frag */; };
+		1B885EC30F08A13500770B6D /* Scale4x.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC10F08A13500770B6D /* Scale4x.vert */; };
+		1B8D4AEE0E874D5500C3C4F5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
+		1B8D4B010E874E6F00C3C4F5 /* GameAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.mm */; };
+		1BC17CE30E90ACA9003F0D0D /* VisualBoyAdvance.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B50091A90E8C388A005AECAF /* VisualBoyAdvance.bundle */; };
+		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
+		37A19E750EF8788400BA23B4 /* Nestopia.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82A324900E81FE0000A743A9 /* Nestopia.bundle */; };
+		37A19E770EF8788400BA23B4 /* hqxx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45E840E886D0000B7B023 /* hqxx.cpp */; };
+		37A19E780EF8788400BA23B4 /* hq2x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45D710E88589000B7B023 /* hq2x.cpp */; };
+		37A19E790EF8788400BA23B4 /* hq3x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 824401380E84A82E004387DA /* hq3x.cpp */; };
+		37A19E7A0EF8788400BA23B4 /* scalebit.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF90510E7F486F004FDFE9 /* scalebit.c */; };
+		37A19E7B0EF8788400BA23B4 /* scale3x.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF903D0E7F4716004FDFE9 /* scale3x.c */; };
+		37A19E7C0EF8788400BA23B4 /* scale2x.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF8FE80E7F45D2004FDFE9 /* scale2x.c */; };
+		37A19E7D0EF8788400BA23B4 /* GameBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829B9CAB0E7F215700452894 /* GameBuffer.mm */; };
+		37A19E7E0EF8788400BA23B4 /* GameAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.mm */; };
+		37A19E810EF8788400BA23B4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
+		37A19E820EF8788400BA23B4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
+		37A19E830EF8788400BA23B4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
+		37A19E840EF8788400BA23B4 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D60E8467AA00B1860B /* Quartz.framework */; };
+		37A19E940EF878D200BA23B4 /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
+		820C55F20E7C36A700202702 /* GameApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C55F10E7C36A700202702 /* GameApp.m */; };
+		82184ACB0E762DC600895A7F /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82184ACA0E762DC600895A7F /* Preferences.xib */; };
+		82184AD60E762FD300895A7F /* GameButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 82184AD50E762FD300895A7F /* GameButton.m */; };
+		824AC9120E78BB8600D26CC2 /* GamePreferencesController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 824AC9110E78BB8600D26CC2 /* GamePreferencesController.mm */; };
+		8275FA330E85A5500031509D /* Nestopia.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82A324900E81FE0000A743A9 /* Nestopia.bundle */; };
+		82798B340E85C123001DCA93 /* PrefsBundleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798B330E85C123001DCA93 /* PrefsBundleCell.m */; };
+		82798C2D0E85DA02001DCA93 /* PluginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798C2C0E85DA02001DCA93 /* PluginInfo.m */; };
+		8283876E0E6C54E100A96E2C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
+		8283882C0E6CE13C00A96E2C /* GameDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */; };
+		828E659F0E8466CC00B1860B /* OpenEmuQCPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */; };
+		828E65D30E8467A400B1860B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
+		828E65D70E8467AA00B1860B /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D60E8467AA00B1860B /* Quartz.framework */; };
+		828E66180E846AA500B1860B /* Nestopia.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82A324900E81FE0000A743A9 /* Nestopia.bundle */; };
+		828E661B0E846AAB00B1860B /* GambatteBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82E73FEE0E71F90400AE60C4 /* GambatteBundle.bundle */; };
+		828ED4D70E7D98940059F397 /* GamePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828ED4D60E7D98940059F397 /* GamePickerController.m */; };
+		828ED4DA0E7D98A10059F397 /* GameFilePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 828ED4D80E7D98A10059F397 /* GameFilePicker.xib */; };
+		828ED4DD0E7D98D90059F397 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828ED4DB0E7D98D90059F397 /* XADMaster.framework */; };
+		828ED4E00E7D98F00059F397 /* XADMaster.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 828ED4DB0E7D98D90059F397 /* XADMaster.framework */; };
+		828ED4E10E7D98F00059F397 /* UniversalDetector.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 828ED4DC0E7D98D90059F397 /* UniversalDetector.framework */; };
+		8291666C0E8603B600493FD8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8291666B0E8603B600493FD8 /* IOKit.framework */; };
+		829779340E743F2A00631240 /* GameAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.mm */; };
+		829779360E743F3A00631240 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
+		829B9CAC0E7F215700452894 /* GameBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829B9CAB0E7F215700452894 /* GameBuffer.mm */; };
+		829E027A0E7C5631009F348B /* GameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 829E02790E7C5631009F348B /* GameLayer.m */; };
+		829E02D00E7C5882009F348B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829E02CF0E7C5882009F348B /* QuartzCore.framework */; };
+		82C434130EE393530037C54B /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82C434120EE393530037C54B /* icon.icns */; };
+		82C5EB9D0F08BA520019E2DC /* HIDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C5EB9C0F08BA520019E2DC /* HIDManager.m */; };
+		82C5EC4C0F09C8980019E2DC /* VisualBoyAdvance.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B50091A90E8C388A005AECAF /* VisualBoyAdvance.bundle */; };
+		82C5EC4D0F09C89D0019E2DC /* CrabEmu.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B511DF490E9AAF18008E2AEE /* CrabEmu.bundle */; };
+		82C5EC4E0F09C8A30019E2DC /* GambatteBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82E73FEE0E71F90400AE60C4 /* GambatteBundle.bundle */; };
+		82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
+		82C9C95E0F0804D90071460B /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
+		82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
+		82E740880E72010700AE60C4 /* GameInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E740870E72010700AE60C4 /* GameInput.m */; };
+		82E7418A0E7209C400AE60C4 /* GameDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E741880E7209C400AE60C4 /* GameDocument.xib */; };
+		82F45CD40E8855B000B7B023 /* scale2x.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF8FE80E7F45D2004FDFE9 /* scale2x.c */; };
+		82F45CD50E8855B100B7B023 /* scale3x.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF903D0E7F4716004FDFE9 /* scale3x.c */; };
+		82F45CD60E8855B100B7B023 /* scalebit.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF90510E7F486F004FDFE9 /* scalebit.c */; };
+		82F45E530E886B8500B7B023 /* hq3x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 824401380E84A82E004387DA /* hq3x.cpp */; };
+		82F45E690E886C4F00B7B023 /* hq2x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45D710E88589000B7B023 /* hq2x.cpp */; };
+		82F45E850E886D0000B7B023 /* hqxx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45E840E886D0000B7B023 /* hqxx.cpp */; };
+		82F45EE30E88867D00B7B023 /* GamePreferencesController_Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F45EE20E88867D00B7B023 /* GamePreferencesController_Toolbar.m */; };
+		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
+		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
+		8D15AC310486D014006FF6A4 /* GameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */; settings = {ATTRIBUTES = (); }; };
+		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1B3280690E85784400FEDA2C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 828E65970E8466A100B1860B;
+			remoteInfo = OpenEmuQC;
+		};
+		1BC17CE10E90AC86003F0D0D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = VisualBoyAdvance;
+		};
+		37A19E6F0EF8788400BA23B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = Nestopia;
+		};
+		37A19EB10EF8794600BA23B4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 37A19E6B0EF8788400BA23B4;
+			remoteInfo = OpenEmuQCNES;
+		};
+		8275FA3C0E85A5BE0031509D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = Nestopia;
+		};
+		828E66140E846A9900B1860B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 828387800E6CDB2200A96E2C;
+			remoteInfo = GambatteBundle;
+		};
+		828E66160E846A9900B1860B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = Nestopia;
+		};
+		82A3248F0E81FE0000A743A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
+			remoteInfo = Nestopia;
+		};
+		82C9C8CB0F07FDF00071460B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 828387800E6CDB2200A96E2C;
+			remoteInfo = GambatteBundle;
+		};
+		82C9C8CD0F07FDF40071460B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B511DF3E0E9AAF18008E2AEE /* CrabEmu.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = CrabEmu;
+		};
+		82C9C8CF0F07FDF70071460B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = VisualBoyAdvance;
+		};
+		82C9C97D0F080C920071460B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
+			remoteInfo = OpenEmu;
+		};
+		82E73FED0E71F90400AE60C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 828387810E6CDB2200A96E2C;
+			remoteInfo = GambatteBundle;
+		};
+		B50091A80E8C388A005AECAF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
+			remoteInfo = VisualBoyAdvance;
+		};
+		B511DF480E9AAF18008E2AEE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = B511DF3E0E9AAF18008E2AEE /* CrabEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
+			remoteInfo = CrabEmu;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		828ED4F00E7D98F60059F397 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				82C9C95E0F0804D90071460B /* Sparkle.framework in CopyFiles */,
+				828ED4E00E7D98F00059F397 /* XADMaster.framework in CopyFiles */,
+				828ED4E10E7D98F00059F397 /* UniversalDetector.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B885E080F085EA500770B6D /* Scale2XPlus.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2XPlus.frag; sourceTree = "<group>"; };
+		1B885E090F085EA500770B6D /* Scale2XPlus.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2XPlus.vert; sourceTree = "<group>"; };
+		1B885E0C0F085EB200770B6D /* GameShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameShader.m; sourceTree = "<group>"; };
+		1B885E0D0F085EB200770B6D /* GameShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameShader.h; sourceTree = "<group>"; };
+		1B885E3A0F089A4400770B6D /* Scale2xHQ.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2xHQ.frag; sourceTree = "<group>"; };
+		1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2xHQ.vert; sourceTree = "<group>"; };
+		1B885E8D0F089F1B00770B6D /* Scale2XSALSmart.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2XSALSmart.frag; sourceTree = "<group>"; };
+		1B885E8E0F089F1B00770B6D /* Scale2XSALSmart.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2XSALSmart.vert; sourceTree = "<group>"; };
+		1B885E910F089F8A00770B6D /* Scale4xHQ.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale4xHQ.vert; sourceTree = "<group>"; };
+		1B885E920F089F8A00770B6D /* Scale4xHQ.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale4xHQ.frag; sourceTree = "<group>"; };
+		1B885EC00F08A13500770B6D /* Scale4x.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale4x.frag; sourceTree = "<group>"; };
+		1B885EC10F08A13500770B6D /* Scale4x.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale4x.vert; sourceTree = "<group>"; };
+		1DDD582B0DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDocument.m; sourceTree = "<group>"; };
+		2A37F4AEFDCFA73011CA2CEA /* GameDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDocument.h; sourceTree = "<group>"; };
+		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2A37F4BAFDCFA73011CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
+		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmu_Prefix.pch; sourceTree = "<group>"; };
+		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
+		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
+		37A19E880EF8788400BA23B4 /* OpenEmuQCNES.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuQCNES.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		37A19E930EF8788500BA23B4 /* OpenEmuQCNES-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuQCNES-Info.plist"; sourceTree = "<group>"; };
+		820C55F00E7C36A700202702 /* GameApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameApp.h; sourceTree = "<group>"; };
+		820C55F10E7C36A700202702 /* GameApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameApp.m; sourceTree = "<group>"; };
+		82184ACA0E762DC600895A7F /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
+		82184AD40E762FD300895A7F /* GameButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameButton.h; sourceTree = "<group>"; };
+		82184AD50E762FD300895A7F /* GameButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameButton.m; sourceTree = "<group>"; };
+		824401380E84A82E004387DA /* hq3x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hq3x.cpp; sourceTree = "<group>"; };
+		8244013E0E84A874004387DA /* Filters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filters.h; sourceTree = "<group>"; };
+		824AC9100E78BB8600D26CC2 /* GamePreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePreferencesController.h; sourceTree = "<group>"; };
+		824AC9110E78BB8600D26CC2 /* GamePreferencesController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamePreferencesController.mm; sourceTree = "<group>"; };
+		82798B320E85C123001DCA93 /* PrefsBundleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsBundleCell.h; sourceTree = "<group>"; };
+		82798B330E85C123001DCA93 /* PrefsBundleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsBundleCell.m; sourceTree = "<group>"; };
+		82798C2B0E85DA02001DCA93 /* PluginInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PluginInfo.h; sourceTree = "<group>"; };
+		82798C2C0E85DA02001DCA93 /* PluginInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PluginInfo.m; sourceTree = "<group>"; };
+		8283876D0E6C54E100A96E2C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
+		8283882A0E6CE13C00A96E2C /* GameDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDocumentController.h; sourceTree = "<group>"; };
+		8283882B0E6CE13C00A96E2C /* GameDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDocumentController.m; sourceTree = "<group>"; };
+		828389A80E6CF3A500A96E2C /* GameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCore.h; sourceTree = "<group>"; };
+		828E65980E8466A100B1860B /* OpenEmuQC.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuQC.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuQC-Info.plist"; sourceTree = "<group>"; };
+		828E659D0E8466CC00B1860B /* OpenEmuQCPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCPlugin.h; sourceTree = "<group>"; };
+		828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCPlugin.mm; sourceTree = "<group>"; wrapsLines = 1; };
+		828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQC_Prefix.pch; sourceTree = "<group>"; };
+		828E65D20E8467A400B1860B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		828E65D60E8467AA00B1860B /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		828ED4D50E7D98940059F397 /* GamePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePickerController.h; sourceTree = "<group>"; };
+		828ED4D60E7D98940059F397 /* GamePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePickerController.m; sourceTree = "<group>"; };
+		828ED4D90E7D98A10059F397 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameFilePicker.xib; sourceTree = "<group>"; };
+		828ED4DB0E7D98D90059F397 /* XADMaster.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XADMaster.framework; sourceTree = "<group>"; };
+		828ED4DC0E7D98D90059F397 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = "<group>"; };
+		8291666B0E8603B600493FD8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		829777F60E73CFD400631240 /* GameButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameButtons.h; sourceTree = "<group>"; };
+		829779320E743F2A00631240 /* GameAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameAudio.h; sourceTree = "<group>"; };
+		829779330E743F2A00631240 /* GameAudio.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameAudio.mm; sourceTree = "<group>"; };
+		829779350E743F3A00631240 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
+		829B9CAA0E7F215700452894 /* GameBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameBuffer.h; sourceTree = "<group>"; };
+		829B9CAB0E7F215700452894 /* GameBuffer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameBuffer.mm; sourceTree = "<group>"; };
+		829E02780E7C5631009F348B /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
+		829E02790E7C5631009F348B /* GameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameLayer.m; sourceTree = "<group>"; };
+		829E02CF0E7C5882009F348B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nestopia.xcodeproj; path = Nestopia/Nestopia.xcodeproj; sourceTree = "<group>"; };
+		82C434120EE393530037C54B /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		82C5EB9B0F08BA520019E2DC /* HIDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIDManager.h; sourceTree = "<group>"; };
+		82C5EB9C0F08BA520019E2DC /* HIDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HIDManager.m; sourceTree = "<group>"; };
+		82C9C9540F0804A20071460B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		82C9C96C0F080BD30071460B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Gambatte.xcodeproj; path = Gambatte/Gambatte.xcodeproj; sourceTree = "<group>"; };
+		82E740860E72010700AE60C4 /* GameInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInput.h; sourceTree = "<group>"; };
+		82E740870E72010700AE60C4 /* GameInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameInput.m; sourceTree = "<group>"; };
+		82E741890E7209C400AE60C4 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameDocument.xib; sourceTree = "<group>"; };
+		82EF8FE80E7F45D2004FDFE9 /* scale2x.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scale2x.c; sourceTree = "<group>"; };
+		82EF8FE90E7F45D2004FDFE9 /* scale2x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scale2x.h; sourceTree = "<group>"; };
+		82EF90370E7F4702004FDFE9 /* scalebit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scalebit.h; sourceTree = "<group>"; };
+		82EF903C0E7F4716004FDFE9 /* scale3x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scale3x.h; sourceTree = "<group>"; };
+		82EF903D0E7F4716004FDFE9 /* scale3x.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scale3x.c; sourceTree = "<group>"; };
+		82EF90510E7F486F004FDFE9 /* scalebit.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scalebit.c; sourceTree = "<group>"; };
+		82F45D710E88589000B7B023 /* hq2x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hq2x.cpp; sourceTree = "<group>"; };
+		82F45E840E886D0000B7B023 /* hqxx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hqxx.cpp; sourceTree = "<group>"; };
+		82F45EE20E88867D00B7B023 /* GamePreferencesController_Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePreferencesController_Toolbar.m; sourceTree = "<group>"; };
+		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VisualBoyAdvance.xcodeproj; path = VisualBoyAdvance/VisualBoyAdvance.xcodeproj; sourceTree = "<group>"; };
+		B511DF3E0E9AAF18008E2AEE /* CrabEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrabEmu.xcodeproj; path = CrabEmu/CrabEmu.xcodeproj; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		37A19E800EF8788400BA23B4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37A19E810EF8788400BA23B4 /* OpenGL.framework in Frameworks */,
+				37A19E820EF8788400BA23B4 /* AudioToolbox.framework in Frameworks */,
+				37A19E830EF8788400BA23B4 /* Cocoa.framework in Frameworks */,
+				37A19E840EF8788400BA23B4 /* Quartz.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		828E65960E8466A100B1860B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B7594AF0E90C3E300FB5BF1 /* OpenGL.framework in Frameworks */,
+				1B8D4AEE0E874D5500C3C4F5 /* AudioToolbox.framework in Frameworks */,
+				828E65D30E8467A400B1860B /* Cocoa.framework in Frameworks */,
+				828E65D70E8467AA00B1860B /* Quartz.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D15AC330486D014006FF6A4 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
+				8283876E0E6C54E100A96E2C /* OpenGL.framework in Frameworks */,
+				829779360E743F3A00631240 /* AudioToolbox.framework in Frameworks */,
+				829E02D00E7C5882009F348B /* QuartzCore.framework in Frameworks */,
+				828ED4DD0E7D98D90059F397 /* XADMaster.framework in Frameworks */,
+				8291666C0E8603B600493FD8 /* IOKit.framework in Frameworks */,
+				82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				82C9C9540F0804A20071460B /* Sparkle.framework */,
+				828ED4DB0E7D98D90059F397 /* XADMaster.framework */,
+				829E02CF0E7C5882009F348B /* QuartzCore.framework */,
+				829779350E743F3A00631240 /* AudioToolbox.framework */,
+				8283876D0E6C54E100A96E2C /* OpenGL.framework */,
+				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				828ED4DC0E7D98D90059F397 /* UniversalDetector.framework */,
+				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
+				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB0FE9D524F11CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D15AC370486D014006FF6A4 /* OpenEmu.app */,
+				828E65980E8466A100B1860B /* OpenEmuQC.plugin */,
+				37A19E880EF8788400BA23B4 /* OpenEmuQCNES.plugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1B885E070F085EA500770B6D /* GLSL Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				1B885EC10F08A13500770B6D /* Scale4x.vert */,
+				1B885EC00F08A13500770B6D /* Scale4x.frag */,
+				1B885E910F089F8A00770B6D /* Scale4xHQ.vert */,
+				1B885E920F089F8A00770B6D /* Scale4xHQ.frag */,
+				1B885E8D0F089F1B00770B6D /* Scale2XSALSmart.frag */,
+				1B885E8E0F089F1B00770B6D /* Scale2XSALSmart.vert */,
+				1B885E3A0F089A4400770B6D /* Scale2xHQ.frag */,
+				1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */,
+				1B885E080F085EA500770B6D /* Scale2XPlus.frag */,
+				1B885E090F085EA500770B6D /* Scale2XPlus.vert */,
+			);
+			path = "GLSL Shaders";
+			sourceTree = "<group>";
+		};
+		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
+			isa = PBXGroup;
+			children = (
+				B511DF3E0E9AAF18008E2AEE /* CrabEmu.xcodeproj */,
+				B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */,
+				82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */,
+				82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */,
+				2A37F4ABFDCFA73011CA2CEA /* Classes */,
+				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
+				2A37F4B8FDCFA73011CA2CEA /* Resources */,
+				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
+				19C28FB0FE9D524F11CA2CBB /* Products */,
+				828E65D20E8467A400B1860B /* Cocoa.framework */,
+				828E65D60E8467AA00B1860B /* Quartz.framework */,
+				8291666B0E8603B600493FD8 /* IOKit.framework */,
+			);
+			name = OpenEmu;
+			sourceTree = "<group>";
+		};
+		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				828E64D00E84656900B1860B /* OpenEmuCore */,
+				828E64E10E84658A00B1860B /* OpenEmuQC */,
+				37A19E500EF874E800BA23B4 /* OpenEmuQCNES */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				824C7AD00E7E22880086D0D4 /* Filters */,
+				828389A80E6CF3A500A96E2C /* GameCore.h */,
+				829777F60E73CFD400631240 /* GameButtons.h */,
+				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
+				828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */,
+				2A37F4B0FDCFA73011CA2CEA /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				1B885E070F085EA500770B6D /* GLSL Shaders */,
+				82C9C96C0F080BD30071460B /* dsa_pub.pem */,
+				82C434120EE393530037C54B /* icon.icns */,
+				828ED4D80E7D98A10059F397 /* GameFilePicker.xib */,
+				82E741880E7209C400AE60C4 /* GameDocument.xib */,
+				1DDD582A0DA1D0D100B32029 /* MainMenu.xib */,
+				82184ACA0E762DC600895A7F /* Preferences.xib */,
+				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
+				8D15AC360486D014006FF6A4 /* Info.plist */,
+				828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */,
+				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
+				37A19E930EF8788500BA23B4 /* OpenEmuQCNES-Info.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
+				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		37A19E500EF874E800BA23B4 /* OpenEmuQCNES */ = {
+			isa = PBXGroup;
+			children = (
+				37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */,
+				37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */,
+			);
+			name = OpenEmuQCNES;
+			sourceTree = "<group>";
+		};
+		8249C8E40E899CD30027EFDF /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				829779330E743F2A00631240 /* GameAudio.mm */,
+				829779320E743F2A00631240 /* GameAudio.h */,
+			);
+			name = Audio;
+			sourceTree = "<group>";
+		};
+		8249C8E50E899CDF0027EFDF /* Input */ = {
+			isa = PBXGroup;
+			children = (
+				82E740870E72010700AE60C4 /* GameInput.m */,
+				82E740860E72010700AE60C4 /* GameInput.h */,
+				82184AD50E762FD300895A7F /* GameButton.m */,
+				82184AD40E762FD300895A7F /* GameButton.h */,
+				82C5EB9B0F08BA520019E2DC /* HIDManager.h */,
+				82C5EB9C0F08BA520019E2DC /* HIDManager.m */,
+			);
+			name = Input;
+			sourceTree = "<group>";
+		};
+		8249C8E60E899CFF0027EFDF /* Utility Windows */ = {
+			isa = PBXGroup;
+			children = (
+				828ED4D60E7D98940059F397 /* GamePickerController.m */,
+				828ED4D50E7D98940059F397 /* GamePickerController.h */,
+			);
+			name = "Utility Windows";
+			sourceTree = "<group>";
+		};
+		824C7AD00E7E22880086D0D4 /* Filters */ = {
+			isa = PBXGroup;
+			children = (
+				82F45E840E886D0000B7B023 /* hqxx.cpp */,
+				82F45D710E88589000B7B023 /* hq2x.cpp */,
+				824401380E84A82E004387DA /* hq3x.cpp */,
+				82EF90510E7F486F004FDFE9 /* scalebit.c */,
+				82EF903C0E7F4716004FDFE9 /* scale3x.h */,
+				82EF903D0E7F4716004FDFE9 /* scale3x.c */,
+				82EF90370E7F4702004FDFE9 /* scalebit.h */,
+				82EF8FE80E7F45D2004FDFE9 /* scale2x.c */,
+				82EF8FE90E7F45D2004FDFE9 /* scale2x.h */,
+				8244013E0E84A874004387DA /* Filters.h */,
+			);
+			name = Filters;
+			sourceTree = "<group>";
+		};
+		82798B310E85C105001DCA93 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				824AC9110E78BB8600D26CC2 /* GamePreferencesController.mm */,
+				82F45EE20E88867D00B7B023 /* GamePreferencesController_Toolbar.m */,
+				824AC9100E78BB8600D26CC2 /* GamePreferencesController.h */,
+				82798C2B0E85DA02001DCA93 /* PluginInfo.h */,
+				82798C2C0E85DA02001DCA93 /* PluginInfo.m */,
+				82798B320E85C123001DCA93 /* PrefsBundleCell.h */,
+				82798B330E85C123001DCA93 /* PrefsBundleCell.m */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
+		828E64D00E84656900B1860B /* OpenEmuCore */ = {
+			isa = PBXGroup;
+			children = (
+				8249C8E40E899CD30027EFDF /* Audio */,
+				829165DA0E85F9A400493FD8 /* Graphics */,
+				8249C8E50E899CDF0027EFDF /* Input */,
+				82798B310E85C105001DCA93 /* Preferences */,
+				8249C8E60E899CFF0027EFDF /* Utility Windows */,
+				2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */,
+				2A37F4AEFDCFA73011CA2CEA /* GameDocument.h */,
+				8283882B0E6CE13C00A96E2C /* GameDocumentController.m */,
+				8283882A0E6CE13C00A96E2C /* GameDocumentController.h */,
+				820C55F10E7C36A700202702 /* GameApp.m */,
+				820C55F00E7C36A700202702 /* GameApp.h */,
+			);
+			name = OpenEmuCore;
+			sourceTree = "<group>";
+		};
+		828E64E10E84658A00B1860B /* OpenEmuQC */ = {
+			isa = PBXGroup;
+			children = (
+				828E659D0E8466CC00B1860B /* OpenEmuQCPlugin.h */,
+				828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */,
+			);
+			name = OpenEmuQC;
+			sourceTree = "<group>";
+		};
+		829165DA0E85F9A400493FD8 /* Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				1B885E0C0F085EB200770B6D /* GameShader.m */,
+				1B885E0D0F085EB200770B6D /* GameShader.h */,
+				829E02790E7C5631009F348B /* GameLayer.m */,
+				829E02780E7C5631009F348B /* GameLayer.h */,
+				829B9CAB0E7F215700452894 /* GameBuffer.mm */,
+				829B9CAA0E7F215700452894 /* GameBuffer.h */,
+			);
+			name = Graphics;
+			sourceTree = "<group>";
+		};
+		82A3248C0E81FE0000A743A9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				82A324900E81FE0000A743A9 /* Nestopia.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		82E73FE40E71F90400AE60C4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				82E73FEE0E71F90400AE60C4 /* GambatteBundle.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B50091A20E8C388A005AECAF /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B50091A90E8C388A005AECAF /* VisualBoyAdvance.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B511DF3F0E9AAF18008E2AEE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B511DF490E9AAF18008E2AEE /* CrabEmu.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		37A19E6B0EF8788400BA23B4 /* OpenEmuQCNES */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 37A19E850EF8788400BA23B4 /* Build configuration list for PBXNativeTarget "OpenEmuQCNES" */;
+			buildPhases = (
+				37A19E720EF8788400BA23B4 /* Resources */,
+				37A19E760EF8788400BA23B4 /* Sources */,
+				37A19E800EF8788400BA23B4 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				37A19E6E0EF8788400BA23B4 /* PBXTargetDependency */,
+			);
+			name = OpenEmuQCNES;
+			productName = OpenEmuQC;
+			productReference = 37A19E880EF8788400BA23B4 /* OpenEmuQCNES.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+		828E65970E8466A100B1860B /* OpenEmuQC */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 828E659C0E8466A200B1860B /* Build configuration list for PBXNativeTarget "OpenEmuQC" */;
+			buildPhases = (
+				828E65940E8466A100B1860B /* Resources */,
+				828E65950E8466A100B1860B /* Sources */,
+				828E65960E8466A100B1860B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				828E66150E846A9900B1860B /* PBXTargetDependency */,
+				828E66170E846A9900B1860B /* PBXTargetDependency */,
+				1BC17CE20E90AC86003F0D0D /* PBXTargetDependency */,
+			);
+			name = OpenEmuQC;
+			productName = OpenEmuQC;
+			productReference = 828E65980E8466A100B1860B /* OpenEmuQC.plugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+		8D15AC270486D014006FF6A4 /* OpenEmu */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */;
+			buildPhases = (
+				8D15AC2B0486D014006FF6A4 /* Resources */,
+				8D15AC300486D014006FF6A4 /* Sources */,
+				8D15AC330486D014006FF6A4 /* Frameworks */,
+				828ED4F00E7D98F60059F397 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8275FA3D0E85A5BE0031509D /* PBXTargetDependency */,
+				82C9C8CC0F07FDF00071460B /* PBXTargetDependency */,
+				82C9C8CE0F07FDF40071460B /* PBXTargetDependency */,
+				82C9C8D00F07FDF70071460B /* PBXTargetDependency */,
+			);
+			name = OpenEmu;
+			productInstallPath = "$(HOME)/Applications";
+			productName = OpenEmu;
+			productReference = 8D15AC370486D014006FF6A4 /* OpenEmu.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "OpenEmu" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = B511DF3F0E9AAF18008E2AEE /* Products */;
+					ProjectRef = B511DF3E0E9AAF18008E2AEE /* CrabEmu.xcodeproj */;
+				},
+				{
+					ProductGroup = 82E73FE40E71F90400AE60C4 /* Products */;
+					ProjectRef = 82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */;
+				},
+				{
+					ProductGroup = 82A3248C0E81FE0000A743A9 /* Products */;
+					ProjectRef = 82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */;
+				},
+				{
+					ProductGroup = B50091A20E8C388A005AECAF /* Products */;
+					ProjectRef = B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				8D15AC270486D014006FF6A4 /* OpenEmu */,
+				828E65E30E8467E900B1860B /* Copy & Build QC vanilla */,
+				37A19EA80EF8790B00BA23B4 /* Copy & Build QC NES */,
+				828E65970E8466A100B1860B /* OpenEmuQC */,
+				37A19E6B0EF8788400BA23B4 /* OpenEmuQCNES */,
+				82C9C96F0F080C7F0071460B /* Distribution */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		82A324900E81FE0000A743A9 /* Nestopia.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Nestopia.bundle;
+			remoteRef = 82A3248F0E81FE0000A743A9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		82E73FEE0E71F90400AE60C4 /* GambatteBundle.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GambatteBundle.bundle;
+			remoteRef = 82E73FED0E71F90400AE60C4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B50091A90E8C388A005AECAF /* VisualBoyAdvance.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = VisualBoyAdvance.bundle;
+			remoteRef = B50091A80E8C388A005AECAF /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		B511DF490E9AAF18008E2AEE /* CrabEmu.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CrabEmu.bundle;
+			remoteRef = B511DF480E9AAF18008E2AEE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		37A19E720EF8788400BA23B4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37A19E750EF8788400BA23B4 /* Nestopia.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		828E65940E8466A100B1860B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1BC17CE30E90ACA9003F0D0D /* VisualBoyAdvance.bundle in Resources */,
+				828E661B0E846AAB00B1860B /* GambatteBundle.bundle in Resources */,
+				828E66180E846AA500B1860B /* Nestopia.bundle in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D15AC2B0486D014006FF6A4 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82C5EC4E0F09C8A30019E2DC /* GambatteBundle.bundle in Resources */,
+				82C5EC4D0F09C89D0019E2DC /* CrabEmu.bundle in Resources */,
+				82C5EC4C0F09C8980019E2DC /* VisualBoyAdvance.bundle in Resources */,
+				8275FA330E85A5500031509D /* Nestopia.bundle in Resources */,
+				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
+				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
+				1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */,
+				82E7418A0E7209C400AE60C4 /* GameDocument.xib in Resources */,
+				82184ACB0E762DC600895A7F /* Preferences.xib in Resources */,
+				828ED4DA0E7D98A10059F397 /* GameFilePicker.xib in Resources */,
+				82C434130EE393530037C54B /* icon.icns in Resources */,
+				82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */,
+				1B885E0A0F085EA500770B6D /* Scale2XPlus.frag in Resources */,
+				1B885E0B0F085EA500770B6D /* Scale2XPlus.vert in Resources */,
+				1B885E3C0F089A4400770B6D /* Scale2xHQ.frag in Resources */,
+				1B885E3D0F089A4400770B6D /* Scale2xHQ.vert in Resources */,
+				1B885E8F0F089F1B00770B6D /* Scale2XSALSmart.frag in Resources */,
+				1B885E900F089F1B00770B6D /* Scale2XSALSmart.vert in Resources */,
+				1B885E930F089F8A00770B6D /* Scale4xHQ.vert in Resources */,
+				1B885E940F089F8A00770B6D /* Scale4xHQ.frag in Resources */,
+				1B885EC20F08A13500770B6D /* Scale4x.frag in Resources */,
+				1B885EC30F08A13500770B6D /* Scale4x.vert in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		37A19EAB0EF8790B00BA23B4 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This shell script simply copies the built plug-in to \"~/Library/Graphics/Quartz Composer Plug-Ins\" and overrides any previous version at that location\n\nmkdir -p \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins\"\nrm -rf \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins/OpenEmuQCNES.plugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/OpenEmuQCNES.plugin\" \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins/\"\n";
+		};
+		828E65E20E8467E900B1860B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This shell script simply copies the built plug-in to \"~/Library/Graphics/Quartz Composer Plug-Ins\" and overrides any previous version at that location\n\nmkdir -p \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins\"\nrm -rf \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/OpenEmuQC.plugin\" \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins/\"\n";
+		};
+		82C9C96E0F080C7F0071460B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/bash;
+			shellScript = "set -o errexit\n\n[ $BUILD_STYLE = Release ] || { echo Distribution target requires \"'Release'\" build style; false; }\n\nVERSION=$(defaults read \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.app/Contents/Info\" CFBundleVersion)\nDOWNLOAD_BASE_URL=\"opennestopia.staulkor.com\"\nRELEASENOTES_URL=\"http://www.example.com/software/my-cool-app/release-notes.html#version-$VERSION\"\n\nARCHIVE_FILENAME=\"$PROJECT_NAME $VERSION.zip\"\nDOWNLOAD_URL=\"http://$DOWNLOAD_BASE_URL/downloads/$ARCHIVE_FILENAME\"\nKEYCHAIN_PRIVKEY_NAME=\"Sparkle Private Key\"\n\nWD=$PWD\ncd \"$BUILT_PRODUCTS_DIR\"\nrm -f \"$PROJECT_NAME\"*.zip\nzip -qr \"$ARCHIVE_FILENAME\" \"$PROJECT_NAME.app\"\n\nSIZE=$(stat -f %z \"$ARCHIVE_FILENAME\")\nPUBDATE=$(date +\"%a, %d %b %G %T %z\")\nSIGNATURE=$(\n\topenssl dgst -sha1 -binary < \"$ARCHIVE_FILENAME\" \\\n\t| openssl dgst -dss1 -sign <(security find-generic-password -g -s \"$KEYCHAIN_PRIVKEY_NAME\" 2>&1 1>/dev/null | perl -pe '($_) = /\"(.+)\"/; s/\\\\012/\\n/g') \\\n\t| openssl enc -base64\n)\n\n[ $SIGNATURE ] || { echo Unable to load signing private key with name \"'$KEYCHAIN_PRIVKEY_NAME'\" from keychain; false; }\n\necho \"<?xml version='\"1.0\"' encoding='\"utf-8\"'?>\n<rss version='\"2.0\"' xmlns:sparkle='\"http://www.andymatuschak.org/xml-namespaces/sparkle\"'  xmlns:dc='\"http://purl.org/dc/elements/1.1/\"'>\n   <channel>\n      <title>Your Great App's Changelog</title>\n      <link>http://you.com/app/appcast.xml</link>\n      <description>Most recent changes with links to updates.</description>\n      <language>en</language>\n\t <item>\n\t\t\t<title>Version $VERSION</title>\n\t\t\t<sparkle:releaseNotesLink>$RELEASENOTES_URL</sparkle:releaseNotesLink>\n\t\t\t<pubDate>$PUBDATE</pubDate>\n\t\t\t<enclosure\n\t\t\t\turl='\"$DOWNLOAD_URL\"'\n\t\t\t\tsparkle:version='\"$VERSION\"'\n\t\t\t\ttype='\"application/octet-stream\"'\n\t\t\t\tlength='\"$SIZE\"'\n\t\t\t\tsparkle:dsaSignature='\"$SIGNATURE\"'\n\t\t\t/>\n\t\t</item>\n   </channel>\n</rss>\" > appcast.xml\n\necho scp \"'$PWD/$ARCHIVE_FILENAME'\" \"'josh_weinberg@staulkor.com:opennestopia.staulkor.com/downloads'\"\necho scp \"'$PWD/appcast.xml'\" \"'josh_weinberg@staulkor.com:opennestopia.staulkor.com'\"";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		37A19E760EF8788400BA23B4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				37A19E770EF8788400BA23B4 /* hqxx.cpp in Sources */,
+				37A19E780EF8788400BA23B4 /* hq2x.cpp in Sources */,
+				37A19E790EF8788400BA23B4 /* hq3x.cpp in Sources */,
+				37A19E7A0EF8788400BA23B4 /* scalebit.c in Sources */,
+				37A19E7B0EF8788400BA23B4 /* scale3x.c in Sources */,
+				37A19E7C0EF8788400BA23B4 /* scale2x.c in Sources */,
+				37A19E7D0EF8788400BA23B4 /* GameBuffer.mm in Sources */,
+				37A19E7E0EF8788400BA23B4 /* GameAudio.mm in Sources */,
+				37A19E940EF878D200BA23B4 /* OpenEmuQCNESPlugin.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		828E65950E8466A100B1860B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1B807BE20E90C0660086AB77 /* hqxx.cpp in Sources */,
+				1B807BE30E90C0660086AB77 /* hq2x.cpp in Sources */,
+				1B807BE40E90C0660086AB77 /* hq3x.cpp in Sources */,
+				1B807BE50E90C0660086AB77 /* scalebit.c in Sources */,
+				1B807BE70E90C0660086AB77 /* scale3x.c in Sources */,
+				1B807BE90E90C0660086AB77 /* scale2x.c in Sources */,
+				1B807BDA0E90C0210086AB77 /* GameBuffer.mm in Sources */,
+				1B8D4B010E874E6F00C3C4F5 /* GameAudio.mm in Sources */,
+				828E659F0E8466CC00B1860B /* OpenEmuQCPlugin.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8D15AC300486D014006FF6A4 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D15AC310486D014006FF6A4 /* GameDocument.m in Sources */,
+				8D15AC320486D014006FF6A4 /* main.m in Sources */,
+				8283882C0E6CE13C00A96E2C /* GameDocumentController.m in Sources */,
+				82E740880E72010700AE60C4 /* GameInput.m in Sources */,
+				829779340E743F2A00631240 /* GameAudio.mm in Sources */,
+				82184AD60E762FD300895A7F /* GameButton.m in Sources */,
+				824AC9120E78BB8600D26CC2 /* GamePreferencesController.mm in Sources */,
+				820C55F20E7C36A700202702 /* GameApp.m in Sources */,
+				829E027A0E7C5631009F348B /* GameLayer.m in Sources */,
+				828ED4D70E7D98940059F397 /* GamePickerController.m in Sources */,
+				829B9CAC0E7F215700452894 /* GameBuffer.mm in Sources */,
+				82798B340E85C123001DCA93 /* PrefsBundleCell.m in Sources */,
+				82798C2D0E85DA02001DCA93 /* PluginInfo.m in Sources */,
+				82F45CD40E8855B000B7B023 /* scale2x.c in Sources */,
+				82F45CD50E8855B100B7B023 /* scale3x.c in Sources */,
+				82F45CD60E8855B100B7B023 /* scalebit.c in Sources */,
+				82F45E530E886B8500B7B023 /* hq3x.cpp in Sources */,
+				82F45E690E886C4F00B7B023 /* hq2x.cpp in Sources */,
+				82F45E850E886D0000B7B023 /* hqxx.cpp in Sources */,
+				82F45EE30E88867D00B7B023 /* GamePreferencesController_Toolbar.m in Sources */,
+				1B885E0E0F085EB200770B6D /* GameShader.m in Sources */,
+				82C5EB9D0F08BA520019E2DC /* HIDManager.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1B32806A0E85784400FEDA2C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 828E65970E8466A100B1860B /* OpenEmuQC */;
+			targetProxy = 1B3280690E85784400FEDA2C /* PBXContainerItemProxy */;
+		};
+		1BC17CE20E90AC86003F0D0D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VisualBoyAdvance;
+			targetProxy = 1BC17CE10E90AC86003F0D0D /* PBXContainerItemProxy */;
+		};
+		37A19E6E0EF8788400BA23B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nestopia;
+			targetProxy = 37A19E6F0EF8788400BA23B4 /* PBXContainerItemProxy */;
+		};
+		37A19EB20EF8794600BA23B4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 37A19E6B0EF8788400BA23B4 /* OpenEmuQCNES */;
+			targetProxy = 37A19EB10EF8794600BA23B4 /* PBXContainerItemProxy */;
+		};
+		8275FA3D0E85A5BE0031509D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nestopia;
+			targetProxy = 8275FA3C0E85A5BE0031509D /* PBXContainerItemProxy */;
+		};
+		828E66150E846A9900B1860B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GambatteBundle;
+			targetProxy = 828E66140E846A9900B1860B /* PBXContainerItemProxy */;
+		};
+		828E66170E846A9900B1860B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Nestopia;
+			targetProxy = 828E66160E846A9900B1860B /* PBXContainerItemProxy */;
+		};
+		82C9C8CC0F07FDF00071460B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = GambatteBundle;
+			targetProxy = 82C9C8CB0F07FDF00071460B /* PBXContainerItemProxy */;
+		};
+		82C9C8CE0F07FDF40071460B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CrabEmu;
+			targetProxy = 82C9C8CD0F07FDF40071460B /* PBXContainerItemProxy */;
+		};
+		82C9C8D00F07FDF70071460B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = VisualBoyAdvance;
+			targetProxy = 82C9C8CF0F07FDF70071460B /* PBXContainerItemProxy */;
+		};
+		82C9C97E0F080C920071460B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
+			targetProxy = 82C9C97D0F080C920071460B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C165FFE840EACC02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C1660FE840EACC02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		1DDD582A0DA1D0D100B32029 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				1DDD582B0DA1D0D100B32029 /* English */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2A37F4BAFDCFA73011CA2CEA /* English */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		828ED4D80E7D98A10059F397 /* GameFilePicker.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				828ED4D90E7D98A10059F397 /* English */,
+			);
+			name = GameFilePicker.xib;
+			sourceTree = "<group>";
+		};
+		82E741880E7209C400AE60C4 /* GameDocument.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				82E741890E7209C400AE60C4 /* English */,
+			);
+			name = GameDocument.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		37A19E860EF8788400BA23B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OpenEmuQC_Prefix.pch;
+				INFOPLIST_FILE = "OpenEmuQCNES-Info.plist";
+				INSTALL_PATH = "$(HOME)/Graphics/Quartz Composer Plug-Ins/";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = OpenEmuQCNES;
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Debug;
+		};
+		37A19E870EF8788400BA23B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OpenEmuQC_Prefix.pch;
+				INFOPLIST_FILE = "OpenEmuQCNES-Info.plist";
+				INSTALL_PATH = "$(HOME)/Graphics/Quartz Composer Plug-Ins/";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = OpenEmuQC;
+				WRAPPER_EXTENSION = plugin;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		37A19EAD0EF8790B00BA23B4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Copy & Build QC";
+			};
+			name = Debug;
+		};
+		37A19EAE0EF8790B00BA23B4 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Copy & Build QC";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		828E659A0E8466A100B1860B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OpenEmuQC_Prefix.pch;
+				INFOPLIST_FILE = "OpenEmuQC-Info.plist";
+				INSTALL_PATH = "$(HOME)/Graphics/Quartz Composer Plug-Ins/";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = OpenEmuQC;
+				WRAPPER_EXTENSION = plugin;
+			};
+			name = Debug;
+		};
+		828E659B0E8466A100B1860B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OpenEmuQC_Prefix.pch;
+				INFOPLIST_FILE = "OpenEmuQC-Info.plist";
+				INSTALL_PATH = "$(HOME)/Graphics/Quartz Composer Plug-Ins/";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = OpenEmuQC;
+				WRAPPER_EXTENSION = plugin;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		828E65E40E8467E900B1860B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Copy & Build QC";
+			};
+			name = Debug;
+		};
+		828E65E50E8467E900B1860B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Copy & Build QC";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		82C9C9700F080C800071460B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Disribution;
+			};
+			name = Debug;
+		};
+		82C9C9710F080C800071460B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Disribution;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		C05733C808A9546B00998B17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
+				PRODUCT_NAME = OpenEmu;
+			};
+			name = Debug;
+		};
+		C05733C908A9546B00998B17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
+				PRODUCT_NAME = OpenEmu;
+			};
+			name = Release;
+		};
+		C05733CC08A9546B00998B17 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		C05733CD08A9546B00998B17 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				OTHER_CFLAGS = "";
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		37A19E850EF8788400BA23B4 /* Build configuration list for PBXNativeTarget "OpenEmuQCNES" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37A19E860EF8788400BA23B4 /* Debug */,
+				37A19E870EF8788400BA23B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		37A19EAC0EF8790B00BA23B4 /* Build configuration list for PBXAggregateTarget "Copy & Build QC NES" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				37A19EAD0EF8790B00BA23B4 /* Debug */,
+				37A19EAE0EF8790B00BA23B4 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		828E659C0E8466A200B1860B /* Build configuration list for PBXNativeTarget "OpenEmuQC" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				828E659A0E8466A100B1860B /* Debug */,
+				828E659B0E8466A100B1860B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		828E65EC0E8467F600B1860B /* Build configuration list for PBXAggregateTarget "Copy & Build QC vanilla" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				828E65E40E8467E900B1860B /* Debug */,
+				828E65E50E8467E900B1860B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82C9C97C0F080C810071460B /* Build configuration list for PBXAggregateTarget "Distribution" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82C9C9700F080C800071460B /* Debug */,
+				82C9C9710F080C800071460B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C05733C808A9546B00998B17 /* Debug */,
+				C05733C908A9546B00998B17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "OpenEmu" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C05733CC08A9546B00998B17 /* Debug */,
+				C05733CD08A9546B00998B17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+}
