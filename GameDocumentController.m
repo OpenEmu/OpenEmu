@@ -188,7 +188,19 @@
 	self = [super init];
 	if(self) {
 		[self setGameLoaded:NO];
-		NSArray* bundlePaths = [[NSBundle mainBundle] pathsForResourcesOfType:@"bundle" inDirectory:@""];
+		
+		NSString *file;
+		NSString *bundleDir = [[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OEBundlePath"] stringByStandardizingPath];
+		NSMutableArray* bundlePaths = [[NSMutableArray alloc] init];
+		
+		
+		NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath: bundleDir];
+		while (file = [enumerator nextObject])
+		{
+			if([[file pathExtension] isEqualToString:@"bundle"])
+				[bundlePaths addObject:[bundleDir stringByAppendingPathComponent:file]];
+		}
+		
 		
 		NSMutableArray* mutableBundles = [[NSMutableArray alloc] init];
 		
@@ -196,6 +208,8 @@
 		{
 			[mutableBundles addObject:[NSBundle bundleWithPath:path]];
 		}
+		
+		[bundlePaths release];
 		//All bundles that are available
 		bundles = [[NSArray arrayWithArray:mutableBundles] retain];
 		

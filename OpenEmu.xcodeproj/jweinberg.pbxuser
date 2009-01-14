@@ -2,7 +2,7 @@
 {
 	089C1660FE840EACC02AAC07 /* English */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1045, 721}}";
+			sepNavIntBoundsRect = "{{0, 0}, {786, 669}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRange = "{0, 45}";
 		};
@@ -19,6 +19,14 @@
 			sepNavIntBoundsRect = "{{0, 0}, {786, 669}}";
 			sepNavSelRange = "{0, 0}";
 			sepNavVisRange = "{0, 938}";
+		};
+	};
+	1B885E910F089F8A00770B6D /* Scale4xHQ.vert */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {715, 823}}";
+			sepNavSelRange = "{123, 0}";
+			sepNavVisRange = "{0, 1753}";
+			sepNavWindowFrame = "{{75, 72}, {774, 951}}";
 		};
 	};
 	2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
@@ -40,6 +48,7 @@
 			82C5EC640F09C98F0019E2DC /* GameDocumentController.m:172 */,
 			82C5EC700F09C9DE0019E2DC /* GameDocumentController.m:172 */,
 			82C5ECC30F09D1320019E2DC /* GamePreferencesController.mm:589 */,
+			82D815320F1D856900EF8CF5 /* GameDocumentController.m:193 */,
 		);
 		codeSenseManager = 828387620E6C537500A96E2C /* Code sense */;
 		executables = (
@@ -96,7 +105,7 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					20,
 					300,
-					757,
+					498,
 				);
 				PBXFileTableDataSourceColumnsKey = (
 					PBXErrorsWarningsDataSource_TypeID,
@@ -110,7 +119,7 @@
 				PBXFileTableDataSourceColumnWidthsKey = (
 					22,
 					300,
-					57.58349609375,
+					496,
 				);
 				PBXFileTableDataSourceColumnsKey = (
 					PBXExecutablesDataSource_ActiveFlagID,
@@ -145,7 +154,7 @@
 				PBXFileTableDataSourceColumnSortingKey = PBXFindDataSource_LocationID;
 				PBXFileTableDataSourceColumnWidthsKey = (
 					200,
-					881,
+					622,
 				);
 				PBXFileTableDataSourceColumnsKey = (
 					PBXFindDataSource_MessageID,
@@ -663,6 +672,36 @@
 			82C9CADD0F08A70D0071460B = 82C9CADD0F08A70D0071460B /* PBXTextBookmark */;
 			82CCF7500E9011AF0089ACCC = 82CCF7500E9011AF0089ACCC /* PBXTextBookmark */;
 			82CCF7540E9011AF0089ACCC = 82CCF7540E9011AF0089ACCC /* PBXTextBookmark */;
+			82D815140F1D840F00EF8CF5 /* PBXTextBookmark */ = 82D815140F1D840F00EF8CF5 /* PBXTextBookmark */;
+			82D815150F1D840F00EF8CF5 /* PBXBookmark */ = 82D815150F1D840F00EF8CF5 /* PBXBookmark */;
+			82D815160F1D840F00EF8CF5 /* PBXTextBookmark */ = 82D815160F1D840F00EF8CF5 /* PBXTextBookmark */;
+			82D815170F1D840F00EF8CF5 /* PlistBookmark */ = 82D815170F1D840F00EF8CF5 /* PlistBookmark */;
+			82D815180F1D840F00EF8CF5 /* PlistBookmark */ = 82D815180F1D840F00EF8CF5 /* PlistBookmark */;
+			82D815190F1D840F00EF8CF5 /* PBXTextBookmark */ = 82D815190F1D840F00EF8CF5 /* PBXTextBookmark */;
+			82D8151A0F1D840F00EF8CF5 /* PBXTextBookmark */ = 82D8151A0F1D840F00EF8CF5 /* PBXTextBookmark */;
+			82D8151B0F1D840F00EF8CF5 /* PBXTextBookmark */ = 82D8151B0F1D840F00EF8CF5 /* PBXTextBookmark */;
+			82D8151C0F1D840F00EF8CF5 /* PBXTextBookmark */ = 82D8151C0F1D840F00EF8CF5 /* PBXTextBookmark */;
+			82D8151D0F1D840F00EF8CF5 /* PBXBookmark */ = 82D8151D0F1D840F00EF8CF5 /* PBXBookmark */;
+			82D8151E0F1D840F00EF8CF5 /* PBXTextBookmark */ = 82D8151E0F1D840F00EF8CF5 /* PBXTextBookmark */;
+			82D8151F0F1D840F00EF8CF5 /* PlistBookmark */ = 82D8151F0F1D840F00EF8CF5 /* PlistBookmark */;
+			82D815200F1D840F00EF8CF5 /* PlistBookmark */ = 82D815200F1D840F00EF8CF5 /* PlistBookmark */;
+			82D815210F1D840F00EF8CF5 /* PBXTextBookmark */ = 82D815210F1D840F00EF8CF5 /* PBXTextBookmark */;
+			82D815220F1D840F00EF8CF5 /* PBXTextBookmark */ = 82D815220F1D840F00EF8CF5 /* PBXTextBookmark */;
+			82D8152C0F1D848D00EF8CF5 /* PBXTextBookmark */ = 82D8152C0F1D848D00EF8CF5 /* PBXTextBookmark */;
+			82D8152F0F1D855E00EF8CF5 /* PBXTextBookmark */ = 82D8152F0F1D855E00EF8CF5 /* PBXTextBookmark */;
+			82D815340F1D857900EF8CF5 /* PBXTextBookmark */ = 82D815340F1D857900EF8CF5 /* PBXTextBookmark */;
+			82D815390F1D859D00EF8CF5 /* PlistBookmark */ = 82D815390F1D859D00EF8CF5 /* PlistBookmark */;
+			82D8153A0F1D859D00EF8CF5 /* PBXTextBookmark */ = 82D8153A0F1D859D00EF8CF5 /* PBXTextBookmark */;
+			82D8153B0F1D859D00EF8CF5 /* PBXTextBookmark */ = 82D8153B0F1D859D00EF8CF5 /* PBXTextBookmark */;
+			82D8153C0F1D859D00EF8CF5 /* PlistBookmark */ = 82D8153C0F1D859D00EF8CF5 /* PlistBookmark */;
+			82D8153D0F1D859D00EF8CF5 /* PBXTextBookmark */ = 82D8153D0F1D859D00EF8CF5 /* PBXTextBookmark */;
+			82D815400F1D85B300EF8CF5 /* PBXTextBookmark */ = 82D815400F1D85B300EF8CF5 /* PBXTextBookmark */;
+			82D815430F1D85E100EF8CF5 /* PBXTextBookmark */ = 82D815430F1D85E100EF8CF5 /* PBXTextBookmark */;
+			82D815470F1D86D200EF8CF5 /* PBXTextBookmark */ = 82D815470F1D86D200EF8CF5 /* PBXTextBookmark */;
+			82D8154A0F1D86EB00EF8CF5 /* PBXTextBookmark */ = 82D8154A0F1D86EB00EF8CF5 /* PBXTextBookmark */;
+			82D8157D0F1D87BB00EF8CF5 /* PBXTextBookmark */ = 82D8157D0F1D87BB00EF8CF5 /* PBXTextBookmark */;
+			82D8157E0F1D87BB00EF8CF5 /* PBXTextBookmark */ = 82D8157E0F1D87BB00EF8CF5 /* PBXTextBookmark */;
+			82D815850F1D87D200EF8CF5 /* PBXTextBookmark */ = 82D815850F1D87D200EF8CF5 /* PBXTextBookmark */;
 			82E740AF0E72015400AE60C4 = 82E740AF0E72015400AE60C4 /* PBXTextBookmark */;
 			82E741F70E72449000AE60C4 = 82E741F70E72449000AE60C4 /* PBXTextBookmark */;
 			82E741F80E72449000AE60C4 = 82E741F80E72449000AE60C4 /* PBXTextBookmark */;
@@ -943,7 +982,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 118;
-		modificationTime = 252467171.090519;
+		modificationTime = 253593314.644029;
 		state = 0;
 	};
 	821288220F075D4300DBFCCC /* PBXTextBookmark */ = {
@@ -976,9 +1015,9 @@
 	};
 	82184AD50E762FD300895A7F /* GameButton.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {786, 5628}}";
+			sepNavIntBoundsRect = "{{0, 0}, {786, 5642}}";
 			sepNavSelRange = "{3390, 0}";
-			sepNavVisRange = "{137, 624}";
+			sepNavVisRange = "{134, 638}";
 			sepNavWindowFrame = "{{609, -152}, {1131, 904}}";
 		};
 	};
@@ -1074,7 +1113,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 85";
 		rLen = 0;
-		rLoc = 7978;
+		rLoc = 8403;
 		rType = 0;
 		vrLen = 870;
 		vrLoc = 1705;
@@ -1639,9 +1678,9 @@
 	};
 	8283882B0E6CE13C00A96E2C /* GameDocumentController.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {882, 6790}}";
-			sepNavSelRange = "{11555, 11}";
-			sepNavVisRange = "{10912, 1033}";
+			sepNavIntBoundsRect = "{{0, 0}, {1098, 6216}}";
+			sepNavSelRange = "{6661, 0}";
+			sepNavVisRange = "{6170, 1282}";
 			sepNavWindowFrame = "{{325, 124}, {1131, 904}}";
 		};
 	};
@@ -1738,7 +1777,7 @@
 		ignoreCount = 0;
 		lineNumber = 37;
 		location = OpenEmu;
-		modificationTime = 252467170.695899;
+		modificationTime = 253593314.153231;
 		state = 1;
 	};
 	828A24C30F072603001E023A /* PBXTextBookmark */ = {
@@ -1765,7 +1804,7 @@
 		ignoreCount = 0;
 		lineNumber = 397;
 		location = OpenEmu;
-		modificationTime = 252467170.695928;
+		modificationTime = 253593314.153262;
 		state = 1;
 	};
 	828A24EF0F072744001E023A /* GamePreferencesController.mm:383 */ = {
@@ -1782,7 +1821,7 @@
 		ignoreCount = 0;
 		lineNumber = 383;
 		location = OpenEmu;
-		modificationTime = 252467170.6959361;
+		modificationTime = 253593314.153273;
 		state = 1;
 	};
 	828A255A0F073654001E023A /* GameInput.m:72 */ = {
@@ -1799,7 +1838,7 @@
 		ignoreCount = 0;
 		lineNumber = 72;
 		location = OpenEmu;
-		modificationTime = 252467170.695956;
+		modificationTime = 253593314.153282;
 		state = 1;
 	};
 	828A255B0F073656001E023A /* PBXTextBookmark */ = {
@@ -1836,7 +1875,7 @@
 		ignoreCount = 0;
 		lineNumber = 68;
 		location = OpenEmu;
-		modificationTime = 252467170.695977;
+		modificationTime = 253593314.153292;
 		state = 1;
 	};
 	828A256B0F0736AF001E023A /* GameInput.m:38 */ = {
@@ -1853,7 +1892,7 @@
 		ignoreCount = 0;
 		lineNumber = 38;
 		location = OpenEmu;
-		modificationTime = 252467170.695994;
+		modificationTime = 253593314.153301;
 		state = 1;
 	};
 	828A256C0F0736C2001E023A /* PBXTextBookmark */ = {
@@ -1893,9 +1932,9 @@
 	};
 	828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {786, 11662}}";
-			sepNavSelRange = "{16066, 0}";
-			sepNavVisRange = "{12294, 1551}";
+			sepNavIntBoundsRect = "{{0, 0}, {1399, 11676}}";
+			sepNavSelRange = "{15052, 37}";
+			sepNavVisRange = "{14522, 1194}";
 			sepNavWindowFrame = "{{121, 94}, {1458, 934}}";
 		};
 	};
@@ -2392,7 +2431,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 194";
 		rLen = 0;
-		rLoc = 6926;
+		rLoc = 7351;
 		rType = 0;
 		vrLen = 1546;
 		vrLoc = 11395;
@@ -2672,7 +2711,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 194";
 		rLen = 0;
-		rLoc = 6926;
+		rLoc = 7351;
 		rType = 0;
 		vrLen = 1546;
 		vrLoc = 11395;
@@ -2712,7 +2751,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 190";
 		rLen = 0;
-		rLoc = 6823;
+		rLoc = 7248;
 		rType = 0;
 		vrLen = 1237;
 		vrLoc = 5821;
@@ -2852,7 +2891,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 191";
 		rLen = 0;
-		rLoc = 6806;
+		rLoc = 7203;
 		rType = 0;
 		vrLen = 1256;
 		vrLoc = 5821;
@@ -2872,7 +2911,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 191";
 		rLen = 0;
-		rLoc = 6823;
+		rLoc = 7248;
 		rType = 0;
 		vrLen = 1043;
 		vrLoc = 5821;
@@ -2892,7 +2931,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 191";
 		rLen = 0;
-		rLoc = 6823;
+		rLoc = 7248;
 		rType = 0;
 		vrLen = 1207;
 		vrLoc = 5821;
@@ -2972,7 +3011,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 191";
 		rLen = 0;
-		rLoc = 6823;
+		rLoc = 7248;
 		rType = 0;
 		vrLen = 1209;
 		vrLoc = 5821;
@@ -2992,7 +3031,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 191";
 		rLen = 0;
-		rLoc = 6823;
+		rLoc = 7248;
 		rType = 0;
 		vrLen = 1208;
 		vrLoc = 5821;
@@ -3022,7 +3061,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 191";
 		rLen = 0;
-		rLoc = 6823;
+		rLoc = 7248;
 		rType = 0;
 		vrLen = 1208;
 		vrLoc = 5821;
@@ -3116,7 +3155,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 192";
 		rLen = 0;
-		rLoc = 6808;
+		rLoc = 7205;
 		rType = 0;
 		vrLen = 1343;
 		vrLoc = 5821;
@@ -3144,7 +3183,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		lineNumber = 172;
-		modificationTime = 252467170.6960281;
+		modificationTime = 253593314.153319;
 		state = 2;
 	};
 	82C5EC640F09C98F0019E2DC /* GameDocumentController.m:172 */ = {
@@ -3161,7 +3200,7 @@
 		ignoreCount = 0;
 		lineNumber = 172;
 		location = OpenEmu;
-		modificationTime = 252467170.696043;
+		modificationTime = 253593314.153606;
 		state = 1;
 	};
 	82C5EC660F09C9A00019E2DC /* PBXTextBookmark */ = {
@@ -3218,7 +3257,7 @@
 		ignoreCount = 0;
 		lineNumber = 172;
 		location = OpenEmu;
-		modificationTime = 252467170.696062;
+		modificationTime = 253593314.154819;
 		state = 1;
 	};
 	82C5EC730F09C9E10019E2DC /* PBXTextBookmark */ = {
@@ -3457,7 +3496,7 @@
 		ignoreCount = 0;
 		lineNumber = 589;
 		location = OpenEmu;
-		modificationTime = 252467170.696082;
+		modificationTime = 253593314.155019;
 		state = 1;
 	};
 	82C5ECC40F09D1340019E2DC /* PBXTextBookmark */ = {
@@ -4245,7 +4284,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 196";
 		rLen = 0;
-		rLoc = 6757;
+		rLoc = 7154;
 		rType = 0;
 		vrLen = 891;
 		vrLoc = 5931;
@@ -4265,7 +4304,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 196";
 		rLen = 0;
-		rLoc = 6757;
+		rLoc = 7154;
 		rType = 0;
 		vrLen = 1019;
 		vrLoc = 5931;
@@ -4275,7 +4314,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 338";
 		rLen = 0;
-		rLoc = 10508;
+		rLoc = 10933;
 		rType = 0;
 		vrLen = 1141;
 		vrLoc = 9496;
@@ -4295,7 +4334,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 325";
 		rLen = 0;
-		rLoc = 10229;
+		rLoc = 10654;
 		rType = 0;
 		vrLen = 1141;
 		vrLoc = 9496;
@@ -4403,7 +4442,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 325";
 		rLen = 0;
-		rLoc = 10229;
+		rLoc = 10654;
 		rType = 0;
 		vrLen = 1141;
 		vrLoc = 9496;
@@ -5377,7 +5416,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 382";
 		rLen = 38;
-		rLoc = 11489;
+		rLoc = 11914;
 		rType = 0;
 		vrLen = 1036;
 		vrLoc = 10912;
@@ -5507,7 +5546,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 382";
 		rLen = 38;
-		rLoc = 11489;
+		rLoc = 11914;
 		rType = 0;
 		vrLen = 1036;
 		vrLoc = 10912;
@@ -5567,7 +5606,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 385";
 		rLen = 0;
-		rLoc = 11570;
+		rLoc = 11995;
 		rType = 0;
 		vrLen = 993;
 		vrLoc = 10912;
@@ -5577,7 +5616,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 385";
 		rLen = 0;
-		rLoc = 11570;
+		rLoc = 11995;
 		rType = 0;
 		vrLen = 994;
 		vrLoc = 10912;
@@ -5587,7 +5626,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 385";
 		rLen = 11;
-		rLoc = 11555;
+		rLoc = 11980;
 		rType = 0;
 		vrLen = 994;
 		vrLoc = 10912;
@@ -5604,7 +5643,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 385";
 		rLen = 11;
-		rLoc = 11555;
+		rLoc = 11980;
 		rType = 0;
 		vrLen = 994;
 		vrLoc = 10912;
@@ -5724,7 +5763,7 @@
 		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
 		name = "GameDocumentController.m: 183";
 		rLen = 0;
-		rLoc = 6926;
+		rLoc = 7351;
 		rType = 0;
 		vrLen = 1470;
 		vrLoc = 11419;
@@ -5811,6 +5850,315 @@
 		name = getopt.c;
 		path = /Users/jweinberg/Development/OpenEmu/VisualBoyAdvance/core/getopt.c;
 		sourceTree = "<absolute>";
+	};
+	82D815140F1D840F00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 82184AD50E762FD300895A7F /* GameButton.m */;
+		name = "GameButton.m: 235";
+		rLen = 0;
+		rLoc = 3390;
+		rType = 0;
+		vrLen = 638;
+		vrLoc = 134;
+	};
+	82D815150F1D840F00EF8CF5 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 82C434120EE393530037C54B /* icon.icns */;
+	};
+	82D815160F1D840F00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 089C1660FE840EACC02AAC07 /* English */;
+		name = "InfoPlist.strings: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 45;
+		vrLoc = 0;
+	};
+	82D815170F1D840F00EF8CF5 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/jweinberg/Development/OpenEmuSF/OpenEmu/OpenEmuQC-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	82D815180F1D840F00EF8CF5 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/jweinberg/Development/OpenEmuSF/OpenEmu/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	82D815190F1D840F00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882A0E6CE13C00A96E2C /* GameDocumentController.h */;
+		name = "GameDocumentController.h: 39";
+		rLen = 0;
+		rLoc = 918;
+		rType = 0;
+		vrLen = 1084;
+		vrLoc = 0;
+	};
+	82D8151A0F1D840F00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 370";
+		rLen = 0;
+		rLoc = 11703;
+		rType = 0;
+		vrLen = 1406;
+		vrLoc = 0;
+	};
+	82D8151B0F1D840F00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 82184AD50E762FD300895A7F /* GameButton.m */;
+		name = "GameButton.m: 235";
+		rLen = 0;
+		rLoc = 3390;
+		rType = 0;
+		vrLen = 638;
+		vrLoc = 134;
+	};
+	82D8151C0F1D840F00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 370";
+		rLen = 0;
+		rLoc = 11703;
+		rType = 0;
+		vrLen = 1406;
+		vrLoc = 0;
+	};
+	82D8151D0F1D840F00EF8CF5 /* PBXBookmark */ = {
+		isa = PBXBookmark;
+		fRef = 82C434120EE393530037C54B /* icon.icns */;
+	};
+	82D8151E0F1D840F00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 089C1660FE840EACC02AAC07 /* English */;
+		name = "InfoPlist.strings: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 45;
+		vrLoc = 0;
+	};
+	82D8151F0F1D840F00EF8CF5 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/jweinberg/Development/OpenEmuSF/OpenEmu/OpenEmuQC-Info.plist";
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	82D815200F1D840F00EF8CF5 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/jweinberg/Development/OpenEmuSF/OpenEmu/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	82D815210F1D840F00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882A0E6CE13C00A96E2C /* GameDocumentController.h */;
+		name = "GameDocumentController.h: 39";
+		rLen = 0;
+		rLoc = 918;
+		rType = 0;
+		vrLen = 1084;
+		vrLoc = 0;
+	};
+	82D815220F1D840F00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 194";
+		rLen = 0;
+		rLoc = 6897;
+		rType = 0;
+		vrLen = 1358;
+		vrLoc = 6100;
+	};
+	82D8152C0F1D848D00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 195";
+		rLen = 0;
+		rLoc = 6897;
+		rType = 0;
+		vrLen = 1392;
+		vrLoc = 6136;
+	};
+	82D8152F0F1D855E00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 192";
+		rLen = 0;
+		rLoc = 6565;
+		rType = 0;
+		vrLen = 1174;
+		vrLoc = 6173;
+	};
+	82D815320F1D856900EF8CF5 /* GameDocumentController.m:193 */ = {
+		isa = PBXFileBreakpoint;
+		actions = (
+		);
+		breakpointStyle = 0;
+		continueAfterActions = 0;
+		countType = 0;
+		delayBeforeContinue = 0;
+		fileReference = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		functionName = "-init";
+		hitCount = 0;
+		ignoreCount = 0;
+		lineNumber = 193;
+		location = OpenEmu;
+		modificationTime = 253593314.155033;
+		state = 1;
+	};
+	82D815340F1D857900EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 192";
+		rLen = 0;
+		rLoc = 6565;
+		rType = 0;
+		vrLen = 1246;
+		vrLoc = 6173;
+	};
+	82D815390F1D859D00EF8CF5 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/jweinberg/Development/OpenEmuSF/OpenEmu/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	82D8153A0F1D859D00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 193";
+		rLen = 0;
+		rLoc = 6583;
+		rType = 0;
+		vrLen = 1246;
+		vrLoc = 6173;
+	};
+	82D8153B0F1D859D00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 193";
+		rLen = 0;
+		rLoc = 6583;
+		rType = 0;
+		vrLen = 1246;
+		vrLoc = 6173;
+	};
+	82D8153C0F1D859D00EF8CF5 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D15AC360486D014006FF6A4 /* Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/jweinberg/Development/OpenEmuSF/OpenEmu/Info.plist;
+		rLen = 0;
+		rLoc = 2147483647;
+	};
+	82D8153D0F1D859D00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 193";
+		rLen = 0;
+		rLoc = 6653;
+		rType = 0;
+		vrLen = 1182;
+		vrLoc = 6170;
+	};
+	82D815400F1D85B300EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 193";
+		rLen = 0;
+		rLoc = 6653;
+		rType = 0;
+		vrLen = 1182;
+		vrLoc = 6170;
+	};
+	82D815430F1D85E100EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 193";
+		rLen = 0;
+		rLoc = 6653;
+		rType = 0;
+		vrLen = 1254;
+		vrLoc = 6170;
+	};
+	82D815470F1D86D200EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 193";
+		rLen = 0;
+		rLoc = 6661;
+		rType = 0;
+		vrLen = 1210;
+		vrLoc = 6170;
+	};
+	82D8154A0F1D86EB00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 193";
+		rLen = 0;
+		rLoc = 6661;
+		rType = 0;
+		vrLen = 1210;
+		vrLoc = 6170;
+	};
+	82D8157D0F1D87BB00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "warning: passing argument 1 of 'scrambleRam:' makes pointer from integer without a cast";
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		rLen = 1;
+		rLoc = 398;
+		rType = 1;
+	};
+	82D8157E0F1D87BB00EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 399";
+		rLen = 43;
+		rLoc = 11955;
+		rType = 0;
+		vrLen = 578;
+		vrLoc = 11753;
+	};
+	82D815850F1D87D200EF8CF5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */;
+		name = "GameDocumentController.m: 193";
+		rLen = 0;
+		rLoc = 6661;
+		rType = 0;
+		vrLen = 1282;
+		vrLoc = 6170;
 	};
 	82E740860E72010700AE60C4 /* GameInput.h */ = {
 		uiCtxt = {
