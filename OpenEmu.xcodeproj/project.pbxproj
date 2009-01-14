@@ -67,9 +67,7 @@
 		1B885EC30F08A13500770B6D /* Scale4x.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC10F08A13500770B6D /* Scale4x.vert */; };
 		1B8D4AEE0E874D5500C3C4F5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
 		1B8D4B010E874E6F00C3C4F5 /* GameAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.mm */; };
-		1BC17CE30E90ACA9003F0D0D /* VisualBoyAdvance.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B50091A90E8C388A005AECAF /* VisualBoyAdvance.bundle */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
-		37A19E750EF8788400BA23B4 /* Nestopia.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82A324900E81FE0000A743A9 /* Nestopia.bundle */; };
 		37A19E770EF8788400BA23B4 /* hqxx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45E840E886D0000B7B023 /* hqxx.cpp */; };
 		37A19E780EF8788400BA23B4 /* hq2x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45D710E88589000B7B023 /* hq2x.cpp */; };
 		37A19E790EF8788400BA23B4 /* hq3x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 824401380E84A82E004387DA /* hq3x.cpp */; };
@@ -87,7 +85,6 @@
 		82184ACB0E762DC600895A7F /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82184ACA0E762DC600895A7F /* Preferences.xib */; };
 		82184AD60E762FD300895A7F /* GameButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 82184AD50E762FD300895A7F /* GameButton.m */; };
 		824AC9120E78BB8600D26CC2 /* GamePreferencesController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 824AC9110E78BB8600D26CC2 /* GamePreferencesController.mm */; };
-		8275FA330E85A5500031509D /* Nestopia.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82A324900E81FE0000A743A9 /* Nestopia.bundle */; };
 		82798B340E85C123001DCA93 /* PrefsBundleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798B330E85C123001DCA93 /* PrefsBundleCell.m */; };
 		82798C2D0E85DA02001DCA93 /* PluginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798C2C0E85DA02001DCA93 /* PluginInfo.m */; };
 		8283876E0E6C54E100A96E2C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
@@ -95,8 +92,6 @@
 		828E659F0E8466CC00B1860B /* OpenEmuQCPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */; };
 		828E65D30E8467A400B1860B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
 		828E65D70E8467AA00B1860B /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D60E8467AA00B1860B /* Quartz.framework */; };
-		828E66180E846AA500B1860B /* Nestopia.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82A324900E81FE0000A743A9 /* Nestopia.bundle */; };
-		828E661B0E846AAB00B1860B /* GambatteBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82E73FEE0E71F90400AE60C4 /* GambatteBundle.bundle */; };
 		828ED4D70E7D98940059F397 /* GamePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828ED4D60E7D98940059F397 /* GamePickerController.m */; };
 		828ED4DA0E7D98A10059F397 /* GameFilePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 828ED4D80E7D98A10059F397 /* GameFilePicker.xib */; };
 		828ED4DD0E7D98D90059F397 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828ED4DB0E7D98D90059F397 /* XADMaster.framework */; };
@@ -110,9 +105,6 @@
 		829E02D00E7C5882009F348B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829E02CF0E7C5882009F348B /* QuartzCore.framework */; };
 		82C434130EE393530037C54B /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82C434120EE393530037C54B /* icon.icns */; };
 		82C5EB9D0F08BA520019E2DC /* HIDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C5EB9C0F08BA520019E2DC /* HIDManager.m */; };
-		82C5EC4C0F09C8980019E2DC /* VisualBoyAdvance.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B50091A90E8C388A005AECAF /* VisualBoyAdvance.bundle */; };
-		82C5EC4D0F09C89D0019E2DC /* CrabEmu.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B511DF490E9AAF18008E2AEE /* CrabEmu.bundle */; };
-		82C5EC4E0F09C8A30019E2DC /* GambatteBundle.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 82E73FEE0E71F90400AE60C4 /* GambatteBundle.bundle */; };
 		82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C95E0F0804D90071460B /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
@@ -140,20 +132,6 @@
 			remoteGlobalIDString = 828E65970E8466A100B1860B;
 			remoteInfo = OpenEmuQC;
 		};
-		1BC17CE10E90AC86003F0D0D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
-			remoteInfo = VisualBoyAdvance;
-		};
-		37A19E6F0EF8788400BA23B4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
-			remoteInfo = Nestopia;
-		};
 		37A19EB10EF8794600BA23B4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -161,82 +139,12 @@
 			remoteGlobalIDString = 37A19E6B0EF8788400BA23B4;
 			remoteInfo = OpenEmuQCNES;
 		};
-		8275FA3C0E85A5BE0031509D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
-			remoteInfo = Nestopia;
-		};
-		828E66140E846A9900B1860B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 828387800E6CDB2200A96E2C;
-			remoteInfo = GambatteBundle;
-		};
-		828E66160E846A9900B1860B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
-			remoteInfo = Nestopia;
-		};
-		82A3248F0E81FE0000A743A9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
-			remoteInfo = Nestopia;
-		};
-		82C9C8CB0F07FDF00071460B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 828387800E6CDB2200A96E2C;
-			remoteInfo = GambatteBundle;
-		};
-		82C9C8CD0F07FDF40071460B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B511DF3E0E9AAF18008E2AEE /* CrabEmu.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
-			remoteInfo = CrabEmu;
-		};
-		82C9C8CF0F07FDF70071460B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
-			remoteInfo = VisualBoyAdvance;
-		};
 		82C9C97D0F080C920071460B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = OpenEmu;
-		};
-		82E73FED0E71F90400AE60C4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 828387810E6CDB2200A96E2C;
-			remoteInfo = GambatteBundle;
-		};
-		B50091A80E8C388A005AECAF /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
-			remoteInfo = VisualBoyAdvance;
-		};
-		B511DF480E9AAF18008E2AEE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = B511DF3E0E9AAF18008E2AEE /* CrabEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
-			remoteInfo = CrabEmu;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -321,13 +229,11 @@
 		829E02780E7C5631009F348B /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
 		829E02790E7C5631009F348B /* GameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameLayer.m; sourceTree = "<group>"; };
 		829E02CF0E7C5882009F348B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
-		82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Nestopia.xcodeproj; path = Nestopia/Nestopia.xcodeproj; sourceTree = "<group>"; };
 		82C434120EE393530037C54B /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		82C5EB9B0F08BA520019E2DC /* HIDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIDManager.h; sourceTree = "<group>"; };
 		82C5EB9C0F08BA520019E2DC /* HIDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HIDManager.m; sourceTree = "<group>"; };
 		82C9C9540F0804A20071460B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		82C9C96C0F080BD30071460B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
-		82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Gambatte.xcodeproj; path = Gambatte/Gambatte.xcodeproj; sourceTree = "<group>"; };
 		82E740860E72010700AE60C4 /* GameInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInput.h; sourceTree = "<group>"; };
 		82E740870E72010700AE60C4 /* GameInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameInput.m; sourceTree = "<group>"; };
 		82E741890E7209C400AE60C4 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameDocument.xib; sourceTree = "<group>"; };
@@ -342,8 +248,6 @@
 		82F45EE20E88867D00B7B023 /* GamePreferencesController_Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePreferencesController_Toolbar.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = VisualBoyAdvance.xcodeproj; path = VisualBoyAdvance/VisualBoyAdvance.xcodeproj; sourceTree = "<group>"; };
-		B511DF3E0E9AAF18008E2AEE /* CrabEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrabEmu.xcodeproj; path = CrabEmu/CrabEmu.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -439,10 +343,6 @@
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
 			isa = PBXGroup;
 			children = (
-				B511DF3E0E9AAF18008E2AEE /* CrabEmu.xcodeproj */,
-				B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */,
-				82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */,
-				82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
@@ -617,38 +517,6 @@
 			name = Graphics;
 			sourceTree = "<group>";
 		};
-		82A3248C0E81FE0000A743A9 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				82A324900E81FE0000A743A9 /* Nestopia.bundle */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		82E73FE40E71F90400AE60C4 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				82E73FEE0E71F90400AE60C4 /* GambatteBundle.bundle */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		B50091A20E8C388A005AECAF /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				B50091A90E8C388A005AECAF /* VisualBoyAdvance.bundle */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		B511DF3F0E9AAF18008E2AEE /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				B511DF490E9AAF18008E2AEE /* CrabEmu.bundle */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -663,7 +531,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				37A19E6E0EF8788400BA23B4 /* PBXTargetDependency */,
 			);
 			name = OpenEmuQCNES;
 			productName = OpenEmuQC;
@@ -681,9 +548,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				828E66150E846A9900B1860B /* PBXTargetDependency */,
-				828E66170E846A9900B1860B /* PBXTargetDependency */,
-				1BC17CE20E90AC86003F0D0D /* PBXTargetDependency */,
 			);
 			name = OpenEmuQC;
 			productName = OpenEmuQC;
@@ -702,10 +566,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				8275FA3D0E85A5BE0031509D /* PBXTargetDependency */,
-				82C9C8CC0F07FDF00071460B /* PBXTargetDependency */,
-				82C9C8CE0F07FDF40071460B /* PBXTargetDependency */,
-				82C9C8D00F07FDF70071460B /* PBXTargetDependency */,
 			);
 			name = OpenEmu;
 			productInstallPath = "$(HOME)/Applications";
@@ -723,24 +583,6 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = B511DF3F0E9AAF18008E2AEE /* Products */;
-					ProjectRef = B511DF3E0E9AAF18008E2AEE /* CrabEmu.xcodeproj */;
-				},
-				{
-					ProductGroup = 82E73FE40E71F90400AE60C4 /* Products */;
-					ProjectRef = 82E73FE30E71F90400AE60C4 /* Gambatte.xcodeproj */;
-				},
-				{
-					ProductGroup = 82A3248C0E81FE0000A743A9 /* Products */;
-					ProjectRef = 82A3248B0E81FE0000A743A9 /* Nestopia.xcodeproj */;
-				},
-				{
-					ProductGroup = B50091A20E8C388A005AECAF /* Products */;
-					ProjectRef = B50091A10E8C388A005AECAF /* VisualBoyAdvance.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
@@ -753,43 +595,11 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		82A324900E81FE0000A743A9 /* Nestopia.bundle */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = Nestopia.bundle;
-			remoteRef = 82A3248F0E81FE0000A743A9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		82E73FEE0E71F90400AE60C4 /* GambatteBundle.bundle */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = GambatteBundle.bundle;
-			remoteRef = 82E73FED0E71F90400AE60C4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B50091A90E8C388A005AECAF /* VisualBoyAdvance.bundle */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = VisualBoyAdvance.bundle;
-			remoteRef = B50091A80E8C388A005AECAF /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		B511DF490E9AAF18008E2AEE /* CrabEmu.bundle */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = CrabEmu.bundle;
-			remoteRef = B511DF480E9AAF18008E2AEE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
 		37A19E720EF8788400BA23B4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37A19E750EF8788400BA23B4 /* Nestopia.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -797,9 +607,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1BC17CE30E90ACA9003F0D0D /* VisualBoyAdvance.bundle in Resources */,
-				828E661B0E846AAB00B1860B /* GambatteBundle.bundle in Resources */,
-				828E66180E846AA500B1860B /* Nestopia.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,10 +614,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82C5EC4E0F09C8A30019E2DC /* GambatteBundle.bundle in Resources */,
-				82C5EC4D0F09C89D0019E2DC /* CrabEmu.bundle in Resources */,
-				82C5EC4C0F09C8980019E2DC /* VisualBoyAdvance.bundle in Resources */,
-				8275FA330E85A5500031509D /* Nestopia.bundle in Resources */,
 				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
 				1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */,
@@ -947,50 +750,10 @@
 			target = 828E65970E8466A100B1860B /* OpenEmuQC */;
 			targetProxy = 1B3280690E85784400FEDA2C /* PBXContainerItemProxy */;
 		};
-		1BC17CE20E90AC86003F0D0D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = VisualBoyAdvance;
-			targetProxy = 1BC17CE10E90AC86003F0D0D /* PBXContainerItemProxy */;
-		};
-		37A19E6E0EF8788400BA23B4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Nestopia;
-			targetProxy = 37A19E6F0EF8788400BA23B4 /* PBXContainerItemProxy */;
-		};
 		37A19EB20EF8794600BA23B4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 37A19E6B0EF8788400BA23B4 /* OpenEmuQCNES */;
 			targetProxy = 37A19EB10EF8794600BA23B4 /* PBXContainerItemProxy */;
-		};
-		8275FA3D0E85A5BE0031509D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Nestopia;
-			targetProxy = 8275FA3C0E85A5BE0031509D /* PBXContainerItemProxy */;
-		};
-		828E66150E846A9900B1860B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GambatteBundle;
-			targetProxy = 828E66140E846A9900B1860B /* PBXContainerItemProxy */;
-		};
-		828E66170E846A9900B1860B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Nestopia;
-			targetProxy = 828E66160E846A9900B1860B /* PBXContainerItemProxy */;
-		};
-		82C9C8CC0F07FDF00071460B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = GambatteBundle;
-			targetProxy = 82C9C8CB0F07FDF00071460B /* PBXContainerItemProxy */;
-		};
-		82C9C8CE0F07FDF40071460B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CrabEmu;
-			targetProxy = 82C9C8CD0F07FDF40071460B /* PBXContainerItemProxy */;
-		};
-		82C9C8D00F07FDF70071460B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = VisualBoyAdvance;
-			targetProxy = 82C9C8CF0F07FDF70071460B /* PBXContainerItemProxy */;
 		};
 		82C9C97E0F080C920071460B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
