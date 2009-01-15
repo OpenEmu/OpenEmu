@@ -304,9 +304,6 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
-				828E65D20E8467A400B1860B /* Cocoa.framework */,
-				828E65D60E8467AA00B1860B /* Quartz.framework */,
-				8291666B0E8603B600493FD8 /* IOKit.framework */,
 			);
 			name = OpenEmu;
 			sourceTree = "<group>";
@@ -356,6 +353,9 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				828E65D20E8467A400B1860B /* Cocoa.framework */,
+				828E65D60E8467AA00B1860B /* Quartz.framework */,
+				8291666B0E8603B600493FD8 /* IOKit.framework */,
 				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
