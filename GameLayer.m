@@ -69,8 +69,11 @@
 	eFilter filter = [gameBuffer filter];
 	switch (filter)
 	{
+		case eFilter_Nearest:
+			[self renderLinear];
+			break;
+			
 		case eFilter_Scaler2xGLSL:
-			NSLog(@"using scale2XGLSL");
 			[self renderShaderScale2X];
 			break;
 		
@@ -156,6 +159,13 @@
 	
 	// dont use any shaders (no-op if no shader was bound)
 	glUseProgramObjectARB(NULL);	
+}
+
+- (void) renderLinear
+{
+	// force nearest neighbor filtering for our samplers to work in the shader...
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 }
 
 - (void) renderShaderScale2X

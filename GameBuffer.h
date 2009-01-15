@@ -17,8 +17,8 @@ typedef enum
 	eFilter_HQ2x,
 	eFilter_HQ3x,
 	
-	// GLSL filters
-	
+	// OpenGL, GLSL filters
+	eFilter_Nearest,
 	eFilter_Scaler2xGLSL,
 	eFilter_Scaler4xGLSL,
 	eFilter_HQ2xGLSL,

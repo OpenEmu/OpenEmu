@@ -83,6 +83,7 @@
 	// treat GLSL filters without using CPU side filters
 	switch (filter) {
 		case eFilter_None:
+		case eFilter_Nearest:
 		case eFilter_Scaler2xGLSL:
 		case eFilter_Scaler4xGLSL:
 		case eFilter_HQ2xGLSL:
@@ -155,7 +156,7 @@
 - (unsigned char *) buffer
 {
 	// im so sorry this is so ugly :( - vade
-	if(filter == eFilter_None || eFilter_Scaler2xGLSL || eFilter_Scaler4xGLSL || eFilter_HQ2xGLSL || eFilter_HQ4xGLSL)
+	if(filter == eFilter_None || filter == eFilter_Nearest ||  filter == eFilter_Scaler2xGLSL || filter == eFilter_Scaler4xGLSL || filter == eFilter_HQ2xGLSL ||filter == eFilter_HQ4xGLSL)
 	{
 		return [gameCore buffer];
 	}

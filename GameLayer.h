@@ -38,6 +38,7 @@
 // render functions 
 - (void) uploadGameBufferToTexture;
 - (void) renderQuad;
+- (void) renderLinear;
 - (void) renderShaderScale2X;
 - (void) renderShaderScale2XHQ;
 - (void) renderShaderScale4X;
