@@ -21,8 +21,11 @@
 	<key>QCPlugInClasses</key>
 	<array>
 		<string>OpenEmuQC</string>
+		<string>OpenEmuQCNES</string>
 	</array>
 	<key>OEBundlePath</key>
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>
+	<key>OENESBundlePath</key>
+	<string>~/Library/Application Support/OpenEmu/Cores/Nestopia.bundle</string>
 </dict>
 </plist>
