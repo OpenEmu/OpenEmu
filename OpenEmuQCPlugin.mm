@@ -452,7 +452,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 																  flipped:YES 
 														  releaseCallback:_TextureReleaseCallback 
 														   releaseContext:NULL
-															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear)
+															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
 														 shouldColorMatch:YES];
 		
 		
@@ -464,7 +464,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 																  flipped:YES 
 														  releaseCallback:_TextureReleaseCallback 
 														   releaseContext:NULL 
-															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear)
+															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
 														 shouldColorMatch:YES];
 	#endif
 

@@ -503,9 +503,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 																  flipped:YES 
 														  releaseCallback:_TextureReleaseCallback 
 														   releaseContext:NULL
-															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear)
+															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
 														 shouldColorMatch:YES];
-		
 		
 	#else 
 		provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatBGRA8  
@@ -515,7 +514,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 																  flipped:YES 
 														  releaseCallback:_TextureReleaseCallback 
 														   releaseContext:NULL 
-															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear)
+															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
 														 shouldColorMatch:YES];
 	#endif
 
