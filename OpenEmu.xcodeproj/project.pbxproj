@@ -7,28 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		37A19EA80EF8790B00BA23B4 /* Copy & Build QC NES */ = {
+		828E65E30E8467E900B1860B /* Copy & Build OpenEmuQC */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 37A19EAC0EF8790B00BA23B4 /* Build configuration list for PBXAggregateTarget "Copy & Build QC NES" */;
-			buildPhases = (
-				37A19EAB0EF8790B00BA23B4 /* ShellScript */,
-			);
-			dependencies = (
-				37A19EB20EF8794600BA23B4 /* PBXTargetDependency */,
-			);
-			name = "Copy & Build QC NES";
-			productName = "Copy & Build QC";
-		};
-		828E65E30E8467E900B1860B /* Copy & Build QC vanilla */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 828E65EC0E8467F600B1860B /* Build configuration list for PBXAggregateTarget "Copy & Build QC vanilla" */;
+			buildConfigurationList = 828E65EC0E8467F600B1860B /* Build configuration list for PBXAggregateTarget "Copy & Build OpenEmuQC" */;
 			buildPhases = (
 				828E65E20E8467E900B1860B /* ShellScript */,
 			);
 			dependencies = (
 				1B32806A0E85784400FEDA2C /* PBXTargetDependency */,
 			);
-			name = "Copy & Build QC vanilla";
+			name = "Copy & Build OpenEmuQC";
 			productName = "Copy & Build QC";
 		};
 		82C9C96F0F080C7F0071460B /* Distribution */ = {
@@ -69,19 +57,6 @@
 		1B8D4B010E874E6F00C3C4F5 /* GameAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.mm */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		374D1DDF0F1FDBA900B71EFC /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
-		37A19E770EF8788400BA23B4 /* hqxx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45E840E886D0000B7B023 /* hqxx.cpp */; };
-		37A19E780EF8788400BA23B4 /* hq2x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45D710E88589000B7B023 /* hq2x.cpp */; };
-		37A19E790EF8788400BA23B4 /* hq3x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 824401380E84A82E004387DA /* hq3x.cpp */; };
-		37A19E7A0EF8788400BA23B4 /* scalebit.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF90510E7F486F004FDFE9 /* scalebit.c */; };
-		37A19E7B0EF8788400BA23B4 /* scale3x.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF903D0E7F4716004FDFE9 /* scale3x.c */; };
-		37A19E7C0EF8788400BA23B4 /* scale2x.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF8FE80E7F45D2004FDFE9 /* scale2x.c */; };
-		37A19E7D0EF8788400BA23B4 /* GameBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829B9CAB0E7F215700452894 /* GameBuffer.mm */; };
-		37A19E7E0EF8788400BA23B4 /* GameAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.mm */; };
-		37A19E810EF8788400BA23B4 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
-		37A19E820EF8788400BA23B4 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
-		37A19E830EF8788400BA23B4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
-		37A19E840EF8788400BA23B4 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D60E8467AA00B1860B /* Quartz.framework */; };
-		37A19E940EF878D200BA23B4 /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
 		820C55F20E7C36A700202702 /* GameApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C55F10E7C36A700202702 /* GameApp.m */; };
 		82184ACB0E762DC600895A7F /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82184ACA0E762DC600895A7F /* Preferences.xib */; };
 		82184AD60E762FD300895A7F /* GameButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 82184AD50E762FD300895A7F /* GameButton.m */; };
@@ -133,13 +108,6 @@
 			remoteGlobalIDString = 828E65970E8466A100B1860B;
 			remoteInfo = OpenEmuQC;
 		};
-		37A19EB10EF8794600BA23B4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 37A19E6B0EF8788400BA23B4;
-			remoteInfo = OpenEmuQCNES;
-		};
 		82C9C97D0F080C920071460B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -189,7 +157,6 @@
 		32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmu_Prefix.pch; sourceTree = "<group>"; };
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
 		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
-		37A19E880EF8788400BA23B4 /* OpenEmuQCNES.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuQCNES.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		37A19E930EF8788500BA23B4 /* OpenEmuQCNES-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuQCNES-Info.plist"; sourceTree = "<group>"; };
 		820C55F00E7C36A700202702 /* GameApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameApp.h; sourceTree = "<group>"; };
 		820C55F10E7C36A700202702 /* GameApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameApp.m; sourceTree = "<group>"; };
@@ -252,17 +219,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		37A19E800EF8788400BA23B4 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				37A19E810EF8788400BA23B4 /* OpenGL.framework in Frameworks */,
-				37A19E820EF8788400BA23B4 /* AudioToolbox.framework in Frameworks */,
-				37A19E830EF8788400BA23B4 /* Cocoa.framework in Frameworks */,
-				37A19E840EF8788400BA23B4 /* Quartz.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		828E65960E8466A100B1860B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -319,7 +275,6 @@
 			children = (
 				8D15AC370486D014006FF6A4 /* OpenEmu.app */,
 				828E65980E8466A100B1860B /* OpenEmuQC.plugin */,
-				37A19E880EF8788400BA23B4 /* OpenEmuQCNES.plugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -521,23 +476,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		37A19E6B0EF8788400BA23B4 /* OpenEmuQCNES */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 37A19E850EF8788400BA23B4 /* Build configuration list for PBXNativeTarget "OpenEmuQCNES" */;
-			buildPhases = (
-				37A19E720EF8788400BA23B4 /* Resources */,
-				37A19E760EF8788400BA23B4 /* Sources */,
-				37A19E800EF8788400BA23B4 /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = OpenEmuQCNES;
-			productName = OpenEmuQC;
-			productReference = 37A19E880EF8788400BA23B4 /* OpenEmuQCNES.plugin */;
-			productType = "com.apple.product-type.bundle";
-		};
 		828E65970E8466A100B1860B /* OpenEmuQC */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 828E659C0E8466A200B1860B /* Build configuration list for PBXNativeTarget "OpenEmuQC" */;
@@ -587,23 +525,14 @@
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
-				828E65E30E8467E900B1860B /* Copy & Build QC vanilla */,
-				37A19EA80EF8790B00BA23B4 /* Copy & Build QC NES */,
-				828E65970E8466A100B1860B /* OpenEmuQC */,
-				37A19E6B0EF8788400BA23B4 /* OpenEmuQCNES */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
+				828E65970E8466A100B1860B /* OpenEmuQC */,
+				828E65E30E8467E900B1860B /* Copy & Build OpenEmuQC */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		37A19E720EF8788400BA23B4 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		828E65940E8466A100B1860B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -639,19 +568,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		37A19EAB0EF8790B00BA23B4 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This shell script simply copies the built plug-in to \"~/Library/Graphics/Quartz Composer Plug-Ins\" and overrides any previous version at that location\n\nmkdir -p \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins\"\nrm -rf \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins/OpenEmuQCNES.plugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/OpenEmuQCNES.plugin\" \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins/\"\n";
-		};
 		828E65E20E8467E900B1860B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -682,22 +598,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		37A19E760EF8788400BA23B4 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				37A19E770EF8788400BA23B4 /* hqxx.cpp in Sources */,
-				37A19E780EF8788400BA23B4 /* hq2x.cpp in Sources */,
-				37A19E790EF8788400BA23B4 /* hq3x.cpp in Sources */,
-				37A19E7A0EF8788400BA23B4 /* scalebit.c in Sources */,
-				37A19E7B0EF8788400BA23B4 /* scale3x.c in Sources */,
-				37A19E7C0EF8788400BA23B4 /* scale2x.c in Sources */,
-				37A19E7D0EF8788400BA23B4 /* GameBuffer.mm in Sources */,
-				37A19E7E0EF8788400BA23B4 /* GameAudio.mm in Sources */,
-				37A19E940EF878D200BA23B4 /* OpenEmuQCNESPlugin.mm in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		828E65950E8466A100B1860B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -752,11 +652,6 @@
 			target = 828E65970E8466A100B1860B /* OpenEmuQC */;
 			targetProxy = 1B3280690E85784400FEDA2C /* PBXContainerItemProxy */;
 		};
-		37A19EB20EF8794600BA23B4 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 37A19E6B0EF8788400BA23B4 /* OpenEmuQCNES */;
-			targetProxy = 37A19EB10EF8794600BA23B4 /* PBXContainerItemProxy */;
-		};
 		82C9C97E0F080C920071460B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
@@ -808,77 +703,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		37A19E860EF8788400BA23B4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = OpenEmuQC_Prefix.pch;
-				INFOPLIST_FILE = "OpenEmuQCNES-Info.plist";
-				INSTALL_PATH = "$(HOME)/Graphics/Quartz Composer Plug-Ins/";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = OpenEmuQCNES;
-				WRAPPER_EXTENSION = plugin;
-			};
-			name = Debug;
-		};
-		37A19E870EF8788400BA23B4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = OpenEmuQC_Prefix.pch;
-				INFOPLIST_FILE = "OpenEmuQCNES-Info.plist";
-				INSTALL_PATH = "$(HOME)/Graphics/Quartz Composer Plug-Ins/";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = OpenEmuQC;
-				WRAPPER_EXTENSION = plugin;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		37A19EAD0EF8790B00BA23B4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = "Copy & Build QC";
-			};
-			name = Debug;
-		};
-		37A19EAE0EF8790B00BA23B4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PRODUCT_NAME = "Copy & Build QC";
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		828E659A0E8466A100B1860B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1043,24 +867,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		37A19E850EF8788400BA23B4 /* Build configuration list for PBXNativeTarget "OpenEmuQCNES" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				37A19E860EF8788400BA23B4 /* Debug */,
-				37A19E870EF8788400BA23B4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		37A19EAC0EF8790B00BA23B4 /* Build configuration list for PBXAggregateTarget "Copy & Build QC NES" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				37A19EAD0EF8790B00BA23B4 /* Debug */,
-				37A19EAE0EF8790B00BA23B4 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		828E659C0E8466A200B1860B /* Build configuration list for PBXNativeTarget "OpenEmuQC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1070,7 +876,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		828E65EC0E8467F600B1860B /* Build configuration list for PBXAggregateTarget "Copy & Build QC vanilla" */ = {
+		828E65EC0E8467F600B1860B /* Build configuration list for PBXAggregateTarget "Copy & Build OpenEmuQC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				828E65E40E8467E900B1860B /* Debug */,
