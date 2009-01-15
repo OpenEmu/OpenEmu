@@ -96,12 +96,12 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	
 	
 	if([key isEqualToString:@"inputSaveStatePath"])
-		return [NSDictionary dictionaryWithObjectsAndKeys:	@"Save State Path", QCPortAttributeNameKey,
+		return [NSDictionary dictionaryWithObjectsAndKeys:	@"Save State", QCPortAttributeNameKey,
 															 @"~/roms/saves/save", QCPortAttributeDefaultValueKey, 
 															nil];
 
 	if([key isEqualToString:@"inputLoadStatePath"])
-		return [NSDictionary dictionaryWithObjectsAndKeys:	@"Load State Path", QCPortAttributeNameKey,
+		return [NSDictionary dictionaryWithObjectsAndKeys:	@"Load State", QCPortAttributeNameKey,
 															 @"~/roms/saves/save", QCPortAttributeDefaultValueKey, 
 															nil];
 	if([key isEqualToString:@"outputImage"])
@@ -143,9 +143,27 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		[persistantControllerData retain];
 
 	//	bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"Nestopia" ofType:@"bundle"]];
-
-	
-		NSArray* bundlePaths = [[NSBundle bundleForClass:[self class]] pathsForResourcesOfType:@"bundle" inDirectory:@""];
+		
+		NSString *file;
+		NSBundle *theBundle = [NSBundle bundleForClass:[self class]];
+		NSDictionary *ourBundleInfo = [theBundle infoDictionary];
+		NSString *bundleDir = [[ourBundleInfo valueForKey:@"OEBundlePath"] stringByStandardizingPath];
+		
+		// NSString *bundleDir = [[[[NSBundle bundleForClass:[self class]] infoDictionary] valueForKey:@"OEBundlePath"] stringByStandardizingPath];
+		NSMutableArray* bundlePaths = [[NSMutableArray alloc] init];
+		
+		
+		NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath: bundleDir];
+		while (file = [enumerator nextObject])
+		{
+			if([[file pathExtension] isEqualToString:@"bundle"]) 
+			{
+				[bundlePaths addObject:[bundleDir stringByAppendingPathComponent:file]];
+				[enumerator skipDescendents];
+			}
+			
+		}
+		
 		
 		NSMutableArray* mutableBundles = [[NSMutableArray alloc] init];
 		
@@ -153,6 +171,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		{
 			[mutableBundles addObject:[NSBundle bundleWithPath:path]];
 		}
+		
+		[bundlePaths release];
 		//All bundles that are available
 		bundles = [[NSArray arrayWithArray:mutableBundles] retain];
 		
@@ -168,7 +188,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			{
 				[mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
 			}
-
+			
+			
+			
 		}
 		
 		NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
@@ -180,9 +202,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		
 		
 		validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
-						
+		
 		[mutableExtensions release];
-	
+		
 	}
 	
 	return self;

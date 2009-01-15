@@ -22,5 +22,7 @@
 	<array>
 		<string>OpenEmuQC</string>
 	</array>
+	<key>OEBundlePath</key>
+	<string>~/Library/Application Support/OpenEmu/Cores/</string>
 </dict>
 </plist>

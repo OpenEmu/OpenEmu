@@ -10,6 +10,15 @@
 
 #import "OpenEmuQCNESPlugin.h"
 
+#import <Quartz/Quartz.h>
+#import <OpenGL/OpenGL.h>
+#import <OpenGL/gl.h>
+#import <AudioToolbox/AudioToolbox.h>
+
+#import "GameBuffer.h"
+#import "GameAudio.h"
+//#import "Nestopia/NESGameEmu.h"
+
 #define	kQCPlugIn_Name				@"OpenEmu NES"
 #define	kQCPlugIn_Description		@"Wraps the OpenEmu emulator - play and manipulate the NES"
 
@@ -239,9 +248,10 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		persistantControllerData = [[NSMutableArray alloc] init];
 		[persistantControllerData retain];
 
-		bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] 
-										   pathForResource:@"Nestopia" 
-										   ofType:@"bundle"]];
+		NSBundle *theBundle = [NSBundle bundleForClass:[self class]];
+		NSDictionary *ourBundleInfo = [theBundle infoDictionary];
+		NSString *nesBundleDir = [[ourBundleInfo valueForKey:@"OENESBundlePath"] stringByStandardizingPath];
+		bundle = [NSBundle bundleWithPath:nesBundleDir];
 	}
 	
 	return self;
@@ -397,7 +407,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	if([self didValueForInputKeyChange: @"inputEnableRewinder"])	
 	{
 //		NSLog(@"rewinder state changed");
-		[nesEmu enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
+		[self enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
 
 		if([nesEmu isRewinderEnabled]) 
 		{
@@ -709,6 +719,12 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 {
 	NSLog(@"cheat code is: %@",cheatCode);
 	[nesEmu setCode:cheatCode];
+}
+
+
+- (void) enableRewinder:(BOOL) rewind
+{
+	[nesEmu enableRewinder:rewind];
 }
 
 @end

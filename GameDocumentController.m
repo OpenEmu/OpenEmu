@@ -198,7 +198,10 @@
 		while (file = [enumerator nextObject])
 		{
 			if([[file pathExtension] isEqualToString:@"bundle"])
+			{
 				[bundlePaths addObject:[bundleDir stringByAppendingPathComponent:file]];
+				[enumerator skipDescendents];
+			}
 		}
 		
 		

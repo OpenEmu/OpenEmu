@@ -4,17 +4,8 @@
 //
 //  A NES-only QC plugin for teh glitchy insanity.  Started by Dan Winckler on 11/16/08.
 //
-
-#import <Quartz/Quartz.h>
-#import <OpenGL/OpenGL.h>
-#import <OpenGL/gl.h>
 #import <Cocoa/Cocoa.h>
-#import <AudioToolbox/AudioToolbox.h>
-
 #import "GameCore.h"
-#import "GameBuffer.h"
-#import "GameAudio.h"
-//#import "Nestopia/NESGameEmu.h"
 
 @class NESGameEmu;
 @class GameAudio;
@@ -27,7 +18,7 @@
 	id <GameCore> gameCore;
 	NESGameEmu* nesEmu;
 	GameAudio*  gameAudio;
-	GameBuffer * gameBuffer;
+	GameBuffer* gameBuffer;
 	BOOL loadedRom;
 	NSMutableArray* persistantControllerData;
 	NSRecursiveLock * gameLock;
@@ -71,6 +62,7 @@ You can access their values in the appropriate plug-in methods using self.inputF
 - (void) saveState: (NSString *) fileName;
 - (BOOL) loadState: (NSString *) fileName;
 - (void) setCode:(NSString*)cheatCode;
+- (void) enableRewinder:(BOOL) rewind;
 
 @end
 
