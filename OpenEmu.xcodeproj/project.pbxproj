@@ -68,6 +68,8 @@
 		1B8D4AEE0E874D5500C3C4F5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
 		1B8D4B010E874E6F00C3C4F5 /* GameAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.mm */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
+		371218DC0F1EA7BB00949DCA /* OpenEmuQC-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */; };
+		374D1DBC0F1FD92600B71EFC /* OpenEmuQCNES-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 37A19E930EF8788500BA23B4 /* OpenEmuQCNES-Info.plist */; };
 		37A19E770EF8788400BA23B4 /* hqxx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45E840E886D0000B7B023 /* hqxx.cpp */; };
 		37A19E780EF8788400BA23B4 /* hq2x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45D710E88589000B7B023 /* hq2x.cpp */; };
 		37A19E790EF8788400BA23B4 /* hq3x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 824401380E84A82E004387DA /* hq3x.cpp */; };
@@ -600,6 +602,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				374D1DBC0F1FD92600B71EFC /* OpenEmuQCNES-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +610,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				371218DC0F1EA7BB00949DCA /* OpenEmuQC-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
