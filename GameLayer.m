@@ -170,9 +170,7 @@
 
 - (void) renderShaderScale2X
 {
-	// force nearest neighbor filtering for our samplers to work in the shader...
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	[self renderLinear];
 	
 	// bind our shader
 	glUseProgramObjectARB([Scale2XPlus programObject]);
@@ -183,9 +181,7 @@
 
 - (void) renderShaderScale2XHQ
 {
-	// force nearest neighbor filtering for our samplers to work in the shader...
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	[self renderLinear];
 	
 	// bind our shader
 	glUseProgramObjectARB([Scale2xHQ programObject]);
@@ -196,9 +192,7 @@
 
 - (void) renderShaderScale4X
 {
-	// force nearest neighbor filtering for our samplers to work in the shader...
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	[self renderLinear];
 	
 	// bind our shader
 	glUseProgramObjectARB([Scale4x programObject]);
@@ -209,9 +203,7 @@
 
 - (void) renderShaderScale4XHQ
 {
-	// force nearest neighbor filtering for our samplers to work in the shader...
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	[self renderLinear];
 	
 	// bind our shader
 	glUseProgramObjectARB([Scale4xHQ programObject]);
