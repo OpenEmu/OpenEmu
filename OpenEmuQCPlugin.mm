@@ -278,7 +278,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// if we have a ROM loaded and the patch's image output is reconnected, unpause the emulator
 	if(loadedRom)
 	{
-		[gameAudio startAudio];
+	//	[gameAudio startAudio];
 		[gameCore pause:NO];
 	}
 	
@@ -453,9 +453,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 														  releaseCallback:_TextureReleaseCallback 
 														   releaseContext:NULL
 															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
-														 shouldColorMatch:YES];
-		
-		
+														 shouldColorMatch:YES];		
 	#else 
 		provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatBGRA8  
 															   pixelsWide:[gameCore width]
@@ -488,7 +486,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// if we have a ROM running and the patch's image output is disconnected, pause the emulator
 	if(loadedRom)
 	{
-		[gameAudio pauseAudio];
+	//	[gameAudio pauseAudio];
 		[gameCore pause:YES]; 
 //		sleep(0.5); // race condition workaround. 
 	}
