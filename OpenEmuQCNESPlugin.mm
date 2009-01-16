@@ -505,7 +505,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 														   releaseContext:NULL
 															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
 														 shouldColorMatch:YES];
-		
 	#else 
 		provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatBGRA8  
 															   pixelsWide:[gameCore width]

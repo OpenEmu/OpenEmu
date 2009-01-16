@@ -22,6 +22,7 @@
 	<array>
 		<string>OpenEmuQC</string>
 		<string>OpenEmuQCNES</string>
+		<string>OpenEmuQCFiltersPlugin</string>
 	</array>
 	<key>OEBundlePath</key>
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>

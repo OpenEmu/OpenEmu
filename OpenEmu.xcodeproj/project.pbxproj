@@ -34,6 +34,18 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1B56D6890F21340700C80694 /* OpenEmuQCFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B56D6870F21340700C80694 /* OpenEmuQCFilters.m */; };
+		1B56D6940F21396300C80694 /* GameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B885E0C0F085EB200770B6D /* GameShader.m */; };
+		1B56D6960F21397500C80694 /* Scale4x.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC10F08A13500770B6D /* Scale4x.vert */; };
+		1B56D6970F21397500C80694 /* Scale4x.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC00F08A13500770B6D /* Scale4x.frag */; };
+		1B56D6980F21397500C80694 /* Scale4xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E910F089F8A00770B6D /* Scale4xHQ.vert */; };
+		1B56D6990F21397500C80694 /* Scale4xHQ.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E920F089F8A00770B6D /* Scale4xHQ.frag */; };
+		1B56D69A0F21397500C80694 /* Scale2XSALSmart.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E8D0F089F1B00770B6D /* Scale2XSALSmart.frag */; };
+		1B56D69B0F21397500C80694 /* Scale2XSALSmart.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E8E0F089F1B00770B6D /* Scale2XSALSmart.vert */; };
+		1B56D69C0F21397500C80694 /* Scale2xHQ.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3A0F089A4400770B6D /* Scale2xHQ.frag */; };
+		1B56D69D0F21397500C80694 /* Scale2xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */; };
+		1B56D69E0F21397500C80694 /* Scale2XPlus.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2XPlus.frag */; };
+		1B56D69F0F21397500C80694 /* Scale2XPlus.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2XPlus.vert */; };
 		1B7594AF0E90C3E300FB5BF1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
 		1B807BDA0E90C0210086AB77 /* GameBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829B9CAB0E7F215700452894 /* GameBuffer.mm */; };
 		1B807BE20E90C0660086AB77 /* hqxx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45E840E886D0000B7B023 /* hqxx.cpp */; };
@@ -135,6 +147,8 @@
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B56D6870F21340700C80694 /* OpenEmuQCFilters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuQCFilters.m; sourceTree = "<group>"; };
+		1B56D6880F21340700C80694 /* OpenEmuQCFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCFilters.h; sourceTree = "<group>"; };
 		1B885E080F085EA500770B6D /* Scale2XPlus.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2XPlus.frag; sourceTree = "<group>"; };
 		1B885E090F085EA500770B6D /* Scale2XPlus.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2XPlus.vert; sourceTree = "<group>"; };
 		1B885E0C0F085EB200770B6D /* GameShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameShader.m; sourceTree = "<group>"; };
@@ -157,7 +171,6 @@
 		32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmu_Prefix.pch; sourceTree = "<group>"; };
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
 		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
-		37A19E930EF8788500BA23B4 /* OpenEmuQCNES-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuQCNES-Info.plist"; sourceTree = "<group>"; };
 		820C55F00E7C36A700202702 /* GameApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameApp.h; sourceTree = "<group>"; };
 		820C55F10E7C36A700202702 /* GameApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameApp.m; sourceTree = "<group>"; };
 		82184ACA0E762DC600895A7F /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
@@ -313,7 +326,6 @@
 			children = (
 				828E64D00E84656900B1860B /* OpenEmuCore */,
 				828E64E10E84658A00B1860B /* OpenEmuQC */,
-				37A19E500EF874E800BA23B4 /* OpenEmuQCNES */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -345,7 +357,6 @@
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
-				37A19E930EF8788500BA23B4 /* OpenEmuQCNES-Info.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -360,15 +371,6 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		37A19E500EF874E800BA23B4 /* OpenEmuQCNES */ = {
-			isa = PBXGroup;
-			children = (
-				37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */,
-				37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */,
-			);
-			name = OpenEmuQCNES;
 			sourceTree = "<group>";
 		};
 		8249C8E40E899CD30027EFDF /* Audio */ = {
@@ -454,6 +456,10 @@
 		828E64E10E84658A00B1860B /* OpenEmuQC */ = {
 			isa = PBXGroup;
 			children = (
+				1B56D6870F21340700C80694 /* OpenEmuQCFilters.m */,
+				1B56D6880F21340700C80694 /* OpenEmuQCFilters.h */,
+				37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */,
+				37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */,
 				828E659D0E8466CC00B1860B /* OpenEmuQCPlugin.h */,
 				828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */,
 			);
@@ -537,6 +543,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B56D6960F21397500C80694 /* Scale4x.vert in Resources */,
+				1B56D6970F21397500C80694 /* Scale4x.frag in Resources */,
+				1B56D6980F21397500C80694 /* Scale4xHQ.vert in Resources */,
+				1B56D6990F21397500C80694 /* Scale4xHQ.frag in Resources */,
+				1B56D69A0F21397500C80694 /* Scale2XSALSmart.frag in Resources */,
+				1B56D69B0F21397500C80694 /* Scale2XSALSmart.vert in Resources */,
+				1B56D69C0F21397500C80694 /* Scale2xHQ.frag in Resources */,
+				1B56D69D0F21397500C80694 /* Scale2xHQ.vert in Resources */,
+				1B56D69E0F21397500C80694 /* Scale2XPlus.frag in Resources */,
+				1B56D69F0F21397500C80694 /* Scale2XPlus.vert in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,6 +618,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B56D6940F21396300C80694 /* GameShader.m in Sources */,
 				1B807BE20E90C0660086AB77 /* hqxx.cpp in Sources */,
 				1B807BE30E90C0660086AB77 /* hq2x.cpp in Sources */,
 				1B807BE40E90C0660086AB77 /* hq3x.cpp in Sources */,
@@ -612,6 +629,7 @@
 				1B8D4B010E874E6F00C3C4F5 /* GameAudio.mm in Sources */,
 				828E659F0E8466CC00B1860B /* OpenEmuQCPlugin.mm in Sources */,
 				374D1DDF0F1FDBA900B71EFC /* OpenEmuQCNESPlugin.mm in Sources */,
+				1B56D6890F21340700C80694 /* OpenEmuQCFilters.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

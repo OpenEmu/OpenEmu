@@ -120,9 +120,9 @@ static void LinkProgram(GLhandleARB programObject,
 - (GLcharARB *) getShaderSourceFromResource:(NSString *)theShaderResourceName 
 								  extension:(NSString *)theExtension
 {
-	NSBundle  *appBundle = [NSBundle mainBundle];
+//	NSBundle  *appBundle = [NSBundle mainBundle];
 	
-	NSString  *shaderTempSource = [appBundle pathForResource:theShaderResourceName 
+	NSString  *shaderTempSource = [bundleToLoadFrom pathForResource:theShaderResourceName 
 													  ofType:theExtension];
 	GLcharARB *shaderSource = NULL;
 	
@@ -239,12 +239,47 @@ static void LinkProgram(GLhandleARB programObject,
 
 //---------------------------------------------------------------------------------
 
+- (id) initWithShadersInBundle:(NSBundle*)bundle withName:(NSString *)theShadersName
+{
+	if(self = [super init])
+	{
+		bundleToLoadFrom = [bundle retain];
+		
+		BOOL  loadedShaders = NO;
+		
+		// Load vertex and fragment shader
+		
+		[self getVertexShaderSourceFromResource:theShadersName];
+		
+		if( vertexShaderSource != NULL )
+		{
+			[self getFragmentShaderSourceFromResource:theShadersName];
+			
+			if( fragmentShaderSource != NULL )
+			{
+				loadedShaders = [self setProgramObject];
+				
+				if( !loadedShaders)
+				{
+					NSLog(@">> WARNING: Failed to load GLSL \"%@\" fragment & vertex shaders!\n", 
+						  theShadersName);
+				} // if
+			} // if
+		} // if
+		
+	}
+	return self;
+}
+
 - (id) initWithShadersInAppBundle:(NSString *)theShadersName
 {
 	self = [super init];
 	
 	if( self)
 	{
+		bundleToLoadFrom = [[NSBundle mainBundle] retain];
+
+		
 		BOOL  loadedShaders = NO;
 		
 		// Load vertex and fragment shader
@@ -287,6 +322,8 @@ static void LinkProgram(GLhandleARB programObject,
 		
 		programObject = NULL;
 	} // if
+	
+	[bundleToLoadFrom release];
 	
 	//Dealloc the superclass
 	
