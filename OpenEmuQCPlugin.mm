@@ -654,9 +654,33 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 
 - (void) saveState: (NSString *) fileName
 {
+	BOOL isDir;
 	NSLog(@"saveState filename is %@", fileName);
+	
+	NSString *filePath = [fileName stringByDeletingLastPathComponent];
+	
+	// if the extension isn't .sav, make it so
+	if([[fileName pathExtension] caseInsensitiveCompare:@"sav"] != 0) 
+	{
+		fileName = [fileName stringByAppendingPathExtension:@"sav"];
+	}
 
-	[gameCore saveState: fileName];
+	// see if directory exists
+	if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir] && isDir)
+	{
+		// if so, save the state
+		[gameCore saveState: fileName];
+	} 
+	else if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+	{
+		// if not, create the directory
+		[[NSFileManager defaultManager] createDirectoryAtPath:filePath 
+								  withIntermediateDirectories:YES 
+												   attributes:nil 
+														error:NULL];
+		// and save the state
+		[gameCore saveState:fileName];
+	}
 }
 
 - (BOOL) loadState: (NSString *) fileName
