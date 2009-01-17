@@ -456,8 +456,8 @@
 		828E64E10E84658A00B1860B /* OpenEmuQC */ = {
 			isa = PBXGroup;
 			children = (
-				1B56D6870F21340700C80694 /* OpenEmuQCFilters.m */,
 				1B56D6880F21340700C80694 /* OpenEmuQCFilters.h */,
+				1B56D6870F21340700C80694 /* OpenEmuQCFilters.m */,
 				37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */,
 				37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */,
 				828E659D0E8466CC00B1860B /* OpenEmuQCPlugin.h */,

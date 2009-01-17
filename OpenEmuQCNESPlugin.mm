@@ -450,22 +450,14 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	}
 
 	// CORRUPTION FTW
-	if(self.inputNstRamCorrupt && ( [self didValueForInputKeyChange:@"inputNstRamOffset"] || [self didValueForInputKeyChange:@"inputNstRamValue"] ))
+	if(hasNstRam && self.inputNstRamCorrupt && ( [self didValueForInputKeyChange:@"inputNstRamOffset"] || [self didValueForInputKeyChange:@"inputNstRamValue"] ))
 	{
 		[nesEmu setNstRamBytes:self.inputNstRamOffset value:self.inputNstRamValue];
-		//[nesEmu setRandomNstRamByte];
 	}
 	
-	if(self.inputChrRomCorrupt && ( [self didValueForInputKeyChange:@"inputChrRomOffset"] || [self didValueForInputKeyChange:@"inputChrRomValue"] ))
+	if(hasChrRom && self.inputChrRomCorrupt && ( [self didValueForInputKeyChange:@"inputChrRomOffset"] || [self didValueForInputKeyChange:@"inputChrRomValue"] ))
 	{
-		if([nesEmu getChrRomSize]) // make sure the game has Character ROM first
-		{
-			[nesEmu setChrRomBytes:self.inputChrRomOffset value:self.inputChrRomValue];
-		}
-		else
-		{
-			NSLog(@"this game doesn't have Character ROM.");
-		}
+		[nesEmu setChrRomBytes:self.inputChrRomOffset value:self.inputChrRomValue];
 	}
 	
 	// our output image
@@ -618,6 +610,20 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			[gameAudio setVolume:[self inputVolume]];
 			
 			NSLog(@"finished loading/starting rom");			
+			
+			if([nesEmu getChrRomSize]) // see if the game has Character ROM 
+			{
+				hasChrRom = YES;
+				NSLog(@"Reported ChrRamSize is %i", [nesEmu getChrRomSize]);
+			}
+			else 
+			{
+				hasChrRom = NO;
+				NSLog(@"This game does not have Character RAM");
+			}
+			
+			hasNstRam = YES;
+			NSLog(@"Reported NstRamSize is %i", [nesEmu getVRamSize]);
 		}	
 		else
 		{
