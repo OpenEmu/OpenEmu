@@ -698,13 +698,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	} 
 	else if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
 	{
-		// if not, create the directory
-		[[NSFileManager defaultManager] createDirectoryAtPath:filePath 
-								  withIntermediateDirectories:YES 
-												   attributes:nil 
-														error:NULL];
-		// and save the state
-		[gameCore saveState:fileName];
+		// if not, bitch about it
+		NSLog(@"Save state directory does not exist");
 	}
 }
 
