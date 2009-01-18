@@ -52,9 +52,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 @dynamic inputEnableRewinderBackwardsSound;
 @dynamic inputRewinderReset;
 
-@dynamic inputNstRamCorrupt;
-@dynamic inputNstRamOffset;
-@dynamic inputNstRamValue;
+@dynamic inputNmtRamCorrupt;
+@dynamic inputNmtRamOffset;
+@dynamic inputNmtRamValue;
 
 @dynamic inputChrRomCorrupt;
 @dynamic inputChrRomOffset;
@@ -155,20 +155,20 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 				[NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
 				nil];
 
-	if([key isEqualToString:@"inputNstRamCorrupt"])
-		return [NSDictionary dictionaryWithObjectsAndKeys:@"Corrupt NST RAM", QCPortAttributeNameKey,
+	if([key isEqualToString:@"inputNmtRamCorrupt"])
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"Corrupt NMT RAM", QCPortAttributeNameKey,
 			    [NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
 				nil];
 	
-	if([key isEqualToString:@"inputNstRamOffset"])
-		return [NSDictionary dictionaryWithObjectsAndKeys:@"NST Ram Offset",QCPortAttributeNameKey,
+	if([key isEqualToString:@"inputNmtRamOffset"])
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"NMT RAM Offset",QCPortAttributeNameKey,
 				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeMinimumValueKey,
 				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
 				[NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey,
 				nil];
 
-	if([key isEqualToString:@"inputNstRamValue"])
-		return [NSDictionary dictionaryWithObjectsAndKeys:@"NST Ram Value",QCPortAttributeNameKey,
+	if([key isEqualToString:@"inputNmtRamValue"])
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"NMT RAM Value",QCPortAttributeNameKey,
 				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeMinimumValueKey,
 				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
 				[NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey,
@@ -212,9 +212,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			@"inputEnableRewinderBackwardsSound",
 			@"inputRewinderDirection",
 			@"inputRewinderReset",
-			@"inputNstRamCorrupt",
-			@"inputNstRamOffset",
-			@"inputNstRamValue",
+			@"inputNmtRamCorrupt",
+			@"inputNmtRamOffset",
+			@"inputNmtRamValue",
 			@"inputChrRomCorrupt",
 			@"inputChrRomOffset",
 			@"inputChrRomValue",
@@ -352,6 +352,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// Process ROM loads
 	if([self didValueForInputKeyChange: @"inputRom"] && ([self valueForInputKey:@"inputRom"] != [[OpenEmuQCNES	attributesForPropertyPortWithKey:@"inputRom"] valueForKey: QCPortAttributeDefaultValueKey]))
 	{
+		loadedRom = NO;
 		[self loadRom:[self valueForInputKey:@"inputRom"]];
 	}
 	
@@ -450,9 +451,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	}
 
 	// CORRUPTION FTW
-	if(hasNstRam && self.inputNstRamCorrupt && ( [self didValueForInputKeyChange:@"inputNstRamOffset"] || [self didValueForInputKeyChange:@"inputNstRamValue"] ))
+	if(hasNmtRam && self.inputNmtRamCorrupt && ( [self didValueForInputKeyChange:@"inputNmtRamOffset"] || [self didValueForInputKeyChange:@"inputNmtRamValue"] ))
 	{
-		[nesEmu setNstRamBytes:self.inputNstRamOffset value:self.inputNstRamValue];
+		[nesEmu setNmtRamBytes:self.inputNmtRamOffset value:self.inputNmtRamValue];
 	}
 	
 	if(hasChrRom && self.inputChrRomCorrupt && ( [self didValueForInputKeyChange:@"inputChrRomOffset"] || [self didValueForInputKeyChange:@"inputChrRomValue"] ))
@@ -622,8 +623,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 				NSLog(@"This game does not have Character RAM");
 			}
 			
-			hasNstRam = YES;
-			NSLog(@"Reported NstRamSize is %i", [nesEmu getVRamSize]);
+			hasNmtRam = YES;
+			NSLog(@"Reported NmtRamSize is %i", [nesEmu getVRamSize]);
 		}	
 		else
 		{

@@ -20,7 +20,7 @@
 	GameAudio*  gameAudio;
 	GameBuffer* gameBuffer;
 	BOOL loadedRom;
-	BOOL hasNstRam;
+	BOOL hasNmtRam;
 	BOOL hasChrRom;
 	NSMutableArray* persistantControllerData;
 	NSRecursiveLock * gameLock;
@@ -44,9 +44,9 @@ You can access their values in the appropriate plug-in methods using self.inputF
 @property (assign) BOOL inputEnableRewinderBackwardsSound;
 @property (assign) BOOL inputRewinderReset;
 
-@property (assign) BOOL inputNstRamCorrupt;
-@property (assign) double inputNstRamOffset;
-@property (assign) double inputNstRamValue;
+@property (assign) BOOL inputNmtRamCorrupt;
+@property (assign) double inputNmtRamOffset;
+@property (assign) double inputNmtRamValue;
 
 @property (assign) BOOL inputChrRomCorrupt;
 @property (assign) double inputChrRomOffset;
