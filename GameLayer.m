@@ -24,10 +24,10 @@
 	CGLSetCurrentContext(layerContext);
 	CGLLockContext(layerContext);
 
-	Scale2XPlus = [[GameShader alloc] initWithShadersInAppBundle:@"Scale2XPlus"];	
-	Scale2xHQ = [[GameShader alloc] initWithShadersInAppBundle:@"Scale2xHQ"];		
-	Scale4xHQ = [[GameShader alloc] initWithShadersInAppBundle:@"Scale4xHQ"];
-	Scale4x = [[GameShader alloc] initWithShadersInAppBundle:@"Scale4x"];
+	Scale2XPlus = [[GameShader alloc] initWithShadersInAppBundle:@"Scale2XPlus" forContext:layerContext];	
+	Scale2xHQ = [[GameShader alloc] initWithShadersInAppBundle:@"Scale2xHQ" forContext:layerContext];		
+	Scale4xHQ = [[GameShader alloc] initWithShadersInAppBundle:@"Scale4xHQ" forContext:layerContext];
+	Scale4x = [[GameShader alloc] initWithShadersInAppBundle:@"Scale4x" forContext:layerContext];
 
 	CGLUnlockContext(layerContext);
 	

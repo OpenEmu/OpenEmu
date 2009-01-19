@@ -191,7 +191,7 @@
 		828E65980E8466A100B1860B /* OpenEmuQC.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuQC.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuQC-Info.plist"; sourceTree = "<group>"; };
 		828E659D0E8466CC00B1860B /* OpenEmuQCPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCPlugin.h; sourceTree = "<group>"; };
-		828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCPlugin.mm; sourceTree = "<group>"; wrapsLines = 1; };
+		828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCPlugin.mm; sourceTree = "<group>"; wrapsLines = 0; };
 		828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQC_Prefix.pch; sourceTree = "<group>"; };
 		828E65D20E8467A400B1860B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		828E65D60E8467AA00B1860B /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };

@@ -1,4 +1,3 @@
-
 #import <OpenGL/CGLMacro.h>
 
 #import "OpenEmuQCFilters.h"
@@ -22,7 +21,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, GameShader* shader)
 {
 	CGLLockContext(cgl_ctx);
-
+	
 	GLsizei							width = bounds.size.width,	height = bounds.size.height;
 	GLuint							name;
 	GLint							saveName, saveViewport[4], saveMode;
@@ -33,16 +32,16 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 	glGetIntegerv(GL_TEXTURE_BINDING_RECTANGLE_EXT, &saveName);
 	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, name);
 	glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
-
+	
 	// bind our FBO
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBuffer);
-
+	
 	// attach our just created texture
 	glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
-
+	
 	// Assume FBOs JUST WORK, because we checked on startExecution	
-//	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);	
-//	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+	//	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);	
+	//	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
 	{	
 		// Setup OpenGL states 
 		glGetIntegerv(GL_VIEWPORT, saveViewport);
@@ -52,7 +51,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 		glPushMatrix();
 		glLoadIdentity();
 		glOrtho(bounds.origin.x, bounds.origin.x + bounds.size.width, bounds.origin.y, bounds.origin.y + bounds.size.height, -1, 1);
-
+		
 		glMatrixMode(GL_MODELVIEW);
 		glPushMatrix();
 		glLoadIdentity();
@@ -64,27 +63,32 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 		// draw our input video
 		glEnable(GL_TEXTURE_RECTANGLE_EXT);
 		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
+
+		// force nearest neighbor filtering for our samplers to work in the shader...
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		
 		glColor4f(1.0, 1.0, 1.0, 1.0);
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-		
+	//	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
 		// bind our shader
-		NSLog(@"shader pointer in fbo: %p", shader);
 		glUseProgramObjectARB([shader programObject]);
 		
 		// set up shader variables
-		glUniform1iARB([shader getUniformLocation:"OGL2Texture"], 0);	// texture
-		
-		glBegin(GL_QUADS);
-		glTexCoord2f(0, 0);
-		glVertex2f(0, 0);
-		glTexCoord2f(0, pixelsHigh);
-		glVertex2f(0, height);
-		glTexCoord2f(pixelsWide, pixelsHigh);
-		glVertex2f(width, height);
-		glTexCoord2f(pixelsWide, 0);
-		glVertex2f(width, 0);
-		glEnd();		
+		glUniform1iARB([shader getUniformLocation:"OGL2Texture"], 0);	// texture		
+	
+		glBegin(GL_QUADS);	// Draw A Quad
+		{
+			glTexCoord2f(0.0f, 0.0f);
+			glVertex2f(0.0f, 0.0f);		
+			glTexCoord2f(pixelsWide, 0.0f );
+			glVertex2f(width, 0.0f);
+			glTexCoord2f(pixelsWide, pixelsHigh);
+			glVertex2f(width, height);
+			glTexCoord2f(0.0f, pixelsHigh);
+			glVertex2f(0.0f, height);
+		}
+		glEnd(); // Done Drawing The Quad
 		
 		// disable shader program
 		glUseProgramObjectARB(NULL);
@@ -97,7 +101,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 		glMatrixMode(saveMode);
 		glViewport(saveViewport[0], saveViewport[1], saveViewport[2], saveViewport[3]);		
 	}
-
+	
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	
 	// Check for OpenGL errors 
@@ -112,6 +116,8 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 	CGLUnlockContext(cgl_ctx);
 	return name;
 }
+
+
 
 @implementation OpenEmuQCFiltersPlugin
 
@@ -214,15 +220,17 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 {
 	// work around lack of GLMacro.h for now
 	CGLContextObj cgl_ctx = [context CGLContextObj];
-	CGLSetCurrentContext(cgl_ctx);
+	CGLLockContext(cgl_ctx);
+
+//	NSLog(@"Quartz Composer: gl context when attempting to compile shader: %p", cgl_ctx);
 
 	// shaders	
-	Scale2XPlus = [[GameShader alloc] initWithShadersInBundle:[NSBundle bundleForClass:[self class]] withName:@"Scale2XPlus"];	
-	Scale2xHQ = [[GameShader alloc] initWithShadersInBundle:[NSBundle bundleForClass:[self class]] withName:@"Scale2xHQ"];		
-	Scale4xHQ = [[GameShader alloc] initWithShadersInBundle:[NSBundle bundleForClass:[self class]] withName:@"Scale4xHQ"];
-	Scale4x = [[GameShader alloc] initWithShadersInBundle:[NSBundle bundleForClass:[self class]] withName:@"Scale4x"];
+	Scale2xPlus = [[GameShader alloc] initWithShadersInBundle:[NSBundle bundleForClass:[self class]] withName:@"Scale2XPlus" forContext:cgl_ctx];	
+	Scale2xHQ = [[GameShader alloc] initWithShadersInBundle:[NSBundle bundleForClass:[self class]] withName:@"Scale2xHQ" forContext:cgl_ctx];		
+	Scale4x = [[GameShader alloc] initWithShadersInBundle:[NSBundle bundleForClass:[self class]] withName:@"Scale4x" forContext:cgl_ctx];
+	Scale4xHQ = [[GameShader alloc] initWithShadersInBundle:[NSBundle bundleForClass:[self class]] withName:@"Scale4xHQ" forContext:cgl_ctx];
 
-	if((!Scale2XPlus) && (!Scale2xHQ) && (!Scale4x) && (!Scale4xHQ))
+	if((!Scale2xPlus) || (!Scale2xHQ) || (!Scale4x) || (!Scale4xHQ))
 	{
 		NSLog(@"could not init shaders");
 		return NO;
@@ -246,18 +254,23 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 	if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
 	{	
 		NSLog(@"Cannot create FBO");
+		NSLog(@"OpenGL error %04X", status);
+
 		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 		glDeleteFramebuffersEXT(1, &frameBuffer);
 		glDeleteTextures(1, &name);
+		CGLUnlockContext(cgl_ctx);
 		return NO;
 	}	
 	
 	// cleanup
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
 	glDeleteTextures(1, &name);
+	CGLUnlockContext(cgl_ctx);
 	
 	return YES;
 }
+
 
 - (BOOL) execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary*)arguments
 {
@@ -273,17 +286,50 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 	CGLContextObj cgl_ctx = [context CGLContextObj];
 	CGLLockContext(cgl_ctx);
 	
+//	NSLog(@"Quartz Composer: gl context when attempting to use shader: %p", cgl_ctx);
+	
 	id<QCPlugInInputImageSource>   image = self.inputImage;
 	NSUInteger width = [image imageBounds].size.width;
 	NSUInteger height = [image imageBounds].size.height;
-	NSRect bounds = [image imageBounds];
+	NSRect bounds;
+	int multiplier;
 
+	GameShader* selectedShader;
+	switch (self.inputScaler) {
+		case 0:
+			{
+				selectedShader = Scale2xPlus;
+				multiplier = 2.0;
+				bounds = NSMakeRect(0.0, 0.0, width * multiplier, height * multiplier);
+			}
+		break;
+		case 1:	
+			{
+				selectedShader = Scale2xHQ;
+				multiplier = 2.0;
+				bounds = NSMakeRect(0.0, 0.0, width * multiplier, height * multiplier);
+			}
+		break;
+		case 2:	
+		{
+			selectedShader = Scale4x;
+			multiplier = 4.0;
+			bounds = NSMakeRect(0.0, 0.0, width * multiplier, height * multiplier);
+		}
+		break;
+		case 3:	
+		{
+			selectedShader = Scale4xHQ;
+			multiplier = 4.0;
+			bounds = NSMakeRect(0.0, 0.0, width * multiplier, height * multiplier);
+		}
+		break;
+	}
+	
 	if(image && [image lockTextureRepresentationWithColorSpace:[image imageColorSpace] forBounds:[image imageBounds]])
 	{	
-		[image bindTextureRepresentationToCGLContext:[context CGLContextObj] textureUnit:GL_TEXTURE0 normalizeCoordinates:NO];
+		[image bindTextureRepresentationToCGLContext:cgl_ctx textureUnit:GL_TEXTURE0 normalizeCoordinates:NO];
 	
-		NSLog(@"shader pointer in fbo: %p", Scale2xHQ);
-		
 		// Make sure to flush as we use FBOs as the passed OpenGL context may not have a surface attached		
 		GLuint finalOutput = renderToFBO(frameBuffer, cgl_ctx, width, height, bounds, [image textureName], Scale2xHQ);
 		glFlushRenderAPPLE();
@@ -295,20 +341,22 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 	
 		// output our final image as a QCPluginOutputImageProvider using the QCPluginContext convinience method. No need to go through the trouble of making our own conforming object.	
 		#if __BIG_ENDIAN__
-				provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatARGB8 pixelsWide:[image imageBounds].size.width pixelsHigh:[image imageBounds].size.height name:finalOutput flipped:[image textureFlipped] releaseCallback:_TextureReleaseCallback releaseContext:NULL colorSpace:[image imageColorSpace] shouldColorMatch:YES];
+				provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatARGB8 pixelsWide:width * multiplier pixelsHigh:height * multiplier name:finalOutput flipped:[image textureFlipped] releaseCallback:_TextureReleaseCallback releaseContext:cgl_ctx colorSpace:[image imageColorSpace] shouldColorMatch:YES];
 		#else
-				provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatBGRA8 pixelsWide:[image imageBounds].size.width pixelsHigh:[image imageBounds].size.height name:finalOutput flipped:[image textureFlipped] releaseCallback:_TextureReleaseCallback releaseContext:NULL colorSpace:[image imageColorSpace] shouldColorMatch:YES];
+				provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatBGRA8 pixelsWide:width * multiplier pixelsHigh:height * multiplier name:finalOutput flipped:[image textureFlipped] releaseCallback:_TextureReleaseCallback releaseContext:cgl_ctx colorSpace:[image imageColorSpace] shouldColorMatch:YES];
 		#endif
 	
 		if(provider == nil)
 		{
+			[image unbindTextureRepresentationFromCGLContext:cgl_ctx textureUnit:GL_TEXTURE0];
+			[image unlockTextureRepresentation];
 			CGLUnlockContext(cgl_ctx);
 			return NO;
 		}
 		
 		self.outputImage = provider;
 		
-		[image unbindTextureRepresentationFromCGLContext:[context CGLContextObj] textureUnit:GL_TEXTURE0];
+		[image unbindTextureRepresentationFromCGLContext:cgl_ctx textureUnit:GL_TEXTURE0];
 		[image unlockTextureRepresentation];
 	}	
 	else
@@ -333,7 +381,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 	CGLLockContext(cgl_ctx);
 	
 	// release shaders
-	[Scale2XPlus release];
+	[Scale2xPlus release];
 	[Scale2xHQ release];
 	[Scale4x release];
 	[Scale4xHQ release];

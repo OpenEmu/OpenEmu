@@ -12,14 +12,12 @@
 
 @interface OpenEmuQCFiltersPlugin : QCPlugIn
 {
-	GameShader* Scale2XPlus;
+	GameShader* Scale2xPlus;
 	GameShader* Scale2xHQ;
 	GameShader* Scale4x;	
 	GameShader* Scale4xHQ;
 	
 	GLuint frameBuffer;
-	
-	id<QCPlugInContext> pluginContext;	
 }
 
 /*

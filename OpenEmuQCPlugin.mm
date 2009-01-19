@@ -292,15 +292,12 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	CGLSetCurrentContext([context CGLContextObj]);
 	CGLLockContext([context CGLContextObj]);
 	
-//	[gameLock lock];
 	// our output image via convenience methods
 	id	provider = nil;
 	
 	// Process controller data
 	if([self didValueForInputKeyChange: @"inputControllerData"])
 	{
-//		NSLog(@"New Controller Data");
-		
 		// hold on to the controller data, which we are going to feed gameCore every frame.  Mmmmm...controller data.
 		if([self controllerDataValidate:[self inputControllerData]])
 		{
@@ -359,70 +356,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// handle our image output. (sanity checking)
 	if(loadedRom && ([gameCore width] > 10) )
 	{
-	
-	//	NSLog(@"buffer address is : %x", [gameCore buffer]);
-		
-	
-		/*
-		 BELOW IS THE BUFFER METHOD, LETTING QC LOAD THE TEXTURE ITSELF
-		 
-		 This seems to fix some issues with handling texture upload ourseleves, No idea why. 
-		 Seems like there is also no real performance difference here.
-		 
-		 Note, some emulators may output empty alpha. Ive included a 'fix' via a simple 
-		 core image kernel to add in an alpha channel.
-		 */
-	/*
-		switch ([gameCore pixelFormat])
-		{
-			case GL_BGRA:
-				{					
-					provider = [context outputImageProviderFromBufferWithPixelFormat:QCPlugInPixelFormatBGRA8
-																		  pixelsWide:[gameCore width]
-																		  pixelsHigh:[gameCore height]
-																		 baseAddress:[gameCore buffer]
-																		 bytesPerRow:([gameCore width] * 4 )
-																	 releaseCallback:_BufferReleaseCallback
-																	  releaseContext:nil
-																		  colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear)
-																	shouldColorMatch:YES];
-				}
-				break;
-			case GL_RGBA:
-				{
-					provider = [context outputImageProviderFromBufferWithPixelFormat:QCPlugInPixelFormatARGB8
-																		  pixelsWide:[gameCore width]
-																		  pixelsHigh:[gameCore height]
-																		 baseAddress:[gameCore buffer]
-																		 bytesPerRow:([gameCore width] * 4 )
-																	 releaseCallback:_BufferReleaseCallback
-																	  releaseContext:nil
-																		  colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear)
-																	shouldColorMatch:YES];
-					
-				}
-			default:
-				{
-					provider = [context outputImageProviderFromBufferWithPixelFormat:QCPlugInPixelFormatARGB8
-																		  pixelsWide:[gameCore width]
-																		  pixelsHigh:[gameCore height]
-																		 baseAddress:[gameCore buffer]
-																		 bytesPerRow:([gameCore width] * 4 )
-																	 releaseCallback:_BufferReleaseCallback
-																	  releaseContext:nil
-																		  colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGBLinear)
-																	shouldColorMatch:YES];
-					
-				}
-				break;
-		}
-	}	
-	*/
-																		
-		/*
-		// BELOW IS OPEN GL METHOD. SEEMS TO BREAK WITH kCGColorSpaceGenericRGB vs kCGColorSpaceGenericRGBLinear ? But only for Gambatte ?!	
-		*/	
-		
 		glEnable( GL_TEXTURE_RECTANGLE_EXT );
 		
 		GLenum status;
@@ -441,7 +374,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			texName = 0;
 		}
 		
-//		glFlush();		
 		glFlushRenderAPPLE();
 
 	#if __BIG_ENDIAN__
@@ -471,12 +403,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// output OpenEmu Texture - note we CAN output a nil image. This is 'correct'
 	self.outputImage = provider;
 	
-//	[gameLock unlock];
 	CGLUnlockContext([context CGLContextObj]);
 
 	return YES;
-
-	
 }
 
 - (void) disableExecution:(id<QCPlugInContext>)context

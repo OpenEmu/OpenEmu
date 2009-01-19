@@ -21,10 +21,11 @@
 		GLhandleARB		    programObject;				// the program object
 	
 		NSBundle * bundleToLoadFrom;					// location of resource folder;
+		CGLContextObj shaderContext;							// context to bind shaders to.
 } // Shader
 
-- (id) initWithShadersInAppBundle:(NSString *)theShadersName;
-- (id) initWithShadersInBundle:(NSBundle*)bundle withName:(NSString *)theShadersName;
+- (id) initWithShadersInAppBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
+- (id) initWithShadersInBundle:(NSBundle*)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
 
 - (GLhandleARB) programObject;
 

@@ -48,6 +48,7 @@ void main()
 	float w4 = k1; if(ko2<ko4) w4 = 0.0;
 
 	gl_FragColor.xyz = (w1*o1+w2*o2+w3*o3+w4*o4+0.0001*c)/(w1+w2+w3+w4+0.0001);
+	gl_FragColor.a = 1.0;
 }
 
 

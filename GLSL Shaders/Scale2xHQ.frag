@@ -45,5 +45,6 @@ void main()
 	w3 = clamp(lc1*dot(abs(c11-c12),dt)+mx,min_w,max_w);
 	w4 = clamp(lc2*dot(abs(c11-c01),dt)+mx,min_w,max_w);
 
-	gl_FragColor.xyz=w1*c10+w2*c21+w3*c12+w4*c01+(1.0-w1-w2-w3-w4)*c11;
+	gl_FragColor.rgb = w1*c10+w2*c21+w3*c12+w4*c01+(1.0-w1-w2-w3-w4)*c11;
+	gl_FragColor.a = 1.0;
 }

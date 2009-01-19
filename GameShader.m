@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------------
 
 #import "GameShader.h"
+#import <OpenGL/CGLMacro.h>
 
 //---------------------------------------------------------------------------------
 
@@ -12,10 +13,11 @@
 
 static GLhandleARB LoadShader(GLenum theShaderType, 
 							  const GLcharARB **theShader, 
-							  GLint *theShaderCompiled) 
+							  GLint *theShaderCompiled,
+							  CGLContextObj context) 
 {
-//	CGLContextObj cgl_ctx = CGLGetCurrentContext();
-	
+	CGLContextObj cgl_ctx = context;
+		
 	GLhandleARB shaderObject = NULL;
 	
 	if( theShader != NULL ) 
@@ -68,8 +70,11 @@ static GLhandleARB LoadShader(GLenum theShaderType,
 //---------------------------------------------------------------------------------
 
 static void LinkProgram(GLhandleARB programObject, 
-						GLint *theProgramLinked) 
+						GLint *theProgramLinked,
+						CGLContextObj context) 
 {
+	CGLContextObj cgl_ctx = context;
+	
 	GLint  infoLogLength = 0;
 	
 	glLinkProgramARB(programObject);
@@ -119,15 +124,14 @@ static void LinkProgram(GLhandleARB programObject,
 
 - (GLcharARB *) getShaderSourceFromResource:(NSString *)theShaderResourceName 
 								  extension:(NSString *)theExtension
-{
-//	NSBundle  *appBundle = [NSBundle mainBundle];
-	
+{	
 	NSString  *shaderTempSource = [bundleToLoadFrom pathForResource:theShaderResourceName 
-													  ofType:theExtension];
+													  ofType:theExtension];	
 	GLcharARB *shaderSource = NULL;
 	
 	shaderTempSource = [NSString stringWithContentsOfFile:shaderTempSource];
-	shaderSource     = (GLcharARB *)[shaderTempSource cStringUsingEncoding:NSASCIIStringEncoding];
+	
+	shaderSource = (GLcharARB *)[shaderTempSource cStringUsingEncoding:NSASCIIStringEncoding];
 	
 	return  shaderSource;
 } // getShaderSourceFromResource
@@ -153,10 +157,12 @@ static void LinkProgram(GLhandleARB programObject,
 - (GLhandleARB) loadShader:(GLenum)theShaderType 
 			  shaderSource:(const GLcharARB **)theShaderSource
 {
+	CGLContextObj cgl_ctx = shaderContext;
+	
 	GLint       shaderCompiled = 0;
 	GLhandleARB shaderHandle   = LoadShader(theShaderType, 
 											theShaderSource, 
-											&shaderCompiled);
+											&shaderCompiled, shaderContext);
 	
 	if( !shaderCompiled ) 
 	{
@@ -175,6 +181,8 @@ static void LinkProgram(GLhandleARB programObject,
 - (BOOL) newProgramObject:(GLhandleARB)theVertexShader  
 	 fragmentShaderHandle:(GLhandleARB)theFragmentShader
 {
+	CGLContextObj cgl_ctx = shaderContext;
+	
 	GLint programLinked = 0;
 	
 	// Create a program object and link both shaders
@@ -187,7 +195,7 @@ static void LinkProgram(GLhandleARB programObject,
 	glAttachObjectARB(programObject, theFragmentShader);
 	glDeleteObjectARB(theFragmentShader); // Release
 	
-	LinkProgram(programObject, &programLinked);
+	LinkProgram(programObject, &programLinked, cgl_ctx);
 	
 	if( !programLinked ) 
 	{
@@ -204,7 +212,7 @@ static void LinkProgram(GLhandleARB programObject,
 //---------------------------------------------------------------------------------
 
 - (BOOL) setProgramObject
-{
+{	
 	BOOL  programObjectSet = NO;
 	
 	// Load and compile both shaders
@@ -239,12 +247,13 @@ static void LinkProgram(GLhandleARB programObject,
 
 //---------------------------------------------------------------------------------
 
-- (id) initWithShadersInBundle:(NSBundle*)bundle withName:(NSString *)theShadersName
+- (id) initWithShadersInBundle:(NSBundle*)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj) context
 {
 	if(self = [super init])
 	{
 		bundleToLoadFrom = [bundle retain];
-		
+		shaderContext = context; 
+
 		BOOL  loadedShaders = NO;
 		
 		// Load vertex and fragment shader
@@ -271,12 +280,13 @@ static void LinkProgram(GLhandleARB programObject,
 	return self;
 }
 
-- (id) initWithShadersInAppBundle:(NSString *)theShadersName
+- (id) initWithShadersInAppBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
 {
 	self = [super init];
 	
 	if( self)
 	{
+		shaderContext = context; 
 		bundleToLoadFrom = [[NSBundle mainBundle] retain];
 
 		
@@ -316,6 +326,8 @@ static void LinkProgram(GLhandleARB programObject,
 {
 	// Delete OpenGL resources
 	
+	CGLContextObj cgl_ctx = shaderContext;
+	
 	if( programObject )
 	{
 		glDeleteObjectARB(programObject);
@@ -349,9 +361,11 @@ static void LinkProgram(GLhandleARB programObject,
 
 - (GLint) getUniformLocation:(const GLcharARB *)theUniformName
 {
+	CGLContextObj cgl_ctx = shaderContext;
+	
 	GLint uniformLoacation = glGetUniformLocationARB(programObject, 
 													 theUniformName);
-	
+		
 	if( uniformLoacation == -1 ) 
 	{
 		NSLog( @">> WARNING: No such uniform named \"%s\"\n", theUniformName );

@@ -62,5 +62,6 @@ void main()
     dr=(m2*(C4+C8)+m1*(C5+C7))/(m1+m2);
     
     gl_FragColor.xyz = 0.5*((dr*fp.x+dl*(1-fp.x))*fp.y+(ur*fp.x+ul*(1-fp.x))*(1-fp.y));
+	gl_FragColor.a = 1.0;
 }
 

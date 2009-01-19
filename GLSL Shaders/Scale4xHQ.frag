@@ -71,6 +71,7 @@ void main()
 	w4 = clamp(w4+mx,min_w,max_w);
 
 	gl_FragColor.xyz=(w1*(i1+i3)+w2*(i2+i4)+w3*(s1+s3)+w4*(s2+s4)+c)/(2.0*(w1+w2+w3+w4)+1.0);
+	gl_FragColor.a = 1.0;
 }
 
 
