@@ -21,7 +21,7 @@
 	GameBuffer* gameBuffer;
 	BOOL loadedRom;
 	BOOL hasNmtRam;
-	BOOL hasChrRom;
+	BOOL hasChrRam;
 	NSMutableArray* persistantControllerData;
 	NSRecursiveLock * gameLock;
 }
@@ -48,9 +48,9 @@ You can access their values in the appropriate plug-in methods using self.inputF
 @property (assign) double inputNmtRamOffset;
 @property (assign) double inputNmtRamValue;
 
-@property (assign) BOOL inputChrRomCorrupt;
-@property (assign) double inputChrRomOffset;
-@property (assign) double inputChrRomValue;
+@property (assign) BOOL inputChrRamCorrupt;
+@property (assign) double inputChrRamOffset;
+@property (assign) double inputChrRamValue;
 
 @property (assign) id <QCPlugInOutputImageProvider>outputImage;
 

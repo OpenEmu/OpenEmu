@@ -56,9 +56,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 @dynamic inputNmtRamOffset;
 @dynamic inputNmtRamValue;
 
-@dynamic inputChrRomCorrupt;
-@dynamic inputChrRomOffset;
-@dynamic inputChrRomValue;
+@dynamic inputChrRamCorrupt;
+@dynamic inputChrRamOffset;
+@dynamic inputChrRamValue;
 
 @dynamic outputImage;
 
@@ -174,20 +174,20 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 				[NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey,
 				nil];
 	
-	if([key isEqualToString:@"inputChrRomCorrupt"])
+	if([key isEqualToString:@"inputChrRamCorrupt"])
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Corrupt Character RAM", QCPortAttributeNameKey,
 				[NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
 				nil];
 	
-	if([key isEqualToString:@"inputChrRomOffset"])
-		return [NSDictionary dictionaryWithObjectsAndKeys:@"Character Rom Offset",QCPortAttributeNameKey,
+	if([key isEqualToString:@"inputChrRamOffset"])
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"Character RAM Offset",QCPortAttributeNameKey,
 				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeMinimumValueKey,
 				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
 				[NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey,
 				nil];
 	
-	if([key isEqualToString:@"inputChrRomValue"])
-		return [NSDictionary dictionaryWithObjectsAndKeys:@"Character Rom Value",QCPortAttributeNameKey,
+	if([key isEqualToString:@"inputChrRamValue"])
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"Character RAM Value",QCPortAttributeNameKey,
 				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeMinimumValueKey,
 				[NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
 				[NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey,
@@ -215,9 +215,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			@"inputNmtRamCorrupt",
 			@"inputNmtRamOffset",
 			@"inputNmtRamValue",
-			@"inputChrRomCorrupt",
-			@"inputChrRomOffset",
-			@"inputChrRomValue",
+			@"inputChrRamCorrupt",
+			@"inputChrRamOffset",
+			@"inputChrRamValue",
 			nil]; 
 }
 
@@ -456,9 +456,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		[nesEmu setNmtRamBytes:self.inputNmtRamOffset value:self.inputNmtRamValue];
 	}
 	
-	if(hasChrRom && self.inputChrRomCorrupt && ( [self didValueForInputKeyChange:@"inputChrRomOffset"] || [self didValueForInputKeyChange:@"inputChrRomValue"] ))
+	if(hasChrRam && self.inputChrRamCorrupt && ( [self didValueForInputKeyChange:@"inputChrRamOffset"] || [self didValueForInputKeyChange:@"inputChrRamValue"] ))
 	{
-		[nesEmu setChrRomBytes:self.inputChrRomOffset value:self.inputChrRomValue];
+		[nesEmu setChrRamBytes:self.inputChrRamOffset value:self.inputChrRamValue];
 	}
 	
 	// our output image
@@ -582,6 +582,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 		}
 		loadedRom = NO;
+		hasChrRam = NO;
+		hasNmtRam = NO;
 		
 		gameCore = [[[bundle principalClass] alloc] init];
 
@@ -612,19 +614,19 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 			NSLog(@"finished loading/starting rom");			
 			
-			if([nesEmu getChrRomSize]) // see if the game has Character ROM 
+			if([nesEmu getChrRamSize]) // see if the game has Character RAM 
 			{
-				hasChrRom = YES;
-				NSLog(@"Reported ChrRamSize is %i", [nesEmu getChrRomSize]);
+				hasChrRam = YES;
+				NSLog(@"Reported Character RAM size is %i", [nesEmu getChrRamSize]);
 			}
 			else 
 			{
-				hasChrRom = NO;
+				hasChrRam = NO;
 				NSLog(@"This game does not have Character RAM");
 			}
 			
 			hasNmtRam = YES;
-			NSLog(@"Reported NmtRamSize is %i", [nesEmu getVRamSize]);
+			NSLog(@"Reported NMT RAM size is %i", [nesEmu getVRamSize]);
 		}	
 		else
 		{
