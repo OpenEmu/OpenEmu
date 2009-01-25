@@ -55,7 +55,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	*/
 	if([key isEqualToString:@"inputRom"]) 
 		return [NSDictionary dictionaryWithObjectsAndKeys:	@"ROM Path", QCPortAttributeNameKey, 
-															 @"~/roms/NES/1943.NES", QCPortAttributeDefaultValueKey, 
+															 @"~/relative/or/abs/path/to/rom", QCPortAttributeDefaultValueKey, 
 															nil]; 
 	
 	if([key isEqualToString:@"inputVolume"]) 
@@ -314,18 +314,24 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		[self loadRom:[self valueForInputKey:@"inputRom"]];
 	}
 	
+	BOOL audioPaused;
+	
 	// Process audio volume changes
 	if([self didValueForInputKeyChange: @"inputVolume"] && ([self valueForInputKey:@"inputVolume"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputVolume"] valueForKey: QCPortAttributeDefaultValueKey]))
 	{
 		// if inputVolume is set to 0, pause the audio
-		if([self valueForInputKey: @"inputVolume"] == 0) {
+		if(self.inputVolume == 0) {
 			[gameAudio pauseAudio];
+			audioPaused = YES;
+		
 		}
+		if((self.inputVolume > 0) && audioPaused)
+			[gameAudio startAudio];
 		
 		[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 	}
 	// Process emulation pausing FTW
-	if([self didValueForInputKeyChange: @"inputPauseEmulation"])	
+	if(loadedRom && [self didValueForInputKeyChange: @"inputPauseEmulation"])	
 	{
 		if([[self valueForInputKey:@"inputPauseEmulation"] boolValue])	
 		{
@@ -417,7 +423,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	{
 		[gameAudio pauseAudio];
 		[gameCore pause:YES]; 
-//		sleep(0.5); // race condition workaround. 
+	//	sleep(0.5); // race condition workaround. 
 	}
 	/*
 	Called by Quartz Composer when the plug-in instance stops being used by Quartz Composer.

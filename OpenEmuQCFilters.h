@@ -6,7 +6,6 @@
 //  Copyright (c) 2008 __MyCompanyName__. All rights reserved.
 //
 
-#import <Quartz/Quartz.h>
 #import <OpenGL/OpenGL.h>
 #import "GameShader.h"
 
