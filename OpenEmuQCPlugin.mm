@@ -278,8 +278,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// if we have a ROM loaded and the patch's image output is reconnected, unpause the emulator
 	if(loadedRom)
 	{
-		[gameAudio startAudio];
-		[gameCore pause:NO];
+		if(!self.inputPauseEmulation) 
+		{
+			[gameAudio startAudio];
+			[gameCore pause:NO];
+		}
 	}
 	
 	/*
@@ -294,71 +297,74 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	
 	// our output image via convenience methods
 	id	provider = nil;
-	
-	// Process controller data
-	if([self didValueForInputKeyChange: @"inputControllerData"])
-	{
-		// hold on to the controller data, which we are going to feed gameCore every frame.  Mmmmm...controller data.
-		if([self controllerDataValidate:[self inputControllerData]])
-		{
-			persistantControllerData = [NSMutableArray arrayWithArray:[self inputControllerData]]; 
-			[persistantControllerData retain];
-			
-			[self handleControllerData];
-		}
-	}	
-		
+
 	// Process ROM loads
 	if([self didValueForInputKeyChange: @"inputRom"] && ([self valueForInputKey:@"inputRom"] != [[OpenEmuQC	attributesForPropertyPortWithKey:@"inputRom"] valueForKey: QCPortAttributeDefaultValueKey]))
 	{
 		[self loadRom:[self valueForInputKey:@"inputRom"]];
 	}
 	
-	BOOL audioPaused;
-	
-	// Process audio volume changes
-	if([self didValueForInputKeyChange: @"inputVolume"] && ([self valueForInputKey:@"inputVolume"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputVolume"] valueForKey: QCPortAttributeDefaultValueKey]))
-	{
-		// if inputVolume is set to 0, pause the audio
-		if(self.inputVolume == 0) {
-			[gameAudio pauseAudio];
-			audioPaused = YES;
-		
-		}
-		if((self.inputVolume > 0) && audioPaused)
-			[gameAudio startAudio];
-		
-		[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
-	}
-	// Process emulation pausing FTW
-	if(loadedRom && [self didValueForInputKeyChange: @"inputPauseEmulation"])	
-	{
-		if([[self valueForInputKey:@"inputPauseEmulation"] boolValue])	
+	if(loadedRom) {
+		// Process controller data
+		if([self didValueForInputKeyChange: @"inputControllerData"])
 		{
-			[gameAudio pauseAudio];
-			[gameCore pause:YES]; 
-		}
-		else 
+			// hold on to the controller data, which we are going to feed gameCore every frame.  Mmmmm...controller data.
+			if([self controllerDataValidate:[self inputControllerData]])
+			{
+				persistantControllerData = [NSMutableArray arrayWithArray:[self inputControllerData]]; 
+				[persistantControllerData retain];
+				
+				[self handleControllerData];
+			}
+		}	
+			
+		BOOL audioPaused;
+		
+		// Process audio volume changes
+		if([self didValueForInputKeyChange: @"inputVolume"] && ([self valueForInputKey:@"inputVolume"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputVolume"] valueForKey: QCPortAttributeDefaultValueKey]))
 		{
-			[gameAudio startAudio];
-			[gameCore pause:NO];
+			// if inputVolume is set to 0, pause the audio
+			if(self.inputVolume == 0) {
+				[gameAudio pauseAudio];
+				audioPaused = YES;
+			
+			}
+			if((self.inputVolume > 0) && audioPaused)
+				[gameAudio startAudio];
+			
+			[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
+		}
+		// Process emulation pausing FTW
+		if([self didValueForInputKeyChange: @"inputPauseEmulation"])	
+		{
+			if([[self valueForInputKey:@"inputPauseEmulation"] boolValue])	
+			{
+				[gameAudio pauseAudio];
+				[gameCore pause:YES]; 
+			}
+			else 
+			{
+				[gameAudio startAudio];
+				[gameCore pause:NO];
+			}
+		}
+
+		// Process state saving 
+		if([self didValueForInputKeyChange: @"inputSaveStatePath"]
+		   && ([self valueForInputKey:@"inputSaveStatePath"] != [[OpenEmuQC	attributesForPropertyPortWithKey:@"inputSaveStatePath"] valueForKey: QCPortAttributeDefaultValueKey])
+			&& (![[self valueForInputKey:@"inputSaveStatePath"] isEqualToString:@""] ))
+		{
+			NSLog(@"save path changed");
+			[self saveState:[[self valueForInputKey:@"inputSaveStatePath"] stringByStandardizingPath]];
+		}
+
+		// Process state loading
+		if([self didValueForInputKeyChange: @"inputLoadStatePath"] && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQC	attributesForPropertyPortWithKey:@"inputLoadStatePath"] valueForKey: QCPortAttributeDefaultValueKey]))	
+		{
+			NSLog(@"load path changed");
+			[self loadState:[[self valueForInputKey:@"inputLoadStatePath"] stringByStandardizingPath]];
 		}
 	}
-
-	// Process state saving 
-	if([self didValueForInputKeyChange: @"inputSaveStatePath"] && ([self valueForInputKey:@"inputSaveStatePath"] != [[OpenEmuQC	attributesForPropertyPortWithKey:@"inputSaveStatePath"] valueForKey: QCPortAttributeDefaultValueKey]))
-	{
-		NSLog(@"save path changed");
-		[self saveState:[[self valueForInputKey:@"inputSaveStatePath"] stringByStandardizingPath]];
-	}
-
-	// Process state loading
-	if([self didValueForInputKeyChange: @"inputLoadStatePath"] && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQC	attributesForPropertyPortWithKey:@"inputLoadStatePath"] valueForKey: QCPortAttributeDefaultValueKey]))	
-	{
-		NSLog(@"load path changed");
-		[self loadState:[[self valueForInputKey:@"inputLoadStatePath"] stringByStandardizingPath]];
-	}
-	
 	// handle our image output. (sanity checking)
 	if(loadedRom && ([gameCore width] > 10) )
 	{
@@ -421,8 +427,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// if we have a ROM running and the patch's image output is disconnected, pause the emulator and audio
 	if(loadedRom)
 	{
-		[gameAudio pauseAudio];
-		[gameCore pause:YES]; 
+		if(!self.inputPauseEmulation) 
+		{
+			[gameAudio pauseAudio];
+			[gameCore pause:YES]; 
+		}  
 	//	sleep(0.5); // race condition workaround. 
 	}
 	/*
@@ -435,7 +444,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	NSLog(@"called stopExecution");
 	if(loadedRom)
 	{
-		[gameCore pause:YES]; 
+		[gameCore stop];
+		[gameAudio stopAudio];
+		[gameCore release];
+		[gameAudio release];
+		loadedRom = NO;
 	}
 }
 
@@ -470,10 +483,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		{
 			[gameCore stop];
 			[gameAudio stopAudio];
-			//	[gameCore release];
-			
+			[gameCore release];
 			//	[gameBuffer release];
-			//	[gameAudio release];
+			[gameAudio release];
 			
 			NSLog(@"released/cleaned up for new rom");
 			
@@ -501,7 +513,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			gameAudio = [[GameAudio alloc] initWithCore:gameCore];
 			NSLog(@"initialized audio");
 			
-			// starts the threaded tick callback
+			// starts the threaded emulator timer
 			[gameCore start];
 			
 			NSLog(@"About to start audio");

@@ -323,8 +323,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// if we have a ROM loaded and the patch's image output is reconnected, unpause the emulator
 	if(loadedRom)
 	{
-		[gameAudio startAudio];
-		[gameCore pause:NO];
+		if(!self.inputPauseEmulation) 
+		{
+			[gameAudio startAudio];
+			[gameCore pause:NO];
+		}
 	}
 	
 	/*
@@ -336,129 +339,132 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 {
 	CGLSetCurrentContext([context CGLContextObj]);
 	
-	// Process controller data
-	if([self didValueForInputKeyChange: @"inputControllerData"])
-	{
-		// hold on to the controller data, which we are going to feed gameCore every frame.  Mmmmm...controller data.
-		if([self controllerDataValidate:[self inputControllerData]])
-		{
-			persistantControllerData = [NSMutableArray arrayWithArray:[self inputControllerData]]; 
-			[persistantControllerData retain];
-			
-			[self handleControllerData];
-		}
-	}	
-		
 	// Process ROM loads
 	if([self didValueForInputKeyChange: @"inputRom"] && ([self valueForInputKey:@"inputRom"] != [[OpenEmuQCNES	attributesForPropertyPortWithKey:@"inputRom"] valueForKey: QCPortAttributeDefaultValueKey]))
 	{
-		loadedRom = NO;
 		[self loadRom:[self valueForInputKey:@"inputRom"]];
 	}
 	
-	// Process audio volume changes
-	if([self didValueForInputKeyChange: @"inputVolume"] && ([self valueForInputKey:@"inputVolume"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputVolume"] valueForKey: QCPortAttributeDefaultValueKey]))
-	{
-		// if inputVolume is set to 0, pause the audio
-		if([self valueForInputKey: @"inputVolume"] == 0)
+	if(loadedRom) {
+		// Process controller data
+		if([self didValueForInputKeyChange: @"inputControllerData"])
 		{
-			[gameAudio pauseAudio];
+			// hold on to the controller data, which we are going to feed gameCore every frame.  Mmmmm...controller data.
+			if([self controllerDataValidate:[self inputControllerData]])
+			{
+				persistantControllerData = [NSMutableArray arrayWithArray:[self inputControllerData]]; 
+				[persistantControllerData retain];
+				
+				[self handleControllerData];
+			}
+		}	
+		
+		// Process audio volume changes
+		if([self didValueForInputKeyChange: @"inputVolume"] && ([self valueForInputKey:@"inputVolume"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputVolume"] valueForKey: QCPortAttributeDefaultValueKey]))
+		{
+			// if inputVolume is set to 0, pause the audio
+			if([self valueForInputKey: @"inputVolume"] == 0)
+			{
+				[gameAudio pauseAudio];
+			}
+			
+			[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 		}
 		
-		[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
-	}
-	
-	// Process state saving 
-	if([self didValueForInputKeyChange: @"inputSaveStatePath"] && ([self valueForInputKey:@"inputSaveStatePath"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputSaveStatePath"] valueForKey: QCPortAttributeDefaultValueKey]))
-	{
-		NSLog(@"save path changed");
-		[self saveState:[[self valueForInputKey:@"inputSaveStatePath"] stringByStandardizingPath]];
-	}
+		// Process state saving 
+		if([self didValueForInputKeyChange: @"inputSaveStatePath"] && ([self valueForInputKey:@"inputSaveStatePath"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputSaveStatePath"] valueForKey: QCPortAttributeDefaultValueKey]))
+		{
+			NSLog(@"save path changed");
+			[self saveState:[[self valueForInputKey:@"inputSaveStatePath"] stringByStandardizingPath]];
+		}
 
-	// Process state loading
-	if([self didValueForInputKeyChange: @"inputLoadStatePath"] && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputLoadStatePath"] valueForKey: QCPortAttributeDefaultValueKey]))	
-	{
-		NSLog(@"load path changed");
-		[self loadState:[[self valueForInputKey:@"inputLoadStatePath"] stringByStandardizingPath]];
-	}
-	
-	// Process emulation pausing 
-	if([self didValueForInputKeyChange: @"inputPauseEmulation"])	
-	{
-		if([[self valueForInputKey:@"inputPauseEmulation"] boolValue])	
+		// Process state loading
+		if([self didValueForInputKeyChange: @"inputLoadStatePath"] && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputLoadStatePath"] valueForKey: QCPortAttributeDefaultValueKey]))	
 		{
-			[gameAudio pauseAudio];
-			[gameCore pause:YES]; 
+			NSLog(@"load path changed");
+			[self loadState:[[self valueForInputKey:@"inputLoadStatePath"] stringByStandardizingPath]];
 		}
-		else 
-		{
-			[gameAudio startAudio];
-			[gameCore pause:NO];
-		}
-	}
-	
-	// Process cheat codes
-	if([self didValueForInputKeyChange: @"inputCheatCode"] && ([self valueForInputKey:@"inputCheatCode"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputCheatCode"] valueForKey: QCPortAttributeDefaultValueKey]))	
-	{
-		NSLog(@"cheat code entered");
-		[self setCode:[self valueForInputKey:@"inputCheatCode"]];
-	}
-	
-	// process rewinder stuff
-	if([self didValueForInputKeyChange: @"inputEnableRewinder"])	
-	{
-//		NSLog(@"rewinder state changed");
-		[self enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
-
-		if([nesEmu isRewinderEnabled]) 
-		{
-			NSLog(@"rewinder is enabled");
-		} else 
-		{ 
-			NSLog(@"rewinder is disabled");
-		}
-	}
-	
-//	int* rewindTimer;
-//	rewindTimer = [[NSNumber alloc] initWithUnsignedInteger:0];
-//	
-//	if([nesEmu isRewinderEnabled]) 
-//	{
-//		rewindTimer++;
-//		if((rewindTimer % 60) == 0) {
-//		NSLog(@"rewind timer count is %d",rewindTimer);
-//		}
-//	} 
-	
-	if([self didValueForInputKeyChange: @"inputRewinderDirection"])	
-	{
-//		NSLog(@"rewinder direction changed");
-		[nesEmu rewinderDirection:[self valueForInputKey:@"inputRewinderDirection"]];
-	}
-	
-	if([self didValueForInputKeyChange:@"inputEnableRewinderBackwardsSound"])
-	{
-		[nesEmu enableRewinderBackwardsSound:[[self valueForInputKey:@"inputEnableRewinderBackwardsSound"] boolValue]];
 		
-		if([nesEmu isRewinderBackwardsSoundEnabled])
+		// Process emulation pausing 
+	//	if([self didValueForInputKeyChange: @"inputPauseEmulation"])	
+	//	{
+	//		if([[self valueForInputKey:@"inputPauseEmulation"] boolValue])	
+	//		{
+	//			[gameAudio pauseAudio];
+	//			[gameCore pause:YES]; 
+	//			NSLog(@"pausing");
+	//		}
+	//		else 
+	//		{
+	//			[gameAudio startAudio];
+	//			[gameCore pause:NO];
+	//			NSLog(@"unpausing");
+	//		}
+	//	}
+		
+		// Process cheat codes
+		if([self didValueForInputKeyChange: @"inputCheatCode"] && ([self valueForInputKey:@"inputCheatCode"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputCheatCode"] valueForKey: QCPortAttributeDefaultValueKey]))	
 		{
-			NSLog(@"rewinder backwards sound is enabled");
+			NSLog(@"cheat code entered");
+			[self setCode:[self valueForInputKey:@"inputCheatCode"]];
 		}
-		else 
+		
+		// process rewinder stuff
+		if([self didValueForInputKeyChange: @"inputEnableRewinder"])	
 		{
-			NSLog(@"rewinder backwards sound is disabled");
-		}
-	}
+	//		NSLog(@"rewinder state changed");
+			[self enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
 
-	// CORRUPTION FTW
-	if(hasNmtRam && self.inputNmtRamCorrupt && ( [self didValueForInputKeyChange:@"inputNmtRamOffset"] || [self didValueForInputKeyChange:@"inputNmtRamValue"] ))
-	{
-		[nesEmu setNmtRamBytes:self.inputNmtRamOffset value:self.inputNmtRamValue];
-	}
-	
-	if(hasChrRam && self.inputChrRamCorrupt && ( [self didValueForInputKeyChange:@"inputChrRamOffset"] || [self didValueForInputKeyChange:@"inputChrRamValue"] ))
-	{
-		[nesEmu setChrRamBytes:self.inputChrRamOffset value:self.inputChrRamValue];
+			if([(NESGameEmu*)gameCore isRewinderEnabled]) 
+			{
+				NSLog(@"rewinder is enabled");
+			} else 
+			{ 
+				NSLog(@"rewinder is disabled");
+			}
+		}
+		
+	//	int* rewindTimer;
+	//	rewindTimer = [[NSNumber alloc] initWithUnsignedInteger:0];
+	//	
+	//	if([nesEmu isRewinderEnabled]) 
+	//	{
+	//		rewindTimer++;
+	//		if((rewindTimer % 60) == 0) {
+	//		NSLog(@"rewind timer count is %d",rewindTimer);
+	//		}
+	//	} 
+		
+		if([self didValueForInputKeyChange: @"inputRewinderDirection"])	
+		{
+	//		NSLog(@"rewinder direction changed");
+			[nesEmu rewinderDirection:[self valueForInputKey:@"inputRewinderDirection"]];
+		}
+		
+		if([self didValueForInputKeyChange:@"inputEnableRewinderBackwardsSound"])
+		{
+			[nesEmu enableRewinderBackwardsSound:[[self valueForInputKey:@"inputEnableRewinderBackwardsSound"] boolValue]];
+			
+			if([nesEmu isRewinderBackwardsSoundEnabled])
+			{
+				NSLog(@"rewinder backwards sound is enabled");
+			}
+			else 
+			{
+				NSLog(@"rewinder backwards sound is disabled");
+			}
+		}
+
+		// CORRUPTION FTW
+		if(hasNmtRam && self.inputNmtRamCorrupt && ( [self didValueForInputKeyChange:@"inputNmtRamOffset"] || [self didValueForInputKeyChange:@"inputNmtRamValue"] ))
+		{
+			[nesEmu setNmtRamBytes:self.inputNmtRamOffset value:self.inputNmtRamValue];
+		}
+		
+		if(hasChrRam && self.inputChrRamCorrupt && ( [self didValueForInputKeyChange:@"inputChrRamOffset"] || [self didValueForInputKeyChange:@"inputChrRamValue"] ))
+		{
+			[nesEmu setChrRamBytes:self.inputChrRamOffset value:self.inputChrRamValue];
+		}
 	}
 	
 	// our output image
@@ -525,8 +531,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// if we have a ROM running and the patch's image output is disconnected, pause the emulator
 	if(loadedRom)
 	{
-		[gameAudio pauseAudio];
-		[gameCore pause:YES]; 
+		if(!self.inputPauseEmulation) 
+		{
+			[gameAudio pauseAudio];
+			[gameCore pause:YES]; 
+		}
 //		sleep(0.5); // race condition workaround. 
 	}
 	/*
@@ -539,7 +548,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	NSLog(@"called stopExecution");
 	if(loadedRom)
 	{
-		[gameCore pause:YES]; 
+		[gameCore stop]; 		
+		[gameAudio stopAudio];
+		[gameCore release];
+		[gameAudio release];
+		loadedRom = NO;
 	}
 }
 
@@ -560,10 +573,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 - (void) loadRom:(NSString*) romPath
 {
 	NSString* theRomPath = [romPath stringByStandardizingPath];
-	
+	BOOL isDir;
+
 	NSLog(@"New ROM path is: %@",theRomPath);
 
-	if([[NSFileManager defaultManager] fileExistsAtPath:theRomPath])
+	if([[NSFileManager defaultManager] fileExistsAtPath:theRomPath isDirectory:&isDir] && !isDir)
 	{
 		NSString * extension = [theRomPath pathExtension];
 		NSLog(@"extension is: %@", extension);
@@ -573,10 +587,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		{
 			[gameCore stop];
 			[gameAudio stopAudio];
-			//	[gameCore release];
-			
+			[gameCore release];
 			//	[gameBuffer release];
-			//	[gameAudio release];
+			[gameAudio release];
 			
 			NSLog(@"released/cleaned up for new rom");
 			
@@ -585,11 +598,12 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		hasChrRam = NO;
 		hasNmtRam = NO;
 		
+		//load NES bundle
 		gameCore = [[[bundle principalClass] alloc] init];
-
+		
 		// add a pointer to NESGameEmu so we can call NES-specific methods without getting fucking warnings
 		nesEmu = (NESGameEmu*)gameCore;
-		
+
 		NSLog(@"Loaded NES bundle. About to load rom...");
 		
 		loadedRom = [gameCore load:theRomPath withParent:(NSDocument*)self ];
@@ -605,7 +619,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			gameAudio = [[GameAudio alloc] initWithCore:gameCore];
 			NSLog(@"initialized audio");
 			
-			// starts the threaded tick callback
+			// starts the threaded emulator timer
 			[gameCore start];
 			
 			NSLog(@"About to start audio");
