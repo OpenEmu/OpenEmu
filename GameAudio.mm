@@ -147,6 +147,10 @@ AQWrapper::AQWrapper(int sampleRate, int samplesFrame, int sizeSoundBuffer, int 
 
 AQWrapper::~AQWrapper()
 {
+	//Clean up...cleaun up...everybody...
+	[soundLock release];
+	delete [] sndBuf;
+	
 }
 
 
