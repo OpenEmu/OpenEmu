@@ -43,7 +43,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.3</string>
+	<string>0.9</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
@@ -53,7 +53,7 @@
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
-	<string>http://opennestopia.staulkor.com/appcast.xml</string>
+	<string>http://openemu.sourceforge.net/appcast.xml</string>
 	<key>OEBundlePath</key>
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>
 </dict>

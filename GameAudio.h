@@ -9,14 +9,17 @@
 #import <Cocoa/Cocoa.h>
 #import <AudioToolbox/AudioToolbox.h>
 #import "GameCore.h"
-
+#import <Foundation/Foundation.h>
 
 #define AUDIOBUFFERS 4
 #define SAMPLEFRAME (48000 * 4389/262144 + 2)
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
 
-@interface GameAudio : NSObject {
 
+
+@interface GameAudio : NSObject {
+	id <GameCore> gameCore;
+	void * wrapper;
 }
 
 - (void) advanceBuffer;

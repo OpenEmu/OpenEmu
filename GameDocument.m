@@ -139,20 +139,25 @@
 {
 	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
 	[docControl setGameLoaded:YES];
-	[audio startAudio];
 	[gameCore pause:NO];
+	[audio startAudio];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-/*	if(gameCore != nil)
+	if(gameCore != nil)
 	{
 		if(![view isInFullScreenMode])
 		{
-			[gameCore pause:YES];
-			[audio pauseAudio];
+			@try {				
+				[gameCore pause:YES];
+				[audio pauseAudio];
+			}
+			@catch (NSException * e) {
+				NSLog(@"Failed to pause");
+			}
 		}
-	}*/
+	}
 	
 }
 
