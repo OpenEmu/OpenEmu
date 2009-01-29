@@ -168,6 +168,7 @@
 	[gameCore stop];
 	[audio stopAudio];
 	[gameCore release];
+	gameCore = nil;
 	
 	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
 	[docControl setGameLoaded:NO];
