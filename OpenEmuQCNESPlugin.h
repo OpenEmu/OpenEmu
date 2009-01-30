@@ -20,6 +20,7 @@
 	GameAudio*  gameAudio;
 	GameBuffer* gameBuffer;
 	BOOL loadedRom;
+	BOOL romFinishedLoading;
 	BOOL hasNmtRam;
 	BOOL hasChrRam;
 	NSMutableArray* persistantControllerData;

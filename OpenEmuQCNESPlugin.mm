@@ -252,6 +252,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		NSDictionary *ourBundleInfo = [theBundle infoDictionary];
 		NSString *nesBundleDir = [[ourBundleInfo valueForKey:@"OENESBundlePath"] stringByStandardizingPath];
 		bundle = [NSBundle bundleWithPath:nesBundleDir];
+		loadedRom,romFinishedLoading = NO;
 	}
 	
 	return self;
@@ -321,7 +322,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 {
 	NSLog(@"called enableExecution");
 	// if we have a ROM loaded and the patch's image output is reconnected, unpause the emulator
-	if(loadedRom)
+	if(loadedRom && romFinishedLoading)
 	{
 		if(!self.inputPauseEmulation) 
 		{
@@ -345,7 +346,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		[self loadRom:[self valueForInputKey:@"inputRom"]];
 	}
 	
-	if(loadedRom) {
+	if(loadedRom && romFinishedLoading) {
 		// Process controller data
 		if([self didValueForInputKeyChange: @"inputControllerData"])
 		{
@@ -386,21 +387,21 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		}
 		
 		// Process emulation pausing 
-	//	if([self didValueForInputKeyChange: @"inputPauseEmulation"])	
-	//	{
-	//		if([[self valueForInputKey:@"inputPauseEmulation"] boolValue])	
-	//		{
-	//			[gameAudio pauseAudio];
-	//			[gameCore pause:YES]; 
-	//			NSLog(@"pausing");
-	//		}
-	//		else 
-	//		{
-	//			[gameAudio startAudio];
-	//			[gameCore pause:NO];
-	//			NSLog(@"unpausing");
-	//		}
-	//	}
+		if([self didValueForInputKeyChange: @"inputPauseEmulation"])	
+		{
+			if([[self valueForInputKey:@"inputPauseEmulation"] boolValue])	
+			{
+				NSLog(@"user paused emulation");
+				[gameAudio pauseAudio];
+				[gameCore pause:YES]; 
+			}
+			else 
+			{
+				NSLog(@"user unpaused emulation");
+				[gameAudio startAudio];
+				[gameCore pause:NO];
+			}
+		}
 		
 		// Process cheat codes
 		if([self didValueForInputKeyChange: @"inputCheatCode"] && ([self valueForInputKey:@"inputCheatCode"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputCheatCode"] valueForKey: QCPortAttributeDefaultValueKey]))	
@@ -438,7 +439,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		if([self didValueForInputKeyChange: @"inputRewinderDirection"])	
 		{
 	//		NSLog(@"rewinder direction changed");
-			[nesEmu rewinderDirection:[self valueForInputKey:@"inputRewinderDirection"]];
+			[nesEmu rewinderDirection:[[self valueForInputKey:@"inputRewinderDirection"] boolValue]];
 		}
 		
 		if([self didValueForInputKeyChange:@"inputEnableRewinderBackwardsSound"])
@@ -471,7 +472,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	id	provider = nil;
 	
 	// handle our image output. (sanity checking)
-	if(loadedRom && ([gameCore width] > 10) )
+	if(loadedRom && romFinishedLoading && ([gameCore width] > 10) )
 	{
 		
 		glEnable( GL_TEXTURE_RECTANGLE_EXT );
@@ -529,7 +530,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	NSLog(@"called disableExecution");
 
 	// if we have a ROM running and the patch's image output is disconnected, pause the emulator
-	if(loadedRom)
+	if(loadedRom && romFinishedLoading)
 	{
 		if(!self.inputPauseEmulation) 
 		{
@@ -550,9 +551,12 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	{
 		[gameCore stop]; 		
 		[gameAudio stopAudio];
-		[gameCore release];
 		[gameAudio release];
+		[gameCore release];
+		gameCore = nil;
+		nesEmu = nil;
 		loadedRom = NO;
+		romFinishedLoading = NO;
 	}
 }
 
@@ -583,11 +587,13 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		NSLog(@"extension is: %@", extension);
 		
 		// cleanup
-		if(loadedRom)
+		if(loadedRom && romFinishedLoading)
 		{
-			[gameCore stop];
 			[gameAudio stopAudio];
+			[gameCore stop];
 			[gameCore release];
+			gameCore = nil;
+			nesEmu = nil;
 			//	[gameBuffer release];
 			[gameAudio release];
 			
@@ -595,13 +601,14 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 		}
 		loadedRom = NO;
+		romFinishedLoading = NO;
 		hasChrRam = NO;
 		hasNmtRam = NO;
 		
 		//load NES bundle
 		gameCore = [[[bundle principalClass] alloc] init];
 		
-		// add a pointer to NESGameEmu so we can call NES-specific methods without getting fucking warnings
+		// add a pointer to NESGameEmu so we can call NES-specific methods without getting fucking warnings (doesn't work, needs fixing)
 		nesEmu = (NESGameEmu*)gameCore;
 
 		NSLog(@"Loaded NES bundle. About to load rom...");
@@ -641,6 +648,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 			hasNmtRam = YES;
 			NSLog(@"Reported NMT RAM size is %i", [nesEmu getVRamSize]);
+			
+			romFinishedLoading = YES;
 		}	
 		else
 		{
