@@ -145,7 +145,7 @@
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-	if(gameCore != nil)
+	if(gameCore != nil && [[[GameDocumentController sharedDocumentController] preferenceController] pauseBackground])
 	{
 		if(![view isInFullScreenMode])
 		{

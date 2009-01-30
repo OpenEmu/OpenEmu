@@ -19,7 +19,7 @@ extern NSString * const OEFullScreen;
 extern NSString * const OEFilter;
 extern NSString * const OEGamepadControls;
 extern NSString * const OEVolume;
-
+extern NSString * const OEPauseBackground;
 
 
 @class GameDocumentController, GameButton, KeyboardButton;
@@ -83,6 +83,7 @@ extern NSString * const OEVolume;
 - (BOOL) fullScreen;
 - (IBAction) switchFilter: (id) sender;
 - (int) filter;
+- (BOOL) pauseBackground;
 @end
 
 @interface GamePreferencesController (Audio)

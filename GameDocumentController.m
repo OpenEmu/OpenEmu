@@ -134,7 +134,8 @@
 		[defaultValues setValue:NO forKey:OEFullScreen];
 		[defaultValues setValue:0 forKey:OEFilter];
 		[defaultValues setValue:[NSNumber numberWithFloat:1.0] forKey:OEVolume];
-	
+		[defaultValues setValue:NO forKey:OEPauseBackground];
+		
 		NSLog(@"%@", defaultValues);
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
 	}

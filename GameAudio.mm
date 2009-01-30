@@ -161,8 +161,7 @@ void AQBufferCallback(void *	in,	AudioQueueRef inQ, AudioQueueBufferRef	outQB)
 }
 
 - (void) stopAudio
-{
-	
+{	
 	AudioQueueStop(wrapper.queue, YES);
 	//AudioQueueDispose(in.queue, YES);
 }

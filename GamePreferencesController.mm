@@ -19,6 +19,7 @@ NSString * const OEFullScreen = @"FullScreen";
 NSString * const OEFilter = @"Filter";
 NSString * const OEGamepadControls = @"GamepadControls";
 NSString * const OEVolume = @"Volume";
+NSString * const OEPauseBackground = @"PauseBackground";
 
 @implementation ControlRebindView
 
@@ -281,6 +282,10 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 		[gameDoc resetFilter];
 }
 
+- (BOOL) pauseBackground
+{
+	return [[NSUserDefaults standardUserDefaults] boolForKey:OEPauseBackground];
+}
 @end
 
 
