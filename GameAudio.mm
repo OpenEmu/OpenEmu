@@ -7,63 +7,46 @@
 //
 
 #import "GameAudio.h"
-
-void AQBufferCallback(void *	in,	AudioQueueRef inQ, AudioQueueBufferRef	outQB)
+OSStatus RenderCallback(
+								  void *							in,
+								  AudioUnitRenderActionFlags *		ioActionFlags,
+								  const AudioTimeStamp *			inTimeStamp,
+								  UInt32							inBusNumber,
+								  UInt32							inNumberFrames,
+								  AudioBufferList *					ioData)
 {
-	int i;	
-	UInt32 err;
-	// Get the info struct and a pointer to our output data
-	AQCallbackWrapper * wrapper = (AQCallbackWrapper *)in;
+	RenderCallbackData * wrapper = (RenderCallbackData *)in;
 	
-	memset(outQB->mAudioData, 0, sizeof(outQB->mAudioData));
-	UInt16 *coreAudioBuffer = (UInt16*) outQB->mAudioData;
+	UInt16 *coreAudioBuffer = (UInt16*) ioData->mBuffers[0].mData;
+	memset(coreAudioBuffer, 0, ioData->mBuffers[0].mDataByteSize/2);
 	
 	[wrapper lock];
-	// if we're being asked to render
-	if (wrapper.frameCount > 0) {
+	
+	if (inNumberFrames > 0) {
 		
-		if (wrapper.bufUsed < wrapper.frameCount * wrapper.channels)
+		inTimeStamp = 0;
+		if (wrapper.bufUsed < inNumberFrames * wrapper.channels)
 		{
-			wrapper.bufUsed = wrapper.frameCount*wrapper.channels;
-			wrapper.bufOutPos = (wrapper.bufInPos + (wrapper.sizeSoundBuffer) - wrapper.frameCount*wrapper.channels) % (wrapper.sizeSoundBuffer);
+			wrapper.bufUsed = inNumberFrames * wrapper.channels;
+			wrapper.bufOutPos = (wrapper.bufInPos + (wrapper.sizeSoundBuffer) - inNumberFrames * wrapper.channels) % (wrapper.sizeSoundBuffer);
 		}
-		
-		
-		// Need to set this
-		outQB->mAudioDataByteSize = 2*wrapper.channels*wrapper.frameCount; // two shorts per frame, one frame per packet
 		// For each frame/packet (the same in our example)
-		for(i=0; i<wrapper.frameCount * wrapper.channels; ++i) {
+		for(int i=0; i<inNumberFrames * wrapper.channels; ++i) {
 			
 			*coreAudioBuffer++ = wrapper.sndBuf[wrapper.bufOutPos];
-			//*coreAudioBuffer++ = sndBuf[bufOutPos+1];
-			wrapper.bufOutPos = (wrapper.bufOutPos + 1) % (wrapper.sizeSoundBuffer);
-			
+			wrapper.bufOutPos = (wrapper.bufOutPos + 1) % (wrapper.sizeSoundBuffer);	
 		}
-		
-		wrapper.bufUsed -= wrapper.frameCount*wrapper.channels;
-		
-		// "Enqueue" the buffer
-		err = AudioQueueEnqueueBuffer(inQ, outQB, 0, NULL);
-		if(err) fprintf(stderr, "AudioQueueEnqueueBuffer err %d\n", err);
-		//		else fprintf(stdout, "Queued buffer\n");
+		wrapper.bufUsed -= inNumberFrames * wrapper.channels;
 	}
-	else {
-		err = AudioQueueStop(wrapper.queue, false);
-		if(err) fprintf(stderr, "AudioQueueStop err %d\n", err);
-		//		else fprintf(stdout, "Stoped queue\n");
-	}
-	@try {
-		
-		[wrapper unlock];
-	}
-	@catch (NSException * e) {
-	NSLog(@"Lock weird?");
-	}		
+	
+	[wrapper unlock];
+	
+	return 0;
 }
 
-@implementation AQCallbackWrapper
+@implementation RenderCallbackData
 
-@synthesize bufUsed, bufOutPos, bufInPos, samplesFrame, sizeSoundBuffer, channels, sampleRate, frameCount, sndBuf, queue;
+@synthesize bufUsed, bufOutPos, bufInPos, samplesFrame, sizeSoundBuffer, channels, sampleRate, sndBuf;
 
 - (id) initWithCore:(id <GameCore>) core{
 	
@@ -77,48 +60,13 @@ void AQBufferCallback(void *	in,	AudioQueueRef inQ, AudioQueueBufferRef	outQB)
 		channels = [core channels];
 		
 		soundLock = [NSLock new];
-		
-		UInt32 err;
-		
+				
 		sndBuf = new UInt16[sizeSoundBuffer];
 		memset(sndBuf, 0, sizeSoundBuffer*sizeof(UInt16));
-		
+
 		bufInPos     = 0;
 		bufOutPos    = 0;
 		bufUsed      = 0;
-		
-		mDataFormat.mSampleRate = sampleRate;
-		mDataFormat.mFormatID = kAudioFormatLinearPCM;
-		mDataFormat.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
-		mDataFormat.mBytesPerPacket = 2*channels;
-		mDataFormat.mFramesPerPacket = 1; // this means each packet in the AQ has two samples, one for each channel -> 4 bytes/frame/packet
-		mDataFormat.mBytesPerFrame = 2*channels;
-		mDataFormat.mChannelsPerFrame = channels;
-		mDataFormat.mBitsPerChannel = 16;
-		
-		queue = 0;
-		
-		if(queue)
-			err = AudioQueueDispose(queue,true);
-		
-		// Set up the output buffer callback on the current run loop
-		err = AudioQueueNewOutput(&mDataFormat, AQBufferCallback, self, NULL, NULL, 0, &queue);
-
-		if(err) fprintf(stderr, "AudioQueueNewOutput err %d\n", err);
-		
-		// Set the size and packet count of each buffer read. (e.g. "frameCount")
-		frameCount = 400;
-		
-		// Byte size is 4*frames (see above)
-		UInt32 bufferBytes  = frameCount * 2 * channels;
-		
-		// alloc 3 buffers.
-		for (int i=0; i<AUDIOBUFFERS; i++) {
-			err = AudioQueueAllocateBuffer(queue, bufferBytes, &mBuffers[i]);
-			if(err) fprintf(stderr, "AudioQueueAllocateBuffer [%d] err %d\n",i, err);
-			// "Prime" by calling the callback once per buffer
-			AQBufferCallback (self, queue, mBuffers[i]);
-		}	
 	}
 	
 	return self;
@@ -139,8 +87,7 @@ void AQBufferCallback(void *	in,	AudioQueueRef inQ, AudioQueueBufferRef	outQB)
 - (void) dealloc
 {
 	delete [] sndBuf;
-	[soundLock dealloc];
-	AudioQueueDispose(queue, YES);
+	[soundLock release];
 	[super dealloc];
 }
 
@@ -152,22 +99,28 @@ void AQBufferCallback(void *	in,	AudioQueueRef inQ, AudioQueueBufferRef	outQB)
 
 - (void) pauseAudio
 {
-	AudioQueuePause(wrapper.queue);
+	NSLog(@"Stopped audio");
+	AUGraphStop(mGraph);
+	AUGraphClose(mGraph);
 }
 
 - (void) startAudio
 {
-	AudioQueueStart(wrapper.queue, NULL);	
+	[self createGraph];
+	//AudioQueueStart(wrapper.queue, NULL);	
 }
 
 - (void) stopAudio
 {	
-	AudioQueueStop(wrapper.queue, YES);
+	AUGraphStop(mGraph);
+	AUGraphUninitialize(mGraph);
+	//AudioQueueStop(wrapper.queue, YES);
 	//AudioQueueDispose(in.queue, YES);
 }
 
 - (void) advanceBuffer
 {	
+	
 	if(gameCore != NULL)
 	{
 		memcpy(&wrapper.sndBuf[wrapper.bufInPos], [gameCore sndBuf], wrapper.samplesFrame * wrapper.channels * sizeof(UInt16));
@@ -181,6 +134,122 @@ void AQBufferCallback(void *	in,	AudioQueueRef inQ, AudioQueueBufferRef	outQB)
 	}
 }
 
+- (void)createGraph
+{	
+	OSStatus err;
+	
+	
+	AUGraphStop(mGraph);
+	AUGraphClose(mGraph);
+	AUGraphUninitialize(mGraph);
+	//Create the graph
+	err = NewAUGraph(&mGraph);
+	if(err)
+		NSLog(@"NewAUGraph failed");
+	
+	
+	//Open the graph
+	err = AUGraphOpen(mGraph);
+	if(err)
+		NSLog(@"couldn't open graph");
+
+	
+	
+	ComponentDescription desc;
+	
+	desc.componentType = kAudioUnitType_Output;
+	desc.componentSubType = kAudioUnitSubType_DefaultOutput;
+	desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+    desc.componentFlagsMask = 0;
+	desc.componentFlags  =0; 
+
+	//Create the output node
+	err = AUGraphAddNode(mGraph, &desc, &mOutputNode);
+	if(err)
+		NSLog(@"couldn't create node for output unit");
+	
+	err = AUGraphNodeInfo(mGraph, mOutputNode, NULL, &mOutputUnit);
+	if(err)
+		NSLog(@"couldn't get output from node");
+	
+	
+	desc.componentType = kAudioUnitType_Mixer;
+	desc.componentSubType = kAudioUnitSubType_StereoMixer;
+	desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+
+	//Create the mixer node
+	err = AUGraphAddNode(mGraph, &desc, &mMixerNode);
+	if(err)
+		NSLog(@"couldn't create node for file player");
+	
+	err = AUGraphNodeInfo(mGraph, mMixerNode, NULL, &mMixerUnit);
+	if(err)
+		NSLog(@"couldn't get player unit from node");
+
+	desc.componentType = kAudioUnitType_FormatConverter;
+	desc.componentSubType = kAudioUnitSubType_AUConverter;
+	desc.componentManufacturer = kAudioUnitManufacturer_Apple;
+	
+	//Create the converter node
+	err = AUGraphAddNode(mGraph, &desc, &mConverterNode);
+	if(err)
+		NSLog(@"couldn't create node for converter");
+	
+	err = AUGraphNodeInfo(mGraph, mConverterNode, NULL, &mConverterUnit);
+	if(err)
+		NSLog(@"couldn't get player unit from converter");
+	
+	
+	AURenderCallbackStruct renderStruct;
+	renderStruct.inputProc = RenderCallback;
+	renderStruct.inputProcRefCon = wrapper ;
+	
+	
+	err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_SetRenderCallback,
+							   kAudioUnitScope_Input, 0, &renderStruct, sizeof(AURenderCallbackStruct));
+	if(err)
+		NSLog(@"Couldn't set the render callback");
+	else
+		NSLog(@"Set the render callback");
+	
+	
+	
+	AudioStreamBasicDescription mDataFormat;
+	
+	mDataFormat.mSampleRate = [gameCore sampleRate];
+	mDataFormat.mFormatID = kAudioFormatLinearPCM;
+	mDataFormat.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
+	mDataFormat.mBytesPerPacket = 2*[gameCore channels];
+	mDataFormat.mFramesPerPacket = 1; // this means each packet in the AQ has two samples, one for each channel -> 4 bytes/frame/packet
+	mDataFormat.mBytesPerFrame = 2*[gameCore channels];
+	mDataFormat.mChannelsPerFrame = [gameCore channels];
+	mDataFormat.mBitsPerChannel = 16;
+	
+
+	err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));//,
+	if(err)
+		NSLog(@"couldn't set player's input stream format");
+	
+	// connect the player to the output unit (stream format will propagate)
+	 
+	err = AUGraphConnectNodeInput(mGraph, mMixerNode, 0, mOutputNode, 0);
+	if(err)
+		NSLog(@"Could not connect the input of the output");
+	
+	err = AUGraphConnectNodeInput(mGraph, mConverterNode, 0, mMixerNode, 0);
+	if(err)
+		NSLog(@"Couldn't connect the converter to the mixer");
+	
+	err = AUGraphInitialize(mGraph);
+	if(err)
+		NSLog(@"couldn't initialize graph");
+	
+	err = AUGraphStart(mGraph);
+	if(err)
+		NSLog(@"couldn't start graph");
+	
+}
+
 - (id) initWithCore:(id <GameCore>) core
 {
 	self = [super init];
@@ -188,7 +257,8 @@ void AQBufferCallback(void *	in,	AudioQueueRef inQ, AudioQueueBufferRef	outQB)
 	if(self)
 	{
 		gameCore = core;
-		wrapper = [[AQCallbackWrapper alloc] initWithCore: gameCore];
+		wrapper = [[RenderCallbackData alloc] initWithCore: gameCore];
+		[self createGraph];
 	}
 	
 	return self;
@@ -196,14 +266,16 @@ void AQBufferCallback(void *	in,	AudioQueueRef inQ, AudioQueueBufferRef	outQB)
 
 - (void) dealloc
 {
-	[wrapper dealloc];
+	[wrapper release];
+//	AUGraphStop(mGraph);
+//	AUGraphUninitialize(mGraph);
 	[super dealloc];
 }
 
 
 - (void) setVolume: (float) volume
 {
-	AudioQueueSetParameter(wrapper.queue, kAudioQueueParam_Volume, volume);
+	
 }
 
 

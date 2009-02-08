@@ -7,22 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import <AudioToolbox/AudioToolbox.h>
 #import "GameCore.h"
 #import <Foundation/Foundation.h>
+#include <AudioToolbox/AudioToolbox.h>
+#include <AudioUnit/AudioUnit.h>
 
-#define AUDIOBUFFERS 4
-#define SAMPLEFRAME (48000 * 4389/262144 + 2)
-#define SIZESOUNDBUFFER SAMPLEFRAME*4
-
-@interface AQCallbackWrapper : NSObject
+@interface RenderCallbackData : NSObject
 {
-	AudioQueueRef					queue;
-	UInt32							frameCount;
 	UInt32 bufInPos, bufOutPos, bufUsed;
-	AudioQueueBufferRef				mBuffers[AUDIOBUFFERS];
-	AudioStreamBasicDescription		mDataFormat;
-
+	
 	UInt32 samplesFrame;
 	UInt32 sizeSoundBuffer;
 	UInt32 channels;
@@ -39,9 +32,7 @@
 @property(readwrite) UInt32 sizeSoundBuffer;
 @property(readwrite) UInt32 channels;
 @property(readwrite) UInt32 sampleRate;
-@property(readwrite) UInt32 frameCount;
-@property(readonly) 	UInt16* sndBuf;
-@property(readonly) AudioQueueRef queue;
+@property(readonly) UInt16* sndBuf;
 
 - (id) initWithCore:(id <GameCore>) core;
 - (void) lock;
@@ -51,9 +42,14 @@
 
 @interface GameAudio : NSObject {
 	id <GameCore> gameCore;
-	AQCallbackWrapper* wrapper;
+	AUGraph							mGraph;
+	AUNode							mConverterNode, mMixerNode, mOutputNode;
+	AudioUnit						mConverterUnit, mMixerUnit, mOutputUnit;
+	
+	RenderCallbackData* wrapper;
 }
 
+- (void) createGraph;
 - (void) advanceBuffer;
 - (id) initWithCore: (id <GameCore>) core;
 - (void) startAudio;

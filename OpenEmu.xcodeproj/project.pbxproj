@@ -69,6 +69,7 @@
 		1B8D4B010E874E6F00C3C4F5 /* GameAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.mm */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		374D1DDF0F1FDBA900B71EFC /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
+		820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		820C55F20E7C36A700202702 /* GameApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C55F10E7C36A700202702 /* GameApp.m */; };
 		82184ACB0E762DC600895A7F /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82184ACA0E762DC600895A7F /* Preferences.xib */; };
 		82184AD60E762FD300895A7F /* GameButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 82184AD50E762FD300895A7F /* GameButton.m */; };
@@ -171,6 +172,7 @@
 		32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmu_Prefix.pch; sourceTree = "<group>"; };
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
 		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
+		820376250F3974FD00EC2F97 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		820C55F00E7C36A700202702 /* GameApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameApp.h; sourceTree = "<group>"; };
 		820C55F10E7C36A700202702 /* GameApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameApp.m; sourceTree = "<group>"; };
 		82184ACA0E762DC600895A7F /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
@@ -254,6 +256,7 @@
 				828ED4DD0E7D98D90059F397 /* XADMaster.framework in Frameworks */,
 				8291666C0E8603B600493FD8 /* IOKit.framework in Frameworks */,
 				82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */,
+				820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,6 +320,7 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
+				820376250F3974FD00EC2F97 /* AudioUnit.framework */,
 			);
 			name = OpenEmu;
 			sourceTree = "<group>";
