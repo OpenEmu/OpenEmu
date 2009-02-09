@@ -266,6 +266,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				820376250F3974FD00EC2F97 /* AudioUnit.framework */,
 				82C9C9540F0804A20071460B /* Sparkle.framework */,
 				828ED4DB0E7D98D90059F397 /* XADMaster.framework */,
 				829E02CF0E7C5882009F348B /* QuartzCore.framework */,
@@ -320,7 +321,6 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
-				820376250F3974FD00EC2F97 /* AudioUnit.framework */,
 			);
 			name = OpenEmu;
 			sourceTree = "<group>";

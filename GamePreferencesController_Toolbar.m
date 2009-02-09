@@ -58,6 +58,7 @@ static NSString *PluginToolbarItemIdentifier 	= @"Plugin Item Identifier";
 						[toolbarItem setTarget:self];
 						[toolbarItem setAction:@selector(switchView:)];
 		
+						
 						[mCustomIcons setObject:toolbarItem forKey:[bundle bundleIdentifier]];
 						
 						
@@ -144,8 +145,11 @@ static NSString *PluginToolbarItemIdentifier 	= @"Plugin Item Identifier";
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar*)toolbar {
     /* Required method.  Returns the ordered list of items to be shown in the toolbar by default.   If during initialization, no overriding values are found in the user defaults, or if the user chooses to revert to the default items this set will be used. */
-    return [NSArray arrayWithObjects:
-            VideoToolbarItemIdentifier, ControlsToolbarItemIdentifier, AudioToolbarItemIdentifier,PluginToolbarItemIdentifier, nil];
+	NSArray* standardItems = [NSArray arrayWithObjects:
+							  VideoToolbarItemIdentifier, ControlsToolbarItemIdentifier, AudioToolbarItemIdentifier,PluginToolbarItemIdentifier, nil];
+
+	
+	return [standardItems arrayByAddingObjectsFromArray:[customIcons allKeys]];
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar*)toolbar {
