@@ -7,6 +7,8 @@
 //
 
 #import "GameAudio.h"
+#import "GamePreferencesController.h"
+#import "GameDocumentController.h"
 OSStatus RenderCallback(
 								  void *							in,
 								  AudioUnitRenderActionFlags *		ioActionFlags,
@@ -22,7 +24,8 @@ OSStatus RenderCallback(
 	
 	[wrapper lock];
 	
-	if (inNumberFrames > 0) {
+	//NSLog(@"Frames: %i", inNumberFrames);
+	if (inNumberFrames > 0 && ![wrapper paused]) {
 		
 		inTimeStamp = 0;
 		if (wrapper.bufUsed < inNumberFrames * wrapper.channels)
@@ -46,7 +49,7 @@ OSStatus RenderCallback(
 
 @implementation RenderCallbackData
 
-@synthesize bufUsed, bufOutPos, bufInPos, samplesFrame, sizeSoundBuffer, channels, sampleRate, sndBuf;
+@synthesize bufUsed, bufOutPos, bufInPos, samplesFrame, sizeSoundBuffer, channels, sampleRate, sndBuf, paused;
 
 - (id) initWithCore:(id <GameCore>) core{
 	
@@ -56,7 +59,7 @@ OSStatus RenderCallback(
 	{
 		sampleRate = [core sampleRate];
 		samplesFrame = [core samplesFrame];
-		sizeSoundBuffer = [core sizeSoundBuffer];
+		sizeSoundBuffer = [core sizeSoundBuffer] * 2;
 		channels = [core channels];
 		
 		soundLock = [NSLock new];
@@ -70,8 +73,6 @@ OSStatus RenderCallback(
 	}
 	
 	return self;
-	
-	
 }
 
 - (void) lock
@@ -100,22 +101,21 @@ OSStatus RenderCallback(
 - (void) pauseAudio
 {
 	NSLog(@"Stopped audio");
-	AUGraphStop(mGraph);
-	AUGraphClose(mGraph);
+	[self stopAudio];
 }
 
 - (void) startAudio
 {
+//	AUGraphStart(mGraph);
+	wrapper.paused = false;
 	[self createGraph];
-	//AudioQueueStart(wrapper.queue, NULL);	
 }
 
 - (void) stopAudio
 {	
 	AUGraphStop(mGraph);
+	AUGraphClose(mGraph);
 	AUGraphUninitialize(mGraph);
-	//AudioQueueStop(wrapper.queue, YES);
-	//AudioQueueDispose(in.queue, YES);
 }
 
 - (void) advanceBuffer
@@ -125,8 +125,10 @@ OSStatus RenderCallback(
 	{
 		memcpy(&wrapper.sndBuf[wrapper.bufInPos], [gameCore sndBuf], wrapper.samplesFrame * wrapper.channels * sizeof(UInt16));
 	}
+	
 	wrapper.bufInPos = (wrapper.bufInPos + wrapper.samplesFrame * wrapper.channels) % (wrapper.sizeSoundBuffer);
 	wrapper.bufUsed += wrapper.channels * wrapper.samplesFrame;
+	
 	if (wrapper.bufUsed > wrapper.sizeSoundBuffer)
 	{
 		wrapper.bufUsed   = wrapper.sizeSoundBuffer;
@@ -202,7 +204,7 @@ OSStatus RenderCallback(
 	
 	AURenderCallbackStruct renderStruct;
 	renderStruct.inputProc = RenderCallback;
-	renderStruct.inputProcRefCon = wrapper ;
+	renderStruct.inputProcRefCon = wrapper;
 	
 	
 	err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_SetRenderCallback,
@@ -240,6 +242,8 @@ OSStatus RenderCallback(
 	if(err)
 		NSLog(@"Couldn't connect the converter to the mixer");
 	
+	AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, [[[GameDocumentController sharedDocumentController] preferenceController] volume] ,0);
+	
 	err = AUGraphInitialize(mGraph);
 	if(err)
 		NSLog(@"couldn't initialize graph");
@@ -247,6 +251,8 @@ OSStatus RenderCallback(
 	err = AUGraphStart(mGraph);
 	if(err)
 		NSLog(@"couldn't start graph");
+	
+	
 	
 }
 
@@ -267,15 +273,15 @@ OSStatus RenderCallback(
 - (void) dealloc
 {
 	[wrapper release];
-//	AUGraphStop(mGraph);
-//	AUGraphUninitialize(mGraph);
+	AUGraphUninitialize(mGraph);
 	[super dealloc];
 }
 
 
 - (void) setVolume: (float) volume
 {
-	
+	AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, volume,0);
+//	AUGraphUpdate(mGraph, NULL);
 }
 
 

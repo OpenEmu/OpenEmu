@@ -259,7 +259,8 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 
 - (float) volume
 {
-	return [[NSUserDefaults standardUserDefaults] boolForKey:OEVolume];
+//	NSLog(@"Asked for volume: %f", 
+	return [[NSUserDefaults standardUserDefaults] floatForKey:OEVolume];
 }
 
 @end

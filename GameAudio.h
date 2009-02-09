@@ -20,7 +20,7 @@
 	UInt32 sizeSoundBuffer;
 	UInt32 channels;
 	UInt32 sampleRate;
-	
+	bool paused;
 	NSLock* soundLock;
 	UInt16* sndBuf;
 }
@@ -33,6 +33,7 @@
 @property(readwrite) UInt32 channels;
 @property(readwrite) UInt32 sampleRate;
 @property(readonly) UInt16* sndBuf;
+@property(readwrite) bool paused;
 
 - (id) initWithCore:(id <GameCore>) core;
 - (void) lock;
