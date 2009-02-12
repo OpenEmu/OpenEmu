@@ -93,7 +93,6 @@
 		829E027A0E7C5631009F348B /* GameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 829E02790E7C5631009F348B /* GameLayer.m */; };
 		829E02D00E7C5882009F348B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829E02CF0E7C5882009F348B /* QuartzCore.framework */; };
 		82C434130EE393530037C54B /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82C434120EE393530037C54B /* icon.icns */; };
-		82C5EB9D0F08BA520019E2DC /* HIDManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C5EB9C0F08BA520019E2DC /* HIDManager.m */; };
 		82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C95E0F0804D90071460B /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
@@ -120,6 +119,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 828E65970E8466A100B1860B;
 			remoteInfo = OpenEmuQC;
+		};
+		828F161B0F439C1500FD7321 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 828F16160F439C1500FD7321 /* SNES9x.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
+			remoteInfo = SNES9x;
 		};
 		82C9C97D0F080C920071460B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -202,6 +208,7 @@
 		828ED4D90E7D98A10059F397 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameFilePicker.xib; sourceTree = "<group>"; };
 		828ED4DB0E7D98D90059F397 /* XADMaster.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XADMaster.framework; sourceTree = "<group>"; };
 		828ED4DC0E7D98D90059F397 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = "<group>"; };
+		828F16160F439C1500FD7321 /* SNES9x.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SNES9x.xcodeproj; path = ../SNES9x/SNES9x.xcodeproj; sourceTree = SOURCE_ROOT; };
 		8291666B0E8603B600493FD8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		829777F60E73CFD400631240 /* GameButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameButtons.h; sourceTree = "<group>"; };
 		829779320E743F2A00631240 /* GameAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameAudio.h; sourceTree = "<group>"; };
@@ -213,8 +220,6 @@
 		829E02790E7C5631009F348B /* GameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameLayer.m; sourceTree = "<group>"; };
 		829E02CF0E7C5882009F348B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		82C434120EE393530037C54B /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
-		82C5EB9B0F08BA520019E2DC /* HIDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HIDManager.h; sourceTree = "<group>"; };
-		82C5EB9C0F08BA520019E2DC /* HIDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HIDManager.m; sourceTree = "<group>"; };
 		82C9C9540F0804A20071460B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		82C9C96C0F080BD30071460B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82E740860E72010700AE60C4 /* GameInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInput.h; sourceTree = "<group>"; };
@@ -316,6 +321,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
 			isa = PBXGroup;
 			children = (
+				828F16160F439C1500FD7321 /* SNES9x.xcodeproj */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
@@ -393,8 +399,6 @@
 				82E740860E72010700AE60C4 /* GameInput.h */,
 				82184AD50E762FD300895A7F /* GameButton.m */,
 				82184AD40E762FD300895A7F /* GameButton.h */,
-				82C5EB9B0F08BA520019E2DC /* HIDManager.h */,
-				82C5EB9C0F08BA520019E2DC /* HIDManager.m */,
 			);
 			name = Input;
 			sourceTree = "<group>";
@@ -470,6 +474,14 @@
 			name = OpenEmuQC;
 			sourceTree = "<group>";
 		};
+		828F16170F439C1500FD7321 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				828F161C0F439C1500FD7321 /* SNES9x.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		829165DA0E85F9A400493FD8 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
@@ -532,6 +544,12 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 828F16170F439C1500FD7321 /* Products */;
+					ProjectRef = 828F16160F439C1500FD7321 /* SNES9x.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
@@ -541,6 +559,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		828F161C0F439C1500FD7321 /* SNES9x.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SNES9x.bundle;
+			remoteRef = 828F161B0F439C1500FD7321 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		828E65940E8466A100B1860B /* Resources */ = {
@@ -662,7 +690,6 @@
 				82F45E850E886D0000B7B023 /* hqxx.cpp in Sources */,
 				82F45EE30E88867D00B7B023 /* GamePreferencesController_Toolbar.m in Sources */,
 				1B885E0E0F085EB200770B6D /* GameShader.m in Sources */,
-				82C5EB9D0F08BA520019E2DC /* HIDManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -431,21 +431,26 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 		case 1:
 			return @"B";
 		case 2:
-			return @"Start";
+			return @"X";
 		case 3:
-			return @"Select";
+			return @"Y";
 		case 4:
-			return @"Up";
+			return @"Start";
 		case 5:
-			return @"Down";
+			return @"Select";
 		case 6:
-			return @"Left";
+			return @"Up";
 		case 7:
-			return @"Right";
+			return @"Down";
 		case 8:
-			return @"L";
+			return @"Left";
 		case 9:
+			return @"Right";
+		case 10:
+			return @"L";
+		case 11:
 			return @"R";
+		
 		default:
 			NSLog(@"Key requested for non existant index");
 			return @"Key not implemented";

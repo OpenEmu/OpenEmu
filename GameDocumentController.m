@@ -55,6 +55,16 @@
 												 forButton:eButton_B player:0] autorelease];
 	
 	
+	GameButton *xButton = [[[GameButton alloc] initWithPage:kHIDPage_Button
+													  usage:6 
+													  value:1
+												  forButton:eButton_X player:0] autorelease];
+	
+	GameButton *yButton = [[[GameButton alloc] initWithPage:kHIDPage_Button
+													  usage:5
+													  value:1
+												  forButton:eButton_Y player:0] autorelease];
+	
 	GameButton *startButton =[[[GameButton alloc] initWithPage:kHIDPage_Button
 														usage:4 
 														value:1
@@ -67,18 +77,18 @@
 													  forButton:eButton_SELECT player:0] autorelease];
 	
 	GameButton *lButton =[[[GameButton alloc] initWithPage:kHIDPage_Button
-														 usage:5 
+														 usage:9 
 														 value:1
-													 forButton:eButton_START player:0] autorelease];
+													 forButton:eButton_L player:0] autorelease];
 	
 	
 	GameButton *rButton = [[[GameButton alloc] initWithPage:kHIDPage_Button
-														   usage:6 
+														   usage:8 
 														   value:1
-													   forButton:eButton_SELECT player:0] autorelease];
+													   forButton:eButton_R player:0] autorelease];
 	// Create defaults
-	return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aButton,bButton,startButton,selectButton,upButton,downButton,leftButton,rightButton,lButton, rButton, nil]
-									   forKeys:[NSArray arrayWithObjects:@"A",@"B",@"Start",@"Select",@"Up",@"Down",@"Left",@"Right", @"L", @"R",nil]];	
+	return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aButton,bButton,xButton,yButton,startButton,selectButton,upButton,downButton,leftButton,rightButton,lButton, rButton, nil]
+									   forKeys:[NSArray arrayWithObjects:@"A",@"B",@"X",@"Y",@"Start",@"Select",@"Up",@"Down",@"Left",@"Right", @"L", @"R",nil]];	
 }
 
 + (NSDictionary*) defaultControls
@@ -101,6 +111,8 @@
 	
 	KeyboardButton * aButton = [[[KeyboardButton alloc] initWithKeycode:0]autorelease];
 	KeyboardButton * bButton = [[[KeyboardButton alloc] initWithKeycode:1]autorelease];
+	KeyboardButton * xButton = [[[KeyboardButton alloc] initWithKeycode:6]autorelease];
+	KeyboardButton * yButton = [[[KeyboardButton alloc] initWithKeycode:7]autorelease];	
 	
 	KeyboardButton * startButton = [[[KeyboardButton alloc] initWithKeycode:36]autorelease];
 	KeyboardButton * selectButton = [[[KeyboardButton alloc] initWithKeycode:48]autorelease];
@@ -110,12 +122,12 @@
 	KeyboardButton * leftButton = [[[KeyboardButton alloc] initWithKeycode:123]autorelease];
 	KeyboardButton * rightButton = [[[KeyboardButton alloc] initWithKeycode:124]autorelease];
 	
-	KeyboardButton * lButton = [[[KeyboardButton alloc] initWithKeycode:36]autorelease];
-	KeyboardButton * rButton = [[[KeyboardButton alloc] initWithKeycode:48]autorelease];
+	KeyboardButton * lButton = [[[KeyboardButton alloc] initWithKeycode:12]autorelease];
+	KeyboardButton * rButton = [[[KeyboardButton alloc] initWithKeycode:13]autorelease];
 	
 	// Create defaults
-	return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aButton,bButton,startButton,selectButton,upButton,downButton,leftButton,rightButton, lButton, rButton, nil] 
-																 forKeys:[NSArray arrayWithObjects:@"A",@"B",@"Start",@"Select",@"Up",@"Down",@"Left",@"Right", @"L", @"R", nil]];
+	return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aButton,bButton,xButton, yButton,startButton,selectButton,upButton,downButton,leftButton,rightButton, lButton, rButton, nil] 
+																 forKeys:[NSArray arrayWithObjects:@"A",@"B",@"X",@"Y",@"Start",@"Select",@"Up",@"Down",@"Left",@"Right", @"L", @"R", nil]];
 
 }
 

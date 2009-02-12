@@ -312,6 +312,10 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 		[self pressButton:eButton_A forPlayer:0];
 	else if([(KeyboardButton*)[gameControls objectForKey:@"B"]keyCode] == key)
 		[self pressButton:eButton_B forPlayer:0];
+	else if([(KeyboardButton*)[gameControls objectForKey:@"X"] keyCode] == key )
+		[self pressButton:eButton_X forPlayer:0];
+	else if([(KeyboardButton*)[gameControls objectForKey:@"Y"]keyCode] == key)
+		[self pressButton:eButton_Y forPlayer:0];
 	else if([(KeyboardButton*)[gameControls objectForKey:@"Start"]keyCode] == key)
 		[self pressButton:eButton_START forPlayer:0];
 	else if([(KeyboardButton*)[gameControls objectForKey:@"Select"]keyCode] == key)
@@ -342,6 +346,10 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 		[self releaseButton:eButton_A forPlayer:0];
 	else if([(KeyboardButton*)[gameControls objectForKey:@"B"]keyCode] == key)
 		[self releaseButton:eButton_B forPlayer:0];
+	else if([(KeyboardButton*)[gameControls objectForKey:@"X"] keyCode] == key )
+		[self releaseButton:eButton_X forPlayer:0];
+	else if([(KeyboardButton*)[gameControls objectForKey:@"Y"]keyCode] == key)
+		[self releaseButton:eButton_Y forPlayer:0];
 	else if([(KeyboardButton*)[gameControls objectForKey:@"Start"] keyCode] == key)
 		[self releaseButton:eButton_START forPlayer:0];
 	else if([(KeyboardButton*)[gameControls objectForKey:@"Select"] keyCode] == key)
