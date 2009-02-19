@@ -12,6 +12,7 @@
 #import "GameAudio.h"
 #import "GameLayer.h"
 #import "GameBuffer.h"
+#import "GameCore.h"
 
 @implementation GameDocument
 
@@ -158,7 +159,6 @@
 			}
 		}
 	}
-	
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -208,6 +208,7 @@
 		[gameCore setRandomByte];
 }
 
+#if 0 // Redundant implementation
 - (NSBitmapImageRep*) getRawScreenshot
 {
 	int width = [gameCore width];
@@ -234,7 +235,7 @@
 			debut[width*4*i + 4*j +2] = temp;
 			
 			//alpha full
-			debut[width*4*i + 4*j +3] = 255;
+			debut[width * 4 * i + 4 * j + 3] = 255;
 			
 		}
 	
@@ -254,11 +255,56 @@
 		for (int j = 0; j < width; j++)
 		{			
 			//alpha full
-			debut[width*4*i + 4*j] = 255;
+			debut[width * 4 * i + 4 * j] = 255;
 		}
 	
 #endif	
 	return newBitmap;
 }
+
+#else // Proposed implementation
+
+- (NSBitmapImageRep*) getRawScreenshot
+{
+	int width = [gameCore width];
+	int height = [gameCore height];
+	//little endian code
+	NSBitmapImageRep *newBitmap =
+	[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+											pixelsWide:width
+											pixelsHigh:height
+										 bitsPerSample:8
+									   samplesPerPixel:4
+											  hasAlpha:YES
+											  isPlanar:NO
+										colorSpaceName:NSCalibratedRGBColorSpace
+										  bitmapFormat:0
+										   bytesPerRow:width * 4
+										  bitsPerPixel:32];
+	
+	memcpy([newBitmap bitmapData], [gameCore buffer], width * height * 4 * sizeof(unsigned char));
+	
+	unsigned char* debut = [newBitmap bitmapData];
+
+	for (int i = 0; i < height; i++)
+		for (int j = 0; j < width; j++)
+		{
+#ifdef __LITTLE_ENDIAN__
+#define ALPHA 3
+			//swap Red with Blue
+			unsigned char temp = debut[width * 4 * i + 4 * j];
+			debut[width * 4 * i + 4 * j] = debut[width * 4 * i + 4 * j + 2];
+			debut[width * 4 * i + 4 * j + 2] = temp;
+#else
+#define ALPHA 0
+#endif			
+			//alpha full
+			debut[width * 4 * i + 4 * j + ALPHA] = 255;
+			
+		}
+	return newBitmap;
+}
+
+#endif
 
 @end

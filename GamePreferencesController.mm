@@ -25,12 +25,13 @@ NSString * const OEPauseBackground = @"PauseBackground";
 
 - (BOOL) acceptsFirstResponder
 {
-	return TRUE;
+	return YES;
 }
 
 - (void)keyDown: (NSEvent*) theEvent
 {
 	//Shut up!
+	// You're mean ! :'(
 }
 
 - (void)keyUp: (NSEvent*) theEvent
@@ -340,8 +341,8 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 }
 
 - (void) buttonInputDidEnd: (NSWindow *) sheet
-			 returnCode: (int) returnCode
-			contextInfo: (void *) contextInfo
+				returnCode: (int) returnCode
+			   contextInfo: (void *) contextInfo
 {
 	NSLog(@"Blah");
 	//NSLog(@"Ended, set key:%i on row:%i", returnCode, (int)contextInfo);
@@ -495,7 +496,6 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 void gameCoreForward(id self, SEL cmd)
 {
 	for( GameDocument* gameDoc in [[GameDocumentController sharedDocumentController] documents] )
-		
 	{
 		id <GameCore> game = [gameDoc gameCore];
 		
@@ -503,12 +503,10 @@ void gameCoreForward(id self, SEL cmd)
 		{
 			[game performSelector:cmd];
 		}
-		
 	}
 }
 
 + (BOOL)resolveInstanceMethod:(SEL)aSEL
-
 {
 	for(NSBundle*  bundle in [[GameDocumentController sharedDocumentController] bundles])
 	{
@@ -537,29 +535,31 @@ void gameCoreForward(id self, SEL cmd)
     return frame;
 }
 
+- (id)initWithWindowNibName:(NSString *)aName
+{
+	return [self init];
+}
+
 - (id) init
 {
-	if(![super initWithWindowNibName:@"Preferences"])
+	self = [super initWithWindowNibName:@"Preferences"];
+	if(self != nil)
 	{
-		return nil;
+		docController = [GameDocumentController sharedDocumentController];
+		
+		NSMutableArray * mBundles = [[NSMutableArray alloc] init];
+		
+		for(NSBundle * bundle in [docController bundles])
+		{
+			NSLog(@"%@", bundle);
+			[mBundles addObject:[[[PluginInfo alloc] initWithBundleAtPath:[bundle bundlePath]] autorelease]];  
+		}
+		
+		bundles = [mBundles copy];
+		NSLog(@"%@", bundles);
+		[mBundles release];
 	}
-	
-	docController = [GameDocumentController sharedDocumentController];
-	
-	NSMutableArray * mBundles = [[NSMutableArray alloc] init];
-	
-	for(NSBundle * bundle in [docController bundles])
-	{
-		NSLog(@"%@", bundle);
-		[mBundles addObject:[[[PluginInfo alloc] initWithBundleAtPath:[bundle bundlePath]] retain]];  
-	}
-	
-	bundles = [[NSArray arrayWithArray:mBundles] retain];
-	NSLog(@"%@", bundles);
-	[mBundles release];
-	
 	return self;
-	
 }
 
 -(IBAction)showWindow:(id)sender 
@@ -608,17 +608,15 @@ void gameCoreForward(id self, SEL cmd)
 
 @implementation GamePreferencesController (ControlsDataSource)
 
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-	switch([aTableView tag])
-	{
-		case 0:
-			return [[self gameControls] count];	
-		case 1:
-			return [[self gamepadControls] count];
-		default:
-			return 0;
-	}
+	NSInteger ret = 0;
+	if(aTableView == controlsTableView)
+		ret = [[self gameControls] count];
+	else if(aTableView == gamepadTableView)
+		ret = [[self gamepadControls] count];
+	
+	return ret;
 }
 
 
@@ -633,26 +631,12 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 	//Match the index to a button
 	NSString* key = [self keyForIndex: rowIndex];
 
-	switch( [aTableView tag] )
+	if([[aTableColumn identifier] isEqual: @"Keys"])
 	{
-		case 0:
-		{
-			if([[aTableColumn identifier] isEqual: @"Keys"])
-			{
-				return [[self gameControls] objectForKey:key];
-				//NSArray* keyArray = [[self gameControls] objectForKey:key];
-				//return [self friendlyDescription: keyArray];
-			}
-		}
-		case 1:
-		{
-			if([[aTableColumn identifier] isEqual: @"Keys"])
-			{
-				return [[self gamepadControls] objectForKey:key];
-				//	NSLog([keyArray description]);
-				//return [self friendlyDescription: keyArray];
-			}
-		}
+		if(aTableView == controlsTableView)
+			key = [[self gameControls] objectForKey:key];
+		else if(aTableView == gamepadTableView)
+			key = [[self gamepadControls] objectForKey:key];
 	}
 	
 	return key;

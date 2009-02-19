@@ -10,6 +10,7 @@
 #import "GameApp.h"
 
 //Need a custom app override for the custom input loop
+// No need to override NSApplicationMain, though
 int GameMain(int argc, const char *argv[]) {
 	
     [GameApp sharedApplication];

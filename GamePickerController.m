@@ -13,23 +13,20 @@
 
 @synthesize fileName;
 
-
 - (id) init
 {
-	if(![super initWithWindowNibName:@"GameFilePicker"])
-	{
-		return nil;
-	}
-	
-	return self;
+	return [super initWithWindowNibName:@"GameFilePicker"];
+}
+
+- (id)initWithWindowNibName:(NSString *)aName
+{
+	return [self init];
 }
 
 - (void)awakeFromNib
 {
-	
 	[table setTarget:self];
 	[table setDoubleAction:@selector(unpackSelectedFile:)];
-	
 }
 
 - (void)setArchive:(XADArchive*)archive

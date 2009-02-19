@@ -11,6 +11,7 @@
 #import "GameDocumentController.h"
 #import "GameDocument.h"
 #import "GameButton.h"
+#import "GameCore.h"
 #import <Sparkle/Sparkle.h>
 #import <XADMaster/XADArchive.h>
 
@@ -155,7 +156,6 @@
 
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
-	
 	NSLog(@"Menu!?!?!");
 	for(NSBundle * bundle in [self bundles])
 	{
@@ -174,8 +174,6 @@
 			}
 		}
 	}
-	
-	
 }
 
 -(void)updateBundles: (id) sender
@@ -193,7 +191,6 @@
 			NSLog(@"Tried to update bundle without sparkle");
 		}
 	}
-	
 }
 
 - (id)init
@@ -241,9 +238,6 @@
 			{
 				 [mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
 			}
-				
-		
-		
 		}
 		
 		NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
@@ -253,8 +247,11 @@
 			[mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
 		}
 		
-		
-		validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
+		// When a class conforms to both NSCopying and NSMutableCopying protocols
+		// -copy returns a immutable object and
+		// -mutableCopy returns a mutable object.
+		validExtensions = [mutableExtensions copy];
+		//validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
 		
 		[mutableExtensions release];
 	}
@@ -294,7 +291,6 @@
 				
 				if([archive extractEntry:idx to:filePath])
 				{
-					
 					filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:idx]];
 					NSLog(filePath);
 					absoluteURL = [NSURL fileURLWithPath:filePath];

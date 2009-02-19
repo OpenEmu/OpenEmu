@@ -275,45 +275,13 @@ static void LinkProgram(GLhandleARB programObject,
 				} // if
 			} // if
 		} // if
-		
 	}
 	return self;
 }
 
 - (id) initWithShadersInAppBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
 {
-	self = [super init];
-	
-	if( self)
-	{
-		shaderContext = context; 
-		bundleToLoadFrom = [[NSBundle mainBundle] retain];
-
-		
-		BOOL  loadedShaders = NO;
-		
-		// Load vertex and fragment shader
-		
-		[self getVertexShaderSourceFromResource:theShadersName];
-		
-		if( vertexShaderSource != NULL )
-		{
-			[self getFragmentShaderSourceFromResource:theShadersName];
-			
-			if( fragmentShaderSource != NULL )
-			{
-				loadedShaders = [self setProgramObject];
-				
-				if( !loadedShaders)
-				{
-					NSLog(@">> WARNING: Failed to load GLSL \"%@\" fragment & vertex shaders!\n", 
-						  theShadersName);
-				} // if
-			} // if
-		} // if
-	} // if
-	
-	return self;
+	return [self initWithShadersInBundle:[NSBundle mainBundle] withName:theShadersName forContext:context];
 } // initWithShadersInAppBundle
 
 //---------------------------------------------------------------------------------
@@ -325,7 +293,7 @@ static void LinkProgram(GLhandleARB programObject,
 - (void) dealloc
 {
 	// Delete OpenGL resources
-	
+	// FIXME: Where is the deallocation ?!
 	CGLContextObj cgl_ctx = shaderContext;
 	
 	if( programObject )

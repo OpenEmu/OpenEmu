@@ -233,18 +233,16 @@
 		default:
 			return @"What did you just hit??";
 	}
-
-	
 }
 
 
 - (id) initWithKeycode:(int) aKeyCode
 {
-	
 	self = [super init];
 	if(self)
 	{		
-		character = [KeyboardButton charForKey:aKeyCode];
+		// FIXME: Missing retaining
+		character = [[KeyboardButton charForKey:aKeyCode] retain];
 		keyCode = aKeyCode;
 	}
 	
@@ -255,13 +253,11 @@
 - (id) initWithEvent:(NSEvent*) event
 {
 	return [self initWithKeycode:[event keyCode]];
-	
 }
 
 - (id)initWithCoder:(NSCoder *)coder
-
 {
-	
+	// FIXME: don't see the need to store the character value
 	character = [[coder decodeObjectForKey:@"Char"] retain];
 	keyCode = [coder decodeIntForKey:@"Code"];
     return self;
@@ -271,20 +267,21 @@
 - (void)encodeWithCoder:(NSCoder *)coder
 {
 	[coder encodeInt:keyCode forKey:@"Code"];
-	[character encodeWithCoder:coder];
+	// FIXME: the encoding doesn't match the decoding !
+	//[character encodeWithCoder:coder];
+	[coder encodeObject:character forKey:@"Char"];
 }
 
 - (NSString*) description
 {
-	return [character autorelease];
+	// FIXME: You'd lose your object here !
+	//return [character autorelease];
+	return [[character retain] autorelease];
 }
 
 - (id)copyWithZone: (NSZone*) zone
 {
-	KeyboardButton *copy = [[[self class] allocWithZone: zone]
-										initWithKeycode:keyCode];
-						
-	return copy;
+	return [[[self class] allocWithZone: zone] initWithKeycode:keyCode];
 }
 
 
@@ -303,8 +300,14 @@
 @synthesize button;
 @synthesize axis;
 
+// FIXME: This implementation doesn't do more than the method it's overriding.
+- (id)init
+{
+	return [self initWithPage:0 usage:0 value:0 forButton:eButton_A player:0];
+}
 
-- (id) initWithPage: (int) aPage usage: (int) aUsage value: (int) aValue forButton: (eButton_Type) aButton player:(int) aPlayer
+
+- (id) initWithPage:(int)aPage usage:(int)aUsage value:(int)aValue forButton:(eButton_Type)aButton player:(int)aPlayer
 {
 	self = [super init];
 	
@@ -330,17 +333,14 @@
 
 - (id)copyWithZone: (NSZone*) zone
 {
-	GameButton *copy = [[[self class] allocWithZone: zone]
-						initWithPage:page
-						usage:usage 
-						value: value
-						forButton:button 
-						player:player];
-	return copy;
+	return [[[self class] allocWithZone: zone] initWithPage:page
+													  usage:usage
+													  value:value
+												  forButton:button
+													 player:player];
 }
 
 - (id)initWithCoder:(NSCoder *)coder
-
 {
 	value = [coder decodeIntForKey:@"Value"];
 	axis = [coder decodeIntForKey:@"Axis"];
@@ -371,13 +371,11 @@
 	{
 		return [NSString stringWithFormat:@"Button %i", usage];
 	}
-	else if( axis == eAxis_Positive )
-	{
-		return [NSString stringWithFormat:@"Positive %c axis", (usage == kHIDUsage_GD_X ? 'X' : (usage == kHIDUsage_GD_Y ? 'Y' : 'Z') )];
-	}
 	else
 	{
-		return [NSString stringWithFormat:@"Negative %c axis", (usage == kHIDUsage_GD_X ? 'X' : (usage == kHIDUsage_GD_Y ? 'Y' : 'Z') )];
+		return [NSString stringWithFormat:@"%@ %c axis",
+				(axis == eAxis_Positive ? @"Positive" : @"Negative"),
+				(usage == kHIDUsage_GD_X ? 'X' : (usage == kHIDUsage_GD_Y ? 'Y' : 'Z') )];
 	}
 }
 

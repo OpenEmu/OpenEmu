@@ -27,7 +27,6 @@ extern NSString * const OEPauseBackground;
 
 @interface GamePreferencesController : NSWindowController {
 	
-	
 	IBOutlet NSTableView* controlsTableView;
 	IBOutlet NSTableView* gamepadTableView;
 	IBOutlet NSTableView* pluginsTableView;
@@ -58,7 +57,6 @@ extern NSString * const OEPauseBackground;
 @end
 
 @interface GamePreferencesController (Controls)
-
 
 - (void) bindKeyFromSheet: (int) key;
 - (void) doubleClickedKeyboard;

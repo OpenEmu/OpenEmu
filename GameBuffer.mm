@@ -7,6 +7,7 @@
 //
 
 #import "GameBuffer.h"
+#import "GameCore.h"
 //#include "scalebit.h"
 #include "Filters.h"
 
@@ -20,7 +21,7 @@
 @dynamic pixelType;
 @dynamic internalForm;
 
-@synthesize gameCore;
+@synthesize gameCore, filter;
 
 + (unsigned short) convertPixel: (unsigned int) pixel
 {
@@ -34,10 +35,6 @@
 	G = (G * 63) / 255;
 	
 	return (R << 11) | (G << 5) | B;
-	
-	
-	
-	
 }
 
 + (unsigned char*) convertTo16bpp: (int *) aBuffer width: (int) aWidth height: (int) aHeight
@@ -56,6 +53,14 @@
 	return (unsigned char*)buf;
 }
 
+// No default version for this class
+- (id)init
+{
+    [self release];
+    return nil;
+}
+
+// Designated Initializer
 - (id) initWithGameCore: (id <GameCore>) core
 {
 	self = [super init];
@@ -71,7 +76,6 @@
 
 - (void) setFilter: (eFilter) aFilter
 {
-	
 	filter = aFilter;
 	
 	if(filterBuffer)
@@ -104,12 +108,6 @@
 	
 	InitLUTs();
 }
-
-- (eFilter) filter
-{	
-	return filter;
-}
-
 
 - (GLenum) pixelForm
 {

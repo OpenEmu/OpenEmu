@@ -17,6 +17,7 @@
 
 #import "GameBuffer.h"
 #import "GameAudio.h"
+#import "GameCore.h"
 //#import "Nestopia/NESGameEmu.h"
 
 #define	kQCPlugIn_Name				@"OpenEmu NES"
@@ -494,9 +495,13 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		}
 		
 		glFlushRenderAPPLE();
-
-	#if __BIG_ENDIAN__
-		provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatARGB8 
+#if __BIG_ENDIAN__
+#define OEPlugInPixelFormat QCPlugInPixelFormatARGB8
+#else
+#define OEPlugInPixelFormat QCPlugInPixelFormatBGRA8
+#endif
+		
+		provider = [context outputImageProviderFromTextureWithPixelFormat:OEPlugInPixelFormat 
 															   pixelsWide:[gameCore width]
 															   pixelsHigh:[gameCore height]
 																	 name:texName 
@@ -505,18 +510,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 														   releaseContext:NULL
 															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
 														 shouldColorMatch:YES];
-	#else 
-		provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatBGRA8  
-															   pixelsWide:[gameCore width]
-															   pixelsHigh:[gameCore height]
-																	 name:texName 
-																  flipped:YES 
-														  releaseCallback:_TextureReleaseCallback 
-														   releaseContext:NULL 
-															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
-														 shouldColorMatch:YES];
-	#endif
-
 	}
 
 	// output OpenEmu Texture - note we CAN output a nil image. This is 'correct'

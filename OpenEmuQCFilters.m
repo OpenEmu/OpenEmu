@@ -1,5 +1,6 @@
 #import <OpenGL/CGLMacro.h>
 
+#import "GameShader.h"
 #import "OpenEmuQCFilters.h"
 
 #define	kQCPlugIn_Name				@"OpenEmu Filters"
@@ -336,16 +337,22 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 		
 		if(finalOutput == 0)
 			return NO;
-		
-		id provider;	
-	
+
+#if __BIG_ENDIAN__
+#define OEPlugInPixelFormat QCPlugInPixelFormatARGB8
+#else
+#define OEPlugInPixelFormat QCPlugInPixelFormatBGRA8
+#endif
 		// output our final image as a QCPluginOutputImageProvider using the QCPluginContext convinience method. No need to go through the trouble of making our own conforming object.	
-		#if __BIG_ENDIAN__
-				provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatARGB8 pixelsWide:width * multiplier pixelsHigh:height * multiplier name:finalOutput flipped:[image textureFlipped] releaseCallback:_TextureReleaseCallback releaseContext:cgl_ctx colorSpace:[image imageColorSpace] shouldColorMatch:YES];
-		#else
-				provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatBGRA8 pixelsWide:width * multiplier pixelsHigh:height * multiplier name:finalOutput flipped:[image textureFlipped] releaseCallback:_TextureReleaseCallback releaseContext:cgl_ctx colorSpace:[image imageColorSpace] shouldColorMatch:YES];
-		#endif
-	
+		id provider = [context outputImageProviderFromTextureWithPixelFormat:OEPlugInPixelFormat
+																  pixelsWide:width * multiplier
+																  pixelsHigh:height * multiplier
+																		name:finalOutput
+																	 flipped:[image textureFlipped]
+															 releaseCallback:_TextureReleaseCallback
+															  releaseContext:cgl_ctx
+																  colorSpace:[image imageColorSpace]
+															shouldColorMatch:YES];
 		if(provider == nil)
 		{
 			[image unbindTextureRepresentationFromCGLContext:cgl_ctx textureUnit:GL_TEXTURE0];

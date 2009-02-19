@@ -5,11 +5,9 @@
 //  A NES-only QC plugin for teh glitchy insanity.  Started by Dan Winckler on 11/16/08.
 //
 #import <Cocoa/Cocoa.h>
-#import "GameCore.h"
 
-@class NESGameEmu;
-@class GameAudio;
-@class GameBuffer;
+@protocol GameCore;
+@class NESGameEmu, GameAudio, GameBuffer;
 
 @interface OpenEmuQCNES : QCPlugIn
 {

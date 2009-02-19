@@ -7,7 +7,7 @@
  *
  */
 
-@protocol GameCore
+@protocol GameCore <NSObject>
 
 #pragma mark Execution
 - (void) pause: (bool) b;
@@ -16,9 +16,6 @@
 - (void) reset;
 - (void) executeFrame;
 
-- (void) release;
-- (BOOL)respondsToSelector:(SEL)aSelector;
-- (id)performSelector:(SEL)aSelector;
 - (void) setup;
 - (bool) load: (NSString*) path withParent: (NSDocument*) newParent;
 

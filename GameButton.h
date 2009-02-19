@@ -18,8 +18,8 @@ typedef enum
 	eAxis_Negative,
 } eAxis;
 
-
-@interface KeyboardButton : NSObject <NSCoding> {
+// FIXME: Missing NSCopying protocol
+@interface KeyboardButton : NSObject <NSCoding, NSCopying> {
 	eButton_Type button;
 	
 	NSString* character;

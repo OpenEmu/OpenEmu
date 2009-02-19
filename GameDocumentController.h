@@ -7,8 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GameCore.h"
 
+@protocol GameCore;
 @class GameDocument, GamePreferencesController;
 
 @interface GameDocumentController : NSDocumentController {

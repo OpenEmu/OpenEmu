@@ -7,8 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GameCore.h"
-
+@protocol GameCore;
 typedef enum
 {
 	eFilter_None,
@@ -24,7 +23,7 @@ typedef enum
 	eFilter_HQ2xGLSL,
 	eFilter_HQ4xGLSL,
 	
-}eFilter;
+} eFilter;
 
 
 @interface GameBuffer : NSObject {
@@ -48,13 +47,10 @@ typedef enum
 + (unsigned char*) convertTo16bpp: (int *) buffer width: (int) width height: (int) height;
 
 - (void) updateBuffer;
-- (unsigned char*) buffer;
-- (void) setFilter: (eFilter) filter;
-- (eFilter) filter;
 - (id) initWithGameCore: (id <GameCore>) core;
 
-//@property(readonly) unsigned char* buffer;
-
+@property(readonly) unsigned char* buffer;
+@property eFilter filter;
 @property(readonly) GLenum pixelForm;
 @property(readonly) GLenum pixelType;
 @property(readonly) GLenum internalForm;

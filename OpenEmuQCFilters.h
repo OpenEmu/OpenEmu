@@ -7,7 +7,7 @@
 //
 
 #import <OpenGL/OpenGL.h>
-#import "GameShader.h"
+@class GameShader;
 
 @interface OpenEmuQCFiltersPlugin : QCPlugIn
 {

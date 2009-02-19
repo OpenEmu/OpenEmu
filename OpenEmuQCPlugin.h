@@ -11,12 +11,8 @@
 #import <Cocoa/Cocoa.h>
 #import <AudioToolbox/AudioToolbox.h>
 
-#import "GameCore.h"
-#import "GameBuffer.h"
-#import "GameAudio.h"
-
-@class GameAudio;
-@class GameBuffer;
+@protocol GameCore;
+@class GameAudio, GameBuffer;
 
 @interface OpenEmuQC : QCPlugIn
 {

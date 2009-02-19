@@ -7,12 +7,12 @@
 //
 
 #import "GameLayer.h"
+#import "GameCore.h"
 #import "GameBuffer.h"
+#import "GameShader.h";
 //#include "GameFilters.h"
 
 @implementation GameLayer
-#ifdef MAC_OS_X_VERSION_10_5
-
 
 // create our own GL context and load our shaders here...
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat
@@ -41,7 +41,7 @@
 	
 	NSSize aspect;
 	if( [[gameBuffer gameCore] respondsToSelector:@selector(outputSize)] )
-		aspect = [[gameBuffer gameCore]outputSize];
+		aspect = [[gameBuffer gameCore] outputSize];
 	else
 		aspect = NSMakeSize([gameBuffer width], [gameBuffer height]);
 	
@@ -212,6 +212,4 @@
 	glUniform1iARB([Scale4xHQ getUniformLocation:"OGL2Texture"], 0);	// texture
 }
 
-
-#endif
 @end

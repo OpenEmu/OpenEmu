@@ -9,8 +9,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CoreAnimation.h>
-#import "GameCore.h"
 
+@protocol GameCore;
 @class GameInput;
 @class GameAudio;
 @class GameLayer;

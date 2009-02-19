@@ -9,6 +9,9 @@
 //#import <OpenGL/CGLMacro.h>
 
 #import "OpenEmuQCPlugin.h"
+#import "GameCore.h"
+#import "GameBuffer.h"
+#import "GameAudio.h"
 
 #define	kQCPlugIn_Name				@"OpenEmu"
 #define	kQCPlugIn_Description		@"Wraps the OpenEmu emulator - Play NES, Atari, Gameboy, Sega roms in QC"

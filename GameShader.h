@@ -25,6 +25,7 @@
 } // Shader
 
 - (id) initWithShadersInAppBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
+// Designated initializer
 - (id) initWithShadersInBundle:(NSBundle*)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context;
 
 - (GLhandleARB) programObject;

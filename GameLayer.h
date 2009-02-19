@@ -7,16 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <QuartzCore/CAOpenGLLayer.h>
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/gl.h>
 
-#import "GameShader.h";
+@class GameBuffer, GameShader;
 
-@class GameBuffer;
-
-#ifdef MAC_OS_X_VERSION_10_5
-#import <QuartzCore/CAOpenGLLayer.h>
-#endif
 @interface GameLayer : CAOpenGLLayer {
 	GameBuffer *gameBuffer;
 	
