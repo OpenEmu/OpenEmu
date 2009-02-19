@@ -7,10 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GameCore.h"
-#import <Foundation/Foundation.h>
 #include <AudioToolbox/AudioToolbox.h>
 #include <AudioUnit/AudioUnit.h>
+
+@protocol GameCore;
 
 @interface RenderCallbackData : NSObject
 {

@@ -7,6 +7,7 @@
 //
 
 #import "GameAudio.h"
+#import "GameCore.h"
 #import "GamePreferencesController.h"
 #import "GameDocumentController.h"
 OSStatus RenderCallback(
@@ -51,6 +52,14 @@ OSStatus RenderCallback(
 
 @synthesize bufUsed, bufOutPos, bufInPos, samplesFrame, sizeSoundBuffer, channels, sampleRate, sndBuf, paused;
 
+// No default version for this class
+- (id)init
+{
+    [self release];
+    return nil;
+}
+
+// Designated Initializer
 - (id) initWithCore:(id <GameCore>) core{
 	
 	self = [super init];
@@ -95,7 +104,6 @@ OSStatus RenderCallback(
 @end
 
 
-
 @implementation GameAudio
 
 - (void) pauseAudio
@@ -120,7 +128,6 @@ OSStatus RenderCallback(
 
 - (void) advanceBuffer
 {	
-	
 	if(gameCore != NULL)
 	{
 		memcpy(&wrapper.sndBuf[wrapper.bufInPos], [gameCore sndBuf], wrapper.samplesFrame * wrapper.channels * sizeof(UInt16));
@@ -251,11 +258,16 @@ OSStatus RenderCallback(
 	err = AUGraphStart(mGraph);
 	if(err)
 		NSLog(@"couldn't start graph");
-	
-	
-	
 }
 
+// No default version for this class
+- (id)init
+{
+    [self release];
+    return nil;
+}
+
+// Designated Initializer
 - (id) initWithCore:(id <GameCore>) core
 {
 	self = [super init];
