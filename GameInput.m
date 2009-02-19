@@ -10,6 +10,8 @@
 #import "GamePreferencesController.h"
 #import "GameDocumentController.h"
 #import "GameButton.h"
+#import "GameCore.h"
+#import "GameButtons.h"
 #include <IOKit/hid/IOHIDLib.h>
 #include <IOKit/hid/IOHIDUsageTables.h>
 
@@ -250,7 +252,6 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 	}
 	return self;
 }
-
 	
 
 - (BOOL)handlesEvent:(NSEvent *)theEvent

@@ -7,12 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GameCore.h"
-#import "GameButtons.h"
 
 @class GamePreferencesController, GameDocumentController;
-
-
 
 @interface GameInput : NSResponder {
 	IBOutlet GameDocumentController* docController;
