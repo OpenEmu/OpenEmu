@@ -18,7 +18,7 @@
 #import "GameBuffer.h"
 #import "GameAudio.h"
 #import "GameCore.h"
-//#import "Nestopia/NESGameEmu.h"
+#import "../Nestopia/NESGameEmu.h"
 
 #define	kQCPlugIn_Name				@"OpenEmu NES"
 #define	kQCPlugIn_Description		@"Wraps the OpenEmu emulator - play and manipulate the NES"
