@@ -417,7 +417,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	//		DLog(@"rewinder state changed");
 			[self enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
 
-			if([(NESGameEmu*)gameCore isRewinderEnabled]) 
+			if([gameCore isRewinderEnabled]) 
 			{
 				NSLog(@"rewinder is enabled");
 			} else 
@@ -685,9 +685,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	//			DLog(@"button %u is up", i);
 				[gameCore buttonRelease:i forPlayer:[playerNumber intValue]];
 			}
-		} 
+		}
 	}	
-	
 }
 
 // callback for audio from plugin
