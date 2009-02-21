@@ -18,7 +18,7 @@
 #import "GameBuffer.h"
 #import "GameAudio.h"
 #import "GameCore.h"
-#import "../Nestopia/NESGameEmu.h"
+//#import "../Nestopia/NESGameEmu.h"
 
 #define	kQCPlugIn_Name				@"OpenEmu NES"
 #define	kQCPlugIn_Description		@"Wraps the OpenEmu emulator - play and manipulate the NES"
@@ -417,7 +417,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	//		DLog(@"rewinder state changed");
 			[self enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
 
-			if([gameCore isRewinderEnabled]) 
+			if([(NESGameEmu*)gameCore isRewinderEnabled]) 
 			{
 				NSLog(@"rewinder is enabled");
 			} else 

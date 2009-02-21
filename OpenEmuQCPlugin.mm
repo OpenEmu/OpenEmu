@@ -362,7 +362,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		}
 
 		// Process state loading
-		if([self didValueForInputKeyChange: @"inputLoadStatePath"] && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQC	attributesForPropertyPortWithKey:@"inputLoadStatePath"] valueForKey: QCPortAttributeDefaultValueKey]))	
+		if([self didValueForInputKeyChange: @"inputLoadStatePath"] 
+		   && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQC	attributesForPropertyPortWithKey:@"inputLoadStatePath"] valueForKey: QCPortAttributeDefaultValueKey])
+			&& (![[self valueForInputKey:@"inputLoadStatePath"] isEqualToString:@""] ))	
 		{
 			NSLog(@"load path changed");
 			[self loadState:[[self valueForInputKey:@"inputLoadStatePath"] stringByStandardizingPath]];
