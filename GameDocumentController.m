@@ -202,8 +202,8 @@
 		NSString *file;
 		NSString *bundleDir = [[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OEBundlePath"] stringByStandardizingPath];
 		NSMutableArray* bundlePaths = [[NSMutableArray alloc] init];
-		
-		
+	
+		// get our core bundles
 		NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath: bundleDir];
 		while (file = [enumerator nextObject])
 		{
@@ -230,6 +230,7 @@
 		
 		NSMutableArray* mutableExtensions = [[NSMutableArray alloc] init];
 		
+		//go through the bundles Info.plist files to get the type extensions
 		for(NSBundle* bundle in bundles)
 		{
 			NSArray* types = [[bundle infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
@@ -253,6 +254,8 @@
 		validExtensions = [mutableExtensions copy];
 		//validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
 		
+		[self updateInfoPlist:validExtensions];
+		
 		[mutableExtensions release];
 	}
 	return self;
@@ -263,6 +266,65 @@
 	[validExtensions release];
 	[bundles release];
 	[super dealloc];
+}
+
+- (void) updateInfoPlist:(NSArray*) updatedExtensions 
+{
+	// updates OpenEmu.app's Info.plist with the valid extensions so that users can drag ROMs onto the icon to get opened
+
+	NSArray* validExtensions = updatedExtensions;
+	
+	NSString *errorDesc = nil;
+	NSPropertyListFormat format;
+	
+	NSString *infoPlistPath =  [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Info.plist"];
+	
+	// get Info.plist as data
+	NSData * infoPlistXml = [[NSFileManager defaultManager] contentsAtPath:infoPlistPath];
+	
+	// store it mutably
+	NSMutableDictionary *infoPlist = (NSMutableDictionary*)[NSPropertyListSerialization 
+															propertyListFromData: infoPlistXml
+															mutabilityOption: NSPropertyListMutableContainersAndLeaves
+															format:&format
+															errorDescription:&errorDesc];
+	if (!infoPlist) {
+		NSLog(errorDesc);
+		[errorDesc release];
+	}
+	
+	// get the current doctypes and extensions from Info.plist
+	NSMutableArray* docTypes = [[infoPlist objectForKey:@"CFBundleDocumentTypes"] retain];
+	
+	// replace extensions with validExtensions
+	// FIXME: the CFBundleTypeExtensions array gets larger every time you open the app, i.e., the array is getting appended, not replaced :X
+	[docTypes setValue:validExtensions forKey:@"CFBundleTypeExtensions"];
+	
+	NSLog(@"%@",docTypes);
+	
+	// update Info.plist
+	//	[infoPlist setObject:[NSNull null] forKey: @"CFBundleDocumentTypes"];
+	[infoPlist setObject:docTypes forKey: @"CFBundleDocumentTypes"];
+	
+	NSLog(@"revised Info.plist will be %@",infoPlist);
+	
+	NSString* err;
+	// turn it back into proper XML data
+	NSData* updatedInfoPlistData = [NSPropertyListSerialization dataFromPropertyList:infoPlist
+																			  format:NSPropertyListXMLFormat_v1_0
+																	errorDescription:&err];
+	BOOL updatedPlist;
+	if(updatedInfoPlistData) 
+	{
+		//save it out to Info.plist
+		updatedPlist = [updatedInfoPlistData writeToFile:infoPlistPath atomically:YES];
+		DLog(@"updated plist?  %U", updatedPlist);
+		
+		[err release];
+	}			
+	else 
+		NSLog(@"error: %@",err);	
+	
 }
 
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
