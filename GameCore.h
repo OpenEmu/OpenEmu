@@ -68,7 +68,7 @@
 
 #pragma mark Execution
 - (void)frameRefreshThread:(id)anArgument;
-- (void)togglePauseEmulation;
+- (void)setPauseEmulation:(BOOL)flag;
 - (void)setupEmulation;
 - (void)stopEmulation;
 - (void)startEmulation;

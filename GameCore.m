@@ -75,10 +75,10 @@ static NSTimeInterval currentTime()
 	[pool drain];
 }
 
-- (void)togglePauseEmulation
+- (void)setPauseEmulation:(BOOL)flag
 {
-	if(emulationThread == nil) [self startEmulation];
-	else                       [self stopEmulation];
+	if(flag) [self stopEmulation];
+	else     [self startEmulation];
 }
 
 - (void)setupEmulation
