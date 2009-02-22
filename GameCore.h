@@ -100,16 +100,13 @@
 - (void)player:(NSInteger)thePlayer didPressButton:(NSInteger)gameButton;
 - (void)player:(NSInteger)thePlayer didReleaseButton:(NSInteger)gameButton;
 
-#pragma mark Optional
-- (void)saveStateToFileAtPath:(NSString *)fileName;
-- (void)loadStateFromFileAtPath:(NSString *)fileName;
-
-
-
 @end
 
 #pragma mark Optional
 @interface GameCore (OptionalMethods)
+- (void)saveStateToFileAtPath:(NSString *)fileName;
+- (void)loadStateFromFileAtPath:(NSString *)fileName;
+
 - (void) requestAudio: (int) frames inBuffer: (void*)buf;
 - (NSSize) outputSize;
 - (void) setRandomByte;

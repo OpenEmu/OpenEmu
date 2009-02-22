@@ -208,15 +208,4 @@ static NSTimeInterval currentTime()
 	[self doesNotImplementSelector:_cmd];
 }
 
-#pragma mark Optional
-- (void)saveStateToFileAtPath:(NSString *)fileName
-{
-	[self doesNotImplementOptionalSelector:_cmd];
-}
-
-- (void)loadStateFromFileAtPath:(NSString *)fileName
-{
-	[self doesNotImplementOptionalSelector:_cmd];
-}
-
 @end
