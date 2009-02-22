@@ -14,6 +14,7 @@
 
 @interface RenderCallbackData : NSObject
 {
+	id <GameCore> _core;
 	UInt32 bufInPos, bufOutPos, bufUsed;
 	
 	UInt32 samplesFrame;
@@ -23,6 +24,7 @@
 	bool paused;
 	NSLock* soundLock;
 	UInt16* sndBuf;
+	BOOL useRingBuffer;
 }
 
 @property(readwrite) UInt32 bufUsed;
@@ -34,6 +36,8 @@
 @property(readwrite) UInt32 sampleRate;
 @property(readonly) UInt16* sndBuf;
 @property(readwrite) bool paused;
+@property(readonly) BOOL useRingBuffer;
+@property(readonly) id <GameCore> core;
 
 - (id) initWithCore:(id <GameCore>) core;
 - (void) lock;

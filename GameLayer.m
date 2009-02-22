@@ -90,6 +90,7 @@
 			break;
 	}		
 
+	
 	// draw our quad, works on its own or with shader bound
 	[self renderQuad];
 

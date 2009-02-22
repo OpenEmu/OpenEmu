@@ -21,36 +21,42 @@ OSStatus RenderCallback(
 	RenderCallbackData * wrapper = (RenderCallbackData *)in;
 	
 	UInt16 *coreAudioBuffer = (UInt16*) ioData->mBuffers[0].mData;
-	memset(coreAudioBuffer, 0, ioData->mBuffers[0].mDataByteSize/2);
+	memset(coreAudioBuffer, 0, ioData->mBuffers[0].mDataByteSize);
 	
-	[wrapper lock];
-	
-	//NSLog(@"Frames: %i", inNumberFrames);
-	if (inNumberFrames > 0 && ![wrapper paused]) {
-		
-		inTimeStamp = 0;
-		if (wrapper.bufUsed < inNumberFrames * wrapper.channels)
-		{
-			wrapper.bufUsed = inNumberFrames * wrapper.channels;
-			wrapper.bufOutPos = (wrapper.bufInPos + (wrapper.sizeSoundBuffer) - inNumberFrames * wrapper.channels) % (wrapper.sizeSoundBuffer);
-		}
-		// For each frame/packet (the same in our example)
-		for(int i=0; i<inNumberFrames * wrapper.channels; ++i) {
-			
-			*coreAudioBuffer++ = wrapper.sndBuf[wrapper.bufOutPos];
-			wrapper.bufOutPos = (wrapper.bufOutPos + 1) % (wrapper.sizeSoundBuffer);	
-		}
-		wrapper.bufUsed -= inNumberFrames * wrapper.channels;
+	if(!wrapper.useRingBuffer )
+	{
+		[[wrapper core] requestAudio: inNumberFrames inBuffer: ioData->mBuffers[0].mData];
 	}
-	
-	[wrapper unlock];
-	
+	else
+	{
+		[wrapper lock];
+		
+		//NSLog(@"Frames: %i", inNumberFrames);
+		if (inNumberFrames > 0 && ![wrapper paused]) {
+			
+			inTimeStamp = 0;
+			if (wrapper.bufUsed < inNumberFrames * wrapper.channels)
+			{
+				wrapper.bufUsed = inNumberFrames * wrapper.channels;
+				wrapper.bufOutPos = (wrapper.bufInPos + (wrapper.sizeSoundBuffer) - inNumberFrames * wrapper.channels) % (wrapper.sizeSoundBuffer);
+			}
+			// For each frame/packet (the same in our example)
+			for(int i=0; i<inNumberFrames * wrapper.channels; ++i) {
+				
+				*coreAudioBuffer++ = wrapper.sndBuf[wrapper.bufOutPos];
+				wrapper.bufOutPos = (wrapper.bufOutPos + 1) % (wrapper.sizeSoundBuffer);	
+			}
+			wrapper.bufUsed -= inNumberFrames * wrapper.channels;
+		}
+		
+		[wrapper unlock];
+	}
 	return 0;
 }
 
 @implementation RenderCallbackData
 
-@synthesize bufUsed, bufOutPos, bufInPos, samplesFrame, sizeSoundBuffer, channels, sampleRate, sndBuf, paused;
+@synthesize bufUsed, bufOutPos, bufInPos, samplesFrame, sizeSoundBuffer, channels, sampleRate, sndBuf, paused, core = _core, useRingBuffer;
 
 // No default version for this class
 - (id)init
@@ -66,6 +72,7 @@ OSStatus RenderCallback(
 	
 	if(self)
 	{
+		_core = core;
 		sampleRate = [core sampleRate];
 		samplesFrame = [core samplesFrame];
 		sizeSoundBuffer = [core sizeSoundBuffer] * 2;
@@ -79,6 +86,8 @@ OSStatus RenderCallback(
 		bufInPos     = 0;
 		bufOutPos    = 0;
 		bufUsed      = 0;
+		useRingBuffer = ![_core respondsToSelector:@selector(requestAudio:inBuffer:)];
+		
 	}
 	
 	return self;
@@ -128,18 +137,21 @@ OSStatus RenderCallback(
 
 - (void) advanceBuffer
 {	
-	if(gameCore != NULL)
+	if([wrapper useRingBuffer])
 	{
-		memcpy(&wrapper.sndBuf[wrapper.bufInPos], [gameCore sndBuf], wrapper.samplesFrame * wrapper.channels * sizeof(UInt16));
-	}
-	
-	wrapper.bufInPos = (wrapper.bufInPos + wrapper.samplesFrame * wrapper.channels) % (wrapper.sizeSoundBuffer);
-	wrapper.bufUsed += wrapper.channels * wrapper.samplesFrame;
-	
-	if (wrapper.bufUsed > wrapper.sizeSoundBuffer)
-	{
-		wrapper.bufUsed   = wrapper.sizeSoundBuffer;
-		wrapper.bufOutPos = wrapper.bufInPos;
+		if(gameCore != NULL)
+		{
+			memcpy(&wrapper.sndBuf[wrapper.bufInPos], [gameCore sndBuf], wrapper.samplesFrame * wrapper.channels * sizeof(UInt16));
+		}
+		
+		wrapper.bufInPos = (wrapper.bufInPos + wrapper.samplesFrame * wrapper.channels) % (wrapper.sizeSoundBuffer);
+		wrapper.bufUsed += wrapper.channels * wrapper.samplesFrame;
+		
+		if (wrapper.bufUsed > wrapper.sizeSoundBuffer)
+		{
+			wrapper.bufUsed   = wrapper.sizeSoundBuffer;
+			wrapper.bufOutPos = wrapper.bufInPos;
+		}
 	}
 }
 

@@ -72,13 +72,17 @@
 	
 	[rootLayer setNeedsLayout];
 	
+	
+	//recorder = [[GameQTRecorder alloc] initWithGameCore:gameCore];
 	[gameCore start];	
 
+//	[recorder startRecording];
 	//frameTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:gameCore selector:@selector(tick) userInfo:nil repeats:YES];
 	//[[NSRunLoop currentRunLoop] addTimer: frameTimer forMode: NSRunLoopCommonModes];
 
 	[gameWindow makeKeyAndOrderFront:self];
-	
+		
+
 	if([[[GameDocumentController sharedDocumentController] preferenceController] fullScreen])
 		[view enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
 		
@@ -130,7 +134,7 @@
 }
 
 - (void) refresh
-{
+{	
 	//[gameBuffer updateBuffer];
 	[gameLayer display];
 	[audio advanceBuffer];
@@ -165,6 +169,7 @@
 {
 	if([view isInFullScreenMode])
 		[view exitFullScreenModeWithOptions:nil];
+//	[recorder finishRecording];
 	[gameCore stop];
 	[audio stopAudio];
 	[gameCore release];

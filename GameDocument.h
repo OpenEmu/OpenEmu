@@ -15,6 +15,7 @@
 @class GameAudio;
 @class GameLayer;
 @class GameBuffer;
+@class GameQTRecorder;
 
 @interface GameDocument : NSDocument
 {
@@ -22,6 +23,7 @@
 	CALayer *rootLayer;
 	GameLayer *gameLayer;
 	GameBuffer *gameBuffer;
+	GameQTRecorder *recorder;
 	BOOL keyedOnce;
 	id <GameCore> gameCore;
 	GameAudio * audio;

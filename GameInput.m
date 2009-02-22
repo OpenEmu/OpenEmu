@@ -29,14 +29,14 @@ Handle_InputValueCallback(
 						  IOHIDValueRef inIOHIDValueRef )
 {
 	
-	NSLog(@"Pressed");
+//	NSLog(@"Pressed");
 	//printf( "%s( context: %p, result: %p, sender: %p, device: %p ).\n",        __PRETTY_FUNCTION__, inContext, ( void * ) inResult, inSender, ( void* ) inIOHIDValueRef );
 	IOHIDElementRef elem = IOHIDValueGetElement(inIOHIDValueRef);
 	CFIndex value = IOHIDValueGetIntegerValue(inIOHIDValueRef);
 	const uint32_t page = IOHIDElementGetUsagePage(elem);
 	const uint32_t usage = IOHIDElementGetUsage(elem);
 
-	NSLog(@"Usage %d Page %d", usage, page);
+	//NSLog(@"Usage %d Page %d", usage, page);
 //	if(!(usage == kHIDUsage_GD_GamePad || usage == kHIDUsage_GD_Joystick) && page == kHIDPage_GenericDesktop)
 //		return;
 		
@@ -80,12 +80,12 @@ Handle_InputValueCallback(
 
 				if([button axis] == axis)
 				{
-				//	NSLog(@"Setting %i",button.button);
+					NSLog(@"Setting %i",button.button);
 					[controls pressButton:button.button forPlayer:button.player]; 
 				}
 				else
 				{
-				//	NSLog(@"Release %i",button.button);
+					NSLog(@"Release %i",button.button);
 					[controls releaseButton:button.button forPlayer:button.player];	
 				}
 			}
@@ -93,12 +93,12 @@ Handle_InputValueCallback(
 			{
 				if(value)
 				{
-				//	NSLog(@"Press %i",button.button);
+					NSLog(@"Press %i",button.button);
 					[controls pressButton:button.button forPlayer:button.player]; 
 				}
 				else
 				{
-				//	NSLog(@"Release %i",button.button);	
+					NSLog(@"Release %i",button.button);	
 					[controls releaseButton:button.button forPlayer:button.player];				
 				}
 				break;

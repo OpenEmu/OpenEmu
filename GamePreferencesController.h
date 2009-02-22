@@ -20,7 +20,7 @@ extern NSString * const OEFilter;
 extern NSString * const OEGamepadControls;
 extern NSString * const OEVolume;
 extern NSString * const OEPauseBackground;
-
+extern NSString * const OEQTFrameRate;
 
 @class GameDocumentController, GameButton, KeyboardButton;
 
@@ -55,6 +55,13 @@ extern NSString * const OEPauseBackground;
 - (NSRect)newFrameForNewContentView:(NSView *)view;
 
 @end
+
+@interface GamePreferencesController (Recording)
+
+- (int) qtFrameRate;
+
+@end
+
 
 @interface GamePreferencesController (Controls)
 

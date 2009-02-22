@@ -20,6 +20,7 @@ NSString * const OEFilter = @"Filter";
 NSString * const OEGamepadControls = @"GamepadControls";
 NSString * const OEVolume = @"Volume";
 NSString * const OEPauseBackground = @"PauseBackground";
+NSString * const OEQTFrameRate = @"QTFrameRate";
 
 @implementation ControlRebindView
 
@@ -262,6 +263,15 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 {
 //	NSLog(@"Asked for volume: %f", 
 	return [[NSUserDefaults standardUserDefaults] floatForKey:OEVolume];
+}
+
+@end
+
+@implementation GamePreferencesController (Recording)
+
+- (int) qtFrameRate
+{
+	return [[NSUserDefaults standardUserDefaults] integerForKey:OEQTFrameRate];
 }
 
 @end

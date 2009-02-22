@@ -44,6 +44,7 @@
 @optional
 - (void) saveState: (NSString *) fileName;
 - (void) loadState: (NSString *) fileName;
+- (void) requestAudio: (int) frames inBuffer: (void*)buf;
 - (NSSize) outputSize;
 - (void) setRandomByte;
 @end
