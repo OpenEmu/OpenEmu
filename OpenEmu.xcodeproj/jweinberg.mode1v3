@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>82F3635F0F51D2E0001495F6</string>
+						<string>82F364070F51E18D001495F6</string>
 						<key>history</key>
 						<array>
 							<string>82F3630E0F51D014001495F6</string>
@@ -269,8 +269,6 @@
 			<key>Layout</key>
 			<array>
 				<dict>
-					<key>BecomeActive</key>
-					<true/>
 					<key>ContentConfiguration</key>
 					<dict>
 						<key>PBXBottomSmartGroupGIDs</key>
@@ -317,7 +315,7 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>3</integer>
+									<integer>4</integer>
 									<integer>1</integer>
 									<integer>0</integer>
 								</array>
@@ -353,12 +351,14 @@
 					<key>Dock</key>
 					<array>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>GameCore.h</string>
+								<string>GameCore.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -366,11 +366,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>GameCore.h</string>
+										<string>GameCore.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>82F3635E0F51D2E0001495F6</string>
+										<string>82F364060F51E18D001495F6</string>
 										<key>history</key>
 										<array>
 											<string>820BA9F60E7A2BCF00FC3C47</string>
@@ -464,7 +464,6 @@
 											<string>82EA5E440F513F13008E18C5</string>
 											<string>82EA5E470F513F13008E18C5</string>
 											<string>82EA5F270F514334008E18C5</string>
-											<string>82EA608A0F5153A1008E18C5</string>
 											<string>82EA61360F515B23008E18C5</string>
 											<string>826A66B50F51C345009A325A</string>
 											<string>826A66B60F51C345009A325A</string>
@@ -477,8 +476,8 @@
 											<string>82F362F90F51CF77001495F6</string>
 											<string>82F362FA0F51CF77001495F6</string>
 											<string>82F3630F0F51D015001495F6</string>
-											<string>82F363100F51D015001495F6</string>
-											<string>82F363110F51D015001495F6</string>
+											<string>82F363DA0F51DECB001495F6</string>
+											<string>82F364000F51E183001495F6</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -584,7 +583,6 @@
 											<string>82444B4C0F5121E1007C171B</string>
 											<string>82444B4D0F5121E1007C171B</string>
 											<string>82EA5E4C0F513F13008E18C5</string>
-											<string>82EA608F0F5153A1008E18C5</string>
 											<string>82F362A60F51CC6D001495F6</string>
 											<string>82F362A70F51CC6D001495F6</string>
 											<string>82F362A80F51CC6D001495F6</string>
@@ -616,6 +614,7 @@
 											<string>82F363120F51D015001495F6</string>
 											<string>82F363130F51D015001495F6</string>
 											<string>82F363140F51D015001495F6</string>
+											<string>82F363DC0F51DECB001495F6</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -809,10 +808,14 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>82F364080F51E18D001495F6</string>
+		<string>82F363C90F51DC6F001495F6</string>
+		<string>82F363CA0F51DC6F001495F6</string>
 		<string>1CD10A99069EF8BA00B06720</string>
-		<string>/Users/jweinberg/Development/OpenEmu/OpenEmu/OpenEmu.xcodeproj</string>
 		<string>82F363160F51D015001495F6</string>
+		<string>1C78EAAD065D492600B07095</string>
 		<string>1C530D57069F1CE1000CFCEE</string>
+		<string>/Users/jweinberg/Development/OpenEmu/OpenEmu/OpenEmu.xcodeproj</string>
 		<string>828388770E6CE38C00A96E2C</string>
 	</array>
 	<key>WindowString</key>
@@ -832,14 +835,12 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>GameInput.m</string>
+								<string>GameDocumentController.m</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -848,7 +849,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1065, 430}}</string>
 								<key>RubberWindowFrame</key>
-								<string>615 222 1065 678 0 0 1680 1028 </string>
+								<string>180 202 1065 678 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -856,6 +857,8 @@
 							<string>430pt</string>
 						</dict>
 						<dict>
+							<key>BecomeActive</key>
+							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXBuildLogShowsTranscriptDefaultKey</key>
@@ -874,7 +877,7 @@
 								<key>Frame</key>
 								<string>{{0, 435}, {1065, 202}}</string>
 								<key>RubberWindowFrame</key>
-								<string>615 222 1065 678 0 0 1680 1028 </string>
+								<string>180 202 1065 678 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXBuildResultsModule</string>
@@ -904,7 +907,7 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.buildV3</string>
 			<key>WindowString</key>
-			<string>615 222 1065 678 0 0 1680 1028 </string>
+			<string>180 202 1065 678 0 0 1680 1028 </string>
 			<key>WindowToolGUID</key>
 			<string>828388770E6CE38C00A96E2C</string>
 			<key>WindowToolIsVisible</key>
@@ -1050,6 +1053,8 @@
 							<key>Dock</key>
 							<array>
 								<dict>
+									<key>BecomeActive</key>
+									<true/>
 									<key>ContentConfiguration</key>
 									<dict>
 										<key>PBXProjectModuleGUID</key>
@@ -1076,8 +1081,6 @@
 							<string>212pt</string>
 						</dict>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -1179,7 +1182,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>82EA5EC80F51417A008E18C5</string>
+				<string>82F363C70F51DC6F001495F6</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>

@@ -144,7 +144,7 @@
 {
 	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
 	[docControl setGameLoaded:YES];
-	[gameCore togglePauseEmulation];
+	[gameCore setPauseEmulation:NO];
 	[audio startAudio];
 }
 
@@ -155,7 +155,7 @@
 		if(![view isInFullScreenMode])
 		{
 			@try {				
-				[gameCore togglePauseEmulation];
+				[gameCore setPauseEmulation:YES];
 				[audio pauseAudio];
 			}
 			@catch (NSException * e) {
