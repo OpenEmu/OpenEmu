@@ -253,8 +253,9 @@
 		// -mutableCopy returns a mutable object.
 		NSMutableArray* tempArray = [[NSMutableArray alloc] init];
 		[tempArray addObjectsFromArray:[mutableExtensions allObjects]];
-		validExtensions = [tempArray copy];
+		validExtensions = [[NSArray arrayWithArray:tempArray] retain];
 		[tempArray release];
+		
 		//validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
 		
 		[self updateInfoPlist];
@@ -415,7 +416,10 @@
 			for(NSString* str in exts)
 			{
 				if([str caseInsensitiveCompare:type    ] == 0)  //ignoring case so it doesn't matter if the extension is NES or nes or NeS or nES
+				{
+					NSLog(@"Found Bundle");
 					return bundle;
+				}
 			}
 		}
 		
