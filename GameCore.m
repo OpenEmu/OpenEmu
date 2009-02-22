@@ -219,18 +219,4 @@ static NSTimeInterval currentTime()
 	[self doesNotImplementOptionalSelector:_cmd];
 }
 
-- (void) requestAudio: (int) frames inBuffer: (void*)buf
-{
-	[self doesNotImplementOptionalSelector:_cmd];
-}
-- (NSSize) outputSize
-{
-	[self doesNotImplementOptionalSelector:_cmd];
-	return NSZeroSize;
-}
-- (void) setRandomByte
-{
-	[self doesNotImplementOptionalSelector:_cmd];
-}
-
 @end

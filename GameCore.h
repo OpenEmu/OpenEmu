@@ -105,8 +105,13 @@
 - (void)loadStateFromFileAtPath:(NSString *)fileName;
 
 
+
+@end
+
 #pragma mark Optional
+@interface GameCore (OptionalMethods)
 - (void) requestAudio: (int) frames inBuffer: (void*)buf;
 - (NSSize) outputSize;
 - (void) setRandomByte;
 @end
+
