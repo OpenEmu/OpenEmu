@@ -26,7 +26,7 @@
 + (NSDictionary*) defaultGamepadControls;
 
 -(NSBundle*) bundleForType:(NSString*) type;
-- (void) updateInfoPlist:(NSArray*) updatedExtensions;
+- (void) updateInfoPlist;
 
 - (id <GameCore>) currentGame;
 - (IBAction) closeWindow: (id) sender;

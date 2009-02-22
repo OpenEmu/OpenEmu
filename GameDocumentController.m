@@ -254,7 +254,7 @@
 		validExtensions = [mutableExtensions copy];
 		//validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
 		
-		[self updateInfoPlist:validExtensions];
+		[self updateInfoPlist];
 		
 		[mutableExtensions release];
 	}
@@ -268,12 +268,10 @@
 	[super dealloc];
 }
 
-- (void) updateInfoPlist:(NSArray*) updatedExtensions 
+- (void) updateInfoPlist 
 {
 	// updates OpenEmu.app's Info.plist with the valid extensions so that users can drag ROMs onto the icon to get opened
 
-	NSArray* validExtensions = updatedExtensions;
-	
 	NSString *errorDesc = nil;
 	NSPropertyListFormat format;
 	
@@ -294,19 +292,19 @@
 	}
 	
 	// get the current doctypes and extensions from Info.plist
-	NSMutableArray* docTypes = [[infoPlist objectForKey:@"CFBundleDocumentTypes"] retain];
+	NSMutableArray* docTypes = [NSMutableArray arrayWithArray:[infoPlist objectForKey:@"CFBundleDocumentTypes"]];
 	
 	// replace extensions with validExtensions
 	// FIXME: the CFBundleTypeExtensions array gets larger every time you open the app, i.e., the array is getting appended, not replaced :X
 	[docTypes setValue:validExtensions forKey:@"CFBundleTypeExtensions"];
 	
-	NSLog(@"%@",docTypes);
+	DLog(@"docTypes is: %@",docTypes);
 	
 	// update Info.plist
-	//	[infoPlist setObject:[NSNull null] forKey: @"CFBundleDocumentTypes"];
+	
 	[infoPlist setObject:docTypes forKey: @"CFBundleDocumentTypes"];
 	
-	NSLog(@"revised Info.plist will be %@",infoPlist);
+	DLog(@"revised Info.plist will be %@",infoPlist);
 	
 	NSString* err;
 	// turn it back into proper XML data
