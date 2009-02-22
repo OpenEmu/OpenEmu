@@ -56,21 +56,30 @@
 {
 	NSThread *emulationThread;
 	GameDocument *document;
+	NSTimeInterval frameInterval;
 }
+
++ (NSTimeInterval)defaultTimeInterval;
++ (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval;
 
 @property(assign) GameDocument *document;
 
 - (id)initWithDocument:(GameDocument *)document;
 
 #pragma mark Execution
-- (void)pauseEmulation:(BOOL)flag;
+- (void)frameRefreshThread:(id)anArgument;
+- (void)togglePauseEmulation;
 - (void)setupEmulation;
 - (void)stopEmulation;
 - (void)startEmulation;
 - (void)resetEmulation;
+- (void)frameRefreshThread:(id)anArgument;
 - (void)executeFrame;
+- (void)refreshFrame;
 
 - (BOOL)loadFileAtPath:(NSString*)path;
+
+@property NSTimeInterval frameInterval;
 
 #pragma mark Video
 @property(readonly) NSInteger width;
@@ -85,7 +94,7 @@
 @property(readonly) NSInteger channelCount;
 @property(readonly) NSInteger frameSampleCount;
 @property(readonly) NSInteger soundBufferSize;
-@property(readonly) NSInteger sampleRate;
+@property(readonly) NSInteger frameSampleRate;
 
 #pragma mark Input
 - (void)player:(NSInteger)thePlayer didPressButton:(NSInteger)gameButton;

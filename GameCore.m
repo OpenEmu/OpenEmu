@@ -10,9 +10,31 @@
 #import "GameDocument.h"
 #import "GameDocumentController.h"
 #import "OEAbstractAdditions.h"
-
+#include <sys/time.h>
 
 @implementation GameCore
+
+@synthesize frameInterval, document;
+
+static Class GameCoreClass = Nil;
+static NSTimeInterval defaultTimeInterval = 60.0;
+
++ (NSTimeInterval)defaultTimeInterval
+{
+	return defaultTimeInterval;
+}
++ (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval
+{
+	defaultTimeInterval = aTimeInterval;
+}
+
++ (void)initialize
+{
+	if(self == [GameCore class])
+	{
+		GameCoreClass = [GameCore class];
+	}
+}
 
 @property(assign) GameDocument *document;
 
@@ -26,32 +48,67 @@
 	self = [super init];
 	if(self != nil)
 	{
-		document = aDocument; 
+		document = aDocument;
+		frameInterval = [[self class] defaultTimeInterval];
 	}
 	return self;
 }
 
 #pragma mark Execution
-- (void)pauseEmulation:(BOOL)flag
+static NSTimeInterval currentTime()
 {
-	[self doesNotImplementSelector:_cmd];
+	struct timeval t = { 0, 0 };
+	struct timeval t2 = { 0, 0 };
+	gettimeofday(&t, &t2);
+	return t.tv_sec + (t.tv_usec / 1000000.0);
 }
+
+- (void)frameRefreshThread:(id)anArgument;
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	NSTimeInterval date = currentTime();
+	while(![emulationThread isCancelled])
+	{
+		[NSThread sleepForTimeInterval: (date += 1 / [self frameInterval]) - currentTime()];
+		[self executeFrame];
+		[self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:YES];
+	}
+	[pool drain];
+}
+
+- (void)togglePauseEmulation
+{
+	if(emulationThread == nil) [self startEmulation];
+	else                       [self stopEmulation];
+}
+
 - (void)setupEmulation
 {
-	[self doesNotImplementSelector:_cmd];
 }
+
 - (void)stopEmulation
 {
-	[self doesNotImplementSelector:_cmd];
+	[emulationThread cancel];
+	emulationThread = nil;
 }
+
 - (void)startEmulation
 {
-	[self doesNotImplementSelector:_cmd];
+	if(emulationThread == nil && [self class] != GameCoreClass)
+	{
+		emulationThread = [NSThread detachNewThreadSelector:@selector()
+												   toTarget:self
+												 withObject:nil];
+	}
 }
+
+#pragma mark ABSTRACT METHODS
+// Never call super on them.
 - (void)resetEmulation
 {
 	[self doesNotImplementSelector:_cmd];
 }
+
 - (void)executeFrame
 {
 	[self doesNotImplementSelector:_cmd];
@@ -125,7 +182,7 @@
 	return 0;
 }
 
-- (NSInteger)sampleRate
+- (NSInteger)frameSampleRate
 {
 	[self doesNotImplementSelector:_cmd];
 	return 0;
