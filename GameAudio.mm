@@ -75,7 +75,7 @@ OSStatus RenderCallback(
 		_core = core;
 		sampleRate = [core sampleRate];
 		samplesFrame = [core samplesFrame];
-		sizeSoundBuffer = [core sizeSoundBuffer] * 2;
+		sizeSoundBuffer = [core sizeSoundBuffer] * 8;
 		channels = [core channels];
 		
 		soundLock = [NSLock new];

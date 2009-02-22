@@ -75,6 +75,10 @@
 		820C55F20E7C36A700202702 /* GameApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C55F10E7C36A700202702 /* GameApp.m */; };
 		82184ACB0E762DC600895A7F /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82184ACA0E762DC600895A7F /* Preferences.xib */; };
 		82184AD60E762FD300895A7F /* GameButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 82184AD50E762FD300895A7F /* GameButton.m */; };
+		82444BA60F512592007C171B /* GameCoreBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 82444B1C0F511F17007C171B /* GameCoreBase.m */; };
+		82444BA70F512595007C171B /* GameCoreBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 82444B1B0F511F17007C171B /* GameCoreBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		82444BA80F51259A007C171B /* GameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* GameCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
+		82444BAC0F5125AF007C171B /* GameButtons.h in Headers */ = {isa = PBXBuildFile; fileRef = 829777F60E73CFD400631240 /* GameButtons.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		824AC9120E78BB8600D26CC2 /* GamePreferencesController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 824AC9110E78BB8600D26CC2 /* GamePreferencesController.mm */; };
 		82798B340E85C123001DCA93 /* PrefsBundleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798B330E85C123001DCA93 /* PrefsBundleCell.m */; };
 		82798C2D0E85DA02001DCA93 /* PluginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798C2C0E85DA02001DCA93 /* PluginInfo.m */; };
@@ -88,6 +92,9 @@
 		828ED4DD0E7D98D90059F397 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828ED4DB0E7D98D90059F397 /* XADMaster.framework */; };
 		828ED4E00E7D98F00059F397 /* XADMaster.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 828ED4DB0E7D98D90059F397 /* XADMaster.framework */; };
 		828ED4E10E7D98F00059F397 /* UniversalDetector.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 828ED4DC0E7D98D90059F397 /* UniversalDetector.framework */; };
+		829022AA0F47F90D00BB7AB7 /* GameQTRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 829022A90F47F90D00BB7AB7 /* GameQTRecorder.m */; };
+		829022B10F47FAC100BB7AB7 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829022B00F47FAC100BB7AB7 /* QTKit.framework */; };
+		82902A140F48ACEE00BB7AB7 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82902A130F48ACEE00BB7AB7 /* QuickTime.framework */; };
 		8291666C0E8603B600493FD8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8291666B0E8603B600493FD8 /* IOKit.framework */; };
 		829779340E743F2A00631240 /* GameAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.mm */; };
 		829779360E743F3A00631240 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
@@ -121,13 +128,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 828E65970E8466A100B1860B;
 			remoteInfo = OpenEmuQC;
-		};
-		828F161B0F439C1500FD7321 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 828F16160F439C1500FD7321 /* SNES9x.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
-			remoteInfo = SNES9x;
 		};
 		82C9C97D0F080C920071460B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -189,6 +189,10 @@
 		82184AD50E762FD300895A7F /* GameButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameButton.m; sourceTree = "<group>"; };
 		824401380E84A82E004387DA /* hq3x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hq3x.cpp; sourceTree = "<group>"; };
 		8244013E0E84A874004387DA /* Filters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filters.h; sourceTree = "<group>"; };
+		82444B1B0F511F17007C171B /* GameCoreBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCoreBase.h; sourceTree = "<group>"; };
+		82444B1C0F511F17007C171B /* GameCoreBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCoreBase.m; sourceTree = "<group>"; };
+		82444BA10F51256C007C171B /* OpenEmuBase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuBase-Info.plist"; sourceTree = "<group>"; };
 		824AC9100E78BB8600D26CC2 /* GamePreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePreferencesController.h; sourceTree = "<group>"; };
 		824AC9110E78BB8600D26CC2 /* GamePreferencesController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GamePreferencesController.mm; sourceTree = "<group>"; };
 		82798B320E85C123001DCA93 /* PrefsBundleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsBundleCell.h; sourceTree = "<group>"; };
@@ -211,7 +215,10 @@
 		828ED4D90E7D98A10059F397 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameFilePicker.xib; sourceTree = "<group>"; };
 		828ED4DB0E7D98D90059F397 /* XADMaster.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XADMaster.framework; sourceTree = "<group>"; };
 		828ED4DC0E7D98D90059F397 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = "<group>"; };
-		828F16160F439C1500FD7321 /* SNES9x.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SNES9x.xcodeproj; path = ../SNES9x/SNES9x.xcodeproj; sourceTree = SOURCE_ROOT; };
+		829022A80F47F90D00BB7AB7 /* GameQTRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameQTRecorder.h; sourceTree = "<group>"; };
+		829022A90F47F90D00BB7AB7 /* GameQTRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameQTRecorder.m; sourceTree = "<group>"; };
+		829022B00F47FAC100BB7AB7 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
+		82902A130F48ACEE00BB7AB7 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
 		8291666B0E8603B600493FD8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		829777F60E73CFD400631240 /* GameButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameButtons.h; sourceTree = "<group>"; };
 		829779320E743F2A00631240 /* GameAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameAudio.h; sourceTree = "<group>"; };
@@ -242,6 +249,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		82444B9F0F51256C007C171B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		828E65960E8466A100B1860B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -266,6 +280,8 @@
 				8291666C0E8603B600493FD8 /* IOKit.framework in Frameworks */,
 				82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */,
 				820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */,
+				829022B10F47FAC100BB7AB7 /* QTKit.framework in Frameworks */,
+				82902A140F48ACEE00BB7AB7 /* QuickTime.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -275,6 +291,8 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82902A130F48ACEE00BB7AB7 /* QuickTime.framework */,
+				829022B00F47FAC100BB7AB7 /* QTKit.framework */,
 				820376250F3974FD00EC2F97 /* AudioUnit.framework */,
 				82C9C9540F0804A20071460B /* Sparkle.framework */,
 				828ED4DB0E7D98D90059F397 /* XADMaster.framework */,
@@ -301,6 +319,7 @@
 			children = (
 				8D15AC370486D014006FF6A4 /* OpenEmu.app */,
 				828E65980E8466A100B1860B /* OpenEmuQC.plugin */,
+				82444BA10F51256C007C171B /* OpenEmuBase.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -325,12 +344,12 @@
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
 			isa = PBXGroup;
 			children = (
-				828F16160F439C1500FD7321 /* SNES9x.xcodeproj */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
+				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
 			);
 			name = OpenEmu;
 			sourceTree = "<group>";
@@ -353,6 +372,8 @@
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
 				828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
+				82444B1B0F511F17007C171B /* GameCoreBase.h */,
+				82444B1C0F511F17007C171B /* GameCoreBase.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -451,6 +472,7 @@
 		828E64D00E84656900B1860B /* OpenEmuCore */ = {
 			isa = PBXGroup;
 			children = (
+				829022A70F47F8FE00BB7AB7 /* QuickTime */,
 				8249C8E40E899CD30027EFDF /* Audio */,
 				829165DA0E85F9A400493FD8 /* Graphics */,
 				8249C8E50E899CDF0027EFDF /* Input */,
@@ -479,12 +501,13 @@
 			name = OpenEmuQC;
 			sourceTree = "<group>";
 		};
-		828F16170F439C1500FD7321 /* Products */ = {
+		829022A70F47F8FE00BB7AB7 /* QuickTime */ = {
 			isa = PBXGroup;
 			children = (
-				828F161C0F439C1500FD7321 /* SNES9x.bundle */,
+				829022A80F47F90D00BB7AB7 /* GameQTRecorder.h */,
+				829022A90F47F90D00BB7AB7 /* GameQTRecorder.m */,
 			);
-			name = Products;
+			name = QuickTime;
 			sourceTree = "<group>";
 		};
 		829165DA0E85F9A400493FD8 /* Graphics */ = {
@@ -502,7 +525,38 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		82444B9C0F51256C007C171B /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82444BA70F512595007C171B /* GameCoreBase.h in Headers */,
+				82444BA80F51259A007C171B /* GameCore.h in Headers */,
+				82444BAC0F5125AF007C171B /* GameButtons.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		82444BA00F51256C007C171B /* OpenEmuBase */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 82444BA50F51256D007C171B /* Build configuration list for PBXNativeTarget "OpenEmuBase" */;
+			buildPhases = (
+				82444B9C0F51256C007C171B /* Headers */,
+				82444B9D0F51256C007C171B /* Resources */,
+				82444B9E0F51256C007C171B /* Sources */,
+				82444B9F0F51256C007C171B /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OpenEmuBase;
+			productName = OpenEmuBase;
+			productReference = 82444BA10F51256C007C171B /* OpenEmuBase.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		828E65970E8466A100B1860B /* OpenEmuQC */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 828E659C0E8466A200B1860B /* Build configuration list for PBXNativeTarget "OpenEmuQC" */;
@@ -549,33 +603,25 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 828F16170F439C1500FD7321 /* Products */;
-					ProjectRef = 828F16160F439C1500FD7321 /* SNES9x.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				828E65970E8466A100B1860B /* OpenEmuQC */,
 				828E65E30E8467E900B1860B /* Copy & Build OpenEmuQC */,
+				82444BA00F51256C007C171B /* OpenEmuBase */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		828F161C0F439C1500FD7321 /* SNES9x.bundle */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SNES9x.bundle;
-			remoteRef = 828F161B0F439C1500FD7321 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
+		82444B9D0F51256C007C171B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		828E65940E8466A100B1860B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -652,6 +698,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		82444B9E0F51256C007C171B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82444BA60F512592007C171B /* GameCoreBase.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		828E65950E8466A100B1860B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -696,6 +750,7 @@
 				82F45E850E886D0000B7B023 /* hqxx.cpp in Sources */,
 				82F45EE30E88867D00B7B023 /* GamePreferencesController_Toolbar.m in Sources */,
 				1B885E0E0F085EB200770B6D /* GameShader.m in Sources */,
+				829022AA0F47F90D00BB7AB7 /* GameQTRecorder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -758,6 +813,60 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		82444BA30F51256D007C171B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = "OpenEmuBase-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = OpenEmuBase;
+			};
+			name = Debug;
+		};
+		82444BA40F51256D007C171B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
+				INFOPLIST_FILE = "OpenEmuBase-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = OpenEmuBase;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		828E659A0E8466A100B1860B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -922,6 +1031,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		82444BA50F51256D007C171B /* Build configuration list for PBXNativeTarget "OpenEmuBase" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82444BA30F51256D007C171B /* Debug */,
+				82444BA40F51256D007C171B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		828E659C0E8466A200B1860B /* Build configuration list for PBXNativeTarget "OpenEmuQC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

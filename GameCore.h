@@ -17,8 +17,8 @@
 - (void) executeFrame;
 
 - (void) setup;
-- (bool) load: (NSString*) path withParent: (NSDocument*) newParent;
-
+- (BOOL) load: (NSString*) path withParent: (NSDocument*) newParent;
+- (BOOL) loadFile: (NSString*) path;
 
 #pragma mark Video
 - (int) width;
@@ -35,7 +35,6 @@
 - (int) sizeSoundBuffer;
 - (int) sampleRate;
 
-- (void) setRandomByte;
 #pragma mark Input
 - (void) buttonPressed: (int) gameButton forPlayer: (int) player;
 - (void) buttonRelease: (int) gameButton forPlayer: (int) player;
