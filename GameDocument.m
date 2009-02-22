@@ -26,9 +26,7 @@
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
-{
-	[gameCore setupEmulation];
-	
+{	
 	//Setup Layer hierarchy
 	rootLayer = [CALayer layer];
 	
@@ -105,7 +103,8 @@
 	NSLog(@"%@",self);
 	
 	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
-	gameCore = [[[[docControl bundleForType: typeName] principalClass] alloc] initWithDocument:self];
+	gameCore = [[[[docControl bundleForType: typeName] principalClass] alloc] initWithDocument:self];	
+	[gameCore setupEmulation];
 	gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
 	//[gameBuffer setFilter:eFilter_HQ2x];
 	[self resetFilter];

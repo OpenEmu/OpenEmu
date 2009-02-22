@@ -62,6 +62,11 @@ static NSTimeInterval currentTime()
 	return t.tv_sec + (t.tv_usec / 1000000.0);
 }
 
+- (void)refreshFrame
+{
+	[[self document] refresh];
+}
+
 - (void)frameRefreshThread:(id)anArgument;
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -113,11 +118,6 @@ static NSTimeInterval currentTime()
 }
 
 - (void)executeFrame
-{
-	[self doesNotImplementSelector:_cmd];
-}
-
-- (void)refreshFrame
 {
 	[self doesNotImplementSelector:_cmd];
 }
