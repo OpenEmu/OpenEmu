@@ -84,7 +84,7 @@
 #pragma mark Video
 @property(readonly) NSInteger width;
 @property(readonly) NSInteger height;
-@property(readonly) const unsigned char *buffer;
+@property(readonly) const unsigned char *videoBuffer;
 @property(readonly) GLenum pixelFormat;
 @property(readonly) GLenum pixelType;
 @property(readonly) GLenum internalPixelFormat;

@@ -132,7 +132,7 @@ static NSTimeInterval currentTime()
 	return 0;
 }
 
-- (const unsigned char *)width
+- (const unsigned char *)videoBuffer
 {
 	[self doesNotImplementSelector:_cmd];
 	return NULL;
