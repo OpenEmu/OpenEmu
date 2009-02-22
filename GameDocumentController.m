@@ -228,7 +228,7 @@
 		
 		[mutableBundles release];
 		
-		NSMutableArray* mutableExtensions = [[NSMutableArray alloc] init];
+		NSMutableSet* mutableExtensions = [[NSMutableSet alloc] init];
 		
 		//go through the bundles Info.plist files to get the type extensions
 		for(NSBundle* bundle in bundles)
@@ -251,7 +251,10 @@
 		// When a class conforms to both NSCopying and NSMutableCopying protocols
 		// -copy returns a immutable object and
 		// -mutableCopy returns a mutable object.
-		validExtensions = [mutableExtensions copy];
+		NSMutableArray* tempArray = [[NSMutableArray alloc] init];
+		[tempArray addObjectsFromArray:[mutableExtensions allObjects]];
+		validExtensions = [tempArray copy];
+		[tempArray release];
 		//validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
 		
 		[self updateInfoPlist];
@@ -293,6 +296,7 @@
 	
 	// get the current doctypes and extensions from Info.plist
 	NSMutableArray* docTypes = [NSMutableArray arrayWithArray:[infoPlist objectForKey:@"CFBundleDocumentTypes"]];
+	
 	
 	// replace extensions with validExtensions
 	// FIXME: the CFBundleTypeExtensions array gets larger every time you open the app, i.e., the array is getting appended, not replaced :X
