@@ -36,11 +36,10 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 	}
 }
 
-@property(assign) GameDocument *document;
-
 - (id)init
 {
-	return [self initWithDocument:[[GameDocumentController sharedDocumentController] currentDocument]];
+	// FIXME: I'm really not sure this is a good idea... It just removes a linker error.
+	return [self initWithDocument:[[objc_getClass("GameDocumentController") sharedDocumentController] currentDocument]];
 }
 
 - (id)initWithDocument:(GameDocument *)aDocument
@@ -89,16 +88,20 @@ static NSTimeInterval currentTime()
 - (void)stopEmulation
 {
 	[emulationThread cancel];
-	emulationThread = nil;
 }
 
 - (void)startEmulation
 {
-	if(emulationThread == nil && [self class] != GameCoreClass)
+	if([self class] != GameCoreClass)
 	{
-		emulationThread = [NSThread detachNewThreadSelector:@selector()
-												   toTarget:self
-												 withObject:nil];
+		if(emulationThread == nil || [emulationThread isCancelled])
+		{
+			[emulationThread release];
+			emulationThread = [[NSThread alloc] initWithTarget:self
+													  selector:@selector(frameRefreshThread:)
+														object:nil];
+			[emulationThread start];
+		}
 	}
 }
 
@@ -114,9 +117,15 @@ static NSTimeInterval currentTime()
 	[self doesNotImplementSelector:_cmd];
 }
 
+- (void)refreshFrame
+{
+	[self doesNotImplementSelector:_cmd];
+}
+
 - (BOOL)loadFileAtPath:(NSString*)path
 {
 	[self doesNotImplementSelector:_cmd];
+	return NO;
 }
 
 #pragma mark Video
@@ -206,6 +215,20 @@ static NSTimeInterval currentTime()
 }
 
 - (void)loadStateFromFileAtPath:(NSString *)fileName
+{
+	[self doesNotImplementOptionalSelector:_cmd];
+}
+
+- (void) requestAudio: (int) frames inBuffer: (void*)buf
+{
+	[self doesNotImplementOptionalSelector:_cmd];
+}
+- (NSSize) outputSize
+{
+	[self doesNotImplementOptionalSelector:_cmd];
+	return NSZeroSize;
+}
+- (void) setRandomByte
 {
 	[self doesNotImplementOptionalSelector:_cmd];
 }
