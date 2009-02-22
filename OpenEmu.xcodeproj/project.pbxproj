@@ -119,6 +119,8 @@
 		8D15AC310486D014006FF6A4 /* GameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		C66DF9EC0F51B48E0080AA28 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DF9EB0F51B48E0080AA28 /* GameCore.m */; };
+		C66DFA3E0F51C1640080AA28 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -246,6 +248,9 @@
 		82F45EE20E88867D00B7B023 /* GamePreferencesController_Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GamePreferencesController_Toolbar.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C66DF9EB0F51B48E0080AA28 /* GameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCore.m; sourceTree = "<group>"; };
+		C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAbstractAdditions.h; sourceTree = "<group>"; };
+		C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAbstractAdditions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -344,6 +349,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
 			isa = PBXGroup;
 			children = (
+				C66DFA600F51C9550080AA28 /* GameCore framework */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
@@ -367,7 +373,6 @@
 			isa = PBXGroup;
 			children = (
 				824C7AD00E7E22880086D0D4 /* Filters */,
-				828389A80E6CF3A500A96E2C /* GameCore.h */,
 				829777F60E73CFD400631240 /* GameButtons.h */,
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
 				828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */,
@@ -480,8 +485,8 @@
 				8249C8E60E899CFF0027EFDF /* Utility Windows */,
 				2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */,
 				2A37F4AEFDCFA73011CA2CEA /* GameDocument.h */,
-				8283882B0E6CE13C00A96E2C /* GameDocumentController.m */,
 				8283882A0E6CE13C00A96E2C /* GameDocumentController.h */,
+				8283882B0E6CE13C00A96E2C /* GameDocumentController.m */,
 				820C55F10E7C36A700202702 /* GameApp.m */,
 				820C55F00E7C36A700202702 /* GameApp.h */,
 			);
@@ -513,14 +518,25 @@
 		829165DA0E85F9A400493FD8 /* Graphics */ = {
 			isa = PBXGroup;
 			children = (
-				1B885E0C0F085EB200770B6D /* GameShader.m */,
 				1B885E0D0F085EB200770B6D /* GameShader.h */,
-				829E02790E7C5631009F348B /* GameLayer.m */,
+				1B885E0C0F085EB200770B6D /* GameShader.m */,
 				829E02780E7C5631009F348B /* GameLayer.h */,
-				829B9CAB0E7F215700452894 /* GameBuffer.mm */,
+				829E02790E7C5631009F348B /* GameLayer.m */,
 				829B9CAA0E7F215700452894 /* GameBuffer.h */,
+				829B9CAB0E7F215700452894 /* GameBuffer.mm */,
 			);
 			name = Graphics;
+			sourceTree = "<group>";
+		};
+		C66DFA600F51C9550080AA28 /* GameCore framework */ = {
+			isa = PBXGroup;
+			children = (
+				828389A80E6CF3A500A96E2C /* GameCore.h */,
+				C66DF9EB0F51B48E0080AA28 /* GameCore.m */,
+				C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */,
+				C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */,
+			);
+			name = "GameCore framework";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -751,6 +767,8 @@
 				82F45EE30E88867D00B7B023 /* GamePreferencesController_Toolbar.m in Sources */,
 				1B885E0E0F085EB200770B6D /* GameShader.m in Sources */,
 				829022AA0F47F90D00BB7AB7 /* GameQTRecorder.m in Sources */,
+				C66DF9EC0F51B48E0080AA28 /* GameCore.m in Sources */,
+				C66DFA3E0F51C1640080AA28 /* OEAbstractAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
