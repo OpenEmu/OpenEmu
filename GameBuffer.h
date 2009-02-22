@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@protocol GameCore;
+@class GameCore;
 typedef enum
 {
 	eFilter_None,
@@ -32,7 +32,7 @@ typedef enum
 	
 	eFilter filter;
 	
-	id <GameCore> gameCore;
+	GameCore* gameCore;
 	
 	int width;
 	int height;
@@ -47,7 +47,7 @@ typedef enum
 + (unsigned char*) convertTo16bpp: (int *) buffer width: (int) width height: (int) height;
 
 - (void) updateBuffer;
-- (id) initWithGameCore: (id <GameCore>) core;
+- (id) initWithGameCore: (GameCore*) core;
 
 @property(readonly) unsigned char* buffer;
 @property eFilter filter;
@@ -56,6 +56,6 @@ typedef enum
 @property(readonly) GLenum internalForm;
 @property(readonly) int width;
 @property(readonly) int height;
-@property(readonly) id <GameCore> gameCore;
+@property(readonly) GameCore* gameCore;
 
 @end

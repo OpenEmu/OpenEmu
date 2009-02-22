@@ -12,14 +12,14 @@
 
 @interface GameQTRecorder : NSObject {
 	QTMovie * movie;
-	id <GameCore> gameCore;
+	GameCore* gameCore;
 	bool recording;
 	NSTimer* timer;
 }
 
 @property(readonly) bool recording;
 
-- (id) initWithGameCore: (id <GameCore>) core;
+- (id) initWithGameCore: (GameCore*) core;
 - (void) startRecording;
 - (void) timerCallInstallLoop;
 - (void) addFrame;

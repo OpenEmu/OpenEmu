@@ -459,14 +459,14 @@
 	return preferenceController;
 }
 
-- (id <GameCore>) currentGame
+- (GameCore*) currentGame
 {
 	return [(GameDocument*)[self currentDocument] gameCore];
 }
 
 - (IBAction) resetGame: (id) sender
 {
-	[[self currentGame] reset];
+	[[self currentGame] resetEmulation];
 }
 
 - (IBAction) switchFullscreen: (id) sender
@@ -489,7 +489,7 @@
 	if ( [sPanel runModalForDirectory:nil file:nil] == NSOKButton ){
 		fileName = [sPanel filename];
 		
-		[[self currentGame] saveState: fileName];
+		[[self currentGame] saveStateToFileAtPath: fileName];
 	}
 }
 
@@ -508,7 +508,7 @@
 		NSArray* files = [oPanel filenames];
 		fileName = [files objectAtIndex:0];
 		
-		[[self currentGame] loadState: fileName];
+		[[self currentGame] loadStateFromFileAtPath: fileName];
 	}
 }
 

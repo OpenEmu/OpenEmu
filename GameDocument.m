@@ -27,7 +27,7 @@
 
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
-	[gameCore setup];
+	[gameCore setupEmulation];
 	
 	//Setup Layer hierarchy
 	rootLayer = [CALayer layer];
@@ -74,7 +74,7 @@
 	
 	
 	//recorder = [[GameQTRecorder alloc] initWithGameCore:gameCore];
-	[gameCore start];	
+	[gameCore startEmulation];	
 
 //	[recorder startRecording];
 	//frameTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:gameCore selector:@selector(tick) userInfo:nil repeats:YES];
@@ -105,13 +105,13 @@
 	NSLog(@"%@",self);
 	
 	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
-	gameCore = [[[[docControl bundleForType: typeName] principalClass] alloc] init];
+	gameCore = [[[[docControl bundleForType: typeName] principalClass] alloc] initWithDocument:self];
 	gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
 	//[gameBuffer setFilter:eFilter_HQ2x];
 	[self resetFilter];
 	
 	NSLog(@"%@",[[docControl bundleForType: typeName] principalClass]);
-	if ([gameCore load: [absoluteURL path] withParent: self])
+	if ([gameCore loadFileAtPath: [absoluteURL path]] )
 	{
 		return YES;
 	}
@@ -144,7 +144,7 @@
 {
 	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
 	[docControl setGameLoaded:YES];
-	[gameCore pause:NO];
+	[gameCore togglePauseEmulation];
 	[audio startAudio];
 }
 
@@ -155,7 +155,7 @@
 		if(![view isInFullScreenMode])
 		{
 			@try {				
-				[gameCore pause:YES];
+				[gameCore togglePauseEmulation];
 				[audio pauseAudio];
 			}
 			@catch (NSException * e) {
@@ -170,7 +170,7 @@
 	if([view isInFullScreenMode])
 		[view exitFullScreenModeWithOptions:nil];
 //	[recorder finishRecording];
-	[gameCore stop];
+	[gameCore stopEmulation];
 	[audio stopAudio];
 	[gameCore release];
 	gameCore = nil;
@@ -199,12 +199,12 @@
 
 - (void) saveState: (NSString *) fileName
 {
-	[gameCore saveState: fileName];
+	[gameCore saveStateToFileAtPath: fileName];
 }
 
 - (void) loadState: (NSString *) fileName
 {
-	[gameCore loadState: fileName];
+	[gameCore loadStateFromFileAtPath: fileName];
 }
 
 - (void) scrambleRam:(int) bytes
@@ -287,7 +287,7 @@
 										   bytesPerRow:width * 4
 										  bitsPerPixel:32];
 	
-	memcpy([newBitmap bitmapData], [gameCore buffer], width * height * 4 * sizeof(unsigned char));
+	memcpy([newBitmap bitmapData], [gameCore videoBuffer], width * height * 4 * sizeof(unsigned char));
 	
 	unsigned char* debut = [newBitmap bitmapData];
 

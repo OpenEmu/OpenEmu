@@ -66,17 +66,17 @@ OSStatus RenderCallback(
 }
 
 // Designated Initializer
-- (id) initWithCore:(id <GameCore>) core{
+- (id) initWithCore:(GameCore*) core{
 	
 	self = [super init];
 	
 	if(self)
 	{
 		_core = core;
-		sampleRate = [core sampleRate];
-		samplesFrame = [core samplesFrame];
-		sizeSoundBuffer = [core sizeSoundBuffer] * 8;
-		channels = [core channels];
+		sampleRate = [core frameSampleRate];
+		samplesFrame = [core frameSampleCount];
+		sizeSoundBuffer = [core soundBufferSize] * 8;
+		channels = [core channelCount];
 		
 		soundLock = [NSLock new];
 				
@@ -141,7 +141,7 @@ OSStatus RenderCallback(
 	{
 		if(gameCore != NULL)
 		{
-			memcpy(&wrapper.sndBuf[wrapper.bufInPos], [gameCore sndBuf], wrapper.samplesFrame * wrapper.channels * sizeof(UInt16));
+			memcpy(&wrapper.sndBuf[wrapper.bufInPos], [gameCore soundBuffer], wrapper.samplesFrame * wrapper.channels * sizeof(UInt16));
 		}
 		
 		wrapper.bufInPos = (wrapper.bufInPos + wrapper.samplesFrame * wrapper.channels) % (wrapper.sizeSoundBuffer);
@@ -237,13 +237,13 @@ OSStatus RenderCallback(
 	
 	AudioStreamBasicDescription mDataFormat;
 	
-	mDataFormat.mSampleRate = [gameCore sampleRate];
+	mDataFormat.mSampleRate = [gameCore frameSampleRate];
 	mDataFormat.mFormatID = kAudioFormatLinearPCM;
 	mDataFormat.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
-	mDataFormat.mBytesPerPacket = 2*[gameCore channels];
+	mDataFormat.mBytesPerPacket = 2*[gameCore channelCount];
 	mDataFormat.mFramesPerPacket = 1; // this means each packet in the AQ has two samples, one for each channel -> 4 bytes/frame/packet
-	mDataFormat.mBytesPerFrame = 2*[gameCore channels];
-	mDataFormat.mChannelsPerFrame = [gameCore channels];
+	mDataFormat.mBytesPerFrame = 2*[gameCore channelCount];
+	mDataFormat.mChannelsPerFrame = [gameCore channelCount];
 	mDataFormat.mBitsPerChannel = 16;
 	
 
@@ -280,7 +280,7 @@ OSStatus RenderCallback(
 }
 
 // Designated Initializer
-- (id) initWithCore:(id <GameCore>) core
+- (id) initWithCore:(GameCore*) core
 {
 	self = [super init];
 	

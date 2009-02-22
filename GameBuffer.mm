@@ -61,7 +61,7 @@
 }
 
 // Designated Initializer
-- (id) initWithGameCore: (id <GameCore>) core
+- (id) initWithGameCore: (GameCore*) core
 {
 	self = [super init];
 	
@@ -130,19 +130,19 @@
 	// we handle the GLSL filters on the GPU, so treat them like  eFilter_None 
 	switch (filter) {
 		case eFilter_Scaler2x:
-			scale(2, filterBuffer, [gameCore width] * 4 * multiplier * sizeof(unsigned char), [gameCore buffer], [gameCore width] * 4* sizeof(unsigned char), 4, [gameCore width], [gameCore height]);
+			scale(2, filterBuffer, [gameCore width] * 4 * multiplier * sizeof(unsigned char), [gameCore videoBuffer], [gameCore width] * 4* sizeof(unsigned char), 4, [gameCore width], [gameCore height]);
 			break;
 		case eFilter_Scaler3x:
-			scale(3, filterBuffer, [gameCore width] * 4 * multiplier * sizeof(unsigned char), [gameCore buffer], [gameCore width] * 4* sizeof(unsigned char), 4, [gameCore width], [gameCore height]);
+			scale(3, filterBuffer, [gameCore width] * 4 * multiplier * sizeof(unsigned char), [gameCore videoBuffer], [gameCore width] * 4* sizeof(unsigned char), 4, [gameCore width], [gameCore height]);
 			break;
 		case eFilter_HQ2x:
-			unsigned char * tempBuf = [GameBuffer convertTo16bpp:(int*)[gameCore buffer] width:[gameCore width] height:[gameCore height]];
+			unsigned char * tempBuf = [GameBuffer convertTo16bpp:(int*)[gameCore videoBuffer] width:[gameCore width] height:[gameCore height]];
 			hq2x_32(tempBuf, filterBuffer, [gameCore width], [gameCore height], [self width] * 4);			
 			delete tempBuf;
 			break;
 		case eFilter_HQ3x:
 		{
-			unsigned char * tempBuf = [GameBuffer convertTo16bpp:(int*)[gameCore buffer] width:[gameCore width] height:[gameCore height]];
+			unsigned char * tempBuf = [GameBuffer convertTo16bpp:(int*)[gameCore videoBuffer] width:[gameCore width] height:[gameCore height]];
 			hq3x_32(tempBuf, filterBuffer, [gameCore width], [gameCore height], [self width] * 4);			
 			delete tempBuf;
 			break;
@@ -151,12 +151,12 @@
 }
 
 
-- (unsigned char *) buffer
+- (const unsigned char *) buffer
 {
 	// im so sorry this is so ugly :( - vade
 	if(filter == eFilter_None || filter == eFilter_Nearest ||  filter == eFilter_Scaler2xGLSL || filter == eFilter_Scaler4xGLSL || filter == eFilter_HQ2xGLSL ||filter == eFilter_HQ4xGLSL)
 	{
-		return [gameCore buffer];
+		return [gameCore videoBuffer];
 	}
 	else 
 	{

@@ -14,7 +14,7 @@
 
 @synthesize recording;
 
-- (id) initWithGameCore: (id <GameCore>) core
+- (id) initWithGameCore: (GameCore*) core
 {
 	self = [super init];
 	if(self)
@@ -70,7 +70,7 @@
 								   bitmapFormat: NSAlphaNonpremultipliedBitmapFormat
 								   bytesPerRow:width*4 bitsPerPixel:32];
 	
-	memcpy([newBitmap bitmapData], [gameCore buffer], width * height * 4 * sizeof(unsigned char));
+	memcpy([newBitmap bitmapData], [gameCore videoBuffer], width * height * 4 * sizeof(unsigned char));
 	
 	uint32* buf = (uint32*)[newBitmap bitmapData];
 	uint32 temp = 0;

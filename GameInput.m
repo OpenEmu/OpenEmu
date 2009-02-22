@@ -372,12 +372,12 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 
 - (void) releaseButton: (int) button forPlayer: (int) player
 {
-	[[docController currentGame] buttonRelease:button forPlayer:player];
+	[[docController currentGame] player:player didReleaseButton:button];
 }
 
 - (void) pressButton: (int) button forPlayer: (int) player
 {
-	[[docController currentGame] buttonPressed:button forPlayer:player];
+	[[docController currentGame] player:player didPressButton:button];
 }
 
 @end

@@ -10,11 +10,11 @@
 #include <AudioToolbox/AudioToolbox.h>
 #include <AudioUnit/AudioUnit.h>
 
-@protocol GameCore;
+@class GameCore;
 
 @interface RenderCallbackData : NSObject
 {
-	id <GameCore> _core;
+	GameCore* _core;
 	UInt32 bufInPos, bufOutPos, bufUsed;
 	
 	UInt32 samplesFrame;
@@ -37,16 +37,16 @@
 @property(readonly) UInt16* sndBuf;
 @property(readwrite) bool paused;
 @property(readonly) BOOL useRingBuffer;
-@property(readonly) id <GameCore> core;
+@property(readonly) GameCore* core;
 
-- (id) initWithCore:(id <GameCore>) core;
+- (id) initWithCore:(GameCore*) core;
 - (void) lock;
 - (void) unlock;
 @end
 
 
 @interface GameAudio : NSObject {
-	id <GameCore> gameCore;
+	GameCore* gameCore;
 	AUGraph							mGraph;
 	AUNode							mConverterNode, mMixerNode, mOutputNode;
 	AudioUnit						mConverterUnit, mMixerUnit, mOutputUnit;
@@ -56,7 +56,7 @@
 
 - (void) createGraph;
 - (void) advanceBuffer;
-- (id) initWithCore: (id <GameCore>) core;
+- (id) initWithCore: (GameCore*) core;
 - (void) startAudio;
 - (void) stopAudio;
 - (void) pauseAudio;

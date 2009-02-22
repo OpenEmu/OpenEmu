@@ -8,7 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@protocol GameCore;
+@class GameCore;
 @class GameDocument, GamePreferencesController;
 
 @interface GameDocumentController : NSDocumentController {
@@ -28,7 +28,7 @@
 -(NSBundle*) bundleForType:(NSString*) type;
 - (void) updateInfoPlist;
 
-- (id <GameCore>) currentGame;
+- (GameCore*) currentGame;
 - (IBAction) closeWindow: (id) sender;
 - (IBAction) switchFullscreen: (id) sender;
 

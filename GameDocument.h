@@ -10,7 +10,7 @@
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CoreAnimation.h>
 
-@protocol GameCore;
+@class GameCore;
 @class GameInput;
 @class GameAudio;
 @class GameLayer;
@@ -25,7 +25,7 @@
 	GameBuffer *gameBuffer;
 	GameQTRecorder *recorder;
 	BOOL keyedOnce;
-	id <GameCore> gameCore;
+	GameCore * gameCore;
 	GameAudio * audio;
 	IBOutlet NSWindow *gameWindow;
 	IBOutlet NSView *view;
@@ -44,5 +44,5 @@
 
 - (void) resetFilter;
 
-@property(readonly) id <GameCore> gameCore;
+@property(readonly) GameCore* gameCore;
 @end

@@ -107,6 +107,9 @@
 		82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
 		82E740880E72010700AE60C4 /* GameInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E740870E72010700AE60C4 /* GameInput.m */; };
 		82E7418A0E7209C400AE60C4 /* GameDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E741880E7209C400AE60C4 /* GameDocument.xib */; };
+		82F3629E0F51CC5F001495F6 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DF9EB0F51B48E0080AA28 /* GameCore.m */; };
+		82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
+		82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */; };
 		82F45CD40E8855B000B7B023 /* scale2x.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF8FE80E7F45D2004FDFE9 /* scale2x.c */; };
 		82F45CD50E8855B100B7B023 /* scale3x.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF903D0E7F4716004FDFE9 /* scale3x.c */; };
 		82F45CD60E8855B100B7B023 /* scalebit.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF90510E7F486F004FDFE9 /* scalebit.c */; };
@@ -373,7 +376,6 @@
 			isa = PBXGroup;
 			children = (
 				824C7AD00E7E22880086D0D4 /* Filters */,
-				829777F60E73CFD400631240 /* GameButtons.h */,
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
 				828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
@@ -531,6 +533,7 @@
 		C66DFA600F51C9550080AA28 /* GameCore framework */ = {
 			isa = PBXGroup;
 			children = (
+				829777F60E73CFD400631240 /* GameButtons.h */,
 				828389A80E6CF3A500A96E2C /* GameCore.h */,
 				C66DF9EB0F51B48E0080AA28 /* GameCore.m */,
 				C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */,
@@ -549,6 +552,7 @@
 				82444BA70F512595007C171B /* GameCoreBase.h in Headers */,
 				82444BA80F51259A007C171B /* GameCore.h in Headers */,
 				82444BAC0F5125AF007C171B /* GameButtons.h in Headers */,
+				82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -719,6 +723,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				82444BA60F512592007C171B /* GameCoreBase.m in Sources */,
+				82F3629E0F51CC5F001495F6 /* GameCore.m in Sources */,
+				82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

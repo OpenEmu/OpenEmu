@@ -507,7 +507,7 @@ void gameCoreForward(id self, SEL cmd)
 {
 	for( GameDocument* gameDoc in [[GameDocumentController sharedDocumentController] documents] )
 	{
-		id <GameCore> game = [gameDoc gameCore];
+		GameCore* game = [gameDoc gameCore];
 		
 		if( [game respondsToSelector:cmd] )
 		{

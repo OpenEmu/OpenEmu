@@ -6,14 +6,14 @@
 //
 #import <Cocoa/Cocoa.h>
 
-@protocol GameCore;
+@class GameCore;
 @class NESGameEmu, GameAudio, GameBuffer;
 
 @interface OpenEmuQCNES : QCPlugIn
 {
 	// init stuff
 	NSBundle* bundle;
-	id <GameCore> gameCore;
+	GameCore* gameCore;
 	NESGameEmu* nesEmu;
 	GameAudio*  gameAudio;
 	GameBuffer* gameBuffer;
