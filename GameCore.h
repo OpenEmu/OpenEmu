@@ -63,7 +63,8 @@
 - (id)initWithDocument:(GameDocument *)document;
 
 #pragma mark Execution
-- (void)pauseEmulation:(BOOL) b;
+- (void)pauseEmulation:(BOOL)flag;
+- (void)setupEmulation;
 - (void)stopEmulation;
 - (void)startEmulation;
 - (void)resetEmulation;
