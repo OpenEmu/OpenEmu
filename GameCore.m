@@ -92,8 +92,8 @@ static NSTimeInterval currentTime()
 
 - (void)stopEmulation
 {
-	//self.document = nil;
 	[emulationThread cancel];
+	self.document = nil;
 }
 
 - (void)startEmulation
