@@ -144,10 +144,10 @@
 		
 		[defaultValues setObject:gamepadControls forKey:OEGamepadControls];
 		[defaultValues setObject:keyboardControls forKey:OEGameControls];
-		[defaultValues setValue:NO forKey:OEFullScreen];
-		[defaultValues setValue:0 forKey:OEFilter];
+		[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:OEFullScreen];
+		[defaultValues setValue:[NSNumber numberWithInteger:0] forKey:OEFilter];
 		[defaultValues setValue:[NSNumber numberWithFloat:1.0] forKey:OEVolume];
-		[defaultValues setValue:NO forKey:OEPauseBackground];
+		[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:OEPauseBackground];
 		
 		NSLog(@"%@", defaultValues);
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
@@ -251,16 +251,13 @@
 		// When a class conforms to both NSCopying and NSMutableCopying protocols
 		// -copy returns a immutable object and
 		// -mutableCopy returns a mutable object.
-		NSMutableArray* tempArray = [[NSMutableArray alloc] init];
-		[tempArray addObjectsFromArray:[mutableExtensions allObjects]];
-		validExtensions = [[NSArray arrayWithArray:tempArray] retain];
-		[tempArray release];
+		validExtensions = [mutableExtensions copy];
+		[mutableExtensions release];
 		
 		//validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
 		
 		[self updateInfoPlist];
 		
-		[mutableExtensions release];
 	}
 	return self;
 }
@@ -396,7 +393,7 @@
 	[[self currentDocument] close];
 }
 
-- (void) setCurrentGame: (GameDocument*) game
+- (void)setCurrentGame:(GameDocument*)game
 {
 	currentGame = game;
 }
@@ -422,7 +419,6 @@
 				}
 			}
 		}
-		
 	}
 	
 	return nil;
@@ -461,7 +457,7 @@
 
 - (GameCore*) currentGame
 {
-	return [(GameDocument*)[self currentDocument] gameCore];
+	return [[self currentDocument] gameCore];
 }
 
 - (IBAction) resetGame: (id) sender
@@ -531,12 +527,16 @@
 
 - (BOOL)isGameKey
 {
-	if( [(GameDocument*)[self currentDocument] isFullScreen] )
+	if([[self currentDocument] isFullScreen])
 		return YES;
 	
 	NSDocument * doc = [self documentForWindow:[[NSApplication sharedApplication] keyWindow]];
 	return doc != nil;
-	
+}
+
+- (GameDocument *)currentDocument
+{
+	return [super currentDocument];
 }
 
 @end

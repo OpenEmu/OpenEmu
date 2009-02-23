@@ -31,6 +31,7 @@
 	IBOutlet NSView *view;
 }
 
+- (void) scrambleRam:(int) bytes;
 - (BOOL) isFullScreen;
 - (void) switchFullscreen;
 - (void) refresh;

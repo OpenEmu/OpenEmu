@@ -25,7 +25,9 @@
 + (NSDictionary*) defaultControls;
 + (NSDictionary*) defaultGamepadControls;
 
--(NSBundle*) bundleForType:(NSString*) type;
+- (GameDocument *)currentDocument;
+
+- (NSBundle*) bundleForType:(NSString*) type;
 - (void) updateInfoPlist;
 
 - (GameCore*) currentGame;
