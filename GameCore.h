@@ -7,6 +7,14 @@
  *
  */
 
+#define DEBUG_PRINT
+
+#ifdef DEBUG_PRINT
+#define DLog(format, ...) NSLog((format), ##__VA_ARGS__)
+#else
+#define DLog(format, ...) 1
+#endif
+
 #import <Cocoa/Cocoa.h>
 
 @protocol GameCore <NSObject>
