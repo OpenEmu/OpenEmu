@@ -631,10 +631,10 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 			DLog(@"finished loading/starting rom");			
 			
-			if([nesEmu getChrRamSize]) // see if the game has Character RAM 
+			if([nesEmu chrRamSize]) // see if the game has Character RAM 
 			{
 				hasChrRam = YES;
-				DLog(@"Reported Character RAM size is %i", [nesEmu getChrRamSize]);
+				DLog(@"Reported Character RAM size is %i", [nesEmu chrRamSize]);
 			}
 			else 
 			{
@@ -643,7 +643,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			}
 			
 			hasNmtRam = YES;
-			DLog(@"Reported NMT RAM size is %i", [nesEmu getVRamSize]);
+			DLog(@"Reported NMT RAM size is %i", [nesEmu cartVRamSize]);
 			
 			romFinishedLoading = YES;
 		}	
