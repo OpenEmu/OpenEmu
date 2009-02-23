@@ -307,7 +307,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		[self loadRom:[self valueForInputKey:@"inputRom"]];
 	}
 	
-	if(loadedRom) {
+	if(loadedRom)
+	{
 		// Process controller data
 		if([self didValueForInputKeyChange: @"inputControllerData"])
 		{
@@ -327,11 +328,12 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		if([self didValueForInputKeyChange: @"inputVolume"] && ([self valueForInputKey:@"inputVolume"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputVolume"] valueForKey: QCPortAttributeDefaultValueKey]))
 		{
 			// if inputVolume is set to 0, pause the audio
-			if(self.inputVolume == 0) {
+			if(self.inputVolume == 0)
+			{
 				[gameAudio pauseAudio];
 				audioPaused = YES;
-			
 			}
+
 			if((self.inputVolume > 0) && audioPaused)
 				[gameAudio startAudio];
 			
@@ -372,7 +374,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	}
 	// handle our image output. (sanity checking)
 	if(loadedRom && ([gameCore width] > 10) )
-	{
+	{		
 		glEnable( GL_TEXTURE_RECTANGLE_EXT );
 		
 		GLenum status;
@@ -393,8 +395,13 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		
 		glFlushRenderAPPLE();
 
-	#if __BIG_ENDIAN__
-		provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatARGB8 
+#if __BIG_ENDIAN__
+#define OEPlugInPixelFormat QCPlugInPixelFormatARGB8
+#else
+#define OEPlugInPixelFormat QCPlugInPixelFormatBGRA8
+#endif
+		
+		provider = [context outputImageProviderFromTextureWithPixelFormat:OEPlugInPixelFormat 
 															   pixelsWide:[gameCore width]
 															   pixelsHigh:[gameCore height]
 																	 name:texName 
@@ -402,19 +409,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 														  releaseCallback:_TextureReleaseCallback 
 														   releaseContext:NULL
 															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
-														 shouldColorMatch:YES];		
-	#else 
-		provider = [context outputImageProviderFromTextureWithPixelFormat:QCPlugInPixelFormatBGRA8  
-															   pixelsWide:[gameCore width]
-															   pixelsHigh:[gameCore height]
-																	 name:texName 
-																  flipped:YES 
-														  releaseCallback:_TextureReleaseCallback 
-														   releaseContext:NULL 
-															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
 														 shouldColorMatch:YES];
-	#endif
-
 	}
 
 	// output OpenEmu Texture - note we CAN output a nil image. This is 'correct'
@@ -505,8 +500,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		
 		NSLog(@"Loaded bundle. About to load rom...");
 		
-		//loadedRom = [gameCore load:theRomPath withParent:(NSDocument*)self ];		
-		[gameCore initWithDocument:nil];
+		
+		[gameCore initWithDocument:(GameDocument*)self];
 		[gameCore loadFileAtPath:theRomPath];
 		loadedRom = TRUE;
 		
