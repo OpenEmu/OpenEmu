@@ -284,7 +284,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		if(!self.inputPauseEmulation) 
 		{
 			[gameAudio startAudio];
-			[gameCore pause:NO];
+			[gameCore setPauseEmulation:NO];
 		}
 	}
 	
@@ -343,12 +343,12 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			if([[self valueForInputKey:@"inputPauseEmulation"] boolValue])	
 			{
 				[gameAudio pauseAudio];
-				[gameCore pause:YES]; 
+				[gameCore setPauseEmulation:YES]; 
 			}
 			else 
 			{
 				[gameAudio startAudio];
-				[gameCore pause:NO];
+				[gameCore setPauseEmulation:NO];
 			}
 		}
 
@@ -380,7 +380,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		glGenTextures(1, &texName);
 						
 		glBindTexture( GL_TEXTURE_RECTANGLE_EXT, texName);
-		glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore buffer]);
+		glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
 					
 		// Check for OpenGL errors 
 		status = glGetError();
@@ -435,7 +435,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		if(!self.inputPauseEmulation) 
 		{
 			[gameAudio pauseAudio];
-			[gameCore pause:YES]; 
+			[gameCore setPauseEmulation:YES]; 
 		}  
 	//	sleep(0.5); // race condition workaround. 
 	}
@@ -449,7 +449,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	NSLog(@"called stopExecution");
 	if(loadedRom)
 	{
-		[gameCore stop];
+		[gameCore stopEmulation];
 		[gameAudio stopAudio];
 		[gameCore release];
 		[gameAudio release];
@@ -486,7 +486,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		// cleanup
 		if(loadedRom)
 		{
-			[gameCore stop];
+			[gameCore stopEmulation];
 			[gameAudio stopAudio];
 			[gameCore release];
 			//	[gameBuffer release];
@@ -505,12 +505,15 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		
 		NSLog(@"Loaded bundle. About to load rom...");
 		
-		loadedRom = [gameCore load:theRomPath withParent:(NSDocument*)self ];
+		//loadedRom = [gameCore load:theRomPath withParent:(NSDocument*)self ];		
+		[gameCore initWithDocument:nil];
+		[gameCore loadFileAtPath:theRomPath];
+		loadedRom = TRUE;
 		
 		if(loadedRom)
 		{
 			NSLog(@"Loaded new Rom: %@", theRomPath);
-			[gameCore setup];
+			[gameCore setupEmulation];
 			
 			//	gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
 			//	[gameBuffer setFilter:eFilter_None];
@@ -519,7 +522,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			NSLog(@"initialized audio");
 			
 			// starts the threaded emulator timer
-			[gameCore start];
+			[gameCore startEmulation];
 			
 			NSLog(@"About to start audio");
 			[gameAudio startAudio];
@@ -558,16 +561,18 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		NSUInteger i;
 		for(i = 0; i < [controllerArray count]; i++)
 		{
-	//		NSLog(@"index is %u", i);
+			//	NSLog(@"index is %u", i);
 			if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
 			{
-	//			NSLog(@"button %u is down", i);
-				[gameCore buttonPressed:i forPlayer:[playerNumber intValue]];
+				//	NSLog(@"button %u is down", i);
+				//	[gameCore buttonPressed:i forPlayer:[playerNumber intValue]];
+				[gameCore player:[playerNumber intValue] didPressButton:i];
 			}		
 			else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
 			{
-	//			NSLog(@"button %u is up", i);
-				[gameCore buttonRelease:i forPlayer:[playerNumber intValue]];
+				//	NSLog(@"button %u is up", i);
+				//	[gameCore buttonRelease:i forPlayer:[playerNumber intValue]];
+				[gameCore player:[playerNumber intValue] didReleaseButton:i];
 			}
 		} 
 	}	
@@ -621,7 +626,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir] && isDir)
 	{
 		// if so, save the state
-		[gameCore saveState: fileName];
+		[gameCore saveStateToFileAtPath: fileName];
 	} 
 	else if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
 	{
@@ -651,7 +656,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			return NO;
 			}
 		else {
-			[gameCore loadState: fileName];
+			[gameCore loadStateFromFileAtPath: fileName];
 			NSLog(@"loaded new state");
 		}
 	}

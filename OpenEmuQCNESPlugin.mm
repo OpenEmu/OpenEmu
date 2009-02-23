@@ -328,7 +328,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		if(!self.inputPauseEmulation) 
 		{
 			[gameAudio startAudio];
-			[gameCore pause:NO];
+			[gameCore setPauseEmulation:NO];
 		}
 	}
 	
@@ -394,13 +394,13 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			{
 				DLog(@"user paused emulation");
 				[gameAudio pauseAudio];
-				[gameCore pause:YES]; 
+				[gameCore setPauseEmulation:YES]; 
 			}
 			else 
 			{
 				DLog(@"user unpaused emulation");
 				[gameAudio startAudio];
-				[gameCore pause:NO];
+				[gameCore setPauseEmulation:NO];
 			}
 		}
 		
@@ -483,7 +483,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		glGenTextures(1, &texName);
 						
 		glBindTexture( GL_TEXTURE_RECTANGLE_EXT, texName);
-		glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore buffer]);
+		glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
 					
 		// Check for OpenGL errors 
 		status = glGetError();
@@ -528,7 +528,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		if(!self.inputPauseEmulation) 
 		{
 			[gameAudio pauseAudio];
-			[gameCore pause:YES]; 
+			[gameCore setPauseEmulation:YES]; 
 		}
 //		sleep(0.5); // race condition workaround. 
 	}
@@ -542,7 +542,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	DLog(@"called stopExecution");
 	if(loadedRom)
 	{
-		[gameCore stop]; 		
+		[gameCore stopEmulation]; 		
 		[gameAudio stopAudio];
 		[gameAudio release];
 		[gameCore release];
@@ -583,7 +583,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		if(loadedRom && romFinishedLoading)
 		{
 			[gameAudio stopAudio];
-			[gameCore stop];
+			[gameCore stopEmulation];
 			[gameCore release];
 			gameCore = nil;
 			nesEmu = nil;
@@ -606,12 +606,15 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 
 		DLog(@"Loaded NES bundle. About to load rom...");
 		
-		loadedRom = [gameCore load:theRomPath withParent:(NSDocument*)self ];
+		//loadedRom = [gameCore load:theRomPath withParent:(NSDocument*)self ];
+		[gameCore initWithDocument:nil];
+		[gameCore loadFileAtPath:theRomPath];
+		loadedRom = TRUE;
 		
 		if(loadedRom)
 		{
 			NSLog(@"Loaded new Rom: %@", theRomPath);
-			[gameCore setup];
+			[gameCore setupEmulation];
 			
 			//	gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
 			//	[gameBuffer setFilter:eFilter_None];
@@ -620,7 +623,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			DLog(@"initialized audio");
 			
 			// starts the threaded emulator timer
-			[gameCore start];
+			[gameCore startEmulation];
 			
 			DLog(@"About to start audio");
 			[gameAudio startAudio];
