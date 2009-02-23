@@ -24,8 +24,7 @@
 #define	kQCPlugIn_Description		@"Wraps the OpenEmu emulator - play and manipulate the NES"
 
 static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* info)
-{
-	
+{	
 	glDeleteTextures(1, &name);
 }
 
@@ -607,7 +606,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		DLog(@"Loaded NES bundle. About to load rom...");
 		
 		//loadedRom = [gameCore load:theRomPath withParent:(NSDocument*)self ];
-		[gameCore initWithDocument:nil];
+		[gameCore initWithDocument:(GameDocument*)self];
 		[gameCore loadFileAtPath:theRomPath];
 		loadedRom = TRUE;
 		
@@ -667,26 +666,20 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// sanity check (again? sure!)
 	if([self controllerDataValidate:persistantControllerData])
 	{
-		
 		// player number 
 		NSNumber*  playerNumber = [persistantControllerData objectAtIndex:0];
 		NSArray * controllerArray = [persistantControllerData objectAtIndex:1];
 
-	//	DLog(@"Player Number: %u", [playerNumber intValue]);
-
 		NSUInteger i;
 		for(i = 0; i < [controllerArray count]; i++)
 		{
-	//		DLog(@"index is %u", i);
 			if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
 			{
-	//			DLog(@"button %u is down", i);
-				[gameCore buttonPressed:i forPlayer:[playerNumber intValue]];
+				[gameCore player:[playerNumber intValue] didPressButton:i];
 			}		
 			else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
 			{
-	//			DLog(@"button %u is up", i);
-				[gameCore buttonRelease:i forPlayer:[playerNumber intValue]];
+				[gameCore player:[playerNumber intValue] didReleaseButton:i];
 			}
 		}
 	}	
@@ -715,7 +708,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir] && isDir)
 	{
 		// if so, save the state
-		[gameCore saveState: fileName];
+		[gameCore saveStateToFileAtPath: fileName];
 	} 
 	else if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
 	{
@@ -745,7 +738,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			return NO;
 			}
 		else {
-			[gameCore loadState: fileName];
+			[gameCore loadFileAtPath:fileName];
 			NSLog(@"loaded new state");
 		}
 	}

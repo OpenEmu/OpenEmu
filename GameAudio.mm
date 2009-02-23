@@ -9,7 +9,7 @@
 #import "GameAudio.h"
 #import "GameCore.h"
 #import "GamePreferencesController.h"
-#import "GameDocumentController.h"
+//#import "GameDocumentController.h"
 OSStatus RenderCallback(
 								  void *							in,
 								  AudioUnitRenderActionFlags *		ioActionFlags,
@@ -261,7 +261,8 @@ OSStatus RenderCallback(
 	if(err)
 		NSLog(@"Couldn't connect the converter to the mixer");
 	
-	AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, [[[GameDocumentController sharedDocumentController] preferenceController] volume] ,0);
+	//AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, [[[GameDocumentController sharedDocumentController] preferenceController] volume] ,0);
+	AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, 1.0 ,0);
 	
 	err = AUGraphInitialize(mGraph);
 	if(err)

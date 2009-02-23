@@ -23,7 +23,7 @@
 	GameAudio*  gameAudio;
 	GameBuffer * gameBuffer;
 
-	BOOL loadedRom;
+	BOOL loadedRom, audioPaused;
 	NSMutableArray* persistantControllerData;
 	NSRecursiveLock * gameLock;
 	}

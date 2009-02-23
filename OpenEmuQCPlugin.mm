@@ -142,9 +142,10 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	if(self = [super init])
 	{
 		gameLock = [[NSRecursiveLock alloc] init];
+		audioPaused = NO;
 		persistantControllerData = [[NSMutableArray alloc] init];
 		[persistantControllerData retain];
-
+		
 	//	bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"Nestopia" ofType:@"bundle"]];
 		
 		NSString *file;
@@ -154,7 +155,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		
 		// NSString *bundleDir = [[[[NSBundle bundleForClass:[self class]] infoDictionary] valueForKey:@"OEBundlePath"] stringByStandardizingPath];
 		NSMutableArray* bundlePaths = [[NSMutableArray alloc] init];
-		
 		
 		NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath: bundleDir];
 		while (file = [enumerator nextObject])
@@ -191,9 +191,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			{
 				[mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
 			}
-			
-			
-			
 		}
 		
 		NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
@@ -201,13 +198,10 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		for (NSDictionary* key in types)
 		{
 			[mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
-		}
-		
+		}		
 		
 		validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
-		
 		[mutableExtensions release];
-		
 	}
 	
 	return self;
@@ -283,8 +277,15 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	{
 		if(!self.inputPauseEmulation) 
 		{
-			[gameAudio startAudio];
-			[gameCore setPauseEmulation:NO];
+			@try
+			{
+				[gameCore setPauseEmulation:NO];
+				[gameAudio startAudio];
+			}
+			@catch (NSException * e) {
+				NSLog(@"Failed to unpause");
+			}
+			
 		}
 	}
 	
@@ -321,24 +322,13 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 				[self handleControllerData];
 			}
 		}	
-			
-		BOOL audioPaused;
-		
-		// Process audio volume changes
-		if([self didValueForInputKeyChange: @"inputVolume"] && ([self valueForInputKey:@"inputVolume"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputVolume"] valueForKey: QCPortAttributeDefaultValueKey]))
-		{
-			// if inputVolume is set to 0, pause the audio
-			if(self.inputVolume == 0)
-			{
-				[gameAudio pauseAudio];
-				audioPaused = YES;
-			}
 
-			if((self.inputVolume > 0) && audioPaused)
-				[gameAudio startAudio];
-			
+		// Process audio volume changes
+		if([self didValueForInputKeyChange: @"inputVolume"])
+		{
 			[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 		}
+	
 		// Process emulation pausing FTW
 		if([self didValueForInputKeyChange: @"inputPauseEmulation"])	
 		{
@@ -429,8 +419,14 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	{
 		if(!self.inputPauseEmulation) 
 		{
-			[gameAudio pauseAudio];
-			[gameCore setPauseEmulation:YES]; 
+			@try
+			{
+				[gameCore setPauseEmulation:YES]; 
+				[gameAudio pauseAudio];
+			}
+			@catch (NSException * e) {
+				NSLog(@"Failed to unpause");
+			}
 		}  
 	//	sleep(0.5); // race condition workaround. 
 	}
