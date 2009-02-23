@@ -75,8 +75,6 @@
 		820C55F20E7C36A700202702 /* GameApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C55F10E7C36A700202702 /* GameApp.m */; };
 		82184ACB0E762DC600895A7F /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82184ACA0E762DC600895A7F /* Preferences.xib */; };
 		82184AD60E762FD300895A7F /* GameButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 82184AD50E762FD300895A7F /* GameButton.m */; };
-		82444BA60F512592007C171B /* GameCoreBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 82444B1C0F511F17007C171B /* GameCoreBase.m */; };
-		82444BA70F512595007C171B /* GameCoreBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 82444B1B0F511F17007C171B /* GameCoreBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82444BA80F51259A007C171B /* GameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* GameCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		82444BAC0F5125AF007C171B /* GameButtons.h in Headers */ = {isa = PBXBuildFile; fileRef = 829777F60E73CFD400631240 /* GameButtons.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		824AC9120E78BB8600D26CC2 /* GamePreferencesController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 824AC9110E78BB8600D26CC2 /* GamePreferencesController.mm */; };
@@ -194,8 +192,6 @@
 		82184AD50E762FD300895A7F /* GameButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameButton.m; sourceTree = "<group>"; };
 		824401380E84A82E004387DA /* hq3x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hq3x.cpp; sourceTree = "<group>"; };
 		8244013E0E84A874004387DA /* Filters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filters.h; sourceTree = "<group>"; };
-		82444B1B0F511F17007C171B /* GameCoreBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCoreBase.h; sourceTree = "<group>"; };
-		82444B1C0F511F17007C171B /* GameCoreBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCoreBase.m; sourceTree = "<group>"; };
 		82444BA10F51256C007C171B /* OpenEmuBase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuBase-Info.plist"; sourceTree = "<group>"; };
 		824AC9100E78BB8600D26CC2 /* GamePreferencesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GamePreferencesController.h; sourceTree = "<group>"; };
@@ -379,8 +375,6 @@
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
 				828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
-				82444B1B0F511F17007C171B /* GameCoreBase.h */,
-				82444B1C0F511F17007C171B /* GameCoreBase.m */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -549,7 +543,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82444BA70F512595007C171B /* GameCoreBase.h in Headers */,
 				82444BA80F51259A007C171B /* GameCore.h in Headers */,
 				82444BAC0F5125AF007C171B /* GameButtons.h in Headers */,
 				82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */,
@@ -722,7 +715,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82444BA60F512592007C171B /* GameCoreBase.m in Sources */,
 				82F3629E0F51CC5F001495F6 /* GameCore.m in Sources */,
 				82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */,
 			);
