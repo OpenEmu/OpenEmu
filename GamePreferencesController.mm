@@ -49,6 +49,11 @@ NSString * const OEQTFrameRate = @"QTFrameRate";
 @implementation GamepadRebindView
 @synthesize controller;
 
+- (void)close: (id)sender
+{
+	[window close];
+	
+}
 
 #define DEADZONE_PERCENT (25)
 static void

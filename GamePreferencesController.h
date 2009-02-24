@@ -129,7 +129,7 @@ extern NSString * const OEQTFrameRate;
 	
 	IOHIDManagerRef hidManager;
 }
-
+- (IBAction) close: (id) sender;
 - (void) launchHIDThread;
 
 @property(readonly) GamePreferencesController* controller;
