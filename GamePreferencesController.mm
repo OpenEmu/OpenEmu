@@ -24,6 +24,12 @@ NSString * const OEQTFrameRate = @"QTFrameRate";
 
 @implementation ControlRebindView
 
+- (void) close: (id) sender
+{
+	[NSApp endSheet: window returnCode: 0];
+	[window close];	
+}
+
 - (BOOL) acceptsFirstResponder
 {
 	return YES;
@@ -51,6 +57,7 @@ NSString * const OEQTFrameRate = @"QTFrameRate";
 
 - (void)close: (id)sender
 {
+	[NSApp endSheet: window returnCode: 0];
 	[window close];
 	
 }

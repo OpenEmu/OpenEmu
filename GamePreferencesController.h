@@ -141,6 +141,6 @@ extern NSString * const OEQTFrameRate;
 	IBOutlet NSWindow* window;
 	IBOutlet GamePreferencesController* controller;
 }
-
+- (IBAction) close: (id) sender;
 
 @end
