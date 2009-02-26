@@ -363,12 +363,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		// Process audio volume changes
 		if([self didValueForInputKeyChange: @"inputVolume"] && ([self valueForInputKey:@"inputVolume"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputVolume"] valueForKey: QCPortAttributeDefaultValueKey]))
 		{
-			// if inputVolume is set to 0, pause the audio
-			if([self valueForInputKey: @"inputVolume"] == 0)
-			{
-				[gameAudio pauseAudio];
-			}
-			
 			[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 		}
 		
@@ -428,7 +422,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	//	int* rewindTimer;
 	//	rewindTimer = [[NSNumber alloc] initWithUnsignedInteger:0];
 	//	
-	//	if([nesEmu isRewinderEnabled]) 
+	//	if([(NESGameEmu*)gameCore isRewinderEnabled]) 
 	//	{
 	//		rewindTimer++;
 	//		if((rewindTimer % 60) == 0) {
@@ -439,14 +433,14 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		if([self didValueForInputKeyChange: @"inputRewinderDirection"])	
 		{
 	//		DLog(@"rewinder direction changed");
-			[nesEmu rewinderDirection:[[self valueForInputKey:@"inputRewinderDirection"] boolValue]];
+			[(NESGameEmu*)gameCore rewinderDirection:[[self valueForInputKey:@"inputRewinderDirection"] boolValue]];
 		}
 		
 		if([self didValueForInputKeyChange:@"inputEnableRewinderBackwardsSound"])
 		{
-			[nesEmu enableRewinderBackwardsSound:[[self valueForInputKey:@"inputEnableRewinderBackwardsSound"] boolValue]];
+			[(NESGameEmu*)gameCore enableRewinderBackwardsSound:[[self valueForInputKey:@"inputEnableRewinderBackwardsSound"] boolValue]];
 			
-			if([nesEmu isRewinderBackwardsSoundEnabled])
+			if([(NESGameEmu*)gameCore isRewinderBackwardsSoundEnabled])
 			{
 				NSLog(@"rewinder backwards sound is enabled");
 			}
@@ -459,12 +453,12 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		// CORRUPTION FTW
 		if(hasNmtRam && self.inputNmtRamCorrupt && ( [self didValueForInputKeyChange:@"inputNmtRamOffset"] || [self didValueForInputKeyChange:@"inputNmtRamValue"] ))
 		{
-			[nesEmu setNmtRamBytes:self.inputNmtRamOffset value:self.inputNmtRamValue];
+			[(NESGameEmu*)gameCore setNmtRamBytes:self.inputNmtRamOffset value:self.inputNmtRamValue];
 		}
 		
 		if(hasChrRam && self.inputChrRamCorrupt && ( [self didValueForInputKeyChange:@"inputChrRamOffset"] || [self didValueForInputKeyChange:@"inputChrRamValue"] ))
 		{
-			[nesEmu setChrRamBytes:self.inputChrRamOffset value:self.inputChrRamValue];
+			[(NESGameEmu*)gameCore setChrRamBytes:self.inputChrRamOffset value:self.inputChrRamValue];
 		}
 	}
 	
@@ -546,7 +540,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		[gameAudio release];
 		[gameCore release];
 		gameCore = nil;
-		nesEmu = nil;
 		loadedRom = NO;
 		romFinishedLoading = NO;
 	}
@@ -585,7 +578,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			[gameCore stopEmulation];
 			[gameCore release];
 			gameCore = nil;
-			nesEmu = nil;
 			//	[gameBuffer release];
 			[gameAudio release];
 			
@@ -601,7 +593,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		gameCore = [[[bundle principalClass] alloc] init];
 		
 		// add a pointer to NESGameEmu so we can call NES-specific methods without getting fucking warnings (doesn't work, needs fixing)
-		nesEmu = (NESGameEmu*)gameCore;
+//		(NESGameEmu*)gameCore = (NESGameEmu*)gameCore;
 
 		DLog(@"Loaded NES bundle. About to load rom...");
 		
@@ -630,10 +622,10 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 			DLog(@"finished loading/starting rom");			
 			
-			if([nesEmu chrRamSize]) // see if the game has Character RAM 
+			if([(NESGameEmu*)gameCore chrRamSize]) // see if the game has Character RAM 
 			{
 				hasChrRam = YES;
-				DLog(@"Reported Character RAM size is %i", [nesEmu chrRamSize]);
+				DLog(@"Reported Character RAM size is %i", [(NESGameEmu*)gameCore chrRamSize]);
 			}
 			else 
 			{
@@ -641,8 +633,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 				DLog(@"This game does not have Character RAM");
 			}
 			
-			hasNmtRam = YES;
-			DLog(@"Reported NMT RAM size is %i", [nesEmu cartVRamSize]);
+			hasNmtRam = YES;	//because if the cartridge doesn't have VRAM, the PPU will just use its 2K RAM for the nametables
+			DLog(@"Reported NMT RAM size is %i", [(NESGameEmu*)gameCore cartVRamSize]);
 			
 			romFinishedLoading = YES;
 		}	
@@ -755,13 +747,13 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 - (void) setCode: (NSString*) cheatCode
 {
 	NSLog(@"cheat code is: %@",cheatCode);
-	[nesEmu setCode:cheatCode];
+	[(NESGameEmu*)gameCore setCode:cheatCode];
 }
 
 
 - (void) enableRewinder:(BOOL) rewind
 {
-	[nesEmu enableRewinder:rewind];
+	[(NESGameEmu*)gameCore enableRewinder:rewind];
 }
 
 @end
