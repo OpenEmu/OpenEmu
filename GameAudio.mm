@@ -299,6 +299,7 @@ OSStatus RenderCallback(
 {
 	[wrapper release];
 	AUGraphUninitialize(mGraph);
+	DisposeAUGraph(mGraph);  //FIXME: added this line tonight.  do we need it?  Fuckety fuck fucking shitty Core Audio documentation... :X
 	[super dealloc];
 }
 
