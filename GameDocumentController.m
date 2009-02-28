@@ -168,8 +168,7 @@
 				{
 					[menu addItem:(NSMenuItem*) object];
 					NSLog(@"Adding item to menu?");
-								
-				}
+                }
 			}
 		}
 	}
@@ -177,13 +176,13 @@
 
 -(void)updateBundles: (id) sender
 {
-	for(NSBundle* bundle in bundles)
+	for(PluginInfo *plugin in plugins)
 	{
 		@try {
-			if( [[SUUpdater updaterForBundle:bundle] feedURL] )
+			if( [[SUUpdater updaterForBundle:[plugin bundle]] feedURL] )
 			{
-				[[SUUpdater updaterForBundle:bundle] resetUpdateCycle];
-		//		[[SUUpdater updaterForBundle:bundle] checkForUpdates:self];
+				[[SUUpdater updaterForBundle:[plugin bundle]] resetUpdateCycle];
+		//		[[SUUpdater updaterForBundle:[plugin bundle]] checkForUpdates:self];
 			}
 		}
 		@catch (NSException * e) {
@@ -206,7 +205,6 @@
         
 		NSString *file;
         NSMutableArray *mutablePlugins = [[NSMutableArray alloc] init];
-		NSMutableArray* mutableBundles = [[NSMutableArray alloc] init];
 		
         while (file = [enumerator nextObject])
 		{
@@ -214,18 +212,15 @@
 			{
                 PluginInfo *plugin = [PluginInfo pluginInfoWithBundleAtPath:[bundleDir stringByAppendingPathComponent:file]];
                 [mutablePlugins addObject:plugin];
-                [mutableBundles addObject:[plugin bundle]];
 				[enumerator skipDescendents];
 			}
 		}
 		//All bundles that are available
         plugins = [mutablePlugins copy];
-		bundles = [mutableBundles copy];
 		
-		[mutableBundles release];
         [mutablePlugins release];
 		
-		NSMutableArray *mutableExtensions = [[NSMutableArray alloc] init];
+        NSMutableSet *mutableExtensions = [[NSMutableSet alloc] init];
 		
 		//go through the bundles Info.plist files to get the type extensions
 		for(PluginInfo *plugin in plugins)
@@ -241,7 +236,7 @@
 		// When a class conforms to both NSCopying and NSMutableCopying protocols
 		// -copy returns a immutable object and
 		// -mutableCopy returns a mutable object.
-		validExtensions = [mutableExtensions copy];
+		validExtensions = [[mutableExtensions allObjects] retain];
 		[mutableExtensions release];
 		
 		//validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
@@ -256,7 +251,7 @@
 - (void) dealloc
 {
 	[validExtensions release];
-	[bundles release];
+    [plugins release];
     if(hidManager != NULL) CFRelease(hidManager);
     [deviceHandlers release];
 	[super dealloc];
@@ -376,7 +371,6 @@
 		{
 			if([archive extractEntry:0 to:filePath])
 			{
-				
 				filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:0]];
 				NSLog(filePath);
 				absoluteURL = [NSURL fileURLWithPath:filePath];
@@ -406,32 +400,6 @@
             return plugin;
     }
     return nil;
-}
-
-- (NSBundle*)bundleForType:(NSString*) type
-{
-	NSLog(@"Bundle");
-	// TODO: Need to make it so if multiple bundles load same extensions, it presents a picker
-	for(NSBundle* bundle in bundles)
-	{
-		NSArray* types = [[bundle infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-		
-		for (NSDictionary* key in types)
-		{
-			NSArray* exts = [key objectForKey:@"CFBundleTypeExtensions"];
-			
-			for(NSString* str in exts)
-			{
-				if([str caseInsensitiveCompare:type    ] == 0)  //ignoring case so it doesn't matter if the extension is NES or nes or NeS or nES
-				{
-					NSLog(@"Found Bundle");
-					return bundle;
-				}
-			}
-		}
-	}
-	
-	return nil;
 }
 
 - (NSString *)typeForContentsOfURL:(NSURL *)inAbsoluteURL error:(NSError **)outError
