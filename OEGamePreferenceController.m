@@ -61,9 +61,7 @@
     if(index < [plugins count])
     {
         currentPlugin = [plugins objectAtIndex:index];
-        id c = [currentPlugin controller];
-        c = [c controlsPreferences];
-        NSView *view = [c view];
+        NSView *view = [[[currentPlugin controller] controlsPreferences] view];
         NSLog(@"%@", view);
         NSRect ctrlFrame = [controlsView frame];
         NSRect frame = [view frame];
