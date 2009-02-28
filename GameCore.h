@@ -17,18 +17,20 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class GameDocument, OEHIDEvent;
+@class GameDocument, OEHIDEvent, OEGameCoreController;
 
 @interface GameCore : NSResponder
 {
 	NSThread *emulationThread;
 	GameDocument *document;
 	NSTimeInterval frameInterval;
+    OEGameCoreController *owner;
 }
 
 + (NSTimeInterval)defaultTimeInterval;
 + (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval;
 
+@property(assign) OEGameCoreController *owner;
 @property(assign) GameDocument *document;
 @property NSTimeInterval frameInterval;
 
@@ -78,6 +80,7 @@
 - (void)globalEventWasSet:(id)theEvent forKey:(NSString *)keyName;
 - (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName;
 
+- (void)removeFromGameController;
 
 // ============================================================================
 // End Abstract methods.

@@ -82,6 +82,7 @@ NSString *OEControlsPreferencesClassName = @"OEControlsPreferencesClassName";
 - (void)dealloc
 {
 	[icon release];
+    [controller release];
 	[infoDictionary release];
     [supportedTypes release];
     [supportedTypeExtensions release];

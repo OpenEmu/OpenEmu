@@ -6,7 +6,6 @@
 //  Copyright __MyCompanyName__ 2008 . All rights reserved.
 //
 
-#import "GamePreferencesController.h"
 #import "GameDocument.h"
 #import "PluginInfo.h"
 #import "GameDocumentController.h"
@@ -76,13 +75,7 @@
 	
 	[rootLayer setNeedsLayout];
 	
-	
-	//recorder = [[GameQTRecorder alloc] initWithGameCore:gameCore];
 	[gameCore startEmulation];	
-
-    //	[recorder startRecording];
-	//frameTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:gameCore selector:@selector(tick) userInfo:nil repeats:YES];
-	//[[NSRunLoop currentRunLoop] addTimer: frameTimer forMode: NSRunLoopCommonModes];
 
 	[gameWindow makeKeyAndOrderFront:self];
 		
@@ -96,10 +89,6 @@
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
-    // Insert code here to write your document to data of the specified type. If the given outError != NULL, ensure that you set *outError when returning nil.
-    // You can also choose to override -fileWrapperOfType:error:, -writeToURL:ofType:error:, or -writeToURL:ofType:forSaveOperation:originalContentsURL:error: instead.
-    // For applications targeted for Panther or earlier systems, you should use the deprecated API -dataRepresentationOfType:. In this case you can also choose to override -fileWrapperRepresentationOfType: or -writeToFile:ofType: instead.
-
     if ( outError != NULL ) {
 		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
 	}
@@ -120,24 +109,6 @@
     if ([gameCore loadFileAtPath: [absoluteURL path]] ) return YES;
     NSLog(@"Incorrect file");
     return NO;
-
-    /*
-	gameCore = [[[[docControl bundleForType: typeName] principalClass] alloc] initWithDocument:self];
-	gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
-	//[gameBuffer setFilter:eFilter_HQ2x];
-	[self resetFilter];
-	
-	NSLog(@"%@",[[docControl bundleForType: typeName] principalClass]);
-	if ([gameCore loadFileAtPath: [absoluteURL path]] )
-	{
-		return YES;
-	}
-	else
-	{
-		NSLog(@"Incorrect file");
-		return NO;
-	}
-     */
 }
 
 

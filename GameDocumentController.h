@@ -36,7 +36,6 @@
 - (GameDocument *)currentDocument;
 
 - (PluginInfo *)pluginForType:(NSString *)type;
-- (NSBundle*)bundleForType:(NSString*) type;
 - (void) updateInfoPlist;
 
 - (GameCore*)currentGame;

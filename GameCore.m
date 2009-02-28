@@ -9,13 +9,14 @@
 #import "GameCore.h"
 #import "GameDocument.h"
 #import "GameDocumentController.h"
+#import "OEGameCoreController.h"
 #import "OEAbstractAdditions.h"
 #import "OEHIDEvent.h"
 #include <sys/time.h>
 
 @implementation GameCore
 
-@synthesize frameInterval, document;
+@synthesize frameInterval, document, owner;
 
 static Class GameCoreClass = Nil;
 static NSTimeInterval defaultTimeInterval = 60.0;
@@ -54,6 +55,17 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 	return self;
 }
 
+- (void)removeFromGameController
+{
+    [owner unregisterGameCore:self];
+}
+
+- (void)dealloc
+{
+    [self removeFromGameController];
+    [super dealloc];
+}
+
 #pragma mark Execution
 static NSTimeInterval currentTime()
 {
@@ -65,7 +77,8 @@ static NSTimeInterval currentTime()
 
 - (void)refreshFrame
 {
-	[[self document] refresh];
+	if(![emulationThread isCancelled])
+        [[self document] refresh];
 }
 
 - (void)frameRefreshThread:(id)anArgument;
@@ -93,8 +106,9 @@ static NSTimeInterval currentTime()
 
 - (void)stopEmulation
 {
+	//self.document = nil;
 	[emulationThread cancel];
-	self.document = nil;
+    //while(![emulationThread isFinished]);
 }
 
 - (void)startEmulation

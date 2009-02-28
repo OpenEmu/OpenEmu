@@ -20,5 +20,6 @@
 + (NSArray *)acceptedControlNames;
 + (NSString *)pluginName;
 - (GameCore *)newGameCoreWithDocument:(GameDocument *)aDocument;
+- (void)unregisterGameCore:(GameCore *)aGameCore;
 - (void)registerEvent:(id)theEvent forKey:(NSString *)keyName;
 @end

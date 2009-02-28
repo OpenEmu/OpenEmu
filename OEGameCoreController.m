@@ -48,6 +48,7 @@
 - (GameCore *)newGameCoreWithDocument:(GameDocument *)aDocument
 {
     GameCore *ret = [[[self gameCoreClass] alloc] initWithDocument:aDocument];
+    ret.owner = self;
     // FIXME: Find a better way.
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
     
@@ -67,10 +68,28 @@
         
 #undef ADD_OBSERVER
     }
-    NSLog(@"%d", [[[[NSUserDefaultsController sharedUserDefaultsController] values] valueForKeyPath:@"SMSPlugin. UseJoystick"] boolValue]);
+    
     NSLog(@"%s", __FUNCTION__);
     return ret;
 }
+
+- (void)unregisterGameCore:(GameCore *)aGameCore
+{
+    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
+    NSLog(@"%@", self);
+    Class cls = [self class];
+    NSArray *controlNames = [cls acceptedControlNames];
+    NSString *pluginName = [cls pluginName];
+    
+    for(NSString *name in controlNames)
+    {
+        //[udc removeObserver:aGameCore
+        //         forKeyPath:[NSString stringWithFormat:@"values.%@.%@", OEGlobalEventsKey, name]];
+        [udc removeObserver:aGameCore
+                 forKeyPath:[NSString stringWithFormat:@"values.%@.%@", pluginName, name]];
+    }
+}
+
 // FIXME: Find a better way...
 - (void)registerEvent:(id)theEvent forKey:(NSString *)keyName
 {
