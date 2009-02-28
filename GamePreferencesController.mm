@@ -6,6 +6,8 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#warning This file should be deleted.
+#if 0
 #import "GamePreferencesController.h"
 #import "GameDocumentController.h"
 #import "GameDocument.h"
@@ -92,13 +94,6 @@ Handle_InputValueCallback(
 		
 	}
 	
-	
-	//NSLog(@"Dead min %f",IOHIDValueGetScaledValue(inIOHIDValueRef, kIOHIDValueScaleTypeCalibrated ) );
-	
-	
-	//NSLog(@"...........................");
-	//NSLog(@"Value: %i Page: %i Usage: %i Min: %i Max: %i", value, page, usage, minValue, maxValue);
-	
 	GamepadRebindView * view = (GamepadRebindView*) inContext;
 	
 	[[view controller] setGamepadControl:[[GameButton alloc] initWithPage:page
@@ -106,23 +101,7 @@ Handle_InputValueCallback(
 																	value:value
 																forButton:eButton_A
 																   player:0]];
-
-	
-	
-	//[[view window] close];
 	[NSThread exit];
-	
-/*	if([[view  controller] bindButtonFromSheet:[[GameButton alloc] initWithPage:page
-																  usage:usage
-																  value:value
-															  forButton:eButton_A
-																 player:0]])
-	{
-		
-		
-		[[view window] close];
-		[NSThread exit];
-	}*/
 }
 
 
@@ -142,9 +121,7 @@ Handle_DeviceMatchingCallback(
 	}
 	
 	NSLog(@"%@",IOHIDDeviceGetProperty( inIOHIDDeviceRef, CFSTR( kIOHIDProductKey ) ));
-	
-	//IOHIDDeviceRegisterRemovalCallback(inIOHIDDeviceRef, Handle_RemovalCallback, inContext);
-	
+		
 	IOHIDDeviceRegisterInputValueCallback(
 										  inIOHIDDeviceRef,
 										  Handle_InputValueCallback,
@@ -168,8 +145,7 @@ Handle_DeviceMatchingCallback(
 static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsagePage, UInt32 inUsage )
 {
     // create a dictionary to add usage page/usages to
-    CFMutableDictionaryRef result = CFDictionaryCreateMutable(
-															  kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks );
+    CFMutableDictionaryRef result = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks );
     if ( result ) {
         if ( inUsagePage ) {
             // Add key for device type to refine the matching dictionary.
@@ -493,7 +469,9 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 	
 	return [NSString stringWithString:string];	
 }
-
+- (void)doubleClickedBundle:(id)sender
+{
+}
 @end
 
 @implementation GamePreferencesController (UserDefaults)
@@ -534,16 +512,16 @@ void gameCoreForward(id self, SEL cmd)
 	{
 		if([[bundle principalClass] instancesRespondToSelector: aSEL])
 		{
-			class_addMethod([self class], aSEL,(IMP)gameCoreForward , "v@");
+			class_addMethod([self class], aSEL,(IMP)gameCoreForward , "v@:");
 			return YES;
 		}
 		//return YES;
 	 }
 	return [super resolveInstanceMethod:aSEL];
-	
 }
 
--(NSRect)newFrameForNewContentView:(NSView *)view {
+-(NSRect)newFrameForNewContentView:(NSView *)view
+{
     NSWindow *window = [self window];
     NSRect newFrameRect = [window frameRectForContentRect:[view frame]];
     NSRect oldFrameRect = [window frame];
@@ -562,7 +540,7 @@ void gameCoreForward(id self, SEL cmd)
 	return [self init];
 }
 
-- (id) init
+- (id)init
 {
 	self = [super initWithWindowNibName:@"Preferences"];
 	if(self != nil)
@@ -584,7 +562,7 @@ void gameCoreForward(id self, SEL cmd)
 	return self;
 }
 
--(IBAction)showWindow:(id)sender 
+- (IBAction)showWindow:(id)sender 
 {
 	[self setupToolbarForWindow:[self window]];
 	
@@ -606,16 +584,18 @@ void gameCoreForward(id self, SEL cmd)
 	[gamepadTableView setDoubleAction:@selector(doubleClickedGamepad)];
 	
 	[pluginsTableView setTarget:self];
-	[pluginsTableView setDoubleAction:@selector(doubleClickedBundle)];
+	[pluginsTableView setDoubleAction:@selector(doubleClickedBundle:)];
 	
+    /*
 	// set the new custom cell
 	NSTableColumn* column = [[pluginsTableView tableColumns] objectAtIndex:0];
 	
 	PrefsBundleCell* cell = [[[PrefsBundleCell alloc] init] autorelease];	
-	[column setDataCell: cell];		
+	[column setDataCell: cell];
+     */
 }
 
-- (void)doubleClickedBundle
+- (void)doubleClickedBundle:(id)sender
 {
 	int row = [pluginsTableView selectedRow];
 	NSBundle* bundle = [(PluginInfo*)[bundles objectAtIndex:row] bundle];
@@ -666,3 +646,4 @@ objectValueForTableColumn:(NSTableColumn *)aTableColumn
 
 
 @end
+#endif

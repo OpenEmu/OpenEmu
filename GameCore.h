@@ -17,9 +17,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class GameDocument;
+@class GameDocument, OEHIDEvent;
 
-@interface GameCore : NSObject
+@interface GameCore : NSResponder
 {
 	NSThread *emulationThread;
 	GameDocument *document;
@@ -30,6 +30,7 @@
 + (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval;
 
 @property(assign) GameDocument *document;
+@property NSTimeInterval frameInterval;
 
 - (id)initWithDocument:(GameDocument *)document;
 
@@ -39,14 +40,15 @@
 - (void)setupEmulation;
 - (void)stopEmulation;
 - (void)startEmulation;
+
+// ============================================================================
+// Abstract methods: Those methods should implemented by subclasses
+// ============================================================================
 - (void)resetEmulation;
-- (void)frameRefreshThread:(id)anArgument;
 - (void)executeFrame;
 - (void)refreshFrame;
 
 - (BOOL)loadFileAtPath:(NSString*)path;
-
-@property NSTimeInterval frameInterval;
 
 #pragma mark Video
 @property(readonly) NSInteger width;
@@ -67,6 +69,20 @@
 - (void)player:(NSInteger)thePlayer didPressButton:(NSInteger)gameButton;
 - (void)player:(NSInteger)thePlayer didReleaseButton:(NSInteger)gameButton;
 
+#pragma mark Keyboard events
+- (void)keyDown:(NSEvent *)theEvent;
+- (void)keyUp:(NSEvent *)theEvent;
+
+// FIXME: Find a better way.
+#pragma mark Tracking preference changes
+- (void)globalEventWasSet:(id)theEvent forKey:(NSString *)keyName;
+- (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName;
+
+
+// ============================================================================
+// End Abstract methods.
+// ============================================================================
+
 @end
 
 #pragma mark Optional
@@ -74,8 +90,16 @@
 - (void)saveStateToFileAtPath:(NSString *)fileName;
 - (void)loadStateFromFileAtPath:(NSString *)fileName;
 
+- (NSTrackingAreaOptions)mouseTrackingOptions;
+
 - (void) requestAudio: (int) frames inBuffer: (void*)buf;
 - (NSSize) outputSize;
 - (void) setRandomByte;
 @end
 
+#pragma mark Gamepad events
+@interface GameCore (OEEventHandler)
+
+- (void)handleHIDEvent:(OEHIDEvent *)anEvent;
+
+@end

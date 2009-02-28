@@ -7,20 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "GameApp.h"
-
-//Need a custom app override for the custom input loop
-// No need to override NSApplicationMain, though
-int GameMain(int argc, const char *argv[]) {
-	
-    [GameApp sharedApplication];
-    [NSBundle loadNibNamed:@"MainMenu" owner:NSApp];
-    [NSApp run];
-	return 0;
-}
 
 int main(int argc, char *argv[])
 {
-    return GameMain(argc, (const char **) argv);
+    return NSApplicationMain(argc, (const char **) argv);
+    //return GameMain(argc, (const char **) argv);
 }
 

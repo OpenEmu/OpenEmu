@@ -8,11 +8,13 @@
 
 #import "GamePreferencesController.h"
 #import "GameDocument.h"
+#import "PluginInfo.h"
 #import "GameDocumentController.h"
 #import "GameAudio.h"
 #import "GameLayer.h"
 #import "GameBuffer.h"
 #import "GameCore.h"
+#import "OEGameCoreController.h"
 
 @implementation GameDocument
 
@@ -29,6 +31,8 @@
 {
 	[gameCore setupEmulation];
 	
+    [view setNextResponder:gameCore];
+    
 	//Setup Layer hierarchy
 	rootLayer = [CALayer layer];
 	
@@ -57,7 +61,7 @@
 	
 	audio = [[GameAudio alloc] initWithCore: gameCore];
 	[audio startAudio];
-	[audio setVolume:[[[GameDocumentController sharedDocumentController] preferenceController] volume]];
+	//[audio setVolume:[[[GameDocumentController sharedDocumentController] preferenceController] volume]];
 	
 	
 	NSRect f = [gameWindow frame];
@@ -76,15 +80,17 @@
 	//recorder = [[GameQTRecorder alloc] initWithGameCore:gameCore];
 	[gameCore startEmulation];	
 
-//	[recorder startRecording];
+    //	[recorder startRecording];
 	//frameTimer = [NSTimer timerWithTimeInterval:1.0/60.0 target:gameCore selector:@selector(tick) userInfo:nil repeats:YES];
 	//[[NSRunLoop currentRunLoop] addTimer: frameTimer forMode: NSRunLoopCommonModes];
 
 	[gameWindow makeKeyAndOrderFront:self];
 		
-
+    // FIXME: needs to be adapted to the new system.
+#if 0
 	if([[[GameDocumentController sharedDocumentController] preferenceController] fullScreen])
 		[view enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+#endif
 		
 }
 
@@ -105,6 +111,17 @@
 	NSLog(@"%@",self);
 	
 	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
+    PluginInfo *plugin = [docControl pluginForType:typeName];
+    gameCore = [[plugin controller] newGameCoreWithDocument:self];
+    [view setNextResponder:gameCore];
+    gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
+    [self resetFilter];
+    
+    if ([gameCore loadFileAtPath: [absoluteURL path]] ) return YES;
+    NSLog(@"Incorrect file");
+    return NO;
+
+    /*
 	gameCore = [[[[docControl bundleForType: typeName] principalClass] alloc] initWithDocument:self];
 	gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
 	//[gameBuffer setFilter:eFilter_HQ2x];
@@ -120,12 +137,14 @@
 		NSLog(@"Incorrect file");
 		return NO;
 	}
+     */
 }
 
 
 - (void) resetFilter
 {
-	[gameBuffer setFilter:[[[GameDocumentController sharedDocumentController] preferenceController]filter]];
+	// FIXME: Need to be adapted to the new system
+    //[gameBuffer setFilter:[[[GameDocumentController sharedDocumentController] preferenceController]filter]];
 }
 
 - (void) refreshAudio
@@ -150,6 +169,8 @@
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
+    // FIXME: needs to be adapted to the new system.
+#if 0
 	if(gameCore != nil && [[[GameDocumentController sharedDocumentController] preferenceController] pauseBackground])
 	{
 		if(![view isInFullScreenMode])
@@ -163,6 +184,7 @@
 			}
 		}
 	}
+#endif
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -197,14 +219,46 @@
 	[audio setVolume: volume];
 }
 
-- (void) saveState: (NSString *) fileName
+- (IBAction)saveState:(id)sender
 {
-	[gameCore saveStateToFileAtPath: fileName];
+    [[NSSavePanel savePanel] beginSheetForDirectory:nil
+                                               file:nil 
+                                     modalForWindow:gameWindow
+                                      modalDelegate:self
+                                     didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:)
+                                        contextInfo:NULL];
 }
 
-- (void) loadState: (NSString *) fileName
+- (void) saveStateToFile: (NSString *) fileName
 {
-	[gameCore loadStateFromFileAtPath: fileName];
+    if([gameCore respondsToSelector:@selector(saveStateToFileAtPath:)])
+        [gameCore saveStateToFileAtPath: fileName];
+}
+
+- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+    if(returnCode == NSOKButton) [self saveStateToFile:[sheet filename]];
+}
+
+- (IBAction)loadState:(id)sender
+{
+    [[NSOpenPanel openPanel] beginSheetForDirectory:nil
+                                               file:nil
+                                     modalForWindow:gameWindow
+                                      modalDelegate:self
+                                     didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
+                                        contextInfo:NULL];
+}
+
+- (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+    if(returnCode == NSOKButton) [self loadStateFromFile:[panel filename]];
+}
+
+- (void) loadStateFromFile: (NSString *) fileName
+{
+    if([gameCore respondsToSelector:@selector(loadStateFromFileAtPath:)])
+        [gameCore loadStateFromFileAtPath: fileName];
 }
 
 - (void) scrambleRam:(int) bytes
@@ -213,64 +267,14 @@
 		[gameCore setRandomByte];
 }
 
-#if 0 // Redundant implementation
 - (NSBitmapImageRep*) getRawScreenshot
 {
-	int width = [gameCore width];
-	int height = [gameCore height];
 #ifdef __LITTLE_ENDIAN__
-	//little endian code
-	NSBitmapImageRep *newBitmap = [[NSBitmapImageRep alloc]
-								   initWithBitmapDataPlanes:NULL pixelsWide:width
-								   pixelsHigh:height bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES
-								   isPlanar:NO colorSpaceName:NSCalibratedRGBColorSpace
-								   bitmapFormat:0
-								   bytesPerRow:width*4 bitsPerPixel:32];
-	
-	memcpy([newBitmap bitmapData], [gameCore buffer], width*height*4*sizeof(unsigned char));
-	
-	unsigned char* debut = [newBitmap bitmapData];
-	unsigned char temp = 0;
-	for (int i = 0; i < height; i++)
-		for (int j = 0; j < width; j++)
-		{
-			//swap Red with Blue
-			temp = debut[width*4*i + 4*j];
-			debut[width*4*i + 4*j] = debut[width*4*i + 4*j +2];
-			debut[width*4*i + 4*j +2] = temp;
-			
-			//alpha full
-			debut[width * 4 * i + 4 * j + 3] = 255;
-			
-		}
-	
+#define BITMAP_FORMAT 0
 #else
-	//big endian code
-	NSBitmapImageRep *newBitmap = [[NSBitmapImageRep alloc]
-								   initWithBitmapDataPlanes:NULL pixelsWide:width
-								   pixelsHigh:height bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES
-								   isPlanar:NO colorSpaceName:NSCalibratedRGBColorSpace
-								   bitmapFormat:NSAlphaFirstBitmapFormat
-								   bytesPerRow:width*4 bitsPerPixel:32];
-	
-	memcpy([newBitmap bitmapData], [gameCore buffer], width*height*4*sizeof(unsigned char));
-	
-	unsigned char* debut = [newBitmap bitmapData];
-	for (int i = 0; i < height; i++)
-		for (int j = 0; j < width; j++)
-		{			
-			//alpha full
-			debut[width * 4 * i + 4 * j] = 255;
-		}
-	
-#endif	
-	return newBitmap;
-}
-
-#else // Proposed implementation
-
-- (NSBitmapImageRep*) getRawScreenshot
-{
+#define BITMAP_FORMAT NSAlphaFirstBitmapFormat
+#endif
+    
 	int width = [gameCore width];
 	int height = [gameCore height];
 	//little endian code
@@ -283,7 +287,7 @@
 											  hasAlpha:YES
 											  isPlanar:NO
 										colorSpaceName:NSCalibratedRGBColorSpace
-										  bitmapFormat:0
+										  bitmapFormat:BITMAP_FORMAT
 										   bytesPerRow:width * 4
 										  bitsPerPixel:32];
 	
@@ -309,7 +313,5 @@
 		}
 	return newBitmap;
 }
-
-#endif
 
 @end

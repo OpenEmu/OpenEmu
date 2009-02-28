@@ -6,6 +6,8 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#warning This file should be deleted.
+#if 0
 #import <Cocoa/Cocoa.h>
 
 
@@ -77,7 +79,7 @@ extern NSString * const OEQTFrameRate;
 - (void) setKeyboardControl: (KeyboardButton*) button;
 - (void) setGamepadControl: (GameButton*) button;
 - (void) setControl: (NSString*) dictKey withKey: (int) keyCode;
-
+- (void)doubleClickedBundle:(id)sender;
 
 - (IBAction) restoreDefaultControls: (id) sender;
 
@@ -144,3 +146,4 @@ extern NSString * const OEQTFrameRate;
 - (IBAction) close: (id) sender;
 
 @end
+#endif

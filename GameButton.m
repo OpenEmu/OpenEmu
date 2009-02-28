@@ -6,8 +6,9 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#warning This file should be deleted.
+#if 0
 #import "GameButton.h"
-
 
 @implementation KeyboardButton
 
@@ -381,3 +382,4 @@
 
 
 @end
+#endif

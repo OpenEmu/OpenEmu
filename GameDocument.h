@@ -11,7 +11,6 @@
 #import <QuartzCore/CoreAnimation.h>
 
 @class GameCore;
-@class GameInput;
 @class GameAudio;
 @class GameLayer;
 @class GameBuffer;
@@ -36,8 +35,14 @@
 - (void) switchFullscreen;
 - (void) refresh;
 - (void) refreshAudio;
-- (void) saveState: (NSString *) fileName;
-- (void) loadState: (NSString *) fileName;
+- (void) saveStateToFile: (NSString *) fileName;
+- (void) loadStateFromFile: (NSString *) fileName;
+
+- (IBAction)loadState:(id)sender;
+- (IBAction)saveState:(id)sender;
+
+- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
+- (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (NSBitmapImageRep*) getRawScreenshot;
 

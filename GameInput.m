@@ -6,6 +6,8 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#warning This file should be deleted.
+#if 0
 #import "GameInput.h"
 #import "GamePreferencesController.h"
 #import "GameDocumentController.h"
@@ -22,14 +24,12 @@
 #define DEADZONE_PERCENT (25)
 
 static void
-Handle_InputValueCallback(
-						  void* inContext,
+Handle_InputValueCallback(void* inContext,
 						  IOReturn inResult,
 						  void* inSender,
 						  IOHIDValueRef inIOHIDValueRef )
 {
-	
-//	NSLog(@"Pressed");
+	//	NSLog(@"Pressed");
 	//printf( "%s( context: %p, result: %p, sender: %p, device: %p ).\n",        __PRETTY_FUNCTION__, inContext, ( void * ) inResult, inSender, ( void* ) inIOHIDValueRef );
 	IOHIDElementRef elem = IOHIDValueGetElement(inIOHIDValueRef);
 	CFIndex value = IOHIDValueGetIntegerValue(inIOHIDValueRef);
@@ -37,11 +37,9 @@ Handle_InputValueCallback(
 	const uint32_t usage = IOHIDElementGetUsage(elem);
 
 	//NSLog(@"Usage %d Page %d", usage, page);
-//	if(!(usage == kHIDUsage_GD_GamePad || usage == kHIDUsage_GD_Joystick) && page == kHIDPage_GenericDesktop)
-//		return;
+	//	if(!(usage == kHIDUsage_GD_GamePad || usage == kHIDUsage_GD_Joystick) && page == kHIDPage_GenericDesktop)
+	//		return;
 		
-	
-	
 	CFIndex minValue = IOHIDElementGetLogicalMin( elem );
 	CFIndex maxValue = IOHIDElementGetLogicalMax( elem );
 	
@@ -51,8 +49,7 @@ Handle_InputValueCallback(
 	//Are we dead?
 	if(value < zeroValue + deadAmount && value > zeroValue - deadAmount && maxValue != 1 && value != zeroValue)
 	{
-	//	NSLog(@"We be dead! Dead Amount: %i", value);
-		
+		// NSLog(@"We be dead! Dead Amount: %i", value);
 		value = 0;
 	}
 	
@@ -71,13 +68,10 @@ Handle_InputValueCallback(
 	
 	for(GameButton * button in [gamepadControls objectEnumerator])
 	{
-		if([button page] == page &&
-		   [button usage] == usage)
+		if([button page] == page && [button usage] == usage)
 		{
-			
 			if([button axis] != eAxis_None)
 			{
-
 				if([button axis] == axis)
 				{
 					NSLog(@"Setting %i",button.button);
@@ -103,15 +97,13 @@ Handle_InputValueCallback(
 				}
 				break;
 			}
-
 		}
 	}
 }
 
 
 // this will be called when a HID device is removed ( unplugged )
-static void Handle_RemovalCallback(
-								   void *         inContext,       // context from IOHIDManagerRegisterDeviceMatchingCallback
+static void Handle_RemovalCallback(void *         inContext,       // context from IOHIDManagerRegisterDeviceMatchingCallback
 								   IOReturn       inResult,        // the result of the removing operation
 								   void *         inSender,        // the IOHIDManagerRef for the device being removed
 								   IOHIDDeviceRef inIOHIDDeviceRef // the removed HID device
@@ -125,14 +117,16 @@ static void Handle_RemovalCallback(
 }   // Handle_RemovalCallback
 
 static void
-Handle_DeviceMatchingCallback(
-							  void* inContext,
+Handle_DeviceMatchingCallback(void* inContext,
 							  IOReturn inResult,
 							  void* inSender,
 							  IOHIDDeviceRef inIOHIDDeviceRef )
 {
 	NSLog(@"Found device");
-	 printf( "%s( context: %p, result: %p, sender: %p, device: %p ).\n",        __PRETTY_FUNCTION__, inContext, ( void * ) inResult, inSender, ( void* ) inIOHIDDeviceRef );
+	printf( "%s( context: %p, result: %p, sender: %p, device: %p ).\n",
+		   __PRETTY_FUNCTION__,
+		   inContext, (void *)inResult,
+		   inSender,  (void *)inIOHIDDeviceRef);
 	
 	if (IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
 	{
@@ -140,57 +134,63 @@ Handle_DeviceMatchingCallback(
 		return;
 	}
 
-	NSLog(@"%@",IOHIDDeviceGetProperty( inIOHIDDeviceRef, CFSTR( kIOHIDProductKey ) ));
+	NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
 	
 	//IOHIDDeviceRegisterRemovalCallback(inIOHIDDeviceRef, Handle_RemovalCallback, inContext);
 	
-	IOHIDDeviceRegisterInputValueCallback(
-										  inIOHIDDeviceRef,
+	IOHIDDeviceRegisterInputValueCallback(inIOHIDDeviceRef,
 										  Handle_InputValueCallback,
 										  inContext);
 	
-	IOHIDDeviceScheduleWithRunLoop(
-								   inIOHIDDeviceRef,
+	IOHIDDeviceScheduleWithRunLoop(inIOHIDDeviceRef,
 								   CFRunLoopGetCurrent(),
-								   kCFRunLoopDefaultMode );
+								   kCFRunLoopDefaultMode);
 	
 }   // Handle_DeviceMatchingCallback
 
 // function to create matching dictionary
-static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsagePage, UInt32 inUsage )
+static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary(UInt32 inUsagePage, UInt32 inUsage)
 {
     // create a dictionary to add usage page/usages to
-    CFMutableDictionaryRef result = CFDictionaryCreateMutable(
-															  kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks );
-    if ( result ) {
-        if ( inUsagePage ) {
+    CFMutableDictionaryRef result = CFDictionaryCreateMutable(kCFAllocatorDefault, 0,
+															  &kCFTypeDictionaryKeyCallBacks,
+															  &kCFTypeDictionaryValueCallBacks);
+    if(result != NULL)
+	{
+        if(inUsagePage)
+		{
             // Add key for device type to refine the matching dictionary.
-            CFNumberRef pageCFNumberRef = CFNumberCreate(
-														 kCFAllocatorDefault, kCFNumberIntType, &inUsagePage );
-            if ( pageCFNumberRef ) {
-                CFDictionarySetValue( result,
-									 CFSTR( kIOHIDDeviceUsagePageKey ), pageCFNumberRef );
-                CFRelease( pageCFNumberRef );
+            CFNumberRef pageCFNumberRef = CFNumberCreate(kCFAllocatorDefault,
+														 kCFNumberIntType,
+														 &inUsagePage);
+            if(pageCFNumberRef)
+			{
+                CFDictionarySetValue(result,
+									 CFSTR(kIOHIDDeviceUsagePageKey),
+									 pageCFNumberRef);
+                CFRelease(pageCFNumberRef);
 				
                 // note: the usage is only valid if the usage page is also defined
-                if ( inUsage ) {
-                    CFNumberRef usageCFNumberRef = CFNumberCreate(
-																  kCFAllocatorDefault, kCFNumberIntType, &inUsage );
-                    if ( usageCFNumberRef ) {
-                        CFDictionarySetValue( result,
-											 CFSTR( kIOHIDDeviceUsageKey ), usageCFNumberRef );
-                        CFRelease( usageCFNumberRef );
-                    } else {
-                        fprintf( stderr, "%s: CFNumberCreate( usage ) failed.", __PRETTY_FUNCTION__ );
+                if (inUsage)
+				{
+                    CFNumberRef usageCFNumberRef = CFNumberCreate(kCFAllocatorDefault,
+																  kCFNumberIntType,
+																  &inUsage);
+                    if(usageCFNumberRef)
+					{
+                        CFDictionarySetValue(result,
+											 CFSTR(kIOHIDDeviceUsageKey),
+											 usageCFNumberRef);
+                        CFRelease(usageCFNumberRef);
                     }
+					else fprintf( stderr, "%s: CFNumberCreate( usage ) failed.", __PRETTY_FUNCTION__ );
                 }
-            } else {
-                fprintf( stderr, "%s: CFNumberCreate( usage page ) failed.", __PRETTY_FUNCTION__ );
             }
+			else fprintf( stderr, "%s: CFNumberCreate( usage page ) failed.", __PRETTY_FUNCTION__ );
         }
-    } else {
-        fprintf( stderr, "%s: CFDictionaryCreateMutable failed.", __PRETTY_FUNCTION__ );
     }
+	else fprintf( stderr, "%s: CFDictionaryCreateMutable failed.", __PRETTY_FUNCTION__ );
+		
     return result;
 }   // hu_CreateDeviceMatchingDictionary
 
@@ -202,53 +202,47 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 	{
 		IOHIDManagerRef hidManager = NULL;
 		
+		hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
 		
-		hidManager = IOHIDManagerCreate( kCFAllocatorDefault, kIOHIDOptionsTypeNone );
-		
-		CFArrayRef matchingCFArrayRef = CFArrayCreateMutable( kCFAllocatorDefault, 0, &kCFTypeArrayCallBacks );
-		if ( matchingCFArrayRef ) {
+		CFMutableArrayRef matchingCFArrayRef = CFArrayCreateMutable(kCFAllocatorDefault, 0,
+                                                                    &kCFTypeArrayCallBacks );
+		if ( matchingCFArrayRef )
+		{
 			// create a device matching dictionary for joysticks
 			CFDictionaryRef matchingCFDictRef =
 			hu_CreateDeviceMatchingDictionary( kHIDPage_GenericDesktop, kHIDUsage_GD_Joystick );
-			if ( matchingCFDictRef ) {
+			if ( matchingCFDictRef )
+			{
 				// add it to the matching array
 				CFArrayAppendValue( matchingCFArrayRef, matchingCFDictRef );
 				CFRelease( matchingCFDictRef ); // and release it
-			} else {
-				fprintf( stderr, "%s: hu_CreateDeviceMatchingDictionary( joystick ) failed.", __PRETTY_FUNCTION__ );
 			}
+			else fprintf( stderr, "%s: hu_CreateDeviceMatchingDictionary( joystick ) failed.", __PRETTY_FUNCTION__ );
 			
 			// create a device matching dictionary for game pads
 			matchingCFDictRef = hu_CreateDeviceMatchingDictionary( kHIDPage_GenericDesktop, kHIDUsage_GD_GamePad );
-			if ( matchingCFDictRef ) {
+			if ( matchingCFDictRef )
+			{
 				// add it to the matching array
 				CFArrayAppendValue( matchingCFArrayRef, matchingCFDictRef );
 				CFRelease( matchingCFDictRef ); // and release it
-			} else {
-				fprintf( stderr, "%s: hu_CreateDeviceMatchingDictionary( game pad ) failed.", __PRETTY_FUNCTION__ );
 			}
-		} else {
-			fprintf( stderr, "%s: CFArrayCreateMutable failed.", __PRETTY_FUNCTION__ );
+			else fprintf( stderr, "%s: hu_CreateDeviceMatchingDictionary( game pad ) failed.", __PRETTY_FUNCTION__ );
 		}
+		else fprintf( stderr, "%s: CFArrayCreateMutable failed.", __PRETTY_FUNCTION__);
 
-		IOHIDManagerSetDeviceMatchingMultiple( hidManager, matchingCFArrayRef );
+		IOHIDManagerSetDeviceMatchingMultiple(hidManager, matchingCFArrayRef);
 	
-		CFRelease( matchingCFArrayRef );
+		CFRelease(matchingCFArrayRef);
 		
-
-		
-		IOHIDManagerRegisterDeviceMatchingCallback(
-												   hidManager,
+		IOHIDManagerRegisterDeviceMatchingCallback(hidManager,
 												   Handle_DeviceMatchingCallback,
-												   self );
+												   self);
 		
 		
-		IOHIDManagerScheduleWithRunLoop(
-										hidManager,
+		IOHIDManagerScheduleWithRunLoop(hidManager,
 										CFRunLoopGetCurrent(),
-										kCFRunLoopDefaultMode );
-		
-		
+										kCFRunLoopDefaultMode);
 	}
 	return self;
 }
@@ -269,7 +263,8 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 	}
 	
 	
-	return YES;/*
+	return YES;
+    
 	NSNumber* key = [NSNumber numberWithInt:[theEvent keyCode]];
 	
 	NSDictionary* gameControls = [prefController gameControls];
@@ -297,7 +292,6 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 		return YES;
 	else
 		return NO;
-	*/
 }
 
 - (void)keyDown:(NSEvent *)theEvent
@@ -381,3 +375,4 @@ static CFMutableDictionaryRef hu_CreateDeviceMatchingDictionary( UInt32 inUsageP
 }
 
 @end
+#endif

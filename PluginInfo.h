@@ -8,20 +8,39 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern NSString *OEControlsPreferencesClassName;
+
+@class OEGameCoreController;
 
 @interface PluginInfo : NSObject <NSCopying> {
-	NSDictionary* infoDictionary;
-	NSImage*  icon;
-	NSBundle* bundle;
+	NSDictionary *infoDictionary;
+	NSImage *icon;
+	NSBundle *bundle;
+    NSDictionary *supportedTypes;
+    NSArray *supportedTypeExtensions;
+    NSView *currentControlView;
+    NSViewController *controlsPreferences;
+    Class gameCoreClass;
+    OEGameCoreController *controller;
 }
 
-@property(readonly) NSBundle* bundle;
+@property(readonly) OEGameCoreController *controller;
+@property(readonly) NSBundle *bundle;
+@property(readonly) NSString *displayName, *details;
+@property(readonly) NSImage *icon;
+@property(readonly) NSDictionary *supportedTypes;
+@property(readonly) NSArray *supportedTypeNames;
+@property(readonly) NSArray *supportedTypeExtensions;
+@property(readonly) Class gameCoreClass;
 
-- (id) initWithBundleAtPath: (NSString*) path;
-- (id) initWithInfoDictionary: (NSDictionary*) infoDict icon: (NSImage*) image;
++ (id)pluginInfoWithBundleAtPath:(NSString*)path;
 
-- (NSString*) displayName;
-- (NSString*) details;
-- (NSImage*) icon;
+- (id)initWithBundleAtPath:(NSString*)path;
+- (id)initWithInfoDictionary:(NSDictionary*)infoDict icon:(NSImage*)image;
+
+- (NSArray *)extensionsForTypeName:(NSString *)aTypeName;
+- (BOOL)supportsFileExtension:(NSString *)extension;
+
+- (void)updateBundle:(id)sender;
 
 @end

@@ -6,8 +6,9 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#warning This file should be deleted.
+#if 0
 #import <Cocoa/Cocoa.h>
-
 @class GamePreferencesController, GameDocumentController;
 
 @interface GameInput : NSResponder {
@@ -25,3 +26,4 @@
 - (void) pressButton: (int) button forPlayer: (int) player;
 
 @end
+#endif

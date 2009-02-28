@@ -1,3 +1,6 @@
+
+#warning This file should be deleted.
+#if 0
 #import "GamePreferencesController.h"
 
 static NSString *PreferenceToolbar     = @"Preference Toolbar";
@@ -60,13 +63,10 @@ static NSString *PluginToolbarItemIdentifier 	= @"Plugin Item Identifier";
 		
 						
 						[mCustomIcons setObject:toolbarItem forKey:[bundle bundleIdentifier]];
-						
-						
 					}
 				}
 			}
 		}
-		
 	}
 	
 	customViews = [[NSDictionary alloc] initWithDictionary:mCustomViews];
@@ -225,3 +225,4 @@ static NSString *PluginToolbarItemIdentifier 	= @"Plugin Item Identifier";
 }
 
 @end
+#endif

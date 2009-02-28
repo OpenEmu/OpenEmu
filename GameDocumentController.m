@@ -7,22 +7,31 @@
 //
 
 #import "GamePickerController.h"
-#import "GamePreferencesController.h"
 #import "GameDocumentController.h"
 #import "GameDocument.h"
 #import "GameButton.h"
 #import "GameCore.h"
+#import "OEHIDDeviceHandler.h"
 #import <Sparkle/Sparkle.h>
 #import <XADMaster/XADArchive.h>
+#import "PluginInfo.h"
+#import "OEGamePreferenceController.h"
+
+@interface GameDocumentController ()
+- (void)OE_setupHIDManager;
+- (OEHIDDeviceHandler *)OE_deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice;
+@end
+
 
 @implementation GameDocumentController
 
 @synthesize gameLoaded;
 @synthesize bundles;
-
+@synthesize plugins;
 
 + (NSDictionary*) defaultGamepadControls
 {
+    /*
 	GameButton *rightButton = [[[GameButton alloc] initWithPage:kHIDPage_GenericDesktop
 														 usage:kHIDUsage_GD_X 
 														 value:1
@@ -90,26 +99,13 @@
 	// Create defaults
 	return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aButton,bButton,xButton,yButton,startButton,selectButton,upButton,downButton,leftButton,rightButton,lButton, rButton, nil]
 									   forKeys:[NSArray arrayWithObjects:@"A",@"B",@"X",@"Y",@"Start",@"Select",@"Up",@"Down",@"Left",@"Right", @"L", @"R",nil]];	
+     */
+    return nil;
 }
 
 + (NSDictionary*) defaultControls
 {
-	/*
-	NSArray *aArray		=	[NSArray arrayWithObject:[NSNumber numberWithInt:0]];
-	NSArray *bArray		=	[NSArray arrayWithObject:[NSNumber numberWithInt:1]];
-	
-	NSArray *startArray		=	[NSArray arrayWithObject:[NSNumber numberWithInt:36]];
-	NSArray *selectArray	=	[NSArray arrayWithObject:[NSNumber numberWithInt:48]];
-	
-	NSArray *upArray	=	[NSArray arrayWithObject:[NSNumber numberWithInt:126]];
-	NSArray *downArray	=	[NSArray arrayWithObject:[NSNumber numberWithInt:125]];
-	NSArray *leftArray	=	[NSArray arrayWithObject:[NSNumber numberWithInt:123]];
-	NSArray *rightArray	=	[NSArray arrayWithObject:[NSNumber numberWithInt:124]];
-	
-	NSArray *lArray	=	[NSArray arrayWithObject:[NSNumber numberWithInt:36]];
-	NSArray *rArray	=	[NSArray arrayWithObject:[NSNumber numberWithInt:48]];
-	*/
-	
+    /*
 	KeyboardButton * aButton = [[[KeyboardButton alloc] initWithKeycode:0]autorelease];
 	KeyboardButton * bButton = [[[KeyboardButton alloc] initWithKeycode:1]autorelease];
 	KeyboardButton * xButton = [[[KeyboardButton alloc] initWithKeycode:6]autorelease];
@@ -129,14 +125,16 @@
 	// Create defaults
 	return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aButton,bButton,xButton, yButton,startButton,selectButton,upButton,downButton,leftButton,rightButton, lButton, rButton, nil] 
 																 forKeys:[NSArray arrayWithObjects:@"A",@"B",@"X",@"Y",@"Start",@"Select",@"Up",@"Down",@"Left",@"Right", @"L", @"R", nil]];
-
+     */
+    return nil;
 }
 
 + (void)initialize
 {
 	if(self  == [GameDocumentController class])
 	{
-		// Create a dictionary
+#if 0
+        // Create a dictionary
 		NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
 		
 		NSData* gamepadControls = [NSKeyedArchiver archivedDataWithRootObject:[GameDocumentController defaultGamepadControls]];
@@ -151,6 +149,7 @@
 		
 		NSLog(@"%@", defaultValues);
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
+#endif
 	}
 }
 
@@ -196,51 +195,42 @@
 - (id)init
 {
 	self = [super init];
-	if(self) {
+	if(self)
+    {
 		[self setGameLoaded:NO];
 		
-		NSString *file;
 		NSString *bundleDir = [[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OEBundlePath"] stringByStandardizingPath];
-		NSMutableArray* bundlePaths = [[NSMutableArray alloc] init];
 	
 		// get our core bundles
 		NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath: bundleDir];
-		while (file = [enumerator nextObject])
+        
+		NSString *file;
+        NSMutableArray *mutablePlugins = [[NSMutableArray alloc] init];
+		NSMutableArray* mutableBundles = [[NSMutableArray alloc] init];
+		
+        while (file = [enumerator nextObject])
 		{
 			if([[file pathExtension] isEqualToString:@"bundle"])
 			{
-				[bundlePaths addObject:[bundleDir stringByAppendingPathComponent:file]];
+                PluginInfo *plugin = [PluginInfo pluginInfoWithBundleAtPath:[bundleDir stringByAppendingPathComponent:file]];
+                [mutablePlugins addObject:plugin];
+                [mutableBundles addObject:[plugin bundle]];
 				[enumerator skipDescendents];
 			}
 		}
-		
-		
-		NSMutableArray* mutableBundles = [[NSMutableArray alloc] init];
-		
-		for(NSString* path in bundlePaths)
-		{
-			[mutableBundles addObject:[NSBundle bundleWithPath:path]];
-		}
-		
-		[bundlePaths release];
 		//All bundles that are available
-		bundles = [[NSArray arrayWithArray:mutableBundles] retain];
+        plugins = [mutablePlugins copy];
+		bundles = [mutableBundles copy];
 		
 		[mutableBundles release];
+        [mutablePlugins release];
 		
-		NSMutableSet* mutableExtensions = [[NSMutableSet alloc] init];
+		NSMutableArray *mutableExtensions = [[NSMutableArray alloc] init];
 		
 		//go through the bundles Info.plist files to get the type extensions
-		for(NSBundle* bundle in bundles)
-		{
-			NSArray* types = [[bundle infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-			
-			for (NSDictionary* key in types)
-			{
-				 [mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
-			}
-		}
-		
+		for(PluginInfo *plugin in plugins)
+            [mutableExtensions addObjectsFromArray:[plugin supportedTypeExtensions]];
+        
 		NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
 		
 		for (NSDictionary* key in types)
@@ -257,7 +247,8 @@
 		//validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
 		
 		[self updateInfoPlist];
-		
+        
+        [self OE_setupHIDManager];
 	}
 	return self;
 }
@@ -266,7 +257,21 @@
 {
 	[validExtensions release];
 	[bundles release];
+    if(hidManager != NULL) CFRelease(hidManager);
+    [deviceHandlers release];
 	[super dealloc];
+}
+
+- (IBAction)openPreferenceWindow:(id)sender
+{
+    if(preferences == nil)
+        preferences = [[OEGamePreferenceController alloc] init];
+    [preferences showWindow:sender];
+    /*
+    if(preferenceController == nil)
+        preferenceController = [[GamePreferencesController alloc] init];
+    [preferenceController showWindow:sender];
+     */
 }
 
 - (void) updateInfoPlist 
@@ -282,11 +287,11 @@
 	NSData * infoPlistXml = [[NSFileManager defaultManager] contentsAtPath:infoPlistPath];
 	
 	// store it mutably
-	NSMutableDictionary *infoPlist = (NSMutableDictionary*)[NSPropertyListSerialization 
-															propertyListFromData: infoPlistXml
-															mutabilityOption: NSPropertyListMutableContainersAndLeaves
-															format:&format
-															errorDescription:&errorDesc];
+	NSMutableDictionary *infoPlist =
+    [NSPropertyListSerialization propertyListFromData:infoPlistXml
+                                     mutabilityOption:NSPropertyListMutableContainersAndLeaves
+                                               format:&format
+                                     errorDescription:&errorDesc];
 	if (!infoPlist) {
 		NSLog(errorDesc);
 		[errorDesc release];
@@ -388,20 +393,25 @@
 	return [super openDocumentWithContentsOfURL: absoluteURL display: displayDocument error: outError];
 }
 
--(IBAction) closeWindow: (id) sender
+- (IBAction)closeWindow: (id) sender
 {
 	[[self currentDocument] close];
 }
 
-- (void)setCurrentGame:(GameDocument*)game
+- (PluginInfo *)pluginForType:(NSString *)type
 {
-	currentGame = game;
+    for(PluginInfo *plugin in plugins)
+    {
+        if([plugin supportsFileExtension:type])
+            return plugin;
+    }
+    return nil;
 }
 
 - (NSBundle*)bundleForType:(NSString*) type
 {
 	NSLog(@"Bundle");
-	//Need to make it so if multiple bundles load same extensions, it presents a picker
+	// TODO: Need to make it so if multiple bundles load same extensions, it presents a picker
 	for(NSBundle* bundle in bundles)
 	{
 		NSArray* types = [[bundle infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
@@ -443,16 +453,8 @@
 
 - (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions
 {
-	NSLog(@"%@",validExtensions);
+	NSLog(@"%s", __FUNCTION__);
 	return [super runModalOpenPanel:openPanel forTypes:validExtensions];
-}
-
-- (GamePreferencesController*) preferenceController
-{//	if(!preferenceController)
-//	{
-//		preferenceController = [[GamePreferencesController alloc] initWithDocController:self];
-//	}	
-	return preferenceController;
 }
 
 - (GameCore*) currentGame
@@ -539,4 +541,180 @@
 	return [super currentDocument];
 }
 
+#pragma mark New HID Event Handler
+//==================================================================================================
+// New HID Event handler system
+//==================================================================================================
+
+- (OEHIDDeviceHandler *)OE_deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice
+{
+    OEHIDDeviceHandler *ret = [OEHIDDeviceHandler deviceHandlerWithDevice:aDevice];
+    [deviceHandlers addObject:ret];
+    return ret;
+}
+
+
+- (void)handleHIDEvent:(OEHIDEvent *)anEvent
+{
+    NSLog(@"No handler found for HID event : %@", anEvent);
+}
+
+// FIXME: Should be called by -[OEHIDDeviceHandler dispatchHIDEvent:],
+// though OEHIDDeviceHandler can send it directly to NSApp to avoid more inderections.
+- (void)dispatchHIDEvent:(OEHIDEvent *)anEvent
+{
+    [NSApp sendAction:@selector(handleHIDEvent:) to:nil from:anEvent];
+}
+
+#define DEVICE_IDENTIFIER(page, usage) (((page) << 16) | (usage))
+
+static void OEHandle_InputValueCallback(void *inContext,
+                                        IOReturn inResult,
+                                        void *inSender,
+                                        IOHIDValueRef inIOHIDValueRef)
+{
+	IOHIDElementRef elem = IOHIDValueGetElement(inIOHIDValueRef);
+	CFIndex value        = IOHIDValueGetIntegerValue(inIOHIDValueRef);
+	const uint32_t page  = IOHIDElementGetUsagePage(elem);
+	const uint32_t usage = IOHIDElementGetUsage(elem);
+    
+    OEHIDDeviceHandler *deviceHandler = inContext;
+    
+	CFIndex minValue = IOHIDElementGetLogicalMin(elem);
+	CFIndex maxValue = IOHIDElementGetLogicalMax(elem);
+    
+    CGFloat ret = value;
+    // If the difference between min and max is equal to 1,
+    // It means we're handling an button with only two states: On and Off,
+    // Else this mean we're handling an analogic or D-pad button
+    // Scales the value between -1.0 and 1.0, 0.0 means off.
+    if(maxValue - minValue > 1)
+    {
+        CGFloat v = value;
+        CFIndex fakeZero = (maxValue + minValue) / 2;
+        if(value == fakeZero || value == fakeZero + 1) v = ((maxValue + minValue) / 2.0);
+        ret = (v / (CGFloat)maxValue) * 2.0;
+        ret -= 1.0;
+    }
+    
+    // Per-device dead zone.
+    CGFloat deadZone = [deviceHandler deadZone];
+    if(-deadZone <= ret && ret <= deadZone) ret = 0.0;
+    
+    [deviceHandler dispatchEventWithPage:page usage:usage value:ret];
+}
+/* TODO: remove a device:
+static void OEHandle_RemovalCallback(void *context, 
+                                     IOReturn result, 
+                                     void *sender)
+{
+    GameDocumentController *self = inContext;
+    
+}
+*/
+static void OEHandle_DeviceMatchingCallback(void* inContext,
+                                            IOReturn inResult,
+                                            void* inSender,
+                                            IOHIDDeviceRef inIOHIDDeviceRef )
+{
+	NSLog(@"Found device: %s( context: %p, result: %p, sender: %p, device: %p ).\n",
+          __PRETTY_FUNCTION__,
+          inContext, (void *)inResult,
+          inSender,  (void *)inIOHIDDeviceRef);
+	
+	if (IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
+	{
+		NSLog(@"%s: failed to open device at %p", __PRETTY_FUNCTION__, inIOHIDDeviceRef);
+		return;
+	}
+    
+	NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
+	
+    GameDocumentController *self = inContext;
+    
+	//IOHIDDeviceRegisterRemovalCallback(inIOHIDDeviceRef, OEHandle_RemovalCallback, self);
+	
+	IOHIDDeviceRegisterInputValueCallback(inIOHIDDeviceRef,
+										  OEHandle_InputValueCallback,
+										  [self OE_deviceHandlerWithDevice:inIOHIDDeviceRef]);
+	
+	IOHIDDeviceScheduleWithRunLoop(inIOHIDDeviceRef,
+								   CFRunLoopGetCurrent(),
+								   kCFRunLoopDefaultMode);
+	
+}   // Handle_DeviceMatchingCallback
+
+- (void)OE_setupHIDManager
+{
+    deviceHandlers = [[NSMutableArray alloc] init];
+    hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+    NSArray *matchingEvents =
+    [NSArray arrayWithObjects:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
+      [NSNumber numberWithInteger:kHIDUsage_GD_Joystick], @ kIOHIDDeviceUsageKey, nil],
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
+      [NSNumber numberWithInteger:kHIDUsage_GD_GamePad], @ kIOHIDDeviceUsageKey, nil],
+     nil];
+    IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)matchingEvents);
+    
+    IOHIDManagerRegisterDeviceMatchingCallback(hidManager,
+                                               OEHandle_DeviceMatchingCallback,
+                                               self);
+    IOHIDManagerScheduleWithRunLoop(hidManager,
+                                    CFRunLoopGetCurrent(),
+                                    kCFRunLoopDefaultMode);
+}
+
+- (IOHIDDeviceRef)deviceWithManufacturer:(NSString *)aManufacturer productID:(NSNumber *)aProductID locationID:(NSNumber *)aLocationID
+{
+    OEHIDDeviceHandler *ret = nil;
+    for(OEHIDDeviceHandler *handler in deviceHandlers)
+    {
+        if([[handler manufacturer] isEqualToString:aManufacturer] &&
+           [[handler productID] isEqualToNumber:aProductID]       &&
+           [[handler locationID] isEqualToNumber:aLocationID])
+        {
+            ret = handler;
+            break;
+        }
+    }
+    return [ret device];
+}
+/*
+[NSString stringWithFormat:@"%@|%@|%@|%d|%d",
+ IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey)),
+ IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)),
+ IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey)),
+ anIdentifier, (value < 0.0 ? -1 : 1)];
+ */
+/* FIXME: Find a better way.
+- (id)eventWithUserDefaultsValue:(NSString *)theEvent
+{
+    NSArray *parts = [theEvent componentsSeparatedByString:@"|"];
+    id ret = nil;
+    if([parts count] == 5)
+    {
+        NSString *manufacturer = [parts objectAtIndex:0];
+        NSNumber *productID = [NSNumber numberWithInt:[[parts objectAtIndex:1] intValue]];
+        NSNumber *locationID = [NSNumber numberWithInt:[[parts objectAtIndex:2] intValue]];
+        uint32_t identifier = [[parts objectAtIndex:3] intValue];
+        CGFloat value = [[parts objectAtIndex:4] intValue] * 1.0;
+        
+        for(OEHIDDeviceHandler *handler in deviceHandlers)
+        {
+            if([[handler manufacturer] isEqualToString:manufacturer] &&
+               [[handler productID] isEqualToNumber:productID] &&
+               [[handler locationID] isEqualToNumber:locationID])
+            {
+                ret = [handler eventWithIdentifier:identifier value:value];
+                break;
+            }
+        }
+    }
+    else ret = theEvent;
+    return ret;
+}
+ */
 @end

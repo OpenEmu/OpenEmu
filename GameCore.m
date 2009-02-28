@@ -10,6 +10,7 @@
 #import "GameDocument.h"
 #import "GameDocumentController.h"
 #import "OEAbstractAdditions.h"
+#import "OEHIDEvent.h"
 #include <sys/time.h>
 
 @implementation GameCore
@@ -39,7 +40,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 - (id)init
 {
 	// FIXME: I'm really not sure this is a good idea... It just removes a linker error.
-	return [self initWithDocument:[[objc_getClass("GameDocumentController") sharedDocumentController] currentDocument]];
+	return [self initWithDocument:nil];
 }
 
 - (id)initWithDocument:(GameDocument *)aDocument
@@ -205,6 +206,71 @@ static NSTimeInterval currentTime()
 }
 
 - (void)player:(NSInteger)thePlayer didReleaseButton:(NSInteger)gameButton
+{
+	[self doesNotImplementSelector:_cmd];
+}
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+    NSLog(@"%s", __FUNCTION__);
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+    NSLog(@"%s", __FUNCTION__);
+}
+
+- (NSTrackingAreaOptions)mouseTrackingOptions
+{
+    return 0;
+}
+
+// FIXME: Find a better way.
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    NSLog(@"%s: %@, %@", __FUNCTION__, keyPath, change);
+    NSArray *parts = [keyPath componentsSeparatedByString:@"."];
+    
+    // This method only handle keypaths with at least 3 parts
+    if([parts count] < 3) return;
+    // [parts objectAtIndex:0] == @"values"
+    // [parts objectAtIndex:1] == namespace (pluginName or OEGlobalEventsKey)
+    NSString *keyName = [parts objectAtIndex:2];
+    id event = [change objectForKey: NSKeyValueChangeNewKey];
+    id temp = nil;
+    if([event isKindOfClass:[NSData class]])
+    {
+        @try
+        {
+            temp = [NSKeyedUnarchiver unarchiveObjectWithData:event];
+        }
+        @catch(NSException *e)
+        {
+            NSLog(@"Couldn't unarchive data: %@", e);
+            temp = event;
+        }
+    }
+    else temp = event;
+    event = temp;
+    
+    if([[parts objectAtIndex:1] isEqualToString:OEGlobalEventsKey])
+    {
+        // FIXME: Find a better way to handle global keys.
+        //[self globalEventWasSet:event forKey:keyName];
+    }
+    else
+    {
+        NSLog(@"result: %@, %@, %@", keyName, keyPath, event);
+        [self eventWasSet:event forKey:keyName];
+    }
+}
+
+- (void)globalEventWasSet:(id)theEvent forKey:(NSString *)keyName
+{
+	NSLog(@"UNUSED : %s", __FUNCTION__);
+    //[self doesNotImplementSelector:_cmd];
+}
+- (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName
 {
 	[self doesNotImplementSelector:_cmd];
 }

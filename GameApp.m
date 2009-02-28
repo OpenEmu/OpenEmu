@@ -6,6 +6,8 @@
 //  Copyright 2008 __MyCompanyName__. All rights reserved.
 //
 
+#warning This file should be deleted.
+#if 0
 #import "GameApp.h"
 #import "GameInput.h"
 #import "GameDocumentController.h"
@@ -40,3 +42,4 @@
 }
 
 @end
+#endif
