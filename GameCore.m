@@ -250,7 +250,8 @@ static NSTimeInterval currentTime()
     // [parts objectAtIndex:0] == @"values"
     // [parts objectAtIndex:1] == namespace (pluginName or OEGlobalEventsKey)
     NSString *keyName = [parts objectAtIndex:2];
-    id event = [change objectForKey: NSKeyValueChangeNewKey];
+    // The change dictionary doesn't contain the New value as it should, so we get the value directly from the source.
+    id event = [[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:keyPath];
     id temp = nil;
     if([event isKindOfClass:[NSData class]])
     {
