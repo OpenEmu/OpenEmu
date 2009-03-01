@@ -252,21 +252,17 @@ static NSTimeInterval currentTime()
     NSString *keyName = [parts objectAtIndex:2];
     // The change dictionary doesn't contain the New value as it should, so we get the value directly from the source.
     id event = [[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:keyPath];
-    id temp = nil;
     if([event isKindOfClass:[NSData class]])
     {
         @try
         {
-            temp = [NSKeyedUnarchiver unarchiveObjectWithData:event];
+            event = [NSKeyedUnarchiver unarchiveObjectWithData:event];
         }
         @catch(NSException *e)
         {
             NSLog(@"Couldn't unarchive data: %@", e);
-            temp = event;
         }
     }
-    else temp = event;
-    event = temp;
     
     if([[parts objectAtIndex:1] isEqualToString:OEGlobalEventsKey])
     {
