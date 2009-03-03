@@ -456,7 +456,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			[(NESGameEmu*)gameCore setNmtRamBytes:self.inputNmtRamOffset value:self.inputNmtRamValue];
 		}
 		
-		if(hasChrRam && self.inputChrRamCorrupt && ( [self didValueForInputKeyChange:@"inputChrRamOffset"] || [self didValueForInputKeyChange:@"inputChrRamValue"] ))
+		if(hasChrRom && self.inputChrRamCorrupt && ( [self didValueForInputKeyChange:@"inputChrRamOffset"] || [self didValueForInputKeyChange:@"inputChrRamValue"] ))
 		{
 			[(NESGameEmu*)gameCore setChrRamBytes:self.inputChrRamOffset value:self.inputChrRamValue];
 		}
@@ -586,7 +586,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		}
 		loadedRom = NO;
 		romFinishedLoading = NO;
-		hasChrRam = NO;
+		hasChrRom = NO;
 		hasNmtRam = NO;
 		
 		//load NES bundle
@@ -622,15 +622,15 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 			DLog(@"finished loading/starting rom");			
 			
-			if([(NESGameEmu*)gameCore chrRamSize]) // see if the game has Character RAM 
+			if([(NESGameEmu*)gameCore chrRomSize]) 
 			{
-				hasChrRam = YES;
-				DLog(@"Reported Character RAM size is %i", [(NESGameEmu*)gameCore chrRamSize]);
+				hasChrRom = YES;
+				DLog(@"Reported Character ROM size is %i", [(NESGameEmu*)gameCore chrRomSize]);
 			}
 			else 
 			{
-				hasChrRam = NO;
-				DLog(@"This game does not have Character RAM");
+				hasChrRom = NO;
+				DLog(@"This game does not have Character ROM");
 			}
 			
 			hasNmtRam = YES;	//because if the cartridge doesn't have VRAM, the PPU will just use its 2K RAM for the nametables

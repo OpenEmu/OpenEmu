@@ -20,7 +20,7 @@
 	BOOL loadedRom;
 	BOOL romFinishedLoading;
 	BOOL hasNmtRam;
-	BOOL hasChrRam;
+	BOOL hasChrRom;
 	NSMutableArray* persistantControllerData;
 	NSRecursiveLock * gameLock;
 }
