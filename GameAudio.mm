@@ -10,13 +10,12 @@
 #import "GameCore.h"
 #import "GamePreferencesController.h"
 //#import "GameDocumentController.h"
-OSStatus RenderCallback(
-								  void *							in,
-								  AudioUnitRenderActionFlags *		ioActionFlags,
-								  const AudioTimeStamp *			inTimeStamp,
-								  UInt32							inBusNumber,
-								  UInt32							inNumberFrames,
-								  AudioBufferList *					ioData)
+OSStatus RenderCallback(void                       *in,
+                        AudioUnitRenderActionFlags *ioActionFlags,
+                        const AudioTimeStamp       *inTimeStamp,
+                        UInt32                      inBusNumber,
+                        UInt32                      inNumberFrames,
+                        AudioBufferList            *ioData)
 {
 	RenderCallbackData * wrapper = (RenderCallbackData *)in;
 	

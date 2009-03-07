@@ -9,6 +9,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CoreAnimation.h>
+#import "GameBuffer.h"
 
 @class GameCore;
 @class GameAudio;
@@ -44,7 +45,7 @@
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
-- (NSBitmapImageRep*) getRawScreenshot;
+- (NSBitmapImageRep *)getRawScreenshot;
 
 - (void)setVolume:(CGFloat)volume;
 - (void)setVideoFilter:(eFilter)filterID;

@@ -18,12 +18,12 @@
 
 @property(readonly) GamePreferencesController* prefController;
 
-- (BOOL) handlesEvent:(NSEvent *)theEvent;
-- (void) keyDown:(NSEvent *)theEvent;
-- (void) keyUp:(NSEvent *)theEvent;
+- (BOOL)handlesEvent:(NSEvent *)theEvent;
+- (void)keyDown:(NSEvent *)theEvent;
+- (void)keyUp:(NSEvent *)theEvent;
 
-- (void) releaseButton: (int) button forPlayer: (int) player;
-- (void) pressButton: (int) button forPlayer: (int) player;
+- (void)releaseButton: (int) button forPlayer: (int) player;
+- (void)pressButton: (int) button forPlayer: (int) player;
 
 @end
 #endif

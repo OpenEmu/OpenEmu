@@ -23,9 +23,9 @@
 
 @synthesize gameCore, filter;
 
-+ (unsigned short) convertPixel: (unsigned int) pixel
+
+unsigned short OEConvertPixel(unsigned int pixel)
 {
-	
 	unsigned char R = (pixel & 0x00FF0000) >> 16;
 	unsigned char G = (pixel & 0x0000FF00) >> 8;
 	unsigned char B = (pixel & 0x000000FF);
@@ -37,20 +37,16 @@
 	return (R << 11) | (G << 5) | B;
 }
 
-+ (unsigned char*) convertTo16bpp: (int *) aBuffer width: (int) aWidth height: (int) aHeight
+unsigned char *OEConvertBufferTo16BitPerPixels(const unsigned int *aBuffer, int aWidth, int aHeight)
 {
-	unsigned short* buf = new unsigned short[aWidth * aHeight];
+    unsigned short *buf = new unsigned short[aWidth * aHeight];
 	
-	for( int h = 0; h < aHeight ; h++ )
-	{
-		for( int w = 0; w < aWidth ; w++ )
-		{
-			buf[(h * aWidth) + w] = [GameBuffer convertPixel:aBuffer[(h * aWidth) + w]];						
-		}
-	}
+	for(int h = 0; h < aHeight; h++)
+		for(int w = 0; w < aWidth ; w++)
+			buf[h * aWidth + w] = OEConvertPixel(aBuffer[h * aWidth + w]);
 	
 	//NSLog(@"Converted");
-	return (unsigned char*)buf;
+	return (unsigned char *)buf;
 }
 
 // No default version for this class
@@ -64,7 +60,6 @@
 - (id) initWithGameCore: (GameCore*) core
 {
 	self = [super init];
-	
 	if(self)
 	{
 		filterBuffer = NULL;
@@ -74,11 +69,11 @@
 	return self;	
 }
 
-- (void) setFilter: (eFilter) aFilter
+- (void)setFilter:(eFilter)aFilter
 {
 	filter = aFilter;
 	
-	if(filterBuffer)
+	if(filterBuffer != NULL)
 	{
 		delete[] filterBuffer;
 		filterBuffer = NULL;
@@ -109,59 +104,58 @@
 	InitLUTs();
 }
 
-- (GLenum) pixelForm
+- (GLenum)pixelForm
 {
 	return [gameCore pixelFormat];
 }
 
-- (GLenum) pixelType
+- (GLenum)pixelType
 {
 //	return GL_UNSIGNED_INT_8_8_8_8;
 	return [gameCore pixelType];
 }
 
-- (GLenum) internalForm
+- (GLenum)internalForm
 {
 	return [gameCore internalPixelFormat];
 }
 
-- (void) updateBuffer
+- (void)updateBuffer
 {
 	// we handle the GLSL filters on the GPU, so treat them like  eFilter_None 
 	switch (filter) {
 		case eFilter_Scaler2x:
-			scale(2, filterBuffer, [gameCore width] * 4 * multiplier * sizeof(unsigned char), [gameCore videoBuffer], [gameCore width] * 4* sizeof(unsigned char), 4, [gameCore width], [gameCore height]);
+			scale(2, filterBuffer, [gameCore width] * 4 * multiplier * sizeof(unsigned char), [gameCore videoBuffer], [gameCore width] * 4 * sizeof(unsigned char), 4, [gameCore width], [gameCore height]);
 			break;
 		case eFilter_Scaler3x:
-			scale(3, filterBuffer, [gameCore width] * 4 * multiplier * sizeof(unsigned char), [gameCore videoBuffer], [gameCore width] * 4* sizeof(unsigned char), 4, [gameCore width], [gameCore height]);
+			scale(3, filterBuffer, [gameCore width] * 4 * multiplier * sizeof(unsigned char), [gameCore videoBuffer], [gameCore width] * 4 * sizeof(unsigned char), 4, [gameCore width], [gameCore height]);
 			break;
 		case eFilter_HQ2x:
-			unsigned char * tempBuf = [GameBuffer convertTo16bpp:(int*)[gameCore videoBuffer] width:[gameCore width] height:[gameCore height]];
-			hq2x_32(tempBuf, filterBuffer, [gameCore width], [gameCore height], [self width] * 4);			
-			delete tempBuf;
+        {
+			unsigned char *tempBuf = OEConvertBufferTo16BitPerPixels((const unsigned int *)[gameCore videoBuffer], [gameCore width], [gameCore height]);
+			hq2x_32(tempBuf, filterBuffer, [gameCore width], [gameCore height], [self width] * 4);
+            
+            delete[] tempBuf;
 			break;
+        }
 		case eFilter_HQ3x:
 		{
-			unsigned char * tempBuf = [GameBuffer convertTo16bpp:(int*)[gameCore videoBuffer] width:[gameCore width] height:[gameCore height]];
+			unsigned char *tempBuf = OEConvertBufferTo16BitPerPixels((const unsigned int *)[gameCore videoBuffer], [gameCore width], [gameCore height]);
 			hq3x_32(tempBuf, filterBuffer, [gameCore width], [gameCore height], [self width] * 4);			
-			delete tempBuf;
+            delete[] tempBuf;
 			break;
 		}	
 	}
 }
 
 
-- (const unsigned char *) buffer
+- (const unsigned char *)buffer
 {
 	// im so sorry this is so ugly :( - vade
-	if(filter == eFilter_None || filter == eFilter_Nearest ||  filter == eFilter_Scaler2xGLSL || filter == eFilter_Scaler4xGLSL || filter == eFilter_HQ2xGLSL ||filter == eFilter_HQ4xGLSL)
-	{
+	if(filter == eFilter_None || filter == eFilter_Nearest || filter == eFilter_Scaler2xGLSL || filter == eFilter_Scaler4xGLSL || filter == eFilter_HQ2xGLSL || filter == eFilter_HQ4xGLSL)
 		return [gameCore videoBuffer];
-	}
 	else 
-	{
 		return filterBuffer;
-	}
 }
 
 - (int) width
@@ -176,7 +170,7 @@
 
 - (void) dealloc
 {
-	if(filterBuffer)
+	if(filterBuffer != NULL)
 	{
 		delete[] filterBuffer;
 		filterBuffer = NULL;

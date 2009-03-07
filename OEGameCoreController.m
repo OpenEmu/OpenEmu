@@ -60,12 +60,11 @@
 #define ADD_OBSERVER(namespace, keyname)                                             \
     [udc addObserver:ret                                                             \
           forKeyPath:[NSString stringWithFormat:@"values.%@.%@", namespace, keyname] \
-             options:NSKeyValueObservingOptionInitial | NSKeyValueObservingOptionNew \
+             options: 0xF \
              context:NULL]
         // FIXME: There should be a better way to handle global parameters
         //ADD_OBSERVER(OEGlobalEventsKey, name);
         ADD_OBSERVER(pluginName, name);
-        
 #undef ADD_OBSERVER
     }
     
@@ -110,9 +109,10 @@
         NSLog(@"%s: Can't save %@ to the user defaults.", __FUNCTION__, theEvent);
         return;
     }
-    NSString *key = [NSString stringWithFormat:@"%@.%@", pluginName, keyName];
+    NSString *key = [NSString stringWithFormat:@"values.%@.%@", pluginName, keyName];
     NSLog(@"Result: %@, %@", value, key);
-    [[udc values] setValue:value forKeyPath:key];
+    [udc setValue:value forKeyPath:key];
+    //[[udc values] setValue:value forKeyPath:key];
 }
 
 @end

@@ -442,8 +442,8 @@
 		8249C8E40E899CD30027EFDF /* Audio */ = {
 			isa = PBXGroup;
 			children = (
-				829779330E743F2A00631240 /* GameAudio.mm */,
 				829779320E743F2A00631240 /* GameAudio.h */,
+				829779330E743F2A00631240 /* GameAudio.mm */,
 			);
 			name = Audio;
 			sourceTree = "<group>";

@@ -102,7 +102,11 @@
 
 - (void) setBuffer: (GameBuffer*) buffer
 {
-	gameBuffer = [buffer retain];
+	if(buffer != gameBuffer)
+    {
+        [gameBuffer release];
+        gameBuffer = [buffer retain];
+    }
 }
 
 // proper way to handle removing our shaders. DUR.
