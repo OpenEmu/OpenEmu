@@ -111,6 +111,10 @@
     return NO;
 }
 
+- (void)setVideoFilter:(eFilter)filterID
+{
+    [gameBuffer setFilter:filterID];
+}
 
 - (void) resetFilter
 {

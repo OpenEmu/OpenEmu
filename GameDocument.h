@@ -46,9 +46,9 @@
 
 - (NSBitmapImageRep*) getRawScreenshot;
 
-- (void) setVolume: (float) volume;
-
-- (void) resetFilter;
+- (void)setVolume:(CGFloat)volume;
+- (void)setVideoFilter:(eFilter)filterID;
+- (void)resetFilter;
 
 @property(readonly) GameCore* gameCore;
 @end

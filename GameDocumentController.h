@@ -38,7 +38,10 @@
 - (PluginInfo *)pluginForType:(NSString *)type;
 - (void) updateInfoPlist;
 
-- (GameCore*)currentGame;
+- (IBAction)changeVideoFilter:(id)sender;
+- (IBAction)changeVolume:(id)sender;
+
+- (GameCore *)currentGame;
 - (IBAction)closeWindow: (id) sender;
 - (IBAction)switchFullscreen: (id) sender;
 
