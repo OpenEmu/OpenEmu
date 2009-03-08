@@ -99,13 +99,29 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
     Class cls = [self class];
     NSArray *controlNames = [cls acceptedControlNames];
     NSString *pluginName = [cls pluginName];
+    OEEventNamespaceMask namespaces = [[self class] acceptedEventNamespaces];
     
     for(NSString *name in controlNames)
     {
         //[udc removeObserver:aGameCore
         //         forKeyPath:[NSString stringWithFormat:@"values.%@.%@", OEGlobalEventsKey, name]];
-        [udc removeObserver:aGameCore
-                 forKeyPath:[NSString stringWithFormat:@"values.%@.%@", pluginName, name]];
+        if(namespaces & OENoNamespaceMask)
+            [udc removeObserver:aGameCore
+                     forKeyPath:[NSString stringWithFormat:@"values.%@.%@", pluginName, name]];
+#define REMOVE_OBSERVER(namespace, subnamespace, keyname)                               \
+    [udc removeObserver:aGameCore                                                       \
+             forKeyPath:[NSString stringWithFormat:@"values.%@.%@.%@", namespace, subnamespace, keyname]];
+        if(namespaces & OEGlobalNamespaceMask)
+            REMOVE_OBSERVER(pluginName, OEEventNamespaceKeys[OEGlobalNamespace], name);
+        if(namespaces & OEKeyboardNamespaceMask)
+            REMOVE_OBSERVER(pluginName, OEEventNamespaceKeys[OEKeyboardNamespace], name);
+        if(namespaces & OEHIDNamespaceMask)
+            REMOVE_OBSERVER(pluginName, OEEventNamespaceKeys[OEHIDNamespace], name);
+        if(namespaces & OEMouseNamespaceMask)
+            REMOVE_OBSERVER(pluginName, OEEventNamespaceKeys[OEMouseNamespace], name);
+        if(namespaces & OEOtherNamespaceMask)
+            REMOVE_OBSERVER(pluginName, OEEventNamespaceKeys[OEOtherNamespace], name);
+#undef REMOVE_OBSERVER
     }
 }
 

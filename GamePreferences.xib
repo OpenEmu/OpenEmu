@@ -8,8 +8,8 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="16"/>
 			<integer value="2"/>
+			<integer value="16"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -30,8 +30,8 @@
 			<object class="NSWindowTemplate" id="1005">
 				<int key="NSWindowStyleMask">15</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{400, 200}, {500, 300}}</string>
-				<int key="NSWTFlags">536870912</int>
+				<string key="NSWindowRect">{{405, 330}, {500, 300}}</string>
+				<int key="NSWTFlags">538968064</int>
 				<string key="NSWindowTitle">Preferences</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<object class="NSToolbar" key="NSViewClass" id="295106696">
@@ -71,7 +71,7 @@
 					<string key="NSFrameSize">{500, 300}</string>
 					<reference key="NSSuperview"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMaxSize">{3.40282e+38, 3.40282e+38}</string>
 			</object>
 			<object class="NSCustomView" id="1032571827">
@@ -480,6 +480,7 @@
 								</object>
 								<string key="NSFrame">{{1, 1}, {238, 318}}</string>
 								<reference key="NSSuperview" ref="984718615"/>
+								<reference key="NSNextKeyView" ref="30901941"/>
 								<reference key="NSDocView" ref="30901941"/>
 								<object class="NSColor" key="NSBGColor" id="469866131">
 									<int key="NSColorSpace">6</int>
@@ -511,6 +512,7 @@
 						</object>
 						<string key="NSFrameSize">{240, 320}</string>
 						<reference key="NSSuperview" ref="769767802"/>
+						<reference key="NSNextKeyView" ref="8618373"/>
 						<int key="NSsFlags">530</int>
 						<reference key="NSVScroller" ref="931464569"/>
 						<reference key="NSHScroller" ref="673228433"/>
@@ -528,7 +530,7 @@
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="473179644">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -547,14 +549,12 @@
 										<int key="NSvFlags">256</int>
 										<string key="NSFrameSize">{498, 282}</string>
 										<reference key="NSSuperview" ref="41066303"/>
-										<reference key="NSWindow"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTableHeaderView" key="NSHeaderView" id="69449899">
 											<reference key="NSNextResponder" ref="611214647"/>
 											<int key="NSvFlags">256</int>
 											<string key="NSFrameSize">{498, 17}</string>
 											<reference key="NSSuperview" ref="611214647"/>
-											<reference key="NSWindow"/>
 											<reference key="NSTableView" ref="786112749"/>
 										</object>
 										<object class="_NSCornerView" key="NSCornerView" id="447180805">
@@ -562,7 +562,6 @@
 											<int key="NSvFlags">-2147483392</int>
 											<string key="NSFrame">{{-26, 0}, {16, 17}}</string>
 											<reference key="NSSuperview" ref="40893615"/>
-											<reference key="NSWindow"/>
 										</object>
 										<object class="NSMutableArray" key="NSTableColumns">
 											<bool key="EncodedWithXMLCoder">YES</bool>
@@ -640,7 +639,6 @@
 								</object>
 								<string key="NSFrame">{{1, 17}, {498, 282}}</string>
 								<reference key="NSSuperview" ref="40893615"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="786112749"/>
 								<reference key="NSDocView" ref="786112749"/>
 								<reference key="NSBGColor" ref="469866131"/>
@@ -651,7 +649,6 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{465, 17}, {15, 283}}</string>
 								<reference key="NSSuperview" ref="40893615"/>
-								<reference key="NSWindow"/>
 								<reference key="NSTarget" ref="40893615"/>
 								<string key="NSAction">_doScroller:</string>
 								<double key="NSCurValue">3.700000e+01</double>
@@ -662,7 +659,6 @@
 								<int key="NSvFlags">256</int>
 								<string key="NSFrame">{{-100, -100}, {465, 15}}</string>
 								<reference key="NSSuperview" ref="40893615"/>
-								<reference key="NSWindow"/>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="40893615"/>
 								<string key="NSAction">_doScroller:</string>
@@ -677,7 +673,6 @@
 								</object>
 								<string key="NSFrame">{{1, 0}, {498, 17}}</string>
 								<reference key="NSSuperview" ref="40893615"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="69449899"/>
 								<reference key="NSDocView" ref="69449899"/>
 								<reference key="NSBGColor" ref="469866131"/>
@@ -687,7 +682,6 @@
 						</object>
 						<string key="NSFrameSize">{500, 300}</string>
 						<reference key="NSSuperview" ref="473179644"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="41066303"/>
 						<int key="NSsFlags">530</int>
 						<reference key="NSVScroller" ref="223331770"/>
@@ -699,18 +693,9 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{500, 300}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSUserDefaultsController" id="547496942">
-				<object class="NSMutableArray" key="NSDeclaredKeys">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>Volume</string>
-					<string>Filter</string>
-					<string>FullScreen</string>
-					<string>PauseBackground</string>
-				</object>
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
 		</object>
@@ -900,7 +885,7 @@
 							<string key="NSKeyPath">values.Volume</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSValidatesImmediately</string>
-								<integer value="1" key="NS.object.0" id="5"/>
+								<reference key="NS.object.0" ref="9"/>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
@@ -920,7 +905,7 @@
 							<string key="NSKeyPath">values.Filter</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSValidatesImmediately</string>
-								<reference key="NS.object.0" ref="5"/>
+								<reference key="NS.object.0" ref="9"/>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
@@ -940,7 +925,7 @@
 							<string key="NSKeyPath">values.FullScreen</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSValidatesImmediately</string>
-								<reference key="NS.object.0" ref="5"/>
+								<reference key="NS.object.0" ref="9"/>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
@@ -960,7 +945,7 @@
 							<string key="NSKeyPath">values.PauseBackground</string>
 							<object class="NSDictionary" key="NSOptions">
 								<string key="NS.key.0">NSValidatesImmediately</string>
-								<reference key="NS.object.0" ref="5"/>
+								<reference key="NS.object.0" ref="9"/>
 							</object>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
@@ -1478,7 +1463,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{504, 456}, {500, 300}}</string>
+					<string>{{468, 456}, {500, 300}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1544,6 +1529,7 @@
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
 					<string key="className">FirstResponder</string>
+					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">

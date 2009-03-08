@@ -46,7 +46,6 @@
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (NSBitmapImageRep *)getRawScreenshot;
-
 - (void)setVolume:(CGFloat)volume;
 - (void)setVideoFilter:(eFilter)filterID;
 - (void)resetFilter;
