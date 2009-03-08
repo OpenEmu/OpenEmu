@@ -244,12 +244,23 @@ static NSTimeInterval currentTime()
 {
     NSLog(@"%s: %@, %@", __FUNCTION__, keyPath, change);
     NSArray *parts = [keyPath componentsSeparatedByString:@"."];
-    
+    NSUInteger count = [parts count];
     // This method only handle keypaths with at least 3 parts
-    if([parts count] < 3) return;
+    if(count < 3) return;
     // [parts objectAtIndex:0] == @"values"
     // [parts objectAtIndex:1] == namespace (pluginName or OEGlobalEventsKey)
-    NSString *keyName = [parts objectAtIndex:2];
+    OEEventNamespace eventNamespace = OENoNamespace;
+    if(count == 4)
+    {
+        NSString *name = [parts objectAtIndex:2];
+        for(OEEventNamespace e = OENoNamespace; e < OEEventNamespaceCount; e++)
+            if([OEEventNamespaceKeys[e] isEqualToString:name])
+            {
+                eventNamespace = e;
+                break;
+            }
+    }
+    NSString *keyName = [parts objectAtIndex: count - 1];
     // The change dictionary doesn't contain the New value as it should, so we get the value directly from the source.
     id event = [[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:keyPath];
     if([event isKindOfClass:[NSData class]])
@@ -272,7 +283,7 @@ static NSTimeInterval currentTime()
     else
     {
         NSLog(@"result: %@, %@, %@", keyName, keyPath, event);
-        [self eventWasSet:event forKey:keyName];
+        [self eventWasSet:event forKey:keyName inNamespace:eventNamespace];
     }
 }
 
@@ -282,6 +293,11 @@ static NSTimeInterval currentTime()
     //[self doesNotImplementSelector:_cmd];
 }
 - (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName
+{
+    [self eventWasSet:theEvent forKey:keyName inNamespace:OENoNamespace];
+}
+
+- (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
 {
 	[self doesNotImplementSelector:_cmd];
 }

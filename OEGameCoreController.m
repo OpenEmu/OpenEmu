@@ -10,7 +10,14 @@
 #import "GameCore.h"
 #import "OEHIDEvent.h"
 
+NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardNamespace", @"OEHIDNamespace", @"OEMouseNamespace", @"OEOtherNamespace" };
+
 @implementation OEGameCoreController
+
++ (OEEventNamespaceMask)acceptedEventNamespaces
+{
+    return 0;
+}
 
 + (NSArray *)acceptedControlNames
 {
@@ -54,17 +61,30 @@
     
     NSArray *controlNames = [[self class] acceptedControlNames];
     NSString *pluginName = [[self class] pluginName];
+    OEEventNamespaceMask namespaces = [[self class] acceptedEventNamespaces];
 
     for(NSString *name in controlNames)
     {
-#define ADD_OBSERVER(namespace, keyname)                                             \
-    [udc addObserver:ret                                                             \
-          forKeyPath:[NSString stringWithFormat:@"values.%@.%@", namespace, keyname] \
-             options: 0xF \
+#define ADD_OBSERVER(namespace, subnamespace, keyname)                                                \
+    [udc addObserver:ret                                                                              \
+          forKeyPath:[NSString stringWithFormat:@"values.%@.%@.%@", namespace, subnamespace, keyname] \
+             options:0xF                                                                             \
              context:NULL]
-        // FIXME: There should be a better way to handle global parameters
-        //ADD_OBSERVER(OEGlobalEventsKey, name);
-        ADD_OBSERVER(pluginName, name);
+        if(namespaces & OENoNamespaceMask)
+            [udc addObserver:ret
+                  forKeyPath:[NSString stringWithFormat:@"values.%@.%@", pluginName, name]
+                     options:0xF
+                     context:NULL];
+        if(namespaces & OEGlobalNamespaceMask)
+            ADD_OBSERVER(pluginName, OEEventNamespaceKeys[OEGlobalNamespace], name);
+        if(namespaces & OEKeyboardNamespaceMask)
+            ADD_OBSERVER(pluginName, OEEventNamespaceKeys[OEKeyboardNamespace], name);
+        if(namespaces & OEHIDNamespaceMask)
+            ADD_OBSERVER(pluginName, OEEventNamespaceKeys[OEHIDNamespace], name);
+        if(namespaces & OEMouseNamespaceMask)
+            ADD_OBSERVER(pluginName, OEEventNamespaceKeys[OEMouseNamespace], name);
+        if(namespaces & OEOtherNamespaceMask)
+            ADD_OBSERVER(pluginName, OEEventNamespaceKeys[OEOtherNamespace], name);
 #undef ADD_OBSERVER
     }
     
@@ -92,9 +112,19 @@
 // FIXME: Find a better way...
 - (void)registerEvent:(id)theEvent forKey:(NSString *)keyName
 {
-    NSLog(@"%s, event: %@, keyname: %@", __FUNCTION__, theEvent, keyName);
+    [self registerEvent:theEvent forKey:keyName inNamespace:OENoNamespace];
+}
+
+- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
+{
+    NSString *namespaceName = (OENoNamespace == aNamespace ? @"" :
+                               [NSString stringWithFormat:@".%@", OEEventNamespaceKeys[aNamespace]]);
+    
+    NSLog(@"%s, event: %@, keyname: %@, namespace: %@", __FUNCTION__, theEvent, keyName, namespaceName);
     NSString *pluginName = [[self class] pluginName];
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
+    
+    // Recovers of the event to save
     id value = nil;
     if([theEvent isKindOfClass:[NSString     class]] ||
        [theEvent isKindOfClass:[NSData       class]] ||
@@ -109,10 +139,10 @@
         NSLog(@"%s: Can't save %@ to the user defaults.", __FUNCTION__, theEvent);
         return;
     }
-    NSString *key = [NSString stringWithFormat:@"values.%@.%@", pluginName, keyName];
+    
+    NSString *key = [NSString stringWithFormat:@"values.%@%@.%@", pluginName, namespaceName, keyName];
     NSLog(@"Result: %@, %@", value, key);
     [udc setValue:value forKeyPath:key];
-    //[[udc values] setValue:value forKeyPath:key];
 }
 
 @end

@@ -17,7 +17,9 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class GameDocument, OEHIDEvent, OEGameCoreController;
+#import "OEGameCoreController.h"
+
+@class GameDocument, OEHIDEvent;
 
 @interface GameCore : NSResponder
 {
@@ -79,7 +81,7 @@
 #pragma mark Tracking preference changes
 - (void)globalEventWasSet:(id)theEvent forKey:(NSString *)keyName;
 - (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName;
-
+- (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
 - (void)removeFromGameController;
 
 // ============================================================================
