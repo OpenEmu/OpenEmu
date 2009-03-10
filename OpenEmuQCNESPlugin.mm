@@ -552,7 +552,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// sanity check
 	if([cData count] == 2 && [[cData objectAtIndex:1] count] == 12)
 	{
-		DLog(@"validated controller data");
+//		DLog(@"validated controller data");
 		return YES;
 	}	
 	
