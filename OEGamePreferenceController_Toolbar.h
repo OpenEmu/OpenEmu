@@ -9,8 +9,8 @@
 #import "OEGamePreferenceController.h"
 
 @interface OEGamePreferenceController (Toolbar)
-- (void)setupToolbarForWindow:(NSWindow *)theWindow;
+- (void)setupToolbar;
 - (void)switchView:(id)sender;
 - (NSRect)frameForNewContentViewFrame:(NSRect)viewFrame;
-- (NSView *)viewForIdentifier:(NSString*)identifier;
+- (NSViewController *)viewControllerForIdentifier:(NSString*)identifier;
 @end

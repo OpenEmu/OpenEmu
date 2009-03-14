@@ -22,6 +22,7 @@
     if(self != nil)
     {
         plugins = [[GameDocumentController sharedDocumentController] plugins];
+        [self setupToolbar];
     }
     return self;
 }
@@ -33,43 +34,34 @@
 
 - (void)awakeFromNib
 {
-    [controlsView retain];
-    [videoView retain];
-    [pluginsView retain];
-    [audioView retain];
-    [self setupToolbarForWindow:[self window]];
     [self switchView:self];
 }
 
 - (void) dealloc
 {
-    [controlsView release];
-    [pluginsView  release];
-    [videoView    release];
-    [audioView    release];
-    [super        dealloc];
+    [selectedPlugins release];
+    [preferencePanels release];
+    [currentViewController release];
+    [super dealloc];
 }
 
 - (void)setSelectedPlugins:(NSIndexSet *)indexes
 {
-    selectedPlugins = indexes;
-    if(currentPlugin != nil)
-    {
-        [[[[currentPlugin controller] controlsPreferences] view] removeFromSuperview];
-    }
+    [selectedPlugins release];
     NSUInteger index = [indexes firstIndex];
-    if(index < [plugins count])
+    
+    if(index < [plugins count] && index != NSNotFound)
     {
         currentPlugin = [plugins objectAtIndex:index];
-        NSView *view = [[[currentPlugin controller] controlsPreferences] view];
-        NSLog(@"%@", view);
-        NSRect ctrlFrame = [controlsView frame];
-        NSRect frame = [view frame];
-        frame.origin.x = ctrlFrame.size.width - frame.size.width;
-        frame.origin.y = ctrlFrame.size.height - frame.size.height;
-        [view setFrame:frame];
-        [controlsView addSubview:view];
+        selectedPlugins = [[NSIndexSet alloc] initWithIndex:index];
     }
+    else
+    {
+        selectedPlugins = [[NSIndexSet alloc] init];
+        currentPlugin = nil;
+    }
+    
+    [self switchView:nil];
 }
 
 @end

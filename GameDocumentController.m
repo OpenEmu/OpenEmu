@@ -395,10 +395,8 @@
 - (PluginInfo *)pluginForType:(NSString *)type
 {
     for(PluginInfo *plugin in plugins)
-    {
         if([plugin supportsFileExtension:type])
             return plugin;
-    }
     return nil;
 }
 

@@ -21,7 +21,6 @@ typedef enum OEHIDEventAxis {
     OEHIDEventAxisRz   = 0x35
 } OEHIDEventAxis;
 
-    
 // Dummy class to easily dispatch an event as an action through the responder chains.
 @interface OEHIDEvent : NSObject <NSCoding>
 {

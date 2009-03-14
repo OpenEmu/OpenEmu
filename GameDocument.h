@@ -31,13 +31,13 @@
 	IBOutlet NSView *view;
 }
 
-- (void) scrambleRam:(int) bytes;
-- (BOOL) isFullScreen;
-- (void) switchFullscreen;
-- (void) refresh;
-- (void) refreshAudio;
-- (void) saveStateToFile: (NSString *) fileName;
-- (void) loadStateFromFile: (NSString *) fileName;
+- (void)scrambleRam:(int)bytes;
+- (BOOL)isFullScreen;
+- (void)switchFullscreen;
+- (void)refresh;
+- (void)refreshAudio;
+- (void)saveStateToFile:(NSString *)fileName;
+- (void)loadStateFromFile:(NSString *)fileName;
 
 - (IBAction)loadState:(id)sender;
 - (IBAction)saveState:(id)sender;
@@ -50,5 +50,5 @@
 - (void)setVideoFilter:(eFilter)filterID;
 - (void)resetFilter;
 
-@property(readonly) GameCore* gameCore;
+@property(readonly) GameCore *gameCore;
 @end

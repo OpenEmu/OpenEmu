@@ -104,7 +104,7 @@ NSString *EOHIDEventButtonNumberKey       = @"EOHIDEventButtonNumberKey";
 {
     axis         = [decoder decodeIntegerForKey:EOHIDEventAxisKey];
     buttonNumber = [decoder decodeIntegerForKey:EOHIDEventButtonNumberKey];
-    id gdc = [objc_getClass("GameDocumentController") sharedDocumentController];
+    id gdc       = [objc_getClass("GameDocumentController") sharedDocumentController];
     device       = [gdc deviceWithManufacturer:[decoder decodeObjectForKey:EOHIDEventDeviceManufacturerKey]
                                      productID:[decoder decodeObjectForKey:EOHIDEventDeviceProductIDKey]
                                     locationID:[decoder decodeObjectForKey:EOHIDEventDeviceLocationIDKey]];
@@ -120,8 +120,24 @@ NSString *EOHIDEventButtonNumberKey       = @"EOHIDEventButtonNumberKey";
                    forKey:EOHIDEventDeviceProductIDKey];
     [encoder encodeObject:(id)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey))
                    forKey:EOHIDEventDeviceLocationIDKey];
-    [encoder encodeInteger:axis                        forKey:EOHIDEventAxisKey];
-    [encoder encodeInteger:buttonNumber                forKey:EOHIDEventButtonNumberKey];
+    [encoder encodeInteger:axis         forKey:EOHIDEventAxisKey];
+    [encoder encodeInteger:buttonNumber forKey:EOHIDEventButtonNumberKey];
+}
+
+- (NSUInteger)hash
+{
+    return ([[self manufacturer] hash] ^ [[self productID] hash] ^ [self axis] ^ [self buttonNumber]);
+}
+
+- (BOOL)isEqual:(id)anObject
+{
+    if([anObject isKindOfClass:[OEHIDEvent class]])
+        return ([[self manufacturer] isEqualToString:[anObject manufacturer]] &&
+                [[self productID]    isEqualToNumber:[anObject productID]]    &&
+                [self axis] == [anObject axis] && [self buttonNumber] == [anObject buttonNumber]);
+    
+    return [super isEqual:anObject];
 }
 
 @end
+

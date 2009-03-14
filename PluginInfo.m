@@ -102,6 +102,16 @@ NSString *OEControlsPreferencesClassName = @"OEControlsPreferencesClassName";
     return [[gameCoreClass alloc] initWithDocument:aDocument];
 }
 
+- (NSViewController *)newControlsPreferencesViewController
+{
+    NSViewController *viewController = [[[controller controlsPreferencesClass] alloc] initWithNibName:[controller controlsPreferencesNibName] bundle:[self bundle]];
+    
+    [viewController loadView];
+    [viewController setNextResponder:controller];
+        
+    return viewController;
+}
+
 - (BOOL)supportsFileExtension:(NSString *)extension
 {
     NSString *ext = [extension lowercaseString];

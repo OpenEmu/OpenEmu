@@ -263,6 +263,8 @@ static NSTimeInterval currentTime()
     NSString *keyName = [parts objectAtIndex: count - 1];
     // The change dictionary doesn't contain the New value as it should, so we get the value directly from the source.
     id event = [[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:keyPath];
+    BOOL removeKeyBinding = (event == nil);
+    
     if([event isKindOfClass:[NSData class]])
     {
         @try
@@ -283,7 +285,10 @@ static NSTimeInterval currentTime()
     else
     {
         NSLog(@"result: %@, %@, %@", keyName, keyPath, event);
-        [self eventWasSet:event forKey:keyName inNamespace:eventNamespace];
+        if(removeKeyBinding)
+            [self eventWasRemovedForKey:keyName inNamespace:eventNamespace];
+        else
+            [self eventWasSet:event forKey:keyName inNamespace:eventNamespace];
     }
 }
 
@@ -300,6 +305,11 @@ static NSTimeInterval currentTime()
 - (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
 {
 	[self doesNotImplementSelector:_cmd];
+}
+
+- (void)eventWasRemovedForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
+{
+    [self doesNotImplementSelector:_cmd];
 }
 
 @end

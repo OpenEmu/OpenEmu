@@ -29,7 +29,7 @@
     if(self != nil)
     {
         device = aDevice;
-        deadZone = 0.1;
+        deadZone = 0.2;
     }
     return self;
 }

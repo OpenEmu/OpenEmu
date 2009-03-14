@@ -12,19 +12,17 @@
 
 @interface OEGamePreferenceController : NSWindowController
 {
-    IBOutlet NSView *controlsView;
-    IBOutlet NSView *videoView;
-    IBOutlet NSView *pluginsView;
-    IBOutlet NSView *audioView;
     IBOutlet NSDrawer *pluginDrawer;
+    NSDictionary *preferencePanels;
     NSArray *plugins;
     NSString *currentViewIdentifier;
     NSIndexSet *selectedPlugins;
     PluginInfo *currentPlugin;
+    NSViewController *currentViewController;
 }
 
 //@property(readonly) NSArray *controlPlugins;
 @property(readonly) NSArray *plugins;
-@property(assign) NSIndexSet *selectedPlugins;
+@property(retain) NSIndexSet *selectedPlugins;
 
 @end

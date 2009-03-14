@@ -9,6 +9,13 @@
 #import "OEGamePreferenceController_Toolbar.h"
 #import "PluginInfo.h"
 
+static NSString *OEToolbarLabelKey        = @"OEToolbarLabelKey";
+static NSString *OEToolbarPaletteLabelKey = @"OEToolbarPaletteLabelKey";
+static NSString *OEToolbarToolTipKey      = @"OEToolbarToolTipKey";
+static NSString *OEToolbarImageKey        = @"OEToolbarImageKey";
+static NSString *OEToolbarNibNameKey      = @"OEToolbarNibNameKey";
+static NSString *OEPluginViewKey          = @"OEPluginViewKey";
+
 //static NSString *OEPreferenceToolbarIdentifier     = @"OEPreferenceToolbarIdentifier";
 static NSString *OEVideoSoundToolbarItemIdentifier = @"OEVideoSoundToolbarItemIdentifier";
 static NSString *OEControlsToolbarItemIdentifier   = @"OEControlsToolbarItemIdentifier";
@@ -19,17 +26,35 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 // ============================================================
 // NSToolbar Related Methods
 // ============================================================
-- (void)setupToolbarForWindow:(NSWindow *)theWindow
+- (void)setupToolbar
 {
-    /*
-    NSToolbar *toolbar = [[[NSToolbar alloc] initWithIdentifier:OEPreferenceToolbarIdentifier] autorelease];
+#define CREATE_RECORD(label, paletteLabel, toolTip, image, nib, ...) \
+   [NSDictionary dictionaryWithObjectsAndKeys:                       \
+    label,        OEToolbarLabelKey,                                 \
+    paletteLabel, OEToolbarPaletteLabelKey,                          \
+    toolTip,      OEToolbarToolTipKey,                               \
+    image,        OEToolbarImageKey,                                 \
+    nib,          OEToolbarNibNameKey, ##__VA_ARGS__, nil]
     
-    [toolbar setAllowsUserCustomization:NO];
-    [toolbar setAutosavesConfiguration:NO];
-    [toolbar setDisplayMode:NSToolbarDisplayModeIconAndLabel];
-    [toolbar setDelegate:self];
-    [theWindow setToolbar:toolbar];
-    */
+    preferencePanels = [[NSDictionary alloc] initWithObjectsAndKeys:
+                        CREATE_RECORD(@"Video & Sound",
+                                      @"Video & Sound",
+                                      @"Video & Sound Preferences",
+                                      [NSImage imageNamed:NSImageNameComputer],
+                                      @"VideoAndSoundPreferences"), OEVideoSoundToolbarItemIdentifier,
+                        CREATE_RECORD(@"Controls",
+                                      @"Controls",
+                                      @"Control Preferences",
+                                      [NSImage imageNamed: NSImageNamePreferencesGeneral],
+                                      @"ControlPreferences",
+                                      @"controlsPreferences", OEPluginViewKey), OEControlsToolbarItemIdentifier,
+                        CREATE_RECORD(@"Plugins",
+                                      @"Plugins",
+                                      @"Plugin Preferences",
+                                      [NSImage imageNamed: NSImageNameEveryone],
+                                      @"PluginPreferences"), OEPluginsToolbarItemIdentifier,
+                        nil];
+#undef CREATE_RECORD
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
@@ -54,61 +79,15 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
     NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
 	
-    if(itemIdentifier == OEVideoSoundToolbarItemIdentifier)
+    NSDictionary *desc = [preferencePanels objectForKey:itemIdentifier];
+    if(desc != nil)
     {
-        // Set the text label to be displayed in the toolbar and customization palette 
-        [toolbarItem setLabel:@"Video & Sound"];
-        [toolbarItem setPaletteLabel:@"Video & Sound"];
-        
-        // Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
-        [toolbarItem setToolTip:@"Video & Sound Preferences"];
-        [toolbarItem setImage:[NSImage imageNamed: NSImageNameComputer]];
-		
-        // Tell the item what message to send when it is clicked 
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(switchView:)];
-		
-    }
-    else if(itemIdentifier == OEControlsToolbarItemIdentifier)
-    {
-        // Set the text label to be displayed in the toolbar and customization palette 
-        [toolbarItem setLabel: @"Controls"];
-        [toolbarItem setPaletteLabel: @"Controls"];
-        
-        // Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
-        [toolbarItem setToolTip: @"Control Preferences"];
-        [toolbarItem setImage: [NSImage imageNamed: NSImageNamePreferencesGeneral]];
-        
-        // Tell the item what message to send when it is clicked 
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(switchView:)];
-    }
-    /* Video and Sound are merged
-    else if([itemIdent isEqual:AudioToolbarItemIdentifier]) {		
-        // Set the text label to be displayed in the toolbar and customization palette 
-        [toolbarItem setLabel: @"Audio"];
-        [toolbarItem setPaletteLabel: @"Audio"];
-        
-        // Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
-        [toolbarItem setToolTip: @"Audio Preferences"];
-        [toolbarItem setImage: [NSImage imageNamed: NSImageNameAdvanced]];
-        
-        // Tell the item what message to send when it is clicked 
-        [toolbarItem setTarget: self];
-        [toolbarItem setAction: @selector(switchView:)];
-	}*/
-    else if (itemIdentifier == OEPluginsToolbarItemIdentifier) {		
-        // Set the text label to be displayed in the toolbar and customization palette 
-        [toolbarItem setLabel: @"Plugins"];
-        [toolbarItem setPaletteLabel: @"Plugins"];
-        
-        // Set up a reasonable tooltip, and image   Note, these aren't localized, but you will likely want to localize many of the item's properties 
-        [toolbarItem setToolTip: @"Plugin Preferences"];
-        [toolbarItem setImage: [NSImage imageNamed: NSImageNameEveryone]];
-        
-        // Tell the item what message to send when it is clicked 
-        [toolbarItem setTarget: self];
-        [toolbarItem setAction: @selector(switchView:)];
+        [toolbarItem setLabel:        [desc objectForKey:OEToolbarLabelKey]];
+        [toolbarItem setPaletteLabel: [desc objectForKey:OEToolbarPaletteLabelKey]];
+        [toolbarItem setToolTip:      [desc objectForKey:OEToolbarToolTipKey]];
+        [toolbarItem setImage:        [desc objectForKey:OEToolbarImageKey]];
+        [toolbarItem setTarget:       self];
+        [toolbarItem setAction:       @selector(switchView:)];
     }
     else
     {
@@ -140,23 +119,15 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 - (void)switchView:(id)sender
 {
     // Figure out the new view, the old view, and the new size of the window
-	NSView *previousView;
-	NSView *view;
-	if(sender == self)
-	{
-		previousView = nil;
-		view = controlsView;
-		currentViewIdentifier = OEControlsToolbarItemIdentifier;
-	}
-	else
-	{
-		previousView = [self viewForIdentifier: currentViewIdentifier];
-		currentViewIdentifier = [sender itemIdentifier];
-		view = [self viewForIdentifier:currentViewIdentifier];
-	}
+	NSViewController *previousController = nil;
+        
+    previousController = currentViewController;
+    if(sender != nil) currentViewIdentifier = (sender == self ? OEControlsToolbarItemIdentifier : [sender itemIdentifier]);
+    currentViewController = [self viewControllerForIdentifier:currentViewIdentifier];
 	
-	NSRect newFrame = [self frameForNewContentViewFrame:[view frame]];
-    NSLog(@"view frame: %@", NSStringFromRect([view frame]));
+    NSView *view = [currentViewController view];
+    
+	NSRect newFrame = [self frameForNewContentViewFrame:[[currentViewController view] frame]];
 	
 	// Using an animation grouping because we may be changing the duration
 	[NSAnimationContext beginGrouping];
@@ -166,30 +137,45 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 	    [[NSAnimationContext currentContext] setDuration:5.0];
 	
 	// Call the animator instead of the view / window directly
-	if(previousView) [[[[self window] animator] contentView] replaceSubview:previousView with:view];
+	if(previousController) [[[[self window] animator] contentView] replaceSubview:[previousController view] with:view];
 	else             [[[[self window] animator] contentView] addSubview:view];
-	[[[self window] animator] setFrame:newFrame display:YES];
 	
 	[NSAnimationContext endGrouping];
+	[[[self window] animator] setFrame:newFrame display:YES];
+    
     
     if(currentViewIdentifier == OEControlsToolbarItemIdentifier)
         [pluginDrawer open];
     else [pluginDrawer close];
+    
+    [previousController release];
 }
 
-- (NSView *)viewForIdentifier:(NSString*)identifier {
-   	if(identifier  == OEControlsToolbarItemIdentifier)
-		return controlsView;
-	else if(identifier == OEVideoSoundToolbarItemIdentifier)
-		return videoView;
-	//else if([identifier isEqualToString:AudioToolbarItemIdentifier])
-	//	return audioView;
-	else if(identifier == OEPluginsToolbarItemIdentifier)
-		return pluginsView;
-	//else
-	//	return [customViews objectForKey:identifier];
+- (void)windowDidResize:(NSNotification *)notification
+{
+    NSView *view = [currentViewController view];
+    NSRect viewFrame = [view frame];
+    viewFrame.origin = NSZeroPoint;
+    [view setFrame:viewFrame];
+}
+
+- (NSViewController *)viewControllerForIdentifier:(NSString*)identifier
+{
+    NSDictionary *desc = [preferencePanels objectForKey:identifier];
     
-    return nil;
+    NSString *viewNibName = [desc objectForKey:OEToolbarNibNameKey];
+    NSViewController *ret = [[NSViewController alloc] initWithNibName:viewNibName bundle:[NSBundle mainBundle]];
+    
+    [ret loadView];
+    
+    NSString *pluginView = [desc objectForKey:OEPluginViewKey];
+    if(pluginView != nil && currentPlugin != nil)
+    {
+        ret = [currentPlugin newControlsPreferencesViewController];
+        [ret setNextResponder:[currentPlugin controller]];
+    }
+    
+    return ret;
 }
 
 @end
