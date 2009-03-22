@@ -141,3 +141,24 @@ NSString *EOHIDEventButtonNumberKey       = @"EOHIDEventButtonNumberKey";
 
 @end
 
+@implementation NSEvent (OEEventConversion)
++ (NSEvent *)eventWithKeyCode:(unsigned short)keyCode
+{
+    return [self eventWithKeyCode:keyCode keyIsDown:YES];
+}
++ (NSEvent *)eventWithKeyCode:(unsigned short)keyCode keyIsDown:(BOOL)_keyDown
+{
+    CGEventRef event = CGEventCreateKeyboardEvent(NULL, (CGKeyCode)keyCode, _keyDown);
+    NSEvent *ret = [self eventWithCGEvent:event];
+    CFRelease(event);
+    return ret;
+}
++ (NSString *)charactersForKeyCode:(unsigned short)keyCode
+{
+    return [[self eventWithKeyCode:keyCode] characters];
+}
++ (NSUInteger)modifierFlagsForKeyCode:(unsigned short)keyCode
+{
+    return [[self eventWithKeyCode:keyCode] modifierFlags];
+}
+@end

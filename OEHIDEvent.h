@@ -39,3 +39,11 @@ typedef enum OEHIDEventAxis {
 @property(readonly) OEHIDEventAxis axis;
 @property(readonly) CGFloat value;
 @end
+
+@interface NSEvent (OEEventConversion)
++ (NSEvent *)eventWithKeyCode:(unsigned short)keyCode;
++ (NSEvent *)eventWithKeyCode:(unsigned short)keyCode keyIsDown:(BOOL)_keyDown;
++ (NSString *)charactersForKeyCode:(unsigned short)keyCode;
++ (NSUInteger)modifierFlagsForKeyCode:(unsigned short)keyCode;
+@end
+
