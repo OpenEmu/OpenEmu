@@ -15,10 +15,12 @@
 @interface OEHIDDeviceHandler : NSObject
 {
     IOHIDDeviceRef device;
+    NSUInteger deviceNumber;
     CGFloat deadZone;
 }
 
 @property(readonly) IOHIDDeviceRef device;
+@property(readonly) NSUInteger deviceNumber;
 @property CGFloat deadZone;
 
 @property(readonly) NSString *manufacturer;

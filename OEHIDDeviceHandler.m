@@ -11,7 +11,7 @@
 
 @implementation OEHIDDeviceHandler
 
-@synthesize device, deadZone;
+@synthesize device, deviceNumber, deadZone;
 
 + (id)deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice
 {
@@ -23,13 +23,35 @@
     return [self initWithDevice:NULL];
 }
 
+static OEHIDDeviceHandler *nilHandler = nil;
+static NSUInteger lastDeviceNumber = 0;
+ 
 - (id)initWithDevice:(IOHIDDeviceRef)aDevice
 {
     self = [super init];
     if(self != nil)
     {
-        device = aDevice;
-        deadZone = 0.2;
+        if(aDevice == NULL)
+        {
+            if(nilHandler == nil)
+            {
+                device = NULL;
+                deviceNumber = 0;
+                deadZone = 0.0;
+                nilHandler = [self retain];
+            }
+            else
+            {
+                [self release];
+                self = [nilHandler retain];
+            }
+        }
+        else
+        {
+            deviceNumber = ++lastDeviceNumber;
+            device = aDevice;
+            deadZone = 0.2;
+        }
     }
     return self;
 }
@@ -67,7 +89,7 @@
 
 - (OEHIDEvent *)eventWithPage:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue
 {
-    return [OEHIDEvent eventWithDevice:device page:aPage usage:aUsage value:aValue];
+    return [OEHIDEvent eventWithDevice:device deviceNumber:deviceNumber page:aPage usage:aUsage value:aValue];
 }
 
 - (void)dispatchEventWithPage:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue
