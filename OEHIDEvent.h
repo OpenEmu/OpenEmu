@@ -25,16 +25,19 @@ typedef enum OEHIDEventAxis {
 @interface OEHIDEvent : NSObject <NSCoding>
 {
     IOHIDDeviceRef device;
+    NSUInteger padNumber;
     NSUInteger buttonNumber;
     OEHIDEventAxis axis;
     CGFloat value;
 }
 
 - (NSString *)axisName;
+- (NSString *)localizedName;
 
-+ (id)eventWithDevice:(IOHIDDeviceRef)aDevice page:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue;
-- (id)initWithDevice:(IOHIDDeviceRef)aDevice page:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue;
++ (id)eventWithDevice:(IOHIDDeviceRef)aDevice deviceNumber:(NSUInteger)aNumber page:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue;
+- (id)initWithDevice:(IOHIDDeviceRef)aDevice deviceNumber:(NSUInteger)aNumber page:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue;
 @property(readonly) IOHIDDeviceRef device;
+@property(readonly) NSUInteger padNumber;
 @property(readonly) NSUInteger buttonNumber;
 @property(readonly) OEHIDEventAxis axis;
 @property(readonly) CGFloat value;
@@ -44,6 +47,7 @@ typedef enum OEHIDEventAxis {
 + (NSEvent *)eventWithKeyCode:(unsigned short)keyCode;
 + (NSEvent *)eventWithKeyCode:(unsigned short)keyCode keyIsDown:(BOOL)_keyDown;
 + (NSString *)charactersForKeyCode:(unsigned short)keyCode;
++ (NSString *)printableCharactersForKeyCode:(unsigned short)keyCode;
 + (NSUInteger)modifierFlagsForKeyCode:(unsigned short)keyCode;
 @end
 
