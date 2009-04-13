@@ -46,13 +46,13 @@
 - (void)startEmulation;
 
 // ============================================================================
-// Abstract methods: Those methods should implemented by subclasses
+// Abstract methods: Those methods should be overridden by subclasses
 // ============================================================================
 - (void)resetEmulation;
 - (void)executeFrame;
 - (void)refreshFrame;
 
-- (BOOL)loadFileAtPath:(NSString*)path;
+- (BOOL)loadFileAtPath:(NSString *)path;
 
 #pragma mark Video
 @property(readonly) NSInteger width;
@@ -95,6 +95,8 @@
 @interface GameCore (OptionalMethods)
 - (void)saveStateToFileAtPath:(NSString *)fileName;
 - (void)loadStateFromFileAtPath:(NSString *)fileName;
+
+- (IBAction)pauseEmulation:(id)sender;
 
 - (NSTrackingAreaOptions)mouseTrackingOptions;
 

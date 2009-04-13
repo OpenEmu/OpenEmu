@@ -104,12 +104,7 @@ NSString *OEControlsPreferencesClassName = @"OEControlsPreferencesClassName";
 
 - (NSViewController *)newControlsPreferencesViewController
 {
-    NSViewController *viewController = [[[controller controlsPreferencesClass] alloc] initWithNibName:[controller controlsPreferencesNibName] bundle:[self bundle]];
-    
-    [viewController loadView];
-    [viewController setNextResponder:controller];
-        
-    return viewController;
+    return [controller newPreferenceViewController];
 }
 
 - (BOOL)supportsFileExtension:(NSString *)extension

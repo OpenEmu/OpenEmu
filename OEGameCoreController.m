@@ -14,6 +14,8 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
 
 @implementation OEGameCoreController
 
+@synthesize preferenceViewController;
+
 + (OEEventNamespaceMask)acceptedEventNamespaces
 {
     return 0;
@@ -55,6 +57,15 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
 {
     [self doesNotRecognizeSelector:_cmd];
     return nil;    
+}
+
+- (id)newPreferenceViewController
+{
+    [preferenceViewController release];
+    preferenceViewController = [[[self controlsPreferencesClass] alloc] initWithNibName:[self controlsPreferencesNibName] bundle:[NSBundle bundleForClass:[self class]]];
+    [preferenceViewController setNextResponder:self];
+    [preferenceViewController loadView];
+    return [preferenceViewController retain];
 }
 
 - (GameCore *)newGameCoreWithDocument:(GameDocument *)aDocument
@@ -131,13 +142,37 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
     [self registerEvent:theEvent forKey:keyName inNamespace:OENoNamespace];
 }
 
-- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
+- (NSString *)keyPathForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
 {
     NSString *namespaceName = (OENoNamespace == aNamespace ? @"" :
                                [NSString stringWithFormat:@".%@", OEEventNamespaceKeys[aNamespace]]);
+    NSString *ret = [@"values." stringByAppendingString:[[self class] pluginName]];
+    ret = [ret stringByAppendingString:namespaceName];
+    ret = [ret stringByAppendingFormat:@".%@", keyName];
+    return ret;
+    return [NSString stringWithFormat:@"values.%@%@.%@", [[self class] pluginName], namespaceName, keyName];
+}
+
+- (id)eventForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
+{
+    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
     
-    NSLog(@"%s, event: %@, keyname: %@, namespace: %@", __FUNCTION__, theEvent, keyName, [namespaceName substringFromIndex:1]);
-    NSString *pluginName = [[self class] pluginName];
+    id ret = [udc valueForKeyPath:[self keyPathForKey:keyName inNamespace:aNamespace]];
+    
+    @try
+    {
+        if([ret isKindOfClass:[NSData class]])
+            ret = [NSKeyedUnarchiver unarchiveObjectWithData:ret];
+    }
+    @catch (NSException * e) {
+        /* Do nothing, we keep the NSData we retrieved. */
+    }
+    
+    return ret;
+}
+
+- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
+{
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
     
     // Recovers of the event to save
@@ -162,9 +197,7 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
     // Removes any binding that would be attached to that event
     [self removeBindingsToEvent:value];
     
-    NSString *key = [NSString stringWithFormat:@"values.%@%@.%@", pluginName, namespaceName, keyName];
-    NSLog(@"Result: %@, %@", value, key);
-    [udc setValue:value forKeyPath:key];
+    [udc setValue:value forKeyPath:[self keyPathForKey:keyName inNamespace:aNamespace]];
 }
 
 - (void)removeBindingsToEvent:(id)theEvent
@@ -172,7 +205,6 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
     
     NSArray *controlNames = [[self class] acceptedControlNames];
-    NSString *pluginName = [[self class] pluginName];
     OEEventNamespaceMask namespaces = [[self class] acceptedEventNamespaces];
     
     for(NSString *name in controlNames)
@@ -180,18 +212,22 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
 #define REMOVE_KEY(namespace) do {                                                      \
     if(namespaces & namespace ## Mask)                                                  \
     {                                                                                   \
-        NSString *keyPath = [NSString stringWithFormat:@"values.%@.%@.%@", pluginName,  \
-                                                       OEEventNamespaceKeys[namespace], \
-                                                       name];                           \
+        NSString *keyPath = [self keyPathForKey:name inNamespace:namespace];            \
         if([[udc valueForKeyPath:keyPath] isEqual:theEvent])                            \
+        {                                                                               \
             [udc setValue:nil forKeyPath:keyPath];                                      \
+            [self bindingWasRemovedForKey:name inNamespace:namespace];                  \
+        }                                                                               \
     }                                                                                   \
 } while(0)
         if(namespaces & OENoNamespaceMask)
         {
-            NSString *keyPath = [NSString stringWithFormat:@"values.%@.%@", pluginName, name];
+            NSString *keyPath = [self keyPathForKey:name inNamespace:OENoNamespace];
             if([[udc valueForKeyPath:keyPath] isEqual:theEvent])
+            {
                 [udc setValue:nil forKeyPath:keyPath];
+                [self bindingWasRemovedForKey:name inNamespace:OENoNamespace];
+            }
         }
         REMOVE_KEY(OEGlobalNamespace);
         REMOVE_KEY(OEKeyboardNamespace);
@@ -202,6 +238,10 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
     }
     
     NSLog(@"%s", __FUNCTION__);
+}
+
+- (void)bindingWasRemovedForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
+{
 }
 
 @end

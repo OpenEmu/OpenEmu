@@ -13,12 +13,12 @@
 @interface OEGamePreferenceController : NSWindowController
 {
     IBOutlet NSDrawer *pluginDrawer;
-    NSDictionary *preferencePanels;
-    NSArray *plugins;
-    NSString *currentViewIdentifier;
-    NSIndexSet *selectedPlugins;
-    PluginInfo *currentPlugin;
-    NSViewController *currentViewController;
+    NSDictionary      *preferencePanels;
+    NSArray           *plugins;
+    NSString          *currentViewIdentifier;
+    NSIndexSet        *selectedPlugins;
+    PluginInfo        *currentPlugin;
+    NSViewController  *currentViewController;
 }
 
 //@property(readonly) NSArray *controlPlugins;

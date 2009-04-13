@@ -40,7 +40,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 - (id)init
 {
-	// FIXME: I'm really not sure this is a good idea... It just removes a linker error.
+	// Used by QC plugins
 	return [self initWithDocument:nil];
 }
 
@@ -62,6 +62,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 - (void)dealloc
 {
+    [emulationThread release];
     [self removeFromGameController];
     [super dealloc];
 }
@@ -239,7 +240,6 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
-// FIXME: Find a better way.
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     NSLog(@"%s: %@, %@", __FUNCTION__, keyPath, change);

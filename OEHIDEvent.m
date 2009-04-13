@@ -46,7 +46,7 @@
     return ret;
 }
 
-- (NSString *)localizedName
+- (NSString *)displayDescription
 {
     NSString *ret = nil;
     switch (axis)
@@ -196,16 +196,26 @@ NSString *EOHIDEventButtonNumberKey       = @"EOHIDEventButtonNumberKey";
 }
 + (NSString *)printableCharactersForKeyCode:(unsigned short)keyCode
 {
-    NSString *characters = [self charactersForKeyCode:keyCode];
+    return [[self eventWithKeyCode:keyCode] displayDescription];
+}
++ (NSUInteger)modifierFlagsForKeyCode:(unsigned short)keyCode
+{
+    return [[self eventWithKeyCode:keyCode] modifierFlags];
+}
+- (NSString *)displayDescription
+{
+    NSString *characters = [self characters];
     
     if([characters length] == 0) return characters;
-        
+    
     NSString *ret = nil;
     
     unichar tested = [characters characterAtIndex:0];
     
-    if(NSF1FunctionKey >= tested && tested >= NSF35FunctionKey)
+    if(NSF1FunctionKey <= tested && tested <= NSF35FunctionKey)
         ret = [NSString stringWithFormat:@"F%u", tested - NSF1FunctionKey];
+    else if([[NSCharacterSet whitespaceCharacterSet] characterIsMember:tested])
+        ret = @"<space>";
     else
     {
         unichar curr = 0;
@@ -228,9 +238,5 @@ NSString *EOHIDEventButtonNumberKey       = @"EOHIDEventButtonNumberKey";
     }
     
     return ret;
-}
-+ (NSUInteger)modifierFlagsForKeyCode:(unsigned short)keyCode
-{
-    return [[self eventWithKeyCode:keyCode] modifierFlags];
 }
 @end

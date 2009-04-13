@@ -268,7 +268,7 @@
 	
 	memcpy([newBitmap bitmapData], [gameCore videoBuffer], width * height * 4 * sizeof(unsigned char));
 	
-	unsigned char* debut = [newBitmap bitmapData];
+	unsigned char *debut = [newBitmap bitmapData];
 
 	for (int i = 0; i < height; i++)
 		for (int j = 0; j < width; j++)

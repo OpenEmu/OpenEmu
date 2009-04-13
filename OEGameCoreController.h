@@ -34,18 +34,24 @@ extern NSString *OEEventNamespaceKeys[];
 
 @interface OEGameCoreController : NSResponder
 {
+    id preferenceViewController;
 }
 
 @property(readonly) Class gameCoreClass;
 @property(readonly) Class controlsPreferencesClass;
 @property(readonly) NSString *controlsPreferencesNibName;
+@property(readonly) id preferenceViewController;
 
 + (OEEventNamespaceMask)acceptedEventNamespaces;
 + (NSArray *)acceptedControlNames;
 + (NSString *)pluginName;
+- (id)newPreferenceViewController;
 - (GameCore *)newGameCoreWithDocument:(GameDocument *)aDocument;
 - (void)unregisterGameCore:(GameCore *)aGameCore;
+- (NSString *)keyPathForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
+- (id)eventForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
 - (void)registerEvent:(id)theEvent forKey:(NSString *)keyName;
 - (void)registerEvent:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
 - (void)removeBindingsToEvent:(id)theEvent;
+- (void)bindingWasRemovedForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
 @end

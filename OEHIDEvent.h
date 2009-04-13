@@ -32,7 +32,7 @@ typedef enum OEHIDEventAxis {
 }
 
 - (NSString *)axisName;
-- (NSString *)localizedName;
+- (NSString *)displayDescription;
 
 + (id)eventWithDevice:(IOHIDDeviceRef)aDevice deviceNumber:(NSUInteger)aNumber page:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue;
 - (id)initWithDevice:(IOHIDDeviceRef)aDevice deviceNumber:(NSUInteger)aNumber page:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue;
@@ -49,5 +49,6 @@ typedef enum OEHIDEventAxis {
 + (NSString *)charactersForKeyCode:(unsigned short)keyCode;
 + (NSString *)printableCharactersForKeyCode:(unsigned short)keyCode;
 + (NSUInteger)modifierFlagsForKeyCode:(unsigned short)keyCode;
+- (NSString *)displayDescription;
 @end
 

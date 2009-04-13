@@ -138,10 +138,11 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 	
 	// Call the animator instead of the view / window directly
 	if(previousController) [[[[self window] animator] contentView] replaceSubview:[previousController view] with:view];
-	else             [[[[self window] animator] contentView] addSubview:view];
+	else                   [[[[self window] animator] contentView] addSubview:view];
 	
 	[NSAnimationContext endGrouping];
 	[[[self window] animator] setFrame:newFrame display:YES];
+    
     
     
     if(currentViewIdentifier == OEControlsToolbarItemIdentifier)
@@ -170,10 +171,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     
     NSString *pluginView = [desc objectForKey:OEPluginViewKey];
     if(pluginView != nil && currentPlugin != nil)
-    {
         ret = [currentPlugin newControlsPreferencesViewController];
-        [ret setNextResponder:[currentPlugin controller]];
-    }
     
     return ret;
 }
