@@ -12,6 +12,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 
 @class GameCore;
+@class OEGameCoreController;
 @class GameAudio, GameBuffer;
 
 @interface OpenEmuQC : QCPlugIn
@@ -19,6 +20,7 @@
 	// init stuff
 	NSArray* bundles;
 	NSArray* validExtensions;
+	OEGameCoreController* gameCoreController;
 	GameCore* gameCore;
 	GameAudio*  gameAudio;
 	GameBuffer * gameBuffer;

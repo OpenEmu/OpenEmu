@@ -46,6 +46,7 @@
 		1B56D69D0F21397500C80694 /* Scale2xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */; };
 		1B56D69E0F21397500C80694 /* Scale2XPlus.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2XPlus.frag */; };
 		1B56D69F0F21397500C80694 /* Scale2XPlus.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2XPlus.vert */; };
+		1B60FEFA0F9E62540022C6C6 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		1B7594AF0E90C3E300FB5BF1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
 		1B807BDA0E90C0210086AB77 /* GameBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829B9CAB0E7F215700452894 /* GameBuffer.mm */; };
 		1B807BE20E90C0660086AB77 /* hqxx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82F45E840E886D0000B7B023 /* hqxx.cpp */; };
@@ -144,6 +145,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 828E65970E8466A100B1860B;
 			remoteInfo = OpenEmuQC;
+		};
+		1B60FEF80F9E624D0022C6C6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82444BA00F51256C007C171B /* OpenEmuBase */;
+			remoteInfo = OpenEmuBase;
 		};
 		82C9C97D0F080C920071460B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -296,6 +304,7 @@
 				828E65D30E8467A400B1860B /* Cocoa.framework in Frameworks */,
 				828E65D70E8467AA00B1860B /* Quartz.framework in Frameworks */,
 				37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */,
+				1B60FEFA0F9E62540022C6C6 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -639,6 +648,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1B60FEF90F9E624D0022C6C6 /* PBXTargetDependency */,
 			);
 			name = OpenEmuQC;
 			productName = OpenEmuQC;
@@ -845,6 +855,11 @@
 			isa = PBXTargetDependency;
 			target = 828E65970E8466A100B1860B /* OpenEmuQC */;
 			targetProxy = 1B3280690E85784400FEDA2C /* PBXContainerItemProxy */;
+		};
+		1B60FEF90F9E624D0022C6C6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
+			targetProxy = 1B60FEF80F9E624D0022C6C6 /* PBXContainerItemProxy */;
 		};
 		82C9C97E0F080C920071460B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

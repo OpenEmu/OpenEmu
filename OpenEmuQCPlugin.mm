@@ -485,6 +485,10 @@ static void _BufferReleaseCallback(const void* address, void* info)
             
             NSLog(@"released/cleaned up for new rom");
             
+			[gameCoreController release];
+			
+			NSLog(@"Released/cleaned up gameCoreController");
+			
         }
         loadedRom = NO;
         
@@ -492,12 +496,12 @@ static void _BufferReleaseCallback(const void* address, void* info)
         
         NSLog(@"Bundle loaded for path is: %@", [loadBundle bundlePath]);
         
-        gameCore = [[[loadBundle principalClass] alloc] init];
-        
+        gameCoreController = [[[loadBundle principalClass] alloc] init];
+		gameCore = [gameCoreController newGameCoreWithDocument:nil];
+		
         NSLog(@"Loaded bundle. About to load rom...");
         
-        
-        [gameCore initWithDocument:(GameDocument*)self];
+		[gameCore initWithDocument:(GameDocument*)self];
         [gameCore loadFileAtPath:theRomPath];
         loadedRom = TRUE;
         
