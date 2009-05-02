@@ -28,7 +28,7 @@
 	BOOL loadedRom, audioPaused;
 	NSMutableArray* persistantControllerData;
 	NSRecursiveLock * gameLock;
-	}
+}
 
 /*
 Declare here the Obj-C 2.0 properties to be used as input and output ports for the plug-in e.g.

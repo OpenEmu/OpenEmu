@@ -7,77 +7,48 @@
 //
 
 #import "OEHIDEvent.h"
+#import "OEHIDDeviceHandler.h"
+#import <IOKit/hid/IOHIDUsageTables.h>
 
 @interface NSObject (MakeTheCompilerHappy)
 - (IOHIDDeviceRef)deviceWithManufacturer:(NSString *)aManufacturer productID:(NSNumber *)aProductID locationID:(NSNumber *)aLocationID;
 @end
 
-
 @implementation OEHIDEvent
-
-@synthesize device, buttonNumber, axis, value, padNumber;
-
-- (NSString *)axisName
-{
-    NSString *ret = @"OEHIDEventAxisNone";
-    switch (axis) {
-        case OEHIDEventAxisX :
-            ret = @"OEHIDEventAxisX";
-            break;
-        case OEHIDEventAxisY :
-            ret = @"OEHIDEventAxisY";
-            break;
-        case OEHIDEventAxisZ :
-            ret = @"OEHIDEventAxisZ";
-            break;
-        case OEHIDEventAxisRx :
-            ret = @"OEHIDEventAxisRx";
-            break;
-        case OEHIDEventAxisRy :
-            ret = @"OEHIDEventAxisRy";
-            break;
-        case OEHIDEventAxisRz :
-            ret = @"OEHIDEventAxisRz";
-            break;
-        case OEHIDEventAxisNone :
-        default:
-            break;
-    }
-    return ret;
-}
+@synthesize padNumber = _padNumber, type = _type, isPushed = _isPushed;
 
 - (NSString *)displayDescription
 {
     NSString *ret = nil;
-    switch (axis)
-    {
-        case OEHIDEventAxisNone :
-            ret = [NSString stringWithFormat:NSLocalizedString(@"Btn %d", @"HID Button Number"), buttonNumber];
+    switch (_type) {
+        case OEHIDAxis :
+            // Example: ret = @"P1 -X" for Pad One X axis Negative
+            switch (_data.axis.axis)
+            {
+                case OEHIDAxisX  : ret = @"X";  break;
+                case OEHIDAxisY  : ret = @"Y";  break;
+                case OEHIDAxisZ  : ret = @"Z";  break;
+                case OEHIDAxisRx : ret = @"Rx"; break;
+                case OEHIDAxisRy : ret = @"Ry"; break;
+                case OEHIDAxisRz : ret = @"Rz"; break;
+            }
+            char sign = (_data.axis.direction == OEHIDDirectionNull ? '=' :
+                         (_data.axis.direction == OEHIDDirectionPositive ? '-' : '+'));
+            
+            ret = [NSString stringWithFormat:@" %c%@", sign, ret];
             break;
-        case OEHIDEventAxisX :
-            ret = NSLocalizedString(@"X Axis", @"Joystick X Axis");
+        case OEHIDButton :
+            // Example: ret = @"P1 B12" for Pad One Button 12
+            ret = [NSString stringWithFormat:@" B%d", _data.button.buttonNumber];
             break;
-        case OEHIDEventAxisY :
-            ret = NSLocalizedString(@"Y Axis", @"Joystick Y Axis");
-            break;
-        case OEHIDEventAxisZ :
-            ret = NSLocalizedString(@"Z Axis", @"Joystick Z Axis");
-            break;
-        case OEHIDEventAxisRx :
-            ret = NSLocalizedString(@"Rx Axis", @"Joystick Rx Axis");
-            break;
-        case OEHIDEventAxisRy :
-            ret = NSLocalizedString(@"Ry Axis", @"Joystick Ry Axis");
-            break;
-        case OEHIDEventAxisRz :
-            ret = NSLocalizedString(@"Rz Axis", @"Joystick Rz Axis");
-            break;
-        default:
+        case OEHIDHatSwitch :
+            // Example: ret = @"P1 H5/8" for Pad One Hat Switch Position 5 of 8
+            ret = [NSString stringWithFormat:@" H%d/%d", _data.hatSwitch.position, _data.hatSwitch.count];
             break;
     }
     
-    if(ret != nil)
-        ret = [NSString stringWithFormat:NSLocalizedString(@"Pad %d %@", @"HID Event pad"), padNumber, ret];
+    if(ret != nil) ret = [NSString stringWithFormat:@"P%d%@", _padNumber, ret];
+    else ret = @"";
     
     return ret;
 }
@@ -88,92 +59,225 @@
     return nil;
 }
 
-+ (id)eventWithDevice:(IOHIDDeviceRef)aDevice deviceNumber:(NSUInteger)aNumber page:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue
++ (id)eventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue
 {
-    return [[[self alloc] initWithDevice:aDevice deviceNumber:aNumber page:aPage usage:aUsage value:aValue] autorelease];
+    return [[[self alloc] initWithDeviceHandler:aDeviceHandler value:aValue] autorelease];
 }
 
-- (id)initWithDevice:(IOHIDDeviceRef)aDevice deviceNumber:(NSUInteger)aNumber page:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue
+- (id)initWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler  value:(IOHIDValueRef)aValue
 {
     self = [super init];
     if(self != nil)
     {
-        device = aDevice;
-        padNumber = aNumber;
-        value = aValue;
+        _padNumber = [aDeviceHandler deviceNumber];
         
-        if(aPage == 0x01)      axis = aUsage;
-        else if(aPage == 0x09) buttonNumber = aUsage;
+        IOHIDElementRef elem = IOHIDValueGetElement(aValue);
+        CFIndex value        = IOHIDValueGetIntegerValue(aValue);
+        
+        const uint32_t page  = IOHIDElementGetUsagePage(elem);
+        const uint32_t usage = IOHIDElementGetUsage(elem);
+        
+        switch(page)
+        {
+            case kHIDPage_GenericDesktop :
+            {
+                switch(usage)
+                {
+                    case kHIDUsage_GD_X  :
+                    case kHIDUsage_GD_Y  :
+                    case kHIDUsage_GD_Z  :
+                    case kHIDUsage_GD_Rx :
+                    case kHIDUsage_GD_Ry :
+                    case kHIDUsage_GD_Rz :
+                        _type = OEHIDAxis;
+                        _data.axis.axis = usage;
+                        
+                        _data.axis.minimum = IOHIDElementGetLogicalMin(elem);
+                        _data.axis.value   = value;
+                        _data.axis.maximum = IOHIDElementGetLogicalMax(elem);
+                        
+                        NSInteger zero = (_data.axis.maximum + _data.axis.minimum) / 2 + 1;
+                        
+                        if(_data.axis.minimum >= 0)
+                            _data.axis.minimum -= zero,
+                            _data.axis.value   -= zero,
+                            _data.axis.maximum -= zero;
+                        
+                        NSInteger deadZone = (NSInteger)ceil(_data.axis.maximum * [aDeviceHandler deadZone]);
+                        
+                        if(-deadZone <= _data.axis.value && _data.axis.value <= deadZone)
+                            _data.axis.value = 0;
+                        
+                        if(_data.axis.value == 0)     _data.axis.direction = OEHIDDirectionNull;
+                        else if(_data.axis.value > 0) _data.axis.direction = OEHIDDirectionPositive;
+                        else                          _data.axis.direction = OEHIDDirectionNegative;
+                        _isPushed = _data.axis.direction != OEHIDDirectionNull;
+                        break;
+                    case kHIDUsage_GD_Hatswitch :
+                        _type = OEHIDHatSwitch;
+                        _data.hatSwitch.position = value;
+                        _data.hatSwitch.count    = IOHIDElementGetLogicalMax(elem);
+                        _isPushed = _data.hatSwitch.position != 0;
+                        break;
+                }
+                break;
+            }
+            case kHIDPage_Button :
+                _type = OEHIDButton;
+                _data.button.buttonNumber = usage;
+                _data.button.state = value;
+                _isPushed = _data.button.state != NSOffState;
+                break;
+        }
     }
     return self;
 }
 
+- (OEHIDEventAxis)axis
+{
+    NSAssert1([self type] == OEHIDAxis, @"Invalid message sent to event \"%@\"", self);
+    return _data.axis.axis;
+}
+
+- (OEHIDDirection)direction
+{
+    NSAssert1([self type] == OEHIDAxis, @"Invalid message sent to event \"%@\"", self);
+    return _data.axis.direction;
+}
+
+- (NSInteger)minimum
+{
+    NSAssert1([self type] == OEHIDAxis, @"Invalid message sent to event \"%@\"", self);
+    return _data.axis.minimum;
+}
+
+- (NSInteger)value
+{
+    NSAssert1([self type] == OEHIDAxis, @"Invalid message sent to event \"%@\"", self);
+    return _data.axis.value;
+}
+
+- (NSInteger)maximum
+{
+    NSAssert1([self type] == OEHIDAxis, @"Invalid message sent to event \"%@\"", self);
+    return _data.axis.maximum;
+}
+
+// Button event
+- (NSUInteger)buttonNumber
+{
+    NSAssert1([self type] == OEHIDButton, @"Invalid message sent to event \"%@\"", self);
+    return _data.button.buttonNumber;
+}
+
+- (NSInteger)state
+{
+    NSAssert1([self type] == OEHIDButton, @"Invalid message sent to event \"%@\"", self);
+    return _data.button.state;
+}
+
+// HatSwitch event
+- (NSUInteger)position
+{
+    NSAssert1([self type] == OEHIDHatSwitch, @"Invalid message sent to event \"%@\"", self);
+    return _data.hatSwitch.position;
+}
+
+- (NSUInteger)count
+{
+    NSAssert1([self type] == OEHIDHatSwitch, @"Invalid message sent to event \"%@\"", self);
+    return _data.hatSwitch.count;
+}
+
 - (NSString *)description
 {
-    return [NSString stringWithFormat:@"%@ { device: %p, axis: %@, buttonNumber: %u, value: %f }",
-            [super description], device, [self axisName], buttonNumber, value];
+    NSString *subs = @"UNKNOWN TYPE";
+    
+    if(_type == OEHIDAxis)
+    {
+        char *ax;
+        switch(_data.axis.axis)
+        {
+            case OEHIDAxisX  : ax = "X";    break;
+            case OEHIDAxisY  : ax = "Y";    break;
+            case OEHIDAxisZ  : ax = "Z";    break;
+            case OEHIDAxisRx : ax = "Rx";   break;
+            case OEHIDAxisRy : ax = "Ry";   break;
+            case OEHIDAxisRz : ax = "Rz";   break;
+            default          : ax = "none"; break;
+        }
+        char *dir;
+        switch(_data.axis.direction)
+        {
+            case OEHIDDirectionNegative : dir = "Neg"; break;
+            case OEHIDDirectionPositive : dir = "Pos"; break;
+            case OEHIDDirectionNull     :
+            default                     : dir = "Nul"; break;
+        }
+        subs = [NSString stringWithFormat:@"type=Axis axis=%s direction=%s min=%lld max=%lld value=%lld",
+                ax, dir, (int64_t)_data.axis.minimum, (int64_t)_data.axis.maximum, (int64_t)_data.axis.value];
+    }
+    else if(_type == OEHIDButton)
+    {
+        char *st = (_data.button.state == NSOnState ? "On" : "Off");
+        
+        subs = [NSString stringWithFormat:@"type=Button number=%lld state=%s", (int64_t)_data.button.buttonNumber, st];
+    }
+    else if(_type == OEHIDHatSwitch)
+        subs = [NSString stringWithFormat:@"type=HatSwitch position=%lld/%lld", (int64_t)_data.hatSwitch.position, (int64_t)_data.hatSwitch.count];
+    
+    return [NSString stringWithFormat:@"HID Event: pad=%lld %@", (int64_t)_padNumber, subs];
 }
 
-- (NSString *)manufacturer
-{
-    return (NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey));
-}
-- (NSString *)product
-{
-    return (NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
-}
-- (NSNumber *)productID
-{
-    return (NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey));
-}
-- (NSNumber *)locationID
-{
-    return (NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey));
-}
+NSString *OEHIDEventTypeKey         = @"OEHIDEventTypeKey";
+NSString *OEHIDEventPadNumberKey    = @"OEHIDEventPadNumberKey";
+NSString *OEHIDEventAxisKey         = @"OEHIDEventAxisKey";
+NSString *OEHIDEventDirectionKey    = @"OEHIDEventDirectionKey";
+NSString *OEHIDEventButtonNumberKey = @"OEHIDEventButtonNumberKey";
+NSString *OEHIDEventStateKey        = @"OEHIDEventStateKey";
+NSString *OEHIDEventPositionKey     = @"OEHIDEventPositionKey";
 
-NSString *EOHIDEventDeviceManufacturerKey = @"EOHIDEventDeviceManufacturerKey";
-NSString *EOHIDEventDeviceProductIDKey    = @"EOHIDEventDeviceProductIDKey";
-NSString *EOHIDEventDeviceLocationIDKey   = @"EOHIDEventDeviceLocationIDKey";
-NSString *EOHIDEventAxisKey               = @"EOHIDEventAxisKey";
-NSString *EOHIDEventButtonNumberKey       = @"EOHIDEventButtonNumberKey";
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-    axis         = [decoder decodeIntegerForKey:EOHIDEventAxisKey];
-    buttonNumber = [decoder decodeIntegerForKey:EOHIDEventButtonNumberKey];
-    id gdc       = [objc_getClass("GameDocumentController") sharedDocumentController];
-    device       = [gdc deviceWithManufacturer:[decoder decodeObjectForKey:EOHIDEventDeviceManufacturerKey]
-                                     productID:[decoder decodeObjectForKey:EOHIDEventDeviceProductIDKey]
-                                    locationID:[decoder decodeObjectForKey:EOHIDEventDeviceLocationIDKey]];
+    _type = [decoder decodeIntegerForKey:OEHIDEventTypeKey];
+    _padNumber = [decoder decodeIntegerForKey:OEHIDEventPadNumberKey];
+    
+    switch (self.type) {
+        case OEHIDAxis :
+            _data.axis.axis           = [decoder decodeIntegerForKey:OEHIDEventAxisKey];
+            _data.axis.direction      = [decoder decodeIntegerForKey:OEHIDEventDirectionKey];
+            break;
+        case OEHIDButton :
+            _data.button.buttonNumber = [decoder decodeIntegerForKey:OEHIDEventButtonNumberKey];
+            _data.button.state        = [decoder decodeIntegerForKey:OEHIDEventStateKey];
+            break;
+        case OEHIDHatSwitch :
+            _data.hatSwitch.position  = [decoder decodeIntegerForKey:OEHIDEventPositionKey];
+            break;
+    }
     
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-    [encoder encodeObject:(id)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey))
-                   forKey:EOHIDEventDeviceManufacturerKey];
-    [encoder encodeObject:(id)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey))
-                   forKey:EOHIDEventDeviceProductIDKey];
-    [encoder encodeObject:(id)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey))
-                   forKey:EOHIDEventDeviceLocationIDKey];
-    [encoder encodeInteger:axis         forKey:EOHIDEventAxisKey];
-    [encoder encodeInteger:buttonNumber forKey:EOHIDEventButtonNumberKey];
-}
-
-- (NSUInteger)hash
-{
-    return ([[self manufacturer] hash] ^ [[self productID] hash] ^ [self axis] ^ [self buttonNumber]);
-}
-
-- (BOOL)isEqual:(id)anObject
-{
-    if([anObject isKindOfClass:[OEHIDEvent class]])
-        return ([[self manufacturer] isEqualToString:[anObject manufacturer]] &&
-                [[self productID]    isEqualToNumber:[anObject productID]]    &&
-                [self axis] == [anObject axis] && [self buttonNumber] == [anObject buttonNumber]);
+    [encoder encodeInteger:self.type      forKey:OEHIDEventTypeKey];
+    [encoder encodeInteger:self.padNumber forKey:OEHIDEventPadNumberKey];
     
-    return [super isEqual:anObject];
+    switch (self.type) {
+        case OEHIDAxis :
+            [encoder encodeInteger:self.axis         forKey:OEHIDEventAxisKey];
+            [encoder encodeInteger:self.direction    forKey:OEHIDEventDirectionKey];
+            break;
+        case OEHIDButton :
+            [encoder encodeInteger:self.buttonNumber forKey:OEHIDEventButtonNumberKey];
+            [encoder encodeInteger:self.state        forKey:OEHIDEventStateKey];
+            break;
+        case OEHIDHatSwitch :
+            [encoder encodeInteger:self.position     forKey:OEHIDEventPositionKey];
+            break;
+    }
 }
 
 @end
@@ -183,6 +287,7 @@ NSString *EOHIDEventButtonNumberKey       = @"EOHIDEventButtonNumberKey";
 {
     return [self eventWithKeyCode:keyCode keyIsDown:YES];
 }
+
 + (NSEvent *)eventWithKeyCode:(unsigned short)keyCode keyIsDown:(BOOL)_keyDown
 {
     CGEventRef event = CGEventCreateKeyboardEvent(NULL, (CGKeyCode)keyCode, _keyDown);
@@ -190,18 +295,27 @@ NSString *EOHIDEventButtonNumberKey       = @"EOHIDEventButtonNumberKey";
     CFRelease(event);
     return ret;
 }
+
 + (NSString *)charactersForKeyCode:(unsigned short)keyCode
 {
     return [[self eventWithKeyCode:keyCode] characters];
 }
+
 + (NSString *)printableCharactersForKeyCode:(unsigned short)keyCode
 {
     return [[self eventWithKeyCode:keyCode] displayDescription];
 }
+
 + (NSUInteger)modifierFlagsForKeyCode:(unsigned short)keyCode
 {
     return [[self eventWithKeyCode:keyCode] modifierFlags];
 }
+
++ (NSString *)displayDescriptionForKeyCode:(unsigned short)keyCode
+{
+    return [[self eventWithKeyCode:keyCode] displayDescription];
+}
+
 - (NSString *)displayDescription
 {
     NSString *characters = [self characters];
@@ -239,4 +353,5 @@ NSString *EOHIDEventButtonNumberKey       = @"EOHIDEventButtonNumberKey";
     
     return ret;
 }
+
 @end

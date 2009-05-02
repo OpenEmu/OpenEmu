@@ -127,6 +127,8 @@
 		C61C9C390F58BB3B007F4242 /* OEDummyView.m in Sources */ = {isa = PBXBuildFile; fileRef = C61C9C380F58BB3B007F4242 /* OEDummyView.m */; };
 		C66DF9EC0F51B48E0080AA28 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DF9EB0F51B48E0080AA28 /* GameCore.m */; };
 		C66DFA3E0F51C1640080AA28 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
+		C68C4BE40FA4BA3E00724B50 /* OEHIDDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = C6C989C50F557D9200116EA2 /* OEHIDDeviceHandler.h */; };
+		C68C4BE50FA4BA4900724B50 /* OEHIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */; };
 		C69313890F6ACBCE00F03428 /* VideoAndSoundPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C69313880F6ACBCE00F03428 /* VideoAndSoundPreferences.xib */; };
 		C693138B0F6ACBEE00F03428 /* ControlPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C693138A0F6ACBEE00F03428 /* ControlPreferences.xib */; };
 		C693138D0F6ACC0A00F03428 /* PluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C693138C0F6ACC0A00F03428 /* PluginPreferences.xib */; };
@@ -150,7 +152,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 82444BA00F51256C007C171B /* OpenEmuBase */;
+			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
 		};
 		82C9C97D0F080C920071460B /* PBXContainerItemProxy */ = {
@@ -520,8 +522,6 @@
 				2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */,
 				8283882A0E6CE13C00A96E2C /* GameDocumentController.h */,
 				8283882B0E6CE13C00A96E2C /* GameDocumentController.m */,
-				C6C989C50F557D9200116EA2 /* OEHIDDeviceHandler.h */,
-				C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */,
 				820C55F00E7C36A700202702 /* GameApp.h */,
 				820C55F10E7C36A700202702 /* GameApp.m */,
 			);
@@ -573,6 +573,8 @@
 				C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */,
 				C6C98B830F55B7A800116EA2 /* OEHIDEvent.h */,
 				C6C98B840F55B7A800116EA2 /* OEHIDEvent.m */,
+				C6C989C50F557D9200116EA2 /* OEHIDDeviceHandler.h */,
+				C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */,
 				C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */,
 				C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */,
 			);
@@ -609,6 +611,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C61C98C30F58308C007F4242 /* OEHIDEvent.h in Headers */,
+				C68C4BE40FA4BA3E00724B50 /* OEHIDDeviceHandler.h in Headers */,
 				C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */,
 				82444BA80F51259A007C171B /* GameCore.h in Headers */,
 				82444BAC0F5125AF007C171B /* GameButtons.h in Headers */,
@@ -787,6 +790,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C68C4BE50FA4BA4900724B50 /* OEHIDDeviceHandler.m in Sources */,
 				C61C98E90F583221007F4242 /* OEHIDEvent.m in Sources */,
 				C61C98E70F583217007F4242 /* OEGameCoreController.m in Sources */,
 				82F3629E0F51CC5F001495F6 /* GameCore.m in Sources */,

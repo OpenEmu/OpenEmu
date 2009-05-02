@@ -74,28 +74,31 @@ static NSUInteger lastDeviceNumber = 0;
 {
     return (NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey));
 }
+
 - (NSString *)product
 {
     return (NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
 }
+
 - (NSNumber *)productID
 {
     return (NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey));
 }
+
 - (NSNumber *)locationID
 {
     return (NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey));
 }
 
-- (OEHIDEvent *)eventWithPage:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue
+- (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue
 {
-    return [OEHIDEvent eventWithDevice:device deviceNumber:deviceNumber page:aPage usage:aUsage value:aValue];
+    return [OEHIDEvent eventWithDeviceHandler:self value:aValue];
 }
 
-- (void)dispatchEventWithPage:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue
+- (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue
 {
     [NSApp sendAction:@selector(handleHIDEvent:) to:nil
-                 from:[self eventWithPage:aPage usage:aUsage value:aValue]];
+                 from:[self eventWithHIDValue:aValue]];
 }
 
 @end

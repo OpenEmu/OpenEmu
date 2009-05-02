@@ -11,36 +11,81 @@
 
 #define OEGlobalEventsKey @"OEGlobalEventsKey"
 
-typedef enum OEHIDEventAxis {
-    OEHIDEventAxisNone = 0x00,
-    OEHIDEventAxisX    = 0x30,
-    OEHIDEventAxisY    = 0x31,
-    OEHIDEventAxisZ    = 0x32,
-    OEHIDEventAxisRx   = 0x33,
-    OEHIDEventAxisRy   = 0x34,
-    OEHIDEventAxisRz   = 0x35
-} OEHIDEventAxis;
+@class OEHIDDeviceHandler;
 
-// Dummy class to easily dispatch an event as an action through the responder chains.
+enum _OEHIDEventType {
+    OEHIDAxis      = 1,
+    OEHIDButton    = 2,
+    OEHIDHatSwitch = 3
+};
+typedef NSUInteger OEHIDEventType;
+
+enum _OEHIDAxis {
+    OEHIDAxisNone = 0x00,
+    OEHIDAxisX    = 0x30,
+    OEHIDAxisY    = 0x31,
+    OEHIDAxisZ    = 0x32,
+    OEHIDAxisRx   = 0x33,
+    OEHIDAxisRy   = 0x34,
+    OEHIDAxisRz   = 0x35
+};
+typedef NSUInteger OEHIDEventAxis;
+
+enum _OEHIDDirection {
+    OEHIDDirectionNegative = -1,
+    OEHIDDirectionNull     =  0,
+    OEHIDDirectionPositive =  1
+};
+typedef NSInteger OEHIDDirection;
+
 @interface OEHIDEvent : NSObject <NSCoding>
 {
-    IOHIDDeviceRef device;
-    NSUInteger padNumber;
-    NSUInteger buttonNumber;
-    OEHIDEventAxis axis;
-    CGFloat value;
+@private
+    OEHIDEventType             _type;
+    NSUInteger                 _padNumber;
+    union {
+        struct {
+            OEHIDEventAxis axis;
+            OEHIDDirection direction;
+            NSInteger      minimum;
+            NSInteger      value;
+            NSInteger      maximum;
+        } axis;
+        struct {
+            NSUInteger buttonNumber;
+            NSInteger  state;
+        } button;
+        struct {
+            NSUInteger position;
+            NSUInteger count;
+        } hatSwitch;
+    } _data;
+    BOOL _isPushed;
 }
 
-- (NSString *)axisName;
 - (NSString *)displayDescription;
 
-+ (id)eventWithDevice:(IOHIDDeviceRef)aDevice deviceNumber:(NSUInteger)aNumber page:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue;
-- (id)initWithDevice:(IOHIDDeviceRef)aDevice deviceNumber:(NSUInteger)aNumber page:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue;
-@property(readonly) IOHIDDeviceRef device;
-@property(readonly) NSUInteger padNumber;
-@property(readonly) NSUInteger buttonNumber;
++ (id)eventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
+- (id)initWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler  value:(IOHIDValueRef)aValue;
+
+@property(readonly) NSUInteger     padNumber;
+@property(readonly) OEHIDEventType type;
+@property(readonly) BOOL           isPushed;
+
+// Axis event
 @property(readonly) OEHIDEventAxis axis;
-@property(readonly) CGFloat value;
+@property(readonly) OEHIDDirection direction;
+@property(readonly) NSInteger      minimum;
+@property(readonly) NSInteger      value;
+@property(readonly) NSInteger      maximum;
+
+// Button event
+@property(readonly) NSUInteger     buttonNumber;
+@property(readonly) NSInteger      state;
+
+// HatSwitch event
+@property(readonly) NSUInteger     position;
+@property(readonly) NSUInteger     count;
 @end
 
 @interface NSEvent (OEEventConversion)
@@ -49,6 +94,7 @@ typedef enum OEHIDEventAxis {
 + (NSString *)charactersForKeyCode:(unsigned short)keyCode;
 + (NSString *)printableCharactersForKeyCode:(unsigned short)keyCode;
 + (NSUInteger)modifierFlagsForKeyCode:(unsigned short)keyCode;
++ (NSString *)displayDescriptionForKeyCode:(unsigned short)keyCode;
 - (NSString *)displayDescription;
 @end
 

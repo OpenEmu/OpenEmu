@@ -15,13 +15,13 @@
 @interface OEHIDDeviceHandler : NSObject
 {
     IOHIDDeviceRef device;
-    NSUInteger deviceNumber;
-    CGFloat deadZone;
+    NSUInteger     deviceNumber;
+    CGFloat        deadZone;
 }
 
 @property(readonly) IOHIDDeviceRef device;
-@property(readonly) NSUInteger deviceNumber;
-@property CGFloat deadZone;
+@property(readonly) NSUInteger     deviceNumber;
+@property           CGFloat        deadZone;
 
 @property(readonly) NSString *manufacturer;
 @property(readonly) NSString *product;
@@ -31,7 +31,7 @@
 + (id)deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice;
 
 - (id)initWithDevice:(IOHIDDeviceRef)aDevice;
-- (OEHIDEvent *)eventWithPage:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue;
-- (void)dispatchEventWithPage:(uint32_t)aPage usage:(uint32_t)aUsage value:(CGFloat)aValue;
+- (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue;
+- (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue;
 
 @end

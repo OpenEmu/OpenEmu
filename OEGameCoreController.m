@@ -116,8 +116,6 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
     
     for(NSString *name in controlNames)
     {
-        //[udc removeObserver:aGameCore
-        //         forKeyPath:[NSString stringWithFormat:@"values.%@.%@", OEGlobalEventsKey, name]];
         if(namespaces & OENoNamespaceMask)
             [udc removeObserver:aGameCore
                      forKeyPath:[NSString stringWithFormat:@"values.%@.%@", pluginName, name]];
@@ -197,7 +195,8 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
     // Removes any binding that would be attached to that event
     [self removeBindingsToEvent:value];
     
-    [udc setValue:value forKeyPath:[self keyPathForKey:keyName inNamespace:aNamespace]];
+    NSString *keyPath = [self keyPathForKey:keyName inNamespace:aNamespace];
+    [udc setValue:value forKeyPath:keyPath];
 }
 
 - (void)removeBindingsToEvent:(id)theEvent

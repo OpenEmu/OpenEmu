@@ -288,7 +288,7 @@
                                                format:&format
                                      errorDescription:&errorDesc];
 	if (!infoPlist) {
-		NSLog(errorDesc);
+		NSLog(@"%@", errorDesc);
 		[errorDesc release];
 	}
 	
@@ -329,8 +329,7 @@
 
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
 {
-	NSLog(@"URL: %@", absoluteURL);
-	NSLog([absoluteURL path]);
+	NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
 	XADArchive* archive = [XADArchive archiveForFile:[absoluteURL path]];
 	NSLog(@"Opened?");
 	if(archive)
@@ -354,7 +353,7 @@
 				if([archive extractEntry:idx to:filePath])
 				{
 					filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:idx]];
-					NSLog(filePath);
+					NSLog(@"%@", filePath);
 					absoluteURL = [NSURL fileURLWithPath:filePath];
 				}
 				else
@@ -372,7 +371,7 @@
 			if([archive extractEntry:0 to:filePath])
 			{
 				filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:0]];
-				NSLog(filePath);
+                NSLog(@"%@", filePath);
 				absoluteURL = [NSURL fileURLWithPath:filePath];
 			}
 			else
@@ -554,35 +553,7 @@ static void OEHandle_InputValueCallback(void *inContext,
                                         void *inSender,
                                         IOHIDValueRef inIOHIDValueRef)
 {
-	IOHIDElementRef elem = IOHIDValueGetElement(inIOHIDValueRef);
-	CFIndex value        = IOHIDValueGetIntegerValue(inIOHIDValueRef);
-	const uint32_t page  = IOHIDElementGetUsagePage(elem);
-	const uint32_t usage = IOHIDElementGetUsage(elem);
-    
-    OEHIDDeviceHandler *deviceHandler = inContext;
-    
-	CFIndex minValue = IOHIDElementGetLogicalMin(elem);
-	CFIndex maxValue = IOHIDElementGetLogicalMax(elem);
-    
-    CGFloat ret = value;
-    // If the difference between min and max is equal to 1,
-    // It means we're handling an button with only two states: On and Off,
-    // Else this mean we're handling an analogic or D-pad button
-    // Scales the value between -1.0 and 1.0, 0.0 means off.
-    if(maxValue - minValue > 1)
-    {
-        CGFloat v = value;
-        CFIndex fakeZero = (maxValue + minValue) / 2;
-        if(value == fakeZero || value == fakeZero + 1) v = ((maxValue + minValue) / 2.0);
-        ret = (v / (CGFloat)maxValue) * 2.0;
-        ret -= 1.0;
-    }
-    
-    // Per-device dead zone.
-    CGFloat deadZone = [deviceHandler deadZone];
-    if(-deadZone <= ret && ret <= deadZone) ret = 0.0;
-    
-    [deviceHandler dispatchEventWithPage:page usage:usage value:ret];
+    [(OEHIDDeviceHandler *)inContext dispatchEventWithHIDValue:inIOHIDValueRef];
 }
 /* TODO: remove a device:
 static void OEHandle_RemovalCallback(void *context, 
