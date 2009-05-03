@@ -35,7 +35,7 @@
             char sign = (_data.axis.direction == OEHIDDirectionNull ? '=' :
                          (_data.axis.direction == OEHIDDirectionPositive ? '-' : '+'));
             
-            ret = [NSString stringWithFormat:@" %c%@", sign, ret];
+            ret = [NSString stringWithFormat:@" %@%c", ret, sign];
             break;
         case OEHIDButton :
             // Example: ret = @"P1 B12" for Pad One Button 12
