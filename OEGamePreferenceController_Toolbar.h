@@ -12,5 +12,5 @@
 - (void)setupToolbar;
 - (void)switchView:(id)sender;
 - (NSRect)frameForNewContentViewFrame:(NSRect)viewFrame;
-- (NSViewController *)viewControllerForIdentifier:(NSString*)identifier;
+- (NSViewController *)newViewControllerForIdentifier:(NSString*)identifier;
 @end

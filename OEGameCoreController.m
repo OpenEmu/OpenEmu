@@ -10,11 +10,40 @@
 #import "GameCore.h"
 #import "OEHIDEvent.h"
 
+NSString *const OEControlsPreferenceKey   = @"OEControlsPreferenceKey";
+
 NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardNamespace", @"OEHIDNamespace", @"OEMouseNamespace", @"OEOtherNamespace" };
 
 @implementation OEGameCoreController
 
-@synthesize preferenceViewController;
+@synthesize currentPreferenceViewController, bundle;
+
+static NSMutableDictionary *_preferenceViewControllerClasses = nil;
+
++ (void)initialize
+{
+    if(self == [OEGameCoreController class])
+    {
+        _preferenceViewControllerClasses = [[NSMutableDictionary alloc] init];
+    }
+}
+
++ (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses
+{
+    if([viewControllerClasses count] == 0) return;
+    
+    NSDictionary *existing = [_preferenceViewControllerClasses objectForKey:self];
+    if(existing != nil)
+    {
+        NSMutableDictionary *future = [existing mutableCopy];
+        
+        [future addEntriesFromDictionary:viewControllerClasses];
+        
+        viewControllerClasses = [future autorelease];
+    }
+    
+    [_preferenceViewControllerClasses setObject:[[viewControllerClasses copy] autorelease] forKey:self];
+}
 
 + (OEEventNamespaceMask)acceptedEventNamespaces
 {
@@ -37,10 +66,18 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
 {
     self = [super init];
     if(self != nil)
-    {        
+    {
+        bundle = [NSBundle bundleForClass:[self class]];
     }
     return self;
 }
+
+- (void) dealloc
+{
+    [currentPreferenceViewController release];
+    [super dealloc];
+}
+
 
 - (Class)gameCoreClass
 {
@@ -48,24 +85,25 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
     return Nil;
 }
 
-- (Class)controlsPreferencesClass
+- (id)newPreferenceViewControllerForKey:(NSString *)aKey
 {
-    return [NSViewController class];
-}
-
-- (NSString *)controlsPreferencesNibName
-{
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;    
-}
-
-- (id)newPreferenceViewController
-{
-    [preferenceViewController release];
-    preferenceViewController = [[[self controlsPreferencesClass] alloc] initWithNibName:[self controlsPreferencesNibName] bundle:[NSBundle bundleForClass:[self class]]];
-    [preferenceViewController setNextResponder:self];
-    [preferenceViewController loadView];
-    return [preferenceViewController retain];
+    [currentPreferenceViewController release];
+    Class controllerClass = [[_preferenceViewControllerClasses objectForKey:[self class]] objectForKey:aKey];
+    
+    if(controllerClass != nil)
+    {
+        NSString *nibName = [controllerClass preferenceNibName];
+        // A key is always like that: OEMyPreferenceNibNameKey, so the default nibName is MyPreferenceNibName
+        if(nibName == nil) nibName = [aKey substringWithRange:NSMakeRange(2, [aKey length] - 5)]; 
+        currentPreferenceViewController = [[controllerClass alloc] initWithNibName:nibName bundle:bundle];
+    }
+    else
+        currentPreferenceViewController = [[NSViewController alloc] initWithNibName:@"UnimplementedPreference"
+                                                                             bundle:[NSBundle mainBundle]];
+    [currentPreferenceViewController setNextResponder:self];
+    
+    // Ensures the current view controller is always owned by the GameCore controller
+    return [currentPreferenceViewController retain];
 }
 
 - (GameCore *)newGameCoreWithDocument:(GameDocument *)aDocument
@@ -243,4 +281,11 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
 {
 }
 
+@end
+
+@implementation NSViewController (OEGameCoreControllerAddition)
++ (NSString *)preferenceNibName
+{
+    return nil;
+}
 @end

@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern NSString *const OEControlsPreferenceKey;
+
 typedef enum OEEventNamespace {
     OENoNamespace,
     OEGlobalNamespace,
@@ -34,18 +36,31 @@ extern NSString *OEEventNamespaceKeys[];
 
 @interface OEGameCoreController : NSResponder
 {
-    id preferenceViewController;
+    id        currentPreferenceViewController;
+    NSBundle *bundle;
 }
 
+@property(readonly) NSBundle *bundle;
 @property(readonly) Class gameCoreClass;
-@property(readonly) Class controlsPreferencesClass;
-@property(readonly) NSString *controlsPreferencesNibName;
-@property(readonly) id preferenceViewController;
+@property(readonly) id currentPreferenceViewController;
+
++ (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
 
 + (OEEventNamespaceMask)acceptedEventNamespaces;
 + (NSArray *)acceptedControlNames;
 + (NSString *)pluginName;
-- (id)newPreferenceViewController;
+
+/*
+ * The method search for a registered class for the passed-in key and instanciate the controller
+ * with the Nib name provided by the controller +preferenceNibName class method.
+ * If +preferenceNibName is not overridden by the controller class, the receiver uses the default
+ * nib name provided by the key.
+ * 
+ * For example: if the passed-in key is @"OEControlsPreferenceKey" the default nib name will be
+ * @"ControlsPreference" (the two-letter prefix "OE" and three-letter suffix "Key" are removed from
+ * the name).
+ */
+- (id)newPreferenceViewControllerForKey:(NSString *)aKey;
 - (GameCore *)newGameCoreWithDocument:(GameDocument *)aDocument;
 - (void)unregisterGameCore:(GameCore *)aGameCore;
 - (NSString *)keyPathForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
@@ -55,3 +70,8 @@ extern NSString *OEEventNamespaceKeys[];
 - (void)removeBindingsToEvent:(id)theEvent;
 - (void)bindingWasRemovedForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
 @end
+
+@interface NSViewController (OEGameCoreControllerAddition)
++ (NSString *)preferenceNibName;
+@end
+

@@ -37,8 +37,7 @@ extern NSString *OEControlsPreferencesClassName;
 
 - (id)initWithBundleAtPath:(NSString*)path;
 - (id)initWithInfoDictionary:(NSDictionary*)infoDict icon:(NSImage*)image;
-
-- (NSViewController *)newControlsPreferencesViewController;
+- (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey;
 - (NSArray *)extensionsForTypeName:(NSString *)aTypeName;
 - (BOOL)supportsFileExtension:(NSString *)extension;
 

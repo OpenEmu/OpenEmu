@@ -21,6 +21,11 @@ static NSString *OEVideoSoundToolbarItemIdentifier = @"OEVideoSoundToolbarItemId
 static NSString *OEControlsToolbarItemIdentifier   = @"OEControlsToolbarItemIdentifier";
 static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdentifier";
 
+@interface OEGamePreferenceController ()
+- (NSString *)itemIdentifier;
+@end
+
+
 @implementation OEGamePreferenceController (Toolbar)
 
 // ============================================================
@@ -47,7 +52,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
                                       @"Control Preferences",
                                       [NSImage imageNamed: NSImageNamePreferencesGeneral],
                                       @"ControlPreferences",
-                                      @"controlsPreferences", OEPluginViewKey), OEControlsToolbarItemIdentifier,
+                                      OEControlsPreferenceKey, OEPluginViewKey), OEControlsToolbarItemIdentifier,
                         CREATE_RECORD(@"Plugins",
                                       @"Plugins",
                                       @"Plugin Preferences",
@@ -55,6 +60,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
                                       @"PluginPreferences"), OEPluginsToolbarItemIdentifier,
                         nil];
 #undef CREATE_RECORD
+    currentViewIdentifier = OEControlsToolbarItemIdentifier;
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
@@ -116,14 +122,19 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     return frame;
 }
 
+- (NSString *)itemIdentifier
+{
+    return OEControlsToolbarItemIdentifier;
+}
+
 - (void)switchView:(id)sender
 {
     // Figure out the new view, the old view, and the new size of the window
 	NSViewController *previousController = nil;
         
     previousController = currentViewController;
-    if(sender != nil) currentViewIdentifier = (sender == self ? OEControlsToolbarItemIdentifier : [sender itemIdentifier]);
-    currentViewController = [self viewControllerForIdentifier:currentViewIdentifier];
+    if(sender != nil) currentViewIdentifier = [sender itemIdentifier];
+    currentViewController = [self newViewControllerForIdentifier:currentViewIdentifier];
 	
     NSView *view = [currentViewController view];
     
@@ -140,14 +151,8 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 	if(previousController) [[[[self window] animator] contentView] replaceSubview:[previousController view] with:view];
 	else                   [[[[self window] animator] contentView] addSubview:view];
 	
-	[NSAnimationContext endGrouping];
 	[[[self window] animator] setFrame:newFrame display:YES];
-    
-    
-    
-    if(currentViewIdentifier == OEControlsToolbarItemIdentifier)
-        [pluginDrawer open];
-    else [pluginDrawer close];
+	[NSAnimationContext endGrouping];
     
     [previousController release];
 }
@@ -160,18 +165,28 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     [view setFrame:viewFrame];
 }
 
-- (NSViewController *)viewControllerForIdentifier:(NSString*)identifier
+- (NSViewController *)newViewControllerForIdentifier:(NSString*)identifier
 {
     NSDictionary *desc = [preferencePanels objectForKey:identifier];
     
-    NSString *viewNibName = [desc objectForKey:OEToolbarNibNameKey];
-    NSViewController *ret = [[NSViewController alloc] initWithNibName:viewNibName bundle:[NSBundle mainBundle]];
+    NSString *pluginViewName = [desc objectForKey:OEPluginViewKey];
+    NSViewController *ret = nil;
+    
+    if(pluginViewName != nil)
+    {
+        [pluginDrawer open];
+        if(currentPlugin == nil) ret = [[NSViewController alloc] initWithNibName:@"SelectPluginPreferences"
+                                                                          bundle:[NSBundle mainBundle]];
+        else ret = [currentPlugin newPreferenceViewControllerForKey:pluginViewName];
+    }
+    else
+    {
+        [pluginDrawer close];
+        NSString *viewNibName = [desc objectForKey:OEToolbarNibNameKey];
+        ret = [[NSViewController alloc] initWithNibName:viewNibName bundle:[NSBundle mainBundle]];
+    }
     
     [ret loadView];
-    
-    NSString *pluginView = [desc objectForKey:OEPluginViewKey];
-    if(pluginView != nil && currentPlugin != nil)
-        ret = [currentPlugin newControlsPreferencesViewController];
     
     return ret;
 }

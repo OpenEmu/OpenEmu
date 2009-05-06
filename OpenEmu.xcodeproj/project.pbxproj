@@ -130,8 +130,9 @@
 		C68C4BE40FA4BA3E00724B50 /* OEHIDDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = C6C989C50F557D9200116EA2 /* OEHIDDeviceHandler.h */; };
 		C68C4BE50FA4BA4900724B50 /* OEHIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */; };
 		C69313890F6ACBCE00F03428 /* VideoAndSoundPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C69313880F6ACBCE00F03428 /* VideoAndSoundPreferences.xib */; };
-		C693138B0F6ACBEE00F03428 /* ControlPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C693138A0F6ACBEE00F03428 /* ControlPreferences.xib */; };
+		C693138B0F6ACBEE00F03428 /* SelectPluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C693138A0F6ACBEE00F03428 /* SelectPluginPreferences.xib */; };
 		C693138D0F6ACC0A00F03428 /* PluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C693138C0F6ACC0A00F03428 /* PluginPreferences.xib */; };
+		C6B0B4990FB17D8D00661561 /* UnimplementedPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6B0B4980FB17D8D00661561 /* UnimplementedPreference.xib */; };
 		C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6BFB29E0F7CC8E700040FFA /* Localizable.strings */; };
 		C6C989C70F557D9200116EA2 /* OEHIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */; };
 		C6C98B850F55B7A800116EA2 /* OEHIDEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C98B840F55B7A800116EA2 /* OEHIDEvent.m */; };
@@ -274,8 +275,9 @@
 		C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAbstractAdditions.h; sourceTree = "<group>"; };
 		C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAbstractAdditions.m; sourceTree = "<group>"; };
 		C69313880F6ACBCE00F03428 /* VideoAndSoundPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoAndSoundPreferences.xib; sourceTree = "<group>"; };
-		C693138A0F6ACBEE00F03428 /* ControlPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlPreferences.xib; sourceTree = "<group>"; };
+		C693138A0F6ACBEE00F03428 /* SelectPluginPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectPluginPreferences.xib; sourceTree = "<group>"; };
 		C693138C0F6ACC0A00F03428 /* PluginPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PluginPreferences.xib; sourceTree = "<group>"; };
+		C6B0B4980FB17D8D00661561 /* UnimplementedPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnimplementedPreference.xib; sourceTree = "<group>"; };
 		C6BFB29C0F7CC8A600040FFA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C6C989C50F557D9200116EA2 /* OEHIDDeviceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDDeviceHandler.h; sourceTree = "<group>"; };
 		C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDDeviceHandler.m; sourceTree = "<group>"; };
@@ -586,8 +588,9 @@
 			children = (
 				C6C98CAE0F55F4C400116EA2 /* GamePreferences.xib */,
 				C69313880F6ACBCE00F03428 /* VideoAndSoundPreferences.xib */,
-				C693138A0F6ACBEE00F03428 /* ControlPreferences.xib */,
+				C693138A0F6ACBEE00F03428 /* SelectPluginPreferences.xib */,
 				C693138C0F6ACC0A00F03428 /* PluginPreferences.xib */,
+				C6B0B4980FB17D8D00661561 /* UnimplementedPreference.xib */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -747,9 +750,10 @@
 				1B885EC30F08A13500770B6D /* Scale4x.vert in Resources */,
 				C6C98CAF0F55F4C400116EA2 /* GamePreferences.xib in Resources */,
 				C69313890F6ACBCE00F03428 /* VideoAndSoundPreferences.xib in Resources */,
-				C693138B0F6ACBEE00F03428 /* ControlPreferences.xib in Resources */,
+				C693138B0F6ACBEE00F03428 /* SelectPluginPreferences.xib in Resources */,
 				C693138D0F6ACC0A00F03428 /* PluginPreferences.xib in Resources */,
 				C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */,
+				C6B0B4990FB17D8D00661561 /* UnimplementedPreference.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

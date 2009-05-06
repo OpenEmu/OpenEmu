@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+extern NSString *const OEControlsPreferenceKey;
+
 @class PluginInfo;
 
 @interface OEGamePreferenceController : NSWindowController

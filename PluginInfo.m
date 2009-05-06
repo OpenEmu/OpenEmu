@@ -102,9 +102,11 @@ NSString *OEControlsPreferencesClassName = @"OEControlsPreferencesClassName";
     return [[gameCoreClass alloc] initWithDocument:aDocument];
 }
 
-- (NSViewController *)newControlsPreferencesViewController
+- (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey
 {
-    return [controller newPreferenceViewController];
+    NSViewController *ret = [controller newPreferenceViewControllerForKey:aKey];
+    if(ret == nil) ret = [[NSViewController alloc] initWithNibName:@"UnimplementedPreference" bundle:[NSBundle mainBundle]];
+    return ret;
 }
 
 - (BOOL)supportsFileExtension:(NSString *)extension
