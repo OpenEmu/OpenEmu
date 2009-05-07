@@ -136,7 +136,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
         ADD_OBSERVER(OEHIDNamespace);
         ADD_OBSERVER(OEMouseNamespace);
         ADD_OBSERVER(OEOtherNamespace);
-#undef ADD_OBSERVER
+#undef  ADD_OBSERVER
     }
     
     NSLog(@"%s", __FUNCTION__);
@@ -168,7 +168,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
         REMOVE_OBSERVER(OEHIDNamespace);
         REMOVE_OBSERVER(OEMouseNamespace);
         REMOVE_OBSERVER(OEOtherNamespace);
-#undef REMOVE_OBSERVER
+#undef  REMOVE_OBSERVER
     }
 }
 
@@ -271,7 +271,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
         REMOVE_KEY(OEHIDNamespace);
         REMOVE_KEY(OEMouseNamespace);
         REMOVE_KEY(OEOtherNamespace);
-#undef REMOVE_KEY
+#undef  REMOVE_KEY
     }
     
     NSLog(@"%s", __FUNCTION__);
