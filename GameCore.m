@@ -285,7 +285,9 @@ static NSTimeInterval currentTime()
     else
     {
         NSLog(@"result: %@, %@, %@", keyName, keyPath, event);
-        if(removeKeyBinding)
+        if(eventNamespace == OENoNamespace)
+            [self settingWasSet:event forKey:keyName];
+        else if(removeKeyBinding)
             [self eventWasRemovedForKey:keyName inNamespace:eventNamespace];
         else
             [self eventWasSet:event forKey:keyName inNamespace:eventNamespace];
@@ -297,11 +299,9 @@ static NSTimeInterval currentTime()
 	NSLog(@"UNUSED : %s", __FUNCTION__);
     //[self doesNotImplementSelector:_cmd];
 }
-- (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName
+- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName
 {
-    [self eventWasSet:theEvent forKey:keyName inNamespace:OENoNamespace];
 }
-
 - (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
 {
 	[self doesNotImplementSelector:_cmd];

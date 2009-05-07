@@ -46,8 +46,9 @@ extern NSString *OEEventNamespaceKeys[];
 
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
 
-+ (OEEventNamespaceMask)acceptedEventNamespaces;
-+ (NSArray *)acceptedControlNames;
++ (OEEventNamespaceMask)usedEventNamespaces;
++ (NSArray *)usedSettingNames;
++ (NSArray *)usedControlNames;
 + (NSString *)pluginName;
 
 /*
@@ -64,8 +65,13 @@ extern NSString *OEEventNamespaceKeys[];
 - (GameCore *)newGameCoreWithDocument:(GameDocument *)aDocument;
 - (void)unregisterGameCore:(GameCore *)aGameCore;
 - (NSString *)keyPathForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
+
+- (id)registarableValueWithObject:(id)anObject;
+- (void)registerValue:(id)aValue forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
+
+- (void)registerSetting:(id)settingValue forKey:(NSString *)keyName;
+
 - (id)eventForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
-- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName;
 - (void)registerEvent:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
 - (void)removeBindingsToEvent:(id)theEvent;
 - (void)bindingWasRemovedForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;

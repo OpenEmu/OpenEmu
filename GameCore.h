@@ -80,7 +80,7 @@
 // FIXME: Find a better way.
 #pragma mark Tracking preference changes
 - (void)globalEventWasSet:(id)theEvent forKey:(NSString *)keyName;
-- (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName;
+- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
 - (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
 - (void)eventWasRemovedForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
 - (void)removeFromGameController;
