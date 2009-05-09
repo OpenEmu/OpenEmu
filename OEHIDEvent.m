@@ -15,7 +15,7 @@
 @end
 
 @implementation OEHIDEvent
-@synthesize padNumber = _padNumber, type = _type, isPushed = _isPushed;
+@synthesize padNumber = _padNumber, type = _type, isPushed = _isPushed, timestamp = _timestamp, absoluteTime = _absoluteTime;
 
 - (NSString *)displayDescription
 {
@@ -70,6 +70,10 @@
     if(self != nil)
     {
         _padNumber = [aDeviceHandler deviceNumber];
+        // time in nanoseconds
+        _absoluteTime = IOHIDValueGetTimeStamp(inIOHIDValueRef);
+        // time in seconds
+        _timestamp = _absoluteTime / 1e9;
         
         IOHIDElementRef elem = IOHIDValueGetElement(aValue);
         CFIndex value        = IOHIDValueGetIntegerValue(aValue);

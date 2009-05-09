@@ -41,8 +41,10 @@ typedef NSInteger OEHIDDirection;
 @interface OEHIDEvent : NSObject <NSCoding>
 {
 @private
-    OEHIDEventType             _type;
-    NSUInteger                 _padNumber;
+    OEHIDEventType         _type;
+    NSUInteger             _padNumber;
+    NSTimeInterval         _timestamp;
+    uint64_t               _absoluteTime;
     union {
         struct {
             OEHIDEventAxis axis;
@@ -52,15 +54,15 @@ typedef NSInteger OEHIDDirection;
             NSInteger      maximum;
         } axis;
         struct {
-            NSUInteger buttonNumber;
-            NSInteger  state;
+            NSUInteger     buttonNumber;
+            NSInteger      state;
         } button;
         struct {
-            NSUInteger position;
-            NSUInteger count;
+            NSUInteger     position;
+            NSUInteger     count;
         } hatSwitch;
-    } _data;
-    BOOL _isPushed;
+    }                      _data;
+    BOOL                   _isPushed;
 }
 
 - (NSString *)displayDescription;
@@ -69,6 +71,8 @@ typedef NSInteger OEHIDDirection;
 - (id)initWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler  value:(IOHIDValueRef)aValue;
 
 @property(readonly) NSUInteger     padNumber;
+@property(readonly) NSTimeInterval timestamp;
+@property(readonly) uint64_t       absoluteTime;
 @property(readonly) OEHIDEventType type;
 @property(readonly) BOOL           isPushed;
 
