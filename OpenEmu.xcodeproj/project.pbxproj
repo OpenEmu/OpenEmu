@@ -133,6 +133,7 @@
 		C693138B0F6ACBEE00F03428 /* SelectPluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C693138A0F6ACBEE00F03428 /* SelectPluginPreferences.xib */; };
 		C693138D0F6ACC0A00F03428 /* PluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C693138C0F6ACC0A00F03428 /* PluginPreferences.xib */; };
 		C6B0B4990FB17D8D00661561 /* UnimplementedPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6B0B4980FB17D8D00661561 /* UnimplementedPreference.xib */; };
+		C6B7AB760FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */; };
 		C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6BFB29E0F7CC8E700040FFA /* Localizable.strings */; };
 		C6C989C70F557D9200116EA2 /* OEHIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */; };
 		C6C98B850F55B7A800116EA2 /* OEHIDEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C98B840F55B7A800116EA2 /* OEHIDEvent.m */; };
@@ -278,6 +279,8 @@
 		C693138A0F6ACBEE00F03428 /* SelectPluginPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectPluginPreferences.xib; sourceTree = "<group>"; };
 		C693138C0F6ACC0A00F03428 /* PluginPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PluginPreferences.xib; sourceTree = "<group>"; };
 		C6B0B4980FB17D8D00661561 /* UnimplementedPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnimplementedPreference.xib; sourceTree = "<group>"; };
+		C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSApplication+OEHIDAdditions.h"; sourceTree = "<group>"; };
+		C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication+OEHIDAdditions.m"; sourceTree = "<group>"; };
 		C6BFB29C0F7CC8A600040FFA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C6C989C50F557D9200116EA2 /* OEHIDDeviceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDDeviceHandler.h; sourceTree = "<group>"; };
 		C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDDeviceHandler.m; sourceTree = "<group>"; };
@@ -406,6 +409,8 @@
 				828E64E10E84658A00B1860B /* OpenEmuQC */,
 				C61C9C370F58BB3B007F4242 /* OEDummyView.h */,
 				C61C9C380F58BB3B007F4242 /* OEDummyView.m */,
+				C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */,
+				C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -853,6 +858,7 @@
 				C6C98CB70F55F59900116EA2 /* OEGamePreferenceController_Toolbar.m in Sources */,
 				C60BF0370F5709FC000D94F6 /* OEGameCoreController.m in Sources */,
 				C61C9C390F58BB3B007F4242 /* OEDummyView.m in Sources */,
+				C6B7AB760FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

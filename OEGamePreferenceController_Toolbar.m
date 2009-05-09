@@ -107,6 +107,11 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     return toolbarItem;
 }
 
+- (NSString *)itemIdentifier
+{
+    return OEControlsToolbarItemIdentifier;
+}
+
 - (NSRect)frameForNewContentViewFrame:(NSRect)viewFrame
 {
     NSWindow *window = [self window];
@@ -120,11 +125,6 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     frame.origin.y -= (newSize.height - oldSize.height);
     NSLog(@"frameForNewContentViewFrame: %@", NSStringFromRect(frame));
     return frame;
-}
-
-- (NSString *)itemIdentifier
-{
-    return OEControlsToolbarItemIdentifier;
 }
 
 - (void)switchView:(id)sender

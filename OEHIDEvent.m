@@ -71,7 +71,7 @@
     {
         _padNumber = [aDeviceHandler deviceNumber];
         // time in nanoseconds
-        _absoluteTime = IOHIDValueGetTimeStamp(inIOHIDValueRef);
+        _absoluteTime = IOHIDValueGetTimeStamp(aValue);
         // time in seconds
         _timestamp = _absoluteTime / 1e9;
         
