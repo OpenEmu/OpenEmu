@@ -16,7 +16,7 @@ NSString *OEControlsPreferencesClassName = @"OEControlsPreferencesClassName";
 
 @implementation PluginInfo
 
-@synthesize bundle, icon, supportedTypes, supportedTypeExtensions, gameCoreClass, controller;
+@synthesize bundle, icon, supportedTypes, supportedTypeExtensions, gameCoreClass, controller, version, displayName;
 
 - (id)init
 {
@@ -69,6 +69,10 @@ NSString *OEControlsPreferencesClassName = @"OEControlsPreferencesClassName";
             [tempExts addObjectsFromArray:reExts];
             [reExts release];
         }
+        
+        version = [infoDictionary objectForKey:@"CFBundleVersion"];
+        displayName = [infoDictionary objectForKey:@"CFBundleName"];
+        if(displayName == nil) displayName = [infoDictionary objectForKey: @"CFBundleExecutable"];
         
         supportedTypes = [tempTypes copy];
         supportedTypeExtensions = [tempExts copy];
@@ -125,16 +129,14 @@ NSString *OEControlsPreferencesClassName = @"OEControlsPreferencesClassName";
     return [supportedTypes objectForKey:aTypeName];
 }
 
-- (NSString *)displayName
-{
-	NSString *displayName = [infoDictionary objectForKey: @"CFBundleName"];
-	if (displayName) return displayName;
-	return [infoDictionary objectForKey: @"CFBundleExecutable"];
-}
-
 - (NSString *)details
 {
-	return [NSString stringWithFormat: @"Version %@", [infoDictionary objectForKey: @"CFBundleVersion"]];
+	return [NSString stringWithFormat: @"Version %@", [self version]];
+}
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"Bundle: %@, version: %@, supported types: %@", displayName, version, supportedTypes];
 }
 
 - (void)updateBundle:(id)sender

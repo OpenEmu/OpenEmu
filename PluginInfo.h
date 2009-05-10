@@ -13,20 +13,22 @@ extern NSString *OEControlsPreferencesClassName;
 @class OEGameCoreController;
 
 @interface PluginInfo : NSObject <NSCopying> {
-	NSDictionary *infoDictionary;
-	NSImage *icon;
-	NSBundle *bundle;
-    NSDictionary *supportedTypes;
-    NSArray *supportedTypeExtensions;
-    NSView *currentControlView;
-    NSViewController *controlsPreferences;
-    Class gameCoreClass;
+	NSDictionary         *infoDictionary;
+	NSImage              *icon;
+	NSBundle             *bundle;
+    NSString             *version;
+    NSString             *displayName;
+    NSDictionary         *supportedTypes;
+    NSArray              *supportedTypeExtensions;
+    NSView               *currentControlView;
+    NSViewController     *controlsPreferences;
+    Class                 gameCoreClass;
     OEGameCoreController *controller;
 }
 
 @property(readonly) OEGameCoreController *controller;
 @property(readonly) NSBundle *bundle;
-@property(readonly) NSString *displayName, *details;
+@property(readonly) NSString *displayName, *details, *version;
 @property(readonly) NSImage *icon;
 @property(readonly) NSDictionary *supportedTypes;
 @property(readonly) NSArray *supportedTypeNames;
