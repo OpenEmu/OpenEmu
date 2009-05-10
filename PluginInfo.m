@@ -95,10 +95,10 @@ NSString *OEControlsPreferencesClassName = @"OEControlsPreferencesClassName";
 
 // When an instance is assigned as objectValue to a NSCell, the NSCell creates a copy.
 // Therefore we have to implement the NSCopying protocol
+// No need to make an actual copy, we can consider each PluginInfo instances like a singleton for their bundle
 - (id)copyWithZone:(NSZone *)zone
 {
-    PluginInfo *copy = [[[self class] allocWithZone: zone] initWithInfoDictionary:infoDictionary icon: icon];
-	return copy;
+	return [self retain];
 }
 
 - (id)newGameCoreWithDocument:(GameDocument *)aDocument
