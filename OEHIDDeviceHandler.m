@@ -7,6 +7,7 @@
 //
 
 #import "OEHIDDeviceHandler.h"
+#import "NSApplication+OEHIDAdditions.h"
 #import "OEHIDEvent.h"
 
 @implementation OEHIDDeviceHandler
@@ -97,8 +98,8 @@ static NSUInteger lastDeviceNumber = 0;
 
 - (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue
 {
-    [NSApp sendAction:@selector(handleHIDEvent:) to:nil
-                 from:[self eventWithHIDValue:aValue]];
+    [NSApp postHIDEvent:[self eventWithHIDValue:aValue]];
+    //[NSApp sendAction:@selector(handleHIDEvent:) to:nil from:[self eventWithHIDValue:aValue]];
 }
 
 @end

@@ -15,18 +15,13 @@
 
 @interface NSResponder (OEHIDAdditions)
 
-- (void)axisXMoved:(OEHIDEvent *)theEvent;
-- (void)axisYMoved:(OEHIDEvent *)theEvent;
-- (void)axisZMoved:(OEHIDEvent *)theEvent;
-- (void)axisRxMoved:(OEHIDEvent *)theEvent;
-- (void)axisRyMoved:(OEHIDEvent *)theEvent;
-- (void)axisRzMoved:(OEHIDEvent *)theEvent;
+- (void)axisMoved:(OEHIDEvent *)anEvent;
 
-- (void)buttonDown:(OEHIDEvent *)theEvent;
-- (void)buttonUp:(OEHIDEvent *)theEvent;
+- (void)buttonDown:(OEHIDEvent *)anEvent;
+- (void)buttonUp:(OEHIDEvent *)anEvent;
 
-- (void)hatSwitchDown:(OEHIDEvent *)theEvent;
-- (void)hatSwitchUp:(OEHIDEvent *)theEvent;
+- (void)hatSwitchDown:(OEHIDEvent *)anEvent;
+- (void)hatSwitchUp:(OEHIDEvent *)anEvent;
 
 @end
 

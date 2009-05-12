@@ -17,29 +17,7 @@
     switch ([anEvent type])
     {
         case OEHIDAxis :
-        {
-            switch ([anEvent axis])
-            {
-                case OEHIDAxisX :
-                    [first axisXMoved:anEvent];
-                    break;
-                case OEHIDAxisY :
-                    [first axisYMoved:anEvent];
-                    break;
-                case OEHIDAxisZ :
-                    [first axisZMoved:anEvent];
-                    break;
-                case OEHIDAxisRx :
-                    [first axisRxMoved:anEvent];
-                    break;
-                case OEHIDAxisRy :
-                    [first axisRyMoved:anEvent];
-                    break;
-                case OEHIDAxisRz :
-                    [first axisRzMoved:anEvent];
-                    break;
-            }
-        }
+            [first axisMoved:anEvent];
             break;
         case OEHIDButton :
             if([anEvent state] == NSOffState)
@@ -48,7 +26,7 @@
                 [first buttonDown:anEvent];
             break;
         case OEHIDHatSwitch :
-            if([anEvent direction] == 0)
+            if([anEvent position] == 0)
                 [first hatSwitchUp:anEvent];
             else
                 [first hatSwitchDown:anEvent];
@@ -62,65 +40,35 @@
 
 @implementation NSResponder (OEHIDAdditions)
 
-- (void)axisXMoved:(OEHIDEvent *)theEvent
+- (void)axisMoved:(OEHIDEvent *)anEvent
 {
     if(_nextResponder != nil)
-        [_nextResponder axisXMoved:theEvent];
+        [_nextResponder axisMoved:anEvent];
 }
 
-- (void)axisYMoved:(OEHIDEvent *)theEvent
+- (void)buttonDown:(OEHIDEvent *)anEvent
 {
     if(_nextResponder != nil)
-        [_nextResponder axisYMoved:theEvent];
+        [_nextResponder buttonDown:anEvent];
 }
 
-- (void)axisZMoved:(OEHIDEvent *)theEvent
+- (void)buttonUp:(OEHIDEvent *)anEvent
 {
     if(_nextResponder != nil)
-        [_nextResponder axisZMoved:theEvent];
-}
-
-- (void)axisRxMoved:(OEHIDEvent *)theEvent
-{
-    if(_nextResponder != nil)
-        [_nextResponder axisRxMoved:theEvent];
-}
-
-- (void)axisRyMoved:(OEHIDEvent *)theEvent
-{
-    if(_nextResponder != nil)
-        [_nextResponder axisRyMoved:theEvent];
-}
-
-- (void)axisRzMoved:(OEHIDEvent *)theEvent
-{
-    if(_nextResponder != nil)
-        [_nextResponder axisRzMoved:theEvent];
-}
-
-- (void)buttonDown:(OEHIDEvent *)theEvent
-{
-    if(_nextResponder != nil)
-        [_nextResponder buttonDown:theEvent];
-}
-
-- (void)buttonUp:(OEHIDEvent *)theEvent
-{
-    if(_nextResponder != nil)
-        [_nextResponder buttonUp:theEvent];
+        [_nextResponder buttonUp:anEvent];
 }
 
 
-- (void)hatSwitchDown:(OEHIDEvent *)theEvent
+- (void)hatSwitchDown:(OEHIDEvent *)anEvent
 {
     if(_nextResponder != nil)
-        [_nextResponder hatSwitchDown:theEvent];
+        [_nextResponder hatSwitchDown:anEvent];
 }
 
-- (void)hatSwitchUp:(OEHIDEvent *)theEvent
+- (void)hatSwitchUp:(OEHIDEvent *)anEvent
 {
     if(_nextResponder != nil)
-        [_nextResponder hatSwitchUp:theEvent];
+        [_nextResponder hatSwitchUp:anEvent];
 }
 
 @end
