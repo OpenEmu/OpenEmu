@@ -10,6 +10,11 @@
 #import "OEHIDDeviceHandler.h"
 #import <IOKit/hid/IOHIDUsageTables.h>
 
+@interface OEHIDEvent ()
+- (id)initWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler  value:(IOHIDValueRef)aValue;
+- (id)initWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp;
+@end
+
 @interface NSObject (MakeTheCompilerHappy)
 - (IOHIDDeviceRef)deviceWithManufacturer:(NSString *)aManufacturer productID:(NSNumber *)aProductID locationID:(NSNumber *)aLocationID;
 @end
@@ -59,6 +64,60 @@
     return nil;
 }
 
+- (id)initWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp
+{
+    self = [super init];
+    if(self != nil)
+    {
+        _padNumber = padNumber;
+        _timestamp = timestamp;
+    }
+    return self;
+}
+
++ (id)axisEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis scaledValue:(CGFloat)value
+{
+    OEHIDEvent *ret = [[[self alloc] initWithPadNumber:padNumber timestamp:timestamp] autorelease];
+    ret->_type = OEHIDAxis;
+    ret->_data.axis.axis = axis;
+    
+    if(value < 0.0) ret->_data.axis.direction = OEHIDDirectionNegative;
+    else if(value > 0.0) ret->_data.axis.direction = OEHIDDirectionPositive;
+    else ret->_data.axis.direction = OEHIDDirectionNull;
+    
+    ret->_data.axis.minimum = -INT_MAX;
+    ret->_data.axis.value   = (NSInteger)(value * INT_MAX);
+    ret->_data.axis.maximum = INT_MAX;
+    
+    ret->_isPushed = ret->_data.axis.direction != OEHIDDirectionNull;
+    
+    return ret;
+}
+
++ (id)buttonEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp buttonNumber:(NSUInteger)number state:(NSUInteger)state
+{
+    OEHIDEvent *ret = [[[self alloc] initWithPadNumber:padNumber timestamp:timestamp] autorelease];
+    
+    ret->_type = OEHIDButton;
+    ret->_data.button.buttonNumber = number;
+    ret->_data.button.state = state;
+    ret->_isPushed = ret->_data.button.state != NSOffState;
+    
+    return ret;
+}
+
++ (id)hatSwitchEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp position:(NSUInteger)position positionCount:(NSUInteger)count
+{
+    OEHIDEvent *ret = [[[self alloc] initWithPadNumber:padNumber timestamp:timestamp] autorelease];
+    
+    ret->_type = OEHIDHatSwitch;
+    ret->_data.hatSwitch.position = position;
+    ret->_data.hatSwitch.count    = count;
+    ret->_isPushed = ret->_data.hatSwitch.position != 0;
+    
+    return ret;
+}
+
 + (id)eventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue
 {
     return [[[self alloc] initWithDeviceHandler:aDeviceHandler value:aValue] autorelease];
@@ -66,15 +125,9 @@
 
 - (id)initWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler  value:(IOHIDValueRef)aValue
 {
-    self = [super init];
+    self = [self initWithPadNumber:[aDeviceHandler deviceNumber] timestamp:IOHIDValueGetTimeStamp(aValue) / 1e9];
     if(self != nil)
     {
-        _padNumber = [aDeviceHandler deviceNumber];
-        // time in nanoseconds
-        _absoluteTime = IOHIDValueGetTimeStamp(aValue);
-        // time in seconds
-        _timestamp = _absoluteTime / 1e9;
-        
         IOHIDElementRef elem = IOHIDValueGetElement(aValue);
         CFIndex value        = IOHIDValueGetIntegerValue(aValue);
         
