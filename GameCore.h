@@ -104,10 +104,3 @@
 - (NSSize) outputSize;
 - (void) setRandomByte;
 @end
-
-#pragma mark Gamepad events
-@interface GameCore (OEEventHandler)
-
-- (void)handleHIDEvent:(OEHIDEvent *)anEvent;
-
-@end

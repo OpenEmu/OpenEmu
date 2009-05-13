@@ -13,32 +13,36 @@
 
 - (void)postHIDEvent:(OEHIDEvent *)anEvent
 {
-    NSResponder *first = [[self mainWindow] firstResponder];
-    switch ([anEvent type])
-    {
-        case OEHIDAxis :
-            [first axisMoved:anEvent];
-            break;
-        case OEHIDButton :
-            if([anEvent state] == NSOffState)
-                [first buttonUp:anEvent];
-            else
-                [first buttonDown:anEvent];
-            break;
-        case OEHIDHatSwitch :
-            if([anEvent position] == 0)
-                [first hatSwitchUp:anEvent];
-            else
-                [first hatSwitchDown:anEvent];
-            break;
-        default:
-            break;
-    }
+    [[[self mainWindow] firstResponder] handleHIDEvent:anEvent];
 }
 
 @end
 
 @implementation NSResponder (OEHIDAdditions)
+
+- (void)handleHIDEvent:(OEHIDEvent *)anEvent
+{
+    switch ([anEvent type])
+    {
+        case OEHIDAxis :
+            [self axisMoved:anEvent];
+            break;
+        case OEHIDButton :
+            if([anEvent state] == NSOffState)
+                [self buttonUp:anEvent];
+            else
+                [self buttonDown:anEvent];
+            break;
+        case OEHIDHatSwitch :
+            if([anEvent position] == 0)
+                [self hatSwitchUp:anEvent];
+            else
+                [self hatSwitchDown:anEvent];
+            break;
+        default:
+            break;
+    }
+}
 
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {

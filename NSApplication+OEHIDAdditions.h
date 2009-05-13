@@ -15,6 +15,9 @@
 
 @interface NSResponder (OEHIDAdditions)
 
+// Parses anEvent and sends the appropriate event handler messages
+- (void)handleHIDEvent:(OEHIDEvent *)anEvent;
+
 - (void)axisMoved:(OEHIDEvent *)anEvent;
 
 - (void)buttonDown:(OEHIDEvent *)anEvent;
