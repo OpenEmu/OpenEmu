@@ -102,6 +102,7 @@
 	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
     PluginInfo *plugin = [docControl pluginForType:typeName];
     gameCore = [[plugin controller] newGameCoreWithDocument:self];
+    NSLog(@"gameCore class: %@", [gameCore class]);
     [view setNextResponder:gameCore];
     gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
     [self resetFilter];

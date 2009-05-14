@@ -262,11 +262,6 @@
     if(preferences == nil)
         preferences = [[OEGamePreferenceController alloc] init];
     [preferences showWindow:sender];
-    /*
-    if(preferenceController == nil)
-        preferenceController = [[GamePreferencesController alloc] init];
-    [preferenceController showWindow:sender];
-     */
 }
 
 - (void) updateInfoPlist 

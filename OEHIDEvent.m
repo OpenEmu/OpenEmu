@@ -20,7 +20,7 @@
 @end
 
 @implementation OEHIDEvent
-@synthesize padNumber = _padNumber, type = _type, isPushed = _isPushed, timestamp = _timestamp, absoluteTime = _absoluteTime;
+@synthesize padNumber = _padNumber, type = _type, isPushed = _isPushed, timestamp = _timestamp;
 
 - (NSString *)displayDescription
 {

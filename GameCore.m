@@ -248,9 +248,9 @@ static NSTimeInterval currentTime()
     // This method only handle keypaths with at least 3 parts
     if(count < 3) return;
     // [parts objectAtIndex:0] == @"values"
-    // [parts objectAtIndex:1] == namespace (pluginName or OEGlobalEventsKey)
+    // [parts objectAtIndex:1] == pluginName
     OEEventNamespace eventNamespace = OENoNamespace;
-    if(count == 4)
+    if(count >= 4)
     {
         NSString *name = [parts objectAtIndex:2];
         for(OEEventNamespace e = OENoNamespace; e < OEEventNamespaceCount; e++)
@@ -260,7 +260,10 @@ static NSTimeInterval currentTime()
                 break;
             }
     }
-    NSString *keyName = [parts objectAtIndex: count - 1];
+    
+    NSUInteger elemCount = (eventNamespace == OENoNamespace ? 2 : 3);
+    
+    NSString *keyName = [[parts subarrayWithRange:NSMakeRange(elemCount, count - elemCount)] componentsJoinedByString:@"."];
     // The change dictionary doesn't contain the New value as it should, so we get the value directly from the source.
     id event = [[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:keyPath];
     BOOL removeKeyBinding = (event == nil);
