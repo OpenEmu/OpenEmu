@@ -72,25 +72,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     if([key isEqualToString:@"inputControllerData"])
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Controller Data", QCPortAttributeNameKey, nil];
     
-    // NSArray with player count in index 0, index 1 is eButton "struct", which is an array which has the following indices:
-    
-    /*
-     enum eButton_Type {
-     0 eButton_A,
-     1 eButton_B,
-     2 eButton_START,
-     3 eButton_SELECT,
-     4 eButton_UP,
-     5 eButton_DOWN,
-     6 eButton_RIGHT,
-     7 eButton_LEFT,
-     8 eButton_L,
-     9 eButton_R,
-     10 eButton_X,
-     11 eButton_Y
-     };
-     
-     */
+    // NSArray with player count in index 0, index 1 is eButton "struct" (see GameButtons.h for typedef)
     
     if([key isEqualToString:@"inputPauseEmulation"])
         return [NSDictionary dictionaryWithObjectsAndKeys:    @"Pause Emulator", QCPortAttributeNameKey,
@@ -462,7 +444,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     return NO;
 }
 
-- (void) loadRom:(NSString*) romPath
+- (BOOL) loadRom:(NSString*) romPath
 {
     NSString* theRomPath = [romPath stringByStandardizingPath];
     BOOL isDir;    
@@ -524,7 +506,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
             [gameAudio setVolume:[self inputVolume]];
             
             NSLog(@"finished loading/starting rom");
-            
+            return YES;
         }    
         else
         {
@@ -534,7 +516,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     else {
         NSLog(@"bad ROM path or filename");
     }
-    
+    return NO;
 }
 
 
@@ -662,149 +644,5 @@ static void _BufferReleaseCallback(const void* address, void* info)
     }
     return YES;
 }
-#if 0
-// note: the version of loadState below is my aborted attempt at a way too complicated version. its background spotlight-based approach might be good for OpenEmu.app -- dmw
-- (BOOL) loadState: (NSString *) fileName
-{
-    BOOL isDir;
-    NSUInteger index = 0;
-    
-    NSLog(@"loadState path is %@", fileName);
-    
-    if([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && !isDir)
-    {
-        //DO NOT CONCERN YOURSELF WITH EFFICIENCY OR ELEGANCE AT THIS JUNCTURE, DANIEL MORGAN WINCKLER.
-        
-        // note for later: add a step checking the load name against previously loaded names
-        NSString* theFilePath = [fileName stringByDeletingLastPathComponent];
-        NSString* theFileName = [fileName lastPathComponent];
-        NSString* theFileExtension = [fileName pathExtension];
-        NSLog(@"the file extension is %@", theFileExtension);
-        
-        if([theFileExtension caseInsensitiveCompare:@"sav"] != 0) 
-        {
-            NSLog(@"Save files must have the extension \".sav\".");
-            return NO;
-        }
-        
-        NSLog(@"loadState file name is %@", theFileName);
-        
-        NSArray* theFileNamePieces = [theFileName componentsSeparatedByString:@"."];
-        NSLog(@"loadState file name pieces separated by a '.' are %@", theFileNamePieces);
-        
-        //search the filename pieces for our known type extensions.  
-        for (NSString* aPiece in theFileNamePieces)
-        {
-            NSLog(@"aPiece is %@", aPiece);
-            NSString* ext;
-            
-            for (ext in validExtensions)
-            {
-                NSLog(@"ext is %@",ext);
-                
-                if([aPiece caseInsensitiveCompare:ext] == 0) 
-                {
-                    break;
-                }
-                
-            }
-            
-            if([aPiece caseInsensitiveCompare:ext] == 0) 
-            {
-                break;
-            }
-            index++;
-            NSLog(@"index is %i",index);
-            
-            //            NSLog(@"a supported extension was not found in the loaded state/save filename.");
-        }
-        //if a known extension is in the filename, get the ROM name from the preceding part of the filename
-        
-        NSLog(@"object at index %i is %@",index,[theFileNamePieces objectAtIndex:index]);
-        NSString* romExtensionFromFileName = [theFileNamePieces objectAtIndex:index];
-        NSLog(@"rom extension from file name is %@", romExtensionFromFileName);
-        
-        NSRange range = [theFileName rangeOfString:romExtensionFromFileName    options:NSCaseInsensitiveSearch];
-        int endOfExtension = (range.location + range.length);
-        
-        //        NSLog(@"endOfExtension is %i", endOfExtension);
-        
-        //        NSEnumerator *enumerator = [theFileNamePieces allObjects];
-        NSString* romNameFromFileName = [theFileName substringToIndex:endOfExtension];
-        NSLog(@"romNameFromFileName is %@", romNameFromFileName);
-        
-        //        for (NSString *aPiece in theFileNamePieces) {
-        //            NSLog(@"aPiece is %@", aPiece);
-        //            if([romNameFromFileName isEqualToString:@""]) {
-        //                [romNameFromFileName stringWithString:aPiece];
-        //                NSLog(@"initalizing romnamefromfilename as %@", romNameFromFileName);
-        //            }
-        //                
-        //            [romNameFromFileName stringByAppendingString:aPiece];
-        //            NSLog(@"string we're building is %@", romNameFromFileName);
-        //            
-        //            if(aPiece == romExtensionFromFileName)
-        //            {
-        //                break;
-        //            }
-        //        }
-        
-        //if loadedRom == YES, check to see if the new ROM is the same as the loaded ROM
-        if(loadedRom) {
-            if([romNameFromFileName caseInsensitiveCompare:[theRomPath lastPathComponent]] == 0) 
-            {
-                //if it's the same, just load the state
-                [gameCore loadState: fileName]; 
-                NSLog(@"ROM is the same as currently loaded ROM, loading saved state %@",theFileName);
-            }
-            else {
-                //if it's different, stop the gameCore and such
-                [gameCore stop];
-                [gameAudio stopAudio];
-                
-                NSLog(@"released/cleaned up for newly loaded state");
-            }
-        } 
-        //else if loadedRom == NO,
-        else {
-            // future feature: see if the ROM is one that has been loaded successfully in this session (NSDictionary)
-            
-            
-            // look for the ROM relative to our 
-            
-            //note for future: maybe look for the ROM with a Spotlight query instead.  I started to write this but I got bogged down and decided to keep it simple for now. (look for kMDItemFSName.  might need kMDItemPath)
-            
-            //if the ROM is found, load it with loadRom
-            
-        }
-        
-        
-        
-        
-        //end if
-        
-        // then load the new ROM
-        
-        //if the ROM loads properly, load the state file
-        
-        
-        
-        [gameCore loadState: fileName]; 
-        return YES;
-    }
-    else 
-    {
-        NSLog(@"loadState: bad path or filename");
-        return NO;
-    } 
-}
 
--(void)startRomQuery:(NSString*)romName 
-{
-    NSString* theRomExtension = [romName pathExtension];
-    id predicate = [NSPredicate predicateWithFormat:@"(kMDItemDisplayName like[c] '*.%@')",romName];
-    [query setPredicate:predicate];
-    
-}
-#endif
 @end

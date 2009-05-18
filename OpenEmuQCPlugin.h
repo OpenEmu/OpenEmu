@@ -50,7 +50,7 @@ You can access their values in the appropriate plug-in methods using self.inputF
 - (void) handleControllerData;
 - (void) refresh;
 - (NSBundle*)bundleForType:(NSString*) type;
-- (void) loadRom: (NSString*) romPath;
+- (BOOL) loadRom: (NSString*) romPath;
 - (void) saveState: (NSString *) fileName;
 - (BOOL) loadState: (NSString *) fileName;
 
