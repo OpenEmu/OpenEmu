@@ -215,12 +215,12 @@ static NSTimeInterval currentTime()
 }
 
 #pragma mark Input
-- (void)player:(NSInteger)thePlayer didPressButton:(NSInteger)gameButton
+- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton
 {
 	[self doesNotImplementSelector:_cmd];
 }
 
-- (void)player:(NSInteger)thePlayer didReleaseButton:(NSInteger)gameButton
+- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton
 {
 	[self doesNotImplementSelector:_cmd];
 }

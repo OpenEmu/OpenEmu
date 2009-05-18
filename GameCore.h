@@ -19,6 +19,37 @@
 
 #import "OEGameCoreController.h"
 
+enum {
+    OEButton_Up = 1,
+    OEButton_Down,
+    OEButton_Left,
+    OEButton_Right,
+    OEButton_Start,
+    OEButton_Select,
+    OEButton_Mode,
+    OEButton_1 = 11,
+    OEButton_2,
+    OEButton_3,
+    OEButton_4,
+    OEButton_5,
+    OEButton_6,
+    OEButton_7,
+    OEButton_8,
+    OEButton_9,
+    OEButton_10,
+    OEButton_11,
+    OEButton_12,
+    OEButton_13,
+    OEButton_14,
+    OEButton_15,
+    OEButton_16,
+    OEButton_17,
+    OEButton_18,
+    OEButton_19,
+    OEButton_20
+};
+typedef NSInteger OEButton;
+
 @class GameDocument, OEHIDEvent;
 
 @interface GameCore : NSResponder
@@ -70,8 +101,8 @@
 @property(readonly) NSInteger frameSampleRate;
 
 #pragma mark Input
-- (void)player:(NSInteger)thePlayer didPressButton:(NSInteger)gameButton;
-- (void)player:(NSInteger)thePlayer didReleaseButton:(NSInteger)gameButton;
+- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
+- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton;
 
 #pragma mark Keyboard events
 - (void)keyDown:(NSEvent *)theEvent;

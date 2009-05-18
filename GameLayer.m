@@ -9,7 +9,7 @@
 #import "GameLayer.h"
 #import "GameCore.h"
 #import "GameBuffer.h"
-#import "GameShader.h";
+#import "GameShader.h"
 //#include "GameFilters.h"
 
 @implementation GameLayer

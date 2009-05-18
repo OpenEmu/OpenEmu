@@ -70,16 +70,12 @@
 		1B8D4B010E874E6F00C3C4F5 /* GameAudio.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.mm */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */; };
-		373D75EA0F9E4C91001DA9E4 /* GameCore framework.xcclassmodel in Resources */ = {isa = PBXBuildFile; fileRef = 373D75E90F9E4C91001DA9E4 /* GameCore framework.xcclassmodel */; };
 		374D1DDF0F1FDBA900B71EFC /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
 		37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		37E5F0AE0F8D5024007AD260 /* OEGameCoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */; };
-		37E5F11A0F8D5EE4007AD260 /* OpenEmuQCPluginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 37E5F1190F8D5EE4007AD260 /* OpenEmuQCPluginInfo.m */; };
 		820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		820C55F20E7C36A700202702 /* GameApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C55F10E7C36A700202702 /* GameApp.m */; };
-		82184AD60E762FD300895A7F /* GameButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 82184AD50E762FD300895A7F /* GameButton.m */; };
 		82444BA80F51259A007C171B /* GameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* GameCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		82444BAC0F5125AF007C171B /* GameButtons.h in Headers */ = {isa = PBXBuildFile; fileRef = 829777F60E73CFD400631240 /* GameButtons.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		82798B340E85C123001DCA93 /* PrefsBundleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798B330E85C123001DCA93 /* PrefsBundleCell.m */; };
 		82798C2D0E85DA02001DCA93 /* PluginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798C2C0E85DA02001DCA93 /* PluginInfo.m */; };
 		8283876E0E6C54E100A96E2C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
@@ -105,7 +101,6 @@
 		82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C95E0F0804D90071460B /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
-		82E740880E72010700AE60C4 /* GameInput.m in Sources */ = {isa = PBXBuildFile; fileRef = 82E740870E72010700AE60C4 /* GameInput.m */; };
 		82E7418A0E7209C400AE60C4 /* GameDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E741880E7209C400AE60C4 /* GameDocument.xib */; };
 		82F3629E0F51CC5F001495F6 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DF9EB0F51B48E0080AA28 /* GameCore.m */; };
 		82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
@@ -212,16 +207,11 @@
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmu_Prefix.pch; sourceTree = "<group>"; };
 		3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OpenEmuQCIcon.icns; sourceTree = "<group>"; };
-		373D75E90F9E4C91001DA9E4 /* GameCore framework.xcclassmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcclassmodel; path = "GameCore framework.xcclassmodel"; sourceTree = "<group>"; };
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
 		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
-		37E5F1180F8D5EE4007AD260 /* OpenEmuQCPluginInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCPluginInfo.h; sourceTree = "<group>"; };
-		37E5F1190F8D5EE4007AD260 /* OpenEmuQCPluginInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuQCPluginInfo.m; sourceTree = "<group>"; };
 		820376250F3974FD00EC2F97 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		820C55F00E7C36A700202702 /* GameApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameApp.h; sourceTree = "<group>"; };
 		820C55F10E7C36A700202702 /* GameApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameApp.m; sourceTree = "<group>"; };
-		82184AD40E762FD300895A7F /* GameButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameButton.h; sourceTree = "<group>"; };
-		82184AD50E762FD300895A7F /* GameButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameButton.m; sourceTree = "<group>"; };
 		824401380E84A82E004387DA /* hq3x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hq3x.cpp; sourceTree = "<group>"; };
 		8244013E0E84A874004387DA /* Filters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filters.h; sourceTree = "<group>"; };
 		82444BA10F51256C007C171B /* OpenEmuBase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -251,7 +241,6 @@
 		829022B00F47FAC100BB7AB7 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		82902A130F48ACEE00BB7AB7 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
 		8291666B0E8603B600493FD8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
-		829777F60E73CFD400631240 /* GameButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameButtons.h; sourceTree = "<group>"; };
 		829779320E743F2A00631240 /* GameAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameAudio.h; sourceTree = "<group>"; };
 		829779330E743F2A00631240 /* GameAudio.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameAudio.mm; sourceTree = "<group>"; };
 		829779350E743F3A00631240 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
@@ -263,8 +252,6 @@
 		82C434120EE393530037C54B /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		82C9C9540F0804A20071460B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		82C9C96C0F080BD30071460B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
-		82E740860E72010700AE60C4 /* GameInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameInput.h; sourceTree = "<group>"; };
-		82E740870E72010700AE60C4 /* GameInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameInput.m; sourceTree = "<group>"; };
 		82E741890E7209C400AE60C4 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameDocument.xib; sourceTree = "<group>"; };
 		82EF8FE80E7F45D2004FDFE9 /* scale2x.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = scale2x.c; sourceTree = "<group>"; };
 		82EF8FE90E7F45D2004FDFE9 /* scale2x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scale2x.h; sourceTree = "<group>"; };
@@ -473,17 +460,6 @@
 			name = Audio;
 			sourceTree = "<group>";
 		};
-		8249C8E50E899CDF0027EFDF /* Input */ = {
-			isa = PBXGroup;
-			children = (
-				82E740860E72010700AE60C4 /* GameInput.h */,
-				82E740870E72010700AE60C4 /* GameInput.m */,
-				82184AD40E762FD300895A7F /* GameButton.h */,
-				82184AD50E762FD300895A7F /* GameButton.m */,
-			);
-			name = Input;
-			sourceTree = "<group>";
-		};
 		8249C8E60E899CFF0027EFDF /* Utility Windows */ = {
 			isa = PBXGroup;
 			children = (
@@ -528,7 +504,6 @@
 				829022A70F47F8FE00BB7AB7 /* QuickTime */,
 				8249C8E40E899CD30027EFDF /* Audio */,
 				829165DA0E85F9A400493FD8 /* Graphics */,
-				8249C8E50E899CDF0027EFDF /* Input */,
 				82798B310E85C105001DCA93 /* Preferences */,
 				8249C8E60E899CFF0027EFDF /* Utility Windows */,
 				2A37F4AEFDCFA73011CA2CEA /* GameDocument.h */,
@@ -550,8 +525,6 @@
 				37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */,
 				828E659D0E8466CC00B1860B /* OpenEmuQCPlugin.h */,
 				828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */,
-				37E5F1180F8D5EE4007AD260 /* OpenEmuQCPluginInfo.h */,
-				37E5F1190F8D5EE4007AD260 /* OpenEmuQCPluginInfo.m */,
 			);
 			name = OpenEmuQC;
 			sourceTree = "<group>";
@@ -581,8 +554,6 @@
 		C66DFA600F51C9550080AA28 /* GameCore framework */ = {
 			isa = PBXGroup;
 			children = (
-				373D75E90F9E4C91001DA9E4 /* GameCore framework.xcclassmodel */,
-				829777F60E73CFD400631240 /* GameButtons.h */,
 				828389A80E6CF3A500A96E2C /* GameCore.h */,
 				C66DF9EB0F51B48E0080AA28 /* GameCore.m */,
 				C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */,
@@ -634,7 +605,6 @@
 				C68C4BE40FA4BA3E00724B50 /* OEHIDDeviceHandler.h in Headers */,
 				C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */,
 				82444BA80F51259A007C171B /* GameCore.h in Headers */,
-				82444BAC0F5125AF007C171B /* GameButtons.h in Headers */,
 				82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -723,7 +693,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				373D75EA0F9E4C91001DA9E4 /* GameCore framework.xcclassmodel in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -838,7 +807,6 @@
 				374D1DDF0F1FDBA900B71EFC /* OpenEmuQCNESPlugin.mm in Sources */,
 				1B56D6890F21340700C80694 /* OpenEmuQCFilters.m in Sources */,
 				37E5F0AE0F8D5024007AD260 /* OEGameCoreController.m in Sources */,
-				37E5F11A0F8D5EE4007AD260 /* OpenEmuQCPluginInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -849,9 +817,7 @@
 				8D15AC310486D014006FF6A4 /* GameDocument.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				8283882C0E6CE13C00A96E2C /* GameDocumentController.m in Sources */,
-				82E740880E72010700AE60C4 /* GameInput.m in Sources */,
 				829779340E743F2A00631240 /* GameAudio.mm in Sources */,
-				82184AD60E762FD300895A7F /* GameButton.m in Sources */,
 				820C55F20E7C36A700202702 /* GameApp.m in Sources */,
 				829E027A0E7C5631009F348B /* GameLayer.m in Sources */,
 				828ED4D70E7D98940059F397 /* GamePickerController.m in Sources */,
