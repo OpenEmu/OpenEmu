@@ -249,19 +249,19 @@ static NSTimeInterval currentTime()
     if(count < 3) return;
     // [parts objectAtIndex:0] == @"values"
     // [parts objectAtIndex:1] == pluginName
-    OEEventNamespace eventNamespace = OENoNamespace;
+    
+    NSString *valueType = OESettingValueKey;
+    
     if(count >= 4)
     {
         NSString *name = [parts objectAtIndex:2];
-        for(OEEventNamespace e = OENoNamespace; e < OEEventNamespaceCount; e++)
-            if([OEEventNamespaceKeys[e] isEqualToString:name])
-            {
-                eventNamespace = e;
-                break;
-            }
+        if([OEHIDEventValueKey isEqualToString:name])
+            valueType = OEHIDEventValueKey;
+        else if([OEKeyboardEventValueKey isEqualToString:name])
+            valueType = OEKeyboardEventValueKey;
     }
     
-    NSUInteger elemCount = (eventNamespace == OENoNamespace ? 2 : 3);
+    NSUInteger elemCount = (OESettingValueKey == valueType ? 2 : 3);
     
     NSString *keyName = [[parts subarrayWithRange:NSMakeRange(elemCount, count - elemCount)] componentsJoinedByString:@"."];
     // The change dictionary doesn't contain the New value as it should, so we get the value directly from the source.
@@ -288,31 +288,46 @@ static NSTimeInterval currentTime()
     else
     {
         NSLog(@"result: %@, %@, %@", keyName, keyPath, event);
-        if(eventNamespace == OENoNamespace)
+        if(valueType == OESettingValueKey)
             [self settingWasSet:event forKey:keyName];
         else if(removeKeyBinding)
-            [self eventWasRemovedForKey:keyName inNamespace:eventNamespace];
+        {
+            if(valueType == OEHIDEventValueKey) [self HIDEventWasRemovedForKey:keyName];
+            else [self keyboardEventWasRemovedForKey:keyName];
+        }
         else
-            [self eventWasSet:event forKey:keyName inNamespace:eventNamespace];
+        {
+            if(valueType == OEHIDEventValueKey)
+                [self HIDEventWasSet:event forKey:keyName];
+            else if(valueType == OEKeyboardEventValueKey)
+                [self keyboardEventWasSet:event forKey:keyName];
+        }
     }
 }
 
-- (void)globalEventWasSet:(id)theEvent forKey:(NSString *)keyName
-{
-	NSLog(@"UNUSED : %s", __FUNCTION__);
-    //[self doesNotImplementSelector:_cmd];
-}
 - (void)settingWasSet:(id)aValue forKey:(NSString *)keyName
-{
-}
-- (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
 {
 	[self doesNotImplementSelector:_cmd];
 }
 
-- (void)eventWasRemovedForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
+- (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName
 {
-    [self doesNotImplementSelector:_cmd];
+	[self doesNotImplementSelector:_cmd];
+}
+
+- (void)keyboardEventWasRemovedForKey:(NSString *)keyName
+{
+	[self doesNotImplementSelector:_cmd];
+}
+
+- (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName
+{
+	[self doesNotImplementSelector:_cmd];
+}
+
+- (void)HIDEventWasRemovedForKey:(NSString *)keyName
+{
+	[self doesNotImplementSelector:_cmd];
 }
 
 @end

@@ -9,7 +9,6 @@
 #import "GamePickerController.h"
 #import "GameDocumentController.h"
 #import "GameDocument.h"
-#import "GameButton.h"
 #import "GameCore.h"
 #import "OEHIDDeviceHandler.h"
 #import <Sparkle/Sparkle.h>

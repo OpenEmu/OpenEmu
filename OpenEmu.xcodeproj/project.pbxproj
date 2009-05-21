@@ -127,6 +127,8 @@
 		C63C68100FB9F15800F4E3E0 /* NSApplication+OEHIDAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */; };
 		C66DF9EC0F51B48E0080AA28 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DF9EB0F51B48E0080AA28 /* GameCore.m */; };
 		C66DFA3E0F51C1640080AA28 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
+		C67DCEF20FC5FB5A0038A56E /* OEPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */; };
+		C67DCEF90FC604690038A56E /* OEPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */; };
 		C68C4BE40FA4BA3E00724B50 /* OEHIDDeviceHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = C6C989C50F557D9200116EA2 /* OEHIDDeviceHandler.h */; };
 		C68C4BE50FA4BA4900724B50 /* OEHIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */; };
 		C69313890F6ACBCE00F03428 /* VideoAndSoundPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C69313880F6ACBCE00F03428 /* VideoAndSoundPreferences.xib */; };
@@ -270,6 +272,8 @@
 		C66DF9EB0F51B48E0080AA28 /* GameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCore.m; sourceTree = "<group>"; };
 		C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAbstractAdditions.h; sourceTree = "<group>"; };
 		C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAbstractAdditions.m; sourceTree = "<group>"; };
+		C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferenceViewController.h; sourceTree = "<group>"; };
+		C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPreferenceViewController.m; sourceTree = "<group>"; };
 		C69313880F6ACBCE00F03428 /* VideoAndSoundPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VideoAndSoundPreferences.xib; sourceTree = "<group>"; };
 		C693138A0F6ACBEE00F03428 /* SelectPluginPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectPluginPreferences.xib; sourceTree = "<group>"; };
 		C693138C0F6ACC0A00F03428 /* PluginPreferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PluginPreferences.xib; sourceTree = "<group>"; };
@@ -566,6 +570,8 @@
 				C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */,
 				C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */,
 				C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */,
+				C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */,
+				C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */,
 			);
 			name = "GameCore framework";
 			sourceTree = "<group>";
@@ -787,6 +793,7 @@
 				C61C98E70F583217007F4242 /* OEGameCoreController.m in Sources */,
 				82F3629E0F51CC5F001495F6 /* GameCore.m in Sources */,
 				82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */,
+				C67DCEF90FC604690038A56E /* OEPreferenceViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -841,6 +848,7 @@
 				C60BF0370F5709FC000D94F6 /* OEGameCoreController.m in Sources */,
 				C61C9C390F58BB3B007F4242 /* OEDummyView.m in Sources */,
 				C6B7AB760FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m in Sources */,
+				C67DCEF20FC5FB5A0038A56E /* OEPreferenceViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1117,8 +1125,9 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1132,7 +1141,8 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				GCC_C_LANGUAGE_STANDARD = c99;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				OTHER_CFLAGS = "";

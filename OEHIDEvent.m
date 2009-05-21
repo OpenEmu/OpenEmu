@@ -293,6 +293,7 @@ NSString *OEHIDEventDirectionKey    = @"OEHIDEventDirectionKey";
 NSString *OEHIDEventButtonNumberKey = @"OEHIDEventButtonNumberKey";
 NSString *OEHIDEventStateKey        = @"OEHIDEventStateKey";
 NSString *OEHIDEventPositionKey     = @"OEHIDEventPositionKey";
+NSString *OEHIDEventCountKey        = @"OEHIDEventCountKey";
 
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -311,6 +312,7 @@ NSString *OEHIDEventPositionKey     = @"OEHIDEventPositionKey";
             break;
         case OEHIDHatSwitch :
             _data.hatSwitch.position  = [decoder decodeIntegerForKey:OEHIDEventPositionKey];
+            _data.hatSwitch.count     = [decoder decodeIntegerForKey:OEHIDEventCountKey];
             break;
     }
     
@@ -333,6 +335,7 @@ NSString *OEHIDEventPositionKey     = @"OEHIDEventPositionKey";
             break;
         case OEHIDHatSwitch :
             [encoder encodeInteger:self.position     forKey:OEHIDEventPositionKey];
+            [encoder encodeInteger:self.count        forKey:OEHIDEventCountKey];
             break;
     }
 }
@@ -411,4 +414,11 @@ NSString *OEHIDEventPositionKey     = @"OEHIDEventPositionKey";
     return ret;
 }
 
+@end
+
+@implementation NSNumber (OEEventConversion)
+- (NSString *)displayDescription
+{
+    return [NSEvent displayDescriptionForKeyCode:[self unsignedShortValue]];
+}
 @end

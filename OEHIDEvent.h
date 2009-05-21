@@ -102,3 +102,8 @@ typedef NSInteger OEHIDDirection;
 - (NSString *)displayDescription;
 @end
 
+@interface NSNumber (OEEventConversion)
+- (NSString *)displayDescription;
+@end
+
+

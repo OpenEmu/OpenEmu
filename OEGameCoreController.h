@@ -10,27 +10,9 @@
 
 extern NSString *const OEControlsPreferenceKey;
 
-typedef enum OEEventNamespace {
-    OENoNamespace,
-    OEGlobalNamespace,
-    OEKeyboardNamespace,
-    OEHIDNamespace,
-    OEMouseNamespace,
-    OEOtherNamespace,
-    OEEventNamespaceCount
-} OEEventNamespace;
-
-typedef enum OEEventNamespaceMask {
-    OENoNamespaceMask       = 1 << OENoNamespace,
-    OEGlobalNamespaceMask   = 1 << OEGlobalNamespace,
-    OEKeyboardNamespaceMask = 1 << OEKeyboardNamespace,
-    OEHIDNamespaceMask      = 1 << OEHIDNamespace,
-    OEMouseNamespaceMask    = 1 << OEMouseNamespace,
-    OEOtherNamespaceMask    = 1 << OEOtherNamespace,
-    OEAnyNamespaceMask      = 0xFFFFFFFFU
-} OEEventNamespaceMask;
-
-extern NSString *OEEventNamespaceKeys[];
+extern NSString *const OESettingValueKey;
+extern NSString *const OEHIDEventValueKey;
+extern NSString *const OEKeyboardEventValueKey;
 
 @class GameCore, GameDocument, OEHIDEvent;
 
@@ -46,10 +28,10 @@ extern NSString *OEEventNamespaceKeys[];
 
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
 
-+ (OEEventNamespaceMask)usedEventNamespaces;
-+ (NSArray *)usedSettingNames;
-+ (NSArray *)usedControlNames;
-+ (NSString *)pluginName;
+@property(readonly) NSArray *usedSettingNames;
+@property(readonly) NSArray *usedControlNames;
+@property(readonly) NSArray *genericControlNames;
+@property(readonly) NSString *pluginName;
 
 /*
  * The method search for a registered class for the passed-in key and instanciate the controller
@@ -64,17 +46,23 @@ extern NSString *OEEventNamespaceKeys[];
 - (id)newPreferenceViewControllerForKey:(NSString *)aKey;
 - (GameCore *)newGameCoreWithDocument:(GameDocument *)aDocument;
 - (void)unregisterGameCore:(GameCore *)aGameCore;
-- (NSString *)keyPathForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
+- (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType;
 
 - (id)registarableValueWithObject:(id)anObject;
-- (void)registerValue:(id)aValue forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
+- (id)valueForKeyPath:(NSString *)aValue;
+- (void)registerValue:(id)aValue forKey:(NSString *)keyName withValueType:(NSString *)aType;
 
 - (void)registerSetting:(id)settingValue forKey:(NSString *)keyName;
+- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName;
 
-- (id)eventForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
-- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
-- (void)removeBindingsToEvent:(id)theEvent;
-- (void)bindingWasRemovedForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
+- (id)settingForKey:(NSString *)keyName;
+- (id)HIDEventForKey:(NSString *)keyName;
+- (id)keyboardEventForKey:(NSString *)keyName;
+
+- (void)removeBindingsToEvent:(id)theEvent withValueType:(NSString *)aType;
+- (void)HIDEventWasRemovedForKey:(NSString *)keyName;
+- (void)keyboardEventWasRemovedForKey:(NSString *)keyName;
+
 @end
 
 @interface NSViewController (OEGameCoreControllerAddition)

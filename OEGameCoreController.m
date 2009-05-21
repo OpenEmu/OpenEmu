@@ -7,11 +7,15 @@
 //
 
 #import "OEGameCoreController.h"
+#import "OEPreferenceViewController.h"
 #import "NSApplication+OEHIDAdditions.h"
 #import "GameCore.h"
 #import "OEHIDEvent.h"
 
 NSString *const OEControlsPreferenceKey   = @"OEControlsPreferenceKey";
+NSString *const OESettingValueKey         = @"OESettingValueKey";
+NSString *const OEHIDEventValueKey        = @"OEHIDEventValueKey";
+NSString *const OEKeyboardEventValueKey   = @"OEKeyboardEventValueKey";
 
 NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardNamespace", @"OEHIDNamespace", @"OEMouseNamespace", @"OEOtherNamespace" };
 
@@ -46,21 +50,22 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     [_preferenceViewControllerClasses setObject:[[viewControllerClasses copy] autorelease] forKey:self];
 }
 
-+ (OEEventNamespaceMask)usedEventNamespaces
-{
-    return 0;
-}
-+ (NSArray *)usedSettingNames
+- (NSArray *)usedSettingNames
 {
     return [NSArray array];
 }
 
-+ (NSArray *)usedControlNames
+- (NSArray *)usedControlNames
 {
     return [NSArray array];
 }
 
-+ (NSString *)pluginName
+- (NSArray *)genericControlNames
+{
+    return [self usedControlNames];
+}
+
+- (NSString *)pluginName
 {
     [self doesNotRecognizeSelector:_cmd];
     return nil;
@@ -114,35 +119,32 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 {
     GameCore *ret = [[[self gameCoreClass] alloc] initWithDocument:aDocument];
     ret.owner = self;
-    // FIXME: Find a better way.
-    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
     
-    NSString *pluginName = [[self class] pluginName];
-    NSArray *settingNames = [[self class] usedSettingNames];
-    for(NSString *name in settingNames)
-        [udc addObserver:ret
-              forKeyPath:[NSString stringWithFormat:@"values.%@.%@", pluginName, name]
-                 options:0xF
-                 context:NULL];
-    
-    NSArray *controlNames = [[self class] usedControlNames];
-    OEEventNamespaceMask namespaces = [[self class] usedEventNamespaces];
-
-    for(NSString *name in controlNames)
+    // The GameCore observes setting changes only if it's attached to a GameDocument
+    if(aDocument != nil)
     {
-#define ADD_OBSERVER(namespace)                                                            \
-    if(namespaces & namespace ## Mask)                                                     \
-        [udc addObserver:ret                                                               \
-              forKeyPath:[NSString stringWithFormat:@"values.%@.%@.%@", pluginName,        \
-                                                    OEEventNamespaceKeys[namespace], name] \
-                 options:0xF                                                               \
-                 context:NULL]
-        ADD_OBSERVER(OEGlobalNamespace);
-        ADD_OBSERVER(OEKeyboardNamespace);
-        ADD_OBSERVER(OEHIDNamespace);
-        ADD_OBSERVER(OEMouseNamespace);
-        ADD_OBSERVER(OEOtherNamespace);
-#undef  ADD_OBSERVER
+        // FIXME: Find a better way.
+        NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
+        
+       NSString *baseName = [NSString stringWithFormat:@"values.%@.", [self pluginName]];
+        
+        // register gamecore custom settings  
+        NSArray *settingNames = [self usedSettingNames];
+        for(NSString *name in settingNames)
+            [udc addObserver:ret forKeyPath:[baseName stringByAppendingString:name] options:0xF context:NULL];
+        
+        // register gamecore control names
+        NSArray *controlNames = [self usedControlNames];
+        //OEEventNamespaceMask namespaces = [self usedEventNamespaces];
+        
+        NSString *hidBaseName = [baseName stringByAppendingFormat:@"%@.", OEHIDEventValueKey];
+        NSString *keyBaseName = [baseName stringByAppendingFormat:@"%@.", OEKeyboardEventValueKey];
+        
+        for(NSString *name in controlNames)
+        {
+            [udc addObserver:ret forKeyPath:[hidBaseName stringByAppendingString:name] options:0xF context:NULL];
+            [udc addObserver:ret forKeyPath:[keyBaseName stringByAppendingString:name] options:0xF context:NULL];
+        }
     }
     
     NSLog(@"%s", __FUNCTION__);
@@ -151,78 +153,44 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 
 - (void)unregisterGameCore:(GameCore *)aGameCore
 {
+    // The GameCore observes setting changes only if it's attached to a GameDocument
+    if([aGameCore document] == nil) return;
+    
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
     NSLog(@"%@", self);
-    Class cls = [self class];
-    NSString *pluginName = [cls pluginName];
-    NSArray *settingNames = [[self class] usedSettingNames];
-    for(NSString *name in settingNames)
-        [udc removeObserver:aGameCore
-                 forKeyPath:[NSString stringWithFormat:@"values.%@.%@", pluginName, name]];
     
-    NSArray *controlNames = [cls usedControlNames];
-    OEEventNamespaceMask namespaces = [[self class] usedEventNamespaces];
+    NSArray *settingNames = [self usedSettingNames];
+    
+    NSString *baseName = [NSString stringWithFormat:@"values.%@.", [self pluginName]];
+    
+    for(NSString *name in settingNames)
+        [udc removeObserver:aGameCore forKeyPath:[baseName stringByAppendingString:name]];
+    
+    NSArray *controlNames = [self usedControlNames];
+    
+    NSString *hidBaseName = [baseName stringByAppendingFormat:@"%@.", OEHIDEventValueKey];
+    NSString *keyBaseName = [baseName stringByAppendingFormat:@"%@.", OEKeyboardEventValueKey];
     
     for(NSString *name in controlNames)
     {
-#define REMOVE_OBSERVER(namespace)                                 \
-    if(namespaces & namespace ## Mask)                                                  \
-        [udc removeObserver:aGameCore                                                   \
-                 forKeyPath:[NSString stringWithFormat:@"values.%@.%@.%@", pluginName,  \
-                                                       OEEventNamespaceKeys[namespace], \
-                                                       name]]
-        REMOVE_OBSERVER(OEGlobalNamespace);
-        REMOVE_OBSERVER(OEKeyboardNamespace);
-        REMOVE_OBSERVER(OEHIDNamespace);
-        REMOVE_OBSERVER(OEMouseNamespace);
-        REMOVE_OBSERVER(OEOtherNamespace);
-#undef  REMOVE_OBSERVER
+        [udc removeObserver:aGameCore forKeyPath:[hidBaseName stringByAppendingString:name]];
+        [udc removeObserver:aGameCore forKeyPath:[keyBaseName stringByAppendingString:name]];
     }
 }
 
-- (void)registerValue:(id)aValue forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
+- (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType
 {
-    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
-    NSString *keyPath = [self keyPathForKey:keyName inNamespace:aNamespace];
-    [udc setValue:aValue forKeyPath:keyPath];
-}
-
-- (NSString *)keyPathForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
-{
-    NSString *namespaceName = (OENoNamespace == aNamespace ? @"" :
-                               [NSString stringWithFormat:@".%@", OEEventNamespaceKeys[aNamespace]]);
-    return [NSString stringWithFormat:@"values.%@%@.%@", [[self class] pluginName], namespaceName, keyName];
-}
-
-- (void)registerSetting:(id)settingValue forKey:(NSString *)keyName
-{
-    [self registerValue:[self registarableValueWithObject:settingValue]
-                 forKey:keyName inNamespace:OENoNamespace];
-}
-
-- (id)eventForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
-{
-    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
-    
-    id ret = [udc valueForKeyPath:[self keyPathForKey:keyName inNamespace:aNamespace]];
-    
-    @try
-    {
-        if([ret isKindOfClass:[NSData class]])
-            ret = [NSKeyedUnarchiver unarchiveObjectWithData:ret];
-    }
-    @catch (NSException * e) {
-        /* Do nothing, we keep the NSData we retrieved. */
-    }
-    
-    return ret;
+    NSString *type = (OESettingValueKey == aType ? @"" : [NSString stringWithFormat:@".%@", aType]);
+    return [NSString stringWithFormat:@"values.%@%@.%@", [self pluginName], type, keyName];
 }
 
 - (id)registarableValueWithObject:(id)anObject
 {
-    // Recovers of the event to save
+    // Recovers the event to save
     id value = nil;
     if(anObject == nil) /* Do nothing: removes a key binding for the key. */;
+    else if([anObject isKindOfClass:[NSEvent      class]])
+        value = [NSNumber numberWithUnsignedShort:[anObject keyCode]];
     else if([anObject isKindOfClass:[NSString     class]] ||
             [anObject isKindOfClass:[NSData       class]] ||
             [anObject isKindOfClass:[NSNumber     class]] ||
@@ -239,49 +207,91 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     return value;
 }
 
-- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
+- (void)registerValue:(id)aValue forKey:(NSString *)keyName withValueType:(NSString *)aType
 {
-    id value = [self registarableValueWithObject:theEvent];
-    
-    // Removes any binding that would be attached to that event
-    [self removeBindingsToEvent:value];
-    
-    [self registerValue:value forKey:keyName inNamespace:aNamespace];
+    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
+    NSString *keyPath = [self keyPathForKey:keyName withValueType:aType];
+    [udc setValue:aValue forKeyPath:keyPath];
 }
 
-- (void)removeBindingsToEvent:(id)theEvent
+- (void)registerSetting:(id)settingValue forKey:(NSString *)keyName
+{
+    [self registerValue:[self registarableValueWithObject:settingValue] forKey:keyName withValueType:OESettingValueKey];
+}
+
+- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName
+{
+    id value = [self registarableValueWithObject:theEvent];
+    NSString *valueType = ([theEvent isKindOfClass:[OEHIDEvent class]] ? OEHIDEventValueKey : OEKeyboardEventValueKey);
+    
+    [self removeBindingsToEvent:value withValueType:valueType];
+    
+    [self registerValue:[self registarableValueWithObject:value] forKey:keyName withValueType:valueType];
+}
+
+- (void)removeBindingsToEvent:(id)theEvent withValueType:(NSString *)aType
 {
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
     
-    NSArray *controlNames = [[self class] usedControlNames];
-    OEEventNamespaceMask namespaces = [[self class] usedEventNamespaces];
+    NSArray *controlNames = [self usedControlNames];
     
     for(NSString *name in controlNames)
     {
-#define REMOVE_KEY(namespace) do {                                                      \
-    if(namespaces & namespace ## Mask)                                                  \
-    {                                                                                   \
-        NSString *keyPath = [self keyPathForKey:name inNamespace:namespace];            \
-        if([[udc valueForKeyPath:keyPath] isEqual:theEvent])                            \
-        {                                                                               \
-            [udc setValue:nil forKeyPath:keyPath];                                      \
-            [self bindingWasRemovedForKey:name inNamespace:namespace];                  \
-        }                                                                               \
-    }                                                                                   \
-} while(0)
-        REMOVE_KEY(OEGlobalNamespace);
-        REMOVE_KEY(OEKeyboardNamespace);
-        REMOVE_KEY(OEHIDNamespace);
-        REMOVE_KEY(OEMouseNamespace);
-        REMOVE_KEY(OEOtherNamespace);
-#undef  REMOVE_KEY
+        NSString *keyPath = [self keyPathForKey:name withValueType:aType];
+        //NSLog(@"%@ == %@", theEvent, [udc valueForKeyPath:keyPath]);
+        if([[udc valueForKeyPath:keyPath] isEqual:theEvent])
+        {
+            NSLog(@"IS EQUAL");
+            [self registerValue:nil forKey:name withValueType:aType];
+            if(aType == OEHIDEventValueKey)
+                [self HIDEventWasRemovedForKey:name];
+            else if(aType == OEKeyboardEventValueKey)
+                [self keyboardEventWasRemovedForKey:name];
+        }
     }
-    
-    NSLog(@"%s", __FUNCTION__);
 }
 
-- (void)bindingWasRemovedForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace
+- (void)HIDEventWasRemovedForKey:(NSString *)keyName
 {
+    [currentPreferenceViewController resetKeyBindings];
+}
+
+- (void)keyboardEventWasRemovedForKey:(NSString *)keyName
+{
+    [currentPreferenceViewController resetKeyBindings];
+}
+
+- (id)settingForKey:(NSString *)keyName
+{
+    return [self valueForKeyPath:[self keyPathForKey:keyName withValueType:OESettingValueKey]];
+}
+
+- (id)HIDEventForKey:(NSString *)keyName
+{
+    return [self valueForKeyPath:[self keyPathForKey:keyName withValueType:OEHIDEventValueKey]];
+}
+
+- (id)keyboardEventForKey:(NSString *)keyName
+{
+    return [self valueForKeyPath:[self keyPathForKey:keyName withValueType:OEKeyboardEventValueKey]];
+}
+
+- (id)valueForKeyPath:(NSString *)keyPath
+{
+    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
+    
+    id ret = [udc valueForKeyPath:keyPath];
+    
+    @try
+    {
+        if([ret isKindOfClass:[NSData class]])
+            ret = [NSKeyedUnarchiver unarchiveObjectWithData:ret];
+    }
+    @catch (NSException * e) {
+        /* Do nothing, we keep the NSData we retrieved. */
+    }
+    
+    return ret;
 }
 
 @end

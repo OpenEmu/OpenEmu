@@ -26,7 +26,6 @@ enum {
     OEButton_Right,
     OEButton_Start,
     OEButton_Select,
-    OEButton_Mode,
     OEButton_1 = 11,
     OEButton_2,
     OEButton_3,
@@ -68,6 +67,7 @@ typedef NSInteger OEButton;
 @property NSTimeInterval frameInterval;
 
 - (id)initWithDocument:(GameDocument *)document;
+- (void)removeFromGameController;
 
 #pragma mark Execution
 - (void)frameRefreshThread:(id)anArgument;
@@ -108,13 +108,13 @@ typedef NSInteger OEButton;
 - (void)keyDown:(NSEvent *)theEvent;
 - (void)keyUp:(NSEvent *)theEvent;
 
-// FIXME: Find a better way.
 #pragma mark Tracking preference changes
-- (void)globalEventWasSet:(id)theEvent forKey:(NSString *)keyName;
 - (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
-- (void)eventWasSet:(id)theEvent forKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
-- (void)eventWasRemovedForKey:(NSString *)keyName inNamespace:(OEEventNamespace)aNamespace;
-- (void)removeFromGameController;
+- (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName;
+- (void)keyboardEventWasRemovedForKey:(NSString *)keyName;
+
+- (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName;
+- (void)HIDEventWasRemovedForKey:(NSString *)keyName;
 
 // ============================================================================
 // End Abstract methods.
