@@ -74,7 +74,6 @@
 		37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		37E5F0AE0F8D5024007AD260 /* OEGameCoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */; };
 		820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
-		820C55F20E7C36A700202702 /* GameApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 820C55F10E7C36A700202702 /* GameApp.m */; };
 		82444BA80F51259A007C171B /* GameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* GameCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		82798B340E85C123001DCA93 /* PrefsBundleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798B330E85C123001DCA93 /* PrefsBundleCell.m */; };
 		82798C2D0E85DA02001DCA93 /* PluginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798C2C0E85DA02001DCA93 /* PluginInfo.m */; };
@@ -212,8 +211,6 @@
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
 		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
 		820376250F3974FD00EC2F97 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
-		820C55F00E7C36A700202702 /* GameApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameApp.h; sourceTree = "<group>"; };
-		820C55F10E7C36A700202702 /* GameApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameApp.m; sourceTree = "<group>"; };
 		824401380E84A82E004387DA /* hq3x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = hq3x.cpp; sourceTree = "<group>"; };
 		8244013E0E84A874004387DA /* Filters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Filters.h; sourceTree = "<group>"; };
 		82444BA10F51256C007C171B /* OpenEmuBase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -514,8 +511,6 @@
 				2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */,
 				8283882A0E6CE13C00A96E2C /* GameDocumentController.h */,
 				8283882B0E6CE13C00A96E2C /* GameDocumentController.m */,
-				820C55F00E7C36A700202702 /* GameApp.h */,
-				820C55F10E7C36A700202702 /* GameApp.m */,
 			);
 			name = OpenEmuCore;
 			sourceTree = "<group>";
@@ -825,7 +820,6 @@
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				8283882C0E6CE13C00A96E2C /* GameDocumentController.m in Sources */,
 				829779340E743F2A00631240 /* GameAudio.mm in Sources */,
-				820C55F20E7C36A700202702 /* GameApp.m in Sources */,
 				829E027A0E7C5631009F348B /* GameLayer.m in Sources */,
 				828ED4D70E7D98940059F397 /* GamePickerController.m in Sources */,
 				829B9CAC0E7F215700452894 /* GameBuffer.mm in Sources */,
