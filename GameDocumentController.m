@@ -28,130 +28,6 @@
 @synthesize bundles;
 @synthesize plugins;
 
-+ (NSDictionary*) defaultGamepadControls
-{
-    /*
-	GameButton *rightButton = [[[GameButton alloc] initWithPage:kHIDPage_GenericDesktop
-														 usage:kHIDUsage_GD_X 
-														 value:1
-													 forButton:eButton_RIGHT player:0] autorelease];
-	
-	GameButton *leftButton = [[[GameButton alloc] initWithPage:kHIDPage_GenericDesktop
-														usage:kHIDUsage_GD_X
-														value:-1
-													forButton:eButton_LEFT player:0] autorelease];
-	
-	
-	GameButton *upButton =[[[GameButton alloc] initWithPage:kHIDPage_GenericDesktop
-													 usage:kHIDUsage_GD_Y 
-													 value:-1
-												 forButton:eButton_UP player:0] autorelease];
-	
-	
-	GameButton *downButton = [[[GameButton alloc] initWithPage:kHIDPage_GenericDesktop
-														usage:kHIDUsage_GD_Y 
-														value:1
-													forButton:eButton_DOWN player:0] autorelease];
-	
-	GameButton *aButton = [[[GameButton alloc] initWithPage:kHIDPage_Button
-													 usage:2 
-													 value:1
-												 forButton:eButton_A player:0] autorelease];
-
-	GameButton *bButton = [[[GameButton alloc] initWithPage:kHIDPage_Button
-													 usage:1
-													 value:1
-												 forButton:eButton_B player:0] autorelease];
-	
-	
-	GameButton *xButton = [[[GameButton alloc] initWithPage:kHIDPage_Button
-													  usage:6 
-													  value:1
-												  forButton:eButton_X player:0] autorelease];
-	
-	GameButton *yButton = [[[GameButton alloc] initWithPage:kHIDPage_Button
-													  usage:5
-													  value:1
-												  forButton:eButton_Y player:0] autorelease];
-	
-	GameButton *startButton =[[[GameButton alloc] initWithPage:kHIDPage_Button
-														usage:4 
-														value:1
-													forButton:eButton_START player:0] autorelease];
-	
-	
-	GameButton *selectButton = [[[GameButton alloc] initWithPage:kHIDPage_Button
-														  usage:3 
-														  value:1
-													  forButton:eButton_SELECT player:0] autorelease];
-	
-	GameButton *lButton =[[[GameButton alloc] initWithPage:kHIDPage_Button
-														 usage:9 
-														 value:1
-													 forButton:eButton_L player:0] autorelease];
-	
-	
-	GameButton *rButton = [[[GameButton alloc] initWithPage:kHIDPage_Button
-														   usage:8 
-														   value:1
-													   forButton:eButton_R player:0] autorelease];
-	// Create defaults
-	return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aButton,bButton,xButton,yButton,startButton,selectButton,upButton,downButton,leftButton,rightButton,lButton, rButton, nil]
-									   forKeys:[NSArray arrayWithObjects:@"A",@"B",@"X",@"Y",@"Start",@"Select",@"Up",@"Down",@"Left",@"Right", @"L", @"R",nil]];	
-     */
-    return nil;
-}
-
-+ (NSDictionary*) defaultControls
-{
-    /*
-	KeyboardButton * aButton = [[[KeyboardButton alloc] initWithKeycode:0]autorelease];
-	KeyboardButton * bButton = [[[KeyboardButton alloc] initWithKeycode:1]autorelease];
-	KeyboardButton * xButton = [[[KeyboardButton alloc] initWithKeycode:6]autorelease];
-	KeyboardButton * yButton = [[[KeyboardButton alloc] initWithKeycode:7]autorelease];	
-	
-	KeyboardButton * startButton = [[[KeyboardButton alloc] initWithKeycode:36]autorelease];
-	KeyboardButton * selectButton = [[[KeyboardButton alloc] initWithKeycode:48]autorelease];
-	
-	KeyboardButton * upButton = [[[KeyboardButton alloc] initWithKeycode:126]autorelease];
-	KeyboardButton * downButton = [[[KeyboardButton alloc] initWithKeycode:125]autorelease];
-	KeyboardButton * leftButton = [[[KeyboardButton alloc] initWithKeycode:123]autorelease];
-	KeyboardButton * rightButton = [[[KeyboardButton alloc] initWithKeycode:124]autorelease];
-	
-	KeyboardButton * lButton = [[[KeyboardButton alloc] initWithKeycode:12]autorelease];
-	KeyboardButton * rButton = [[[KeyboardButton alloc] initWithKeycode:13]autorelease];
-	
-	// Create defaults
-	return [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:aButton,bButton,xButton, yButton,startButton,selectButton,upButton,downButton,leftButton,rightButton, lButton, rButton, nil] 
-																 forKeys:[NSArray arrayWithObjects:@"A",@"B",@"X",@"Y",@"Start",@"Select",@"Up",@"Down",@"Left",@"Right", @"L", @"R", nil]];
-     */
-    return nil;
-}
-
-+ (void)initialize
-{
-	if(self  == [GameDocumentController class])
-	{
-#if 0
-        // Create a dictionary
-		NSMutableDictionary *defaultValues = [NSMutableDictionary dictionary];
-		
-		NSData* gamepadControls = [NSKeyedArchiver archivedDataWithRootObject:[GameDocumentController defaultGamepadControls]];
-		NSData* keyboardControls = [NSKeyedArchiver archivedDataWithRootObject:[GameDocumentController defaultControls]];
-		
-		[defaultValues setObject:gamepadControls forKey:OEGamepadControls];
-		[defaultValues setObject:keyboardControls forKey:OEGameControls];
-		[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:OEFullScreen];
-		[defaultValues setValue:[NSNumber numberWithInteger:0] forKey:OEFilter];
-		[defaultValues setValue:[NSNumber numberWithFloat:1.0] forKey:OEVolume];
-		[defaultValues setValue:[NSNumber numberWithBool:NO] forKey:OEPauseBackground];
-		
-		NSLog(@"%@", defaultValues);
-		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
-#endif
-	}
-}
-
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
 	NSLog(@"Menu!?!?!");
@@ -527,19 +403,6 @@
     return ret;
 }
 
-
-- (void)handleHIDEvent:(OEHIDEvent *)anEvent
-{
-    NSLog(@"No handler found for HID event : %@", anEvent);
-}
-
-// FIXME: Should be called by -[OEHIDDeviceHandler dispatchHIDEvent:],
-// though OEHIDDeviceHandler can send it directly to NSApp to avoid more inderections.
-- (void)dispatchHIDEvent:(OEHIDEvent *)anEvent
-{
-    [NSApp sendAction:@selector(handleHIDEvent:) to:nil from:anEvent];
-}
-
 #define DEVICE_IDENTIFIER(page, usage) (((page) << 16) | (usage))
 
 static void OEHandle_InputValueCallback(void *inContext,
@@ -549,15 +412,7 @@ static void OEHandle_InputValueCallback(void *inContext,
 {
     [(OEHIDDeviceHandler *)inContext dispatchEventWithHIDValue:inIOHIDValueRef];
 }
-/* TODO: remove a device:
-static void OEHandle_RemovalCallback(void *context, 
-                                     IOReturn result, 
-                                     void *sender)
-{
-    GameDocumentController *self = inContext;
-    
-}
-*/
+
 static void OEHandle_DeviceMatchingCallback(void* inContext,
                                             IOReturn inResult,
                                             void* inSender,
@@ -628,39 +483,5 @@ static void OEHandle_DeviceMatchingCallback(void* inContext,
     }
     return [ret device];
 }
-/*
-[NSString stringWithFormat:@"%@|%@|%@|%d|%d",
- IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey)),
- IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey)),
- IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey)),
- anIdentifier, (value < 0.0 ? -1 : 1)];
- */
-/* FIXME: Find a better way.
-- (id)eventWithUserDefaultsValue:(NSString *)theEvent
-{
-    NSArray *parts = [theEvent componentsSeparatedByString:@"|"];
-    id ret = nil;
-    if([parts count] == 5)
-    {
-        NSString *manufacturer = [parts objectAtIndex:0];
-        NSNumber *productID = [NSNumber numberWithInt:[[parts objectAtIndex:1] intValue]];
-        NSNumber *locationID = [NSNumber numberWithInt:[[parts objectAtIndex:2] intValue]];
-        uint32_t identifier = [[parts objectAtIndex:3] intValue];
-        CGFloat value = [[parts objectAtIndex:4] intValue] * 1.0;
-        
-        for(OEHIDDeviceHandler *handler in deviceHandlers)
-        {
-            if([[handler manufacturer] isEqualToString:manufacturer] &&
-               [[handler productID] isEqualToNumber:productID] &&
-               [[handler locationID] isEqualToNumber:locationID])
-            {
-                ret = [handler eventWithIdentifier:identifier value:value];
-                break;
-            }
-        }
-    }
-    else ret = theEvent;
-    return ret;
-}
- */
+
 @end

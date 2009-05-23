@@ -99,7 +99,6 @@ static NSUInteger lastDeviceNumber = 0;
 - (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue
 {
     [NSApp postHIDEvent:[self eventWithHIDValue:aValue]];
-    //[NSApp sendAction:@selector(handleHIDEvent:) to:nil from:[self eventWithHIDValue:aValue]];
 }
 
 @end

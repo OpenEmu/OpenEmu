@@ -238,10 +238,9 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     for(NSString *name in controlNames)
     {
         NSString *keyPath = [self keyPathForKey:name withValueType:aType];
-        //NSLog(@"%@ == %@", theEvent, [udc valueForKeyPath:keyPath]);
+        
         if([[udc valueForKeyPath:keyPath] isEqual:theEvent])
         {
-            NSLog(@"IS EQUAL");
             [self registerValue:nil forKey:name withValueType:aType];
             if(aType == OEHIDEventValueKey)
                 [self HIDEventWasRemovedForKey:name];
