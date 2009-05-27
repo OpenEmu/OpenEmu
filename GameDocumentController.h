@@ -30,9 +30,6 @@
 @property(readonly) NSArray *bundles;
 @property(readwrite) BOOL gameLoaded;
 
-+ (NSDictionary*)defaultControls;
-+ (NSDictionary*)defaultGamepadControls;
-
 - (GameDocument *)currentDocument;
 
 - (PluginInfo *)pluginForType:(NSString *)type;
@@ -56,9 +53,6 @@
 - (BOOL)isGameKey;
 
 - (IBAction)openPreferenceWindow:(id)sender;
-
-- (void)handleHIDEvent:(OEHIDEvent *)anEvent;
-- (void)dispatchHIDEvent:(OEHIDEvent *)anEvent;
 
 - (IOHIDDeviceRef)deviceWithManufacturer:(NSString *)aManufacturer productID:(NSNumber *)aProductID locationID:(NSNumber *)aLocationID;
 
