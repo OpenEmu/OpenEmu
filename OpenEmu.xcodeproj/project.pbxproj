@@ -124,6 +124,9 @@
 		C61C9C390F58BB3B007F4242 /* OEDummyView.m in Sources */ = {isa = PBXBuildFile; fileRef = C61C9C380F58BB3B007F4242 /* OEDummyView.m */; };
 		C63C680F0FB9F14C00F4E3E0 /* NSApplication+OEHIDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */; };
 		C63C68100FB9F15800F4E3E0 /* NSApplication+OEHIDAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */; };
+		C669163D0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */; };
+		C669163E0FC9BC3E007DE3D8 /* OEGameControllerView.h in Headers */ = {isa = PBXBuildFile; fileRef = C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */; };
+		C669163F0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */; };
 		C66DF9EC0F51B48E0080AA28 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DF9EB0F51B48E0080AA28 /* GameCore.m */; };
 		C66DFA3E0F51C1640080AA28 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
 		C67DCEF20FC5FB5A0038A56E /* OEPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */; };
@@ -266,6 +269,8 @@
 		C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCoreController.m; sourceTree = "<group>"; };
 		C61C9C370F58BB3B007F4242 /* OEDummyView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDummyView.h; sourceTree = "<group>"; };
 		C61C9C380F58BB3B007F4242 /* OEDummyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDummyView.m; sourceTree = "<group>"; };
+		C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameControllerView.h; sourceTree = "<group>"; };
+		C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameControllerView.m; sourceTree = "<group>"; };
 		C66DF9EB0F51B48E0080AA28 /* GameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCore.m; sourceTree = "<group>"; };
 		C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAbstractAdditions.h; sourceTree = "<group>"; };
 		C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAbstractAdditions.m; sourceTree = "<group>"; };
@@ -567,6 +572,8 @@
 				C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */,
 				C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */,
 				C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */,
+				C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */,
+				C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */,
 			);
 			name = "GameCore framework";
 			sourceTree = "<group>";
@@ -607,6 +614,7 @@
 				C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */,
 				82444BA80F51259A007C171B /* GameCore.h in Headers */,
 				82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */,
+				C669163E0FC9BC3E007DE3D8 /* OEGameControllerView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -789,6 +797,7 @@
 				82F3629E0F51CC5F001495F6 /* GameCore.m in Sources */,
 				82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */,
 				C67DCEF90FC604690038A56E /* OEPreferenceViewController.m in Sources */,
+				C669163F0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,6 +852,7 @@
 				C61C9C390F58BB3B007F4242 /* OEDummyView.m in Sources */,
 				C6B7AB760FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m in Sources */,
 				C67DCEF20FC5FB5A0038A56E /* OEPreferenceViewController.m in Sources */,
+				C669163D0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

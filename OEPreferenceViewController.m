@@ -109,7 +109,7 @@
             anEvent = [controller keyboardEventForKey:[self keyPathForKey:key]];
         else
             anEvent = [controller HIDEventForKey:[self keyPathForKey:key]];
-        NSLog(@"- (id)valueForKey:(NSString *)key %@", anEvent);
+        
         return (anEvent != nil ? [anEvent displayDescription] : @"<empty>");
     }
     else if([[controller usedSettingNames] containsObject:key])
