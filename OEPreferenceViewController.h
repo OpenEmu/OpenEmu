@@ -13,6 +13,8 @@
 {
     id selectedControl;
     id bindingType;
+    IBOutlet NSStepper *playerStepper;
+    IBOutlet NSTextField *playerField;
 }
 @property(readonly) OEGameCoreController *controller;
 @property(assign) NSControl *selectedControl;

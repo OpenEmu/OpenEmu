@@ -18,6 +18,12 @@
 @implementation OEPreferenceViewController
 @synthesize selectedControl;
 
+- (void)awakeFromNib
+{
+    [playerField setIntegerValue:1];
+    [playerStepper setIntegerValue:1];
+}
+
 - (BOOL)acceptsFirstResponder
 {
     return YES;
@@ -42,6 +48,11 @@
 
 - (IBAction)showedBindingsChanged:(id)sender
 {
+    if(sender == playerField)
+        [playerStepper setIntegerValue:[playerField integerValue]];
+    else if(sender == playerStepper)
+        [playerField setIntegerValue:[playerStepper integerValue]];
+    
     [self resetKeyBindings];
 }
 
@@ -76,7 +87,10 @@
 
 - (NSString *)keyPathForKey:(NSString *)aKey
 {
-    return aKey;
+    if(playerStepper != nil)
+        return [NSString stringWithFormat:@"%d.%@", [playerStepper intValue] - 1, aKey];
+    else
+        return aKey;
 }
 
 - (void)registerEvent:(id)anEvent
