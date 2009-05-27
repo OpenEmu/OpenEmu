@@ -40,6 +40,11 @@
     }
 }
 
+- (IBAction)showedBindingsChanged:(id)sender
+{
+    [self resetKeyBindings];
+}
+
 - (void)OE_resetBindingsWithKeys:(NSArray *)keys
 {
     for(NSString *key in keys)
@@ -61,7 +66,7 @@
 
 - (BOOL)isKeyboardEventSelected
 {
-    return YES;
+    return [bindingType selectedTag] == 0;
 }
 
 - (NSString *)selectedKey

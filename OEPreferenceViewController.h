@@ -12,6 +12,7 @@
 @interface OEPreferenceViewController : NSViewController
 {
     id selectedControl;
+    id bindingType;
 }
 @property(readonly) OEGameCoreController *controller;
 @property(assign) NSControl *selectedControl;
@@ -22,6 +23,7 @@
 - (BOOL)isKeyboardEventSelected;
 - (void)registerEvent:(id)anEvent;
 
+- (IBAction)showedBindingsChanged:(id)sender;
 - (IBAction)selectInputControl:(id)sender;
 - (void)resetKeyBindings;
 - (void)resetSettingBindings;

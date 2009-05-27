@@ -94,6 +94,11 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     return Nil;
 }
 
+- (BOOL)acceptsFirstResponder
+{
+    return YES;
+}
+
 - (id)newPreferenceViewControllerForKey:(NSString *)aKey
 {
     [currentPreferenceViewController release];

@@ -82,7 +82,7 @@
     if(start.y >= NSMaxY(drawRect))
     {
         button.origin.x = start.x - button.size.width / 2.0;
-        button.origin.y = bounds.size.height - (button.size.height + 20.0);
+        button.origin.y = bounds.size.height - (button.size.height + 14.0);
         start.y = button.origin.y + button.size.height / 2.0;
         middle.x = start.x;
         middle.y = NSMaxY(drawRect) - button.size.height / 2.0;
@@ -90,14 +90,14 @@
     else if(start.y <= NSMinY(drawRect))
     {
         button.origin.x = start.x - button.size.width / 2.0;
-        button.origin.y = 20.0;
+        button.origin.y = 14.0;
         start.y = button.origin.y + button.size.height / 2.0;
         middle.x = start.x;
         middle.y = NSMinY(drawRect) + button.size.height / 2.0;
     }
     else if(start.x <= NSMinX(drawRect))
     {
-        button.origin.x = 20.0;
+        button.origin.x = 14.0;
         start.x = button.origin.x + button.size.width / 2.0;
         button.origin.y = start.y - button.size.height / 2.0;
         middle.x = NSMinX(drawRect);
@@ -105,7 +105,7 @@
     }
     else if(start.x >= NSMaxX(drawRect))
     {
-        button.origin.x = bounds.size.width - (button.size.width + 20.0);
+        button.origin.x = bounds.size.width - (button.size.width + 14.0);
         start.x = button.origin.x + button.size.width / 2.0;
         button.origin.y = start.y - button.size.height / 2.0;
         middle.x = NSMaxX(drawRect);

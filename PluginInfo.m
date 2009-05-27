@@ -38,6 +38,7 @@ NSString *OEControlsPreferencesClassName = @"OEControlsPreferencesClassName";
 	
     // Recovers the GameCore class of the plugin bundle
     gameCoreClass = [bundle principalClass];
+    NSLog(@"GameCore Class: %@", gameCoreClass);
     if([gameCoreClass isSubclassOfClass:[OEGameCoreController class]])
     {
         controller = [[gameCoreClass alloc] init];
