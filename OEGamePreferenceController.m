@@ -14,7 +14,7 @@
 
 @implementation OEGamePreferenceController
 
-@synthesize plugins, selectedPlugins;
+@synthesize plugins, selectedPlugins, availablePluginsPredicate;
 
 - (id)init
 {
@@ -52,7 +52,7 @@
     
     if(index < [plugins count] && index != NSNotFound)
     {
-        currentPlugin = [plugins objectAtIndex:index];
+        currentPlugin = [[pluginController selectedObjects] objectAtIndex:0];
         selectedPlugins = [[NSIndexSet alloc] initWithIndex:index];
     }
     else

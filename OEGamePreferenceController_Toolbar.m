@@ -50,13 +50,13 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
                         CREATE_RECORD(@"Controls",
                                       @"Controls",
                                       @"Control Preferences",
-                                      [NSImage imageNamed: NSImageNamePreferencesGeneral],
+                                      [NSImage imageNamed:NSImageNamePreferencesGeneral],
                                       @"ControlPreferences",
                                       OEControlsPreferenceKey, OEPluginViewKey), OEControlsToolbarItemIdentifier,
                         CREATE_RECORD(@"Plugins",
                                       @"Plugins",
                                       @"Plugin Preferences",
-                                      [NSImage imageNamed: NSImageNameEveryone],
+                                      [NSImage imageNamed:NSImageNameEveryone],
                                       @"PluginPreferences"), OEPluginsToolbarItemIdentifier,
                         nil];
 #undef CREATE_RECORD
@@ -174,6 +174,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     
     if(pluginViewName != nil)
     {
+        self.availablePluginsPredicate = [NSPredicate predicateWithFormat:@"%@ IN availablePreferenceViewControllers", pluginViewName];
         [pluginDrawer open];
         if(currentPlugin == nil) ret = [[NSViewController alloc] initWithNibName:@"SelectPluginPreferences"
                                                                           bundle:[NSBundle mainBundle]];

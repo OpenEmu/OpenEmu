@@ -14,17 +14,19 @@ extern NSString *const OEControlsPreferenceKey;
 
 @interface OEGamePreferenceController : NSWindowController
 {
-    IBOutlet NSDrawer *pluginDrawer;
-    NSDictionary      *preferencePanels;
-    NSArray           *plugins;
-    NSString          *currentViewIdentifier;
-    NSIndexSet        *selectedPlugins;
-    PluginInfo        *currentPlugin;
-    NSViewController  *currentViewController;
+    IBOutlet NSDrawer          *pluginDrawer;
+    IBOutlet NSArrayController *pluginController;
+    NSDictionary               *preferencePanels;
+    NSArray                    *plugins;
+    NSString                   *currentViewIdentifier;
+    NSPredicate                *availablePluginsPredicate;
+    NSIndexSet                 *selectedPlugins;
+    PluginInfo                 *currentPlugin;
+    NSViewController           *currentViewController;
 }
 
-//@property(readonly) NSArray *controlPlugins;
-@property(readonly) NSArray *plugins;
-@property(retain) NSIndexSet *selectedPlugins;
+@property(readonly) NSArray     *plugins;
+@property(retain)   NSPredicate *availablePluginsPredicate;
+@property(retain)   NSIndexSet  *selectedPlugins;
 
 @end

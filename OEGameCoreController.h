@@ -27,6 +27,7 @@ extern NSString *const OEKeyboardEventValueKey;
 @property(readonly) id currentPreferenceViewController;
 
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
+- (NSArray *)availablePreferenceViewControllers;
 
 @property(readonly) NSArray *usedSettingNames;
 @property(readonly) NSArray *usedControlNames;

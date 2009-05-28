@@ -6,6 +6,8 @@
     #import <Cocoa/Cocoa.h>
 #endif
 
+#define BOOL_STR(var) ((var) ? "YES" : "NO")
+
 #define DEBUG_PRINT
 
 #ifdef DEBUG_PRINT

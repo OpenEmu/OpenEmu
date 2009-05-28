@@ -20,8 +20,6 @@ extern NSString *OEControlsPreferencesClassName;
     NSString             *displayName;
     NSDictionary         *supportedTypes;
     NSArray              *supportedTypeExtensions;
-    NSView               *currentControlView;
-    NSViewController     *controlsPreferences;
     Class                 gameCoreClass;
     OEGameCoreController *controller;
 }
@@ -37,6 +35,7 @@ extern NSString *OEControlsPreferencesClassName;
 
 + (id)pluginInfoWithBundleAtPath:(NSString*)path;
 
+- (NSArray *)availablePreferenceViewControllers;
 - (id)initWithBundleAtPath:(NSString*)path;
 - (id)initWithInfoDictionary:(NSDictionary*)infoDict icon:(NSImage*)image;
 - (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey;

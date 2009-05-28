@@ -50,6 +50,11 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     [_preferenceViewControllerClasses setObject:[[viewControllerClasses copy] autorelease] forKey:self];
 }
 
+- (NSArray *)availablePreferenceViewControllers
+{
+    return [[_preferenceViewControllerClasses objectForKey:[self class]] allKeys];
+}
+
 - (NSArray *)usedSettingNames
 {
     return [NSArray array];

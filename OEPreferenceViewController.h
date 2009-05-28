@@ -10,24 +10,10 @@
 @class OEGameCoreController;
 
 @interface OEPreferenceViewController : NSViewController
-{
-    id selectedControl;
-    id bindingType;
-    IBOutlet NSStepper *playerStepper;
-    IBOutlet NSTextField *playerField;
-}
+
 @property(readonly) OEGameCoreController *controller;
-@property(assign) NSControl *selectedControl;
 
-- (NSString *)selectedKey;
-- (NSString *)keyPathForKey:(NSString *)aKey;
-
-- (BOOL)isKeyboardEventSelected;
-- (void)registerEvent:(id)anEvent;
-
-- (IBAction)showedBindingsChanged:(id)sender;
-- (IBAction)selectInputControl:(id)sender;
-- (void)resetKeyBindings;
+- (void)resetBindingsWithKeys:(NSArray *)keys;
 - (void)resetSettingBindings;
 
 @end
