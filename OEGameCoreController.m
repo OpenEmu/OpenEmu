@@ -7,7 +7,7 @@
 //
 
 #import "OEGameCoreController.h"
-#import "OEPreferenceViewController.h"
+#import "OEControlsViewController.h"
 #import "NSApplication+OEHIDAdditions.h"
 #import "GameCore.h"
 #import "OEHIDEvent.h"
