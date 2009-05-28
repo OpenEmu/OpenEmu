@@ -81,6 +81,11 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     return standardItems;
 }
 
+- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
+{
+    return [self toolbarAllowedItemIdentifiers:toolbar];	
+}
+
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
 {
     return [self toolbarAllowedItemIdentifiers:toolbar];
