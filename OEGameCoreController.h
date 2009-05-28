@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 extern NSString *const OEControlsPreferenceKey;
+extern NSString *const OEAdvancedPreferenceKey;
 
 extern NSString *const OESettingValueKey;
 extern NSString *const OEHIDEventValueKey;

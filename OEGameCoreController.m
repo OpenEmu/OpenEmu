@@ -12,10 +12,11 @@
 #import "GameCore.h"
 #import "OEHIDEvent.h"
 
-NSString *const OEControlsPreferenceKey   = @"OEControlsPreferenceKey";
-NSString *const OESettingValueKey         = @"OESettingValueKey";
-NSString *const OEHIDEventValueKey        = @"OEHIDEventValueKey";
-NSString *const OEKeyboardEventValueKey   = @"OEKeyboardEventValueKey";
+NSString *const OEControlsPreferenceKey = @"OEControlsPreferenceKey";
+NSString *const OEAdvancedPreferenceKey = @"OEAdvancedPreferenceKey";
+NSString *const OESettingValueKey       = @"OESettingValueKey";
+NSString *const OEHIDEventValueKey      = @"OEHIDEventValueKey";
+NSString *const OEKeyboardEventValueKey = @"OEKeyboardEventValueKey";
 
 NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardNamespace", @"OEHIDNamespace", @"OEMouseNamespace", @"OEOtherNamespace" };
 

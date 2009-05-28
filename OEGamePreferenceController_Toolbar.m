@@ -19,6 +19,7 @@ static NSString *OEPluginViewKey          = @"OEPluginViewKey";
 //static NSString *OEPreferenceToolbarIdentifier     = @"OEPreferenceToolbarIdentifier";
 static NSString *OEVideoSoundToolbarItemIdentifier = @"OEVideoSoundToolbarItemIdentifier";
 static NSString *OEControlsToolbarItemIdentifier   = @"OEControlsToolbarItemIdentifier";
+static NSString *OEAdvancedToolbarItemIdentifier   = @"OEAdvancedToolbarItemIdentifier";
 static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdentifier";
 
 @interface OEGamePreferenceController ()
@@ -53,6 +54,12 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
                                       [NSImage imageNamed:NSImageNamePreferencesGeneral],
                                       @"ControlPreferences",
                                       OEControlsPreferenceKey, OEPluginViewKey), OEControlsToolbarItemIdentifier,
+                        CREATE_RECORD(@"Advanced",
+                                      @"Advanced",
+                                      @"Advanced Preferences",
+                                      [NSImage imageNamed:NSImageNameAdvanced],
+                                      @"AdvancedPreferences",
+                                      OEAdvancedPreferenceKey, OEPluginViewKey), OEAdvancedToolbarItemIdentifier,
                         CREATE_RECORD(@"Plugins",
                                       @"Plugins",
                                       @"Plugin Preferences",
@@ -68,7 +75,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     static NSArray *standardItems = nil;
     if(standardItems == nil)
     {
-        standardItems = [[NSArray arrayWithObjects:OEVideoSoundToolbarItemIdentifier, OEControlsToolbarItemIdentifier, OEPluginsToolbarItemIdentifier, nil] retain];
+        standardItems = [[NSArray arrayWithObjects:OEVideoSoundToolbarItemIdentifier, OEControlsToolbarItemIdentifier, OEAdvancedToolbarItemIdentifier, OEPluginsToolbarItemIdentifier, nil] retain];
     }
     
     return standardItems;
