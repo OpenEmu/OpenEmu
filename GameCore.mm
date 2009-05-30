@@ -13,6 +13,7 @@
 #import "OEAbstractAdditions.h"
 #import "OEHIDEvent.h"
 #include <sys/time.h>
+#include <map>
 
 @implementation GameCore
 
@@ -51,6 +52,12 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 	{
 		document = aDocument;
 		frameInterval = [[self class] defaultTimeInterval];
+        
+        if(aDocument != nil)
+        {
+#define KEY_MAP ((std::map<NSInteger, OEEmulatorKey> *)_keymap)
+            _keymap = new std::map<NSInteger, OEEmulatorKey>();
+        }
 	}
 	return self;
 }
@@ -62,6 +69,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 - (void)dealloc
 {
+    if(_keymap != NULL) delete KEY_MAP;
     [emulationThread release];
     [self removeFromGameController];
     [super dealloc];
@@ -214,6 +222,28 @@ static NSTimeInterval currentTime()
 	return 0;
 }
 
+#pragma mark Input Settings & Parsing
+- (NSUInteger)playerCount
+{
+    return 1;
+}
+
+- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+{
+	[self doesNotImplementSelector:_cmd];
+    return (OEEmulatorKey){0, 0};
+}
+
+- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+{
+	[self doesNotImplementSelector:_cmd];
+}
+
+- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
+{
+	[self doesNotImplementSelector:_cmd];
+}
+
 #pragma mark Input
 - (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton
 {
@@ -223,16 +253,6 @@ static NSTimeInterval currentTime()
 - (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton
 {
 	[self doesNotImplementSelector:_cmd];
-}
-
-- (void)keyDown:(NSEvent *)theEvent
-{
-    NSLog(@"%s", __FUNCTION__);
-}
-
-- (void)keyUp:(NSEvent *)theEvent
-{
-    NSLog(@"%s", __FUNCTION__);
 }
 
 - (NSTrackingAreaOptions)mouseTrackingOptions
@@ -300,24 +320,164 @@ static NSTimeInterval currentTime()
 	[self doesNotImplementSelector:_cmd];
 }
 
+// FIXME: Rebuild a map class all in C to replace that code
+
+#define OEHatSwitchMask     (0x39 << 16)
+#define PAD_NUMBER  ([anEvent padNumber] << 24)
+#define KEYBOARD_MASK 0x40000000u
+#define HID_MASK      0x20000000u
+
+#define GET_EMUL_KEY do {                                          \
+    NSUInteger index, player;                                      \
+    player = [owner playerNumberInKey:keyName getKeyIndex:&index]; \
+    if(player == NSNotFound) return;                               \
+    emulKey = [self emulatorKeyForKeyIndex:index player:player];   \
+} while(0)
+
+- (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey
+{
+    (*KEY_MAP)[appKey] = emulKey;
+}
+
+bool operator == (OEEmulatorKey key1, OEEmulatorKey key2)
+{
+    return key1.player == key2.player && key1.key == key2.key;
+}
+
+- (void)unsetEventForKey:(NSString *)keyName withValueMask:(NSUInteger)keyMask
+{
+    OEEmulatorKey emulKey;
+    GET_EMUL_KEY;
+    for(std::map<NSInteger, OEEmulatorKey>::iterator it = KEY_MAP->begin(); it != KEY_MAP->end();)
+    {
+        if(it->second == emulKey && it->first & keyMask)
+            KEY_MAP->erase(it++);
+        else  ++it;
+    }
+}
+
 - (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName
 {
-	[self doesNotImplementSelector:_cmd];
+    OEEmulatorKey emulKey;
+    GET_EMUL_KEY;
+    NSInteger appKey = KEYBOARD_MASK | [theEvent unsignedShortValue];
+    
+    [self setEventValue:appKey forEmulatorKey:emulKey];
 }
 
 - (void)keyboardEventWasRemovedForKey:(NSString *)keyName
 {
-	[self doesNotImplementSelector:_cmd];
+    [self unsetEventForKey:keyName withValueMask:KEYBOARD_MASK];
 }
 
 - (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName
 {
-	[self doesNotImplementSelector:_cmd];
+    OEEmulatorKey emulKey;
+    GET_EMUL_KEY;
+    
+    NSInteger appKey = 0;
+    
+    OEHIDEvent *anEvent = theEvent;
+    appKey = HID_MASK | [anEvent padNumber] << 24;
+    switch ([anEvent type]) {
+        case OEHIDAxis :
+            if([anEvent direction] == OEHIDDirectionNull) return;
+            appKey |= ([anEvent axis] << 16);
+            appKey *= [anEvent direction];
+            break;
+        case OEHIDButton :
+            if([anEvent state]     == NSOffState)         return;
+            appKey |= [anEvent buttonNumber];
+            break;
+        case OEHIDHatSwitch :
+            if([anEvent position]  == 0)                  return;
+            appKey |= [anEvent position] | OEHatSwitchMask;
+            break;
+        default : return;
+    }
+    
+    [self setEventValue:appKey forEmulatorKey:emulKey];
 }
 
 - (void)HIDEventWasRemovedForKey:(NSString *)keyName
 {
-	[self doesNotImplementSelector:_cmd];
+    [self unsetEventForKey:keyName withValueMask:HID_MASK];
 }
+
+- (void)keyDown:(NSEvent *)anEvent
+{
+    std::map<NSInteger, OEEmulatorKey>::const_iterator it;
+    if((it = KEY_MAP->find(KEYBOARD_MASK | [anEvent keyCode])) != KEY_MAP->end())
+        [self pressEmulatorKey:it->second];
+}
+
+- (void)keyUp:(NSEvent *)anEvent
+{
+    std::map<NSInteger, OEEmulatorKey>::const_iterator it;
+    if((it = KEY_MAP->find(KEYBOARD_MASK | [anEvent keyCode])) != KEY_MAP->end())
+        [self releaseEmulatorKey:it->second];
+}
+
+- (void)axisMoved:(OEHIDEvent *)anEvent
+{
+    NSUInteger value = HID_MASK | PAD_NUMBER;
+    NSInteger dir  = [anEvent direction];
+    NSInteger axis = value | [anEvent axis] << 16;
+    std::map<NSInteger, OEEmulatorKey>::const_iterator it;
+    
+    if(dir == OEHIDDirectionNull)
+    {
+        if((it = KEY_MAP->find(axis)) != KEY_MAP->end())
+            [self releaseEmulatorKey:it->second];
+        if((it = KEY_MAP->find(-axis)) != KEY_MAP->end())
+            [self releaseEmulatorKey:it->second];
+        return;
+    }
+    else if(dir == OEHIDDirectionNegative)
+    {
+        if((it = KEY_MAP->find(-axis)) != KEY_MAP->end())
+            [self releaseEmulatorKey:it->second];
+    }
+    else if(dir == OEHIDDirectionPositive)
+    {
+        if((it = KEY_MAP->find(axis)) != KEY_MAP->end())
+            [self releaseEmulatorKey:it->second];
+    }
+    
+    value = axis * dir;
+    
+    if((it = KEY_MAP->find(value)) != KEY_MAP->end())
+        [self pressEmulatorKey:it->second];
+}
+
+- (void)buttonDown:(OEHIDEvent *)anEvent
+{
+    std::map<NSInteger, OEEmulatorKey>::const_iterator it;
+    if((it = KEY_MAP->find(HID_MASK | PAD_NUMBER | [anEvent buttonNumber])) != KEY_MAP->end())
+        [self pressEmulatorKey:it->second];
+}
+
+- (void)buttonUp:(OEHIDEvent *)anEvent
+{
+    std::map<NSInteger, OEEmulatorKey>::const_iterator it;
+    if((it = KEY_MAP->find(HID_MASK | PAD_NUMBER | [anEvent buttonNumber])) != KEY_MAP->end())
+        [self releaseEmulatorKey:it->second];
+}
+
+- (void)hatSwitchDown:(OEHIDEvent *)anEvent
+{
+    std::map<NSInteger, OEEmulatorKey>::const_iterator it;
+    if((it = KEY_MAP->find(HID_MASK | PAD_NUMBER | OEHatSwitchMask | [anEvent position])) != KEY_MAP->end())
+        [self pressEmulatorKey:it->second];
+}
+
+- (void)hatSwitchUp:(OEHIDEvent *)anEvent
+{
+    std::map<NSInteger, OEEmulatorKey>::const_iterator it;
+    for(NSUInteger i = 1, count = [anEvent count]; i <= count; i++)
+        if((it = KEY_MAP->find(HID_MASK | PAD_NUMBER | OEHatSwitchMask | i)) != KEY_MAP->end())
+            [self releaseEmulatorKey:it->second];
+}
+
 
 @end

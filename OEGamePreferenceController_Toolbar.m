@@ -70,7 +70,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     currentViewIdentifier = OEControlsToolbarItemIdentifier;
 }
 
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar
+- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)aToolbar
 {
     static NSArray *standardItems = nil;
     if(standardItems == nil)
@@ -81,17 +81,17 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     return standardItems;
 }
 
-- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)toolbar
+- (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)aToolbar
 {
-    return [self toolbarAllowedItemIdentifiers:toolbar];	
+    return [self toolbarAllowedItemIdentifiers:aToolbar];	
 }
 
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar
+- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)aToolbar
 {
-    return [self toolbarAllowedItemIdentifiers:toolbar];
+    return [self toolbarAllowedItemIdentifiers:aToolbar];
 }
 
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
+- (NSToolbarItem *)toolbar:(NSToolbar *)aToolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)flag
 {
     // Required delegate method:  Given an item identifier, this method returns an item 
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
@@ -135,7 +135,6 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     NSRect frame = [window frame];
     frame.size = newSize;
     frame.origin.y -= (newSize.height - oldSize.height);
-    NSLog(@"frameForNewContentViewFrame: %@", NSStringFromRect(frame));
     return frame;
 }
 
@@ -145,6 +144,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 	NSViewController *previousController = nil;
         
     previousController = currentViewController;
+    if(sender == self) [toolbar setSelectedItemIdentifier:OEControlsToolbarItemIdentifier];
     if(sender != nil) currentViewIdentifier = [sender itemIdentifier];
     currentViewController = [self newViewControllerForIdentifier:currentViewIdentifier];
 	

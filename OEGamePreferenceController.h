@@ -17,6 +17,7 @@ extern NSString *const OEAdvancedPreferenceKey;
 {
     IBOutlet NSDrawer          *pluginDrawer;
     IBOutlet NSArrayController *pluginController;
+    IBOutlet NSToolbar         *toolbar;
     NSDictionary               *preferencePanels;
     NSArray                    *plugins;
     NSString                   *currentViewIdentifier;

@@ -61,10 +61,20 @@
     return [[selectedControl infoForBinding:@"title"] objectForKey:NSObservedKeyPathKey];
 }
 
+- (NSUInteger)selectedPlayer
+{
+    if(playerStepper  != nil) return [playerStepper intValue];
+    if(playerSelector != nil) return [playerSelector selectedTag];
+    return NSNotFound;
+}
+
 - (NSString *)keyPathForKey:(NSString *)aKey
 {
-    if(playerStepper != nil)
-        return [NSString stringWithFormat:@"%d.%@", [playerStepper intValue] - 1, aKey];
+    OEGameCoreController *controller = [self controller];
+    NSUInteger player = [self selectedPlayer];
+    if(player != NSNotFound)
+        return [aKey stringByReplacingOccurrencesOfString:[controller playerString]
+                                               withString:[NSString stringWithFormat:[controller replacePlayerFormat], player]];
     else
         return aKey;
 }

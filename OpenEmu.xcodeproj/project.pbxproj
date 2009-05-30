@@ -101,7 +101,6 @@
 		82C9C95E0F0804D90071460B /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
 		82E7418A0E7209C400AE60C4 /* GameDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E741880E7209C400AE60C4 /* GameDocument.xib */; };
-		82F3629E0F51CC5F001495F6 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DF9EB0F51B48E0080AA28 /* GameCore.m */; };
 		82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
 		82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */; };
 		82F45CD40E8855B000B7B023 /* scale2x.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EF8FE80E7F45D2004FDFE9 /* scale2x.c */; };
@@ -127,10 +126,11 @@
 		C62969E50FCEA8BB004F84C4 /* OEControlsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C62969E20FCEA8BB004F84C4 /* OEControlsViewController.m */; };
 		C63C680F0FB9F14C00F4E3E0 /* NSApplication+OEHIDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */; };
 		C63C68100FB9F15800F4E3E0 /* NSApplication+OEHIDAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */; };
+		C650C1610FD13FC7009AD8F2 /* GameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = C650C1600FD13FC7009AD8F2 /* GameCore.mm */; };
+		C650C1620FD13FC7009AD8F2 /* GameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = C650C1600FD13FC7009AD8F2 /* GameCore.mm */; };
 		C669163D0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */; };
 		C669163E0FC9BC3E007DE3D8 /* OEGameControllerView.h in Headers */ = {isa = PBXBuildFile; fileRef = C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */; };
 		C669163F0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */; };
-		C66DF9EC0F51B48E0080AA28 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DF9EB0F51B48E0080AA28 /* GameCore.m */; };
 		C66DFA3E0F51C1640080AA28 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
 		C67DCEF20FC5FB5A0038A56E /* OEPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */; };
 		C67DCEF90FC604690038A56E /* OEPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */; };
@@ -274,6 +274,7 @@
 		C61C9C380F58BB3B007F4242 /* OEDummyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDummyView.m; sourceTree = "<group>"; };
 		C62969E10FCEA8BB004F84C4 /* OEControlsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsViewController.h; sourceTree = "<group>"; };
 		C62969E20FCEA8BB004F84C4 /* OEControlsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsViewController.m; sourceTree = "<group>"; };
+		C650C1600FD13FC7009AD8F2 /* GameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameCore.mm; sourceTree = "<group>"; };
 		C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameControllerView.h; sourceTree = "<group>"; };
 		C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameControllerView.m; sourceTree = "<group>"; };
 		C66DF9EB0F51B48E0080AA28 /* GameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCore.m; sourceTree = "<group>"; };
@@ -565,6 +566,7 @@
 			children = (
 				828389A80E6CF3A500A96E2C /* GameCore.h */,
 				C66DF9EB0F51B48E0080AA28 /* GameCore.m */,
+				C650C1600FD13FC7009AD8F2 /* GameCore.mm */,
 				C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */,
 				C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */,
 				C6C98B830F55B7A800116EA2 /* OEHIDEvent.h */,
@@ -802,11 +804,11 @@
 				C68C4BE50FA4BA4900724B50 /* OEHIDDeviceHandler.m in Sources */,
 				C61C98E90F583221007F4242 /* OEHIDEvent.m in Sources */,
 				C61C98E70F583217007F4242 /* OEGameCoreController.m in Sources */,
-				82F3629E0F51CC5F001495F6 /* GameCore.m in Sources */,
 				82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */,
 				C67DCEF90FC604690038A56E /* OEPreferenceViewController.m in Sources */,
 				C669163F0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */,
 				C62969E50FCEA8BB004F84C4 /* OEControlsViewController.m in Sources */,
+				C650C1620FD13FC7009AD8F2 /* GameCore.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -851,7 +853,6 @@
 				82F45E850E886D0000B7B023 /* hqxx.cpp in Sources */,
 				1B885E0E0F085EB200770B6D /* GameShader.m in Sources */,
 				829022AA0F47F90D00BB7AB7 /* GameQTRecorder.m in Sources */,
-				C66DF9EC0F51B48E0080AA28 /* GameCore.m in Sources */,
 				C66DFA3E0F51C1640080AA28 /* OEAbstractAdditions.m in Sources */,
 				C6C989C70F557D9200116EA2 /* OEHIDDeviceHandler.m in Sources */,
 				C6C98B850F55B7A800116EA2 /* OEHIDEvent.m in Sources */,
@@ -863,6 +864,7 @@
 				C67DCEF20FC5FB5A0038A56E /* OEPreferenceViewController.m in Sources */,
 				C669163D0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */,
 				C62969E30FCEA8BB004F84C4 /* OEControlsViewController.m in Sources */,
+				C650C1610FD13FC7009AD8F2 /* GameCore.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

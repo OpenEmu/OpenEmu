@@ -21,20 +21,26 @@ extern NSString *const OEKeyboardEventValueKey;
 {
     id        currentPreferenceViewController;
     NSBundle *bundle;
+    NSString *playerString;
+    NSString *replacePlayerFormat;
+    NSArray  *controlNames;
 }
 
 @property(readonly) NSBundle *bundle;
 @property(readonly) Class gameCoreClass;
 @property(readonly) id currentPreferenceViewController;
+@property(readonly) NSString *playerString;
+@property(readonly) NSString *replacePlayerFormat;
 
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
 - (NSArray *)availablePreferenceViewControllers;
 
-@property(readonly) NSArray *usedSettingNames;
-@property(readonly) NSArray *usedControlNames;
-@property(readonly) NSArray *genericControlNames;
-@property(readonly) NSString *pluginName;
+@property(readonly) NSArray    *usedSettingNames;
+@property(readonly) NSArray    *genericControlNames;
+@property(readonly) NSUInteger  playerCount;
+@property(readonly) NSString   *pluginName;
 
+- (NSUInteger)playerNumberInKey:(NSString *)aPlayerKey getKeyIndex:(NSUInteger *)index;
 /*
  * The method search for a registered class for the passed-in key and instanciate the controller
  * with the Nib name provided by the controller +preferenceNibName class method.
@@ -70,4 +76,3 @@ extern NSString *const OEKeyboardEventValueKey;
 @interface NSViewController (OEGameCoreControllerAddition)
 + (NSString *)preferenceNibName;
 @end
-

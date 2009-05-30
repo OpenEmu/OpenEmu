@@ -13,6 +13,7 @@
 {
     id selectedControl;
     id bindingType;
+    IBOutlet NSMatrix  *playerSelector;
     IBOutlet NSStepper *playerStepper;
     IBOutlet NSTextField *playerField;
 }
@@ -20,6 +21,7 @@
 @property(assign) NSControl *selectedControl;
 
 - (NSString *)selectedKey;
+- (NSUInteger)selectedPlayer;
 - (NSString *)keyPathForKey:(NSString *)aKey;
 
 - (BOOL)isKeyboardEventSelected;

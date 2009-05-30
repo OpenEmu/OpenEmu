@@ -7,6 +7,7 @@
 //
 
 #import "OEGameCoreController.h"
+#import "OEAbstractAdditions.h"
 #import "OEControlsViewController.h"
 #import "NSApplication+OEHIDAdditions.h"
 #import "GameCore.h"
@@ -20,9 +21,38 @@ NSString *const OEKeyboardEventValueKey = @"OEKeyboardEventValueKey";
 
 NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardNamespace", @"OEHIDNamespace", @"OEMouseNamespace", @"OEOtherNamespace" };
 
+@interface NSString (OEAdditions)
+- (BOOL)isEqualToString:(NSString *)aString excludingRange:(NSRange)aRange;
+@end
+
+@implementation NSString (OEAdditions)
+- (BOOL)isEqualToString:(NSString *)aString excludingRange:(NSRange)aRange
+{
+    NSUInteger length1 = [self length];
+    NSUInteger length2 = [aString length];
+    NSUInteger i = 0;
+    while(i < length1 && i < length2)
+    {
+        if(aRange.location <= i && i < aRange.location + aRange.length)
+        {
+            i = aRange.location + aRange.length;
+            continue;
+        }
+        
+        if([self characterAtIndex:i] != [aString characterAtIndex:i])
+            return NO;
+        
+        i++;
+    }
+    
+    return YES;
+}
+@end
+
+
 @implementation OEGameCoreController
 
-@synthesize currentPreferenceViewController, bundle;
+@synthesize currentPreferenceViewController, bundle, playerString, replacePlayerFormat;
 
 static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 
@@ -56,6 +86,12 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     return [[_preferenceViewControllerClasses objectForKey:[self class]] allKeys];
 }
 
+- (NSUInteger)playerCount
+{
+    //[self doesNotImplementSelector:_cmd];
+    return 0;
+}
+
 - (NSArray *)usedSettingNames
 {
     return [NSArray array];
@@ -77,18 +113,63 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     return nil;
 }
 
+static void OE_setupControlNames(OEGameCoreController *self)
+{
+    //if(self->controlNames != nil) return;
+    
+    NSArray *genericNames = [self genericControlNames];
+    NSUInteger playerCount = [self playerCount];
+    NSMutableArray *temp = [NSMutableArray arrayWithCapacity:[genericNames count] * playerCount];
+    
+    NSUInteger atLen = 0;
+    NSUInteger play = playerCount;
+    while (play != 0) {
+        atLen++;
+        play /= 10;
+    }
+    char *atCStr = malloc(atLen + 1);
+    char *playNoC = malloc(atLen + 1);
+    for(NSUInteger i = 0; i < atLen; i++)
+        atCStr[i] = '@', playNoC[i] = '0';
+    atCStr[atLen] = playNoC[atLen] = '\0';
+    
+    NSString *atStr  = [[NSString alloc] initWithBytes:atCStr  length:atLen encoding:NSASCIIStringEncoding];
+    free(atCStr);
+    
+    self->playerString = atStr;
+    NSString *format = [[NSString alloc] initWithFormat:@"%%0%uu", [atStr length]];
+    self->replacePlayerFormat = format;
+        
+    for(NSUInteger i = 1; i <= playerCount; i++)
+    {
+        for(NSString *genericName in genericNames)
+        {
+            NSString *playNo = [NSString stringWithFormat:format, i];
+            NSString *add = [genericName stringByReplacingOccurrencesOfString:atStr withString:playNo];
+            if(![temp containsObject:add]) [temp addObject:add];
+        }
+    }
+        
+    self->controlNames = [temp copy];
+}
+
 - (id)init
 {
     self = [super init];
     if(self != nil)
     {
         bundle = [NSBundle bundleForClass:[self class]];
+        
+        OE_setupControlNames(self);
     }
     return self;
 }
 
 - (void) dealloc
 {
+    [controlNames release];
+    [playerString release];
+    [replacePlayerFormat release];
     [currentPreferenceViewController release];
     [super dealloc];
 }
@@ -144,13 +225,10 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
         for(NSString *name in settingNames)
             [udc addObserver:ret forKeyPath:[baseName stringByAppendingString:name] options:0xF context:NULL];
         
-        // register gamecore control names
-        NSArray *controlNames = [self usedControlNames];
-        //OEEventNamespaceMask namespaces = [self usedEventNamespaces];
-        
+        // register gamecore control names        
         NSString *hidBaseName = [baseName stringByAppendingFormat:@"%@.", OEHIDEventValueKey];
         NSString *keyBaseName = [baseName stringByAppendingFormat:@"%@.", OEKeyboardEventValueKey];
-        
+                
         for(NSString *name in controlNames)
         {
             [udc addObserver:ret forKeyPath:[hidBaseName stringByAppendingString:name] options:0xF context:NULL];
@@ -158,7 +236,6 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
         }
     }
     
-    NSLog(@"%s", __FUNCTION__);
     return ret;
 }
 
@@ -168,7 +245,6 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     if([aGameCore document] == nil) return;
     
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
-    NSLog(@"%@", self);
     
     NSArray *settingNames = [self usedSettingNames];
     
@@ -176,9 +252,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     
     for(NSString *name in settingNames)
         [udc removeObserver:aGameCore forKeyPath:[baseName stringByAppendingString:name]];
-    
-    NSArray *controlNames = [self usedControlNames];
-    
+        
     NSString *hidBaseName = [baseName stringByAppendingFormat:@"%@.", OEHIDEventValueKey];
     NSString *keyBaseName = [baseName stringByAppendingFormat:@"%@.", OEKeyboardEventValueKey];
     
@@ -243,9 +317,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 - (void)removeBindingsToEvent:(id)theEvent withValueType:(NSString *)aType
 {
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
-    
-    NSArray *controlNames = [self usedControlNames];
-    
+        
     for(NSString *name in controlNames)
     {
         NSString *keyPath = [self keyPathForKey:name withValueType:aType];
@@ -259,6 +331,49 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
                 [self keyboardEventWasRemovedForKey:name];
         }
     }
+}
+
+static NSCharacterSet *numberSet = nil;
+static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey)
+{
+    if(numberSet == nil) numberSet = [[NSCharacterSet decimalDigitCharacterSet] retain];
+    
+    NSRange start = [atString rangeOfString:@"@"];
+    if(start.location == NSNotFound)
+        return ([atString isEqualToString:playerKey] ? 0 : NSNotFound);
+    
+    NSRange end = [atString rangeOfString:@"@" options:NSBackwardsSearch];
+    
+    NSRange atRange = start;
+    atRange.length = end.location - atRange.location + end.length;
+    
+    start.location = 0;
+    start.length   = atRange.location;
+    end.location   = atRange.location  + atRange.length;
+    end.length     = [atString length] - end.location;
+    
+    if(![atString isEqualToString:playerKey excludingRange:atRange]) return NSNotFound;lol
+    
+    NSUInteger ret = [[playerKey substringWithRange:atRange] integerValue];
+    return (ret != 0 ? ret : NSNotFound);
+}
+
+- (NSUInteger)playerNumberInKey:(NSString *)aPlayerKey getKeyIndex:(NSUInteger *)index
+{
+    if(index != NULL) *index = NSNotFound;
+    NSUInteger i = 0;
+    for(NSString *genericKey in [self genericControlNames])
+    {
+        NSUInteger temp = OE_playerNumberInKeyWithGenericKey(genericKey, aPlayerKey);
+        if(temp != NSNotFound)
+        {
+            if(index != NULL) *index = i;
+            return temp;
+        }
+        i++;
+    }
+            
+    return NSNotFound;
 }
 
 - (void)HIDEventWasRemovedForKey:(NSString *)keyName

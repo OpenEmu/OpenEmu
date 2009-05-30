@@ -43,8 +43,6 @@ NSString *OEControlsPreferencesClassName = @"OEControlsPreferencesClassName";
 	
     // Recovers the GameCore class of the plugin bundle
     gameCoreClass = [bundle principalClass];
-    NSLog(@"GameCore Class: [%@ isSubclassOfClass:[OEGameCoreController class]] == %s", gameCoreClass,
-          BOOL_STR([gameCoreClass isSubclassOfClass:[OEGameCoreController class]]));
     if([gameCoreClass isSubclassOfClass:[OEGameCoreController class]])
     {
         controller = [[gameCoreClass alloc] init];
@@ -115,7 +113,6 @@ NSString *OEControlsPreferencesClassName = @"OEControlsPreferencesClassName";
 
 - (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey
 {
-    NSLog(@"%@ --> %@", self, controller);
     NSViewController *ret = [controller newPreferenceViewControllerForKey:aKey];
     if(ret == nil) ret = [[NSViewController alloc] initWithNibName:@"UnimplementedPreference" bundle:[NSBundle mainBundle]];
     return ret;

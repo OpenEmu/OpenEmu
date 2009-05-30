@@ -19,6 +19,14 @@
 
 #import "OEGameCoreController.h"
 
+#if !defined(OE_INLINE)
+	#if defined(__GNUC__)
+		#define OE_INLINE static __inline__ __attribute__((always_inline))
+	#elif defined(__cplusplus)
+		#define OE_INLINE static inline
+	#endif
+#endif
+
 enum {
     OEButton_Up = 1,
     OEButton_Down,
@@ -49,14 +57,29 @@ enum {
 };
 typedef NSInteger OEButton;
 
+typedef struct OEEmulatorKey {
+    NSUInteger player;
+    NSUInteger key;
+} OEEmulatorKey;
+
+OE_INLINE OEEmulatorKey OEMakeEmulatorKey(NSUInteger player, NSUInteger key)
+{
+    OEEmulatorKey ret;
+    ret.player = player;
+    ret.key = key;
+    return ret;
+}
+
 @class GameDocument, OEHIDEvent;
 
 @interface GameCore : NSResponder
 {
-	NSThread *emulationThread;
-	GameDocument *document;
-	NSTimeInterval frameInterval;
+	NSThread             *emulationThread;
+	GameDocument         *document;
+	NSTimeInterval        frameInterval;
     OEGameCoreController *owner;
+@private
+    void *_keymap;
 }
 
 + (NSTimeInterval)defaultTimeInterval;
@@ -75,6 +98,16 @@ typedef NSInteger OEButton;
 - (void)setupEmulation;
 - (void)stopEmulation;
 - (void)startEmulation;
+
+#pragma mark Tracking preference changes
+- (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey;
+- (void)unsetEventForKey:(NSString *)keyName withValueMask:(NSUInteger)keyMask;
+- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
+- (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName;
+- (void)keyboardEventWasRemovedForKey:(NSString *)keyName;
+
+- (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName;
+- (void)HIDEventWasRemovedForKey:(NSString *)keyName;
 
 // ============================================================================
 // Abstract methods: Those methods should be overridden by subclasses
@@ -100,21 +133,14 @@ typedef NSInteger OEButton;
 @property(readonly) NSInteger soundBufferSize;
 @property(readonly) NSInteger frameSampleRate;
 
+#pragma mark Input Settings & Parsing
+- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
+- (void)pressEmulatorKey:(OEEmulatorKey)aKey;
+- (void)releaseEmulatorKey:(OEEmulatorKey)aKey;
+
 #pragma mark Input
 - (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
 - (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton;
-
-#pragma mark Keyboard events
-- (void)keyDown:(NSEvent *)theEvent;
-- (void)keyUp:(NSEvent *)theEvent;
-
-#pragma mark Tracking preference changes
-- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
-- (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName;
-- (void)keyboardEventWasRemovedForKey:(NSString *)keyName;
-
-- (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName;
-- (void)HIDEventWasRemovedForKey:(NSString *)keyName;
 
 // ============================================================================
 // End Abstract methods.
