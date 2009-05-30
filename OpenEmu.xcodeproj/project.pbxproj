@@ -79,6 +79,9 @@
 		82798C2D0E85DA02001DCA93 /* PluginInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798C2C0E85DA02001DCA93 /* PluginInfo.m */; };
 		8283876E0E6C54E100A96E2C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
 		8283882C0E6CE13C00A96E2C /* GameDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */; };
+		828CF1850FD1D7C80041311B /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
+		828CF1A30FD1D8530041311B /* OEMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */; };
+		828CF1A40FD1D86A0041311B /* OEPreferenceViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */; };
 		828E659F0E8466CC00B1860B /* OpenEmuQCPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */; };
 		828E65D30E8467A400B1860B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
 		828E65D70E8467AA00B1860B /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D60E8467AA00B1860B /* Quartz.framework */; };
@@ -96,6 +99,7 @@
 		829B9CAC0E7F215700452894 /* GameBuffer.mm in Sources */ = {isa = PBXBuildFile; fileRef = 829B9CAB0E7F215700452894 /* GameBuffer.mm */; };
 		829E027A0E7C5631009F348B /* GameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 829E02790E7C5631009F348B /* GameLayer.m */; };
 		829E02D00E7C5882009F348B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829E02CF0E7C5882009F348B /* QuartzCore.framework */; };
+		82AD1B310FD1BD2A00B3A8A9 /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
 		82C434130EE393530037C54B /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82C434120EE393530037C54B /* icon.icns */; };
 		82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C95E0F0804D90071460B /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
@@ -126,8 +130,8 @@
 		C62969E50FCEA8BB004F84C4 /* OEControlsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C62969E20FCEA8BB004F84C4 /* OEControlsViewController.m */; };
 		C63C680F0FB9F14C00F4E3E0 /* NSApplication+OEHIDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */; };
 		C63C68100FB9F15800F4E3E0 /* NSApplication+OEHIDAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */; };
-		C650C1610FD13FC7009AD8F2 /* GameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = C650C1600FD13FC7009AD8F2 /* GameCore.mm */; };
-		C650C1620FD13FC7009AD8F2 /* GameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = C650C1600FD13FC7009AD8F2 /* GameCore.mm */; };
+		C650C1610FD13FC7009AD8F2 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C650C1600FD13FC7009AD8F2 /* GameCore.m */; };
+		C650C1620FD13FC7009AD8F2 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C650C1600FD13FC7009AD8F2 /* GameCore.m */; };
 		C669163D0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */; };
 		C669163E0FC9BC3E007DE3D8 /* OEGameControllerView.h in Headers */ = {isa = PBXBuildFile; fileRef = C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */; };
 		C669163F0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */; };
@@ -254,6 +258,8 @@
 		829E02780E7C5631009F348B /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
 		829E02790E7C5631009F348B /* GameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameLayer.m; sourceTree = "<group>"; };
 		829E02CF0E7C5882009F348B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
+		82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMap.h; sourceTree = "<group>"; };
+		82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMap.m; sourceTree = "<group>"; };
 		82C434120EE393530037C54B /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		82C9C9540F0804A20071460B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		82C9C96C0F080BD30071460B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
@@ -274,10 +280,10 @@
 		C61C9C380F58BB3B007F4242 /* OEDummyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDummyView.m; sourceTree = "<group>"; };
 		C62969E10FCEA8BB004F84C4 /* OEControlsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsViewController.h; sourceTree = "<group>"; };
 		C62969E20FCEA8BB004F84C4 /* OEControlsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsViewController.m; sourceTree = "<group>"; };
-		C650C1600FD13FC7009AD8F2 /* GameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GameCore.mm; sourceTree = "<group>"; };
+		C650C1600FD13FC7009AD8F2 /* GameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCore.m; sourceTree = "<group>"; };
 		C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameControllerView.h; sourceTree = "<group>"; };
 		C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameControllerView.m; sourceTree = "<group>"; };
-		C66DF9EB0F51B48E0080AA28 /* GameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCore.m; sourceTree = "<group>"; };
+		C66DF9EB0F51B48E0080AA28 /* GameCoreOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCoreOld.m; sourceTree = "<group>"; };
 		C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAbstractAdditions.h; sourceTree = "<group>"; };
 		C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAbstractAdditions.m; sourceTree = "<group>"; };
 		C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferenceViewController.h; sourceTree = "<group>"; };
@@ -565,8 +571,8 @@
 			isa = PBXGroup;
 			children = (
 				828389A80E6CF3A500A96E2C /* GameCore.h */,
-				C66DF9EB0F51B48E0080AA28 /* GameCore.m */,
-				C650C1600FD13FC7009AD8F2 /* GameCore.mm */,
+				C66DF9EB0F51B48E0080AA28 /* GameCoreOld.m */,
+				C650C1600FD13FC7009AD8F2 /* GameCore.m */,
 				C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */,
 				C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */,
 				C6C98B830F55B7A800116EA2 /* OEHIDEvent.h */,
@@ -583,6 +589,8 @@
 				C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */,
 				C62969E10FCEA8BB004F84C4 /* OEControlsViewController.h */,
 				C62969E20FCEA8BB004F84C4 /* OEControlsViewController.m */,
+				82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */,
+				82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */,
 			);
 			name = "GameCore framework";
 			sourceTree = "<group>";
@@ -625,6 +633,8 @@
 				82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */,
 				C669163E0FC9BC3E007DE3D8 /* OEGameControllerView.h in Headers */,
 				C62969E40FCEA8BB004F84C4 /* OEControlsViewController.h in Headers */,
+				828CF1A30FD1D8530041311B /* OEMap.h in Headers */,
+				828CF1A40FD1D86A0041311B /* OEPreferenceViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -808,7 +818,8 @@
 				C67DCEF90FC604690038A56E /* OEPreferenceViewController.m in Sources */,
 				C669163F0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */,
 				C62969E50FCEA8BB004F84C4 /* OEControlsViewController.m in Sources */,
-				C650C1620FD13FC7009AD8F2 /* GameCore.mm in Sources */,
+				C650C1620FD13FC7009AD8F2 /* GameCore.m in Sources */,
+				828CF1850FD1D7C80041311B /* OEMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -864,7 +875,8 @@
 				C67DCEF20FC5FB5A0038A56E /* OEPreferenceViewController.m in Sources */,
 				C669163D0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */,
 				C62969E30FCEA8BB004F84C4 /* OEControlsViewController.m in Sources */,
-				C650C1610FD13FC7009AD8F2 /* GameCore.mm in Sources */,
+				C650C1610FD13FC7009AD8F2 /* GameCore.m in Sources */,
+				82AD1B310FD1BD2A00B3A8A9 /* OEMap.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1177,7 +1189,7 @@
 				82444BA40F51256D007C171B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		828E659C0E8466A200B1860B /* Build configuration list for PBXNativeTarget "OpenEmuQC" */ = {
 			isa = XCConfigurationList;
@@ -1186,7 +1198,7 @@
 				828E659B0E8466A100B1860B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		828E65EC0E8467F600B1860B /* Build configuration list for PBXAggregateTarget "Copy & Build OpenEmuQC" */ = {
 			isa = XCConfigurationList;
@@ -1195,7 +1207,7 @@
 				828E65E50E8467E900B1860B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		82C9C97C0F080C810071460B /* Build configuration list for PBXAggregateTarget "Distribution" */ = {
 			isa = XCConfigurationList;
@@ -1204,7 +1216,7 @@
 				82C9C9710F080C800071460B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */ = {
 			isa = XCConfigurationList;
@@ -1213,7 +1225,7 @@
 				C05733C908A9546B00998B17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "OpenEmu" */ = {
 			isa = XCConfigurationList;
@@ -1222,7 +1234,7 @@
 				C05733CD08A9546B00998B17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
