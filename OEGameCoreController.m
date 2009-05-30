@@ -352,7 +352,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     end.location   = atRange.location  + atRange.length;
     end.length     = [atString length] - end.location;
     
-    if(![atString isEqualToString:playerKey excludingRange:atRange]) return NSNotFound;lol
+    if(![atString isEqualToString:playerKey excludingRange:atRange]) return NSNotFound;
     
     NSUInteger ret = [[playerKey substringWithRange:atRange] integerValue];
     return (ret != 0 ? ret : NSNotFound);
