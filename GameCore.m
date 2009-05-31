@@ -331,6 +331,7 @@ static NSTimeInterval currentTime()
 #define PAD_NUMBER  ([anEvent padNumber] << 24)
 #define KEYBOARD_MASK 0x40000000u
 #define HID_MASK      0x20000000u
+#define DIRECTION_MASK(dir) (1 << ((dir) > OEHIDDirectionNull)) 
 
 #define GET_EMUL_KEY do {                                                   \
     NSUInteger index, player;                                               \
@@ -371,14 +372,16 @@ static NSTimeInterval currentTime()
     GET_EMUL_KEY;
     
     NSInteger appKey = 0;
-    
     OEHIDEvent *anEvent = theEvent;
     appKey = HID_MASK | [anEvent padNumber] << 24;
     switch ([anEvent type]) {
         case OEHIDAxis :
-            if([anEvent direction] == OEHIDDirectionNull) return;
+        {
+            OEHIDDirection dir = [anEvent direction];
+            if(dir == OEHIDDirectionNull) return;
             appKey |= ([anEvent axis] << 16);
-            appKey *= [anEvent direction];
+            appKey |= 1 << (dir > OEHIDDirectionNull);
+        }
             break;
         case OEHIDButton :
             if([anEvent state]     == NSOffState)         return;
@@ -401,7 +404,6 @@ static NSTimeInterval currentTime()
 
 - (void)keyDown:(NSEvent *)anEvent
 {
-  //  std::map<NSInteger, OEEmulatorKey>::const_iterator it;
 	OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keyCode], &key))
         [self pressEmulatorKey:key];
@@ -423,25 +425,24 @@ static NSTimeInterval currentTime()
     
     if(dir == OEHIDDirectionNull)
     {
-        if(OEMapGetValue(keyMap, axis, &key))
+        if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDDirectionNegative), &key))
             [self releaseEmulatorKey:key];
-        if(OEMapGetValue(keyMap, -axis, &key))
+        if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDDirectionPositive), &key))
             [self releaseEmulatorKey:key];
         return;
     }
     else if(dir == OEHIDDirectionNegative)
     {
-        if(OEMapGetValue(keyMap, -axis, &key))
+        if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDDirectionPositive), &key))
             [self releaseEmulatorKey:key];
     }
     else if(dir == OEHIDDirectionPositive)
     {
-        if(OEMapGetValue(keyMap, axis, &key))
+        if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDDirectionNegative), &key))
             [self releaseEmulatorKey:key];
     }
     
-    value = axis * dir;
-    
+    value = axis  | DIRECTION_MASK(dir);
     if(OEMapGetValue(keyMap, value, &key))
         [self pressEmulatorKey:key];
 }

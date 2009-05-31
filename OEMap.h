@@ -37,8 +37,9 @@ typedef OEEmulatorKey OEMapValue;
 typedef struct _OEMap *OEMapRef;
 
 OEMapRef OEMapCreate(size_t capacity);
-void     OEMapRelease(OEMapRef map);
-void     OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value);
-BOOL     OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value);
-void     OEMapRemoveMaskedKeysForValue(OEMapRef map, OEMapKey mask, OEMapValue value);
-void     OEMapSetValueComparator(OEMapRef map, BOOL (*comparator)(OEMapValue, OEMapValue));
+void OEMapRelease(OEMapRef map);
+void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value);
+BOOL OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value);
+void OEMapRemoveMaskedKeysForValue(OEMapRef map, OEMapKey mask, OEMapValue value);
+void OEMapSetValueComparator(OEMapRef map, BOOL (*comparator)(OEMapValue, OEMapValue));
+void OEMapShowOffContent(OEMapRef map);

@@ -11,6 +11,10 @@
 
 #define CHUNK_SIZE 5
 
+#ifndef BOOL_STR
+#define BOOL_STR(var) ((var) ? "YES" : "NO")
+#endif
+
 typedef struct {
 	OEMapKey   key;
 	OEMapValue value;
@@ -23,8 +27,6 @@ typedef struct _OEMap {
 	OEMapEntry *entries;
 	BOOL (*valueIsEqual)(OEMapValue, OEMapValue);
 } OEMap;
-
-#define SET_ENTRY(entry, aKey, aValue) do { (entry)->key = (aKey), (entry)->value = (aValue), (entry)->allocated = 1; } while(0)
 
 BOOL defaultIsEqual(OEMapValue v1, OEMapValue v2)
 {
@@ -69,9 +71,11 @@ void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
 		for ( int i = 0; i < map->count; i++ )
 		{
             OEMapEntry *entry = &map->entries[i];
-			if(entry->allocated == 0 )
+			if(!entry->allocated)
 			{
-                SET_ENTRY(entry, key, value);
+                entry->key = key;
+                entry->value = value;
+                entry->allocated = YES;
 				return;
 			}
 		}
@@ -91,7 +95,7 @@ BOOL OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value)
     for(size_t i = 0, max = map->count; i < max; i++)
     {
         OEMapEntry *entry = &map->entries[i];
-        if(entry->key == key && entry->allocated)
+        if(entry->allocated && entry->key == key)
         {
             *value = entry->value;
             return YES;
@@ -111,6 +115,16 @@ void OEMapRemoveMaskedKeysForValue(OEMapRef map, OEMapKey mask, OEMapValue value
     {
         OEMapEntry *entry = &map->entries[i];
         if(entry->allocated && map->valueIsEqual(value, entry->value) && entry->key & mask)
-            entry->allocated = 0;
+            entry->allocated = NO;
+    }
+}
+
+void OEMapShowOffContent(OEMapRef map)
+{
+    NSLog(@"Count = %d", map->count);
+    for(size_t i = 0, max = map->count; i < max; i++)
+    {
+        OEMapEntry *entry = &map->entries[i];
+        NSLog(@"entry[%d] = { .allocated = %s, .key = %d, .value = { .key = %d, .player = %d } }", i, BOOL_STR(entry->allocated), entry->key, entry->value.key, entry->value.player);
     }
 }
