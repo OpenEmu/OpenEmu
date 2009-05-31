@@ -134,6 +134,7 @@ OE_INLINE OEEmulatorKey OEMakeEmulatorKey(NSUInteger player, NSUInteger key)
 @property(readonly) NSInteger frameSampleRate;
 
 #pragma mark Input Settings & Parsing
+- (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;
 - (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey;
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey;

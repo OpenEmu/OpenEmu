@@ -79,15 +79,7 @@
     NSRect button = NSZeroRect;
     button.size = BUTTON_SIZE;
     NSPoint middle = NSZeroPoint;
-    if(start.y >= NSMaxY(drawRect))
-    {
-        button.origin.x = start.x - button.size.width / 2.0;
-        button.origin.y = bounds.size.height - (button.size.height + 14.0);
-        start.y = button.origin.y + button.size.height / 2.0;
-        middle.x = start.x;
-        middle.y = NSMaxY(drawRect) - button.size.height / 2.0;
-    }
-    else if(start.y <= NSMinY(drawRect))
+    if(start.y <= NSMinY(drawRect))
     {
         button.origin.x = start.x - button.size.width / 2.0;
         button.origin.y = 14.0;
@@ -110,6 +102,14 @@
         button.origin.y = start.y - button.size.height / 2.0;
         middle.x = NSMaxX(drawRect);
         middle.y = start.y;
+    }
+    else if(start.y >= NSMaxY(drawRect))
+    {
+        button.origin.x = start.x - button.size.width / 2.0;
+        button.origin.y = bounds.size.height - (button.size.height + 14.0);
+        start.y = button.origin.y + button.size.height / 2.0;
+        middle.x = start.x;
+        middle.y = NSMaxY(drawRect) - button.size.height / 2.0;
     }
     
     NSButton *added = [[[NSButton alloc] initWithFrame:button] autorelease];

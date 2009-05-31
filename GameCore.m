@@ -242,6 +242,11 @@ static NSTimeInterval currentTime()
     return 1;
 }
 
+- (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer
+{
+    return [self emulatorKeyForKeyIndex:index player:thePlayer];
+}
+
 - (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
 {
 	[self doesNotImplementSelector:_cmd];
@@ -339,11 +344,11 @@ static NSTimeInterval currentTime()
 #define KEYBOARD_MASK 0x40000000u
 #define HID_MASK      0x20000000u
 
-#define GET_EMUL_KEY do {                                          \
-    NSUInteger index, player;                                      \
-    player = [owner playerNumberInKey:keyName getKeyIndex:&index]; \
-    if(player == NSNotFound) return;                               \
-    emulKey = [self emulatorKeyForKeyIndex:index player:player];   \
+#define GET_EMUL_KEY do {                                                   \
+    NSUInteger index, player;                                               \
+    player = [owner playerNumberInKey:keyName getKeyIndex:&index];          \
+    if(player == NSNotFound) return;                                        \
+    emulKey = [self emulatorKeyForKey:keyName index:index player:player];   \
 } while(0)
 
 - (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey
