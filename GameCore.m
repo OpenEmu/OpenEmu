@@ -334,8 +334,6 @@ static NSTimeInterval currentTime()
 	[self doesNotImplementSelector:_cmd];
 }
 
-// FIXME: Rebuild a map class all in C to replace that code
-
 #define OEHatSwitchMask     (0x39 << 16)
 #define PAD_NUMBER  ([anEvent padNumber] << 24)
 #define KEYBOARD_MASK 0x40000000u
