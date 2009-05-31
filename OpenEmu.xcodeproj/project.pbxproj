@@ -130,8 +130,6 @@
 		C62969E50FCEA8BB004F84C4 /* OEControlsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C62969E20FCEA8BB004F84C4 /* OEControlsViewController.m */; };
 		C63C680F0FB9F14C00F4E3E0 /* NSApplication+OEHIDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */; };
 		C63C68100FB9F15800F4E3E0 /* NSApplication+OEHIDAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */; };
-		C650C1610FD13FC7009AD8F2 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C650C1600FD13FC7009AD8F2 /* GameCore.m */; };
-		C650C1620FD13FC7009AD8F2 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C650C1600FD13FC7009AD8F2 /* GameCore.m */; };
 		C669163D0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */; };
 		C669163E0FC9BC3E007DE3D8 /* OEGameControllerView.h in Headers */ = {isa = PBXBuildFile; fileRef = C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */; };
 		C669163F0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */; };
@@ -151,6 +149,8 @@
 		C6C98CAF0F55F4C400116EA2 /* GamePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6C98CAE0F55F4C400116EA2 /* GamePreferences.xib */; };
 		C6C98CB40F55F50100116EA2 /* OEGamePreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C98CB30F55F50100116EA2 /* OEGamePreferenceController.m */; };
 		C6C98CB70F55F59900116EA2 /* OEGamePreferenceController_Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C98CB60F55F59900116EA2 /* OEGamePreferenceController_Toolbar.m */; };
+		C6FC4C910FD2C5C3007CCD32 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C6FC4C900FD2C5C3007CCD32 /* GameCore.m */; };
+		C6FC4C920FD2C5C3007CCD32 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C6FC4C900FD2C5C3007CCD32 /* GameCore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -280,10 +280,8 @@
 		C61C9C380F58BB3B007F4242 /* OEDummyView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDummyView.m; sourceTree = "<group>"; };
 		C62969E10FCEA8BB004F84C4 /* OEControlsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsViewController.h; sourceTree = "<group>"; };
 		C62969E20FCEA8BB004F84C4 /* OEControlsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsViewController.m; sourceTree = "<group>"; };
-		C650C1600FD13FC7009AD8F2 /* GameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCore.m; sourceTree = "<group>"; };
 		C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameControllerView.h; sourceTree = "<group>"; };
 		C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameControllerView.m; sourceTree = "<group>"; };
-		C66DF9EB0F51B48E0080AA28 /* GameCoreOld.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCoreOld.m; sourceTree = "<group>"; };
 		C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAbstractAdditions.h; sourceTree = "<group>"; };
 		C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAbstractAdditions.m; sourceTree = "<group>"; };
 		C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferenceViewController.h; sourceTree = "<group>"; };
@@ -304,6 +302,7 @@
 		C6C98CB30F55F50100116EA2 /* OEGamePreferenceController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGamePreferenceController.m; sourceTree = "<group>"; };
 		C6C98CB50F55F59900116EA2 /* OEGamePreferenceController_Toolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGamePreferenceController_Toolbar.h; sourceTree = "<group>"; };
 		C6C98CB60F55F59900116EA2 /* OEGamePreferenceController_Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGamePreferenceController_Toolbar.m; sourceTree = "<group>"; };
+		C6FC4C900FD2C5C3007CCD32 /* GameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameCore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -571,8 +570,7 @@
 			isa = PBXGroup;
 			children = (
 				828389A80E6CF3A500A96E2C /* GameCore.h */,
-				C66DF9EB0F51B48E0080AA28 /* GameCoreOld.m */,
-				C650C1600FD13FC7009AD8F2 /* GameCore.m */,
+				C6FC4C900FD2C5C3007CCD32 /* GameCore.m */,
 				C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */,
 				C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */,
 				C6C98B830F55B7A800116EA2 /* OEHIDEvent.h */,
@@ -818,8 +816,8 @@
 				C67DCEF90FC604690038A56E /* OEPreferenceViewController.m in Sources */,
 				C669163F0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */,
 				C62969E50FCEA8BB004F84C4 /* OEControlsViewController.m in Sources */,
-				C650C1620FD13FC7009AD8F2 /* GameCore.m in Sources */,
 				828CF1850FD1D7C80041311B /* OEMap.m in Sources */,
+				C6FC4C920FD2C5C3007CCD32 /* GameCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,8 +873,8 @@
 				C67DCEF20FC5FB5A0038A56E /* OEPreferenceViewController.m in Sources */,
 				C669163D0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */,
 				C62969E30FCEA8BB004F84C4 /* OEControlsViewController.m in Sources */,
-				C650C1610FD13FC7009AD8F2 /* GameCore.m in Sources */,
 				82AD1B310FD1BD2A00B3A8A9 /* OEMap.m in Sources */,
+				C6FC4C910FD2C5C3007CCD32 /* GameCore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

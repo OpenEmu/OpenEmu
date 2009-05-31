@@ -16,16 +16,8 @@
 #endif
 
 #import <Cocoa/Cocoa.h>
-
+#import "OEMap.h"
 #import "OEGameCoreController.h"
-
-#if !defined(OE_INLINE)
-	#if defined(__GNUC__)
-		#define OE_INLINE static __inline__ __attribute__((always_inline))
-	#elif defined(__cplusplus)
-		#define OE_INLINE static inline
-	#endif
-#endif
 
 enum {
     OEButton_Up = 1,
@@ -57,19 +49,6 @@ enum {
 };
 typedef NSInteger OEButton;
 
-typedef struct OEEmulatorKey {
-    NSUInteger player;
-    NSUInteger key;
-} OEEmulatorKey;
-
-OE_INLINE OEEmulatorKey OEMakeEmulatorKey(NSUInteger player, NSUInteger key)
-{
-    OEEmulatorKey ret;
-    ret.player = player;
-    ret.key = key;
-    return ret;
-}
-
 @class GameDocument, OEHIDEvent;
 
 @interface GameCore : NSResponder
@@ -78,8 +57,7 @@ OE_INLINE OEEmulatorKey OEMakeEmulatorKey(NSUInteger player, NSUInteger key)
 	GameDocument         *document;
 	NSTimeInterval        frameInterval;
     OEGameCoreController *owner;
-@private
-    void *_keymap;
+    OEMapRef              keyMap;
 }
 
 + (NSTimeInterval)defaultTimeInterval;

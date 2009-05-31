@@ -9,95 +9,104 @@
 
 #include "OEMap.h"
 
-void OEMapEntry_InitializeEntry( OEMapEntry *entry, KEY_TYPE key, VALUE_TYPE value )
+#define CHUNK_SIZE 5
+
+typedef struct {
+	OEMapKey   key;
+	OEMapValue value;
+	BOOL       allocated;
+} OEMapEntry;
+
+typedef struct _OEMap {
+    size_t capacity;
+	size_t count;
+	OEMapEntry *entries;
+	BOOL (*valueIsEqual)(OEMapValue, OEMapValue);
+} OEMap;
+
+#define SET_ENTRY(entry, aKey, aValue) do { (entry)->key = (aKey), (entry)->value = (aValue), (entry)->allocated = 1; } while(0)
+
+BOOL defaultIsEqual(OEMapValue v1, OEMapValue v2)
 {
-	entry->key = key;
-	entry->value = value;
-	entry->allocated = 1;
+    return v1.key == v2.key && v1.player == v2.player;
 }
 
-void OEMap_InitializeMap( OEMap *map, int(*value_compare)(VALUE_TYPE, VALUE_TYPE))
+OEMapRef OEMapCreate(size_t capacity)
 {
-	map->count = 0;
-	map->entries = 0;
-	map->value_compare = value_compare;
+    OEMapRef ret  = malloc(sizeof(OEMap));
+    ret->count    = 0;
+    ret->capacity = capacity;
+    ret->entries  = malloc(sizeof(OEMapEntry) * capacity);
+    ret->valueIsEqual = defaultIsEqual;
+    return ret;
 }
 
-void OEMap_SetKey( OEMap *map, KEY_TYPE key, VALUE_TYPE value)
+void OEMapRelease(OEMapRef map)
 {
-	if( map->count )
-	{
-		for ( int i = 0; i < map->count; i++ )
-		{
-			OEMapEntry *entry = &map->entries[i];
+    if(map == NULL) return;
+    
+    if(map->capacity > 0)
+        free(map->entries);
+    free(map);
+}
+
+void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
+{
+    if(map->count != 0)
+    {
+        for(size_t i = 0, max = map->count; i < max; i++)
+        {
+            OEMapEntry *entry = &map->entries[i];
 			if( entry->key == key )
 			{
-				entry->allocated = 1;
-				entry->value = value;
+                SET_ENTRY(entry, key, value);
+				return;
+			}
+        }
+        
+        //find the next unallocated spot
+		for ( int i = 0; i < map->count; i++ )
+		{
+            OEMapEntry *entry = &map->entries[i];
+			if(entry->allocated == 0 )
+			{
+                SET_ENTRY(entry, key, value);
 				return;
 			}
 		}
-		
-		//find the next unallocated spot
-		for ( int i = 0; i < map->count; i++ )
-		{
-			OEMapEntry *entry = &map->entries[i];
-			if( entry->allocated == 0 )
-			{
-				entry->allocated = 1;
-				entry->value = value;
-				entry->key = key;
-				return;
-			}
-		}
-	}
-	
-	//Key wasn't found
-	map->count = map->count+1;
-	map->entries = realloc(map->entries, sizeof(OEMapEntry) * map->count);
-	
-	OEMapEntry newEntry;
-	OEMapEntry_InitializeEntry(&newEntry, key, value);
-	
-	map->entries[map->count - 1] = newEntry;
+    }
+    
+    if(map->count + 1 > map->capacity)
+        map->entries = realloc(map->entries, sizeof(OEMapEntry) * map->count);
+    
+    SET_ENTRY(&map->entries[map->count++], key, value);
 }
 
-int OEMap_ValueForKey( const OEMap *map, KEY_TYPE key, VALUE_TYPE* value)
+BOOL OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value)
 {
-
-	if( map->count )
-	{
-		for ( int i = 0; i < map->count; i++ )
-		{
-			OEMapEntry *entry = &map->entries[i];
-			if( entry->key == key  && entry->allocated)
-			{
-				*value = entry->value;
-				return 1;
-			}
-		}
-	}
-	return 0;
+    for(size_t i = 0, max = map->count; i < max; i++)
+    {
+        OEMapEntry *entry = &map->entries[i];
+        if(entry->key == key && entry->allocated)
+        {
+            *value = entry->value;
+            return YES;
+        }
+    }
+    return NO;
 }
 
-void OEMap_ClearMaskedKeysForValue( OEMap *map, VALUE_TYPE value, KEY_TYPE mask )
+void OEMapSetValueComparator(OEMapRef map, BOOL (*comparator)(OEMapValue, OEMapValue))
 {
-	if( map->count )
-	{
-		for( int i = 0; i < map->count; i++ )
-		{
-			OEMapEntry *entry = &map->entries[i];
-			if(entry->allocated && map->value_compare( value, entry->value ) && entry->key & mask)
-			{
-				entry->allocated = 0;
-			}
-		}
-	}
+    map->valueIsEqual = comparator;
 }
 
-void OEMap_DestroyMap( OEMap *map )
+void OEMapRemoveMaskedKeysForValue(OEMapRef map, OEMapKey mask, OEMapValue value)
 {
-	if(map->count)
-		free(map->entries);
-	map->count = 0;
+    for(size_t i = 0, max = map->count; i < max; i++)
+    {
+        OEMapEntry *entry = &map->entries[i];
+        if(entry->allocated && map->valueIsEqual(value, entry->value) && entry->key & mask)
+            entry->allocated = 0;
+    }
 }
