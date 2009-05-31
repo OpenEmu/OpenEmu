@@ -59,7 +59,8 @@ void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
             OEMapEntry *entry = &map->entries[i];
 			if( entry->key == key )
 			{
-                SET_ENTRY(entry, key, value);
+                entry->value = value;
+                entry->allocated = YES;
 				return;
 			}
         }
@@ -79,7 +80,10 @@ void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
     if(map->count + 1 > map->capacity)
         map->entries = realloc(map->entries, sizeof(OEMapEntry) * map->count);
     
-    SET_ENTRY(&map->entries[map->count++], key, value);
+    OEMapEntry *entry = &map->entries[map->count++];
+    entry->value = value;
+    entry->key   = key;
+    entry->allocated = YES;
 }
 
 BOOL OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value)

@@ -23,12 +23,6 @@ typedef struct OEEmulatorKey {
 #endif
 #endif
 
-#ifdef __cplusplus
-#define OE_EXTERN extern "C"
-#else
-#define OE_EXTERN extern
-#endif
-
 OE_INLINE OEEmulatorKey OEMakeEmulatorKey(NSUInteger player, NSUInteger key)
 {
     OEEmulatorKey ret;
@@ -42,9 +36,9 @@ typedef OEEmulatorKey OEMapValue;
 
 typedef struct _OEMap *OEMapRef;
 
-OE_EXTERN OEMapRef OEMapCreate(size_t capacity);
-OE_EXTERN void     OEMapRelease(OEMapRef map);
-OE_EXTERN void     OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value);
-OE_EXTERN BOOL     OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value);
-OE_EXTERN void     OEMapRemoveMaskedKeysForValue(OEMapRef map, OEMapKey mask, OEMapValue value);
-OE_EXTERN void     OEMapSetValueComparator(OEMapRef map, BOOL (*comparator)(OEMapValue, OEMapValue));
+OEMapRef OEMapCreate(size_t capacity);
+void     OEMapRelease(OEMapRef map);
+void     OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value);
+BOOL     OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value);
+void     OEMapRemoveMaskedKeysForValue(OEMapRef map, OEMapKey mask, OEMapValue value);
+void     OEMapSetValueComparator(OEMapRef map, BOOL (*comparator)(OEMapValue, OEMapValue));
