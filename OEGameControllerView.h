@@ -19,5 +19,6 @@
 
 @property(retain) NSImage *gameController;
 @property(assign) NSRect controlZone;
+- (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end;
 - (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end;
 @end

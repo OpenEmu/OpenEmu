@@ -75,6 +75,11 @@
 #define BUTTON_SIZE NSMakeSize(96.0, 32.0)
 - (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end
 {
+    [self addButtonWithName:aName toolTip:aName target:aTarget startPosition:start endPosition:end];
+}
+
+- (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end
+{
     NSRect bounds = [self bounds];
     NSRect button = NSZeroRect;
     button.size = BUTTON_SIZE;
@@ -118,6 +123,7 @@
     [added bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
     [added setBezelStyle:NSRoundedBezelStyle];
     [added setButtonType:NSPushOnPushOffButton];
+    [added setToolTip:aToolTip];
     
     [self addSubview:added];
     
