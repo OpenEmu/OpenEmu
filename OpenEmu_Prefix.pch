@@ -6,12 +6,6 @@
     #import <Cocoa/Cocoa.h>
 #endif
 
-#ifdef __cplusplus
-#define OE_EXTERN extern "C"
-#else
-#define OE_EXTERN extern
-#endif
-
 #define BOOL_STR(var) ((var) ? "YES" : "NO")
 
 #define DEBUG_PRINT

@@ -23,6 +23,12 @@ typedef struct OEEmulatorKey {
 #endif
 #endif
 
+#ifdef __cplusplus
+#define OE_EXTERN extern "C"
+#else
+#define OE_EXTERN extern
+#endif
+
 OE_INLINE OEEmulatorKey OEMakeEmulatorKey(NSUInteger player, NSUInteger key)
 {
     OEEmulatorKey ret;

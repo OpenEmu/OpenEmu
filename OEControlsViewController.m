@@ -79,29 +79,55 @@
         return aKey;
 }
 
+- (IBAction)closeWindow:(id)sender
+{
+    [[[self view] window] close];
+}
+
 - (void)registerEvent:(id)anEvent
 {
-    if(selectedControl != nil) [self setValue:anEvent forKey:[self selectedKey]];
+    if(selectedControl != nil)
+    {
+        [self setValue:anEvent forKey:[self selectedKey]];
+        [selectedControl setState:NSOffState];
+        selectedControl = nil;
+    }
+}
+
+- (void)setSelectedBindingType:(NSInteger)aTag
+{
+    if([bindingType selectedTag] != aTag)
+    {
+        [bindingType selectCellWithTag:aTag];
+        [self resetKeyBindings];
+    }
 }
 
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
-    if([anEvent isPushed]) [self registerEvent:anEvent];
+    if([anEvent isPushed])
+    {
+        [self registerEvent:anEvent];
+        [self setSelectedBindingType:1];
+    }
 }
 
 - (void)buttonDown:(OEHIDEvent *)anEvent
 {
     [self registerEvent:anEvent];
+    [self setSelectedBindingType:1];
 }
 
 - (void)hatSwitchDown:(OEHIDEvent *)anEvent
 {
     [self registerEvent:anEvent];
+    [self setSelectedBindingType:1];
 }
 
 - (void)keyDown:(NSEvent *)anEvent
 {
     [self registerEvent:anEvent];
+    [self setSelectedBindingType:0];
 }
 
 - (id)valueForKey:(NSString *)key

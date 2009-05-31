@@ -12,9 +12,9 @@
 @interface OEControlsViewController : OEPreferenceViewController
 {
     id selectedControl;
-    id bindingType;
-    IBOutlet NSMatrix  *playerSelector;
-    IBOutlet NSStepper *playerStepper;
+    IBOutlet NSMatrix    *bindingType;
+    IBOutlet NSMatrix    *playerSelector;
+    IBOutlet NSStepper   *playerStepper;
     IBOutlet NSTextField *playerField;
 }
 
@@ -24,6 +24,7 @@
 - (NSUInteger)selectedPlayer;
 - (NSString *)keyPathForKey:(NSString *)aKey;
 
+- (void)setSelectedBindingType:(NSInteger)aTag;
 - (BOOL)isKeyboardEventSelected;
 - (void)registerEvent:(id)anEvent;
 
