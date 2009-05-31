@@ -391,6 +391,21 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     return [self valueForKeyPath:[self keyPathForKey:keyName withValueType:OESettingValueKey]];
 }
 
+- (void)forceKeyBindingRecover
+{
+    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
+    for(NSString *controlName in controlNames)
+    {
+        NSString *hidpath = [self keyPathForKey:controlName withValueType:OEHIDEventValueKey];
+        NSString *keypath = [self keyPathForKey:controlName withValueType:OEKeyboardEventValueKey];
+        
+        [udc willChangeValueForKey:hidpath];
+        [udc willChangeValueForKey:keypath];
+        [udc didChangeValueForKey:keypath];
+        [udc didChangeValueForKey:hidpath];
+    }
+}
+
 - (id)HIDEventForKey:(NSString *)keyName
 {
     return [self valueForKeyPath:[self keyPathForKey:keyName withValueType:OEHIDEventValueKey]];

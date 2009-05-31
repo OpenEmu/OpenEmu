@@ -54,6 +54,10 @@ void OEMapRelease(OEMapRef map)
 
 void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
 {
+    //NSLog(@"--------------------------------------------------------------------");
+    //NSLog(@"key = %d, value = { .key = %d, .player = %d }", key, value.key, value.player);
+    //NSLog(@"BEFORE -------------------------------------------------------------");
+    //OEMapShowOffContent(map);
     if(map->count != 0)
     {
         for(size_t i = 0, max = map->count; i < max; i++)
@@ -63,7 +67,7 @@ void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
 			{
                 entry->value = value;
                 entry->allocated = YES;
-				return;
+				goto end;
 			}
         }
         
@@ -76,7 +80,7 @@ void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
                 entry->key = key;
                 entry->value = value;
                 entry->allocated = YES;
-				return;
+				goto end;
 			}
 		}
     }
@@ -88,6 +92,12 @@ void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
     entry->value = value;
     entry->key   = key;
     entry->allocated = YES;
+    
+end:
+    //NSLog(@"AFTER --------------------------------------------------------------");
+    //OEMapShowOffContent(map);
+    //NSLog(@"--------------------------------------------------------------------");
+    return;
 }
 
 BOOL OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value)

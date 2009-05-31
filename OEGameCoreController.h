@@ -64,9 +64,10 @@ extern NSString *const OEKeyboardEventValueKey;
 - (void)registerEvent:(id)theEvent forKey:(NSString *)keyName;
 
 - (id)settingForKey:(NSString *)keyName;
+
+- (void)forceKeyBindingRecover;
 - (id)HIDEventForKey:(NSString *)keyName;
 - (id)keyboardEventForKey:(NSString *)keyName;
-
 - (void)removeBindingsToEvent:(id)theEvent withValueType:(NSString *)aType;
 - (void)HIDEventWasRemovedForKey:(NSString *)keyName;
 - (void)keyboardEventWasRemovedForKey:(NSString *)keyName;
