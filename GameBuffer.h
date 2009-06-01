@@ -11,12 +11,6 @@
 typedef enum
 {
 	eFilter_None,
-	eFilter_Scaler2x,
-	eFilter_Scaler3x,
-	eFilter_HQ2x,
-	eFilter_HQ3x,
-	
-	// OpenGL, GLSL filters
 	eFilter_Nearest,
 	eFilter_Scaler2xGLSL,
 	eFilter_Scaler4xGLSL,
@@ -25,12 +19,8 @@ typedef enum
 	
 } eFilter;
 
-unsigned short OEConvertPixel(unsigned int pixel);
-unsigned char *OEConvertBufferTo16BitPerPixels(const unsigned int *aBuffer, int aWidth, int aHeight);
-
 @interface GameBuffer : NSObject {
 	unsigned char *buffer;
-	unsigned char *filterBuffer;
 	
 	eFilter filter;
 	
@@ -45,8 +35,6 @@ unsigned char *OEConvertBufferTo16BitPerPixels(const unsigned int *aBuffer, int 
 	GLenum pixelForm;
 	GLenum internalForm;
 }
-
-- (void)updateBuffer;
 - (id)initWithGameCore:(GameCore *)core;
 
 @property(readonly) unsigned char *buffer;

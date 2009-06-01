@@ -142,7 +142,6 @@
 	glEnable( GL_TEXTURE_RECTANGLE_EXT );
 	gameTexture = 1;
 	glGenTextures(1, &gameTexture);
-	[gameBuffer updateBuffer];
 	glBindTexture( GL_TEXTURE_RECTANGLE_EXT, gameTexture);
 	glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameBuffer internalForm], [gameBuffer width], [gameBuffer height], 0, [gameBuffer pixelForm], [gameBuffer pixelType], [gameBuffer buffer]);
 }

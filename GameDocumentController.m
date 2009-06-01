@@ -378,9 +378,9 @@
 
 - (IBAction)changeVideoFilter:(id)sender
 {
-    eFilter tag = [sender tag];
+/*    eFilter tag = [sender tag];
     for(GameDocument *gameDoc in [self documents])
-		[gameDoc setVideoFilter:tag];
+		[gameDoc setVideoFilter:tag];*/
 }
 
 - (IBAction)changeVolume:(id)sender
