@@ -140,8 +140,16 @@
 		C6C98CAF0F55F4C400116EA2 /* GamePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6C98CAE0F55F4C400116EA2 /* GamePreferences.xib */; };
 		C6C98CB40F55F50100116EA2 /* OEGamePreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C98CB30F55F50100116EA2 /* OEGamePreferenceController.m */; };
 		C6C98CB70F55F59900116EA2 /* OEGamePreferenceController_Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C98CB60F55F59900116EA2 /* OEGamePreferenceController_Toolbar.m */; };
-		C6E9134B0FD32D0900AC2CCC /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
-		C6E913C40FD32E9500AC2CCC /* OpenEmuBase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
+		C6E916330FD34A5E00AC2CCC /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C6FC4C900FD2C5C3007CCD32 /* GameCore.m */; };
+		C6E916340FD34A5F00AC2CCC /* NSApplication+OEHIDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */; };
+		C6E916350FD34A6000AC2CCC /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
+		C6E916360FD34A6100AC2CCC /* OEControlsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C62969E20FCEA8BB004F84C4 /* OEControlsViewController.m */; };
+		C6E916370FD34A6200AC2CCC /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */; };
+		C6E916380FD34A6300AC2CCC /* OEGameCoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */; };
+		C6E916390FD34A6400AC2CCC /* OEHIDDeviceHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C989C60F557D9200116EA2 /* OEHIDDeviceHandler.m */; };
+		C6E9163A0FD34A6500AC2CCC /* OEHIDEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C98B840F55B7A800116EA2 /* OEHIDEvent.m */; };
+		C6E9163B0FD34A6700AC2CCC /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
+		C6E9163C0FD34A6900AC2CCC /* OEPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */; };
 		C6FC4C920FD2C5C3007CCD32 /* GameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C6FC4C900FD2C5C3007CCD32 /* GameCore.m */; };
 /* End PBXBuildFile section */
 
@@ -167,13 +175,6 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = OpenEmu;
 		};
-		C6E913490FD32D0500AC2CCC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 82444BA00F51256C007C171B /* OpenEmuBase */;
-			remoteInfo = OpenEmuBase;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -183,7 +184,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C6E913C40FD32E9500AC2CCC /* OpenEmuBase.framework in CopyFiles */,
 				82C9C95E0F0804D90071460B /* Sparkle.framework in CopyFiles */,
 				828ED4E00E7D98F00059F397 /* XADMaster.framework in CopyFiles */,
 				828ED4E10E7D98F00059F397 /* UniversalDetector.framework in CopyFiles */,
@@ -341,7 +341,6 @@
 				820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */,
 				829022B10F47FAC100BB7AB7 /* QTKit.framework in Frameworks */,
 				82902A140F48ACEE00BB7AB7 /* QuickTime.framework in Frameworks */,
-				C6E9134B0FD32D0900AC2CCC /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,7 +687,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				C6E9134A0FD32D0500AC2CCC /* PBXTargetDependency */,
 			);
 			name = OpenEmu;
 			productInstallPath = "$(HOME)/Applications";
@@ -867,6 +865,16 @@
 				C6C98CB40F55F50100116EA2 /* OEGamePreferenceController.m in Sources */,
 				C6C98CB70F55F59900116EA2 /* OEGamePreferenceController_Toolbar.m in Sources */,
 				C61C9C390F58BB3B007F4242 /* OEDummyView.m in Sources */,
+				C6E916330FD34A5E00AC2CCC /* GameCore.m in Sources */,
+				C6E916340FD34A5F00AC2CCC /* NSApplication+OEHIDAdditions.m in Sources */,
+				C6E916350FD34A6000AC2CCC /* OEAbstractAdditions.m in Sources */,
+				C6E916360FD34A6100AC2CCC /* OEControlsViewController.m in Sources */,
+				C6E916370FD34A6200AC2CCC /* OEGameControllerView.m in Sources */,
+				C6E916380FD34A6300AC2CCC /* OEGameCoreController.m in Sources */,
+				C6E916390FD34A6400AC2CCC /* OEHIDDeviceHandler.m in Sources */,
+				C6E9163A0FD34A6500AC2CCC /* OEHIDEvent.m in Sources */,
+				C6E9163B0FD34A6700AC2CCC /* OEMap.m in Sources */,
+				C6E9163C0FD34A6900AC2CCC /* OEPreferenceViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -887,11 +895,6 @@
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
 			targetProxy = 82C9C97D0F080C920071460B /* PBXContainerItemProxy */;
-		};
-		C6E9134A0FD32D0500AC2CCC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
-			targetProxy = C6E913490FD32D0500AC2CCC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
