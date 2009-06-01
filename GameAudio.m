@@ -20,7 +20,7 @@ OSStatus RenderCallback(void                       *in,
 	RenderCallbackData * wrapper = (RenderCallbackData *)in;
 	
 	UInt16 *coreAudioBuffer = (UInt16*) ioData->mBuffers[0].mData;
-	memset(coreAudioBuffer, 0, ioData->mBuffers[0].mDataByteSize);
+	//memset(coreAudioBuffer, 0, ioData->mBuffers[0].mDataByteSize);
 	
 	if(!wrapper.useRingBuffer )
 	{
@@ -74,12 +74,12 @@ OSStatus RenderCallback(void                       *in,
 		_core = core;
 		sampleRate = [core frameSampleRate];
 		samplesFrame = [core frameSampleCount];
-		sizeSoundBuffer = [core soundBufferSize] * 8;
+		sizeSoundBuffer = [core soundBufferSize] * 2;
 		channels = [core channelCount];
 		
 		soundLock = [NSLock new];
 				
-		sndBuf = new UInt16[sizeSoundBuffer];
+		sndBuf = malloc( sizeof(UInt16) * sizeSoundBuffer );
 		memset(sndBuf, 0, sizeSoundBuffer*sizeof(UInt16));
 
 		bufInPos     = 0;
@@ -104,7 +104,7 @@ OSStatus RenderCallback(void                       *in,
 
 - (void) dealloc
 {
-	delete [] sndBuf;
+	free( sndBuf );
 	[soundLock release];
 	[super dealloc];
 }
@@ -138,6 +138,7 @@ OSStatus RenderCallback(void                       *in,
 {	
 	if([wrapper useRingBuffer])
 	{
+		[wrapper lock];
 		if(gameCore != NULL)
 		{
 			memcpy(&wrapper.sndBuf[wrapper.bufInPos], [gameCore soundBuffer], wrapper.samplesFrame * wrapper.channels * sizeof(UInt16));
@@ -151,6 +152,7 @@ OSStatus RenderCallback(void                       *in,
 			wrapper.bufUsed   = wrapper.sizeSoundBuffer;
 			wrapper.bufOutPos = wrapper.bufInPos;
 		}
+		[wrapper unlock];
 	}
 }
 
