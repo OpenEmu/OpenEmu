@@ -9,23 +9,24 @@
 
 #include "OEMap.h"
 
-#define CHUNK_SIZE 5
-
 #ifndef BOOL_STR
 #define BOOL_STR(var) ((var) ? "YES" : "NO")
 #endif
 
 typedef struct {
-	OEMapKey   key;
-	OEMapValue value;
-	BOOL       allocated;
+	OEMapKey    key;
+	OEMapValue  value;
+	BOOL        allocated;
 } OEMapEntry;
 
+typedef BOOL (*_OECompare)(OEMapValue, OEMapValue);
+
 typedef struct _OEMap {
-    size_t capacity;
-	size_t count;
+    size_t      capacity;
+	size_t      count;
 	OEMapEntry *entries;
-	BOOL (*valueIsEqual)(OEMapValue, OEMapValue);
+    NSLock     *lock;
+	_OECompare  valueIsEqual;
 } OEMap;
 
 BOOL defaultIsEqual(OEMapValue v1, OEMapValue v2)
@@ -35,11 +36,12 @@ BOOL defaultIsEqual(OEMapValue v1, OEMapValue v2)
 
 OEMapRef OEMapCreate(size_t capacity)
 {
-    OEMapRef ret  = malloc(sizeof(OEMap));
-    ret->count    = 0;
-    ret->capacity = capacity;
-    ret->entries  = malloc(sizeof(OEMapEntry) * capacity);
+    OEMapRef ret      = malloc(sizeof(OEMap));
+    ret->count        = 0;
+    ret->capacity     = capacity;
+    ret->entries      = malloc(sizeof(OEMapEntry) * capacity);
     ret->valueIsEqual = defaultIsEqual;
+    ret->lock         = [[NSLock alloc] init];
     return ret;
 }
 
@@ -47,32 +49,30 @@ void OEMapRelease(OEMapRef map)
 {
     if(map == NULL) return;
     
+    [map->lock release];
     if(map->capacity > 0)
         free(map->entries);
     free(map);
 }
 
-void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
+// The lock must be acquired before using this function
+static void _OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
 {
-    //NSLog(@"--------------------------------------------------------------------");
-    //NSLog(@"key = %d, value = { .key = %d, .player = %d }", key, value.key, value.player);
-    //NSLog(@"BEFORE -------------------------------------------------------------");
-    //OEMapShowOffContent(map);
     if(map->count != 0)
     {
         for(size_t i = 0, max = map->count; i < max; i++)
         {
             OEMapEntry *entry = &map->entries[i];
-			if( entry->key == key )
+			if(entry->key == key)
 			{
                 entry->value = value;
                 entry->allocated = YES;
-				goto end;
+				return;
 			}
         }
         
         //find the next unallocated spot
-		for ( int i = 0; i < map->count; i++ )
+		for (int i = 0; i < map->count; i++)
 		{
             OEMapEntry *entry = &map->entries[i];
 			if(!entry->allocated)
@@ -80,53 +80,65 @@ void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
                 entry->key = key;
                 entry->value = value;
                 entry->allocated = YES;
-				goto end;
+				return;
 			}
 		}
     }
     
     if(map->count + 1 > map->capacity)
-        map->entries = realloc(map->entries, sizeof(OEMapEntry) * map->count);
+    {
+        map->capacity = map->capacity * 2;
+        map->entries = realloc(map->entries, sizeof(OEMapEntry) * map->capacity);
+    }
     
     OEMapEntry *entry = &map->entries[map->count++];
     entry->value = value;
     entry->key   = key;
     entry->allocated = YES;
-    
-end:
-    //NSLog(@"AFTER --------------------------------------------------------------");
-    //OEMapShowOffContent(map);
-    //NSLog(@"--------------------------------------------------------------------");
-    return;
+}
+
+void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
+{
+    [map->lock lock]; 
+    _OEMapSetValue(map, key, value);
+    [map->lock unlock];
 }
 
 BOOL OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value)
 {
+    BOOL ret = NO;
+    [map->lock lock];
     for(size_t i = 0, max = map->count; i < max; i++)
     {
         OEMapEntry *entry = &map->entries[i];
         if(entry->allocated && entry->key == key)
         {
             *value = entry->value;
-            return YES;
+            ret = YES;
+            break;
         }
     }
-    return NO;
+    [map->lock unlock];
+    return ret;
 }
 
 void OEMapSetValueComparator(OEMapRef map, BOOL (*comparator)(OEMapValue, OEMapValue))
 {
+    [map->lock lock];
     map->valueIsEqual = comparator;
+    [map->lock unlock];
 }
 
 void OEMapRemoveMaskedKeysForValue(OEMapRef map, OEMapKey mask, OEMapValue value)
 {
+    [map->lock lock];
     for(size_t i = 0, max = map->count; i < max; i++)
     {
         OEMapEntry *entry = &map->entries[i];
         if(entry->allocated && map->valueIsEqual(value, entry->value) && entry->key & mask)
             entry->allocated = NO;
     }
+    [map->lock unlock];
 }
 
 void OEMapShowOffContent(OEMapRef map)
