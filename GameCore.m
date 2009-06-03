@@ -55,7 +55,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 		frameInterval = [[self class] defaultTimeInterval];
         
         if(aDocument != nil)
-            keyMap = OEMapCreate(20);
+            keyMap = OEMapCreate(32);
 	}
 	return self;
 }

@@ -85,9 +85,9 @@
 			</object>
 			<object class="NSDrawer" id="356812098">
 				<nil key="NSNextResponder"/>
-				<string key="NSContentSize">{200, 280}</string>
-				<string key="NSMinContentSize">{0, 0}</string>
-				<string key="NSMaxContentSize">{10000, 400}</string>
+				<string key="NSContentSize">{240, 280}</string>
+				<string key="NSMinContentSize">{240, 0}</string>
+				<string key="NSMaxContentSize">{300, 400}</string>
 				<int key="NSPreferredEdge">0</int>
 				<double key="NSLeadingOffset">0.000000e+00</double>
 				<double key="NSTrailingOffset">1.500000e+01</double>
@@ -626,7 +626,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{284, 272}, {240, 320}}</string>
+					<string>{{313, 272}, {240, 320}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>PrefsBundleCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
