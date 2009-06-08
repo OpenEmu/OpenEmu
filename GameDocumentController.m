@@ -233,7 +233,8 @@
 			}
 			else
 			{
-			//	return nil;
+				*outError = [[NSError alloc] initWithDomain:@"User Cancelled" code:0 userInfo:[NSDictionary dictionaryWithObject:@"User cancled" forKey:NSLocalizedDescriptionKey]];
+				return nil;
 			}
 		}
 		else //only one rom in the archive
