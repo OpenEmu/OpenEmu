@@ -109,6 +109,7 @@
     
     if ([gameCore loadFileAtPath: [absoluteURL path]] ) return YES;
     NSLog(@"Incorrect file");
+	*outError = [[NSError alloc] initWithDomain:@"Bad file" code:0 userInfo:nil];
     return NO;
 }
 

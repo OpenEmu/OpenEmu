@@ -25,6 +25,8 @@
 
 - (void)awakeFromNib
 {
+	safeExit = NO;
+	[[self window] setDelegate:self];
 	[table setTarget:self];
 	[table setDoubleAction:@selector(unpackSelectedFile:)];
 }
@@ -55,9 +57,18 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 
 -(IBAction)selectFile:(id)sender
 {
+		safeExit = YES;
 	[[NSApplication sharedApplication] stopModalWithCode:1];
 	[[self window] close];
 	
+}
+
+- (void)windowWillClose:(NSNotification *)notification
+{
+	if(!safeExit)
+	{
+		[[NSApplication sharedApplication] stopModalWithCode:0];
+	}
 }
 
 -(int)selectedIndex
@@ -67,6 +78,7 @@ objectValueForTableColumn:(NSTableColumn *)tableColumn
 
 -(IBAction)cancelPicker:(id)sender
 {
+	safeExit = YES;
 	[[NSApplication sharedApplication] stopModalWithCode:0];
 	[[self window] close];
 }

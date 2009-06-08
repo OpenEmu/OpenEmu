@@ -14,6 +14,7 @@
 	IBOutlet NSTableView *table;
 	NSString *fileName;
 	NSArray *files;
+	BOOL safeExit;
 }
 
 -(IBAction)unpackSelectedFile:(id)sender;
