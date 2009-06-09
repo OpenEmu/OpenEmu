@@ -224,6 +224,11 @@ static NSTimeInterval currentTime()
 	return 0;
 }
 
+- (void) requestAudio: (int) frames inBuffer: (void*)buf
+{
+	[self doesNotImplementSelector:_cmd];
+}
+
 #pragma mark Input Settings & Parsing
 - (NSUInteger)playerCount
 {

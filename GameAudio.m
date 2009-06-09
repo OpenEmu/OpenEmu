@@ -17,99 +17,9 @@ OSStatus RenderCallback(void                       *in,
                         UInt32                      inNumberFrames,
                         AudioBufferList            *ioData)
 {
-	RenderCallbackData * wrapper = (RenderCallbackData *)in;
-	
-	UInt16 *coreAudioBuffer = (UInt16*) ioData->mBuffers[0].mData;
-	//memset(coreAudioBuffer, 0, ioData->mBuffers[0].mDataByteSize);
-	
-	if(!wrapper.useRingBuffer )
-	{
-		[[wrapper core] requestAudio: inNumberFrames inBuffer: ioData->mBuffers[0].mData];
-	}
-	else
-	{
-		[wrapper lock];
-		
-		//NSLog(@"Frames: %i", inNumberFrames);
-		if (inNumberFrames > 0 && ![wrapper paused]) {
-			
-			inTimeStamp = 0;
-			if (wrapper.bufUsed < inNumberFrames * wrapper.channels)
-			{
-				wrapper.bufUsed = inNumberFrames * wrapper.channels;
-				wrapper.bufOutPos = (wrapper.bufInPos + (wrapper.sizeSoundBuffer) - inNumberFrames * wrapper.channels) % (wrapper.sizeSoundBuffer);
-			}
-			// For each frame/packet (the same in our example)
-			for(int i=0; i<inNumberFrames * wrapper.channels; ++i) {
-				
-				*coreAudioBuffer++ = wrapper.sndBuf[wrapper.bufOutPos];
-				wrapper.bufOutPos = (wrapper.bufOutPos + 1) % (wrapper.sizeSoundBuffer);	
-			}
-			wrapper.bufUsed -= inNumberFrames * wrapper.channels;
-		}
-		
-		[wrapper unlock];
-	}
+	[((GameCore*)in) requestAudio: inNumberFrames inBuffer: ioData->mBuffers[0].mData];
 	return 0;
 }
-
-@implementation RenderCallbackData
-
-@synthesize bufUsed, bufOutPos, bufInPos, samplesFrame, sizeSoundBuffer, channels, sampleRate, sndBuf, paused, core = _core, useRingBuffer;
-
-// No default version for this class
-- (id)init
-{
-    [self release];
-    return nil;
-}
-
-// Designated Initializer
-- (id) initWithCore:(GameCore*) core{
-	
-	self = [super init];
-	
-	if(self)
-	{
-		_core = core;
-		sampleRate = [core frameSampleRate];
-		samplesFrame = [core frameSampleCount];
-		sizeSoundBuffer = [core soundBufferSize] * 2;
-		channels = [core channelCount];
-		
-		soundLock = [NSLock new];
-				
-		sndBuf = malloc( sizeof(UInt16) * sizeSoundBuffer );
-		memset(sndBuf, 0, sizeSoundBuffer*sizeof(UInt16));
-
-		bufInPos     = 0;
-		bufOutPos    = 0;
-		bufUsed      = 0;
-		useRingBuffer = ![_core respondsToSelector:@selector(requestAudio:inBuffer:)];
-		
-	}
-	
-	return self;
-}
-
-- (void) lock
-{
-	[soundLock lock];
-}
-
--(void) unlock
-{
-	[soundLock unlock];
-}
-
-- (void) dealloc
-{
-	free( sndBuf );
-	[soundLock release];
-	[super dealloc];
-}
-
-@end
 
 
 @implementation GameAudio
@@ -122,8 +32,6 @@ OSStatus RenderCallback(void                       *in,
 
 - (void) startAudio
 {
-//	AUGraphStart(mGraph);
-	wrapper.paused = false;
 	[self createGraph];
 }
 
@@ -132,28 +40,6 @@ OSStatus RenderCallback(void                       *in,
 	AUGraphStop(mGraph);
 	AUGraphClose(mGraph);
 	AUGraphUninitialize(mGraph);
-}
-
-- (void) advanceBuffer
-{	
-	if([wrapper useRingBuffer])
-	{
-		[wrapper lock];
-		if(gameCore != NULL)
-		{
-			memcpy(&wrapper.sndBuf[wrapper.bufInPos], [gameCore soundBuffer], wrapper.samplesFrame * wrapper.channels * sizeof(UInt16));
-		}
-		
-		wrapper.bufInPos = (wrapper.bufInPos + wrapper.samplesFrame * wrapper.channels) % (wrapper.sizeSoundBuffer);
-		wrapper.bufUsed += wrapper.channels * wrapper.samplesFrame;
-		
-		if (wrapper.bufUsed > wrapper.sizeSoundBuffer)
-		{
-			wrapper.bufUsed   = wrapper.sizeSoundBuffer;
-			wrapper.bufOutPos = wrapper.bufInPos;
-		}
-		[wrapper unlock];
-	}
 }
 
 - (void)createGraph
@@ -224,7 +110,7 @@ OSStatus RenderCallback(void                       *in,
 	
 	AURenderCallbackStruct renderStruct;
 	renderStruct.inputProc = RenderCallback;
-	renderStruct.inputProcRefCon = wrapper;
+	renderStruct.inputProcRefCon = gameCore;
 	
 	
 	err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_SetRenderCallback,
@@ -289,7 +175,6 @@ OSStatus RenderCallback(void                       *in,
 	if(self)
 	{
 		gameCore = core;
-		wrapper = [[RenderCallbackData alloc] initWithCore: gameCore];
 		[self createGraph];
 	}
 	
@@ -298,7 +183,6 @@ OSStatus RenderCallback(void                       *in,
 
 - (void) dealloc
 {
-	[wrapper release];
 	AUGraphUninitialize(mGraph);
 	DisposeAUGraph(mGraph);  //FIXME: added this line tonight.  do we need it?  Fuckety fuck fucking shitty Core Audio documentation... :X
 	[super dealloc];
@@ -308,7 +192,6 @@ OSStatus RenderCallback(void                       *in,
 - (void) setVolume: (float) volume
 {
 	AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, volume,0);
-//	AUGraphUpdate(mGraph, NULL);
 }
 
 

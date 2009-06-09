@@ -35,7 +35,6 @@
 - (BOOL)isFullScreen;
 - (void)switchFullscreen;
 - (void)refresh;
-- (void)refreshAudio;
 - (void)saveStateToFile:(NSString *)fileName;
 - (void)loadStateFromFile:(NSString *)fileName;
 

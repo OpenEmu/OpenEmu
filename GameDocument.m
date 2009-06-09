@@ -124,16 +124,9 @@
     //[gameBuffer setFilter:[[[GameDocumentController sharedDocumentController] preferenceController]filter]];
 }
 
-- (void) refreshAudio
-{
-	[audio advanceBuffer];
-}
-
 - (void) refresh
 {	
-	//[gameBuffer updateBuffer];
 	[gameLayer display];
-	[audio advanceBuffer];
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification

@@ -110,6 +110,7 @@ typedef NSInteger OEButton;
 @property(readonly) NSInteger frameSampleCount;
 @property(readonly) NSInteger soundBufferSize;
 @property(readonly) NSInteger frameSampleRate;
+- (void) requestAudio: (int) frames inBuffer: (void*)buf;
 
 #pragma mark Input Settings & Parsing
 - (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;
@@ -136,7 +137,6 @@ typedef NSInteger OEButton;
 
 - (NSTrackingAreaOptions)mouseTrackingOptions;
 
-- (void) requestAudio: (int) frames inBuffer: (void*)buf;
 - (NSSize) outputSize;
 - (void) setRandomByte;
 @end
