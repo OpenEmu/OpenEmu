@@ -49,15 +49,16 @@ enum {
 };
 typedef NSInteger OEButton;
 
-@class GameDocument, OEHIDEvent;
+@class GameDocument, OEHIDEvent, OERingBuffer;
 
 @interface GameCore : NSResponder
 {
-	NSThread             *emulationThread;
-	GameDocument         *document;
-	NSTimeInterval        frameInterval;
-    OEGameCoreController *owner;
-    OEMapRef              keyMap;
+	NSThread              *emulationThread;
+	GameDocument          *document;
+	NSTimeInterval         frameInterval;
+    OEGameCoreController  *owner;
+    OEMapRef               keyMap;
+    OERingBuffer         **ringBuffers;
 }
 
 + (NSTimeInterval)defaultTimeInterval;
@@ -66,6 +67,9 @@ typedef NSInteger OEButton;
 @property(assign) OEGameCoreController *owner;
 @property(assign) GameDocument *document;
 @property NSTimeInterval frameInterval;
+
+- (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index;
+- (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index;
 
 - (id)initWithDocument:(GameDocument *)document;
 - (void)removeFromGameController;
@@ -97,20 +101,20 @@ typedef NSInteger OEButton;
 - (BOOL)loadFileAtPath:(NSString *)path;
 
 #pragma mark Video
-@property(readonly) NSInteger width;
-@property(readonly) NSInteger height;
-@property(readonly) const unsigned char *videoBuffer;
-@property(readonly) GLenum pixelFormat;
-@property(readonly) GLenum pixelType;
-@property(readonly) GLenum internalPixelFormat;
+@property(readonly) NSUInteger  width;
+@property(readonly) NSUInteger  height;
+@property(readonly) const void *videoBuffer;
+@property(readonly) GLenum      pixelFormat;
+@property(readonly) GLenum      pixelType;
+@property(readonly) GLenum      internalPixelFormat;
 
 #pragma mark Audio
-@property(readonly) const UInt16 *soundBuffer;
-@property(readonly) NSInteger channelCount;
-@property(readonly) NSInteger frameSampleCount;
-@property(readonly) NSInteger soundBufferSize;
-@property(readonly) NSInteger frameSampleRate;
-- (void) requestAudio: (int) frames inBuffer: (void*)buf;
+@property(readonly) NSUInteger  soundBufferCount; // overriding it is optional, should be constant
+@property(readonly) const void *soundBuffer;
+@property(readonly) NSUInteger  channelCount;
+@property(readonly) NSUInteger  frameSampleCount;
+@property(readonly) NSUInteger  soundBufferSize;
+@property(readonly) NSUInteger  frameSampleRate;
 
 #pragma mark Input Settings & Parsing
 - (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;

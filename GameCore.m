@@ -13,6 +13,7 @@
 #import "OEAbstractAdditions.h"
 #import "OEHIDEvent.h"
 #import "OEMap.h"
+#import "OERingBuffer.h"
 
 #include <sys/time.h>
 
@@ -54,8 +55,12 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 		document = aDocument;
 		frameInterval = [[self class] defaultTimeInterval];
         
-        if(aDocument != nil)
-            keyMap = OEMapCreate(32);
+        NSUInteger count = [self soundBufferCount];
+        ringBuffers = malloc(count * sizeof(OERingBuffer *));
+        for(NSUInteger i = 0; i < count; i++)
+            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self soundBufferSize] * 8];
+        
+        if(aDocument != nil) keyMap = OEMapCreate(32);
 	}
 	return self;
 }
@@ -72,7 +77,17 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 	
     [emulationThread release];
     [self removeFromGameController];
+    
+    for(NSUInteger i = 0, count = [self soundBufferCount]; i < count; i++)
+        [ringBuffers[i] release];
+    
     [super dealloc];
+}
+
+- (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index
+{
+    NSAssert1(index < [self soundBufferCount], @"The index %lu is too high", index);
+    return ringBuffers[index];
 }
 
 #pragma mark Execution
@@ -156,19 +171,19 @@ static NSTimeInterval currentTime()
 }
 
 #pragma mark Video
-- (NSInteger)width
+- (NSUInteger)width
 {
 	[self doesNotImplementSelector:_cmd];
 	return 0;
 }
 
-- (NSInteger)height
+- (NSUInteger)height
 {
 	[self doesNotImplementSelector:_cmd];
 	return 0;
 }
 
-- (const unsigned char *)videoBuffer
+- (const void *)videoBuffer
 {
 	[self doesNotImplementSelector:_cmd];
 	return NULL;
@@ -193,40 +208,45 @@ static NSTimeInterval currentTime()
 }
 
 #pragma mark Audio
-- (const UInt16 *)soundBuffer
+- (NSUInteger)soundBufferCount
+{
+    return 1;
+}
+
+- (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index
+{
+    [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCount] * sizeof(UInt16)];
+}
+
+- (const void *)soundBuffer
+{
+	[self doesNotImplementSelector:_cmd];
+	return NULL;
+}
+
+- (NSUInteger)channelCount
 {
 	[self doesNotImplementSelector:_cmd];
 	return 0;
 }
 
-- (NSInteger)channelCount
-{
-	[self doesNotImplementSelector:_cmd];
-	return 0;
-}
-
-- (NSInteger)frameSampleCount
+- (NSUInteger)frameSampleCount
 {
 	[self doesNotImplementSelector:_cmd];
 	return 0;
 }
 
 
-- (NSInteger)soundBufferSize
+- (NSUInteger)soundBufferSize
 {
 	[self doesNotImplementSelector:_cmd];
 	return 0;
 }
 
-- (NSInteger)frameSampleRate
+- (NSUInteger)frameSampleRate
 {
 	[self doesNotImplementSelector:_cmd];
 	return 0;
-}
-
-- (void) requestAudio: (int) frames inBuffer: (void*)buf
-{
-	[self doesNotImplementSelector:_cmd];
 }
 
 #pragma mark Input Settings & Parsing

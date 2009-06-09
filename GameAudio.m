@@ -17,7 +17,7 @@ OSStatus RenderCallback(void                       *in,
                         UInt32                      inNumberFrames,
                         AudioBufferList            *ioData)
 {
-	[((GameCore*)in) requestAudio: inNumberFrames inBuffer: ioData->mBuffers[0].mData];
+    [((GameCore*)in) getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:0];
 	return 0;
 }
 

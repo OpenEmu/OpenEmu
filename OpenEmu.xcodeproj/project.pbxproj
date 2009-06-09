@@ -126,6 +126,7 @@
 		C693138B0F6ACBEE00F03428 /* SelectPluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C693138A0F6ACBEE00F03428 /* SelectPluginPreferences.xib */; };
 		C693138D0F6ACC0A00F03428 /* PluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C693138C0F6ACC0A00F03428 /* PluginPreferences.xib */; };
 		C6B0B4990FB17D8D00661561 /* UnimplementedPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6B0B4980FB17D8D00661561 /* UnimplementedPreference.xib */; };
+		C6B0D0A70FDF0C8D00408316 /* OERingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA6680FDDC03500531EE3 /* OERingBuffer.m */; };
 		C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6BFB29E0F7CC8E700040FFA /* Localizable.strings */; };
 		C6C98CAF0F55F4C400116EA2 /* GamePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6C98CAE0F55F4C400116EA2 /* GamePreferences.xib */; };
 		C6C98CB40F55F50100116EA2 /* OEGamePreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6C98CB30F55F50100116EA2 /* OEGamePreferenceController.m */; };
@@ -831,6 +832,7 @@
 				C6E9163A0FD34A6500AC2CCC /* OEHIDEvent.m in Sources */,
 				C6E9163B0FD34A6700AC2CCC /* OEMap.m in Sources */,
 				C6E9163C0FD34A6900AC2CCC /* OEPreferenceViewController.m in Sources */,
+				C6B0D0A70FDF0C8D00408316 /* OERingBuffer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

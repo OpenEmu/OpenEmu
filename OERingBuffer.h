@@ -9,23 +9,27 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OERingBuffer : NSObject {
-	uint8_t * _buffer;
-	NSUInteger bufferSize;
-	NSUInteger _writePosition;
-	NSUInteger _readPosition;
-	NSUInteger _bufferUsed;
-	
-	NSLock *bufferLock;
-
+@interface OERingBuffer : NSObject
+{
+@private
+	NSLock     *_bufferLock;
+	void       *_buffer;
+	NSUInteger  _bufferSize;
+	NSUInteger  _writePosition;
+	NSUInteger  _readPosition;
+	NSUInteger  _bufferUsed;
 }
 
-- (id) initWithLength:(NSUInteger) length;
+- (id)initWithLength:(NSUInteger)length;
+
+@property NSUInteger length;
+@property(readonly) NSUInteger availableBytes;
+@property(readonly) NSUInteger usedBytes;
 
 - (NSUInteger) bytesAvailable;
 - (NSUInteger) bytesUsed;
-- (NSUInteger)read:(uint8_t *)buffer maxLength:(NSUInteger)len;
-- (NSUInteger)write:(const uint8_t *)buffer maxLength:(NSUInteger)length;
+- (NSUInteger)read:(void *)buffer maxLength:(NSUInteger)len;
+- (NSUInteger)write:(const void *)buffer maxLength:(NSUInteger)length;
 
 
 @end
