@@ -680,7 +680,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 // callback for audio from plugin
 - (void) refresh
 {
-	[gameAudio advanceBuffer];
+//	[gameAudio advanceBuffer];
 }
 
 - (void) saveState: (NSString *) fileName

@@ -559,7 +559,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
 // callback for audio from plugin
 - (void) refresh
 {
-    [gameAudio advanceBuffer];
+//    [gameAudio advanceBuffer];
 }
 
 - (NSBundle*)bundleForType:(NSString*) type
