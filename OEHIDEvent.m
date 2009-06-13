@@ -388,7 +388,7 @@ NSString *OEHIDEventCountKey        = @"OEHIDEventCountKey";
     
     if(NSF1FunctionKey <= tested && tested <= NSF35FunctionKey)
         ret = [NSString stringWithFormat:@"F%u", tested - NSF1FunctionKey];
-    else if([[NSCharacterSet whitespaceCharacterSet] characterIsMember:tested])
+    else if(tested == ' ' || tested == 0xA0)//[[NSCharacterSet whitespaceCharacterSet] characterIsMember:tested])
         ret = @"<space>";
     else
     {
@@ -405,6 +405,12 @@ NSString *OEHIDEventCountKey        = @"OEHIDEventCountKey";
         LAZY_CASE(NSPageUpFunctionKey,     0x21DE); // '⇞'
         LAZY_CASE(NSPageDownFunctionKey,   0x21DF); // '⇟'
         LAZY_CASE(NSClearLineFunctionKey,  0x2327); // '⌧'
+        LAZY_CASE('\r',                    0x21A9); // '↩'
+        LAZY_CASE(3,                       0x2305); // '⌅'
+        LAZY_CASE('\n',                    0x2305); // '⌅'
+        LAZY_CASE('\t',                    0x21E5); // '⇥'
+        LAZY_CASE(0x19,                    0x21E4); // '⇤'
+        LAZY_CASE(0x7F,                    0x27F5); // '⟵'
 #undef  LAZY_CASE
         
         if(curr != 0) ret = [NSString stringWithCharacters:&curr length:1];

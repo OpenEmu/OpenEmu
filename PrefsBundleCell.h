@@ -9,7 +9,5 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface PrefsBundleCell : NSTextFieldCell {
-
-}
+@interface PrefsBundleCell : NSTextFieldCell
 @end
