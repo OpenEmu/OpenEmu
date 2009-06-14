@@ -454,20 +454,4 @@ static void OEHandle_DeviceMatchingCallback(void* inContext,
                                     kCFRunLoopDefaultMode);
 }
 
-- (IOHIDDeviceRef)deviceWithManufacturer:(NSString *)aManufacturer productID:(NSNumber *)aProductID locationID:(NSNumber *)aLocationID
-{
-    OEHIDDeviceHandler *ret = nil;
-    for(OEHIDDeviceHandler *handler in deviceHandlers)
-    {
-        if([[handler manufacturer] isEqualToString:aManufacturer] &&
-           [[handler productID] isEqualToNumber:aProductID]       &&
-           [[handler locationID] isEqualToNumber:aLocationID])
-        {
-            ret = handler;
-            break;
-        }
-    }
-    return [ret device];
-}
-
 @end

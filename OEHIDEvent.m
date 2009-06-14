@@ -15,10 +15,6 @@
 - (id)initWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp;
 @end
 
-@interface NSObject (MakeTheCompilerHappy)
-- (IOHIDDeviceRef)deviceWithManufacturer:(NSString *)aManufacturer productID:(NSNumber *)aProductID locationID:(NSNumber *)aLocationID;
-@end
-
 @implementation OEHIDEvent
 @synthesize padNumber = _padNumber, type = _type, isPushed = _isPushed, timestamp = _timestamp;
 

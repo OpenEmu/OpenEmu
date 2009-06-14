@@ -15,15 +15,15 @@
 @class GameDocument, OEGamePreferenceController;
 
 @interface GameDocumentController : NSDocumentController {
-	GameDocument *currentGame;
+	GameDocument               *currentGame;
     OEGamePreferenceController *preferences;
-    NSArray *plugins;
-	NSArray *bundles;
-	NSArray *validExtensions;
-	BOOL gameLoaded;
+    NSArray                    *plugins;
+	NSArray                    *bundles;
+	NSArray                    *validExtensions;
+	BOOL                        gameLoaded;
     
-    IOHIDManagerRef hidManager;
-    NSMutableArray *deviceHandlers;
+    IOHIDManagerRef             hidManager;
+    NSMutableArray             *deviceHandlers;
 }
 
 @property(readonly) NSArray *plugins;
@@ -39,18 +39,16 @@
 
 - (GameCore *)currentGame;
 
-- (IBAction)saveState: (id) sender;
-- (IBAction)loadState: (id) sender;
+- (IBAction)saveState:(id)sender;
+- (IBAction)loadState:(id)sender;
 
-- (IBAction)resetGame: (id) sender;
+- (IBAction)resetGame:(id)sender;
 
-- (IBAction)scrambleRam: (id) sender;
+- (IBAction)scrambleRam:(id)sender;
 
-- (IBAction)updateBundles: (id) sender;
+- (IBAction)updateBundles:(id)sender;
 - (BOOL)isGameKey;
 
 - (IBAction)openPreferenceWindow:(id)sender;
-
-- (IOHIDDeviceRef)deviceWithManufacturer:(NSString *)aManufacturer productID:(NSNumber *)aProductID locationID:(NSNumber *)aLocationID;
 
 @end
