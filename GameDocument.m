@@ -85,7 +85,7 @@
 
 	[gameWindow makeKeyAndOrderFront:self];
     
-    if([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.fullScreen"] boolValue])
+    if([self defaultsToFullScreenMode])
         [self toggleFullScreen:self];
 }
 
@@ -131,6 +131,16 @@
 	[gameLayer display];
 }
 
+- (BOOL)backgroundPauses
+{
+    return [[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.backgroundPause"] boolValue];
+}
+
+- (BOOL)defaultsToFullScreenMode
+{
+    return [[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.fullScreen"] boolValue];
+}
+
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
 	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
@@ -141,7 +151,7 @@
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-    if(gameCore != nil && [[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.backgroundPause"] boolValue])
+    if(gameCore != nil && [self backgroundPauses])
     {
         if(![self isFullScreen])
 		{

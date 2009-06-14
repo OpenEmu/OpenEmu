@@ -41,6 +41,9 @@
 - (IBAction)saveState:(id)sender;
 - (IBAction)toggleFullScreen:(id)sender;
 
+- (BOOL)backgroundPauses;
+- (BOOL)defaultsToFullScreenMode;
+
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
