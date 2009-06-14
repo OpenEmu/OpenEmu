@@ -24,18 +24,18 @@ OSStatus RenderCallback(void                       *in,
 
 @implementation GameAudio
 
-- (void) pauseAudio
+- (void)pauseAudio
 {
 	NSLog(@"Stopped audio");
 	[self stopAudio];
 }
 
-- (void) startAudio
+- (void)startAudio
 {
 	[self createGraph];
 }
 
-- (void) stopAudio
+- (void)stopAudio
 {	
 	AUGraphStop(mGraph);
 	AUGraphClose(mGraph);
@@ -158,6 +158,8 @@ OSStatus RenderCallback(void                       *in,
 	err = AUGraphStart(mGraph);
 	if(err)
 		NSLog(@"couldn't start graph");
+    
+    [self setVolume:[self volume]];
 }
 
 // No default version for this class
@@ -168,7 +170,7 @@ OSStatus RenderCallback(void                       *in,
 }
 
 // Designated Initializer
-- (id) initWithCore:(GameCore*) core
+- (id)initWithCore:(GameCore*) core
 {
 	self = [super init];
 	
@@ -181,17 +183,22 @@ OSStatus RenderCallback(void                       *in,
 	return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
 	AUGraphUninitialize(mGraph);
 	DisposeAUGraph(mGraph);  //FIXME: added this line tonight.  do we need it?  Fuckety fuck fucking shitty Core Audio documentation... :X
 	[super dealloc];
 }
 
-
-- (void) setVolume: (float) volume
+- (float)volume
 {
-	AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, volume,0);
+    return volume;
+}
+
+- (void)setVolume:(float)aVolume
+{
+    volume = aVolume;
+	AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, volume, 0);
 }
 
 

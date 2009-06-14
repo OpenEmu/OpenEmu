@@ -19,16 +19,16 @@
 
 @interface GameDocument : NSDocument
 {
-	NSTimer* frameTimer;
-	CALayer *rootLayer;
-	GameLayer *gameLayer;
-	GameBuffer *gameBuffer;
-	GameQTRecorder *recorder;
-	BOOL keyedOnce;
-	GameCore * gameCore;
-	GameAudio * audio;
+	NSTimer           *frameTimer;
+	CALayer           *rootLayer;
+	GameLayer         *gameLayer;
+	GameBuffer        *gameBuffer;
+	GameQTRecorder    *recorder;
+	BOOL               keyedOnce;
+	GameCore          *gameCore;
+	GameAudio         *audio;
 	IBOutlet NSWindow *gameWindow;
-	IBOutlet NSView *view;
+	IBOutlet NSView   *view;
 }
 
 - (void)scrambleRam:(int)bytes;
@@ -45,7 +45,6 @@
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (NSBitmapImageRep *)getRawScreenshot;
-- (void)setVolume:(CGFloat)volume;
 - (void)setVideoFilter:(eFilter)filterID;
 - (void)resetFilter;
 

@@ -59,6 +59,12 @@
 	[view setWantsLayer:YES];
 	
 	audio = [[GameAudio alloc] initWithCore: gameCore];
+    
+    [audio bind:@"volume"
+       toObject:[NSUserDefaultsController sharedUserDefaultsController]
+    withKeyPath:@"values.volume"
+        options:nil];
+    
 	[audio startAudio];
 	//[audio setVolume:[[[GameDocumentController sharedDocumentController] preferenceController] volume]];
 	
@@ -198,11 +204,6 @@
     [view setNextResponder:previous];
 }
 
-- (void) setVolume: (float) volume
-{
-	[audio setVolume: volume];
-}
-
 - (IBAction)saveState:(id)sender
 {
     [[NSSavePanel savePanel] beginSheetForDirectory:nil
@@ -239,19 +240,19 @@
     if(returnCode == NSOKButton) [self loadStateFromFile:[panel filename]];
 }
 
-- (void) loadStateFromFile: (NSString *) fileName
+- (void)loadStateFromFile: (NSString *) fileName
 {
     if([gameCore respondsToSelector:@selector(loadStateFromFileAtPath:)])
         [gameCore loadStateFromFileAtPath: fileName];
 }
 
-- (void) scrambleRam:(int) bytes
+- (void)scrambleRam:(int)bytes
 {
 	for(int i = 0; i < bytes; i++)
 		[gameCore setRandomByte];
 }
 
-- (NSBitmapImageRep*) getRawScreenshot
+- (NSBitmapImageRep *)getRawScreenshot
 {
 #ifdef __LITTLE_ENDIAN__
 #define BITMAP_FORMAT 0

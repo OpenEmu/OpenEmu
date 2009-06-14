@@ -377,14 +377,6 @@
      [gameDoc setVideoFilter:tag];*/
 }
 
-- (IBAction)changeVolume:(id)sender
-{
-    CGFloat volume = [sender doubleValue];
-    NSLog(@"%s", __FUNCTION__);
-    for(GameDocument *gameDoc in [self documents])
-		[gameDoc setVolume:volume];
-}
-
 #pragma mark New HID Event Handler
 //==================================================================================================
 // New HID Event handler system

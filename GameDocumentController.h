@@ -36,7 +36,6 @@
 - (void) updateInfoPlist;
 
 - (IBAction)changeVideoFilter:(id)sender;
-- (IBAction)changeVolume:(id)sender;
 
 - (GameCore *)currentGame;
 
