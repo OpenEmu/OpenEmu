@@ -130,10 +130,8 @@ static NSTimeInterval currentTime()
 
 - (void)stopEmulation
 {
-	//self.document = nil;
 	[emulationThread cancel];
 	NSLog(@"Ending thread");
-//    while(![emulationThread isFinished]);
 }
 
 - (void)startEmulation

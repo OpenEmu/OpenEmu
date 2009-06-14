@@ -84,13 +84,9 @@
 	[gameCore startEmulation];	
 
 	[gameWindow makeKeyAndOrderFront:self];
-		
-    // FIXME: needs to be adapted to the new system.
-#if 0
-	if([[[GameDocumentController sharedDocumentController] preferenceController] fullScreen])
-		[view enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
-#endif
-		
+    
+    if([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.fullScreen"] boolValue])
+        [self toggleFullScreen:self];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -145,11 +141,9 @@
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-    // FIXME: needs to be adapted to the new system.
-#if 0
-	if(gameCore != nil && [[[GameDocumentController sharedDocumentController] preferenceController] pauseBackground])
-	{
-		if(![view isInFullScreenMode])
+    if(gameCore != nil && [[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.backgroundPause"] boolValue])
+    {
+        if(![self isFullScreen])
 		{
 			@try {				
 				[gameCore setPauseEmulation:YES];
@@ -159,8 +153,7 @@
 				NSLog(@"Failed to pause");
 			}
 		}
-	}
-#endif
+    }
 }
 
 - (void)windowWillClose:(NSNotification *)notification
