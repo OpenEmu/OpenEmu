@@ -27,7 +27,7 @@
 }
 
 // Designated Initializer
-- (id) initWithGameCore: (GameCore*) core
+- (id)initWithGameCore:(GameCore *)core
 {
 	self = [super init];
 	if(self)

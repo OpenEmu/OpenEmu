@@ -107,6 +107,7 @@
 		8D15AC310486D014006FF6A4 /* GameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		C6031D350FE5AF2B00D44F71 /* OpenEmuBase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		C61C98C30F58308C007F4242 /* OEHIDEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = C6C98B830F55B7A800116EA2 /* OEHIDEvent.h */; };
 		C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */; };
 		C61C98E70F583217007F4242 /* OEGameCoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */; };
@@ -172,6 +173,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				C6031D350FE5AF2B00D44F71 /* OpenEmuBase.framework in CopyFiles */,
 				82C9C95E0F0804D90071460B /* Sparkle.framework in CopyFiles */,
 				828ED4E00E7D98F00059F397 /* XADMaster.framework in CopyFiles */,
 				828ED4E10E7D98F00059F397 /* UniversalDetector.framework in CopyFiles */,
