@@ -435,12 +435,12 @@ static void _BufferReleaseCallback(const void* address, void* info)
 -(BOOL) controllerDataValidate:(NSArray*) cData
 {
     // sanity check
-    if([cData count] == 2 && [[cData objectAtIndex:1] count] == 12)
+    if([cData count] == 2 && [[cData objectAtIndex:1] count] == 30)
     {
-        //        NSLog(@"validated controller data");
+  //              NSLog(@"validated controller data");
         return YES;
     }    
-    
+    NSLog(@"error: invalid controller data structure.");
     return NO;
 }
 
@@ -465,12 +465,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
             //    [gameBuffer release];
             [gameAudio release];
             
-            NSLog(@"released/cleaned up for new rom");
-            
-			[gameCoreController release];
-			
-			NSLog(@"Released/cleaned up gameCoreController");
-			
+            NSLog(@"released/cleaned up for new ROM");			
         }
         loadedRom = NO;
         
@@ -483,7 +478,6 @@ static void _BufferReleaseCallback(const void* address, void* info)
 		
         NSLog(@"Loaded bundle. About to load rom...");
         
-		[gameCore initWithDocument:(GameDocument*)self];
         [gameCore loadFileAtPath:theRomPath];
         loadedRom = TRUE;
         
@@ -538,18 +532,20 @@ static void _BufferReleaseCallback(const void* address, void* info)
         NSUInteger i;
         for(i = 0; i < [controllerArray count]; i++)
         {
-            //    NSLog(@"index is %u", i);
+			if(i > 5 && i < 10)
+				continue;
+         //       NSLog(@"index is %u", i);
             if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
             {
                 //    NSLog(@"button %u is down", i);
                 //    [gameCore buttonPressed:i forPlayer:[playerNumber intValue]];
-                [gameCore player:[playerNumber intValue] didPressButton:i];
+                [gameCore player:[playerNumber intValue] didPressButton:(i + 1)];
             }        
             else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
             {
                 //    NSLog(@"button %u is up", i);
                 //    [gameCore buttonRelease:i forPlayer:[playerNumber intValue]];
-                [gameCore player:[playerNumber intValue] didReleaseButton:i];
+                [gameCore player:[playerNumber intValue] didReleaseButton:(i + 1)];
             }
         } 
     }    

@@ -170,13 +170,9 @@
 	// FIXME: the CFBundleTypeExtensions array gets larger every time you open the app, i.e., the array is getting appended, not replaced :X
 	[docTypes setValue:validExtensions forKey:@"CFBundleTypeExtensions"];
 	
-	DLog(@"docTypes is: %@",docTypes);
-	
 	// update Info.plist
 	
 	[infoPlist setObject:docTypes forKey: @"CFBundleDocumentTypes"];
-	
-	DLog(@"revised Info.plist will be %@",infoPlist);
 	
 	NSString* err;
 	// turn it back into proper XML data

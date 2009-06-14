@@ -45,7 +45,7 @@ enum {
     OEButton_17,
     OEButton_18,
     OEButton_19,
-    OEButton_20
+    OEButton_20 // = 30
 };
 typedef NSInteger OEButton;
 
