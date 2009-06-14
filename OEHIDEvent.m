@@ -387,7 +387,7 @@ NSString *OEHIDEventCountKey        = @"OEHIDEventCountKey";
     unichar tested = [characters characterAtIndex:0];
     
     if(NSF1FunctionKey <= tested && tested <= NSF35FunctionKey)
-        ret = [NSString stringWithFormat:@"F%u", tested - NSF1FunctionKey];
+        ret = [NSString stringWithFormat:@"F%u", tested - NSF1FunctionKey + 1];
     else if(tested == ' ' || tested == 0xA0)//[[NSCharacterSet whitespaceCharacterSet] characterIsMember:tested])
         ret = @"<space>";
     else
@@ -395,22 +395,23 @@ NSString *OEHIDEventCountKey        = @"OEHIDEventCountKey";
         unichar curr = 0;
         if(0);
 #define LAZY_CASE(c, val) else if(tested == c) curr = val
-        LAZY_CASE(NSLeftArrowFunctionKey,  0x2190); // '←'
-        LAZY_CASE(NSUpArrowFunctionKey,    0x2191); // '↑'
-        LAZY_CASE(NSRightArrowFunctionKey, 0x2192); // '→'
-        LAZY_CASE(NSDownArrowFunctionKey,  0x2193); // '↓'
-        LAZY_CASE(NSDeleteFunctionKey,     0x232B); // '⌫'
+        LAZY_CASE(NSLeftArrowFunctionKey,  0x21E0); // '⇠'
+        LAZY_CASE(NSUpArrowFunctionKey,    0x21E1); // '⇡'
+        LAZY_CASE(NSRightArrowFunctionKey, 0x21E2); // '⇢'
+        LAZY_CASE(NSDownArrowFunctionKey,  0x21E3); // '⇣'
+        LAZY_CASE(NSDeleteFunctionKey,     0x2326); // '⌦'
         LAZY_CASE(NSHomeFunctionKey,       0x2196); // '↖'
         LAZY_CASE(NSEndFunctionKey,        0x2198); // '↘'
         LAZY_CASE(NSPageUpFunctionKey,     0x21DE); // '⇞'
         LAZY_CASE(NSPageDownFunctionKey,   0x21DF); // '⇟'
         LAZY_CASE(NSClearLineFunctionKey,  0x2327); // '⌧'
         LAZY_CASE('\r',                    0x21A9); // '↩'
-        LAZY_CASE(3,                       0x2305); // '⌅'
+        LAZY_CASE(0x03,                    0x2305); // '⌅'
         LAZY_CASE('\n',                    0x2305); // '⌅'
         LAZY_CASE('\t',                    0x21E5); // '⇥'
         LAZY_CASE(0x19,                    0x21E4); // '⇤'
-        LAZY_CASE(0x7F,                    0x27F5); // '⟵'
+        LAZY_CASE(0x7F,                    0x232B); // '⌫'
+        LAZY_CASE(0x1B,                    0x238B); // '⎋'
 #undef  LAZY_CASE
         
         if(curr != 0) ret = [NSString stringWithCharacters:&curr length:1];
