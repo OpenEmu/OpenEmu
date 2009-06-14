@@ -39,8 +39,6 @@
 - (IBAction)changeVolume:(id)sender;
 
 - (GameCore *)currentGame;
-- (IBAction)closeWindow: (id) sender;
-- (IBAction)switchFullscreen: (id) sender;
 
 - (IBAction)saveState: (id) sender;
 - (IBAction)loadState: (id) sender;

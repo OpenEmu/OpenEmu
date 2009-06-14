@@ -33,13 +33,13 @@
 
 - (void)scrambleRam:(int)bytes;
 - (BOOL)isFullScreen;
-- (void)switchFullscreen;
 - (void)refresh;
 - (void)saveStateToFile:(NSString *)fileName;
 - (void)loadStateFromFile:(NSString *)fileName;
 
 - (IBAction)loadState:(id)sender;
 - (IBAction)saveState:(id)sender;
+- (IBAction)toggleFullScreen:(id)sender;
 
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;

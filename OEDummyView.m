@@ -7,7 +7,7 @@
 //
 
 #import "OEDummyView.h"
-
+#import "GameCore.h"
 
 @implementation OEDummyView
 - (BOOL)acceptsFirstResponder

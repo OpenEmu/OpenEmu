@@ -170,18 +170,32 @@
 	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
 	[docControl setGameLoaded:NO];
 }
+
+- (void)performClose:(id)sender
+{
+    [gameWindow performClose:sender];
+}
 	
 - (BOOL)isFullScreen
 {
 	return [view isInFullScreenMode];
 }
 
-- (void)switchFullscreen
+- (IBAction)toggleFullScreen:(id)sender
 {
-	if([view isInFullScreenMode])
-		[view exitFullScreenModeWithOptions:nil];
-	else
-		[view enterFullScreenMode:[NSScreen mainScreen] withOptions:nil];
+    NSResponder *previous = [view nextResponder];
+    
+    if(![view isInFullScreenMode])
+        [view enterFullScreenMode:[[view window] screen]
+                      withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
+                                   [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
+                                   [NSNumber numberWithInt:0], NSFullScreenModeWindowLevel, nil]];
+    else
+        [view exitFullScreenModeWithOptions:nil];
+    [[view window] makeFirstResponder:view];
+    
+    [previous setNextResponder:[view nextResponder]];
+    [view setNextResponder:previous];
 }
 
 - (void) setVolume: (float) volume

@@ -57,7 +57,7 @@
 			if( [[SUUpdater updaterForBundle:[plugin bundle]] feedURL] )
 			{
 				[[SUUpdater updaterForBundle:[plugin bundle]] resetUpdateCycle];
-		//		[[SUUpdater updaterForBundle:[plugin bundle]] checkForUpdates:self];
+                //		[[SUUpdater updaterForBundle:[plugin bundle]] checkForUpdates:self];
 			}
 		}
 		@catch (NSException * e) {
@@ -74,7 +74,7 @@
 		[self setGameLoaded:NO];
 		
 		NSString *bundleDir = [[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OEBundlePath"] stringByStandardizingPath];
-	
+        
 		// get our core bundles
 		NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath: bundleDir];
         
@@ -136,13 +136,20 @@
 {
     if(preferences == nil)
         preferences = [[OEGamePreferenceController alloc] init];
-    [preferences showWindow:sender];
+    if([[preferences window] isVisible])
+        [preferences close];
+    else
+    {
+        if([[self currentDocument] isFullScreen])
+            [[self currentDocument] toggleFullScreen:sender];
+        [preferences showWindow:sender];
+    }
 }
 
 - (void) updateInfoPlist 
 {
 	// updates OpenEmu.app's Info.plist with the valid extensions so that users can drag ROMs onto the icon to get opened
-
+    
 	NSString *errorDesc = nil;
 	NSPropertyListFormat format;
 	
@@ -169,11 +176,11 @@
 	// replace extensions with validExtensions
 	// FIXME: the CFBundleTypeExtensions array gets larger every time you open the app, i.e., the array is getting appended, not replaced :X
 	[docTypes setValue:validExtensions forKey:@"CFBundleTypeExtensions"];
-	
+    
 	// update Info.plist
 	
 	[infoPlist setObject:docTypes forKey: @"CFBundleDocumentTypes"];
-	
+    
 	NSString* err;
 	// turn it back into proper XML data
 	NSData* updatedInfoPlistData = [NSPropertyListSerialization dataFromPropertyList:infoPlist
@@ -253,11 +260,6 @@
 	return [super openDocumentWithContentsOfURL: absoluteURL display: displayDocument error: outError];
 }
 
-- (IBAction)closeWindow: (id) sender
-{
-	[[self currentDocument] close];
-}
-
 - (PluginInfo *)pluginForType:(NSString *)type
 {
     for(PluginInfo *plugin in plugins)
@@ -297,11 +299,6 @@
 - (IBAction) resetGame: (id) sender
 {
 	[[self currentGame] resetEmulation];
-}
-
-- (IBAction) switchFullscreen: (id) sender
-{
-	[[self currentDocument] switchFullscreen];
 }
 
 - (IBAction) scrambleRam: (id) sender
@@ -375,9 +372,9 @@
 
 - (IBAction)changeVideoFilter:(id)sender
 {
-/*    eFilter tag = [sender tag];
-    for(GameDocument *gameDoc in [self documents])
-		[gameDoc setVideoFilter:tag];*/
+    /*    eFilter tag = [sender tag];
+     for(GameDocument *gameDoc in [self documents])
+     [gameDoc setVideoFilter:tag];*/
 }
 
 - (IBAction)changeVolume:(id)sender
