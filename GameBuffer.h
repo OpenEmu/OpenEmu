@@ -19,6 +19,7 @@ typedef enum
 	
 } eFilter;
 
+DEPRECATED_ATTRIBUTE
 @interface GameBuffer : NSObject {
 	unsigned char *buffer;
 	

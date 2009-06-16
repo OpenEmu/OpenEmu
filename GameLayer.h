@@ -13,6 +13,7 @@
 
 @class GameBuffer, GameShader;
 
+DEPRECATED_ATTRIBUTE
 @interface GameLayer : CAOpenGLLayer {
 	GameBuffer *gameBuffer;
 	

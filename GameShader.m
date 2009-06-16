@@ -126,7 +126,7 @@ static void LinkProgram(GLhandleARB programObject,
 								  extension:(NSString *)theExtension
 {	
 	NSString  *shaderTempSource = [bundleToLoadFrom pathForResource:theShaderResourceName 
-													  ofType:theExtension];	
+													  ofType:theExtension];
 	GLcharARB *shaderSource = NULL;
 	
 	shaderTempSource = [NSString stringWithContentsOfFile:shaderTempSource];

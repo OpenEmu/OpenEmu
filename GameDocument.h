@@ -9,20 +9,17 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CoreAnimation.h>
-#import "GameBuffer.h"
 
 @class GameCore;
 @class GameAudio;
-@class GameLayer;
-@class GameBuffer;
+@class OEGameLayer;
 @class GameQTRecorder;
 
 @interface GameDocument : NSDocument
 {
 	NSTimer           *frameTimer;
 	CALayer           *rootLayer;
-	GameLayer         *gameLayer;
-	GameBuffer        *gameBuffer;
+	OEGameLayer       *gameLayer;
 	GameQTRecorder    *recorder;
 	BOOL               keyedOnce;
 	GameCore          *gameCore;
@@ -31,14 +28,18 @@
 	IBOutlet NSView   *view;
 }
 
-- (void)scrambleRam:(int)bytes;
+@property(readonly) GameCore *gameCore;
+
+- (void)scrambleBytesInRam:(NSUInteger)bytes;
 - (BOOL)isFullScreen;
 - (void)refresh;
 - (void)saveStateToFile:(NSString *)fileName;
 - (void)loadStateFromFile:(NSString *)fileName;
 
 - (IBAction)loadState:(id)sender;
+- (IBAction)resetGame:(id)sender;
 - (IBAction)saveState:(id)sender;
+- (IBAction)scrambleRam:(id)sender;
 - (IBAction)toggleFullScreen:(id)sender;
 
 - (BOOL)backgroundPauses;
@@ -47,9 +48,6 @@
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
-- (NSBitmapImageRep *)getRawScreenshot;
-- (void)setVideoFilter:(eFilter)filterID;
-- (void)resetFilter;
+- (NSBitmapImageRep *)screenshot;
 
-@property(readonly) GameCore *gameCore;
 @end

@@ -29,6 +29,38 @@
 			<key>NSDocumentClass</key>
 			<string>GameDocument</string>
 		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>oecoreplugin</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>OECorePluginIcon.icns</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleTypeName</key>
+			<string>GameCorePlugin</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSTypeIsPackage</key>
+			<true/>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>oefilterplugin</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>OEFilterPluginIcon.icns</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleTypeName</key>
+			<string>VideoFilterPlugin</string>
+			<key>LSHandlerRank</key>
+			<string>Default</string>
+			<key>LSTypeIsPackage</key>
+			<true/>
+		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
@@ -41,7 +73,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>OpEm</string>
 	<key>CFBundleVersion</key>
 	<string>0.9.1</string>
 	<key>NSMainNibFile</key>

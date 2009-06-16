@@ -18,12 +18,12 @@
 @interface OpenEmuQC : QCPlugIn
 {
 	// init stuff
-	NSArray* bundles;
-	NSArray* validExtensions;
-	OEGameCoreController* gameCoreController;
-	GameCore* gameCore;
-	GameAudio*  gameAudio;
-	GameBuffer * gameBuffer;
+	NSArray              *bundles;
+	NSArray              *validExtensions;
+	OEGameCoreController *gameCoreController;
+	GameCore             *gameCore;
+	GameAudio            *gameAudio;
+	GameBuffer           *gameBuffer;
 
 	BOOL loadedRom, audioPaused;
 	NSMutableArray* persistantControllerData;

@@ -11,14 +11,14 @@
 #import <IOKit/hid/IOHIDUsageTables.h>
 #import "OEHIDDeviceHandler.h"
 
-@class GameCore, PluginInfo;
+@class GameCore, OECorePlugin;
 @class GameDocument, OEGamePreferenceController;
 
 @interface GameDocumentController : NSDocumentController {
 	GameDocument               *currentGame;
     OEGamePreferenceController *preferences;
+    NSArray                    *filterNames;
     NSArray                    *plugins;
-	NSArray                    *bundles;
 	NSArray                    *validExtensions;
 	BOOL                        gameLoaded;
     
@@ -26,25 +26,16 @@
     NSMutableArray             *deviceHandlers;
 }
 
+@property(readonly) NSArray *filterNames;
 @property(readonly) NSArray *plugins;
-@property(readonly) NSArray *bundles;
 @property(readwrite) BOOL gameLoaded;
 
 - (GameDocument *)currentDocument;
 
-- (PluginInfo *)pluginForType:(NSString *)type;
+- (OECorePlugin *)pluginForType:(NSString *)type;
 - (void) updateInfoPlist;
 
-- (IBAction)changeVideoFilter:(id)sender;
-
 - (GameCore *)currentGame;
-
-- (IBAction)saveState:(id)sender;
-- (IBAction)loadState:(id)sender;
-
-- (IBAction)resetGame:(id)sender;
-
-- (IBAction)scrambleRam:(id)sender;
 
 - (IBAction)updateBundles:(id)sender;
 - (BOOL)isGameKey;

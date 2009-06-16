@@ -7,7 +7,7 @@
 //
 
 #import "OEGamePreferenceController_Toolbar.h"
-#import "PluginInfo.h"
+#import "OECorePlugin.h"
 
 static NSString *OEToolbarLabelKey        = @"OEToolbarLabelKey";
 static NSString *OEToolbarPaletteLabelKey = @"OEToolbarPaletteLabelKey";

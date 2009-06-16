@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="81"/>
+			<integer value="19"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -567,84 +567,12 @@
 					<int key="connectionID">450</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">resetGame:</string>
-						<reference key="source" ref="1025528768"/>
-						<reference key="destination" ref="798211576"/>
-					</object>
-					<int key="connectionID">474</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
 						<reference key="source" ref="1021"/>
 						<reference key="destination" ref="1025528768"/>
 					</object>
 					<int key="connectionID">475</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: gameLoaded</string>
-						<reference key="source" ref="1023925487"/>
-						<reference key="destination" ref="1025528768"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1023925487"/>
-							<reference key="NSDestination" ref="1025528768"/>
-							<string key="NSLabel">enabled: gameLoaded</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">gameLoaded</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">476</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: gameLoaded</string>
-						<reference key="source" ref="752384020"/>
-						<reference key="destination" ref="1025528768"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="752384020"/>
-							<reference key="NSDestination" ref="1025528768"/>
-							<string key="NSLabel">enabled: gameLoaded</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">gameLoaded</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">480</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: gameLoaded</string>
-						<reference key="source" ref="798211576"/>
-						<reference key="destination" ref="1025528768"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="798211576"/>
-							<reference key="NSDestination" ref="1025528768"/>
-							<string key="NSLabel">enabled: gameLoaded</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">gameLoaded</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">481</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">enabled: gameLoaded</string>
-						<reference key="source" ref="411935707"/>
-						<reference key="destination" ref="1025528768"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="411935707"/>
-							<reference key="NSDestination" ref="1025528768"/>
-							<string key="NSLabel">enabled: gameLoaded</string>
-							<string key="NSBinding">enabled</string>
-							<string key="NSKeyPath">gameLoaded</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">483</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
@@ -669,14 +597,6 @@
 						<reference key="destination" ref="660210250"/>
 					</object>
 					<int key="connectionID">493</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">scrambleRam:</string>
-						<reference key="source" ref="1025528768"/>
-						<reference key="destination" ref="221810546"/>
-					</object>
-					<int key="connectionID">495</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
@@ -717,6 +637,22 @@
 						<reference key="destination" ref="776162233"/>
 					</object>
 					<int key="connectionID">503</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">scrambleRam:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="221810546"/>
+					</object>
+					<int key="connectionID">504</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">resetGame:</string>
+						<reference key="source" ref="1014"/>
+						<reference key="destination" ref="798211576"/>
+					</object>
+					<int key="connectionID">505</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1097,6 +1033,7 @@
 					<string>111.ImportedFromIB2</string>
 					<string>124.IBPluginDependency</string>
 					<string>124.ImportedFromIB2</string>
+					<string>125.IBEditorWindowLastContentRect</string>
 					<string>125.IBPluginDependency</string>
 					<string>125.ImportedFromIB2</string>
 					<string>125.editorWindowContentRectSynchronizationRect</string>
@@ -1198,6 +1135,7 @@
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
+					<string>{{654, 693}, {146, 23}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{522, 812}, {146, 23}}</string>
@@ -1232,17 +1170,17 @@
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{577, 663}, {197, 73}}</string>
+					<string>{{576, 663}, {197, 73}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{525, 802}, {197, 73}}</string>
-					<string>{{385, 736}, {324, 20}}</string>
+					<string>{{384, 736}, {324, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{74, 862}</string>
 					<string>{{11, 977}, {478, 20}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{527, 673}, {234, 63}}</string>
+					<string>{{526, 673}, {234, 63}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{475, 832}, {234, 43}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1261,7 +1199,7 @@
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{328, 513}, {232, 223}}</string>
+					<string>{{397, 513}, {232, 223}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{23, 794}, {245, 183}}</string>
@@ -1275,7 +1213,7 @@
 					<reference ref="9"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{485, 563}, {170, 173}}</string>
+					<string>{{484, 563}, {170, 173}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
 					<string>{{155, 774}, {199, 203}}</string>
@@ -1305,7 +1243,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">503</int>
+			<int key="maxID">507</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1339,11 +1277,15 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>loadState:</string>
+							<string>resetGame:</string>
 							<string>saveState:</string>
+							<string>scrambleRam:</string>
 							<string>toggleFullScreen:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1374,23 +1316,11 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>changeVideoFilter:</string>
-							<string>changeVolume:</string>
-							<string>loadState:</string>
 							<string>openPreferenceWindow:</string>
-							<string>resetGame:</string>
-							<string>saveState:</string>
-							<string>scrambleRam:</string>
 							<string>updateBundles:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 						</object>
@@ -1412,6 +1342,13 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">OEAbstractAdditions.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">NSObject</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">OEPlugin.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

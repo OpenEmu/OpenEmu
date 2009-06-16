@@ -13,8 +13,9 @@
 #import "OEHIDDeviceHandler.h"
 #import <Sparkle/Sparkle.h>
 #import <XADMaster/XADArchive.h>
-#import "PluginInfo.h"
 #import "OEGamePreferenceController.h"
+#import "OEFilterPlugin.h"
+#import "OECorePlugin.h"
 
 @interface GameDocumentController ()
 - (void)OE_setupHIDManager;
@@ -25,11 +26,11 @@
 @implementation GameDocumentController
 
 @synthesize gameLoaded;
-@synthesize bundles;
-@synthesize plugins;
+@synthesize plugins, filterNames;
 
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
+    /*
 	NSLog(@"Menu!?!?!");
 	for(NSBundle * bundle in [self bundles])
 	{
@@ -47,11 +48,12 @@
 			}
 		}
 	}
+     */
 }
 
 -(void)updateBundles: (id) sender
 {
-	for(PluginInfo *plugin in plugins)
+	for(OECorePlugin *plugin in plugins)
 	{
 		@try {
 			if( [[SUUpdater updaterForBundle:[plugin bundle]] feedURL] )
@@ -73,40 +75,18 @@
     {
 		[self setGameLoaded:NO];
 		
-		NSString *bundleDir = [[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OEBundlePath"] stringByStandardizingPath];
+        plugins = [[OECorePlugin allPlugins] retain];
         
-		// get our core bundles
-		NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath: bundleDir];
-        
-		NSString *file;
-        NSMutableArray *mutablePlugins = [[NSMutableArray alloc] init];
-		
-        while (file = [enumerator nextObject])
-		{
-			if([[file pathExtension] isEqualToString:@"bundle"])
-			{
-                PluginInfo *plugin = [PluginInfo pluginInfoWithBundleAtPath:[bundleDir stringByAppendingPathComponent:file]];
-                [mutablePlugins addObject:plugin];
-				[enumerator skipDescendents];
-			}
-		}
-		//All bundles that are available
-        plugins = [mutablePlugins copy];
-		
-        [mutablePlugins release];
-		
         NSMutableSet *mutableExtensions = [[NSMutableSet alloc] init];
 		
 		//go through the bundles Info.plist files to get the type extensions
-		for(PluginInfo *plugin in plugins)
+		for(OECorePlugin *plugin in plugins)
             [mutableExtensions addObjectsFromArray:[plugin supportedTypeExtensions]];
         
 		NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
 		
-		for (NSDictionary* key in types)
-		{
+		for(NSDictionary* key in types)
 			[mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
-		}
 		
 		// When a class conforms to both NSCopying and NSMutableCopying protocols
 		// -copy returns a immutable object and
@@ -119,12 +99,18 @@
 		[self updateInfoPlist];
         
         [self OE_setupHIDManager];
+        
+        NSArray *filterPlugins = [OEFilterPlugin allPlugins];
+        filterNames = [[NSMutableArray alloc] initWithObjects:@"None", @"Nearest Neighbor", nil];
+        for(OEFilterPlugin *p in filterPlugins)
+            [(NSMutableArray *)filterNames addObject:[p displayName]];
 	}
 	return self;
 }
 
 - (void) dealloc
 {
+    [filterNames release];
 	[validExtensions release];
     [plugins release];
     if(hidManager != NULL) CFRelease(hidManager);
@@ -260,9 +246,9 @@
 	return [super openDocumentWithContentsOfURL: absoluteURL display: displayDocument error: outError];
 }
 
-- (PluginInfo *)pluginForType:(NSString *)type
+- (OECorePlugin *)pluginForType:(NSString *)type
 {
-    for(PluginInfo *plugin in plugins)
+    for(OECorePlugin *plugin in plugins)
         if([plugin supportsFileExtension:type])
             return plugin;
     return nil;
@@ -291,52 +277,9 @@
 	return [super runModalOpenPanel:openPanel forTypes:validExtensions];
 }
 
-- (GameCore*) currentGame
+- (GameCore *)currentGame
 {
 	return [[self currentDocument] gameCore];
-}
-
-- (IBAction) resetGame: (id) sender
-{
-	[[self currentGame] resetEmulation];
-}
-
-- (IBAction) scrambleRam: (id) sender
-{
-	[[self currentDocument] scrambleRam:100];
-}
-
-- (IBAction) saveState: (id) sender
-{
-	NSString* fileName;
-	NSSavePanel* sPanel = [NSSavePanel savePanel];
-	[sPanel setAlphaValue:0.95]; 
-	
-	[sPanel setTitle:@"Save Current State"];
-	if ( [sPanel runModalForDirectory:nil file:nil] == NSOKButton ){
-		fileName = [sPanel filename];
-		
-		[[self currentGame] saveStateToFileAtPath: fileName];
-	}
-}
-
-- (IBAction) loadState: (id) sender
-{
-	NSString* fileName;
-	NSOpenPanel* oPanel = [NSOpenPanel openPanel]; 
-	[oPanel setCanChooseDirectories:NO]; 
-	[oPanel setCanChooseFiles:YES]; 
-	[oPanel setCanCreateDirectories:NO]; 
-	[oPanel setAllowsMultipleSelection:NO]; 
-	[oPanel setAlphaValue:0.95]; 
-	
-	[oPanel setTitle:@"Load Saved State"];
-	if ( [oPanel runModalForDirectory:nil file:nil types: nil] == NSOKButton ){
-		NSArray* files = [oPanel filenames];
-		fileName = [files objectAtIndex:0];
-		
-		[[self currentGame] loadStateFromFileAtPath: fileName];
-	}
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
@@ -368,13 +311,6 @@
 - (GameDocument *)currentDocument
 {
 	return [super currentDocument];
-}
-
-- (IBAction)changeVideoFilter:(id)sender
-{
-    /*    eFilter tag = [sender tag];
-     for(GameDocument *gameDoc in [self documents])
-     [gameDoc setVideoFilter:tag];*/
 }
 
 #pragma mark New HID Event Handler

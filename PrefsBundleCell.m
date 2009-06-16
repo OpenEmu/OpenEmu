@@ -7,14 +7,14 @@
 //
 
 #import "PrefsBundleCell.h"
-#import "PluginInfo.h"
+#import "OECorePlugin.h"
 
 @implementation PrefsBundleCell
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
 	[self setTextColor:[NSColor blackColor]];
 	
-	PluginInfo* data = [self objectValue];
+	OECorePlugin* data = [self objectValue];
 	
 	// give the delegate a chance to set a different data object
 /*	if ([[self dataDelegate] respondsToSelector: @selector(dataElementForCell:)]) {

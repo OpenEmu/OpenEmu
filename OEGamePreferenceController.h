@@ -11,7 +11,7 @@
 extern NSString *const OEControlsPreferenceKey;
 extern NSString *const OEAdvancedPreferenceKey;
 
-@class PluginInfo;
+@class OECorePlugin;
 
 @interface OEGamePreferenceController : NSWindowController
 {
@@ -23,7 +23,7 @@ extern NSString *const OEAdvancedPreferenceKey;
     NSString                   *currentViewIdentifier;
     NSPredicate                *availablePluginsPredicate;
     NSIndexSet                 *selectedPlugins;
-    PluginInfo                 *currentPlugin;
+    OECorePlugin               *currentPlugin;
     NSViewController           *currentViewController;
 }
 

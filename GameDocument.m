@@ -7,11 +7,10 @@
 //
 
 #import "GameDocument.h"
-#import "PluginInfo.h"
+#import "OECorePlugin.h"
 #import "GameDocumentController.h"
 #import "GameAudio.h"
-#import "GameLayer.h"
-#import "GameBuffer.h"
+#import "OEGameLayer.h"
 #import "GameCore.h"
 #import "OEGameCoreController.h"
 
@@ -38,9 +37,14 @@
 	rootLayer.layoutManager = [CAConstraintLayoutManager layoutManager];
 	rootLayer.backgroundColor = CGColorCreateGenericRGB(0.0f,0.0f, 0.0f, 1.0f);
 	
-	gameLayer = [GameLayer layer];
+	gameLayer = [OEGameLayer layer];
+    
+    [gameLayer bind:@"filterName"
+           toObject:[NSUserDefaultsController sharedUserDefaultsController]
+        withKeyPath:@"values.filterName"
+            options:nil];
 	
-	[gameLayer setBuffer:gameBuffer];
+    [gameLayer setGameCore:gameCore];
 	 
 	gameLayer.name = @"game";
 	gameLayer.frame = CGRectMake(0,0,1,1);
@@ -58,7 +62,8 @@
 	[view setLayer:rootLayer];
 	[view setWantsLayer:YES];
 	
-	audio = [[GameAudio alloc] initWithCore: gameCore];
+    // FIXME: possible leak
+	audio = [[GameAudio alloc] initWithCore:gameCore];
     
     [audio bind:@"volume"
        toObject:[NSUserDefaultsController sharedUserDefaultsController]
@@ -76,7 +81,7 @@
 	if([gameCore respondsToSelector:@selector(outputSize)])
 	   aspect = [gameCore outputSize];
 	else
-	   aspect = NSMakeSize([gameBuffer width], [gameBuffer height]);
+	   aspect = NSMakeSize([gameCore width], [gameCore height]);
 	[gameWindow setFrame: NSMakeRect(NSMinX(f), NSMinY(f), aspect.width, aspect.height + 22) display:NO];
 	
 	[rootLayer setNeedsLayout];
@@ -102,11 +107,10 @@
 	NSLog(@"%@",self);
 	
 	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
-    PluginInfo *plugin = [docControl pluginForType:typeName];
+    OECorePlugin *plugin = [docControl pluginForType:typeName];
     gameCore = [[plugin controller] newGameCoreWithDocument:self];
     NSLog(@"gameCore class: %@", [gameCore class]);
     [view setNextResponder:gameCore];
-    gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
     [self resetFilter];
     
     if ([gameCore loadFileAtPath: [absoluteURL path]] ) return YES;
@@ -115,18 +119,7 @@
     return NO;
 }
 
-- (void)setVideoFilter:(eFilter)filterID
-{
-    [gameBuffer setFilter:filterID];
-}
-
-- (void) resetFilter
-{
-	// FIXME: Need to be adapted to the new system
-    //[gameBuffer setFilter:[[[GameDocumentController sharedDocumentController] preferenceController]filter]];
-}
-
-- (void) refresh
+- (void)refresh
 {	
 	[gameLayer display];
 }
@@ -170,7 +163,6 @@
 {
 	if([view isInFullScreenMode])
 		[view exitFullScreenModeWithOptions:nil];
-//	[recorder finishRecording];
 	[gameCore stopEmulation];
 	[audio stopAudio];
 	[gameCore release];
@@ -217,7 +209,7 @@
                                         contextInfo:NULL];
 }
 
-- (void) saveStateToFile: (NSString *) fileName
+- (void)saveStateToFile:(NSString *)fileName
 {
     if([gameCore respondsToSelector:@selector(saveStateToFileAtPath:)])
         [gameCore saveStateToFileAtPath: fileName];
@@ -243,19 +235,30 @@
     if(returnCode == NSOKButton) [self loadStateFromFile:[panel filename]];
 }
 
-- (void)loadStateFromFile: (NSString *) fileName
+- (void)loadStateFromFile:(NSString *)fileName
 {
     if([gameCore respondsToSelector:@selector(loadStateFromFileAtPath:)])
         [gameCore loadStateFromFileAtPath: fileName];
 }
 
-- (void)scrambleRam:(int)bytes
+- (IBAction)scrambleRam:(id)sender
 {
-	for(int i = 0; i < bytes; i++)
+    [self scrambleBytesInRam:100];
+}
+
+- (void)scrambleBytesInRam:(NSUInteger)bytes
+{
+	for(NSUInteger i = 0; i < bytes; i++)
 		[gameCore setRandomByte];
 }
 
-- (NSBitmapImageRep *)getRawScreenshot
+- (IBAction)resetGame:(id)sender
+{
+	[gameCore resetEmulation];
+}
+
+
+- (NSBitmapImageRep *)screenshot
 {
 #ifdef __LITTLE_ENDIAN__
 #define BITMAP_FORMAT 0
@@ -265,19 +268,18 @@
     
 	int width = [gameCore width];
 	int height = [gameCore height];
-	//little endian code
 	NSBitmapImageRep *newBitmap =
-	[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-											pixelsWide:width
-											pixelsHigh:height
-										 bitsPerSample:8
-									   samplesPerPixel:4
-											  hasAlpha:YES
-											  isPlanar:NO
-										colorSpaceName:NSCalibratedRGBColorSpace
-										  bitmapFormat:BITMAP_FORMAT
-										   bytesPerRow:width * 4
-										  bitsPerPixel:32];
+	[[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+                                             pixelsWide:width
+                                             pixelsHigh:height
+                                          bitsPerSample:8
+                                        samplesPerPixel:4
+                                               hasAlpha:YES
+                                               isPlanar:NO
+                                         colorSpaceName:NSCalibratedRGBColorSpace
+                                           bitmapFormat:BITMAP_FORMAT
+                                            bytesPerRow:width * 4
+                                           bitsPerPixel:32] autorelease];
 	
 	memcpy([newBitmap bitmapData], [gameCore videoBuffer], width * height * 4 * sizeof(unsigned char));
 	

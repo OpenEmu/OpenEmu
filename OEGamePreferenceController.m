@@ -9,7 +9,7 @@
 #import "OEGamePreferenceController.h"
 #import "GameDocumentController.h"
 #import "OEGamePreferenceController_Toolbar.h"
-#import "PluginInfo.h"
+#import "OECorePlugin.h"
 #import "OEGameCoreController.h"
 
 @implementation OEGamePreferenceController
@@ -22,6 +22,7 @@
     if(self != nil)
     {
         plugins = [[GameDocumentController sharedDocumentController] plugins];
+        
         [self setupToolbar];
     }
     return self;
