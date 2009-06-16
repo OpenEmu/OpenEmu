@@ -46,12 +46,6 @@
     [super dealloc];
 }
 
-- (void)showWindow:(id)sender
-{
-    [super showWindow:sender];
-    [[self window] setLevel:NSFloatingWindowLevel];
-}
-
 - (void)setSelectedPlugins:(NSIndexSet *)indexes
 {
     [selectedPlugins release];

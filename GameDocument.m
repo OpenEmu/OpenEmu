@@ -111,7 +111,6 @@
     gameCore = [[plugin controller] newGameCoreWithDocument:self];
     NSLog(@"gameCore class: %@", [gameCore class]);
     [view setNextResponder:gameCore];
-    [self resetFilter];
     
     if ([gameCore loadFileAtPath: [absoluteURL path]] ) return YES;
     NSLog(@"Incorrect file");
