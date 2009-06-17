@@ -29,6 +29,6 @@
 	<key>OEBundlePath</key>
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>
 	<key>OENESBundlePath</key>
-	<string>~/Library/Application Support/OpenEmu/Cores/Nestopia.bundle</string>
+	<string>~/Library/Application Support/OpenEmu/Cores/Nestopia.oecoreplugin</string>
 </dict>
 </plist>

@@ -46,7 +46,6 @@
 		1B56D69D0F21397500C80694 /* Scale2xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */; };
 		1B56D69E0F21397500C80694 /* Scale2XPlus.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2XPlus.frag */; };
 		1B56D69F0F21397500C80694 /* Scale2XPlus.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2XPlus.vert */; };
-		1B60FEFA0F9E62540022C6C6 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		1B7594AF0E90C3E300FB5BF1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
 		1B807BDA0E90C0210086AB77 /* GameBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 829B9CAB0E7F215700452894 /* GameBuffer.m */; };
 		1B885E0A0F085EA500770B6D /* Scale2XPlus.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2XPlus.frag */; };
@@ -64,6 +63,8 @@
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */; };
 		374D1DDF0F1FDBA900B71EFC /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
+		3759EE2A0FE88871000E56D5 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
+		3759EE470FE88C4B000E56D5 /* OpenEmuBase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		82444BA80F51259A007C171B /* GameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* GameCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -144,11 +145,11 @@
 			remoteGlobalIDString = 828E65970E8466A100B1860B;
 			remoteInfo = OpenEmuQC;
 		};
-		1B60FEF80F9E624D0022C6C6 /* PBXContainerItemProxy */ = {
+		3759EE520FE88C82000E56D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 82444BA00F51256C007C171B;
+			remoteGlobalIDString = 82444BA00F51256C007C171B /* OpenEmuBase */;
 			remoteInfo = OpenEmuBase;
 		};
 		82C9C97D0F080C920071460B /* PBXContainerItemProxy */ = {
@@ -168,6 +169,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		3759EE3C0FE88B08000E56D5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3759EE470FE88C4B000E56D5 /* OpenEmuBase.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		828ED4F00E7D98F60059F397 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -317,7 +328,7 @@
 				828E65D30E8467A400B1860B /* Cocoa.framework in Frameworks */,
 				828E65D70E8467AA00B1860B /* Quartz.framework in Frameworks */,
 				37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */,
-				1B60FEFA0F9E62540022C6C6 /* OpenEmuBase.framework in Frameworks */,
+				3759EE2A0FE88871000E56D5 /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -663,11 +674,12 @@
 				828E65940E8466A100B1860B /* Resources */,
 				828E65950E8466A100B1860B /* Sources */,
 				828E65960E8466A100B1860B /* Frameworks */,
+				3759EE3C0FE88B08000E56D5 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				1B60FEF90F9E624D0022C6C6 /* PBXTargetDependency */,
+				3759EE530FE88C82000E56D5 /* PBXTargetDependency */,
 			);
 			name = OpenEmuQC;
 			productName = OpenEmuQC;
@@ -866,10 +878,10 @@
 			target = 828E65970E8466A100B1860B /* OpenEmuQC */;
 			targetProxy = 1B3280690E85784400FEDA2C /* PBXContainerItemProxy */;
 		};
-		1B60FEF90F9E624D0022C6C6 /* PBXTargetDependency */ = {
+		3759EE530FE88C82000E56D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
-			targetProxy = 1B60FEF80F9E624D0022C6C6 /* PBXContainerItemProxy */;
+			targetProxy = 3759EE520FE88C82000E56D5 /* PBXContainerItemProxy */;
 		};
 		82C9C97E0F080C920071460B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -950,7 +962,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "OpenEmuBase-Info.plist";
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				INSTALL_PATH = "@loader_path/../Frameworks";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
