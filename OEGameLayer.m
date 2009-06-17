@@ -41,10 +41,11 @@
 
 - (void)setFilterName:(NSString *)aName
 {
+    NSString *old = filterName;
     if(aName != filterName)
     {
         // No need to go further if the new filter is the same as the old one
-        if(filterName != nil && [filterName isEqualToString:aName]) return;
+        //if(filterName != nil && [filterName isEqualToString:aName]) return;
         
         [filterName release];
         filterName = [aName retain];
@@ -60,6 +61,7 @@
     }
     
     usesShader = filterName != nil && ![filterName isEqualToString:@"None"];
+    NSLog(@"%s, old: %@, new: %@, usesShader: %s, shader: %@", __FUNCTION__, old, filterName, BOOL_STR(usesShader), shader);
 }
 
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat

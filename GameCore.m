@@ -85,6 +85,11 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 	return self;
 }
 
+- (BOOL)acceptsFirstResponder
+{
+    return YES;
+}
+
 - (void)removeFromGameController
 {
     [owner unregisterGameCore:self];

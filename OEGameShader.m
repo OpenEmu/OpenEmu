@@ -82,7 +82,7 @@ static GLhandleARB OE_loadShader(GLenum theShaderType,
     else *theShaderCompiled = 1;
 
     return shaderObject;
-} // LoadShader
+} // OE_loadShader
 
 //---------------------------------------------------------------------------------
 
@@ -196,26 +196,20 @@ static void OE_linkProgram(GLhandleARB programObject,
 
 - (void)setShaderContext:(CGLContextObj)aContext;
 {
-    if(aContext == NULL)
+    if(programObject != NULL)
+        glDeleteObjectARB(programObject), programObject = NULL;
+    shaderContext = aContext;
+    
+    GLhandleARB vertexShader = [self OE_shaderWithSource:&vertexShaderSource forType:GL_VERTEX_SHADER_ARB];
+    if(vertexShader != NULL)
     {
-        if(programObject != NULL)
-            glDeleteObjectARB(programObject);
-    }
-    else if(shaderContext != aContext)
-    {
-        shaderContext = aContext;
-        
-        GLhandleARB vertexShader = [self OE_shaderWithSource:&vertexShaderSource forType:GL_VERTEX_SHADER_ARB];
-        if(vertexShader != NULL)
+        GLhandleARB fragmentShader = [self OE_shaderWithSource:&fragmentShaderSource forType:GL_FRAGMENT_SHADER_ARB];
+        if(fragmentShader != NULL)
         {
-            GLhandleARB fragmentShader = [self OE_shaderWithSource:&fragmentShaderSource forType:GL_FRAGMENT_SHADER_ARB];
-            if(fragmentShader != NULL)
-            {
-                [self OE_setProgramObjectWithVertex:vertexShader fragment:fragmentShader];
-                glDeleteObjectARB(fragmentShader); // Release
-            }
-            glDeleteObjectARB(vertexShader); // Release
+            [self OE_setProgramObjectWithVertex:vertexShader fragment:fragmentShader];
+            glDeleteObjectARB(fragmentShader); // Release
         }
+        glDeleteObjectARB(vertexShader); // Release
     }
     
     if(programObject == NULL && aContext != NULL)

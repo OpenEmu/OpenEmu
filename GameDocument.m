@@ -48,7 +48,8 @@
 {
 	[gameCore setupEmulation];
 	
-    [view setNextResponder:gameCore];
+    [gameWindow makeFirstResponder:gameCore];
+    //[view setNextResponder:gameCore];
     
 	//Setup Layer hierarchy
 	rootLayer = [CALayer layer];
@@ -129,7 +130,8 @@
     OECorePlugin *plugin = [docControl pluginForType:typeName];
     gameCore = [[plugin controller] newGameCoreWithDocument:self];
     NSLog(@"gameCore class: %@", [gameCore class]);
-    [view setNextResponder:gameCore];
+    [gameWindow makeFirstResponder:gameCore];
+    //[view setNextResponder:gameCore];
     
     if ([gameCore loadFileAtPath: [absoluteURL path]] ) return YES;
     NSLog(@"Incorrect file");
@@ -211,10 +213,10 @@
                                    [NSNumber numberWithInt:0], NSFullScreenModeWindowLevel, nil]];
     else
         [view exitFullScreenModeWithOptions:nil];
-    [[view window] makeFirstResponder:view];
+    [[view window] makeFirstResponder:gameCore];
     
-    [previous setNextResponder:[view nextResponder]];
-    [view setNextResponder:previous];
+    //[previous setNextResponder:[view nextResponder]];
+    //[view setNextResponder:previous];
 }
 
 - (IBAction)saveState:(id)sender
