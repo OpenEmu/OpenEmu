@@ -46,69 +46,68 @@
 
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
-	[gameCore setupEmulation];
-	
+    [gameCore setupEmulation];
+    
     [gameWindow makeFirstResponder:gameCore];
     //[view setNextResponder:gameCore];
     
-	//Setup Layer hierarchy
-	rootLayer = [CALayer layer];
-	
-	rootLayer.layoutManager = [CAConstraintLayoutManager layoutManager];
-	rootLayer.backgroundColor = CGColorCreateGenericRGB(0.0f,0.0f, 0.0f, 1.0f);
-	
-	gameLayer = [OEGameLayer layer];
+    //Setup Layer hierarchy
+    rootLayer = [CALayer layer];
+    
+    rootLayer.layoutManager = [CAConstraintLayoutManager layoutManager];
+    rootLayer.backgroundColor = CGColorCreateGenericRGB(0.0f,0.0f, 0.0f, 1.0f);
+    
+    gameLayer = [OEGameLayer layer];
     
     [gameLayer bind:@"filterName"
            toObject:[NSUserDefaultsController sharedUserDefaultsController]
         withKeyPath:@"values.filterName"
             options:nil];
-	
+    [gameLayer setOwner:self];
+    
     [gameLayer setGameCore:gameCore];
-	 
-	gameLayer.name = @"game";
-	gameLayer.frame = CGRectMake(0,0,1,1);
-	[gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidX relativeTo:@"superlayer" attribute:kCAConstraintMidX]];
-	[gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
-	
-	NSRect viewRect = [view bounds];
-	gameLayer.bounds = CGRectMake(0, 0, viewRect.size.width,  viewRect.size.height);
-	//Add the NESLayer to the hierarchy
-	[rootLayer addSublayer:gameLayer];
-	
-	gameLayer.asynchronous = NO;
-	
-	//Show the layer
-	[view setLayer:rootLayer];
-	[view setWantsLayer:YES];
-	
+     
+    gameLayer.name = @"game";
+    gameLayer.frame = CGRectMake(0,0,1,1);
+    [gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidX relativeTo:@"superlayer" attribute:kCAConstraintMidX]];
+    [gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
+    
+    NSRect viewRect = [view bounds];
+    gameLayer.bounds = CGRectMake(0, 0, viewRect.size.width,  viewRect.size.height);
+    //Add the NESLayer to the hierarchy
+    [rootLayer addSublayer:gameLayer];
+    
+    gameLayer.asynchronous = NO;
+    
+    //Show the layer
+    [view setLayer:rootLayer];
+    [view setWantsLayer:YES];
+    
     // FIXME: possible leak
-	audio = [[GameAudio alloc] initWithCore:gameCore];
+    audio = [[GameAudio alloc] initWithCore:gameCore];
     
     [audio bind:@"volume"
        toObject:[NSUserDefaultsController sharedUserDefaultsController]
     withKeyPath:@"values.volume"
         options:nil];
     
-	[audio startAudio];
-	//[audio setVolume:[[[GameDocumentController sharedDocumentController] preferenceController] volume]];
-	
-	
-	NSRect f = [gameWindow frame];
-	
-	NSSize aspect;
-	
-	if([gameCore respondsToSelector:@selector(outputSize)])
-	   aspect = [gameCore outputSize];
-	else
-	   aspect = NSMakeSize([gameCore width], [gameCore height]);
-	[gameWindow setFrame: NSMakeRect(NSMinX(f), NSMinY(f), aspect.width, aspect.height + 22) display:NO];
-	
-	[rootLayer setNeedsLayout];
-	
-	[gameCore startEmulation];	
+    [audio startAudio];
+    
+    NSRect f = [gameWindow frame];
+    
+    NSSize aspect;
+    
+    if([gameCore respondsToSelector:@selector(outputSize)])
+       aspect = [gameCore outputSize];
+    else
+       aspect = NSMakeSize([gameCore width], [gameCore height]);
+    [gameWindow setFrame: NSMakeRect(NSMinX(f), NSMinY(f), aspect.width, aspect.height + 22) display:NO];
+    
+    [rootLayer setNeedsLayout];
+    
+    [gameCore startEmulation];    
 
-	[gameWindow makeKeyAndOrderFront:self];
+    [gameWindow makeKeyAndOrderFront:self];
     
     if([self defaultsToFullScreenMode])
         [self toggleFullScreen:self];
@@ -116,32 +115,30 @@
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
-    if ( outError != NULL ) {
-		*outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
-	}
-	return nil;
+    if (outError != NULL)
+        *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
+    return nil;
 }
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-	NSLog(@"%@",self);
-	
-	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
+    NSLog(@"%@",self);
+    
+    GameDocumentController *docControl = [GameDocumentController sharedDocumentController];
     OECorePlugin *plugin = [docControl pluginForType:typeName];
     gameCore = [[plugin controller] newGameCoreWithDocument:self];
     NSLog(@"gameCore class: %@", [gameCore class]);
     [gameWindow makeFirstResponder:gameCore];
-    //[view setNextResponder:gameCore];
     
-    if ([gameCore loadFileAtPath: [absoluteURL path]] ) return YES;
+    if ([gameCore loadFileAtPath:[absoluteURL path]]) return YES;
     NSLog(@"Incorrect file");
-	*outError = [[NSError alloc] initWithDomain:@"Bad file" code:0 userInfo:nil];
+    *outError = [[NSError alloc] initWithDomain:@"Bad file" code:0 userInfo:nil];
     return NO;
 }
 
 - (void)refresh
-{	
-	[gameLayer display];
+{    
+    [gameLayer display];
 }
 
 - (BOOL)backgroundPauses
@@ -154,12 +151,18 @@
     return [[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.fullScreen"] boolValue];
 }
 
+- (void)setPauseEmulation:(BOOL)flag
+{
+    [gameCore setPauseEmulation:flag];
+    if(flag) [audio pauseAudio];
+    else     [audio startAudio];
+}
+
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
-	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
-	[docControl setGameLoaded:YES];
-	[gameCore setPauseEmulation:NO];
-	[audio startAudio];
+    GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
+    [docControl setGameLoaded:YES];
+    [self setPauseEmulation:NO];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification
@@ -167,45 +170,43 @@
     if(gameCore != nil && [self backgroundPauses])
     {
         if(![self isFullScreen])
-		{
-			@try {				
-				[gameCore setPauseEmulation:YES];
-				[audio pauseAudio];
-			}
-			@catch (NSException * e) {
-				NSLog(@"Failed to pause");
-			}
-		}
+        {
+            @try {
+                [self setPauseEmulation:YES];
+            }
+            @catch (NSException * e) {
+                NSLog(@"Failed to pause");
+            }
+        }
     }
 }
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-	if([view isInFullScreenMode])
-		[view exitFullScreenModeWithOptions:nil];
-	[gameCore stopEmulation];
-	[audio stopAudio];
-	[gameCore release];
-	gameCore = nil;
-	
-	GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
-	[docControl setGameLoaded:NO];
+    if([view isInFullScreenMode])
+        [view exitFullScreenModeWithOptions:nil];
+    [gameCore stopEmulation];
+    [audio stopAudio];
+    [gameCore release];
+    gameCore = nil;
+    
+    GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
+    [docControl setGameLoaded:NO];
 }
 
 - (void)performClose:(id)sender
 {
     [gameWindow performClose:sender];
 }
-	
+    
 - (BOOL)isFullScreen
 {
-	return [view isInFullScreenMode];
+    return [view isInFullScreenMode];
 }
 
 - (IBAction)toggleFullScreen:(id)sender
 {
-    NSResponder *previous = [view nextResponder];
-    
+    [self setPauseEmulation:YES];
     if(![view isInFullScreenMode])
         [view enterFullScreenMode:[[view window] screen]
                       withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -213,10 +214,8 @@
                                    [NSNumber numberWithInt:0], NSFullScreenModeWindowLevel, nil]];
     else
         [view exitFullScreenModeWithOptions:nil];
+    [self setPauseEmulation:NO];
     [[view window] makeFirstResponder:gameCore];
-    
-    //[previous setNextResponder:[view nextResponder]];
-    //[view setNextResponder:previous];
 }
 
 - (IBAction)saveState:(id)sender
@@ -268,13 +267,13 @@
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes
 {
-	for(NSUInteger i = 0; i < bytes; i++)
-		[gameCore setRandomByte];
+    for(NSUInteger i = 0; i < bytes; i++)
+        [gameCore setRandomByte];
 }
 
 - (IBAction)resetGame:(id)sender
 {
-	[gameCore resetEmulation];
+    [gameCore resetEmulation];
 }
 
 
@@ -286,10 +285,10 @@
 #define BITMAP_FORMAT NSAlphaFirstBitmapFormat
 #endif
     
-	int width = [gameCore width];
-	int height = [gameCore height];
-	NSBitmapImageRep *newBitmap =
-	[[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+    int width = [gameCore width];
+    int height = [gameCore height];
+    NSBitmapImageRep *newBitmap =
+    [[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
                                              pixelsWide:width
                                              pixelsHigh:height
                                           bitsPerSample:8
@@ -300,28 +299,28 @@
                                            bitmapFormat:BITMAP_FORMAT
                                             bytesPerRow:width * 4
                                            bitsPerPixel:32] autorelease];
-	
-	memcpy([newBitmap bitmapData], [gameCore videoBuffer], width * height * 4 * sizeof(unsigned char));
-	
-	unsigned char *debut = [newBitmap bitmapData];
+    
+    memcpy([newBitmap bitmapData], [gameCore videoBuffer], width * height * 4 * sizeof(unsigned char));
+    
+    unsigned char *debut = [newBitmap bitmapData];
 
-	for (int i = 0; i < height; i++)
-		for (int j = 0; j < width; j++)
-		{
+    for (int i = 0; i < height; i++)
+        for (int j = 0; j < width; j++)
+        {
 #ifdef __LITTLE_ENDIAN__
 #define ALPHA 3
-			//swap Red with Blue
-			unsigned char temp = debut[width * 4 * i + 4 * j];
-			debut[width * 4 * i + 4 * j] = debut[width * 4 * i + 4 * j + 2];
-			debut[width * 4 * i + 4 * j + 2] = temp;
+            //swap Red with Blue
+            unsigned char temp = debut[width * 4 * i + 4 * j];
+            debut[width * 4 * i + 4 * j] = debut[width * 4 * i + 4 * j + 2];
+            debut[width * 4 * i + 4 * j + 2] = temp;
 #else
 #define ALPHA 0
-#endif			
-			//alpha full
-			debut[width * 4 * i + 4 * j + ALPHA] = 255;
-			
-		}
-	return newBitmap;
+#endif            
+            //alpha full
+            debut[width * 4 * i + 4 * j + ALPHA] = 255;
+            
+        }
+    return newBitmap;
 }
 
 @end

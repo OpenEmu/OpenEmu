@@ -33,7 +33,7 @@
 
 @implementation OECorePlugin
 
-@synthesize icon, supportedTypes, supportedTypeExtensions, gameCoreClass, controller;
+@synthesize icon, supportedTypes, supportedTypeExtensions, gameCoreClass, controller, typeName;
 
 - (id)initWithBundle:(NSBundle *)aBundle
 {
@@ -104,6 +104,14 @@
     return [supportedTypeExtensions containsObject:ext];
 }
 
+- (BOOL)supportsFileType:(NSString *)aTypeName
+{
+    BOOL supported = [supportedTypes objectForKey:aTypeName] != nil;
+    if(!supported)
+        supported = [self supportsFileExtension:aTypeName];
+    return supported;
+}
+
 - (NSArray *)supportedTypeNames
 {
     return [supportedTypes allKeys];
@@ -114,9 +122,22 @@
     return [supportedTypes objectForKey:aTypeName];
 }
 
+- (NSString *)typeForExtension:(NSString *)extension
+{
+    for(NSString *type in supportedTypes)
+        if([[supportedTypes objectForKey:type] containsObject:extension])
+            return type;
+    return nil;
+}
+
 - (NSString *)details
 {
 	return [NSString stringWithFormat: @"Version %@", [self version]];
+}
+
+- (NSArray *)typesPropertyList
+{
+    return [infoDictionary objectForKey:@"CFBundleDocumentTypes"];
 }
 
 - (NSString *)description

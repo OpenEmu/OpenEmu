@@ -19,7 +19,7 @@
 			<key>CFBundleTypeIconFile</key>
 			<string></string>
 			<key>CFBundleTypeName</key>
-			<string>Game</string>
+			<string>Archived Game</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>????</string>
@@ -30,6 +30,8 @@
 			<string>GameDocument</string>
 		</dict>
 		<dict>
+			<key>NSDocumentClass</key>
+			<string>OEPluginDocument</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>oecoreplugin</string>
@@ -41,7 +43,7 @@
 			<key>CFBundleTypeName</key>
 			<string>GameCorePlugin</string>
 			<key>LSHandlerRank</key>
-			<string>Default</string>
+			<string>Owner</string>
 			<key>LSTypeIsPackage</key>
 			<true/>
 		</dict>
@@ -50,6 +52,8 @@
 			<array>
 				<string>oefilterplugin</string>
 			</array>
+			<key>NSDocumentClass</key>
+			<string>OEPluginDocument</string>
 			<key>CFBundleTypeIconFile</key>
 			<string>OEFilterPluginIcon.icns</string>
 			<key>CFBundleTypeRole</key>
@@ -57,7 +61,7 @@
 			<key>CFBundleTypeName</key>
 			<string>VideoFilterPlugin</string>
 			<key>LSHandlerRank</key>
-			<string>Default</string>
+			<string>Owner</string>
 			<key>LSTypeIsPackage</key>
 			<true/>
 		</dict>

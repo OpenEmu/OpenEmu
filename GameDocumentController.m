@@ -37,6 +37,7 @@
 #import "OECorePlugin.h"
 
 @interface GameDocumentController ()
+@property(readwrite, retain) NSArray *plugins;
 - (void)OE_setupHIDManager;
 - (OEHIDDeviceHandler *)OE_deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice;
 @end
@@ -87,6 +88,19 @@
 	}
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if(object == [OECorePlugin class])
+    {
+        [self setPlugins:[OECorePlugin allPlugins]];
+        [self updateValidExtensions];
+    }
+    else if(object == [OEFilterPlugin class])
+    {
+        [self updateFilterNames];
+    }
+}
+
 - (id)init
 {
 	self = [super init];
@@ -94,41 +108,21 @@
     {
 		[self setGameLoaded:NO];
 		
-        plugins = [[OECorePlugin allPlugins] retain];
+        [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
+        [[OEFilterPlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
         
-        NSMutableSet *mutableExtensions = [[NSMutableSet alloc] init];
-		
-		//go through the bundles Info.plist files to get the type extensions
-		for(OECorePlugin *plugin in plugins)
-            [mutableExtensions addObjectsFromArray:[plugin supportedTypeExtensions]];
-        
-		NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-		
-		for(NSDictionary* key in types)
-			[mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
-		
-		// When a class conforms to both NSCopying and NSMutableCopying protocols
-		// -copy returns a immutable object and
-		// -mutableCopy returns a mutable object.
-		validExtensions = [[mutableExtensions allObjects] retain];
-		[mutableExtensions release];
-		
-		//validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
-		
-		[self updateInfoPlist];
+        [self updateValidExtensions];
+        [self updateFilterNames];
         
         [self OE_setupHIDManager];
-        
-        NSArray *filterPlugins = [OEFilterPlugin allPlugins];
-        filterNames = [[NSMutableArray alloc] initWithObjects:@"None", @"Nearest Neighbor", nil];
-        for(OEFilterPlugin *p in filterPlugins)
-            [(NSMutableArray *)filterNames addObject:[p displayName]];
 	}
 	return self;
 }
 
 - (void) dealloc
 {
+    [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
+    
     [filterNames release];
 	[validExtensions release];
     [plugins release];
@@ -141,6 +135,7 @@
 {
     if(preferences == nil)
         preferences = [[OEGamePreferenceController alloc] init];
+    
     if([[preferences window] isVisible])
         [preferences close];
     else
@@ -151,66 +146,103 @@
     }
 }
 
-- (void) updateInfoPlist 
+- (void)updateFilterNames
 {
-	// updates OpenEmu.app's Info.plist with the valid extensions so that users can drag ROMs onto the icon to get opened
+    [self willChangeValueForKey:@"filterNames"];
+    [filterNames release];
+    NSArray *filterPlugins = [OEFilterPlugin allPlugins];
+    filterNames = [[NSMutableArray alloc] initWithObjects:@"None", @"Nearest Neighbor", nil];
+    for(OEFilterPlugin *p in filterPlugins)
+        [(NSMutableArray *)filterNames addObject:[p displayName]];
+    [self didChangeValueForKey:@"filterNames"];
+}
+
+- (void)updateValidExtensions
+{
+    NSMutableSet *mutableExtensions = [[NSMutableSet alloc] init];
     
-	NSString *errorDesc = nil;
-	NSPropertyListFormat format;
-	
-	NSString *infoPlistPath =  [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Info.plist"];
-	
-	// get Info.plist as data
-	NSData * infoPlistXml = [[NSFileManager defaultManager] contentsAtPath:infoPlistPath];
-	
-	// store it mutably
-	NSMutableDictionary *infoPlist =
-    [NSPropertyListSerialization propertyListFromData:infoPlistXml
-                                     mutabilityOption:NSPropertyListMutableContainersAndLeaves
-                                               format:&format
-                                     errorDescription:&errorDesc];
-	if (!infoPlist) {
-		NSLog(@"%@", errorDesc);
-		[errorDesc release];
-	}
-	
-	// get the current doctypes and extensions from Info.plist
-	NSMutableArray* docTypes = [NSMutableArray arrayWithArray:[infoPlist objectForKey:@"CFBundleDocumentTypes"]];
-	
-	
-	// replace extensions with validExtensions
-	// FIXME: the CFBundleTypeExtensions array gets larger every time you open the app, i.e., the array is getting appended, not replaced :X
-	[docTypes setValue:validExtensions forKey:@"CFBundleTypeExtensions"];
+    //go through the bundles Info.plist files to get the type extensions
+    for(OECorePlugin *plugin in plugins)
+        [mutableExtensions addObjectsFromArray:[plugin supportedTypeExtensions]];
     
-	// update Info.plist
-	
-	[infoPlist setObject:docTypes forKey: @"CFBundleDocumentTypes"];
+    NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
     
-	NSString* err;
-	// turn it back into proper XML data
-	NSData* updatedInfoPlistData = [NSPropertyListSerialization dataFromPropertyList:infoPlist
-																			  format:NSPropertyListXMLFormat_v1_0
-																	errorDescription:&err];
-	BOOL updatedPlist;
-	if(updatedInfoPlistData) 
-	{
-		//save it out to Info.plist
-		updatedPlist = [updatedInfoPlistData writeToFile:infoPlistPath atomically:YES];
-		DLog(@"updated plist?  %U", updatedPlist);
-		
-		[err release];
-	}			
-	else 
-		NSLog(@"error: %@",err);	
-	
+    for(NSDictionary* key in types)
+        [mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
+    
+    // When a class conforms to both NSCopying and NSMutableCopying protocols
+    // -copy returns a immutable object and
+    // -mutableCopy returns a mutable object.
+    [validExtensions release];
+    validExtensions = [[mutableExtensions allObjects] retain];
+    [mutableExtensions release];
+    
+    [self updateInfoPlist];
+}
+
+- (void)updateInfoPlist
+{
+    NSMutableDictionary *allTypes = [NSMutableDictionary dictionaryWithCapacity:[plugins count]];
+    
+    for(OECorePlugin *plugin in plugins)
+        for(NSDictionary *type in [plugin typesPropertyList])
+        {
+            NSMutableDictionary *reType = [[type mutableCopy] autorelease];
+            
+            [reType setObject:@"GameDocument"                   forKey:@"NSDocumentClass"];
+            [reType setObject:@"Viewer"                         forKey:@"CFBundleTypeRole"];
+            [reType setObject:@"Owner"                          forKey:@"LSHandlerRank"];
+            [reType setObject:[NSArray arrayWithObject:@"????"] forKey:@"CFBundleTypeOSTypes"];
+            [reType removeObjectForKey:@"NSPersistentStoreTypeKey"];
+            
+            [allTypes setObject:reType forKey:[type objectForKey:@"CFBundleTypeName"]];
+        }
+    
+    NSString *error = nil;
+    NSPropertyListFormat format;
+    
+	NSString *infoPlistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Info.plist"];
+    NSData   *infoPlistXml  = [[NSFileManager defaultManager] contentsAtPath:infoPlistPath];
+    
+    NSMutableDictionary *infoPlist = [NSPropertyListSerialization propertyListFromData:infoPlistXml
+                                                                      mutabilityOption:NSPropertyListMutableContainers
+                                                                                format:&format
+                                                                      errorDescription:&error];
+    if(infoPlist == nil)
+    {
+        NSLog(@"%@", error);
+        [error release];
+    }
+    
+    NSArray *existingTypes = [infoPlist objectForKey:@"CFBundleDocumentTypes"];
+    
+    for(NSDictionary *type in existingTypes)
+        [allTypes setObject:type forKey:[type objectForKey:@"CFBundleTypeName"]];
+    
+    [infoPlist setObject:[allTypes allValues] forKey:@"CFBundleDocumentTypes"];
+    
+    NSData *updated = [NSPropertyListSerialization dataFromPropertyList:infoPlist
+                                                                 format:NSPropertyListXMLFormat_v1_0
+                                                       errorDescription:&error];
+    BOOL isUpdated = NO;
+    if(updated != nil)
+        isUpdated = [updated writeToFile:infoPlistPath atomically:YES];
+    else
+    {
+        NSLog(@"Error: %@", error);
+        [error release];
+    }
+    
+    NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
 
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
 {
 	NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
-	XADArchive* archive = [XADArchive archiveForFile:[absoluteURL path]];
+    
+	XADArchive *archive = [XADArchive archiveForFile:[absoluteURL path]];
 	NSLog(@"Opened?");
-	if(archive)
+	if(archive != nil)
 	{
 		NSString *filePath;
 		NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"OpenEmu"];
@@ -218,7 +250,7 @@
 			[[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
 		filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
 		
-		if ([archive numberOfEntries] != 1) //more than one rom in the archive
+		if([archive numberOfEntries] != 1) //more than one rom in the archive
 		{
 			GamePickerController *c = [[GamePickerController alloc] init];
 			[c setArchive:archive];
@@ -234,10 +266,7 @@
 					NSLog(@"%@", filePath);
 					absoluteURL = [NSURL fileURLWithPath:filePath];
 				}
-				else
-				{
-					NSLog(@"Failed to extract");
-				}
+				else NSLog(@"Failed to extract");
 			}
 			else
 			{
@@ -253,52 +282,57 @@
                 NSLog(@"%@", filePath);
 				absoluteURL = [NSURL fileURLWithPath:filePath];
 			}
-			else
-			{
-				NSLog(@"Failed to extract");
-			}
+			else NSLog(@"Failed to extract");
 		}
 	}
 	
 	NSLog(@"Final path: %@", absoluteURL);
 	//[self closeWindow: self];
-	return [super openDocumentWithContentsOfURL: absoluteURL display: displayDocument error: outError];
+	return [super openDocumentWithContentsOfURL:absoluteURL display:displayDocument error:outError];
+}
+
+- (NSString *)typeForExtension:(NSString *)anExtension
+{
+    OECorePlugin *plugin = [self pluginForType:anExtension];
+    return [plugin typeForExtension:anExtension];
 }
 
 - (OECorePlugin *)pluginForType:(NSString *)type
 {
     for(OECorePlugin *plugin in plugins)
-        if([plugin supportsFileExtension:type])
+        if([plugin supportsFileType:type])
             return plugin;
     return nil;
 }
 
-- (NSString *)typeForContentsOfURL:(NSURL *)inAbsoluteURL error:(NSError **)outError
+- (void)noteNewRecentDocumentURL:(NSURL *)aURL
 {
-	NSLog(@"Type");
-	return [[inAbsoluteURL path] pathExtension];
+    if(![[[aURL path] pathExtension] hasSuffix:@"plugin"])
+        [super noteNewRecentDocumentURL:aURL];
 }
 
-- (NSString *)displayNameForType:(NSString *)documentTypeName
+- (NSString *)typeForContentsOfURL:(NSURL *)inAbsoluteURL error:(NSError **)outError
 {
-	return [super displayNameForType:documentTypeName];
+    NSString *ret = [super typeForContentsOfURL:inAbsoluteURL error:outError];
+    if(ret == nil) ret = [self typeForExtension:[[inAbsoluteURL path] pathExtension]], NSLog(@"Long path");
+    return ret;
 }
 
 - (Class)documentClassForType:(NSString *)documentTypeName
 {
-	//Force it to load a game document
-	return [GameDocument class];
+    Class ret = [super documentClassForType:documentTypeName];
+    if(ret == nil) ret = [GameDocument class], NSLog(@"Long path");
+	return ret;
 }
 
 - (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions
 {
-	NSLog(@"%s", __FUNCTION__);
 	return [super runModalOpenPanel:openPanel forTypes:validExtensions];
 }
 
-- (GameCore *)currentGame
+- (GameDocument *)currentDocument
 {
-	return [[self currentDocument] gameCore];
+    return [super currentDocument];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
@@ -323,13 +357,8 @@
 	if([[self currentDocument] isFullScreen])
 		return YES;
 	
-	NSDocument * doc = [self documentForWindow:[[NSApplication sharedApplication] keyWindow]];
+	NSDocument *doc = [self documentForWindow:[[NSApplication sharedApplication] keyWindow]];
 	return doc != nil;
-}
-
-- (GameDocument *)currentDocument
-{
-	return [super currentDocument];
 }
 
 #pragma mark New HID Event Handler

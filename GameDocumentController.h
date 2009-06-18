@@ -33,7 +33,8 @@
 @class GameCore, OECorePlugin;
 @class GameDocument, OEGamePreferenceController;
 
-@interface GameDocumentController : NSDocumentController {
+@interface GameDocumentController : NSDocumentController
+{
 	GameDocument               *currentGame;
     OEGamePreferenceController *preferences;
     NSArray                    *filterNames;
@@ -46,15 +47,15 @@
 }
 
 @property(readonly) NSArray *filterNames;
-@property(readonly) NSArray *plugins;
+@property(readonly, retain) NSArray *plugins;
 @property(readwrite) BOOL gameLoaded;
 
 - (GameDocument *)currentDocument;
 
 - (OECorePlugin *)pluginForType:(NSString *)type;
-- (void) updateInfoPlist;
-
-- (GameCore *)currentGame;
+- (void)updateFilterNames;
+- (void)updateValidExtensions;
+- (void)updateInfoPlist;
 
 - (IBAction)updateBundles:(id)sender;
 - (BOOL)isGameKey;

@@ -97,6 +97,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 - (void)dealloc
 {
+    NSLog(@"%s", __FUNCTION__);
     if(keyMap != NULL) 
         OEMapRelease(keyMap);
 	

@@ -40,13 +40,15 @@
 
 static NSMutableDictionary *allPlugins = nil;
 static NSMutableDictionary *pluginFolders = nil;
+static NSMutableDictionary *needsReload = nil;
 
 + (void)initialize
 {
     if(self == [OEPlugin class])
     {
-        allPlugins = [[NSMutableDictionary alloc] init];
+        allPlugins    = [[NSMutableDictionary alloc] init];
         pluginFolders = [[NSMutableDictionary alloc] init];
+        needsReload   = [[NSMutableDictionary alloc] init];
     }
 }
 
@@ -77,6 +79,19 @@ static NSMutableDictionary *pluginFolders = nil;
 + (NSString *)pluginExtension
 {
     return [[self pluginType] lowercaseString];
+}
+
++ (Class)typeForExtension:(NSString *)anExtension
+{
+    for(Class cls in allPlugins)
+        if([[cls pluginExtension] isEqualToString:anExtension])
+            return cls;
+    
+    NSInteger len = [anExtension length] - 8;
+    if(len > 0) return NSClassFromString([NSString stringWithFormat:@"OE%@Plugin",
+                                          [[anExtension substringWithRange:NSMakeRange(2, len)]
+                                           capitalizedString]]);
+    return Nil;
 }
 
 + (BOOL)isPluginClass
@@ -120,6 +135,7 @@ static NSMutableDictionary *pluginFolders = nil;
 
 - (void) dealloc
 {
+    [bundle         unload];
     [bundle         release];
     [version        release];
     [displayName    release];
@@ -218,7 +234,7 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
     return ret;
 }
 
-+ (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType
++ (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType forceReload:(BOOL)reload
 {
     if(bundlePath == nil || ![aType isPluginClass]) return nil;
     
@@ -231,19 +247,29 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
     
     NSString *aName = [[bundlePath stringByDeletingPathExtension] lastPathComponent];
     id ret = [plugins objectForKey:aName];
+    
+    if(reload && ret != nil) return nil;
+    
     if(ret == nil)
     {
+        [aType willChangeValueForKey:@"allPlugins"];
         NSBundle *theBundle = [NSBundle bundleWithPath:bundlePath];
         if(bundlePath != nil && theBundle != nil)
             ret = [[[aType alloc] initWithBundle:theBundle] autorelease];
         else ret = [NSNull null];
         
         [plugins setObject:ret forKey:aName];
+        [aType didChangeValueForKey:@"allPlugins"];
     }
     
     if(ret == [NSNull null]) ret = nil;
     
     return ret;
+}
+
++ (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType
+{
+    return [self pluginWithBundleAtPath:bundlePath type:aType forceReload:NO];
 }
 
 + (id)pluginWithBundleName:(NSString *)aName type:(Class)aType

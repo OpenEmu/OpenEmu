@@ -40,8 +40,6 @@
     self = [super initWithWindowNibName:@"GamePreferences"];
     if(self != nil)
     {
-        plugins = [[GameDocumentController sharedDocumentController] plugins];
-        
         [self setupToolbar];
     }
     return self;
@@ -52,9 +50,20 @@
     return [self init];
 }
 
+- (IBAction)showWindow:(id)sender
+{
+    [OEPlugin allPlugins];
+    [super showWindow:sender];
+}
+
 - (void)awakeFromNib
 {
     [self switchView:self];
+}
+
+- (NSArray *)plugins
+{
+    return [[GameDocumentController sharedDocumentController] plugins];
 }
 
 - (void) dealloc
@@ -70,7 +79,7 @@
     [selectedPlugins release];
     NSUInteger index = [indexes firstIndex];
     
-    if(index < [plugins count] && index != NSNotFound)
+    if(indexes != nil && index < [[self plugins] count] && index != NSNotFound)
     {
         currentPlugin = [[pluginController selectedObjects] objectAtIndex:0];
         selectedPlugins = [[NSIndexSet alloc] initWithIndex:index];

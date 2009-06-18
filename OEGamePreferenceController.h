@@ -38,7 +38,6 @@ extern NSString *const OEAdvancedPreferenceKey;
     IBOutlet NSArrayController *pluginController;
     IBOutlet NSToolbar         *toolbar;
     NSDictionary               *preferencePanels;
-    NSArray                    *plugins;
     NSString                   *currentViewIdentifier;
     NSPredicate                *availablePluginsPredicate;
     NSIndexSet                 *selectedPlugins;

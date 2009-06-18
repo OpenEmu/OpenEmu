@@ -177,8 +177,8 @@ static void OE_setupControlNames(OEGameCoreController *self)
     self = [super init];
     if(self != nil)
     {
-        bundle = [NSBundle bundleForClass:[self class]];
-        
+        bundle        = [NSBundle bundleForClass:[self class]];
+        gameDocuments = [[NSMutableArray alloc] init];
         OE_setupControlNames(self);
     }
     return self;
@@ -186,8 +186,11 @@ static void OE_setupControlNames(OEGameCoreController *self)
 
 - (void) dealloc
 {
+    [gameDocuments makeObjectsPerformSelector:@selector(close)];
+    
     [controlNames release];
     [playerString release];
+    [gameDocuments release];
     [replacePlayerFormat release];
     [currentPreferenceViewController release];
     [super dealloc];
@@ -226,6 +229,11 @@ static void OE_setupControlNames(OEGameCoreController *self)
     return [currentPreferenceViewController retain];
 }
 
+- (GameCore *)newGameCore
+{
+    return [self newGameCoreWithDocument:nil];
+}
+
 - (GameCore *)newGameCoreWithDocument:(GameDocument *)aDocument
 {
     GameCore *ret = [[[self gameCoreClass] alloc] initWithDocument:aDocument];
@@ -234,10 +242,11 @@ static void OE_setupControlNames(OEGameCoreController *self)
     // The GameCore observes setting changes only if it's attached to a GameDocument
     if(aDocument != nil)
     {
-        // FIXME: Find a better way.
+        [gameDocuments addObject:aDocument];
+        
         NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
         
-       NSString *baseName = [NSString stringWithFormat:@"values.%@.", [self pluginName]];
+        NSString *baseName = [NSString stringWithFormat:@"values.%@.", [self pluginName]];
         
         // register gamecore custom settings  
         NSArray *settingNames = [self usedSettingNames];

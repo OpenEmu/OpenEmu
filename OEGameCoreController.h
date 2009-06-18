@@ -38,11 +38,12 @@ extern NSString *const OEKeyboardEventValueKey;
 
 @interface OEGameCoreController : NSResponder
 {
-    id        currentPreferenceViewController;
-    NSBundle *bundle;
-    NSString *playerString;
-    NSString *replacePlayerFormat;
-    NSArray  *controlNames;
+    id              currentPreferenceViewController;
+    NSBundle       *bundle;
+    NSString       *playerString;
+    NSString       *replacePlayerFormat;
+    NSArray        *controlNames;
+    NSMutableArray *gameDocuments;
 }
 
 @property(readonly) NSBundle *bundle;
@@ -71,6 +72,7 @@ extern NSString *const OEKeyboardEventValueKey;
  * the name).
  */
 - (id)newPreferenceViewControllerForKey:(NSString *)aKey;
+- (GameCore *)newGameCore;
 - (GameCore *)newGameCoreWithDocument:(GameDocument *)aDocument;
 - (void)unregisterGameCore:(GameCore *)aGameCore;
 - (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType;

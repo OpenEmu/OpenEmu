@@ -28,11 +28,12 @@
 #import "OEGameLayer.h"
 #import "OEFilterPlugin.h"
 #import "GameCore.h"
+#import "GameDocument.h"
 #import "OEGameShader.h"
 
 @implementation OEGameLayer
 
-@synthesize gameCore;
+@synthesize gameCore, owner;
 
 - (NSString *)filterName
 {
@@ -41,7 +42,6 @@
 
 - (void)setFilterName:(NSString *)aName
 {
-    NSString *old = filterName;
     if(aName != filterName)
     {
         // No need to go further if the new filter is the same as the old one
@@ -51,28 +51,28 @@
         filterName = [aName retain];
         if(layerContext != NULL)
         {
+            [owner setPauseEmulation:YES];
             CGLLockContext(layerContext);
-            if(filterName == nil)
-                [shader setShaderContext:NULL];
-            else
-                shader = [OEFilterPlugin gameShaderWithFilterName:filterName forContext:layerContext];
+            [shader release];
+            if(filterName != nil)
+                shader = [[OEFilterPlugin gameShaderWithFilterName:filterName forContext:layerContext] retain];
             CGLUnlockContext(layerContext);
+            [owner setPauseEmulation:NO];
         }
     }
     
     usesShader = filterName != nil && ![filterName isEqualToString:@"None"];
-    NSLog(@"%s, old: %@, new: %@, usesShader: %s, shader: %@", __FUNCTION__, old, filterName, BOOL_STR(usesShader), shader);
 }
 
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat
 {
-    NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%s: %s", __FUNCTION__, BOOL_STR([NSThread isMainThread]));
 	NSLog(@"initing GL context and shaders");
 	layerContext = [super copyCGLContextForPixelFormat:pixelFormat];
 	CGLSetCurrentContext(layerContext);
 	CGLLockContext(layerContext);
     
-    shader = [OEFilterPlugin gameShaderWithFilterName:filterName forContext:layerContext];
+    shader = [[OEFilterPlugin gameShaderWithFilterName:filterName forContext:layerContext] retain];
     
 	CGLUnlockContext(layerContext);
     
@@ -135,9 +135,10 @@
 	[super releaseCGLContext:glContext];
 }
 
-- (void) dealloc
+- (void)dealloc
 {
     [gameCore release];
+    [shader release];
     [super dealloc];
 }
 

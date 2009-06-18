@@ -60,7 +60,11 @@
 {
     [currentShader setShaderContext:aContext];
     if([currentShader programObject] == NULL)
+    {
         NSLog(@">> WARNING: Failed to load GLSL \"%@\" fragment & vertex shaders!\n", [self displayName]);
+        [currentShader release];
+        currentShader = nil;
+    }
     return currentShader;
 }
 

@@ -49,6 +49,7 @@
 // It ensures a plugin is loaded only once
 + (id)pluginWithBundleName:(NSString *)aName type:(Class)pluginType;
 + (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType;
++ (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType forceReload:(BOOL)reload;
 + (NSArray *)pluginsForType:(Class)aType;
 + (NSArray *)allPlugins;
 
@@ -57,5 +58,6 @@
 + (NSString *)pluginType;
 + (NSString *)pluginFolder;
 + (NSString *)pluginExtension;
++ (Class)typeForExtension:(NSString *)anExtension;
 
 @end
