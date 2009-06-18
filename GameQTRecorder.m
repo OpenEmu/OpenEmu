@@ -27,9 +27,8 @@
 
 #import "GameQTRecorder.h"
 
-
 @implementation GameQTRecorder
-
+#if !__LP64__
 @synthesize recording;
 
 - (id) initWithGameCore: (GameCore*) core
@@ -255,5 +254,5 @@
 	
 	return YES;
 }
-
+#endif
 @end

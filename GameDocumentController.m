@@ -355,6 +355,7 @@
 - (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
 {
     if(recoveryOptionIndex == 0) [self restartApplication];
+    return YES;
 }
 
 - (void)restartApplication
