@@ -79,7 +79,7 @@
 			if( [[SUUpdater updaterForBundle:[plugin bundle]] feedURL] )
 			{
 				[[SUUpdater updaterForBundle:[plugin bundle]] resetUpdateCycle];
-                //		[[SUUpdater updaterForBundle:[plugin bundle]] checkForUpdates:self];
+                //[[SUUpdater updaterForBundle:[plugin bundle]] checkForUpdates:self];
 			}
 		}
 		@catch (NSException * e) {
@@ -155,6 +155,10 @@
     for(OEFilterPlugin *p in filterPlugins)
         [(NSMutableArray *)filterNames addObject:[p displayName]];
     [self didChangeValueForKey:@"filterNames"];
+    
+    NSUserDefaultsController *controller = [NSUserDefaultsController sharedUserDefaultsController];
+    if(![filterPlugins containsObject:[controller valueForKeyPath:@"values.filterName"]])
+        [controller setValue:@"None" forKeyPath:@"values.filterName"];
 }
 
 - (void)updateValidExtensions

@@ -44,7 +44,8 @@
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
     if([paths count] > 0)
     {
-        NSString *newPath = [[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPathComponent:[type pluginFolder]] stringByAppendingPathComponent:[path lastPathComponent]];
+        NSString *folder = [[[paths objectAtIndex:0] stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPathComponent:[type pluginFolder]];
+        NSString *newPath = [folder stringByAppendingPathComponent:[path lastPathComponent]];
         
         if([newPath isEqualToString:path]) return YES;
         
@@ -52,15 +53,18 @@
         
         if([manager fileExistsAtPath:newPath])
             worked = [manager removeItemAtPath:newPath error:outError];
-        if(worked) worked = [manager moveItemAtPath:path toPath:newPath error:outError];
+        
+        if(![manager fileExistsAtPath:folder])
+            [manager createDirectoryAtPath:folder attributes:nil];
+        
+        if(worked) worked = [manager copyItemAtPath:path toPath:newPath error:outError];
         
         if(worked)
         {
             worked = [OEPlugin pluginWithBundleAtPath:newPath type:type forceReload:YES] != nil;
             
             if(!worked)
-                *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSExecutableLoadError
-                                            userInfo:
+                *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSExecutableLoadError userInfo:
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSString stringWithFormat:@"Couldn't load %@ plugin", path], NSLocalizedDescriptionKey,
                               @"A version of this plugin is already loaded", NSLocalizedFailureReasonErrorKey,

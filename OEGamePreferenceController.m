@@ -50,12 +50,6 @@
     return [self init];
 }
 
-- (IBAction)showWindow:(id)sender
-{
-    [OEPlugin allPlugins];
-    [super showWindow:sender];
-}
-
 - (void)awakeFromNib
 {
     [self switchView:self];
