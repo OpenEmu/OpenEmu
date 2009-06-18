@@ -277,12 +277,13 @@ static void _BufferReleaseCallback(const void* address, void* info)
     // if we have a ROM loaded and the patch's image output is reconnected, unpause the emulator
     if(loadedRom)
     {
-        if(!self.inputPauseEmulation) 
+        if(![[self valueForInputKey:@"inputPauseEmulation"] boolValue]) 
         {
             @try
             {
                 [gameCore setPauseEmulation:NO];
                 [gameAudio startAudio];
+		//		[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
             }
             @catch (NSException * e) {
                 NSLog(@"Failed to unpause");
@@ -419,7 +420,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     // if we have a ROM running and the patch's image output is disconnected, pause the emulator and audio
     if(loadedRom)
     {
-        if(!self.inputPauseEmulation) 
+        if(![[self valueForInputKey:@"inputPauseEmulation"] boolValue]) 
         {
             @try
             {
@@ -427,7 +428,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
                 [gameAudio pauseAudio];
             }
             @catch (NSException * e) {
-                NSLog(@"Failed to unpause");
+                NSLog(@"Failed to pause");
             }
         }  
         //    sleep(0.5); // race condition workaround. 
@@ -499,7 +500,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
         NSLog(@"Loaded bundle. About to load rom...");
         
         [gameCore loadFileAtPath:theRomPath];
-        loadedRom = TRUE;
+        loadedRom = YES;
         
         if(loadedRom)
         {
@@ -517,7 +518,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
             
             NSLog(@"About to start audio");
             [gameAudio startAudio];
-            [gameAudio setVolume:[self inputVolume]];
+            [gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
             
             NSLog(@"finished loading/starting rom");
             return YES;

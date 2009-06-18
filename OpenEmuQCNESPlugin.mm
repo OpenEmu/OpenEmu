@@ -69,7 +69,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 @dynamic inputEnableRewinder;
 @dynamic inputRewinderDirection;
 @dynamic inputEnableRewinderBackwardsSound;
-@dynamic inputRewinderReset;
+// @dynamic inputRewinderReset;
 
 @dynamic inputNmtRamCorrupt;
 @dynamic inputNmtRamOffset;
@@ -169,10 +169,10 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 				[NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
 				nil];
 
-	if([key isEqualToString:@"inputRewinderReset"])
-		return [NSDictionary dictionaryWithObjectsAndKeys:@"Rewinder Reset", QCPortAttributeNameKey,
-				[NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
-				nil];
+//	if([key isEqualToString:@"inputRewinderReset"])
+//		return [NSDictionary dictionaryWithObjectsAndKeys:@"Rewinder Reset", QCPortAttributeNameKey,
+//				[NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
+//				nil];
 
 	if([key isEqualToString:@"inputNmtRamCorrupt"])
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Corrupt NMT RAM", QCPortAttributeNameKey,
@@ -230,7 +230,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			@"inputEnableRewinder",
 			@"inputEnableRewinderBackwardsSound",
 			@"inputRewinderDirection",
-			@"inputRewinderReset",
+//			@"inputRewinderReset",
 			@"inputNmtRamCorrupt",
 			@"inputNmtRamOffset",
 			@"inputNmtRamValue",
@@ -427,7 +427,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		if([self didValueForInputKeyChange: @"inputEnableRewinder"])	
 		{
 	//		DLog(@"rewinder state changed");
-			[self enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
+			[gameCore enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
 
 			if([gameCore isRewinderEnabled]) 
 			{
@@ -742,7 +742,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			return NO;
 			}
 		else {
-			[gameCore loadFileAtPath:fileName];
+			[gameCore loadStateFromFileAtPath:fileName];
 			NSLog(@"loaded new state");
 		}
 	}
@@ -762,10 +762,5 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	[gameCore setCode:cheatCode];
 }
 
-
-- (void) enableRewinder:(BOOL) rewind
-{
-	[gameCore enableRewinder:rewind];
-}
 
 @end

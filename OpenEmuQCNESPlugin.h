@@ -61,7 +61,7 @@ You can access their values in the appropriate plug-in methods using self.inputF
 @property (assign) BOOL inputEnableRewinder;
 @property (assign) NSUInteger inputRewinderDirection;
 @property (assign) BOOL inputEnableRewinderBackwardsSound;
-@property (assign) BOOL inputRewinderReset;
+// @property (assign) BOOL inputRewinderReset;
 
 @property (assign) BOOL inputNmtRamCorrupt;
 @property (assign) double inputNmtRamOffset;
