@@ -27,6 +27,7 @@
 
 #import "OEPluginDocument.h"
 #import "OEPlugin.h"
+#import "GameDocumentController.h"
 
 @implementation OEPluginDocument
 
@@ -44,9 +45,12 @@
     if([paths count] > 0)
     {
         NSString *newPath = [[[[paths objectAtIndex:0] stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPathComponent:[type pluginFolder]] stringByAppendingPathComponent:[path lastPathComponent]];
+        
+        if([newPath isEqualToString:path]) return YES;
+        
         NSFileManager *manager = [NSFileManager defaultManager];
-        BOOL dir = NO;
-        if([manager fileExistsAtPath:newPath isDirectory:&dir])
+        
+        if([manager fileExistsAtPath:newPath])
             worked = [manager removeItemAtPath:newPath error:outError];
         if(worked) worked = [manager moveItemAtPath:path toPath:newPath error:outError];
         
@@ -61,6 +65,8 @@
                               [NSString stringWithFormat:@"Couldn't load %@ plugin", path], NSLocalizedDescriptionKey,
                               @"A version of this plugin is already loaded", NSLocalizedFailureReasonErrorKey,
                               @"You need to restart the application to commit the change", NSLocalizedRecoverySuggestionErrorKey,
+                              [GameDocumentController sharedDocumentController], NSRecoveryAttempterErrorKey,
+                              [NSArray arrayWithObjects:@"Restart now", @"Cancel", nil], NSLocalizedRecoveryOptionsErrorKey,
                               nil]];
         }
     }

@@ -352,6 +352,26 @@
 		NSLog(@"Deleted temp files");
 }
 
+- (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
+{
+    if(recoveryOptionIndex == 0) [self restartApplication];
+}
+
+- (void)restartApplication
+{
+    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+    LSLaunchURLSpec launchSpec;
+    launchSpec.appURL = (CFURLRef)url;
+    launchSpec.itemURLs = NULL;
+    launchSpec.passThruParams = NULL;
+    launchSpec.launchFlags = kLSLaunchDefaults | kLSLaunchNewInstance;
+    launchSpec.asyncRefCon = NULL;
+    
+    OSErr err = LSOpenFromURLSpec(&launchSpec, NULL);
+    if(err == noErr) [NSApp terminate:self];
+    else NSRunAlertPanel(@"Et ben merde alors !",@"Relaunch failed ￼:( C'est balot",nil,nil,nil);
+}
+
 - (BOOL)isGameKey
 {
 	if([[self currentDocument] isFullScreen])

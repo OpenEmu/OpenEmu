@@ -60,6 +60,8 @@
 - (IBAction)updateBundles:(id)sender;
 - (BOOL)isGameKey;
 
+- (void)restartApplication;
+
 - (IBAction)openPreferenceWindow:(id)sender;
 
 @end
