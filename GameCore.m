@@ -37,6 +37,12 @@
 
 #include <sys/time.h>
 
+__attribute__((constructor))
+void testingonetwothree(void)
+{
+    NSLog(@"TREEEEEEEEEEEEEEEEEEEEEES");
+}
+
 @implementation GameCore
 
 @synthesize frameInterval, document, owner;
