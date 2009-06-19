@@ -31,13 +31,14 @@
 #import <Cocoa/Cocoa.h>
 #import <AudioToolbox/AudioToolbox.h>
 
-@class GameCore;
+@class GameCore, OECorePlugin;
 @class OEGameCoreController;
 @class GameAudio, GameBuffer;
 
 @interface OpenEmuQC : QCPlugIn
 {
 	// init stuff
+    NSArray              *plugins;
 	NSArray              *bundles;
 	NSArray              *validExtensions;
 	OEGameCoreController *gameCoreController;
@@ -55,24 +56,25 @@ Declare here the Obj-C 2.0 properties to be used as input and output ports for t
 You can access their values in the appropriate plug-in methods using self.inputFoo or self.inputBar
 */
 
-@property(assign) NSString* inputRom;
-@property (assign) NSArray * inputControllerData;
-@property (assign) double inputVolume;
-@property (assign) BOOL inputPauseEmulation;
-@property (assign) NSString* inputSaveStatePath;
-@property (assign) NSString* inputLoadStatePath;
-@property (assign) id <QCPlugInOutputImageProvider>outputImage;
+@property(assign) NSString *inputRom;
+@property(assign) NSArray  *inputControllerData;
+@property(assign) double    inputVolume;
+@property(assign) BOOL      inputPauseEmulation;
+@property(assign) NSString *inputSaveStatePath;
+@property(assign) NSString *inputLoadStatePath;
+@property(assign) id <QCPlugInOutputImageProvider> outputImage;
 
 @end
 
 @interface OpenEmuQC (Execution)
-- (BOOL) controllerDataValidate:(NSArray*) cData;
-- (void) handleControllerData;
-- (void) refresh;
-- (NSBundle*)bundleForType:(NSString*) type;
-- (BOOL) loadRom: (NSString*) romPath;
-- (void) saveState: (NSString *) fileName;
-- (BOOL) loadState: (NSString *) fileName;
+- (BOOL)controllerDataValidate:(NSArray*)cData;
+- (void)handleControllerData;
+- (void)refresh;
+- (OECorePlugin *)pluginForType:(NSString *)extension;
+- (NSBundle *)bundleForType:(NSString*)type;
+- (BOOL)loadRom:(NSString*)romPath;
+- (void)saveState:(NSString *)fileName;
+- (BOOL)loadState:(NSString *)fileName;
 
 @end
 

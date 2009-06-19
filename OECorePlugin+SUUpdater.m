@@ -25,43 +25,15 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OEPlugin.h"
+#import "OECorePlugin.h"
+#import <Sparkle/Sparkle.h>
 
-@class OEGameCoreController;
+@implementation OECorePlugin (SUUpdater)
 
-@interface OECorePlugin : OEPlugin
+- (void)updateBundle:(id)sender
 {
-    NSImage              *icon;
-    NSDictionary         *supportedTypes;
-    NSArray              *supportedTypeExtensions;
-    NSString             *typeName;
-    Class                 gameCoreClass;
-    OEGameCoreController *controller;
+    [[SUUpdater updaterForBundle:bundle] resetUpdateCycle];
+	[[SUUpdater updaterForBundle:bundle] checkForUpdates:self];
 }
 
-@property(readonly) OEGameCoreController *controller;
-@property(readonly) NSString             *details;
-@property(readonly) NSString             *typeName;
-@property(readonly) NSImage              *icon;
-@property(readonly) NSDictionary         *supportedTypes;
-@property(readonly) NSArray              *supportedTypeNames;
-@property(readonly) NSArray              *supportedTypeExtensions;
-@property(readonly) Class                 gameCoreClass;
-
-+ (NSArray *)supportedTypeExtensions;
-
-- (NSArray *)availablePreferenceViewControllers;
-- (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey;
-- (NSArray *)extensionsForTypeName:(NSString *)aTypeName;
-- (NSString *)typeForExtension:(NSString *)extension;
-- (BOOL)supportsFileExtension:(NSString *)extension;
-- (BOOL)supportsFileType:(NSString *)aTypeName;
-
-- (NSArray *)typesPropertyList;
-
-@end
-
-@interface OECorePlugin (SUUpdater)
-- (void)updateBundle:(id)sender;
 @end

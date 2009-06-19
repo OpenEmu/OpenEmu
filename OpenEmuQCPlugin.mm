@@ -32,13 +32,13 @@
 #import "GameCore.h"
 #import "GameBuffer.h"
 #import "GameAudio.h"
+#import "OECorePlugin.h"
 
 #define    kQCPlugIn_Name                @"OpenEmu"
 #define    kQCPlugIn_Description        @"Wraps the OpenEmu emulator - Play NES, Atari, Gameboy, Sega roms in QC"
 
 static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* info)
 {
-    
     glDeleteTextures(1, &name);
 }
 
@@ -62,7 +62,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
 @dynamic inputPauseEmulation;
 @dynamic outputImage;
 
-+ (NSDictionary*) attributes
++ (NSDictionary *)attributes
 {
     /*
      Return a dictionary of attributes describing the plug-in (QCPlugInAttributeNameKey, QCPlugInAttributeDescriptionKey...).
@@ -71,18 +71,20 @@ static void _BufferReleaseCallback(const void* address, void* info)
     return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey, kQCPlugIn_Description, QCPlugInAttributeDescriptionKey, nil];
 }
 
-+ (NSDictionary*) attributesForPropertyPortWithKey:(NSString*)key
++ (NSDictionary *)attributesForPropertyPortWithKey:(NSString*)key
 {
     /*
      Specify the optional attributes for property based ports (QCPortAttributeNameKey, QCPortAttributeDefaultValueKey...).
      */
     if([key isEqualToString:@"inputRom"]) 
-        return [NSDictionary dictionaryWithObjectsAndKeys:    @"ROM Path", QCPortAttributeNameKey, 
+        return [NSDictionary dictionaryWithObjectsAndKeys:
+                @"ROM Path", QCPortAttributeNameKey, 
                 @"~/relative/or/abs/path/to/rom", QCPortAttributeDefaultValueKey, 
                 nil]; 
     
     if([key isEqualToString:@"inputVolume"]) 
-        return [NSDictionary dictionaryWithObjectsAndKeys:    @"Volume", QCPortAttributeNameKey, 
+        return [NSDictionary dictionaryWithObjectsAndKeys:
+                @"Volume", QCPortAttributeNameKey, 
                 [NSNumber numberWithFloat:0.5], QCPortAttributeDefaultValueKey, 
                 [NSNumber numberWithFloat:1.0], QCPortAttributeMaximumValueKey,
                 [NSNumber numberWithFloat:0.0], QCPortAttributeMinimumValueKey,
@@ -95,18 +97,21 @@ static void _BufferReleaseCallback(const void* address, void* info)
     // NSArray with player count in index 0, index 1 is eButton "struct" (see GameButtons.h for typedef)
     
     if([key isEqualToString:@"inputPauseEmulation"])
-        return [NSDictionary dictionaryWithObjectsAndKeys:    @"Pause Emulator", QCPortAttributeNameKey,
-                NO, QCPortAttributeDefaultValueKey, 
+        return [NSDictionary dictionaryWithObjectsAndKeys:
+                @"Pause Emulator", QCPortAttributeNameKey,
+                [NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
                 nil];
     
     
     if([key isEqualToString:@"inputSaveStatePath"])
-        return [NSDictionary dictionaryWithObjectsAndKeys:    @"Save State", QCPortAttributeNameKey,
+        return [NSDictionary dictionaryWithObjectsAndKeys:
+                @"Save State", QCPortAttributeNameKey,
                 @"~/roms/saves/save", QCPortAttributeDefaultValueKey, 
                 nil];
     
     if([key isEqualToString:@"inputLoadStatePath"])
-        return [NSDictionary dictionaryWithObjectsAndKeys:    @"Load State", QCPortAttributeNameKey,
+        return [NSDictionary dictionaryWithObjectsAndKeys:
+                @"Load State", QCPortAttributeNameKey,
                 @"~/roms/saves/save", QCPortAttributeDefaultValueKey, 
                 nil];
     if([key isEqualToString:@"outputImage"])
@@ -115,13 +120,14 @@ static void _BufferReleaseCallback(const void* address, void* info)
     return nil;
 }
 
-+ (NSArray*) sortedPropertyPortKeys
++ (NSArray *)sortedPropertyPortKeys
 {
-    return [NSArray arrayWithObjects:@"inputRom", @"inputControllerData", @"inputVolume", @"inputPauseEmulation", @"inputSaveStatePath", @"inputLoadStatePath", nil]; 
+    return [NSArray arrayWithObjects:@"inputRom", @"inputControllerData", @"inputVolume",
+            @"inputPauseEmulation", @"inputSaveStatePath", @"inputLoadStatePath", nil]; 
 }
 
 
-+ (QCPlugInExecutionMode) executionMode
++ (QCPlugInExecutionMode)executionMode
 {
     /*
      Return the execution mode of the plug-in: kQCPlugInExecutionModeProvider, kQCPlugInExecutionModeProcessor, or kQCPlugInExecutionModeConsumer.
@@ -130,7 +136,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     return kQCPlugInExecutionModeProvider;
 }
 
-+ (QCPlugInTimeMode) timeMode
++ (QCPlugInTimeMode)timeMode
 {
     /*
      Return the time dependency mode of the plug-in: kQCPlugInTimeModeNone, kQCPlugInTimeModeIdle or kQCPlugInTimeModeTimeBase.
@@ -139,7 +145,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     return kQCPlugInTimeModeIdle;
 }
 
-- (id) init
+- (id)init
 {
     if(self = [super init])
     {
@@ -148,6 +154,10 @@ static void _BufferReleaseCallback(const void* address, void* info)
         persistantControllerData = [[NSMutableArray alloc] init];
         [persistantControllerData retain];
         
+        plugins = [OECorePlugin allPlugins];
+        validExtensions = [OECorePlugin supportedTypeExtensions];
+        
+        /*
         //    bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"Nestopia" ofType:@"bundle"]];
         
         NSString *file;
@@ -204,18 +214,19 @@ static void _BufferReleaseCallback(const void* address, void* info)
         
         validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
         [mutableExtensions release];
+         */
     }
     
     return self;
 }
 
-- (void) finalize
+- (void)finalize
 {
     /* Destroy variables intialized in init and not released by GC */
     [super finalize];
 }
 
-- (void) dealloc
+- (void)dealloc
 {
     /* Release any resources created in -init. */
     [bundles release];
@@ -225,7 +236,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     [super dealloc];
 }
 
-+ (NSArray*) plugInKeys
++ (NSArray *)plugInKeys
 {
     /*
      Return a list of the KVC keys corresponding to the internal settings of the plug-in.
@@ -234,7 +245,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     return nil;
 }
 
-- (id) serializedValueForKey:(NSString*)key;
+- (id)serializedValueForKey:(NSString *)key;
 {
     /*
      Provide custom serialization for the plug-in internal settings that are not values complying to the <NSCoding> protocol.
@@ -244,7 +255,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     return [super serializedValueForKey:key];
 }
 
-- (void) setSerializedValue:(id)serializedValue forKey:(NSString*)key
+- (void)setSerializedValue:(id)serializedValue forKey:(NSString *)key
 {
     /*
      Provide deserialization for the plug-in internal settings that were custom serialized in -serializedValueForKey.
@@ -259,7 +270,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
 @implementation OpenEmuQC (Execution)
 
 
-- (BOOL) startExecution:(id<QCPlugInContext>)context
+- (BOOL)startExecution:(id<QCPlugInContext>)context
 {    
     NSLog(@"called startExecution");
     //    if(loadedRom)
@@ -271,7 +282,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     return YES;
 }
 
-- (void) enableExecution:(id<QCPlugInContext>)context
+- (void)enableExecution:(id<QCPlugInContext>)context
 {
     NSLog(@"called enableExecution");
     // if we have a ROM loaded and the patch's image output is reconnected, unpause the emulator
@@ -297,7 +308,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
      */
 }
 
-- (BOOL) execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary*)arguments
+- (BOOL)execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary *)arguments
 {    
     CGLSetCurrentContext([context CGLContextObj]);
     CGLLockContext([context CGLContextObj]);
@@ -306,7 +317,9 @@ static void _BufferReleaseCallback(const void* address, void* info)
     id    provider = nil;
     
     // Process ROM loads
-    if([self didValueForInputKeyChange: @"inputRom"] && ([self valueForInputKey:@"inputRom"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputRom"] valueForKey: QCPortAttributeDefaultValueKey]))
+    if([self didValueForInputKeyChange:@"inputRom"] &&
+       ([self valueForInputKey:@"inputRom"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputRom"]
+                                                valueForKey:QCPortAttributeDefaultValueKey]))
     {
         [self loadRom:[self valueForInputKey:@"inputRom"]];
     }
@@ -314,7 +327,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     if(loadedRom)
     {
         // Process controller data
-        if([self didValueForInputKeyChange: @"inputControllerData"])
+        if([self didValueForInputKeyChange:@"inputControllerData"])
         {
             // hold on to the controller data, which we are going to feed gameCore every frame.  Mmmmm...controller data.
             if([self controllerDataValidate:[self inputControllerData]])
@@ -327,7 +340,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
         }    
         
         // Process audio volume changes
-        if([self didValueForInputKeyChange: @"inputVolume"])
+        if([self didValueForInputKeyChange:@"inputVolume"])
         {
             [gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
         }
@@ -349,7 +362,8 @@ static void _BufferReleaseCallback(const void* address, void* info)
         
         // Process state saving 
         if([self didValueForInputKeyChange: @"inputSaveStatePath"]
-           && ([self valueForInputKey:@"inputSaveStatePath"] != [[OpenEmuQC    attributesForPropertyPortWithKey:@"inputSaveStatePath"] valueForKey: QCPortAttributeDefaultValueKey])
+           && ([self valueForInputKey:@"inputSaveStatePath"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputSaveStatePath"]
+                                                                 valueForKey: QCPortAttributeDefaultValueKey])
            && (![[self valueForInputKey:@"inputSaveStatePath"] isEqualToString:@""] ))
         {
             NSLog(@"save path changed");
@@ -357,8 +371,9 @@ static void _BufferReleaseCallback(const void* address, void* info)
         }
         
         // Process state loading
-        if([self didValueForInputKeyChange: @"inputLoadStatePath"] 
-           && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQC    attributesForPropertyPortWithKey:@"inputLoadStatePath"] valueForKey: QCPortAttributeDefaultValueKey])
+        if([self didValueForInputKeyChange:@"inputLoadStatePath"] 
+           && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputLoadStatePath"]
+                                                                 valueForKey: QCPortAttributeDefaultValueKey])
            && (![[self valueForInputKey:@"inputLoadStatePath"] isEqualToString:@""] ))    
         {
             NSLog(@"load path changed");
@@ -366,7 +381,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
         }
     }
     // handle our image output. (sanity checking)
-    if(loadedRom && ([gameCore width] > 10) )
+    if(loadedRom && ([gameCore width] > 10))
     {        
         glEnable( GL_TEXTURE_RECTANGLE_EXT );
         
@@ -375,7 +390,8 @@ static void _BufferReleaseCallback(const void* address, void* info)
         glGenTextures(1, &texName);
         
         glBindTexture( GL_TEXTURE_RECTANGLE_EXT, texName);
-        glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+        glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width],
+                     [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
         
         // Check for OpenGL errors 
         status = glGetError();
@@ -438,7 +454,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
      */
 }
 
-- (void) stopExecution:(id<QCPlugInContext>)context
+- (void)stopExecution:(id<QCPlugInContext>)context
 {
     NSLog(@"called stopExecution");
     if(loadedRom)
@@ -453,7 +469,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
 
 # pragma mark -
 
--(BOOL) controllerDataValidate:(NSArray*) cData
+- (BOOL)controllerDataValidate:(NSArray *)cData
 {
     // sanity check
     if([cData count] == 2 && [[cData objectAtIndex:1] count] == 30)
@@ -465,7 +481,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     return NO;
 }
 
-- (BOOL) loadRom:(NSString*) romPath
+- (BOOL)loadRom:(NSString *)romPath
 {
     NSString* theRomPath = [romPath stringByStandardizingPath];
     BOOL isDir;    
@@ -490,12 +506,14 @@ static void _BufferReleaseCallback(const void* address, void* info)
         }
         loadedRom = NO;
         
-        NSBundle* loadBundle = [self bundleForType:extension];
+        OECorePlugin *plugin = [self pluginForType:extension];
         
-        NSLog(@"Bundle loaded for path is: %@", [loadBundle bundlePath]);
+        //NSBundle* loadBundle = [self bundleForType:extension];
         
-        gameCoreController = [[[loadBundle principalClass] alloc] init];
-		gameCore = [gameCoreController newGameCoreWithDocument:nil];
+        //NSLog(@"Bundle loaded for path is: %@", [loadBundle bundlePath]);
+        
+        gameCoreController = [plugin controller]; //[[[loadBundle principalClass] alloc] init];
+		gameCore = [gameCoreController newGameCore];
 		
         NSLog(@"Loaded bundle. About to load rom...");
         
@@ -579,7 +597,15 @@ static void _BufferReleaseCallback(const void* address, void* info)
 //    [gameAudio advanceBuffer];
 }
 
-- (NSBundle*)bundleForType:(NSString*) type
+- (OECorePlugin *)pluginForType:(NSString *)extension
+{
+    for(OECorePlugin *plugin in plugins)
+        if([plugin supportsFileType:extension])
+            return plugin;
+    return nil;
+}
+
+- (NSBundle *)bundleForType:(NSString *)type
 {
     NSLog(@"Bundle");
     //Need to make it so if multiple bundles load same extensions, it presents a picker

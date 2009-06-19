@@ -26,10 +26,10 @@
  */
 
 #import "OECorePlugin.h"
-#import <Sparkle/Sparkle.h>
 #import "OEGameCoreController.h"
 #import "GameCore.h"
-#import "GameDocument.h"
+
+@class GameDocument;
 
 @implementation OECorePlugin
 
@@ -81,7 +81,7 @@
 	[super dealloc];
 }
 
-- (id)newGameCoreWithDocument:(GameDocument *)aDocument
+- (id)newGameCoreWithDocument:(id)aDocument
 {
     return [[gameCoreClass alloc] initWithDocument:aDocument];
 }
@@ -110,6 +110,15 @@
     if(!supported)
         supported = [self supportsFileExtension:aTypeName];
     return supported;
+}
+
++ (NSArray *)supportedTypeExtensions
+{
+    NSMutableArray *ret = [NSMutableArray array];
+    for(OECorePlugin *plugin in [self allPlugins])
+        [ret addObjectsFromArray:[plugin supportedTypeExtensions]];
+    
+    return [[ret copy] autorelease];
 }
 
 - (NSArray *)supportedTypeNames
@@ -143,12 +152,6 @@
 - (NSString *)description
 {
     return [[super description] stringByAppendingFormat:@", supported types: %@", supportedTypes];
-}
-
-- (void)updateBundle:(id)sender
-{
-    [[SUUpdater updaterForBundle:bundle] resetUpdateCycle];
-	[[SUUpdater updaterForBundle:bundle] checkForUpdates:self];
 }
 
 @end

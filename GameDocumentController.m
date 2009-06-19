@@ -166,8 +166,7 @@
     NSMutableSet *mutableExtensions = [[NSMutableSet alloc] init];
     
     //go through the bundles Info.plist files to get the type extensions
-    for(OECorePlugin *plugin in plugins)
-        [mutableExtensions addObjectsFromArray:[plugin supportedTypeExtensions]];
+    [mutableExtensions addObjectsFromArray:[OECorePlugin supportedTypeExtensions]];
     
     NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
     
