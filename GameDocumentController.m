@@ -151,7 +151,7 @@
     [self willChangeValueForKey:@"filterNames"];
     [filterNames release];
     NSArray *filterPlugins = [OEFilterPlugin allPlugins];
-    filterNames = [[NSMutableArray alloc] initWithObjects:@"None", @"Nearest Neighbor", nil];
+    filterNames = [[NSMutableArray alloc] initWithObjects:@"Linear Interpolation", @"Nearest Neighbor", nil];
     for(OEFilterPlugin *p in filterPlugins)
         [(NSMutableArray *)filterNames addObject:[p displayName]];
     [self didChangeValueForKey:@"filterNames"];

@@ -668,7 +668,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
         NSNumber*  playerNumber = [persistantControllerData objectAtIndex:0];
         NSArray * controllerArray = [persistantControllerData objectAtIndex:1];
         
-        //    NSLog(@"Player Number: %u", [playerNumber intValue]);
+        //    NSLog(@"Player Number: %u", [playerNumber intVouch mysalue]);
         
         NSUInteger i;
         for(i = 0; i < [controllerArray count]; i++)
