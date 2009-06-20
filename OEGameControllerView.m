@@ -91,7 +91,7 @@
     gameController = [_value retain];
 }
 
-#define BUTTON_SIZE NSMakeSize(96.0, 32.0)
+#define BUTTON_SIZE NSMakeSize(90.0, 32.0)
 - (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end
 {
     [self addButtonWithName:aName toolTip:aName target:aTarget startPosition:start endPosition:end];
@@ -103,6 +103,10 @@
     NSRect button = NSZeroRect;
     button.size = BUTTON_SIZE;
     NSPoint middle = NSZeroPoint;
+	
+	// additional points for bezier curve path
+//	NSPoint control1, control2;
+	
     if(start.y <= NSMinY(drawRect))
     {
         button.origin.x = start.x - button.size.width / 2.0;
@@ -110,6 +114,11 @@
         start.y = button.origin.y + button.size.height / 2.0;
         middle.x = start.x;
         middle.y = NSMinY(drawRect) + button.size.height / 2.0;
+		
+//		control1.x = middle.x;
+//		control2.x = middle.x;
+//		control1.y = middle.y / 3.0;
+//		control2.y = control1.y * 2.0;
     }
     else if(start.x <= NSMinX(drawRect))
     {
@@ -118,6 +127,11 @@
         button.origin.y = start.y - button.size.height / 2.0;
         middle.x = NSMinX(drawRect);
         middle.y = start.y;
+		
+//		control1.y = middle.y;
+//		control2.y = middle.y;
+//		control1.x = middle.x / 3.0;
+//		control2.x = control1.x * 2.0;
     }
     else if(start.x >= NSMaxX(drawRect))
     {
@@ -126,6 +140,11 @@
         button.origin.y = start.y - button.size.height / 2.0;
         middle.x = NSMaxX(drawRect);
         middle.y = start.y;
+		
+//		control1.y = middle.y;
+//		control2.y = middle.y;
+//		control1.x = middle.x / 3.0;
+//		control2.x = control1.x * 2.0;
     }
     else if(start.y >= NSMaxY(drawRect))
     {
@@ -134,21 +153,29 @@
         start.y = button.origin.y + button.size.height / 2.0;
         middle.x = start.x;
         middle.y = NSMaxY(drawRect) - button.size.height / 2.0;
-    }
+
+//		control1.x = middle.x;
+//		control2.x = middle.x;
+//		control1.y = middle.y / 3.0;
+//		control2.y = control1.y * 2.0;
+	}
     
     NSButton *added = [[[NSButton alloc] initWithFrame:button] autorelease];
     [added setTarget:aTarget];
     [added setAction:@selector(selectInputControl:)];
     [added bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
-    [added setBezelStyle:NSRoundedBezelStyle];
-    [added setButtonType:NSPushOnPushOffButton];
+    [added setBezelStyle:NSRoundRectBezelStyle];
+//    [added setBezelStyle:NSRoundedBezelStyle];
+	[added setButtonType:NSPushOnPushOffButton];
     [added setToolTip:aToolTip];
+//	[[added cell]  setControlSize:NSSmallControlSize];  
     
     [self addSubview:added];
     
     [lines moveToPoint:start];
-    [lines lineToPoint:middle];
-    [lines lineToPoint:end];
+	//	[lines curveToPoint:end controlPoint1:control1 controlPoint2:control2];
+	[lines lineToPoint:middle];
+	[lines lineToPoint:end];
 }
 
 @end

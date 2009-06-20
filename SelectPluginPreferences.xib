@@ -167,7 +167,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilderKit</string>
 					<string>com.apple.InterfaceBuilderKit</string>
-					<string>{{313, 501}, {375, 275}}</string>
+					<string>{{285, 514}, {375, 275}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{628, 654}</string>
 					<string>{{217, 442}, {480, 272}}</string>
@@ -195,14 +195,14 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">6</int>
+			<int key="maxID">8</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSApplication</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="1020851922">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="346605799">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">NSApplication+OEHIDAdditions.h</string>
 					</object>
@@ -223,7 +223,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSResponder</string>
-					<reference key="sourceIdentifier" ref="1020851922"/>
+					<reference key="sourceIdentifier" ref="346605799"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSViewController</string>
