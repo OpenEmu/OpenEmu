@@ -47,8 +47,8 @@
 	GameBuffer           *gameBuffer;
 
 	BOOL loadedRom, audioPaused;
-	NSMutableArray* persistantControllerData;
-	NSRecursiveLock * gameLock;
+	NSMutableArray       *persistantControllerData;
+	NSRecursiveLock      *gameLock;
 }
 
 /*
@@ -71,7 +71,6 @@ You can access their values in the appropriate plug-in methods using self.inputF
 - (void)handleControllerData;
 - (void)refresh;
 - (OECorePlugin *)pluginForType:(NSString *)extension;
-- (NSBundle *)bundleForType:(NSString*)type;
 - (BOOL)loadRom:(NSString*)romPath;
 - (void)saveState:(NSString *)fileName;
 - (BOOL)loadState:(NSString *)fileName;

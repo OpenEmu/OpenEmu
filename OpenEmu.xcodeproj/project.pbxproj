@@ -120,7 +120,6 @@
 		C63C680F0FB9F14C00F4E3E0 /* NSApplication+OEHIDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */; };
 		C63C68100FB9F15800F4E3E0 /* NSApplication+OEHIDAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */; };
 		C669163E0FC9BC3E007DE3D8 /* OEGameControllerView.h in Headers */ = {isa = PBXBuildFile; fileRef = C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */; };
-		C669163F0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */; };
 		C66DF0B00FEC38C0007E3A20 /* OEPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C62F54700FE6ADC500DF15BA /* OEPlugin.m */; };
 		C66DF0B20FEC38C2007E3A20 /* OECorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C62F549A0FE6CC1500DF15BA /* OECorePlugin.m */; };
 		C66DF0B60FEC3958007E3A20 /* OECorePlugin+SUUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DF0B50FEC3958007E3A20 /* OECorePlugin+SUUpdater.m */; };
@@ -133,6 +132,7 @@
 		C693138D0F6ACC0A00F03428 /* PluginPreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C693138C0F6ACC0A00F03428 /* PluginPreferences.xib */; };
 		C69DCCED0FE99415009AE5A6 /* OEFilterPluginIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */; };
 		C69DCD010FE994A5009AE5A6 /* OEPluginDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = C69DCD000FE994A5009AE5A6 /* OEPluginDocument.m */; };
+		C6AFE0D60FED6FDF00AC0CCF /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6AFE0D50FED6FDF00AC0CCF /* OEGameControllerView.m */; };
 		C6B0B4990FB17D8D00661561 /* UnimplementedPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6B0B4980FB17D8D00661561 /* UnimplementedPreference.xib */; };
 		C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6BFB29E0F7CC8E700040FFA /* Localizable.strings */; };
 		C6C98CAF0F55F4C400116EA2 /* GamePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6C98CAE0F55F4C400116EA2 /* GamePreferences.xib */; };
@@ -286,7 +286,6 @@
 		C62F56530FE6FDA700DF15BA /* OEGameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameLayer.m; sourceTree = "<group>"; };
 		C63AF5E90FE42130009856D4 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameControllerView.h; sourceTree = "<group>"; };
-		C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameControllerView.m; sourceTree = "<group>"; };
 		C66DF0B50FEC3958007E3A20 /* OECorePlugin+SUUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OECorePlugin+SUUpdater.m"; sourceTree = "<group>"; };
 		C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAbstractAdditions.h; sourceTree = "<group>"; };
 		C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAbstractAdditions.m; sourceTree = "<group>"; };
@@ -299,6 +298,7 @@
 		C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OEFilterPluginIcon.icns; sourceTree = "<group>"; };
 		C69DCCFF0FE994A5009AE5A6 /* OEPluginDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPluginDocument.h; sourceTree = "<group>"; };
 		C69DCD000FE994A5009AE5A6 /* OEPluginDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPluginDocument.m; sourceTree = "<group>"; };
+		C6AFE0D50FED6FDF00AC0CCF /* OEGameControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameControllerView.m; sourceTree = "<group>"; };
 		C6B0B4980FB17D8D00661561 /* UnimplementedPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnimplementedPreference.xib; sourceTree = "<group>"; };
 		C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSApplication+OEHIDAdditions.h"; sourceTree = "<group>"; };
 		C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication+OEHIDAdditions.m"; sourceTree = "<group>"; };
@@ -580,7 +580,7 @@
 				C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */,
 				C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */,
 				C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */,
-				C669163C0FC9BC3E007DE3D8 /* OEGameControllerView.m */,
+				C6AFE0D50FED6FDF00AC0CCF /* OEGameControllerView.m */,
 				C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */,
 				C67DCEF10FC5FB5A0038A56E /* OEPreferenceViewController.m */,
 				C62969E10FCEA8BB004F84C4 /* OEControlsViewController.h */,
@@ -834,11 +834,11 @@
 				C61C98E70F583217007F4242 /* OEGameCoreController.m in Sources */,
 				82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */,
 				C67DCEF90FC604690038A56E /* OEPreferenceViewController.m in Sources */,
-				C669163F0FC9BC3E007DE3D8 /* OEGameControllerView.m in Sources */,
 				C62969E50FCEA8BB004F84C4 /* OEControlsViewController.m in Sources */,
 				828CF1850FD1D7C80041311B /* OEMap.m in Sources */,
 				C6FC4C920FD2C5C3007CCD32 /* GameCore.m in Sources */,
 				82AFA66A0FDDC03500531EE3 /* OERingBuffer.m in Sources */,
+				C6AFE0D60FED6FDF00AC0CCF /* OEGameControllerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

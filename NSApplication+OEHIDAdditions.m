@@ -32,7 +32,7 @@
 
 - (void)postHIDEvent:(OEHIDEvent *)anEvent
 {
-    [[[self mainWindow] firstResponder] handleHIDEvent:anEvent];
+    [[[self keyWindow] firstResponder] handleHIDEvent:anEvent];
 }
 
 @end
