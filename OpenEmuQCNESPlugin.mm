@@ -568,14 +568,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 
 -(BOOL) controllerDataValidate:(NSArray*) cData
 {
-	// sanity check
-	if([cData count] == 2 && [[cData objectAtIndex:1] count] == 12)
-	{
-//		DLog(@"validated controller data");
-		return YES;
-	}	
-	
-	return NO;
+	return YES; // hahah INSANITY NO VALIDATION AT ALL WOOOO WOO.
 }
 
 - (void) loadRom:(NSString*) romPath
@@ -664,29 +657,40 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 
 -(void) handleControllerData
 {
-	// iterate through our NSArray of controller data. We know the player, we know the structure.
-	// pull it out, and hand it off to our gameCore
-	
-	// sanity check (again? sure!)
-	if([self controllerDataValidate:persistantControllerData])
-	{
-		// player number 
-		NSNumber*  playerNumber = [persistantControllerData objectAtIndex:0];
-		NSArray * controllerArray = [persistantControllerData objectAtIndex:1];
-
-		NSUInteger i;
-		for(i = 0; i < [controllerArray count]; i++)
-		{
-			if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
-			{
-				[gameCore player:[playerNumber intValue] didPressButton:i];
-			}		
-			else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
-			{
-				[gameCore player:[playerNumber intValue] didReleaseButton:i];
-			}
-		}
-	}	
+    // iterate through our NSArray of controller data. We know the player, we know the structure.
+    // pull it out, and hand it off to our gameCore
+    
+    // sanity check (again? sure!)
+    if([self controllerDataValidate:persistantControllerData])
+    {
+        
+        // player number 
+        NSNumber*  playerNumber = [persistantControllerData objectAtIndex:0];
+        NSArray * controllerArray = [persistantControllerData objectAtIndex:1];
+        
+        //    NSLog(@"Player Number: %u", [playerNumber intValue]);
+        
+        NSUInteger i;
+        for(i = 0; i < [controllerArray count]; i++)
+        {
+			if(i > 5 && i < 10)
+				continue;
+			//       NSLog(@"index is %u", i);
+            if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
+            {
+                //    NSLog(@"button %u is down", i);
+                //    [gameCore buttonPressed:i forPlayer:[playerNumber intValue]];
+                [gameCore player:[playerNumber intValue] didPressButton:(i + 1)];
+            }        
+            else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
+            {
+                //    NSLog(@"button %u is up", i);
+                //    [gameCore buttonRelease:i forPlayer:[playerNumber intValue]];
+                [gameCore player:[playerNumber intValue] didReleaseButton:(i + 1)];
+            }
+        } 
+    }    
+    
 }
 
 // callback for audio from plugin

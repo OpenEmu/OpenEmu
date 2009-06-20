@@ -234,7 +234,6 @@ static void _BufferReleaseCallback(const void* address, void* info)
     [persistantControllerData release];
     [gameLock release];
 	[plugins release];
-	[validExtensions release];
     [super dealloc];
 }
 
