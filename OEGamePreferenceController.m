@@ -33,7 +33,8 @@
 
 @implementation OEGamePreferenceController
 
-@synthesize plugins, selectedPlugins, availablePluginsPredicate;
+@dynamic plugins;
+@synthesize selectedPlugins, availablePluginsPredicate;
 
 - (id)init
 {
