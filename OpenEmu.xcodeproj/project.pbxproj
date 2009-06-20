@@ -972,7 +972,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "OpenEmuBase-Info.plist";
-				INSTALL_PATH = "@executable_path/../Frameworks";
+				INSTALL_PATH = "@rpath";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1130,6 +1130,7 @@
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
 				PRODUCT_NAME = OpenEmu;
 			};
@@ -1150,7 +1151,7 @@
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
 				PRODUCT_NAME = OpenEmu;
 			};
