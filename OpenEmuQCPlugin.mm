@@ -154,8 +154,8 @@ static void _BufferReleaseCallback(const void* address, void* info)
         persistantControllerData = [[NSMutableArray alloc] init];
         [persistantControllerData retain];
         
-        plugins = [OECorePlugin allPlugins];
-        validExtensions = [OECorePlugin supportedTypeExtensions];
+        plugins = [[OECorePlugin allPlugins] retain];
+        validExtensions = [[OECorePlugin supportedTypeExtensions] retain];
         
         /*
         //    bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"Nestopia" ofType:@"bundle"]];
@@ -233,6 +233,8 @@ static void _BufferReleaseCallback(const void* address, void* info)
     [validExtensions release];
     [persistantControllerData release];
     [gameLock release];
+	[plugins release];
+	[validExtensions release];
     [super dealloc];
 }
 
@@ -472,13 +474,15 @@ static void _BufferReleaseCallback(const void* address, void* info)
 - (BOOL)controllerDataValidate:(NSArray *)cData
 {
     // sanity check
-    if([cData count] == 2 && [[cData objectAtIndex:1] count] == 30)
+ /*   if([cData count] == 2 && [[cData objectAtIndex:1] count] == 30)
     {
   //              NSLog(@"validated controller data");
         return YES;
     }    
     NSLog(@"error: invalid controller data structure.");
     return NO;
+*/
+	return YES;
 }
 
 - (BOOL)loadRom:(NSString *)romPath
