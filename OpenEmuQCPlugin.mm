@@ -34,7 +34,7 @@
 #import "GameAudio.h"
 #import "OECorePlugin.h"
 
-#define    kQCPlugIn_Name                @"OpenEmu"
+#define    kQCPlugIn_Name               @"OpenEmu"
 #define    kQCPlugIn_Description        @"Wraps the OpenEmu emulator - Play NES, Atari, Gameboy, Sega roms in QC"
 
 static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* info)
@@ -45,7 +45,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 static void _BufferReleaseCallback(const void* address, void* info)
 {
     NSLog(@"called buffer release callback");
-    //    free((void*)address);
+    //free((void*)address);
 }
 
 @implementation OpenEmuQC
@@ -95,7 +95,6 @@ static void _BufferReleaseCallback(const void* address, void* info)
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Controller Data", QCPortAttributeNameKey, nil];
     
     // NSArray with player count in index 0, index 1 is eButton "struct" (see GameButtons.h for typedef)
-    
     if([key isEqualToString:@"inputPauseEmulation"])
         return [NSDictionary dictionaryWithObjectsAndKeys:
                 @"Pause Emulator", QCPortAttributeNameKey,
@@ -132,7 +131,6 @@ static void _BufferReleaseCallback(const void* address, void* info)
     /*
      Return the execution mode of the plug-in: kQCPlugInExecutionModeProvider, kQCPlugInExecutionModeProcessor, or kQCPlugInExecutionModeConsumer.
      */
-    
     return kQCPlugInExecutionModeProvider;
 }
 
@@ -141,7 +139,6 @@ static void _BufferReleaseCallback(const void* address, void* info)
     /*
      Return the time dependency mode of the plug-in: kQCPlugInTimeModeNone, kQCPlugInTimeModeIdle or kQCPlugInTimeModeTimeBase.
      */
-    
     return kQCPlugInTimeModeIdle;
 }
 
@@ -156,65 +153,6 @@ static void _BufferReleaseCallback(const void* address, void* info)
         
         plugins = [[OECorePlugin allPlugins] retain];
         validExtensions = [[OECorePlugin supportedTypeExtensions] retain];
-        
-        /*
-        //    bundle = [NSBundle bundleWithPath:[[NSBundle bundleForClass:[self class]] pathForResource:@"Nestopia" ofType:@"bundle"]];
-        
-        NSString *file;
-        NSBundle *theBundle = [NSBundle bundleForClass:[self class]];
-        NSDictionary *ourBundleInfo = [theBundle infoDictionary];
-        NSString *bundleDir = [[ourBundleInfo valueForKey:@"OEBundlePath"] stringByStandardizingPath];
-        
-        // NSString *bundleDir = [[[[NSBundle bundleForClass:[self class]] infoDictionary] valueForKey:@"OEBundlePath"] stringByStandardizingPath];
-        NSMutableArray* bundlePaths = [[NSMutableArray alloc] init];
-        
-        NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath: bundleDir];
-        while (file = [enumerator nextObject])
-        {
-            if([[file pathExtension] isEqualToString:@"bundle"]) 
-            {
-                [bundlePaths addObject:[bundleDir stringByAppendingPathComponent:file]];
-                [enumerator skipDescendents];
-            }
-            
-        }
-        
-        
-        NSMutableArray* mutableBundles = [[NSMutableArray alloc] init];
-        
-        for(NSString* path in bundlePaths)
-        {
-            [mutableBundles addObject:[NSBundle bundleWithPath:path]];
-        }
-        
-        [bundlePaths release];
-        //All bundles that are available
-        bundles = [[NSArray arrayWithArray:mutableBundles] retain];
-        
-        [mutableBundles release];
-        
-        NSMutableArray* mutableExtensions = [[NSMutableArray alloc] init];
-        
-        for(NSBundle* bundle in bundles)
-        {
-            NSArray* types = [[bundle infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-            
-            for (NSDictionary* key in types)
-            {
-                [mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
-            }
-        }
-        
-        NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-        
-        for (NSDictionary* key in types)
-        {
-            [mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
-        }        
-        
-        validExtensions = [[NSArray arrayWithArray:mutableExtensions] retain];
-        [mutableExtensions release];
-         */
     }
     
     return self;
@@ -233,7 +171,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     [validExtensions release];
     [persistantControllerData release];
     [gameLock release];
-	[plugins release];
+    [plugins release];
     [super dealloc];
 }
 
@@ -242,7 +180,6 @@ static void _BufferReleaseCallback(const void* address, void* info)
     /*
      Return a list of the KVC keys corresponding to the internal settings of the plug-in.
      */
-    
     return nil;
 }
 
@@ -252,7 +189,6 @@ static void _BufferReleaseCallback(const void* address, void* info)
      Provide custom serialization for the plug-in internal settings that are not values complying to the <NSCoding> protocol.
      The return object must be nil or a PList compatible i.e. NSString, NSNumber, NSDate, NSData, NSArray or NSDictionary.
      */
-    
     return [super serializedValueForKey:key];
 }
 
@@ -262,7 +198,6 @@ static void _BufferReleaseCallback(const void* address, void* info)
      Provide deserialization for the plug-in internal settings that were custom serialized in -serializedValueForKey.
      Deserialize the value, then call [self setValue:value forKey:key] to set the corresponding internal setting of the plug-in instance to that deserialized value.
      */
-    
     [super setSerializedValue:serializedValue forKey:key];
 }
 
@@ -274,17 +209,20 @@ static void _BufferReleaseCallback(const void* address, void* info)
 - (BOOL)startExecution:(id<QCPlugInContext>)context
 {    
     NSLog(@"called startExecution");
-    //    if(loadedRom)
-    //    {
-    //        [gameAudio startAudio];
-    //        [gameCore start]; 
-    //    }
+    //if(loadedRom)
+    //{
+    //    [gameAudio startAudio];
+    //    [gameCore start]; 
+    //}
     
     return YES;
 }
 
 - (void)enableExecution:(id<QCPlugInContext>)context
 {
+    /*
+     Called by Quartz Composer when the plug-in instance starts being used by Quartz Composer.
+     */
     NSLog(@"called enableExecution");
     // if we have a ROM loaded and the patch's image output is reconnected, unpause the emulator
     if(loadedRom)
@@ -295,18 +233,13 @@ static void _BufferReleaseCallback(const void* address, void* info)
             {
                 [gameCore setPauseEmulation:NO];
                 [gameAudio startAudio];
-		//		[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
+                //[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
             }
             @catch (NSException * e) {
                 NSLog(@"Failed to unpause");
             }
-            
         }
     }
-    
-    /*
-     Called by Quartz Composer when the plug-in instance starts being used by Quartz Composer.
-     */
 }
 
 - (BOOL)execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary *)arguments
@@ -432,6 +365,9 @@ static void _BufferReleaseCallback(const void* address, void* info)
 
 - (void) disableExecution:(id<QCPlugInContext>)context
 {
+    /*
+     Called by Quartz Composer when the plug-in instance stops being used by Quartz Composer.
+     */
     NSLog(@"called disableExecution");
     
     // if we have a ROM running and the patch's image output is disconnected, pause the emulator and audio
@@ -450,9 +386,6 @@ static void _BufferReleaseCallback(const void* address, void* info)
         }  
         //    sleep(0.5); // race condition workaround. 
     }
-    /*
-     Called by Quartz Composer when the plug-in instance stops being used by Quartz Composer.
-     */
 }
 
 - (void)stopExecution:(id<QCPlugInContext>)context
@@ -473,27 +406,28 @@ static void _BufferReleaseCallback(const void* address, void* info)
 - (BOOL)controllerDataValidate:(NSArray *)cData
 {
     // sanity check
- /*   if([cData count] == 2 && [[cData objectAtIndex:1] count] == 30)
+    /*
+    if([cData count] == 2 && [[cData objectAtIndex:1] count] == 30)
     {
-  //              NSLog(@"validated controller data");
+        //NSLog(@"validated controller data");
         return YES;
     }    
     NSLog(@"error: invalid controller data structure.");
     return NO;
-*/
-	return YES;
+     */
+    return YES;
 }
 
 - (BOOL)loadRom:(NSString *)romPath
 {
-    NSString* theRomPath = [romPath stringByStandardizingPath];
+    NSString *theRomPath = [romPath stringByStandardizingPath];
     BOOL isDir;    
     
     NSLog(@"New ROM path is: %@",theRomPath);
     
     if([[NSFileManager defaultManager] fileExistsAtPath:theRomPath isDirectory:&isDir] && !isDir)
     {
-        NSString * extension = [theRomPath pathExtension];
+        NSString *extension = [theRomPath pathExtension];
         NSLog(@"extension is: %@", extension);
         
         // cleanup
@@ -502,22 +436,17 @@ static void _BufferReleaseCallback(const void* address, void* info)
             [gameCore stopEmulation];
             [gameAudio stopAudio];
             [gameCore release];
-            //    [gameBuffer release];
             [gameAudio release];
             
-            NSLog(@"released/cleaned up for new ROM");			
+            NSLog(@"released/cleaned up for new ROM");            
         }
         loadedRom = NO;
         
         OECorePlugin *plugin = [self pluginForType:extension];
         
-        //NSBundle* loadBundle = [self bundleForType:extension];
+        gameCoreController = [plugin controller];
+        gameCore = [gameCoreController newGameCore];
         
-        //NSLog(@"Bundle loaded for path is: %@", [loadBundle bundlePath]);
-        
-        gameCoreController = [plugin controller]; //[[[loadBundle principalClass] alloc] init];
-		gameCore = [gameCoreController newGameCore];
-		
         NSLog(@"Loaded bundle. About to load rom...");
         
         [gameCore loadFileAtPath:theRomPath];
@@ -528,8 +457,8 @@ static void _BufferReleaseCallback(const void* address, void* info)
             NSLog(@"Loaded new Rom: %@", theRomPath);
             [gameCore setupEmulation];
             
-            //    gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
-            //    [gameBuffer setFilter:eFilter_None];
+            //gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
+            //[gameBuffer setFilter:eFilter_None];
             // audio!
             gameAudio = [[GameAudio alloc] initWithCore:gameCore];
             NSLog(@"initialized audio");
@@ -544,19 +473,14 @@ static void _BufferReleaseCallback(const void* address, void* info)
             NSLog(@"finished loading/starting rom");
             return YES;
         }    
-        else
-        {
-            NSLog(@"ROM did not load.");
-        }
+        else NSLog(@"ROM did not load.");
     }
-    else {
-        NSLog(@"bad ROM path or filename");
-    }
+    else NSLog(@"bad ROM path or filename");
     return NO;
 }
 
 
--(void) handleControllerData
+- (void)handleControllerData
 {
     // iterate through our NSArray of controller data. We know the player, we know the structure.
     // pull it out, and hand it off to our gameCore
@@ -564,40 +488,36 @@ static void _BufferReleaseCallback(const void* address, void* info)
     // sanity check (again? sure!)
     if([self controllerDataValidate:persistantControllerData])
     {
-        
         // player number 
-        NSNumber*  playerNumber = [persistantControllerData objectAtIndex:0];
-        NSArray * controllerArray = [persistantControllerData objectAtIndex:1];
+        NSNumber *playerNumber = [persistantControllerData objectAtIndex:0];
+        NSArray  *controllerArray = [persistantControllerData objectAtIndex:1];
         
-        //    NSLog(@"Player Number: %u", [playerNumber intValue]);
+        //NSLog(@"Player Number: %u", [playerNumber intValue]);
         
         NSUInteger i;
         for(i = 0; i < [controllerArray count]; i++)
         {
-			if(i > 5 && i < 10)
-				continue;
-         //       NSLog(@"index is %u", i);
+            if(i > 5 && i < 10)
+                continue;
+            //NSLog(@"index is %u", i);
             if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
             {
-                //    NSLog(@"button %u is down", i);
-                //    [gameCore buttonPressed:i forPlayer:[playerNumber intValue]];
+                //NSLog(@"button %u is down", i);
                 [gameCore player:[playerNumber intValue] didPressButton:(i + 1)];
             }        
             else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
             {
-                //    NSLog(@"button %u is up", i);
-                //    [gameCore buttonRelease:i forPlayer:[playerNumber intValue]];
+                //NSLog(@"button %u is up", i);
                 [gameCore player:[playerNumber intValue] didReleaseButton:(i + 1)];
             }
         } 
     }    
-    
 }
 
 // callback for audio from plugin
-- (void) refresh
+- (void)refresh
 {
-//    [gameAudio advanceBuffer];
+    //[gameAudio advanceBuffer];
 }
 
 - (OECorePlugin *)pluginForType:(NSString *)extension
@@ -608,31 +528,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     return nil;
 }
 
-- (NSBundle *)bundleForType:(NSString *)type
-{
-    NSLog(@"Bundle");
-    //Need to make it so if multiple bundles load same extensions, it presents a picker
-    for(NSBundle* bundle in bundles)
-    {
-        NSArray* types = [[bundle infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-        
-        for (NSDictionary* key in types)
-        {
-            NSArray* exts = [key objectForKey:@"CFBundleTypeExtensions"];
-            
-            for(NSString* str in exts)
-            {
-                if([str caseInsensitiveCompare:type] == 0)  //ignoring case so it doesn't matter if the extension is NES or nes or NeS or nES
-                    return bundle;
-            }
-        }
-        
-    }
-    
-    return nil;
-}
-
-- (void) saveState: (NSString *) fileName
+- (void)saveState:(NSString *)fileName
 {
     BOOL isDir;
     NSLog(@"saveState filename is %@", fileName);
@@ -641,9 +537,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     
     // if the extension isn't .sav, make it so
     if([[fileName pathExtension] caseInsensitiveCompare:@"sav"] != 0) 
-    {
         fileName = [fileName stringByAppendingPathExtension:@"sav"];
-    }
     
     // see if directory exists
     if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir] && isDir)
@@ -671,7 +565,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
     
     if([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && !isDir)
     {
-        //DO NOT CONCERN YOURSELF WITH EFFICIENCY OR ELEGANCE AT THIS JUNCTURE, DANIEL MORGAN WINCKLER.
+        // DO NOT CONCERN YOURSELF WITH EFFICIENCY OR ELEGANCE AT THIS JUNCTURE, DANIEL MORGAN WINCKLER.
         
         //if no ROM has been loaded, don't load the state
         if(!loadedRom) {
