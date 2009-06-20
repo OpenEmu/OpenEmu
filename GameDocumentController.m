@@ -71,6 +71,14 @@
      */
 }
 
++ (void)initialize
+{
+    [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      @"Linear Interpolation", @"filterName",
+      [NSNumber numberWithFloat:1.0], @"volume", nil]];
+}
+
 -(void)updateBundles: (id) sender
 {
 	for(OECorePlugin *plugin in plugins)
@@ -155,10 +163,6 @@
     for(OEFilterPlugin *p in filterPlugins)
         [(NSMutableArray *)filterNames addObject:[p displayName]];
     [self didChangeValueForKey:@"filterNames"];
-    
-    NSUserDefaultsController *controller = [NSUserDefaultsController sharedUserDefaultsController];
-    if(![filterPlugins containsObject:[controller valueForKeyPath:@"values.filterName"]])
-        [controller setValue:@"None" forKeyPath:@"values.filterName"];
 }
 
 - (void)updateValidExtensions

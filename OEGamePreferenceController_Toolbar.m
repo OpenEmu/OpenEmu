@@ -86,7 +86,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
                                       @"PluginPreferences"), OEPluginsToolbarItemIdentifier,
                         nil];
 #undef CREATE_RECORD
-    currentViewIdentifier = OEControlsToolbarItemIdentifier;
+    currentViewIdentifier = OEVideoSoundToolbarItemIdentifier;
 }
 
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)aToolbar
@@ -140,7 +140,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 
 - (NSString *)itemIdentifier
 {
-    return OEControlsToolbarItemIdentifier;
+    return OEVideoSoundToolbarItemIdentifier;
 }
 
 - (NSRect)frameForNewContentViewFrame:(NSRect)viewFrame
@@ -163,8 +163,9 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 	NSViewController *previousController = nil;
         
     previousController = currentViewController;
-    if(sender == self) [toolbar setSelectedItemIdentifier:OEControlsToolbarItemIdentifier];
     if(sender != nil) currentViewIdentifier = [sender itemIdentifier];
+    [toolbar setSelectedItemIdentifier:currentViewIdentifier];
+    
     currentViewController = [self newViewControllerForIdentifier:currentViewIdentifier];
 	
     NSView *view = [currentViewController view];
@@ -177,13 +178,14 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 	// With the shift key down, do slow-mo animation
 	if ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)
 	    [[NSAnimationContext currentContext] setDuration:5.0];
-	
+	    
 	// Call the animator instead of the view / window directly
 	if(previousController) [[[[self window] animator] contentView] replaceSubview:[previousController view] with:view];
 	else                   [[[[self window] animator] contentView] addSubview:view];
 	
-	[[[self window] animator] setFrame:newFrame display:YES];
 	[NSAnimationContext endGrouping];
+    
+   	[[self window] setFrame:newFrame display:YES animate:YES];
     
     [previousController release];
 }

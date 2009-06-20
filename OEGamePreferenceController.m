@@ -51,9 +51,21 @@
     return [self init];
 }
 
-- (void)awakeFromNib
+- (NSSize)windowWillResize:(NSWindow *)window toSize:(NSSize)proposedFrameSize
 {
-    [self switchView:self];
+    NSLog(@"%s %@", __FUNCTION__, NSStringFromSize(proposedFrameSize));
+    return proposedFrameSize;
+}
+
+- (void)windowDidBecomeKey:(NSNotification *)notification
+{
+    NSLog(@"%s %@", __FUNCTION__, NSStringFromRect([[self window] frame]));
+    //[self switchView:self];
+}
+
+- (void)windowDidResize:(NSNotification *)notification
+{
+    NSLog(@"%s %@", __FUNCTION__, NSStringFromRect([[self window] frame]));
 }
 
 - (NSArray *)plugins
