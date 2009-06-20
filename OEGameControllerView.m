@@ -27,6 +27,41 @@
 
 #import "OEGameControllerView.h"
 
+@implementation NSBezierPath (Shadowing)
+
+/* fill a bezier path, but draw a shadow under it offset by the
+ given angle (counter clockwise from the x-axis) and distance. */
+- (void)fillWithShadowAtDegrees:(float) angle withDistance: (float) distance {
+    float radians = angle*(3.141592/180.0);
+    
+	/* create a new shadow */
+    NSShadow* theShadow = [[NSShadow alloc] init];
+    
+	/* offset the shadow by the indicated direction and distance */
+    [theShadow setShadowOffset:NSMakeSize(cosf(radians)*distance, sinf(radians)*distance)];
+    
+	/* set other shadow parameters */
+    [theShadow setShadowBlurRadius:3.0];
+    [theShadow setShadowColor:[[NSColor blackColor] colorWithAlphaComponent:0.5]];
+	
+	/* save the graphics context */
+    [NSGraphicsContext saveGraphicsState];
+    
+	/* use the shadow */
+    [theShadow set];
+	
+	/* fill the NSBezierPath */
+    [self stroke]; // was fill
+    
+	/* restore the graphics context */
+    [NSGraphicsContext restoreGraphicsState];
+    
+	/* done with the shadow */
+    [theShadow release];
+}
+
+@end
+
 
 @implementation OEGameControllerView
 
@@ -37,7 +72,8 @@
     {
         [self setControlZone:frame];
         lines = [[NSBezierPath bezierPath] retain];
-        [lines setLineWidth:2.0];
+		[lines setLineWidth:4.0];
+		[lines setLineCapStyle:NSRoundLineCapStyle];
     }
     return self;
 }
@@ -56,7 +92,8 @@
                      operation:NSCompositeSourceOver
                       fraction:1.0];
     
-    [[NSColor redColor] set];
+    [[[NSColor redColor] colorWithAlphaComponent:0.35] set];
+	[lines fillWithShadowAtDegrees:315 withDistance:3];
     [lines stroke];
 }
 
@@ -104,9 +141,6 @@
     button.size = BUTTON_SIZE;
     NSPoint middle = NSZeroPoint;
 	
-	// additional points for bezier curve path
-//	NSPoint control1, control2;
-	
     if(start.y <= NSMinY(drawRect))
     {
         button.origin.x = start.x - button.size.width / 2.0;
@@ -114,11 +148,6 @@
         start.y = button.origin.y + button.size.height / 2.0;
         middle.x = start.x;
         middle.y = NSMinY(drawRect) + button.size.height / 2.0;
-		
-//		control1.x = middle.x;
-//		control2.x = middle.x;
-//		control1.y = middle.y / 3.0;
-//		control2.y = control1.y * 2.0;
     }
     else if(start.x <= NSMinX(drawRect))
     {
@@ -127,12 +156,7 @@
         button.origin.y = start.y - button.size.height / 2.0;
         middle.x = NSMinX(drawRect);
         middle.y = start.y;
-		
-//		control1.y = middle.y;
-//		control2.y = middle.y;
-//		control1.x = middle.x / 3.0;
-//		control2.x = control1.x * 2.0;
-    }
+	}
     else if(start.x >= NSMaxX(drawRect))
     {
         button.origin.x = bounds.size.width - (button.size.width + 14.0);
@@ -140,11 +164,6 @@
         button.origin.y = start.y - button.size.height / 2.0;
         middle.x = NSMaxX(drawRect);
         middle.y = start.y;
-		
-//		control1.y = middle.y;
-//		control2.y = middle.y;
-//		control1.x = middle.x / 3.0;
-//		control2.x = control1.x * 2.0;
     }
     else if(start.y >= NSMaxY(drawRect))
     {
@@ -153,11 +172,6 @@
         start.y = button.origin.y + button.size.height / 2.0;
         middle.x = start.x;
         middle.y = NSMaxY(drawRect) - button.size.height / 2.0;
-
-//		control1.x = middle.x;
-//		control2.x = middle.x;
-//		control1.y = middle.y / 3.0;
-//		control2.y = control1.y * 2.0;
 	}
     
     NSButton *added = [[[NSButton alloc] initWithFrame:button] autorelease];
@@ -165,7 +179,6 @@
     [added setAction:@selector(selectInputControl:)];
     [added bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
     [added setBezelStyle:NSRoundRectBezelStyle];
-//    [added setBezelStyle:NSRoundedBezelStyle];
 	[added setButtonType:NSPushOnPushOffButton];
     [added setToolTip:aToolTip];
 //	[[added cell]  setControlSize:NSSmallControlSize];  
@@ -173,9 +186,9 @@
     [self addSubview:added];
     
     [lines moveToPoint:start];
-	//	[lines curveToPoint:end controlPoint1:control1 controlPoint2:control2];
 	[lines lineToPoint:middle];
 	[lines lineToPoint:end];
+	
 }
 
 @end

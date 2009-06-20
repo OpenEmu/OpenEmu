@@ -28,6 +28,10 @@
 #import <Cocoa/Cocoa.h>
 
 
+@interface NSBezierPath (Shadowing)
+- (void)fillWithShadowAtDegrees:(float) angle withDistance: (float) distance;
+@end
+
 @interface OEGameControllerView : NSView
 {
     NSImage *gameController;
