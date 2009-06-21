@@ -1212,7 +1212,7 @@
 				82444BA40F51256D007C171B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		828E659C0E8466A200B1860B /* Build configuration list for PBXNativeTarget "OpenEmuQC" */ = {
 			isa = XCConfigurationList;
@@ -1221,7 +1221,7 @@
 				828E659B0E8466A100B1860B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		828E65EC0E8467F600B1860B /* Build configuration list for PBXAggregateTarget "Copy & Build OpenEmuQC" */ = {
 			isa = XCConfigurationList;
@@ -1230,7 +1230,7 @@
 				828E65E50E8467E900B1860B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		82C9C97C0F080C810071460B /* Build configuration list for PBXAggregateTarget "Distribution" */ = {
 			isa = XCConfigurationList;
@@ -1239,7 +1239,7 @@
 				82C9C9710F080C800071460B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */ = {
 			isa = XCConfigurationList;
@@ -1248,7 +1248,7 @@
 				C05733C908A9546B00998B17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 		C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "OpenEmu" */ = {
 			isa = XCConfigurationList;
@@ -1257,7 +1257,7 @@
 				C05733CD08A9546B00998B17 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Debug;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
