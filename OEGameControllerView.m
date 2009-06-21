@@ -94,7 +94,6 @@
     
 	// open emu red
 	[[NSColor colorWithCalibratedRed:1.0 green:0.15 blue:0.1 alpha:0.6] set];
-//    [[[NSColor redColor] colorWithAlphaComponent:0.35] set];
 	[lines fillWithShadowAtDegrees:315 withDistance:3];
     [lines stroke];
 }

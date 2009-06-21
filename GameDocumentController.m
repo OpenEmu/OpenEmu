@@ -47,6 +47,7 @@
 
 @synthesize gameLoaded;
 @synthesize plugins, filterNames;
+@synthesize aboutCreditsPath;
 
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
@@ -77,6 +78,10 @@
      [NSDictionary dictionaryWithObjectsAndKeys:
       @"Linear Interpolation", @"filterName",
       [NSNumber numberWithFloat:1.0], @"volume", nil]];
+}
+
+- (void) applicationDidFinishLaunching:(NSNotification*)aNotification
+{
 }
 
 -(void)updateBundles: (id) sender
@@ -123,6 +128,11 @@
         [self updateFilterNames];
         
         [self OE_setupHIDManager];
+		
+		[self willChangeValueForKey:@"aboutCreditsPath"];
+		aboutCreditsPath = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
+		[aboutCreditsPath retain];
+		[self didChangeValueForKey:@"aboutCreditsPath"];
 	}
 	return self;
 }
@@ -136,6 +146,7 @@
     [plugins release];
     if(hidManager != NULL) CFRelease(hidManager);
     [deviceHandlers release];
+	[aboutCreditsPath release];
 	[super dealloc];
 }
 
@@ -153,6 +164,13 @@
         [preferences showWindow:sender];
     }
 }
+
+- (IBAction)openAboutWindow:(id)sender
+{
+	[aboutWindow center];
+	[aboutWindow orderFront:sender];
+}
+
 
 - (void)updateFilterNames
 {

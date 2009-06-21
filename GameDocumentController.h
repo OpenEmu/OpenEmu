@@ -44,11 +44,17 @@
     
     IOHIDManagerRef             hidManager;
     NSMutableArray             *deviceHandlers;
+	
+	// added vade
+	IBOutlet NSWindow* aboutWindow;
+	NSString* aboutCreditsPath;
 }
 
 @property(readonly) NSArray *filterNames;
 @property(readonly, retain) NSArray *plugins;
 @property(readwrite) BOOL gameLoaded;
+
+@property(readonly) NSString* aboutCreditsPath;
 
 - (GameDocument *)currentDocument;
 
@@ -63,5 +69,6 @@
 - (void)restartApplication;
 
 - (IBAction)openPreferenceWindow:(id)sender;
+- (IBAction)openAboutWindow:(id)sender;
 
 @end
