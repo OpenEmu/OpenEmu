@@ -168,7 +168,7 @@
 - (IBAction)openAboutWindow:(id)sender
 {
 	[aboutWindow center];
-	[aboutWindow orderFront:sender];
+	[aboutWindow makeKeyAndOrderFront:sender];
 }
 
 
