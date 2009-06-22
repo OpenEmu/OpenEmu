@@ -26,7 +26,6 @@
  */
 
 #import <Foundation/Foundation.h>
-//#import "GameCore.h"
 
 typedef struct OEEmulatorKey {
     NSUInteger player;
@@ -52,7 +51,7 @@ OE_INLINE OEEmulatorKey OEMakeEmulatorKey(NSUInteger player, NSUInteger key)
 typedef NSInteger     OEMapKey;
 typedef OEEmulatorKey OEMapValue;
 
-typedef struct _OEMap *OEMapRef;
+typedef struct __OEMap *OEMapRef;
 
 OEMapRef OEMapCreate(size_t capacity);
 void OEMapRelease(OEMapRef map);

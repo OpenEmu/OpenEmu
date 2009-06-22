@@ -39,7 +39,7 @@ typedef struct {
 
 typedef BOOL (*_OECompare)(OEMapValue, OEMapValue);
 
-typedef struct _OEMap {
+typedef struct __OEMap {
     size_t      capacity;
 	size_t      count;
 	OEMapEntry *entries;
