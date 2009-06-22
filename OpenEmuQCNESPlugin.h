@@ -27,20 +27,20 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class GameCore;
+@class GameCore, OECorePlugin;
+@class OEGameCoreController;
 @class GameAudio, GameBuffer;
 
 @interface OpenEmuQCNES : QCPlugIn
 {
 	// init stuff
-	NSBundle* bundle;
-	GameCore* gameCore;
-	GameAudio*  gameAudio;
-	GameBuffer* gameBuffer;
-	BOOL loadedRom;
-	BOOL romFinishedLoading;
-	BOOL hasNmtRam;
-	BOOL hasChrRom;
+	NSArray					*plugins;
+	NSArray					*validExtensions;
+	OEGameCoreController	*gameCoreController;
+	GameCore				*gameCore;
+	GameAudio				*gameAudio;
+	GameBuffer				*gameBuffer;
+	BOOL loadedRom, romFinishedLoading, hasNmtRam, hasChrRom;
 	NSMutableArray* persistantControllerData;
 	NSRecursiveLock * gameLock;
 }

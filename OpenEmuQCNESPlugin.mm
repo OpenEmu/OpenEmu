@@ -38,6 +38,7 @@
 #import "GameBuffer.h"
 #import "GameAudio.h"
 #import "GameCore.h"
+#import "OECorePlugin.h"
 
 #define	kQCPlugIn_Name				@"OpenEmu NES"
 #define	kQCPlugIn_Description		@"Wraps the OpenEmu emulator - play and manipulate the NES"
@@ -267,10 +268,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		persistantControllerData = [[NSMutableArray alloc] init];
 		[persistantControllerData retain];
 
-		NSBundle *theBundle = [NSBundle bundleForClass:[self class]];
-		NSDictionary *ourBundleInfo = [theBundle infoDictionary];
-		NSString *nesBundleDir = [[ourBundleInfo valueForKey:@"OENESBundlePath"] stringByStandardizingPath];
-		bundle = [NSBundle bundleWithPath:nesBundleDir];
+		//FIXME: maybe just get Nestopia
+		plugins = [[OECorePlugin allPlugins] retain];
+        validExtensions = [[OECorePlugin supportedTypeExtensions] retain];
 		loadedRom,romFinishedLoading = NO;
 	}
 	
@@ -571,12 +571,17 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	return YES; // hahah INSANITY NO VALIDATION AT ALL WOOOO WOO.
 }
 
-- (void) loadRom:(NSString*) romPath
+- (BOOL) loadRom:(NSString*) romPath
 {
 	NSString* theRomPath = [romPath stringByStandardizingPath];
 	BOOL isDir;
 
-	NSLog(@"New ROM path is: %@",theRomPath);
+	if(![theRomPath caseInsensitiveCompare:@"nes"]) {
+		NSLog(@"ROM is not .NES");
+		return NO;
+	}
+	
+	DLog(@"New ROM path is: %@",theRomPath);
 
 	if([[NSFileManager defaultManager] fileExistsAtPath:theRomPath isDirectory:&isDir] && !isDir)
 	{
@@ -589,7 +594,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			[gameAudio stopAudio];
 			[gameCore stopEmulation];
 			[gameCore release];
-			gameCore = nil;
 			[gameAudio release];
 			
 			DLog(@"released/cleaned up for new rom");
@@ -601,8 +605,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		hasNmtRam = NO;
 		
 		//load NES bundle
-		gameCore = [[[bundle classNamed:@"NESGameEmu"] alloc] init];
-
+		OECorePlugin *plugin = [self pluginForType:extension];
+        
+        gameCoreController = [plugin controller];
+        gameCore = [gameCoreController newGameCore];
+		
 		DLog(@"Loaded NES bundle. About to load rom...");
 		
 		loadedRom = [gameCore loadFileAtPath:theRomPath];
@@ -612,8 +619,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			NSLog(@"Loaded new Rom: %@", theRomPath);
 			[gameCore setupEmulation];
 			
-			//	gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
-			//	[gameBuffer setFilter:eFilter_None];
 			// audio!
 			gameAudio = [[GameAudio alloc] initWithCore:gameCore];
 			DLog(@"initialized audio");
@@ -623,7 +628,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 			DLog(@"About to start audio");
 			[gameAudio startAudio];
-			[gameAudio setVolume:[self inputVolume]];
+            [gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 			
 			DLog(@"finished loading/starting rom");			
 			
@@ -697,6 +702,14 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 - (void) refresh
 {
 //	[gameAudio advanceBuffer];
+}
+
+- (OECorePlugin *)pluginForType:(NSString *)extension
+{
+    for(OECorePlugin *plugin in plugins)
+        if([plugin supportsFileType:extension])
+            return plugin;
+    return nil;
 }
 
 - (void) saveState: (NSString *) fileName

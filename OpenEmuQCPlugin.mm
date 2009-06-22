@@ -438,7 +438,7 @@ static void _BufferReleaseCallback(const void* address, void* info)
             [gameCore release];
             [gameAudio release];
             
-            NSLog(@"released/cleaned up for new ROM");            
+            DLog(@"released/cleaned up for new ROM");            
         }
         loadedRom = NO;
         
@@ -449,17 +449,14 @@ static void _BufferReleaseCallback(const void* address, void* info)
         
         NSLog(@"Loaded bundle. About to load rom...");
         
-        [gameCore loadFileAtPath:theRomPath];
-        loadedRom = YES;
+        loadedRom = [gameCore loadFileAtPath:theRomPath];
         
         if(loadedRom)
         {
             NSLog(@"Loaded new Rom: %@", theRomPath);
             [gameCore setupEmulation];
             
-            //gameBuffer = [[GameBuffer alloc] initWithGameCore:gameCore];
-            //[gameBuffer setFilter:eFilter_None];
-            // audio!
+			// audio!
             gameAudio = [[GameAudio alloc] initWithCore:gameCore];
             NSLog(@"initialized audio");
             
