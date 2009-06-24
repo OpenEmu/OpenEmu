@@ -160,9 +160,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 - (void)switchView:(id)sender
 {
     // Figure out the new view, the old view, and the new size of the window
-	NSViewController *previousController = nil;
-        
-    previousController = currentViewController;
+	NSViewController *previousController = currentViewController;
     if(sender != nil) currentViewIdentifier = [sender itemIdentifier];
     [toolbar setSelectedItemIdentifier:currentViewIdentifier];
     
@@ -198,7 +196,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     [view setFrame:viewFrame];
 }
 
-- (NSViewController *)newViewControllerForIdentifier:(NSString*)identifier
+- (NSViewController *)newViewControllerForIdentifier:(NSString *)identifier
 {
     NSDictionary *desc = [preferencePanels objectForKey:identifier];
     

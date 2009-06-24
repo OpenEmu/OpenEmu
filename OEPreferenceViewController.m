@@ -44,6 +44,12 @@
     }
 }
 
+- (NSWindow *)window
+{
+    NSLog(@"%@ %s", self, __FUNCTION__);
+    return [[self view] window];
+}
+
 - (void)resetSettingBindings
 {
     [self resetBindingsWithKeys:[[self controller] usedSettingNames]];

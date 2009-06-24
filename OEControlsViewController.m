@@ -45,12 +45,13 @@
 
 - (IBAction)selectInputControl:(id)sender
 {
-    if([sender respondsToSelector:@selector(state)])
+    if(sender == nil || [sender respondsToSelector:@selector(state)])
     {
         NSInteger state = [sender state];
         
         [selectedControl setState:NSOffState];
-        [[sender window] makeFirstResponder:(state == NSOnState ? self : nil)];
+        [[sender window] makeFirstResponder:(state == NSOnState ? [self view] : nil)];
+        [[self view] setNextResponder:self];
         selectedControl = (state == NSOnState ? sender : nil);
     }
 }
@@ -108,8 +109,7 @@
     if(selectedControl != nil)
     {
         [self setValue:anEvent forKey:[self selectedKey]];
-        [selectedControl setState:NSOffState];
-        selectedControl = nil;
+        [self selectInputControl:nil];
     }
 }
 
