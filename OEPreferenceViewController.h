@@ -34,6 +34,5 @@
 
 - (void)resetBindingsWithKeys:(NSArray *)keys;
 - (void)resetSettingBindings;
-- (NSWindow *)window;
 
 @end
