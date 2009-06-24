@@ -49,6 +49,9 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
 {
     NSUInteger length1 = [self length];
     NSUInteger length2 = [aString length];
+    
+    if(length1 != length2) return NO;
+    
     NSUInteger i = 0;
     while(i < length1 && i < length2)
     {
