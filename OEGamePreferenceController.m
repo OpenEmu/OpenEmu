@@ -73,7 +73,7 @@
     return [[GameDocumentController sharedDocumentController] plugins];
 }
 
-- (void) dealloc
+- (void)dealloc
 {
     [selectedPlugins release];
     [preferencePanels release];
@@ -86,7 +86,7 @@
     [selectedPlugins release];
     NSUInteger index = [indexes firstIndex];
     
-    if(indexes != nil && index < [[self plugins] count] && index != NSNotFound)
+    if(indexes != nil && index < [[pluginController arrangedObjects] count] && index != NSNotFound)
     {
         currentPlugin = [[pluginController selectedObjects] objectAtIndex:0];
         selectedPlugins = [[NSIndexSet alloc] initWithIndex:index];

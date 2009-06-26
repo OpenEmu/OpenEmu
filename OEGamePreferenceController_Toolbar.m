@@ -169,7 +169,8 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     NSView *view = [currentViewController view];
     
 	NSRect newFrame = [self frameForNewContentViewFrame:[[currentViewController view] frame]];
-	
+    
+	/*
 	// Using an animation grouping because we may be changing the duration
 	[NSAnimationContext beginGrouping];
 	
@@ -182,6 +183,9 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 	else                   [[[[self window] animator] contentView] addSubview:view];
 	
 	[NSAnimationContext endGrouping];
+    */
+	if(previousController) [[[self window] contentView] replaceSubview:[previousController view] with:view];
+	else                   [[[self window] contentView] addSubview:view];
     
    	[[self window] setFrame:newFrame display:YES animate:YES];
     
@@ -206,14 +210,14 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     if(pluginViewName != nil)
     {
         self.availablePluginsPredicate = [NSPredicate predicateWithFormat:@"%@ IN availablePreferenceViewControllers", pluginViewName];
-        [pluginDrawer open];
+        [pluginDrawer open:self];
         if(currentPlugin == nil) ret = [[NSViewController alloc] initWithNibName:@"SelectPluginPreferences"
                                                                           bundle:[NSBundle mainBundle]];
         else ret = [currentPlugin newPreferenceViewControllerForKey:pluginViewName];
     }
     else
     {
-        [pluginDrawer close];
+        [pluginDrawer close:self];
         NSString *viewNibName = [desc objectForKey:OEToolbarNibNameKey];
         ret = [[NSViewController alloc] initWithNibName:viewNibName bundle:[NSBundle mainBundle]];
     }

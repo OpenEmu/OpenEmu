@@ -48,8 +48,9 @@
 {
     [gameCore setupEmulation];
     
-    [gameWindow makeFirstResponder:gameCore];
-    //[view setNextResponder:gameCore];
+    NSLog(@"%@", view);
+    [gameWindow makeFirstResponder:view];
+    [view setNextResponder:gameCore];
     
     //Setup Layer hierarchy
     rootLayer = [CALayer layer];
