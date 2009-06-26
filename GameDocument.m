@@ -48,7 +48,6 @@
 {
     [gameCore setupEmulation];
     
-    NSLog(@"%@", view);
     [gameWindow makeFirstResponder:view];
     [view setNextResponder:gameCore];
     

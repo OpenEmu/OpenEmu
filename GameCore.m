@@ -453,7 +453,6 @@ static NSTimeInterval currentTime()
 
 - (void)keyDown:(NSEvent *)anEvent
 {
-    NSLog(@"%s", __FUNCTION__);
 	OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keyCode], &key))
         [self pressEmulatorKey:key];
@@ -524,11 +523,6 @@ static NSTimeInterval currentTime()
     for(NSUInteger i = 1, count = [anEvent count]; i <= count; i++)
         if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | OEHatSwitchMask | i, &key))
             [self releaseEmulatorKey:key];
-}
-
-- (void)mouseDown:(NSEvent *)theEvent
-{
-    NSLog(@"%s %@", __FUNCTION__, theEvent);
 }
 
 @end
