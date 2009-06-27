@@ -89,11 +89,7 @@
 	for(OECorePlugin *plugin in plugins)
 	{
 		@try {
-			if( [[SUUpdater updaterForBundle:[plugin bundle]] feedURL] )
-			{
-				[[SUUpdater updaterForBundle:[plugin bundle]] resetUpdateCycle];
-                //[[SUUpdater updaterForBundle:[plugin bundle]] checkForUpdates:self];
-			}
+			[plugin updateBundle:self];
 		}
 		@catch (NSException * e) {
 			NSLog(@"Tried to update bundle without sparkle");
