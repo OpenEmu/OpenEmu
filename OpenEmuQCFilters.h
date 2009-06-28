@@ -26,14 +26,14 @@
  */
 
 #import <OpenGL/OpenGL.h>
-@class GameShader;
+@class OEGameShader;
 
 @interface OpenEmuQCFiltersPlugin : QCPlugIn
 {
-	GameShader* Scale2xPlus;
-	GameShader* Scale2xHQ;
-	GameShader* Scale4x;	
-	GameShader* Scale4xHQ;
+	OEGameShader* Scale2xPlus;
+	OEGameShader* Scale2xHQ;
+	OEGameShader* Scale4x;	
+	OEGameShader* Scale4xHQ;
 	
 	GLuint frameBuffer;
 }

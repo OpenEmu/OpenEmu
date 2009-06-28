@@ -30,7 +30,6 @@
 
 #import "OpenEmuQCPlugin.h"
 #import "GameCore.h"
-#import "GameBuffer.h"
 #import "GameAudio.h"
 #import "OECorePlugin.h"
 
