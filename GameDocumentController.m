@@ -33,6 +33,7 @@
 #import <Sparkle/Sparkle.h>
 #import <XADMaster/XADArchive.h>
 #import "OEGamePreferenceController.h"
+#import "NSAttributedString+Hyperlink.h"
 #import "OEFilterPlugin.h"
 #import "OECorePlugin.h"
 

@@ -1,14 +1,8 @@
-//
-//  NSAttributedString+Hyperlink.m
-//  OpenEmu
-//
-//  Created by Joshua Weinberg on 6/27/09.
-//  Copyright 2009 __MyCompanyName__. All rights reserved.
-//
+/*
+ Taken from apple example: http://developer.apple.com/qa/qa2006/qa1487.html
+ */
 
-@interface NSAttributedString (Hyperlink)
-+(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL;
-@end
+#import "NSAttributedString+Hyperlink.h"
 
 @implementation NSAttributedString (Hyperlink)
 +(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL
