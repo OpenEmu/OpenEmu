@@ -39,7 +39,7 @@
 
 @implementation GameCore
 
-@synthesize frameInterval, document, owner;
+@synthesize frameInterval, document, owner, frameFinished;
 
 static Class GameCoreClass = Nil;
 static NSTimeInterval defaultTimeInterval = 60.0;
@@ -129,9 +129,9 @@ static NSTimeInterval currentTime()
 {
 	if(![emulationThread isCancelled])
 	{
-		frameFinished = NO;
+		self.frameFinished = NO;
         [[self document] refresh];
-		frameFinished = YES;
+		self.frameFinished = YES;
 	}
 }
 
@@ -144,7 +144,7 @@ static NSTimeInterval currentTime()
 	{
 		[NSThread sleepForTimeInterval: (date += 1.0 / [self frameInterval]) - currentTime()];
 		[self executeFrame];
-		if(frameFinished)
+		if(self.frameFinished)
 			[self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
 	}
 	[pool drain];

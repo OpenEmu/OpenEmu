@@ -86,6 +86,7 @@ typedef NSInteger OEButton;
 
 @property(assign) OEGameCoreController *owner;
 @property(assign) GameDocument *document;
+@property(readwrite) BOOL frameFinished;
 @property NSTimeInterval frameInterval;
 
 - (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index;
