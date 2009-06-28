@@ -186,11 +186,11 @@
 	{
 		glTexCoord2f(0.0f, 0.0f);
 		glVertex2f(0.0f, 0.0f);		
-		glTexCoord2f([gameCore width], 0.0f );
+		glTexCoord2f([gameCore sourceWidth], 0.0f );
 		glVertex2f([self bounds].size.width, 0.0f);
-		glTexCoord2f([gameCore width], [gameCore height]);
+		glTexCoord2f([gameCore sourceWidth], [gameCore sourceHeight]);
 		glVertex2f([self bounds].size.width,[self bounds].size.height);
-		glTexCoord2f(0.0f, [gameCore height]);
+		glTexCoord2f(0.0f, [gameCore sourceHeight]);
 		glVertex2f(0.0f,[self bounds].size.height);
 	}
 	glEnd(); // Done Drawing The Quad

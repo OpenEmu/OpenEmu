@@ -207,6 +207,16 @@ static NSTimeInterval currentTime()
 	return 0;
 }
 
+- (NSUInteger)sourceWidth
+{
+	return [self width];
+}
+
+- (NSUInteger)sourceHeight
+{
+	return [self height];
+}
+
 - (const void *)videoBuffer
 {
 	[self doesNotImplementSelector:_cmd];
