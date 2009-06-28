@@ -45,6 +45,7 @@
 
 @implementation GameDocumentController
 
+@dynamic appVersion, projectURL;
 @synthesize gameLoaded;
 @synthesize plugins, filterNames;
 @synthesize aboutCreditsPath;
@@ -167,6 +168,23 @@
 	[aboutWindow makeKeyAndOrderFront:sender];
 }
 
+- (NSString*) appVersion
+{
+	return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
+}
+
+- (NSAttributedString*) projectURL
+{
+	
+	NSURL* url = [NSURL URLWithString:@"http://openemu.sourceforge.net"];
+	
+    NSMutableAttributedString* string = [[NSMutableAttributedString alloc] init];
+    [string appendAttributedString: [NSAttributedString hyperlinkFromString:@"http://openemu.sourceforge.net" withURL:url]];
+
+	return [string autorelease];
+//	return [[NSAttributedString alloc] initWithString:@"http://openemu.sourceforge.net" attributes:[NSDictionary dictionaryWithObject:@"http://openemu.sourceforge.net" forKey:NSLinkAttributeName ]];
+	
+}
 
 - (void)updateFilterNames
 {

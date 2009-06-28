@@ -53,7 +53,8 @@
 @property(readonly) NSArray *filterNames;
 @property(readonly, retain) NSArray *plugins;
 @property(readwrite) BOOL gameLoaded;
-
+@property(readonly) NSString* appVersion;
+@property(readonly) NSAttributedString* projectURL;
 @property(readonly) NSString* aboutCreditsPath;
 
 - (GameDocument *)currentDocument;
