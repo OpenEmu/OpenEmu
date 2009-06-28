@@ -44,6 +44,13 @@
     return @"GameDocument";
 }
 
+static void OE_bindGameLayer(OEGameLayer *gameLayer)
+{
+    NSUserDefaultsController *ctrl = [NSUserDefaultsController sharedUserDefaultsController];
+    [gameLayer bind:@"filterName"   toObject:ctrl withKeyPath:@"values.filterName" options:nil];
+    [gameLayer bind:@"vSyncEnabled" toObject:ctrl withKeyPath:@"values.vsync"      options:nil];
+}
+
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
     [gameCore setupEmulation];
@@ -53,17 +60,13 @@
     
     //Setup Layer hierarchy
     rootLayer = [CALayer layer];
-    
+        
     rootLayer.layoutManager = [CAConstraintLayoutManager layoutManager];
     rootLayer.backgroundColor = CGColorCreateGenericRGB(0.0f,0.0f, 0.0f, 1.0f);
     
     gameLayer = [OEGameLayer layer];
+    OE_bindGameLayer(gameLayer);
     
-    [gameLayer bind:@"filterName"
-           toObject:[NSUserDefaultsController sharedUserDefaultsController]
-        withKeyPath:@"values.filterName"
-            options:nil];
-	
     [gameLayer setOwner:self];
     
     [gameLayer setGameCore:gameCore];
@@ -140,11 +143,6 @@
 - (void)refresh
 {    
     [gameLayer display];
-}
-
-- (BOOL)isVSyncEnabled
-{
-    return [[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.vsync"] boolValue];	
 }
 
 - (BOOL)backgroundPauses

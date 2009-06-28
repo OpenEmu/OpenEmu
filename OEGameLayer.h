@@ -41,8 +41,10 @@
 	CGLContextObj  layerContext;
 	GLuint         gameTexture;
     BOOL           usesShader;
+    BOOL           vSyncEnabled;
 }
 
+@property BOOL vSyncEnabled;
 @property(assign) GameDocument *owner;
 @property(retain) NSString *filterName;
 @property(retain) GameCore *gameCore;

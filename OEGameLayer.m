@@ -35,6 +35,21 @@
 
 @synthesize gameCore, owner;
 
+- (BOOL)vSyncEnabled
+{
+    return vSyncEnabled;
+}
+
+- (void)setVSyncEnabled:(BOOL)value
+{
+    vSyncEnabled = value;
+    if(layerContext != nil)
+    {
+        GLint sync = value;
+        CGLSetParameter(layerContext, kCGLCPSwapInterval, &sync);
+    }
+}
+
 - (NSString *)filterName
 {
     return filterName;
@@ -78,12 +93,9 @@
 	CGLPixelFormatObj format; GLint numPixelFormats;
 	CGLChoosePixelFormat(attributes, &format, &numPixelFormats);
 
-	
 	layerContext = [super copyCGLContextForPixelFormat:format];
-	
-	// vertical sync
-	GLint sync = [owner isVSyncEnabled];
-	CGLSetParameter (layerContext, kCGLCPSwapInterval, &sync);
+    
+    [self setVSyncEnabled:vSyncEnabled];
 	
 	CGLSetCurrentContext(layerContext); 
 	CGLLockContext(layerContext);

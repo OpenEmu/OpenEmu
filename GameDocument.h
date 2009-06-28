@@ -49,10 +49,9 @@
 
 @property(readonly) GameCore *gameCore;
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
+@property(readonly) BOOL isFullScreen;
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes;
-- (BOOL)isFullScreen;
-- (BOOL)isVSyncEnabled;
 - (void)refresh;
 - (void)saveStateToFile:(NSString *)fileName;
 - (void)loadStateFromFile:(NSString *)fileName;
