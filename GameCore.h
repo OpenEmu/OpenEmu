@@ -78,6 +78,7 @@ typedef NSInteger OEButton;
     OEGameCoreController  *owner;
     OEMapRef               keyMap;
     OERingBuffer         **ringBuffers;
+	BOOL				   frameFinished;
 }
 
 + (NSTimeInterval)defaultTimeInterval;

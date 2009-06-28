@@ -128,18 +128,24 @@ static NSTimeInterval currentTime()
 - (void)refreshFrame
 {
 	if(![emulationThread isCancelled])
+	{
+		frameFinished = NO;
         [[self document] refresh];
+		frameFinished = YES;
+	}
 }
 
 - (void)frameRefreshThread:(id)anArgument;
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSTimeInterval date = currentTime();
+	frameFinished = YES;
 	while(![[NSThread currentThread] isCancelled])
 	{
-		[NSThread sleepForTimeInterval: (date += 1 / ([self frameInterval] ) ) - currentTime()];
+		[NSThread sleepForTimeInterval: (date += 1.0 / ([self frameInterval] ) ) - currentTime()];
 		[self executeFrame];
-		[self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
+		if( frameFinished )
+			[self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
 	}
 	[pool drain];
 }
