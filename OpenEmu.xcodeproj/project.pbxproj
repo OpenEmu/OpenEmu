@@ -294,8 +294,6 @@
 		829779350E743F3A00631240 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		829B9CAA0E7F215700452894 /* GameBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameBuffer.h; sourceTree = "<group>"; };
 		829B9CAB0E7F215700452894 /* GameBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameBuffer.m; sourceTree = "<group>"; };
-		829E02780E7C5631009F348B /* GameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameLayer.h; sourceTree = "<group>"; };
-		829E02790E7C5631009F348B /* GameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameLayer.m; sourceTree = "<group>"; };
 		829E02CF0E7C5882009F348B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
 		82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMap.h; sourceTree = "<group>"; };
 		82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMap.m; sourceTree = "<group>"; };
@@ -640,8 +638,6 @@
 			children = (
 				1B885E0D0F085EB200770B6D /* GameShader.h */,
 				1B885E0C0F085EB200770B6D /* GameShader.m */,
-				829E02780E7C5631009F348B /* GameLayer.h */,
-				829E02790E7C5631009F348B /* GameLayer.m */,
 				829B9CAA0E7F215700452894 /* GameBuffer.h */,
 				829B9CAB0E7F215700452894 /* GameBuffer.m */,
 			);

@@ -51,13 +51,17 @@
         filterName = [aName retain];
         if(layerContext != NULL)
         {
-            [owner setPauseEmulation:YES];
+            BOOL wasPaused = [owner isEmulationPaused];
+            if(!wasPaused) [owner setPauseEmulation:YES];
+            
             CGLLockContext(layerContext);
             [shader release];
             if(filterName != nil)
                 shader = [[OEFilterPlugin gameShaderWithFilterName:filterName forContext:layerContext] retain];
             CGLUnlockContext(layerContext);
-            [owner setPauseEmulation:NO];
+            
+            if(!wasPaused) [owner setPauseEmulation:NO];
+            else [owner refresh];
         }
     }
     
@@ -66,7 +70,6 @@
 
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat
 {
-    NSLog(@"%s: %s", __FUNCTION__, BOOL_STR([NSThread isMainThread]));
 	NSLog(@"initing GL context and shaders");
 	layerContext = [super copyCGLContextForPixelFormat:pixelFormat];
 	CGLSetCurrentContext(layerContext);
@@ -90,7 +93,7 @@
 	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	// this is 'optimal', and does not seem to cause issues with gamecores that output non RGBA, (ie just RGB etc), 
-//	glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, [gameCore width], [gameCore height], 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
+    //glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, [gameCore width], [gameCore height], 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
 
 	// this definitely works
 	glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);

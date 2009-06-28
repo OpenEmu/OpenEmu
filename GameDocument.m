@@ -152,6 +152,11 @@
     return [[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.fullScreen"] boolValue];
 }
 
+- (BOOL)isEmulationPaused
+{
+    return [gameCore isEmulationPaused];
+}
+
 - (void)setPauseEmulation:(BOOL)flag
 {
     [gameCore setPauseEmulation:flag];

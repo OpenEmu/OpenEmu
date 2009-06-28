@@ -95,8 +95,8 @@ typedef NSInteger OEButton;
 - (void)removeFromGameController;
 
 #pragma mark Execution
+@property(getter=isEmulationPaused) BOOL pauseEmulation;
 - (void)frameRefreshThread:(id)anArgument;
-- (void)setPauseEmulation:(BOOL)flag;
 - (void)setupEmulation;
 - (void)stopEmulation;
 - (void)startEmulation;

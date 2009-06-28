@@ -142,12 +142,17 @@ static NSTimeInterval currentTime()
 	frameFinished = YES;
 	while(![[NSThread currentThread] isCancelled])
 	{
-		[NSThread sleepForTimeInterval: (date += 1.0 / ([self frameInterval] ) ) - currentTime()];
+		[NSThread sleepForTimeInterval: (date += 1.0 / [self frameInterval]) - currentTime()];
 		[self executeFrame];
-		if( frameFinished )
+		if(frameFinished)
 			[self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
 	}
 	[pool drain];
+}
+
+- (BOOL)isEmulationPaused
+{
+    return emulationThread == nil || [emulationThread isCancelled];
 }
 
 - (void)setPauseEmulation:(BOOL)flag

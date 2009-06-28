@@ -40,7 +40,7 @@
 //
 //-------------------------------------------------------------------------
 
-DEPRECATED_ATTRIBUTE
+//DEPRECATED_ATTRIBUTE
 @interface GameShader : NSObject
 {
 	@private
