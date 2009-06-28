@@ -104,7 +104,6 @@
 {
 	CALayer* superlayer = self.superlayer;
 	
-	
 	NSSize aspect;
 	if([gameCore respondsToSelector:@selector(outputSize)])
 		aspect = [gameCore outputSize];
@@ -115,32 +114,10 @@
 		return CGSizeMake(superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height), superlayer.bounds.size.height);
 	else
 		return CGSizeMake( superlayer.bounds.size.width, superlayer.bounds.size.width * (aspect.height* 1.0/aspect.width));
-	
-	
-	
 }
 
 - (void)drawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
 {
-	CALayer* superlayer = self.superlayer;
-
-	
-/*	[CATransaction begin];
-	[CATransaction setValue:[NSNumber numberWithBool:YES] forKey:kCATransactionDisableActions];
-	
-	NSSize aspect;
-	if([gameCore respondsToSelector:@selector(outputSize)])
-		aspect = [gameCore outputSize];
-	else
-		aspect = NSMakeSize([gameCore width], [gameCore height]);
-	
-	if(superlayer.bounds.size.width * (aspect.width * 1.0/aspect.height) > superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height))
-		self.bounds = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height), superlayer.bounds.size.height);
-	else
-		self.bounds = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, superlayer.bounds.size.width, superlayer.bounds.size.width * (aspect.height* 1.0/aspect.width));
-	
-	[CATransaction commit];
-	*/
 	CGLSetCurrentContext(glContext);// (glContext);
 	CGLLockContext(glContext);
 	
