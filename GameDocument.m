@@ -102,7 +102,7 @@
     else
        aspect = NSMakeSize([gameCore width], [gameCore height]);
     [gameWindow setFrame: NSMakeRect(NSMinX(f), NSMinY(f), aspect.width, aspect.height + 22) display:NO];
-    
+    [gameWindow setContentAspectRatio:aspect];
     [rootLayer setNeedsLayout];
     
     [gameCore startEmulation];    
@@ -179,6 +179,13 @@
             }
         }
     }
+}
+
+- (void)windowDidResize:(NSNotification *)notification
+{
+	//adjust the window to zoom from the center
+	if ([gameWindow isZoomed])
+		[gameWindow center];
 }
 
 - (void)windowWillClose:(NSNotification *)notification

@@ -78,7 +78,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         NSUInteger count = [self soundBufferCount];
         ringBuffers = malloc(count * sizeof(OERingBuffer *));
         for(NSUInteger i = 0; i < count; i++)
-            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self soundBufferSize] * 8];
+            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self soundBufferSize] * 16];
         
         if(aDocument != nil) keyMap = OEMapCreate(32);
 	}
@@ -139,7 +139,7 @@ static NSTimeInterval currentTime()
 	{
 		[NSThread sleepForTimeInterval: (date += 1 / ([self frameInterval] ) ) - currentTime()];
 		[self executeFrame];
-		[self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:YES];
+		[self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
 	}
 	[pool drain];
 }
