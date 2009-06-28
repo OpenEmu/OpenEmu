@@ -71,13 +71,27 @@
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat
 {
 	NSLog(@"initing GL context and shaders");
-	layerContext = [super copyCGLContextForPixelFormat:pixelFormat];
-	CGLSetCurrentContext(layerContext);
+	
+	// ignore the passed in pixel format. We will make our own.
+	CGLPixelFormatAttribute attributes[] = { kCGLPFAAccelerated, kCGLPFADoubleBuffer, 0 };
+	
+	CGLPixelFormatObj format; GLint numPixelFormats;
+	CGLChoosePixelFormat(attributes, &format, &numPixelFormats);
+
+	
+	layerContext = [super copyCGLContextForPixelFormat:format];
+	
+	// vertical sync
+	GLint sync = 1;
+	CGLSetParameter (layerContext, kCGLCPSwapInterval, &sync);
+	
+	CGLSetCurrentContext(layerContext); 
 	CGLLockContext(layerContext);
     
     shader = [[OEFilterPlugin gameShaderWithFilterName:filterName forContext:layerContext] retain];
     
-	// create our texture 	glEnable(GL_TEXTURE_RECTANGLE_EXT);
+	// create our texture 
+	glEnable(GL_TEXTURE_RECTANGLE_EXT);
 	glGenTextures(1, &gameTexture);
 	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
 
@@ -93,8 +107,7 @@
 	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 	// this is 'optimal', and does not seem to cause issues with gamecores that output non RGBA, (ie just RGB etc), 
-    //glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, [gameCore width], [gameCore height], 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
-
+	//glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, [gameCore width], [gameCore height], 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
 	// this definitely works
 	glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
 		
