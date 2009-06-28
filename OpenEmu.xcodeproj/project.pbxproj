@@ -446,7 +446,6 @@
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
 			isa = PBXGroup;
 			children = (
-				C66DFA600F51C9550080AA28 /* GameCore framework */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
@@ -461,8 +460,11 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C66DFA600F51C9550080AA28 /* GameCore framework */,
 				828E64D00E84656900B1860B /* OpenEmuCore */,
 				828E64E10E84658A00B1860B /* OpenEmuQC */,
+				82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */,
+				82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -470,12 +472,10 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */,
 				82CAFBB70FEDAA3D00CCDC7E /* config.yaml */,
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
 				828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
-				82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";

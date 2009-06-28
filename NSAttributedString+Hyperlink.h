@@ -3,5 +3,5 @@
  */
 
 @interface NSAttributedString (Hyperlink)
-+(id)hyperlinkFromString:(NSString*)inString withURL:(NSURL*)aURL;
++ (id)hyperlinkFromString:(NSString *)inString withURL:(NSURL *)aURL;
 @end
