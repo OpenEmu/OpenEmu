@@ -163,6 +163,7 @@
 
 - (void)dealloc
 {
+	[self unbind:@"filterName"];
     [gameCore release];
     [shader release];
     [super dealloc];

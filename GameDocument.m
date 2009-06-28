@@ -63,6 +63,7 @@
            toObject:[NSUserDefaultsController sharedUserDefaultsController]
         withKeyPath:@"values.filterName"
             options:nil];
+	
     [gameLayer setOwner:self];
     
     [gameLayer setGameCore:gameCore];
