@@ -74,6 +74,27 @@
     
     shader = [[OEFilterPlugin gameShaderWithFilterName:filterName forContext:layerContext] retain];
     
+	// create our texture 	glEnable(GL_TEXTURE_RECTANGLE_EXT);
+	glGenTextures(1, &gameTexture);
+	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+
+	// with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?) 
+	glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore width] * [gameCore height] * (32 >> 3), [gameCore videoBuffer]); 
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
+	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+
+	// proper tex params.
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+	// this is 'optimal', and does not seem to cause issues with gamecores that output non RGBA, (ie just RGB etc), 
+	glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, [gameCore width], [gameCore height], 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
+
+	// this definitely works
+	//glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+		
 	CGLUnlockContext(layerContext);
     
     return layerContext;
@@ -115,8 +136,11 @@
 	// draw our quad, works on its own or with shader bound
 	[self renderQuad];
     
-	CGLFlushDrawable(glContext);
-	glDeleteTextures(1, &gameTexture);
+	glFlushRenderAPPLE();
+	
+	// no no no.
+	//CGLFlushDrawable(layerContext);
+	//glDeleteTextures(1, &gameTexture);
 	
 	CGLUnlockContext(glContext);
 }
@@ -144,13 +168,17 @@
 
 - (void)uploadGameBufferToTexture
 {
-	// generate our gamebuffer texture
-	glEnable( GL_TEXTURE_RECTANGLE_EXT );
-	gameTexture = 1;
-	glGenTextures(1, &gameTexture);
-	glBindTexture( GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-	glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
-}
+	// update our gamebuffer texture
+	glEnable(GL_TEXTURE_RECTANGLE_EXT);
+	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+	
+	// this is 'optimal'
+	glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
+
+	// this definitely works
+	//glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
+	
+ }
 
 - (void)renderQuad
 {	

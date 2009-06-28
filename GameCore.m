@@ -137,7 +137,7 @@ static NSTimeInterval currentTime()
 	NSTimeInterval date = currentTime();
 	while(![[NSThread currentThread] isCancelled])
 	{
-		[NSThread sleepForTimeInterval: (date += 1 / [self frameInterval]) - currentTime()];
+		[NSThread sleepForTimeInterval: (date += 1 / ([self frameInterval] ) ) - currentTime()];
 		[self executeFrame];
 		[self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:YES];
 	}
