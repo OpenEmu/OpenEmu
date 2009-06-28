@@ -78,6 +78,7 @@
 		374D1DDF0F1FDBA900B71EFC /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
 		3759EE2A0FE88871000E56D5 /* OpenEmuBase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
+		37E945AA0FF6A38E00688DD4 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
 		820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82444BA80F51259A007C171B /* GameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* GameCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -768,6 +769,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				37E945AA0FF6A38E00688DD4 /* dsa_pub.pem in Resources */,
 				1B56D6960F21397500C80694 /* Scale4x.vert in Resources */,
 				1B56D6970F21397500C80694 /* Scale4x.frag in Resources */,
 				1B56D6980F21397500C80694 /* Scale4xHQ.vert in Resources */,
@@ -830,7 +832,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This shell script simply copies the built plug-in to \"~/Library/Graphics/Quartz Composer Plug-Ins\" and overrides any previous version at that location\n\nmkdir -p \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins\"\nrm -rf \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin\"\ncp -R \"$BUILT_PRODUCTS_DIR/OpenEmuQC.plugin\" \"$USER_LIBRARY_DIR/Graphics/Quartz Composer Plug-Ins/\"\n";
+			shellScript = "# This shell script simply copies the built plug-in to \"/Library/Graphics/Quartz Composer Plug-Ins\" and overrides any previous version at that location\n\nmkdir -p \"/Library/Graphics/Quartz Composer Plug-Ins\"\nrm -rf \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin\"\ncp -R \"$BUILT_PRODUCTS_DIR/OpenEmuQC.plugin\" \"/Library/Graphics/Quartz Composer Plug-Ins/\"\n";
 		};
 		82BCA6010FEF092600DD3FC4 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
