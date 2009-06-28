@@ -216,12 +216,18 @@
 {
     [self setPauseEmulation:YES];
     if(![view isInFullScreenMode])
-        [view enterFullScreenMode:[[view window] screen]
+    {
+		[view enterFullScreenMode:[[view window] screen]
                       withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
                                    [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
                                    [NSNumber numberWithInt:0], NSFullScreenModeWindowLevel, nil]];
+		[NSCursor hide];
+	}
     else
-        [view exitFullScreenModeWithOptions:nil];
+	{
+		[view exitFullScreenModeWithOptions:nil];   		
+		[NSCursor unhide];
+	}
     [self setPauseEmulation:NO];
     [[view window] makeFirstResponder:gameCore];
 }
