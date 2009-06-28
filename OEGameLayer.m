@@ -82,7 +82,7 @@
 	layerContext = [super copyCGLContextForPixelFormat:format];
 	
 	// vertical sync
-	GLint sync = 1;
+	GLint sync = [owner isVSyncEnabled];
 	CGLSetParameter (layerContext, kCGLCPSwapInterval, &sync);
 	
 	CGLSetCurrentContext(layerContext); 

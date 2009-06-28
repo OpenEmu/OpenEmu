@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">9J61</string>
+		<string key="IBDocument.SystemVersion">9J3050</string>
 		<string key="IBDocument.InterfaceBuilderVersion">677</string>
 		<string key="IBDocument.AppKitVersion">949.46</string>
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
@@ -154,7 +154,7 @@
 									<object class="NSButton" id="663538325">
 										<reference key="NSNextResponder" ref="393695629"/>
 										<int key="NSvFlags">268</int>
-										<string key="NSFrame">{{15, 12}, {197, 18}}</string>
+										<string key="NSFrame">{{15, 10}, {197, 18}}</string>
 										<reference key="NSSuperview" ref="393695629"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="1007730964">
@@ -181,7 +181,7 @@
 									<object class="NSButton" id="787361605">
 										<reference key="NSNextResponder" ref="393695629"/>
 										<int key="NSvFlags">268</int>
-										<string key="NSFrame">{{15, 32}, {197, 18}}</string>
+										<string key="NSFrame">{{15, 30}, {197, 18}}</string>
 										<reference key="NSSuperview" ref="393695629"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="885351836">
@@ -190,6 +190,28 @@
 											<string key="NSContents">Pause Background Windows</string>
 											<reference key="NSSupport" ref="26"/>
 											<reference key="NSControlView" ref="787361605"/>
+											<int key="NSButtonFlags">1211912703</int>
+											<int key="NSButtonFlags2">130</int>
+											<reference key="NSNormalImage" ref="377036393"/>
+											<reference key="NSAlternateImage" ref="714176952"/>
+											<string key="NSAlternateContents"/>
+											<string key="NSKeyEquivalent"/>
+											<int key="NSPeriodicDelay">200</int>
+											<int key="NSPeriodicInterval">25</int>
+										</object>
+									</object>
+									<object class="NSButton" id="307344536">
+										<reference key="NSNextResponder" ref="393695629"/>
+										<int key="NSvFlags">268</int>
+										<string key="NSFrame">{{15, 50}, {197, 18}}</string>
+										<reference key="NSSuperview" ref="393695629"/>
+										<bool key="NSEnabled">YES</bool>
+										<object class="NSButtonCell" key="NSCell" id="892509803">
+											<int key="NSCellFlags">67239424</int>
+											<int key="NSCellFlags2">131072</int>
+											<string key="NSContents">Enable V-Sync</string>
+											<reference key="NSSupport" ref="26"/>
+											<reference key="NSControlView" ref="307344536"/>
 											<int key="NSButtonFlags">1211912703</int>
 											<int key="NSButtonFlags2">130</int>
 											<reference key="NSNormalImage" ref="377036393"/>
@@ -424,6 +446,26 @@
 					</object>
 					<int key="connectionID">68</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.vsync</string>
+						<reference key="source" ref="307344536"/>
+						<reference key="destination" ref="1067698991"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="307344536"/>
+							<reference key="NSDestination" ref="1067698991"/>
+							<string key="NSLabel">value: values.vsync</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.vsync</string>
+							<object class="NSDictionary" key="NSOptions">
+								<string key="NS.key.0">NSValidatesImmediately</string>
+								<reference key="NS.object.0" ref="5"/>
+							</object>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">76</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -513,10 +555,11 @@
 						<reference key="object" ref="255953169"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="663538325"/>
-							<reference ref="787361605"/>
 							<reference ref="815469223"/>
 							<reference ref="472098483"/>
+							<reference ref="307344536"/>
+							<reference ref="787361605"/>
+							<reference ref="663538325"/>
 						</object>
 						<reference key="parent" ref="1005"/>
 					</object>
@@ -594,6 +637,20 @@
 						<reference key="object" ref="623349105"/>
 						<reference key="parent" ref="527077905"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">71</int>
+						<reference key="object" ref="307344536"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="892509803"/>
+						</object>
+						<reference key="parent" ref="255953169"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">72</int>
+						<reference key="object" ref="892509803"/>
+						<reference key="parent" ref="307344536"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -621,6 +678,8 @@
 					<string>6.IBPluginDependency</string>
 					<string>69.IBPluginDependency</string>
 					<string>7.IBPluginDependency</string>
+					<string>71.IBPluginDependency</string>
+					<string>72.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
 					<string>9.IBPluginDependency</string>
 				</object>
@@ -629,13 +688,15 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilderKit</string>
 					<string>com.apple.InterfaceBuilderKit</string>
-					<string>{{335, 560}, {367, 296}}</string>
+					<string>{{335, 460}, {367, 296}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{628, 654}</string>
 					<string>{{217, 442}, {480, 272}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{357, 652}, {301, 20}}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -671,7 +732,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">70</int>
+			<int key="maxID">76</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -142,6 +142,11 @@
     [gameLayer display];
 }
 
+- (BOOL)isVSyncEnabled
+{
+    return [[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.vsync"] boolValue];	
+}
+
 - (BOOL)backgroundPauses
 {
     return [[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.backgroundPause"] boolValue];

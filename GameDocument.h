@@ -52,6 +52,7 @@
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes;
 - (BOOL)isFullScreen;
+- (BOOL)isVSyncEnabled;
 - (void)refresh;
 - (void)saveStateToFile:(NSString *)fileName;
 - (void)loadStateFromFile:(NSString *)fileName;
