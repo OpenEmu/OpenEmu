@@ -71,6 +71,7 @@
 		1B885E940F089F8A00770B6D /* Scale4xHQ.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E920F089F8A00770B6D /* Scale4xHQ.frag */; };
 		1B885EC20F08A13500770B6D /* Scale4x.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC00F08A13500770B6D /* Scale4x.frag */; };
 		1B885EC30F08A13500770B6D /* Scale4x.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC10F08A13500770B6D /* Scale4x.vert */; };
+		1B88931B0FF9267C00F86F00 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D60E8467AA00B1860B /* Quartz.framework */; };
 		1B8D4AEE0E874D5500C3C4F5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
 		1B8D4B010E874E6F00C3C4F5 /* GameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.m */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
@@ -103,7 +104,6 @@
 		8291666C0E8603B600493FD8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8291666B0E8603B600493FD8 /* IOKit.framework */; };
 		829779340E743F2A00631240 /* GameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.m */; };
 		829779360E743F3A00631240 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
-		829E02D00E7C5882009F348B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829E02CF0E7C5882009F348B /* QuartzCore.framework */; };
 		82AFA6690FDDC03500531EE3 /* OERingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AFA6670FDDC03500531EE3 /* OERingBuffer.h */; };
 		82AFA66A0FDDC03500531EE3 /* OERingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA6680FDDC03500531EE3 /* OERingBuffer.m */; };
 		82C434130EE393530037C54B /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82C434120EE393530037C54B /* icon.icns */; };
@@ -374,11 +374,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B88931B0FF9267C00F86F00 /* Quartz.framework in Frameworks */,
 				C63AF5A60FE41E90009856D4 /* OpenEmuBase.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				8283876E0E6C54E100A96E2C /* OpenGL.framework in Frameworks */,
 				829779360E743F3A00631240 /* AudioToolbox.framework in Frameworks */,
-				829E02D00E7C5882009F348B /* QuartzCore.framework in Frameworks */,
 				828ED4DD0E7D98D90059F397 /* XADMaster.framework in Frameworks */,
 				8291666C0E8603B600493FD8 /* IOKit.framework in Frameworks */,
 				82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */,

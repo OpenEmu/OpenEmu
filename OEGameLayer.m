@@ -34,7 +34,7 @@
 @implementation OEGameLayer
 
 @synthesize gameCore, owner;
-
+@synthesize docController;
 - (BOOL)vSyncEnabled
 {
     return vSyncEnabled;
@@ -81,6 +81,7 @@
     }
     
     usesShader = filterName != nil && ![filterName isEqualToString:@"None"];
+
 }
 
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat
@@ -96,10 +97,22 @@
     layerContext = [super copyCGLContextForPixelFormat:format];
     
     [self setVSyncEnabled:vSyncEnabled];
-    
+    	
     CGLSetCurrentContext(layerContext); 
     CGLLockContext(layerContext);
-    
+
+	// this will be responsible for our rendering... weee...
+
+    filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
+												pixelFormat:format
+												 colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
+												  // this key needs to be changed by a binding from the preferences.
+												composition:[[docController filterDictionary] valueForKey:@"CRT"]];
+
+												//composition:[[docController filterDictionary] valueForKey:@"Nearest Neighbor"]];
+	if (filterRenderer == nil)
+		NSLog(@"filter render is poop");
+			  
     shader = [[OEFilterPlugin gameShaderWithFilterName:filterName forContext:layerContext] retain];
     
     // create our texture 
@@ -146,6 +159,17 @@
 
 - (void)drawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
 {
+	// rendering time for QC filters..
+		time = [NSDate timeIntervalSinceReferenceDate];
+	
+	if(startTime == 0)
+	{
+		startTime = time;
+		time = 0;
+	}
+	else
+		time -= startTime;	
+	
     CGLSetCurrentContext(glContext);// (glContext);
     CGLLockContext(glContext);
     
@@ -153,19 +177,33 @@
     glViewport(0.0, 0.0, self.bounds.size.width, self.bounds.size.height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0.0,self.bounds.size.width, self.bounds.size.height, 0.0, 0.0, 1.0);
+	
+	// need to respect default coordinates for QC..
+	// so we turn this off for now
+	// glOrtho(0.0,self.bounds.size.width, self.bounds.size.height, 0.0, 0.0, 1.0);
     
-    glClear(GL_COLOR_BUFFER_BIT);//| GL_DEPTH_BUFFER_BIT);        // Clear The Screen And The Depth Buffer
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	
+    glClear(GL_COLOR_BUFFER_BIT);//| GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
     
     // update our gameBuffer texture
-    [self uploadGameBufferToTexture];
-    
-    // render based on selected shader and options.
-    if(usesShader) [self renderWithShader];
-    
-    // draw our quad, works on its own or with shader bound
-    [self renderQuad];
-    
+	[self uploadGameBufferToTexture];
+
+	// make a CIImage from our gameTexture
+	CGSize size = CGSizeMake([gameCore sourceWidth],[gameCore sourceHeight]);	 
+	//CGSize size = CGSizeMake([gameCore width],[gameCore height]);	 
+	CIImage* gameCIImage = [CIImage imageWithTexture:gameTexture size:size flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
+	
+	[filterRenderer setValue:gameCIImage forInputKey:@"OEImageInput"];	
+	[filterRenderer renderAtTime:time arguments:nil];
+	
+	// render based on selected shader and options.
+//	if(usesShader) [self renderWithShader];
+	
+	// draw our quad, works on its own or with shader bound
+//	[self renderQuad];
+
     glFlushRenderAPPLE();
     
     // no no no.
@@ -200,15 +238,18 @@
 
 - (void)uploadGameBufferToTexture
 {
-    // update our gamebuffer texture
-    glEnable(GL_TEXTURE_RECTANGLE_EXT);
-    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-    
-    // this is 'optimal'
-    //glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
+	// only if we have a new frame...
+	{
+		// update our gamebuffer texture
+		glEnable(GL_TEXTURE_RECTANGLE_EXT);
+		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+		
+		// this is 'optimal'
+		//glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
 
-    // this definitely works
-    glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
+		// this definitely works
+		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
+	}
 }
 
 - (void)renderQuad

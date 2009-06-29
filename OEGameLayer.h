@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <QuartzCore/QuartzCore.h>
+#import <Quartz/Quartz.h>
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/gl.h>
 
@@ -42,12 +42,23 @@
 	GLuint         gameTexture;
     BOOL           usesShader;
     BOOL           vSyncEnabled;
+	
+	// new stuff
+	QCRenderer*		filterRenderer;
+	NSDocumentController* docController;
+	
+	// for QCRenderer
+	NSTimeInterval startTime; // time for rendering, input to time based effects, sources, 
+	NSTimeInterval time;
+
 }
 
 @property BOOL vSyncEnabled;
 @property(assign) GameDocument *owner;
 @property(retain) NSString *filterName;
 @property(retain) GameCore *gameCore;
+@property(readwrite, retain) NSDocumentController* docController;
+
 
 - (void)uploadGameBufferToTexture;
 - (void)renderQuad;

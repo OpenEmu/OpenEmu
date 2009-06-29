@@ -65,6 +65,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     rootLayer.backgroundColor = CGColorCreateGenericRGB(0.0f,0.0f, 0.0f, 1.0f);
     
     gameLayer = [OEGameLayer layer];
+	[gameLayer setDocController:[GameDocumentController sharedDocumentController]];
     OE_bindGameLayer(gameLayer);
     
     [gameLayer setOwner:self];
@@ -206,6 +207,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameCore release];
     gameCore = nil;
     
+	[gameLayer setDocController:nil];
     GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
     [docControl setGameLoaded:NO];
 }

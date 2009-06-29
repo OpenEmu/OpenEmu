@@ -50,6 +50,7 @@
 @synthesize gameLoaded;
 @synthesize plugins, filterNames;
 @synthesize aboutCreditsPath;
+@synthesize filterDictionary;
 
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
@@ -80,10 +81,48 @@
      [NSDictionary dictionaryWithObjectsAndKeys:
       @"Linear Interpolation", @"filterName",
       [NSNumber numberWithFloat:1.0], @"volume", nil]];
+	
 }
 
 - (void) applicationDidFinishLaunching:(NSNotification*)aNotification
 {
+	// set our initial value for our filters dictionary
+	[self setFilterDictionary:[NSMutableDictionary new]];
+	
+	// load up our QC Compositions that will replace our filters.
+	
+	NSString* filtersLocation = @"/Library/Application Support/OpenEmu/Filters";
+	
+	NSDirectoryEnumerator * filterEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:filtersLocation];
+	NSString* compositionFile;
+	while (compositionFile = [filterEnumerator nextObject])
+	{
+		if([[compositionFile pathExtension] isEqualToString:@"qtz"])
+		{
+			NSLog(@"%@", compositionFile);
+			// init a QCComposition and read off its name from the attributes.
+			QCComposition* filterComposition = [QCComposition compositionWithFile:[filtersLocation stringByAppendingPathComponent:compositionFile]];
+			
+			// our key
+			NSString* nameKey;
+			
+			if([[filterComposition attributes] valueForKey:@"name"])
+			{ 
+				nameKey = [[filterComposition attributes] valueForKey:@"name"];
+			}
+			else 
+			{
+				nameKey = [compositionFile stringByDeletingPathExtension]; 
+			}
+			
+			// add it to our composition dictionary...
+			[filterDictionary setObject:filterComposition forKey:nameKey];
+		}
+	}
+	
+	NSLog(@"found filters: %@", filterDictionary);
+	
+	
 }
 
 -(void)updateBundles: (id) sender
