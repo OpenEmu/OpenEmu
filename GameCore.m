@@ -46,47 +46,43 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 + (NSTimeInterval)defaultTimeInterval
 {
-	return defaultTimeInterval;
+    return defaultTimeInterval;
 }
 + (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval
 {
-	defaultTimeInterval = aTimeInterval;
+    defaultTimeInterval = aTimeInterval;
 }
 
 + (void)initialize
 {
-	if(self == [GameCore class])
-	{
-		GameCoreClass = [GameCore class];
-	}
+    if(self == [GameCore class])
+    {
+        GameCoreClass = [GameCore class];
+    }
 }
 
 - (id)init
 {
-	// Used by QC plugins
-	return [self initWithDocument:nil];
+    // Used by QC plugins
+    return [self initWithDocument:nil];
 }
 
 - (id)initWithDocument:(GameDocument *)aDocument
 {
-	self = [super init];
-	if(self != nil)
-	{
-		document = aDocument;
-		frameSkip = 0;
-		frameCounter = 0;
-		frameInterval = [[self class] defaultTimeInterval];
+    self = [super init];
+    if(self != nil)
+    {
+        document = aDocument;
+        frameInterval = [[self class] defaultTimeInterval];
         tenFrameCounter = 10;
-		autoFrameSkipLastTime = 0;
-		frameskipadjust = 0;
         NSUInteger count = [self soundBufferCount];
         ringBuffers = malloc(count * sizeof(OERingBuffer *));
         for(NSUInteger i = 0; i < count; i++)
             ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self soundBufferSize] * 16];
         
         if(aDocument != nil) keyMap = OEMapCreate(32);
-	}
-	return self;
+    }
+    return self;
 }
 
 - (BOOL)acceptsFirstResponder
@@ -104,7 +100,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     NSLog(@"%s", __FUNCTION__);
     if(keyMap != NULL) 
         OEMapRelease(keyMap);
-	
+    
     [emulationThread release];
     [self removeFromGameController];
     
@@ -123,93 +119,88 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 #pragma mark Execution
 static NSTimeInterval currentTime()
 {
-	struct timeval t;
-	gettimeofday(&t, NULL);
-	return t.tv_sec + (t.tv_usec / 1000000.0);
+    struct timeval t;
+    gettimeofday(&t, NULL);
+    return t.tv_sec + (t.tv_usec / 1000000.0);
 }
 
 - (void)refreshFrame
 {
-	if(![emulationThread isCancelled])
-	{
-		self.frameFinished = NO;
+    if(![emulationThread isCancelled])
+    {
+        self.frameFinished = NO;
         [[self document] refresh];
-		self.frameFinished = YES;
-	}
+        self.frameFinished = YES;
+    }
 }
 
-- (void)calculateFrameSkip:(int) rate
+- (void)calculateFrameSkip:(NSUInteger)rate
 {
-	uint32 time = currentTime() * 1000;
-	//uint32 time = systemGetClock();
-	uint32 diff = time - autoFrameSkipLastTime;
-	int speed = 100;
-	if(diff)
-	{
-		speed = (1000/rate)/diff;
-	}
-	
-	if(speed >= 98) {
-		frameskipadjust++;
-		
-		if(frameskipadjust >= 3) {
-			frameskipadjust=0;
-			if(frameSkip > 0)
-				frameSkip--;
-		}
-	} else {
-		if(speed  < 80)
-			frameskipadjust -= (90 - speed)/5;
-		else if(frameSkip < 9)
-			frameskipadjust--;
-		
-		if(frameskipadjust <= -2) {
-			frameskipadjust += 2;
-			if(frameSkip < 9)
-				frameSkip++;
-		}
-	}
-	NSLog(@"Speed: %d", speed);
-	autoFrameSkipLastTime = time;	
+    NSUInteger time = currentTime() * 1000;
+    NSUInteger diff = time - autoFrameSkipLastTime;
+    int speed = 100;
+    if(diff == 0)
+    {
+        speed = (1000 / rate) / diff;
+    }
+    
+    if(speed >= 98)
+    {
+        frameskipadjust++;
+        
+        if(frameskipadjust >= 3)
+        {
+            frameskipadjust = 0;
+            if(frameSkip > 0) frameSkip--;
+        }
+    }
+    else
+    {
+        if(speed < 80)         frameskipadjust -= (90 - speed) / 5;
+        else if(frameSkip < 9) frameskipadjust--;
+        
+        if(frameskipadjust <= -2)
+        {
+            frameskipadjust += 2;
+            if(frameSkip < 9)  frameSkip++;
+        }
+    }
+    NSLog(@"Speed: %d", speed);
+    autoFrameSkipLastTime = time;    
 }
 
 - (void)frameRefreshThread:(id)anArgument;
 {
-	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-	NSTimeInterval date = currentTime();
-	frameFinished = YES;
-	willSkipFrame = NO;
-	frameSkip = 1;
-	while(![[NSThread currentThread] isCancelled])
-	{
-		date += 1.0f / [self frameInterval];
-		[NSThread sleepForTimeInterval: fmax(0.0f, date - currentTime())];
-	/*	tenFrameCounter--;
-		if(tenFrameCounter == 0)
-		{
-			tenFrameCounter = 10;
-			[self calculateFrameSkip: [self frameInterval] ];
-		}
-	*/	
-		willSkipFrame = (frameCounter != frameSkip);
-		
-		[self executeFrameSkippingFrame:willSkipFrame];
-		
-		if(! willSkipFrame )
-		{
-			[self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
-		}
-		else
-			NSLog(@"Skipping frame");
-		
-		if(frameCounter >= frameSkip)
-			frameCounter = 0;
-		else
-			frameCounter++;
-		
-
-	}
-	[pool drain];
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    NSTimeInterval date = currentTime();
+    frameFinished = YES;
+    willSkipFrame = NO;
+    frameSkip = 1;
+    while(![[NSThread currentThread] isCancelled])
+    {
+        date += 1.0f / [self frameInterval];
+        [NSThread sleepForTimeInterval: fmax(0.0f, date - currentTime())];
+        /*
+        tenFrameCounter--;
+        if(tenFrameCounter == 0)
+        {
+            tenFrameCounter = 10;
+            [self calculateFrameSkip: [self frameInterval] ];
+        }
+         */  
+        willSkipFrame = (frameCounter != frameSkip);
+        
+        [self executeFrameSkippingFrame:willSkipFrame];
+        
+        if(!willSkipFrame)
+            [self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
+        else
+            NSLog(@"Skipping frame");
+        
+        if(frameCounter >= frameSkip) frameCounter = 0;
+        else                          frameCounter++;
+    }
+    [pool drain];
 }
 
 - (BOOL)isEmulationPaused
@@ -219,8 +210,8 @@ static NSTimeInterval currentTime()
 
 - (void)setPauseEmulation:(BOOL)flag
 {
-	if(flag) [self stopEmulation];
-	else     [self startEmulation];
+    if(flag) [self stopEmulation];
+    else     [self startEmulation];
 }
 
 - (void)setupEmulation
@@ -229,94 +220,94 @@ static NSTimeInterval currentTime()
 
 - (void)stopEmulation
 {
-	[emulationThread cancel];
-	NSLog(@"Ending thread");
+    [emulationThread cancel];
+    NSLog(@"Ending thread");
 }
 
 - (void)startEmulation
 {
-	if([self class] != GameCoreClass)
-	{
-		if(emulationThread == nil || [emulationThread isCancelled])
-		{
-			[emulationThread release];
-			emulationThread = [[NSThread alloc] initWithTarget:self
-													  selector:@selector(frameRefreshThread:)
-														object:nil];
-			[emulationThread start];
-			NSLog(@"Starting thread");
-		}
-	}
+    if([self class] != GameCoreClass)
+    {
+        if(emulationThread == nil || [emulationThread isCancelled])
+        {
+            [emulationThread release];
+            emulationThread = [[NSThread alloc] initWithTarget:self
+                                                      selector:@selector(frameRefreshThread:)
+                                                        object:nil];
+            [emulationThread start];
+            NSLog(@"Starting thread");
+        }
+    }
 }
 
 #pragma mark ABSTRACT METHODS
 // Never call super on them.
 - (void)resetEmulation
 {
-	[self doesNotImplementSelector:_cmd];
+    [self doesNotImplementSelector:_cmd];
 }
 
 - (void)executeFrameSkippingFrame:(BOOL) skip
 {
-	[self executeFrame];	
+    [self executeFrame];    
 }
 
 - (void)executeFrame
 {
-	[self doesNotImplementSelector:_cmd];
+    [self doesNotImplementSelector:_cmd];
 }
 
 - (BOOL)loadFileAtPath:(NSString*)path
 {
-	[self doesNotImplementSelector:_cmd];
-	return NO;
+    [self doesNotImplementSelector:_cmd];
+    return NO;
 }
 
 #pragma mark Video
 - (NSUInteger)width
 {
-	[self doesNotImplementSelector:_cmd];
-	return 0;
+    [self doesNotImplementSelector:_cmd];
+    return 0;
 }
 
 - (NSUInteger)height
 {
-	[self doesNotImplementSelector:_cmd];
-	return 0;
+    [self doesNotImplementSelector:_cmd];
+    return 0;
 }
 
 - (NSUInteger)sourceWidth
 {
-	return [self width];
+    return [self width];
 }
 
 - (NSUInteger)sourceHeight
 {
-	return [self height];
+    return [self height];
 }
 
 - (const void *)videoBuffer
 {
-	[self doesNotImplementSelector:_cmd];
-	return NULL;
+    [self doesNotImplementSelector:_cmd];
+    return NULL;
 }
 
 - (GLenum)pixelFormat
 {
-	[self doesNotImplementSelector:_cmd];
-	return 0;
+    [self doesNotImplementSelector:_cmd];
+    return 0;
 }
 
 - (GLenum)pixelType
 {
-	[self doesNotImplementSelector:_cmd];
-	return 0;
+    [self doesNotImplementSelector:_cmd];
+    return 0;
 }
 
 - (GLenum)internalPixelFormat
 {
-	[self doesNotImplementSelector:_cmd];
-	return 0;
+    [self doesNotImplementSelector:_cmd];
+    return 0;
 }
 
 #pragma mark Audio
@@ -332,33 +323,33 @@ static NSTimeInterval currentTime()
 
 - (const void *)soundBuffer
 {
-	[self doesNotImplementSelector:_cmd];
-	return NULL;
+    [self doesNotImplementSelector:_cmd];
+    return NULL;
 }
 
 - (NSUInteger)channelCount
 {
-	[self doesNotImplementSelector:_cmd];
-	return 0;
+    [self doesNotImplementSelector:_cmd];
+    return 0;
 }
 
 - (NSUInteger)frameSampleCount
 {
-	[self doesNotImplementSelector:_cmd];
-	return 0;
+    [self doesNotImplementSelector:_cmd];
+    return 0;
 }
 
 
 - (NSUInteger)soundBufferSize
 {
-	[self doesNotImplementSelector:_cmd];
-	return 0;
+    [self doesNotImplementSelector:_cmd];
+    return 0;
 }
 
 - (NSUInteger)frameSampleRate
 {
-	[self doesNotImplementSelector:_cmd];
-	return 0;
+    [self doesNotImplementSelector:_cmd];
+    return 0;
 }
 
 #pragma mark Input Settings & Parsing
@@ -374,29 +365,29 @@ static NSTimeInterval currentTime()
 
 - (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
 {
-	[self doesNotImplementSelector:_cmd];
+    [self doesNotImplementSelector:_cmd];
     return (OEEmulatorKey){0, 0};
 }
 
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey
 {
-	[self doesNotImplementSelector:_cmd];
+    [self doesNotImplementSelector:_cmd];
 }
 
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey
 {
-	[self doesNotImplementSelector:_cmd];
+    [self doesNotImplementSelector:_cmd];
 }
 
 #pragma mark Input
 - (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton
 {
-	[self doesNotImplementSelector:_cmd];
+    [self doesNotImplementSelector:_cmd];
 }
 
 - (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton
 {
-	[self doesNotImplementSelector:_cmd];
+    [self doesNotImplementSelector:_cmd];
 }
 
 - (NSTrackingAreaOptions)mouseTrackingOptions
@@ -461,7 +452,7 @@ static NSTimeInterval currentTime()
 
 - (void)settingWasSet:(id)aValue forKey:(NSString *)keyName
 {
-	[self doesNotImplementSelector:_cmd];
+    [self doesNotImplementSelector:_cmd];
 }
 
 #define OEHatSwitchMask     (0x39 << 16)
@@ -541,14 +532,14 @@ static NSTimeInterval currentTime()
 
 - (void)keyDown:(NSEvent *)anEvent
 {
-	OEEmulatorKey key;
+    OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keyCode], &key))
         [self pressEmulatorKey:key];
 }
 
 - (void)keyUp:(NSEvent *)anEvent
 {
-	OEEmulatorKey key;
+    OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keyCode], &key))
         [self releaseEmulatorKey:key];
 }
@@ -558,7 +549,7 @@ static NSTimeInterval currentTime()
     NSUInteger value = HID_MASK | PAD_NUMBER;
     NSInteger dir  = [anEvent direction];
     NSInteger axis = value | [anEvent axis] << 16;
-	OEEmulatorKey key;
+    OEEmulatorKey key;
     
     if(dir == OEHIDDirectionNull)
     {
@@ -593,21 +584,21 @@ static NSTimeInterval currentTime()
 
 - (void)buttonUp:(OEHIDEvent *)anEvent
 {
-	OEEmulatorKey key;
+    OEEmulatorKey key;
     if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | [anEvent buttonNumber], &key))
         [self releaseEmulatorKey:key];
 }
 
 - (void)hatSwitchDown:(OEHIDEvent *)anEvent
 {
-	OEEmulatorKey key;
+    OEEmulatorKey key;
     if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | OEHatSwitchMask | [anEvent position], &key))
         [self pressEmulatorKey:key];
 }
 
 - (void)hatSwitchUp:(OEHIDEvent *)anEvent
 {
-	OEEmulatorKey key;
+    OEEmulatorKey key;
     for(NSUInteger i = 1, count = [anEvent count]; i <= count; i++)
         if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | OEHatSwitchMask | i, &key))
             [self releaseEmulatorKey:key];

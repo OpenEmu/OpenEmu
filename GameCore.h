@@ -72,19 +72,19 @@ typedef NSInteger OEButton;
 
 @interface GameCore : NSResponder
 {
-	NSThread              *emulationThread;
-	GameDocument          *document;
-	NSTimeInterval         frameInterval;
+    NSThread              *emulationThread;
+    GameDocument          *document;
+    NSTimeInterval         frameInterval;
     OEGameCoreController  *owner;
     OEMapRef               keyMap;
     OERingBuffer         **ringBuffers;
-	NSUInteger			   frameSkip;
-	NSUInteger			   frameCounter;
-	NSUInteger			   tenFrameCounter;
-	UInt32				   autoFrameSkipLastTime;
-	UInt32				   frameskipadjust;
-	BOOL				   frameFinished;
-	BOOL				   willSkipFrame;
+    NSUInteger             frameSkip;
+    NSUInteger             frameCounter;
+    NSUInteger             tenFrameCounter;
+    NSUInteger             autoFrameSkipLastTime;
+    NSUInteger             frameskipadjust;
+    BOOL                   frameFinished;
+    BOOL                   willSkipFrame;
 }
 
 + (NSTimeInterval)defaultTimeInterval;
@@ -100,6 +100,8 @@ typedef NSInteger OEButton;
 
 - (id)initWithDocument:(GameDocument *)document;
 - (void)removeFromGameController;
+
+- (void)calculateFrameSkip:(NSUInteger)rate;
 
 #pragma mark Execution
 @property(getter=isEmulationPaused) BOOL pauseEmulation;

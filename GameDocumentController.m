@@ -169,7 +169,26 @@
 	[aboutWindow makeKeyAndOrderFront:sender];
 }
 
-- (NSString*) appVersion
+- (void)addToVolume:(double)incr
+{
+    NSUserDefaultsController *controller = [NSUserDefaultsController sharedUserDefaultsController];
+    double value = [[controller valueForKeyPath:@"values.volume"] doubleValue];
+    value += incr;
+    if(value >= 0.0 && value <= 1.0)
+        [controller setValue:[NSNumber numberWithDouble:value] forKeyPath:@"values.volume"];
+}
+
+- (IBAction)volumeUp:(id)sender
+{
+    [self addToVolume:0.1];
+}
+
+- (IBAction)volumeDown:(id)sender
+{
+    [self addToVolume:-0.1];
+}
+
+- (NSString*)appVersion
 {
 	return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
 }
