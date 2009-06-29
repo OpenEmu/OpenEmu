@@ -73,8 +73,12 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 	if(self != nil)
 	{
 		document = aDocument;
+		frameSkip = 0;
+		frameCounter = 0;
 		frameInterval = [[self class] defaultTimeInterval];
-        
+        tenFrameCounter = 10;
+		autoFrameSkipLastTime = 0;
+		frameskipadjust = 0;
         NSUInteger count = [self soundBufferCount];
         ringBuffers = malloc(count * sizeof(OERingBuffer *));
         for(NSUInteger i = 0; i < count; i++)
@@ -119,9 +123,8 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 #pragma mark Execution
 static NSTimeInterval currentTime()
 {
-	struct timeval t = { 0, 0 };
-	struct timeval t2 = { 0, 0 };
-	gettimeofday(&t, &t2);
+	struct timeval t;
+	gettimeofday(&t, NULL);
 	return t.tv_sec + (t.tv_usec / 1000000.0);
 }
 
@@ -135,17 +138,76 @@ static NSTimeInterval currentTime()
 	}
 }
 
+- (void)calculateFrameSkip:(int) rate
+{
+	uint32 time = currentTime() * 1000;
+	//uint32 time = systemGetClock();
+	uint32 diff = time - autoFrameSkipLastTime;
+	int speed = 100;
+	if(diff)
+	{
+		speed = (1000/rate)/diff;
+	}
+	
+	if(speed >= 98) {
+		frameskipadjust++;
+		
+		if(frameskipadjust >= 3) {
+			frameskipadjust=0;
+			if(frameSkip > 0)
+				frameSkip--;
+		}
+	} else {
+		if(speed  < 80)
+			frameskipadjust -= (90 - speed)/5;
+		else if(frameSkip < 9)
+			frameskipadjust--;
+		
+		if(frameskipadjust <= -2) {
+			frameskipadjust += 2;
+			if(frameSkip < 9)
+				frameSkip++;
+		}
+	}
+	NSLog(@"Speed: %d", speed);
+	autoFrameSkipLastTime = time;	
+}
+
 - (void)frameRefreshThread:(id)anArgument;
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSTimeInterval date = currentTime();
 	frameFinished = YES;
+	willSkipFrame = NO;
+	frameSkip = 1;
 	while(![[NSThread currentThread] isCancelled])
 	{
-		[NSThread sleepForTimeInterval: (date += 1.0 / [self frameInterval]) - currentTime()];
-		[self executeFrame];
-		if(self.frameFinished)
+		date += 1.0f / [self frameInterval];
+		[NSThread sleepForTimeInterval: fmax(0.0f, date - currentTime())];
+	/*	tenFrameCounter--;
+		if(tenFrameCounter == 0)
+		{
+			tenFrameCounter = 10;
+			[self calculateFrameSkip: [self frameInterval] ];
+		}
+	*/	
+		willSkipFrame = (frameCounter != frameSkip);
+		
+		[self executeFrameSkippingFrame:willSkipFrame];
+		
+		if(! willSkipFrame )
+		{
 			[self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
+		}
+		else
+			NSLog(@"Skipping frame");
+		
+		if(frameCounter >= frameSkip)
+			frameCounter = 0;
+		else
+			frameCounter++;
+		
+
 	}
 	[pool drain];
 }
@@ -192,6 +254,11 @@ static NSTimeInterval currentTime()
 - (void)resetEmulation
 {
 	[self doesNotImplementSelector:_cmd];
+}
+
+- (void)executeFrameSkippingFrame:(BOOL) skip
+{
+	[self executeFrame];	
 }
 
 - (void)executeFrame

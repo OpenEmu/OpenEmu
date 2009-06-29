@@ -35,9 +35,9 @@
     if(self = [super initWithBundle:aBundle])
     {
         NSString *shaderSource = [aBundle pathForResource:[self displayName] ofType:@"frag"];
-        NSString *fragmentSource = [NSString stringWithContentsOfFile:shaderSource];
+        NSString *fragmentSource = [NSString stringWithContentsOfFile:shaderSource usedEncoding:nil error:nil];
         shaderSource = [aBundle pathForResource:[self displayName] ofType:@"vert"];
-        NSString *vertexSource = [NSString stringWithContentsOfFile:shaderSource];
+        NSString *vertexSource = [NSString stringWithContentsOfFile:shaderSource usedEncoding:nil error:nil];
         currentShader = [[OEGameShader alloc] initWithFragmentSource:fragmentSource vertexSource:vertexSource];
     }
     return self;

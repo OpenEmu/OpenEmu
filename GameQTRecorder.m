@@ -80,12 +80,12 @@
 	int width = [gameCore width];
 	int height = [gameCore height];
 	
-	NSBitmapImageRep *newBitmap = [[NSBitmapImageRep alloc]
+	NSBitmapImageRep *newBitmap = [[[NSBitmapImageRep alloc]
 								   initWithBitmapDataPlanes:NULL pixelsWide:width
 								   pixelsHigh:height bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES
 								   isPlanar:NO colorSpaceName:NSCalibratedRGBColorSpace
 								   bitmapFormat: NSAlphaNonpremultipliedBitmapFormat
-								   bytesPerRow:width*4 bitsPerPixel:32];
+								   bytesPerRow:width*4 bitsPerPixel:32] autorelease];
 	
 	memcpy([newBitmap bitmapData], [gameCore videoBuffer], width * height * 4 * sizeof(unsigned char));
 	
@@ -108,7 +108,7 @@
 
 	
 	
-	NSImage *image = [[NSImage alloc] initWithSize:[newBitmap size]];
+	NSImage *image = [[[NSImage alloc] initWithSize:[newBitmap size]] autorelease];
 	[image addRepresentation:newBitmap];
 
 	NSDictionary *myDict = nil;
@@ -133,10 +133,6 @@
 		NSLog(@"%@", [d valueForKey:@"name"]);
 	}
 	
-	// setup the proper export attributes in a dictionary
-	NSDictionary	*dict = nil;
-	dict = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
-									   forKey:QTMovieFlatten];
 	
 	[self writeMovieToFile:@"/Users/jweinberg/test.mov" withComponent:[[self availableComponents] objectAtIndex:9] withExportSettings:[self getExportSettings]];
 	[movie release];

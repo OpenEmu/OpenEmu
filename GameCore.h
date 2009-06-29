@@ -78,7 +78,13 @@ typedef NSInteger OEButton;
     OEGameCoreController  *owner;
     OEMapRef               keyMap;
     OERingBuffer         **ringBuffers;
+	NSUInteger			   frameSkip;
+	NSUInteger			   frameCounter;
+	NSUInteger			   tenFrameCounter;
+	UInt32				   autoFrameSkipLastTime;
+	UInt32				   frameskipadjust;
 	BOOL				   frameFinished;
+	BOOL				   willSkipFrame;
 }
 
 + (NSTimeInterval)defaultTimeInterval;
@@ -117,6 +123,7 @@ typedef NSInteger OEButton;
 // ============================================================================
 - (void)resetEmulation;
 - (void)executeFrame;
+- (void)executeFrameSkippingFrame:(BOOL) skip;
 - (void)refreshFrame;
 
 - (BOOL)loadFileAtPath:(NSString *)path;

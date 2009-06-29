@@ -63,7 +63,7 @@
         {
             worked = [OEPlugin pluginWithBundleAtPath:newPath type:type forceReload:YES] != nil;
             
-            if(!worked)
+            if(!worked && outError)
                 *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSExecutableLoadError userInfo:
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSString stringWithFormat:@"Couldn't load %@ plugin", path], NSLocalizedDescriptionKey,
