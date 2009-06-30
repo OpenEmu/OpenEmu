@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-// #import <OpenGL/CGLMacro.h>
+#import <OpenGL/CGLMacro.h>
 
 #import "OEFilterPlugin.h"
 #import "OEGameShader.h"
@@ -257,6 +257,28 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 	
 	// ()!@*)(!@*# *pant*
 	
+	// shaders
+	NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];	
+	
+	Scale2xPlus = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2XPlus" forContext:cgl_ctx];
+	Scale2xHQ = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2xHQ" forContext:cgl_ctx];
+	Scale4x = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale4x" forContext:cgl_ctx];
+	Scale4xHQ = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale4xHQ" forContext:cgl_ctx];
+	
+	/* 
+	 Scale2xPlus = [[OEFilterPlugin gameShaderWithFilterName:@"Scale2xPlus" forContext:cgl_ctx] retain];
+	 Scale2xHQ   = [[OEFilterPlugin gameShaderWithFilterName:@"Scale2xHQ"   forContext:cgl_ctx] retain];
+	 Scale4x     = [[OEFilterPlugin gameShaderWithFilterName:@"Scale4x"     forContext:cgl_ctx] retain];
+	 Scale4xHQ   = [[OEFilterPlugin gameShaderWithFilterName:@"Scale4xHQ"   forContext:cgl_ctx] retain];
+	 */
+	
+    if((!Scale2xPlus) || (!Scale2xHQ) || (!Scale4x) || (!Scale4xHQ))
+    {
+        NSLog(@"could not init shaders");
+        return NO;
+    }
+	
+	
 	// build up and destroy an FBO. If it works, we are good to go and dont do any other slow error checking for our main rendering, 
     // if we cant make the FBO, fail by returning NO.
 	
@@ -281,8 +303,8 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
         NSLog(@"Cannot create FBO");
 		NSLog(@"OpenGL error %04X", status);
 
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
         glDeleteFramebuffersEXT(1, &frameBuffer);
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
         glDeleteTextures(1, &name);
         CGLUnlockContext(cgl_ctx);
         return NO;
@@ -292,26 +314,6 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
     glDeleteTextures(1, &name);
 	
-	// shaders
-	NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];	
-	
-	Scale2xPlus = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2XPlus" forContext:cgl_ctx];
-	Scale2xHQ = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2xHQ" forContext:cgl_ctx];
-	Scale4x = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale4x" forContext:cgl_ctx];
-	Scale4xHQ = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale4xHQ" forContext:cgl_ctx];
-	
-	/* 
-	 Scale2xPlus = [[OEFilterPlugin gameShaderWithFilterName:@"Scale2xPlus" forContext:cgl_ctx] retain];
-	 Scale2xHQ   = [[OEFilterPlugin gameShaderWithFilterName:@"Scale2xHQ"   forContext:cgl_ctx] retain];
-	 Scale4x     = [[OEFilterPlugin gameShaderWithFilterName:@"Scale4x"     forContext:cgl_ctx] retain];
-	 Scale4xHQ   = [[OEFilterPlugin gameShaderWithFilterName:@"Scale4xHQ"   forContext:cgl_ctx] retain];
-	 */
-	
-    if((!Scale2xPlus) || (!Scale2xHQ) || (!Scale4x) || (!Scale4xHQ))
-    {
-        NSLog(@"could not init shaders");
-        return NO;
-    }
 	
     CGLUnlockContext(cgl_ctx);
     
