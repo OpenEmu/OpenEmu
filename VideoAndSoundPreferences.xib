@@ -2,7 +2,7 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.03">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">9J61</string>
+		<string key="IBDocument.SystemVersion">9J3050</string>
 		<string key="IBDocument.InterfaceBuilderVersion">677</string>
 		<string key="IBDocument.AppKitVersion">949.46</string>
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
@@ -320,24 +320,6 @@
 			<object class="NSUserDefaultsController" id="1067698991">
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
-			<object class="NSDictionaryController" id="467530624">
-				<bool key="NSEditable">YES</bool>
-				<bool key="NSAvoidsEmptySelection">YES</bool>
-				<bool key="NSPreservesSelection">YES</bool>
-				<bool key="NSSelectsInsertedObjects">YES</bool>
-				<bool key="NSFilterRestrictsInsertion">YES</bool>
-				<object class="NSArray" key="NSSortDescriptors">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<object class="NSSortDescriptor">
-						<string key="NSKey">key</string>
-						<bool key="NSAscending">YES</bool>
-						<string key="NSSelector">compare:</string>
-					</object>
-				</object>
-				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
-				<string key="NSInitialKey">key</string>
-				<string key="NSInitialValue">value</string>
-			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
 			<object class="NSMutableArray" key="connectionRecords">
@@ -432,35 +414,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentDictionary: delegate.filterDictionary</string>
-						<reference key="source" ref="467530624"/>
-						<reference key="destination" ref="1004"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="467530624"/>
-							<reference key="NSDestination" ref="1004"/>
-							<string key="NSLabel">contentDictionary: delegate.filterDictionary</string>
-							<string key="NSBinding">contentDictionary</string>
-							<string key="NSKeyPath">delegate.filterDictionary</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">94</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">content: arrangedObjects</string>
+						<string key="label">contentValues: delegate.filterNames</string>
 						<reference key="source" ref="472098483"/>
-						<reference key="destination" ref="467530624"/>
-						<object class="NSNibBindingConnector" key="connector" id="816921703">
+						<reference key="destination" ref="1004"/>
+						<object class="NSNibBindingConnector" key="connector" id="692964442">
 							<reference key="NSSource" ref="472098483"/>
-							<reference key="NSDestination" ref="467530624"/>
-							<string key="NSLabel">content: arrangedObjects</string>
-							<string key="NSBinding">content</string>
-							<string key="NSKeyPath">arrangedObjects</string>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">contentValues: delegate.filterNames</string>
+							<string key="NSBinding">contentValues</string>
+							<string key="NSKeyPath">delegate.filterNames</string>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">107</int>
+					<int key="connectionID">127</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -494,11 +460,11 @@
 									<reference ref="5"/>
 								</object>
 							</object>
-							<reference key="NSPreviousConnector" ref="816921703"/>
+							<reference key="NSPreviousConnector" ref="692964442"/>
 							<int key="NSNibBindingConnectorVersion">2</int>
 						</object>
 					</object>
-					<int key="connectionID">108</int>
+					<int key="connectionID">128</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -685,11 +651,6 @@
 						<reference key="object" ref="892509803"/>
 						<reference key="parent" ref="307344536"/>
 					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">93</int>
-						<reference key="object" ref="467530624"/>
-						<reference key="parent" ref="1002"/>
-					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -721,21 +682,19 @@
 					<string>72.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
 					<string>9.IBPluginDependency</string>
-					<string>93.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilderKit</string>
 					<string>com.apple.InterfaceBuilderKit</string>
-					<string>{{87, 556}, {367, 296}}</string>
+					<string>{{87, 460}, {367, 296}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{628, 654}</string>
 					<string>{{217, 442}, {480, 272}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{357, 652}, {301, 20}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -773,7 +732,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">108</int>
+			<int key="maxID">128</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -86,43 +86,7 @@
 
 - (void) applicationDidFinishLaunching:(NSNotification*)aNotification
 {
-	// set our initial value for our filters dictionary
-	[self setFilterDictionary:[NSMutableDictionary new]];
-	
-	// load up our QC Compositions that will replace our filters.
-	
-	NSString* filtersLocation = @"/Library/Application Support/OpenEmu/Filters";
-	
-	NSDirectoryEnumerator * filterEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:filtersLocation];
-	NSString* compositionFile;
-	while (compositionFile = [filterEnumerator nextObject])
-	{
-		if([[compositionFile pathExtension] isEqualToString:@"qtz"])
-		{
-			NSLog(@"%@", compositionFile);
-			// init a QCComposition and read off its name from the attributes.
-			QCComposition* filterComposition = [QCComposition compositionWithFile:[filtersLocation stringByAppendingPathComponent:compositionFile]];
-			
-			// our key
-			NSString* nameKey;
-			
-			if([[filterComposition attributes] valueForKey:@"name"])
-			{ 
-				nameKey = [[filterComposition attributes] valueForKey:@"name"];
-			}
-			else 
-			{
-				nameKey = [compositionFile stringByDeletingPathExtension]; 
-			}
-			
-			// add it to our composition dictionary...
-			[filterDictionary setObject:filterComposition forKey:nameKey];
-		}
-	}
-	
-	NSLog(@"found filters: %@", filterDictionary);
-	
-	
+
 }
 
 -(void)updateBundles: (id) sender
@@ -161,6 +125,44 @@
         [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
         [[OEFilterPlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
         
+		// set our initial value for our filters dictionary
+		[self setFilterDictionary:[NSMutableDictionary new]];
+		
+		// load up our QC Compositions that will replace our filters.
+		
+		NSString* filtersLocation = @"/Library/Application Support/OpenEmu/Filters";
+		
+		NSDirectoryEnumerator * filterEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:filtersLocation];
+		NSString* compositionFile;
+		while (compositionFile = [filterEnumerator nextObject])
+		{
+			if([[compositionFile pathExtension] isEqualToString:@"qtz"])
+			{
+				NSLog(@"%@", compositionFile);
+				// init a QCComposition and read off its name from the attributes.
+				QCComposition* filterComposition = [QCComposition compositionWithFile:[filtersLocation stringByAppendingPathComponent:compositionFile]];
+				
+				// our key
+				NSString* nameKey;
+				
+				if([[filterComposition attributes] valueForKey:@"name"])
+				{ 
+					nameKey = [[filterComposition attributes] valueForKey:@"name"];
+				}
+				else 
+				{
+					nameKey = [compositionFile stringByDeletingPathExtension]; 
+				}
+				
+				// add it to our composition dictionary...
+				[filterDictionary setObject:filterComposition forKey:nameKey];
+			}
+		}
+		
+		NSLog(@"found filters: %@", filterDictionary);
+		
+		
+		
         [self updateValidExtensions];
         [self updateFilterNames];
         
@@ -249,10 +251,11 @@
 {
     [self willChangeValueForKey:@"filterNames"];
     [filterNames release];
-    NSArray *filterPlugins = [OEFilterPlugin allPlugins];
-    filterNames = [[NSMutableArray alloc] initWithObjects:@"Linear Interpolation", @"Nearest Neighbor", nil];
-    for(OEFilterPlugin *p in filterPlugins)
-        [(NSMutableArray *)filterNames addObject:[p displayName]];
+   // NSArray *filterPlugins = [OEFilterPlugin allPlugins];
+    filterNames = [[NSMutableArray alloc] initWithArray:[filterDictionary allKeys]];
+	//[[NSMutableArray alloc] initWithObjects:@"Linear Interpolation", @"Nearest Neighbor", nil];
+//    for(OEFilterPlugin *p in filterPlugins)
+//      [(NSMutableArray *)filterNames addObject:[p displayName]];
     [self didChangeValueForKey:@"filterNames"];
 }
 
