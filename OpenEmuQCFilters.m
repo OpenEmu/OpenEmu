@@ -47,7 +47,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 }
 
 // our render setup
-static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, OEGameShader* shader)
+static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, v002Shader* shader)
 {
     CGLLockContext(cgl_ctx);
     
@@ -104,7 +104,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
         glUseProgramObjectARB([shader programObject]);
         
         // set up shader variables
-        glUniform1iARB([shader uniformLocationForName:"OGL2Texture"], 0);    // texture        
+        glUniform1iARB([shader getUniformLocation:"OGL2Texture"], 0);    // texture        
     
         glBegin(GL_QUADS);    // Draw A Quad
         {
@@ -251,14 +251,27 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     CGLContextObj cgl_ctx = [context CGLContextObj];
     CGLLockContext(cgl_ctx);
 
-    //NSLog(@"Quartz Composer: gl context when attempting to compile shader: %p", cgl_ctx);
-
+	// WHY LOAD THE SHADERS FROM THE FUCKING OEFILTERS WHEN THE FUCKING SHADERS
+	// ARE IN THE FUCKING QCPLUGINS RESOURCES FOLDER, LOCAL TO THE FUCKING
+	// BUNDLE SO IF SOMONE COPIES IT THEY DONT BREAK EVERYRTHING????
+	
+	// ()!@*)(!@*# *pant*
+	
     // shaders
+	NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];	
+	
+	Scale2xPlus = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2xPlus" forContext:cgl_ctx];
+	Scale2xHQ = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2xHQ" forContext:cgl_ctx];
+	Scale4x = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale4x" forContext:cgl_ctx];
+	Scale4xHQ = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale4xHQ" forContext:cgl_ctx];
+
+	/* 
     Scale2xPlus = [[OEFilterPlugin gameShaderWithFilterName:@"Scale2xPlus" forContext:cgl_ctx] retain];
     Scale2xHQ   = [[OEFilterPlugin gameShaderWithFilterName:@"Scale2xHQ"   forContext:cgl_ctx] retain];
     Scale4x     = [[OEFilterPlugin gameShaderWithFilterName:@"Scale4x"     forContext:cgl_ctx] retain];
     Scale4xHQ   = [[OEFilterPlugin gameShaderWithFilterName:@"Scale4xHQ"   forContext:cgl_ctx] retain];
-
+	*/
+	
     if((!Scale2xPlus) || (!Scale2xHQ) || (!Scale4x) || (!Scale4xHQ))
     {
         NSLog(@"could not init shaders");
@@ -323,7 +336,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     NSRect bounds;
     int multiplier;
 
-    OEGameShader* selectedShader;
+    v002Shader* selectedShader;
     switch (self.inputScaler) {
         case 0:
             {
