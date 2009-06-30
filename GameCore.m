@@ -194,8 +194,8 @@ static NSTimeInterval currentTime()
         
         if(!willSkipFrame)
             [self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
-        else
-            NSLog(@"Skipping frame");
+        //else
+          //  NSLog(@"Skipping frame");
         
         if(frameCounter >= frameSkip) frameCounter = 0;
         else                          frameCounter++;
