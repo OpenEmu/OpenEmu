@@ -74,6 +74,7 @@
 		1B88931B0FF9267C00F86F00 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D60E8467AA00B1860B /* Quartz.framework */; };
 		1B8D4AEE0E874D5500C3C4F5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
 		1B8D4B010E874E6F00C3C4F5 /* GameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.m */; };
+		1BA788FF0FF9C95A007CE5DB /* v002Shader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* v002Shader.m */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */; };
 		374D1DDF0F1FDBA900B71EFC /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
@@ -249,6 +250,8 @@
 		1B885E920F089F8A00770B6D /* Scale4xHQ.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale4xHQ.frag; sourceTree = "<group>"; };
 		1B885EC00F08A13500770B6D /* Scale4x.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale4x.frag; sourceTree = "<group>"; };
 		1B885EC10F08A13500770B6D /* Scale4x.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale4x.vert; sourceTree = "<group>"; };
+		1BA788FD0FF9C95A007CE5DB /* v002Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = v002Shader.h; sourceTree = "<group>"; };
+		1BA788FE0FF9C95A007CE5DB /* v002Shader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = v002Shader.m; sourceTree = "<group>"; };
 		1DDD582B0DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDocument.m; sourceTree = "<group>"; };
 		2A37F4AEFDCFA73011CA2CEA /* GameDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDocument.h; sourceTree = "<group>"; };
@@ -556,6 +559,8 @@
 		828E64E10E84658A00B1860B /* OpenEmuQC */ = {
 			isa = PBXGroup;
 			children = (
+				1BA788FD0FF9C95A007CE5DB /* v002Shader.h */,
+				1BA788FE0FF9C95A007CE5DB /* v002Shader.m */,
 				1B56D6880F21340700C80694 /* OpenEmuQCFilters.h */,
 				1B56D6870F21340700C80694 /* OpenEmuQCFilters.m */,
 				37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */,
@@ -894,6 +899,7 @@
 				C66DF0B20FEC38C2007E3A20 /* OECorePlugin.m in Sources */,
 				C6F55B6D0FF7989500AFB04B /* OEFilterPlugin.m in Sources */,
 				C6F55B700FF798AD00AFB04B /* OEGameShader.m in Sources */,
+				1BA788FF0FF9C95A007CE5DB /* v002Shader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
