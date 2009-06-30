@@ -29,7 +29,7 @@
 #import "OEFilterPlugin.h"
 #import "GameCore.h"
 #import "GameDocument.h"
-#import "OEGameShader.h"
+//#import "OEGameShader.h"
 
 @implementation OEGameLayer
 
@@ -57,6 +57,7 @@
 
 - (void)setFilterName:(NSString *)aName
 {
+	NSLog(@"setting filter name");
 	if(filterName != nil)
 	{
 		[filterName release];
@@ -67,13 +68,24 @@
 	// since we changed the filtername, if we have a context (ie we are active) lets make a new QCRenderer...
 	if(layerContext != NULL)
 	{
-		CGLContextObj cgl_ctx = layerContext;
-		CGLLockContext(cgl_ctx);
+		CGLSetCurrentContext(layerContext);
+		CGLLockContext(layerContext);
+			
+		if(filterRenderer != nil)
+		{
+			NSLog(@"releasing old filterRenderer");
+
+			[filterRenderer release];
+			filterRenderer = nil;
+		}	
+		
+		NSLog(@"making new filter renderer");
 		filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
 													pixelFormat:CGLGetPixelFormat(layerContext)
 													 colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
 													composition:[[docController filterDictionary] valueForKey:filterName]];
-		CGLUnlockContext(cgl_ctx);
+		
+		CGLUnlockContext(layerContext);
 	}
 }
 
@@ -82,33 +94,29 @@
     NSLog(@"initing GL context and shaders");
     
     // ignore the passed in pixel format. We will make our own.
-    CGLPixelFormatAttribute attributes[] = { kCGLPFAAccelerated, kCGLPFADoubleBuffer, 0 };
+ 
+	layerContext = [super copyCGLContextForPixelFormat:pixelFormat];
     
-    CGLPixelFormatObj format; GLint numPixelFormats;
-    CGLChoosePixelFormat(attributes, &format, &numPixelFormats);
-
-    layerContext = [super copyCGLContextForPixelFormat:format];
-    
+	// we need to hold on to this for later.
+	CGLRetainContext(layerContext);
+	
     [self setVSyncEnabled:vSyncEnabled];
     	
     CGLSetCurrentContext(layerContext); 
     CGLLockContext(layerContext);
 
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+
 	// this will be responsible for our rendering... weee...
-
-    filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
-												pixelFormat:format
+	filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
+												pixelFormat:CGLGetPixelFormat(layerContext)
 												 colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
-												  // We need to get the default value.
+											  // We need to get the default value.
 												composition:[[docController filterDictionary] valueForKey:filterName]];
-
-
 	
 	if (filterRenderer == nil)
-		NSLog(@"filter render is poop");
-			  
-   // shader = [[OEFilterPlugin gameShaderWithFilterName:filterName forContext:layerContext] retain];
-    
+		NSLog(@"failed to creare our filter QCRender");
+	
     // create our texture 
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glGenTextures(1, &gameTexture);
@@ -131,7 +139,12 @@
   
 	// this definitely works
     glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
-        
+	
+	// unset our client storage options storage
+	// these fucks were causing our FBOs to fail.
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
+	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+
     CGLUnlockContext(layerContext);
     
     return layerContext;
@@ -153,6 +166,16 @@
         return CGSizeMake( superlayer.bounds.size.width, superlayer.bounds.size.width * (aspect.height* 1.0/aspect.width));
 }
 
+- (BOOL)canDrawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
+{
+	// im not sure exactly how the frameFinished stuff works.
+	// im tempted to say we should always return yes, 
+	// and just only upload a video buffer texture
+	// if frameFinished is true, etc.
+	
+	return [gameCore frameFinished];
+}
+
 - (void)drawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
 {
 	// rendering time for QC filters..
@@ -169,55 +192,44 @@
     CGLSetCurrentContext(glContext);// (glContext);
     CGLLockContext(glContext);
     
-    glViewport(0.0, 0.0, self.bounds.size.width, self.bounds.size.height);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-	
-	// need to respect default coordinates for QC..
-	// so we turn this off for now
-	// glOrtho(0.0,self.bounds.size.width, self.bounds.size.height, 0.0, 0.0, 1.0);
-    
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	
 	// our filters always clear, so we dont. Saves us an expensive buffer setting.
-	// glClearColor(0.0, 0.0, 0.0, 0.0);
-    // glClear(GL_COLOR_BUFFER_BIT);//| GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
+	glClearColor(1.0, 0.0, 0.0, 1.0);
+	glClear(GL_COLOR_BUFFER_BIT);//| GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
     
     // update our gameBuffer texture
 	[self uploadGameBufferToTexture];
 
 	// make a CIImage from our gameTexture
 	CGSize size = CGSizeMake([gameCore sourceWidth],[gameCore sourceHeight]);	 
-	//CGSize size = CGSizeMake([gameCore width],[gameCore height]);	 
 	CIImage* gameCIImage = [CIImage imageWithTexture:gameTexture size:size flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
 	
-	[filterRenderer setValue:gameCIImage forInputKey:@"OEImageInput"];	
-	[filterRenderer renderAtTime:time arguments:nil];
-	
+	if(filterRenderer != nil)
+	{
+		[filterRenderer setValue:gameCIImage forInputKey:@"OEImageInput"];	
+		[filterRenderer renderAtTime:time arguments:nil];
+	}
 	// render based on selected shader and options.
 //	if(usesShader) [self renderWithShader];
 	
 	// draw our quad, works on its own or with shader bound
 //	[self renderQuad];
+    
+    // super calls flush for us.
+	[super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
 
-    glFlushRenderAPPLE();
-    
-    // no no no.
-    //CGLFlushDrawable(layerContext);
-    //glDeleteTextures(1, &gameTexture);
-    
-    CGLUnlockContext(glContext);
+	CGLUnlockContext(glContext);
 }
 
 - (void)releaseCGLContext:(CGLContextObj)glContext
 {
-    CGLSetCurrentContext(layerContext);
-    CGLLockContext(layerContext);
+    CGLSetCurrentContext(glContext);
+    CGLLockContext(glContext);
     
-    [shader setShaderContext:NULL];
+   // [shader setShaderContext:NULL];
+	
+	[filterRenderer release];
     
-    CGLUnlockContext(layerContext);    
+    CGLUnlockContext(glContext);    
     
     NSLog(@"deleted GL context");
     
@@ -228,8 +240,11 @@
 {
     [self unbind:@"filterName"];
     [self unbind:@"vSyncEnabled"];
+
+	CGLReleaseContext(layerContext);
+	[docController release];
     [gameCore release];
-    [shader release];
+   // [shader release];
     [super dealloc];
 }
 
@@ -245,6 +260,8 @@
 	// this definitely works
 	glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
 }
+
+// below is old and not useful anymore.
 
 - (void)renderQuad
 {    
@@ -267,7 +284,7 @@
 
 - (void)renderWithShader
 {
-    // force nearest neighbor filtering for our samplers to work in the shader...
+ /*   // force nearest neighbor filtering for our samplers to work in the shader...
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     
@@ -279,6 +296,7 @@
         // set up shader variables
         glUniform1iARB([shader uniformLocationForName:"OGL2Texture"], 0); // texture
     }
+  */
 }
 
 @end

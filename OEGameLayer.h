@@ -30,15 +30,18 @@
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/gl.h>
 
-@class OEGameShader, GameCore, GameDocument;
+@class GameCore, GameDocument, GameDocumentController;
 
 @interface OEGameLayer : CAOpenGLLayer
 {
     NSString      *filterName;
     GameDocument  *owner;
-    OEGameShader  *shader;
+   // OEGameShader  *shader;
     GameCore      *gameCore;
-	CGLContextObj  layerContext;
+	
+	// for rendering
+	CGLContextObj layerContext;
+	CGLContextObj sharedLayerContext;
 	
 	GLuint         gameTexture;
     BOOL           usesShader;

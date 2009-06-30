@@ -53,17 +53,88 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
 {
+/*	[gameCore setupEmulation];
+    
+ //   [gameWindow makeFirstResponder:view];
+ //   [view setNextResponder:gameCore];
+	
+//	[view setWantsLayer:YES];
+
+    gameLayer = [OEGameLayer layer];
+	[gameLayer setDocController:[GameDocumentController sharedDocumentController]];
+    OE_bindGameLayer(gameLayer);
+	
+	//Show the layer
+    [view setLayer:gameLayer];
+    	
+	//gameLayer.layoutManager = [CAConstraintLayoutManager layoutManager];
+    //gameLayer.backgroundColor = CGColorCreateGenericRGB(0.0f,0.0f, 0.0f, 1.0f);
+	
+	[gameLayer setOwner:self];
+    
+    [gameLayer setGameCore:gameCore];
+	
+	//gameLayer.name = @"game";
+
+//	NSRect viewRect = [view bounds];
+  //  gameLayer.bounds = CGRectMake(0, 0, viewRect.size.width,  viewRect.size.height);
+
+	
+  //  gameLayer.frame = CGRectMake(0,0,1,1);
+   // gameLayer.frame = CGRectMake(0, 0, viewRect.size.width,  viewRect.size.height);
+	
+	///[gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidX relativeTo:@"superlayer" attribute:kCAConstraintMidX]];
+    //[gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
+
+	//gameLayer.asynchronous = NO;
+    
+	
+    // FIXME: possible leak
+    audio = [[GameAudio alloc] initWithCore:gameCore];
+    
+    [audio bind:@"volume"
+       toObject:[NSUserDefaultsController sharedUserDefaultsController]
+    withKeyPath:@"values.volume"
+        options:nil];
+    
+    [audio startAudio];
+    
+    NSRect f = [gameWindow frame];
+    
+    NSSize aspect;
+    
+    if([gameCore respondsToSelector:@selector(outputSize)])
+		aspect = [gameCore outputSize];
+    else
+		aspect = NSMakeSize([gameCore width], [gameCore height]);
+    [gameWindow setFrame: NSMakeRect(NSMinX(f), NSMinY(f), aspect.width, aspect.height + 22) display:NO];
+    [gameWindow setContentAspectRatio:aspect];
+  //  [gameLayer setNeedsLayout];
+    
+    [gameCore startEmulation];    
+	
+    [gameWindow makeKeyAndOrderFront:self];
+    
+  //  if([self defaultsToFullScreenMode])
+    //    [self toggleFullScreen:self];
+*/
+	
+	
     [gameCore setupEmulation];
     
     [gameWindow makeFirstResponder:view];
     [view setNextResponder:gameCore];
     
     //Setup Layer hierarchy
-    rootLayer = [CALayer layer];
+    rootLayer = [CAOpenGLLayer layer];
         
     rootLayer.layoutManager = [CAConstraintLayoutManager layoutManager];
     rootLayer.backgroundColor = CGColorCreateGenericRGB(0.0f,0.0f, 0.0f, 1.0f);
     
+	//Show the layer
+    [view setLayer:rootLayer];
+    [view setWantsLayer:YES];
+		
     gameLayer = [OEGameLayer layer];
 	[gameLayer setDocController:[GameDocumentController sharedDocumentController]];
     OE_bindGameLayer(gameLayer);
@@ -82,12 +153,13 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     //Add the NESLayer to the hierarchy
     [rootLayer addSublayer:gameLayer];
     
-    gameLayer.asynchronous = NO;
+	
+	// we probably want to set this to yes, and implement 
+	// -(BOOL)canDrawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
+	// in our OEGameLayer
+    gameLayer.asynchronous = YES;
     
-    //Show the layer
-    [view setLayer:rootLayer];
-    [view setWantsLayer:YES];
-    
+        
     // FIXME: possible leak
     audio = [[GameAudio alloc] initWithCore:gameCore];
     
@@ -116,6 +188,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     
     if([self defaultsToFullScreenMode])
         [self toggleFullScreen:self];
+   
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError

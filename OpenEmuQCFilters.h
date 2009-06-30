@@ -37,6 +37,7 @@
 	v002Shader* Scale4xHQ;
 	
 	GLuint frameBuffer;
+	GLint previousFBO;
 }
 
 /*
