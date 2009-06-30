@@ -87,7 +87,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
         
         // bind video texture
         glClearColor(0.0, 0.0, 0.0, 0.0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);        
+        glClear(GL_COLOR_BUFFER_BIT);        
         
         // draw our input video
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
@@ -176,7 +176,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     if([key isEqualToString:@"inputScaler"])
     {
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Scaler", QCPortAttributeNameKey,
-                [NSArray arrayWithObjects:@"Scale2X", @"Scale2XHQ", @"Scale4X", @"Scale4XHQ", nil], QCPortAttributeMenuItemsKey,
+                [NSArray arrayWithObjects:@"Scale2XPlus", @"Scale2XHQ", @"Scale4X", @"Scale4XHQ", nil], QCPortAttributeMenuItemsKey,
                 [NSNumber numberWithUnsignedInteger:0.0], QCPortAttributeMinimumValueKey,
                 [NSNumber numberWithUnsignedInteger:3], QCPortAttributeMaximumValueKey,
                 [NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
@@ -260,7 +260,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     // shaders
 	NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];	
 	
-	Scale2xPlus = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2xPlus" forContext:cgl_ctx];
+	Scale2xPlus = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2XPlus" forContext:cgl_ctx];
 	Scale2xHQ = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2xHQ" forContext:cgl_ctx];
 	Scale4x = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale4x" forContext:cgl_ctx];
 	Scale4xHQ = [[v002Shader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale4xHQ" forContext:cgl_ctx];
@@ -339,18 +339,18 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     v002Shader* selectedShader;
     switch (self.inputScaler) {
         case 0:
-            {
-                selectedShader = Scale2xPlus;
-                multiplier = 2.0;
-                bounds = NSMakeRect(0.0, 0.0, width * multiplier, height * multiplier);
-            }
+		{
+			selectedShader = Scale2xPlus;
+			multiplier = 2.0;
+			bounds = NSMakeRect(0.0, 0.0, width * multiplier, height * multiplier);
+		}
         break;
         case 1:    
-            {
-                selectedShader = Scale2xHQ;
-                multiplier = 2.0;
-                bounds = NSMakeRect(0.0, 0.0, width * multiplier, height * multiplier);
-            }
+		{
+			selectedShader = Scale2xHQ;
+			multiplier = 2.0;
+			bounds = NSMakeRect(0.0, 0.0, width * multiplier, height * multiplier);
+		}
         break;
         case 2:    
         {
@@ -373,7 +373,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
         [image bindTextureRepresentationToCGLContext:cgl_ctx textureUnit:GL_TEXTURE0 normalizeCoordinates:NO];
     
         // Make sure to flush as we use FBOs as the passed OpenGL context may not have a surface attached        
-        GLuint finalOutput = renderToFBO(frameBuffer, cgl_ctx, width, height, bounds, [image textureName], Scale2xHQ);
+        GLuint finalOutput = renderToFBO(frameBuffer, cgl_ctx, width, height, bounds, [image textureName], selectedShader);
         glFlushRenderAPPLE();
         
         if(finalOutput == 0)
