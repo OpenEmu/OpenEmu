@@ -39,6 +39,7 @@
     OEGameShader  *shader;
     GameCore      *gameCore;
 	CGLContextObj  layerContext;
+	
 	GLuint         gameTexture;
     BOOL           usesShader;
     BOOL           vSyncEnabled;
