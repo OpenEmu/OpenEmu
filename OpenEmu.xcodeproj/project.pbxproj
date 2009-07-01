@@ -168,6 +168,13 @@
 			remoteGlobalIDString = 828E65970E8466A100B1860B;
 			remoteInfo = OpenEmuQC;
 		};
+		1BA78D0C0FFAD018007CE5DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 828E65E30E8467E900B1860B;
+			remoteInfo = "Copy & Build OpenEmuQC";
+		};
 		3759EE520FE88C82000E56D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -733,6 +740,7 @@
 			);
 			dependencies = (
 				C689A55F0FE4635200885BC3 /* PBXTargetDependency */,
+				1BA78D0D0FFAD018007CE5DB /* PBXTargetDependency */,
 			);
 			name = OpenEmu;
 			productInstallPath = "$(HOME)/Applications";
@@ -934,6 +942,11 @@
 			isa = PBXTargetDependency;
 			target = 828E65970E8466A100B1860B /* OpenEmuQC */;
 			targetProxy = 1B3280690E85784400FEDA2C /* PBXContainerItemProxy */;
+		};
+		1BA78D0D0FFAD018007CE5DB /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 828E65E30E8467E900B1860B /* Copy & Build OpenEmuQC */;
+			targetProxy = 1BA78D0C0FFAD018007CE5DB /* PBXContainerItemProxy */;
 		};
 		3759EE530FE88C82000E56D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
