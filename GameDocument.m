@@ -306,6 +306,22 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameCore resetEmulation];
 }
 
+- (IBAction)pauseGame:(id)sender
+{
+	if([self isEmulationPaused])
+	{
+		[self setPauseEmulation:NO];
+		[sender setImage:[NSImage imageNamed:NSImageNameStopProgressTemplate]];
+		[sender setLabel:@"Pause"];
+	}
+	else
+	{
+		[self setPauseEmulation:YES];
+		[sender setImage:[NSImage imageNamed:NSImageNameRightFacingTriangleTemplate]];
+		[sender setLabel:@"Play"];
+	}
+}
+
 
 - (NSBitmapImageRep *)screenshot
 {

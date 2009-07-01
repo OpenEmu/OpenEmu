@@ -378,7 +378,7 @@
 								<object class="NSMenuItem" id="358557735">
 									<reference key="NSMenu" ref="175780517"/>
 									<bool key="NSIsAlternate">YES</bool>
-									<string key="NSTitle">Stop All Emulators</string>
+									<string key="NSTitle">Pause All Emulators</string>
 									<string key="NSKeyEquiv">.</string>
 									<int key="NSKeyEquivModMask">1048576</int>
 									<int key="NSMnemonicLoc">2147483647</int>
@@ -1843,8 +1843,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="9"/>
-					<string>{{324, 146}, {400, 420}}</string>
-					<string>{{324, 146}, {400, 420}}</string>
+					<string>{{216, 146}, {400, 420}}</string>
+					<string>{{216, 146}, {400, 420}}</string>
 					<reference ref="6"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1859,7 +1859,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{340, 735}, {203, 73}}</string>
+					<string>{{340, 735}, {212, 73}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1949,6 +1949,7 @@
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>loadState:</string>
+							<string>pauseGame:</string>
 							<string>resetGame:</string>
 							<string>saveState:</string>
 							<string>scrambleRam:</string>
@@ -1956,6 +1957,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
