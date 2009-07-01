@@ -84,4 +84,6 @@
 - (IBAction)volumeUp:(id)sender;
 - (IBAction)volumeDown:(id)sender;
 
+- (IBAction)stopAllEmulators:(id)sender;
+
 @end

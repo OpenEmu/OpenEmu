@@ -229,6 +229,29 @@
     [self addToVolume:-0.1];
 }
 
+- (IBAction)stopAllEmulators:(id)sender
+{	
+	if([sender state] == NSOffState) 
+	{
+		for(GameDocument* doc in [self documents])
+		{
+			[[doc gameCore] stopEmulation];
+		}
+		[sender setTitle:@"Start All Emulators"]; 
+		[sender setState:NSOnState];
+	}
+	else
+	{
+		for(GameDocument* doc in [self documents])
+		{
+			[[doc gameCore] startEmulation];
+		}
+		[sender setTitle:@"Stop All Emulators"];
+		[sender setState:NSOffState];
+	}
+}
+
+
 - (NSString*)appVersion
 {
 	return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
