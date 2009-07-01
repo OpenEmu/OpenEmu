@@ -34,35 +34,32 @@
 
 @interface OEGameLayer : CAOpenGLLayer
 {
-    NSString      *filterName;
-    GameDocument  *owner;
-   // OEGameShader  *shader;
-    GameCore      *gameCore;
-	
-	// for rendering
-	CGLContextObj layerContext;
-	CGLContextObj sharedLayerContext;
-	
-	GLuint         gameTexture;
-    BOOL           usesShader;
-    BOOL           vSyncEnabled;
-	
-	// new stuff
-	QCRenderer*		filterRenderer;
-	NSDocumentController* docController;
-	
-	// for QCRenderer
-	NSTimeInterval startTime; // time for rendering, input to time based effects, sources, 
-	NSTimeInterval time;
-
+    NSString             *filterName;
+    GameDocument         *owner;
+    GameCore             *gameCore;
+    
+    // for rendering
+    CGLContextObj         layerContext;
+    CGLContextObj         sharedLayerContext;
+    
+    GLuint                gameTexture;
+    BOOL                  usesShader;
+    BOOL                  vSyncEnabled;
+    
+    // new stuff
+    QCRenderer           *filterRenderer;
+    NSDocumentController *docController;
+    
+    // for QCRenderer
+    NSTimeInterval        startTime; // time for rendering, input to time based effects, sources, 
+    NSTimeInterval        time;
 }
 
-@property BOOL vSyncEnabled;
+@property         BOOL          vSyncEnabled;
 @property(assign) GameDocument *owner;
-@property(retain) NSString *filterName;
-@property(retain) GameCore *gameCore;
-@property(readwrite, retain) NSDocumentController* docController;
-
+@property(retain) NSString     *filterName;
+@property(retain) GameCore     *gameCore;
+@property(readwrite, retain) NSDocumentController *docController;
 
 - (void)uploadGameBufferToTexture;
 - (void)renderQuad;

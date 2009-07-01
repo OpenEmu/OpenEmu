@@ -29,20 +29,19 @@
 
 @class GameCore, OECorePlugin;
 @class OEGameCoreController;
-@class GameAudio, GameBuffer;
+@class GameAudio;
 
 @interface OpenEmuQCNES : QCPlugIn
 {
-	// init stuff
-	NSArray					*plugins;
-	NSArray					*validExtensions;
-	OEGameCoreController	*gameCoreController;
-	GameCore				*gameCore;
-	GameAudio				*gameAudio;
-	GameBuffer				*gameBuffer;
-	BOOL loadedRom, romFinishedLoading, hasNmtRam, hasChrRom;
-	NSMutableArray* persistantControllerData;
-	NSRecursiveLock * gameLock;
+    // init stuff
+    NSArray              *plugins;
+    NSArray              *validExtensions;
+    OEGameCoreController *gameCoreController;
+    GameCore             *gameCore;
+    GameAudio            *gameAudio;
+    NSMutableArray       *persistantControllerData;
+    NSRecursiveLock      *gameLock;
+    BOOL loadedRom, romFinishedLoading, hasNmtRam, hasChrRom;
 }
 
 /*
@@ -50,40 +49,40 @@ Declare here the Obj-C 2.0 properties to be used as input and output ports for t
 You can access their values in the appropriate plug-in methods using self.inputFoo or self.inputBar
 */
 
-@property (assign) NSString* inputRom;
-@property (assign) NSArray * inputControllerData;
-@property (assign) double inputVolume;
-@property (assign) NSString* inputSaveStatePath;
-@property (assign) NSString* inputLoadStatePath;
-@property (assign) BOOL inputPauseEmulation;
-@property (assign) NSString* inputCheatCode;
+@property(assign) NSString  *inputRom;
+@property(assign) NSArray   *inputControllerData;
+@property(assign) double     inputVolume;
+@property(assign) NSString  *inputSaveStatePath;
+@property(assign) NSString  *inputLoadStatePath;
+@property(assign) BOOL       inputPauseEmulation;
+@property(assign) NSString  *inputCheatCode;
 
-@property (assign) BOOL inputEnableRewinder;
-@property (assign) NSUInteger inputRewinderDirection;
-@property (assign) BOOL inputEnableRewinderBackwardsSound;
-// @property (assign) BOOL inputRewinderReset;
+@property(assign) BOOL       inputEnableRewinder;
+@property(assign) NSUInteger inputRewinderDirection;
+@property(assign) BOOL       inputEnableRewinderBackwardsSound;
+//@property(assign) BOOL       inputRewinderReset;
 
-@property (assign) BOOL inputNmtRamCorrupt;
-@property (assign) double inputNmtRamOffset;
-@property (assign) double inputNmtRamValue;
+@property(assign) BOOL       inputNmtRamCorrupt;
+@property(assign) double     inputNmtRamOffset;
+@property(assign) double     inputNmtRamValue;
 
-@property (assign) BOOL inputChrRamCorrupt;
-@property (assign) double inputChrRamOffset;
-@property (assign) double inputChrRamValue;
+@property(assign) BOOL       inputChrRamCorrupt;
+@property(assign) double     inputChrRamOffset;
+@property(assign) double     inputChrRamValue;
 
-@property (assign) id <QCPlugInOutputImageProvider>outputImage;
+@property(assign) id<QCPlugInOutputImageProvider> outputImage;
 
 @end
 
 @interface OpenEmuQCNES (Execution)
-- (BOOL) controllerDataValidate:(NSArray*) cData;
-- (void) handleControllerData;
-- (void) refresh;
-- (void) loadRom: (NSString*) romPath;
-- (void) saveState: (NSString *) fileName;
-- (BOOL) loadState: (NSString *) fileName;
-- (void) setCode:(NSString*)cheatCode;
-- (void) enableRewinder:(BOOL) rewind;
+- (BOOL)controllerDataValidate:(NSArray*)cData;
+- (void)handleControllerData;
+- (void)refresh;
+- (void)loadRom:(NSString *)romPath;
+- (void)saveState:(NSString *)fileName;
+- (BOOL)loadState:(NSString *)fileName;
+- (void)setCode:(NSString*)cheatCode;
+- (void)enableRewinder:(BOOL)rewind;
 
 @end
 

@@ -34,8 +34,8 @@
 #import <XADMaster/XADArchive.h>
 #import "OEGamePreferenceController.h"
 #import "NSAttributedString+Hyperlink.h"
-#import "OEFilterPlugin.h"
 #import "OECorePlugin.h"
+#import "OECompositionPlugin.h"
 
 @interface GameDocumentController ()
 @property(readwrite, retain) NSArray *plugins;
@@ -79,7 +79,7 @@
 {
     [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:
      [NSDictionary dictionaryWithObjectsAndKeys:
-      @"Linear Interpolation", @"filterName",
+      @"Linear", @"filterName",
       [NSNumber numberWithFloat:1.0], @"volume", nil]];
     
 }
@@ -109,10 +109,6 @@
         [self setPlugins:[OECorePlugin allPlugins]];
         [self updateValidExtensions];
     }
-    else if(object == [OEFilterPlugin class])
-    {
-        [self updateFilterNames];
-    }
 }
 
 - (id)init
@@ -123,8 +119,7 @@
         [self setGameLoaded:NO];
         
         [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
-        [[OEFilterPlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
-        
+        /*
         // set our initial value for our filters dictionary
         [self setFilterDictionary:[NSMutableDictionary new]];
         
@@ -160,9 +155,7 @@
         }
         
         NSLog(@"found filters: %@", filterDictionary);
-        
-        
-        
+        */        
         [self updateValidExtensions];
         [self updateFilterNames];
         
@@ -246,28 +239,22 @@
     return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
 }
 
-- (NSAttributedString*) projectURL
+- (NSAttributedString *)projectURL
 {
-    
     NSURL* url = [NSURL URLWithString:@"http://openemu.sourceforge.net"];
     
     NSMutableAttributedString* string = [[NSMutableAttributedString alloc] init];
     [string appendAttributedString: [NSAttributedString hyperlinkFromString:@"http://openemu.sourceforge.net" withURL:url]];
 
     return [string autorelease];
-//    return [[NSAttributedString alloc] initWithString:@"http://openemu.sourceforge.net" attributes:[NSDictionary dictionaryWithObject:@"http://openemu.sourceforge.net" forKey:NSLinkAttributeName ]];
+    //return [[NSAttributedString alloc] initWithString:@"http://openemu.sourceforge.net" attributes:[NSDictionary dictionaryWithObject:@"http://openemu.sourceforge.net" forKey:NSLinkAttributeName ]];
     
 }
 
 - (void)updateFilterNames
 {
     [self willChangeValueForKey:@"filterNames"];
-    [filterNames release];
-   // NSArray *filterPlugins = [OEFilterPlugin allPlugins];
-    filterNames = [[NSMutableArray alloc] initWithArray:[filterDictionary allKeys]];
-    //[[NSMutableArray alloc] initWithObjects:@"Linear Interpolation", @"Nearest Neighbor", nil];
-//    for(OEFilterPlugin *p in filterPlugins)
-//      [(NSMutableArray *)filterNames addObject:[p displayName]];
+    filterNames = [[[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
     [self didChangeValueForKey:@"filterNames"];
 }
 

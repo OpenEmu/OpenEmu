@@ -26,18 +26,17 @@
  */
 
 #import <OpenGL/OpenGL.h>
-#import "v002Shader.h"
-//@class OEGameShader;
+#import "OEGameShader.h"
 
 @interface OpenEmuQCFiltersPlugin : QCPlugIn
 {
-	v002Shader* Scale2xPlus;
-	v002Shader* Scale2xHQ;
-	v002Shader* Scale4x;	
-	v002Shader* Scale4xHQ;
-	
-	GLuint frameBuffer;
-	GLint previousFBO;
+    OEGameShader *Scale2xPlus;
+    OEGameShader *Scale2xHQ;
+    OEGameShader *Scale4x;    
+    OEGameShader *Scale4xHQ;
+    
+    GLuint frameBuffer;
+    GLint previousFBO;
 }
 
 /*
@@ -47,9 +46,9 @@ Declare here the Obj-C 2.0 properties to be used as input and output ports for t
 You can access their values in the appropriate plug-in methods using self.inputFoo or self.inputBar
 */
 
-@property (assign) id<QCPlugInInputImageSource> inputImage;
-@property (assign) NSUInteger inputScaler;
-@property (assign) id<QCPlugInOutputImageProvider> outputImage;
+@property(assign) id<QCPlugInInputImageSource>    inputImage;
+@property(assign) NSUInteger                      inputScaler;
+@property(assign) id<QCPlugInOutputImageProvider> outputImage;
 
 
 @end

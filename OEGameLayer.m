@@ -26,10 +26,9 @@
  */
 
 #import "OEGameLayer.h"
-#import "OEFilterPlugin.h"
 #import "GameCore.h"
 #import "GameDocument.h"
-//#import "OEGameShader.h"
+#import "OECompositionPlugin.h"
 
 @implementation OEGameLayer
 
@@ -55,38 +54,42 @@
     return filterName;
 }
 
+- (QCComposition *)composition
+{
+    return [[OECompositionPlugin compositionPluginWithName:filterName] composition];
+}
+
 - (void)setFilterName:(NSString *)aName
 {
-	NSLog(@"setting filter name");
-	if(filterName != nil)
-	{
-		[filterName release];
-		filterName = nil;
-	}
-	filterName = aName;
-	
-	// since we changed the filtername, if we have a context (ie we are active) lets make a new QCRenderer...
-	if(layerContext != NULL)
-	{
-		CGLSetCurrentContext(layerContext);
-		CGLLockContext(layerContext);
-			
-		if(filterRenderer != nil)
-		{
-			NSLog(@"releasing old filterRenderer");
+    NSLog(@"setting filter name");
+    [filterName autorelease];
+    filterName = [aName retain];
+    
+    // since we changed the filtername, if we have a context (ie we are active) lets make a new QCRenderer...
+    if(layerContext != NULL)
+    {
+        CGLSetCurrentContext(layerContext);
+        CGLLockContext(layerContext);
+            
+        if(filterRenderer != nil)
+        {
+            NSLog(@"releasing old filterRenderer");
 
-			[filterRenderer release];
-			filterRenderer = nil;
-		}	
-		
-		NSLog(@"making new filter renderer");
-		filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
-													pixelFormat:CGLGetPixelFormat(layerContext)
-													 colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
-													composition:[[docController filterDictionary] valueForKey:filterName]];
-		
-		CGLUnlockContext(layerContext);
-	}
+            [filterRenderer release];
+            filterRenderer = nil;
+        }    
+        
+        NSLog(@"making new filter renderer");
+        
+        QCComposition *compo = [self composition];
+        if(compo != nil)
+            filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
+                                                        pixelFormat:CGLGetPixelFormat(layerContext)
+                                                         colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
+                                                        composition:compo];
+        
+        CGLUnlockContext(layerContext);
+    }
 }
 
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat
@@ -95,28 +98,29 @@
     
     // ignore the passed in pixel format. We will make our own.
  
-	layerContext = [super copyCGLContextForPixelFormat:pixelFormat];
+    layerContext = [super copyCGLContextForPixelFormat:pixelFormat];
     
-	// we need to hold on to this for later.
-	CGLRetainContext(layerContext);
-	
+    // we need to hold on to this for later.
+    CGLRetainContext(layerContext);
+    
     [self setVSyncEnabled:vSyncEnabled];
-    	
+        
     CGLSetCurrentContext(layerContext); 
     CGLLockContext(layerContext);
 
-	glPushAttrib(GL_ALL_ATTRIB_BITS);
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
 
-	// this will be responsible for our rendering... weee...
-	filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
-												pixelFormat:CGLGetPixelFormat(layerContext)
-												 colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
-											  // We need to get the default value.
-												composition:[[docController filterDictionary] valueForKey:filterName]];
-	
-	if (filterRenderer == nil)
-		NSLog(@"failed to creare our filter QCRender");
-	
+    // this will be responsible for our rendering... weee...    
+    QCComposition *compo = [self composition];
+    if(compo != nil)
+        filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
+                                                    pixelFormat:CGLGetPixelFormat(layerContext)
+                                                     colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
+                                                    composition:compo];
+    
+    if (filterRenderer == nil)
+        NSLog(@"failed to creare our filter QCRender");
+    
     // create our texture 
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glGenTextures(1, &gameTexture);
@@ -132,18 +136,18 @@
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 
     // this is 'optimal', and does not seem to cause issues with gamecores that output non RGBA, (ie just RGB etc), 
     // glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, [gameCore width], [gameCore height], 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
   
-	// this definitely works
+    // this definitely works
     glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
-	
-	// unset our client storage options storage
-	// these fucks were causing our FBOs to fail.
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
-	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+    
+    // unset our client storage options storage
+    // these fucks were causing our FBOs to fail.
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
+    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
 
     CGLUnlockContext(layerContext);
     
@@ -168,57 +172,57 @@
 
 - (BOOL)canDrawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
 {
-	// im not sure exactly how the frameFinished stuff works.
-	// im tempted to say we should always return yes, 
-	// and just only upload a video buffer texture
-	// if frameFinished is true, etc.
-	
-	//return [gameCore frameFinished];
-	return YES;
+    // im not sure exactly how the frameFinished stuff works.
+    // im tempted to say we should always return yes, 
+    // and just only upload a video buffer texture
+    // if frameFinished is true, etc.
+    
+    //return [gameCore frameFinished];
+    return YES;
 }
 
 - (void)drawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
 {
-	// rendering time for QC filters..
-	time = [NSDate timeIntervalSinceReferenceDate];
-	
-	if(startTime == 0)
-	{
-		startTime = time;
-		time = 0;
-	}
-	else
-		time -= startTime;	
-	
+    // rendering time for QC filters..
+    time = [NSDate timeIntervalSinceReferenceDate];
+    
+    if(startTime == 0)
+    {
+        startTime = time;
+        time = 0;
+    }
+    else
+        time -= startTime;    
+    
     CGLSetCurrentContext(glContext);// (glContext);
     CGLLockContext(glContext);
     
-	// our filters always clear, so we dont. Saves us an expensive buffer setting.
-	glClearColor(1.0, 0.0, 0.0, 1.0);
-	glClear(GL_COLOR_BUFFER_BIT);//| GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
+    // our filters always clear, so we dont. Saves us an expensive buffer setting.
+    glClearColor(1.0, 0.0, 0.0, 1.0);
+    glClear(GL_COLOR_BUFFER_BIT);//| GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
     
     // update our gameBuffer texture
-	[self uploadGameBufferToTexture];
+    [self uploadGameBufferToTexture];
 
-	// make a CIImage from our gameTexture
-	CGSize size = CGSizeMake([gameCore sourceWidth],[gameCore sourceHeight]);	 
-	CIImage* gameCIImage = [CIImage imageWithTexture:gameTexture size:size flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
-	
-	if(filterRenderer != nil)
-	{
-		[filterRenderer setValue:gameCIImage forInputKey:@"OEImageInput"];	
-		[filterRenderer renderAtTime:time arguments:nil];
-	}
-	// render based on selected shader and options.
-//	if(usesShader) [self renderWithShader];
-	
-	// draw our quad, works on its own or with shader bound
-//	[self renderQuad];
+    // make a CIImage from our gameTexture
+    CGSize size = CGSizeMake([gameCore sourceWidth],[gameCore sourceHeight]);     
+    CIImage* gameCIImage = [CIImage imageWithTexture:gameTexture size:size flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
+    
+    if(filterRenderer != nil)
+    {
+        [filterRenderer setValue:gameCIImage forInputKey:@"OEImageInput"];    
+        [filterRenderer renderAtTime:time arguments:nil];
+    }
+    // render based on selected shader and options.
+    //if(usesShader) [self renderWithShader];
+    
+    // draw our quad, works on its own or with shader bound
+    //[self renderQuad];
     
     // super calls flush for us.
-	[super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
+    [super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
 
-	CGLUnlockContext(glContext);
+    CGLUnlockContext(glContext);
 }
 
 - (void)releaseCGLContext:(CGLContextObj)glContext
@@ -226,9 +230,9 @@
     CGLSetCurrentContext(glContext);
     CGLLockContext(glContext);
     
-   // [shader setShaderContext:NULL];
-	
-	[filterRenderer release];
+    // [shader setShaderContext:NULL];
+    
+    [filterRenderer release];
     
     CGLUnlockContext(glContext);    
     
@@ -242,27 +246,27 @@
     [self unbind:@"filterName"];
     [self unbind:@"vSyncEnabled"];
 
-	CGLReleaseContext(layerContext);
-	[docController release];
+    CGLReleaseContext(layerContext);
+    [docController release];
     [gameCore release];
-   // [shader release];
+    //[shader release];
     [super dealloc];
 }
 
 - (void)uploadGameBufferToTexture
 {
-	if([gameCore frameFinished])
-	{	
-		// update our gamebuffer texture
-		glEnable(GL_TEXTURE_RECTANGLE_EXT);
-		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-		
-		// this is 'optimal'
-		//glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
+    if([gameCore frameFinished])
+    {    
+        // update our gamebuffer texture
+        glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+        
+        // this is 'optimal'
+        //glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
 
-		// this definitely works
-		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
-	}
+        // this definitely works
+        glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
+    }
 }
 
 // below is old and not useful anymore.
@@ -288,19 +292,19 @@
 
 - (void)renderWithShader
 {
- /*   // force nearest neighbor filtering for our samplers to work in the shader...
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    
-    if(shader != nil)
-    {
-        // bind our shader
-        glUseProgramObjectARB([shader programObject]);
-        
-        // set up shader variables
-        glUniform1iARB([shader uniformLocationForName:"OGL2Texture"], 0); // texture
-    }
-  */
+    /*   // force nearest neighbor filtering for our samplers to work in the shader...
+     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+     
+     if(shader != nil)
+     {
+     // bind our shader
+     glUseProgramObjectARB([shader programObject]);
+     
+     // set up shader variables
+     glUniform1iARB([shader uniformLocationForName:"OGL2Texture"], 0); // texture
+     }
+     */
 }
 
 @end

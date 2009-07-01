@@ -67,10 +67,10 @@
                 *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSExecutableLoadError userInfo:
                              [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSString stringWithFormat:@"Couldn't load %@ plugin", path], NSLocalizedDescriptionKey,
-                              @"A version of this plugin is already loaded", NSLocalizedFailureReasonErrorKey,
-                              @"You need to restart the application to commit the change", NSLocalizedRecoverySuggestionErrorKey,
-                              [GameDocumentController sharedDocumentController], NSRecoveryAttempterErrorKey,
-                              [NSArray arrayWithObjects:@"Restart now", @"Cancel", nil], NSLocalizedRecoveryOptionsErrorKey,
+                              @"A version of this plugin is already loaded",                NSLocalizedFailureReasonErrorKey,
+                              @"You need to restart the application to commit the change",  NSLocalizedRecoverySuggestionErrorKey,
+                              [GameDocumentController sharedDocumentController],            NSRecoveryAttempterErrorKey,
+                              [NSArray arrayWithObjects:@"Restart now", @"Cancel", nil],    NSLocalizedRecoveryOptionsErrorKey,
                               nil]];
         }
     }

@@ -26,20 +26,17 @@
  */
 
 #import "OEGameShader.h"
+#import <OpenGL/CGLMacro.h>
 
-@interface OEGameShader ()
-- (GLhandleARB)OE_shaderWithSource:(GLcharARB **)aSource forType:(GLenum)aType;
-- (void)OE_setProgramObjectWithVertex:(GLhandleARB)aVertex fragment:(GLhandleARB)aFragment;
-@end
-
-
-@implementation OEGameShader
+#pragma mark -- Compiling shaders & linking a program object --
 
 static GLhandleARB OE_loadShader(GLenum theShaderType, 
                                  const GLcharARB **theShader, 
                                  GLint *theShaderCompiled,
-                                 CGLContextObj cgl_ctx) 
+                                 CGLContextObj context) 
 {
+    CGLContextObj cgl_ctx = context;
+        
     GLhandleARB shaderObject = NULL;
     
     if(theShader != NULL) 
@@ -57,9 +54,9 @@ static GLhandleARB OE_loadShader(GLenum theShaderType,
         
         if(infoLogLength > 0) 
         {
-            GLcharARB *infoLog = malloc(infoLogLength);
+            GLcharARB *infoLog = (GLcharARB *)malloc(infoLogLength);
             
-            if(infoLog != NULL)
+            if( infoLog != NULL )
             {
                 glGetInfoLogARB(shaderObject, 
                                 infoLogLength, 
@@ -80,17 +77,19 @@ static GLhandleARB OE_loadShader(GLenum theShaderType,
             NSLog(@">> Failed to compile shader %s\n", theShader);
     } // if
     else *theShaderCompiled = 1;
-
+    
     return shaderObject;
-} // OE_loadShader
+} // LoadShader
 
 //---------------------------------------------------------------------------------
 
 static void OE_linkProgram(GLhandleARB programObject, 
                            GLint *theProgramLinked,
-                           CGLContextObj cgl_ctx) 
+                           CGLContextObj context) 
 {
-    GLint infoLogLength = 0;
+    CGLContextObj cgl_ctx = context;
+    
+    GLint  infoLogLength = 0;
     
     glLinkProgramARB(programObject);
     
@@ -121,59 +120,68 @@ static void OE_linkProgram(GLhandleARB programObject,
     
     if(*theProgramLinked == 0)
         NSLog(@">> Failed to link program 0x%lx\n", (GLubyte *)&programObject);
-} // OE_linkProgram
+} // LinkProgram
+
+@interface OEGameShader ()
+- (GLcharARB *)OE_shaderSourceWithResource:(NSString *)theShaderResourceName ofType:(NSString *)theExtension;
+- (void)OE_readFragmentShaderSourceWithName:(NSString *)theFragmentShaderResourceName;
+- (void)OE_readVertexShaderSourceWithName:(NSString *)theVertexShaderResourceName;
+- (GLhandleARB)OE_loadShaderWithType:(GLenum)theShaderType source:(const GLcharARB **)theShaderSource;
+- (BOOL)OE_setProgramObjectWithVertexHandle:(GLhandleARB)theVertexShader fragmentHandle:(GLhandleARB)theFragmentShader;
+@end
 
 
-@synthesize shaderContext, programObject;
+@implementation OEGameShader
 
-- (id)init
-{
-    [self release];
-    return nil;
-}
-
-- (id)initWithFragmentSource:(NSString *)aFragmentSource vertexSource:(NSString *)aVertexSource
-{
-    if(self = [super init])
-    {
-        NSUInteger length = [aFragmentSource lengthOfBytesUsingEncoding:NSASCIIStringEncoding] + 1;
-        fragmentShaderSource = malloc(length);
-        [aFragmentSource getCString:(char *)fragmentShaderSource maxLength:length encoding:NSASCIIStringEncoding];
-        
-        length = [aVertexSource lengthOfBytesUsingEncoding:NSASCIIStringEncoding] + 1;
-        vertexShaderSource = malloc(length);
-        [aVertexSource getCString:(char *)vertexShaderSource maxLength:length encoding:NSASCIIStringEncoding];
-    }
-    return self;
-}
-
-- (void)dealloc
-{
-    if(programObject != NULL)
-        glDeleteObjectARB(programObject);
+#pragma mark -- Get shaders from resource --
+- (GLcharARB *)OE_shaderSourceWithResource:(NSString *)theShaderResourceName 
+                                 ofType:(NSString *)theExtension
+{    
+    NSString  *shaderTempSource = [bundleToLoadFrom pathForResource:theShaderResourceName 
+                                                             ofType:theExtension];    
+    GLcharARB *shaderSource = NULL;
     
-    free(fragmentShaderSource);
-    free(vertexShaderSource);
-    [super dealloc];
-}
+    shaderTempSource = [NSString stringWithContentsOfFile:shaderTempSource];
+    
+    shaderSource = (GLcharARB *)[shaderTempSource cStringUsingEncoding:NSASCIIStringEncoding];
+    
+    return  shaderSource;
+} // getShaderSourceFromResource
 
-- (GLhandleARB)OE_shaderWithSource:(GLcharARB **)aSource forType:(GLenum)aType
+- (void)OE_readFragmentShaderSourceWithName:(NSString *)theFragmentShaderResourceName
 {
-    if(shaderContext == NULL) return NULL;
+    fragmentShaderSource = [self OE_shaderSourceWithResource:theFragmentShaderResourceName 
+                                                      ofType:@"frag"];
+} // getFragmentShaderSourceFromResource
+
+- (void)OE_readVertexShaderSourceWithName:(NSString *)theVertexShaderResourceName
+{
+    vertexShaderSource = [self OE_shaderSourceWithResource:theVertexShaderResourceName 
+                                                    ofType:@"vert"];
+} // getVertexShaderSourceFromResource
+
+- (GLhandleARB)OE_loadShaderWithType:(GLenum)theShaderType 
+                              source:(const GLcharARB **)theShaderSource
+{
+    CGLContextObj cgl_ctx = shaderContext;
     
     GLint       shaderCompiled = 0;
-    GLhandleARB shaderHandle   = OE_loadShader(aType, (const GLcharARB **)aSource, &shaderCompiled,  shaderContext);
-    if(!shaderCompiled)
-        if(shaderHandle)
+    GLhandleARB shaderHandle   = OE_loadShader(theShaderType, 
+                                               theShaderSource, 
+                                               &shaderCompiled, shaderContext);
+    
+    if(!shaderCompiled) 
+        if(shaderHandle) 
         {
             glDeleteObjectARB(shaderHandle);
             shaderHandle = NULL;
-        }
+        } // if
     
     return shaderHandle;
-}
+} // loadShader
 
-- (void)OE_setProgramObjectWithVertex:(GLhandleARB)aVertex fragment:(GLhandleARB)aFragment
+- (BOOL)OE_setProgramObjectWithVertexHandle:(GLhandleARB)theVertexShader  
+                             fragmentHandle:(GLhandleARB)theFragmentShader
 {
     CGLContextObj cgl_ctx = shaderContext;
     
@@ -182,8 +190,11 @@ static void OE_linkProgram(GLhandleARB programObject,
     // Create a program object and link both shaders
     programObject = glCreateProgramObjectARB();
     
-    glAttachObjectARB(programObject, aVertex);
-    glAttachObjectARB(programObject, aFragment);
+    glAttachObjectARB(programObject, theVertexShader);
+    glDeleteObjectARB(theVertexShader);   // Release
+    
+    glAttachObjectARB(programObject, theFragmentShader);
+    glDeleteObjectARB(theFragmentShader); // Release
     
     OE_linkProgram(programObject, &programLinked, cgl_ctx);
     
@@ -191,40 +202,115 @@ static void OE_linkProgram(GLhandleARB programObject,
     {
         glDeleteObjectARB(programObject);
         programObject = NULL;
-    }
-}
-
-- (void)setShaderContext:(CGLContextObj)aContext;
-{
-    if(programObject != NULL)
-        glDeleteObjectARB(programObject), programObject = NULL;
-    shaderContext = aContext;
+        return NO;
+    } // if
     
-    GLhandleARB vertexShader = [self OE_shaderWithSource:&vertexShaderSource forType:GL_VERTEX_SHADER_ARB];
+    return YES;
+} // newProgramObject
+
+- (BOOL)setProgramObject
+{    
+    BOOL programObjectSet = NO;
+    
+    // Load and compile both shaders
+    
+    GLhandleARB vertexShader = [self OE_loadShaderWithType:GL_VERTEX_SHADER_ARB 
+                                                    source:&vertexShaderSource];
+    
+    // Ensure vertex shader compiled
     if(vertexShader != NULL)
     {
-        GLhandleARB fragmentShader = [self OE_shaderWithSource:&fragmentShaderSource forType:GL_FRAGMENT_SHADER_ARB];
-        if(fragmentShader != NULL)
-        {
-            [self OE_setProgramObjectWithVertex:vertexShader fragment:fragmentShader];
-            glDeleteObjectARB(fragmentShader); // Release
-        }
-        glDeleteObjectARB(vertexShader); // Release
-    }
+        GLhandleARB fragmentShader = [self OE_loadShaderWithType:GL_FRAGMENT_SHADER_ARB 
+                                                          source:&fragmentShaderSource];
+        
+        // Ensure fragment shader compiled
+        if(fragmentShader != NULL) 
+            // Create a program object and link both shaders
+            programObjectSet = [self OE_setProgramObjectWithVertexHandle:vertexShader 
+                                                          fragmentHandle:fragmentShader];
+    } // if
     
-    if(programObject == NULL && aContext != NULL)
-        NSLog(@">> WARNING: Failed to load GLSL fragment & vertex shaders!\n");
+    return  programObjectSet;
+} // setProgramObject
+
+#pragma mark -- Designated Initializer --
+- (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context
+{
+    if(self = [super init])
+    {
+        bundleToLoadFrom = [bundle retain];
+        shaderContext = context; 
+
+        BOOL  loadedShaders = NO;
+        
+        // Load vertex and fragment shader
+        
+        [self OE_readVertexShaderSourceWithName:theShadersName];
+        
+        if(vertexShaderSource != NULL)
+        {
+            [self OE_readFragmentShaderSourceWithName:theShadersName];
+            
+            if(fragmentShaderSource != NULL)
+            {
+                loadedShaders = [self setProgramObject];
+                
+                if(!loadedShaders)
+                    NSLog(@">> WARNING: Failed to load GLSL \"%@\" fragment & vertex shaders!\n", 
+                          theShadersName);
+            } // if
+        } // if
+    }
+    return self;
 }
 
-- (GLint)uniformLocationForName:(const GLcharARB *)uniformName
+- (id)initWithShadersInMainBundle:(NSString *)theShadersName forContext:(CGLContextObj)context;
 {
-    GLint uniformLocation = -1;
-    if(programObject != NULL)
-        uniformLocation = glGetUniformLocationARB(programObject, uniformName);
+    return [self initWithShadersInBundle:[NSBundle mainBundle] withName:theShadersName forContext:context];
+} // initWithShadersInAppBundle
+
+#pragma mark -- Deallocating Resources --
+
+- (void)dealloc
+{
+    // Delete OpenGL resources
+    // FIXME: Where is the deallocation ?!
+    CGLContextObj cgl_ctx = shaderContext;
     
-    if(uniformLocation == -1) 
-		NSLog(@">> WARNING: No such uniform named \"%s\"\n", uniformName);
-    return uniformLocation;
-}
+    if(programObject)
+    {
+        glDeleteObjectARB(programObject);
+        
+        programObject = NULL;
+    } // if
+    
+    [bundleToLoadFrom release];
+    
+    //Dealloc the superclass
+    [super dealloc];
+} // dealloc
+
+
+#pragma mark -- Accessors --
+
+- (GLhandleARB)programObject
+{
+    return programObject;
+} // programObject
+
+#pragma mark -- Utilities --
+
+- (GLint)uniformLocationWithName:(const GLcharARB *)theUniformName
+{
+    CGLContextObj cgl_ctx = shaderContext;
+    
+    GLint uniformLoacation = glGetUniformLocationARB(programObject, 
+                                                     theUniformName);
+    
+    if(uniformLoacation == -1) 
+        NSLog( @">> WARNING: No such uniform named \"%s\"\n", theUniformName );
+    
+    return uniformLoacation;
+} // getUniformLocation
 
 @end

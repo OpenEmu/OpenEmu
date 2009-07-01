@@ -52,7 +52,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 }
 
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
-{		
+{        
     [gameCore setupEmulation];
     
     [gameWindow makeFirstResponder:view];
@@ -64,12 +64,12 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     rootLayer.layoutManager = [CAConstraintLayoutManager layoutManager];
     rootLayer.backgroundColor = CGColorCreateGenericRGB(0.0f,0.0f, 0.0f, 1.0f);
     
-	//Show the layer
+    //Show the layer
     [view setLayer:rootLayer];
     [view setWantsLayer:YES];
-		
+        
     gameLayer = [OEGameLayer layer];
-	[gameLayer setDocController:[GameDocumentController sharedDocumentController]];
+    [gameLayer setDocController:[GameDocumentController sharedDocumentController]];
     OE_bindGameLayer(gameLayer);
     
     [gameLayer setOwner:self];
@@ -86,10 +86,10 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     //Add the NESLayer to the hierarchy
     [rootLayer addSublayer:gameLayer];
     
-	
-	// we probably want to set this to yes, and implement 
-	// -(BOOL)canDrawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
-	// in our OEGameLayer
+    
+    // we probably want to set this to yes, and implement 
+    // -(BOOL)canDrawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
+    // in our OEGameLayer
     gameLayer.asynchronous = YES;
     
         
@@ -199,9 +199,9 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (void)windowDidResize:(NSNotification *)notification
 {
-	//adjust the window to zoom from the center
-	if ([gameWindow isZoomed])
-		[gameWindow center];
+    //adjust the window to zoom from the center
+    if ([gameWindow isZoomed])
+        [gameWindow center];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -213,7 +213,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameCore release];
     gameCore = nil;
     
-	[gameLayer setDocController:nil];
+    [gameLayer setDocController:nil];
     GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
     [docControl setGameLoaded:NO];
 }
@@ -233,17 +233,17 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [self setPauseEmulation:YES];
     if(![view isInFullScreenMode])
     {
-		[view enterFullScreenMode:[[view window] screen]
+        [view enterFullScreenMode:[[view window] screen]
                       withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
                                    [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
                                    [NSNumber numberWithInt:0], NSFullScreenModeWindowLevel, nil]];
-		[NSCursor hide];
-	}
+        [NSCursor hide];
+    }
     else
-	{
-		[view exitFullScreenModeWithOptions:nil];   		
-		[NSCursor unhide];
-	}
+    {
+        [view exitFullScreenModeWithOptions:nil];           
+        [NSCursor unhide];
+    }
     [self setPauseEmulation:NO];
     [[view window] makeFirstResponder:gameCore];
 }
@@ -308,18 +308,18 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (IBAction)pauseGame:(id)sender
 {
-	if([self isEmulationPaused])
-	{
-		[self setPauseEmulation:NO];
-		[sender setImage:[NSImage imageNamed:NSImageNameStopProgressTemplate]];
-		[sender setLabel:@"Pause"];
-	}
-	else
-	{
-		[self setPauseEmulation:YES];
-		[sender setImage:[NSImage imageNamed:NSImageNameRightFacingTriangleTemplate]];
-		[sender setLabel:@"Play"];
-	}
+    if([self isEmulationPaused])
+    {
+        [self setPauseEmulation:NO];
+        [sender setImage:[NSImage imageNamed:NSImageNameStopProgressTemplate]];
+        [sender setLabel:@"Pause"];
+    }
+    else
+    {
+        [self setPauseEmulation:YES];
+        [sender setImage:[NSImage imageNamed:NSImageNameRightFacingTriangleTemplate]];
+        [sender setLabel:@"Play"];
+    }
 }
 
 
