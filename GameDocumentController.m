@@ -55,23 +55,23 @@
 - (void)menuNeedsUpdate:(NSMenu *)menu
 {
     /*
-	NSLog(@"Menu!?!?!");
-	for(NSBundle * bundle in [self bundles])
-	{
-		NSNib * nib = [[NSNib alloc] initWithNibNamed:@"Menu" bundle:bundle];
-		NSArray * objects;
-		if([nib instantiateNibWithOwner:self topLevelObjects:&objects])
-		{
-			for(NSObject*object in objects)
-			{
-				if([object isKindOfClass:[NSMenuItem class]])
-				{
-					[menu addItem:(NSMenuItem*) object];
-					NSLog(@"Adding item to menu?");
+    NSLog(@"Menu!?!?!");
+    for(NSBundle * bundle in [self bundles])
+    {
+        NSNib * nib = [[NSNib alloc] initWithNibNamed:@"Menu" bundle:bundle];
+        NSArray * objects;
+        if([nib instantiateNibWithOwner:self topLevelObjects:&objects])
+        {
+            for(NSObject*object in objects)
+            {
+                if([object isKindOfClass:[NSMenuItem class]])
+                {
+                    [menu addItem:(NSMenuItem*) object];
+                    NSLog(@"Adding item to menu?");
                 }
-			}
-		}
-	}
+            }
+        }
+    }
      */
 }
 
@@ -81,7 +81,7 @@
      [NSDictionary dictionaryWithObjectsAndKeys:
       @"Linear Interpolation", @"filterName",
       [NSNumber numberWithFloat:1.0], @"volume", nil]];
-	
+    
 }
 
 - (void) applicationDidFinishLaunching:(NSNotification*)aNotification
@@ -91,15 +91,15 @@
 
 -(void)updateBundles: (id) sender
 {
-	for(OECorePlugin *plugin in plugins)
-	{
-		@try {
-			[plugin updateBundle:self];
-		}
-		@catch (NSException * e) {
-			NSLog(@"Tried to update bundle without sparkle");
-		}
-	}
+    for(OECorePlugin *plugin in plugins)
+    {
+        @try {
+            [plugin updateBundle:self];
+        }
+        @catch (NSException * e) {
+            NSLog(@"Tried to update bundle without sparkle");
+        }
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -117,63 +117,63 @@
 
 - (id)init
 {
-	self = [super init];
-	if(self)
+    self = [super init];
+    if(self)
     {
-		[self setGameLoaded:NO];
-		
+        [self setGameLoaded:NO];
+        
         [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
         [[OEFilterPlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
         
-		// set our initial value for our filters dictionary
-		[self setFilterDictionary:[NSMutableDictionary new]];
-		
-		// load up our QC Compositions that will replace our filters.
-		
-		NSString* filtersLocation = @"/Library/Application Support/OpenEmu/Filters";
-		
-		NSDirectoryEnumerator * filterEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:filtersLocation];
-		NSString* compositionFile;
-		while (compositionFile = [filterEnumerator nextObject])
-		{
-			if([[compositionFile pathExtension] isEqualToString:@"qtz"])
-			{
-				NSLog(@"%@", compositionFile);
-				// init a QCComposition and read off its name from the attributes.
-				QCComposition* filterComposition = [QCComposition compositionWithFile:[filtersLocation stringByAppendingPathComponent:compositionFile]];
-				
-				// our key
-				NSString* nameKey;
-				
-				if([[filterComposition attributes] valueForKey:@"name"])
-				{ 
-					nameKey = [[filterComposition attributes] valueForKey:@"name"];
-				}
-				else 
-				{
-					nameKey = [compositionFile stringByDeletingPathExtension]; 
-				}
-				
-				// add it to our composition dictionary...
-				[filterDictionary setObject:filterComposition forKey:nameKey];
-			}
-		}
-		
-		NSLog(@"found filters: %@", filterDictionary);
-		
-		
-		
+        // set our initial value for our filters dictionary
+        [self setFilterDictionary:[NSMutableDictionary new]];
+        
+        // load up our QC Compositions that will replace our filters.
+        
+        NSString* filtersLocation = @"/Library/Application Support/OpenEmu/Filters";
+        
+        NSDirectoryEnumerator * filterEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:filtersLocation];
+        NSString* compositionFile;
+        while (compositionFile = [filterEnumerator nextObject])
+        {
+            if([[compositionFile pathExtension] isEqualToString:@"qtz"])
+            {
+                NSLog(@"%@", compositionFile);
+                // init a QCComposition and read off its name from the attributes.
+                QCComposition* filterComposition = [QCComposition compositionWithFile:[filtersLocation stringByAppendingPathComponent:compositionFile]];
+                
+                // our key
+                NSString* nameKey;
+                
+                if([[filterComposition attributes] valueForKey:@"name"])
+                { 
+                    nameKey = [[filterComposition attributes] valueForKey:@"name"];
+                }
+                else 
+                {
+                    nameKey = [compositionFile stringByDeletingPathExtension]; 
+                }
+                
+                // add it to our composition dictionary...
+                [filterDictionary setObject:filterComposition forKey:nameKey];
+            }
+        }
+        
+        NSLog(@"found filters: %@", filterDictionary);
+        
+        
+        
         [self updateValidExtensions];
         [self updateFilterNames];
         
         [self OE_setupHIDManager];
-		
-		[self willChangeValueForKey:@"aboutCreditsPath"];
-		aboutCreditsPath = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
-		[aboutCreditsPath retain];
-		[self didChangeValueForKey:@"aboutCreditsPath"];
-	}
-	return self;
+        
+        [self willChangeValueForKey:@"aboutCreditsPath"];
+        aboutCreditsPath = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
+        [aboutCreditsPath retain];
+        [self didChangeValueForKey:@"aboutCreditsPath"];
+    }
+    return self;
 }
 
 - (void) dealloc
@@ -181,12 +181,12 @@
     [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
     
     [filterNames release];
-	[validExtensions release];
+    [validExtensions release];
     [plugins release];
     if(hidManager != NULL) CFRelease(hidManager);
     [deviceHandlers release];
-	[aboutCreditsPath release];
-	[super dealloc];
+    [aboutCreditsPath release];
+    [super dealloc];
 }
 
 - (IBAction)openPreferenceWindow:(id)sender
@@ -206,8 +206,8 @@
 
 - (IBAction)openAboutWindow:(id)sender
 {
-	[aboutWindow center];
-	[aboutWindow makeKeyAndOrderFront:sender];
+    [aboutWindow center];
+    [aboutWindow makeKeyAndOrderFront:sender];
 }
 
 - (void)addToVolume:(double)incr
@@ -230,44 +230,33 @@
 }
 
 - (IBAction)stopAllEmulators:(id)sender
-{	
-	if([sender state] == NSOffState) 
-	{
-		for(GameDocument* doc in [self documents])
-		{
-			[[doc gameCore] setPauseEmulation:YES];
-		}
-		[sender setTitle:@"Unpause All Emulators"]; 
-		[sender setState:NSOnState];
-	}
-	else
-	{
-		for(GameDocument* doc in [self documents])
-		{
-			[[doc gameCore] setPauseEmulation:NO];
-		}
-		[sender setTitle:@"Pause All Emulators"];
-		[sender setState:NSOffState];
-	}
+{    
+    BOOL pause = [sender state] != NSOnState;
+    
+    [sender setTitle:(pause ? @"Unpause All Emulators" : @"Pause All Emulators")]; 
+    [sender setState:(pause ? NSOnState : NSOffState)];
+    
+    for(GameDocument *doc in [self documents])
+        [doc setPauseEmulation:pause];
 }
 
 
 - (NSString*)appVersion
 {
-	return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
+    return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
 }
 
 - (NSAttributedString*) projectURL
 {
-	
-	NSURL* url = [NSURL URLWithString:@"http://openemu.sourceforge.net"];
-	
+    
+    NSURL* url = [NSURL URLWithString:@"http://openemu.sourceforge.net"];
+    
     NSMutableAttributedString* string = [[NSMutableAttributedString alloc] init];
     [string appendAttributedString: [NSAttributedString hyperlinkFromString:@"http://openemu.sourceforge.net" withURL:url]];
 
-	return [string autorelease];
-//	return [[NSAttributedString alloc] initWithString:@"http://openemu.sourceforge.net" attributes:[NSDictionary dictionaryWithObject:@"http://openemu.sourceforge.net" forKey:NSLinkAttributeName ]];
-	
+    return [string autorelease];
+//    return [[NSAttributedString alloc] initWithString:@"http://openemu.sourceforge.net" attributes:[NSDictionary dictionaryWithObject:@"http://openemu.sourceforge.net" forKey:NSLinkAttributeName ]];
+    
 }
 
 - (void)updateFilterNames
@@ -276,7 +265,7 @@
     [filterNames release];
    // NSArray *filterPlugins = [OEFilterPlugin allPlugins];
     filterNames = [[NSMutableArray alloc] initWithArray:[filterDictionary allKeys]];
-	//[[NSMutableArray alloc] initWithObjects:@"Linear Interpolation", @"Nearest Neighbor", nil];
+    //[[NSMutableArray alloc] initWithObjects:@"Linear Interpolation", @"Nearest Neighbor", nil];
 //    for(OEFilterPlugin *p in filterPlugins)
 //      [(NSMutableArray *)filterNames addObject:[p displayName]];
     [self didChangeValueForKey:@"filterNames"];
@@ -325,7 +314,7 @@
     NSString *error = nil;
     NSPropertyListFormat format;
     
-	NSString *infoPlistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Info.plist"];
+    NSString *infoPlistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Info.plist"];
     NSData   *infoPlistXml  = [[NSFileManager defaultManager] contentsAtPath:infoPlistPath];
     
     NSMutableDictionary *infoPlist = [NSPropertyListSerialization propertyListFromData:infoPlistXml
@@ -362,58 +351,58 @@
 
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
 {
-	NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
+    NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
     
-	XADArchive *archive = [XADArchive archiveForFile:[absoluteURL path]];
-	NSLog(@"Opened?");
-	if(archive != nil)
-	{
-		NSString *filePath;
-		NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"OpenEmu"];
-		if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
-			[[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
-		filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
-		
-		if([archive numberOfEntries] != 1) //more than one rom in the archive
-		{
-			GamePickerController *c = [[GamePickerController alloc] init];
-			[c setArchive:archive];
-			
-			if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
-			{
-				int idx = [c selectedIndex];
-				NSLog(@"Selected index %d", [c selectedIndex]);
-				
-				if([archive extractEntry:idx to:filePath])
-				{
-					filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:idx]];
-					NSLog(@"%@", filePath);
-					absoluteURL = [NSURL fileURLWithPath:filePath];
-				}
-				else NSLog(@"Failed to extract");
-			}
-			else
-			{
-				if (outError) *outError = [[NSError alloc] initWithDomain:@"User Cancelled" code:0 userInfo:[NSDictionary dictionaryWithObject:@"User cancled" forKey:NSLocalizedDescriptionKey]];
-				[c release];
-				return nil;
-			}
-		}
-		else //only one rom in the archive
-		{
-			if([archive extractEntry:0 to:filePath])
-			{
-				filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:0]];
+    XADArchive *archive = [XADArchive archiveForFile:[absoluteURL path]];
+    NSLog(@"Opened?");
+    if(archive != nil)
+    {
+        NSString *filePath;
+        NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"OpenEmu"];
+        if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
+            [[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
+        filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
+        
+        if([archive numberOfEntries] != 1) //more than one rom in the archive
+        {
+            GamePickerController *c = [[GamePickerController alloc] init];
+            [c setArchive:archive];
+            
+            if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
+            {
+                int idx = [c selectedIndex];
+                NSLog(@"Selected index %d", [c selectedIndex]);
+                
+                if([archive extractEntry:idx to:filePath])
+                {
+                    filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:idx]];
+                    NSLog(@"%@", filePath);
+                    absoluteURL = [NSURL fileURLWithPath:filePath];
+                }
+                else NSLog(@"Failed to extract");
+            }
+            else
+            {
+                if (outError) *outError = [[NSError alloc] initWithDomain:@"User Cancelled" code:0 userInfo:[NSDictionary dictionaryWithObject:@"User cancled" forKey:NSLocalizedDescriptionKey]];
+                [c release];
+                return nil;
+            }
+        }
+        else //only one rom in the archive
+        {
+            if([archive extractEntry:0 to:filePath])
+            {
+                filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:0]];
                 NSLog(@"%@", filePath);
-				absoluteURL = [NSURL fileURLWithPath:filePath];
-			}
-			else NSLog(@"Failed to extract");
-		}
-	}
-	
-	NSLog(@"Final path: %@", absoluteURL);
-	//[self closeWindow: self];
-	return [super openDocumentWithContentsOfURL:absoluteURL display:displayDocument error:outError];
+                absoluteURL = [NSURL fileURLWithPath:filePath];
+            }
+            else NSLog(@"Failed to extract");
+        }
+    }
+    
+    NSLog(@"Final path: %@", absoluteURL);
+    //[self closeWindow: self];
+    return [super openDocumentWithContentsOfURL:absoluteURL display:displayDocument error:outError];
 }
 
 - (NSString *)typeForExtension:(NSString *)anExtension
@@ -447,12 +436,12 @@
 {
     Class ret = [super documentClassForType:documentTypeName];
     if(ret == nil) ret = [GameDocument class], NSLog(@"Long path");
-	return ret;
+    return ret;
 }
 
 - (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions
 {
-	return [super runModalOpenPanel:openPanel forTypes:validExtensions];
+    return [super runModalOpenPanel:openPanel forTypes:validExtensions];
 }
 
 - (GameDocument *)currentDocument
@@ -462,19 +451,19 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-	//delete all the temp files
-	NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"OpenEmu"];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
-		[[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
-	NSString* filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
-	
-	NSError* error = nil;
-	[[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
-	
-	if(error)
-		NSLog(@"%@",error);
-	else
-		NSLog(@"Deleted temp files");
+    //delete all the temp files
+    NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"OpenEmu"];
+    if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
+        [[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
+    NSString* filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
+    
+    NSError* error = nil;
+    [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+    
+    if(error)
+        NSLog(@"%@",error);
+    else
+        NSLog(@"Deleted temp files");
 }
 
 - (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
@@ -500,11 +489,11 @@
 
 - (BOOL)isGameKey
 {
-	if([[self currentDocument] isFullScreen])
-		return YES;
-	
-	NSDocument *doc = [self documentForWindow:[[NSApplication sharedApplication] keyWindow]];
-	return doc != nil;
+    if([[self currentDocument] isFullScreen])
+        return YES;
+    
+    NSDocument *doc = [self documentForWindow:[[NSApplication sharedApplication] keyWindow]];
+    return doc != nil;
 }
 
 #pragma mark New HID Event Handler
@@ -534,31 +523,31 @@ static void OEHandle_DeviceMatchingCallback(void* inContext,
                                             void* inSender,
                                             IOHIDDeviceRef inIOHIDDeviceRef )
 {
-	NSLog(@"Found device: %s( context: %p, result: %p, sender: %p, device: %p ).\n",
+    NSLog(@"Found device: %s( context: %p, result: %p, sender: %p, device: %p ).\n",
           __PRETTY_FUNCTION__,
           inContext, (void *)inResult,
           inSender,  (void *)inIOHIDDeviceRef);
-	
-	if (IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
-	{
-		NSLog(@"%s: failed to open device at %p", __PRETTY_FUNCTION__, inIOHIDDeviceRef);
-		return;
-	}
     
-	NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
-	
+    if (IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
+    {
+        NSLog(@"%s: failed to open device at %p", __PRETTY_FUNCTION__, inIOHIDDeviceRef);
+        return;
+    }
+    
+    NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
+    
     GameDocumentController *self = inContext;
     
-	//IOHIDDeviceRegisterRemovalCallback(inIOHIDDeviceRef, OEHandle_RemovalCallback, self);
-	
-	IOHIDDeviceRegisterInputValueCallback(inIOHIDDeviceRef,
-										  OEHandle_InputValueCallback,
-										  [self OE_deviceHandlerWithDevice:inIOHIDDeviceRef]);
-	
-	IOHIDDeviceScheduleWithRunLoop(inIOHIDDeviceRef,
-								   CFRunLoopGetCurrent(),
-								   kCFRunLoopDefaultMode);
-	
+    //IOHIDDeviceRegisterRemovalCallback(inIOHIDDeviceRef, OEHandle_RemovalCallback, self);
+    
+    IOHIDDeviceRegisterInputValueCallback(inIOHIDDeviceRef,
+                                          OEHandle_InputValueCallback,
+                                          [self OE_deviceHandlerWithDevice:inIOHIDDeviceRef]);
+    
+    IOHIDDeviceScheduleWithRunLoop(inIOHIDDeviceRef,
+                                   CFRunLoopGetCurrent(),
+                                   kCFRunLoopDefaultMode);
+    
 }   // Handle_DeviceMatchingCallback
 
 - (void)OE_setupHIDManager
