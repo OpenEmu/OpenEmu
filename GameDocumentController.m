@@ -235,18 +235,18 @@
 	{
 		for(GameDocument* doc in [self documents])
 		{
-			[[doc gameCore] stopEmulation];
+			[[doc gameCore] setPauseEmulation:YES];
 		}
-		[sender setTitle:@"Start All Emulators"]; 
+		[sender setTitle:@"Unpause All Emulators"]; 
 		[sender setState:NSOnState];
 	}
 	else
 	{
 		for(GameDocument* doc in [self documents])
 		{
-			[[doc gameCore] startEmulation];
+			[[doc gameCore] setPauseEmulation:NO];
 		}
-		[sender setTitle:@"Stop All Emulators"];
+		[sender setTitle:@"Pause All Emulators"];
 		[sender setState:NSOffState];
 	}
 }
