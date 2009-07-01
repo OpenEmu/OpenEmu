@@ -173,7 +173,8 @@
 	// and just only upload a video buffer texture
 	// if frameFinished is true, etc.
 	
-	return [gameCore frameFinished];
+	//return [gameCore frameFinished];
+	return YES;
 }
 
 - (void)drawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
@@ -250,15 +251,18 @@
 
 - (void)uploadGameBufferToTexture
 {
-	// update our gamebuffer texture
-	glEnable(GL_TEXTURE_RECTANGLE_EXT);
-	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-	
-	// this is 'optimal'
-	//glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
+	if([gameCore frameFinished])
+	{	
+		// update our gamebuffer texture
+		glEnable(GL_TEXTURE_RECTANGLE_EXT);
+		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+		
+		// this is 'optimal'
+		//glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
 
-	// this definitely works
-	glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
+		// this definitely works
+		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
+	}
 }
 
 // below is old and not useful anymore.
