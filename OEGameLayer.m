@@ -255,6 +255,7 @@
 
 - (void)uploadGameBufferToTexture
 {
+	// only do a texture submit if we have a new frame...
     if([gameCore frameFinished])
     {    
         // update our gamebuffer texture

@@ -140,7 +140,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     gameCore = [[plugin controller] newGameCoreWithDocument:self];
     NSLog(@"gameCore class: %@", [gameCore class]);
     [gameWindow makeFirstResponder:gameCore];
-    
+ 	
     if ([gameCore loadFileAtPath:[absoluteURL path]]) return YES;
     NSLog(@"Incorrect file");
     if (outError) *outError = [[NSError alloc] initWithDomain:@"Bad file" code:0 userInfo:nil];
@@ -149,7 +149,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (void)refresh
 {    
-    [gameLayer display];
+   // [gameLayer setNeedsDisplay];
 }
 
 - (BOOL)backgroundPauses
@@ -202,6 +202,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     //adjust the window to zoom from the center
     if ([gameWindow isZoomed])
         [gameWindow center];
+	
+	[gameLayer setNeedsDisplay];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
