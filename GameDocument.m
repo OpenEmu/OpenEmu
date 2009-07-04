@@ -103,16 +103,12 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     
     [audio startAudio];
     
-    NSRect f = [gameWindow frame];
-    
-    NSSize aspect;
-    
-    if([gameCore respondsToSelector:@selector(outputSize)])
-       aspect = [gameCore outputSize];
-    else
-       aspect = NSMakeSize([gameCore width], [gameCore height]);
-    [gameWindow setFrame: NSMakeRect(NSMinX(f), NSMinY(f), aspect.width, aspect.height + 22) display:NO];
-    [gameWindow setContentAspectRatio:aspect];
+//    if([gameCore respondsToSelector:@selector(outputSize)])
+  //     aspect = [gameCore outputSize];
+    //else
+      // aspect = NSMakeSize([gameCore sourceWidth], [gameCore sourceHeight]);
+   // [gameWindow setFrame: NSMakeRect(NSMinX(f), NSMinY(f), aspect.width, aspect.height + 22) display:NO];
+   // [gameWindow setContentAspectRatio:aspect];
     [rootLayer setNeedsLayout];
     
     [gameCore startEmulation];    

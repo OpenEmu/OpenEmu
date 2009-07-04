@@ -146,8 +146,8 @@
     
     // unset our client storage options storage
     // these fucks were causing our FBOs to fail.
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
-    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+   // glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
+   // glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
 
     CGLUnlockContext(layerContext);
     
@@ -158,11 +158,7 @@
 {
     CALayer* superlayer = self.superlayer;
     
-    NSSize aspect;
-    if([gameCore respondsToSelector:@selector(outputSize)])
-        aspect = [gameCore outputSize];
-    else
-        aspect = NSMakeSize([gameCore width], [gameCore height]);
+    CGSize aspect = [gameCore sourceRect].size;
     
     if(superlayer.bounds.size.width * (aspect.width * 1.0/aspect.height) > superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height))
         return CGSizeMake(superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height), superlayer.bounds.size.height);
@@ -205,12 +201,13 @@
     [self uploadGameBufferToTexture];
 
     // make a CIImage from our gameTexture
-    CGSize size = CGSizeMake([gameCore sourceWidth],[gameCore sourceHeight]);     
+    CGSize size = CGSizeMake([gameCore width],[gameCore height]);     
     CIImage* gameCIImage = [CIImage imageWithTexture:gameTexture size:size flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
     
+	
     if(filterRenderer != nil)
     {
-        [filterRenderer setValue:gameCIImage forInputKey:@"OEImageInput"];    
+        [filterRenderer setValue:[gameCIImage imageByCroppingToRect:[gameCore sourceRect]] forInputKey:@"OEImageInput"];    
         [filterRenderer renderAtTime:time arguments:nil];
     }
     // render based on selected shader and options.
@@ -268,27 +265,6 @@
         // this definitely works
         glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
     }
-}
-
-// below is old and not useful anymore.
-
-- (void)renderQuad
-{    
-    glBegin(GL_QUADS);    // Draw A Quad
-    {
-        glTexCoord2f(0.0f, 0.0f);
-        glVertex2f(0.0f, 0.0f);        
-        glTexCoord2f([gameCore sourceWidth], 0.0f );
-        glVertex2f([self bounds].size.width, 0.0f);
-        glTexCoord2f([gameCore sourceWidth], [gameCore sourceHeight]);
-        glVertex2f([self bounds].size.width,[self bounds].size.height);
-        glTexCoord2f(0.0f, [gameCore sourceHeight]);
-        glVertex2f(0.0f,[self bounds].size.height);
-    }
-    glEnd(); // Done Drawing The Quad
-    
-    // dont use any shaders (no-op if no shader was bound)
-    glUseProgramObjectARB(NULL);    
 }
 
 - (void)renderWithShader

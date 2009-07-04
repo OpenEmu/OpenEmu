@@ -133,8 +133,7 @@ typedef NSInteger OEButton;
 #pragma mark Video
 @property(readonly) NSUInteger  width;
 @property(readonly) NSUInteger  height;
-@property(readonly) NSUInteger  sourceWidth;
-@property(readonly) NSUInteger  sourceHeight;
+@property(readonly) CGRect		sourceRect;
 @property(readonly) const void *videoBuffer;
 @property(readonly) GLenum      pixelFormat;
 @property(readonly) GLenum      pixelType;

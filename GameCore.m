@@ -275,14 +275,9 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
-- (NSUInteger)sourceWidth
-{
-    return [self width];
-}
-
-- (NSUInteger)sourceHeight
-{
-    return [self height];
+- (CGRect)sourceRect
+{		
+	return CGRectMake(0, 0, [self width], [self height]);
 }
 
 - (const void *)videoBuffer

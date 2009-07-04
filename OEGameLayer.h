@@ -62,7 +62,5 @@
 @property(readwrite, retain) NSDocumentController *docController;
 
 - (void)uploadGameBufferToTexture;
-- (void)renderQuad;
-- (void)renderWithShader;
 
 @end
