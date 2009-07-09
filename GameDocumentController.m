@@ -100,6 +100,22 @@
             NSLog(@"Tried to update bundle without sparkle");
         }
     }
+	
+	//see if QC plugins are installed
+	NSBundle *OEQCPlugin = [NSBundle bundleWithPath:@"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin"];
+	//if so, get the bundle
+	if(OEQCPlugin) {
+		DLog(@"%@", [[SUUpdater updaterForBundle:OEQCPlugin] feedURL]);
+		@try {
+			if( [[SUUpdater updaterForBundle:OEQCPlugin] feedURL] )
+			{
+				[[SUUpdater updaterForBundle:OEQCPlugin] resetUpdateCycle];
+			}
+		}
+		@catch (NSException * e) {
+			NSLog(@"Tried to update QC bundle without Sparkle");
+		}
+	}
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -415,14 +431,14 @@
 - (NSString *)typeForContentsOfURL:(NSURL *)inAbsoluteURL error:(NSError **)outError
 {
     NSString *ret = [super typeForContentsOfURL:inAbsoluteURL error:outError];
-    if(ret == nil) ret = [self typeForExtension:[[inAbsoluteURL path] pathExtension]], NSLog(@"Long path");
+    if(ret == nil) ret = [self typeForExtension:[[inAbsoluteURL path] pathExtension]], NSLog(@"typeForContentsOfURL: Long path");
     return ret;
 }
 
 - (Class)documentClassForType:(NSString *)documentTypeName
 {
     Class ret = [super documentClassForType:documentTypeName];
-    if(ret == nil) ret = [GameDocument class], NSLog(@"Long path");
+    if(ret == nil) ret = [GameDocument class], NSLog(@"documentClassForType: Long path");
     return ret;
 }
 

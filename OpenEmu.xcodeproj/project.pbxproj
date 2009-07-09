@@ -23,6 +23,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 82BCA6180FEF095100DD3FC4 /* Build configuration list for PBXAggregateTarget "OpenEmuQC Distribution" */;
 			buildPhases = (
+				37CC66180FF8377700226BCB /* CopyFiles */,
 				82BCA6010FEF092600DD3FC4 /* ShellScript */,
 			);
 			dependencies = (
@@ -77,9 +78,10 @@
 		1BA788FF0FF9C95A007CE5DB /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */; };
+		375903840FF82C6400135C45 /* openemuqc_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 375903750FF82C4000135C45 /* openemuqc_pub.pem */; };
 		3759EE2A0FE88871000E56D5 /* OpenEmuBase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
+		37CC661A0FF8379B00226BCB /* config_qc.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 37CC66190FF8379B00226BCB /* config_qc.yaml */; };
 		37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
-		37E945AA0FF6A38E00688DD4 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
 		820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82444BA80F51259A007C171B /* GameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* GameCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -212,6 +214,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		37CC66180FF8377700226BCB /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				37CC661A0FF8379B00226BCB /* config_qc.yaml in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		828ED4F00E7D98F60059F397 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -264,8 +276,10 @@
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmu_Prefix.pch; sourceTree = "<group>"; };
 		3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OpenEmuQCIcon.icns; sourceTree = "<group>"; };
+		375903750FF82C4000135C45 /* openemuqc_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = openemuqc_pub.pem; sourceTree = "<group>"; };
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
 		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
+		37CC66190FF8379B00226BCB /* config_qc.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config_qc.yaml; sourceTree = "<group>"; };
 		820376250F3974FD00EC2F97 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Hyperlink.m"; sourceTree = "<group>"; };
 		82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Hyperlink.h"; sourceTree = "<group>"; };
@@ -321,7 +335,6 @@
 		C62F549A0FE6CC1500DF15BA /* OECorePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECorePlugin.m; sourceTree = "<group>"; };
 		C62F56520FE6FDA700DF15BA /* OEGameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameLayer.h; sourceTree = "<group>"; };
 		C62F56530FE6FDA700DF15BA /* OEGameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameLayer.m; sourceTree = "<group>"; };
-		C63AF5E90FE42130009856D4 /* Test-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Test-Info.plist"; sourceTree = "<group>"; };
 		C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameControllerView.h; sourceTree = "<group>"; };
 		C66DF0B50FEC3958007E3A20 /* OECorePlugin+SUUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "OECorePlugin+SUUpdater.m"; sourceTree = "<group>"; };
 		C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAbstractAdditions.h; sourceTree = "<group>"; };
@@ -457,7 +470,6 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
-				C63AF5E90FE42130009856D4 /* Test-Info.plist */,
 			);
 			name = OpenEmu;
 			sourceTree = "<group>";
@@ -479,6 +491,7 @@
 			children = (
 				82CAFBB70FEDAA3D00CCDC7E /* config.yaml */,
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
+				37CC66190FF8379B00226BCB /* config_qc.yaml */,
 				828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 			);
@@ -488,6 +501,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
 				1B7505100FEEB4F600B0D0AF /* About.png */,
 				C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */,
 				C67A36A90FE7F1F500A665E2 /* OECorePluginIcon.icns */,
@@ -774,7 +788,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				37E945AA0FF6A38E00688DD4 /* dsa_pub.pem in Resources */,
+				375903840FF82C6400135C45 /* openemuqc_pub.pem in Resources */,
 				1B56D6960F21397500C80694 /* Scale4x.vert in Resources */,
 				1B56D6970F21397500C80694 /* Scale4x.frag in Resources */,
 				1B56D6980F21397500C80694 /* Scale4xHQ.vert in Resources */,
@@ -849,8 +863,9 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "cd $BUILT_PRODUCTS_DIR\n\nmkdir OpenEmuQC\ncd OpenEmuQC\n\nmkdir Library\ncd Library\n\nmkdir Graphics\ncd Graphics\n\nmkdir \"Quartz Composer Plug-Ins\"\ncd \"Quartz Composer Plug-Ins\"\n\ncp -R $BUILT_PRODUCTS_DIR/OpenEmuQC.plugin .\n\ncd $BUILT_PRODUCTS_DIR\n\nmkdir OpenEmuFramework\ncd OpenEmuFramework\n\nmkdir Library\ncd Library\n\nmkdir Frameworks\ncd Frameworks\n\ncp -R $BUILT_PRODUCTS_DIR/OpenEmuBase.framework .\n";
+			shellPath = /bin/bash;
+			shellScript = "/usr/local/bin/openemu_qc_rb_automation.rb\n\ncd $BUILT_PRODUCTS_DIR\n\nmkdir OpenEmuQC\ncd OpenEmuQC\n\nmkdir Library\ncd Library\n\nmkdir Graphics\ncd Graphics\n\nmkdir \"Quartz Composer Plug-Ins\"\ncd \"Quartz Composer Plug-Ins\"\n\ncp -R $BUILT_PRODUCTS_DIR/OpenEmuQC.plugin .\n\ncd $BUILT_PRODUCTS_DIR\n\nmkdir OpenEmuFramework\ncd OpenEmuFramework\n\nmkdir Library\ncd Library\n\nmkdir Frameworks\ncd Frameworks\n\ncp -R $BUILT_PRODUCTS_DIR/OpenEmuBase.framework .\n";
+			showEnvVarsInLog = 0;
 		};
 		82C9C96E0F080C7F0071460B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

@@ -1,0 +1,9 @@
+build_now:              'YES'
+download_base_url:      http://openemu.sourceforge.net/
+release_notes_base_url: http://openemu.sourceforge.net/blog/releasenotes/openemuqc
+appcast_basefolder:     '/Users/dan/Desktop/Appcast'
+appcast_xml_name:       'appcast_qc.xml'
+keychain_privkey_name:  'Sparkle privkey'
+css_file_name:          'rnotes.css'
+product_name:           'OpenEmuQC'
+bundle_extension:       'plugin'
