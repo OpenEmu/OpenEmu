@@ -110,6 +110,7 @@
 			if( [[SUUpdater updaterForBundle:OEQCPlugin] feedURL] )
 			{
 				[[SUUpdater updaterForBundle:OEQCPlugin] resetUpdateCycle];
+				[[SUUpdater updaterForBundle:OEQCPlugin] checkForUpdates:self];
 			}
 		}
 		@catch (NSException * e) {
