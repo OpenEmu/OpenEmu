@@ -32,7 +32,6 @@
 #define    kQCPlugIn_Name                @"OpenEmu Filters"
 #define    kQCPlugIn_Description        @"Provides the scaling filters optimized for pixelated graphics from OpenEmu"
 
-
 #pragma mark -
 #pragma mark Static Functions
 

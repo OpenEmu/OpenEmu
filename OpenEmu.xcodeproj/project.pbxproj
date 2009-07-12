@@ -48,6 +48,10 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1B4B324E1009BC7500F36BB1 /* CRTMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B324C1009BC7500F36BB1 /* CRTMask.frag */; };
+		1B4B324F1009BC7500F36BB1 /* CRTMask.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B324D1009BC7500F36BB1 /* CRTMask.vert */; };
+		1B4B3390100A792500F36BB1 /* PhosphorBlur.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B338E100A792500F36BB1 /* PhosphorBlur.frag */; };
+		1B4B3391100A792500F36BB1 /* PhosphorBlur.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B338F100A792500F36BB1 /* PhosphorBlur.vert */; };
 		1B56D6890F21340700C80694 /* OpenEmuQCFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B56D6870F21340700C80694 /* OpenEmuQCFilters.m */; };
 		1B56D6960F21397500C80694 /* Scale4x.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC10F08A13500770B6D /* Scale4x.vert */; };
 		1B56D6970F21397500C80694 /* Scale4x.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC00F08A13500770B6D /* Scale4x.frag */; };
@@ -59,6 +63,8 @@
 		1B56D69D0F21397500C80694 /* Scale2xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */; };
 		1B56D69E0F21397500C80694 /* Scale2XPlus.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2XPlus.frag */; };
 		1B56D69F0F21397500C80694 /* Scale2XPlus.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2XPlus.vert */; };
+		1B5B5FF5100984800043536B /* OpenEmuQCCRT.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5B5FF4100984800043536B /* OpenEmuQCCRT.m */; };
+		1B5B5FF8100986400043536B /* CRTMask.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B5B5FF7100986400043536B /* CRTMask.tiff */; };
 		1B7505110FEEB4F600B0D0AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B7505100FEEB4F600B0D0AF /* About.png */; };
 		1B7505140FEEB72700B0D0AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B7505100FEEB4F600B0D0AF /* About.png */; };
 		1B7594AF0E90C3E300FB5BF1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
@@ -252,8 +258,15 @@
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B4B324C1009BC7500F36BB1 /* CRTMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.frag; sourceTree = "<group>"; };
+		1B4B324D1009BC7500F36BB1 /* CRTMask.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.vert; sourceTree = "<group>"; };
+		1B4B338E100A792500F36BB1 /* PhosphorBlur.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PhosphorBlur.frag; sourceTree = "<group>"; };
+		1B4B338F100A792500F36BB1 /* PhosphorBlur.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PhosphorBlur.vert; sourceTree = "<group>"; };
 		1B56D6870F21340700C80694 /* OpenEmuQCFilters.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuQCFilters.m; sourceTree = "<group>"; };
 		1B56D6880F21340700C80694 /* OpenEmuQCFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCFilters.h; sourceTree = "<group>"; };
+		1B5B5FF4100984800043536B /* OpenEmuQCCRT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuQCCRT.m; sourceTree = "<group>"; };
+		1B5B5FF6100984880043536B /* OpenEmuQCCRT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCCRT.h; sourceTree = "<group>"; };
+		1B5B5FF7100986400043536B /* CRTMask.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMask.tiff; sourceTree = "<group>"; };
 		1B7505100FEEB4F600B0D0AF /* About.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = About.png; sourceTree = "<group>"; };
 		1B885E080F085EA500770B6D /* Scale2XPlus.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2XPlus.frag; sourceTree = "<group>"; };
 		1B885E090F085EA500770B6D /* Scale2XPlus.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2XPlus.vert; sourceTree = "<group>"; };
@@ -447,6 +460,10 @@
 		1B885E070F085EA500770B6D /* GLSL Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				1B4B324C1009BC7500F36BB1 /* CRTMask.frag */,
+				1B4B324D1009BC7500F36BB1 /* CRTMask.vert */,
+				1B4B338E100A792500F36BB1 /* PhosphorBlur.frag */,
+				1B4B338F100A792500F36BB1 /* PhosphorBlur.vert */,
 				1B885EC10F08A13500770B6D /* Scale4x.vert */,
 				1B885EC00F08A13500770B6D /* Scale4x.frag */,
 				1B885E910F089F8A00770B6D /* Scale4xHQ.vert */,
@@ -501,6 +518,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1B5B5FF7100986400043536B /* CRTMask.tiff */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
 				1B7505100FEEB4F600B0D0AF /* About.png */,
 				C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */,
@@ -582,6 +600,8 @@
 				37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */,
 				828E659D0E8466CC00B1860B /* OpenEmuQCPlugin.h */,
 				828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */,
+				1B5B5FF6100984880043536B /* OpenEmuQCCRT.h */,
+				1B5B5FF4100984800043536B /* OpenEmuQCCRT.m */,
 			);
 			name = OpenEmuQC;
 			sourceTree = "<group>";
@@ -801,6 +821,11 @@
 				1B56D69F0F21397500C80694 /* Scale2XPlus.vert in Resources */,
 				3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */,
 				1B7505110FEEB4F600B0D0AF /* About.png in Resources */,
+				1B5B5FF8100986400043536B /* CRTMask.tiff in Resources */,
+				1B4B324E1009BC7500F36BB1 /* CRTMask.frag in Resources */,
+				1B4B324F1009BC7500F36BB1 /* CRTMask.vert in Resources */,
+				1B4B3390100A792500F36BB1 /* PhosphorBlur.frag in Resources */,
+				1B4B3391100A792500F36BB1 /* PhosphorBlur.vert in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -912,6 +937,7 @@
 				C66DF0B00FEC38C0007E3A20 /* OEPlugin.m in Sources */,
 				C66DF0B20FEC38C2007E3A20 /* OECorePlugin.m in Sources */,
 				1BA788FF0FF9C95A007CE5DB /* OEGameShader.m in Sources */,
+				1B5B5FF5100984800043536B /* OpenEmuQCCRT.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
