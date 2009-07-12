@@ -146,8 +146,8 @@
     
     // unset our client storage options storage
     // these fucks were causing our FBOs to fail.
-   // glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
-   // glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
+    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
 
     CGLUnlockContext(layerContext);
     
