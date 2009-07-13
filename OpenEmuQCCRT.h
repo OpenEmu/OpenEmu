@@ -40,6 +40,9 @@
 	GLuint frameBuffer;
 	GLuint frameDelayFBO; 
 	GLuint CRTPixelTexture; 
+	
+	GLuint lastFrameBuffer;
+	GLuint lastFrameTexture;
 }
 
 /*
@@ -54,6 +57,9 @@
 @property (assign) double inputRenderDestinationWidth;
 @property (assign) double inputRenderDestinationHeight;
 @property (assign) double inputPhosphorBlurAmount;
+@property (assign) NSUInteger inputPhosphorBlurNumPasses;
+@property (assign) BOOL inputEnablePhosphorDelay;
+@property (assign) double inputPhosphorDelayAmount;
 //@property (assign) NSUInteger inputScaler;
 @property (assign) id<QCPlugInOutputImageProvider> outputImage;
 
