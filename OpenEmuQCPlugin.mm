@@ -27,7 +27,13 @@
 
 /* It's highly recommended to use CGL macros instead of changing the current context for plug-ins that perform OpenGL rendering */
 #import <OpenGL/CGLMacro.h>
+
 #import "OpenEmuQCPlugin.h"
+
+#import <Quartz/Quartz.h>
+#import <OpenGL/OpenGL.h>
+#import <OpenGL/gl.h>
+
 #import "GameCore.h"
 #import "GameAudio.h"
 #import "OECorePlugin.h"

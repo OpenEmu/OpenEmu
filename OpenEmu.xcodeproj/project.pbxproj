@@ -91,6 +91,7 @@
 		3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */; };
 		375903840FF82C6400135C45 /* openemuqc_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 375903750FF82C4000135C45 /* openemuqc_pub.pem */; };
 		3759EE2A0FE88871000E56D5 /* OpenEmuBase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
+		37CC3EA7100BE6BB00C1CD6E /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
 		37CC661A0FF8379B00226BCB /* config_qc.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 37CC66190FF8379B00226BCB /* config_qc.yaml */; };
 		37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
@@ -980,6 +981,7 @@
 			files = (
 				1B8D4B010E874E6F00C3C4F5 /* GameAudio.m in Sources */,
 				828E659F0E8466CC00B1860B /* OpenEmuQCPlugin.mm in Sources */,
+				37CC3EA7100BE6BB00C1CD6E /* OpenEmuQCNESPlugin.mm in Sources */,
 				1B56D6890F21340700C80694 /* OpenEmuQCFilters.m in Sources */,
 				C66DF0B00FEC38C0007E3A20 /* OEPlugin.m in Sources */,
 				C66DF0B20FEC38C2007E3A20 /* OECorePlugin.m in Sources */,

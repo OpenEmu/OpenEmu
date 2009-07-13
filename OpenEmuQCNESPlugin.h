@@ -39,6 +39,7 @@
     OEGameCoreController *gameCoreController;
     GameCore             *gameCore;
     GameAudio            *gameAudio;
+	GLuint				 gameTexture;
     NSMutableArray       *persistantControllerData;
     NSRecursiveLock      *gameLock;
     BOOL loadedRom, romFinishedLoading, hasNmtRam, hasChrRom;
@@ -79,6 +80,7 @@ You can access their values in the appropriate plug-in methods using self.inputF
 - (void)handleControllerData;
 - (void)refresh;
 - (void)loadRom:(NSString *)romPath;
+- (OECorePlugin *)pluginForType:(NSString *)extension;
 - (void)saveState:(NSString *)fileName;
 - (BOOL)loadState:(NSString *)fileName;
 - (void)setCode:(NSString*)cheatCode;

@@ -25,15 +25,11 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Quartz/Quartz.h>
-#import <OpenGL/OpenGL.h>
-#import <OpenGL/gl.h>
 #import <Cocoa/Cocoa.h>
-#import <AudioToolbox/AudioToolbox.h>
 
 @class GameCore, OECorePlugin;
 @class OEGameCoreController;
-@class GameAudio, GameBuffer;
+@class GameAudio;
 
 @interface OpenEmuQC : QCPlugIn
 {

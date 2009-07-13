@@ -26,16 +26,14 @@
  */
 
 /* It's highly recommended to use CGL macros instead of changing the current context for plug-ins that perform OpenGL rendering */
-//#import <OpenGL/CGLMacro.h>
+#import <OpenGL/CGLMacro.h>
 
 #import "OpenEmuQCNESPlugin.h"
 
 #import <Quartz/Quartz.h>
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/gl.h>
-#import <AudioToolbox/AudioToolbox.h>
 
-//#import "GameBuffer.h"
 #import "GameAudio.h"
 #import "GameCore.h"
 #import "OECorePlugin.h"
@@ -45,13 +43,61 @@
 
 static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* info)
 {	
-	glDeleteTextures(1, &name);
+//	glDeleteTextures(1, &name);
 }
 
 static void _BufferReleaseCallback(const void* address, void* info)
 {
 	DLog(@"called buffer release callback");
 	//	free((void*)address);
+}
+
+static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat, NSUInteger pixelsWide, NSUInteger pixelsHigh, GLenum pixelFormat, GLenum pixelType, const void *pixelBuffer)
+{
+	GLenum status;
+	GLuint gameTexture;
+	
+	CGLContextObj cgl_ctx = context;
+	CGLLockContext(cgl_ctx);
+	
+	glEnable(GL_TEXTURE_RECTANGLE_EXT);	
+	// create our texture 
+	glGenTextures(1, &gameTexture);
+	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+	
+	status = glGetError();
+	if(status)
+	{
+		NSLog(@"createNewTexture, after bindTex: OpenGL error %04X", status);
+	}
+	
+	// with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?) 
+	glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  pixelsWide * pixelsHigh * (32 >> 3), pixelBuffer); 
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
+	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+	
+	// proper tex params.
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+	
+	glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, internalPixelFormat, pixelsWide, pixelsHigh, 0, pixelFormat, pixelType, pixelBuffer);
+	
+	status = glGetError();
+	if(status)
+	{
+		NSLog(@"createNewTexture, after creating tex: OpenGL error %04X", status);
+		glDeleteTextures(1, &gameTexture);
+		gameTexture = 0;
+	}
+	
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
+	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+	
+	CGLUnlockContext(cgl_ctx);
+	return gameTexture;
 }
 
 @implementation OpenEmuQCNES
@@ -286,6 +332,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 - (void) dealloc
 {
 	/* Release any resources created in -init. */
+	[plugins release];
+	[validExtensions release];
 	[persistantControllerData release];
 	[gameLock release];
 	[super dealloc];
@@ -357,12 +405,18 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 
 - (BOOL) execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary*)arguments
 {
-	CGLSetCurrentContext([context CGLContextObj]);
+	CGLContextObj cgl_ctx = [context CGLContextObj];
+	CGLLockContext(cgl_ctx);
 	
 	// Process ROM loads
 	if([self didValueForInputKeyChange: @"inputRom"] && ([self valueForInputKey:@"inputRom"] != [[OpenEmuQCNES	attributesForPropertyPortWithKey:@"inputRom"] valueForKey: QCPortAttributeDefaultValueKey]))
 	{
 		[self loadRom:[self valueForInputKey:@"inputRom"]];
+		
+		if(loadedRom) {
+			glDeleteTextures(1, &gameTexture);
+			gameTexture = createNewTexture(cgl_ctx, [gameCore internalPixelFormat], [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+		}
 	}
 	
 	if(loadedRom && romFinishedLoading) {
@@ -480,31 +534,36 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			[gameCore setChrRamBytes:self.inputChrRamOffset value:self.inputChrRamValue];
 		}
 	}
-	
+
+#pragma mark provide an image 
+
 	// our output image
 	id	provider = nil;
 	
 	// handle our image output. (sanity checking)
-	if(loadedRom && romFinishedLoading && ([gameCore width] > 10) )
+	if(loadedRom && romFinishedLoading && ([gameCore width] > 10) && [gameCore frameFinished])
 	{
-		
-		glEnable( GL_TEXTURE_RECTANGLE_EXT );
-		
 		GLenum status;
-		GLuint texName;
-		glGenTextures(1, &texName);
-						
-		glBindTexture( GL_TEXTURE_RECTANGLE_EXT, texName);
-		glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
-					
-		// Check for OpenGL errors 
+		
+        glEnable( GL_TEXTURE_RECTANGLE_EXT );
+        glBindTexture( GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+        
 		status = glGetError();
 		if(status)
 		{
-			NSLog(@"OpenGL error %04X", status);
-			glDeleteTextures(1, &texName);
-			texName = 0;
+			NSLog(@"after bindTexture in execute: OpenGL error %04X", status);
 		}
+		//new texture upload method
+		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
+		
+        // Check for OpenGL errors 
+        status = glGetError();
+        if(status)
+        {
+            NSLog(@"after updating texture: OpenGL error %04X", status);
+            glDeleteTextures(1, &gameTexture);
+            gameTexture = 0;
+        }
 		
 		glFlushRenderAPPLE();
 #if __BIG_ENDIAN__
@@ -516,7 +575,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		provider = [context outputImageProviderFromTextureWithPixelFormat:OEPlugInPixelFormat 
 															   pixelsWide:[gameCore width]
 															   pixelsHigh:[gameCore height]
-																	 name:texName 
+																	 name:gameTexture 
 																  flipped:YES 
 														  releaseCallback:_TextureReleaseCallback 
 														   releaseContext:NULL
@@ -527,6 +586,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// output OpenEmu Texture - note we CAN output a nil image. This is 'correct'
 	self.outputImage = provider;
 
+	CGLUnlockContext(cgl_ctx);
 	return YES;
 }
 
@@ -561,6 +621,13 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		gameCore = nil;
 		loadedRom = NO;
 		romFinishedLoading = NO;
+		
+		CGLContextObj cgl_ctx = [context CGLContextObj];
+		CGLLockContext(cgl_ctx);
+		glDeleteTextures(1, &gameTexture);
+		gameTexture = 0;
+		CGLUnlockContext(cgl_ctx);
+		
 	}
 }
 
@@ -591,6 +658,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		// cleanup
 		if(loadedRom && romFinishedLoading)
 		{
+			romFinishedLoading = NO;
 			[gameAudio stopAudio];
 			[gameCore stopEmulation];
 			[gameCore release];
@@ -600,7 +668,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 		}
 		loadedRom = NO;
-		romFinishedLoading = NO;
 		hasChrRom = NO;
 		hasNmtRam = NO;
 		
