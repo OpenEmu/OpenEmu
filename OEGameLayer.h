@@ -53,6 +53,8 @@
     // for QCRenderer
     NSTimeInterval        startTime; // time for rendering, input to time based effects, sources, 
     NSTimeInterval        time;
+	
+	CGSize cachedTextureSize;
 }
 
 @property         BOOL          vSyncEnabled;
@@ -61,6 +63,7 @@
 @property(retain) GameCore     *gameCore;
 @property(readwrite, retain) NSDocumentController *docController;
 
+- (void)createTexture;
 - (void)uploadGameBufferToTexture;
 
 @end

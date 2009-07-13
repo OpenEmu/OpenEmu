@@ -108,7 +108,6 @@
     CGLSetCurrentContext(layerContext); 
     CGLLockContext(layerContext);
 
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
 
     // this will be responsible for our rendering... weee...    
     QCComposition *compo = [self composition];
@@ -121,40 +120,32 @@
     if (filterRenderer == nil)
         NSLog(@"failed to creare our filter QCRender");
     
-    // create our texture 
-    glEnable(GL_TEXTURE_RECTANGLE_EXT);
-    glGenTextures(1, &gameTexture);
-    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-
-    // with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?) 
-    glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore width] * [gameCore height] * (32 >> 3), [gameCore videoBuffer]); 
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
-    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-
-    // proper tex params.
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-
-    // this is 'optimal', and does not seem to cause issues with gamecores that output non RGBA, (ie just RGB etc), 
-    // glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, [gameCore width], [gameCore height], 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
-  
-    // this definitely works
-    glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
-    
-    // unset our client storage options storage
-    // these fucks were causing our FBOs to fail.
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
-    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
-
+	
+	// create our texture we will be updating in drawInCGLContext:
+	[self createTexture];
+	
     CGLUnlockContext(layerContext);
     
     return layerContext;
 }
 
-- (CGSize)preferredFrameSize
+-(CGSize)preferredFrameSize
+{
+    CALayer* superlayer = self.superlayer;
+    
+    NSSize aspect;
+    if([gameCore respondsToSelector:@selector(outputSize)])
+        aspect = [gameCore outputSize];
+    else
+        aspect = NSMakeSize([gameCore width], [gameCore height]);
+    
+    if(superlayer.bounds.size.width * (aspect.width * 1.0/aspect.height) > superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height))
+        return CGSizeMake(superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height), superlayer.bounds.size.height);
+    else
+        return CGSizeMake( superlayer.bounds.size.width, superlayer.bounds.size.width * (aspect.height* 1.0/aspect.width));
+}
+
+/*- (CGSize)preferredFrameSize
 {
     CALayer* superlayer = self.superlayer;
     
@@ -164,7 +155,7 @@
         return CGSizeMake(superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height), superlayer.bounds.size.height);
     else
         return CGSizeMake( superlayer.bounds.size.width, superlayer.bounds.size.width * (aspect.height* 1.0/aspect.width));
-}
+}*/
 
 - (BOOL)canDrawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
 {
@@ -201,20 +192,20 @@
     [self uploadGameBufferToTexture];
 
     // make a CIImage from our gameTexture
-    CGSize size = CGSizeMake([gameCore width],[gameCore height]);     
-    CIImage* gameCIImage = [CIImage imageWithTexture:gameTexture size:size flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
+    //CGSize size = CGSizeMake([gameCore width],[gameCore height]);     
+    CIImage* gameCIImage = [CIImage imageWithTexture:gameTexture size:cachedTextureSize flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
     
+	CGRect cropRect;
+	if([gameCore respondsToSelector:@selector(outputSize)])
+		cropRect = CGRectMake(0.0, 0.0, [gameCore outputSize].width, [gameCore outputSize].height);
+	else
+		cropRect = [gameCore sourceRect];
 	
     if(filterRenderer != nil)
     {
-        [filterRenderer setValue:[gameCIImage imageByCroppingToRect:[gameCore sourceRect]] forInputKey:@"OEImageInput"];    
+        [filterRenderer setValue:[gameCIImage imageByCroppingToRect:cropRect] forInputKey:@"OEImageInput"];    
         [filterRenderer renderAtTime:time arguments:nil];
     }
-    // render based on selected shader and options.
-    //if(usesShader) [self renderWithShader];
-    
-    // draw our quad, works on its own or with shader bound
-    //[self renderQuad];
     
     // super calls flush for us.
     [super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
@@ -250,11 +241,60 @@
     [super dealloc];
 }
 
+- (void)createTexture
+{
+	glPushAttrib(GL_ALL_ATTRIB_BITS);
+	
+    // create our texture 
+    glEnable(GL_TEXTURE_RECTANGLE_EXT);
+    glGenTextures(1, &gameTexture);
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+	
+    // with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?) 
+    glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore width] * [gameCore height] * (32 >> 3), [gameCore videoBuffer]); 
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
+    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+	
+    // proper tex params.
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+	
+    // this is 'optimal', and does not seem to cause issues with gamecores that output non RGBA, (ie just RGB etc), 
+    // glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, [gameCore width], [gameCore height], 0, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, [gameCore videoBuffer]);
+	
+    // this definitely works
+    glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+    
+    // unset our client storage options storage
+    // these fucks were causing our FBOs to fail.
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
+    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+	
+	glPopAttrib();
+	
+	// cache our texture size so we can tell if it changed behind our backs..
+	
+	cachedTextureSize = CGSizeMake([gameCore width], [gameCore height]);
+	
+}
+
 - (void)uploadGameBufferToTexture
 {
 	// only do a texture submit if we have a new frame...
     if([gameCore frameFinished])
     {    
+		
+		// check to see if our gameCore switched to hi-res mode, or did anything fucked up to the texture size.
+		if((cachedTextureSize.width != [gameCore width]) || (cachedTextureSize.height != [gameCore height]))
+		{
+			NSLog(@"Our gamecore imaeg size changed.. rebuilding texture...");
+			glDeleteTextures(1, &gameTexture);
+			[self createTexture];
+		}
+		
         // update our gamebuffer texture
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);

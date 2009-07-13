@@ -12,6 +12,7 @@ void main (void)
 	
 	// our CRT image is 12x12 pixels , with a 4 pixel array repeating pattern.. we have to do this because texture rect does not have GL_REPEAT texture wrap mode.
 	vec4 crt = texture2DRect(tex1, mod(crtcoord0, 12.0));
-	
+		
+		
 	gl_FragColor = (videoIn * crt * 1.05) + 0.07;	
 }

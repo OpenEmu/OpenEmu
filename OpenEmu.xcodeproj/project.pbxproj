@@ -51,6 +51,18 @@
 		1B223EE3100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B223EE2100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m */; };
 		1B223EFC100B89BE00F42067 /* CRTDisplace.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFA100B89BE00F42067 /* CRTDisplace.vert */; };
 		1B223EFD100B89BE00F42067 /* CRTDisplace.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFB100B89BE00F42067 /* CRTDisplace.frag */; };
+		1B224027100BD67F00F42067 /* CRT Emulation.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B224005100BD61D00F42067 /* CRT Emulation.qtz */; };
+		1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B224006100BD61D00F42067 /* Debug.qtz */; };
+		1B224029100BD67F00F42067 /* Linear.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B224007100BD61D00F42067 /* Linear.qtz */; };
+		1B22402A100BD67F00F42067 /* Nearest Neighbor.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B224008100BD61D00F42067 /* Nearest Neighbor.qtz */; };
+		1B22402B100BD67F00F42067 /* Scale2xHQ.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B224009100BD61D00F42067 /* Scale2xHQ.qtz */; };
+		1B22402C100BD67F00F42067 /* Scale2xPlus.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B22400A100BD61D00F42067 /* Scale2xPlus.qtz */; };
+		1B22402D100BD67F00F42067 /* Scale4x.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B22400B100BD61D00F42067 /* Scale4x.qtz */; };
+		1B22402E100BD67F00F42067 /* Scale4xHQ.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B22400C100BD61D00F42067 /* Scale4xHQ.qtz */; };
+		1B224082100BD76D00F42067 /* Sparkle.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
+		1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
+		1B224090100BD79800F42067 /* XADMaster.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 828ED4DB0E7D98D90059F397 /* XADMaster.framework */; };
+		1B224092100BD7A200F42067 /* UniversalDetector.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 828ED4DC0E7D98D90059F397 /* UniversalDetector.framework */; };
 		1B4B324E1009BC7500F36BB1 /* CRTMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B324C1009BC7500F36BB1 /* CRTMask.frag */; };
 		1B4B324F1009BC7500F36BB1 /* CRTMask.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B324D1009BC7500F36BB1 /* CRTMask.vert */; };
 		1B4B3390100A792500F36BB1 /* PhosphorBlur.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B338E100A792500F36BB1 /* PhosphorBlur.frag */; };
@@ -71,16 +83,6 @@
 		1B7505110FEEB4F600B0D0AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B7505100FEEB4F600B0D0AF /* About.png */; };
 		1B7505140FEEB72700B0D0AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B7505100FEEB4F600B0D0AF /* About.png */; };
 		1B7594AF0E90C3E300FB5BF1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
-		1B885E0A0F085EA500770B6D /* Scale2XPlus.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2XPlus.frag */; };
-		1B885E0B0F085EA500770B6D /* Scale2XPlus.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2XPlus.vert */; };
-		1B885E3C0F089A4400770B6D /* Scale2xHQ.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3A0F089A4400770B6D /* Scale2xHQ.frag */; };
-		1B885E3D0F089A4400770B6D /* Scale2xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */; };
-		1B885E8F0F089F1B00770B6D /* Scale2XSALSmart.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E8D0F089F1B00770B6D /* Scale2XSALSmart.frag */; };
-		1B885E900F089F1B00770B6D /* Scale2XSALSmart.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E8E0F089F1B00770B6D /* Scale2XSALSmart.vert */; };
-		1B885E930F089F8A00770B6D /* Scale4xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E910F089F8A00770B6D /* Scale4xHQ.vert */; };
-		1B885E940F089F8A00770B6D /* Scale4xHQ.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E920F089F8A00770B6D /* Scale4xHQ.frag */; };
-		1B885EC20F08A13500770B6D /* Scale4x.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC00F08A13500770B6D /* Scale4x.frag */; };
-		1B885EC30F08A13500770B6D /* Scale4x.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC10F08A13500770B6D /* Scale4x.vert */; };
 		1B88931B0FF9267C00F86F00 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D60E8467AA00B1860B /* Quartz.framework */; };
 		1B8D4AEE0E874D5500C3C4F5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
 		1B8D4B010E874E6F00C3C4F5 /* GameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.m */; };
@@ -107,8 +109,7 @@
 		828ED4D70E7D98940059F397 /* GamePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828ED4D60E7D98940059F397 /* GamePickerController.m */; };
 		828ED4DA0E7D98A10059F397 /* GameFilePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 828ED4D80E7D98A10059F397 /* GameFilePicker.xib */; };
 		828ED4DD0E7D98D90059F397 /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828ED4DB0E7D98D90059F397 /* XADMaster.framework */; };
-		828ED4E00E7D98F00059F397 /* XADMaster.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 828ED4DB0E7D98D90059F397 /* XADMaster.framework */; };
-		828ED4E10E7D98F00059F397 /* UniversalDetector.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 828ED4DC0E7D98D90059F397 /* UniversalDetector.framework */; };
+		828ED4E10E7D98F00059F397 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828ED4DC0E7D98D90059F397 /* UniversalDetector.framework */; };
 		829022AA0F47F90D00BB7AB7 /* GameQTRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 829022A90F47F90D00BB7AB7 /* GameQTRecorder.m */; };
 		829022B10F47FAC100BB7AB7 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829022B00F47FAC100BB7AB7 /* QTKit.framework */; };
 		82902A140F48ACEE00BB7AB7 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82902A130F48ACEE00BB7AB7 /* QuickTime.framework */; };
@@ -119,7 +120,6 @@
 		82AFA66A0FDDC03500531EE3 /* OERingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA6680FDDC03500531EE3 /* OERingBuffer.m */; };
 		82C434130EE393530037C54B /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82C434120EE393530037C54B /* icon.icns */; };
 		82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
-		82C9C95E0F0804D90071460B /* Sparkle.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
 		82CAFBBE0FEDAA4200CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFBB70FEDAA3D00CCDC7E /* config.yaml */; };
 		82E7418A0E7209C400AE60C4 /* GameDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E741880E7209C400AE60C4 /* GameDocument.xib */; };
@@ -130,7 +130,6 @@
 		8D15AC310486D014006FF6A4 /* GameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		C6031D350FE5AF2B00D44F71 /* OpenEmuBase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		C61C98C30F58308C007F4242 /* OEHIDEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = C6C98B830F55B7A800116EA2 /* OEHIDEvent.h */; };
 		C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */; };
 		C61C98E70F583217007F4242 /* OEGameCoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */; };
@@ -213,6 +212,24 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		1B22406D100BD6C600F42067 /* Copy Filters To App Bundle */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Filters;
+			dstSubfolderSpec = 7;
+			files = (
+				1B224027100BD67F00F42067 /* CRT Emulation.qtz in Copy Filters To App Bundle */,
+				1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters To App Bundle */,
+				1B224029100BD67F00F42067 /* Linear.qtz in Copy Filters To App Bundle */,
+				1B22402A100BD67F00F42067 /* Nearest Neighbor.qtz in Copy Filters To App Bundle */,
+				1B22402B100BD67F00F42067 /* Scale2xHQ.qtz in Copy Filters To App Bundle */,
+				1B22402C100BD67F00F42067 /* Scale2xPlus.qtz in Copy Filters To App Bundle */,
+				1B22402D100BD67F00F42067 /* Scale4x.qtz in Copy Filters To App Bundle */,
+				1B22402E100BD67F00F42067 /* Scale4xHQ.qtz in Copy Filters To App Bundle */,
+			);
+			name = "Copy Filters To App Bundle";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3759EE3C0FE88B08000E56D5 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -233,17 +250,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		828ED4F00E7D98F60059F397 /* CopyFiles */ = {
+		828ED4F00E7D98F60059F397 /* Copy Frameworks to App Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C6031D350FE5AF2B00D44F71 /* OpenEmuBase.framework in CopyFiles */,
-				82C9C95E0F0804D90071460B /* Sparkle.framework in CopyFiles */,
-				828ED4E00E7D98F00059F397 /* XADMaster.framework in CopyFiles */,
-				828ED4E10E7D98F00059F397 /* UniversalDetector.framework in CopyFiles */,
+				1B224092100BD7A200F42067 /* UniversalDetector.framework in Copy Frameworks to App Frameworks */,
+				1B224090100BD79800F42067 /* XADMaster.framework in Copy Frameworks to App Frameworks */,
+				1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */,
+				1B224082100BD76D00F42067 /* Sparkle.framework in Copy Frameworks to App Frameworks */,
 			);
+			name = "Copy Frameworks to App Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		82CAFBAA0FEDAA1C00CCDC7E /* CopyFiles */ = {
@@ -265,6 +283,14 @@
 		1B223EE2100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuQCCRTDisplacePlugin.m; sourceTree = "<group>"; };
 		1B223EFA100B89BE00F42067 /* CRTDisplace.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDisplace.vert; sourceTree = "<group>"; };
 		1B223EFB100B89BE00F42067 /* CRTDisplace.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDisplace.frag; sourceTree = "<group>"; };
+		1B224005100BD61D00F42067 /* CRT Emulation.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "CRT Emulation.qtz"; sourceTree = "<group>"; };
+		1B224006100BD61D00F42067 /* Debug.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Debug.qtz; sourceTree = "<group>"; };
+		1B224007100BD61D00F42067 /* Linear.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Linear.qtz; sourceTree = "<group>"; };
+		1B224008100BD61D00F42067 /* Nearest Neighbor.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "Nearest Neighbor.qtz"; sourceTree = "<group>"; };
+		1B224009100BD61D00F42067 /* Scale2xHQ.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Scale2xHQ.qtz; sourceTree = "<group>"; };
+		1B22400A100BD61D00F42067 /* Scale2xPlus.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Scale2xPlus.qtz; sourceTree = "<group>"; };
+		1B22400B100BD61D00F42067 /* Scale4x.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Scale4x.qtz; sourceTree = "<group>"; };
+		1B22400C100BD61D00F42067 /* Scale4xHQ.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Scale4xHQ.qtz; sourceTree = "<group>"; };
 		1B4B324C1009BC7500F36BB1 /* CRTMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.frag; sourceTree = "<group>"; };
 		1B4B324D1009BC7500F36BB1 /* CRTMask.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.vert; sourceTree = "<group>"; };
 		1B4B338E100A792500F36BB1 /* PhosphorBlur.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PhosphorBlur.frag; sourceTree = "<group>"; };
@@ -411,14 +437,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1B88931B0FF9267C00F86F00 /* Quartz.framework in Frameworks */,
 				C63AF5A60FE41E90009856D4 /* OpenEmuBase.framework in Frameworks */,
+				82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */,
+				828ED4DD0E7D98D90059F397 /* XADMaster.framework in Frameworks */,
+				828ED4E10E7D98F00059F397 /* UniversalDetector.framework in Frameworks */,
+				1B88931B0FF9267C00F86F00 /* Quartz.framework in Frameworks */,
 				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				8283876E0E6C54E100A96E2C /* OpenGL.framework in Frameworks */,
 				829779360E743F3A00631240 /* AudioToolbox.framework in Frameworks */,
-				828ED4DD0E7D98D90059F397 /* XADMaster.framework in Frameworks */,
 				8291666C0E8603B600493FD8 /* IOKit.framework in Frameworks */,
-				82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */,
 				820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */,
 				829022B10F47FAC100BB7AB7 /* QTKit.framework in Frameworks */,
 				82902A140F48ACEE00BB7AB7 /* QuickTime.framework in Frameworks */,
@@ -462,6 +489,21 @@
 				82444BA10F51256C007C171B /* OpenEmuBase.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		1B224004100BD61D00F42067 /* Filter Quartz Compositions */ = {
+			isa = PBXGroup;
+			children = (
+				1B224005100BD61D00F42067 /* CRT Emulation.qtz */,
+				1B224006100BD61D00F42067 /* Debug.qtz */,
+				1B224007100BD61D00F42067 /* Linear.qtz */,
+				1B224008100BD61D00F42067 /* Nearest Neighbor.qtz */,
+				1B224009100BD61D00F42067 /* Scale2xHQ.qtz */,
+				1B22400A100BD61D00F42067 /* Scale2xPlus.qtz */,
+				1B22400B100BD61D00F42067 /* Scale4x.qtz */,
+				1B22400C100BD61D00F42067 /* Scale4xHQ.qtz */,
+			);
+			path = "Filter Quartz Compositions";
 			sourceTree = "<group>";
 		};
 		1B885E070F085EA500770B6D /* GLSL Shaders */ = {
@@ -527,6 +569,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1B224004100BD61D00F42067 /* Filter Quartz Compositions */,
 				1B5B5FF7100986400043536B /* CRTMask.tiff */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
 				1B7505100FEEB4F600B0D0AF /* About.png */,
@@ -769,9 +812,10 @@
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */;
 			buildPhases = (
 				8D15AC2B0486D014006FF6A4 /* Resources */,
+				1B22406D100BD6C600F42067 /* Copy Filters To App Bundle */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
-				828ED4F00E7D98F60059F397 /* CopyFiles */,
+				828ED4F00E7D98F60059F397 /* Copy Frameworks to App Frameworks */,
 			);
 			buildRules = (
 			);
@@ -854,16 +898,6 @@
 				828ED4DA0E7D98A10059F397 /* GameFilePicker.xib in Resources */,
 				82C434130EE393530037C54B /* icon.icns in Resources */,
 				82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */,
-				1B885E0A0F085EA500770B6D /* Scale2XPlus.frag in Resources */,
-				1B885E0B0F085EA500770B6D /* Scale2XPlus.vert in Resources */,
-				1B885E3C0F089A4400770B6D /* Scale2xHQ.frag in Resources */,
-				1B885E3D0F089A4400770B6D /* Scale2xHQ.vert in Resources */,
-				1B885E8F0F089F1B00770B6D /* Scale2XSALSmart.frag in Resources */,
-				1B885E900F089F1B00770B6D /* Scale2XSALSmart.vert in Resources */,
-				1B885E930F089F8A00770B6D /* Scale4xHQ.vert in Resources */,
-				1B885E940F089F8A00770B6D /* Scale4xHQ.frag in Resources */,
-				1B885EC20F08A13500770B6D /* Scale4x.frag in Resources */,
-				1B885EC30F08A13500770B6D /* Scale4x.vert in Resources */,
 				C6C98CAF0F55F4C400116EA2 /* GamePreferences.xib in Resources */,
 				C69313890F6ACBCE00F03428 /* VideoAndSoundPreferences.xib in Resources */,
 				C693138B0F6ACBEE00F03428 /* SelectPluginPreferences.xib in Resources */,
