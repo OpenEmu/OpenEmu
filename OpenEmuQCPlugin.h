@@ -44,6 +44,7 @@
 	OEGameCoreController *gameCoreController;
 	GameCore             *gameCore;
 	GameAudio            *gameAudio;
+    GLuint               gameTexture;
 
 	BOOL loadedRom, audioPaused;
 	NSMutableArray       *persistantControllerData;
