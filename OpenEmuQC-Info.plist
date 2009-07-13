@@ -26,6 +26,7 @@
 		<string>OpenEmuQCNES</string>
 		<string>OpenEmuQCFiltersPlugin</string>
 		<string>OpenEmuQCCRT</string>
+		<string>OpenEmuQCCRTDisplacePlugin</string>
 	</array>
 	<key>OEBundlePath</key>
 	<string>/Library/Application Support/OpenEmu/Cores/</string>
