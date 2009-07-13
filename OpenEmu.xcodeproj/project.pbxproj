@@ -51,14 +51,14 @@
 		1B223EE3100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B223EE2100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m */; };
 		1B223EFC100B89BE00F42067 /* CRTDisplace.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFA100B89BE00F42067 /* CRTDisplace.vert */; };
 		1B223EFD100B89BE00F42067 /* CRTDisplace.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFB100B89BE00F42067 /* CRTDisplace.frag */; };
-		1B224027100BD67F00F42067 /* CRT Emulation.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B224005100BD61D00F42067 /* CRT Emulation.qtz */; };
-		1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B224006100BD61D00F42067 /* Debug.qtz */; };
-		1B224029100BD67F00F42067 /* Linear.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B224007100BD61D00F42067 /* Linear.qtz */; };
-		1B22402A100BD67F00F42067 /* Nearest Neighbor.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B224008100BD61D00F42067 /* Nearest Neighbor.qtz */; };
-		1B22402B100BD67F00F42067 /* Scale2xHQ.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B224009100BD61D00F42067 /* Scale2xHQ.qtz */; };
-		1B22402C100BD67F00F42067 /* Scale2xPlus.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B22400A100BD61D00F42067 /* Scale2xPlus.qtz */; };
-		1B22402D100BD67F00F42067 /* Scale4x.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B22400B100BD61D00F42067 /* Scale4x.qtz */; };
-		1B22402E100BD67F00F42067 /* Scale4xHQ.qtz in Copy Filters To App Bundle */ = {isa = PBXBuildFile; fileRef = 1B22400C100BD61D00F42067 /* Scale4xHQ.qtz */; };
+		1B224027100BD67F00F42067 /* CRT Emulation.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224005100BD61D00F42067 /* CRT Emulation.qtz */; };
+		1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224006100BD61D00F42067 /* Debug.qtz */; };
+		1B224029100BD67F00F42067 /* Linear.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224007100BD61D00F42067 /* Linear.qtz */; };
+		1B22402A100BD67F00F42067 /* Nearest Neighbor.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224008100BD61D00F42067 /* Nearest Neighbor.qtz */; };
+		1B22402B100BD67F00F42067 /* Scale2xHQ.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224009100BD61D00F42067 /* Scale2xHQ.qtz */; };
+		1B22402C100BD67F00F42067 /* Scale2xPlus.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B22400A100BD61D00F42067 /* Scale2xPlus.qtz */; };
+		1B22402D100BD67F00F42067 /* Scale4x.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B22400B100BD61D00F42067 /* Scale4x.qtz */; };
+		1B22402E100BD67F00F42067 /* Scale4xHQ.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B22400C100BD61D00F42067 /* Scale4xHQ.qtz */; };
 		1B224082100BD76D00F42067 /* Sparkle.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		1B224090100BD79800F42067 /* XADMaster.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 828ED4DB0E7D98D90059F397 /* XADMaster.framework */; };
@@ -212,22 +212,22 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		1B22406D100BD6C600F42067 /* Copy Filters To App Bundle */ = {
+		1B22406D100BD6C600F42067 /* Copy Filters Folder To App Resources */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = Filters;
 			dstSubfolderSpec = 7;
 			files = (
-				1B224027100BD67F00F42067 /* CRT Emulation.qtz in Copy Filters To App Bundle */,
-				1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters To App Bundle */,
-				1B224029100BD67F00F42067 /* Linear.qtz in Copy Filters To App Bundle */,
-				1B22402A100BD67F00F42067 /* Nearest Neighbor.qtz in Copy Filters To App Bundle */,
-				1B22402B100BD67F00F42067 /* Scale2xHQ.qtz in Copy Filters To App Bundle */,
-				1B22402C100BD67F00F42067 /* Scale2xPlus.qtz in Copy Filters To App Bundle */,
-				1B22402D100BD67F00F42067 /* Scale4x.qtz in Copy Filters To App Bundle */,
-				1B22402E100BD67F00F42067 /* Scale4xHQ.qtz in Copy Filters To App Bundle */,
+				1B224027100BD67F00F42067 /* CRT Emulation.qtz in Copy Filters Folder To App Resources */,
+				1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters Folder To App Resources */,
+				1B224029100BD67F00F42067 /* Linear.qtz in Copy Filters Folder To App Resources */,
+				1B22402A100BD67F00F42067 /* Nearest Neighbor.qtz in Copy Filters Folder To App Resources */,
+				1B22402B100BD67F00F42067 /* Scale2xHQ.qtz in Copy Filters Folder To App Resources */,
+				1B22402C100BD67F00F42067 /* Scale2xPlus.qtz in Copy Filters Folder To App Resources */,
+				1B22402D100BD67F00F42067 /* Scale4x.qtz in Copy Filters Folder To App Resources */,
+				1B22402E100BD67F00F42067 /* Scale4xHQ.qtz in Copy Filters Folder To App Resources */,
 			);
-			name = "Copy Filters To App Bundle";
+			name = "Copy Filters Folder To App Resources";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		3759EE3C0FE88B08000E56D5 /* CopyFiles */ = {
@@ -569,6 +569,7 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				1B885E070F085EA500770B6D /* GLSL Shaders */,
 				1B224004100BD61D00F42067 /* Filter Quartz Compositions */,
 				1B5B5FF7100986400043536B /* CRTMask.tiff */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
@@ -576,7 +577,6 @@
 				C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */,
 				C67A36A90FE7F1F500A665E2 /* OECorePluginIcon.icns */,
 				3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */,
-				1B885E070F085EA500770B6D /* GLSL Shaders */,
 				82C9C96C0F080BD30071460B /* dsa_pub.pem */,
 				82C434120EE393530037C54B /* icon.icns */,
 				828ED4D80E7D98A10059F397 /* GameFilePicker.xib */,
@@ -812,7 +812,7 @@
 			buildConfigurationList = C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */;
 			buildPhases = (
 				8D15AC2B0486D014006FF6A4 /* Resources */,
-				1B22406D100BD6C600F42067 /* Copy Filters To App Bundle */,
+				1B22406D100BD6C600F42067 /* Copy Filters Folder To App Resources */,
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				828ED4F00E7D98F60059F397 /* Copy Frameworks to App Frameworks */,

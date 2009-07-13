@@ -820,7 +820,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 		CGFloat aspect = (CGFloat)width/(CGFloat)height;
 		
 		// our crt mask should be 'per pixel' on the destination device, be it a temp image or the screen. We let the user pass in the dim 
-		NSRect bounds = NSMakeRect(0.0, 0.0, (NSUInteger) self.inputRenderDestinationWidth, (NSUInteger) (self.inputRenderDestinationWidth/aspect));  //[image imageBounds];
+		NSRect bounds = NSMakeRect(0.0, 0.0, floorf(self.inputRenderDestinationWidth), floorf(self.inputRenderDestinationWidth/aspect));  //[image imageBounds];
 		
 		[image bindTextureRepresentationToCGLContext:cgl_ctx textureUnit:GL_TEXTURE0 normalizeCoordinates:NO];
 		

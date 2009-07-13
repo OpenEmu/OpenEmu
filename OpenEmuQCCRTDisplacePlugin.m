@@ -96,12 +96,14 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
 		glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
 				
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		
+		GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
+		glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		
 
         glColor4f(1.0, 1.0, 1.0, 1.0);
 		glEnable(GL_BLEND);
@@ -112,6 +114,8 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
         
         // set up shader variables
 		glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);			// texture        
+		glUniform1fARB([shader uniformLocationWithName:"amount"], amount);			// texture        
+		glUniform2fARB([shader uniformLocationWithName:"size"], pixelsWide, pixelsHigh);			// texture        
 		
         glBegin(GL_QUADS);    // Draw A Quad
         {
@@ -206,54 +210,11 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Image", QCPortAttributeNameKey, nil];
     }
     
-	if([key isEqualToString:@"inputRenderDestinationWidth"])
+		
+	if([key isEqualToString:@"inputCurvature"])
     {
-        return [NSDictionary dictionaryWithObjectsAndKeys:@"Destination Width", QCPortAttributeNameKey,
-				[NSNumber numberWithFloat:1.0], QCPortAttributeMinimumValueKey,
-                [NSNumber numberWithFloat:640.0], QCPortAttributeDefaultValueKey,
-                nil];
-	}
-	
-	if([key isEqualToString:@"inputRenderDestinationHeight"])
-    {
-        return [NSDictionary dictionaryWithObjectsAndKeys:@"Destination Height", QCPortAttributeNameKey, 
-				[NSNumber numberWithFloat:1.0], QCPortAttributeMinimumValueKey,
-                [NSNumber numberWithFloat:480.0], QCPortAttributeDefaultValueKey,
-                nil];
-	}
-	
-	if([key isEqualToString:@"inputPhosphorBlurAmount"])
-    {
-        return [NSDictionary dictionaryWithObjectsAndKeys:@"Blur", QCPortAttributeNameKey,
-				[NSNumber numberWithFloat:0.0], QCPortAttributeMinimumValueKey,
-                [NSNumber numberWithFloat:6], QCPortAttributeMaximumValueKey,
-                [NSNumber numberWithFloat:0], QCPortAttributeDefaultValueKey,
-                nil];
-	}
-	
-	if([key isEqualToString:@"inputPhosphorBlurNumPasses"])
-    {
-		return [NSDictionary dictionaryWithObjectsAndKeys:@"Blur Quality", QCPortAttributeNameKey,
-                [NSArray arrayWithObjects:@"Low (One Pass)", @"Medium (Two Pass)", @"High (Three Pass)", @"Max (Four Pass)", nil], QCPortAttributeMenuItemsKey,
-                [NSNumber numberWithUnsignedInteger:0.0], QCPortAttributeMinimumValueKey,
-                [NSNumber numberWithUnsignedInteger:3], QCPortAttributeMaximumValueKey,
-                [NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
-                nil];
-	}
-	
-	if([key isEqualToString:@"inputEnablePhosphorDelay"])
-    {
-        return [NSDictionary dictionaryWithObjectsAndKeys:@"Burn Off", QCPortAttributeNameKey, nil];
+        return [NSDictionary dictionaryWithObjectsAndKeys:@"Curvature", QCPortAttributeNameKey, nil];
     }
-	
-	if([key isEqualToString:@"inputPhosphorDelayAmount"])
-    {
-        return [NSDictionary dictionaryWithObjectsAndKeys:@"Delay Amount", QCPortAttributeNameKey,
-				[NSNumber numberWithFloat:0.0], QCPortAttributeMinimumValueKey,
-                [NSNumber numberWithFloat:1], QCPortAttributeMaximumValueKey,
-                [NSNumber numberWithFloat:0.3], QCPortAttributeDefaultValueKey,
-                nil];
-	}
 	
     if([key isEqualToString:@"outputImage"])
     {
