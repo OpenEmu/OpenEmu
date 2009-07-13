@@ -67,7 +67,6 @@ static NSMutableDictionary *plugins = nil;
         }
         
         paths = [[NSBundle mainBundle] pathsForResourcesOfType:extension inDirectory:folder];
-		NSLog(@"Bundle path is : %@", paths);
         for(NSString *path in paths) [self OE_addPluginWithPath:path];
     }
     
