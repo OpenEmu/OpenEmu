@@ -44,7 +44,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 }
 
 // our render setup
-static GLuint renderCRTMask(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, GLuint CRTTexture, OEGameShader* shader, GLfloat renderingWidth, GLfloat renderingHeight)
+static GLuint renderCRTMask(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, GLuint CRTTexture, OEGameShader* shader, GLuint renderingWidth, GLuint renderingHeight)
 {
     CGLLockContext(cgl_ctx);
     
@@ -92,6 +92,8 @@ static GLuint renderCRTMask(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
         		
        // glActiveTexture(GL_TEXTURE0);
 		glEnable(GL_TEXTURE_RECTANGLE_EXT);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
 				
 		// draw our input video
@@ -122,23 +124,23 @@ static GLuint renderCRTMask(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 		
         glBegin(GL_QUADS);    // Draw A Quad
         {
-			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, 0.0f);
-			glMultiTexCoord2f(GL_TEXTURE1, 0.0f, 0.0f);
+			glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
+			glMultiTexCoord2i(GL_TEXTURE1, 0, 0);
             // glTexCoord2f(0.0f, 0.0f);
             glVertex2f(0.0f, 0.0f);
 			
-			glMultiTexCoord2f(GL_TEXTURE0, pixelsWide, 0.0f);
-			glMultiTexCoord2f(GL_TEXTURE1, renderingWidth, 0.0f);
+			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
+			glMultiTexCoord2i(GL_TEXTURE1, renderingWidth, 0);
 			// glTexCoord2f(pixelsWide, 0.0f );
             glVertex2f(width, 0.0f);
 
-			glMultiTexCoord2f(GL_TEXTURE0, pixelsWide, pixelsHigh);
-			glMultiTexCoord2f(GL_TEXTURE1, renderingWidth, renderingHeight);
+			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
+			glMultiTexCoord2i(GL_TEXTURE1, renderingWidth, renderingHeight);
 			// glTexCoord2f(pixelsWide, pixelsHigh);
 			glVertex2f(width, height);
 			
-			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, pixelsHigh);
-			glMultiTexCoord2f(GL_TEXTURE1, 0.0f, renderingHeight);
+			glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
+			glMultiTexCoord2i(GL_TEXTURE1, 0, renderingHeight);
 			// glTexCoord2f(0.0f, pixelsHigh);
 			glVertex2f(0.0f, height);
         }
@@ -236,7 +238,15 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
 		// glActiveTexture(GL_TEXTURE0);
 		glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
-					
+		
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		
+		GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
+		glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		
         glColor4f(1.0, 1.0, 1.0, 1.0);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -248,21 +258,21 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
 		glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);						// texture        
 		glUniform2fARB([shader uniformLocationWithName:"amount"], amountx, amounty);	// blur amount        
 
-        glBegin(GL_QUADS);    // Draw A Quad
+		glBegin(GL_QUADS);    // Draw A Quad
         {
-			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, 0.0f);
+			glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
             // glTexCoord2f(0.0f, 0.0f);
             glVertex2f(0.0f, 0.0f);
 			
-			glMultiTexCoord2f(GL_TEXTURE0, pixelsWide, 0.0f);
+			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
 			// glTexCoord2f(pixelsWide, 0.0f );
             glVertex2f(width, 0.0f);
 			
-			glMultiTexCoord2f(GL_TEXTURE0, pixelsWide, pixelsHigh);
+			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
 			// glTexCoord2f(pixelsWide, pixelsHigh);
 			glVertex2f(width, height);
 			
-			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, pixelsHigh);
+			glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
 			// glTexCoord2f(0.0f, pixelsHigh);
 			glVertex2f(0.0f, height);
         }
@@ -557,6 +567,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
  */
 
 @dynamic inputImage;
+@dynamic inputCRTPattern;
 @dynamic inputRenderDestinationWidth;
 @dynamic inputRenderDestinationHeight;
 @dynamic inputPhosphorBlurAmount;
@@ -581,6 +592,16 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Image", QCPortAttributeNameKey, nil];
     }
     
+	if([key isEqualToString:@"inputCRTPattern"])
+    {
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"CRT Pattern", QCPortAttributeNameKey,
+                [NSArray arrayWithObjects:@"Straight", @"Staggered", nil], QCPortAttributeMenuItemsKey,
+                [NSNumber numberWithUnsignedInteger:0.0], QCPortAttributeMinimumValueKey,
+                [NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey,
+                [NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
+                nil];
+	}
+	
 	if([key isEqualToString:@"inputRenderDestinationWidth"])
     {
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Destination Width", QCPortAttributeNameKey,
@@ -641,7 +662,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 + (NSArray*) sortedPropertyPortKeys
 {
     return [NSArray arrayWithObjects:@"inputImage",
-									 @"inputAmount",
+									 @"inputCRTPattern",
 									 @"inputRenderDestinationWidth",
 									 @"inputRenderDestinationHeight",
 									 @"inputPhosphorBlurAmount",
@@ -719,46 +740,10 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     CRTMask = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"CRTMask" forContext:cgl_ctx];
 	phosphorBlur = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"PhosphorBlur" forContext:cgl_ctx];
 
-	
-	// CRTTexture loading.
-	NSImage* CRTImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"CRTMask" ofType:@"tiff"]];
-	NSBitmapImageRep* crtImageRep;
-	if(CRTImage != nil)
-		 crtImageRep = [[NSBitmapImageRep alloc] initWithData:[CRTImage TIFFRepresentation]]; 
-	else
-	{
-		NSLog(@"ok could not even find the CRTImage..");
+	// load texture:
+	if(![self loadCRTTexture:self.inputCRTPattern context:cgl_ctx])
 		return NO;
-		
-	}
 	
-	if(crtImageRep != nil)
-	{
-		glGenTextures(1, &CRTPixelTexture);
-		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, CRTPixelTexture);
-			
-		glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, [CRTImage size].width , [CRTImage size].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, [crtImageRep bitmapData]);
-		glFlushRenderAPPLE();
-		//glFinish();
-		
-		status = glGetError();
-		if(status)
-		{
-			NSLog(@"OpenGL error %04X", status);
-			NSLog(@"Could not make CRT image texture");
-			glDeleteTextures(1, &CRTPixelTexture);
-			[CRTImage release];
-			[crtImageRep release];
-			return NO;
-		}
-	}
-	else
-		NSLog(@"ugh no bitmapImageRep");
-
-	// release temp texture resources
-	[CRTImage release];
-	[crtImageRep release];
-
 	// FBO Testing	
 	GLuint name;
     glGenTextures(1, &name);
@@ -814,6 +799,15 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 
 	if(image && [image lockTextureRepresentationWithColorSpace:[image imageColorSpace] forBounds:[image imageBounds]])
     {
+		
+		// first thing first. Re-do our crt texture if we need to.
+		if([self didValueForInputKeyChange:@"inputCRTPattern"])
+		{
+			glDeleteTextures(1, &CRTPixelTexture);
+			[self loadCRTTexture:self.inputCRTPattern context:cgl_ctx];
+		}
+		
+		
 		NSUInteger width = [image imageBounds].size.width;
 		NSUInteger height = [image imageBounds].size.height;
 		
@@ -852,7 +846,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 				}
 				case 1:
 				{
-					float amount = self.inputPhosphorBlurAmount/2.0;
+					float amount = self.inputPhosphorBlurAmount;
 					GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, crt, phosphorBlur, amount, 0.0);
 					GLuint vertical1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal1, crt, phosphorBlur, 0.0, amount);
 					
@@ -1026,6 +1020,65 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 	glDeleteFramebuffersEXT(1, &frameBuffer);
 	
     CGLUnlockContext(cgl_ctx);
+}
+
+
+- (BOOL) loadCRTTexture:(NSUInteger)texture context:(CGLContextObj)cgl_ctx
+{
+	NSString* textureName;
+	switch (texture)
+	{
+		case 0:
+			textureName = @"CRTMaskStraight";
+			break;
+		case 1:
+			textureName = @"CRTMaskStaggered";
+			break;
+		default:
+			textureName = @"CRTMaskStraight";
+			break;
+	}
+	
+	// CRTTexture loading.
+	NSImage* CRTImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:textureName ofType:@"tiff"]];
+	NSBitmapImageRep* crtImageRep;
+	if(CRTImage != nil)
+	crtImageRep = [[NSBitmapImageRep alloc] initWithData:[CRTImage TIFFRepresentation]]; 
+	else
+	{
+		NSLog(@"ok could not even find the CRTImage..");
+		return NO;
+	}
+
+	if(crtImageRep != nil)
+	{
+		glGenTextures(1, &CRTPixelTexture);
+		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, CRTPixelTexture);
+		
+		glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, [CRTImage size].width , [CRTImage size].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, [crtImageRep bitmapData]);
+		glFlushRenderAPPLE();
+		//glFinish();
+		
+		GLenum status = glGetError();
+		if(status)
+		{
+			NSLog(@"OpenGL error %04X", status);
+			NSLog(@"Could not make CRT image texture");
+			glDeleteTextures(1, &CRTPixelTexture);
+			[CRTImage release];
+			[crtImageRep release];
+			return NO;
+		}
+	}
+	else
+	{
+		NSLog(@"No BitmapRep bailing..");
+		glDeleteTextures(1, &CRTPixelTexture);
+		[CRTImage release];
+		return NO;
+	}
+	
+	return YES;
 }
 
 @end

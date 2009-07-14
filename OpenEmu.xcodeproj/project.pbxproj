@@ -51,7 +51,6 @@
 		1B223EE3100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B223EE2100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m */; };
 		1B223EFC100B89BE00F42067 /* CRTDisplace.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFA100B89BE00F42067 /* CRTDisplace.vert */; };
 		1B223EFD100B89BE00F42067 /* CRTDisplace.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFB100B89BE00F42067 /* CRTDisplace.frag */; };
-		1B224027100BD67F00F42067 /* CRT Emulation.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224005100BD61D00F42067 /* CRT Emulation.qtz */; };
 		1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224006100BD61D00F42067 /* Debug.qtz */; };
 		1B224029100BD67F00F42067 /* Linear.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224007100BD61D00F42067 /* Linear.qtz */; };
 		1B22402A100BD67F00F42067 /* Nearest Neighbor.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224008100BD61D00F42067 /* Nearest Neighbor.qtz */; };
@@ -63,6 +62,9 @@
 		1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		1B224090100BD79800F42067 /* XADMaster.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 828ED4DB0E7D98D90059F397 /* XADMaster.framework */; };
 		1B224092100BD7A200F42067 /* UniversalDetector.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 828ED4DC0E7D98D90059F397 /* UniversalDetector.framework */; };
+		1B224175100C049000F42067 /* CRT.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224174100C049000F42067 /* CRT.qtz */; };
+		1B224177100C049E00F42067 /* TV.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224176100C049E00F42067 /* TV.qtz */; };
+		1B22422A100CF18E00F42067 /* CRTMaskStraight.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B224229100CF18E00F42067 /* CRTMaskStraight.tiff */; };
 		1B4B324E1009BC7500F36BB1 /* CRTMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B324C1009BC7500F36BB1 /* CRTMask.frag */; };
 		1B4B324F1009BC7500F36BB1 /* CRTMask.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B324D1009BC7500F36BB1 /* CRTMask.vert */; };
 		1B4B3390100A792500F36BB1 /* PhosphorBlur.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B338E100A792500F36BB1 /* PhosphorBlur.frag */; };
@@ -79,7 +81,7 @@
 		1B56D69E0F21397500C80694 /* Scale2XPlus.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2XPlus.frag */; };
 		1B56D69F0F21397500C80694 /* Scale2XPlus.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2XPlus.vert */; };
 		1B5B5FF5100984800043536B /* OpenEmuQCCRTPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B5B5FF4100984800043536B /* OpenEmuQCCRTPlugin.m */; };
-		1B5B5FF8100986400043536B /* CRTMask.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B5B5FF7100986400043536B /* CRTMask.tiff */; };
+		1B5B5FF8100986400043536B /* CRTMaskStaggered.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B5B5FF7100986400043536B /* CRTMaskStaggered.tiff */; };
 		1B7505110FEEB4F600B0D0AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B7505100FEEB4F600B0D0AF /* About.png */; };
 		1B7505140FEEB72700B0D0AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B7505100FEEB4F600B0D0AF /* About.png */; };
 		1B7594AF0E90C3E300FB5BF1 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
@@ -219,7 +221,8 @@
 			dstPath = Filters;
 			dstSubfolderSpec = 7;
 			files = (
-				1B224027100BD67F00F42067 /* CRT Emulation.qtz in Copy Filters Folder To App Resources */,
+				1B224175100C049000F42067 /* CRT.qtz in Copy Filters Folder To App Resources */,
+				1B224177100C049E00F42067 /* TV.qtz in Copy Filters Folder To App Resources */,
 				1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters Folder To App Resources */,
 				1B224029100BD67F00F42067 /* Linear.qtz in Copy Filters Folder To App Resources */,
 				1B22402A100BD67F00F42067 /* Nearest Neighbor.qtz in Copy Filters Folder To App Resources */,
@@ -284,7 +287,6 @@
 		1B223EE2100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuQCCRTDisplacePlugin.m; sourceTree = "<group>"; };
 		1B223EFA100B89BE00F42067 /* CRTDisplace.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDisplace.vert; sourceTree = "<group>"; };
 		1B223EFB100B89BE00F42067 /* CRTDisplace.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDisplace.frag; sourceTree = "<group>"; };
-		1B224005100BD61D00F42067 /* CRT Emulation.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "CRT Emulation.qtz"; sourceTree = "<group>"; };
 		1B224006100BD61D00F42067 /* Debug.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Debug.qtz; sourceTree = "<group>"; };
 		1B224007100BD61D00F42067 /* Linear.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Linear.qtz; sourceTree = "<group>"; };
 		1B224008100BD61D00F42067 /* Nearest Neighbor.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "Nearest Neighbor.qtz"; sourceTree = "<group>"; };
@@ -292,6 +294,9 @@
 		1B22400A100BD61D00F42067 /* Scale2xPlus.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Scale2xPlus.qtz; sourceTree = "<group>"; };
 		1B22400B100BD61D00F42067 /* Scale4x.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Scale4x.qtz; sourceTree = "<group>"; };
 		1B22400C100BD61D00F42067 /* Scale4xHQ.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = Scale4xHQ.qtz; sourceTree = "<group>"; };
+		1B224174100C049000F42067 /* CRT.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = CRT.qtz; sourceTree = "<group>"; };
+		1B224176100C049E00F42067 /* TV.qtz */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = TV.qtz; sourceTree = "<group>"; };
+		1B224229100CF18E00F42067 /* CRTMaskStraight.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskStraight.tiff; sourceTree = "<group>"; };
 		1B4B324C1009BC7500F36BB1 /* CRTMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.frag; sourceTree = "<group>"; };
 		1B4B324D1009BC7500F36BB1 /* CRTMask.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.vert; sourceTree = "<group>"; };
 		1B4B338E100A792500F36BB1 /* PhosphorBlur.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PhosphorBlur.frag; sourceTree = "<group>"; };
@@ -300,7 +305,7 @@
 		1B56D6880F21340700C80694 /* OpenEmuQCFilters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCFilters.h; sourceTree = "<group>"; };
 		1B5B5FF4100984800043536B /* OpenEmuQCCRTPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuQCCRTPlugin.m; sourceTree = "<group>"; };
 		1B5B5FF6100984880043536B /* OpenEmuQCCRTPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCCRTPlugin.h; sourceTree = "<group>"; };
-		1B5B5FF7100986400043536B /* CRTMask.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMask.tiff; sourceTree = "<group>"; };
+		1B5B5FF7100986400043536B /* CRTMaskStaggered.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskStaggered.tiff; sourceTree = "<group>"; };
 		1B7505100FEEB4F600B0D0AF /* About.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = About.png; sourceTree = "<group>"; };
 		1B885E080F085EA500770B6D /* Scale2XPlus.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2XPlus.frag; sourceTree = "<group>"; };
 		1B885E090F085EA500770B6D /* Scale2XPlus.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale2XPlus.vert; sourceTree = "<group>"; };
@@ -495,7 +500,8 @@
 		1B224004100BD61D00F42067 /* Filter Quartz Compositions */ = {
 			isa = PBXGroup;
 			children = (
-				1B224005100BD61D00F42067 /* CRT Emulation.qtz */,
+				1B224176100C049E00F42067 /* TV.qtz */,
+				1B224174100C049000F42067 /* CRT.qtz */,
 				1B224006100BD61D00F42067 /* Debug.qtz */,
 				1B224007100BD61D00F42067 /* Linear.qtz */,
 				1B224008100BD61D00F42067 /* Nearest Neighbor.qtz */,
@@ -510,16 +516,16 @@
 		1B885E070F085EA500770B6D /* GLSL Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				1B223EFA100B89BE00F42067 /* CRTDisplace.vert */,
 				1B223EFB100B89BE00F42067 /* CRTDisplace.frag */,
+				1B223EFA100B89BE00F42067 /* CRTDisplace.vert */,
 				1B4B324C1009BC7500F36BB1 /* CRTMask.frag */,
 				1B4B324D1009BC7500F36BB1 /* CRTMask.vert */,
 				1B4B338E100A792500F36BB1 /* PhosphorBlur.frag */,
 				1B4B338F100A792500F36BB1 /* PhosphorBlur.vert */,
-				1B885EC10F08A13500770B6D /* Scale4x.vert */,
 				1B885EC00F08A13500770B6D /* Scale4x.frag */,
-				1B885E910F089F8A00770B6D /* Scale4xHQ.vert */,
+				1B885EC10F08A13500770B6D /* Scale4x.vert */,
 				1B885E920F089F8A00770B6D /* Scale4xHQ.frag */,
+				1B885E910F089F8A00770B6D /* Scale4xHQ.vert */,
 				1B885E8D0F089F1B00770B6D /* Scale2XSALSmart.frag */,
 				1B885E8E0F089F1B00770B6D /* Scale2XSALSmart.vert */,
 				1B885E3A0F089A4400770B6D /* Scale2xHQ.frag */,
@@ -572,7 +578,8 @@
 			children = (
 				1B885E070F085EA500770B6D /* GLSL Shaders */,
 				1B224004100BD61D00F42067 /* Filter Quartz Compositions */,
-				1B5B5FF7100986400043536B /* CRTMask.tiff */,
+				1B5B5FF7100986400043536B /* CRTMaskStaggered.tiff */,
+				1B224229100CF18E00F42067 /* CRTMaskStraight.tiff */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
 				1B7505100FEEB4F600B0D0AF /* About.png */,
 				C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */,
@@ -877,13 +884,14 @@
 				1B56D69F0F21397500C80694 /* Scale2XPlus.vert in Resources */,
 				3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */,
 				1B7505110FEEB4F600B0D0AF /* About.png in Resources */,
-				1B5B5FF8100986400043536B /* CRTMask.tiff in Resources */,
+				1B5B5FF8100986400043536B /* CRTMaskStaggered.tiff in Resources */,
 				1B4B324E1009BC7500F36BB1 /* CRTMask.frag in Resources */,
 				1B4B324F1009BC7500F36BB1 /* CRTMask.vert in Resources */,
 				1B4B3390100A792500F36BB1 /* PhosphorBlur.frag in Resources */,
 				1B4B3391100A792500F36BB1 /* PhosphorBlur.vert in Resources */,
 				1B223EFC100B89BE00F42067 /* CRTDisplace.vert in Resources */,
 				1B223EFD100B89BE00F42067 /* CRTDisplace.frag in Resources */,
+				1B22422A100CF18E00F42067 /* CRTMaskStraight.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

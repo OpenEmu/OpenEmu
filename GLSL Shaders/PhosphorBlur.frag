@@ -15,6 +15,6 @@ void main (void)
 	blured /= 3.0;
 
 
-	gl_FragColor = vec4(max(original.x, blured.x), max(original.y, blured.y), max(original.z, blured.z), original.a);
+	gl_FragColor = vec4(vec3(max(original.rgb, blured.rgb)), original.a);
 	//gl_FragColor = max(original, blured);	
 }

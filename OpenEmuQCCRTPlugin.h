@@ -51,6 +51,7 @@
  */
 
 @property (assign) id<QCPlugInInputImageSource> inputImage;
+@property (assign) NSUInteger inputCRTPattern;
 @property (assign) double inputRenderDestinationWidth;
 @property (assign) double inputRenderDestinationHeight;
 @property (assign) double inputPhosphorBlurAmount;
@@ -61,4 +62,8 @@
 @property (assign) id<QCPlugInOutputImageProvider> outputImage;
 
 
+@end
+
+@interface OpenEmuQCCRT (Execution)
+- (BOOL) loadCRTTexture:(NSUInteger)texture context:(CGLContextObj)cgl_ctx;
 @end
