@@ -36,6 +36,8 @@
 
 	OEGameShader* CRTMask;
 	OEGameShader* phosphorBlur;
+	OEGameShader* dirtyScanline;
+	OEGameShader* niceScanline;
 	
 	GLuint frameBuffer;
 	GLuint CRTPixelTexture; 
@@ -56,6 +58,8 @@
 @property (assign) double inputRenderDestinationHeight;
 @property (assign) double inputPhosphorBlurAmount;
 @property (assign) NSUInteger inputPhosphorBlurNumPasses;
+@property (assign) double inputScanlineAmount;
+@property (assign) NSUInteger inputScanlineQuality;
 @property (assign) BOOL inputEnablePhosphorDelay;
 @property (assign) double inputPhosphorDelayAmount;
 //@property (assign) NSUInteger inputScaler;

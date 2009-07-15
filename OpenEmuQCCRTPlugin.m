@@ -67,8 +67,8 @@ static GLuint renderCRTMask(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+//	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+//	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {    
         // Setup OpenGL states 
         glViewport(0, 0, width, height);
@@ -92,8 +92,8 @@ static GLuint renderCRTMask(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
         		
        // glActiveTexture(GL_TEXTURE0);
 		glEnable(GL_TEXTURE_RECTANGLE_EXT);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
 				
 		// draw our input video
@@ -177,14 +177,14 @@ static GLuint renderCRTMask(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
     // Check for OpenGL errors 
-    status = glGetError();
+/*    status = glGetError();
     if(status)
     {
         NSLog(@"FrameBuffer OpenGL error %04X", status);
         glDeleteTextures(1, &name);
         name = 0;
     }
-    
+*/    
     CGLUnlockContext(cgl_ctx);
     return name;    
 }
@@ -213,8 +213,8 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+//	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+//	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {    
         // Setup OpenGL states 
         glViewport(0, 0, width, height);
@@ -233,7 +233,7 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
         
         // bind video texture
         glClearColor(0.0, 0.0, 0.0, 0.0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);        
+        glClear(GL_COLOR_BUFFER_BIT);        
 		
 		// glActiveTexture(GL_TEXTURE0);
 		glEnable(GL_TEXTURE_RECTANGLE_EXT);
@@ -305,14 +305,141 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
     // Check for OpenGL errors 
-    status = glGetError();
+/*    status = glGetError();
     if(status)
     {
         NSLog(@"FrameBuffer OpenGL error %04X", status);
         glDeleteTextures(1, &name);
         name = 0;
     }
+*/    
+    CGLUnlockContext(cgl_ctx);
+    return name;    
+}
+
+static GLuint renderScanlines(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, OEGameShader* shader, GLfloat amount)
+{
+    CGLLockContext(cgl_ctx);
     
+    GLsizei width = bounds.size.width, height = bounds.size.height;
+    GLuint  name;
+    GLenum  status;
+    
+    // save our current GL state
+    glPushAttrib(GL_COLOR_BUFFER_BIT | GL_TRANSFORM_BIT | GL_VIEWPORT);
+    
+    // Create texture to render into 
+    glGenTextures(1, &name);
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, name);    
+    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
+    
+    // bind our FBO
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBuffer);
+    
+    // attach our just created texture
+    glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
+    
+    // Assume FBOs JUST WORK, because we checked on startExecution    
+//	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+//	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+    {    
+        // Setup OpenGL states 
+        glViewport(0, 0, width, height);
+        glMatrixMode(GL_PROJECTION);
+        glPushMatrix();
+        glLoadIdentity();
+        glOrtho(bounds.origin.x, bounds.origin.x + bounds.size.width, bounds.origin.y, bounds.origin.y + bounds.size.height, -1, 1);
+		
+		glMatrixMode(GL_TEXTURE);
+        glPushMatrix();
+        glLoadIdentity();
+		
+        glMatrixMode(GL_MODELVIEW);
+        glPushMatrix();
+        glLoadIdentity();
+        
+        // bind video texture
+        glClearColor(0.0, 0.0, 0.0, 0.0);
+        glClear(GL_COLOR_BUFFER_BIT);        
+		
+		// glActiveTexture(GL_TEXTURE0);
+		glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
+		
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		
+		GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
+		glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		
+        glColor4f(1.0, 1.0, 1.0, 1.0);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		
+        // bind our shader
+		glUseProgramObjectARB([shader programObject]);
+        
+        // set up shader variables
+		glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);						// texture        
+		glUniform1fARB([shader uniformLocationWithName:"amount"], amount);	// blur amount        
+		
+		glBegin(GL_QUADS);    // Draw A Quad
+        {
+			glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
+            // glTexCoord2f(0.0f, 0.0f);
+            glVertex2f(0.0f, 0.0f);
+			
+			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
+			// glTexCoord2f(pixelsWide, 0.0f );
+            glVertex2f(width, 0.0f);
+			
+			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
+			// glTexCoord2f(pixelsWide, pixelsHigh);
+			glVertex2f(width, height);
+			
+			glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
+			// glTexCoord2f(0.0f, pixelsHigh);
+			glVertex2f(0.0f, height);
+        }
+        glEnd(); // Done Drawing The Quad
+		
+		//glMatrixMode(GL_TEXTURE);
+		//glPopMatrix();
+		
+       	glDisable(GL_TEXTURE_RECTANGLE_EXT);
+		
+		// disable shader program
+        glUseProgramObjectARB(NULL);
+		
+        // Restore OpenGL states 
+        glMatrixMode(GL_MODELVIEW);
+        glPopMatrix();
+        
+		glMatrixMode(GL_TEXTURE);
+		glPopMatrix();
+		
+		glMatrixMode(GL_PROJECTION);
+        glPopMatrix();
+        
+        // restore states
+        //glPopAttrib();        
+    }
+	// restore states
+	glPopAttrib();        
+	
+    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    
+    // Check for OpenGL errors 
+/*    status = glGetError();
+    if(status)
+    {
+        NSLog(@"FrameBuffer OpenGL error %04X", status);
+        glDeleteTextures(1, &name);
+        name = 0;
+    }
+*/    
     CGLUnlockContext(cgl_ctx);
     return name;    
 }
@@ -341,8 +468,8 @@ static GLuint renderPhosphorBurnOff(GLuint frameBuffer, CGLContextObj cgl_ctx, N
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+//	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+//	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {    
         // Setup OpenGL states 
         glViewport(0, 0, width, height);
@@ -361,7 +488,7 @@ static GLuint renderPhosphorBurnOff(GLuint frameBuffer, CGLContextObj cgl_ctx, N
         
         // bind video texture
         glClearColor(0.0, 0.0, 0.0, 0.0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);        
+        glClear(GL_COLOR_BUFFER_BIT);        
 		
 		glDisable(GL_DEPTH_TEST);
 
@@ -441,14 +568,14 @@ static GLuint renderPhosphorBurnOff(GLuint frameBuffer, CGLContextObj cgl_ctx, N
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
     // Check for OpenGL errors 
-    status = glGetError();
+/*    status = glGetError();
     if(status)
     {
         NSLog(@"FrameBuffer OpenGL error %04X", status);
         glDeleteTextures(1, &name);
         name = 0;
     }
-    
+*/    
     CGLUnlockContext(cgl_ctx);
     return name;    
 }
@@ -477,8 +604,8 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+//	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+//	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {    
         // Setup OpenGL states 
         glViewport(0, 0, width, height);
@@ -497,7 +624,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
         
         // bind video texture
         glClearColor(0.0, 0.0, 0.0, 0.0);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);        
+        glClear(GL_COLOR_BUFFER_BIT);        
 		
 		glActiveTexture(GL_TEXTURE0);
 		glEnable(GL_TEXTURE_RECTANGLE_EXT);
@@ -546,14 +673,14 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
     // Check for OpenGL errors 
-    status = glGetError();
+/*    status = glGetError();
     if(status)
     {
         NSLog(@"FrameBuffer OpenGL error %04X", status);
         glDeleteTextures(1, &name);
         name = 0;
     }
-    
+*/    
     CGLUnlockContext(cgl_ctx);
     return name;    
 }
@@ -572,6 +699,8 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 @dynamic inputRenderDestinationHeight;
 @dynamic inputPhosphorBlurAmount;
 @dynamic inputPhosphorBlurNumPasses;
+@dynamic inputScanlineAmount;
+@dynamic inputScanlineQuality;
 @dynamic inputEnablePhosphorDelay;
 @dynamic inputPhosphorDelayAmount;
 @dynamic outputImage;
@@ -595,9 +724,9 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 	if([key isEqualToString:@"inputCRTPattern"])
     {
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"CRT Pattern", QCPortAttributeNameKey,
-                [NSArray arrayWithObjects:@"Straight", @"Staggered", nil], QCPortAttributeMenuItemsKey,
+                [NSArray arrayWithObjects:@"Straight", @"Staggered", @"Straight Scanline Only", @"Staggered Scanline Only", nil], QCPortAttributeMenuItemsKey,
                 [NSNumber numberWithUnsignedInteger:0.0], QCPortAttributeMinimumValueKey,
-                [NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey,
+                [NSNumber numberWithUnsignedInteger:3], QCPortAttributeMaximumValueKey,
                 [NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
                 nil];
 	}
@@ -637,6 +766,26 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
                 nil];
 	}
 	
+	if([key isEqualToString:@"inputScanlineAmount"])
+    {
+        return [NSDictionary dictionaryWithObjectsAndKeys:@"Scanline", QCPortAttributeNameKey,
+				[NSNumber numberWithFloat:0.0], QCPortAttributeMinimumValueKey,
+                [NSNumber numberWithFloat:1], QCPortAttributeMaximumValueKey,
+                [NSNumber numberWithFloat:0.4], QCPortAttributeDefaultValueKey,
+                nil];
+	}
+	
+	if([key isEqualToString:@"inputScanlineQuality"])
+    {
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"Scanline Quality", QCPortAttributeNameKey,
+                [NSArray arrayWithObjects:@"Low", @"Hight", nil], QCPortAttributeMenuItemsKey,
+                [NSNumber numberWithUnsignedInteger:0.0], QCPortAttributeMinimumValueKey,
+                [NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey,
+                [NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
+                nil];
+	}
+	
+	
 	if([key isEqualToString:@"inputEnablePhosphorDelay"])
     {
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Burn Off", QCPortAttributeNameKey, nil];
@@ -665,6 +814,8 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 									 @"inputCRTPattern",
 									 @"inputRenderDestinationWidth",
 									 @"inputRenderDestinationHeight",
+								     @"inputScanlineAmount",
+									 @"inputScanlineQuality",
 									 @"inputPhosphorBlurAmount",
 									 @"inputPhosphorBlurNumPasses",
 									 @"inputEnablePhosphorDelay",
@@ -738,7 +889,9 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 	// shaders	
 	NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];
     CRTMask = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"CRTMask" forContext:cgl_ctx];
-	phosphorBlur = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"PhosphorBlur" forContext:cgl_ctx];
+	phosphorBlur = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"CRTPhosphorBlur" forContext:cgl_ctx];
+	dirtyScanline = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"CRTDirtyScanlines" forContext:cgl_ctx];
+	niceScanline = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"CRTScanlines" forContext:cgl_ctx];
 
 	// load texture:
 	if(![self loadCRTTexture:self.inputCRTPattern context:cgl_ctx])
@@ -862,7 +1015,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 				}
 				case 2:
 				{
-					float amount = self.inputPhosphorBlurAmount/3.0;
+					float amount = self.inputPhosphorBlurAmount;
 					GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, crt, phosphorBlur, amount, 0.0);
 					GLuint vertical1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal1, crt, phosphorBlur, 0.0, amount);
 					
@@ -883,7 +1036,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 				}
 				case 3:
 				{
-					float amount = self.inputPhosphorBlurAmount/3.0;
+					float amount = self.inputPhosphorBlurAmount;
 					GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, crt, phosphorBlur, amount, 0.0);
 					GLuint vertical1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal1, crt, phosphorBlur, 0.0, amount);
 					
@@ -946,6 +1099,33 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 			finalOutput = phosphorBurnOff;
 		}
 		
+				
+		// render our scanlines, if our scanline amount is more than 1
+		if(self.inputScanlineAmount > 0)
+		{
+			OEGameShader* scanlineShader;
+			switch (self.inputScanlineQuality)
+			{
+				case 0:
+					scanlineShader = dirtyScanline;
+					break;
+				case 1:
+					scanlineShader = niceScanline;
+					break;
+				default:
+					scanlineShader = dirtyScanline;
+					break;
+			}
+			
+			GLuint scanline = renderScanlines(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, finalOutput, scanlineShader, self.inputScanlineAmount);
+			glFlushRenderAPPLE();
+			
+			// cleanup our input frame
+			glDeleteTextures(1, &finalOutput);
+			
+			// set our output to be our new scanline texture. 
+			finalOutput = scanline;
+		}
 				
         if(finalOutput == 0)
         {
@@ -1013,6 +1193,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 	// release shaders
 	[CRTMask release];
 	[phosphorBlur release];
+	[dirtyScanline release];
 	
 	glDeleteTextures(1, &CRTPixelTexture);
 	glDeleteTextures(1, &lastFrameTexture);
@@ -1033,6 +1214,12 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 			break;
 		case 1:
 			textureName = @"CRTMaskStaggered";
+			break;
+		case 2:
+			textureName = @"CRTMaskStraightScanlineOnly";
+			break;
+		case 3:
+			textureName = @"CRTMaskStaggeredScanlineOnly";
 			break;
 		default:
 			textureName = @"CRTMaskStraight";
