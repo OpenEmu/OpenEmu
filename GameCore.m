@@ -97,7 +97,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 - (void)dealloc
 {
-    NSLog(@"%s", __FUNCTION__);
+    DLog(@"%s", __FUNCTION__);
     if(keyMap != NULL) 
         OEMapRelease(keyMap);
     
@@ -165,7 +165,7 @@ static NSTimeInterval currentTime()
             if(frameSkip < 9)  frameSkip++;
         }
     }
-    NSLog(@"Speed: %d", speed);
+    DLog(@"Speed: %d", speed);
     autoFrameSkipLastTime = time;    
 }
 
@@ -194,7 +194,7 @@ static NSTimeInterval currentTime()
         
         if(!willSkipFrame)
             [self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
-        //else NSLog(@"Skipping frame");
+        //else DLog(@"Skipping frame");
         
         if(frameCounter >= frameSkip) frameCounter = 0;
         else                          frameCounter++;
@@ -220,7 +220,7 @@ static NSTimeInterval currentTime()
 - (void)stopEmulation
 {
     [emulationThread cancel];
-    NSLog(@"Ending thread");
+    DLog(@"Ending thread");
 }
 
 - (void)startEmulation
@@ -234,7 +234,7 @@ static NSTimeInterval currentTime()
                                                       selector:@selector(frameRefreshThread:)
                                                         object:nil];
             [emulationThread start];
-            NSLog(@"Starting thread");
+            DLog(@"Starting thread");
         }
     }
 }

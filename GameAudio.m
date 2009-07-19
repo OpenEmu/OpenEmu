@@ -134,9 +134,9 @@ OSStatus RenderCallback(void                       *in,
 	err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_SetRenderCallback,
 							   kAudioUnitScope_Input, 0, &renderStruct, sizeof(AURenderCallbackStruct));
 	if(err)
-		NSLog(@"Couldn't set the render callback");
+		DLog(@"Couldn't set the render callback");
 	else
-		NSLog(@"Set the render callback");
+		DLog(@"Set the render callback");
 	
 	
 	
