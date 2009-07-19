@@ -27,13 +27,10 @@
 
 /* It's highly recommended to use CGL macros instead of changing the current context for plug-ins that perform OpenGL rendering */
 #import <OpenGL/CGLMacro.h>
-
 #import "OpenEmuQCPlugin.h"
-
 #import <Quartz/Quartz.h>
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/gl.h>
-
 #import "GameCore.h"
 #import "GameAudio.h"
 #import "OECorePlugin.h"
@@ -115,6 +112,8 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 @dynamic inputLoadStatePath;
 @dynamic inputPauseEmulation;
 @dynamic outputImage;
+
+@synthesize loadedRom, userPaused;
 
 + (NSDictionary *)attributes
 {
@@ -201,12 +200,13 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     if(self = [super init])
     {
         gameLock = [[NSRecursiveLock alloc] init];
-        audioPaused = NO;
         persistantControllerData = [[NSMutableArray alloc] init];
         [persistantControllerData retain];
         
         plugins = [[OECorePlugin allPlugins] retain];
         validExtensions = [[OECorePlugin supportedTypeExtensions] retain];
+		
+		self.userPaused = NO; self.loadedRom = NO;
     }
     
     return self;
@@ -261,14 +261,30 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 
 
 - (BOOL)startExecution:(id<QCPlugInContext>)context
-{    
+{   
+	CGLContextObj cgl_ctx = [context CGLContextObj];
+	CGLLockContext(cgl_ctx);
+
     NSLog(@"called startExecution");
-    //if(loadedRom)
-    //{
-    //    [gameAudio startAudio];
-    //    [gameCore start]; 
-    //}
+    if(self.loadedRom && ([gameCore width] > 10) )
+    {
+		if(gameTexture == 0)
+			gameTexture = createNewTexture(cgl_ctx, 
+										   [gameCore internalPixelFormat], 
+										   [gameCore width], 
+										   [gameCore height], 
+										   [gameCore pixelFormat], 
+										   [gameCore pixelType],
+										   [gameCore videoBuffer]);
+		
+		if(!self.userPaused)
+		{
+			[gameCore setPauseEmulation:NO];
+			[gameAudio startAudio];
+		}
+    }
     
+	CGLUnlockContext(cgl_ctx);
     return YES;
 }
 
@@ -280,8 +296,8 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
      Called by Quartz Composer when the plug-in instance starts being used by Quartz Composer.
      */
     NSLog(@"called enableExecution");
-    // if we have a ROM loaded and the patch's image output is reconnected, unpause the emulator
-    if(loadedRom)
+    // if we have a ROM loaded and the patch's image output is reconnected
+    if(self.loadedRom)
     {		
 		if(gameTexture == 0)
 			gameTexture = createNewTexture(cgl_ctx, 
@@ -292,14 +308,13 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 										   [gameCore pixelType],
 										   [gameCore videoBuffer]);
 
-			
-        if(![[self valueForInputKey:@"inputPauseEmulation"] boolValue]) 
+		// if emulation hasn't been paused by the user, restart it
+		if(!self.userPaused) 
         {
             @try
             {
                 [gameCore setPauseEmulation:NO];
                 [gameAudio startAudio];
-                //[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
             }
             @catch (NSException * e) {
                 NSLog(@"Failed to unpause");
@@ -310,7 +325,16 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 }
 
 - (BOOL)execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary *)arguments
-{    
+{   
+	/*
+	 Called by Quartz Composer whenever the plug-in instance needs to execute.
+	 Only read from the plug-in inputs and produce a result (by writing to the plug-in outputs or rendering to the destination OpenGL context) within that method and nowhere else.
+	 Return NO in case of failure during the execution (this will prevent rendering of the current frame to complete).
+	 
+	 The OpenGL context for rendering can be accessed and defined for CGL macros using:
+	 CGLContextObj cgl_ctx = [context CGLContextObj];
+	 */
+	
 	CGLContextObj cgl_ctx = [context CGLContextObj];
 	CGLLockContext(cgl_ctx);
 
@@ -323,14 +347,15 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
                                                 valueForKey:QCPortAttributeDefaultValueKey]))
     {
         [self loadRom:[self valueForInputKey:@"inputRom"]];
-
-		if(loadedRom) {
+		
+		if(self.loadedRom) {
+		[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 		glDeleteTextures(1, &gameTexture);
 		gameTexture = createNewTexture(cgl_ctx, [gameCore internalPixelFormat], [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
 		}
     }
     
-    if(loadedRom)
+    if(self.loadedRom)
     {
         // Process controller data
         if([self didValueForInputKeyChange:@"inputControllerData"])
@@ -354,15 +379,17 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
         // Process emulation pausing FTW
         if([self didValueForInputKeyChange: @"inputPauseEmulation"])    
         {
-            if([[self valueForInputKey:@"inputPauseEmulation"] boolValue])    
+			if(self.inputPauseEmulation)
             {
                 [gameAudio pauseAudio];
                 [gameCore setPauseEmulation:YES]; 
+				self.userPaused = YES;
             }
             else 
             {
                 [gameAudio startAudio];
                 [gameCore setPauseEmulation:NO];
+				self.userPaused = NO;
             }
         }
         
@@ -390,7 +417,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 #pragma mark provide an image 
 	
     // handle our image output. (sanity checking)
-    if(loadedRom && ([gameCore width] > 10) && [gameCore frameFinished])
+    if(self.loadedRom && ([gameCore width] > 10) && [gameCore frameFinished])
     {        
 		GLenum status;
 
@@ -433,7 +460,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
                                                          shouldColorMatch:YES];
     }
     
-    // output OpenEmu Texture - note we CAN output a nil image. This is 'correct'
+    // output OpenEmu Texture - note we CAN output a nil image.
     self.outputImage = provider;
     
 	CGLUnlockContext(cgl_ctx);
@@ -449,9 +476,9 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     NSLog(@"called disableExecution");
     
     // if we have a ROM running and the patch's image output is disconnected, pause the emulator and audio
-    if(loadedRom)
+    if(self.loadedRom)
     {
-        if(![[self valueForInputKey:@"inputPauseEmulation"] boolValue]) 
+        if(!self.userPaused) 
         {
             @try
             {
@@ -460,6 +487,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
             }
             @catch (NSException * e) {
                 NSLog(@"Failed to pause");
+				self.userPaused = NO;
             }
         }  
         //    sleep(0.5); // race condition workaround. 
@@ -469,13 +497,13 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 - (void)stopExecution:(id<QCPlugInContext>)context
 {
     NSLog(@"called stopExecution");
-    if(loadedRom)
+    if(self.loadedRom)
     {
         [gameCore stopEmulation];
         [gameAudio stopAudio];
         [gameCore release];
         [gameAudio release];
-		loadedRom = NO;
+		self.loadedRom = NO;
 				
 		CGLContextObj cgl_ctx = [context CGLContextObj];
 		CGLLockContext(cgl_ctx);
@@ -491,16 +519,13 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 - (BOOL)controllerDataValidate:(NSArray *)cData
 {
     // sanity check
-    /*
     if([cData count] == 2 && [[cData objectAtIndex:1] count] == 30)
     {
         //NSLog(@"validated controller data");
         return YES;
     }    
-    NSLog(@"error: invalid controller data structure.");
+    NSLog(@"error: missing or invalid controller data structure.");
     return NO;
-     */
-    return YES;
 }
 
 - (BOOL)loadRom:(NSString *)romPath
@@ -516,7 +541,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
         NSLog(@"extension is: %@", extension);
         
         // cleanup
-        if(loadedRom)
+        if(self.loadedRom)
         {
             [gameCore stopEmulation];
             [gameAudio stopAudio];
@@ -525,7 +550,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
             
             DLog(@"released/cleaned up for new ROM");            
         }
-        loadedRom = NO;
+        self.loadedRom = NO;
         
         OECorePlugin *plugin = [self pluginForType:extension];
         
@@ -534,9 +559,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
         
         NSLog(@"Loaded bundle. About to load rom...");
         
-        loadedRom = [gameCore loadFileAtPath:theRomPath];
-        
-        if(loadedRom)
+        if([gameCore loadFileAtPath:theRomPath])
         {
             NSLog(@"Loaded new Rom: %@", theRomPath);
             [gameCore setupEmulation];
@@ -550,10 +573,9 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
             
             NSLog(@"About to start audio");
             [gameAudio startAudio];
-            [gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
             
             NSLog(@"finished loading/starting rom");
-            return YES;
+            return self.loadedRom = YES;
         }    
         else NSLog(@"ROM did not load.");
     }
@@ -567,33 +589,29 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     // iterate through our NSArray of controller data. We know the player, we know the structure.
     // pull it out, and hand it off to our gameCore
     
-    // sanity check (again? sure!)
-    if([self controllerDataValidate:persistantControllerData])
-    {
-        // player number 
-        NSNumber *playerNumber = [persistantControllerData objectAtIndex:0];
-        NSArray  *controllerArray = [persistantControllerData objectAtIndex:1];
-        
-        //NSLog(@"Player Number: %u", [playerNumber intValue]);
-        
-        NSUInteger i;
-        for(i = 0; i < [controllerArray count]; i++)
-        {
-            if(i > 5 && i < 10)
-                continue;
-            //NSLog(@"index is %u", i);
-            if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
-            {
-                //NSLog(@"button %u is down", i);
-                [gameCore player:[playerNumber intValue] didPressButton:(i + 1)];
-            }        
-            else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
-            {
-                //NSLog(@"button %u is up", i);
-                [gameCore player:[playerNumber intValue] didReleaseButton:(i + 1)];
-            }
-        } 
-    }    
+	// player number 
+	NSNumber *playerNumber = [persistantControllerData objectAtIndex:0];
+	NSArray  *controllerArray = [persistantControllerData objectAtIndex:1];
+	
+	//NSLog(@"Player Number: %u", [playerNumber intValue]);
+	
+	NSUInteger i;
+	for(i = 0; i < [controllerArray count]; i++)
+	{
+		if(i > 5 && i < 10)
+			continue;
+		//NSLog(@"index is %u", i);
+		if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
+		{
+			//NSLog(@"button %u is down", i);
+			[gameCore player:[playerNumber intValue] didPressButton:(i + 1)];
+		}        
+		else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
+		{
+			//NSLog(@"button %u is up", i);
+			[gameCore player:[playerNumber intValue] didReleaseButton:(i + 1)];
+		}
+	} 
 }
 
 // callback for audio from plugin
@@ -650,7 +668,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
         // DO NOT CONCERN YOURSELF WITH EFFICIENCY OR ELEGANCE AT THIS JUNCTURE, DANIEL MORGAN WINCKLER.
         
         //if no ROM has been loaded, don't load the state
-        if(!loadedRom) {
+        if(!self.loadedRom) {
             NSLog(@"no ROM loaded -- please load a ROM before loading a state");
             return NO;
         }
