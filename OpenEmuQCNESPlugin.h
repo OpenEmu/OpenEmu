@@ -42,7 +42,7 @@
 	GLuint				 gameTexture;
     NSMutableArray       *persistantControllerData;
     NSRecursiveLock      *gameLock;
-    BOOL loadedRom, romFinishedLoading, hasNmtRam, hasChrRom;
+    BOOL loadedRom, romFinishedLoading, userPaused, hasNmtRam, hasChrRom;
 }
 
 /*
@@ -73,6 +73,8 @@ You can access their values in the appropriate plug-in methods using self.inputF
 
 @property(assign) id<QCPlugInOutputImageProvider> outputImage;
 
+@property(readwrite) BOOL loadedRom, romFinishedLoading, userPaused;
+
 @end
 
 @interface OpenEmuQCNES (Execution)
@@ -83,8 +85,6 @@ You can access their values in the appropriate plug-in methods using self.inputF
 - (OECorePlugin *)pluginForType:(NSString *)extension;
 - (void)saveState:(NSString *)fileName;
 - (BOOL)loadState:(NSString *)fileName;
-- (void)setCode:(NSString*)cheatCode;
-- (void)enableRewinder:(BOOL)rewind;
 
 @end
 

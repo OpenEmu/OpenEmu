@@ -27,13 +27,10 @@
 
 /* It's highly recommended to use CGL macros instead of changing the current context for plug-ins that perform OpenGL rendering */
 #import <OpenGL/CGLMacro.h>
-
 #import "OpenEmuQCNESPlugin.h"
-
 #import <Quartz/Quartz.h>
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/gl.h>
-
 #import "GameAudio.h"
 #import "GameCore.h"
 #import "OECorePlugin.h"
@@ -128,6 +125,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 
 @dynamic outputImage;
 
+@synthesize loadedRom, romFinishedLoading, userPaused;
 
 + (NSDictionary*) attributes
 {
@@ -155,30 +153,10 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 				[NSNumber numberWithFloat:0.0], QCPortAttributeMinimumValueKey,
 				nil]; 
 	
-
+    // NSArray with player count in index 0, index 1 is eButton "struct" (see GameButtons.h for typedef)
 	if([key isEqualToString:@"inputControllerData"])
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Controller Data", QCPortAttributeNameKey, nil];
-	
-	// NSArray with player count in index 0, index 1 is eButton "struct", which is an array which has the following indices:
-	
-	/*
-	 enum eButton_Type {
-	0 eButton_A,
-	1 eButton_B,
-	2 eButton_START,
-	3 eButton_SELECT,
-	4 eButton_UP,
-	5 eButton_DOWN,
-	6 eButton_RIGHT,
-	7 eButton_LEFT,
-	8 eButton_L,
-	9 eButton_R,
-	10 eButton_X,
-	11 eButton_Y
-	 };
-	 
-	*/
-	
+
 	if([key isEqualToString:@"inputSaveStatePath"])
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Save State", QCPortAttributeNameKey,
 														@"~/roms/saves/savefilename", QCPortAttributeDefaultValueKey, 
@@ -317,7 +295,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		//FIXME: maybe just get Nestopia
 		plugins = [[OECorePlugin allPlugins] retain];
         validExtensions = [[OECorePlugin supportedTypeExtensions] retain];
-		loadedRom,romFinishedLoading = NO;
+
+		self.userPaused = NO; self.loadedRom = NO; self.romFinishedLoading = NO;
 	}
 	
 	return self;
@@ -376,50 +355,93 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 - (BOOL) startExecution:(id<QCPlugInContext>)context
 {	
 	DLog(@"called startExecution");
-//	if(loadedRom)
-//	{
-//		[gameAudio startAudio];
-//		[gameCore start]; 
-//	}
 	
+	CGLContextObj cgl_ctx = [context CGLContextObj];
+	CGLLockContext(cgl_ctx);
+	
+	if(self.loadedRom && ([gameCore	width] > 10) )
+	{
+		if(gameTexture == 0)
+			gameTexture = createNewTexture(cgl_ctx, 
+										   [gameCore internalPixelFormat], 
+										   [gameCore width], 
+										   [gameCore height], 
+										   [gameCore pixelFormat], 
+										   [gameCore pixelType],
+										   [gameCore videoBuffer]);
+		
+		if(!self.userPaused)
+		{
+			[gameCore setPauseEmulation:NO];
+			[gameAudio startAudio];
+		}
+    }
+    
+	CGLUnlockContext(cgl_ctx);
 	return YES;
 }
 
-- (void) enableExecution:(id<QCPlugInContext>)context
+- (void)enableExecution:(id<QCPlugInContext>)context
 {
-	DLog(@"called enableExecution");
-	// if we have a ROM loaded and the patch's image output is reconnected, unpause the emulator
-	if(loadedRom && romFinishedLoading)
-	{
-		if(!self.inputPauseEmulation) 
-		{
-			[gameAudio startAudio];
-			[gameCore setPauseEmulation:NO];
-		}
-	}
-	
-	/*
-	Called by Quartz Composer when the plug-in instance starts being used by Quartz Composer.
-	*/
+	CGLContextObj cgl_ctx = [context CGLContextObj];
+	CGLLockContext(cgl_ctx);
+    /*
+     Called by Quartz Composer when the plug-in instance starts being used by Quartz Composer.
+     */
+    DLog(@"called enableExecution");
+    // if we have a ROM loaded and the patch's image output is reconnected
+    if(self.loadedRom) // FIXME: && self.romFinishedLoading ?
+    {		
+		if(gameTexture == 0)
+			gameTexture = createNewTexture(cgl_ctx, 
+										   [gameCore internalPixelFormat], 
+										   [gameCore width], 
+										   [gameCore height], 
+										   [gameCore pixelFormat], 
+										   [gameCore pixelType],
+										   [gameCore videoBuffer]);
+		
+		// if emulation hasn't been paused by the user, restart it
+		if(!self.userPaused) 
+        {
+            @try
+            {
+                [gameCore setPauseEmulation:NO];
+                [gameAudio startAudio];
+            }
+            @catch (NSException * e) {
+                NSLog(@"Failed to unpause");
+            }
+        }
+    }
+	CGLUnlockContext(cgl_ctx);
 }
 
 - (BOOL) execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary*)arguments
 {
+	/*
+	 Called by Quartz Composer whenever the plug-in instance needs to execute.
+	 Only read from the plug-in inputs and produce a result (by writing to the plug-in outputs or rendering to the destination OpenGL context) within that method and nowhere else.
+	 Return NO in case of failure during the execution (this will prevent rendering of the current frame to complete).
+	 
+	 The OpenGL context for rendering can be accessed and defined for CGL macros using:
+	 CGLContextObj cgl_ctx = [context CGLContextObj];
+	 */
+	
 	CGLContextObj cgl_ctx = [context CGLContextObj];
 	CGLLockContext(cgl_ctx);
 	
 	// Process ROM loads
 	if([self didValueForInputKeyChange: @"inputRom"] && ([self valueForInputKey:@"inputRom"] != [[OpenEmuQCNES	attributesForPropertyPortWithKey:@"inputRom"] valueForKey: QCPortAttributeDefaultValueKey]))
 	{
-		[self loadRom:[self valueForInputKey:@"inputRom"]];
-		
-		if(loadedRom) {
+		if([self loadRom:[self valueForInputKey:@"inputRom"]]) {
+			[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 			glDeleteTextures(1, &gameTexture);
 			gameTexture = createNewTexture(cgl_ctx, [gameCore internalPixelFormat], [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
 		}
 	}
 	
-	if(loadedRom && romFinishedLoading) {
+	if(self.loadedRom && self.romFinishedLoading) {
 		// Process controller data
 		if([self didValueForInputKeyChange: @"inputControllerData"])
 		{
@@ -439,34 +461,42 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 		}
 		
-		// Process state saving 
-		if([self didValueForInputKeyChange: @"inputSaveStatePath"] && ([self valueForInputKey:@"inputSaveStatePath"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputSaveStatePath"] valueForKey: QCPortAttributeDefaultValueKey]))
-		{
-			DLog(@"save path changed");
-			[self saveState:[[self valueForInputKey:@"inputSaveStatePath"] stringByStandardizingPath]];
-		}
-
-		// Process state loading
-		if([self didValueForInputKeyChange: @"inputLoadStatePath"] && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputLoadStatePath"] valueForKey: QCPortAttributeDefaultValueKey]))	
-		{
-			DLog(@"load path changed");
-			[self loadState:[[self valueForInputKey:@"inputLoadStatePath"] stringByStandardizingPath]];
-		}
+        // Process state saving 
+        if([self didValueForInputKeyChange: @"inputSaveStatePath"]
+           && ([self valueForInputKey:@"inputSaveStatePath"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputSaveStatePath"]
+                                                                 valueForKey: QCPortAttributeDefaultValueKey])
+           && (![[self valueForInputKey:@"inputSaveStatePath"] isEqualToString:@""] ))
+        {
+            NSLog(@"save path changed");
+            [self saveState:[[self valueForInputKey:@"inputSaveStatePath"] stringByStandardizingPath]];
+        }
+        
+        // Process state loading
+        if([self didValueForInputKeyChange:@"inputLoadStatePath"] 
+           && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputLoadStatePath"]
+                                                                 valueForKey: QCPortAttributeDefaultValueKey])
+           && (![[self valueForInputKey:@"inputLoadStatePath"] isEqualToString:@""] ))    
+        {
+            NSLog(@"load path changed");
+            [self loadState:[[self valueForInputKey:@"inputLoadStatePath"] stringByStandardizingPath]];
+        }
 		
 		// Process emulation pausing 
 		if([self didValueForInputKeyChange: @"inputPauseEmulation"])	
 		{
-			if([[self valueForInputKey:@"inputPauseEmulation"] boolValue])	
+			if(self.inputPauseEmulation)	
 			{
 				DLog(@"user paused emulation");
 				[gameAudio pauseAudio];
 				[gameCore setPauseEmulation:YES]; 
+				self.userPaused = YES;
 			}
 			else 
 			{
 				DLog(@"user unpaused emulation");
 				[gameAudio startAudio];
 				[gameCore setPauseEmulation:NO];
+				self.userPaused = NO;
 			}
 		}
 		
@@ -474,7 +504,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		if([self didValueForInputKeyChange: @"inputCheatCode"] && ([self valueForInputKey:@"inputCheatCode"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputCheatCode"] valueForKey: QCPortAttributeDefaultValueKey]))	
 		{
 			DLog(@"cheat code entered");
-			[self setCode:[self valueForInputKey:@"inputCheatCode"]];
+			[gameCore setCode:[self valueForInputKey:@"inputCheatCode"]];
 		}
 		
 		// process rewinder stuff
@@ -541,7 +571,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	id	provider = nil;
 	
 	// handle our image output. (sanity checking)
-	if(loadedRom && romFinishedLoading && ([gameCore width] > 10) && [gameCore frameFinished])
+	if(self.loadedRom && self.romFinishedLoading && ([gameCore width] > 10) && [gameCore frameFinished])
 	{
 		GLenum status;
 		
@@ -583,7 +613,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 														 shouldColorMatch:YES];
 	}
 
-	// output OpenEmu Texture - note we CAN output a nil image. This is 'correct'
+	// output OpenEmu Texture - note we CAN output a nil image. 
 	self.outputImage = provider;
 
 	CGLUnlockContext(cgl_ctx);
@@ -592,35 +622,41 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 
 - (void) disableExecution:(id<QCPlugInContext>)context
 {
+	/*
+	 Called by Quartz Composer when the plug-in instance stops being used by Quartz Composer.
+	 */
+
 	DLog(@"called disableExecution");
 
 	// if we have a ROM running and the patch's image output is disconnected, pause the emulator
-	if(loadedRom && romFinishedLoading)
+	if(self.loadedRom && self.romFinishedLoading)
 	{
-		if(!self.inputPauseEmulation) 
-		{
-			[gameAudio pauseAudio];
-			[gameCore setPauseEmulation:YES]; 
-		}
-//		sleep(0.5); // race condition workaround. 
+		if(!self.userPaused) 
+        {
+            @try
+            {
+                [gameCore setPauseEmulation:YES]; 
+                [gameAudio pauseAudio];
+            }
+            @catch (NSException * e) {
+                NSLog(@"Failed to pause");
+				self.userPaused = NO;
+            }
+        }  		
 	}
-	/*
-	Called by Quartz Composer when the plug-in instance stops being used by Quartz Composer.
-	*/
 }
 
 - (void) stopExecution:(id<QCPlugInContext>)context
 {
 	DLog(@"called stopExecution");
-	if(loadedRom)
+	if(self.loadedRom)
 	{
 		[gameCore stopEmulation]; 		
 		[gameAudio stopAudio];
 		[gameAudio release];
 		[gameCore release];
 		gameCore = nil;
-		loadedRom = NO;
-		romFinishedLoading = NO;
+		self.loadedRom = NO; self.romFinishedLoading = NO;
 		
 		CGLContextObj cgl_ctx = [context CGLContextObj];
 		CGLLockContext(cgl_ctx);
@@ -633,10 +669,18 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 
 # pragma mark -
 
--(BOOL) controllerDataValidate:(NSArray*) cData
+- (BOOL)controllerDataValidate:(NSArray *)cData
 {
-	return YES; // hahah INSANITY NO VALIDATION AT ALL WOOOO WOO.
+    // sanity check
+    if([cData count] == 2 && [[cData objectAtIndex:1] count] == 30)
+    {
+        //NSLog(@"validated controller data");
+        return YES;
+    }    
+    NSLog(@"error: missing or invalid controller data structure.");
+    return NO;
 }
+
 
 - (BOOL) loadRom:(NSString*) romPath
 {
@@ -656,9 +700,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		DLog(@"extension is: %@", extension);
 		
 		// cleanup
-		if(loadedRom && romFinishedLoading)
+		if(self.loadedRom && self.romFinishedLoading)
 		{
-			romFinishedLoading = NO;
+			self.romFinishedLoading = NO;
 			[gameAudio stopAudio];
 			[gameCore stopEmulation];
 			[gameCore release];
@@ -667,7 +711,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			DLog(@"released/cleaned up for new rom");
 			
 		}
-		loadedRom = NO;
+		self.loadedRom = NO;
 		hasChrRom = NO;
 		hasNmtRam = NO;
 		
@@ -679,9 +723,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		
 		DLog(@"Loaded NES bundle. About to load rom...");
 		
-		loadedRom = [gameCore loadFileAtPath:theRomPath];
-
-		if(loadedRom)
+		if([gameCore loadFileAtPath:theRomPath])
 		{
 			NSLog(@"Loaded new Rom: %@", theRomPath);
 			[gameCore setupEmulation];
@@ -695,7 +737,6 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 			DLog(@"About to start audio");
 			[gameAudio startAudio];
-            [gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 			
 			DLog(@"finished loading/starting rom");			
 			
@@ -713,17 +754,13 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			hasNmtRam = YES;	//because if the cartridge doesn't have VRAM, the PPU will just use its 2K RAM for the nametables
 			DLog(@"Reported NMT RAM size is %i", [gameCore cartVRamSize]);
 			
-			romFinishedLoading = YES;
+			self.loadedRom = YES;
+			return self.romFinishedLoading = YES;
 		}	
-		else
-		{
-			NSLog(@"ROM did not load.");
-		}
+		else NSLog(@"ROM did not load.");
 	}
-	else {
-		NSLog(@"bad ROM path or filename");
-	}
-	
+	else NSLog(@"bad ROM path or filename");
+	return NO;	
 }
 
 
@@ -732,37 +769,29 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
     // iterate through our NSArray of controller data. We know the player, we know the structure.
     // pull it out, and hand it off to our gameCore
     
-    // sanity check (again? sure!)
-    if([self controllerDataValidate:persistantControllerData])
-    {
-        
-        // player number 
-        NSNumber*  playerNumber = [persistantControllerData objectAtIndex:0];
-        NSArray * controllerArray = [persistantControllerData objectAtIndex:1];
-        
-        //    NSLog(@"Player Number: %u", [playerNumber intVouch mysalue]);
-        
-        NSUInteger i;
-        for(i = 0; i < [controllerArray count]; i++)
-        {
-			if(i > 5 && i < 10)
-				continue;
-			//       NSLog(@"index is %u", i);
-            if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
-            {
-                //    NSLog(@"button %u is down", i);
-                //    [gameCore buttonPressed:i forPlayer:[playerNumber intValue]];
-                [gameCore player:[playerNumber intValue] didPressButton:(i + 1)];
-            }        
-            else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
-            {
-                //    NSLog(@"button %u is up", i);
-                //    [gameCore buttonRelease:i forPlayer:[playerNumber intValue]];
-                [gameCore player:[playerNumber intValue] didReleaseButton:(i + 1)];
-            }
-        } 
-    }    
-    
+	// player number 
+	NSNumber*  playerNumber = [persistantControllerData objectAtIndex:0];
+	NSArray * controllerArray = [persistantControllerData objectAtIndex:1];
+		
+	NSUInteger i;
+	for(i = 0; i < [controllerArray count]; i++)
+	{
+		if(i > 5 && i < 10)
+			continue;
+		//       NSLog(@"index is %u", i);
+		if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
+		{
+			//    NSLog(@"button %u is down", i);
+			//    [gameCore buttonPressed:i forPlayer:[playerNumber intValue]];
+			[gameCore player:[playerNumber intValue] didPressButton:(i + 1)];
+		}        
+		else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
+		{
+			//    NSLog(@"button %u is up", i);
+			//    [gameCore buttonRelease:i forPlayer:[playerNumber intValue]];
+			[gameCore player:[playerNumber intValue] didReleaseButton:(i + 1)];
+		}
+	} 
 }
 
 // callback for audio from plugin
@@ -821,7 +850,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		//DO NOT CONCERN YOURSELF WITH EFFICIENCY OR ELEGANCE AT THIS JUNCTURE, DANIEL MORGAN WINCKLER.
 		
 		//if no ROM has been loaded, don't load the state
-		if(!loadedRom) {
+		if(!self.loadedRom) {
 			NSLog(@"no ROM loaded -- please load a ROM before loading a state");
 			return NO;
 			}
@@ -837,14 +866,5 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	}
 	return YES;
 }
-
-#pragma mark --Experimental Features--
-
-- (void) setCode: (NSString*) cheatCode
-{
-	NSLog(@"cheat code is: %@",cheatCode);
-	[gameCore setCode:cheatCode];
-}
-
 
 @end
