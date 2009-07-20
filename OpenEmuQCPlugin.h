@@ -35,7 +35,6 @@
 {
 	// init stuff
     NSArray              *plugins;
-	NSArray              *bundles;
 	NSArray              *validExtensions;
 	OEGameCoreController *gameCoreController;
 	GameCore             *gameCore;

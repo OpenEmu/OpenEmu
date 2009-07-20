@@ -221,7 +221,6 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 - (void)dealloc
 {
     /* Release any resources created in -init. */
-    [bundles release];
     [validExtensions release];
     [persistantControllerData release];
     [gameLock release];
@@ -265,7 +264,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 	CGLContextObj cgl_ctx = [context CGLContextObj];
 	CGLLockContext(cgl_ctx);
 
-    NSLog(@"called startExecution");
+    DLog(@"called startExecution");
     if(self.loadedRom && ([gameCore width] > 10) )
     {
 		if(gameTexture == 0)
@@ -295,7 +294,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     /*
      Called by Quartz Composer when the plug-in instance starts being used by Quartz Composer.
      */
-    NSLog(@"called enableExecution");
+    DLog(@"called enableExecution");
     // if we have a ROM loaded and the patch's image output is reconnected
     if(self.loadedRom)
     {		
