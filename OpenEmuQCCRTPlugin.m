@@ -53,13 +53,14 @@ static GLuint renderCRTMask(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     GLenum  status;
     
     // save our current GL state
-    glPushAttrib(GL_COLOR_BUFFER_BIT | GL_TRANSFORM_BIT | GL_VIEWPORT);
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
     
     // Create texture to render into 
     glGenTextures(1, &name);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, name);    
     glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
-    
+	//glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA16F_ARB, width, height, 0, GL_RGBA, GL_HALF_FLOAT_ARB, NULL); 
+  
     // bind our FBO
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBuffer);
     
@@ -67,130 +68,144 @@ static GLuint renderCRTMask(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-//	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-//	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
-    {    
+	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+    {    		
         // Setup OpenGL states 
         glViewport(0, 0, width, height);
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
-        glOrtho(bounds.origin.x, bounds.origin.x + bounds.size.width, bounds.origin.y, bounds.origin.y + bounds.size.height, -1, 1);
-       
-		glMatrixMode(GL_TEXTURE);
-        glPushMatrix();
-        glLoadIdentity();
-		
-		
+        glOrtho(0,  bounds.size.width, bounds.origin.y, bounds.origin.y + bounds.size.height, -1, 1);
+      		
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
         
-        // bind video texture
+		glDisable(GL_DEPTH_TEST);
+       
+		// bind video texture
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);        
-        		
-       // glActiveTexture(GL_TEXTURE0);
-		glEnable(GL_TEXTURE_RECTANGLE_EXT);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
-				
+		
 		// draw our input video
+		glActiveTexture(GL_TEXTURE0);
+		glEnable(GL_TEXTURE_RECTANGLE_EXT);
+		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); 
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		
+		// our CRT texture
 		glActiveTexture(GL_TEXTURE1);
 		glEnable(GL_TEXTURE_RECTANGLE_EXT);
 		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, CRTTexture);
-		
 		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
+		
 		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		
-		GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
-		glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-
+		//GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
+		//glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
+		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		
         glColor4f(1.0, 1.0, 1.0, 1.0);
+		//glDisable(GL_BLEND);
+		glDisable(GL_LIGHTING);
+		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		
-        // bind our shader
+		// bind our shader
 		glUseProgramObjectARB([shader programObject]);
-        
-        // set up shader variables
+    
+		// set up shader variables
 		glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);			// texture        
 		glUniform1iARB([shader uniformLocationWithName:"tex1"], 1);			// texture        
+		
+		//glUniform2fARB([shader uniformLocationWithName:"texdim0"], pixelsWide, pixelsHigh);
+		//glUniform2fARB([shader uniformLocationWithName:"texdim1"], renderingWidth, renderingHeight);
 		
         glBegin(GL_QUADS);    // Draw A Quad
         {
 			glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
 			glMultiTexCoord2i(GL_TEXTURE1, 0, 0);
-            // glTexCoord2f(0.0f, 0.0f);
-            glVertex2f(0.0f, 0.0f);
+			glVertex3i(0, 0, 0);						// Bottom Left
 			
 			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
-			glMultiTexCoord2i(GL_TEXTURE1, renderingWidth, 0);
-			// glTexCoord2f(pixelsWide, 0.0f );
-            glVertex2f(width, 0.0f);
-
+			glMultiTexCoord2i(GL_TEXTURE1, width, 00);
+			glVertex3i(width, 0, 0);				// Bottom Right
+			
 			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
+			glMultiTexCoord2i(GL_TEXTURE1, width, height);
+			glVertex3i(width, height, 0);		// Top Right
+			
+			glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
+			glMultiTexCoord2i(GL_TEXTURE1, 0, height);
+			glVertex3i(0, height, 0);				// Top Left
+			
+		/*	glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
 			glMultiTexCoord2i(GL_TEXTURE1, renderingWidth, renderingHeight);
 			// glTexCoord2f(pixelsWide, pixelsHigh);
-			glVertex2f(width, height);
+			glVertex3f(width, height, 0.0f);
 			
 			glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
 			glMultiTexCoord2i(GL_TEXTURE1, 0, renderingHeight);
 			// glTexCoord2f(0.0f, pixelsHigh);
-			glVertex2f(0.0f, height);
-        }
+			glVertex3f(0.0f, height, 0.0f);
+			
+			glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
+			glMultiTexCoord2i(GL_TEXTURE1, 0, 0);
+            // glTexCoord2f(0.0f, 0.0f);
+            glVertex3f(0.0f, 0.0f, 0.0f);
+			
+			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
+			glMultiTexCoord2i(GL_TEXTURE1, renderingWidth, 0);
+			// glTexCoord2f(pixelsWide, 0.0f );
+            glVertex3f(width, 0.0f, 0.0f);
+		 */
+		}
         glEnd(); // Done Drawing The Quad
 
-		//glMatrixMode(GL_TEXTURE);
-		//glPopMatrix();
-		
-       	glDisable(GL_TEXTURE_RECTANGLE_EXT);
-		
+       	//glDisable(GL_TEXTURE_RECTANGLE_EXT);		
 		glActiveTexture(GL_TEXTURE0);
-		glDisable(GL_TEXTURE_RECTANGLE_EXT);
 		
         // disable shader program
         glUseProgramObjectARB(NULL);
-        
 		
         // Restore OpenGL states 
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
-        
-		glMatrixMode(GL_TEXTURE);
-		glPopMatrix();
 		
 		glMatrixMode(GL_PROJECTION);
         glPopMatrix();
-        
-        // restore states
-        //glPopAttrib();        
     }
 	// restore states
 	glPopAttrib();        
 
-    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+   glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
     // Check for OpenGL errors 
-/*    status = glGetError();
+    status = glGetError();
     if(status)
     {
-        NSLog(@"FrameBuffer OpenGL error %04X", status);
+        NSLog(@"CRT FrameBuffer OpenGL error %04X", status);
         glDeleteTextures(1, &name);
         name = 0;
     }
-*/    
+    
     CGLUnlockContext(cgl_ctx);
     return name;    
 }
 
 // our render setup
-static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, GLuint unblurredTexture, OEGameShader* shader, GLfloat amountx, GLfloat amounty)
+static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, OEGameShader* shader, GLfloat amountx, GLfloat amounty)
 {
     CGLLockContext(cgl_ctx);
     
@@ -199,13 +214,14 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
     GLenum  status;
     
     // save our current GL state
-    glPushAttrib(GL_COLOR_BUFFER_BIT | GL_TRANSFORM_BIT | GL_VIEWPORT);
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
     
     // Create texture to render into 
     glGenTextures(1, &name);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, name);    
     glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
-    
+	//glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA16F_ARB, width, height, 0, GL_RGBA, GL_HALF_FLOAT_ARB, NULL); 
+
     // bind our FBO
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBuffer);
     
@@ -213,8 +229,8 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-//	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-//	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {    
         // Setup OpenGL states 
         glViewport(0, 0, width, height);
@@ -223,65 +239,99 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
         glLoadIdentity();
         glOrtho(bounds.origin.x, bounds.origin.x + bounds.size.width, bounds.origin.y, bounds.origin.y + bounds.size.height, -1, 1);
 		
-		glMatrixMode(GL_TEXTURE);
-        glPushMatrix();
-        glLoadIdentity();
-		
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
         
+		glDisable(GL_DEPTH_TEST);
+
         // bind video texture
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);        
 		
-		// glActiveTexture(GL_TEXTURE0);
+		glActiveTexture(GL_TEXTURE0);
 		glEnable(GL_TEXTURE_RECTANGLE_EXT);
-        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
+		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
 		
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		
-		GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
+	
+		/*GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
 		glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
 		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+		*/
 		
         glColor4f(1.0, 1.0, 1.0, 1.0);
+
+		//glDisable(GL_BLEND);
+		glDisable(GL_LIGHTING);
+		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-		
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         // bind our shader
 		glUseProgramObjectARB([shader programObject]);
-        
-        // set up shader variables
+    
+		// set up shader variables
 		glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);						// texture        
 		glUniform2fARB([shader uniformLocationWithName:"amount"], amountx, amounty);	// blur amount        
+	
+		glDisable(GL_TEXTURE_RECTANGLE_EXT);
+		
+		glBegin(GL_QUADS);
+        {		
+			// draw counter clockwise to have quad face us.
+			//						bottom left, 
+			// coordinate system is 0, width, 0, hight 
+			glColor4f(1.0, 1.0, 1.0, 1.0);
 
-		glBegin(GL_QUADS);    // Draw A Quad
-        {
-			glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
-            // glTexCoord2f(0.0f, 0.0f);
-            glVertex2f(0.0f, 0.0f);
+			glTexCoord2i(0, 0);
+			glVertex3i(0, 0 , 0);						// Bottom Left
 			
-			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
-			// glTexCoord2f(pixelsWide, 0.0f );
-            glVertex2f(width, 0.0f);
+			glTexCoord2i(pixelsWide, 0);
+			glVertex3i(pixelsWide, 0, 0);				// Bottom Right
+
+			glTexCoord2i(pixelsWide, pixelsHigh);
+			glVertex3i(pixelsWide, pixelsHigh, 0);		// Top Right
 			
-			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
+			glTexCoord2i(0, pixelsHigh);
+			glVertex3i(0, pixelsHigh, 0);				// Top Left
+			
+
+			
+			/*
+
+			//glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
+			 glTexCoord2i(pixelsWide, pixelsHigh);
 			// glTexCoord2f(pixelsWide, pixelsHigh);
-			glVertex2f(width, height);
+			glVertex3f(width, height, 0.0f);
 			
-			glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
+			glColor4f(1.0, 0.0, 0.0, 1.0);
+			//glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
+			 glTexCoord2i(0, pixelsHigh);
 			// glTexCoord2f(0.0f, pixelsHigh);
-			glVertex2f(0.0f, height);
-        }
+			glVertex3f(0.0f, height, 0.0f);
+			
+
+			glColor4f(0.0, 1.0, 0.0, 1.0);
+			//glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
+             glTexCoord2i(0, 0);
+            // glTexCoord2f(0.0f, 0.0f);
+            glVertex3f(0.0f, 0.0f, 0.0f);
+			
+			glColor4f(0.0, 0.0, 1.0, 1.0);
+
+			//glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
+			 glTexCoord2i(pixelsWide, 0);
+			// glTexCoord2f(pixelsWide, 0.0f );
+            glVertex3f(width, 0.0f, 0.0f);
+			 */
+		}
         glEnd(); // Done Drawing The Quad
-		
-		//glMatrixMode(GL_TEXTURE);
-		//glPopMatrix();
-		
-       	glDisable(GL_TEXTURE_RECTANGLE_EXT);
 		
 		// disable shader program
         glUseProgramObjectARB(NULL);
@@ -289,10 +339,7 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
         // Restore OpenGL states 
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
-        
-		glMatrixMode(GL_TEXTURE);
-		glPopMatrix();
-		
+   
 		glMatrixMode(GL_PROJECTION);
         glPopMatrix();
         
@@ -305,14 +352,14 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
     // Check for OpenGL errors 
-/*    status = glGetError();
+    status = glGetError();
     if(status)
     {
-        NSLog(@"FrameBuffer OpenGL error %04X", status);
+        NSLog(@"Blur FrameBuffer OpenGL error %04X", status);
         glDeleteTextures(1, &name);
         name = 0;
     }
-*/    
+   
     CGLUnlockContext(cgl_ctx);
     return name;    
 }
@@ -323,10 +370,10 @@ static GLuint renderScanlines(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInte
     
     GLsizei width = bounds.size.width, height = bounds.size.height;
     GLuint  name;
-    GLenum  status;
+//    GLenum  status;
     
     // save our current GL state
-    glPushAttrib(GL_COLOR_BUFFER_BIT | GL_TRANSFORM_BIT | GL_VIEWPORT);
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
     
     // Create texture to render into 
     glGenTextures(1, &name);
@@ -349,11 +396,7 @@ static GLuint renderScanlines(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInte
         glPushMatrix();
         glLoadIdentity();
         glOrtho(bounds.origin.x, bounds.origin.x + bounds.size.width, bounds.origin.y, bounds.origin.y + bounds.size.height, -1, 1);
-		
-		glMatrixMode(GL_TEXTURE);
-        glPushMatrix();
-        glLoadIdentity();
-		
+			
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
@@ -389,36 +432,28 @@ static GLuint renderScanlines(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInte
         {
 			glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
             // glTexCoord2f(0.0f, 0.0f);
-            glVertex2f(0.0f, 0.0f);
+            glVertex3f(0.0f, 0.0f, 0.0f);
 			
 			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
 			// glTexCoord2f(pixelsWide, 0.0f );
-            glVertex2f(width, 0.0f);
+            glVertex3f(width, 0.0f, 0.0f);
 			
 			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
 			// glTexCoord2f(pixelsWide, pixelsHigh);
-			glVertex2f(width, height);
+			glVertex3f(width, height, 0.0f);
 			
 			glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
 			// glTexCoord2f(0.0f, pixelsHigh);
-			glVertex2f(0.0f, height);
+			glVertex3f(0.0f, height, 0.0f);
         }
         glEnd(); // Done Drawing The Quad
-		
-		//glMatrixMode(GL_TEXTURE);
-		//glPopMatrix();
-		
-       	glDisable(GL_TEXTURE_RECTANGLE_EXT);
-		
+	
 		// disable shader program
         glUseProgramObjectARB(NULL);
 		
         // Restore OpenGL states 
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
-        
-		glMatrixMode(GL_TEXTURE);
-		glPopMatrix();
 		
 		glMatrixMode(GL_PROJECTION);
         glPopMatrix();
@@ -451,7 +486,7 @@ static GLuint renderPhosphorBurnOff(GLuint frameBuffer, CGLContextObj cgl_ctx, N
     
     GLsizei width = bounds.size.width, height = bounds.size.height;
     GLuint  name;
-    GLenum  status;
+//    GLenum  status;
     
     // save our current GL state
     glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -477,11 +512,7 @@ static GLuint renderPhosphorBurnOff(GLuint frameBuffer, CGLContextObj cgl_ctx, N
         glPushMatrix();
         glLoadIdentity();
         glOrtho(bounds.origin.x, bounds.origin.x + bounds.size.width, bounds.origin.y, bounds.origin.y + bounds.size.height, -1, 1);
-		
-		glMatrixMode(GL_TEXTURE);
-        glPushMatrix();
-        glLoadIdentity();
-		
+	
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
@@ -533,19 +564,19 @@ static GLuint renderPhosphorBurnOff(GLuint frameBuffer, CGLContextObj cgl_ctx, N
 
 		glBegin(GL_QUADS);    // Draw A Quad
 		{
-			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, 0.0f);
+			glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
 			// glTexCoord2f(0.0f, 0.0f);
 			glVertex3f(0.0f, 0.0f, 0.0f);
 
-			glMultiTexCoord2f(GL_TEXTURE0, pixelsWide, 0.0f);
+			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
 			// glTexCoord2f(pixelsWide, 0.0f );
 			glVertex3f(width, 0.0f, 0.0f);
 
-			glMultiTexCoord2f(GL_TEXTURE0, pixelsWide, pixelsHigh);
+			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
 			// glTexCoord2f(pixelsWide, pixelsHigh);
 			glVertex3f(width, height, 0.0f);
 
-			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, pixelsHigh);
+			glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
 			// glTexCoord2f(0.0f, pixelsHigh);
 			glVertex3f(0.0f, height, 0.0f);
 		}
@@ -554,10 +585,7 @@ static GLuint renderPhosphorBurnOff(GLuint frameBuffer, CGLContextObj cgl_ctx, N
         // Restore OpenGL states 
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
-        
-		glMatrixMode(GL_TEXTURE);
-		glPopMatrix();
-		
+   		
 		glMatrixMode(GL_PROJECTION);
         glPopMatrix();
     }
@@ -587,7 +615,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     
     GLsizei width = bounds.size.width, height = bounds.size.height;
     GLuint  name;
-    GLenum  status;
+//    GLenum  status;
     
     // save our current GL state
     glPushAttrib(GL_ALL_ATTRIB_BITS);
@@ -613,11 +641,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
         glPushMatrix();
         glLoadIdentity();
         glOrtho(bounds.origin.x, bounds.origin.x + bounds.size.width, bounds.origin.y, bounds.origin.y + bounds.size.height, -1, 1);
-		
-		glMatrixMode(GL_TEXTURE);
-        glPushMatrix();
-        glLoadIdentity();
-		
+
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
@@ -660,9 +684,6 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
         
-		glMatrixMode(GL_TEXTURE);
-		glPopMatrix();
-		
 		glMatrixMode(GL_PROJECTION);
         glPopMatrix();
     }
@@ -724,9 +745,9 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 	if([key isEqualToString:@"inputCRTPattern"])
     {
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"CRT Pattern", QCPortAttributeNameKey,
-                [NSArray arrayWithObjects:@"Straight", @"Staggered", @"Straight Scanline Only", @"Staggered Scanline Only", nil], QCPortAttributeMenuItemsKey,
+                [NSArray arrayWithObjects:@"Straight", @"Staggered", @"Shadow Mask", @"Straight Scanline Only", @"Staggered Scanline Only", nil], QCPortAttributeMenuItemsKey,
                 [NSNumber numberWithUnsignedInteger:0.0], QCPortAttributeMinimumValueKey,
-                [NSNumber numberWithUnsignedInteger:3], QCPortAttributeMaximumValueKey,
+                [NSNumber numberWithUnsignedInteger:4], QCPortAttributeMaximumValueKey,
                 [NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
                 nil];
 	}
@@ -778,7 +799,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 	if([key isEqualToString:@"inputScanlineQuality"])
     {
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Scanline Quality", QCPortAttributeNameKey,
-                [NSArray arrayWithObjects:@"Low", @"Hight", nil], QCPortAttributeMenuItemsKey,
+                [NSArray arrayWithObjects:@"Low", @"High", nil], QCPortAttributeMenuItemsKey,
                 [NSNumber numberWithUnsignedInteger:0.0], QCPortAttributeMinimumValueKey,
                 [NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey,
                 [NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
@@ -960,23 +981,22 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 			[self loadCRTTexture:self.inputCRTPattern context:cgl_ctx];
 		}
 		
-		
 		NSUInteger width = [image imageBounds].size.width;
 		NSUInteger height = [image imageBounds].size.height;
 		
 		CGFloat aspect = (CGFloat)width/(CGFloat)height;
 		
 		// our crt mask should be 'per pixel' on the destination device, be it a temp image or the screen. We let the user pass in the dim 
-		NSRect bounds = NSMakeRect(0.0, 0.0, floorf(self.inputRenderDestinationWidth), floorf(self.inputRenderDestinationWidth/aspect));  //[image imageBounds];
+		NSRect bounds = NSMakeRect(0.0, 0.0, (GLuint)(self.inputRenderDestinationWidth), (GLuint)(self.inputRenderDestinationWidth/aspect));  //[image imageBounds];
 		
 		[image bindTextureRepresentationToCGLContext:cgl_ctx textureUnit:GL_TEXTURE0 normalizeCoordinates:NO];
 		
         // Make sure to flush as we use FBOs as the passed OpenGL context may not have a surface attached        
-		GLuint crt = renderCRTMask(frameBuffer, cgl_ctx, width, height, bounds, [image textureName], CRTPixelTexture, CRTMask, bounds.size.width, bounds.size.height);
+		GLuint crt = renderCRTMask(frameBuffer, cgl_ctx, width, height, bounds, [image textureName], CRTPixelTexture, CRTMask, (GLuint)bounds.size.width, (GLuint)bounds.size.height);
 
 		// flush our FBO work.
 		glFlushRenderAPPLE();
-
+		
 		// our texture we send to our image provider
 		GLuint finalOutput;
 		
@@ -989,8 +1009,8 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 			{
 				case 0:
 				{
-					GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, crt, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
-					finalOutput = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal1, crt, phosphorBlur, 0.0, self.inputPhosphorBlurAmount);
+					GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
+					finalOutput = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal1, phosphorBlur, 0.0, self.inputPhosphorBlurAmount);
 
 					// cleanup
 					glDeleteTextures(1, &crt);
@@ -999,12 +1019,12 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 				}
 				case 1:
 				{
-					float amount = self.inputPhosphorBlurAmount;
-					GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, crt, phosphorBlur, amount, 0.0);
-					GLuint vertical1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal1, crt, phosphorBlur, 0.0, amount);
+					GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
+					GLuint vertical1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal1, phosphorBlur, 0.0, self.inputPhosphorBlurAmount);
+			
 					
-					GLuint horizontal2 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical1, crt, phosphorBlur, amount, 0.0);
-					finalOutput = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal2, crt, phosphorBlur, 0.0, amount);
+					GLuint horizontal2 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical1, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
+					finalOutput = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal2, phosphorBlur, 0.0, self.inputPhosphorBlurAmount);
 					
 					// cleanup
 					glDeleteTextures(1, &crt);
@@ -1015,15 +1035,14 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 				}
 				case 2:
 				{
-					float amount = self.inputPhosphorBlurAmount;
-					GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, crt, phosphorBlur, amount, 0.0);
-					GLuint vertical1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal1, crt, phosphorBlur, 0.0, amount);
+					GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
+					GLuint vertical1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal1, phosphorBlur, 0.0, self.inputPhosphorBlurAmount);
 					
-					GLuint horizontal2 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical1, crt, phosphorBlur, amount, 0.0);
-					GLuint vertical2 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal2, crt, phosphorBlur, 0.0, amount);
+					GLuint horizontal2 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical1, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
+					GLuint vertical2 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal2, phosphorBlur, 0.0, self.inputPhosphorBlurAmount);
 					
-					GLuint horizontal3 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical2, crt, phosphorBlur, amount, 0.0);
-					finalOutput = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal3, crt, phosphorBlur, 0.0, amount);
+					GLuint horizontal3 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical2, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
+					finalOutput = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal3, phosphorBlur, 0.0, self.inputPhosphorBlurAmount);
 					
 					// cleanup
 					glDeleteTextures(1, &crt);
@@ -1036,18 +1055,17 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 				}
 				case 3:
 				{
-					float amount = self.inputPhosphorBlurAmount;
-					GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, crt, phosphorBlur, amount, 0.0);
-					GLuint vertical1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal1, crt, phosphorBlur, 0.0, amount);
+					GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
+					GLuint vertical1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal1, phosphorBlur, 0.0, self.inputPhosphorBlurAmount);
 					
-					GLuint horizontal2 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical1, crt, phosphorBlur, amount, 0.0);
-					GLuint vertical2 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal2, crt, phosphorBlur, 0.0, amount);
+					GLuint horizontal2 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical1, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
+					GLuint vertical2 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal2, phosphorBlur, 0.0, self.inputPhosphorBlurAmount);
 					
-					GLuint horizontal3 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical2, crt, phosphorBlur, amount, 0.0);
-					GLuint vertical3 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal3, crt, phosphorBlur, 0.0, amount);
+					GLuint horizontal3 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical2, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
+					GLuint vertical3 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal3, phosphorBlur, 0.0, self.inputPhosphorBlurAmount);
 					
-					GLuint horizontal4 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical3, crt, phosphorBlur, amount, 0.0);
-					finalOutput = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal4, crt, phosphorBlur, 0.0, amount);
+					GLuint horizontal4 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, vertical3, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
+					finalOutput = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, horizontal4, phosphorBlur, 0.0, self.inputPhosphorBlurAmount);
 					
 					// cleanup
 					glDeleteTextures(1, &crt);
@@ -1061,7 +1079,6 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 					break;
 				}
 			}
-			
 			// flush our FBO work.
 			glFlushRenderAPPLE();
 		}
@@ -1151,7 +1168,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
                                                                   flipped:[image textureFlipped]
                                                           releaseCallback:_TextureReleaseCallback
                                                            releaseContext:nil
-                                                               colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)// our FBOs output generic RGB//[image imageColorSpace]
+                                                               colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)// our FBOs output generic RGB // [image imageColorSpace]
                                                          shouldColorMatch:YES];
 		
         self.outputImage = provider;
@@ -1216,9 +1233,12 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 			textureName = @"CRTMaskStaggered";
 			break;
 		case 2:
-			textureName = @"CRTMaskStraightScanlineOnly";
+			textureName = @"CRTMaskShadow";
 			break;
 		case 3:
+			textureName = @"CRTMaskStraightScanlineOnly";
+			break;
+		case 4:
 			textureName = @"CRTMaskStaggeredScanlineOnly";
 			break;
 		default:
@@ -1242,7 +1262,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 		glGenTextures(1, &CRTPixelTexture);
 		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, CRTPixelTexture);
 		
-		glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, [CRTImage size].width , [CRTImage size].height, 0, GL_RGBA, GL_UNSIGNED_BYTE, [crtImageRep bitmapData]);
+		glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, ([crtImageRep samplesPerPixel] == 4) ? GL_RGBA8 : GL_RGB8, [CRTImage size].width , [CRTImage size].height, 0, ([crtImageRep samplesPerPixel] == 4) ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, [crtImageRep bitmapData]);
 		glFlushRenderAPPLE();
 		//glFinish();
 		

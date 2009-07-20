@@ -3,7 +3,7 @@ varying vec2 texcoord1;
 varying vec2 texcoord2;
 
 // define our rectangular texture samplers 
-uniform sampler2DRect tex0;
+uniform sampler2DRect tex0;	
 
 void main (void) 
 { 
@@ -12,9 +12,9 @@ void main (void)
 	vec4 blured = original;
 	blured += texture2DRect(tex0,texcoord1);
 	blured += texture2DRect(tex0,texcoord2);
-	blured /= 3.0;
+	blured /= 3.0; 
+	
+	//gl_FragColor = blured;
 
-
-	gl_FragColor = vec4(vec3(max(original.rgb, blured.rgb)), original.a);
-	//gl_FragColor = max(original, blured);	
+	gl_FragColor = max(original, blured);	
 }

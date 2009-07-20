@@ -71,6 +71,7 @@
 		1B2242A2100D7B3900F42067 /* CRTDirtyScanlines.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B2242A0100D7B3900F42067 /* CRTDirtyScanlines.vert */; };
 		1B2242EE100D9C7900F42067 /* CRTScanlines.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B2242EC100D9C7900F42067 /* CRTScanlines.frag */; };
 		1B2242EF100D9C7900F42067 /* CRTScanlines.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B2242ED100D9C7900F42067 /* CRTScanlines.vert */; };
+		1B2243AF100E92E700F42067 /* CRTMaskShadow.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1B2243AE100E92E700F42067 /* CRTMaskShadow.tiff */; };
 		1B4B324E1009BC7500F36BB1 /* CRTMask.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B324C1009BC7500F36BB1 /* CRTMask.frag */; };
 		1B4B324F1009BC7500F36BB1 /* CRTMask.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B324D1009BC7500F36BB1 /* CRTMask.vert */; };
 		1B4B3390100A792500F36BB1 /* CRTPhosphorBlur.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B338E100A792500F36BB1 /* CRTPhosphorBlur.frag */; };
@@ -316,6 +317,7 @@
 		1B2242A0100D7B3900F42067 /* CRTDirtyScanlines.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDirtyScanlines.vert; sourceTree = "<group>"; };
 		1B2242EC100D9C7900F42067 /* CRTScanlines.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTScanlines.frag; sourceTree = "<group>"; };
 		1B2242ED100D9C7900F42067 /* CRTScanlines.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTScanlines.vert; sourceTree = "<group>"; };
+		1B2243AE100E92E700F42067 /* CRTMaskShadow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskShadow.tiff; sourceTree = "<group>"; };
 		1B4B324C1009BC7500F36BB1 /* CRTMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.frag; sourceTree = "<group>"; };
 		1B4B324D1009BC7500F36BB1 /* CRTMask.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.vert; sourceTree = "<group>"; };
 		1B4B338E100A792500F36BB1 /* CRTPhosphorBlur.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTPhosphorBlur.frag; sourceTree = "<group>"; };
@@ -541,6 +543,7 @@
 				1B224268100D170F00F42067 /* CRTMaskStaggeredScanlineOnly.tiff */,
 				1B5B5FF7100986400043536B /* CRTMaskStaggered.tiff */,
 				1B224229100CF18E00F42067 /* CRTMaskStraight.tiff */,
+				1B2243AE100E92E700F42067 /* CRTMaskShadow.tiff */,
 			);
 			name = "CRT Masks";
 			sourceTree = "<group>";
@@ -958,6 +961,7 @@
 				1B2242A2100D7B3900F42067 /* CRTDirtyScanlines.vert in Resources */,
 				1B2242EE100D9C7900F42067 /* CRTScanlines.frag in Resources */,
 				1B2242EF100D9C7900F42067 /* CRTScanlines.vert in Resources */,
+				1B2243AF100E92E700F42067 /* CRTMaskShadow.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

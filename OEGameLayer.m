@@ -185,8 +185,8 @@
     CGLLockContext(glContext);
     
     // our filters always clear, so we dont. Saves us an expensive buffer setting.
-    glClearColor(1.0, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);//| GL_DEPTH_BUFFER_BIT); // Clear The Screen And The Depth Buffer
+    // glClearColor(0.0, 0.0, 0.0, 0.0);
+    // glClear(GL_COLOR_BUFFER_BIT); // Clear The Screen
     
     // update our gameBuffer texture
     [self uploadGameBufferToTexture];
