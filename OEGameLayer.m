@@ -118,8 +118,18 @@
                                                     composition:compo];
     
     if (filterRenderer == nil)
-        NSLog(@"failed to creare our filter QCRender");
-    
+        NSLog(@"Warning: failed to create our filter QCRenderer");
+
+    if (![[filterRenderer inputKeys] containsObject:@"OEImageInput"])
+		NSLog(@"Warning: invalid Filter composition. Does not contain valid image input key");
+	
+	if([[filterRenderer outputKeys] containsObject:@"OEMousePositionX"] && [[filterRenderer outputKeys] containsObject:@"OEMousePositionY"])
+	{
+		NSLog(@"filter has mouse output position keys");
+		filterHasOutputMousePositionKeys = TRUE;
+	}
+	else
+		filterHasOutputMousePositionKeys = FALSE;
 	
 	// create our texture we will be updating in drawInCGLContext:
 	[self createTexture];
@@ -209,10 +219,19 @@
 		mouseLocation.y /= [[[owner gameWindow] contentView] frame].size.height;
 		NSMutableDictionary* arguments = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSValue valueWithPoint:mouseLocation], QCRendererMouseLocationKey, [[owner gameWindow] currentEvent], QCRendererEventKey, nil];
 		
-		
         [filterRenderer setValue:[gameCIImage imageByCroppingToRect:cropRect] forInputKey:@"OEImageInput"];    
         [filterRenderer renderAtTime:time arguments:arguments];
-    }
+		
+		if(filterHasOutputMousePositionKeys)
+		{
+			NSPoint mousePoint;
+			mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
+			mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
+			[gameCore setMousePosition:mousePoint];
+			
+			//NSLog(@"mouse position set to: %@", NSStringFromPoint(mousePoint));
+		}
+	}
     
     // super calls flush for us.
     [super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];

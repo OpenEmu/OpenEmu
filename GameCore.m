@@ -40,6 +40,7 @@
 @implementation GameCore
 
 @synthesize frameInterval, document, owner, frameFinished;
+@synthesize mousePosition;
 
 static Class GameCoreClass = Nil;
 static NSTimeInterval defaultTimeInterval = 60.0;

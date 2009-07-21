@@ -85,6 +85,9 @@ typedef NSInteger OEButton;
     NSUInteger             frameskipadjust;
     BOOL                   frameFinished;
     BOOL                   willSkipFrame;
+	
+	// for lightgun/pointer support.
+	NSPoint				   mousePosition;
 }
 
 + (NSTimeInterval)defaultTimeInterval;
@@ -146,6 +149,9 @@ typedef NSInteger OEButton;
 @property(readonly) NSUInteger  frameSampleCount;
 @property(readonly) NSUInteger  soundBufferSize;
 @property(readonly) NSUInteger  frameSampleRate;
+
+#pragma mark Lightgun/Pointer Support
+@property(readwrite) NSPoint mousePosition;
 
 #pragma mark Input Settings & Parsing
 - (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;

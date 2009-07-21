@@ -54,6 +54,8 @@
     NSTimeInterval        startTime; // time for rendering, input to time based effects, sources, 
     NSTimeInterval        time;
 	
+	BOOL				  filterHasOutputMousePositionKeys;
+	
 	CGSize cachedTextureSize;
 }
 

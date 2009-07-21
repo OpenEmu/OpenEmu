@@ -434,11 +434,13 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// Process ROM loads
 	if([self didValueForInputKeyChange: @"inputRom"] && ([self valueForInputKey:@"inputRom"] != [[OpenEmuQCNES	attributesForPropertyPortWithKey:@"inputRom"] valueForKey: QCPortAttributeDefaultValueKey]))
 	{
-		if([self loadRom:[self valueForInputKey:@"inputRom"]]) {
+	/*	if([self loadRom:self.inputRom]) 
+		{
 			[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 			glDeleteTextures(1, &gameTexture);
 			gameTexture = createNewTexture(cgl_ctx, [gameCore internalPixelFormat], [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
 		}
+	*/
 	}
 	
 	if(self.loadedRom && self.romFinishedLoading) {
@@ -463,7 +465,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		
         // Process state saving 
         if([self didValueForInputKeyChange: @"inputSaveStatePath"]
-           && ([self valueForInputKey:@"inputSaveStatePath"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputSaveStatePath"]
+           && ([self valueForInputKey:@"inputSaveStatePath"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputSaveStatePath"]
                                                                  valueForKey: QCPortAttributeDefaultValueKey])
            && (![[self valueForInputKey:@"inputSaveStatePath"] isEqualToString:@""] ))
         {
@@ -473,7 +475,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
         
         // Process state loading
         if([self didValueForInputKeyChange:@"inputLoadStatePath"] 
-           && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputLoadStatePath"]
+           && ([self valueForInputKey:@"inputLoadStatePath"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputLoadStatePath"]
                                                                  valueForKey: QCPortAttributeDefaultValueKey])
            && (![[self valueForInputKey:@"inputLoadStatePath"] isEqualToString:@""] ))    
         {
@@ -687,7 +689,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	NSString* theRomPath = [romPath stringByStandardizingPath];
 	BOOL isDir;
 
-	if(![theRomPath caseInsensitiveCompare:@"nes"]) {
+	if(![theRomPath caseInsensitiveCompare:@"nes"])
+	{
 		NSLog(@"ROM is not .NES");
 		return NO;
 	}
@@ -730,15 +733,15 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 			// audio!
 			gameAudio = [[GameAudio alloc] initWithCore:gameCore];
-			DLog(@"initialized audio");
+			NSLog(@"initialized audio");
 			
 			// starts the threaded emulator timer
 			[gameCore startEmulation];
 			
-			DLog(@"About to start audio");
+			NSLog(@"About to start audio");
 			[gameAudio startAudio];
 			
-			DLog(@"finished loading/starting rom");			
+			NSLog(@"finished loading/starting rom");			
 			
 			if([gameCore chrRomSize]) 
 			{
@@ -748,11 +751,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			else 
 			{
 				hasChrRom = NO;
-				DLog(@"This game does not have Character ROM");
+				NSLog(@"This game does not have Character ROM");
 			}
 			
 			hasNmtRam = YES;	//because if the cartridge doesn't have VRAM, the PPU will just use its 2K RAM for the nametables
-			DLog(@"Reported NMT RAM size is %i", [gameCore cartVRamSize]);
+			NSLog(@"Reported NMT RAM size is %i", [gameCore cartVRamSize]);
 			
 			self.loadedRom = YES;
 			return self.romFinishedLoading = YES;
