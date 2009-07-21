@@ -203,8 +203,15 @@
 	
     if(filterRenderer != nil)
     {
+		// NSPoint mouseLocation = [event locationInWindow];
+		NSPoint mouseLocation = [[owner	gameWindow] mouseLocationOutsideOfEventStream];
+		mouseLocation.x /= [[[owner gameWindow] contentView] frame].size.width;
+		mouseLocation.y /= [[[owner gameWindow] contentView] frame].size.height;
+		NSMutableDictionary* arguments = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSValue valueWithPoint:mouseLocation], QCRendererMouseLocationKey, [[owner gameWindow] currentEvent], QCRendererEventKey, nil];
+		
+		
         [filterRenderer setValue:[gameCIImage imageByCroppingToRect:cropRect] forInputKey:@"OEImageInput"];    
-        [filterRenderer renderAtTime:time arguments:nil];
+        [filterRenderer renderAtTime:time arguments:arguments];
     }
     
     // super calls flush for us.

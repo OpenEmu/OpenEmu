@@ -50,6 +50,7 @@
 @property(readonly) GameCore *gameCore;
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
 @property(readonly) BOOL isFullScreen;
+@property (readonly) IBOutlet NSWindow* gameWindow;
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes;
 - (void)refresh;
