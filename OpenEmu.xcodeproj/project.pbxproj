@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
+		37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 37C80315101564C000356EF3 /* Build configuration list for PBXAggregateTarget "Build & Copy OpenEmuBase" */;
+			buildPhases = (
+				37C80308101564B000356EF3 /* ShellScript */,
+			);
+			dependencies = (
+				37C80305101564A800356EF3 /* PBXTargetDependency */,
+			);
+			name = "Build & Copy OpenEmuBase";
+			productName = "Build & Copy OpenEmuBase";
+		};
 		828E65E30E8467E900B1860B /* Build & Copy OpenEmuQC */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 828E65EC0E8467F600B1860B /* Build configuration list for PBXAggregateTarget "Build & Copy OpenEmuQC" */;
@@ -198,11 +210,11 @@
 			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
 		};
-		37F604CB100D6F5B00A610F4 /* PBXContainerItemProxy */ = {
+		37C80304101564A800356EF3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 82444BA00F51256C007C171B;
+			remoteGlobalIDString = 82444BA00F51256C007C171B /* OpenEmuBase */;
 			remoteInfo = OpenEmuBase;
 		};
 		82BCA60B0FEF094900DD3FC4 /* PBXContainerItemProxy */ = {
@@ -353,7 +365,6 @@
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
 		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
 		37CC66190FF8379B00226BCB /* config_qc.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config_qc.yaml; sourceTree = "<group>"; };
-		37F604B5100D6EE800A610F4 /* libBuild & Copy OpenEmuBase.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libBuild & Copy OpenEmuBase.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		820376250F3974FD00EC2F97 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Hyperlink.m"; sourceTree = "<group>"; };
 		82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Hyperlink.h"; sourceTree = "<group>"; };
@@ -515,7 +526,6 @@
 				8D15AC370486D014006FF6A4 /* OpenEmu.app */,
 				828E65980E8466A100B1860B /* OpenEmuQC.plugin */,
 				82444BA10F51256C007C171B /* OpenEmuBase.framework */,
-				37F604B5100D6EE800A610F4 /* libBuild & Copy OpenEmuBase.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -824,22 +834,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		37F604B4100D6EE800A610F4 /* Build & Copy OpenEmuBase */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 37F604BB100D6F0800A610F4 /* Build configuration list for PBXNativeTarget "Build & Copy OpenEmuBase" */;
-			buildPhases = (
-				37F604BF100D6F1A00A610F4 /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				37F604CC100D6F5B00A610F4 /* PBXTargetDependency */,
-			);
-			name = "Build & Copy OpenEmuBase";
-			productName = "Build & Copy OpenEmuBase";
-			productReference = 37F604B5100D6EE800A610F4 /* libBuild & Copy OpenEmuBase.a */;
-			productType = "com.apple.product-type.library.static";
-		};
 		82444BA00F51256C007C171B /* OpenEmuBase */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82444BA50F51256D007C171B /* Build configuration list for PBXNativeTarget "OpenEmuBase" */;
@@ -917,7 +911,7 @@
 				828E65E30E8467E900B1860B /* Build & Copy OpenEmuQC */,
 				82444BA00F51256C007C171B /* OpenEmuBase */,
 				82BCA6020FEF092600DD3FC4 /* OpenEmuQC Distribution */,
-				37F604B4100D6EE800A610F4 /* Build & Copy OpenEmuBase */,
+				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 			);
 		};
 /* End PBXProject section */
@@ -991,7 +985,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		37F604BF100D6F1A00A610F4 /* ShellScript */ = {
+		37C80308101564B000356EF3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1123,10 +1117,10 @@
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
 			targetProxy = 3759EE520FE88C82000E56D5 /* PBXContainerItemProxy */;
 		};
-		37F604CC100D6F5B00A610F4 /* PBXTargetDependency */ = {
+		37C80305101564A800356EF3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
-			targetProxy = 37F604CB100D6F5B00A610F4 /* PBXContainerItemProxy */;
+			targetProxy = 37C80304101564A800356EF3 /* PBXContainerItemProxy */;
 		};
 		82BCA60C0FEF094900DD3FC4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1197,26 +1191,22 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		37F604B6100D6EE900A610F4 /* Debug */ = {
+		37C80302101564A300356EF3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				PREBINDING = NO;
 				PRODUCT_NAME = "Build & Copy OpenEmuBase";
 			};
 			name = Debug;
 		};
-		37F604B7100D6EE900A610F4 /* Release */ = {
+		37C80303101564A300356EF3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PREBINDING = NO;
 				PRODUCT_NAME = "Build & Copy OpenEmuBase";
 				ZERO_LINK = NO;
 			};
@@ -1477,11 +1467,11 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		37F604BB100D6F0800A610F4 /* Build configuration list for PBXNativeTarget "Build & Copy OpenEmuBase" */ = {
+		37C80315101564C000356EF3 /* Build configuration list for PBXAggregateTarget "Build & Copy OpenEmuBase" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				37F604B6100D6EE900A610F4 /* Debug */,
-				37F604B7100D6EE900A610F4 /* Release */,
+				37C80302101564A300356EF3 /* Debug */,
+				37C80303101564A300356EF3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
