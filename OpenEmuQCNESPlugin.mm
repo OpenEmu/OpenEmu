@@ -434,13 +434,12 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	// Process ROM loads
 	if([self didValueForInputKeyChange: @"inputRom"] && ([self valueForInputKey:@"inputRom"] != [[OpenEmuQCNES	attributesForPropertyPortWithKey:@"inputRom"] valueForKey: QCPortAttributeDefaultValueKey]))
 	{
-	/*	if([self loadRom:self.inputRom]) 
+		if([self loadRom:[self valueForInputKey:@"inputRom"]]) 
 		{
 			[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 			glDeleteTextures(1, &gameTexture);
 			gameTexture = createNewTexture(cgl_ctx, [gameCore internalPixelFormat], [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
 		}
-	*/
 	}
 	
 	if(self.loadedRom && self.romFinishedLoading) {

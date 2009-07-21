@@ -81,7 +81,7 @@ You can access their values in the appropriate plug-in methods using self.inputF
 - (BOOL)controllerDataValidate:(NSArray*)cData;
 - (void)handleControllerData;
 - (void)refresh;
-- (void)loadRom:(NSString *)romPath;
+- (BOOL)loadRom:(NSString *)romPath;
 - (OECorePlugin *)pluginForType:(NSString *)extension;
 - (void)saveState:(NSString *)fileName;
 - (BOOL)loadState:(NSString *)fileName;
