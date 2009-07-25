@@ -42,7 +42,7 @@
 	GLuint				 gameTexture;
     NSMutableArray       *persistantControllerData;
     NSRecursiveLock      *gameLock;
-    BOOL loadedRom, romFinishedLoading, userPaused, hasNmtRam, hasChrRom;
+    BOOL loadedRom, romFinishedLoading, userPaused, hasNmtRam, hasChrRom, executedFrame;
 }
 
 /*

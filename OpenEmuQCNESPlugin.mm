@@ -554,13 +554,14 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			}
 		}
 
-		// CORRUPTION FTW
-		if(hasNmtRam && self.inputNmtRamCorrupt && ( [self didValueForInputKeyChange:@"inputNmtRamOffset"] || [self didValueForInputKeyChange:@"inputNmtRamValue"] ))
+#pragma mark CORRUPTION FTW
+		
+		if(executedFrame && hasNmtRam && self.inputNmtRamCorrupt && ( [self didValueForInputKeyChange:@"inputNmtRamOffset"] || [self didValueForInputKeyChange:@"inputNmtRamValue"] ))
 		{
 			[gameCore setNmtRamBytes:self.inputNmtRamOffset value:self.inputNmtRamValue];
 		}
 		
-		if(hasChrRom && self.inputChrRamCorrupt && ( [self didValueForInputKeyChange:@"inputChrRamOffset"] || [self didValueForInputKeyChange:@"inputChrRamValue"] ))
+		if(executedFrame && hasChrRom && self.inputChrRamCorrupt && ( [self didValueForInputKeyChange:@"inputChrRamOffset"] || [self didValueForInputKeyChange:@"inputChrRamValue"] ))
 		{
 			[gameCore setChrRamBytes:self.inputChrRamOffset value:self.inputChrRamValue];
 		}
@@ -612,6 +613,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 														   releaseContext:NULL
 															   colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
 														 shouldColorMatch:YES];
+		executedFrame = YES;
 	}
 
 	// output OpenEmu Texture - note we CAN output a nil image. 
@@ -657,7 +659,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		[gameAudio release];
 		[gameCore release];
 		gameCore = nil;
-		self.loadedRom = NO; self.romFinishedLoading = NO;
+		self.loadedRom = NO; self.romFinishedLoading = NO; executedFrame = NO;
 		
 		CGLContextObj cgl_ctx = [context CGLContextObj];
 		CGLLockContext(cgl_ctx);
@@ -742,7 +744,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			
 			NSLog(@"finished loading/starting rom");			
 			
-			if([gameCore chrRomSize]) 
+			if([gameCore chrRomSize])
 			{
 				hasChrRom = YES;
 				DLog(@"Reported Character ROM size is %i", [gameCore chrRomSize]);
