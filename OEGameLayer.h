@@ -43,10 +43,14 @@
     CGLContextObj         sharedLayerContext;
     
     GLuint                gameTexture;
+	GLuint				  correctionFBO;
+	GLuint				  correctionTexture;
+	// core animation uses FBOs internally, so we need to cache the previously bound fbo state
+	GLint				  previousFBO;
+	
     BOOL                  usesShader;
     BOOL                  vSyncEnabled;
     
-    // new stuff
     QCRenderer           *filterRenderer;
     NSDocumentController *docController;
     
@@ -66,6 +70,8 @@
 @property(readwrite, retain) NSDocumentController *docController;
 
 - (void)createTexture;
+- (void)createCorrectionFBO;
 - (void)uploadGameBufferToTexture;
+- (void)correctPixelAspectRatio;
 
 @end
