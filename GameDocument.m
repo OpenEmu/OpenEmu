@@ -196,8 +196,13 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)proposedFrameSize
 {
+	
 	//we want to force aspect ratio with resize increments
-	int scale = proposedFrameSize.width /[gameCore screenWidth];
+	int scale;
+	if( proposedFrameSize.width < proposedFrameSize.height )
+		scale = proposedFrameSize.width /[gameCore screenWidth];
+	else
+		scale = proposedFrameSize.height /[gameCore screenHeight];
 	scale = MAX(scale, 1);
 	
 	NSRect newContentRect = NSMakeRect(0,0, [gameCore screenWidth] * scale, [gameCore screenHeight] * scale);
