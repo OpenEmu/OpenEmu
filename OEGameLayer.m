@@ -145,7 +145,7 @@
     if([gameCore respondsToSelector:@selector(outputSize)])
         aspect = [gameCore outputSize];
     else
-        aspect = NSMakeSize([gameCore width], [gameCore height]);
+        aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
     
     if(superlayer.bounds.size.width * (aspect.width * 1.0/aspect.height) > superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height))
         return CGSizeMake(superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height), superlayer.bounds.size.height);
@@ -193,13 +193,15 @@
 	// square pixel texture ready to go:
 	[self correctPixelAspectRatio];
 	
-	CGSize size;
+	/*CGSize size;
 	if([gameCore respondsToSelector:@selector(outputSize)])
 		size = CGSizeMake([gameCore outputSize].width, [gameCore outputSize].height);
 	else
 		size = [gameCore sourceRect].size;
+	*/
 	
-    CIImage* gameCIImage = [CIImage imageWithTexture:correctionTexture size:size flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
+	
+    CIImage* gameCIImage = [CIImage imageWithTexture:correctionTexture size:CGSizeMake(gameCore.screenWidth, gameCore.screenHeight) flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
     
     if(filterRenderer != nil)
     {
@@ -268,7 +270,7 @@
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
 	
     // with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?) 
-    glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore width] * [gameCore height] * (32 >> 3), [gameCore videoBuffer]); 
+    glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore bufferWidth] * [gameCore bufferHeight] * (32 >> 3), [gameCore videoBuffer]); 
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
     glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
 	
@@ -279,7 +281,7 @@
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
 	
-    glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore width], [gameCore height], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+    glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore bufferWidth], [gameCore bufferHeight], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
     
     // unset our client storage options storage
     // these fucks were causing our FBOs to fail.
@@ -289,7 +291,7 @@
 	glPopAttrib();
 	
 	// cache our texture size so we can tell if it changed behind our backs..
-	cachedTextureSize = CGSizeMake([gameCore width], [gameCore height]);
+	cachedTextureSize = CGSizeMake([gameCore bufferWidth], [gameCore bufferHeight]);
 }
 
 - (void)uploadGameBufferToTexture
@@ -298,7 +300,7 @@
     if([gameCore frameFinished])
     {    
 		// check to see if our gameCore switched to hi-res mode, or did anything fucked up to the texture size.
-		if((cachedTextureSize.width != [gameCore width]) || (cachedTextureSize.height != [gameCore height]))
+		if((cachedTextureSize.width != [gameCore bufferWidth]) || (cachedTextureSize.height != [gameCore bufferHeight]))
 		{
 			NSLog(@"Our gamecore imaeg size changed.. rebuilding texture...");
 			glDeleteTextures(1, &gameTexture);
@@ -308,7 +310,7 @@
         // update our gamebuffer texture
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
+		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
     }
 }
 
@@ -352,13 +354,7 @@
 {
 	// the size of our output image, we may need/want to put in accessors for texture coord
 	// offsets from the game core should the image we want be 'elsewhere' within the main texture. 
-	CGRect cropRect;
-	if([gameCore respondsToSelector:@selector(outputSize)])
-		cropRect = CGRectMake(0.0, 0.0, [gameCore outputSize].width, [gameCore outputSize].height);
-	else
-		cropRect = [gameCore sourceRect];
-
-    GLsizei width = cropRect.size.width, height = cropRect.size.height;
+	CGRect cropRect = [gameCore sourceRect];
 	
 	//    GLenum  status;
     
@@ -373,7 +369,7 @@
 	glGenTextures(1, &correctionTexture); // yes this is retarded but... 
 	
 	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, correctionTexture);    
-    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
+    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, gameCore.screenWidth, gameCore.screenHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
     
     // bind our FBO
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, correctionFBO);
@@ -386,11 +382,11 @@
 	// if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {    
         // Setup OpenGL states 
-        glViewport(0, 0, width, height);
+        glViewport(0, 0, gameCore.screenWidth,  gameCore.screenHeight);
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
-        glOrtho(0, width, 0, height, -1, 1);
+        glOrtho(0, gameCore.screenWidth, 0, gameCore.screenHeight, -1, 1);
 		
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
@@ -419,17 +415,17 @@
 			// glTexCoord2f(0.0f, 0.0f);
 			glVertex3f(0.0f, 0.0f, 0.0f);
 			
-			glMultiTexCoord2f(GL_TEXTURE0, width, 0.0f);
+			glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width, 0.0f);
 			// glTexCoord2f(pixelsWide, 0.0f );
-			glVertex3f(width, 0.0f, 0.0f);
+			glVertex3f(gameCore.screenWidth, 0.0f, 0.0f);
 			
-			glMultiTexCoord2f(GL_TEXTURE0, width, height);
+			glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width, cropRect.size.height);
 			// glTexCoord2f(pixelsWide, pixelsHigh);
-			glVertex3f(width, height, 0.0f);
+			glVertex3f(gameCore.screenWidth, gameCore.screenHeight, 0.0f);
 			
-			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, height);
+			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, cropRect.size.height);
 			// glTexCoord2f(0.0f, pixelsHigh);
-			glVertex3f(0.0f, height, 0.0f);
+			glVertex3f(0.0f, gameCore.screenHeight, 0.0f);
         }
         glEnd(); // Done Drawing The Quad
 		

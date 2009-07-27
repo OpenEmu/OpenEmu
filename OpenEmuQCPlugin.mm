@@ -265,13 +265,13 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 	CGLLockContext(cgl_ctx);
 
     DLog(@"called startExecution");
-    if(self.loadedRom && ([gameCore width] > 10) )
+    if(self.loadedRom && ([gameCore screenWidth] > 10) )
     {
 		if(gameTexture == 0)
 			gameTexture = createNewTexture(cgl_ctx, 
 										   [gameCore internalPixelFormat], 
-										   [gameCore width], 
-										   [gameCore height], 
+										   [gameCore bufferWidth], 
+										   [gameCore bufferHeight], 
 										   [gameCore pixelFormat], 
 										   [gameCore pixelType],
 										   [gameCore videoBuffer]);
@@ -301,8 +301,8 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 		if(gameTexture == 0)
 			gameTexture = createNewTexture(cgl_ctx, 
 										   [gameCore internalPixelFormat], 
-										   [gameCore width], 
-										   [gameCore height], 
+										   [gameCore bufferWidth], 
+										   [gameCore bufferHeight], 
 										   [gameCore pixelFormat], 
 										   [gameCore pixelType],
 										   [gameCore videoBuffer]);
@@ -350,7 +350,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 		if(self.loadedRom) {
 		[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 		glDeleteTextures(1, &gameTexture);
-		gameTexture = createNewTexture(cgl_ctx, [gameCore internalPixelFormat], [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+		gameTexture = createNewTexture(cgl_ctx, [gameCore internalPixelFormat], [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
 		}
     }
     
@@ -416,7 +416,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 #pragma mark provide an image 
 	
     // handle our image output. (sanity checking)
-    if(self.loadedRom && ([gameCore width] > 10) && [gameCore frameFinished])
+    if(self.loadedRom && ([gameCore bufferWidth] > 10) && [gameCore frameFinished])
     {        
 		GLenum status;
 
@@ -429,7 +429,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 			NSLog(@"after bindTexture in execute: OpenGL error %04X", status);
 		}
 		//new texture upload method
-		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
+		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
 
         // Check for OpenGL errors 
         status = glGetError();
@@ -449,8 +449,8 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 #endif
         
         provider = [context outputImageProviderFromTextureWithPixelFormat:OEPlugInPixelFormat 
-                                                               pixelsWide:[gameCore width]
-                                                               pixelsHigh:[gameCore height]
+                                                               pixelsWide:[gameCore sourceRect].size.width
+                                                               pixelsHigh:[gameCore sourceRect].size.height
                                                                      name:gameTexture 
                                                                   flipped:YES 
                                                           releaseCallback:_TextureReleaseCallback 

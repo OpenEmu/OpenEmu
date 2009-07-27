@@ -144,10 +144,16 @@
     if(self != nil)
     {
         IOHIDElementRef elem = IOHIDValueGetElement(aValue);
-        CFIndex value        = IOHIDValueGetIntegerValue(aValue);
-        
         const uint32_t page  = IOHIDElementGetUsagePage(elem);
         const uint32_t usage = IOHIDElementGetUsage(elem);
+		if(IOHIDValueGetLength(aValue) != 1)
+		{
+			[self release];
+			return nil;
+		}
+		
+        CFIndex value        = IOHIDValueGetIntegerValue(aValue);
+
         
         switch(page)
         {

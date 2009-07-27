@@ -264,21 +264,31 @@ static NSTimeInterval currentTime()
 }
 
 #pragma mark Video
-- (NSUInteger)width
+- (NSUInteger)screenWidth
 {
     [self doesNotImplementSelector:_cmd];
     return 0;
 }
 
-- (NSUInteger)height
+- (NSUInteger)screenHeight
 {
     [self doesNotImplementSelector:_cmd];
     return 0;
+}
+
+- (NSUInteger)bufferWidth
+{
+	return [self screenWidth];
+}
+
+- (NSUInteger)bufferHeight
+{
+	return [self screenHeight];
 }
 
 - (CGRect)sourceRect
 {		
-	return CGRectMake(0, 0, [self width], [self height]);
+	return CGRectMake(0, 0, [self bufferWidth], [self bufferHeight]);
 }
 
 - (const void *)videoBuffer
@@ -523,6 +533,11 @@ static NSTimeInterval currentTime()
 - (void)HIDEventWasRemovedForKey:(NSString *)keyName
 {
     [self unsetEventForKey:keyName withValueMask:HID_MASK];
+}
+
+- (void)mouseMoved:(NSEvent *)theEvent
+{
+	NSLog(@"Tracking: %f,%f", mousePosition.x, mousePosition.y);
 }
 
 - (void)keyDown:(NSEvent *)anEvent

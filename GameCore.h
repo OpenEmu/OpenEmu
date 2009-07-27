@@ -134,8 +134,11 @@ typedef NSInteger OEButton;
 - (BOOL)loadFileAtPath:(NSString *)path;
 
 #pragma mark Video
-@property(readonly) NSUInteger  width;
-@property(readonly) NSUInteger  height;
+@property(readonly) NSUInteger  screenWidth;
+@property(readonly) NSUInteger  screenHeight;
+@property(readonly) NSUInteger  bufferWidth;
+@property(readonly) NSUInteger  bufferHeight;
+
 @property(readonly) CGRect		sourceRect;
 @property(readonly) const void *videoBuffer;
 @property(readonly) GLenum      pixelFormat;

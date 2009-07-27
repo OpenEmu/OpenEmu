@@ -57,6 +57,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameCore setupEmulation];
     
     [gameWindow makeFirstResponder:view];
+	[gameWindow setAcceptsMouseMovedEvents:YES];
     [view setNextResponder:gameCore];
     
     //Setup Layer hierarchy

@@ -359,13 +359,13 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	CGLContextObj cgl_ctx = [context CGLContextObj];
 	CGLLockContext(cgl_ctx);
 	
-	if(self.loadedRom && ([gameCore	width] > 10) )
+	if(self.loadedRom && ([gameCore	bufferWidth] > 10) )
 	{
 		if(gameTexture == 0)
 			gameTexture = createNewTexture(cgl_ctx, 
 										   [gameCore internalPixelFormat], 
-										   [gameCore width], 
-										   [gameCore height], 
+										   [gameCore bufferWidth], 
+										   [gameCore bufferHeight], 
 										   [gameCore pixelFormat], 
 										   [gameCore pixelType],
 										   [gameCore videoBuffer]);
@@ -395,8 +395,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		if(gameTexture == 0)
 			gameTexture = createNewTexture(cgl_ctx, 
 										   [gameCore internalPixelFormat], 
-										   [gameCore width], 
-										   [gameCore height], 
+										   [gameCore bufferWidth], 
+										   [gameCore bufferHeight], 
 										   [gameCore pixelFormat], 
 										   [gameCore pixelType],
 										   [gameCore videoBuffer]);
@@ -438,7 +438,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		{
 			[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
 			glDeleteTextures(1, &gameTexture);
-			gameTexture = createNewTexture(cgl_ctx, [gameCore internalPixelFormat], [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+			gameTexture = createNewTexture(cgl_ctx, [gameCore internalPixelFormat], [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
 		}
 	}
 	
@@ -573,7 +573,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	id	provider = nil;
 	
 	// handle our image output. (sanity checking)
-	if(self.loadedRom && self.romFinishedLoading && ([gameCore width] > 10) && [gameCore frameFinished])
+	if(self.loadedRom && self.romFinishedLoading && ([gameCore bufferWidth] > 10) && [gameCore frameFinished])
 	{
 		GLenum status;
 		
@@ -586,7 +586,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			NSLog(@"after bindTexture in execute: OpenGL error %04X", status);
 		}
 		//new texture upload method
-		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore width], [gameCore height], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
+		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
 		
         // Check for OpenGL errors 
         status = glGetError();
@@ -605,8 +605,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 #endif
 		
 		provider = [context outputImageProviderFromTextureWithPixelFormat:OEPlugInPixelFormat 
-															   pixelsWide:[gameCore width]
-															   pixelsHigh:[gameCore height]
+															   pixelsWide:[gameCore sourceRect].size.width
+															   pixelsHigh:[gameCore sourceRect].size.height
 																	 name:gameTexture 
 																  flipped:YES 
 														  releaseCallback:_TextureReleaseCallback 
