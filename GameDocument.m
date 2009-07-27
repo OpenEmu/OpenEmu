@@ -83,11 +83,10 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidX relativeTo:@"superlayer" attribute:kCAConstraintMidX]];
     [gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
     
-    NSRect viewRect = [view bounds];
-    gameLayer.bounds = CGRectMake(0, 0, viewRect.size.width,  viewRect.size.height);
+	rootLayer.bounds = CGRectMake(0, 0, [gameCore screenWidth],  [gameCore screenHeight]);
+	gameLayer.bounds = CGRectMake(0, 0, [gameCore screenWidth],  [gameCore screenHeight]);
     //Add the NESLayer to the hierarchy
     [rootLayer addSublayer:gameLayer];
-    
     
     // we probably want to set this to yes, and implement 
     // -(BOOL)canDrawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
@@ -108,11 +107,11 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 //    if([gameCore respondsToSelector:@selector(outputSize)])
   //     aspect = [gameCore outputSize];
     //else
-      // aspect = NSMakeSize([gameCore sourceWidth], [gameCore sourceHeight]);
-   // [gameWindow setFrame: NSMakeRect(NSMinX(f), NSMinY(f), aspect.width, aspect.height + 22) display:NO];
-   // [gameWindow setContentAspectRatio:aspect];
+	CGSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
+    [gameWindow setContentSize:CGSizeMake([gameCore screenWidth], [gameCore screenHeight])];
+    [gameWindow setContentResizeIncrements:aspect];
     [rootLayer setNeedsLayout];
-    
+	
     [gameCore startEmulation];    
 
     [gameWindow makeKeyAndOrderFront:self];
@@ -193,6 +192,16 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
             }
         }
     }
+}
+
+- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)proposedFrameSize
+{
+	//we want to force aspect ratio with resize increments
+	int scale = proposedFrameSize.width /[gameCore screenWidth];
+	scale = MAX(scale, 1);
+	
+	NSRect newContentRect = NSMakeRect(0,0, [gameCore screenWidth] * scale, [gameCore screenHeight] * scale);
+	return [sender frameRectForContentRect:newContentRect].size;
 }
 
 - (void)windowDidResize:(NSNotification *)notification
