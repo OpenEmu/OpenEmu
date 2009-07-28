@@ -107,10 +107,10 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 //    if([gameCore respondsToSelector:@selector(outputSize)])
   //     aspect = [gameCore outputSize];
     //else
-	/*CGSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
-    [gameWindow setContentSize:CGSizeMake([gameCore screenWidth], [gameCore screenHeight])];
-    [gameWindow setContentResizeIncrements:aspect];*/
-    [rootLayer setNeedsLayout];
+	//CGSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
+    [gameWindow setContentSize:NSMakeSize([gameCore screenWidth], [gameCore screenHeight])];
+    //[gameWindow setContentResizeIncrements:aspect];
+	[rootLayer setNeedsLayout];
 	
     [gameCore startEmulation];    
 
