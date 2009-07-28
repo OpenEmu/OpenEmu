@@ -410,19 +410,19 @@
 		
 		glBegin(GL_QUADS);    // Draw A Quad
         {
-			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, 0.0f);
+			glMultiTexCoord2f(GL_TEXTURE0, cropRect.origin.x, cropRect.origin.y);
 			// glTexCoord2f(0.0f, 0.0f);
 			glVertex3f(0.0f, 0.0f, 0.0f);
 			
-			glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width, 0.0f);
+			glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width + cropRect.origin.x, cropRect.origin.y);
 			// glTexCoord2f(pixelsWide, 0.0f );
 			glVertex3f(gameCore.screenWidth, 0.0f, 0.0f);
 			
-			glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width, cropRect.size.height);
+			glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width + cropRect.origin.x, cropRect.size.height + cropRect.origin.y);
 			// glTexCoord2f(pixelsWide, pixelsHigh);
 			glVertex3f(gameCore.screenWidth, gameCore.screenHeight, 0.0f);
 			
-			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, cropRect.size.height);
+			glMultiTexCoord2f(GL_TEXTURE0, cropRect.origin.x, cropRect.size.height + cropRect.origin.y);
 			// glTexCoord2f(0.0f, pixelsHigh);
 			glVertex3f(0.0f, gameCore.screenHeight, 0.0f);
         }
