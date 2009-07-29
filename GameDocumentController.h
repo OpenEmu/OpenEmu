@@ -32,12 +32,13 @@
 #import "OEHIDDeviceHandler.h"
 
 @class GameCore, OECorePlugin;
-@class GameDocument, OEGamePreferenceController;
+@class GameDocument, OEGamePreferenceController, OESaveStateController;
 
 @interface GameDocumentController : NSDocumentController
 {
 	GameDocument               *currentGame;
     OEGamePreferenceController *preferences;
+	OESaveStateController	   *saveStateManager;
     NSArray                    *filterNames;
     NSArray                    *plugins;
 	NSArray                    *validExtensions;
@@ -55,6 +56,12 @@
 	// the value will of course be our QC Composition filter.
 	// this will be passed into our QCRenderer in our CALayer where renderForTime will be called.
 	NSMutableDictionary* filterDictionary; 
+	
+	// Core data controller info, used for savestates right now
+	
+	NSPersistentStoreCoordinator *persistentStoreCoordinator;
+    NSManagedObjectModel *managedObjectModel;
+    NSManagedObjectContext *managedObjectContext;
 }
 
 @property(readonly) NSArray *filterNames;
@@ -65,6 +72,11 @@
 @property(readonly) NSString* aboutCreditsPath;
 
 @property(readwrite, retain) NSMutableDictionary* filterDictionary;
+
+
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
+- (NSManagedObjectModel *)managedObjectModel;
+- (NSManagedObjectContext *)managedObjectContext;
 
 - (GameDocument *)currentDocument;
 
@@ -78,8 +90,11 @@
 
 - (void)restartApplication;
 
+- (IBAction)saveState:(id)sender;
+
 - (IBAction)openPreferenceWindow:(id)sender;
 - (IBAction)openAboutWindow:(id)sender;
+- (IBAction)openSaveStateWindow:(id)sender;
 
 - (IBAction)volumeUp:(id)sender;
 - (IBAction)volumeDown:(id)sender;

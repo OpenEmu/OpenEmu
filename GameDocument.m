@@ -37,6 +37,7 @@
 
 @synthesize gameCore;
 @synthesize gameWindow;
+@synthesize emulatorName;
 
 - (NSString *)windowNibName
 {
@@ -134,6 +135,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     
     GameDocumentController *docControl = [GameDocumentController sharedDocumentController];
     OECorePlugin *plugin = [docControl pluginForType:typeName];
+	emulatorName = [[plugin displayName] retain];
     gameCore = [[plugin controller] newGameCoreWithDocument:self];
     NSLog(@"gameCore class: %@", [gameCore class]);
     [gameWindow makeFirstResponder:gameCore];

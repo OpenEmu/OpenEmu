@@ -43,6 +43,7 @@
 	BOOL               keyedOnce;
 	GameCore          *gameCore;
 	GameAudio         *audio;
+	NSString		  *emulatorName;
 	IBOutlet NSWindow *gameWindow;
 	IBOutlet NSView   *view;
 }
@@ -50,6 +51,7 @@
 @property(readonly) GameCore *gameCore;
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
 @property(readonly) BOOL isFullScreen;
+@property(readonly) NSString *emulatorName;
 @property (readonly) IBOutlet NSWindow* gameWindow;
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes;

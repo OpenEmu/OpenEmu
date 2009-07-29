@@ -144,9 +144,14 @@
 		82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
 		82CAFBBE0FEDAA4200CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFBB70FEDAA3D00CCDC7E /* config.yaml */; };
+		82D9114010200C8D00E370FC /* SaveState.xcdatamodel in Resources */ = {isa = PBXBuildFile; fileRef = 82F7F7A2101FEC1700533B55 /* SaveState.xcdatamodel */; };
+		82D9122310200F7000E370FC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D9122210200F7000E370FC /* CoreData.framework */; };
 		82E7418A0E7209C400AE60C4 /* GameDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E741880E7209C400AE60C4 /* GameDocument.xib */; };
 		82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
 		82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */; };
+		82F7F7A3101FEC1700533B55 /* SaveState.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 82F7F7A2101FEC1700533B55 /* SaveState.xcdatamodel */; };
+		82F7F7AA101FECFE00533B55 /* SaveStateManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */; };
+		82F7F7C8101FEEDD00533B55 /* OESaveStateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F7F7C7101FEEDD00533B55 /* OESaveStateController.m */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* GameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */; settings = {ATTRIBUTES = (); }; };
@@ -405,7 +410,12 @@
 		82C9C9540F0804A20071460B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		82C9C96C0F080BD30071460B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82CAFBB70FEDAA3D00CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
+		82D9122210200F7000E370FC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82E741890E7209C400AE60C4 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameDocument.xib; sourceTree = "<group>"; };
+		82F7F7A2101FEC1700533B55 /* SaveState.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = SaveState.xcdatamodel; sourceTree = "<group>"; };
+		82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveStateManager.xib; sourceTree = "<group>"; };
+		82F7F7C6101FEEDD00533B55 /* OESaveStateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESaveStateController.h; sourceTree = "<group>"; };
+		82F7F7C7101FEEDD00533B55 /* OESaveStateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESaveStateController.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCoreController.h; sourceTree = "<group>"; };
@@ -488,6 +498,7 @@
 				820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */,
 				829022B10F47FAC100BB7AB7 /* QTKit.framework in Frameworks */,
 				82902A140F48ACEE00BB7AB7 /* QuickTime.framework in Frameworks */,
+				82D9122310200F7000E370FC /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,6 +613,7 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
+				82D9122210200F7000E370FC /* CoreData.framework */,
 			);
 			name = OpenEmu;
 			sourceTree = "<group>";
@@ -652,6 +664,8 @@
 				828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 				C6BFB29E0F7CC8E700040FFA /* Localizable.strings */,
+				82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */,
+				82F7F7A2101FEC1700533B55 /* SaveState.xcdatamodel */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -689,6 +703,7 @@
 		828E64D00E84656900B1860B /* OpenEmuCore */ = {
 			isa = PBXGroup;
 			children = (
+				82F7F7C5101FEEBC00533B55 /* State Manager */,
 				C6C98CB10F55F4E800116EA2 /* Preferences */,
 				C62F546E0FE6AD6700DF15BA /* Plugins */,
 				829022A70F47F8FE00BB7AB7 /* QuickTime */,
@@ -740,6 +755,15 @@
 				C62F56530FE6FDA700DF15BA /* OEGameLayer.m */,
 			);
 			name = Graphics;
+			sourceTree = "<group>";
+		};
+		82F7F7C5101FEEBC00533B55 /* State Manager */ = {
+			isa = PBXGroup;
+			children = (
+				82F7F7C6101FEEDD00533B55 /* OESaveStateController.h */,
+				82F7F7C7101FEEDD00533B55 /* OESaveStateController.m */,
+			);
+			name = "State Manager";
 			sourceTree = "<group>";
 		};
 		C62F546E0FE6AD6700DF15BA /* Plugins */ = {
@@ -966,6 +990,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82D9114010200C8D00E370FC /* SaveState.xcdatamodel in Resources */,
 				1B7505140FEEB72700B0D0AF /* About.png in Resources */,
 				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
@@ -982,6 +1007,7 @@
 				C6B0B4990FB17D8D00661561 /* UnimplementedPreference.xib in Resources */,
 				C67A36AA0FE7F1F500A665E2 /* OECorePluginIcon.icns in Resources */,
 				C69DCCED0FE99415009AE5A6 /* OEFilterPluginIcon.icns in Resources */,
+				82F7F7AA101FECFE00533B55 /* SaveStateManager.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1099,6 +1125,8 @@
 				C66DF0B60FEC3958007E3A20 /* OECorePlugin+SUUpdater.m in Sources */,
 				82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */,
 				C62D53050FFB51D6007C2649 /* OECompositionPlugin.m in Sources */,
+				82F7F7A3101FEC1700533B55 /* SaveState.xcdatamodel in Sources */,
+				82F7F7C8101FEEDD00533B55 /* OESaveStateController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
