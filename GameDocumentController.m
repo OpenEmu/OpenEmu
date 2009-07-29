@@ -714,8 +714,9 @@
 	[newState setValue:[[[self currentDocument] fileURL] absoluteString] forKey:@"rompath"];
 	[newState setValue:[(GameDocument*)[self currentDocument] emulatorName] forKey:@"emulatorID"];
 	
-	char format[] = "/tmp/oesav.XXXXX";
+	char format[25] = "/tmp/oesav.XXXXX";
 	const char* tmp = tmpnam(format);
+	
 	[[(GameDocument*)[self currentDocument] gameCore] saveStateToFileAtPath:[NSString stringWithFormat:@"%s", tmp]];	
 	[newState setValue:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%s", tmp]] forKey:@"saveData"];
 	
