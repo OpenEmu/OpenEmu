@@ -60,6 +60,7 @@
 	
 	BOOL				  filterHasOutputMousePositionKeys;
 	
+	CIImage *gameCIImage;
 	CGSize cachedTextureSize;
 }
 
@@ -68,10 +69,12 @@
 @property(retain) NSString     *filterName;
 @property(retain) GameCore     *gameCore;
 @property(readwrite, retain) NSDocumentController *docController;
+@property(retain) CIImage	   *gameCIImage;
 
 - (void)createTexture;
 - (void)createCorrectionFBO;
 - (void)uploadGameBufferToTexture;
 - (void)correctPixelAspectRatio;
+- (NSImage*) imageForCurrentFrame;
 
 @end

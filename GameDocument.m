@@ -338,51 +338,9 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     }
 }
 
-
-- (NSBitmapImageRep *)screenshot
+- (NSImage*) screenShot
 {
-#ifdef __LITTLE_ENDIAN__
-#define BITMAP_FORMAT 0
-#else
-#define BITMAP_FORMAT NSAlphaFirstBitmapFormat
-#endif
-    
-    int width = [gameCore width];
-    int height = [gameCore height];
-    NSBitmapImageRep *newBitmap =
-    [[[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
-                                             pixelsWide:width
-                                             pixelsHigh:height
-                                          bitsPerSample:8
-                                        samplesPerPixel:4
-                                               hasAlpha:YES
-                                               isPlanar:NO
-                                         colorSpaceName:NSCalibratedRGBColorSpace
-                                           bitmapFormat:BITMAP_FORMAT
-                                            bytesPerRow:width * 4
-                                           bitsPerPixel:32] autorelease];
-    
-    memcpy([newBitmap bitmapData], [gameCore videoBuffer], width * height * 4 * sizeof(unsigned char));
-    
-    unsigned char *debut = [newBitmap bitmapData];
-
-    for (int i = 0; i < height; i++)
-        for (int j = 0; j < width; j++)
-        {
-#ifdef __LITTLE_ENDIAN__
-#define ALPHA 3
-            //swap Red with Blue
-            unsigned char temp = debut[width * 4 * i + 4 * j];
-            debut[width * 4 * i + 4 * j] = debut[width * 4 * i + 4 * j + 2];
-            debut[width * 4 * i + 4 * j + 2] = temp;
-#else
-#define ALPHA 0
-#endif            
-            //alpha full
-            debut[width * 4 * i + 4 * j + ALPHA] = 255;
-            
-        }
-    return newBitmap;
+	return [gameLayer imageForCurrentFrame];
 }
 
 @end

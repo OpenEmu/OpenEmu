@@ -33,7 +33,7 @@
 
 @implementation OEGameLayer
 
-@synthesize gameCore, owner;
+@synthesize gameCore, owner, gameCIImage;
 @synthesize docController;
 - (BOOL)vSyncEnabled
 {
@@ -199,9 +199,9 @@
 		size = [gameCore sourceRect].size;
 	*/
 	
+
+    self.gameCIImage = [CIImage imageWithTexture:correctionTexture size:CGSizeMake(gameCore.screenWidth, gameCore.screenHeight) flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
 	
-    CIImage* gameCIImage = [CIImage imageWithTexture:correctionTexture size:CGSizeMake(gameCore.screenWidth, gameCore.screenHeight) flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
-    
     if(filterRenderer != nil)
     {
 		// NSPoint mouseLocation = [event locationInWindow];
@@ -211,7 +211,7 @@
 		NSMutableDictionary* arguments = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSValue valueWithPoint:mouseLocation], QCRendererMouseLocationKey, [[owner gameWindow] currentEvent], QCRendererEventKey, nil];
 		
         // [filterRenderer setValue:[gameCIImage imageByCroppingToRect:cropRect] forInputKey:@"OEImageInput"];    
-		[filterRenderer setValue:gameCIImage forInputKey:@"OEImageInput"];
+		[filterRenderer setValue:self.gameCIImage forInputKey:@"OEImageInput"];
         [filterRenderer renderAtTime:time arguments:arguments];
 		
 		if(filterHasOutputMousePositionKeys)
@@ -456,4 +456,32 @@
 	 */    
 }
 
+- (NSImage*) imageForCurrentFrame
+{	
+	unsigned char * outputPixels;
+	
+	int width = [self.gameCIImage extent].size.width; 
+	int height = [self.gameCIImage extent].size.height;  
+	
+	outputPixels = calloc(width * height, 4);
+	
+	glBindTexture(GL_TEXTURE_RECTANGLE_ARB, correctionTexture);
+	
+	glGetTexImage(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, outputPixels);
+	
+	NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:&outputPixels 
+																	pixelsWide:width 
+																	pixelsHigh:height
+																 bitsPerSample:8
+															   samplesPerPixel:4
+																	  hasAlpha:YES
+																	  isPlanar:NO
+																colorSpaceName:NSCalibratedRGBColorSpace
+																   bytesPerRow:4 * width
+																  bitsPerPixel:32];
+	NSImage* image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
+	[image addRepresentation:rep];
+	//[[image TIFFRepresentation] writeToFile:@"/Users/jweinberg/test1.tiff" atomically:YES];
+	return image;
+}
 @end

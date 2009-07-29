@@ -725,6 +725,13 @@
 	}
 	[newState setValue:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%s", tmp]] forKey:@"saveData"];
 	
+	NSManagedObject *screenShot = [NSEntityDescription
+								   insertNewObjectForEntityForName:@"ScreenShot"
+								   inManagedObjectContext:self.managedObjectContext];
+	
+	[screenShot setValue:[[(GameDocument*)[self currentDocument] screenShot] TIFFRepresentation] forKey:@"screenShot"];
+	
+	[newState setValue:screenShot forKey:@"screenShot"];
 	[self.managedObjectContext assignObject:newState toPersistentStore:[self.persistentStoreCoordinator persistentStoreForURL:url]];
 	
 }

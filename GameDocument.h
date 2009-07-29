@@ -72,6 +72,6 @@
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
-- (NSBitmapImageRep *)screenshot;
+- (NSImage*) screenShot;
 
 @end
