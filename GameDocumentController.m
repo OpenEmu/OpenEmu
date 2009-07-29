@@ -697,13 +697,16 @@
 		const char* tmp = tmpnam(format);
 		NSData *saveData = [object valueForKey:@"saveData"];
 		[saveData writeToFile:[NSString stringWithFormat:@"%s", tmp] atomically:YES];
-		
-		[[doc gameCore] loadStateFromFileAtPath:[NSString stringWithFormat:@"%s", tmp]];
+		@synchronized([(GameDocument*)[self currentDocument] gameCore])
+		{
+			[[doc gameCore] loadStateFromFileAtPath:[NSString stringWithFormat:@"%s", tmp]];
+		}
 	}
 }
 
 - (IBAction)saveState:(id)sender
 {	
+	
 	NSURL * url = [NSURL fileURLWithPath: [[self applicationSupportFolder] stringByAppendingPathComponent: @"OpenEmuDataStore.xml"]];
 	
 	NSManagedObject *newState = [NSEntityDescription
@@ -716,8 +719,10 @@
 	
 	char format[25] = "/tmp/oesav.XXXXX";
 	const char* tmp = tmpnam(format);
-	
-	[[(GameDocument*)[self currentDocument] gameCore] saveStateToFileAtPath:[NSString stringWithFormat:@"%s", tmp]];	
+	@synchronized([(GameDocument*)[self currentDocument] gameCore])
+	{
+		[[(GameDocument*)[self currentDocument] gameCore] saveStateToFileAtPath:[NSString stringWithFormat:@"%s", tmp]];	
+	}
 	[newState setValue:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%s", tmp]] forKey:@"saveData"];
 	
 	[self.managedObjectContext assignObject:newState toPersistentStore:[self.persistentStoreCoordinator persistentStoreForURL:url]];

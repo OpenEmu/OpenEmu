@@ -190,8 +190,10 @@ static NSTimeInterval currentTime()
         }
          */  
         willSkipFrame = (frameCounter != frameSkip);
-        
-        [self executeFrameSkippingFrame:willSkipFrame];
+        @synchronized(self)
+		{
+			[self executeFrameSkippingFrame:willSkipFrame];
+		}
         
         if(!willSkipFrame)
             [self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
