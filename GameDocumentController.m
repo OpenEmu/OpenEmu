@@ -693,7 +693,7 @@
 		NSLog(@"%@",[NSURL URLWithString:[object valueForKey:@"rompath"]]);
 		NSDocument* doc = [self openDocumentWithContentsOfURL:[NSURL URLWithString:[object valueForKey:@"rompath"]] display:YES error:&error];
 		NSLog(@"%@", doc);
-		char format[] = "/tmp/oesav.XXXXX";
+		char format[25] = "/tmp/oesav.XXXXX";
 		const char* tmp = tmpnam(format);
 		NSData *saveData = [object valueForKey:@"saveData"];
 		[saveData writeToFile:[NSString stringWithFormat:@"%s", tmp] atomically:YES];
