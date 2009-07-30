@@ -31,9 +31,11 @@
 
 @interface GameQTRecorder : NSObject {
 	QTMovie * movie;
+	NSOperationQueue* encodingQueue;
 	GameCore* gameCore;
 	bool recording;
 	NSTimer* timer;
+	NSTimeInterval lastTime;
 }
 
 @property(readonly) bool recording;

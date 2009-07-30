@@ -32,7 +32,7 @@
 #import "OEGameLayer.h"
 #import "GameCore.h"
 #import "OEGameCoreController.h"
-
+#import "GameQTRecorder.h"
 @implementation GameDocument
 
 @synthesize gameCore;
@@ -61,6 +61,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 	[gameWindow setAcceptsMouseMovedEvents:YES];
     [view setNextResponder:gameCore];
     
+	//recorder = [[GameQTRecorder alloc] initWithGameCore:gameCore];
     //Setup Layer hierarchy
     rootLayer = [CALayer layer];
         
@@ -115,6 +116,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 	
     [gameCore startEmulation];    
 
+	//[recorder startRecording];
     [gameWindow makeKeyAndOrderFront:self];
     
     if([self defaultsToFullScreenMode])
@@ -229,6 +231,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameCore release];
     gameCore = nil;
     
+	//[recorder finishRecording];
     [gameLayer setDocController:nil];
     GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
     [docControl setGameLoaded:NO];

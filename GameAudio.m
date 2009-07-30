@@ -28,6 +28,9 @@
 #import "GameAudio.h"
 #import "GameCore.h"
 
+
+ExtAudioFileRef recordingFile;
+
 OSStatus RenderCallback(void                       *in,
                         AudioUnitRenderActionFlags *ioActionFlags,
                         const AudioTimeStamp       *inTimeStamp,
@@ -36,6 +39,8 @@ OSStatus RenderCallback(void                       *in,
                         AudioBufferList            *ioData)
 {
     [((GameCore*)in) getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:0];
+	//ExtAudioFileWriteAsync( recordingFile, inNumberFrames, ioData );
+	
 	return 0;
 }
 
@@ -49,16 +54,18 @@ OSStatus RenderCallback(void                       *in,
 }
 
 - (void)startAudio
-{
+{	
 	[self createGraph];
 }
 
 - (void)stopAudio
 {	
+	ExtAudioFileDispose(recordingFile);
 	AUGraphStop(mGraph);
 	AUGraphClose(mGraph);
 	AUGraphUninitialize(mGraph);
 }
+
 
 - (void)createGraph
 {	
@@ -177,6 +184,39 @@ OSStatus RenderCallback(void                       *in,
 	if(err)
 		NSLog(@"couldn't start graph");
     
+	/*
+	NSString* outputPath = @"/Users/jweinberg/temp.wav";
+	FSRef fsref;
+	
+	
+	
+	NSURL* url = [NSURL URLWithString:@"/Users/jweinberg/temp.caf"];
+
+	if (CFURLGetFSRef((CFURLRef)url, &fsref))
+		FSDeleteObject(&fsref);
+	
+	CFURLRef directory = CFURLCreateCopyDeletingLastPathComponent(NULL, (CFURLRef)url);
+	CFStringRef filename = CFURLCopyLastPathComponent((CFURLRef)url);
+	if (CFURLGetFSRef(directory, &fsref)) {
+		err =
+		ExtAudioFileCreateWithURL (
+								   (CFURLRef)url,
+								   kAudioFileCAFType,
+								    &mDataFormat,
+								  NULL,
+								   kAudioFileFlags_EraseFile,
+								   &recordingFile);
+		
+		
+//		ExtAudioFileCreateNew(&fsref, filename, kAudioFileMP3Type, &mDataFormat, NULL, &recordingFile);
+		if (err)
+		{
+			NSLog(@"Could not create file");
+		}
+	}
+	CFRelease(directory);
+	CFRelease(filename);
+	*/
     [self setVolume:[self volume]];
 }
 

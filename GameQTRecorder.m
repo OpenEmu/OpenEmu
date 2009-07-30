@@ -26,10 +26,20 @@
  */
 
 #import "GameQTRecorder.h"
+#import "OEFrameEncodeOperation.h"
 
 @implementation GameQTRecorder
-#if !__LP64__
+//#if !__LP64__
 @synthesize recording;
+
+
+static NSTimeInterval currentTime()
+{
+    struct timeval t;
+    gettimeofday(&t, NULL);
+    return t.tv_sec + (t.tv_usec / 1000000.0);
+}
+
 
 - (id) initWithGameCore: (GameCore*) core
 {
@@ -58,8 +68,13 @@
 	[movie setAttribute:[NSNumber numberWithBool:YES] 
 				 forKey:QTMovieEditableAttribute];
 	
-	
-	[[[NSThread alloc] initWithTarget: self selector: @selector(timerCallInstallLoop) object: nil] start];
+	timer = [[NSTimer timerWithTimeInterval:1.0/30.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true] retain];
+	[[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];	 	
+
+	lastTime = currentTime();
+	encodingQueue = [[NSOperationQueue alloc] init];
+	[encodingQueue setMaxConcurrentOperationCount:1];
+	//[[[NSThread alloc] initWithTarget: self selector: @selector(timerCallInstallLoop) object: nil] start];
 }
 
 -(void) timerCallInstallLoop
@@ -68,7 +83,7 @@
 		//[NSThread setThreadPriority:1.0];
 		//add NTSC/PAL timer
 		
-		timer = [[NSTimer timerWithTimeInterval:1.0/24.0 target:self selector:@selector(addFrame) userInfo:nil repeats:true] retain];
+		timer = [[NSTimer timerWithTimeInterval:1.0f/10.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true] retain];
 		[[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];	 	
 		
 		[[NSRunLoop currentRunLoop] run];
@@ -76,49 +91,21 @@
 }
 
 - (void) addFrame
-{
-	int width = [gameCore width];
-	int height = [gameCore height];
+{	
 	
-	NSBitmapImageRep *newBitmap = [[[NSBitmapImageRep alloc]
-								   initWithBitmapDataPlanes:NULL pixelsWide:width
-								   pixelsHigh:height bitsPerSample:8 samplesPerPixel:4 hasAlpha:YES
-								   isPlanar:NO colorSpaceName:NSCalibratedRGBColorSpace
-								   bitmapFormat: NSAlphaNonpremultipliedBitmapFormat
-								   bytesPerRow:width*4 bitsPerPixel:32] autorelease];
-	
-	memcpy([newBitmap bitmapData], [gameCore videoBuffer], width * height * 4 * sizeof(unsigned char));
-	
-	uint32* buf = (uint32*)[newBitmap bitmapData];
-	uint32 temp = 0;
-	for (int y = 0; y < height; y++)
-	{
-		for (int x = 0; x <  width; x++)
-		{
-			temp = buf[x + (y * width)];
-			unsigned char R = ((temp >> 16) & 0xFF);
-			unsigned char G = ((temp >> 8) & 0xFF);
-			unsigned char B = ((temp >> 0) & 0xFF);
-			unsigned char A = 255;
-			
-			temp = (A << 24) | ( B << 16 ) | (G << 8 ) | R;
-			buf[x + (y * width)] = temp;
-		}
-	}
+	NSTimeInterval time = currentTime();
 
-	
-	
-	NSImage *image = [[[NSImage alloc] initWithSize:[newBitmap size]] autorelease];
-	[image addRepresentation:newBitmap];
-
-	NSDictionary *myDict = nil;
-	myDict = [NSDictionary dictionaryWithObjectsAndKeys:@"tiff",
+	OEFrameEncodeOperation* op = [[OEFrameEncodeOperation alloc] initWithImage:[(GameDocument*)[gameCore document] screenShot] forMovie:movie withDuration:time-lastTime ];
+	[encodingQueue addOperation:op];
+	lastTime = time;
+	/*NSDictionary *myDict = nil;
+	myDict = [NSDictionary dictionaryWithObjectsAndKeys:@"SVQ3",
 			  QTAddImageCodecType,
-			  [NSNumber numberWithLong:codecHighQuality],
+			  [NSNumber numberWithLong:codecMinQuality],
 			  QTAddImageCodecQuality,
 			  nil];
 	
-	[movie addImage:image forDuration:QTMakeTime(24,  600) withAttributes:myDict];
+	[movie addImage:[(GameDocument*)[gameCore document] screenShot] forDuration:QTMakeTime(24,  600) withAttributes:myDict];*/
 }
 
 
@@ -126,18 +113,43 @@
 {
 	[timer invalidate];
 	
-	NSArray* components = [self availableComponents];
+	[encodingQueue waitUntilAllOperationsAreFinished];
 	
-	for(NSDictionary* d in components)
+	QTMovie* audioTrackMovie = [QTMovie movieWithFile:@"/Users/jweinberg/temp.caf" error:nil];
+	[audioTrackMovie setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
+	NSArray *videoTracks = [movie tracks];//:QTMediaTypeVideo];
+	QTTrack *videoTrack = nil;
+	if( [videoTracks count] > 0 )
 	{
-		NSLog(@"%@", [d valueForKey:@"name"]);
+		videoTrack = [videoTracks objectAtIndex:0];
 	}
 	
+	if( videoTrack )
+	{
+		QTTimeRange videoRange;
+		videoRange.time = QTZeroTime;
+		videoRange.duration = [[movie attributeForKey:QTMovieDurationAttribute] QTTimeValue];
+		
+		QTTimeRange audioRange;
+		audioRange.time = QTZeroTime;
+		audioRange.duration = [[audioTrackMovie attributeForKey:QTMovieDurationAttribute] QTTimeValue];
+		
+		[audioTrackMovie insertSegmentOfTrack: videoTrack fromRange: videoRange scaledToRange: audioRange ];
+	}
 	
-	[self writeMovieToFile:@"/Users/jweinberg/test.mov" withComponent:[[self availableComponents] objectAtIndex:9] withExportSettings:[self getExportSettings]];
+
+	
+	BOOL result = [audioTrackMovie writeToFile:@"/Users/jweinberg/test.mov" withAttributes:    [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
+																												 forKey:QTMovieFlatten]];
+	if(!result)
+	{
+		NSLog(@"Couldn't write movie to file");
+	}
+	
+	//[self writeMovieToFile:@"/Users/jweinberg/test.mov" withComponent:[[self availableComponents] objectAtIndex:9] withExportSettings:[self getExportSettings]];
 	[movie release];
 }
-
+/*
 - (NSArray *)availableComponents
 {
 	NSMutableArray *array = [NSMutableArray array];
@@ -230,17 +242,20 @@
 	
 	return data;
 }
+*/
 
 - (BOOL)writeMovieToFile:(NSString *)file withComponent:(NSDictionary *)component withExportSettings:(NSData *)exportSettings
 {
-	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+/*NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
 								[NSNumber numberWithBool:YES], QTMovieExport,
 								[component objectForKey:@"subtype"], QTMovieExportType,
 								[component objectForKey:@"manufacturer"], QTMovieExportManufacturer,
 								exportSettings, QTMovieExportSettings,
-								nil];
+								nil];*/
 
-	BOOL result = [movie writeToFile:file withAttributes:attributes];
+		
+	BOOL result = [movie writeToFile:file withAttributes:[NSDictionary 
+														  dictionaryWithObject: [NSNumber numberWithBool: YES] forKey: QTMovieFlatten]];
 
 	if(!result)
 	{
@@ -250,5 +265,5 @@
 	
 	return YES;
 }
-#endif
+//#endif
 @end

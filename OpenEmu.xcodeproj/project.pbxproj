@@ -152,6 +152,7 @@
 		82F7F7A3101FEC1700533B55 /* SaveState.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 82F7F7A2101FEC1700533B55 /* SaveState.xcdatamodel */; };
 		82F7F7AA101FECFE00533B55 /* SaveStateManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */; };
 		82F7F7C8101FEEDD00533B55 /* OESaveStateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F7F7C7101FEEDD00533B55 /* OESaveStateController.m */; };
+		82FC495D102123D100408B4F /* OEFrameEncodeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FC495C102123D100408B4F /* OEFrameEncodeOperation.m */; };
 		8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */; };
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* GameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */; settings = {ATTRIBUTES = (); }; };
@@ -416,6 +417,8 @@
 		82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveStateManager.xib; sourceTree = "<group>"; };
 		82F7F7C6101FEEDD00533B55 /* OESaveStateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESaveStateController.h; sourceTree = "<group>"; };
 		82F7F7C7101FEEDD00533B55 /* OESaveStateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESaveStateController.m; sourceTree = "<group>"; };
+		82FC495B102123D100408B4F /* OEFrameEncodeOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFrameEncodeOperation.h; sourceTree = "<group>"; };
+		82FC495C102123D100408B4F /* OEFrameEncodeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFrameEncodeOperation.m; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCoreController.h; sourceTree = "<group>"; };
@@ -744,6 +747,8 @@
 			children = (
 				829022A80F47F90D00BB7AB7 /* GameQTRecorder.h */,
 				829022A90F47F90D00BB7AB7 /* GameQTRecorder.m */,
+				82FC495B102123D100408B4F /* OEFrameEncodeOperation.h */,
+				82FC495C102123D100408B4F /* OEFrameEncodeOperation.m */,
 			);
 			name = QuickTime;
 			sourceTree = "<group>";
@@ -1127,6 +1132,7 @@
 				C62D53050FFB51D6007C2649 /* OECompositionPlugin.m in Sources */,
 				82F7F7A3101FEC1700533B55 /* SaveState.xcdatamodel in Sources */,
 				82F7F7C8101FEEDD00533B55 /* OESaveStateController.m in Sources */,
+				82FC495D102123D100408B4F /* OEFrameEncodeOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

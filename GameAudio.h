@@ -36,6 +36,7 @@
 	AUGraph     mGraph;
 	AUNode      mConverterNode, mMixerNode, mOutputNode;
 	AudioUnit   mConverterUnit, mMixerUnit, mOutputUnit;
+	
     float       volume;
 }
 

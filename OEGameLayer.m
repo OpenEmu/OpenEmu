@@ -458,17 +458,24 @@
 
 - (NSImage*) imageForCurrentFrame
 {	
+	if( !self.gameCIImage )
+		return nil;
+	
 	unsigned char * outputPixels;
 	
 	int width = [self.gameCIImage extent].size.width; 
 	int height = [self.gameCIImage extent].size.height;  
 	
 	outputPixels = calloc(width * height, 4);
-	
+
+	CGLLockContext(layerContext);
+		glFlush();
 	glBindTexture(GL_TEXTURE_RECTANGLE_ARB, correctionTexture);
 	
 	glGetTexImage(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, outputPixels);
-	
+		glFlush();
+	CGLUnlockContext(layerContext);
+
 	NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:&outputPixels 
 																	pixelsWide:width 
 																	pixelsHigh:height
@@ -481,6 +488,7 @@
 																  bitsPerPixel:32];
 	NSImage* image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
 	[image addRepresentation:rep];
+//	free(outputPixels);
 	//[[image TIFFRepresentation] writeToFile:@"/Users/jweinberg/test1.tiff" atomically:YES];
 	return image;
 }
