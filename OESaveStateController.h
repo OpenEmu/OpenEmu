@@ -12,7 +12,6 @@
 @class IKImageBrowserView;
 
 @class OECorePlugin, GameDocumentController;
-
 @interface OESaveStateController : NSWindowController {
 	NSPredicate					*availablePluginsPredicate;
     NSIndexSet					*selectedPlugins;
@@ -27,6 +26,7 @@
 	IBOutlet NSView	*listView;
 	IBOutlet NSView *collectionView;
 	
+	IBOutlet NSOutlineView* outlineView;
 	IBOutlet IKImageBrowserView* imageBrowser;
 	
 	float browserZoom;

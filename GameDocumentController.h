@@ -91,7 +91,7 @@
 - (void)restartApplication;
 
 - (IBAction)saveState:(id)sender;
-
+- (void)loadState:(NSArray*)states;
 - (IBAction)openPreferenceWindow:(id)sender;
 - (IBAction)openAboutWindow:(id)sender;
 - (IBAction)openSaveStateWindow:(id)sender;

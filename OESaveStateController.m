@@ -53,7 +53,21 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
 	[imageBrowser setDataSource:self];
 	
 	[holderView addSubview:listView];
+	
+	
+	
+	[outlineView setTarget:self];
+	[outlineView setDoubleAction:@selector(doubleClickedOutlineView:)];
 	listView.frame = holderView.bounds;
+}
+
+- (void) doubleClickedOutlineView:(id) sender
+{
+//	NSLog(@"Clicked by: %@", sender);
+	id selectedObject = [outlineView itemAtRow:[outlineView selectedRow]];
+	
+	if( [selectedObject class] == [SaveState class] )
+		[self.docController loadState:[NSArray arrayWithObject:selectedObject]];
 }
 
 - (NSArray *)plugins
@@ -84,10 +98,12 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
         selectedPlugins = [[NSIndexSet alloc] init];
         currentPlugin = nil;
     }
+	[outlineView reloadData];
 }
 
 - (IBAction) toggleViewType:(id) sender
 {
+		[outlineView reloadData];
 	NSSegmentedControl* segments = (NSSegmentedControl*) sender;
 
 	switch( [segments selectedSegment] )
@@ -110,7 +126,7 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
 	[self.docController loadState:[savestateController selectedObjects]];	
 }
 
-- (NSUInteger) numberOfGroupsInImageBrowser:(IKImageBrowserView *) aBrowser
+- (void) updateRomGroups
 {
 	NSArray *allItems = [savestateController arrangedObjects];
 	
@@ -126,7 +142,7 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
 		{
 			if( [self.pathArray count] != 0 )
 				[self.pathRanges addObject:[NSValue valueWithRange:range]];
-				
+			
 			[self.pathArray addObject:[state rompath]];
 			range.location = i;
 			range.length = 1;
@@ -138,7 +154,12 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
 		
 	}
 	if( [self.pathArray count] )
-		[self.pathRanges addObject:[NSValue valueWithRange:range]];
+		[self.pathRanges addObject:[NSValue valueWithRange:range]];	
+}
+	
+- (NSUInteger) numberOfGroupsInImageBrowser:(IKImageBrowserView *) aBrowser
+{
+	[self updateRomGroups];
 	
 	return [self.pathArray count];
 }
@@ -150,5 +171,51 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
 			[NSNumber numberWithInt:IKGroupDisclosureStyle], IKImageBrowserGroupStyleKey,
 			nil];	
 }
+
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+{
+	if( item == nil ) //root
+	{
+		return [self.pathArray count];
+	}
+	else
+	{
+		return [[self.pathRanges objectAtIndex:[self.pathArray indexOfObject:item]] rangeValue].length;
+	}
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+{
+	if( [self.pathArray containsObject:item] )
+		return YES;
+	return NO;
+}
+
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+{
+	if( item == nil )
+	{
+		return [self.pathArray objectAtIndex:index];
+	}
+	else
+	{
+		NSRange range = [[self.pathRanges objectAtIndex:[self.pathArray indexOfObject:item]] rangeValue];
+		
+		return [[savestateController arrangedObjects] objectAtIndex:range.location + index];
+	}
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+{ 
+	if( [item class] == [SaveState class] )
+	{
+		return [item imageTitle];
+	}
+	return [[item description] lastPathComponent];
+}
+
+
+
 
 @end
