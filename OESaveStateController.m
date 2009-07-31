@@ -31,6 +31,7 @@
 							 [NSNumber numberWithBool:YES],NSRaisesForNotApplicableKeysBindingOption,nil];
 	
 	[imageBrowser bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
+		[imageBrowser bind:@"selectionIndexes" toObject:savestateController withKeyPath:@"selectionIndexes" options:options];
 	[holderView addSubview:listView];
 	listView.frame = holderView.bounds;
 }
