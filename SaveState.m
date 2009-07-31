@@ -33,4 +33,15 @@
     return [[[self objectID] URIRepresentation] description];
 }
 
+- (NSString *) imageTitle
+{
+	return [self.timeStamp descriptionWithCalendarFormat:@"%m/%d/%Y %H:%M:%S" timeZone:nil locale:nil];
+	//return [self.rompath lastPathComponent];
+}
+
+- (NSString *) imageSubtitle
+{
+	return [self.timeStamp descriptionWithCalendarFormat:@"%m/%d/%Y %H:%M:%S" timeZone:nil locale:nil];
+}
+
 @end

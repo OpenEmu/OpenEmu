@@ -118,6 +118,8 @@
 		82444BA80F51259A007C171B /* GameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* GameCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		824508BF0FEC8B2600F16307 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		8268432A1022606B0019C7B0 /* SaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 826843291022606B0019C7B0 /* SaveState.m */; };
+		826844C51022A0630019C7B0 /* smaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C31022A0630019C7B0 /* smaller.tif */; };
+		826844C61022A0630019C7B0 /* larger.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C41022A0630019C7B0 /* larger.tif */; };
 		82798B340E85C123001DCA93 /* PrefsBundleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798B330E85C123001DCA93 /* PrefsBundleCell.m */; };
 		8283876E0E6C54E100A96E2C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
 		8283882C0E6CE13C00A96E2C /* GameDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */; };
@@ -390,6 +392,8 @@
 		82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuBase-Info.plist"; sourceTree = "<group>"; };
 		826843281022606B0019C7B0 /* SaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveState.h; sourceTree = "<group>"; };
 		826843291022606B0019C7B0 /* SaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveState.m; sourceTree = "<group>"; };
+		826844C31022A0630019C7B0 /* smaller.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = smaller.tif; sourceTree = "<group>"; };
+		826844C41022A0630019C7B0 /* larger.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = larger.tif; sourceTree = "<group>"; };
 		82798B320E85C123001DCA93 /* PrefsBundleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsBundleCell.h; sourceTree = "<group>"; };
 		82798B330E85C123001DCA93 /* PrefsBundleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsBundleCell.m; sourceTree = "<group>"; };
 		8283876D0E6C54E100A96E2C /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = /System/Library/Frameworks/OpenGL.framework; sourceTree = "<absolute>"; };
@@ -663,6 +667,8 @@
 				1B885E070F085EA500770B6D /* GLSL Shaders */,
 				1B224004100BD61D00F42067 /* Filter Quartz Compositions */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
+				826844C31022A0630019C7B0 /* smaller.tif */,
+				826844C41022A0630019C7B0 /* larger.tif */,
 				1B7505100FEEB4F600B0D0AF /* About.png */,
 				C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */,
 				C67A36A90FE7F1F500A665E2 /* OECorePluginIcon.icns */,
@@ -1051,6 +1057,8 @@
 				C67A36AA0FE7F1F500A665E2 /* OECorePluginIcon.icns in Resources */,
 				C69DCCED0FE99415009AE5A6 /* OEFilterPluginIcon.icns in Resources */,
 				82F7F7AA101FECFE00533B55 /* SaveStateManager.xib in Resources */,
+				826844C51022A0630019C7B0 /* smaller.tif in Resources */,
+				826844C61022A0630019C7B0 /* larger.tif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
