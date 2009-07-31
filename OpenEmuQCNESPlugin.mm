@@ -119,6 +119,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 @dynamic inputNmtRamOffset;
 @dynamic inputNmtRamValue;
 
+@dynamic inputCorruptNameTable;
+@dynamic inputNameTableData;
+
 @dynamic inputChrRamCorrupt;
 @dynamic inputChrRamOffset;
 @dynamic inputChrRamValue;
@@ -218,6 +221,14 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 				[NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey,
 				nil];
 	
+	if([key isEqualToString:@"inputCorruptNameTable"])
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"Corrupt Name Table", QCPortAttributeNameKey,
+				[NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey,
+				nil];
+	
+	if([key isEqualToString:@"inputNameTableData"])
+		return [NSDictionary dictionaryWithObjectsAndKeys:@"Name Table Data", QCPortAttributeNameKey, nil];
+	
 	if([key isEqualToString:@"inputChrRamCorrupt"])
 		return [NSDictionary dictionaryWithObjectsAndKeys:@"Corrupt Character RAM", QCPortAttributeNameKey,
 				[NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
@@ -262,6 +273,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			@"inputChrRamCorrupt",
 			@"inputChrRamOffset",
 			@"inputChrRamValue",
+			@"inputCorruptNameTable",
+			@"inputNameTableData",
 			nil]; 
 }
 
@@ -291,6 +304,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		gameLock = [[NSRecursiveLock alloc] init];
 		persistantControllerData = [[NSMutableArray alloc] init];
 		[persistantControllerData retain];
+		
+		persistantNameTableData = [[NSMutableArray alloc] init];
+		[persistantNameTableData retain];
 
 		//FIXME: maybe just get Nestopia
 		plugins = [[OECorePlugin allPlugins] retain];
@@ -314,6 +330,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	[plugins release];
 	[validExtensions release];
 	[persistantControllerData release];
+	[persistantNameTableData release];
 	[gameLock release];
 	[super dealloc];
 }
@@ -432,7 +449,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 	CGLLockContext(cgl_ctx);
 	
 	// Process ROM loads
-	if([self didValueForInputKeyChange: @"inputRom"] && ([self valueForInputKey:@"inputRom"] != [[OpenEmuQCNES	attributesForPropertyPortWithKey:@"inputRom"] valueForKey: QCPortAttributeDefaultValueKey]))
+	if([self didValueForInputKeyChange: @"inputRom"] 
+	   && ([self valueForInputKey:@"inputRom"] != [[OpenEmuQCNES	attributesForPropertyPortWithKey:@"inputRom"] valueForKey: QCPortAttributeDefaultValueKey])
+		&& (![[self valueForInputKey:@"inputRom"] isEqualToString:@""] ))
 	{
 		if([self loadRom:[self valueForInputKey:@"inputRom"]]) 
 		{
@@ -554,7 +573,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 			}
 		}
 
-#pragma mark CORRUPTION FTW
+#pragma mark glitch methods (CORRUPTION FTW)
 		
 		if(executedFrame && hasNmtRam && self.inputNmtRamCorrupt && ( [self didValueForInputKeyChange:@"inputNmtRamOffset"] || [self didValueForInputKeyChange:@"inputNmtRamValue"] ))
 		{
@@ -565,7 +584,18 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		{
 			[gameCore setChrRamBytes:self.inputChrRamOffset value:self.inputChrRamValue];
 		}
-	}
+		
+		if(executedFrame && hasNmtRam && self.inputCorruptNameTable && [self didValueForInputKeyChange:@"inputNameTableData"])
+		{
+			if([self validateNameTableData:[self inputNameTableData]])
+			{
+				persistantNameTableData = [NSMutableArray arrayWithArray:[self inputNameTableData]]; 
+				[persistantNameTableData retain];
+				[gameCore setNMTRamByTable:[persistantNameTableData objectAtIndex:0] array:[persistantNameTableData objectAtIndex:1]];
+			}
+		}
+		
+	} // END if(self.loadedRom && self.romFinishedLoading)
 
 #pragma mark provide an image 
 
@@ -868,6 +898,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 		NSLog(@"loadState: bad path or filename");
 		return NO;
 	}
+	return YES;
+}
+	
+- (BOOL) validateNameTableData: (NSArray*) nameTableData
+{
 	return YES;
 }
 

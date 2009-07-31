@@ -343,7 +343,8 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     // Process ROM loads
     if([self didValueForInputKeyChange:@"inputRom"] &&
        ([self valueForInputKey:@"inputRom"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputRom"]
-                                                valueForKey:QCPortAttributeDefaultValueKey]))
+                                                valueForKey:QCPortAttributeDefaultValueKey])
+		&& (![[self valueForInputKey:@"inputRom"] isEqualToString:@""] ))
     {
         [self loadRom:[self valueForInputKey:@"inputRom"]];
 		

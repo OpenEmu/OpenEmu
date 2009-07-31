@@ -41,6 +41,7 @@
     GameAudio            *gameAudio;
 	GLuint				 gameTexture;
     NSMutableArray       *persistantControllerData;
+	NSMutableArray		 *persistantNameTableData;
     NSRecursiveLock      *gameLock;
     BOOL loadedRom, romFinishedLoading, userPaused, hasNmtRam, hasChrRom, executedFrame;
 }
@@ -67,6 +68,9 @@ You can access their values in the appropriate plug-in methods using self.inputF
 @property(assign) double     inputNmtRamOffset;
 @property(assign) double     inputNmtRamValue;
 
+@property(assign) BOOL		 inputCorruptNameTable;
+@property(assign) NSArray	*inputNameTableData;
+
 @property(assign) BOOL       inputChrRamCorrupt;
 @property(assign) double     inputChrRamOffset;
 @property(assign) double     inputChrRamValue;
@@ -85,6 +89,6 @@ You can access their values in the appropriate plug-in methods using self.inputF
 - (OECorePlugin *)pluginForType:(NSString *)extension;
 - (void)saveState:(NSString *)fileName;
 - (BOOL)loadState:(NSString *)fileName;
-
+- (BOOL)validateNameTableData:(NSArray*)nameTableData;
 @end
 
