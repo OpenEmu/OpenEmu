@@ -27,7 +27,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class XADArchive;
+@class ArchiveReader;
 
 @interface GamePickerController : NSWindowController {
 	IBOutlet NSTableView *table;
@@ -40,7 +40,7 @@
 -(IBAction)cancelPicker:(id)sender;
 -(IBAction)selectFile:(id)sender;
 -(int)selectedIndex;
--(void)setArchive:(XADArchive*)archive;
+-(void)setArchive:(ArchiveReader*)archive;
 
 @property(readonly) NSString* fileName;
 

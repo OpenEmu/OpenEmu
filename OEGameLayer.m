@@ -468,13 +468,13 @@
 	
 	outputPixels = calloc(width * height, 4);
 
-	CGLLockContext(layerContext);
-		glFlush();
+//	CGLLockContext(layerContext);
+//		glFlush();
 	glBindTexture(GL_TEXTURE_RECTANGLE_ARB, correctionTexture);
 	
 	glGetTexImage(GL_TEXTURE_RECTANGLE_ARB, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8_REV, outputPixels);
-		glFlush();
-	CGLUnlockContext(layerContext);
+//		glFlush();
+//	CGLUnlockContext(layerContext);
 
 	NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:&outputPixels 
 																	pixelsWide:width 

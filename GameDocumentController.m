@@ -31,7 +31,7 @@
 #import "GameCore.h"
 #import "OEHIDDeviceHandler.h"
 #import <Sparkle/Sparkle.h>
-#import <XADMaster/XADArchive.h>
+#import "ArchiveReader.h"
 #import "OEGamePreferenceController.h"
 #import "OESaveStateController.h"
 #import "NSAttributedString+Hyperlink.h"
@@ -380,16 +380,20 @@
 {
     NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
     
-    XADArchive *archive = [XADArchive archiveForFile:[absoluteURL path]];
+    ArchiveReader *archive = [[ArchiveReader alloc] initWithPath:[absoluteURL path]];
     NSLog(@"Opened?");
-    if(archive != nil)
+    if(archive)
     {
         NSString *filePath;
-        NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"OpenEmu"];
+		
+        NSString *appSupportPath = [self applicationSupportFolder];
         if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
             [[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
         filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
         
+		if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+			[[NSFileManager defaultManager] createDirectoryAtPath:filePath attributes:nil];
+		
         if([archive numberOfEntries] != 1) //more than one rom in the archive
         {
             GamePickerController *c = [[GamePickerController alloc] init];
@@ -695,7 +699,7 @@
 		NSLog(@"%@", doc);
 		char format[25] = "/tmp/oesav.XXXXX";
 		const char* tmp = tmpnam(format);
-		NSData *saveData = [object valueForKey:@"saveData"];
+		NSData *saveData = [[object valueForKey:@"saveData"] valueForKey:@"data"];
 		[saveData writeToFile:[NSString stringWithFormat:@"%s", tmp] atomically:YES];
 		@synchronized([(GameDocument*)[self currentDocument] gameCore])
 		{
@@ -723,7 +727,15 @@
 	{
 		[[(GameDocument*)[self currentDocument] gameCore] saveStateToFileAtPath:[NSString stringWithFormat:@"%s", tmp]];	
 	}
-	[newState setValue:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%s", tmp]] forKey:@"saveData"];
+	
+	NSManagedObject *saveData = [NSEntityDescription
+								 insertNewObjectForEntityForName:@"SaveData" 
+								 inManagedObjectContext:self.managedObjectContext];
+	
+	
+	[saveData setValue:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%s", tmp]] forKey:@"data"];
+	
+	[newState setValue:saveData forKey:@"saveData"];
 	
 	NSManagedObject *screenShot = [NSEntityDescription
 								   insertNewObjectForEntityForName:@"ScreenShot"

@@ -21,8 +21,18 @@
     {
 		self.docController = [GameDocumentController sharedDocumentController];
 		self.selectedRomPredicate = nil;
-    }
+	}
     return self;
+}
+
+- (void)windowDidLoad
+{
+	NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:
+							 [NSNumber numberWithBool:YES],NSRaisesForNotApplicableKeysBindingOption,nil];
+	
+	[imageBrowser bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
+	[holderView addSubview:listView];
+	listView.frame = holderView.bounds;
 }
 
 - (NSArray *)plugins
@@ -53,6 +63,42 @@
         selectedPlugins = [[NSIndexSet alloc] init];
         currentPlugin = nil;
     }
+}
+
+- (IBAction) toggleViewType:(id) sender
+{
+	NSSegmentedControl* segments = (NSSegmentedControl*) sender;
+
+	switch( [segments selectedSegment] )
+	{
+		case 0:
+			[collectionView removeFromSuperview];
+			[holderView addSubview:listView];
+			listView.frame = holderView.bounds;
+			break;
+		case 1:
+			[listView removeFromSuperview];
+			[holderView addSubview:collectionView];
+			collectionView.frame = holderView.bounds;
+			break;			
+	}
+}
+
+
+/*
+- (NSUInteger) numberOfItemsInImageBrowser:(IKImageBrowserView *) aBrowser
+{		
+	return [[savestateController arrangedObjects] count];
+}
+
+- (id) imageBrowser:(IKImageBrowserView *) aBrowser itemAtIndex:(NSUInteger)index
+{
+	return [[savestateController arrangedObjects] objectAtIndex:index];
+}*/
+
+- (void) imageBrowser:(IKImageBrowserView *) aBrowser cellWasDoubleClickedAtIndex:(NSUInteger) index
+{
+	[self.docController loadState:[savestateController selectedObjects]];	
 }
 
 @end
