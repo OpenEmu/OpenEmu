@@ -585,9 +585,9 @@
         [fileManager createDirectoryAtPath:applicationSupportFolder attributes:nil];
     }
     
-    url = [NSURL fileURLWithPath: [applicationSupportFolder stringByAppendingPathComponent: @"OpenEmuDataStore.sqlite"]];
+    url = [NSURL fileURLWithPath: [applicationSupportFolder stringByAppendingPathComponent: @"OpenEmuDataStore.xml"]];
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]){
+    if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]){
         [[NSApplication sharedApplication] presentError:error];
     }    
 	
@@ -711,7 +711,7 @@
 - (IBAction)saveState:(id)sender
 {	
 	
-	NSURL * url = [NSURL fileURLWithPath: [[self applicationSupportFolder] stringByAppendingPathComponent: @"OpenEmuDataStore.sqlite"]];
+	NSURL * url = [NSURL fileURLWithPath: [[self applicationSupportFolder] stringByAppendingPathComponent: @"OpenEmuDataStore.xml"]];
 	
 	NSManagedObject *newState = [NSEntityDescription
 									insertNewObjectForEntityForName:@"SaveState"
