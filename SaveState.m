@@ -39,6 +39,7 @@
 	
 	NSString *nsPath = [NSString stringWithCString:path length:strlen(path)];
 	nsPath = [nsPath stringByStandardizingPath];
+	return nsPath;
 }
 
 - (id) imageRepresentation
