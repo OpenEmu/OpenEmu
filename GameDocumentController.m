@@ -585,12 +585,27 @@
     if ( ![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL] ) {
         [fileManager createDirectoryAtPath:applicationSupportFolder attributes:nil];
     }
-    
-    url = [NSURL fileURLWithPath: [applicationSupportFolder stringByAppendingPathComponent: @"OpenEmuDataStore.xml"]];
-    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]){
-        [[NSApplication sharedApplication] presentError:error];
-    }    
+
+	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
+	
+	NSString *statesPath = [applicationSupportFolder stringByAppendingPathComponent:@"Save States"];
+	
+    if ( ![fileManager fileExistsAtPath:statesPath isDirectory:NULL] ) {
+        [fileManager createDirectoryAtPath:statesPath attributes:nil];
+    }
+	
+	NSArray  *subpaths = [fileManager directoryContentsAtPath:statesPath];
+
+	for(NSString *statePath in subpaths)
+	{
+		if([@"oesavestate" isEqualToString:[statePath pathExtension]])
+		{
+			url = [NSURL fileURLWithPath:[statesPath stringByAppendingPathComponent:statePath]];
+			if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]){		
+				[[NSApplication sharedApplication] presentError:error];
+			}    
+		}
+	}
 	
     return persistentStoreCoordinator;
 }
@@ -713,11 +728,13 @@
 - (IBAction)saveState:(id)sender
 {	
 	
-	NSURL * url = [NSURL fileURLWithPath: [[self applicationSupportFolder] stringByAppendingPathComponent: @"OpenEmuDataStore.xml"]];
 	
 	NSManagedObject *newState = [NSEntityDescription
 									insertNewObjectForEntityForName:@"SaveState"
 									inManagedObjectContext:self.managedObjectContext];
+
+					   
+
 	
 	[newState setValue:[NSDate date] forKey:@"timeStamp"];
 	[newState setValue:[(GameDocument*)[self currentDocument] emulatorName] forKey:@"emulatorID"];
@@ -754,14 +771,24 @@
 								   insertNewObjectForEntityForName:@"ScreenShot"
 								   inManagedObjectContext:self.managedObjectContext];
 	
-	[screenShot setValue:[[(GameDocument*)[self currentDocument] screenShot] TIFFRepresentation] forKey:@"screenShot"];
+	[screenShot setValue:[[[[(GameDocument*)[self currentDocument] screenShot] representations] objectAtIndex: 0] representationUsingType: NSPNGFileType  properties: nil] forKey:@"screenShot"];
 	
 	[newState setValue:screenShot forKey:@"screenShot"];
+	
+	
+	NSString *saveFileName = [NSString stringWithFormat:@"%@-%@", [[[[[self currentDocument] fileURL] path] lastPathComponent] stringByDeletingPathExtension],
+							  [[newState valueForKey:@"timeStamp"] descriptionWithCalendarFormat:@"%H-%M-%S-%F" timeZone:nil locale:nil]];
+	
+	NSURL * url = [NSURL fileURLWithPath: [[[[self applicationSupportFolder] stringByAppendingPathComponent: @"Save States"] 
+										   stringByAppendingPathComponent:saveFileName] stringByAppendingPathExtension:@"oesavestate"]];
+
+	NSError *error;
+	if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]){		
+		[[NSApplication sharedApplication] presentError:error];
+	}    
+	
+	NSLog(@"url: %@", [url path]);
 	[self.managedObjectContext assignObject:newState toPersistentStore:[self.persistentStoreCoordinator persistentStoreForURL:url]];
-	
-	//cleanup the temp file
-	//[[NSFileManager defaultManager] removeFileAtPath:[NSString  handler:<#(id)handler#>
-	
 }
 
 

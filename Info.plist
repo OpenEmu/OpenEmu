@@ -31,6 +31,20 @@
 		</dict>
 		<dict>
 			<key>NSDocumentClass</key>
+			<string>OESaveStateDocument</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>oesavestate</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Save State</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+		</dict>
+		<dict>
+			<key>NSDocumentClass</key>
 			<string>OEPluginDocument</string>
 			<key>CFBundleTypeExtensions</key>
 			<array>

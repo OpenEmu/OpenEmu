@@ -135,6 +135,7 @@
 		829022B10F47FAC100BB7AB7 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829022B00F47FAC100BB7AB7 /* QTKit.framework */; };
 		82902A140F48ACEE00BB7AB7 /* QuickTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82902A130F48ACEE00BB7AB7 /* QuickTime.framework */; };
 		8291666C0E8603B600493FD8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8291666B0E8603B600493FD8 /* IOKit.framework */; };
+		82955D071024C577000BE8DF /* OESaveStateDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 82955D061024C577000BE8DF /* OESaveStateDocument.m */; };
 		829779340E743F2A00631240 /* GameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.m */; };
 		829779360E743F3A00631240 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
 		82AC83631022331E000BCF41 /* Archive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AC835E1022331A000BCF41 /* Archive.framework */; };
@@ -415,6 +416,8 @@
 		829022B00F47FAC100BB7AB7 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
 		82902A130F48ACEE00BB7AB7 /* QuickTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickTime.framework; path = System/Library/Frameworks/QuickTime.framework; sourceTree = SDKROOT; };
 		8291666B0E8603B600493FD8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		82955D051024C577000BE8DF /* OESaveStateDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESaveStateDocument.h; sourceTree = "<group>"; };
+		82955D061024C577000BE8DF /* OESaveStateDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESaveStateDocument.m; sourceTree = "<group>"; };
 		829779320E743F2A00631240 /* GameAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameAudio.h; sourceTree = "<group>"; };
 		829779330E743F2A00631240 /* GameAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameAudio.m; sourceTree = "<group>"; };
 		829779350E743F3A00631240 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
@@ -794,6 +797,8 @@
 				826843291022606B0019C7B0 /* SaveState.m */,
 				82F7F7C6101FEEDD00533B55 /* OESaveStateController.h */,
 				82F7F7C7101FEEDD00533B55 /* OESaveStateController.m */,
+				82955D051024C577000BE8DF /* OESaveStateDocument.h */,
+				82955D061024C577000BE8DF /* OESaveStateDocument.m */,
 			);
 			name = "State Manager";
 			sourceTree = "<group>";
@@ -1180,6 +1185,7 @@
 				82F7F7C8101FEEDD00533B55 /* OESaveStateController.m in Sources */,
 				82FC495D102123D100408B4F /* OEFrameEncodeOperation.m in Sources */,
 				8268432A1022606B0019C7B0 /* SaveState.m in Sources */,
+				82955D071024C577000BE8DF /* OESaveStateDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
