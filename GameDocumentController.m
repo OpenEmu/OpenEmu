@@ -759,6 +759,9 @@
 	[newState setValue:screenShot forKey:@"screenShot"];
 	[self.managedObjectContext assignObject:newState toPersistentStore:[self.persistentStoreCoordinator persistentStoreForURL:url]];
 	
+	//cleanup the temp file
+	//[[NSFileManager defaultManager] removeFileAtPath:[NSString  handler:<#(id)handler#>
+	
 }
 
 
