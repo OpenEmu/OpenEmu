@@ -397,7 +397,7 @@
 		
         if([archive numberOfEntries] != 1) //more than one rom in the archive
         {
-            GamePickerController *c = [[GamePickerController alloc] init];
+            GamePickerController *c = [[[GamePickerController alloc] init] autorelease];
             [c setArchive:archive];
             
             if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
@@ -416,7 +416,7 @@
             else
             {
                 if (outError) *outError = [[NSError alloc] initWithDomain:@"User Cancelled" code:0 userInfo:[NSDictionary dictionaryWithObject:@"User cancled" forKey:NSLocalizedDescriptionKey]];
-                [c release];
+				[archive release];
                 return nil;
             }
         }
@@ -431,7 +431,7 @@
             else NSLog(@"Failed to extract");
         }
     }
-    
+	[archive release];
     NSLog(@"Final path: %@", absoluteURL);
     //[self closeWindow: self];
     return [super openDocumentWithContentsOfURL:absoluteURL display:displayDocument error:outError];

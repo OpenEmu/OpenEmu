@@ -97,6 +97,7 @@ static NSTimeInterval currentTime()
 
 	OEFrameEncodeOperation* op = [[OEFrameEncodeOperation alloc] initWithImage:[(GameDocument*)[gameCore document] screenShot] forMovie:movie withDuration:time-lastTime ];
 	[encodingQueue addOperation:op];
+	[op release];
 	lastTime = time;
 	/*NSDictionary *myDict = nil;
 	myDict = [NSDictionary dictionaryWithObjectsAndKeys:@"SVQ3",

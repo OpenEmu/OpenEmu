@@ -113,6 +113,16 @@
 		37CC3EA7100BE6BB00C1CD6E /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
 		37CC661A0FF8379B00226BCB /* config_qc.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 37CC66190FF8379B00226BCB /* config_qc.yaml */; };
 		37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
+		3887A8051024D2BC000FC4CF /* GenerateThumbnailForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */; };
+		3887A8061024D2BC000FC4CF /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */; };
+		3887A8071024D2BC000FC4CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8041024D2BC000FC4CF /* main.c */; };
+		3887A85A1024D526000FC4CF /* SaveState.xcdatamodel in Resources */ = {isa = PBXBuildFile; fileRef = 82F7F7A2101FEC1700533B55 /* SaveState.xcdatamodel */; };
+		3887A86F1024D768000FC4CF /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D9122210200F7000E370FC /* CoreData.framework */; };
+		3887A88D1024D77A000FC4CF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
+		3887A8971024D796000FC4CF /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887A8961024D796000FC4CF /* QuickLook.framework */; };
+		3887AAE91024DDD5000FC4CF /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887AAE81024DDD5000FC4CF /* ApplicationServices.framework */; };
+		3887AAF11024DDE4000FC4CF /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887AAF01024DDE4000FC4CF /* CoreServices.framework */; };
+		3887AAF61024DDEB000FC4CF /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887AAF51024DDEB000FC4CF /* CoreFoundation.framework */; };
 		820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82444BA80F51259A007C171B /* GameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* GameCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -386,6 +396,15 @@
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
 		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
 		37CC66190FF8379B00226BCB /* config_qc.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config_qc.yaml; sourceTree = "<group>"; };
+		3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OESaveStateQLPlugin.qlgenerator; sourceTree = BUILT_PRODUCTS_DIR; };
+		3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateThumbnailForURL.m; sourceTree = "<group>"; };
+		3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratePreviewForURL.m; sourceTree = "<group>"; };
+		3887A8041024D2BC000FC4CF /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OESaveStateQLPlugin-Info.plist"; sourceTree = "<group>"; };
+		3887A8961024D796000FC4CF /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
+		3887AAE81024DDD5000FC4CF /* ApplicationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ApplicationServices.framework; path = System/Library/Frameworks/ApplicationServices.framework; sourceTree = SDKROOT; };
+		3887AAF01024DDE4000FC4CF /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
+		3887AAF51024DDEB000FC4CF /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		820376250F3974FD00EC2F97 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Hyperlink.m"; sourceTree = "<group>"; };
 		82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Hyperlink.h"; sourceTree = "<group>"; };
@@ -484,6 +503,19 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3887A7F41024D1F9000FC4CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3887A86F1024D768000FC4CF /* CoreData.framework in Frameworks */,
+				3887A88D1024D77A000FC4CF /* Cocoa.framework in Frameworks */,
+				3887A8971024D796000FC4CF /* QuickLook.framework in Frameworks */,
+				3887AAE91024DDD5000FC4CF /* ApplicationServices.framework in Frameworks */,
+				3887AAF11024DDE4000FC4CF /* CoreServices.framework in Frameworks */,
+				3887AAF61024DDEB000FC4CF /* CoreFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82444B9F0F51256C007C171B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -557,6 +589,7 @@
 				8D15AC370486D014006FF6A4 /* OpenEmu.app */,
 				828E65980E8466A100B1860B /* OpenEmuQC.plugin */,
 				82444BA10F51256C007C171B /* OpenEmuBase.framework */,
+				3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -634,7 +667,12 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
+				3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */,
 				82D9122210200F7000E370FC /* CoreData.framework */,
+				3887A8961024D796000FC4CF /* QuickLook.framework */,
+				3887AAE81024DDD5000FC4CF /* ApplicationServices.framework */,
+				3887AAF01024DDE4000FC4CF /* CoreServices.framework */,
+				3887AAF51024DDEB000FC4CF /* CoreFoundation.framework */,
 			);
 			name = OpenEmu;
 			sourceTree = "<group>";
@@ -642,6 +680,7 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
 				C66DFA600F51C9550080AA28 /* GameCore framework */,
 				828E64D00E84656900B1860B /* OpenEmuCore */,
 				828E64E10E84658A00B1860B /* OpenEmuQC */,
@@ -703,6 +742,16 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */ = {
+			isa = PBXGroup;
+			children = (
+				3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */,
+				3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */,
+				3887A8041024D2BC000FC4CF /* main.c */,
+			);
+			name = OpenEmuQLGenerator;
 			sourceTree = "<group>";
 		};
 		8249C8E40E899CD30027EFDF /* Audio */ = {
@@ -874,6 +923,13 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		3887AAED1024DDD6000FC4CF /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82444B9C0F51256C007C171B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -895,6 +951,26 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3887A7FB1024D1FA000FC4CF /* Build configuration list for PBXNativeTarget "OESaveStateQLPlugin" */;
+			buildPhases = (
+				3887AAED1024DDD6000FC4CF /* Headers */,
+				3887A7F21024D1F9000FC4CF /* Resources */,
+				3887A7F31024D1F9000FC4CF /* Sources */,
+				3887A7F41024D1F9000FC4CF /* Frameworks */,
+				3887AAE21024DD91000FC4CF /* Rez */,
+				82DE41ED1024E7B7007184EB /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = OESaveStateQLPlugin;
+			productName = OESaveStateQLPlugin;
+			productReference = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */;
+			productType = "com.apple.product-type.bundle";
+		};
 		82444BA00F51256C007C171B /* OpenEmuBase */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82444BA50F51256D007C171B /* Build configuration list for PBXNativeTarget "OpenEmuBase" */;
@@ -983,6 +1059,7 @@
 				82444BA00F51256C007C171B /* OpenEmuBase */,
 				82BCA6020FEF092600DD3FC4 /* OpenEmuQC Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
+				3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */,
 			);
 		};
 /* End PBXProject section */
@@ -998,6 +1075,14 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3887A7F21024D1F9000FC4CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3887A85A1024D526000FC4CF /* SaveState.xcdatamodel in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82444B9D0F51256C007C171B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1069,6 +1154,16 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXRezBuildPhase section */
+		3887AAE21024DD91000FC4CF /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
 /* Begin PBXShellScriptBuildPhase section */
 		37C80308101564B000356EF3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1124,9 +1219,32 @@
 			shellScript = "/usr/local/bin/openemu_rb_automation.rb\n\ncd $BUILT_PRODUCTS_DIR\n\nmkdir OpenEmu\ncd OpenEmu\n\nmkdir Applications\ncd Applications\n\nrm -rf *.app\necho \"$BUILT_PRODUCTS_DIR/OpenEmu.app\"\ncp -R \"$BUILT_PRODUCTS_DIR/OpenEmu.app\" .";
 			showEnvVarsInLog = 0;
 		};
+		82DE41ED1024E7B7007184EB /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"/Library/QuickLook\"\nrm -rf \"/Library/QuickLook/$PRODUCT_NAME.qlgenerator\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PRODUCT_NAME.qlgenerator\" \"/Library/QuickLook\"";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3887A7F31024D1F9000FC4CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3887A8051024D2BC000FC4CF /* GenerateThumbnailForURL.m in Sources */,
+				3887A8061024D2BC000FC4CF /* GeneratePreviewForURL.m in Sources */,
+				3887A8071024D2BC000FC4CF /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82444B9E0F51256C007C171B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1313,6 +1431,53 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build & Copy OpenEmuBase";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		3887A7F81024D1FA000FC4CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				INFOPLIST_FILE = "OESaveStateQLPlugin-Info.plist";
+				INSTALL_PATH = /Library/QuickLook;
+				OTHER_LDFLAGS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = OESaveStateQLPlugin;
+				WRAPPER_EXTENSION = qlgenerator;
+			};
+			name = Debug;
+		};
+		3887A7F91024D1FA000FC4CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
+				INFOPLIST_FILE = a.info;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = OESaveStateQLPlugin;
+				WRAPPER_EXTENSION = bundle;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -1641,6 +1806,15 @@
 			buildConfigurations = (
 				37C80302101564A300356EF3 /* Debug */,
 				37C80303101564A300356EF3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3887A7FB1024D1FA000FC4CF /* Build configuration list for PBXNativeTarget "OESaveStateQLPlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3887A7F81024D1FA000FC4CF /* Debug */,
+				3887A7F91024D1FA000FC4CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
