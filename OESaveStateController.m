@@ -37,11 +37,17 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
     return self;
 }
 
+static void *ContentChangedContext = @"ContentChangedContext";
+
 - (void)windowDidLoad
 {
 	NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:
 							 [NSNumber numberWithBool:YES],NSRaisesForNotApplicableKeysBindingOption,nil];
 	
+//	NSLog(@"%d",[savestateController automaticallyRearrangesObjects]);
+	//This keeps the outline view up to date
+	[savestateController addObserver:self forKeyPath:@"arrangedObjects" options:0 context:ContentChangedContext];
+
 	[imageBrowser bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
 	[imageBrowser bind:@"selectionIndexes" toObject:savestateController withKeyPath:@"selectionIndexes" options:options];
 	[imageBrowser bind:@"zoomValue" toObject:self withKeyPath:@"browserZoom" options:options];
@@ -59,6 +65,16 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
 	[outlineView setTarget:self];
 	[outlineView setDoubleAction:@selector(doubleClickedOutlineView:)];
 	listView.frame = holderView.bounds;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+	if (context == ContentChangedContext)
+	{
+		[self updateRomGroups];
+		[outlineView reloadData];
+		[imageBrowser reloadData];
+	}
 }
 
 - (void) doubleClickedOutlineView:(id) sender
@@ -103,7 +119,7 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
 
 - (IBAction) toggleViewType:(id) sender
 {
-		[outlineView reloadData];
+	[outlineView reloadData];
 	NSSegmentedControl* segments = (NSSegmentedControl*) sender;
 
 	switch( [segments selectedSegment] )

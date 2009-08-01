@@ -13,9 +13,33 @@
 
 @dynamic timeStamp;
 @dynamic emulatorID;
-@dynamic rompath;
 @dynamic screenShot;
 @dynamic saveData;
+@dynamic pathalias;
+
+@dynamic rompath;
+
+- (NSString*) rompath
+{
+	NSData* aliasData = [self valueForKey:@"pathalias"];
+	AliasHandle handle;
+	
+	//Look mah! IM LEGACY
+	OSErr er = PtrToHand([aliasData bytes], (Handle *)&handle, [aliasData length]);
+	
+	FSRef fileRef;
+	Boolean wasChanged;
+	FSResolveAlias(NULL, handle, &fileRef, &wasChanged);
+	
+	DisposeHandle((Handle)handle);
+	
+	char path[1024];
+	
+	FSRefMakePath(&fileRef, (UInt8 *)path, 1024);
+	
+	NSString *nsPath = [NSString stringWithCString:path length:strlen(path)];
+	nsPath = [nsPath stringByStandardizingPath];
+}
 
 - (id) imageRepresentation
 {

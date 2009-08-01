@@ -37,6 +37,7 @@
 #import "NSAttributedString+Hyperlink.h"
 #import "OECorePlugin.h"
 #import "OECompositionPlugin.h"
+#import "SaveState.h"
 
 @interface GameDocumentController ()
 @property(readwrite, retain) NSArray *plugins;
@@ -691,11 +692,12 @@
 
 - (IBAction)loadState:(NSArray*)states
 {
-	for( NSManagedObject* object in states )
+	for( SaveState* object in states )
 	{
 		NSError* error = nil;
-		NSLog(@"%@",[NSURL URLWithString:[object valueForKey:@"rompath"]]);
-		NSDocument* doc = [self openDocumentWithContentsOfURL:[NSURL URLWithString:[object valueForKey:@"rompath"]] display:YES error:&error];
+		
+	
+		NSDocument* doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[object rompath]] display:YES error:&error];
 		NSLog(@"%@", doc);
 		char format[25] = "/tmp/oesav.XXXXX";
 		const char* tmp = tmpnam(format);
@@ -718,9 +720,20 @@
 									inManagedObjectContext:self.managedObjectContext];
 	
 	[newState setValue:[NSDate date] forKey:@"timeStamp"];
-	[newState setValue:[[[self currentDocument] fileURL] absoluteString] forKey:@"rompath"];
 	[newState setValue:[(GameDocument*)[self currentDocument] emulatorName] forKey:@"emulatorID"];
 	
+	
+	NSString* path = [[[self currentDocument] fileURL] path];
+	AliasHandle handle;
+	Boolean isDirectory;
+	OSErr err = FSNewAliasFromPath( NULL, [path UTF8String], 0, &handle, &isDirectory );
+
+	long aliasSize = GetAliasSize(handle);
+	NSData *aliasData = [NSData dataWithBytes:*handle length:aliasSize];
+	[newState setValue:aliasData forKey:@"pathalias"];
+	
+	DisposeHandle((Handle)handle);
+
 	char format[25] = "/tmp/oesav.XXXXX";
 	const char* tmp = tmpnam(format);
 	@synchronized([(GameDocument*)[self currentDocument] gameCore])

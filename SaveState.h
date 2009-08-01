@@ -15,7 +15,8 @@
 
 @property (nonatomic, retain) NSDate * timeStamp;
 @property (nonatomic, retain) NSString * emulatorID;
-@property (nonatomic, retain) NSString * rompath;
+@property (nonatomic, readonly) NSString * rompath;
+@property (nonatomic, retain) NSData * pathalias;
 @property (nonatomic, retain) NSManagedObject * screenShot;
 @property (nonatomic, retain) NSManagedObject * saveData;
 
