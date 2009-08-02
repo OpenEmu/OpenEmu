@@ -174,8 +174,8 @@ typedef NSInteger OEButton;
 
 #pragma mark Optional
 @interface GameCore (OptionalMethods)
-- (void)saveStateToFileAtPath:(NSString *)fileName;
-- (void)loadStateFromFileAtPath:(NSString *)fileName;
+- (BOOL)saveStateToFileAtPath:(NSString *)fileName;
+- (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
 
 - (IBAction)pauseEmulation:(id)sender;
 
