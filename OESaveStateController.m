@@ -211,7 +211,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 - (NSUInteger) numberOfGroupsInImageBrowser:(IKImageBrowserView *) aBrowser
 {
 	[self updateRomGroups];
-	
+	[outlineView reloadData];
 	return [self.pathArray count];
 }
 
