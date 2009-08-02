@@ -44,12 +44,16 @@
 	AliasHandle handle;
 	
 	//Look mah! IM LEGACY
-	OSErr er = PtrToHand([aliasData bytes], (Handle *)&handle, [aliasData length]);
+	OSErr err = PtrToHand([aliasData bytes], (Handle *)&handle, [aliasData length]);
 	
 	FSRef fileRef;
 	Boolean wasChanged;
-	FSResolveAlias(NULL, handle, &fileRef, &wasChanged);
-	
+	err = FSResolveAlias(NULL, handle, &fileRef, &wasChanged);
+	if( err != noErr )
+	{
+		DisposeHandle((Handle)handle);
+		return @"Unknown";
+	}
 	DisposeHandle((Handle)handle);
 	
 	char path[1024];

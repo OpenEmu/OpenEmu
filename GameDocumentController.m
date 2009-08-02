@@ -740,7 +740,12 @@
 	AliasHandle handle;
 	Boolean isDirectory;
 	OSErr err = FSNewAliasFromPath( NULL, [path UTF8String], 0, &handle, &isDirectory );
-
+	if ( err != noErr )
+	{
+		[self.managedObjectContext undo];
+		return;
+	}
+		
 	long aliasSize = GetAliasSize(handle);
 	NSData *aliasData = [NSData dataWithBytes:*handle length:aliasSize];
 	[newState setValue:aliasData forKey:@"pathalias"];
