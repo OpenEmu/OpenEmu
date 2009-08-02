@@ -72,7 +72,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 	[imageFlow setDataSource:self];
 	[imageFlow setDelegate:self];
 	[imageFlow setAutoresizesSubviews:YES];
-		[imageFlow setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+	[imageFlow setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 	
 	//[imageFlow
 	[imageBrowser bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
@@ -85,6 +85,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 	
 	
 	[imageBrowser setDataSource:self];
+	[imageBrowser setMenu:contextMenu];
 	
 	[holderView addSubview:listView];
 	
@@ -252,6 +253,12 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 		[self.pathRanges addObject:[NSValue valueWithRange:range]];	
 }
 	
+
+- (void) imageBrowser:(IKImageBrowserView *) aBrowser cellWasRightClickedAtIndex:(NSUInteger) index withEvent:(NSEvent *) event
+{
+	[NSMenu popUpContextMenu:contextMenu withEvent:event forView:aBrowser];
+}
+
 - (NSUInteger) numberOfGroupsInImageBrowser:(IKImageBrowserView *) aBrowser
 {
 	[self updateRomGroups];
@@ -311,7 +318,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 { 
 	if( [item class] == [SaveState class] )
 	{
-		return [item imageTitle];
+		return [item imageSubtitle];
 	}
 	return [[item description] lastPathComponent];
 }
@@ -324,6 +331,68 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 	else
 		[savestateController setSelectedObjects: [NSArray arrayWithObject:[outlineView itemAtRow:[outlineView selectedRow]]]];
 }
+
+- (SaveState*) selectedSaveState
+{
+	SaveState* saveState = nil;
+	
+	switch ( [segmentButton selectedSegment] ) {
+		case 0:
+			saveState = [outlineView itemAtRow: [outlineView clickedRow]];
+			break;
+		case 1:
+			saveState = [[savestateController arrangedObjects] objectAtIndex:[[imageBrowser selectionIndexes] firstIndex]];
+			break;
+		case 2:
+			saveState = [[savestateController arrangedObjects] objectAtIndex:[imageFlow selectedIndex]];
+			break;
+		default:
+			break;
+	}
+	
+	if( [saveState class] != [SaveState class] )
+		return nil;
+	
+	return saveState;
+}
+
+- (IBAction) exportSave:(id) sender
+{
+	SaveState* saveState = [self selectedSaveState];
+	
+	NSData* saveData = [[[saveState valueForKey:@"saveData"] valueForKey:@"data"] retain];
+	
+	[[NSSavePanel savePanel] beginSheetForDirectory:nil
+												   file:nil 
+										 modalForWindow:[self window]
+										  modalDelegate:self
+										 didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:)
+											contextInfo:saveData];
+		
+}
+
+- (IBAction) deleteState:(id) sender
+{
+	SaveState* saveState = [self selectedSaveState];
+	[[docController managedObjectContext] save:nil];
+	NSPersistentStore* store = [[saveState objectID] persistentStore];
+	NSURL* storeURL = [store URL];
+	[savestateController removeObject:saveState];
+	[[docController persistentStoreCoordinator] removePersistentStore:store error:nil];
+	
+	[[NSFileManager defaultManager] removeFileAtPath:[storeURL path] handler:nil];
+}
+
+- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
+{
+	NSData* saveData = (NSData*)contextInfo;
+	
+	if(returnCode == NSOKButton) 
+		[saveData writeToFile:[sheet filename] atomically:YES];
+	
+	[saveData release];
+}
+
 
 
 @end

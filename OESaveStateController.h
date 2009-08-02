@@ -50,6 +50,10 @@
 	IBOutlet IKImageBrowserView* imageBrowser;
 	IBOutlet IKImageFlowView* imageFlow;
 	
+	IBOutlet NSMenu* contextMenu;
+	
+	IBOutlet NSSegmentedControl* segmentButton;
+	
 	float browserZoom;
 	
 	NSMutableArray* pathArray;
@@ -68,6 +72,8 @@
 @property(retain)	NSMutableArray	*pathArray;
 @property(retain)	NSMutableArray	*pathRanges;
 
+- (IBAction) exportSave:(id) sender;
 - (IBAction) toggleViewType:(id) sender;
+- (IBAction) deleteState:(id) sender;
 
 @end

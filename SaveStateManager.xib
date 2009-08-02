@@ -8,7 +8,7 @@
 		<string key="IBDocument.HIToolboxVersion">353.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="2"/>
+			<integer value="301"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -46,7 +46,7 @@
 				<string key="NSWindowContentMaxSize">{3.40282e+38, 3.40282e+38}</string>
 				<string key="NSWindowContentMinSize">{636, 490}</string>
 				<object class="NSView" key="NSWindowView" id="1006">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">4352</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -162,7 +162,6 @@
 									</object>
 									<string key="NSFrame">{{1, 1}, {163, 490}}</string>
 									<reference key="NSSuperview" ref="72458948"/>
-									<reference key="NSNextKeyView" ref="223874757"/>
 									<reference key="NSDocView" ref="223874757"/>
 									<reference key="NSBGColor" ref="353572447"/>
 									<int key="NScvFlags">4</int>
@@ -189,7 +188,6 @@
 							</object>
 							<string key="NSFrame">{{-1, -1}, {165, 492}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSNextKeyView" ref="65873888"/>
 							<int key="NSsFlags">562</int>
 							<reference key="NSVScroller" ref="371230010"/>
 							<reference key="NSHScroller" ref="872883481"/>
@@ -332,30 +330,7 @@
 										<object class="NSTextView" id="351213312">
 											<reference key="NSNextResponder" ref="302334626"/>
 											<int key="NSvFlags">2322</int>
-											<object class="NSMutableSet" key="NSDragTypes">
-												<bool key="EncodedWithXMLCoder">YES</bool>
-												<object class="NSMutableArray" key="set.sortedObjects">
-													<bool key="EncodedWithXMLCoder">YES</bool>
-													<string>Apple HTML pasteboard type</string>
-													<string>Apple PDF pasteboard type</string>
-													<string>Apple PICT pasteboard type</string>
-													<string>Apple PNG pasteboard type</string>
-													<string>Apple URL pasteboard type</string>
-													<string>CorePasteboardFlavorType 0x6D6F6F76</string>
-													<string>CorePasteboardFlavorType 0x75726C20</string>
-													<string>NSColor pasteboard type</string>
-													<string>NSFilenamesPboardType</string>
-													<string>NSStringPboardType</string>
-													<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
-													<string>NeXT RTFD pasteboard type</string>
-													<string>NeXT Rich Text Format v1.0 pasteboard type</string>
-													<string>NeXT TIFF v4.0 pasteboard type</string>
-													<string>NeXT font pasteboard type</string>
-													<string>NeXT ruler pasteboard type</string>
-													<string>WebURLsWithTitlesPboardType</string>
-												</object>
-											</object>
-											<string key="NSFrameSize">{442, 34}</string>
+											<string key="NSFrameSize">{442, 14}</string>
 											<reference key="NSSuperview" ref="302334626"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="206500929">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -423,14 +398,13 @@
 												<nil key="NSDefaultParagraphStyle"/>
 											</object>
 											<int key="NSTVFlags">6</int>
-											<string key="NSMaxSize">{463, 1e+07}</string>
-											<string key="NSMinize">{223, 34}</string>
+											<string key="NSMaxSize">{886, 1e+07}</string>
+											<string key="NSMinize">{223, 0}</string>
 											<nil key="NSDelegate"/>
 										</object>
 									</object>
 									<string key="NSFrame">{{1, 1}, {442, 43}}</string>
 									<reference key="NSSuperview" ref="755224116"/>
-									<reference key="NSNextKeyView" ref="351213312"/>
 									<reference key="NSDocView" ref="351213312"/>
 									<reference key="NSBGColor" ref="404946291"/>
 									<object class="NSCursor" key="NSCursor">
@@ -462,7 +436,6 @@
 							</object>
 							<string key="NSFrame">{{172, 20}, {444, 45}}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSNextKeyView" ref="302334626"/>
 							<int key="NSsFlags">530</int>
 							<reference key="NSVScroller" ref="556107951"/>
 							<reference key="NSHScroller" ref="469397267"/>
@@ -491,7 +464,6 @@
 						</object>
 					</object>
 					<string key="NSFrameSize">{636, 490}</string>
-					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMinSize">{636, 512}</string>
@@ -794,6 +766,34 @@
 				<int key="NSvFlags">268</int>
 				<string key="NSFrame">{{41, 154}, {163, 96}}</string>
 				<string key="NSClassName">IKImageFlowView</string>
+			</object>
+			<object class="NSMenu" id="1070803838">
+				<string key="NSTitle"/>
+				<object class="NSMutableArray" key="NSMenuItems">
+					<bool key="EncodedWithXMLCoder">YES</bool>
+					<object class="NSMenuItem" id="611719451">
+						<reference key="NSMenu" ref="1070803838"/>
+						<string key="NSTitle">Export Save</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<object class="NSCustomResource" key="NSOnImage" id="891615639">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">NSMenuCheckmark</string>
+						</object>
+						<object class="NSCustomResource" key="NSMixedImage" id="323522953">
+							<string key="NSClassName">NSImage</string>
+							<string key="NSResourceName">NSMenuMixedState</string>
+						</object>
+					</object>
+					<object class="NSMenuItem" id="461054893">
+						<reference key="NSMenu" ref="1070803838"/>
+						<string key="NSTitle">Delete Save</string>
+						<string key="NSKeyEquiv"/>
+						<int key="NSMnemonicLoc">2147483647</int>
+						<reference key="NSOnImage" ref="891615639"/>
+						<reference key="NSMixedImage" ref="323522953"/>
+					</object>
+				</object>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -1229,6 +1229,62 @@
 					</object>
 					<int key="connectionID">290</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menu</string>
+						<reference key="source" ref="218486051"/>
+						<reference key="destination" ref="1070803838"/>
+					</object>
+					<int key="connectionID">295</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menu</string>
+						<reference key="source" ref="356251636"/>
+						<reference key="destination" ref="1070803838"/>
+					</object>
+					<int key="connectionID">296</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">menu</string>
+						<reference key="source" ref="201385137"/>
+						<reference key="destination" ref="1070803838"/>
+					</object>
+					<int key="connectionID">297</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">exportSave:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="611719451"/>
+					</object>
+					<int key="connectionID">298</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">contextMenu</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="1070803838"/>
+					</object>
+					<int key="connectionID">299</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">segmentButton</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="864411201"/>
+					</object>
+					<int key="connectionID">300</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">deleteState:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="461054893"/>
+					</object>
+					<int key="connectionID">302</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1546,6 +1602,27 @@
 						<reference key="object" ref="201385137"/>
 						<reference key="parent" ref="1002"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">291</int>
+						<reference key="object" ref="1070803838"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="611719451"/>
+							<reference ref="461054893"/>
+						</object>
+						<reference key="parent" ref="1002"/>
+						<string key="objectName">Popup Menu</string>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">292</int>
+						<reference key="object" ref="611719451"/>
+						<reference key="parent" ref="1070803838"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">301</int>
+						<reference key="object" ref="461054893"/>
+						<reference key="parent" ref="1070803838"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1598,6 +1675,10 @@
 					<string>27.IBPluginDependency</string>
 					<string>289.IBPluginDependency</string>
 					<string>29.IBPluginDependency</string>
+					<string>291.IBEditorWindowLastContentRect</string>
+					<string>291.IBPluginDependency</string>
+					<string>292.IBPluginDependency</string>
+					<string>301.IBPluginDependency</string>
 					<string>32.CustomClassName</string>
 					<string>32.IBPluginDependency</string>
 				</object>
@@ -1606,9 +1687,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilderKit</string>
 					<string>com.apple.InterfaceBuilderKit</string>
-					<string>{{65, 266}, {636, 490}}</string>
+					<string>{{520, 107}, {636, 490}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{65, 266}, {636, 490}}</string>
+					<string>{{520, 107}, {636, 490}}</string>
 					<boolean value="NO" id="6"/>
 					<string>{196, 240}</string>
 					<string>{{202, 428}, {480, 270}}</string>
@@ -1649,6 +1730,10 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>{{105, 668}, {135, 43}}</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>PrefsBundleCell</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 				</object>
@@ -1673,11 +1758,19 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">290</int>
+			<int key="maxID">302</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<bool key="EncodedWithXMLCoder">YES</bool>
+				<object class="IBPartialClassDescription">
+					<string key="className">IKImageFlowView</string>
+					<string key="superclassName">NSOpenGLView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">IKImageFlowView.h</string>
+					</object>
+				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSApplication</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="649803394">
@@ -1707,14 +1800,26 @@
 					<string key="className">OESaveStateController</string>
 					<string key="superclassName">NSWindowController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">toggleViewType:</string>
-						<string key="NS.object.0">id</string>
+						<bool key="EncodedWithXMLCoder">YES</bool>
+						<object class="NSMutableArray" key="dict.sortedKeys">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>deleteState:</string>
+							<string>exportSave:</string>
+							<string>toggleViewType:</string>
+						</object>
+						<object class="NSMutableArray" key="dict.values">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
+							<string>id</string>
+						</object>
 					</object>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSMutableArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>collectionView</string>
+							<string>contextMenu</string>
 							<string>holderView</string>
 							<string>imageBrowser</string>
 							<string>imageFlow</string>
@@ -1722,12 +1827,14 @@
 							<string>outlineView</string>
 							<string>pluginController</string>
 							<string>savestateController</string>
+							<string>segmentButton</string>
 							<string>selectedRomPredicate</string>
 							<string>treeController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSView</string>
+							<string>NSMenu</string>
 							<string>NSView</string>
 							<string>IKImageBrowserView</string>
 							<string>IKImageFlowView</string>
@@ -1735,6 +1842,7 @@
 							<string>NSOutlineView</string>
 							<string>NSArrayController</string>
 							<string>NSArrayController</string>
+							<string>NSSegmentedControl</string>
 							<string>NSPredicate</string>
 							<string>NSTreeController</string>
 						</object>
