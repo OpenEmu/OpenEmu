@@ -40,6 +40,7 @@
 	
 	IBOutlet NSArrayController	*savestateController;
     IBOutlet NSArrayController	*pluginController;
+	IBOutlet NSTreeController	*treeController;
 	IBOutlet NSPredicate *selectedRomPredicate;
 	
 	IBOutlet NSView	*listView;

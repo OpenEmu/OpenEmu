@@ -57,16 +57,15 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
 }
 
 static void *ContentChangedContext = @"ContentChangedContext";
-
+static void *SelectionChangedContext = @"SelectionChangedContext";
 - (void)windowDidLoad
 {
 	NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:
 							 [NSNumber numberWithBool:YES],NSRaisesForNotApplicableKeysBindingOption,nil];
 	
-//	NSLog(@"%d",[savestateController automaticallyRearrangesObjects]);
 	//This keeps the outline view up to date
 	[savestateController addObserver:self forKeyPath:@"arrangedObjects" options:0 context:ContentChangedContext];
-
+	[savestateController addObserver:self forKeyPath:@"selection" options:0 context:SelectionChangedContext];
 	[imageBrowser bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
 	[imageBrowser bind:@"selectionIndexes" toObject:savestateController withKeyPath:@"selectionIndexes" options:options];
 	[imageBrowser bind:@"zoomValue" toObject:self withKeyPath:@"browserZoom" options:options];
@@ -74,6 +73,7 @@ static void *ContentChangedContext = @"ContentChangedContext";
 	[imageBrowser setCellsStyleMask:IKCellsStyleTitled];
 	[imageBrowser setCellSize:NSMakeSize(150.0f, 150.0f)];
 	[imageBrowser setAnimates:NO];
+	
 	
 	[imageBrowser setDataSource:self];
 	
@@ -93,6 +93,22 @@ static void *ContentChangedContext = @"ContentChangedContext";
 		[self updateRomGroups];
 		[outlineView reloadData];
 		[imageBrowser reloadData];
+	}
+	else if( context == SelectionChangedContext )
+	{
+		int selectedIndex = [savestateController selectionIndex];
+		//Find which path this is in
+		NSString* selectedPath;
+		for( int i = 0; i < pathRanges.count; i++ )
+		{
+			NSRange range = [[pathRanges objectAtIndex:i] rangeValue];
+			if( selectedIndex - range.location >= 0 && selectedIndex - range.location < range.length )
+				selectedPath = [pathArray objectAtIndex:i];
+		}
+		
+		[outlineView expandItem:selectedPath];
+		NSIndexSet* indexSet = [NSIndexSet indexSetWithIndex:[outlineView rowForItem: [[savestateController selectedObjects] objectAtIndex:0]]];
+		[outlineView selectRowIndexes:indexSet  byExtendingSelection:NO];
 	}
 }
 
@@ -226,6 +242,12 @@ static void *ContentChangedContext = @"ContentChangedContext";
 	return NO;
 }
 
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
+{
+	if( [item class] == [SaveState class] )
+		return YES;
+	return NO;
+}
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
@@ -251,6 +273,13 @@ static void *ContentChangedContext = @"ContentChangedContext";
 }
 
 
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification
+{
+	if( [outlineView selectedRow] == -1 )
+		[savestateController setSelectedObjects: nil];
+	else
+		[savestateController setSelectedObjects: [NSArray arrayWithObject:[outlineView itemAtRow:[outlineView selectedRow]]]];
+}
 
 
 @end

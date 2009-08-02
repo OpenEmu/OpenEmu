@@ -727,13 +727,9 @@
 
 - (IBAction)saveState:(id)sender
 {	
-	
-	
 	NSManagedObject *newState = [NSEntityDescription
 									insertNewObjectForEntityForName:@"SaveState"
 									inManagedObjectContext:self.managedObjectContext];
-
-					   
 
 	
 	[newState setValue:[NSDate date] forKey:@"timeStamp"];
