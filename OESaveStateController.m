@@ -106,6 +106,11 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 	[savestateController setSelectionIndex:index];
 }
 
+- (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
+{
+	[self.docController loadState:[NSArray arrayWithObject:[[savestateController arrangedObjects] objectAtIndex:index]]];	
+}
+
 - (id) imageFlow:(id) aBrowser itemAtIndex:(NSUInteger)index
 {
 	return [[savestateController arrangedObjects] objectAtIndex:index];
@@ -123,6 +128,11 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 	else if( context == SelectionChangedContext )
 	{
 		int selectedIndex = [savestateController selectionIndex];
+		
+		if( selectedIndex < 0 || selectedIndex > [[savestateController arrangedObjects] count])
+		{
+			return;
+		}
 		[imageFlow setSelectedIndex:selectedIndex];
 		//Find which path this is in
 		NSString* selectedPath;
@@ -278,9 +288,9 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-	if( [item class] == [SaveState class] )
+	//if( [item class] == [SaveState class] )
 		return YES;
-	return NO;
+	//return NO;
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
@@ -309,7 +319,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-	if( [outlineView selectedRow] == -1 )
+	if( [outlineView selectedRow] == -1 || [[outlineView itemAtRow:[outlineView selectedRow]] class] != [SaveState class] )
 		[savestateController setSelectedObjects: nil];
 	else
 		[savestateController setSelectedObjects: [NSArray arrayWithObject:[outlineView itemAtRow:[outlineView selectedRow]]]];
