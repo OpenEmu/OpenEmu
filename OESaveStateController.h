@@ -28,7 +28,7 @@
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/QuartzCore.h>
 
-@class IKImageBrowserView;
+@class IKImageBrowserView, IKImageFlowView;
 
 @class OECorePlugin, GameDocumentController;
 @interface OESaveStateController : NSWindowController {
@@ -48,6 +48,7 @@
 	
 	IBOutlet NSOutlineView* outlineView;
 	IBOutlet IKImageBrowserView* imageBrowser;
+	IBOutlet IKImageFlowView* imageFlow;
 	
 	float browserZoom;
 	

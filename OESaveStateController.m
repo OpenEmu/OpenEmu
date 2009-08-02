@@ -27,6 +27,7 @@
 
 #import "OESaveStateController.h"
 #import "GameDocumentController.h"
+#import "IKImageFlowView.h"
 #import "SaveState.h"
 
 @implementation OESaveStateController
@@ -66,11 +67,19 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 	//This keeps the outline view up to date
 	[savestateController addObserver:self forKeyPath:@"arrangedObjects" options:0 context:ContentChangedContext];
 	[savestateController addObserver:self forKeyPath:@"selection" options:0 context:SelectionChangedContext];
+	
+	//[imageFlow bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
+	[imageFlow setDataSource:self];
+	[imageFlow setDelegate:self];
+	[imageFlow setAutoresizesSubviews:YES];
+		[imageFlow setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+	
+	//[imageFlow
 	[imageBrowser bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
 	[imageBrowser bind:@"selectionIndexes" toObject:savestateController withKeyPath:@"selectionIndexes" options:options];
 	[imageBrowser bind:@"zoomValue" toObject:self withKeyPath:@"browserZoom" options:options];
 	
-	[imageBrowser setCellsStyleMask:IKCellsStyleTitled];
+	[imageBrowser setCellsStyleMask:IKCellsStyleSubtitled];
 	[imageBrowser setCellSize:NSMakeSize(150.0f, 150.0f)];
 	[imageBrowser setAnimates:NO];
 	
@@ -86,17 +95,35 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 	listView.frame = holderView.bounds;
 }
 
+#pragma mark Cover Flow Data Source Methods
+- (NSUInteger) numberOfItemsInImageFlow:(id) aBrowser
+{
+	return [[savestateController arrangedObjects] count];
+}
+
+- (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index
+{
+	[savestateController setSelectionIndex:index];
+}
+
+- (id) imageFlow:(id) aBrowser itemAtIndex:(NSUInteger)index
+{
+	return [[savestateController arrangedObjects] objectAtIndex:index];
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
 	if (context == ContentChangedContext)
 	{
 		[self updateRomGroups];
+		[imageFlow reloadData];
 		[outlineView reloadData];
 		[imageBrowser reloadData];
 	}
 	else if( context == SelectionChangedContext )
 	{
 		int selectedIndex = [savestateController selectionIndex];
+		[imageFlow setSelectedIndex:selectedIndex];
 		//Find which path this is in
 		NSString* selectedPath;
 		for( int i = 0; i < pathRanges.count; i++ )
@@ -150,25 +177,32 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
         currentPlugin = nil;
     }
 	[outlineView reloadData];
+	[imageFlow reloadData];
 }
 
 - (IBAction) toggleViewType:(id) sender
 {
 	[outlineView reloadData];
+	[imageFlow reloadData];
 	NSSegmentedControl* segments = (NSSegmentedControl*) sender;
 
+	for( NSView* view in [holderView subviews] )
+		[view removeFromSuperview];
 	switch( [segments selectedSegment] )
 	{
 		case 0:
-			[collectionView removeFromSuperview];
 			[holderView addSubview:listView];
 			listView.frame = holderView.bounds;
 			break;
 		case 1:
-			[listView removeFromSuperview];
 			[holderView addSubview:collectionView];
 			collectionView.frame = holderView.bounds;
 			break;			
+		case 2:
+			[holderView addSubview:imageFlow];
+			[imageFlow setFrame:holderView.bounds];
+			break;
+			
 	}
 }
 

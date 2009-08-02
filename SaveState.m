@@ -79,8 +79,8 @@
 
 - (NSString *) imageTitle
 {
-	return [self.timeStamp descriptionWithCalendarFormat:@"%m/%d/%Y %H:%M:%S" timeZone:nil locale:nil];
-	//return [self.rompath lastPathComponent];
+	//return [self.timeStamp descriptionWithCalendarFormat:@"%m/%d/%Y %H:%M:%S" timeZone:nil locale:nil];
+	return [self.rompath lastPathComponent];
 }
 
 - (NSString *) imageSubtitle
