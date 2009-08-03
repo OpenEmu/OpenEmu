@@ -31,13 +31,15 @@
 #import "GameCore.h"
 #import "OEHIDDeviceHandler.h"
 #import <Sparkle/Sparkle.h>
-#import "ArchiveReader.h"
+//#import "ArchiveReader.h"
+#import <XADMaster/XADArchive.h>
 #import "OEGamePreferenceController.h"
 #import "OESaveStateController.h"
 #import "NSAttributedString+Hyperlink.h"
 #import "OECorePlugin.h"
 #import "OECompositionPlugin.h"
 #import "SaveState.h"
+#import "OECoreDownloader.h"
 
 @interface GameDocumentController ()
 @property(readwrite, retain) NSArray *plugins;
@@ -88,7 +90,8 @@
 
 - (void) applicationDidFinishLaunching:(NSNotification*)aNotification
 {
-
+	OECoreDownloader* downloader = [[OECoreDownloader alloc] init];
+	[downloader showWindow:self];
 }
 
 -(void)updateBundles: (id) sender
@@ -379,64 +382,61 @@
 
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
 {
-    NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
-    
-    ArchiveReader *archive = [[ArchiveReader alloc] initWithPath:[absoluteURL path]];
-    NSLog(@"Opened?");
-    if(archive)
-    {
-        NSString *filePath;
-		
-        NSString *appSupportPath = [self applicationSupportFolder];
-        if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
-            [[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
-        filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
-        
-		if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])
-			[[NSFileManager defaultManager] createDirectoryAtPath:filePath attributes:nil];
-		
-        if([archive numberOfEntries] != 1) //more than one rom in the archive
-        {
-            GamePickerController *c = [[[GamePickerController alloc] init] autorelease];
-            [c setArchive:archive];
-            
-            if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
-            {
-                int idx = [c selectedIndex];
-                NSLog(@"Selected index %d", [c selectedIndex]);
-                
-                if([archive extractEntry:idx to:filePath])
-                {
-                    filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:idx]];
-                    NSLog(@"%@", filePath);
-                    absoluteURL = [NSURL fileURLWithPath:filePath];
-                }
-                else NSLog(@"Failed to extract");
-            }
-            else
-            {
-                if (outError) *outError = [[NSError alloc] initWithDomain:@"User Cancelled" code:0 userInfo:[NSDictionary dictionaryWithObject:@"User cancled" forKey:NSLocalizedDescriptionKey]];
-				[archive release];
-                return nil;
-            }
-        }
-        else //only one rom in the archive
-        {
-            if([archive extractEntry:0 to:filePath])
-            {
-                filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:0]];
-                NSLog(@"%@", filePath);
-                absoluteURL = [NSURL fileURLWithPath:filePath];
-            }
-            else NSLog(@"Failed to extract");
-        }
-    }
-	[archive release];
-    NSLog(@"Final path: %@", absoluteURL);
-    //[self closeWindow: self];
-    return [super openDocumentWithContentsOfURL:absoluteURL display:displayDocument error:outError];
-}
 
+	NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
+	
+	XADArchive *archive = [XADArchive archiveForFile:[absoluteURL path]];
+	NSLog(@"Opened?");
+	if(archive != nil)
+	{
+		NSString *filePath;
+		NSString *appSupportPath = [self applicationSupportFolder];
+		if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
+			[[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
+		filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
+		
+		if([archive numberOfEntries] != 1) //more than one rom in the archive
+		{
+			GamePickerController *c = [[GamePickerController alloc] init];
+			[c setArchive:archive];
+			
+			if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
+			{
+				int idx = [c selectedIndex];
+				NSLog(@"Selected index %d", [c selectedIndex]);
+				
+				if([archive extractEntry:idx to:filePath])
+				{
+					filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:idx]];
+					NSLog(@"%@", filePath);
+					absoluteURL = [NSURL fileURLWithPath:filePath];
+				}
+				else NSLog(@"Failed to extract");
+			}
+			else
+			{
+				if (outError) *outError = [[NSError alloc] initWithDomain:@"User Cancelled" code:0 userInfo:[NSDictionary dictionaryWithObject:@"User cancled" forKey:NSLocalizedDescriptionKey]];
+				[c release];
+				return nil;
+			}
+		}
+		else //only one rom in the archive
+		{
+			if([archive extractEntry:0 to:filePath])
+			{
+				filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:0]];
+				NSLog(@"%@", filePath);
+				absoluteURL = [NSURL fileURLWithPath:filePath];
+			}
+			else NSLog(@"Failed to extract");
+		}
+	}
+	
+	NSLog(@"Final path: %@", absoluteURL);
+	//[self closeWindow: self];
+	return [super openDocumentWithContentsOfURL:absoluteURL display:displayDocument error:outError];
+}
+	
 - (NSString *)typeForExtension:(NSString *)anExtension
 {
     OECorePlugin *plugin = [self pluginForType:anExtension];
@@ -778,7 +778,7 @@
 	
 	
 	NSString *saveFileName = [NSString stringWithFormat:@"%@-%@", [[[[[self currentDocument] fileURL] path] lastPathComponent] stringByDeletingPathExtension],
-							  [[newState valueForKey:@"timeStamp"] descriptionWithCalendarFormat:@"%H-%M-%S-%F" timeZone:nil locale:nil]];
+							  [[newState valueForKey:@"timeStamp"] descriptionWithCalendarFormat:@"%m-%d-%Y_%H-%M-%S-%F" timeZone:nil locale:nil]];
 	
 	NSURL * url = [NSURL fileURLWithPath: [[[[self applicationSupportFolder] stringByAppendingPathComponent: @"Save States"] 
 										   stringByAppendingPathComponent:saveFileName] stringByAppendingPathExtension:@"oesavestate"]];

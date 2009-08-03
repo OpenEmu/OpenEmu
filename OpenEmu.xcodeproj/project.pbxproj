@@ -158,6 +158,13 @@
 		82CAFBBE0FEDAA4200CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFBB70FEDAA3D00CCDC7E /* config.yaml */; };
 		82D9114010200C8D00E370FC /* SaveState.xcdatamodel in Resources */ = {isa = PBXBuildFile; fileRef = 82F7F7A2101FEC1700533B55 /* SaveState.xcdatamodel */; };
 		82D9122310200F7000E370FC /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82D9122210200F7000E370FC /* CoreData.framework */; };
+		82DE498B10263A1A007184EB /* OECoreDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DE498A10263A1A007184EB /* OECoreDownloader.m */; };
+		82DE49F010263FF3007184EB /* CoreDownloader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82DE49EF10263FF3007184EB /* CoreDownloader.xib */; };
+		82DE49F4102641CD007184EB /* OEDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 82DE49F3102641CD007184EB /* OEDownload.m */; };
+		82DE4B62102655D5007184EB /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
+		82DE4B63102655DA007184EB /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEE1026533E007184EB /* UniversalDetector.framework */; };
+		82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
+		82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEE1026533E007184EB /* UniversalDetector.framework */; };
 		82E7418A0E7209C400AE60C4 /* GameDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E741880E7209C400AE60C4 /* GameDocument.xib */; };
 		82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
 		82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */; };
@@ -318,6 +325,8 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */,
+				82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */,
 				82AC8388102233F4000BCF41 /* Archive.framework in Copy Frameworks to App Frameworks */,
 				1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */,
 				1B224082100BD76D00F42067 /* Sparkle.framework in Copy Frameworks to App Frameworks */,
@@ -452,6 +461,13 @@
 		82CAFBB70FEDAA3D00CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		82D9122210200F7000E370FC /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		82DE446510252F2F007184EB /* IKImageFlowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKImageFlowView.h; sourceTree = "<group>"; };
+		82DE498910263A1A007184EB /* OECoreDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreDownloader.h; sourceTree = "<group>"; };
+		82DE498A10263A1A007184EB /* OECoreDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreDownloader.m; sourceTree = "<group>"; };
+		82DE49EF10263FF3007184EB /* CoreDownloader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoreDownloader.xib; sourceTree = "<group>"; };
+		82DE49F2102641CD007184EB /* OEDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDownload.h; sourceTree = "<group>"; };
+		82DE49F3102641CD007184EB /* OEDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDownload.m; sourceTree = "<group>"; };
+		82DE4AEE1026533E007184EB /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = "<group>"; };
+		82DE4AEF1026533E007184EB /* XADMaster.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XADMaster.framework; sourceTree = "<group>"; };
 		82E741890E7209C400AE60C4 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameDocument.xib; sourceTree = "<group>"; };
 		82F7F7A2101FEC1700533B55 /* SaveState.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = SaveState.xcdatamodel; sourceTree = "<group>"; };
 		82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveStateManager.xib; sourceTree = "<group>"; };
@@ -542,6 +558,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				82DE4B63102655DA007184EB /* UniversalDetector.framework in Frameworks */,
+				82DE4B62102655D5007184EB /* XADMaster.framework in Frameworks */,
 				C63AF5A60FE41E90009856D4 /* OpenEmuBase.framework in Frameworks */,
 				82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */,
 				1B88931B0FF9267C00F86F00 /* Quartz.framework in Frameworks */,
@@ -563,6 +581,8 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				82DE4AEE1026533E007184EB /* UniversalDetector.framework */,
+				82DE4AEF1026533E007184EB /* XADMaster.framework */,
 				82902A130F48ACEE00BB7AB7 /* QuickTime.framework */,
 				829022B00F47FAC100BB7AB7 /* QTKit.framework */,
 				820376250F3974FD00EC2F97 /* AudioUnit.framework */,
@@ -730,6 +750,7 @@
 				C6BFB29E0F7CC8E700040FFA /* Localizable.strings */,
 				82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */,
 				82F7F7A2101FEC1700533B55 /* SaveState.xcdatamodel */,
+				82DE49EF10263FF3007184EB /* CoreDownloader.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -777,6 +798,7 @@
 		828E64D00E84656900B1860B /* OpenEmuCore */ = {
 			isa = PBXGroup;
 			children = (
+				82DE498810263A09007184EB /* Downloader */,
 				82F7F7C5101FEEBC00533B55 /* State Manager */,
 				C6C98CB10F55F4E800116EA2 /* Preferences */,
 				C62F546E0FE6AD6700DF15BA /* Plugins */,
@@ -839,6 +861,17 @@
 				82AC835E1022331A000BCF41 /* Archive.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		82DE498810263A09007184EB /* Downloader */ = {
+			isa = PBXGroup;
+			children = (
+				82DE498910263A1A007184EB /* OECoreDownloader.h */,
+				82DE498A10263A1A007184EB /* OECoreDownloader.m */,
+				82DE49F2102641CD007184EB /* OEDownload.h */,
+				82DE49F3102641CD007184EB /* OEDownload.m */,
+			);
+			name = Downloader;
 			sourceTree = "<group>";
 		};
 		82F7F7C5101FEEBC00533B55 /* State Manager */ = {
@@ -1151,6 +1184,7 @@
 				82F7F7AA101FECFE00533B55 /* SaveStateManager.xib in Resources */,
 				826844C51022A0630019C7B0 /* smaller.tif in Resources */,
 				826844C61022A0630019C7B0 /* larger.tif in Resources */,
+				82DE49F010263FF3007184EB /* CoreDownloader.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1306,6 +1340,8 @@
 				82FC495D102123D100408B4F /* OEFrameEncodeOperation.m in Sources */,
 				8268432A1022606B0019C7B0 /* SaveState.m in Sources */,
 				82955D071024C577000BE8DF /* OESaveStateDocument.m in Sources */,
+				82DE498B10263A1A007184EB /* OECoreDownloader.m in Sources */,
+				82DE49F4102641CD007184EB /* OEDownload.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

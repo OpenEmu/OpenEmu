@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
+	<key>OECoreListURL</key>
+	<string>http://openemu.sourceforge.net/oecoreappcasts.txt</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
