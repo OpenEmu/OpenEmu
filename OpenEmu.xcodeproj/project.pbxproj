@@ -108,7 +108,6 @@
 		1BA788FF0FF9C95A007CE5DB /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		1E9F7349103755900072EED6 /* OEROMFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F7348103755900072EED6 /* OEROMFile.m */; };
-		1E9F73BD103766590072EED6 /* OEROMFileSystemTypeTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F73BC103766590072EED6 /* OEROMFileSystemTypeTransformer.m */; };
 		1E9F73F110376A2E0072EED6 /* OEROMOrganizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F73F010376A2E0072EED6 /* OEROMOrganizer.m */; };
 		1E9F73FB10376BE40072EED6 /* OEROMOrganizer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E9F73FA10376BE40072EED6 /* OEROMOrganizer.xib */; };
 		3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */; };
@@ -401,8 +400,6 @@
 		1DDD582B0DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1E9F7347103755900072EED6 /* OEROMFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEROMFile.h; sourceTree = "<group>"; };
 		1E9F7348103755900072EED6 /* OEROMFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMFile.m; sourceTree = "<group>"; };
-		1E9F73BB103766590072EED6 /* OEROMFileSystemTypeTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEROMFileSystemTypeTransformer.h; sourceTree = "<group>"; };
-		1E9F73BC103766590072EED6 /* OEROMFileSystemTypeTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMFileSystemTypeTransformer.m; sourceTree = "<group>"; };
 		1E9F73EF10376A2E0072EED6 /* OEROMOrganizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEROMOrganizer.h; sourceTree = "<group>"; };
 		1E9F73F010376A2E0072EED6 /* OEROMOrganizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMOrganizer.m; sourceTree = "<group>"; };
 		1E9F73FA10376BE40072EED6 /* OEROMOrganizer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEROMOrganizer.xib; sourceTree = "<group>"; };
@@ -699,8 +696,6 @@
 			children = (
 				1E9F7347103755900072EED6 /* OEROMFile.h */,
 				1E9F7348103755900072EED6 /* OEROMFile.m */,
-				1E9F73BB103766590072EED6 /* OEROMFileSystemTypeTransformer.h */,
-				1E9F73BC103766590072EED6 /* OEROMFileSystemTypeTransformer.m */,
 			);
 			name = "ROM Files";
 			sourceTree = "<group>";
@@ -1380,7 +1375,6 @@
 				82DE49F4102641CD007184EB /* OEDownload.m in Sources */,
 				8288A0F61027E16600671FE1 /* OEDownloadCell.m in Sources */,
 				1E9F7349103755900072EED6 /* OEROMFile.m in Sources */,
-				1E9F73BD103766590072EED6 /* OEROMFileSystemTypeTransformer.m in Sources */,
 				1E9F73F110376A2E0072EED6 /* OEROMOrganizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
