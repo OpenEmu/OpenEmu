@@ -39,6 +39,7 @@ insertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 +(NSString *)nameForPath:(NSString *)path;
 +(OEROMFileSystemType)systemTypeForFileAtPath:(NSString *)path;
 
--(void)setPath:(NSString *)path;
+@property (nonatomic, copy) NSString *path;
+@property (nonatomic, copy) NSDate *lastPlayedDate;
 -(NSURL *)pathURL;
 @end

@@ -78,6 +78,8 @@
 - (NSManagedObjectModel *)managedObjectModel;
 - (NSManagedObjectContext *)managedObjectContext;
 
+- (NSString *)applicationSupportFolder;
+
 - (GameDocument *)currentDocument;
 
 - (OECorePlugin *)pluginForType:(NSString *)type;

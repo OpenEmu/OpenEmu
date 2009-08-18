@@ -21,4 +21,6 @@
 -(IBAction)removeROM:sender;
 -(IBAction)playROMs:sender;
 
+-(void)save;
+
 @end

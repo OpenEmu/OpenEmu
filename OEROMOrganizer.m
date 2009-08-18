@@ -44,11 +44,10 @@
 	
     NSFileManager *fileManager;
     NSString *applicationSupportFolder = nil;
-    NSURL *url;
     NSError *error;
     
     fileManager = [NSFileManager defaultManager];
-    applicationSupportFolder = [[NSApp delegate] applicationSupportFolder];
+    applicationSupportFolder = [(GameDocumentController *)[NSApp delegate] applicationSupportFolder];
     if ( ![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL] ) {
         [fileManager createDirectoryAtPath:applicationSupportFolder attributes:nil];
     }
@@ -96,6 +95,10 @@
 					  contextInfo:self];
 }
 
+-(IBAction)removeROM:sender{
+	[allROMSController remove:sender];
+}
+
 -(IBAction)playROMs:sender{
 	GameDocumentController *controller = (GameDocumentController *)[NSApp delegate];
 	NSError *error = nil;
@@ -127,7 +130,7 @@
 		for(NSString *file in filenames){
 			NSString *path = [basePath stringByAppendingPathComponent:file];
 
-			OEROMFile *romFile = [OEROMFile fileWithPath:path createIfNecessary:YES inManagedObjectContext:[self managedObjectContext]];
+			[OEROMFile fileWithPath:path createIfNecessary:YES inManagedObjectContext:[self managedObjectContext]];
 		}
 
 		[self save];

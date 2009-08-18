@@ -388,7 +388,8 @@
 
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
 {
-	OEROMFile *romFile = [OEROMFile fileWithPath:[absoluteURL path] createIfNecessary:YES inManagedObjectContext:self.managedObjectContext];
+	//add the file to the ROM database
+	[OEROMFile fileWithPath:[absoluteURL path] createIfNecessary:YES inManagedObjectContext:self.managedObjectContext];
 
 	NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
 	

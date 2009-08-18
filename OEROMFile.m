@@ -13,6 +13,9 @@
 
 @implementation OEROMFile
 
+@dynamic path;
+@dynamic lastPlayedDate;
+
 +(void)initialize{
 	if(self == [OEROMFile class]){
 		OEROMFileSystemTypeTransformer *transformer = [OEROMFileSystemTypeTransformer transformer];
@@ -95,7 +98,7 @@
 }
 
 -(void)setPath:(NSString *)path{
-	[self setPrimitiveValue:path forKey:@"path"];
+	[self setPrimitiveValue:[[path copy] autorelease] forKey:@"path"];
 	
 	AliasHandle handle;
 	Boolean isDirectory;
