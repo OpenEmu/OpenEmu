@@ -91,12 +91,13 @@
     
 }
 
+#warning YES IM A LEAK, BUT IM A TEST
 - (void) applicationDidFinishLaunching:(NSNotification*)aNotification
 {
-    OECoreDownloader* downloader = [[[OECoreDownloader alloc] init] autorelease];
-    [downloader showWindow:self];
+	OECoreDownloader* downloader = [[OECoreDownloader alloc] init];
+	[downloader showWindow:self];
     
-    OEROMOrganizer *organizer = [[[OEROMOrganizer alloc] init] autorelease];
+    OEROMOrganizer *organizer = [[OEROMOrganizer alloc] init];
     [organizer showWindow:self];
 }
 
