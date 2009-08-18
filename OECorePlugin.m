@@ -74,11 +74,11 @@
 
 - (void)dealloc
 {
-	[icon release];
+    [icon release];
     [controller release];
     [supportedTypes release];
     [supportedTypeExtensions release];
-	[super dealloc];
+    [super dealloc];
 }
 
 - (id)newGameCoreWithDocument:(id)aDocument
@@ -141,7 +141,7 @@
 
 - (NSString *)details
 {
-	return [NSString stringWithFormat: @"Version %@", [self version]];
+    return [NSString stringWithFormat: @"Version %@", [self version]];
 }
 
 - (NSArray *)typesPropertyList

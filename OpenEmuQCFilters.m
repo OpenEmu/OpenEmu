@@ -219,8 +219,8 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 }
 
 - (NSUInteger) inputScaler
-{		
-	return 1;
+{        
+    return 1;
 }
 
 - (void) finalize

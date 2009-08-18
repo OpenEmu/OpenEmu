@@ -43,169 +43,169 @@ static NSTimeInterval currentTime()
 
 - (id) initWithGameCore: (GameCore*) core
 {
-	self = [super init];
-	if(self)
-	{
-		recording = NO;
-		gameCore = core;
-	}
-	return self;
+    self = [super init];
+    if(self)
+    {
+        recording = NO;
+        gameCore = core;
+    }
+    return self;
 }
 
 - (void) startRecording
 {
-	
-	recording = YES;
-	// generate a name for our movie file
-	NSString *tempName = [NSString stringWithCString:tmpnam(nil) 
-											encoding:[NSString defaultCStringEncoding]];
+    
+    recording = YES;
+    // generate a name for our movie file
+    NSString *tempName = [NSString stringWithCString:tmpnam(nil) 
+                                            encoding:[NSString defaultCStringEncoding]];
 
-	
-	// Create a QTMovie with a writable data reference
-	movie = [[QTMovie alloc] initToWritableFile:tempName error:NULL];
-	
-	
-	[movie setAttribute:[NSNumber numberWithBool:YES] 
-				 forKey:QTMovieEditableAttribute];
-	
-	timer = [[NSTimer timerWithTimeInterval:1.0/30.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true] retain];
-	[[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];	 	
+    
+    // Create a QTMovie with a writable data reference
+    movie = [[QTMovie alloc] initToWritableFile:tempName error:NULL];
+    
+    
+    [movie setAttribute:[NSNumber numberWithBool:YES] 
+                 forKey:QTMovieEditableAttribute];
+    
+    timer = [[NSTimer timerWithTimeInterval:1.0/30.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true] retain];
+    [[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];         
 
-	lastTime = currentTime();
-	encodingQueue = [[NSOperationQueue alloc] init];
-	[encodingQueue setMaxConcurrentOperationCount:1];
-	//[[[NSThread alloc] initWithTarget: self selector: @selector(timerCallInstallLoop) object: nil] start];
+    lastTime = currentTime();
+    encodingQueue = [[NSOperationQueue alloc] init];
+    [encodingQueue setMaxConcurrentOperationCount:1];
+    //[[[NSThread alloc] initWithTarget: self selector: @selector(timerCallInstallLoop) object: nil] start];
 }
 
 -(void) timerCallInstallLoop
 {
-		NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-		//[NSThread setThreadPriority:1.0];
-		//add NTSC/PAL timer
-		
-		timer = [[NSTimer timerWithTimeInterval:1.0f/10.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true] retain];
-		[[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];	 	
-		
-		[[NSRunLoop currentRunLoop] run];
-		[pool release];
+        NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+        //[NSThread setThreadPriority:1.0];
+        //add NTSC/PAL timer
+        
+        timer = [[NSTimer timerWithTimeInterval:1.0f/10.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true] retain];
+        [[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];         
+        
+        [[NSRunLoop currentRunLoop] run];
+        [pool release];
 }
 
 - (void) addFrame
-{	
-	
-	NSTimeInterval time = currentTime();
+{    
+    
+    NSTimeInterval time = currentTime();
 
-	OEFrameEncodeOperation* op = [[OEFrameEncodeOperation alloc] initWithImage:[(GameDocument*)[gameCore document] screenShot] forMovie:movie withDuration:time-lastTime ];
-	[encodingQueue addOperation:op];
-	[op release];
-	lastTime = time;
-	/*NSDictionary *myDict = nil;
-	myDict = [NSDictionary dictionaryWithObjectsAndKeys:@"SVQ3",
-			  QTAddImageCodecType,
-			  [NSNumber numberWithLong:codecMinQuality],
-			  QTAddImageCodecQuality,
-			  nil];
-	
-	[movie addImage:[(GameDocument*)[gameCore document] screenShot] forDuration:QTMakeTime(24,  600) withAttributes:myDict];*/
+    OEFrameEncodeOperation* op = [[OEFrameEncodeOperation alloc] initWithImage:[(GameDocument*)[gameCore document] screenShot] forMovie:movie withDuration:time-lastTime ];
+    [encodingQueue addOperation:op];
+    [op release];
+    lastTime = time;
+    /*NSDictionary *myDict = nil;
+    myDict = [NSDictionary dictionaryWithObjectsAndKeys:@"SVQ3",
+              QTAddImageCodecType,
+              [NSNumber numberWithLong:codecMinQuality],
+              QTAddImageCodecQuality,
+              nil];
+    
+    [movie addImage:[(GameDocument*)[gameCore document] screenShot] forDuration:QTMakeTime(24,  600) withAttributes:myDict];*/
 }
 
 
 -(void) finishRecording
 {
-	[timer invalidate];
-	
-	[encodingQueue waitUntilAllOperationsAreFinished];
-	
-	QTMovie* audioTrackMovie = [QTMovie movieWithFile:@"/Users/jweinberg/temp.caf" error:nil];
-	[audioTrackMovie setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
-	NSArray *videoTracks = [movie tracks];//:QTMediaTypeVideo];
-	QTTrack *videoTrack = nil;
-	if( [videoTracks count] > 0 )
-	{
-		videoTrack = [videoTracks objectAtIndex:0];
-	}
-	
-	if( videoTrack )
-	{
-		QTTimeRange videoRange;
-		videoRange.time = QTZeroTime;
-		videoRange.duration = [[movie attributeForKey:QTMovieDurationAttribute] QTTimeValue];
-		
-		QTTimeRange audioRange;
-		audioRange.time = QTZeroTime;
-		audioRange.duration = [[audioTrackMovie attributeForKey:QTMovieDurationAttribute] QTTimeValue];
-		
-		[audioTrackMovie insertSegmentOfTrack: videoTrack fromRange: videoRange scaledToRange: audioRange ];
-	}
-	
+    [timer invalidate];
+    
+    [encodingQueue waitUntilAllOperationsAreFinished];
+    
+    QTMovie* audioTrackMovie = [QTMovie movieWithFile:@"/Users/jweinberg/temp.caf" error:nil];
+    [audioTrackMovie setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
+    NSArray *videoTracks = [movie tracks];//:QTMediaTypeVideo];
+    QTTrack *videoTrack = nil;
+    if( [videoTracks count] > 0 )
+    {
+        videoTrack = [videoTracks objectAtIndex:0];
+    }
+    
+    if( videoTrack )
+    {
+        QTTimeRange videoRange;
+        videoRange.time = QTZeroTime;
+        videoRange.duration = [[movie attributeForKey:QTMovieDurationAttribute] QTTimeValue];
+        
+        QTTimeRange audioRange;
+        audioRange.time = QTZeroTime;
+        audioRange.duration = [[audioTrackMovie attributeForKey:QTMovieDurationAttribute] QTTimeValue];
+        
+        [audioTrackMovie insertSegmentOfTrack: videoTrack fromRange: videoRange scaledToRange: audioRange ];
+    }
+    
 
-	
-	BOOL result = [audioTrackMovie writeToFile:@"/Users/jweinberg/test.mov" withAttributes:    [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
-																												 forKey:QTMovieFlatten]];
-	if(!result)
-	{
-		NSLog(@"Couldn't write movie to file");
-	}
-	
-	//[self writeMovieToFile:@"/Users/jweinberg/test.mov" withComponent:[[self availableComponents] objectAtIndex:9] withExportSettings:[self getExportSettings]];
-	[movie release];
+    
+    BOOL result = [audioTrackMovie writeToFile:@"/Users/jweinberg/test.mov" withAttributes:    [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
+                                                                                                                 forKey:QTMovieFlatten]];
+    if(!result)
+    {
+        NSLog(@"Couldn't write movie to file");
+    }
+    
+    //[self writeMovieToFile:@"/Users/jweinberg/test.mov" withComponent:[[self availableComponents] objectAtIndex:9] withExportSettings:[self getExportSettings]];
+    [movie release];
 }
 /*
 - (NSArray *)availableComponents
 {
-	NSMutableArray *array = [NSMutableArray array];
-	
-	ComponentDescription cd;
-	Component c = NULL;
-	
-	cd.componentType = MovieExportType;
-	cd.componentSubType = 0;
-	cd.componentManufacturer = 0;
-	cd.componentFlags = canMovieExportFiles;
-	cd.componentFlagsMask = canMovieExportFiles;
-	
-	while((c = FindNextComponent(c, &cd)))
-	{
-		Handle name = NewHandle(4);
-		ComponentDescription exportCD;
-		
-		if (GetComponentInfo(c, &exportCD, name, nil, nil) == noErr)
-		{
-			char *namePStr = *name;
-			NSString *nameStr = [[NSString alloc] initWithBytes:&namePStr[1] length:namePStr[0] encoding:NSUTF8StringEncoding];
-			
-			NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-										nameStr, @"name",
-										[NSData dataWithBytes:&c length:sizeof(c)], @"component",
-										[NSNumber numberWithLong:exportCD.componentType], @"type",
-										[NSNumber numberWithLong:exportCD.componentSubType], @"subtype",
-										[NSNumber numberWithLong:exportCD.componentManufacturer], @"manufacturer",
-										nil];
-			[array addObject:dictionary];
-			[nameStr release];
-		}
-		
-		DisposeHandle(name);
-	}
-	return array;
+    NSMutableArray *array = [NSMutableArray array];
+    
+    ComponentDescription cd;
+    Component c = NULL;
+    
+    cd.componentType = MovieExportType;
+    cd.componentSubType = 0;
+    cd.componentManufacturer = 0;
+    cd.componentFlags = canMovieExportFiles;
+    cd.componentFlagsMask = canMovieExportFiles;
+    
+    while((c = FindNextComponent(c, &cd)))
+    {
+        Handle name = NewHandle(4);
+        ComponentDescription exportCD;
+        
+        if (GetComponentInfo(c, &exportCD, name, nil, nil) == noErr)
+        {
+            char *namePStr = *name;
+            NSString *nameStr = [[NSString alloc] initWithBytes:&namePStr[1] length:namePStr[0] encoding:NSUTF8StringEncoding];
+            
+            NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                                        nameStr, @"name",
+                                        [NSData dataWithBytes:&c length:sizeof(c)], @"component",
+                                        [NSNumber numberWithLong:exportCD.componentType], @"type",
+                                        [NSNumber numberWithLong:exportCD.componentSubType], @"subtype",
+                                        [NSNumber numberWithLong:exportCD.componentManufacturer], @"manufacturer",
+                                        nil];
+            [array addObject:dictionary];
+            [nameStr release];
+        }
+        
+        DisposeHandle(name);
+    }
+    return array;
 }
 
 - (NSData *)getExportSettings
 {
-	Component c;
-	memcpy(&c, [[[[self availableComponents] objectAtIndex:9] objectForKey:@"component"] bytes], sizeof(c));
-	
-	Movie theMovie = [movie quickTimeMovie] ;
-	TimeValue duration = GetMovieDuration(theMovie) ;
-	
-	Boolean canceled;
-	MovieExportComponent exporter; 
-	OSErr err = noErr;
-	
-	err = OpenAComponent(c, &exporter);
-	if (err != noErr) {
+    Component c;
+    memcpy(&c, [[[[self availableComponents] objectAtIndex:9] objectForKey:@"component"] bytes], sizeof(c));
+    
+    Movie theMovie = [movie quickTimeMovie] ;
+    TimeValue duration = GetMovieDuration(theMovie) ;
+    
+    Boolean canceled;
+    MovieExportComponent exporter; 
+    OSErr err = noErr;
+    
+    err = OpenAComponent(c, &exporter);
+    if (err != noErr) {
         NSLog(@"error in OpenADefaultComponent");
-		//  goto bail;
+        //  goto bail;
     }
     
     err = MovieExportDoUserDialog(exporter, theMovie, NULL, 0, duration, &canceled);
@@ -213,58 +213,58 @@ static NSTimeInterval currentTime()
         NSLog(@"error or cancel in MovieExportDoUserDialog");
     }
 
-	if(err)
-	{
-		NSLog(@"Got error %d when calling MovieExportDoUserDialog",err);
-		CloseComponent(exporter);
-		return nil;
-	}
-	
-	if(canceled)
-	{
-		CloseComponent(exporter);
-		return nil;
-	}
-	
-	QTAtomContainer settings;
-	err = MovieExportGetSettingsAsAtomContainer(exporter, &settings);
-	
-	if(err)
-	{
-		NSLog(@"Got error %d when calling MovieExportGetSettingsAsAtomContainer",err);
-		CloseComponent(exporter);
-		return nil;
-	}
-	
-	NSData *data = [NSData dataWithBytes:*settings length:GetHandleSize(settings)];
+    if(err)
+    {
+        NSLog(@"Got error %d when calling MovieExportDoUserDialog",err);
+        CloseComponent(exporter);
+        return nil;
+    }
+    
+    if(canceled)
+    {
+        CloseComponent(exporter);
+        return nil;
+    }
+    
+    QTAtomContainer settings;
+    err = MovieExportGetSettingsAsAtomContainer(exporter, &settings);
+    
+    if(err)
+    {
+        NSLog(@"Got error %d when calling MovieExportGetSettingsAsAtomContainer",err);
+        CloseComponent(exporter);
+        return nil;
+    }
+    
+    NSData *data = [NSData dataWithBytes:*settings length:GetHandleSize(settings)];
 
-	DisposeHandle(settings);
-	CloseComponent(exporter);
-	
-	return data;
+    DisposeHandle(settings);
+    CloseComponent(exporter);
+    
+    return data;
 }
 */
 
 - (BOOL)writeMovieToFile:(NSString *)file withComponent:(NSDictionary *)component withExportSettings:(NSData *)exportSettings
 {
 /*NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
-								[NSNumber numberWithBool:YES], QTMovieExport,
-								[component objectForKey:@"subtype"], QTMovieExportType,
-								[component objectForKey:@"manufacturer"], QTMovieExportManufacturer,
-								exportSettings, QTMovieExportSettings,
-								nil];*/
+                                [NSNumber numberWithBool:YES], QTMovieExport,
+                                [component objectForKey:@"subtype"], QTMovieExportType,
+                                [component objectForKey:@"manufacturer"], QTMovieExportManufacturer,
+                                exportSettings, QTMovieExportSettings,
+                                nil];*/
 
-		
-	BOOL result = [movie writeToFile:file withAttributes:[NSDictionary 
-														  dictionaryWithObject: [NSNumber numberWithBool: YES] forKey: QTMovieFlatten]];
+        
+    BOOL result = [movie writeToFile:file withAttributes:[NSDictionary 
+                                                          dictionaryWithObject: [NSNumber numberWithBool: YES] forKey: QTMovieFlatten]];
 
-	if(!result)
-	{
-		NSLog(@"Couldn't write movie to file");
-		return NO;
-	}
-	
-	return YES;
+    if(!result)
+    {
+        NSLog(@"Couldn't write movie to file");
+        return NO;
+    }
+    
+    return YES;
 }
 //#endif
 @end

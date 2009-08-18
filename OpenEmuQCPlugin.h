@@ -33,17 +33,17 @@
 
 @interface OpenEmuQC : QCPlugIn
 {
-	// init stuff
+    // init stuff
     NSArray              *plugins;
-	NSArray              *validExtensions;
-	OEGameCoreController *gameCoreController;
-	GameCore             *gameCore;
-	GameAudio            *gameAudio;
+    NSArray              *validExtensions;
+    OEGameCoreController *gameCoreController;
+    GameCore             *gameCore;
+    GameAudio            *gameAudio;
     GLuint               gameTexture;
 
-	BOOL loadedRom, userPaused;
-	NSMutableArray       *persistantControllerData;
-	NSRecursiveLock      *gameLock;
+    BOOL loadedRom, userPaused;
+    NSMutableArray       *persistantControllerData;
+    NSRecursiveLock      *gameLock;
 }
 
 /*
@@ -58,7 +58,7 @@ You can access their values in the appropriate plug-in methods using self.inputF
 @property(assign) NSString *inputSaveStatePath;
 @property(assign) NSString *inputLoadStatePath;
 @property(assign) id <QCPlugInOutputImageProvider> outputImage;
-@property(readwrite) BOOL	loadedRom, userPaused;
+@property(readwrite) BOOL    loadedRom, userPaused;
 @end
 
 @interface OpenEmuQC (Execution)

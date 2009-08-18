@@ -43,11 +43,11 @@
     CGLContextObj         sharedLayerContext;
     
     GLuint                gameTexture;
-	GLuint				  correctionFBO;
-	GLuint				  correctionTexture;
-	// core animation uses FBOs internally, so we need to cache the previously bound fbo state
-	GLint				  previousFBO;
-	
+    GLuint                correctionFBO;
+    GLuint                correctionTexture;
+    // core animation uses FBOs internally, so we need to cache the previously bound fbo state
+    GLint                 previousFBO;
+    
     BOOL                  usesShader;
     BOOL                  vSyncEnabled;
     
@@ -57,11 +57,11 @@
     // for QCRenderer
     NSTimeInterval        startTime; // time for rendering, input to time based effects, sources, 
     NSTimeInterval        time;
-	
-	BOOL				  filterHasOutputMousePositionKeys;
-	
-	CIImage *gameCIImage;
-	CGSize cachedTextureSize;
+    
+    BOOL                  filterHasOutputMousePositionKeys;
+    
+    CIImage *gameCIImage;
+    CGSize cachedTextureSize;
 }
 
 @property         BOOL          vSyncEnabled;
@@ -69,7 +69,7 @@
 @property(retain) NSString     *filterName;
 @property(retain) GameCore     *gameCore;
 @property(readwrite, retain) NSDocumentController *docController;
-@property(retain) CIImage	   *gameCIImage;
+@property(retain) CIImage       *gameCIImage;
 
 - (void)createTexture;
 - (void)createCorrectionFBO;

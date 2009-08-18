@@ -52,50 +52,50 @@ static void _BufferReleaseCallback(const void* address, void* info)
 
 static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat, NSUInteger pixelsWide, NSUInteger pixelsHigh, GLenum pixelFormat, GLenum pixelType, const void *pixelBuffer)
 {
-	GLenum status;
-	GLuint gameTexture;
-	
-	CGLContextObj cgl_ctx = context;
-	CGLLockContext(cgl_ctx);
+    GLenum status;
+    GLuint gameTexture;
+    
+    CGLContextObj cgl_ctx = context;
+    CGLLockContext(cgl_ctx);
 
-	glEnable(GL_TEXTURE_RECTANGLE_EXT);	
-	// create our texture 
-	glGenTextures(1, &gameTexture);
-	glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-	
-	status = glGetError();
-	if(status)
-	{
-		NSLog(@"createNewTexture, after bindTex: OpenGL error %04X", status);
-	}
-	
-	// with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?) 
-	glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  pixelsWide * pixelsHigh * (32 >> 3), pixelBuffer); 
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
-	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-		
-	// proper tex params.
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-	
-	glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, internalPixelFormat, pixelsWide, pixelsHigh, 0, pixelFormat, pixelType, pixelBuffer);
-	
-	status = glGetError();
-	if(status)
-	{
-		NSLog(@"createNewTexture, after creating tex: OpenGL error %04X", status);
-		glDeleteTextures(1, &gameTexture);
-		gameTexture = 0;
-	}
-	
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
-	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
-	
-	CGLUnlockContext(cgl_ctx);
-	return gameTexture;
+    glEnable(GL_TEXTURE_RECTANGLE_EXT);    
+    // create our texture 
+    glGenTextures(1, &gameTexture);
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+    
+    status = glGetError();
+    if(status)
+    {
+        NSLog(@"createNewTexture, after bindTex: OpenGL error %04X", status);
+    }
+    
+    // with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?) 
+    glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  pixelsWide * pixelsHigh * (32 >> 3), pixelBuffer); 
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
+    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+        
+    // proper tex params.
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    
+    glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, internalPixelFormat, pixelsWide, pixelsHigh, 0, pixelFormat, pixelType, pixelBuffer);
+    
+    status = glGetError();
+    if(status)
+    {
+        NSLog(@"createNewTexture, after creating tex: OpenGL error %04X", status);
+        glDeleteTextures(1, &gameTexture);
+        gameTexture = 0;
+    }
+    
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
+    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+    
+    CGLUnlockContext(cgl_ctx);
+    return gameTexture;
 }
 
 
@@ -205,8 +205,8 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
         
         plugins = [[OECorePlugin allPlugins] retain];
         validExtensions = [[OECorePlugin supportedTypeExtensions] retain];
-		
-		self.userPaused = NO; self.loadedRom = NO;
+        
+        self.userPaused = NO; self.loadedRom = NO;
     }
     
     return self;
@@ -261,54 +261,54 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 
 - (BOOL)startExecution:(id<QCPlugInContext>)context
 {   
-	CGLContextObj cgl_ctx = [context CGLContextObj];
-	CGLLockContext(cgl_ctx);
+    CGLContextObj cgl_ctx = [context CGLContextObj];
+    CGLLockContext(cgl_ctx);
 
     DLog(@"called startExecution");
     if(self.loadedRom && ([gameCore screenWidth] > 10) )
     {
-		if(gameTexture == 0)
-			gameTexture = createNewTexture(cgl_ctx, 
-										   [gameCore internalPixelFormat], 
-										   [gameCore bufferWidth], 
-										   [gameCore bufferHeight], 
-										   [gameCore pixelFormat], 
-										   [gameCore pixelType],
-										   [gameCore videoBuffer]);
-		
-		if(!self.userPaused)
-		{
-			[gameCore setPauseEmulation:NO];
-			[gameAudio startAudio];
-		}
+        if(gameTexture == 0)
+            gameTexture = createNewTexture(cgl_ctx, 
+                                           [gameCore internalPixelFormat], 
+                                           [gameCore bufferWidth], 
+                                           [gameCore bufferHeight], 
+                                           [gameCore pixelFormat], 
+                                           [gameCore pixelType],
+                                           [gameCore videoBuffer]);
+        
+        if(!self.userPaused)
+        {
+            [gameCore setPauseEmulation:NO];
+            [gameAudio startAudio];
+        }
     }
     
-	CGLUnlockContext(cgl_ctx);
+    CGLUnlockContext(cgl_ctx);
     return YES;
 }
 
 - (void)enableExecution:(id<QCPlugInContext>)context
 {
-	CGLContextObj cgl_ctx = [context CGLContextObj];
-	CGLLockContext(cgl_ctx);
+    CGLContextObj cgl_ctx = [context CGLContextObj];
+    CGLLockContext(cgl_ctx);
     /*
      Called by Quartz Composer when the plug-in instance starts being used by Quartz Composer.
      */
     DLog(@"called enableExecution");
     // if we have a ROM loaded and the patch's image output is reconnected
     if(self.loadedRom)
-    {		
-		if(gameTexture == 0)
-			gameTexture = createNewTexture(cgl_ctx, 
-										   [gameCore internalPixelFormat], 
-										   [gameCore bufferWidth], 
-										   [gameCore bufferHeight], 
-										   [gameCore pixelFormat], 
-										   [gameCore pixelType],
-										   [gameCore videoBuffer]);
+    {        
+        if(gameTexture == 0)
+            gameTexture = createNewTexture(cgl_ctx, 
+                                           [gameCore internalPixelFormat], 
+                                           [gameCore bufferWidth], 
+                                           [gameCore bufferHeight], 
+                                           [gameCore pixelFormat], 
+                                           [gameCore pixelType],
+                                           [gameCore videoBuffer]);
 
-		// if emulation hasn't been paused by the user, restart it
-		if(!self.userPaused) 
+        // if emulation hasn't been paused by the user, restart it
+        if(!self.userPaused) 
         {
             @try
             {
@@ -320,22 +320,22 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
             }
         }
     }
-	CGLUnlockContext(cgl_ctx);
+    CGLUnlockContext(cgl_ctx);
 }
 
 - (BOOL)execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary *)arguments
 {   
-	/*
-	 Called by Quartz Composer whenever the plug-in instance needs to execute.
-	 Only read from the plug-in inputs and produce a result (by writing to the plug-in outputs or rendering to the destination OpenGL context) within that method and nowhere else.
-	 Return NO in case of failure during the execution (this will prevent rendering of the current frame to complete).
-	 
-	 The OpenGL context for rendering can be accessed and defined for CGL macros using:
-	 CGLContextObj cgl_ctx = [context CGLContextObj];
-	 */
-	
-	CGLContextObj cgl_ctx = [context CGLContextObj];
-	CGLLockContext(cgl_ctx);
+    /*
+     Called by Quartz Composer whenever the plug-in instance needs to execute.
+     Only read from the plug-in inputs and produce a result (by writing to the plug-in outputs or rendering to the destination OpenGL context) within that method and nowhere else.
+     Return NO in case of failure during the execution (this will prevent rendering of the current frame to complete).
+     
+     The OpenGL context for rendering can be accessed and defined for CGL macros using:
+     CGLContextObj cgl_ctx = [context CGLContextObj];
+     */
+    
+    CGLContextObj cgl_ctx = [context CGLContextObj];
+    CGLLockContext(cgl_ctx);
 
     // our output image via convenience methods
     id    provider = nil;
@@ -344,15 +344,15 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     if([self didValueForInputKeyChange:@"inputRom"] &&
        ([self valueForInputKey:@"inputRom"] != [[OpenEmuQC attributesForPropertyPortWithKey:@"inputRom"]
                                                 valueForKey:QCPortAttributeDefaultValueKey])
-		&& (![[self valueForInputKey:@"inputRom"] isEqualToString:@""] ))
+        && (![[self valueForInputKey:@"inputRom"] isEqualToString:@""] ))
     {
         [self loadRom:[self valueForInputKey:@"inputRom"]];
-		
-		if(self.loadedRom) {
-		[gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
-		glDeleteTextures(1, &gameTexture);
-		gameTexture = createNewTexture(cgl_ctx, [gameCore internalPixelFormat], [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
-		}
+        
+        if(self.loadedRom) {
+        [gameAudio setVolume:[[self valueForInputKey:@"inputVolume"] floatValue]];
+        glDeleteTextures(1, &gameTexture);
+        gameTexture = createNewTexture(cgl_ctx, [gameCore internalPixelFormat], [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+        }
     }
     
     if(self.loadedRom)
@@ -379,17 +379,17 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
         // Process emulation pausing FTW
         if([self didValueForInputKeyChange: @"inputPauseEmulation"])    
         {
-			if(self.inputPauseEmulation)
+            if(self.inputPauseEmulation)
             {
                 [gameAudio pauseAudio];
                 [gameCore setPauseEmulation:YES]; 
-				self.userPaused = YES;
+                self.userPaused = YES;
             }
             else 
             {
                 [gameAudio startAudio];
                 [gameCore setPauseEmulation:NO];
-				self.userPaused = NO;
+                self.userPaused = NO;
             }
         }
         
@@ -415,22 +415,22 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     }
 
 #pragma mark provide an image 
-	
+    
     // handle our image output. (sanity checking)
     if(self.loadedRom && ([gameCore bufferWidth] > 10) && [gameCore frameFinished])
     {        
-		GLenum status;
+        GLenum status;
 
         glEnable( GL_TEXTURE_RECTANGLE_EXT );
         glBindTexture( GL_TEXTURE_RECTANGLE_EXT, gameTexture);
         
-		status = glGetError();
-		if(status)
-		{
-			NSLog(@"after bindTexture in execute: OpenGL error %04X", status);
-		}
-		//new texture upload method
-		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
+        status = glGetError();
+        if(status)
+        {
+            NSLog(@"after bindTexture in execute: OpenGL error %04X", status);
+        }
+        //new texture upload method
+        glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
 
         // Check for OpenGL errors 
         status = glGetError();
@@ -463,8 +463,8 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     // output OpenEmu Texture - note we CAN output a nil image.
     self.outputImage = provider;
     
-	CGLUnlockContext(cgl_ctx);
-	
+    CGLUnlockContext(cgl_ctx);
+    
     return YES;
 }
 
@@ -487,7 +487,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
             }
             @catch (NSException * e) {
                 NSLog(@"Failed to pause");
-				self.userPaused = NO;
+                self.userPaused = NO;
             }
         }  
         //    sleep(0.5); // race condition workaround. 
@@ -503,15 +503,15 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
         [gameAudio stopAudio];
         [gameCore release];
         [gameAudio release];
-		self.loadedRom = NO;
-				
-		CGLContextObj cgl_ctx = [context CGLContextObj];
-		CGLLockContext(cgl_ctx);
-		glDeleteTextures(1, &gameTexture);
-		gameTexture = 0;
-		CGLUnlockContext(cgl_ctx);
-		
-	}
+        self.loadedRom = NO;
+                
+        CGLContextObj cgl_ctx = [context CGLContextObj];
+        CGLLockContext(cgl_ctx);
+        glDeleteTextures(1, &gameTexture);
+        gameTexture = 0;
+        CGLUnlockContext(cgl_ctx);
+        
+    }
 }
 
 # pragma mark -
@@ -564,7 +564,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
             NSLog(@"Loaded new Rom: %@", theRomPath);
             [gameCore setupEmulation];
             
-			// audio!
+            // audio!
             gameAudio = [[GameAudio alloc] initWithCore:gameCore];
             NSLog(@"initialized audio");
             
@@ -589,29 +589,29 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     // iterate through our NSArray of controller data. We know the player, we know the structure.
     // pull it out, and hand it off to our gameCore
     
-	// player number 
-	NSNumber *playerNumber = [persistantControllerData objectAtIndex:0];
-	NSArray  *controllerArray = [persistantControllerData objectAtIndex:1];
-	
-	//NSLog(@"Player Number: %u", [playerNumber intValue]);
-	
-	NSUInteger i;
-	for(i = 0; i < [controllerArray count]; i++)
-	{
-		if(i > 5 && i < 10)
-			continue;
-		//NSLog(@"index is %u", i);
-		if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
-		{
-			//NSLog(@"button %u is down", i);
-			[gameCore player:[playerNumber intValue] didPressButton:(i + 1)];
-		}        
-		else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
-		{
-			//NSLog(@"button %u is up", i);
-			[gameCore player:[playerNumber intValue] didReleaseButton:(i + 1)];
-		}
-	} 
+    // player number 
+    NSNumber *playerNumber = [persistantControllerData objectAtIndex:0];
+    NSArray  *controllerArray = [persistantControllerData objectAtIndex:1];
+    
+    //NSLog(@"Player Number: %u", [playerNumber intValue]);
+    
+    NSUInteger i;
+    for(i = 0; i < [controllerArray count]; i++)
+    {
+        if(i > 5 && i < 10)
+            continue;
+        //NSLog(@"index is %u", i);
+        if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
+        {
+            //NSLog(@"button %u is down", i);
+            [gameCore player:[playerNumber intValue] didPressButton:(i + 1)];
+        }        
+        else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
+        {
+            //NSLog(@"button %u is up", i);
+            [gameCore player:[playerNumber intValue] didReleaseButton:(i + 1)];
+        }
+    } 
 }
 
 // callback for audio from plugin

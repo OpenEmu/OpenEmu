@@ -32,11 +32,11 @@
 @class GameCore;
 
 @interface GameAudio : NSObject {
-	GameCore   *gameCore;
-	AUGraph     mGraph;
-	AUNode      mConverterNode, mMixerNode, mOutputNode;
-	AudioUnit   mConverterUnit, mMixerUnit, mOutputUnit;
-	
+    GameCore   *gameCore;
+    AUGraph     mGraph;
+    AUNode      mConverterNode, mMixerNode, mOutputNode;
+    AudioUnit   mConverterUnit, mMixerUnit, mOutputUnit;
+    
     float       volume;
 }
 

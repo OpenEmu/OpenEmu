@@ -58,10 +58,10 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameCore setupEmulation];
     
     [gameWindow makeFirstResponder:view];
-	[gameWindow setAcceptsMouseMovedEvents:YES];
+    [gameWindow setAcceptsMouseMovedEvents:YES];
     [view setNextResponder:gameCore];
     
-	//recorder = [[GameQTRecorder alloc] initWithGameCore:gameCore];
+    //recorder = [[GameQTRecorder alloc] initWithGameCore:gameCore];
     //Setup Layer hierarchy
     rootLayer = [CALayer layer];
         
@@ -85,8 +85,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidX relativeTo:@"superlayer" attribute:kCAConstraintMidX]];
     [gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
     
-	rootLayer.bounds = CGRectMake(0, 0, [gameCore screenWidth],  [gameCore screenHeight]);
-	gameLayer.bounds = CGRectMake(0, 0, [gameCore screenWidth],  [gameCore screenHeight]);
+    rootLayer.bounds = CGRectMake(0, 0, [gameCore screenWidth],  [gameCore screenHeight]);
+    gameLayer.bounds = CGRectMake(0, 0, [gameCore screenWidth],  [gameCore screenHeight]);
     //Add the NESLayer to the hierarchy
     [rootLayer addSublayer:gameLayer];
     
@@ -109,14 +109,14 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 //    if([gameCore respondsToSelector:@selector(outputSize)])
   //     aspect = [gameCore outputSize];
     //else
-	//CGSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
+    //CGSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
     [gameWindow setContentSize:NSMakeSize([gameCore screenWidth], [gameCore screenHeight])];
     //[gameWindow setContentResizeIncrements:aspect];
-	[rootLayer setNeedsLayout];
-	
+    [rootLayer setNeedsLayout];
+    
     [gameCore startEmulation];    
 
-	//[recorder startRecording];
+    //[recorder startRecording];
     [gameWindow makeKeyAndOrderFront:self];
     
     if([self defaultsToFullScreenMode])
@@ -137,11 +137,11 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     
     GameDocumentController *docControl = [GameDocumentController sharedDocumentController];
     OECorePlugin *plugin = [docControl pluginForType:typeName];
-	emulatorName = [[plugin displayName] retain];
+    emulatorName = [[plugin displayName] retain];
     gameCore = [[plugin controller] newGameCoreWithDocument:self];
     NSLog(@"gameCore class: %@", [gameCore class]);
     [gameWindow makeFirstResponder:gameCore];
- 	
+     
     if ([gameCore loadFileAtPath:[absoluteURL path]]) return YES;
     NSLog(@"Incorrect file");
     if (outError) *outError = [[NSError alloc] initWithDomain:@"Bad file" code:0 userInfo:nil];
@@ -200,17 +200,17 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)proposedFrameSize
 {
-	
-	//we want to force aspect ratio with resize increments
-	int scale;
-	if( proposedFrameSize.width < proposedFrameSize.height )
-		scale = proposedFrameSize.width /[gameCore screenWidth];
-	else
-		scale = proposedFrameSize.height /[gameCore screenHeight];
-	scale = MAX(scale, 1);
-	
-	NSRect newContentRect = NSMakeRect(0,0, [gameCore screenWidth] * scale, [gameCore screenHeight] * scale);
-	return [sender frameRectForContentRect:newContentRect].size;
+    
+    //we want to force aspect ratio with resize increments
+    int scale;
+    if( proposedFrameSize.width < proposedFrameSize.height )
+        scale = proposedFrameSize.width /[gameCore screenWidth];
+    else
+        scale = proposedFrameSize.height /[gameCore screenHeight];
+    scale = MAX(scale, 1);
+    
+    NSRect newContentRect = NSMakeRect(0,0, [gameCore screenWidth] * scale, [gameCore screenHeight] * scale);
+    return [sender frameRectForContentRect:newContentRect].size;
 }
 
 - (void)windowDidResize:(NSNotification *)notification
@@ -218,8 +218,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     //adjust the window to zoom from the center
     if ([gameWindow isZoomed])
         [gameWindow center];
-	
-	[gameLayer setNeedsDisplay];
+    
+    [gameLayer setNeedsDisplay];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
@@ -231,7 +231,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameCore release];
     gameCore = nil;
     
-	//[recorder finishRecording];
+    //[recorder finishRecording];
     [gameLayer setDocController:nil];
     GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
     [docControl setGameLoaded:NO];
@@ -341,9 +341,9 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     }
 }
 
-- (NSImage*) screenShot
+- (NSImage*)screenShot
 {
-	return [gameLayer imageForCurrentFrame];
+    return [gameLayer imageForCurrentFrame];
 }
 
 @end

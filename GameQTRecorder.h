@@ -30,21 +30,21 @@
 #import "GameCore.h"
 
 @interface GameQTRecorder : NSObject {
-	QTMovie * movie;
-	NSOperationQueue* encodingQueue;
-	GameCore* gameCore;
-	bool recording;
-	NSTimer* timer;
-	NSTimeInterval lastTime;
+    QTMovie          *movie;
+    NSOperationQueue *encodingQueue;
+    GameCore         *gameCore;
+    bool              recording;
+    NSTimer          *timer;
+    NSTimeInterval    lastTime;
 }
 
 @property(readonly) bool recording;
 
-- (id) initWithGameCore: (GameCore*) core;
-- (void) startRecording;
-- (void) timerCallInstallLoop;
-- (void) addFrame;
-- (void) finishRecording;
+- (id)initWithGameCore:(GameCore *)core;
+- (void)startRecording;
+- (void)timerCallInstallLoop;
+- (void)addFrame;
+- (void)finishRecording;
 - (NSArray *)availableComponents;
 - (NSData *)getExportSettings;
 - (BOOL)writeMovieToFile:(NSString *)file withComponent:(NSDictionary *)component withExportSettings:(NSData *)exportSettings;

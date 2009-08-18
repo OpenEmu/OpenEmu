@@ -102,7 +102,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 
 - (NSArray *)toolbarSelectableItemIdentifiers:(NSToolbar *)aToolbar
 {
-    return [self toolbarAllowedItemIdentifiers:aToolbar];	
+    return [self toolbarAllowedItemIdentifiers:aToolbar];    
 }
 
 - (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)aToolbar
@@ -115,7 +115,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     // Required delegate method:  Given an item identifier, this method returns an item 
     // The toolbar will use this method to obtain toolbar items that can be displayed in the customization sheet, or in the toolbar itself 
     NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdentifier] autorelease];
-	
+    
     NSDictionary *desc = [preferencePanels objectForKey:itemIdentifier];
     if(desc != nil)
     {
@@ -160,34 +160,20 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 - (void)switchView:(id)sender
 {
     // Figure out the new view, the old view, and the new size of the window
-	NSViewController *previousController = currentViewController;
+    NSViewController *previousController = currentViewController;
     if(sender != nil) currentViewIdentifier = [sender itemIdentifier];
     [toolbar setSelectedItemIdentifier:currentViewIdentifier];
     
     currentViewController = [self newViewControllerForIdentifier:currentViewIdentifier];
-	
+    
     NSView *view = [currentViewController view];
     
-	NSRect newFrame = [self frameForNewContentViewFrame:[[currentViewController view] frame]];
+    NSRect newFrame = [self frameForNewContentViewFrame:[[currentViewController view] frame]];
     
-	/*
-	// Using an animation grouping because we may be changing the duration
-	[NSAnimationContext beginGrouping];
-	
-	// With the shift key down, do slow-mo animation
-	if ([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)
-	    [[NSAnimationContext currentContext] setDuration:5.0];
-	    
-	// Call the animator instead of the view / window directly
-	if(previousController) [[[[self window] animator] contentView] replaceSubview:[previousController view] with:view];
-	else                   [[[[self window] animator] contentView] addSubview:view];
-	
-	[NSAnimationContext endGrouping];
-    */
-	if(previousController) [[[self window] contentView] replaceSubview:[previousController view] with:view];
-	else                   [[[self window] contentView] addSubview:view];
+    if(previousController) [[[self window] contentView] replaceSubview:[previousController view] with:view];
+    else                   [[[self window] contentView] addSubview:view];
     
-   	[[self window] setFrame:newFrame display:YES animate:YES];
+       [[self window] setFrame:newFrame display:YES animate:YES];
     
     [previousController release];
 }

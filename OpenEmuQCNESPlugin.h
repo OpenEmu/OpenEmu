@@ -39,9 +39,9 @@
     OEGameCoreController *gameCoreController;
     GameCore             *gameCore;
     GameAudio            *gameAudio;
-	GLuint				 gameTexture;
+    GLuint                 gameTexture;
     NSMutableArray       *persistantControllerData;
-	NSMutableArray		 *persistantNameTableData;
+    NSMutableArray       *persistantNameTableData;
     NSRecursiveLock      *gameLock;
     BOOL loadedRom, romFinishedLoading, userPaused, hasNmtRam, hasChrRom, executedFrame;
 }
@@ -68,8 +68,8 @@ You can access their values in the appropriate plug-in methods using self.inputF
 @property(assign) double     inputNmtRamOffset;
 @property(assign) double     inputNmtRamValue;
 
-@property(assign) BOOL		 inputCorruptNameTable;
-@property(assign) NSArray	*inputNameTableData;
+@property(assign) BOOL       inputCorruptNameTable;
+@property(assign) NSArray    *inputNameTableData;
 
 @property(assign) BOOL       inputChrRamCorrupt;
 @property(assign) double     inputChrRamOffset;

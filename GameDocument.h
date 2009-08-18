@@ -36,23 +36,23 @@
 
 @interface GameDocument : NSDocument
 {
-	NSTimer           *frameTimer;
-	CALayer           *rootLayer;
-	OEGameLayer       *gameLayer;
-	GameQTRecorder    *recorder;
-	BOOL               keyedOnce;
-	GameCore          *gameCore;
-	GameAudio         *audio;
-	NSString		  *emulatorName;
-	IBOutlet NSWindow *gameWindow;
-	IBOutlet NSView   *view;
+    NSTimer           *frameTimer;
+    CALayer           *rootLayer;
+    OEGameLayer       *gameLayer;
+    GameQTRecorder    *recorder;
+    BOOL               keyedOnce;
+    GameCore          *gameCore;
+    GameAudio         *audio;
+    NSString          *emulatorName;
+    IBOutlet NSWindow *gameWindow;
+    IBOutlet NSView   *view;
 }
 
 @property(readonly) GameCore *gameCore;
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
 @property(readonly) BOOL isFullScreen;
 @property(readonly) NSString *emulatorName;
-@property (readonly) IBOutlet NSWindow* gameWindow;
+@property(readonly) IBOutlet NSWindow* gameWindow;
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes;
 - (void)refresh;
@@ -72,6 +72,6 @@
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
-- (NSImage*) screenShot;
+- (NSImage *)screenShot;
 
 @end

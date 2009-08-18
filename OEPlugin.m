@@ -110,7 +110,7 @@ static NSMutableDictionary *needsReload = nil;
 // No need to make an actual copy, we can consider each OECorePlugin instances like a singleton for their bundle
 - (id)copyWithZone:(NSZone *)zone
 {
-	return [self retain];
+    return [self retain];
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle
