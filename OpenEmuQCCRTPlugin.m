@@ -1161,6 +1161,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
 #endif
         // output our final image as a QCPluginOutputImageProvider using the QCPluginContext convinience method. No need to go through the trouble of making our own conforming object.    
         id provider = nil; // we are allowed to output nil.
+        CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
         provider = [context outputImageProviderFromTextureWithPixelFormat:OEPlugInPixelFormat
                                                                pixelsWide:bounds.size.width
                                                                pixelsHigh:bounds.size.height
@@ -1168,9 +1169,9 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
                                                                   flipped:[image textureFlipped]
                                                           releaseCallback:_TextureReleaseCallback
                                                            releaseContext:nil
-                                                               colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)// our FBOs output generic RGB // [image imageColorSpace]
+                                                               colorSpace:space// our FBOs output generic RGB // [image imageColorSpace]
                                                          shouldColorMatch:YES];
-        
+        CGColorSpaceRelease(space);
         self.outputImage = provider;
         
         [image unbindTextureRepresentationFromCGLContext:cgl_ctx textureUnit:GL_TEXTURE0];
@@ -1247,10 +1248,10 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     }
     
     // CRTTexture loading.
-    NSImage* CRTImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:textureName ofType:@"tiff"]];
+    NSImage* CRTImage = [[[NSImage alloc] initWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:textureName ofType:@"tiff"]] autorelease];
     NSBitmapImageRep* crtImageRep;
     if(CRTImage != nil)
-    crtImageRep = [[NSBitmapImageRep alloc] initWithData:[CRTImage TIFFRepresentation]]; 
+        crtImageRep = [[[NSBitmapImageRep alloc] initWithData:[CRTImage TIFFRepresentation]] autorelease]; 
     else
     {
         NSLog(@"ok could not even find the CRTImage..");
@@ -1272,8 +1273,6 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
             NSLog(@"OpenGL error %04X", status);
             NSLog(@"Could not make CRT image texture");
             glDeleteTextures(1, &CRTPixelTexture);
-            [CRTImage release];
-            [crtImageRep release];
             return NO;
         }
     }
@@ -1281,7 +1280,6 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     {
         NSLog(@"No BitmapRep bailing..");
         glDeleteTextures(1, &CRTPixelTexture);
-        [CRTImage release];
         return NO;
     }
     

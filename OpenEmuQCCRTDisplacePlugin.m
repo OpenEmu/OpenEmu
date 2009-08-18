@@ -391,6 +391,7 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
 #endif
         // output our final image as a QCPluginOutputImageProvider using the QCPluginContext convinience method. No need to go through the trouble of making our own conforming object.    
         id provider = nil; // we are allowed to output nil.
+        CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
         provider = [context outputImageProviderFromTextureWithPixelFormat:OEPlugInPixelFormat
                                                                pixelsWide:bounds.size.width
                                                                pixelsHigh:bounds.size.height
@@ -398,9 +399,9 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
                                                                   flipped:[image textureFlipped]
                                                           releaseCallback:_TextureReleaseCallback
                                                            releaseContext:nil
-                                                               colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)// our FBOs output generic RGB//[image imageColorSpace]
+                                                               colorSpace:space// our FBOs output generic RGB//[image imageColorSpace]
                                                          shouldColorMatch:YES];
-        
+        CGColorSpaceRelease(space);
         self.outputImage = provider;
         
         [image unbindTextureRepresentationFromCGLContext:cgl_ctx textureUnit:GL_TEXTURE0];

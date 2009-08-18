@@ -74,8 +74,8 @@
 
 - (void) startDownload
 {
-	NSURLRequest *request = [NSURLRequest requestWithURL: [appcastItem fileURL]];
-	NSURLDownload *fileDownload = [[NSURLDownload alloc] initWithRequest:request delegate:self];
+	NSURLRequest *request = [NSURLRequest requestWithURL:[appcastItem fileURL]];
+	NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:self] autorelease];
 	
 	if( !fileDownload )
 		NSLog(@"Couldn't download!??");
