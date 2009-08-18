@@ -31,12 +31,12 @@
 @interface OERingBuffer : NSObject
 {
 @private
-	NSLock     *_bufferLock;
-	void       *_buffer;
-	NSUInteger  _bufferSize;
-	NSUInteger  _writePosition;
-	NSUInteger  _readPosition;
-	NSUInteger  _bufferUsed;
+    NSLock     *_bufferLock;
+    void       *_buffer;
+    NSUInteger  _bufferSize;
+    NSUInteger  _writePosition;
+    NSUInteger  _readPosition;
+    NSUInteger  _bufferUsed;
 }
 
 - (id)initWithLength:(NSUInteger)length;

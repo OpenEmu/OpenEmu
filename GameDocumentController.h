@@ -74,6 +74,8 @@
 @property(readwrite, retain) NSMutableDictionary* filterDictionary;
 
 
+- (NSString *)applicationSupportFolder;
+
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator;
 - (NSManagedObjectModel *)managedObjectModel;
 - (NSManagedObjectContext *)managedObjectContext;

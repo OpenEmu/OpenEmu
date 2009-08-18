@@ -10,15 +10,15 @@
 #import <CoreData/CoreData.h>
 
 typedef enum {
-	OEROMFileSystemTypeNES,
-	OEROMFileSystemTypeSNES,
-	OEROMFileSystemTypeGenesis,
-	OEROMFileSystemTypeGameBoy,
-	OEROMFileSystemTypeGameBoyAdvance,
-	OEROMFileSystemTypeTurboGrafx16,
-	OEROMFileSystemTypeAtariLynx,
-	OEROMFileSystemTypeNeoGeo,
-	OEROMFileSystemTypeUnknown
+    OEROMFileSystemTypeNES,
+    OEROMFileSystemTypeSNES,
+    OEROMFileSystemTypeGenesis,
+    OEROMFileSystemTypeGameBoy,
+    OEROMFileSystemTypeGameBoyAdvance,
+    OEROMFileSystemTypeTurboGrafx16,
+    OEROMFileSystemTypeAtariLynx,
+    OEROMFileSystemTypeNeoGeo,
+    OEROMFileSystemTypeUnknown
 } OEROMFileSystemType;
 
 @interface OEROMFile : NSManagedObject {
@@ -30,8 +30,8 @@ typedef enum {
 +(NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
 +(OEROMFile *)fileWithPath:(NSString *)path
-		 createIfNecessary:(BOOL)create
-	inManagedObjectContext:(NSManagedObjectContext *)context;
+         createIfNecessary:(BOOL)create
+    inManagedObjectContext:(NSManagedObjectContext *)context;
 +(OEROMFile *)createFileWithPath:(NSString *)path 
 insertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 

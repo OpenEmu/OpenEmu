@@ -141,7 +141,7 @@ static void OE_linkProgram(GLhandleARB programObject,
                                                              ofType:theExtension];    
     GLcharARB *shaderSource = NULL;
     
-    shaderTempSource = [NSString stringWithContentsOfFile:shaderTempSource];
+    shaderTempSource = [NSString stringWithContentsOfFile:shaderTempSource encoding:NSASCIIStringEncoding error:NULL];
     
     shaderSource = (GLcharARB *)[shaderTempSource cStringUsingEncoding:NSASCIIStringEncoding];
     

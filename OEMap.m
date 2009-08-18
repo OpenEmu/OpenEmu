@@ -32,19 +32,19 @@
 #endif
 
 typedef struct {
-	OEMapKey    key;
-	OEMapValue  value;
-	BOOL        allocated;
+    OEMapKey    key;
+    OEMapValue  value;
+    BOOL        allocated;
 } OEMapEntry;
 
 typedef BOOL (*_OECompare)(OEMapValue, OEMapValue);
 
 typedef struct __OEMap {
     size_t      capacity;
-	size_t      count;
-	OEMapEntry *entries;
+    size_t      count;
+    OEMapEntry *entries;
     NSLock     *lock;
-	_OECompare  valueIsEqual;
+    _OECompare  valueIsEqual;
 } OEMap;
 
 BOOL defaultIsEqual(OEMapValue v1, OEMapValue v2)
@@ -81,26 +81,26 @@ static void _OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
         for(size_t i = 0, max = map->count; i < max; i++)
         {
             OEMapEntry *entry = &map->entries[i];
-			if(entry->key == key)
-			{
+            if(entry->key == key)
+            {
                 entry->value = value;
                 entry->allocated = YES;
-				return;
-			}
+                return;
+            }
         }
         
         //find the next unallocated spot
-		for (int i = 0; i < map->count; i++)
-		{
+        for (int i = 0; i < map->count; i++)
+        {
             OEMapEntry *entry = &map->entries[i];
-			if(!entry->allocated)
-			{
+            if(!entry->allocated)
+            {
                 entry->key = key;
                 entry->value = value;
                 entry->allocated = YES;
-				return;
-			}
-		}
+                return;
+            }
+        }
     }
     
     if(map->count + 1 > map->capacity)

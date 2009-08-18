@@ -60,7 +60,7 @@
 	
 	FSRefMakePath(&fileRef, (UInt8 *)path, 1024);
 	
-	NSString *nsPath = [NSString stringWithCString:path length:strlen(path)];
+	NSString *nsPath = [NSString stringWithCString:path encoding:NSUTF8StringEncoding];
 	nsPath = [nsPath stringByStandardizingPath];
 	return nsPath;
 }

@@ -140,6 +140,7 @@ static NSTimeInterval currentTime()
     NSUInteger time = currentTime() * 1000;
     NSUInteger diff = time - autoFrameSkipLastTime;
     int speed = 100;
+    // FIXME: WTF ?! Since when dividing by zero is relevant ?!
     if(diff == 0)
     {
         speed = (1000 / rate) / diff;
@@ -191,9 +192,9 @@ static NSTimeInterval currentTime()
          */  
         willSkipFrame = (frameCounter != frameSkip);
         @synchronized(self)
-		{
-			[self executeFrameSkippingFrame:willSkipFrame];
-		}
+        {
+            [self executeFrameSkippingFrame:willSkipFrame];
+        }
         
         if(!willSkipFrame)
             [self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
@@ -280,17 +281,17 @@ static NSTimeInterval currentTime()
 
 - (NSUInteger)bufferWidth
 {
-	return [self screenWidth];
+    return [self screenWidth];
 }
 
 - (NSUInteger)bufferHeight
 {
-	return [self screenHeight];
+    return [self screenHeight];
 }
 
 - (CGRect)sourceRect
-{		
-	return CGRectMake(0, 0, [self bufferWidth], [self bufferHeight]);
+{        
+    return CGRectMake(0, 0, [self bufferWidth], [self bufferHeight]);
 }
 
 - (const void *)videoBuffer
@@ -539,7 +540,7 @@ static NSTimeInterval currentTime()
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-	NSLog(@"Tracking: %f,%f", mousePosition.x, mousePosition.y);
+    NSLog(@"Tracking: %f,%f", mousePosition.x, mousePosition.y);
 }
 
 - (void)keyDown:(NSEvent *)anEvent

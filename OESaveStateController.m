@@ -136,7 +136,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 		}
 		[imageFlow setSelectedIndex:selectedIndex];
 		//Find which path this is in
-		NSString* selectedPath;
+		NSString *selectedPath = nil;
 		for( int i = 0; i < pathRanges.count; i++ )
 		{
 			NSRange range = [[pathRanges objectAtIndex:i] rangeValue];

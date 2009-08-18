@@ -69,8 +69,8 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+    status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+    if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {    
         // Setup OpenGL states 
         glViewport(0, 0, width, height);
@@ -79,11 +79,11 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
         glLoadIdentity();
         glOrtho(bounds.origin.x, bounds.origin.x + bounds.size.width, bounds.origin.y, bounds.origin.y + bounds.size.height, -1, 1);
        
-		glMatrixMode(GL_TEXTURE);
+        glMatrixMode(GL_TEXTURE);
         glPushMatrix();
         glLoadIdentity();
-		
-		
+        
+        
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
@@ -91,80 +91,80 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
         // bind video texture
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);        
-        		
+                
        // glActiveTexture(GL_TEXTURE0);
-		glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
-				
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		
-		GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
-		glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-		
+                
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        
+        GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
+        glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        
 
         glColor4f(1.0, 1.0, 1.0, 1.0);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-		
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        
         // bind our shader
-		glUseProgramObjectARB([shader programObject]);
+        glUseProgramObjectARB([shader programObject]);
         
         // set up shader variables
-		glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);			// texture        
-		glUniform1fARB([shader uniformLocationWithName:"amount"], amount);			// texture        
-		glUniform2fARB([shader uniformLocationWithName:"size"], pixelsWide, pixelsHigh);			// texture        
-		
+        glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);            // texture        
+        glUniform1fARB([shader uniformLocationWithName:"amount"], amount);            // texture        
+        glUniform2fARB([shader uniformLocationWithName:"size"], pixelsWide, pixelsHigh);            // texture        
+        
         glBegin(GL_QUADS);    // Draw A Quad
         {
-			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, 0.0f);
-			glMultiTexCoord2f(GL_TEXTURE1, 0.0f, 0.0f);
+            glMultiTexCoord2f(GL_TEXTURE0, 0.0f, 0.0f);
+            glMultiTexCoord2f(GL_TEXTURE1, 0.0f, 0.0f);
             // glTexCoord2f(0.0f, 0.0f);
             glVertex2f(0.0f, 0.0f);
-			
-			glMultiTexCoord2f(GL_TEXTURE0, pixelsWide, 0.0f);
-			// glTexCoord2f(pixelsWide, 0.0f );
+            
+            glMultiTexCoord2f(GL_TEXTURE0, pixelsWide, 0.0f);
+            // glTexCoord2f(pixelsWide, 0.0f );
             glVertex2f(width, 0.0f);
 
-			glMultiTexCoord2f(GL_TEXTURE0, pixelsWide, pixelsHigh);
-			// glTexCoord2f(pixelsWide, pixelsHigh);
-			glVertex2f(width, height);
-			
-			glMultiTexCoord2f(GL_TEXTURE0, 0.0f, pixelsHigh);
-			// glTexCoord2f(0.0f, pixelsHigh);
-			glVertex2f(0.0f, height);
+            glMultiTexCoord2f(GL_TEXTURE0, pixelsWide, pixelsHigh);
+            // glTexCoord2f(pixelsWide, pixelsHigh);
+            glVertex2f(width, height);
+            
+            glMultiTexCoord2f(GL_TEXTURE0, 0.0f, pixelsHigh);
+            // glTexCoord2f(0.0f, pixelsHigh);
+            glVertex2f(0.0f, height);
         }
         glEnd(); // Done Drawing The Quad
 
-		//glMatrixMode(GL_TEXTURE);
-		//glPopMatrix();
-		
-       	glDisable(GL_TEXTURE_RECTANGLE_EXT);
-		
-		glActiveTexture(GL_TEXTURE0);
-		glDisable(GL_TEXTURE_RECTANGLE_EXT);
-		
+        //glMatrixMode(GL_TEXTURE);
+        //glPopMatrix();
+        
+           glDisable(GL_TEXTURE_RECTANGLE_EXT);
+        
+        glActiveTexture(GL_TEXTURE0);
+        glDisable(GL_TEXTURE_RECTANGLE_EXT);
+        
         // disable shader program
         glUseProgramObjectARB(NULL);
         
-		
+        
         // Restore OpenGL states 
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
         
-		glMatrixMode(GL_TEXTURE);
-		glPopMatrix();
-		
-		glMatrixMode(GL_PROJECTION);
+        glMatrixMode(GL_TEXTURE);
+        glPopMatrix();
+        
+        glMatrixMode(GL_PROJECTION);
         glPopMatrix();
         
         // restore states
         //glPopAttrib();        
     }
-	// restore states
-	glPopAttrib();        
+    // restore states
+    glPopAttrib();        
 
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
@@ -210,12 +210,12 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Image", QCPortAttributeNameKey, nil];
     }
     
-		
-	if([key isEqualToString:@"inputCurvature"])
+        
+    if([key isEqualToString:@"inputCurvature"])
     {
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Curvature", QCPortAttributeNameKey, nil];
     }
-	
+    
     if([key isEqualToString:@"outputImage"])
     {
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Image", QCPortAttributeNameKey, nil];
@@ -227,14 +227,14 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
 + (NSArray*) sortedPropertyPortKeys
 {
     return [NSArray arrayWithObjects:@"inputImage",
-									 @"inputAmount",
-									 @"inputRenderDestinationWidth",
-									 @"inputRenderDestinationHeight",
-									 @"inputPhosphorBlurAmount",
-									 @"inputPhosphorBlurNumPasses",
-									 @"inputEnablePhosphorDelay",
-									 @"inputPhosphorDelayAmount",
-									 nil];
+                                     @"inputAmount",
+                                     @"inputRenderDestinationWidth",
+                                     @"inputRenderDestinationHeight",
+                                     @"inputPhosphorBlurAmount",
+                                     @"inputPhosphorBlurNumPasses",
+                                     @"inputEnablePhosphorDelay",
+                                     @"inputPhosphorDelayAmount",
+                                     nil];
 }
 
 + (QCPlugInExecutionMode) executionMode
@@ -292,27 +292,27 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     // work around lack of GLMacro.h for now
     CGLContextObj cgl_ctx = [context CGLContextObj];
     CGLLockContext(cgl_ctx);
-		
-	// error checking
-	GLenum status;
-	
-	// since we are using FBOs we ought to keep track of what was previously bound
+        
+    // error checking
+    GLenum status;
+    
+    // since we are using FBOs we ought to keep track of what was previously bound
     glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);    
 
-	
-	// shaders	
-	NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];
+    
+    // shaders    
+    NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];
     CRTDisplace = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"CRTDisplace" forContext:cgl_ctx];
-	
-		// FBO Testing	
-	GLuint name;
+    
+        // FBO Testing    
+    GLuint name;
     glGenTextures(1, &name);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, name);
     glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, 640, 480, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     
     // Create temporary FBO to render in texture 
 
-	glGenFramebuffersEXT(1, &frameBuffer);
+    glGenFramebuffersEXT(1, &frameBuffer);
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBuffer);
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
@@ -321,9 +321,9 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     {    
         NSLog(@"Cannot create FBO");
         NSLog(@"OpenGL error %04X", status);
-		
+        
         glDeleteFramebuffersEXT(1, &frameBuffer);
-		
+        
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
         glDeleteTextures(1, &name);
         CGLUnlockContext(cgl_ctx);
@@ -350,7 +350,7 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
      The OpenGL context for rendering can be accessed and defined for CGL macros using:
      CGLContextObj cgl_ctx = [context CGLContextObj];
      */
-    	
+        
     CGLContextObj cgl_ctx = [context CGLContextObj];
     CGLLockContext(cgl_ctx);
     
@@ -358,21 +358,21 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     
     id<QCPlugInInputImageSource>   image = self.inputImage;
 
-	if(image && [image lockTextureRepresentationWithColorSpace:[image imageColorSpace] forBounds:[image imageBounds]])
+    if(image && [image lockTextureRepresentationWithColorSpace:[image imageColorSpace] forBounds:[image imageBounds]])
     {
-		NSUInteger width = [image imageBounds].size.width;
-		NSUInteger height = [image imageBounds].size.height;
-				
-		// our crt mask should be 'per pixel' on the destination device, be it a temp image or the screen. We let the user pass in the dim 
-		NSRect bounds = [image imageBounds];
-		
-		[image bindTextureRepresentationToCGLContext:cgl_ctx textureUnit:GL_TEXTURE0 normalizeCoordinates:NO];
-		
+        NSUInteger width = [image imageBounds].size.width;
+        NSUInteger height = [image imageBounds].size.height;
+                
+        // our crt mask should be 'per pixel' on the destination device, be it a temp image or the screen. We let the user pass in the dim 
+        NSRect bounds = [image imageBounds];
+        
+        [image bindTextureRepresentationToCGLContext:cgl_ctx textureUnit:GL_TEXTURE0 normalizeCoordinates:NO];
+        
         // Make sure to flush as we use FBOs as the passed OpenGL context may not have a surface attached        
-		GLuint finalOutput = renderFBO(frameBuffer, cgl_ctx, width, height, bounds, [image textureName], CRTDisplace, self.inputCurvature);
+        GLuint finalOutput = renderFBO(frameBuffer, cgl_ctx, width, height, bounds, [image textureName], CRTDisplace, self.inputCurvature);
 
-		// flush our FBO work.
-		glFlushRenderAPPLE();
+        // flush our FBO work.
+        glFlushRenderAPPLE();
 
         if(finalOutput == 0)
         {
@@ -383,7 +383,7 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
             CGLUnlockContext(cgl_ctx);
             return NO;
         }
-		
+        
 #if __BIG_ENDIAN__
 #define OEPlugInPixelFormat QCPlugInPixelFormatARGB8
 #else
@@ -400,18 +400,18 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
                                                            releaseContext:nil
                                                                colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)// our FBOs output generic RGB//[image imageColorSpace]
                                                          shouldColorMatch:YES];
-		
+        
         self.outputImage = provider;
         
-		[image unbindTextureRepresentationFromCGLContext:cgl_ctx textureUnit:GL_TEXTURE0];
-		[image unlockTextureRepresentation];
+        [image unbindTextureRepresentationFromCGLContext:cgl_ctx textureUnit:GL_TEXTURE0];
+        [image unlockTextureRepresentation];
     }    
     else
         self.outputImage = nil;
-	
+    
     // return to our previous FBO;
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
-	
+    
     CGLUnlockContext(cgl_ctx);
     return YES;
 }
@@ -437,11 +437,11 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     // remove our GLSL program
     CGLLockContext(cgl_ctx);
     
-	// release shaders
-	[CRTDisplace release];
-	
-	glDeleteFramebuffersEXT(1, &frameBuffer);
-	
+    // release shaders
+    [CRTDisplace release];
+    
+    glDeleteFramebuffersEXT(1, &frameBuffer);
+    
     CGLUnlockContext(cgl_ctx);
 }
 

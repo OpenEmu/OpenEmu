@@ -146,12 +146,12 @@
         IOHIDElementRef elem = IOHIDValueGetElement(aValue);
         const uint32_t page  = IOHIDElementGetUsagePage(elem);
         const uint32_t usage = IOHIDElementGetUsage(elem);
-		if(IOHIDValueGetLength(aValue) != 1)
-		{
-			[self release];
-			return nil;
-		}
-		
+        if(IOHIDValueGetLength(aValue) != 1)
+        {
+            [self release];
+            return nil;
+        }
+        
         CFIndex value        = IOHIDValueGetIntegerValue(aValue);
 
         

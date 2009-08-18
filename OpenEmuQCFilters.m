@@ -342,9 +342,9 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     NSUInteger width = [image imageBounds].size.width;
     NSUInteger height = [image imageBounds].size.height;
     NSRect bounds;
-    int multiplier;
+    int multiplier = 1.0;
 
-    OEGameShader *selectedShader;
+    OEGameShader *selectedShader = nil;
     switch (self.inputScaler)
     {
         case 0 :

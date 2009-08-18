@@ -62,14 +62,14 @@
 	files = [[NSArray arrayWithArray:muteFiles] retain];
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
 	return [files count];
 }
 
 - (id)tableView:(NSTableView *)tableView
 objectValueForTableColumn:(NSTableColumn *)tableColumn
-			row:(int)row
+			row:(NSInteger)row
 {
 	return [files objectAtIndex:row];
 }

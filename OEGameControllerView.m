@@ -34,29 +34,29 @@
 - (void)fillWithShadowAtDegrees:(float) angle withDistance: (float) distance {
     float radians = angle*(3.141592/180.0);
     
-	/* create a new shadow */
+    /* create a new shadow */
     NSShadow* theShadow = [[NSShadow alloc] init];
     
-	/* offset the shadow by the indicated direction and distance */
+    /* offset the shadow by the indicated direction and distance */
     [theShadow setShadowOffset:NSMakeSize(cosf(radians)*distance, sinf(radians)*distance)];
     
-	/* set other shadow parameters */
+    /* set other shadow parameters */
     [theShadow setShadowBlurRadius:3.0];
     [theShadow setShadowColor:[[NSColor blackColor] colorWithAlphaComponent:0.5]];
-	
-	/* save the graphics context */
+    
+    /* save the graphics context */
     [NSGraphicsContext saveGraphicsState];
     
-	/* use the shadow */
+    /* use the shadow */
     [theShadow set];
-	
-	/* fill the NSBezierPath */
+    
+    /* fill the NSBezierPath */
     [self stroke]; // was fill
     
-	/* restore the graphics context */
+    /* restore the graphics context */
     [NSGraphicsContext restoreGraphicsState];
     
-	/* done with the shadow */
+    /* done with the shadow */
     [theShadow release];
 }
 
@@ -72,8 +72,8 @@
     {
         [self setControlZone:frame];
         lines = [[NSBezierPath bezierPath] retain];
-		[lines setLineWidth:3.0];
-		[lines setLineCapStyle:NSRoundLineCapStyle];
+        [lines setLineWidth:3.0];
+        [lines setLineCapStyle:NSRoundLineCapStyle];
     }
     return self;
 }
@@ -92,9 +92,9 @@
                      operation:NSCompositeSourceOver
                       fraction:1.0];
     
-	// open emu red
-	[[NSColor colorWithCalibratedRed:1.0 green:0.15 blue:0.1 alpha:0.6] set];
-	[lines fillWithShadowAtDegrees:315 withDistance:3];
+    // open emu red
+    [[NSColor colorWithCalibratedRed:1.0 green:0.15 blue:0.1 alpha:0.6] set];
+    [lines fillWithShadowAtDegrees:315 withDistance:3];
     [lines stroke];
 }
 
@@ -141,7 +141,7 @@
     NSRect button = NSZeroRect;
     button.size = BUTTON_SIZE;
     NSPoint middle = NSZeroPoint;
-	
+    
     if(start.y <= NSMinY(drawRect))
     {
         button.origin.x = start.x - button.size.width / 2.0;
@@ -157,7 +157,7 @@
         button.origin.y = start.y - button.size.height / 2.0;
         middle.x = NSMinX(drawRect);
         middle.y = start.y;
-	}
+    }
     else if(start.x >= NSMaxX(drawRect))
     {
         button.origin.x = bounds.size.width - (button.size.width + 14.0);
@@ -173,23 +173,23 @@
         start.y = button.origin.y + button.size.height / 2.0;
         middle.x = start.x;
         middle.y = NSMaxY(drawRect) - button.size.height / 2.0;
-	}
+    }
     
     NSButton *added = [[[NSButton alloc] initWithFrame:button] autorelease];
     [added setTarget:aTarget];
     [added setAction:@selector(selectInputControl:)];
     [added bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
     [added setBezelStyle:NSRoundRectBezelStyle];
-	[added setButtonType:NSPushOnPushOffButton];
+    [added setButtonType:NSPushOnPushOffButton];
     [added setToolTip:aToolTip];
-//	[[added cell]  setControlSize:NSSmallControlSize];  
+//    [[added cell]  setControlSize:NSSmallControlSize];  
     
     [self addSubview:added];
     
     [lines moveToPoint:start];
-	[lines lineToPoint:middle];
-	[lines lineToPoint:end];
-	
+    [lines lineToPoint:middle];
+    [lines lineToPoint:end];
+    
 }
 
 @end

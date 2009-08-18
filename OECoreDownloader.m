@@ -117,16 +117,16 @@
 	//NSLog(@"Failed to load appcast %@", appcast );
 }
 
-- (IBAction) downloadSelectedCores: (id) sender
+- (IBAction)downloadSelectedCores:(id)sender
 {
-	for( OEDownload* download in downloads )
+	for(OEDownload *download in downloads)
 	{
 		if( [download enabled] )
 		{
 			NSURLRequest *request = [NSURLRequest requestWithURL:[[download appcastItem] fileURL]];
-			NSURLDownload *fileDownload = [[NSURLDownload alloc] initWithRequest:request delegate:self];
+			NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:self] autorelease];
 			
-			if( !fileDownload )
+			if(fileDownload != nil)
 				NSLog(@"Couldn't download!??");
 		}
 	}
@@ -161,12 +161,10 @@
 
 - (void)downloadDidFinish:(NSURLDownload *)download
 {
-	NSString* path;	
-	for( NSString* key in [downloadToPathMap keyEnumerator] )
-	{
-		if( [downloadToPathMap objectForKey:key] == download )
+	NSString *path = nil;	
+	for(NSString *key in [downloadToPathMap keyEnumerator])
+		if([downloadToPathMap objectForKey:key] == download)
 			path = key;
-	}
 	
 	XADArchive* archive = [XADArchive archiveForFile:path];
 	

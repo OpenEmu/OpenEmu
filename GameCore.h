@@ -85,9 +85,9 @@ typedef NSInteger OEButton;
     NSUInteger             frameskipadjust;
     BOOL                   frameFinished;
     BOOL                   willSkipFrame;
-	
-	// for lightgun/pointer support.
-	NSPoint				   mousePosition;
+    
+    // for lightgun/pointer support.
+    NSPoint                   mousePosition;
 }
 
 + (NSTimeInterval)defaultTimeInterval;
@@ -139,7 +139,7 @@ typedef NSInteger OEButton;
 @property(readonly) NSUInteger  bufferWidth;
 @property(readonly) NSUInteger  bufferHeight;
 
-@property(readonly) CGRect		sourceRect;
+@property(readonly) CGRect        sourceRect;
 @property(readonly) const void *videoBuffer;
 @property(readonly) GLenum      pixelFormat;
 @property(readonly) GLenum      pixelType;

@@ -93,10 +93,10 @@
 
 - (void) applicationDidFinishLaunching:(NSNotification*)aNotification
 {
-	OECoreDownloader* downloader = [[OECoreDownloader alloc] init];
+	OECoreDownloader* downloader = [[[OECoreDownloader alloc] init] autorelease];
 	[downloader showWindow:self];
 	
-	OEROMOrganizer *organizer = [[OEROMOrganizer alloc] init];
+	OEROMOrganizer *organizer = [[[OEROMOrganizer alloc] init] autorelease];
 	[organizer showWindow:self];
 }
 
@@ -405,7 +405,7 @@
 		
 		if([archive numberOfEntries] != 1) //more than one rom in the archive
 		{
-			GamePickerController *c = [[GamePickerController alloc] init];
+			GamePickerController *c = [[[GamePickerController alloc] init] autorelease];
 			[c setArchive:archive];
 			
 			if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
@@ -424,7 +424,6 @@
 			else
 			{
 				if (outError) *outError = [[NSError alloc] initWithDomain:@"User Cancelled" code:0 userInfo:[NSDictionary dictionaryWithObject:@"User cancled" forKey:NSLocalizedDescriptionKey]];
-				[c release];
 				return nil;
 			}
 		}

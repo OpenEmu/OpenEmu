@@ -84,12 +84,17 @@
         
 		// this will be responsible for our rendering... weee...    
 		QCComposition *compo = [self composition];
+        
 		if(compo != nil)
-			filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
+        {
+            CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+            filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
 														pixelFormat:CGLGetPixelFormat(layerContext)
-														 colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)
+														 colorSpace:space
 														composition:compo];
-		
+            CGColorSpaceRelease(space);
+        }
+        
 		if (filterRenderer == nil)
 			NSLog(@"Warning: failed to create our filter QCRenderer");
 		
@@ -199,9 +204,9 @@
 		size = [gameCore sourceRect].size;
 	*/
 	
-
-    self.gameCIImage = [CIImage imageWithTexture:correctionTexture size:CGSizeMake(gameCore.screenWidth, gameCore.screenHeight) flipped:YES colorSpace:CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB)];
-	
+    CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+    self.gameCIImage = [CIImage imageWithTexture:correctionTexture size:CGSizeMake(gameCore.screenWidth, gameCore.screenHeight) flipped:YES colorSpace:space];
+	CGColorSpaceRelease(space);
     if(filterRenderer != nil)
     {
 		// NSPoint mouseLocation = [event locationInWindow];

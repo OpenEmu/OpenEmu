@@ -59,7 +59,7 @@ static GLuint renderCRTMask(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     glGenTextures(1, &name);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, name);    
     glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
-	//glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA16F_ARB, width, height, 0, GL_RGBA, GL_HALF_FLOAT_ARB, NULL); 
+    //glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA16F_ARB, width, height, 0, GL_RGBA, GL_HALF_FLOAT_ARB, NULL); 
   
     // bind our FBO
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBuffer);
@@ -68,126 +68,125 @@ static GLuint renderCRTMask(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
-    {    		
+    status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+    if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+    {            
         // Setup OpenGL states 
         glViewport(0, 0, width, height);
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
         glOrtho(0,  bounds.size.width, bounds.origin.y, bounds.origin.y + bounds.size.height, -1, 1);
-      		
+              
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
         
-		glDisable(GL_DEPTH_TEST);
+        glDisable(GL_DEPTH_TEST);
        
-		// bind video texture
+        // bind video texture
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);        
-		
-		// draw our input video
-		glActiveTexture(GL_TEXTURE0);
-		glEnable(GL_TEXTURE_RECTANGLE_EXT);
-		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); 
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		
-		// our CRT texture
-		glActiveTexture(GL_TEXTURE1);
-		glEnable(GL_TEXTURE_RECTANGLE_EXT);
-		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, CRTTexture);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
-		
-		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-		
-		//GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
-		//glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
-		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		//glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-		
+        
+        // draw our input video
+        glActiveTexture(GL_TEXTURE0);
+        glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE); 
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        
+        // our CRT texture
+        glActiveTexture(GL_TEXTURE1);
+        glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, CRTTexture);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
+        
+        //glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        //glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        
+        //GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
+        //glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
+        //glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        //glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        
         glColor4f(1.0, 1.0, 1.0, 1.0);
-		//glDisable(GL_BLEND);
-		glDisable(GL_LIGHTING);
-		
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		
-		// bind our shader
-		glUseProgramObjectARB([shader programObject]);
+        //glDisable(GL_BLEND);
+        glDisable(GL_LIGHTING);
+        
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+            
+        // bind our shader
+        glUseProgramObjectARB([shader programObject]);
     
-		// set up shader variables
-		glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);			// texture        
-		glUniform1iARB([shader uniformLocationWithName:"tex1"], 1);			// texture        
-		
-		//glUniform2fARB([shader uniformLocationWithName:"texdim0"], pixelsWide, pixelsHigh);
-		//glUniform2fARB([shader uniformLocationWithName:"texdim1"], renderingWidth, renderingHeight);
-		
+        // set up shader variables
+        glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);            // texture        
+        glUniform1iARB([shader uniformLocationWithName:"tex1"], 1);            // texture        
+        
+        //glUniform2fARB([shader uniformLocationWithName:"texdim0"], pixelsWide, pixelsHigh);
+        //glUniform2fARB([shader uniformLocationWithName:"texdim1"], renderingWidth, renderingHeight);
+        
         glBegin(GL_QUADS);    // Draw A Quad
         {
-			glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
-			glMultiTexCoord2i(GL_TEXTURE1, 0, 0);
-			glVertex3i(0, 0, 0);						// Bottom Left
-			
-			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
-			glMultiTexCoord2i(GL_TEXTURE1, width, 00);
-			glVertex3i(width, 0, 0);				// Bottom Right
-			
-			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
-			glMultiTexCoord2i(GL_TEXTURE1, width, height);
-			glVertex3i(width, height, 0);		// Top Right
-			
-			glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
-			glMultiTexCoord2i(GL_TEXTURE1, 0, height);
-			glVertex3i(0, height, 0);				// Top Left
-			
-		/*	glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
-			glMultiTexCoord2i(GL_TEXTURE1, renderingWidth, renderingHeight);
-			// glTexCoord2f(pixelsWide, pixelsHigh);
-			glVertex3f(width, height, 0.0f);
-			
-			glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
-			glMultiTexCoord2i(GL_TEXTURE1, 0, renderingHeight);
-			// glTexCoord2f(0.0f, pixelsHigh);
-			glVertex3f(0.0f, height, 0.0f);
-			
-			glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
-			glMultiTexCoord2i(GL_TEXTURE1, 0, 0);
+            glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
+            glMultiTexCoord2i(GL_TEXTURE1, 0, 0);
+            glVertex3i(0, 0, 0);                        // Bottom Left
+            
+            glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
+            glMultiTexCoord2i(GL_TEXTURE1, width, 00);
+            glVertex3i(width, 0, 0);                // Bottom Right
+            
+            glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
+            glMultiTexCoord2i(GL_TEXTURE1, width, height);
+            glVertex3i(width, height, 0);        // Top Right
+            
+            glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
+            glMultiTexCoord2i(GL_TEXTURE1, 0, height);
+            glVertex3i(0, height, 0);                // Top Left
+            
+        /*    glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
+            glMultiTexCoord2i(GL_TEXTURE1, renderingWidth, renderingHeight);
+            // glTexCoord2f(pixelsWide, pixelsHigh);
+            glVertex3f(width, height, 0.0f);
+            
+            glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
+            glMultiTexCoord2i(GL_TEXTURE1, 0, renderingHeight);
+            // glTexCoord2f(0.0f, pixelsHigh);
+            glVertex3f(0.0f, height, 0.0f);
+            
+            glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
+            glMultiTexCoord2i(GL_TEXTURE1, 0, 0);
             // glTexCoord2f(0.0f, 0.0f);
             glVertex3f(0.0f, 0.0f, 0.0f);
-			
-			glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
-			glMultiTexCoord2i(GL_TEXTURE1, renderingWidth, 0);
-			// glTexCoord2f(pixelsWide, 0.0f );
+            
+            glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
+            glMultiTexCoord2i(GL_TEXTURE1, renderingWidth, 0);
+            // glTexCoord2f(pixelsWide, 0.0f );
             glVertex3f(width, 0.0f, 0.0f);
-		 */
-		}
+         */
+        }
         glEnd(); // Done Drawing The Quad
 
-       	//glDisable(GL_TEXTURE_RECTANGLE_EXT);		
-		glActiveTexture(GL_TEXTURE0);
-		
+           //glDisable(GL_TEXTURE_RECTANGLE_EXT);        
+        glActiveTexture(GL_TEXTURE0);
+        
         // disable shader program
         glUseProgramObjectARB(NULL);
-		
+        
         // Restore OpenGL states 
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
-		
-		glMatrixMode(GL_PROJECTION);
+        
+        glMatrixMode(GL_PROJECTION);
         glPopMatrix();
     }
-	// restore states
-	glPopAttrib();        
+    // restore states
+    glPopAttrib();        
 
    glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
@@ -220,7 +219,7 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
     glGenTextures(1, &name);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, name);    
     glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
-	//glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA16F_ARB, width, height, 0, GL_RGBA, GL_HALF_FLOAT_ARB, NULL); 
+    //glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA16F_ARB, width, height, 0, GL_RGBA, GL_HALF_FLOAT_ARB, NULL); 
 
     // bind our FBO
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBuffer);
@@ -229,8 +228,8 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+    status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+    if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {    
         // Setup OpenGL states 
         glViewport(0, 0, width, height);
@@ -238,96 +237,96 @@ static GLuint renderPhosphorBlur(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUI
         glPushMatrix();
         glLoadIdentity();
         glOrtho(bounds.origin.x, bounds.origin.x + bounds.size.width, bounds.origin.y, bounds.origin.y + bounds.size.height, -1, 1);
-		
+        
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
         glLoadIdentity();
         
-		glDisable(GL_DEPTH_TEST);
+        glDisable(GL_DEPTH_TEST);
 
         // bind video texture
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);        
-		
-		glActiveTexture(GL_TEXTURE0);
-		glEnable(GL_TEXTURE_RECTANGLE_EXT);
-		glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
-		
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
-	
-		/*GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
-		glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-		*/
-		
+        
+        glActiveTexture(GL_TEXTURE0);
+        glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
+        
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE); 
+    
+        /*GLfloat color[] = {0.0, 0.0, 0.0, 0.0};
+        glTexParameterfv(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_BORDER_COLOR, color);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+        */
+        
         glColor4f(1.0, 1.0, 1.0, 1.0);
 
-		//glDisable(GL_BLEND);
-		glDisable(GL_LIGHTING);
-		
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        //glDisable(GL_BLEND);
+        glDisable(GL_LIGHTING);
+        
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         // bind our shader
-		glUseProgramObjectARB([shader programObject]);
+        glUseProgramObjectARB([shader programObject]);
     
-		// set up shader variables
-		glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);						// texture        
-		glUniform2fARB([shader uniformLocationWithName:"amount"], amountx, amounty);	// blur amount        
-	
-		glDisable(GL_TEXTURE_RECTANGLE_EXT);
-		
-		glBegin(GL_QUADS);
-        {		
-			// draw counter clockwise to have quad face us.
-			//						bottom left, 
-			// coordinate system is 0, width, 0, hight 
-			glColor4f(1.0, 1.0, 1.0, 1.0);
+        // set up shader variables
+        glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);                        // texture        
+        glUniform2fARB([shader uniformLocationWithName:"amount"], amountx, amounty);    // blur amount        
+    
+        glDisable(GL_TEXTURE_RECTANGLE_EXT);
+        
+        glBegin(GL_QUADS);
+        {        
+            // draw counter clockwise to have quad face us.
+            //                        bottom left, 
+            // coordinate system is 0, width, 0, hight 
+            glColor4f(1.0, 1.0, 1.0, 1.0);
 
-			glTexCoord2i(0, 0);
-			glVertex3i(0, 0 , 0);						// Bottom Left
-			
-			glTexCoord2i(pixelsWide, 0);
-			glVertex3i(pixelsWide, 0, 0);				// Bottom Right
+            glTexCoord2i(0, 0);
+            glVertex3i(0, 0 , 0);                        // Bottom Left
+            
+            glTexCoord2i(pixelsWide, 0);
+            glVertex3i(pixelsWide, 0, 0);                // Bottom Right
 
-			glTexCoord2i(pixelsWide, pixelsHigh);
-			glVertex3i(pixelsWide, pixelsHigh, 0);		// Top Right
-			
-			glTexCoord2i(0, pixelsHigh);
-			glVertex3i(0, pixelsHigh, 0);				// Top Left
-			
+            glTexCoord2i(pixelsWide, pixelsHigh);
+            glVertex3i(pixelsWide, pixelsHigh, 0);        // Top Right
+            
+            glTexCoord2i(0, pixelsHigh);
+            glVertex3i(0, pixelsHigh, 0);                // Top Left
+            
 
-			
-			/*
+            
+            /*
 
-			//glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
-			 glTexCoord2i(pixelsWide, pixelsHigh);
-			// glTexCoord2f(pixelsWide, pixelsHigh);
-			glVertex3f(width, height, 0.0f);
-			
-			glColor4f(1.0, 0.0, 0.0, 1.0);
-			//glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
-			 glTexCoord2i(0, pixelsHigh);
-			// glTexCoord2f(0.0f, pixelsHigh);
-			glVertex3f(0.0f, height, 0.0f);
-			
+            //glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, pixelsHigh);
+             glTexCoord2i(pixelsWide, pixelsHigh);
+            // glTexCoord2f(pixelsWide, pixelsHigh);
+            glVertex3f(width, height, 0.0f);
+            
+            glColor4f(1.0, 0.0, 0.0, 1.0);
+            //glMultiTexCoord2i(GL_TEXTURE0, 0, pixelsHigh);
+             glTexCoord2i(0, pixelsHigh);
+            // glTexCoord2f(0.0f, pixelsHigh);
+            glVertex3f(0.0f, height, 0.0f);
+            
 
-			glColor4f(0.0, 1.0, 0.0, 1.0);
-			//glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
+            glColor4f(0.0, 1.0, 0.0, 1.0);
+            //glMultiTexCoord2i(GL_TEXTURE0, 0, 0);
              glTexCoord2i(0, 0);
             // glTexCoord2f(0.0f, 0.0f);
             glVertex3f(0.0f, 0.0f, 0.0f);
-			
-			glColor4f(0.0, 0.0, 1.0, 1.0);
+            
+            glColor4f(0.0, 0.0, 1.0, 1.0);
 
-			//glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
-			 glTexCoord2i(pixelsWide, 0);
-			// glTexCoord2f(pixelsWide, 0.0f );
+            //glMultiTexCoord2i(GL_TEXTURE0, pixelsWide, 0);
+             glTexCoord2i(pixelsWide, 0);
+        	// glTexCoord2f(pixelsWide, 0.0f );
             glVertex3f(width, 0.0f, 0.0f);
 			 */
 		}
