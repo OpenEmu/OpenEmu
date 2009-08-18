@@ -137,6 +137,8 @@
 		82798B340E85C123001DCA93 /* PrefsBundleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798B330E85C123001DCA93 /* PrefsBundleCell.m */; };
 		8283876E0E6C54E100A96E2C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
 		8283882C0E6CE13C00A96E2C /* GameDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */; };
+		8288A0EF1027DB7600671FE1 /* OEDownloadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8288A0EE1027DB7600671FE1 /* OEDownloadCell.xib */; };
+		8288A0F61027E16600671FE1 /* OEDownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8288A0F51027E16600671FE1 /* OEDownloadCell.m */; };
 		828CF1850FD1D7C80041311B /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
 		828CF1A30FD1D8530041311B /* OEMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */; };
 		828CF1A40FD1D86A0041311B /* OEPreferenceViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */; };
@@ -440,6 +442,9 @@
 		8283882A0E6CE13C00A96E2C /* GameDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDocumentController.h; sourceTree = "<group>"; };
 		8283882B0E6CE13C00A96E2C /* GameDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDocumentController.m; sourceTree = "<group>"; };
 		828389A80E6CF3A500A96E2C /* GameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCore.h; sourceTree = "<group>"; };
+		8288A0EE1027DB7600671FE1 /* OEDownloadCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEDownloadCell.xib; sourceTree = "<group>"; };
+		8288A0F41027E16600671FE1 /* OEDownloadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDownloadCell.h; sourceTree = "<group>"; };
+		8288A0F51027E16600671FE1 /* OEDownloadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDownloadCell.m; sourceTree = "<group>"; };
 		828E65980E8466A100B1860B /* OpenEmuQC.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuQC.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuQC-Info.plist"; sourceTree = "<group>"; };
 		828E659D0E8466CC00B1860B /* OpenEmuQCPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCPlugin.h; sourceTree = "<group>"; };
@@ -774,6 +779,7 @@
 				82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */,
 				82F7F7A2101FEC1700533B55 /* SaveState.xcdatamodel */,
 				82DE49EF10263FF3007184EB /* CoreDownloader.xib */,
+				8288A0EE1027DB7600671FE1 /* OEDownloadCell.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -896,6 +902,8 @@
 				82DE498A10263A1A007184EB /* OECoreDownloader.m */,
 				82DE49F2102641CD007184EB /* OEDownload.h */,
 				82DE49F3102641CD007184EB /* OEDownload.m */,
+				8288A0F41027E16600671FE1 /* OEDownloadCell.h */,
+				8288A0F51027E16600671FE1 /* OEDownloadCell.m */,
 			);
 			name = Downloader;
 			sourceTree = "<group>";
@@ -1211,6 +1219,7 @@
 				826844C51022A0630019C7B0 /* smaller.tif in Resources */,
 				826844C61022A0630019C7B0 /* larger.tif in Resources */,
 				82DE49F010263FF3007184EB /* CoreDownloader.xib in Resources */,
+				8288A0EF1027DB7600671FE1 /* OEDownloadCell.xib in Resources */,
 				1E9F73FB10376BE40072EED6 /* OEROMOrganizer.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1369,6 +1378,7 @@
 				82955D071024C577000BE8DF /* OESaveStateDocument.m in Sources */,
 				82DE498B10263A1A007184EB /* OECoreDownloader.m in Sources */,
 				82DE49F4102641CD007184EB /* OEDownload.m in Sources */,
+				8288A0F61027E16600671FE1 /* OEDownloadCell.m in Sources */,
 				1E9F7349103755900072EED6 /* OEROMFile.m in Sources */,
 				1E9F73BD103766590072EED6 /* OEROMFileSystemTypeTransformer.m in Sources */,
 				1E9F73F110376A2E0072EED6 /* OEROMOrganizer.m in Sources */,

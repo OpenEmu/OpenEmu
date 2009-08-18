@@ -27,7 +27,6 @@
 
 #import "OECoreDownloader.h"
 #import <Sparkle/Sparkle.h>
-#import <XADMaster/XADArchive.h>
 #import "OEDownload.h"
 #import "GameDocumentController.h"
 #import "OECorePlugin.h"
@@ -138,66 +137,13 @@
 
 - (IBAction)downloadSelectedCores:(id)sender
 {
-    for(OEDownload *download in downloads)
-    {
-        if( [download enabled] )
-        {
-            NSURLRequest *request = [NSURLRequest requestWithURL:[[download appcastItem] fileURL]];
-            NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:self] autorelease];
-            
-            if(fileDownload != nil)
-                NSLog(@"Couldn't download!??");
-        }
-    }
-}
-
-- (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
-{
-    NSString *destinationFilename;
-    
-    destinationFilename=[NSString stringWithCString:tmpnam(nil) 
-                                           encoding:[NSString defaultCStringEncoding]];
-    
-    [downloadToPathMap setValue:download forKey:destinationFilename];
-    [download setDestination:destinationFilename allowOverwrite:NO];
-}
-
-- (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
-{
-    // release the connection
-    [download release];
-    
-    // inform the user
-    NSLog(@"Download failed! Error - %@ %@",
-          [error localizedDescription],
-          [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
-}
-
-- (void) download: (NSURLDownload*)download didCreateDestination: (NSString*)path
-{
-     //  NSLog(@"%@",@"created dest");
-}
-
-- (void)downloadDidFinish:(NSURLDownload *)download
-{
-    NSString *path = nil;    
-    for(NSString *key in [downloadToPathMap keyEnumerator])
-        if([downloadToPathMap objectForKey:key] == download)
-            path = key;
-    
-    XADArchive* archive = [XADArchive archiveForFile:path];
-    
-    NSString* appsupportFolder = [docController applicationSupportFolder];
-    appsupportFolder = [appsupportFolder stringByAppendingPathComponent:@"Cores"];
-    [archive extractTo:appsupportFolder];
-    
-    // release the connection
-    [download release];
-    
-    // do something with the data
-   // NSLog(@"downloadDidFinish to path %@",path);
-    
-    [[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
+	for( OEDownload* download in downloads )
+	{
+		if( [download enabled] )
+		{
+			[download startDownload];
+		}
+	}
 }
 
 @end

@@ -29,17 +29,24 @@
 
 @class SUAppcastItem, SUAppcast;
 
-@interface OEDownload : NSObject
-{
-    NSString      *name;
-    SUAppcastItem *appcastItem;
-    
-    BOOL enabled;
+@interface OEDownload : NSViewController {
+	BOOL enabled;
+	
+	NSProgressIndicator* progressBar;
+	double progress;
+	NSString* name;
+	NSString* downloadPath;
+	unsigned long long expectedLength;
+	unsigned long long downloadedSize;
+	SUAppcastItem* appcastItem;
 }
 
-@property(assign) BOOL enabled;
-@property(retain) SUAppcastItem *appcastItem;
+@property (readonly) NSProgressIndicator* progressBar;
+@property (readonly) double progress;
+@property (assign) BOOL enabled;
+@property (retain) SUAppcastItem* appcastItem;
 
 - (id)initWithAppcast:(SUAppcast *)appcast;
+- (void) startDownload;
 
 @end
