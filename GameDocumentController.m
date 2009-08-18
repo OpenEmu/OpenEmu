@@ -41,6 +41,9 @@
 #import "SaveState.h"
 #import "OECoreDownloader.h"
 
+#import "OEROMFile.h"
+#import "OEROMOrganizer.h"
+
 @interface GameDocumentController ()
 @property(readwrite, retain) NSArray *plugins;
 - (void)OE_setupHIDManager;
@@ -92,6 +95,9 @@
 {
 	OECoreDownloader* downloader = [[OECoreDownloader alloc] init];
 	[downloader showWindow:self];
+	
+	OEROMOrganizer *organizer = [[OEROMOrganizer alloc] init];
+	[organizer showWindow:self];
 }
 
 -(void)updateBundles: (id) sender
@@ -382,6 +388,7 @@
 
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
 {
+	OEROMFile *romFile = [OEROMFile fileWithPath:[absoluteURL path] createIfNecessary:YES inManagedObjectContext:self.managedObjectContext];
 
 	NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
 	

@@ -107,6 +107,10 @@
 		1B8D4B010E874E6F00C3C4F5 /* GameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.m */; };
 		1BA788FF0FF9C95A007CE5DB /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
+		1E9F7349103755900072EED6 /* OEROMFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F7348103755900072EED6 /* OEROMFile.m */; };
+		1E9F73BD103766590072EED6 /* OEROMFileSystemTypeTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F73BC103766590072EED6 /* OEROMFileSystemTypeTransformer.m */; };
+		1E9F73F110376A2E0072EED6 /* OEROMOrganizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F73F010376A2E0072EED6 /* OEROMOrganizer.m */; };
+		1E9F73FB10376BE40072EED6 /* OEROMOrganizer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E9F73FA10376BE40072EED6 /* OEROMOrganizer.xib */; };
 		3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */; };
 		375903840FF82C6400135C45 /* openemuqc_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 375903750FF82C4000135C45 /* openemuqc_pub.pem */; };
 		3759EE2A0FE88871000E56D5 /* OpenEmuBase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
@@ -393,6 +397,13 @@
 		1BA788FD0FF9C95A007CE5DB /* OEGameShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameShader.h; sourceTree = "<group>"; };
 		1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameShader.m; sourceTree = "<group>"; };
 		1DDD582B0DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		1E9F7347103755900072EED6 /* OEROMFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEROMFile.h; sourceTree = "<group>"; };
+		1E9F7348103755900072EED6 /* OEROMFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMFile.m; sourceTree = "<group>"; };
+		1E9F73BB103766590072EED6 /* OEROMFileSystemTypeTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEROMFileSystemTypeTransformer.h; sourceTree = "<group>"; };
+		1E9F73BC103766590072EED6 /* OEROMFileSystemTypeTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMFileSystemTypeTransformer.m; sourceTree = "<group>"; };
+		1E9F73EF10376A2E0072EED6 /* OEROMOrganizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEROMOrganizer.h; sourceTree = "<group>"; };
+		1E9F73F010376A2E0072EED6 /* OEROMOrganizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMOrganizer.m; sourceTree = "<group>"; };
+		1E9F73FA10376BE40072EED6 /* OEROMOrganizer.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEROMOrganizer.xib; sourceTree = "<group>"; };
 		2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDocument.m; sourceTree = "<group>"; };
 		2A37F4AEFDCFA73011CA2CEA /* GameDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDocument.h; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -678,6 +689,17 @@
 			path = "GLSL Shaders";
 			sourceTree = "<group>";
 		};
+		1E9F73BA1037663F0072EED6 /* ROM Files */ = {
+			isa = PBXGroup;
+			children = (
+				1E9F7347103755900072EED6 /* OEROMFile.h */,
+				1E9F7348103755900072EED6 /* OEROMFile.m */,
+				1E9F73BB103766590072EED6 /* OEROMFileSystemTypeTransformer.h */,
+				1E9F73BC103766590072EED6 /* OEROMFileSystemTypeTransformer.m */,
+			);
+			name = "ROM Files";
+			sourceTree = "<group>";
+		};
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
 			isa = PBXGroup;
 			children = (
@@ -694,6 +716,7 @@
 				3887AAE81024DDD5000FC4CF /* ApplicationServices.framework */,
 				3887AAF01024DDE4000FC4CF /* CoreServices.framework */,
 				3887AAF51024DDEB000FC4CF /* CoreFoundation.framework */,
+				1E9F73FA10376BE40072EED6 /* OEROMOrganizer.xib */,
 			);
 			name = OpenEmu;
 			sourceTree = "<group>";
@@ -791,6 +814,8 @@
 			children = (
 				828ED4D50E7D98940059F397 /* GamePickerController.h */,
 				828ED4D60E7D98940059F397 /* GamePickerController.m */,
+				1E9F73EF10376A2E0072EED6 /* OEROMOrganizer.h */,
+				1E9F73F010376A2E0072EED6 /* OEROMOrganizer.m */,
 			);
 			name = "Utility Windows";
 			sourceTree = "<group>";
@@ -798,6 +823,7 @@
 		828E64D00E84656900B1860B /* OpenEmuCore */ = {
 			isa = PBXGroup;
 			children = (
+				1E9F73BA1037663F0072EED6 /* ROM Files */,
 				82DE498810263A09007184EB /* Downloader */,
 				82F7F7C5101FEEBC00533B55 /* State Manager */,
 				C6C98CB10F55F4E800116EA2 /* Preferences */,
@@ -1185,6 +1211,7 @@
 				826844C51022A0630019C7B0 /* smaller.tif in Resources */,
 				826844C61022A0630019C7B0 /* larger.tif in Resources */,
 				82DE49F010263FF3007184EB /* CoreDownloader.xib in Resources */,
+				1E9F73FB10376BE40072EED6 /* OEROMOrganizer.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1342,6 +1369,9 @@
 				82955D071024C577000BE8DF /* OESaveStateDocument.m in Sources */,
 				82DE498B10263A1A007184EB /* OECoreDownloader.m in Sources */,
 				82DE49F4102641CD007184EB /* OEDownload.m in Sources */,
+				1E9F7349103755900072EED6 /* OEROMFile.m in Sources */,
+				1E9F73BD103766590072EED6 /* OEROMFileSystemTypeTransformer.m in Sources */,
+				1E9F73F110376A2E0072EED6 /* OEROMOrganizer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
