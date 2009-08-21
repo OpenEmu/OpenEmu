@@ -1,12 +1,13 @@
-#import <Cocoa/Cocoa.h>
-
+#import <Foundation/Foundation.h>
 
 @interface UniversalDetector:NSObject
 {
-	void *detectorptr;
+	void *detector;
 	NSString *charset;
 	float confidence;
 }
+
++(UniversalDetector *)detector;
 
 -(id)init;
 -(void)dealloc;
@@ -17,9 +18,8 @@
 
 -(BOOL)done;
 -(NSString *)MIMECharset;
--(NSStringEncoding)encoding;
 -(float)confidence;
 
-+(UniversalDetector *)detector;
+-(NSStringEncoding)encoding;
 
 @end

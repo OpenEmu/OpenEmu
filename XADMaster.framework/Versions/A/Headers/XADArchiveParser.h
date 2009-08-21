@@ -113,6 +113,7 @@ extern NSString *XADVolumesKey;
 -(CSHandle *)handle;
 -(CSHandle *)handleAtDataOffsetForDictionary:(NSDictionary *)dict;
 -(XADSkipHandle *)skipHandle;
+-(CSHandle *)zeroLengthHandleWithChecksum:(BOOL)checksum;
 
 -(NSArray *)volumes;
 -(off_t)offsetForVolume:(int)disk offset:(off_t)offset;
