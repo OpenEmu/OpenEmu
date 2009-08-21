@@ -27,6 +27,7 @@
 
 #import "GameQTRecorder.h"
 #import "OEFrameEncodeOperation.h"
+#import <sys/time.h>
 
 @implementation GameQTRecorder
 //#if !__LP64__

@@ -32,8 +32,8 @@
 
 @implementation OESaveStateController
 
-
-@synthesize plugins, availablePluginsPredicate, selectedPlugins, docController, 
+@dynamic plugins;
+@synthesize availablePluginsPredicate, selectedPlugins, docController, 
 selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
 
 - (id)init
