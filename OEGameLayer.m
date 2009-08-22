@@ -451,7 +451,7 @@
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
     
 	// flush to make sure FBO texture attachment is finished being rendered.
-	//glFlushRenderAPPLE();
+	glFlushRenderAPPLE();
 		
     // Check for OpenGL errors 
 /*	status = glGetError();
