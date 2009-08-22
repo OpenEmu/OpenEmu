@@ -272,25 +272,26 @@
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glGenTextures(1, &gameTexture);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+
     
-    // with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?) 
-    glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore bufferWidth] * [gameCore bufferHeight] * (32 >> 3), [gameCore videoBuffer]); 
+	// with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?) 
+	glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore bufferWidth] * [gameCore bufferHeight] * (32 >> 3), [gameCore videoBuffer]); 
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
     glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-    
+	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+ 
     // proper tex params.
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     
     glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore bufferWidth], [gameCore bufferHeight], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
     
     // unset our client storage options storage
     // these fucks were causing our FBOs to fail.
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
-    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
+	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
     
     glPopAttrib();
     
@@ -324,6 +325,8 @@
     
     glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);    
     
+	NSLog(@"found previous FBO: %i", previousFBO);
+	
     GLenum status;
     GLuint name;
     
@@ -360,8 +363,9 @@
     // offsets from the game core should the image we want be 'elsewhere' within the main texture. 
     CGRect cropRect = [gameCore sourceRect];
     
-    //    GLenum  status;
-    
+    // cache our previous FBO every frame. CA in 10.6 changes this behind our backs 
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);    
+	
     // save our current GL state
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     
@@ -382,8 +386,8 @@
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, correctionTexture, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-    // status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-    // if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+	//GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+	//if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {    
         // Setup OpenGL states 
         glViewport(0, 0, gameCore.screenWidth,  gameCore.screenHeight);
@@ -403,11 +407,11 @@
         glActiveTexture(GL_TEXTURE0);
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-        
-        // do a nearest neighbor interp.
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);        
-        
+		
+		// do a nearest linear interp.
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);		
+		                
         glColor4f(1.0, 1.0, 1.0, 1.0);
 
         // why do we need it ?
@@ -440,25 +444,22 @@
         glMatrixMode(GL_PROJECTION);
         glPopMatrix();
     }
-    
     // restore states
     glPopAttrib();        
-    
-    // flush to make sure FBO texture attachment is finished being rendered.
-    glFlushRenderAPPLE();
     
     // back to our original FBO
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
     
+	// flush to make sure FBO texture attachment is finished being rendered.
+	//glFlushRenderAPPLE();
+		
     // Check for OpenGL errors 
-    /*    status = glGetError();
-     if(status)
-     {
-     NSLog(@"FrameBuffer OpenGL error %04X", status);
-     glDeleteTextures(1, &name);
-     name = 0;
-     }
-     */    
+/*	status = glGetError();
+	if(status)
+	{
+		NSLog(@"FrameBuffer OpenGL error %04X", status);
+	}
+*/
 }
 
 - (NSImage*) imageForCurrentFrame
