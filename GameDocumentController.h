@@ -84,7 +84,7 @@
 
 - (GameDocument *)currentDocument;
 
-- (OECorePlugin *)pluginForType:(NSString *)type;
+- (NSArray *)pluginsForType:(NSString *)type;
 - (void)updateFilterNames;
 - (void)updateValidExtensions;
 - (void)updateInfoPlist;
