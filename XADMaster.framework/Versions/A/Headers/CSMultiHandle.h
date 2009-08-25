@@ -18,6 +18,7 @@ extern NSString *CSSizeOfSegmentUnknownException;
 -(void)dealloc;
 
 -(NSArray *)handles;
+-(CSHandle *)currentHandle;
 
 -(off_t)fileSize;
 -(off_t)offsetInFile;
