@@ -45,8 +45,6 @@
 - (void)timerCallInstallLoop;
 - (void)addFrame;
 - (void)finishRecording;
-- (NSArray *)availableComponents;
-- (NSData *)getExportSettings;
 - (BOOL)writeMovieToFile:(NSString *)file withComponent:(NSDictionary *)component withExportSettings:(NSData *)exportSettings;
 
 @end

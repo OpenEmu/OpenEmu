@@ -65,6 +65,7 @@
     NSArray *array = [managedObjectContext executeFetchRequest:request error:&error];
     if (array != nil) {
         int count = [array count]; // may be 0 if the object has been deleted
+#pragma unused (count)
         // …
     }
     

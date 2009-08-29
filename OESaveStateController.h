@@ -75,5 +75,6 @@
 - (IBAction)exportSave:(id)sender;
 - (IBAction)toggleViewType:(NSSegmentedControl *)sender;
 - (IBAction)deleteState:(id)sender;
+- (void)updateRomGroups;
 
 @end

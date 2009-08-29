@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="152"/>
+			<integer value="150"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -106,7 +106,7 @@
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSSearchFieldCell" key="NSCell" id="330259349">
 										<int key="NSCellFlags">341966400</int>
-										<int key="NSCellFlags2">1088</int>
+										<int key="NSCellFlags2">1024</int>
 										<object class="NSFont" key="NSSupport" id="683610665">
 											<string key="NSName">LucidaGrande</string>
 											<double key="NSSize">13</double>
@@ -387,7 +387,7 @@
 														<reference key="NSSupport" ref="26"/>
 														<reference key="NSControlView" ref="910696894"/>
 														<int key="NSButtonFlags">1215582719</int>
-														<int key="NSButtonFlags2">130</int>
+														<int key="NSButtonFlags2">2</int>
 														<object class="NSCustomResource" key="NSNormalImage">
 															<string key="NSClassName">NSImage</string>
 															<string key="NSResourceName">NSSwitch</string>
@@ -1418,9 +1418,9 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{110, 340}, {702, 468}}</string>
+					<string>{{110, 240}, {702, 468}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{110, 340}, {702, 468}}</string>
+					<string>{{110, 240}, {702, 468}}</string>
 					<integer value="1"/>
 					<string>{196, 240}</string>
 					<string>{{357, 418}, {480, 270}}</string>
@@ -1429,7 +1429,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{153, 639}, {616, 169}}</string>
+					<string>{{153, 539}, {616, 169}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

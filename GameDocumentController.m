@@ -762,7 +762,7 @@
 		[saveData writeToFile:[NSString stringWithFormat:@"%s", tmp] atomically:YES];
 		@synchronized([(GameDocument*)[self currentDocument] gameCore])
 		{
-			[[doc gameCore] loadStateFromFileAtPath:[NSString stringWithFormat:@"%s", tmp]];
+			[[(GameDocument*)doc gameCore] loadStateFromFileAtPath:[NSString stringWithFormat:@"%s", tmp]];
 		}
 	}
 }

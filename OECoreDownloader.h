@@ -43,5 +43,6 @@
 @property (readonly) NSArray* downloads;
 
 - (IBAction)downloadSelectedCores:(id)sender;
+- (void)loadAppcasts;
 
 @end

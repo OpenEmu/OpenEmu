@@ -97,6 +97,57 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     return gameTexture;
 }
 
+#pragma mark NES-specific features
+@interface GameCore (NesAdditions)
+
+
+
+- (BOOL)isUnlimitedSpritesEnabled;
+- (int)brightness;
+- (int)saturation;
+- (int)contrast;
+- (int)sharpness;
+- (int)colorRes;
+- (int)colorBleed;
+- (int)colorArtifacts;
+- (int)colorFringing;
+- (int)hue;
+
+
+- (void) applyNTSC: (id) sender;
+- (BOOL) isNTSCEnabled;
+
+- (void) toggleUnlimitedSprites: (id) sender;
+- (void) enableUnlimitedSprites: (BOOL) enable;
+- (void) setCode:(NSString*) code;
+- (void) enableRewinder:(BOOL) rewind;
+- (BOOL) isRewinderEnabled;
+- (void) rewinderDirection: (NSUInteger) rewinderDirection;
+- (void) enableRewinderBackwardsSound: (BOOL) rewindSound;
+- (BOOL) isRewinderBackwardsSoundEnabled;
+
+
+- (int) cartVRamSize;
+- (int) chrRomSize;
+//- (void) setRandomNmtRamByte;
+//- (void) setRandomChrRamByte;
+
+- (void)setNMTRamByTable:(NSNumber*)table array:(NSArray*)nmtValueArray;
+- (void) setNmtRamBytes:(double)off value:(double)val;
+- (void) setChrRamBytes:(double)off value:(double)val;
+
+//movie methods
+- (void) recordMovie:(NSString*) moviePath mode:(BOOL)append;
+- (void) playMovie:(NSString*) moviePath;
+- (void) stopMovie;
+- (BOOL) isMovieRecording;
+- (BOOL) isMoviePlaying;
+- (BOOL) isMovieStopped;
+
+@end
+
+
+
 @implementation OpenEmuQCNES
 
 /*
