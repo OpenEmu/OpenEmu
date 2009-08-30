@@ -967,6 +967,9 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     CGLContextObj cgl_ctx = [context CGLContextObj];
     CGLLockContext(cgl_ctx);
     
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);
+
+	
     //NSLog(@"Quartz Composer: gl context when attempting to use shader: %p", cgl_ctx);
     
     id<QCPlugInInputImageSource>   image = self.inputImage;
