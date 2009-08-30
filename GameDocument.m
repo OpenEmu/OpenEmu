@@ -254,8 +254,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     {
         [view enterFullScreenMode:[[view window] screen]
                       withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens,
-                                   [NSNumber numberWithInt:0], NSFullScreenModeWindowLevel, nil]];
+                                   [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens, nil]];
         [NSCursor hide];
     }
     else
