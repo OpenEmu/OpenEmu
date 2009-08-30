@@ -458,15 +458,16 @@
 	return [super openDocumentWithContentsOfURL:absoluteURL display:displayDocument error:outError];
 }
 
-- (NSString *)typeForExtension:(NSString *)anExtension
+- (NSString *)pluginIDForExtension:(NSString *)anExtension
 {
-	OECorePlugin *plugin = [self pluginForType:anExtension];
-	return [plugin typeForExtension:anExtension];
+	OECorePlugin *plugin = [self pluginForExtension:anExtension];
+	return [plugin displayName];
+//	return [plugin typeForExtension:anExtension];
 }
 
-- (OECorePlugin *)pluginForType:(NSString *)type
+- (OECorePlugin *)pluginForExtension:(NSString *)anExtension
 {
-	NSArray *validPlugins = [self pluginsForType:type];
+	NSArray *validPlugins = [self pluginsForExtension:anExtension];
 	OECorePlugin* plugin = nil;
 	if( [validPlugins count] == 1 )
 		plugin = [validPlugins objectAtIndex:0];
@@ -481,13 +482,14 @@
 		
 	}
 	return plugin;
+	
 }
 
-- (NSArray *)pluginsForType:(NSString *)type
+- (NSArray *)pluginsForExtension:(NSString *)extension
 {
 	NSMutableArray* validPlugins = [NSMutableArray array];
 	for(OECorePlugin *plugin in plugins)
-		if([plugin supportsFileType:type])
+		if([plugin supportsFileType:extension])
 			[validPlugins addObject:plugin];
 	return validPlugins;
 }
@@ -500,8 +502,9 @@
 
 - (NSString *)typeForContentsOfURL:(NSURL *)inAbsoluteURL error:(NSError **)outError
 {
-	NSString *ret = [super typeForContentsOfURL:inAbsoluteURL error:outError];
-	if(ret == nil) ret = [self typeForExtension:[[inAbsoluteURL path] pathExtension]], NSLog(@"typeForContentsOfURL: Long path");
+	NSString *ret = [self pluginIDForExtension:[[inAbsoluteURL path] pathExtension]];
+	NSLog(@"typeForContentsOfURL: Long path");
+	if(ret == nil) ret = [super typeForContentsOfURL:inAbsoluteURL error:outError];
 	return ret;
 }
 

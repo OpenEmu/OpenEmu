@@ -136,7 +136,21 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     NSLog(@"%@",self);
     
     GameDocumentController *docControl = [GameDocumentController sharedDocumentController];
-    OECorePlugin *plugin = [docControl pluginForType:typeName];
+	OECorePlugin *plugin;
+	for(OEPlugin* aPlugin in [docControl plugins])
+	{
+		if( [[aPlugin displayName] isEqualToString:typeName] )
+		{
+			plugin = (OECorePlugin*)aPlugin;
+			break;
+		}
+	}
+
+	if( plugin == nil )
+	{
+		return NO;
+	}
+	
     emulatorName = [[plugin displayName] retain];
     gameCore = [[plugin controller] newGameCoreWithDocument:self];
     NSLog(@"gameCore class: %@", [gameCore class]);
