@@ -395,7 +395,7 @@
 	
     NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
     
-    XADArchive *archive = [XADArchive archiveForFile:[absoluteURL path]];
+    XADArchive *archive = nil;//[XADArchive archiveForFile:[absoluteURL path]];
     if(archive != nil)
     {
         NSString *filePath;
@@ -460,9 +460,8 @@
 
 - (NSString *)typeForExtension:(NSString *)anExtension
 {
-
-	return nil;
-//	return [plugin typeForExtension:anExtension];
+	OECorePlugin *plugin = [self pluginForType:anExtension];
+	return [plugin typeForExtension:anExtension];
 }
 
 - (OECorePlugin *)pluginForType:(NSString *)type
