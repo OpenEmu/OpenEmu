@@ -136,7 +136,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     NSLog(@"%@",self);
     
     GameDocumentController *docControl = [GameDocumentController sharedDocumentController];
-	OECorePlugin *plugin;
+	OECorePlugin *plugin = nil;
 	for(OEPlugin* aPlugin in [docControl plugins])
 	{
 		if( [[aPlugin displayName] isEqualToString:typeName] )

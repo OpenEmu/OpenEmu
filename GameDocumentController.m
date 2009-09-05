@@ -39,16 +39,20 @@
 #import "OECorePlugin.h"
 #import "OECorePickerController.h"
 #import "OECompositionPlugin.h"
-#import "SaveState.h"
+#import "OESaveState.h"
 #import "OECoreDownloader.h"
 
 #import "OEROMFile.h"
 #import "OEROMOrganizer.h"
 
+#import "SaveState.h"
+
 @interface GameDocumentController ()
 @property(readwrite, retain) NSArray *plugins;
 - (void)OE_setupHIDManager;
 - (OEHIDDeviceHandler *)OE_deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice;
+
+-(BOOL)migrateOESaveStateAtPath:(NSString *)saveStatePath;
 @end
 
 
@@ -601,7 +605,7 @@
 		return managedObjectModel;
 	}
 	
-	managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
+	managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"ROMFile" ofType:@"mom"]]];
 	return managedObjectModel;
 }
 
@@ -621,7 +625,6 @@
 	
 	NSFileManager *fileManager;
 	NSString *applicationSupportFolder = nil;
-	NSURL *url;
 	NSError *error;
 	
 	fileManager = [NSFileManager defaultManager];
@@ -631,6 +634,14 @@
 	}
 	
 	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
+    if(![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType
+                                                 configuration:nil
+                                                           URL:[NSURL fileURLWithPath:[applicationSupportFolder stringByAppendingPathComponent:@"ROMs.xml"] isDirectory:NO]
+                                                       options:nil
+                                                         error:&error]){
+        NSLog(@"Persistent store fail %@",error);
+        [[NSApplication sharedApplication] presentError:error];
+    }
 	
 	NSString *statesPath = [applicationSupportFolder stringByAppendingPathComponent:@"Save States"];
 	
@@ -644,13 +655,10 @@
 	{
 		if([@"oesavestate" isEqualToString:[statePath pathExtension]])
 		{
-			url = [NSURL fileURLWithPath:[statesPath stringByAppendingPathComponent:statePath]];
-			if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]){        
-				[[NSApplication sharedApplication] presentError:error];
-			}    
+			[self migrateOESaveStateAtPath:statePath];
 		}
 	}
-	
+
 	return persistentStoreCoordinator;
 }
 
@@ -749,91 +757,94 @@
 	return reply;
 }
 
+-(BOOL)migrateOESaveStateAtPath:(NSString *)saveStatePath{
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
+	BOOL win = YES;
+	
+	NSManagedObjectModel *model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:saveStatePath]] autorelease];
+	NSPersistentStoreCoordinator *coordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model] autorelease];
+	NSManagedObjectContext *context = [[[NSManagedObjectContext alloc] init] autorelease];
+	[context setPersistentStoreCoordinator:coordinator];
+	
+	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
+	
+	NSFetchRequest *fetch = [[[NSFetchRequest alloc] init] autorelease];
+	[fetch setEntity:entityDescription];
+	
+	NSArray *saves = [context executeFetchRequest:fetch error:nil];
+	
+	for(SaveState *save in saves){
+		OESaveState *saveState = [[[OESaveState alloc] initInsertedIntoManagedObjectContext:self.managedObjectContext] autorelease];
+		[saveState setBundlePath:[[saveStatePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"savestate"]];
+		
+		[saveState setRomFile:[OEROMFile fileWithPath:[save rompath]
+									createIfNecessary:YES
+							   inManagedObjectContext:self.managedObjectContext]];
+		
+		[saveState setEmulatorID:[save emulatorID]];
+		[saveState setTimeStamp: [save timeStamp]];
+		
+		[saveState setSaveData:  [[save saveData] valueForKey:@"data"]];
+		[saveState setScreenshot:[[[NSImage alloc] initWithData:[[save screenShot] valueForKey:@"data"]] autorelease]];
+	}
+	
+	if(win){
+		[[NSFileManager defaultManager] removeItemAtPath:saveStatePath error:nil];
+	}
+	
+	[pool release];
+	return win;
+}
+
 - (IBAction)loadState:(NSArray*)states
 {
-	for( SaveState* object in states )
+	for( OESaveState* object in states )
 	{
 		NSError* error = nil;
+		if([object isKindOfClass:[SaveState class]]){
+			
+		}
 		
-		
-		NSDocument* doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[object rompath]] display:YES error:&error];
+		NSDocument* doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
 		NSLog(@"%@", doc);
-		char format[25] = "/tmp/oesav.XXXXX";
-		const char* tmp = tmpnam(format);
-		NSData *saveData = [[object valueForKey:@"saveData"] valueForKey:@"data"];
-		[saveData writeToFile:[NSString stringWithFormat:@"%s", tmp] atomically:YES];
+
 		@synchronized([(GameDocument*)[self currentDocument] gameCore])
 		{
-			[[(GameDocument*)doc gameCore] loadStateFromFileAtPath:[NSString stringWithFormat:@"%s", tmp]];
+			[[(GameDocument*)doc gameCore] loadStateFromFileAtPath:[object saveDataPath]];
 		}
 	}
 }
 
 - (IBAction)saveState:(id)sender
 {    
-	NSManagedObject *newState = [NSEntityDescription
-								 insertNewObjectForEntityForName:@"SaveState"
-								 inManagedObjectContext:self.managedObjectContext];
+	NSString *romPath = [[[self currentDocument] fileURL] path];
+	NSEntityDescription *entity = [NSEntityDescription entityForName:@"SaveState" 
+											  inManagedObjectContext:self.managedObjectContext];
+	OESaveState *newState = [[[OESaveState alloc] initWithEntity:entity insertIntoManagedObjectContext:nil] autorelease];
+
+	NSString *saveFileName = [NSString stringWithFormat:@"%@-%@", [[romPath lastPathComponent] stringByDeletingPathExtension],
+							  [[NSDate date] descriptionWithCalendarFormat:@"%m-%d-%Y_%H-%M-%S-%F" timeZone:nil locale:nil]];
 	
+	[newState setBundlePath:[[[[self applicationSupportFolder] stringByAppendingPathComponent: @"Save States"] 
+							  stringByAppendingPathComponent:saveFileName] stringByAppendingPathExtension:@"savestate"]];
+		
+	[newState setEmulatorID:[(GameDocument*)[self currentDocument] emulatorName]];
 	
-	[newState setValue:[NSDate date] forKey:@"timeStamp"];
-	[newState setValue:[(GameDocument*)[self currentDocument] emulatorName] forKey:@"emulatorID"];
-	
-	
-	NSString* path = [[[self currentDocument] fileURL] path];
-	AliasHandle handle;
-	Boolean isDirectory;
-	OSErr err = FSNewAliasFromPath( NULL, [path UTF8String], 0, &handle, &isDirectory );
-	if ( err != noErr )
-	{
-		[self.managedObjectContext undo];
-		return;
-	}
-	
-	long aliasSize = GetAliasSize(handle);
-	NSData *aliasData = [NSData dataWithBytes:*handle length:aliasSize];
-	[newState setValue:aliasData forKey:@"pathalias"];
-	
-	DisposeHandle((Handle)handle);
-	
-	char format[25] = "/tmp/oesav.XXXXX";
-	const char* tmp = tmpnam(format);
 	@synchronized([(GameDocument*)[self currentDocument] gameCore])
 	{
-		[[(GameDocument*)[self currentDocument] gameCore] saveStateToFileAtPath:[NSString stringWithFormat:@"%s", tmp]];    
+		[[(GameDocument*)[self currentDocument] gameCore] saveStateToFileAtPath:[newState saveDataPath]];    
 	}
+
+	[newState setScreenshot:[(GameDocument*)[self currentDocument] screenShot]];
 	
-	NSManagedObject *saveData = [NSEntityDescription
-								 insertNewObjectForEntityForName:@"SaveData" 
-								 inManagedObjectContext:self.managedObjectContext];
+	OEROMFile *romFile = [OEROMFile fileWithPath:romPath
+							   createIfNecessary:YES
+						  inManagedObjectContext:self.managedObjectContext];
 	
-	
-	[saveData setValue:[NSData dataWithContentsOfFile:[NSString stringWithFormat:@"%s", tmp]] forKey:@"data"];
-	
-	[newState setValue:saveData forKey:@"saveData"];
-	
-	NSManagedObject *screenShot = [NSEntityDescription
-								   insertNewObjectForEntityForName:@"ScreenShot"
-								   inManagedObjectContext:self.managedObjectContext];
-	
-	[screenShot setValue:[[[[(GameDocument*)[self currentDocument] screenShot] representations] objectAtIndex: 0] representationUsingType: NSPNGFileType  properties: nil] forKey:@"screenShot"];
-	
-	[newState setValue:screenShot forKey:@"screenShot"];
-	
-	
-	NSString *saveFileName = [NSString stringWithFormat:@"%@-%@", [[[[[self currentDocument] fileURL] path] lastPathComponent] stringByDeletingPathExtension],
-							  [[newState valueForKey:@"timeStamp"] descriptionWithCalendarFormat:@"%m-%d-%Y_%H-%M-%S-%F" timeZone:nil locale:nil]];
-	
-	NSURL * url = [NSURL fileURLWithPath: [[[[self applicationSupportFolder] stringByAppendingPathComponent: @"Save States"] 
-											stringByAppendingPathComponent:saveFileName] stringByAppendingPathExtension:@"oesavestate"]];
-	
-	NSError *error;
-	if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:url options:nil error:&error]){        
-		[[NSApplication sharedApplication] presentError:error];
-	}    
-	
-	NSLog(@"url: %@", [url path]);
-	[self.managedObjectContext assignObject:newState toPersistentStore:[self.persistentStoreCoordinator persistentStoreForURL:url]];
+	[self.managedObjectContext insertObject:newState];
+	[[romFile mutableSetValueForKey:@"saveStates"] addObject:newState];
+
+	[self.managedObjectContext save:nil];
 }
 
 

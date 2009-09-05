@@ -2,7 +2,7 @@
 #include <CoreServices/CoreServices.h>
 #include <QuickLook/QuickLook.h>
 #import <CoreData/CoreData.h>
-#import "SaveState.h"
+#import "OESaveState.h"
 
 /* -----------------------------------------------------------------------------
    Generate a preview for file
@@ -40,9 +40,9 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
 	error = nil;
 	NSArray *array = [managedObjectContext executeFetchRequest:request error:&error];
 
-	SaveState* state = [array objectAtIndex:0];
+	OESaveState* state = [array objectAtIndex:0];
 	
-	NSImage* image = [[NSImage alloc] initWithData:[state.screenShot valueForKey:@"screenShot"]];
+	NSImage* image = [state screenshot]; //[[NSImage alloc] initWithData:[state.screenShot valueForKey:@"screenShot"]];
 	
 	
 	NSSize canvasSize = [image size];

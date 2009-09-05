@@ -28,9 +28,11 @@
 #import "OEROMFile.h"
 #import "OECorePlugin.h"
 
+#import "NSString+Aliases.h"
+
 @implementation OEROMFile
 
-@dynamic path;
+@dynamic path, pathAlias;
 @dynamic lastPlayedDate;
 
 +(NSString *)entityName{
@@ -81,23 +83,12 @@
 }
 
 -(void)setPath:(NSString *)path{
-    [self setPrimitiveValue:[[path copy] autorelease] forKey:@"path"];
-    
-    AliasHandle handle;
-    Boolean isDirectory;
-    OSErr err = FSNewAliasFromPath( NULL, [path UTF8String], 0, &handle, &isDirectory );
-    if ( err != noErr )
-    {
-//        [[self managedObjectContext] undo];
-        return;
-    }
-    
-    long aliasSize = GetAliasSize(handle);
-    DLog(@"Alias is %i bytes",aliasSize);
-    NSData *aliasData = [NSData dataWithBytes:*handle length:aliasSize];
-    [self setValue:aliasData forKey:@"pathAlias"];
-    
-    DisposeHandle((Handle)handle);
+	[self setPrimitiveValue: path                   forKey:@"path"];
+    [self setPrimitiveValue:[path OE_pathAliasData] forKey:@"pathAlias"];
+}
+
+-(NSString *)path{
+	return [NSString OE_stringWithPathOfAliasData:[self pathAlias]];
 }
 
 -(NSString *)systemName{

@@ -26,7 +26,7 @@
  */
 
 #import "SaveState.h"
-
+#import "NSString+Aliases.h"
 
 @implementation SaveState 
 
@@ -41,29 +41,7 @@
 - (NSString *)rompath
 {
     NSData *aliasData = [self valueForKey:@"pathalias"];
-    AliasHandle handle;
-    
-    //Look mah! IM LEGACY
-    OSErr err = PtrToHand([aliasData bytes], (Handle *)&handle, [aliasData length]);
-    
-    FSRef fileRef;
-    Boolean wasChanged;
-    err = FSResolveAlias(NULL, handle, &fileRef, &wasChanged);
-    if(err != noErr)
-    {
-        DisposeHandle((Handle)handle);
-        return @"Unknown";
-    }
-    
-    DisposeHandle((Handle)handle);
-    
-    char path[1024];
-    
-    FSRefMakePath(&fileRef, (UInt8 *)path, 1024);
-    
-    NSString *nsPath = [NSString stringWithCString:path encoding:NSUTF8StringEncoding];
-    nsPath = [nsPath stringByStandardizingPath];
-    return nsPath;
+	return [NSString OE_stringWithPathOfAliasData:aliasData];
 }
 
 - (id) imageRepresentation

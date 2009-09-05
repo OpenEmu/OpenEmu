@@ -28,11 +28,11 @@
 #import "OESaveStateController.h"
 #import "GameDocumentController.h"
 #import "IKImageFlowView.h"
-#import "SaveState.h"
+#import "OESaveState.h"
 
 @implementation OESaveStateController
 
-@dynamic plugins;
+
 @synthesize availablePluginsPredicate, selectedPlugins, docController, 
 selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
 
@@ -44,7 +44,7 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
         self.docController = [GameDocumentController sharedDocumentController];
         self.selectedRomPredicate = nil;
         
-        NSSortDescriptor *path = [[NSSortDescriptor alloc] initWithKey:@"rompath" ascending:NO];
+        NSSortDescriptor *path = [[NSSortDescriptor alloc] initWithKey:@"romFile.path" ascending:NO];
         NSSortDescriptor *time = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:YES];
         
         self.sortDescriptors = [NSArray arrayWithObjects:path,time,nil];
@@ -152,7 +152,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
     //NSLog(@"Clicked by: %@", sender);
     id selectedObject = [outlineView itemAtRow:[outlineView selectedRow]];
     
-    if([selectedObject class] == [SaveState class])
+    if([selectedObject class] == [OESaveState class])
         [self.docController loadState:[NSArray arrayWithObject:selectedObject]];
 }
 
@@ -227,14 +227,14 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
     NSRange range;
     for(NSUInteger i = 0; i < [allItems count]; i++)
     {
-        SaveState *state = [allItems objectAtIndex:i];
+        OESaveState *state = [allItems objectAtIndex:i];
         
-        if(![self.pathArray containsObject:[state rompath]])
+        if(![self.pathArray containsObject:[[state romFile] path]])
         {
-            if([self.pathArray count] != 0)
+//            if([self.pathArray count] != 0)
                 [self.pathRanges addObject:[NSValue valueWithRange:range]];
             
-            [self.pathArray addObject:[state rompath]];
+            [self.pathArray addObject:[[state romFile] path]];
             range.location = i;
             range.length = 1;
         }
@@ -300,22 +300,22 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 { 
-    if([item class] == [SaveState class]) return [item imageSubtitle];
+    if([item class] == [OESaveState class]) return [item imageSubtitle];
     return [[item description] lastPathComponent];
 }
 
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    if( [outlineView selectedRow] == -1 || [[outlineView itemAtRow:[outlineView selectedRow]] class] != [SaveState class] )
+    if( [outlineView selectedRow] == -1 || [[outlineView itemAtRow:[outlineView selectedRow]] class] != [OESaveState class] )
         [savestateController setSelectedObjects: nil];
     else
         [savestateController setSelectedObjects: [NSArray arrayWithObject:[outlineView itemAtRow:[outlineView selectedRow]]]];
 }
 
-- (SaveState *)selectedSaveState
+- (OESaveState *)selectedSaveState
 {
-    SaveState *saveState = nil;
+    OESaveState *saveState = nil;
     
     switch ([segmentButton selectedSegment])
     {
@@ -332,7 +332,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
             break;
     }
     
-    if( [saveState class] != [SaveState class] )
+    if( [saveState class] != [OESaveState class] )
         return nil;
     
     return saveState;
@@ -340,9 +340,9 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (IBAction) exportSave:(id) sender
 {
-    SaveState* saveState = [self selectedSaveState];
+    OESaveState* saveState = [self selectedSaveState];
     
-    NSData *saveData = [[[saveState valueForKey:@"saveData"] valueForKey:@"data"] retain];
+    NSData *saveData = [[saveState saveData] copy];
     
     [[NSSavePanel savePanel] beginSheetForDirectory:nil
                                                file:nil 
@@ -354,14 +354,8 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (IBAction)deleteState:(id)sender
 {
-    SaveState *saveState = [self selectedSaveState];
-    [[docController managedObjectContext] save:nil];
-    NSPersistentStore *store = [[saveState objectID] persistentStore];
-    NSURL *storeURL = [store URL];
-    [savestateController removeObject:saveState];
-    [[docController persistentStoreCoordinator] removePersistentStore:store error:nil];
-    
-    [[NSFileManager defaultManager] removeFileAtPath:[storeURL path] handler:nil];
+    OESaveState *saveState = [self selectedSaveState];    
+    [[NSFileManager defaultManager] removeFileAtPath:[saveState bundlePath] handler:nil];
 }
 
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo

@@ -2,7 +2,7 @@
 #include <CoreServices/CoreServices.h>
 #include <QuickLook/QuickLook.h>
 #import <CoreData/CoreData.h>
-#import "SaveState.h"
+#import "OESaveState.h"
 
 
 /* -----------------------------------------------------------------------------
@@ -41,9 +41,9 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
 	error = nil;
 	NSArray *array = [managedObjectContext executeFetchRequest:request error:&error];
 	
-	SaveState* state = [array objectAtIndex:0];
+	OESaveState* state = [array objectAtIndex:0];
 	
-	NSImage* image = [[NSImage alloc] initWithData:[state.screenShot valueForKey:@"screenShot"]];
+	NSImage* image = [state screenshot] ;// [[NSImage alloc] initWithData:[state.screenShot valueForKey:@"screenShot"]];
 	
 	
 	NSSize canvasSize = [image size];

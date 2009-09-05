@@ -55,6 +55,7 @@
 			<key>CFBundleTypeExtensions</key>
 			<array>
 				<string>oesavestate</string>
+				<string>savestate</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>Save State</string>

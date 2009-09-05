@@ -93,6 +93,8 @@
 
 - (NSManagedObjectContext *) managedObjectContext
 {
+	return [[NSApp delegate] managedObjectContext];
+	
     if(managedObjectContext != nil)
         return managedObjectContext;
     
@@ -150,13 +152,10 @@
 {
     if(returnCode == NSOKButton)
     {
-        NSString *basePath = [openPanel directory];
         NSArray *filenames = [openPanel filenames];
         for(NSString *file in filenames)
         {
-            NSString *path = [basePath stringByAppendingPathComponent:file];
-
-            [OEROMFile fileWithPath:path createIfNecessary:YES inManagedObjectContext:[self managedObjectContext]];
+            [OEROMFile fileWithPath:file createIfNecessary:YES inManagedObjectContext:[self managedObjectContext]];
         }
 
         [self save];
