@@ -32,7 +32,7 @@
 
 @implementation OEDownload
 
-@synthesize enabled, appcastItem, progress, progressBar, delegate;
+@synthesize enabled, appcastItem, progress, progressBar, delegate, fullPluginPath;
 
 // FIXME: is that relevant ?
 - (id)init
@@ -92,9 +92,6 @@
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
 {
-    // release the connection
-    [download release];
-	
     // inform the user
     NSLog(@"Download failed! Error - %@ %@",
           [error localizedDescription],
@@ -128,7 +125,11 @@
 	
 	NSString* appsupportFolder = [[GameDocumentController sharedDocumentController] applicationSupportFolder];
 	appsupportFolder = [appsupportFolder stringByAppendingPathComponent:@"Cores"];
+	
+	fullPluginPath = [[appsupportFolder stringByAppendingPathComponent:[archive nameOfEntry:0]] retain];
+	NSLog(@"%@",fullPluginPath);
 	[archive extractTo:appsupportFolder];
+	
 	
 	//Delete the temp file
 	[[NSFileManager defaultManager] removeFileAtPath:downloadPath handler:nil];
@@ -146,6 +147,7 @@
 	[progressBar removeFromSuperview];
 	[progressBar release];
 	[downloadPath release];
+	[fullPluginPath release];
 	self.appcastItem = nil;
 	
 	[super dealloc];

@@ -44,6 +44,7 @@
 	double progress;
 	NSString* name;
 	NSString* downloadPath;
+	NSString* fullPluginPath;
 	unsigned long long expectedLength;
 	unsigned long long downloadedSize;
 	SUAppcastItem* appcastItem;
@@ -56,6 +57,7 @@
 @property (assign) BOOL enabled;
 @property (retain) SUAppcastItem* appcastItem;
 @property (assign) id<OEDownloadDelegate> delegate;
+@property (readonly) NSString* fullPluginPath;
 
 - (id)initWithAppcast:(SUAppcast *)appcast;
 - (void) startDownload;

@@ -452,7 +452,7 @@
 	OECorePlugin* plugin = nil;
 	if( [validPlugins count] == 1 )
 		plugin = [validPlugins objectAtIndex:0];
-	else
+	else if( [validPlugins count] > 1 )
 	{
 		OECorePickerController *c = [[[OECorePickerController alloc] initWithCoreList:validPlugins] autorelease];
 		
