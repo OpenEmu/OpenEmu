@@ -32,14 +32,16 @@
 #import "OEHIDDeviceHandler.h"
 
 @class GameCore, OECorePlugin;
-@class GameDocument, OEGamePreferenceController, OESaveStateController;
+@class GameDocument, OEGamePreferenceController, OESaveStateController, OECoreDownloader;
 
 @interface GameDocumentController : NSDocumentController
 {
     GameDocument               *currentGame;
     OEGamePreferenceController *preferences;
     OESaveStateController      *saveStateManager;
-    NSArray                    *filterNames;
+
+    OECoreDownloader		   *coreDownloader;	
+	NSArray                    *filterNames;
     NSArray                    *plugins;
     NSArray                    *validExtensions;
     BOOL                        gameLoaded;

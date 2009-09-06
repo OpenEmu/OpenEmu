@@ -76,8 +76,12 @@
 #warning YES IM A LEAK, BUT IM A TEST
 - (void) applicationDidFinishLaunching:(NSNotification*)aNotification
 {
-	OECoreDownloader* downloader = [[OECoreDownloader alloc] init];
-	[downloader showWindow:self];
+	if ( [plugins count] == 0 )
+	{	
+		coreDownloader = [[OECoreDownloader alloc] init];
+		[coreDownloader showWindow:self];		
+	}
+
     
     OEROMOrganizer *organizer = [[OEROMOrganizer alloc] init];
     [organizer showWindow:self];
@@ -190,6 +194,7 @@
     if(hidManager != NULL) CFRelease(hidManager);
     [deviceHandlers release];
     [aboutCreditsPath release];
+	[coreDownloader release];
 	
     [managedObjectContext release], managedObjectContext = nil;
     [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
