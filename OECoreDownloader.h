@@ -26,10 +26,11 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "OEDownload.h"
 
 @class GameDocumentController;
 
-@interface OECoreDownloader : NSWindowController
+@interface OECoreDownloader : NSWindowController <OEDownloadDelegate>
 {
     NSMutableArray* appcasts;
     NSMutableArray* downloads;
@@ -38,6 +39,7 @@
     
     NSMutableDictionary* downloadToPathMap;
     IBOutlet NSArrayController* downloadArrayController;
+	IBOutlet NSTableView* downloadTableView;
 }
 
 @property (readonly) NSArray* downloads;

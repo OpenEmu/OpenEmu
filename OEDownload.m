@@ -32,7 +32,7 @@
 
 @implementation OEDownload
 
-@synthesize enabled, appcastItem, progress, progressBar;
+@synthesize enabled, appcastItem, progress, progressBar, delegate;
 
 // FIXME: is that relevant ?
 - (id)init
@@ -61,7 +61,7 @@
 
 - (id)initWithAppcast:(SUAppcast *)appcast
 {
-    if(self = [super init])
+    if(self = [self init])
     {
         enabled = YES;
         
@@ -103,13 +103,16 @@
 
 - (void) download: (NSURLDownload*)download didCreateDestination: (NSString*)path
 {
-	//  NSLog(@"%@",@"created dest");
+	  NSLog(@"%@, %@",@"created dest", path);
 }
 
 - (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
 {
 	downloadedSize += length;
+	[self willChangeValueForKey:@"progress"];
 	progress =  (double) downloadedSize /  (double) expectedLength;
+	[self didChangeValueForKey:@"progress"];
+	
 //	NSLog(@"Got data:%f", (double) downloadedSize /  (double) expectedLength);
 }
 
@@ -127,17 +130,24 @@
 	appsupportFolder = [appsupportFolder stringByAppendingPathComponent:@"Cores"];
 	[archive extractTo:appsupportFolder];
 	
-    // release the connection
-    [download release];
-	
-    // do something with the data
-	// NSLog(@"downloadDidFinish to path %@",path);
-	
+	//Delete the temp file
 	[[NSFileManager defaultManager] removeFileAtPath:downloadPath handler:nil];
+	
+	[delegate OEDownloadDidFinish:self];
 }
 
 - (NSString *)name
 {
     return [appcastItem title];
+}
+
+- (void) dealloc
+{
+	[progressBar removeFromSuperview];
+	[progressBar release];
+	[downloadPath release];
+	self.appcastItem = nil;
+	
+	[super dealloc];
 }
 @end

@@ -64,29 +64,6 @@
 @synthesize aboutCreditsPath;
 @synthesize filterDictionary;
 
-- (void)menuNeedsUpdate:(NSMenu *)menu
-{
-    /*
-	 NSLog(@"Menu!?!?!");
-	 for(NSBundle * bundle in [self bundles])
-	 {
-	 NSNib * nib = [[NSNib alloc] initWithNibNamed:@"Menu" bundle:bundle];
-	 NSArray * objects;
-	 if([nib instantiateNibWithOwner:self topLevelObjects:&objects])
-	 {
-	 for(NSObject*object in objects)
-	 {
-	 if([object isKindOfClass:[NSMenuItem class]])
-	 {
-	 [menu addItem:(NSMenuItem*) object];
-	 NSLog(@"Adding item to menu?");
-	 }
-	 }
-	 }
-	 }
-     */
-}
-
 + (void)initialize
 {
     [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:

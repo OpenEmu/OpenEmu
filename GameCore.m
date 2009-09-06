@@ -141,7 +141,7 @@ static NSTimeInterval currentTime()
     NSUInteger diff = time - autoFrameSkipLastTime;
     int speed = 100;
     // FIXME: WTF ?! Since when dividing by zero is relevant ?!
-    if(diff == 0)
+    if(diff != 0)
     {
         speed = (1000 / rate) / diff;
     }

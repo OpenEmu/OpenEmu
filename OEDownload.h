@@ -27,6 +27,14 @@
 
 #import <Cocoa/Cocoa.h>
 
+@class OEDownload;
+
+@protocol OEDownloadDelegate
+
+- (void)OEDownloadDidFinish:(OEDownload *)download;
+
+@end
+
 @class SUAppcastItem, SUAppcast;
 
 @interface OEDownload : NSViewController {
@@ -39,14 +47,18 @@
 	unsigned long long expectedLength;
 	unsigned long long downloadedSize;
 	SUAppcastItem* appcastItem;
+	
+	id<OEDownloadDelegate> delegate;
 }
 
 @property (readonly) NSProgressIndicator* progressBar;
 @property (readonly) double progress;
 @property (assign) BOOL enabled;
 @property (retain) SUAppcastItem* appcastItem;
+@property (assign) id<OEDownloadDelegate> delegate;
 
 - (id)initWithAppcast:(SUAppcast *)appcast;
 - (void) startDownload;
+- (NSString *)name;
 
 @end

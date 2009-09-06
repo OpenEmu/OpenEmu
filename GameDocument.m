@@ -131,6 +131,13 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     return nil;
 }
 
+- (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
+{
+	
+	
+	
+}
+
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
     NSLog(@"%@",self);

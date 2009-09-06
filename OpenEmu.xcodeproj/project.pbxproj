@@ -158,8 +158,6 @@
 		82965F881041DC4600F30B74 /* OECorePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82965F871041DC4600F30B74 /* OECorePickerController.m */; };
 		829779340E743F2A00631240 /* GameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.m */; };
 		829779360E743F3A00631240 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
-		82AC83631022331E000BCF41 /* Archive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82AC835E1022331A000BCF41 /* Archive.framework */; };
-		82AC8388102233F4000BCF41 /* Archive.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82AC835E1022331A000BCF41 /* Archive.framework */; };
 		82AFA6690FDDC03500531EE3 /* OERingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AFA6670FDDC03500531EE3 /* OERingBuffer.h */; };
 		82AFA66A0FDDC03500531EE3 /* OERingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA6680FDDC03500531EE3 /* OERingBuffer.m */; };
 		82C434130EE393530037C54B /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82C434120EE393530037C54B /* icon.icns */; };
@@ -250,20 +248,6 @@
 			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
 		};
-		82AC835D1022331A000BCF41 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82AC83571022331A000BCF41 /* Archive.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = Archive;
-		};
-		82AC84B010224165000BCF41 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82AC83571022331A000BCF41 /* Archive.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = Archive;
-		};
 		82BCA60B0FEF094900DD3FC4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -335,7 +319,6 @@
 			files = (
 				82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */,
 				82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */,
-				82AC8388102233F4000BCF41 /* Archive.framework in Copy Frameworks to App Frameworks */,
 				1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */,
 				1B224082100BD76D00F42067 /* Sparkle.framework in Copy Frameworks to App Frameworks */,
 			);
@@ -475,7 +458,6 @@
 		829779330E743F2A00631240 /* GameAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameAudio.m; sourceTree = "<group>"; };
 		829779350E743F3A00631240 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = /System/Library/Frameworks/AudioToolbox.framework; sourceTree = "<absolute>"; };
 		829E02CF0E7C5882009F348B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = /System/Library/Frameworks/QuartzCore.framework; sourceTree = "<absolute>"; };
-		82AC83571022331A000BCF41 /* Archive.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Archive.xcodeproj; path = ../Archive/Archive.xcodeproj; sourceTree = SOURCE_ROOT; };
 		82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMap.h; sourceTree = "<group>"; };
 		82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMap.m; sourceTree = "<group>"; };
 		82AFA6670FDDC03500531EE3 /* OERingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERingBuffer.h; sourceTree = "<group>"; };
@@ -595,7 +577,6 @@
 				829022B10F47FAC100BB7AB7 /* QTKit.framework in Frameworks */,
 				82902A140F48ACEE00BB7AB7 /* QuickTime.framework in Frameworks */,
 				82D9122310200F7000E370FC /* CoreData.framework in Frameworks */,
-				82AC83631022331E000BCF41 /* Archive.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,7 +695,6 @@
 		2A37F4AAFDCFA73011CA2CEA /* OpenEmu */ = {
 			isa = PBXGroup;
 			children = (
-				82AC83571022331A000BCF41 /* Archive.xcodeproj */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
@@ -895,14 +875,6 @@
 				C62F56530FE6FDA700DF15BA /* OEGameLayer.m */,
 			);
 			name = Graphics;
-			sourceTree = "<group>";
-		};
-		82AC83581022331A000BCF41 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				82AC835E1022331A000BCF41 /* Archive.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		82DE498810263A09007184EB /* Downloader */ = {
@@ -1106,7 +1078,6 @@
 			dependencies = (
 				C689A55F0FE4635200885BC3 /* PBXTargetDependency */,
 				1BA78D0D0FFAD018007CE5DB /* PBXTargetDependency */,
-				82AC84B110224165000BCF41 /* PBXTargetDependency */,
 			);
 			name = OpenEmu;
 			productInstallPath = "$(HOME)/Applications";
@@ -1127,12 +1098,6 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 82AC83581022331A000BCF41 /* Products */;
-					ProjectRef = 82AC83571022331A000BCF41 /* Archive.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
@@ -1146,16 +1111,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		82AC835E1022331A000BCF41 /* Archive.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Archive.framework;
-			remoteRef = 82AC835D1022331A000BCF41 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		3887A7F21024D1F9000FC4CF /* Resources */ = {
@@ -1423,11 +1378,6 @@
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
 			targetProxy = 37C80304101564A800356EF3 /* PBXContainerItemProxy */;
-		};
-		82AC84B110224165000BCF41 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Archive;
-			targetProxy = 82AC84B010224165000BCF41 /* PBXContainerItemProxy */;
 		};
 		82BCA60C0FEF094900DD3FC4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
