@@ -132,8 +132,8 @@
 - (void)OEDownloadDidFinish:(OEDownload *)download;
 {
 	[download removeObserver:self forKeyPath:@"progress"];
-	[docController openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[download fullPluginPath]] display:NO error:nil];
 	[downloadArrayController removeObject:download];
+	[docController openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[download fullPluginPath]] display:NO error:nil];
 }
 
 - (IBAction)downloadSelectedCores:(id)sender

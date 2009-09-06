@@ -134,6 +134,7 @@
 	//Delete the temp file
 	[[NSFileManager defaultManager] removeFileAtPath:downloadPath handler:nil];
 	
+	[progressBar removeFromSuperview];
 	[delegate OEDownloadDidFinish:self];
 }
 
@@ -144,7 +145,6 @@
 
 - (void) dealloc
 {
-	[progressBar removeFromSuperview];
 	[progressBar release];
 	[downloadPath release];
 	[fullPluginPath release];
