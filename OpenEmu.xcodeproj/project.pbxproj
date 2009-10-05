@@ -116,7 +116,6 @@
 		1EE941FC1050EC8E00509E78 /* SaveState.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1EE941FB1050EC8E00509E78 /* SaveState.xcdatamodel */; };
 		3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */; };
 		375903840FF82C6400135C45 /* openemuqc_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 375903750FF82C4000135C45 /* openemuqc_pub.pem */; };
-		3759EE2A0FE88871000E56D5 /* OpenEmuBase.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		37CC3EA7100BE6BB00C1CD6E /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
 		37CC661A0FF8379B00226BCB /* config_qc.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 37CC66190FF8379B00226BCB /* config_qc.yaml */; };
 		37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
@@ -289,16 +288,6 @@
 				1B22402E100BD67F00F42067 /* Scale4xHQ.qtz in Copy Filters Folder To App Resources */,
 			);
 			name = "Copy Filters Folder To App Resources";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3759EE3C0FE88B08000E56D5 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				3759EE2A0FE88871000E56D5 /* OpenEmuBase.framework in CopyFiles */,
-			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		37CC66180FF8377700226BCB /* CopyFiles */ = {
@@ -1051,7 +1040,6 @@
 				828E65940E8466A100B1860B /* Resources */,
 				828E65950E8466A100B1860B /* Sources */,
 				828E65960E8466A100B1860B /* Frameworks */,
-				3759EE3C0FE88B08000E56D5 /* CopyFiles */,
 			);
 			buildRules = (
 			);
