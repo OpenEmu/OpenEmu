@@ -143,7 +143,7 @@ extern NSString *XADVolumesKey;
 -(XADPath *)XADPathWithCString:(const char *)cstring encoding:(NSStringEncoding)encoding separators:(const char *)separators;
 
 -(NSData *)encodedPassword;
--(char *)encodedCStringPassword;
+-(const char *)encodedCStringPassword;
 
 
 // Subclasses implement these:

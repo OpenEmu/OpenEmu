@@ -26,7 +26,6 @@
 extern "C" {
 #endif
 
-#ifdef HAVE_STDINT_H
 #include <stdint.h>
 typedef uint32_t           xadUINT32;
 typedef int32_t            xadINT32;
@@ -36,16 +35,7 @@ typedef uint8_t            xadUINT8;
 typedef int8_t             xadINT8;
 typedef uint64_t           xadSize;
 typedef int64_t            xadSignSize;
-#else
-typedef unsigned long      xadUINT32;
-typedef signed long        xadINT32;
-typedef unsigned short     xadUINT16;
-typedef signed short       xadINT16;
-typedef unsigned char      xadUINT8;
-typedef signed char        xadINT8;
-typedef unsigned long long xadSize;
-typedef signed long long   xadSignSize;
-#endif
+
 typedef void *             xadPTR;
 typedef char               xadSTRING;
 typedef xadSTRING *        xadSTRPTR;
@@ -53,12 +43,6 @@ typedef unsigned int       xadUINT;
 typedef int                xadINT;
 typedef xadINT             xadERROR;
 typedef xadINT             xadBOOL;
-// GOA
-#if 1
-typedef xadUINT32          xadPTRINT;
-#else
-typedef xadSize            xadPTRINT;
-#endif
 
 #define XADFALSE        0
 #define XADTRUE         1
@@ -354,7 +338,7 @@ struct xadSplitFile { /* for XAD_INSPLITTED */
   struct xadSplitFile *xsf_Next;
   xadUINT32            xsf_Type; /* XAD_INFILENAME, XAD_INFILEHANDLE, XAD_INMEMORY, XAD_INHOOK */
   xadSize              xsf_Size; /* necessary for XAD_INMEMORY, useful for others */
-  xadUINT32            xsf_Data; /* FileName, Filehandle, Hookpointer or Memory */
+  xadSize            xsf_Data; /* FileName, Filehandle, Hookpointer or Memory */
 };
 
 struct xadSkipInfo {

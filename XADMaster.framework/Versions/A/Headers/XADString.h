@@ -43,8 +43,13 @@
 
 -(XADStringSource *)source;
 
+-(BOOL)hasASCIIPrefix:(NSString *)asciiprefix;
+-(XADString *)XADStringByStrippingASCIIPrefixOfLength:(int)length;
+
 -(BOOL)isEqual:(id)other;
 -(NSUInteger)hash;
+
+-(NSString *)description;
 -(id)copyWithZone:(NSZone *)zone;
 
 @end

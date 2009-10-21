@@ -11,7 +11,7 @@ extern NSString *CSFileErrorException;
 	FILE *fh;
 	BOOL close;
 
-	BOOL multi;
+	NSLock *multilock;
 	CSFileHandle *parent;
 	off_t pos;
 }
