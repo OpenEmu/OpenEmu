@@ -38,6 +38,7 @@
     OECorePlugin                *currentPlugin;    
     GameDocumentController      *docController;
      
+	IBOutlet NSArrayController  *romFileController;
     IBOutlet NSArrayController  *savestateController;
     IBOutlet NSArrayController  *pluginController;
     IBOutlet NSTreeController   *treeController;

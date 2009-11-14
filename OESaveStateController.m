@@ -29,6 +29,7 @@
 #import "GameDocumentController.h"
 #import "IKImageFlowView.h"
 #import "OESaveState.h"
+#import "OEROMFile.h"
 
 @implementation OESaveStateController
 
@@ -219,15 +220,18 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (void)updateRomGroups
 {
-    NSArray *allItems = [savestateController arrangedObjects];
+	NSArray *allROMs  = [  romFileController arrangedObjects];
+    NSArray *allSaves = [savestateController arrangedObjects];
     
+	NSLog(@"ROMs: %@ (%@)",allROMs, romFileController);
+	
     [self.pathArray removeAllObjects];
     [self.pathRanges removeAllObjects];
     
-    NSRange range;
-    for(NSUInteger i = 0; i < [allItems count]; i++)
+    NSRange range = NSMakeRange(0, 0);
+    for(NSUInteger i = 0; i < [allSaves count]; i++)
     {
-        OESaveState *state = [allItems objectAtIndex:i];
+        OESaveState *state = [allSaves objectAtIndex:i];
         
         if(![self.pathArray containsObject:[[state romFile] path]])
         {
@@ -247,6 +251,9 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
     if([self.pathArray count] == 0) [self.pathRanges addObject:[NSValue valueWithRange:range]];    
 }
     
+-(NSArray *)allROMs{
+	return [romFileController arrangedObjects];
+}
 
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasRightClickedAtIndex:(NSUInteger)index withEvent:(NSEvent *)event
 {
@@ -271,37 +278,62 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    if(item == nil) return [self.pathArray count];
-    else return [[self.pathRanges objectAtIndex:[self.pathArray indexOfObject:item]] rangeValue].length;
+    if(item == nil){
+		// return the ROMs
+		return [[self allROMs] count];
+	}else{
+		// return the save states for the ROM
+		OEROMFile *romFile = (OEROMFile *)item;
+		return [[romFile saveStates] count];
+	}
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-        return [self.pathArray containsObject:item];
+	if([item isKindOfClass:[OEROMFile class]]){
+		OEROMFile *romFile = (OEROMFile *)item;
+		return ([[romFile saveStates] count] > 0);
+	}else if([item isKindOfClass:[OESaveState class]]){
+		return NO;
+	}else{
+		// shouldn't get here
+		return NO;
+	}
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-    //if( [item class] == [SaveState class] )
-        return YES;
-    //return NO;
+	if([item isKindOfClass:[OEROMFile class]]){
+		return NO;
+	}else if([item isKindOfClass:[OESaveState class]]){
+		return YES;
+	}else{
+		return NO;
+	}
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
-    if(item == nil) return [self.pathArray objectAtIndex:index];
-    else
-    {
-        NSRange range = [[self.pathRanges objectAtIndex:[self.pathArray indexOfObject:item]] rangeValue];
-        
-        return [[savestateController arrangedObjects] objectAtIndex:range.location + index];
-    }
+	if(item == nil){
+		return [[self allROMs] objectAtIndex:index];
+	}else{
+		OEROMFile *romFile = (OEROMFile *)item;
+		return [[[romFile saveStates] allObjects] objectAtIndex:index];
+	}
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 { 
-    if([item class] == [OESaveState class]) return [item imageSubtitle];
-    return [[item description] lastPathComponent];
+	if([item isKindOfClass:[OEROMFile class]]){
+		OEROMFile *romFile = (OEROMFile *)item;
+		return [romFile name];
+	}else if([item isKindOfClass:[OESaveState class]]){
+		OESaveState *saveState = (OESaveState *)item;
+		return [saveState imageSubtitle];
+	}else{
+		// shouldn't get here
+		return NO;
+	}
 }
 
 
