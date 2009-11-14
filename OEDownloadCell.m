@@ -20,19 +20,19 @@
                                            [NSFont systemFontOfSize:13], NSFontAttributeName,
                                            nil];
     
-    [primaryText drawAtPoint:NSMakePoint(cellFrame.origin.x+10, cellFrame.origin.y)
+    [primaryText drawAtPoint:NSMakePoint(cellFrame.origin.x+10, cellFrame.origin.y+10)
               withAttributes:primaryTextAttributes];
     
 	
 	
 	NSProgressIndicator* progressIndicator = data.progressBar;
 	
-	[controlView addSubview:progressIndicator];
+	/*[controlView addSubview:progressIndicator];
 	[progressIndicator setFocusRingType:NSFocusRingTypeNone];
 	[progressIndicator setDoubleValue:data.progress];
 	[progressIndicator setFrame:NSMakeRect(cellFrame.origin.x + 10,
                                            cellFrame.origin.y + cellFrame.size.height / 2,
-										   cellFrame.size.width - 20, NSProgressIndicatorPreferredThickness)];
+										   cellFrame.size.width - 20, NSProgressIndicatorPreferredThickness)]; */
 }
 
 @end

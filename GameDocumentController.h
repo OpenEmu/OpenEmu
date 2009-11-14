@@ -102,6 +102,7 @@
 - (IBAction)openPreferenceWindow:(id)sender;
 - (IBAction)openAboutWindow:(id)sender;
 - (IBAction)openSaveStateWindow:(id)sender;
+- (IBAction)openCoreDownloaderWindow:(id)sender;
 
 - (IBAction)volumeUp:(id)sender;
 - (IBAction)volumeDown:(id)sender;

@@ -241,6 +241,22 @@
     }    
 }
 
+- (IBAction)openCoreDownloaderWindow:(id)sender
+{
+	if(coreDownloader == nil)
+        coreDownloader = [[OECoreDownloader alloc] init];
+    
+    if([[coreDownloader window] isVisible])
+        [coreDownloader close];
+    else
+    {
+        if([[self currentDocument] isFullScreen])
+            [[self currentDocument] toggleFullScreen:sender];
+        [coreDownloader showWindow:sender];
+    }
+}
+
+
 - (void)addToVolume:(double)incr
 {
     NSUserDefaultsController *controller = [NSUserDefaultsController sharedUserDefaultsController];
