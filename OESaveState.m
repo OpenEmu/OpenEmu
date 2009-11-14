@@ -62,7 +62,7 @@
 
 -(NSString *)emulatorID{
 	if(!emulatorID){
-		userDescription = [[[self _OE_readDataFromPlist] objectForKey:@"emulatorID"] copy];
+		emulatorID = [[[self _OE_readDataFromPlist] objectForKey:@"emulatorID"] copy];
 	}
 	return emulatorID;
 }
