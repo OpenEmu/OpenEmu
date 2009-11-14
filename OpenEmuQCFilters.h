@@ -36,7 +36,6 @@
     OEGameShader *Scale4xHQ;
     
     GLuint frameBuffer;
-    GLint previousFBO;
 }
 
 /*

@@ -540,7 +540,7 @@ static NSTimeInterval currentTime()
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-    NSLog(@"Tracking: %f,%f", mousePosition.x, mousePosition.y);
+	//NSLog(@"Tracking: %f,%f", mousePosition.x, mousePosition.y);
 }
 
 - (void)keyDown:(NSEvent *)anEvent

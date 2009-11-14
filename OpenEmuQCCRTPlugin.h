@@ -31,8 +31,6 @@
 
 @interface OpenEmuQCCRT : QCPlugIn
 {
-    // state saving shit
-    GLint previousFBO;
 
     OEGameShader* CRTMask;
     OEGameShader* phosphorBlur;

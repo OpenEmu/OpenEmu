@@ -31,9 +31,6 @@
 
 @interface OpenEmuQCCRTDisplacePlugin : QCPlugIn
 {
-    // state saving shit
-    GLint previousFBO;
-
     OEGameShader* CRTDisplace;
     
     GLuint frameBuffer;

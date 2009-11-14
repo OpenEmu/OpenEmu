@@ -904,8 +904,12 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     GLenum status;
     
     // since we are using FBOs we ought to keep track of what was previously bound
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);    
-
+	GLint previousFBO, previousReadFBO, previousDrawFBO;
+	
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);
+	glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING_EXT, &previousReadFBO);
+	glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING_EXT, &previousDrawFBO);
+		
     
     // shaders    
     NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];
@@ -937,14 +941,20 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
         
         glDeleteFramebuffersEXT(1, &frameBuffer);
 
-        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
+		// return to our previous FBO;
+		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
+		glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, previousReadFBO);
+		glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
         glDeleteTextures(1, &name);
         CGLUnlockContext(cgl_ctx);
         return NO;
     }    
     
     // cleanup
+	// return to our previous FBO;
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
+	glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, previousReadFBO);
+	glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
     glDeleteTextures(1, &name);
     
     
@@ -967,8 +977,12 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     CGLContextObj cgl_ctx = [context CGLContextObj];
     CGLLockContext(cgl_ctx);
     
+	// save FBO state
+	GLint previousFBO, previousReadFBO, previousDrawFBO;
+	
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);
-
+	glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING_EXT, &previousReadFBO);
+	glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING_EXT, &previousDrawFBO);
 	
     //NSLog(@"Quartz Composer: gl context when attempting to use shader: %p", cgl_ctx);
     
@@ -1185,24 +1199,11 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
     
     // return to our previous FBO;
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
+	glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, previousReadFBO);
+	glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
     
     CGLUnlockContext(cgl_ctx);
     return YES;
-}
-
-- (void)enableExecution:(id<QCPlugInContext>)context
-{
-    CGLContextObj cgl_ctx = [context CGLContextObj];
-    CGLLockContext(cgl_ctx);
-    
-    // cache our previously bound fbo before every execution
-    glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);
-    CGLUnlockContext(cgl_ctx);
-}
-
-
-- (void)disableExecution:(id<QCPlugInContext>)context
-{
 }
 
 - (void)stopExecution:(id<QCPlugInContext>)context
