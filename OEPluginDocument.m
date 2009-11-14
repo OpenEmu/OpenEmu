@@ -46,19 +46,19 @@
     {
         NSString *folder = [[[paths objectAtIndex:0] stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPathComponent:[type pluginFolder]];
         NSString *newPath = [folder stringByAppendingPathComponent:[path lastPathComponent]];
-        
-        if([newPath isEqualToString:path]) return YES;
-        
-        NSFileManager *manager = [NSFileManager defaultManager];
-        
-        if([manager fileExistsAtPath:newPath])
-            worked = [manager removeItemAtPath:newPath error:outError];
-        
-        if(![manager fileExistsAtPath:folder])
-            [manager createDirectoryAtPath:folder attributes:nil];
-        
-        if(worked) worked = [manager copyItemAtPath:path toPath:newPath error:outError];
-        
+        //If the file isn't already in the right place
+        if( ![newPath isEqualToString:path] )
+		{			
+			NSFileManager *manager = [NSFileManager defaultManager];
+			
+			if([manager fileExistsAtPath:newPath])
+				worked = [manager removeItemAtPath:newPath error:outError];
+			
+			if(![manager fileExistsAtPath:folder])
+				[manager createDirectoryAtPath:folder attributes:nil];
+			
+			if(worked) worked = [manager copyItemAtPath:path toPath:newPath error:outError];
+        }
         if(worked)
         {
             worked = [OEPlugin pluginWithBundleAtPath:newPath type:type forceReload:YES] != nil;

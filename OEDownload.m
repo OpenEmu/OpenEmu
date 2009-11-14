@@ -93,9 +93,10 @@
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
 {
     // inform the user
-    NSLog(@"Download failed! Error - %@ %@",
-          [error localizedDescription],
-          [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+	[[NSApplication sharedApplication] presentError:error];
+	//    NSLog(@"Download failed! Error - %@ %@",
+	//    [error localizedDescription],
+	//    [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
 }
 
 - (void) download: (NSURLDownload*)download didCreateDestination: (NSString*)path
