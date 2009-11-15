@@ -44,6 +44,10 @@
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
 
++(OEROMFile *)fileWithPath:(NSString *)path inManagedObjectContext:(NSManagedObjectContext *)context{
+	return [self fileWithPath:path createIfNecessary:YES inManagedObjectContext:context];
+}
+
 +(OEROMFile *)fileWithPath:(NSString *)path
          createIfNecessary:(BOOL)create
     inManagedObjectContext:(NSManagedObjectContext *)context{

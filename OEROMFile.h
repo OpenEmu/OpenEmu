@@ -36,9 +36,13 @@
 +(NSString *)entityName;
 +(NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
+// find-or-create methods for ROM files
++(OEROMFile *)fileWithPath:(NSString *)path 
+	inManagedObjectContext:(NSManagedObjectContext *)context;
 +(OEROMFile *)fileWithPath:(NSString *)path
          createIfNecessary:(BOOL)create
     inManagedObjectContext:(NSManagedObjectContext *)context;
+
 +(OEROMFile *)createFileWithPath:(NSString *)path 
 insertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
