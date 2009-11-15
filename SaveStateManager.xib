@@ -12,7 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="301"/>
+			<integer value="289"/>
+			<integer value="184"/>
 			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -520,7 +521,7 @@
 				<bool key="NSFilterRestrictsInsertion">YES</bool>
 				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
 			</object>
-			<object class="NSArrayController" id="729873304">
+			<object class="NSArrayController" id="270469016">
 				<object class="NSMutableArray" key="NSDeclaredKeys">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>saveStates</string>
@@ -573,10 +574,9 @@
 				</object>
 				<bool key="_NSIsUsingManagedProxy">YES</bool>
 				<bool key="NSAvoidsEmptySelection">YES</bool>
-				<bool key="NSPreservesSelection">YES</bool>
 				<bool key="NSSelectsInsertedObjects">YES</bool>
 				<bool key="NSFilterRestrictsInsertion">YES</bool>
-				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
+				<bool key="NSAutomaticallyRearrangesObjects">YES</bool>
 			</object>
 			<object class="NSArrayController" id="50300502">
 				<object class="NSMutableArray" key="NSDeclaredKeys">
@@ -603,7 +603,7 @@
 				<bool key="NSAutomaticallyRearrangesObjects">YES</bool>
 			</object>
 			<object class="NSCustomView" id="48280870">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">4370</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -753,6 +753,7 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{587, 363}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSScrollView" id="597406294">
@@ -859,9 +860,10 @@
 				<bytes key="NSScrollAmts">QSAAAEEgAABBoAAAQaAAAA</bytes>
 			</object>
 			<object class="NSCustomView" id="201385137">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
-				<string key="NSFrame">{{41, 154}, {163, 96}}</string>
+				<string key="NSFrameSize">{163, 96}</string>
+				<reference key="NSSuperview"/>
 				<string key="NSClassName">IKImageFlowView</string>
 			</object>
 			<object class="NSMenu" id="1070803838">
@@ -1369,10 +1371,10 @@
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">managedObjectContext: docController.managedObjectContext</string>
-						<reference key="source" ref="729873304"/>
+						<reference key="source" ref="270469016"/>
 						<reference key="destination" ref="1001"/>
 						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="729873304"/>
+							<reference key="NSSource" ref="270469016"/>
 							<reference key="NSDestination" ref="1001"/>
 							<string key="NSLabel">managedObjectContext: docController.managedObjectContext</string>
 							<string key="NSBinding">managedObjectContext</string>
@@ -1386,7 +1388,7 @@
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">romFileController</string>
 						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="729873304"/>
+						<reference key="destination" ref="270469016"/>
 					</object>
 					<int key="connectionID">308</int>
 				</object>
@@ -1394,10 +1396,10 @@
 					<object class="IBBindingConnection" key="connection">
 						<string key="label">contentSet: selection.saveStates</string>
 						<reference key="source" ref="50300502"/>
-						<reference key="destination" ref="729873304"/>
+						<reference key="destination" ref="270469016"/>
 						<object class="NSNibBindingConnector" key="connector">
 							<reference key="NSSource" ref="50300502"/>
-							<reference key="NSDestination" ref="729873304"/>
+							<reference key="NSDestination" ref="270469016"/>
 							<string key="NSLabel">contentSet: selection.saveStates</string>
 							<string key="NSBinding">contentSet</string>
 							<string key="NSKeyPath">selection.saveStates</string>
@@ -1405,6 +1407,14 @@
 						</object>
 					</object>
 					<int key="connectionID">310</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">_dataSource</string>
+						<reference key="source" ref="218486051"/>
+						<reference key="destination" ref="1001"/>
+					</object>
+					<int key="connectionID">311</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1744,7 +1754,7 @@
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">304</int>
-						<reference key="object" ref="729873304"/>
+						<reference key="object" ref="270469016"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">ROM File Controller</string>
 					</object>
@@ -1800,6 +1810,7 @@
 					<string>263.IBPluginDependency</string>
 					<string>264.IBPluginDependency</string>
 					<string>27.IBPluginDependency</string>
+					<string>289.IBEditorWindowLastContentRect</string>
 					<string>289.IBPluginDependency</string>
 					<string>29.IBPluginDependency</string>
 					<string>291.IBEditorWindowLastContentRect</string>
@@ -1861,6 +1872,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>{{0, 738}, {163, 96}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{105, 668}, {132, 43}}</string>
@@ -1891,7 +1903,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">310</int>
+			<int key="maxID">311</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

@@ -27,6 +27,7 @@
 
 #import "OESaveStateController.h"
 #import "GameDocumentController.h"
+#import <Quartz/Quartz.h>
 #import "IKImageFlowView.h"
 #import "OESaveState.h"
 #import "OEROMFile.h"
@@ -68,6 +69,8 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
     //This keeps the outline view up to date
     [savestateController addObserver:self forKeyPath:@"arrangedObjects" options:0 context:ContentChangedContext];
     [savestateController addObserver:self forKeyPath:@"selection" options:0 context:SelectionChangedContext];
+    [  romFileController addObserver:self forKeyPath:@"arrangedObjects" options:0 context:ContentChangedContext];
+    [  romFileController addObserver:self forKeyPath:@"selection" options:0 context:SelectionChangedContext];
     
     //[imageFlow bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
     [imageFlow setDataSource:self];
@@ -76,17 +79,18 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
     [imageFlow setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     
     //[imageFlow
-    [imageBrowser bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
-    [imageBrowser bind:@"selectionIndexes" toObject:savestateController withKeyPath:@"selectionIndexes" options:options];
+//    [imageBrowser bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
+//    [imageBrowser bind:@"selectionIndexes" toObject:savestateController withKeyPath:@"selectionIndexes" options:options];
     [imageBrowser bind:@"zoomValue" toObject:self withKeyPath:@"browserZoom" options:options];
     
     [imageBrowser setCellsStyleMask:IKCellsStyleSubtitled];
     [imageBrowser setCellSize:NSMakeSize(150.0f, 150.0f)];
     [imageBrowser setAnimates:NO];
     
-    
     [imageBrowser setDataSource:self];
     [imageBrowser setMenu:contextMenu];
+	
+	[imageBrowser reloadData];
     
     [holderView addSubview:listView];
     
@@ -116,6 +120,34 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
     return [[savestateController arrangedObjects] objectAtIndex:index];
 }
 
+-(OESaveState *)saveStateAtAbsoluteIndex:(NSUInteger)uIndex{
+	NSInteger index = (NSInteger)uIndex;
+	NSInteger romIndex = 0;
+	NSRange range = NSMakeRange(0, 0);
+	
+	if(index > 0){
+		for(romIndex=0; romIndex < self.pathRanges.count; romIndex++){
+			NSValue *value = (NSValue *)[self.pathRanges objectAtIndex:romIndex];
+			range = [value rangeValue];
+			
+			if((range.location + range.length) > index){
+				break;
+			}
+		}
+	}
+	
+	NSArray *allROMs = [self allROMs];
+	if(romIndex < 0 || romIndex >= [allROMs count]) return nil;
+	
+	OEROMFile *romFile = [allROMs objectAtIndex:romIndex];
+	index -= range.location;
+	
+	NSArray *allSaves = [[romFile saveStates] allObjects];
+	if(index < 0 || index >= [allSaves count]) return nil;
+	
+	return [allSaves objectAtIndex:index];	
+}
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if(context == ContentChangedContext)
@@ -134,14 +166,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
         
         [imageFlow setSelectedIndex:selectedIndex];
         //Find which path this is in
-        NSString *selectedPath = nil;
-        for( int i = 0; i < pathRanges.count; i++ )
-        {
-            NSRange range = [[pathRanges objectAtIndex:i] rangeValue];
-            if( selectedIndex - range.location >= 0 && selectedIndex - range.location < range.length )
-                selectedPath = [pathArray objectAtIndex:i];
-        }
-        
+        NSString *selectedPath = [[[self saveStateAtAbsoluteIndex:selectedIndex] romFile] name];
         [outlineView expandItem:selectedPath];
         NSIndexSet* indexSet = [NSIndexSet indexSetWithIndex:[outlineView rowForItem: [[savestateController selectedObjects] objectAtIndex:0]]];
         [outlineView selectRowIndexes:indexSet  byExtendingSelection:NO];
@@ -215,7 +240,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (void)imageBrowser:(IKImageBrowserView *) aBrowser cellWasDoubleClickedAtIndex:(NSUInteger) index
 {
-    [self.docController loadState:[savestateController selectedObjects]];    
+    [self.docController loadState:[NSSet setWithObject:[self selectedSaveState]]];
 }
 
 - (void)updateRomGroups
@@ -223,32 +248,19 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 	NSArray *allROMs  = [  romFileController arrangedObjects];
     NSArray *allSaves = [savestateController arrangedObjects];
     
-	NSLog(@"ROMs: %@ (%@)",allROMs, romFileController);
-	
     [self.pathArray removeAllObjects];
     [self.pathRanges removeAllObjects];
     
     NSRange range = NSMakeRange(0, 0);
-    for(NSUInteger i = 0; i < [allSaves count]; i++)
+    for(OEROMFile *romFile in allROMs)
     {
-        OESaveState *state = [allSaves objectAtIndex:i];
-        
-        if(![self.pathArray containsObject:[[state romFile] path]])
-        {
-//            if([self.pathArray count] != 0)
-                [self.pathRanges addObject:[NSValue valueWithRange:range]];
-            
-            [self.pathArray addObject:[[state romFile] path]];
-            range.location = i;
-            range.length = 1;
-        }
-        else
-        {
-            range.length++;
-        }
-        
+		range.length = [[romFile saveStates] count];
+		
+		[self.pathRanges addObject:[NSValue valueWithRange:range]];
+		
+		range.location += range.length;
+		range.length = 0;
     }
-    if([self.pathArray count] == 0) [self.pathRanges addObject:[NSValue valueWithRange:range]];    
 }
     
 -(NSArray *)allROMs{
@@ -262,18 +274,34 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (NSUInteger)numberOfGroupsInImageBrowser:(IKImageBrowserView *)aBrowser
 {
-    [self updateRomGroups];
-    [outlineView reloadData];
-    return [self.pathArray count];
+	return [[self allROMs] count];
+}
+
+- (NSUInteger) numberOfItemsInImageBrowser:(IKImageBrowserView *) aBrowser{
+	NSUInteger sum = 0;
+	for(OEROMFile *romFile in [self allROMs]){
+		sum += [[romFile saveStates] count];
+	}
+	
+	return sum;
 }
 
 - (NSDictionary *)imageBrowser:(IKImageBrowserView *)aBrowser groupAtIndex:(NSUInteger)index
 {
-    return [NSDictionary dictionaryWithObjectsAndKeys:
+	OEROMFile *romFile = [[romFileController arrangedObjects] objectAtIndex:index];
+	
+    NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
             [self.pathRanges objectAtIndex:index],                    IKImageBrowserGroupRangeKey,
-            [[self.pathArray objectAtIndex:index] lastPathComponent], IKImageBrowserGroupTitleKey,
+            [romFile name], IKImageBrowserGroupTitleKey,
             [NSNumber numberWithInt:IKGroupDisclosureStyle],          IKImageBrowserGroupStyleKey,
             nil];    
+	
+	return dict;
+}
+
+- (id) imageBrowser:(IKImageBrowserView *) aBrowser itemAtIndex:(NSUInteger)index{
+	OESaveState *saveState = [self saveStateAtAbsoluteIndex:index];
+	return saveState;
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
@@ -355,7 +383,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
             saveState = [outlineView itemAtRow: [outlineView clickedRow]];
             break;
         case 1:
-            saveState = [[savestateController arrangedObjects] objectAtIndex:[[imageBrowser selectionIndexes] firstIndex]];
+            saveState = [self saveStateAtAbsoluteIndex:[[imageBrowser selectionIndexes] firstIndex]];
             break;
         case 2:
             saveState = [[savestateController arrangedObjects] objectAtIndex:[imageFlow selectedIndex]];

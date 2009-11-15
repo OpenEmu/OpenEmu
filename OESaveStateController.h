@@ -28,6 +28,7 @@
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/QuartzCore.h>
 
+@class OESaveState;
 @class IKImageBrowserView, IKImageFlowView;
 
 @class OECorePlugin, GameDocumentController;
@@ -78,4 +79,5 @@
 - (IBAction)deleteState:(id)sender;
 - (void)updateRomGroups;
 
+-(OESaveState *)saveStateAtAbsoluteIndex:(NSUInteger)index;
 @end
