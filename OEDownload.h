@@ -41,7 +41,6 @@
 {
     NSProgressIndicator *progressBar;
     NSButton            *button;
-    double               progress;
     NSString            *name;
     NSString            *downloadPath;
     NSString            *fullPluginPath;
@@ -57,7 +56,6 @@
 
 @property(readonly) NSProgressIndicator    *progressBar;
 @property(readonly) NSButton               *button;
-//@property(readonly) double                  progress;
 @property(assign)   BOOL                    enabled;
 @property(retain)   SUAppcastItem          *appcastItem;
 @property(assign)   id<OEDownloadDelegate>  delegate;

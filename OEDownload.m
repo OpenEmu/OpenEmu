@@ -42,7 +42,6 @@
         downloading    = NO;
         downloadedSize = 0;
         expectedLength = 1;
-        progress       = 0.0;
         progressBar    = [[NSProgressIndicator alloc] init];
         
         [progressBar setControlSize:NSMiniControlSize];
@@ -74,7 +73,7 @@
         enabled = YES;
         
         //Assuming 0 is the best download, may or may not be the best
-        self.appcastItem = [[appcast items] objectAtIndex:0];
+        [self setAppcastItem:[[appcast items] objectAtIndex:0]];
         //NSLog(@"%@", [appcastItem propertiesDictionary]);
     }
     return self;
@@ -115,7 +114,7 @@
 {
     downloadedSize += length;
     [self willChangeValueForKey:@"progress"];
-    progress = (double)downloadedSize / (double)expectedLength;
+    double progress = (double)downloadedSize / (double)expectedLength;
     [progressBar setDoubleValue:progress];
     [self didChangeValueForKey:@"progress"];
     
@@ -157,7 +156,7 @@
     [downloadPath release];
     [fullPluginPath release];
     [button release];
-    self.appcastItem = nil;
+    [self setAppcastItem:nil];
     
     [super dealloc];
 }

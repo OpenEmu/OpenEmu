@@ -39,7 +39,6 @@
         
         [controlView addSubview:progressIndicator];
 		[progressIndicator setFocusRingType:NSFocusRingTypeNone];
-		//[progressIndicator setDoubleValue:[data progress]];
         
         [progressIndicator setFrame:NSMakeRect(cellFrame.origin.x + 32,
                                                cellFrame.origin.y + cellFrame.size.height / 2,
