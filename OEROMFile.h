@@ -28,33 +28,34 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@interface OEROMFile : NSManagedObject {
+@interface OEROMFile : NSManagedObject
+{
     //STUB add your instance variables here
 }
 
 //Core Data utilities
-+(NSString *)entityName;
-+(NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
++ (NSString *)entityName;
++ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
 // find-or-create methods for ROM files
-+(OEROMFile *)fileWithPath:(NSString *)path 
-	inManagedObjectContext:(NSManagedObjectContext *)context;
-+(OEROMFile *)fileWithPath:(NSString *)path
-         createIfNecessary:(BOOL)create
-    inManagedObjectContext:(NSManagedObjectContext *)context;
++ (OEROMFile *)fileWithPath:(NSString *)path 
+     inManagedObjectContext:(NSManagedObjectContext *)context;
++ (OEROMFile *)fileWithPath:(NSString *)path
+          createIfNecessary:(BOOL)create
+     inManagedObjectContext:(NSManagedObjectContext *)context;
 
-+(OEROMFile *)createFileWithPath:(NSString *)path 
++ (OEROMFile *)createFileWithPath:(NSString *)path 
 insertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
 //Loading a ROM from a file
-+(NSString *)nameForPath:(NSString *)path;
++ (NSString *)nameForPath:(NSString *)path;
 
-@property (nonatomic, retain) NSData *pathAlias;
-@property (nonatomic, copy) NSString *path;
-@property (nonatomic, copy) NSDate *lastPlayedDate;
-@property (nonatomic, retain) NSSet *saveStates;
-@property (nonatomic, retain) NSString *name;
+@property(nonatomic, retain) NSData   *pathAlias;
+@property(nonatomic, copy)   NSString *path;
+@property(nonatomic, copy)   NSDate   *lastPlayedDate;
+@property(nonatomic, retain) NSSet    *saveStates;
+@property(nonatomic, retain) NSString *name;
 
--(NSString *)systemName;
--(NSURL *)pathURL;
+- (NSString *)systemName;
+- (NSURL *)pathURL;
 @end

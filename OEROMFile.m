@@ -37,22 +37,25 @@
 @dynamic saveStates;
 @dynamic name;
 
-+(NSString *)entityName{
++ (NSString *)entityName
+{
     return @"ROMFile";
 }
 
-+(NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context{
++ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context
+{
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
 
-+(OEROMFile *)fileWithPath:(NSString *)path inManagedObjectContext:(NSManagedObjectContext *)context{
-	return [self fileWithPath:path createIfNecessary:YES inManagedObjectContext:context];
++ (OEROMFile *)fileWithPath:(NSString *)path inManagedObjectContext:(NSManagedObjectContext *)context
+{
+    return [self fileWithPath:path createIfNecessary:YES inManagedObjectContext:context];
 }
 
-+(OEROMFile *)fileWithPath:(NSString *)path
-         createIfNecessary:(BOOL)create
-    inManagedObjectContext:(NSManagedObjectContext *)context{
-
++ (OEROMFile *)fileWithPath:(NSString *)path
+          createIfNecessary:(BOOL)create
+     inManagedObjectContext:(NSManagedObjectContext *)context
+{
     NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
     [request setEntity:[self entityDescriptionInContext:context]];
     [request setPredicate:[NSPredicate predicateWithFormat:@"path == %@",path]];
@@ -62,17 +65,19 @@
     NSArray *items = [context executeFetchRequest:request error:&error];
     
     OEROMFile *romFile = nil;
-    if(items && items.count > 0){
+    
+    if(items && [items count] > 0)
         romFile = [items objectAtIndex:0];
-    }else{
+    else
         romFile = [self createFileWithPath:path insertedIntoManagedObjectContext:context];
-    }
+    
     return romFile;
 }
 
-+ (OEROMFile *)createFileWithPath:(NSString *)path insertedIntoManagedObjectContext:(NSManagedObjectContext *)context{
++ (OEROMFile *)createFileWithPath:(NSString *)path insertedIntoManagedObjectContext:(NSManagedObjectContext *)context
+{
     OEROMFile *romFile = [[[self alloc] initWithEntity:[self entityDescriptionInContext:context]
-                               insertIntoManagedObjectContext:context] autorelease];
+                        insertIntoManagedObjectContext:context] autorelease];
     
     [romFile setPath:path];
     [romFile setValue:[self nameForPath:path] forKey:@"name"];
@@ -80,54 +85,52 @@
     return romFile;
 }
 
-+(NSString *)nameForPath:(NSString *)path{
++ (NSString *)nameForPath:(NSString *)path
+{
     return [[path lastPathComponent] stringByDeletingPathExtension];
 }
 
--(NSURL *)pathURL{
+- (NSURL *)pathURL
+{
     return [NSURL fileURLWithPath:[self path] isDirectory:NO];
 }
 
--(void)setPath:(NSString *)path{
-	[self setPrimitiveValue: path                   forKey:@"path"];
+- (void)setPath:(NSString *)path
+{
+    [self setPrimitiveValue: path                   forKey:@"path"];
     [self setPrimitiveValue:[path OE_pathAliasData] forKey:@"pathAlias"];
 }
 
--(NSString *)path{
-	return [NSString OE_stringWithPathOfAliasData:[self pathAlias]];
+- (NSString *)path
+{
+    return [NSString OE_stringWithPathOfAliasData:[self pathAlias]];
 }
 
--(NSString *)systemName{
-	NSString *path = [self path];
-	NSString *extension = [[path pathExtension] lowercaseString];
+- (NSString *)systemName
+{
+    NSString *path = [self path];
+    NSString *extension = [[path pathExtension] lowercaseString];
     NSArray *corePlugins = [OECorePlugin allPlugins];
-    for(OECorePlugin *plugin in corePlugins){
-        if([[plugin supportedTypeExtensions] containsObject:extension]){
+    for(OECorePlugin *plugin in corePlugins)
+    {
+        if([[plugin supportedTypeExtensions] containsObject:extension])
+        {
             NSArray *systemTypeNames = [[plugin supportedTypes] allKeys];
-            for(NSString *systemTypeName in systemTypeNames){
+            
+            for(NSString *systemTypeName in systemTypeNames)
+            {
                 NSArray *extensions = [[plugin supportedTypes] objectForKey:systemTypeName];
-                if([extensions containsObject:extension]){
-                    //assume name is in the form of "<<Console>> Game"
+                
+                if([extensions containsObject:extension])
+                {
+                    // Assume name is in the form of "<<Console>> Game"
                     NSString *consoleName = [systemTypeName stringByReplacingOccurrencesOfString:@" Game" withString:@""];
-					return consoleName;
+                    return consoleName;
                 }
             }
         }
     }
-    return NSLocalizedString(@"Unknown",@"");	
-}
-
--(id)init{
-    if(self = [super init]){
-        //STUB initialize your object here
-    }
-    return self;
-}
-
--(void)dealloc{
-    //STUB release your objects here
-    
-    [super dealloc];
+    return NSLocalizedString(@"Unknown", @"");
 }
 
 @end

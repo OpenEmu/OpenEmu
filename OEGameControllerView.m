@@ -182,7 +182,7 @@
     [added setBezelStyle:NSRoundRectBezelStyle];
     [added setButtonType:NSPushOnPushOffButton];
     [added setToolTip:aToolTip];
-//    [[added cell]  setControlSize:NSSmallControlSize];  
+    //[[added cell]  setControlSize:NSSmallControlSize];  
     
     [self addSubview:added];
     
