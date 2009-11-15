@@ -32,6 +32,8 @@
 
 @implementation OEROMOrganizer
 
+@synthesize searchPredicate;
+
 /**
  Creates, retains, and returns the managed object model for the application 
  by merging all of the models found in the application bundle.
@@ -164,6 +166,27 @@
     [openPanel release];
 }
 
+-(void)setSearchPredicate:(NSPredicate *)pred{
+	NSLog(@"New search predicate! %@",pred);
+	[searchPredicate autorelease];
+	searchPredicate = [pred retain];
+	
+	[self updateFilterPredicate];
+}
+
+-(void)awakeFromNib{
+	NSLog(@"Binding search predicate");
+	[searchField bind: NSPredicateBinding
+			 toObject: self
+		  withKeyPath: @"searchPredicate"
+			  options: nil];
+
+	[sourceList reloadData];
+	[sourceList expandItem:@"Consoles"];
+	[sourceList selectRowIndexes:[NSIndexSet indexSetWithIndex:1]
+			byExtendingSelection:NO];
+}
+
 #pragma mark NSOutlineViewDataSource
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item{
@@ -237,6 +260,13 @@
 	return nil;
 }
 
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item{
+	if([item isEqual:@"Consoles"]){
+		return NO;
+	}
+	return YES;
+}
+
 #pragma mark NSOutlineViewDelegate methods
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item{
@@ -276,11 +306,11 @@
 }
 
 -(NSPredicate *)predicateForCurrentState{
-	NSPredicate *searchPredicate = [self predicateForSearchTerm:[searchField stringValue]];
+//	NSPredicate *searchPredicate = [self predicateForSearchTerm:[searchField stringValue]];
 	NSPredicate *selectionPredicate = [self predicateForSelection];
 	return [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:
 															   selectionPredicate,
-															   searchPredicate,
+															   [self searchPredicate],
 															   nil]];
 }
 

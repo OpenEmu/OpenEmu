@@ -39,13 +39,15 @@
 	IBOutlet NSSearchField *searchField;
 	
 	NSArray *categories;
-	
+	NSPredicate *searchPredicate;
 }
+
+@property (nonatomic, retain) NSPredicate *searchPredicate;
 
 - (IBAction)addROM:sender;
 - (IBAction)removeROM:sender;
 - (IBAction)playROMs:sender;
 
 - (void)save;
-
+- (void)updateFilterPredicate;
 @end
