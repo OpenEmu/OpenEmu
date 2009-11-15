@@ -111,6 +111,7 @@
 - (void)appcastDidFinishLoading:(SUAppcast *)appcast
 {
     OEDownload* downlad = [[OEDownload alloc] initWithAppcast:appcast];
+	[downlad setDelegate:self];
     [downloadArrayController addObject:downlad];
     [downlad release];
 }
@@ -131,22 +132,10 @@
 
 - (void)OEDownloadDidFinish:(OEDownload *)download;
 {
-	[download removeObserver:self forKeyPath:@"progress"];
 	[downloadArrayController removeObject:download];
+	[downloadTableView setNeedsDisplay];
 	[docController openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[download fullPluginPath]] display:NO error:nil];
 }
 
-- (IBAction)downloadSelectedCores:(id)sender
-{
-	for( OEDownload* download in downloads )
-	{
-		if( [download enabled] )
-		{
-			[download addObserver:self forKeyPath:@"progress" options:0 context:nil];
-			download.delegate = self;
-			[download startDownload];
-		}
-	}
-}
 
 @end

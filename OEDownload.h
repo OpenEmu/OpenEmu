@@ -41,6 +41,7 @@
 	BOOL enabled;
 	
 	NSProgressIndicator* progressBar;
+	NSButton* button;
 	double progress;
 	NSString* name;
 	NSString* downloadPath;
@@ -50,17 +51,21 @@
 	SUAppcastItem* appcastItem;
 	
 	id<OEDownloadDelegate> delegate;
+	
+	BOOL downloading;
 }
 
 @property (readonly) NSProgressIndicator* progressBar;
+@property (readonly) NSButton* button;
 @property (readonly) double progress;
 @property (assign) BOOL enabled;
 @property (retain) SUAppcastItem* appcastItem;
 @property (assign) id<OEDownloadDelegate> delegate;
 @property (readonly) NSString* fullPluginPath;
+@property (readonly) BOOL downloading;
 
 - (id)initWithAppcast:(SUAppcast *)appcast;
-- (void) startDownload;
+- (void) startDownload:(id)sender;
 - (NSString *)name;
 
 @end

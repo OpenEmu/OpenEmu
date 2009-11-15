@@ -20,19 +20,30 @@
                                            [NSFont systemFontOfSize:13], NSFontAttributeName,
                                            nil];
     
-    [primaryText drawAtPoint:NSMakePoint(cellFrame.origin.x+10, cellFrame.origin.y+10)
+    [primaryText drawAtPoint:NSMakePoint(cellFrame.origin.x+32, cellFrame.origin.y+0)
               withAttributes:primaryTextAttributes];
-    
 	
-	
-	NSProgressIndicator* progressIndicator = data.progressBar;
-	
-	/*[controlView addSubview:progressIndicator];
-	[progressIndicator setFocusRingType:NSFocusRingTypeNone];
-	[progressIndicator setDoubleValue:data.progress];
-	[progressIndicator setFrame:NSMakeRect(cellFrame.origin.x + 10,
-                                           cellFrame.origin.y + cellFrame.size.height / 2,
-										   cellFrame.size.width - 20, NSProgressIndicatorPreferredThickness)]; */
+	if( !data.downloading )
+	{
+		NSButton* button = data.button;
+		
+		[controlView addSubview:button];
+		[button setFrame:NSMakeRect(cellFrame.origin.x + 14,
+									cellFrame.origin.y + cellFrame.size.height / 2 - 7,
+									14, 14)];
+	}
+	else
+	{
+		[data.button removeFromSuperview];
+		NSProgressIndicator* progressIndicator = data.progressBar;
+		
+		[controlView addSubview:progressIndicator];
+		[progressIndicator setFocusRingType:NSFocusRingTypeNone];
+		[progressIndicator setDoubleValue:data.progress];
+		[progressIndicator setFrame:NSMakeRect(cellFrame.origin.x + 32,
+											   cellFrame.origin.y + cellFrame.size.height / 2,
+											   cellFrame.size.width - 48, NSProgressIndicatorPreferredThickness)];
+	}
 }
 
 @end

@@ -32,14 +32,14 @@
 
 @implementation OEDownload
 
-@synthesize enabled, appcastItem, progress, progressBar, delegate, fullPluginPath;
+@synthesize enabled, appcastItem, progress, progressBar, delegate, fullPluginPath, button, downloading;
 
-// FIXME: is that relevant ?
 - (id)init
 {
 	if( self = [super init] )
 	{
 		enabled = YES;
+		downloading = NO;
 		downloadedSize = 0;
 		expectedLength = 1;
 		progress = 0.0;
@@ -49,7 +49,14 @@
 		[progressBar setMaxValue:1.0];
 		[progressBar setStyle: NSProgressIndicatorBarStyle];
 		[progressBar setIndeterminate:NO];
-	//	NSLog(@"%@", [appcastItem propertiesDictionary]);
+		
+		button = [[NSButton alloc] init];
+		[button setButtonType:NSMomentaryChangeButton];
+		[button setImage:[NSImage imageNamed:@"download_arrow_up.png"]];
+		[button setAlternateImage:[NSImage imageNamed:@"download_arrow_down.png"]];
+		[button setAction:@selector(startDownload:)];
+		[button setTarget:self];
+		[button setBordered:NO];
 	}
 	return self;
 }
@@ -72,11 +79,11 @@
     return self;
 }
 
-- (void) startDownload
+- (void) startDownload:(id)sender
 {
 	NSURLRequest *request = [NSURLRequest requestWithURL:[appcastItem fileURL]];
 	NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:self] autorelease];
-	
+	downloading = YES;
 	if( !fileDownload )
 		NSLog(@"Couldn't download!??");
 }
@@ -149,6 +156,7 @@
 	[progressBar release];
 	[downloadPath release];
 	[fullPluginPath release];
+	[button release];
 	self.appcastItem = nil;
 	
 	[super dealloc];
