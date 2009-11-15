@@ -84,7 +84,7 @@
 
     
     OEROMOrganizer *organizer = [[OEROMOrganizer alloc] init];
-    [organizer showWindow:self];
+//    [organizer showWindow:self];
 }
 
 -(void)updateBundles: (id) sender
