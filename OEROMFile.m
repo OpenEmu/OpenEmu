@@ -35,6 +35,7 @@
 @dynamic path, pathAlias;
 @dynamic lastPlayedDate;
 @dynamic saveStates;
+@dynamic name;
 
 +(NSString *)entityName{
     return @"ROMFile";

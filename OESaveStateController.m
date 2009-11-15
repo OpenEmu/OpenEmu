@@ -247,7 +247,6 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 - (void)updateRomGroups
 {
 	NSArray *allROMs  = [  romFileController arrangedObjects];
-    NSArray *allSaves = [savestateController arrangedObjects];
     
     [self.pathArray removeAllObjects];
     [self.pathRanges removeAllObjects];

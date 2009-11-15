@@ -79,5 +79,8 @@
 - (IBAction)deleteState:(id)sender;
 - (void)updateRomGroups;
 
--(OESaveState *)saveStateAtAbsoluteIndex:(NSUInteger)index;
+- (NSArray *)allROMs;
+
+- (OESaveState *)selectedSaveState;
+- (OESaveState *)saveStateAtAbsoluteIndex:(NSUInteger)index;
 @end

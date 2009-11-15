@@ -30,6 +30,7 @@
 #import <IOKit/hid/IOHIDLib.h>
 #import <IOKit/hid/IOHIDUsageTables.h>
 #import "OEHIDDeviceHandler.h"
+#import "OEROMOrganizer.h"
 
 @class GameCore, OECorePlugin;
 @class GameDocument, OEGamePreferenceController, OESaveStateController, OECoreDownloader;
@@ -64,6 +65,8 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;
+	
+	OEROMOrganizer *organizer;
 }
 
 @property(readonly) NSArray *filterNames;

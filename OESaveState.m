@@ -79,6 +79,8 @@
 -(void)setUserDescription:(NSString *)newDescription{
 	if([userDescription isEqual:newDescription]) return;
 	
+	NSLog(@"User description!");
+	
 	[userDescription release];
 	userDescription = [newDescription copy];
 	

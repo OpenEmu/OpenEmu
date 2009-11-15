@@ -53,6 +53,7 @@ insertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 @property (nonatomic, copy) NSString *path;
 @property (nonatomic, copy) NSDate *lastPlayedDate;
 @property (nonatomic, retain) NSSet *saveStates;
+@property (nonatomic, retain) NSString *name;
 
 -(NSString *)systemName;
 -(NSURL *)pathURL;

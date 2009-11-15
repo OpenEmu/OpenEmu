@@ -43,7 +43,6 @@
 #import "OECoreDownloader.h"
 
 #import "OEROMFile.h"
-#import "OEROMOrganizer.h"
 
 #import "SaveState.h"
 
@@ -73,7 +72,6 @@
     
 }
 
-#warning YES IM A LEAK, BUT IM A TEST
 - (void) applicationDidFinishLaunching:(NSNotification*)aNotification
 {
 	if ( [plugins count] == 0 )
@@ -83,7 +81,7 @@
 	}
 
     
-    OEROMOrganizer *organizer = [[OEROMOrganizer alloc] init];
+    organizer = [[OEROMOrganizer alloc] init];
 //    [organizer showWindow:self];
 }
 
@@ -200,7 +198,7 @@
     [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
     [managedObjectModel release], managedObjectModel = nil;
 	
-	
+	[organizer release], organizer = nil;
     
     [super dealloc];
 }
