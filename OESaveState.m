@@ -163,7 +163,7 @@
 - (NSString *)imageTitle
 {
     //return [self.timeStamp descriptionWithCalendarFormat:@"%m/%d/%Y %H:%M:%S" timeZone:nil locale:nil];
-    return [[[self romFile] path] lastPathComponent];
+    return [[self romFile] name];
 }
 
 - (NSString *)imageSubtitle

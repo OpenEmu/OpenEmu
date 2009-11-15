@@ -102,22 +102,23 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 #pragma mark Cover Flow Data Source Methods
 - (NSUInteger) numberOfItemsInImageFlow:(id)aBrowser
 {
-    return [[savestateController arrangedObjects] count];
+	// we calculated the ranges, so grab the last one and calculate how large it is
+    NSRange lastRange = [(NSValue *)[self.pathRanges lastObject] rangeValue];
+	return lastRange.location + lastRange.length;
 }
 
 - (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index
 {
-    [savestateController setSelectionIndex:index];
 }
 
 - (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
 {
-    [self.docController loadState:[NSArray arrayWithObject:[[savestateController arrangedObjects] objectAtIndex:index]]];    
+	[self.docController loadState:[NSArray arrayWithObject:[self selectedSaveState]]];
 }
 
 - (id)imageFlow:(id)aBrowser itemAtIndex:(NSUInteger)index
 {
-    return [[savestateController arrangedObjects] objectAtIndex:index];
+	return [self saveStateAtAbsoluteIndex:index];
 }
 
 -(OESaveState *)saveStateAtAbsoluteIndex:(NSUInteger)uIndex{
