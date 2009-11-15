@@ -34,6 +34,12 @@
     NSManagedObjectContext *managedObjectContext;    
     
     IBOutlet NSArrayController *allROMSController;
+	
+	IBOutlet NSOutlineView *sourceList;
+	IBOutlet NSSearchField *searchField;
+	
+	NSArray *categories;
+	
 }
 
 - (IBAction)addROM:sender;

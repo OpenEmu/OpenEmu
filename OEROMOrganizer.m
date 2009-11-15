@@ -164,9 +164,142 @@
     [openPanel release];
 }
 
+#pragma mark NSOutlineViewDataSource
+
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item{
+	if(item == nil){
+		return 1;
+	}else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:@"Consoles"]){
+		return [[OEPlugin allPlugins] count] + 1;
+	}else{
+		return 0;
+	}
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item{
+	if(item == nil){
+		return @"Consoles";
+	}else if([item isKindOfClass:[NSString class]] && [(NSString *)item isEqualToString:@"Consoles"]){
+		if(index == 0){
+			return @"All Consoles";
+		}else{
+			return (OEPlugin *)[[OEPlugin allPlugins] objectAtIndex:index-1];
+		}
+	}else{
+		return nil;
+	}
+}
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item{
+	if([item isKindOfClass:[OEPlugin class]]){
+		return NO;
+	}else if([item isEqual:@"All Consoles"]){
+		return NO;
+	}
+	return YES;
+}
+
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item{
+	NSUInteger columnIndex = [[outlineView tableColumns] indexOfObject:tableColumn];
+	
+	if([item isKindOfClass:[NSString class]]){
+		NSString *text = (NSString *)item;
+		if([text isEqualToString:@"Consoles"]){
+			switch(columnIndex){
+				case 0:
+					return [NSImage imageNamed:@"about"];
+					break;
+				case 1:
+					return @"Consoles";
+					break;
+			}
+		}else if([text isEqualToString:@"All Consoles"]){
+			switch(columnIndex){
+				case 0:
+					return [NSImage imageNamed:@"about"];
+					break;
+				case 1:
+					return @"All Consoles";
+					break;
+			}
+		}
+	}else if([item isKindOfClass:[OECorePlugin class]]){
+		OECorePlugin *plugin = (OECorePlugin *)item;
+		switch(columnIndex){
+			case 0:
+				return [plugin icon];
+				break;
+			case 1:
+				return [plugin displayName];
+				break;
+		}		
+	}
+	return nil;
+}
+
+#pragma mark NSOutlineViewDelegate methods
+
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item{
+	if([item isKindOfClass:[NSString class]]){
+		if([item isEqual:@"All Consoles"]){
+			return YES;
+		}
+		return NO;
+	}
+	return YES;
+}
+
+#define TruePredicate() [NSPredicate predicateWithFormat:@"TRUEPREDICATE"]
+
+-(NSPredicate *)predicateForSearchTerm:(NSString *)searchTerm{
+	if(!searchTerm || [searchTerm isEqual:@""]) return TruePredicate();
+	NSPredicate *predicate = [NSPredicate predicateWithFormat:
+							  @"(path contains[c] %@) or "
+							  @"(name contains[c] %@) or "
+							  @"(lastPlayedDate.description contains[c] $value)", 
+							  searchTerm, searchTerm, searchTerm];
+	return predicate;
+}
+
+-(NSPredicate *)predicateForSelection{
+	NSPredicate *predicate = nil;
+	id item = [sourceList itemAtRow:[sourceList selectedRow]];
+	if([item isEqual:@"All Consoles"]){
+		predicate = TruePredicate();
+	}else if([item isKindOfClass:[OECorePlugin class]]){
+		OECorePlugin *plugin = (OECorePlugin *)item;
+		NSArray *extensions = [plugin supportedTypeExtensions];
+		predicate = [NSPredicate predicateWithFormat:@"path.pathExtension IN %@",extensions];
+	}
+	
+	return predicate;
+}
+
+-(NSPredicate *)predicateForCurrentState{
+	NSPredicate *searchPredicate = [self predicateForSearchTerm:[searchField stringValue]];
+	NSPredicate *selectionPredicate = [self predicateForSelection];
+	return [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:
+															   selectionPredicate,
+															   searchPredicate,
+															   nil]];
+}
+
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification{
+	[self updateFilterPredicate];
+}
+
+-(void)updateFilterPredicate{
+	NSPredicate *predicate = [self predicateForCurrentState];
+	[allROMSController setFilterPredicate:predicate];	
+}
+
+#pragma mark NSObject
+
 - (id)init
 {
-    return [super initWithWindowNibName:@"OEROMOrganizer"];
+    if(self = [super initWithWindowNibName:@"OEROMOrganizer"]){
+	}
+	return self;
 }
 
 - (id)initWithWindowNibName:(NSString *)aName
