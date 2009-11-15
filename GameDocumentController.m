@@ -89,12 +89,12 @@
 {
     for(OECorePlugin *plugin in plugins)
     {
-        @try {
+        //@try {
             [plugin updateBundle:self];
-        }
-        @catch (NSException * e) {
-            NSLog(@"Tried to update bundle without sparkle");
-        }
+        //}
+        //@catch (NSException * e) {
+		//   NSLog(@"Tried to update bundle without sparkle");
+        //}
     }
     
     //see if QC plugins are installed
