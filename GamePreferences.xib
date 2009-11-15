@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="29"/>
+			<integer value="165"/>
 			<integer value="174"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -115,7 +115,7 @@
 														<object class="NSTableView" id="30901941">
 															<reference key="NSNextResponder" ref="8618373"/>
 															<int key="NSvFlags">256</int>
-															<string key="NSFrameSize">{199, 298}</string>
+															<string key="NSFrameSize">{198, 298}</string>
 															<reference key="NSSuperview" ref="8618373"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="_NSCornerView" key="NSCornerView">
@@ -126,7 +126,7 @@
 															<object class="NSMutableArray" key="NSTableColumns">
 																<bool key="EncodedWithXMLCoder">YES</bool>
 																<object class="NSTableColumn" id="180036870">
-																	<double key="NSWidth">196</double>
+																	<double key="NSWidth">195</double>
 																	<double key="NSMinWidth">40</double>
 																	<double key="NSMaxWidth">1000</double>
 																	<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -206,7 +206,7 @@
 															<int key="NSTableViewDraggingDestinationStyle">0</int>
 														</object>
 													</object>
-													<string key="NSFrame">{{1, 1}, {199, 298}}</string>
+													<string key="NSFrame">{{1, 1}, {198, 298}}</string>
 													<reference key="NSSuperview" ref="984718615"/>
 													<reference key="NSNextKeyView" ref="30901941"/>
 													<reference key="NSDocView" ref="30901941"/>
@@ -238,7 +238,7 @@
 													<double key="NSPercent">0.77054789999999995</double>
 												</object>
 											</object>
-											<string key="NSFrameSize">{201, 300}</string>
+											<string key="NSFrameSize">{200, 300}</string>
 											<reference key="NSSuperview" ref="921998109"/>
 											<reference key="NSNextKeyView" ref="8618373"/>
 											<int key="NSsFlags">530</int>
@@ -248,14 +248,14 @@
 											<bytes key="NSScrollAmts">QSAAAEEgAABCGAAAQhgAAA</bytes>
 										</object>
 									</object>
-									<string key="NSFrameSize">{201, 300}</string>
+									<string key="NSFrameSize">{200, 300}</string>
 									<reference key="NSSuperview" ref="1053730892"/>
 									<string key="NSClassName">NSView</string>
 								</object>
 								<object class="NSCustomView" id="26145470">
 									<reference key="NSNextResponder" ref="1053730892"/>
 									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{202, 0}, {298, 300}}</string>
+									<string key="NSFrame">{{201, 0}, {299, 300}}</string>
 									<reference key="NSSuperview" ref="1053730892"/>
 									<string key="NSClassName">NSView</string>
 								</object>
