@@ -84,7 +84,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     gameLayer.frame = CGRectMake(0,0,1,1);
     [gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidX relativeTo:@"superlayer" attribute:kCAConstraintMidX]];
     [gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
-    
+        
     rootLayer.bounds = CGRectMake(0, 0, [gameCore screenWidth],  [gameCore screenHeight]);
     gameLayer.bounds = CGRectMake(0, 0, [gameCore screenWidth],  [gameCore screenHeight]);
     //Add the NESLayer to the hierarchy
@@ -110,7 +110,9 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
   //     aspect = [gameCore outputSize];
     //else
     //CGSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
-    [gameWindow setContentSize:NSMakeSize([gameCore screenWidth], [gameCore screenHeight])];
+    CGFloat scaleFactor = [gameLayer preferredWindowScale];
+
+    [gameWindow setContentSize:NSMakeSize([gameCore screenWidth]*scaleFactor, [gameCore screenHeight]*scaleFactor)];
     //[gameWindow setContentResizeIncrements:aspect];
     [rootLayer setNeedsLayout];
     

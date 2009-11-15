@@ -157,6 +157,17 @@
     //return CGSizeMake([[gameCore document] windowScale] * [gameCore screenWidth] , [[gameCore document] windowScale] * [gameCore screenHeight]);
 }
 
+// maybe this does the same thing as the unused method above?
+- (CGFloat)preferredWindowScale
+{    
+    QCComposition *composition = [self composition];
+    NSNumber *scale = [[composition attributes] objectForKey:@"com.openemu.windowScaleFactor"];
+    
+    if (!scale) return 1;
+    
+    return [scale floatValue];
+}
+
 - (BOOL)canDrawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
 {
     // im not sure exactly how the frameFinished stuff works.

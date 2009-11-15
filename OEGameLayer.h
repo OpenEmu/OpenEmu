@@ -77,4 +77,5 @@
 - (void)correctPixelAspectRatio;
 - (NSImage*) imageForCurrentFrame;
 
+- (CGFloat)preferredWindowScale;
 @end
