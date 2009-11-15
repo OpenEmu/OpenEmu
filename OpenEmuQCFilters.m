@@ -316,7 +316,6 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 	glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
     glDeleteTextures(1, &name);
     
-    
     CGLUnlockContext(cgl_ctx);
     
     return YES;

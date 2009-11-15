@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10B504</string>
-		<string key="IBDocument.InterfaceBuilderVersion">732</string>
+		<string key="IBDocument.InterfaceBuilderVersion">740</string>
 		<string key="IBDocument.AppKitVersion">1038.2</string>
 		<string key="IBDocument.HIToolboxVersion">437.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">732</string>
+			<string key="NS.object.0">740</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -156,7 +156,7 @@
 													<bytes key="NSWhite">MC41AA</bytes>
 												</object>
 											</object>
-											<double key="NSRowHeight">36</double>
+											<double key="NSRowHeight">17</double>
 											<int key="NSTvFlags">104857600</int>
 											<reference key="NSDelegate"/>
 											<reference key="NSDataSource"/>
@@ -202,7 +202,7 @@
 							<reference key="NSVScroller" ref="371230010"/>
 							<reference key="NSHScroller" ref="872883481"/>
 							<reference key="NSContentView" ref="65873888"/>
-							<bytes key="NSScrollAmts">QSAAAEEgAABCGAAAQhgAAA</bytes>
+							<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 						</object>
 						<object class="NSSearchField" id="495222638">
 							<reference key="NSNextResponder" ref="1006"/>
@@ -1431,9 +1431,9 @@
 							<reference ref="72458948"/>
 							<reference ref="495222638"/>
 							<reference ref="351369728"/>
+							<reference ref="864411201"/>
 							<reference ref="755224116"/>
 							<reference ref="498782739"/>
-							<reference ref="864411201"/>
 						</object>
 						<reference key="parent" ref="1005"/>
 					</object>

@@ -334,6 +334,7 @@
 {
     DLog(@"creating FBO");
     
+	GLint previousFBO;
     glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);    
     
 	NSLog(@"found previous FBO: %i", previousFBO);
@@ -375,6 +376,7 @@
     CGRect cropRect = [gameCore sourceRect];
     
     // cache our previous FBO every frame. CA in 10.6 changes this behind our backs 
+	GLint previousFBO;
 	glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);    
 	
     // save our current GL state

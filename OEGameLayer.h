@@ -45,9 +45,7 @@
     GLuint                gameTexture;
     GLuint                correctionFBO;
     GLuint                correctionTexture;
-    // core animation uses FBOs internally, so we need to cache the previously bound fbo state
-    GLint                 previousFBO;
-    
+	    
     BOOL                  usesShader;
     BOOL                  vSyncEnabled;
     
