@@ -4,7 +4,7 @@
 
 @interface OEDownloadCell : NSTextFieldCell
 {
-	NSProgressIndicator* indicator;
+	NSProgressIndicator *indicator;
 }
 
 @end

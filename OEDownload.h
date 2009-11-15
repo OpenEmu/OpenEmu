@@ -37,35 +37,35 @@
 
 @class SUAppcastItem, SUAppcast;
 
-@interface OEDownload : NSViewController {
-	BOOL enabled;
-	
-	NSProgressIndicator* progressBar;
-	NSButton* button;
-	double progress;
-	NSString* name;
-	NSString* downloadPath;
-	NSString* fullPluginPath;
-	unsigned long long expectedLength;
-	unsigned long long downloadedSize;
-	SUAppcastItem* appcastItem;
-	
-	id<OEDownloadDelegate> delegate;
-	
-	BOOL downloading;
+@interface OEDownload : NSViewController
+{
+    NSProgressIndicator *progressBar;
+    NSButton            *button;
+    double               progress;
+    NSString            *name;
+    NSString            *downloadPath;
+    NSString            *fullPluginPath;
+    unsigned long long   expectedLength;
+    unsigned long long   downloadedSize;
+    SUAppcastItem       *appcastItem;
+    
+    id<OEDownloadDelegate> delegate;
+    
+    BOOL downloading;
+    BOOL enabled;
 }
 
-@property (readonly) NSProgressIndicator* progressBar;
-@property (readonly) NSButton* button;
-@property (readonly) double progress;
-@property (assign) BOOL enabled;
-@property (retain) SUAppcastItem* appcastItem;
-@property (assign) id<OEDownloadDelegate> delegate;
-@property (readonly) NSString* fullPluginPath;
-@property (readonly) BOOL downloading;
+@property(readonly) NSProgressIndicator    *progressBar;
+@property(readonly) NSButton               *button;
+//@property(readonly) double                  progress;
+@property(assign)   BOOL                    enabled;
+@property(retain)   SUAppcastItem          *appcastItem;
+@property(assign)   id<OEDownloadDelegate>  delegate;
+@property(readonly) NSString               *fullPluginPath;
+@property(readonly) BOOL                    downloading;
 
 - (id)initWithAppcast:(SUAppcast *)appcast;
-- (void) startDownload:(id)sender;
+- (void)startDownload:(id)sender;
 - (NSString *)name;
 
 @end

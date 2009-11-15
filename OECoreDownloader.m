@@ -33,50 +33,49 @@
 
 @implementation OECoreDownloader
 
-@synthesize downloads;
+@synthesize downloads, downloadArrayController, downloadTableView;
 
-- (id) init
+- (id)init
 {
     if(self = [super initWithWindowNibName:@"CoreDownloader"])
-    {	
-		NSError *error;
-		
-        //Get the URL for the list of available plugins
-		NSString* coreURLs = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"];
-        NSString* rawList = [NSString stringWithContentsOfURL:[NSURL URLWithString:coreURLs] encoding:NSUTF8StringEncoding error:&error];
+    {
+        // FIXME: Never used, what's the point ?
+        NSError *error = nil;
+        
+        // Get the URL for the list of available plugins
+        NSString *coreURLs = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"];
+        NSString *rawList = [NSString stringWithContentsOfURL:[NSURL URLWithString:coreURLs] encoding:NSUTF8StringEncoding error:&error];
 
-        NSArray * list = [rawList componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+        NSArray *list = [rawList componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
         
-        NSMutableArray* tempURLList = [NSMutableArray array];
+        NSMutableArray *tempURLList = [NSMutableArray array];
         
-        NSArray* allPlugins = [OECorePlugin allPlugins];
-		
-		//Load the appcast for each core
-        for( NSString* appcastString in list )
+        NSArray *allPlugins = [OECorePlugin allPlugins];
+        
+        // Load the appcast for each core
+        for(NSString *appcastString in list)
         {
             BOOL pluginExists = NO;
-            NSURL* appcastURL = [NSURL URLWithString:appcastString];
-			
-			//Check if the core is already installed by checking against the appcast URL
-            for( OECorePlugin* plugin in allPlugins )
+            NSURL *appcastURL = [NSURL URLWithString:appcastString];
+            
+            // Check if the core is already installed by checking against the appcast URL
+            for(OECorePlugin* plugin in allPlugins )
             {
-				if( [[[plugin bundle] infoDictionary] valueForKey:@"SUFeedURL"] )
-				{
-					SUUpdater* updater =  [SUUpdater updaterForBundle: [plugin bundle] ];
-					if ( [[updater feedURL] isEqual: appcastURL] )
-					{
-						pluginExists = YES;
-						break;
-					}
-				}	
+                if([[[plugin bundle] infoDictionary] valueForKey:@"SUFeedURL"])
+                {
+                    SUUpdater* updater = [SUUpdater updaterForBundle:[plugin bundle]];
+                    if ([[updater feedURL] isEqual:appcastURL])
+                    {
+                        pluginExists = YES;
+                        break;
+                    }
+                }    
             }
             
-            if( !pluginExists )            
-                [tempURLList addObject:appcastURL];
+            if(!pluginExists) [tempURLList addObject:appcastURL];
         }
         
         urlList = [NSArray arrayWithArray:tempURLList];
-        docController = [GameDocumentController sharedDocumentController];
     }
     return self;
 }
@@ -95,10 +94,10 @@
 
 - (void)loadAppcasts
 {
-	//Fetch all the appcasts
-    for( NSURL* appcastURL in urlList )
+    //Fetch all the appcasts
+    for(NSURL *appcastURL in urlList)
     {
-        SUAppcast* appcast = [[SUAppcast alloc] init];
+        SUAppcast *appcast = [[SUAppcast alloc] init];
         
         [appcast setDelegate:self];
         [appcast fetchAppcastFromURL:appcastURL];
@@ -110,31 +109,31 @@
 
 - (void)appcastDidFinishLoading:(SUAppcast *)appcast
 {
-    OEDownload* downlad = [[OEDownload alloc] initWithAppcast:appcast];
-	[downlad setDelegate:self];
+    OEDownload *downlad = [[OEDownload alloc] initWithAppcast:appcast];
+    [downlad setDelegate:self];
     [downloadArrayController addObject:downlad];
     [downlad release];
 }
 
 - (void)appcast:(SUAppcast *)appcast failedToLoadWithError:(NSError *)error
 {
-	//Appcast couldn't load, remove it
+    // Appcast couldn't load, remove it
     [appcasts removeObject:appcast];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-	if( [keyPath isEqualToString:@"progress"] )
-	{
-		[downloadTableView setNeedsDisplay];
-	}
+    if([keyPath isEqualToString:@"progress"])
+    {
+        [downloadTableView setNeedsDisplay];
+    }
 }
 
 - (void)OEDownloadDidFinish:(OEDownload *)download;
 {
-	[downloadArrayController removeObject:download];
-	[downloadTableView setNeedsDisplay];
-	[docController openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[download fullPluginPath]] display:NO error:nil];
+    [downloadTableView setNeedsDisplay];
+    [[GameDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[download fullPluginPath]] display:NO error:nil];
+    [downloadArrayController removeObject:download];
 }
 
 

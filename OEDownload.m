@@ -32,38 +32,39 @@
 
 @implementation OEDownload
 
-@synthesize enabled, appcastItem, progress, progressBar, delegate, fullPluginPath, button, downloading;
+@synthesize enabled, appcastItem, progressBar, delegate, fullPluginPath, button, downloading;
 
 - (id)init
 {
-	if( self = [super init] )
-	{
-		enabled = YES;
-		downloading = NO;
-		downloadedSize = 0;
-		expectedLength = 1;
-		progress = 0.0;
-		progressBar = [[NSProgressIndicator alloc] init];
-		[progressBar setControlSize:NSMiniControlSize];
-		[progressBar setMinValue:0.0];
-		[progressBar setMaxValue:1.0];
-		[progressBar setStyle: NSProgressIndicatorBarStyle];
-		[progressBar setIndeterminate:NO];
-		
-		button = [[NSButton alloc] init];
-		[button setButtonType:NSMomentaryChangeButton];
-		[button setImage:[NSImage imageNamed:@"download_arrow_up.png"]];
-		[button setAlternateImage:[NSImage imageNamed:@"download_arrow_down.png"]];
-		[button setAction:@selector(startDownload:)];
-		[button setTarget:self];
-		[button setBordered:NO];
-	}
-	return self;
+    if(self = [super init])
+    {
+        enabled        = YES;
+        downloading    = NO;
+        downloadedSize = 0;
+        expectedLength = 1;
+        progress       = 0.0;
+        progressBar    = [[NSProgressIndicator alloc] init];
+        
+        [progressBar setControlSize:NSMiniControlSize];
+        [progressBar setMinValue:0.0];
+        [progressBar setMaxValue:1.0];
+        [progressBar setStyle: NSProgressIndicatorBarStyle];
+        [progressBar setIndeterminate:NO];
+        
+        button = [[NSButton alloc] init];
+        [button setButtonType:NSMomentaryChangeButton];
+        [button setImage:[NSImage imageNamed:@"download_arrow_up.png"]];
+        [button setAlternateImage:[NSImage imageNamed:@"download_arrow_down.png"]];
+        [button setAction:@selector(startDownload:)];
+        [button setTarget:self];
+        [button setBordered:NO];
+    }
+    return self;
 }
 
-- (id) copyWithZone:(NSZone*) zone
+- (id)copyWithZone:(NSZone *)zone
 {
-	return [self retain];
+    return [self retain];
 }
 
 - (id)initWithAppcast:(SUAppcast *)appcast
@@ -79,71 +80,70 @@
     return self;
 }
 
-- (void) startDownload:(id)sender
+- (void)startDownload:(id)sender
 {
-	NSURLRequest *request = [NSURLRequest requestWithURL:[appcastItem fileURL]];
-	NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:self] autorelease];
-	downloading = YES;
-	if( !fileDownload )
-		NSLog(@"Couldn't download!??");
+    NSURLRequest  *request      = [NSURLRequest requestWithURL:[appcastItem fileURL]];
+    NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:self] autorelease];
+    downloading = YES;
+    if(fileDownload == nil) NSLog(@"ERROR: Couldn't download!?? %@", self);
 }
 
 
 - (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
-{	
+{    
     downloadPath = [[NSString stringWithCString:tmpnam(nil) 
-										   encoding:[NSString defaultCStringEncoding]] retain];
-	
+                                       encoding:[NSString defaultCStringEncoding]] retain];
+    
     [download setDestination:downloadPath allowOverwrite:NO];
 }
 
 - (void)download:(NSURLDownload *)download didFailWithError:(NSError *)error
 {
     // inform the user
-	[[NSApplication sharedApplication] presentError:error];
-	//    NSLog(@"Download failed! Error - %@ %@",
-	//    [error localizedDescription],
-	//    [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+    [[NSApplication sharedApplication] presentError:error];
+    //    NSLog(@"Download failed! Error - %@ %@",
+    //    [error localizedDescription],
+    //    [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
 }
 
-- (void) download: (NSURLDownload*)download didCreateDestination: (NSString*)path
+- (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
 {
-	  NSLog(@"%@, %@",@"created dest", path);
+      NSLog(@"%@, %@", @"created dest", path);
 }
 
 - (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
 {
-	downloadedSize += length;
-	[self willChangeValueForKey:@"progress"];
-	progress =  (double) downloadedSize /  (double) expectedLength;
-	[self didChangeValueForKey:@"progress"];
-	
-//	NSLog(@"Got data:%f", (double) downloadedSize /  (double) expectedLength);
+    downloadedSize += length;
+    [self willChangeValueForKey:@"progress"];
+    progress = (double)downloadedSize / (double)expectedLength;
+    [progressBar setDoubleValue:progress];
+    [self didChangeValueForKey:@"progress"];
+    
+    //NSLog(@"Got data:%f", (double) downloadedSize /  (double) expectedLength);
 }
 
 - (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
 {
-	expectedLength = [response expectedContentLength];
-	NSLog(@"Got response");
+    expectedLength = [response expectedContentLength];
+    NSLog(@"Got response");
 }
 
 - (void)downloadDidFinish:(NSURLDownload *)download
-{	
-	XADArchive* archive = [XADArchive archiveForFile:downloadPath];
-	
-	NSString* appsupportFolder = [[GameDocumentController sharedDocumentController] applicationSupportFolder];
-	appsupportFolder = [appsupportFolder stringByAppendingPathComponent:@"Cores"];
-	
-	fullPluginPath = [[appsupportFolder stringByAppendingPathComponent:[archive nameOfEntry:0]] retain];
-	NSLog(@"%@",fullPluginPath);
-	[archive extractTo:appsupportFolder];
-	
-	
-	//Delete the temp file
-	[[NSFileManager defaultManager] removeFileAtPath:downloadPath handler:nil];
-	
-	[progressBar removeFromSuperview];
-	[delegate OEDownloadDidFinish:self];
+{    
+    XADArchive *archive = [XADArchive archiveForFile:downloadPath];
+    
+    NSString *appsupportFolder = [[GameDocumentController sharedDocumentController] applicationSupportFolder];
+    appsupportFolder = [appsupportFolder stringByAppendingPathComponent:@"Cores"];
+    
+    fullPluginPath = [[appsupportFolder stringByAppendingPathComponent:[archive nameOfEntry:0]] retain];
+    NSLog(@"%@", fullPluginPath);
+    [archive extractTo:appsupportFolder];
+    
+    // Delete the temp file
+    [[NSFileManager defaultManager] removeFileAtPath:downloadPath handler:nil];
+    
+    [progressBar removeFromSuperview];
+    [delegate OEDownloadDidFinish:self];
 }
 
 - (NSString *)name
@@ -153,12 +153,12 @@
 
 - (void) dealloc
 {
-	[progressBar release];
-	[downloadPath release];
-	[fullPluginPath release];
-	[button release];
-	self.appcastItem = nil;
-	
-	[super dealloc];
+    [progressBar release];
+    [downloadPath release];
+    [fullPluginPath release];
+    [button release];
+    self.appcastItem = nil;
+    
+    [super dealloc];
 }
 @end
