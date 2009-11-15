@@ -34,6 +34,8 @@ extern NSString *const OEAdvancedPreferenceKey;
 
 @interface OEGamePreferenceController : NSWindowController
 {
+    IBOutlet NSSplitView       *splitView;
+    IBOutlet NSTableView       *pluginTableView;
     IBOutlet NSDrawer          *pluginDrawer;
     IBOutlet NSArrayController *pluginController;
     IBOutlet NSToolbar         *toolbar;

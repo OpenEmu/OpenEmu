@@ -32,4 +32,5 @@
 - (void)switchView:(id)sender;
 - (NSRect)frameForNewContentViewFrame:(NSRect)viewFrame;
 - (NSViewController *)newViewControllerForIdentifier:(NSString*)identifier;
+- (BOOL)selectedPanelUsesPlugins;
 @end

@@ -157,6 +157,12 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     return frame;
 }
 
+- (BOOL)selectedPanelUsesPlugins
+{
+    NSDictionary *desc = [preferencePanels objectForKey: currentViewIdentifier];
+    return [desc objectForKey:OEPluginViewKey] != nil;
+}
+
 - (void)switchView:(id)sender
 {
     // Figure out the new view, the old view, and the new size of the window
@@ -166,14 +172,36 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     
     currentViewController = [self newViewControllerForIdentifier:currentViewIdentifier];
     
+    CGFloat minimumWidth = 0.0;
+    
+    if([self selectedPanelUsesPlugins]) minimumWidth = [pluginTableView frame].size.width;
+    
     NSView *view = [currentViewController view];
     
-    NSRect newFrame = [self frameForNewContentViewFrame:[[currentViewController view] frame]];
+    NSRect contentFrame = [[currentViewController view] frame];
     
-    if(previousController) [[[self window] contentView] replaceSubview:[previousController view] with:view];
-    else                   [[[self window] contentView] addSubview:view];
+    contentFrame.size.width += minimumWidth;
     
-       [[self window] setFrame:newFrame display:YES animate:YES];
+    NSRect newFrame = [self frameForNewContentViewFrame:contentFrame];
+    
+    NSView *pluginSplit = [[splitView subviews] objectAtIndex:0];
+    NSView *content = [[splitView subviews] objectAtIndex:1];
+    
+    if(previousController) [content replaceSubview:[previousController view] with:view];
+    else                   [content addSubview:view];
+    
+    NSSize splitSize = contentFrame.size;
+    splitSize.width = minimumWidth;
+    
+    if([pluginSplit frame].size.width == minimumWidth) pluginSplit = nil;
+    
+    if((int)minimumWidth == 0) [pluginSplit setFrameSize:splitSize];
+    [[self window] setFrame:newFrame display:YES animate:YES];
+    if((int)minimumWidth != 0) [[pluginSplit animator] setFrameSize:splitSize];
+    
+    //[[splitView animator] adjustSubviews];
+    
+    NSLog(@"minimumWidth = %f", minimumWidth);
     
     [previousController release];
 }

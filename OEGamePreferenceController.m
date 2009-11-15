@@ -60,7 +60,7 @@
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
     NSLog(@"%s %@", __FUNCTION__, NSStringFromRect([[self window] frame]));
-    //[self switchView:self];
+    [self switchView:self];
 }
 
 - (void)windowDidResize:(NSNotification *)notification
@@ -71,6 +71,36 @@
 - (NSArray *)plugins
 {
     return [[GameDocumentController sharedDocumentController] plugins];
+}
+
+- (void)awakeFromNib
+{
+    [splitView setPosition:0.0 ofDividerAtIndex:0];
+}
+
+- (BOOL)splitView:(NSSplitView *)splitView shouldHideDividerAtIndex:(NSInteger)dividerIndex
+{
+    return YES;
+}
+
+- (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
+{
+    return NO;
+}
+
+- (CGFloat)splitView:(NSSplitView *)sender constrainSplitPosition:(CGFloat)proposedPosition ofSubviewAt:(NSInteger)dividerIndex
+{
+    return [self selectedPanelUsesPlugins] ? [pluginTableView frame].size.width : 0.0;
+}
+
+- (CGFloat)splitView:(NSSplitView *)sender constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)dividerIndex
+{
+    return [self splitView:sender constrainSplitPosition:proposedMin ofSubviewAt:dividerIndex];
+}
+
+- (CGFloat)splitView:(NSSplitView *)sender constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)dividerIndex
+{
+    return [self splitView:sender constrainSplitPosition:proposedMax ofSubviewAt:dividerIndex];
 }
 
 - (void)dealloc
