@@ -60,7 +60,6 @@
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
     NSLog(@"%s %@", __FUNCTION__, NSStringFromRect([[self window] frame]));
-    [self switchView:self];
 }
 
 - (void)windowDidResize:(NSNotification *)notification
@@ -75,7 +74,8 @@
 
 - (void)awakeFromNib
 {
-    [splitView setPosition:0.0 ofDividerAtIndex:0];
+    [self switchView:self];
+    //[splitView setPosition:0.0 ofDividerAtIndex:0];
 }
 
 - (BOOL)splitView:(NSSplitView *)splitView shouldHideDividerAtIndex:(NSInteger)dividerIndex
