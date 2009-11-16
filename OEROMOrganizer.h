@@ -28,25 +28,31 @@
 #import <Cocoa/Cocoa.h>
 #import <CoreData/CoreData.h>
 
-@interface OEROMOrganizer : NSWindowController {
+@interface OEROMOrganizer : NSWindowController
+{
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
-    NSManagedObjectModel *managedObjectModel;
-    NSManagedObjectContext *managedObjectContext;    
+    NSManagedObjectModel         *managedObjectModel;
+    NSManagedObjectContext       *managedObjectContext;    
     
-    IBOutlet NSArrayController *allROMSController;
+    NSArrayController            *allROMSController;
 	
-	IBOutlet NSOutlineView *sourceList;
-	IBOutlet NSSearchField *searchField;
+	NSOutlineView                *sourceList;
+	NSSearchField                *searchField;
 	
-	NSArray *categories;
-	NSPredicate *searchPredicate;
+	NSArray                      *categories;
+	NSPredicate                  *searchPredicate;
 }
 
-@property (nonatomic, retain) NSPredicate *searchPredicate;
+@property(retain) IBOutlet NSArrayController *allROMSController;
+@property(retain) IBOutlet NSOutlineView     *sourceList;
+@property(retain) IBOutlet NSSearchField     *searchField;
 
-- (IBAction)addROM:sender;
-- (IBAction)removeROM:sender;
-- (IBAction)playROMs:sender;
+
+@property(nonatomic, retain) NSPredicate *searchPredicate;
+
+- (IBAction)addROM:(id)sender;
+- (IBAction)removeROM:(id)sender;
+- (IBAction)playROMs:(id)sender;
 
 - (void)save;
 - (void)updateFilterPredicate;

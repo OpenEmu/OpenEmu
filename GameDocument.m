@@ -37,7 +37,7 @@
 
 @synthesize gameCore;
 @synthesize gameWindow;
-@synthesize emulatorName;
+@synthesize emulatorName, gameWindow, view;
 
 - (NSString *)windowNibName
 {
@@ -106,8 +106,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     
     [audio startAudio];
     
-//    if([gameCore respondsToSelector:@selector(outputSize)])
-  //     aspect = [gameCore outputSize];
+    //if([gameCore respondsToSelector:@selector(outputSize)])
+    //    aspect = [gameCore outputSize];
     //else
     //CGSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
     CGFloat scaleFactor = [gameLayer preferredWindowScale];
@@ -123,12 +123,11 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     
     if([self defaultsToFullScreenMode])
         [self toggleFullScreen:self];
-   
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
-    if (outError != NULL)
+    if(outError != NULL)
         *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
     return nil;
 }
@@ -139,28 +138,27 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     
     GameDocumentController *docControl = [GameDocumentController sharedDocumentController];
 	OECorePlugin *plugin = nil;
-	for(OEPlugin* aPlugin in [docControl plugins])
-	{
-		if( [[aPlugin displayName] isEqualToString:typeName] )
+    
+	for(OEPlugin *aPlugin in [docControl plugins])
+		if([[aPlugin displayName] isEqualToString:typeName])
 		{
 			plugin = (OECorePlugin*)aPlugin;
 			break;
 		}
-	}
 
-	if( plugin == nil )
-	{
-		return NO;
-	}
+	if( plugin == nil ) return NO;
 	
     emulatorName = [[plugin displayName] retain];
     gameCore = [[plugin controller] newGameCoreWithDocument:self];
+    
     NSLog(@"gameCore class: %@", [gameCore class]);
     [gameWindow makeFirstResponder:gameCore];
      
-    if ([gameCore loadFileAtPath:[absoluteURL path]]) return YES;
+    if([gameCore loadFileAtPath:[absoluteURL path]]) return YES;
+    
     NSLog(@"Incorrect file");
-    if (outError) *outError = [[NSError alloc] initWithDomain:@"Bad file" code:0 userInfo:nil];
+    if(outError != NULL) *outError = [[NSError alloc] initWithDomain:@"Bad file" code:0 userInfo:nil];
+    
     return NO;
 }
 
@@ -193,8 +191,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
-    GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
-    [docControl setGameLoaded:YES];
+    [[GameDocumentController sharedDocumentController] setGameLoaded:YES];
     [self setPauseEmulation:NO];
 }
 
@@ -216,13 +213,12 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)proposedFrameSize
 {
-    
-    //we want to force aspect ratio with resize increments
+    // We want to force aspect ratio with resize increments
     int scale;
-    if( proposedFrameSize.width < proposedFrameSize.height )
-        scale = proposedFrameSize.width /[gameCore screenWidth];
+    if(proposedFrameSize.width < proposedFrameSize.height)
+        scale = proposedFrameSize.width / [gameCore screenWidth];
     else
-        scale = proposedFrameSize.height /[gameCore screenHeight];
+        scale = proposedFrameSize.height / [gameCore screenHeight];
     scale = MAX(scale, 1);
     
     NSRect newContentRect = NSMakeRect(0,0, [gameCore screenWidth] * scale, [gameCore screenHeight] * scale);
@@ -240,8 +236,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    if([view isInFullScreenMode])
-        [view exitFullScreenModeWithOptions:nil];
+    if([view isInFullScreenMode]) [view exitFullScreenModeWithOptions:nil];
     [gameCore stopEmulation];
     [audio stopAudio];
     [gameCore release];
@@ -249,8 +244,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     
     //[recorder finishRecording];
     [gameLayer setDocController:nil];
-    GameDocumentController* docControl = [GameDocumentController sharedDocumentController];
-    [docControl setGameLoaded:NO];
+    [[GameDocumentController sharedDocumentController] setGameLoaded:NO];
 }
 
 - (void)performClose:(id)sender
@@ -356,7 +350,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     }
 }
 
-- (NSImage*)screenShot
+- (NSImage *)screenShot
 {
     return [gameLayer imageForCurrentFrame];
 }

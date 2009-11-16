@@ -30,12 +30,15 @@
 
 @class XADArchive;
 
-@interface GamePickerController : NSWindowController {
-    IBOutlet NSTableView *table;
-    NSString *fileName;
-    NSArray *files;
-    BOOL safeExit;
+@interface GamePickerController : NSWindowController
+{
+    NSTableView *table;
+    NSString    *fileName;
+    NSArray     *files;
+    BOOL         safeExit;
 }
+
+@property(retain) IBOutlet NSTableView *table;
 
 - (IBAction)unpackSelectedFile:(id)sender;
 - (IBAction)cancelPicker:(id)sender;

@@ -47,6 +47,34 @@ OSStatus RenderCallback(void                       *in,
 
 @implementation GameAudio
 
+
+// No default version for this class
+- (id)init
+{
+    [self release];
+    return nil;
+}
+
+// Designated Initializer
+- (id)initWithCore:(GameCore *)core
+{
+    self = [super init];
+    if(self)
+    {
+        gameCore = core;
+        [self createGraph];
+    }
+    
+    return self;
+}
+
+- (void)dealloc
+{
+    AUGraphUninitialize(mGraph);
+    DisposeAUGraph(mGraph);  //FIXME: added this line tonight.  do we need it?  Fuckety fuck fucking shitty Core Audio documentation... :X
+    [super dealloc];
+}
+
 - (void)pauseAudio
 {
     NSLog(@"Stopped audio");
@@ -71,22 +99,17 @@ OSStatus RenderCallback(void                       *in,
 {    
     OSStatus err;
     
-    
     AUGraphStop(mGraph);
     AUGraphClose(mGraph);
     AUGraphUninitialize(mGraph);
     //Create the graph
     err = NewAUGraph(&mGraph);
-    if(err)
-        NSLog(@"NewAUGraph failed");
+    if(err) NSLog(@"NewAUGraph failed");
     
     
     //Open the graph
     err = AUGraphOpen(mGraph);
-    if(err)
-        NSLog(@"couldn't open graph");
-
-    
+    if(err) NSLog(@"couldn't open graph");
     
     ComponentDescription desc;
     
@@ -94,16 +117,14 @@ OSStatus RenderCallback(void                       *in,
     desc.componentSubType = kAudioUnitSubType_DefaultOutput;
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
     desc.componentFlagsMask = 0;
-    desc.componentFlags  =0; 
+    desc.componentFlags  = 0; 
 
     //Create the output node
     err = AUGraphAddNode(mGraph, &desc, &mOutputNode);
-    if(err)
-        NSLog(@"couldn't create node for output unit");
+    if(err) NSLog(@"couldn't create node for output unit");
     
     err = AUGraphNodeInfo(mGraph, mOutputNode, NULL, &mOutputUnit);
-    if(err)
-        NSLog(@"couldn't get output from node");
+    if(err) NSLog(@"couldn't get output from node");
     
     
     desc.componentType = kAudioUnitType_Mixer;
@@ -112,12 +133,10 @@ OSStatus RenderCallback(void                       *in,
 
     //Create the mixer node
     err = AUGraphAddNode(mGraph, &desc, &mMixerNode);
-    if(err)
-        NSLog(@"couldn't create node for file player");
+    if(err) NSLog(@"couldn't create node for file player");
     
     err = AUGraphNodeInfo(mGraph, mMixerNode, NULL, &mMixerUnit);
-    if(err)
-        NSLog(@"couldn't get player unit from node");
+    if(err) NSLog(@"couldn't get player unit from node");
 
     desc.componentType = kAudioUnitType_FormatConverter;
     desc.componentSubType = kAudioUnitSubType_AUConverter;
@@ -125,27 +144,20 @@ OSStatus RenderCallback(void                       *in,
     
     //Create the converter node
     err = AUGraphAddNode(mGraph, &desc, &mConverterNode);
-    if(err)
-        NSLog(@"couldn't create node for converter");
+    if(err)  NSLog(@"couldn't create node for converter");
     
     err = AUGraphNodeInfo(mGraph, mConverterNode, NULL, &mConverterUnit);
-    if(err)
-        NSLog(@"couldn't get player unit from converter");
+    if(err) NSLog(@"couldn't get player unit from converter");
     
     
     AURenderCallbackStruct renderStruct;
     renderStruct.inputProc = RenderCallback;
     renderStruct.inputProcRefCon = gameCore;
     
-    
     err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_SetRenderCallback,
                                kAudioUnitScope_Input, 0, &renderStruct, sizeof(AURenderCallbackStruct));
-    if(err)
-        DLog(@"Couldn't set the render callback");
-    else
-        DLog(@"Set the render callback");
-    
-    
+    if(err) DLog(@"Couldn't set the render callback");
+    else DLog(@"Set the render callback");
     
     AudioStreamBasicDescription mDataFormat;
     
@@ -159,30 +171,25 @@ OSStatus RenderCallback(void                       *in,
     mDataFormat.mBitsPerChannel = 16;
     
 
-    err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));//,
-    if(err)
-        NSLog(@"couldn't set player's input stream format");
+    err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));
+    if(err) NSLog(@"couldn't set player's input stream format");
     
     // connect the player to the output unit (stream format will propagate)
      
     err = AUGraphConnectNodeInput(mGraph, mMixerNode, 0, mOutputNode, 0);
-    if(err)
-        NSLog(@"Could not connect the input of the output");
+    if(err) NSLog(@"Could not connect the input of the output");
     
     err = AUGraphConnectNodeInput(mGraph, mConverterNode, 0, mMixerNode, 0);
-    if(err)
-        NSLog(@"Couldn't connect the converter to the mixer");
+    if(err) NSLog(@"Couldn't connect the converter to the mixer");
     
     //AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, [[[GameDocumentController sharedDocumentController] preferenceController] volume] ,0);
     AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, 1.0 ,0);
     
     err = AUGraphInitialize(mGraph);
-    if(err)
-        NSLog(@"couldn't initialize graph");
+    if(err) NSLog(@"couldn't initialize graph");
     
     err = AUGraphStart(mGraph);
-    if(err)
-        NSLog(@"couldn't start graph");
+    if(err) NSLog(@"couldn't start graph");
     
     /*
     NSString* outputPath = @"/Users/jweinberg/temp.wav";
@@ -208,7 +215,7 @@ OSStatus RenderCallback(void                       *in,
                                    &recordingFile);
         
         
-//        ExtAudioFileCreateNew(&fsref, filename, kAudioFileMP3Type, &mDataFormat, NULL, &recordingFile);
+     //ExtAudioFileCreateNew(&fsref, filename, kAudioFileMP3Type, &mDataFormat, NULL, &recordingFile);
         if (err)
         {
             NSLog(@"Could not create file");
@@ -218,34 +225,6 @@ OSStatus RenderCallback(void                       *in,
     CFRelease(filename);
     */
     [self setVolume:[self volume]];
-}
-
-// No default version for this class
-- (id)init
-{
-    [self release];
-    return nil;
-}
-
-// Designated Initializer
-- (id)initWithCore:(GameCore*) core
-{
-    self = [super init];
-    
-    if(self)
-    {
-        gameCore = core;
-        [self createGraph];
-    }
-    
-    return self;
-}
-
-- (void)dealloc
-{
-    AUGraphUninitialize(mGraph);
-    DisposeAUGraph(mGraph);  //FIXME: added this line tonight.  do we need it?  Fuckety fuck fucking shitty Core Audio documentation... :X
-    [super dealloc];
 }
 
 - (float)volume
@@ -258,6 +237,5 @@ OSStatus RenderCallback(void                       *in,
     volume = aVolume;
     AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, volume, 0);
 }
-
 
 @end

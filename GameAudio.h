@@ -42,7 +42,7 @@
 
 @property float volume;
 
-- (id)initWithCore:(GameCore*)core;
+- (id)initWithCore:(GameCore *)core;
 
 - (void)createGraph;
 - (void)startAudio;

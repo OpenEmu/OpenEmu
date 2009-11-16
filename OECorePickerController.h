@@ -29,16 +29,18 @@
 #import <Cocoa/Cocoa.h>
 @class OECorePlugin;
 
-@interface OECorePickerController : NSWindowController {
-	NSArray* coreList;
-	IBOutlet NSArrayController* coreArrayController;
-	BOOL safeExit;
+@interface OECorePickerController : NSWindowController
+{
+	NSArray           *coreList;
+	NSArrayController *coreArrayController;
+	BOOL               safeExit;
 }
 
-- (id)initWithCoreList:(NSArray*) cores;
-- (IBAction) selectCore:(id) sender;
-- (OECorePlugin*) selectedCore;
+- (id)initWithCoreList:(NSArray *)cores;
+- (IBAction)selectCore:(id) sender;
+- (OECorePlugin *)selectedCore;
 
-@property (readonly) NSArray* coreList;
+@property(readonly)          NSArray           *coreList;
+@property(retain) 	IBOutlet NSArrayController *coreArrayController;
 
 @end

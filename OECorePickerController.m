@@ -30,25 +30,17 @@
 
 
 @implementation OECorePickerController
-@synthesize coreList;
+@synthesize coreList, coreArrayController;
 
-- (id)initWithCoreList:(NSArray*) cores
+- (id)initWithCoreList:(NSArray * cores
 {
 	coreList = [cores retain];
     return [super initWithWindowNibName:@"OECorePicker"];
 }
 
-- (id) initWithWindow:(NSWindow*) window
-{
-	if( self = [super initWithWindow:window] )
-	{
-		[window setDelegate:self];
-	}
-	return self;
-}
-
 - (void)dealloc
 {
+    [coreArrayController release];
 	[coreList release];
 	[super dealloc];
 }
@@ -58,13 +50,13 @@
 	safeExit = NO;
 }
 
-- (OECorePlugin*) selectedCore
+- (OECorePlugin *)selectedCore
 {
 	int index = [[coreArrayController selectionIndexes] firstIndex];
 	return [coreList objectAtIndex:index];
 }
 
-- (IBAction) selectCore:(id) sender
+- (IBAction)selectCore:(id)sender
 {
 	safeExit = YES;
 	[[NSApplication sharedApplication] stopModalWithCode:1];

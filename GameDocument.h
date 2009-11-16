@@ -36,17 +36,20 @@
 
 @interface GameDocument : NSDocument
 {
-    NSTimer           *frameTimer;
-    CALayer           *rootLayer;
-    OEGameLayer       *gameLayer;
-    GameQTRecorder    *recorder;
-    BOOL               keyedOnce;
-    GameCore          *gameCore;
-    GameAudio         *audio;
-    NSString          *emulatorName;
-    IBOutlet NSWindow *gameWindow;
-    IBOutlet NSView   *view;
+    NSTimer        *frameTimer;
+    CALayer        *rootLayer;
+    OEGameLayer    *gameLayer;
+    GameQTRecorder *recorder;
+    BOOL            keyedOnce;
+    GameCore       *gameCore;
+    GameAudio      *audio;
+    NSString       *emulatorName;
+    NSWindow       *gameWindow;
+    NSView         *view;
 }
+
+@property(retain) IBOutlet NSWindow *gameWindow;
+@property(retain) IBOutlet NSView   *view;
 
 @property(readonly) GameCore *gameCore;
 @property(getter=isEmulationPaused) BOOL pauseEmulation;

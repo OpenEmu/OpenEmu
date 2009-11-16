@@ -30,7 +30,7 @@
 
 @implementation GamePickerController
 
-@synthesize fileName;
+@synthesize fileName, table;
 
 - (id)init
 {
@@ -42,6 +42,12 @@
     return [self init];
 }
 
+- (void)dealloc
+{
+    [table release];
+    [super dealloc];
+}
+
 - (void)awakeFromNib
 {
     safeExit = NO;
@@ -50,11 +56,12 @@
     [table setDoubleAction:@selector(unpackSelectedFile:)];
 }
 
-- (void)setArchive:(XADArchive*)archive
+- (void)setArchive:(XADArchive *)archive
 {
     fileName = [archive filename];
-    NSMutableArray  *muteFiles = [NSMutableArray arrayWithCapacity:[archive numberOfEntries]];
-    for(NSUInteger i = 0; i < [archive numberOfEntries]; i++)
+    NSMutableArray *muteFiles = [NSMutableArray arrayWithCapacity:[archive numberOfEntries]];
+    
+    for(NSUInteger i = 0, count = [archive numberOfEntries]; i < count; i++)
         [muteFiles addObject:[archive nameOfEntry:i]];
     
     files = [[NSArray arrayWithArray:muteFiles] retain];
@@ -65,14 +72,12 @@
     return [files count];
 }
 
-- (id)tableView:(NSTableView *)tableView
-objectValueForTableColumn:(NSTableColumn *)tableColumn
-            row:(NSInteger)row
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
     return [files objectAtIndex:row];
 }
 
--(IBAction)selectFile:(id)sender
+- (IBAction)selectFile:(id)sender
 {
     safeExit = YES;
     [[NSApplication sharedApplication] stopModalWithCode:1];

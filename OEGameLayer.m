@@ -142,28 +142,29 @@
     return layerContext;
 }
 
--(CGSize)preferredFrameSize
+- (CGSize)preferredFrameSize
 {
-    CALayer* superlayer = self.superlayer;
+    CALayer *superlayer  = [self superlayer];
+    NSRect   superBounds = [superlayer bounds];
     
     NSSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
     
-    if(superlayer.bounds.size.width * (aspect.width * 1.0/aspect.height) > superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height))
-        return CGSizeMake(superlayer.bounds.size.height * (aspect.width * 1.0/aspect.height), superlayer.bounds.size.height);
+    if(superBounds.size.width * (aspect.width * 1.0/aspect.height) > superBounds.size.height * (aspect.width * 1.0/aspect.height))
+        return CGSizeMake(superBounds.size.height * (aspect.width * 1.0/aspect.height), superBounds.size.height);
     else
-        return CGSizeMake( superlayer.bounds.size.width, superlayer.bounds.size.width * (aspect.height* 1.0/aspect.width));
+        return CGSizeMake(superBounds.size.width, superBounds.size.width * (aspect.height* 1.0/aspect.width));
 
     //NSLog(@"%d",[[gameCore document] windowScale]);
     //return CGSizeMake([[gameCore document] windowScale] * [gameCore screenWidth] , [[gameCore document] windowScale] * [gameCore screenHeight]);
 }
 
-// maybe this does the same thing as the unused method above?
+// FIXME: Maybe this does the same thing as the unused method above?
 - (CGFloat)preferredWindowScale
 {    
     QCComposition *composition = [self composition];
     NSNumber *scale = [[composition attributes] objectForKey:@"com.openemu.windowScaleFactor"];
     
-    if (!scale) return 1;
+    if(scale == nil) return 1.0;
     
     return [scale floatValue];
 }
@@ -285,11 +286,11 @@
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
 
     
-	// with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?) 
-	glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore bufferWidth] * [gameCore bufferHeight] * (32 >> 3), [gameCore videoBuffer]); 
+    // with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?) 
+    glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore bufferWidth] * [gameCore bufferHeight] * (32 >> 3), [gameCore videoBuffer]); 
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
     glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
  
     // proper tex params.
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -301,8 +302,8 @@
     
     // unset our client storage options storage
     // these fucks were causing our FBOs to fail.
-	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
-	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
+    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
     
     glPopAttrib();
     
@@ -334,11 +335,11 @@
 {
     DLog(@"creating FBO");
     
-	GLint previousFBO;
+    GLint previousFBO;
     glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);    
     
-	NSLog(@"found previous FBO: %i", previousFBO);
-	
+    NSLog(@"found previous FBO: %i", previousFBO);
+    
     GLenum status;
     GLuint name;
     
@@ -376,9 +377,9 @@
     CGRect cropRect = [gameCore sourceRect];
     
     // cache our previous FBO every frame. CA in 10.6 changes this behind our backs 
-	GLint previousFBO;
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);    
-	
+    GLint previousFBO;
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);    
+    
     // save our current GL state
     glPushAttrib(GL_ALL_ATTRIB_BITS);
     
@@ -399,8 +400,8 @@
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, correctionTexture, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-	//GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-	//if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+    //GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+    //if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {    
         // Setup OpenGL states 
         glViewport(0, 0, gameCore.screenWidth,  gameCore.screenHeight);
@@ -420,11 +421,11 @@
         glActiveTexture(GL_TEXTURE0);
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-		
-		// do a nearest linear interp.
-		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);		
-		                
+        
+        // do a nearest linear interp.
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);        
+                        
         glColor4f(1.0, 1.0, 1.0, 1.0);
 
         // why do we need it ?
@@ -463,27 +464,27 @@
     // back to our original FBO
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
     
-	// flush to make sure FBO texture attachment is finished being rendered.
-	glFlushRenderAPPLE();
-		
+    // flush to make sure FBO texture attachment is finished being rendered.
+    glFlushRenderAPPLE();
+        
     // Check for OpenGL errors 
-/*	status = glGetError();
-	if(status)
-	{
-		NSLog(@"FrameBuffer OpenGL error %04X", status);
-	}
-*/
+    /*    status = glGetError();
+    if(status)
+    {
+        NSLog(@"FrameBuffer OpenGL error %04X", status);
+    }
+     */
 }
 
-- (NSImage*) imageForCurrentFrame
+- (NSImage *)imageForCurrentFrame
 {    
-    if( !self.gameCIImage )
-        return nil;
+    if([self gameCIImage] == nil) return nil;
     
-    unsigned char * outputPixels;
+    unsigned char *outputPixels;
     
-    int width = [self.gameCIImage extent].size.width; 
-    int height = [self.gameCIImage extent].size.height;  
+    NSRect extent = [[self gameCIImage] extent];
+    int width = extent.size.width; 
+    int height = extent.size.height;  
     
     outputPixels = calloc(width * height, 4);
     
@@ -507,9 +508,9 @@
                                                                 colorSpaceName:NSCalibratedRGBColorSpace
                                                                    bytesPerRow:4 * width
                                                                   bitsPerPixel:32];
-    NSImage* image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
+    NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
     [image addRepresentation:rep];
-//    free(outputPixels);
+    //free(outputPixels);
     //[[image TIFFRepresentation] writeToFile:@"/Users/jweinberg/test1.tiff" atomically:YES];
     return image;
 }

@@ -36,8 +36,8 @@
 {        
     if(self = [super init])
     {
-        self.imageToEncode = image;
-        self.movie = aMovie;
+        [self setImageToEncode:image];
+        [self setMovie:aMovie];
         frameDuration = interval;
     }
     return self;
@@ -45,18 +45,17 @@
 
 - (void)dealloc
 {
-    self.imageToEncode = nil;
-    self.movie = nil;
+    [self setImageToEncode:nil];
+    [self setMovie: nil];
     [super dealloc];
 }
 
 - (void)main 
 {
     NSDictionary *myDict = nil;
-    myDict = [NSDictionary dictionaryWithObjectsAndKeys:@"mjpb",
-              QTAddImageCodecType,
-              [NSNumber numberWithLong:codecNormalQuality],
-              QTAddImageCodecQuality,
+    myDict = [NSDictionary dictionaryWithObjectsAndKeys:
+              @"mjpb",                                      QTAddImageCodecType,
+              [NSNumber numberWithLong:codecNormalQuality], QTAddImageCodecQuality,
               nil];
     
     [movie addImage:imageToEncode forDuration:QTMakeTimeWithTimeInterval(frameDuration) withAttributes:myDict];
