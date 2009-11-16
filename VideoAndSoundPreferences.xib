@@ -503,8 +503,8 @@
 						<reference key="object" ref="1005"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="1018125506"/>
 							<reference ref="255953169"/>
+							<reference ref="1018125506"/>
 						</object>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Video &amp; Sound View</string>
@@ -688,7 +688,7 @@
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{407, 460}, {367, 296}}</string>
+					<string>{{263, 460}, {367, 296}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{628, 654}</string>
 					<string>{{217, 442}, {480, 272}}</string>

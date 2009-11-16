@@ -145,7 +145,7 @@
 - (CGSize)preferredFrameSize
 {
     CALayer *superlayer  = [self superlayer];
-    NSRect   superBounds = [superlayer bounds];
+    NSRect superBounds = NSRectFromCGRect([superlayer bounds]);
     
     NSSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
     
@@ -482,7 +482,7 @@
     
     unsigned char *outputPixels;
     
-    NSRect extent = [[self gameCIImage] extent];
+    NSRect extent = NSRectFromCGRect([[self gameCIImage] extent]);
     int width = extent.size.width; 
     int height = extent.size.height;  
     
