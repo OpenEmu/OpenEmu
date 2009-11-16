@@ -37,6 +37,11 @@
     IBOutlet NSTextField *playerField;
 }
 
+@property(retain) IBOutlet NSMatrix    *bindingType;
+@property(retain) IBOutlet NSMatrix    *playerSelector;
+@property(retain) IBOutlet NSStepper   *playerStepper;
+@property(retain) IBOutlet NSTextField *playerField;
+
 @property(assign) NSControl *selectedControl;
 
 - (NSString *)selectedKey;

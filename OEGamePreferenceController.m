@@ -34,7 +34,7 @@
 @implementation OEGamePreferenceController
 
 @dynamic plugins;
-@synthesize selectedPlugins, availablePluginsPredicate;
+@synthesize selectedPlugins, availablePluginsPredicate, splitView, pluginTableView, pluginDrawer, pluginController, toolbar;
 
 - (id)init
 {
@@ -44,6 +44,19 @@
         [self setupToolbar];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [splitView             release];
+    [pluginTableView       release];
+    [pluginDrawer          release];
+    [pluginController      release];
+    [toolbar               release];
+    [selectedPlugins       release];
+    [preferencePanels      release];
+    [currentViewController release];
+    [super                 dealloc];
 }
 
 - (id)initWithWindowNibName:(NSString *)aName
@@ -101,14 +114,6 @@
 - (CGFloat)splitView:(NSSplitView *)sender constrainMaxCoordinate:(CGFloat)proposedMax ofSubviewAt:(NSInteger)dividerIndex
 {
     return [self splitView:sender constrainSplitPosition:proposedMax ofSubviewAt:dividerIndex];
-}
-
-- (void)dealloc
-{
-    [selectedPlugins release];
-    [preferencePanels release];
-    [currentViewController release];
-    [super dealloc];
 }
 
 - (void)setSelectedPlugins:(NSIndexSet *)indexes

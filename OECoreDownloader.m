@@ -33,7 +33,7 @@
 
 @implementation OECoreDownloader
 
-@synthesize downloads, downloadArrayController, downloadTableView;
+@synthesize downloads, downloadArrayController, downloadTableView, downloadArrayController, downloadTableView;
 
 - (id)init
 {
@@ -87,9 +87,11 @@
 
 - (void) dealloc
 {
-    [appcasts release];
-    [urlList release];
-    [super dealloc];
+    [downloadArrayController release];
+    [downloadTableView       release];
+    [appcasts                release];
+    [urlList                 release];
+    [super                   dealloc];
 }
 
 - (void)loadAppcasts

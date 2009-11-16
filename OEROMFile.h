@@ -29,11 +29,8 @@
 #import <CoreData/CoreData.h>
 
 @interface OEROMFile : NSManagedObject
-{
-    //STUB add your instance variables here
-}
 
-//Core Data utilities
+// Core Data utilities
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
@@ -47,7 +44,7 @@
 + (OEROMFile *)createFileWithPath:(NSString *)path 
 insertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
-//Loading a ROM from a file
+// Loading a ROM from a file
 + (NSString *)nameForPath:(NSString *)path;
 
 @property(nonatomic, retain) NSData   *pathAlias;

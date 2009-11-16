@@ -30,7 +30,18 @@
 #import "OEGameCoreController.h"
 
 @implementation OEControlsViewController
-@synthesize selectedControl;
+@synthesize selectedControl, bindingType, playerSelector, playerStepper, playerField;
+
+- (void) dealloc
+{
+    [bindingType    release];
+    [playerSelector release];
+    [playerStepper  release];
+    [playerField    release];
+    
+    [super dealloc];
+}
+
 
 - (void)awakeFromNib
 {
