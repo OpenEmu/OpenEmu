@@ -41,15 +41,12 @@
     BOOL worked = YES;
     
     GameDocumentController *docController = [GameDocumentController sharedDocumentController];
-    //[[GameDocumentController sharedDocumentController] loadState:
     
-    NSPersistentStoreCoordinator* persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [docController managedObjectModel]];
+    NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[docController managedObjectModel]];
 
     NSError *error = nil;
-    if (![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:absoluteURL options:nil error:&error]){        
+    if(![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:absoluteURL options:nil error:&error])
         [[NSApplication sharedApplication] presentError:error];
-    }    
-    
     
     NSManagedObjectContext* managedObjectContext = [[NSManagedObjectContext alloc] init];
     [managedObjectContext setPersistentStoreCoordinator:persistentStoreCoordinator];
@@ -63,19 +60,18 @@
     
     error = nil;
     NSArray *array = [managedObjectContext executeFetchRequest:request error:&error];
-    if (array != nil) {
+    if (array != nil)
+    {
         int count = [array count]; // may be 0 if the object has been deleted
 #pragma unused (count)
         // …
     }
-    
     
     [docController loadState:array];
     
     [persistentStoreCoordinator release];
     [managedObjectContext release];
     
-     
      return worked;
 }
 

@@ -33,7 +33,7 @@
 
 @implementation OECoreDownloader
 
-@synthesize downloads, downloadArrayController, downloadTableView, downloadArrayController, downloadTableView;
+@synthesize downloads, downloadArrayController, downloadTableView;
 
 - (id)init
 {

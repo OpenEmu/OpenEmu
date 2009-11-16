@@ -32,44 +32,60 @@
 @class IKImageBrowserView, IKImageFlowView;
 
 @class OECorePlugin, GameDocumentController;
-@interface OESaveStateController : NSWindowController {
-    NSPredicate                 *availablePluginsPredicate;
-    NSIndexSet                  *selectedPlugins;
-    NSArray                     *sortDescriptors;
-    OECorePlugin                *currentPlugin;    
-    GameDocumentController      *docController;
-     
-	IBOutlet NSArrayController  *romFileController;
-    IBOutlet NSArrayController  *savestateController;
-    IBOutlet NSArrayController  *pluginController;
-    IBOutlet NSTreeController   *treeController;
-    IBOutlet NSPredicate        *selectedRomPredicate;
-     
-    IBOutlet NSView             *listView;
-    IBOutlet NSView             *collectionView;
+
+@interface OESaveStateController : NSWindowController
+{
+    NSPredicate        *availablePluginsPredicate;
+    NSIndexSet         *selectedPlugins;
+    NSArray            *sortDescriptors;
+    OECorePlugin       *currentPlugin;    
     
-    IBOutlet NSOutlineView      *outlineView;
-    IBOutlet IKImageBrowserView *imageBrowser;
-    IBOutlet IKImageFlowView    *imageFlow;
+	NSArrayController  *romFileController;
+    NSArrayController  *savestateController;
+    NSArrayController  *pluginController;
+    NSTreeController   *treeController;
+    NSPredicate        *selectedRomPredicate;
     
-    IBOutlet NSMenu             *contextMenu;
+    NSView             *listView;
+    NSView             *collectionView;
+    NSView             *holderView;
     
-    IBOutlet NSSegmentedControl *segmentButton;
+    NSOutlineView      *outlineView;
+    IKImageBrowserView *imageBrowser;
+    IKImageFlowView    *imageFlow;
     
-    float                        browserZoom;
+    NSMenu             *contextMenu;
     
-    NSMutableArray              *pathArray;
-    NSMutableArray              *pathRanges;
+    NSSegmentedControl *segmentButton;
     
-    IBOutlet NSView             *holderView;
+    float               browserZoom;
+    
+    NSMutableArray     *pathArray;
+    NSMutableArray     *pathRanges;
 }
 
+@property(retain) IBOutlet NSArrayController  *romFileController;
+@property(retain) IBOutlet NSArrayController  *savestateController;
+@property(retain) IBOutlet NSArrayController  *pluginController;
+@property(retain) IBOutlet NSTreeController   *treeController;
+@property(retain) IBOutlet NSPredicate        *selectedRomPredicate;
+
+@property(retain) IBOutlet NSView             *listView;
+@property(retain) IBOutlet NSView             *collectionView;
+@property(retain) IBOutlet NSView             *holderView;
+
+@property(retain) IBOutlet NSOutlineView      *outlineView;
+@property(retain) IBOutlet IKImageBrowserView *imageBrowser;
+@property(retain) IBOutlet IKImageFlowView    *imageFlow;
+
+@property(retain) IBOutlet NSMenu             *contextMenu;
+
+@property(retain) IBOutlet NSSegmentedControl *segmentButton;
+
 @property(assign)   float                   browserZoom;
-@property(retain)   GameDocumentController *docController;
 @property(readonly) NSArray                *plugins;
 @property(retain)   NSPredicate            *availablePluginsPredicate;
 @property(retain)   NSIndexSet             *selectedPlugins;
-@property(retain)   NSPredicate            *selectedRomPredicate;
 @property(retain)   NSArray                *sortDescriptors;
 @property(retain)   NSMutableArray         *pathArray;
 @property(retain)   NSMutableArray         *pathRanges;

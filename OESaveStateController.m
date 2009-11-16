@@ -34,24 +34,19 @@
 
 @implementation OESaveStateController
 
-
-@synthesize availablePluginsPredicate, selectedPlugins, docController, 
-selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
+@synthesize availablePluginsPredicate, selectedPlugins, selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges, romFileController, savestateController, pluginController, treeController, listView, collectionView, outlineView, imageBrowser, imageFlow, contextMenu, segmentButton, holderView;
 
 - (id)init
 {
     self = [super initWithWindowNibName:@"SaveStateManager"];
     if(self != nil)
     {
-        self.docController = [GameDocumentController sharedDocumentController];
-        self.selectedRomPredicate = nil;
-        
         NSSortDescriptor *path = [[NSSortDescriptor alloc] initWithKey:@"romFile.path" ascending:NO];
         NSSortDescriptor *time = [[NSSortDescriptor alloc] initWithKey:@"timeStamp" ascending:YES];
         
-        self.sortDescriptors = [NSArray arrayWithObjects:path,time,nil];
-        self.pathArray = [NSMutableArray array];
-        self.pathRanges = [NSMutableArray array];
+        [self setSortDescriptors:[NSArray arrayWithObjects:path, time, nil]];
+        [self setPathArray:[NSMutableArray array]];
+        [self setPathRanges:[NSMutableArray array]];
         
         [path release];
         [time release];
@@ -59,18 +54,19 @@ selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges;
     return self;
 }
 
-static void *ContentChangedContext = @"ContentChangedContext";
-static void *SelectionChangedContext = @"SelectionChangedContext";
+static void * const OEContentChangedContext   = @"OEContentChangedContext";
+static void * const OESelectionChangedContext = @"OESelectionChangedContext";
+
 - (void)windowDidLoad
 {
-    NSDictionary* options = [NSDictionary dictionaryWithObjectsAndKeys:
-                             [NSNumber numberWithBool:YES],NSRaisesForNotApplicableKeysBindingOption,nil];
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             (id)kCFBooleanTrue, NSRaisesForNotApplicableKeysBindingOption, nil];
     
-    //This keeps the outline view up to date
-    [savestateController addObserver:self forKeyPath:@"arrangedObjects" options:0 context:ContentChangedContext];
-    [savestateController addObserver:self forKeyPath:@"selection" options:0 context:SelectionChangedContext];
-    [  romFileController addObserver:self forKeyPath:@"arrangedObjects" options:0 context:ContentChangedContext];
-    [  romFileController addObserver:self forKeyPath:@"selection" options:0 context:SelectionChangedContext];
+    // This keeps the outline view up to date
+    [savestateController addObserver:self forKeyPath:@"arrangedObjects" options:0 context:OEContentChangedContext];
+    [savestateController addObserver:self forKeyPath:@"selection"       options:0 context:OESelectionChangedContext];
+    [  romFileController addObserver:self forKeyPath:@"arrangedObjects" options:0 context:OEContentChangedContext];
+    [  romFileController addObserver:self forKeyPath:@"selection"       options:0 context:OESelectionChangedContext];
     
     //[imageFlow bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
     [imageFlow setDataSource:self];
@@ -79,8 +75,8 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
     [imageFlow setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     
     //[imageFlow
-//    [imageBrowser bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
-//    [imageBrowser bind:@"selectionIndexes" toObject:savestateController withKeyPath:@"selectionIndexes" options:options];
+    //[imageBrowser bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
+    //[imageBrowser bind:@"selectionIndexes" toObject:savestateController withKeyPath:@"selectionIndexes" options:options];
     [imageBrowser bind:@"zoomValue" toObject:self withKeyPath:@"browserZoom" options:options];
     
     [imageBrowser setCellsStyleMask:IKCellsStyleSubtitled];
@@ -89,8 +85,8 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
     
     [imageBrowser setDataSource:self];
     [imageBrowser setMenu:contextMenu];
-	
-	[imageBrowser reloadData];
+    
+    [imageBrowser reloadData];
     
     [holderView addSubview:listView];
     
@@ -100,11 +96,11 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 }
 
 #pragma mark Cover Flow Data Source Methods
-- (NSUInteger) numberOfItemsInImageFlow:(id)aBrowser
+- (NSUInteger)numberOfItemsInImageFlow:(id)aBrowser
 {
-	// we calculated the ranges, so grab the last one and calculate how large it is
-    NSRange lastRange = [(NSValue *)[self.pathRanges lastObject] rangeValue];
-	return lastRange.location + lastRange.length;
+    // we calculated the ranges, so grab the last one and calculate how large it is
+    NSRange lastRange = [[[self pathRanges] lastObject] rangeValue];
+    return lastRange.location + lastRange.length;
 }
 
 - (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index
@@ -113,52 +109,52 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
 {
-	[self.docController loadState:[NSArray arrayWithObject:[self selectedSaveState]]];
+    [[GameDocumentController sharedDocumentController] loadState:[NSArray arrayWithObject:[self selectedSaveState]]];
 }
 
 - (id)imageFlow:(id)aBrowser itemAtIndex:(NSUInteger)index
 {
-	return [self saveStateAtAbsoluteIndex:index];
+    return [self saveStateAtAbsoluteIndex:index];
 }
 
 -(OESaveState *)saveStateAtAbsoluteIndex:(NSUInteger)uIndex{
-	NSInteger index = (NSInteger)uIndex;
-	NSInteger romIndex = 0;
-	NSRange range = NSMakeRange(0, 0);
-	
-	if(index > 0){
-		for(romIndex=0; romIndex < self.pathRanges.count; romIndex++){
-			NSValue *value = (NSValue *)[self.pathRanges objectAtIndex:romIndex];
-			range = [value rangeValue];
-			
-			if((range.location + range.length) > index){
-				break;
-			}
-		}
-	}
-	
-	NSArray *allROMs = [self allROMs];
-	if(romIndex < 0 || romIndex >= [allROMs count]) return nil;
-	
-	OEROMFile *romFile = [allROMs objectAtIndex:romIndex];
-	index -= range.location;
-	
-	NSArray *allSaves = [[romFile saveStates] allObjects];
-	if(index < 0 || index >= [allSaves count]) return nil;
-	
-	return [allSaves objectAtIndex:index];	
+    NSInteger index = (NSInteger)uIndex;
+    NSInteger romIndex = 0;
+    NSRange range = NSMakeRange(0, 0);
+    
+    if(index > 0){
+        for(romIndex=0; romIndex < self.pathRanges.count; romIndex++){
+            NSValue *value = (NSValue *)[self.pathRanges objectAtIndex:romIndex];
+            range = [value rangeValue];
+            
+            if((range.location + range.length) > index){
+                break;
+            }
+        }
+    }
+    
+    NSArray *allROMs = [self allROMs];
+    if(romIndex < 0 || romIndex >= [allROMs count]) return nil;
+    
+    OEROMFile *romFile = [allROMs objectAtIndex:romIndex];
+    index -= range.location;
+    
+    NSArray *allSaves = [[romFile saveStates] allObjects];
+    if(index < 0 || index >= [allSaves count]) return nil;
+    
+    return [allSaves objectAtIndex:index];    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if(context == ContentChangedContext)
+    if(context == OEContentChangedContext)
     {
         [self updateRomGroups];
         [imageFlow reloadData];
         [outlineView reloadData];
         [imageBrowser reloadData];
     }
-    else if(context == SelectionChangedContext)
+    else if(context == OESelectionChangedContext)
     {
         int selectedIndex = [savestateController selectionIndex];
         
@@ -180,7 +176,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
     id selectedObject = [outlineView itemAtRow:[outlineView selectedRow]];
     
     if([selectedObject class] == [OESaveState class])
-        [self.docController loadState:[NSArray arrayWithObject:selectedObject]];
+        [[GameDocumentController sharedDocumentController] loadState:[NSArray arrayWithObject:selectedObject]];
 }
 
 - (NSArray *)plugins
@@ -190,9 +186,8 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (void)dealloc
 {
-    [docController release];
     [selectedPlugins release];
-    [super dealloc];
+    [super           dealloc];
 }
 
 - (void)setSelectedPlugins:(NSIndexSet *)indexes
@@ -204,7 +199,7 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
     {
         currentPlugin = [[pluginController selectedObjects] objectAtIndex:0];
         selectedPlugins = [[NSIndexSet alloc] initWithIndex:index];
-        self.selectedRomPredicate = [NSPredicate predicateWithFormat:@"%K matches[c] %@",  @"emulatorID", [currentPlugin displayName]];
+        [self setSelectedRomPredicate:[NSPredicate predicateWithFormat:@"%K matches[c] %@",  @"emulatorID", [currentPlugin displayName]]];
     }
     else
     {
@@ -222,49 +217,47 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
     
     for(NSView *view in [holderView subviews])
         [view removeFromSuperview];
+    
+    NSView *addedView = nil;
+    
     switch([sender selectedSegment])
     {
-        case 0:
-            [holderView addSubview:listView];
-            listView.frame = holderView.bounds;
-            break;
-        case 1:
-            [holderView addSubview:collectionView];
-            collectionView.frame = holderView.bounds;
-            break;            
-        case 2:
-            [holderView addSubview:imageFlow];
-            [imageFlow setFrame:holderView.bounds];
-            break;
+        case 0 : addedView = listView;       break;
+        case 1 : addedView = collectionView; break;            
+        case 2 : addedView = imageFlow;      break;
     }
+    
+    [holderView addSubview:addedView];
+    [addedView setFrame:[holderView bounds]];
 }
 
-- (void)imageBrowser:(IKImageBrowserView *) aBrowser cellWasDoubleClickedAtIndex:(NSUInteger) index
+- (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger) index
 {
-    [self.docController loadState:[NSSet setWithObject:[self selectedSaveState]]];
+    [[GameDocumentController sharedDocumentController] loadState:[NSSet setWithObject:[self selectedSaveState]]];
 }
 
 - (void)updateRomGroups
 {
-	NSArray *allROMs  = [  romFileController arrangedObjects];
+    NSArray *allROMs  = [romFileController arrangedObjects];
     
-    [self.pathArray removeAllObjects];
-    [self.pathRanges removeAllObjects];
+    [[self pathArray] removeAllObjects];
+    [[self pathRanges] removeAllObjects];
     
     NSRange range = NSMakeRange(0, 0);
     for(OEROMFile *romFile in allROMs)
     {
-		range.length = [[romFile saveStates] count];
-		
-		[self.pathRanges addObject:[NSValue valueWithRange:range]];
-		
-		range.location += range.length;
-		range.length = 0;
+        range.length = [[romFile saveStates] count];
+        
+        [[self pathRanges] addObject:[NSValue valueWithRange:range]];
+        
+        range.location += range.length;
+        range.length = 0;
     }
 }
     
--(NSArray *)allROMs{
-	return [romFileController arrangedObjects];
+-(NSArray *)allROMs
+{
+    return [romFileController arrangedObjects];
 }
 
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasRightClickedAtIndex:(NSUInteger)index withEvent:(NSEvent *)event
@@ -274,100 +267,72 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 
 - (NSUInteger)numberOfGroupsInImageBrowser:(IKImageBrowserView *)aBrowser
 {
-	return [[self allROMs] count];
+    return [[self allROMs] count];
 }
 
-- (NSUInteger) numberOfItemsInImageBrowser:(IKImageBrowserView *) aBrowser{
-	NSUInteger sum = 0;
-	for(OEROMFile *romFile in [self allROMs]){
-		sum += [[romFile saveStates] count];
-	}
-	
-	return sum;
+- (NSUInteger) numberOfItemsInImageBrowser:(IKImageBrowserView *) aBrowser
+{
+    NSUInteger sum = 0;
+    for(OEROMFile *romFile in [self allROMs])
+        sum += [[romFile saveStates] count];
+    
+    return sum;
 }
 
 - (NSDictionary *)imageBrowser:(IKImageBrowserView *)aBrowser groupAtIndex:(NSUInteger)index
 {
-	OEROMFile *romFile = [[romFileController arrangedObjects] objectAtIndex:index];
-	
+    OEROMFile *romFile = [[romFileController arrangedObjects] objectAtIndex:index];
+    
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-            [self.pathRanges objectAtIndex:index],                    IKImageBrowserGroupRangeKey,
-            [romFile name], IKImageBrowserGroupTitleKey,
-            [NSNumber numberWithInt:IKGroupDisclosureStyle],          IKImageBrowserGroupStyleKey,
+                          [[self pathRanges] objectAtIndex:index],         IKImageBrowserGroupRangeKey,
+                          [romFile name],                                  IKImageBrowserGroupTitleKey,
+                          [NSNumber numberWithInt:IKGroupDisclosureStyle], IKImageBrowserGroupStyleKey,
             nil];    
-	
-	return dict;
+    
+    return dict;
 }
 
-- (id) imageBrowser:(IKImageBrowserView *) aBrowser itemAtIndex:(NSUInteger)index{
-	OESaveState *saveState = [self saveStateAtAbsoluteIndex:index];
-	return saveState;
+- (id)imageBrowser:(IKImageBrowserView *)aBrowser itemAtIndex:(NSUInteger)index
+{
+    return [self saveStateAtAbsoluteIndex:index];
 }
 
 - (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
 {
-    if(item == nil){
-		// return the ROMs
-		return [[self allROMs] count];
-	}else{
-		// return the save states for the ROM
-		OEROMFile *romFile = (OEROMFile *)item;
-		return [[romFile saveStates] count];
-	}
+    if(item == nil) return [[self allROMs] count];    // return the ROMs
+    else            return [[item saveStates] count]; // return the save states for the ROM
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
 {
-	if([item isKindOfClass:[OEROMFile class]]){
-		OEROMFile *romFile = (OEROMFile *)item;
-		return ([[romFile saveStates] count] > 0);
-	}else if([item isKindOfClass:[OESaveState class]]){
-		return NO;
-	}else{
-		// shouldn't get here
-		return NO;
-	}
+    return [item isKindOfClass:[OEROMFile class]] && [[item saveStates] count] > 0;
 }
 
 - (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
 {
-	if([item isKindOfClass:[OEROMFile class]]){
-		return NO;
-	}else if([item isKindOfClass:[OESaveState class]]){
-		return YES;
-	}else{
-		return NO;
-	}
+    return [item isKindOfClass:[OESaveState class]];
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
 {
-	if(item == nil){
-		return [[self allROMs] objectAtIndex:index];
-	}else{
-		OEROMFile *romFile = (OEROMFile *)item;
-		return [[[romFile saveStates] allObjects] objectAtIndex:index];
-	}
+    if(item == nil)
+        return [[self allROMs] objectAtIndex:index];
+    else
+        return [[[item saveStates] allObjects] objectAtIndex:index];
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 { 
-	if([item isKindOfClass:[OEROMFile class]]){
-		OEROMFile *romFile = (OEROMFile *)item;
-		return [romFile name];
-	}else if([item isKindOfClass:[OESaveState class]]){
-		OESaveState *saveState = (OESaveState *)item;
-		return [saveState imageSubtitle];
-	}else{
-		// shouldn't get here
-		return NO;
-	}
+    if([item isKindOfClass:[OEROMFile class]])
+        return [item name];
+    else if([item isKindOfClass:[OESaveState class]])
+        return [item imageSubtitle];
+    return nil;
 }
-
 
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    if( [outlineView selectedRow] == -1 || [[outlineView itemAtRow:[outlineView selectedRow]] class] != [OESaveState class] )
+    if([outlineView selectedRow] == -1 || [[outlineView itemAtRow:[outlineView selectedRow]] class] != [OESaveState class])
         [savestateController setSelectedObjects: nil];
     else
         [savestateController setSelectedObjects: [NSArray arrayWithObject:[outlineView itemAtRow:[outlineView selectedRow]]]];
@@ -377,10 +342,10 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
 {
     OESaveState *saveState = nil;
     
-    switch ([segmentButton selectedSegment])
+    switch([segmentButton selectedSegment])
     {
         case 0:
-            saveState = [outlineView itemAtRow: [outlineView clickedRow]];
+            saveState = [outlineView itemAtRow:[outlineView clickedRow]];
             break;
         case 1:
             saveState = [self saveStateAtAbsoluteIndex:[[imageBrowser selectionIndexes] firstIndex]];
@@ -388,19 +353,14 @@ static void *SelectionChangedContext = @"SelectionChangedContext";
         case 2:
             saveState = [[savestateController arrangedObjects] objectAtIndex:[imageFlow selectedIndex]];
             break;
-        default:
-            break;
     }
     
-    if( [saveState class] != [OESaveState class] )
-        return nil;
-    
-    return saveState;
+    return ([saveState isKindOfClass:[OESaveState class]] ? saveState : nil);
 }
 
-- (IBAction) exportSave:(id) sender
+- (IBAction)exportSave:(id)sender
 {
-    OESaveState* saveState = [self selectedSaveState];
+    OESaveState *saveState = [self selectedSaveState];
     
     NSData *saveData = [[saveState saveData] copy];
     

@@ -28,14 +28,14 @@
 #import <CoreData/CoreData.h>
 #import <Quartz/Quartz.h>
 
-@interface SaveState :  NSManagedObject
+@interface SaveState : NSManagedObject
 
-@property (nonatomic, retain) NSDate * timeStamp;
-@property (nonatomic, retain) NSString * emulatorID;
-@property (nonatomic, readonly) NSString * rompath;
-@property (nonatomic, retain) NSData * pathalias;
-@property (nonatomic, retain) NSManagedObject * screenShot;
-@property (nonatomic, retain) NSManagedObject * saveData;
+@property(nonatomic, retain)   NSDate          *timeStamp;
+@property(nonatomic, retain)   NSString        *emulatorID;
+@property(nonatomic, readonly) NSString        *rompath;
+@property(nonatomic, retain)   NSData          *pathalias;
+@property(nonatomic, retain)   NSManagedObject *screenShot;
+@property(nonatomic, retain)   NSManagedObject *saveData;
 
 @end
 
