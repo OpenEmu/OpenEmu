@@ -32,7 +32,7 @@
 @implementation OECorePickerController
 @synthesize coreList, coreArrayController;
 
-- (id)initWithCoreList:(NSArray *) cores
+- (id)initWithCoreList:(NSArray *)cores
 {
 	coreList = [cores retain];
     return [super initWithWindowNibName:@"OECorePicker"];

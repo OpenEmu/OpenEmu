@@ -55,7 +55,6 @@
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
 @property(readonly) BOOL isFullScreen;
 @property(readonly) NSString *emulatorName;
-//@property(readonly) IBOutlet NSWindow* gameWindow;
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes;
 - (void)refresh;
