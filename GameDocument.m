@@ -36,7 +36,7 @@
 @implementation GameDocument
 
 @synthesize gameCore;
-@synthesize emulatorName, view;
+@synthesize emulatorName, view, gameWindow;
 
 - (NSString *)windowNibName
 {
