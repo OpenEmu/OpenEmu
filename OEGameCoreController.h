@@ -44,6 +44,8 @@ extern NSString *const OEKeyboardEventValueKey;
     NSString       *replacePlayerFormat;
     NSArray        *controlNames;
     NSMutableArray *gameDocuments;
+    
+    BOOL            hasRunningCore;
 }
 
 @property(readonly) NSBundle *bundle;

@@ -239,8 +239,12 @@ static void OE_setupControlNames(OEGameCoreController *self)
 
 - (GameCore *)newGameCoreWithDocument:(GameDocument *)aDocument
 {
+    if(hasRunningCore) return nil;
+    
     GameCore *ret = [[[self gameCoreClass] alloc] initWithDocument:aDocument];
     ret.owner = self;
+    
+    hasRunningCore = YES;
     
     // The GameCore observes setting changes only if it's attached to a GameDocument
     if(aDocument != nil)
@@ -272,6 +276,8 @@ static void OE_setupControlNames(OEGameCoreController *self)
 
 - (void)unregisterGameCore:(GameCore *)aGameCore
 {
+    hasRunningCore = NO;
+    
     // The GameCore observes setting changes only if it's attached to a GameDocument
     if([aGameCore document] == nil) return;
     
