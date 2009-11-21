@@ -62,6 +62,7 @@
 {
 	safeExit = YES;
 	[[NSApplication sharedApplication] stopModalWithCode:1];
+	[[self window] close];
 }
 
 
