@@ -62,7 +62,7 @@
 
 - (void)setFilterName:(NSString *)aName
 {
-    NSLog(@"setting filter name");
+    DLog(@"setting filter name");
     [filterName autorelease];
     filterName = [aName retain];
     
@@ -74,13 +74,13 @@
             
         if(filterRenderer && (filterRenderer != nil))
         {
-            NSLog(@"releasing old filterRenderer");
+            DLog(@"releasing old filterRenderer");
 
             [filterRenderer release];
             filterRenderer = nil;
         }    
         
-        NSLog(@"making new filter renderer");
+        DLog(@"making new filter renderer");
         
         // this will be responsible for our rendering... weee...    
         QCComposition *compo = [self composition];
@@ -103,7 +103,7 @@
         
         if([[filterRenderer outputKeys] containsObject:@"OEMousePositionX"] && [[filterRenderer outputKeys] containsObject:@"OEMousePositionY"])
         {
-            NSLog(@"filter has mouse output position keys");
+            DLog(@"filter has mouse output position keys");
             filterHasOutputMousePositionKeys = TRUE;
         }
         else
@@ -115,7 +115,7 @@
 
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat
 {
-    NSLog(@"initing GL context and shaders");
+    DLog(@"initing GL context and shaders");
     
     // ignore the passed in pixel format. We will make our own.
  
@@ -165,7 +165,6 @@
     NSNumber *scale = [[composition attributes] objectForKey:@"com.openemu.windowScaleFactor"];
     
     if(scale == nil) return 1.0;
-    
     return [scale floatValue];
 }
 
@@ -319,7 +318,7 @@
         // check to see if our gameCore switched to hi-res mode, or did anything fucked up to the texture size.
         if((cachedTextureSize.width != [gameCore bufferWidth]) || (cachedTextureSize.height != [gameCore bufferHeight]))
         {
-            NSLog(@"Our gamecore imaeg size changed.. rebuilding texture...");
+            DLog(@"Our gamecore imaeg size changed.. rebuilding texture...");
             glDeleteTextures(1, &gameTexture);
             [self createTexture];
         }
@@ -338,7 +337,7 @@
     GLint previousFBO;
     glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);    
     
-    NSLog(@"found previous FBO: %i", previousFBO);
+    DLog(@"found previous FBO: %i", previousFBO);
     
     GLenum status;
     GLuint name;

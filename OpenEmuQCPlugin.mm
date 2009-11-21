@@ -45,7 +45,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 static void _BufferReleaseCallback(const void* address, void* info)
 {
-    NSLog(@"called buffer release callback");
+    DLog(@"called buffer release callback");
     //free((void*)address);
 }
 
@@ -399,7 +399,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
                                                                  valueForKey: QCPortAttributeDefaultValueKey])
            && (![[self valueForInputKey:@"inputSaveStatePath"] isEqualToString:@""] ))
         {
-            NSLog(@"save path changed");
+            DLog(@"save path changed");
             [self saveState:[[self valueForInputKey:@"inputSaveStatePath"] stringByStandardizingPath]];
         }
         
@@ -409,7 +409,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
                                                                  valueForKey: QCPortAttributeDefaultValueKey])
            && (![[self valueForInputKey:@"inputLoadStatePath"] isEqualToString:@""] ))    
         {
-            NSLog(@"load path changed");
+            DLog(@"load path changed");
             [self loadState:[[self valueForInputKey:@"inputLoadStatePath"] stringByStandardizingPath]];
         }
     }
@@ -473,7 +473,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     /*
      Called by Quartz Composer when the plug-in instance stops being used by Quartz Composer.
      */
-    NSLog(@"called disableExecution");
+    DLog(@"called disableExecution");
     
     // if we have a ROM running and the patch's image output is disconnected, pause the emulator and audio
     if(self.loadedRom)
@@ -496,7 +496,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 
 - (void)stopExecution:(id<QCPlugInContext>)context
 {
-    NSLog(@"called stopExecution");
+    DLog(@"called stopExecution");
     if(self.loadedRom)
     {
         [gameCore stopEmulation];
@@ -533,12 +533,12 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
     NSString *theRomPath = [romPath stringByStandardizingPath];
     BOOL isDir;    
     
-    NSLog(@"New ROM path is: %@",theRomPath);
+    DLog(@"New ROM path is: %@",theRomPath);
     
     if([[NSFileManager defaultManager] fileExistsAtPath:theRomPath isDirectory:&isDir] && !isDir)
     {
         NSString *extension = [theRomPath pathExtension];
-        NSLog(@"extension is: %@", extension);
+        DLog(@"extension is: %@", extension);
         
         // cleanup
         if(self.loadedRom)
@@ -557,24 +557,24 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
         gameCoreController = [plugin controller];
         gameCore = [gameCoreController newGameCore];
         
-        NSLog(@"Loaded bundle. About to load rom...");
+        DLog(@"Loaded bundle. About to load rom...");
         
         if([gameCore loadFileAtPath:theRomPath])
         {
-            NSLog(@"Loaded new Rom: %@", theRomPath);
+            DLog(@"Loaded new Rom: %@", theRomPath);
             [gameCore setupEmulation];
             
             // audio!
             gameAudio = [[GameAudio alloc] initWithCore:gameCore];
-            NSLog(@"initialized audio");
+            DLog(@"initialized audio");
             
             // starts the threaded emulator timer
             [gameCore startEmulation];
             
-            NSLog(@"About to start audio");
+            DLog(@"About to start audio");
             [gameAudio startAudio];
             
-            NSLog(@"finished loading/starting rom");
+            DLog(@"finished loading/starting rom");
             return self.loadedRom = YES;
         }    
         else NSLog(@"ROM did not load.");
@@ -631,7 +631,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 - (void)saveState:(NSString *)fileName
 {
     BOOL isDir;
-    NSLog(@"saveState filename is %@", fileName);
+    DLog(@"saveState filename is %@", fileName);
     
     NSString *filePath = [fileName stringByDeletingLastPathComponent];
     
@@ -655,7 +655,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 - (BOOL) loadState: (NSString *) fileName
 {
     BOOL isDir;    
-    NSLog(@"loadState path is %@", fileName);
+    DLog(@"loadState path is %@", fileName);
     
     if([[fileName pathExtension] caseInsensitiveCompare:@"sav"] != 0) 
     {
@@ -674,7 +674,7 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
         }
         else {
             [gameCore loadStateFromFileAtPath: fileName];
-            NSLog(@"loaded new state");
+            DLog(@"loaded new state");
         }
     }
     else 

@@ -538,7 +538,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
                                                                  valueForKey: QCPortAttributeDefaultValueKey])
            && (![[self valueForInputKey:@"inputSaveStatePath"] isEqualToString:@""] ))
         {
-            NSLog(@"save path changed");
+            DLog(@"save path changed");
             [self saveState:[[self valueForInputKey:@"inputSaveStatePath"] stringByStandardizingPath]];
         }
         
@@ -548,7 +548,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
                                                                  valueForKey: QCPortAttributeDefaultValueKey])
            && (![[self valueForInputKey:@"inputLoadStatePath"] isEqualToString:@""] ))    
         {
-            NSLog(@"load path changed");
+            DLog(@"load path changed");
             [self loadState:[[self valueForInputKey:@"inputLoadStatePath"] stringByStandardizingPath]];
         }
         
@@ -586,10 +586,10 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 
             if([gameCore isRewinderEnabled]) 
             {
-                NSLog(@"rewinder is enabled");
+                DLog(@"rewinder is enabled");
             } else 
             { 
-                NSLog(@"rewinder is disabled");
+                DLog(@"rewinder is disabled");
             }
         }
         
@@ -616,11 +616,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
             
             if([gameCore isRewinderBackwardsSoundEnabled])
             {
-                NSLog(@"rewinder backwards sound is enabled");
+                DLog(@"rewinder backwards sound is enabled");
             }
             else 
             {
-                NSLog(@"rewinder backwards sound is disabled");
+                DLog(@"rewinder backwards sound is disabled");
             }
         }
 
@@ -810,20 +810,20 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
         
         if([gameCore loadFileAtPath:theRomPath])
         {
-            NSLog(@"Loaded new Rom: %@", theRomPath);
+            DLog(@"Loaded new Rom: %@", theRomPath);
             [gameCore setupEmulation];
             
             // audio!
             gameAudio = [[GameAudio alloc] initWithCore:gameCore];
-            NSLog(@"initialized audio");
+            DLog(@"initialized audio");
             
             // starts the threaded emulator timer
             [gameCore startEmulation];
             
-            NSLog(@"About to start audio");
+            DLog(@"About to start audio");
             [gameAudio startAudio];
             
-            NSLog(@"finished loading/starting rom");            
+            DLog(@"finished loading/starting rom");            
             
             if([gameCore chrRomSize])
             {
@@ -833,11 +833,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
             else 
             {
                 hasChrRom = NO;
-                NSLog(@"This game does not have Character ROM");
+                DLog(@"This game does not have Character ROM");
             }
             
             hasNmtRam = YES;    //because if the cartridge doesn't have VRAM, the PPU will just use its 2K RAM for the nametables
-            NSLog(@"Reported NMT RAM size is %i", [gameCore cartVRamSize]);
+            DLog(@"Reported NMT RAM size is %i", [gameCore cartVRamSize]);
             
             self.loadedRom = YES;
             return self.romFinishedLoading = YES;
@@ -896,7 +896,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 - (void) saveState: (NSString *) fileName
 {
     BOOL isDir;
-    NSLog(@"saveState filename is %@", fileName);
+    DLog(@"saveState filename is %@", fileName);
     
     NSString *filePath = [fileName stringByDeletingLastPathComponent];
     
@@ -915,14 +915,14 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
     else if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
     {
         // if not, bitch about it
-        NSLog(@"Save state directory does not exist");
+        DLog(@"Save state directory does not exist");
     }
 }
 
 - (BOOL) loadState: (NSString *) fileName
 {
     BOOL isDir;    
-    NSLog(@"loadState path is %@", fileName);
+    DLog(@"loadState path is %@", fileName);
         
     if([[fileName pathExtension] caseInsensitiveCompare:@"sav"] != 0) 
     {
@@ -941,7 +941,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
             }
         else {
             [gameCore loadStateFromFileAtPath:fileName];
-            NSLog(@"loaded new state");
+            DLog(@"loaded new state");
         }
     }
     else 

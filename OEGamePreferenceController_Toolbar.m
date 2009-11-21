@@ -249,7 +249,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     
     //[[splitView animator] adjustSubviews];
     
-    NSLog(@"minimumWidth = %f", minimumWidth);
+    DLog(@"minimumWidth = %f", minimumWidth);
     
     [previousController release];
 }

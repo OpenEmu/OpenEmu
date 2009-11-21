@@ -77,7 +77,7 @@ OSStatus RenderCallback(void                       *in,
 
 - (void)pauseAudio
 {
-    NSLog(@"Stopped audio");
+    DLog(@"Stopped audio");
     [self stopAudio];
 }
 

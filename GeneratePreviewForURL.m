@@ -50,10 +50,10 @@ OSStatus GeneratePreviewForURL(void *thisInterface, QLPreviewRequestRef preview,
     // Preview will be drawn in a vectorized context
     CGContextRef cgContext = QLPreviewRequestCreateContext(preview, *(CGSize *)&canvasSize, true, NULL);
     if(cgContext) {
-		NSLog(@"Got CGContext");
+		DLog(@"Got CGContext");
         NSGraphicsContext* context = [NSGraphicsContext graphicsContextWithGraphicsPort:(void *)cgContext flipped:YES];
         if(context) {
-			NSLog(@"Got NSContext");
+			DLog(@"Got NSContext");
 			NSGraphicsContext *gc = [NSGraphicsContext graphicsContextWithGraphicsPort:cgContext flipped:NO]; 
 			[NSGraphicsContext saveGraphicsState]; 
 			[NSGraphicsContext setCurrentContext:gc]; 

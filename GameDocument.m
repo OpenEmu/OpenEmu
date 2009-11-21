@@ -110,8 +110,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     //else
     NSSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
     CGFloat scaleFactor = [gameLayer preferredWindowScale];
-
     [gameWindow setContentSize:NSMakeSize([gameCore screenWidth]*scaleFactor, [gameCore screenHeight]*scaleFactor)];
+
     [gameWindow setAspectRatio:aspect];
 	//[gameWindow setContentResizeIncrements:aspect];
     [rootLayer setNeedsLayout];
@@ -134,7 +134,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-    NSLog(@"%@",self);
+    DLog(@"%@",self);
     
     GameDocumentController *docControl = [GameDocumentController sharedDocumentController];
 	OECorePlugin *plugin = nil;
@@ -151,7 +151,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     emulatorName = [[plugin displayName] retain];
     gameCore = [[plugin controller] newGameCoreWithDocument:self];
     
-    NSLog(@"gameCore class: %@", [gameCore class]);
+    DLog(@"gameCore class: %@", [gameCore class]);
     [gameWindow makeFirstResponder:gameCore];
      
     if([gameCore loadFileAtPath:[absoluteURL path]]) return YES;

@@ -100,7 +100,7 @@
 
 - (void)mouseDown:(NSEvent *)anEvent
 {
-    NSLog(@"%@", NSStringFromPoint([self convertPointFromBase:[anEvent locationInWindow]]));
+    DLog(@"%@", NSStringFromPoint([self convertPointFromBase:[anEvent locationInWindow]]));
 }
 
 - (NSRect)controlZone

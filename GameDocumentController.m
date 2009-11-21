@@ -385,7 +385,7 @@
         [error release];
     }
     
-    NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
+    DLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
 
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
@@ -393,7 +393,7 @@
     //add the file to the ROM database
     [OEROMFile fileWithPath:[absoluteURL path] createIfNecessary:YES inManagedObjectContext:self.managedObjectContext];
 	
-    NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
+    DLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
     XADArchive *archive = nil;
 	if( [[super typeForContentsOfURL:absoluteURL error:nil] isEqualToString:@"Archived Game"] )
 		archive = [XADArchive archiveForFile:[absoluteURL path]];
@@ -442,7 +442,7 @@
             if([archive extractEntry:0 to:filePath])
             {
                 filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:0]];
-                NSLog(@"%@", filePath);
+                DLog(@"%@", filePath);
                 absoluteURL = [NSURL fileURLWithPath:filePath];
             }
             else {
@@ -455,7 +455,7 @@
 		}
 	}
 	
-	NSLog(@"Final path: %@", absoluteURL);
+	DLog(@"Final path: %@", absoluteURL);
 	//[self closeWindow: self];
 	return [super openDocumentWithContentsOfURL:absoluteURL display:displayDocument error:outError];
 }
@@ -505,7 +505,7 @@
 - (NSString *)typeForContentsOfURL:(NSURL *)inAbsoluteURL error:(NSError **)outError
 {
 	NSString *ret = [self pluginIDForExtension:[[inAbsoluteURL path] pathExtension]];
-	NSLog(@"typeForContentsOfURL: Long path");
+	DLog(@"typeForContentsOfURL: Long path");
 	if(ret == nil) ret = [super typeForContentsOfURL:inAbsoluteURL error:outError];
 	return ret;
 }
@@ -513,7 +513,7 @@
 - (Class)documentClassForType:(NSString *)documentTypeName
 {
 	Class ret = [super documentClassForType:documentTypeName];
-	if(ret == nil) ret = [GameDocument class], NSLog(@"documentClassForType: Long path");
+	if(ret == nil) ret = [GameDocument class], DLog(@"documentClassForType: Long path");
 	return ret;
 }
 
@@ -541,7 +541,7 @@
 	if(error)
 		NSLog(@"%@",error);
 	else
-		NSLog(@"Deleted temp files");
+		DLog(@"Deleted temp files");
 }
 
 - (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
@@ -804,7 +804,7 @@
 		}
 		
 		NSDocument* doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
-		NSLog(@"%@", doc);
+		DLog(@"%@", doc);
 
 		@synchronized([(GameDocument*)[self currentDocument] gameCore])
 		{
@@ -875,7 +875,7 @@ static void OEHandle_DeviceMatchingCallback(void* inContext,
 											void* inSender,
 											IOHIDDeviceRef inIOHIDDeviceRef )
 {
-	NSLog(@"Found device: %s( context: %p, result: %p, sender: %p, device: %p ).\n",
+	DLog(@"Found device: %s( context: %p, result: %p, sender: %p, device: %p ).\n",
 		  __PRETTY_FUNCTION__,
 		  inContext, inResult,
 		  inSender,  inIOHIDDeviceRef);
@@ -886,7 +886,7 @@ static void OEHandle_DeviceMatchingCallback(void* inContext,
 		return;
 	}
 	
-	NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
+	DLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
 	
 	GameDocumentController *self = inContext;
 	

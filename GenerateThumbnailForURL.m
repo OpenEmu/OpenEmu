@@ -51,10 +51,10 @@ OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thum
     // Preview will be drawn in a vectorized context
     CGContextRef cgContext = QLThumbnailRequestCreateContext(thumbnail, *(CGSize *)&canvasSize, true, NULL);
     if(cgContext) {
-		NSLog(@"Got CGContext");
+		DLog(@"Got CGContext");
         NSGraphicsContext* context = [NSGraphicsContext graphicsContextWithGraphicsPort:(void *)cgContext flipped:YES];
         if(context) {
-			NSLog(@"Got NSContext");
+			DLog(@"Got NSContext");
 			NSGraphicsContext *gc = [NSGraphicsContext graphicsContextWithGraphicsPort:cgContext flipped:NO]; 
 			[NSGraphicsContext saveGraphicsState]; 
 			[NSGraphicsContext setCurrentContext:gc]; 

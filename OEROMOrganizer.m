@@ -177,7 +177,7 @@
 
 - (void)setSearchPredicate:(NSPredicate *)pred
 {
-    NSLog(@"New search predicate! %@", pred);
+    DLog(@"New search predicate! %@", pred);
     [searchPredicate autorelease];
     searchPredicate = [pred retain];
     
@@ -186,7 +186,7 @@
 
 - (void)awakeFromNib
 {
-    NSLog(@"Binding search predicate");
+    DLog(@"Binding search predicate");
     [searchField bind:NSPredicateBinding
              toObject:self
           withKeyPath:@"searchPredicate"

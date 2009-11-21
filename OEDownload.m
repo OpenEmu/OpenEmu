@@ -107,7 +107,7 @@
 
 - (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
 {
-      NSLog(@"%@, %@", @"created dest", path);
+      DLog(@"%@, %@", @"created dest", path);
 }
 
 - (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
@@ -124,7 +124,7 @@
 - (void)download:(NSURLDownload *)download didReceiveResponse:(NSURLResponse *)response
 {
     expectedLength = [response expectedContentLength];
-    NSLog(@"Got response");
+    DLog(@"Got response");
 }
 
 - (void)downloadDidFinish:(NSURLDownload *)download
@@ -135,7 +135,7 @@
     appsupportFolder = [appsupportFolder stringByAppendingPathComponent:@"Cores"];
     
     fullPluginPath = [[appsupportFolder stringByAppendingPathComponent:[archive nameOfEntry:0]] retain];
-    NSLog(@"%@", fullPluginPath);
+    DLog(@"%@", fullPluginPath);
     [archive extractTo:appsupportFolder];
     
     // Delete the temp file

@@ -104,7 +104,7 @@
 {
     if([userDescription isEqual:newDescription]) return;
     
-    NSLog(@"User description!");
+    DLog(@"User description!");
     
     [userDescription release];
     userDescription = [newDescription copy];

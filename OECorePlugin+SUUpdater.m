@@ -36,7 +36,7 @@
 	//    NSString * newAppcast = [NSString stringWithFormat:@"http://openemu.sourceforge.net/appcast_%@.xml", [self displayName]];
     //NSLog(@"%@", newAppcast);
 	NSString* appcastURL = [[bundle infoDictionary] objectForKey:@"SUFeedURL"];
-	NSLog(@"%@",appcastURL);
+	DLog(@"%@",appcastURL);
 	[[SUUpdater updaterForBundle:bundle] setFeedURL:[NSURL URLWithString:appcastURL]];
     [[SUUpdater updaterForBundle:bundle] resetUpdateCycle];
     [[SUUpdater updaterForBundle:bundle] checkForUpdates:self];
