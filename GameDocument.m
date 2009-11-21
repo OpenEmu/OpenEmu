@@ -108,7 +108,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     //if([gameCore respondsToSelector:@selector(outputSize)])
     //    aspect = [gameCore outputSize];
     //else
-    CGSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
+    NSSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
     CGFloat scaleFactor = [gameLayer preferredWindowScale];
 
     [gameWindow setContentSize:NSMakeSize([gameCore screenWidth]*scaleFactor, [gameCore screenHeight]*scaleFactor)];
