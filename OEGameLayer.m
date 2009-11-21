@@ -262,6 +262,11 @@
     [super releaseCGLContext:glContext];
 }
 
+- (id)retain
+{
+	return [super retain];
+}
+
 - (void)dealloc
 {
     [self unbind:@"filterName"];

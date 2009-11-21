@@ -96,6 +96,11 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     [owner unregisterGameCore:self];
 }
 
+- (id)retain
+{
+	return [super retain];
+}
+
 - (void)dealloc
 {
     DLog(@"%s", __FUNCTION__);

@@ -245,6 +245,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     
     //[recorder finishRecording];
     [gameLayer setDocController:nil];
+	[gameLayer release];
     [[GameDocumentController sharedDocumentController] setGameLoaded:NO];
 }
 
