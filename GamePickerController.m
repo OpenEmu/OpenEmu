@@ -44,6 +44,8 @@
 
 - (void)dealloc
 {
+	[table setDelegate:nil];
+	[table setDataSource:nil];
     [table release];
     [super dealloc];
 }

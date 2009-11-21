@@ -1242,7 +1242,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "/usr/local/bin/openemu_rb_automation.rb\n\ncd $BUILT_PRODUCTS_DIR\n\nmkdir OpenEmu\ncd OpenEmu\n\nmkdir Applications\ncd Applications\n\nrm -rf *.app\necho \"$BUILT_PRODUCTS_DIR/OpenEmu.app\"\ncp -R \"$BUILT_PRODUCTS_DIR/OpenEmu.app\" .";
+			shellScript = /usr/bin/openemu_rb_automation.rb;
 			showEnvVarsInLog = 0;
 		};
 		82DE41ED1024E7B7007184EB /* ShellScript */ = {

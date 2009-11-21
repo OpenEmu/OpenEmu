@@ -394,8 +394,9 @@
     [OEROMFile fileWithPath:[absoluteURL path] createIfNecessary:YES inManagedObjectContext:self.managedObjectContext];
 	
     NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
-    
-    XADArchive *archive = nil;//[XADArchive archiveForFile:[absoluteURL path]];
+    XADArchive *archive = nil;
+	if( [[self typeForContentsOfURL:absoluteURL error:nil] isEqualToString:@"Archived Game"] )
+		archive = [XADArchive archiveForFile:[absoluteURL path]];
     if(archive != nil)
     {
         NSString *filePath;
@@ -406,7 +407,7 @@
         
         if([archive numberOfEntries] != 1) //more than one rom in the archive
         {
-            GamePickerController *c = [[[GamePickerController alloc] init] autorelease];
+            GamePickerController *c = [[GamePickerController alloc] init];
             [c setArchive:archive];
             
             if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
@@ -434,6 +435,7 @@
 				}
                 return nil;
             }
+			[c release];
         }
         else //only one rom in the archive
         {
