@@ -395,7 +395,7 @@
 	
     NSLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
     XADArchive *archive = nil;
-	if( [[self typeForContentsOfURL:absoluteURL error:nil] isEqualToString:@"Archived Game"] )
+	if( [[super typeForContentsOfURL:absoluteURL error:nil] isEqualToString:@"Archived Game"] )
 		archive = [XADArchive archiveForFile:[absoluteURL path]];
     if(archive != nil)
     {

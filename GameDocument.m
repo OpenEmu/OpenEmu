@@ -108,11 +108,12 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     //if([gameCore respondsToSelector:@selector(outputSize)])
     //    aspect = [gameCore outputSize];
     //else
-    //CGSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
+    CGSize aspect = NSMakeSize([gameCore screenWidth], [gameCore screenHeight]);
     CGFloat scaleFactor = [gameLayer preferredWindowScale];
 
     [gameWindow setContentSize:NSMakeSize([gameCore screenWidth]*scaleFactor, [gameCore screenHeight]*scaleFactor)];
-    //[gameWindow setContentResizeIncrements:aspect];
+    [gameWindow setAspectRatio:aspect];
+	//[gameWindow setContentResizeIncrements:aspect];
     [rootLayer setNeedsLayout];
     
     [gameCore startEmulation];    
@@ -210,7 +211,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     }
 }
 
-- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)proposedFrameSize
+/*- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)proposedFrameSize
 {
     // We want to force aspect ratio with resize increments
     int scale;
@@ -222,7 +223,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     
     NSRect newContentRect = NSMakeRect(0,0, [gameCore screenWidth] * scale, [gameCore screenHeight] * scale);
     return [sender frameRectForContentRect:newContentRect].size;
-}
+}*/
 
 - (void)windowDidResize:(NSNotification *)notification
 {
