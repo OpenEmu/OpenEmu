@@ -57,6 +57,10 @@
 static void * const OEContentChangedContext   = @"OEContentChangedContext";
 static void * const OESelectionChangedContext = @"OESelectionChangedContext";
 
+- (GameDocumentController *)docController{
+	return [GameDocumentController sharedDocumentController];
+}
+
 - (void)windowDidLoad
 {
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
