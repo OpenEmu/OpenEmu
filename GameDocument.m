@@ -113,6 +113,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameWindow setContentSize:NSMakeSize([gameCore screenWidth]*scaleFactor, [gameCore screenHeight]*scaleFactor)];
 
     [gameWindow setAspectRatio:aspect];
+	[gameWindow center];
 	//[gameWindow setContentResizeIncrements:aspect];
     [rootLayer setNeedsLayout];
     
