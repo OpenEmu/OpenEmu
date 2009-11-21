@@ -33,6 +33,7 @@
 {
 	NSArray           *coreList;
 	NSArrayController *coreArrayController;
+	NSTableView		  *coreTableView;
 	BOOL               safeExit;
 }
 
@@ -42,5 +43,6 @@
 
 @property(readonly)          NSArray           *coreList;
 @property(retain) 	IBOutlet NSArrayController *coreArrayController;
+@property(assign)	IBOutlet NSTableView	   *coreTableView;
 
 @end

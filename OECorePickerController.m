@@ -30,7 +30,7 @@
 
 
 @implementation OECorePickerController
-@synthesize coreList, coreArrayController;
+@synthesize coreList, coreArrayController, coreTableView;
 
 - (id)initWithCoreList:(NSArray *)cores
 {
@@ -47,6 +47,8 @@
 
 - (void)awakeFromNib
 {
+	[coreTableView setTarget:self];
+	[coreTableView setDoubleAction:@selector(selectCore:)];
 	safeExit = NO;
 }
 
