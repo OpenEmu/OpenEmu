@@ -237,7 +237,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    if([view isInFullScreenMode]) [view exitFullScreenModeWithOptions:nil];
+    if([view isInFullScreenMode]) [self toggleFullScreen:self];
     [gameCore stopEmulation];
     [audio stopAudio];
     [gameCore release];
