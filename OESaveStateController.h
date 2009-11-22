@@ -44,11 +44,15 @@
     NSArrayController  *savestateController;
     NSArrayController  *pluginController;
     NSTreeController   *treeController;
+	NSPredicate        *selectedPluginsPredicate;
     NSPredicate        *selectedRomPredicate;
+	NSPredicate        *searchPredicate;
     
     NSView             *listView;
     NSView             *collectionView;
     NSView             *holderView;
+	
+	NSSearchField      *searchField;
     
     NSOutlineView      *outlineView;
     IKImageBrowserView *imageBrowser;
@@ -77,6 +81,8 @@
 @property(retain) IBOutlet NSOutlineView      *outlineView;
 @property(retain) IBOutlet IKImageBrowserView *imageBrowser;
 @property(retain) IBOutlet IKImageFlowView    *imageFlow;
+
+@property(retain) IBOutlet NSSearchField    *searchField;
 
 @property(retain) IBOutlet NSMenu             *contextMenu;
 

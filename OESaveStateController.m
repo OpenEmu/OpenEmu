@@ -32,6 +32,27 @@
 #import "OESaveState.h"
 #import "OEROMFile.h"
 
+@interface OEROMFile (SaveStateManagerExtras)
+
+// This is necessary to work around an issue with array controllers
+// and KVO.
+-(NSSet *)allEmulatorIDsForSaveStates;
+
+@end
+
+@implementation OEROMFile (SaveStateManagerExtras)
+
+-(NSSet *)allEmulatorIDsForSaveStates{
+	NSMutableSet *emulatorIDs = [NSMutableSet set];
+	NSSet *saves = [self saveStates];
+	for(OESaveState *state in saves){
+		[emulatorIDs addObject:[state emulatorID]];
+	}
+	return [[emulatorIDs copy] autorelease];
+}
+
+@end
+
 @implementation OESaveStateController
 
 @synthesize availablePluginsPredicate, selectedPlugins, selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges, romFileController, savestateController, pluginController, treeController, listView, collectionView, outlineView, imageBrowser, imageFlow, contextMenu, segmentButton, holderView;
@@ -47,7 +68,7 @@
         [self setSortDescriptors:[NSArray arrayWithObjects:path, time, nil]];
         [self setPathArray:[NSMutableArray array]];
         [self setPathRanges:[NSMutableArray array]];
-        
+		
         [path release];
         [time release];
     }
@@ -61,6 +82,29 @@ static void * const OESelectionChangedContext = @"OESelectionChangedContext";
 	return [GameDocumentController sharedDocumentController];
 }
 
+- (NSPredicate *)selectedPluginsPredicate{
+	return selectedPluginsPredicate;
+}
+
+-(void)updateSelectedPlugins{
+	NSArray *selection = [pluginController selectedObjects];
+	NSMutableArray *subpredicates = [NSMutableArray arrayWithCapacity:selection.count];
+	for(OECorePlugin *plugin in selection){
+		[subpredicates addObject:[NSPredicate predicateWithFormat:@"%@ IN allEmulatorIDsForSaveStates",[plugin displayName]]];
+	}
+	
+	NSPredicate *pluginsPredicate = [NSCompoundPredicate orPredicateWithSubpredicates:subpredicates];
+	
+	if(searchPredicate){
+		pluginsPredicate = [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:pluginsPredicate, searchPredicate, nil]];
+	}
+	
+	[self willChangeValueForKey:@"selectedPluginsPredicate"];
+	[selectedPluginsPredicate autorelease];
+	selectedPluginsPredicate = [pluginsPredicate retain];;	
+	[self  didChangeValueForKey:@"selectedPluginsPredicate"];
+}
+
 - (void)windowDidLoad
 {
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -71,7 +115,7 @@ static void * const OESelectionChangedContext = @"OESelectionChangedContext";
     [savestateController addObserver:self forKeyPath:@"selection"       options:0 context:OESelectionChangedContext];
     [  romFileController addObserver:self forKeyPath:@"arrangedObjects" options:0 context:OEContentChangedContext];
     [  romFileController addObserver:self forKeyPath:@"selection"       options:0 context:OESelectionChangedContext];
-    
+	
     //[imageFlow bind:@"content" toObject:savestateController withKeyPath:@"arrangedObjects" options:options];
     [imageFlow setDataSource:self];
     [imageFlow setDelegate:self];
@@ -105,6 +149,14 @@ static void * const OESelectionChangedContext = @"OESelectionChangedContext";
     // we calculated the ranges, so grab the last one and calculate how large it is
     NSRange lastRange = [[[self pathRanges] lastObject] rangeValue];
     return lastRange.location + lastRange.length;
+}
+
+-(void)setSearchPredicate:(NSPredicate *)pred{
+	[pred retain];
+	[searchPredicate release];
+	searchPredicate = pred;
+
+	[self updateSelectedPlugins];
 }
 
 - (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index
@@ -171,7 +223,7 @@ static void * const OESelectionChangedContext = @"OESelectionChangedContext";
         [outlineView expandItem:selectedPath];
         NSIndexSet* indexSet = [NSIndexSet indexSetWithIndex:[outlineView rowForItem: [[savestateController selectedObjects] objectAtIndex:0]]];
         [outlineView selectRowIndexes:indexSet  byExtendingSelection:NO];
-    }
+	}
 }
 
 - (void)doubleClickedOutlineView:(id)sender
@@ -203,13 +255,16 @@ static void * const OESelectionChangedContext = @"OESelectionChangedContext";
     {
         currentPlugin = [[pluginController selectedObjects] objectAtIndex:0];
         selectedPlugins = [[NSIndexSet alloc] initWithIndex:index];
-        [self setSelectedRomPredicate:[NSPredicate predicateWithFormat:@"%K matches[c] %@",  @"emulatorID", [currentPlugin displayName]]];
+//        [self setSelectedRomPredicate:[NSPredicate predicateWithFormat:@"%K matches[c] %@",  @"emulatorID", [currentPlugin displayName]]];
     }
     else
     {
         selectedPlugins = [[NSIndexSet alloc] init];
         currentPlugin = nil;
     }
+	
+	[self updateSelectedPlugins];
+	
     [outlineView reloadData];
     [imageFlow reloadData];
 }
