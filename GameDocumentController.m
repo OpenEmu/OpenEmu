@@ -407,7 +407,7 @@
         
         if([archive numberOfEntries] != 1) //more than one rom in the archive
         {
-            GamePickerController *c = [[GamePickerController alloc] init];
+            GamePickerController *c = [[[GamePickerController alloc] init] autorelease];
             [c setArchive:archive];
             
             if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
@@ -435,7 +435,6 @@
 				}
                 return nil;
             }
-			[c release];
         }
         else //only one rom in the archive
         {

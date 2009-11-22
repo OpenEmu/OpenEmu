@@ -514,8 +514,9 @@
                                                                   bitsPerPixel:32];
     NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
     [image addRepresentation:rep];
+	[rep release];
     //free(outputPixels);
     //[[image TIFFRepresentation] writeToFile:@"/Users/jweinberg/test1.tiff" atomically:YES];
-    return image;
+    return [image autorelease];
 }
 @end
