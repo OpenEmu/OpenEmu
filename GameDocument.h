@@ -46,6 +46,7 @@
     NSString       *emulatorName;
     NSWindow       *gameWindow;
     NSView         *view;
+	IBOutlet NSToolbarItem *playPauseToolbarItem;
 }
 
 @property(retain) IBOutlet NSWindow *gameWindow;
@@ -66,7 +67,7 @@
 - (IBAction)saveState:(id)sender;
 - (IBAction)scrambleRam:(id)sender;
 - (IBAction)toggleFullScreen:(id)sender;
-- (IBAction)pauseGame:(id)sender;
+- (IBAction)playPauseGame:(id)sender;
 
 - (BOOL)backgroundPauses;
 - (BOOL)defaultsToFullScreenMode;

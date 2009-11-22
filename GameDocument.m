@@ -186,14 +186,26 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 - (void)setPauseEmulation:(BOOL)flag
 {
     [gameCore setPauseEmulation:flag];
-    if(flag) [audio pauseAudio];
-    else     [audio startAudio];
+	
+	if (flag)
+	{
+		[audio pauseAudio];
+		[playPauseToolbarItem setImage:[NSImage imageNamed:NSImageNameRightFacingTriangleTemplate]];
+        [playPauseToolbarItem setLabel:@"Play"];
+	}
+	else
+	{
+		[audio startAudio];
+		[playPauseToolbarItem setImage:[NSImage imageNamed:NSImageNameStopProgressTemplate]];
+        [playPauseToolbarItem setLabel:@"Pause"];
+	}
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
     [[GameDocumentController sharedDocumentController] setGameLoaded:YES];
-    [self setPauseEmulation:NO];
+    if ([self backgroundPauses])
+		[self setPauseEmulation:NO];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification
@@ -336,20 +348,9 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameCore resetEmulation];
 }
 
-- (IBAction)pauseGame:(id)sender
+- (IBAction)playPauseGame:(id)sender
 {
-    if([self isEmulationPaused])
-    {
-        [self setPauseEmulation:NO];
-        [sender setImage:[NSImage imageNamed:NSImageNameStopProgressTemplate]];
-        [sender setLabel:@"Pause"];
-    }
-    else
-    {
-        [self setPauseEmulation:YES];
-        [sender setImage:[NSImage imageNamed:NSImageNameRightFacingTriangleTemplate]];
-        [sender setLabel:@"Play"];
-    }
+	[self setPauseEmulation:![self isEmulationPaused]];
 }
 
 - (NSImage *)screenShot
