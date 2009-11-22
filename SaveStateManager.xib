@@ -3,18 +3,16 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
 		<string key="IBDocument.SystemVersion">10B504</string>
-		<string key="IBDocument.InterfaceBuilderVersion">740</string>
+		<string key="IBDocument.InterfaceBuilderVersion">732</string>
 		<string key="IBDocument.AppKitVersion">1038.2</string>
 		<string key="IBDocument.HIToolboxVersion">437.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">740</string>
+			<string key="NS.object.0">732</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="289"/>
-			<integer value="184"/>
-			<integer value="2"/>
+			<integer value="24"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -156,7 +154,7 @@
 													<bytes key="NSWhite">MC41AA</bytes>
 												</object>
 											</object>
-											<double key="NSRowHeight">17</double>
+											<double key="NSRowHeight">34</double>
 											<int key="NSTvFlags">104857600</int>
 											<reference key="NSDelegate"/>
 											<reference key="NSDataSource"/>
@@ -202,7 +200,7 @@
 							<reference key="NSVScroller" ref="371230010"/>
 							<reference key="NSHScroller" ref="872883481"/>
 							<reference key="NSContentView" ref="65873888"/>
-							<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
+							<bytes key="NSScrollAmts">QSAAAEEgAABCEAAAQhAAAA</bytes>
 						</object>
 						<object class="NSSearchField" id="495222638">
 							<reference key="NSNextResponder" ref="1006"/>
@@ -526,7 +524,6 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>saveStates</string>
 				</object>
-				<bool key="NSEditable">YES</bool>
 				<bool key="NSAutomaticallyPreparesContent">YES</bool>
 				<object class="_NSManagedProxy" key="_NSManagedProxy">
 					<string key="NSEntityName">ROMFile</string>
@@ -603,7 +600,7 @@
 				<bool key="NSAutomaticallyRearrangesObjects">YES</bool>
 			</object>
 			<object class="NSCustomView" id="48280870">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">4370</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -653,7 +650,6 @@
 								</object>
 								<string key="NSFrame">{{1, 1}, {585, 342}}</string>
 								<reference key="NSSuperview" ref="473212267"/>
-								<reference key="NSNextKeyView" ref="218486051"/>
 								<reference key="NSDocView" ref="218486051"/>
 								<reference key="NSBGColor" ref="581298063"/>
 								<int key="NScvFlags">6</int>
@@ -681,7 +677,6 @@
 						</object>
 						<string key="NSFrame">{{0, 19}, {587, 344}}</string>
 						<reference key="NSSuperview" ref="48280870"/>
-						<reference key="NSNextKeyView" ref="431530242"/>
 						<int key="NSsFlags">562</int>
 						<reference key="NSVScroller" ref="947179090"/>
 						<reference key="NSHScroller" ref="507360296"/>
@@ -753,7 +748,6 @@
 					</object>
 				</object>
 				<string key="NSFrameSize">{587, 363}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSScrollView" id="597406294">
@@ -860,10 +854,9 @@
 				<bytes key="NSScrollAmts">QSAAAEEgAABBoAAAQaAAAA</bytes>
 			</object>
 			<object class="NSCustomView" id="201385137">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<string key="NSFrameSize">{163, 96}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">IKImageFlowView</string>
 			</object>
 			<object class="NSMenu" id="1070803838">
@@ -1797,9 +1790,9 @@
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{182, 107}, {636, 490}}</string>
+					<string>{{36, 107}, {636, 490}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{182, 107}, {636, 490}}</string>
+					<string>{{36, 107}, {636, 490}}</string>
 					<boolean value="NO"/>
 					<string>{196, 240}</string>
 					<string>{{202, 428}, {480, 270}}</string>
@@ -1810,7 +1803,7 @@
 					<integer value="1"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{151, 329}, {587, 363}}</string>
+					<string>{{151, 386}, {587, 363}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="NO"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1873,7 +1866,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">345</int>
+			<int key="maxID">347</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
