@@ -26,6 +26,7 @@
  */
 
 #import "OEGameControllerView.h"
+#import "GameCore.h"
 
 @implementation NSBezierPath (Shadowing)
 
