@@ -17,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.1</string>
 	<key>CFBundleVersion</key>
-	<string>1.1</string>
+	<string>1.2</string>
 	<key>CFBundleIconFile</key>
 	<string>OpenEmuQCIcon</string>
 	<key>QCPlugInClasses</key>
@@ -28,12 +28,8 @@
 		<string>OpenEmuQCCRT</string>
 		<string>OpenEmuQCCRTDisplacePlugin</string>
 	</array>
-	<key>OEBundlePath</key>
-	<string>/Library/Application Support/OpenEmu/Cores/</string>
-	<key>OENESBundlePath</key>
-	<string>/Library/Application Support/OpenEmu/Cores/Nestopia.oecoreplugin</string>
 	<key>SUPublicDSAKeyFile</key>
-	<string>openemuqc_pub.pem</string>
+	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
 	<string>http://openemu.sourceforge.net/appcast_qc.xml</string>
 	<key>SUEnableAutomaticChecks</key>
