@@ -26,6 +26,7 @@
 				828E65E20E8467E900B1860B /* ShellScript */,
 			);
 			dependencies = (
+				1BA0005110CB082C006FA62E /* PBXTargetDependency */,
 				1B32806A0E85784400FEDA2C /* PBXTargetDependency */,
 			);
 			name = "Build & Copy OpenEmuQC";
@@ -105,6 +106,7 @@
 		1B88931B0FF9267C00F86F00 /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D60E8467AA00B1860B /* Quartz.framework */; };
 		1B8D4AEE0E874D5500C3C4F5 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
 		1B8D4B010E874E6F00C3C4F5 /* GameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.m */; };
+		1BA0005410CB0831006FA62E /* OpenEmuBase.framework in OE Base framework to Shared frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		1BA788FF0FF9C95A007CE5DB /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		1E9F7349103755900072EED6 /* OEROMFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F7348103755900072EED6 /* OEROMFile.m */; };
@@ -228,6 +230,13 @@
 			remoteGlobalIDString = 828E65970E8466A100B1860B;
 			remoteInfo = OpenEmuQC;
 		};
+		1BA0005010CB082C006FA62E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 82444BA00F51256C007C171B /* OpenEmuBase */;
+			remoteInfo = OpenEmuBase;
+		};
 		3759EE520FE88C82000E56D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -290,6 +299,17 @@
 				1B22402E100BD67F00F42067 /* Scale4xHQ.qtz in Copy Filters Folder To App Resources */,
 			);
 			name = "Copy Filters Folder To App Resources";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1BA0005E10CB0835006FA62E /* OE Base framework to Shared frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				1BA0005410CB0831006FA62E /* OpenEmuBase.framework in OE Base framework to Shared frameworks */,
+			);
+			name = "OE Base framework to Shared frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		37CC66180FF8377700226BCB /* CopyFiles */ = {
@@ -409,7 +429,7 @@
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
 		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
 		37CC66190FF8379B00226BCB /* config_qc.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config_qc.yaml; sourceTree = "<group>"; };
-		3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OESaveStateQLPlugin.qlgenerator; sourceTree = BUILT_PRODUCTS_DIR; };
+		3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OESaveStateQLPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
 		3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateThumbnailForURL.m; sourceTree = "<group>"; };
 		3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratePreviewForURL.m; sourceTree = "<group>"; };
 		3887A8041024D2BC000FC4CF /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
@@ -618,7 +638,7 @@
 				8D15AC370486D014006FF6A4 /* OpenEmu.app */,
 				828E65980E8466A100B1860B /* OpenEmuQC.plugin */,
 				82444BA10F51256C007C171B /* OpenEmuBase.framework */,
-				3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */,
+				3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1028,7 +1048,7 @@
 			);
 			name = OESaveStateQLPlugin;
 			productName = OESaveStateQLPlugin;
-			productReference = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */;
+			productReference = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		82444BA00F51256C007C171B /* OpenEmuBase */ = {
@@ -1056,6 +1076,7 @@
 				828E65940E8466A100B1860B /* Resources */,
 				828E65950E8466A100B1860B /* Sources */,
 				828E65960E8466A100B1860B /* Frameworks */,
+				1BA0005E10CB0835006FA62E /* OE Base framework to Shared frameworks */,
 			);
 			buildRules = (
 			);
@@ -1371,6 +1392,11 @@
 			target = 828E65970E8466A100B1860B /* OpenEmuQC */;
 			targetProxy = 1B3280690E85784400FEDA2C /* PBXContainerItemProxy */;
 		};
+		1BA0005110CB082C006FA62E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
+			targetProxy = 1BA0005010CB082C006FA62E /* PBXContainerItemProxy */;
+		};
 		3759EE530FE88C82000E56D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
@@ -1634,6 +1660,7 @@
 				INFOPLIST_FILE = "OpenEmuQC-Info.plist";
 				INSTALL_PATH = "$(HOME)/Graphics/Quartz Composer Plug-Ins/";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
