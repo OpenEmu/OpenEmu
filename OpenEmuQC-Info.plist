@@ -7,7 +7,7 @@
 	<key>CFBundleGetInfoString</key>
 	<string>OpenEmuQC</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.OpenEmuQC</string>
+	<string>com.openemu.OpenEmuQC</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -15,7 +15,7 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.2</string>
 	<key>CFBundleVersion</key>
 	<string>1.2</string>
 	<key>CFBundleIconFile</key>

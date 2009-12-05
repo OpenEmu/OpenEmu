@@ -31,6 +31,7 @@
 #import "GameCore.h"
 #import "OEHIDDeviceHandler.h"
 #import <Sparkle/Sparkle.h>
+#import <Quartz/Quartz.h>
 //#import "ArchiveReader.h"
 #import <XADMaster/XADArchive.h>
 #import "OEGamePreferenceController.h"
@@ -82,6 +83,10 @@
 
     
     organizer = [[OEROMOrganizer alloc] init];
+	
+	NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
+	[QCPlugIn loadPlugInAtPath:pluginString];
+	
 //    [organizer showWindow:self];
 }
 

@@ -115,7 +115,6 @@
 		1EE941E01050EBBF00509E78 /* ROMFile.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1EE941DF1050EBBF00509E78 /* ROMFile.xcdatamodel */; };
 		1EE941FC1050EC8E00509E78 /* SaveState.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1EE941FB1050EC8E00509E78 /* SaveState.xcdatamodel */; };
 		3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */; };
-		375903840FF82C6400135C45 /* openemuqc_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 375903750FF82C4000135C45 /* openemuqc_pub.pem */; };
 		37CC3EA7100BE6BB00C1CD6E /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
 		37CC661A0FF8379B00226BCB /* config_qc.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 37CC66190FF8379B00226BCB /* config_qc.yaml */; };
 		37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
@@ -158,6 +157,9 @@
 		829779360E743F3A00631240 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
 		82AFA6690FDDC03500531EE3 /* OERingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AFA6670FDDC03500531EE3 /* OERingBuffer.h */; };
 		82AFA66A0FDDC03500531EE3 /* OERingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA6680FDDC03500531EE3 /* OERingBuffer.m */; };
+		82C42BDC10CAF67F0046D1A3 /* OpenEmuQC.plugin in Copy QC Plugin to Plugins */ = {isa = PBXBuildFile; fileRef = 828E65980E8466A100B1860B /* OpenEmuQC.plugin */; };
+		82C42C8610CAFB480046D1A3 /* download_arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C42C8410CAFB480046D1A3 /* download_arrow_down.png */; };
+		82C42C8710CAFB480046D1A3 /* download_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C42C8510CAFB480046D1A3 /* download_arrow_up.png */; };
 		82C434130EE393530037C54B /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82C434120EE393530037C54B /* icon.icns */; };
 		82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
@@ -171,6 +173,7 @@
 		82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
 		82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEE1026533E007184EB /* UniversalDetector.framework */; };
 		82E7418A0E7209C400AE60C4 /* GameDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E741880E7209C400AE60C4 /* GameDocument.xib */; };
+		82EE2F6110B9D13E006785C2 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
 		82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
 		82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */; };
 		82F7F7AA101FECFE00533B55 /* SaveStateManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */; };
@@ -225,13 +228,6 @@
 			remoteGlobalIDString = 828E65970E8466A100B1860B;
 			remoteInfo = OpenEmuQC;
 		};
-		1BA78D0C0FFAD018007CE5DB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 828E65E30E8467E900B1860B;
-			remoteInfo = "Copy & Build OpenEmuQC";
-		};
 		3759EE520FE88C82000E56D5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -245,6 +241,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
+		};
+		821FD3E910BF71460036C942 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 828E65970E8466A100B1860B;
+			remoteInfo = OpenEmuQC;
 		};
 		82BCA60B0FEF094900DD3FC4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -311,6 +314,17 @@
 				1B224082100BD76D00F42067 /* Sparkle.framework in Copy Frameworks to App Frameworks */,
 			);
 			name = "Copy Frameworks to App Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82C42BD510CAF6740046D1A3 /* Copy QC Plugin to Plugins */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				82C42BDC10CAF67F0046D1A3 /* OpenEmuQC.plugin in Copy QC Plugin to Plugins */,
+			);
+			name = "Copy QC Plugin to Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		82CAFBAA0FEDAA1C00CCDC7E /* CopyFiles */ = {
@@ -450,6 +464,8 @@
 		82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMap.m; sourceTree = "<group>"; };
 		82AFA6670FDDC03500531EE3 /* OERingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERingBuffer.h; sourceTree = "<group>"; };
 		82AFA6680FDDC03500531EE3 /* OERingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERingBuffer.m; sourceTree = "<group>"; };
+		82C42C8410CAFB480046D1A3 /* download_arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download_arrow_down.png; sourceTree = "<group>"; };
+		82C42C8510CAFB480046D1A3 /* download_arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download_arrow_up.png; sourceTree = "<group>"; };
 		82C434120EE393530037C54B /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
 		82C9C9540F0804A20071460B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		82C9C96C0F080BD30071460B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
@@ -728,6 +744,8 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				82C42C8410CAFB480046D1A3 /* download_arrow_down.png */,
+				82C42C8510CAFB480046D1A3 /* download_arrow_up.png */,
 				82965F841041DC3200F30B74 /* OECorePicker.xib */,
 				1B22426B100D171700F42067 /* CRT Masks */,
 				1B885E070F085EA500770B6D /* GLSL Shaders */,
@@ -1058,12 +1076,13 @@
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				828ED4F00E7D98F60059F397 /* Copy Frameworks to App Frameworks */,
+				82C42BD510CAF6740046D1A3 /* Copy QC Plugin to Plugins */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				C689A55F0FE4635200885BC3 /* PBXTargetDependency */,
-				1BA78D0D0FFAD018007CE5DB /* PBXTargetDependency */,
+				821FD3EA10BF71460036C942 /* PBXTargetDependency */,
 			);
 			name = OpenEmu;
 			productInstallPath = "$(HOME)/Applications";
@@ -1117,7 +1136,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				375903840FF82C6400135C45 /* openemuqc_pub.pem in Resources */,
+				82EE2F6110B9D13E006785C2 /* dsa_pub.pem in Resources */,
 				1B56D6960F21397500C80694 /* Scale4x.vert in Resources */,
 				1B56D6970F21397500C80694 /* Scale4x.frag in Resources */,
 				1B56D6980F21397500C80694 /* Scale4xHQ.vert in Resources */,
@@ -1175,6 +1194,8 @@
 				8288A0EF1027DB7600671FE1 /* OEDownloadCell.xib in Resources */,
 				1E9F73FB10376BE40072EED6 /* OEROMOrganizer.xib in Resources */,
 				82965F851041DC3200F30B74 /* OECorePicker.xib in Resources */,
+				82C42C8610CAFB480046D1A3 /* download_arrow_down.png in Resources */,
+				82C42C8710CAFB480046D1A3 /* download_arrow_up.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1228,7 +1249,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = "/usr/local/bin/openemu_qc_rb_automation.rb\n\ncd $BUILT_PRODUCTS_DIR\n\nmkdir OpenEmuQC\ncd OpenEmuQC\n\nmkdir Library\ncd Library\n\nmkdir Graphics\ncd Graphics\n\nmkdir \"Quartz Composer Plug-Ins\"\ncd \"Quartz Composer Plug-Ins\"\n\ncp -R $BUILT_PRODUCTS_DIR/OpenEmuQC.plugin .\n\ncd $BUILT_PRODUCTS_DIR\n\nmkdir OpenEmuFramework\ncd OpenEmuFramework\n\nmkdir Library\ncd Library\n\nmkdir Frameworks\ncd Frameworks\n\ncp -R $BUILT_PRODUCTS_DIR/OpenEmuBase.framework .\n";
+			shellScript = /usr/bin/openemuqc_rb_automation.rb;
 			showEnvVarsInLog = 0;
 		};
 		82C9C96E0F080C7F0071460B /* ShellScript */ = {
@@ -1350,11 +1371,6 @@
 			target = 828E65970E8466A100B1860B /* OpenEmuQC */;
 			targetProxy = 1B3280690E85784400FEDA2C /* PBXContainerItemProxy */;
 		};
-		1BA78D0D0FFAD018007CE5DB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 828E65E30E8467E900B1860B /* Build & Copy OpenEmuQC */;
-			targetProxy = 1BA78D0C0FFAD018007CE5DB /* PBXContainerItemProxy */;
-		};
 		3759EE530FE88C82000E56D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
@@ -1364,6 +1380,11 @@
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
 			targetProxy = 37C80304101564A800356EF3 /* PBXContainerItemProxy */;
+		};
+		821FD3EA10BF71460036C942 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 828E65970E8466A100B1860B /* OpenEmuQC */;
+			targetProxy = 821FD3E910BF71460036C942 /* PBXContainerItemProxy */;
 		};
 		82BCA60C0FEF094900DD3FC4 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
