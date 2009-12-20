@@ -88,6 +88,8 @@
 	[QCPlugIn loadPlugInAtPath:pluginString];
 	
 //    [organizer showWindow:self];
+	
+	[versionMigrator runMigrationIfNeeded];
 }
 
 -(void)updateBundles: (id) sender
@@ -134,6 +136,10 @@
     self = [super init];
     if(self)
     {
+		versionMigrator = [[OEVersionMigrationController defaultMigrationController] init];
+		[versionMigrator addMigratorTarget:self selector:@selector(migrateSaveStatesWithError:) forVersion:@"1.0.0b5"];
+		[versionMigrator addMigratorTarget:self selector:@selector(removeFrameworkFromLibraryWithError:) forVersion:@"1.0.0b5"];
+		
         [self setGameLoaded:NO];
         
         [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
@@ -204,6 +210,7 @@
     [managedObjectModel release], managedObjectModel = nil;
 	
 	[organizer release], organizer = nil;
+	[versionMigrator release], versionMigrator = nil;
     
     [super dealloc];
 }
@@ -644,23 +651,6 @@
         NSLog(@"Persistent store fail %@",error);
         [[NSApplication sharedApplication] presentError:error];
     }
-	
-	NSString *statesPath = [applicationSupportFolder stringByAppendingPathComponent:@"Save States"];
-	
-	if ( ![fileManager fileExistsAtPath:statesPath isDirectory:NULL] ) {
-		[fileManager createDirectoryAtPath:statesPath attributes:nil];
-	}
-	
-	NSArray  *subpaths = [fileManager directoryContentsAtPath:statesPath];
-	
-	for(NSString *statePath in subpaths)
-	{
-		if([@"oesavestate" isEqualToString:[statePath pathExtension]])
-		{
-			[self migrateOESaveStateAtPath:statePath];
-		}
-	}
-
 	return persistentStoreCoordinator;
 }
 
@@ -849,8 +839,60 @@
 	[self.managedObjectContext save:nil];
 }
 
+#pragma mark Migration
 
+-(BOOL)migrateSaveStatesWithError:(NSError **)err{
+	NSString *statesPath = [[self applicationSupportFolder] stringByAppendingPathComponent:@"Save States"];
+	
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	if ( ![fileManager fileExistsAtPath:statesPath isDirectory:NULL] ) {
+		[fileManager createDirectoryAtPath:statesPath attributes:nil];
+	}
+	
+	static NSString *OESaveStateMigrationErrorDomain = @"OESaveStateMigrationErrorDomain";
+	
+	NSArray  *subpaths = [fileManager directoryContentsAtPath:statesPath];
+	NSMutableArray *errors = (err != nil ? [NSMutableArray array] : nil);
+	for(NSString *statePath in subpaths)
+	{
+		if([@"oesavestate" isEqualToString:[statePath pathExtension]])
+		{
+			if(![self migrateOESaveStateAtPath:statePath]){
+				if(errors){
+					[errors addObject:[NSError errorWithDomain:OESaveStateMigrationErrorDomain code:400
+													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+																NSLocalizedString(@"Could not migrate save state at path",@""), NSLocalizedDescriptionKey,
+																statePath, NSFilePathErrorKey,
+																nil]]];
+				}
+			}
+		}
+	}
+	
+	if(errors && [errors count] > 0){
+		if([errors count] == 1){
+			*err = [errors objectAtIndex:0];
+		}else{
+			*err = [NSError errorWithDomain:OESaveStateMigrationErrorDomain code:300 
+								   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+											 NSLocalizedString(@"Multiple save states failed to migrate", @""), NSLocalizedDescriptionKey,
+											 errors, @"OESaveStateMigrationErrors",
+											 nil]];
+		}
+		return NO;
+	}else{
+		return YES;
+	}
+}
 
+-(BOOL)removeFrameworkFromLibraryWithError:(NSError **)err{
+	NSFileManager *fm = [NSFileManager defaultManager];
+	NSString *frameworkPath = @"/Library/Frameworks/OpenEmu.framework";
+	if([fm fileExistsAtPath:frameworkPath]){
+		return [fm removeItemAtPath:frameworkPath error:err];
+	}
+	return YES;
+}
 
 #pragma mark New HID Event Handler
 //==================================================================================================

@@ -31,6 +31,7 @@
 #import <IOKit/hid/IOHIDUsageTables.h>
 #import "OEHIDDeviceHandler.h"
 #import "OEROMOrganizer.h"
+#import "OEVersionMigrationController.h"
 
 @class GameCore, OECorePlugin;
 @class GameDocument, OEGamePreferenceController, OESaveStateController, OECoreDownloader;
@@ -67,6 +68,8 @@
     NSManagedObjectContext *managedObjectContext;
 	
 	OEROMOrganizer *organizer;
+	
+	OEVersionMigrationController *versionMigrator;
 }
 
 @property(readonly) NSArray *filterNames;
@@ -112,4 +115,6 @@
 
 - (IBAction)stopAllEmulators:(id)sender;
 
+- (BOOL)migrateSaveStatesWithError:(NSError **)err;
+- (BOOL)removeFrameworkFromLibraryWithError:(NSError **)err;
 @end
