@@ -887,7 +887,7 @@
 
 -(BOOL)removeFrameworkFromLibraryWithError:(NSError **)err{
 	NSFileManager *fm = [NSFileManager defaultManager];
-	NSString *frameworkPath = @"/Library/Frameworks/OpenEmu.framework";
+	NSString *frameworkPath = @"/Library/Frameworks/OpenEmuBase.framework";
 	if([fm fileExistsAtPath:frameworkPath]){
 		return [fm removeItemAtPath:frameworkPath error:err];
 	}

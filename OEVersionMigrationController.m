@@ -199,7 +199,9 @@ migrate:
 											 nil]];
 		}
 
-		NSLog(@"Error migrating! %@,",*err);
+		if(err){
+			NSLog(@"Error migrating! %@,",*err);
+		}
 	}
 	
 	return hasFailed;
