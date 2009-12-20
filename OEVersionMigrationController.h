@@ -34,6 +34,9 @@ static NSString *OEVersionMigrationFailureErrorsKey = @"OEVersionMigrationFailur
 
 @interface OEVersionMigrationController : NSObject {
 	BOOL isFirstRun;
+	BOOL isRunning;
+	
+	NSString *lastVersion;
 	
 	NSMutableDictionary *migrators;
 	id<SUVersionComparison> versionComparator;
@@ -52,4 +55,7 @@ static NSString *OEVersionMigrationFailureErrorsKey = @"OEVersionMigrationFailur
 				selector:(SEL)selector
 			  forVersion:(NSString *)version;
 
+-(BOOL)migrateFromVersion:(NSString *)mostRecentVersion
+				toVersion:(NSString *)currentVersion
+					error:(NSError **)err;
 @end

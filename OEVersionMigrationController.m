@@ -107,6 +107,7 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
 		
 		// we'll cheat here and rely on Sparkle's key
 		isFirstRun = ! [[NSUserDefaults standardUserDefaults] boolForKey:@"SUHasLaunchedBefore"];
+		lastVersion = [[[NSUserDefaults standardUserDefaults] objectForKey:@"OEMigrationLastVersion"] copy];
 	}
 	return self;
 }
@@ -116,64 +117,86 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
 #define MigrationNeededIf(__cond) if(__cond){ migrationNeeded = YES; goto migrate; }
 	
 	NSString *currentVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
-	NSString *mostRecentVersion = [[NSUserDefaults standardUserDefaults] objectForKey:@"OEMigrationLastVersion"];
+	NSString *mostRecentVersion = lastVersion;
 	
 	// We have to work around the fact that older versions of OpenEmu didn't stick a version key in the plist.
-	// If there is no current version, and the Sparkle key doesn't exist, then this is a new installation, not an upgrade.
+	// If the Sparkle key for an existing launch doesn't exist, then this is a new installation, not an upgrade.
 	// Thus, we log our current version and prevent the migration. Subsequent migrations will then have the new version.
-	if(!currentVersion && isFirstRun){
-		[[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:@"OEMigrationLastVersion"];
+	if(isFirstRun){
+		if(!mostRecentVersion){
+			[[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:@"OEMigrationLastVersion"];
+		}
+
 		return;
 	}
 	
+	// if it's not the first run, and there's no most recent version, then it's a pre-1.0.0b5 upgrade
 	MigrationNeededIf(!mostRecentVersion);
 	
+	// if the current version has a higher version than the most recent version, then it's an upgrade
 	MigrationNeededIf([self.versionComparator compareVersion:mostRecentVersion
 											  toVersion:currentVersion] == NSOrderedAscending);
 	
 migrate:
 	if(migrationNeeded){
-		if(!mostRecentVersion) mostRecentVersion = @"0.0.1";
 		
-		NSMutableArray *errors = [NSMutableArray array];
-		NSArray *allVersions = [self allMigrationVersions];
-		for(NSString *migratorVersion in allVersions){
-			BOOL runThisMigrator = YES;
-			
-			// @"1.0.0b4", @"1.0.0b5", @"1.0.0"
-			if([self.versionComparator compareVersion:mostRecentVersion 
-											toVersion:migratorVersion] == NSOrderedDescending){
-				// don't need to migrate, migrator is too young and has already run
-				runThisMigrator = NO;
-			}else if([self.versionComparator compareVersion:currentVersion 
-												  toVersion:migratorVersion] == NSOrderedAscending){
-				// don't need to migrate, 
-				runThisMigrator = NO;
-			}
-			
-			if(runThisMigrator){
-				NSArray *allMigrators = [migrators objectForKey:migratorVersion];
-				NSLog(@"Running migrators from %@ to %@",mostRecentVersion, migratorVersion);
-				for(_OEMigrator *migrator in allMigrators){
-					NSError *error = nil;
-					if(![migrator runWithError:&error]){
-						[errors addObject:error];
-					}
+		[self migrateFromVersion:mostRecentVersion
+					   toVersion:currentVersion
+						   error:nil];
+	}
+}
+
+-(BOOL)migrateFromVersion:(NSString *)mostRecentVersion
+				toVersion:(NSString *)currentVersion
+					error:(NSError **)err{
+	if(!mostRecentVersion) mostRecentVersion = @"0.0.1";
+	
+	NSMutableArray *errors = [NSMutableArray array];
+	NSArray *allVersions = [self allMigrationVersions];
+
+	for(NSString *migratorVersion in allVersions){
+		BOOL runThisMigrator = YES;
+		
+		// @"1.0.0b4", @"1.0.0b5", @"1.0.0"
+		if([self.versionComparator compareVersion:mostRecentVersion 
+										toVersion:migratorVersion] == NSOrderedDescending){
+			// don't need to migrate, migrator is too young and has already run
+			runThisMigrator = NO;
+		}else if([self.versionComparator compareVersion:currentVersion 
+											  toVersion:migratorVersion] == NSOrderedAscending){
+			// don't need to migrate, 
+			runThisMigrator = NO;
+		}
+		
+		if(runThisMigrator){
+			NSArray *allMigrators = [migrators objectForKey:migratorVersion];
+			NSLog(@"Running migrators from %@ to %@",mostRecentVersion, migratorVersion);
+			for(_OEMigrator *migrator in allMigrators){
+				NSError *error = nil;
+				if(![migrator runWithError:&error]){
+					[errors addObject:error];
 				}
 			}
 		}
-		
-		if(errors.count > 0){
-			NSError *migrationError = [NSError errorWithDomain:OEVersionMigrationErrorDomain
-														  code:1 
-													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-																NSLocalizedString(@"Some migrations failed to complete properly",@""),NSLocalizedDescriptionKey,
-																errors,OEVersionMigrationFailureErrorsKey,
-																nil]];
-			NSLog(@"%i failed migrations: %@",errors.count,migrationError);
+	}
+	
+	[[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:@"OEMigrationLastVersion"];	
+	
+	if(!isRunning) isRunning = YES;
+	
+	if(errors.count > 0){
+		if(err && errors.count == 1){
+			*err = [errors objectAtIndex:0];
+		}else if(err && errors.count > 1){
+			*err = [NSError errorWithDomain:OEVersionMigrationErrorDomain
+									   code:1 
+								   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+											 NSLocalizedString(@"Some migrations failed to complete properly",@""),NSLocalizedDescriptionKey,
+											 errors,OEVersionMigrationFailureErrorsKey,
+											 nil]];
 		}
-		
-		[[NSUserDefaults standardUserDefaults] setObject:currentVersion forKey:@"OEMigrationLastVersion"];
+
+		NSLog(@"Error migrating! %@,",*err);
 	}
 }
 
@@ -228,11 +251,14 @@ migrate:
 	[migratorsForVersion addObject:migratorContainer];
 	[migratorContainer release];
 	
-	[self runMigrationIfNeeded];
+	if(isRunning){
+		[self runMigrationIfNeeded];
+	}
 }
 
 -(void)dealloc{
 	[migrators release], migrators = nil;
+	[lastVersion release], lastVersion = nil;
 	
 	[super dealloc];
 }
