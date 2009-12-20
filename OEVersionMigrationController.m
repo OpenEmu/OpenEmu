@@ -139,7 +139,6 @@ static OEVersionMigrationController *sDefaultMigrationController = nil;
 	
 migrate:
 	if(migrationNeeded){
-		
 		[self migrateFromVersion:mostRecentVersion
 					   toVersion:currentVersion
 						   error:nil];
@@ -151,7 +150,9 @@ migrate:
 					error:(NSError **)err{
 	if(!mostRecentVersion) mostRecentVersion = @"0.0.1";
 	
-	NSMutableArray *errors = [NSMutableArray array];
+	BOOL hasFailed = NO;
+	
+	NSMutableArray *errors = (err == nil ? nil : [NSMutableArray array]);
 	NSArray *allVersions = [self allMigrationVersions];
 
 	for(NSString *migratorVersion in allVersions){
@@ -175,6 +176,7 @@ migrate:
 				NSError *error = nil;
 				if(![migrator runWithError:&error]){
 					[errors addObject:error];
+					hasFailed = YES;
 				}
 			}
 		}
@@ -185,6 +187,7 @@ migrate:
 	if(!isRunning) isRunning = YES;
 	
 	if(errors.count > 0){
+		hasFailed = YES;
 		if(err && errors.count == 1){
 			*err = [errors objectAtIndex:0];
 		}else if(err && errors.count > 1){
@@ -198,6 +201,8 @@ migrate:
 
 		NSLog(@"Error migrating! %@,",*err);
 	}
+	
+	return hasFailed;
 }
 
 -(NSArray *)allMigrationVersions{
