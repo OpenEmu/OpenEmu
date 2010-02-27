@@ -55,7 +55,10 @@
 
 @implementation OESaveStateController
 
-@synthesize availablePluginsPredicate, selectedPlugins, selectedRomPredicate, browserZoom, sortDescriptors, pathArray, pathRanges, romFileController, savestateController, pluginController, treeController, listView, collectionView, outlineView, imageBrowser, imageFlow, contextMenu, segmentButton, holderView;
+@synthesize availablePluginsPredicate, selectedPlugins, selectedRomPredicate, browserZoom, 
+            sortDescriptors, pathArray, pathRanges, romFileController, savestateController, 
+            pluginController, treeController, listView, collectionView, outlineView, imageBrowser,
+            imageFlow, contextMenu, segmentButton, holderView, searchField;
 
 - (id)init
 {
