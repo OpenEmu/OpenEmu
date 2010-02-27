@@ -136,7 +136,7 @@
     self = [super init];
     if(self)
     {
-		versionMigrator = [[OEVersionMigrationController defaultMigrationController] init];
+		versionMigrator = [OEVersionMigrationController defaultMigrationController];
 		[versionMigrator addMigratorTarget:self selector:@selector(migrateSaveStatesWithError:) forVersion:@"1.0.0b5"];
 		[versionMigrator addMigratorTarget:self selector:@selector(removeFrameworkFromLibraryWithError:) forVersion:@"1.0.0b5"];
 		
