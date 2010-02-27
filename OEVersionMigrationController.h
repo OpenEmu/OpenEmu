@@ -29,8 +29,8 @@
 #import <Cocoa/Cocoa.h>
 #import "SUVersionComparisonProtocol.h"
 
-static NSString *OEVersionMigrationErrorDomain = @"OEVersionMigrationErrorDomain";
-static NSString *OEVersionMigrationFailureErrorsKey = @"OEVersionMigrationFailureErrorsKey";
+#define OEVersionMigrationErrorDomain @"OEVersionMigrationErrorDomain"
+#define OEVersionMigrationFailureErrorsKey @"OEVersionMigrationFailureErrorsKey"
 
 @interface OEVersionMigrationController : NSObject {
 	BOOL isFirstRun;
