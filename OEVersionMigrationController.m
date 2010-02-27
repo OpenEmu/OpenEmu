@@ -26,7 +26,7 @@
  */
 
 #import "OEVersionMigrationController.h"
-#import "SUStandardVersionComparator.h"
+#import <Sparkle/SUStandardVersionComparator.h>
 
 #pragma mark Storage
 #pragma mark -
