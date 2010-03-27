@@ -777,8 +777,8 @@
 			isa = PBXGroup;
 			children = (
 				82CAFBB70FEDAA3D00CCDC7E /* config.yaml */,
-				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
 				37CC66190FF8379B00226BCB /* config_qc.yaml */,
+				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
 				828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 			);
@@ -1295,7 +1295,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = /usr/bin/openemuqc_rb_automation.rb;
+			shellScript = /usr/bin/openemu_qc_rb_automation.rb;
 			showEnvVarsInLog = 0;
 		};
 		82C9C96E0F080C7F0071460B /* ShellScript */ = {
@@ -1601,6 +1601,7 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "OpenEmuBase-Info.plist";
 				INSTALL_PATH = "@rpath";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1627,7 +1628,7 @@
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
 				INFOPLIST_FILE = "OpenEmuBase-Info.plist";
 				INSTALL_PATH = "@rpath";
-				LD_RUNPATH_SEARCH_PATHS = "";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1657,6 +1658,8 @@
 				GCC_PREFIX_HEADER = OpenEmuQC_Prefix.pch;
 				INFOPLIST_FILE = "OpenEmuQC-Info.plist";
 				INSTALL_PATH = "$(HOME)/Graphics/Quartz Composer Plug-Ins/";
+				LD_RUNPATH_SEARCH_PATHS = "\"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\"";
+				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -1812,6 +1815,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
 				PRODUCT_NAME = OpenEmu;
 			};
