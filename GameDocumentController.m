@@ -399,7 +399,8 @@
     
     DLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
-
+//FIXME: it looks like our code here expects the file to be an archive and shits its pants (throws an error
+// popup saying "can't open files of type "Nestopia Cartridge" " or similar) if it's not.  
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
 {
     //add the file to the ROM database

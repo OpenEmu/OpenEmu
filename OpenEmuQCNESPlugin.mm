@@ -551,38 +551,37 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
             DLog(@"load path changed");
             [self loadState:[[self valueForInputKey:@"inputLoadStatePath"] stringByStandardizingPath]];
         }
-        
-        // Process emulation pausing 
-        if([self didValueForInputKeyChange: @"inputPauseEmulation"])    
-        {
-            if(self.inputPauseEmulation)    
-            {
-                DLog(@"user paused emulation");
-                [gameAudio pauseAudio];
-                [gameCore setPauseEmulation:YES]; 
-                self.userPaused = YES;
-            }
-            else 
-            {
-                DLog(@"user unpaused emulation");
-                [gameAudio startAudio];
-                [gameCore setPauseEmulation:NO];
-                self.userPaused = NO;
-            }
-        }
-        
-        // Process cheat codes
-        if([self didValueForInputKeyChange: @"inputCheatCode"] && ([self valueForInputKey:@"inputCheatCode"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputCheatCode"] valueForKey: QCPortAttributeDefaultValueKey]))    
-        {
-            DLog(@"cheat code entered");
-            [gameCore setCode:[self valueForInputKey:@"inputCheatCode"]];
-        }
-        
-        // process rewinder stuff
-        if([self didValueForInputKeyChange: @"inputEnableRewinder"])    
-        {
-    //        DLog(@"rewinder state changed");
-            [gameCore enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
+		
+		// Process emulation pausing 
+		if([self didValueForInputKeyChange: @"inputPauseEmulation"])	
+		{
+			if(self.inputPauseEmulation)	
+			{
+				DLog(@"user paused emulation");
+				[gameAudio pauseAudio];
+				[gameCore setPauseEmulation:YES]; 
+				self.userPaused = YES;
+			}
+			else 
+			{
+				DLog(@"user unpaused emulation");
+				[gameAudio startAudio];
+				[gameCore setPauseEmulation:NO];
+				self.userPaused = NO;
+			}
+		}
+		
+		// Process cheat codes
+		if([self didValueForInputKeyChange: @"inputCheatCode"] && ([self valueForInputKey:@"inputCheatCode"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputCheatCode"] valueForKey: QCPortAttributeDefaultValueKey]))	
+		{
+			DLog(@"cheat code entered");
+			[gameCore setCode:[self valueForInputKey:@"inputCheatCode"]];
+		}
+		
+#pragma mark process rewinder stuff
+		if([self didValueForInputKeyChange: @"inputEnableRewinder"])	
+		{
+			[gameCore enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
 
             if([gameCore isRewinderEnabled]) 
             {
@@ -779,29 +778,29 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
     
     DLog(@"New ROM path is: %@",theRomPath);
 
-    if([[NSFileManager defaultManager] fileExistsAtPath:theRomPath isDirectory:&isDir] && !isDir)
-    {
-        NSString * extension = [theRomPath pathExtension];
-        DLog(@"extension is: %@", extension);
-        
-        // cleanup
-        if(self.loadedRom && self.romFinishedLoading)
-        {
-            self.romFinishedLoading = NO;
-            [gameAudio stopAudio];
-            [gameCore stopEmulation];
-            [gameCore release];
-            [gameAudio release];
-            
-            DLog(@"released/cleaned up for new rom");
-            
-        }
-        self.loadedRom = NO;
-        hasChrRom = NO;
-        hasNmtRam = NO;
-        
-        //load NES bundle
-        OECorePlugin *plugin = [self pluginForType:extension];
+	if([[NSFileManager defaultManager] fileExistsAtPath:theRomPath isDirectory:&isDir] && !isDir)
+	{
+		NSString * extension = [theRomPath pathExtension];
+		DLog(@"extension is: %@", extension);
+		
+		// cleanup
+		if(self.loadedRom && self.romFinishedLoading)
+		{
+			self.romFinishedLoading = NO;
+			[gameAudio stopAudio];
+			[gameCore stopEmulation];
+			[gameCore release];
+			[gameAudio release];
+			
+			DLog(@"released/cleaned up for new rom");
+			
+		}
+		self.loadedRom = NO;
+		hasChrRom = NO;
+		hasNmtRam = NO;
+		
+		//load NES bundle
+		OECorePlugin *plugin = [self pluginForType:extension];
         
         gameCoreController = [plugin controller];
         gameCore = [gameCoreController newGameCore];
@@ -954,7 +953,14 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
     
 - (BOOL) validateNameTableData: (NSArray*) nameTableData
 {
-    return YES;
+    if([nameTableData count] == 2 && ([[nameTableData objectAtIndex:0] intValue] <= 3)
+	   && [[nameTableData objectAtIndex:1] count] == 960)
+    {
+//        DLog(@"validated name table data");
+        return YES;
+    }
+    NSLog(@"error: missing or invalid name table data structure.");
+    return NO;
 }
 
 @end
