@@ -361,11 +361,11 @@ static OpenEmuDistributedObject *sharedDistributedObject;
     }
     
     // flush to make sure FBO texture attachment is finished being rendered.
-	//glFlushRenderAPPLE();
+	glFlushRenderAPPLE();
 	
 	// we must flush here so that IOSurface texture is updated globally.
-	glFlush();
-	CGLFlushDrawable(glContext);
+//	glFlush();
+//	CGLFlushDrawable(glContext);
 	
 	// get the updated surfaceID to pass to STDOut...
 	surfaceID = IOSurfaceGetID(surfaceRef);

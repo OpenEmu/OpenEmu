@@ -150,26 +150,28 @@
 		glActiveTexture(GL_TEXTURE0);
 		glEnable(GL_TEXTURE_RECTANGLE_ARB);
 		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, ioSurfaceTexture);
-		
+		glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);        
+
 		CGLError err = CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_ARB, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
 		if(err != kCGLNoError)
 		{
 			NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
 		}
-	
-		glFlush();
+		
+		//TODO: why is our IOSurface upside down?!
 		
 		glBegin(GL_QUADS);
-		glTexCoord2f(IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef));
+		glTexCoord2f(IOSurfaceGetWidth(surfaceRef), 0.0);
 		glVertex2f(1.0, 1.0);
 		
-		glTexCoord2f(0.0, IOSurfaceGetHeight(surfaceRef));
+		glTexCoord2f(0.0, 0.0);
 		glVertex2f(0.0, 1.0);
 		
-		glTexCoord2f(0.0, 0.0);
+		glTexCoord2f(0.0, IOSurfaceGetHeight(surfaceRef));
 		glVertex2f(0.0, 0.0);
 		
-		glTexCoord2f(IOSurfaceGetWidth(surfaceRef), 0.0);
+		glTexCoord2f(IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef));
 		glVertex2f(1.0, 0.0);
 		glEnd();
 		
