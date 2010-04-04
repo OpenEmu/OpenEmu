@@ -32,7 +32,7 @@
 		{
 			[glContext setView:glView];
 			
-			[glContext makeCurrentContext];
+			//[glContext makeCurrentContext];
 			CGLContextObj cgl_ctx = [glContext CGLContextObj];
 				glGenTextures(1, &ioSurfaceTexture);
 
@@ -108,8 +108,7 @@
 
 - (void) render
 {
-	[glContext makeCurrentContext];
-
+//	[glContext makeCurrentContext];
 	[glContext update];
 	
 	CGLContextObj cgl_ctx = [glContext CGLContextObj];

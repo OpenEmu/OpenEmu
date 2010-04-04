@@ -26,7 +26,7 @@
  */
 
 // for speedz
-//#import <OpenGL/CGLMacro.h>
+#import <OpenGL/CGLMacro.h>
 
 
 #import "OpenEmuHelperApp.h"
@@ -152,8 +152,8 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	[surfaceAttributes release];
 	
 	// make a new texture.
-	CGLSetCurrentContext(glContext);
-//	CGLContextObj cgl_ctx = glContext;	
+//	CGLSetCurrentContext(glContext);
+	CGLContextObj cgl_ctx = glContext;	
 //	CGLLockContext(cgl_ctx);
 	
 	glGenTextures(1, &ioSurfaceTexture);
@@ -179,8 +179,8 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 		
 	GLenum status;
 
-	CGLSetCurrentContext(glContext);
-//	CGLContextObj cgl_ctx = glContext;
+//	CGLSetCurrentContext(glContext);
+	CGLContextObj cgl_ctx = glContext;
 	
 	// Create temporary FBO to render in texture 
 	glGenFramebuffersEXT(1, &gameFBO);
@@ -201,9 +201,9 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 {
 	GLenum status;
 
-	CGLSetCurrentContext(glContext);
+//	CGLSetCurrentContext(glContext);
 
-//	CGLContextObj cgl_ctx = glContext;
+	CGLContextObj cgl_ctx = glContext;
 //	CGLLockContext(cgl_ctx);
 	
 	glEnable(GL_TEXTURE_RECTANGLE_EXT);    
@@ -274,8 +274,8 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 {
 	//	IOSurfaceLock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
 	
-	CGLSetCurrentContext(glContext);
-//	CGLContextObj cgl_ctx = glContext;
+//	CGLSetCurrentContext(glContext);
+	CGLContextObj cgl_ctx = glContext;
 //	CGLLockContext(cgl_ctx);
 	
 	// bind our IOSurface Texture
@@ -293,9 +293,9 @@ static OpenEmuDistributedObject *sharedDistributedObject;
     // offsets from the game core should the image we want be 'elsewhere' within the main texture. 
     CGRect cropRect = [gameCore sourceRect];
     
-	CGLSetCurrentContext(glContext);
+//	CGLSetCurrentContext(glContext);
 
-//	CGLContextObj cgl_ctx = glContext;
+	CGLContextObj cgl_ctx = glContext;
 	        
     // bind our FBO / and thus our IOSurface
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
