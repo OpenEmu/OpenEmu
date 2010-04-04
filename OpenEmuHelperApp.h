@@ -99,4 +99,9 @@
 - (OECorePlugin*) pluginForType:(NSString *)extension;
 - (BOOL) loadRom:(NSString *)path;
 
+#pragma mark -
+#pragma mark OE DO protocol delegate methods
+- (void) setVolume:(float)volume;
+- (void) setPlayPause:(BOOL)paused;
+
 @end

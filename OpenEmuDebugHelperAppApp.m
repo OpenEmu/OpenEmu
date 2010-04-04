@@ -57,6 +57,10 @@
 										   selector: @selector(render)
 										   userInfo: nil
 											repeats: YES];
+	
+	[[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSDefaultRunLoopMode];
+	[[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSModalPanelRunLoopMode];
+	[[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
 }
 
 - (IBAction) setRomPath:(id)sender
@@ -176,6 +180,27 @@
 	
 	[glContext flushBuffer];
 }
+
+#pragma mark -
+#pragma mark Send to Helper app via DO
+
+- (IBAction) setVolume:(id)sender
+{
+	[rootProxy setVolume:[sender floatValue]];
+}
+
+- (IBAction) setPlayPause:(id)sender
+{
+	if([sender state] == NSOnState)
+	{
+		[rootProxy setPlayPause:YES];
+	}
+	else if([sender state] == NSOffState)
+	{
+		[rootProxy setPlayPause:NO];
+	}
+}
+
 
 #pragma mark TaskWrapper delegates
 

@@ -11,18 +11,21 @@
 @protocol OpenEmuDOProtocol
 
 // eventually to handle updating inputs / pausing etc.
-- (oneway void) setDelegate:(byref id)delegate;	// set who handles what.
+- (oneway void) setDelegate:(byref id)delegate;	// set who handles what methods for handling input to the gamecore
 
-//
-//- (oneway void) setScreenSize:(NSSize) screenSize;
-//- (NSSize) screenSize;
-
+// control gamecore
+- (oneway void) setVolume:(byref float)volume;
+- (oneway void) setPlayPause:(byref BOOL)paused;
 
 // IOSurface ids
 - (oneway void) setSurfaceID:(in IOSurfaceID) surfaceID;
 - (IOSurfaceID) surfaceID;
 
 @end
+
+
+
+
 
 
 // Distributed object that both the helpder and OpenEmu (and debug app) use
@@ -35,6 +38,9 @@
 
 - (oneway void) setDelegate:(byref id)delegate;	// set who handles what.
 
+// control gamecore
+- (oneway void) setVolume:(byref float)volume;
+- (oneway void) setPlayPause:(byref BOOL)paused;
 
 // IOSurface ids
 - (oneway void) setSurfaceID:(in IOSurfaceID) surfaceID;

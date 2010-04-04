@@ -16,6 +16,18 @@
 	delegate = d;
 }
 
+// control gamecore
+- (oneway void) setVolume:(byref float)volume
+{
+	[delegate setVolume:volume];
+}
+
+- (oneway void) setPlayPause:(byref BOOL)paused
+{
+	[delegate setPlayPause:paused];
+}
+
+
 // IOSurface ids
 - (oneway void) setSurfaceID:(in IOSurfaceID) sID
 {

@@ -25,6 +25,10 @@
 	
 	IBOutlet NSView* glView;
 	
+	// controls
+	IBOutlet NSSlider* volumeSlider;
+	IBOutlet NSButton* playPauseButton;
+	
 	// IOSurface requirements
 	IOSurfaceRef surfaceRef;
 	IOSurfaceID	surfaceID;
@@ -49,5 +53,9 @@
 - (void) setupTimer;
 - (void) render;
 
+
+// sent to helper app via DO
+- (IBAction) setVolume:(id)sender;
+- (IBAction) setPlayPause:(id)sender;
 
 @end

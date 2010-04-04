@@ -464,6 +464,29 @@ static OpenEmuDistributedObject *sharedDistributedObject;
     else NSLog(@"bad ROM path or filename");
     return NO;
 }
+
+#pragma mark -
+#pragma mark EO DO Delegate methods
+- (void) setVolume:(float)volume
+{
+	[gameAudio setVolume:volume];
+
+}
+
+- (void) setPlayPause:(BOOL)paused
+{
+	if(paused)
+	{
+		[gameAudio pauseAudio];
+		[gameCore setPauseEmulation:YES]; 
+	}
+	else
+	{
+		[gameAudio startAudio];
+		[gameCore setPauseEmulation:NO]; 
+	}
+}
+
 @end
 
 
