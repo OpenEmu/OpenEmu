@@ -45,10 +45,14 @@
 	NSConnection* taskConnection;
 	
 	id rootProxy;
+	
+	BOOL launchedHelperAlready;
 }
 
-- (IBAction) launchHelper:(id)sender;
 - (IBAction) setRomPath:(id)sender;
+- (IBAction) launchHelper:(id)sender;
+- (void) startHelperProcess;
+- (void) endHelperProcess;
 
 - (void) setupTimer;
 - (void) render;

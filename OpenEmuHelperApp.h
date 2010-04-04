@@ -59,8 +59,7 @@
 	// rendering - may want to move to display link in the future?
 	NSTimer* timer;
 	
-	// we will need a way to do IPC, for now its this.
-	NSFileHandle* standardOut;
+	// we will need a way to do IPC, for now its DO.
 	NSString* doUUID;
 	NSConnection* theConnection;
 	OpenEmuDistributedObject* doObject;

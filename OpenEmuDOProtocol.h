@@ -26,8 +26,6 @@
 
 
 
-
-
 // Distributed object that both the helpder and OpenEmu (and debug app) use
 @interface OpenEmuDistributedObject : NSObject <OpenEmuDOProtocol>
 {
