@@ -108,6 +108,8 @@
 		1B8D4B010E874E6F00C3C4F5 /* GameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* GameAudio.m */; };
 		1BA0005410CB0831006FA62E /* OpenEmuBase.framework in OE Base framework to Shared frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		1BA788FF0FF9C95A007CE5DB /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
+		1BEF2A67116826BC0090F72B /* NSString+UUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEF2A65116826BC0090F72B /* NSString+UUID.h */; };
+		1BEF2A68116826BC0090F72B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */; };
 		1E9F7349103755900072EED6 /* OEROMFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F7348103755900072EED6 /* OEROMFile.m */; };
@@ -406,6 +408,8 @@
 		1B885EC10F08A13500770B6D /* Scale4x.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Scale4x.vert; sourceTree = "<group>"; };
 		1BA788FD0FF9C95A007CE5DB /* OEGameShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameShader.h; sourceTree = "<group>"; };
 		1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameShader.m; sourceTree = "<group>"; };
+		1BEF2A65116826BC0090F72B /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
+		1BEF2A66116826BC0090F72B /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
 		1DDD582B0DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1E2F3DB910DEAB4C0019AA84 /* OEVersionMigrationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVersionMigrationController.h; sourceTree = "<group>"; };
 		1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVersionMigrationController.m; sourceTree = "<group>"; };
@@ -711,6 +715,20 @@
 			path = "GLSL Shaders";
 			sourceTree = "<group>";
 		};
+		1BEF2A61116826510090F72B /* Distributed Object Protocol */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Distributed Object Protocol";
+			sourceTree = "<group>";
+		};
+		1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Helper App (IOSurface helper)";
+			sourceTree = "<group>";
+		};
 		1E2F3DB810DEAB370019AA84 /* Migration */ = {
 			isa = PBXGroup;
 			children = (
@@ -762,6 +780,8 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */,
+				1BEF2A61116826510090F72B /* Distributed Object Protocol */,
 				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
 				C66DFA600F51C9550080AA28 /* GameCore framework */,
 				828E64D00E84656900B1860B /* OpenEmuCore */,
@@ -769,6 +789,8 @@
 				82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */,
 				82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */,
 				82DE446510252F2F007184EB /* IKImageFlowView.h */,
+				1BEF2A65116826BC0090F72B /* NSString+UUID.h */,
+				1BEF2A66116826BC0090F72B /* NSString+UUID.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1050,6 +1072,7 @@
 				828CF1A30FD1D8530041311B /* OEMap.h in Headers */,
 				828CF1A40FD1D86A0041311B /* OEPreferenceViewController.h in Headers */,
 				82AFA6690FDDC03500531EE3 /* OERingBuffer.h in Headers */,
+				1BEF2A67116826BC0090F72B /* NSString+UUID.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1353,6 +1376,7 @@
 				C6FC4C920FD2C5C3007CCD32 /* GameCore.m in Sources */,
 				82AFA66A0FDDC03500531EE3 /* OERingBuffer.m in Sources */,
 				C6AFE0D60FED6FDF00AC0CCF /* OEGameControllerView.m in Sources */,
+				1BEF2A68116826BC0090F72B /* NSString+UUID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
