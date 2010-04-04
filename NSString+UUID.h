@@ -31,5 +31,3 @@
 @interface NSString (UUID)
 + (NSString*) stringWithUUID;
 @end
-
-@end
