@@ -1,0 +1,25 @@
+------------------------------------------------------
+Core\docs\todo.txt 
+------------------------------------------------------
+Features to add to the emulation core
+------------------------------------------------------
+
+
+Far Future, or Never
+====================
+* Perfect the interrupt timings! - remove 'gfx_hack', big speedup!
+* Match Z80 clock speed to 1/2 TLCS-900h.
+* Count DMA wait state cycles.
+* Fix DAC? so the T1 rate hack on Timer 2 isn't required.
+	timing issues are quite complex - see "Super Real Mahjong"
+* Timers not complete (obscure modes, used?)
+* Clock gear (used?), (remember that it affects timers).
+* Character over emulation (obscure, used?)
+* Optimise register access - precalculate pointers to rCodeB, rCodeW, rCodeL
+* Save flash data with save state - for better consistancy
+* FLASH erase (needed? what does the block number mean?)
+* Correct cycle counts for HLE bios functions (Difficult)
+* Support for real bios emulation
+* System Power Off (set bit 7 of 0x6F85) - useful?
+* System Resume (possible to suspend)
+

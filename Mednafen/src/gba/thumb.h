@@ -1,0 +1,2 @@
+unsigned int RunTHUMB(void);
+

@@ -1,0 +1,166 @@
+------------------------------------------------------
+Core\docs\changelog.txt
+------------------------------------------------------
+Alterations made to the Emulation Core.
+------------------------------------------------------
+
+03 AUG 2002 - neopop_uk
+=======================
+- Restructured and flattened the file layout to make it easier to
+	integrate other source ports.
+- Removed disassemble.c/h - moved the 'disassemble' function to neopop.c
+- Added filename comments to that start of all source files.
+- Made 'mute' a common variable.
+
+04 AUG 2002 - neopop_uk
+=======================
+- Removed the header links between the system and core code. These
+	linked sections are now unified in 'neopop.h'
+
+06 AUG 2002 - neopop_uk
+=======================
+- Internal rendering is now done in 16 bit, not 32. This will improve
+performance a great deal. The pixel format is "X4B4G4R4", if that helps!
+
+09 AUG 2002 - neopop_uk
+=======================
+- I've removed support for CPU halting, to squeeze out a few extra cycles.
+
+10 AUG 2002 - neopop_uk
+=======================
+- Added better default memory setup to try and fool some of the 'clever'
+games into thinking they're running on a real machine.
+- Tracked down and fixed why "Metal Slug 2" wasn't making 
+it's in-game voices. 
+
+- Added simple emulation of direct EEPROM access. This lets	more games
+save their settings correctly. This fixes KOF-R2 making mode as well.
+
+- Changed the way that flash acceses work, 'flash_write' no longer
+writes the flash data to the i/o. This task is undertaken by 'flash_commit'.
+This was necessary because direct EEPROM access was killing performance.
+'flash_commit' is called when rom_unload is called - In the Windows port
+this means when unloading, loading a new rom or quiting. 
+
+- Added raster horizontal position emulation, fixes "NeoGeo Cup '98 Plus Color"
+
+15 AUG 2002 - neopop_uk
+=======================
+- To make the code more compatible with other compilers, i've changed the
+bool type, defined in neopop.h, to BOOL - which is a typedef of int. This
+has changed nothing in the Windows port, but should fix other compilers.
+Also 'true' and 'false' have been replaced with #defined symbols TRUE and FALSE
+
+- A bug has been discovered in 'drawPattern' as the 4th parameter 'mirror'
+was given type bool - when it should really be _u16. This applies to
+gfx_scanline_colour.c and gfx_scanline_mono.c.
+
+- Another fix applies only the mono core, and the Plot function. The
+file itself has a description of the change.
+
+- Minor changes to 'state.c/h' to remove the 'halt' state and replace it
+with the storage of 'eepromStatusEnable'. Neither of these values were
+likely to have been set, but this new saving is more accurate.
+
+15 AUG 2002 - neopop_uk
+=======================
+- I've made the horizontal interrupt code be run after every instruction
+this makes the timing more accurate and fixes the fading effects of the
+'Memories Off Pure' intro.
+
+16 AUG 2002 - neopop_uk
+=======================
+- I've done a little optimisation work on the graphics core.
+- Fixed the bad notes in the sound emulation - one chip does just the
+noise channel, the other does tone generation. There is no need for
+a stereo/mono option now...
+- Fixed bugs in register storing destination, seemed important, but it's
+	had little effect on compatiblity so far...
+- Fixed V flag emulation of INC/DEC, fixes "Cotton" menus
+
+18 AUG 2002 - neopop_uk
+=======================
+- I've moved more stuff out of the local header files and into neopop.h
+	This includes: RomInfo, RonHeader, state_store, state_restore.
+This is all so that no core header files have to be included by the
+system specific code - only neopop.h. This will ensure any internal changes
+will not affect future versions. In turn this will hopefully allow older
+system code to work with a newer core, and vice-versa.
+- Removed 'rom.h' file because all of it's components were moved to NeoPop.h
+- Added string support for all non-debug system messages.
+
+21 AUG 2002 - neopop_uk
+=======================================
+- Fixed "RR (mem)" - It was actually the [REG] version that hadn't been
+	changed to use memory accesses - oops!.
+- Fixed potential precidence problems in regX and rCodeX by using ()'s
+- Added TSET and MULA instructions, untested.
+
+22 AUG 2002 - neopop_uk
+=======================================
+- Added correct DMA chaining behaviour. If a DMA trigger is assigned to
+multiple channels, then the channel with the lowest index must complete it's
+transfer before the next one is activated.
+
+22 AUG 2002 - neopop_uk
+=======================================
+- Made the code compile with the "GCC v2.95.3-5 (cygwin special)" compiler.
+
+28 AUG 2002 - neopop_uk
+=======================================
+- Added implementations for most of the comms bios functions using the
+new comms system functions. I'm not sure if RTS emulation is
+required at the moment. I believe that flow control and handshaking can be
+done at a level higher than the NGPC knows about, so to it comms will always
+work right on time... but there may be timing issues to resolve...
+
+30 AUG 2002 - neopop_uk
+=======================================
+- Fixed "DIV RR,(mem)" in long mode, wrong operand size.
+
+- Added comms. read and write interrupt/dma calls. This has made many more
+games allow their link-up options. However, I have been unable to test them
+with a real network, so I'm unsure if the frequent link errors that occur
+happen to all users...
+
+- Improved 'R32' memory addressing mode. Fixes a crashing bug in "Card Fighters". 
+
+02 SEP 2002 - neopop_uk
+=======================================
+- Added the undocumented type 0x13 R32 address mode.
+
+04 SEP 2002 - neopop_uk
+=======================================
+- Made the code really compile with GCC.
+
+06 SEP 2002 - neopop_uk
+=======================================
+- Added better emulation of comms system memory at ram[0x50].
+
+07 SEP 2002 - neopop_uk
+=======================================
+- Made the direct EEPROM access more secure by requiring an EEPROM
+command to be issued before every write. This isn't perfect, but it
+should stop "Gals Fighters" from writing all over itself.
+
+################ 0.70 RELEASE ##################
+
+08 SEP 2002 - neopop_uk
+=======================================
+- Made flash writes more robust be eliminating a possible logic error.
+
+09 SEP 2002 - neopop_uk
+=======================================
+- Extra cycles for addressing modes.
+- Optimised and unified timer updates, adjusted the rates now that
+  extra cycles have been accounted for. Verified from "Cool Cool Jam" that
+  the timing is pretty accurate.
+
+10 SEP 2002 - neopop_uk
+=======================================
+- Added frameskipping again, not as slow as I originally thought.
+
+################ 0.71 RELEASE ##################
+
+
+

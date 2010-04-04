@@ -1,0 +1,386 @@
+// !$*UTF8*$!
+{
+	089C1669FE841209C02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Release;
+		activeTarget = C6A3547D0FE83E0E00A9AB1C /* Build & Install */;
+		addToTargets = (
+			8D5B49AC048680CD000E48DA /* Scale4x */,
+		);
+		codeSenseManager = C67A39420FE8372300A665E2 /* Code sense */;
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					805,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					765,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 267963682;
+			PBXWorkspaceStateSaveDate = 267963682;
+		};
+		perUserProjectItems = {
+			C62CE6D30FF8CD29004DB5F4 /* PlistBookmark */ = C62CE6D30FF8CD29004DB5F4 /* PlistBookmark */;
+			C67A39370FE8372300A665E2 /* PlistBookmark */ = C67A39370FE8372300A665E2 /* PlistBookmark */;
+			C6A3542A0FE83C8600A9AB1C /* PBXTextBookmark */ = C6A3542A0FE83C8600A9AB1C /* PBXTextBookmark */;
+			C6A3542D0FE83C8600A9AB1C /* PBXTextBookmark */ = C6A3542D0FE83C8600A9AB1C /* PBXTextBookmark */;
+			C6A354730FE83D6500A9AB1C /* PBXTextBookmark */ = C6A354730FE83D6500A9AB1C /* PBXTextBookmark */;
+			C6A354740FE83D6500A9AB1C /* PBXTextBookmark */ = C6A354740FE83D6500A9AB1C /* PBXTextBookmark */;
+			C6A354770FE83D6500A9AB1C /* PBXTextBookmark */ = C6A354770FE83D6500A9AB1C /* PBXTextBookmark */;
+			C6A354780FE83D6500A9AB1C /* PBXTextBookmark */ = C6A354780FE83D6500A9AB1C /* PBXTextBookmark */;
+			C6A354790FE83D6500A9AB1C /* PBXTextBookmark */ = C6A354790FE83D6500A9AB1C /* PBXTextBookmark */;
+			C6A3548B0FE83E2100A9AB1C /* PBXTextBookmark */ = C6A3548B0FE83E2100A9AB1C /* PBXTextBookmark */;
+			C6A3548E0FE83E2100A9AB1C /* PBXTextBookmark */ = C6A3548E0FE83E2100A9AB1C /* PBXTextBookmark */;
+			C6A354B20FE83EDD00A9AB1C /* PBXTextBookmark */ = C6A354B20FE83EDD00A9AB1C /* PBXTextBookmark */;
+			C6A354B30FE83EDD00A9AB1C /* PlistBookmark */ = C6A354B30FE83EDD00A9AB1C /* PlistBookmark */;
+			C6A354B50FE83EDD00A9AB1C /* PlistBookmark */ = C6A354B50FE83EDD00A9AB1C /* PlistBookmark */;
+			C6A354B60FE83EDD00A9AB1C /* PlistBookmark */ = C6A354B60FE83EDD00A9AB1C /* PlistBookmark */;
+			C6A354B90FE83EDD00A9AB1C /* PlistBookmark */ = C6A354B90FE83EDD00A9AB1C /* PlistBookmark */;
+			C6A354BA0FE83EDD00A9AB1C /* PlistBookmark */ = C6A354BA0FE83EDD00A9AB1C /* PlistBookmark */;
+			C6A354BB0FE83EDD00A9AB1C /* PlistBookmark */ = C6A354BB0FE83EDD00A9AB1C /* PlistBookmark */;
+			C6A354C30FE83EDD00A9AB1C /* PlistBookmark */ = C6A354C30FE83EDD00A9AB1C /* PlistBookmark */;
+			C6A354E80FE842C600A9AB1C /* PlistBookmark */ = C6A354E80FE842C600A9AB1C /* PlistBookmark */;
+			C6EC49D50FEAAFE500B663A9 /* PlistBookmark */ = C6EC49D50FEAAFE500B663A9 /* PlistBookmark */;
+		};
+		sourceControlManager = C67A39410FE8372300A665E2 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	82BCA6790FEF119400DD3FC4 /* Distribution */ = {
+		activeExec = 0;
+	};
+	8D5B49AC048680CD000E48DA /* Scale4x */ = {
+		activeExec = 0;
+	};
+	C62CE6D30FF8CD29004DB5F4 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D5B49B7048680CD000E48DA /* Scale4x-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/remydemarest/Informatique/Divers/openemu/FilterPlugins/Scale4x-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775807;
+	};
+	C67A39370FE8372300A665E2 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D5B49B7048680CD000E48DA /* Scale4x-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = /Users/remydemarest/Informatique/Divers/openemu/FilterPlugins/Info.plist;
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	C67A39410FE8372300A665E2 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+		};
+	};
+	C67A39420FE8372300A665E2 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	C67A39450FE8377000A665E2 /* Scale4xHQ.vert */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {983, 901}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 930}";
+		};
+	};
+	C67A39470FE8377000A665E2 /* Scale2XSALSmart.frag */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {983, 1292}}";
+			sepNavSelRange = "{4, 0}";
+			sepNavVisRange = "{0, 562}";
+		};
+	};
+	C67A39490FE8377000A665E2 /* Scale2xHQ.frag */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {983, 850}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1061}";
+		};
+	};
+	C67A394A0FE8377000A665E2 /* Scale2xHQ.vert */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {983, 578}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 866}";
+		};
+	};
+	C67A394B0FE8377000A665E2 /* Scale2XPlus.frag */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {983, 833}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1298}";
+		};
+	};
+	C6A3540F0FE83B7B00A9AB1C /* Scale4xHQ */ = {
+		activeExec = 0;
+	};
+	C6A354110FE83B7B00A9AB1C /* Scale4xHQ-Info.plist */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{1616, 291}, {828, 370}}";
+		};
+	};
+	C6A354200FE83C6700A9AB1C /* Scale2XSALSmart */ = {
+		activeExec = 0;
+	};
+	C6A354220FE83C6700A9AB1C /* Scale2XSALSmart-Info.plist */ = {
+		uiCtxt = {
+			sepNavWindowFrame = "{{38, 482}, {828, 370}}";
+		};
+	};
+	C6A3542A0FE83C8600A9AB1C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C67A39450FE8377000A665E2 /* Scale4xHQ.vert */;
+		name = "Scale4xHQ.vert: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 930;
+		vrLoc = 0;
+	};
+	C6A3542D0FE83C8600A9AB1C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C67A39450FE8377000A665E2 /* Scale4xHQ.vert */;
+		name = "Scale4xHQ.vert: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 930;
+		vrLoc = 0;
+	};
+	C6A3543A0FE83CC500A9AB1C /* Scale2xHQ */ = {
+		activeExec = 0;
+	};
+	C6A3544F0FE83D2E00A9AB1C /* Scale2XPlus */ = {
+		activeExec = 0;
+	};
+	C6A354730FE83D6500A9AB1C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C67A39470FE8377000A665E2 /* Scale2XSALSmart.frag */;
+		name = "Scale2XSALSmart.frag: 2";
+		rLen = 0;
+		rLoc = 4;
+		rType = 0;
+		vrLen = 562;
+		vrLoc = 0;
+	};
+	C6A354740FE83D6500A9AB1C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C67A394B0FE8377000A665E2 /* Scale2XPlus.frag */;
+		name = "Scale2XPlus.frag: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1298;
+		vrLoc = 0;
+	};
+	C6A354770FE83D6500A9AB1C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C67A39470FE8377000A665E2 /* Scale2XSALSmart.frag */;
+		name = "Scale2XSALSmart.frag: 2";
+		rLen = 0;
+		rLoc = 4;
+		rType = 0;
+		vrLen = 562;
+		vrLoc = 0;
+	};
+	C6A354780FE83D6500A9AB1C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C67A394A0FE8377000A665E2 /* Scale2xHQ.vert */;
+		name = "Scale2xHQ.vert: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 866;
+		vrLoc = 0;
+	};
+	C6A354790FE83D6500A9AB1C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C67A394B0FE8377000A665E2 /* Scale2XPlus.frag */;
+		name = "Scale2XPlus.frag: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1298;
+		vrLoc = 0;
+	};
+	C6A3547D0FE83E0E00A9AB1C /* Build & Install */ = {
+		activeExec = 0;
+	};
+	C6A3548B0FE83E2100A9AB1C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C67A394A0FE8377000A665E2 /* Scale2xHQ.vert */;
+		name = "Scale2xHQ.vert: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 866;
+		vrLoc = 0;
+	};
+	C6A3548E0FE83E2100A9AB1C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C67A39490FE8377000A665E2 /* Scale2xHQ.frag */;
+		name = "Scale2xHQ.frag: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1061;
+		vrLoc = 0;
+	};
+	C6A354B20FE83EDD00A9AB1C /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = C67A39490FE8377000A665E2 /* Scale2xHQ.frag */;
+		name = "Scale2xHQ.frag: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1061;
+		vrLoc = 0;
+	};
+	C6A354B30FE83EDD00A9AB1C /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = C6A354110FE83B7B00A9AB1C /* Scale4xHQ-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleInfoDictionaryVersion,
+		);
+		name = "/Users/remydemarest/Informatique/Divers/openemu/FilterPlugins/Scale4xHQ-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	C6A354B50FE83EDD00A9AB1C /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = C6A354220FE83C6700A9AB1C /* Scale2XSALSmart-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/remydemarest/Informatique/Divers/openemu/FilterPlugins/Scale2XSALSmart-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	C6A354B60FE83EDD00A9AB1C /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = C6A3543C0FE83CC500A9AB1C /* Scale2xHQ-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleName,
+		);
+		name = "/Users/remydemarest/Informatique/Divers/openemu/FilterPlugins/Scale2xHQ-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	C6A354B90FE83EDD00A9AB1C /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = C6A354510FE83D2E00A9AB1C /* Scale2XPlus-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/remydemarest/Informatique/Divers/openemu/FilterPlugins/Scale2XPlus-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	C6A354BA0FE83EDD00A9AB1C /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = C6A354110FE83B7B00A9AB1C /* Scale4xHQ-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/remydemarest/Informatique/Divers/openemu/FilterPlugins/Scale4xHQ-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	C6A354BB0FE83EDD00A9AB1C /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = C6A354220FE83C6700A9AB1C /* Scale2XSALSmart-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/remydemarest/Informatique/Divers/openemu/FilterPlugins/Scale2XSALSmart-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	C6A354C30FE83EDD00A9AB1C /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = C6A3543C0FE83CC500A9AB1C /* Scale2xHQ-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+			CFBundleName,
+		);
+		name = "/Users/remydemarest/Informatique/Divers/openemu/FilterPlugins/Scale2xHQ-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	C6A354E80FE842C600A9AB1C /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = C6A354510FE83D2E00A9AB1C /* Scale2XPlus-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/remydemarest/Informatique/Divers/openemu/FilterPlugins/Scale2XPlus-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+	C6EC49D50FEAAFE500B663A9 /* PlistBookmark */ = {
+		isa = PlistBookmark;
+		fRef = 8D5B49B7048680CD000E48DA /* Scale4x-Info.plist */;
+		fallbackIsa = PBXBookmark;
+		isK = 0;
+		kPath = (
+		);
+		name = "/Users/remydemarest/Informatique/Divers/openemu/FilterPlugins/Scale4x-Info.plist";
+		rLen = 0;
+		rLoc = 9223372036854775808;
+	};
+}

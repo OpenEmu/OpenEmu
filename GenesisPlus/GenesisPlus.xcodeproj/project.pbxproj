@@ -1,0 +1,889 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		822C193F101EA4AF0034119F /* Build & Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 822C1944101EA4D40034119F /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildPhases = (
+				822C193E101EA4AF0034119F /* ShellScript */,
+			);
+			dependencies = (
+				822C1943101EA4B60034119F /* PBXTargetDependency */,
+			);
+			name = "Build & Install";
+			productName = "Build & Install";
+		};
+		8230C7D110AFCB0600412F24 /* Distribution */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 8230C7DD10AFCB2E00412F24 /* Build configuration list for PBXAggregateTarget "Distribution" */;
+			buildPhases = (
+				8230C7F410AFCBB500412F24 /* CopyFiles */,
+				8230C7D010AFCB0600412F24 /* ShellScript */,
+			);
+			dependencies = (
+				8230C7D510AFCB0F00412F24 /* PBXTargetDependency */,
+			);
+			name = Distribution;
+			productName = Distribution;
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		82287C09101E9C2C0072172D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82287C08101E9C2C0072172D /* libz.dylib */; };
+		82287C39101E9DB40072172D /* GenPlusGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 82287C34101E9DB40072172D /* GenPlusGameCore.m */; };
+		82287C3A101E9DB40072172D /* GenPlusGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82287C36101E9DB40072172D /* GenPlusGameController.m */; };
+		82287C3B101E9DB40072172D /* GenPlusPreferenceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 82287C38101E9DB40072172D /* GenPlusPreferenceView.m */; };
+		82287C57101E9F090072172D /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82287C56101E9F060072172D /* OpenEmuBase.framework */; };
+		8230C7F110AFCBA200412F24 /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8230C7E510AFCB6200412F24 /* config.yaml */; };
+		8230C81910AFCCB700412F24 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 8230C81810AFCCB700412F24 /* dsa_pub.pem */; };
+		825C7DC1101FA8F10072187B /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 825C7DBE101FA8F10072187B /* error.c */; };
+		825C7DC2101FA8F10072187B /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = 825C7DC0101FA8F10072187B /* config.c */; };
+		825C7DD3101FA9340072187B /* changes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 825C7DC7101FA9340072187B /* changes.txt */; };
+		825C7DD4101FA9340072187B /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 825C7DC8101FA9340072187B /* license.txt */; };
+		825C7DD5101FA9340072187B /* md_ntsc.c in Sources */ = {isa = PBXBuildFile; fileRef = 825C7DC9101FA9340072187B /* md_ntsc.c */; };
+		825C7DD7101FA9340072187B /* sms_ntsc.c in Sources */ = {isa = PBXBuildFile; fileRef = 825C7DCE101FA9340072187B /* sms_ntsc.c */; };
+		825C7DD8101FA9340072187B /* sms_ntsc.txt in Resources */ = {isa = PBXBuildFile; fileRef = 825C7DD0101FA9340072187B /* sms_ntsc.txt */; };
+		825C7E56101FACB40072187B /* fileio.c in Sources */ = {isa = PBXBuildFile; fileRef = 825C7E54101FACB40072187B /* fileio.c */; };
+		825C7E84101FAD270072187B /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 825C7E83101FAD270072187B /* unzip.c */; };
+		825C7FF0101FBAC20072187B /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = 825C7FEF101FBAC20072187B /* ControlsPreference.xib */; };
+		825C7FF2101FBAC90072187B /* gen6btn.png in Resources */ = {isa = PBXBuildFile; fileRef = 825C7FF1101FBAC90072187B /* gen6btn.png */; };
+		82ACCF90101FA46F00D5EAC6 /* mem68k.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCE90101FA46D00D5EAC6 /* mem68k.c */; };
+		82ACCF91101FA46F00D5EAC6 /* render.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCE91101FA46D00D5EAC6 /* render.c */; };
+		82ACD00E101FA46F00D5EAC6 /* gen_input.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF2C101FA46E00D5EAC6 /* gen_input.c */; };
+		82ACD00F101FA46F00D5EAC6 /* membnk.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF2D101FA46E00D5EAC6 /* membnk.c */; };
+		82ACD010101FA46F00D5EAC6 /* memz80.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF33101FA46E00D5EAC6 /* memz80.c */; };
+		82ACD011101FA46F00D5EAC6 /* gen_io.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF34101FA46E00D5EAC6 /* gen_io.c */; };
+		82ACD012101FA46F00D5EAC6 /* m68kcpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF38101FA46E00D5EAC6 /* m68kcpu.c */; };
+		82ACD013101FA46F00D5EAC6 /* m68kops.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF3B101FA46E00D5EAC6 /* m68kops.c */; };
+		82ACD015101FA46F00D5EAC6 /* loadrom.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF40101FA46E00D5EAC6 /* loadrom.c */; };
+		82ACD016101FA46F00D5EAC6 /* genesis.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF46101FA46E00D5EAC6 /* genesis.c */; };
+		82ACD02B101FA46F00D5EAC6 /* system.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF6C101FA46E00D5EAC6 /* system.c */; };
+		82ACD02C101FA46F00D5EAC6 /* z80.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF70101FA46E00D5EAC6 /* z80.c */; };
+		82ACD02D101FA46F00D5EAC6 /* blip.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF73101FA46E00D5EAC6 /* blip.c */; };
+		82ACD02E101FA46F00D5EAC6 /* eq.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF75101FA46E00D5EAC6 /* eq.c */; };
+		82ACD02F101FA46F00D5EAC6 /* Fir_Resampler.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF77101FA46F00D5EAC6 /* Fir_Resampler.c */; };
+		82ACD030101FA46F00D5EAC6 /* sn76489.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF79101FA46F00D5EAC6 /* sn76489.c */; };
+		82ACD031101FA46F00D5EAC6 /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF7B101FA46F00D5EAC6 /* sound.c */; };
+		82ACD032101FA46F00D5EAC6 /* ym2612.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF7D101FA46F00D5EAC6 /* ym2612.c */; };
+		82ACD033101FA46F00D5EAC6 /* cart_hw.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF80101FA46F00D5EAC6 /* cart_hw.c */; };
+		82ACD034101FA46F00D5EAC6 /* eeprom.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF82101FA46F00D5EAC6 /* eeprom.c */; };
+		82ACD035101FA46F00D5EAC6 /* sram.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF84101FA46F00D5EAC6 /* sram.c */; };
+		82ACD036101FA46F00D5EAC6 /* imageformat.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82ACCF87101FA46F00D5EAC6 /* imageformat.txt */; };
+		82ACD037101FA46F00D5EAC6 /* ssp16.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF88101FA46F00D5EAC6 /* ssp16.c */; };
+		82ACD038101FA46F00D5EAC6 /* svp.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF8A101FA46F00D5EAC6 /* svp.c */; };
+		82ACD039101FA46F00D5EAC6 /* svpdoc.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82ACCF8C101FA46F00D5EAC6 /* svpdoc.txt */; };
+		82ACD03A101FA46F00D5EAC6 /* vdp.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF8E101FA46F00D5EAC6 /* vdp.c */; };
+		82ACD03B101FA46F00D5EAC6 /* state.c in Sources */ = {isa = PBXBuildFile; fileRef = 82ACCF8F101FA46F00D5EAC6 /* state.c */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3783946D102922A200168304 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3887A7F61024D1F9000FC4CF;
+			remoteInfo = OESaveStateQLPlugin;
+		};
+		82287C51101E9F060072172D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
+			remoteInfo = OpenEmu;
+		};
+		82287C53101E9F060072172D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 828E65980E8466A100B1860B;
+			remoteInfo = OpenEmuQC;
+		};
+		82287C55101E9F060072172D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82444BA10F51256C007C171B;
+			remoteInfo = OpenEmuBase;
+		};
+		82287C96101EA0560072172D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 82444BA00F51256C007C171B;
+			remoteInfo = OpenEmuBase;
+		};
+		822C1942101EA4B60034119F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = GenesisPlus;
+		};
+		8230C7D410AFCB0F00412F24 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = GenesisPlus;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8230C7F410AFCBB500412F24 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				8230C7F110AFCBA200412F24 /* config.yaml in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* GenesisPlus_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenesisPlus_Prefix.pch; sourceTree = "<group>"; };
+		82287C08101E9C2C0072172D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		82287C33101E9DB40072172D /* GenPlusGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenPlusGameCore.h; sourceTree = "<group>"; };
+		82287C34101E9DB40072172D /* GenPlusGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenPlusGameCore.m; sourceTree = "<group>"; };
+		82287C35101E9DB40072172D /* GenPlusGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenPlusGameController.h; sourceTree = "<group>"; };
+		82287C36101E9DB40072172D /* GenPlusGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenPlusGameController.m; sourceTree = "<group>"; };
+		82287C37101E9DB40072172D /* GenPlusPreferenceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenPlusPreferenceView.h; sourceTree = "<group>"; };
+		82287C38101E9DB40072172D /* GenPlusPreferenceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenPlusPreferenceView.m; sourceTree = "<group>"; };
+		82287C47101E9F060072172D /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
+		8230C7E510AFCB6200412F24 /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
+		8230C81810AFCCB700412F24 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		825C7DBC101FA8D50072187B /* osd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = osd.h; sourceTree = "<group>"; };
+		825C7DBD101FA8F10072187B /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
+		825C7DBE101FA8F10072187B /* error.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = error.c; sourceTree = "<group>"; };
+		825C7DBF101FA8F10072187B /* error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = error.h; sourceTree = "<group>"; };
+		825C7DC0101FA8F10072187B /* config.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = config.c; sourceTree = "<group>"; };
+		825C7DC7101FA9340072187B /* changes.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = changes.txt; sourceTree = "<group>"; };
+		825C7DC8101FA9340072187B /* license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = license.txt; sourceTree = "<group>"; };
+		825C7DC9101FA9340072187B /* md_ntsc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = md_ntsc.c; sourceTree = "<group>"; };
+		825C7DCA101FA9340072187B /* md_ntsc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md_ntsc.h; sourceTree = "<group>"; };
+		825C7DCB101FA9340072187B /* md_ntsc_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md_ntsc_config.h; sourceTree = "<group>"; };
+		825C7DCC101FA9340072187B /* md_ntsc_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = md_ntsc_impl.h; sourceTree = "<group>"; };
+		825C7DCE101FA9340072187B /* sms_ntsc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sms_ntsc.c; sourceTree = "<group>"; };
+		825C7DCF101FA9340072187B /* sms_ntsc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sms_ntsc.h; sourceTree = "<group>"; };
+		825C7DD0101FA9340072187B /* sms_ntsc.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sms_ntsc.txt; sourceTree = "<group>"; };
+		825C7DD1101FA9340072187B /* sms_ntsc_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sms_ntsc_config.h; sourceTree = "<group>"; };
+		825C7DD2101FA9340072187B /* sms_ntsc_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sms_ntsc_impl.h; sourceTree = "<group>"; };
+		825C7E44101FAB7F0072187B /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
+		825C7E54101FACB40072187B /* fileio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fileio.c; sourceTree = "<group>"; };
+		825C7E55101FACB40072187B /* fileio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileio.h; sourceTree = "<group>"; };
+		825C7E82101FAD270072187B /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
+		825C7E83101FAD270072187B /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
+		825C7FEF101FBAC20072187B /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
+		825C7FF1101FBAC90072187B /* gen6btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gen6btn.png; sourceTree = "<group>"; };
+		82ACCE90101FA46D00D5EAC6 /* mem68k.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mem68k.c; sourceTree = "<group>"; };
+		82ACCE91101FA46D00D5EAC6 /* render.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = render.c; sourceTree = "<group>"; };
+		82ACCF1E101FA46E00D5EAC6 /* loadrom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loadrom.h; sourceTree = "<group>"; };
+		82ACCF2C101FA46E00D5EAC6 /* gen_input.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gen_input.c; sourceTree = "<group>"; };
+		82ACCF2D101FA46E00D5EAC6 /* membnk.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = membnk.c; sourceTree = "<group>"; };
+		82ACCF2E101FA46E00D5EAC6 /* memz80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memz80.h; sourceTree = "<group>"; };
+		82ACCF2F101FA46E00D5EAC6 /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
+		82ACCF30101FA46E00D5EAC6 /* gen_input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gen_input.h; sourceTree = "<group>"; };
+		82ACCF31101FA46E00D5EAC6 /* gen_io.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gen_io.h; sourceTree = "<group>"; };
+		82ACCF32101FA46E00D5EAC6 /* shared.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = shared.h; sourceTree = "<group>"; };
+		82ACCF33101FA46E00D5EAC6 /* memz80.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memz80.c; sourceTree = "<group>"; };
+		82ACCF34101FA46E00D5EAC6 /* gen_io.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gen_io.c; sourceTree = "<group>"; };
+		82ACCF36101FA46E00D5EAC6 /* m68k.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68k.h; sourceTree = "<group>"; };
+		82ACCF37101FA46E00D5EAC6 /* m68kconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kconf.h; sourceTree = "<group>"; };
+		82ACCF38101FA46E00D5EAC6 /* m68kcpu.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kcpu.c; sourceTree = "<group>"; };
+		82ACCF39101FA46E00D5EAC6 /* m68kcpu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kcpu.h; sourceTree = "<group>"; };
+		82ACCF3A101FA46E00D5EAC6 /* m68kCycleAccurate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kCycleAccurate.h; sourceTree = "<group>"; };
+		82ACCF3B101FA46E00D5EAC6 /* m68kops.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kops.c; sourceTree = "<group>"; };
+		82ACCF3C101FA46E00D5EAC6 /* m68kops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kops.h; sourceTree = "<group>"; };
+		82ACCF3E101FA46E00D5EAC6 /* render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = render.h; sourceTree = "<group>"; };
+		82ACCF3F101FA46E00D5EAC6 /* genesis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = genesis.h; sourceTree = "<group>"; };
+		82ACCF40101FA46E00D5EAC6 /* loadrom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = loadrom.c; sourceTree = "<group>"; };
+		82ACCF41101FA46E00D5EAC6 /* mem68k.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mem68k.h; sourceTree = "<group>"; };
+		82ACCF42101FA46E00D5EAC6 /* system.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = system.h; sourceTree = "<group>"; };
+		82ACCF43101FA46E00D5EAC6 /* hvc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hvc.h; sourceTree = "<group>"; };
+		82ACCF44101FA46E00D5EAC6 /* membnk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = membnk.h; sourceTree = "<group>"; };
+		82ACCF45101FA46E00D5EAC6 /* state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = state.h; sourceTree = "<group>"; };
+		82ACCF46101FA46E00D5EAC6 /* genesis.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = genesis.c; sourceTree = "<group>"; };
+		82ACCF6B101FA46E00D5EAC6 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		82ACCF6C101FA46E00D5EAC6 /* system.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = system.c; sourceTree = "<group>"; };
+		82ACCF6E101FA46E00D5EAC6 /* cpuintrf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cpuintrf.h; sourceTree = "<group>"; };
+		82ACCF6F101FA46E00D5EAC6 /* osd_cpu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = osd_cpu.h; sourceTree = "<group>"; };
+		82ACCF70101FA46E00D5EAC6 /* z80.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = z80.c; sourceTree = "<group>"; };
+		82ACCF71101FA46E00D5EAC6 /* z80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = z80.h; sourceTree = "<group>"; };
+		82ACCF73101FA46E00D5EAC6 /* blip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = blip.c; sourceTree = "<group>"; };
+		82ACCF74101FA46E00D5EAC6 /* blip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blip.h; sourceTree = "<group>"; };
+		82ACCF75101FA46E00D5EAC6 /* eq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eq.c; sourceTree = "<group>"; };
+		82ACCF76101FA46F00D5EAC6 /* eq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eq.h; sourceTree = "<group>"; };
+		82ACCF77101FA46F00D5EAC6 /* Fir_Resampler.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Fir_Resampler.c; sourceTree = "<group>"; };
+		82ACCF78101FA46F00D5EAC6 /* Fir_Resampler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fir_Resampler.h; sourceTree = "<group>"; };
+		82ACCF79101FA46F00D5EAC6 /* sn76489.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sn76489.c; sourceTree = "<group>"; };
+		82ACCF7A101FA46F00D5EAC6 /* sn76489.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sn76489.h; sourceTree = "<group>"; };
+		82ACCF7B101FA46F00D5EAC6 /* sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sound.c; sourceTree = "<group>"; };
+		82ACCF7C101FA46F00D5EAC6 /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sound.h; sourceTree = "<group>"; };
+		82ACCF7D101FA46F00D5EAC6 /* ym2612.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ym2612.c; sourceTree = "<group>"; };
+		82ACCF7E101FA46F00D5EAC6 /* ym2612.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ym2612.h; sourceTree = "<group>"; };
+		82ACCF80101FA46F00D5EAC6 /* cart_hw.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cart_hw.c; sourceTree = "<group>"; };
+		82ACCF81101FA46F00D5EAC6 /* cart_hw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cart_hw.h; sourceTree = "<group>"; };
+		82ACCF82101FA46F00D5EAC6 /* eeprom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = eeprom.c; sourceTree = "<group>"; };
+		82ACCF83101FA46F00D5EAC6 /* eeprom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eeprom.h; sourceTree = "<group>"; };
+		82ACCF84101FA46F00D5EAC6 /* sram.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sram.c; sourceTree = "<group>"; };
+		82ACCF85101FA46F00D5EAC6 /* sram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sram.h; sourceTree = "<group>"; };
+		82ACCF87101FA46F00D5EAC6 /* imageformat.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = imageformat.txt; sourceTree = "<group>"; };
+		82ACCF88101FA46F00D5EAC6 /* ssp16.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ssp16.c; sourceTree = "<group>"; };
+		82ACCF89101FA46F00D5EAC6 /* ssp16.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ssp16.h; sourceTree = "<group>"; };
+		82ACCF8A101FA46F00D5EAC6 /* svp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = svp.c; sourceTree = "<group>"; };
+		82ACCF8B101FA46F00D5EAC6 /* svp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = svp.h; sourceTree = "<group>"; };
+		82ACCF8C101FA46F00D5EAC6 /* svpdoc.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = svpdoc.txt; sourceTree = "<group>"; };
+		82ACCF8D101FA46F00D5EAC6 /* vdp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = vdp.h; sourceTree = "<group>"; };
+		82ACCF8E101FA46F00D5EAC6 /* vdp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = vdp.c; sourceTree = "<group>"; };
+		82ACCF8F101FA46F00D5EAC6 /* state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = state.c; sourceTree = "<group>"; };
+		8D5B49B6048680CD000E48DA /* GenesisPlus.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GenesisPlus.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				82287C09101E9C2C0072172D /* libz.dylib in Frameworks */,
+				82287C57101E9F090072172D /* OpenEmuBase.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* GenesisPlus */ = {
+			isa = PBXGroup;
+			children = (
+				82287C47101E9F060072172D /* OpenEmu.xcodeproj */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+				82287C08101E9C2C0072172D /* libz.dylib */,
+				825C7E44101FAB7F0072187B /* Carbon.framework */,
+			);
+			name = GenesisPlus;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8230C81810AFCCB700412F24 /* dsa_pub.pem */,
+				8230C7E510AFCB6200412F24 /* config.yaml */,
+				825C7FF1101FBAC90072187B /* gen6btn.png */,
+				825C7FEF101FBAC20072187B /* ControlsPreference.xib */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				82ACCE5C101FA45700D5EAC6 /* Core */,
+				82287C35101E9DB40072172D /* GenPlusGameController.h */,
+				82287C36101E9DB40072172D /* GenPlusGameController.m */,
+				82287C33101E9DB40072172D /* GenPlusGameCore.h */,
+				82287C34101E9DB40072172D /* GenPlusGameCore.m */,
+				82287C37101E9DB40072172D /* GenPlusPreferenceView.h */,
+				82287C38101E9DB40072172D /* GenPlusPreferenceView.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				D2F7E65807B2D6F200F64583 /* CoreData.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* GenesisPlus.oecoreplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				32DBCF630370AF2F00C91783 /* GenesisPlus_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		82287C48101E9F060072172D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				82287C52101E9F060072172D /* OpenEmu.app */,
+				82287C54101E9F060072172D /* OpenEmuQC.plugin */,
+				82287C56101E9F060072172D /* OpenEmuBase.framework */,
+				3783946E102922A200168304 /* OESaveStateQLPlugin.qlgenerator */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		825C7DC6101FA9340072187B /* ntsc */ = {
+			isa = PBXGroup;
+			children = (
+				825C7DC7101FA9340072187B /* changes.txt */,
+				825C7DC8101FA9340072187B /* license.txt */,
+				825C7DC9101FA9340072187B /* md_ntsc.c */,
+				825C7DCA101FA9340072187B /* md_ntsc.h */,
+				825C7DCB101FA9340072187B /* md_ntsc_config.h */,
+				825C7DCC101FA9340072187B /* md_ntsc_impl.h */,
+				825C7DCE101FA9340072187B /* sms_ntsc.c */,
+				825C7DCF101FA9340072187B /* sms_ntsc.h */,
+				825C7DD0101FA9340072187B /* sms_ntsc.txt */,
+				825C7DD1101FA9340072187B /* sms_ntsc_config.h */,
+				825C7DD2101FA9340072187B /* sms_ntsc_impl.h */,
+			);
+			path = ntsc;
+			sourceTree = "<group>";
+		};
+		82ACCE5C101FA45700D5EAC6 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				825C7DC6101FA9340072187B /* ntsc */,
+				82ACD074101FA72D00D5EAC6 /* openemu */,
+				82ACCE90101FA46D00D5EAC6 /* mem68k.c */,
+				82ACCE91101FA46D00D5EAC6 /* render.c */,
+				82ACCF1E101FA46E00D5EAC6 /* loadrom.h */,
+				82ACCF2C101FA46E00D5EAC6 /* gen_input.c */,
+				82ACCF2D101FA46E00D5EAC6 /* membnk.c */,
+				82ACCF2E101FA46E00D5EAC6 /* memz80.h */,
+				82ACCF2F101FA46E00D5EAC6 /* macros.h */,
+				82ACCF30101FA46E00D5EAC6 /* gen_input.h */,
+				82ACCF31101FA46E00D5EAC6 /* gen_io.h */,
+				82ACCF32101FA46E00D5EAC6 /* shared.h */,
+				82ACCF33101FA46E00D5EAC6 /* memz80.c */,
+				82ACCF34101FA46E00D5EAC6 /* gen_io.c */,
+				82ACCF35101FA46E00D5EAC6 /* m68k */,
+				82ACCF3E101FA46E00D5EAC6 /* render.h */,
+				82ACCF3F101FA46E00D5EAC6 /* genesis.h */,
+				82ACCF40101FA46E00D5EAC6 /* loadrom.c */,
+				82ACCF41101FA46E00D5EAC6 /* mem68k.h */,
+				82ACCF42101FA46E00D5EAC6 /* system.h */,
+				82ACCF43101FA46E00D5EAC6 /* hvc.h */,
+				82ACCF44101FA46E00D5EAC6 /* membnk.h */,
+				82ACCF45101FA46E00D5EAC6 /* state.h */,
+				82ACCF46101FA46E00D5EAC6 /* genesis.c */,
+				82ACCF6B101FA46E00D5EAC6 /* types.h */,
+				82ACCF6C101FA46E00D5EAC6 /* system.c */,
+				82ACCF6D101FA46E00D5EAC6 /* z80 */,
+				82ACCF72101FA46E00D5EAC6 /* sound */,
+				82ACCF7F101FA46F00D5EAC6 /* cart_hw */,
+				82ACCF8D101FA46F00D5EAC6 /* vdp.h */,
+				82ACCF8E101FA46F00D5EAC6 /* vdp.c */,
+				82ACCF8F101FA46F00D5EAC6 /* state.c */,
+			);
+			name = Core;
+			sourceTree = "<group>";
+		};
+		82ACCF35101FA46E00D5EAC6 /* m68k */ = {
+			isa = PBXGroup;
+			children = (
+				82ACCF36101FA46E00D5EAC6 /* m68k.h */,
+				82ACCF37101FA46E00D5EAC6 /* m68kconf.h */,
+				82ACCF38101FA46E00D5EAC6 /* m68kcpu.c */,
+				82ACCF39101FA46E00D5EAC6 /* m68kcpu.h */,
+				82ACCF3A101FA46E00D5EAC6 /* m68kCycleAccurate.h */,
+				82ACCF3B101FA46E00D5EAC6 /* m68kops.c */,
+				82ACCF3C101FA46E00D5EAC6 /* m68kops.h */,
+			);
+			path = m68k;
+			sourceTree = "<group>";
+		};
+		82ACCF6D101FA46E00D5EAC6 /* z80 */ = {
+			isa = PBXGroup;
+			children = (
+				82ACCF6E101FA46E00D5EAC6 /* cpuintrf.h */,
+				82ACCF6F101FA46E00D5EAC6 /* osd_cpu.h */,
+				82ACCF70101FA46E00D5EAC6 /* z80.c */,
+				82ACCF71101FA46E00D5EAC6 /* z80.h */,
+			);
+			path = z80;
+			sourceTree = "<group>";
+		};
+		82ACCF72101FA46E00D5EAC6 /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				82ACCF73101FA46E00D5EAC6 /* blip.c */,
+				82ACCF74101FA46E00D5EAC6 /* blip.h */,
+				82ACCF75101FA46E00D5EAC6 /* eq.c */,
+				82ACCF76101FA46F00D5EAC6 /* eq.h */,
+				82ACCF77101FA46F00D5EAC6 /* Fir_Resampler.c */,
+				82ACCF78101FA46F00D5EAC6 /* Fir_Resampler.h */,
+				82ACCF79101FA46F00D5EAC6 /* sn76489.c */,
+				82ACCF7A101FA46F00D5EAC6 /* sn76489.h */,
+				82ACCF7B101FA46F00D5EAC6 /* sound.c */,
+				82ACCF7C101FA46F00D5EAC6 /* sound.h */,
+				82ACCF7D101FA46F00D5EAC6 /* ym2612.c */,
+				82ACCF7E101FA46F00D5EAC6 /* ym2612.h */,
+			);
+			path = sound;
+			sourceTree = "<group>";
+		};
+		82ACCF7F101FA46F00D5EAC6 /* cart_hw */ = {
+			isa = PBXGroup;
+			children = (
+				82ACCF80101FA46F00D5EAC6 /* cart_hw.c */,
+				82ACCF81101FA46F00D5EAC6 /* cart_hw.h */,
+				82ACCF82101FA46F00D5EAC6 /* eeprom.c */,
+				82ACCF83101FA46F00D5EAC6 /* eeprom.h */,
+				82ACCF84101FA46F00D5EAC6 /* sram.c */,
+				82ACCF85101FA46F00D5EAC6 /* sram.h */,
+				82ACCF86101FA46F00D5EAC6 /* svp */,
+			);
+			path = cart_hw;
+			sourceTree = "<group>";
+		};
+		82ACCF86101FA46F00D5EAC6 /* svp */ = {
+			isa = PBXGroup;
+			children = (
+				82ACCF87101FA46F00D5EAC6 /* imageformat.txt */,
+				82ACCF88101FA46F00D5EAC6 /* ssp16.c */,
+				82ACCF89101FA46F00D5EAC6 /* ssp16.h */,
+				82ACCF8A101FA46F00D5EAC6 /* svp.c */,
+				82ACCF8B101FA46F00D5EAC6 /* svp.h */,
+				82ACCF8C101FA46F00D5EAC6 /* svpdoc.txt */,
+			);
+			path = svp;
+			sourceTree = "<group>";
+		};
+		82ACD074101FA72D00D5EAC6 /* openemu */ = {
+			isa = PBXGroup;
+			children = (
+				825C7E82101FAD270072187B /* unzip.h */,
+				825C7E83101FAD270072187B /* unzip.c */,
+				825C7E54101FACB40072187B /* fileio.c */,
+				825C7E55101FACB40072187B /* fileio.h */,
+				825C7DBD101FA8F10072187B /* config.h */,
+				825C7DBE101FA8F10072187B /* error.c */,
+				825C7DBF101FA8F10072187B /* error.h */,
+				825C7DC0101FA8F10072187B /* config.c */,
+				825C7DBC101FA8D50072187B /* osd.h */,
+			);
+			path = openemu;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* GenesisPlus */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "GenesisPlus" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				82287C97101EA0560072172D /* PBXTargetDependency */,
+			);
+			name = GenesisPlus;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = GenesisPlus;
+			productReference = 8D5B49B6048680CD000E48DA /* GenesisPlus.oecoreplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "GenesisPlus" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* GenesisPlus */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 82287C48101E9F060072172D /* Products */;
+					ProjectRef = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* GenesisPlus */,
+				822C193F101EA4AF0034119F /* Build & Install */,
+				8230C7D110AFCB0600412F24 /* Distribution */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		3783946E102922A200168304 /* OESaveStateQLPlugin.qlgenerator */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OESaveStateQLPlugin.bundle;
+			remoteRef = 3783946D102922A200168304 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		82287C52101E9F060072172D /* OpenEmu.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OpenEmu.app;
+			remoteRef = 82287C51101E9F060072172D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		82287C54101E9F060072172D /* OpenEmuQC.plugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OpenEmuQC.plugin;
+			remoteRef = 82287C53101E9F060072172D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		82287C56101E9F060072172D /* OpenEmuBase.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuBase.framework;
+			remoteRef = 82287C55101E9F060072172D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				82ACD036101FA46F00D5EAC6 /* imageformat.txt in Resources */,
+				82ACD039101FA46F00D5EAC6 /* svpdoc.txt in Resources */,
+				825C7DD3101FA9340072187B /* changes.txt in Resources */,
+				825C7DD4101FA9340072187B /* license.txt in Resources */,
+				825C7DD8101FA9340072187B /* sms_ntsc.txt in Resources */,
+				825C7FF0101FBAC20072187B /* ControlsPreference.xib in Resources */,
+				825C7FF2101FBAC90072187B /* gen6btn.png in Resources */,
+				8230C81910AFCCB700412F24 /* dsa_pub.pem in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		822C193E101EA4AF0034119F /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"/Library/Application Support/OpenEmu/Cores\"\nrm -rf \"/Library/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"/Library/Application Support/OpenEmu/Cores/\"\n";
+		};
+		8230C7D010AFCB0600412F24 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = /usr/bin/openemu_rb_automation.rb;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82287C39101E9DB40072172D /* GenPlusGameCore.m in Sources */,
+				82287C3A101E9DB40072172D /* GenPlusGameController.m in Sources */,
+				82287C3B101E9DB40072172D /* GenPlusPreferenceView.m in Sources */,
+				82ACCF90101FA46F00D5EAC6 /* mem68k.c in Sources */,
+				82ACCF91101FA46F00D5EAC6 /* render.c in Sources */,
+				82ACD00E101FA46F00D5EAC6 /* gen_input.c in Sources */,
+				82ACD00F101FA46F00D5EAC6 /* membnk.c in Sources */,
+				82ACD010101FA46F00D5EAC6 /* memz80.c in Sources */,
+				82ACD011101FA46F00D5EAC6 /* gen_io.c in Sources */,
+				82ACD012101FA46F00D5EAC6 /* m68kcpu.c in Sources */,
+				82ACD013101FA46F00D5EAC6 /* m68kops.c in Sources */,
+				82ACD015101FA46F00D5EAC6 /* loadrom.c in Sources */,
+				82ACD016101FA46F00D5EAC6 /* genesis.c in Sources */,
+				82ACD02B101FA46F00D5EAC6 /* system.c in Sources */,
+				82ACD02C101FA46F00D5EAC6 /* z80.c in Sources */,
+				82ACD02D101FA46F00D5EAC6 /* blip.c in Sources */,
+				82ACD02E101FA46F00D5EAC6 /* eq.c in Sources */,
+				82ACD02F101FA46F00D5EAC6 /* Fir_Resampler.c in Sources */,
+				82ACD030101FA46F00D5EAC6 /* sn76489.c in Sources */,
+				82ACD031101FA46F00D5EAC6 /* sound.c in Sources */,
+				82ACD032101FA46F00D5EAC6 /* ym2612.c in Sources */,
+				82ACD033101FA46F00D5EAC6 /* cart_hw.c in Sources */,
+				82ACD034101FA46F00D5EAC6 /* eeprom.c in Sources */,
+				82ACD035101FA46F00D5EAC6 /* sram.c in Sources */,
+				82ACD037101FA46F00D5EAC6 /* ssp16.c in Sources */,
+				82ACD038101FA46F00D5EAC6 /* svp.c in Sources */,
+				82ACD03A101FA46F00D5EAC6 /* vdp.c in Sources */,
+				82ACD03B101FA46F00D5EAC6 /* state.c in Sources */,
+				825C7DC1101FA8F10072187B /* error.c in Sources */,
+				825C7DC2101FA8F10072187B /* config.c in Sources */,
+				825C7DD5101FA9340072187B /* md_ntsc.c in Sources */,
+				825C7DD7101FA9340072187B /* sms_ntsc.c in Sources */,
+				825C7E56101FACB40072187B /* fileio.c in Sources */,
+				825C7E84101FAD270072187B /* unzip.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		82287C97101EA0560072172D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OpenEmuBase;
+			targetProxy = 82287C96101EA0560072172D /* PBXContainerItemProxy */;
+		};
+		822C1943101EA4B60034119F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* GenesisPlus */;
+			targetProxy = 822C1942101EA4B60034119F /* PBXContainerItemProxy */;
+		};
+		8230C7D510AFCB0F00412F24 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* GenesisPlus */;
+			targetProxy = 8230C7D410AFCB0F00412F24 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB913B08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					x86_64,
+					i386,
+					ppc,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GenesisPlus_Prefix.pch;
+				GCC_VERSION = 4.2;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
+				OTHER_CFLAGS = "-DLSB_FIRST";
+				PRODUCT_NAME = GenesisPlus;
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)";
+				WRAPPER_EXTENSION = oecoreplugin;
+			};
+			name = Debug;
+		};
+		1DEB913C08733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					x86_64,
+					i386,
+					ppc,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = GenesisPlus_Prefix.pch;
+				GCC_VERSION = 4.2;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
+				OTHER_CFLAGS = "-DLSB_FIRST";
+				PRODUCT_NAME = GenesisPlus;
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)";
+				WRAPPER_EXTENSION = oecoreplugin;
+			};
+			name = Release;
+		};
+		1DEB913F08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		1DEB914008733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+		822C1940101EA4B00034119F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+					ppc,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Build & Install";
+			};
+			name = Debug;
+		};
+		822C1941101EA4B00034119F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					x86_64,
+					i386,
+					ppc,
+				);
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Build & Install";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		8230C7D210AFCB0600412F24 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Distribution;
+			};
+			name = Debug;
+		};
+		8230C7D310AFCB0600412F24 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Distribution;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "GenesisPlus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913B08733D840010E9CD /* Debug */,
+				1DEB913C08733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "GenesisPlus" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913F08733D840010E9CD /* Debug */,
+				1DEB914008733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		822C1944101EA4D40034119F /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				822C1940101EA4B00034119F /* Debug */,
+				822C1941101EA4B00034119F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8230C7DD10AFCB2E00412F24 /* Build configuration list for PBXAggregateTarget "Distribution" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8230C7D210AFCB0600412F24 /* Debug */,
+				8230C7D310AFCB0600412F24 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

@@ -1,0 +1,49 @@
+#
+# Export file for libvorbisidec
+#
+# Only the symbols listed in the global section will be callable from
+# applications linking to libvorbisidec.
+#
+
+@PACKAGE@.so.1
+{
+	global:
+		ov_clear;
+		ov_open;
+		ov_open_callbacks;
+		ov_test;
+		ov_test_callbacks;
+		ov_test_open;
+		ov_bitrate;
+		ov_bitrate_instant;
+		ov_streams;
+		ov_seekable;
+		ov_serialnumber;
+		ov_raw_total;
+		ov_pcm_total;
+		ov_time_total;
+		ov_raw_seek;
+		ov_pcm_seek;
+		ov_pcm_seek_page;
+		ov_time_seek;
+		ov_time_seek_page;
+		ov_raw_tell;
+		ov_pcm_tell;
+		ov_time_tell;
+		ov_info;
+		ov_comment;
+		ov_read;
+
+		vorbis_info_init;
+		vorbis_info_clear;
+		vorbis_info_blocksize;
+		vorbis_comment_init;
+		vorbis_comment_add;
+		vorbis_comment_add_tag;
+		vorbis_comment_query;
+		vorbis_comment_query_count;
+		vorbis_comment_clear;
+
+	local:
+		*;
+};

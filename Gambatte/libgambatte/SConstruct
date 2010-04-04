@@ -1,0 +1,64 @@
+global_cflags = ARGUMENTS.get('CFLAGS', '-Wall -Wextra -O2 -fomit-frame-pointer')
+global_cxxflags = ARGUMENTS.get('CXXFLAGS', global_cflags + ' -fno-exceptions -fno-rtti')
+global_defines = ' -DHAVE_STDINT_H -DCHAR_WIDTH_8'
+
+env = Environment(CPPPATH = ['src', 'include', '../common'],
+                  CFLAGS = global_cflags + global_defines,
+                  CXXFLAGS = global_cxxflags + global_defines)
+
+sourceFiles = Split('''
+			src/bitmap_font.cpp
+			src/colorconversion.cpp
+			src/cpu.cpp
+			src/gambatte.cpp
+			src/initstate.cpp
+			src/interrupter.cpp
+			src/memory.cpp
+			src/rtc.cpp
+			src/sound.cpp
+			src/state_osd_elements.cpp
+			src/statesaver.cpp
+			src/video.cpp
+			src/sound/channel1.cpp
+			src/sound/channel2.cpp
+			src/sound/channel3.cpp
+			src/sound/channel4.cpp
+			src/sound/duty_unit.cpp
+			src/sound/envelope_unit.cpp
+			src/sound/length_counter.cpp
+			src/video/basic_add_event.cpp
+			src/video/break_event.cpp
+			src/video/irq_event.cpp
+			src/video/ly_counter.cpp
+			src/video/lyc_irq.cpp
+			src/video/m3_extra_cycles.cpp
+			src/video/mode3_event.cpp
+			src/video/mode0_irq.cpp
+			src/video/mode1_irq.cpp
+			src/video/mode2_irq.cpp
+			src/video/sc_reader.cpp
+			src/video/scx_reader.cpp
+			src/video/sprite_mapper.cpp
+			src/video/we_master_checker.cpp
+			src/video/we.cpp
+			src/video/wx_reader.cpp
+			src/video/wy.cpp
+			src/video/filters/catrom2x.cpp
+			src/video/filters/catrom3x.cpp
+			src/video/filters/kreed2xsai.cpp
+			src/video/filters/maxsthq2x.cpp
+			src/video/filters/maxsthq3x.cpp
+		   ''')
+
+conf = env.Configure()
+
+if conf.CheckHeader('zlib.h') and conf.CheckLib('z'):
+	sourceFiles.append('src/file/unzip/unzip.c')
+	sourceFiles.append('src/file/unzip/ioapi.c')
+	sourceFiles.append('src/file/file_zip.cpp')
+else:
+	sourceFiles.append('src/file/file.cpp')
+
+conf.Finish()
+
+env.Library('gambatte', sourceFiles)

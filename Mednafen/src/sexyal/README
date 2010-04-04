@@ -1,0 +1,15 @@
+SexyAL current bugs and limitations:
+
+	Only supports one input sample format right now:  SEXYAL_FMT_PCMS16
+
+	Does not perform sample-rate conversion.
+
+	The SDL driver is intended to be integrated in an application that already uses SDL, and calls SDL_Init()
+	before a SexyAL device is opened, and SDL_Quit() after it is closed(the SexyAL SDL sound driver will handle
+	initializing any SDL subsystems it needs if they're not already initialized, however).
+	If you want to use it in an application that otherwise does not use SDL, you will need to set the environment
+	variable "SEXYAL_SDL_STANDALONE" to a non-zero positive integer value before you open the SexyAL device.
+
+	Pause() and Clear() are not completely implemented in drivers yet.
+
+	CanWrite() semantics can be weird, read the comment in "sexyal.h".
