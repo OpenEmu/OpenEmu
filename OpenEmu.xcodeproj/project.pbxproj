@@ -124,7 +124,6 @@
 		1BEF2CC611684EA70090F72B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
 		1BEF2D07116854A30090F72B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
 		1BEF2D08116854A30090F72B /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEF2AC311682A9D0090F72B /* IOSurface.framework */; };
-		1BEF2D0A116854A30090F72B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEF2D09116854A30090F72B /* OpenGL.framework */; };
 		1BEF2D11116854C30090F72B /* OpenEmuDebugHelperAppApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2CF4116854180090F72B /* OpenEmuDebugHelperAppApp.m */; };
 		1BEF2D12116854C30090F72B /* OpenEmuDOProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2C4811684AE90090F72B /* OpenEmuDOProtocol.m */; };
 		1BEF2D15116855690090F72B /* TaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* TaskWrapper.m */; };
@@ -135,6 +134,7 @@
 		1BEF2DA511685D570090F72B /* OpenEmuHelperApp in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */; };
 		1BEF2DFD1168600F0090F72B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
 		1BEF2DFE116860210090F72B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
+		1BEF34711168F8080090F72B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */; };
 		1E9F7349103755900072EED6 /* OEROMFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F7348103755900072EED6 /* OEROMFile.m */; };
@@ -459,7 +459,6 @@
 		1BEF2CF4116854180090F72B /* OpenEmuDebugHelperAppApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuDebugHelperAppApp.m; sourceTree = "<group>"; };
 		1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = OpenEmuDebugHelperAppApp.app; path = build/Release/OpenEmuDebugHelperAppApp.app; sourceTree = "<group>"; };
 		1BEF2CFF116854650090F72B /* OpenEmuDebugHelperAppApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuDebugHelperAppApp-Info.plist"; sourceTree = "<group>"; };
-		1BEF2D09116854A30090F72B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		1BEF2D13116855690090F72B /* TaskWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskWrapper.h; sourceTree = "<group>"; };
 		1BEF2D14116855690090F72B /* TaskWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskWrapper.m; sourceTree = "<group>"; };
 		1BEF2D17116858370090F72B /* OpenEmuDebugHelperAppApp.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenEmuDebugHelperAppApp.xib; sourceTree = "<group>"; };
@@ -631,9 +630,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BEF34711168F8080090F72B /* OpenGL.framework in Frameworks */,
 				1BEF2D07116854A30090F72B /* Cocoa.framework in Frameworks */,
 				1BEF2D08116854A30090F72B /* IOSurface.framework in Frameworks */,
-				1BEF2D0A116854A30090F72B /* OpenGL.framework in Frameworks */,
 				1BEF2D5A11685C2E0090F72B /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -697,6 +696,18 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
+				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
+				1BEF2AC311682A9D0090F72B /* IOSurface.framework */,
+				1BEF2D5911685C2E0090F72B /* AppKit.framework */,
+				82D9122210200F7000E370FC /* CoreData.framework */,
+				3887A8961024D796000FC4CF /* QuickLook.framework */,
+				3887AAE81024DDD5000FC4CF /* ApplicationServices.framework */,
+				3887AAF01024DDE4000FC4CF /* CoreServices.framework */,
+				3887AAF51024DDEB000FC4CF /* CoreFoundation.framework */,
+				828E65D20E8467A400B1860B /* Cocoa.framework */,
+				828E65D60E8467AA00B1860B /* Quartz.framework */,
+				8291666B0E8603B600493FD8 /* IOKit.framework */,
 				82DE4AEE1026533E007184EB /* UniversalDetector.framework */,
 				82DE4AEF1026533E007184EB /* XADMaster.framework */,
 				82902A130F48ACEE00BB7AB7 /* QuickTime.framework */,
@@ -714,8 +725,6 @@
 		1058C7A8FEA54F5311CA2CBB /* Other Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
-				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
 			);
 			name = "Other Frameworks";
 			sourceTree = "<group>";
@@ -817,6 +826,62 @@
 			name = "Helper App (IOSurface helper & tester)";
 			sourceTree = "<group>";
 		};
+		1BEF34721168F8210090F72B /* XIBs */ = {
+			isa = PBXGroup;
+			children = (
+				82965F841041DC3200F30B74 /* OECorePicker.xib */,
+				1E9F73FA10376BE40072EED6 /* OEROMOrganizer.xib */,
+				828ED4D80E7D98A10059F397 /* GameFilePicker.xib */,
+				82E741880E7209C400AE60C4 /* GameDocument.xib */,
+				1DDD582A0DA1D0D100B32029 /* MainMenu.xib */,
+				82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */,
+				82DE49EF10263FF3007184EB /* CoreDownloader.xib */,
+				8288A0EE1027DB7600671FE1 /* OEDownloadCell.xib */,
+			);
+			name = XIBs;
+			sourceTree = "<group>";
+		};
+		1BEF34731168F8350090F72B /* Icons and Graphics */ = {
+			isa = PBXGroup;
+			children = (
+				826844C31022A0630019C7B0 /* smaller.tif */,
+				826844C41022A0630019C7B0 /* larger.tif */,
+				1B7505100FEEB4F600B0D0AF /* About.png */,
+				82C42C8410CAFB480046D1A3 /* download_arrow_down.png */,
+				82C42C8510CAFB480046D1A3 /* download_arrow_up.png */,
+				C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */,
+				C67A36A90FE7F1F500A665E2 /* OECorePluginIcon.icns */,
+				3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */,
+				82C434120EE393530037C54B /* icon.icns */,
+			);
+			name = "Icons and Graphics";
+			sourceTree = "<group>";
+		};
+		1BEF34741168F8640090F72B /* PLists */ = {
+			isa = PBXGroup;
+			children = (
+				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
+				1BEF2CFF116854650090F72B /* OpenEmuDebugHelperAppApp-Info.plist */,
+				3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */,
+				8D15AC360486D014006FF6A4 /* Info.plist */,
+				828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */,
+				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
+				C6BFB29E0F7CC8E700040FFA /* Localizable.strings */,
+			);
+			name = PLists;
+			sourceTree = "<group>";
+		};
+		1BEF34751168F88A0090F72B /* Additions to standard classes */ = {
+			isa = PBXGroup;
+			children = (
+				82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */,
+				82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */,
+				1BEF2A65116826BC0090F72B /* NSString+UUID.h */,
+				1BEF2A66116826BC0090F72B /* NSString+UUID.m */,
+			);
+			name = "Additions to standard classes";
+			sourceTree = "<group>";
+		};
 		1E2F3DB810DEAB370019AA84 /* Migration */ = {
 			isa = PBXGroup;
 			children = (
@@ -853,17 +918,6 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
-				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
-				3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */,
-				82D9122210200F7000E370FC /* CoreData.framework */,
-				3887A8961024D796000FC4CF /* QuickLook.framework */,
-				3887AAE81024DDD5000FC4CF /* ApplicationServices.framework */,
-				3887AAF01024DDE4000FC4CF /* CoreServices.framework */,
-				3887AAF51024DDEB000FC4CF /* CoreFoundation.framework */,
-				1E9F73FA10376BE40072EED6 /* OEROMOrganizer.xib */,
-				1BEF2CFF116854650090F72B /* OpenEmuDebugHelperAppApp-Info.plist */,
-				1BEF2D09116854A30090F72B /* OpenGL.framework */,
-				1BEF2D5911685C2E0090F72B /* AppKit.framework */,
 			);
 			name = OpenEmu;
 			sourceTree = "<group>";
@@ -877,11 +931,7 @@
 				C66DFA600F51C9550080AA28 /* GameCore framework */,
 				828E64D00E84656900B1860B /* OpenEmuCore */,
 				828E64E10E84658A00B1860B /* OpenEmuQC */,
-				82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */,
-				82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */,
-				82DE446510252F2F007184EB /* IKImageFlowView.h */,
-				1BEF2A65116826BC0090F72B /* NSString+UUID.h */,
-				1BEF2A66116826BC0090F72B /* NSString+UUID.m */,
+				1BEF34751168F88A0090F72B /* Additions to standard classes */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -889,6 +939,7 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				82DE446510252F2F007184EB /* IKImageFlowView.h */,
 				1BEF2D13116855690090F72B /* TaskWrapper.h */,
 				1BEF2D14116855690090F72B /* TaskWrapper.m */,
 				82CAFBB70FEDAA3D00CCDC7E /* config.yaml */,
@@ -903,35 +954,18 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				82C42C8410CAFB480046D1A3 /* download_arrow_down.png */,
-				82C42C8510CAFB480046D1A3 /* download_arrow_up.png */,
-				82965F841041DC3200F30B74 /* OECorePicker.xib */,
+				1BEF34741168F8640090F72B /* PLists */,
+				1BEF34731168F8350090F72B /* Icons and Graphics */,
+				1BEF34721168F8210090F72B /* XIBs */,
 				1B22426B100D171700F42067 /* CRT Masks */,
 				1B885E070F085EA500770B6D /* GLSL Shaders */,
 				1B224004100BD61D00F42067 /* Filter Quartz Compositions */,
 				375903750FF82C4000135C45 /* openemuqc_pub.pem */,
-				826844C31022A0630019C7B0 /* smaller.tif */,
-				826844C41022A0630019C7B0 /* larger.tif */,
-				1B7505100FEEB4F600B0D0AF /* About.png */,
-				C69DCCEC0FE99415009AE5A6 /* OEFilterPluginIcon.icns */,
-				C67A36A90FE7F1F500A665E2 /* OECorePluginIcon.icns */,
-				3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */,
 				82C9C96C0F080BD30071460B /* dsa_pub.pem */,
-				82C434120EE393530037C54B /* icon.icns */,
-				828ED4D80E7D98A10059F397 /* GameFilePicker.xib */,
-				82E741880E7209C400AE60C4 /* GameDocument.xib */,
-				1DDD582A0DA1D0D100B32029 /* MainMenu.xib */,
 				C69313870F6ACB9400F03428 /* Preferences */,
 				2A37F4B9FDCFA73011CA2CEA /* Credits.rtf */,
-				8D15AC360486D014006FF6A4 /* Info.plist */,
-				828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */,
-				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
-				C6BFB29E0F7CC8E700040FFA /* Localizable.strings */,
-				82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */,
 				1EE941DF1050EBBF00509E78 /* ROMFile.xcdatamodel */,
 				1EE941FB1050EC8E00509E78 /* SaveState.xcdatamodel */,
-				82DE49EF10263FF3007184EB /* CoreDownloader.xib */,
-				8288A0EE1027DB7600671FE1 /* OEDownloadCell.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -939,12 +973,8 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				828E65D20E8467A400B1860B /* Cocoa.framework */,
-				828E65D60E8467AA00B1860B /* Quartz.framework */,
-				8291666B0E8603B600493FD8 /* IOKit.framework */,
 				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
-				1BEF2AC311682A9D0090F72B /* IOSurface.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
