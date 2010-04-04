@@ -31,11 +31,8 @@
 		if(glContext != nil)
 		{
 			[glContext setView:glView];
-			
-			//[glContext makeCurrentContext];
 			CGLContextObj cgl_ctx = [glContext CGLContextObj];
-				glGenTextures(1, &ioSurfaceTexture);
-
+			glGenTextures(1, &ioSurfaceTexture);
 		}
 		else
 		{
@@ -50,8 +47,6 @@
 	}
 	
 	[self setupTimer];
-
-	
 }
 
 - (void) setupTimer
@@ -69,7 +64,6 @@
 	romPath = [sender stringValue];
 	NSLog(@"rom path: %@", romPath);
 }
-
 
 - (IBAction) launchHelper:(id)sender
 {
@@ -112,12 +106,8 @@
 	[glContext update];
 	
 	CGLContextObj cgl_ctx = [glContext CGLContextObj];
-	CGLLockContext(cgl_ctx);
 	
-	// set up our ortho and viewport
-	
-  
-	// Setup OpenGL states 
+	// set up our ortho and viewport  
 	glViewport(0, 0, [glView frame].size.width ,  [glView frame].size.height);
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
@@ -127,9 +117,8 @@
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
-	
 		
-	glClearColor(1.0, 0.0, 0.0, 1.0);
+	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	
 	// according to CGLIOSurface we must rebind our texture every time we want a new stuff from it.
@@ -186,9 +175,6 @@
 	glPopMatrix();
 	
 	[glContext flushBuffer];
-	
-	CGLUnlockContext(cgl_ctx);
-	
 }
 
 #pragma mark TaskWrapper delegates
