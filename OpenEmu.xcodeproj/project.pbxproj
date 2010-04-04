@@ -130,7 +130,6 @@
 		1BEF2D15116855690090F72B /* TaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* TaskWrapper.m */; };
 		1BEF2D16116856D50090F72B /* TaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* TaskWrapper.m */; };
 		1BEF2D191168584D0090F72B /* OpenEmuDebugHelperAppApp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2D17116858370090F72B /* OpenEmuDebugHelperAppApp.xib */; };
-		1BEF2D5611685BF00090F72B /* OpenEmuDebugHelperAppApp-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2CFF116854650090F72B /* OpenEmuDebugHelperAppApp-Info.plist */; };
 		1BEF2D5A11685C2E0090F72B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEF2D5911685C2E0090F72B /* AppKit.framework */; };
 		1BEF2D6111685C880090F72B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; };
 		1BEF2DA511685D570090F72B /* OpenEmuHelperApp in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */; };
@@ -1324,7 +1323,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1BEF2DA511685D570090F72B /* OpenEmuHelperApp in Resources */,
-				1BEF2D5611685BF00090F72B /* OpenEmuDebugHelperAppApp-Info.plist in Resources */,
 				1BEF2D191168584D0090F72B /* OpenEmuDebugHelperAppApp.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
