@@ -120,7 +120,7 @@ OSStatus RenderCallback(void                       *in,
     desc.componentFlags  = 0; 
 
     //Create the output node
-    err = AUGraphAddNode(mGraph, &desc, &mOutputNode);
+    err = AUGraphAddNode(mGraph, (const AudioComponentDescription *)&desc, &mOutputNode);
     if(err) NSLog(@"couldn't create node for output unit");
     
     err = AUGraphNodeInfo(mGraph, mOutputNode, NULL, &mOutputUnit);
@@ -132,7 +132,7 @@ OSStatus RenderCallback(void                       *in,
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
 
     //Create the mixer node
-    err = AUGraphAddNode(mGraph, &desc, &mMixerNode);
+    err = AUGraphAddNode(mGraph, (const AudioComponentDescription *)&desc, &mMixerNode);
     if(err) NSLog(@"couldn't create node for file player");
     
     err = AUGraphNodeInfo(mGraph, mMixerNode, NULL, &mMixerUnit);
@@ -143,7 +143,7 @@ OSStatus RenderCallback(void                       *in,
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
     
     //Create the converter node
-    err = AUGraphAddNode(mGraph, &desc, &mConverterNode);
+    err = AUGraphAddNode(mGraph, (const AudioComponentDescription *)&desc, &mConverterNode);
     if(err)  NSLog(@"couldn't create node for converter");
     
     err = AUGraphNodeInfo(mGraph, mConverterNode, NULL, &mConverterUnit);
