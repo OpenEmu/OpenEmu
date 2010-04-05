@@ -24,16 +24,8 @@
 
 @protocol OpenEmuDOProtocol <OpenEmuDODelegateProtocol>
 
-// eventually to handle updating inputs / pausing etc.
-// FIXME: Needs a protocol for the delegate
 @property(assign) id delegate;
 - (oneway void)setDelegate:(byref id)anObject; // set who handles what methods for handling input to the gamecore
-
-// control gamecore
-//- (oneway void)setVolume:(float)value;
-//- (oneway void)setPauseEmulation:(BOOL)flag;
-//- (oneway void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button;
-//- (oneway void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button;
 
 // IOSurface ids
 @property IOSurfaceID surfaceID;

@@ -76,7 +76,6 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	}
 	else
 		NSLog(@"NSConnection Open");	
-		
 
 	// Cache OE results
 	plugins = [[OECorePlugin allPlugins] retain];
@@ -107,7 +106,6 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 #pragma mark IOSurface and GL Render
 - (void) setupOpenGLOnScreen:(NSScreen*) screen
 {	
-//	CGDirectDisplayID displayID = [[[screen deviceDescription] valueForKey:@"NSScreenNumber"] unsignedIntValue];
 	// init our fullscreen context.
 	CGLPixelFormatAttribute attributes[] = {kCGLPFAAllRenderers, 0};
 	
@@ -152,9 +150,7 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	[surfaceAttributes release];
 	
 	// make a new texture.
-//	CGLSetCurrentContext(glContext);
 	CGLContextObj cgl_ctx = glContext;	
-//	CGLLockContext(cgl_ctx);
 	
 	glGenTextures(1, &ioSurfaceTexture);
 	glEnable(GL_TEXTURE_RECTANGLE_ARB);
@@ -169,7 +165,6 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 		NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
 	}
 	glFlush();
-//	CGLUnlockContext(cgl_ctx);
 }
 
 // make an FBO and bind out IOSurface backed texture to it
@@ -179,7 +174,6 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 		
 	GLenum status;
 
-//	CGLSetCurrentContext(glContext);
 	CGLContextObj cgl_ctx = glContext;
 	
 	// Create temporary FBO to render in texture 
@@ -201,10 +195,7 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 {
 	GLenum status;
 
-//	CGLSetCurrentContext(glContext);
-
 	CGLContextObj cgl_ctx = glContext;
-//	CGLLockContext(cgl_ctx);
 	
 	glEnable(GL_TEXTURE_RECTANGLE_EXT);    
 	// create our texture 
@@ -242,7 +233,6 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
 	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
 	
-//	CGLUnlockContext(cgl_ctx);
 }
 	 
 	 
@@ -262,7 +252,7 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	if([NSRunningApplication runningApplicationWithProcessIdentifier:parentID] == nil)
 		[self quitHelperTool];
 		
-//	if([gameCore frameFinished])
+	if([gameCore frameFinished])
 	{
 		[self updateGameTexture];
 		[self correctPixelAspectRatio];
@@ -466,7 +456,7 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 }
 
 #pragma mark -
-#pragma mark EO DO Delegate methods
+#pragma mark OE DO Delegate methods
 - (void) setVolume:(float)volume
 {
 	[gameAudio setVolume:volume];

@@ -23,7 +23,6 @@
 	[delegate setPauseEmulation:paused];
 }
 
-
 - (oneway void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button
 {
 	[delegate player:playerNumber didPressButton:button];
