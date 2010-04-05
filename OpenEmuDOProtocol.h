@@ -7,8 +7,22 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "GameCore.h"
 
-@protocol OpenEmuDOProtocol
+
+// our helper app needs to handle these functions
+@protocol OpenEmuDODelegateProtocol
+
+// control gamecore
+- (oneway void)setVolume:(float)value;
+- (oneway void)setPauseEmulation:(BOOL)flag;
+- (oneway void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button;
+- (oneway void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button;
+
+@end
+
+
+@protocol OpenEmuDOProtocol <OpenEmuDODelegateProtocol>
 
 // eventually to handle updating inputs / pausing etc.
 // FIXME: Needs a protocol for the delegate
@@ -16,14 +30,17 @@
 - (oneway void)setDelegate:(byref id)anObject; // set who handles what methods for handling input to the gamecore
 
 // control gamecore
-- (oneway void)setVolume:(float)value;
-- (oneway void)setPlayPause:(BOOL)flag;
+//- (oneway void)setVolume:(float)value;
+//- (oneway void)setPauseEmulation:(BOOL)flag;
+//- (oneway void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button;
+//- (oneway void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button;
 
 // IOSurface ids
 @property IOSurfaceID surfaceID;
 - (oneway void)setSurfaceID:(IOSurfaceID)anID;
 
 @end
+
 
 
 

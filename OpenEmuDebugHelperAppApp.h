@@ -63,4 +63,13 @@
 - (IBAction) changeVolume:(id)sender;
 - (IBAction) changePlayPause:(id)sender;
 
+- (IBAction) pressUp:(id)sender;
+- (IBAction) pressDown:(id)sender;
+- (IBAction) pressLeft:(id)sender;
+- (IBAction) pressRight:(id)sender;
+- (IBAction) pressSelect:(id)sender;
+- (IBAction) pressStart:(id)sender;
+- (IBAction) pressA:(id)sender;
+- (IBAction) pressB:(id)sender;
+
 @end

@@ -18,9 +18,21 @@
 	[delegate setVolume:volume];
 }
 
-- (void) setPlayPause:(BOOL)paused
+- (void) setPauseEmulation:(BOOL)paused
 {
-	[delegate setPlayPause:paused];
+	[delegate setPauseEmulation:paused];
+}
+
+
+- (oneway void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button
+{
+	[delegate player:playerNumber didPressButton:button];
+}
+
+- (oneway void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button
+{
+	[delegate player:playerNumber didReleaseButton:button];
+	
 }
 
 @end

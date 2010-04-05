@@ -226,7 +226,79 @@
 
 - (IBAction) changePlayPause:(id)sender
 {
-    [rootProxy setPlayPause:[sender state] == NSOnState];
+    [rootProxy setPauseEmulation:[sender state] == NSOnState];
+}
+
+- (IBAction) pressUp:(id)sender
+{
+	if([sender state] == NSOnState)
+		[rootProxy player:1 didPressButton:OEButton_Up];
+
+	if([sender state] == NSOffState)
+		[rootProxy player:1 didReleaseButton:OEButton_Up];
+}
+
+- (IBAction) pressDown:(id)sender
+{
+	if([sender state] == NSOnState)
+		[rootProxy player:0 didPressButton:OEButton_Down];
+
+	if([sender state] == NSOffState)
+		[rootProxy player:0 didReleaseButton:OEButton_Down];
+}
+
+- (IBAction) pressLeft:(id)sender
+{
+	if([sender state] == NSOnState)
+		[rootProxy player:0 didPressButton:OEButton_Left];
+
+	if([sender state] == NSOffState)
+		[rootProxy player:0 didReleaseButton:OEButton_Left];
+}
+
+- (IBAction) pressRight:(id)sender
+{
+	if([sender state] == NSOnState)
+		[rootProxy player:0 didPressButton:OEButton_Right];
+	
+	if([sender state] == NSOffState)
+		[rootProxy player:0 didReleaseButton:OEButton_Right];
+}
+
+- (IBAction) pressSelect:(id)sender
+{
+	if([sender state] == NSOnState)
+		[rootProxy player:0 didPressButton:OEButton_Select];
+	
+	if([sender state] == NSOffState)
+		[rootProxy player:0 didReleaseButton:OEButton_Select];
+}
+
+- (IBAction) pressStart:(id)sender
+{
+	if([sender state] == NSOnState)
+		[rootProxy player:0 didPressButton:OEButton_Start];
+	
+	if([sender state] == NSOffState)
+		[rootProxy player:0 didReleaseButton:OEButton_Start];
+}
+
+- (IBAction) pressA:(id)sender
+{
+	if([sender state] == NSOnState)
+		[rootProxy player:0 didPressButton:OEButton_1];
+	
+	if([sender state] == NSOffState)
+		[rootProxy player:0 didReleaseButton:OEButton_1];
+}
+
+- (IBAction) pressB:(id)sender
+{
+	if([sender state] == NSOnState)
+		[rootProxy player:0 didPressButton:OEButton_2];
+
+	if([sender state] == NSOffState)
+		[rootProxy player:0 didReleaseButton:OEButton_2];
 }
 
 

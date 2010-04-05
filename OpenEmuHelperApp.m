@@ -473,7 +473,7 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 
 }
 
-- (void) setPlayPause:(BOOL)paused
+- (void) setPauseEmulation:(BOOL)paused
 {
 	if(paused)
 	{
@@ -485,6 +485,18 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 		[gameAudio startAudio];
 		[gameCore setPauseEmulation:NO]; 
 	}
+}
+
+- (void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button
+{
+	NSLog(@"did Press Button");
+	[gameCore player:playerNumber didPressButton:button];
+}
+
+- (void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button
+{
+	NSLog(@"did Release Button");
+	[gameCore player:playerNumber didReleaseButton:button];
 }
 
 @end

@@ -42,7 +42,7 @@
 @class OEGameCoreController;
 @class GameAudio;
 
-@interface OpenEmuHelperApp : NSObject <NSApplicationDelegate>
+@interface OpenEmuHelperApp : NSObject <NSApplicationDelegate, OpenEmuDODelegateProtocol>
 {
 	pid_t parentID; // the process id of the parent app (Open Emu or our debug helper)
 	
@@ -101,6 +101,7 @@
 #pragma mark -
 #pragma mark OE DO protocol delegate methods
 - (void) setVolume:(float)volume;
-- (void) setPlayPause:(BOOL)paused;
-
+- (void) setPauseEmulation:(BOOL)paused;
+- (oneway void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button;
+- (oneway void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button;
 @end
