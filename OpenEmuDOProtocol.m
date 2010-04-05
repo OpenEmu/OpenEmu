@@ -11,32 +11,16 @@
 
 @implementation OpenEmuDistributedObject
 
-- (oneway void) setDelegate:(byref id)d
-{
-	delegate = d;
-}
+@synthesize delegate, surfaceID;
 
-// control gamecore
-- (oneway void) setVolume:(byref float)volume
+- (void) setVolume:(float)volume
 {
 	[delegate setVolume:volume];
 }
 
-- (oneway void) setPlayPause:(byref BOOL)paused
+- (void) setPlayPause:(BOOL)paused
 {
 	[delegate setPlayPause:paused];
-}
-
-
-// IOSurface ids
-- (oneway void) setSurfaceID:(in IOSurfaceID) sID
-{
-	surfaceID = sID;
-}
-
-- (IOSurfaceID) surfaceID
-{
-	return surfaceID;
 }
 
 @end
