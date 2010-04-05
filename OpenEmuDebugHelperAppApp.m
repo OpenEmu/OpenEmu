@@ -232,10 +232,10 @@
 - (IBAction) pressUp:(id)sender
 {
 	if([sender state] == NSOnState)
-		[rootProxy player:1 didPressButton:OEButton_Up];
+		[rootProxy player:0 didPressButton:OEButton_Up];
 
-	if([sender state] == NSOffState)
-		[rootProxy player:1 didReleaseButton:OEButton_Up];
+	else if([sender state] == NSOffState)
+		[rootProxy player:0 didReleaseButton:OEButton_Up];
 }
 
 - (IBAction) pressDown:(id)sender
@@ -243,7 +243,7 @@
 	if([sender state] == NSOnState)
 		[rootProxy player:0 didPressButton:OEButton_Down];
 
-	if([sender state] == NSOffState)
+	else if([sender state] == NSOffState)
 		[rootProxy player:0 didReleaseButton:OEButton_Down];
 }
 
@@ -252,7 +252,7 @@
 	if([sender state] == NSOnState)
 		[rootProxy player:0 didPressButton:OEButton_Left];
 
-	if([sender state] == NSOffState)
+	else if([sender state] == NSOffState)
 		[rootProxy player:0 didReleaseButton:OEButton_Left];
 }
 
@@ -261,7 +261,7 @@
 	if([sender state] == NSOnState)
 		[rootProxy player:0 didPressButton:OEButton_Right];
 	
-	if([sender state] == NSOffState)
+	else if([sender state] == NSOffState)
 		[rootProxy player:0 didReleaseButton:OEButton_Right];
 }
 
@@ -270,7 +270,7 @@
 	if([sender state] == NSOnState)
 		[rootProxy player:0 didPressButton:OEButton_Select];
 	
-	if([sender state] == NSOffState)
+	else if([sender state] == NSOffState)
 		[rootProxy player:0 didReleaseButton:OEButton_Select];
 }
 
@@ -279,7 +279,7 @@
 	if([sender state] == NSOnState)
 		[rootProxy player:0 didPressButton:OEButton_Start];
 	
-	if([sender state] == NSOffState)
+	else if([sender state] == NSOffState)
 		[rootProxy player:0 didReleaseButton:OEButton_Start];
 }
 
@@ -288,7 +288,7 @@
 	if([sender state] == NSOnState)
 		[rootProxy player:0 didPressButton:OEButton_1];
 	
-	if([sender state] == NSOffState)
+	else if([sender state] == NSOffState)
 		[rootProxy player:0 didReleaseButton:OEButton_1];
 }
 
@@ -297,7 +297,7 @@
 	if([sender state] == NSOnState)
 		[rootProxy player:0 didPressButton:OEButton_2];
 
-	if([sender state] == NSOffState)
+	else if([sender state] == NSOffState)
 		[rootProxy player:0 didReleaseButton:OEButton_2];
 }
 
