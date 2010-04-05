@@ -101,7 +101,6 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	[[NSApplication sharedApplication] terminate:nil];
 }
 
-
 #pragma mark -
 #pragma mark IOSurface and GL Render
 - (void) setupOpenGLOnScreen:(NSScreen*) screen
@@ -235,7 +234,6 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	
 }
 	 
-	 
 - (void) setupTimer
 {
 	// CVDisplaylink at some point?
@@ -259,22 +257,11 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	}
 }
 
-
 - (void) updateGameTexture
-{
-	//	IOSurfaceLock(surfaceRef, kIOSurfaceLockReadOnly, NULL);
-	
-//	CGLSetCurrentContext(glContext);
+{	
 	CGLContextObj cgl_ctx = glContext;
-//	CGLLockContext(cgl_ctx);
-	
-	// bind our IOSurface Texture
 	glBindTexture(GL_TEXTURE_RECTANGLE_ARB, gameTexture);
-	
 	glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]); 
-		
-//	CGLUnlockContext(cgl_ctx);
-	
 }
 
 - (void) correctPixelAspectRatio
@@ -282,8 +269,6 @@ static OpenEmuDistributedObject *sharedDistributedObject;
     // the size of our output image, we may need/want to put in accessors for texture coord
     // offsets from the game core should the image we want be 'elsewhere' within the main texture. 
     CGRect cropRect = [gameCore sourceRect];
-    
-//	CGLSetCurrentContext(glContext);
 
 	CGLContextObj cgl_ctx = glContext;
 	        
@@ -350,12 +335,8 @@ static OpenEmuDistributedObject *sharedDistributedObject;
         glPopMatrix();
     }
     
-    // flush to make sure FBO texture attachment is finished being rendered.
+    // flush to make sure IOSurface updates are seen in parent app.
 	glFlushRenderAPPLE();
-	
-	// we must flush here so that IOSurface texture is updated globally.
-//	glFlush();
-//	CGLFlushDrawable(glContext);
 	
 	// get the updated surfaceID to pass to STDOut...
 	surfaceID = IOSurfaceGetID(surfaceRef);
@@ -379,14 +360,12 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	surfaceRef = nil;	
 	
 	CGLContextObj cgl_ctx = glContext;
-	CGLLockContext(cgl_ctx);
 	
 	glDeleteTextures(1, &ioSurfaceTexture);
 	glDeleteTextures(1, &gameTexture);
 	glDeleteFramebuffersEXT(1, &gameFBO);
 	
 	glFlush();
-	CGLUnlockContext(cgl_ctx);
 }
 
 #pragma mark -
@@ -488,9 +467,7 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	NSLog(@"did Release Button");
 	[gameCore player:playerNumber didReleaseButton:button];
 }
-
 @end
-
 
 #pragma mark -
 #pragma mark main

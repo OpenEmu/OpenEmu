@@ -83,7 +83,6 @@
     NSString *romPath = [romPathField stringValue];
 	if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
 	{			
-	
 		// run our background task. Get our IOSurface ids from its standard out.
 		NSString *cliPath = [[NSBundle bundleForClass:[self class]] pathForResource: @"OpenEmuHelperApp" ofType: @""];
 		
@@ -124,12 +123,6 @@
 {
 	// kill our background friend
 	[helper stopProcess];
-	
-//	while([helper isRunning])
-//	{
-//		[helper stopProcess];
-//	}
-	
 	helper = nil;
 	
 	[rootProxy release];
