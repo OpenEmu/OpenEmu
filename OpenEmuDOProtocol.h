@@ -16,7 +16,6 @@
 - (oneway void)setDelegate:(byref id)anObject; // set who handles what methods for handling input to the gamecore
 
 // control gamecore
-// NOTE: only objects and pointers can be "byref", "in", "out" or "inout"
 - (oneway void)setVolume:(float)value;
 - (oneway void)setPlayPause:(BOOL)flag;
 
