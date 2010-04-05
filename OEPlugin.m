@@ -200,7 +200,7 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
             for(NSString *path in paths)
             {
                 NSString *subpath = [path stringByAppendingPathComponent:openEmuSearchPath];
-                NSArray  *subpaths = [manager directoryContentsAtPath:subpath];
+                NSArray  *subpaths = [manager contentsOfDirectoryAtPath:subpath error:NULL];
                 for(NSString *bundlePath in subpaths)
                     if([extension isEqualToString:[bundlePath pathExtension]])
                         [self pluginWithBundleAtPath:[subpath stringByAppendingPathComponent:bundlePath] type:aType];
