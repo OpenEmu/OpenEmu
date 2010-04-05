@@ -15,14 +15,13 @@
 
 @implementation OpenEmuDebugHelperAppApp
 
-
 - (void) applicationDidFinishLaunching:(NSNotification *)aNotification
 {
 	// only run our helper once...
 	launchedHelperAlready = NO;
 	
 	// set up GL and IOSurface shit
-	NSOpenGLPixelFormatAttribute attr[] = {NSOpenGLPFAAccelerated, NSOpenGLPFADoubleBuffer , (NSOpenGLPixelFormatAttribute) nil};
+	NSOpenGLPixelFormatAttribute attr[] = {NSOpenGLPFAAccelerated, NSOpenGLPFADoubleBuffer , (NSOpenGLPixelFormatAttribute)0 };
 		
 	NSOpenGLPixelFormat* pFormat = [[NSOpenGLPixelFormat alloc] initWithAttributes:attr];
 	
@@ -66,33 +65,22 @@
 	[[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
 }
 
-- (IBAction) setRomPath:(id)sender
-{
-	romPath = [sender stringValue];
-	NSLog(@"rom path: %@", romPath);
-}
-
 - (IBAction) launchHelper:(id)sender
 {
-	if(!launchedHelperAlready)
-	{
-		[self startHelperProcess];
-		launchedHelperAlready = YES;
-	}
-	else
-	{
+    if(launchedHelperAlready)
+    {
 		[self endHelperProcess];
 		launchedHelperAlready = NO;
-		
-		[self startHelperProcess];
-		launchedHelperAlready = YES;
-	}
-
+    }
+    
+    [self startHelperProcess];
+    launchedHelperAlready = YES;
 }
 
 - (void) startHelperProcess
 {
 	// check to make sure the Rom path is a valid path;
+    NSString *romPath = [romPathField stringValue];
 	if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
 	{			
 	
@@ -231,21 +219,14 @@
 #pragma mark -
 #pragma mark Send to Helper app via DO
 
-- (IBAction) setVolume:(id)sender
+- (IBAction) changeVolume:(id)sender
 {
 	[rootProxy setVolume:[sender floatValue]];
 }
 
-- (IBAction) setPlayPause:(id)sender
+- (IBAction) changePlayPause:(id)sender
 {
-	if([sender state] == NSOnState)
-	{
-		[rootProxy setPlayPause:YES];
-	}
-	else if([sender state] == NSOffState)
-	{
-		[rootProxy setPlayPause:NO];
-	}
+    [rootProxy setPlayPause:[sender state] == NSOnState];
 }
 
 

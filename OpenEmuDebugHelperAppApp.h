@@ -21,7 +21,7 @@
 
 @interface OpenEmuDebugHelperAppApp : NSObject <NSApplicationDelegate, TaskWrapperController>
 {
-	IBOutlet NSTextField* romPath;
+	IBOutlet NSTextField* romPathField;
 	
 	IBOutlet NSView* glView;
 	
@@ -29,6 +29,8 @@
 	IBOutlet NSSlider* volumeSlider;
 	IBOutlet NSButton* playPauseButton;
 	
+    //NSString *romPath;
+    
 	// IOSurface requirements
 	IOSurfaceRef surfaceRef;
 	IOSurfaceID	surfaceID;
@@ -49,7 +51,6 @@
 	BOOL launchedHelperAlready;
 }
 
-- (IBAction) setRomPath:(id)sender;
 - (IBAction) launchHelper:(id)sender;
 - (void) startHelperProcess;
 - (void) endHelperProcess;
@@ -59,7 +60,7 @@
 
 
 // sent to helper app via DO
-- (IBAction) setVolume:(id)sender;
-- (IBAction) setPlayPause:(id)sender;
+- (IBAction) changeVolume:(id)sender;
+- (IBAction) changePlayPause:(id)sender;
 
 @end
