@@ -394,7 +394,6 @@
         gameCoreController = [plugin controller];
         gameCore = [gameCoreController newGameCore];
         
-        [self setNextResponder:gameCore];
         
         DLog(@"Loaded bundle. About to load rom...");
         

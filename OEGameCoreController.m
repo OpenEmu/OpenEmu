@@ -248,7 +248,7 @@ static void OE_setupControlNames(OEGameCoreController *self)
 
 - (GameCore *)newGameCore
 {
-    GameCore *ret = [[[self gameCoreClass] alloc] init];
+    GameCore *ret = [[[self gameCoreClass] alloc] initWithDocument:nil];
     ret.owner = self;
     return ret;
 }
