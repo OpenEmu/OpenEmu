@@ -115,7 +115,6 @@
 		1BEF2AC911682AF20090F72B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
 		1BEF2ACC11682AFB0090F72B /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D60E8467AA00B1860B /* Quartz.framework */; };
 		1BEF2B2211682B050090F72B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
-		1BEF2C4911684AE90090F72B /* OpenEmuDOProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2C4811684AE90090F72B /* OpenEmuDOProtocol.m */; };
 		1BEF2C8011684DB00090F72B /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		1BEF2C9811684E4C0090F72B /* OECorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C62F549A0FE6CC1500DF15BA /* OECorePlugin.m */; };
 		1BEF2C9D11684E600090F72B /* OEPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C62F54700FE6ADC500DF15BA /* OEPlugin.m */; };
@@ -125,7 +124,6 @@
 		1BEF2D07116854A30090F72B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
 		1BEF2D08116854A30090F72B /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEF2AC311682A9D0090F72B /* IOSurface.framework */; };
 		1BEF2D11116854C30090F72B /* OpenEmuDebugHelperAppApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2CF4116854180090F72B /* OpenEmuDebugHelperAppApp.m */; };
-		1BEF2D12116854C30090F72B /* OpenEmuDOProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2C4811684AE90090F72B /* OpenEmuDOProtocol.m */; };
 		1BEF2D15116855690090F72B /* TaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* TaskWrapper.m */; };
 		1BEF2D16116856D50090F72B /* TaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* TaskWrapper.m */; };
 		1BEF2D191168584D0090F72B /* OpenEmuDebugHelperAppApp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2D17116858370090F72B /* OpenEmuDebugHelperAppApp.xib */; };
@@ -454,7 +452,6 @@
 		1BEF2A9411682A530090F72B /* OpenEmuHelperApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenEmuHelperApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEF2AC311682A9D0090F72B /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
 		1BEF2C4711684AE90090F72B /* OpenEmuDOProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuDOProtocol.h; sourceTree = "<group>"; };
-		1BEF2C4811684AE90090F72B /* OpenEmuDOProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuDOProtocol.m; sourceTree = "<group>"; };
 		1BEF2CF3116854180090F72B /* OpenEmuDebugHelperAppApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuDebugHelperAppApp.h; sourceTree = "<group>"; };
 		1BEF2CF4116854180090F72B /* OpenEmuDebugHelperAppApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuDebugHelperAppApp.m; sourceTree = "<group>"; };
 		1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmuDebugHelperAppApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -809,7 +806,6 @@
 			isa = PBXGroup;
 			children = (
 				1BEF2C4711684AE90090F72B /* OpenEmuDOProtocol.h */,
-				1BEF2C4811684AE90090F72B /* OpenEmuDOProtocol.m */,
 			);
 			name = "Distributed Object Protocol";
 			sourceTree = "<group>";
@@ -1530,7 +1526,6 @@
 				1BEF2C9D11684E600090F72B /* OEPlugin.m in Sources */,
 				1BEF2C9811684E4C0090F72B /* OECorePlugin.m in Sources */,
 				1BEF2A9C11682A5E0090F72B /* OpenEmuHelperApp.m in Sources */,
-				1BEF2C4911684AE90090F72B /* OpenEmuDOProtocol.m in Sources */,
 				1BEF2D15116855690090F72B /* TaskWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1542,7 +1537,6 @@
 				1BEF2D6111685C880090F72B /* main.m in Sources */,
 				1BEF2D16116856D50090F72B /* TaskWrapper.m in Sources */,
 				1BEF2D11116854C30090F72B /* OpenEmuDebugHelperAppApp.m in Sources */,
-				1BEF2D12116854C30090F72B /* OpenEmuDOProtocol.m in Sources */,
 				1BEF2DFD1168600F0090F72B /* NSString+UUID.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
