@@ -232,7 +232,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (BOOL)isEmulationPaused
 {
-    //return [gameCore isEmulationPaused];
+    return [rootProxy isEmulationPaused];
 }
 
 - (void)setPauseEmulation:(BOOL)flag
