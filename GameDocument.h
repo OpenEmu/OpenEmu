@@ -56,17 +56,11 @@
     NSView         *view;
 	IBOutlet NSToolbarItem *playPauseToolbarItem;
 
-
-	// these things are no longer needed
-//	GameCore       *gameCore;
-//  GameAudio      *audio;
-
 }
 
 @property(retain) IBOutlet NSWindow *gameWindow;
 @property(retain) IBOutlet NSView   *view;
 
-//@property(readonly) GameCore *gameCore;
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
 @property(readonly) BOOL isFullScreen;
 @property(readonly) NSString *emulatorName;
