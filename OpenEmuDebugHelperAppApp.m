@@ -49,6 +49,9 @@
 	
 	// start rendering.
 	[self setupTimer];
+    
+    [[[glView window] contentView] setNextResponder:self];
+    [[[playPauseButton window] contentView] setNextResponder:self];
 }
 
 - (void) setupTimer
@@ -65,6 +68,11 @@
 	[[NSRunLoop currentRunLoop] addTimer:renderTimer forMode:NSEventTrackingRunLoopMode];
 }
 
+- (BOOL)becomeFirstResponder
+{
+    return YES;
+}
+
 - (IBAction) launchHelper:(id)sender
 {
     if(launchedHelperAlready)
@@ -75,6 +83,8 @@
     
     [self startHelperProcess];
     launchedHelperAlready = YES;
+    
+    [[sender window] makeFirstResponder:self];
 }
 
 - (void) startHelperProcess
@@ -115,7 +125,7 @@
 		rootProxy = [[taskConnection rootProxy] retain];
 		if(rootProxy == nil)
 			NSLog(@"nil root proxy object?");
-		[rootProxy setProtocolForProxy:@protocol(OpenEmuDOProtocol)];	
+		[rootProxy setProtocolForProxy:@protocol(OpenEmuDOProtocol)];
 	}
 }
 
@@ -212,6 +222,21 @@
 #pragma mark -
 #pragma mark Send to Helper app via DO
 
+- (void)keyDown:(NSEvent *)theEvent
+{
+    [rootProxy postEvent:theEvent];
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+    [rootProxy postEvent:theEvent];
+}
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    [rootProxy postEvent:theEvent];
+}
+
 - (IBAction) changeVolume:(id)sender
 {
 	[rootProxy setVolume:[sender floatValue]];
@@ -299,6 +324,7 @@
 
 - (void)appendOutput:(NSString *)output fromProcess: (TaskWrapper *)aTask
 {
+    printf("%s", [output UTF8String]);
 }	
 
 - (void)processStarted: (TaskWrapper *)aTask

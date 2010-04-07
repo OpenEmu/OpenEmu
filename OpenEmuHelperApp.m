@@ -42,20 +42,7 @@
 
 @synthesize doUUID;
 @synthesize romPath;
-@synthesize loadedRom;
-
-#pragma mark -
-#pragma mark Singleton Distributed Object
-
-static OpenEmuDistributedObject *sharedDistributedObject;
-
-+ (id)sharedDistributedObject
-{
-	if (!sharedDistributedObject)
-		sharedDistributedObject = [[OpenEmuDistributedObject alloc] init];
-	
-	return sharedDistributedObject;
-}
+@synthesize loadedRom, surfaceID;
 
 #pragma mark -
 
@@ -64,12 +51,12 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	parentID = getppid();
 		
 	// our distributed object to vend
-	doObject = [OpenEmuHelperApp sharedDistributedObject];
-	[doObject setDelegate:self];
+	//doObject = [OpenEmuHelperApp sharedDistributedObject];
+	//[doObject setDelegate:self];
 	
 	// unique server name per plugin instance
 	theConnection = [[NSConnection new] retain];
-	[theConnection setRootObject:doObject];
+	[theConnection setRootObject:self];
 	if ([theConnection registerName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", doUUID, nil]] == NO) 
 	{
 		NSLog(@"Error opening NSConnection - exiting");
@@ -343,7 +330,7 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	
 	// TODO: Do vending
 	// let DO handle IPC IO, if we have a valid ID to output.
-	[doObject setSurfaceID:surfaceID];
+	//[doObject setSurfaceID:surfaceID];
 		
     // Check for OpenGL errors 
     /*    status = glGetError();
@@ -467,6 +454,38 @@ static OpenEmuDistributedObject *sharedDistributedObject;
 	NSLog(@"did Release Button");
 	[gameCore player:playerNumber didReleaseButton:button];
 }
+
+- (void)postEvent:(bycopy NSEvent *)theEvent
+{
+    switch([theEvent type])
+    {
+        case NSLeftMouseDown         : [gameCore mouseDown:            theEvent]; break;
+        case NSLeftMouseUp           : [gameCore mouseUp:              theEvent]; break;
+        case NSRightMouseDown        : [gameCore rightMouseDown:       theEvent]; break;
+        case NSRightMouseUp          : [gameCore rightMouseUp:         theEvent]; break;
+        case NSMouseMoved            : [gameCore mouseMoved:           theEvent]; break;
+        case NSLeftMouseDragged      : [gameCore mouseDragged:         theEvent]; break;
+        case NSRightMouseDragged     : [gameCore rightMouseDragged:    theEvent]; break;
+        case NSMouseEntered          : [gameCore mouseEntered:         theEvent]; break;
+        case NSMouseExited           : [gameCore mouseExited:          theEvent]; break;
+        case NSKeyDown               : [gameCore keyDown:              theEvent]; break;
+        case NSKeyUp                 : [gameCore keyUp:                theEvent]; break;
+        case NSFlagsChanged          : [gameCore flagsChanged:         theEvent]; break;
+        case NSCursorUpdate          : [gameCore cursorUpdate:         theEvent]; break;
+        case NSScrollWheel           : [gameCore scrollWheel:          theEvent]; break;
+        case NSTabletPoint           : [gameCore tabletPoint:          theEvent]; break;
+        case NSTabletProximity       : [gameCore tabletProximity:      theEvent]; break;
+        case NSOtherMouseDown        : [gameCore otherMouseDown:       theEvent]; break;
+        case NSOtherMouseUp          : [gameCore otherMouseUp:         theEvent]; break;
+        case NSOtherMouseDragged     : [gameCore otherMouseDragged:    theEvent]; break;
+        case NSEventTypeMagnify      : [gameCore magnifyWithEvent:     theEvent]; break;
+        case NSEventTypeSwipe        : [gameCore swipeWithEvent:       theEvent]; break;
+        case NSEventTypeRotate       : [gameCore rotateWithEvent:      theEvent]; break;
+        case NSEventTypeBeginGesture : [gameCore beginGestureWithEvent:theEvent]; break;
+        case NSEventTypeEndGesture   : [gameCore endGestureWithEvent:  theEvent]; break;
+    }
+}
+
 @end
 
 #pragma mark -

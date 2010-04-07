@@ -76,6 +76,8 @@ void OEMapRelease(OEMapRef map)
 // The lock must be acquired before using this function
 static void _OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
 {
+    if(map == NULL) return;
+    
     if(map->count != 0)
     {
         for(size_t i = 0, max = map->count; i < max; i++)
@@ -117,6 +119,8 @@ static void _OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
 
 void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
 {
+    if(map == NULL) return;
+    
     [map->lock lock]; 
     _OEMapSetValue(map, key, value);
     [map->lock unlock];
@@ -124,6 +128,8 @@ void OEMapSetValue(OEMapRef map, OEMapKey key, OEMapValue value)
 
 BOOL OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value)
 {
+    if(map == NULL) return NO;
+    
     BOOL ret = NO;
     [map->lock lock];
     for(size_t i = 0, max = map->count; i < max; i++)
@@ -142,6 +148,8 @@ BOOL OEMapGetValue(OEMapRef map, OEMapKey key, OEMapValue *value)
 
 void OEMapSetValueComparator(OEMapRef map, BOOL (*comparator)(OEMapValue, OEMapValue))
 {
+    if(map == NULL) return;
+    
     [map->lock lock];
     map->valueIsEqual = comparator;
     [map->lock unlock];
@@ -149,6 +157,8 @@ void OEMapSetValueComparator(OEMapRef map, BOOL (*comparator)(OEMapValue, OEMapV
 
 void OEMapRemoveMaskedKeysForValue(OEMapRef map, OEMapKey mask, OEMapValue value)
 {
+    if(map == NULL) return;
+    
     [map->lock lock];
     for(size_t i = 0, max = map->count; i < max; i++)
     {
@@ -161,6 +171,8 @@ void OEMapRemoveMaskedKeysForValue(OEMapRef map, OEMapKey mask, OEMapValue value
 
 void OEMapShowOffContent(OEMapRef map)
 {
+    if(map == NULL) return;
+    
     NSLog(@"Count = %d", map->count);
     for(size_t i = 0, max = map->count; i < max; i++)
     {

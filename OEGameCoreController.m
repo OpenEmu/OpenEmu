@@ -149,14 +149,12 @@ static void OE_setupControlNames(OEGameCoreController *self)
         atLen++;
         play /= 10;
     }
-    char *atCStr = malloc(atLen + 1);
-    char *playNoC = malloc(atLen + 1);
-    for(NSUInteger i = 0; i < atLen; i++)
-        atCStr[i] = '@', playNoC[i] = '0';
-    atCStr[atLen] = playNoC[atLen] = '\0';
+    char *atCStr = NSZoneMalloc(NSDefaultMallocZone(), atLen + 1);
+    for(NSUInteger i = 0; i < atLen; i++) atCStr[i] = '@';
+    atCStr[atLen] = '\0';
     
     NSString *atStr  = [[NSString alloc] initWithBytes:atCStr  length:atLen encoding:NSASCIIStringEncoding];
-    free(atCStr);
+    NSZoneFree(NSDefaultMallocZone(), atCStr);
     
     self->playerString = atStr;
     NSString *format = [[NSString alloc] initWithFormat:@"%%0%uu", [atStr length]];

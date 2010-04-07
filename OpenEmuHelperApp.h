@@ -42,7 +42,7 @@
 @class OEGameCoreController;
 @class GameAudio;
 
-@interface OpenEmuHelperApp : NSObject <NSApplicationDelegate, OpenEmuDODelegateProtocol>
+@interface OpenEmuHelperApp : NSObject <NSApplicationDelegate, OpenEmuDOProtocol>
 {
 	pid_t parentID; // the process id of the parent app (Open Emu or our debug helper)
 	
@@ -62,7 +62,6 @@
 	// we will need a way to do IPC, for now its DO.
 	NSString* doUUID;
 	NSConnection* theConnection;
-	OpenEmuDistributedObject* doObject;
 	
 	// OE stuff
 	NSArray              *plugins;
@@ -70,7 +69,7 @@
 	OEGameCoreController *gameCoreController;
 	GameCore* gameCore;
 	GameAudio* gameAudio;
-
+    
 	NSString* romPath;
 	BOOL loadedRom;
 }

@@ -19,7 +19,7 @@
 
 #import "OpenEmuDOProtocol.h"
 
-@interface OpenEmuDebugHelperAppApp : NSObject <NSApplicationDelegate, TaskWrapperController>
+@interface OpenEmuDebugHelperAppApp : NSResponder <NSApplicationDelegate, TaskWrapperController>
 {
 	IBOutlet NSTextField* romPathField;
 	
