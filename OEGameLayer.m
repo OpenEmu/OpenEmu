@@ -36,6 +36,25 @@
 #import <OpenGL/CGLIOSurface.h>
 
 
+static CGColorSpaceRef CreateSystemColorSpace() 
+{
+	CMProfileRef sysprof = NULL;
+	CGColorSpaceRef dispColorSpace = NULL;
+	
+	// Get the Systems Profile for the main display
+	if (CMGetSystemProfile(&sysprof) == noErr)
+	{
+		// Create a colorspace with the systems profile
+		dispColorSpace = CGColorSpaceCreateWithPlatformColorSpace(sysprof);
+		
+		// Close the profile
+		CMCloseProfile(sysprof);
+	}
+	
+	return dispColorSpace;
+}
+
+
 @implementation OEGameLayer
 
 @synthesize owner, gameCIImage;
@@ -197,7 +216,12 @@
 	{	
 		CFRetain(surfaceRef);
 
-		self.gameCIImage = [CIImage imageWithIOSurface:surfaceRef];
+		CGColorSpaceRef colorspace = CreateSystemColorSpace();
+		
+		NSDictionary* options = [NSDictionary dictionaryWithObject:(id)colorspace forKey:kCIImageColorSpace];
+		self.gameCIImage = [CIImage imageWithIOSurface:surfaceRef options:options];
+		
+		CGColorSpaceRelease(colorspace);
 		
 		if(filterRenderer != nil)
 		{
