@@ -421,6 +421,35 @@
 
 #pragma mark -
 #pragma mark OE DO Delegate methods
+
+// gamecore attributes
+- (NSUInteger) screenWidth
+{
+	return [gameCore screenWidth];
+}
+
+- (NSUInteger) screenHeight
+{
+	return [gameCore screenHeight];
+}
+
+- (NSUInteger) bufferWidth
+{
+	return [gameCore bufferWidth];
+	
+}
+
+- (NSUInteger) bufferHeight
+{
+	return [gameCore bufferHeight];
+}
+
+- (CGRect) sourceRect
+{
+	return [gameCore sourceRect];
+}
+
+// methods
 - (void) setVolume:(float)volume
 {
 	[gameAudio setVolume:volume];

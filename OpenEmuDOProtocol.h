@@ -20,6 +20,14 @@
 - (oneway void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button;
 - (void)postEvent:(NSEvent *)theEvent;
 
+// gamecore attributes
+@property(readonly) NSUInteger screenWidth;
+@property(readonly) NSUInteger screenHeight;
+@property(readonly) NSUInteger bufferWidth;
+@property(readonly) NSUInteger bufferHeight;
+
+@property(readonly) CGRect sourceRect;
+
 @property IOSurfaceID surfaceID;
 - (oneway void)setSurfaceID:(IOSurfaceID)anID;
 
