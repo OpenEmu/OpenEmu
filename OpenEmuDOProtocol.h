@@ -25,6 +25,7 @@
 @property(readonly) NSUInteger screenHeight;
 @property(readonly) NSUInteger bufferWidth;
 @property(readonly) NSUInteger bufferHeight;
+@property(readonly) BOOL isEmulationPaused;
 
 @property(readonly) CGRect sourceRect;
 

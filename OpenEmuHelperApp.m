@@ -449,6 +449,11 @@
 	return [gameCore sourceRect];
 }
 
+- (BOOL) isEmulationPaused
+{
+	return [gameCore isEmulationPaused];
+}
+
 // methods
 - (void) setVolume:(float)volume
 {
