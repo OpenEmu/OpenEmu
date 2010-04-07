@@ -139,7 +139,7 @@
     [archive extractTo:appsupportFolder];
     
     // Delete the temp file
-    [[NSFileManager defaultManager] removeFileAtPath:downloadPath handler:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:downloadPath error:nil];
     
     [progressBar removeFromSuperview];
     [delegate OEDownloadDidFinish:self];

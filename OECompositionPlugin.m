@@ -79,7 +79,7 @@ static NSMutableDictionary *plugins = nil;
         for(NSString *path in paths)
         {
             NSString *subpath = [path stringByAppendingPathComponent:openEmuSearchPath];
-            NSArray  *subpaths = [manager directoryContentsAtPath:subpath];
+            NSArray  *subpaths = [manager contentsOfDirectoryAtPath:subpath error:nil];
             for(NSString *bundlePath in subpaths)
                 if([extension isEqualToString:[bundlePath pathExtension]])
                     [self OE_addPluginWithPath:[subpath stringByAppendingPathComponent:bundlePath]];

@@ -415,7 +415,7 @@
         NSString *filePath;
         NSString *appSupportPath = [self applicationSupportFolder];
         if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
-            [[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
+            [[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath withIntermediateDirectories:YES attributes:nil error:nil];
         filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
         
         if([archive numberOfEntries] != 1) //more than one rom in the archive
@@ -544,7 +544,7 @@
 	//delete all the temp files
 	NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"OpenEmu"];
 	if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
-		[[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
+		[[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath withIntermediateDirectories:YES attributes:nil error:nil];
 	NSString* filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
 	
 	NSError* error = nil;
@@ -640,7 +640,7 @@
 	fileManager = [NSFileManager defaultManager];
 	applicationSupportFolder = [self applicationSupportFolder];
 	if ( ![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL] ) {
-		[fileManager createDirectoryAtPath:applicationSupportFolder attributes:nil];
+		[fileManager createDirectoryAtPath:applicationSupportFolder withIntermediateDirectories:YES attributes:nil error:nil];
 	}
 	
 	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
@@ -847,12 +847,12 @@
 	
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if ( ![fileManager fileExistsAtPath:statesPath isDirectory:NULL] ) {
-		[fileManager createDirectoryAtPath:statesPath attributes:nil];
+		[fileManager createDirectoryAtPath:statesPath withIntermediateDirectories:YES attributes:nil error:nil];
 	}
 	
 	static NSString *OESaveStateMigrationErrorDomain = @"OESaveStateMigrationErrorDomain";
 	
-	NSArray  *subpaths = [fileManager directoryContentsAtPath:statesPath];
+	NSArray  *subpaths = [fileManager directoryContentsAtPath:statesPath error:nil];
 	NSMutableArray *errors = (err != nil ? [NSMutableArray array] : nil);
 	for(NSString *statePath in subpaths)
 	{

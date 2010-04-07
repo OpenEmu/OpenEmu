@@ -55,7 +55,7 @@
 				worked = [manager removeItemAtPath:newPath error:outError];
 			
 			if(![manager fileExistsAtPath:folder])
-				[manager createDirectoryAtPath:folder attributes:nil];
+				[manager createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:nil];
 			
 			if(worked) worked = [manager copyItemAtPath:path toPath:newPath error:outError];
         }

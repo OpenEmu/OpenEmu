@@ -437,7 +437,7 @@ static void * const OESelectionChangedContext = @"OESelectionChangedContext";
 - (IBAction)deleteState:(id)sender
 {
     OESaveState *saveState = [self selectedSaveState];    
-    [[NSFileManager defaultManager] removeFileAtPath:[saveState bundlePath] handler:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:[saveState bundlePath] error:nil];
 }
 
 - (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo

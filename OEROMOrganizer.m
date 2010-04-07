@@ -82,7 +82,7 @@
         applicationSupportFolder = [(GameDocumentController *) [NSApp delegate] applicationSupportFolder];
         
         if(![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL])
-            [fileManager createDirectoryAtPath:applicationSupportFolder attributes:nil];
+            [fileManager createDirectoryAtPath:applicationSupportFolder withIntermediateDirectories:YES attributes:nil error:nil];
         
         persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
         if(![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType
