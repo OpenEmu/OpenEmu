@@ -93,7 +93,7 @@
 - (void) setupOpenGLOnScreen:(NSScreen*) screen
 {	
 	// init our fullscreen context.
-	CGLPixelFormatAttribute attributes[] = {kCGLPFAAllRenderers, 0};
+	CGLPixelFormatAttribute attributes[] = {kCGLPFAAccelerated, kCGLPFADoubleBuffer, 0};
 	
 	CGLError err = kCGLNoError;
 	CGLPixelFormatObj pf;
@@ -294,22 +294,20 @@
         // why do we need it ?
         glDisable(GL_BLEND);
         
+		
+		// flip the image here to correct for flippedness from the core.
         glBegin(GL_QUADS);    // Draw A Quad
         {
-            glMultiTexCoord2f(GL_TEXTURE0, cropRect.origin.x, cropRect.origin.y);
-            // glTexCoord2f(0.0f, 0.0f);
+			glMultiTexCoord2f(GL_TEXTURE0, cropRect.origin.x, cropRect.size.height + cropRect.origin.y);
             glVertex3f(0.0f, 0.0f, 0.0f);
             
-            glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width + cropRect.origin.x, cropRect.origin.y);
-            // glTexCoord2f(pixelsWide, 0.0f );
+			glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width + cropRect.origin.x, cropRect.size.height + cropRect.origin.y);
             glVertex3f(gameCore.screenWidth, 0.0f, 0.0f);
             
-            glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width + cropRect.origin.x, cropRect.size.height + cropRect.origin.y);
-            // glTexCoord2f(pixelsWide, pixelsHigh);
+			glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width + cropRect.origin.x, cropRect.origin.y);
             glVertex3f(gameCore.screenWidth, gameCore.screenHeight, 0.0f);
             
-            glMultiTexCoord2f(GL_TEXTURE0, cropRect.origin.x, cropRect.size.height + cropRect.origin.y);
-            // glTexCoord2f(0.0f, pixelsHigh);
+			glMultiTexCoord2f(GL_TEXTURE0, cropRect.origin.x, cropRect.origin.y);
             glVertex3f(0.0f, gameCore.screenHeight, 0.0f);
         }
         glEnd(); // Done Drawing The Quad

@@ -188,20 +188,18 @@
 		{
 			NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
 		}
-		
-		//TODO: why is our IOSurface upside down?!
-		
+				
 		glBegin(GL_QUADS);
-		glTexCoord2f(IOSurfaceGetWidth(surfaceRef), 0.0);
+		glTexCoord2f(IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef));
 		glVertex2f(1.0, 1.0);
 		
-		glTexCoord2f(0.0, 0.0);
+		glTexCoord2f(0.0, IOSurfaceGetHeight(surfaceRef));
 		glVertex2f(0.0, 1.0);
 		
-		glTexCoord2f(0.0, IOSurfaceGetHeight(surfaceRef));
+		glTexCoord2f(0.0, 0.0);
 		glVertex2f(0.0, 0.0);
 		
-		glTexCoord2f(IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef));
+		glTexCoord2f(IOSurfaceGetWidth(surfaceRef), 0.0);
 		glVertex2f(1.0, 0.0);
 		glEnd();
 		
