@@ -288,7 +288,7 @@
 
 - (IBAction)stopAllEmulators:(id)sender
 {    
-    BOOL pause = [sender state] != NSOnState;
+    BOOL pause = [(NSCell *)sender state] != NSOnState;
     
     [sender setTitle:(pause ? @"Unpause All Emulators" : @"Pause All Emulators")]; 
     [sender setState:(pause ? NSOnState : NSOffState)];
@@ -800,11 +800,14 @@
 		
 		NSDocument* doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
 		DLog(@"%@", doc);
-
+        
+        // FIXME: Need to support states with the new system.
+#if 0
 		@synchronized([(GameDocument*)[self currentDocument] gameCore])
 		{
 			[[(GameDocument*)doc gameCore] loadStateFromFileAtPath:[object saveDataPath]];
 		}
+#endif
 	}
 }
 
@@ -823,11 +826,14 @@
 		
 	[newState setEmulatorID:[(GameDocument*)[self currentDocument] emulatorName]];
 	
+    // FIXME: Need to support states with the new system.
+#if 0
 	@synchronized([(GameDocument*)[self currentDocument] gameCore])
 	{
 		[[(GameDocument*)[self currentDocument] gameCore] saveStateToFileAtPath:[newState saveDataPath]];    
 	}
-
+#endif
+    
 	[newState setScreenshot:[(GameDocument*)[self currentDocument] screenShot]];
 	
 	OEROMFile *romFile = [OEROMFile fileWithPath:romPath

@@ -1,17 +1,17 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2010, OpenEmu Team
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- * Neither the name of the OpenEmu Team nor the
- names of its contributors may be used to endorse or promote products
- derived from this software without specific prior written permission.
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -19,10 +19,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 // for speedz
@@ -36,6 +36,7 @@
 #import "GameCore.h"
 #import "GameAudio.h"
 #import "OECorePlugin.h"
+#import "NSApplication+OEHIDAdditions.h"
 
 
 @implementation OpenEmuHelperApp
@@ -393,6 +394,8 @@
         gameCoreController = [plugin controller];
         gameCore = [gameCoreController newGameCore];
         
+        [self setNextResponder:gameCore];
+        
         DLog(@"Loaded bundle. About to load rom...");
         
         if([gameCore loadFileAtPath:theRomPath])
@@ -417,6 +420,11 @@
     }
     else NSLog(@"bad ROM path or filename");
     return NO;
+}
+
+- (byref GameCore *)gameCore
+{
+    return gameCore;
 }
 
 #pragma mark -
@@ -495,37 +503,6 @@
 {
 	NSLog(@"did Release Button");
 	[gameCore player:playerNumber didReleaseButton:button];
-}
-
-- (void)postEvent:(bycopy NSEvent *)theEvent
-{
-    switch([theEvent type])
-    {
-        case NSLeftMouseDown         : [gameCore mouseDown:            theEvent]; break;
-        case NSLeftMouseUp           : [gameCore mouseUp:              theEvent]; break;
-        case NSRightMouseDown        : [gameCore rightMouseDown:       theEvent]; break;
-        case NSRightMouseUp          : [gameCore rightMouseUp:         theEvent]; break;
-        case NSMouseMoved            : [gameCore mouseMoved:           theEvent]; break;
-        case NSLeftMouseDragged      : [gameCore mouseDragged:         theEvent]; break;
-        case NSRightMouseDragged     : [gameCore rightMouseDragged:    theEvent]; break;
-        case NSMouseEntered          : [gameCore mouseEntered:         theEvent]; break;
-        case NSMouseExited           : [gameCore mouseExited:          theEvent]; break;
-        case NSKeyDown               : [gameCore keyDown:              theEvent]; break;
-        case NSKeyUp                 : [gameCore keyUp:                theEvent]; break;
-        case NSFlagsChanged          : [gameCore flagsChanged:         theEvent]; break;
-        case NSCursorUpdate          : [gameCore cursorUpdate:         theEvent]; break;
-        case NSScrollWheel           : [gameCore scrollWheel:          theEvent]; break;
-        case NSTabletPoint           : [gameCore tabletPoint:          theEvent]; break;
-        case NSTabletProximity       : [gameCore tabletProximity:      theEvent]; break;
-        case NSOtherMouseDown        : [gameCore otherMouseDown:       theEvent]; break;
-        case NSOtherMouseUp          : [gameCore otherMouseUp:         theEvent]; break;
-        case NSOtherMouseDragged     : [gameCore otherMouseDragged:    theEvent]; break;
-        case NSEventTypeMagnify      : [gameCore magnifyWithEvent:     theEvent]; break;
-        case NSEventTypeSwipe        : [gameCore swipeWithEvent:       theEvent]; break;
-        case NSEventTypeRotate       : [gameCore rotateWithEvent:      theEvent]; break;
-        case NSEventTypeBeginGesture : [gameCore beginGestureWithEvent:theEvent]; break;
-        case NSEventTypeEndGesture   : [gameCore endGestureWithEvent:  theEvent]; break;
-    }
 }
 
 @end

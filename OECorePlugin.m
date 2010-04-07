@@ -81,11 +81,6 @@
     [super dealloc];
 }
 
-- (id)newGameCoreWithDocument:(id)aDocument
-{
-    return [[gameCoreClass alloc] initWithDocument:aDocument];
-}
-
 - (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey
 {
     NSViewController *ret = [controller newPreferenceViewControllerForKey:aKey];

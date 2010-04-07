@@ -31,6 +31,7 @@
 
 //@class GameCore;
 //@class GameAudio;
+@class OEGameCoreController;
 @class OEGameLayer;
 @class GameQTRecorder;
 
@@ -54,6 +55,7 @@
     NSString       *emulatorName;
     NSWindow       *gameWindow;
     NSView         *view;
+    OEGameCoreController   *gameController;
 	IBOutlet NSToolbarItem *playPauseToolbarItem;
 
 }
@@ -89,7 +91,7 @@
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (NSImage *)screenShot;
-
+- (void)applicationWillTerminate:(NSNotification *)aNotification;
 
 
 @end

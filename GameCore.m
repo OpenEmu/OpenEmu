@@ -39,7 +39,7 @@
 
 @implementation GameCore
 
-@synthesize frameInterval, document, owner, frameFinished;
+@synthesize frameInterval, owner, frameFinished;
 @synthesize mousePosition;
 
 static Class GameCoreClass = Nil;
@@ -64,16 +64,9 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 - (id)init
 {
-    // Used by QC plugins
-    return [self initWithDocument:nil];
-}
-
-- (id)initWithDocument:(GameDocument *)aDocument
-{
     self = [super init];
     if(self != nil)
     {
-        document = aDocument;
         frameInterval = [[self class] defaultTimeInterval];
         tenFrameCounter = 10;
         NSUInteger count = [self soundBufferCount];
@@ -81,24 +74,9 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         for(NSUInteger i = 0; i < count; i++)
             ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self soundBufferSize] * 16];
         
-        if(aDocument != nil) keyMap = OEMapCreate(32);
+        keyMap = OEMapCreate(32);
     }
     return self;
-}
-
-- (BOOL)acceptsFirstResponder
-{
-    return YES;
-}
-
-- (void)removeFromGameController
-{
-    [owner unregisterGameCore:self];
-}
-
-- (id)retain
-{
-	return [super retain];
 }
 
 - (void)dealloc
@@ -108,7 +86,6 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         OEMapRelease(keyMap);
     
     [emulationThread release];
-    [self removeFromGameController];
     
     for(NSUInteger i = 0, count = [self soundBufferCount]; i < count; i++)
         [ringBuffers[i] release];
@@ -128,16 +105,6 @@ static NSTimeInterval currentTime()
     struct timeval t;
     gettimeofday(&t, NULL);
     return t.tv_sec + (t.tv_usec / 1000000.0);
-}
-
-- (void)refreshFrame
-{
-    if(![emulationThread isCancelled])
-    {
-        self.frameFinished = NO;
-        [[self document] refresh];
-        self.frameFinished = YES;
-    }
 }
 
 - (void)calculateFrameSkip:(NSUInteger)rate
@@ -200,10 +167,6 @@ static NSTimeInterval currentTime()
         {
             [self executeFrameSkippingFrame:willSkipFrame];
         }
-        
-        if(!willSkipFrame)
-            [self performSelectorOnMainThread:@selector(refreshFrame) withObject:nil waitUntilDone:NO];
-        //else DLog(@"Skipping frame");
         
         if(frameCounter >= frameSkip) frameCounter = 0;
         else                          frameCounter++;
@@ -408,63 +371,9 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    NSArray *parts = [keyPath componentsSeparatedByString:@"."];
-    NSUInteger count = [parts count];
-    // This method only handle keypaths with at least 3 parts
-    if(count < 3) return;
-    // [parts objectAtIndex:0] == @"values"
-    // [parts objectAtIndex:1] == pluginName
-    
-    NSString *valueType = OESettingValueKey;
-    
-    if(count >= 4)
-    {
-        NSString *name = [parts objectAtIndex:2];
-        if([OEHIDEventValueKey isEqualToString:name])
-            valueType = OEHIDEventValueKey;
-        else if([OEKeyboardEventValueKey isEqualToString:name])
-            valueType = OEKeyboardEventValueKey;
-    }
-    
-    NSUInteger elemCount = (OESettingValueKey == valueType ? 2 : 3);
-    
-    NSString *keyName = [[parts subarrayWithRange:NSMakeRange(elemCount, count - elemCount)] componentsJoinedByString:@"."];
-    // The change dictionary doesn't contain the New value as it should, so we get the value directly from the source.
-    id event = [[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:keyPath];
-    BOOL removeKeyBinding = (event == nil);
-    
-    if([event isKindOfClass:[NSData class]])
-    {
-        @try
-        {
-            event = [NSKeyedUnarchiver unarchiveObjectWithData:event];
-        }
-        @catch(NSException *e)
-        {
-            NSLog(@"Couldn't unarchive data: %@", e);
-        }
-    }
-    
-    if(valueType == OESettingValueKey)
-        [self settingWasSet:event forKey:keyName];
-    else if(removeKeyBinding)
-    {
-        if(valueType == OEHIDEventValueKey) [self HIDEventWasRemovedForKey:keyName];
-        else [self keyboardEventWasRemovedForKey:keyName];
-    }
-    else
-    {
-        if(valueType == OEHIDEventValueKey)
-            [self HIDEventWasSet:event forKey:keyName];
-        else if(valueType == OEKeyboardEventValueKey)
-            [self keyboardEventWasSet:event forKey:keyName];
-    }
-}
-
 - (void)settingWasSet:(id)aValue forKey:(NSString *)keyName
 {
+    DLog(@"keyName = %@", keyName);
     [self doesNotImplementSelector:_cmd];
 }
 
@@ -545,7 +454,7 @@ static NSTimeInterval currentTime()
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-	//NSLog(@"Tracking: %f,%f", mousePosition.x, mousePosition.y);
+    //NSLog(@"Tracking: %f,%f", mousePosition.x, mousePosition.y);
 }
 
 - (void)keyDown:(NSEvent *)anEvent

@@ -93,10 +93,11 @@ static NSTimeInterval currentTime()
 }
 
 - (void) addFrame
-{    
-    
+{
+    // FIXME: Need to be rewrote to work with the helper
+#if 0
     NSTimeInterval time = currentTime();
-
+    
     OEFrameEncodeOperation* op = [[OEFrameEncodeOperation alloc] initWithImage:[(GameDocument*)[gameCore document] screenShot] forMovie:movie withDuration:time-lastTime ];
     [encodingQueue addOperation:op];
     [op release];
@@ -109,6 +110,7 @@ static NSTimeInterval currentTime()
               nil];
     
     [movie addImage:[(GameDocument*)[gameCore document] screenShot] forDuration:QTMakeTime(24,  600) withAttributes:myDict];*/
+#endif
 }
 
 

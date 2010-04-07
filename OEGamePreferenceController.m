@@ -34,7 +34,7 @@
 @implementation OEGamePreferenceController
 
 @dynamic plugins;
-@synthesize selectedPlugins, availablePluginsPredicate, splitView, pluginTableView, pluginDrawer, pluginController, toolbar;
+@synthesize selectedPlugins, availablePluginsPredicate, splitView, pluginTableView, pluginController, toolbar;
 
 - (id)init
 {
@@ -50,7 +50,6 @@
 {
     [splitView             release];
     [pluginTableView       release];
-    [pluginDrawer          release];
     [pluginController      release];
     [toolbar               release];
     [selectedPlugins       release];

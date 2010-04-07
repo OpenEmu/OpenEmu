@@ -29,9 +29,9 @@
 #define DEBUG_PRINT
 
 #ifdef DEBUG_PRINT
-#define DLog(format, ...) NSLog((format), ##__VA_ARGS__)
+#define DLog(format, ...) NSLog(@"%s: " format, __FUNCTION__, ##__VA_ARGS__)
 #else
-#define DLog(format, ...) 1
+#define DLog(format, ...)
 #endif
 
 #import <Cocoa/Cocoa.h>
@@ -68,12 +68,11 @@ enum {
 };
 typedef NSInteger OEButton;
 
-@class GameDocument, OEHIDEvent, OERingBuffer;
+@class OEHIDEvent, OERingBuffer;
 
-@interface GameCore : NSResponder
+@interface GameCore : NSResponder <OESettingObserver>
 {
     NSThread              *emulationThread;
-    GameDocument          *document;
     NSTimeInterval         frameInterval;
     OEGameCoreController  *owner;
     OEMapRef               keyMap;
@@ -94,15 +93,11 @@ typedef NSInteger OEButton;
 + (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval;
 
 @property(assign) OEGameCoreController *owner;
-@property(assign) GameDocument *document;
 @property(readwrite) BOOL frameFinished;
 @property NSTimeInterval frameInterval;
 
 - (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index;
 - (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index;
-
-- (id)initWithDocument:(GameDocument *)document;
-- (void)removeFromGameController;
 
 - (void)calculateFrameSkip:(NSUInteger)rate;
 
@@ -129,7 +124,6 @@ typedef NSInteger OEButton;
 - (void)resetEmulation;
 - (void)executeFrame;
 - (void)executeFrameSkippingFrame:(BOOL) skip;
-- (void)refreshFrame;
 
 - (BOOL)loadFileAtPath:(NSString *)path;
 

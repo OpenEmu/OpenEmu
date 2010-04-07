@@ -30,7 +30,7 @@
 
 @class XADArchive;
 
-@interface GamePickerController : NSWindowController
+@interface GamePickerController : NSWindowController <NSWindowDelegate>
 {
     NSTableView *table;
     NSString    *fileName;

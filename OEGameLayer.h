@@ -30,14 +30,14 @@
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/gl.h>
 
-#import "OpenEmuDOProtocol.h"
+#import "OEGameCoreHelper.h"
 
 @class GameCore, GameDocument, GameDocumentController;
 
 @interface OEGameLayer : CAOpenGLLayer
 {
 	// from our gameDocument - where we get our IOSurface refs from:
-	id<OpenEmuDOProtocol> rootProxy;
+	id<OEGameCoreHelper> rootProxy;
 	
     NSString             *filterName;
     GameDocument         *owner;
@@ -62,7 +62,7 @@
     CGSize cachedTextureSize;
 	
 }
-@property (assign) id<OpenEmuDOProtocol> rootProxy;
+@property (assign) id<OEGameCoreHelper> rootProxy;
 
 @property         BOOL          vSyncEnabled;
 @property(assign) GameDocument *owner;

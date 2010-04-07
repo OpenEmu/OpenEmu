@@ -36,7 +36,6 @@ extern NSString *const OEAdvancedPreferenceKey;
 {
     NSSplitView       *splitView;
     NSTableView       *pluginTableView;
-    NSDrawer          *pluginDrawer DEPRECATED_ATTRIBUTE;
     NSArrayController *pluginController;
     NSToolbar         *toolbar;
     NSDictionary      *preferencePanels;
@@ -49,7 +48,6 @@ extern NSString *const OEAdvancedPreferenceKey;
 
 @property(retain) IBOutlet NSSplitView       *splitView;
 @property(retain) IBOutlet NSTableView       *pluginTableView;
-@property(retain) IBOutlet NSDrawer          *pluginDrawer DEPRECATED_ATTRIBUTE;
 @property(retain) IBOutlet NSArrayController *pluginController;
 @property(retain) IBOutlet NSToolbar         *toolbar;
 

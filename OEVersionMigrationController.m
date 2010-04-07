@@ -79,10 +79,6 @@
 
 @end
 
-NSComparisonResult OEVersionMigrationController_CompareVersions(NSString *oldVersion, NSString *newVersion, id<SUVersionComparison> comparator){
-	return [comparator compareVersion:oldVersion toVersion:newVersion];
-}
-
 #pragma mark -
 #pragma mark Implementation
 #pragma mark -
@@ -207,9 +203,13 @@ migrate:
 	return hasFailed;
 }
 
--(NSArray *)allMigrationVersions{
-	NSArray *allVersions = [[migrators allKeys] sortedArrayUsingFunction:OEVersionMigrationController_CompareVersions 
-																 context:self.versionComparator];
+-(NSArray *)allMigrationVersions
+{
+	NSArray *allVersions = [[migrators allKeys] sortedArrayUsingComparator:
+                            ^ NSComparisonResult (id oldVersion, id newVersion)
+                            {
+                                return [self.versionComparator compareVersion:oldVersion toVersion:newVersion];
+                            }];
 
 	if(!allVersions) allVersions = [NSArray array];
 	return allVersions;
