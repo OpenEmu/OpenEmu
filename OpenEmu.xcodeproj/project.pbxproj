@@ -133,6 +133,10 @@
 		1BEF2DFD1168600F0090F72B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
 		1BEF2DFE116860210090F72B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
 		1BEF34711168F8080090F72B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
+		1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */; };
+		1BFC26D9116C1CB800B95689 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEF2AC311682A9D0090F72B /* IOSurface.framework */; };
+		1BFC2725116C1F6700B95689 /* TaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* TaskWrapper.m */; };
+		1BFC2726116C1F6E00B95689 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */; };
 		1E9F7349103755900072EED6 /* OEROMFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F7348103755900072EED6 /* OEROMFile.m */; };
@@ -275,6 +279,13 @@
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 1BEF2A9311682A530090F72B;
+			remoteInfo = OpenEmuHelperApp;
+		};
+		1BFC26CE116C1C9900B95689 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
 			remoteInfo = OpenEmuHelperApp;
 		};
 		3759EE520FE88C82000E56D5 /* PBXContainerItemProxy */ = {
@@ -672,6 +683,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BFC26D9116C1CB800B95689 /* IOSurface.framework in Frameworks */,
 				82DE4B63102655DA007184EB /* UniversalDetector.framework in Frameworks */,
 				82DE4B62102655D5007184EB /* XADMaster.framework in Frameworks */,
 				C63AF5A60FE41E90009856D4 /* OpenEmuBase.framework in Frameworks */,
@@ -1307,6 +1319,7 @@
 			dependencies = (
 				C689A55F0FE4635200885BC3 /* PBXTargetDependency */,
 				821FD3EA10BF71460036C942 /* PBXTargetDependency */,
+				1BFC26CF116C1C9900B95689 /* PBXTargetDependency */,
 			);
 			name = OpenEmu;
 			productInstallPath = "$(HOME)/Applications";
@@ -1406,6 +1419,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */,
 				1B7505140FEEB72700B0D0AF /* About.png in Resources */,
 				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
@@ -1590,6 +1604,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BFC2726116C1F6E00B95689 /* NSString+UUID.m in Sources */,
+				1BFC2725116C1F6700B95689 /* TaskWrapper.m in Sources */,
 				8D15AC310486D014006FF6A4 /* GameDocument.m in Sources */,
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
 				8283882C0E6CE13C00A96E2C /* GameDocumentController.m in Sources */,
@@ -1646,6 +1662,11 @@
 			isa = PBXTargetDependency;
 			target = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
 			targetProxy = 1BEF2D031168546C0090F72B /* PBXContainerItemProxy */;
+		};
+		1BFC26CF116C1C9900B95689 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
+			targetProxy = 1BFC26CE116C1C9900B95689 /* PBXContainerItemProxy */;
 		};
 		3759EE530FE88C82000E56D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

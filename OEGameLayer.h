@@ -30,22 +30,22 @@
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/gl.h>
 
+#import "OpenEmuDOProtocol.h"
+
 @class GameCore, GameDocument, GameDocumentController;
 
 @interface OEGameLayer : CAOpenGLLayer
 {
+	// from our gameDocument - where we get our IOSurface refs from:
+	id<OpenEmuDOProtocol> rootProxy;
+	
     NSString             *filterName;
     GameDocument         *owner;
-    GameCore             *gameCore;
     
     // for rendering
     CGLContextObj         layerContext;
     CGLContextObj         sharedLayerContext;
     
-    GLuint                gameTexture;
-    GLuint                correctionFBO;
-    GLuint                correctionTexture;
-	    
     BOOL                  usesShader;
     BOOL                  vSyncEnabled;
     
@@ -60,19 +60,16 @@
     
     CIImage *gameCIImage;
     CGSize cachedTextureSize;
+	
 }
+@property (assign) id<OpenEmuDOProtocol> rootProxy;
 
 @property         BOOL          vSyncEnabled;
 @property(assign) GameDocument *owner;
 @property(retain) NSString     *filterName;
-@property(retain) GameCore     *gameCore;
 @property(readwrite, retain) NSDocumentController *docController;
 @property(retain) CIImage       *gameCIImage;
 
-- (void)createTexture;
-- (void)createCorrectionFBO;
-- (void)uploadGameBufferToTexture;
-- (void)correctPixelAspectRatio;
 - (NSImage*) imageForCurrentFrame;
 
 - (CGFloat)preferredWindowScale;

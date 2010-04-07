@@ -29,33 +29,52 @@
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CoreAnimation.h>
 
-@class GameCore;
-@class GameAudio;
+//@class GameCore;
+//@class GameAudio;
 @class OEGameLayer;
 @class GameQTRecorder;
 
-@interface GameDocument : NSDocument
+#import "TaskWrapper.h"
+
+@interface GameDocument : NSDocument <TaskWrapperController>
 {
+	// IPC from our OEHelper
+	TaskWrapper *helper;
+	NSString* taskUUIDForDOServer;	
+	NSConnection* taskConnection;
+	
+	id rootProxy;
+	
+	// standard game document stuff
     NSTimer        *frameTimer;
     CALayer        *rootLayer;
     OEGameLayer    *gameLayer;
     GameQTRecorder *recorder;
     BOOL            keyedOnce;
-    GameCore       *gameCore;
-    GameAudio      *audio;
     NSString       *emulatorName;
     NSWindow       *gameWindow;
     NSView         *view;
 	IBOutlet NSToolbarItem *playPauseToolbarItem;
+
+
+	// these things are no longer needed
+//	GameCore       *gameCore;
+//  GameAudio      *audio;
+
 }
 
 @property(retain) IBOutlet NSWindow *gameWindow;
 @property(retain) IBOutlet NSView   *view;
 
-@property(readonly) GameCore *gameCore;
+//@property(readonly) GameCore *gameCore;
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
 @property(readonly) BOOL isFullScreen;
 @property(readonly) NSString *emulatorName;
+
+// new task stuff
+- (BOOL) startHelperProcessWithPath:(NSString*)romPath;
+- (void) endHelperProcess;
+
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes;
 - (void)refresh;
@@ -76,5 +95,7 @@
 - (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
 
 - (NSImage *)screenShot;
+
+
 
 @end
