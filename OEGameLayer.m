@@ -217,9 +217,7 @@
 				mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
 				mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
 				
-				// TODO: handle setMousePosition.
-				//[rootProxy 
-				//[gameCore setMousePosition:mousePoint];
+				[rootProxy setMousePosition:mousePoint]; 
 			}
 		}
 		

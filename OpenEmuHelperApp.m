@@ -461,6 +461,16 @@
 
 }
 
+- (NSPoint) mousePosition
+{
+	return [gameCore mousePosition];
+}
+
+- (void) setMousePosition:(NSPoint)pos
+{
+	[gameCore setMousePosition:pos];
+}
+
 - (void) setPauseEmulation:(BOOL)paused
 {
 	if(paused)

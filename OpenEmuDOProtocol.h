@@ -29,6 +29,9 @@
 
 @property(readonly) CGRect sourceRect;
 
+@property(readwrite) NSPoint mousePosition;
+
+
 @property IOSurfaceID surfaceID;
 - (oneway void)setSurfaceID:(IOSurfaceID)anID;
 

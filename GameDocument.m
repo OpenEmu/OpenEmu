@@ -236,20 +236,16 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 }
 
 - (void)setPauseEmulation:(BOOL)flag
-{
-    //[gameCore setPauseEmulation:flag];
-	
+{	
 	[rootProxy setPauseEmulation:flag];
 
 	if (flag)
 	{
-	//	[audio pauseAudio];
 		[playPauseToolbarItem setImage:[NSImage imageNamed:NSImageNameRightFacingTriangleTemplate]];
         [playPauseToolbarItem setLabel:@"Play"];
 	}
 	else
 	{
-		//[audio startAudio];
 		[playPauseToolbarItem setImage:[NSImage imageNamed:NSImageNameStopProgressTemplate]];
         [playPauseToolbarItem setLabel:@"Pause"];
 	}
