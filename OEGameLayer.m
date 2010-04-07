@@ -35,6 +35,44 @@
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLIOSurface.h>
 
+#define dfl(a,b) [NSNumber numberWithFloat:a],@b
+
+static CMProfileRef CreateNTSCProfile()
+{
+	CMProfileRef newNTSCProf = NULL;
+	CMAppleProfileHeader aph; 
+	
+	CMNewProfile(&newNTSCProf,NULL);
+	CMMakeProfile(newNTSCProf,(CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:@"displayRGB",@"profileType",
+												dfl(2.2,"targetGamma"), 
+												[NSNumber numberWithInt:6500],@"targetWhite",
+												dfl(2.2,"gammaR"),
+												dfl(2.2,"gammaG"),
+												dfl(2.2,"gammaB"),
+												dfl(.63,"phosphorRx"), dfl(.34,"phosphorRy"),
+												dfl(.31,"phosphorGx"), dfl(.595,"phosphorGy"),
+												dfl(.155,"phosphorBx"), dfl(.07,"phosphorBy"),
+												dfl(.312713,"whitePointx"), dfl(.329016,"whitePointy"),nil,nil
+												]);
+	CMGetProfileHeader(newNTSCProf,&aph);
+//	aph.cm4.flags |= cmInterpolationMask | 0x00020000;
+	CMSetProfileHeader(newNTSCProf,&aph);
+	
+	return newNTSCProf;
+}
+
+static CGColorSpaceRef CreateNTSCColorSpace()
+{
+	CGColorSpaceRef ntscColorSpace = NULL;
+	
+	CMProfileRef ntscProfile = CreateNTSCProfile();
+	
+	ntscColorSpace = CGColorSpaceCreateWithPlatformColorSpace(ntscProfile);
+
+	CMCloseProfile(ntscProfile);
+
+	return ntscColorSpace;
+}
 
 static CGColorSpaceRef CreateSystemColorSpace() 
 {
@@ -110,7 +148,11 @@ static CGColorSpaceRef CreateSystemColorSpace()
         
         if(compo != nil)
         {
-            CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+			
+			// Create a display colorspace for our QCRenderer
+			//CGColorSpaceRef	 space = CreateSystemColorSpace();
+			
+			CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
             filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
                                                         pixelFormat:CGLGetPixelFormat(layerContext)
                                                          colorSpace:space
@@ -216,7 +258,11 @@ static CGColorSpaceRef CreateSystemColorSpace()
 	{	
 		CFRetain(surfaceRef);
 
-		CGColorSpaceRef colorspace = CreateSystemColorSpace();
+		// our texture is in NTSC colorspace from the cores:
+		
+		//CGColorSpaceRef colorspace = CreateNTSCColorSpace();
+		//CGColorSpaceRef colorspace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
+		CGColorSpaceRef colorspace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
 		
 		NSDictionary* options = [NSDictionary dictionaryWithObject:(id)colorspace forKey:kCIImageColorSpace];
 		self.gameCIImage = [CIImage imageWithIOSurface:surfaceRef options:options];
