@@ -852,7 +852,7 @@
 	
 	static NSString *OESaveStateMigrationErrorDomain = @"OESaveStateMigrationErrorDomain";
 	
-	NSArray  *subpaths = [fileManager directoryContentsAtPath:statesPath error:nil];
+	NSArray  *subpaths = [fileManager contentsOfDirectoryAtPath:statesPath error:nil];
 	NSMutableArray *errors = (err != nil ? [NSMutableArray array] : nil);
 	for(NSString *statePath in subpaths)
 	{
