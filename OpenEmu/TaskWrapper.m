@@ -91,6 +91,7 @@
     [super dealloc];
 }
 
+#define USE_EXTERNAL_FILE 0
 
 // Here's where we actually kick off the process via an NSTask.
 - (void) startProcess
@@ -100,31 +101,26 @@
     
     task = [[NSTask alloc] init];
     
-    // The output of stdin, stdout and stderr is sent to a pipe so that we can catch it later
-    // and use it along to the controller
-    [task setStandardInput: [NSPipe pipe]];
-    [task setStandardOutput: [NSPipe pipe]];
-    [task setStandardError: [task standardOutput]];
-    
-    // The path to the binary is the first argument that was passed in
     [task setLaunchPath: [arguments objectAtIndex:0]];
-    // The rest of the task arguments are just grabbed from the array
     [task setArguments: [arguments subarrayWithRange: NSMakeRange (1, ([arguments count] - 1))]];
     
-    // Here we register as an observer of the NSFileHandleReadCompletionNotification, which lets
-    // us know when there is data waiting for us to grab it in the task's file handle (the pipe
-    // to which we connected stdout and stderr above).  -getData: will be called when there
-    // is data waiting.  The reason we need to do this is because if the file handle gets
-    // filled up, the task will block waiting to send data and we'll never get anywhere.
-    // So we have to keep reading data from the file handle as we go.
+    [task setStandardInput:[NSPipe pipe]];
+    
+#if USE_EXTERNAL_FILE
+    [task setStandardOutput:[NSFileHandle fileHandleForWritingAtPath:[@"~/Desktop/HelperOutput.txt" stringByExpandingTildeInPath]]];
+#else
+    // The output of stdin, stdout and stderr is sent to a pipe so that we can catch it later
+    // and use it along to the controller
+    [task setStandardOutput:[NSPipe pipe]];
+    
     [[NSNotificationCenter defaultCenter] addObserver: self
                                              selector: @selector(getData:)
                                                  name: NSFileHandleReadCompletionNotification
                                                object: [[task standardOutput] fileHandleForReading]];
-    // We tell the file handle to go ahead and read in the background asynchronously, and notify
-    // us via the callback registered above when we signed up as an observer.  The file handle will
-    // send a NSFileHandleReadCompletionNotification when it has data that is available.
+    
     [[[task standardOutput] fileHandleForReading] readInBackgroundAndNotify];
+#endif
+    [task setStandardError:[task standardOutput]];
     
     // launch the task asynchronously
     [task launch];    
@@ -134,28 +130,30 @@
 // sent, or the process object is released, then this method is called.
 - (void) stopProcess
 {
-    NSData *data;
-    
     // If we stopped already, ignore
     if (!controller)
         return;
     
+#if !USE_EXTERNAL_FILE
     // It is important to clean up after ourselves so that we don't leave potentially deallocated
     // objects as observers in the notification center; this can lead to crashes.
     [[NSNotificationCenter defaultCenter] removeObserver: self
                                                     name: NSFileHandleReadCompletionNotification
                                                   object: [[task standardOutput] fileHandleForReading]];
-    
+#endif
     // Make sure the task will actually stop!
     [task terminate];
     
+    
+#if !USE_EXTERNAL_FILE
+    NSData *data;
     
     while ((data = [[[task standardOutput] fileHandleForReading] availableData]) && [data length])
     {
         [controller appendOutput: [[[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding] autorelease]
                      fromProcess: self];
     }
-    
+#endif    
     // we tell the controller that we finished, via the callback, and then blow away our connection
     // to the controller.  NSTasks are one-shot (not for reuse), so we might as well be too.
     [task waitUntilExit];
