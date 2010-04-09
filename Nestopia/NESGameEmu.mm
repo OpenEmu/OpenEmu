@@ -115,9 +115,9 @@ static void NST_CALLBACK SoundUnlock(void* userData,Nes::Api::Sound::Output& sou
 	}
 }
 
-- (id)initWithDocument:(GameDocument *)aDocument;
+- (id)init;
 {
-	self = [super initWithDocument: aDocument];
+	self = [super init];
 	if(self)
 	{
 		_nesSound = new Nes::Api::Sound::Output();

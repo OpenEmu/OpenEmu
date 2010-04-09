@@ -144,6 +144,20 @@
 			remoteGlobalIDString = 82444BA10F51256C007C171B;
 			remoteInfo = OpenEmuBase;
 		};
+		C62A258C116F07300003DEE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA5FF20F514B1D008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */;
+			remoteInfo = OpenEmuDebugHelperAppApp;
+		};
+		C62A258E116F07300003DEE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA5FF20F514B1D008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */;
+			remoteInfo = OpenEmuHelperApp;
+		};
 		C689A5CF0FE4644700885BC3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82EA5FF20F514B1D008E18C5 /* OpenEmu.xcodeproj */;
@@ -432,6 +446,8 @@
 		82EA5FF30F514B1D008E18C5 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				C62A258D116F07300003DEE4 /* OpenEmuDebugHelperAppApp.app */,
+				C62A258F116F07300003DEE4 /* OpenEmuHelperApp */,
 				82EA5FFB0F514B1D008E18C5 /* OpenEmu.app */,
 				82EA5FFD0F514B1D008E18C5 /* OpenEmuQC.plugin */,
 				82EA5FFF0F514B1D008E18C5 /* OpenEmuBase.framework */,
@@ -704,6 +720,20 @@
 			fileType = wrapper.framework;
 			path = OpenEmuBase.framework;
 			remoteRef = 82EA5FFE0F514B1D008E18C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C62A258D116F07300003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OpenEmuDebugHelperAppApp.app;
+			remoteRef = C62A258C116F07300003DEE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C62A258F116F07300003DEE4 /* OpenEmuHelperApp */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = OpenEmuHelperApp;
+			remoteRef = C62A258E116F07300003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

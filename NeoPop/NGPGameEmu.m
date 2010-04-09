@@ -73,9 +73,9 @@ int *gBlit = NULL;
 	[super stopEmulation];
 }
 
-- (id)initWithDocument:(GameDocument *)aDocument
+- (id)init
 {
-	self = [super initWithDocument:aDocument];
+	self = [super init];
 	if(self != nil)
 	{
 		sndBuf = calloc(SIZESOUNDBUFFER, sizeof(UInt16));

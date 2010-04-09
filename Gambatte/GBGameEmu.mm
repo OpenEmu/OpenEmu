@@ -75,9 +75,9 @@ void usecsleep(const usec_t usecs) {
 /*
  OpenEmu Core internal functions
  */
-- (id)initWithDocument:(GameDocument *)aDocument
+- (id)init
 {
-	self = [super initWithDocument:aDocument];
+	self = [super init];
 	if(self != nil)
 	{
 		NSLog(@"setup");

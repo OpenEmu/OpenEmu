@@ -87,6 +87,20 @@
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = CrabEmu;
 		};
+		C62A2568116F07070003DEE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */;
+			remoteInfo = OpenEmuDebugHelperAppApp;
+		};
+		C62A256A116F07070003DEE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */;
+			remoteInfo = OpenEmuHelperApp;
+		};
 		C689A5DE0FE4648F00885BC3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
@@ -415,6 +429,8 @@
 		C6E917C80FD356A500AC2CCC /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				C62A2569116F07070003DEE4 /* OpenEmuDebugHelperAppApp.app */,
+				C62A256B116F07070003DEE4 /* OpenEmuHelperApp */,
 				C6E917D00FD356A500AC2CCC /* OpenEmu.app */,
 				C6E917D20FD356A500AC2CCC /* OpenEmuQC.plugin */,
 				C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */,
@@ -477,6 +493,20 @@
 			fileType = wrapper.cfbundle;
 			path = OESaveStateQLPlugin.qlgenerator;
 			remoteRef = 3746BCD61029454F007C78A6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C62A2569116F07070003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OpenEmuDebugHelperAppApp.app;
+			remoteRef = C62A2568116F07070003DEE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C62A256B116F07070003DEE4 /* OpenEmuHelperApp */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = OpenEmuHelperApp;
+			remoteRef = C62A256A116F07070003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C6E917D00FD356A500AC2CCC /* OpenEmu.app */ = {

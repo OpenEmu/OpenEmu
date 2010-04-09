@@ -149,6 +149,20 @@
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = SNES9x;
 		};
+		C62A2624116F08B60003DEE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */;
+			remoteInfo = OpenEmuDebugHelperAppApp;
+		};
+		C62A2626116F08B60003DEE4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */;
+			remoteInfo = OpenEmuHelperApp;
+		};
 		C6E916620FD34B8000AC2CCC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
@@ -438,6 +452,8 @@
 		82444DAB0F51335E007C171B /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				C62A2625116F08B60003DEE4 /* OpenEmuDebugHelperAppApp.app */,
+				C62A2627116F08B60003DEE4 /* OpenEmuHelperApp */,
 				82444DB30F51335E007C171B /* OpenEmu.app */,
 				82444DB50F51335E007C171B /* OpenEmuQC.plugin */,
 				82444DB70F51335E007C171B /* OpenEmuBase.framework */,
@@ -652,7 +668,7 @@
 		3783949E1029238000168304 /* OESaveStateQLPlugin.qlgenerator */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = OESaveStateQLPlugin.bundle;
+			path = OESaveStateQLPlugin.qlgenerator;
 			remoteRef = 3783949D1029238000168304 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -675,6 +691,20 @@
 			fileType = wrapper.framework;
 			path = OpenEmuBase.framework;
 			remoteRef = 82444DB60F51335E007C171B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C62A2625116F08B60003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OpenEmuDebugHelperAppApp.app;
+			remoteRef = C62A2624116F08B60003DEE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C62A2627116F08B60003DEE4 /* OpenEmuHelperApp */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = OpenEmuHelperApp;
+			remoteRef = C62A2626116F08B60003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

@@ -94,23 +94,7 @@ NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Jo
 #define EMULATOR_CMD(aKey) (PLAYER_MASK((aKey).player) | ((aKey).key))
 - (void)mapButtons
 {
-    [self.owner forceKeyBindingRecover];
-#if 0
-	s9xcommand_t	cmd;
-
-	ASSIGN_BUTTONf(kMacCMapPad1PX,         "Joypad1 X");
-	ASSIGN_BUTTONf(kMacCMapPad1PA,         "Joypad1 A");
-	ASSIGN_BUTTONf(kMacCMapPad1PB,         "Joypad1 B");
-	ASSIGN_BUTTONf(kMacCMapPad1PY,         "Joypad1 Y");
-	ASSIGN_BUTTONf(kMacCMapPad1PL,         "Joypad1 L");
-	ASSIGN_BUTTONf(kMacCMapPad1PR,         "Joypad1 R");
-	ASSIGN_BUTTONf(kMacCMapPad1PSelect,    "Joypad1 Select");
-	ASSIGN_BUTTONf(kMacCMapPad1PStart,     "Joypad1 Start");
-	ASSIGN_BUTTONf(kMacCMapPad1PUp,        "Joypad1 Up");
-	ASSIGN_BUTTONf(kMacCMapPad1PDown,      "Joypad1 Down");
-	ASSIGN_BUTTONf(kMacCMapPad1PLeft,      "Joypad1 Left");
-	ASSIGN_BUTTONf(kMacCMapPad1PRight,     "Joypad1 Right");
-#endif
+    [[self owner] forceKeyBindingRecover];
 }
 
 - (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer
@@ -134,23 +118,6 @@ NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Jo
 #undef EMULATOR_CMD
 #pragma mark Exectuion
 
-- (void) reportControlPad: (int) padID withFlags: (uint32) flags
-{
-#if 0
-	S9xReportButton(base +  0, (flags & SNES_X_MASK));
-	S9xReportButton(base +  1, (flags & SNES_A_MASK));
-	S9xReportButton(base +  2, (flags & SNES_B_MASK));
-	S9xReportButton(base +  3, (flags & SNES_Y_MASK));
-	S9xReportButton(base +  4, (flags & SNES_TL_MASK));
-	S9xReportButton(base +  5, (flags & SNES_TR_MASK));
-	S9xReportButton(base +  6, (flags & SNES_SELECT_MASK));
-	S9xReportButton(base +  7, (flags & SNES_START_MASK));
-	S9xReportButton(base +  8, (flags & SNES_UP_MASK));
-	S9xReportButton(base +  9, (flags & SNES_DOWN_MASK));
-	S9xReportButton(base + 10, (flags & SNES_LEFT_MASK));
-	S9xReportButton(base + 11, (flags & SNES_RIGHT_MASK));
-#endif
-}
 - (void)executeFrame
 {
 	[self executeFrameSkippingFrame:NO];
@@ -158,8 +125,6 @@ NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Jo
 
 - (void)executeFrameSkippingFrame: (BOOL) skip
 {
-	[self reportControlPad:0 withFlags:controlPad[0]];		
-	
 	IPPU.RenderThisFrame = !skip;
 	S9xMainLoop();
 	

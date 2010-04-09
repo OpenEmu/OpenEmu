@@ -97,16 +97,16 @@ NSString *MednafenControlNames[] = {
 	@"WS@_BUTTON_A" ,    
 	@"WS@_BUTTON_B" ,    
 };
-- (id)initWithDocument:(GameDocument *)aDocument
+- (id)init
 {
-	self = [super initWithDocument:aDocument];
+	self = [super init];
 	if(self != nil)
 	{
 		driverSettings = new std::vector<MDFNSetting>();
 		soundLock = [[NSLock alloc] init];
 		bufLock = [[NSLock alloc] init];
 		
-		NSLog(@"Inited? %d" ,MDFNI_Initialize((char*)[[[NSBundle bundleForClass:[self class]]  resourcePath] UTF8String] , *driverSettings));
+		NSLog(@"Inited? %d", MDFNI_Initialize((char*)[[[NSBundle bundleForClass:[self class]]  resourcePath] UTF8String] , *driverSettings));
 		position = 0;
 		sndBuf = (uint16*)malloc(100000 * sizeof(UInt16));
 //		memset(sndBuf, 0, SIZESOUNDBUFFER * sizeof(UInt16));
@@ -117,8 +117,8 @@ NSString *MednafenControlNames[] = {
 
 - (void) dealloc
 {
-	DLog(@"releasing/deallocating CrabEmu memory");
-	//free(sndBuf);
+	DLog(@"releasing/deallocating Mednafen memory");
+	free(sndBuf);
 	[soundLock release];
 	[bufLock release];
 	//free(tempBuffer);

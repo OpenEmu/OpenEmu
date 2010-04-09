@@ -500,7 +500,7 @@
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
 		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
 		37CC66190FF8379B00226BCB /* config_qc.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config_qc.yaml; sourceTree = "<group>"; };
-		3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OESaveStateQLPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OESaveStateQLPlugin.qlgenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateThumbnailForURL.m; sourceTree = "<group>"; };
 		3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratePreviewForURL.m; sourceTree = "<group>"; };
 		3887A8041024D2BC000FC4CF /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
@@ -745,7 +745,7 @@
 				8D15AC370486D014006FF6A4 /* OpenEmu.app */,
 				828E65980E8466A100B1860B /* OpenEmuQC.plugin */,
 				82444BA10F51256C007C171B /* OpenEmuBase.framework */,
-				3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.bundle */,
+				3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */,
 				1BEF2A9411682A530090F72B /* OpenEmuHelperApp */,
 				1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */,
 			);
@@ -1264,7 +1264,7 @@
 			);
 			name = OESaveStateQLPlugin;
 			productName = OESaveStateQLPlugin;
-			productReference = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.bundle */;
+			productReference = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */;
 			productType = "com.apple.product-type.bundle";
 		};
 		82444BA00F51256C007C171B /* OpenEmuBase */ = {

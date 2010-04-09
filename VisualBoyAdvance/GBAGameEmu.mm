@@ -168,9 +168,9 @@ void writeBattery();
 
 OERingBuffer *ringBuffer = nil;
 
-- (id)initWithDocument:(GameDocument *)aDocument
+- (id)init
 {
-	self = [super initWithDocument:aDocument];
+	self = [super init];
 	if(self != nil)
 	{
 		soundLock = [[NSLock alloc] init];

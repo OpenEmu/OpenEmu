@@ -40,6 +40,5 @@ OE_EXTERN NSString *SNESEmulatorNames[];
 	UInt16 *soundBuffer;
 	unsigned char *videoBuffer;
 }
-- (void) reportControlPad: (int) padID withFlags: (uint32) flags;
 
 @end

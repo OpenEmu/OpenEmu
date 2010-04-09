@@ -88,8 +88,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 - (void)dealloc
 {
     DLog(@"%s", __FUNCTION__);
-    if(keyMap != NULL) 
-        OEMapRelease(keyMap);
+    if(keyMap != NULL) OEMapRelease(keyMap);
     
     [emulationThread release];
     

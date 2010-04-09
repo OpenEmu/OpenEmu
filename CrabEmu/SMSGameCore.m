@@ -53,23 +53,6 @@ static OERingBuffer *ringBuffer;
 /*
  OpenEmu Core internal functions
  */
-- (id)initWithDocument:(GameDocument *)aDocument
-{
-	self = [super initWithDocument:aDocument];
-	if(self != nil)
-	{
-		soundLock = [[NSLock alloc] init];
-		bufLock = [[NSLock alloc] init];
-		tempBuffer = malloc(256 * 256 * 4);
-		
-		position = 0;
-		sndBuf = malloc(SIZESOUNDBUFFER * sizeof(UInt16));
-		memset(sndBuf, 0, SIZESOUNDBUFFER * sizeof(UInt16));
-		ringBuffer = [self ringBufferAtIndex:0];
-	}
-	return self;
-}
-
 - (id)init
 {
 	self = [super init];
