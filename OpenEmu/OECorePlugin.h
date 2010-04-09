@@ -50,6 +50,7 @@
 @property(readonly) Class                 gameCoreClass;
 
 + (NSArray *)supportedTypeExtensions;
++ (OECorePlugin *)corePluginWithBundleAtPath:(NSString *)bundlePath;
 
 - (NSArray *)availablePreferenceViewControllers;
 - (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey;

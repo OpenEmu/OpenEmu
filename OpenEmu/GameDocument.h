@@ -34,43 +34,43 @@
 @class OEGameCoreController;
 @class OEGameLayer;
 @class GameQTRecorder;
+@protocol OEGameCoreHelper;
 
 #import "TaskWrapper.h"
 
 @interface GameDocument : NSDocument <TaskWrapperController>
 {
-	// IPC from our OEHelper
-	TaskWrapper *helper;
-	NSString* taskUUIDForDOServer;	
-	NSConnection* taskConnection;
-	
-	id rootProxy;
-	
-	// standard game document stuff
-    NSTimer        *frameTimer;
-    CALayer        *rootLayer;
-    OEGameLayer    *gameLayer;
-    GameQTRecorder *recorder;
-    BOOL            keyedOnce;
-    NSString       *emulatorName;
-    NSWindow       *gameWindow;
-    NSView         *view;
-    OEGameCoreController   *gameController;
-	IBOutlet NSToolbarItem *playPauseToolbarItem;
-
+    // IPC from our OEHelper
+    TaskWrapper          *helper;
+    NSString             *taskUUIDForDOServer;
+    NSConnection         *taskConnection;
+    
+    id<OEGameCoreHelper>  rootProxy;
+    
+    // standard game document stuff
+    NSTimer              *frameTimer;
+    CALayer              *rootLayer;
+    OEGameLayer          *gameLayer;
+    GameQTRecorder       *recorder;
+    NSString             *emulatorName;
+    NSWindow             *gameWindow;
+    NSView               *view;
+    OEGameCoreController *gameController;
+    NSToolbarItem        *playPauseToolbarItem;
+    BOOL                  keyedOnce;
 }
 
-@property(retain) IBOutlet NSWindow *gameWindow;
-@property(retain) IBOutlet NSView   *view;
+@property(retain) IBOutlet NSToolbarItem *playPauseToolbarItem;
+@property(retain) IBOutlet NSWindow      *gameWindow;
+@property(retain) IBOutlet NSView        *view;
 
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
 @property(readonly) BOOL isFullScreen;
 @property(readonly) NSString *emulatorName;
 
 // new task stuff
-- (BOOL) startHelperProcessWithPath:(NSString*)romPath;
-- (void) endHelperProcess;
-
+- (BOOL)startHelperProcess;
+- (void)endHelperProcess;
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes;
 - (void)refresh;
@@ -87,11 +87,7 @@
 - (BOOL)backgroundPauses;
 - (BOOL)defaultsToFullScreenMode;
 
-- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-- (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo;
-
 - (NSImage *)screenShot;
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
-
 
 @end

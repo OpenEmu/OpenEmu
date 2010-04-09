@@ -41,7 +41,7 @@
 @implementation GameDocument
 
 //@synthesize gameCore;
-@synthesize emulatorName, view, gameWindow;
+@synthesize emulatorName, view, gameWindow, playPauseToolbarItem;
 
 - (id)init
 {
@@ -163,77 +163,78 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     taskConnection = nil;
 }
 
-- (BOOL) startHelperProcessWithPath:(NSString*)romPath
+- (BOOL)startHelperProcess
 {
-    // check to make sure the Rom path is a valid path;
-    if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
-    {            
-        // run our background task. Get our IOSurface ids from its standard out.
-        NSString *cliPath = [[NSBundle bundleForClass:[self class]] pathForResource: @"OpenEmuHelperApp" ofType: @""];
-        
-        // generate a UUID string so we can have multiple screen capture background tasks running.
-        taskUUIDForDOServer = [[NSString stringWithUUID] retain];
-        // NSLog(@"helper tool UUID should be %@", taskUUIDForDOServer);
-        
-        NSArray *args = [NSArray arrayWithObjects: cliPath, taskUUIDForDOServer, romPath, nil];
-        
-        helper = [[TaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
-        [helper startProcess];
-        
-        DLog(@"launched task with environment: %@", [[helper task] environment]);
-        
-        // now that we launched the helper, start up our NSConnection for DO object vending and configure it
-        // this is however a race condition if our helper process is not fully launched yet. 
-        // we hack it out here. Normally this while loop is not noticable, its very fast
-        
-        taskConnection = nil;
-        while(taskConnection == nil)
-            taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer, nil] host:nil];
-        
-        [taskConnection retain];
-        
-        // now that we have a valid connection...
-        rootProxy = [[taskConnection rootProxy] retain];
-        if(rootProxy == nil)
-            NSLog(@"nil root proxy object?");
-        [rootProxy setProtocolForProxy:@protocol(OEGameCoreHelper)];
-        
-        //TODO: check to make sure things really launched and are running, before returning YES
-        
-        return YES;
-    }
+    // run our background task. Get our IOSurface ids from its standard out.
+    NSString *cliPath = [[NSBundle bundleForClass:[self class]] pathForResource: @"OpenEmuHelperApp" ofType: @""];
     
-    return NO;
+    // generate a UUID string so we can have multiple screen capture background tasks running.
+    taskUUIDForDOServer = [[NSString stringWithUUID] retain];
+    // NSLog(@"helper tool UUID should be %@", taskUUIDForDOServer);
+    
+    NSArray *args = [NSArray arrayWithObjects: cliPath, taskUUIDForDOServer, nil];
+    
+    helper = [[TaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
+    [helper startProcess];
+    
+    DLog(@"launched task with environment: %@", [[helper task] environment]);
+    
+    // now that we launched the helper, start up our NSConnection for DO object vending and configure it
+    // this is however a race condition if our helper process is not fully launched yet. 
+    // we hack it out here. Normally this while loop is not noticable, its very fast
+    
+    taskConnection = nil;
+    while(taskConnection == nil)
+        taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer, nil] host:nil];
+    
+    [taskConnection retain];
+    
+    // now that we have a valid connection...
+    rootProxy = [[taskConnection rootProxy] retain];
+    if(rootProxy == nil) NSLog(@"nil root proxy object?");
+    [(NSDistantObject *)rootProxy setProtocolForProxy:@protocol(OEGameCoreHelper)];
+    
+    //TODO: check to make sure things really launched and are running, before returning YES
+    
+    return YES;
 }
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-    DLog(@"%@",self);
-    
-    GameDocumentController *docControl = [GameDocumentController sharedDocumentController];
-    OECorePlugin *plugin = nil;
-    
-    for(OEPlugin *aPlugin in [docControl plugins])
-        if([[aPlugin displayName] isEqualToString:typeName])
-        {
-            plugin = (OECorePlugin*)aPlugin;
-            break;
-        }
-
-    if( plugin == nil ) return NO;
-    
-    gameController = [[plugin controller] retain];
-    emulatorName = [[plugin displayName] retain];
-    
-    if([self startHelperProcessWithPath:[absoluteURL path]])
+    NSString *romPath = [absoluteURL path];
+    if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
     {
-        [gameController addSettingObserver:[rootProxy gameCore]];
+        DLog(@"%@",self);
         
-        return YES;
+        GameDocumentController *docControl = [GameDocumentController sharedDocumentController];
+        OECorePlugin *plugin = nil;
+        
+        for(OEPlugin *aPlugin in [docControl plugins])
+            if([[aPlugin displayName] isEqualToString:typeName])
+            {
+                plugin = (OECorePlugin *)aPlugin;
+                break;
+            }
+        
+        if(plugin == nil) return NO;
+        
+        gameController = [[plugin controller] retain];
+        emulatorName = [[plugin displayName] retain];
+        
+        if([self startHelperProcess])
+        {
+            GameCore *gameCore = nil;
+            if([rootProxy loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] gameCore:&gameCore])
+            {
+                [gameCore setOwner:gameController];
+                [gameController addSettingObserver:gameCore];
+                
+                [rootProxy setupEmulation];
+                
+                return YES;
+            }
+        } 
     }
-    
-    // load our TasWapper friend here:
-    
     
     NSLog(@"Incorrect file");
     if(outError != NULL) *outError = [[NSError alloc] initWithDomain:@"Bad file" code:0 userInfo:nil];
@@ -366,13 +367,15 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 }
 
 - (IBAction)saveState:(id)sender
-{ 
-    [[NSSavePanel savePanel] beginSheetForDirectory:nil
-                                               file:nil 
-                                     modalForWindow:gameWindow
-                                      modalDelegate:self
-                                     didEndSelector:@selector(savePanelDidEnd:returnCode:contextInfo:)
-                                        contextInfo:NULL];
+{
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    
+    [panel beginSheetModalForWindow:gameWindow
+                  completionHandler:
+     ^(NSInteger result)
+     {
+         if(result == NSOKButton) [self saveStateToFile:[panel filename]];
+     }];
 }
 
 - (void)saveStateToFile:(NSString *)fileName
@@ -381,24 +384,16 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 //        [gameCore saveStateToFileAtPath: fileName];
 }
 
-- (void)savePanelDidEnd:(NSSavePanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-    if(returnCode == NSOKButton) [self saveStateToFile:[sheet filename]];
-}
-
 - (IBAction)loadState:(id)sender
 {
-    [[NSOpenPanel openPanel] beginSheetForDirectory:nil
-                                               file:nil
-                                     modalForWindow:gameWindow
-                                      modalDelegate:self
-                                     didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
-                                        contextInfo:NULL];
-}
-
-- (void)openPanelDidEnd:(NSOpenPanel *)panel returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
-    if(returnCode == NSOKButton) [self loadStateFromFile:[panel filename]];
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    
+    [panel beginSheetModalForWindow:gameWindow
+                  completionHandler:
+     ^(NSInteger result)
+     {
+         if(result == NSOKButton) [self loadStateFromFile:[panel filename]];
+     }];
 }
 
 - (void)loadStateFromFile:(NSString *)fileName
@@ -435,16 +430,16 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 #pragma mark TaskWrapper delegates
 
-- (void)appendOutput:(NSString *)output fromProcess: (TaskWrapper *)aTask
+- (void)appendOutput:(NSString *)output fromProcess:(TaskWrapper *)aTask
 {
     printf("%s", [output UTF8String]);
 }    
 
-- (void)processStarted: (TaskWrapper *)aTask
+- (void)processStarted:(TaskWrapper *)aTask
 {
 }
 
-- (void)processFinished: (TaskWrapper *)aTask withStatus: (int)statusCode
+- (void)processFinished:(TaskWrapper *)aTask withStatus:(NSInteger)statusCode
 {
 }
 

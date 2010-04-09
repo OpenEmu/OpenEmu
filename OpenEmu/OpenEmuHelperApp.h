@@ -45,63 +45,56 @@
 
 @interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper>
 {
-	pid_t parentID; // the process id of the parent app (Open Emu or our debug helper)
-	
-	// IOSurface requirements
-	IOSurfaceRef surfaceRef;
-	IOSurfaceID	surfaceID;
-	
-	// GL Requirements
-	CGLContextObj glContext;
-	GLuint gameTexture;	// this is the texture that is defined by the gameCores pixelFormat and type
-	GLuint gameFBO;		// this FBO uses the IOSurfaceTexture as an attachment and renders the gameTexture to 'square pixels'
-	GLuint ioSurfaceTexture;	// square pixel, screenWidth/height texture sent off to our Parent App for display. Yay.
-	
-	// rendering - may want to move to display link in the future?
-	NSTimer* timer;
-	
-	// we will need a way to do IPC, for now its DO.
-	NSString* doUUID;
-	NSConnection* theConnection;
-	
-	// OE stuff
-	NSArray              *plugins;
-    NSArray              *validExtensions;
-	OEGameCoreController *gameCoreController;
-	GameCore* gameCore;
-	GameAudio* gameAudio;
+    NSRunningApplication *parentApplication; // the process id of the parent app (Open Emu or our debug helper)
     
-	NSString* romPath;
-	BOOL loadedRom;
+    // IOSurface requirements
+    IOSurfaceRef   surfaceRef;
+    IOSurfaceID    surfaceID;
+    
+    // GL Requirements
+    CGLContextObj  glContext;
+    GLuint         gameTexture;    // this is the texture that is defined by the gameCores pixelFormat and type
+    GLuint         gameFBO;        // this FBO uses the IOSurfaceTexture as an attachment and renders the gameTexture to 'square pixels'
+    GLuint         ioSurfaceTexture; // square pixel, screenWidth/height texture sent off to our Parent App for display. Yay.
+    
+    // rendering - may want to move to display link in the future?
+    NSTimer       *timer;
+    
+    // we will need a way to do IPC, for now its DO.
+    NSString      *doUUID;
+    NSConnection  *theConnection;
+    
+    // OE stuff
+    NSArray       *plugins;
+    NSArray       *validExtensions;
+    GameCore      *gameCore;
+    GameAudio     *gameAudio;
+    
+    BOOL           loadedRom;
 }
 
-@property (readwrite, retain) NSString* doUUID;
-@property (readwrite, retain) NSString* romPath;
-@property (assign) BOOL loadedRom;
+@property(readwrite, retain) NSString *doUUID;
+@property(readwrite, retain) NSString *romPath;
+@property(assign) BOOL loadedRom;
 
-- (void) quitHelperTool;
+- (void)quitHelperTool;
 
 #pragma mark -
 #pragma mark IOSurface and GL Render
-- (void) setupOpenGLOnScreen:(NSScreen*)screen;
-- (void) setupIOSurface;
-- (void) setupFBO;
-- (void) setUpGameTexture;
-- (void) setupTimer;
-- (void) updateGameTexture;
-- (void) correctPixelAspectRatio;
-- (void) destroySurface;
-
-
-#pragma mark -
-#pragma mark Game Core methods
-- (OECorePlugin*) pluginForType:(NSString *)extension;
-- (BOOL) loadRom:(NSString *)path;
+- (void)setupOpenGLOnScreen:(NSScreen*)screen;
+- (void)setupIOSurface;
+- (void)setupFBO;
+- (void)setupGameTexture;
+- (void)setupTimer;
+- (void)setupGameCore;
+- (void)updateGameTexture;
+- (void)correctPixelAspectRatio;
+- (void)destroySurface;
 
 #pragma mark -
 #pragma mark OE DO protocol delegate methods
-- (void) setVolume:(float)volume;
-- (void) setPauseEmulation:(BOOL)paused;
+- (void)setVolume:(float)volume;
+- (void)setPauseEmulation:(BOOL)paused;
 - (oneway void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button;
 - (oneway void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button;
 @end

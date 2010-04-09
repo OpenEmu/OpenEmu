@@ -35,6 +35,11 @@
 
 @synthesize icon, supportedTypes, supportedTypeExtensions, gameCoreClass, controller, typeName;
 
++ (OECorePlugin *)corePluginWithBundleAtPath:(NSString *)bundlePath
+{
+    return [self pluginWithBundleAtPath:bundlePath type:self];
+}
+
 - (id)initWithBundle:(NSBundle *)aBundle
 {
     if(self = [super initWithBundle:aBundle])

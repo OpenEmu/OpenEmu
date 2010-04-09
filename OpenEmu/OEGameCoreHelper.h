@@ -31,7 +31,7 @@
 @class GameCore;
 
 // our helper app needs to handle these functions
-@protocol OEGameCoreHelper
+@protocol OEGameCoreHelper <NSObject>
 
 // control gamecore
 - (oneway void)setVolume:(float)value;
@@ -52,5 +52,8 @@
 @property(readonly) IOSurfaceID surfaceID;
 
 - (byref GameCore *)gameCore;
+
+- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath gameCore:(byref out GameCore **)createdCore;
+- (void)setupEmulation;
 
 @end

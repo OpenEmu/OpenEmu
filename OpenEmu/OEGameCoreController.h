@@ -77,7 +77,7 @@ extern NSString *const OEKeyboardEventValueKey;
  * the name).
  */
 - (id)newPreferenceViewControllerForKey:(NSString *)aKey;
-- (GameCore *)newGameCore;
+- (bycopy GameCore *)newGameCore;
 - (void)addSettingObserver:(id<OESettingObserver>)anObject;
 - (void)removeSettingObserver:(id<OESettingObserver>)anObject;
 - (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType;
@@ -103,13 +103,13 @@ extern NSString *const OEKeyboardEventValueKey;
 @end
 
 @protocol OESettingObserver
-- (oneway void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey;
-- (oneway void)unsetEventForKey:(bycopy NSString *)keyName withValueMask:(NSUInteger)keyMask;
-- (oneway void)settingWasSet:(bycopy id)aValue forKey:(bycopy NSString *)keyName;
-- (oneway void)keyboardEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
-- (oneway void)keyboardEventWasRemovedForKey:(bycopy NSString *)keyName;
+- (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey;
+- (void)unsetEventForKey:(bycopy NSString *)keyName withValueMask:(NSUInteger)keyMask;
+- (void)settingWasSet:(bycopy id)aValue forKey:(bycopy NSString *)keyName;
+- (void)keyboardEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
+- (void)keyboardEventWasRemovedForKey:(bycopy NSString *)keyName;
 
-- (oneway void)HIDEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
-- (oneway void)HIDEventWasRemovedForKey:(bycopy NSString *)keyName;
+- (void)HIDEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
+- (void)HIDEventWasRemovedForKey:(bycopy NSString *)keyName;
 @end
 

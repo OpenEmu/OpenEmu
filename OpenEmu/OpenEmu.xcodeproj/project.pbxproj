@@ -1343,9 +1343,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1BEF2CFC116854650090F72B /* OpenEmuDebugHelperAppApp */,
-				1BEF2A9311682A530090F72B /* OpenEmuHelperApp */,
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
+				1BEF2A9311682A530090F72B /* OpenEmuHelperApp */,
+				1BEF2CFC116854650090F72B /* OpenEmuDebugHelperAppApp */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				828E65970E8466A100B1860B /* OpenEmuQC */,
 				828E65E30E8467E900B1860B /* Build & Copy OpenEmuQC */,

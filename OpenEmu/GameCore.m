@@ -62,12 +62,6 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     }
 }
 
-#warning FIXME: should remove that in the merged version ! (which implies changing all the cores)
-- (id)initWithDocument:(GameDocument *)aDocument
-{
-    return [self init];
-}
-
 - (id)init
 {
     self = [super init];

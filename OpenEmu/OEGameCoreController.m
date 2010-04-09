@@ -248,9 +248,7 @@ static void OE_setupControlNames(OEGameCoreController *self)
 
 - (GameCore *)newGameCore
 {
-    GameCore *ret = [[[self gameCoreClass] alloc] init];
-    ret.owner = self;
-    return ret;
+    return [[[self gameCoreClass] alloc] init];
 }
 
 - (void)OE_enumerateSettingKeysUsingBlock:(void(^)(NSString *keyPath, NSString *keyName, NSString *keyType))block

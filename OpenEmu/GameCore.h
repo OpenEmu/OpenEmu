@@ -92,8 +92,6 @@ typedef NSInteger OEButton;
 + (NSTimeInterval)defaultTimeInterval;
 + (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval;
 
-- (id)initWithDocument:(GameDocument *)aDocument DEPRECATED_ATTRIBUTE;
-
 @property(assign) OEGameCoreController *owner;
 @property(readwrite) BOOL frameFinished;
 @property NSTimeInterval frameInterval;
