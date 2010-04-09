@@ -34,5 +34,5 @@
 #ifdef DEBUG_PRINT
 #define DLog(format, ...) NSLog(@"%s: " format, __FUNCTION__, ##__VA_ARGS__)
 #else
-#define DLog(format, ...)
+#define DLog(format, ...) 1
 #endif

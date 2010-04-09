@@ -25,18 +25,21 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Cocoa/Cocoa.h>
+#import "OEMap.h"
+#import "OEGameCoreController.h"
+
+#ifndef DLog
 
 #define DEBUG_PRINT
 
 #ifdef DEBUG_PRINT
 #define DLog(format, ...) NSLog(@"%s: " format, __FUNCTION__, ##__VA_ARGS__)
 #else
-#define DLog(format, ...)
+#define DLog(format, ...) 1
 #endif
 
-#import <Cocoa/Cocoa.h>
-#import "OEMap.h"
-#import "OEGameCoreController.h"
+#endif
 
 enum {
     OEButton_Up = 1,
