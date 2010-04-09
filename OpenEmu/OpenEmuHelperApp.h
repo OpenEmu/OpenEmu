@@ -73,9 +73,8 @@
     BOOL           loadedRom;
 }
 
-@property(readwrite, retain) NSString *doUUID;
-@property(readwrite, retain) NSString *romPath;
-@property(assign) BOOL loadedRom;
+@property(retain) NSString *doUUID;
+@property(assign) BOOL      loadedRom;
 
 - (void)quitHelperTool;
 

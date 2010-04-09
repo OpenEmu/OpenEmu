@@ -44,7 +44,6 @@
 @implementation OpenEmuHelperApp
 
 @synthesize doUUID;
-@synthesize romPath;
 @synthesize loadedRom, surfaceID;
 
 #pragma mark -
