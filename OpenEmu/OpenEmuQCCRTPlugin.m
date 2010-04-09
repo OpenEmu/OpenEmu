@@ -1024,6 +1024,7 @@ static GLuint copyLastFrame(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUIntege
             // we also double the width of the blur and go once more, cause thats what stella does.
             switch (self.inputPhosphorBlurNumPasses) 
             {
+                default:
                 case 0:
                 {
                     GLuint horizontal1 = renderPhosphorBlur(frameBuffer, cgl_ctx, bounds.size.width, bounds.size.height, bounds, crt, phosphorBlur, self.inputPhosphorBlurAmount, 0.0);
