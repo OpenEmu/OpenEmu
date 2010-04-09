@@ -404,14 +404,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */;
+			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
 			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A2603116F08760003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */;
+			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
 		};
 		C689A5D40FE4647900885BC3 /* PBXContainerItemProxy */ = {
@@ -1216,9 +1216,9 @@
 		82444BC50F512685007C171B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C62A2602116F08760003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				C62A2604116F08760003DEE4 /* OpenEmuHelperApp */,
 				82444BCD0F512685007C171B /* OpenEmu.app */,
+				C62A2604116F08760003DEE4 /* OpenEmuHelperApp */,
+				C62A2602116F08760003DEE4 /* OpenEmuDebugHelperAppApp.app */,
 				82444BCF0F512685007C171B /* OpenEmuQC.plugin */,
 				82444BD10F512685007C171B /* OpenEmuBase.framework */,
 				37372B14102511E2006ADD56 /* OESaveStateQLPlugin.qlgenerator */,
