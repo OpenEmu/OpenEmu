@@ -1,0 +1,757 @@
+   ___ ___         _
+  /   |   \ ___ __/ \__ ___  ___  /\__
+  \  / \  // __>\_   _// __|/ __\/    \
+   \_____/_\__ \  \_/  \___|\___/\_/\_/
+          \____/      2.4 - 26.12.2003
+
+1. ABOUT
+   WStech doc v2.4 made by Judge and Dox
+   Special thanks to -anonymous- contributor for some usefull info.
+
+   For more info please visit http://www.pocketdomain.net
+
+   Comments/updates/infos please send to dox@space.pl
+
+   What's new in version 2.4:
+
+   - corect info about Sprite Table, BG Map and FG Map  locations    	
+	(ports $04 and $07 - section 10)
+    Special thanks to mika-n
+
+2. CPU
+
+  Bandai SPGY-1001 ASWAN 9850KK003
+  NEC V30 MZ - fast version of V30 with internal pipeline (16 bytes prefatch buffer) running at 3.072 MHz.
+  V30 MZ is aprox 4 times faster than V30.
+  The V30MZ performs pipeline processing internally, performing instruction fetch (prefetch), instruction decode, and
+  instruction execution in parallel. For this reason, it is difficult to determine what part of the program is currently being
+  executed by monitoring the output of the address bus for the instruction code fetch.
+  If there are conditional branch instructions, even in case branching does not occur, the address of the branch
+  destination is prefetched (only one time), so that further monitoring of the program is difficult.
+  The V30MZ has 8 prefetch queues (16 bytes).
+
+  There are a few other differences between V30MZ and V30 cpu (unsupported opcodes , different flag handling after mul/div).
+
+  Timing:
+
+  Hblank : 256 CPU cycles
+  Vblank : 159 Hblank = 159*256/3072000 = 75.47Hz
+
+
+3. MEMORY
+
+   20 bit addressing space = 1 Megabyte. Memory is splitted into 64KB blocks (segments/banks).
+
+        Segments:
+
+        0 - RAM - 16 KB (WS) / 64 KB (WSC) internal RAM (see below)
+
+        1 - SRAM (cart) SRAM is BSI device BS62LV256TC - 256K(32Kx8) Static RAM - TSOP 0 - 70 c, 70 ns (http://www.bsi.com.tw/product/bs62lv256.pdf)
+
+        2 - ROM Bank (initial bank = last)
+        3 - ROM Bank (lnitial bank = last)
+
+        4 - ROM Bank (initial bank = last - 11)
+        5 - ROM Bank (initial bank = last - 10)
+        6 - ROM Bank (initial bank = last - 9)
+        7 - ROM Bank (initial bank = last - 8)
+        8 - ROM Bank (initial bank = last - 7)
+        9 - ROM Bank (initial bank = last - 6)
+        A - ROM Bank (initial bank = last - 5)
+        B - ROM Bank (initial bank = last - 4)
+        C - ROM Bank (initial bank = last - 3)
+        D - ROM Bank (initial bank = last - 2)
+        E - ROM Bank (initial bank = last - 1)
+        F - ROM Bank (initial bank = last)
+
+        Segments 2-$F are switchable using ports :
+
+        $C2 - Segment 2 (value written to port is ROM Bank number  ($FF means last ROM bank (last 64 kbytes of ROM file) , $FE  = last - 1 .. etc)
+        $C3 - Segment 3 (same as above)
+        $C0 - Segments 4-$F - bits 0,1,2 and 3 of port $C0 are bits 4,5,6 and 7 of ROM bank number in segments 4-$F . Bits 0-3
+              are taken form segment number ( for example , IO[$C0]=$4E  -> segment 9 contains ROM bank $E9).
+
+  RAM Map :
+
+      $0000 - $1FFF                           WS/WSC
+      $2000 - $3FFF    4 Col Tiles            WS/WSC
+      -------------
+      $4000 - $7FFF   16 Col Tiles Bank 0     WSC only
+      $8000 - $BFFF   16 Col Tiles Bank 1     WSC only
+      $C000 - $FDFF                           WSC only
+      $FE00 - $FFFF   Palettes (WSC)          WSC only
+
+      Some games required initialized (?) part of RAM, for example:
+
+        $75AC = $41 = "A"
+        $75AD = $5F = "_"
+        $75AE = $43 = "C"
+        $75AF = $31 = "1"
+        $75B0 = $6E = "n"
+        $75B1 = $5F = "_"
+        $75B2 = $63 = "c"
+        $75B3 = $31 = "1"
+
+4. VIDEO
+
+   Screen size     - 224 x 144 pixels (28 x 18 tiles)
+   Tile size       - 8 x 8 dots , 16 bytes/tile (4 col modes) or 32 bytes/tile (16 col modes)
+   Map size        - 256 x 256 pixels (32 x 32 tiles)
+   Layers          - Two layers - Background and Foreground (top layer)
+   Maps locations  - Selectable using port $07
+   Tiles locations - Fixed, two banks - one at $4000 , second at $8000
+   Map format      - Each position in the map is defined by one word:
+                      bits 0 - 8   - Tile number (0-511)
+                      bits 9 - 12  - Palette number (0-15)
+                      bit 13       - WS = unused / WSC = tile bank
+                      bit 14       - Horizontal flip
+                      bit 15       - Vertical flip
+   Tile formats    - Depends on video mode (port $60)
+   Sprites         - Max 128 sprites , limited to max 32 on scanline
+                     sprite format:
+                     byte 0,1 - bits
+                                0 - 8   - Tile number (0-511)
+                                9 - 11  - Palette number (0-7) + 8 -> (8-15)
+                                12      - Sprite window clipping on/off
+                                13      - Priority with respect to the layers
+                                          0 - appear between the 2 background and foreground layers
+                                          1 - appear on top of both layers
+                                14      - Horizontal flip
+                                15      - Vertical flip
+                     byte 2 - Y position on the screen
+                     byte 3 - X position on the screen
+
+                     Sprite table is buffered durning frame display.
+                     Probably up to scanline 140 (1238-144?)
+
+   Colors          - Wonderswan (Mono) is capable of showing 16 shades of gray(only 8 can be selected at any one time)
+                     These 8 shades form a pool from which the palette definition can select shades. There are 16 palettes.
+                     All 16 palettes are used by BG and FG layers , the last 8 are used also by sprites.
+                     Which 8 colors are used for palette generation is defined by ports 1C and 1E- port 1C
+                     defines palette colors 0 - 3, port 1E defines 4 - 7. Each palette selection is 4 bits in
+                     size:
+                       1C : 11110000
+                       1D : 33332222
+                       1E : 55554444
+                       1F : 77776666
+
+                      (where color 15 is the darkest one)
+
+                      Ports 20 - 3E are used to define the palettes themselves.
+                        20 : x111x000 - palette #0
+                        21 : x333x222
+
+                     In color video modes each color is defined using one word,
+                        where bits:
+                              0 -  3  Blue
+                              4 -  7  Green
+                              8 - 11  Red
+                             12 - 14  unused
+                     Color palettes are stored in the RAM (segment 0) , at address $FE00
+
+   Scrolling       - Each of layers can be scrolled horizontal or vertical using ports $10 - $13
+
+   Transparency    - Wonderswan       - if bit 3 on palette number is set - color 0 of that palette is transparent
+                     Wonderswan color - color 0 of each palette is transparent
+   Windows         - There are two windows - rectangular areas for disabling /enabling FG layer (FG window) or sprites(Sprite window)
+
+5. SOUND
+
+   4 Audio channels.
+   Each channel can play short samples ( 4 bit , 16 bytes ( 32 sampels = 2 samples in  byte (bits 0-3 and 4-7))
+   with selectable frequency = 3,072 *10e6  / ((2048 - N) x 32 ) Hz , where N = 11 bit value.
+   Location of that samples is unknown.
+
+   Volume of each audio channle is controlled by writing two 4 bit values ( for left/right output
+   channel) into ports $88 - $8B. Master volume is controlled by  port $91
+   (2 bit value = first  'used' bit in master volume output (11 bit wide)  , D/A converter can
+   read only 8 bits , starting from  bit set in port $91 , for example if first 'used' bit
+   is set to 2 , D/A using bits 2,3,4,5,6,7,8,9  for audio output)
+
+   Additional (selectable) functions :
+    - channel 2 - voice - can play 8 bit samples writing frequently data to ch2 volume I/O port
+    - channel 3 - sweep - two parameters:
+                        - step = 2.667 x (N + 1) ms , where N = 5 bit value
+                        - value - signed byte (-128  - 127)
+    - channel 4 - noise - 7 selectable noise generators (probably I/O port $8E)
+
+   For detailed info please check ports $80 - $91 in section I/O Ports.
+
+   There's also Audio DMA (please chec ports $4a - $52).
+   Transfer rate is 12KHz (HBlank).
+   I/O ports $4A-$4B and $4E-$4F are autupdated durning data transfer .
+
+6. ROM HEADER
+
+ Header taking last 10 bytes of each ROM file.
+ Bytes  :
+ 0   - Developer ID
+ 1   - Minimum support system
+       00 - WS Mono
+       01 - WS Color
+ 2   - Cart ID number for developer defined at byte 0
+ 3   - ??
+ 4   - ROM Size
+       01 - ?
+       02 - 4Mbit
+       03 - 8Mbit
+       04 - 16Mbit
+       05 - ?
+       06 - 32Mbit
+       07 - ?
+       08 - 64Mbit
+       09 - 128Mbit
+ 5   - SRAM/EEPROM Size
+       00 - 0k
+       01 - 64k SRAM
+       02 - 256k SRAM
+       03 - 1M SRAM (Taikyoku Igo Heisei Kiin)
+       04 - 2M SRAM (WonderWitch)
+       10 - 1k EEPROM
+       20 - 16k EEPROM
+       50 - 8k EEPROM
+ 6   - Additional capabilities(?)
+       - bit 0 - 1 - vertical position , 1 - horizontal position
+       - bit 2 - always 1
+
+ 7   - 1 - RTC (Real Time Clock)
+ 8,9 - Checksum = sum of all ROM bytes except two last ones ( where checksum is stored)
+
+7. INTERRUPTS
+   The Wonderswan CPU recognizes 7 interrupts from the hardware, these are:
+    7 - HBlank Timer
+    6 - VBlank
+    5 - VBlank Timer
+    4 - Drawing line detection
+    3 - Serial Recieve
+    2 - RTC Alarm (cartridge)
+    1 - Key press
+    0 - Serial Send
+
+  Whether the CPU should indeed take action when one of these interrupts come in
+  is determined by port B2. The above mentioned interrupts correspond with the bit
+  numbers of port B2. When an interrupt occurs the corresponding bit of port B6 gets
+  set to 1 and, if enabled, an interrupt to the CPU is generated. This bit of port B6
+  will have to be cleared through code when the interrupt has been handled.
+
+  Example:
+   The Wonderswan is set to react to VBlank begin interrupts. Then bit 7 of B6 is set high
+   and keeps the interrupt line high until the CPU is able to take action upon this interrupt.
+   A typical VBlank interrupt routine is as follows:
+        <push registers>
+        <do some useful work>
+        out B6,40
+        <pop registers>
+        iret
+
+   The mentioned interrupts do not correspond with the same interrupt numbers for the vectors
+   in the vector table. The base for the actual interrupt numbers is set through port B0. If B0
+   is set to 20h then a VBlank begin interrupt routine must be set at vector 26h. (Base is 20h
+   and VBlank begin interrupt is 6)
+
+8. CONTROLS  -  It's easy to check buttons status reading/writing port $B5(see below).
+     There's required some delay between writing and reading  port $B5 ( few NOP-s)
+
+9. Internal EEPROM Communication(?) and 'owner' info structure
+   I/O Ports in range 0xBA -0xBE seems to be used for serial reading of internal
+   WS EEPROM (for example  - 'owner' info).
+
+    0xBA (Word) - Data
+    0xBC (Word) - Address (calculated probably Modulo EEPROM size (unknown))
+    0xBE (Byte) - Communication (?)
+                   bit 4 set before reading data
+                   bit 1 set by hardware , when data is ready to read
+
+    Example :
+
+        mov    ax, $1B9
+        out   $BC, ax
+        mov    al, $10
+        out   $BE, al
+        xor    dx, dx
+   miniloop:
+        inc    dx
+        cmp    dl, 32
+        jnc    bad_data
+        in     al, $BE
+        and    al, 1
+        jz     miniloop
+        in     ax, $BA    ; Month and Day of birth
+
+
+   'Owner' info structure :
+
+    - Name            - 16 bytes ( 0 = Space, 1 = '0' ... 0xA = '9', 0xB = 'A'... )
+    - Year of birth   -  2 bytes (BCD)
+    - Month of birth  -  1 byte  (BCD)
+    - Day of birth    -  1 byte  (BCD)
+    - Sex             -  1 byte (1 - male , 2 - female)
+    - Blood           -  1 byte (1 - A, 2 - B, 3 - 0, 4 - AB)
+
+
+    Struct size - 22 bytes  = 11 reads,
+    Address range = 0x1B0 - 0x1BA
+
+10. I/O PORTS (port number /initial value / description)
+
+- $00 - $00 -  Display control
+               bit 0   - background layer on/off
+               bit 1   - foreground layer on/off
+               bit 2   - sprites on/off
+               bit 3   - sprite window on/off (window coords defined in ports $0C - $0F)
+               bit 4,5 - fg win inside on/off (window coords defined in ports $08 - $0B)
+               Meaning of bits 4 and 5 :
+               5 4
+               ---
+               0 0  FG layer is displayed inside and outside FG window area
+               0 1  ??
+               1 0  FG layer is displayed only inside window
+               1 1  FG layer is displayed outside window
+ - $01 - $00 - Determines the background color
+               bit 0-3 - background color
+               bit 4-7 - background palette (WSC only)
+ - $02 - ??? - Current Line (0 - 158) (159 ???)
+ - $03 - $BB - Line compare (for drawning line detection interrupt)
+ - $04 - $00 - Determines the base address for the sprite table.
+               To get the address of the table, shift this value left 9 times
+               and clear MSB. (bits 0..5 are effective to determines the base,
+               bits 6,7 are unknown)
+                0 0xxxxxx0 00000000 
+		(Sprite Attribute Table Base can move from $00000-$07E00 with 512 bytes step)
+ - $05 - $00 - Determines the number of the sprite to start drawing with
+ - $06 - $00 - Determines the number of the sprite to stop drawing.
+ - $07 - $26 - Determines the location of the foreground and background screens in RAM.
+                Format:
+                 bits 7-0 : ?fff?bbb
+                 bit  7  - Unknown
+                 bits 6-4 - Determines foreground location (address is 00fff000 00000000)
+                 bit 3-? - Unknown
+                 bits 2-0 - Determines background location (address is 00bbb000 00000000)
+		 Back Ground Tile Map Base can move from $00000-$03800 (2048 bytes step)
+ - $08 - $FE - x0 of FG window (x0,y0) = top left corner,  (x1,y1) = bottom right corner
+ - $09 - $DE - y0 of FG window
+ - $0A - $F9 - x1 of FG window
+ - $0B - $FB - y1 of FG window
+ - $0C - $DB - x0 of SPR window
+ - $0D - $D7 - y0 of SPR window
+ - $0E - $7F - x1 of SPR window
+ - $0F - $F5 - y1 of SPR window
+ - $10 - $00 - Background layer X scroll register
+ - $11 - $00 - Background layer Y scroll register
+ - $12 - $00 - Foreground layer X scroll register
+ - $13 - $00 - Foreground layer Y scroll register
+ - $14 - $01 - LCD Control (???)
+                bit 0 - 1 - LCD on
+                        0 - LCD off
+ - $15 - $00 - LCD Icons
+              bit 0 - LCD Sleep
+              bit 1 - Vertical Position
+              bit 2 - Horizontal Position
+              bit 3 - Dot 1
+              bit 4 - Dot 2
+              bit 5 - Dot 3
+              bit 6 - Not Used ?
+              bit 7 - Not Used ?
+ - $16 - $9E - ???
+ - $17 - $9B - ???
+ - $18 - $00 - ???
+ - $19 - $00 - ???
+ - $1A - $00 - ???
+ - $1B - $00 - ???
+ - $1C - $99 - PALCOL10
+ - $1D - $FD - PALCOL32
+ - $1E - $B7 - PALCOL54
+ - $1F - $DF - PALCOL76
+ - $20 - $30 - PAL00
+ - $21 - $57 - PAL01
+ - $22 - $75 - PAL10
+ - $23 - $76 - PAL11
+ - $24 - $15 - PAL20
+ - $25 - $73 - PAL21
+ - $26 - $77 - PAL30
+ - $27 - $77 - PAL31
+ - $28 - $20 - PAL40
+ - $29 - $75 - PAL41
+ - $2A - $50 - PAL50
+ - $2B - $36 - PAL51
+ - $2C - $70 - PAL60
+ - $2D - $67 - PAL61
+ - $2E - $50 - PAL70
+ - $2F - $77 - PAL70
+ - $30 - $57 - PAL00
+ - $31 - $54 - PAL01
+ - $32 - $75 - PAL10
+ - $33 - $77 - PAL11
+ - $34 - $75 - PAL20
+ - $35 - $17 - PAL21
+ - $36 - $37 - PAL30
+ - $37 - $73 - PAL31
+ - $38 - $50 - PAL40
+ - $39 - $57 - PAL41
+ - $3A - $60 - PAL50
+ - $3B - $77 - PAL51
+ - $3C - $70 - PAL60
+ - $3D - $77 - PAL61
+ - $3E - $10 - PAL70
+ - $3F - $73 - PAL70
+ - $40 - $00 - DMA (?) copy source address
+ - $41 - $00 -  ^^^
+ - $42 - $00 - copy source bank
+ - $43 - $00 - copy destination bank
+ - $44 - $00 - copy destination address
+ - $45 - $00 - ^^^
+ - $46 - $00 - size of copied data (in bytes)
+ - $47 - $00 - ^^^
+ - $48 - $00 - bit  7 = 1  -> copy start
+              (bit 7=0 when data transfer is finished)
+              DMA(?) isn't immediate and not stopping
+              the main cpu operations (like gbc GDMA)
+              ports $40-$48 are updated durning copy process
+ - $49 - $00 - ???
+
+ - $4A - $00 - sound DMA source address
+ - $4B - $00 - ^^^
+ - $4C - $00 - DMA source memory segment bank
+ - $4D - $00 - ???
+ - $4E - $00 - DMA transfer size (in bytes)
+ - $4F - $00 - ^^^
+ - $50 - $00 - ???
+ - $51 - $00 - ???
+ - $52 - $00 - bit  7 = 1  -> DMA start
+ - $53 - $00 - ???
+ - $54 - $00 - ???
+ - $55 - $00 - ???
+ - $56 - $00 - ???
+ - $57 - $00 - ???
+ - $58 - $00 - ???
+ - $59 - $00 - ???
+ - $5A - $00 - ???
+ - $5B - $00 - ???
+ - $5C - $00 - ???
+ - $5D - $00 - ???
+ - $5E - $00 - ???
+ - $5F - $00 - ???
+ - $60 - $0A - video mode
+               Meaning of bits 5-7:
+                765
+                ---
+                111   16 col/tile 'packed' mode   -  tiles like in Genesis, 16 col/tile
+                110   16 col/tile 'layered' mode  -  tiles like in GameGear, 16 col/tile
+                010    4 col/tile                 -  the same as mono (below) but using color palettes, 4 cols/tile, one tile = 16 bytes, WSC only
+                000    4 col/tile mono            -  tiles like in GameBoy,
+              [bit 7 = 16/4 color/tile , bit 6 - color/mono mode, bit 5 - 'packed' mode on/off]
+ - $61 - $00 - ???
+ - $62 - $00 - ???
+ - $63 - $00 - ???
+ - $64 - $00 - ???
+ - $65 - $00 - ???
+ - $66 - $00 - ???
+ - $67 - $00 - ???
+ - $68 - $00 - ???
+ - $69 - $00 - ???
+ - $6A - $00 - ???
+ - $6B - $0F - ???
+ - $6C - $00 - ???
+ - $6D - $00 - ???
+ - $6E - $00 - ???
+ - $6F - $00 - ???
+ - $70 - $00 - ???
+ - $71 - $00 - ???
+ - $72 - $00 - ???
+ - $73 - $00 - ???
+ - $74 - $00 - ???
+ - $75 - $00 - ???
+ - $76 - $00 - ???
+ - $77 - $00 - ???
+ - $78 - $00 - ???
+ - $79 - $00 - ???
+ - $7A - $00 - ???
+ - $7B - $00 - ???
+ - $7C - $00 - ???
+ - $7D - $00 - ???
+ - $7E - $00 - ???
+ - $7F - $00 - ???
+ - $80 - $00 - Audio 1 Freq
+ - $81 - $00 - ^^^
+ - $82 - $00 - Audio 2 Freq
+ - $83 - $00 - ^^^
+ - $84 - $00 - Audio 3 Freq
+ - $85 - $00 - ^^^
+ - $86 - $00 - Audio 4 Freq
+ - $87 - $00 - ^^^
+ - $88 - $00 - Audio 1 volume
+ - $89 - $00 - Audio 2 volume
+ - $8A - $00 - Audio 3 volume
+ - $8B - $00 - Audio 4 volume
+ - $8C - $00 - ?? Sweep value
+ - $8D - $1F - ?? Sweep step
+ - $8E - $00 - Noise control
+                Bits :
+                        0 - Noise generator type
+                        1 - ^^^
+                        2 - ^^^
+                        3 - Reset
+                        4 - Enable
+                        5 - ???
+                        6 - ???
+                        7 - ???
+ - $8F - $00 - Sample  location
+                To get the address of samples, shift this value left 6 times.
+                0 00xxxxxx xx000000
+ - $90 - $00 - Audio control
+                Bits:
+                        0 - Audio 1 on/off
+                        1 - Audio 2 on/off
+                        2 - Audio 3 on/off
+                        3 - Audio 4 on/off
+                        4 - ???
+                        5 - Audio 2 Voice
+                        6 - Audio 3 Sweep
+                        7 - Audio 4 Noise
+ - $91 - $00 - Audio Output
+                Bits :
+                        0 - Mono
+                        1 - Output Volume
+                        2 - ^^^
+                        3 - External Stereo
+                        4 - ???
+                        5 - ???
+                        6 - ???
+                        7 - External Speaker (set by hardware)
+ - $92 - $00 - Noise Counter Shift Register (15 bits)
+ - $93 - $00 - ^^^
+ - $94 - $00 - Volume (4 bit)
+ - $95 - $00 - ???
+ - $96 - $00 - ???
+ - $97 - $00 - ???
+ - $98 - $00 - ???
+ - $99 - $00 - ???
+ - $9A - $00 - ???
+ - $9B - $00 - ???
+ - $9C - $00 - ???
+ - $9D - $00 - ???
+ - $9E - $03 - ???
+ - $9F - $00 - ???
+ - $A0 - $87 - Hardware type
+                  bit 1 - 1 - color
+                          0 - mono
+ - $A1 - $00 - ???
+ - $A2 - $0C - Timer Control
+                  bit 0 - Hblank Timer on/off
+                  bit 1 - Hblank Timer Mode
+                           0 - One Shot
+                           1 - Auto Preset
+                  bit 2 - Vblank Timer(1/75s) on/off
+                  bit 3 - Vblank Timer Mode
+                           0 - One Shot
+                           1 - Auto Preset
+ - $A3 - $00 - ???
+ - $A4 - $00 - Hblank Timer 'frequency'
+                0 = no HBLANK Interrupt
+                n = HBLANK Interrupt every n lines (???)
+ - $A5 - $00 - ^^^
+ - $A6 - $4F - Vblank Timer 'frequency'
+ - $A7 - $FF - ^^^
+ - $A8 - $00 - Hblank Counter - 1/12000s
+ - $A9 - $00 - Hblank Counter - 1/(12000>>8)s
+ - $AA - $00 - Vblank Counter - 1/75s
+ - $AB - $00 - Vblank Counter - 1/(75>>8)s
+ - $AC - $00 - ???
+ - $AD - $00 - ???
+ - $AE - $00 - ???
+ - $AF - $00 - ???
+ - $B0 - $00 - Interrupt Base
+ - $B1 - $DB - Communication byte
+ - $B2 - $00 - Interrupt enable
+                  bit 7 - HBlank Timer
+                  bit 6 - VBlank begin
+                  bit 5 - VBlank Timer
+                  bit 4 - Drawing line detection
+                  bit 3 - Serial receive
+                  bit 2 - RTC Alarm
+                  bit 1 - Key press
+                  bit 0 - Serial transmit
+ - $B3 - $00 - Communication direction
+                  bit 7 - Recieve data interrupt generation
+                  bit 6 - Connection Speed
+                           0 - 9600  bps
+                           1 - 38400 bps
+                  bit 5 - Send data interrupt generation
+                  bit 4 - ???
+                  bit 3 - ???
+                  bit 2 - Send Complete
+                  bit 1 - Error
+                  bit 0 - Recieve Complete
+
+                        write $00-$7f = read $00
+                        write $80-$bf = read $84
+                        write $c0-$cf = read $c4
+ - $B4 - $00 - ???
+ - $B5 - $40 - Controls
+                bits 4-7 : read/write - Select line of inputs to read
+                        0001 - read vertical cursors
+                        0010 - read hozizontal cursors
+                        0100 - read buttons
+                bits 0-3 : read only - Read the current state of the input lines (positive logic) after having written 10h,20h, or 40h.
+                        Meaning of the bits when reading cursors:
+                                bit 0 - cursor up
+                                bit 1 - cursor right
+                                bit 2 - cursor down
+                                bit 3 - cursor left
+                        Meaning of the bits when reading buttons:
+                                bit 0 - ???
+                                bit 1 - START
+                                bit 2 - A
+                                bit 3 - B
+ - $B6 - $00 - Interrupt Acknowledge
+                bit 7 - HBlank Timer
+                bit 6 - VBlank begin
+                bit 5 - VBlank Timer
+                bit 4 - Drawing line detection
+                bit 3 - Serial receive
+                bit 2 - RTC Alarm
+                bit 1 - Key press
+                bit 0 - Serial transmit
+ - $B7 - $00 - ???
+ - $B8 - $00 - ???
+ - $B9 - $00 - ???
+ - $BA - $01 - Internal EEPROM (?) Data
+ - $BB - $00 - ^^^
+ - $BC - $42 - Internal EEPROM (?) Address (calculated probably Modulo EEPROM (1kbit?) size (mirroring for read/write))
+ - $BD - $00 - ^^^
+ - $BE - $83 - Internal EEPROM (?) Command
+                   bit 7 - Initialize ?
+                   bit 6 - Protect ?
+                   bit 5 - Write
+                   bit 4 - Read
+                   bit 3 - ???
+                   bit 2 - ???
+                   bit 1 - Write Complete (Read only)
+                   bit 0 - Read Complete (Read only)
+ - $BF - $00 - ???
+ - $C0 - $2F - ROM Bank Base Selector for segments 4-$F
+ - $C1 - $3F  - SRAM Bank selector (???)
+ - $C2 - $FF  - BNK2SLCT - ROM Bank selector for segment 2
+ - $C3 - $FF  - BNK3SLCT - ROM Bank selector for segment 3
+ - $C4 - $00  - EEPROM Data
+ - $C5 - $00  - ^^^
+ - $C6 - $00  - 1kbit EEPROM (16bit*64) :
+                  - bits 0-5 - address
+                  - bits 6-7 - command :
+                           0 - Extended Comand Address bits 4-5
+                               0 - Write Disable
+                               1 - Write All
+                               2 - Erase All
+                               3 - Write Enable
+                           1 - Write
+                           2 - Read
+                           3 - Erase
+               - 16 kbit EEPROM (16bit*1024) - bits 0-7 - address (low)
+ - $C7 - $00  - 1kbit EEPROM (16bit*64) :
+                   bit 0 - Start
+               - 16 kbit EEPROM (16bit*1024) :
+                  - bits 0-1 - address (high)
+                  - bits 2-3 - command :
+                           0 - Extended Comand Address bits 0-1
+                               0 - Write Disable
+                               1 - Write All
+                               2 - Erase All
+                               3 - Write Enable
+                           1 - Write
+                           2 - Read
+                           3 - Erase
+                  - bit 4 - Start
+ - $C8 - $D1 - EEPROM Command :
+                  bit 7 - Initialize ???
+                  bit 6 - Protect ???
+                  bit 5 - Write
+                  bit 4 - Read
+                  bit 3 - ???
+                  bit 2 - ???
+                  bit 1 - Write Complete (Read only)
+                  bit 0 - Read Complete (Read only)
+ - $C9 - $D1 - ???
+ - $CA - $D1 - RTC Command
+                Write :
+                        - $10 - Reset
+                        - $12 - ??? Alarm ???
+                        - $13 - ???
+                        - $14 - Set Time
+                        - $15 - Get Time
+                Read:
+                         - bit 7 - Ack [HACK = 1]
+ - $CB - $D1 - RTC Data
+                Write :
+                        Sometimes $40 , and wait for bit 7 = 1
+                After Command ($CA):
+                        - $14 - 7 writes (all BCD):
+                                - Year ( + 2000)
+                                - Month
+                                - Day
+                                - Day Of Week
+                                - Hour
+                                - Min
+                                - Sec
+                Read
+                        After Command ($CA) :
+                        - $13 - bit 7 - Ack [HACK = 1]
+                        - $15 - 7 reads (all BCD)
+                                - Year ( + 2000)
+                                - Month
+                                - Day
+                                - Day Of Week
+                                - Hour
+                                - Min
+                                - Sec
+ - $CC - $D1 - ???
+ - $CD - $D1 - ???
+ - $CE - $D1 - ???
+ - $CF - $D1 - ???
+ - $D0 - $D1 - ???
+ - $D1 - $D1 - ???
+ - $D2 - $D1 - ???
+ - $D3 - $D1 - ???
+ - $D4 - $D1 - ???
+ - $D5 - $D1 - ???
+ - $D6 - $D1 - ???
+ - $D7 - $D1 - ???
+ - $D8 - $D1 - ???
+ - $D9 - $D1 - ???
+ - $DA - $D1 - ???
+ - $DB - $D1 - ???
+ - $DC - $D1 - ???
+ - $DD - $D1 - ???
+ - $DE - $D1 - ???
+ - $DF - $D1 - ???
+ - $E0 - $D1 - ???
+ - $E1 - $D1 - ???
+ - $E2 - $D1 - ???
+ - $E3 - $D1 - ???
+ - $E4 - $D1 - ???
+ - $E5 - $D1 - ???
+ - $E6 - $D1 - ???
+ - $E7 - $D1 - ???
+ - $E8 - $D1 - ???
+ - $E9 - $D1 - ???
+ - $EA - $D1 - ???
+ - $EB - $D1 - ???
+ - $EC - $D1 - ???
+ - $ED - $D1 - ???
+ - $EE - $D1 - ???
+ - $EF - $D1 - ???
+ - $F0 - $D1 - ???
+ - $F1 - $D1 - ???
+ - $F2 - $D1 - ???
+ - $F3 - $D1 - ???
+ - $F4 - $D1 - ???
+ - $F5 - $D1 - ???
+ - $F6 - $D1 - ???
+ - $F7 - $D1 - ???
+ - $F8 - $D1 - ???
+ - $F9 - $D1 - ???
+ - $FA - $D1 - ???
+ - $FB - $D1 - ???
+ - $FC - $D1 - ???
+ - $FD - $D1 - ???
+ - $FE - $D1 - ???
+ - $FF - $D1 - ???

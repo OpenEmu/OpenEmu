@@ -1,0 +1,933 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		82CAFD070FEDD57400CCDC7E /* Distribution */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 82CAFD170FEDD58500CCDC7E /* Build configuration list for PBXAggregateTarget "Distribution" */;
+			buildPhases = (
+				82CAFD250FEDD5CD00CCDC7E /* CopyFiles */,
+				82CAFD060FEDD57400CCDC7E /* ShellScript */,
+			);
+			dependencies = (
+				82CAFD0B0FEDD57B00CCDC7E /* PBXTargetDependency */,
+			);
+			name = Distribution;
+			productName = Distribution;
+		};
+		82D815AB0F1D882B00EF8CF5 /* Build & Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 82D815B90F1D883D00EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildPhases = (
+				82D815AA0F1D882B00EF8CF5 /* ShellScript */,
+			);
+			dependencies = (
+				82D815AF0F1D883500EF8CF5 /* PBXTargetDependency */,
+			);
+			name = "Build & Install";
+			productName = "Build & Install";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		3720DB5A0F19519D00744A9A /* VisualBoyAdvance.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3720DB590F19519D00744A9A /* VisualBoyAdvance.icns */; };
+		82CAFD020FEDD54000CCDC7E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82CAFD010FEDD54000CCDC7E /* dsa_pub.pem */; };
+		82CAFD1E0FEDD5B300CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFD030FEDD54800CCDC7E /* config.yaml */; };
+		82EA60570F514D8C008E18C5 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EA60550F514D80008E18C5 /* OpenEmuBase.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		82EC40480FD9EAF20017FC19 /* agbprint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC3FEF0FD9EAF10017FC19 /* agbprint.cpp */; };
+		82EC40490FD9EAF20017FC19 /* armdis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC3FF10FD9EAF10017FC19 /* armdis.cpp */; };
+		82EC404A0FD9EAF20017FC19 /* bios.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC3FF30FD9EAF10017FC19 /* bios.cpp */; };
+		82EC404B0FD9EAF20017FC19 /* Cheats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC3FF50FD9EAF10017FC19 /* Cheats.cpp */; };
+		82EC404C0FD9EAF20017FC19 /* CheatSearch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC3FF70FD9EAF10017FC19 /* CheatSearch.cpp */; };
+		82EC404D0FD9EAF20017FC19 /* EEprom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC3FF90FD9EAF10017FC19 /* EEprom.cpp */; };
+		82EC404E0FD9EAF20017FC19 /* elf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC3FFB0FD9EAF20017FC19 /* elf.cpp */; };
+		82EC404F0FD9EAF20017FC19 /* Flash.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC3FFD0FD9EAF20017FC19 /* Flash.cpp */; };
+		82EC40500FD9EAF20017FC19 /* GBA-arm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC3FFF0FD9EAF20017FC19 /* GBA-arm.cpp */; };
+		82EC40510FD9EAF20017FC19 /* GBA-thumb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40000FD9EAF20017FC19 /* GBA-thumb.cpp */; };
+		82EC40520FD9EAF20017FC19 /* GBA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40010FD9EAF20017FC19 /* GBA.cpp */; };
+		82EC40530FD9EAF20017FC19 /* GBAGfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40040FD9EAF20017FC19 /* GBAGfx.cpp */; };
+		82EC40550FD9EAF20017FC19 /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40090FD9EAF20017FC19 /* Globals.cpp */; };
+		82EC40560FD9EAF20017FC19 /* Mode0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC400B0FD9EAF20017FC19 /* Mode0.cpp */; };
+		82EC40570FD9EAF20017FC19 /* Mode1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC400C0FD9EAF20017FC19 /* Mode1.cpp */; };
+		82EC40580FD9EAF20017FC19 /* Mode2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC400D0FD9EAF20017FC19 /* Mode2.cpp */; };
+		82EC40590FD9EAF20017FC19 /* Mode3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC400E0FD9EAF20017FC19 /* Mode3.cpp */; };
+		82EC405A0FD9EAF20017FC19 /* Mode4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC400F0FD9EAF20017FC19 /* Mode4.cpp */; };
+		82EC405B0FD9EAF20017FC19 /* Mode5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40100FD9EAF20017FC19 /* Mode5.cpp */; };
+		82EC405D0FD9EAF20017FC19 /* RTC.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40120FD9EAF20017FC19 /* RTC.cpp */; };
+		82EC405E0FD9EAF20017FC19 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40140FD9EAF20017FC19 /* Sound.cpp */; };
+		82EC405F0FD9EAF20017FC19 /* Sram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40160FD9EAF20017FC19 /* Sram.cpp */; };
+		82EC40600FD9EAF20017FC19 /* GB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40190FD9EAF20017FC19 /* GB.cpp */; };
+		82EC40610FD9EAF20017FC19 /* gbCheats.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC401B0FD9EAF20017FC19 /* gbCheats.cpp */; };
+		82EC40620FD9EAF20017FC19 /* gbDis.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC401F0FD9EAF20017FC19 /* gbDis.cpp */; };
+		82EC40630FD9EAF20017FC19 /* gbGfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40200FD9EAF20017FC19 /* gbGfx.cpp */; };
+		82EC40640FD9EAF20017FC19 /* gbGlobals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40210FD9EAF20017FC19 /* gbGlobals.cpp */; };
+		82EC40650FD9EAF20017FC19 /* gbMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40230FD9EAF20017FC19 /* gbMemory.cpp */; };
+		82EC40660FD9EAF20017FC19 /* gbPrinter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40250FD9EAF20017FC19 /* gbPrinter.cpp */; };
+		82EC40670FD9EAF20017FC19 /* gbSGB.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40270FD9EAF20017FC19 /* gbSGB.cpp */; };
+		82EC40680FD9EAF20017FC19 /* gbSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40290FD9EAF20017FC19 /* gbSound.cpp */; };
+		82EC40690FD9EAF20017FC19 /* fex_mini.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC402E0FD9EAF20017FC19 /* fex_mini.cpp */; };
+		82EC406A0FD9EAF20017FC19 /* memgzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 82EC402F0FD9EAF20017FC19 /* memgzio.c */; };
+		82EC406B0FD9EAF20017FC19 /* Patch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40310FD9EAF20017FC19 /* Patch.cpp */; };
+		82EC406D0FD9EAF20017FC19 /* Blip_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC403D0FD9EAF20017FC19 /* Blip_Buffer.cpp */; };
+		82EC406E0FD9EAF20017FC19 /* Effects_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC403F0FD9EAF20017FC19 /* Effects_Buffer.cpp */; };
+		82EC406F0FD9EAF20017FC19 /* Gb_Apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40410FD9EAF20017FC19 /* Gb_Apu.cpp */; };
+		82EC40700FD9EAF20017FC19 /* Gb_Apu_State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40430FD9EAF20017FC19 /* Gb_Apu_State.cpp */; };
+		82EC40710FD9EAF20017FC19 /* Gb_Oscs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40440FD9EAF20017FC19 /* Gb_Oscs.cpp */; };
+		82EC40720FD9EAF20017FC19 /* Multi_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40460FD9EAF20017FC19 /* Multi_Buffer.cpp */; };
+		82EC40880FD9EB560017FC19 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82EC40840FD9EB560017FC19 /* Util.cpp */; };
+		82EC409F0FD9EC420017FC19 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EC409E0FD9EC420017FC19 /* libz.dylib */; };
+		82EC40A30FD9EC5A0017FC19 /* GBAGameEmu.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5008DAE0E8BFB3E005AECAF /* GBAGameEmu.mm */; };
+		82EC40A40FD9EC5D0017FC19 /* GBAGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C63E6C7A0FCDA5D6009C8555 /* GBAGameController.m */; };
+		82EC40A50FD9EC600017FC19 /* GBAControlsPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = C63E6C780FCDA5BC009C8555 /* GBAControlsPreference.m */; };
+		82EC41110FD9EEC10017FC19 /* CASoundDriver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82EC41100FD9EEC10017FC19 /* CASoundDriver.mm */; };
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		C63E6CCE0FCDABEF009C8555 /* gba.png in Resources */ = {isa = PBXBuildFile; fileRef = C63E6CCD0FCDABEF009C8555 /* gba.png */; };
+		C6C71E4A0FCDE25F002FAC4D /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C63E6C640FCDA565009C8555 /* ControlsPreference.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		378394E41029257000168304 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3887A7F61024D1F9000FC4CF;
+			remoteInfo = OESaveStateQLPlugin;
+		};
+		82CAFD0A0FEDD57B00CCDC7E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = VisualBoyAdvance;
+		};
+		82D815AE0F1D883500EF8CF5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = VisualBoyAdvance;
+		};
+		82EA60500F514D80008E18C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
+			remoteInfo = OpenEmu;
+		};
+		82EA60520F514D80008E18C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 828E65980E8466A100B1860B;
+			remoteInfo = OpenEmuQC;
+		};
+		82EA60540F514D80008E18C5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82444BA10F51256C007C171B;
+			remoteInfo = OpenEmuBase;
+		};
+		C6E916860FD34D5800AC2CCC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 82444BA00F51256C007C171B;
+			remoteInfo = OpenEmuBase;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		82CAFD250FEDD5CD00CCDC7E /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 16;
+			files = (
+				82CAFD1E0FEDD5B300CCDC7E /* config.yaml in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		82EA605F0F514DED008E18C5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* VisualBoyAdvance_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualBoyAdvance_Prefix.pch; sourceTree = "<group>"; };
+		3720DB590F19519D00744A9A /* VisualBoyAdvance.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = VisualBoyAdvance.icns; sourceTree = "<group>"; };
+		82CAFD010FEDD54000CCDC7E /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
+		82CAFD030FEDD54800CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
+		82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
+		82EC3FEF0FD9EAF10017FC19 /* agbprint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = agbprint.cpp; sourceTree = "<group>"; };
+		82EC3FF00FD9EAF10017FC19 /* agbprint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = agbprint.h; sourceTree = "<group>"; };
+		82EC3FF10FD9EAF10017FC19 /* armdis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = armdis.cpp; sourceTree = "<group>"; };
+		82EC3FF20FD9EAF10017FC19 /* armdis.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = armdis.h; sourceTree = "<group>"; };
+		82EC3FF30FD9EAF10017FC19 /* bios.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bios.cpp; sourceTree = "<group>"; };
+		82EC3FF40FD9EAF10017FC19 /* bios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bios.h; sourceTree = "<group>"; };
+		82EC3FF50FD9EAF10017FC19 /* Cheats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Cheats.cpp; sourceTree = "<group>"; };
+		82EC3FF60FD9EAF10017FC19 /* Cheats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cheats.h; sourceTree = "<group>"; };
+		82EC3FF70FD9EAF10017FC19 /* CheatSearch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CheatSearch.cpp; sourceTree = "<group>"; };
+		82EC3FF80FD9EAF10017FC19 /* CheatSearch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheatSearch.h; sourceTree = "<group>"; };
+		82EC3FF90FD9EAF10017FC19 /* EEprom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EEprom.cpp; sourceTree = "<group>"; };
+		82EC3FFA0FD9EAF20017FC19 /* EEprom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EEprom.h; sourceTree = "<group>"; };
+		82EC3FFB0FD9EAF20017FC19 /* elf.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = elf.cpp; sourceTree = "<group>"; };
+		82EC3FFC0FD9EAF20017FC19 /* elf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = elf.h; sourceTree = "<group>"; };
+		82EC3FFD0FD9EAF20017FC19 /* Flash.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Flash.cpp; sourceTree = "<group>"; };
+		82EC3FFE0FD9EAF20017FC19 /* Flash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flash.h; sourceTree = "<group>"; };
+		82EC3FFF0FD9EAF20017FC19 /* GBA-arm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "GBA-arm.cpp"; sourceTree = "<group>"; };
+		82EC40000FD9EAF20017FC19 /* GBA-thumb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "GBA-thumb.cpp"; sourceTree = "<group>"; };
+		82EC40010FD9EAF20017FC19 /* GBA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GBA.cpp; sourceTree = "<group>"; };
+		82EC40020FD9EAF20017FC19 /* GBA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBA.h; sourceTree = "<group>"; };
+		82EC40030FD9EAF20017FC19 /* GBAcpu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAcpu.h; sourceTree = "<group>"; };
+		82EC40040FD9EAF20017FC19 /* GBAGfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GBAGfx.cpp; sourceTree = "<group>"; };
+		82EC40050FD9EAF20017FC19 /* GBAGfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAGfx.h; sourceTree = "<group>"; };
+		82EC40060FD9EAF20017FC19 /* GBAinline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAinline.h; sourceTree = "<group>"; };
+		82EC40070FD9EAF20017FC19 /* GBALink.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GBALink.cpp; sourceTree = "<group>"; };
+		82EC40080FD9EAF20017FC19 /* GBALink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBALink.h; sourceTree = "<group>"; };
+		82EC40090FD9EAF20017FC19 /* Globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Globals.cpp; sourceTree = "<group>"; };
+		82EC400A0FD9EAF20017FC19 /* Globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Globals.h; sourceTree = "<group>"; };
+		82EC400B0FD9EAF20017FC19 /* Mode0.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mode0.cpp; sourceTree = "<group>"; };
+		82EC400C0FD9EAF20017FC19 /* Mode1.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mode1.cpp; sourceTree = "<group>"; };
+		82EC400D0FD9EAF20017FC19 /* Mode2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mode2.cpp; sourceTree = "<group>"; };
+		82EC400E0FD9EAF20017FC19 /* Mode3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mode3.cpp; sourceTree = "<group>"; };
+		82EC400F0FD9EAF20017FC19 /* Mode4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mode4.cpp; sourceTree = "<group>"; };
+		82EC40100FD9EAF20017FC19 /* Mode5.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Mode5.cpp; sourceTree = "<group>"; };
+		82EC40110FD9EAF20017FC19 /* remote.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = remote.cpp; sourceTree = "<group>"; };
+		82EC40120FD9EAF20017FC19 /* RTC.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RTC.cpp; sourceTree = "<group>"; };
+		82EC40130FD9EAF20017FC19 /* RTC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RTC.h; sourceTree = "<group>"; };
+		82EC40140FD9EAF20017FC19 /* Sound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sound.cpp; sourceTree = "<group>"; };
+		82EC40150FD9EAF20017FC19 /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
+		82EC40160FD9EAF20017FC19 /* Sram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sram.cpp; sourceTree = "<group>"; };
+		82EC40170FD9EAF20017FC19 /* Sram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sram.h; sourceTree = "<group>"; };
+		82EC40190FD9EAF20017FC19 /* GB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GB.cpp; sourceTree = "<group>"; };
+		82EC401A0FD9EAF20017FC19 /* gb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gb.h; sourceTree = "<group>"; };
+		82EC401B0FD9EAF20017FC19 /* gbCheats.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gbCheats.cpp; sourceTree = "<group>"; };
+		82EC401C0FD9EAF20017FC19 /* gbCheats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gbCheats.h; sourceTree = "<group>"; };
+		82EC401D0FD9EAF20017FC19 /* gbCodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gbCodes.h; sourceTree = "<group>"; };
+		82EC401E0FD9EAF20017FC19 /* gbCodesCB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gbCodesCB.h; sourceTree = "<group>"; };
+		82EC401F0FD9EAF20017FC19 /* gbDis.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gbDis.cpp; sourceTree = "<group>"; };
+		82EC40200FD9EAF20017FC19 /* gbGfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gbGfx.cpp; sourceTree = "<group>"; };
+		82EC40210FD9EAF20017FC19 /* gbGlobals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gbGlobals.cpp; sourceTree = "<group>"; };
+		82EC40220FD9EAF20017FC19 /* gbGlobals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gbGlobals.h; sourceTree = "<group>"; };
+		82EC40230FD9EAF20017FC19 /* gbMemory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gbMemory.cpp; sourceTree = "<group>"; };
+		82EC40240FD9EAF20017FC19 /* gbMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gbMemory.h; sourceTree = "<group>"; };
+		82EC40250FD9EAF20017FC19 /* gbPrinter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gbPrinter.cpp; sourceTree = "<group>"; };
+		82EC40260FD9EAF20017FC19 /* gbPrinter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gbPrinter.h; sourceTree = "<group>"; };
+		82EC40270FD9EAF20017FC19 /* gbSGB.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gbSGB.cpp; sourceTree = "<group>"; };
+		82EC40280FD9EAF20017FC19 /* gbSGB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gbSGB.h; sourceTree = "<group>"; };
+		82EC40290FD9EAF20017FC19 /* gbSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gbSound.cpp; sourceTree = "<group>"; };
+		82EC402A0FD9EAF20017FC19 /* gbSound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gbSound.h; sourceTree = "<group>"; };
+		82EC402C0FD9EAF20017FC19 /* Array.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Array.h; sourceTree = "<group>"; };
+		82EC402D0FD9EAF20017FC19 /* fex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fex.h; sourceTree = "<group>"; };
+		82EC402E0FD9EAF20017FC19 /* fex_mini.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fex_mini.cpp; sourceTree = "<group>"; };
+		82EC402F0FD9EAF20017FC19 /* memgzio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = memgzio.c; sourceTree = "<group>"; };
+		82EC40300FD9EAF20017FC19 /* memgzio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memgzio.h; sourceTree = "<group>"; };
+		82EC40310FD9EAF20017FC19 /* Patch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Patch.cpp; sourceTree = "<group>"; };
+		82EC40320FD9EAF20017FC19 /* Patch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Patch.h; sourceTree = "<group>"; };
+		82EC40330FD9EAF20017FC19 /* Port.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Port.h; sourceTree = "<group>"; };
+		82EC40340FD9EAF20017FC19 /* RingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RingBuffer.h; sourceTree = "<group>"; };
+		82EC40350FD9EAF20017FC19 /* SoundDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundDriver.h; sourceTree = "<group>"; };
+		82EC40360FD9EAF20017FC19 /* SoundSDL.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundSDL.cpp; sourceTree = "<group>"; };
+		82EC40370FD9EAF20017FC19 /* SoundSDL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundSDL.h; sourceTree = "<group>"; };
+		82EC40380FD9EAF20017FC19 /* Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Types.h; sourceTree = "<group>"; };
+		82EC403A0FD9EAF20017FC19 /* blargg_common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blargg_common.h; sourceTree = "<group>"; };
+		82EC403B0FD9EAF20017FC19 /* blargg_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blargg_config.h; sourceTree = "<group>"; };
+		82EC403C0FD9EAF20017FC19 /* blargg_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blargg_source.h; sourceTree = "<group>"; };
+		82EC403D0FD9EAF20017FC19 /* Blip_Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Blip_Buffer.cpp; sourceTree = "<group>"; };
+		82EC403E0FD9EAF20017FC19 /* Blip_Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blip_Buffer.h; sourceTree = "<group>"; };
+		82EC403F0FD9EAF20017FC19 /* Effects_Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Effects_Buffer.cpp; sourceTree = "<group>"; };
+		82EC40400FD9EAF20017FC19 /* Effects_Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Effects_Buffer.h; sourceTree = "<group>"; };
+		82EC40410FD9EAF20017FC19 /* Gb_Apu.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gb_Apu.cpp; sourceTree = "<group>"; };
+		82EC40420FD9EAF20017FC19 /* Gb_Apu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gb_Apu.h; sourceTree = "<group>"; };
+		82EC40430FD9EAF20017FC19 /* Gb_Apu_State.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gb_Apu_State.cpp; sourceTree = "<group>"; };
+		82EC40440FD9EAF20017FC19 /* Gb_Oscs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gb_Oscs.cpp; sourceTree = "<group>"; };
+		82EC40450FD9EAF20017FC19 /* Gb_Oscs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gb_Oscs.h; sourceTree = "<group>"; };
+		82EC40460FD9EAF20017FC19 /* Multi_Buffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Multi_Buffer.cpp; sourceTree = "<group>"; };
+		82EC40470FD9EAF20017FC19 /* Multi_Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Multi_Buffer.h; sourceTree = "<group>"; };
+		82EC40840FD9EB560017FC19 /* Util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util.cpp; sourceTree = "<group>"; };
+		82EC40850FD9EB560017FC19 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		82EC40860FD9EB560017FC19 /* System.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = System.h; sourceTree = "<group>"; };
+		82EC40870FD9EB560017FC19 /* NLS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NLS.h; sourceTree = "<group>"; };
+		82EC409E0FD9EC420017FC19 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		82EC410F0FD9EEC10017FC19 /* CASoundDriver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CASoundDriver.h; sourceTree = "<group>"; };
+		82EC41100FD9EEC10017FC19 /* CASoundDriver.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CASoundDriver.mm; sourceTree = "<group>"; };
+		8D5B49B6048680CD000E48DA /* VisualBoyAdvance.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VisualBoyAdvance.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5008DAD0E8BFB3E005AECAF /* GBAGameEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAGameEmu.h; sourceTree = "<group>"; };
+		B5008DAE0E8BFB3E005AECAF /* GBAGameEmu.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAGameEmu.mm; sourceTree = "<group>"; };
+		C63E6C640FCDA565009C8555 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
+		C63E6C770FCDA5BC009C8555 /* GBAControlsPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControlsPreference.h; sourceTree = "<group>"; };
+		C63E6C780FCDA5BC009C8555 /* GBAControlsPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControlsPreference.m; sourceTree = "<group>"; };
+		C63E6C790FCDA5D6009C8555 /* GBAGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAGameController.h; sourceTree = "<group>"; };
+		C63E6C7A0FCDA5D6009C8555 /* GBAGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAGameController.m; sourceTree = "<group>"; };
+		C63E6CCD0FCDABEF009C8555 /* gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba.png; sourceTree = "<group>"; };
+		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82EA60570F514D8C008E18C5 /* OpenEmuBase.framework in Frameworks */,
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+				82EC409F0FD9EC420017FC19 /* libz.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* VisualBoyAdvance */ = {
+			isa = PBXGroup;
+			children = (
+				82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+				82EC409E0FD9EC420017FC19 /* libz.dylib */,
+			);
+			name = VisualBoyAdvance;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				82CAFD010FEDD54000CCDC7E /* dsa_pub.pem */,
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+				3720DB590F19519D00744A9A /* VisualBoyAdvance.icns */,
+				C63E6C640FCDA565009C8555 /* ControlsPreference.xib */,
+				C63E6CCD0FCDABEF009C8555 /* gba.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				82EC3FED0FD9EAE90017FC19 /* Core */,
+				B5008DAD0E8BFB3E005AECAF /* GBAGameEmu.h */,
+				B5008DAE0E8BFB3E005AECAF /* GBAGameEmu.mm */,
+				C63E6C790FCDA5D6009C8555 /* GBAGameController.h */,
+				C63E6C7A0FCDA5D6009C8555 /* GBAGameController.m */,
+				C63E6C770FCDA5BC009C8555 /* GBAControlsPreference.h */,
+				C63E6C780FCDA5BC009C8555 /* GBAControlsPreference.m */,
+				82EC410F0FD9EEC10017FC19 /* CASoundDriver.h */,
+				82EC41100FD9EEC10017FC19 /* CASoundDriver.mm */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				D2F7E65807B2D6F200F64583 /* CoreData.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* VisualBoyAdvance.oecoreplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				82CAFD030FEDD54800CCDC7E /* config.yaml */,
+				32DBCF630370AF2F00C91783 /* VisualBoyAdvance_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		82EA60490F514D80008E18C5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				82EA60510F514D80008E18C5 /* OpenEmu.app */,
+				82EA60530F514D80008E18C5 /* OpenEmuQC.plugin */,
+				82EA60550F514D80008E18C5 /* OpenEmuBase.framework */,
+				378394E51029257000168304 /* OESaveStateQLPlugin.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		82EC3FED0FD9EAE90017FC19 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				82EC40840FD9EB560017FC19 /* Util.cpp */,
+				82EC40850FD9EB560017FC19 /* Util.h */,
+				82EC40860FD9EB560017FC19 /* System.h */,
+				82EC40870FD9EB560017FC19 /* NLS.h */,
+				82EC3FEE0FD9EAF10017FC19 /* gba */,
+				82EC40180FD9EAF20017FC19 /* gb */,
+				82EC402B0FD9EAF20017FC19 /* common */,
+				82EC40390FD9EAF20017FC19 /* apu */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		82EC3FEE0FD9EAF10017FC19 /* gba */ = {
+			isa = PBXGroup;
+			children = (
+				82EC3FEF0FD9EAF10017FC19 /* agbprint.cpp */,
+				82EC3FF00FD9EAF10017FC19 /* agbprint.h */,
+				82EC3FF10FD9EAF10017FC19 /* armdis.cpp */,
+				82EC3FF20FD9EAF10017FC19 /* armdis.h */,
+				82EC3FF30FD9EAF10017FC19 /* bios.cpp */,
+				82EC3FF40FD9EAF10017FC19 /* bios.h */,
+				82EC3FF50FD9EAF10017FC19 /* Cheats.cpp */,
+				82EC3FF60FD9EAF10017FC19 /* Cheats.h */,
+				82EC3FF70FD9EAF10017FC19 /* CheatSearch.cpp */,
+				82EC3FF80FD9EAF10017FC19 /* CheatSearch.h */,
+				82EC3FF90FD9EAF10017FC19 /* EEprom.cpp */,
+				82EC3FFA0FD9EAF20017FC19 /* EEprom.h */,
+				82EC3FFB0FD9EAF20017FC19 /* elf.cpp */,
+				82EC3FFC0FD9EAF20017FC19 /* elf.h */,
+				82EC3FFD0FD9EAF20017FC19 /* Flash.cpp */,
+				82EC3FFE0FD9EAF20017FC19 /* Flash.h */,
+				82EC3FFF0FD9EAF20017FC19 /* GBA-arm.cpp */,
+				82EC40000FD9EAF20017FC19 /* GBA-thumb.cpp */,
+				82EC40010FD9EAF20017FC19 /* GBA.cpp */,
+				82EC40020FD9EAF20017FC19 /* GBA.h */,
+				82EC40030FD9EAF20017FC19 /* GBAcpu.h */,
+				82EC40040FD9EAF20017FC19 /* GBAGfx.cpp */,
+				82EC40050FD9EAF20017FC19 /* GBAGfx.h */,
+				82EC40060FD9EAF20017FC19 /* GBAinline.h */,
+				82EC40070FD9EAF20017FC19 /* GBALink.cpp */,
+				82EC40080FD9EAF20017FC19 /* GBALink.h */,
+				82EC40090FD9EAF20017FC19 /* Globals.cpp */,
+				82EC400A0FD9EAF20017FC19 /* Globals.h */,
+				82EC400B0FD9EAF20017FC19 /* Mode0.cpp */,
+				82EC400C0FD9EAF20017FC19 /* Mode1.cpp */,
+				82EC400D0FD9EAF20017FC19 /* Mode2.cpp */,
+				82EC400E0FD9EAF20017FC19 /* Mode3.cpp */,
+				82EC400F0FD9EAF20017FC19 /* Mode4.cpp */,
+				82EC40100FD9EAF20017FC19 /* Mode5.cpp */,
+				82EC40110FD9EAF20017FC19 /* remote.cpp */,
+				82EC40120FD9EAF20017FC19 /* RTC.cpp */,
+				82EC40130FD9EAF20017FC19 /* RTC.h */,
+				82EC40140FD9EAF20017FC19 /* Sound.cpp */,
+				82EC40150FD9EAF20017FC19 /* Sound.h */,
+				82EC40160FD9EAF20017FC19 /* Sram.cpp */,
+				82EC40170FD9EAF20017FC19 /* Sram.h */,
+			);
+			path = gba;
+			sourceTree = "<group>";
+		};
+		82EC40180FD9EAF20017FC19 /* gb */ = {
+			isa = PBXGroup;
+			children = (
+				82EC40190FD9EAF20017FC19 /* GB.cpp */,
+				82EC401A0FD9EAF20017FC19 /* gb.h */,
+				82EC401B0FD9EAF20017FC19 /* gbCheats.cpp */,
+				82EC401C0FD9EAF20017FC19 /* gbCheats.h */,
+				82EC401D0FD9EAF20017FC19 /* gbCodes.h */,
+				82EC401E0FD9EAF20017FC19 /* gbCodesCB.h */,
+				82EC401F0FD9EAF20017FC19 /* gbDis.cpp */,
+				82EC40200FD9EAF20017FC19 /* gbGfx.cpp */,
+				82EC40210FD9EAF20017FC19 /* gbGlobals.cpp */,
+				82EC40220FD9EAF20017FC19 /* gbGlobals.h */,
+				82EC40230FD9EAF20017FC19 /* gbMemory.cpp */,
+				82EC40240FD9EAF20017FC19 /* gbMemory.h */,
+				82EC40250FD9EAF20017FC19 /* gbPrinter.cpp */,
+				82EC40260FD9EAF20017FC19 /* gbPrinter.h */,
+				82EC40270FD9EAF20017FC19 /* gbSGB.cpp */,
+				82EC40280FD9EAF20017FC19 /* gbSGB.h */,
+				82EC40290FD9EAF20017FC19 /* gbSound.cpp */,
+				82EC402A0FD9EAF20017FC19 /* gbSound.h */,
+			);
+			path = gb;
+			sourceTree = "<group>";
+		};
+		82EC402B0FD9EAF20017FC19 /* common */ = {
+			isa = PBXGroup;
+			children = (
+				82EC402C0FD9EAF20017FC19 /* Array.h */,
+				82EC402D0FD9EAF20017FC19 /* fex.h */,
+				82EC402E0FD9EAF20017FC19 /* fex_mini.cpp */,
+				82EC402F0FD9EAF20017FC19 /* memgzio.c */,
+				82EC40300FD9EAF20017FC19 /* memgzio.h */,
+				82EC40310FD9EAF20017FC19 /* Patch.cpp */,
+				82EC40320FD9EAF20017FC19 /* Patch.h */,
+				82EC40330FD9EAF20017FC19 /* Port.h */,
+				82EC40340FD9EAF20017FC19 /* RingBuffer.h */,
+				82EC40350FD9EAF20017FC19 /* SoundDriver.h */,
+				82EC40360FD9EAF20017FC19 /* SoundSDL.cpp */,
+				82EC40370FD9EAF20017FC19 /* SoundSDL.h */,
+				82EC40380FD9EAF20017FC19 /* Types.h */,
+			);
+			path = common;
+			sourceTree = "<group>";
+		};
+		82EC40390FD9EAF20017FC19 /* apu */ = {
+			isa = PBXGroup;
+			children = (
+				82EC403A0FD9EAF20017FC19 /* blargg_common.h */,
+				82EC403B0FD9EAF20017FC19 /* blargg_config.h */,
+				82EC403C0FD9EAF20017FC19 /* blargg_source.h */,
+				82EC403D0FD9EAF20017FC19 /* Blip_Buffer.cpp */,
+				82EC403E0FD9EAF20017FC19 /* Blip_Buffer.h */,
+				82EC403F0FD9EAF20017FC19 /* Effects_Buffer.cpp */,
+				82EC40400FD9EAF20017FC19 /* Effects_Buffer.h */,
+				82EC40410FD9EAF20017FC19 /* Gb_Apu.cpp */,
+				82EC40420FD9EAF20017FC19 /* Gb_Apu.h */,
+				82EC40430FD9EAF20017FC19 /* Gb_Apu_State.cpp */,
+				82EC40440FD9EAF20017FC19 /* Gb_Oscs.cpp */,
+				82EC40450FD9EAF20017FC19 /* Gb_Oscs.h */,
+				82EC40460FD9EAF20017FC19 /* Multi_Buffer.cpp */,
+				82EC40470FD9EAF20017FC19 /* Multi_Buffer.h */,
+			);
+			path = apu;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* VisualBoyAdvance */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "VisualBoyAdvance" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+				82EA605F0F514DED008E18C5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C6E916870FD34D5800AC2CCC /* PBXTargetDependency */,
+			);
+			name = VisualBoyAdvance;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = VisualBoyAdvance;
+			productReference = 8D5B49B6048680CD000E48DA /* VisualBoyAdvance.oecoreplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "VisualBoyAdvance" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* VisualBoyAdvance */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 82EA60490F514D80008E18C5 /* Products */;
+					ProjectRef = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* VisualBoyAdvance */,
+				82D815AB0F1D882B00EF8CF5 /* Build & Install */,
+				82CAFD070FEDD57400CCDC7E /* Distribution */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		378394E51029257000168304 /* OESaveStateQLPlugin.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OESaveStateQLPlugin.bundle;
+			remoteRef = 378394E41029257000168304 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		82EA60510F514D80008E18C5 /* OpenEmu.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OpenEmu.app;
+			remoteRef = 82EA60500F514D80008E18C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		82EA60530F514D80008E18C5 /* OpenEmuQC.plugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OpenEmuQC.plugin;
+			remoteRef = 82EA60520F514D80008E18C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		82EA60550F514D80008E18C5 /* OpenEmuBase.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuBase.framework;
+			remoteRef = 82EA60540F514D80008E18C5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				3720DB5A0F19519D00744A9A /* VisualBoyAdvance.icns in Resources */,
+				C63E6CCE0FCDABEF009C8555 /* gba.png in Resources */,
+				C6C71E4A0FCDE25F002FAC4D /* ControlsPreference.xib in Resources */,
+				82CAFD020FEDD54000CCDC7E /* dsa_pub.pem in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		82CAFD060FEDD57400CCDC7E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = /usr/bin/openemu_rb_automation.rb;
+		};
+		82D815AA0F1D882B00EF8CF5 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p \"/Library/Application Support/OpenEmu/Cores\"\nrm -rf \"/Library/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"/Library/Application Support/OpenEmu/Cores/\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82EC40480FD9EAF20017FC19 /* agbprint.cpp in Sources */,
+				82EC40490FD9EAF20017FC19 /* armdis.cpp in Sources */,
+				82EC404A0FD9EAF20017FC19 /* bios.cpp in Sources */,
+				82EC404B0FD9EAF20017FC19 /* Cheats.cpp in Sources */,
+				82EC404C0FD9EAF20017FC19 /* CheatSearch.cpp in Sources */,
+				82EC404D0FD9EAF20017FC19 /* EEprom.cpp in Sources */,
+				82EC404E0FD9EAF20017FC19 /* elf.cpp in Sources */,
+				82EC404F0FD9EAF20017FC19 /* Flash.cpp in Sources */,
+				82EC40500FD9EAF20017FC19 /* GBA-arm.cpp in Sources */,
+				82EC40510FD9EAF20017FC19 /* GBA-thumb.cpp in Sources */,
+				82EC40520FD9EAF20017FC19 /* GBA.cpp in Sources */,
+				82EC40530FD9EAF20017FC19 /* GBAGfx.cpp in Sources */,
+				82EC40550FD9EAF20017FC19 /* Globals.cpp in Sources */,
+				82EC40560FD9EAF20017FC19 /* Mode0.cpp in Sources */,
+				82EC40570FD9EAF20017FC19 /* Mode1.cpp in Sources */,
+				82EC40580FD9EAF20017FC19 /* Mode2.cpp in Sources */,
+				82EC40590FD9EAF20017FC19 /* Mode3.cpp in Sources */,
+				82EC405A0FD9EAF20017FC19 /* Mode4.cpp in Sources */,
+				82EC405B0FD9EAF20017FC19 /* Mode5.cpp in Sources */,
+				82EC405D0FD9EAF20017FC19 /* RTC.cpp in Sources */,
+				82EC405E0FD9EAF20017FC19 /* Sound.cpp in Sources */,
+				82EC405F0FD9EAF20017FC19 /* Sram.cpp in Sources */,
+				82EC40600FD9EAF20017FC19 /* GB.cpp in Sources */,
+				82EC40610FD9EAF20017FC19 /* gbCheats.cpp in Sources */,
+				82EC40620FD9EAF20017FC19 /* gbDis.cpp in Sources */,
+				82EC40630FD9EAF20017FC19 /* gbGfx.cpp in Sources */,
+				82EC40640FD9EAF20017FC19 /* gbGlobals.cpp in Sources */,
+				82EC40650FD9EAF20017FC19 /* gbMemory.cpp in Sources */,
+				82EC40660FD9EAF20017FC19 /* gbPrinter.cpp in Sources */,
+				82EC40670FD9EAF20017FC19 /* gbSGB.cpp in Sources */,
+				82EC40680FD9EAF20017FC19 /* gbSound.cpp in Sources */,
+				82EC40690FD9EAF20017FC19 /* fex_mini.cpp in Sources */,
+				82EC406A0FD9EAF20017FC19 /* memgzio.c in Sources */,
+				82EC406B0FD9EAF20017FC19 /* Patch.cpp in Sources */,
+				82EC406D0FD9EAF20017FC19 /* Blip_Buffer.cpp in Sources */,
+				82EC406E0FD9EAF20017FC19 /* Effects_Buffer.cpp in Sources */,
+				82EC406F0FD9EAF20017FC19 /* Gb_Apu.cpp in Sources */,
+				82EC40700FD9EAF20017FC19 /* Gb_Apu_State.cpp in Sources */,
+				82EC40710FD9EAF20017FC19 /* Gb_Oscs.cpp in Sources */,
+				82EC40720FD9EAF20017FC19 /* Multi_Buffer.cpp in Sources */,
+				82EC40880FD9EB560017FC19 /* Util.cpp in Sources */,
+				82EC40A30FD9EC5A0017FC19 /* GBAGameEmu.mm in Sources */,
+				82EC40A40FD9EC5D0017FC19 /* GBAGameController.m in Sources */,
+				82EC40A50FD9EC600017FC19 /* GBAControlsPreference.m in Sources */,
+				82EC41110FD9EEC10017FC19 /* CASoundDriver.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		82CAFD0B0FEDD57B00CCDC7E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* VisualBoyAdvance */;
+			targetProxy = 82CAFD0A0FEDD57B00CCDC7E /* PBXContainerItemProxy */;
+		};
+		82D815AF0F1D883500EF8CF5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* VisualBoyAdvance */;
+			targetProxy = 82D815AE0F1D883500EF8CF5 /* PBXContainerItemProxy */;
+		};
+		C6E916870FD34D5800AC2CCC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OpenEmuBase;
+			targetProxy = C6E916860FD34D5800AC2CCC /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB913B08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = VisualBoyAdvance_Prefix.pch;
+				GCC_VERSION = "";
+				GCC_WARN_UNUSED_VARIABLE = NO;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"/**";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
+				OTHER_CFLAGS = (
+					"-DNO_PNG",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+				);
+				PRODUCT_NAME = VisualBoyAdvance;
+				VALID_ARCHS = "i386 x86_64";
+				WRAPPER_EXTENSION = oecoreplugin;
+			};
+			name = Debug;
+		};
+		1DEB913C08733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = VisualBoyAdvance_Prefix.pch;
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"/**";
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
+				OTHER_CFLAGS = (
+					"-DNO_PNG",
+					"-DFINAL_VERSION",
+					"-DC_CORE",
+				);
+				PRODUCT_NAME = VisualBoyAdvance;
+				WRAPPER_EXTENSION = oecoreplugin;
+			};
+			name = Release;
+		};
+		1DEB913F08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = "@executable_path/../Frameworks";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "";
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		1DEB914008733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				FRAMEWORK_SEARCH_PATHS = "@executable_path/../Frameworks";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
+				OTHER_CFLAGS = "-DC_CORE";
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+		82CAFD080FEDD57400CCDC7E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Distribution;
+			};
+			name = Debug;
+		};
+		82CAFD090FEDD57400CCDC7E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = Distribution;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		82D815AC0F1D882C00EF8CF5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Build & Install";
+			};
+			name = Debug;
+		};
+		82D815AD0F1D882C00EF8CF5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Build & Install";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "VisualBoyAdvance" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913B08733D840010E9CD /* Debug */,
+				1DEB913C08733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "VisualBoyAdvance" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913F08733D840010E9CD /* Debug */,
+				1DEB914008733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82CAFD170FEDD58500CCDC7E /* Build configuration list for PBXAggregateTarget "Distribution" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82CAFD080FEDD57400CCDC7E /* Debug */,
+				82CAFD090FEDD57400CCDC7E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		82D815B90F1D883D00EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				82D815AC0F1D882C00EF8CF5 /* Debug */,
+				82D815AD0F1D882C00EF8CF5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

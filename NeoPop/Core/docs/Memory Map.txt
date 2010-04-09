@@ -1,0 +1,365 @@
+
+-----------------------------------------------------------------------------
+Memory Map.txt - This file is not 100% complete
+-----------------------------------------------------------------------------
+
+Memory Map Summary:
+-------------------
+
+000000 -> 000100	CPU Internal RAM (Timers / DMA / z80 / etc.)
+000100 -> 006BFF	Work RAM
+006C00 -> 006FFF	CPU Workspace
+007000 -> 007FFF	Sound RAM
+008000 -> 00BFFF	Video RAM
+
+200000 -> 3FFFFF	ROM (GAME CARTRIDGE)
+800000 -> 9FFFFF	Extra ROM (for 32 Mbit games)
+FF0000 -> FFFFFF	BIOS
+
+-----------------------------------------------------------------------------
+
+=============================================================================
+000000 -> 000100	CPU Internal RAM (Timers/DMA/Z80)
+=====================================================
+
+0020 B		: TRUN - Timer Operation Control Register
+0022 B		: TREG0 - Time Register 0 (Write only)
+0023 B		: TREG1 - Time Register 1 (Write only)
+0024 B		: T01MOD - Timer 0,1 Mode Register
+0025 B		: TFFCFR - 8 Bit Timer Flip-Flop Control Register
+0026 B		: TREG2 - Time Register 2 (Write only)
+0027 B		: TREG3 - Time Register 3 (Write only)
+0028 B		: T23MOD - Timer 2,3 Mode Register
+0029 B		: TRDC - Timer Register Double Buffer Control Register
+
+0050 B		: Serial Buffer Data
+0051 B		: Serial Control (details ?)
+0052 B		: Serial Mode Control (details ?)
+
+006F B		: Watch Dog Timer. Requires 0x4E to be written 
+				every 100ms otherwise the NGPC will reset (Not implemented)
+
+0070 B		: RTC alarm level (only valid when game running)
+				Bit 0-3 = Level
+				Bit 4-7 = -
+
+0071 B		: Z80 interrupt level
+				Bit 0-3 = Level
+				Bit 4-7 = -
+
+0073 B		: Timer interrupt level:
+				Bit 0-3 = Timer 0
+				Bit 4-7 = Timer 1
+			
+0074 B		: Timer interrupt level:
+				Bit 0-3 = Timer 2
+				Bit 4-7 = Timer 3
+
+0077 B		: Serial interrupt level:
+				Bit 0-3 = Level
+
+0079 B		: DMA end interrupt level:
+				Bit 0-3 = Channel 0
+				Bit 4-7 = Channel 1
+
+007A B		: DMA end interrupt level:
+				Bit 0-3 = Channel 2
+				Bit 4-7 = Channel 3
+
+007C B		: Micro DMA0 start vector
+007D B		: Micro DMA1 start vector
+007E B		: Micro DMA2 start vector
+007F B		: Micro DMA3 start vector
+
+0091 B		: RTC: Years (BCD)
+0092 B		: RTC: Months (BCD)
+0093 B		: RTC: Days (BCD)
+0094 B		: RTC: Hours (BCD)
+0095 B		: RTC: Minutes (BCD)
+0096 B		: RTC: Seconds (BCD)
+0097 B		: RTC: Day / Leap Year
+				Bit 0-3 = Weekday, 
+				Bit 4-7 = (Years % 4)
+
+00A0 B		: Noise Channel (in direct mode)
+00A1 B		: Tone Channel (in direct mode)
+00A2 B		: Left DAC output
+00A3 B		: Right DAC output
+
+00B2 B		: COMM status
+				Bit 0 = RTS: 1 = OFF, 0 = ON
+				Bit 1-7 = -
+
+00B8 B		: Z80 Activation, 
+				0x55 = ON,
+				0xAA = OFF
+
+00B9 B		: Sound Chip Activation, 
+				0x55 = ON,
+				0xAA = OFF
+
+00BC B		: Z80 <-> TLCS-900h Communication Interface (See Z80 - 0x8000)
+
+
+=============================================================================
+000100 -> 006C00	Work RAM
+============================
+
+<== 6C00 : Top of stack, initial value of XSP
+
+
+
+=============================================================================
+006C00 -> 006FFF	BIOS Workspace
+==================================
+
+6C00 L		: Game's entrypoint / 0x00FF970A for bios menu.
+6C04 W		: Game's catalogue id / 0xFFFF for bios menu.
+6C06 B		: Game's sub-catalogue id / 0x00 for bios menu.
+6C08->6C13	: Game's name / "NEOGEOPocket" for bios menu.
+
+6C55 B		: Game Type 
+				00 = Bios Menu
+				01 = Game
+				02 = Developer mode? (Catalog == 0xFFFE)
+
+6C58 B		: EEPROM(LO) 'type' 
+				00 = Not present EEPROM(LO)
+				01 - 03 = Valid Type
+
+6C59 B		: EEPROM(HI) 'type' 
+				00 = Not present EEPROM(HI)
+				01 - 03 = Valid Type
+
+6C5A B		: Copy of byte 3 of the EEPROM(LO) manf.id.
+6C5B B		: Copy of byte 3 of the EEPROM(HI) manf.id. (bad == 01)
+
+6D05 B		: Comms status flag? 0xFF is Error?
+
+
+6E82 W		: Copy of (0x6C04)
+6E84 B		: Copy of (0x6C06)
+
+6E94 B		: Unknown, "Metal Slug 2" writes 0xFF to it.
+
+6F80 W		: Battery Voltage, Maximum value 0x3FF
+
+6F82 B		: Controller Status
+				Bit 0 = "Up"
+				Bit 1 = "Down"
+				Bit 2 = "Left"
+				Bit 3 = "Right"
+				Bit 4 = "A"
+				Bit 5 = "B"
+				Bit 6 = "Option"
+				Bit 7 = -
+
+6F84 B		: User Boot
+				Bit 0-4 = 0
+				Bit 5 = "Resume" startup: 1 = yes, 0 = no
+				Bit 6 = "Power On" startup: 1 = yes, 0 = no
+				Bit 7 = "Alarm" startup: 1 = yes, 0 = no
+
+6F85 B		: User Shutdown
+				Bit 0-4 = 0
+				Bit 5 = "Battery" shutdown request: 1 = yes, 0 = no
+				Bit 6 = "Inactive" shutdown request: 1 = yes, 0 = no
+				Bit 7 = "Power Off" shutdown request: 1 = yes, 0 = no
+
+6F86 B		: User Answer
+				Bit 0-5 = 0
+				Bit 6 = Inactive" shutdown operation: 1 = exists, 0 = doesn't
+				Bit 7 = Resume operation: 1 = exists, 0 = doesn't
+
+6F87 B		: Language
+				00 = Japanese
+				01 = English
+
+6F91 B		: Operating System Version
+				00 = Neogeo Pocket Classic (Black & White)
+				10 = Neogeo Pocket Color
+
+6F92 B		: Copy of (0x6C58)
+6F93 B		: Copy of (0x6C59)
+
+6F95 B		: Display Mode
+				00 = Neogeo Pocket Classic (Black & White)
+				10 = Neogeo Pocket Color
+
+6FB8 L	*	: 00:Software Interrupt (SWI 3)
+6FBC L	*	: 01:Software Interrupt (SWI 4)
+6FC0 L	*	: 02:Software Interrupt (SWI 5)
+6FC4 L	*	: 03:Software Interrupt (SWI 6)
+6FC8 L		: 04:RTC Alarm Interrupt					(uDMA start = 0x0A)
+6FCC L	*	: 05:Vertical Blanking Interrupt		*	(uDMA start = 0x0B)
+6FD0 L	*	: 06:Interrupt from Z80					*	(uDMA start = 0x0C)
+6FD4 L	*	: 07:Timer Interrupt (8 bit timer 0)	*	(uDMA start = 0x10)
+6FD8 L	*	: 08:Timer Interrupt (8 bit timer 1)	*	(uDMA start = 0x11)
+6FDC L	*	: 09:Timer Interrupt (8 bit timer 2)	*	(uDMA start = 0x12)
+6FE0 L	*	: 10:Timer Interrupt (8 bit timer 3)	*	(uDMA start = 0x13)
+6FE4 L	*	: 11:Serial Transmission Interrupt		*	(uDMA start = 0x18)
+6FE8 L		: 12:Serial Reception Interrupt				(uDMA start = 0x19)
+6FEC L		: 13:(reserved)
+6FF0 L	*	: 14:End Micro DMA Int (MicroDMA 0)
+6FF4 L	*	: 15:End Micro DMA Int (MicroDMA 1)
+6FF8 L	*	: 16:End Micro DMA Int (MicroDMA 2)
+6FFC L	*	: 17:End Micro DMA Int (MicroDMA 3)
+
+(*) = Supported by NeoPop
+
+
+
+=============================================================================
+007000 -> 007FFF	Sound RAM
+=============================
+
+< Z80 ADDRESSES >
+
+0000 -> 0FFF : Shared sound ram, mapped to 0x7000 - 0x7FFF in TLCS-900h space
+
+4000 B	: Noise Channel
+4001 B	: Tone Channel
+
+8000 B	: Z80 <-> TLCS-900h Communication Interface (See TLCS900h - 0x00BC)
+
+C000 B	: Write any value to this address to start the Z80 interrupt
+			in the TLCS-900h code.
+
+
+
+=============================================================================
+008000 -> 00BFFF	Video RAM
+=============================
+
+8000 B		: Interrupt Control Register
+				Bit 0-5 = 0
+				Bit 6 = H.Int permitted? set = yes
+				Bit 7 = V.Int permitted? set = yes
+
+8002 B		: Window Horizontal Origin
+8003 B		: Window Vertical Origin
+8004 B		: Window X Size (0xFF at reset)
+8005 B		: Window Y Size (0xFF at reset)
+
+8006 B		: Frame Rate Register (0xC6 at reset, readonly)
+
+8008 B		: Raster Position Horizontal
+8009 B		: Raster Position Vertical
+8010 B		: Character Over / Vblank Status
+				Bit 0-5 = 0
+				Bit 6 = VBlank Status 
+						0 = displaying
+						1 = V.Blanking
+				Bit 7 = Character Over
+						0 = false
+						1 = C.Ovr has occured
+
+8012 B		: NEG / OOWC Setting
+				Bit 0-2 = Outside Window Colour (0 at reset)
+				Bit 3-6 = -
+				Bit 7 = Negative & Positive Switched 
+						0 = Normal (default)
+						1 = Switched
+
+8020 B		: Sprite Plane Scroll X (0 at reset)
+8021 B		: Sprite Plane Scroll Y (0 at reset)
+
+8030 B		: Scroll Priority Register
+				Bit 0-6 = -
+				Bit 7 = 0 = Scroll 1 in front (default)
+						1 = Scroll 2 in front
+
+8032 B		: Scroll 1 Scroll X (0 at reset)
+8033 B		: Scroll 1 Scroll Y (0 at reset)
+8034 B		: Scroll 2 Scroll X (0 at reset)
+8035 B		: Scroll 2 Scroll Y (0 at reset)
+
+8100->8107	: Sprite Palette Table (Mono, 2 x 4 entry palettes (Shade = bit 0-2 of byte))
+8108->810F	: Scroll 1 Palette Table (Mono, 2 x 4 entry palettes (Shade = bit 0-2 of byte))
+8110->8117	: Scroll 2 Palette Table (Mono, 2 x 4 entry palettes (Shade = bit 0-2 of byte))
+
+8118 B		: Background Colour Register
+				Bit 0-2 = Background colour (0 at reset)
+				Bit 3-5 = -
+				Bit 6-7 = Background On 
+							= 0/0 at reset
+							= 0/1 sets Background Colour valid (0x80 + x),
+								other combinations are invalid.
+
+8200->827F	: Sprite Palette Table (Colour, 16 x 4 entry palettes)
+8280->82FF	: Scroll 1 Palette Table (Colour, 16 x 4 entry palettes)
+8300->837F	: Scroll 2 Palette Table (Colour, 16 x 4 entry palettes)
+
+83E0->83EF	: Background Colour Palette (1 x 8 entry palette)
+				Bit 0-3 = Red
+				Bit 4-7 = Green
+				Bit 8-11 = Blue
+				Bit 12-15 = -
+
+83F0->83FF	: Window Colour Palette (1 x 8 entry palette)
+				Bit 0-3 = Red
+				Bit 4-7 = Green
+				Bit 8-11 = Blue
+				Bit 12-15 = -
+
+8400 B		: LED Control Register
+				Bit 0-2 = Always 1 (so LED is not disabled by program crash)
+				Bit 3-7 = Value 0x07 ~ 0xFE = LED Flash (See below)
+						Value 0xFF = LED On
+
+8402 B		: LED Flash Cycle - Value * 10.6ms is the flash cycle.
+				Default = 0x80 at reset.				
+
+87E0 B		: 2D software reset - Write 0x52 to reset, otherwise ignored.
+
+87E2 B		: Mode Selection Register
+				Bit 0-6 = 0
+				Bit 7 = Mode
+						= 0 = K2GE Colour mode
+						  1 = K1GE upper palette compatible mode
+
+87F0 B		: Mode Register Write access.
+				0xAA = Allowed,
+				0x55 = Denied
+
+8800->88FF	: Sprites (64 x 4 bytes)
+
+				Byte[0] = Tile number (lower 8 bits of 9)
+
+				Byte[1]:
+				--------
+				Bit 0 = Tile number (9th bit)
+				Bit 1 = Vertical postion chain (0 = Normal, 1 = Offset)
+				Bit 2 = Horizontal position chain (0 = Normal, 1 = Offset)
+				Bit 3-4 = Priority (00 = Hide, 01 = Far, 10 = Mid, 11 = Top)
+				Bit 5 = Palette code (K1GE upper palette comp. mode)
+				Bit 6 = Vertical Flip (0 = Normal, 1 = Flipped)
+				Bit 7 = Horizontal Flip (0 = Normal, 1 = Flipped)
+
+				Byte[2] = X position / (offset in chain mode)
+				Byte[3] = Y position / (offset in chain mode)
+
+8C00->8C3F	: Sprite Palette Numbers (64 sprites x 4 byte)
+
+				Bit 0-3 = Sprite palette selection (0 - 15)
+				Bit 4-7 = 0
+
+9000->9800	: Scroll 1 Map
+				32 x 32 tiles
+					1 tile = 2 bytes
+					1st byte TTTTTTTT
+					2nd byte HVBPPPPT
+						H=horizontal flipping (1 bit)
+						V=vertical flipping (1 bit)
+						B=palette selection for Black&White games
+						P=palette number (0..15) (4 bits)
+						T=tile number into Pattern Table (9 bits)
+
+9800->A000	: Scroll 2 Map, see Scroll 1 Map
+
+A000->BFFF	: Pattern Table
+				512 tiles
+					1 tile = 8 x 8 pixels (= 16 bytes)
+					4 pixels @ 2BPP = 1 byte (Pixel:Bit ordering: 10 32 54 76)
+
+=============================================================================

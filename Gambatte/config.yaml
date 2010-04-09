@@ -1,0 +1,9 @@
+build_now:              'YES'
+create_core_path:       'YES'
+download_base_url:      http://openemu.sourceforge.net/
+release_notes_base_url: http://openemu.sourceforge.net/category/releasenotes/gambatte/
+appcast_basefolder:     '/Users/dan/Desktop/Appcast'
+appcast_xml_name:       'gambatte_appcast.xml'
+keychain_privkey_name:  'OE App Sparkle Private Key'
+css_file_name:          'rnotes.css'
+bundle_extension:       'oecoreplugin'

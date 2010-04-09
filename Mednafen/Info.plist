@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string>Mednafen</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.openemu.${PRODUCT_NAME:identifier}</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1.0</string>
+	<key>NSPrincipalClass</key>
+	<string>MednafenGameController</string>
+	<key>ToolbarLabel</key>
+	<string>Mednafen</string>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>ws</string>
+				<string>nes</string>
+				<string>npc</string>
+				<string>cue</string>
+				<string>pce</string>
+				<string>gba</string>
+				<string>lnx</string>
+				<string>sms</string>
+				<string>gg</string>
+				<string>sc</string>
+				<string>sg</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Sega Master System Game</string>
+			<key>LSTypeIsPackage</key>
+			<false/>
+		</dict>
+	</array>
+</dict>
+</plist>

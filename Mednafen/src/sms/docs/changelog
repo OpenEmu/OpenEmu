@@ -1,0 +1,108 @@
+
+ Change log
+
+ [1.2]
+
+ - Fixed smptab allocation error.
+ - Various source code cleanups.
+ - Minor tweaks to sync with Mac source changes.
+ - New sound update code from Richard Bannister.
+ - Added more support for PAL hardware.
+ - Added partial support for Codemasters games.
+ - Fixed some aspects of ROM loading.
+ - Fixed SRAM restore bug in save states.
+ - Fixed viewport size check when going from extended to normal mode, which
+   fixes Fantastic Dizzy opening screen and V counter test program.
+ - Split up VDP emulation into SMS/GG/MD specific parts.
+ - Added support for different port I/O port memory maps.
+ - Fixed mapper restore bug in save states.
+ - Fixed UI key management in dos/main.c
+ - Improved HV counter emulation.
+ - Added dump VRAM keyboard shortcut. (Alt+V)
+ - Split up DOS code into different modules.
+ - Fixed EXT connector and related I/O port 2 behavior.
+ - Added GG I/O register emulation.
+ - Changed SRAM management.
+ - Modified use of reset/poweron/poweroff functions.
+ - Added configuration via CRC for some Codemasters games.
+ - Fixed implementation of GG input port.
+ - Added cycle counter feature to Z80 emulator.
+ - Added shutdown functions to other modules.
+ - Mapped 2nd player inputs to keyboard numeric pad in dos/main.c
+ - Fixed reset button handling in dos/main.c
+ - Moved Z80 port handlers to memz80.c
+ - Fixed console type assign in loadrom.c (removed TYPE_* defines)
+ - Added support for I/O chip disable control.
+ - Rewrote I/O chip emulation.
+ - Fixed pixel LUT to handle sprite collision behind high priority BG tiles.
+ - Added emulation of sprite overflow status flag.
+ - Added 'granularity' member to bitmap struct and fixed DOS blur code.
+ - Fixed FM sound restore on state load / FM emulator change.
+ - Corrected screen blanking width.
+ - Removed sprite limit disable feature.
+ - Added support for extended display modes.
+ - Added partial support for PAL display timing.
+ - Removed BMP_* macros, replaced with bitmap.viewport.* variables.
+ - Removed Y's (J) rendering hack that was problematic in other games.
+ - Added error logging routines.
+ - Removed Game Gear specific rendering speedups.
+ - Replaced cart.type with sms.console, replaced access with IS_GG macro.
+ - Renamed INPUT_SOFT_RESET to INPUT_RESET. Use for SMS games only.
+ - Removed INPUT_HARD_RESET, use system_reset() instead.
+ - Modified vdp_ctrl_w() to update address register LSB during leading write.
+ - Changed path length in wram/state/snap routines to PATH_MAX in DOS code.
+ - Added define to specify message length in DOS code.
+ - Added r/w handlers for FM detection latch access, renamed fm* -> fmunit*
+ - Added territory/console members to struct sms (removed sms.country).
+   Removed TYPE_* and replaced with TERRITORY_* enums.
+ - Fixed FM register restore during state load when sound is disabled.
+ - Updated memory system to support 1K pages.
+ - Updated zlib to 1.2.1 and unzip.c to 1.0
+ - Moved sound management out of system.c into sound/sound.c,fmintf.c
+ - Moved state management out of system.c into state.c
+ - Rearranged header file include order in system.h
+ - Added support for MAME YM2413 emulator
+ - Abstracted FM sound chip interface to support both YM2413 emulators
+ - Updated timeline in dos/main.c and system.c
+ - Removed SSL logging
+ - Fixed path length in loadrom.c to MAX_PATH from limits.h
+ - Added library version display option to dos/main.c
+ - Moved file I/O code to fileio.c
+ - Fixed loadrom.c to support 16K ROM images
+ - Updated documentation and porting instructions
+ - Modified EMU2413 to have update function for 2-channel output
+ - Modified dos\config.c to ensure parameters are left during option parsing
+ - Modified YM2413 emulator to check for NULL pointer during shutdown
+ - Cleaned up variable names in snd struct
+ - Added default mixer callback
+ - Made sound_shutdown() free memory
+ - Modified sound_init() to allow re-initialization
+ - Cleaned up system.h, sms.h, vdp.h
+ - Optimized color expansion for paletteized 8-bit format in render.c
+ - Added Maxim's SN76489 emulator, removed the old one
+ - Added YM2413 context management
+ - Fixed PSG/FM state save/load behavior
+
+ [0.9.4b]
+
+ - Removed calls to text_mode() and changed textprintf() to textprintf_ex().
+   for compatability with Allegro v4.1.11 (WIP).
+ - Removed VERSION from shared.h and add APP_NAME, APP_VERSION to system.h.
+ - Changed TYPE_OVERSEAS to TYPE_EXPORT in sms.h.
+ - Renamed dos.c/dos.h to main.c/main.h.
+ - Fixed FPS meter state display.
+ - Moved 1P buttons from ALT/LCTRL keys to S/A keys.
+ - Added work RAM dump feature (Alt+W).
+ - Added mostly complete HV counter tables to hvc.h.
+ - Rewrote VDP frame and line interrupt handling. 
+ - Added ID and version number to state files.
+ - Removed vdp_run(), renamed sms_run() to system_run() in system.c.
+ - Merged cpu_reset() with sms_reset().
+ - Consolidated parts of the ROM file loading routines.
+ - Increased resolution of GG palette (Mean Bean Machine intro).
+ - Fixed GG palette write handling (RoboCop 3 intro).
+ - Rewrote and optimized tile caching routines.
+ - Made SMS/GG palette brighter.
+ - Fixed leftmost column drawing in SMS mode.
+ - Upgraded Z80 CPU emulator from V2.7 to V3.3.
+

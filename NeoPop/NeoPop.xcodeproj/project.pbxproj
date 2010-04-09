@@ -1,0 +1,673 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXAggregateTarget section */
+		B56F6FC20F38FC1600DCE88B /* Build & Install */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = B56F6FC70F38FC4B00DCE88B /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildPhases = (
+				B56F6FC10F38FC1600DCE88B /* ShellScript */,
+			);
+			dependencies = (
+				B56F6FC60F38FC2D00DCE88B /* PBXTargetDependency */,
+			);
+			name = "Build & Install";
+			productName = "Build & Install";
+		};
+/* End PBXAggregateTarget section */
+
+/* Begin PBXBuildFile section */
+		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
+		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		B5DCE1180F2B5AE200517996 /* NGPGameEmu.m in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1170F2B5AE200517996 /* NGPGameEmu.m */; };
+		B5DCE1650F2B5BB300517996 /* bios.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE11C0F2B5BB300517996 /* bios.c */; };
+		B5DCE1660F2B5BB300517996 /* biosHLE.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE11E0F2B5BB300517996 /* biosHLE.c */; };
+		B5DCE1670F2B5BB300517996 /* dma.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE11F0F2B5BB300517996 /* dma.c */; };
+		B5DCE1690F2B5BB300517996 /* Memory Map.txt in Resources */ = {isa = PBXBuildFile; fileRef = B5DCE1230F2B5BB300517996 /* Memory Map.txt */; };
+		B5DCE16C0F2B5BB300517996 /* flash.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1260F2B5BB300517996 /* flash.c */; };
+		B5DCE16D0F2B5BB300517996 /* gfx.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1280F2B5BB300517996 /* gfx.c */; };
+		B5DCE16E0F2B5BB300517996 /* gfx_scanline_colour.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE12A0F2B5BB300517996 /* gfx_scanline_colour.c */; };
+		B5DCE16F0F2B5BB300517996 /* gfx_scanline_mono.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE12B0F2B5BB300517996 /* gfx_scanline_mono.c */; };
+		B5DCE1700F2B5BB300517996 /* interrupt.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE12C0F2B5BB300517996 /* interrupt.c */; };
+		B5DCE1710F2B5BB300517996 /* mem.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE12E0F2B5BB300517996 /* mem.c */; };
+		B5DCE1720F2B5BB300517996 /* neopop.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1300F2B5BB300517996 /* neopop.c */; };
+		B5DCE1730F2B5BB300517996 /* rom.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1320F2B5BB300517996 /* rom.c */; };
+		B5DCE1740F2B5BB300517996 /* sound.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1330F2B5BB300517996 /* sound.c */; };
+		B5DCE1750F2B5BB300517996 /* state.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1350F2B5BB300517996 /* state.c */; };
+		B5DCE1760F2B5BB300517996 /* TLCS900h_disassemble.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1380F2B5BB300517996 /* TLCS900h_disassemble.c */; };
+		B5DCE1770F2B5BB300517996 /* TLCS900h_disassemble_dst.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE13A0F2B5BB300517996 /* TLCS900h_disassemble_dst.c */; };
+		B5DCE1780F2B5BB300517996 /* TLCS900h_disassemble_extra.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE13B0F2B5BB300517996 /* TLCS900h_disassemble_extra.c */; };
+		B5DCE1790F2B5BB300517996 /* TLCS900h_disassemble_reg.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE13C0F2B5BB300517996 /* TLCS900h_disassemble_reg.c */; };
+		B5DCE17A0F2B5BB300517996 /* TLCS900h_disassemble_src.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE13D0F2B5BB300517996 /* TLCS900h_disassemble_src.c */; };
+		B5DCE17B0F2B5BB300517996 /* TLCS900h_interpret.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE13E0F2B5BB300517996 /* TLCS900h_interpret.c */; };
+		B5DCE17C0F2B5BB300517996 /* TLCS900h_interpret_dst.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1400F2B5BB300517996 /* TLCS900h_interpret_dst.c */; };
+		B5DCE17D0F2B5BB300517996 /* TLCS900h_interpret_reg.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1420F2B5BB300517996 /* TLCS900h_interpret_reg.c */; };
+		B5DCE17E0F2B5BB300517996 /* TLCS900h_interpret_single.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1440F2B5BB300517996 /* TLCS900h_interpret_single.c */; };
+		B5DCE17F0F2B5BB300517996 /* TLCS900h_interpret_src.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1460F2B5BB300517996 /* TLCS900h_interpret_src.c */; };
+		B5DCE1800F2B5BB300517996 /* TLCS900h_registers.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1480F2B5BB300517996 /* TLCS900h_registers.c */; };
+		B5DCE1810F2B5BB300517996 /* dasm.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE15F0F2B5BB300517996 /* dasm.c */; };
+		B5DCE1820F2B5BB300517996 /* Z80.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1610F2B5BB300517996 /* Z80.c */; };
+		B5DCE1830F2B5BB300517996 /* Z80_interface.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1630F2B5BB300517996 /* Z80_interface.c */; };
+		C66DFE420F520C990080AA28 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C66DFD530F51F1840080AA28 /* OpenEmuBase.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3746BCA8102942B0007C78A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3887A7F61024D1F9000FC4CF;
+			remoteInfo = OESaveStateQLPlugin;
+		};
+		B56F6FC50F38FC2D00DCE88B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = NeoPop;
+		};
+		C66DFD4E0F51F1840080AA28 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
+			remoteInfo = OpenEmu;
+		};
+		C66DFD500F51F1840080AA28 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 828E65980E8466A100B1860B;
+			remoteInfo = OpenEmuQC;
+		};
+		C66DFD520F51F1840080AA28 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82444BA10F51256C007C171B;
+			remoteInfo = OpenEmuBase;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		32DBCF630370AF2F00C91783 /* NeoPop_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeoPop_Prefix.pch; sourceTree = "<group>"; };
+		8D5B49B6048680CD000E48DA /* NeoPop.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeoPop.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5DCE1160F2B5AE200517996 /* NGPGameEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGPGameEmu.h; sourceTree = "<group>"; };
+		B5DCE1170F2B5AE200517996 /* NGPGameEmu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGPGameEmu.m; sourceTree = "<group>"; };
+		B5DCE11C0F2B5BB300517996 /* bios.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bios.c; sourceTree = "<group>"; };
+		B5DCE11D0F2B5BB300517996 /* bios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bios.h; sourceTree = "<group>"; };
+		B5DCE11E0F2B5BB300517996 /* biosHLE.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = biosHLE.c; sourceTree = "<group>"; };
+		B5DCE11F0F2B5BB300517996 /* dma.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dma.c; sourceTree = "<group>"; };
+		B5DCE1200F2B5BB300517996 /* dma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dma.h; sourceTree = "<group>"; };
+		B5DCE1230F2B5BB300517996 /* Memory Map.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "Memory Map.txt"; sourceTree = "<group>"; };
+		B5DCE1260F2B5BB300517996 /* flash.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = flash.c; sourceTree = "<group>"; };
+		B5DCE1270F2B5BB300517996 /* flash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flash.h; sourceTree = "<group>"; };
+		B5DCE1280F2B5BB300517996 /* gfx.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gfx.c; sourceTree = "<group>"; };
+		B5DCE1290F2B5BB300517996 /* gfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gfx.h; sourceTree = "<group>"; };
+		B5DCE12A0F2B5BB300517996 /* gfx_scanline_colour.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gfx_scanline_colour.c; sourceTree = "<group>"; };
+		B5DCE12B0F2B5BB300517996 /* gfx_scanline_mono.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gfx_scanline_mono.c; sourceTree = "<group>"; };
+		B5DCE12C0F2B5BB300517996 /* interrupt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = interrupt.c; sourceTree = "<group>"; };
+		B5DCE12D0F2B5BB300517996 /* interrupt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = interrupt.h; sourceTree = "<group>"; };
+		B5DCE12E0F2B5BB300517996 /* mem.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mem.c; sourceTree = "<group>"; };
+		B5DCE12F0F2B5BB300517996 /* mem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mem.h; sourceTree = "<group>"; };
+		B5DCE1300F2B5BB300517996 /* neopop.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = neopop.c; sourceTree = "<group>"; };
+		B5DCE1310F2B5BB300517996 /* neopop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = neopop.h; sourceTree = "<group>"; };
+		B5DCE1320F2B5BB300517996 /* rom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rom.c; sourceTree = "<group>"; };
+		B5DCE1330F2B5BB300517996 /* sound.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sound.c; sourceTree = "<group>"; };
+		B5DCE1340F2B5BB300517996 /* sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sound.h; sourceTree = "<group>"; };
+		B5DCE1350F2B5BB300517996 /* state.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = state.c; sourceTree = "<group>"; };
+		B5DCE1360F2B5BB300517996 /* state.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = state.h; sourceTree = "<group>"; };
+		B5DCE1380F2B5BB300517996 /* TLCS900h_disassemble.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TLCS900h_disassemble.c; sourceTree = "<group>"; };
+		B5DCE1390F2B5BB300517996 /* TLCS900h_disassemble.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_disassemble.h; sourceTree = "<group>"; };
+		B5DCE13A0F2B5BB300517996 /* TLCS900h_disassemble_dst.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TLCS900h_disassemble_dst.c; sourceTree = "<group>"; };
+		B5DCE13B0F2B5BB300517996 /* TLCS900h_disassemble_extra.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TLCS900h_disassemble_extra.c; sourceTree = "<group>"; };
+		B5DCE13C0F2B5BB300517996 /* TLCS900h_disassemble_reg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TLCS900h_disassemble_reg.c; sourceTree = "<group>"; };
+		B5DCE13D0F2B5BB300517996 /* TLCS900h_disassemble_src.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TLCS900h_disassemble_src.c; sourceTree = "<group>"; };
+		B5DCE13E0F2B5BB300517996 /* TLCS900h_interpret.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TLCS900h_interpret.c; sourceTree = "<group>"; };
+		B5DCE13F0F2B5BB300517996 /* TLCS900h_interpret.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_interpret.h; sourceTree = "<group>"; };
+		B5DCE1400F2B5BB300517996 /* TLCS900h_interpret_dst.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TLCS900h_interpret_dst.c; sourceTree = "<group>"; };
+		B5DCE1410F2B5BB300517996 /* TLCS900h_interpret_dst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_interpret_dst.h; sourceTree = "<group>"; };
+		B5DCE1420F2B5BB300517996 /* TLCS900h_interpret_reg.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TLCS900h_interpret_reg.c; sourceTree = "<group>"; };
+		B5DCE1430F2B5BB300517996 /* TLCS900h_interpret_reg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_interpret_reg.h; sourceTree = "<group>"; };
+		B5DCE1440F2B5BB300517996 /* TLCS900h_interpret_single.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TLCS900h_interpret_single.c; sourceTree = "<group>"; };
+		B5DCE1450F2B5BB300517996 /* TLCS900h_interpret_single.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_interpret_single.h; sourceTree = "<group>"; };
+		B5DCE1460F2B5BB300517996 /* TLCS900h_interpret_src.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TLCS900h_interpret_src.c; sourceTree = "<group>"; };
+		B5DCE1470F2B5BB300517996 /* TLCS900h_interpret_src.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_interpret_src.h; sourceTree = "<group>"; };
+		B5DCE1480F2B5BB300517996 /* TLCS900h_registers.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = TLCS900h_registers.c; sourceTree = "<group>"; };
+		B5DCE1490F2B5BB300517996 /* TLCS900h_registers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers.h; sourceTree = "<group>"; };
+		B5DCE14A0F2B5BB300517996 /* TLCS900h_registers_mapB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapB.h; sourceTree = "<group>"; };
+		B5DCE14B0F2B5BB300517996 /* TLCS900h_registers_mapCodeB0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeB0.h; sourceTree = "<group>"; };
+		B5DCE14C0F2B5BB300517996 /* TLCS900h_registers_mapCodeB1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeB1.h; sourceTree = "<group>"; };
+		B5DCE14D0F2B5BB300517996 /* TLCS900h_registers_mapCodeB2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeB2.h; sourceTree = "<group>"; };
+		B5DCE14E0F2B5BB300517996 /* TLCS900h_registers_mapCodeB3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeB3.h; sourceTree = "<group>"; };
+		B5DCE14F0F2B5BB300517996 /* TLCS900h_registers_mapCodeL0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeL0.h; sourceTree = "<group>"; };
+		B5DCE1500F2B5BB300517996 /* TLCS900h_registers_mapCodeL1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeL1.h; sourceTree = "<group>"; };
+		B5DCE1510F2B5BB300517996 /* TLCS900h_registers_mapCodeL2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeL2.h; sourceTree = "<group>"; };
+		B5DCE1520F2B5BB300517996 /* TLCS900h_registers_mapCodeL3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeL3.h; sourceTree = "<group>"; };
+		B5DCE1530F2B5BB300517996 /* TLCS900h_registers_mapCodeW0.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeW0.h; sourceTree = "<group>"; };
+		B5DCE1540F2B5BB300517996 /* TLCS900h_registers_mapCodeW1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeW1.h; sourceTree = "<group>"; };
+		B5DCE1550F2B5BB300517996 /* TLCS900h_registers_mapCodeW2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeW2.h; sourceTree = "<group>"; };
+		B5DCE1560F2B5BB300517996 /* TLCS900h_registers_mapCodeW3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapCodeW3.h; sourceTree = "<group>"; };
+		B5DCE1570F2B5BB300517996 /* TLCS900h_registers_mapL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapL.h; sourceTree = "<group>"; };
+		B5DCE1580F2B5BB300517996 /* TLCS900h_registers_mapW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCS900h_registers_mapW.h; sourceTree = "<group>"; };
+		B5DCE15A0F2B5BB300517996 /* Codes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Codes.h; sourceTree = "<group>"; };
+		B5DCE15B0F2B5BB300517996 /* CodesCB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodesCB.h; sourceTree = "<group>"; };
+		B5DCE15C0F2B5BB300517996 /* CodesED.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodesED.h; sourceTree = "<group>"; };
+		B5DCE15D0F2B5BB300517996 /* CodesXCB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodesXCB.h; sourceTree = "<group>"; };
+		B5DCE15E0F2B5BB300517996 /* CodesXX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CodesXX.h; sourceTree = "<group>"; };
+		B5DCE15F0F2B5BB300517996 /* dasm.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dasm.c; sourceTree = "<group>"; };
+		B5DCE1600F2B5BB300517996 /* Tables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tables.h; sourceTree = "<group>"; };
+		B5DCE1610F2B5BB300517996 /* Z80.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Z80.c; sourceTree = "<group>"; };
+		B5DCE1620F2B5BB300517996 /* Z80.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Z80.h; sourceTree = "<group>"; };
+		B5DCE1630F2B5BB300517996 /* Z80_interface.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = Z80_interface.c; sourceTree = "<group>"; };
+		B5DCE1640F2B5BB300517996 /* Z80_interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Z80_interface.h; sourceTree = "<group>"; };
+		C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
+		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8D5B49B3048680CD000E48DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C66DFE420F520C990080AA28 /* OpenEmuBase.framework in Frameworks */,
+				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		089C166AFE841209C02AAC07 /* NeoPop */ = {
+			isa = PBXGroup;
+			children = (
+				C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */,
+				08FB77AFFE84173DC02AAC07 /* Classes */,
+				32C88E010371C26100C91783 /* Other Sources */,
+				089C167CFE841241C02AAC07 /* Resources */,
+				089C1671FE841209C02AAC07 /* Frameworks and Libraries */,
+				19C28FB8FE9D52D311CA2CBB /* Products */,
+			);
+			name = NeoPop;
+			sourceTree = "<group>";
+		};
+		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
+				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
+			);
+			name = "Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		089C167CFE841241C02AAC07 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B7048680CD000E48DA /* Info.plist */,
+				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		08FB77AFFE84173DC02AAC07 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				B5DCE1160F2B5AE200517996 /* NGPGameEmu.h */,
+				B5DCE1170F2B5AE200517996 /* NGPGameEmu.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
+		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
+			);
+			name = "Linked Frameworks";
+			sourceTree = "<group>";
+		};
+		1058C7AEFEA557BF11CA2CBB /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				089C167FFE841241C02AAC07 /* AppKit.framework */,
+				D2F7E65807B2D6F200F64583 /* CoreData.framework */,
+				089C1672FE841209C02AAC07 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		19C28FB8FE9D52D311CA2CBB /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8D5B49B6048680CD000E48DA /* NeoPop.oecoreplugin */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		32C88E010371C26100C91783 /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				B5DCE11B0F2B5BB300517996 /* Core */,
+				32DBCF630370AF2F00C91783 /* NeoPop_Prefix.pch */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		B5DCE11B0F2B5BB300517996 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				B5DCE11C0F2B5BB300517996 /* bios.c */,
+				B5DCE11D0F2B5BB300517996 /* bios.h */,
+				B5DCE11E0F2B5BB300517996 /* biosHLE.c */,
+				B5DCE11F0F2B5BB300517996 /* dma.c */,
+				B5DCE1200F2B5BB300517996 /* dma.h */,
+				B5DCE1210F2B5BB300517996 /* docs */,
+				B5DCE1260F2B5BB300517996 /* flash.c */,
+				B5DCE1270F2B5BB300517996 /* flash.h */,
+				B5DCE1280F2B5BB300517996 /* gfx.c */,
+				B5DCE1290F2B5BB300517996 /* gfx.h */,
+				B5DCE12A0F2B5BB300517996 /* gfx_scanline_colour.c */,
+				B5DCE12B0F2B5BB300517996 /* gfx_scanline_mono.c */,
+				B5DCE12C0F2B5BB300517996 /* interrupt.c */,
+				B5DCE12D0F2B5BB300517996 /* interrupt.h */,
+				B5DCE12E0F2B5BB300517996 /* mem.c */,
+				B5DCE12F0F2B5BB300517996 /* mem.h */,
+				B5DCE1300F2B5BB300517996 /* neopop.c */,
+				B5DCE1310F2B5BB300517996 /* neopop.h */,
+				B5DCE1320F2B5BB300517996 /* rom.c */,
+				B5DCE1330F2B5BB300517996 /* sound.c */,
+				B5DCE1340F2B5BB300517996 /* sound.h */,
+				B5DCE1350F2B5BB300517996 /* state.c */,
+				B5DCE1360F2B5BB300517996 /* state.h */,
+				B5DCE1370F2B5BB300517996 /* TLCS-900h */,
+				B5DCE1590F2B5BB300517996 /* z80 */,
+				B5DCE1630F2B5BB300517996 /* Z80_interface.c */,
+				B5DCE1640F2B5BB300517996 /* Z80_interface.h */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		B5DCE1210F2B5BB300517996 /* docs */ = {
+			isa = PBXGroup;
+			children = (
+				B5DCE1230F2B5BB300517996 /* Memory Map.txt */,
+			);
+			path = docs;
+			sourceTree = "<group>";
+		};
+		B5DCE1370F2B5BB300517996 /* TLCS-900h */ = {
+			isa = PBXGroup;
+			children = (
+				B5DCE1380F2B5BB300517996 /* TLCS900h_disassemble.c */,
+				B5DCE1390F2B5BB300517996 /* TLCS900h_disassemble.h */,
+				B5DCE13A0F2B5BB300517996 /* TLCS900h_disassemble_dst.c */,
+				B5DCE13B0F2B5BB300517996 /* TLCS900h_disassemble_extra.c */,
+				B5DCE13C0F2B5BB300517996 /* TLCS900h_disassemble_reg.c */,
+				B5DCE13D0F2B5BB300517996 /* TLCS900h_disassemble_src.c */,
+				B5DCE13E0F2B5BB300517996 /* TLCS900h_interpret.c */,
+				B5DCE13F0F2B5BB300517996 /* TLCS900h_interpret.h */,
+				B5DCE1400F2B5BB300517996 /* TLCS900h_interpret_dst.c */,
+				B5DCE1410F2B5BB300517996 /* TLCS900h_interpret_dst.h */,
+				B5DCE1420F2B5BB300517996 /* TLCS900h_interpret_reg.c */,
+				B5DCE1430F2B5BB300517996 /* TLCS900h_interpret_reg.h */,
+				B5DCE1440F2B5BB300517996 /* TLCS900h_interpret_single.c */,
+				B5DCE1450F2B5BB300517996 /* TLCS900h_interpret_single.h */,
+				B5DCE1460F2B5BB300517996 /* TLCS900h_interpret_src.c */,
+				B5DCE1470F2B5BB300517996 /* TLCS900h_interpret_src.h */,
+				B5DCE1480F2B5BB300517996 /* TLCS900h_registers.c */,
+				B5DCE1490F2B5BB300517996 /* TLCS900h_registers.h */,
+				B5DCE14A0F2B5BB300517996 /* TLCS900h_registers_mapB.h */,
+				B5DCE14B0F2B5BB300517996 /* TLCS900h_registers_mapCodeB0.h */,
+				B5DCE14C0F2B5BB300517996 /* TLCS900h_registers_mapCodeB1.h */,
+				B5DCE14D0F2B5BB300517996 /* TLCS900h_registers_mapCodeB2.h */,
+				B5DCE14E0F2B5BB300517996 /* TLCS900h_registers_mapCodeB3.h */,
+				B5DCE14F0F2B5BB300517996 /* TLCS900h_registers_mapCodeL0.h */,
+				B5DCE1500F2B5BB300517996 /* TLCS900h_registers_mapCodeL1.h */,
+				B5DCE1510F2B5BB300517996 /* TLCS900h_registers_mapCodeL2.h */,
+				B5DCE1520F2B5BB300517996 /* TLCS900h_registers_mapCodeL3.h */,
+				B5DCE1530F2B5BB300517996 /* TLCS900h_registers_mapCodeW0.h */,
+				B5DCE1540F2B5BB300517996 /* TLCS900h_registers_mapCodeW1.h */,
+				B5DCE1550F2B5BB300517996 /* TLCS900h_registers_mapCodeW2.h */,
+				B5DCE1560F2B5BB300517996 /* TLCS900h_registers_mapCodeW3.h */,
+				B5DCE1570F2B5BB300517996 /* TLCS900h_registers_mapL.h */,
+				B5DCE1580F2B5BB300517996 /* TLCS900h_registers_mapW.h */,
+			);
+			path = "TLCS-900h";
+			sourceTree = "<group>";
+		};
+		B5DCE1590F2B5BB300517996 /* z80 */ = {
+			isa = PBXGroup;
+			children = (
+				B5DCE15A0F2B5BB300517996 /* Codes.h */,
+				B5DCE15B0F2B5BB300517996 /* CodesCB.h */,
+				B5DCE15C0F2B5BB300517996 /* CodesED.h */,
+				B5DCE15D0F2B5BB300517996 /* CodesXCB.h */,
+				B5DCE15E0F2B5BB300517996 /* CodesXX.h */,
+				B5DCE15F0F2B5BB300517996 /* dasm.c */,
+				B5DCE1600F2B5BB300517996 /* Tables.h */,
+				B5DCE1610F2B5BB300517996 /* Z80.c */,
+				B5DCE1620F2B5BB300517996 /* Z80.h */,
+			);
+			path = z80;
+			sourceTree = "<group>";
+		};
+		C66DFD470F51F1840080AA28 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C66DFD4F0F51F1840080AA28 /* OpenEmu.app */,
+				C66DFD510F51F1840080AA28 /* OpenEmuQC.plugin */,
+				C66DFD530F51F1840080AA28 /* OpenEmuBase.framework */,
+				3746BCA9102942B0007C78A6 /* OESaveStateQLPlugin.bundle */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8D5B49AC048680CD000E48DA /* NeoPop */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "NeoPop" */;
+			buildPhases = (
+				8D5B49AF048680CD000E48DA /* Resources */,
+				8D5B49B1048680CD000E48DA /* Sources */,
+				8D5B49B3048680CD000E48DA /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NeoPop;
+			productInstallPath = "$(HOME)/Library/Bundles";
+			productName = NeoPop;
+			productReference = 8D5B49B6048680CD000E48DA /* NeoPop.oecoreplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		089C1669FE841209C02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "NeoPop" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 089C166AFE841209C02AAC07 /* NeoPop */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = C66DFD470F51F1840080AA28 /* Products */;
+					ProjectRef = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				8D5B49AC048680CD000E48DA /* NeoPop */,
+				B56F6FC20F38FC1600DCE88B /* Build & Install */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		3746BCA9102942B0007C78A6 /* OESaveStateQLPlugin.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OESaveStateQLPlugin.bundle;
+			remoteRef = 3746BCA8102942B0007C78A6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C66DFD4F0F51F1840080AA28 /* OpenEmu.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OpenEmu.app;
+			remoteRef = C66DFD4E0F51F1840080AA28 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C66DFD510F51F1840080AA28 /* OpenEmuQC.plugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OpenEmuQC.plugin;
+			remoteRef = C66DFD500F51F1840080AA28 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C66DFD530F51F1840080AA28 /* OpenEmuBase.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuBase.framework;
+			remoteRef = C66DFD520F51F1840080AA28 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8D5B49AF048680CD000E48DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
+				B5DCE1690F2B5BB300517996 /* Memory Map.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		B56F6FC10F38FC1600DCE88B /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\nmkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\" \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8D5B49B1048680CD000E48DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B5DCE1180F2B5AE200517996 /* NGPGameEmu.m in Sources */,
+				B5DCE1650F2B5BB300517996 /* bios.c in Sources */,
+				B5DCE1660F2B5BB300517996 /* biosHLE.c in Sources */,
+				B5DCE1670F2B5BB300517996 /* dma.c in Sources */,
+				B5DCE16C0F2B5BB300517996 /* flash.c in Sources */,
+				B5DCE16D0F2B5BB300517996 /* gfx.c in Sources */,
+				B5DCE16E0F2B5BB300517996 /* gfx_scanline_colour.c in Sources */,
+				B5DCE16F0F2B5BB300517996 /* gfx_scanline_mono.c in Sources */,
+				B5DCE1700F2B5BB300517996 /* interrupt.c in Sources */,
+				B5DCE1710F2B5BB300517996 /* mem.c in Sources */,
+				B5DCE1720F2B5BB300517996 /* neopop.c in Sources */,
+				B5DCE1730F2B5BB300517996 /* rom.c in Sources */,
+				B5DCE1740F2B5BB300517996 /* sound.c in Sources */,
+				B5DCE1750F2B5BB300517996 /* state.c in Sources */,
+				B5DCE1760F2B5BB300517996 /* TLCS900h_disassemble.c in Sources */,
+				B5DCE1770F2B5BB300517996 /* TLCS900h_disassemble_dst.c in Sources */,
+				B5DCE1780F2B5BB300517996 /* TLCS900h_disassemble_extra.c in Sources */,
+				B5DCE1790F2B5BB300517996 /* TLCS900h_disassemble_reg.c in Sources */,
+				B5DCE17A0F2B5BB300517996 /* TLCS900h_disassemble_src.c in Sources */,
+				B5DCE17B0F2B5BB300517996 /* TLCS900h_interpret.c in Sources */,
+				B5DCE17C0F2B5BB300517996 /* TLCS900h_interpret_dst.c in Sources */,
+				B5DCE17D0F2B5BB300517996 /* TLCS900h_interpret_reg.c in Sources */,
+				B5DCE17E0F2B5BB300517996 /* TLCS900h_interpret_single.c in Sources */,
+				B5DCE17F0F2B5BB300517996 /* TLCS900h_interpret_src.c in Sources */,
+				B5DCE1800F2B5BB300517996 /* TLCS900h_registers.c in Sources */,
+				B5DCE1810F2B5BB300517996 /* dasm.c in Sources */,
+				B5DCE1820F2B5BB300517996 /* Z80.c in Sources */,
+				B5DCE1830F2B5BB300517996 /* Z80_interface.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B56F6FC60F38FC2D00DCE88B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* NeoPop */;
+			targetProxy = B56F6FC50F38FC2D00DCE88B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		089C167DFE841241C02AAC07 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				089C167EFE841241C02AAC07 /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB913B08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = NeoPop_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-Wl,-read_only_relocs,suppress",
+					"-mdynamic-no-pic",
+				);
+				PRODUCT_NAME = NeoPop;
+				WRAPPER_EXTENSION = oecoreplugin;
+			};
+			name = Debug;
+		};
+		1DEB913C08733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = (
+					i386,
+					x86_64,
+					ppc,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_DYNAMIC_NO_PIC = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = NeoPop_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				INSTALL_PATH = "$(HOME)/Library/Bundles";
+				OTHER_LDFLAGS = (
+					"-Wl,-read_only_relocs,suppress",
+					"-mdynamic-no-pic",
+				);
+				PRODUCT_NAME = NeoPop;
+				WRAPPER_EXTENSION = oecoreplugin;
+			};
+			name = Release;
+		};
+		1DEB913F08733D840010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "-D__cdecl=";
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		1DEB914008733D840010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
+				OTHER_CFLAGS = "-D__cdecl=";
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+		B56F6FC30F38FC1700DCE88B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Build & Install";
+			};
+			name = Debug;
+		};
+		B56F6FC40F38FC1700DCE88B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Build & Install";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB913A08733D840010E9CD /* Build configuration list for PBXNativeTarget "NeoPop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913B08733D840010E9CD /* Debug */,
+				1DEB913C08733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "NeoPop" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB913F08733D840010E9CD /* Debug */,
+				1DEB914008733D840010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B56F6FC70F38FC4B00DCE88B /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B56F6FC30F38FC1700DCE88B /* Debug */,
+				B56F6FC40F38FC1700DCE88B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 089C1669FE841209C02AAC07 /* Project object */;
+}

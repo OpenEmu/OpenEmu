@@ -1,0 +1,281 @@
+/***************************************************************************
+ *   Copyright (C) 2008 by Sindre Aamås                                    *
+ *   aamas@stud.ntnu.no                                                    *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License version 2 as     *
+ *   published by the Free Software Foundation.                            *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License version 2 for more details.                *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   version 2 along with this program; if not, write to the               *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+#include "initstate.h"
+#include "savestate.h"
+#include <cstring>
+#include <algorithm>
+#include "sound/sound_unit.h"
+#include "memory.h"
+
+void setInitState(SaveState &state, const bool cgb) {
+	static const unsigned char feaxDump[0x60] = {
+		0x18, 0x01, 0xEF, 0xDE, 0x06, 0x4A, 0xCD, 0xBD, 
+		0x18, 0x01, 0xEF, 0xDE, 0x06, 0x4A, 0xCD, 0xBD, 
+		0x18, 0x01, 0xEF, 0xDE, 0x06, 0x4A, 0xCD, 0xBD, 
+		0x18, 0x01, 0xEF, 0xDE, 0x06, 0x4A, 0xCD, 0xBD, 
+		0x00, 0x90, 0xF7, 0x7F, 0xC0, 0xB1, 0xB4, 0xFB, 
+		0x00, 0x90, 0xF7, 0x7F, 0xC0, 0xB1, 0xB4, 0xFB, 
+		0x00, 0x90, 0xF7, 0x7F, 0xC0, 0xB1, 0xB4, 0xFB, 
+		0x00, 0x90, 0xF7, 0x7F, 0xC0, 0xB1, 0xB4, 0xFB, 
+		0x24, 0x1B, 0xFD, 0x3A, 0x10, 0x12, 0xAD, 0x45, 
+		0x24, 0x1B, 0xFD, 0x3A, 0x10, 0x12, 0xAD, 0x45, 
+		0x24, 0x1B, 0xFD, 0x3A, 0x10, 0x12, 0xAD, 0x45, 
+		0x24, 0x1B, 0xFD, 0x3A, 0x10, 0x12, 0xAD, 0x45
+	};
+	
+	static const unsigned char ffxxDump[0x100] = {
+		0xCF, 0x00, 0x7C, 0xFF, 0x43, 0x00, 0x00, 0xF8, 
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xE1, 
+		0x80, 0xBF, 0xF3, 0xFF, 0xBF, 0xFF, 0x3F, 0x00, 
+		0xFF, 0xBF, 0x7F, 0xFF, 0x9F, 0xFF, 0xBF, 0xFF, 
+		0xFF, 0x00, 0x00, 0xBF, 0x77, 0xF3, 0xF1, 0xFF, 
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 
+		0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 
+		0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 0x00, 0xFF, 
+		0x00, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0xFC, 
+		0x00, 0x00, 0x00, 0x00, 0xFF, 0x7E, 0xFF, 0xFE, 
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x3E, 0xFF, 
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 
+		0xC0, 0xFF, 0xC1, 0x00, 0xFE, 0xFF, 0xFF, 0xFF, 
+		0xF8, 0xFF, 0x00, 0x00, 0x00, 0x8F, 0x00, 0x00, 
+		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 
+		0xCE, 0xED, 0x66, 0x66, 0xCC, 0x0D, 0x00, 0x0B, 
+		0x03, 0x73, 0x00, 0x83, 0x00, 0x0C, 0x00, 0x0D, 
+		0x00, 0x08, 0x11, 0x1F, 0x88, 0x89, 0x00, 0x0E, 
+		0xDC, 0xCC, 0x6E, 0xE6, 0xDD, 0xDD, 0xD9, 0x99, 
+		0xBB, 0xBB, 0x67, 0x63, 0x6E, 0x0E, 0xEC, 0xCC, 
+		0xDD, 0xDC, 0x99, 0x9F, 0xBB, 0xB9, 0x33, 0x3E, 
+		0x45, 0xEC, 0x52, 0xFA, 0x08, 0xB7, 0x07, 0x5D, 
+		0x01, 0xFD, 0xC0, 0xFF, 0x08, 0xFC, 0x00, 0xE5, 
+		0x0B, 0xF8, 0xC2, 0xCE, 0xF4, 0xF9, 0x0F, 0x7F, 
+		0x45, 0x6D, 0x3D, 0xFE, 0x46, 0x97, 0x33, 0x5E, 
+		0x08, 0xEF, 0xF1, 0xFF, 0x86, 0x83, 0x24, 0x74, 
+		0x12, 0xFC, 0x00, 0x9F, 0xB4, 0xB7, 0x06, 0xD5, 
+		0xD0, 0x7A, 0x00, 0x9E, 0x04, 0x5F, 0x41, 0x2F, 
+		0x1D, 0x77, 0x36, 0x75, 0x81, 0xAA, 0x70, 0x3A, 
+		0x98, 0xD1, 0x71, 0x02, 0x4D, 0x01, 0xC1, 0xFF, 
+		0x0D, 0x00, 0xD3, 0x05, 0xF9, 0x00, 0x0B, 0x00
+	};
+	
+	static const unsigned char cgbObjpDump[0x40] = {
+		0x00, 0x00, 0xF2, 0xAB, 
+		0x61, 0xC2, 0xD9, 0xBA, 
+		0x88, 0x6E, 0xDD, 0x63, 
+		0x28, 0x27, 0xFB, 0x9F, 
+		0x35, 0x42, 0xD6, 0xD4, 
+		0x50, 0x48, 0x57, 0x5E, 
+		0x23, 0x3E, 0x3D, 0xCA, 
+		0x71, 0x21, 0x37, 0xC0, 
+		0xC6, 0xB3, 0xFB, 0xF9, 
+		0x08, 0x00, 0x8D, 0x29, 
+		0xA3, 0x20, 0xDB, 0x87, 
+		0x62, 0x05, 0x5D, 0xD4, 
+		0x0E, 0x08, 0xFE, 0xAF, 
+		0x20, 0x02, 0xD7, 0xFF, 
+		0x07, 0x6A, 0x55, 0xEC, 
+		0x83, 0x40, 0x0B, 0x77
+	};
+	
+	state.cpu.cycleCounter = 0x102A0;
+	state.cpu.PC = 0x100;
+	state.cpu.SP = 0xFFFE;
+	state.cpu.A = (cgb * 0x10) | 0x01;
+	state.cpu.B = 0x00;
+	state.cpu.C = 0x13;
+	state.cpu.D = 0x00;
+	state.cpu.E = 0xD8;
+	state.cpu.F = 0xB0;
+	state.cpu.H = 0x01;
+	state.cpu.L = 0x4D;
+	state.cpu.skip = false;
+	state.cpu.halted = false;
+	
+	
+	std::memset(state.mem.vram.ptr, 0, state.mem.vram.getSz());
+	std::memset(state.mem.sram.ptr, 0xFF, state.mem.sram.getSz());
+
+	for (unsigned addr = 0x0000; addr < 0x0800; addr += 0x10) {
+		std::memset(state.mem.wram.ptr + addr + 0x00, 0xFF, 0x08);
+		std::memset(state.mem.wram.ptr + addr + 0x08, 0x00, 0x08);
+	}
+	
+	for (unsigned addr = 0x0800; addr < 0x1000; addr += 0x10) {
+		std::memset(state.mem.wram.ptr + addr + 0x00, 0x00, 0x08);
+		std::memset(state.mem.wram.ptr + addr + 0x08, 0xFF, 0x08);
+	}
+	
+	for (unsigned addr = 0x0E00; addr < 0x1000; addr += 0x10) {
+		state.mem.wram.ptr[addr + 0x02] = 0xFF;
+		state.mem.wram.ptr[addr + 0x0A] = 0x00;
+	}
+	
+	for (unsigned addr = 0x1000; addr < state.mem.wram.getSz(); addr += 0x1000)
+		std::memcpy(state.mem.wram.ptr + addr, state.mem.wram.ptr, 0x1000);
+	
+	std::memset(state.mem.ioamhram.ptr, 0x00, state.mem.ioamhram.getSz());
+	std::memcpy(state.mem.ioamhram.ptr + 0xA0, feaxDump, sizeof(feaxDump));
+	std::memcpy(state.mem.ioamhram.ptr + 0x100, ffxxDump, sizeof(ffxxDump));
+	
+	state.mem.ioamhram.ptr[0x104] = 0x1C;
+	state.mem.ioamhram.ptr[0x140] = 0x91;
+	state.mem.ioamhram.ptr[0x144] = 0x00;
+	
+	if (!cgb) {
+		state.mem.ioamhram.ptr[0x130] = 0xAC;
+		state.mem.ioamhram.ptr[0x131] = 0xDD;
+		state.mem.ioamhram.ptr[0x132] = 0xDA;
+		state.mem.ioamhram.ptr[0x133] = 0x48;
+		state.mem.ioamhram.ptr[0x134] = 0x36;
+		state.mem.ioamhram.ptr[0x135] = 0x02;
+		state.mem.ioamhram.ptr[0x136] = 0xCF;
+		state.mem.ioamhram.ptr[0x137] = 0x16;
+		state.mem.ioamhram.ptr[0x138] = 0x2C;
+		state.mem.ioamhram.ptr[0x139] = 0x04;
+		state.mem.ioamhram.ptr[0x13A] = 0xE5;
+		state.mem.ioamhram.ptr[0x13B] = 0x2C;
+		state.mem.ioamhram.ptr[0x13C] = 0xAC;
+		state.mem.ioamhram.ptr[0x13D] = 0xDD;
+		state.mem.ioamhram.ptr[0x13E] = 0xDA;
+		state.mem.ioamhram.ptr[0x13F] = 0x48;
+		
+		state.mem.ioamhram.ptr[0x14D] = 0xFF;
+		state.mem.ioamhram.ptr[0x14F] = 0xFF;
+		state.mem.ioamhram.ptr[0x156] = 0xFF;
+		state.mem.ioamhram.ptr[0x168] = 0xFF;
+		state.mem.ioamhram.ptr[0x16A] = 0xFF;
+		state.mem.ioamhram.ptr[0x16B] = 0xFF;
+		state.mem.ioamhram.ptr[0x16C] = 0xFF;
+		state.mem.ioamhram.ptr[0x170] = 0xFF;
+		state.mem.ioamhram.ptr[0x172] = 0xFF;
+		state.mem.ioamhram.ptr[0x173] = 0xFF;
+		state.mem.ioamhram.ptr[0x174] = 0xFF;
+		state.mem.ioamhram.ptr[0x175] = 0xFF;
+		state.mem.ioamhram.ptr[0x176] = 0xFF;
+		state.mem.ioamhram.ptr[0x177] = 0xFF;
+	}
+	
+	state.mem.div_lastUpdate = 0;
+	state.mem.tima_lastUpdate = 0;
+	state.mem.tmatime = Memory::COUNTER_DISABLED;
+	state.mem.next_serialtime = Memory::COUNTER_DISABLED;
+	state.mem.lastOamDmaUpdate = Memory::COUNTER_DISABLED;
+	state.mem.minIntTime = 0;
+	state.mem.rombank = 1;
+	state.mem.dmaSource = 0;
+	state.mem.dmaDestination = 0;
+	state.mem.rambank = 0;
+	state.mem.oamDmaPos = 0xFE;
+	state.mem.IME = false;
+	state.mem.enable_ram = false;
+	state.mem.rambank_mode = false;
+	state.mem.hdma_transfer = false;
+	
+	
+	for (unsigned i = 0x00; i < 0x40; i += 0x02) {
+		state.ppu.bgpData.ptr[i] = 0xFF;
+		state.ppu.bgpData.ptr[i + 1] = 0x7F;
+	}
+	
+	std::memcpy(state.ppu.objpData.ptr, cgbObjpDump, sizeof(cgbObjpDump));
+	
+	if (!cgb) {
+		state.ppu.bgpData.ptr[0] = state.mem.ioamhram.get()[0x147];
+		state.ppu.objpData.ptr[0] = state.mem.ioamhram.get()[0x148];
+		state.ppu.objpData.ptr[1] = state.mem.ioamhram.get()[0x149];
+	}
+	
+	for (unsigned pos = 0; pos < 80; ++pos)
+		state.ppu.oamReaderBuf.ptr[pos] = state.mem.ioamhram.ptr[((pos * 2) & ~3) | (pos & 1)];
+	
+	std::fill_n(state.ppu.oamReaderSzbuf.ptr, 40, false);
+	
+	state.ppu.videoCycles = 144*456ul + 164;
+	state.ppu.enableDisplayM0Time = state.cpu.cycleCounter - state.ppu.videoCycles + 159;
+	state.ppu.winYPos = 0xFF;
+	state.ppu.drawStartCycle = 90;
+	state.ppu.scReadOffset = 90;
+	state.ppu.lcdc = state.mem.ioamhram.get()[0x140];
+	state.ppu.scx[1] = state.ppu.scx[0] = 0;
+	state.ppu.scy[1] = state.ppu.scy[0] = 0;
+	state.ppu.scxAnd7 = 0;
+	state.ppu.weMaster = false;
+	state.ppu.wx = 0;
+	state.ppu.wy = 0;
+	state.ppu.lycIrqSkip = false;
+	
+	
+	state.spu.cycleCounter = 0x1000 | ((state.cpu.cycleCounter >> 1) & 0xFFF); // spu.cycleCounter >> 12 & 7 represents the frame sequencer position.
+	
+	state.spu.ch1.sweep.counter = SoundUnit::COUNTER_DISABLED;
+	state.spu.ch1.sweep.shadow = 0;
+	state.spu.ch1.sweep.nr0 = 0;
+	state.spu.ch1.sweep.negging = false;
+	state.spu.ch1.duty.nextPosUpdate = (state.spu.cycleCounter & ~1) + 2048 * 2;
+	state.spu.ch1.duty.nr3 = 0;
+	state.spu.ch1.duty.pos = 0;
+	state.spu.ch1.env.counter = SoundUnit::COUNTER_DISABLED;
+	state.spu.ch1.env.volume = 0;
+	state.spu.ch1.lcounter.counter = SoundUnit::COUNTER_DISABLED;
+	state.spu.ch1.lcounter.lengthCounter = 0x40;
+	state.spu.ch1.nr4 = 0;
+	state.spu.ch1.master = true;
+	
+	state.spu.ch2.duty.nextPosUpdate = (state.spu.cycleCounter & ~1) + 2048 * 2;
+	state.spu.ch2.duty.nr3 = 0;
+	state.spu.ch2.duty.pos = 0;
+	state.spu.ch2.env.counter = state.spu.cycleCounter - ((state.spu.cycleCounter - 0x1000) & 0x7FFF) + 8ul * 0x8000;
+	state.spu.ch2.env.volume = 0;
+	state.spu.ch2.lcounter.counter = SoundUnit::COUNTER_DISABLED;
+	state.spu.ch2.lcounter.lengthCounter = 0x40;
+	state.spu.ch2.nr4 = 0;
+	state.spu.ch2.master = false;
+	
+	for (unsigned i = 0; i < 0x10; ++i)
+		state.spu.ch3.waveRam.ptr[i] = state.mem.ioamhram.get()[0x130 + i];
+	
+	state.spu.ch3.lcounter.counter = SoundUnit::COUNTER_DISABLED;
+	state.spu.ch3.lcounter.lengthCounter = 0x100;
+	state.spu.ch3.waveCounter = SoundUnit::COUNTER_DISABLED;
+	state.spu.ch3.lastReadTime = SoundUnit::COUNTER_DISABLED;
+	state.spu.ch3.nr3 = 0;
+	state.spu.ch3.nr4 = 0;
+	state.spu.ch3.wavePos = 0;
+	state.spu.ch3.sampleBuf = 0;
+	state.spu.ch3.master = false;
+	
+	state.spu.ch4.lfsr.counter = state.spu.cycleCounter + 4;
+	state.spu.ch4.lfsr.reg = 0xFF;
+	state.spu.ch4.env.counter = state.spu.cycleCounter - ((state.spu.cycleCounter - 0x1000) & 0x7FFF) + 8ul * 0x8000;
+	state.spu.ch4.env.volume = 0;
+	state.spu.ch4.lcounter.counter = SoundUnit::COUNTER_DISABLED;
+	state.spu.ch4.lcounter.lengthCounter = 0x40;
+	state.spu.ch4.nr4 = 0;
+	state.spu.ch4.master = false;
+	
+	state.rtc.baseTime = std::time(0);
+	state.rtc.haltTime = state.rtc.baseTime;
+	state.rtc.index = 5;
+	state.rtc.dataDh = 0;
+	state.rtc.dataDl = 0;
+	state.rtc.dataH = 0;
+	state.rtc.dataM = 0;
+	state.rtc.dataS = 0;
+	state.rtc.lastLatchData = false;
+}

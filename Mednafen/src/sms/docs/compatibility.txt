@@ -1,0 +1,14 @@
+
+ Cool Spot
+
+ Menu area has gap after the screen blanking part.
+ Caused by new interrupt handling code.
+
+ F16 Fighting Falcon, Rozetta no Shouzou
+
+ Uses TMS9918 display modes which are not supported yet.
+
+ Y's (J)
+
+ Uses specific features of SMS 1 VDP.
+

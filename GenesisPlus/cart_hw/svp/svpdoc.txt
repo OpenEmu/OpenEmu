@@ -1,0 +1,524 @@
+-------------------------------------------------------------------------------
+ notaz's SVP doc
+ $Id: svpdoc.txt 349 2008-02-04 23:13:59Z notaz $
+ Copyright 2008, Grazvydas Ignotas (notaz)
+-------------------------------------------------------------------------------
+
+If you use this, please credit me in your work or it's documentation.
+Tasco Deluxe should also be credited for his pioneering work on the subject.
+Thanks.
+
+Use monospace font and disable word wrap when reading this document.
+
+-------------------------------------------------------------------------------
+ Table of Contents 
+-------------------------------------------------------------------------------
+ 
+  0. Introduction
+  1. Overview
+  2. The SSP160x DSP
+    2.1. General registers
+    2.2. External registers
+    2.3. Pointer registers
+    2.4. The instruction set
+  3. Memory map
+  4. Other notes
+
+
+-------------------------------------------------------------------------------
+ 0. Introduction
+-------------------------------------------------------------------------------
+
+This document is an attempt to provide technical information needed to
+emulate Sega's SVP chip. It is based on reverse engineering Virtua Racing
+game and on various internet sources. None of information provided here
+was verified on the real hardware, so some things are likely to be
+inaccurate.
+
+The following information sources were used while writing this document
+and emulator implementation:
+
+  [1] SVP Reference Guide (annotated) and SVP Register Guide (annotated)
+      by Tasco Deluxe < tasco.deluxe @ gmail.com >
+      http://www.sharemation.com/TascoDLX/SVP%20Reference%20Guide%202007.02.11.txt
+      http://www.sharemation.com/TascoDLX/SVP%20Register%20Guide%202007.02.11.txt
+  [2] SSP1610 disassembler
+      written by Pierpaolo Prazzoli, MAME source code.
+      http://mamedev.org/
+  [3] SSP1601 DSP datasheet
+      http://notaz.gp2x.de/docs/SSP1601.pdf
+  [4] DSP page (with code samples) in Samsung Semiconductor website from 1997
+      retrieved from Internet Archive: The Wayback Machine
+      http://web.archive.org/web/19970607052826/www.sec.samsung.com/Products/dsp/dspcore.htm
+  [5] Sega's SVP Chip: The Road not Taken?
+      Ken Horowitz, Sega-16
+      http://sega-16.com/feature_page.php?id=37&title=Sega's%20SVP%20Chip:%20The%20Road%20not%20Taken?
+
+
+-------------------------------------------------------------------------------
+ 1. Overview
+-------------------------------------------------------------------------------
+
+The only game released with SVP chip was Virtua Racing. There are at least 4
+versions of the game: USA, Jap and 2 different Eur revisions. Three of them
+share identical SSP160x code, one of the Eur revisions has some differences.
+
+From the software developer's point of view, the game cartridge contains
+at least:
+
+  * Samsung SSP160x 16-bit DSP core, which includes [3]:
+    * Two independent high-speed RAM banks, accessed in single clock cycle,
+      256 words each.
+    * 16 x 16 bit multiply unit.
+    * 32-bit ALU, status register.
+    * Hardware stack of 6 levels.
+  * 128KB of DRAM.
+  * 2KB of IRAM (instruction RAM).
+  * Memory controller with address mapping capability.
+  * 2MB of game ROM.
+
+[5] claims there is also "2 Channels PWM" in the cartridge, but it's either
+not used or not there at all.
+Various sources claim that SSP160x is SSP1601 which is likely to be true,
+because the code doesn't seem to use any SSP1605+ features.
+
+
+-------------------------------------------------------------------------------
+ 2. The SSP160x DSP
+-------------------------------------------------------------------------------
+
+SSP160x is 16-bit DSP, capable of performing multiplication + addition in
+single clock cycle [3]. It has 8 general, 8 external and 8 pointer registers.
+There is a status register which has operation control bits and condition
+flags. Condition flags are set/cleared during ALU (arithmetic, logic)
+operations. It also has 6-level hardware stack and 2 internal RAM banks
+RAM0 and RAM1, 256 words each.
+
+The device is only capable of addressing 16-bit words, so all addresses refer
+to words (16bit value in ROM, accessed by 68k through address 0x84 would be
+accessed by SSP160x using address 0x42).
+
+[3] mentions interrupt pins, but interrupts don't seem to be used by SVP code
+(actually there are functions which look like interrupt handler routines, but
+they don't seem to do anything important).
+
+2.1. General registers
+----------------------
+
+There are 8 general registers: -, X, Y, A, ST, STACK, PC and P ([2] [4]).
+Size is given in bits.
+
+2.1.1. "-"
+   Constant register with all bits set (0xffff). Also used for programming
+   external registers (blind reads/writes, see 2.2).
+   size: 16
+
+2.1.2. "X"
+   Generic register. Also acts as a multiplier 1 for P register.
+   size: 16
+
+2.1.3. "Y"
+   Generic register. Also acts as a multiplier 2 for P register.
+   size: 16
+
+2.1.4. "A"
+   Accumulator. Stores the result of all ALU (but not multiply) operations,
+   status register is updated according to this. When directly accessed,
+   only upper word is read/written. Low word can be accessed by using AL
+   (see 2.2.8).
+   size: 32
+
+2.1.5. "ST"
+   STatus register. Bits 0-9 are CONTROL, other are FLAG [2]. Only some of
+   them are actually used by SVP.
+   Bits: fedc ba98 7654 3210
+     210 - RPL    "Loop size". If non-zero, makes (rX+) and (rX-) respectively
+                  modulo-increment and modulo-decrement (see 2.3). The value
+                  shows which power of 2 to use, i.e. 4 means modulo by 16.
+     43  - RB     Unknown. Not used by SVP code.
+     5   - ST5    Affects behavior of external registers. See 2.2.
+     6   - ST6    Affects behavior of external registers. See 2.2.
+                  According to [3] (5,6) bits correspond to hardware pins.
+     7   - IE     Interrupt enable? Not used by SVP code.
+     8   - OP     Saturated value? Not used by SVP code.
+     9   - MACS   MAC shift? Not used by SVP code.
+     a   - GPI_0  Interrupt 0 enable/status? Not used by SVP code.
+     b   - GPI_1  Interrupt 1 enable/status? Not used by SVP code.
+     c   - L      L flag. Similar to carry? Not used by SVP code.
+     d   - Z      Zero flag. Set after ALU operations, when all 32 accumulator
+                  bits become zero.
+     e   - OV     Overflow flag. Not used by SVP code.
+     f   - N      Negative flag. Set after ALU operations, when bit31 in
+                  accumulator is 1.
+   size: 16
+
+2.1.6. "STACK"
+   Hardware stack of 6 levels [3]. Values are "pushed" by directly writing to
+   it, or by "call" instruction. "Pop" is performed by directly reading the
+   register or by "ret" instruction.
+   size: 16
+
+2.1.7. "PC"
+   Program Counter. Can be written directly to perform a jump. It is not clear
+   if it is possible to read it (SVP code never does).
+   size: 16
+
+2.1.8. "P"
+   multiply Product - multiplication result register.
+   Always contains 32-bit multiplication result of X, Y and 2 (P = X * Y * 2).
+   X and Y are sign-extended before performing the multiplication.
+   size: 32
+
+2.2. External registers
+-----------------------
+
+The external registers, as the name says, are external to SSP160x, they are
+hooked to memory controller in SVP, so by accessing them we actually program
+the memory controller. They act as programmable memory access registers or
+external status registers [1]. Some of them can act as both, depending on how
+ST5 ans ST6 bits are set in status register. After a register is programmed,
+accessing it causes reads/writes from/to external memory (see section 3 for
+the memory map). The access may also cause some additional effects, like
+incremental of address, associated with accessed register.
+In this document and my emu, instead of using names EXT0-EXT7
+from [4] I used different names for these registers. Those names are from
+Tasco Deluxe's [1] doc.
+
+All these registers can be blind-accessed (as said in [1]) by performing
+(ld -, PMx) or (ld PMx, -). This programs them to access memory (except PMC,
+where the effect is different).
+All registers are 16-bit.
+
+2.2.1. "PM0"
+   If ST5 or ST6 is set, acts as Programmable Memory access register
+   (see 2.2.7). Else it acts as status of XST (2.2.4). It is also mapped
+   to a15004 on 68k side:
+     ???????? ??????10
+     0: set, when SSP160x has written something to XST
+        (cleared when 015004 is read by 68k)
+     1: set, when 68k has written something to a15000 or a15002
+        (cleared on PM0 read by SSP160x)
+   Note that this is likely to be incorrect, but such behavior is OK for
+   emulation to work.
+
+2.2.2. "PM1"
+   Programmable Memory access register. Only accessed with ST bits set by
+   SVP code.
+
+2.2.3. "PM2"
+   Same as PM1.
+
+2.2.4. "XST"
+   If ST5 or ST6 is set, acts as Programmable Memory access register
+   (only used by memory test code). Else it acts as eXternal STatus
+   register, which is also mapped to a15000 and a15002 on 68k side.
+   Affects PM0 when written to.
+
+2.2.5. "PM4"
+   Programmable Memory access register. Not affected by ST5 and ST6 bits,
+   always stays in PMAR mode.
+
+2.2.6. "EXT5"
+   Not used by SVP, so not covered by this document.
+
+2.2.7. "PMC"
+   Programmable Memory access Control. It is set using 2 16bit writes, first
+   address, then mode word. After setting PMAC, PMx should be blind accessed
+   using (ld -, PMx) or (ld PMx, -) to program it for reading or writing
+   external memory respectively. Every PMx register can be programmed to
+   access it's own memory location with it's own mode. Registers are programmed
+   separately for reading and writing.
+
+   Reading PMC register also shifts it's state (from "waiting for address" to
+   "waiting for mode" and back). Reads always return address word related to
+   last PMx register accessed, or last address word written to PMC (whichever
+   event happened last before PMC read).
+
+   The address word contains bits 0-15 of the memory word-address.
+   The mode word format is as follows:
+     dsnnnv?? ???aaaaa
+     a: bits 16-20 of memory word-address.
+     n: auto-increment value. If set, after every access of PMx, word-address
+        value related to it will be incremented by (words):
+          1 - 1    5 - 16
+          2 - 2    6 - 32
+          3 - 4    7 - 128
+          4 - 8
+     d: make auto-increment negative - decrement by count listed above.
+     s: special-increment mode. If current address is even (when accessing
+        programmed PMx), increment it by 1. Else, increment by 32. It is not
+        clear what happens if d and n bits are also set (never done by SVP).
+     v: over-write mode when writing, unknown when reading (not used).
+        Over-write mode splits the word being written into 4 half-bytes and
+        only writes those half-bytes, which are not zero.
+   When auto-increment is performed, it affects all 21 address bits.
+
+2.2.8. "AL"
+   This register acts more like a general register.
+   If this register is blind-accessed, it is "dummy programmed", i.e. nothing
+   happens and PMC is reset to "waiting for address" state.
+   In all other cases, it is Accumulator Low, 16 least significant bits of
+   accumulator. Normally reading acc (ld X, A) you get 16 most significant
+   bits, so this allows you access the low word of 32bit accumulator.
+
+2.3. Pointer registers
+----------------------
+
+There are 8 8-bit pointer registers rX, which are internal to SSP160x and are
+used to access internal RAM banks RAM0 and RAM1, or program memory indirectly.
+r0-r3 (ri) point to RAM0, r4-r7 (rj) point to RAM1. Each bank has 256 words of
+RAM, so 8bit registers can fully address them. The registers can be accessed
+directly, or 2 indirection levels can be used [ (rX), ((rX)) ]. They work
+similar to * and ** operators in C, only they use different types of memory
+and ((rX)) also performs post-increment. First indirection level (rX) accesses
+a word in RAMx, second accesses program memory at address read from (rX), and
+increments value in (rX).
+
+Only r0,r1,r2,r4,r5,r6 can be directly modified (ldi r0, 5), or by using
+modifiers. 3 modifiers can be applied when using first indirection level
+(optional):
+  + : post-increment  (ld a, (r0+) ). Increment register value after operation.
+      Can be made modulo-increment by setting RPL bits in status register
+      (see 2.1.5).
+  - : post-decrement. Also can be made modulo-decrement by using RPL bits in ST.
+  +!: post-increment, unaffected by RPL (probably).
+These are only used on 1st indirection level, so things like ( ld a, ((r0+)) )
+and (ld X, r6-) are probably invalid.
+
+r3 and r7 are special and can not be changed (at least Samsung samples [4] and
+SVP code never do). They are fixed to the start of their RAM banks. (They are
+probably changeable for ssp1605+, Samsung's old DSP page claims that).
+1 of these 4 modifiers must be used on these registers (short form direct
+addressing? [2]):
+  |00: RAMx[0] The very first word in the RAM bank.
+  |01: RAMx[1] Second word
+  |10: RAMx[2] ...
+  |11: RAMx[3]
+
+2.4. The instruction set
+------------------------
+
+The Samsung SSP16 series assembler uses right-to-left notation ([2] [4]):
+ld X, Y
+means value from Y should be copied to X.
+
+Size of every instruction is word, some have extension words for immediate
+values. When writing an interpreter, 7 most significant bits are usually
+enough to determine which opcode it is.
+
+encoding bits are marked as:
+rrrr - general or external register, in order specified in 2.1 and 2.2
+       (0 is '-', 1 'X', ..., 8 is 'PM0', ..., 0xf is 'AL')
+dddd - same as above, as destination operand
+ssss - same as above, as source operand
+jpp  - pointer register index, 0-7
+j    - specifies RAM bank, i.e. RAM0 or RAM1
+i*   - immediate value bits
+a*   - offset in internal RAM bank
+mm   - modifier for pointer register, depending on register:
+         r0-r2,r4-r6   r3,r7   examples
+       0:     (none)     |00   ld  a, (r0)       cmp a, (r7|00)
+       1:         +!     |01   ld  (r0+!), a     ld  (r7|01), a
+       2:          -     |10   add a, (r0-)
+       3:          +     |11
+cccc - encodes condition, only 3 used by SVP, see check_cond() below
+ooo  - operation to perform
+
+Operation is written in C-style pseudo-code, where:
+program_memory[X]  - access program memory at address X
+RAMj[X]            - access internal RAM bank j=0,1 (RAM0 or RAM1), word
+                     offset X
+RIJ[X]             - pointer register rX, X=0-7
+pr_modif_read(m,X) - read pointer register rX, applying modifier m:
+                       if register is r3 or r7, return value m
+                       else switch on value m:
+                         0: return rX;
+                         1: tmp = rX; rX++; return tmp; // rX+!
+                         2: tmp = rX; modulo_decrement(rX); return tmp; // rX-
+                         3: tmp = rX; modulo_increment(rX); return tmp; // rX+
+                       the modulo value used (if used at all) depends on ST
+                       RPL bits (see 2.1.5)
+check_cond(c,f)    - checks if a flag matches f bit:
+                     switch (c) {
+                       case 0: return true;
+                       case 5: return (Z == f) ? true : false; // check Z flag
+                       case 7: return (N == f) ? true : false; // check N flag
+                     } // other conditions are possible, but they are not used
+update_flags()     - update ST flags according to last ALU operation.
+sign_extend(X)     - sign extend 16bit value X to 32bits.
+next_op_address()  - address of instruction after current instruction.
+
+2.4.1. ALU instructions
+
+All of these instructions update flags, which are set according to full 32bit
+accumulator. The SVP code only checks N and Z flags, so it is not known when
+exactly OV and L flags are set. Operations are performed on full A, so
+(andi A, 0) would clear all 32 bits of A.
+
+They share the same addressing modes. The exact arithmetic operation is
+determined by 3 most significant (ooo) bits:
+  001 - sub - subtract     (OP -=)
+  011 - cmp - compare      (OP -, flags are updated according to result)
+  100 - add - add          (OP +=)
+  101 - and - binary AND   (OP &=)
+  110 - or  - binary OR    (OP |=)
+  111 - eor - exclusive OR (OP ^=)
+
+ syntax        encoding             operation
+ OP  A, s      ooo0 0000 0000 rrrr  A OP r << 16;
+ OP  A, (ri)   ooo0 001j 0000 mmpp  A OP RAMj[pr_modif_read(m,jpp)] << 16;
+ OP  A, adr    ooo0 011j aaaa aaaa  A OP RAMj[a] << 16;
+ OPi A, imm    ooo0 1000 0000 0000  A OP i << 16;
+               iiii iiii iiii iiii
+ op  A, ((ri)) ooo0 101j 0000 mmpp  tmp = pr_modif_read(m,jpp);
+                                    A OP program_memory[RAMj[tmp]] << 16;
+                                    RAMj[tmp]++;
+ op  A, ri     ooo1 001j 0000 00pp  A OP RIJ[jpp] << 16;
+ OPi simm      ooo1 1000 iiii iiii  A OP i << 16;
+
+There is also "perform operation on accumulator" instruction:
+
+ syntax        encoding             operation
+ mod cond, op  1001 000f cccc 0ooo  if (check_cond(c,f)) switch(o) {
+                                      case 2: A >>= 1; break; // arithmetic shift
+                                      case 3: A <<= 1; break;
+                                      case 6: A = -A;  break; // negate A
+                                      case 7: A = abs(A); break; // absolute val.
+                                    } // other operations are possible, but
+                                      // they are not used by SVP.
+
+2.4.2. Load (move) instructions
+
+These instructions never affect flags (even ld A).
+If destination is A, and source is 16bit, only upper word is transfered (same
+thing happens on opposite). If dest. is A, and source is P, whole 32bit value
+is transfered. It is not clear if P can be destination operand (probably not,
+no code ever does this).
+Writing to STACK pushes a value there, reading pops. It is not known what
+happens on overflow/underflow (never happens in SVP code).
+ld -, - is used as a nop.
+
+ syntax        encoding             operation
+ ld  d, s      0000 0000 dddd ssss  d = s;
+ ld  d, (ri)   0000 001j dddd mmpp  d = RAMj[pr_modif_read(m,jpp)];
+ ld  (ri), s   0000 010j ssss mmpp  RAMj[pr_modif_read(m,jpp)] = s;
+ ldi d, imm    0000 1000 dddd 0000  d = i;
+               iiii iiii iiii iiii
+ ld  d, ((ri)) 0000 101j dddd mmpp  tmp = pr_modif_read(m,jpp);
+                                    d = program_memory[RAMj[tmp]];
+                                    RAMj[tmp]++;
+ ldi (ri), imm 0000 110l 0000 mmpp  RAMj[pr_modif_read(m,jpp)] = i;
+               iiii iiii iiii iiii
+ ld  adr, a    0000 111j aaaa aaaa  RAMj[a] = A;
+ ld  d, ri     0001 001j dddd 00pp  d = RIJ[jpp];
+ ld  ri, s     0001 010j ssss 00pp  RIJ[jpp] = s;
+ ldi ri, simm  0001 1jpp iiii iiii  RIJ[jpp] = i;
+ ld  d, (a)    0100 1010 dddd 0000  d = program_memory[A[31:16]];
+                                    // read a word from program memory. Offset
+                                    // is the upper word in A.
+
+2.4.3. Program control instructions
+
+Only 3 instructions: call, ret (alias of ld PC, STACK) and branch. Indirect
+jumps can be performed by simply writing to PC.
+
+ syntax           encoding             operation
+ call cond, addr  0100 100f cccc 0000  if (check_cond(c,f)) {
+                  aaaa aaaa aaaa aaaa    STACK = next_op_address(); PC = a;
+                                       }
+ bra  cond, addr  0100 110f cccc 0000  if (check_cond(c,f)) PC = a;
+                  aaaa aaaa aaaa aaaa
+ ret              0000 0000 0110 0101  PC = STACK; // same as ld PC, STACK
+
+2.4.4. Multiply-accumulate instructions
+
+Not sure if (ri) and (rj) really get loaded into X and Y, but multiplication
+result surely is loaded into P. There is probably optional 3rd operand (1, 0;
+encoded by bit16, default 1), but it's not used by SVP code.
+
+ syntax           encoding             operation
+ mld  (rj), (ri)  1011 0111 nnjj mmii  A = 0; update_flags();
+                                       X = RAM0[pr_modif_read(m,0ii)];
+                                       Y = RAM1[pr_modif_read(m,1jj)];
+                                       P = sign_extend(X) * sign_extend(Y) * 2
+ mpya (rj), (ri)  1001 0111 nnjj mmii  A += P; update_flags();
+                                       X = RAM0[pr_modif_read(m,0ii)];
+                                       Y = RAM1[pr_modif_read(m,1jj)];
+                                       P = sign_extend(X) * sign_extend(Y) * 2
+ mpys (rj), (ri)  0011 0111 nnjj mmii  A -= P; update_flags();
+                                       X = RAM0[pr_modif_read(m,0ii)];
+                                       Y = RAM1[pr_modif_read(m,1jj)];
+                                       P = sign_extend(X) * sign_extend(Y) * 2
+
+-------------------------------------------------------------------------------
+ 3. Memory map
+-------------------------------------------------------------------------------
+
+The SSp160x can access it's own program memory, and external memory through EXT
+registers (see 2.2). Program memory is read-execute-only, the size of this
+space is 64K words (this is how much 16bit PC can address):
+
+   byte address  word address  name
+        0-  7ff        0- 3ff  IRAM
+      800-1ffff      400-ffff  ROM
+
+There were reports that SVP has internal ROM, but fortunately they were wrong.
+The location 800-1ffff is mapped from the same location in the 2MB game ROM.
+The IRAM is read-only (as SSP160x doesn't have any means of writing to it's
+program memory), but it can be changed through external memory space, as it's
+also mapped there.
+
+The external memory space seems to match the one visible by 68k, with some
+differences:
+
+       68k space      SVP space   word address  name
+        0-1fffff       0-1fffff       0- fffff  game ROM
+   300000-31ffff  300000-31ffff  180000-18ffff  DRAM
+               ?  390000-3907ff  1c8000-1c83ff  IRAM
+   390000-39ffff              ?              ?  "cell arrange" 1
+   3a0000-3affff              ?              ?  "cell arrange" 2
+   a15000-a15009            n/a            n/a  Status/control registers
+
+The external memory can be read/written by SSP160x (except game ROM, which can
+only be read).
+
+"cell arrange" 1 and 2 are similar to the one used in SegaCD, they map
+300000-30ffff location to 390000-39ffff and 3a0000-3affff, where linear image
+written to 300000 can be read as VDP patterns at 390000. Virtua Racing doesn't
+seem to use this feature, it is only used by memory test code.
+
+Here is the list of status/control registers (16bit size):
+   a15000 - w/r command/result register. Visible as XST for SSP160x (2.2.4).
+   a15002 - mirror of the above.
+   a15004 - status of command/result register (see 2.2.1).
+   a15006 - possibly halts the SVP. Before doing DMA from DRAM, 68k code writes
+            0xa, and after it's finished, writes 0. This is probably done to
+            prevent SVP accessing DRAM and avoid bus clashes.
+   a15008 - possibly causes an interrupt. There is (unused?) code which writes
+            0, 1, and again 0 in sequence.
+
+
+-------------------------------------------------------------------------------
+ 4. Other notes
+-------------------------------------------------------------------------------
+
+The game has arcade-style memory self-check mode, which can be accessed by
+pressing _all_ buttons (including directions) on 3-button controller. There was
+probably some loopback plug for this.
+
+SVP seems to have DMA latency issue similar to one in Sega CD, as the code
+always sets DMA source address value larger by 2, then intended for copy.
+This is even true for DMAs from ROM, as it's probably hooked through SVP's
+memory controller.
+
+The entry point for the code seems to be at address 0x800 (word 0x400) in ROM,
+but it is not clear where the address is fetched from when the system powers
+up. The memory test code also sets up "ld PC, .." opcodes at 0x7f4, 0x7f8 and
+0x7fc, which jump to some routines, possibly interrupt handlers. This means
+that mentioned addresses might be built-in interrupt vectors.
+
+The SVP code doesn't seem to be timing sensitive, so it can be emulated without
+knowing timing of the instructions or even how fast the chip is clocked.
+Overclocking doesn't have any effect, underclocking causes slowdowns. Running
+10-12M instructions/sec (or possibly less) is sufficient.
+
