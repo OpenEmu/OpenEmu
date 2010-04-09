@@ -486,6 +486,20 @@
 			remoteGlobalIDString = 8D5B49B6048680CD000E48DA;
 			remoteInfo = VisualBoyAdvance;
 		};
+		3D9FF14E116FD12B00EE343E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1EB956DC10373FE9003C6109 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
+			remoteInfo = OpenEmuHelperApp;
+		};
+		3D9FF150116FD12B00EE343E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1EB956DC10373FE9003C6109 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
+			remoteInfo = OpenEmuDebugHelperAppApp;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -581,9 +595,11 @@
 			isa = PBXGroup;
 			children = (
 				1EB956EF10373FEA003C6109 /* OpenEmu.app */,
+				3D9FF14F116FD12B00EE343E /* OpenEmuHelperApp */,
+				3D9FF151116FD12B00EE343E /* OpenEmuDebugHelperAppApp.app */,
 				1EB956F110373FEA003C6109 /* OpenEmuQC.plugin */,
 				1EB956F310373FEA003C6109 /* OpenEmuBase.framework */,
-				1EB956F510373FEA003C6109 /* OESaveStateQLPlugin.bundle */,
+				1EB956F510373FEA003C6109 /* OESaveStateQLPlugin.qlgenerator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -629,6 +645,7 @@
 			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 0;
 			mainGroup = 1E07AE3A10373EBC00B9EE89;
+			productRefGroup = 1E07AE3A10373EBC00B9EE89;
 			projectDirPath = "";
 			projectReferences = (
 				{
@@ -755,10 +772,10 @@
 			remoteRef = 1EB956F210373FEA003C6109 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1EB956F510373FEA003C6109 /* OESaveStateQLPlugin.bundle */ = {
+		1EB956F510373FEA003C6109 /* OESaveStateQLPlugin.qlgenerator */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = OESaveStateQLPlugin.bundle;
+			path = OESaveStateQLPlugin.qlgenerator;
 			remoteRef = 1EB956F410373FEA003C6109 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -788,6 +805,20 @@
 			fileType = wrapper.cfbundle;
 			path = VisualBoyAdvance.oecoreplugin;
 			remoteRef = 1EB9572810374032003C6109 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D9FF14F116FD12B00EE343E /* OpenEmuHelperApp */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = OpenEmuHelperApp;
+			remoteRef = 3D9FF14E116FD12B00EE343E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D9FF151116FD12B00EE343E /* OpenEmuDebugHelperAppApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OpenEmuDebugHelperAppApp.app;
+			remoteRef = 3D9FF150116FD12B00EE343E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -954,6 +985,8 @@
 		1E07AE3E10373EBC00B9EE89 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
 				COPY_PHASE_STRIP = YES;
 			};
 			name = Release;
