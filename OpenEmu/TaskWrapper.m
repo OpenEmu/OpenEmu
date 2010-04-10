@@ -91,7 +91,7 @@
     [super dealloc];
 }
 
-#define USE_EXTERNAL_FILE 0
+#define USE_EXTERNAL_FILE 1
 
 // Here's where we actually kick off the process via an NSTask.
 - (void) startProcess
@@ -107,7 +107,11 @@
     [task setStandardInput:[NSPipe pipe]];
     
 #if USE_EXTERNAL_FILE
-    [task setStandardOutput:[NSFileHandle fileHandleForWritingAtPath:[@"~/Desktop/HelperOutput.txt" stringByExpandingTildeInPath]]];
+    NSString *debugPath = [@"~/Desktop/HelperOutput.txt" stringByExpandingTildeInPath];
+
+    if(![[NSFileManager defaultManager] fileExistsAtPath:debugPath]) [@"" writeToFile:debugPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
+    
+    [task setStandardOutput:[NSFileHandle fileHandleForWritingAtPath:debugPath]];
 #else
     // The output of stdin, stdout and stderr is sent to a pipe so that we can catch it later
     // and use it along to the controller
