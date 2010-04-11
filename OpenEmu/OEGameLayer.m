@@ -251,15 +251,16 @@ static CGColorSpaceRef CreateSystemColorSpace()
     
 	// get our IOSurface ID from our helper
 	IOSurfaceID surfaceID = [self.rootProxy surfaceID];
+	// IOSurfaceLookup performs a lock *AND A RETAIN* - 
 	IOSurfaceRef surfaceRef = IOSurfaceLookup(surfaceID); 
 	
 	// get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
 	if(surfaceRef)
 	{	
-		CFRetain(surfaceRef);
+		// This was a double retain causing a leak of IOSurface IDs starving the app.
+		//CFRetain(surfaceRef); 
 
-		// our texture is in NTSC colorspace from the cores:
-		
+		// our texture is in NTSC colorspace from the cores
 		//CGColorSpaceRef colorspace = CreateNTSCColorSpace();
 		//CGColorSpaceRef colorspace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
 		CGColorSpaceRef colorspace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
