@@ -29,10 +29,8 @@
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CoreAnimation.h>
 
-//@class GameCore;
-//@class GameAudio;
 @class OEGameCoreController;
-@class OEGameLayer;
+@class OEGameView;
 @class GameQTRecorder;
 @protocol OEGameCoreHelper;
 
@@ -49,12 +47,10 @@
     
     // standard game document stuff
     NSTimer              *frameTimer;
-    CALayer              *rootLayer;
-    OEGameLayer          *gameLayer;
     GameQTRecorder       *recorder;
     NSString             *emulatorName;
     NSWindow             *gameWindow;
-    NSView               *view;
+    OEGameView           *view;
     OEGameCoreController *gameController;
     NSToolbarItem        *playPauseToolbarItem;
     BOOL                  keyedOnce;
@@ -62,7 +58,7 @@
 
 @property(retain) IBOutlet NSToolbarItem *playPauseToolbarItem;
 @property(retain) IBOutlet NSWindow      *gameWindow;
-@property(retain) IBOutlet NSView        *view;
+@property(retain) IBOutlet OEGameView    *view;
 
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
 @property(readonly) BOOL isFullScreen;
@@ -73,7 +69,7 @@
 - (void)endHelperProcess;
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes;
-- (void)refresh;
+- (void)refresh DEPRECATED_ATTRIBUTE;
 - (void)saveStateToFile:(NSString *)fileName;
 - (void)loadStateFromFile:(NSString *)fileName;
 

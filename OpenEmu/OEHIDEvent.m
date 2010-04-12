@@ -96,9 +96,9 @@
     ret->_type = OEHIDAxis;
     ret->_data.axis.axis = axis;
     
-    if(value < 0.0) ret->_data.axis.direction = OEHIDDirectionNegative;
+    if(value < 0.0)      ret->_data.axis.direction = OEHIDDirectionNegative;
     else if(value > 0.0) ret->_data.axis.direction = OEHIDDirectionPositive;
-    else ret->_data.axis.direction = OEHIDDirectionNull;
+    else                 ret->_data.axis.direction = OEHIDDirectionNull;
     
     ret->_data.axis.minimum = -INT_MAX;
     ret->_data.axis.value   = (NSInteger)(value * INT_MAX);
@@ -186,9 +186,9 @@
                         if(-deadZone <= _data.axis.value && _data.axis.value <= deadZone)
                             _data.axis.value = 0;
                         
-                        if(_data.axis.value == 0)     _data.axis.direction = OEHIDDirectionNull;
-                        else if(_data.axis.value > 0) _data.axis.direction = OEHIDDirectionPositive;
-                        else                          _data.axis.direction = OEHIDDirectionNegative;
+                        if(_data.axis.value > 0)      _data.axis.direction = OEHIDDirectionPositive;
+                        else if(_data.axis.value < 0) _data.axis.direction = OEHIDDirectionNegative;
+                        else                          _data.axis.direction = OEHIDDirectionNull;
                         _isPushed = _data.axis.direction != OEHIDDirectionNull;
                         break;
                     case kHIDUsage_GD_Hatswitch :

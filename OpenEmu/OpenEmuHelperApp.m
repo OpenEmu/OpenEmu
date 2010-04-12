@@ -238,6 +238,8 @@
 
 - (void)render
 {
+    if([parentApplication isTerminated]) [self quitHelperTool];
+    
     if([gameCore frameFinished])
     {
         [self updateGameTexture];

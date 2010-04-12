@@ -39,64 +39,63 @@
 
 static CMProfileRef CreateNTSCProfile()
 {
-	CMProfileRef newNTSCProf = NULL;
-	CMAppleProfileHeader aph; 
-	
-	CMNewProfile(&newNTSCProf,NULL);
-	CMMakeProfile(newNTSCProf,(CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:@"displayRGB",@"profileType",
-												dfl(2.2,"targetGamma"), 
-												[NSNumber numberWithInt:6500],@"targetWhite",
-												dfl(2.2,"gammaR"),
-												dfl(2.2,"gammaG"),
-												dfl(2.2,"gammaB"),
-												dfl(.63,"phosphorRx"), dfl(.34,"phosphorRy"),
-												dfl(.31,"phosphorGx"), dfl(.595,"phosphorGy"),
-												dfl(.155,"phosphorBx"), dfl(.07,"phosphorBy"),
-												dfl(.312713,"whitePointx"), dfl(.329016,"whitePointy"),nil,nil
-												]);
-	CMGetProfileHeader(newNTSCProf,&aph);
-//	aph.cm4.flags |= cmInterpolationMask | 0x00020000;
-	CMSetProfileHeader(newNTSCProf,&aph);
-	
-	return newNTSCProf;
+    CMProfileRef newNTSCProf = NULL;
+    CMAppleProfileHeader aph; 
+    
+    CMNewProfile(&newNTSCProf,NULL);
+    CMMakeProfile(newNTSCProf,(CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:@"displayRGB",@"profileType",
+                                                dfl(2.2,"targetGamma"), 
+                                                [NSNumber numberWithInt:6500],@"targetWhite",
+                                                dfl(2.2,"gammaR"),
+                                                dfl(2.2,"gammaG"),
+                                                dfl(2.2,"gammaB"),
+                                                dfl(.63,"phosphorRx"), dfl(.34,"phosphorRy"),
+                                                dfl(.31,"phosphorGx"), dfl(.595,"phosphorGy"),
+                                                dfl(.155,"phosphorBx"), dfl(.07,"phosphorBy"),
+                                                dfl(.312713,"whitePointx"), dfl(.329016,"whitePointy"),nil,nil
+                                                ]);
+    CMGetProfileHeader(newNTSCProf,&aph);
+//    aph.cm4.flags |= cmInterpolationMask | 0x00020000;
+    CMSetProfileHeader(newNTSCProf,&aph);
+    
+    return newNTSCProf;
 }
 
 static CGColorSpaceRef CreateNTSCColorSpace()
 {
-	CGColorSpaceRef ntscColorSpace = NULL;
-	
-	CMProfileRef ntscProfile = CreateNTSCProfile();
-	
-	ntscColorSpace = CGColorSpaceCreateWithPlatformColorSpace(ntscProfile);
+    CGColorSpaceRef ntscColorSpace = NULL;
+    
+    CMProfileRef ntscProfile = CreateNTSCProfile();
+    
+    ntscColorSpace = CGColorSpaceCreateWithPlatformColorSpace(ntscProfile);
 
-	CMCloseProfile(ntscProfile);
+    CMCloseProfile(ntscProfile);
 
-	return ntscColorSpace;
+    return ntscColorSpace;
 }
 
 static CGColorSpaceRef CreateSystemColorSpace() 
 {
-	CMProfileRef sysprof = NULL;
-	CGColorSpaceRef dispColorSpace = NULL;
-	
-	// Get the Systems Profile for the main display
-	if (CMGetSystemProfile(&sysprof) == noErr)
-	{
-		// Create a colorspace with the systems profile
-		dispColorSpace = CGColorSpaceCreateWithPlatformColorSpace(sysprof);
-		
-		// Close the profile
-		CMCloseProfile(sysprof);
-	}
-	
-	return dispColorSpace;
+    CMProfileRef sysprof = NULL;
+    CGColorSpaceRef dispColorSpace = NULL;
+    
+    // Get the Systems Profile for the main display
+    if (CMGetSystemProfile(&sysprof) == noErr)
+    {
+        // Create a colorspace with the systems profile
+        dispColorSpace = CGColorSpaceCreateWithPlatformColorSpace(sysprof);
+        
+        // Close the profile
+        CMCloseProfile(sysprof);
+    }
+    
+    return dispColorSpace;
 }
 
 
 @implementation OEGameLayer
 
-@synthesize owner, gameCIImage;
-@synthesize docController;
+@synthesize ownerView, gameCIImage;
 @synthesize rootProxy;
 
 - (BOOL)vSyncEnabled
@@ -148,11 +147,11 @@ static CGColorSpaceRef CreateSystemColorSpace()
         
         if(compo != nil)
         {
-			
-			// Create a display colorspace for our QCRenderer
-			//CGColorSpaceRef	 space = CreateSystemColorSpace();
-			
-			CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+            
+            // Create a display colorspace for our QCRenderer
+            //CGColorSpaceRef     space = CreateSystemColorSpace();
+            
+            CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
             filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
                                                         pixelFormat:CGLGetPixelFormat(layerContext)
                                                          colorSpace:space
@@ -190,7 +189,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
 
     // our QCRenderer 'filter'
     [self setFilterName:filterName];
-	
+    
     return layerContext;
 }
 
@@ -199,20 +198,19 @@ static CGColorSpaceRef CreateSystemColorSpace()
     CALayer *superlayer  = [self superlayer];
     NSRect superBounds = NSRectFromCGRect([superlayer bounds]);
     
-	//TODO: handle size shit more better
+    //TODO: handle size shit more better
    // NSSize aspect = NSMakeSize(256, 240);
-	NSSize aspect;
-	
-	if(self.gameCIImage == nil)
-		aspect = NSMakeSize(320, 240);
-	else
-		aspect = NSSizeFromCGSize([self.gameCIImage extent].size);
-			
+    NSSize aspect;
+    
+    if(self.gameCIImage == nil)
+        aspect = NSMakeSize(320, 240);
+    else
+        aspect = NSSizeFromCGSize([self.gameCIImage extent].size);
+            
     if(superBounds.size.width * (aspect.width * 1.0/aspect.height) > superBounds.size.height * (aspect.width * 1.0/aspect.height))
         return CGSizeMake(superBounds.size.height * (aspect.width * 1.0/aspect.height), superBounds.size.height);
     else
         return CGSizeMake(superBounds.size.width, superBounds.size.width * (aspect.height* 1.0/aspect.width));
-
 }
 
 // FIXME: Maybe this does the same thing as the unused method above?
@@ -233,7 +231,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
     // if frameFinished is true, etc.
     
     //return [gameCore frameFinished];
-    return YES;
+    return rootProxy != nil;
 }
 
 - (void)drawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
@@ -249,59 +247,58 @@ static CGColorSpaceRef CreateSystemColorSpace()
     else
         time -= startTime;    
     
-	// get our IOSurface ID from our helper
-	IOSurfaceID surfaceID = [self.rootProxy surfaceID];
-	// IOSurfaceLookup performs a lock *AND A RETAIN* - 
-	IOSurfaceRef surfaceRef = IOSurfaceLookup(surfaceID); 
-	
-	// get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
-	if(surfaceRef)
-	{	
-		// This was a double retain causing a leak of IOSurface IDs starving the app.
-		//CFRetain(surfaceRef); 
-
-		// our texture is in NTSC colorspace from the cores
-		//CGColorSpaceRef colorspace = CreateNTSCColorSpace();
-		//CGColorSpaceRef colorspace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
-		CGColorSpaceRef colorspace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
-		
-		NSDictionary* options = [NSDictionary dictionaryWithObject:(id)colorspace forKey:kCIImageColorSpace];
-		self.gameCIImage = [CIImage imageWithIOSurface:surfaceRef options:options];
-		
-		CGColorSpaceRelease(colorspace);
-		
-		if(filterRenderer != nil)
-		{
-			// NSPoint mouseLocation = [event locationInWindow];
-			NSPoint mouseLocation = [[owner    gameWindow] mouseLocationOutsideOfEventStream];
-			mouseLocation.x /= [[[owner gameWindow] contentView] frame].size.width;
-			mouseLocation.y /= [[[owner gameWindow] contentView] frame].size.height;
-			NSMutableDictionary* arguments = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSValue valueWithPoint:mouseLocation], QCRendererMouseLocationKey, [[owner gameWindow] currentEvent], QCRendererEventKey, nil];
-			
-			// [filterRenderer setValue:[gameCIImage imageByCroppingToRect:cropRect] forInputKey:@"OEImageInput"];    
-			[filterRenderer setValue:self.gameCIImage forInputKey:@"OEImageInput"];
-			[filterRenderer renderAtTime:time arguments:arguments];
-			
-			if(filterHasOutputMousePositionKeys)
-			{
-				NSPoint mousePoint;
-				mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
-				mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
-				
-				[rootProxy setMousePosition:mousePoint]; 
-			}
-		}
-		
-		// super calls flush for us.
-		[super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
-		
-		CFRelease(surfaceRef);
-	}	
-}
-
-- (id)retain
-{
-	return [super retain];
+    // get our IOSurface ID from our helper
+    IOSurfaceID surfaceID = [self.rootProxy surfaceID];
+    // IOSurfaceLookup performs a lock *AND A RETAIN* - 
+    IOSurfaceRef surfaceRef = IOSurfaceLookup(surfaceID); 
+    
+    // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
+    if(surfaceRef)
+    {
+        // our texture is in NTSC colorspace from the cores
+        //CGColorSpaceRef colorspace = CreateNTSCColorSpace();
+        //CGColorSpaceRef colorspace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
+        CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+        
+        NSDictionary *options = [NSDictionary dictionaryWithObject:(id)space forKey:kCIImageColorSpace];
+        [self setGameCIImage:[CIImage imageWithIOSurface:surfaceRef options:options]];
+        
+        CGColorSpaceRelease(space);
+        
+        if(filterRenderer != nil)
+        {
+            NSWindow *gameWindow = [ownerView window];
+            
+            // NSPoint mouseLocation = [event locationInWindow];
+            NSRect  frame = [self frame];
+            NSPoint mouseLocation = [gameWindow mouseLocationOutsideOfEventStream];
+            
+            mouseLocation.x /= frame.size.width;
+            mouseLocation.y /= frame.size.height;
+            NSDictionary *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+                                       [NSValue valueWithPoint:mouseLocation], QCRendererMouseLocationKey,
+                                       [gameWindow currentEvent], QCRendererEventKey,
+                                       nil];
+            
+            // [filterRenderer setValue:[gameCIImage imageByCroppingToRect:cropRect] forInputKey:@"OEImageInput"];    
+            [filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
+            [filterRenderer renderAtTime:time arguments:arguments];
+            
+            if(filterHasOutputMousePositionKeys)
+            {
+                NSPoint mousePoint;
+                mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
+                mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
+                
+                [rootProxy setMousePosition:mousePoint]; 
+            }
+        }
+        
+        // super calls flush for us.
+        [super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
+        
+        CFRelease(surfaceRef);
+    }    
 }
 
 - (void)dealloc
@@ -310,11 +307,10 @@ static CGColorSpaceRef CreateSystemColorSpace()
     [self unbind:@"vSyncEnabled"];
 
     [filterRenderer release];
-	
-	self.rootProxy = nil;
-		
+    
+    self.rootProxy = nil;
+    
     CGLReleaseContext(layerContext);
-    [docController release];
     [super dealloc];
 }
 
@@ -326,12 +322,12 @@ static CGColorSpaceRef CreateSystemColorSpace()
     int width = extent.size.width; 
     int height = extent.size.height;  
     
-	NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCIImage:self.gameCIImage];
-	
-	
+    NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCIImage:self.gameCIImage];
+    
+    
     NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
     [image addRepresentation:rep];
-	[rep release];
+    [rep release];
     return [image autorelease];
 }
 @end

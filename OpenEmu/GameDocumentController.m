@@ -58,7 +58,7 @@
 
 @implementation GameDocumentController
 
-@dynamic appVersion, projectURL;
+@dynamic appVersion, projectURL, currentDocument;
 @synthesize gameLoaded;
 @synthesize plugins, filterNames;
 @synthesize aboutCreditsPath;
@@ -397,7 +397,7 @@
         [error release];
     }
     
-    DLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
+    NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
 //FIXME: it looks like our code here expects the file to be an archive and shits its pants (throws an error
 // popup saying "can't open files of type "Nestopia Cartridge" " or similar) if it's not.  
@@ -532,11 +532,6 @@
 - (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions
 {
 	return [super runModalOpenPanel:openPanel forTypes:validExtensions];
-}
-
-- (GameDocument *)currentDocument
-{
-	return [super currentDocument];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
@@ -798,8 +793,8 @@
 			
 		}
 		
-		NSDocument* doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
-		DLog(@"%@", doc);
+		NSDocument *doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
+		NSLog(@"%@", doc);
         
         // FIXME: Need to support states with the new system.
 #if 0
@@ -824,17 +819,17 @@
 	[newState setBundlePath:[[[[self applicationSupportFolder] stringByAppendingPathComponent: @"Save States"] 
 							  stringByAppendingPathComponent:saveFileName] stringByAppendingPathExtension:@"savestate"]];
 		
-	[newState setEmulatorID:[(GameDocument*)[self currentDocument] emulatorName]];
+	[newState setEmulatorID:[(GameDocument *) [self currentDocument] emulatorName]];
 	
     // FIXME: Need to support states with the new system.
 #if 0
-	@synchronized([(GameDocument*)[self currentDocument] gameCore])
+	@synchronized([(GameDocument *)[self currentDocument] gameCore])
 	{
-		[[(GameDocument*)[self currentDocument] gameCore] saveStateToFileAtPath:[newState saveDataPath]];    
+		[[(GameDocument *)[self currentDocument] gameCore] saveStateToFileAtPath:[newState saveDataPath]];    
 	}
 #endif
     
-	[newState setScreenshot:[(GameDocument*)[self currentDocument] screenShot]];
+	[newState setScreenshot:[(GameDocument *) [self currentDocument] screenShot]];
 	
 	OEROMFile *romFile = [OEROMFile fileWithPath:romPath
 							   createIfNecessary:YES

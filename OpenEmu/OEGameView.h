@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2010, OpenEmu Team
  All rights reserved.
  
  Redistribution and use in source and binary forms, with or without
@@ -26,49 +26,21 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <Quartz/Quartz.h>
-#import <OpenGL/OpenGL.h>
-#import <OpenGL/gl.h>
 
-#import "OEGameCoreHelper.h"
+@protocol OEGameCoreHelper;
+@class OEGameLayer, GameCore;
 
-@class GameCore, GameDocument, GameDocumentController;
-
-@interface OEGameLayer : CAOpenGLLayer
+@interface OEGameView : NSView
 {
-	// from our gameDocument - where we get our IOSurface refs from:
-	id<OEGameCoreHelper> rootProxy;
-	
-    NSString             *filterName;
-    NSView               *ownerView;
-    
-    // for rendering
-    CGLContextObj         layerContext;
-    CGLContextObj         sharedLayerContext;
-    
-    BOOL                  usesShader;
-    BOOL                  vSyncEnabled;
-    
-    QCRenderer           *filterRenderer;
-    
-    // for QCRenderer
-    NSTimeInterval        startTime; // time for rendering, input to time based effects, sources, 
-    NSTimeInterval        time;
-    
-    BOOL                  filterHasOutputMousePositionKeys;
-    
-    CIImage *gameCIImage;
-    CGSize cachedTextureSize;
-	
+    OEGameLayer *gameLayer;
+    GameCore    *gameCore;
 }
-@property(assign) id<OEGameCoreHelper> rootProxy;
 
-@property         BOOL          vSyncEnabled;
-@property(assign) NSView       *ownerView;
-@property(retain) NSString     *filterName;
-@property(retain) CIImage      *gameCIImage;
+@property(assign)   GameCore             *gameCore;
+@property(readonly) OEGameLayer          *gameLayer;
+@property(assign)   id<OEGameCoreHelper>  rootProxy;
+@property(readonly) CGFloat               preferredWindowScale;
 
 - (NSImage *)imageForCurrentFrame;
 
-- (CGFloat)preferredWindowScale;
 @end

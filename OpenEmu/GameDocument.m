@@ -30,7 +30,10 @@
 #import "GameDocumentController.h"
 //#import "GameAudio.h"
 #import "OEGameLayer.h"
-//#import "GameCore.h"
+#import "OEGameView.h"
+#import "GameCore.h"
+#import "NSApplication+OEHIDAdditions.h"
+#import "OEHIDEvent.h"
 #import "OEGameCoreController.h"
 #import "GameQTRecorder.h"
 
@@ -40,7 +43,6 @@
 
 @implementation GameDocument
 
-//@synthesize gameCore;
 @synthesize emulatorName, view, gameWindow, playPauseToolbarItem;
 
 - (id)init
@@ -58,6 +60,11 @@
 
 - (void)dealloc
 {
+    [playPauseToolbarItem release];
+    [view release];
+    [gameWindow release];
+    [taskUUIDForDOServer release];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
     [super dealloc];
 }
@@ -74,61 +81,20 @@
     return @"GameDocument";
 }
 
-static void OE_bindGameLayer(OEGameLayer *gameLayer)
-{
-    NSUserDefaultsController *ctrl = [NSUserDefaultsController sharedUserDefaultsController];
-    [gameLayer bind:@"filterName"   toObject:ctrl withKeyPath:@"values.filterName" options:nil];
-    [gameLayer bind:@"vSyncEnabled" toObject:ctrl withKeyPath:@"values.vsync"      options:nil];
-}
-
 - (void)windowControllerDidLoadNib:(NSWindowController *) aController
-{            
-    [gameWindow makeFirstResponder:[rootProxy gameCore]];
+{
+    [view setRootProxy:rootProxy];
     [gameWindow setAcceptsMouseMovedEvents:YES];
     
-    //recorder = [[GameQTRecorder alloc] initWithGameCore:gameCore];
-    //Setup Layer hierarchy
-    rootLayer = [CALayer layer];
-        
-    rootLayer.layoutManager = [CAConstraintLayoutManager layoutManager];
-    rootLayer.backgroundColor = CGColorCreateGenericRGB(0.0f,0.0f, 0.0f, 1.0f);
-    
-    //Show the layer
-    [view setLayer:rootLayer];
-    [view setWantsLayer:YES];
-        
-    gameLayer = [OEGameLayer layer];
-    [gameLayer setDocController:[GameDocumentController sharedDocumentController]];
-    OE_bindGameLayer(gameLayer);
-    
-    [gameLayer setOwner:self];
-
-    // make sure our game layer knows about our DO object so it can get Surface IDs
-    [gameLayer setRootProxy:rootProxy];
-         
-    gameLayer.name = @"game";
-    gameLayer.frame = CGRectMake(0,0,1,1);
-    [gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidX relativeTo:@"superlayer" attribute:kCAConstraintMidX]];
-    [gameLayer addConstraint:[CAConstraint constraintWithAttribute:kCAConstraintMidY relativeTo:@"superlayer" attribute:kCAConstraintMidY]];
-            
     NSSize aspect = NSMakeSize([rootProxy screenWidth], [rootProxy screenHeight]);
     
     NSLog(@"Aspect IS: %@", NSStringFromSize(aspect));
     
-    rootLayer.bounds = CGRectMake(0, 0, aspect.width, aspect.height);    //[gameCore screenWidth] 
-    gameLayer.bounds = CGRectMake(0, 0, aspect.width, aspect.height);
-    //Add the NESLayer to the hierarchy
-    [rootLayer addSublayer:gameLayer];
-    
-    gameLayer.asynchronous = YES;
-    
-    CGFloat scaleFactor = [gameLayer preferredWindowScale];
+    CGFloat scaleFactor = [view preferredWindowScale];
     [gameWindow setContentSize:NSMakeSize(aspect.width * scaleFactor, aspect.height * scaleFactor)];
-
-    [gameWindow setAspectRatio:aspect];
+    [gameWindow setContentAspectRatio:aspect];
     [gameWindow center];
     //[gameWindow setContentResizeIncrements:aspect];
-    [rootLayer setNeedsLayout];
     
     //[recorder startRecording];
     [gameWindow makeKeyAndOrderFront:self];
@@ -144,67 +110,12 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     return nil;
 }
 
-- (void) endHelperProcess
-{
-    [gameController removeSettingObserver:[rootProxy gameCore]];
-    [gameWindow makeFirstResponder:nil];
-    
-    [gameController release];
-    gameController = nil;
-    
-    // kill our background friend
-    [helper stopProcess];
-    helper = nil;
-    
-    [rootProxy release];
-    rootProxy = nil;
-    
-    [taskConnection release];
-    taskConnection = nil;
-}
-
-- (BOOL)startHelperProcess
-{
-    // run our background task. Get our IOSurface ids from its standard out.
-    NSString *cliPath = [[NSBundle bundleForClass:[self class]] pathForResource: @"OpenEmuHelperApp" ofType: @""];
-    
-    // generate a UUID string so we can have multiple screen capture background tasks running.
-    taskUUIDForDOServer = [[NSString stringWithUUID] retain];
-    // NSLog(@"helper tool UUID should be %@", taskUUIDForDOServer);
-    
-    NSArray *args = [NSArray arrayWithObjects: cliPath, taskUUIDForDOServer, nil];
-    
-    helper = [[TaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
-    [helper startProcess];
-    
-    DLog(@"launched task with environment: %@", [[helper task] environment]);
-    
-    // now that we launched the helper, start up our NSConnection for DO object vending and configure it
-    // this is however a race condition if our helper process is not fully launched yet. 
-    // we hack it out here. Normally this while loop is not noticable, its very fast
-    
-    taskConnection = nil;
-    while(taskConnection == nil)
-        taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer, nil] host:nil];
-    
-    [taskConnection retain];
-    
-    // now that we have a valid connection...
-    rootProxy = [[taskConnection rootProxy] retain];
-    if(rootProxy == nil) NSLog(@"nil root proxy object?");
-    [(NSDistantObject *)rootProxy setProtocolForProxy:@protocol(OEGameCoreHelper)];
-    
-    //TODO: check to make sure things really launched and are running, before returning YES
-    
-    return YES;
-}
-
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
     NSString *romPath = [absoluteURL path];
     if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
     {
-        DLog(@"%@",self);
+        DLog(@"%@", self);
         
         GameDocumentController *docControl = [GameDocumentController sharedDocumentController];
         OECorePlugin *plugin = nil;
@@ -242,9 +153,74 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     return NO;
 }
 
+#pragma mark -
+#pragma mark Background process construction and destruction
+
+- (BOOL)startHelperProcess
+{
+    // run our background task. Get our IOSurface ids from its standard out.
+    NSString *cliPath = [[NSBundle bundleForClass:[self class]] pathForResource: @"OpenEmuHelperApp" ofType: @""];
+    
+    // generate a UUID string so we can have multiple screen capture background tasks running.
+    taskUUIDForDOServer = [[NSString stringWithUUID] retain];
+    // NSLog(@"helper tool UUID should be %@", taskUUIDForDOServer);
+    
+    NSArray *args = [NSArray arrayWithObjects: cliPath, taskUUIDForDOServer, nil];
+    
+    helper = [[TaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
+    [helper startProcess];
+    
+    DLog(@"launched task with environment: %@", [[helper task] environment]);
+    
+    // now that we launched the helper, start up our NSConnection for DO object vending and configure it
+    // this is however a race condition if our helper process is not fully launched yet. 
+    // we hack it out here. Normally this while loop is not noticable, its very fast
+    
+    taskConnection = nil;
+    while(taskConnection == nil)
+        taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer, nil] host:nil];
+    
+    [taskConnection retain];
+    
+    // now that we have a valid connection...
+    rootProxy = [[taskConnection rootProxy] retain];
+    if(rootProxy == nil) NSLog(@"nil root proxy object?");
+    [(NSDistantObject *)rootProxy setProtocolForProxy:@protocol(OEGameCoreHelper)];
+    
+    //TODO: check to make sure things really launched and are running, before returning YES
+    
+    return YES;
+}
+
+- (void)endHelperProcess
+{
+    [view setRootProxy:nil];
+    
+    [gameController removeSettingObserver:[rootProxy gameCore]];
+    [gameWindow makeFirstResponder:nil];
+    
+    // kill our background friend
+    [helper stopProcess];
+    helper = nil;
+    
+    [rootProxy release];
+    rootProxy = nil;
+    
+    [taskConnection release];
+    taskConnection = nil;
+    
+    [gameController release];
+    gameController = nil;
+    
+    [emulatorName release];
+    emulatorName = nil;
+}
+
+#pragma mark -
+#pragma mark Emulation utilities
+
 - (void)refresh
-{    
-   // [gameLayer setNeedsDisplay];
+{
 }
 
 - (BOOL)backgroundPauses
@@ -278,11 +254,100 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     }
 }
 
+- (BOOL)isFullScreen
+{
+    return [view isInFullScreenMode];
+}
+
+- (IBAction)toggleFullScreen:(id)sender
+{
+    [self setPauseEmulation:YES];
+    if(![view isInFullScreenMode])
+    {
+        [view enterFullScreenMode:[[view window] screen]
+                      withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
+                                   [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens, nil]];
+        [NSCursor hide];
+    }
+    else
+    {
+        [view exitFullScreenModeWithOptions:nil];           
+        [NSCursor unhide];
+    }
+    [self setPauseEmulation:NO];
+}
+
+- (IBAction)saveState:(id)sender
+{
+    NSSavePanel *panel = [NSSavePanel savePanel];
+    
+    [panel beginSheetModalForWindow:gameWindow
+                  completionHandler:
+     ^(NSInteger result)
+     {
+         if(result == NSOKButton) [self saveStateToFile:[panel filename]];
+     }];
+}
+
+- (IBAction)loadState:(id)sender
+{
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    
+    [panel beginSheetModalForWindow:gameWindow
+                  completionHandler:
+     ^(NSInteger result)
+     {
+         if(result == NSOKButton) [self loadStateFromFile:[panel filename]];
+     }];
+}
+
+- (void)saveStateToFile:(NSString *)fileName
+{
+    //GameCore *gameCore = [rootProxy gameCore];
+    //if([gameCore respondsToSelector:@selector(saveStateToFileAtPath:)])
+    //    [gameCore saveStateToFileAtPath: fileName];
+}
+
+- (void)loadStateFromFile:(NSString *)fileName
+{
+    //GameCore *gameCore = [rootProxy gameCore];
+    //if([gameCore respondsToSelector:@selector(loadStateFromFileAtPath:)])
+    //    [gameCore loadStateFromFileAtPath: fileName];
+}
+
+- (IBAction)scrambleRam:(id)sender
+{
+    [self scrambleBytesInRam:100];
+}
+
+- (void)scrambleBytesInRam:(NSUInteger)bytes
+{
+    //for(NSUInteger i = 0; i < bytes; i++)
+    //    [gameCore setRandomByte];
+}
+
+- (IBAction)resetGame:(id)sender
+{
+    [[rootProxy gameCore] resetEmulation];
+}
+
+- (IBAction)playPauseGame:(id)sender
+{
+    [self setPauseEmulation:![self isEmulationPaused]];
+}
+
+- (NSImage *)screenShot
+{
+    return [view imageForCurrentFrame];
+}
+
+#pragma mark -
+#pragma mark Window management utilities
+
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
     [[GameDocumentController sharedDocumentController] setGameLoaded:YES];
-    if ([self backgroundPauses])
-        [self setPauseEmulation:NO];
+    if([self backgroundPauses]) [self setPauseEmulation:NO];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification
@@ -318,22 +383,16 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 - (void)windowDidResize:(NSNotification *)notification
 {
     //adjust the window to zoom from the center
-    if ([gameWindow isZoomed])
-        [gameWindow center];
-    
-    [gameLayer setNeedsDisplay];
+    if([gameWindow isZoomed]) [gameWindow center];
 }
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    if([view isInFullScreenMode])
-        [self toggleFullScreen:self];
+    if([view isInFullScreenMode]) [self toggleFullScreen:self];
 
     [self endHelperProcess];
     
     //[recorder finishRecording];
-    [gameLayer setDocController:nil];
-    [gameLayer release];
     [[GameDocumentController sharedDocumentController] setGameLoaded:NO];
 }
 
@@ -341,94 +400,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 {
     [gameWindow performClose:sender];
 }
-    
-- (BOOL)isFullScreen
-{
-    return [view isInFullScreenMode];
-}
 
-- (IBAction)toggleFullScreen:(id)sender
-{
-    [self setPauseEmulation:YES];
-    if(![view isInFullScreenMode])
-    {
-        [view enterFullScreenMode:[[view window] screen]
-                      withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens, nil]];
-        [NSCursor hide];
-    }
-    else
-    {
-        [view exitFullScreenModeWithOptions:nil];           
-        [NSCursor unhide];
-    }
-    [self setPauseEmulation:NO];
-   // [[view window] makeFirstResponder:gameCore];
-}
-
-- (IBAction)saveState:(id)sender
-{
-    NSSavePanel *panel = [NSSavePanel savePanel];
-    
-    [panel beginSheetModalForWindow:gameWindow
-                  completionHandler:
-     ^(NSInteger result)
-     {
-         if(result == NSOKButton) [self saveStateToFile:[panel filename]];
-     }];
-}
-
-- (void)saveStateToFile:(NSString *)fileName
-{
-//    if([gameCore respondsToSelector:@selector(saveStateToFileAtPath:)])
-//        [gameCore saveStateToFileAtPath: fileName];
-}
-
-- (IBAction)loadState:(id)sender
-{
-    NSOpenPanel *panel = [NSOpenPanel openPanel];
-    
-    [panel beginSheetModalForWindow:gameWindow
-                  completionHandler:
-     ^(NSInteger result)
-     {
-         if(result == NSOKButton) [self loadStateFromFile:[panel filename]];
-     }];
-}
-
-- (void)loadStateFromFile:(NSString *)fileName
-{
- //   if([gameCore respondsToSelector:@selector(loadStateFromFileAtPath:)])
-//        [gameCore loadStateFromFileAtPath: fileName];
-}
-
-- (IBAction)scrambleRam:(id)sender
-{
-    [self scrambleBytesInRam:100];
-}
-
-- (void)scrambleBytesInRam:(NSUInteger)bytes
-{
-//    for(NSUInteger i = 0; i < bytes; i++)
-//        [gameCore setRandomByte];
-}
-
-- (IBAction)resetGame:(id)sender
-{
-//    [gameCore resetEmulation];
-}
-
-- (IBAction)playPauseGame:(id)sender
-{
-    [self setPauseEmulation:![self isEmulationPaused]];
-}
-
-- (NSImage *)screenShot
-{
-    return [gameLayer imageForCurrentFrame];
-}
-
-#pragma mark TaskWrapper delegates
+#pragma mark TaskWrapper delegate methods
 
 - (void)appendOutput:(NSString *)output fromProcess:(TaskWrapper *)aTask
 {

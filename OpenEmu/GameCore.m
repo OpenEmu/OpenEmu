@@ -160,7 +160,7 @@ static NSTimeInterval currentTime()
             tenFrameCounter = 10;
             [self calculateFrameSkip: [self frameInterval] ];
         }
-         */  
+         */
         willSkipFrame = (frameCounter != frameSkip);
         @synchronized(self)
         {

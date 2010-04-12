@@ -78,6 +78,7 @@
 @property(readonly) NSString* appVersion;
 @property(readonly) NSAttributedString* projectURL;
 @property(readonly) NSString* aboutCreditsPath;
+@property(readonly) GameDocument *currentDocument;
 
 @property(readwrite, retain) NSMutableDictionary* filterDictionary;
 
@@ -89,8 +90,6 @@
 - (NSManagedObjectContext *)managedObjectContext;
 
 - (NSString *)applicationSupportFolder;
-
-- (GameDocument *)currentDocument;
 
 - (OECorePlugin *)pluginForExtension:(NSString *)anExtensions;
 - (NSArray *)pluginsForExtension:(NSString *)anExtensions;
