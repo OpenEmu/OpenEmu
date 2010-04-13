@@ -91,7 +91,7 @@
     [super dealloc];
 }
 
-#define USE_EXTERNAL_FILE 1
+#define USE_EXTERNAL_FILE 0
 
 // Here's where we actually kick off the process via an NSTask.
 - (void) startProcess
@@ -108,7 +108,7 @@
     
 #if USE_EXTERNAL_FILE
     NSString *debugPath = [@"~/Desktop/HelperOutput.txt" stringByExpandingTildeInPath];
-
+    
     if(![[NSFileManager defaultManager] fileExistsAtPath:debugPath]) [@"" writeToFile:debugPath atomically:YES encoding:NSUTF8StringEncoding error:NULL];
     
     [task setStandardOutput:[NSFileHandle fileHandleForWritingAtPath:debugPath]];
@@ -127,7 +127,7 @@
     [task setStandardError:[task standardOutput]];
     
     // launch the task asynchronously
-    [task launch];    
+    [task launch];
 }
 
 // If the task ends, there is no more data coming through the file handle even when the notification is
@@ -157,14 +157,14 @@
         [controller appendOutput: [[[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding] autorelease]
                      fromProcess: self];
     }
-#endif    
+#endif
     // we tell the controller that we finished, via the callback, and then blow away our connection
     // to the controller.  NSTasks are one-shot (not for reuse), so we might as well be too.
     [task waitUntilExit];
     
     int status = [task terminationStatus];
     NSLog(@"Task termiantion status %i", status);
-
+    
     [controller processFinished: self withStatus: [task terminationStatus]];
     controller = nil;
 }

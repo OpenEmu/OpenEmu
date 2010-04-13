@@ -28,13 +28,25 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CoreAnimation.h>
+#import "TaskWrapper.h"
 
 @class OEGameCoreController;
 @class OEGameView;
 @class GameQTRecorder;
 @protocol OEGameCoreHelper;
 
-#import "TaskWrapper.h"
+extern NSString *const OEGameDocumentErrorDomain;
+
+enum _OEGameDocumentErrorCodes 
+{
+    OENoError                      =  0,
+    OEFileDoesNotExistError        = -1,
+    OEIncorrectFileError           = -2,
+    OEHelperAppNotRunningError     = -3,
+    OEConnectionTimedOutError      = -4,
+    OEInvalidHelperConnectionError = -5,
+    OENilRootProxyObjectError      = -6,
+};
 
 @interface GameDocument : NSDocument <TaskWrapperController>
 {
@@ -65,7 +77,7 @@
 @property(readonly) NSString *emulatorName;
 
 // new task stuff
-- (BOOL)startHelperProcess;
+- (BOOL)startHelperProcessError:(NSError **)outError;
 - (void)endHelperProcess;
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes;

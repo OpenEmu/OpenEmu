@@ -75,21 +75,21 @@
 
 - (void) applicationDidFinishLaunching:(NSNotification*)aNotification
 {
-	if ( [plugins count] == 0 )
-	{	
-		coreDownloader = [[OECoreDownloader alloc] init];
-		[coreDownloader showWindow:self];		
-	}
-
+    if ( [plugins count] == 0 )
+    {
+        coreDownloader = [[OECoreDownloader alloc] init];
+        [coreDownloader showWindow:self];
+    }
+    
     
     organizer = [[OEROMOrganizer alloc] init];
-	
-	NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
-	[QCPlugIn loadPlugInAtPath:pluginString];
-	
-//    [organizer showWindow:self];
-	
-	[versionMigrator runMigrationIfNeeded];
+    
+    NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
+    [QCPlugIn loadPlugInAtPath:pluginString];
+    
+    //    [organizer showWindow:self];
+    
+    [versionMigrator runMigrationIfNeeded];
 }
 
 -(void)updateBundles: (id) sender
@@ -97,19 +97,21 @@
     for(OECorePlugin *plugin in plugins)
     {
         //@try {
-            [plugin updateBundle:self];
+        [plugin updateBundle:self];
         //}
         //@catch (NSException * e) {
-		//   NSLog(@"Tried to update bundle without sparkle");
+        //   NSLog(@"Tried to update bundle without sparkle");
         //}
     }
     
     //see if QC plugins are installed
     NSBundle *OEQCPlugin = [NSBundle bundleWithPath:@"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin"];
     //if so, get the bundle
-    if(OEQCPlugin) {
+    if(OEQCPlugin)
+    {
         DLog(@"%@", [[SUUpdater updaterForBundle:OEQCPlugin] feedURL]);
-        @try {
+        @try
+        {
             if( [[SUUpdater updaterForBundle:OEQCPlugin] feedURL] )
             {
                 [[SUUpdater updaterForBundle:OEQCPlugin] resetUpdateCycle];
@@ -136,50 +138,50 @@
     self = [super init];
     if(self)
     {
-		versionMigrator = [OEVersionMigrationController defaultMigrationController];
-		[versionMigrator addMigratorTarget:self selector:@selector(migrateSaveStatesWithError:) forVersion:@"1.0.0b5"];
-		[versionMigrator addMigratorTarget:self selector:@selector(removeFrameworkFromLibraryWithError:) forVersion:@"1.0.0b5"];
-		
+        versionMigrator = [OEVersionMigrationController defaultMigrationController];
+        [versionMigrator addMigratorTarget:self selector:@selector(migrateSaveStatesWithError:) forVersion:@"1.0.0b5"];
+        [versionMigrator addMigratorTarget:self selector:@selector(removeFrameworkFromLibraryWithError:) forVersion:@"1.0.0b5"];
+        
         [self setGameLoaded:NO];
         
         [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
         /*
-		 // set our initial value for our filters dictionary
-		 [self setFilterDictionary:[NSMutableDictionary new]];
-		 
-		 // load up our QC Compositions that will replace our filters.
-		 
-		 NSString* filtersLocation = @"/Library/Application Support/OpenEmu/Filters";
-		 
-		 NSDirectoryEnumerator * filterEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:filtersLocation];
-		 NSString* compositionFile;
-		 while (compositionFile = [filterEnumerator nextObject])
-		 {
-		 if([[compositionFile pathExtension] isEqualToString:@"qtz"])
-		 {
-		 NSLog(@"%@", compositionFile);
-		 // init a QCComposition and read off its name from the attributes.
-		 QCComposition* filterComposition = [QCComposition compositionWithFile:[filtersLocation stringByAppendingPathComponent:compositionFile]];
-		 
-		 // our key
-		 NSString* nameKey;
-		 
-		 if([[filterComposition attributes] valueForKey:@"name"])
-		 { 
-		 nameKey = [[filterComposition attributes] valueForKey:@"name"];
-		 }
-		 else 
-		 {
-		 nameKey = [compositionFile stringByDeletingPathExtension]; 
-		 }
-		 
-		 // add it to our composition dictionary...
-		 [filterDictionary setObject:filterComposition forKey:nameKey];
-		 }
-		 }
-		 
-		 NSLog(@"found filters: %@", filterDictionary);
-		 */        
+         // set our initial value for our filters dictionary
+         [self setFilterDictionary:[NSMutableDictionary new]];
+         
+         // load up our QC Compositions that will replace our filters.
+         
+         NSString* filtersLocation = @"/Library/Application Support/OpenEmu/Filters";
+         
+         NSDirectoryEnumerator * filterEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:filtersLocation];
+         NSString* compositionFile;
+         while (compositionFile = [filterEnumerator nextObject])
+         {
+         if([[compositionFile pathExtension] isEqualToString:@"qtz"])
+         {
+         NSLog(@"%@", compositionFile);
+         // init a QCComposition and read off its name from the attributes.
+         QCComposition* filterComposition = [QCComposition compositionWithFile:[filtersLocation stringByAppendingPathComponent:compositionFile]];
+         
+         // our key
+         NSString* nameKey;
+         
+         if([[filterComposition attributes] valueForKey:@"name"])
+         {
+         nameKey = [[filterComposition attributes] valueForKey:@"name"];
+         }
+         else
+         {
+         nameKey = [compositionFile stringByDeletingPathExtension];
+         }
+         
+         // add it to our composition dictionary...
+         [filterDictionary setObject:filterComposition forKey:nameKey];
+         }
+         }
+         
+         NSLog(@"found filters: %@", filterDictionary);
+         */
         [self updateValidExtensions];
         [self updateFilterNames];
         
@@ -193,7 +195,7 @@
     return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
     [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
     
@@ -203,14 +205,14 @@
     if(hidManager != NULL) CFRelease(hidManager);
     [deviceHandlers release];
     [aboutCreditsPath release];
-	[coreDownloader release];
-	
+    [coreDownloader release];
+    
     [managedObjectContext release], managedObjectContext = nil;
     [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
     [managedObjectModel release], managedObjectModel = nil;
-	
-	[organizer release], organizer = nil;
-	[versionMigrator release], versionMigrator = nil;
+    
+    [organizer release], organizer = nil;
+    [versionMigrator release], versionMigrator = nil;
     
     [super dealloc];
 }
@@ -248,12 +250,12 @@
         if([[self currentDocument] isFullScreen])
             [[self currentDocument] toggleFullScreen:sender];
         [saveStateManager showWindow:sender];
-    }    
+    }
 }
 
 - (IBAction)openCoreDownloaderWindow:(id)sender
 {
-	if(coreDownloader == nil)
+    if(coreDownloader == nil)
         coreDownloader = [[OECoreDownloader alloc] init];
     
     if([[coreDownloader window] isVisible])
@@ -287,10 +289,10 @@
 }
 
 - (IBAction)stopAllEmulators:(id)sender
-{    
+{
     BOOL pause = [(NSCell *)sender state] != NSOnState;
     
-    [sender setTitle:(pause ? @"Unpause All Emulators" : @"Pause All Emulators")]; 
+    [sender setTitle:(pause ? @"Unpause All Emulators" : @"Pause All Emulators")];
     [sender setState:(pause ? NSOnState : NSOffState)];
     
     for(GameDocument *doc in [self documents])
@@ -309,7 +311,7 @@
     
     NSMutableAttributedString* string = [[NSMutableAttributedString alloc] init];
     [string appendAttributedString: [NSAttributedString hyperlinkFromString:@"http://openemu.sourceforge.net" withURL:url]];
-	
+    
     return [string autorelease];
     //return [[NSAttributedString alloc] initWithString:@"http://openemu.sourceforge.net" attributes:[NSDictionary dictionaryWithObject:@"http://openemu.sourceforge.net" forKey:NSLinkAttributeName ]];
     
@@ -400,16 +402,16 @@
     NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
 //FIXME: it looks like our code here expects the file to be an archive and shits its pants (throws an error
-// popup saying "can't open files of type "Nestopia Cartridge" " or similar) if it's not.  
+// popup saying "can't open files of type "Nestopia Cartridge" " or similar) if it's not.
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
 {
     //add the file to the ROM database
     [OEROMFile fileWithPath:[absoluteURL path] createIfNecessary:YES inManagedObjectContext:self.managedObjectContext];
-	
+    
     DLog(@"URL: %@, Path: %@", absoluteURL, [absoluteURL path]);
     XADArchive *archive = nil;
-	if( [[super typeForContentsOfURL:absoluteURL error:nil] isEqualToString:@"Archived Game"] )
-		archive = [XADArchive archiveForFile:[absoluteURL path]];
+    if( [[super typeForContentsOfURL:absoluteURL error:nil] isEqualToString:@"Archived Game"] )
+        archive = [XADArchive archiveForFile:[absoluteURL path]];
     if(archive != nil)
     {
         NSString *filePath;
@@ -431,21 +433,21 @@
                     filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:idx]];
                     absoluteURL = [NSURL fileURLWithPath:filePath];
                 }
-                else 
-				{
-					if(outError) {
-						*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:
-									 [NSDictionary dictionaryWithObjectsAndKeys:
-									 @"Couldn't extract archive", NSLocalizedDescriptionKey, nil]];
-					}
-				}
+                else
+                {
+                    if(outError) {
+                        *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:
+                                     [NSDictionary dictionaryWithObjectsAndKeys:
+                                      @"Couldn't extract archive", NSLocalizedDescriptionKey, nil]];
+                    }
+                }
             }
             else
             {
-				if (outError) {
-					*outError = [NSError errorWithDomain:NSCocoaErrorDomain
-													code:NSUserCancelledError userInfo:nil];
-				}
+                if (outError) {
+                    *outError = [NSError errorWithDomain:NSCocoaErrorDomain
+                                                    code:NSUserCancelledError userInfo:nil];
+                }
                 return nil;
             }
         }
@@ -458,127 +460,127 @@
                 absoluteURL = [NSURL fileURLWithPath:filePath];
             }
             else {
-				if(outError) {
-					*outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:
-								 [NSDictionary dictionaryWithObjectsAndKeys:
-								  @"Couldn't extract archive", NSLocalizedDescriptionKey, nil]];
-				}
-			}
-		}
-	}
-	
-	DLog(@"Final path: %@", absoluteURL);
-	//[self closeWindow: self];
-	return [super openDocumentWithContentsOfURL:absoluteURL display:displayDocument error:outError];
+                if(outError) {
+                    *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:
+                                 [NSDictionary dictionaryWithObjectsAndKeys:
+                                  @"Couldn't extract archive", NSLocalizedDescriptionKey, nil]];
+                }
+            }
+        }
+    }
+    
+    DLog(@"Final path: %@", absoluteURL);
+    //[self closeWindow: self];
+    return [super openDocumentWithContentsOfURL:absoluteURL display:displayDocument error:outError];
 }
 
 - (NSString *)pluginIDForExtension:(NSString *)anExtension
 {
-	OECorePlugin *plugin = [self pluginForExtension:anExtension];
-	return [plugin displayName];
-//	return [plugin typeForExtension:anExtension];
+    OECorePlugin *plugin = [self pluginForExtension:anExtension];
+    return [plugin displayName];
+    //    return [plugin typeForExtension:anExtension];
 }
 
 - (OECorePlugin *)pluginForExtension:(NSString *)anExtension
 {
-	NSArray *validPlugins = [self pluginsForExtension:anExtension];
-	OECorePlugin* plugin = nil;
-	if( [validPlugins count] == 1 )
-		plugin = [validPlugins objectAtIndex:0];
-	else if( [validPlugins count] > 1 )
-	{
-		OECorePickerController *c = [[[OECorePickerController alloc] initWithCoreList:validPlugins] autorelease];
-		
-		if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
-		{
-			plugin = [c selectedCore];
-		}
-		
-	}
-	return plugin;
-	
+    NSArray *validPlugins = [self pluginsForExtension:anExtension];
+    OECorePlugin* plugin = nil;
+    if( [validPlugins count] == 1 )
+        plugin = [validPlugins objectAtIndex:0];
+    else if( [validPlugins count] > 1 )
+    {
+        OECorePickerController *c = [[[OECorePickerController alloc] initWithCoreList:validPlugins] autorelease];
+        
+        if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
+        {
+            plugin = [c selectedCore];
+        }
+        
+    }
+    return plugin;
+    
 }
 
 - (NSArray *)pluginsForExtension:(NSString *)extension
 {
-	NSMutableArray* validPlugins = [NSMutableArray array];
-	for(OECorePlugin *plugin in plugins)
-		if([plugin supportsFileType:extension])
-			[validPlugins addObject:plugin];
-	return validPlugins;
+    NSMutableArray* validPlugins = [NSMutableArray array];
+    for(OECorePlugin *plugin in plugins)
+        if([plugin supportsFileType:extension])
+            [validPlugins addObject:plugin];
+    return validPlugins;
 }
 
 - (void)noteNewRecentDocumentURL:(NSURL *)aURL
 {
-	if(![[[aURL path] pathExtension] hasSuffix:@"plugin"])
-		[super noteNewRecentDocumentURL:aURL];
+    if(![[[aURL path] pathExtension] hasSuffix:@"plugin"])
+        [super noteNewRecentDocumentURL:aURL];
 }
 
 - (NSString *)typeForContentsOfURL:(NSURL *)inAbsoluteURL error:(NSError **)outError
 {
-	NSString *ret = [self pluginIDForExtension:[[inAbsoluteURL path] pathExtension]];
-	DLog(@"typeForContentsOfURL: Long path");
-	if(ret == nil) ret = [super typeForContentsOfURL:inAbsoluteURL error:outError];
-	return ret;
+    NSString *ret = [self pluginIDForExtension:[[inAbsoluteURL path] pathExtension]];
+    DLog(@"typeForContentsOfURL: Long path");
+    if(ret == nil) ret = [super typeForContentsOfURL:inAbsoluteURL error:outError];
+    return ret;
 }
 
 - (Class)documentClassForType:(NSString *)documentTypeName
 {
-	Class ret = [super documentClassForType:documentTypeName];
-	if(ret == nil) ret = [GameDocument class], DLog(@"documentClassForType: Long path");
-	return ret;
+    Class ret = [super documentClassForType:documentTypeName];
+    if(ret == nil) ret = [GameDocument class], DLog(@"documentClassForType: Long path");
+    return ret;
 }
 
 - (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions
 {
-	return [super runModalOpenPanel:openPanel forTypes:validExtensions];
+    return [super runModalOpenPanel:openPanel forTypes:validExtensions];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-	//delete all the temp files
-	NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"OpenEmu"];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
-		[[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath withIntermediateDirectories:YES attributes:nil error:nil];
-	NSString* filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
-	
-	NSError* error = nil;
-	[[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
-	
-	if(error)
-		NSLog(@"%@",error);
-	else
-		DLog(@"Deleted temp files");
+    //delete all the temp files
+    NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"OpenEmu"];
+    if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
+        [[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath withIntermediateDirectories:YES attributes:nil error:nil];
+    NSString* filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
+    
+    NSError* error = nil;
+    [[NSFileManager defaultManager] removeItemAtPath:filePath error:&error];
+    
+    if(error)
+        NSLog(@"%@",error);
+    else
+        DLog(@"Deleted temp files");
 }
 
 - (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
 {
-	if(recoveryOptionIndex == 0) [self restartApplication];
-	return YES;
+    if(recoveryOptionIndex == 0) [self restartApplication];
+    return YES;
 }
 
 - (void)restartApplication
 {
-	NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
-	LSLaunchURLSpec launchSpec;
-	launchSpec.appURL = (CFURLRef)url;
-	launchSpec.itemURLs = NULL;
-	launchSpec.passThruParams = NULL;
-	launchSpec.launchFlags = kLSLaunchDefaults | kLSLaunchNewInstance;
-	launchSpec.asyncRefCon = NULL;
-	
-	OSErr err = LSOpenFromURLSpec(&launchSpec, NULL);
-	if(err == noErr) [NSApp terminate:self];
-	else NSRunAlertPanel(@"Et ben merde alors !",@"Relaunch failed ￼:( C'est balot",nil,nil,nil);
+    NSURL *url = [NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+    LSLaunchURLSpec launchSpec;
+    launchSpec.appURL = (CFURLRef)url;
+    launchSpec.itemURLs = NULL;
+    launchSpec.passThruParams = NULL;
+    launchSpec.launchFlags = kLSLaunchDefaults | kLSLaunchNewInstance;
+    launchSpec.asyncRefCon = NULL;
+    
+    OSErr err = LSOpenFromURLSpec(&launchSpec, NULL);
+    if(err == noErr) [NSApp terminate:self];
+    else NSRunAlertPanel(@"Et ben merde alors !",@"Relaunch failed ￼:( C'est balot",nil,nil,nil);
 }
 
 - (BOOL)isGameKey
 {
-	if([[self currentDocument] isFullScreen])
-		return YES;
-	
-	NSDocument *doc = [self documentForWindow:[[NSApplication sharedApplication] keyWindow]];
-	return doc != nil;
+    if([[self currentDocument] isFullScreen])
+        return YES;
+    
+    NSDocument *doc = [self documentForWindow:[[NSApplication sharedApplication] keyWindow]];
+    return doc != nil;
 }
 
 
@@ -592,53 +594,53 @@
  */
 
 - (NSString *)applicationSupportFolder {
-	
-	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-	NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
-	return [basePath stringByAppendingPathComponent:@"OpenEmu"];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
+    return [basePath stringByAppendingPathComponent:@"OpenEmu"];
 }
 
 
 /**
- Creates, retains, and returns the managed object model for the application 
+ Creates, retains, and returns the managed object model for the application
  by merging all of the models found in the application bundle.
  */
 
 - (NSManagedObjectModel *)managedObjectModel {
-	
-	if (managedObjectModel != nil) {
-		return managedObjectModel;
-	}
-	
-	managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"ROMFile" ofType:@"mom"]]];
-	return managedObjectModel;
+    
+    if (managedObjectModel != nil) {
+        return managedObjectModel;
+    }
+    
+    managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"ROMFile" ofType:@"mom"]]];
+    return managedObjectModel;
 }
 
 
 /**
- Returns the persistent store coordinator for the application.  This 
- implementation will create and return a coordinator, having added the 
- store for the application to it.  (The folder for the store is created, 
+ Returns the persistent store coordinator for the application.  This
+ implementation will create and return a coordinator, having added the
+ store for the application to it.  (The folder for the store is created,
  if necessary.)
  */
 
 - (NSPersistentStoreCoordinator *) persistentStoreCoordinator {
-	
-	if (persistentStoreCoordinator != nil) {
-		return persistentStoreCoordinator;
-	}
-	
-	NSFileManager *fileManager;
-	NSString *applicationSupportFolder = nil;
-	NSError *error;
-	
-	fileManager = [NSFileManager defaultManager];
-	applicationSupportFolder = [self applicationSupportFolder];
-	if ( ![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL] ) {
-		[fileManager createDirectoryAtPath:applicationSupportFolder withIntermediateDirectories:YES attributes:nil error:nil];
-	}
-	
-	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
+    
+    if (persistentStoreCoordinator != nil) {
+        return persistentStoreCoordinator;
+    }
+    
+    NSFileManager *fileManager;
+    NSString *applicationSupportFolder = nil;
+    NSError *error;
+    
+    fileManager = [NSFileManager defaultManager];
+    applicationSupportFolder = [self applicationSupportFolder];
+    if ( ![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL] ) {
+        [fileManager createDirectoryAtPath:applicationSupportFolder withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
     if(![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType
                                                  configuration:nil
                                                            URL:[NSURL fileURLWithPath:[applicationSupportFolder stringByAppendingPathComponent:@"ROMs.xml"] isDirectory:NO]
@@ -647,28 +649,28 @@
         NSLog(@"Persistent store fail %@",error);
         [[NSApplication sharedApplication] presentError:error];
     }
-	return persistentStoreCoordinator;
+    return persistentStoreCoordinator;
 }
 
 
 /**
  Returns the managed object context for the application (which is already
- bound to the persistent store coordinator for the application.) 
+ bound to the persistent store coordinator for the application.)
  */
 
 - (NSManagedObjectContext *) managedObjectContext {
-	
-	if (managedObjectContext != nil) {
-		return managedObjectContext;
-	}
-	
-	NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-	if (coordinator != nil) {
-		managedObjectContext = [[NSManagedObjectContext alloc] init];
-		[managedObjectContext setPersistentStoreCoordinator: coordinator];
-	}
-	
-	return managedObjectContext;
+    
+    if (managedObjectContext != nil) {
+        return managedObjectContext;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (coordinator != nil) {
+        managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [managedObjectContext setPersistentStoreCoordinator: coordinator];
+    }
+    
+    return managedObjectContext;
 }
 
 
@@ -678,7 +680,7 @@
  */
 
 - (NSUndoManager *)windowWillReturnUndoManager:(NSWindow *)window {
-	return [[self managedObjectContext] undoManager];
+    return [[self managedObjectContext] undoManager];
 }
 
 
@@ -689,11 +691,11 @@
  */
 
 - (IBAction) saveAction:(id)sender {
-	
-	NSError *error = nil;
-	if (![[self managedObjectContext] save:&error]) {
-		[[NSApplication sharedApplication] presentError:error];
-	}
+    
+    NSError *error = nil;
+    if (![[self managedObjectContext] save:&error]) {
+        [[NSApplication sharedApplication] presentError:error];
+    }
 }
 
 
@@ -704,196 +706,196 @@
  */
 
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
-	
-	NSError *error;
-	int reply = NSTerminateNow;
-	
-	if (managedObjectContext != nil) {
-		if ([managedObjectContext commitEditing]) {
-			if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-				
-				// This error handling simply presents error information in a panel with an 
-				// "Ok" button, which does not include any attempt at error recovery (meaning, 
-				// attempting to fix the error.)  As a result, this implementation will 
-				// present the information to the user and then follow up with a panel asking 
-				// if the user wishes to "Quit Anyway", without saving the changes.
-				
-				// Typically, this process should be altered to include application-specific 
-				// recovery steps.  
-				
-				BOOL errorResult = [[NSApplication sharedApplication] presentError:error];
-				
-				if (errorResult == YES) {
-					reply = NSTerminateCancel;
-				} 
-				
-				else {
-					
-					int alertReturn = NSRunAlertPanel(nil, @"Could not save changes while quitting. Quit anyway?" , @"Quit anyway", @"Cancel", nil);
-					if (alertReturn == NSAlertAlternateReturn) {
-						reply = NSTerminateCancel;    
-					}
-				}
-			}
-		} 
-		
-		else {
-			reply = NSTerminateCancel;
-		}
-	}
-	
-	return reply;
+    
+    NSError *error;
+    int reply = NSTerminateNow;
+    
+    if (managedObjectContext != nil) {
+        if ([managedObjectContext commitEditing]) {
+            if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+                
+                // This error handling simply presents error information in a panel with an
+                // "Ok" button, which does not include any attempt at error recovery (meaning,
+                // attempting to fix the error.)  As a result, this implementation will
+                // present the information to the user and then follow up with a panel asking
+                // if the user wishes to "Quit Anyway", without saving the changes.
+                
+                // Typically, this process should be altered to include application-specific
+                // recovery steps.
+                
+                BOOL errorResult = [[NSApplication sharedApplication] presentError:error];
+                
+                if (errorResult == YES) {
+                    reply = NSTerminateCancel;
+                }
+                
+                else {
+                    
+                    int alertReturn = NSRunAlertPanel(nil, @"Could not save changes while quitting. Quit anyway?" , @"Quit anyway", @"Cancel", nil);
+                    if (alertReturn == NSAlertAlternateReturn) {
+                        reply = NSTerminateCancel;
+                    }
+                }
+            }
+        }
+        
+        else {
+            reply = NSTerminateCancel;
+        }
+    }
+    
+    return reply;
 }
 
 -(BOOL)migrateOESaveStateAtPath:(NSString *)saveStatePath{
-	NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	BOOL win = YES;
-	
-	NSManagedObjectModel *model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:saveStatePath]] autorelease];
-	NSPersistentStoreCoordinator *coordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model] autorelease];
-	NSManagedObjectContext *context = [[[NSManagedObjectContext alloc] init] autorelease];
-	[context setPersistentStoreCoordinator:coordinator];
-	
-	NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
-	
-	NSFetchRequest *fetch = [[[NSFetchRequest alloc] init] autorelease];
-	[fetch setEntity:entityDescription];
-	
-	NSArray *saves = [context executeFetchRequest:fetch error:nil];
-	
-	for(SaveState *save in saves){
-		OESaveState *saveState = [[[OESaveState alloc] initInsertedIntoManagedObjectContext:self.managedObjectContext] autorelease];
-		[saveState setBundlePath:[[saveStatePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"savestate"]];
-		
-		[saveState setRomFile:[OEROMFile fileWithPath:[save rompath]
-									createIfNecessary:YES
-							   inManagedObjectContext:self.managedObjectContext]];
-		
-		[saveState setEmulatorID:[save emulatorID]];
-		[saveState setTimeStamp: [save timeStamp]];
-		
-		[saveState setSaveData:  [[save saveData] valueForKey:@"data"]];
-		[saveState setScreenshot:[[[NSImage alloc] initWithData:[[save screenShot] valueForKey:@"data"]] autorelease]];
-	}
-	
-	if(win){
-		[[NSFileManager defaultManager] removeItemAtPath:saveStatePath error:nil];
-	}
-	
-	[pool release];
-	return win;
+    NSAutoreleasePool *pool = [NSAutoreleasePool new];
+    BOOL win = YES;
+    
+    NSManagedObjectModel *model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:saveStatePath]] autorelease];
+    NSPersistentStoreCoordinator *coordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model] autorelease];
+    NSManagedObjectContext *context = [[[NSManagedObjectContext alloc] init] autorelease];
+    [context setPersistentStoreCoordinator:coordinator];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
+    
+    NSFetchRequest *fetch = [[[NSFetchRequest alloc] init] autorelease];
+    [fetch setEntity:entityDescription];
+    
+    NSArray *saves = [context executeFetchRequest:fetch error:nil];
+    
+    for(SaveState *save in saves){
+        OESaveState *saveState = [[[OESaveState alloc] initInsertedIntoManagedObjectContext:self.managedObjectContext] autorelease];
+        [saveState setBundlePath:[[saveStatePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"savestate"]];
+        
+        [saveState setRomFile:[OEROMFile fileWithPath:[save rompath]
+                                    createIfNecessary:YES
+                               inManagedObjectContext:self.managedObjectContext]];
+        
+        [saveState setEmulatorID:[save emulatorID]];
+        [saveState setTimeStamp: [save timeStamp]];
+        
+        [saveState setSaveData:  [[save saveData] valueForKey:@"data"]];
+        [saveState setScreenshot:[[[NSImage alloc] initWithData:[[save screenShot] valueForKey:@"data"]] autorelease]];
+    }
+    
+    if(win){
+        [[NSFileManager defaultManager] removeItemAtPath:saveStatePath error:nil];
+    }
+    
+    [pool release];
+    return win;
 }
 
 - (IBAction)loadState:(NSArray*)states
 {
-	for( OESaveState* object in states )
-	{
-		NSError* error = nil;
-		if([object isKindOfClass:[SaveState class]]){
-			
-		}
-		
-		NSDocument *doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
-		NSLog(@"%@", doc);
+    for( OESaveState* object in states )
+    {
+        NSError* error = nil;
+        if([object isKindOfClass:[SaveState class]]){
+            
+        }
+        
+        NSDocument *doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
+        NSLog(@"%@", doc);
         
         // FIXME: Need to support states with the new system.
 #if 0
-		@synchronized([(GameDocument*)[self currentDocument] gameCore])
-		{
-			[[(GameDocument*)doc gameCore] loadStateFromFileAtPath:[object saveDataPath]];
-		}
+        @synchronized([(GameDocument*)[self currentDocument] gameCore])
+        {
+            [[(GameDocument*)doc gameCore] loadStateFromFileAtPath:[object saveDataPath]];
+        }
 #endif
-	}
+    }
 }
 
 - (IBAction)saveState:(id)sender
-{    
-	NSString *romPath = [[[self currentDocument] fileURL] path];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"SaveState" 
-											  inManagedObjectContext:self.managedObjectContext];
-	OESaveState *newState = [[[OESaveState alloc] initWithEntity:entity insertIntoManagedObjectContext:nil] autorelease];
-
-	NSString *saveFileName = [NSString stringWithFormat:@"%@-%@", [[romPath lastPathComponent] stringByDeletingPathExtension],
-							  [[NSDate date] descriptionWithCalendarFormat:@"%m-%d-%Y_%H-%M-%S-%F" timeZone:nil locale:nil]];
-	
-	[newState setBundlePath:[[[[self applicationSupportFolder] stringByAppendingPathComponent: @"Save States"] 
-							  stringByAppendingPathComponent:saveFileName] stringByAppendingPathExtension:@"savestate"]];
-		
-	[newState setEmulatorID:[(GameDocument *) [self currentDocument] emulatorName]];
-	
+{
+    NSString *romPath = [[[self currentDocument] fileURL] path];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SaveState"
+                                              inManagedObjectContext:self.managedObjectContext];
+    OESaveState *newState = [[[OESaveState alloc] initWithEntity:entity insertIntoManagedObjectContext:nil] autorelease];
+    
+    NSString *saveFileName = [NSString stringWithFormat:@"%@-%@", [[romPath lastPathComponent] stringByDeletingPathExtension],
+                              [[NSDate date] descriptionWithCalendarFormat:@"%m-%d-%Y_%H-%M-%S-%F" timeZone:nil locale:nil]];
+    
+    [newState setBundlePath:[[[[self applicationSupportFolder] stringByAppendingPathComponent: @"Save States"]
+                              stringByAppendingPathComponent:saveFileName] stringByAppendingPathExtension:@"savestate"]];
+    
+    [newState setEmulatorID:[(GameDocument *) [self currentDocument] emulatorName]];
+    
     // FIXME: Need to support states with the new system.
 #if 0
-	@synchronized([(GameDocument *)[self currentDocument] gameCore])
-	{
-		[[(GameDocument *)[self currentDocument] gameCore] saveStateToFileAtPath:[newState saveDataPath]];    
-	}
+    @synchronized([(GameDocument *)[self currentDocument] gameCore])
+    {
+        [[(GameDocument *)[self currentDocument] gameCore] saveStateToFileAtPath:[newState saveDataPath]];
+    }
 #endif
     
-	[newState setScreenshot:[(GameDocument *) [self currentDocument] screenShot]];
-	
-	OEROMFile *romFile = [OEROMFile fileWithPath:romPath
-							   createIfNecessary:YES
-						  inManagedObjectContext:self.managedObjectContext];
-	
-	[self.managedObjectContext insertObject:newState];
-	[[romFile mutableSetValueForKey:@"saveStates"] addObject:newState];
-
-	[self.managedObjectContext save:nil];
+    [newState setScreenshot:[(GameDocument *) [self currentDocument] screenShot]];
+    
+    OEROMFile *romFile = [OEROMFile fileWithPath:romPath
+                               createIfNecessary:YES
+                          inManagedObjectContext:self.managedObjectContext];
+    
+    [self.managedObjectContext insertObject:newState];
+    [[romFile mutableSetValueForKey:@"saveStates"] addObject:newState];
+    
+    [self.managedObjectContext save:nil];
 }
 
 #pragma mark Migration
 
 -(BOOL)migrateSaveStatesWithError:(NSError **)err{
-	NSString *statesPath = [[self applicationSupportFolder] stringByAppendingPathComponent:@"Save States"];
-	
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	if ( ![fileManager fileExistsAtPath:statesPath isDirectory:NULL] ) {
-		[fileManager createDirectoryAtPath:statesPath withIntermediateDirectories:YES attributes:nil error:nil];
-	}
-	
-	static NSString *OESaveStateMigrationErrorDomain = @"OESaveStateMigrationErrorDomain";
-	
-	NSArray  *subpaths = [fileManager contentsOfDirectoryAtPath:statesPath error:nil];
-	NSMutableArray *errors = (err != nil ? [NSMutableArray array] : nil);
-	for(NSString *statePath in subpaths)
-	{
-		if([@"oesavestate" isEqualToString:[statePath pathExtension]])
-		{
-			if(![self migrateOESaveStateAtPath:statePath]){
-				if(errors){
-					[errors addObject:[NSError errorWithDomain:OESaveStateMigrationErrorDomain code:400
-													  userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-																NSLocalizedString(@"Could not migrate save state at path",@""), NSLocalizedDescriptionKey,
-																statePath, NSFilePathErrorKey,
-																nil]]];
-				}
-			}
-		}
-	}
-	
-	if(errors && [errors count] > 0){
-		if([errors count] == 1){
-			*err = [errors objectAtIndex:0];
-		}else{
-			*err = [NSError errorWithDomain:OESaveStateMigrationErrorDomain code:300 
-								   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-											 NSLocalizedString(@"Multiple save states failed to migrate", @""), NSLocalizedDescriptionKey,
-											 errors, @"OESaveStateMigrationErrors",
-											 nil]];
-		}
-		return NO;
-	}else{
-		return YES;
-	}
+    NSString *statesPath = [[self applicationSupportFolder] stringByAppendingPathComponent:@"Save States"];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ( ![fileManager fileExistsAtPath:statesPath isDirectory:NULL] ) {
+        [fileManager createDirectoryAtPath:statesPath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+    
+    static NSString *OESaveStateMigrationErrorDomain = @"OESaveStateMigrationErrorDomain";
+    
+    NSArray  *subpaths = [fileManager contentsOfDirectoryAtPath:statesPath error:nil];
+    NSMutableArray *errors = (err != nil ? [NSMutableArray array] : nil);
+    for(NSString *statePath in subpaths)
+    {
+        if([@"oesavestate" isEqualToString:[statePath pathExtension]])
+        {
+            if(![self migrateOESaveStateAtPath:statePath]){
+                if(errors){
+                    [errors addObject:[NSError errorWithDomain:OESaveStateMigrationErrorDomain code:400
+                                                      userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                                NSLocalizedString(@"Could not migrate save state at path",@""), NSLocalizedDescriptionKey,
+                                                                statePath, NSFilePathErrorKey,
+                                                                nil]]];
+                }
+            }
+        }
+    }
+    
+    if(errors && [errors count] > 0){
+        if([errors count] == 1){
+            *err = [errors objectAtIndex:0];
+        }else{
+            *err = [NSError errorWithDomain:OESaveStateMigrationErrorDomain code:300
+                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                             NSLocalizedString(@"Multiple save states failed to migrate", @""), NSLocalizedDescriptionKey,
+                                             errors, @"OESaveStateMigrationErrors",
+                                             nil]];
+        }
+        return NO;
+    }else{
+        return YES;
+    }
 }
 
 -(BOOL)removeFrameworkFromLibraryWithError:(NSError **)err{
-	NSFileManager *fm = [NSFileManager defaultManager];
-	NSString *frameworkPath = @"/Library/Frameworks/OpenEmuBase.framework";
-	if([fm fileExistsAtPath:frameworkPath]){
-		return [fm removeItemAtPath:frameworkPath error:err];
-	}
-	return YES;
+    NSFileManager *fm = [NSFileManager defaultManager];
+    NSString *frameworkPath = @"/Library/Frameworks/OpenEmuBase.framework";
+    if([fm fileExistsAtPath:frameworkPath]){
+        return [fm removeItemAtPath:frameworkPath error:err];
+    }
+    return YES;
 }
 
 #pragma mark New HID Event Handler
@@ -903,74 +905,74 @@
 
 - (OEHIDDeviceHandler *)OE_deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice
 {
-	OEHIDDeviceHandler *ret = [OEHIDDeviceHandler deviceHandlerWithDevice:aDevice];
-	[deviceHandlers addObject:ret];
-	return ret;
+    OEHIDDeviceHandler *ret = [OEHIDDeviceHandler deviceHandlerWithDevice:aDevice];
+    [deviceHandlers addObject:ret];
+    return ret;
 }
 
 #define DEVICE_IDENTIFIER(page, usage) (((page) << 16) | (usage))
 
 static void OEHandle_InputValueCallback(void *inContext,
-										IOReturn inResult,
-										void *inSender,
-										IOHIDValueRef inIOHIDValueRef)
+                                        IOReturn inResult,
+                                        void *inSender,
+                                        IOHIDValueRef inIOHIDValueRef)
 {
-	[(OEHIDDeviceHandler *)inContext dispatchEventWithHIDValue:inIOHIDValueRef];
+    [(OEHIDDeviceHandler *)inContext dispatchEventWithHIDValue:inIOHIDValueRef];
 }
 
 static void OEHandle_DeviceMatchingCallback(void* inContext,
-											IOReturn inResult,
-											void* inSender,
-											IOHIDDeviceRef inIOHIDDeviceRef )
+                                            IOReturn inResult,
+                                            void* inSender,
+                                            IOHIDDeviceRef inIOHIDDeviceRef )
 {
-	DLog(@"Found device: %s( context: %p, result: %p, sender: %p, device: %p ).\n",
-		  __PRETTY_FUNCTION__,
-		  inContext, inResult,
-		  inSender,  inIOHIDDeviceRef);
-	
-	if (IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
-	{
-		NSLog(@"%s: failed to open device at %p", __PRETTY_FUNCTION__, inIOHIDDeviceRef);
-		return;
-	}
-	
-	DLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
-	
-	GameDocumentController *self = inContext;
-	
-	//IOHIDDeviceRegisterRemovalCallback(inIOHIDDeviceRef, OEHandle_RemovalCallback, self);
-	
-	IOHIDDeviceRegisterInputValueCallback(inIOHIDDeviceRef,
-										  OEHandle_InputValueCallback,
-										  [self OE_deviceHandlerWithDevice:inIOHIDDeviceRef]);
-	
-	IOHIDDeviceScheduleWithRunLoop(inIOHIDDeviceRef,
-								   CFRunLoopGetCurrent(),
-								   kCFRunLoopDefaultMode);
-	
+    DLog(@"Found device: %s( context: %p, result: %p, sender: %p, device: %p ).\n",
+         __PRETTY_FUNCTION__,
+         inContext, inResult,
+         inSender,  inIOHIDDeviceRef);
+    
+    if (IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
+    {
+        NSLog(@"%s: failed to open device at %p", __PRETTY_FUNCTION__, inIOHIDDeviceRef);
+        return;
+    }
+    
+    DLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
+    
+    GameDocumentController *self = inContext;
+    
+    //IOHIDDeviceRegisterRemovalCallback(inIOHIDDeviceRef, OEHandle_RemovalCallback, self);
+    
+    IOHIDDeviceRegisterInputValueCallback(inIOHIDDeviceRef,
+                                          OEHandle_InputValueCallback,
+                                          [self OE_deviceHandlerWithDevice:inIOHIDDeviceRef]);
+    
+    IOHIDDeviceScheduleWithRunLoop(inIOHIDDeviceRef,
+                                   CFRunLoopGetCurrent(),
+                                   kCFRunLoopDefaultMode);
+    
 }   // Handle_DeviceMatchingCallback
 
 - (void)OE_setupHIDManager
 {
-	deviceHandlers = [[NSMutableArray alloc] init];
-	hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
-	NSArray *matchingEvents =
-	[NSArray arrayWithObjects:
-	 [NSDictionary dictionaryWithObjectsAndKeys:
-	  [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
-	  [NSNumber numberWithInteger:kHIDUsage_GD_Joystick], @ kIOHIDDeviceUsageKey, nil],
-	 [NSDictionary dictionaryWithObjectsAndKeys:
-	  [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
-	  [NSNumber numberWithInteger:kHIDUsage_GD_GamePad], @ kIOHIDDeviceUsageKey, nil],
-	 nil];
-	IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)matchingEvents);
-	
-	IOHIDManagerRegisterDeviceMatchingCallback(hidManager,
-											   OEHandle_DeviceMatchingCallback,
-											   self);
-	IOHIDManagerScheduleWithRunLoop(hidManager,
-									CFRunLoopGetCurrent(),
-									kCFRunLoopDefaultMode);
+    deviceHandlers = [[NSMutableArray alloc] init];
+    hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+    NSArray *matchingEvents =
+    [NSArray arrayWithObjects:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
+      [NSNumber numberWithInteger:kHIDUsage_GD_Joystick], @ kIOHIDDeviceUsageKey, nil],
+     [NSDictionary dictionaryWithObjectsAndKeys:
+      [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
+      [NSNumber numberWithInteger:kHIDUsage_GD_GamePad], @ kIOHIDDeviceUsageKey, nil],
+     nil];
+    IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)matchingEvents);
+    
+    IOHIDManagerRegisterDeviceMatchingCallback(hidManager,
+                                               OEHandle_DeviceMatchingCallback,
+                                               self);
+    IOHIDManagerScheduleWithRunLoop(hidManager,
+                                    CFRunLoopGetCurrent(),
+                                    kCFRunLoopDefaultMode);
 }
 
 @end

@@ -137,7 +137,7 @@
     
     // TODO: do we need to ensure openGL Compatibility and CALayer compatibility?
     
-    surfaceRef =  IOSurfaceCreate((CFDictionaryRef) surfaceAttributes);
+    surfaceRef = IOSurfaceCreate((CFDictionaryRef) surfaceAttributes);
     [surfaceAttributes release];
     
     // make a new texture.

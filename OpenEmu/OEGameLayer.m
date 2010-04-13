@@ -198,14 +198,9 @@ static CGColorSpaceRef CreateSystemColorSpace()
     CALayer *superlayer  = [self superlayer];
     NSRect superBounds = NSRectFromCGRect([superlayer bounds]);
     
-    //TODO: handle size shit more better
-   // NSSize aspect = NSMakeSize(256, 240);
-    NSSize aspect;
+    NSSize aspect = NSMakeSize(320, 240);
     
-    if(self.gameCIImage == nil)
-        aspect = NSMakeSize(320, 240);
-    else
-        aspect = NSSizeFromCGSize([self.gameCIImage extent].size);
+    if([self gameCIImage] != nil) aspect = [[self gameCIImage] extent].size;
             
     if(superBounds.size.width * (aspect.width * 1.0/aspect.height) > superBounds.size.height * (aspect.width * 1.0/aspect.height))
         return CGSizeMake(superBounds.size.height * (aspect.width * 1.0/aspect.height), superBounds.size.height);
@@ -213,7 +208,6 @@ static CGColorSpaceRef CreateSystemColorSpace()
         return CGSizeMake(superBounds.size.width, superBounds.size.width * (aspect.height* 1.0/aspect.width));
 }
 
-// FIXME: Maybe this does the same thing as the unused method above?
 - (CGFloat)preferredWindowScale
 {    
     QCComposition *composition = [self composition];
