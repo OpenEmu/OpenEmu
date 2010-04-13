@@ -311,18 +311,18 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 
 - (void)render
 {
-    if([gameCore frameFinished])
-    {
-        [self updateGameTexture];
-        [self correctPixelAspectRatio];
-    }
+	[self updateGameTexture];
+	[self correctPixelAspectRatio];
 }
 
 - (void)updateGameTexture
 {
-    CGLContextObj cgl_ctx = glContext;
-    glBindTexture(GL_TEXTURE_RECTANGLE_ARB, gameTexture);
-    glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+	if([gameCore frameFinished])
+	{
+		CGLContextObj cgl_ctx = glContext;
+		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, gameTexture);
+		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+	}
 }
 
 - (void)correctPixelAspectRatio
@@ -332,7 +332,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     CGRect cropRect = [gameCore sourceRect];
     
     CGLContextObj cgl_ctx = glContext;
-    
+    	
     // bind our FBO / and thus our IOSurface
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
     
@@ -368,24 +368,30 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         // why do we need it ?
         glDisable(GL_BLEND);
         
-        
-        // flip the image here to correct for flippedness from the core.
-        glBegin(GL_QUADS);    // Draw A Quad
-        {
-            glMultiTexCoord2f(GL_TEXTURE0, cropRect.origin.x, cropRect.size.height + cropRect.origin.y);
-            glVertex3f(0.0f, 0.0f, 0.0f);
-            
-            glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width + cropRect.origin.x, cropRect.size.height + cropRect.origin.y);
-            glVertex3f(gameCore.screenWidth, 0.0f, 0.0f);
-            
-            glMultiTexCoord2f(GL_TEXTURE0, cropRect.size.width + cropRect.origin.x, cropRect.origin.y);
-            glVertex3f(gameCore.screenWidth, gameCore.screenHeight, 0.0f);
-            
-            glMultiTexCoord2f(GL_TEXTURE0, cropRect.origin.x, cropRect.origin.y);
-            glVertex3f(0.0f, gameCore.screenHeight, 0.0f);
-        }
-        glEnd(); // Done Drawing The Quad
-        
+		GLfloat tex_coords[] = 
+		{
+			cropRect.origin.x, cropRect.size.height + cropRect.origin.y,
+			cropRect.size.width + cropRect.origin.x, cropRect.size.height + cropRect.origin.y,
+			cropRect.size.width + cropRect.origin.x, cropRect.origin.y,
+			cropRect.origin.x, cropRect.origin.y
+		};
+		
+		GLfloat verts[] = 
+		{
+			0.0f, 0.0f,
+			gameCore.screenWidth, 0.0f,
+			gameCore.screenWidth, gameCore.screenHeight,
+			0.0f, gameCore.screenHeight
+		};
+		
+		glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+		glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
+		glEnableClientState(GL_VERTEX_ARRAY);		
+		glVertexPointer(2, GL_FLOAT, 0, verts );
+		glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+		glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+		glDisableClientState(GL_VERTEX_ARRAY);			
+		        
         // Restore OpenGL states
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
@@ -396,7 +402,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
     // flush to make sure IOSurface updates are seen in parent app.
     glFlushRenderAPPLE();
-    
+    	
     // get the updated surfaceID to pass to STDOut...
     surfaceID = IOSurfaceGetID(surfaceRef);
 }
