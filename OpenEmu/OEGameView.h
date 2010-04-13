@@ -32,6 +32,7 @@
 
 @interface OEGameView : NSView
 {
+    NSView      *gameView;
     OEGameLayer *gameLayer;
     GameCore    *gameCore;
 }

@@ -28,6 +28,7 @@
 #import "OEGameView.h"
 #import "GameCore.h"
 #import "OEGameLayer.h"
+#import "OEGameCoreHelper.h"
 
 static void OE_bindGameLayer(OEGameLayer *gameLayer)
 {
@@ -45,6 +46,11 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     self = [super initWithFrame:frame];
     if(self != nil)
     {
+        frame.origin = NSZeroPoint;
+        gameView = [[[NSView alloc] initWithFrame:frame] autorelease];
+        
+        [self addSubview:gameView];
+        
         CALayer *rootLayer = [CALayer layer];
         
         [rootLayer setLayoutManager:[CAConstraintLayoutManager layoutManager]];
@@ -54,8 +60,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
         CGColorRelease(color);
         
         //Show the layer
-        [self setLayer:rootLayer];
-        [self setWantsLayer:YES];
+        [gameView setLayer:rootLayer];
+        [gameView setWantsLayer:YES];
         
         gameLayer = [OEGameLayer layer];
         OE_bindGameLayer(gameLayer);
@@ -87,6 +93,12 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 - (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event
 {
     return (id<CAAction>) [NSNull null];
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    [[NSColor blackColor] set];
+    NSRectFill([self bounds]);
 }
 
 - (BOOL)acceptsFirstResponder
@@ -124,6 +136,37 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
         [gameCore setNextResponder:aResponder];
     else
         [super setNextResponder:aResponder];
+}
+
+#if CGFLOAT_IS_DOUBLE
+#define CGFLOAT_EPSILON DBL_EPSILON
+#else
+#define CGFLOAT_EPSILON FLT_EPSILON
+#endif
+
+- (void)resizeSubviewsWithOldSize:(NSSize)oldBoundsSize
+{
+    id<OEGameCoreHelper> rootProxy = [self rootProxy];
+    
+    NSRect bounds = [self bounds];
+    NSRect frame  = NSMakeRect(0.0, 0.0, [rootProxy screenWidth], [rootProxy screenHeight]);
+    
+    CGFloat factor     = NSWidth(frame) / NSHeight(frame);
+    CGFloat selfFactor = NSWidth(bounds) / NSHeight(bounds);
+    
+    if(selfFactor - CGFLOAT_EPSILON < factor && factor < selfFactor + CGFLOAT_EPSILON)
+        frame = bounds;
+    else
+    {
+        CGFloat scale = MIN(NSWidth(bounds) / NSWidth(frame), NSHeight(bounds) / NSHeight(frame));
+        
+        frame.size.width  *= scale;
+        frame.size.height *= scale;
+        frame.origin.x = NSMidX(bounds) - NSWidth(frame)  / 2.0;
+        frame.origin.y = NSMidY(bounds) - NSHeight(frame) / 2.0;
+    }
+    
+    [gameView setFrame:frame];
 }
 
 - (CGFloat)preferredWindowScale
