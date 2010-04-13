@@ -41,6 +41,16 @@
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 
 
+#pragma mark Display Link Callback
+CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
+{
+	CVReturn error = [(OpenEmuHelperApp*) displayLinkContext displayLinkRenderCallback:inOutputTime];
+	return error;
+}
+
+
+
+
 @implementation OpenEmuHelperApp
 
 @synthesize doUUID;
@@ -80,11 +90,17 @@
     [self setupGameTexture];
     
     // being rendering
-    [self setupTimer];
+	[self initDisplayLink];
+
+	// poll for our parent app at a lower frequency in the main run loop.
+	[self setupTimer];
 }
 
 - (void)quitHelperTool
 {
+	// TODO: add proper deallocs etc.
+	CVDisplayLinkStop(displayLink);
+	
     [[NSApplication sharedApplication] terminate:nil];
 }
 
@@ -229,17 +245,72 @@
 - (void)setupTimer
 {
     // CVDisplaylink at some point?
-    timer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1/60
+    timer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1
                                              target: self
-                                           selector: @selector(render)
+                                           selector: @selector(pollParentProcess)
                                            userInfo: nil
                                             repeats: YES];
 }
 
+
+// TODO: do we need to worry about displays other than main?
+- (void) initDisplayLink
+{
+	DLog(@"initing display link");
+    CVReturn            error = kCVReturnSuccess;
+    CGDirectDisplayID   displayID = CGMainDisplayID();
+	
+    error = CVDisplayLinkCreateWithCGDisplay(displayID, &displayLink);
+    if(error)
+    {
+        NSLog(@"DisplayLink created with error:%d - Terminating helper", error);
+        displayLink = NULL;
+		
+		[[NSApplication sharedApplication] terminate:nil];
+    }
+	
+    error = CVDisplayLinkSetOutputCallback(displayLink,MyDisplayLinkCallback, self);
+	if(error)
+    {
+        NSLog(@"DisplayLink could not link to callback, error:%d - Terminating helper", error);
+        displayLink = NULL;
+		
+		[[NSApplication sharedApplication] terminate:nil];
+    }
+	
+	DLog(@"finished setup display link");
+	
+	CVDisplayLinkStart(displayLink);	
+	
+	if(!CVDisplayLinkIsRunning(displayLink))
+	{
+		NSLog(@"DisplayLink is not able to be started - Terminating Helper");
+
+		[[NSApplication sharedApplication] terminate:nil];
+	}
+}
+
+- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp
+{
+    CVReturn rv = kCVReturnError;
+    NSAutoreleasePool *pool;
+	
+    pool = [[NSAutoreleasePool alloc] init];
+	{
+		[self render];
+		rv = kCVReturnSuccess;
+    }
+    [pool release];
+    return rv;
+}
+
+- (void)pollParentProcess
+{
+	if([parentApplication isTerminated]) [self quitHelperTool];  	
+}
+
 - (void)render
 {
-    if([parentApplication isTerminated]) [self quitHelperTool];
-    
     if([gameCore frameFinished])
     {
         [self updateGameTexture];

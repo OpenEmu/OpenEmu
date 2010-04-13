@@ -33,6 +33,8 @@
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/CGLIOSurface.h>
 
+
+
 // DO  object
 #import "OEGameCoreHelper.h"
 #import "GameCore.h"
@@ -59,6 +61,7 @@
     
     // rendering - may want to move to display link in the future?
     NSTimer       *timer;
+	CVDisplayLinkRef displayLink;
     
     // we will need a way to do IPC, for now its DO.
     NSString      *doUUID;
@@ -85,6 +88,10 @@
 - (void)setupFBO;
 - (void)setupGameTexture;
 - (void)setupTimer;
+- (void)initDisplayLink;
+- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
+- (void)render;
+- (void)pollParentProcess;
 - (void)setupGameCore;
 - (void)updateGameTexture;
 - (void)correctPixelAspectRatio;
