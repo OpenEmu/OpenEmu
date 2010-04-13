@@ -179,9 +179,4 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     return [gameLayer imageForCurrentFrame];
 }
 
-- (void)awakeFromNib
-{
-    [self setWantsLayer:YES];
-}
-
 @end

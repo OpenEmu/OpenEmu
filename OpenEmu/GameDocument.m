@@ -338,11 +338,13 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
         [view enterFullScreenMode:[[view window] screen]
                       withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
                                    [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens, nil]];
+        [[view window] makeFirstResponder:view];
         [NSCursor hide];
     }
     else
     {
         [view exitFullScreenModeWithOptions:nil];           
+        [[view window] makeFirstResponder:view];
         [NSCursor unhide];
     }
     [self setPauseEmulation:NO];
