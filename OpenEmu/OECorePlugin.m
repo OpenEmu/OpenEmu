@@ -121,6 +121,17 @@
     return [[ret copy] autorelease];
 }
 
++ (NSArray *)pluginsForFileExtension:(NSString *)anExtension
+{
+    NSMutableArray *ret = [NSMutableArray array];
+    
+    for(OECorePlugin *plugin in [self allPlugins])
+        if([plugin supportsFileExtension:anExtension])
+            [ret addObject:plugin];
+    
+    return ret;
+}
+
 - (NSArray *)supportedTypeNames
 {
     return [supportedTypes allKeys];

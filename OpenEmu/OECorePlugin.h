@@ -50,6 +50,7 @@
 @property(readonly) Class                 gameCoreClass;
 
 + (NSArray *)supportedTypeExtensions;
++ (NSArray *)pluginsForFileExtension:(NSString *)anExtension;
 + (OECorePlugin *)corePluginWithBundleAtPath:(NSString *)bundlePath;
 
 - (NSArray *)availablePreferenceViewControllers;

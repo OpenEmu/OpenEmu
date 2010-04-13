@@ -401,6 +401,7 @@
     
     NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
+
 //FIXME: it looks like our code here expects the file to be an archive and shits its pants (throws an error
 // popup saying "can't open files of type "Nestopia Cartridge" " or similar) if it's not.
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
@@ -474,54 +475,10 @@
     return [super openDocumentWithContentsOfURL:absoluteURL display:displayDocument error:outError];
 }
 
-- (NSString *)pluginIDForExtension:(NSString *)anExtension
-{
-    OECorePlugin *plugin = [self pluginForExtension:anExtension];
-    return [plugin displayName];
-    //    return [plugin typeForExtension:anExtension];
-}
-
-- (OECorePlugin *)pluginForExtension:(NSString *)anExtension
-{
-    NSArray *validPlugins = [self pluginsForExtension:anExtension];
-    OECorePlugin* plugin = nil;
-    if( [validPlugins count] == 1 )
-        plugin = [validPlugins objectAtIndex:0];
-    else if( [validPlugins count] > 1 )
-    {
-        OECorePickerController *c = [[[OECorePickerController alloc] initWithCoreList:validPlugins] autorelease];
-        
-        if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
-        {
-            plugin = [c selectedCore];
-        }
-        
-    }
-    return plugin;
-    
-}
-
-- (NSArray *)pluginsForExtension:(NSString *)extension
-{
-    NSMutableArray* validPlugins = [NSMutableArray array];
-    for(OECorePlugin *plugin in plugins)
-        if([plugin supportsFileType:extension])
-            [validPlugins addObject:plugin];
-    return validPlugins;
-}
-
 - (void)noteNewRecentDocumentURL:(NSURL *)aURL
 {
     if(![[[aURL path] pathExtension] hasSuffix:@"plugin"])
         [super noteNewRecentDocumentURL:aURL];
-}
-
-- (NSString *)typeForContentsOfURL:(NSURL *)inAbsoluteURL error:(NSError **)outError
-{
-    NSString *ret = [self pluginIDForExtension:[[inAbsoluteURL path] pathExtension]];
-    DLog(@"typeForContentsOfURL: Long path");
-    if(ret == nil) ret = [super typeForContentsOfURL:inAbsoluteURL error:outError];
-    return ret;
 }
 
 - (Class)documentClassForType:(NSString *)documentTypeName

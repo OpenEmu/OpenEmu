@@ -35,12 +35,18 @@
 #import "OEHIDEvent.h"
 #import "OEGameCoreController.h"
 #import "GameQTRecorder.h"
+#import "OECorePickerController.h"
 
 #import "OEGameCoreHelper.h"
 
 #import "NSString+UUID.h"
 
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
+
+@interface GameDocument ()
+- (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError;
+@end
+
 
 @implementation GameDocument
 
@@ -118,46 +124,25 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     {
         DLog(@"%@", self);
         
-        GameDocumentController *docControl = [GameDocumentController sharedDocumentController];
-        OECorePlugin *plugin = nil;
+        OECorePlugin *plugin = [self OE_pluginForFileExtension:[absoluteURL pathExtension] error:outError];
         
-        for(OEPlugin *aPlugin in [docControl plugins])
-            if([[aPlugin displayName] isEqualToString:typeName])
-            {
-                plugin = (OECorePlugin *)aPlugin;
-                break;
-            }
+        if(plugin == nil) return NO;
         
-        if(plugin != nil)
+        gameController = [[plugin controller] retain];
+        emulatorName = [[plugin displayName] retain];
+        
+        if([self startHelperProcessError:outError])
         {
-            gameController = [[plugin controller] retain];
-            emulatorName = [[plugin displayName] retain];
-            
-            if([self startHelperProcessError:outError])
+            GameCore *gameCore = nil;
+            if([rootProxy loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] gameCore:&gameCore])
             {
-                GameCore *gameCore = nil;
-                if([rootProxy loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] gameCore:&gameCore])
-                {
-                    [gameCore setOwner:gameController];
-                    [gameController addSettingObserver:gameCore];
-                    
-                    [rootProxy setupEmulation];
-                    
-                    return YES;
-                }
+                [gameCore setOwner:gameController];
+                [gameController addSettingObserver:gameCore];
+                
+                [rootProxy setupEmulation];
+                
+                return YES;
             }
-        }
-        else if(outError != NULL)
-        {
-            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                            code:OEIncorrectFileError
-                                        userInfo:
-                         [NSDictionary dictionaryWithObjectsAndKeys:
-                          NSLocalizedString(@"The launched file isn't handled by OpenEmu", @"Incorrect file error reason."),
-                          NSLocalizedFailureReasonErrorKey,
-                          NSLocalizedString(@"Choose a file with a supported file format or download an appropriate OpenEmu plugin.", @"Incorrect file error recovery suggestion."),
-                          NSLocalizedRecoverySuggestionErrorKey,
-                          nil]];
         }
     }
     else if(outError != NULL)
@@ -174,6 +159,40 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     }
     
     return NO;
+}
+
+#pragma mark -
+#pragma mark Plugin discovery
+- (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError
+{
+    OECorePlugin *ret = nil;
+    
+    
+    NSArray *validPlugins = [OECorePlugin pluginsForFileExtension:ext];
+    
+    if([validPlugins count] <= 1) ret = [validPlugins lastObject];
+    else
+    {
+        OECorePickerController *c = [[[OECorePickerController alloc] initWithCoreList:validPlugins] autorelease];
+        
+        if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
+            ret = [c selectedCore];
+    }
+    
+    if(ret == nil && outError != NULL)
+    {
+        *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                        code:OEIncorrectFileError
+                                    userInfo:
+                     [NSDictionary dictionaryWithObjectsAndKeys:
+                      NSLocalizedString(@"The launched file isn't handled by OpenEmu", @"Incorrect file error reason."),
+                      NSLocalizedFailureReasonErrorKey,
+                      NSLocalizedString(@"Choose a file with a supported file format or download an appropriate OpenEmu plugin.", @"Incorrect file error recovery suggestion."),
+                      NSLocalizedRecoverySuggestionErrorKey,
+                      nil]];
+    }
+    
+    return ret;
 }
 
 #pragma mark -

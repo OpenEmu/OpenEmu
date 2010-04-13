@@ -42,8 +42,8 @@
     OEGamePreferenceController *preferences;
     OESaveStateController      *saveStateManager;
 
-    OECoreDownloader		   *coreDownloader;	
-	NSArray                    *filterNames;
+    OECoreDownloader           *coreDownloader;
+    NSArray                    *filterNames;
     NSArray                    *plugins;
     NSArray                    *validExtensions;
     BOOL                        gameLoaded;
@@ -66,10 +66,10 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel *managedObjectModel;
     NSManagedObjectContext *managedObjectContext;
-	
-	OEROMOrganizer *organizer;
-	
-	OEVersionMigrationController *versionMigrator;
+    
+    OEROMOrganizer *organizer;
+    
+    OEVersionMigrationController *versionMigrator;
 }
 
 @property(readonly) NSArray *filterNames;
@@ -91,8 +91,6 @@
 
 - (NSString *)applicationSupportFolder;
 
-- (OECorePlugin *)pluginForExtension:(NSString *)anExtensions;
-- (NSArray *)pluginsForExtension:(NSString *)anExtensions;
 - (void)updateFilterNames;
 - (void)updateValidExtensions;
 - (void)updateInfoPlist;
