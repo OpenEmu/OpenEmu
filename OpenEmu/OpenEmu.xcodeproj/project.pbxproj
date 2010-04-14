@@ -1955,7 +1955,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
@@ -2141,14 +2140,12 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../Archive\"",
 				);
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Archive\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
@@ -2162,18 +2159,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
-					"\"$(SRCROOT)/../Archive\"",
 				);
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_FAST_MATH = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
-				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../Archive\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
@@ -2188,9 +2182,9 @@
 				ARCHS = (
 					x86_64,
 					i386,
-					ppc,
 				);
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -2210,9 +2204,9 @@
 				ARCHS = (
 					x86_64,
 					i386,
-					ppc,
 				);
 				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = NS_BUILD_32_LIKE_64;

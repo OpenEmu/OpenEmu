@@ -179,14 +179,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */;
+			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
 			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A2545116F06C80003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */;
+			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
 		};
 /* End PBXContainerItemProxy section */
@@ -1902,12 +1902,12 @@
 		826FE1141014D8CF0023A8E9 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C62A2544116F06C80003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				C62A2546116F06C80003DEE4 /* OpenEmuHelperApp */,
 				826FE11D1014D8CF0023A8E9 /* OpenEmu.app */,
+				C62A2546116F06C80003DEE4 /* OpenEmuHelperApp */,
+				C62A2544116F06C80003DEE4 /* OpenEmuDebugHelperAppApp.app */,
 				826FE11F1014D8CF0023A8E9 /* OpenEmuQC.plugin */,
 				826FE1211014D8CF0023A8E9 /* OpenEmuBase.framework */,
-				37C19C84102656280075F0F8 /* OESaveStateQLPlugin.qlgenerator */,
+				37C19C84102656280075F0F8 /* OESaveStateQLPlugin.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1989,10 +1989,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		37C19C84102656280075F0F8 /* OESaveStateQLPlugin.qlgenerator */ = {
+		37C19C84102656280075F0F8 /* OESaveStateQLPlugin.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = OESaveStateQLPlugin.qlgenerator;
+			path = OESaveStateQLPlugin.bundle;
 			remoteRef = 37C19C83102656280075F0F8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -2205,11 +2205,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					i386,
-					x86_64,
-					ppc,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -2225,7 +2220,7 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks ~/Library/Frameworks /Library/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "\"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" @loader_path/../Frameworks ~/Library/Frameworks /Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -2245,12 +2240,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					i386,
-					x86_64,
-					ppc,
-				);
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 3;
@@ -2284,27 +2273,37 @@
 		1DEB913F08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.6;
 			};
 			name = Debug;
 		};
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.6;
 			};
 			name = Release;
 		};

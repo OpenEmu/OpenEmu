@@ -64,6 +64,20 @@
 			remoteGlobalIDString = 3887A7F61024D1F9000FC4CF;
 			remoteInfo = OESaveStateQLPlugin;
 		};
+		3D81E2931175814300B37FD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */;
+			remoteInfo = OpenEmuHelperApp;
+		};
+		3D81E2951175814300B37FD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */;
+			remoteInfo = OpenEmuDebugHelperAppApp;
+		};
 		B56F6FC50F38FC2D00DCE88B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -365,6 +379,8 @@
 			isa = PBXGroup;
 			children = (
 				C66DFD4F0F51F1840080AA28 /* OpenEmu.app */,
+				3D81E2941175814300B37FD5 /* OpenEmuHelperApp */,
+				3D81E2961175814300B37FD5 /* OpenEmuDebugHelperAppApp.app */,
 				C66DFD510F51F1840080AA28 /* OpenEmuQC.plugin */,
 				C66DFD530F51F1840080AA28 /* OpenEmuBase.framework */,
 				3746BCA9102942B0007C78A6 /* OESaveStateQLPlugin.bundle */,
@@ -423,6 +439,20 @@
 			fileType = wrapper.cfbundle;
 			path = OESaveStateQLPlugin.bundle;
 			remoteRef = 3746BCA8102942B0007C78A6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D81E2941175814300B37FD5 /* OpenEmuHelperApp */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = OpenEmuHelperApp;
+			remoteRef = 3D81E2931175814300B37FD5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3D81E2961175814300B37FD5 /* OpenEmuDebugHelperAppApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OpenEmuDebugHelperAppApp.app;
+			remoteRef = 3D81E2951175814300B37FD5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C66DFD4F0F51F1840080AA28 /* OpenEmu.app */ = {
@@ -538,11 +568,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					i386,
-					x86_64,
-					ppc,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -564,12 +589,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					i386,
-					x86_64,
-					ppc,
-				);
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 3;
@@ -589,8 +608,13 @@
 		1DEB913F08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
@@ -598,21 +622,26 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-D__cdecl=";
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.6;
 			};
 			name = Debug;
 		};
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
 				OTHER_CFLAGS = "-D__cdecl=";
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.6;
 			};
 			name = Release;
 		};

@@ -409,14 +409,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */;
+			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
 			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A25D9116F07B80003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */;
+			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
 		};
 /* End PBXContainerItemProxy section */
@@ -2148,12 +2148,12 @@
 		824088C50FFDE05400F0FE7D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C62A25D8116F07B80003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				C62A25DA116F07B80003DEE4 /* OpenEmuHelperApp */,
 				824088CE0FFDE05400F0FE7D /* OpenEmu.app */,
+				C62A25DA116F07B80003DEE4 /* OpenEmuHelperApp */,
+				C62A25D8116F07B80003DEE4 /* OpenEmuDebugHelperAppApp.app */,
 				824088D00FFDE05400F0FE7D /* OpenEmuQC.plugin */,
 				824088D20FFDE05400F0FE7D /* OpenEmuBase.framework */,
-				829661731042470500F30B74 /* OESaveStateQLPlugin.qlgenerator */,
+				829661731042470500F30B74 /* OESaveStateQLPlugin.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2264,10 +2264,10 @@
 			remoteRef = 824088D10FFDE05400F0FE7D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		829661731042470500F30B74 /* OESaveStateQLPlugin.qlgenerator */ = {
+		829661731042470500F30B74 /* OESaveStateQLPlugin.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = OESaveStateQLPlugin.qlgenerator;
+			path = OESaveStateQLPlugin.bundle;
 			remoteRef = 829661721042470500F30B74 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -2690,7 +2690,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Mednafen_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
-					/opt/local/include,
 					"$(PROJECT_DIR)/include",
 					"\"$(SRCROOT)/../OpenEmu\"",
 				);
@@ -2714,12 +2713,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Mednafen_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
-					/opt/local/include,
 					"$(PROJECT_DIR)/include",
 					"\"$(SRCROOT)/../OpenEmu\"",
 				);
@@ -2727,7 +2724,6 @@
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					/opt/local/lib,
 					"\"$(SRCROOT)\"",
 				);
 				OTHER_CFLAGS = (
@@ -2747,16 +2743,17 @@
 				ARCHS = (
 					x86_64,
 					i386,
-					ppc,
 				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.6;
 			};
 			name = Debug;
 		};
@@ -2766,17 +2763,18 @@
 				ARCHS = (
 					x86_64,
 					i386,
-					ppc,
 				);
 				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 1;
 				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.6;
 			};
 			name = Release;
 		};

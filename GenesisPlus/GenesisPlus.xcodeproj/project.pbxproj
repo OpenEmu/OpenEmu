@@ -138,14 +138,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */;
+			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
 			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A25B1116F07940003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */;
+			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
 		};
 /* End PBXContainerItemProxy section */
@@ -370,12 +370,12 @@
 		82287C48101E9F060072172D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C62A25B0116F07940003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				C62A25B2116F07940003DEE4 /* OpenEmuHelperApp */,
 				82287C52101E9F060072172D /* OpenEmu.app */,
+				C62A25B2116F07940003DEE4 /* OpenEmuHelperApp */,
+				C62A25B0116F07940003DEE4 /* OpenEmuDebugHelperAppApp.app */,
 				82287C54101E9F060072172D /* OpenEmuQC.plugin */,
 				82287C56101E9F060072172D /* OpenEmuBase.framework */,
-				3783946E102922A200168304 /* OESaveStateQLPlugin.qlgenerator */,
+				3783946E102922A200168304 /* OESaveStateQLPlugin.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -572,10 +572,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		3783946E102922A200168304 /* OESaveStateQLPlugin.qlgenerator */ = {
+		3783946E102922A200168304 /* OESaveStateQLPlugin.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = OESaveStateQLPlugin.qlgenerator;
+			path = OESaveStateQLPlugin.bundle;
 			remoteRef = 3783946D102922A200168304 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -742,11 +742,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					x86_64,
-					i386,
-					ppc,
-				);
 				COPY_PHASE_STRIP = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -758,7 +753,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				LD_RUNPATH_SEARCH_PATHS = "~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				OTHER_CFLAGS = "-DLSB_FIRST";
 				PRODUCT_NAME = GenesisPlus;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)";
@@ -770,12 +765,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					x86_64,
-					i386,
-					ppc,
-				);
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -795,26 +784,36 @@
 		1DEB913F08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.6;
 			};
 			name = Debug;
 		};
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
-				SDKROOT = macosx10.5;
+				SDKROOT = macosx10.6;
 			};
 			name = Release;
 		};
