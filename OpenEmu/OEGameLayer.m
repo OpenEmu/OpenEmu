@@ -40,23 +40,18 @@
 static CMProfileRef CreateNTSCProfile()
 {
     CMProfileRef newNTSCProf = NULL;
-    CMAppleProfileHeader aph; 
     
     CMNewProfile(&newNTSCProf,NULL);
     CMMakeProfile(newNTSCProf,(CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:@"displayRGB",@"profileType",
-                                                dfl(2.2,"targetGamma"), 
                                                 [NSNumber numberWithInt:6500],@"targetWhite",
-                                                dfl(2.2,"gammaR"),
-                                                dfl(2.2,"gammaG"),
-                                                dfl(2.2,"gammaB"),
+                                                dfl(1/.45,"gammaR"),
+                                                dfl(1/.45,"gammaG"),
+                                                dfl(1/.45,"gammaB"),
                                                 dfl(.63,"phosphorRx"), dfl(.34,"phosphorRy"),
                                                 dfl(.31,"phosphorGx"), dfl(.595,"phosphorGy"),
                                                 dfl(.155,"phosphorBx"), dfl(.07,"phosphorBy"),
                                                 dfl(.312713,"whitePointx"), dfl(.329016,"whitePointy"),nil,nil
                                                 ]);
-    CMGetProfileHeader(newNTSCProf,&aph);
-//    aph.cm4.flags |= cmInterpolationMask | 0x00020000;
-    CMSetProfileHeader(newNTSCProf,&aph);
     
     return newNTSCProf;
 }
@@ -149,9 +144,8 @@ static CGColorSpaceRef CreateSystemColorSpace()
         {
             
             // Create a display colorspace for our QCRenderer
-            //CGColorSpaceRef     space = CreateSystemColorSpace();
-            
-            CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+            CGColorSpaceRef space = [[[ownerView window] colorSpace] CGColorSpace];
+
             filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
                                                         pixelFormat:CGLGetPixelFormat(layerContext)
                                                          colorSpace:space
@@ -250,9 +244,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
     if(surfaceRef)
     {
         // our texture is in NTSC colorspace from the cores
-        //CGColorSpaceRef colorspace = CreateNTSCColorSpace();
-        //CGColorSpaceRef colorspace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
-        CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+        CGColorSpaceRef space = CreateNTSCColorSpace();
         
         NSDictionary *options = [NSDictionary dictionaryWithObject:(id)space forKey:kCIImageColorSpace];
         [self setGameCIImage:[CIImage imageWithIOSurface:surfaceRef options:options]];
