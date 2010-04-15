@@ -2216,8 +2216,8 @@
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../OpenEmu\"",
-					"$(PROJECT_DIR)/core/lib/",
-					"$(PROJECT_DIR)/core/",
+					"\"$(PROJECT_DIR)/core/lib/\"",
+					"\"$(PROJECT_DIR)/core/\"",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
@@ -2232,7 +2232,7 @@
 					"-mdynamic-no-pic",
 				);
 				PRODUCT_NAME = BSNES;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/core/";
+				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/core/\"";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Debug;
@@ -2252,8 +2252,8 @@
 				GCC_WARN_UNUSED_VARIABLE = NO;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../OpenEmu\"",
-					"$(PROJECT_DIR)/core/lib/",
-					"$(PROJECT_DIR)/core/",
+					"\"$(PROJECT_DIR)/core/lib/\"",
+					"\"$(PROJECT_DIR)/core/\"",
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
@@ -2269,7 +2269,7 @@
 				);
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
 				PRODUCT_NAME = BSNES;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/core/";
+				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/core/\"";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Release;

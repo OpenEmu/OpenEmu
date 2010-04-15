@@ -375,7 +375,7 @@
 				C62A25B0116F07940003DEE4 /* OpenEmuDebugHelperAppApp.app */,
 				82287C54101E9F060072172D /* OpenEmuQC.plugin */,
 				82287C56101E9F060072172D /* OpenEmuBase.framework */,
-				3783946E102922A200168304 /* OESaveStateQLPlugin.bundle */,
+				3783946E102922A200168304 /* OESaveStateQLPlugin.qlgenerator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -572,10 +572,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		3783946E102922A200168304 /* OESaveStateQLPlugin.bundle */ = {
+		3783946E102922A200168304 /* OESaveStateQLPlugin.qlgenerator */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = OESaveStateQLPlugin.bundle;
+			path = OESaveStateQLPlugin.qlgenerator;
 			remoteRef = 3783946D102922A200168304 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -751,13 +751,13 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GenesisPlus_Prefix.pch;
 				GCC_VERSION = 4.2;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				OTHER_CFLAGS = "-DLSB_FIRST";
 				PRODUCT_NAME = GenesisPlus;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)";
+				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Debug;
@@ -773,14 +773,14 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GenesisPlus_Prefix.pch;
 				GCC_VERSION = 4.2;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
+				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				OTHER_CFLAGS = "-DLSB_FIRST";
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
 				PRODUCT_NAME = GenesisPlus;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)";
+				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Release;
