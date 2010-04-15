@@ -142,6 +142,25 @@ static NSTimeInterval currentTime()
     autoFrameSkipLastTime = time;    
 }
 
+- (void)setPauseEmulation:(BOOL)flag
+{
+    if(flag) [self stopEmulation];
+    else     [self startEmulation];
+}
+
+- (void)setupEmulation
+{
+}
+
+- (void)stopEmulation
+{
+    shouldStop = YES;
+    DLog(@"Ending thread");
+}
+
+#define MULTI_THREAD 0
+
+#if MULTI_THREAD
 - (void)frameRefreshThread:(id)anArgument;
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -151,6 +170,7 @@ static NSTimeInterval currentTime()
     frameSkip = 1;
     while(![[NSThread currentThread] isCancelled])
     {
+        NSAutoreleasePool *inner = [[NSAutoreleasePool alloc] init];
         date += 1.0f / [self frameInterval];
         [NSThread sleepForTimeInterval: fmax(0.0f, date - currentTime())];
         /*
@@ -169,23 +189,10 @@ static NSTimeInterval currentTime()
         
         if(frameCounter >= frameSkip) frameCounter = 0;
         else                          frameCounter++;
+        
+        [inner drain];
     }
     [pool drain];
-}
-
-- (BOOL)isEmulationPaused
-{
-    return emulationThread == nil || [emulationThread isCancelled];
-}
-
-- (void)setPauseEmulation:(BOOL)flag
-{
-    if(flag) [self stopEmulation];
-    else     [self startEmulation];
-}
-
-- (void)setupEmulation
-{
 }
 
 - (void)stopEmulation
@@ -209,6 +216,62 @@ static NSTimeInterval currentTime()
         }
     }
 }
+
+#else
+- (void)frameRefreshThread:(id)anArgument;
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    NSTimeInterval date = currentTime();
+    
+    frameFinished = YES;
+    willSkipFrame = NO;
+    frameSkip = 1;
+    
+    NSLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
+    
+    while(!shouldStop)
+    {
+        NSAutoreleasePool *inner = [[NSAutoreleasePool alloc] init];
+        
+        date += 1.0 / [self frameInterval];
+        
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, fmax(0.0, date - currentTime()), NO);
+        
+        willSkipFrame = (frameCounter != frameSkip);
+        
+        [self executeFrameSkippingFrame:willSkipFrame];
+        
+        if(frameCounter >= frameSkip) frameCounter = 0;
+        else                          frameCounter++;
+        
+        [inner drain];
+    }
+    [pool drain];
+}
+
+- (BOOL)isEmulationPaused
+{
+    return !isRunning;
+}
+
+- (void)startEmulation
+{
+    if([self class] != GameCoreClass)
+    {
+        if(!isRunning)
+        {
+            isRunning  = YES;
+            shouldStop = NO;
+            
+            [self performSelector:@selector(frameRefreshThread:) withObject:nil afterDelay:0.0];
+            
+            DLog(@"Starting thread");
+        }
+    }
+}
+
+#endif
 
 #pragma mark ABSTRACT METHODS
 // Never call super on them.

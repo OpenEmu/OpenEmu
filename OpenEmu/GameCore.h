@@ -88,8 +88,11 @@ typedef NSInteger OEButton;
     BOOL                   frameFinished;
     BOOL                   willSkipFrame;
     
+    BOOL                   isRunning;
+    BOOL                   shouldStop;
+    
     // for lightgun/pointer support.
-    NSPoint                   mousePosition;
+    NSPoint                mousePosition;
 }
 
 + (NSTimeInterval)defaultTimeInterval;
