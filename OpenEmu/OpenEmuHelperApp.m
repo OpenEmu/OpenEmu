@@ -40,6 +40,8 @@
 
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 
+#define OE_USE_DISPLAYLINK NO
+
 
 #pragma mark Display Link Callback
 CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
@@ -47,9 +49,6 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 	CVReturn error = [(OpenEmuHelperApp*) displayLinkContext displayLinkRenderCallback:inOutputTime];
 	return error;
 }
-
-
-
 
 @implementation OpenEmuHelperApp
 
@@ -66,6 +65,10 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
+	// just be sane for now.
+	gameFBO = 0;
+	gameTexture = 0;
+	
     parentApplication = [[NSRunningApplication runningApplicationWithProcessIdentifier:getppid()] retain];
     [parentApplication addObserver:self forKeyPath:@"terminated" options:0xF context:NULL];
     
@@ -85,12 +88,13 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     // init resources
     [self setupOpenGLOnScreen:[NSScreen mainScreen]];
     
-    [self setupIOSurface];
-    [self setupFBO];
-    [self setupGameTexture];
+//    [self setupIOSurface];
+//    [self setupFBO];
+//    [self setupGameTexture];
     
     // being rendering
-	[self initDisplayLink];
+	if(OE_USE_DISPLAYLINK)
+		[self initDisplayLink];
 
 	// poll for our parent app at a lower frequency in the main run loop.
 	[self setupTimer];
@@ -120,7 +124,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     CGLPixelFormatObj pf;
     GLint numPixelFormats = 0;
     
-    NSLog(@"choosing pixel format");
+    DLog(@"choosing pixel format");
     err = CGLChoosePixelFormat(attributes, &pf, &numPixelFormats);
     
     if(err != kCGLNoError)
@@ -130,7 +134,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     }
     CGLRetainPixelFormat(pf);
     
-    NSLog(@"creating context");
+    DLog(@"creating context");
     
     err = CGLCreateContext(pf, NULL, &glContext);
     if(err != kCGLNoError)
@@ -158,7 +162,8 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
     // make a new texture.
     CGLContextObj cgl_ctx = glContext;
-    
+	CGLLockContext(cgl_ctx);
+
     glGenTextures(1, &ioSurfaceTexture);
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, ioSurfaceTexture);
@@ -172,17 +177,18 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
     }
     glFlush();
+	
+	CGLUnlockContext(cgl_ctx);
 }
 
 // make an FBO and bind out IOSurface backed texture to it
 - (void)setupFBO
-{
-    DLog(@"creating FBO");
-    
+{    
     GLenum status;
     
     CGLContextObj cgl_ctx = glContext;
-    
+	CGLLockContext(cgl_ctx);
+
     // Create temporary FBO to render in texture
     glGenFramebuffersEXT(1, &gameFBO);
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
@@ -196,19 +202,28 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         
         glDeleteFramebuffersEXT(1, &gameFBO);
     }
+	
+	CGLUnlockContext(cgl_ctx);
 }
 
 - (void)setupGameTexture
 {
+	
+	DLog(@"starting to setup gameTexture");
+	
     GLenum status;
     
     CGLContextObj cgl_ctx = glContext;
     
+	CGLLockContext(cgl_ctx);
+	
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     // create our texture
     glGenTextures(1, &gameTexture);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
     
+	DLog(@"bound gameTexture");
+	
     status = glGetError();
     if(status)
     {
@@ -216,19 +231,24 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     }
     
     // with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?)
-    glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore bufferWidth] * [gameCore bufferHeight] * 4, [gameCore videoBuffer]);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
-    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
-    
-    // proper tex params.
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    
+//    glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore bufferWidth] * [gameCore bufferHeight] * 4, [gameCore videoBuffer]);
+//    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
+//    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+//    
+//    // proper tex params.
+//	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+//	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+//	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//	glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+   
+	DLog(@"set params - uploading texture");
+	
     glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore bufferWidth], [gameCore bufferHeight], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
     
+	DLog(@"upladed gameTexture");
+
+	
     status = glGetError();
     if(status)
     {
@@ -237,19 +257,31 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         gameTexture = 0;
     }
     
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
-    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+//    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
+//	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
     
+	glFlush();
+	
+	CGLUnlockContext(cgl_ctx);
+	
+	DLog(@"Finished Setting up gameTexture");
 }
 
 - (void)setupTimer
 {
-    // CVDisplaylink at some point?
-    timer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1
-                                             target: self
-                                           selector: @selector(pollParentProcess)
-                                           userInfo: nil
-                                            repeats: YES];
+	if(OE_USE_DISPLAYLINK)
+		timer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1
+												 target: self
+											   selector: @selector(pollParentProcess)
+											   userInfo: nil
+												repeats: YES];
+
+	else
+		timer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1/60
+												 target: self
+											   selector: @selector(render)
+											   userInfo: nil
+												repeats: YES];
 }
 
 
@@ -311,34 +343,65 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 
 - (void)render
 {
-	[self updateGameTexture];
-	[self correctPixelAspectRatio];
+	CGLContextObj cgl_ctx = glContext;
+	CGLLockContext(cgl_ctx);
+	
+	if([gameCore frameFinished])
+	{
+		if(gameTexture == 0)
+		{
+			[self setupIOSurface];
+			[self setupFBO];
+			[self setupGameTexture];
+		}
+		
+		[self updateGameTexture];
+		[self correctPixelAspectRatio];
+	}
+	CGLUnlockContext(cgl_ctx);
 }
 
 - (void)updateGameTexture
 {
-	if([gameCore frameFinished])
+	CGLContextObj cgl_ctx = glContext;
+
+	glEnable(GL_TEXTURE_RECTANGLE_ARB);
+	
+	glBindTexture(GL_TEXTURE_RECTANGLE_ARB, gameTexture);
+	glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+	
+	GLenum status = glGetError();
+	if(status)
 	{
-		CGLContextObj cgl_ctx = glContext;
-		glBindTexture(GL_TEXTURE_RECTANGLE_ARB, gameTexture);
-		glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
-	}
+		NSLog(@"updateGameTexture, after updating tex: OpenGL error %04X", status);
+		glDeleteTextures(1, &gameTexture);
+		gameTexture = 0;
+	}		
 }
 
 - (void)correctPixelAspectRatio
-{
+{	
     // the size of our output image, we may need/want to put in accessors for texture coord
     // offsets from the game core should the image we want be 'elsewhere' within the main texture.
     CGRect cropRect = [gameCore sourceRect];
-    
+	
     CGLContextObj cgl_ctx = glContext;
-    	
+    CGLLockContext(cgl_ctx);	
+	
     // bind our FBO / and thus our IOSurface
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
-    
+	
     // Assume FBOs JUST WORK, because we checked on startExecution
-    //GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
-    //if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+    GLenum status = glGetError();
+	if(status)
+	{
+		NSLog(@"correctPixelAspectRatio: OpenGL error %04X", status);
+		glDeleteTextures(1, &gameTexture);
+		gameTexture = 0;
+	}		
+		
+	status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+	if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {
         // Setup OpenGL states
         glViewport(0, 0, gameCore.screenWidth,  gameCore.screenHeight);
@@ -398,13 +461,22 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         
         glMatrixMode(GL_PROJECTION);
         glPopMatrix();
-    }
-    
-    // flush to make sure IOSurface updates are seen in parent app.
-    glFlushRenderAPPLE();
+		
+		// flush to make sure IOSurface updates are seen in parent app.
+		glFlushRenderAPPLE();
     	
-    // get the updated surfaceID to pass to STDOut...
-    surfaceID = IOSurfaceGetID(surfaceRef);
+		// get the updated surfaceID to pass to STDOut...
+		surfaceID = IOSurfaceGetID(surfaceRef);		
+    }
+	if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
+    {
+        NSLog(@"OpenGL error %04X in correctPixelAspectRatio", status);
+//        glDeleteTextures(1, &gameTexture);
+//        gameTexture = 0;
+    }
+	
+	CGLUnlockContext(cgl_ctx);
+    
 }
 
 - (void)destroySurface
