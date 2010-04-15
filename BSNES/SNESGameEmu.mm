@@ -109,7 +109,7 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
 	interface = new BSNESInterface();
 
 	memset(&interface->pad, 0, sizeof(int16_t) * 24);
-	interface->video = (uint16_t*)malloc(512*480*2);
+	interface->video = (uint16_t*)malloc(512*480*4);
 	interface->ringBuffer = [self ringBufferAtIndex:0];
 	SNES::system.init(interface);
 	
@@ -197,12 +197,12 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
 
 - (GLenum)pixelFormat
 {
-	return GL_RGBA;
+	return GL_RGB;
 }
 
 - (GLenum)pixelType
 {
-	return GL_UNSIGNED_SHORT_1_5_5_5_REV;
+	return GL_UNSIGNED_SHORT_5_6_5_REV;
 }
 
 - (GLenum)internalPixelFormat
