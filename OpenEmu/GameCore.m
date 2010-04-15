@@ -264,6 +264,8 @@ static NSTimeInterval currentTime()
             isRunning  = YES;
             shouldStop = NO;
             
+            // The selector is performed after a delay to let the application loop to finish,
+            // afterwards, the GameCore's runloop takes over and only stops when the whole helper stops.
             [self performSelector:@selector(frameRefreshThread:) withObject:nil afterDelay:0.0];
             
             DLog(@"Starting thread");
