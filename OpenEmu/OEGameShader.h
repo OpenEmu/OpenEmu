@@ -30,7 +30,6 @@
 
 @interface OEGameShader : NSObject
 {
-@private
     const GLcharARB    *fragmentShaderSource; // the GLSL source for the fragment Shader
     const GLcharARB    *vertexShaderSource;   // the GLSL source for the vertex Shader
     GLhandleARB         programObject;        // the program object
