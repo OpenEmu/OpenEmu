@@ -35,10 +35,11 @@ OE_EXTERN NSString *SNESEmulatorNames[];
 
 @class OERingBuffer;
 
-@interface SNESGameEmu : GameCore {
-	uint32	controlPad[MAC_MAX_PLAYERS];
-	UInt16 *soundBuffer;
-	unsigned char *videoBuffer;
+@interface SNESGameEmu : GameCore
+{
+    uint32         controlPad[MAC_MAX_PLAYERS];
+    UInt16        *soundBuffer;
+    unsigned char *videoBuffer;
 }
 
 @end

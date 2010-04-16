@@ -38,7 +38,6 @@
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"gameboy-1.png"];
     [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
 
-
     [view addButtonWithName:@"GB_PAD_UP"    toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(115, 246) endPosition:NSMakePoint(222, 215)];
     [view addButtonWithName:@"GB_PAD_LEFT"  toolTip:@"D-Pad Left"    target:self startPosition:NSMakePoint(115, 213) endPosition:NSMakePoint(195, 196)];
     [view addButtonWithName:@"GB_PAD_RIGHT" toolTip:@"D-Pad Right"   target:self startPosition:NSMakePoint(115, 180) endPosition:NSMakePoint(245, 196)];

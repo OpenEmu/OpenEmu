@@ -53,12 +53,12 @@ extern NSString *SMSButtonNameTable[];
 
 @interface SMSGameCore : GameCore
 {
-	unsigned char *tempBuffer;
-	NSLock        *soundLock;
-	NSLock        *bufLock;
-	UInt16        *sndBuf;
+    unsigned char *tempBuffer;
+    NSLock        *soundLock;
+    NSLock        *bufLock;
+    UInt16        *sndBuf;
     int            oldrun;
-	int            position;
+    int            position;
     NSUInteger     buttons[SMSButtonCount];
     NSUInteger     keycodes[SMSButtonCount];
     BOOL           paused;

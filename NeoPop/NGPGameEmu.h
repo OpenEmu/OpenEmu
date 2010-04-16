@@ -38,13 +38,14 @@
 
 @class GameDocument;
 
-@interface NGPGameEmu : GameCore {
-	GameDocument* parent;
-	UInt16* sndBuf;
-	NSLock* soundLock;
-	NSLock* bufLock;
-	NSString* pathToFile;
-	int blit;
+@interface NGPGameEmu : GameCore
+{
+    GameDocument *parent;
+    UInt16       *sndBuf;
+    NSLock       *soundLock;
+    NSLock       *bufLock;
+    NSString     *pathToFile;
+    int           blit;
 }
 
 @end

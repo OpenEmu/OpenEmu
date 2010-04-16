@@ -35,12 +35,12 @@ extern NSString *GenesisButtonNameTable[];
 
 @interface GenPlusGameCore : GameCore
 {
-	unsigned char *videoBuffer;
-	NSLock        *soundLock;
-	NSLock        *bufLock;
-	UInt16        *sndBuf;
+    unsigned char *videoBuffer;
+    NSLock        *soundLock;
+    NSLock        *bufLock;
+    UInt16        *sndBuf;
     int            oldrun;
-	int            position;
+    int            position;
     BOOL           paused;
 }
 

@@ -42,9 +42,9 @@
 #include "screenshot.h"
 
 
-#define SAMPLERATE 48000
-#define SAMPLEFRAME 800
-#define SIZESOUNDBUFFER SAMPLEFRAME*4
+#define SAMPLERATE      48000
+#define SAMPLEFRAME     800
+#define SIZESOUNDBUFFER SAMPLEFRAME * 4
 
 @interface SNESGameEmu ()
 - (NSUInteger)SNES_buttonMaskForButton:(OEButton)gameButton;
@@ -54,34 +54,34 @@
 
 enum
 {
-	kMacCMapPad1PX,
-	kMacCMapPad1PA,
-	kMacCMapPad1PB,
-	kMacCMapPad1PY,
-	kMacCMapPad1PL,
-	kMacCMapPad1PR,
-	kMacCMapPad1PSelect,
-	kMacCMapPad1PStart,
-	kMacCMapPad1PUp,
-	kMacCMapPad1PDown,
-	kMacCMapPad1PLeft,
-	kMacCMapPad1PRight,
+    kMacCMapPad1PX,
+    kMacCMapPad1PA,
+    kMacCMapPad1PB,
+    kMacCMapPad1PY,
+    kMacCMapPad1PL,
+    kMacCMapPad1PR,
+    kMacCMapPad1PSelect,
+    kMacCMapPad1PStart,
+    kMacCMapPad1PUp,
+    kMacCMapPad1PDown,
+    kMacCMapPad1PLeft,
+    kMacCMapPad1PRight,
 };
 
 enum
 {
-	SNESPadPX,
-	SNESPadPA,
-	SNESPadPB,
-	SNESPadPY,
-	SNESPadPL,
-	SNESPadPR,
-	SNESPadPSelect,
-	SNESPadPStart,
-	SNESPadPUp,
-	SNESPadPDown,
-	SNESPadPLeft,
-	SNESPadPRight,
+    SNESPadPX,
+    SNESPadPA,
+    SNESPadPB,
+    SNESPadPY,
+    SNESPadPL,
+    SNESPadPR,
+    SNESPadPSelect,
+    SNESPadPStart,
+    SNESPadPUp,
+    SNESPadPDown,
+    SNESPadPLeft,
+    SNESPadPRight,
     SNESPadCount
 };
 
@@ -89,9 +89,9 @@ NSUInteger SNESEmulatorValues[] = { SNES_TR_MASK, SNES_TL_MASK, SNES_X_MASK, SNE
 NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Joypad@ A", @"Joypad@ Right", @"Joypad@ Left", @"Joypad@ Down", @"Joypad@ Up", @"Joypad@ Start", @"Joypad@ Select", @"Joypad@ Y", @"Joypad@ B" };
 
 
-#define	ASSIGN_BUTTONf(n, s)	S9xMapButton (n, cmd = S9xGetCommandT(s), false)
+#define ASSIGN_BUTTONf(n, s)  S9xMapButton (n, cmd = S9xGetCommandT(s), false)
 #define PLAYER_MASK(player)   (1 << (15 + (player)))
-#define EMULATOR_CMD(aKey) (PLAYER_MASK((aKey).player) | ((aKey).key))
+#define EMULATOR_CMD(aKey)    (PLAYER_MASK((aKey).player) | ((aKey).key))
 - (void)mapButtons
 {
     [[self owner] forceKeyBindingRecover];
@@ -120,80 +120,80 @@ NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Jo
 
 - (void)executeFrame
 {
-	[self executeFrameSkippingFrame:NO];
+    [self executeFrameSkippingFrame:NO];
 }
 
 - (void)executeFrameSkippingFrame: (BOOL) skip
 {
-	IPPU.RenderThisFrame = !skip;
-	S9xMainLoop();
-	
-	S9xMixSamples((unsigned char*)soundBuffer, SAMPLEFRAME * [self channelCount]);
+    IPPU.RenderThisFrame = !skip;
+    S9xMainLoop();
+    
+    S9xMixSamples((unsigned char*)soundBuffer, SAMPLEFRAME * [self channelCount]);
     [[self ringBufferAtIndex:0] write:soundBuffer maxLength:sizeof(UInt16) * [self channelCount] * SAMPLEFRAME];
 }
 
 - (BOOL)loadFileAtPath: (NSString*) path
 {
-	memset(&Settings, 0, sizeof(Settings));
-	Settings.ForcePAL            = false;
-	Settings.ForceNTSC           = false;
-	Settings.ForceHeader         = false;
-	Settings.ForceNoHeader       = false;
-	
-	Settings.ForceSuperFX = Settings.ForceNoSuperFX = false;
-	Settings.ForceDSP1    = Settings.ForceNoDSP1    = false;
-	Settings.ForceSA1     = Settings.ForceNoSA1     = false;
-	Settings.ForceC4      = Settings.ForceNoC4      = false;
-	Settings.ForceSDD1    = Settings.ForceNoSDD1    = false;
-	
-	Settings.MouseMaster = true;
-	Settings.SuperScopeMaster = true;
-	Settings.MultiPlayer5Master = true;
-	Settings.JustifierMaster = true;
-	Settings.ShutdownMaster = false;
-	Settings.BlockInvalidVRAMAccess = true;
-	Settings.HDMATimingHack = 100;
-	Settings.APUEnabled = true;
-	Settings.NextAPUEnabled = true;
-	Settings.SoundPlaybackRate = 48000;
-	Settings.Stereo = true;
-	Settings.SixteenBitSound = true;
-	Settings.SoundEnvelopeHeightReading = true;
-	Settings.DisableSampleCaching = false;
-	Settings.DisableSoundEcho = false;
-	Settings.InterpolatedSound = true;
-	Settings.Transparency = true;
-	Settings.SupportHiRes = true;
-	Settings.SDD1Pack = true;	
-	GFX.InfoString = nil;
-	GFX.InfoStringTimeout = 0;
-	
-	if(videoBuffer) 
-		free(videoBuffer);
-	videoBuffer = (unsigned char*)malloc(1024*1024*2);
-	//GFX.PixelFormat = 3;
-
-	GFX.Pitch = 512 * 2;
-//	GFX.PPL = SNES_WIDTH;
-	GFX.Screen = (short unsigned int*)videoBuffer;
-
-	S9xUnmapAllControls();
-	
-	[self mapButtons];
-	
-	S9xSetController(0, CTL_JOYPAD,     0, 0, 0, 0);
-	S9xSetController(1, CTL_JOYPAD,     1, 0, 0, 0);
-	
-	//S9xSetRenderPixelFormat(RGB565);
-	if (!Memory.Init() || !S9xInitAPU() || !S9xGraphicsInit())
-		NSLog(@"Couldn't init");
-	NSLog(@"loading %@", path);
-	
-	Settings.NoPatch = true;
+    memset(&Settings, 0, sizeof(Settings));
+    Settings.ForcePAL            = false;
+    Settings.ForceNTSC           = false;
+    Settings.ForceHeader         = false;
+    Settings.ForceNoHeader       = false;
+    
+    Settings.ForceSuperFX = Settings.ForceNoSuperFX = false;
+    Settings.ForceDSP1    = Settings.ForceNoDSP1    = false;
+    Settings.ForceSA1     = Settings.ForceNoSA1     = false;
+    Settings.ForceC4      = Settings.ForceNoC4      = false;
+    Settings.ForceSDD1    = Settings.ForceNoSDD1    = false;
+    
+    Settings.MouseMaster = true;
+    Settings.SuperScopeMaster = true;
+    Settings.MultiPlayer5Master = true;
+    Settings.JustifierMaster = true;
+    Settings.ShutdownMaster = false;
+    Settings.BlockInvalidVRAMAccess = true;
+    Settings.HDMATimingHack = 100;
+    Settings.APUEnabled = true;
+    Settings.NextAPUEnabled = true;
+    Settings.SoundPlaybackRate = 48000;
+    Settings.Stereo = true;
+    Settings.SixteenBitSound = true;
+    Settings.SoundEnvelopeHeightReading = true;
+    Settings.DisableSampleCaching = false;
+    Settings.DisableSoundEcho = false;
+    Settings.InterpolatedSound = true;
+    Settings.Transparency = true;
+    Settings.SupportHiRes = true;
+    Settings.SDD1Pack = true;
+    GFX.InfoString = nil;
+    GFX.InfoStringTimeout = 0;
+    
+    if(videoBuffer) 
+        free(videoBuffer);
+    videoBuffer = (unsigned char*)malloc(1024*1024*2);
+    //GFX.PixelFormat = 3;
+    
+    GFX.Pitch = 512 * 2;
+    //GFX.PPL = SNES_WIDTH;
+    GFX.Screen = (short unsigned int*)videoBuffer;
+    
+    S9xUnmapAllControls();
+    
+    [self mapButtons];
+    
+    S9xSetController(0, CTL_JOYPAD,     0, 0, 0, 0);
+    S9xSetController(1, CTL_JOYPAD,     1, 0, 0, 0);
+    
+    //S9xSetRenderPixelFormat(RGB565);
+    if(!Memory.Init() || !S9xInitAPU() || !S9xGraphicsInit())
+        NSLog(@"Couldn't init");
+    NSLog(@"loading %@", path);
+    
+    Settings.NoPatch = true;
     if(Memory.LoadROM([path UTF8String]))
     {
         NSString *path = [NSString stringWithUTF8String:Memory.ROMFilename];
-        NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];	
+        NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
         
         NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
         
@@ -202,76 +202,76 @@ NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Jo
         NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
         
         Memory.LoadSRAM([filePath UTF8String]);
-        S9xInitSound(1, Settings.Stereo, SIZESOUNDBUFFER);	
+        S9xInitSound(1, Settings.Stereo, SIZESOUNDBUFFER);
     }
     return YES;
 }
 
 bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
 {
-	NSLog(@"Open sound");
-	so.buffer_size = buffer_size;
-	
-	so.playback_rate = Settings.SoundPlaybackRate;
-	so.stereo        = Settings.Stereo;
-	so.sixteen_bit   = Settings.SixteenBitSound;
-	so.encoded       = false;
-	
-	so.samples_mixed_so_far = 0;
-	
-	S9xSetPlaybackRate(so.playback_rate);
-	
-	so.mute_sound = false;
-	return true;
+    NSLog(@"Open sound");
+    so.buffer_size = buffer_size;
+    
+    so.playback_rate = Settings.SoundPlaybackRate;
+    so.stereo        = Settings.Stereo;
+    so.sixteen_bit   = Settings.SixteenBitSound;
+    so.encoded       = false;
+    
+    so.samples_mixed_so_far = 0;
+    
+    S9xSetPlaybackRate(so.playback_rate);
+    
+    so.mute_sound = false;
+    return true;
 }
 
 #pragma mark Video
 - (const void *)videoBuffer
 {
-	return GFX.Screen;
+    return GFX.Screen;
 }
 
 - (NSUInteger)screenWidth
 {
-	return MAX_SNES_WIDTH;
+    return MAX_SNES_WIDTH;
 }
 
 - (NSUInteger)screenHeight
 {
-	return MAX_SNES_HEIGHT;
+    return MAX_SNES_HEIGHT;
 }
 
 - (CGRect)sourceRect
 {
-	return CGRectMake(0, 0, IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight);	
+    return CGRectMake(0, 0, IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight);
 }
 
 - (NSUInteger)bufferWidth
 {
-	return MAX_SNES_WIDTH;
+    return MAX_SNES_WIDTH;
 }
 - (NSUInteger)bufferHeight 
 {
-	return MAX_SNES_HEIGHT;
+    return MAX_SNES_HEIGHT;
 }
 
 - (void)setupEmulation
 {
-	if(soundBuffer)
-		free(soundBuffer);
-	soundBuffer = (UInt16*)malloc(SIZESOUNDBUFFER* sizeof(UInt16));
-	memset(soundBuffer, 0, SIZESOUNDBUFFER*sizeof(UInt16));
+    if(soundBuffer)
+        free(soundBuffer);
+    soundBuffer = (UInt16*)malloc(SIZESOUNDBUFFER* sizeof(UInt16));
+    memset(soundBuffer, 0, SIZESOUNDBUFFER*sizeof(UInt16));
 }
 
 - (void)resetEmulation
 {
-	S9xSoftReset();
+    S9xSoftReset();
 }
 
 - (void)stopEmulation
 {
     NSString *path = [NSString stringWithUTF8String:Memory.ROMFilename];
-    NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];	
+    NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
     
     NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
     
@@ -287,52 +287,52 @@ bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
 
 - (void)dealloc
 {
-	free(videoBuffer);
-	free(soundBuffer);	
-	[super dealloc];
+    free(videoBuffer);
+    free(soundBuffer);
+    [super dealloc];
 }
 
 - (GLenum)pixelFormat
 {
-	return GL_RGB;
+    return GL_RGB;
 }
 
 - (GLenum)pixelType
 {
-	return GL_UNSIGNED_SHORT_5_6_5;
+    return GL_UNSIGNED_SHORT_5_6_5;
 }
 
 - (GLenum)internalPixelFormat
 {
-	return GL_RGB5;
+    return GL_RGB5;
 }
 
 - (NSUInteger)soundBufferSize
 {
-	return SIZESOUNDBUFFER;
+    return SIZESOUNDBUFFER;
 }
 
 - (NSUInteger)frameSampleCount
 {
-	return SAMPLEFRAME;
+    return SAMPLEFRAME;
 }
 
 - (NSUInteger)frameSampleRate
 {
-	return SAMPLERATE;
+    return SAMPLERATE;
 }
 
 - (NSTimeInterval)frameInterval
 {
-	if( Settings.PAL )
-		return 50;
-	else
-		return 60;
+    if( Settings.PAL )
+        return 50;
+    else
+        return 60;
 }
 
 - (NSUInteger)channelCount
 {
-	return 2;
+    return 2;
 }
 
 - (NSUInteger)SNES_buttonMaskForButton:(OEButton)gameButton
@@ -367,23 +367,22 @@ bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
     controlPad[thePlayer - 1] &= ~[self SNES_buttonMaskForButton:gameButton];
 }
 
-- (BOOL) saveStateToFileAtPath: (NSString *) fileName
+- (BOOL)saveStateToFileAtPath: (NSString *) fileName
 {
-	bool8 success = S9xFreezeGame([fileName UTF8String]);
-	
-	if(success)
-		return YES;
-	return NO;
+    bool8 success = S9xFreezeGame([fileName UTF8String]);
+    
+    if(success)
+        return YES;
+    return NO;
 }
 
-- (BOOL) loadStateFromFileAtPath: (NSString *) fileName
+- (BOOL)loadStateFromFileAtPath: (NSString *) fileName
 {
-	bool8 success = S9xUnfreezeGame([fileName UTF8String]);
-	
-	if(success)
-		return YES;
-	return NO;
+    bool8 success = S9xUnfreezeGame([fileName UTF8String]);
+    
+    if(success)
+        return YES;
+    return NO;
 }
-
 
 @end

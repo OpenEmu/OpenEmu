@@ -36,11 +36,12 @@ typedef unsigned int u32;
 OE_EXTERN NSString *GBAControlNames[];
 
 @class OERingBuffer;
-@interface GBAGameEmu : GameCore {
-	unsigned char *tempBuffer;
-	UInt16 *sndBuf;
-	NSLock *soundLock;
-	NSLock *bufLock;
+@interface GBAGameEmu : GameCore
+{
+    unsigned char *tempBuffer;
+    UInt16        *sndBuf;
+    NSLock        *soundLock;
+    NSLock        *bufLock;
 }
 
 @end

@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2009, OpenEmu Team
  All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -55,38 +55,38 @@ static OERingBuffer *ringBuffer;
  */
 - (id)init
 {
-	self = [super init];
-	if(self != nil)
-	{
-		soundLock = [[NSLock alloc] init];
-		bufLock = [[NSLock alloc] init];
-		tempBuffer = malloc(256 * 256 * 4);
-		
-		position = 0;
-		sndBuf = malloc(SIZESOUNDBUFFER * sizeof(UInt16));
-		memset(sndBuf, 0, SIZESOUNDBUFFER * sizeof(UInt16));
-		ringBuffer = [self ringBufferAtIndex:0];
-	}
-	return self;
+    self = [super init];
+    if(self != nil)
+    {
+        soundLock = [[NSLock alloc] init];
+        bufLock = [[NSLock alloc] init];
+        tempBuffer = malloc(256 * 256 * 4);
+        
+        position = 0;
+        sndBuf = malloc(SIZESOUNDBUFFER * sizeof(UInt16));
+        memset(sndBuf, 0, SIZESOUNDBUFFER * sizeof(UInt16));
+        ringBuffer = [self ringBufferAtIndex:0];
+    }
+    return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
-	DLog(@"releasing/deallocating CrabEmu memory");
-	free(sndBuf);
-	[soundLock release];
-	[bufLock release];
-	free(tempBuffer);
-	
-	sms_initialized = 0;
-	[super dealloc];
+    DLog(@"releasing/deallocating CrabEmu memory");
+    free(sndBuf);
+    [soundLock release];
+    [bufLock release];
+    free(tempBuffer);
+    
+    sms_initialized = 0;
+    [super dealloc];
 }
 
 - (void)executeFrame
-{		
-	//DLog(@"Executing");
-	//Get a reference to the emulator
-	[bufLock lock];
+{
+    //DLog(@"Executing");
+    //Get a reference to the emulator
+    [bufLock lock];
     oldrun = sms_frame(oldrun);
     [bufLock unlock];
 }
@@ -97,25 +97,25 @@ static OERingBuffer *ringBuffer;
 
 - (BOOL)loadFileAtPath:(NSString*)path
 {
-	DLog(@"Loaded File");
-	//TODO: add choice NTSC/PAL
-	if(sms_init(SMS_VIDEO_NTSC, SMS_REGION_DOMESTIC))
-		return NO;
-	
-	if(sms_mem_load_rom([path UTF8String])) {
+    DLog(@"Loaded File");
+    //TODO: add choice NTSC/PAL
+    if(sms_init(SMS_VIDEO_NTSC, SMS_REGION_DOMESTIC))
         return NO;
-    }	
+    
+    if(sms_mem_load_rom([path UTF8String])) {
+        return NO;
+    }
     return YES;
 }
 - (void)resetEmulation
 {
-	sms_soft_reset();
+    sms_soft_reset();
 }
 
 - (void)stopEmulation
 {
-	sms_write_cartram_to_file();
-	[super stopEmulation];
+    sms_write_cartram_to_file();
+    [super stopEmulation];
 }
 
 - (IBAction)pauseEmulation:(id)sender
@@ -127,65 +127,65 @@ static OERingBuffer *ringBuffer;
 
 - (NSUInteger)screenWidth
 {
-	if (sms_console != CONSOLE_GG)
-		return 256;
-	else
-		return 160;
+    if (sms_console != CONSOLE_GG)
+        return 256;
+    else
+        return 160;
 }
 
 - (NSUInteger)screenHeight
 {
-	if (sms_console != CONSOLE_GG)
-		return smsvdp.lines;
-	else
-		return 144;
+    if (sms_console != CONSOLE_GG)
+        return smsvdp.lines;
+    else
+        return 144;
 }
 
 - (const void *)videoBuffer
 {
-	if (sms_console != CONSOLE_GG)
-		return smsvdp.framebuffer;
-	else
+    if (sms_console != CONSOLE_GG)
+        return smsvdp.framebuffer;
+    else
         for (int i = 0; i < 144; i++)
-			//jump 24 lines, skip 48 pixels and capture for each line of the buffer 160 pixels
+            //jump 24 lines, skip 48 pixels and capture for each line of the buffer 160 pixels
             // sizeof(unsigned char) is always equal to 1 by definition
-			memcpy(tempBuffer + i * 160 * 4, smsvdp.framebuffer  + 24 * 256 * 1 + 48 * 1 + i * 256 * 1, 160 * 4);
-	return tempBuffer;
+            memcpy(tempBuffer + i * 160 * 4, smsvdp.framebuffer  + 24 * 256 * 1 + 48 * 1 + i * 256 * 1, 160 * 4);
+    return tempBuffer;
 }
 
 - (GLenum)pixelFormat
 {
-	return GL_BGRA;
+    return GL_BGRA;
 }
 
 - (GLenum)pixelType
 {
-	return GL_UNSIGNED_INT_8_8_8_8_REV;
+    return GL_UNSIGNED_INT_8_8_8_8_REV;
 }
 
 - (GLenum)internalPixelFormat
 {
-	return GL_RGB8;
+    return GL_RGB8;
 }
 
 - (NSUInteger)soundBufferSize
 {
-	return SIZESOUNDBUFFER;
+    return SIZESOUNDBUFFER;
 }
 
 - (NSUInteger)frameSampleCount
 {
-	return SAMPLEFRAME;
+    return SAMPLEFRAME;
 }
 
 - (NSUInteger)frameSampleRate
 {
-	return SAMPLERATE;
+    return SAMPLERATE;
 }
 
 - (NSUInteger)channelCount
 {
-	return 2;
+    return 2;
 }
 
 static const NSUInteger buttonDirections[2][5] = {
@@ -201,7 +201,7 @@ static const NSUInteger buttonActions[2][2] = {
 {
     if(thePlayer > 1) return;
     
-	void (*sms_button)(int) = (flag ? sms_button_pressed : sms_button_released);
+    void (*sms_button)(int) = (flag ? sms_button_pressed : sms_button_released);
     NSUInteger button = 0;
     
     if(OEButton_Up <= gameButton && gameButton <= OEButton_Right)
@@ -210,35 +210,34 @@ static const NSUInteger buttonActions[2][2] = {
         button = GG_START;
     else if(OEButton_1 <= gameButton)
         button = buttonActions[thePlayer][(gameButton - OEButton_1) % 2];
-
-	if(button != 0) sms_button(button);
     
+    if(button != 0) sms_button(button);
 }
 
 - (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton
 {
-	[self player:thePlayer didChangeButtonState:gameButton toPressed:YES];
+    [self player:thePlayer didChangeButtonState:gameButton toPressed:YES];
 }
 
 - (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton
 {
-	[self player:thePlayer didChangeButtonState:gameButton toPressed:NO];
+    [self player:thePlayer didChangeButtonState:gameButton toPressed:NO];
 }
 
 - (BOOL)saveStateToFileAtPath: (NSString*) fileName
 {
-	int success = sms_save_state([fileName UTF8String]);
-	if(success == 0)
-		return YES;
-	return NO;
+    int success = sms_save_state([fileName UTF8String]);
+    if(success == 0)
+        return YES;
+    return NO;
 }
 
 - (BOOL)loadStateFromFileAtPath: (NSString*) fileName
 {
-	int success = sms_load_state([fileName UTF8String]);
-	if(success == 0)
-		return YES;
-	return NO;
+    int success = sms_load_state([fileName UTF8String]);
+    if(success == 0)
+        return YES;
+    return NO;
 }
 
 
@@ -246,38 +245,45 @@ static const NSUInteger buttonActions[2][2] = {
  CrabEmu callbacks
  */
 
-void sound_update_buffer(signed short *buf, int length) {
+void sound_update_buffer(signed short *buf, int length)
+{
     //NSLog(@"%s %p", __FUNCTION__, ringBuffer);
-	[ringBuffer write:buf maxLength:length];
+    [ringBuffer write:buf maxLength:length];
 }
 
-int sound_init(void) {
-	return 0;
+int sound_init(void)
+{
+    return 0;
 }
 
-void sound_shutdown(void) {
-	
+void sound_shutdown(void)
+{
+    
 }
 
-void sound_reset_buffer(void)   {
-	
+void sound_reset_buffer(void)
+{
+    
 }
 
-void gui_set_viewport(int w, int h) {
-	//NSLog(@"viewport, width: %d, height: %d", w, h);
+void gui_set_viewport(int w, int h)
+{
+    //NSLog(@"viewport, width: %d, height: %d", w, h);
 }
 
-void gui_set_aspect(float x, float y)   {
+void gui_set_aspect(float x, float y)
+{
     //NSLog(@"set_aspect, x: %f, y: %f", x, y);
 }
 
-void gui_set_title(const char *str) {
+void gui_set_title(const char *str)
+{
     //NSLog(@"set_title%s", str);
 }
 
 unsigned SMSButtonTable[] = {
-SMS_PAD1_UP, SMS_PAD1_DOWN, SMS_PAD1_LEFT, SMS_PAD1_RIGHT, SMS_PAD1_A, SMS_PAD1_B, SMS_RESET, GG_START,
-SMS_PAD2_UP, SMS_PAD2_DOWN, SMS_PAD2_LEFT, SMS_PAD2_RIGHT, SMS_PAD2_A, SMS_PAD2_B, SMS_RESET, GG_START
+    SMS_PAD1_UP, SMS_PAD1_DOWN, SMS_PAD1_LEFT, SMS_PAD1_RIGHT, SMS_PAD1_A, SMS_PAD1_B, SMS_RESET, GG_START,
+    SMS_PAD2_UP, SMS_PAD2_DOWN, SMS_PAD2_LEFT, SMS_PAD2_RIGHT, SMS_PAD2_A, SMS_PAD2_B, SMS_RESET, GG_START
 };
 
 NSString *SMSButtonNameTable[] = { @"SMS_PAD@_UP", @"SMS_PAD@_DOWN", @"SMS_PAD@_LEFT", @"SMS_PAD@_RIGHT", @"SMS_PAD@_A", @"SMS_PAD@_B", @"SMS_RESET", @"GG_START" };

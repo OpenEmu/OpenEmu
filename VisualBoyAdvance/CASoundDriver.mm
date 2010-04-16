@@ -27,7 +27,6 @@
 
 #include "CASoundDriver.h"
 
-
 extern int emulating;
 extern bool speedup;
 
@@ -36,38 +35,38 @@ const float CASoundDriver::_delay = 1.0f;
 
 CASoundDriver::CASoundDriver()
 {
-	
+    
 }
 
 void CASoundDriver::read(u16 * stream, int length)
 {
-	return;
+    return;
 }
 
 void CASoundDriver::write(u16 * finalWave, int length)
 {
-	return;
+    return;
 }
 
 
 bool CASoundDriver::init(long sampleRate)
-{	
-	return true;
+{
+    return true;
 }
 
 CASoundDriver::~CASoundDriver()
 {
-
+    
 }
 
 void CASoundDriver::pause()
 {
-	//SDL_PauseAudio(1);
+    //SDL_PauseAudio(1);
 }
 
 void CASoundDriver::resume()
 {
-	//SDL_PauseAudio(0);
+    //SDL_PauseAudio(0);
 }
 
 void CASoundDriver::reset()

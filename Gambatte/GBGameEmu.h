@@ -34,10 +34,10 @@ typedef enum GBButtons {
     GB_Down    = 1,
     GB_Left    = 2,
     GB_Right   = 3,
-	GB_A       = 4,
-	GB_B       = 5,
-	GB_Start   = 6,
-	GB_Select  = 7,
+    GB_A       = 4,
+    GB_B       = 5,
+    GB_Start   = 6,
+    GB_Select  = 7,
     GBButtonCount = 8
 } GBButtons;
 
@@ -47,8 +47,8 @@ extern NSString *GBButtonNameTable[];
 
 @interface GBGameEmu : GameCore
 {
-	const void *videoBuffer;
-	UInt16 *tmpBuf;
+    const void *videoBuffer;
+    UInt16     *tmpBuf;
 }
 @property(readwrite) const void *videoBuffer;
 @end

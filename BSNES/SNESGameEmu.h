@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2009, OpenEmu Team
  All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -37,12 +37,13 @@ extern NSString *BSNESEmulatorNames[];
 
 @class OERingBuffer;
 
-@interface BSNESGameEmu : GameCore {
-	uint32	controlPad[MAC_MAX_PLAYERS]; 
-	UInt16 *soundBuffer;
-	unsigned char *videoBuffer;
-	BSNESInterface *interface;
-	//SNES::System *system;
+@interface BSNESGameEmu : GameCore
+{
+    uint32    controlPad[MAC_MAX_PLAYERS];
+    UInt16 *soundBuffer;
+    unsigned char *videoBuffer;
+    BSNESInterface *interface;
+    //SNES::System *system;
 }
 //- (void) reportControlPad: (int) padID withFlags: (uint32) flags;
 

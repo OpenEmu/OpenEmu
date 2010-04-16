@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2009, OpenEmu Team
  All rights reserved.
- 
+
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
- 
+
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -33,38 +33,38 @@
 #include "inputstategetter.h"
 
 namespace Gambatte {
-class InputGetter : public InputStateGetter {
-public:
-	InputState is;
-	
-	InputGetter() { memset(&is, 0, sizeof(is)); }
-	
-	const InputState& operator()() {
-		return is;
-	}
-	
-	void FillTabInput(bool** tab)
-	{
-		tab[0] = &(is.startButton);
-		tab[1] = &(is.selectButton);
-		tab[2] = &(is.bButton);
-		tab[3] = &(is.aButton);
-		tab[4] = &(is.dpadDown);
-		tab[5] = &(is.dpadUp);
-		tab[6] = &(is.dpadLeft);
-		tab[7] = &(is.dpadRight);
-	}
-	
-	void setStart(bool b) {is.startButton = b;}
-	void setSelect(bool b) {is.selectButton = b;}
-	void setUp(bool b) {is.dpadUp = b;}
-	void setDown(bool b) {is.dpadDown = b;}
-	void setLeft(bool b) {is.dpadLeft = b;}
-	void setRight(bool b) {is.dpadRight = b;}
-	void setButA(bool b) {is.aButton = b;}
-	void setButB(bool b) {is.bButton = b;}
-	
-};
+    class InputGetter : public InputStateGetter {
+    public:
+        InputState is;
+        
+        InputGetter() { memset(&is, 0, sizeof(is)); }
+        
+        const InputState& operator()() {
+            return is;
+        }
+        
+        void FillTabInput(bool** tab)
+        {
+            tab[0] = &(is.startButton);
+            tab[1] = &(is.selectButton);
+            tab[2] = &(is.bButton);
+            tab[3] = &(is.aButton);
+            tab[4] = &(is.dpadDown);
+            tab[5] = &(is.dpadUp);
+            tab[6] = &(is.dpadLeft);
+            tab[7] = &(is.dpadRight);
+        }
+        
+        void setStart(bool b) {is.startButton = b;}
+        void setSelect(bool b) {is.selectButton = b;}
+        void setUp(bool b) {is.dpadUp = b;}
+        void setDown(bool b) {is.dpadDown = b;}
+        void setLeft(bool b) {is.dpadLeft = b;}
+        void setRight(bool b) {is.dpadRight = b;}
+        void setButA(bool b) {is.aButton = b;}
+        void setButB(bool b) {is.bButton = b;}
+        
+    };
 }
 
 #endif

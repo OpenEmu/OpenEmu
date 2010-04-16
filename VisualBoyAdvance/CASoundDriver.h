@@ -32,27 +32,25 @@
 //#include <SDL.h>
 
 class CASoundDriver : public SoundDriver
-	{
-	public:
-		CASoundDriver();
-		virtual ~CASoundDriver();
-		
-		virtual bool init(long sampleRate);
-		virtual void pause();
-		virtual void reset();
-		virtual void resume();
-		virtual void write(u16 * finalWave, int length);
-		virtual void read(u16 * stream, int length);
-	private:
-		RingBuffer<u16> _rbuf;
-		
-		//SDL_cond  * _cond;
-		//SDL_mutex * _mutex;
-		
-		// Defines what delay in seconds we keep in the sound buffer
-		static const float _delay;
-		
-		static void soundCallback(void *data, u8 *stream, int length);
-	
-	};
-
+{
+public:
+    CASoundDriver();
+    virtual ~CASoundDriver();
+    
+    virtual bool init(long sampleRate);
+    virtual void pause();
+    virtual void reset();
+    virtual void resume();
+    virtual void write(u16 * finalWave, int length);
+    virtual void read(u16 * stream, int length);
+private:
+    RingBuffer<u16> _rbuf;
+    
+    //SDL_cond  * _cond;
+    //SDL_mutex * _mutex;
+    
+    // Defines what delay in seconds we keep in the sound buffer
+    static const float _delay;
+    
+    static void soundCallback(void *data, u8 *stream, int length);
+};

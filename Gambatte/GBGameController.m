@@ -46,7 +46,7 @@
     if(genericControlNames == nil)
     {
         genericControlNames = [[NSArray alloc] initWithObjects:GBButtonNameTable
-														 count:8];
+                                                         count:8];
     }
     return genericControlNames;
 }

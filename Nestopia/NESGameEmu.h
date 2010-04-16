@@ -28,7 +28,6 @@
 #import <Cocoa/Cocoa.h>
 #import <GameCore.h>
 
-@class GameDocument;
 @class OERingBuffer;
 
 #define emu      ((Nes::Api::Emulator *)_emu)
@@ -40,44 +39,44 @@
 #define NES_CONTROL_COUNT 8
 OE_EXTERN NSString *const NESControlNames[];
 
-OE_EXTERN NSString * const NESNTSC;
-OE_EXTERN NSString * const NESBrightness;
-OE_EXTERN NSString * const NESSaturation;
-OE_EXTERN NSString * const NESContrast;
-OE_EXTERN NSString * const NESSharpness;
-OE_EXTERN NSString * const NESColorRes;
-OE_EXTERN NSString * const NESColorBleed;
-OE_EXTERN NSString * const NESColorArtifacts;
-OE_EXTERN NSString * const NESColorFringing ;
-OE_EXTERN NSString * const NESHue;
-OE_EXTERN NSString * const NESUnlimitedSprites;
+OE_EXTERN NSString *const NESNTSC;
+OE_EXTERN NSString *const NESBrightness;
+OE_EXTERN NSString *const NESSaturation;
+OE_EXTERN NSString *const NESContrast;
+OE_EXTERN NSString *const NESSharpness;
+OE_EXTERN NSString *const NESColorRes;
+OE_EXTERN NSString *const NESColorBleed;
+OE_EXTERN NSString *const NESColorArtifacts;
+OE_EXTERN NSString *const NESColorFringing ;
+OE_EXTERN NSString *const NESHue;
+OE_EXTERN NSString *const NESUnlimitedSprites;
 
 @interface NESGameEmu : GameCore
 {
-    NSString *romPath;
-	NSLock* soundLock;
-	NSLock* videoLock;
-	int bufFrameSize;
-	NSUInteger width;
-	NSUInteger height;
-	const unsigned char* videoBuffer;
-	
-	void *_emu;
+    NSString             *romPath;
+    NSLock               *soundLock;
+    NSLock               *videoLock;
+    int                   bufFrameSize;
+    NSUInteger            width;
+    NSUInteger            height;
+    const unsigned char  *videoBuffer;
     
-    void *_nesSound;
-    void *_nesVideo;
-    void *_controls;
-	
-	UInt16 *soundBuffer;
+    void                 *_emu;
+    
+    void                 *_nesSound;
+    void                 *_nesVideo;
+    void                 *_controls;
+    
+    UInt16               *soundBuffer;
 }
 
 @property(copy) NSString *romPath;
 
--(BOOL) lockVideo:(void *)video;
--(void) unlockVideo:(void *)video;
+- (BOOL)lockVideo:(void *)video;
+- (void)unlockVideo:(void *)video;
 
--(BOOL) lockSound;
--(void) unlockSound;
+- (BOOL)lockSound;
+- (void)unlockSound;
 
 - (void)setupVideo:(void *)emulator withFilter:(int)filter;
 
@@ -85,8 +84,6 @@ OE_EXTERN NSString * const NESUnlimitedSprites;
 
 #pragma mark NES-specific features
 @interface NESGameEmu (NesAdditions)
-
-
 
 - (BOOL)isUnlimitedSpritesEnabled;
 - (int)brightness;
@@ -99,34 +96,32 @@ OE_EXTERN NSString * const NESUnlimitedSprites;
 - (int)colorFringing;
 - (int)hue;
 
+- (void)applyNTSC:(id)sender;
+- (BOOL)isNTSCEnabled;
 
-- (void) applyNTSC: (id) sender;
-- (BOOL) isNTSCEnabled;
+- (void)toggleUnlimitedSprites:(id)sender;
+- (void)enableUnlimitedSprites:(BOOL)enable;
+- (void)setCode:(NSString *)code;
+- (void)enableRewinder:(BOOL)rewind;
+- (BOOL)isRewinderEnabled;
+- (void)rewinderDirection:(NSUInteger)rewinderDirection;
+- (void)enableRewinderBackwardsSound:(BOOL)rewindSound;
+- (BOOL)isRewinderBackwardsSoundEnabled;
 
-- (void) toggleUnlimitedSprites: (id) sender;
-- (void) enableUnlimitedSprites: (BOOL) enable;
-- (void) setCode:(NSString*) code;
-- (void) enableRewinder:(BOOL) rewind;
-- (BOOL) isRewinderEnabled;
-- (void) rewinderDirection: (NSUInteger) rewinderDirection;
-- (void) enableRewinderBackwardsSound: (BOOL) rewindSound;
-- (BOOL) isRewinderBackwardsSoundEnabled;
-
-
-- (int) cartVRamSize;
-- (int) chrRomSize;
-//- (void) setRandomNmtRamByte;
-//- (void) setRandomChrRamByte;
+- (int)cartVRamSize;
+- (int)chrRomSize;
+//- (void)setRandomNmtRamByte;
+//- (void)setRandomChrRamByte;
 
 - (void) setNmtRamBytes:(double)off value:(double)val;
 - (void) setChrRamBytes:(double)off value:(double)val;
 
 //movie methods
-- (void) recordMovie:(NSString*) moviePath mode:(BOOL)append;
-- (void) playMovie:(NSString*) moviePath;
-- (void) stopMovie;
-- (BOOL) isMovieRecording;
-- (BOOL) isMoviePlaying;
-- (BOOL) isMovieStopped;
+- (void)recordMovie:(NSString *)moviePath mode:(BOOL)append;
+- (void)playMovie:(NSString *)moviePath;
+- (void)stopMovie;
+- (BOOL)isMovieRecording;
+- (BOOL)isMoviePlaying;
+- (BOOL)isMovieStopped;
 
 @end

@@ -41,7 +41,7 @@ NSArray *MednafenUsedControlNames = nil;
         [self registerPreferenceViewControllerClasses:
          [NSDictionary dictionaryWithObject:[MednafenControlsPreference class]
                                      forKey:@"OEControlsPreferenceKey"]];
-		MednafenRawControlNames = [[NSArray alloc] initWithObjects:MednafenControlNames count:GBA_CONTROL_COUNT];
+        MednafenRawControlNames = [[NSArray alloc] initWithObjects:MednafenControlNames count:GBA_CONTROL_COUNT];
     }
 }
 
