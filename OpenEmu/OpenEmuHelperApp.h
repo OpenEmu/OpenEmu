@@ -59,10 +59,13 @@
     GLuint         gameFBO;        // this FBO uses the IOSurfaceTexture as an attachment and renders the gameTexture to 'square pixels'
     GLuint         ioSurfaceTexture; // square pixel, screenWidth/height texture sent off to our Parent App for display. Yay.
     
-    // rendering - may want to move to display link in the future?
+    // rendering
     NSTimer       *timer;
 	CVDisplayLinkRef displayLink;
-    
+
+	// poll parent ID, KVO does not seem to be working with NSRunningApplication
+	NSTimer		  *pollingTimer;
+
     // we will need a way to do IPC, for now its DO.
     NSString      *doUUID;
     NSConnection  *theConnection;

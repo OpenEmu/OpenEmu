@@ -59,7 +59,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    DLog(@"");
+    DLog(@"Notified of Parent applications sudden termination - quitting");
     if([parentApplication isTerminated]) [self quitHelperTool];
 }
 
@@ -70,7 +70,8 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 	gameTexture = 0;
 	
     parentApplication = [[NSRunningApplication runningApplicationWithProcessIdentifier:getppid()] retain];
-    [parentApplication addObserver:self forKeyPath:@"terminated" options:0xF context:NULL];
+	NSLog(@"parent application is: %@", [parentApplication localizedName]);
+    [parentApplication addObserver:self forKeyPath:@"terminated" options:NSKeyValueObservingOptionNew context:NULL];
     
     // unique server name per plugin instance
     theConnection = [[NSConnection new] retain];
@@ -103,8 +104,14 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 - (void)quitHelperTool
 {
     // TODO: add proper deallocs etc.
-    CVDisplayLinkStop(displayLink);
-    
+    if(OE_USE_DISPLAYLINK)
+		CVDisplayLinkStop(displayLink);
+
+	else
+		[timer invalidate];
+	
+	[pollingTimer invalidate];
+	
     [[NSApplication sharedApplication] terminate:nil];
 }
 
@@ -285,6 +292,13 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 											   selector: @selector(render)
 											   userInfo: nil
 												repeats: YES];
+	
+	
+	pollingTimer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1
+													target: self
+												  selector: @selector(pollParentProcess)
+												  userInfo: nil
+												   repeats: YES];
 }
 
 // TODO: do we need to worry about displays other than main?
