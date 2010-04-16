@@ -62,34 +62,6 @@
 		8241AB9F10B88A2600D3B24A /* ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8241AA6D10B88A2600D3B24A /* ppu.cpp */; };
 		8241ABA110B88A2600D3B24A /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8241AA7210B88A2600D3B24A /* memory.cpp */; };
 		8241ABA410B88A2600D3B24A /* smemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8241AA7710B88A2600D3B24A /* smemory.cpp */; };
-		8241ABAB10B88A2600D3B24A /* accessories-text-editor.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8110B88A2600D3B24A /* accessories-text-editor.png */; };
-		8241ABAC10B88A2600D3B24A /* appointment-new.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8210B88A2600D3B24A /* appointment-new.png */; };
-		8241ABAD10B88A2600D3B24A /* document-new.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8310B88A2600D3B24A /* document-new.png */; };
-		8241ABAE10B88A2600D3B24A /* document-open.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8410B88A2600D3B24A /* document-open.png */; };
-		8241ABAF10B88A2600D3B24A /* folder-new.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8510B88A2600D3B24A /* folder-new.png */; };
-		8241ABB010B88A2600D3B24A /* help-browser.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8610B88A2600D3B24A /* help-browser.png */; };
-		8241ABB110B88A2600D3B24A /* image-x-generic.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8710B88A2600D3B24A /* image-x-generic.png */; };
-		8241ABB210B88A2600D3B24A /* input-gaming.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8810B88A2600D3B24A /* input-gaming.png */; };
-		8241ABB310B88A2600D3B24A /* item-check-off.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8910B88A2600D3B24A /* item-check-off.png */; };
-		8241ABB410B88A2600D3B24A /* item-check-on.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8A10B88A2600D3B24A /* item-check-on.png */; };
-		8241ABB510B88A2600D3B24A /* item-radio-off.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8B10B88A2600D3B24A /* item-radio-off.png */; };
-		8241ABB610B88A2600D3B24A /* item-radio-on.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8C10B88A2600D3B24A /* item-radio-on.png */; };
-		8241ABB710B88A2600D3B24A /* preferences-desktop.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8D10B88A2600D3B24A /* preferences-desktop.png */; };
-		8241ABB810B88A2600D3B24A /* process-stop.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8E10B88A2600D3B24A /* process-stop.png */; };
-		8241ABB910B88A2600D3B24A /* system-file-manager.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA8F10B88A2600D3B24A /* system-file-manager.png */; };
-		8241ABBA10B88A2600D3B24A /* system-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9010B88A2600D3B24A /* system-search.png */; };
-		8241ABBB10B88A2600D3B24A /* text-x-generic.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9110B88A2600D3B24A /* text-x-generic.png */; };
-		8241ABBC10B88A2600D3B24A /* utilities-terminal.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9210B88A2600D3B24A /* utilities-terminal.png */; };
-		8241ABBD10B88A2600D3B24A /* video-display.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9310B88A2600D3B24A /* video-display.png */; };
-		8241ABBE10B88A2600D3B24A /* view-refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9410B88A2600D3B24A /* view-refresh.png */; };
-		8241ABBF10B88A2600D3B24A /* accessories-text-editor.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9610B88A2600D3B24A /* accessories-text-editor.png */; };
-		8241ABC010B88A2600D3B24A /* audio-volume-high.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9710B88A2600D3B24A /* audio-volume-high.png */; };
-		8241ABC110B88A2600D3B24A /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9810B88A2600D3B24A /* folder.png */; };
-		8241ABC210B88A2600D3B24A /* input-gaming.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9910B88A2600D3B24A /* input-gaming.png */; };
-		8241ABC310B88A2600D3B24A /* preferences-system.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9A10B88A2600D3B24A /* preferences-system.png */; };
-		8241ABC410B88A2600D3B24A /* system-file-manager.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9B10B88A2600D3B24A /* system-file-manager.png */; };
-		8241ABC510B88A2600D3B24A /* system-search.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9C10B88A2600D3B24A /* system-search.png */; };
-		8241ABC610B88A2600D3B24A /* video-display.png in Resources */ = {isa = PBXBuildFile; fileRef = 8241AA9D10B88A2600D3B24A /* video-display.png */; };
 		8241ABCB10B88A2600D3B24A /* cheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8241AAA410B88A2600D3B24A /* cheat.cpp */; };
 		8241ABCD10B88A2600D3B24A /* core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8241AAAA10B88A2600D3B24A /* core.cpp */; };
 		8241ABD610B88A2600D3B24A /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8241AAB810B88A2600D3B24A /* cpu.cpp */; };
@@ -2051,34 +2023,6 @@
 				82BFB3A91015487000AC34CF /* ControlsPreference.xib in Resources */,
 				82BFB3AB1015487800AC34CF /* snes_pad.png in Resources */,
 				8230C69910AFBC3A00412F24 /* dsa_pub.pem in Resources */,
-				8241ABAB10B88A2600D3B24A /* accessories-text-editor.png in Resources */,
-				8241ABAC10B88A2600D3B24A /* appointment-new.png in Resources */,
-				8241ABAD10B88A2600D3B24A /* document-new.png in Resources */,
-				8241ABAE10B88A2600D3B24A /* document-open.png in Resources */,
-				8241ABAF10B88A2600D3B24A /* folder-new.png in Resources */,
-				8241ABB010B88A2600D3B24A /* help-browser.png in Resources */,
-				8241ABB110B88A2600D3B24A /* image-x-generic.png in Resources */,
-				8241ABB210B88A2600D3B24A /* input-gaming.png in Resources */,
-				8241ABB310B88A2600D3B24A /* item-check-off.png in Resources */,
-				8241ABB410B88A2600D3B24A /* item-check-on.png in Resources */,
-				8241ABB510B88A2600D3B24A /* item-radio-off.png in Resources */,
-				8241ABB610B88A2600D3B24A /* item-radio-on.png in Resources */,
-				8241ABB710B88A2600D3B24A /* preferences-desktop.png in Resources */,
-				8241ABB810B88A2600D3B24A /* process-stop.png in Resources */,
-				8241ABB910B88A2600D3B24A /* system-file-manager.png in Resources */,
-				8241ABBA10B88A2600D3B24A /* system-search.png in Resources */,
-				8241ABBB10B88A2600D3B24A /* text-x-generic.png in Resources */,
-				8241ABBC10B88A2600D3B24A /* utilities-terminal.png in Resources */,
-				8241ABBD10B88A2600D3B24A /* video-display.png in Resources */,
-				8241ABBE10B88A2600D3B24A /* view-refresh.png in Resources */,
-				8241ABBF10B88A2600D3B24A /* accessories-text-editor.png in Resources */,
-				8241ABC010B88A2600D3B24A /* audio-volume-high.png in Resources */,
-				8241ABC110B88A2600D3B24A /* folder.png in Resources */,
-				8241ABC210B88A2600D3B24A /* input-gaming.png in Resources */,
-				8241ABC310B88A2600D3B24A /* preferences-system.png in Resources */,
-				8241ABC410B88A2600D3B24A /* system-file-manager.png in Resources */,
-				8241ABC510B88A2600D3B24A /* system-search.png in Resources */,
-				8241ABC610B88A2600D3B24A /* video-display.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
