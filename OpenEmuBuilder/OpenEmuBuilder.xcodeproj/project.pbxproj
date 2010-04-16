@@ -11,6 +11,7 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 1E07AE4810373EED00B9EE89 /* Build configuration list for PBXAggregateTarget "Complete Build" */;
 			buildPhases = (
+				1BDA0B501177ED2100C68F3C /* ShellScript */,
 			);
 			dependencies = (
 				1E4F56F410DE9FA400381953 /* PBXTargetDependency */,
@@ -822,6 +823,22 @@
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1BDA0B501177ED2100C68F3C /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "open \"SRCROOT/../../OpenEmu/build/release/OpenEmu.app\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		1E4B6CF310DEDF3000B2CD45 /* PBXTargetDependency */ = {
