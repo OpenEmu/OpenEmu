@@ -194,8 +194,11 @@ static void OE_setupControlNames(OEGameCoreController *self)
         pluginName           = [[[bundle infoDictionary] objectForKey:@"CFBundleExecutable"] retain];
         if(pluginName == nil) pluginName = [[bundle infoDictionary] objectForKey:@"CFBundleName"];
         
-        NSString *supportFolder = [[NSClassFromString(@"GameDocumentController") sharedDocumentController] applicationSupportFolder];
-        supportDirectoryPath = [[supportFolder stringByAppendingPathComponent:pluginName] retain];
+        NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+        NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
+        
+        NSString *supportFolder = [basePath stringByAppendingPathComponent:@"OpenEmu"];
+        supportDirectoryPath    = [[supportFolder stringByAppendingPathComponent:pluginName] retain];
         
         gameDocuments    = [[NSMutableArray alloc] init];
         settingObservers = [[NSMutableArray alloc] init];

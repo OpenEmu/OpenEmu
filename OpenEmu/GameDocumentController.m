@@ -552,8 +552,8 @@
  former cannot be found), the system's temporary directory.
  */
 
-- (NSString *)applicationSupportFolder {
-    
+- (NSString *)applicationSupportFolder
+{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
     return [basePath stringByAppendingPathComponent:@"OpenEmu"];
