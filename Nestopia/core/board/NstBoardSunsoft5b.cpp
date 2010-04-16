@@ -363,7 +363,7 @@ namespace Nes
 					status = data & (0x1|0x8);
 
 					if (status & 0x1)
-						dc = ~0UL;
+						dc = (dword)~0UL;
 				}
 
 				void S5b::Sound::Square::WriteReg3(const uint data)
