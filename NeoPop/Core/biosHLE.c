@@ -614,8 +614,6 @@ void iBIOSHLE(void)
 		}
 #endif
 		{
-			BOOL readanything = FALSE;
-
 			pc = pop32();
 
 			while(rCodeB(0x35) > 0)

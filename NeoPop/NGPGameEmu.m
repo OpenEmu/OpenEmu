@@ -47,7 +47,7 @@ enum {
 
 _u8 system_frameskip_key;
 
-BOOL system_rom_load(char *filename);
+BOOL system_rom_load(const char *filename);
 
 @interface NGPGameEmu ()
 - (NSUInteger)NGP_buttonMaskForButton:(OEButton)button;
@@ -225,13 +225,13 @@ int *gBlit = NULL;
 
 /* NeoPop callbacks and internal functions */
 
-static BOOL rom_load(char *filename)
+static BOOL rom_load(const char *filename)
 {
 	struct stat st;
 	
     if (stat(filename, &st) == -1) {
 		NSLog(@"Error finding NGP rom");
-		return FALSE;
+		return NO;
     }
 	
 	rom.length = st.st_size;
@@ -240,18 +240,18 @@ static BOOL rom_load(char *filename)
     if (system_io_rom_read(filename, rom.data, rom.length))
 	{
 		NSLog(@"Rom loaded, rom data %x", rom.data[128]);
-		return TRUE;
+		return YES;
 	}
 	
     NSLog(@"Error reading NGP rom");
     free(rom.data);
     rom.data = NULL;
-	return FALSE;
+	return NO;
 }
 
-BOOL system_rom_load(char *filename)
+BOOL system_rom_load(const char *filename)
 {
-    char *fn;
+    const char *fn = "";
 	
     /* Remove old ROM from memory */
     rom_unload();
@@ -261,8 +261,6 @@ BOOL system_rom_load(char *filename)
     memset(rom.filename, 0, sizeof(rom.filename));
     if ((fn=strrchr(filename, '/')) == NULL)
 		fn = filename;
-    else
-		*fn++ = '\0';
 	
     /* don't copy extension */
     strncpy(rom.filename, fn, min(sizeof(rom.filename), strlen(fn)-4));
@@ -382,7 +380,7 @@ static BOOL write_file_from_buffer(char *filename, _u8 *buffer, _u32 len)
 		if (feof(fp) || ferror(fp) && errno != EINTR)
 		{
 			fclose(fp);
-			return FALSE;
+			return NO;
 		}
 		
 		len -= written;
@@ -421,17 +419,17 @@ BOOL system_io_flash_write(_u8* buffer, _u32 len)
     return ret;
 }
 
-BOOL system_io_rom_read(char *filename, _u8 *buffer, _u32 len)
+BOOL system_io_rom_read(const char *filename, _u8 *buffer, _u32 len)
 {
     return read_file_to_buffer(filename, buffer, len);
 }
 
-BOOL system_io_state_read(char *filename, _u8 *buffer, _u32 len)
+BOOL system_io_state_read(const char *filename, _u8 *buffer, _u32 len)
 {
     return read_file_to_buffer(filename, buffer, len);
 }
 
-BOOL system_io_state_write(char *filename, _u8 *buffer, _u32 len)
+BOOL system_io_state_write(const char *filename, _u8 *buffer, _u32 len)
 {
     return write_file_from_buffer(filename, buffer, len);
 }

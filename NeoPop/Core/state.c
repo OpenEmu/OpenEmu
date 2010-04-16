@@ -51,12 +51,12 @@
 
 //=============================================================================
 
-static void read_state_0050(char* filename);
+static void read_state_0050(const char *filename);
 
 //-----------------------------------------------------------------------------
 // state_restore()
 //-----------------------------------------------------------------------------
-void state_restore(char* filename)
+void state_restore(const char *filename)
 {
 	_u16 version;
 
@@ -83,7 +83,7 @@ void state_restore(char* filename)
 //-----------------------------------------------------------------------------
 // state_store()
 //-----------------------------------------------------------------------------
-void state_store(char* filename)
+void state_store(const char *filename)
 {
 	NEOPOPSTATE0050	state;
 	int i,j;
@@ -140,12 +140,12 @@ void state_store(char* filename)
 	system_debug_message("Saving State ...");
 #endif
 
-	system_io_state_write(filename, (_u8*)&state, sizeof(NEOPOPSTATE0050));
+	system_io_state_write(filename, (_u8 *)&state, sizeof(NEOPOPSTATE0050));
 }
 
 //=============================================================================
 
-static void read_state_0050(char* filename)
+static void read_state_0050(const char *filename)
 {
 	NEOPOPSTATE0050	state;
 	int i,j;

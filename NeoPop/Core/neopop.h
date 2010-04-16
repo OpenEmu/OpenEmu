@@ -358,8 +358,8 @@ RomHeader;
 // Core <--> System-IO Interface
 //-----------------------------------------------------------------------------
 
-	void state_restore(char* filename);
-	void state_store(char* filename);
+	void state_restore(const char *filename);
+	void state_store(const char *filename);
 
 		//=========================================
 
@@ -386,7 +386,7 @@ RomHeader;
 /*! Reads as much of the file specified by 'filename' into the given, 
 	preallocated buffer. This is rom data */
 
-	BOOL system_io_rom_read(char* filename, _u8* buffer, _u32 bufferLength);
+	BOOL system_io_rom_read(const char* filename, _u8* buffer, _u32 bufferLength);
 
 
 /*! Reads the "appropriate" (system specific) flash data into the given
@@ -404,13 +404,13 @@ RomHeader;
 /*! Reads from the file specified by 'filename' into the given preallocated
 	buffer. This is state data. */
 
-	BOOL system_io_state_read(char* filename, _u8* buffer, _u32 bufferLength);
+	BOOL system_io_state_read(const char* filename, _u8* buffer, _u32 bufferLength);
 	
 
 /*! Writes to the file specified by 'filename' from the given buffer.
 	This is state data. */
 
-	BOOL system_io_state_write(char* filename, _u8* buffer, _u32 bufferLength);
+	BOOL system_io_state_write(const char* filename, _u8* buffer, _u32 bufferLength);
 
 
 //-----------------------------------------------------------------------------
