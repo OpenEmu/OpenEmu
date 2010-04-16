@@ -231,7 +231,7 @@ static int ReadBlock (const char *key, void *block, int max_len, STREAM snap)
 	rem = len - max_len;
 	len = max_len;
     }
-    if (READ_STREAM (block, len, snap) != len)
+    if (READ_STREAM (block, len, snap) != (__typeof__(READ_STREAM(block, len, snap)))len)
 	return (WRONG_FORMAT);
 
     if (rem)
@@ -254,7 +254,7 @@ static int ReadOrigSnapshot (STREAM snap)
 
     int version;
     int len = strlen (ORIG_SNAPSHOT_MAGIC) + 1 + 4 + 1;
-    if (READ_STREAM (buffer, len, snap) != len)
+    if (READ_STREAM (buffer, len, snap) != (__typeof__(READ_STREAM(buffer, len, snap)))len)
 	return (WRONG_FORMAT);
     if (strncmp (buffer, ORIG_SNAPSHOT_MAGIC, strlen (ORIG_SNAPSHOT_MAGIC)) != 0)
 	return (WRONG_FORMAT);
