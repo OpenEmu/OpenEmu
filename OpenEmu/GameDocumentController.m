@@ -74,7 +74,14 @@
 }
 
 - (void) applicationDidFinishLaunching:(NSNotification*)aNotification
-{
+{		
+    NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];	
+	[QCPlugIn loadPlugInAtPath:pluginString];
+    
+	// now load QC plugins/compositions
+	[self updateFilterNames];
+
+	
     if ( [plugins count] == 0 )
     {
         coreDownloader = [[OECoreDownloader alloc] init];
@@ -83,10 +90,6 @@
     
     
     organizer = [[OEROMOrganizer alloc] init];
-    
-    NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
-    [QCPlugIn loadPlugInAtPath:pluginString];
-    
     //    [organizer showWindow:self];
     
     [versionMigrator runMigrationIfNeeded];
@@ -183,7 +186,6 @@
          NSLog(@"found filters: %@", filterDictionary);
          */
         [self updateValidExtensions];
-        [self updateFilterNames];
         
         [self OE_setupHIDManager];
         
