@@ -164,7 +164,6 @@
 				1E4B6CFB10DEDF3000B2CD45 /* PBXTargetDependency */,
 				1E4B6CF910DEDF3000B2CD45 /* PBXTargetDependency */,
 				1E4B6CF710DEDF3000B2CD45 /* PBXTargetDependency */,
-				1E4B6CF310DEDF3000B2CD45 /* PBXTargetDependency */,
 			);
 			name = "Build All Emulators";
 			productName = "Build Emulators";
@@ -172,13 +171,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXContainerItemProxy section */
-		1E4B6CF210DEDF3000B2CD45 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 1E07AE3C10373EBC00B9EE89 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1E4F579410DEA16C00381953;
-			remoteInfo = NeoPop;
-		};
 		1E4B6CF610DEDF3000B2CD45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1E07AE3C10373EBC00B9EE89 /* Project object */;
@@ -841,11 +833,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		1E4B6CF310DEDF3000B2CD45 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1E4F579410DEA16C00381953 /* NeoPop */;
-			targetProxy = 1E4B6CF210DEDF3000B2CD45 /* PBXContainerItemProxy */;
-		};
 		1E4B6CF710DEDF3000B2CD45 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1E4F578610DEA15400381953 /* Gambatte */;
@@ -1002,8 +989,8 @@
 		1E07AE3E10373EBC00B9EE89 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1)";
-				ARCHS_STANDARD_32_64_BIT_PRE_XCODE_3_1 = "x86_64 i386 ppc";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1)";
+				ARCHS_STANDARD_64_BIT_PRE_XCODE_3_1 = x86_64;
 				COPY_PHASE_STRIP = YES;
 			};
 			name = Release;
