@@ -56,11 +56,6 @@ NSArray *SNESRawControlNames = nil;
     return MAC_MAX_PLAYERS;
 }
 
-- (NSString *)pluginName
-{
-    return @"SNESPlugin";
-}
-
 - (Class)gameCoreClass
 {
     return [SNESGameEmu class];

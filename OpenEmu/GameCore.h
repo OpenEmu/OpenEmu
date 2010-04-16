@@ -85,22 +85,27 @@ typedef NSInteger OEButton;
     NSUInteger             tenFrameCounter;
     NSUInteger             autoFrameSkipLastTime;
     NSUInteger             frameskipadjust;
+    
+    // for lightgun/pointer support.
+    NSPoint                mousePosition;
+    
     BOOL                   frameFinished;
     BOOL                   willSkipFrame;
     
     BOOL                   isRunning;
     BOOL                   shouldStop;
-    
-    // for lightgun/pointer support.
-    NSPoint                mousePosition;
 }
 
 + (NSTimeInterval)defaultTimeInterval;
 + (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval;
 
-@property(assign) OEGameCoreController *owner;
-@property(readwrite) BOOL frameFinished;
-@property NSTimeInterval frameInterval;
+@property(assign)   OEGameCoreController *owner;
+@property(readonly) NSString             *pluginName;
+@property(readonly) NSString             *supportDirectoryPath;
+@property(readonly) NSString             *batterySavesDirectoryPath;
+
+@property           NSTimeInterval        frameInterval;
+@property           BOOL                  frameFinished;
 
 - (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index;
 - (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index;
@@ -139,7 +144,7 @@ typedef NSInteger OEButton;
 @property(readonly) NSUInteger  bufferWidth;
 @property(readonly) NSUInteger  bufferHeight;
 
-@property(readonly) CGRect        sourceRect;
+@property(readonly) CGRect      sourceRect;
 @property(readonly) const void *videoBuffer;
 @property(readonly) GLenum      pixelFormat;
 @property(readonly) GLenum      pixelType;

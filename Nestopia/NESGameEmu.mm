@@ -59,6 +59,7 @@ NSUInteger NESControlValues[] = { Nes::Api::Input::Controllers::Pad::A, Nes::Api
 
 @implementation NESGameEmu
 
+@synthesize romPath;
 
 UInt32 bufInPos, bufOutPos, bufUsed;
 
@@ -131,15 +132,17 @@ static void NST_CALLBACK SoundUnlock(void* userData,Nes::Api::Sound::Output& sou
 }
 
 // for various file operations, usually called during image file load, power on/off and reset
-void NST_CALLBACK doFileIO(void* userData,Nes::Api::User::File& file)
+void NST_CALLBACK doFileIO(void *userData, Nes::Api::User::File& file)
 {
+    NESGameEmu *self = (NESGameEmu *)userData;
+    
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-	NSString* path = (NSString*) userData;
-	NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];	
-	NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"Nestopia"];
-	if(![fileManager fileExistsAtPath:appSupportPath])
-		[fileManager createDirectoryAtPath:appSupportPath attributes:nil];
-	
+	NSString *path = self->romPath;
+    
+    NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];	
+    NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+    [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+    
 	NSData* theData;
 	NSString* filePath;
 	
@@ -199,7 +202,7 @@ void NST_CALLBACK doFileIO(void* userData,Nes::Api::User::File& file)
 		case Nes::Api::User::File::LOAD_EEPROM: // used by some Bandai games, can be treated the same as battery files
 		{
 			DLog(@"Trying to load EEPROM");
-			filePath = [[appSupportPath stringByAppendingPathComponent:@"Battery Saves"] stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+			filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
 			DLog(@"%@",filePath);
 			if(![fileManager fileExistsAtPath:filePath])
 			{
@@ -218,9 +221,6 @@ void NST_CALLBACK doFileIO(void* userData,Nes::Api::User::File& file)
 			const void* savedata;
 			unsigned long savedatasize;
 			file.GetContent( savedata, savedatasize );
-			NSString *batterySavesDirectory = [appSupportPath stringByAppendingPathComponent:@"Battery Saves"];
-			if(![fileManager fileExistsAtPath:batterySavesDirectory])
-				[fileManager createDirectoryAtPath:batterySavesDirectory attributes:nil];
 			filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
 			theData = [NSData dataWithBytes:savedata length:savedatasize];
 			[theData writeToFile:filePath atomically:YES];
@@ -397,9 +397,10 @@ void NST_CALLBACK doEvent(void* userData, Nes::Api::Machine::Event event,Nes::Re
 			databaseStream.close();
 		}
 	}
-	
-	[path retain]; //FIXME: does this need to be released?
-	Nes::Api::User::fileIoCallback.Set(doFileIO, path);
+    
+    [self setRomPath:path];
+    
+	Nes::Api::User::fileIoCallback.Set(doFileIO, self);
 	Nes::Api::User::logCallback.Set(doLog, self);
 	Nes::Api::Machine::eventCallback.Set(doEvent, self);
 	Nes::Api::User::questionCallback.Set(doQuestion, self);	
@@ -611,11 +612,6 @@ Nes::Api::Video::Output::HEIGHT,
 
 - (void)setupEmulation
 {
-	//	Nes::Api::User::fileIoCallback.Set(doFileIO, archive);
-	//	Nes::Api::User::logCallback.Set(doLog, self);
-	//	Nes::Api::Machine::eventCallback.Set(doEvent, self);
-	//	Nes::Api::User::questionCallback.Set(doQuestion, self);	
-	
 	//	soundLock = [[NSLock alloc] init];
 	// Lets set up the database!
 	
@@ -690,6 +686,7 @@ Nes::Api::Video::Output::HEIGHT,
 	delete nesSound;
 	delete nesVideo;
 	delete controls;
+    [romPath release];
 	[videoLock release];
 	[soundLock release];
 	[super dealloc];

@@ -56,11 +56,6 @@
     return 2;
 }
 
-- (NSString *)pluginName
-{
-    return @"SMSPlugin";
-}
-
 - (Class)gameCoreClass
 {
     return [SMSGameCore class];

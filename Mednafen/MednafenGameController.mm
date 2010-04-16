@@ -55,11 +55,6 @@ NSArray *MednafenUsedControlNames = nil;
     return 2;
 }
 
-- (NSString *)pluginName
-{
-    return @"MednafenPlugin";
-}
-
 - (Class)gameCoreClass
 {
     return [MednafenGameCore class];

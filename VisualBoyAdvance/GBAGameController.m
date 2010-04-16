@@ -56,11 +56,6 @@ NSArray *GBAUsedControlNames = nil;
     return 8;
 }
 
-- (NSString *)pluginName
-{
-    return @"GBAPlugin";
-}
-
 - (Class)gameCoreClass
 {
     return [GBAGameEmu class];

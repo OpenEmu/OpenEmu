@@ -134,7 +134,6 @@ NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Jo
 
 - (BOOL)loadFileAtPath: (NSString*) path
 {
-	
 	memset(&Settings, 0, sizeof(Settings));
 	Settings.ForcePAL            = false;
 	Settings.ForceNTSC           = false;
@@ -191,28 +190,21 @@ NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Jo
 	NSLog(@"loading %@", path);
 	
 	Settings.NoPatch = true;
-	if(Memory.LoadROM([path UTF8String]))
-	{
-		NSString* path = [NSString stringWithUTF8String:Memory.ROMFilename];
-		NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];	
-		NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"Snes9x"];
-		if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
-			[[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
-		
-		
-		NSLog(@"Trying to save SRAM");
-		
-		NSString *batterySavesDirectory = [appSupportPath stringByAppendingPathComponent:@"Battery Saves"];
-		if(![[NSFileManager defaultManager] fileExistsAtPath:batterySavesDirectory])
-			[[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory attributes:nil];
-		NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-	
-
-		Memory.LoadSRAM([filePath UTF8String]);
-		S9xInitSound(1, Settings.Stereo, SIZESOUNDBUFFER);	
-		
-	}
-	return YES;
+    if(Memory.LoadROM([path UTF8String]))
+    {
+        NSString *path = [NSString stringWithUTF8String:Memory.ROMFilename];
+        NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];	
+        
+        NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+        
+        [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+        
+        NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+        
+        Memory.LoadSRAM([filePath UTF8String]);
+        S9xInitSound(1, Settings.Stereo, SIZESOUNDBUFFER);	
+    }
+    return YES;
 }
 
 bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
@@ -278,22 +270,19 @@ bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
 
 - (void)stopEmulation
 {
-	NSString* path = [NSString stringWithUTF8String:Memory.ROMFilename];
-	NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];	
-	NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"Snes9x"];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
-		[[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
-
-	
-	NSLog(@"Trying to save SRAM");
-	
-	NSString *batterySavesDirectory = [appSupportPath stringByAppendingPathComponent:@"Battery Saves"];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:batterySavesDirectory])
-		[[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory attributes:nil];
-	NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-	
-	Memory.SaveSRAM( [filePath UTF8String] );
-	[super stopEmulation];
+    NSString *path = [NSString stringWithUTF8String:Memory.ROMFilename];
+    NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];	
+    
+    NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+    
+    NSLog(@"Trying to save SRAM");
+    
+    NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+    
+    Memory.SaveSRAM([filePath UTF8String]);
+    [super stopEmulation];
 }
 
 - (void)dealloc

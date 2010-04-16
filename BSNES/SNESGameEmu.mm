@@ -176,21 +176,18 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
 - (void)stopEmulation
 {
 	/*
-	NSString* path = [NSString stringWithUTF8String:Memory.ROMFilename];
-	NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];	
-	NSString *appSupportPath = [[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] stringByAppendingPathComponent:@"Application Support"] stringByAppendingPathComponent:@"Snes9x"];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:appSupportPath])
-		[[NSFileManager defaultManager] createDirectoryAtPath:appSupportPath attributes:nil];
-
-	
-	NSLog(@"Trying to save SRAM");
-	
-	NSString *batterySavesDirectory = [appSupportPath stringByAppendingPathComponent:@"Battery Saves"];
-	if(![[NSFileManager defaultManager] fileExistsAtPath:batterySavesDirectory])
-		[[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory attributes:nil];
-	NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-	
-	Memory.SaveSRAM( [filePath UTF8String] );
+     NSString *path = [NSString stringWithUTF8String:Memory.ROMFilename];
+     NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];	
+     
+     NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+     
+     [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+     
+     NSLog(@"Trying to save SRAM");
+     
+     NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+     
+     Memory.SaveSRAM([filePath UTF8String]);
 	*/
 	[super stopEmulation];
 }

@@ -42,7 +42,7 @@ NSArray *BSNESRawControlNames = nil;
                                      forKey:OEControlsPreferenceKey]];
         
         BSNESRawControlNames = [[NSArray alloc] initWithObjects:BSNESEmulatorNames
-                                                         count:SNES_CONTROL_COUNT];
+                                                          count:SNES_CONTROL_COUNT];
     }
 }
 
@@ -54,11 +54,6 @@ NSArray *BSNESRawControlNames = nil;
 - (NSUInteger)playerCount
 {
     return MAC_MAX_PLAYERS;
-}
-
-- (NSString *)pluginName
-{
-    return @"BSNESPlugin";
 }
 
 - (Class)gameCoreClass

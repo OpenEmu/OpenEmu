@@ -56,11 +56,6 @@
     return 1;
 }
 
-- (NSString *)pluginName
-{
-    return @"GBPlugin";
-}
-
 - (Class)gameCoreClass
 {
     return [GBGameEmu class];

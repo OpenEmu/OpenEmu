@@ -68,11 +68,6 @@ NSArray *NESUsedSettingNames = nil;
     return 4;
 }
 
-- (NSString *)pluginName
-{
-    return @"NESPlugin";
-}
-
 - (Class)gameCoreClass
 {
     return [NESGameEmu class];

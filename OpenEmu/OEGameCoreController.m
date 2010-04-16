@@ -31,6 +31,12 @@
 #import "NSApplication+OEHIDAdditions.h"
 #import "GameCore.h"
 #import "OEHIDEvent.h"
+#import <objc/runtime.h>
+
+@interface NSObject ()
+- (NSString *)applicationSupportFolder;
+@end
+
 
 NSString *const OEControlsPreferenceKey = @"OEControlsPreferenceKey";
 NSString *const OEAdvancedPreferenceKey = @"OEAdvancedPreferenceKey";
@@ -86,7 +92,7 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
 
 @implementation OEGameCoreController
 
-@synthesize currentPreferenceViewController, bundle, playerString, replacePlayerFormat;
+@synthesize currentPreferenceViewController, bundle, pluginName, supportDirectoryPath, playerString, replacePlayerFormat;
 
 static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 
@@ -141,12 +147,6 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     return [self usedControlNames];
 }
 
-- (NSString *)pluginName
-{
-    [self doesNotRecognizeSelector:_cmd];
-    return nil;
-}
-
 static void OE_setupControlNames(OEGameCoreController *self)
 {
     //if(self->controlNames != nil) return;
@@ -190,7 +190,13 @@ static void OE_setupControlNames(OEGameCoreController *self)
     self = [super init];
     if(self != nil)
     {
-        bundle           = [NSBundle bundleForClass:[self class]];
+        bundle               = [NSBundle bundleForClass:[self class]];
+        pluginName           = [[[bundle infoDictionary] objectForKey:@"CFBundleExecutable"] retain];
+        if(pluginName == nil) pluginName = [[bundle infoDictionary] objectForKey:@"CFBundleName"];
+        
+        NSString *supportFolder = [[NSDocumentController sharedDocumentController] applicationSupportFolder];
+        supportDirectoryPath = [[supportFolder stringByAppendingPathComponent:pluginName] retain];
+        
         gameDocuments    = [[NSMutableArray alloc] init];
         settingObservers = [[NSMutableArray alloc] init];
         OE_setupControlNames(self);
@@ -199,11 +205,14 @@ static void OE_setupControlNames(OEGameCoreController *self)
     return self;
 }
 
-- (void) dealloc
+- (void)dealloc
 {
     [self OE_stopObservingSettings];
     
     [gameDocuments makeObjectsPerformSelector:@selector(close)];
+    
+    [pluginName release];
+    [supportDirectoryPath release];
     
     [controlNames release];
     [playerString release];

@@ -37,6 +37,10 @@
 
 #include <sys/time.h>
 
+#ifndef BOOL_STR
+#define BOOL_STR(b) ((b) ? "YES" : "NO")
+#endif
+
 @implementation GameCore
 
 @synthesize frameInterval, owner, frameFinished;
@@ -96,6 +100,21 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 {
     NSAssert1(index < [self soundBufferCount], @"The index %lu is too high", index);
     return ringBuffers[index];
+}
+
+- (NSString *)pluginName
+{
+    return [[self owner] pluginName];
+}
+
+- (NSString *)supportDirectoryPath
+{
+    return [[self owner] supportDirectoryPath];
+}
+
+- (NSString *)batterySavesDirectoryPath
+{
+    return [[self supportDirectoryPath] stringByAppendingPathComponent:@"Battery Saves"];
 }
 
 #pragma mark Execution
@@ -378,7 +397,6 @@ static NSTimeInterval currentTime()
     [self doesNotImplementSelector:_cmd];
     return 0;
 }
-
 
 - (NSUInteger)soundBufferSize
 {

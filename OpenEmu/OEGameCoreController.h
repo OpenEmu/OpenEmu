@@ -42,6 +42,8 @@ extern NSString *const OEKeyboardEventValueKey;
 {
     id              currentPreferenceViewController;
     NSBundle       *bundle;
+    NSString       *pluginName;
+    NSString       *supportDirectoryPath;
     NSString       *playerString;
     NSString       *replacePlayerFormat;
     NSArray        *controlNames;
@@ -60,10 +62,11 @@ extern NSString *const OEKeyboardEventValueKey;
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
 - (NSArray *)availablePreferenceViewControllers;
 
+@property(readonly) NSString   *pluginName;
+@property(readonly) NSString   *supportDirectoryPath;
 @property(readonly) NSArray    *usedSettingNames;
 @property(readonly) NSArray    *genericControlNames;
 @property(readonly) NSUInteger  playerCount;
-@property(readonly) NSString   *pluginName;
 
 - (NSUInteger)playerNumberInKey:(NSString *)aPlayerKey getKeyIndex:(NSUInteger *)index;
 /*

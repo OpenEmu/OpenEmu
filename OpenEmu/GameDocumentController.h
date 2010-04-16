@@ -89,8 +89,6 @@
 - (NSManagedObjectModel *)managedObjectModel;
 - (NSManagedObjectContext *)managedObjectContext;
 
-- (NSString *)applicationSupportFolder;
-
 - (void)updateFilterNames;
 - (void)updateValidExtensions;
 - (void)updateInfoPlist;

@@ -52,7 +52,9 @@ OE_EXTERN NSString * const NESColorFringing ;
 OE_EXTERN NSString * const NESHue;
 OE_EXTERN NSString * const NESUnlimitedSprites;
 
-@interface NESGameEmu : GameCore {
+@interface NESGameEmu : GameCore
+{
+    NSString *romPath;
 	NSLock* soundLock;
 	NSLock* videoLock;
 	int bufFrameSize;
@@ -68,6 +70,8 @@ OE_EXTERN NSString * const NESUnlimitedSprites;
 	
 	UInt16 *soundBuffer;
 }
+
+@property(copy) NSString *romPath;
 
 -(BOOL) lockVideo:(void *)video;
 -(void) unlockVideo:(void *)video;

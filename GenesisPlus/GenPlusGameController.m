@@ -56,11 +56,6 @@
     return 2;
 }
 
-- (NSString *)pluginName
-{
-    return @"GenesisPlusPlugin";
-}
-
 - (Class)gameCoreClass
 {
     return [GenPlusGameCore class];
