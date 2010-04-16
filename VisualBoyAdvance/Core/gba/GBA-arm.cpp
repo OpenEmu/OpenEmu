@@ -734,7 +734,7 @@ static void count(u32 opcode, int cond_res)
 
 #ifndef ALU_INIT_C
  #define ALU_INIT_C \
-    int dest = (opcode>>12) & 15;                       \
+    int dest __attribute__((unused)) = (opcode>>12) & 15; \
     bool C_OUT = C_FLAG;                                \
     u32 value;
 #endif
@@ -1224,8 +1224,8 @@ DEFINE_ALU_INSN_C (1F, 3F, MVNS, YES)
 #define MUL_INSN(OP, SETCOND, CYCLES) \
     int mult = (opcode & 0x0F);                         \
     u32 rs = reg[(opcode >> 8) & 0x0F].I;               \
-    int acc = (opcode >> 12) & 0x0F;   /* or destLo */  \
-    int dest = (opcode >> 16) & 0x0F;  /* or destHi */  \
+    int acc  __attribute__((unused)) = (opcode >> 12) & 0x0F;  /* or destLo */  \
+    int dest __attribute__((unused)) = (opcode >> 16) & 0x0F;  /* or destHi */  \
     OP;                                                 \
     SETCOND;                                            \
     if ((s32)rs < 0)                                    \
@@ -1528,7 +1528,7 @@ static INSN_REGPARM void arm121(u32 opcode)
 #define LDRSTR_INIT(CALC_OFFSET, CALC_ADDRESS) \
     if (busPrefetchCount == 0)                          \
         busPrefetch = busPrefetchEnable;                \
-    int dest = (opcode >> 12) & 15;                     \
+    int dest __attribute__((unused)) = (opcode >> 12) & 15; \
     int base = (opcode >> 16) & 15;                     \
     CALC_OFFSET;                                        \
     u32 address = CALC_ADDRESS;

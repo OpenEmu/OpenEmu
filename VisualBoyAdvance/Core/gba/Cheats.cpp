@@ -2678,7 +2678,7 @@ void cheatsReadGameSkip( gzFile file, int version )
     utilGzSeek( file, sizeof( cheatsList ), SEEK_CUR );
   }
 
-  bool firstCodeBreaker = true;
+    bool firstCodeBreaker = firstCodeBreaker = true;
 
   for( int i = 0; i < nCheats; i++ ) {
     if( version < 9 ) {

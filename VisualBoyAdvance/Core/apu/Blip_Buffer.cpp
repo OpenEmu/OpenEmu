@@ -29,7 +29,7 @@ int const silent_buf_size = 1; // size used for Silent_Blip_Buffer
 
 Blip_Buffer::Blip_Buffer()
 {
-	factor_       = LONG_MAX;
+	factor_       = 0x7FFFFFFF;
 	buffer_       = 0;
 	buffer_size_  = 0;
 	sample_rate_  = 0;

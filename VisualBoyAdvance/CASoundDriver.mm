@@ -31,7 +31,6 @@
 extern int emulating;
 extern bool speedup;
 
-static NSLock* sndLock;
 // Hold up to 100 ms of data in the ring buffer
 const float CASoundDriver::_delay = 1.0f;
 
