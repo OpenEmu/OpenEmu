@@ -194,7 +194,7 @@ static void OE_setupControlNames(OEGameCoreController *self)
         pluginName           = [[[bundle infoDictionary] objectForKey:@"CFBundleExecutable"] retain];
         if(pluginName == nil) pluginName = [[bundle infoDictionary] objectForKey:@"CFBundleName"];
         
-        NSString *supportFolder = [[NSDocumentController sharedDocumentController] applicationSupportFolder];
+        NSString *supportFolder = [[NSClassFromString(@"GameDocumentController") sharedDocumentController] applicationSupportFolder];
         supportDirectoryPath = [[supportFolder stringByAppendingPathComponent:pluginName] retain];
         
         gameDocuments    = [[NSMutableArray alloc] init];
