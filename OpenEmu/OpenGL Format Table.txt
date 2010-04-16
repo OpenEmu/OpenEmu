@@ -1,0 +1,219 @@
+For these types:
+
+GL_UNSIGNED_BYTE_3_3_2
+GL_UNSIGNED_BYTE_2_3_3_REV
+GL_UNSIGNED_SHORT_5_6_5
+GL_UNSIGNED_SHORT_5_6_5_REV
+
+Format should be GL_RGB.
+
+--------------------------------------------------------------------------------
+
+For these types:
+
+GL_UNSIGNED_SHORT_4_4_4_4
+GL_UNSIGNED_SHORT_4_4_4_4_REV:
+GL_UNSIGNED_SHORT_5_5_5_1:
+GL_UNSIGNED_SHORT_1_5_5_5_REV:
+GL_UNSIGNED_INT_8_8_8_8:
+GL_UNSIGNED_INT_8_8_8_8_REV:
+GL_UNSIGNED_INT_10_10_10_2:
+GL_UNSIGNED_INT_2_10_10_10_REV:
+
+Format should be GL_RGBA or GL_BGRA.
+
+--------------------------------------------------------------------------------
+
+For these types:
+
+GL_UNSIGNED_BYTE_3_3_2
+GL_UNSIGNED_BYTE_2_3_3_REV
+GL_UNSIGNED_SHORT_5_6_5
+GL_UNSIGNED_SHORT_5_6_5_REV
+
+Format should be GL_RGB. Pixel size should be 3.
+
+--------------------------------------------------------------------------------
+
+For these types:
+
+GL_UNSIGNED_SHORT_4_4_4_4
+GL_UNSIGNED_SHORT_4_4_4_4_REV:
+GL_UNSIGNED_SHORT_5_5_5_1:
+GL_UNSIGNED_SHORT_1_5_5_5_REV:
+GL_UNSIGNED_INT_8_8_8_8:
+GL_UNSIGNED_INT_8_8_8_8_REV:
+GL_UNSIGNED_INT_10_10_10_2:
+GL_UNSIGNED_INT_2_10_10_10_REV:
+
+Format should be GL_RGBA or GL_BGRA. Pixel size should be 4.
+
+================================================================================
+
+Interesting 16-bit cases...
+
+Given { internalFormat, format, type }:
+
+{ 
+    GL_R3_G3_B2, 
+     GL_RGB, 
+    
+    {
+        GL_UNSIGNED_BYTE_3_3_2,
+        GL_UNSIGNED_BYTE_2_3_3_REV, 
+    },
+},
+
+{ 
+    GL_RGB5,         
+    GL_RGB, 
+    
+    {
+        GL_UNSIGNED_SHORT_5_6_5, 
+        GL_UNSIGNED_SHORT_5_6_5_REV,
+    },
+},
+
+{ 
+    GL_RGBA4, 
+
+    {      
+        GL_RGBA, 
+        GL_BGRA,
+    },
+
+    {
+        GL_UNSIGNED_SHORT_4_4_4_4, 
+        GL_UNSIGNED_SHORT_4_4_4_4_REV,
+    },
+},
+
+{
+    GL_RGB5_A1,    
+
+    {
+        GL_RGBA, 
+        GL_BGRA,
+    },
+
+    {
+        GL_UNSIGNED_SHORT_5_5_5_1,
+        GL_UNSIGNED_SHORT_1_5_5_5_REV,
+    },
+}
+
+--------------------------------------------------------------------------------
+
+{ 
+    GL_R3_G3_B2, 
+    GL_RGB, 
+    
+    {
+        GL_UNSIGNED_BYTE_3_3_2,
+        GL_UNSIGNED_BYTE_2_3_3_REV, 
+    },
+
+    Pixel size:    3 * sizeof( GLubyte ).
+},
+
+{ 
+    GL_RGB5,         
+    GL_RGB, 
+    
+    {
+        GL_UNSIGNED_SHORT_5_6_5, 
+        GL_UNSIGNED_SHORT_5_6_5_REV,
+    },
+
+    Pixel size:    3 * sizeof( GLushort ).
+},
+
+{ 
+    GL_RGBA4, 
+
+    {      
+        GL_RGBA, 
+        GL_BGRA,
+    },
+
+    {
+        GL_UNSIGNED_SHORT_4_4_4_4, 
+        GL_UNSIGNED_SHORT_4_4_4_4_REV,
+    },
+
+    Pixel size:    4 * sizeof( GLushort ).
+},
+
+{
+    GL_RGB5_A1,    
+
+    {
+        GL_RGBA, 
+        GL_BGRA,
+    },
+
+    {
+        GL_UNSIGNED_SHORT_5_5_5_1,
+        GL_UNSIGNED_SHORT_1_5_5_5_REV,
+    },
+
+    Pixel size:    4 * sizeof( GLushort ).
+}
+
+--------------------------------------------------------------------------------
+
+{
+	GL_R3_G3_B2, 
+	GL_RGB, 
+	
+	{
+		GL_UNSIGNED_BYTE_3_3_2,
+		GL_UNSIGNED_BYTE_2_3_3_REV, 
+	},
+
+	Pixel size (in bytes):		2.
+},
+
+{ 
+	GL_RGB5,         
+	GL_RGB, 
+	
+	{
+		GL_UNSIGNED_SHORT_5_6_5, 
+		GL_UNSIGNED_SHORT_5_6_5_REV,
+	},
+
+	Pixel size (in bytes):		2.
+},
+
+{ 
+	GL_RGBA4, 
+
+	{      
+		GL_RGBA, 
+		GL_BGRA,
+	},
+
+	{
+		GL_UNSIGNED_SHORT_4_4_4_4, 
+		GL_UNSIGNED_SHORT_4_4_4_4_REV,
+	},
+
+	Pixel size (in bytes):		2.
+},
+
+{
+	GL_RGB5_A1,	
+
+	{
+		GL_RGBA, 
+		GL_BGRA,
+	},
+
+	{
+		GL_UNSIGNED_SHORT_5_5_5_1,
+		GL_UNSIGNED_SHORT_1_5_5_5_REV,
+	},
+
+	Pixel size (in bytes):		2.
+}
