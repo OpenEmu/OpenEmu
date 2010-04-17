@@ -323,8 +323,15 @@
 {
     [self willChangeValueForKey:@"filterNames"];
     filterNames = [[[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
+   
+    // These filters are loaded and run by GL, and do not rely on QTZs
     [filterNames addObject:@"Linear"];
     [filterNames addObject:@"Nearest Neighbor"];
+    [filterNames addObject:@"Scale2xHQ"];
+    [filterNames addObject:@"Scale2xPlus"];
+    [filterNames addObject:@"Scale4x"];
+    [filterNames addObject:@"Scale4xHQ"];
+    
     [self didChangeValueForKey:@"filterNames"];
 }
 

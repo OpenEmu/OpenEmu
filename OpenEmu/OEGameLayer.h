@@ -31,6 +31,7 @@
 #import <OpenGL/gl.h>
 
 #import "OEGameCoreHelper.h"
+#import "OEGameShader.h"
 
 @class GameCore, GameDocument, GameDocumentController;
 
@@ -45,7 +46,19 @@
     // for rendering
     CGLContextObj         layerContext;
     CGLContextObj         sharedLayerContext;
+
     GLuint gameTexture;
+    
+    // replace our basic scaling filters with straight up shaders
+    OEGameShader* scale4X;
+    OEGameShader* scale4XHQ;
+
+    OEGameShader* scale2XPlus;
+    OEGameShader* scale2XHQ;
+    OEGameShader* scale2XSALSmart;
+
+
+
     
     BOOL                  usesShader;
     BOOL                  vSyncEnabled;

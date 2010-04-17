@@ -65,10 +65,6 @@
 		1B223EFC100B89BE00F42067 /* CRTDisplace.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFA100B89BE00F42067 /* CRTDisplace.vert */; };
 		1B223EFD100B89BE00F42067 /* CRTDisplace.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFB100B89BE00F42067 /* CRTDisplace.frag */; };
 		1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224006100BD61D00F42067 /* Debug.qtz */; };
-		1B22402B100BD67F00F42067 /* Scale2xHQ.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224009100BD61D00F42067 /* Scale2xHQ.qtz */; };
-		1B22402C100BD67F00F42067 /* Scale2xPlus.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B22400A100BD61D00F42067 /* Scale2xPlus.qtz */; };
-		1B22402D100BD67F00F42067 /* Scale4x.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B22400B100BD61D00F42067 /* Scale4x.qtz */; };
-		1B22402E100BD67F00F42067 /* Scale4xHQ.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B22400C100BD61D00F42067 /* Scale4xHQ.qtz */; };
 		1B224082100BD76D00F42067 /* Sparkle.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		1B224175100C049000F42067 /* CRT.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224174100C049000F42067 /* CRT.qtz */; };
@@ -85,6 +81,15 @@
 		1B4B324F1009BC7500F36BB1 /* CRTMask.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B324D1009BC7500F36BB1 /* CRTMask.vert */; };
 		1B4B3390100A792500F36BB1 /* CRTPhosphorBlur.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B338E100A792500F36BB1 /* CRTPhosphorBlur.frag */; };
 		1B4B3391100A792500F36BB1 /* CRTPhosphorBlur.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B4B338F100A792500F36BB1 /* CRTPhosphorBlur.vert */; };
+		1B4D77EB117A5FFD0001F629 /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
+		1B4D77EE117A60ED0001F629 /* Scale4x.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC00F08A13500770B6D /* Scale4x.frag */; };
+		1B4D77EF117A60ED0001F629 /* Scale4x.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC10F08A13500770B6D /* Scale4x.vert */; };
+		1B4D77F0117A60ED0001F629 /* Scale4xHQ.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E920F089F8A00770B6D /* Scale4xHQ.frag */; };
+		1B4D77F1117A60ED0001F629 /* Scale4xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E910F089F8A00770B6D /* Scale4xHQ.vert */; };
+		1B4D77F4117A60ED0001F629 /* Scale2xHQ.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3A0F089A4400770B6D /* Scale2xHQ.frag */; };
+		1B4D77F5117A60ED0001F629 /* Scale2xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */; };
+		1B4D77F6117A60ED0001F629 /* Scale2XPlus.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2XPlus.frag */; };
+		1B4D77F7117A60ED0001F629 /* Scale2XPlus.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2XPlus.vert */; };
 		1B56D6890F21340700C80694 /* OpenEmuQCFilters.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B56D6870F21340700C80694 /* OpenEmuQCFilters.m */; };
 		1B56D6960F21397500C80694 /* Scale4x.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC10F08A13500770B6D /* Scale4x.vert */; };
 		1B56D6970F21397500C80694 /* Scale4x.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC00F08A13500770B6D /* Scale4x.frag */; };
@@ -342,10 +347,6 @@
 				1B224175100C049000F42067 /* CRT.qtz in Copy Filters Folder To App Resources */,
 				1B224177100C049E00F42067 /* TV.qtz in Copy Filters Folder To App Resources */,
 				1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters Folder To App Resources */,
-				1B22402B100BD67F00F42067 /* Scale2xHQ.qtz in Copy Filters Folder To App Resources */,
-				1B22402C100BD67F00F42067 /* Scale2xPlus.qtz in Copy Filters Folder To App Resources */,
-				1B22402D100BD67F00F42067 /* Scale4x.qtz in Copy Filters Folder To App Resources */,
-				1B22402E100BD67F00F42067 /* Scale4xHQ.qtz in Copy Filters Folder To App Resources */,
 			);
 			name = "Copy Filters Folder To App Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1431,6 +1432,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B4D77EE117A60ED0001F629 /* Scale4x.frag in Resources */,
+				1B4D77EF117A60ED0001F629 /* Scale4x.vert in Resources */,
+				1B4D77F0117A60ED0001F629 /* Scale4xHQ.frag in Resources */,
+				1B4D77F1117A60ED0001F629 /* Scale4xHQ.vert in Resources */,
+				1B4D77F4117A60ED0001F629 /* Scale2xHQ.frag in Resources */,
+				1B4D77F5117A60ED0001F629 /* Scale2xHQ.vert in Resources */,
+				1B4D77F6117A60ED0001F629 /* Scale2XPlus.frag in Resources */,
+				1B4D77F7117A60ED0001F629 /* Scale2XPlus.vert in Resources */,
 				1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */,
 				1B7505140FEEB72700B0D0AF /* About.png in Resources */,
 				8D15AC2C0486D014006FF6A4 /* Credits.rtf in Resources */,
@@ -1631,6 +1640,7 @@
 				C62F54710FE6ADC500DF15BA /* OEPlugin.m in Sources */,
 				C62F549B0FE6CC1500DF15BA /* OECorePlugin.m in Sources */,
 				C62F56540FE6FDA700DF15BA /* OEGameLayer.m in Sources */,
+				1B4D77EB117A5FFD0001F629 /* OEGameShader.m in Sources */,
 				C69DCD010FE994A5009AE5A6 /* OEPluginDocument.m in Sources */,
 				C66DF0B60FEC3958007E3A20 /* OECorePlugin+SUUpdater.m in Sources */,
 				82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */,

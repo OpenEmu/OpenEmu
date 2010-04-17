@@ -185,6 +185,16 @@ static CGColorSpaceRef CreateSystemColorSpace()
     CGLContextObj cgl_ctx = layerContext;
     glGenTextures(1, &gameTexture);
         
+    
+    // our shader filters
+    scale4X = [[OEGameShader alloc] initWithShadersInMainBundle:@"Scale4x" forContext:cgl_ctx];
+    scale4XHQ = [[OEGameShader alloc] initWithShadersInMainBundle:@"Scale4xHQ" forContext:cgl_ctx];;
+    scale2XPlus = [[OEGameShader alloc] initWithShadersInMainBundle:@"Scale2xPlus" forContext:cgl_ctx];;
+    scale2XHQ = [[OEGameShader alloc] initWithShadersInMainBundle:@"Scale2xHQ" forContext:cgl_ctx];;
+   
+    // TODO: fix this shader
+    //scale2XSALSmart = [[OEGameShader alloc] initWithShadersInMainBundle:@"Scale2XSALSmart" forContext:cgl_ctx];;
+    
     // our QCRenderer 'filter'
     [self setFilterName:filterName];
     
@@ -250,8 +260,13 @@ static CGColorSpaceRef CreateSystemColorSpace()
     
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef)
-    {
-        if([filterName isEqualToString:@"Linear"] || [filterName isEqualToString:@"Nearest Neighbor"])
+    {        
+        if([filterName isEqualToString:@"Linear"]
+           || [filterName isEqualToString:@"Nearest Neighbor"] 
+           || [filterName isEqualToString:@"Scale2xHQ"]
+           || [filterName isEqualToString:@"Scale2xPlus"]
+           || [filterName isEqualToString:@"Scale4x"]
+           || [filterName isEqualToString:@"Scale4xHQ"])
         {
             /*****************        
 
@@ -267,17 +282,6 @@ static CGColorSpaceRef CreateSystemColorSpace()
             glEnable(GL_TEXTURE_RECTANGLE_EXT);
             glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
             CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
-
-            if([filterName isEqualToString:@"Nearest Neighbor"])
-            {
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                
-            }
-            else
-            {
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                
-            }
 
             glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
             glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
@@ -303,6 +307,63 @@ static CGColorSpaceRef CreateSystemColorSpace()
                 1, 1,
                 -1, 1
             };
+            
+            if([filterName isEqualToString:@"Nearest Neighbor"])
+            {
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);       
+            }
+            else if([filterName isEqualToString:@"Linear"])
+            {
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                
+            }
+            
+            else if([filterName isEqualToString:@"Scale2xHQ"])
+            {
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                
+
+                glUseProgramObjectARB([scale2XHQ programObject]);
+                
+                // set up shader uniforms
+                glUniform1iARB([scale2XHQ uniformLocationWithName:"OGL2Texture"], 0);            
+            }
+           
+            else if([filterName isEqualToString:@"Scale2xPlus"])
+            {
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                
+                
+                glUseProgramObjectARB([scale2XPlus programObject]);
+                
+                // set up shader uniforms
+                glUniform1iARB([scale2XPlus uniformLocationWithName:"OGL2Texture"], 0);            
+            }
+            
+            else if([filterName isEqualToString:@"Scale4x"])
+            {
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                
+                
+                glUseProgramObjectARB([scale4X programObject]);
+                
+                // set up shader uniforms
+                glUniform1iARB([scale4X uniformLocationWithName:"OGL2Texture"], 0);            
+            }
+           
+            else if([filterName isEqualToString:@"Scale4xHQ"])
+            {
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                
+                
+                glUseProgramObjectARB([scale4XHQ programObject]);
+                
+                // set up shader uniforms
+                glUniform1iARB([scale4XHQ uniformLocationWithName:"OGL2Texture"], 0);            
+            }
+            
+            
 
             glEnableClientState( GL_TEXTURE_COORD_ARRAY );
             glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
@@ -312,6 +373,10 @@ static CGColorSpaceRef CreateSystemColorSpace()
             glDisableClientState( GL_TEXTURE_COORD_ARRAY );
             glDisableClientState(GL_VERTEX_ARRAY);
 
+            // turn off shader - incase we switch toa QC filter or to a mode that does not use it.
+            glUseProgramObjectARB(0);
+
+            
             glPopAttrib();
             glPopClientAttrib();
 
@@ -332,8 +397,11 @@ static CGColorSpaceRef CreateSystemColorSpace()
              
             *****************/ 
             
-            NSDictionary *options = [NSDictionary dictionaryWithObject:(id)ntscColorSpace forKey:kCIImageColorSpace];
+            NSDictionary *options = [NSDictionary dictionaryWithObject:(id)rgbColorSpace forKey:kCIImageColorSpace];
             [self setGameCIImage:[CIImage imageWithIOSurface:surfaceRef options:options]];
+
+            if(filterRenderer == nil)
+                [self setFilterName:filterName];
             
             if(filterRenderer != nil)
             {            
