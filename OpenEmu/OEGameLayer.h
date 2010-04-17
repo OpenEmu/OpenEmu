@@ -53,6 +53,7 @@
     QCRenderer           *filterRenderer;
     
     CGColorSpaceRef      ntscColorSpace;
+    CGColorSpaceRef      rgbColorSpace;
     
     // for QCRenderer
     NSTimeInterval        startTime; // time for rendering, input to time based effects, sources, 
