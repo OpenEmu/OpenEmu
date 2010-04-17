@@ -28,7 +28,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class GameCore;
+@class GameCore, OEGameCoreController;
 
 // our helper app needs to handle these functions
 @protocol OEGameCoreHelper <NSObject>
@@ -53,7 +53,7 @@
 
 - (byref GameCore *)gameCore;
 
-- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath gameCore:(byref out GameCore **)createdCore;
+- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath owner:(byref OEGameCoreController *)owner gameCore:(byref out GameCore **)createdCore;
 - (void)setupEmulation;
 
 @end

@@ -134,9 +134,8 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
         if([self startHelperProcessError:outError])
         {
             GameCore *gameCore = nil;
-            if([rootProxy loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] gameCore:&gameCore])
+            if([rootProxy loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:gameController gameCore:&gameCore])
             {
-                [gameCore setOwner:gameController];
                 [gameController addSettingObserver:gameCore];
                 
                 [rootProxy setupEmulation];

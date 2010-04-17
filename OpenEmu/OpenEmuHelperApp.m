@@ -513,7 +513,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 #pragma mark -
 #pragma mark Game Core methods
 
-- (BOOL)loadRomAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath gameCore:(out GameCore **)createdCore
+- (BOOL)loadRomAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath owner:(byref OEGameCoreController *)owner gameCore:(out GameCore **)createdCore
 {
     aPath = [aPath stringByStandardizingPath];
     BOOL isDir;
@@ -538,6 +538,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         self.loadedRom = NO;
         
         gameCore = [[[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller] newGameCore];
+        [gameCore setOwner:owner];
         
         if(createdCore != NULL) *createdCore = gameCore;
         
