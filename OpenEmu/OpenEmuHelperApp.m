@@ -269,9 +269,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
 	glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
 	glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
-    
-	glFlush();
-	
+    	
 	CGLUnlockContext(cgl_ctx);
 	
 	DLog(@"Finished Setting up gameTexture");
@@ -280,7 +278,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 - (void)setupTimer
 {
 	if(OE_USE_DISPLAYLINK)
-		timer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1
+		pollingTimer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1
 												 target: self
 											   selector: @selector(pollParentProcess)
 											   userInfo: nil
@@ -288,9 +286,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 
 	else
     {
-        
-    
-		timer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1/60
+        timer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1/60
 												 target: self
 											   selector: @selector(render)
 											   userInfo: nil
