@@ -287,18 +287,21 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 												repeats: YES];
 
 	else
+    {
+        
+    
 		timer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1/60
 												 target: self
 											   selector: @selector(render)
 											   userInfo: nil
 												repeats: YES];
 	
-	
-	pollingTimer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1
-													target: self
-												  selector: @selector(pollParentProcess)
-												  userInfo: nil
-												   repeats: YES];
+        pollingTimer = [NSTimer scheduledTimerWithTimeInterval: (NSTimeInterval) 1
+                                                        target: self
+                                                      selector: @selector(pollParentProcess)
+                                                      userInfo: nil
+                                                       repeats: YES];
+    }
 }
 
 // TODO: do we need to worry about displays other than main?
