@@ -69,6 +69,9 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
         [gameLayer setOwnerView:self];
         [gameLayer setAsynchronous:YES];
         
+        // fix to make sure gameLayer resizes its texture attachment and reports the right bounds to QC
+        [gameLayer setNeedsDisplayOnBoundsChange:YES];
+
         [gameLayer setName:@"gameLayer"];
         [gameLayer setConstraints:
          [NSArray arrayWithObjects:
