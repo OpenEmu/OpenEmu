@@ -146,7 +146,6 @@ static CGColorSpaceRef CreateSystemColorSpace()
         
         if(compo != nil)
         {
-            
             // Create a display colorspace for our QCRenderer
             CGColorSpaceRef space = [[[ownerView window] colorSpace] CGColorSpace];
 
@@ -154,7 +153,6 @@ static CGColorSpaceRef CreateSystemColorSpace()
                                                         pixelFormat:CGLGetPixelFormat(layerContext)
                                                          colorSpace:space
                                                         composition:compo];
-            CGColorSpaceRelease(space);
         }
         
         if (filterRenderer == nil)
