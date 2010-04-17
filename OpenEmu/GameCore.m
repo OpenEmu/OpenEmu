@@ -171,12 +171,6 @@ static NSTimeInterval currentTime()
 {
 }
 
-- (void)stopEmulation
-{
-    shouldStop = YES;
-    DLog(@"Ending thread");
-}
-
 #define MULTI_THREAD 0
 
 #if MULTI_THREAD
@@ -217,6 +211,7 @@ static NSTimeInterval currentTime()
 - (void)stopEmulation
 {
     [emulationThread cancel];
+    isRunning = NO;
     DLog(@"Ending thread");
 }
 
@@ -272,6 +267,14 @@ static NSTimeInterval currentTime()
 - (BOOL)isEmulationPaused
 {
     return !isRunning;
+}
+
+
+- (void)stopEmulation
+{
+    shouldStop = YES;
+    isRunning  = NO;
+    DLog(@"Ending thread");
 }
 
 - (void)startEmulation
