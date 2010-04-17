@@ -43,7 +43,7 @@
     OESaveStateController      *saveStateManager;
 
     OECoreDownloader           *coreDownloader;
-    NSMutableArray             *filterNames;
+    NSArray             *filterNames;
     NSArray                    *plugins;
     NSArray                    *validExtensions;
     BOOL                        gameLoaded;

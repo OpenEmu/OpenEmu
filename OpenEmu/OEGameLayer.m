@@ -35,6 +35,9 @@
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLIOSurface.h>
 
+// static list of included, non QTZ filters using straight GL/GLSL
+#define GLSLFilterNamesArray [NSArray arrayWithObjects:@"Linear", @"Nearest Neighbor", @"Scale2xHQ", @"Scale2xPlus", @"Scale4x", @"Scale4xHQ", nil]
+
 #define dfl(a,b) [NSNumber numberWithFloat:a],@b
 
 static CMProfileRef CreateNTSCProfile()
@@ -125,7 +128,8 @@ static CGColorSpaceRef CreateSystemColorSpace()
     filterName = [aName retain];
     
     // since we changed the filtername, if we have a context (ie we are active) lets make a new QCRenderer...
-    if(layerContext != NULL)
+    // but only if its appropriate
+    if(![GLSLFilterNamesArray containsObject:filterName] &&  (layerContext != NULL))
     {            
         if(filterRenderer && (filterRenderer != nil))
         {
@@ -210,9 +214,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
     CALayer *superlayer  = [self superlayer];
     NSRect superBounds = NSRectFromCGRect([superlayer bounds]);
     
-    NSSize aspect = NSMakeSize(320, 240);
-    
-    if([self gameCIImage] != nil) aspect = [[self gameCIImage] extent].size;
+    NSSize aspect = NSMakeSize([rootProxy screenWidth], [rootProxy screenHeight]);
             
     if(superBounds.size.width * (aspect.width * 1.0/aspect.height) > superBounds.size.height * (aspect.width * 1.0/aspect.height))
         return CGSizeMake(superBounds.size.height * (aspect.width * 1.0/aspect.height), superBounds.size.height);
@@ -225,7 +227,8 @@ static CGColorSpaceRef CreateSystemColorSpace()
     QCComposition *composition = [self composition];
     NSNumber *scale = [[composition attributes] objectForKey:@"com.openemu.windowScaleFactor"];
     
-    if(scale == nil) return 1.0;
+    if(scale == nil) 
+        return 1.0;
     return [scale floatValue];
 }
 
@@ -261,12 +264,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef)
     {        
-        if([filterName isEqualToString:@"Linear"]
-           || [filterName isEqualToString:@"Nearest Neighbor"] 
-           || [filterName isEqualToString:@"Scale2xHQ"]
-           || [filterName isEqualToString:@"Scale2xPlus"]
-           || [filterName isEqualToString:@"Scale4x"]
-           || [filterName isEqualToString:@"Scale4xHQ"])
+        if([GLSLFilterNamesArray containsObject:filterName])
         {
             /*****************        
 
@@ -318,7 +316,6 @@ static CGColorSpaceRef CreateSystemColorSpace()
                 glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
                 glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                
             }
-            
             else if([filterName isEqualToString:@"Scale2xHQ"])
             {
                 glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -328,8 +325,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
                 
                 // set up shader uniforms
                 glUniform1iARB([scale2XHQ uniformLocationWithName:"OGL2Texture"], 0);            
-            }
-           
+            }           
             else if([filterName isEqualToString:@"Scale2xPlus"])
             {
                 glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -340,7 +336,6 @@ static CGColorSpaceRef CreateSystemColorSpace()
                 // set up shader uniforms
                 glUniform1iARB([scale2XPlus uniformLocationWithName:"OGL2Texture"], 0);            
             }
-            
             else if([filterName isEqualToString:@"Scale4x"])
             {
                 glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -363,8 +358,6 @@ static CGColorSpaceRef CreateSystemColorSpace()
                 glUniform1iARB([scale4XHQ uniformLocationWithName:"OGL2Texture"], 0);            
             }
             
-            
-
             glEnableClientState( GL_TEXTURE_COORD_ARRAY );
             glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
             glEnableClientState(GL_VERTEX_ARRAY);
@@ -375,7 +368,6 @@ static CGColorSpaceRef CreateSystemColorSpace()
 
             // turn off shader - incase we switch toa QC filter or to a mode that does not use it.
             glUseProgramObjectARB(0);
-
             
             glPopAttrib();
             glPopClientAttrib();
@@ -383,8 +375,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
 
             /*****************        
 
-            End GL Performance testing code
-            Results look like QC is a huge fucking hog, or we are doing something stupid with it.
+            GL render method
 
             *****************/ 
             
@@ -393,13 +384,14 @@ static CGColorSpaceRef CreateSystemColorSpace()
         {
             /*****************        
              
-             QC Drawing - this is the standard code path
+             QC Drawing - this is the non-standard code path for rendering custom filters
              
             *****************/ 
             
             NSDictionary *options = [NSDictionary dictionaryWithObject:(id)rgbColorSpace forKey:kCIImageColorSpace];
             [self setGameCIImage:[CIImage imageWithIOSurface:surfaceRef options:options]];
 
+            // since our filters no longer rely on QC, it may not be around.
             if(filterRenderer == nil)
                 [self setFilterName:filterName];
             
