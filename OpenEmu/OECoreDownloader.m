@@ -33,7 +33,7 @@
 
 @implementation OECoreDownloader
 
-@synthesize downloads, downloadArrayController, downloadTableView;
+@synthesize downloadArrayController, downloadTableView;
 
 - (id)init
 {
@@ -44,7 +44,7 @@
         
         // Get the URL for the list of available plugins
         NSString *coreURLs = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"];
-        NSString *rawList = [NSString stringWithContentsOfURL:[NSURL URLWithString:coreURLs] encoding:NSUTF8StringEncoding error:&error];
+        NSString *rawList  = [NSString stringWithContentsOfURL:[NSURL URLWithString:coreURLs] encoding:NSUTF8StringEncoding error:&error];
 
         NSArray *list = [rawList componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
         
@@ -59,7 +59,7 @@
             NSURL *appcastURL = [NSURL URLWithString:appcastString];
             
             // Check if the core is already installed by checking against the appcast URL
-            for(OECorePlugin* plugin in allPlugins )
+            for(OECorePlugin* plugin in allPlugins)
             {
                 if([[[plugin bundle] infoDictionary] valueForKey:@"SUFeedURL"])
                 {
@@ -75,7 +75,7 @@
             if(!pluginExists) [tempURLList addObject:appcastURL];
         }
         
-        urlList = [NSArray arrayWithArray:tempURLList];
+        urlList = [tempURLList copy];
     }
     return self;
 }
@@ -89,6 +89,7 @@
 {
     [downloadArrayController release];
     [downloadTableView       release];
+    [downloadToPathMap       release];
     [appcasts                release];
     [urlList                 release];
     [super                   dealloc];
@@ -96,7 +97,7 @@
 
 - (void)loadAppcasts
 {
-    //Fetch all the appcasts
+    // Fetch all the appcasts
     for(NSURL *appcastURL in urlList)
     {
         SUAppcast *appcast = [[SUAppcast alloc] init];
@@ -111,10 +112,9 @@
 
 - (void)appcastDidFinishLoading:(SUAppcast *)appcast
 {
-    OEDownload *downlad = [[OEDownload alloc] initWithAppcast:appcast];
-    [downlad setDelegate:self];
-    [downloadArrayController addObject:downlad];
-    [downlad release];
+    OEDownload *download = [[[OEDownload alloc] initWithAppcast:appcast] autorelease];
+    [download setDelegate:self];
+    [downloadArrayController addObject:download];
 }
 
 - (void)appcast:(SUAppcast *)appcast failedToLoadWithError:(NSError *)error
@@ -126,9 +126,7 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     if([keyPath isEqualToString:@"progress"])
-    {
         [downloadTableView setNeedsDisplay];
-    }
 }
 
 - (void)OEDownloadDidFinish:(OEDownload *)download;

@@ -68,22 +68,6 @@
     [self close];
 }
 
-- (NSSize)windowWillResize:(NSWindow *)window toSize:(NSSize)proposedFrameSize
-{
-    NSLog(@"%s %@", __FUNCTION__, NSStringFromSize(proposedFrameSize));
-    return proposedFrameSize;
-}
-
-- (void)windowDidBecomeKey:(NSNotification *)notification
-{
-    NSLog(@"%s %@", __FUNCTION__, NSStringFromRect([[self window] frame]));
-}
-
-- (void)windowDidResize:(NSNotification *)notification
-{
-    NSLog(@"%s %@", __FUNCTION__, NSStringFromRect([[self window] frame]));
-}
-
 - (NSArray *)plugins
 {
     return [[GameDocumentController sharedDocumentController] plugins];

@@ -40,19 +40,19 @@
     NSArray            *sortDescriptors;
     OECorePlugin       *currentPlugin;    
     
-	NSArrayController  *romFileController;
+    NSArrayController  *romFileController;
     NSArrayController  *savestateController;
     NSArrayController  *pluginController;
     NSTreeController   *treeController;
-	NSPredicate        *selectedPluginsPredicate;
+    NSPredicate        *selectedPluginsPredicate;
     NSPredicate        *selectedRomPredicate;
-	NSPredicate        *searchPredicate;
+    NSPredicate        *searchPredicate;
     
     NSView             *listView;
     NSView             *collectionView;
     NSView             *holderView;
-	
-	NSSearchField      *searchField;
+    
+    NSSearchField      *searchField;
     
     NSOutlineView      *outlineView;
     IKImageBrowserView *imageBrowser;
@@ -62,10 +62,10 @@
     
     NSSegmentedControl *segmentButton;
     
-    float               browserZoom;
-    
     NSMutableArray     *pathArray;
     NSMutableArray     *pathRanges;
+    
+    float               browserZoom;
 }
 
 @property(retain) IBOutlet NSArrayController  *romFileController;
@@ -82,19 +82,17 @@
 @property(retain) IBOutlet IKImageBrowserView *imageBrowser;
 @property(retain) IBOutlet IKImageFlowView    *imageFlow;
 
-@property(retain) IBOutlet NSSearchField    *searchField;
+@property(retain) IBOutlet NSSearchField      *searchField;
 
 @property(retain) IBOutlet NSMenu             *contextMenu;
 
 @property(retain) IBOutlet NSSegmentedControl *segmentButton;
 
-@property(assign)   float                   browserZoom;
-@property(readonly) NSArray                *plugins;
-@property(retain)   NSPredicate            *availablePluginsPredicate;
-@property(retain)   NSIndexSet             *selectedPlugins;
-@property(retain)   NSArray                *sortDescriptors;
-@property(retain)   NSMutableArray         *pathArray;
-@property(retain)   NSMutableArray         *pathRanges;
+@property(assign)   float                      browserZoom;
+@property(readonly) NSArray                   *plugins;
+@property(retain)   NSPredicate               *availablePluginsPredicate;
+@property(retain)   NSIndexSet                *selectedPlugins;
+@property(retain)   NSArray                   *sortDescriptors;
 
 - (IBAction)exportSave:(id)sender;
 - (IBAction)toggleViewType:(NSSegmentedControl *)sender;
