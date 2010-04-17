@@ -322,17 +322,19 @@
 - (void)updateFilterNames
 {
     [self willChangeValueForKey:@"filterNames"];
-    NSMutableArray* filterPlugins = [[[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] mutableCopy];
-       
-    // These filters are loaded and run by GL, and do not rely on QTZs
-    [filterPlugins addObject:@"Linear"];
-    [filterPlugins addObject:@"Nearest Neighbor"];
-    [filterPlugins addObject:@"Scale2xHQ"];
-    [filterPlugins addObject:@"Scale2xPlus"];
-    [filterPlugins addObject:@"Scale4x"];
-    [filterPlugins addObject:@"Scale4xHQ"];
     
-    filterNames = [[filterPlugins copy] retain];
+    NSArray *filterPlugins = [[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    
+    // These filters are loaded and run by GL, and do not rely on QTZs
+    filterNames = [[filterPlugins arrayByAddingObjectsFromArray:
+                   [NSArray arrayWithObjects:
+                    @"Linear",
+                    @"Nearest Neighbor",
+                    @"Scale2xHQ",
+                    @"Scale2xPlus",
+                    @"Scale4x",
+                    @"Scale4xHQ",
+                    nil]] retain];
 
     [self didChangeValueForKey:@"filterNames"];
 }
