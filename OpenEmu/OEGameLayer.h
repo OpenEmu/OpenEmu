@@ -45,11 +45,14 @@
     // for rendering
     CGLContextObj         layerContext;
     CGLContextObj         sharedLayerContext;
+    GLuint gameTexture;
     
     BOOL                  usesShader;
     BOOL                  vSyncEnabled;
     
     QCRenderer           *filterRenderer;
+    
+    CGColorSpaceRef      ntscColorSpace;
     
     // for QCRenderer
     NSTimeInterval        startTime; // time for rendering, input to time based effects, sources, 

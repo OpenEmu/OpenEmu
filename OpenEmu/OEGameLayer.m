@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <OpenGL//CGLMacro.h>
+#import <OpenGL/CGLMacro.h>
 
 #import "OEGameLayer.h"
 #import "GameCore.h"
@@ -181,9 +181,16 @@ static CGColorSpaceRef CreateSystemColorSpace()
     
     [self setVSyncEnabled:vSyncEnabled];
 
+    // create our gameTexture
+    CGLContextObj cgl_ctx = layerContext;
+    glGenTextures(1, &gameTexture);
+        
     // our QCRenderer 'filter'
     [self setFilterName:filterName];
     
+    // our texture is in NTSC colorspace from the cores
+    ntscColorSpace = CreateNTSCColorSpace();
+
     return layerContext;
 }
 
@@ -243,30 +250,95 @@ static CGColorSpaceRef CreateSystemColorSpace()
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef)
     {
-        // our texture is in NTSC colorspace from the cores
-        CGColorSpaceRef space = CreateNTSCColorSpace();
+        /*****************        
+         
+         OpenGL Drawing - performance testing code
+         
+         *****************/         
+        CGLContextObj cgl_ctx = glContext;
         
-        NSDictionary *options = [NSDictionary dictionaryWithObject:(id)space forKey:kCIImageColorSpace];
-        [self setGameCIImage:[CIImage imageWithIOSurface:surfaceRef options:options]];
+        glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+        glPushAttrib(GL_ALL_ATTRIB_BITS);
         
-        CGColorSpaceRelease(space);
+        glEnable(GL_TEXTURE_RECTANGLE_EXT);
+        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+        CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
         
-        if(filterRenderer != nil)
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        
+        glActiveTexture(GL_TEXTURE0);
+        glColor4f(1.0, 1.0, 1.0, 1.0);
+        
+        // why do we need it ?
+        glDisable(GL_BLEND);
+        
+        GLfloat tex_coords[] = 
         {
-            NSWindow *gameWindow = [ownerView window];
-            
+            0, 0,
+            IOSurfaceGetWidth(surfaceRef), 0,
+            IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef),
+            0, IOSurfaceGetHeight(surfaceRef)
+        };
+        
+        GLfloat verts[] = 
+        {
+            -1, -1,
+            1, -1,
+            1, 1,
+            -1, 1
+        };
+        
+        glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+        glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
+        glEnableClientState(GL_VERTEX_ARRAY);
+        glVertexPointer(2, GL_FLOAT, 0, verts );
+        glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+        glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+        glDisableClientState(GL_VERTEX_ARRAY);
+      
+        glPopAttrib();
+        glPopClientAttrib();
+        
+        
+        /*****************        
+         
+         End GL Performance testing code
+         Results look like QC is a huge fucking hog, or we are doing something stupid with it.
+         
+         *****************/ 
+        
+        
+        /*****************        
+         
+         QC Drawing - this is the standard code path
+         
+        *****************/ 
+        /*
+        NSDictionary *options = [NSDictionary dictionaryWithObject:(id)ntscColorSpace forKey:kCIImageColorSpace];
+        [self setGameCIImage:[CIImage imageWithIOSurface:surfaceRef options:options]];
+                
+        if(filterRenderer != nil)
+        {            
             // NSPoint mouseLocation = [event locationInWindow];
-            NSRect  frame = [self frame];
-            NSPoint mouseLocation = [gameWindow mouseLocationOutsideOfEventStream];
-            
+            NSDictionary *arguments = nil;
+
+            NSWindow *gameWindow = [ownerView window];
+             
             mouseLocation.x /= frame.size.width;
             mouseLocation.y /= frame.size.height;
-            NSDictionary *arguments = [NSDictionary dictionaryWithObjectsAndKeys:
+             
+            NSRect  frame = [self frame];
+            NSPoint mouseLocation = [gameWindow mouseLocationOutsideOfEventStream];
+            arguments = [NSDictionary dictionaryWithObjectsAndKeys:
                                        [NSValue valueWithPoint:mouseLocation], QCRendererMouseLocationKey,
                                        [gameWindow currentEvent], QCRendererEventKey,
                                        nil];
             
             // [filterRenderer setValue:[gameCIImage imageByCroppingToRect:cropRect] forInputKey:@"OEImageInput"];    
+           
             [filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
             [filterRenderer renderAtTime:time arguments:arguments];
             
@@ -279,6 +351,12 @@ static CGColorSpaceRef CreateSystemColorSpace()
                 [rootProxy setMousePosition:mousePoint]; 
             }
         }
+        */                    
+        /*****************        
+
+         End QC Drawing
+
+        *****************/  
         
         // super calls flush for us.
         [super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
@@ -292,10 +370,14 @@ static CGColorSpaceRef CreateSystemColorSpace()
     [self unbind:@"filterName"];
     [self unbind:@"vSyncEnabled"];
 
+    CGLContextObj cgl_ctx = layerContext;
+    glDeleteTextures(1, &gameTexture);
+    
     [filterRenderer release];
     
     self.rootProxy = nil;
-    
+
+    CGColorSpaceRelease(ntscColorSpace);
     CGLReleaseContext(layerContext);
     [super dealloc];
 }
