@@ -65,8 +65,6 @@
 		1B223EFC100B89BE00F42067 /* CRTDisplace.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFA100B89BE00F42067 /* CRTDisplace.vert */; };
 		1B223EFD100B89BE00F42067 /* CRTDisplace.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFB100B89BE00F42067 /* CRTDisplace.frag */; };
 		1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224006100BD61D00F42067 /* Debug.qtz */; };
-		1B224029100BD67F00F42067 /* Linear.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224007100BD61D00F42067 /* Linear.qtz */; };
-		1B22402A100BD67F00F42067 /* Nearest Neighbor.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224008100BD61D00F42067 /* Nearest Neighbor.qtz */; };
 		1B22402B100BD67F00F42067 /* Scale2xHQ.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224009100BD61D00F42067 /* Scale2xHQ.qtz */; };
 		1B22402C100BD67F00F42067 /* Scale2xPlus.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B22400A100BD61D00F42067 /* Scale2xPlus.qtz */; };
 		1B22402D100BD67F00F42067 /* Scale4x.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B22400B100BD61D00F42067 /* Scale4x.qtz */; };
@@ -344,8 +342,6 @@
 				1B224175100C049000F42067 /* CRT.qtz in Copy Filters Folder To App Resources */,
 				1B224177100C049E00F42067 /* TV.qtz in Copy Filters Folder To App Resources */,
 				1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters Folder To App Resources */,
-				1B224029100BD67F00F42067 /* Linear.qtz in Copy Filters Folder To App Resources */,
-				1B22402A100BD67F00F42067 /* Nearest Neighbor.qtz in Copy Filters Folder To App Resources */,
 				1B22402B100BD67F00F42067 /* Scale2xHQ.qtz in Copy Filters Folder To App Resources */,
 				1B22402C100BD67F00F42067 /* Scale2xPlus.qtz in Copy Filters Folder To App Resources */,
 				1B22402D100BD67F00F42067 /* Scale4x.qtz in Copy Filters Folder To App Resources */,

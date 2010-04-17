@@ -323,6 +323,8 @@
 {
     [self willChangeValueForKey:@"filterNames"];
     filterNames = [[[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
+    [filterNames addObject:@"Linear"];
+    [filterNames addObject:@"Nearest Neighbor"];
     [self didChangeValueForKey:@"filterNames"];
 }
 
