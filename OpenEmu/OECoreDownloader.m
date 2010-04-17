@@ -85,7 +85,7 @@
     [self loadAppcasts];
 }
 
-- (void) dealloc
+- (void)dealloc
 {
     [downloadArrayController release];
     [downloadTableView       release];
@@ -138,5 +138,9 @@
     [downloadArrayController removeObject:download];
 }
 
+- (IBAction)openCoreDownloaderWindow:(id)sender
+{
+    [self close];
+}
 
 @end

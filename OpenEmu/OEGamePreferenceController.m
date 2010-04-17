@@ -63,6 +63,11 @@
     return [self init];
 }
 
+- (IBAction)openPreferenceWindow:(id)sender
+{
+    [self close];
+}
+
 - (NSSize)windowWillResize:(NSWindow *)window toSize:(NSSize)proposedFrameSize
 {
     NSLog(@"%s %@", __FUNCTION__, NSStringFromSize(proposedFrameSize));

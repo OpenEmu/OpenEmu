@@ -83,7 +83,6 @@
 
 @property(readwrite, retain) NSMutableDictionary *filterDictionary;
 
-
 - (NSString *)applicationSupportFolder;
 
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator;

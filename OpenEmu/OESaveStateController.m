@@ -78,6 +78,11 @@
     return self;
 }
 
+- (IBAction)openSaveStateWindow:(id)sender
+{
+    [self close];
+}
+
 static void * const OEContentChangedContext   = @"OEContentChangedContext";
 static void * const OESelectionChangedContext = @"OESelectionChangedContext";
 
@@ -110,6 +115,8 @@ static void * const OESelectionChangedContext = @"OESelectionChangedContext";
 
 - (void)windowDidLoad
 {
+    NSLog(@"%s %@", __FUNCTION__, [self window]);
+    
     NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
                              (id)kCFBooleanTrue, NSRaisesForNotApplicableKeysBindingOption, nil];
     
