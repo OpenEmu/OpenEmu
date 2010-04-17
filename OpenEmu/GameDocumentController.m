@@ -52,14 +52,14 @@
 - (void)OE_setupHIDManager;
 - (OEHIDDeviceHandler *)OE_deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice;
 
--(BOOL)migrateOESaveStateAtPath:(NSString *)saveStatePath;
+- (BOOL)migrateOESaveStateAtPath:(NSString *)saveStatePath;
 @end
 
 
 @implementation GameDocumentController
 
 @dynamic appVersion, projectURL, currentDocument;
-@synthesize gameLoaded;
+@synthesize gameLoaded, aboutWindow;
 @synthesize plugins, filterNames;
 @synthesize aboutCreditsPath;
 @synthesize filterDictionary;
@@ -309,14 +309,8 @@
 
 - (NSAttributedString *)projectURL
 {
-    NSURL* url = [NSURL URLWithString:@"http://openemu.sourceforge.net"];
-    
-    NSMutableAttributedString* string = [[NSMutableAttributedString alloc] init];
-    [string appendAttributedString: [NSAttributedString hyperlinkFromString:@"http://openemu.sourceforge.net" withURL:url]];
-    
-    return [string autorelease];
-    //return [[NSAttributedString alloc] initWithString:@"http://openemu.sourceforge.net" attributes:[NSDictionary dictionaryWithObject:@"http://openemu.sourceforge.net" forKey:NSLinkAttributeName ]];
-    
+    return [NSAttributedString hyperlinkFromString:@"http://openemu.sourceforge.net"
+                                           withURL:[NSURL URLWithString:@"http://openemu.sourceforge.net"]];
 }
 
 - (void)updateFilterNames

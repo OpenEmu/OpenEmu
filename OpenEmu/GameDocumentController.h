@@ -43,7 +43,7 @@
     OESaveStateController      *saveStateManager;
 
     OECoreDownloader           *coreDownloader;
-    NSArray             *filterNames;
+    NSArray                    *filterNames;
     NSArray                    *plugins;
     NSArray                    *validExtensions;
     BOOL                        gameLoaded;
@@ -52,25 +52,26 @@
     NSMutableArray             *deviceHandlers;
     
     // added vade
-    IBOutlet NSWindow          *aboutWindow;
+    NSWindow                   *aboutWindow;
     NSString                   *aboutCreditsPath;
     
     // for new QC Composition based filters.
     // the key will be our filter name from the QC Composition attributes or if that is missing, the filename.
     // the value will of course be our QC Composition filter.
     // this will be passed into our QCRenderer in our CALayer where renderForTime will be called.
-    NSMutableDictionary* filterDictionary; 
+    NSMutableDictionary *filterDictionary; // Unused 
     
     // Core data controller info, used for savestates right now
     
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
-    NSManagedObjectModel *managedObjectModel;
-    NSManagedObjectContext *managedObjectContext;
+    NSManagedObjectModel         *managedObjectModel;
+    NSManagedObjectContext       *managedObjectContext;
     
-    OEROMOrganizer *organizer;
-    
+    OEROMOrganizer               *organizer;
     OEVersionMigrationController *versionMigrator;
 }
+
+@property(retain) IBOutlet NSWindow *aboutWindow;
 
 @property(readonly) NSArray *filterNames;
 @property(readonly, retain) NSArray *plugins;
@@ -80,7 +81,7 @@
 @property(readonly) NSString* aboutCreditsPath;
 @property(readonly) GameDocument *currentDocument;
 
-@property(readwrite, retain) NSMutableDictionary* filterDictionary;
+@property(readwrite, retain) NSMutableDictionary *filterDictionary;
 
 
 - (NSString *)applicationSupportFolder;
