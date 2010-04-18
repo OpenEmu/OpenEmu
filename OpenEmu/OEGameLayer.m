@@ -261,7 +261,11 @@ static CGColorSpaceRef CreateSystemColorSpace()
     
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef)
-    {        
+    {   
+        
+        NSDictionary *options = [NSDictionary dictionaryWithObject:(id)rgbColorSpace forKey:kCIImageColorSpace];
+        [self setGameCIImage:[CIImage imageWithIOSurface:surfaceRef options:options]];
+
         if([GLSLFilterNamesArray containsObject:filterName])
         {
             /*****************        
@@ -386,8 +390,6 @@ static CGColorSpaceRef CreateSystemColorSpace()
              
             *****************/ 
             
-            NSDictionary *options = [NSDictionary dictionaryWithObject:(id)rgbColorSpace forKey:kCIImageColorSpace];
-            [self setGameCIImage:[CIImage imageWithIOSurface:surfaceRef options:options]];
 
             // since our filters no longer rely on QC, it may not be around.
             if(filterRenderer == nil)
@@ -431,10 +433,20 @@ static CGColorSpaceRef CreateSystemColorSpace()
         
         if(screenshotHandler != nil)
         {
-            NSImage *img = nil;
+            NSImage * img = nil;
             // TODO: Drawing the content of the image
             
-            // We take one screenshot and dump the handler once done
+            NSRect extent = NSRectFromCGRect([[self gameCIImage] extent]);
+            int width = extent.size.width; 
+            int height = extent.size.height;  
+            
+            NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCIImage:self.gameCIImage];         
+            
+            img = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
+            [img addRepresentation:rep];
+            [rep release];
+            [img autorelease];
+                        
             screenshotHandler(img);
             [self setScreenshotHandler:nil];
         }

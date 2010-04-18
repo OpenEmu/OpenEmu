@@ -533,6 +533,21 @@
     return doc != nil;
 }
 
+- (IBAction)saveScreenshot:(id)sender
+{    
+    [(GameDocument*) [self currentDocument] captureScreenshotUsingBlock:^(NSImage* img)
+                                {  
+                                    
+                                    [[NSFileManager defaultManager] createFileAtPath:[[[[self currentDocument] fileURL] path] stringByAppendingPathExtension:@"screenshot.tiff"]
+                                                                            contents:[img TIFFRepresentation]
+                                                                          attributes:nil];
+                                                                    
+                                }];
+    
+    
+}
+
+
 #pragma mark -
 #pragma mark CoreData stack
 

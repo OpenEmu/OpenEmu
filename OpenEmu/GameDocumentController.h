@@ -98,6 +98,8 @@
 
 - (void)restartApplication;
 
+- (IBAction)saveScreenshot:(id)sender;
+
 - (IBAction)saveState:(id)sender;
 - (void)loadState:(NSArray*)states;
 - (IBAction)openPreferenceWindow:(id)sender;
