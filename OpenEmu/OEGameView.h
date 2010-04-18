@@ -42,6 +42,8 @@
 @property(assign)   id<OEGameCoreHelper>  rootProxy;
 @property(readonly) CGFloat               preferredWindowScale;
 
-- (NSImage *)imageForCurrentFrame;
+- (NSImage *)imageForCurrentFrame DEPRECATED_ATTRIBUTE;
+
+- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
 @end

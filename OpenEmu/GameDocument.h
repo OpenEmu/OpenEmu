@@ -85,6 +85,8 @@ enum _OEGameDocumentErrorCodes
 - (void)saveStateToFile:(NSString *)fileName;
 - (void)loadStateFromFile:(NSString *)fileName;
 
+- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
+
 - (IBAction)loadState:(id)sender;
 - (IBAction)resetGame:(id)sender;
 - (IBAction)saveState:(id)sender;
@@ -95,7 +97,7 @@ enum _OEGameDocumentErrorCodes
 - (BOOL)backgroundPauses;
 - (BOOL)defaultsToFullScreenMode;
 
-- (NSImage *)screenShot;
+- (NSImage *)screenShot DEPRECATED_ATTRIBUTE;
 - (void)applicationWillTerminate:(NSNotification *)aNotification;
 
 @end

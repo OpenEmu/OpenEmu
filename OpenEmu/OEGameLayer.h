@@ -50,15 +50,12 @@
     GLuint gameTexture;
     
     // replace our basic scaling filters with straight up shaders
-    OEGameShader* scale4X;
-    OEGameShader* scale4XHQ;
+    OEGameShader         *scale4X;
+    OEGameShader         *scale4XHQ;
 
-    OEGameShader* scale2XPlus;
-    OEGameShader* scale2XHQ;
-    OEGameShader* scale2XSALSmart;
-
-
-
+    OEGameShader         *scale2XPlus;
+    OEGameShader         *scale2XHQ;
+    OEGameShader         *scale2XSALSmart;
     
     BOOL                  usesShader;
     BOOL                  vSyncEnabled;
@@ -74,10 +71,17 @@
     
     BOOL                  filterHasOutputMousePositionKeys;
     
+    // Screenshot
+    
+    void (^screenshotHandler)(NSImage *img);
+    
     CIImage *gameCIImage;
     CGSize cachedTextureSize;
 	
 }
+
+@property(copy) void (^screenshotHandler)(NSImage *img);
+
 @property(assign) id<OEGameCoreHelper> rootProxy;
 
 @property         BOOL          vSyncEnabled;
@@ -85,7 +89,8 @@
 @property(retain) NSString     *filterName;
 @property(retain) CIImage      *gameCIImage;
 
-- (NSImage *)imageForCurrentFrame;
+- (NSImage *)imageForCurrentFrame DEPRECATED_ATTRIBUTE;
 
 - (CGFloat)preferredWindowScale;
+
 @end

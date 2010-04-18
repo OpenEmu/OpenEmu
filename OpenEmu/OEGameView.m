@@ -179,7 +179,12 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (NSImage *)imageForCurrentFrame
 {
-    return [gameLayer imageForCurrentFrame];
+    return nil;
+}
+
+- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block
+{
+    [gameLayer setScreenshotHandler:block];
 }
 
 @end

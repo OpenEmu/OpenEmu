@@ -93,7 +93,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
 
 @implementation OEGameLayer
 
-@synthesize ownerView, gameCIImage;
+@synthesize ownerView, gameCIImage, screenshotHandler;
 @synthesize rootProxy;
 
 - (BOOL)vSyncEnabled
@@ -429,6 +429,16 @@ static CGColorSpaceRef CreateSystemColorSpace()
              *****************/
         }
         
+        if(screenshotHandler != nil)
+        {
+            NSImage *img = nil;
+            // TODO: Drawing the content of the image
+            
+            // We take one screenshot and dump the handler once done
+            screenshotHandler(img);
+            [self setScreenshotHandler:nil];
+        }
+        
         // super calls flush for us.
         [super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
         
@@ -438,6 +448,8 @@ static CGColorSpaceRef CreateSystemColorSpace()
 
 - (void)dealloc
 {
+    [self setScreenshotHandler:nil];
+    
     [self unbind:@"filterName"];
     [self unbind:@"vSyncEnabled"];
 
@@ -446,7 +458,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
     
     [filterRenderer release];
     
-    self.rootProxy = nil;
+    [self setRootProxy:nil];
 
     CGColorSpaceRelease(ntscColorSpace);
     CGColorSpaceRelease(rgbColorSpace);
@@ -456,7 +468,10 @@ static CGColorSpaceRef CreateSystemColorSpace()
 }
 
 - (NSImage *)imageForCurrentFrame
-{    
+{
+    return nil;
+    
+#if 0
     if([self gameCIImage] == nil) return nil;
         
     NSRect extent = NSRectFromCGRect([[self gameCIImage] extent]);
@@ -470,5 +485,6 @@ static CGColorSpaceRef CreateSystemColorSpace()
     [image addRepresentation:rep];
     [rep release];
     return [image autorelease];
+#endif
 }
 @end

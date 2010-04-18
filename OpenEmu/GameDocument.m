@@ -429,7 +429,13 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 - (NSImage *)screenShot
 {
-    return [view imageForCurrentFrame];
+    return nil;
+    //return [view imageForCurrentFrame];
+}
+
+- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block
+{
+    [view captureScreenshotUsingBlock:block];
 }
 
 #pragma mark -
