@@ -38,24 +38,19 @@
 @interface OEGameLayer : CAOpenGLLayer
 {
 	// from our gameDocument - where we get our IOSurface refs from:
-	id<OEGameCoreHelper> rootProxy;
-	
+    id<OEGameCoreHelper> rootProxy;
+    
     NSString             *filterName;
     NSView               *ownerView;
     
     // for rendering
     CGLContextObj         layerContext;
     CGLContextObj         sharedLayerContext;
-
+    
     GLuint gameTexture;
     
     // replace our basic scaling filters with straight up shaders
-    OEGameShader         *scale4X;
-    OEGameShader         *scale4XHQ;
-
-    OEGameShader         *scale2XPlus;
-    OEGameShader         *scale2XHQ;
-    OEGameShader         *scale2XSALSmart;
+    NSDictionary         *filters;
     
     BOOL                  usesShader;
     BOOL                  vSyncEnabled;
@@ -77,7 +72,6 @@
     
     CIImage *gameCIImage;
     CGSize cachedTextureSize;
-	
 }
 
 @property(copy) void (^screenshotHandler)(NSImage *img);
@@ -88,8 +82,6 @@
 @property(assign) NSView       *ownerView;
 @property(retain) NSString     *filterName;
 @property(retain) CIImage      *gameCIImage;
-
-- (NSImage *)imageForCurrentFrame DEPRECATED_ATTRIBUTE;
 
 - (CGFloat)preferredWindowScale;
 

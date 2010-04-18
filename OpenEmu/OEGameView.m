@@ -177,11 +177,6 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     return [gameLayer preferredWindowScale];
 }
 
-- (NSImage *)imageForCurrentFrame
-{
-    return nil;
-}
-
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block
 {
     [gameLayer setScreenshotHandler:block];

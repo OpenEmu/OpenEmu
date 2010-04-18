@@ -35,8 +35,13 @@
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLIOSurface.h>
 
-// static list of included, non QTZ filters using straight GL/GLSL
-#define GLSLFilterNamesArray [NSArray arrayWithObjects:@"Linear", @"Nearest Neighbor", @"Scale2xHQ", @"Scale2xPlus", @"Scale4x", @"Scale4xHQ", nil]
+static NSString *const _OELinearFilterName          = @"Linear";
+static NSString *const _OENearestNeighborFilterName = @"Nearest Neighbor";
+static NSString *const _OEScale4xFilterName         = @"Scale4x";
+static NSString *const _OEScale4xHQFilterName       = @"Scale4xHQ";
+static NSString *const _OEScale2xPlusFilterName     = @"Scale2xPlus";
+static NSString *const _OEScale2xHQFilterName       = @"Scale2xHQ";
+static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
 
 #define dfl(a,b) [NSNumber numberWithFloat:a],@b
 
@@ -66,9 +71,9 @@ static CGColorSpaceRef CreateNTSCColorSpace()
     CMProfileRef ntscProfile = CreateNTSCProfile();
     
     ntscColorSpace = CGColorSpaceCreateWithPlatformColorSpace(ntscProfile);
-
+    
     CMCloseProfile(ntscProfile);
-
+    
     return ntscColorSpace;
 }
 
@@ -90,6 +95,10 @@ static CGColorSpaceRef CreateSystemColorSpace()
     return dispColorSpace;
 }
 
+@interface OEGameLayer ()
+- (NSDictionary *)OE_shadersForContext:(CGLContextObj)context;
+- (void)OE_refreshFilterRenderer;
+@end
 
 @implementation OEGameLayer
 
@@ -111,49 +120,45 @@ static CGColorSpaceRef CreateSystemColorSpace()
     }
 }
 
-- (NSString *)filterName
-{
-    return filterName;
-}
-
 - (QCComposition *)composition
 {
     return [[OECompositionPlugin compositionPluginWithName:filterName] composition];
 }
 
-- (void)setFilterName:(NSString *)aName
+- (NSString *)filterName { return filterName; }
+- (void)setFilterName:(NSString *)value
 {
-    DLog(@"setting filter name");
-    [filterName autorelease];
-    filterName = [aName retain];
-    
-    // since we changed the filtername, if we have a context (ie we are active) lets make a new QCRenderer...
-    // but only if its appropriate
-    if(![GLSLFilterNamesArray containsObject:filterName] &&  (layerContext != NULL))
-    {            
-        if(filterRenderer && (filterRenderer != nil))
-        {
-            DLog(@"releasing old filterRenderer");
+    if(filterName != value)
+    {
+        DLog(@"setting filter name");
+        [filterName release];
+        filterName = [value copy];
+        
+        [self OE_refreshFilterRenderer];
+    }
+}
 
-            [filterRenderer release];
-            filterRenderer = nil;
-        }    
+- (void)OE_refreshFilterRenderer
+{
+    // If we have a context (ie we are active) lets make a new QCRenderer...
+    // but only if its appropriate
+    if([filters objectForKey:filterName] == nil && layerContext != NULL)
+    {
+        DLog(@"releasing old filterRenderer");
+        
+        [filterRenderer release];
+        filterRenderer = nil;
         
         DLog(@"making new filter renderer");
         
-        // this will be responsible for our rendering... weee...    
+        // this will be responsible for our rendering... weee...
         QCComposition *compo = [self composition];
         
         if(compo != nil)
-        {
-            // Create a display colorspace for our QCRenderer
-            CGColorSpaceRef space = [[[ownerView window] colorSpace] CGColorSpace];
-
             filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
                                                         pixelFormat:CGLGetPixelFormat(layerContext)
-                                                         colorSpace:space
+                                                         colorSpace:[[[ownerView window] colorSpace] CGColorSpace]
                                                         composition:compo];
-        }
         
         if (filterRenderer == nil)
             NSLog(@"Warning: failed to create our filter QCRenderer");
@@ -164,38 +169,50 @@ static CGColorSpaceRef CreateSystemColorSpace()
         if([[filterRenderer outputKeys] containsObject:@"OEMousePositionX"] && [[filterRenderer outputKeys] containsObject:@"OEMousePositionY"])
         {
             DLog(@"filter has mouse output position keys");
-            filterHasOutputMousePositionKeys = TRUE;
+            filterHasOutputMousePositionKeys = YES;
         }
         else
-            filterHasOutputMousePositionKeys = FALSE;
-        
+            filterHasOutputMousePositionKeys = NO;
     }
+}
+
+- (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
+{
+    OEGameShader *scale4XShader         = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xFilterName         forContext:context] autorelease];
+    OEGameShader *scale4XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xHQFilterName       forContext:context] autorelease];
+    OEGameShader *scale2XPlusShader     = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xPlusFilterName     forContext:context] autorelease];
+    OEGameShader *scale2XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xHQFilterName       forContext:context] autorelease];
+    
+    // TODO: fix this shader
+    OEGameShader *scale2XSALSmartShader = nil;//[[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2XSALSmartFilterName forContext:context] autorelease];
+    
+    return [NSDictionary dictionaryWithObjectsAndKeys:
+            _OELinearFilterName         , _OELinearFilterName         ,
+            _OENearestNeighborFilterName, _OENearestNeighborFilterName,
+            scale4XShader               , _OEScale4xFilterName        ,
+            scale4XHQShader             , _OEScale4xHQFilterName      ,
+            scale2XPlusShader           , _OEScale2xPlusFilterName    ,
+            scale2XHQShader             , _OEScale2xHQFilterName      ,
+            scale2XSALSmartShader       , _OEScale2XSALSmartFilterName,
+            nil];
 }
 
 - (CGLContextObj)copyCGLContextForPixelFormat:(CGLPixelFormatObj)pixelFormat
 {
     DLog(@"initing GL context and shaders");
-     
+    
     layerContext = [super copyCGLContextForPixelFormat:pixelFormat];
     
     // we need to hold on to this for later.
     CGLRetainContext(layerContext);
     
     [self setVSyncEnabled:vSyncEnabled];
-
+    
     // create our gameTexture
     CGLContextObj cgl_ctx = layerContext;
     glGenTextures(1, &gameTexture);
-        
     
-    // our shader filters
-    scale4X = [[OEGameShader alloc] initWithShadersInMainBundle:@"Scale4x" forContext:cgl_ctx];
-    scale4XHQ = [[OEGameShader alloc] initWithShadersInMainBundle:@"Scale4xHQ" forContext:cgl_ctx];;
-    scale2XPlus = [[OEGameShader alloc] initWithShadersInMainBundle:@"Scale2xPlus" forContext:cgl_ctx];;
-    scale2XHQ = [[OEGameShader alloc] initWithShadersInMainBundle:@"Scale2xHQ" forContext:cgl_ctx];;
-   
-    // TODO: fix this shader
-    //scale2XSALSmart = [[OEGameShader alloc] initWithShadersInMainBundle:@"Scale2XSALSmart" forContext:cgl_ctx];;
+    filters = [[self OE_shadersForContext:cgl_ctx] retain];
     
     // our QCRenderer 'filter'
     [self setFilterName:filterName];
@@ -213,7 +230,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
     NSRect superBounds = NSRectFromCGRect([superlayer bounds]);
     
     NSSize aspect = NSMakeSize([rootProxy screenWidth], [rootProxy screenHeight]);
-            
+    
     if(superBounds.size.width * (aspect.width * 1.0/aspect.height) > superBounds.size.height * (aspect.width * 1.0/aspect.height))
         return CGSizeMake(superBounds.size.height * (aspect.width * 1.0/aspect.height), superBounds.size.height);
     else
@@ -221,7 +238,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
 }
 
 - (CGFloat)preferredWindowScale
-{    
+{
     QCComposition *composition = [self composition];
     NSNumber *scale = [[composition attributes] objectForKey:@"com.openemu.windowScaleFactor"];
     
@@ -241,8 +258,80 @@ static CGColorSpaceRef CreateSystemColorSpace()
     return rootProxy != nil;
 }
 
+// GL render method
+- (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader
+{
+    CGLContextObj cgl_ctx = glContext;
+    
+    glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    
+    glEnable(GL_TEXTURE_RECTANGLE_EXT);
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+    CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
+    
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    
+    glDisable(GL_BLEND);
+    glTexEnvi(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_ENV_MODE, GL_REPLACE);
+    
+    glActiveTexture(GL_TEXTURE0);
+    glColor4f(1.0, 1.0, 1.0, 1.0);
+    
+    GLfloat tex_coords[] = 
+    {
+        0, 0,
+        IOSurfaceGetWidth(surfaceRef), 0,
+        IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef),
+        0, IOSurfaceGetHeight(surfaceRef)
+    };
+    
+    GLfloat verts[] = 
+    {
+        -1, -1,
+        1, -1,
+        1, 1,
+        -1, 1
+    };
+    
+    if(shader == (id)_OELinearFilterName)
+    {
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    }
+    else
+    {
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        
+        if(shader != (id)_OENearestNeighborFilterName)
+        {
+            glUseProgramObjectARB([shader programObject]);
+            
+            // set up shader uniforms
+            glUniform1iARB([shader uniformLocationWithName:"OGL2Texture"], 0);
+        }
+    }
+    
+    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+    glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_FLOAT, 0, verts );
+    glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+    glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+    glDisableClientState(GL_VERTEX_ARRAY);
+    
+    // turn off shader - incase we switch toa QC filter or to a mode that does not use it.
+    glUseProgramObjectARB(0);
+    
+    glPopAttrib();
+    glPopClientAttrib();
+}
+
 - (void)drawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
 {
+    // FIXME: Why not using the timestamps passed by parameters ?
     // rendering time for QC filters..
     time = [NSDate timeIntervalSinceReferenceDate];
     
@@ -252,7 +341,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
         time = 0;
     }
     else
-        time -= startTime;    
+        time -= startTime;
     
     // get our IOSurface ID from our helper
     IOSurfaceID surfaceID = [self.rootProxy surfaceID];
@@ -260,143 +349,25 @@ static CGColorSpaceRef CreateSystemColorSpace()
     IOSurfaceRef surfaceRef = IOSurfaceLookup(surfaceID); 
     
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
-    if(surfaceRef)
-    {   
-        
+    if(surfaceRef != NULL)
+    {
         NSDictionary *options = [NSDictionary dictionaryWithObject:(id)rgbColorSpace forKey:kCIImageColorSpace];
         [self setGameCIImage:[CIImage imageWithIOSurface:surfaceRef options:options]];
-
-        if([GLSLFilterNamesArray containsObject:filterName])
+        
+        OEGameShader *shader = [filters objectForKey:filterName];
+        
+        if(shader != nil) [self OE_drawSurface:surfaceRef inCGLContext:glContext usingShader:shader];
+        else
         {
-            /*****************        
-
-            OpenGL Drawing - performance testing code
-
-            *****************/     
-
-            CGLContextObj cgl_ctx = glContext;
-
-            glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
-            glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-            glEnable(GL_TEXTURE_RECTANGLE_EXT);
-            glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-            CGLTexImageIOSurface2D(cgl_ctx, GL_TEXTURE_RECTANGLE_EXT, GL_RGBA8, IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef), GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
-
-            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-            glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-            glDisable(GL_BLEND);
-            glTexEnvi(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-
-            glActiveTexture(GL_TEXTURE0);
-            glColor4f(1.0, 1.0, 1.0, 1.0);
-
-            GLfloat tex_coords[] = 
-            {
-                0, 0,
-                IOSurfaceGetWidth(surfaceRef), 0,
-                IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef),
-                0, IOSurfaceGetHeight(surfaceRef)
-            };
-
-            GLfloat verts[] = 
-            {
-                -1, -1,
-                1, -1,
-                1, 1,
-                -1, 1
-            };
-            
-            if([filterName isEqualToString:@"Nearest Neighbor"])
-            {
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);       
-            }
-            else if([filterName isEqualToString:@"Linear"])
-            {
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);                
-            }
-            else if([filterName isEqualToString:@"Scale2xHQ"])
-            {
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                
-
-                glUseProgramObjectARB([scale2XHQ programObject]);
-                
-                // set up shader uniforms
-                glUniform1iARB([scale2XHQ uniformLocationWithName:"OGL2Texture"], 0);            
-            }           
-            else if([filterName isEqualToString:@"Scale2xPlus"])
-            {
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                
-                
-                glUseProgramObjectARB([scale2XPlus programObject]);
-                
-                // set up shader uniforms
-                glUniform1iARB([scale2XPlus uniformLocationWithName:"OGL2Texture"], 0);            
-            }
-            else if([filterName isEqualToString:@"Scale4x"])
-            {
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                
-                
-                glUseProgramObjectARB([scale4X programObject]);
-                
-                // set up shader uniforms
-                glUniform1iARB([scale4X uniformLocationWithName:"OGL2Texture"], 0);            
-            }
-           
-            else if([filterName isEqualToString:@"Scale4xHQ"])
-            {
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-                glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);                
-                
-                glUseProgramObjectARB([scale4XHQ programObject]);
-                
-                // set up shader uniforms
-                glUniform1iARB([scale4XHQ uniformLocationWithName:"OGL2Texture"], 0);            
-            }
-            
-            glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-            glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glVertexPointer(2, GL_FLOAT, 0, verts );
-            glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
-            glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-            glDisableClientState(GL_VERTEX_ARRAY);
-
-            // turn off shader - incase we switch toa QC filter or to a mode that does not use it.
-            glUseProgramObjectARB(0);
-            
-            glPopAttrib();
-            glPopClientAttrib();
-
-
-            /*****************        
-
-            GL render method
-
-            *****************/ 
-            
-        }
-        else 
-        {
-            /*****************        
-             
+            /*****************
              QC Drawing - this is the non-standard code path for rendering custom filters
-             
-            *****************/ 
+             *****************/
             
-
-            // since our filters no longer rely on QC, it may not be around.
-            if(filterRenderer == nil)
-                [self setFilterName:filterName];
+            // Since our filters no longer rely on QC, it may not be around.
+            if(filterRenderer == nil) [self OE_refreshFilterRenderer];
             
             if(filterRenderer != nil)
-            {            
+            {
                 NSDictionary *arguments = nil;
                 
                 NSWindow *gameWindow = [ownerView window];
@@ -424,10 +395,8 @@ static CGColorSpaceRef CreateSystemColorSpace()
                 }
             }
             
-            /*****************        
-             
+            /*****************
              End QC Drawing
-             
              *****************/
         }
         
@@ -440,13 +409,13 @@ static CGColorSpaceRef CreateSystemColorSpace()
             int width = extent.size.width; 
             int height = extent.size.height;  
             
-            NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCIImage:self.gameCIImage];         
+            NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCIImage:self.gameCIImage];
             
             img = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
             [img addRepresentation:rep];
             [rep release];
             [img autorelease];
-                        
+            
             screenshotHandler(img);
             [self setScreenshotHandler:nil];
         }
@@ -455,23 +424,25 @@ static CGColorSpaceRef CreateSystemColorSpace()
         [super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
         
         CFRelease(surfaceRef);
-    }    
+    }
 }
 
 - (void)dealloc
 {
+    [filters release];
+    
     [self setScreenshotHandler:nil];
     
     [self unbind:@"filterName"];
     [self unbind:@"vSyncEnabled"];
-
+    
     CGLContextObj cgl_ctx = layerContext;
     glDeleteTextures(1, &gameTexture);
     
     [filterRenderer release];
     
     [self setRootProxy:nil];
-
+    
     CGColorSpaceRelease(ntscColorSpace);
     CGColorSpaceRelease(rgbColorSpace);
     
@@ -479,24 +450,4 @@ static CGColorSpaceRef CreateSystemColorSpace()
     [super dealloc];
 }
 
-- (NSImage *)imageForCurrentFrame
-{
-    return nil;
-    
-#if 0
-    if([self gameCIImage] == nil) return nil;
-        
-    NSRect extent = NSRectFromCGRect([[self gameCIImage] extent]);
-    int width = extent.size.width; 
-    int height = extent.size.height;  
-    
-    NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCIImage:self.gameCIImage];
-    
-    
-    NSImage *image = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
-    [image addRepresentation:rep];
-    [rep release];
-    return [image autorelease];
-#endif
-}
 @end
