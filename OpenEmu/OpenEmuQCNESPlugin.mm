@@ -40,7 +40,7 @@
 
 static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* info)
 {    
-//    glDeleteTextures(1, &name);
+    //    glDeleteTextures(1, &name);
 }
 
 static void _BufferReleaseCallback(const void* address, void* info)
@@ -151,9 +151,9 @@ static GLint createNewTexture(CGLContextObj context, GLenum internalPixelFormat,
 @implementation OpenEmuQCNES
 
 /*
-Here you need to declare the input / output properties as dynamic as Quartz Composer will handle their implementation
-@dynamic inputFoo, outputBar;
-*/
+ Here you need to declare the input / output properties as dynamic as Quartz Composer will handle their implementation
+ @dynamic inputFoo, outputBar;
+ */
 @dynamic inputRom;
 @dynamic inputControllerData;
 @dynamic inputVolume;
@@ -184,8 +184,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 + (NSDictionary*) attributes
 {
     /*
-    Return a dictionary of attributes describing the plug-in (QCPlugInAttributeNameKey, QCPlugInAttributeDescriptionKey...).
-    */
+     Return a dictionary of attributes describing the plug-in (QCPlugInAttributeNameKey, QCPlugInAttributeDescriptionKey...).
+     */
     
     return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey, kQCPlugIn_Description, QCPlugInAttributeDescriptionKey, nil];
 }
@@ -193,12 +193,12 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 + (NSDictionary*) attributesForPropertyPortWithKey:(NSString*)key
 {
     /*
-    Specify the optional attributes for property based ports (QCPortAttributeNameKey, QCPortAttributeDefaultValueKey...).
-    */
+     Specify the optional attributes for property based ports (QCPortAttributeNameKey, QCPortAttributeDefaultValueKey...).
+     */
     if([key isEqualToString:@"inputRom"]) 
         return [NSDictionary dictionaryWithObjectsAndKeys:    @"ROM Path", QCPortAttributeNameKey, 
-                                                             @"~/roms/NES/RomName.nes", QCPortAttributeDefaultValueKey, 
-                                                            nil]; 
+                @"~/roms/NES/RomName.nes", QCPortAttributeDefaultValueKey, 
+                nil]; 
     
     if([key isEqualToString:@"inputVolume"]) 
         return [NSDictionary dictionaryWithObjectsAndKeys:    @"Volume", QCPortAttributeNameKey, 
@@ -210,16 +210,16 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
     // NSArray with player count in index 0, index 1 is eButton "struct" (see GameButtons.h for typedef)
     if([key isEqualToString:@"inputControllerData"])
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Controller Data", QCPortAttributeNameKey, nil];
-
+    
     if([key isEqualToString:@"inputSaveStatePath"])
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Save State", QCPortAttributeNameKey,
-                                                        @"~/roms/saves/savefilename", QCPortAttributeDefaultValueKey, 
-                                                        nil];
-
+                @"~/roms/saves/savefilename", QCPortAttributeDefaultValueKey, 
+                nil];
+    
     if([key isEqualToString:@"inputLoadStatePath"])
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Load State", QCPortAttributeNameKey,
-                                                        @"~/roms/saves/loadsavefilename", QCPortAttributeDefaultValueKey, 
-                                                        nil];
+                @"~/roms/saves/loadsavefilename", QCPortAttributeDefaultValueKey, 
+                nil];
     
     if([key isEqualToString:@"inputPauseEmulation"])
         return [NSDictionary dictionaryWithObjectsAndKeys:    @"Pause Emulator", QCPortAttributeNameKey,
@@ -247,12 +247,12 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Enable Backwards Sound", QCPortAttributeNameKey,
                 [NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
                 nil];
-
-//    if([key isEqualToString:@"inputRewinderReset"])
-//        return [NSDictionary dictionaryWithObjectsAndKeys:@"Rewinder Reset", QCPortAttributeNameKey,
-//                [NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
-//                nil];
-
+    
+    //    if([key isEqualToString:@"inputRewinderReset"])
+    //        return [NSDictionary dictionaryWithObjectsAndKeys:@"Rewinder Reset", QCPortAttributeNameKey,
+    //                [NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
+    //                nil];
+    
     if([key isEqualToString:@"inputNmtRamCorrupt"])
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Corrupt NMT RAM", QCPortAttributeNameKey,
                 [NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
@@ -264,7 +264,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
                 [NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
                 [NSNumber numberWithUnsignedInteger:1], QCPortAttributeMaximumValueKey,
                 nil];
-
+    
     if([key isEqualToString:@"inputNmtRamValue"])
         return [NSDictionary dictionaryWithObjectsAndKeys:@"NMT RAM Value",QCPortAttributeNameKey,
                 [NSNumber numberWithUnsignedInteger:0], QCPortAttributeMinimumValueKey,
@@ -317,7 +317,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
             @"inputEnableRewinder",
             @"inputEnableRewinderBackwardsSound",
             @"inputRewinderDirection",
-//            @"inputRewinderReset",
+            //            @"inputRewinderReset",
             @"inputNmtRamCorrupt",
             @"inputNmtRamOffset",
             @"inputNmtRamValue",
@@ -333,8 +333,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 + (QCPlugInExecutionMode) executionMode
 {
     /*
-    Return the execution mode of the plug-in: kQCPlugInExecutionModeProvider, kQCPlugInExecutionModeProcessor, or kQCPlugInExecutionModeConsumer.
-    */
+     Return the execution mode of the plug-in: kQCPlugInExecutionModeProvider, kQCPlugInExecutionModeProcessor, or kQCPlugInExecutionModeConsumer.
+     */
     
     return kQCPlugInExecutionModeProvider;
 }
@@ -342,8 +342,8 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 + (QCPlugInTimeMode) timeMode
 {
     /*
-    Return the time dependency mode of the plug-in: kQCPlugInTimeModeNone, kQCPlugInTimeModeIdle or kQCPlugInTimeModeTimeBase.
-    */
+     Return the time dependency mode of the plug-in: kQCPlugInTimeModeNone, kQCPlugInTimeModeIdle or kQCPlugInTimeModeTimeBase.
+     */
     
     return kQCPlugInTimeModeIdle;
 }
@@ -358,11 +358,11 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
         
         persistantNameTableData = [[NSMutableArray alloc] init];
         [persistantNameTableData retain];
-
+        
         //FIXME: maybe just get Nestopia
         plugins = [[OECorePlugin allPlugins] retain];
         validExtensions = [[OECorePlugin supportedTypeExtensions] retain];
-
+        
         self.userPaused = NO; self.loadedRom = NO; self.romFinishedLoading = NO;
     }
     
@@ -502,7 +502,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
     // Process ROM loads
     if([self didValueForInputKeyChange: @"inputRom"] 
        && ([self valueForInputKey:@"inputRom"] != [[OpenEmuQCNES    attributesForPropertyPortWithKey:@"inputRom"] valueForKey: QCPortAttributeDefaultValueKey])
-        && (![[self valueForInputKey:@"inputRom"] isEqualToString:@""] ))
+       && (![[self valueForInputKey:@"inputRom"] isEqualToString:@""] ))
     {
         if([self loadRom:[self valueForInputKey:@"inputRom"]]) 
         {
@@ -551,38 +551,38 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
             DLog(@"load path changed");
             [self loadState:[[self valueForInputKey:@"inputLoadStatePath"] stringByStandardizingPath]];
         }
-		
-		// Process emulation pausing 
-		if([self didValueForInputKeyChange: @"inputPauseEmulation"])	
-		{
-			if(self.inputPauseEmulation)	
-			{
-				DLog(@"user paused emulation");
-				[gameAudio pauseAudio];
-				[gameCore setPauseEmulation:YES]; 
-				self.userPaused = YES;
-			}
-			else 
-			{
-				DLog(@"user unpaused emulation");
-				[gameAudio startAudio];
-				[gameCore setPauseEmulation:NO];
-				self.userPaused = NO;
-			}
-		}
-		
-		// Process cheat codes
-		if([self didValueForInputKeyChange: @"inputCheatCode"] && ([self valueForInputKey:@"inputCheatCode"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputCheatCode"] valueForKey: QCPortAttributeDefaultValueKey]))	
-		{
-			DLog(@"cheat code entered");
-			[gameCore setCode:[self valueForInputKey:@"inputCheatCode"]];
-		}
-		
+        
+        // Process emulation pausing 
+        if([self didValueForInputKeyChange: @"inputPauseEmulation"])    
+        {
+            if(self.inputPauseEmulation)    
+            {
+                DLog(@"user paused emulation");
+                [gameAudio pauseAudio];
+                [gameCore setPauseEmulation:YES]; 
+                self.userPaused = YES;
+            }
+            else 
+            {
+                DLog(@"user unpaused emulation");
+                [gameAudio startAudio];
+                [gameCore setPauseEmulation:NO];
+                self.userPaused = NO;
+            }
+        }
+        
+        // Process cheat codes
+        if([self didValueForInputKeyChange: @"inputCheatCode"] && ([self valueForInputKey:@"inputCheatCode"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputCheatCode"] valueForKey: QCPortAttributeDefaultValueKey]))    
+        {
+            DLog(@"cheat code entered");
+            [gameCore setCode:[self valueForInputKey:@"inputCheatCode"]];
+        }
+        
 #pragma mark process rewinder stuff
-		if([self didValueForInputKeyChange: @"inputEnableRewinder"])	
-		{
-			[gameCore enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
-
+        if([self didValueForInputKeyChange: @"inputEnableRewinder"])    
+        {
+            [gameCore enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
+            
             if([gameCore isRewinderEnabled]) 
             {
                 DLog(@"rewinder is enabled");
@@ -592,20 +592,20 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
             }
         }
         
-    //    int* rewindTimer;
-    //    rewindTimer = [[NSNumber alloc] initWithUnsignedInteger:0];
-    //    
-    //    if([(NESGameEmu*)gameCore isRewinderEnabled]) 
-    //    {
-    //        rewindTimer++;
-    //        if((rewindTimer % 60) == 0) {
-    //        DLog(@"rewind timer count is %d",rewindTimer);
-    //        }
-    //    } 
+        //    int* rewindTimer;
+        //    rewindTimer = [[NSNumber alloc] initWithUnsignedInteger:0];
+        //    
+        //    if([(NESGameEmu*)gameCore isRewinderEnabled]) 
+        //    {
+        //        rewindTimer++;
+        //        if((rewindTimer % 60) == 0) {
+        //        DLog(@"rewind timer count is %d",rewindTimer);
+        //        }
+        //    } 
         
         if([self didValueForInputKeyChange: @"inputRewinderDirection"])    
         {
-    //        DLog(@"rewinder direction changed");
+            //        DLog(@"rewinder direction changed");
             [gameCore rewinderDirection:[[self valueForInputKey:@"inputRewinderDirection"] boolValue]];
         }
         
@@ -622,7 +622,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
                 DLog(@"rewinder backwards sound is disabled");
             }
         }
-
+        
 #pragma mark glitch methods (CORRUPTION FTW)
         
         if(executedFrame && hasNmtRam && self.inputNmtRamCorrupt && ( [self didValueForInputKeyChange:@"inputNmtRamOffset"] || [self didValueForInputKeyChange:@"inputNmtRamValue"] ))
@@ -646,9 +646,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
         }
         
     } // END if(self.loadedRom && self.romFinishedLoading)
-
+    
 #pragma mark provide an image 
-
+    
     // our output image
     id    provider = nil;
     
@@ -695,10 +695,10 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
                                                          shouldColorMatch:YES];
         executedFrame = YES;
     }
-
+    
     // output OpenEmu Texture - note we CAN output a nil image. 
     self.outputImage = provider;
-
+    
     CGLUnlockContext(cgl_ctx);
     return YES;
 }
@@ -708,9 +708,9 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
     /*
      Called by Quartz Composer when the plug-in instance stops being used by Quartz Composer.
      */
-
+    
     DLog(@"called disableExecution");
-
+    
     // if we have a ROM running and the patch's image output is disconnected, pause the emulator
     if(self.loadedRom && self.romFinishedLoading)
     {
@@ -769,7 +769,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 {
     NSString* theRomPath = [romPath stringByStandardizingPath];
     BOOL isDir;
-
+    
     if(![theRomPath caseInsensitiveCompare:@"nes"])
     {
         NSLog(@"ROM is not .NES");
@@ -777,30 +777,30 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
     }
     
     DLog(@"New ROM path is: %@",theRomPath);
-
-	if([[NSFileManager defaultManager] fileExistsAtPath:theRomPath isDirectory:&isDir] && !isDir)
-	{
-		NSString * extension = [theRomPath pathExtension];
-		DLog(@"extension is: %@", extension);
-		
-		// cleanup
-		if(self.loadedRom && self.romFinishedLoading)
-		{
-			self.romFinishedLoading = NO;
-			[gameAudio stopAudio];
-			[gameCore stopEmulation];
-			[gameCore release];
-			[gameAudio release];
-			
-			DLog(@"released/cleaned up for new rom");
-			
-		}
-		self.loadedRom = NO;
-		hasChrRom = NO;
-		hasNmtRam = NO;
-		
-		//load NES bundle
-		OECorePlugin *plugin = [self pluginForType:extension];
+    
+    if([[NSFileManager defaultManager] fileExistsAtPath:theRomPath isDirectory:&isDir] && !isDir)
+    {
+        NSString * extension = [theRomPath pathExtension];
+        DLog(@"extension is: %@", extension);
+        
+        // cleanup
+        if(self.loadedRom && self.romFinishedLoading)
+        {
+            self.romFinishedLoading = NO;
+            [gameAudio stopAudio];
+            [gameCore stopEmulation];
+            [gameCore release];
+            [gameAudio release];
+            
+            DLog(@"released/cleaned up for new rom");
+            
+        }
+        self.loadedRom = NO;
+        hasChrRom = NO;
+        hasNmtRam = NO;
+        
+        //load NES bundle
+        OECorePlugin *plugin = [self pluginForType:extension];
         
         gameCoreController = [plugin controller];
         gameCore = [gameCoreController newGameCore];
@@ -856,7 +856,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
     // player number 
     NSNumber*  playerNumber = [persistantControllerData objectAtIndex:0];
     NSArray * controllerArray = [persistantControllerData objectAtIndex:1];
-        
+    
     NSUInteger i;
     for(i = 0; i < [controllerArray count]; i++)
     {
@@ -881,7 +881,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 // callback for audio from plugin
 - (void) refresh
 {
-//    [gameAudio advanceBuffer];
+    //    [gameAudio advanceBuffer];
 }
 
 - (OECorePlugin *)pluginForType:(NSString *)extension
@@ -922,7 +922,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
 {
     BOOL isDir;    
     DLog(@"loadState path is %@", fileName);
-        
+    
     if([[fileName pathExtension] caseInsensitiveCompare:@"sav"] != 0) 
     {
         NSLog(@"Saved state files must have the extension \".sav\" to be loaded.");
@@ -937,7 +937,7 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
         if(!self.loadedRom) {
             NSLog(@"no ROM loaded -- please load a ROM before loading a state");
             return NO;
-            }
+        }
         else {
             [gameCore loadStateFromFileAtPath:fileName];
             DLog(@"loaded new state");
@@ -950,13 +950,13 @@ Here you need to declare the input / output properties as dynamic as Quartz Comp
     }
     return YES;
 }
-    
+
 - (BOOL) validateNameTableData: (NSArray*) nameTableData
 {
     if([nameTableData count] == 2 && ([[nameTableData objectAtIndex:0] intValue] <= 3)
-	   && [[nameTableData objectAtIndex:1] count] == 960)
+       && [[nameTableData objectAtIndex:1] count] == 960)
     {
-//        DLog(@"validated name table data");
+        //DLog(@"validated name table data");
         return YES;
     }
     NSLog(@"error: missing or invalid name table data structure.");

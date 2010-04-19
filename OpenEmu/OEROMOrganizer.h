@@ -32,15 +32,14 @@
 {
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel         *managedObjectModel;
-    NSManagedObjectContext       *managedObjectContext;    
+    NSManagedObjectContext       *managedObjectContext;
     
     NSArrayController            *allROMSController;
-	
-	NSOutlineView                *sourceList;
-	NSSearchField                *searchField;
-	
-	NSArray                      *categories;
-	NSPredicate                  *searchPredicate;
+    
+    NSOutlineView                *sourceList;
+    NSSearchField                *searchField;
+    
+    NSPredicate                  *searchPredicate;
 }
 
 @property(retain) IBOutlet NSArrayController *allROMSController;

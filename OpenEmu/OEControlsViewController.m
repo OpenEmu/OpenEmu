@@ -42,7 +42,6 @@
     [super dealloc];
 }
 
-
 - (void)awakeFromNib
 {
     [playerField setIntegerValue:1];

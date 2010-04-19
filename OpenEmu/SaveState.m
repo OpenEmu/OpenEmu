@@ -41,7 +41,7 @@
 - (NSString *)rompath
 {
     NSData *aliasData = [self valueForKey:@"pathalias"];
-	return [NSString OE_stringWithPathOfAliasData:aliasData];
+    return [NSString OE_stringWithPathOfAliasData:aliasData];
 }
 
 - (id) imageRepresentation

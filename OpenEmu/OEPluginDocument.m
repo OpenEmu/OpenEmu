@@ -48,16 +48,16 @@
         NSString *newPath = [folder stringByAppendingPathComponent:[path lastPathComponent]];
         //If the file isn't already in the right place
         if( ![newPath isEqualToString:path] )
-		{			
-			NSFileManager *manager = [NSFileManager defaultManager];
-			
-			if([manager fileExistsAtPath:newPath])
-				worked = [manager removeItemAtPath:newPath error:outError];
-			
-			if(![manager fileExistsAtPath:folder])
-				[manager createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:nil];
-			
-			if(worked) worked = [manager copyItemAtPath:path toPath:newPath error:outError];
+        {            
+            NSFileManager *manager = [NSFileManager defaultManager];
+            
+            if([manager fileExistsAtPath:newPath])
+                worked = [manager removeItemAtPath:newPath error:outError];
+            
+            if(![manager fileExistsAtPath:folder])
+                [manager createDirectoryAtPath:folder withIntermediateDirectories:YES attributes:nil error:nil];
+            
+            if(worked) worked = [manager copyItemAtPath:path toPath:newPath error:outError];
         }
         if(worked)
         {

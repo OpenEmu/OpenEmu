@@ -43,6 +43,7 @@
 {
     return @"Filters";
 }
+
 + (NSString *)pluginExtension
 {
     return @"qtz";

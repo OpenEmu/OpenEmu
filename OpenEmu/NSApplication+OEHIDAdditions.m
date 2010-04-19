@@ -81,7 +81,6 @@
         [_nextResponder buttonUp:anEvent];
 }
 
-
 - (void)hatSwitchDown:(OEHIDEvent *)anEvent
 {
     if(_nextResponder != nil)

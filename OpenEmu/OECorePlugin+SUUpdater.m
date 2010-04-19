@@ -33,11 +33,11 @@
 - (void)updateBundle:(id)sender
 {
     //This is a temporary fix to solve a stupid issue with appcasts
-	//    NSString * newAppcast = [NSString stringWithFormat:@"http://openemu.sourceforge.net/appcast_%@.xml", [self displayName]];
+    //NSString * newAppcast = [NSString stringWithFormat:@"http://openemu.sourceforge.net/appcast_%@.xml", [self displayName]];
     //NSLog(@"%@", newAppcast);
-	NSString* appcastURL = [[bundle infoDictionary] objectForKey:@"SUFeedURL"];
-	DLog(@"%@",appcastURL);
-	[[SUUpdater updaterForBundle:bundle] setFeedURL:[NSURL URLWithString:appcastURL]];
+    NSString* appcastURL = [[bundle infoDictionary] objectForKey:@"SUFeedURL"];
+    DLog(@"%@",appcastURL);
+    [[SUUpdater updaterForBundle:bundle] setFeedURL:[NSURL URLWithString:appcastURL]];
     [[SUUpdater updaterForBundle:bundle] resetUpdateCycle];
     [[SUUpdater updaterForBundle:bundle] checkForUpdates:self];
 }

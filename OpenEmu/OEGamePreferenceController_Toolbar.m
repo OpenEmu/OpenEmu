@@ -54,12 +54,12 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 - (void)setupToolbar
 {
 #define CREATE_RECORD(label, paletteLabel, toolTip, image, nib, ...) \
-   [NSDictionary dictionaryWithObjectsAndKeys:                       \
-    label,        OEToolbarLabelKey,                                 \
-    paletteLabel, OEToolbarPaletteLabelKey,                          \
-    toolTip,      OEToolbarToolTipKey,                               \
-    image,        OEToolbarImageKey,                                 \
-    nib,          OEToolbarNibNameKey, ##__VA_ARGS__, nil]
+    [NSDictionary dictionaryWithObjectsAndKeys:                       \
+     label,        OEToolbarLabelKey,                                 \
+     paletteLabel, OEToolbarPaletteLabelKey,                          \
+     toolTip,      OEToolbarToolTipKey,                               \
+     image,        OEToolbarImageKey,                                 \
+     nib,          OEToolbarNibNameKey, ##__VA_ARGS__, nil]
     
     preferencePanels = [[NSDictionary alloc] initWithObjectsAndKeys:
                         CREATE_RECORD(@"Video & Sound",
@@ -130,9 +130,9 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     {
         toolbarItem = nil;
         /*
-        // itemIdent refered to a toolbar item that is not provide or supported by us or cocoa 
-        // Returning nil will inform the toolbar this kind of item is not supported 
-        toolbarItem = [customIcons objectForKey:itemIdent];
+         // itemIdent refered to a toolbar item that is not provide or supported by us or cocoa 
+         // Returning nil will inform the toolbar this kind of item is not supported 
+         toolbarItem = [customIcons objectForKey:itemIdent];
          */
     }
     return toolbarItem;
@@ -165,49 +165,51 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 
 - (void)switchView:(id)sender
 {
-	
-//	// get the current view
-//	if(sender != nil)
-//	{
-//		NSView* previousView = [currentViewController view];
-//		
-//		currentViewIdentifier = [sender itemIdentifier];
-//		[toolbar setSelectedItemIdentifier:currentViewIdentifier];
-//		currentViewController = [self newViewControllerForIdentifier:currentViewIdentifier];
-//		
-//		NSView* currentView = [currentViewController view];
-//		if(currentView != nil && previousView != nil)
-//		{
-//			NSRect currentViewRect = [currentView frame];
-//			NSRect previousViewRect = [previousView frame];
-//			
-//			// setup dictionaries for our animator
-//			NSMutableDictionary* previousViewDict = [NSMutableDictionary dictionaryWithCapacity:4]; 
-//			NSMutableDictionary* currentViewDict = [NSMutableDictionary dictionaryWithCapacity:3];
-//			
-//			[currentViewDict setObject:currentView forKey:NSViewAnimationTargetKey];
-//			// animate from the previous rect to the new
-//			[currentViewDict setObject:[NSValue valueWithRect:previousViewRect] forKey:NSViewAnimationStartFrameKey];
-//			[currentViewDict setObject:[NSValue valueWithRect:NSZeroRect] forKey:NSViewAnimationEndFrameKey];
-//
-//			
-//		//	[previousViewDict setObject:previousView forKey:NSViewAnimationTargetKey];
-////			// animate from the previous rect to the new
-////			[previousViewDict setObject:[NSValue valueWithRect:previousViewRect] forKey:NSViewAnimationStartFrameKey];
-////			[previousViewDict setObject:[NSValue valueWithRect:currentViewRect] forKey:NSViewAnimationEndFrameKey];
-////			
-////			[previousViewDict setObject:NSViewAnimationFadeOutEffect forKey:NSViewAnimationEffectKey];
-//			
-//			NSAnimation *viewSwapAnimation = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObjects:currentViewDict, nil]];
-//			[viewSwapAnimation setDuration:1.0];
-//			[viewSwapAnimation setAnimationCurve:NSAnimationEaseInOut];
-//			
-//			[viewSwapAnimation startAnimation];
-//			
-//			[viewSwapAnimation release];
-//		}
-//	}
-		// // Figure out the new view, the old view, and the new size of the window
+#if 0
+        // get the current view
+        if(sender != nil)
+        {
+            NSView* previousView = [currentViewController view];
+            
+            currentViewIdentifier = [sender itemIdentifier];
+            [toolbar setSelectedItemIdentifier:currentViewIdentifier];
+            currentViewController = [self newViewControllerForIdentifier:currentViewIdentifier];
+            
+            NSView* currentView = [currentViewController view];
+            if(currentView != nil && previousView != nil)
+            {
+                NSRect currentViewRect = [currentView frame];
+                NSRect previousViewRect = [previousView frame];
+                
+                // setup dictionaries for our animator
+                NSMutableDictionary* previousViewDict = [NSMutableDictionary dictionaryWithCapacity:4]; 
+                NSMutableDictionary* currentViewDict = [NSMutableDictionary dictionaryWithCapacity:3];
+                
+                [currentViewDict setObject:currentView forKey:NSViewAnimationTargetKey];
+                // animate from the previous rect to the new
+                [currentViewDict setObject:[NSValue valueWithRect:previousViewRect] forKey:NSViewAnimationStartFrameKey];
+                [currentViewDict setObject:[NSValue valueWithRect:NSZeroRect] forKey:NSViewAnimationEndFrameKey];
+    
+#if 0
+                [previousViewDict setObject:previousView forKey:NSViewAnimationTargetKey];
+                // animate from the previous rect to the new
+                [previousViewDict setObject:[NSValue valueWithRect:previousViewRect] forKey:NSViewAnimationStartFrameKey];
+                [previousViewDict setObject:[NSValue valueWithRect:currentViewRect] forKey:NSViewAnimationEndFrameKey];
+                
+                [previousViewDict setObject:NSViewAnimationFadeOutEffect forKey:NSViewAnimationEffectKey];
+#endif
+                NSAnimation *viewSwapAnimation = [[NSViewAnimation alloc] initWithViewAnimations:[NSArray arrayWithObjects:currentViewDict, nil]];
+                [viewSwapAnimation setDuration:1.0];
+                [viewSwapAnimation setAnimationCurve:NSAnimationEaseInOut];
+                
+                [viewSwapAnimation startAnimation];
+                
+                [viewSwapAnimation release];
+            }
+        }
+#endif
+    
+    // // Figure out the new view, the old view, and the new size of the window
     NSViewController *previousController = currentViewController;
     if(sender != nil) currentViewIdentifier = [sender itemIdentifier];
     [toolbar setSelectedItemIdentifier:currentViewIdentifier];
@@ -238,14 +240,14 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     if([pluginSplit frame].size.width == minimumWidth) pluginSplit = nil;
     
     if((int)minimumWidth == 0) 
-		[pluginSplit setFrameSize:splitSize];
+        [pluginSplit setFrameSize:splitSize];
     
-//	[[[self window] animator] setFrame:newFrame display:YES];
-	[[self window] setFrame:newFrame display:YES];
-
-	if((int)minimumWidth != 0) 
-//	   [[pluginSplit animator] setFrameSize:splitSize];
-		[pluginSplit setFrameSize:splitSize];
+    //[[[self window] animator] setFrame:newFrame display:YES];
+    [[self window] setFrame:newFrame display:YES];
+    
+    if((int)minimumWidth != 0) 
+        //[[pluginSplit animator] setFrameSize:splitSize];
+        [pluginSplit setFrameSize:splitSize];
     
     //[[splitView animator] adjustSubviews];
     

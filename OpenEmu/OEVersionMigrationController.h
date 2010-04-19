@@ -25,37 +25,32 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <Cocoa/Cocoa.h>
 #import "SUVersionComparisonProtocol.h"
 
 #define OEVersionMigrationErrorDomain @"OEVersionMigrationErrorDomain"
 #define OEVersionMigrationFailureErrorsKey @"OEVersionMigrationFailureErrorsKey"
 
-@interface OEVersionMigrationController : NSObject {
-	BOOL isFirstRun;
-	BOOL isRunning;
-	
-	NSString *lastVersion;
-	
-	NSMutableDictionary *migrators;
-	id<SUVersionComparison> versionComparator;
+@interface OEVersionMigrationController : NSObject
+{
+    NSString                *lastVersion;
+    NSMutableDictionary     *migrators;
+    id<SUVersionComparison>  versionComparator;
+    
+    BOOL                     isFirstRun;
+    BOOL                     isRunning;
 }
 
-@property (assign) id<SUVersionComparison> versionComparator;
+@property(assign) id<SUVersionComparison> versionComparator;
 
-+(id)defaultMigrationController;
++ (id)defaultMigrationController;
 
--(void)runMigrationIfNeeded;
--(NSArray *)allMigrationVersions;
+- (void)runMigrationIfNeeded;
+- (NSArray *)allMigrationVersions;
 
 // the selector must return look like this:
-// - (BOOL) doSomething: (NSError **) err;
--(void)addMigratorTarget:(id)target 
-				selector:(SEL)selector
-			  forVersion:(NSString *)version;
+// - (BOOL)doSomething: (NSError **) err;
+- (void)addMigratorTarget:(id)target selector:(SEL)selector forVersion:(NSString *)version;
 
--(BOOL)migrateFromVersion:(NSString *)mostRecentVersion
-				toVersion:(NSString *)currentVersion
-					error:(NSError **)err;
+- (BOOL)migrateFromVersion:(NSString *)mostRecentVersion toVersion:(NSString *)currentVersion error:(NSError **)err;
 @end

@@ -37,7 +37,7 @@
 
 @interface OEGameLayer : CAOpenGLLayer
 {
-	// from our gameDocument - where we get our IOSurface refs from:
+    // from our gameDocument - where we get our IOSurface refs from:
     id<OEGameCoreHelper> rootProxy;
     
     NSString             *filterName;
@@ -57,8 +57,8 @@
     
     QCRenderer           *filterRenderer;
     
-    CGColorSpaceRef      ntscColorSpace;
-    CGColorSpaceRef      rgbColorSpace;
+    CGColorSpaceRef       ntscColorSpace;
+    CGColorSpaceRef       rgbColorSpace;
     
     // for QCRenderer
     NSTimeInterval        startTime; // time for rendering, input to time based effects, sources, 

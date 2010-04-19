@@ -29,5 +29,5 @@
 
 // Quicky UUID
 @interface NSString (UUID)
-+ (NSString*) stringWithUUID;
++ (NSString *)stringWithUUID;
 @end

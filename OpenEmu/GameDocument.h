@@ -57,7 +57,7 @@ enum _OEGameDocumentErrorCodes
     
     id<OEGameCoreHelper>  rootProxy;
     
-    // standard game document stuff
+    // Standard game document stuff
     NSTimer              *frameTimer;
     GameQTRecorder       *recorder;
     NSString             *emulatorName;

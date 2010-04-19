@@ -34,19 +34,15 @@
 
 - (id)init
 {
-    return [super initWithWindowNibName:@"GameFilePicker"];
-}
-
-- (id)initWithWindowNibName:(NSString *)aName
-{
-    return [self init];
+    return [self initWithWindowNibName:@"GameFilePicker"];
 }
 
 - (void)dealloc
 {
-	[table setDelegate:nil];
-	[table setDataSource:nil];
+    [table setDelegate:nil];
+    [table setDataSource:nil];
     [table release];
+    [fileName release];
     [super dealloc];
 }
 
@@ -60,7 +56,7 @@
 
 - (void)setArchive:(XADArchive *)archive
 {
-    fileName = [archive filename];
+    fileName = [[archive filename] retain];
     NSMutableArray *muteFiles = [NSMutableArray arrayWithCapacity:[archive numberOfEntries]];
     
     for(NSUInteger i = 0, count = [archive numberOfEntries]; i < count; i++)
@@ -84,7 +80,6 @@
     safeExit = YES;
     [[NSApplication sharedApplication] stopModalWithCode:1];
     [[self window] close];
-    
 }
 
 - (void)windowWillClose:(NSNotification *)notification

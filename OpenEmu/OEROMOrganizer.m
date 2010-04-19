@@ -38,16 +38,19 @@
 
 - (id)init
 {
-    return [super initWithWindowNibName:@"OEROMOrganizer"];
-}
-
-- (id)initWithWindowNibName:(NSString *)aName
-{
-    return [self init];
+    return [self initWithWindowNibName:@"OEROMOrganizer"];
 }
 
 - (void)dealloc
 {
+    [persistentStoreCoordinator release];
+    [managedObjectModel release];
+    [managedObjectContext release];
+    
+    [allROMSController release];
+    [sourceList release];
+    [searchPredicate release];
+    [searchField release];
     [super dealloc];
 }
 
@@ -71,8 +74,7 @@
  */
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
-    
-    if (persistentStoreCoordinator == nil)
+    if(persistentStoreCoordinator == nil)
     {
         NSFileManager *fileManager;
         NSString *applicationSupportFolder = nil;
@@ -81,13 +83,13 @@
         fileManager = [NSFileManager defaultManager];
         applicationSupportFolder = [(GameDocumentController *) [NSApp delegate] applicationSupportFolder];
         
-        if(![fileManager fileExistsAtPath:applicationSupportFolder isDirectory:NULL])
-            [fileManager createDirectoryAtPath:applicationSupportFolder withIntermediateDirectories:YES attributes:nil error:nil];
+        [fileManager createDirectoryAtPath:applicationSupportFolder withIntermediateDirectories:YES attributes:nil error:nil];
         
-        persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: [self managedObjectModel]];
+        persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
         if(![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType
                                                      configuration:nil
-                                                               URL:[NSURL fileURLWithPath:[applicationSupportFolder stringByAppendingPathComponent:@"ROMs.xml"] isDirectory:NO]
+                                                               URL:[NSURL fileURLWithPath:[applicationSupportFolder stringByAppendingPathComponent:@"ROMs.xml"]
+                                                                              isDirectory:NO]
                                                            options:nil
                                                              error:&error])
         {
@@ -123,13 +125,21 @@
 
 - (IBAction)addROM:(id)sender
 {
-    NSOpenPanel *panel = [[NSOpenPanel openPanel] retain];
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
     [panel setAllowedFileTypes:[OECorePlugin supportedTypeExtensions]];
     [panel setAllowsMultipleSelection:YES];
     
-    [panel beginSheetForDirectory:nil file:nil modalForWindow:[self window]
-                    modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:)
-                      contextInfo:self];
+    [panel beginSheetModalForWindow:[self window] completionHandler:
+     ^(NSInteger result)
+     {
+         if(result == NSOKButton)
+         {
+             for(NSString *file in [panel filenames])
+                 [OEROMFile fileWithPath:file createIfNecessary:YES inManagedObjectContext:[self managedObjectContext]];
+             
+             [self save];
+         }
+     }];
 }
 
 - (IBAction)removeROM:(id)sender
@@ -145,7 +155,7 @@
     NSArray *romFiles = [allROMSController selectedObjects];
     for(OEROMFile *romFile in romFiles)
     {
-        if(![controller openDocumentWithContentsOfURL:[romFile pathURL] display:YES error:&error] || error != nil)
+        if(![controller openDocumentWithContentsOfURL:[romFile pathURL] display:YES error:&error])
             NSLog(@"Error! %@", error);
         else
             [romFile setLastPlayedDate:[NSDate date]];
@@ -157,22 +167,7 @@
 - (void)save
 {
     NSError *error = nil;
-    [[self managedObjectContext] save:&error];
-    if(error != nil) NSLog(@"Couldn't save! %@", error);
-}
-
-- (void)openPanelDidEnd:(NSOpenPanel *)openPanel returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    if(returnCode == NSOKButton)
-    {
-        NSArray *filenames = [openPanel filenames];
-        for(NSString *file in filenames)
-            [OEROMFile fileWithPath:file createIfNecessary:YES inManagedObjectContext:[self managedObjectContext]];
-        
-        [self save];
-    }
-    
-    [openPanel release];
+    if(![[self managedObjectContext] save:&error]) NSLog(@"Couldn't save! %@", error);
 }
 
 - (void)setSearchPredicate:(NSPredicate *)pred
@@ -317,7 +312,6 @@
 
 - (NSPredicate *)predicateForCurrentState
 {
-    //NSPredicate *searchPredicate = [self predicateForSearchTerm:[searchField stringValue]];
     NSPredicate *selectionPredicate = [self predicateForSelection];
     return [NSCompoundPredicate andPredicateWithSubpredicates:[NSArray arrayWithObjects:
                                                                selectionPredicate,

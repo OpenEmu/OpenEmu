@@ -38,7 +38,7 @@ OSStatus RenderCallback(void                       *in,
                         UInt32                      inNumberFrames,
                         AudioBufferList            *ioData)
 {
-    [((GameCore*)in) getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:0];
+    [((GameCore *)in) getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:0];
     //ExtAudioFileWriteAsync( recordingFile, inNumberFrames, ioData );
     
     return 0;
@@ -46,7 +46,6 @@ OSStatus RenderCallback(void                       *in,
 
 
 @implementation GameAudio
-
 
 // No default version for this class
 - (id)init
@@ -71,7 +70,8 @@ OSStatus RenderCallback(void                       *in,
 - (void)dealloc
 {
     AUGraphUninitialize(mGraph);
-    DisposeAUGraph(mGraph);  //FIXME: added this line tonight.  do we need it?  Fuckety fuck fucking shitty Core Audio documentation... :X
+    //FIXME: added this line tonight.  do we need it?  Fuckety fuck fucking shitty Core Audio documentation... :X
+    DisposeAUGraph(mGraph);
     [super dealloc];
 }
 
@@ -94,7 +94,6 @@ OSStatus RenderCallback(void                       *in,
     AUGraphUninitialize(mGraph);
 }
 
-
 - (void)createGraph
 {    
     OSStatus err;
@@ -102,10 +101,10 @@ OSStatus RenderCallback(void                       *in,
     AUGraphStop(mGraph);
     AUGraphClose(mGraph);
     AUGraphUninitialize(mGraph);
+    
     //Create the graph
     err = NewAUGraph(&mGraph);
     if(err) NSLog(@"NewAUGraph failed");
-    
     
     //Open the graph
     err = AUGraphOpen(mGraph);
@@ -161,16 +160,15 @@ OSStatus RenderCallback(void                       *in,
     
     AudioStreamBasicDescription mDataFormat;
     
-    mDataFormat.mSampleRate = [gameCore frameSampleRate];
-    mDataFormat.mFormatID = kAudioFormatLinearPCM;
-    mDataFormat.mFormatFlags = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
-    mDataFormat.mBytesPerPacket = 2*[gameCore channelCount];
-    mDataFormat.mFramesPerPacket = 1; // this means each packet in the AQ has two samples, one for each channel -> 4 bytes/frame/packet
-    mDataFormat.mBytesPerFrame = 2*[gameCore channelCount];
+    mDataFormat.mSampleRate       = [gameCore frameSampleRate];
+    mDataFormat.mFormatID         = kAudioFormatLinearPCM;
+    mDataFormat.mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
+    mDataFormat.mBytesPerPacket   = 2 * [gameCore channelCount];
+    mDataFormat.mFramesPerPacket  = 1; // this means each packet in the AQ has two samples, one for each channel -> 4 bytes/frame/packet
+    mDataFormat.mBytesPerFrame    = 2 * [gameCore channelCount];
     mDataFormat.mChannelsPerFrame = [gameCore channelCount];
-    mDataFormat.mBitsPerChannel = 16;
+    mDataFormat.mBitsPerChannel   = 16;
     
-
     err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));
     if(err) NSLog(@"couldn't set player's input stream format");
     
@@ -191,39 +189,6 @@ OSStatus RenderCallback(void                       *in,
     err = AUGraphStart(mGraph);
     if(err) NSLog(@"couldn't start graph");
     
-    /*
-    NSString* outputPath = @"/Users/jweinberg/temp.wav";
-    FSRef fsref;
-    
-    
-    
-    NSURL* url = [NSURL URLWithString:@"/Users/jweinberg/temp.caf"];
-
-    if (CFURLGetFSRef((CFURLRef)url, &fsref))
-        FSDeleteObject(&fsref);
-    
-    CFURLRef directory = CFURLCreateCopyDeletingLastPathComponent(NULL, (CFURLRef)url);
-    CFStringRef filename = CFURLCopyLastPathComponent((CFURLRef)url);
-    if (CFURLGetFSRef(directory, &fsref)) {
-        err =
-        ExtAudioFileCreateWithURL (
-                                   (CFURLRef)url,
-                                   kAudioFileCAFType,
-                                    &mDataFormat,
-                                  NULL,
-                                   kAudioFileFlags_EraseFile,
-                                   &recordingFile);
-        
-        
-     //ExtAudioFileCreateNew(&fsref, filename, kAudioFileMP3Type, &mDataFormat, NULL, &recordingFile);
-        if (err)
-        {
-            NSLog(@"Could not create file");
-        }
-    }
-    CFRelease(directory);
-    CFRelease(filename);
-    */
     [self setVolume:[self volume]];
 }
 

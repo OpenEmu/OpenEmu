@@ -37,7 +37,13 @@
 
 - (id)init
 {
-    if(self = [super initWithWindowNibName:@"CoreDownloader"])
+    return [self initWithWindowNibName:@"CoreDownloader"];
+}
+
+- (id)initWithWindowNibName:(NSString *)windowNibName
+{
+    self = [super initWithWindowNibName:windowNibName];
+    if(self != nil)
     {
         // FIXME: Never used, what's the point ?
         NSError *error = nil;
@@ -45,7 +51,7 @@
         // Get the URL for the list of available plugins
         NSString *coreURLs = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"];
         NSString *rawList  = [NSString stringWithContentsOfURL:[NSURL URLWithString:coreURLs] encoding:NSUTF8StringEncoding error:&error];
-
+        
         NSArray *list = [rawList componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
         
         NSMutableArray *tempURLList = [NSMutableArray array];

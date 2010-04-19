@@ -1,18 +1,18 @@
 /*
- File:		TaskWrapper.h
+ File:        TaskWrapper.h
 
- Description: 	This class is a generalized process handling class that makes asynchronous
+ Description:     This class is a generalized process handling class that makes asynchronous
  interaction with an NSTask easier.
  There is also a protocol designed to work in conjunction with the TaskWrapper class;
  your process controller should conform to this protocol.
  TaskWrapper objects are one-shot (since NSTask is one-shot); if you need to run a task
  more than once, destroy/create new TaskWrapper objects.
 
- Author:		EP & MCF
+ Author:        EP & MCF
 
- Copyright: 	© Copyright 2002 Apple Computer, Inc. All rights reserved.
+ Copyright:     © Copyright 2002 Apple Computer, Inc. All rights reserved.
 
- Disclaimer:	IMPORTANT:  This Apple software is supplied to you by Apple Computer, Inc.
+ Disclaimer:    IMPORTANT:  This Apple software is supplied to you by Apple Computer, Inc.
  ("Apple") in consideration of your agreement to the following terms, and your
  use, installation, modification or redistribution of this Apple software
  constitutes acceptance of these terms.  If you do not agree with these terms,

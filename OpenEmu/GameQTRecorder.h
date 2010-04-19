@@ -29,16 +29,18 @@
 #import <QTKit/QTKit.h>
 #import "GameCore.h"
 
-@interface GameQTRecorder : NSObject {
+// FIXME: This class is all dead inside
+@interface GameQTRecorder : NSObject
+{
     QTMovie          *movie;
     NSOperationQueue *encodingQueue;
     GameCore         *gameCore;
-    bool              recording;
+    BOOL              recording;
     NSTimer          *timer;
     NSTimeInterval    lastTime;
 }
 
-@property(readonly) bool recording;
+@property(readonly) BOOL recording;
 
 - (id)initWithGameCore:(GameCore *)core;
 - (void)startRecording;

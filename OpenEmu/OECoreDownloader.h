@@ -38,8 +38,8 @@
     NSTableView         *downloadTableView;
 }
 
-@property(retain)   IBOutlet NSArrayController *downloadArrayController;
-@property(retain)   IBOutlet NSTableView       *downloadTableView;
+@property(retain) IBOutlet NSArrayController *downloadArrayController;
+@property(retain) IBOutlet NSTableView       *downloadTableView;
 
 - (void)loadAppcasts;
 

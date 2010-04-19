@@ -31,7 +31,8 @@
 
 @class GameCore;
 
-@interface GameAudio : NSObject {
+@interface GameAudio : NSObject
+{
     GameCore   *gameCore;
     AUGraph     mGraph;
     AUNode      mConverterNode, mMixerNode, mOutputNode;

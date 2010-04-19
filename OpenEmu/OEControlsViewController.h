@@ -30,11 +30,11 @@
 
 @interface OEControlsViewController : OEPreferenceViewController
 {
-    id selectedControl;
-    IBOutlet NSMatrix    *bindingType;
-    IBOutlet NSMatrix    *playerSelector;
-    IBOutlet NSStepper   *playerStepper;
-    IBOutlet NSTextField *playerField;
+    id           selectedControl;
+    NSMatrix    *bindingType;
+    NSMatrix    *playerSelector;
+    NSStepper   *playerStepper;
+    NSTextField *playerField;
 }
 
 @property(retain) IBOutlet NSMatrix    *bindingType;

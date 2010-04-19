@@ -83,7 +83,7 @@ OEFail:
     return pathString;
 }
 
-- (NSString *)  OE_initWithPathOfAliasData:(NSData *)aliasData
+- (NSString *)OE_initWithPathOfAliasData:(NSData *)aliasData
 {
     return [[[self class] OE_stringWithPathOfAliasData:aliasData] copy];
 }

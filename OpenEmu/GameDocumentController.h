@@ -55,11 +55,11 @@
     NSWindow                   *aboutWindow;
     NSString                   *aboutCreditsPath;
     
-    // for new QC Composition based filters.
+    // For new QC Composition based filters.
     // the key will be our filter name from the QC Composition attributes or if that is missing, the filename.
     // the value will of course be our QC Composition filter.
     // this will be passed into our QCRenderer in our CALayer where renderForTime will be called.
-    NSMutableDictionary *filterDictionary; // Unused 
+    NSMutableDictionary *filterDictionary; // FIXME: Unused 
     
     // Core data controller info, used for savestates right now
     

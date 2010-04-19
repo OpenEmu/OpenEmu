@@ -171,67 +171,6 @@ static NSTimeInterval currentTime()
 {
 }
 
-#define MULTI_THREAD 0
-
-#if MULTI_THREAD
-- (void)frameRefreshThread:(id)anArgument;
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    NSTimeInterval date = currentTime();
-    frameFinished = YES;
-    willSkipFrame = NO;
-    frameSkip = 1;
-    while(![[NSThread currentThread] isCancelled])
-    {
-        NSAutoreleasePool *inner = [[NSAutoreleasePool alloc] init];
-        date += 1.0f / [self frameInterval];
-        [NSThread sleepForTimeInterval: fmax(0.0f, date - currentTime())];
-        /*
-        tenFrameCounter--;
-        if(tenFrameCounter == 0)
-        {
-            tenFrameCounter = 10;
-            [self calculateFrameSkip: [self frameInterval] ];
-        }
-         */
-        willSkipFrame = (frameCounter != frameSkip);
-        @synchronized(self)
-        {
-            [self executeFrameSkippingFrame:willSkipFrame];
-        }
-        
-        if(frameCounter >= frameSkip) frameCounter = 0;
-        else                          frameCounter++;
-        
-        [inner drain];
-    }
-    [pool drain];
-}
-
-- (void)stopEmulation
-{
-    [emulationThread cancel];
-    isRunning = NO;
-    DLog(@"Ending thread");
-}
-
-- (void)startEmulation
-{
-    if([self class] != GameCoreClass)
-    {
-        if(emulationThread == nil || [emulationThread isCancelled])
-        {
-            [emulationThread release];
-            emulationThread = [[NSThread alloc] initWithTarget:self
-                                                      selector:@selector(frameRefreshThread:)
-                                                        object:nil];
-            [emulationThread start];
-            DLog(@"Starting thread");
-        }
-    }
-}
-
-#else
 - (void)frameRefreshThread:(id)anArgument;
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
@@ -294,8 +233,6 @@ static NSTimeInterval currentTime()
         }
     }
 }
-
-#endif
 
 #pragma mark ABSTRACT METHODS
 // Never call super on them.

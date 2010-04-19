@@ -1,16 +1,38 @@
+/*
+ Copyright (c) 2009, OpenEmu Team
+ All rights reserved.
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 //==============================================================================
 //
-//	DO NO MODIFY THE CONTENT OF THIS FILE
+//    DO NO MODIFY THE CONTENT OF THIS FILE
 //
-//	This file contains the generic CFPlug-in code necessary for your generator
-//	To complete your generator implement the function in GenerateThumbnailForURL/GeneratePreviewForURL.c
+//    This file contains the generic CFPlug-in code necessary for your generator
+//    To complete your generator implement the function in GenerateThumbnailForURL/GeneratePreviewForURL.c
 //
 //==============================================================================
-
-
-
-
-
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreFoundation/CFPlugInCOM.h>
@@ -18,7 +40,7 @@
 #include <QuickLook/QuickLook.h>
 
 // -----------------------------------------------------------------------------
-//	constants
+//    constants
 // -----------------------------------------------------------------------------
 
 // Don't modify this line
@@ -33,7 +55,7 @@
 
 
 // -----------------------------------------------------------------------------
-//	typedefs
+//    typedefs
 // -----------------------------------------------------------------------------
 
 // The thumbnail generation function to be implemented in GenerateThumbnailForURL.c
@@ -53,9 +75,9 @@ typedef struct __QuickLookGeneratorPluginType
 } QuickLookGeneratorPluginType;
 
 // -----------------------------------------------------------------------------
-//	prototypes
+//    prototypes
 // -----------------------------------------------------------------------------
-//	Forward declaration for the IUnknown implementation.
+//    Forward declaration for the IUnknown implementation.
 //
 
 QuickLookGeneratorPluginType  *AllocQuickLookGeneratorPluginType(CFUUIDRef inFactoryID);
@@ -66,9 +88,9 @@ ULONG                        QuickLookGeneratorPluginAddRef(void *thisInstance);
 ULONG                        QuickLookGeneratorPluginRelease(void *thisInstance);
 
 // -----------------------------------------------------------------------------
-//	myInterfaceFtbl	definition
+//    myInterfaceFtbl    definition
 // -----------------------------------------------------------------------------
-//	The QLGeneratorInterfaceStruct function table.
+//    The QLGeneratorInterfaceStruct function table.
 //
 static QLGeneratorInterfaceStruct myInterfaceFtbl = {
     NULL,
@@ -83,9 +105,9 @@ static QLGeneratorInterfaceStruct myInterfaceFtbl = {
 
 
 // -----------------------------------------------------------------------------
-//	AllocQuickLookGeneratorPluginType
+//    AllocQuickLookGeneratorPluginType
 // -----------------------------------------------------------------------------
-//	Utility function that allocates a new instance.
+//    Utility function that allocates a new instance.
 //      You can do some initial setup for the generator here if you wish
 //      like allocating globals etc...
 //
@@ -110,10 +132,10 @@ QuickLookGeneratorPluginType *AllocQuickLookGeneratorPluginType(CFUUIDRef inFact
 }
 
 // -----------------------------------------------------------------------------
-//	DeallocQuickLookGeneratorPluginType
+//    DeallocQuickLookGeneratorPluginType
 // -----------------------------------------------------------------------------
-//	Utility function that deallocates the instance when
-//	the refCount goes to zero.
+//    Utility function that deallocates the instance when
+//    the refCount goes to zero.
 //      In the current implementation generator interfaces are never deallocated
 //      but implement this as this might change in the future
 //
@@ -134,9 +156,9 @@ void DeallocQuickLookGeneratorPluginType(QuickLookGeneratorPluginType *thisInsta
 }
 
 // -----------------------------------------------------------------------------
-//	QuickLookGeneratorQueryInterface
+//    QuickLookGeneratorQueryInterface
 // -----------------------------------------------------------------------------
-//	Implementation of the IUnknown QueryInterface function.
+//    Implementation of the IUnknown QueryInterface function.
 //
 HRESULT QuickLookGeneratorQueryInterface(void *thisInstance,REFIID iid,LPVOID *ppv)
 {
@@ -168,9 +190,9 @@ HRESULT QuickLookGeneratorQueryInterface(void *thisInstance,REFIID iid,LPVOID *p
 // -----------------------------------------------------------------------------
 // QuickLookGeneratorPluginAddRef
 // -----------------------------------------------------------------------------
-//	Implementation of reference counting for this type. Whenever an interface
-//	is requested, bump the refCount for the instance. NOTE: returning the
-//	refcount is a convention but is not required so don't rely on it.
+//    Implementation of reference counting for this type. Whenever an interface
+//    is requested, bump the refCount for the instance. NOTE: returning the
+//    refcount is a convention but is not required so don't rely on it.
 //
 ULONG QuickLookGeneratorPluginAddRef(void *thisInstance)
 {
@@ -181,8 +203,8 @@ ULONG QuickLookGeneratorPluginAddRef(void *thisInstance)
 // -----------------------------------------------------------------------------
 // QuickLookGeneratorPluginRelease
 // -----------------------------------------------------------------------------
-//	When an interface is released, decrement the refCount.
-//	If the refCount goes to zero, deallocate the instance.
+//    When an interface is released, decrement the refCount.
+//    If the refCount goes to zero, deallocate the instance.
 //
 ULONG QuickLookGeneratorPluginRelease(void *thisInstance)
 {
@@ -215,4 +237,3 @@ void *QuickLookGeneratorPluginFactory(CFAllocatorRef allocator,CFUUIDRef typeID)
         /* If the requested type is incorrect, return NULL. */
     return NULL;
 }
-

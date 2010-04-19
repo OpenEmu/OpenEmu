@@ -85,20 +85,20 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
         // draw our input video
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, videoTexture);
-
+        
         // force nearest neighbor filtering for our samplers to work in the shader...
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         
         glColor4f(1.0, 1.0, 1.0, 1.0);
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-
+        
         // bind our shader
         glUseProgramObjectARB([shader programObject]);
         
         // set up shader variables
         glUniform1iARB([shader uniformLocationWithName:"OGL2Texture"], 0);    // texture        
-    
+        
         glBegin(GL_QUADS);    // Draw A Quad
         {
             glTexCoord2f(0.0f, 0.0f);
@@ -249,7 +249,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     // work around lack of GLMacro.h for now
     CGLContextObj cgl_ctx = [context CGLContextObj];
     CGLLockContext(cgl_ctx);
-        
+    
     // WHY LOAD THE SHADERS FROM THE FUCKING OEFILTERS WHEN THE FUCKING SHADERS
     // ARE IN THE FUCKING QCPLUGINS RESOURCES FOLDER, LOCAL TO THE FUCKING
     // BUNDLE SO IF SOMONE COPIES IT THEY DONT BREAK EVERYRTHING????
@@ -275,12 +275,12 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     // if we cant make the FBO, fail by returning NO.
     
     // since we are using FBOs we ought to keep track of what was previously bound
-	GLint previousFBO, previousReadFBO, previousDrawFBO;
-	
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);
-	glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING_EXT, &previousReadFBO);
-	glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING_EXT, &previousDrawFBO);
-	    
+    GLint previousFBO, previousReadFBO, previousDrawFBO;
+    
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);
+    glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING_EXT, &previousReadFBO);
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING_EXT, &previousDrawFBO);
+    
     GLuint name;
     GLenum status;
     
@@ -298,22 +298,22 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     {    
         NSLog(@"Cannot create FBO");
         NSLog(@"OpenGL error %04X", status);
-
+        
         glDeleteFramebuffersEXT(1, &frameBuffer);
-		// return to our previous FBO;
-		glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
-		glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, previousReadFBO);
-		glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
+        // return to our previous FBO;
+        glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
+        glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, previousReadFBO);
+        glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
         glDeleteTextures(1, &name);
         CGLUnlockContext(cgl_ctx);
         return NO;
     }    
     
     // cleanup
-	// return to our previous FBO;
+    // return to our previous FBO;
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
-	glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, previousReadFBO);
-	glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
+    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, previousReadFBO);
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
     glDeleteTextures(1, &name);
     
     CGLUnlockContext(cgl_ctx);
@@ -335,12 +335,12 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     CGLContextObj cgl_ctx = [context CGLContextObj];
     CGLLockContext(cgl_ctx);
     
-	GLint previousFBO, previousReadFBO, previousDrawFBO;
-
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);
-	glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING_EXT, &previousReadFBO);
-	glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING_EXT, &previousDrawFBO);
-		
+    GLint previousFBO, previousReadFBO, previousDrawFBO;
+    
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING_EXT, &previousFBO);
+    glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING_EXT, &previousReadFBO);
+    glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING_EXT, &previousDrawFBO);
+    
     //NSLog(@"Quartz Composer: gl context when attempting to use shader: %p", cgl_ctx);
     
     id<QCPlugInInputImageSource> image = self.inputImage;
@@ -348,7 +348,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     NSUInteger height = [image imageBounds].size.height;
     NSRect bounds;
     int multiplier = 1.0;
-
+    
     OEGameShader *selectedShader = nil;
     switch (self.inputScaler)
     {
@@ -374,7 +374,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     if(image && [image lockTextureRepresentationWithColorSpace:[image imageColorSpace] forBounds:[image imageBounds]])
     {    
         [image bindTextureRepresentationToCGLContext:cgl_ctx textureUnit:GL_TEXTURE0 normalizeCoordinates:YES];
-    
+        
         // Make sure to flush as we use FBOs as the passed OpenGL context may not have a surface attached        
         GLuint finalOutput = renderToFBO(frameBuffer, cgl_ctx, width, height, bounds, [image textureName], selectedShader);
         glFlushRenderAPPLE();
@@ -388,7 +388,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
             CGLUnlockContext(cgl_ctx);
             return NO;
         }
-    
+        
 #if __BIG_ENDIAN__
 #define OEPlugInPixelFormat QCPlugInPixelFormatARGB8
 #else
@@ -405,7 +405,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
                                                            releaseContext:nil
                                                                colorSpace:[image imageColorSpace]
                                                          shouldColorMatch:YES];
-                
+        
         self.outputImage = provider;
         
         [image unbindTextureRepresentationFromCGLContext:cgl_ctx textureUnit:GL_TEXTURE0];
@@ -413,12 +413,12 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     }    
     else
         self.outputImage = nil;
-	
+    
     // return to our previous FBO;
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, previousFBO);
-	glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, previousReadFBO);
-	glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
-	
+    glBindFramebufferEXT(GL_READ_FRAMEBUFFER_EXT, previousReadFBO);
+    glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
+    
     CGLUnlockContext(cgl_ctx);
     return YES;
 }

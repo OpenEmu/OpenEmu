@@ -38,7 +38,12 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"GamePreferences"];
+    return [self initWithWindowNibName:@"GamePreferences"];
+}
+
+- (id)initWithWindowNibName:(NSString *)windowNibName
+{
+    self = [super initWithWindowNibName:windowNibName];
     if(self != nil)
     {
         [self setupToolbar];
@@ -56,11 +61,6 @@
     [preferencePanels      release];
     [currentViewController release];
     [super                 dealloc];
-}
-
-- (id)initWithWindowNibName:(NSString *)aName
-{
-    return [self init];
 }
 
 - (IBAction)openPreferenceWindow:(id)sender

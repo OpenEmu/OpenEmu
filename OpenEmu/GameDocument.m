@@ -215,11 +215,9 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     {
         [helper release];
         if(outError != NULL)
-        {
             *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
                                             code:OEHelperAppNotRunningError
                                         userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The background process couldn't be launched", @"Not running background process error") forKey:NSLocalizedFailureReasonErrorKey]];
-        }
         return NO;
     }
     
@@ -392,6 +390,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
      }];
 }
 
+// FIXME: Need to upgrade state method
 - (void)saveStateToFile:(NSString *)fileName
 {
     //GameCore *gameCore = [rootProxy gameCore];
@@ -430,7 +429,6 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 - (NSImage *)screenShot
 {
     return nil;
-    //return [view imageForCurrentFrame];
 }
 
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block
@@ -462,20 +460,6 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
         }
     }
 }
-
-/*- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)proposedFrameSize
-{
-    // We want to force aspect ratio with resize increments
-    int scale;
-    if(proposedFrameSize.width < proposedFrameSize.height)
-        scale = proposedFrameSize.width / [gameCore screenWidth];
-    else
-        scale = proposedFrameSize.height / [gameCore screenHeight];
-    scale = MAX(scale, 1);
-    
-    NSRect newContentRect = NSMakeRect(0,0, [gameCore screenWidth] * scale, [gameCore screenHeight] * scale);
-    return [sender frameRectForContentRect:newContentRect].size;
-}*/
 
 - (void)windowDidResize:(NSNotification *)notification
 {

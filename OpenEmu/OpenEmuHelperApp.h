@@ -33,8 +33,6 @@
 #import <OpenGL/OpenGL.h>
 #import <OpenGL/CGLIOSurface.h>
 
-
-
 // DO  object
 #import "OEGameCoreHelper.h"
 #import "GameCore.h"
@@ -54,29 +52,29 @@
     IOSurfaceID    surfaceID;
     
     // GL Requirements
-    CGLContextObj  glContext;
-    GLuint         gameTexture;    // this is the texture that is defined by the gameCores pixelFormat and type
-    GLuint         gameFBO;        // this FBO uses the IOSurfaceTexture as an attachment and renders the gameTexture to 'square pixels'
-    GLuint         ioSurfaceTexture; // square pixel, screenWidth/height texture sent off to our Parent App for display. Yay.
+    CGLContextObj     glContext;
+    GLuint            gameTexture;      // this is the texture that is defined by the gameCores pixelFormat and type
+    GLuint            gameFBO;          // this FBO uses the IOSurfaceTexture as an attachment and renders the gameTexture to 'square pixels'
+    GLuint            ioSurfaceTexture; // square pixel, screenWidth/height texture sent off to our Parent App for display. Yay.
     
     // rendering
-    NSTimer       *timer;
-	CVDisplayLinkRef displayLink;
-
-	// poll parent ID, KVO does not seem to be working with NSRunningApplication
-	NSTimer		  *pollingTimer;
-
+    NSTimer          *timer;
+    CVDisplayLinkRef  displayLink;
+    
+    // poll parent ID, KVO does not seem to be working with NSRunningApplication
+    NSTimer          *pollingTimer;
+    
     // we will need a way to do IPC, for now its DO.
-    NSString      *doUUID;
-    NSConnection  *theConnection;
+    NSString         *doUUID;
+    NSConnection     *theConnection;
     
     // OE stuff
-    NSArray       *plugins;
-    NSArray       *validExtensions;
-    GameCore      *gameCore;
-    GameAudio     *gameAudio;
+    NSArray          *plugins;
+    NSArray          *validExtensions;
+    GameCore         *gameCore;
+    GameAudio        *gameAudio;
     
-    BOOL           loadedRom;
+    BOOL              loadedRom;
 }
 
 @property(retain) NSString *doUUID;

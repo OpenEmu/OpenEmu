@@ -59,7 +59,12 @@
 
 - (id)init
 {
-    self = [super initWithWindowNibName:@"SaveStateManager"];
+    return [self initWithWindowNibName:@"SaveStateManager"];
+}
+
+- (id)initWithWindowNibName:(NSString *)windowNibName
+{
+    self = [super initWithWindowNibName:windowNibName];
     if(self != nil)
     {
         NSSortDescriptor *path = [[NSSortDescriptor alloc] initWithKey:@"romFile.path" ascending:NO];
