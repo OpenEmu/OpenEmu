@@ -25,31 +25,30 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Quartz/Quartz.h>
+#import <CoreVideo/CoreVideo.h>
+#import <OpenGL/OpenGL.h>
 
-@class GameCore, OECorePlugin;
-@class OEGameCoreController;
-@class GameAudio;
+
+#import "TaskWrapper.h"
+// protocol
+#import "OEGameCoreHelper.h"
+
+@class OECorePlugin;
 
 @interface OpenEmuQC : QCPlugIn
 {
-    // init stuff
-    NSArray              *plugins;
-    NSArray              *validExtensions;
-    OEGameCoreController *gameCoreController;
-    GameCore             *gameCore;
-    GameAudio            *gameAudio;
-    GLuint               gameTexture;
-
-    BOOL loadedRom, userPaused;
-    NSMutableArray       *persistantControllerData;
-    NSRecursiveLock      *gameLock;
+	// we will need a way to do IPC, for now its this.
+	TaskWrapper *helper;
+	NSString* taskUUIDForDOServer;	
+	NSConnection* taskConnection;
+	NSString *inputRemainder;
+		
+	id rootProxy;	
+	
+	// Controller data
+	NSMutableArray       *persistantControllerData;
 }
-
-/*
-Declare here the Obj-C 2.0 properties to be used as input and output ports for the plug-in e.g.
-You can access their values in the appropriate plug-in methods using self.inputFoo or self.inputBar
-*/
 
 @property(assign) NSString *inputRom;
 @property(assign) NSArray  *inputControllerData;
@@ -61,14 +60,25 @@ You can access their values in the appropriate plug-in methods using self.inputF
 @property(readwrite) BOOL    loadedRom, userPaused;
 @end
 
-@interface OpenEmuQC (Execution)
-- (BOOL)controllerDataValidate:(NSArray*)cData;
-- (void)handleControllerData;
-- (void)refresh;
-- (OECorePlugin *)pluginForType:(NSString *)extension;
-- (BOOL)loadRom:(NSString*)romPath;
-- (void)saveState:(NSString *)fileName;
-- (BOOL)loadState:(NSString *)fileName;
+@interface OpenEmuQC (Execution) <TaskWrapperController>
+- (BOOL)startHelperProcess;
+- (void)endHelperProcess;
+- (BOOL)controllerDataValidate:(NSArray *)cData;
+- (void) handleControllerData;
+- (BOOL)readFromURL:(NSURL *)absoluteURL;
+
+
+- (void)appendOutput:(NSString *)output fromProcess: (TaskWrapper *)aTask;
+- (void)processStarted: (TaskWrapper *)aTask;
+- (void)processFinished: (TaskWrapper *)aTask withStatus: (int)statusCode;
+
+//- (void)refresh;
+//- (OECorePlugin *)pluginForType:(NSString *)extension;
+//- (BOOL)loadRom:(NSString*)romPath;
+//- (void)saveState:(NSString *)fileName;
+//- (BOOL)loadState:(NSString *)fileName;
 
 @end
+
+
 

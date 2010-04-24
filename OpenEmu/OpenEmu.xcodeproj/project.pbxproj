@@ -140,6 +140,10 @@
 		1BFC26D9116C1CB800B95689 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEF2AC311682A9D0090F72B /* IOSurface.framework */; };
 		1BFC2725116C1F6700B95689 /* TaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* TaskWrapper.m */; };
 		1BFC2726116C1F6E00B95689 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
+		1BFEA4ED1182A95000F89A77 /* OpenEmuHelperApp in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */; };
+		1BFEA5061182AF6300F89A77 /* TaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* TaskWrapper.m */; };
+		1BFEA50A1182AF7800F89A77 /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
+		1BFEAAF21182B1D600F89A77 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEF2AC311682A9D0090F72B /* IOSurface.framework */; };
 		1DDD582D0DA1D0D100B32029 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1DDD582A0DA1D0D100B32029 /* MainMenu.xib */; };
 		1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */; };
 		1E9F7349103755900072EED6 /* OEROMFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E9F7348103755900072EED6 /* OEROMFile.m */; };
@@ -177,7 +181,7 @@
 		828CF1850FD1D7C80041311B /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
 		828CF1A30FD1D8530041311B /* OEMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */; };
 		828CF1A40FD1D86A0041311B /* OEPreferenceViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = C67DCEF00FC5FB5A0038A56E /* OEPreferenceViewController.h */; };
-		828E659F0E8466CC00B1860B /* OpenEmuQCPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */; };
+		828E659F0E8466CC00B1860B /* OpenEmuQCPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.m */; };
 		828E65D30E8467A400B1860B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
 		828E65D70E8467AA00B1860B /* Quartz.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D60E8467AA00B1860B /* Quartz.framework */; };
 		828ED4D70E7D98940059F397 /* GamePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828ED4D60E7D98940059F397 /* GamePickerController.m */; };
@@ -291,6 +295,13 @@
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 1BEF2A9311682A530090F72B;
+			remoteInfo = OpenEmuHelperApp;
+		};
+		1BFEA4EA1182A92700F89A77 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
 			remoteInfo = OpenEmuHelperApp;
 		};
 		3759EE520FE88C82000E56D5 /* PBXContainerItemProxy */ = {
@@ -498,7 +509,7 @@
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
 		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
 		37CC66190FF8379B00226BCB /* config_qc.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config_qc.yaml; sourceTree = "<group>"; };
-		3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OESaveStateQLPlugin.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OESaveStateQLPlugin.qlgenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateThumbnailForURL.m; sourceTree = "<group>"; };
 		3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratePreviewForURL.m; sourceTree = "<group>"; };
 		3887A8041024D2BC000FC4CF /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
@@ -528,7 +539,7 @@
 		828E65980E8466A100B1860B /* OpenEmuQC.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuQC.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuQC-Info.plist"; sourceTree = "<group>"; };
 		828E659D0E8466CC00B1860B /* OpenEmuQCPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCPlugin.h; sourceTree = "<group>"; };
-		828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCPlugin.mm; sourceTree = "<group>"; wrapsLines = 0; };
+		828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuQCPlugin.m; sourceTree = "<group>"; wrapsLines = 0; };
 		828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQC_Prefix.pch; sourceTree = "<group>"; };
 		828E65D20E8467A400B1860B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		828E65D60E8467AA00B1860B /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
@@ -672,6 +683,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BFEAAF21182B1D600F89A77 /* IOSurface.framework in Frameworks */,
 				824508BF0FEC8B2600F16307 /* OpenEmuBase.framework in Frameworks */,
 				1B7594AF0E90C3E300FB5BF1 /* OpenGL.framework in Frameworks */,
 				1B8D4AEE0E874D5500C3C4F5 /* AudioToolbox.framework in Frameworks */,
@@ -746,7 +758,7 @@
 				8D15AC370486D014006FF6A4 /* OpenEmu.app */,
 				828E65980E8466A100B1860B /* OpenEmuQC.plugin */,
 				82444BA10F51256C007C171B /* OpenEmuBase.framework */,
-				3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.bundle */,
+				3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */,
 				1BEF2A9411682A530090F72B /* OpenEmuHelperApp */,
 				1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */,
 			);
@@ -1055,7 +1067,7 @@
 				37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */,
 				37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */,
 				828E659D0E8466CC00B1860B /* OpenEmuQCPlugin.h */,
-				828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.mm */,
+				828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.m */,
 				1B5B5FF6100984880043536B /* OpenEmuQCCRTPlugin.h */,
 				1B5B5FF4100984800043536B /* OpenEmuQCCRTPlugin.m */,
 				1B223EE1100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.h */,
@@ -1276,7 +1288,7 @@
 			);
 			name = OESaveStateQLPlugin;
 			productName = OESaveStateQLPlugin;
-			productReference = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.bundle */;
+			productReference = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */;
 			productType = "com.apple.product-type.bundle";
 		};
 		82444BA00F51256C007C171B /* OpenEmuBase */ = {
@@ -1310,6 +1322,7 @@
 			);
 			dependencies = (
 				3759EE530FE88C82000E56D5 /* PBXTargetDependency */,
+				1BFEA4EB1182A92700F89A77 /* PBXTargetDependency */,
 			);
 			name = OpenEmuQC;
 			productName = OpenEmuQC;
@@ -1397,6 +1410,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BFEA4ED1182A95000F89A77 /* OpenEmuHelperApp in Resources */,
 				82EE2F6110B9D13E006785C2 /* dsa_pub.pem in Resources */,
 				1B56D6960F21397500C80694 /* Scale4x.vert in Resources */,
 				1B56D6970F21397500C80694 /* Scale4x.frag in Resources */,
@@ -1610,8 +1624,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BFEA50A1182AF7800F89A77 /* NSString+UUID.m in Sources */,
+				1BFEA5061182AF6300F89A77 /* TaskWrapper.m in Sources */,
 				1B8D4B010E874E6F00C3C4F5 /* GameAudio.m in Sources */,
-				828E659F0E8466CC00B1860B /* OpenEmuQCPlugin.mm in Sources */,
+				828E659F0E8466CC00B1860B /* OpenEmuQCPlugin.m in Sources */,
 				37CC3EA7100BE6BB00C1CD6E /* OpenEmuQCNESPlugin.mm in Sources */,
 				1B56D6890F21340700C80694 /* OpenEmuQCFilters.m in Sources */,
 				C66DF0B00FEC38C0007E3A20 /* OEPlugin.m in Sources */,
@@ -1691,6 +1707,11 @@
 			isa = PBXTargetDependency;
 			target = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
 			targetProxy = 1BFC26CE116C1C9900B95689 /* PBXContainerItemProxy */;
+		};
+		1BFEA4EB1182A92700F89A77 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
+			targetProxy = 1BFEA4EA1182A92700F89A77 /* PBXContainerItemProxy */;
 		};
 		3759EE530FE88C82000E56D5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
