@@ -26,9 +26,6 @@
  */
 
 #import <Quartz/Quartz.h>
-#import <CoreVideo/CoreVideo.h>
-#import <OpenGL/OpenGL.h>
-
 
 #import "TaskWrapper.h"
 // protocol

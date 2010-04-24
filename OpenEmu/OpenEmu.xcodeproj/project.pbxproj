@@ -301,7 +301,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
+			remoteGlobalIDString = 1BEF2A9311682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
 		};
 		3759EE520FE88C82000E56D5 /* PBXContainerItemProxy */ = {

@@ -27,16 +27,16 @@
 
 /* It's highly recommended to use CGL macros instead of changing the current context for plug-ins that perform OpenGL rendering */
 #import <OpenGL/CGLMacro.h>
+
 #import "OpenEmuQCPlugin.h"
 #import <Quartz/Quartz.h>
 #import <OpenGL/OpenGL.h>
-#import <OpenGL/gl.h>
+
 #import "GameCore.h"
 #import "OECorePlugin.h"
 
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLIOSurface.h>
-
 
 #import "NSString+UUID.h"
 
@@ -198,7 +198,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 			[self handleControllerData];
 		}
 	}    
-	
 	
 	// according to CGLIOSurface we must rebind our texture every time we want a new stuff from it.
 	// since our ID may change every frame we make a new texture each pass. 
