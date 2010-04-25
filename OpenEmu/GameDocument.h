@@ -28,7 +28,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <QuartzCore/CoreAnimation.h>
-#import "TaskWrapper.h"
+#import "OETaskWrapper.h"
 
 @class OEGameCoreController;
 @class OEGameView;
@@ -48,10 +48,10 @@ enum _OEGameDocumentErrorCodes
     OENilRootProxyObjectError      = -6,
 };
 
-@interface GameDocument : NSDocument <TaskWrapperController>
+@interface GameDocument : NSDocument <OETaskWrapperController>
 {
     // IPC from our OEHelper
-    TaskWrapper          *helper;
+    OETaskWrapper          *helper;
     NSString             *taskUUIDForDOServer;
     NSConnection         *taskConnection;
     

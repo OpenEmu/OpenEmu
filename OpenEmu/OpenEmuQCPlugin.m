@@ -263,7 +263,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	
 	NSArray *args = [NSArray arrayWithObjects: cliPath, taskUUIDForDOServer, nil];
 	
-	helper = [[TaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
+	helper = [[OETaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
 	[helper startProcess];
 	
 	if(![helper isRunning])
@@ -448,15 +448,15 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	
 #pragma mark TaskWrapper delegates
 
-- (void)appendOutput:(NSString *)output fromProcess: (TaskWrapper *)aTask
+- (void)appendOutput:(NSString *)output fromProcess: (OETaskWrapper *)aTask
 {
 }	
 
-- (void)processStarted: (TaskWrapper *)aTask
+- (void)processStarted: (OETaskWrapper *)aTask
 {
 }
 
-- (void)processFinished: (TaskWrapper *)aTask withStatus: (int)statusCode
+- (void)processFinished: (OETaskWrapper *)aTask withStatus: (int)statusCode
 {
 	
 }

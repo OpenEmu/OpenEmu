@@ -208,7 +208,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     
     NSArray *args = [NSArray arrayWithObjects: cliPath, taskUUIDForDOServer, nil];
     
-    helper = [[TaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
+    helper = [[OETaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
     [helper startProcess];
     
     if(![helper isRunning])
@@ -484,16 +484,16 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 #pragma mark TaskWrapper delegate methods
 
-- (void)appendOutput:(NSString *)output fromProcess:(TaskWrapper *)aTask
+- (void)appendOutput:(NSString *)output fromProcess:(OETaskWrapper *)aTask
 {
     printf("%s", [output UTF8String]);
 }    
 
-- (void)processStarted:(TaskWrapper *)aTask
+- (void)processStarted:(OETaskWrapper *)aTask
 {
 }
 
-- (void)processFinished:(TaskWrapper *)aTask withStatus:(NSInteger)statusCode
+- (void)processFinished:(OETaskWrapper *)aTask withStatus:(NSInteger)statusCode
 {
 }
 

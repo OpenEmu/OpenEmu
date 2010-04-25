@@ -27,7 +27,7 @@
 
 #import <Quartz/Quartz.h>
 
-#import "TaskWrapper.h"
+#import "OETaskWrapper.h"
 // protocol
 #import "OEGameCoreHelper.h"
 
@@ -36,7 +36,7 @@
 @interface OpenEmuQC : QCPlugIn
 {
 	// we will need a way to do IPC, for now its this.
-	TaskWrapper *helper;
+	OETaskWrapper *helper;
 	NSString* taskUUIDForDOServer;	
 	NSConnection* taskConnection;
 	NSString *inputRemainder;
@@ -57,7 +57,7 @@
 @property(readwrite) BOOL    loadedRom, userPaused;
 @end
 
-@interface OpenEmuQC (Execution) <TaskWrapperController>
+@interface OpenEmuQC (Execution) <OETaskWrapperController>
 - (BOOL)startHelperProcess;
 - (void)endHelperProcess;
 - (BOOL)controllerDataValidate:(NSArray *)cData;
@@ -65,9 +65,9 @@
 - (BOOL)readFromURL:(NSURL *)absoluteURL;
 
 
-- (void)appendOutput:(NSString *)output fromProcess: (TaskWrapper *)aTask;
-- (void)processStarted: (TaskWrapper *)aTask;
-- (void)processFinished: (TaskWrapper *)aTask withStatus: (int)statusCode;
+- (void)appendOutput:(NSString *)output fromProcess: (OETaskWrapper *)aTask;
+- (void)processStarted: (OETaskWrapper *)aTask;
+- (void)processFinished: (OETaskWrapper *)aTask withStatus: (int)statusCode;
 
 //- (void)refresh;
 //- (OECorePlugin *)pluginForType:(NSString *)extension;
