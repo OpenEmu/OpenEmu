@@ -163,7 +163,7 @@
     [task waitUntilExit];
     
     int status = [task terminationStatus];
-    NSLog(@"Task termiantion status %i", status);
+    NSLog(@"Task termination status %i", status);
     
     [controller processFinished: self withStatus: [task terminationStatus]];
     controller = nil;
