@@ -45,10 +45,13 @@
 
 static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* info)
 {
-//   glDeleteTextures(1, &name);
+	// we only ever have our one IOSurface backed Texture - don't delete it.
+	// glDeleteTextures(1, &name);
 }
 
 @implementation OpenEmuQC
+
+@synthesize persistantControllerData;
 
 @dynamic inputRom;
 @dynamic inputControllerData;
@@ -176,8 +179,19 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	// handle input keys changing,
 	if([self didValueForInputKeyChange:@"inputRom"])
 	{
+		NSString* romPath;
+		if ([[self.inputRom stringByStandardizingPath] isAbsolutePath])
+		{
+			romPath = [self.inputRom stringByStandardizingPath];
+		}
+		else 
+		{
+			romPath = [[[[context compositionURL] path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:[self.inputRom stringByStandardizingPath]];
+		}
+		
 		[self endHelperProcess];
-		[self readFromURL:[NSURL fileURLWithPath:self.inputRom]];
+		[self readFromURL:[NSURL fileURLWithPath:romPath]];
+		
 	}
 		
 	if([self didValueForInputKeyChange:@"inputVolume"])
@@ -192,8 +206,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 		// hold on to the controller data, which we are going to feed gameCore every frame.  Mmmmm...controller data.
 		if([self controllerDataValidate:[self inputControllerData]])
 		{
-			persistantControllerData = [NSMutableArray arrayWithArray:[self inputControllerData]]; 
-			[persistantControllerData retain];
+			[self setPersistantControllerData:[self inputControllerData]]; 
 			
 			[self handleControllerData];
 		}
@@ -365,9 +378,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 {
     NSString *romPath = [absoluteURL path];
     if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
-    {
-        DLog(@"%@", self);
-        
+    {        
         OECorePlugin *plugin = [self OE_pluginForFileExtension:[absoluteURL pathExtension]];
         
         if(plugin == nil) return NO;

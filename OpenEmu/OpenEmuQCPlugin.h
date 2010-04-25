@@ -44,8 +44,11 @@
 	id rootProxy;	
 	
 	// Controller data
-	NSMutableArray       *persistantControllerData;
+	NSArray *persistantControllerData;
 }
+
+@property (readwrite, retain) NSArray *persistantControllerData;
+
 
 @property(assign) NSString *inputRom;
 @property(assign) NSArray  *inputControllerData;
