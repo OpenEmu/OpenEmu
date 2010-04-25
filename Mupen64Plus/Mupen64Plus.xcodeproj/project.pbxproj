@@ -22,6 +22,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		3D00F06D1183E4AA002995A1 /* eventloop.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D00F06A1183E4AA002995A1 /* eventloop.m */; };
+		3D00F06E1183E4AA002995A1 /* osd.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D00F06B1183E4AA002995A1 /* osd.m */; };
+		3D00F06F1183E4AA002995A1 /* screenshot.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D00F06C1183E4AA002995A1 /* screenshot.m */; };
+		3D00F0811183E52F002995A1 /* SDLStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D00F0801183E52F002995A1 /* SDLStubs.m */; };
+		3D00F0C01183E6FA002995A1 /* vidext.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D00F0BF1183E6FA002995A1 /* vidext.m */; };
 		3D208B991182428100BEAA42 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D208B951182427D00BEAA42 /* OpenEmuBase.framework */; };
 		3D208DB911824C2200BEAA42 /* mupen64plus.cht in Resources */ = {isa = PBXBuildFile; fileRef = 3D208CC911824C2200BEAA42 /* mupen64plus.cht */; };
 		3D208DBA11824C2200BEAA42 /* mupen64plus.ini in Resources */ = {isa = PBXBuildFile; fileRef = 3D208CCA11824C2200BEAA42 /* mupen64plus.ini */; };
@@ -33,7 +38,6 @@
 		3D208DE711824C2200BEAA42 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D208D1011824C2200BEAA42 /* config.c */; };
 		3D208DE811824C2200BEAA42 /* debugger.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D208D1211824C2200BEAA42 /* debugger.c */; };
 		3D208DE911824C2200BEAA42 /* frontend.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D208D1411824C2200BEAA42 /* frontend.c */; };
-		3D208DEA11824C2200BEAA42 /* vidext.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D208D1C11824C2200BEAA42 /* vidext.c */; };
 		3D208DFC11824C2200BEAA42 /* dma.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D208D4811824C2200BEAA42 /* dma.c */; };
 		3D208DFD11824C2200BEAA42 /* flashram.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D208D4A11824C2200BEAA42 /* flashram.c */; };
 		3D208DFE11824C2200BEAA42 /* memory.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D208D4C11824C2200BEAA42 /* memory.c */; };
@@ -95,8 +99,6 @@
 		3D208F321182A6ED00BEAA42 /* MupenGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D208F311182A6ED00BEAA42 /* MupenGameController.m */; };
 		3D208F821182B00300BEAA42 /* MupenGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D208F811182B00300BEAA42 /* MupenGameCore.m */; };
 		3D2090231182D67E00BEAA42 /* OEMupenSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D2090221182D67E00BEAA42 /* OEMupenSupport.mm */; };
-		3D20905C1182D98800BEAA42 /* MupenStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D20905B1182D98800BEAA42 /* MupenStubs.m */; };
-		3D2090841183ADBE00BEAA42 /* SDLStubs.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2090831183ADBE00BEAA42 /* SDLStubs.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -159,6 +161,13 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* Mupen64Plus_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mupen64Plus_Prefix.pch; sourceTree = "<group>"; };
+		3D00F06A1183E4AA002995A1 /* eventloop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = eventloop.m; sourceTree = "<group>"; };
+		3D00F06B1183E4AA002995A1 /* osd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = osd.m; sourceTree = "<group>"; };
+		3D00F06C1183E4AA002995A1 /* screenshot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = screenshot.m; sourceTree = "<group>"; };
+		3D00F07F1183E52F002995A1 /* SDL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL.h; sourceTree = "<group>"; };
+		3D00F0801183E52F002995A1 /* SDLStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStubs.m; sourceTree = "<group>"; };
+		3D00F0AB1183E67F002995A1 /* SDL_thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDL_thread.h; sourceTree = "<group>"; };
+		3D00F0BF1183E6FA002995A1 /* vidext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = vidext.m; sourceTree = "<group>"; };
 		3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
 		3D208CB511824B5E00BEAA42 /* mupen64plus-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "mupen64plus-Info.plist"; sourceTree = "<group>"; };
 		3D208CC811824C2200BEAA42 /* font.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = font.ttf; sourceTree = "<group>"; };
@@ -387,8 +396,6 @@
 		3D208F811182B00300BEAA42 /* MupenGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MupenGameCore.m; sourceTree = "<group>"; };
 		3D2090211182D67E00BEAA42 /* OEMupenSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMupenSupport.h; sourceTree = "<group>"; };
 		3D2090221182D67E00BEAA42 /* OEMupenSupport.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OEMupenSupport.mm; sourceTree = "<group>"; };
-		3D20905B1182D98800BEAA42 /* MupenStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MupenStubs.m; sourceTree = "<group>"; };
-		3D2090831183ADBE00BEAA42 /* SDLStubs.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDLStubs.m; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Mupen64Plus.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Mupen64Plus.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -492,6 +499,16 @@
 				3D2090221182D67E00BEAA42 /* OEMupenSupport.mm */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		3D00F07E1183E52F002995A1 /* SDL */ = {
+			isa = PBXGroup;
+			children = (
+				3D00F0AB1183E67F002995A1 /* SDL_thread.h */,
+				3D00F07F1183E52F002995A1 /* SDL.h */,
+				3D00F0801183E52F002995A1 /* SDLStubs.m */,
+			);
+			path = SDL;
 			sourceTree = "<group>";
 		};
 		3D208B801182427D00BEAA42 /* Products */ = {
@@ -933,8 +950,11 @@
 		3D2090581182D92800BEAA42 /* Compatibility */ = {
 			isa = PBXGroup;
 			children = (
-				3D20905B1182D98800BEAA42 /* MupenStubs.m */,
-				3D2090831183ADBE00BEAA42 /* SDLStubs.m */,
+				3D00F07E1183E52F002995A1 /* SDL */,
+				3D00F06A1183E4AA002995A1 /* eventloop.m */,
+				3D00F06B1183E4AA002995A1 /* osd.m */,
+				3D00F06C1183E4AA002995A1 /* screenshot.m */,
+				3D00F0BF1183E6FA002995A1 /* vidext.m */,
 			);
 			path = Compatibility;
 			sourceTree = "<group>";
@@ -1073,7 +1093,6 @@
 				3D208DE711824C2200BEAA42 /* config.c in Sources */,
 				3D208DE811824C2200BEAA42 /* debugger.c in Sources */,
 				3D208DE911824C2200BEAA42 /* frontend.c in Sources */,
-				3D208DEA11824C2200BEAA42 /* vidext.c in Sources */,
 				3D208DFC11824C2200BEAA42 /* dma.c in Sources */,
 				3D208DFD11824C2200BEAA42 /* flashram.c in Sources */,
 				3D208DFE11824C2200BEAA42 /* memory.c in Sources */,
@@ -1131,8 +1150,11 @@
 				3D208F321182A6ED00BEAA42 /* MupenGameController.m in Sources */,
 				3D208F821182B00300BEAA42 /* MupenGameCore.m in Sources */,
 				3D2090231182D67E00BEAA42 /* OEMupenSupport.mm in Sources */,
-				3D20905C1182D98800BEAA42 /* MupenStubs.m in Sources */,
-				3D2090841183ADBE00BEAA42 /* SDLStubs.m in Sources */,
+				3D00F06D1183E4AA002995A1 /* eventloop.m in Sources */,
+				3D00F06E1183E4AA002995A1 /* osd.m in Sources */,
+				3D00F06F1183E4AA002995A1 /* screenshot.m in Sources */,
+				3D00F0811183E52F002995A1 /* SDLStubs.m in Sources */,
+				3D00F0C01183E6FA002995A1 /* vidext.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1161,7 +1183,6 @@
 		1DEB913B08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
 				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
@@ -1172,7 +1193,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Mupen64Plus_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
-					/sw/include/SDL,
 					"$(SRCROOT)/mupen64plus-core/src",
 					"\"$(SRCROOT)/../OpenEmu\"",
 				);
@@ -1197,7 +1217,6 @@
 		1DEB913C08733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
 				DEAD_CODE_STRIPPING = YES;
 				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
@@ -1208,7 +1227,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Mupen64Plus_Prefix.pch;
 				HEADER_SEARCH_PATHS = (
-					/sw/include/SDL,
 					"$(SRCROOT)/mupen64plus-core/src",
 					"\"$(SRCROOT)/../OpenEmu\"",
 				);

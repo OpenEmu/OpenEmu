@@ -24,61 +24,13 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <SDL/SDL.h>
-#include <pthread.h>
-#include <sys/time.h>
+#include "osd.h"
+#include "screenshot.h"
 
-SDL_mutex *SDL_CreateMutex(void)
-{
-    pthread_mutex_t *m = malloc(sizeof(pthread_mutex_t));
-    pthread_mutex_init(m, NULL);
-    
-    return (SDL_mutex*)m;
-}
-
-int SDL_LockMutex(SDL_mutex *m)
-{
-    return pthread_mutex_lock((pthread_mutex_t*)m);
-}
-
-int SDL_UnlockMutex(SDL_mutex *m)
-{
-    return pthread_mutex_unlock((pthread_mutex_t*)m);
-}
-
-void SDL_DestroyMutex(SDL_mutex *m)
-{
-    pthread_mutex_destroy((pthread_mutex_t*)m);
-    free(m);
-}
-
-Uint32 SDL_GetTicks(void)
-{
-    static struct timeval start = {};
-    struct timeval now;
-    
-    gettimeofday(&now, NULL);
-    
-    if (!start.tv_sec)
-        start = now;
-    
-    return (now.tv_sec - start.tv_sec)*1000 + (now.tv_usec - start.tv_usec)/1000;
-}
-
-void SDL_Quit(void)
+void ScreenshotRomOpen(void)
 {
 }
 
-void SDL_Delay(Uint32 ms)
+void TakeScreenshot(int iFrameNumber)
 {
-    usleep(ms * 1000);
-}
-
-void SDL_PumpEvents(void)
-{
-}
-
-void SDL_GL_SwapBuffers(void)
-{
-    //FIXME: we might need this to do something
 }

@@ -24,77 +24,24 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "osd.h"
-#include "screenshot.h"
+#ifndef SDL_H
+#define SDL_H
 
-#pragma mark osd stubs
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <string.h>
 
-void osd_message_set_corner(osd_message_t *, enum osd_corner);
+typedef uint32_t Uint32;
 
-void osd_update_message(osd_message_t *m, const char *f, ...)
-{
-}
+Uint32 SDL_GetTicks(void);
 
-void osd_message_set_static(osd_message_t *m)
-{
-}
+void SDL_Quit(void);
 
-osd_message_t * osd_message_valid(osd_message_t *m)
-{
-    return NULL;
-}
+void SDL_Delay(Uint32 ms);
 
-void osd_exit(void)
-{
-}
+void SDL_PumpEvents(void);
 
-void osd_init(int width, int height)
-{
-}
-
-void osd_render(void)
-{
-}
-
-osd_message_t * osd_new_message(enum osd_corner c, const char *f, ...)
-{
-    return NULL;
-}
-
-void osd_delete_message(osd_message_t *m)
-{
-}
-
-#pragma mark screenshot stubs
-
-void ScreenshotRomOpen(void)
-{
-}
-
-void TakeScreenshot(int iFrameNumber)
-{
-}
-
-#pragma mark eventloop stubs
-
-void event_set_core_defaults(void)
-{
-}
-
-void event_initialize(void)
-{
-}
-
-void event_sdl_keydown(int keysym, int keymod)
-{
-}
-
-void event_sdl_keyup(int keysym, int keymod)
-{
-}
-
-int event_gameshark_active(void)
-{
-    // FIXME: this means we need our own cheat support
-    return 0;
-}
+void SDL_GL_SwapBuffers(void);
+#endif
