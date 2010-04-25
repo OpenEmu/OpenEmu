@@ -1,0 +1,217 @@
+[[Mupen64Plus v2.0 Core API v1.0|Mupen64Plus v2.0 API]]
+
+= Mupen64Plus v2.0 Core<-->Front-End API =
+
+Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#core.h|core.h]].  Front-end code should check the return value of each call to a libmupen64plus function.
+
+== Startup/Shutdown Functions ==
+{| border="1"
+|Prototype
+|'''<tt>m64p_error CoreStartup(int APIVersion, const char *ConfigPath, const char *DataPath, void *Context, void (*DebugCallback)(void *Context, int level, const char *message), void *Context2, void (*StateCallback)(void *Context2, m64p_core_param ParamChanged, int NewValue))</tt>'''
+|-
+|Input Parameters
+|'''<tt>APIVersion</tt>''' Integer containing the version number of the Core API used by the front-end.<br />
+'''<tt>ConfigPath</tt>''' File path to folder containing Mupen64Plus.cfg.  Can be NULL.<br />
+'''<tt>DataPath</tt>''' Folder to search first when looking for shared data files.  Can be NULL.<br />
+'''<tt>Context</tt>''' Pointer which will be passed back to the '''<tt>DebugCallback</tt>''' function.  Can be NULL.<br />
+'''<tt>DebugCallback</tt>''' Pointer to function in front-end for receiving debug information and warnings from the core.  This function must be thread-safe.  Can be NULL.  The value of <tt>level</tt> is 1 for an error, 2 for a warning, 3 for info, and 4 for verbose info.<br />
+'''<tt>Context2</tt>''' Pointer which will be passed back to the '''<tt>StateCallback</tt>''' function.  Can be NULL.<br />
+'''<tt>StateCallback</tt>''' Pointer to function in front-end for receiving core state change notifications.  This function must be thread-safe.  Can be NULL.
+|-
+|Requirements
+|This function must be called before any other libmupen64plus functions.
+|-
+|Usage
+|This function initializes libmupen64plus for use by allocating memory, creating data structures, and loading the configuration file.  If '''<tt>ConfigPath</tt>''' is NULL, libmupen64plus will search for the configuration file in its usual place (On Linux, in <tt>~/.config/mupen64plus/</tt>).  This function may return <tt>M64ERR_INCOMPATIBLE</tt> if older front-end is used with newer core.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error CoreShutdown(void)</tt>'''
+|-
+|Input Parameters
+|N/A
+|-
+|Usage
+|This function saves the configuration file, then destroys data structures and releases memory allocated by the core library.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error CoreAttachPlugin(m64p_plugin_type PluginType, m64p_dynlib_handle PluginLibHandle)</tt>'''
+|-
+|Input Parameters
+|'''<tt>PluginType</tt>''' Enumerated type specifying the plugin type to attach to the core.  If this type of plugin is currently attached to the core, an error will be returned.<br />
+'''<tt>PluginLibHandle</tt>''' Dynamic library handle (defined in [[Mupen64Plus v2.0 headers#core.h|core.h]]) corresponding with the plugin object to attach.
+|-
+|Requirements
+|Both the core library and the plugin library must already be initialized with the <tt>CoreStartup()/PluginStartup()</tt> functions, and a ROM must be open.  This function cannot be called while the emulator is running.  The plugins must be attached in the following order: Video, Audio, Input, RSP.
+|-
+|Usage
+|This function attaches the given plugin to the emulator core.  There can only be one plugin of each type attached to the core at any given time.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error CoreDetachPlugin(m64p_plugin_type PluginType)</tt>'''
+|-
+|Input Parameters
+|'''<tt>PluginType</tt>''' Enumerated type specifying the plugin type to detach from the core.  If no plugin of this type is currently attached to the core, this function will exit with a return value of <tt>M64ERR_SUCCESS</tt>.
+|-
+|Requirements
+|Both the core library and the plugin library must already be initialized with the <tt>CoreStartup()/PluginStartup()</tt> functions.  This function cannot be called while the emulator is running.
+|-
+|Usage
+|This function detaches the given plugin from the emulator core, and re-attaches the 'dummy' plugin functions.
+|}
+
+== Command Functions ==
+{| border="1"
+|Prototype
+|'''<tt>m64p_error CoreDoCommand(m64p_command Command, int ParamInt, void *ParamPtr)</tt>'''
+|-
+|Input Parameters
+|'''<tt>Command</tt>''' Enumerated type specifying which command should be executed.<br />
+'''<tt>ParamInt</tt>''' An integer value which may be used as an input to the command.<br />
+'''<tt>ParamPtr</tt>''' A pointer which may be used as an input to the command.<br />
+|-
+|Requirements
+|The core library must already be initialized with the <tt>CoreStartup()</tt> function.  Each command may have its own requirements as well.
+|-
+|Usage
+|This function sends a command to the emulator core.  A table of all commands is given below.
+|}
+<br />
+
+{| border="1"
+!Command!!Function!!Input Parameters!!Requirements
+|-
+|M64CMD_ROM_OPEN
+|This will cause the core to read in a binary ROM image provided by the front-end.
+|'''<tt>ParamPtr</tt>''' Pointer to the uncompressed ROM image in memory.<br />'''<tt>ParamInt</tt>''' The size in bytes of the ROM image.
+|The emulator cannot be currently running.  A ROM image must not be currently opened.
+|-
+|M64CMD_ROM_CLOSE
+|This will close any currently open ROM.  The current cheat code list will also be deleted.
+|N/A
+|The emulator cannot be currently running.  A ROM image must have been previously opened.  There should be no plugins currently attached.
+|-
+|M64CMD_ROM_GET_HEADER
+|This will retrieve the header data of the currently open ROM.
+|'''<tt>ParamPtr</tt>''' Pointer to a <tt>rom_header</tt> struct to receive the data.<br />'''<tt>ParamInt</tt>''' The size in bytes of the <tt>rom_header</tt> struct.
+|A ROM image must be open.
+|-
+|M64CMD_ROM_GET_SETTINGS
+|This will retrieve the settings data of the currently open ROM.
+|'''<tt>ParamPtr</tt>''' Pointer to a <tt>rom_settings</tt> struct to receive the data.<br />'''<tt>ParamInt</tt>''' The size in bytes of the <tt>rom_settings</tt> struct.
+|A ROM image must be open.
+|-
+|M64CMD_EXECUTE
+|This command will start the emulator and begin executing the ROM image.  This function call will not return until the game has been stopped.
+|N/A
+|The emulator cannot be currently running.  A ROM image must have been previously opened.
+|-
+|M64CMD_STOP
+|This will stop the emulator, if it is currently running.
+|N/A
+|This command will execute asynchronously.
+|-
+|M64CMD_PAUSE
+|This command will pause the emulator if it is running.
+|N/A
+|This function will return a non-successful error code if the emulator is in the stopped state.  This command may execute asynchronously.
+|-
+|M64CMD_RESUME
+|This command will resume execution of the emulator if it is paused.
+|N/A
+|This function will return a non-successful error code if the emulator is in the stopped state.  This command may execute asynchronously.
+|-
+|M64CMD_CORE_STATE_QUERY
+|This command will query the emulator core for the value of a state parameter
+|'''<tt>ParamInt</tt>''' An <tt>m64p_core_param</tt> enumerated type specifying the desired state variable'''<br /><tt>ParamPtr</tt>''' Pointer to an integer to receive the value of the requested state variable.
+|None
+|-
+|M64CMD_STATE_LOAD
+|This command will attempt to load a saved state file.  If '''<tt>ParamPtr</tt>''' is not NULL, this function will load a state file from a full pathname specified by this pointer.  Otherwise ('''<tt>ParamPtr</tt>''' is NULL), it will load from the current slot.
+|'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>''' Pointer to string containing state file path and name, or NULL
+|The emulator must be currently running or paused.  This command will execute asynchronously.
+|-
+|M64CMD_STATE_SAVE
+|This command will save a state file.  If '''<tt>ParamPtr</tt>''' is not NULL, this function will save a state file to a full pathname specified by this pointer.  Otherwise ('''<tt>ParamPtr</tt>''' is NULL), it will save to the current slot.
+|'''<tt>ParamInt</tt>''' If 1, a Mupen64Plus state file will be saved.  If 2, a Project64 state file will be saved.'''<br /><tt>ParamPtr</tt>''' Pointer to string containing state file path and name, or NULL<br />
+|The emulator must be currently running or paused.  This command will execute asynchronously.
+|-
+|M64CMD_STATE_SET_SLOT
+|This command will set the currently selected save slot index
+|'''<tt>ParamInt</tt>''' Value to set for the current slot index.  Must be between 0 and 9'''<br /><tt>ParamPtr</tt>''' Ignored<br />
+|None
+|-
+|M64CMD_SEND_SDL_KEYDOWN
+|This command will inject an SDL_KEYDOWN event into the emulator's core event loop.  Keys not handled by the core will be passed to the input plugin.
+|'''<tt>ParamInt</tt>''' Key value of the keypress event to inject, with SDLMod in the upper 16 bits and SDLKey in the lower 16 bits.
+|The emulator must be currently running or paused.
+|-
+|M64CMD_SEND_SDL_KEYUP
+|This command will inject an SDL_KEYUP event into the emulator's core event loop.
+|'''<tt>ParamInt</tt>''' Key value of the keypress event to inject, with SDLMod in the upper 16 bits and SDLKey in the lower 16 bits.
+|The emulator must be currently running or paused.
+|-
+|M64CMD_SET_FRAME_CALLBACK
+|This command either registers or removes (if '''<tt>ParamPtr</tt>''' is NULL) a frame callback function.  This function will be called after each video frame is rendered.  The front-end callback function may call the video plugin's ReadScreen2() function to retrieve the frame if desired.
+|'''<tt>ParamPtr</tt>''' Can be either NULL or a <tt>m64p_frame_callback</tt> object.
+|None
+|-
+|M64CMD_TAKE_NEXT_SCREENSHOT
+|This will cause the core to save a screenshot at the next possible opportunity.
+|N/A
+|The emulator must be currently running or paused.  This command will execute asynchronously.
+|}
+
+== Video Extension Functions ==
+{| border="1"
+|Prototype
+|'''<tt>m64p_error CoreOverrideVidExt(m64p_video_extension_functions *VideoFunctionStruct);</tt>'''
+|-
+|Input Parameters
+|'''<tt>VideoFunctionStruct</tt>''' Pointer to a structure (defined in [[Mupen64Plus v2.0 headers#vidext.h|vidext.h]]) containing pointers to the Front-end's custom Video Extension functions to override the default SDL functions
+|-
+|Requirements
+|The Mupen64Plus library must already be initialized before calling this function.  This function cannot be called while the emulator is running.
+|-
+|Usage
+|This function overrides the core's internal SDL-based OpenGL functions which are called from the video plugin to perform various basic tasks like opening the video window, toggling between windowed and fullscreen modes, and swapping frame buffers after a frame has been rendered.  This override functionality allows a front-end to define its own video extension functions to be used instead of the SDL functions, such as for the purpose of embedding the emulator display window inside of a Qt GUI window.  If any of the function pointers in the structure are NULL, the override function will be disabled and the core's internal SDL functions will be used.  The v2.0 core expects the <tt>Functions</tt> struct member to be equal to 9 or more.
+|}
+<br />
+
+== Cheat Functions ==
+{| border="1"
+|Prototype
+|'''<tt>m64p_error CoreAddCheat(const char *CheatName, m64p_cheat_code *CodeList, int NumCodes)</tt>'''
+|-
+|Input Parameters
+|'''<tt>CheatName</tt>''' Pointer to NULL-terminated string containing a unique name for this Cheat Function.<br />
+'''<tt>CodeList</tt>''' Pointer to an array of <tt>m64p_cheat_code</tt> objects.<br />
+'''<tt>NumCodes</tt>''' Number of <tt>m64p_cheat_code</tt> elements in the cheat code array.
+|-
+|Requirements
+|The Mupen64Plus library must already be initialized before calling this function.  A ROM image must be currently opened.
+|-
+|Usage
+|This function will add a Cheat Function to a list of currently active cheats which are applied to the open ROM, and set its state to Enabled.  This function may be called before a ROM begins execution or while a ROM is currently running.  Some cheat codes must be applied before the ROM begins executing, and may not work correctly if added after the ROM begins execution.  A Cheat Function consists of a list of one or more <tt>m64p_cheat_code</tt> elements.  If a Cheat Function with the given '''<tt>CheatName</tt>''' already exists, it will be removed and the new Cheat Function will be added in its place.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error CoreCheatEnabled(const char *CheatName, int Enabled)</tt>'''
+|-
+|Input Parameters
+|'''<tt>CheatName</tt>''' Pointer to NULL-terminated string containing the name of an existing Cheat Function.<br />
+'''<tt>Enabled</tt>''' Boolean value to which to set the enabled state of the specified Cheat Function.
+|-
+|Requirements
+|The Mupen64Plus library must already be initialized before calling this function.  A ROM image must be currently opened.
+|-
+|Usage
+|This function enables or disables a specified Cheat Function.
+|}
+

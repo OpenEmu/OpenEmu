@@ -1,0 +1,50 @@
+Mupen64Plus-Core LICENSES
+-------------------------
+
+Mupen64Plus-Core is licensed under the GNU General Public License version 2.  Please see the
+included doc/gpl-license file for the terms and conditions of the GNU General Public License. 
+The authors of Mupen64Plus are:
+  * Richard Goedeken (Richard42)
+  * John Chadwick (NMN)
+  * James Hood (Ebenblues)
+  * Scott Gorman (okaygo)
+  * Scott Knauert (Tillin9)
+  * Jesse Dean (DarkJezter)
+  * Louai Al-Khanji (slougi)
+  * Bob Forder (orbitaldecay)
+  * Jason Espinosa (hasone)
+  * HyperHacker
+  * and others.
+
+The Mupen64Plus API documentation (located in doc/emuwiki-api-doc/*) is Copyright(C) 2009-2010
+by Richard Goedeken and is licensed under the GNU General Public License version 2.
+
+Mupen64Plus is based on GPL-licensed source code from Mupen64 v0.5, originally written by:
+  * Hacktarux
+  * Dave2001
+  * Zilmar
+  * Gregor Anich (Blight)
+  * Juha Luotio (JttL)
+  * and others.
+
+Mupen64Plus-Core includes a GPL-license demo rom (in mupen64plus.v64.gz) written by:
+  *  Marshallh
+
+The OGLFT library used for the On-Screen Display is based on GPL/LGPL-licensed code Copyright 2002 lignum Computing. Please see the included doc/lgpl-license file for the terms and conditions of the GNU Lesser General Public License. More information about this library is available at the following websites:
+  - http://oglft.sourceforge.net/index.html
+  - http://directory.fsf.org/project/OGLFT/
+
+Additionally, mupen includes a number of components licensed under other OSI approved licenses:
+
+The BSD license:
+   * minizip by Gilles Vollant and others, ftp://ftp.info-zip.org/pub/infozip/license.html
+
+The zlib/libpng license:
+   * Adler-32 by Mark Adler
+   * libpng by Glenn Randers-Pehrson, Peter Deutsch, and Guy Eric Schalnat
+   * MD5 hasing code by Peter Deutsch
+
+The Bitstream license:
+   * The TrueType font (data/font.ttf) is licensed by the Bitstream license. Please see the included doc/font-license file for the terms and conditions of the Bitstream license.
+
+

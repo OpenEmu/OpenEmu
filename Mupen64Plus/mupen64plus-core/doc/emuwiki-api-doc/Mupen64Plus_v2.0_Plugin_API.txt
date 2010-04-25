@@ -1,0 +1,285 @@
+[[Mupen64Plus v2.0 Core API v1.0|Mupen64Plus v2.0 API]]
+
+= Mupen64Plus v2.0 Plugin API =
+
+This section lists all of the functions which are exported by the plugins. The front-end application should only use the PluginStartup, PluginShutdown, and PluginGetVersion functions. All other functions will only be called from the core.
+
+== Common Plugin API ==
+These functions are present in all of the plugins.
+
+{| border="1"
+|Prototype
+|'''<tt>m64p_error PluginStartup(m64p_dynlib_handle CoreLibHandle, void *Context, void (*DebugCallback)(void *Context, int level, const char *Message))</tt>'''
+|-
+|Input Parameters
+|'''<tt>CoreLibHandle</tt>''' Dynamic library handle (defined in [[Mupen64Plus v2.0 headers#core.h|core.h]]) corresponding with the core mupen64plus library.<br />
+'''<tt>Context</tt>''' Pointer which will be passed back to the '''<tt>DebugCallback</tt>''' function.  Can be NULL.<br />
+'''<tt>DebugCallback</tt>''' Pointer to function in front-end for receiving debug information and warnings from the plugin.  This function must be thread-safe.  Can be NULL.
+|-
+|Requirements
+|This function must be called before any other plugin functions.  The Core library must already be started before calling this function.  This function must be called before attaching the plugin to the core.
+|-
+|Usage
+|This function initializes plugin for use by allocating memory, creating data structures, and loading the configuration data.  This function may return <tt>M64ERR_INCOMPATIBLE</tt> if an older core library is used with a newer plugin.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error PluginShutdown(void)</tt>'''
+|-
+|Requirements
+|This plugin should be detached from the core before calling this function.
+|-
+|Usage
+|This function destroys data structures and releases memory allocated by the plugin library.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error PluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion, int *APIVersion, const char **PluginNamePtr, int *Capabilities)</tt>'''
+|-
+|Input Parameters
+|'''<tt>PluginType</tt>''' Pointer to an enumerated type to store the plugin type of this plugin.<br />
+'''<tt>PluginVersion</tt>''' Pointer to an integer to store the version number of this plugin.  Version number 2.1.3 would be stored as 0x00020103.<br />
+'''<tt>APIVersion</tt>''' Pointer to an integer to store the version number of the Core-Plugin API for this type of plugin used by this plugin.<br />
+'''<tt>PluginNamePtr</tt>''' Pointer to a const character pointer to receive the name of this plugin.  The const char * which is returned must point to a persistent string (ie, not stored on the stack).<br />
+'''<tt>Capabilities</tt>''' Pointer to an integer to store a logically-or'd set of flags which specify the capabilities of the plugin which were built into the library during compilation.  These are currently only defined for the core, so this will always return 0 for a plugin.
+|-
+|Usage
+|This function retrieves version information from the plugin.  This function is the same for the core library and the plugins, so that a front-end may examine all shared libraries in a directory and determine their types.  Any of the input parameters may be set to NULL and this function will succeed but won't return the corresponding information.
+|}
+
+== Video Plugin API ==
+
+=== Mupen64Plus v2.0 Video Plugin API ===
+{|
+|<tt>void ChangeWindow(void);</tt>
+|Toggle Fullscreen/Windowed mode
+|-
+|<tt>BOOL InitiateGFX(GFX_INFO Gfx_Info);</tt>
+|Called during <tt>CoreAttachPlugin</tt> to send info about the emulator core to the graphics plugin and start up the graphics sub-system.  This should create the rendering window and the OpenGL context.
+|-
+|<tt>void MoveScreen(int xpos, int ypos);</tt>
+|This function is called in response to the emulator receiving a WM_MOVE, passing the xpos and ypos from that message.
+|-
+|<tt>void ProcessDList(void);</tt>
+|Process high-level graphics D-list.  (not currently used)
+|-
+|<tt>void ProcessRDPList(void);</tt>
+|Process low-level graphics D-list.
+|-
+|<tt>void RomClosed(void);</tt>
+|Called after the emulator is stopped.
+|-
+|<tt>int RomOpen(void);</tt>
+|Called just before the emulator begins executing a ROM.  '''***changed*** - this function now returns an int (boolean)'''
+|-
+|<tt>void ShowCFB (void);</tt>
+|Called from the RSP plugin to signal a condition to the video plugin.
+|-
+|<tt>void UpdateScreen(void);</tt>
+|This function is called in response to a VSync condition if the VI bit in MI_INTR_REG is set
+|-
+|<tt>void ViStatusChanged(void);</tt>
+|This function is called to notify the video plugin that the ViStatus registers value has been changed.
+|-
+|<tt>void ViWidthChanged(void);</tt>
+|This function is called to notify the video plugin that the ViWidth registers value has been changed.
+|-
+|<tt>void ReadScreen2(void *dest, int *width, int *height, int front);</tt>
+|This function reads the pixels of the frame buffer that is either currently displayed (front != 0) or being drawn (front == 0)
+|-
+|<tt>void SetRenderingCallback(void (*callback)());</tt>
+|Allows the core to register a callback function that will be called by the graphics plugin just before the the frame buffers are swapped.
+|-
+|<tt>void FBRead(unsigned int addr)</tt>
+|Read data from frame buffer into emulated RAM space
+|-
+|<tt>void FBWrite(unsigned int addr, unsigned int size)</tt>
+|Write data from emulated RAM space into frame buffer
+|-
+|<tt>void FBGetFrameBufferInfo(void *p)</tt>
+|Get some information about the frame buffer
+|}
+
+=== Remove From Older Video API ===
+{|
+|-
+|<tt>void CaptureScreen (char * Directory);</tt>
+|-
+|<tt>void CloseDLL(void);</tt>
+|-
+|<tt>void DllAbout(HWND hParent);</tt>
+|-
+|<tt>void DllConfig(HWND hParent);</tt>
+|-
+|<tt>void DllTest(HWND hParent);</tt>
+|-
+|<tt>void DrawScreen(void);</tt>
+|-
+|<tt>void GetDllInfo(PLUGIN_INFO *PluginInfo);</tt>
+|-
+|<tt>void ReadScreen(void **dest, int *width, int *height);</tt>
+|-
+|<tt>void SetConfigDir(char *configDir);</tt>
+|-
+|<br />
+<tt>typedef struct {...} PLUGIN_INFO</tt>
+|}
+
+== Audio Plugin API ==
+
+=== Mupen64Plus v2.0 Audio Plugin API ===
+{|
+|<tt>void AiDacrateChanged(int SystemType);</tt>
+|This function is called to notify the audio plugin that the AiDacrate register's value has been changed.
+|-
+|<tt>void AiLenChanged(void);</tt>
+|This function is called to notify the audio plugin that the AiLen register's value has been changed.
+|-
+|<tt>BOOL InitiateAudio(AUDIO_INFO Audio_Info);</tt>
+|Called during <tt>CoreAttachPlugin</tt> to send info about the emulator core to the audio plugin.
+|-
+|<tt>void ProcessAList(void);</tt>
+|Signal that there is an A-list to be processed.  (not currently used)
+|-
+|<tt>int RomOpen(void);</tt>
+|Called just before the emulator begins executing a ROM.  '''***changed*** - this function now returns an int (boolean)'''
+|-
+|<tt>void RomClosed(void);</tt>
+|Called after the emulator is stopped.
+|-
+|<tt>void SetSpeedFactor(int percent);</tt>
+|Called when the emulator playback speed changes.
+|-
+|<tt>void VolumeUp(void);</tt><br />
+<tt>void VolumeDown(void);</tt>
+|Increase or decrease volume level
+|-
+|<tt>int VolumeGetLevel(void);</tt>
+|Get current volume level in percentage, between 0 and 100.  '''***NEW***'''
+|-
+|<tt>void VolumeSetLevel(int level);</tt>
+|Set current volume level.  <tt>level</tt> must be between 0 and 100.  '''***NEW***'''
+|-
+|<tt>void VolumeMute(void);</tt>
+|Toggle between audio muted and un-muted
+|-
+|<tt>const char * VolumeGetString(void);</tt>
+|Return a string describing the current volume level
+|}
+
+=== Remove From Older Audio API ===
+{|
+|-
+|<tt>DWORD AiReadLength(void);</tt>
+|-
+|<tt>void AiUpdate(BOOL Wait);</tt>
+|-
+|<tt>void CloseDLL(void);</tt>
+|-
+|<tt>void DllAbout(HWND hParent);</tt>
+|-
+|<tt>void DllConfig(HWND hParent);</tt>
+|-
+|<tt>void DllTest(HWND hParent);</tt>
+|-
+|<tt>void GetDllInfo(PLUGIN_INFO *PluginInfo);</tt>
+|-
+|<tt>BOOL PauseAudio(BOOL Pause);</tt>
+|-
+|<tt>void SetConfigDir(char *configDir);</tt>
+|-
+|<br />
+<tt>typedef struct {...} PLUGIN_INFO</tt>
+|}
+
+== Input Plugin API ==
+
+=== Mupen64Plus v2.0 Input Plugin API ===
+{|
+|<tt>void ControllerCommand(int Control, BYTE * Command);</tt>
+|Process the raw data that has just been sent to a specific controller.
+|-
+|<tt>void GetKeys(int Control, BUTTONS * Keys);</tt>
+|Get the current state of the controller's buttons
+|-
+|<tt>void InitiateControllers(CONTROL_INFO ControlInfo);</tt>
+|Setup controller data structures
+|-
+|<tt>void ReadController(int Control, BYTE *Command);</tt>
+|Process the raw data in the pif ram that is about to be read. (not currently used)
+|-
+|<tt>int RomOpen(void);</tt>
+|Called just before the emulator begins executing a ROM.  '''***changed*** - this function now returns an int (boolean)'''
+|-
+|<tt>void RomClosed(void);</tt>
+|Called after the emulator is stopped.
+|-
+|<tt>void SDL_KeyDown(int keymod, int keysym);</tt>
+|Pass a SDL_KEYDOWN-style message to the input plugin
+|-
+|<tt>void SDL_KeyUp(int keymod, int keysym);</tt>
+|Pass a SDL_KEYUP-style message to the input plugin
+|}
+
+=== Remove From Older Input API ===
+{|
+|-
+|<tt>void CloseDLL(void);</tt>
+|-
+|<tt>void DllAbout(HWND hParent);</tt>
+|-
+|<tt>void DllConfig(HWND hParent);</tt>
+|-
+|<tt>void DllTest(HWND hParent);</tt>
+|-
+|<tt>void GetDllInfo(PLUGIN_INFO *PluginInfo);</tt>
+|-
+|<tt>void SetConfigDir(char *configDir);</tt>
+|-
+|<tt>void WM_KeyDown(WPARAM wParam, LPARAM lParam);</tt>
+|-
+|<tt>void WM_KeyUp(WPARAM wParam, LPARAM lParam);</tt>
+|-
+|<br />
+<tt>typedef struct {...} PLUGIN_INFO</tt>
+|}
+
+== RSP Plugin API ==
+
+=== Mupen64Plus v2.0 RSP Plugin API ===
+{|
+|<tt>DWORD DoRspCycles(DWORD Cycles);</tt>
+|Process pending RSP tasks.
+|-
+|<tt>void InitiateRSP(RSP_INFO Rsp_Info, DWORD *CycleCount);</tt>
+|Called during <tt>CoreAttachPlugin</tt> to send info about the emulator core to the audio plugin.
+|-
+|<tt>void RomClosed(void);</tt>
+|Called after the emulator is stopped.
+|}
+
+=== Remove From Older RSP API ===
+{|
+|-
+|<tt>void CloseDLL(void);</tt>
+|-
+|<tt>void DllAbout(HWND hParent);</tt>
+|-
+|<tt>void DllConfig(HWND hParent);</tt>
+|-
+|<tt>void DllTest(HWND hParent);</tt>
+|-
+|<tt>void GetDllInfo(PLUGIN_INFO *PluginInfo);</tt>
+|-
+|<tt>void GetRspDebugInfo(RSPDEBUG_INFO * RSPDebugInfo);</tt>
+|-
+|<tt>void InitiateRSPDebugger(DEBUG_INFO DebugInfo);</tt>
+|-
+|<br />
+<tt>typedef struct {...} PLUGIN_INFO</tt><br />
+<tt>typedef struct {...} RSPDEBUG_INFO</tt><br />
+<tt>typedef struct {...} DEBUG_INFO</tt>
+|}
+

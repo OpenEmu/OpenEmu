@@ -1,0 +1,368 @@
+[[Mupen64Plus v2.0 Core API v1.0|Mupen64Plus v2.0 API]]
+
+= Plugin Parameters =
+
+These are standard parameters which are used by the Mupen64Plus plugins.  The behavior of the plugin library when these parameters are changed while the emulator is running is not defined here.  Some plugins will load the parameters when starting and store internal copies of the parameters for use during emulation.  Other plugins may read the value of the parameters while running.
+
+=== Audio-SDL ===
+
+{| border="1"
+!Parameter Name!!Type!!Usage
+|-
+|DEFAULT_FREQUENCY
+|M64TYPE_INT
+|Frequency which is used if rom doesn't want to change it
+|-
+|SWAP_CHANNELS
+|M64TYPE_BOOL
+|Swaps left and right channels
+|-
+|PRIMARY_BUFFER_SIZE
+|M64TYPE_INT
+|Size of primary buffer in output samples. This is where audio is loaded after it's extracted from n64's memory.
+|-
+|PRIMARY_BUFFER_TARGET
+|M64TYPE_INT
+|Fullness level target for Primary audio buffer, in equivalent output samples.
+|-
+|SECONDARY_BUFFER_SIZE
+|M64TYPE_INT
+|Size of secondary buffer in samples. This is SDL's hardware buffer.
+|-
+|RESAMPLE
+|M64TYPE_INT
+|Audio resampling algorithm.  1 = unfiltered, 2 = SINC resampling (Best Quality, requires libsamplerate)
+|-
+|VOLUME_CONTROL_TYPE
+|M64TYPE_INT
+|Volume control type: 1 = SDL (only affects Mupen64Plus output)  2 = OSS mixer (adjusts master PC volume)
+|-
+|VOLUME_ADJUST
+|M64TYPE_INT
+|Percentage change each time the volume is increased or decreased
+|-
+|VOLUME_DEFAULT
+|M64TYPE_INT
+|Default volume when a game is started.  Only used if VOLUME_CONTROL_TYPE is 1
+|-
+|}
+
+=== Video-General ===
+
+{| border="1"
+!Parameter Name!!Type!!Usage
+|-
+|Fullscreen
+|M64TYPE_BOOL
+|Use fullscreen mode if True, or windowed mode if False
+|-
+|ScreenWidth
+|M64TYPE_INT
+|Width of output window or fullscreen width
+|-
+|ScreenHeight
+|M64TYPE_INT
+|Height of output window or fullscreen height
+|-
+|}
+
+=== Video-Rice ===
+
+{| border="1"
+!Parameter Name!!Type!!Usage
+|-
+|FrameBufferSetting
+|M64TYPE_INT
+|Frame Buffer Emulation (0=ROM default, 1=disable)
+|-
+|FrameBufferWriteBackControl
+|M64TYPE_INT
+|Frequency to write back the frame buffer (0=every frame, 1=every other frame, etc)
+|-
+|RenderToTexture
+|M64TYPE_INT
+|Render-to-texture emulation (0=none, 1=ignore, 2=normal, 3=write back, 4=write back and reload)
+|-
+|ScreenUpdateSetting
+|M64TYPE_INT
+|Control when the screen will be updated (0=ROM default, 1=VI origin update, 2=VI origin change, 3=CI change, 4=first CI change, 5=first primitive draw, 6=before screen clear, 7=after screen drawn)
+|-
+|NormalAlphaBlender
+|M64TYPE_BOOL
+|Force to use normal alpha blender
+|-
+|FastTextureLoading
+|M64TYPE_BOOL
+|Use a faster algorithm to speed up texture loading and CRC computation (may break hi-res texture loading)
+|-
+|AccurateTextureMapping
+|M64TYPE_BOOL
+|Use different texture coordinate clamping code
+|-
+|InN64Resolution
+|M64TYPE_BOOL
+|Force emulated frame buffers to be in N64 native resolution
+|-
+|SaveVRAM
+|M64TYPE_BOOL
+|Try to reduce Video RAM usage (should never be used)
+|-
+|DoubleSizeForSmallTxtrBuf
+|M64TYPE_BOOL
+|Enable this option to have better render-to-texture quality
+|-
+|DefaultCombinerDisable
+|M64TYPE_BOOL
+|Force to use normal color combiner
+|-
+|EnableHacks
+|M64TYPE_BOOL
+|Enable game-specific settings from INI file
+|-
+|EnableFog
+|M64TYPE_BOOL
+|Enable or disable fog generation
+|-
+|WinFrameMode
+|M64TYPE_BOOL
+|If enabled, graphics will be drawn in WinFrame mode instead of solid and texture mode
+|-
+|FullTMEMEmulation
+|M64TYPE_BOOL
+|N64 Texture Memory Full Emulation (may fix some games, may break others)
+|-
+|OpenGLVertexClipper
+|M64TYPE_BOOL
+|Enable vertex clipper for fog operations
+|-
+|EnableSSE
+|M64TYPE_BOOL
+|Enable SSE optimizations for capable CPUs
+|-
+|EnableVertexShader
+|M64TYPE_BOOL
+|Use GPU vertex shader
+|-
+|SkipFrame
+|M64TYPE_BOOL
+|If this option is enabled, the plugin will skip every other frame
+|-
+|TexRectOnly
+|M64TYPE_BOOL
+|If enabled, texture enhancement will be done only for TxtRect ucode
+|-
+|SmallTextureOnly
+|M64TYPE_BOOL
+|If enabled, texture enhancement will be done only for textures width+height<=128
+|-
+|LoadHiResTextures
+|M64TYPE_BOOL
+|Enable hi-resolution texture file loading
+|-
+|DumpTexturesToFiles
+|M64TYPE_BOOL
+|Enable texture dumping
+|-
+|ShowFPS
+|M64TYPE_BOOL
+|Display On-screen FPS
+|-
+|MultiSampling
+|M64TYPE_INT
+|Enable/Disable MultiSampling (0=off, 2,4,8,16=quality)
+|-
+|TextureEnhancement
+|M64TYPE_INT
+|Primary texture filter (0=None, 1=2X, 2=2XSAI, 3=HQ2X, 4=LQ2X, 5=HQ4X, 6=Sharpen, 7=Sharpen More, 8=External, 9=Mirrored)
+|-
+|TextureEnhancementControl
+|M64TYPE_INT
+|Secondary texture filter (0 = none, 1-4 = filtered)
+|-
+|ForceTextureFilter
+|M64TYPE_INT
+|Texture filter to use (0=default, 1=nearest neighbor, 2=linear, 3=bilinear)
+|-
+|TextureQuality
+|M64TYPE_INT
+|Color bit depth to use for textures (0=default, 1=32 bits, 2=16 bits
+|-
+|OpenGLDepthBufferSetting
+|M64TYPE_INT
+|Z-buffer depth (only 16 or 32)
+|-
+|ColorQuality
+|M64TYPE_INT
+|Color bit depth for rendering window (0=32 bits, 1=16 bits)
+|-
+|OpenGLRenderSetting
+|M64TYPE_INT
+|OpenGL rendering level to support (0=auto, 1=OGL_1.1, 2=OGL_1.2, 3=OGL_1.3, 4=OGL_1.4, 5=OGL_1.4_V2, 6=OGL_TNT2, 7=NVIDIA_OGL, 8=OGL_FRAGMENT_PROGRAM)
+|-
+|}
+
+=== Input-SDL ===
+
+The Mupen64Plus-Input-SDL plugin uses a separate config section for each simulated N64 controller.  The sections are named: <tt>Input-SDL-Control1</tt>, <tt>Input-SDL-Control2</tt>, <tt>Input-SDL-Control3</tt>, and <tt>Input-SDL-Control4</tt>.  The 4 sections all contain the same parameters.
+
+<b>General-purpose Controller Configuration Parameters</b>
+
+{| border="1"
+!Parameter Name!!Type!!Usage
+|-
+|plugged
+|M64TYPE_BOOL
+|Specifies whether this controller is 'plugged in' to the simulated N64
+|-
+|plugin
+|M64TYPE_INT
+|Specifies which type of expansion pak is in the controller: 1=None, 2=Mem pak, 5=Rumble pak
+|-
+|mouse
+|M64TYPE_BOOL
+|If True, then mouse buttons may be used with this controller, and mouse movement will map to X/Y analog stick
+|-
+|device
+|M64TYPE_INT
+|Specifies which joystick is bound to this controller: -2=Keyboard/mouse, -1=Auto config, 0 or more= SDL Joystick number
+|-
+|AnalogDeadzone
+|M64TYPE_STRING
+|The minimum absolute value of the SDL analog joystick axis to move the N64 controller axis value from 0.  For X, Y axes.
+|-
+|AnalogPeak
+|M64TYPE_STRING
+|An absolute value of the SDL joystick axis >= AnalogPeak will saturate the N64 controller axis value (at 80).  For X, Y axes. For each axis, this must be greater than the corresponding AnalogDeadzone value
+|-
+|}
+
+<b>Digital Controller Configuration</b>
+These parameters are used to bind input events with N64 Controller button presses.  There are 14 simulated buttons and 2 special buttons for switching between the Mem Pak and Rumble Pak expansion units.  Each configuration parameter is a string which specifies input events which will map to the given N64 button.  The configuration strings consist of zero or more input event words.  A list of available input event words is given here:
+
+{| border="1"
+!Input Event Word!!Usage
+|-
+|<tt>key(&lt;keysym&gt;)</tt>
+|&lt;keysym&gt; = SDLK_* key symbol enumerated type
+|-
+|<tt>button(&lt;num&gt;)</tt>
+|&lt;num&gt; = SDL Joystick Button Number (0 or greater)
+|-
+|<tt>axis(&lt;num&gt;&lt;dir&gt;)</tt>
+|&lt;num&gt; = SDL Joystick Axis Number, &lt;dir&gt; = axis direction (+ = positive, - = negative)
+|-
+|<tt>axis(&lt;num&gt;&lt;dir&gt;,&lt;deadzone&gt;)</tt>
+|&lt;num&gt; = SDL Joystick Axis Number, &lt;dir&gt; = axis direction (+ = positive, - = negative), &lt;deadzone&gt; = minimum axis value (max 32767) to activate button; default 6000
+|-
+|<tt>hat(&lt;num&gt; &lt;dir&gt;)</tt>
+|&lt;num&gt; = SDL Joystick Hat Number, &lt;dir&gt; = hat direction (Up, Down, Left, or Right)
+|-
+|<tt>mouse(&lt;num&gt;)</tt>
+|&lt;num&gt; = mouse button number (1 = left button, 2 = middle, 3 = right, etc)
+|-
+|}
+
+<br>
+{| border="1"
+!Parameter Name!!Type!!Usage
+|-
+|DPad R
+|M64TYPE_STRING
+|Input event string for mapping the Right button on the D-pad
+|-
+|DPad L
+|M64TYPE_STRING
+|Input event string for mapping the Left button on the D-pad
+|-
+|DPad D
+|M64TYPE_STRING
+|Input event string for mapping the Down button on the D-pad
+|-
+|DPad U
+|M64TYPE_STRING
+|Input event string for mapping the Up button on the D-pad
+|-
+|Start
+|M64TYPE_STRING
+|Input event string for mapping the Start button
+|-
+|Z Trig
+|M64TYPE_STRING
+|Input event string for mapping the Z trigger
+|-
+|B Button
+|M64TYPE_STRING
+|Input event string for mapping the "B" button
+|-
+|A Button
+|M64TYPE_STRING
+|Input event string for mapping the "A" button
+|-
+|C Button R
+|M64TYPE_STRING
+|Input event string for mapping the Right "C" button
+|-
+|C Button L
+|M64TYPE_STRING
+|Input event string for mapping the Left "C" button
+|-
+|C Button D
+|M64TYPE_STRING
+|Input event string for mapping the Down "C" button
+|-
+|C Button U
+|M64TYPE_STRING
+|Input event string for mapping the Up "C" button
+|-
+|R Trig
+|M64TYPE_STRING
+|Input event string for mapping the Right trigger
+|-
+|L Trig
+|M64TYPE_STRING
+|Input event string for mapping the Left trigger
+|-
+|Mempak switch
+|M64TYPE_STRING
+|Input event string for toggling the Memory Pak unit
+|-
+|Rumblepak switch
+|M64TYPE_STRING
+|Input event string for toggling the Rumble Pak unit
+|-
+|}
+
+<b>Analog Controller Configuration</b>
+These parameters are used to bind input events with N64 Controller analog stick movements.  There are only 2 analog stick axes, X and Y.  Each configuration parameter is a string which specifies input events which will map to the given N64 controller axis movement.  The configuration strings consist of zero or more input event words.  A list of available input event words is given here:
+
+{| border="1"
+!Input Event Word!!Usage
+|-
+|<tt>key(&lt;key_a&gt;,&lt;key_b&gt;)</tt>
+|&lt;key_a&gt; = SDLK_* key symbol for up/left movement. &lt;key_b&gt; = SDLK_* key symbol for down/right movement.  The strength of these movements can be modulated with the Left-Shift and Left-Control keys.
+|-
+|<tt>button(&lt;num_a&gt;,&lt;num_b&gt;)</tt>
+|&lt;num_a&gt; = SDL Joystick Button Number for up/left movement. &lt;num_b&gt; = SDL Joystick Button Number for down/right movement.
+|-
+|<tt>axis(&lt;num_a&gt;&lt;dir_a&gt;,&lt;num_b&gt;&lt;dir_b&gt;)</tt>
+|&lt;num_a&gt; = SDL Joystick Axis Number for up/left movement, &lt;dir_a&gt; = axis direction for up/left movement (+ = positive, - = negative). &lt;num_b&gt; = SDL Joystick Axis Number for down/right movement, &lt;dir_b&gt; = axis direction for down/right movement.
+|-
+|<tt>hat(&lt;num&gt; &lt;dir_a&gt; &lt;dir_b&gt;)</tt>
+|&lt;num&gt; = SDL Joystick Hat Number, &lt;dir_a&gt; = hat direction for up/left movement (Up, Down, Left, or Right), &lt;dir_b&gt; = hat direction for right/down movement
+|-
+|}
+
+<br>
+{| border="1"
+!Parameter Name!!Type!!Usage
+|-
+|Y Axis
+|M64TYPE_STRING
+|Input event string for mapping the Y axis (up/down) of the analog stick
+|-
+|X Axis
+|M64TYPE_STRING
+|Input event string for mapping the X axis (left/right) of the analog stick
+|-
+|}
+

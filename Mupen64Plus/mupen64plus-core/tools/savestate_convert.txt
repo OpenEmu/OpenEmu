@@ -1,0 +1,36 @@
+==============================================================================
+savestate_convert.txt - Mupen64Plus - July 12th, 2008
+
+This conversion tool was written to help users migrate their savestate files
+when there are changes to the savestate file format which break backward
+compatibility.
+
+To compile the conversion tool, open a console window, go to the root of your
+Mupen64Plus source code, and type:
+
+gcc -o savestate_convert -lz tools/savestate_convert.c
+
+This will create a small command-line application called 'savestate_convert'.
+This program takes only one command-line parameter, which is a path to the
+savestate file that you want to update.  The old savestate file will be
+overwritten with the new one, so you may wish to first make a backup copy
+of the savestate file.  If you update a savestate file to a newer version,
+older versions of Mupen64Plus will not be able to load it.
+
+If you wish to update all of the savestate files in your home directory, you
+may do so with the following bash command:
+
+for file in ~/.mupen64plus/save/*.st*; do ./savestate_convert "${file}"; done
+
+==============================================================================
+Savestate File Format History:
+
+version 0:
+ - Original (Unversioned) file format
+ - used by Mupen64 v0.5 and Mupen64Plus up to v1.4
+
+version 1.0:
+ - bugfix: TLB was not being entirely saved and restored
+ - added small header with magic number and version number
+ - introduced in rev 758 of Mupen64Plus SVN repository (trunk)
+

@@ -1,0 +1,22 @@
+Mupen64plus Demo rom requires a number of binary artwork assets.
+
+The following files:
+
+logo.3ds
+logo_env.3ds
+Bluegra2.bmp
+bluegrad.bmp
+c_env.bmp
+c_gray.bmp
+Redgrad2.bmp
+redgrad.bmp
+White.bmp
+
+are Copyright: The Mupen64plus Team
+  | Copyright (C) 2008 Marshallh
+  |
+  | You may copy them under the Creative Common Attribution-ShareAlike 3.0
+  | license, as found here:
+  |
+  |     http://creativecommons.org/licenses/by-sa/3.0/
+

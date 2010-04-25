@@ -1,0 +1,544 @@
+Mupen64Plus-Core Emulator Library RELEASE
+-----------------------------------------
+
+Mupen64Plus v1.99.3 - February 13, 2010
+---------------------------------------
+ - New feature: configuration function ConfigGetParameterType()
+ - New feature: up to 1000 screenshots per ROM are allowed
+ - New feature: support for Gameshark 3.3 patch codes
+ - Bugfix: Use Dynarec by default when core supports it.  If dynarec is selected but unavailable, fall back to cached interpreter
+ - Bugfix: screenshot directory handling code used unix-specific path separators; now is platform-independent
+ - Bugfix: #313 - 64-bit inline assembly code in r4300/x86_64/rjump.c needs to have underscores before the symbols names in OSX
+ - Bugfix: old bug in the core - hang if a ROM *without* a 16kb EEPROM type is loaded after a ROM *with* a 16kb EEPROM type
+ - Bugfix: rumble feature caused memory corruption
+ - Bugfix: Problem with zilmar API: the plugin RomOpen() functions had no way of returning errors to the core, causing crashes
+ - Replaced api documentation .tar.gz file with the mediawiki text
+ - Build script improvements:
+   - new feature: m64p_update.sh script can take an input argument to update to a tag or revision
+   - new feature: added bash script for building source packages of individual modules
+ - Makefile improvements:
+   - dont run ldconfig on make install unless user is root
+   - added OS type GNU/kFreeBSD
+
+Mupen64Plus v1.99.2 - January 6, 2010
+---------------------------------------
+ - doc: added tarball of emuwiki api documentation from 2010-01-06 for backup purposes
+ - clean-up: removed almost all of the ifdef WIN32 statements
+ - bugfix: stop spamming console with "Core: couldn't open memory pack file '...' for reading" messages
+ - bugfix: stop spamming console with "Core: couldn't open eeprom file '...' for reading" messages
+ - new feature: MSVC8 project file for mupen64plus-core, refactored code for VC8 compatibility
+ - Makefile improvements:
+   - throw error if OS/CPU not supported
+   - use DESTDIR in install/uninstall paths
+   - Allow user-specified CC/CXX/LD paths
+   - makefile needs to install Core header files so that plugins can be built later
+
+Mupen64Plus v1.99.1 - December 14, 2009
+---------------------------------------
+New 2.0 architecture advantages:
+ - Simplified emulator Core, making it much more portable
+ - Removed all GUI code from plugins, making them simpler and more portable
+ - User interface development is not tied to Core emulator releases
+ - All messages from core/plugins can be filtered and shown in GUI instead of only on console
+ - Video Extension allows Front-end to override some video functions, ie to support embedded render window
+ - Startup in Fullscreen mode, instead of always starting in windowed mode and switching to FS after few seconds
+ - video resolution can be given via command-line parameter
+ - all configuration options for core and plugins are in a single config file, can be configured with a single GUI
+ - dummy plugins are automatically used if plugin loading fails for any reason
+ - core and plugins all use the same conventions for where to put data/config files
+Mupen64Plus core:
+ - New feature: cheat code support
+ - New feature: Keyboard shortcuts for Core commands are now user-configurable
+ - New feature: can load/save PJ64 state files
+ - Major code cleanup, refactored build system to separate source and object files
+ - Removed many dependencies to simplify porting to other platforms
+ - Moved all of the SDL event-related stuff into a new source file eventloop.c
+ - Use XDG directory convention for file locations on Unix
+ - bugfix: frame advance feature should advance every frame, instead of every vertical interrupt (every field)
+ - bugfix: allow diagonal hat movements for core joystick commands
+ - bugfix: modified SDL event loop joystick code so that gameshark button press is captured, and joystick commands that are level-triggered instead of edge-triggered (such as fast foward) can be accommodated
+ - bugfix: fixed the outstanding SDL event issues by re-writing the code which handles the joystick-event-driven core commands.  Now the axis-based commands use hysteresis and there is a single global event function for determining if the gameshark button is pressed
+ - bugfix: OSD crash after pause-stop-start-pause of emulator
+ - bugfix: Set video width and status, aiDacrate during savestate load
+ - bugfix: in pure interpreter, Dont allow to override r0 register
+ - bugfix #52: PJ64 load state patch from olejl77
+ - bugfix #268: use aligned malloc and mprotect to set executable status for dynarec emitted code
+ - bugfix #51: Floating Point Register data was not correctly converted when switching between 32-bit (MIPS-I) mode and 64-bit (MIPS III).
+               New code more closely emulates behavior of r4300 hardware.  Fixes collision problems in Banjo-Tooie
+ - bugfix #272: rounding mode for x86 FPU not being set correctly in interpreter and pure interpreter cores
+ - bugfix: many games need different ScreenUpdateSetting to work properly with Rice Video
+
+
+Mupen64Plus v1.5 - January 4, 2009
+----------------------------------
+Major New Features:
+ - support for Macintosh OSX platform with Intel CPUs
+ - Qt4 GUI by slougi, Tillin9, and others
+ - Rom Cache System (r636, others), by Tillin9, Okaygo, and Hasone.
+Minor New Features:
+ - r1235: Debugger: memory breakpoint speedup
+ - r1170-1178,1181: QT GUI: translations for English, Norwegian, German, and Dutch
+ - r1155: Use configurable key commands for special emulator functions
+ - r1134: got our own custom test ROM, courtesy of Marshallh
+ - r1046: debugger: new r4300 disassembler from ZZT32
+ - r829: jttl_audio: added GTK GUI configuration dialog
+ - r793: soft reset (hit F9)
+ - r782: jttl_audio: both SDL-based and OSS-based volume control methods are now supported
+ - r765: added savestate conversion tool to be able to load pre-v1.5 savestate files
+ - r711: 7-zip support
+ - r692: Multi-file Zip support
+ - r667: GTK GUI: user-configurable columns in ROM browser
+ - r659: LZMA archive support
+ - r638: BZip2 archive support
+ - r629,634: LIRC - added support for speedup, slowdown, pause, and frame advance
+Updates:
+ - r1007,1032: GTK GUI improvements
+ - r970, 1019: use SDL threading support instead of pthreads
+ - r935,938,940: Gtk GUI updates for core and Jttl
+ - r642,655-657,663,664,747,759,761-763,768-770,774,775,780,781,783,786,787,825,828,931: mupen64plus.ini updates: Good Names, stars, EEPROM types, players, rumble support
+Bugfixes:
+ - r1247: rsp_hle: memory overwrite bug with Zelda:OOT
+ - r1234: out of bound array bug in memory access function handlers
+ - r1222,1223,1228,1229: Debugger fixes
+ - r1183: Blight Input: sometimes the axis direction would flip
+ - r1133: Added stop rumble to load savestate, fixes issue 165
+ - r1077: GTK GUI bugfixes
+ - r1063: rice video: crash in MMX/SSE checking functions
+ - r800: logical error in strcpy loop in util.c
+ - r798: small bugfixes in blight_input: 1. only save config file after running config dialog, not every time DLL is closed.  2. If rumble is not available on a controller, don't allow user to switch between rumble and mempack.  3. If rumble is selected in config file but not available on a controller, select mempack instead.
+ - r789: 3 glN64 bugfixes (segfaults on a 64-bit system in Perfect Dark): prevent clamp values from being negative, handle TMEM wrap-arounds from wacky height/line values in texture cache load and texture CRC functions
+ - r788: rice video: add checks for uint32 height/width parameters which can be negative, causing segfault on 64-bit systems
+ - r784: 64-bit problem causing GUI crashes - gotta save/restore all the callee-saved registers around the dynarec
+ - r758: fixed some savestate problems
+ - r748: Fixed 64-bit dynarec crash in genj_idle() and genjal_idle()
+ - r715: Bugfixes thanks to Valgrind. Two using strcpy with source and destination overlay, i.e. strcpy(p,p+1)
+ - r700: set ScreenUpdateSetting=1 in rice video ini file for Conkers BFD
+ - r694: require bash shell scripting for install.sh
+ - r686: fixed OSD crash bug after running a game, disabling OSD, then running another game
+ - r684: OGLFT measuring functions were taking a huge chunk of CPU time.  Refactored code to measure only once and store the line size and the message sizes instead of re-measuring all the time.  This eliminated nearly all of the OSD overhead on my PC
+ - r681: Refactored OGLFT to do color setting outside of glyph compiling, so the OSD fading doesnt force bitmaps to be continually recreated with calls to renderGlyph.  Seems to have cut the excessive cpu usage of the OSD about by half
+ - r680: removed many unused classes from OGLFT font library code
+ - r676: bugfix in my BYTESWAP macros
+ - r674: Removed glide64/Tmem_nasm.asm source file and the project dependency on nasm/yasm assemblers
+ - r673: removed inline assembly sections in rdp_loadblock and rdp_loadtile, including their dependency on functions in Tmem_nasm.asm.  Replaced with new C code.  This fixes a segfault on some 64-bit source builds
+ - r669: string function causing crash on 64-bit linux
+ - r667: issue #88 - added basic view menu in GTK GUI
+ - r628,633: Small patch to get glide64.so to compile with O3 optimizations
+ - r622: Fixed segfault in Glide64 as per issue 133
+ - r619: fix LIRC build to integrate w/ new screenshot mechanism
+ - r608: another couple of memory leak fixes from Tub, in main/config.c
+ - r605: fix from Tub for free() bug in main/util.c/list_delete()
+ - r587: issue #111: close screenshot file after saving
+
+Mupen64Plus v1.4 - June 14, 2008
+-----------------------------------
+ - New feature: Graphical debugger for R4300 core
+ - New feature: On Screen Display
+ - New feature: KDE4 GUI (experimental)
+ - New feature: cheat system with Gameshark codes
+ - New feature: search/filter box in GTK GUI
+ - New feature: Single frame advance
+ - New feature: adjust emulator playback speed up or down in 5% increments
+ - New feature: Rumble Pak support with force feedback
+ - New feature: Map emulator functions (fullscreen, stop emulation, etc) to joystick buttons or axis movements.
+ - New feature: Volume up/down
+ - Blight Input: Individually configure each direction of X and Y axis, which allows inverting the axis
+ - JTTL_Audio: libsamplerate support for high quality audio resampling
+ - GTK GUI: Removed second status bar which was not used
+ - GTK GUI: Implemented accelerator keys
+ - GTK GUI: Replaced custom directory browser with GTK file chooser
+ - GTK GUI: numerous small changes and fixes
+ - Added Mupen64Plus 'man' (manual) page
+ - Removed mupen64_audio plugin, as it was unnecessary and mostly broken
+ - Added NoMemoryExpansion parameter to emulate 4MB console; fixes some games
+ - Overhaul of rom handling functions; numerous small fixes
+ - Bugfix: Removed NoAudioDelay core option to resolve issue #48
+ - Bugfix: check for stopped state in dynarec jump function, to fix unresponsive emulator when game gets stuck in loop
+ - Bugfix: GTK GUI: #6 - if a ROM is selected in the ROM browser and 'play' is pressed, emulation will start
+ - Bugfix: GTK GUI: #62 - ROM browser column sorting works
+ - Bugfix: Rice Video: Support hi-res textures with different scale factors for X and Y
+ - Bugfix: Blight Input: don't use 100% CPU in configuration dialog
+
+Mupen64Plus v1.3 - March 29th, 2008
+-----------------------------------
+ - New feature: Glide64 video plugin for 32-bit and 64-bit, renamed project Mupen64Plus
+ - New feature: Combine mupen64 and mupen64_nogui into a single binary
+ - New feature: ability to change icon size
+ - New feature: support different directories for install (plugins, icons, etc) and config (save games, config files)
+ - New feature: support for creating/using ~/.mupen64plus dir for storing user data
+ - New feature: support for installation via "make install" or "./install.sh"
+ - New feature: support for plugins given via command line option in GUI mode
+ - New feature: config dialog checkbox to toggle "noask" setting
+ - New feature: pause/continue functionality with LIRC
+ - Removed messagebox utility and replaced it with cleaner alert_message/confirm_message calls
+ - GTK GUI: Set parent window for all popups so WM will center popup windows over the main gui window
+ - Added README file with information about usage of Mupen64Plus and plugins
+ - Removed mupen64_soft_gfx, as it didn't work
+ - Removed Win32 code from RSP HLE plugin, 
+ - Change fullscreen hotkey to Alt+Enter
+ - Only plugin filenames (not paths) are stored in the mupen64plus.conf file
+ - Modified pre.mk and glide64 makefile to auto-select yasm or nasm
+ - Bugfix: Rice Video: Make configuration during gameplay possible again
+ - Bugfix: many compiler warnings and errors in Glide64
+ - Bugfix: segfault in Goldeneye and Perfect Dark for 64-bit dynarec
+ - Bugfix: 64-bit dynarec bug in genld()
+ - Bugfix: buffer overflow allocating temp strings for basename/dirname
+ - Bugfix: GTK GUI: Exiting via File -> Exit wasn't writing out config file to disk
+ - Bugfix: GTK GUI: "About" menu does not pop up while emulation is running
+ - Bugfix: Glide64: Refactored a bunch of inline asm code with potential bugs
+ - Bugfix: Added plugin error checking before emulator is started
+ - Bugfix: Logo not loading in "about" window
+ - Bugfix: Segfault in plugin_scan_directory()
+ - Bugfix: ROM pause/continue while playing
+ - Bugfix: Too many dialog windows when loading a bad dump or hacked rom
+ - Bugfix: Closing emulation window now stops emulator
+ - Bugfix: Rice Video: config dialog bug, now it displays proper resolution
+ - Bugfix: GTK GUI: "Toolbar Style" now works
+ - Bugfix: Glide64: changed inline asm label syntax, for compatibility with gcc 4.3.0
+ - Bugfix: Many other minor bug fixes, GTK warnings fixes, translation corrections, etc
+
+Mupen64-amd64 v1.2 - February 10th, 2008
+----------------------------------------
+ - New feature: Dynamic Recompiler for 64-bit
+ - New feature: New ROM Browser for Mupen64 GUI build
+ - New feature: LIRC remote control integration for NOGUI build
+ - Added R4300 instruction counting capability to 64-bit Dynarec
+ - Added R4300 profile data output for 32-bit and 64-bit dynamic recompilers
+ - TLB Optimization / bugfix
+ - Revised makefiles to support PPC builds
+ - Bugfix: memory leaks in mupenIniApi.c
+ - Bugfix: corrupted filenames being saved to disk for mupen64.ini
+ - Bugfix: crash in jttl_audio
+ - Bugfix: crash when running game from gui after first time
+ - Bugfix: spurious noise blip when running game from gui after first time
+
+RiceVideoLinux v1.2 - February 10th, 2008
+-----------------------------------------
+ - Revised makefiles to support PPC builds
+ - Added more logging to hi-res texture loading
+ - Bugfix: Texture dumping now works
+
+Mupen64-amd64 v1.1 - December 9th, 2007
+----------------------------------------
+ - New icons for GTK GUI
+ - Removed GTK 1.2 GUI build; GTK 2.0 is required now
+ - Added file pointer checking for frwite() calls and error logging
+ - Added scrolling to the the rom list widget
+ - Added main/version.h file to store Mupen64-amd64 package version
+ - Print joystick numbers along with names in blight input to tell multiple devices apart
+ - Merged okaygo's TLB hack for Goldeneye from Mupen64++
+ - Rework GTK GUI config dialog; fixed bugs in ROM directory list
+ - Bugfix: segfault from playing same game twice in a row from GUI
+ - Bugfix: segfault from fwrite() failure in dma_pi_read in memory/dma.c
+ - Bugfix: exit properly instead of segfault after dyna_stop is called
+ - Bugfix: blight input: SDL_PumpEvents must be called from thread which initialized SDL video mode
+ - Bugfix: blight_input: joystick handling caused glitch in config dialog
+ - Bugfix: makefile: 32-bit CFLAGS must be used when doing 32-bit build on 64-bit machine
+ - Bugfix: Added makefile to root folder for building releases
+
+RiceVideoLinux v1.1 - December 9th, 2007
+-----------------------------------------
+ - Removed configure script and config.h; added SDL and GTK library checking and handling in main makefile
+ - Added capability to load 24-bit PNG files into 32-bit texture buffer
+ - Added more error logging to hi-res texture code
+ - Added combiner type logging to DeviceBuilder class
+ - Bugfix: added quotes around BUILD_NUMBER to prevent segfault on About box
+ - Bugfix: SSE vertex lighting inline ASM code was incorrect
+ - Bugfix: makefile: 32-bit CFLAGS must be used when doing 32-bit build on 64-bit machine
+ - Bugfix: segfault with hi-res textures (incorrect scale factor used when creating memory buffer)
+ - Bugfix: modified DrawSprite function in RenderExt.cpp to eliminate gaps between textures in Puyo Puyo 4
+ - Bugfix: opengl error in ApplyTextureFilter due to wrong enum type
+ - Bugfix: Simplified fragment program and removed ATTRIB parameters to fix problems on Intel X3100 hardware
+
+
+Mupen64-amd64 v1.0 - November 12th, 2007
+----------------------------------------
+ - Forked from Mupen64 v0.5
+ - Ported to 64-bit architecture by NMN/SirRichard42
+ - Fixed texture cache problem in glN64
+ - Print more information during plugin loading process
+ - Added blight input config file for logitech dual-action style controllers
+ - Added SDL_GL_SWAP_CONTROL attribute in glN64 to prevent tearing
+ - Changed glVoids to voids due to strange compilation bug that occurs on certain systems
+ - Totally refactored makefiles; now plugins are built as sub-modules
+ - Better logging for R4300 core selection, disallow Dynamic Recompilation for 64-bit builds at compile time
+ - Set execstack attribute for all mupen64 binaries, to prevent segfault when Dynamic Recompilation is used
+ - Lots of code cleanup
+ - Removed 'multi-user' mode of operation
+ - Removed 'configure' script and config.h file
+ - Refactored plugin loading code in _nogui build, much more user-friendly now
+ - Added comments and SDL shutdown code to main.c
+ - Bugfix: fixed memory leaks in plugin.c
+ - Bugfix: strcpy in main/gui_gtk/config.c should not copy overlapping strings
+ - Bugfix: blight audio: only close down audio and timer sub-systems when exiting
+
+RiceVideoLinux v1.0 - November 12th, 2007
+-----------------------------------------
+ - Forked from RiceVideo 6.1.1 beta 10
+ - Ported to Linux by Hacktarux
+ - Ported to 64-bit architecture by SirRichard42
+ - Added rudimentary debug support for Linux
+ - Merged all Non-Win32 changes from Mudlord's RiceVideo SVN 6.1.3.2 (mostly hi-res texture load/save)
+ - Added more logging information
+ - Tweaked Z-Buffer and Z-Bias (Decal Z-mode) handling to be like that of D3D renderer
+ - Added screenshot capability for Linux build
+ - Cleaned up Makefile, added 32-bit and debug build modes, help info
+ - Removed all Win32 code, massive cleanup
+ - Fixed uninitialized data members in several places
+ - Bugfix: crash in Banjo Kazooie - dont delete cached texture if its currently loaded in the g_textures array
+ - Bugfix: crash in Carmaggedon caused by illegal values in texture loading function
+ - Bugfix: screen flashes in Mario Kart and Kirby64, tweaked .ini ScreenUpdateSetting
+
+
+what's new in 0.5:
+  - Core
+    + detection of invalid code cache for ambiguous region now use
+      adler32 (faster than previous algorithm)
+    + fixed a bug in ini file compression
+    + added support for framebuffer effects functions : these functions
+      are there to help the plugins that support framebuffer extension
+      to zilmar's spec. These functions are based on rice's idea. I've
+      worked closely with Gonetz to implement these and the only plugin
+      that support this feature is Glide64 0.8 (when option is enabled).
+      Many hard to emulate framebuffer effects are supported by this
+      feature. Mariokart's monitor in first race running fullspeed and
+      puzzle effect in banjo's intro are two examples that i can think
+      about but there are many more.
+    + detection of VI interupt rate works on weird country codes
+    + better detection of self modifying code in dma
+    + warnings fixed on new gcc versions
+    + rsp's dmem and imem are now contiguous in PC's memory (some windows
+      plugins were requiring this)
+    + slightly improved audio timing
+    + better detection of self modifying code when accessing memory 
+      through TLB
+    + fixed a bug in RSP memory write
+    + reading from ai_current_delay register should work even when
+      Count register is looping
+    + in interpreter code : fixed a bug in jump opcodes (detection
+      of exceptions in delay slot in some rare conditions)
+    + the event scheduler has better support for Count register loops
+    + better AI interrupt handling (for musyx games for example)
+    + jump opcodes changed in pure interpreter core so that they are
+      timed exactly like on the other cores (easier to debug this way)
+    + fixed a bug when accessing memory through invalid TLB in LDL, LDR,
+      LWL, LWR, SWL, SDL, SDR, SWR opcodes
+    + added LL, SC opcodes
+    + two consecutive jump opcodes doesn't crash in the dynarec (result
+      is undefined according to the r4300 manual but some games are doing
+      it).
+    + basic implementation of fpu opcodes in dynarec
+    + division by 0 in FPU opcodes is returning NaN
+    + all jump opcodes implemented in the dynarec
+    + faster inside function loop with dynarec (register cache)
+    + various bug fixes in dynarec opcodes
+    + memory access improvements in dynarec
+  - Linux version
+    + GUI and all plugins have been switched to GKT2 (all old plugins
+      should be recompiled for GTK2)
+    + detection of GTK 1.2 or GTK 2 in the configure script : if both
+      are detected, the user can choose which one to use
+    + configure script rewritten so that it's compatible with standard
+      unix shells instead of bash
+    + much improved multi-user install support : if multi-user is choosen
+      in configure script, mupen64 should be compiled ("make") and installed
+      ("make install"). Then, when a user launch mupen64, it will create
+      automatically a .mupen64 folder in his home and put all required files
+      there.
+    + language saved and restored correctly when quitting mupen64
+    + the console version (mupen64_nogui) has command line support and can
+      read settings from the gui version config file thanks to jogibear's patch
+    + autoincrement save slot option when quick saving (thanks to jdratlif's
+      patch)
+    + speed limiter in the core
+    + support for plugin configuration changes when a rom is running
+  - Windows version
+    + autoincrement save slot option when quick saving (thanks to jdratlif's
+      patch)
+    + stabilty improvements on the GUI (when closing a rom for example)
+    + added support for readScreen function to support avi recording feature
+      on plugins that don't use opengl or directx (ie: glide64...)
+  - Sound plugin
+    + thread synchronisation improvements
+
+what's new in 0.4:
+  - A totally new core based on a dynamic recompiler with register caching, 
+    it doesn't compile the fpu yet but it's already much faster compared 
+    to older versions of mupen64 :)
+  - Self mod code detection has been improved and emulation is faster now
+  - A lot of little fixes that should improve compaibitlity quite a bit
+  - A new video recording feature (record in own mupen64 movie format that
+    can be converted later into a standard avi file)
+  - The windows GUI has been redesigned by linker
+  - A lot of other things i forgot... sorry :P
+
+what's new in 0.3:
+  - All versions
+    + General speed up, 10-20 in most games
+      Save states long loading time fixed, now it should load in less than
+      a second
+    + sound sync is far more accurate now (thanks to Azimer)
+      it makes some additionnal games booting
+    + 64dd detection to fix F-zero
+    + a little idle loops bug has been fixed
+  - Windows port
+    + Configuration and initialisation of plugins now can be done prior
+      running a rom. It fixes numerous configuration issues with plugins as
+      well
+    + Recent roms menu with option to clear and freeze
+    + Command line arguments support with option to run in GUIless mode,
+      compatible with 1964 options, read more about it in pdf
+    + Choosing and saving of plugins used per game, access it from Rom
+      Properties
+    + Reset rom menu added
+    + Speed Modifier to allow game to run at any speed between 1-200% of
+      original
+      Use + and - to increase, decrease it, while in the game. And . to
+      return to 100%.
+    + Start game in fullscreen option
+    + Pause emulation when idle fixes
+    + Global plugin settings (should be unchecked if you want to use plugins
+      per game option from rom properties)
+    + Switch on/off ToolBar (ALT+T) and Status Bar (ALT+S), useful when
+      plugin sets wrong resolution in windowed mode, and for those who hate
+      toolbars :)
+    + Selection of columns to show in rom browser
+    + English language template updated
+    + Support for debugview by linker
+      Put dll in the main folder, if you want to see log output
+    + Tonnes of little fixes...
+  - RSP hle plugin
+    + mario kart sound fixed
+
+what's new in 0.2:
+  - Core
+    + better sound plugin integration
+    + optimizations in interrupt handling
+    + a totally new interpreter core (half of a compiler => far much faster)
+      it caches the opcodes when they're decoded
+    + self modifying code detection code for the new interpreter and the
+      compiler when it'll be implemented
+    + RSP plugin integration
+    + pif2 implemented for banjo tooie
+  - RSP hle plugin
+    + the first version of this plugin based on uhle sound code
+    + 3 main audio ucode implemented (based on uhle)
+    + mp3 ucode implemented (direct asm to c translation)
+    + jpeg ucode (direct asm to c translation)
+    + boot code for btooie and dk
+    + on windows: ability to use the hle part of a sound plugin while using another
+      to output the sound (example: using hle from Azimer's plugin and
+      ouputing with Jabo's plugin)
+      This option doesn't work with azimer's audio plugin 0.3 version
+      Please see more info about RSP and this feature in 
+      readme.pdf in chapter "3.3.2 Configuration"	
+  - Sound Plugin for linux
+   + a new lle sound plugin that's using the OSS api
+  - Windows port
+    + Major cleanup of gui code and bug fixes
+    + Gui improvements in rombrowser
+    + Gui changes in configuration sheets and about dialog
+    + Updates in language support and template
+      Dialog with proper credits to translators ,send us your translations now :)	
+    + Support for screenshots from menu (depends on video plugin) (F3 key)
+    + Added some shortcuts for gui functions to accelerators
+    + Option to choose directories of plugins,screenshots and save states in sheets
+    + Auto limit VI/s according to game region	(60 or 50)
+    + Ini updated with latest N64 releases
+    + ...
+
+what's new in 0.1:
+  - Core
+    + sram bug zelda oot fixed
+    + flashram is working
+    + a new interupt system that'll enabled
+      more accurate timing in the future but can cause
+      some compatibility issues right now
+    + bug in DMULT/DMULTU opcode fixed
+    + some optimizations in jump instructions
+    + sound plugins support implemented but not well supported
+      use sound at your own risk :D
+    + a clean tlb implementation
+    + tlb exception handled correctly
+    + compressed save states with slots
+    + the whole memory map has been almost completes
+    + newly emulated games include goldeneye, conker's bad fur day
+      and perfect dark :)
+  
+  - Windows port
+    + Zipped Cache to Rom Browser
+    + Multy slot save states
+    + Md5 based Ini 
+    + Rom properties dialog
+    + Sound support 
+    + Config plugins dialog
+      Allows you to chose and configure plugins 
+    + Multy directories in rom browser 
+      with recursion as an option
+    + Audit roms dialog 
+    + Many bugs fixed and minor features added
+    + ... 
+  - Linux port
+    + A new gui made by Blight very similar to the windows one
+      Everything in the gui is new so one line many new things ;)
+
+what's new in 0.0.90:
+  - this is a huge update many games are playable now :) but only pure 
+    interpreter work on this release it will be fixed in the future
+    but currently i am only working on compatibility
+  - i have totally rewritten the pure interpreter core
+  - nearly all missing opcodes have been added
+  - interrupt code has been totally rewritten and should never crash now
+  - tlb code rewritten, it's faster even if it's not perfect yet
+  - some fpu opcodes have been debugged
+  - fpu precision emulation improvements (only for x86 processors)
+  - many bugs to allow port to big endian processors
+  - fixed endianness when cpu write directly to pif ram
+  - rewritten dma code for pure interpreter (with this core it always
+    work now )
+  - update dp status register when a display list has been processed
+    it fixed a lot of roms
+  - implemented 8Mb RDRAM
+  - implemented memory pack, eeprom, sram (thanks to Jabo and Zilmar
+    for the pj64 source code on this part)
+  - flashram is partially implemented (it's enough to get zelda2 starting)
+  - a new debugger for linux was made by DavFR (it's for linux and 
+    it uses gtk library)
+  - zip file support
+  - a new gui for windows port has been made by ShadowPri, it features
+    a rom browser with *classic* UHLE look,multy directories support ,
+    a toolbar (thx Schibo for help on it :), multy languages support,
+    saving of configuration, ....
+  - and much more ;)
+
+what's new in 0.0.4:
+  - a new pure interpreter core (better compatibility but really slow,
+    will help to debug in the future)
+  - input plugins (a basic keyboard plugin is included and the obsidian
+    joystick plugin )
+  - coprocessor unusable exception implemented
+  - gui for windows
+  - again many little bugs i can't remember fixed
+  - automatic comparison between two cores via a pipe (for debugging)
+  - ....
+
+what's new in 0.0.3:
+  - unaligned dma exception fix
+  - a little gui in gtk
+  - new opcodes implemented
+  - memory map fixes
+  - better initial registers (this was find in the pj64 source code
+    	   	   	      thanks Zilmar and Jabo)
+  - implemented Zilmar spec Gfx plugins
+  - included : a linux port of the tr64 plugin v0.5c
+
+what's new in 0.0.2:
+  - MARIO64 works!!!
+  - sound temporarly disabled (Just to not hurt your ears because
+    hle audio doesn't work :)
+  - various speed improvements
+  - various stupid bugs removed
+
+what's new in 0.0.1:
+  - everything it's the first public release :)
+

@@ -1,0 +1,142 @@
+[[Mupen64Plus v2.0 Core API v1.0|Mupen64Plus v2.0 API]]
+
+= Mupen64Plus v2.0 Video Extension API =
+
+Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#core.h|core.h]].  Plugin code should check the return value of each call to a libmupen64plus function.
+
+All of these functions should only be called from within the video plugin; they should not be called from the front-end.
+
+== Startup/Shutdown Functions ==
+{| border="1"
+|Prototype
+|'''<tt>m64p_error VidExt_Init(void)</tt>'''
+|-
+|Input Parameters
+|N/A
+|-
+|Requirements
+|This function should be called before any other Video Extension functions.
+|-
+|Usage
+|This function should be called from within the InitiateGFX() video plugin function call.  The default SDL implementation of this function simply calls SDL_InitSubSystem(SDL_INIT_VIDEO).  It does not open a rendering window or switch video modes.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error VidExt_Quit(void)</tt>'''
+|-
+|Input Parameters
+|N/A
+|-
+|Usage
+|This function closes any open rendering window and shuts down the video system.  The default SDL implementation of this function calls SDL_QuitSubSystem(SDL_INIT_VIDEO).  This function should be called from within the RomClose() video plugin function.
+|}
+<br />
+
+== Screen Handling Functions ==
+{| border="1"
+|Prototype
+|'''<tt>m64p_error VidExt_ListFullscreenModes(m64p_2d_size *SizeArray, int *NumSizes)</tt>'''
+|-
+|Input Parameters
+|'''<tt>SizeArray</tt>''' Pointer to an array of <tt>m64p_2d_size</tt> objects, defined in [[Mupen64Plus v2.0 headers#vidext.h|vidext.h]]<br />
+'''<tt>NumSizes</tt>''' Pointer to an integer which contains the size of '''<tt>SizeArray</tt>''' for input, and the number of size objects stored for output.
+|-
+|Requirements
+|The video extension must be initialized before calling this function.
+|-
+|Usage
+|This function is used to enumerate the available resolutions for fullscreen video modes.  An array '''<tt>SizeArray</tt>''' is passed into the function, which is then filled (up to <tt>*'''NumSizes'''</tt> objects) with resolution sizes.  The number of sizes actually written is stored in the integer which is pointed to by '''<tt>NumSizes</tt>'''.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error VidExt_SetVideoMode(int Width, int Height, int BitsPerPixel, m64p_video_mode ScreenMode)</tt>'''
+|-
+|Input Parameters
+|'''<tt>Width</tt>''' Horizontal resolution in pixels of desired video window<br />
+'''<tt>Height</tt>''' Vertical resolution in pixels of desired video window<br />
+'''<tt>BitsPerPixel</tt>''' Pixel color resolution of desired video window.  This value must be 16, 24, or 32<br />
+'''<tt>ScreenMode</tt>''' Either <tt>M64VIDEO_WINDOWED</tt> or <tt>M64VIDEO_FULLSCREEN</tt>
+|-
+|Requirements
+|The video extension must be initialized before calling this function.
+|-
+|Usage
+|This function creates a rendering window or switches into a fullscreen video mode.  Any desired OpenGL attributes should be set before calling this function.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error VidExt_SetCaption(const char *Title)</tt>'''
+|-
+|Input Parameters
+|'''<tt>Title</tt>''' Pointer to a NULL-terminated string containing the desired title text of the emulator rendering window
+|-
+|Requirements
+|The video extension must be initialized before calling this function.
+|-
+|Usage
+|This function sets the caption text of the emulator rendering window.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error VidExt_ToggleFullScreen(void)</tt>'''
+|-
+|Input Parameters
+|N/A
+|-
+|Requirements
+|The video extension must be initialized before calling this function.  The rendering window should already be created.
+|-
+|Usage
+|This function toggles between fullscreen and windowed rendering modes.
+|}
+<br />
+
+== OpenGL Functions ==
+{| border="1"
+|Prototype
+|'''<tt>void * VidExt_GL_GetProcAddress(const char* Proc)</tt>'''
+|-
+|Input Parameters
+|'''<tt>Proc</tt>''' Pointer to a NULL-terminated string containing the name of the desired OpenGL extension function.
+|-
+|Requirements
+|The video extension must be initialized before calling this function.
+|-
+|Usage
+|This function is used to get a pointer to an OpenGL extension function.  This is only necessary on the Windows platform, because the OpenGL implementation shipped with Windows only supports OpenGL version 1.1.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error VidExt_GL_SetAttribute(m64p_GLattr Attr, int Value)</tt>'''
+|-
+|Input Parameters
+|'''<tt>Attr</tt>''' Enumerated type (defined in [[Mupen64Plus v2.0 headers#vidext.h|vidext.h]]) specifying which OpenGL attribute to set<br />
+'''<tt>Value</tt>''' Value to set for the attribute
+|-
+|Requirements
+|The video extension must be initialized before calling this function.  The desired attributes should be set before calling '''<tt>VidExt_SetVideoMode</tt>'''
+|-
+|Usage
+|This function is used to set certain OpenGL attributes which must be specified before creating the rendering window with '''<tt>VidExt_SetVideoMode</tt>'''.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error VidExt_GL_SwapBuffers(void)</tt>'''
+|-
+|Input Parameters
+|N/A
+|-
+|Requirements
+|The video extension must be initialized before calling this function.  The rendering window should already be created.
+|-
+|Usage
+|This function is used to swap the front/back buffers after rendering an output video frame.
+|}
+<br />
+

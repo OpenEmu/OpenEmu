@@ -1,0 +1,91 @@
+How to profile R4300 instructions with mupen64plus:
+
+Pre-requisites:
+ - either 32-bit (x86) or 64-bit (amd64) Linux system
+ - Lots of memory.  It doesn't cause swapping in a machine with 2GB of ram, but it probably would with 1GB
+ - OProfile (http://oprofile.sourceforge.net/)
+ - Mupen64plus source code
+
+Procedure:
+ 1. Install OProfile linux tool
+
+ 2. Build r4300 profile tool with "gcc -o r4300prof r4300prof.c"
+
+ 3. Build mupen64plus with "make DBGSYM=1 DBG_PROFILE=1"
+
+ 4. Delete any pre-existing profiling files: "rm instructionaddrs.dat"
+
+ 5. Clear any residual profiling data in oprofile: "sudo opcontrol --reset"
+
+ 6. Make profiling run by typing in console:
+    sudo opcontrol --start ; ./mupen64plus --nogui --emumode 2 --audio ./plugins/dummyaudio.so <path-to-n64-rom> ; sudo opcontrol --stop
+
+ 7. Exit emulator with Escape key after running for desired time
+
+ 7. Move data file into tools folder: "mv instructionaddrs.dat tools/"
+
+ 8. Dump instruction-level profiling data for mupen64plus with oprofile:
+    opreport -d -l ./mupen64plus > ./tools/prof-mupen64-detail.txt
+
+ 9. Run tool to generate r4300 instruction profile report:
+    cd tools ; ./r4300prof instructionaddrs.dat prof-mupen64-detail.txt
+
+
+Example profile output:
+
+Loading instructionaddrs.dat...
+283844 r4300 instruction locations read.
+247911 non-empty MIPS instructions.
+Loading prof-mupen64-detail.txt...
+118181 lines in sample data file.
+Found 117905 profile hits.
+
+Instruction time (samples):
+reserved: 00007515        NI: 00000000         J: 00000043       JAL: 00003345       BEQ: 00004498  
+     BNE: 00003424      BLEZ: 00000222      BGTZ: 00000029      ADDI: 00000585     ADDIU: 00017439  
+    SLTI: 00000765     SLTIU: 00000089      ANDI: 00003847       ORI: 00000381      XORI: 00000035  
+     LUI: 00010389      BEQL: 00001873      BNEL: 00002617     BLEZL: 00000013     BGTZL: 00000010  
+   DADDI: 00000000    DADDIU: 00000000       LDL: 00000000       LDR: 00000000        LB: 00002600  
+      LH: 00006653        LW: 00024840       LWL: 00000001       LBU: 00003525       LHU: 00004954  
+     LWU: 00000000       LWR: 00000003        SB: 00003007        SH: 00004133        SW: 00023221  
+     SWL: 00000000       SWR: 00000000       SDL: 00000000       SDR: 00000000      LWC1: 00012405  
+    LDC1: 00001855        LD: 00000815        LL: 00000000      SWC1: 00007671      SDC1: 00001326  
+      SD: 00001233        SC: 00000000      BLTZ: 00000383      BGEZ: 00000331     BLTZL: 00000161  
+   BGEZL: 00000168    BLTZAL: 00000000    BGEZAL: 00000115   BLTZALL: 00000000   BGEZALL: 00000000  
+     SLL: 00003376       SRL: 00000604       SRA: 00000686      SLLV: 00000015      SRLV: 00000039  
+    SRAV: 00000000        JR: 00001358      JALR: 00000004   SYSCALL: 00000000      MFHI: 00000058  
+    MTHI: 00000002      MFLO: 00000277      MTLO: 00000004     DSLLV: 00000000     DSRLV: 00000000  
+   DSRAV: 00000000      MULT: 00000000     MULTU: 00000583       DIV: 00000941      DIVU: 00000000  
+   DMULT: 00000000    DMULTU: 00000000      DDIV: 00000000     DDIVU: 00000000       ADD: 00000170  
+    ADDU: 00001706       SUB: 00000037      SUBU: 00000833       AND: 00000909        OR: 00006360  
+     XOR: 00000079       NOR: 00000004       SLT: 00000925      SLTU: 00001401      DADD: 00000000  
+   DADDU: 00000000      DSUB: 00000000     DSUBU: 00000000      DSLL: 00000000      DSRL: 00000000  
+    DSRA: 00000000       TEQ: 00000000    DSLL32: 00000000    DSRL32: 00000000    DSRA32: 00000000  
+    BC1F: 00000286      BC1T: 00000032     BC1FL: 00000775     BC1TL: 00000077     TLBWI: 00000000  
+    TLBP: 00000000      TLBR: 00000000     TLBWR: 00000000      ERET: 00000036      MFC0: 00000396  
+    MTC0: 00000034      MFC1: 00000929     DMFC1: 00000000      CFC1: 00000141      MTC1: 00003081  
+   DMTC1: 00000000      CTC1: 00000163     f.CVT: 00001113     f.CMP: 00002149     f.ADD: 00001387  
+   f.SUB: 00000947     f.MUL: 00002696     f.DIV: 00000315    f.SQRT: 00000025     f.ABS: 00000000  
+   f.MOV: 00000631     f.NEG: 00000323   f.ROUND: 00000000   f.TRUNC: 00000867    f.CEIL: 00000000  
+ f.FLOOR: 00000000  
+
+Special code samples:
+  Regcache flushing: 12371
+  Jump wrappers: 15520
+  NOTCOMPILED: 33
+  block postfix & link samples: 619
+
+Unaccounted samples: 19929
+Total accounted instruction samples: 221836
+                Load: 35.2% (68040)
+               Store: 21.0% (40591)
+   Data move/convert: 03.5% (6829)
+         32-bit math: 16.0% (30861)
+         64-bit math: 05.7% (10948)
+          Float Math: 04.5% (8709)
+                Jump: 02.5% (4750)
+              Branch: 07.8% (15014)
+          Exceptions: 00.0% (36)
+            Reserved: 03.9% (7515)
+               Other: 00.0% (0)
+

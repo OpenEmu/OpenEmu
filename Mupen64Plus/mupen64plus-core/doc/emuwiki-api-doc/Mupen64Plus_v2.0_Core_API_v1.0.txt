@@ -1,0 +1,65 @@
+[http://mupen64plus.emuwiki.com Project page]
+
+Please note: as of October 2009, this API is a work in progress.<br />
+The first draft of this API is complete, and development work on the Mupen64Plus software is ongoing.
+
+== New Architecture ==
+
+Earlier versions of Mupen64Plus (and other plugin-based N64 emulators) used a single monolithic application (containing the emulator core) and four plugins.  The plugins were dynamically-loaded libraries, and the application used one plugin of each type: Video, Audio, Input, and RSP.  Each plugin and the application contained its own GUI code for user interface, and each plugin and the application were individually responsible for finding their own data files and finding, loading, parsing, and storing their own configuration data files.
+
+This was an acceptable architecture for emulators which were only designed to run on a single platform (such as Windows), but causes a lot of developer and user headaches when applied to a cross-platform emulator such as Mupen64Plus.  For this reason, we are re-designing the layout of the emulator to solve some of the problems caused by the old architecture.
+
+Under the new architecture, the old monolithic emulator application is split into two parts: a core emulator library and a main application, called the front-end.  The front-end is primarily responsible for the user interface.  All GUI code will be removed from the core and plugin libraries.  The primary function of the core library is to emulate the R4300 CPU and memory system, attaching the plugins to form a full N64 system emulator.  The core library also contains some utility functions which may be used by the front-end and plugins, such as a configuration parameter handler.
+
+== High-level Usage ==
+
+The expected sequence of operations which will be taken by the front-end application are as follows:
+
+# Load core library (libmupen64plus.so) and set function pointers
+# Call <tt>CoreGetVersion</tt>, check core version and capabilities
+# Call <tt>CoreStartup</tt> to initialize the core library
+# Load front-end configuration from core config API or through own mechanism
+# Find plugins, open dynamic libraries, call <tt>PluginStartup</tt> for each
+# Enter message loop for user interaction
+# If user selects ROM and presses Play:
+#* Load and de-compress the ROM
+#* Use <tt>CoreDoCommand</tt> to open the ROM
+#* Call <tt>CoreAttachPlugin</tt> to attach selected plugins to core
+#* Use <tt>CoreDoCommand</tt> to start emulation
+#* When emulation is finished, call <tt>CoreDetachPlugin</tt> on all plugins, then close the ROM
+
+== Core API ==
+=== [[Mupen64Plus v2.0 Core Basic|Basic Core Functions]] ===
+
+These two functions (<tt>CoreGetVersion</tt> and <tt>CoreErrorMessage</tt>) are utility functions and may be called at any time (even before core startup).  These functions are used by both the front-end and the plugins.
+
+=== [[Mupen64Plus v2.0 Core Front-End|Front-End Functions]] ===
+
+There are several types of functions here, which are exported from the Core library to be used by the front-end.  There are 'housekeeping' functions, for startup and shutdown, and attaching and detaching plugins.  There is also a Command API which is used for many simple functions such as loading, executing, or stopping a ROM.  Finally the Cheat API is here, for adding and removing cheat functions.
+
+=== [[Mupen64Plus v2.0 Core Video Extension|Video Extension API]] ===
+
+These functions are exported from the Core library for use by the video plugin.  These functions are used for high-level video setup tasks such as enumerating available screen resolutions, setting the video mode, window caption, OpenGL attributes, and fullscreen mode.  The video extension API allows for the abstraction of these functions away from the hard-coded SDL function calls currently in the video plugins, so that a front-end may override these functions and provide its own video API.
+
+=== [[Mupen64Plus v2.0 Core Debugger|Debugger Functions]] ===
+
+These are the debugger functions, which are also called only from the front-end.  Most of these functions will return with an error if the core library was not compiled with the debugger enabled.  A front-end may examine the <tt>Capabilities</tt> value returned by the <tt>CoreGetVersion</tt> function to determine if the core library was built with the debugger enabled.
+
+=== [[Mupen64Plus v2.0 Core Config|Configuration API]] ===
+
+These configuration functions are exported from the core library and are used by the core and the plugins to store all of their persistent configuration parameters.  The front-end application may also use these functions to store its configuration options, or it may use a different mechanism.  This section also contains two Operating System Abstraction functions.  These functions are used by the core, plugins, and the front-end to find full filepaths to shared data files and user-specific data files.
+
+== Plugin API ==
+=== [[Mupen64Plus v2.0 Plugin API|Plugin API]] ===
+
+This section lists all of the functions which are exported by the plugins.  The front-end application should only use the <tt>PluginStartup</tt>, <tt>PluginShutdown</tt>, and <tt>PluginGetVersion</tt> functions.  All other functions will only be called from the core.
+
+== Configuration Parameters ==
+=== [[Mupen64Plus Core Parameters|Core Parameters]] ===
+
+This section lists the names and descriptions of all of the configuration parameters used by the Core library.
+
+=== [[Mupen64Plus Plugin Parameters|Plugin Parameters]] ===
+
+This section lists the names and descriptions of all of the configuration parameters used by the Plugin libraries.
+

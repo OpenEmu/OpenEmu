@@ -1,0 +1,282 @@
+[[Mupen64Plus v2.0 Core API v1.0|Mupen64Plus v2.0 API]]
+
+= Mupen64Plus v2.0 Core Debugger API =
+
+Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#core.h|core.h]].  Front-end code should check the return value of each call to a libmupen64plus function.
+
+== General Debugger Functions ==
+{| border="1"
+|Prototype
+|'''<tt>m64p_error DebugSetCallbacks(void (*dbg_frontend_init)(void), void (*dbg_frontend_update)(unsigned int pc), void (*dbg_frontend_vi)(void))</tt>'''
+|-
+|Input Parameters
+|'''<tt>dbg_frontend_init</tt>''' Pointer to function which is called when debugger is initialized.<br />
+'''<tt>dbg_frontend_update</tt>''' Pointer to function which is called after debugger hits a breakpoint or executes one instruction in stepping mode.<br />
+'''<tt>dbg_frontend_vi</tt>''' Pointer to function which is called during each vertical interrupt.
+|-
+|Requirements
+|The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.
+|-
+|Usage
+|This function is called by the front-end to supply debugger callback function pointers.  If debugger is enabled and then later disabled within the GUI, this function may be called with NULL pointers in order to disable the callbacks.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error DebugSetCoreCompare(void (*dbg_core_compare)(unsigned int), void (*dbg_core_data_sync)(int, void *))</tt>'''
+|-
+|Input Parameters
+|'''<tt>dbg_core_compare</tt>''' Pointer to function which is called after each R4300 instruction, for comparing the operation of one R4300 emulator core against another.<br />
+'''<tt>dbg_core_data_sync</tt>''' Pointer to function which is used to transfer data from the sending emulator core to the receiving core, such as controller button press or movement data.
+|-
+|Requirements
+|The Mupen64Plus library must be initialized before calling this function.
+|-
+|Usage
+|This function is called by the front-end to supply callback function pointers for the Core Comparison feature.  This feature is designed to work as follows.  The front-end application will set up some channel for communicating data between two separately running instances of mupen64plus.  For example, the unix console front-end will use named FIFOs.  The front-end will register callback functions for comparing the 2 cores' states via this <tt>DebugSetCoreCompare</tt> API call.  When the <tt>dbg_core_compare</tt> callback fires, the front-end will use the <tt>DebugGetCPUDataPtr</tt> function (and <tt>DebugMemGetPointer</tt> function if desired) to transmit emulator core state data from the 'sending' instance to the 'receiving' instance.  The receiving instance may then check the core state data against it's own internal state and report any discrepancies.  When the <tt>dbg_core_data_sync</tt> callback fires, the front-end should transmit a block of data from the sending instance to the receiving instance.  This is for the purposes of synchronizing events such as controller inputs or state loading commands, so that the 2 cores may stay synchronized.  This feature does not require the <tt>M64CAPS_DEBUGGER</tt> capability to built into the core, but it does require the <tt>M64CAPS_CORE_COMPARE</tt> capability.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error DebugSetRunState(int runstate)</tt>'''
+|-
+|Input Parameters
+|'''<tt>runstate</tt>''' 0 == pause, 1 == single instruction step, 2 == run
+|-
+|Requirements
+|The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.
+|-
+|Usage
+|This function sets the run state of the R4300 CPU emulator.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>int DebugGetState(m64p_dbg_state statenum)</tt>'''
+|-
+|Input Parameters
+|'''<tt>statenum</tt>''' An <tt>m64p_dbg_state</tt> enumerated type specifying which debugger state variable to read.
+|-
+|Requirements
+|The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.
+|-
+|Usage
+|This function reads and returns a debugger state variable, which are enumerated in [[Mupen64Plus v2.0 headers#debugger.h|debugger.h]].
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error DebugStep(void)</tt>'''
+|-
+|Requirements
+|The Mupen64Plus library must be built with debugger support and must be initialized, the emulator core must be executing a ROM, and the debugger must be active before calling this function.
+|-
+|Usage
+|This function signals the debugger to advance one instruction when in the stepping mode.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>void DebugDecodeOp(unsigned int instruction, char *op, char *args, int pc)</tt>'''
+|-
+|Input Parameters
+|'''<tt>instruction</tt>''' 32-bit R4300 instruction opcode<br />
+'''<tt>op</tt>''' Pointer to character array to store decoded instruction mnemonic<br />
+'''<tt>args</tt>''' Pointer to character array to store instruction arguments<br />
+'''<tt>pc</tt>''' Program Counter address at which '''<tt>instruction</tt>''' is stored
+|-
+|Requirements
+|The Mupen64Plus library must be built with debugger support.
+|-
+|Usage
+|This is a helper function for the debugger front-end.  This instruction takes a PC value and an R4300 instruction opcode and writes the disassembled instruction mnemonic and arguments into character buffers.  This is intended to be used to display disassembled code.
+|}
+
+== Memory Functions ==
+{| border="1"
+|Prototype
+|'''<tt>void * DebugMemGetRecompInfo(m64p_dbg_mem_info recomp_type, unsigned int address, int index)</tt>'''
+|-
+|Input Parameters
+|'''<tt>recomp_type</tt>''' Type of information to retrieve about a recompiled machine instruction.  Must be a M64P_DBG_RECOMP_* type.<br />
+'''<tt>address</tt>''' Program Counter value (in N64 memory space) of R4300 instruction about which to retrieve the recompiled x86 instructions.<br />
+'''<tt>index</tt>''' Index of recompiled instruction about which to receive information.
+|-
+|Requirements
+|The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.  This function may not be available on all platforms.
+|-
+|Usage
+|This function is used by the front-end to retrieve disassembly information about recompiled code.  For example, the dynamic recompiler may take a single R4300 instruction and compile it into 10 x86 instructions.  This function may then be used to retrieve the disassembled code of the 10 x86 instructions.  For '''<tt>recomp_type</tt>''' of <tt>M64P_DBG_RECOMP_OPCODE</tt> or <tt>M64P_DBG_RECOMP_ARGS</tt>, a character pointer will be returned which gives the disassembled instruction code.  For '''<tt>recomp_type</tt>''' of <tt>M64P_DBG_RECOMP_ADDR</tt>, a pointer to the recompiled x86 instruction will be given.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>int DebugMemGetMemInfo(m64p_dbg_mem_info mem_info_type, unsigned int address)</tt>'''
+|-
+|Input Parameters
+|'''<tt>mem_info_type</tt>''' Type of information to retrieve about an N64 memory location.  Must be a M64P_DBG_MEM_* type.<br />
+'''<tt>address</tt>''' Memory location (in N64 memory space) about which to retrieve some information.
+|-
+|Requirements
+|The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.
+|-
+|Usage
+|This function returns an integer value regarding the memory location '''<tt>address</tt>''', corresponding to the information requested by '''<tt>mem_info_type</tt>''', which is a type enumerated in [[Mupen64Plus v2.0 headers#debugger.h|debugger.h]].  For example, if '''<tt>address</tt>''' contains R4300 program code, the front-end may request the number of x86 instructions emitted by the dynamic recompiler by requesting <tt>M64P_DBG_MEM_NUM_RECOMPILED</tt>.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>void * DebugMemGetPointer(m64p_dbg_memptr_type mem_ptr_type)</tt>'''
+|-
+|Input Parameters
+|'''<tt>mem_ptr_type</tt>''' Memory type to which a pointer is requested.
+|-
+|Requirements
+|The Mupen64Plus library must be initialized before calling this function.
+|-
+|Usage
+|This function returns a memory pointer (in x86 memory space) to a block of emulated N64 memory.  This may be used to retrieve a pointer to a special N64 block (such as the serial, video, or audio registers) or the RDRAM.  The '''<tt>m64p_dbg_memptr_type</tt>''' type is enumerated in [[Mupen64Plus v2.0 headers#debugger.h|debugger.h]]
+|}
+<br />
+{| border="1"
+|Prototype
+|
+{|
+|-
+|'''<tt>unsigned long long</tt>''' || '''<tt>DebugMemRead64(unsigned int address)</tt>'''
+|-
+|'''<tt>unsigned int</tt>''' || '''<tt>DebugMemRead32(unsigned int address)</tt>'''
+|-
+|'''<tt>unsigned short</tt>''' || '''<tt>DebugMemRead16(unsigned int address)</tt>'''
+|-
+|'''<tt>unsigned char</tt>''' || '''<tt>DebugMemRead8(unsigned int address)</tt>'''
+|}
+|-
+|Input Parameters
+|'''<tt>address</tt>''' Memory location (in N64 memory space) from which to retrieve a value.<br />
+|-
+|Requirements
+|The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.
+|-
+|Usage
+|These functions retrieve a value from the emulated N64 memory.  The returned value will be correctly byte-swapped for the host architecture.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>void DebugMemWrite64(unsigned int address, unsigned long long value)</tt>'''<br />
+'''<tt>void DebugMemWrite32(unsigned int address, unsigned int value)</tt>'''<br />
+'''<tt>void DebugMemWrite16(unsigned int address, unsigned short value)</tt>'''<br />
+'''<tt>void DebugMemWrite8(unsigned int address, unsigned char value)</tt>'''
+|-
+|Input Parameters
+|'''<tt>address</tt>''' Memory location (in N64 memory space) to which to write a value.<br />
+'''<tt>value</tt>''' Value to write into emulated memory.
+|-
+|Requirements
+|The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.
+|-
+|Usage
+|These functions write a value into the emulated N64 memory.  The given value will be correctly byte-swapped before storage.
+|}
+
+== R4300 CPU Functions ==
+{| border="1"
+|Prototype
+|'''<tt>void *DebugGetCPUDataPtr(m64p_dbg_cpu_data cpu_data_type)</tt>'''
+|-
+|Input Parameters
+|'''<tt>cpu_data_type</tt>''' CPU register type to which a pointer is requested.<br />
+|-
+|Requirements
+|The Mupen64Plus library must be initialized before calling this function.
+|-
+|Usage
+|This function returns a memory pointer (in x86 memory space) to a specific register in the emulated R4300 CPU.  The '''<tt>m64p_dbg_cpu_data</tt>''' type is enumerated in [[Mupen64Plus v2.0 headers#debugger.h|debugger.h]].  It is important to note that when the R4300 CPU core is in the Cached Interpreter or Dynamic Recompiler modes, the address of the PC register is not constant; it will change after each instruction is executed.  The pointers to all other registers will never change, as the other registers are global variables.
+|}
+
+== Breakpoint Functions ==
+{| border="1"
+|Prototype
+|'''<tt>int DebugBreakpointLookup(unsigned int address, unsigned int size, unsigned int flags)</tt>'''
+|-
+|Input Parameters
+|'''<tt>address</tt>''' Starting address (in R4300 memory space) to search<br />
+'''<tt>size</tt>''' Size of address space in bytes to search<br />
+'''<tt>flags</tt>''' Breakpoint flags
+|-
+|Requirements
+|The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.
+|-
+|Usage
+|This function searches through all current breakpoints in the debugger to find one that matches the given input parameters.  If a matching breakpoint is found, the index number is returned.  If no breakpoints are found, -1 is returned.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>int DebugBreakpointCommand(m64p_dbg_bkp_command command, unsigned int index, void *ptr)</tt>'''
+|-
+|Input Parameters
+|'''<tt>command</tt>''' Enumerated value specifying the breakpoint command to execute<br />
+'''<tt>index</tt>''' Purpose varies by command, see table below<br />
+'''<tt>ptr</tt>''' Purpose varies by command, see table below
+|-
+|Requirements
+|The Mupen64Plus library must be built with debugger support and must be initialized before calling this function.
+|-
+|Usage
+|This function is used to process common breakpoint commands, such as adding, removing, or searching the breakpoints.  The meanings of the '''<tt>index</tt>''' and '''<tt>ptr</tt>''' input parameters vary by command, and are given in the table below.  The '''<tt>m64p_dbg_bkp_command</tt>''' type is enumerated in [[Mupen64Plus v2.0 headers#debugger.h|debugger.h]].
+|}
+<br />
+{| border="1"
+!Command!!Return Value!!Function!!<tt>index</tt> Parameter!!<tt>ptr</tt> Parameter
+|-
+|M64P_BKP_CMD_ADD_ADDR
+|Index of new breakpoint
+|Add an execution breakpoint at a given R4300 address.
+|R4300 address
+|unused
+|-
+|M64P_BKP_CMD_ADD_STRUCT
+|Index of new breakpoint
+|Add a custom breakpoint specified in a <tt>breakpoint</tt> structure.
+|unused
+|Pointer to <tt>breakpoint</tt> struct of new breakpoint
+|-
+|M64P_BKP_CMD_REPLACE
+|unused
+|Replace an existing breakpoint with one specified by a <tt>breakpoint</tt> structure.
+|Index of breakpoint to replace
+|Pointer to <tt>breakpoint</tt> struct of new breakpoint
+|-
+|M64P_BKP_CMD_REMOVE_ADDR
+|unused
+|Remove an existing breakpoint
+|R4300 address of breakpoint to remove
+|unused
+|-
+|M64P_BKP_CMD_REMOVE_IDX
+|unused
+|Remove an existing breakpoint
+|Index of breakpoint to remove
+|unused
+|-
+|M64P_BKP_CMD_ENABLE
+|unused
+|Enable a specified breakpoint
+|Index of breakpoint to enable
+|unused
+|-
+|M64P_BKP_CMD_DISABLE
+|unused
+|Disable a specified breakpoint
+|Index of breakpoint to disable
+|unused
+|-
+|M64P_BKP_CMD_CHECK
+|Index of breakpoint if found, otherwise -1
+|Search for an execution breakpoint at a given address
+|R4300 address at which to search
+|unused
+|}
+
