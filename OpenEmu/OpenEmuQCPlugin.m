@@ -61,8 +61,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 @dynamic inputPauseEmulation;
 @dynamic outputImage;
 
-@synthesize loadedRom, userPaused;
-
 + (NSDictionary *)attributes
 {
     return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey, kQCPlugIn_Description, QCPlugInAttributeDescriptionKey, nil];
@@ -143,6 +141,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (void)dealloc
 {
+	[self setPersistantControllerData:nil];
 	[super dealloc];
 }
 

@@ -57,7 +57,6 @@
 @property(assign) NSString *inputSaveStatePath;
 @property(assign) NSString *inputLoadStatePath;
 @property(assign) id <QCPlugInOutputImageProvider> outputImage;
-@property(readwrite) BOOL    loadedRom, userPaused;
 @end
 
 @interface OpenEmuQC (Execution) <OETaskWrapperController>

@@ -154,7 +154,7 @@
 		1EE941E01050EBBF00509E78 /* ROMFile.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1EE941DF1050EBBF00509E78 /* ROMFile.xcdatamodel */; };
 		1EE941FC1050EC8E00509E78 /* SaveState.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1EE941FB1050EC8E00509E78 /* SaveState.xcdatamodel */; };
 		3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */; };
-		37CC3EA7100BE6BB00C1CD6E /* OpenEmuQCNESPlugin.mm in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */; };
+		37CC3EA7100BE6BB00C1CD6E /* OpenEmuQCNESPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.m */; };
 		37CC661A0FF8379B00226BCB /* config_qc.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 37CC66190FF8379B00226BCB /* config_qc.yaml */; };
 		37E077D90F40F4D000558722 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		3887A8051024D2BC000FC4CF /* GenerateThumbnailForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */; };
@@ -507,7 +507,7 @@
 		3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OpenEmuQCIcon.icns; sourceTree = "<group>"; };
 		375903750FF82C4000135C45 /* openemuqc_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = openemuqc_pub.pem; sourceTree = "<group>"; };
 		37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCNESPlugin.h; sourceTree = "<group>"; };
-		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OpenEmuQCNESPlugin.mm; sourceTree = "<group>"; };
+		37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuQCNESPlugin.m; sourceTree = "<group>"; };
 		37CC66190FF8379B00226BCB /* config_qc.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config_qc.yaml; sourceTree = "<group>"; };
 		3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OESaveStateQLPlugin.qlgenerator; sourceTree = BUILT_PRODUCTS_DIR; };
 		3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenerateThumbnailForURL.m; sourceTree = "<group>"; };
@@ -1065,7 +1065,7 @@
 				1B56D6880F21340700C80694 /* OpenEmuQCFilters.h */,
 				1B56D6870F21340700C80694 /* OpenEmuQCFilters.m */,
 				37A19E600EF8755200BA23B4 /* OpenEmuQCNESPlugin.h */,
-				37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.mm */,
+				37A19E610EF8755200BA23B4 /* OpenEmuQCNESPlugin.m */,
 				828E659D0E8466CC00B1860B /* OpenEmuQCPlugin.h */,
 				828E659E0E8466CC00B1860B /* OpenEmuQCPlugin.m */,
 				1B5B5FF6100984880043536B /* OpenEmuQCCRTPlugin.h */,
@@ -1628,7 +1628,7 @@
 				1BFEA5061182AF6300F89A77 /* OETaskWrapper.m in Sources */,
 				1B8D4B010E874E6F00C3C4F5 /* GameAudio.m in Sources */,
 				828E659F0E8466CC00B1860B /* OpenEmuQCPlugin.m in Sources */,
-				37CC3EA7100BE6BB00C1CD6E /* OpenEmuQCNESPlugin.mm in Sources */,
+				37CC3EA7100BE6BB00C1CD6E /* OpenEmuQCNESPlugin.m in Sources */,
 				1B56D6890F21340700C80694 /* OpenEmuQCFilters.m in Sources */,
 				C66DF0B00FEC38C0007E3A20 /* OEPlugin.m in Sources */,
 				C66DF0B20FEC38C2007E3A20 /* OECorePlugin.m in Sources */,

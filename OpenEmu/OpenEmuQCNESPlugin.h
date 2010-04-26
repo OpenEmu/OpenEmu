@@ -25,31 +25,76 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
+#import <Quartz/Quartz.h>
 
-@class GameCore, OECorePlugin;
-@class OEGameCoreController;
-@class GameAudio;
+#import "OETaskWrapper.h"
+// protocol
+#import "OEGameCoreHelper.h"
+
+#import "GameCore.h"
+
+#pragma mark Nestopia specific extensions
+@interface GameCore (NesAdditions)
+
+- (BOOL) isUnlimitedSpritesEnabled;
+- (int) brightness;
+- (int) saturation;
+- (int) contrast;
+- (int) sharpness;
+- (int) colorRes;
+- (int) colorBleed;
+- (int) colorArtifacts;
+- (int) colorFringing;
+- (int) hue;
+
+- (void) applyNTSC: (id) sender;
+- (BOOL) isNTSCEnabled;
+
+- (void) toggleUnlimitedSprites: (id) sender;
+- (void) enableUnlimitedSprites: (BOOL) enable;
+- (void) setCode:(NSString*) code;
+- (void) enableRewinder:(BOOL) rewind;
+- (BOOL) isRewinderEnabled;
+- (void) rewinderDirection: (NSUInteger) rewinderDirection;
+- (void) enableRewinderBackwardsSound: (BOOL) rewindSound;
+- (BOOL) isRewinderBackwardsSoundEnabled;
+
+- (int) cartVRamSize;
+- (int) chrRomSize;
+//- (void) setRandomNmtRamByte;
+//- (void) setRandomChrRamByte;
+
+- (void) setNMTRamByTable:(NSNumber*)table array:(NSArray*)nmtValueArray;
+- (void) setNmtRamBytes:(double)off value:(double)val;
+- (void) setChrRamBytes:(double)off value:(double)val;
+
+//movie methods
+- (void) recordMovie:(NSString*) moviePath mode:(BOOL)append;
+- (void) playMovie:(NSString*) moviePath;
+- (void) stopMovie;
+- (BOOL) isMovieRecording;
+- (BOOL) isMoviePlaying;
+- (BOOL) isMovieStopped;
+
+@end
+
 
 @interface OpenEmuQCNES : QCPlugIn
 {
-    // init stuff
-    NSArray              *plugins;
-    NSArray              *validExtensions;
-    OEGameCoreController *gameCoreController;
-    GameCore             *gameCore;
-    GameAudio            *gameAudio;
-    GLuint                 gameTexture;
-    NSMutableArray       *persistantControllerData;
-    NSMutableArray       *persistantNameTableData;
-    NSRecursiveLock      *gameLock;
-    BOOL loadedRom, romFinishedLoading, userPaused, hasNmtRam, hasChrRom, executedFrame;
+	// we will need a way to do IPC, for now its this.
+	OETaskWrapper *helper;
+	NSString* taskUUIDForDOServer;	
+	NSConnection* taskConnection;
+	NSString *inputRemainder;
+	
+	id rootProxy;	
+	
+	// Controller data
+	NSArray *persistantControllerData;	
+    NSArray *persistantNameTableData;
 }
-
-/*
-Declare here the Obj-C 2.0 properties to be used as input and output ports for the plug-in e.g.
-You can access their values in the appropriate plug-in methods using self.inputFoo or self.inputBar
-*/
+@property (readwrite, retain) NSArray* persistantControllerData;
+@property (readwrite, retain) NSArray* persistantNameTableData;
 
 @property(assign) NSString  *inputRom;
 @property(assign) NSArray   *inputControllerData;
@@ -77,18 +122,18 @@ You can access their values in the appropriate plug-in methods using self.inputF
 
 @property(assign) id<QCPlugInOutputImageProvider> outputImage;
 
-@property(readwrite) BOOL loadedRom, romFinishedLoading, userPaused;
-
 @end
 
-@interface OpenEmuQCNES (Execution)
-- (BOOL)controllerDataValidate:(NSArray*)cData;
+@interface OpenEmuQCNES (Execution) <OETaskWrapperController>
+- (BOOL)startHelperProcess;
+- (void)endHelperProcess;
+- (BOOL)controllerDataValidate:(NSArray *)cData;
 - (void)handleControllerData;
-- (void)refresh;
-- (BOOL)loadRom:(NSString *)romPath;
-- (OECorePlugin *)pluginForType:(NSString *)extension;
-- (void)saveState:(NSString *)fileName;
-- (BOOL)loadState:(NSString *)fileName;
+- (BOOL)readFromURL:(NSURL *)absoluteURL;
+
+- (void)appendOutput:(NSString *)output fromProcess: (OETaskWrapper *)aTask;
+- (void)processStarted: (OETaskWrapper *)aTask;
+- (void)processFinished: (OETaskWrapper *)aTask withStatus: (int)statusCode;
 - (BOOL)validateNameTableData:(NSArray*)nameTableData;
 @end
 
