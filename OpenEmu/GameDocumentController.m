@@ -4,14 +4,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
- notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
- notice, this list of conditions and the following disclaimer in the
- documentation and/or other materials provided with the distribution.
- * Neither the name of the OpenEmu Team nor the
- names of its contributors may be used to endorse or promote products
- derived from this software without specific prior written permission.
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -19,10 +19,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
- SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "GamePickerController.h"
@@ -536,13 +536,13 @@
 - (IBAction)saveScreenshot:(id)sender
 {    
     [(GameDocument*) [self currentDocument] captureScreenshotUsingBlock:^(NSImage* img)
-                                {  
-                                    
-                                    [[NSFileManager defaultManager] createFileAtPath:[[[[self currentDocument] fileURL] path] stringByAppendingPathExtension:@"screenshot.tiff"]
-                                                                            contents:[img TIFFRepresentation]
-                                                                          attributes:nil];
-                                                                    
-                                }];
+     {  
+         
+         [[NSFileManager defaultManager] createFileAtPath:[[[[self currentDocument] fileURL] path] stringByAppendingPathExtension:@"screenshot.tiff"]
+                                                 contents:[img TIFFRepresentation]
+                                               attributes:nil];
+         
+     }];
     
     
 }
@@ -729,29 +729,21 @@
     return win;
 }
 
-- (IBAction)loadState:(NSArray*)states
+- (IBAction)loadState:(NSArray *)states
 {
-    for( OESaveState* object in states )
+    for(OESaveState *object in states)
     {
-        NSError* error = nil;
-        if([object isKindOfClass:[SaveState class]]){
-            
-        }
+        NSError *error = nil;
         
         NSDocument *doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
         NSLog(@"%@", doc);
         
         // FIXME: Need to support states with the new system.
-#if 0
-        @synchronized([(GameDocument*)[self currentDocument] gameCore])
-        {
-            [[(GameDocument*)doc gameCore] loadStateFromFileAtPath:[object saveDataPath]];
-        }
-#endif
+        [(GameDocument*)doc loadStateFromFile:[object saveDataPath]];
     }
 }
 
-- (IBAction)saveState:(id)sender
+- (IBAction)saveStateToDatabase:(id)sender
 {
     NSString *romPath = [[[self currentDocument] fileURL] path];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"SaveState"
@@ -767,14 +759,9 @@
     [newState setEmulatorID:[(GameDocument *) [self currentDocument] emulatorName]];
     
     // FIXME: Need to support states with the new system.
-#if 0
-    @synchronized([(GameDocument *)[self currentDocument] gameCore])
-    {
-        [[(GameDocument *)[self currentDocument] gameCore] saveStateToFileAtPath:[newState saveDataPath]];
-    }
-#endif
+    [(GameDocument *)[self currentDocument] saveStateToFile:[newState saveDataPath]];
     
-    [newState setScreenshot:[(GameDocument *) [self currentDocument] screenShot]];
+    //[newState setScreenshot:[(GameDocument *) [self currentDocument] screenShot]];
     
     OEROMFile *romFile = [OEROMFile fileWithPath:romPath
                                createIfNecessary:YES
@@ -786,6 +773,7 @@
     [self.managedObjectContext save:nil];
 }
 
+#pragma mark -
 #pragma mark Migration
 
 - (BOOL)migrateSaveStatesWithError:(NSError **)err
@@ -845,10 +833,8 @@
     return YES;
 }
 
-#pragma mark New HID Event Handler
-//==================================================================================================
-// New HID Event handler system
-//==================================================================================================
+#pragma mark -
+#pragma mark HID Event handler system
 
 - (OEHIDDeviceHandler *)OE_deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice
 {

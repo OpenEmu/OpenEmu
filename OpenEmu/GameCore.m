@@ -553,4 +553,17 @@ static NSTimeInterval currentTime()
             [self releaseEmulatorKey:key];
 }
 
+#pragma mark -
+#pragma Save state
+
+- (BOOL)saveStateToFileAtPath:(NSString *)fileName
+{
+    return NO;
+}
+
+- (BOOL)loadStateFromFileAtPath:(NSString *)fileName
+{
+    return NO;
+}
+
 @end

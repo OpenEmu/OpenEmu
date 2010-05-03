@@ -98,12 +98,14 @@
 - (void)setPath:(NSString *)path
 {
     [self setPrimitiveValue: path                   forKey:@"path"];
-    [self setPrimitiveValue:[path OE_pathAliasData] forKey:@"pathAlias"];
+    [self setPrimitiveValue:[NSURL bookmarkDataWithContentsOfURL:[NSURL fileURLWithPath:path] error:NULL] forKey:@"pathAlias"];
+    //[self setPrimitiveValue:[path OE_pathAliasData] forKey:@"pathAlias"];
 }
 
 - (NSString *)path
 {
-    return [NSString OE_stringWithPathOfAliasData:[self pathAlias]];
+    return [[NSURL URLByResolvingBookmarkData:[self pathAlias] options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:NULL] path];
+    //return [NSString OE_stringWithPathOfAliasData:[self pathAlias]];
 }
 
 - (NSString *)systemName

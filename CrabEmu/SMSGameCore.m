@@ -224,20 +224,14 @@ static const NSUInteger buttonActions[2][2] = {
     [self player:thePlayer didChangeButtonState:gameButton toPressed:NO];
 }
 
-- (BOOL)saveStateToFileAtPath: (NSString*) fileName
+- (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
-    int success = sms_save_state([fileName UTF8String]);
-    if(success == 0)
-        return YES;
-    return NO;
+    return sms_save_state([fileName UTF8String]) == 0;
 }
 
-- (BOOL)loadStateFromFileAtPath: (NSString*) fileName
+- (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
-    int success = sms_load_state([fileName UTF8String]);
-    if(success == 0)
-        return YES;
-    return NO;
+    return sms_load_state([fileName UTF8String]) == 0;
 }
 
 

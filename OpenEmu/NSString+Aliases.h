@@ -29,8 +29,8 @@
 
 
 @interface NSString (OEAliases)
-+ (NSString *)OE_stringWithPathOfAliasData:(NSData *)aliasData;
-- (NSString *)  OE_initWithPathOfAliasData:(NSData *)aliasData;
++ (NSString *)OE_stringWithPathOfAliasData:(NSData *)aliasData DEPRECATED_ATTRIBUTE;
+- (NSString *)  OE_initWithPathOfAliasData:(NSData *)aliasData DEPRECATED_ATTRIBUTE;
 
-- (NSData *)OE_pathAliasData;
+- (NSData *)OE_pathAliasData DEPRECATED_ATTRIBUTE;
 @end

@@ -266,11 +266,11 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
     controlPad[thePlayer - 1] &= ~[self SNES_buttonMaskForButton:gameButton];
 }
 
-- (BOOL) saveStateToFileAtPath: (NSString *) fileName
+- (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
     SNES::system.runtosave();
     serializer state = SNES::system.serialize();
-    FILE* state_file = fopen([fileName UTF8String], "w+b");
+    FILE *state_file = fopen([fileName UTF8String], "w+b");
     long bytes_written = fwrite(state.data(), sizeof(uint8_t), state.size(), state_file);
     if( bytes_written != state.size() )
     {
@@ -281,7 +281,7 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
     return YES;
 }
 
-- (BOOL) loadStateFromFileAtPath: (NSString *) fileName
+- (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
     FILE* state_file = fopen([fileName UTF8String], "rb");
     if( !state_file )
@@ -295,7 +295,7 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
     file_size = ftell (state_file);
     rewind (state_file);
     
-    uint8_t* state_buffer = (uint8_t*) malloc (sizeof(uint8_t)*file_size);
+    uint8_t* state_buffer = (uint8_t *) malloc (sizeof(uint8_t)*file_size);
     long read_bytes =fread(state_buffer, sizeof(uint8_t), file_size, state_file);
     if( read_bytes != file_size )
     {
@@ -305,7 +305,7 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
     
     serializer state(state_buffer,sizeof(uint8_t)*file_size);
     bool loaded = SNES::system.unserialize(state);
-    if( ! loaded )
+    if(!loaded)
     {
         NSLog(@"Couldn't unpack state");
         return NO;

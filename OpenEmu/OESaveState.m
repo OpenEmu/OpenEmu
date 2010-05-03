@@ -51,7 +51,8 @@
                               withIntermediateDirectories:YES
                                                attributes:nil
                                                     error:nil];
-    [self setPathAlias:[path OE_pathAliasData]];
+    [self setPathAlias:[NSURL bookmarkDataWithContentsOfURL:[NSURL fileURLWithPath:path] error:NULL]];
+    //[self setPathAlias:[path OE_pathAliasData]];
     
     [self _OE_setupBundleContents];
 }
@@ -66,7 +67,8 @@
 
 - (NSString *)bundlePath
 {
-    return [NSString OE_stringWithPathOfAliasData:[self valueForKey:@"pathAlias"]];
+    return [[NSURL URLByResolvingBookmarkData:[self valueForKey:@"pathAlias"] options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:NULL] path];
+    //return [NSString OE_stringWithPathOfAliasData:[self valueForKey:@"pathAlias"]];
 }
 
 - (NSString *)resourcePath

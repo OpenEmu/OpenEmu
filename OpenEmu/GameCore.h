@@ -171,6 +171,10 @@ typedef NSInteger OEButton;
 - (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
 - (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton;
 
+#pragma mark Save state - Optional
+- (BOOL)saveStateToFileAtPath:(NSString *)fileName;
+- (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
+
 // ============================================================================
 // End Abstract methods.
 // ============================================================================
@@ -179,9 +183,6 @@ typedef NSInteger OEButton;
 
 #pragma mark Optional
 @interface GameCore (OptionalMethods)
-- (BOOL)saveStateToFileAtPath:(NSString *)fileName;
-- (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
-
 - (IBAction)pauseEmulation:(id)sender;
 
 - (NSTrackingAreaOptions)mouseTrackingOptions;
