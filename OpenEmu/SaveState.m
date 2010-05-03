@@ -41,7 +41,7 @@
 - (NSString *)rompath
 {
     NSData *aliasData = [self valueForKey:@"pathalias"];
-    return [NSString OE_stringWithPathOfAliasData:aliasData];
+    return [[NSURL URLByResolvingBookmarkData:aliasData options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:NULL] path]; // [NSString OE_stringWithPathOfAliasData:aliasData];
 }
 
 - (id) imageRepresentation
