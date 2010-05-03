@@ -393,16 +393,12 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 // FIXME: Need to upgrade state method
 - (void)saveStateToFile:(NSString *)fileName
 {
-    //GameCore *gameCore = [rootProxy gameCore];
-    //if([gameCore respondsToSelector:@selector(saveStateToFileAtPath:)])
-    //    [gameCore saveStateToFileAtPath: fileName];
+    [[rootProxy gameCore] saveStateToFileAtPath: fileName];
 }
 
 - (void)loadStateFromFile:(NSString *)fileName
 {
-    //GameCore *gameCore = [rootProxy gameCore];
-    //if([gameCore respondsToSelector:@selector(loadStateFromFileAtPath:)])
-    //    [gameCore loadStateFromFileAtPath: fileName];
+    [[rootProxy gameCore] loadStateFromFileAtPath: fileName];
 }
 
 - (IBAction)scrambleRam:(id)sender
