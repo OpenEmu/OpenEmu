@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2009, OpenEmu Team
  
- 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -30,32 +29,17 @@
 #import <QuartzCore/CoreAnimation.h>
 #import "OETaskWrapper.h"
 
-@class OEGameCoreController;
+@class OEGameCoreController, OEGameCoreManager;
 @class OEGameView;
 @class GameQTRecorder;
 @protocol OEGameCoreHelper;
 
-extern NSString *const OEGameDocumentErrorDomain;
-
-enum _OEGameDocumentErrorCodes 
-{
-    OENoError                      =  0,
-    OEFileDoesNotExistError        = -1,
-    OEIncorrectFileError           = -2,
-    OEHelperAppNotRunningError     = -3,
-    OEConnectionTimedOutError      = -4,
-    OEInvalidHelperConnectionError = -5,
-    OENilRootProxyObjectError      = -6,
-};
-
 @interface GameDocument : NSDocument <OETaskWrapperController>
 {
     // IPC from our OEHelper
-    OETaskWrapper          *helper;
-    NSString             *taskUUIDForDOServer;
-    NSConnection         *taskConnection;
-    
     id<OEGameCoreHelper>  rootProxy;
+    
+    OEGameCoreManager    *gameCoreManager;
     
     // Standard game document stuff
     NSTimer              *frameTimer;
@@ -77,8 +61,7 @@ enum _OEGameDocumentErrorCodes
 @property(readonly) NSString *emulatorName;
 
 // new task stuff
-- (BOOL)startHelperProcessError:(NSError **)outError;
-- (void)endHelperProcess;
+- (void)terminateEmulation;
 
 - (void)scrambleBytesInRam:(NSUInteger)bytes;
 - (void)refresh DEPRECATED_ATTRIBUTE;

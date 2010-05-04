@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2010, OpenEmu Team
  
- 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -43,6 +42,16 @@
 @class OEGameCoreController;
 @class GameAudio;
 
+extern NSString *const OEHelperServerNamePrefix;
+extern NSString *const OEHelperProcessErrorDomain;
+
+enum _OEGameDocumentErrorCodes 
+{
+    OENoError                      =  0,
+    OECouldNotStartConnectionError = -1,
+    OEIncorrectFileError           = -2,
+};
+
 @interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper>
 {
     NSRunningApplication *parentApplication; // the process id of the parent app (Open Emu or our debug helper)
@@ -80,6 +89,8 @@
 @property(retain) NSString *doUUID;
 @property(assign) BOOL      loadedRom;
 
+- (BOOL)launchConnectionWithIdentifierSuffix:(NSString *)aSuffix error:(NSError **)anError;
+- (void)setupProcessPollingTimer;
 - (void)quitHelperTool;
 
 #pragma mark -
@@ -88,7 +99,7 @@
 - (void)setupIOSurface;
 - (void)setupFBO;
 - (void)setupGameTexture;
-- (void)setupTimer;
+- (void)setupRenderTimer;
 - (void)initDisplayLink;
 - (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
 - (void)render;

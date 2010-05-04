@@ -42,6 +42,8 @@
 
 #define OE_USE_DISPLAYLINK NO
 
+NSString *const OEHelperServerNamePrefix   = @"com.openemu.OpenEmuHelper-";
+NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 #pragma mark Display Link Callback
 CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
@@ -57,12 +59,6 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 
 #pragma mark -
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    DLog(@"Notified of Parent applications sudden termination - quitting");
-    if([parentApplication isTerminated]) [self quitHelperTool];
-}
-
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // just be sane for now.
@@ -71,15 +67,37 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
     parentApplication = [[NSRunningApplication runningApplicationWithProcessIdentifier:getppid()] retain];
     NSLog(@"parent application is: %@", [parentApplication localizedName]);
-    [parentApplication addObserver:self forKeyPath:@"terminated" options:NSKeyValueObservingOptionNew context:NULL];
     
-    // unique server name per plugin instance
-    theConnection = [[NSConnection new] retain];
-    [theConnection setRootObject:self];
-    if([theConnection registerName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", doUUID, nil]] == NO)
-        NSLog(@"Error opening NSConnection - exiting");
-    else
+    if([self launchConnectionWithIdentifierSuffix:doUUID error:NULL])
         NSLog(@"NSConnection Open");
+    else
+        NSLog(@"Error opening NSConnection - exiting");
+    
+    [self setupProcessPollingTimer];
+}
+
+- (BOOL)launchConnectionWithIdentifierSuffix:(NSString *)aSuffix error:(NSError **)anError
+{
+    // unique server name per plugin instance
+    theConnection = [[NSConnection alloc] init];
+    [theConnection setRootObject:self];
+    
+    BOOL ret = [theConnection registerName:[OEHelperServerNamePrefix stringByAppendingString:aSuffix]];
+    
+    if(!ret && anError != NULL)
+        *anError = [NSError errorWithDomain:OEHelperProcessErrorDomain
+                                       code:OECouldNotStartConnectionError
+                                   userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The connection could not be opened.", @"NSConnection registerName: message fail error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
+    
+    return ret;
+}
+
+- (void)dealloc
+{
+    [theConnection release];
+    [gameCore  release];
+    [gameAudio release];
+    [super dealloc];
 }
 
 - (void)setupGameCore
@@ -97,7 +115,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     if(OE_USE_DISPLAYLINK) [self initDisplayLink];
     
     // poll for our parent app at a lower frequency in the main run loop.
-    [self setupTimer];
+    [self setupRenderTimer];
 }
 
 - (void)quitHelperTool
@@ -118,7 +136,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 
 #pragma mark -
 #pragma mark IOSurface and GL Render
-- (void)setupOpenGLOnScreen:(NSScreen*) screen
+- (void)setupOpenGLOnScreen:(NSScreen *)screen
 {
     // init our fullscreen context.
     CGLPixelFormatAttribute attributes[] = {kCGLPFAAccelerated, kCGLPFADoubleBuffer, 0};
@@ -146,7 +164,6 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         [[NSApplication sharedApplication] terminate:nil];
     }
     CGLRetainContext(glContext);
-    
 }
 
 - (void)setupIOSurface
@@ -179,7 +196,6 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
     }
     
-    
     CGLUnlockContext(cgl_ctx);
 }
 
@@ -210,7 +226,6 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 
 - (void)setupGameTexture
 {
-    
     DLog(@"starting to setup gameTexture");
     
     GLenum status;
@@ -270,14 +285,17 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     DLog(@"Finished Setting up gameTexture");
 }
 
-- (void)setupTimer
+- (void)setupProcessPollingTimer
 {
     pollingTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
                                                     target:self
                                                   selector:@selector(pollParentProcess)
                                                   userInfo:nil
                                                    repeats:YES];
-    
+}
+
+- (void)setupRenderTimer
+{
     if(!OE_USE_DISPLAYLINK)
         timer = [NSTimer scheduledTimerWithTimeInterval:1.0 / 60.0
                                                  target:self
@@ -331,7 +349,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         [self render];
         rv = kCVReturnSuccess;
     }
-    [pool release];
+    [pool drain];
     return rv;
 }
 
@@ -470,12 +488,11 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
     {
         NSLog(@"OpenGL error %04X in correctPixelAspectRatio", status);
-        //        glDeleteTextures(1, &gameTexture);
-        //        gameTexture = 0;
+        //glDeleteTextures(1, &gameTexture);
+        //gameTexture = 0;
     }
     
     CGLUnlockContext(cgl_ctx);
-    
 }
 
 - (void)destroySurface
@@ -495,7 +512,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 #pragma mark -
 #pragma mark Game Core methods
 
-- (BOOL)loadRomAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath owner:(byref OEGameCoreController *)owner gameCore:(out GameCore **)createdCore
+- (BOOL)loadRomAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath owner:(byref OEGameCoreController *)owner
 {
     aPath = [aPath stringByStandardizingPath];
     BOOL isDir;
@@ -508,12 +525,12 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         DLog(@"extension is: %@", extension);
         
         // cleanup
-        if(self.loadedRom)
+        if([self loadedRom])
         {
             [gameCore stopEmulation];
             [gameAudio stopAudio];
-            [gameCore release];
-            [gameAudio release];
+            [gameCore release],  gameCore = nil;
+            [gameAudio release], gameAudio = nil;
             
             DLog(@"released/cleaned up for new ROM");
         }
@@ -521,8 +538,6 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         
         gameCore = [[[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller] newGameCore];
         [gameCore setOwner:owner];
-        
-        if(createdCore != NULL) *createdCore = gameCore;
         
         DLog(@"Loaded bundle. About to load rom...");
         
@@ -534,8 +549,8 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         else
         {
             NSLog(@"ROM did not load.");
-            if(createdCore != NULL) *createdCore = nil;
             [gameCore release];
+            gameCore = nil;
         }
     }
     else NSLog(@"bad ROM path or filename");
@@ -639,27 +654,3 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 }
 
 @end
-
-#pragma mark -
-#pragma mark main
-
-int main(int argc, const char * argv[])
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    
-    NSLog(@"Helper tool UUID is: %s", argv[1]);
-    
-    NSApplication *app = [NSApplication sharedApplication];
-    OpenEmuHelperApp *helper = [[OpenEmuHelperApp alloc] init];
-    
-    [app setDelegate:helper];
-    [helper setDoUUID:[NSString stringWithUTF8String:argv[1]]];
-    
-    [app run];
-    
-    [app release];
-    [helper release];
-    [pool release];
-    
-    return 0;
-}

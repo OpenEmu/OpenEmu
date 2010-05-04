@@ -36,12 +36,11 @@
 #import "OEGameCoreController.h"
 #import "GameQTRecorder.h"
 #import "OECorePickerController.h"
+#import "OEGameCoreManager.h"
 
 #import "OEGameCoreHelper.h"
 
 #import "NSString+UUID.h"
-
-NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 @interface GameDocument ()
 - (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError;
@@ -70,7 +69,6 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     [playPauseToolbarItem release];
     [view release];
     [gameWindow release];
-    [taskUUIDForDOServer release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
     [super dealloc];
@@ -78,7 +76,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-    [self endHelperProcess];
+    [self terminateEmulation];
 }
 
 - (NSString *)windowNibName
@@ -131,17 +129,17 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
         gameController = [[plugin controller] retain];
         emulatorName = [[plugin displayName] retain];
         
-        if([self startHelperProcessError:outError])
+        gameCoreManager = [[OEGameCoreProcessManager alloc] initWithROMAtPath:romPath corePlugin:plugin owner:gameController error:outError];
+        
+        if(gameCoreManager != nil)
         {
-            GameCore *gameCore = nil;
-            if([rootProxy loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:gameController gameCore:&gameCore])
-            {
-                [gameController addSettingObserver:gameCore];
-                
-                [rootProxy setupEmulation];
-                
-                return YES;
-            }
+            rootProxy = [[gameCoreManager rootProxy] retain];
+            
+            [gameController addSettingObserver:[rootProxy gameCore]];
+            
+            [rootProxy setupEmulation];
+            
+            return YES;
         }
     }
     else if(outError != NULL)
@@ -197,89 +195,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 #pragma mark -
 #pragma mark Background process construction and destruction
 
-- (BOOL)startHelperProcessError:(NSError **)outError
-{
-    // run our background task. Get our IOSurface ids from its standard out.
-    NSString *cliPath = [[NSBundle bundleForClass:[self class]] pathForResource: @"OpenEmuHelperApp" ofType: @""];
-    
-    // generate a UUID string so we can have multiple screen capture background tasks running.
-    taskUUIDForDOServer = [[NSString stringWithUUID] retain];
-    // NSLog(@"helper tool UUID should be %@", taskUUIDForDOServer);
-    
-    NSArray *args = [NSArray arrayWithObjects: cliPath, taskUUIDForDOServer, nil];
-    
-    helper = [[OETaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
-    [helper startProcess];
-    
-    if(![helper isRunning])
-    {
-        [helper release];
-        if(outError != NULL)
-            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                            code:OEHelperAppNotRunningError
-                                        userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The background process couldn't be launched", @"Not running background process error") forKey:NSLocalizedFailureReasonErrorKey]];
-        return NO;
-    }
-    
-    // now that we launched the helper, start up our NSConnection for DO object vending and configure it
-    // this is however a race condition if our helper process is not fully launched yet. 
-    // we hack it out here. Normally this while loop is not noticable, its very fast
-    
-    NSDate *start = [NSDate date];
-    
-    taskConnection = nil;
-    while(taskConnection == nil)
-    {
-        taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer, nil] host:nil];
-        
-        if(-[start timeIntervalSinceNow] > 3.0)
-        {
-            [self endHelperProcess];
-            if(outError != NULL)
-            {
-                *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                                code:OEConnectionTimedOutError
-                                            userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"Couldn't connect to the background process.", @"Timed out error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
-            }
-            return NO;
-        }
-    }
-    
-    [taskConnection retain];
-    
-    if(![taskConnection isValid])
-    {
-        [self endHelperProcess];
-        if(outError != NULL)
-        {
-            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                            code:OEInvalidHelperConnectionError
-                                        userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The background process connection couldn't be established", @"Invalid helper connection error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
-        }
-        return NO;
-    }
-    
-    // now that we have a valid connection...
-    rootProxy = [[taskConnection rootProxy] retain];
-    if(rootProxy == nil)
-    {
-        NSLog(@"nil root proxy object?");
-        [self endHelperProcess];
-        if(outError != NULL)
-        {
-            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                            code:OENilRootProxyObjectError
-                                        userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The root proxy object is nil.", @"Nil root proxy object error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
-        }
-        return NO;
-    }
-    
-    [(NSDistantObject *)rootProxy setProtocolForProxy:@protocol(OEGameCoreHelper)];
-    
-    return YES;
-}
-
-- (void)endHelperProcess
+- (void)terminateEmulation
 {
     [view setRootProxy:nil];
     
@@ -287,14 +203,11 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     [gameWindow makeFirstResponder:nil];
     
     // kill our background friend
-    [helper stopProcess];
-    helper = nil;
+    [gameCoreManager release];
+    gameCoreManager = nil;
     
     [rootProxy release];
     rootProxy = nil;
-    
-    [taskConnection release];
-    taskConnection = nil;
     
     [gameController release];
     gameController = nil;
@@ -467,7 +380,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 {
     if([view isInFullScreenMode]) [self toggleFullScreen:self];
 
-    [self endHelperProcess];
+    [self terminateEmulation];
     
     //[recorder finishRecording];
     [[GameDocumentController sharedDocumentController] setGameLoaded:NO];

@@ -386,8 +386,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         
         if([self startHelperProcess])
         {
-            GameCore *gameCore = nil;
-            if([rootProxy loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:nil gameCore:&gameCore])
+            if([rootProxy loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:nil])
             {
                 [rootProxy setupEmulation];
                 

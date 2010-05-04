@@ -1,7 +1,6 @@
 /*
  Copyright (c) 2010, OpenEmu Team
  
- 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -25,35 +24,26 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <Cocoa/Cocoa.h>
+#import "OpenEmuHelperApp.h"
 
-@class GameCore, OEGameCoreController;
-
-// our helper app needs to handle these functions
-@protocol OEGameCoreHelper <NSObject>
-
-// control gamecore
-- (oneway void)setVolume:(float)value;
-- (oneway void)setPauseEmulation:(BOOL)flag;
-
-// gamecore attributes
-@property(readonly) NSUInteger screenWidth;
-@property(readonly) NSUInteger screenHeight;
-@property(readonly) NSUInteger bufferWidth;
-@property(readonly) NSUInteger bufferHeight;
-@property(readonly) BOOL isEmulationPaused;
-
-@property(readonly) CGRect sourceRect;
-
-@property(readwrite) NSPoint mousePosition;
-
-
-@property(readonly) IOSurfaceID surfaceID;
-
-- (byref GameCore *)gameCore;
-
-- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath owner:(byref OEGameCoreController *)owner;
-- (void)setupEmulation;
-
-@end
+int main(int argc, const char * argv[])
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    NSLog(@"Helper tool UUID is: %s", argv[1]);
+    
+    NSApplication *app = [NSApplication sharedApplication];
+    OpenEmuHelperApp *helper = [[OpenEmuHelperApp alloc] init];
+    
+    [app setDelegate:helper];
+    [helper setDoUUID:[NSString stringWithUTF8String:argv[1]]];
+    
+    [app run];
+    
+    [app release];
+    [helper release];
+    [pool release];
+    
+    return 0;
+}
