@@ -129,7 +129,12 @@
         gameController = [[plugin controller] retain];
         emulatorName = [[plugin displayName] retain];
         
-        gameCoreManager = [[OEGameCoreProcessManager alloc] initWithROMAtPath:romPath corePlugin:plugin owner:gameController error:outError];
+        Class managerClass = ([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.gameCoreInBackgroundThread"] boolValue]
+                              ? [OEGameCoreThreadManager  class]
+                              : [OEGameCoreProcessManager class]);
+        
+        NSLog(@"managerClass = %@", managerClass);
+        gameCoreManager = [[managerClass alloc] initWithROMAtPath:romPath corePlugin:plugin owner:gameController error:outError];
         
         if(gameCoreManager != nil)
         {
@@ -203,6 +208,7 @@
     [gameWindow makeFirstResponder:nil];
     
     // kill our background friend
+    [gameCoreManager stop];
     [gameCoreManager release];
     gameCoreManager = nil;
     

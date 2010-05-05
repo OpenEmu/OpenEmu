@@ -38,7 +38,9 @@
 #import "OECorePlugin.h"
 #import "NSApplication+OEHIDAdditions.h"
 
+#ifndef BOOL_STR
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
+#endif
 
 #define OE_USE_DISPLAYLINK NO
 
@@ -86,7 +88,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
     if(!ret && anError != NULL)
         *anError = [NSError errorWithDomain:OEHelperProcessErrorDomain
-                                       code:OECouldNotStartConnectionError
+                                       code:OEHelperCouldNotStartConnectionError
                                    userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The connection could not be opened.", @"NSConnection registerName: message fail error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
     
     return ret;
@@ -521,16 +523,12 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
     if([[NSFileManager defaultManager] fileExistsAtPath:aPath isDirectory:&isDir] && !isDir)
     {
-        NSString *extension = [aPath pathExtension];
-        DLog(@"extension is: %@", extension);
+        DLog(@"extension is: %@", [aPath pathExtension]);
         
         // cleanup
         if([self loadedRom])
         {
-            [gameCore stopEmulation];
-            [gameAudio stopAudio];
-            [gameCore release],  gameCore = nil;
-            [gameAudio release], gameAudio = nil;
+            [self stopEmulation];
             
             DLog(@"released/cleaned up for new ROM");
         }
@@ -574,6 +572,17 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     [self setupGameCore];
     
     DLog(@"finished starting rom");
+}
+
+- (void)stopEmulation
+{
+    [timer invalidate], timer = nil;
+    [pollingTimer invalidate], timer = nil;
+    
+    [gameCore stopEmulation];
+    [gameAudio stopAudio];
+    [gameCore release],  gameCore = nil;
+    [gameAudio release], gameAudio = nil;
 }
 
 #pragma mark -

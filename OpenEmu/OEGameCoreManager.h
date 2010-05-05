@@ -41,7 +41,7 @@ enum _OEGameDocumentErrorCodes
 };
 
 @protocol OEGameCoreHelper;
-@class OECorePlugin, OEGameCoreController;
+@class OECorePlugin, OEGameCoreController, OpenEmuHelperApp;
 
 @interface OEGameCoreManager : NSObject
 {
@@ -53,15 +53,18 @@ enum _OEGameDocumentErrorCodes
 @property(readonly, copy)   NSString             *romPath;
 @property(readonly, assign) OECorePlugin         *plugin;
 @property(readonly, assign) OEGameCoreController *owner;
-@property(readonly, assign) id<OEGameCoreHelper>  rootProxy;
 
 - (id)initWithROMAtPath:(NSString *)theRomPath corePlugin:(OECorePlugin *)thePlugin owner:(OEGameCoreController *)theOwner error:(NSError **)outError;
 
+- (BOOL)loadROMError:(NSError **)outError;
+
+- (void)stop;
+
 #pragma mark -
 #pragma mark Abstract methods, must be overrode in subclasses
+@property(readonly, assign) id<OEGameCoreHelper>  rootProxy;
 - (BOOL)startHelperProcessError:(NSError **)outError;
 - (void)endHelperProcess;
-- (BOOL)loadROMError:(NSError **)outError;
 
 @end
 
@@ -81,12 +84,17 @@ enum _OEGameDocumentErrorCodes
 @interface OEGameCoreThreadManager : OEGameCoreManager
 {
     // IPC from our OEHelper
-    NSThread             *helperThread;
+    NSThread             *helper;
     NSString             *taskUUIDForDOServer;
     NSConnection         *taskConnection;
+    NSError              *error;
     
     id<OEGameCoreHelper>  rootProxy;
+    
+    OpenEmuHelperApp     *helperObject;
 }
+
+- (void)executionThread:(id)object;
 
 @end
 

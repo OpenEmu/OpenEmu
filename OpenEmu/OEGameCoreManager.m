@@ -29,6 +29,7 @@
 #import "OEGameCoreHelper.h"
 #import "OEGameCoreController.h"
 #import "NSString+UUID.h"
+#import "OpenEmuHelperApp.h"
 
 NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
@@ -63,9 +64,14 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     return self;
 }
 
-- (void)dealloc
+- (void)stop
 {
     [self endHelperProcess];
+}
+
+- (void)dealloc
+{
+    [self stop];
     [romPath release];
     [super dealloc];
 }
@@ -100,6 +106,9 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 }
 
 @end
+
+#pragma mark -
+#pragma mark Manager using a background process
 
 @implementation OEGameCoreProcessManager
 
@@ -219,3 +228,142 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 @end
 
+#pragma mark -
+#pragma mark Manager using a background thread
+
+@implementation OEGameCoreThreadManager
+
+- (void)executionThread:(id)object
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    taskUUIDForDOServer = [[NSString stringWithUUID] retain];
+    
+    [[NSThread currentThread] setName:[OEHelperServerNamePrefix stringByAppendingString:taskUUIDForDOServer]];
+    
+    helperObject = [[[OpenEmuHelperApp alloc] init] autorelease];
+    
+    if([helperObject launchConnectionWithIdentifierSuffix:taskUUIDForDOServer error:&error])
+        CFRunLoopRun();
+    else
+        [error retain];
+    
+    [pool drain];
+}
+
+- (void)dumpUpperLoop
+{
+    CFRunLoopStop(CFRunLoopGetCurrent());
+}
+
+- (void)stopRunLoop
+{
+    [helperObject stopEmulation];
+    CFRunLoopStop(CFRunLoopGetCurrent());
+    
+    [self performSelector:@selector(dumpUpperLoop) onThread:[NSThread currentThread] withObject:nil waitUntilDone:NO];
+}
+
+- (id<OEGameCoreHelper>)rootProxy
+{
+    return rootProxy;
+}
+
+- (BOOL)startHelperProcessError:(NSError **)outError
+{
+    helper = [[NSThread alloc] initWithTarget:self selector:@selector(executionThread:) object:nil];
+    [helper start];
+    
+    if(![helper isExecuting])
+    {
+        [helper release];
+        if(outError != NULL)
+            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                            code:OEHelperAppNotRunningError
+                                        userInfo:
+                         [NSDictionary dictionaryWithObjectsAndKeys:
+                          NSLocalizedString(@"The background process couldn't be launched", @"Not running background process error"), NSLocalizedFailureReasonErrorKey,
+                          [error autorelease], NSUnderlyingErrorKey,
+                          nil]];
+        return NO;
+    }
+    
+    // now that we launched the helper, start up our NSConnection for DO object vending and configure it
+    // this is however a race condition if our helper process is not fully launched yet. 
+    // we hack it out here. Normally this while loop is not noticable, its very fast
+    
+    NSDate *start = [NSDate date];
+    
+    taskConnection = nil;
+    while(taskConnection == nil)
+    {
+        taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer, nil] host:nil];
+        
+        if(error != nil && ![helper isExecuting])
+        {
+            *outError = [error autorelease];
+            return NO;
+        }
+        
+        if(-[start timeIntervalSinceNow] > 3.0)
+        {
+            [self endHelperProcess];
+            if(outError != NULL)
+            {
+                *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                                code:OEConnectionTimedOutError
+                                            userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"Couldn't connect to the background process.", @"Timed out error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
+            }
+            return NO;
+        }
+    }
+    
+    [taskConnection retain];
+    
+    if(![taskConnection isValid])
+    {
+        [self endHelperProcess];
+        if(outError != NULL)
+        {
+            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                            code:OEInvalidHelperConnectionError
+                                        userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The background process connection couldn't be established", @"Invalid helper connection error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
+        }
+        return NO;
+    }
+    
+    // now that we have a valid connection...
+    rootProxy = [[taskConnection rootProxy] retain];
+    if(rootProxy == nil)
+    {
+        NSLog(@"nil root proxy object?");
+        [self endHelperProcess];
+        if(outError != NULL)
+        {
+            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                            code:OENilRootProxyObjectError
+                                        userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The root proxy object is nil.", @"Nil root proxy object error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
+        }
+        return NO;
+    }
+    
+    [(NSDistantObject *)rootProxy setProtocolForProxy:@protocol(OEGameCoreHelper)];
+    
+    return YES;
+}
+
+- (void)endHelperProcess
+{
+    // kill our background friend
+    [self performSelector:@selector(stopRunLoop) onThread:helper withObject:nil waitUntilDone:YES];
+    [helper release];
+    helper = nil;
+    
+    [rootProxy release];
+    rootProxy = nil;
+    
+    [taskConnection release];
+    taskConnection = nil;
+}
+
+@end

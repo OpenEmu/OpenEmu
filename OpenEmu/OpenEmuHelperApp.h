@@ -45,11 +45,11 @@
 extern NSString *const OEHelperServerNamePrefix;
 extern NSString *const OEHelperProcessErrorDomain;
 
-enum _OEGameDocumentErrorCodes 
+enum _OEHelperAppErrorCodes 
 {
-    OENoError                      =  0,
-    OECouldNotStartConnectionError = -1,
-    OEIncorrectFileError           = -2,
+    OEHelperNoError                      =  0,
+    OEHelperCouldNotStartConnectionError = -1,
+    OEHelperIncorrectFileError           = -2,
 };
 
 @interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper>
@@ -108,6 +108,7 @@ enum _OEGameDocumentErrorCodes
 - (void)updateGameTexture;
 - (void)correctPixelAspectRatio;
 - (void)destroySurface;
+- (void)stopEmulation;
 
 #pragma mark -
 #pragma mark OE DO protocol delegate methods
