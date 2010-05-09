@@ -44,6 +44,7 @@
 #import "OECoreDownloader.h"
 
 #import "OEROMFile.h"
+#import "OEGameQuickLookDocument.h"
 
 #import "SaveState.h"
 
@@ -90,7 +91,7 @@
     
     
     organizer = [[OEROMOrganizer alloc] init];
-    //    [organizer showWindow:self];
+    [organizer showWindow:self];
     
     [versionMigrator runMigrationIfNeeded];
 }
@@ -395,6 +396,23 @@
     NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
 
+- (id)previewROMFile:(OEROMFile *)romFile fromPoint:(NSPoint)pt{
+	return [self previewROMFile:romFile withSaveState:nil fromPoint:pt];
+}
+
+- (id)previewROMFile:(OEROMFile *)romFile withSaveState:(OESaveState *)saveState fromPoint:(NSPoint)pt{
+	id document = nil;
+	
+	isOpeningQuickLook = YES;
+	
+	NSError *error = nil;
+	document = [self openDocumentWithContentsOfURL:[romFile pathURL] display:YES error:&error];
+	
+	isOpeningQuickLook = NO;
+	
+	return document;
+}
+
 //FIXME: it looks like our code here expects the file to be an archive and shits its pants (throws an error
 // popup saying "can't open files of type "Nestopia Cartridge" " or similar) if it's not.
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
@@ -472,8 +490,16 @@
 
 - (Class)documentClassForType:(NSString *)documentTypeName
 {
-    Class ret = [super documentClassForType:documentTypeName];
-    if(ret == nil) ret = [GameDocument class], DLog(@"documentClassForType: Long path");
+	Class ret = NULL;
+	
+	if(isOpeningQuickLook){
+		ret = [OEGameQuickLookDocument class], DLog(@"documentClassForType: Quick Look");
+	}else{
+		ret = [super documentClassForType:documentTypeName];
+		if(ret == nil){
+			ret = [GameDocument class], DLog(@"documentClassForType: Long path");
+		}
+	}
     return ret;
 }
 
@@ -546,7 +572,6 @@
     
     
 }
-
 
 #pragma mark -
 #pragma mark CoreData stack

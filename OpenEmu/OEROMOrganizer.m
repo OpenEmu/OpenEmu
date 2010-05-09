@@ -29,6 +29,7 @@
 #import "GameDocumentController.h"
 #import "OECorePlugin.h"
 #import "OEROMFile.h"
+#import "OEGameQuickLookDocument.h"
 
 @implementation OEROMOrganizer
 
@@ -162,6 +163,18 @@
     }
     
     [self save];
+}
+
+- (IBAction)previewROM:(id)sender{
+	for(OEROMFile *romFile in [allROMSController selectedObjects]){
+		NSError *error = NULL;
+//		GameDocument *document = [[GameDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[romFile pathURL] display:YES error:&error];
+		OEGameQuickLookDocument *document = [[GameDocumentController sharedDocumentController] previewROMFile:romFile fromPoint:NSZeroPoint];
+
+		if(!document && error){
+			NSLog(@"Could not open Quick Look: %@",error);
+		}
+	}
 }
 
 - (void)save

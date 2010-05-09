@@ -52,6 +52,7 @@
 - (IBAction)addROM:(id)sender;
 - (IBAction)removeROM:(id)sender;
 - (IBAction)playROMs:(id)sender;
+- (IBAction)previewROM:(id)sender;
 
 - (void)save;
 - (void)updateFilterPredicate;

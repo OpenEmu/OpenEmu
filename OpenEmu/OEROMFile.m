@@ -104,7 +104,11 @@
 
 - (NSString *)path
 {
-    return [[NSURL URLByResolvingBookmarkData:[self pathAlias] options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:NULL] path];
+	if([self pathAlias]){
+		return [[NSURL URLByResolvingBookmarkData:[self pathAlias] options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:NULL] path];
+	}else{
+		return [self primitiveValueForKey:@"path"];
+	}
     //return [NSString OE_stringWithPathOfAliasData:[self pathAlias]];
 }
 

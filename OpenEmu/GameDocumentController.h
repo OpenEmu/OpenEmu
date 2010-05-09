@@ -33,6 +33,9 @@
 #import "OEROMOrganizer.h"
 #import "OEVersionMigrationController.h"
 
+@class OEROMFile;
+@class OESaveState;
+
 @class GameCore, OECorePlugin;
 @class GameDocument, OEGamePreferenceController, OESaveStateController, OECoreDownloader;
 
@@ -69,6 +72,8 @@
     
     OEROMOrganizer               *organizer;
     OEVersionMigrationController *versionMigrator;
+	
+	BOOL                         isOpeningQuickLook;
 }
 
 @property(retain) IBOutlet NSWindow *aboutWindow;

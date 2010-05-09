@@ -55,4 +55,5 @@ insertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
 - (NSString *)systemName;
 - (NSURL *)pathURL;
+
 @end
