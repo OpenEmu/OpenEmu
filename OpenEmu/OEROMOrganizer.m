@@ -169,11 +169,12 @@
 	for(OEROMFile *romFile in [allROMSController selectedObjects]){
 		NSError *error = NULL;
 //		GameDocument *document = [[GameDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[romFile pathURL] display:YES error:&error];
-		OEGameQuickLookDocument *document = [[GameDocumentController sharedDocumentController] previewROMFile:romFile fromPoint:NSZeroPoint];
+/*		OEGameQuickLookDocument *document = [[GameDocumentController sharedDocumentController] previewROMFile:romFile fromPoint:NSZeroPoint];
 
 		if(!document && error){
 			NSLog(@"Could not open Quick Look: %@",error);
 		}
+ */
 	}
 }
 
