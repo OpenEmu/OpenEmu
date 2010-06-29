@@ -160,13 +160,17 @@
 #endif
     // we tell the controller that we finished, via the callback, and then blow away our connection
     // to the controller.  NSTasks are one-shot (not for reuse), so we might as well be too.
-    [task waitUntilExit];
+ //   [task waitUntilExit];
     
-    int status = [task terminationStatus];
-    NSLog(@"Task termiantion status %i", status);
+
+	if(![task isRunning])
+    {
+		int status = [task terminationStatus];
+		NSLog(@"Task termiantion status %i", status);
     
-    [controller processFinished: self withStatus: [task terminationStatus]];
-    controller = nil;
+		[controller processFinished: self withStatus: [task terminationStatus]];
+    }
+	controller = nil;
 }
 
 - (void)sendToProcess: (NSString *)aString
