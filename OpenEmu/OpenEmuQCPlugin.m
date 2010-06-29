@@ -45,8 +45,7 @@
 
 static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* info)
 {
-	// we only ever have our one IOSurface backed Texture - don't delete it.
-	// glDeleteTextures(1, &name);
+	glDeleteTextures(1, &name);
 }
 
 @implementation OpenEmuQC
@@ -171,6 +170,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (void)enableExecution:(id<QCPlugInContext>)context
 {
+	if([helper isRunning])
+	   [rootProxy setPauseEmulation:NO];
 }
 
 - (BOOL)execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary *)arguments
@@ -251,15 +252,21 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 		// release the surface 
 		CFRelease(surfaceRef);	
 	}
+	else 
+		self.outputImage = nil;
+
 	return YES;
 }
 
 - (void)disableExecution:(id<QCPlugInContext>)context
 {
+	[rootProxy setPauseEmulation:YES];
 }
 
 - (void)stopExecution:(id<QCPlugInContext>)context
 {
+	if([helper isRunning])
+		[self endHelperProcess];
 }
 
 
@@ -302,12 +309,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 		if(-[start timeIntervalSinceNow] > 3.0)
 		{
 			[self endHelperProcess];
-//			if(outError != NULL)
-//			{
-//				*outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-//												code:OEConnectionTimedOutError
-//											userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"Couldn't connect to the background process.", @"Timed out error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
-//			}
 			return NO;
 		}
 	}
@@ -317,12 +318,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	if(![taskConnection isValid])
 	{
 		[self endHelperProcess];
-//		if(outError != NULL)
-//		{
-//			*outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-//											code:OEInvalidHelperConnectionError
-//										userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The background process connection couldn't be established", @"Invalid helper connection error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
-//		}
 		return NO;
 	}
 	
@@ -332,12 +327,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	{
 		NSLog(@"nil root proxy object?");
 		[self endHelperProcess];
-//		if(outError != NULL)
-//		{
-//			*outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-//											code:OENilRootProxyObjectError
-//										userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The root proxy object is nil.", @"Nil root proxy object error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
-//		}
 		return NO;
 	}
 	
@@ -347,14 +336,17 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 }
 
 - (void)endHelperProcess
-{   
-    // kill our background friend
-    [helper stopProcess];
-    helper = nil;
-    
+{       
     [rootProxy release];
     rootProxy = nil;
     
+	// kill our background friend
+    while([helper isRunning])
+		[helper stopProcess];
+    
+	helper = nil;	
+	
+	[taskConnection invalidate];
     [taskConnection release];
     taskConnection = nil;
 }
@@ -385,7 +377,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         //emulatorName = [[plugin displayName] retain];
         
         if([self startHelperProcess])
-        {
+        {			
             if([rootProxy loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:nil])
             {
                 [rootProxy setupEmulation];
