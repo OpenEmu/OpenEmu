@@ -177,7 +177,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 - (BOOL)execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary *)arguments
 {   
 	// handle input keys changing,
-	if([self didValueForInputKeyChange:@"inputRom"])
+	if([self didValueForInputKeyChange:@"inputRom"] && (self.inputRom != @"") && ![self.inputRom isEqualToString:@""])
 	{
 		NSString* romPath;
 		if ([[self.inputRom stringByStandardizingPath] isAbsolutePath])
@@ -188,11 +188,12 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 		{
 			romPath = [[[[context compositionURL] path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:[self.inputRom stringByStandardizingPath]];
 		}
-		
+        if([[NSFileManager defaultManager] fileExistsAtPath:romPath]) 
+        {
 		[self endHelperProcess];
-		[self readFromURL:[NSURL fileURLWithPath:romPath]];
-		
-	}
+		[self readFromURL:[NSURL fileURLWithPath:romPath]];        
+        }
+    }
 		
 	if([self didValueForInputKeyChange:@"inputVolume"])
 		[rootProxy setVolume:self.inputVolume];

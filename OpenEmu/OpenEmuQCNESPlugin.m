@@ -283,10 +283,11 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 		{
 			romPath = [[[[context compositionURL] path] stringByDeletingLastPathComponent] stringByAppendingPathComponent:[self.inputRom stringByStandardizingPath]];
 		}
-		
-		[self endHelperProcess];
-		[self readFromURL:[NSURL fileURLWithPath:romPath]];
-		
+        if([[NSFileManager defaultManager] fileExistsAtPath:romPath]) 
+        {
+            [self endHelperProcess];
+            [self readFromURL:[NSURL fileURLWithPath:romPath]];   
+        }		
 	}
 	
 	if([self didValueForInputKeyChange:@"inputVolume"])
