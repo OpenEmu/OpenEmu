@@ -652,13 +652,13 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 
 - (void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button
 {
-    NSLog(@"did Press Button");
+//    DLog(@"did Press Button");
     [gameCore player:playerNumber didPressButton:button];
 }
 
 - (void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button
 {
-    NSLog(@"did Release Button");
+//    DLog(@"did Release Button");
     [gameCore player:playerNumber didReleaseButton:button];
 }
 

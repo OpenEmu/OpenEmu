@@ -434,7 +434,7 @@
 				C62A2569116F07070003DEE4 /* OpenEmuDebugHelperAppApp.app */,
 				C6E917D20FD356A500AC2CCC /* OpenEmuQC.plugin */,
 				C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */,
-				3746BCD71029454F007C78A6 /* OESaveStateQLPlugin.bundle */,
+				3746BCD71029454F007C78A6 /* OESaveStateQLPlugin.qlgenerator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -488,10 +488,10 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		3746BCD71029454F007C78A6 /* OESaveStateQLPlugin.bundle */ = {
+		3746BCD71029454F007C78A6 /* OESaveStateQLPlugin.qlgenerator */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = OESaveStateQLPlugin.bundle;
+			path = OESaveStateQLPlugin.qlgenerator;
 			remoteRef = 3746BCD61029454F007C78A6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

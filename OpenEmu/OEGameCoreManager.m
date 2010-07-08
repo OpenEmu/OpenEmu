@@ -116,6 +116,12 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 {
     return rootProxy;
 }
+
+- (OETaskWrapper*)helper
+{
+    return helper;
+}
+
 - (BOOL)startHelperProcessError:(NSError **)outError
 {
     // run our background task. Get our IOSurface ids from its standard out.

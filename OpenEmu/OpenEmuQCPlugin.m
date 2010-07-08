@@ -34,6 +34,7 @@
 
 #import "GameCore.h"
 #import "OECorePlugin.h"
+#import "OEGameCoreManager.h"
 
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLIOSurface.h>
@@ -170,8 +171,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (void)enableExecution:(id<QCPlugInContext>)context
 {
-	if([helper isRunning])
-	   [rootProxy setPauseEmulation:NO];
+    DLog(@"enableExecution: was called");
+//    if(![[gameCoreManager helper] isRunning])
+    [[gameCoreManager rootProxy] setPauseEmulation:NO];
 }
 
 - (BOOL)execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary *)arguments
@@ -190,17 +192,17 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 		}
         if([[NSFileManager defaultManager] fileExistsAtPath:romPath]) 
         {
-		[self endHelperProcess];
+		[self terminateEmulation];
 		[self readFromURL:[NSURL fileURLWithPath:romPath]];        
         }
     }
 		
 	if([self didValueForInputKeyChange:@"inputVolume"])
-		[rootProxy setVolume:self.inputVolume];
+		[[gameCoreManager rootProxy] setVolume:self.inputVolume];
 	
 	if([self didValueForInputKeyChange:@"inputPauseEmulation"])
-		[rootProxy setPauseEmulation:self.inputPauseEmulation];
-		
+		[[gameCoreManager rootProxy] setPauseEmulation:self.inputPauseEmulation];
+	
 	// Process controller data
 	if([self didValueForInputKeyChange: @"inputControllerData"])
 	{
@@ -220,9 +222,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	
 	IOSurfaceRef surfaceRef = NULL;
 	IOSurfaceID surfaceID = 0;
-	if(rootProxy != nil)
+	if([gameCoreManager rootProxy] != nil)
 	{
-		surfaceID = [rootProxy surfaceID];
+		surfaceID = [[gameCoreManager rootProxy] surfaceID];
 		// WHOA - This causes a retain.
 		surfaceRef = IOSurfaceLookup(surfaceID);
 	}
@@ -253,7 +255,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 		// release the surface 
 		CFRelease(surfaceRef);	
 	}
-	else 
+	else
 		self.outputImage = nil;
 
 	return YES;
@@ -261,95 +263,27 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (void)disableExecution:(id<QCPlugInContext>)context
 {
-	[rootProxy setPauseEmulation:YES];
+    NSLog(@"### disableExecution was called.");
+    [[gameCoreManager rootProxy] setPauseEmulation:YES];
 }
 
 - (void)stopExecution:(id<QCPlugInContext>)context
 {
-	if([helper isRunning])
-		[self endHelperProcess];
+	if([[gameCoreManager helper] isRunning])
+		[self terminateEmulation];
 }
 
 
 #pragma mark Helper Process
-- (BOOL)startHelperProcess
-{
-	// run our background task. Get our IOSurface ids from its standard out.
-	NSString *cliPath = [[NSBundle bundleForClass:[self class]] pathForResource: @"OpenEmuHelperApp" ofType: @""];
-	
-	// generate a UUID string so we can have multiple screen capture background tasks running.
-	taskUUIDForDOServer = [[NSString stringWithUUID] retain];
-	// NSLog(@"helper tool UUID should be %@", taskUUIDForDOServer);
-	
-	NSArray *args = [NSArray arrayWithObjects: cliPath, taskUUIDForDOServer, nil];
-	
-	helper = [[OETaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
-	[helper startProcess];
-	
-	if(![helper isRunning])
-	{
-		[helper release];
-//		if(outError != NULL)
-//			*outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-//											code:OEHelperAppNotRunningError
-//										userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The background process couldn't be launched", @"Not running background process error") forKey:NSLocalizedFailureReasonErrorKey]];
-		return NO;
-	}
-	
-	// now that we launched the helper, start up our NSConnection for DO object vending and configure it
-	// this is however a race condition if our helper process is not fully launched yet. 
-	// we hack it out here. Normally this while loop is not noticable, its very fast
-	
-	NSDate *start = [NSDate date];
-	
-	taskConnection = nil;
-	while(taskConnection == nil)
-	{
-		taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer, nil] host:nil];
-		
-		if(-[start timeIntervalSinceNow] > 3.0)
-		{
-			[self endHelperProcess];
-			return NO;
-		}
-	}
-	
-	[taskConnection retain];
-	
-	if(![taskConnection isValid])
-	{
-		[self endHelperProcess];
-		return NO;
-	}
-	
-	// now that we have a valid connection...
-	rootProxy = [[taskConnection rootProxy] retain];
-	if(rootProxy == nil)
-	{
-		NSLog(@"nil root proxy object?");
-		[self endHelperProcess];
-		return NO;
-	}
-	
-	[(NSDistantObject *)rootProxy setProtocolForProxy:@protocol(OEGameCoreHelper)];
-	
-	return YES;
-}
 
-- (void)endHelperProcess
-{       
-    [rootProxy release];
-    rootProxy = nil;
-    
-	// kill our background friend
-    while([helper isRunning])
-		[helper stopProcess];
-    
-	helper = nil;	
+- (void)terminateEmulation
+{
+    DLog("terminateEmulation was called");
 	
-	[taskConnection invalidate];
-    [taskConnection release];
-    taskConnection = nil;
+    // kill our background friend
+    [gameCoreManager stop];
+    [gameCoreManager release];
+    gameCoreManager = nil;        
 }
 
 #pragma mark Loading
@@ -368,6 +302,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 		 
 - (BOOL)readFromURL:(NSURL *)absoluteURL
 {
+    DLog(@"readFromURL: %@", absoluteURL);
+    
     NSString *romPath = [absoluteURL path];
     if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
     {        
@@ -377,14 +313,14 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         
         //emulatorName = [[plugin displayName] retain];
         
-        if([self startHelperProcess])
-        {			
-            if([rootProxy loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:nil])
-            {
-                [rootProxy setupEmulation];
-                
-                return YES;
-            }
+        gameCoreManager = [[OEGameCoreProcessManager alloc] initWithROMAtPath:romPath corePlugin:plugin owner:nil error:nil];
+        
+        if(gameCoreManager != nil)
+        {
+			NSLog(@"have manager");
+            [[gameCoreManager rootProxy] setupEmulation];
+            
+            return YES;
         }
     }
 //    else if(outError != NULL)
@@ -434,33 +370,17 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         //       NSLog(@"index is %u", i);
         if([[controllerArray objectAtIndex:i] boolValue] == TRUE) // down
         {
-            //    NSLog(@"button %u is down", i);
+//			DLog(@"button %u is down", i);
             //    [gameCore buttonPressed:i forPlayer:[playerNumber intValue]];
-            [rootProxy player:[playerNumber intValue] didPressButton:(i + 1)];
+            [[gameCoreManager rootProxy] player:[playerNumber intValue] didPressButton:(i + 1)];
         }        
         else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
         {
-            //    NSLog(@"button %u is up", i);
+//			DLog(@"button %u is up", i);
             //    [gameCore buttonRelease:i forPlayer:[playerNumber intValue]];
-            [rootProxy player:[playerNumber intValue] didReleaseButton:(i + 1)];
+            [[gameCoreManager rootProxy] player:[playerNumber intValue] didReleaseButton:(i + 1)];
         }
     } 
-}
-
-	
-#pragma mark TaskWrapper delegates
-
-- (void)appendOutput:(NSString *)output fromProcess: (OETaskWrapper *)aTask
-{
-}	
-
-- (void)processStarted: (OETaskWrapper *)aTask
-{
-}
-
-- (void)processFinished: (OETaskWrapper *)aTask withStatus: (int)statusCode
-{
-	
 }
 
 @end

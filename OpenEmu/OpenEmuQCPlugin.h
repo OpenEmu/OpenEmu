@@ -30,19 +30,14 @@
 #import "OETaskWrapper.h"
 // protocol
 #import "OEGameCoreHelper.h"
+#import "OEGameCoreManager.h"
 
-@class OECorePlugin;
+@class OECorePlugin, OEGameCoreManager;
 
 @interface OpenEmuQC : QCPlugIn
 {
-	// we will need a way to do IPC, for now its this.
-	OETaskWrapper *helper;
-	NSString* taskUUIDForDOServer;	
-	NSConnection* taskConnection;
-	NSString *inputRemainder;
-		
-	id rootProxy;	
-	
+    OEGameCoreProcessManager    *gameCoreManager;
+
 	// Controller data
 	NSArray *persistantControllerData;
 }
@@ -59,17 +54,11 @@
 @property(assign) id <QCPlugInOutputImageProvider> outputImage;
 @end
 
-@interface OpenEmuQC (Execution) <OETaskWrapperController>
-- (BOOL)startHelperProcess;
-- (void)endHelperProcess;
+@interface OpenEmuQC (Execution)
+- (void)terminateEmulation;
 - (BOOL)controllerDataValidate:(NSArray *)cData;
 - (void) handleControllerData;
 - (BOOL)readFromURL:(NSURL *)absoluteURL;
-
-
-- (void)appendOutput:(NSString *)output fromProcess: (OETaskWrapper *)aTask;
-- (void)processStarted: (OETaskWrapper *)aTask;
-- (void)processFinished: (OETaskWrapper *)aTask withStatus: (int)statusCode;
 
 //- (void)refresh;
 //- (OECorePlugin *)pluginForType:(NSString *)extension;

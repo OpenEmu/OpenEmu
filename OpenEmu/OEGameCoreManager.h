@@ -78,6 +78,8 @@ enum _OEGameDocumentErrorCodes
     id<OEGameCoreHelper>  rootProxy;
 }
 
+@property(readonly,assign) OETaskWrapper *helper;
+
 @end
 
 
