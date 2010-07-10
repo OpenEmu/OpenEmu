@@ -27,9 +27,9 @@
 
 #import <Quartz/Quartz.h>
 
-#import "OETaskWrapper.h"
 // protocol
 #import "OEGameCoreHelper.h"
+#import "OEGameCoreManager.h"
 
 #import "GameCore.h"
 
@@ -81,14 +81,8 @@
 
 @interface OpenEmuQCNES : QCPlugIn
 {
-	// we will need a way to do IPC, for now its this.
-	OETaskWrapper *helper;
-	NSString* taskUUIDForDOServer;	
-	NSConnection* taskConnection;
-	NSString *inputRemainder;
-	
-	id rootProxy;	
-	
+    OEGameCoreProcessManager    *gameCoreManager;
+
 	// Controller data
 	NSArray *persistantControllerData;	
     NSArray *persistantNameTableData;
@@ -124,16 +118,12 @@
 
 @end
 
-@interface OpenEmuQCNES (Execution) <OETaskWrapperController>
-- (BOOL)startHelperProcess;
-- (void)endHelperProcess;
+@interface OpenEmuQCNES (Execution)
+- (void)terminateEmulation;
 - (BOOL)controllerDataValidate:(NSArray *)cData;
 - (void)handleControllerData;
 - (BOOL)readFromURL:(NSURL *)absoluteURL;
 
-- (void)appendOutput:(NSString *)output fromProcess: (OETaskWrapper *)aTask;
-- (void)processStarted: (OETaskWrapper *)aTask;
-- (void)processFinished: (OETaskWrapper *)aTask withStatus: (int)statusCode;
 - (BOOL)validateNameTableData:(NSArray*)nameTableData;
 @end
 

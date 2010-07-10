@@ -34,12 +34,10 @@
 
 #import "GameCore.h"
 #import "OECorePlugin.h"
-#import "OEGameCoreManager.h"
 
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLIOSurface.h>
 
-#import "NSString+UUID.h"
 
 #define    kQCPlugIn_Name               @"OpenEmu"
 #define    kQCPlugIn_Description        @"Wraps the OpenEmu emulator - Play NES, Gameboy, Sega, etc roms in QC"
@@ -192,8 +190,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 		}
         if([[NSFileManager defaultManager] fileExistsAtPath:romPath]) 
         {
-		[self terminateEmulation];
-		[self readFromURL:[NSURL fileURLWithPath:romPath]];        
+            [self terminateEmulation];
+            [self readFromURL:[NSURL fileURLWithPath:romPath]];        
         }
     }
 		
@@ -323,19 +321,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             return YES;
         }
     }
-//    else if(outError != NULL)
-//    {
-//        *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-//                                        code:OEFileDoesNotExistError
-//                                    userInfo:
-//                     [NSDictionary dictionaryWithObjectsAndKeys:
-//                      NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
-//                      NSLocalizedFailureReasonErrorKey,
-//                      NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
-//                      NSLocalizedRecoverySuggestionErrorKey,
-//                      nil]];
-//    }
-    
     return NO;
 }			
 

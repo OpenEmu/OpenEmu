@@ -38,14 +38,12 @@
 #import <IOSurface/IOSurface.h>
 #import <OpenGL/CGLIOSurface.h>
 
-#import "NSString+UUID.h"
-
 #define    kQCPlugIn_Name               @"OpenEmu NES"
 #define    kQCPlugIn_Description        @"Wraps the OpenEmu emulator - play and manipulate the NES"
 
 static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* info)
 {    
-    //    glDeleteTextures(1, &name);
+    glDeleteTextures(1, &name);
 }
 
 
@@ -267,6 +265,8 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (void) enableExecution:(id<QCPlugInContext>)context
 {
+    DLog(@"enableExecution: was called");
+    [[gameCoreManager rootProxy] setPauseEmulation:NO];
 }
 
 - (BOOL) execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary*)arguments
@@ -285,16 +285,16 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 		}
         if([[NSFileManager defaultManager] fileExistsAtPath:romPath]) 
         {
-            [self endHelperProcess];
+            [self terminateEmulation];
             [self readFromURL:[NSURL fileURLWithPath:romPath]];   
         }		
 	}
 	
 	if([self didValueForInputKeyChange:@"inputVolume"])
-		[rootProxy setVolume:self.inputVolume];
+		[[gameCoreManager rootProxy] setVolume:self.inputVolume];
 	
 	if([self didValueForInputKeyChange:@"inputPauseEmulation"])
-		[rootProxy setPauseEmulation:self.inputPauseEmulation];
+		[[gameCoreManager rootProxy] setPauseEmulation:self.inputPauseEmulation];
 	
 	// Process controller data
 	if([self didValueForInputKeyChange: @"inputControllerData"])
@@ -348,15 +348,15 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	if([self didValueForInputKeyChange: @"inputCheatCode"] && ([self valueForInputKey:@"inputCheatCode"] != [[OpenEmuQCNES attributesForPropertyPortWithKey:@"inputCheatCode"] valueForKey: QCPortAttributeDefaultValueKey]))    
 	{
 		DLog(@"cheat code entered");
-		[[rootProxy gameCore] setCode:[self valueForInputKey:@"inputCheatCode"]];
+		[[[gameCoreManager rootProxy] gameCore] setCode:[self valueForInputKey:@"inputCheatCode"]];
 	}
 	
 	// Process rewinder
 	if([self didValueForInputKeyChange: @"inputEnableRewinder"])    
 	{
-		[[rootProxy gameCore] enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
+		[[[gameCoreManager rootProxy] gameCore] enableRewinder:[[self valueForInputKey:@"inputEnableRewinder"] boolValue]];
 		
-		if([[rootProxy gameCore] isRewinderEnabled]) 
+		if([[[gameCoreManager rootProxy] gameCore] isRewinderEnabled]) 
 		{
 			DLog(@"rewinder is enabled");
 		} else 
@@ -379,14 +379,14 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	if([self didValueForInputKeyChange: @"inputRewinderDirection"])    
 	{
 		DLog(@"rewinder direction changed");
-		[[rootProxy gameCore] rewinderDirection:[[self valueForInputKey:@"inputRewinderDirection"] boolValue]];
+		[[[gameCoreManager rootProxy] gameCore] rewinderDirection:[[self valueForInputKey:@"inputRewinderDirection"] boolValue]];
 	}
 	
 	if([self didValueForInputKeyChange:@"inputEnableRewinderBackwardsSound"])
 	{
-		[[rootProxy gameCore] enableRewinderBackwardsSound:[[self valueForInputKey:@"inputEnableRewinderBackwardsSound"] boolValue]];
+		[[[gameCoreManager rootProxy] gameCore] enableRewinderBackwardsSound:[[self valueForInputKey:@"inputEnableRewinderBackwardsSound"] boolValue]];
 		
-		if([[rootProxy gameCore] isRewinderBackwardsSoundEnabled])
+		if([[[gameCoreManager rootProxy] gameCore] isRewinderBackwardsSoundEnabled])
 		{
 			DLog(@"rewinder backwards sound is enabled");
 		}
@@ -397,22 +397,22 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	}
 	
 	//glitch methods (CORRUPTION FTW)
-	if([[rootProxy gameCore] cartVRamSize] && self.inputNmtRamCorrupt && ( [self didValueForInputKeyChange:@"inputNmtRamOffset"] || [self didValueForInputKeyChange:@"inputNmtRamValue"] ))
+	if([[[gameCoreManager rootProxy] gameCore] cartVRamSize] && self.inputNmtRamCorrupt && ( [self didValueForInputKeyChange:@"inputNmtRamOffset"] || [self didValueForInputKeyChange:@"inputNmtRamValue"] ))
 	{
-		[[rootProxy gameCore] setNmtRamBytes:self.inputNmtRamOffset value:self.inputNmtRamValue];
+		[[[gameCoreManager rootProxy] gameCore] setNmtRamBytes:self.inputNmtRamOffset value:self.inputNmtRamValue];
 	}
 	
-	if([[rootProxy gameCore] chrRomSize] && self.inputChrRamCorrupt && ( [self didValueForInputKeyChange:@"inputChrRamOffset"] || [self didValueForInputKeyChange:@"inputChrRamValue"] ))
+	if([[[gameCoreManager rootProxy] gameCore] chrRomSize] && self.inputChrRamCorrupt && ( [self didValueForInputKeyChange:@"inputChrRamOffset"] || [self didValueForInputKeyChange:@"inputChrRamValue"] ))
 	{
-		[[rootProxy gameCore] setChrRamBytes:self.inputChrRamOffset value:self.inputChrRamValue];
+		[[[gameCoreManager rootProxy] gameCore] setChrRamBytes:self.inputChrRamOffset value:self.inputChrRamValue];
 	}
 	
-	if([[rootProxy gameCore] cartVRamSize] && self.inputCorruptNameTable && [self didValueForInputKeyChange:@"inputNameTableData"])
+	if([[[gameCoreManager rootProxy] gameCore] cartVRamSize] && self.inputCorruptNameTable && [self didValueForInputKeyChange:@"inputNameTableData"])
 	{
 		if([self validateNameTableData:[self inputNameTableData]])
 		{
 			[self setPersistantNameTableData:[self inputNameTableData]]; 
-			[[rootProxy gameCore] setNMTRamByTable:[persistantNameTableData objectAtIndex:0] array:[persistantNameTableData objectAtIndex:1]];
+			[[[gameCoreManager rootProxy] gameCore] setNMTRamByTable:[persistantNameTableData objectAtIndex:0] array:[persistantNameTableData objectAtIndex:1]];
 		}
 	}
         
@@ -423,9 +423,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 	
 	IOSurfaceRef surfaceRef = NULL;
 	IOSurfaceID surfaceID = 0;
-	if(rootProxy != nil)
+	if([gameCoreManager rootProxy] != nil)
 	{
-		surfaceID = [rootProxy surfaceID];
+		surfaceID = [[gameCoreManager rootProxy] surfaceID];
 		// WHOA - This causes a retain.
 		surfaceRef = IOSurfaceLookup(surfaceID);
 	}
@@ -456,111 +456,35 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 		// release the surface 
 		CFRelease(surfaceRef);	
 	}
+    else
+		self.outputImage = nil;
+
 	return YES;
 }
 
 - (void) disableExecution:(id<QCPlugInContext>)context
 {
+    DLog(@"### disableExecution was called.");
+    [[gameCoreManager rootProxy] setPauseEmulation:YES];
 }
 
 - (void) stopExecution:(id<QCPlugInContext>)context
 {
+    DLog(@"### stopExecution was called.");    
+    if([[gameCoreManager helper] isRunning])
+		[self terminateEmulation];
 }
 
 #pragma mark Helper Process
-- (BOOL)startHelperProcess
-{
-	// run our background task. Get our IOSurface ids from its standard out.
-	NSString *cliPath = [[NSBundle bundleForClass:[self class]] pathForResource: @"OpenEmuHelperApp" ofType: @""];
-	
-	// generate a UUID string so we can have multiple screen capture background tasks running.
-	taskUUIDForDOServer = [[NSString stringWithUUID] retain];
-	// NSLog(@"helper tool UUID should be %@", taskUUIDForDOServer);
-	
-	NSArray *args = [NSArray arrayWithObjects: cliPath, taskUUIDForDOServer, nil];
-	
-	helper = [[OETaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
-	[helper startProcess];
-	
-	if(![helper isRunning])
-	{
-		[helper release];
-		//		if(outError != NULL)
-		//			*outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-		//											code:OEHelperAppNotRunningError
-		//										userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The background process couldn't be launched", @"Not running background process error") forKey:NSLocalizedFailureReasonErrorKey]];
-		return NO;
-	}
-	
-	// now that we launched the helper, start up our NSConnection for DO object vending and configure it
-	// this is however a race condition if our helper process is not fully launched yet. 
-	// we hack it out here. Normally this while loop is not noticable, its very fast
-	
-	NSDate *start = [NSDate date];
-	
-	taskConnection = nil;
-	while(taskConnection == nil)
-	{
-		taskConnection = [NSConnection connectionWithRegisteredName:[NSString stringWithFormat:@"com.openemu.OpenEmuHelper-%@", taskUUIDForDOServer, nil] host:nil];
-		
-		if(-[start timeIntervalSinceNow] > 3.0)
-		{
-			[self endHelperProcess];
-			//			if(outError != NULL)
-			//			{
-			//				*outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-			//												code:OEConnectionTimedOutError
-			//											userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"Couldn't connect to the background process.", @"Timed out error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
-			//			}
-			return NO;
-		}
-	}
-	
-	[taskConnection retain];
-	
-	if(![taskConnection isValid])
-	{
-		[self endHelperProcess];
-		//		if(outError != NULL)
-		//		{
-		//			*outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-		//											code:OEInvalidHelperConnectionError
-		//										userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The background process connection couldn't be established", @"Invalid helper connection error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
-		//		}
-		return NO;
-	}
-	
-	// now that we have a valid connection...
-	rootProxy = [[taskConnection rootProxy] retain];
-	if(rootProxy == nil)
-	{
-		NSLog(@"nil root proxy object?");
-		[self endHelperProcess];
-		//		if(outError != NULL)
-		//		{
-		//			*outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-		//											code:OENilRootProxyObjectError
-		//										userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The root proxy object is nil.", @"Nil root proxy object error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
-		//		}
-		return NO;
-	}
-	
-	[(NSDistantObject *)rootProxy setProtocolForProxy:@protocol(OEGameCoreHelper)];
-	
-	return YES;
-}
 
-- (void)endHelperProcess
-{   
+- (void)terminateEmulation
+{
+    DLog("terminateEmulation was called");
+	
     // kill our background friend
-    [helper stopProcess];
-    helper = nil;
-    
-    [rootProxy release];
-    rootProxy = nil;
-    
-    [taskConnection release];
-    taskConnection = nil;
+    [gameCoreManager stop];
+    [gameCoreManager release];
+    gameCoreManager = nil;        
 }
 
 #pragma mark Loading
@@ -588,29 +512,16 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         
         //emulatorName = [[plugin displayName] retain];
         
-        if([self startHelperProcess])
+        gameCoreManager = [[OEGameCoreProcessManager alloc] initWithROMAtPath:romPath corePlugin:plugin owner:nil error:nil];
+        
+        if(gameCoreManager != nil)
         {
-            if([rootProxy loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:nil])
-            {
-                [rootProxy setupEmulation];
-                
-                return YES;
-            }
+			NSLog(@"have manager");
+            [[gameCoreManager rootProxy] setupEmulation];
+            
+            return YES;
         }
-    }
-	//    else if(outError != NULL)
-	//    {
-	//        *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-	//                                        code:OEFileDoesNotExistError
-	//                                    userInfo:
-	//                     [NSDictionary dictionaryWithObjectsAndKeys:
-	//                      NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
-	//                      NSLocalizedFailureReasonErrorKey,
-	//                      NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
-	//                      NSLocalizedRecoverySuggestionErrorKey,
-	//                      nil]];
-	//    }
-    
+    }    
     return NO;
 }			
 
@@ -647,31 +558,15 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         {
             //    NSLog(@"button %u is down", i);
             //    [gameCore buttonPressed:i forPlayer:[playerNumber intValue]];
-            [rootProxy player:[playerNumber intValue] didPressButton:(i + 1)];
+            [[gameCoreManager rootProxy] player:[playerNumber intValue] didPressButton:(i + 1)];
         }        
         else if([[controllerArray objectAtIndex:i] boolValue] == FALSE) // up
         {
             //    NSLog(@"button %u is up", i);
             //    [gameCore buttonRelease:i forPlayer:[playerNumber intValue]];
-            [rootProxy player:[playerNumber intValue] didReleaseButton:(i + 1)];
+            [[gameCoreManager rootProxy] player:[playerNumber intValue] didReleaseButton:(i + 1)];
         }
     } 
-}
-
-
-#pragma mark TaskWrapper delegates
-
-- (void) appendOutput:(NSString *)output fromProcess: (OETaskWrapper *)aTask
-{
-}	
-
-- (void) processStarted: (OETaskWrapper *)aTask
-{
-}
-
-- (void) processFinished: (OETaskWrapper *)aTask withStatus: (int)statusCode
-{
-	
 }
 
 #pragma mark - State loading/saving
@@ -693,7 +588,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir] && isDir)
     {
         // if so, save the state
-        [[rootProxy gameCore] saveStateToFileAtPath: fileName];
+        [[[gameCoreManager rootProxy] gameCore] saveStateToFileAtPath: fileName];
     } 
     else if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
     {
@@ -724,7 +619,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 //        }
 //        else
 		{
-            [[rootProxy gameCore] loadStateFromFileAtPath:fileName];
+            [[[gameCoreManager rootProxy] gameCore] loadStateFromFileAtPath:fileName];
             DLog(@"loaded new state");
         }
     }
@@ -736,7 +631,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     return YES;
 }
 
-#pragma mark Nestopia Addon
+#pragma mark Nestopia Add-ons
 
 - (BOOL) validateNameTableData: (NSArray*) nameTableData
 {
