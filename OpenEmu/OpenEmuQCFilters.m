@@ -400,7 +400,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
                                                                pixelsWide:width * multiplier
                                                                pixelsHigh:height * multiplier
                                                                      name:finalOutput
-                                                                  flipped:YES
+                                                                  flipped:NO
                                                           releaseCallback:_TextureReleaseCallback
                                                            releaseContext:nil
                                                                colorSpace:[image imageColorSpace]
