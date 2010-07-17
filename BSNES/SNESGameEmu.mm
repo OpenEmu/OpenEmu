@@ -108,7 +108,7 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
     interface = new BSNESInterface();
     
     memset(&interface->pad, 0, sizeof(int16_t) * 24);
-    interface->video = (uint16_t*)malloc(512*480*sizeof(uint16_t));
+    interface->video = (uint16_t*)malloc(512*478*sizeof(uint16_t));
     interface->ringBuffer = [self ringBufferAtIndex:0];
     SNES::system.init(interface);
     

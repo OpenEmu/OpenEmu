@@ -170,7 +170,7 @@ NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Jo
     
     if(videoBuffer) 
         free(videoBuffer);
-    videoBuffer = (unsigned char*)valloc(MAX_SNES_WIDTH*MAX_SNES_HEIGHT*sizeof(uint16_t));
+    videoBuffer = (unsigned char*)malloc(MAX_SNES_WIDTH*MAX_SNES_HEIGHT*sizeof(uint16_t));
     //GFX.PixelFormat = 3;
     
     GFX.Pitch = 512 * 2;
