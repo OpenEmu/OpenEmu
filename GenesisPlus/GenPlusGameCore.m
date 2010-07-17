@@ -56,7 +56,7 @@ extern void set_config_defaults(void);
     {
         soundLock = [[NSLock alloc] init];
         bufLock = [[NSLock alloc] init];
-        videoBuffer = malloc(720 * 576 * 4);
+        videoBuffer = malloc(720 * 576 * 2);
         
         position = 0;
         sndBuf = malloc(SIZESOUNDBUFFER * sizeof(UInt16));

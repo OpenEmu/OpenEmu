@@ -72,6 +72,8 @@
     
     CIImage *gameCIImage;
     CGSize cachedTextureSize;
+    
+    IOSurfaceID surfaceID;
 }
 
 @property(copy) void (^screenshotHandler)(NSImage *img);

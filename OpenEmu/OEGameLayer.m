@@ -178,10 +178,10 @@ static CGColorSpaceRef CreateSystemColorSpace()
 
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
 {
-    OEGameShader *scale4XShader         = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xFilterName         forContext:context] autorelease];
-    OEGameShader *scale4XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xHQFilterName       forContext:context] autorelease];
-    OEGameShader *scale2XPlusShader     = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xPlusFilterName     forContext:context] autorelease];
-    OEGameShader *scale2XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xHQFilterName       forContext:context] autorelease];
+    OEGameShader *scale4XShader         = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xFilterName     forContext:context] autorelease];
+    OEGameShader *scale4XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xHQFilterName   forContext:context] autorelease];
+    OEGameShader *scale2XPlusShader     = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xPlusFilterName forContext:context] autorelease];
+    OEGameShader *scale2XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xHQFilterName   forContext:context] autorelease];
     
     // TODO: fix this shader
     OEGameShader *scale2XSALSmartShader = nil;//[[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2XSALSmartFilterName forContext:context] autorelease];
@@ -219,7 +219,9 @@ static CGColorSpaceRef CreateSystemColorSpace()
     
     // our texture is in NTSC colorspace from the cores
     ntscColorSpace = CreateNTSCColorSpace();
-    rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
+    rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
+    
+    surfaceID = [rootProxy surfaceID];
     
     return layerContext;
 }
@@ -238,13 +240,23 @@ static CGColorSpaceRef CreateSystemColorSpace()
 }
 
 - (CGFloat)preferredWindowScale
-{
+{    
     QCComposition *composition = [self composition];
-    NSNumber *scale = [[composition attributes] objectForKey:@"com.openemu.windowScaleFactor"];
-    
-    if(scale == nil) 
-        return 1.0;
-    return [scale floatValue];
+    float ret = 1.0;
+   
+    if (composition) {
+        NSNumber *scale = [[composition attributes] objectForKey:@"com.openemu.windowScaleFactor"];
+
+        if (scale)
+            ret = [scale floatValue];
+    } else {
+        if ([filterName hasPrefix:@"Scale4x"])
+            ret = 4;
+        else if ([filterName hasPrefix:@"Scale2x"])
+            ret = 2;
+    }
+        
+    return ret;
 }
 
 - (BOOL)canDrawInCGLContext:(CGLContextObj)glContext pixelFormat:(CGLPixelFormatObj)pixelFormat forLayerTime:(CFTimeInterval)timeInterval displayTime:(const CVTimeStamp *)timeStamp
@@ -342,9 +354,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
     }
     else
         time -= startTime;
-    
-    // get our IOSurface ID from our helper
-    IOSurfaceID surfaceID = [self.rootProxy surfaceID];
+
     // IOSurfaceLookup performs a lock *AND A RETAIN* - 
     IOSurfaceRef surfaceRef = IOSurfaceLookup(surfaceID); 
     

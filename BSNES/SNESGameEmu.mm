@@ -108,7 +108,7 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
     interface = new BSNESInterface();
     
     memset(&interface->pad, 0, sizeof(int16_t) * 24);
-    interface->video = (uint16_t*)malloc(512*480*4);
+    interface->video = (uint16_t*)malloc(512*480*sizeof(uint16_t));
     interface->ringBuffer = [self ringBufferAtIndex:0];
     SNES::system.init(interface);
     
@@ -141,19 +141,21 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
     return CGRectMake(0, 0, interface->width, interface->height);
 }
 
+// FIXME: These are SNES hi-res sizes
+// They should probably be half this size
 - (NSUInteger)screenWidth
 {
-    return 512;
+    return 512 / 2;
 }
 
 - (NSUInteger)screenHeight
 {
-    return 478;
+    return (SNES::system.region() == SNES::System::NTSC ? 448 : 478) / 2;
 }
 
 - (NSUInteger)bufferWidth
 {
-    return 1024;
+    return 512;
 }
 
 - (NSUInteger)bufferHeight
@@ -198,7 +200,7 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
 
 - (GLenum)pixelType
 {
-    return GL_UNSIGNED_SHORT_5_6_5_REV;
+    return GL_UNSIGNED_SHORT_5_6_5;
 }
 
 - (GLenum)internalPixelFormat

@@ -28,9 +28,22 @@
 #include <base.hpp>
 #include "BSNESInterface.h"
 
-#define conv555to565(a) ((((a)&~0x1f)<<1)|((a)&0x1f))
+static uint16_t conv555Rto565(uint16_t p)
+{
+    unsigned r, g, b;
+    
+    r = (p >> 10);
+    g = (p >> 5) & 0x1f;
+    b = p & 0x1f;
+    
+    // 5 to 6 bit
+    g = (g << 1) + (g >> 4);
+        
+    return r | (g << 5) | (b << 11);
+}
 
 // TODO: Make a LUT for proper SNES pallated conversion from 555 to 565
+// TODO^2: rewrite this as a GL shader
 void BSNESInterface::video_refresh(uint16_t *input, unsigned apitch, unsigned *line, unsigned awidth, unsigned aheight)
 {
     width = awidth;
@@ -48,7 +61,7 @@ void BSNESInterface::video_refresh(uint16_t *input, unsigned apitch, unsigned *l
             for(unsigned x = 0; x < 256; x++)
             {
                 uint16_t p = *input++;
-                p = conv555to565(p);
+                p = conv555Rto565(p);
                 *output++ = p;
                 *output++ = p;
             }
@@ -59,12 +72,12 @@ void BSNESInterface::video_refresh(uint16_t *input, unsigned apitch, unsigned *l
             for(unsigned x = 0; x < width; x++)
             {
                 uint16_t p = *input++;
-                p = conv555to565(p);
+                p = conv555Rto565(p);
                 *output++ = p;
             }
         }
         input  += pitch - width;
-        output += pitch - width;
+        output += 512   - width;
     }
 }
 

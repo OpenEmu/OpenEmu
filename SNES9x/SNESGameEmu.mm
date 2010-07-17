@@ -170,7 +170,7 @@ NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Jo
     
     if(videoBuffer) 
         free(videoBuffer);
-    videoBuffer = (unsigned char*)malloc(1024*1024*2);
+    videoBuffer = (unsigned char*)valloc(MAX_SNES_WIDTH*MAX_SNES_HEIGHT*sizeof(uint16_t));
     //GFX.PixelFormat = 3;
     
     GFX.Pitch = 512 * 2;
@@ -231,14 +231,16 @@ bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
     return GFX.Screen;
 }
 
+// FIXME: These are SNES hi-res sizes
+// They should probably be half this size
 - (NSUInteger)screenWidth
 {
-    return MAX_SNES_WIDTH;
+    return MAX_SNES_WIDTH / 2;
 }
 
 - (NSUInteger)screenHeight
 {
-    return MAX_SNES_HEIGHT;
+    return (Settings.PAL ? 478 : 448) / 2;
 }
 
 - (CGRect)sourceRect
@@ -250,7 +252,8 @@ bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
 {
     return MAX_SNES_WIDTH;
 }
-- (NSUInteger)bufferHeight 
+
+- (NSUInteger)bufferHeight
 {
     return MAX_SNES_HEIGHT;
 }

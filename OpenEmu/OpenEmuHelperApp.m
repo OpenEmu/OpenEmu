@@ -226,6 +226,16 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     CGLUnlockContext(cgl_ctx);
 }
 
+static int PixelFormatToBPP(GLenum pixelFormat)
+{
+    switch (pixelFormat) {
+        case GL_RGB4: case GL_RGB5:
+            return 2; // short
+        case GL_RGB8: default:
+            return 4; // int
+    }
+}
+
 - (void)setupGameTexture
 {
     DLog(@"starting to setup gameTexture");
@@ -251,10 +261,26 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
     // This seems to cause issues with SNES9X - we may want to look into the "Fence" extensions. Otherwise
     // we ignore texture range, etc
+    NSUInteger bufferWidth, bufferHeight;
+    const void *videoBuffer;
     
-    // with storage hints & texture range -- assuming image depth should be 32 (8 bit rgba + 8 bit alpha ?)
-    //glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT,  [gameCore bufferWidth] * [gameCore bufferHeight] * 4, [gameCore videoBuffer]);
-    //glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_CACHED_APPLE);
+    GLenum internalPixelFormat, pixelFormat, pixelType;
+
+    bufferWidth = [gameCore bufferWidth];
+    bufferHeight= [gameCore bufferHeight];
+    videoBuffer = [gameCore videoBuffer];
+    
+    internalPixelFormat = [gameCore internalPixelFormat];
+    pixelFormat         = [gameCore pixelFormat];
+    pixelType           = [gameCore pixelType];
+    
+    // Texture range seems to break SNES9X on some GPUs
+    // Tested GT 330M (MacBookPro6,2) / 10.6.4
+#if 0
+    int pixelBPP        = (pixelFormat == GL_RGB8) ? 4 : 2;
+    glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, bufferWidth * bufferHeight * pixelBPP, videoBuffer);
+#endif
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
     glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
     
     // proper tex params.
@@ -266,10 +292,9 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
     DLog(@"set params - uploading texture");
     
-    glTexImage2D( GL_TEXTURE_RECTANGLE_EXT, 0, [gameCore internalPixelFormat], [gameCore bufferWidth], [gameCore bufferHeight], 0, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, internalPixelFormat, bufferWidth, bufferHeight, 0, pixelFormat, pixelType, videoBuffer);
     
     DLog(@"upladed gameTexture");
-    
     
     status = glGetError();
     if(status)
@@ -387,6 +412,9 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
     
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, gameTexture);
+        
+    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+    glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
     
     GLenum status = glGetError();
