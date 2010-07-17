@@ -130,7 +130,6 @@
 		1BEF2D15116855690090F72B /* OETaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* OETaskWrapper.m */; };
 		1BEF2D16116856D50090F72B /* OETaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* OETaskWrapper.m */; };
 		1BEF2D191168584D0090F72B /* OpenEmuDebugHelperAppApp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2D17116858370090F72B /* OpenEmuDebugHelperAppApp.xib */; };
-		1BEF2D5A11685C2E0090F72B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEF2D5911685C2E0090F72B /* AppKit.framework */; };
 		1BEF2D6111685C880090F72B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; };
 		1BEF2DA511685D570090F72B /* OpenEmuHelperApp in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */; };
 		1BEF2DFD1168600F0090F72B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
@@ -169,6 +168,9 @@
 		3887AAE91024DDD5000FC4CF /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887AAE81024DDD5000FC4CF /* ApplicationServices.framework */; };
 		3887AAF11024DDE4000FC4CF /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887AAF01024DDE4000FC4CF /* CoreServices.framework */; };
 		3887AAF61024DDEB000FC4CF /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887AAF51024DDEB000FC4CF /* CoreFoundation.framework */; };
+		3D92856C11F17F3400CD6CAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
+		3D92858211F180BD00CD6CAE /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
+		3D928A5F11F1B8F700CD6CAE /* OESaveStateQLPlugin-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */; };
 		820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82444BA80F51259A007C171B /* GameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* GameCore.h */; settings = {ATTRIBUTES = (Private, ); }; };
@@ -225,7 +227,6 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* GameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
-		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		C61C98C30F58308C007F4242 /* OEHIDEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = C6C98B830F55B7A800116EA2 /* OEHIDEvent.h */; };
 		C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */; };
 		C61C98E70F583217007F4242 /* OEGameCoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */; };
@@ -428,7 +429,6 @@
 
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		1B223EE1100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCCRTDisplacePlugin.h; sourceTree = "<group>"; };
 		1B223EE2100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuQCCRTDisplacePlugin.m; sourceTree = "<group>"; };
 		1B223EFA100B89BE00F42067 /* CRTDisplace.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDisplace.vert; sourceTree = "<group>"; };
@@ -486,7 +486,6 @@
 		1BEF2D13116855690090F72B /* OETaskWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETaskWrapper.h; sourceTree = "<group>"; };
 		1BEF2D14116855690090F72B /* OETaskWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETaskWrapper.m; sourceTree = "<group>"; };
 		1BEF2D17116858370090F72B /* OpenEmuDebugHelperAppApp.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenEmuDebugHelperAppApp.xib; sourceTree = "<group>"; };
-		1BEF2D5911685C2E0090F72B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		1DDD582B0DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1E2F3DB910DEAB4C0019AA84 /* OEVersionMigrationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVersionMigrationController.h; sourceTree = "<group>"; };
 		1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVersionMigrationController.m; sourceTree = "<group>"; };
@@ -665,7 +664,6 @@
 				1BEF34711168F8080090F72B /* OpenGL.framework in Frameworks */,
 				1BEF2D07116854A30090F72B /* Cocoa.framework in Frameworks */,
 				1BEF2D08116854A30090F72B /* IOSurface.framework in Frameworks */,
-				1BEF2D5A11685C2E0090F72B /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,6 +685,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C61C98F30F583262007F4242 /* IOKit.framework in Frameworks */,
+				3D92858211F180BD00CD6CAE /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,13 +713,13 @@
 				C63AF5A60FE41E90009856D4 /* OpenEmuBase.framework in Frameworks */,
 				82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */,
 				1B88931B0FF9267C00F86F00 /* Quartz.framework in Frameworks */,
-				8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */,
 				8283876E0E6C54E100A96E2C /* OpenGL.framework in Frameworks */,
 				829779360E743F3A00631240 /* AudioToolbox.framework in Frameworks */,
 				8291666C0E8603B600493FD8 /* IOKit.framework in Frameworks */,
 				820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */,
 				829022B10F47FAC100BB7AB7 /* QTKit.framework in Frameworks */,
 				82D9122310200F7000E370FC /* CoreData.framework in Frameworks */,
+				3D92856C11F17F3400CD6CAE /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -733,7 +732,6 @@
 				2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */,
 				2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */,
 				1BEF2AC311682A9D0090F72B /* IOSurface.framework */,
-				1BEF2D5911685C2E0090F72B /* AppKit.framework */,
 				82D9122210200F7000E370FC /* CoreData.framework */,
 				3887A8961024D796000FC4CF /* QuickLook.framework */,
 				3887AAE81024DDD5000FC4CF /* ApplicationServices.framework */,
@@ -751,7 +749,6 @@
 				829E02CF0E7C5882009F348B /* QuartzCore.framework */,
 				829779350E743F3A00631240 /* AudioToolbox.framework */,
 				8283876D0E6C54E100A96E2C /* OpenGL.framework */,
-				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -1420,6 +1417,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D928A5F11F1B8F700CD6CAE /* OESaveStateQLPlugin-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1849,7 +1847,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -1860,7 +1857,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				PREBINDING = NO;
 				PRODUCT_NAME = OpenEmuHelperApp;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -1908,7 +1904,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = OpenEmuDebugHelperAppApp;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -1949,7 +1944,6 @@
 				GCC_PREFIX_HEADER = "";
 				INFOPLIST_FILE = "OESaveStateQLPlugin-Info.plist";
 				INSTALL_PATH = /Library/QuickLook;
-				OTHER_LDFLAGS = "";
 				PREBINDING = NO;
 				PRODUCT_NAME = OESaveStateQLPlugin;
 				WRAPPER_EXTENSION = qlgenerator;
@@ -1966,18 +1960,11 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = a.info;
-				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
+				INFOPLIST_FILE = "OESaveStateQLPlugin-Info.plist";
+				INSTALL_PATH = /Library/QuickLook;
 				PREBINDING = NO;
 				PRODUCT_NAME = OESaveStateQLPlugin;
-				WRAPPER_EXTENSION = bundle;
-				ZERO_LINK = NO;
+				WRAPPER_EXTENSION = qlgenerator;
 			};
 			name = Release;
 		};
@@ -1985,6 +1972,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1997,13 +1985,6 @@
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "OpenEmuBase-Info.plist";
 				INSTALL_PATH = "@rpath";
-				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				PREBINDING = NO;
 				PRODUCT_NAME = OpenEmuBase;
 			};
@@ -2013,6 +1994,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -2024,15 +2006,8 @@
 				INFOPLIST_FILE = "OpenEmuBase-Info.plist";
 				INSTALL_PATH = "@rpath";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks/";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
 				PREBINDING = NO;
 				PRODUCT_NAME = OpenEmuBase;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -2040,6 +2015,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				EXPORTED_SYMBOLS_FILE = objc_only.exports;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -2055,7 +2031,6 @@
 				INFOPLIST_FILE = "OpenEmuQC-Info.plist";
 				INSTALL_PATH = "$(HOME)/Graphics/Quartz Composer Plug-Ins/";
 				LD_RUNPATH_SEARCH_PATHS = "\"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\"";
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2087,7 +2062,6 @@
 				INFOPLIST_FILE = "OpenEmuQC-Info.plist";
 				INSTALL_PATH = "$(HOME)/Graphics/Quartz Composer Plug-Ins/";
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
-				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -2097,7 +2071,6 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = OpenEmuQC;
 				WRAPPER_EXTENSION = plugin;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -2187,7 +2160,6 @@
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				LD_RUNPATH_SEARCH_PATHS = "~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
-				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
 				PRODUCT_NAME = OpenEmu;
 			};
@@ -2217,7 +2189,7 @@
 		C05733CC08A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -2236,7 +2208,7 @@
 		C05733CD08A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
