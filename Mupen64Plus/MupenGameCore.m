@@ -79,8 +79,10 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
 
 - (void)startEmulation
 {
-    [super startEmulation];
-    [NSThread detachNewThreadSelector:@selector(mupenEmuThread) toTarget:self withObject:nil];        
+    if (!isRunning) {
+        [super startEmulation];
+        [NSThread detachNewThreadSelector:@selector(mupenEmuThread) toTarget:self withObject:nil];  
+    }
 }
 
 - (void)mupenEmuThread
