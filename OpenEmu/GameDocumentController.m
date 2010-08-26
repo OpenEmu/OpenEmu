@@ -91,7 +91,7 @@
     
     
     organizer = [[OEROMOrganizer alloc] init];
-    [organizer showWindow:self];
+    //[organizer showWindow:self];
     
     [versionMigrator runMigrationIfNeeded];
 }
@@ -396,10 +396,6 @@
     NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
 
-- (id)previewROMFile:(OEROMFile *)romFile fromPoint:(NSPoint)pt{
-	return [self previewROMFile:romFile withSaveState:nil fromPoint:pt];
-}
-
 - (id)previewROMFile:(OEROMFile *)romFile withSaveState:(OESaveState *)saveState fromPoint:(NSPoint)pt{
 	id document = nil;
 	
@@ -411,6 +407,10 @@
 	isOpeningQuickLook = NO;
 	
 	return document;
+}
+
+- (id)previewROMFile:(OEROMFile *)romFile fromPoint:(NSPoint)pt{
+	return [self previewROMFile:romFile withSaveState:nil fromPoint:pt];
 }
 
 //FIXME: it looks like our code here expects the file to be an archive and shits its pants (throws an error

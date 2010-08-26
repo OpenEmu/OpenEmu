@@ -70,6 +70,7 @@
     NSManagedObjectModel         *managedObjectModel;
     NSManagedObjectContext       *managedObjectContext;
     
+    //the Library window showing all known games
     OEROMOrganizer               *organizer;
     OEVersionMigrationController *versionMigrator;
 	
