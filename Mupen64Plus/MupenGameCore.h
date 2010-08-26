@@ -26,7 +26,10 @@
 
 #import <Cocoa/Cocoa.h>
 #import <GameCore.h>
+#import <pthread.h>
 
+extern pthread_mutex_t gEmuVIMutex;
+extern pthread_cond_t  gEmuVICond;
 
 @interface MupenGameCore : GameCore
 {

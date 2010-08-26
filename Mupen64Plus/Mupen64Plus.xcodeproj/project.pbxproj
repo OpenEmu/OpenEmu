@@ -99,6 +99,7 @@
 		3D208F321182A6ED00BEAA42 /* MupenGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D208F311182A6ED00BEAA42 /* MupenGameController.m */; };
 		3D208F821182B00300BEAA42 /* MupenGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D208F811182B00300BEAA42 /* MupenGameCore.m */; };
 		3D2090231182D67E00BEAA42 /* OEMupenSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D2090221182D67E00BEAA42 /* OEMupenSupport.mm */; };
+		3D8B35D812260F9D00C4C844 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8B35D712260F9D00C4C844 /* main.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -396,6 +397,7 @@
 		3D208F811182B00300BEAA42 /* MupenGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MupenGameCore.m; sourceTree = "<group>"; };
 		3D2090211182D67E00BEAA42 /* OEMupenSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMupenSupport.h; sourceTree = "<group>"; };
 		3D2090221182D67E00BEAA42 /* OEMupenSupport.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = OEMupenSupport.mm; sourceTree = "<group>"; };
+		3D8B35D712260F9D00C4C844 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Mupen64Plus.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Mupen64Plus.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -519,7 +521,7 @@
 				3D208B911182427D00BEAA42 /* OpenEmuDebugHelperAppApp.app */,
 				3D208B931182427D00BEAA42 /* OpenEmuQC.plugin */,
 				3D208B951182427D00BEAA42 /* OpenEmuBase.framework */,
-				3D208B971182427D00BEAA42 /* OESaveStateQLPlugin.bundle */,
+				3D208B971182427D00BEAA42 /* OESaveStateQLPlugin.qlgenerator */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -955,6 +957,7 @@
 				3D00F06B1183E4AA002995A1 /* osd.m */,
 				3D00F06C1183E4AA002995A1 /* screenshot.m */,
 				3D00F0BF1183E6FA002995A1 /* vidext.m */,
+				3D8B35D712260F9D00C4C844 /* main.m */,
 			);
 			path = Compatibility;
 			sourceTree = "<group>";
@@ -1040,10 +1043,10 @@
 			remoteRef = 3D208B941182427D00BEAA42 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3D208B971182427D00BEAA42 /* OESaveStateQLPlugin.bundle */ = {
+		3D208B971182427D00BEAA42 /* OESaveStateQLPlugin.qlgenerator */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = OESaveStateQLPlugin.bundle;
+			path = OESaveStateQLPlugin.qlgenerator;
 			remoteRef = 3D208B961182427D00BEAA42 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -1155,6 +1158,7 @@
 				3D00F06F1183E4AA002995A1 /* screenshot.m in Sources */,
 				3D00F0811183E52F002995A1 /* SDLStubs.m in Sources */,
 				3D00F0C01183E6FA002995A1 /* vidext.m in Sources */,
+				3D8B35D812260F9D00C4C844 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1205,6 +1209,7 @@
 					/sw/lib,
 				);
 				OTHER_CFLAGS = (
+					"-DIN_OPENEMU",
 					"-DPIC",
 					"-DDYNAREC",
 				);
@@ -1239,6 +1244,7 @@
 					/sw/lib,
 				);
 				OTHER_CFLAGS = (
+					"-DIN_OPENEMU",
 					"-DPIC",
 					"-DDYNAREC",
 				);

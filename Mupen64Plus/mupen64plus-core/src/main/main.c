@@ -420,6 +420,7 @@ void new_frame(void)
     }
 }
 
+#ifndef IN_OPENEMU
 void new_vi(void)
 {
     int Dif;
@@ -468,6 +469,7 @@ void new_vi(void)
     LastFPSTime = CurrentFPSTime ;
     end_section(IDLE_SECTION);
 }
+#endif
 
 /*********************************************************************************************************
 * emulation thread - runs the core

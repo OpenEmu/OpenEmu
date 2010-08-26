@@ -29,6 +29,9 @@
 #import "api/config.h"
 #import "version.h"
 
+pthread_mutex_t gEmuVIMutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t  gEmuVICond  = PTHREAD_COND_INITIALIZER;
+
 static void MupenDebugCallback(void *Context, int level, const char *message)
 {
     NSLog(@"Mupen (%d): %s", level, message);
@@ -76,36 +79,53 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
 
 - (void)startEmulation
 {
-    if(!isRunning)
-    {
-        isRunning  = YES;
-        shouldStop = NO;
-        
-        // send start
-        // FIXME: probably needs to be done on another thread?
-        // unless this actually is async
-        CoreDoCommand(M64CMD_EXECUTE, 0, NULL);
-    }
+    [super startEmulation];
+    [NSThread detachNewThreadSelector:@selector(mupenEmuThread) toTarget:self withObject:nil];        
+}
+
+- (void)mupenEmuThread
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    
+    CoreDoCommand(M64CMD_EXECUTE, 0, NULL);
+    
+    [pool drain];
+}
+
+- (void)executeFrameSkippingFrame: (BOOL) skip
+{
+    // FIXME: skip
+    pthread_mutex_lock(&gEmuVIMutex);
+    pthread_cond_broadcast(&gEmuVICond);
+    pthread_mutex_unlock(&gEmuVIMutex);
+}
+
+- (void)executeFrame
+{
+    [self executeFrameSkippingFrame:NO];
 }
 
 - (void)stopEmulation
-{
-    // stop core
-    //...but this is unreachable maybe
-    CoreDoCommand(M64CMD_STOP, 0, NULL);
+{    
+    // FIXME: this needs to send a quit event into the input
+    // which will be read by the emu thread
+    // which will then die
+    //CoreDoCommand(M64CMD_STOP, 0, NULL);
 }
 
 - (BOOL)saveStateToFileAtPath: (NSString *)fileName
 {
     // freeze save
-    CoreDoCommand(M64CMD_STATE_SAVE, 1, (void*)[fileName UTF8String]);
+    //FIXME how to fit into emu event loop?
+    //CoreDoCommand(M64CMD_STATE_SAVE, 1, (void*)[fileName UTF8String]);
     return YES;
 }
 
 - (BOOL)loadStateFromFileAtPath: (NSString *)fileName
 {
     // freeze load
-    CoreDoCommand(M64CMD_STATE_LOAD, 1, (void*)[fileName UTF8String]);
+    //FIXME how to fit into emu event loop?
+    //CoreDoCommand(M64CMD_STATE_LOAD, 1, (void*)[fileName UTF8String]);
     return YES;
 }
 
@@ -123,8 +143,9 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
 
 - (const void *)videoBuffer
 {
-    if (!black)
+    if (!black) {
         black = calloc(1, 640 * 480 * 2);
+    }
     return black;
 }
 
