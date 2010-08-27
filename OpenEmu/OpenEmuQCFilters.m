@@ -170,7 +170,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     if([key isEqualToString:@"inputScaler"])
     {
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Scaler", QCPortAttributeNameKey,
-                [NSArray arrayWithObjects:@"Scale2XPlus", @"Scale2XHQ", @"Scale4X", @"Scale4XHQ", nil], QCPortAttributeMenuItemsKey,
+                [NSArray arrayWithObjects:@"Scale2xPlus", @"Scale2xHQ", @"Scale4x", @"Scale4xHQ", nil], QCPortAttributeMenuItemsKey,
                 [NSNumber numberWithUnsignedInteger:0.0], QCPortAttributeMinimumValueKey,
                 [NSNumber numberWithUnsignedInteger:3], QCPortAttributeMaximumValueKey,
                 [NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
@@ -259,7 +259,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     // shaders
     NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];    
     
-    Scale2xPlus = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2XPlus" forContext:cgl_ctx];
+    Scale2xPlus = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2xPlus" forContext:cgl_ctx];
     Scale2xHQ   = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2xHQ" forContext:cgl_ctx];
     Scale4x     = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale4x" forContext:cgl_ctx];
     Scale4xHQ   = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale4xHQ" forContext:cgl_ctx];
