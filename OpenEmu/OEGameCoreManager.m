@@ -307,7 +307,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
         
         if(error != nil && ![helper isExecuting])
         {
-            *outError = [error autorelease];
+            if (outError) *outError = [error autorelease];
             return NO;
         }
         
