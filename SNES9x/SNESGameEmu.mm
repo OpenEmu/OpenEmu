@@ -197,11 +197,16 @@ NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Jo
         
         NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
         
-        [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+//        if((batterySavesDirectory != nil) && ![batterySavesDirectory isEqualToString:@""])
+        if([batterySavesDirectory length] != 0)
+        {
+            [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
         
-        NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+            NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
         
-        Memory.LoadSRAM([filePath UTF8String]);
+            Memory.LoadSRAM([filePath UTF8String]);
+        }
+        
         S9xInitSound(1, Settings.Stereo, SIZESOUNDBUFFER);
     }
     return YES;
@@ -278,13 +283,17 @@ bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
     
     NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
     
-    [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+    if([batterySavesDirectory length] != 0)
+    {
+        
+        [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
     
-    NSLog(@"Trying to save SRAM");
+        NSLog(@"Trying to save SRAM");
     
-    NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+        NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
     
-    Memory.SaveSRAM([filePath UTF8String]);
+        Memory.SaveSRAM([filePath UTF8String]);
+    }
     [super stopEmulation];
 }
 
