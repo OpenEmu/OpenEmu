@@ -36,13 +36,14 @@
 @interface OpenEmuQC : QCPlugIn
 {
     OEGameCoreProcessManager    *gameCoreManager;
-
+    BOOL debugMode;
+    
 	// Controller data
 	NSArray *persistantControllerData;
 }
 
 @property (readwrite, retain) NSArray *persistantControllerData;
-
+@property (readwrite) BOOL debugMode;
 
 @property(assign) NSString *inputRom;
 @property(assign) NSArray  *inputControllerData;
@@ -51,6 +52,11 @@
 @property(assign) NSString *inputSaveStatePath;
 @property(assign) NSString *inputLoadStatePath;
 @property(assign) id <QCPlugInOutputImageProvider> outputImage;
+
+#ifdef DEBUG_PRINT
+@property(assign) BOOL      inputEnableDebugMode;
+#endif
+
 @end
 
 @interface OpenEmuQC (Execution)
@@ -58,6 +64,7 @@
 - (BOOL)controllerDataValidate:(NSArray *)cData;
 - (void) handleControllerData;
 - (BOOL)readFromURL:(NSURL *)absoluteURL;
+- enableDebugMode:(BOOL)flag;
 
 //- (void)refresh;
 //- (OECorePlugin *)pluginForType:(NSString *)extension;

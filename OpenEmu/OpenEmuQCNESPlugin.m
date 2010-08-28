@@ -51,6 +51,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 @synthesize persistantControllerData;
 @synthesize persistantNameTableData;
+@synthesize debugMode;
 
 @dynamic inputRom;
 @dynamic inputControllerData;
@@ -76,6 +77,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 @dynamic outputImage;
 
+#ifdef DEBUG_PRINT
+@dynamic inputEnableDebugMode;
+#endif
 
 + (NSDictionary*) attributes
 {
@@ -191,6 +195,12 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     if([key isEqualToString:@"outputImage"])
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Image", QCPortAttributeNameKey, nil];
     
+    if([key isEqualToString:@"inputEnableDebugMode"])
+        return [NSDictionary dictionaryWithObjectsAndKeys:
+                @"Enable Debug Mode", QCPortAttributeNameKey,
+                [NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
+                nil];
+    
     return nil;
 }
 
@@ -215,6 +225,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             @"inputChrRamValue",
             @"inputCorruptNameTable",
             @"inputNameTableData",
+            @"inputEnableDebugMode",
             nil]; 
 }
 
@@ -271,7 +282,16 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (BOOL) execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary*)arguments
 {
-	// handle input keys changing,
+    // handle input keys changing
+    
+#ifdef DEBUG_PRINT
+    // turn debug mode on or off
+    if([self didValueForInputKeyChange:@"inputEnableDebugMode"])
+    {
+        [self enableDebugMode: [[self valueForInputKey:@"inputEnableDebugMode"] boolValue]];
+    }
+#endif   
+    
 	if([self didValueForInputKeyChange:@"inputRom"])
 	{
 		NSString* romPath;
@@ -509,10 +529,13 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         OECorePlugin *plugin = [self OE_pluginForFileExtension:[absoluteURL pathExtension]];
         
         if(plugin == nil) return NO;
+
+        Class managerClass = (self.debugMode
+                              ? [OEGameCoreThreadManager  class]
+                              : [OEGameCoreProcessManager class]);
         
-        //emulatorName = [[plugin displayName] retain];
-        
-        gameCoreManager = [[OEGameCoreProcessManager alloc] initWithROMAtPath:romPath corePlugin:plugin owner:nil error:nil];
+        DLog(@"managerClass = %@", managerClass);
+        gameCoreManager = [[managerClass alloc] initWithROMAtPath:romPath corePlugin:plugin owner:nil error:nil];
         
         if(gameCoreManager != nil)
         {
@@ -643,6 +666,14 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     }
     NSLog(@"error: missing or invalid name table data structure.");
     return NO;
+}
+
+#pragma mark Debuggery
+
+- enableDebugMode: (BOOL)flag
+{
+    self.debugMode = flag;
+    
 }
 
 @end

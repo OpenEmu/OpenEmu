@@ -49,7 +49,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 @implementation OpenEmuQC
 
-@synthesize persistantControllerData;
+@synthesize persistantControllerData, debugMode;
 
 @dynamic inputRom;
 @dynamic inputControllerData;
@@ -58,6 +58,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 @dynamic inputLoadStatePath;
 @dynamic inputPauseEmulation;
 @dynamic outputImage;
+#ifdef DEBUG_PRINT
+@dynamic inputEnableDebugMode;
+#endif
 
 + (NSDictionary *)attributes
 {
@@ -101,8 +104,15 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
                 @"Load State", QCPortAttributeNameKey,
                 @"~/roms/saves/save", QCPortAttributeDefaultValueKey, 
                 nil];
+
     if([key isEqualToString:@"outputImage"])
         return [NSDictionary dictionaryWithObjectsAndKeys:@"Image", QCPortAttributeNameKey, nil];
+
+    if([key isEqualToString:@"inputEnableDebugMode"])
+        return [NSDictionary dictionaryWithObjectsAndKeys:
+                @"Enable Debug Mode", QCPortAttributeNameKey,
+                [NSNumber numberWithBool:NO], QCPortAttributeDefaultValueKey, 
+                nil];
     
     return nil;
 }
@@ -110,7 +120,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 + (NSArray *)sortedPropertyPortKeys
 {
     return [NSArray arrayWithObjects:@"inputRom", @"inputControllerData", @"inputVolume",
-            @"inputPauseEmulation", @"inputSaveStatePath", @"inputLoadStatePath", nil]; 
+            @"inputPauseEmulation", @"inputSaveStatePath", @"inputLoadStatePath", @"inputEnableDebugMode", nil]; 
 }
 
 + (QCPlugInExecutionMode)executionMode
@@ -176,7 +186,16 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (BOOL)execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary *)arguments
 {   
-	// handle input keys changing,
+	// handle input keys changing
+    
+#ifdef DEBUG_PRINT
+    // turn debug mode on or off
+    if([self didValueForInputKeyChange:@"inputEnableDebugMode"])
+       {
+           [self enableDebugMode: [[self valueForInputKey:@"inputEnableDebugMode"] boolValue]];
+       }
+#endif   
+    
 	if([self didValueForInputKeyChange:@"inputRom"] && (self.inputRom != @"") && ![self.inputRom isEqualToString:@""])
 	{
 		NSString* romPath;
@@ -212,7 +231,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 			[self handleControllerData];
 		}
 	}    
-	
+    
 	// according to CGLIOSurface we must rebind our texture every time we want a new stuff from it.
 	// since our ID may change every frame we make a new texture each pass. 
 	
@@ -309,9 +328,12 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
         
         if(plugin == nil) return NO;
         
-        //emulatorName = [[plugin displayName] retain];
+        Class managerClass = (self.debugMode
+                              ? [OEGameCoreThreadManager  class]
+                              : [OEGameCoreProcessManager class]);
         
-        gameCoreManager = [[OEGameCoreProcessManager alloc] initWithROMAtPath:romPath corePlugin:plugin owner:nil error:nil];
+        DLog(@"managerClass = %@", managerClass);
+        gameCoreManager = [[managerClass alloc] initWithROMAtPath:romPath corePlugin:plugin owner:nil error:nil];
         
         if(gameCoreManager != nil)
         {
@@ -368,4 +390,9 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     } 
 }
 
+- enableDebugMode: (BOOL)flag
+{
+    self.debugMode = flag;
+
+}
 @end

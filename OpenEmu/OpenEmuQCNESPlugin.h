@@ -82,13 +82,19 @@
 @interface OpenEmuQCNES : QCPlugIn
 {
     OEGameCoreProcessManager    *gameCoreManager;
-
+    BOOL debugMode;
+    
 	// Controller data
 	NSArray *persistantControllerData;	
     NSArray *persistantNameTableData;
 }
 @property (readwrite, retain) NSArray* persistantControllerData;
 @property (readwrite, retain) NSArray* persistantNameTableData;
+@property (readwrite) BOOL debugMode;
+
+#ifdef DEBUG_PRINT
+@property(assign) BOOL      inputEnableDebugMode;
+#endif
 
 @property(assign) NSString  *inputRom;
 @property(assign) NSArray   *inputControllerData;
@@ -125,5 +131,6 @@
 - (BOOL)readFromURL:(NSURL *)absoluteURL;
 
 - (BOOL)validateNameTableData:(NSArray*)nameTableData;
+- enableDebugMode:(BOOL)flag;
 @end
 
