@@ -152,7 +152,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     id<OEGameCoreHelper> rootProxy = [self rootProxy];
     
     NSRect bounds = [self bounds];
-    NSRect frame  = NSMakeRect(0.0, 0.0, [rootProxy screenWidth], [rootProxy screenHeight]);
+    OEIntSize maxScreenSize = rootProxy.screenSize;
+    NSRect frame  = NSMakeRect(0.0, 0.0, maxScreenSize.width, maxScreenSize.height);
     
     CGFloat factor     = NSWidth(frame) / NSHeight(frame);
     CGFloat selfFactor = NSWidth(bounds) / NSHeight(bounds);

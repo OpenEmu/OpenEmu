@@ -258,31 +258,15 @@ static NSTimeInterval currentTime()
 }
 
 #pragma mark Video
-- (NSUInteger)screenWidth
+- (OEIntRect)screenRect
+{
+    return (OEIntRect){{}, [self bufferSize]};
+}
+
+- (OEIntSize)bufferSize
 {
     [self doesNotImplementSelector:_cmd];
-    return 0;
-}
-
-- (NSUInteger)screenHeight
-{
-    [self doesNotImplementSelector:_cmd];
-    return 0;
-}
-
-- (NSUInteger)bufferWidth
-{
-    return [self screenWidth];
-}
-
-- (NSUInteger)bufferHeight
-{
-    return [self screenHeight];
-}
-
-- (CGRect)sourceRect
-{        
-    return CGRectMake(0, 0, [self bufferWidth], [self bufferHeight]);
+    return (OEIntSize){};
 }
 
 - (const void *)videoBuffer
@@ -565,5 +549,4 @@ static NSTimeInterval currentTime()
 {
     return NO;
 }
-
 @end

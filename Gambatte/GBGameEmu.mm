@@ -122,14 +122,9 @@ void usecsleep(const usec_t usecs) {
     return !(gambatte.load([path UTF8String]));
 }
 
-- (NSUInteger)screenWidth
+- (OEIntSize)bufferSize
 {
-    return gambatte.videoWidth();
-}
-
-- (NSUInteger)screenHeight
-{
-    return gambatte.videoHeight();
+    return OESizeMake(gambatte.videoWidth(), gambatte.videoHeight());
 }
 
 - (void)setVideoBuffer:(const void *)buffer

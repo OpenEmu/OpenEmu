@@ -133,14 +133,9 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
 
 #pragma mark stub methods
 
-- (NSUInteger)screenWidth
+- (OEIntSize)bufferSize
 {
-    return 640;
-}
-
-- (NSUInteger)screenHeight
-{
-    return 480;
+    return OESizeMake(640, 480);
 }
 
 - (const void *)videoBuffer

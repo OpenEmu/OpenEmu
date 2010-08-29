@@ -144,29 +144,14 @@ void update_input()
 {
 }
 
-- (CGRect)sourceRect
+- (OEIntRect)screenRect
 {
-    return CGRectMake( bitmap.viewport.x, bitmap.viewport.y, bitmap.viewport.w, bitmap.viewport.h );
+    return OERectMake(bitmap.viewport.x, bitmap.viewport.y, bitmap.viewport.w, bitmap.viewport.h);
 }
 
-- (NSUInteger)bufferWidth
+- (OEIntSize)bufferSize
 {
-    return bitmap.width;
-}
-
-- (NSUInteger)bufferHeight
-{
-    return bitmap.height;
-}
-
-- (NSUInteger)screenWidth
-{
-    return 320;
-}
-
-- (NSUInteger)screenHeight
-{
-    return 240;
+    return OESizeMake(bitmap.width, bitmap.height);
 }
 
 - (const void *)videoBuffer

@@ -135,6 +135,19 @@ static CGColorSpaceRef CreateSystemColorSpace()
         filterName = [value copy];
         
         [self OE_refreshFilterRenderer];
+        if (rootProxy) {
+            rootProxy.drawSquarePixels = [self composition] != nil;
+        }
+    }
+}
+
+- (void)setRootProxy:(id<OEGameCoreHelper>)value
+{
+    if (value != rootProxy) {
+        [rootProxy release];
+        rootProxy = [value retain];
+        [rootProxy setDelegate:self];
+        rootProxy.drawSquarePixels = [self composition] != nil;
     }
 }
 
@@ -221,7 +234,8 @@ static CGColorSpaceRef CreateSystemColorSpace()
     ntscColorSpace = CreateNTSCColorSpace();
     rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
     
-    surfaceID = [rootProxy surfaceID];
+    surfaceID  = rootProxy.surfaceID;
+    screenSize = rootProxy.screenSize;
     
     return layerContext;
 }
@@ -231,7 +245,8 @@ static CGColorSpaceRef CreateSystemColorSpace()
     CALayer *superlayer  = [self superlayer];
     NSRect superBounds = NSRectFromCGRect([superlayer bounds]);
     
-    NSSize aspect = NSMakeSize([rootProxy screenWidth], [rootProxy screenHeight]);
+    OEIntSize maxScreenSize = screenSize;
+    NSSize aspect = NSMakeSize(maxScreenSize.width, maxScreenSize.height);
     
     if(superBounds.size.width * (aspect.width * 1.0/aspect.height) > superBounds.size.height * (aspect.width * 1.0/aspect.height))
         return CGSizeMake(superBounds.size.height * (aspect.width * 1.0/aspect.height), superBounds.size.height);
@@ -270,6 +285,11 @@ static CGColorSpaceRef CreateSystemColorSpace()
     return rootProxy != nil;
 }
 
+- (void)gameCoreDidChangeScreenSizeTo:(OEIntSize)size
+{
+    screenSize = size;
+}
+
 // GL render method
 - (void)OE_drawSurface:(IOSurfaceRef)surfaceRef inCGLContext:(CGLContextObj)glContext usingShader:(OEGameShader *)shader
 {
@@ -291,15 +311,15 @@ static CGColorSpaceRef CreateSystemColorSpace()
     glActiveTexture(GL_TEXTURE0);
     glColor4f(1.0, 1.0, 1.0, 1.0);
     
-    GLfloat tex_coords[] = 
+    const GLint tex_coords[] = 
     {
         0, 0,
-        IOSurfaceGetWidth(surfaceRef), 0,
-        IOSurfaceGetWidth(surfaceRef), IOSurfaceGetHeight(surfaceRef),
-        0, IOSurfaceGetHeight(surfaceRef)
+        screenSize.width, 0,
+        screenSize.width, screenSize.height,
+        0, screenSize.height
     };
     
-    GLfloat verts[] = 
+    const GLint verts[] = 
     {
         -1, -1,
         1, -1,
@@ -327,9 +347,9 @@ static CGColorSpaceRef CreateSystemColorSpace()
     }
     
     glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-    glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
+    glTexCoordPointer(2, GL_INT, 0, tex_coords );
     glEnableClientState(GL_VERTEX_ARRAY);
-    glVertexPointer(2, GL_FLOAT, 0, verts );
+    glVertexPointer(2, GL_INT, 0, verts );
     glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
     glDisableClientState( GL_TEXTURE_COORD_ARRAY );
     glDisableClientState(GL_VERTEX_ARRAY);
@@ -361,8 +381,9 @@ static CGColorSpaceRef CreateSystemColorSpace()
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
     {
-        NSDictionary *options = [NSDictionary dictionaryWithObject:(id)rgbColorSpace forKey:kCIImageColorSpace];
-        [self setGameCIImage:[CIImage imageWithIOSurface:surfaceRef options:options]];
+        NSDictionary *options = [NSDictionary dictionaryWithObject:(id)ntscColorSpace forKey:kCIImageColorSpace];
+        CGRect textureRect = CGRectMake(0, 0, screenSize.width, screenSize.height);
+        [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
         
         OEGameShader *shader = [filters objectForKey:filterName];
         
@@ -459,5 +480,4 @@ static CGColorSpaceRef CreateSystemColorSpace()
     CGLReleaseContext(layerContext);
     [super dealloc];
 }
-
 @end

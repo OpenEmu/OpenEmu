@@ -263,14 +263,9 @@ OERingBuffer *ringBuffer = nil;
     return NO;
 }
 
-- (NSUInteger)screenWidth
+- (OEIntSize)bufferSize
 {
-    return GBA_WIDTH;
-}
-
-- (NSUInteger)screenHeight
-{
-    return GBA_HEIGHT;
+    return OESizeMake(GBA_WIDTH, GBA_HEIGHT);
 }
 
 - (NSUInteger)channelCount

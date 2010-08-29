@@ -58,6 +58,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 
 @synthesize doUUID;
 @synthesize loadedRom, surfaceID;
+@synthesize screenSize = correctedSize, delegate, drawSquarePixels;
 
 #pragma mark -
 
@@ -69,7 +70,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
     parentApplication = [[NSRunningApplication runningApplicationWithProcessIdentifier:getppid()] retain];
     NSLog(@"parent application is: %@", [parentApplication localizedName]);
-    
+        
     if([self launchConnectionWithIdentifierSuffix:doUUID error:NULL])
         NSLog(@"NSConnection Open");
     else
@@ -99,6 +100,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     [theConnection release];
     [gameCore  release];
     [gameAudio release];
+    [delegate release];
     [super dealloc];
 }
 
@@ -108,7 +110,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
     // init resources
     [self setupOpenGLOnScreen:[NSScreen mainScreen]];
-    
+
     //[self setupIOSurface];
     //[self setupFBO];
     //[self setupGameTexture];
@@ -118,6 +120,8 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
     // poll for our parent app at a lower frequency in the main run loop.
     [self setupRenderTimer];
+    
+    [self updateScreenSize];
 }
 
 - (void)quitHelperTool
@@ -172,15 +176,16 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
 {
     // init our texture and IOSurface
     NSMutableDictionary* surfaceAttributes = [[NSMutableDictionary alloc] init];
+    OEIntSize surfaceSize = gameCore.bufferSize;
     [surfaceAttributes setObject:[NSNumber numberWithBool:YES] forKey:(NSString*)kIOSurfaceIsGlobal];
-    [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)gameCore.screenWidth] forKey:(NSString*)kIOSurfaceWidth];
-    [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)gameCore.screenHeight] forKey:(NSString*)kIOSurfaceHeight];
+    [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)surfaceSize.width] forKey:(NSString*)kIOSurfaceWidth];
+    [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)surfaceSize.height] forKey:(NSString*)kIOSurfaceHeight];
     [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)4] forKey:(NSString*)kIOSurfaceBytesPerElement];
     
     // TODO: do we need to ensure openGL Compatibility and CALayer compatibility?
     surfaceRef = IOSurfaceCreate((CFDictionaryRef) surfaceAttributes);
     [surfaceAttributes release];
-    
+        
     // make a new texture.
     CGLContextObj cgl_ctx = glContext;
     CGLLockContext(cgl_ctx);
@@ -189,10 +194,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, ioSurfaceTexture);
     
-    // TODO: this is probably not right to rely on screenWidth/height.
-    // for example Nestopia's returned values depend on NTSC being enabled or not.
-    // we should probably have some sort of gameCore protocol for maxWidth maxHeight possible, and render into a sub-section of that.
-    CGLError err = CGLTexImageIOSurface2D(glContext, GL_TEXTURE_RECTANGLE_ARB, GL_RGBA8, (GLsizei)gameCore.screenWidth, (GLsizei) gameCore.screenHeight, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
+    CGLError err = CGLTexImageIOSurface2D(glContext, GL_TEXTURE_RECTANGLE_ARB, GL_RGBA8, (GLsizei)surfaceSize.width, (GLsizei)surfaceSize.height, GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV, surfaceRef, 0);
     if(err != kCGLNoError)
     {
         NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
@@ -261,13 +263,12 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     // This seems to cause issues with SNES9X - we may want to look into the "Fence" extensions. Otherwise
     // we ignore texture range, etc
-    NSUInteger bufferWidth, bufferHeight;
+    OEIntSize  bufferSize;
     const void *videoBuffer;
     
     GLenum internalPixelFormat, pixelFormat, pixelType;
 
-    bufferWidth = [gameCore bufferWidth];
-    bufferHeight= [gameCore bufferHeight];
+    bufferSize  = [gameCore bufferSize];
     videoBuffer = [gameCore videoBuffer];
     
     internalPixelFormat = [gameCore internalPixelFormat];
@@ -292,7 +293,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     DLog(@"set params - uploading texture");
     
-    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, internalPixelFormat, bufferWidth, bufferHeight, 0, pixelFormat, pixelType, videoBuffer);
+    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, internalPixelFormat, bufferSize.width, bufferSize.height, 0, pixelFormat, pixelType, videoBuffer);
     
     DLog(@"upladed gameTexture");
     
@@ -400,7 +401,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         }
         
         [self updateGameTexture];
-        [self correctPixelAspectRatio];
+        [self drawIntoIOSurface];
     }
     CGLUnlockContext(cgl_ctx);
 }
@@ -408,6 +409,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 - (void)updateGameTexture
 {
     CGLContextObj cgl_ctx = glContext;
+    OEIntSize bufferSize = [gameCore bufferSize];
     
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
     
@@ -415,7 +417,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         
     glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-    glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, [gameCore bufferWidth], [gameCore bufferHeight], [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
+    glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, bufferSize.width, bufferSize.height, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
     
     GLenum status = glGetError();
     if(status)
@@ -426,11 +428,15 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     }
 }
 
-- (void)correctPixelAspectRatio
-{    
-    // the size of our output image, we may need/want to put in accessors for texture coord
-    // offsets from the game core should the image we want be 'elsewhere' within the main texture.
-    CGRect cropRect = [gameCore sourceRect];
+- (void)drawIntoIOSurface
+{
+    OEIntSize bufferSize = gameCore.bufferSize;
+    OEIntRect screenRect = gameCore.screenRect;
+
+    if (memcmp(&screenRect.size, &previousScreenSize, sizeof(screenRect.size))) {
+        [self updateScreenSize];
+        [delegate gameCoreDidChangeScreenSizeTo:correctedSize];
+    }
     
     CGLContextObj cgl_ctx = glContext;
     CGLLockContext(cgl_ctx);
@@ -442,7 +448,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     GLenum status = glGetError();
     if(status)
     {
-        NSLog(@"correctPixelAspectRatio: OpenGL error %04X", status);
+        NSLog(@"drawIntoIOSurface: OpenGL error %04X", status);
         glDeleteTextures(1, &gameTexture);
         gameTexture = 0;
     }
@@ -451,11 +457,11 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
     {
         // Setup OpenGL states
-        glViewport(0, 0, gameCore.screenWidth,  gameCore.screenHeight);
+        glViewport(0, 0, bufferSize.width, bufferSize.height);
         glMatrixMode(GL_PROJECTION);
         glPushMatrix();
         glLoadIdentity();
-        glOrtho(0, gameCore.screenWidth, 0, gameCore.screenHeight, -1, 1);
+        glOrtho(0, bufferSize.width, 0, bufferSize.height, -1, 1);
         
         glMatrixMode(GL_MODELVIEW);
         glPushMatrix();
@@ -469,35 +475,35 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
         glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
         
-        // do a nearest linear interp.
+        // do a bilinear interp, note we only need to scale anything if drawSquarePixels
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         
         glColor4f(1.0, 1.0, 1.0, 1.0);
         
         // why do we need it ?
         glDisable(GL_BLEND);
         
-        GLfloat tex_coords[] = 
+        const GLint tex_coords[] = 
         {
-            cropRect.origin.x, cropRect.size.height + cropRect.origin.y,
-            cropRect.size.width + cropRect.origin.x, cropRect.size.height + cropRect.origin.y,
-            cropRect.size.width + cropRect.origin.x, cropRect.origin.y,
-            cropRect.origin.x, cropRect.origin.y
+            screenRect.origin.x, screenRect.size.height + screenRect.origin.y,
+            screenRect.size.width + screenRect.origin.x, screenRect.size.height + screenRect.origin.y,
+            screenRect.size.width + screenRect.origin.x, screenRect.origin.y,
+            screenRect.origin.x, screenRect.origin.y
         };
-        
-        GLfloat verts[] = 
+
+        const GLint verts[] = 
         {
-            0.0f, 0.0f,
-            gameCore.screenWidth, 0.0f,
-            gameCore.screenWidth, gameCore.screenHeight,
-            0.0f, gameCore.screenHeight
+            0, 0,
+            correctedSize.width, 0,
+            correctedSize.width, correctedSize.height,
+            0, correctedSize.height
         };
         
         glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-        glTexCoordPointer(2, GL_FLOAT, 0, tex_coords );
+        glTexCoordPointer(2, GL_INT, 0, tex_coords );
         glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(2, GL_FLOAT, 0, verts );
+        glVertexPointer(2, GL_INT, 0, verts );
         glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
         glDisableClientState( GL_TEXTURE_COORD_ARRAY );
         glDisableClientState(GL_VERTEX_ARRAY);
@@ -517,12 +523,36 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     }
     if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
     {
-        NSLog(@"OpenGL error %04X in correctPixelAspectRatio", status);
+        NSLog(@"OpenGL error %04X in drawIntoIOSurface", status);
         //glDeleteTextures(1, &gameTexture);
         //gameTexture = 0;
     }
     
     CGLUnlockContext(cgl_ctx);
+}
+
+- (void)updateScreenSize
+{
+    OEIntRect screenRect = gameCore.screenRect;
+    
+    if (!previousScreenSize.width)
+        gameAspectRatio = screenRect.size.width / (float)screenRect.size.height;
+    
+    previousScreenSize = screenRect.size;
+    if (drawSquarePixels) {
+        float screenAspect = screenRect.size.width / (float)screenRect.size.height;
+        correctedSize = screenRect.size;
+
+        // try to maximize the drawn rect so we don't lose any pixels
+        // (risk: we can only upscale bilinearly as opposed to filteredly)
+        if (screenAspect > gameAspectRatio) {
+            correctedSize.height = correctedSize.width / gameAspectRatio;
+        } else {
+            correctedSize.width  = correctedSize.height * gameAspectRatio;
+        }
+    } else {
+        correctedSize = screenRect.size;
+    }
 }
 
 - (void)destroySurface
@@ -616,30 +646,9 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 #pragma mark -
 #pragma mark OE DO Delegate methods
 
-// gamecore attributes
-- (NSUInteger)screenWidth
+- (OEIntSize)bufferSize
 {
-    return [gameCore screenWidth];
-}
-
-- (NSUInteger)screenHeight
-{
-    return [gameCore screenHeight];
-}
-
-- (NSUInteger)bufferWidth
-{
-    return [gameCore bufferWidth];
-}
-
-- (NSUInteger)bufferHeight
-{
-    return [gameCore bufferHeight];
-}
-
-- (CGRect)sourceRect
-{
-    return [gameCore sourceRect];
+    return [gameCore bufferSize];
 }
 
 - (BOOL)isEmulationPaused
@@ -651,7 +660,12 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 - (void)setVolume:(float)volume
 {
     [gameAudio setVolume:volume];
-    
+}
+
+- (void)setDrawSquarePixels:(BOOL)_drawSquarePixels
+{
+    drawSquarePixels = _drawSquarePixels;
+    [self updateScreenSize];
 }
 
 - (NSPoint) mousePosition

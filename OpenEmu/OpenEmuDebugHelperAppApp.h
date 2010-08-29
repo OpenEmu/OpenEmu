@@ -54,7 +54,7 @@
     
     // GL requirements
     NSOpenGLContext      *glContext;
-    GLuint                ioSurfaceTexture; // square pixel, screenWidth/height texture sent off to our Parent App for display. Yay.
+    GLuint                ioSurfaceTexture; // square pixel, bufferSize texture sent off to our Parent App for display. Yay.
 
     NSTimer              *renderTimer;
     

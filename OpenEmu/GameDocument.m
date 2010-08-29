@@ -91,7 +91,8 @@
     [view setRootProxy:rootProxy];
     [gameWindow setAcceptsMouseMovedEvents:YES];
     
-    NSSize aspect = NSMakeSize([rootProxy screenWidth], [rootProxy screenHeight]);
+    OEIntSize maxScreenSize = rootProxy.screenSize;
+    NSSize aspect = NSMakeSize(maxScreenSize.width, maxScreenSize.height);
     
     NSLog(@"Aspect IS: %@", NSStringFromSize(aspect));
     

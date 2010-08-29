@@ -236,31 +236,14 @@ bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
     return GFX.Screen;
 }
 
-// FIXME: These are SNES hi-res sizes
-// They should probably be half this size
-- (NSUInteger)screenWidth
+- (OEIntRect)screenRect
 {
-    return MAX_SNES_WIDTH / 2;
+    return OERectMake(0, 0, IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight);
 }
 
-- (NSUInteger)screenHeight
+- (OEIntSize)bufferSize
 {
-    return (Settings.PAL ? 478 : 448) / 2;
-}
-
-- (CGRect)sourceRect
-{
-    return CGRectMake(0, 0, IPPU.RenderedScreenWidth, IPPU.RenderedScreenHeight);
-}
-
-- (NSUInteger)bufferWidth
-{
-    return MAX_SNES_WIDTH;
-}
-
-- (NSUInteger)bufferHeight
-{
-    return MAX_SNES_HEIGHT;
+    return OESizeMake(MAX_SNES_WIDTH, MAX_SNES_HEIGHT);
 }
 
 - (void)setupEmulation

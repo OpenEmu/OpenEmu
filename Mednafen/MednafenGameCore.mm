@@ -215,40 +215,14 @@ NSString *MednafenControlNames[] = {
     [bufLock unlock];
 }
 
-- (CGRect)sourceRect
+- (OEIntRect)screenRect
 {
-    /*
-     if( lineWidths[0].w )
-     {
-     NSLog(@"%d,%d -> %d,%d", lineWidths[0].x, lineWidths[0].y, lineWidths[0].w, lineWidths[0].h);
-     return CGRectMake(lineWidths[0].x, lineWidths[0].y, lineWidths[0].w, lineWidths[0].h);
-     }
-     else
-     {
-     return CGRectMake(0, 0, gameInfo->pitch / 4, gameInfo->height);
-     }
-     */
-    return CGRectMake(gameInfo->DisplayRect.x, gameInfo->DisplayRect.y, gameInfo->DisplayRect.w, gameInfo->DisplayRect.h);
+    return OERectMake(gameInfo->DisplayRect.x, gameInfo->DisplayRect.y, gameInfo->DisplayRect.w, gameInfo->DisplayRect.h);
 }
 
-- (NSUInteger)screenWidth
+- (OEIntSize)bufferSize
 {
-    return gameInfo->DisplayRect.w;
-}
-
-- (NSUInteger)screenHeight
-{
-    return gameInfo->DisplayRect.h;
-}
-
-- (NSUInteger)bufferWidth
-{
-    return gameInfo->pitch / 4;
-}
-
-- (NSUInteger)bufferHeight
-{
-    return gameInfo->height;
+    return OESizeMake(gameInfo->pitch / 4, gameInfo->height);
 }
 
 - (const void *)videoBuffer

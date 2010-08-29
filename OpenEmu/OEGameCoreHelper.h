@@ -27,8 +27,13 @@
 
 
 #import <Cocoa/Cocoa.h>
+#import "GameCore.h"
 
-@class GameCore, OEGameCoreController;
+@class OEGameCoreController;
+
+@protocol OEGameCoreHelperDelegate <NSObject>
+- (void) gameCoreDidChangeScreenSizeTo:(OEIntSize)screenSize;
+@end
 
 // our helper app needs to handle these functions
 @protocol OEGameCoreHelper <NSObject>
@@ -38,22 +43,20 @@
 - (oneway void)setPauseEmulation:(BOOL)flag;
 
 // gamecore attributes
-@property(readonly) NSUInteger screenWidth;
-@property(readonly) NSUInteger screenHeight;
-@property(readonly) NSUInteger bufferWidth;
-@property(readonly) NSUInteger bufferHeight;
+@property(readonly) OEIntSize   screenSize; // the rect inside the IOSurface which the game is drawing into
+                                            // the rendering filter should resize from this rect into the entire window
+                                            // ignoring aspect ratio
+@property(readonly) OEIntSize   bufferSize; // the size of the IOSurface
 @property(readonly) BOOL isEmulationPaused;
-
-@property(readonly) CGRect sourceRect;
 
 @property(readwrite) NSPoint mousePosition;
 
-
+@property(readwrite) BOOL drawSquarePixels;
 @property(readonly) IOSurfaceID surfaceID;
+@property(retain) id <OEGameCoreHelperDelegate> delegate;
 
 - (byref GameCore *)gameCore;
 
 - (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath owner:(byref OEGameCoreController *)owner;
 - (void)setupEmulation;
-
 @end

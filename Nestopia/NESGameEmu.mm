@@ -796,20 +796,10 @@ static int Heights[2] =
     return YES;
 }
 
-- (NSUInteger)screenWidth
+- (OEIntSize)bufferSize
 {
-    if([self isNTSCEnabled])
-        return Widths[1];
-    else
-        return Widths[0];
-}
-
-- (NSUInteger)screenHeight
-{
-    if([self isNTSCEnabled])
-        return Heights[1]*2;
-    else
-        return Heights[0];
+    return [self isNTSCEnabled] ? OESizeMake(Widths[1], Heights[1]*2)
+                                : OESizeMake(Widths[0], Heights[0]);
 }
 
 @end

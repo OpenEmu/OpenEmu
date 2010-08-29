@@ -64,7 +64,7 @@ enum _OEHelperAppErrorCodes
     CGLContextObj     glContext;
     GLuint            gameTexture;      // this is the texture that is defined by the gameCores pixelFormat and type
     GLuint            gameFBO;          // this FBO uses the IOSurfaceTexture as an attachment and renders the gameTexture to 'square pixels'
-    GLuint            ioSurfaceTexture; // square pixel, screenWidth/height texture sent off to our Parent App for display. Yay.
+    GLuint            ioSurfaceTexture; // square pixel, bufferSize texture sent off to our Parent App for display. Yay.
     
     // rendering
     NSTimer          *timer;
@@ -84,6 +84,12 @@ enum _OEHelperAppErrorCodes
     GameAudio        *gameAudio;
     
     BOOL              loadedRom;
+    
+    // screen subrect stuff
+    id <OEGameCoreHelperDelegate> delegate;
+    OEIntSize previousScreenSize, correctedSize;
+    float     gameAspectRatio;
+    BOOL      drawSquarePixels;
 }
 
 @property(retain) NSString *doUUID;
@@ -106,8 +112,9 @@ enum _OEHelperAppErrorCodes
 - (void)pollParentProcess;
 - (void)setupGameCore;
 - (void)updateGameTexture;
-- (void)correctPixelAspectRatio;
+- (void)drawIntoIOSurface;
 - (void)destroySurface;
+- (void)updateScreenSize;
 - (void)stopEmulation;
 
 #pragma mark -

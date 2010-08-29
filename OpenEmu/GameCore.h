@@ -69,6 +69,31 @@ enum {
 };
 typedef NSInteger OEButton;
 
+typedef struct OEIntPoint {
+    int x;
+    int y;
+} OEIntPoint;
+
+typedef struct OEIntSize {
+    int width;
+    int height;
+} OEIntSize;
+
+typedef struct OEIntRect {
+    OEIntPoint origin;
+    OEIntSize size;
+} OEIntRect;
+
+static inline OEIntSize OESizeMake(int width, int height)
+{
+    return (OEIntSize){width, height};
+}
+
+static inline OEIntRect OERectMake(int x, int y, int width, int height)
+{
+    return (OEIntRect){(OEIntPoint){x,y}, (OEIntSize){width, height}};
+}
+
 @class OEHIDEvent, OERingBuffer;
 
 @interface GameCore : NSResponder <OESettingObserver>
@@ -137,12 +162,16 @@ typedef NSInteger OEButton;
 - (BOOL)loadFileAtPath:(NSString *)path;
 
 #pragma mark Video
-@property(readonly) NSUInteger  screenWidth;
-@property(readonly) NSUInteger  screenHeight;
-@property(readonly) NSUInteger  bufferWidth;
-@property(readonly) NSUInteger  bufferHeight;
+// current subrect in the videoBuffer which is being updated
+// the size of the game window is set to screenRect.size of the first frame
+// it is assumed that this size has the same aspect ratio as bufferSize
+// if screenRect.size changes, the image is resized to the original aspect ratio
+// this must not be larger than bufferSize
+// ...all these semantics are designed to match SNES hi-res mode
+@property(readonly) OEIntRect   screenRect;
+// maximum size of output video
+@property(readonly) OEIntSize   bufferSize;
 
-@property(readonly) CGRect      sourceRect;
 @property(readonly) const void *videoBuffer;
 @property(readonly) GLenum      pixelFormat;
 @property(readonly) GLenum      pixelType;

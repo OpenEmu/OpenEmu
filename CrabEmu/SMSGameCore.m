@@ -125,20 +125,9 @@ static OERingBuffer *ringBuffer;
     [bufLock unlock];
 }
 
-- (NSUInteger)screenWidth
+- (OEIntSize)bufferSize
 {
-    if (sms_console != CONSOLE_GG)
-        return 256;
-    else
-        return 160;
-}
-
-- (NSUInteger)screenHeight
-{
-    if (sms_console != CONSOLE_GG)
-        return smsvdp.lines;
-    else
-        return 144;
+    return OESizeMake(sms_console == CONSOLE_GG ? 160 : 256, sms_console == CONSOLE_GG ? 144 : smsvdp.lines);
 }
 
 - (const void *)videoBuffer

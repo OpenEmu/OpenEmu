@@ -136,31 +136,21 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
     return interface->video;
 }
 
-- (CGRect)sourceRect
+/*
+ return 512 / 2;
+
+ return (SNES::system.region() == SNES::System::NTSC ? 448 : 478) / 2;
+*/ 
+
+- (OEIntRect)screenRect
 {
-    return CGRectMake(0, 0, interface->width, interface->height);
+    // hope this handles hires :/
+    return OERectMake(0, 0, interface->width, interface->height);
 }
 
-// FIXME: These are SNES hi-res sizes
-// They should probably be half this size
-- (NSUInteger)screenWidth
+- (OEIntSize)bufferSize
 {
-    return 512 / 2;
-}
-
-- (NSUInteger)screenHeight
-{
-    return (SNES::system.region() == SNES::System::NTSC ? 448 : 478) / 2;
-}
-
-- (NSUInteger)bufferWidth
-{
-    return 512;
-}
-
-- (NSUInteger)bufferHeight
-{
-    return 478;
+    return OESizeMake(512, 478);
 }
 
 - (void)setupEmulation

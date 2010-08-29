@@ -129,14 +129,9 @@ int *gBlit = NULL;
     return system_rom_load([path UTF8String]);
 }
 
-- (NSInteger)width
+- (OEIntSize)bufferSize
 {
-    return SCREEN_WIDTH;
-}
-
-- (NSInteger)height
-{
-    return SCREEN_HEIGHT;
+    return OESizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 - (void*)videoBuffer

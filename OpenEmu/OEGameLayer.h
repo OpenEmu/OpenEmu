@@ -35,7 +35,7 @@
 
 @class GameCore, GameDocument, GameDocumentController;
 
-@interface OEGameLayer : CAOpenGLLayer
+@interface OEGameLayer : CAOpenGLLayer <OEGameCoreHelperDelegate>
 {
     // from our gameDocument - where we get our IOSurface refs from:
     id<OEGameCoreHelper> rootProxy;
@@ -74,6 +74,7 @@
     CGSize cachedTextureSize;
     
     IOSurfaceID surfaceID;
+    OEIntSize screenSize;
 }
 
 @property(copy) void (^screenshotHandler)(NSImage *img);
