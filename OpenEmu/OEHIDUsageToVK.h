@@ -76,10 +76,10 @@ typedef struct
 
 OE_HIDString hidlabels[] = {
 
-	{kHIDUsage_KeyboardReturnOrEnter, @"⏎"}, /* Return (Enter) */
-	{kHIDUsage_KeyboardEscape, @"Escape"},/* Escape */
-	{kHIDUsage_KeyboardDeleteOrBackspace, @"Delete"}, /* Delete (Backspace) */
-	{kHIDUsage_KeyboardTab, @"Tab"},	/* Tab */
+	{kHIDUsage_KeyboardReturnOrEnter, @"↩"}, /* Return (Enter) */
+	{kHIDUsage_KeyboardEscape, @"⎋"},/* Escape */
+	{kHIDUsage_KeyboardDeleteOrBackspace, @"⌦"}, /* Delete (Backspace) */
+	{kHIDUsage_KeyboardTab, @"⇥"},	/* Tab */
 	{kHIDUsage_KeyboardSpacebar, @"Space"},	/* Spacebar */
 	{kHIDUsage_KeyboardCapsLock, @"Caps Lock"},	/* Caps Lock */
 	{kHIDUsage_KeyboardF1, @"F1"},
@@ -107,17 +107,17 @@ OE_HIDString hidlabels[] = {
 	{kHIDUsage_KeyboardF23, @"F23"},
 	{kHIDUsage_KeyboardF24, @"F24"},
 
-	{kHIDUsage_KeyboardLeftControl, @"Left Control"},	/* Left Control */
-	{kHIDUsage_KeyboardLeftShift, @"Left Shift"},	/* Left Shift */
-	{kHIDUsage_KeyboardLeftAlt, @"Left Option"},	/* Left Alt */
+	{kHIDUsage_KeyboardLeftControl, @"Left ⌃"},	/* Left Control */
+	{kHIDUsage_KeyboardLeftShift, @"Left ⇧"},	/* Left Shift */
+	{kHIDUsage_KeyboardLeftAlt, @"Left ⌥"},	/* Left Alt */
 	{kHIDUsage_KeyboardLeftGUI, @"Left ⌘"},	/* Left GUI */
-	{kHIDUsage_KeyboardRightControl, @"Right Control"},	/* Right Control */
-	{kHIDUsage_KeyboardRightShift, @"Right Shift"},	/* Right Shift */
-	{kHIDUsage_KeyboardRightAlt, @"Right Option"},	/* Right Alt */
+	{kHIDUsage_KeyboardRightControl, @"Right ⌃"},	/* Right Control */
+	{kHIDUsage_KeyboardRightShift, @"Right ⇧"},	/* Right Shift */
+	{kHIDUsage_KeyboardRightAlt, @"Right ⌥"},	/* Right Alt */
 	{kHIDUsage_KeyboardRightGUI, @"Right ⌘"},	/* Right GUI */
 
-	{kHIDUsage_KeyboardLeftArrow, @"Left"},	/* Right GUI */
-	{kHIDUsage_KeyboardRightArrow, @"Right"},	/* Right GUI */
-	{kHIDUsage_KeyboardUpArrow, @"Up"},	/* Right GUI */
-	{kHIDUsage_KeyboardDownArrow, @"Down"},	/* Right GUI */
+	{kHIDUsage_KeyboardLeftArrow, @"←"},	/* Right GUI */
+	{kHIDUsage_KeyboardRightArrow, @"→"},	/* Right GUI */
+	{kHIDUsage_KeyboardUpArrow, @"↑"},	/* Right GUI */
+	{kHIDUsage_KeyboardDownArrow, @"↓"},	/* Right GUI */
 };
