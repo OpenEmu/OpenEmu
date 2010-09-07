@@ -78,7 +78,7 @@ OE_HIDString hidlabels[] = {
 
 	{kHIDUsage_KeyboardReturnOrEnter, @"↩"}, /* Return (Enter) */
 	{kHIDUsage_KeyboardEscape, @"⎋"},/* Escape */
-	{kHIDUsage_KeyboardDeleteOrBackspace, @"⌦"}, /* Delete (Backspace) */
+	{kHIDUsage_KeyboardDeleteOrBackspace, @"⌫"}, /* Delete (Backspace) */
 	{kHIDUsage_KeyboardTab, @"⇥"},	/* Tab */
 	{kHIDUsage_KeyboardSpacebar, @"Space"},	/* Spacebar */
 	{kHIDUsage_KeyboardCapsLock, @"Caps Lock"},	/* Caps Lock */
