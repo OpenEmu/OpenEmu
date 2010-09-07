@@ -28,6 +28,10 @@
 #import "OEHIDEvent.h"
 #import "OEHIDDeviceHandler.h"
 #import <IOKit/hid/IOHIDUsageTables.h>
+#import <Carbon/Carbon.h>
+
+
+#import "OEHIDUsageToVK.h"
 
 @interface OEHIDEvent ()
 - (id)initWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler  value:(IOHIDValueRef)aValue;
@@ -37,14 +41,103 @@
 @implementation OEHIDEvent
 @synthesize padNumber = _padNumber, type = _type, isPushed = _isPushed, timestamp = _timestamp;
 
-NSDictionary *keycodeMap = nil;
-+ (void)initialize
+static const struct { char const* const name; unichar const glyph; } mapOfNamesForUnicodeGlyphs[] =
 {
-	if (self == [OEHIDEvent class])
+	// Constants defined in NSEvent.h that are expected to relate to unicode characters, but don't seen to translate properly
+	{ "Up",           NSUpArrowFunctionKey },
+	{ "Down",         NSDownArrowFunctionKey },
+	{ "Left",         NSLeftArrowFunctionKey },
+	{ "Right",        NSRightArrowFunctionKey },
+	{ "Home",         NSHomeFunctionKey },
+	{ "End",          NSEndFunctionKey },
+	{ "Page Up",      NSPageUpFunctionKey },
+	{ "Page Down",    NSPageDownFunctionKey },
+	
+	//	These are the actual values that these keys translate to
+	{ "Up",			0x1E },
+	{ "Down",		0x1F },
+	{ "Left",		0x1C },
+	{ "Right",		0x1D },
+	{ "Home",		0x1 },
+	{ "End",		0x4 },
+	{ "Page Up",	0xB },
+	{ "Page Down",	0xC },
+	{ "Return",		0x3 },
+	{ "Tab",		0x9 },
+	{ "Backtab",	0x19 },
+	{ "Enter",		0xd },
+	{ "Backspace",	0x8 },
+	{ "Delete",		0x7F },
+	{ "Escape",		0x1b },
+	{ "Space",		0x20 }
+	
+};
+
+// Need to update this value if you modify mapOfNamesForUnicodeGlyphs
+#define NumberOfUnicodeGlyphReplacements 24
+
++ (NSString *)stringForHIDKeyCode:(NSUInteger)hidCode
+{
+	CGKeyCode keyCode = 0xFFFF;
+	for (int i = 0; i < sizeof(hidvk_codes) / sizeof(*hidvk_codes); ++i)
 	{
-		NSString *path = [[NSBundle mainBundle] pathForResource:@"KeyboardUsages" ofType:@"plist"];
-		keycodeMap = [[NSDictionary alloc] initWithContentsOfFile:path];
+		if (hidvk_codes[i].hidCode == hidCode)
+		{
+			keyCode = hidvk_codes[i].vkCode;
+			break;
+		}
 	}
+	
+	if (keyCode == 0xFFFF)
+	{
+		for (int i = 0; i < sizeof(hidlabels) / sizeof(*hidlabels); ++i)
+		{
+			if (hidlabels[i].hidCode == hidCode)
+			{
+				 return hidlabels[i].string;
+			}
+		}
+		return nil;
+	}
+		
+	TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
+	CFDataRef uchr = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
+	const UCKeyboardLayout *keyboardLayout = (const UCKeyboardLayout*)CFDataGetBytePtr(uchr);
+	
+	if(keyboardLayout) {
+		UInt32 deadKeyState = 0;
+		UniCharCount maxStringLength = 255;
+		UniCharCount actualStringLength = 0;
+		UniChar unicodeString[maxStringLength];
+		
+		OSStatus status = UCKeyTranslate(keyboardLayout,
+										 keyCode, kUCKeyActionDown, 0,
+										 LMGetKbdType(), 0,
+										 &deadKeyState,
+										 maxStringLength,
+										 &actualStringLength, unicodeString);
+		
+		if(status != noErr)
+			NSLog(@"There was an %s error translating from the '%d' key code to a human readable string: %s",
+				  GetMacOSStatusErrorString(status), status, GetMacOSStatusCommentString(status));
+		else if(actualStringLength > 0) {
+			// Replace certain characters with user friendly names, e.g. Space, Enter, Tab etc.
+			NSUInteger i = 0;
+			while(i <= NumberOfUnicodeGlyphReplacements) {
+				if(mapOfNamesForUnicodeGlyphs[i].glyph == unicodeString[0])
+					return NSLocalizedString(([NSString stringWithFormat:@"%s", mapOfNamesForUnicodeGlyphs[i].name, nil]), @"Friendly Key Name");
+				
+				i++;
+			}
+			
+			// NSLog(@"Unicode character as hexadecimal: %X", unicodeString[0]);
+			return [[NSString stringWithCharacters:unicodeString length:(NSInteger)actualStringLength] uppercaseString];
+		} else
+			NSLog(@"Couldn't find a translation for the '%d' key code", keyCode);
+	} else
+		NSLog(@"Couldn't find a suitable keyboard layout from which to translate");
+	
+	return nil;
 }
 
 - (NSString *)displayDescription
@@ -76,8 +169,7 @@ NSDictionary *keycodeMap = nil;
             ret = [NSString stringWithFormat:@" H%d/%d", _data.hatSwitch.position, _data.hatSwitch.count];
             break;
 		case OEHIDKeypress :
-			ret = [NSString stringWithFormat:@"Key %@", [keycodeMap objectForKey:[[NSNumber numberWithUnsignedInteger:_data.keypress.keycode] stringValue]]];
-			break;
+			return [NSString stringWithFormat:@"%@", [OEHIDEvent stringForHIDKeyCode:_data.keypress.keycode]];
     }
     
     if(ret != nil) ret = [NSString stringWithFormat:@"P%d%@", _padNumber, ret];
