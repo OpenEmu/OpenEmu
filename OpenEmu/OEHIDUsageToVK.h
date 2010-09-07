@@ -76,7 +76,7 @@ typedef struct
 
 OE_HIDString hidlabels[] = {
 
-	{kHIDUsage_KeyboardReturnOrEnter, @"Enter"}, /* Return (Enter) */
+	{kHIDUsage_KeyboardReturnOrEnter, @"⏎"}, /* Return (Enter) */
 	{kHIDUsage_KeyboardEscape, @"Escape"},/* Escape */
 	{kHIDUsage_KeyboardDeleteOrBackspace, @"Delete"}, /* Delete (Backspace) */
 	{kHIDUsage_KeyboardTab, @"Tab"},	/* Tab */
@@ -110,11 +110,11 @@ OE_HIDString hidlabels[] = {
 	{kHIDUsage_KeyboardLeftControl, @"Left Control"},	/* Left Control */
 	{kHIDUsage_KeyboardLeftShift, @"Left Shift"},	/* Left Shift */
 	{kHIDUsage_KeyboardLeftAlt, @"Left Option"},	/* Left Alt */
-	{kHIDUsage_KeyboardLeftGUI, @"Left Command"},	/* Left GUI */
+	{kHIDUsage_KeyboardLeftGUI, @"Left ⌘"},	/* Left GUI */
 	{kHIDUsage_KeyboardRightControl, @"Right Control"},	/* Right Control */
 	{kHIDUsage_KeyboardRightShift, @"Right Shift"},	/* Right Shift */
 	{kHIDUsage_KeyboardRightAlt, @"Right Option"},	/* Right Alt */
-	{kHIDUsage_KeyboardRightGUI, @"Right Command"},	/* Right GUI */
+	{kHIDUsage_KeyboardRightGUI, @"Right ⌘"},	/* Right GUI */
 
 	{kHIDUsage_KeyboardLeftArrow, @"Left"},	/* Right GUI */
 	{kHIDUsage_KeyboardRightArrow, @"Right"},	/* Right GUI */

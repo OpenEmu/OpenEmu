@@ -41,40 +41,6 @@
 @implementation OEHIDEvent
 @synthesize padNumber = _padNumber, type = _type, isPushed = _isPushed, timestamp = _timestamp;
 
-static const struct { char const* const name; unichar const glyph; } mapOfNamesForUnicodeGlyphs[] =
-{
-	// Constants defined in NSEvent.h that are expected to relate to unicode characters, but don't seen to translate properly
-	{ "Up",           NSUpArrowFunctionKey },
-	{ "Down",         NSDownArrowFunctionKey },
-	{ "Left",         NSLeftArrowFunctionKey },
-	{ "Right",        NSRightArrowFunctionKey },
-	{ "Home",         NSHomeFunctionKey },
-	{ "End",          NSEndFunctionKey },
-	{ "Page Up",      NSPageUpFunctionKey },
-	{ "Page Down",    NSPageDownFunctionKey },
-	
-	//	These are the actual values that these keys translate to
-	{ "Up",			0x1E },
-	{ "Down",		0x1F },
-	{ "Left",		0x1C },
-	{ "Right",		0x1D },
-	{ "Home",		0x1 },
-	{ "End",		0x4 },
-	{ "Page Up",	0xB },
-	{ "Page Down",	0xC },
-	{ "Return",		0x3 },
-	{ "Tab",		0x9 },
-	{ "Backtab",	0x19 },
-	{ "Enter",		0xd },
-	{ "Backspace",	0x8 },
-	{ "Delete",		0x7F },
-	{ "Escape",		0x1b },
-	{ "Space",		0x20 }
-	
-};
-
-// Need to update this value if you modify mapOfNamesForUnicodeGlyphs
-#define NumberOfUnicodeGlyphReplacements 24
 
 + (NSString *)stringForHIDKeyCode:(NSUInteger)hidCode
 {
@@ -117,26 +83,9 @@ static const struct { char const* const name; unichar const glyph; } mapOfNamesF
 										 maxStringLength,
 										 &actualStringLength, unicodeString);
 		
-		if(status != noErr)
-			NSLog(@"There was an %s error translating from the '%d' key code to a human readable string: %s",
-				  GetMacOSStatusErrorString(status), status, GetMacOSStatusCommentString(status));
-		else if(actualStringLength > 0) {
-			// Replace certain characters with user friendly names, e.g. Space, Enter, Tab etc.
-			NSUInteger i = 0;
-			while(i <= NumberOfUnicodeGlyphReplacements) {
-				if(mapOfNamesForUnicodeGlyphs[i].glyph == unicodeString[0])
-					return NSLocalizedString(([NSString stringWithFormat:@"%s", mapOfNamesForUnicodeGlyphs[i].name, nil]), @"Friendly Key Name");
-				
-				i++;
-			}
-			
-			// NSLog(@"Unicode character as hexadecimal: %X", unicodeString[0]);
+		if(actualStringLength > 0 && status == noErr)
 			return [[NSString stringWithCharacters:unicodeString length:(NSInteger)actualStringLength] uppercaseString];
-		} else
-			NSLog(@"Couldn't find a translation for the '%d' key code", keyCode);
-	} else
-		NSLog(@"Couldn't find a suitable keyboard layout from which to translate");
-	
+	}
 	return nil;
 }
 
