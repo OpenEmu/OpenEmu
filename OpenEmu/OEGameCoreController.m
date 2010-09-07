@@ -463,7 +463,7 @@ static void OE_setupControlNames(OEGameCoreController *self)
 - (void)registerEvent:(id)theEvent forKey:(NSString *)keyName
 {
     id value = [self registarableValueWithObject:theEvent];
-    NSString *valueType = ([theEvent isKindOfClass:[OEHIDEvent class]] ? OEHIDEventValueKey : OEKeyboardEventValueKey);
+    NSString *valueType = ([theEvent isKindOfClass:[OEHIDEvent class]] && [theEvent type] != OEHIDKeypress ? OEHIDEventValueKey : OEKeyboardEventValueKey);
     
     [self removeBindingsToEvent:value withValueType:valueType];
     

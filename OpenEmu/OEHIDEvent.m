@@ -37,6 +37,16 @@
 @implementation OEHIDEvent
 @synthesize padNumber = _padNumber, type = _type, isPushed = _isPushed, timestamp = _timestamp;
 
+NSDictionary *keycodeMap = nil;
++ (void)initialize
+{
+	if (self == [OEHIDEvent class])
+	{
+		NSString *path = [[NSBundle mainBundle] pathForResource:@"KeyboardUsages" ofType:@"plist"];
+		keycodeMap = [[NSDictionary alloc] initWithContentsOfFile:path];
+	}
+}
+
 - (NSString *)displayDescription
 {
     NSString *ret = nil;
@@ -65,6 +75,9 @@
             // Example: ret = @"P1 H5/8" for Pad One Hat Switch Position 5 of 8
             ret = [NSString stringWithFormat:@" H%d/%d", _data.hatSwitch.position, _data.hatSwitch.count];
             break;
+		case OEHIDKeypress :
+			ret = [NSString stringWithFormat:@"Key %@", [keycodeMap objectForKey:[[NSNumber numberWithUnsignedInteger:_data.keypress.keycode] stringValue]]];
+			break;
     }
     
     if(ret != nil) ret = [NSString stringWithFormat:@"P%d%@", _padNumber, ret];
@@ -206,6 +219,18 @@
                 _data.button.state = value;
                 _isPushed = _data.button.state != NSOffState;
                 break;
+			case kHIDPage_KeyboardOrKeypad :
+				if (!((usage >= 0x04) && (usage <= 0xA4) ||
+					(usage >= 0xE0) && (usage <= 0xE7)))
+				{
+					[self release];
+					return nil;
+				}
+				_type = OEHIDKeypress;
+				_data.keypress.keycode = usage;
+				_data.keypress.state = value;
+				_isPushed = _data.keypress.state != NSOffState;
+				break;
         }
     }
     return self;
@@ -250,7 +275,7 @@
 
 - (NSInteger)state
 {
-    NSAssert1([self type] == OEHIDButton, @"Invalid message sent to event \"%@\"", self);
+    NSAssert1([self type] == OEHIDButton || [self type] == OEHIDKeypress, @"Invalid message sent to event \"%@\"", self);
     return _data.button.state;
 }
 
@@ -265,6 +290,12 @@
 {
     NSAssert1([self type] == OEHIDHatSwitch, @"Invalid message sent to event \"%@\"", self);
     return _data.hatSwitch.count;
+}
+
+- (NSUInteger)keycode
+{
+    NSAssert1([self type] == OEHIDKeypress, @"Invalid message sent to event \"%@\"", self);	
+	return _data.keypress.keycode;
 }
 
 - (NSString *)description
@@ -303,8 +334,13 @@
     }
     else if(_type == OEHIDHatSwitch)
         subs = [NSString stringWithFormat:@"type=HatSwitch position=%lld/%lld", (int64_t)_data.hatSwitch.position, (int64_t)_data.hatSwitch.count];
-    
-    return [NSString stringWithFormat:@"HID Event: pad=%lld %@", (int64_t)_padNumber, subs];
+    else if(_type == OEHIDKeypress)
+	{
+		char *st = (_data.keypress.state == NSOnState ? "On" : "Off");
+        subs = [NSString stringWithFormat:@"type=Keypress number=%lld state=%s", (int64_t)_data.keypress.keycode, st];	
+	}
+		
+    return [NSString stringWithFormat:@"HID Event: pad=%lld %@ %@", (int64_t)_padNumber, subs, [self displayDescription]];
 }
 
 NSString *OEHIDEventTypeKey         = @"OEHIDEventTypeKey";
@@ -315,7 +351,7 @@ NSString *OEHIDEventButtonNumberKey = @"OEHIDEventButtonNumberKey";
 NSString *OEHIDEventStateKey        = @"OEHIDEventStateKey";
 NSString *OEHIDEventPositionKey     = @"OEHIDEventPositionKey";
 NSString *OEHIDEventCountKey        = @"OEHIDEventCountKey";
-
+NSString *OEHIDEventKeycodeKey      = @"OEHIDEventKeycodeKey";
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
@@ -334,6 +370,10 @@ NSString *OEHIDEventCountKey        = @"OEHIDEventCountKey";
         case OEHIDHatSwitch :
             _data.hatSwitch.position  = [decoder decodeIntegerForKey:OEHIDEventPositionKey];
             _data.hatSwitch.count     = [decoder decodeIntegerForKey:OEHIDEventCountKey];
+            break;
+		case OEHIDKeypress :
+            _data.keypress.keycode    = [decoder decodeIntegerForKey:OEHIDEventKeycodeKey];
+            _data.keypress.state      = [decoder decodeIntegerForKey:OEHIDEventStateKey];
             break;
     }
     
@@ -357,6 +397,10 @@ NSString *OEHIDEventCountKey        = @"OEHIDEventCountKey";
         case OEHIDHatSwitch :
             [encoder encodeInteger:self.position     forKey:OEHIDEventPositionKey];
             [encoder encodeInteger:self.count        forKey:OEHIDEventCountKey];
+            break;
+		case OEHIDKeypress :
+			[encoder encodeInteger:self.keycode      forKey:OEHIDEventKeycodeKey];
+            [encoder encodeInteger:self.state        forKey:OEHIDEventStateKey];
             break;
     }
 }

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+		<key>4</key>
+		<string>A</string>
+		<key>5</key>
+		<string>B</string>
+		<key>6</key>
+		<string>C</string>
+		<key>7</key>
+		<string>D</string>
+		<key>8</key>
+		<string>E</string>
+		<key>9</key>
+		<string>F</string>
+		<key>10</key>
+		<string>H</string>
+		<key>11</key>
+		<string>H</string>
+		<key>12</key>
+		<string>I</string>
+		<key>13</key>
+		<string>J</string>
+		<key>14</key>
+		<string>K</string>
+		<key>15</key>
+		<string>L</string>
+		<key>16</key>
+		<string>M</string>
+		<key>17</key>
+		<string>N</string>
+		<key>18</key>
+		<string>O</string>
+		<key>19</key>
+		<string>P</string>
+		<key>20</key>
+		<string>Q</string>
+		<key>21</key>
+		<string>R</string>
+		<key>22</key>
+		<string>S</string>
+		<key>23</key>
+		<string>T</string>
+		<key>24</key>
+		<string>U</string>
+		<key>25</key>
+		<string>V</string>
+		<key>26</key>
+		<string>W</string>
+		<key>27</key>
+		<string>X</string>
+		<key>28</key>
+		<string>Y</string>
+		<key>29</key>
+		<string>Z</string>
+		<key>30</key>
+		<string>1</string>
+		<key>31</key>
+		<string>2</string>
+		<key>32</key>
+		<string>3</string>
+		<key>33</key>
+		<string>4</string>
+		<key>34</key>
+		<string>5</string>
+		<key>35</key>
+		<string>6</string>
+		<key>36</key>
+		<string>7</string>
+		<key>37</key>
+		<string>8</string>
+		<key>38</key>
+		<string>9</string>
+		<key>39</key>
+		<string>0</string>
+		<key>40</key>
+		<string>Keyboard Return (ENTER)</string>
+		<key>41</key>
+		<string>Keyboard ESCAPE</string>
+		<key>42</key>
+		<string>Keyboard DELETE (Backspace)</string>
+		<key>43</key>
+		<string>Keyboard Tab</string>
+		<key>44</key>
+		<string>Keyboard Spacebar</string>
+		<key>45</key>
+		<string>-</string>
+		<key>46</key>
+		<string>=</string>
+		<key>47</key>
+		<string>[</string>
+		<key>48</key>
+		<string>]</string>
+		<key>49</key>
+		<string>\</string>
+		<key>50</key>
+		<string>#</string>
+		<key>51</key>
+		<string>;</string>
+		<key>52</key>
+		<string>&apos;</string>
+		<key>53</key>
+		<string>`</string>
+		<key>54</key>
+		<string>,</string>
+		<key>55</key>
+		<string>.</string>
+		<key>56</key>
+		<string>/</string>
+		<key>57</key>
+		<string>Keyboard Caps Lock</string>
+		<key>58</key>
+		<string>F1</string>
+		<key>59</key>
+		<string>F2</string>
+		<key>60</key>
+		<string>F3</string>
+		<key>61</key>
+		<string>F4</string>
+		<key>62</key>
+		<string>F5</string>
+		<key>63</key>
+		<string>F6</string>
+		<key>64</key>
+		<string>F7</string>
+		<key>65</key>
+		<string>F8</string>
+		<key>66</key>
+		<string>F9</string>
+		<key>67</key>
+		<string>F10</string>
+		<key>68</key>
+		<string>F11</string>
+		<key>69</key>
+		<string>F12</string>
+		<key>70</key>
+		<string>Keyboard PrintScreen</string>
+		<key>71</key>
+		<string>Keyboard Scroll Lock</string>
+		<key>72</key>
+		<string>Keyboard Pause</string>
+		<key>73</key>
+		<string>Keyboard Insert</string>
+		<key>74</key>
+		<string>Keyboard Home</string>
+		<key>75</key>
+		<string>Keyboard PageUp</string>
+		<key>76</key>
+		<string>Keyboard Delete Forward</string>
+		<key>77</key>
+		<string>Keyboard End</string>
+		<key>78</key>
+		<string>Keyboard PageDown</string>
+		<key>79</key>
+		<string>Keyboard RightArrow</string>
+		<key>80</key>
+		<string>Keyboard LeftArrow</string>
+		<key>81</key>
+		<string>Keyboard DownArrow</string>
+		<key>82</key>
+		<string>Keyboard UpArrow</string>
+		<key>83</key>
+		<string>Keypad Num Lock and Clear</string>
+		<key>84</key>
+		<string>Num /</string>
+		<key>85</key>
+		<string>Num *</string>
+		<key>86</key>
+		<string>Num -</string>
+		<key>87</key>
+		<string>Num +</string>
+		<key>88</key>
+		<string>Keypad ENTER</string>
+		<key>89</key>
+		<string>Num 1</string>
+		<key>90</key>
+		<string>Num 2</string>
+		<key>91</key>
+		<string>Num 3</string>
+		<key>92</key>
+		<string>Num 4</string>
+		<key>93</key>
+		<string>Num 5</string>
+		<key>94</key>
+		<string>Num 6</string>
+		<key>95</key>
+		<string>Num 7</string>
+		<key>96</key>
+		<string>Num 8</string>
+		<key>97</key>
+		<string>Num 9</string>
+		<key>98</key>
+		<string>Num 0</string>
+		<key>99</key>
+		<string>Num .</string>
+		<key>100</key>
+		<string>\</string>
+		<key>101</key>
+		<string>Keyboard Application</string>
+		<key>102</key>
+		<string>Keyboard Power</string>
+		<key>103</key>
+		<string>Num =</string>
+		<key>104</key>
+		<string>F13</string>
+		<key>105</key>
+		<string>F14</string>
+		<key>106</key>
+		<string>F15</string>
+		<key>107</key>
+		<string>F16</string>
+		<key>108</key>
+		<string>F17</string>
+		<key>109</key>
+		<string>F18</string>
+		<key>110</key>
+		<string>F19</string>
+		<key>111</key>
+		<string>F20</string>
+		<key>112</key>
+		<string>F21</string>
+		<key>113</key>
+		<string>F22</string>
+		<key>114</key>
+		<string>F23</string>
+		<key>115</key>
+		<string>F24</string>
+		<key>116</key>
+		<string>Keyboard Execute</string>
+		<key>117</key>
+		<string>Keyboard Help</string>
+		<key>118</key>
+		<string>Keyboard Menu</string>
+		<key>119</key>
+		<string>Keyboard Select</string>
+		<key>120</key>
+		<string>Keyboard Stop</string>
+		<key>121</key>
+		<string>Keyboard Again</string>
+		<key>122</key>
+		<string>Keyboard Undo</string>
+		<key>123</key>
+		<string>Keyboard Cut</string>
+		<key>124</key>
+		<string>Keyboard Copy</string>
+		<key>125</key>
+		<string>Keyboard Paste</string>
+		<key>126</key>
+		<string>Keyboard Find</string>
+		<key>127</key>
+		<string>Keyboard Mute</string>
+		<key>128</key>
+		<string>Keyboard Volume Up</string>
+		<key>129</key>
+		<string>Keyboard Volume Down</string>
+		<key>130</key>
+		<string>Keyboard Locking Caps Lock</string>
+		<key>131</key>
+		<string>Keyboard Locking Num Lock</string>
+		<key>132</key>
+		<string>Keyboard Locking Scroll Lock</string>
+		<key>133</key>
+		<string>Num ,</string>
+		<key>134</key>
+		<string>Num =</string>
+		<key>135</key>
+		<string>Keyboard International1</string>
+		<key>136</key>
+		<string>Keyboard International2</string>
+		<key>137</key>
+		<string>Keyboard International3</string>
+		<key>138</key>
+		<string>Keyboard International4</string>
+		<key>139</key>
+		<string>Keyboard International5</string>
+		<key>140</key>
+		<string>Keyboard International6</string>
+		<key>141</key>
+		<string>Keyboard International7</string>
+		<key>142</key>
+		<string>Keyboard International8</string>
+		<key>143</key>
+		<string>Keyboard International9</string>
+		<key>144</key>
+		<string>Keyboard LANG1</string>
+		<key>145</key>
+		<string>Keyboard LANG2</string>
+		<key>146</key>
+		<string>Keyboard LANG3</string>
+		<key>147</key>
+		<string>Keyboard LANG4</string>
+		<key>148</key>
+		<string>Keyboard LANG5</string>
+		<key>149</key>
+		<string>Keyboard LANG6</string>
+		<key>150</key>
+		<string>Keyboard LANG7</string>
+		<key>151</key>
+		<string>Keyboard LANG8</string>
+		<key>152</key>
+		<string>Keyboard LANG9</string>
+		<key>153</key>
+		<string>Keyboard Alternate Erase</string>
+		<key>154</key>
+		<string>Keyboard SysReq/Attention</string>
+		<key>155</key>
+		<string>Keyboard Cancel</string>
+		<key>156</key>
+		<string>Keyboard Clear</string>
+		<key>157</key>
+		<string>Keyboard Prior</string>
+		<key>158</key>
+		<string>Keyboard Return</string>
+		<key>159</key>
+		<string>Keyboard Separator</string>
+		<key>160</key>
+		<string>Keyboard Out</string>
+		<key>161</key>
+		<string>Keyboard Oper</string>
+		<key>162</key>
+		<string>Keyboard Clear/Again</string>
+		<key>163</key>
+		<string>Keyboard CrSel/Props</string>
+		<key>164</key>
+		<string>Keyboard ExSel</string>
+		<key>224</key>
+		<string>Keyboard LeftControl</string>
+		<key>225</key>
+		<string>Keyboard LeftShift</string>
+		<key>226</key>
+		<string>Keyboard LeftAlt</string>
+		<key>227</key>
+		<string>Keyboard Left GUI</string>
+		<key>228</key>
+		<string>Keyboard RightControl</string>
+		<key>229</key>
+		<string>Keyboard RightShift</string>
+		<key>230</key>
+		<string>Keyboard RightAlt</string>
+		<key>231</key>
+		<string>Keyboard Right GUI</string>
+	</dict>
+</plist>

@@ -45,5 +45,7 @@
 - (void)hatSwitchDown:(OEHIDEvent *)anEvent;
 - (void)hatSwitchUp:(OEHIDEvent *)anEvent;
 
+- (void)hidKeyDown:(OEHIDEvent *)anEvent;
+- (void)hidKeyUp:(OEHIDEvent *)anEvent;
 @end
 

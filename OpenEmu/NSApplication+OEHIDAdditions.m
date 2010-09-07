@@ -58,6 +58,12 @@
             else
                 [self hatSwitchDown:anEvent];
             break;
+		case OEHIDKeypress :
+			if([anEvent state] == NSOffState)
+                [self hidKeyUp:anEvent];
+            else
+                [self hidKeyDown:anEvent];
+			break;
         default:
             break;
     }
@@ -91,6 +97,18 @@
 {
     if(_nextResponder != nil)
         [_nextResponder hatSwitchUp:anEvent];
+}
+
+- (void)hidKeyDown:(OEHIDEvent *)anEvent
+{
+    if(_nextResponder != nil)
+        [_nextResponder hidKeyDown:anEvent];
+}
+
+- (void)hidKeyUp:(OEHIDEvent *)anEvent
+{
+    if(_nextResponder != nil)
+        [_nextResponder hidKeyUp:anEvent];
 }
 
 @end

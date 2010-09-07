@@ -153,12 +153,18 @@
     [self setSelectedBindingType:1];
 }
 
+- (void)hidKeyDown:(OEHIDEvent *)anEvent
+{
+	[self registerEvent:anEvent];
+    [self setSelectedBindingType:0];
+}
+/*
 - (void)keyDown:(NSEvent *)anEvent
 {
     [self registerEvent:anEvent];
     [self setSelectedBindingType:0];
 }
-
+*/
 - (id)valueForKey:(NSString *)key
 {
     OEGameCoreController *controller = [self controller];

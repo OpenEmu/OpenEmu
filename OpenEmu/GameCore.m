@@ -412,7 +412,7 @@ static NSTimeInterval currentTime()
 {
     OEEmulatorKey emulKey;
     GET_EMUL_KEY;
-    NSInteger appKey = KEYBOARD_MASK | [theEvent unsignedShortValue];
+    NSInteger appKey = KEYBOARD_MASK | [theEvent keycode];
     
     [self setEventValue:appKey forEmulatorKey:emulKey];
 }
@@ -463,17 +463,17 @@ static NSTimeInterval currentTime()
     //NSLog(@"Tracking: %f,%f", mousePosition.x, mousePosition.y);
 }
 
-- (void)keyDown:(NSEvent *)anEvent
+- (void)hidKeyDown:(OEHIDEvent *)anEvent
 {
     OEEmulatorKey key;
-    if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keyCode], &key))
+    if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keycode], &key))
         [self pressEmulatorKey:key];
 }
 
-- (void)keyUp:(NSEvent *)anEvent
+- (void)hidKeyUp:(OEHIDEvent *)anEvent
 {
     OEEmulatorKey key;
-    if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keyCode], &key))
+    if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keycode], &key))
         [self releaseEmulatorKey:key];
 }
 

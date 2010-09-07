@@ -35,7 +35,8 @@
 enum _OEHIDEventType {
     OEHIDAxis      = 1,
     OEHIDButton    = 2,
-    OEHIDHatSwitch = 3
+    OEHIDHatSwitch = 3,
+	OEHIDKeypress  = 4,
 };
 typedef NSUInteger OEHIDEventType;
 
@@ -79,6 +80,10 @@ typedef NSInteger OEHIDDirection;
             NSUInteger     position;
             NSUInteger     count;
         } hatSwitch;
+		struct {
+			NSUInteger     keycode;
+			NSInteger      state;
+		} keypress;
     }                      _data;
     BOOL                   _isPushed;
 }
@@ -105,6 +110,10 @@ typedef NSInteger OEHIDDirection;
 // Button event
 @property(readonly) NSUInteger     buttonNumber;
 @property(readonly) NSInteger      state;
+
+// Key event
+@property(readonly) NSUInteger     keycode;
+//@property(readonly) NSInteger      state;
 
 // HatSwitch event
 @property(readonly) NSUInteger     position;

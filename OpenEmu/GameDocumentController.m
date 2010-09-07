@@ -922,6 +922,9 @@ static void OEHandle_DeviceMatchingCallback(void* inContext,
      [NSDictionary dictionaryWithObjectsAndKeys:
       [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
       [NSNumber numberWithInteger:kHIDUsage_GD_GamePad], @ kIOHIDDeviceUsageKey, nil],
+	 [NSDictionary dictionaryWithObjectsAndKeys:
+      [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
+      [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
      nil];
     IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)matchingEvents);
     
