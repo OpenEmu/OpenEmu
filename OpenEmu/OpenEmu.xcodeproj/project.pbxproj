@@ -205,6 +205,8 @@
 		82C42C8610CAFB480046D1A3 /* download_arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C42C8410CAFB480046D1A3 /* download_arrow_down.png */; };
 		82C42C8710CAFB480046D1A3 /* download_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C42C8510CAFB480046D1A3 /* download_arrow_up.png */; };
 		82C434130EE393530037C54B /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82C434120EE393530037C54B /* icon.icns */; };
+		82C5EFAE1237E76C001262F7 /* AsyncUdpSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C5EFAC1237E76C001262F7 /* AsyncUdpSocket.m */; };
+		82C5EFB31237E7E1001262F7 /* OENetServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C5EFB21237E7E1001262F7 /* OENetServer.m */; };
 		82C9C9550F0804A20071460B /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82C9C9540F0804A20071460B /* Sparkle.framework */; };
 		82C9C96D0F080BD30071460B /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82C9C96C0F080BD30071460B /* dsa_pub.pem */; };
 		82CAFBBE0FEDAA4200CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFBB70FEDAA3D00CCDC7E /* config.yaml */; };
@@ -574,6 +576,10 @@
 		82C42C8410CAFB480046D1A3 /* download_arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download_arrow_down.png; sourceTree = "<group>"; };
 		82C42C8510CAFB480046D1A3 /* download_arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download_arrow_up.png; sourceTree = "<group>"; };
 		82C434120EE393530037C54B /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
+		82C5EFAB1237E76C001262F7 /* AsyncUdpSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncUdpSocket.h; sourceTree = "<group>"; };
+		82C5EFAC1237E76C001262F7 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
+		82C5EFB11237E7E1001262F7 /* OENetServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENetServer.h; sourceTree = "<group>"; };
+		82C5EFB21237E7E1001262F7 /* OENetServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENetServer.m; sourceTree = "<group>"; };
 		82C9C9540F0804A20071460B /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
 		82C9C96C0F080BD30071460B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82CAFBB70FEDAA3D00CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
@@ -1058,6 +1064,7 @@
 		828E64D00E84656900B1860B /* OpenEmuCore */ = {
 			isa = PBXGroup;
 			children = (
+				82C5EC781236EEA3001262F7 /* Network */,
 				1E2F3DB810DEAB370019AA84 /* Migration */,
 				1E9F73BA1037663F0072EED6 /* ROM Files */,
 				82DE498810263A09007184EB /* Downloader */,
@@ -1120,6 +1127,17 @@
 				C62F56530FE6FDA700DF15BA /* OEGameLayer.m */,
 			);
 			name = Graphics;
+			sourceTree = "<group>";
+		};
+		82C5EC781236EEA3001262F7 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				82C5EFAB1237E76C001262F7 /* AsyncUdpSocket.h */,
+				82C5EFAC1237E76C001262F7 /* AsyncUdpSocket.m */,
+				82C5EFB11237E7E1001262F7 /* OENetServer.h */,
+				82C5EFB21237E7E1001262F7 /* OENetServer.m */,
+			);
+			name = Network;
 			sourceTree = "<group>";
 		};
 		82DE498810263A09007184EB /* Downloader */ = {
@@ -1389,7 +1407,14 @@
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "OpenEmu" */;
 			compatibilityVersion = "Xcode 3.1";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				English,
+				Japanese,
+				French,
+				German,
+			);
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* OpenEmu */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1711,6 +1736,8 @@
 				C6AC9D4D1190C9AE0083DDFD /* OEGameCoreManager.m in Sources */,
 				C6AC9DEF1190E2C90083DDFD /* OpenEmuHelperApp.m in Sources */,
 				1EA4404911973E9C001D71CA /* OEGameQuickLookDocument.m in Sources */,
+				82C5EFAE1237E76C001262F7 /* AsyncUdpSocket.m in Sources */,
+				82C5EFB31237E7E1001262F7 /* OENetServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

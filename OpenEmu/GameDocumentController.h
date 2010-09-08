@@ -32,6 +32,7 @@
 #import "OEHIDDeviceHandler.h"
 #import "OEROMOrganizer.h"
 #import "OEVersionMigrationController.h"
+#import "OENetServer.h"
 
 @class OEROMFile;
 @class OESaveState;
@@ -39,7 +40,7 @@
 @class GameCore, OECorePlugin;
 @class GameDocument, OEGamePreferenceController, OESaveStateController, OECoreDownloader;
 
-@interface GameDocumentController : NSDocumentController
+@interface GameDocumentController : NSDocumentController <OENetServerDelegate>
 {
     GameDocument               *currentGame;
     OEGamePreferenceController *preferences;
@@ -58,6 +59,7 @@
     NSWindow                   *aboutWindow;
     NSString                   *aboutCreditsPath;
     
+	OENetServer                *server;
     // For new QC Composition based filters.
     // the key will be our filter name from the QC Composition attributes or if that is missing, the filename.
     // the value will of course be our QC Composition filter.

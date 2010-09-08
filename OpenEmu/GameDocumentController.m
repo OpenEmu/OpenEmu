@@ -48,6 +48,9 @@
 
 #import "SaveState.h"
 
+#import "OEHIDEvent.h"
+#import "NSApplication+OEHIDAdditions.h"
+
 @interface GameDocumentController ()
 @property(readwrite, retain) NSArray *plugins;
 - (void)OE_setupHIDManager;
@@ -146,6 +149,21 @@
         [versionMigrator addMigratorTarget:self selector:@selector(migrateSaveStatesWithError:) forVersion:@"1.0.0b5"];
         [versionMigrator addMigratorTarget:self selector:@selector(removeFrameworkFromLibraryWithError:) forVersion:@"1.0.0b5"];
         
+		server = [[OENetServer alloc] init];
+		[server setDelegate:self];
+		
+		NSError *error;
+		if(server == nil || ![server start:&error]) {
+			NSLog(@"Failed creating server: %@", error);
+//			[self _showAlert:@"Failed creating server"];
+		}
+		
+		//Start advertising to clients, passing nil for the name to tell Bonjour to pick use default name
+		if(![server enableBonjourWithDomain:@"local" applicationProtocol:[OENetServer bonjourTypeFromIdentifier:@"openemu"] name:nil]) {
+			NSLog(@"No advertisment");
+//			[self _showAlert:@"Failed advertising server"];
+		}
+		
         [self setGameLoaded:NO];
         
         [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
