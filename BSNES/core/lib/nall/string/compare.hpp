@@ -1,15 +1,15 @@
 #ifndef NALL_STRING_COMPARE_HPP
 #define NALL_STRING_COMPARE_HPP
 
-char chrlower(char c) {
+inline char chrlower(char c) {
   return (c >= 'A' && c <= 'Z') ? c + ('a' - 'A') : c;
 }
 
-char chrupper(char c) {
+inline char chrupper(char c) {
   return (c >= 'a' && c <= 'z') ? c - ('a' - 'A') : c;
 }
 
-int stricmp(const char *dest, const char *src) {
+inline int stricmp(const char *dest, const char *src) {
   while(*dest) {
     if(chrlower(*dest) != chrlower(*src)) break;
     dest++;
@@ -19,7 +19,7 @@ int stricmp(const char *dest, const char *src) {
   return (int)chrlower(*dest) - (int)chrlower(*src);
 }
 
-int strpos(const char *str, const char *key) {
+inline int strpos(const char *str, const char *key) {
   int ssl = strlen(str), ksl = strlen(key);
 
   if(ksl > ssl) return -1;
@@ -31,7 +31,7 @@ int strpos(const char *str, const char *key) {
   return -1;
 }
 
-int qstrpos(const char *str, const char *key) {
+inline int qstrpos(const char *str, const char *key) {
   int ssl = strlen(str), ksl = strlen(key);
 
   if(ksl > ssl) return -1;
@@ -51,14 +51,14 @@ int qstrpos(const char *str, const char *key) {
   return -1;
 }
 
-bool strbegin(const char *str, const char *key) {
+inline bool strbegin(const char *str, const char *key) {
   int i, ssl = strlen(str), ksl = strlen(key);
 
   if(ksl > ssl) return false;
   return (!memcmp(str, key, ksl));
 }
 
-bool stribegin(const char *str, const char *key) {
+inline bool stribegin(const char *str, const char *key) {
   int ssl = strlen(str), ksl = strlen(key);
 
   if(ksl > ssl) return false;
@@ -74,14 +74,14 @@ bool stribegin(const char *str, const char *key) {
   return true;
 }
 
-bool strend(const char *str, const char *key) {
+inline bool strend(const char *str, const char *key) {
   int ssl = strlen(str), ksl = strlen(key);
 
   if(ksl > ssl) return false;
   return (!memcmp(str + ssl - ksl, key, ksl));
 }
 
-bool striend(const char *str, const char *key) {
+inline bool striend(const char *str, const char *key) {
   int ssl = strlen(str), ksl = strlen(key);
 
   if(ksl > ssl) return false;

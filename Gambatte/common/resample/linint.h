@@ -23,7 +23,7 @@
 #include "resampler.h"
 #include "u48div.h"
 
-template<unsigned channels>
+template<const unsigned channels>
 class LinintCore {
 	unsigned long ratio;
 	std::size_t pos_;
@@ -88,7 +88,7 @@ std::size_t LinintCore<channels>::resample(short *const out, const short *const 
 	return opos / channels;
 }
 
-template<unsigned channels>
+template<const unsigned channels>
 class Linint : public Resampler {
 	LinintCore<channels> cores[channels];
 	

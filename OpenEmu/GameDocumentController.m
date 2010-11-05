@@ -511,11 +511,11 @@
 	Class ret = NULL;
 	
 	if(isOpeningQuickLook){
-		ret = [OEGameQuickLookDocument class], DLog(@"documentClassForType: Quick Look");
+		ret = [OEGameQuickLookDocument class]; DLog(@"documentClassForType: Quick Look");
 	}else{
 		ret = [super documentClassForType:documentTypeName];
 		if(ret == nil){
-			ret = [GameDocument class], DLog(@"documentClassForType: Long path");
+			ret = [GameDocument class]; DLog(@"documentClassForType: Long path");
 		}
 	}
     return ret;

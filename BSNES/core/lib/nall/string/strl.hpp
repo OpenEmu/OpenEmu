@@ -4,7 +4,7 @@
 //strlcpy, strlcat based on OpenBSD implementation by Todd C. Miller
 
 //return = strlen(src)
-size_t strlcpy(char *dest, const char *src, size_t length) {
+inline size_t strlcpy(char *dest, const char *src, size_t length) {
   char *d = dest;
   const char *s = src;
   size_t n = length;
@@ -22,7 +22,7 @@ size_t strlcpy(char *dest, const char *src, size_t length) {
 }
 
 //return = strlen(src) + min(length, strlen(dest))
-size_t strlcat(char *dest, const char *src, size_t length) {
+inline size_t strlcat(char *dest, const char *src, size_t length) {
   char *d = dest;
   const char *s = src;
   size_t n = length;

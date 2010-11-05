@@ -48,6 +48,8 @@ enum _OEGameDocumentErrorCodes
     NSString             *romPath;
     OECorePlugin         *plugin;
     OEGameCoreController *owner;
+    
+    id<OEGameCoreHelper>  rootProxy;
 }
 
 @property(readonly, copy)   NSString             *romPath;
@@ -73,9 +75,7 @@ enum _OEGameDocumentErrorCodes
     // IPC from our OEHelper
     OETaskWrapper        *helper;
     NSString             *taskUUIDForDOServer;
-    NSConnection         *taskConnection;
-    
-    id<OEGameCoreHelper>  rootProxy;
+    NSConnection         *taskConnection;    
 }
 
 @property(readonly,assign) OETaskWrapper *helper;
@@ -90,9 +90,7 @@ enum _OEGameDocumentErrorCodes
     NSString             *taskUUIDForDOServer;
     NSConnection         *taskConnection;
     NSError              *error;
-    
-    id<OEGameCoreHelper>  rootProxy;
-    
+        
     OpenEmuHelperApp     *helperObject;
 }
 

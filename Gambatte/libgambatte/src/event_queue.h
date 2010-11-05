@@ -31,7 +31,7 @@ class event_queue {
 
 	std::size_t indexOf(T e);
 	void internalDec(std::size_t i, T e);
-	template<bool child2BoundsCheck> void internalInc(std::size_t i, T e);
+	template<const bool child2BoundsCheck> void internalInc(std::size_t i, T e);
 
 public:
 	event_queue(std::size_t capacity, const Comparer &comparer);

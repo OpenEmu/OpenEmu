@@ -105,7 +105,7 @@ struct MMIO {
   bool dprio;
   bool cden;
   bool cdsel;
-  bool dd;
+  uint8 dd;
   uint8 sd;
 
   //$2231 CDMA

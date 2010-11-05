@@ -2,6 +2,7 @@
 #define NALL_ARRAY_HPP
 
 #include <stdlib.h>
+#include <string.h>
 #include <nall/algorithm.hpp>
 #include <nall/bit.hpp>
 

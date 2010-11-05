@@ -21,7 +21,7 @@
 
 #include "subresampler.h"
 
-template<unsigned channels> 
+template<const unsigned channels> 
 class Cic3Core {
 // 	enum { BUFLEN = 64 };
 // 	unsigned long buf[BUFLEN];
@@ -350,7 +350,7 @@ std::size_t Cic3EvenOddCore<channels>::filter(short *out, const short *const in,
 	return (out - outStart) / channels;
 }*/
 
-template<unsigned channels>
+template<const unsigned channels>
 class Cic3 : public SubResampler {
 	Cic3Core<channels> cics[channels];
 	

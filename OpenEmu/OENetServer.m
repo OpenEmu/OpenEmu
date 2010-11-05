@@ -94,7 +94,7 @@
 
 - (void)netService:(NSNetService *)sender didNotPublish:(NSDictionary *)errorDict
 {
-	[(id)super netService:sender didNotPublish:errorDict];
+	[super netService:sender didNotPublish:errorDict];
 	if (self.delegate && [self.delegate respondsToSelector:@selector(server:didNotEnableBonjour:)])
 		[self.delegate server:self didNotEnableBonjour:errorDict];
 }

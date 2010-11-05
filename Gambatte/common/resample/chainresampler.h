@@ -55,12 +55,12 @@ class ChainResampler : public Resampler {
 	static float get3ChainRatio1(float ratio1, float rollOff, float ratio);
 	static float get3ChainCost(float ratio, float rollOff, float ratio1, float ratio2);
 	
-	template<template<unsigned,unsigned> class Sinc>
+	template<template<const unsigned,const unsigned> class Sinc>
 	std::size_t downinit(long inRate, long outRate, std::size_t periodSize);
 	
 	std::size_t reallocateBuffer();
 	
-	template<template<unsigned,unsigned> class Sinc>
+	template<template<const unsigned,const unsigned> class Sinc>
 	std::size_t upinit(long inRate, long outRate, std::size_t periodSize);
 	
 public:
@@ -70,14 +70,14 @@ public:
 	void adjustRate(long inRate, long outRate);
 	void exactRatio(unsigned long &mul, unsigned long &div) const;
 	
-	template<template<unsigned,unsigned> class Sinc>
+	template<template<const unsigned,const unsigned> class Sinc>
 	std::size_t init(long inRate, long outRate, std::size_t periodSize);
 	std::size_t maxOut(std::size_t /*inlen*/) const { return maxOut_; }
 	std::size_t resample(short *out, const short *in, std::size_t inlen);
 	void uninit();
 };
 
-template<template<unsigned,unsigned> class Sinc>
+template<template<const unsigned,const unsigned> class Sinc>
 std::size_t ChainResampler::init(const long inRate, const long outRate, const std::size_t periodSize) {
 	setRate(inRate, outRate);
 	
@@ -87,7 +87,7 @@ std::size_t ChainResampler::init(const long inRate, const long outRate, const st
 		return downinit<Sinc>(inRate, outRate, periodSize);
 }
 
-template<template<unsigned,unsigned> class Sinc>
+template<template<const unsigned,const unsigned> class Sinc>
 std::size_t ChainResampler::downinit(const long inRate, const long outRate, const std::size_t periodSize) {
 	typedef Sinc<channels,2048> BigSinc;
 	typedef Sinc<channels,32> SmallSinc;
@@ -136,7 +136,7 @@ std::size_t ChainResampler::downinit(const long inRate, const long outRate, cons
 	return reallocateBuffer();
 }
 
-template<template<unsigned,unsigned> class Sinc>
+template<template<const unsigned,const unsigned> class Sinc>
 std::size_t ChainResampler::upinit(const long inRate, const long outRate, const std::size_t periodSize) {
 	typedef Sinc<channels,2048> BigSinc;
 	typedef Sinc<channels,32> SmallSinc;

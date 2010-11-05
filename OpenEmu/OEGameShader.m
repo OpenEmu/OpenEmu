@@ -119,7 +119,7 @@ static void OE_linkProgram(GLhandleARB programObject,
                               theProgramLinked);
     
     if(*theProgramLinked == 0)
-        NSLog(@">> Failed to link program 0x%lx\n", (GLubyte *)&programObject);
+        NSLog(@">> Failed to link program %p\n", (GLubyte *)&programObject);
 } // LinkProgram
 
 @interface OEGameShader ()

@@ -22,7 +22,7 @@
 #include <algorithm>
 #include <cstring>
 
-template<unsigned channels, unsigned phases>
+template<const unsigned channels, const unsigned phases>
 class PolyPhaseConvoluter {
 	const short *kernel;
 	short *prevbuf;

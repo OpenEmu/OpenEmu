@@ -119,7 +119,7 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
     SNES::Cartridge::Type type = SNES::cartridge.detect_image_type(memory.data(), memory.size());
     memory.reset();
     
-    if(loadCartridge([path UTF8String], SNES::memory::cartrom));
+    if(loadCartridge([path UTF8String], SNES::memory::cartrom))
     {
         SNES::cartridge.load(SNES::Cartridge::ModeNormal);
         SNES::system.power();

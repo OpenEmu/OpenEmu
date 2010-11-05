@@ -33,7 +33,7 @@ public:
 	unsigned div() const { return 1; }
 };
 
-template<const unsigned channels>
+template<unsigned channels>
 std::size_t Upsampler<channels>::resample(short *out, const short *in, std::size_t inlen) {
 	if (inlen) {
 		std::memset(out, 0, inlen * mul_ * sizeof(short) * channels);

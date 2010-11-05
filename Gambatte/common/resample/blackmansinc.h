@@ -26,7 +26,7 @@
 #include <cmath>
 #include <cstdlib>
 
-template<unsigned channels, unsigned phases>
+template<const unsigned channels, const unsigned phases>
 class BlackmanSinc : public SubResampler {
 	PolyPhaseConvoluter<channels, phases> convoluters[channels];
 	short *kernel;

@@ -1,7 +1,7 @@
 #ifndef NALL_STRING_CONVERT_HPP
 #define NALL_STRING_CONVERT_HPP
 
-char* strlower(char *str) {
+inline char* strlower(char *str) {
   if(!str) return 0;
   int i = 0;
   while(str[i]) {
@@ -11,7 +11,7 @@ char* strlower(char *str) {
   return str;
 }
 
-char* strupper(char *str) {
+inline char* strupper(char *str) {
   if(!str) return 0;
   int i = 0;
   while(str[i]) {
@@ -21,7 +21,7 @@ char* strupper(char *str) {
   return str;
 }
 
-char* strtr(char *dest, const char *before, const char *after) {
+inline char* strtr(char *dest, const char *before, const char *after) {
   if(!dest || !before || !after) return dest;
   int sl = strlen(dest), bsl = strlen(before), asl = strlen(after);
 
@@ -38,7 +38,7 @@ char* strtr(char *dest, const char *before, const char *after) {
   return dest;
 }
 
-uintmax_t strhex(const char *str) {
+inline uintmax_t strhex(const char *str) {
   if(!str) return 0;
   uintmax_t result = 0;
 
@@ -58,7 +58,7 @@ uintmax_t strhex(const char *str) {
   return result;
 }
 
-intmax_t strsigned(const char *str) {
+inline intmax_t strsigned(const char *str) {
   if(!str) return 0;
   intmax_t result = 0;
   bool negate = false;
@@ -79,7 +79,7 @@ intmax_t strsigned(const char *str) {
   return !negate ? result : -result;
 }
 
-uintmax_t strunsigned(const char *str) {
+inline uintmax_t strunsigned(const char *str) {
   if(!str) return 0;
   uintmax_t result = 0;
 
@@ -93,7 +93,7 @@ uintmax_t strunsigned(const char *str) {
   return result;
 }
 
-uintmax_t strbin(const char *str) {
+inline uintmax_t strbin(const char *str) {
   if(!str) return 0;
   uintmax_t result = 0;
 
@@ -111,7 +111,7 @@ uintmax_t strbin(const char *str) {
   return result;
 }
 
-double strdouble(const char *str) {
+inline double strdouble(const char *str) {
   if(!str) return 0.0;
   bool negate = false;
 
@@ -148,7 +148,7 @@ double strdouble(const char *str) {
 
 //
 
-size_t strhex(char *str, uintmax_t value, size_t length /* = 0 */) {
+inline size_t strhex(char *str, uintmax_t value, size_t length /* = 0 */) {
   if(length == 0) length -= 1U;  //"infinite" length
   size_t initial_length = length;
 
@@ -173,7 +173,7 @@ size_t strhex(char *str, uintmax_t value, size_t length /* = 0 */) {
   return nall::min(initial_length, digits + 1);
 }
 
-size_t strsigned(char *str, intmax_t value_, size_t length /* = 0 */) {
+inline size_t strsigned(char *str, intmax_t value_, size_t length /* = 0 */) {
   if(length == 0) length = -1U;  //"infinite" length
   size_t initial_length = length;
 
@@ -205,7 +205,7 @@ size_t strsigned(char *str, intmax_t value_, size_t length /* = 0 */) {
   return nall::min(initial_length, digits + 1);
 }
 
-size_t strunsigned(char *str, uintmax_t value, size_t length /* = 0 */) {
+inline size_t strunsigned(char *str, uintmax_t value, size_t length /* = 0 */) {
   if(length == 0) length = -1U;  //"infinite" length
   size_t initial_length = length;
 
@@ -230,7 +230,7 @@ size_t strunsigned(char *str, uintmax_t value, size_t length /* = 0 */) {
   return nall::min(initial_length, digits + 1);
 }
 
-size_t strbin(char *str, uintmax_t value, size_t length /* = 0 */) {
+inline size_t strbin(char *str, uintmax_t value, size_t length /* = 0 */) {
   if(length == 0) length = -1U;  //"infinite" length
   size_t initial_length = length;
 
@@ -261,7 +261,7 @@ size_t strbin(char *str, uintmax_t value, size_t length /* = 0 */) {
 //
 //note: length parameter is currently ignored.
 //it remains for consistency and possible future support.
-size_t strdouble(char *str, double value, size_t length /* = 0 */) {
+inline size_t strdouble(char *str, double value, size_t length /* = 0 */) {
   char buffer[256];
   sprintf(buffer, "%f", value);
 

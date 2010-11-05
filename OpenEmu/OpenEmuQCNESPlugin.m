@@ -670,7 +670,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 #pragma mark Debuggery
 
-- enableDebugMode: (BOOL)flag
+- (void) enableDebugMode: (BOOL)flag
 {
     self.debugMode = flag;
     

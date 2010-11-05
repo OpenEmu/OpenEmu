@@ -719,9 +719,9 @@ void DSP1_Project(short X, short Y, short Z, short *H, short *V, short *M)
   Py=DSP1_ShiftR(Py,E-refE);
   Pz=DSP1_ShiftR(Pz,E3-refE);
 
-  C11=- (Px*Nx>>15);
-  C8=- (Py*Ny>>15);
-  C9=- (Pz*Nz>>15);
+  C11= -(Px*Nx>>15);
+  C8= -(Py*Ny>>15);
+  C9= -(Pz*Nz>>15);
   C12=C11+C8+C9;   // this cannot overflow!
 
   aux4=C12;   // de-normalization with 32-bits arithmetic

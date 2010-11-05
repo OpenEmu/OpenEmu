@@ -64,7 +64,7 @@
 - (BOOL)controllerDataValidate:(NSArray *)cData;
 - (void) handleControllerData;
 - (BOOL)readFromURL:(NSURL *)absoluteURL;
-- enableDebugMode:(BOOL)flag;
+- (void)enableDebugMode:(BOOL)flag;
 
 //- (void)refresh;
 //- (OECorePlugin *)pluginForType:(NSString *)extension;

@@ -137,7 +137,7 @@ static int eval(const char *&s, int depth = 0) {
   return value;
 }
 
-bool strint(const char *s, int &result) {
+inline bool strint(const char *s, int &result) {
   try {
     result = eval_integer(s);
     return true;
@@ -147,7 +147,7 @@ bool strint(const char *s, int &result) {
   }
 }
 
-bool strmath(const char *s, int &result) {
+inline bool strmath(const char *s, int &result) {
   try {
     result = eval(s);
     return true;

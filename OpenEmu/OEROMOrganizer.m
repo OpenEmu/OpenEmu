@@ -167,7 +167,7 @@
 
 - (IBAction)previewROM:(id)sender{
 	for(OEROMFile *romFile in [allROMSController selectedObjects]){
-		NSError *error = NULL;
+//		NSError *error = NULL;
 //		GameDocument *document = [[GameDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[romFile pathURL] display:YES error:&error];
 /*		OEGameQuickLookDocument *document = [[GameDocumentController sharedDocumentController] previewROMFile:romFile fromPoint:NSZeroPoint];
 

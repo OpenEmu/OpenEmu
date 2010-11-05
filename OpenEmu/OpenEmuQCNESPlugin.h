@@ -131,6 +131,6 @@
 - (BOOL)readFromURL:(NSURL *)absoluteURL;
 
 - (BOOL)validateNameTableData:(NSArray*)nameTableData;
-- enableDebugMode:(BOOL)flag;
+- (void)enableDebugMode:(BOOL)flag;
 @end
 

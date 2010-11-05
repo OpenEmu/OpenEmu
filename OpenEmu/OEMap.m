@@ -169,14 +169,16 @@ void OEMapRemoveMaskedKeysForValue(OEMapRef map, OEMapKey mask, OEMapValue value
     [map->lock unlock];
 }
 
+#if 0
 void OEMapShowOffContent(OEMapRef map)
 {
     if(map == NULL) return;
     
-    NSLog(@"Count = %d", map->count);
+    NSLog(@"Count = %zu", map->count);
     for(size_t i = 0, max = map->count; i < max; i++)
     {
         OEMapEntry *entry = &map->entries[i];
-        NSLog(@"entry[%d] = { .allocated = %s, .key = %d, .value = { .key = %d, .player = %d } }", i, BOOL_STR(entry->allocated), entry->key, entry->value.key, entry->value.player);
+        NSLog(@"entry[%zu] = { .allocated = %s, .key = %d, .value = { .key = %d, .player = %d } }", i, BOOL_STR(entry->allocated), entry->key, entry->value.key, entry->value.player);
     }
 }
+#endif

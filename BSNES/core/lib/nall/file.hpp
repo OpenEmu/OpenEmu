@@ -103,7 +103,7 @@ namespace nall {
         case seek_relative: req_offset += offset; break;
       }
 
-      if(req_offset < 0) req_offset = 0;  //cannot seek before start of file
+      if(file_offset < offset) req_offset = 0;  //cannot seek before start of file
       if(req_offset > file_size) {
         if(file_mode == mode_read) {      //cannot seek past end of file
           req_offset = file_size;

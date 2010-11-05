@@ -23,8 +23,8 @@ extern sample_t* Fir_Resampler_buffer( void );
 extern int Fir_Resampler_written( void );
 extern int Fir_Resampler_avail( void );
 extern void Fir_Resampler_write( long count );
-extern int Fir_Resampler_read( sample_t** out, unsigned long count );
-extern int Fir_Resampler_input_needed( unsigned long output_count );
+extern int Fir_Resampler_read( sample_t** out, int count );
+extern int Fir_Resampler_input_needed( int output_count );
 extern int Fir_Resampler_skip_input( long count );
 
 #endif

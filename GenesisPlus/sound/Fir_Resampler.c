@@ -51,7 +51,7 @@ static void gen_sinc(double rolloff, int width, double offset, double spacing, d
   }
 }
 
-static int available( unsigned long input_count )
+static int available( int input_count )
 {
   int cycle_count = input_count / input_per_cycle;
   int output_count = cycle_count * res * STEREO;
@@ -190,7 +190,7 @@ void Fir_Resampler_write( long count )
   assert( write_pos <= ( buffer + buffer_size ) );
 }
 
-int Fir_Resampler_read( sample_t** out, unsigned long count )
+int Fir_Resampler_read( sample_t** out, int count )
 {
   sample_t* out_l = out[0];
   sample_t* out_r = out[1];
@@ -259,7 +259,7 @@ int Fir_Resampler_read( sample_t** out, unsigned long count )
   return out_l - out[0];
 }
 
-int Fir_Resampler_input_needed( unsigned long output_count )
+int Fir_Resampler_input_needed( int output_count )
 {
   unsigned long input_count = 0;
 

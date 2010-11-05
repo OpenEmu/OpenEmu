@@ -157,7 +157,7 @@ uint8 sms_gg_port_read(uint16 port) {
         return ((sms_pad & sms_ioctl_input_mask) |
                 (sms_ioctl_output_bits & sms_ioctl_output_mask)) & 0xFF;
     }
-    else if(port == 0xC1 || 0xDD)   {
+    else if(port == 0xC1 || port == 0xDD)   {
         /* I/O port B/misc register */
         return (((sms_pad & sms_ioctl_input_mask) |
                  (sms_ioctl_output_bits & sms_ioctl_output_mask)) >> 8) & 0xFF;
