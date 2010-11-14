@@ -13,24 +13,26 @@
 
 @protocol OENetServerDelegate <NSObject>
 @optional
-- (void) serverDidEnableBonjour:(OENetServer*)server withName:(NSString*)name;
-- (void) server:(OENetServer*)server didNotEnableBonjour:(NSDictionary *)errorDict;
-- (void) didAcceptConnectionForServer:(OENetServer*)server inputStream:(NSInputStream *)istr outputStream:(NSOutputStream *)ostr;
+- (void)server:(OENetServer *)server didEnableBonjourWithName:(NSString *)name;
+- (void)server:(OENetServer *)server didNotEnableBonjour:(NSDictionary *)errorDict;
+- (void)server:(OENetServer *)server didAcceptConnectionWithInputStream:(NSInputStream *)istr outputStream:(NSOutputStream *)ostr;
 @end
 
 @interface OENetServer : NSObject <NSNetServiceDelegate>
 {
-	uint16_t port;
-	AsyncUdpSocket *asyncSocket;
-	NSNetService *netService;
-	id <OENetServerDelegate> delegate;
+    id<OENetServerDelegate>  delegate;
+    AsyncUdpSocket          *asyncSocket;
+    NSNetService            *netService;
+    uint16_t                 port;
 }
 
 - (BOOL)start:(NSError **)error;
 - (BOOL)stop;
-- (BOOL)enableBonjourWithDomain:(NSString*)domain applicationProtocol:(NSString*)protocol name:(NSString*)name; //Pass "nil" for the default local domain - Pass only the application protocol for "protocol" e.g. "myApp"
-- (void)disableBonjour;
-+ (NSString*) bonjourTypeFromIdentifier:(NSString*)identifier;
 
-@property (assign) id <OENetServerDelegate> delegate;
+//Pass "nil" for the default local domain - Pass only the application protocol for "protocol" e.g. "myApp"
+- (BOOL)enableBonjourWithDomain:(NSString*)domain applicationProtocol:(NSString*)protocol name:(NSString*)name;
+- (void)disableBonjour;
++ (NSString*)bonjourTypeFromIdentifier:(NSString*)identifier;
+
+@property(assign) id<OENetServerDelegate> delegate;
 @end
