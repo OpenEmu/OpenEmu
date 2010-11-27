@@ -121,14 +121,12 @@ static NSMutableDictionary *needsReload = nil;
         return nil;
     }
     
-    if(self = [super init])
+    if((self = [super init]))
     {
-        bundle = [aBundle retain];
+        bundle         = [aBundle retain];
         infoDictionary = [[bundle infoDictionary] retain];
-        version = [[infoDictionary objectForKey:@"CFBundleVersion"] retain];
-        displayName = [[infoDictionary objectForKey:@"CFBundleName"] retain];
-        if(displayName == nil)
-            displayName = [[infoDictionary objectForKey:@"CFBundleExecutable"] retain];
+        version        = [[infoDictionary objectForKey:@"CFBundleVersion"] retain];
+        displayName    = ([[infoDictionary objectForKey:@"CFBundleName"] retain] ? : [[infoDictionary objectForKey:@"CFBundleExecutable"] retain]);
     }
     return self;
 }

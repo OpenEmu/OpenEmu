@@ -74,7 +74,7 @@ static GLhandleARB OE_loadShader(GLenum theShaderType,
                                   theShaderCompiled);
         
         if(*theShaderCompiled == 0)
-            NSLog(@">> Failed to compile shader %s\n", theShader);
+            NSLog(@">> Failed to compile shader %s\n", (char *)theShader);
     } // if
     else *theShaderCompiled = 1;
     
@@ -236,7 +236,7 @@ static void OE_linkProgram(GLhandleARB programObject,
 #pragma mark -- Designated Initializer --
 - (id)initWithShadersInBundle:(NSBundle *)bundle withName:(NSString *)theShadersName forContext:(CGLContextObj)context
 {
-    if(self = [super init])
+    if((self = [super init]))
     {
         bundleToLoadFrom = [bundle retain];
         shaderContext = context; 

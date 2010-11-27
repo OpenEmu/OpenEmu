@@ -209,7 +209,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 
 - (id) init
 {
-    if(self = [super init]) {
+    if((self = [super init])) {
         /*
          Allocate any permanent resource required by the plug-in.
          */

@@ -242,7 +242,7 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 - (id) init
 {
-    if(self = [super init])
+    if((self = [super init]))
     {
     }
     

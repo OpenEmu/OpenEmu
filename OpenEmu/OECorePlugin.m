@@ -42,7 +42,7 @@
 
 - (id)initWithBundle:(NSBundle *)aBundle
 {
-    if(self = [super initWithBundle:aBundle])
+    if((self = [super initWithBundle:aBundle]))
     {
         gameCoreClass = [bundle principalClass];
         

@@ -133,20 +133,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     return kQCPlugInTimeModeIdle;
 }
 
-- (id)init
-{
-    if(self = [super init])
-    {
-    }
-    
-    return self;
-}
-
-- (void)finalize
-{
-    [super finalize];
-}
-
 - (void)dealloc
 {
 	[self setPersistantControllerData:nil];
