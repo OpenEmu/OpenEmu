@@ -117,7 +117,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
                                                            state:NSOnState];
         
         id value = [self registarableValueWithObject:theEvent];
-        NSString *keyPath = [self keyPathForKey:[self->controlNames objectAtIndex:[key unsignedIntValue]] withValueType:OEKeyboardEventValueKey];
+        NSString *keyPath = [self keyPathForKey:key withValueType:OEKeyboardEventValueKey];
         //Need to strip the "values." off the front
         keyPath = [keyPath substringFromIndex:[@"values." length]];
         
