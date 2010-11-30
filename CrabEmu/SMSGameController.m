@@ -41,6 +41,20 @@
     }
 }
 
+- (NSDictionary*)defaultControls
+{
+    NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow], [NSNumber numberWithUnsignedInt:SMSPad1Up],
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], [NSNumber numberWithUnsignedInt:SMSPad1Right],
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow], [NSNumber numberWithUnsignedInt:SMSPad1Left],
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow], [NSNumber numberWithUnsignedInt:SMSPad1Down],
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA], [NSNumber numberWithUnsignedInt:SMSPad1A],
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS], [NSNumber numberWithUnsignedInt:SMSPad1B],
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape], [NSNumber numberWithUnsignedInt:SMSReset],nil];
+                              
+    return controls;                          
+}
+
 - (NSArray *)genericControlNames
 {
     static NSArray *genericControlNames = nil;
