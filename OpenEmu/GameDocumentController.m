@@ -70,11 +70,16 @@
 
 + (void)initialize
 {
-    [[NSUserDefaultsController sharedUserDefaultsController] setInitialValues:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      @"Linear", @"filterName",
-      [NSNumber numberWithFloat:1.0], @"volume", nil]];
-    
+    //This can get called many times, don't need to be blowing away the defaults
+    NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
+    NSDictionary *initialValues = [[[defaults initialValues] mutableCopy] autorelease];
+    if (!initialValues)
+        initialValues = [NSMutableDictionary dictionary];
+    [initialValues setValue:@"Linear"
+                    forKey:@"filterName"];
+    [initialValues setValue:[NSNumber numberWithFloat:1.0]
+                     forKey:@"volume"];
+    [defaults setInitialValues:initialValues];
 }
 
 - (void) applicationDidFinishLaunching:(NSNotification*)aNotification

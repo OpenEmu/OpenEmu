@@ -187,6 +187,18 @@
     return ret;
 }
 
++ (id)keyEventWithTimestamp:(NSTimeInterval)timestamp keyCode:(NSUInteger)keyCode state:(NSUInteger)state
+{
+    OEHIDEvent *ret = [[[self alloc] initWithPadNumber:0 timestamp:timestamp] autorelease];
+    
+    ret->_type = OEHIDKeypress;
+    ret->_data.keypress.keycode = keyCode;
+    ret->_data.keypress.state = state;
+    ret->_isPushed = ret->_data.keypress.state != NSOffState;
+    
+    return ret;
+}
+
 + (id)eventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue
 {
     return [[[self alloc] initWithDeviceHandler:aDeviceHandler value:aValue] autorelease];

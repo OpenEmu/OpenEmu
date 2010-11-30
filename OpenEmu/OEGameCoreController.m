@@ -104,6 +104,30 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     }
 }
 
+- (void)registerDefaultControls;
+{
+    
+    NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
+    NSMutableDictionary *dict = [[[defaults initialValues] mutableCopy] autorelease];
+    
+    [[self defaultControls] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) 
+    {
+        OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0 
+                                                         keyCode:[obj unsignedIntValue] 
+                                                           state:NSOnState];
+        
+        id value = [self registarableValueWithObject:theEvent];
+        NSString *keyPath = [self keyPathForKey:[self->controlNames objectAtIndex:[key unsignedIntValue]] withValueType:OEKeyboardEventValueKey];
+        //Need to strip the "values." off the front
+        keyPath = [keyPath substringFromIndex:[@"values." length]];
+        
+        [dict setValue:value forKey:keyPath];
+    }];
+    
+
+    [defaults setInitialValues:dict];
+}
+
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses
 {
     if([viewControllerClasses count] == 0) return;
@@ -119,6 +143,11 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     }
     
     [_preferenceViewControllerClasses setObject:[[viewControllerClasses copy] autorelease] forKey:self];
+}
+
+- (NSDictionary *)defaultControls
+{
+    return nil;
 }
 
 - (NSArray *)availablePreferenceViewControllers
@@ -203,7 +232,10 @@ static void OE_setupControlNames(OEGameCoreController *self)
         gameDocuments    = [[NSMutableArray alloc] init];
         settingObservers = [[NSMutableArray alloc] init];
         OE_setupControlNames(self);
+        
+        [self registerDefaultControls];
         [self OE_observeSettings];
+        [self forceKeyBindingRecover];
     }
     return self;
 }

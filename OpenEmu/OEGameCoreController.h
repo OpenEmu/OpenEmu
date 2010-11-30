@@ -60,6 +60,8 @@ extern NSString *const OEKeyboardEventValueKey;
 @property(readonly) NSString *replacePlayerFormat;
 
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
+- (void)registerDefaultControls;
+
 - (NSArray *)availablePreferenceViewControllers;
 
 @property(readonly) NSString   *pluginName;
@@ -99,6 +101,7 @@ extern NSString *const OEKeyboardEventValueKey;
 - (id)keyboardEventForKey:(NSString *)keyName;
 - (void)removeBindingsToEvent:(id)theEvent withValueType:(NSString *)aType;
 
+- (NSDictionary *)defaultControls;
 @end
 
 @interface NSViewController (OEGameCoreControllerAddition)
