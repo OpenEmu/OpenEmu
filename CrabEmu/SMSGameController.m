@@ -44,13 +44,13 @@
 - (NSDictionary*)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow], [NSNumber numberWithUnsignedInt:SMSPad1Up],
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], [NSNumber numberWithUnsignedInt:SMSPad1Right],
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow], [NSNumber numberWithUnsignedInt:SMSPad1Left],
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow], [NSNumber numberWithUnsignedInt:SMSPad1Down],
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA], [NSNumber numberWithUnsignedInt:SMSPad1A],
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS], [NSNumber numberWithUnsignedInt:SMSPad1B],
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape], [NSNumber numberWithUnsignedInt:SMSReset],nil];
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow], @"SMS_PAD1_UP",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"SMS_PAD1_RIGHT",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow], @"SMS_PAD1_LEFT",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow], @"SMS_PAD1_DOWN",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA], @"SMS_PAD1_A",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS], @"SMS_PAD1_B",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape], @"SMS_RESET",nil];
                               
     return controls;                          
 }
