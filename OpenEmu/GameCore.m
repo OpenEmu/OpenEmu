@@ -477,6 +477,14 @@ static NSTimeInterval currentTime()
         [self releaseEmulatorKey:key];
 }
 
+- (void)keyUp:(NSEvent *)theEvent
+{
+}
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+}
+
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
     NSUInteger value = HID_MASK | PAD_NUMBER;
