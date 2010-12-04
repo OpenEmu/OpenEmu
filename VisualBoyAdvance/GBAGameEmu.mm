@@ -458,7 +458,10 @@ u32 systemGetClock()
 
 void systemMessage(int, const char * message, ...)
 {
-    NSLog(@"message: %s", message);
+    va_list args;
+    va_start(args, message);
+    NSLogv([@"message: " stringByAppendingString:[NSString stringWithUTF8String:message]], args);
+    va_end(args);
 }
 
 void systemSetTitle(const char * title)
