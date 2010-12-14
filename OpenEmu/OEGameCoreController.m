@@ -104,6 +104,24 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     }
 }
 
+- (void)updateOldKeyboardControls;
+{
+	NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
+	[self OE_enumerateSettingKeysUsingBlock: ^(NSString *keyPath, NSString *keyName, NSString *keyType)
+	 {
+		 id event = [udc eventValueForKeyPath:keyPath];
+		 //Old style control, lets translate!
+		 if (event && ![event respondsToSelector:@selector(keycode)] && keyType == OEKeyboardEventValueKey)
+		 {
+			 OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0 
+															  keyCode:[OEHIDEvent keyCodeForVK:[event unsignedIntValue]]
+																state:NSOnState];
+			 [udc setValue:[self registarableValueWithObject:theEvent] forKeyPath:keyPath];
+		 }
+	 }];
+	
+}
+
 - (void)registerDefaultControls;
 {
     
@@ -234,6 +252,7 @@ static void OE_setupControlNames(OEGameCoreController *self)
         OE_setupControlNames(self);
         
         [self registerDefaultControls];
+		[self updateOldKeyboardControls];
         [self OE_observeSettings];
         [self forceKeyBindingRecover];
     }

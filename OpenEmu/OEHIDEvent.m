@@ -41,6 +41,17 @@
 @implementation OEHIDEvent
 @synthesize padNumber = _padNumber, type = _type, isPushed = _isPushed, timestamp = _timestamp;
 
++ (NSUInteger)keyCodeForVK:(CGCharCode)charCode
+{
+	for (int i = 0; i < sizeof(hidvk_codes) / sizeof(*hidvk_codes); ++i)
+	{
+		if (hidvk_codes[i].vkCode == charCode)
+		{
+			return hidvk_codes[i].hidCode;
+		}
+	}
+	return 0;
+}
 
 + (NSString *)stringForHIDKeyCode:(NSUInteger)hidCode
 {
@@ -54,16 +65,12 @@
 		}
 	}
 	
-	if (keyCode == 0xFFFF)
+	for (int i = 0; i < sizeof(hidlabels) / sizeof(*hidlabels); ++i)
 	{
-		for (int i = 0; i < sizeof(hidlabels) / sizeof(*hidlabels); ++i)
+		if (hidlabels[i].hidCode == hidCode)
 		{
-			if (hidlabels[i].hidCode == hidCode)
-			{
-				 return hidlabels[i].string;
-			}
+			 return hidlabels[i].string;
 		}
-		return nil;
 	}
 		
 	TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();

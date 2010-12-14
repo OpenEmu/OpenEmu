@@ -412,7 +412,11 @@ static NSTimeInterval currentTime()
 {
     OEEmulatorKey emulKey;
     GET_EMUL_KEY;
-    NSInteger appKey = KEYBOARD_MASK | [theEvent keycode];
+	NSInteger appKey = 0;
+	//if ([theEvent respondsToSelector:@selector(keycode)])
+		appKey = KEYBOARD_MASK | [theEvent keycode];
+//	else
+//		appKey = KEYBOARD_MASK | [theEvent intValue];
     
     [self setEventValue:appKey forEmulatorKey:emulKey];
 }

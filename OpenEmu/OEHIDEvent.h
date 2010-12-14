@@ -90,6 +90,7 @@ typedef NSInteger OEHIDDirection;
 
 - (NSString *)displayDescription;
 
++ (NSUInteger)keyCodeForVK:(CGCharCode)charCode;
 + (id)axisEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis scaledValue:(CGFloat)value;
 + (id)buttonEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp buttonNumber:(NSUInteger)number state:(NSUInteger)state;
 + (id)hatSwitchEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp position:(NSUInteger)position positionCount:(NSUInteger)count;
