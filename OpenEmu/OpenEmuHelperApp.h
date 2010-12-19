@@ -90,10 +90,12 @@ enum _OEHelperAppErrorCodes
     OEIntSize previousScreenSize, correctedSize;
     float     gameAspectRatio;
     BOOL      drawSquarePixels;
+    BOOL      running;
 }
 
 @property(retain) NSString *doUUID;
 @property(assign) BOOL      loadedRom;
+@property(readonly, assign, getter=isRunning) BOOL running;
 
 - (BOOL)launchConnectionWithIdentifierSuffix:(NSString *)aSuffix error:(NSError **)anError;
 - (void)setupProcessPollingTimer;

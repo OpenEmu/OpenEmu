@@ -54,11 +54,17 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     return error;
 }
 
+@interface OpenEmuHelperApp ()
+@property(readwrite, assign, getter=isRunning) BOOL running;
+@end
+
+
 @implementation OpenEmuHelperApp
 
 @synthesize doUUID;
 @synthesize loadedRom, surfaceID;
 @synthesize screenSize = correctedSize, delegate, drawSquarePixels;
+@synthesize running;
 
 #pragma mark -
 
@@ -87,7 +93,8 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     
     BOOL ret = [theConnection registerName:[OEHelperServerNamePrefix stringByAppendingString:aSuffix]];
     
-    if(!ret && anError != NULL)
+    if(ret) [self setRunning:YES];
+    else if(anError != NULL)
         *anError = [NSError errorWithDomain:OEHelperProcessErrorDomain
                                        code:OEHelperCouldNotStartConnectionError
                                    userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The connection could not be opened.", @"NSConnection registerName: message fail error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
@@ -641,6 +648,8 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     [gameAudio stopAudio];
     [gameCore release],  gameCore = nil;
     [gameAudio release], gameAudio = nil;
+    
+    [self setRunning:NO];
 }
 
 #pragma mark -

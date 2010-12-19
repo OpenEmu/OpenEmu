@@ -277,6 +277,7 @@ bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
     
         Memory.SaveSRAM([filePath UTF8String]);
     }
+    
     [super stopEmulation];
 }
 

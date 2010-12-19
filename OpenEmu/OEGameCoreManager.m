@@ -361,7 +361,11 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 - (void)endHelperProcess
 {
     // kill our background friend
-    [self performSelector:@selector(stopRunLoop) onThread:helper withObject:nil waitUntilDone:YES];
+    [self performSelector:@selector(stopRunLoop) onThread:helper withObject:nil waitUntilDone:NO];
+    
+    // Runs the runloop until the helper is actually done to prevent deadlocks if the game core wants the main thread to do stuff...
+    while([helperObject isRunning]) CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.1, YES);
+    
     [helper release];
     helper = nil;
     
