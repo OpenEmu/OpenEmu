@@ -27,9 +27,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Quartz/Quartz.h>
-#import <IOKit/hid/IOHIDLib.h>
-#import <IOKit/hid/IOHIDUsageTables.h>
-#import "OEHIDDeviceHandler.h"
 #import "OEROMOrganizer.h"
 #import "OEVersionMigrationController.h"
 #import "OENetServer.h"
@@ -51,10 +48,7 @@
     NSArray                    *plugins;
     NSArray                    *validExtensions;
     BOOL                        gameLoaded;
-    
-    IOHIDManagerRef             hidManager;
-    NSMutableArray             *deviceHandlers;
-    
+        
     // added vade
     NSWindow                   *aboutWindow;
     NSString                   *aboutCreditsPath;
@@ -123,4 +117,6 @@
 
 - (BOOL)migrateSaveStatesWithError:(NSError **)err;
 - (BOOL)removeFrameworkFromLibraryWithError:(NSError **)err;
+
+- (void)setupHIDSupport;
 @end

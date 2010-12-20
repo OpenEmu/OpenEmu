@@ -29,7 +29,6 @@
 #import "GameDocumentController.h"
 #import "GameDocument.h"
 #import "GameCore.h"
-#import "OEHIDDeviceHandler.h"
 #import <Sparkle/Sparkle.h>
 #import <Quartz/Quartz.h>
 //#import "ArchiveReader.h"
@@ -48,13 +47,12 @@
 
 #import "SaveState.h"
 
-#import "OEHIDEvent.h"
-#import "NSApplication+OEHIDAdditions.h"
+//HID support
+#import "OEHIDManager.h"
+#import <IOKit/hid/IOHIDUsageTables.h>
 
 @interface GameDocumentController ()
 @property(readwrite, retain) NSArray *plugins;
-- (void)OE_setupHIDManager;
-- (OEHIDDeviceHandler *)OE_deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice;
 
 - (BOOL)migrateOESaveStateAtPath:(NSString *)saveStatePath;
 @end
@@ -211,7 +209,7 @@
          */
         [self updateValidExtensions];
         
-        [self OE_setupHIDManager];
+        [self setupHIDSupport];
         
         [self willChangeValueForKey:@"aboutCreditsPath"];
         aboutCreditsPath = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
@@ -228,8 +226,6 @@
     [filterNames release];
     [validExtensions release];
     [plugins release];
-    if(hidManager != NULL) CFRelease(hidManager);
-    [deviceHandlers release];
     [aboutCreditsPath release];
     [coreDownloader release];
     
@@ -544,11 +540,10 @@
     NSString *filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
     
     NSError *error = nil;
-    
-    if(![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error])
-        NSLog(@"%@", error);
-    else
-        DLog(@"Deleted temp files");
+	if(![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error])
+		NSLog(@"%@", error);
+	else
+		DLog(@"Deleted temp files");
 }
 
 - (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
@@ -882,62 +877,11 @@
 }
 
 #pragma mark -
-#pragma mark HID Event handler system
+#pragma mark HID Event handling
 
-- (OEHIDDeviceHandler *)OE_deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice
+- (void)setupHIDSupport
 {
-    OEHIDDeviceHandler *ret = [OEHIDDeviceHandler deviceHandlerWithDevice:aDevice];
-    [deviceHandlers addObject:ret];
-    return ret;
-}
-
-#define DEVICE_IDENTIFIER(page, usage) (((page) << 16) | (usage))
-
-static void OEHandle_InputValueCallback(void *inContext,
-                                        IOReturn inResult,
-                                        void *inSender,
-                                        IOHIDValueRef inIOHIDValueRef)
-{
-    [(OEHIDDeviceHandler *)inContext dispatchEventWithHIDValue:inIOHIDValueRef];
-}
-
-static void OEHandle_DeviceMatchingCallback(void* inContext,
-                                            IOReturn inResult,
-                                            void* inSender,
-                                            IOHIDDeviceRef inIOHIDDeviceRef )
-{
-    DLog(@"Found device: %s( context: %p, result: %p, sender: %p, device: %p ).\n",
-         __PRETTY_FUNCTION__,
-         inContext, inResult,
-         inSender,  inIOHIDDeviceRef);
-    
-    if (IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
-    {
-        NSLog(@"%s: failed to open device at %p", __PRETTY_FUNCTION__, inIOHIDDeviceRef);
-        return;
-    }
-    
-    DLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
-    
-    GameDocumentController *self = inContext;
-    
-    //IOHIDDeviceRegisterRemovalCallback(inIOHIDDeviceRef, OEHandle_RemovalCallback, self);
-    
-    IOHIDDeviceRegisterInputValueCallback(inIOHIDDeviceRef,
-                                          OEHandle_InputValueCallback,
-                                          [self OE_deviceHandlerWithDevice:inIOHIDDeviceRef]);
-    
-    IOHIDDeviceScheduleWithRunLoop(inIOHIDDeviceRef,
-                                   CFRunLoopGetCurrent(),
-                                   kCFRunLoopDefaultMode);
-    
-}   // Handle_DeviceMatchingCallback
-
-- (void)OE_setupHIDManager
-{
-    deviceHandlers = [[NSMutableArray alloc] init];
-    hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
-    NSArray *matchingEvents =
+	NSArray *matchingTypes =
     [NSArray arrayWithObjects:
      [NSDictionary dictionaryWithObjectsAndKeys:
       [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
@@ -949,14 +893,8 @@ static void OEHandle_DeviceMatchingCallback(void* inContext,
       [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
       [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
      nil];
-    IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)matchingEvents);
-    
-    IOHIDManagerRegisterDeviceMatchingCallback(hidManager,
-                                               OEHandle_DeviceMatchingCallback,
-                                               self);
-    IOHIDManagerScheduleWithRunLoop(hidManager,
-                                    CFRunLoopGetCurrent(),
-                                    kCFRunLoopDefaultMode);
+	
+	[[OEHIDManager sharedManager] registerDeviceTypes:matchingTypes];
 }
 
 @end
