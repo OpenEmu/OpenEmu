@@ -540,10 +540,13 @@
     NSString *filePath = [appSupportPath stringByAppendingPathComponent:@"Temp Rom Extraction"];
     
     NSError *error = nil;
-	if(![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error])
-		NSLog(@"%@", error);
-	else
-		DLog(@"Deleted temp files");
+    BOOL isDirectory = YES;
+	
+	if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory] && isDirectory)
+		if(![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error])
+			NSLog(@"%@", error);
+		else
+			DLog(@"Deleted temp files");
 }
 
 - (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
