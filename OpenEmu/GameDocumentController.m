@@ -221,7 +221,9 @@
 
 - (void)dealloc
 {
-    [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
+    [hidManager release]; hidManager = nil;
+	
+	[[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
     
     [filterNames release];
     [validExtensions release];
@@ -897,7 +899,8 @@
       [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
      nil];
 	
-	[[OEHIDManager sharedManager] registerDeviceTypes:matchingTypes];
+	hidManager = [[OEHIDManager alloc] init];
+	[hidManager registerDeviceTypes:matchingTypes];
 }
 
 @end

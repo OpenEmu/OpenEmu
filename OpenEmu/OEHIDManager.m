@@ -31,20 +31,11 @@
 #import "OEHIDEvent.h"
 #import "NSApplication+OEHIDAdditions.h"
 
-static OEHIDManager *shared;
-
 static void OEHandle_InputValueCallback(void *inContext, IOReturn inResult, void *inSender, IOHIDValueRef inIOHIDValueRef);
 static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, void* inSender, IOHIDDeviceRef inIOHIDDeviceRef);
 static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, void *inSender);
 
 @implementation OEHIDManager
-
-+ (OEHIDManager*)sharedManager
-{
-		if(!shared)
-			shared = [[OEHIDManager alloc] init];
-	return shared;
-}
 
 - (id)init
 {
@@ -115,7 +106,7 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 		[deviceHandlers addObject:handler];
 		
 		//Register for removal
-		IOHIDDeviceRegisterRemovalCallback(inDevice, OEHandle_DeviceRemovalCallback, [OEHIDManager sharedManager]);
+		IOHIDDeviceRegisterRemovalCallback(inDevice, OEHandle_DeviceRemovalCallback, self);
 		
 		//Register for input
 		IOHIDDeviceRegisterInputValueCallback(inDevice, OEHandle_InputValueCallback, handler);

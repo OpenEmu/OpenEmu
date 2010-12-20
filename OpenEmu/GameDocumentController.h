@@ -37,6 +37,8 @@
 @class GameCore, OECorePlugin;
 @class GameDocument, OEGamePreferenceController, OESaveStateController, OECoreDownloader;
 
+@class OEHIDManager;
+
 @interface GameDocumentController : NSDocumentController <OENetServerDelegate>
 {
     GameDocument               *currentGame;
@@ -71,6 +73,8 @@
     OEVersionMigrationController *versionMigrator;
 	
 	BOOL                         isOpeningQuickLook;
+	
+	OEHIDManager				*hidManager;
 }
 
 @property(retain) IBOutlet NSWindow *aboutWindow;
