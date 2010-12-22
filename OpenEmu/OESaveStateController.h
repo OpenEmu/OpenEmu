@@ -88,11 +88,11 @@
 
 @property(retain) IBOutlet NSSegmentedControl *segmentButton;
 
-@property(assign)   float                      browserZoom;
-@property(readonly) NSArray                   *plugins;
-@property(retain)   NSPredicate               *availablePluginsPredicate;
-@property(retain)   NSIndexSet                *selectedPlugins;
-@property(retain)   NSArray                   *sortDescriptors;
+@property(assign)           float              browserZoom;
+@property(readonly)         NSArray           *plugins;
+@property(retain)           NSPredicate       *availablePluginsPredicate;
+@property(retain,nonatomic) NSIndexSet        *selectedPlugins;
+@property(retain)           NSArray           *sortDescriptors;
 
 - (IBAction)exportSave:(id)sender;
 - (IBAction)toggleViewType:(NSSegmentedControl *)sender;

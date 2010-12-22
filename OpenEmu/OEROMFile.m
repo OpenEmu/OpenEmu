@@ -68,7 +68,7 @@
     
     if(items && [items count] > 0)
         romFile = [items objectAtIndex:0];
-    else
+    else if (create)
         romFile = [self createFileWithPath:path insertedIntoManagedObjectContext:context];
     
     return romFile;
@@ -97,19 +97,29 @@
 
 - (void)setPath:(NSString *)path
 {
-    [self setPrimitiveValue: path                   forKey:@"path"];
-    [self setPrimitiveValue:[NSURL bookmarkDataWithContentsOfURL:[NSURL fileURLWithPath:path] error:NULL] forKey:@"pathAlias"];
-    //[self setPrimitiveValue:[path OE_pathAliasData] forKey:@"pathAlias"];
+    [self setPrimitiveValue:path forKey:@"path"];
+    NSError *err = nil;
+    NSData* bookmarkData = [[NSURL fileURLWithPath:path] bookmarkDataWithOptions:NSURLBookmarkCreationPreferFileIDResolution
+                                                  includingResourceValuesForKeys:nil
+                                                                   relativeToURL:nil
+                                                                           error:&err];
+    if (bookmarkData == nil) {
+        NSLog(@"Error in setPath: %@, path was: %@", err, path);
+    }
+    else {
+        [self setPrimitiveValue:bookmarkData forKey:@"pathAlias"];
+    }
 }
 
 - (NSString *)path
 {
-	if([self pathAlias]){
-		return [[NSURL URLByResolvingBookmarkData:[self pathAlias] options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:NULL] path];
-	}else{
-		return [self primitiveValueForKey:@"path"];
-	}
-    //return [NSString OE_stringWithPathOfAliasData:[self pathAlias]];
+    NSString *retVal = nil;
+    if ([self pathAlias])
+        retVal = [[NSURL URLByResolvingBookmarkData:[self pathAlias] options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:NULL] path];
+    else
+        retVal = [self primitiveValueForKey:@"path"];
+
+    return retVal;
 }
 
 - (NSString *)systemName
