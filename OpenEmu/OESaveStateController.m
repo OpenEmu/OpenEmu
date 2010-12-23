@@ -419,7 +419,7 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
             saveState = [self saveStateAtAbsoluteIndex:[[imageBrowser selectionIndexes] firstIndex]];
             break;
         case 2:
-            saveState = [[savestateController arrangedObjects] objectAtIndex:[imageFlow selectedIndex]];
+            saveState = [self saveStateAtAbsoluteIndex:[imageFlow selectedIndex]];
             break;
     }
     
