@@ -38,7 +38,7 @@
     NSPredicate         *availablePluginsPredicate;
     NSIndexSet          *selectedPlugins;
     NSArray             *sortDescriptors;
-    OECorePlugin        *currentPlugin;    
+    OECorePlugin        *currentPlugin;
     
     NSArrayController   *romFileController;
     NSArrayController   *savestateController;

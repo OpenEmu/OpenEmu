@@ -150,7 +150,6 @@
 		1E9F73FB10376BE40072EED6 /* OEROMOrganizer.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1E9F73FA10376BE40072EED6 /* OEROMOrganizer.xib */; };
 		1EA4404911973E9C001D71CA /* OEGameQuickLookDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EA4404811973E9C001D71CA /* OEGameQuickLookDocument.m */; };
 		1EDFCD241050BEC900568AA5 /* OESaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EDFCD231050BEC900568AA5 /* OESaveState.m */; };
-		1EDFCD271050BF3500568AA5 /* NSString+Aliases.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EDFCD261050BF3500568AA5 /* NSString+Aliases.m */; };
 		1EE941E01050EBBF00509E78 /* ROMFile.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1EE941DF1050EBBF00509E78 /* ROMFile.xcdatamodel */; };
 		1EE941FC1050EC8E00509E78 /* SaveState.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1EE941FB1050EC8E00509E78 /* SaveState.xcdatamodel */; };
 		3707484B0F39089E00EFE066 /* OpenEmuQCIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3707484A0F39089E00EFE066 /* OpenEmuQCIcon.icns */; };
@@ -505,8 +504,6 @@
 		1EA4404811973E9C001D71CA /* OEGameQuickLookDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameQuickLookDocument.m; sourceTree = "<group>"; };
 		1EDFCD221050BEC800568AA5 /* OESaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESaveState.h; sourceTree = "<group>"; };
 		1EDFCD231050BEC900568AA5 /* OESaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESaveState.m; sourceTree = "<group>"; };
-		1EDFCD251050BF3500568AA5 /* NSString+Aliases.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Aliases.h"; sourceTree = "<group>"; };
-		1EDFCD261050BF3500568AA5 /* NSString+Aliases.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Aliases.m"; sourceTree = "<group>"; };
 		1EE941DF1050EBBF00509E78 /* ROMFile.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = ROMFile.xcdatamodel; sourceTree = "<group>"; };
 		1EE941FB1050EC8E00509E78 /* SaveState.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = SaveState.xcdatamodel; sourceTree = "<group>"; };
 		2A37F4ACFDCFA73011CA2CEA /* GameDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDocument.m; sourceTree = "<group>"; };
@@ -1172,8 +1169,6 @@
 				82955D061024C577000BE8DF /* OESaveStateDocument.m */,
 				1EDFCD221050BEC800568AA5 /* OESaveState.h */,
 				1EDFCD231050BEC900568AA5 /* OESaveState.m */,
-				1EDFCD251050BF3500568AA5 /* NSString+Aliases.h */,
-				1EDFCD261050BF3500568AA5 /* NSString+Aliases.m */,
 			);
 			name = "State Manager";
 			sourceTree = "<group>";
@@ -1748,7 +1743,6 @@
 				1E9F73F110376A2E0072EED6 /* OEROMOrganizer.m in Sources */,
 				82965F881041DC4600F30B74 /* OECorePickerController.m in Sources */,
 				1EDFCD241050BEC900568AA5 /* OESaveState.m in Sources */,
-				1EDFCD271050BF3500568AA5 /* NSString+Aliases.m in Sources */,
 				1EE941E01050EBBF00509E78 /* ROMFile.xcdatamodel in Sources */,
 				1EE941FC1050EC8E00509E78 /* SaveState.xcdatamodel in Sources */,
 				1E2F3DBB10DEAB4C0019AA84 /* OEVersionMigrationController.m in Sources */,
