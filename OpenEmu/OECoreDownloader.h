@@ -30,10 +30,8 @@
 
 @interface OECoreDownloader : NSWindowController <OEDownloadDelegate>
 {
-    NSMutableArray      *appcasts;
-    NSArray             *urlList;
+	NSArray             *availableCores;
     
-    NSMutableDictionary *downloadToPathMap;
     NSArrayController   *downloadArrayController;
     NSTableView         *downloadTableView;
 }

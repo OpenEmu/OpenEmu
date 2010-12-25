@@ -35,18 +35,19 @@
 
 @end
 
-@class SUAppcastItem, SUAppcast;
+@class SUAppcastItem, OECoreInfo;
 
 @interface OEDownload : NSViewController
 {
+	OECoreInfo *coreInfo;
+    SUAppcastItem       *appcastItem;
+	
     NSProgressIndicator *progressBar;
     NSButton            *button;
-    NSString            *name;
     NSString            *downloadPath;
     NSString            *fullPluginPath;
     unsigned long long   expectedLength;
     unsigned long long   downloadedSize;
-    SUAppcastItem       *appcastItem;
     
     id<OEDownloadDelegate> delegate;
     
@@ -54,6 +55,7 @@
     BOOL enabled;
 }
 
+@property(readonly) OECoreInfo             *coreInfo;
 @property(readonly) NSProgressIndicator    *progressBar;
 @property(readonly) NSButton               *button;
 @property(assign)   BOOL                    enabled;
@@ -62,7 +64,7 @@
 @property(readonly) NSString               *fullPluginPath;
 @property(readonly) BOOL                    downloading;
 
-- (id)initWithAppcast:(SUAppcast *)appcast;
+- (id)initWithCoreInfo:(OECoreInfo *)coreInfo;
 - (void)startDownload:(id)sender;
 - (NSString *)name;
 

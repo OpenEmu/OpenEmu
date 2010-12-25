@@ -29,10 +29,11 @@
 #import "GameDocumentController.h"
 #import <Sparkle/Sparkle.h>
 #import <XADMaster/XADArchive.h>
+#import "OECoreInfo.h"
 
 @implementation OEDownload
 
-@synthesize enabled, appcastItem, progressBar, delegate, fullPluginPath, button, downloading;
+@synthesize coreInfo, enabled, appcastItem, progressBar, delegate, fullPluginPath, button, downloading;
 
 - (id)init
 {
@@ -66,14 +67,15 @@
     return [self retain];
 }
 
-- (id)initWithAppcast:(SUAppcast *)appcast
+- (id)initWithCoreInfo:(OECoreInfo *)theCoreInfo
 {
     if(self = [self init])
     {
+		coreInfo = [theCoreInfo retain];
         enabled = YES;
-        
+
         //Assuming 0 is the best download, may or may not be the best
-        [self setAppcastItem:[[appcast items] objectAtIndex:0]];
+        [self setAppcastItem:[[coreInfo.appcast items] objectAtIndex:0]];
         //NSLog(@"%@", [appcastItem propertiesDictionary]);
     }
     return self;
@@ -147,7 +149,10 @@
 
 - (NSString *)name
 {
-    return [appcastItem title];
+    return [NSString stringWithFormat:@"%@%@ %@",
+			coreInfo.name,
+			(coreInfo.coreDescription ? [NSString stringWithFormat:@" (%@)", coreInfo.coreDescription] : @""),
+			[appcastItem title]];
 }
 
 - (void) dealloc
@@ -156,6 +161,7 @@
     [downloadPath release];
     [fullPluginPath release];
     [button release];
+	[coreInfo release];
     [self setAppcastItem:nil];
     
     [super dealloc];

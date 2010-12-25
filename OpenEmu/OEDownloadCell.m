@@ -27,11 +27,13 @@
 
 #import "OEDownloadCell.h"
 #import "OEDownload.h"
+#import "OECoreInfo.h"
 
 @implementation OEDownloadCell
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     OEDownload *data               = [self objectValue];
+	OECoreInfo *coreInfo = data.coreInfo;
     BOOL        elementDisabled    = NO;
     NSColor    *primaryColor       = ([self isHighlighted]
                                       ? [NSColor alternateSelectedControlTextColor]

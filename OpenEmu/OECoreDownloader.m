@@ -30,10 +30,21 @@
 #import "OEDownload.h"
 #import "GameDocumentController.h"
 #import "OECorePlugin.h"
+#import "OECoreInfo.h"
 
 @implementation OECoreDownloader
 
 @synthesize downloadArrayController, downloadTableView;
+
+static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
+	NSString *value = nil;
+	NSArray *nodes = [element elementsForName:name];
+	if ([nodes count] > 0) {
+		NSXMLElement *childNode = [nodes objectAtIndex:0];
+		value = [childNode stringValue];
+	}
+	return value;
+}
 
 - (id)init
 {
@@ -45,44 +56,60 @@
     self = [super initWithWindowNibName:windowNibName];
     if(self != nil)
     {
-        // FIXME: Never used, what's the point ?
         NSError *error = nil;
         
         // Get the URL for the list of available plugins
-        NSString *coreURLs = [[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"];
-        NSString *rawList  = [NSString stringWithContentsOfURL:[NSURL URLWithString:coreURLs] encoding:NSUTF8StringEncoding error:&error];
-        
-        NSArray *list = [rawList componentsSeparatedByCharactersInSet:[NSCharacterSet newlineCharacterSet]];
-        
-        NSMutableArray *tempURLList = [NSMutableArray array];
-        
-        NSArray *allPlugins = [OECorePlugin allPlugins];
-        
-        // Load the appcast for each core
-        for(NSString *appcastString in list)
-        {
-            BOOL pluginExists = NO;
-            NSURL *appcastURL = [NSURL URLWithString:appcastString];
-            
-            // Check if the core is already installed by checking against the appcast URL
-            for(OECorePlugin* plugin in allPlugins)
-            {
-                if([[[plugin bundle] infoDictionary] valueForKey:@"SUFeedURL"])
-                {
-                    SUUpdater* updater = [SUUpdater updaterForBundle:[plugin bundle]];
-                    if ([[updater feedURL] isEqual:appcastURL])
-                    {
-                        pluginExists = YES;
-                        break;
-                    }
-                }    
-            }
-            
-            if(!pluginExists) [tempURLList addObject:appcastURL];
-        }
-        
-        urlList = [tempURLList copy];
+		// <core id="" name="" appcastURL="">
+		//   <description>...</description> (optional)
+		//   <iconURL>...</iconURL> (optional)
+		// </core>
+        // NSURL *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
+		NSURL *coreListURL = [NSURL URLWithString:@"http://f.cl.ly/items/2G1B0b391I40141o3i2S/oecores.xml"];
+		NSXMLDocument *coreListDoc = [[[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:&error] autorelease];
+		NSArray *coreNodes = nil;
+		
+		if(coreListDoc) coreNodes = [coreListDoc nodesForXPath:@"/cores/core" error:NULL];
+		
+		if(coreNodes)
+		{
+			NSMutableArray *tempAvailableCores = [NSMutableArray arrayWithCapacity:[coreNodes count]];
+			NSArray *allPlugins = [OECorePlugin allPlugins];
+			
+			for(NSXMLElement *coreNode in coreNodes)
+			{
+				OECoreInfo *core = [[[OECoreInfo alloc] init] autorelease];
+				core.coreID = [[coreNode attributeForName:@"id"] stringValue];
+				core.name = [[coreNode attributeForName:@"name"] stringValue];
+				core.appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];
+				core.coreDescription = elementChildAsString(coreNode, @"description");
+				
+				NSString *iconURLString = elementChildAsString(coreNode, @"iconURL");
+				if (iconURLString) core.iconURL = [NSURL URLWithString:iconURLString];
+				
+				NSLog(@"available core: %@", core);
+
+				// Check whether the core is already installed
+				BOOL pluginExists = NO;
+				for(OECorePlugin *plugin in allPlugins)
+				{
+					if([[[plugin bundle] infoDictionary] valueForKey:@"SUFeedURL"])
+					{
+						SUUpdater* updater = [SUUpdater updaterForBundle:[plugin bundle]];
+						if ([[updater feedURL] isEqual:core.appcastURL])
+						{
+							pluginExists = YES;
+							break;
+						}
+					}					
+				}
+				
+				if (! pluginExists) [tempAvailableCores addObject:core];
+			}
+			
+			availableCores = [tempAvailableCores copy];
+		}		
     }
+	
     return self;
 }
 
@@ -93,40 +120,47 @@
 
 - (void)dealloc
 {
+	[availableCores          release];
     [downloadArrayController release];
     [downloadTableView       release];
-    [downloadToPathMap       release];
-    [appcasts                release];
-    [urlList                 release];
     [super                   dealloc];
 }
 
 - (void)loadAppcasts
 {
     // Fetch all the appcasts
-    for(NSURL *appcastURL in urlList)
+    for(OECoreInfo *core in availableCores)
     {
-        SUAppcast *appcast = [[SUAppcast alloc] init];
-        
-        [appcast setDelegate:self];
-        [appcast fetchAppcastFromURL:appcastURL];
-        
-        [appcasts addObject:appcast];
-        [appcast release];
+		core.appcast = [[[SUAppcast alloc] init] autorelease];
+		[core.appcast setDelegate:self];
+		[core.appcast fetchAppcastFromURL:core.appcastURL];
     }
 }
 
 - (void)appcastDidFinishLoading:(SUAppcast *)appcast
 {
-    OEDownload *download = [[[OEDownload alloc] initWithAppcast:appcast] autorelease];
-    [download setDelegate:self];
-    [downloadArrayController addObject:download];
+	for(OECoreInfo *core in availableCores)
+	{
+		if(core.appcast == appcast)
+		{
+			OEDownload *download = [[[OEDownload alloc] initWithCoreInfo:core] autorelease];
+			[download setDelegate:self];
+			[downloadArrayController addObject:download];
+			break;
+		}
+	}
 }
 
 - (void)appcast:(SUAppcast *)appcast failedToLoadWithError:(NSError *)error
 {
     // Appcast couldn't load, remove it
-    [appcasts removeObject:appcast];
+	for(OECoreInfo *core in availableCores)
+	{
+		if (core.appcast == appcast) {
+			core.appcast = nil;
+			break;
+		}
+	}
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

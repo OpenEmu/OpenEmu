@@ -61,6 +61,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		14EBA4DE12C5A7730008DAD2 /* OECoreInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EBA4DD12C5A7730008DAD2 /* OECoreInfo.m */; };
 		1B223EE3100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B223EE2100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m */; };
 		1B223EFC100B89BE00F42067 /* CRTDisplace.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFA100B89BE00F42067 /* CRTDisplace.vert */; };
 		1B223EFD100B89BE00F42067 /* CRTDisplace.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFB100B89BE00F42067 /* CRTDisplace.frag */; };
@@ -437,6 +438,8 @@
 
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		14EBA4DC12C5A7730008DAD2 /* OECoreInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreInfo.h; sourceTree = "<group>"; };
+		14EBA4DD12C5A7730008DAD2 /* OECoreInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreInfo.m; sourceTree = "<group>"; };
 		1B223EE1100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCCRTDisplacePlugin.h; sourceTree = "<group>"; };
 		1B223EE2100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuQCCRTDisplacePlugin.m; sourceTree = "<group>"; };
 		1B223EFA100B89BE00F42067 /* CRTDisplace.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTDisplace.vert; sourceTree = "<group>"; };
@@ -1154,6 +1157,8 @@
 				82DE49F3102641CD007184EB /* OEDownload.m */,
 				8288A0F41027E16600671FE1 /* OEDownloadCell.h */,
 				8288A0F51027E16600671FE1 /* OEDownloadCell.m */,
+				14EBA4DC12C5A7730008DAD2 /* OECoreInfo.h */,
+				14EBA4DD12C5A7730008DAD2 /* OECoreInfo.m */,
 			);
 			name = Downloader;
 			sourceTree = "<group>";
@@ -1752,6 +1757,7 @@
 				1EA4404911973E9C001D71CA /* OEGameQuickLookDocument.m in Sources */,
 				82C5EFAE1237E76C001262F7 /* AsyncUdpSocket.m in Sources */,
 				82C5EFB31237E7E1001262F7 /* OENetServer.m in Sources */,
+				14EBA4DE12C5A7730008DAD2 /* OECoreInfo.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
