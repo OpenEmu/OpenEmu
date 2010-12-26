@@ -38,16 +38,18 @@
 	// optional attributes
 	NSString *coreDescription;
 	NSURL *iconURL;
+	NSImage *icon;
 
 	// needed by OECoreDownloader
 	SUAppcast *appcast;
 }
 
-@property (nonatomic, copy)   NSString  *coreID;
-@property (nonatomic, copy)   NSString  *name;
-@property (nonatomic, retain) NSURL     *appcastURL;
-@property (nonatomic, copy)   NSString  *coreDescription;
-@property (nonatomic, retain) NSURL     *iconURL;
-@property (nonatomic, retain) SUAppcast *appcast;
+@property(nonatomic, copy)   NSString  *coreID;
+@property(nonatomic, copy)   NSString  *name;
+@property(nonatomic, retain) NSURL     *appcastURL;
+@property(nonatomic, copy)   NSString  *coreDescription;
+@property(nonatomic, retain) NSURL     *iconURL;
+@property(nonatomic, retain) NSImage   *icon;
+@property(nonatomic, retain) SUAppcast *appcast;
 
 @end

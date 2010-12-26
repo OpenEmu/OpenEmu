@@ -30,11 +30,23 @@
 
 @implementation OECoreInfo
 
-@synthesize coreID, name, appcastURL, coreDescription, iconURL, appcast;
+@synthesize coreID, name, appcastURL, coreDescription, iconURL, icon, appcast;
 
-- (NSString *)description {
+- (NSString *)description
+{
 	return [NSString stringWithFormat:@"Core ID=%@, name=%@, description=%@, appcastURL=%@, iconURL=%@",
 			coreID, name, coreDescription, appcastURL, iconURL];
+}
+
+- (void)dealloc
+{
+	[coreID          release];
+	[name            release];
+	[appcastURL      release];
+	[coreDescription release];
+	[iconURL         release];
+	[icon            release];
+	[appcast         release];
 }
 
 @end

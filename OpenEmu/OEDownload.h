@@ -32,6 +32,7 @@
 @protocol OEDownloadDelegate
 
 - (void)OEDownloadDidFinish:(OEDownload *)download;
+- (void)OEIconDownloadDidFinish:(OEDownload *)download;
 
 @end
 
@@ -48,6 +49,8 @@
     NSString            *fullPluginPath;
     unsigned long long   expectedLength;
     unsigned long long   downloadedSize;
+	NSMutableData *iconData;
+	NSURLConnection *iconConnection;
     
     id<OEDownloadDelegate> delegate;
     

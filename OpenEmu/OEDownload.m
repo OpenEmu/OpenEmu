@@ -77,6 +77,16 @@
         //Assuming 0 is the best download, may or may not be the best
         [self setAppcastItem:[[coreInfo.appcast items] objectAtIndex:0]];
         //NSLog(@"%@", [appcastItem propertiesDictionary]);
+		
+		// download the icon, if any
+		if(coreInfo.iconURL)
+		{
+			iconData = [[NSMutableData data] retain];
+			NSURLRequest *request = [NSURLRequest requestWithURL:coreInfo.iconURL
+													 cachePolicy:NSURLRequestUseProtocolCachePolicy
+												 timeoutInterval:10];
+			iconConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+		}
     }
     return self;
 }
@@ -147,6 +157,38 @@
     [delegate OEDownloadDidFinish:self];
 }
 
+- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+{
+	[iconData setLength:0];
+}
+
+- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
+{
+    [iconData appendData:data];
+}
+
+- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
+{
+    [connection release];
+    [iconData release];
+	
+    // inform the user
+    NSLog(@"Connection failed! Error - %@ %@",
+          [error localizedDescription],
+          [[error userInfo] objectForKey:NSURLErrorFailingURLStringErrorKey]);
+}
+
+- (void)connectionDidFinishLoading:(NSURLConnection *)connection
+{
+	NSImage *icon = [[[NSImage alloc] initWithData:iconData] autorelease];
+	[icon setSize:NSMakeSize(64, 64)];
+	coreInfo.icon = icon;
+	[[self delegate] OEIconDownloadDidFinish:self];
+	
+    [connection release];
+    [iconData release];
+}
+
 - (NSString *)name
 {
     return [NSString stringWithFormat:@"%@%@ %@",
@@ -162,6 +204,7 @@
     [fullPluginPath release];
     [button release];
 	[coreInfo release];
+	[iconConnection release];
     [self setAppcastItem:nil];
     
     [super dealloc];

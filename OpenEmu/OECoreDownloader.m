@@ -56,16 +56,14 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     self = [super initWithWindowNibName:windowNibName];
     if(self != nil)
     {
-        NSError *error = nil;
-        
-        // Get the URL for the list of available plugins
+        // Get the URL for the list of available cores
 		// <core id="" name="" appcastURL="">
 		//   <description>...</description> (optional)
 		//   <iconURL>...</iconURL> (optional)
 		// </core>
         // NSURL *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
-		NSURL *coreListURL = [NSURL URLWithString:@"http://f.cl.ly/items/2G1B0b391I40141o3i2S/oecores.xml"];
-		NSXMLDocument *coreListDoc = [[[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:&error] autorelease];
+		NSURL *coreListURL = [NSURL URLWithString:@"http://f.cl.ly/items/2y1i0C151i0E0Z0D0d3z/oecores.xml"];
+		NSXMLDocument *coreListDoc = [[[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL] autorelease];
 		NSArray *coreNodes = nil;
 		
 		if(coreListDoc) coreNodes = [coreListDoc nodesForXPath:@"/cores/core" error:NULL];
@@ -86,8 +84,6 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
 				NSString *iconURLString = elementChildAsString(coreNode, @"iconURL");
 				if (iconURLString) core.iconURL = [NSURL URLWithString:iconURLString];
 				
-				NSLog(@"available core: %@", core);
-
 				// Check whether the core is already installed
 				BOOL pluginExists = NO;
 				for(OECorePlugin *plugin in allPlugins)
@@ -105,8 +101,8 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
 				
 				if (! pluginExists) [tempAvailableCores addObject:core];
 			}
-			
-			availableCores = [tempAvailableCores copy];
+
+            availableCores = [tempAvailableCores copy];
 		}		
     }
 	
@@ -115,6 +111,13 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
 
 - (void)windowDidLoad
 {
+    NSSortDescriptor *nameSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"name"
+                                                                        ascending:YES
+                                                                         selector:@selector(localizedCaseInsensitiveCompare:)]
+                                            autorelease];
+    NSArray *sortDescriptors = [NSArray arrayWithObject:nameSortDescriptor];
+    [downloadArrayController setSortDescriptors:sortDescriptors];
+    
     [self loadAppcasts];
 }
 
@@ -174,6 +177,11 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     [downloadTableView setNeedsDisplay];
     [[GameDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[download fullPluginPath]] display:NO error:nil];
     [downloadArrayController removeObject:download];
+}
+
+- (void)OEIconDownloadDidFinish:(OEDownload *)download
+{
+	[downloadTableView setNeedsDisplay];
 }
 
 - (IBAction)openCoreDownloaderWindow:(id)sender
