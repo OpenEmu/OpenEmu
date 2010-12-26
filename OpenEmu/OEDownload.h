@@ -31,6 +31,7 @@
 
 @protocol OEDownloadDelegate
 
+- (void)OEDownloadDidStart:(OEDownload *)download;
 - (void)OEDownloadDidFinish:(OEDownload *)download;
 - (void)OEIconDownloadDidFinish:(OEDownload *)download;
 

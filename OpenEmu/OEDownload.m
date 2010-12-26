@@ -96,6 +96,7 @@
     NSURLRequest  *request      = [NSURLRequest requestWithURL:[appcastItem fileURL]];
     NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:self] autorelease];
     downloading = YES;
+    [[self delegate] OEDownloadDidStart:self];
     if(fileDownload == nil) NSLog(@"ERROR: Couldn't download!?? %@", self);
 }
 
@@ -171,6 +172,8 @@
 {
     [connection release];
     [iconData release];
+    iconConnection = nil;
+    iconData = nil;
 
     // inform the user
     NSLog(@"Connection failed! Error - %@ %@",
@@ -185,6 +188,8 @@
 
     [connection release];
     [iconData release];
+    iconConnection = nil;
+    iconData = nil;
 }
 
 - (NSString *)name

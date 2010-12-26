@@ -32,12 +32,16 @@
 {
     NSArray             *availableCores;
     
+    NSButton            *downloadAllCoresButton;
     NSArrayController   *downloadArrayController;
     NSTableView         *downloadTableView;
 }
 
+@property(retain) IBOutlet NSButton          *downloadAllCoresButton;
 @property(retain) IBOutlet NSArrayController *downloadArrayController;
 @property(retain) IBOutlet NSTableView       *downloadTableView;
+
+- (IBAction)downloadAllCores:(id)sender;
 
 - (void)loadAppcasts;
 

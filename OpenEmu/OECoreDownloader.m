@@ -34,7 +34,7 @@
 
 @implementation OECoreDownloader
 
-@synthesize downloadArrayController, downloadTableView;
+@synthesize downloadAllCoresButton, downloadArrayController, downloadTableView;
 
 static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     NSString *value = nil;
@@ -98,13 +98,6 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     return [self initWithWindowNibName:@"CoreDownloader"];
 }
 
-- (id)initWithWindowNibName:(NSString *)windowNibName
-{
-    self = [super initWithWindowNibName:windowNibName];
-    if(self != nil) [self loadCoreList];
-    return self;
-}
-
 - (void)windowDidLoad
 {
     NSSortDescriptor *nameSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"name"
@@ -114,12 +107,14 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     NSArray *sortDescriptors = [NSArray arrayWithObject:nameSortDescriptor];
     [downloadArrayController setSortDescriptors:sortDescriptors];
     
+    [self loadCoreList];
     [self loadAppcasts];
 }
 
 - (void)dealloc
 {
     [availableCores          release];
+    [downloadAllCoresButton  release];
     [downloadArrayController release];
     [downloadTableView       release];
     [super                   dealloc];
@@ -145,6 +140,7 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
             OEDownload *download = [[[OEDownload alloc] initWithCoreInfo:core] autorelease];
             [download setDelegate:self];
             [downloadArrayController addObject:download];
+            [downloadAllCoresButton setEnabled:YES];
             break;
         }
     }
@@ -163,22 +159,30 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     }
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if([keyPath isEqualToString:@"progress"])
-        [downloadTableView setNeedsDisplay];
-}
-
-- (void)OEDownloadDidFinish:(OEDownload *)download;
+- (void)OEDownloadDidStart:(OEDownload *)download
 {
     [downloadTableView setNeedsDisplay];
+}
+
+- (void)OEDownloadDidFinish:(OEDownload *)download
+{
     [[GameDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[download fullPluginPath]] display:NO error:nil];
     [downloadArrayController removeObject:download];
+    [downloadTableView setNeedsDisplay];
+    if ([[downloadArrayController arrangedObjects] count] == 0) [downloadAllCoresButton setEnabled:NO];
 }
 
 - (void)OEIconDownloadDidFinish:(OEDownload *)download
 {
     [downloadTableView setNeedsDisplay];
+}
+
+- (IBAction)downloadAllCores:(id)sender
+{
+    for(OEDownload *download in [downloadArrayController arrangedObjects])
+    {
+        if (download.enabled && ! download.downloading) [download startDownload:self];
+    }
 }
 
 - (IBAction)openCoreDownloaderWindow:(id)sender
