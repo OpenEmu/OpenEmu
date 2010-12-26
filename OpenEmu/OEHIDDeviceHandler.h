@@ -28,6 +28,7 @@
 #import <Cocoa/Cocoa.h>
 #import <IOKit/hid/IOHIDLib.h>
 #import <IOKit/hid/IOHIDUsageTables.h>
+#import <ForceFeedback/ForceFeedback.h>
 
 @class OEHIDEvent;
 
@@ -36,6 +37,9 @@
     IOHIDDeviceRef device;
     NSUInteger     deviceNumber;
     CGFloat        deadZone;
+	
+	//force feedback support
+	FFDeviceObjectReference ffDevice;
 }
 
 @property(readonly) IOHIDDeviceRef device;
@@ -52,5 +56,11 @@
 - (id)initWithDevice:(IOHIDDeviceRef)aDevice;
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue;
 - (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue;
+- (io_service_t)getServiceRef;
+
+
+- (BOOL)supportsForceFeedback;
+- (void)enableForceFeedback;
+- (void)disableForceFeedback;
 
 @end

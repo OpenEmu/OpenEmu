@@ -76,6 +76,13 @@ static NSUInteger lastDeviceNumber = 0;
     return self;
 }
 
+- (void)dealloc
+{
+	if(ffDevice)
+		FFReleaseDevice(ffDevice);
+	[super dealloc];
+}
+
 - (BOOL)isEqual:(id)anObject
 {
     if(self == anObject)
@@ -118,6 +125,52 @@ static NSUInteger lastDeviceNumber = 0;
 - (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue
 {
     [NSApp postHIDEvent:[self eventWithHIDValue:aValue]];
+}
+
+- (io_service_t)getServiceRef
+{
+	io_service_t service = MACH_PORT_NULL;
+	
+#if MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_5
+	service = IOHIDDeviceGetService(device);
+#else
+	NSMutableDictionary *matchingDict = (NSMutableDictionary*)IOServiceMatching(kIOHIDDeviceKey);
+	if(matchingDict)
+	{
+		[matchingDict setValue:[self locationID] forKey:[NSString stringWithFormat:@"%s", kIOHIDLocationIDKey]];
+		service = IOServiceGetMatchingService( kIOMasterPortDefault, (CFDictionaryRef)matchingDict);
+	}
+#endif
+	return service;
+}
+
+- (BOOL)supportsForceFeedback
+{
+	BOOL result = NO;
+	
+	io_service_t service = [self getServiceRef];
+	if(service != MACH_PORT_NULL)
+	{
+		HRESULT FFResult = FFIsForceFeedback(service);
+		result = (FFResult == FF_OK);
+	}
+	return result;
+}
+
+- (void)enableForceFeedback
+{
+	if([self supportsForceFeedback])
+	{
+		io_service_t service = [self getServiceRef];
+		if(service != MACH_PORT_NULL)
+			FFCreateDevice(service, &ffDevice);
+	}
+}
+
+- (void)disableForceFeedback
+{
+	if(ffDevice)
+		FFReleaseDevice(ffDevice);
 }
 
 @end

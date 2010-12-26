@@ -35,37 +35,37 @@
 
 @interface OESaveStateController : NSWindowController
 {
-    NSPredicate        *availablePluginsPredicate;
-    NSIndexSet         *selectedPlugins;
-    NSArray            *sortDescriptors;
-    OECorePlugin       *currentPlugin;    
+    NSPredicate         *availablePluginsPredicate;
+    NSIndexSet          *selectedPlugins;
+    NSArray             *sortDescriptors;
+    OECorePlugin        *currentPlugin;
     
-    NSArrayController  *romFileController;
-    NSArrayController  *savestateController;
-    NSArrayController  *pluginController;
-    NSTreeController   *treeController;
-    NSPredicate        *selectedPluginsPredicate;
-    NSPredicate        *selectedRomPredicate;
-    NSPredicate        *searchPredicate;
+    NSArrayController   *romFileController;
+    NSArrayController   *savestateController;
+    NSArrayController   *pluginController;
+    NSTreeController    *treeController;
+    NSPredicate         *selectedPluginsPredicate;
+    NSPredicate         *selectedRomPredicate;
+    NSPredicate         *searchPredicate;
     
-    NSView             *listView;
-    NSView             *collectionView;
-    NSView             *holderView;
+    NSView              *listView;
+    NSView              *collectionView;
+    NSView              *holderView;
     
-    NSSearchField      *searchField;
+    NSSearchField       *searchField;
     
-    NSOutlineView      *outlineView;
-    IKImageBrowserView *imageBrowser;
-    IKImageFlowView    *imageFlow;
+    NSOutlineView       *outlineView;
+    IKImageBrowserView  *imageBrowser;
+    IKImageFlowView     *imageFlow;
     
-    NSMenu             *contextMenu;
+    NSMenu              *contextMenu;
     
-    NSSegmentedControl *segmentButton;
+    NSSegmentedControl  *segmentButton;
     
-    NSMutableArray     *pathArray;
-    NSMutableArray     *pathRanges;
+    NSMutableDictionary *romFileIndexes;
+    NSMutableArray      *sortedSaveStates;
     
-    float               browserZoom;
+    float                browserZoom;
 }
 
 @property(retain) IBOutlet NSArrayController  *romFileController;
@@ -88,11 +88,11 @@
 
 @property(retain) IBOutlet NSSegmentedControl *segmentButton;
 
-@property(assign)   float                      browserZoom;
-@property(readonly) NSArray                   *plugins;
-@property(retain)   NSPredicate               *availablePluginsPredicate;
-@property(retain)   NSIndexSet                *selectedPlugins;
-@property(retain)   NSArray                   *sortDescriptors;
+@property(assign)           float              browserZoom;
+@property(readonly)         NSArray           *plugins;
+@property(retain)           NSPredicate       *availablePluginsPredicate;
+@property(retain,nonatomic) NSIndexSet        *selectedPlugins;
+@property(retain)           NSArray           *sortDescriptors;
 
 - (IBAction)exportSave:(id)sender;
 - (IBAction)toggleViewType:(NSSegmentedControl *)sender;

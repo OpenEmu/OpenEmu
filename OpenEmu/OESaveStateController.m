@@ -72,11 +72,11 @@
         
         [self setSortDescriptors:[NSArray arrayWithObjects:path, time, nil]];
         
-        pathArray  = [[NSMutableArray alloc] init];
-        pathRanges = [[NSMutableArray alloc] init];
-        
         [path release];
         [time release];
+
+        romFileIndexes = [[NSMutableDictionary alloc] init];
+        sortedSaveStates = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -99,14 +99,16 @@
     [segmentButton             release];
     [availablePluginsPredicate release];
     [sortDescriptors           release];
-    [pathArray                 release];
-    [pathRanges                release];
     [selectedPlugins           release];
+    [romFileIndexes            release];
+    [sortedSaveStates          release];
     [super                     dealloc];
 }
 
 - (IBAction)openSaveStateWindow:(id)sender
 {
+    // For this to be called means that the Save State Window is already
+    // open.
     [self close];
 }
 
@@ -179,8 +181,7 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
 #pragma mark Cover Flow Data Source Methods
 - (NSUInteger)numberOfItemsInImageFlow:(id)aBrowser
 {
-    // We calculated the ranges, so grab the last one and calculate how large it is
-    return NSMaxRange([[pathRanges lastObject] rangeValue]);
+    return [sortedSaveStates count];
 }
 
 - (void)setSearchPredicate:(NSPredicate *)value
@@ -210,25 +211,7 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
 
 - (OESaveState *)saveStateAtAbsoluteIndex:(NSUInteger)uIndex
 {
-    NSInteger index    = (NSInteger)uIndex;
-    NSInteger romIndex = 0;
-    NSRange   range    = NSMakeRange(0, 0);
-    
-    if(index > 0)
-        for(NSValue *value in pathRanges)
-            if(NSMaxRange(range = [value rangeValue]) > index)
-                break;
-    
-    NSArray *allROMs = [self allROMs];
-    if(romIndex < 0 || romIndex >= [allROMs count]) return nil;
-    
-    OEROMFile *romFile = [allROMs objectAtIndex:romIndex];
-    index -= range.location;
-    
-    NSArray *allSaves = [[romFile saveStates] allObjects];
-    if(index < 0 || index >= [allSaves count]) return nil;
-    
-    return [allSaves objectAtIndex:index];
+    return [sortedSaveStates objectAtIndex:uIndex];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -325,20 +308,18 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
 
 - (void)updateRomGroups
 {
-    NSArray *allROMs  = [romFileController arrangedObjects];
-    
-    [pathArray  removeAllObjects];
-    [pathRanges removeAllObjects];
-    
-    NSRange range = NSMakeRange(0, 0);
+    NSArray *allROMs  = [self allROMs];
+
+    [romFileIndexes removeAllObjects];
+    [sortedSaveStates removeAllObjects];
+
+    NSUInteger index = 0;
     for(OEROMFile *romFile in allROMs)
     {
-        range.length = [[romFile saveStates] count];
-        
-        [pathRanges addObject:[NSValue valueWithRange:range]];
-        
-        range.location += range.length;
-        range.length = 0;
+        [sortedSaveStates addObjectsFromArray:[[romFile saveStates] sortedArrayUsingDescriptors:sortDescriptors]];
+
+        [romFileIndexes setObject:[NSNumber numberWithUnsignedInteger:index] forKey:[romFile path]];
+        index += [[romFile saveStates] count];
     }
 }
 
@@ -359,20 +340,17 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
 
 - (NSUInteger)numberOfItemsInImageBrowser:(IKImageBrowserView *) aBrowser
 {
-    NSUInteger sum = 0;
-    
-    for(OEROMFile *romFile in [self allROMs])
-        sum += [[romFile saveStates] count];
-    
-    return sum;
+    return [sortedSaveStates count];
 }
 
 - (NSDictionary *)imageBrowser:(IKImageBrowserView *)aBrowser groupAtIndex:(NSUInteger)index
 {
-    OEROMFile *romFile = [[romFileController arrangedObjects] objectAtIndex:index];
-    
+    OEROMFile *romFile = [[self allROMs] objectAtIndex:index];
+
+    NSRange range = NSMakeRange([[romFileIndexes objectForKey:[romFile path]] unsignedIntegerValue],
+                                [[romFile saveStates] count]);
     NSDictionary *dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                          [pathRanges objectAtIndex:index],                IKImageBrowserGroupRangeKey,
+                          [NSValue valueWithRange:range],                  IKImageBrowserGroupRangeKey,
                           [romFile name],                                  IKImageBrowserGroupTitleKey,
                           [NSNumber numberWithInt:IKGroupDisclosureStyle], IKImageBrowserGroupStyleKey,
                           nil];
@@ -405,8 +383,10 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
 {
     if(item == nil)
         return [[self allROMs] objectAtIndex:index];
-    else
-        return [[[item saveStates] allObjects] objectAtIndex:index];
+    else {
+        NSInteger shiftedIndex = [[romFileIndexes objectForKey:[item path]] integerValue] + index;
+        return [sortedSaveStates objectAtIndex:shiftedIndex];
+    }
 }
 
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
@@ -439,7 +419,7 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
             saveState = [self saveStateAtAbsoluteIndex:[[imageBrowser selectionIndexes] firstIndex]];
             break;
         case 2:
-            saveState = [[savestateController arrangedObjects] objectAtIndex:[imageFlow selectedIndex]];
+            saveState = [self saveStateAtAbsoluteIndex:[imageFlow selectedIndex]];
             break;
     }
     

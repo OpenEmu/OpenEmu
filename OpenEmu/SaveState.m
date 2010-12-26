@@ -26,7 +26,6 @@
  */
 
 #import "SaveState.h"
-#import "NSString+Aliases.h"
 
 @implementation SaveState 
 
@@ -40,8 +39,8 @@
 
 - (NSString *)rompath
 {
-    NSData *aliasData = [self valueForKey:@"pathalias"];
-    return [[NSURL URLByResolvingBookmarkData:aliasData options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:NULL] path]; // [NSString OE_stringWithPathOfAliasData:aliasData];
+    NSData *aliasData = [self valueForKey:@"pathAlias"];
+    return [[[NSURL URLByResolvingBookmarkData:aliasData options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:NULL] path] stringByDeletingLastPathComponent];
 }
 
 - (id) imageRepresentation

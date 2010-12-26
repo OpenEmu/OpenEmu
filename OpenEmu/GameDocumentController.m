@@ -784,9 +784,8 @@
         NSError *error = nil;
         
         NSDocument *doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
-        NSLog(@"%@", doc);
         
-        // FIXME: Need to support states with the new system.
+        DLog(@"Loading state from %@", [object saveDataPath]);
         [(GameDocument*)doc loadStateFromFile:[object saveDataPath]];
     }
 }
@@ -806,19 +805,23 @@
     
     [newState setEmulatorID:[(GameDocument *) [self currentDocument] emulatorName]];
     
-    // FIXME: Need to support states with the new system.
     [(GameDocument *)[self currentDocument] saveStateToFile:[newState saveDataPath]];
-    
-    //[newState setScreenshot:[(GameDocument *) [self currentDocument] screenShot]];
-    
-    OEROMFile *romFile = [OEROMFile fileWithPath:romPath
-                               createIfNecessary:YES
-                          inManagedObjectContext:self.managedObjectContext];
-    
-    [self.managedObjectContext insertObject:newState];
-    [[romFile mutableSetValueForKey:@"saveStates"] addObject:newState];
-    
-    [self.managedObjectContext save:nil];
+
+    // NOTE: This assumes that a screenshot can be taken, otherwise it will not
+    // add the state without providing any feedback.
+    [(GameDocument *)[self currentDocument] captureScreenshotUsingBlock:^(NSImage* img)
+     {
+         [newState setScreenshot:img];
+         OEROMFile *romFile = [OEROMFile fileWithPath:romPath
+                                    createIfNecessary:NO
+                               inManagedObjectContext:self.managedObjectContext];
+         NSLog(@"Got romFile %p with path %@, saveState is %p", romFile, romPath, newState);
+
+         [self.managedObjectContext insertObject:newState];
+         [[romFile mutableSetValueForKey:@"saveStates"] addObject:newState];
+
+         [self.managedObjectContext save:nil];
+     }];
 }
 
 #pragma mark -

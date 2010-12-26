@@ -26,7 +26,6 @@
  */
 
 #import "OESaveState.h"
-#import "NSString+Aliases.h"
 
 @interface OESaveState ()
 - (void)_OE_writeDataToPlist;
@@ -45,15 +44,29 @@
     return [self initWithEntity:description insertIntoManagedObjectContext:context];
 }
 
-- (void)setBundlePath:(NSString *)path
+- (void)setBundlePath:(NSString *)newPath
 {
-    [[NSFileManager defaultManager] createDirectoryAtPath:path
-                              withIntermediateDirectories:YES
-                                               attributes:nil
-                                                    error:nil];
-    [self setPathAlias:[NSURL bookmarkDataWithContentsOfURL:[NSURL fileURLWithPath:path] error:NULL]];
-    //[self setPathAlias:[path OE_pathAliasData]];
-    
+    // XXX: Because we cannot store aliases to folders, we store an alias to the
+    // "Info.plist" file which will be later used to determine the bundle path.
+    NSString *placeholderPath = [newPath stringByAppendingPathComponent:@"Info.plist"];
+
+    if (![[NSFileManager defaultManager] fileExistsAtPath:placeholderPath]) {
+        [[NSFileManager defaultManager] createDirectoryAtPath:newPath
+                                  withIntermediateDirectories:YES
+                                                   attributes:0
+                                                        error:NULL];
+        [[NSFileManager defaultManager] createFileAtPath:placeholderPath contents:nil attributes:nil];
+    }
+
+    NSError *err = nil;
+    [self setPathAlias:[[NSURL fileURLWithPath:placeholderPath]
+                        bookmarkDataWithOptions:NSURLBookmarkCreationPreferFileIDResolution
+                        includingResourceValuesForKeys:nil
+                        relativeToURL:nil
+                        error:&err]];
+    if (err)
+        NSLog(@"Error in setBundlePath: %@", err);
+
     [self _OE_setupBundleContents];
 }
 
@@ -67,8 +80,13 @@
 
 - (NSString *)bundlePath
 {
-    return [[NSURL URLByResolvingBookmarkData:[self valueForKey:@"pathAlias"] options:0 relativeToURL:nil bookmarkDataIsStale:NULL error:NULL] path];
-    //return [NSString OE_stringWithPathOfAliasData:[self valueForKey:@"pathAlias"]];
+    return [[[NSURL URLByResolvingBookmarkData:[self valueForKey:@"pathAlias"]
+                                       options:0
+                                 relativeToURL:nil
+                           bookmarkDataIsStale:NULL
+                                         error:NULL]
+             path]
+            stringByDeletingLastPathComponent];
 }
 
 - (NSString *)resourcePath
