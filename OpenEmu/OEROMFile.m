@@ -28,8 +28,6 @@
 #import "OEROMFile.h"
 #import "OECorePlugin.h"
 
-#import "NSString+Aliases.h"
-
 @implementation OEROMFile
 
 @dynamic path, pathAlias;

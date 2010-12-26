@@ -26,7 +26,6 @@
  */
 
 #import "OESaveState.h"
-#import "NSString+Aliases.h"
 
 @interface OESaveState ()
 - (void)_OE_writeDataToPlist;
