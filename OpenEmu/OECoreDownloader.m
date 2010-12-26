@@ -39,14 +39,16 @@
 static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     NSString *value = nil;
     NSArray *nodes = [element elementsForName:name];
-    if ([nodes count] > 0) {
+    if([nodes count] > 0)
+    {
         NSXMLElement *childNode = [nodes objectAtIndex:0];
         value = [childNode stringValue];
     }
     return value;
 }
 
-- (void)loadCoreList {
+- (void)loadCoreList
+{
     NSURL *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
     NSXMLDocument *coreListDoc = [[[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL] autorelease];
     NSArray *coreNodes = nil;
@@ -67,7 +69,7 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
             core.coreDescription = elementChildAsString(coreNode, @"description");
             
             NSString *iconURLString = elementChildAsString(coreNode, @"iconURL");
-            if (iconURLString) core.iconURL = [NSURL URLWithString:iconURLString];
+            if(iconURLString) core.iconURL = [NSURL URLWithString:iconURLString];
             
             // Check whether the core is already installed
             BOOL pluginExists = NO;
@@ -76,7 +78,7 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
                 if([[[plugin bundle] infoDictionary] valueForKey:@"SUFeedURL"])
                 {
                     SUUpdater* updater = [SUUpdater updaterForBundle:[plugin bundle]];
-                    if ([[updater feedURL] isEqual:core.appcastURL])
+                    if([[updater feedURL] isEqual:core.appcastURL])
                     {
                         pluginExists = YES;
                         break;
@@ -84,7 +86,7 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
                 }
             }
             
-            if (! pluginExists) [tempAvailableCores addObject:core];
+            if(! pluginExists) [tempAvailableCores addObject:core];
         }
         
         availableCores = [tempAvailableCores copy];
@@ -153,7 +155,8 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     // Appcast couldn't load, remove it
     for(OECoreInfo *core in availableCores)
     {
-        if (core.appcast == appcast) {
+        if(core.appcast == appcast)
+        {
             core.appcast = nil;
             break;
         }

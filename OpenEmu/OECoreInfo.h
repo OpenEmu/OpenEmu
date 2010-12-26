@@ -29,7 +29,8 @@
 
 @class SUAppcast;
 
-@interface OECoreInfo : NSObject {
+@interface OECoreInfo : NSObject
+{
     // mandatory attributes
     NSString *coreID;
     NSString *name;
