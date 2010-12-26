@@ -54,3 +54,4 @@
 @property(retain) SUAppcast *appcast;
 
 @end
+
