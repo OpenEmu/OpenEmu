@@ -48,11 +48,7 @@
                                            [NSFont boldSystemFontOfSize:13], NSFontAttributeName,
                                            nil];
 
-    NSColor *secondaryColor = ([self isHighlighted]
-                               ? [NSColor alternateSelectedControlTextColor]
-                               : (elementDisabled
-                                  ? [NSColor disabledControlTextColor]
-                                  : [NSColor textColor]));
+    NSColor *secondaryColor = primaryColor;
 
     NSString *secondaryText = data.coreInfo.coreDescription;
 
@@ -62,21 +58,24 @@
                                              nil];
 
     CGFloat secondColumn = cellFrame.origin.x + 80;
+    CGFloat currentLine = cellFrame.origin.y;
 
-    [primaryText drawAtPoint:NSMakePoint(secondColumn, cellFrame.origin.y + 0)
+    [primaryText drawAtPoint:NSMakePoint(secondColumn, currentLine)
               withAttributes:primaryTextAttributes];
 
-    [secondaryText drawAtPoint:NSMakePoint(secondColumn, cellFrame.origin.y + 20)
+    currentLine += 20;
+    
+    [secondaryText drawAtPoint:NSMakePoint(secondColumn, currentLine)
                 withAttributes:secondaryTextAttributes];
+    
+    currentLine += 20;
 
     if(![data downloading])
     {
         NSButton *button = [data button];
 
         [controlView addSubview:button];
-        [button setFrame:NSMakeRect(secondColumn,
-                                    cellFrame.origin.y + 40,
-                                    14, 14)];
+        [button setFrame:NSMakeRect(secondColumn, currentLine, 14, 14)];
     }
     else
     {
@@ -87,7 +86,7 @@
         [progressIndicator setFocusRingType:NSFocusRingTypeNone];
 
         [progressIndicator setFrame:NSMakeRect(secondColumn,
-                                               cellFrame.origin.y + 40,
+                                               currentLine,
                                                cellFrame.size.width - 88, NSProgressIndicatorPreferredThickness)];
     }
 
