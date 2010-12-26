@@ -33,7 +33,6 @@
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
     OEDownload *data               = [self objectValue];
-	NSImage *icon = data.coreInfo.icon;
     BOOL        elementDisabled    = NO;
     NSColor    *primaryColor       = ([self isHighlighted]
                                       ? [NSColor alternateSelectedControlTextColor]
@@ -41,39 +40,39 @@
                                          ? [NSColor disabledControlTextColor]
                                          : [NSColor textColor]));
     NSString     *primaryText = [NSString stringWithFormat:@"%@ %@",
-								 data.coreInfo.name,
-								 [data.appcastItem title]];
-    
+                                 data.coreInfo.name,
+                                 [data.appcastItem title]];
+
     NSDictionary *primaryTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                            primaryColor,                     NSForegroundColorAttributeName,
                                            [NSFont boldSystemFontOfSize:13], NSFontAttributeName,
                                            nil];
 
     NSColor *secondaryColor = ([self isHighlighted]
-							   ? [NSColor alternateSelectedControlTextColor]
-							   : (elementDisabled
-								  ? [NSColor disabledControlTextColor]
-								  : [NSColor textColor]));
+                               ? [NSColor alternateSelectedControlTextColor]
+                               : (elementDisabled
+                                  ? [NSColor disabledControlTextColor]
+                                  : [NSColor textColor]));
 
-	NSString *secondaryText = data.coreInfo.coreDescription;
-	
-	NSDictionary *secondaryTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-											 secondaryColor,               NSForegroundColorAttributeName,
-											 [NSFont systemFontOfSize:11], NSFontAttributeName,
-											 nil];
-	
-	CGFloat secondColumn = cellFrame.origin.x + 80;
-    
+    NSString *secondaryText = data.coreInfo.coreDescription;
+
+    NSDictionary *secondaryTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                             secondaryColor,               NSForegroundColorAttributeName,
+                                             [NSFont systemFontOfSize:11], NSFontAttributeName,
+                                             nil];
+
+    CGFloat secondColumn = cellFrame.origin.x + 80;
+
     [primaryText drawAtPoint:NSMakePoint(secondColumn, cellFrame.origin.y + 0)
               withAttributes:primaryTextAttributes];
-	
-	[secondaryText drawAtPoint:NSMakePoint(secondColumn, cellFrame.origin.y + 20)
-				withAttributes:secondaryTextAttributes];
-    
+
+    [secondaryText drawAtPoint:NSMakePoint(secondColumn, cellFrame.origin.y + 20)
+                withAttributes:secondaryTextAttributes];
+
     if(![data downloading])
     {
         NSButton *button = [data button];
-        
+
         [controlView addSubview:button];
         [button setFrame:NSMakeRect(secondColumn,
                                     cellFrame.origin.y + 40,
@@ -83,23 +82,25 @@
     {
         [[data button] removeFromSuperview];
         NSProgressIndicator *progressIndicator = [data progressBar];
-        
+
         [controlView addSubview:progressIndicator];
         [progressIndicator setFocusRingType:NSFocusRingTypeNone];
-        
+
         [progressIndicator setFrame:NSMakeRect(secondColumn,
                                                cellFrame.origin.y + 40,
                                                cellFrame.size.width - 88, NSProgressIndicatorPreferredThickness)];
     }
-	
-	if(icon)
-	{
+
+    if(data.coreInfo.icon)
+    {
+        NSImage *icon = [data.coreInfo.icon copy];
+        [icon setSize:NSMakeSize(64, 64)];
         [icon setFlipped:YES];
-		[icon drawAtPoint:NSMakePoint(cellFrame.origin.x + 4, cellFrame.origin.y + cellFrame.size.height / 2 - 32)
-				 fromRect:NSMakeRect(0, 0, 64, 64)
-				operation:NSCompositeSourceOver
-				 fraction:1.0f];
-	}
+        [icon drawAtPoint:NSMakePoint(cellFrame.origin.x + 4, cellFrame.origin.y + cellFrame.size.height / 2 - 32)
+                 fromRect:NSMakeRect(0, 0, 64, 64)
+                operation:NSCompositeSourceOver
+                 fraction:1.0f];
+    }
 }
 
 @end

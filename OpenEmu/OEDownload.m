@@ -71,22 +71,22 @@
 {
     if(self = [self init])
     {
-		coreInfo = [theCoreInfo retain];
+        coreInfo = [theCoreInfo retain];
         enabled = YES;
 
         //Assuming 0 is the best download, may or may not be the best
         [self setAppcastItem:[[coreInfo.appcast items] objectAtIndex:0]];
         //NSLog(@"%@", [appcastItem propertiesDictionary]);
-		
-		// download the icon, if any
-		if(coreInfo.iconURL)
-		{
-			iconData = [[NSMutableData data] retain];
-			NSURLRequest *request = [NSURLRequest requestWithURL:coreInfo.iconURL
-													 cachePolicy:NSURLRequestUseProtocolCachePolicy
-												 timeoutInterval:10];
-			iconConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-		}
+
+        // download the icon, if any
+        if(coreInfo.iconURL)
+        {
+            iconData = [[NSMutableData data] retain];
+            NSURLRequest *request = [NSURLRequest requestWithURL:coreInfo.iconURL
+                                                     cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                                 timeoutInterval:10];
+            iconConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+        }
     }
     return self;
 }
@@ -159,7 +159,7 @@
 
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-	[iconData setLength:0];
+    [iconData setLength:0];
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
@@ -171,7 +171,7 @@
 {
     [connection release];
     [iconData release];
-	
+
     // inform the user
     NSLog(@"Connection failed! Error - %@ %@",
           [error localizedDescription],
@@ -180,11 +180,9 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-	NSImage *icon = [[[NSImage alloc] initWithData:iconData] autorelease];
-	[icon setSize:NSMakeSize(64, 64)];
-	coreInfo.icon = icon;
-	[[self delegate] OEIconDownloadDidFinish:self];
-	
+    coreInfo.icon = [[[NSImage alloc] initWithData:iconData] autorelease];
+    [[self delegate] OEIconDownloadDidFinish:self];
+
     [connection release];
     [iconData release];
 }
@@ -192,19 +190,20 @@
 - (NSString *)name
 {
     return [NSString stringWithFormat:@"%@%@ %@",
-			coreInfo.name,
-			(coreInfo.coreDescription ? [NSString stringWithFormat:@" (%@)", coreInfo.coreDescription] : @""),
-			[appcastItem title]];
+            coreInfo.name,
+            (coreInfo.coreDescription ? [NSString stringWithFormat:@" (%@)", coreInfo.coreDescription] : @""),
+            [appcastItem title]];
 }
 
-- (void) dealloc
+- (void)dealloc
 {
     [progressBar release];
     [downloadPath release];
     [fullPluginPath release];
     [button release];
-	[coreInfo release];
-	[iconConnection release];
+    [coreInfo release];
+    [iconConnection release];
+    [iconData release];
     [self setAppcastItem:nil];
     
     [super dealloc];

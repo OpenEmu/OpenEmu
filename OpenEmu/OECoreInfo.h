@@ -30,26 +30,26 @@
 @class SUAppcast;
 
 @interface OECoreInfo : NSObject {
-	// mandatory attributes
-	NSString *coreID;
-	NSString *name;
-	NSURL *appcastURL;
+    // mandatory attributes
+    NSString *coreID;
+    NSString *name;
+    NSURL *appcastURL;
 
-	// optional attributes
-	NSString *coreDescription;
-	NSURL *iconURL;
-	NSImage *icon;
+    // optional attributes
+    NSString *coreDescription;
+    NSURL *iconURL;
+    NSImage *icon;
 
-	// needed by OECoreDownloader
-	SUAppcast *appcast;
+    // needed by OECoreDownloader
+    SUAppcast *appcast;
 }
 
-@property(nonatomic, copy)   NSString  *coreID;
-@property(nonatomic, copy)   NSString  *name;
-@property(nonatomic, retain) NSURL     *appcastURL;
-@property(nonatomic, copy)   NSString  *coreDescription;
-@property(nonatomic, retain) NSURL     *iconURL;
-@property(nonatomic, retain) NSImage   *icon;
-@property(nonatomic, retain) SUAppcast *appcast;
+@property(copy)   NSString  *coreID;
+@property(copy)   NSString  *name;
+@property(retain) NSURL     *appcastURL;
+@property(copy)   NSString  *coreDescription;
+@property(retain) NSURL     *iconURL;
+@property(retain) NSImage   *icon;
+@property(retain) SUAppcast *appcast;
 
 @end

@@ -40,17 +40,17 @@
 
 @interface OEDownload : NSViewController
 {
-	OECoreInfo *coreInfo;
+    OECoreInfo *coreInfo;
     SUAppcastItem       *appcastItem;
-	
+
     NSProgressIndicator *progressBar;
     NSButton            *button;
     NSString            *downloadPath;
     NSString            *fullPluginPath;
     unsigned long long   expectedLength;
     unsigned long long   downloadedSize;
-	NSMutableData *iconData;
-	NSURLConnection *iconConnection;
+    NSMutableData *iconData;
+    NSURLConnection *iconConnection;
     
     id<OEDownloadDelegate> delegate;
     

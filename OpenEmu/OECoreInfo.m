@@ -34,19 +34,19 @@
 
 - (NSString *)description
 {
-	return [NSString stringWithFormat:@"Core ID=%@, name=%@, description=%@, appcastURL=%@, iconURL=%@",
-			coreID, name, coreDescription, appcastURL, iconURL];
+    return [NSString stringWithFormat:@"Core ID=%@, name=%@, description=%@, appcastURL=%@, iconURL=%@",
+            coreID, name, coreDescription, appcastURL, iconURL];
 }
 
 - (void)dealloc
 {
-	[coreID          release];
-	[name            release];
-	[appcastURL      release];
-	[coreDescription release];
-	[iconURL         release];
-	[icon            release];
-	[appcast         release];
+    [coreID          release];
+    [name            release];
+    [appcastURL      release];
+    [coreDescription release];
+    [iconURL         release];
+    [icon            release];
+    [appcast         release];
 }
 
 @end

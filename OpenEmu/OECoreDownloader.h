@@ -30,7 +30,7 @@
 
 @interface OECoreDownloader : NSWindowController <OEDownloadDelegate>
 {
-	NSArray             *availableCores;
+    NSArray             *availableCores;
     
     NSArrayController   *downloadArrayController;
     NSTableView         *downloadTableView;
