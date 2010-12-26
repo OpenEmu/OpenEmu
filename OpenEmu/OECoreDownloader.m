@@ -47,8 +47,7 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
 }
 
 - (void)loadCoreList {
-    // NSURL *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
-    NSURL *coreListURL = [NSURL URLWithString:@"http://f.cl.ly/items/2y1i0C151i0E0Z0D0d3z/oecores.xml"];
+    NSURL *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
     NSXMLDocument *coreListDoc = [[[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL] autorelease];
     NSArray *coreNodes = nil;
     
