@@ -7,6 +7,7 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>sfc</string>
 				<string>jma</string>
 				<string>zip</string>
 				<string>smc</string>
