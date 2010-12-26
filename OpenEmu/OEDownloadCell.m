@@ -48,15 +48,6 @@
                                            [NSFont boldSystemFontOfSize:13], NSFontAttributeName,
                                            nil];
 
-    NSColor *secondaryColor = primaryColor;
-
-    NSString *secondaryText = data.coreInfo.coreDescription;
-
-    NSDictionary *secondaryTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                             secondaryColor,               NSForegroundColorAttributeName,
-                                             [NSFont systemFontOfSize:11], NSFontAttributeName,
-                                             nil];
-
     CGFloat secondColumn = cellFrame.origin.x + 80;
     CGFloat currentLine = cellFrame.origin.y;
 
@@ -64,11 +55,23 @@
               withAttributes:primaryTextAttributes];
 
     currentLine += 20;
-    
-    [secondaryText drawAtPoint:NSMakePoint(secondColumn, currentLine)
-                withAttributes:secondaryTextAttributes];
-    
-    currentLine += 20;
+
+    if(data.coreInfo.coreDescription)
+    {
+        NSColor *secondaryColor = primaryColor;
+
+        NSString *secondaryText = data.coreInfo.coreDescription;
+
+        NSDictionary *secondaryTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                 secondaryColor,               NSForegroundColorAttributeName,
+                                                 [NSFont systemFontOfSize:11], NSFontAttributeName,
+                                                 nil];
+
+        [secondaryText drawAtPoint:NSMakePoint(secondColumn, currentLine)
+                    withAttributes:secondaryTextAttributes];
+
+        currentLine += 20;
+    }
 
     if(![data downloading])
     {
