@@ -30,10 +30,8 @@
 
 @implementation OEROMFile
 
-@dynamic path, pathAlias;
-@dynamic lastPlayedDate;
-@dynamic saveStates;
-@dynamic name;
+@dynamic path, pathAlias, saveStates, name;
+@synthesize lastPlayedDate, preferredEmulator;
 
 + (NSString *)entityName
 {

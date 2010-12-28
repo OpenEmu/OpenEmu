@@ -37,6 +37,7 @@
 #import "GameQTRecorder.h"
 #import "OECorePickerController.h"
 #import "OEGameCoreManager.h"
+#import "OEROMFile.h"
 
 #import "OEGameCoreHelper.h"
 
@@ -44,6 +45,7 @@
 
 @interface GameDocument ()
 - (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError;
+- (OECorePlugin *)pluginWithName:(NSString *)name;
 @end
 
 
@@ -122,8 +124,13 @@
     if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
     {
         DLog(@"%@", self);
-        
-        OECorePlugin *plugin = [self OE_pluginForFileExtension:[absoluteURL pathExtension] error:outError];
+
+        OEROMFile *rom = [OEROMFile fileWithPath:romPath createIfNecessary:NO inManagedObjectContext:[[NSApp delegate] managedObjectContext]];
+        OECorePlugin *plugin = nil;
+        if ((rom != nil) && ([rom preferredEmulator] != nil))
+            plugin = [self pluginWithName:[rom preferredEmulator]];
+        if (plugin == nil)
+            plugin = [self OE_pluginForFileExtension:[absoluteURL pathExtension] error:outError];
         
         if(plugin == nil) return NO;
         
@@ -195,6 +202,19 @@
                       nil]];
     }
     
+    return ret;
+}
+
+- (OECorePlugin *)pluginWithName:(NSString *)name {
+    OECorePlugin *ret = nil;
+
+    for (OECorePlugin *plugin in [OECorePlugin allPlugins]) {
+        if ([[plugin displayName] isEqual:name]) {
+            ret = plugin;
+            break;
+        }
+    }
+
     return ret;
 }
 

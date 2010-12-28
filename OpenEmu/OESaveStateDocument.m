@@ -45,7 +45,11 @@
     NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[docController managedObjectModel]];
 
     NSError *error = nil;
-    if(![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:absoluteURL options:nil error:&error])
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                             nil];
+    if(![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType configuration:nil URL:absoluteURL options:options error:&error])
         [[NSApplication sharedApplication] presentError:error];
     
     NSManagedObjectContext* managedObjectContext = [[NSManagedObjectContext alloc] init];

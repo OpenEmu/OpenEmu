@@ -52,6 +52,7 @@ insertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 @property(nonatomic, copy)   NSDate   *lastPlayedDate;
 @property(nonatomic, retain) NSSet    *saveStates;
 @property(nonatomic, retain) NSString *name;
+@property(nonatomic, retain) NSString *preferredEmulator;
 
 - (NSString *)systemName;
 - (NSURL *)pathURL;

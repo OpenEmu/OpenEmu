@@ -643,10 +643,14 @@
                                                     error:nil];
     
     persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                             [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                             [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                             nil];
     if(![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType
                                                  configuration:nil
                                                            URL:[NSURL fileURLWithPath:[applicationSupportFolder stringByAppendingPathComponent:@"ROMs.xml"] isDirectory:NO]
-                                                       options:nil
+                                                       options:options
                                                          error:&error])
     {
         NSLog(@"Persistent store fail %@", error);
@@ -782,8 +786,13 @@
     for(OESaveState *object in states)
     {
         NSError *error = nil;
-        
+
+        NSString *oldPreferredEmulator = [[object romFile] preferredEmulator];
+        [[object romFile] setPreferredEmulator:[object emulatorID]];
+
         NSDocument *doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
+
+        [[object romFile] setPreferredEmulator:oldPreferredEmulator];
         
         DLog(@"Loading state from %@", [object saveDataPath]);
         [(GameDocument*)doc loadStateFromFile:[object saveDataPath]];

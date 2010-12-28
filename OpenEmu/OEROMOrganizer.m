@@ -87,11 +87,15 @@
         [fileManager createDirectoryAtPath:applicationSupportFolder withIntermediateDirectories:YES attributes:nil error:nil];
         
         persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+        NSDictionary *options = [NSDictionary dictionaryWithObjectsAndKeys:
+                                 [NSNumber numberWithBool:YES], NSMigratePersistentStoresAutomaticallyOption,
+                                 [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption,
+                                 nil];
         if(![persistentStoreCoordinator addPersistentStoreWithType:NSXMLStoreType
                                                      configuration:nil
                                                                URL:[NSURL fileURLWithPath:[applicationSupportFolder stringByAppendingPathComponent:@"ROMs.xml"]
                                                                               isDirectory:NO]
-                                                           options:nil
+                                                           options:options
                                                              error:&error])
         {
             NSLog(@"Persistent store fail %@", error);
