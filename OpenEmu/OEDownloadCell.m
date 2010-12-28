@@ -102,6 +102,7 @@
                  fromRect:NSMakeRect(0, 0, 64, 64)
                 operation:NSCompositeSourceOver
                  fraction:1.0f];
+        [icon release];
     }
 }
 

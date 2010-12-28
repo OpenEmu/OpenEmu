@@ -155,7 +155,7 @@
 		server = [[OENetServer alloc] init];
 		[server setDelegate:self];
 		
-		NSError *error;
+		NSError *error = nil;
 		if(server == nil || ![server start:&error]) {
 			NSLog(@"Failed creating server: %@", error);
 //			[self _showAlert:@"Failed creating server"];
