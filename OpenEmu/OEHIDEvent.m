@@ -170,37 +170,40 @@
     return ret;
 }
 
-+ (id)buttonEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp buttonNumber:(NSUInteger)number state:(NSUInteger)state
++ (id)buttonEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp buttonNumber:(NSUInteger)number state:(NSUInteger)state cookie:(NSUInteger)cookie
 {
     OEHIDEvent *ret = [[[self alloc] initWithPadNumber:padNumber timestamp:timestamp] autorelease];
     
     ret->_type = OEHIDButton;
     ret->_data.button.buttonNumber = number;
     ret->_data.button.state = state;
+    ret->_data.button.cookie = cookie;
     ret->_isPushed = ret->_data.button.state != NSOffState;
     
     return ret;
 }
 
-+ (id)hatSwitchEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp position:(NSUInteger)position positionCount:(NSUInteger)count
++ (id)hatSwitchEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp position:(NSUInteger)position positionCount:(NSUInteger)count cookie:(NSUInteger)cookie
 {
     OEHIDEvent *ret = [[[self alloc] initWithPadNumber:padNumber timestamp:timestamp] autorelease];
     
     ret->_type = OEHIDHatSwitch;
     ret->_data.hatSwitch.position = position;
     ret->_data.hatSwitch.count    = count;
+    
     ret->_isPushed = ret->_data.hatSwitch.position != 0;
     
     return ret;
 }
 
-+ (id)keyEventWithTimestamp:(NSTimeInterval)timestamp keyCode:(NSUInteger)keyCode state:(NSUInteger)state
++ (id)keyEventWithTimestamp:(NSTimeInterval)timestamp keyCode:(NSUInteger)keyCode state:(NSUInteger)state cookie:(NSUInteger)cookie
 {
     OEHIDEvent *ret = [[[self alloc] initWithPadNumber:0 timestamp:timestamp] autorelease];
     
     ret->_type = OEHIDKeypress;
     ret->_data.keypress.keycode = keyCode;
     ret->_data.keypress.state = state;
+    ret->_data.keypress.cookie = cookie;
     ret->_isPushed = ret->_data.keypress.state != NSOffState;
     
     return ret;
@@ -219,6 +222,8 @@
         IOHIDElementRef elem = IOHIDValueGetElement(aValue);
         const uint32_t page  = IOHIDElementGetUsagePage(elem);
         const uint32_t usage = IOHIDElementGetUsage(elem);
+		const uint32_t cookie = (uint32_t)IOHIDElementGetCookie(elem);
+		
         if(IOHIDValueGetLength(aValue) != 1)
         {
             [self release];
@@ -268,6 +273,7 @@
                         _type = OEHIDHatSwitch;
                         _data.hatSwitch.position = value;
                         _data.hatSwitch.count    = IOHIDElementGetLogicalMax(elem);
+                        _data.hatSwitch.cookie   = cookie;
                         _isPushed = _data.hatSwitch.position != 0;
                         break;
                 }
@@ -277,6 +283,7 @@
                 _type = OEHIDButton;
                 _data.button.buttonNumber = usage;
                 _data.button.state = value;
+                _data.button.cookie = cookie;
                 _isPushed = _data.button.state != NSOffState;
                 break;
 			case kHIDPage_KeyboardOrKeypad :
@@ -289,6 +296,7 @@
 				_type = OEHIDKeypress;
 				_data.keypress.keycode = usage;
 				_data.keypress.state = value;
+                _data.keypress.cookie = cookie;
 				_isPushed = _data.keypress.state != NSOffState;
 				break;
         }
@@ -358,6 +366,12 @@
 	return _data.keypress.keycode;
 }
 
+- (NSUInteger)cookie
+{
+    NSAssert1([self type] == OEHIDButton || [self type] == OEHIDKeypress || [self type] == OEHIDHatSwitch, @"Invalid message sent to event \"%@\"", self);   
+    return _data.button.cookie;
+}
+
 - (NSString *)description
 {
     NSString *subs = @"UNKNOWN TYPE";
@@ -412,6 +426,7 @@ NSString *OEHIDEventStateKey        = @"OEHIDEventStateKey";
 NSString *OEHIDEventPositionKey     = @"OEHIDEventPositionKey";
 NSString *OEHIDEventCountKey        = @"OEHIDEventCountKey";
 NSString *OEHIDEventKeycodeKey      = @"OEHIDEventKeycodeKey";
+NSString *OEHIDEventCookieKey       = @"OEHIDEventCookieKey";
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
@@ -426,14 +441,17 @@ NSString *OEHIDEventKeycodeKey      = @"OEHIDEventKeycodeKey";
         case OEHIDButton :
             _data.button.buttonNumber = [decoder decodeIntegerForKey:OEHIDEventButtonNumberKey];
             _data.button.state        = [decoder decodeIntegerForKey:OEHIDEventStateKey];
+            _data.button.cookie       = [decoder decodeIntegerForKey:OEHIDEventCookieKey];
             break;
         case OEHIDHatSwitch :
             _data.hatSwitch.position  = [decoder decodeIntegerForKey:OEHIDEventPositionKey];
             _data.hatSwitch.count     = [decoder decodeIntegerForKey:OEHIDEventCountKey];
+            _data.hatSwitch.cookie    = [decoder decodeIntegerForKey:OEHIDEventCookieKey];
             break;
 		case OEHIDKeypress :
             _data.keypress.keycode    = [decoder decodeIntegerForKey:OEHIDEventKeycodeKey];
             _data.keypress.state      = [decoder decodeIntegerForKey:OEHIDEventStateKey];
+            _data.keypress.cookie     = [decoder decodeIntegerForKey:OEHIDEventCookieKey];
             break;
     }
     
@@ -453,14 +471,17 @@ NSString *OEHIDEventKeycodeKey      = @"OEHIDEventKeycodeKey";
         case OEHIDButton :
             [encoder encodeInteger:self.buttonNumber forKey:OEHIDEventButtonNumberKey];
             [encoder encodeInteger:self.state        forKey:OEHIDEventStateKey];
+            [encoder encodeInteger:self.cookie       forKey:OEHIDEventCookieKey];
             break;
         case OEHIDHatSwitch :
             [encoder encodeInteger:self.position     forKey:OEHIDEventPositionKey];
             [encoder encodeInteger:self.count        forKey:OEHIDEventCountKey];
+            [encoder encodeInteger:self.cookie       forKey:OEHIDEventCookieKey];
             break;
 		case OEHIDKeypress :
 			[encoder encodeInteger:self.keycode      forKey:OEHIDEventKeycodeKey];
             [encoder encodeInteger:self.state        forKey:OEHIDEventStateKey];
+            [encoder encodeInteger:self.cookie       forKey:OEHIDEventCookieKey];
             break;
     }
 }

@@ -115,7 +115,8 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 		 {
 			 OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0 
 															  keyCode:[OEHIDEvent keyCodeForVK:[event unsignedIntValue]]
-																state:NSOnState];
+																state:NSOnState
+                                                               cookie:NSNotFound];
 			 [udc setValue:[self registarableValueWithObject:theEvent] forKeyPath:keyPath];
 		 }
 	 }];
@@ -132,7 +133,8 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     {
         OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0 
                                                          keyCode:[obj unsignedIntValue] 
-                                                           state:NSOnState];
+                                                           state:NSOnState
+                                                          cookie:NSNotFound];
         
         id value = [self registarableValueWithObject:theEvent];
         NSString *keyPath = [self keyPathForKey:key withValueType:OEKeyboardEventValueKey];

@@ -445,7 +445,7 @@ static NSTimeInterval currentTime()
             break;
         case OEHIDButton :
             if([anEvent state]     == NSOffState)         return;
-            appKey |= [anEvent buttonNumber];
+            appKey |= [anEvent cookie];
             break;
         case OEHIDHatSwitch :
             if([anEvent position]  == 0)                  return;
@@ -523,14 +523,14 @@ static NSTimeInterval currentTime()
 - (void)buttonDown:(OEHIDEvent *)anEvent
 {
     OEEmulatorKey key;
-    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | [anEvent buttonNumber], &key))
+    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | [anEvent cookie], &key))
         [self pressEmulatorKey:key];
 }
 
 - (void)buttonUp:(OEHIDEvent *)anEvent
 {
     OEEmulatorKey key;
-    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | [anEvent buttonNumber], &key))
+    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | [anEvent cookie], &key))
         [self releaseEmulatorKey:key];
 }
 
