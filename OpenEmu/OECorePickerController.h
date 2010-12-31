@@ -26,6 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "OEROMFile.h"
 @class OECorePlugin;
 
 @interface OECorePickerController : NSWindowController
@@ -34,14 +35,21 @@
     NSArrayController *coreArrayController;
     NSTableView       *coreTableView;
     BOOL               safeExit;
+    NSButton          *defaultCheck;
 }
 
 - (id)initWithCoreList:(NSArray *)cores;
 - (IBAction)selectCore:(id) sender;
 - (OECorePlugin *)selectedCore;
+- (BOOL)useCoreAsDefault;
 
 @property(readonly) NSArray                    *coreList;
 @property(retain)   IBOutlet NSArrayController *coreArrayController;
 @property(assign)   IBOutlet NSTableView       *coreTableView;
+@property(assign)   IBOutlet NSButton          *defaultCheck;
+
+// This block is meant to be used with |suitablePluginAnd..| in OEROMFile to
+// easily invoke the OECorePickerController.
++ (handleChoicesBlock)handleChoicesWithOECorePicker;
 
 @end

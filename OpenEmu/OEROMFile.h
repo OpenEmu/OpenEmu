@@ -27,6 +27,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "OECorePlugin.h"
 
 @interface OEROMFile : NSManagedObject
 
@@ -56,5 +57,10 @@ insertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 
 - (NSString *)systemName;
 - (NSURL *)pathURL;
+
+// These methods attempt to find a plugin which will work with the OEROMFile.
+typedef OECorePlugin* (^handleChoicesBlock)(NSArray *, BOOL *);
+- (OECorePlugin *)suitablePlugin;
+- (OECorePlugin *)suitablePluginAndHandleMultiple:(handleChoicesBlock)choiceMethod;
 
 @end

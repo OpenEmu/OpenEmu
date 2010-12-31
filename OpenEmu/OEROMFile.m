@@ -30,8 +30,7 @@
 
 @implementation OEROMFile
 
-@dynamic path, pathAlias, saveStates, name;
-@synthesize lastPlayedDate, preferredEmulator;
+@dynamic path, pathAlias, saveStates, name, lastPlayedDate, preferredEmulator;
 
 + (NSString *)entityName
 {
@@ -143,6 +142,39 @@
         }
     }
     return NSLocalizedString(@"Unknown", @"");
+}
+
+- (OECorePlugin *)suitablePlugin {
+    return [self suitablePluginAndHandleMultiple:NULL];
+}
+
+- (OECorePlugin *)suitablePluginAndHandleMultiple:(OECorePlugin*(^)(NSArray *choices, BOOL *setDefault))choiceMethod {
+    OECorePlugin *ret = nil;
+
+    NSString *preferredEmu = [self preferredEmulator];
+    if (preferredEmu != nil) {
+        for (OECorePlugin *plugin in [OECorePlugin allPlugins]) {
+            if ([[plugin displayName] isEqual:preferredEmu]) {
+                ret = plugin;
+                break;
+            }
+        }
+    }
+
+    if (ret != nil)
+        return ret;
+
+    NSArray *choices = [OECorePlugin pluginsForFileExtension:[[self pathURL] pathExtension]];
+    if (choiceMethod == NULL)
+        [choices lastObject];
+
+    BOOL setAsDefault = NO;
+    ret = choiceMethod(choices, &setAsDefault);
+
+    if (setAsDefault && (ret != nil))
+        [self setPreferredEmulator:[ret displayName]];
+
+    return ret;
 }
 
 @end

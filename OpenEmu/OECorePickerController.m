@@ -29,7 +29,7 @@
 #import "OECorePickerController.h"
 
 @implementation OECorePickerController
-@synthesize coreList, coreArrayController, coreTableView;
+@synthesize coreList, coreArrayController, coreTableView, defaultCheck;
 
 - (id)initWithCoreList:(NSArray *)cores
 {
@@ -68,9 +68,24 @@
     [[self window] close];
 }
 
+- (BOOL)useCoreAsDefault {
+    return ([defaultCheck state] == NSOnState);
+}
+
 - (void)windowWillClose:(NSNotification *)notification
 {
     if(!safeExit) [[NSApplication sharedApplication] stopModalWithCode:0];
+}
+
++ (handleChoicesBlock)handleChoicesWithOECorePicker {
+    return [[(OECorePlugin*) ^(NSArray *choices, BOOL *setDefault) {
+        OECorePickerController *c = [[[OECorePickerController alloc] initWithCoreList:choices] autorelease];
+        if ([[NSApplication sharedApplication] runModalForWindow:[c window]] != 1)
+            return nil;
+
+        *setDefault = [c useCoreAsDefault];
+        return [c selectedCore];
+    } copy] autorelease];
 }
 
 @end
