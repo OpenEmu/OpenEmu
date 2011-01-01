@@ -165,8 +165,8 @@
         return ret;
 
     NSArray *choices = [OECorePlugin pluginsForFileExtension:[[self pathURL] pathExtension]];
-    if (choiceMethod == NULL)
-        [choices lastObject];
+    if ((choiceMethod == NULL) || ([choices count] == 1))
+        return [choices lastObject];
 
     BOOL setAsDefault = NO;
     ret = choiceMethod(choices, &setAsDefault);
