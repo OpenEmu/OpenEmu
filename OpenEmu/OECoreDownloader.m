@@ -36,66 +36,19 @@
 
 @synthesize downloadAllCoresButton, downloadArrayController, downloadTableView;
 
-static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
-    NSString *value = nil;
-    NSArray *nodes = [element elementsForName:name];
-    if([nodes count] > 0)
-    {
-        NSXMLElement *childNode = [nodes objectAtIndex:0];
-        value = [childNode stringValue];
-    }
-    return value;
-}
-
-- (void)loadCoreList
-{
-    NSURL *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
-    NSXMLDocument *coreListDoc = [[[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL] autorelease];
-    NSArray *coreNodes = nil;
-    
-    if(coreListDoc) coreNodes = [coreListDoc nodesForXPath:@"/cores/core" error:NULL];
-    
-    if(coreNodes)
-    {
-        NSMutableArray *tempAvailableCores = [NSMutableArray arrayWithCapacity:[coreNodes count]];
-        NSArray *allPlugins = [OECorePlugin allPlugins];
-        
-        for(NSXMLElement *coreNode in coreNodes)
-        {
-            OECoreInfo *core = [[[OECoreInfo alloc] init] autorelease];
-            core.coreID = [[coreNode attributeForName:@"id"] stringValue];
-            core.name = [[coreNode attributeForName:@"name"] stringValue];
-            core.appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];
-            core.coreDescription = elementChildAsString(coreNode, @"description");
-            
-            NSString *iconURLString = elementChildAsString(coreNode, @"iconURL");
-            if(iconURLString) core.iconURL = [NSURL URLWithString:iconURLString];
-            
-            // Check whether the core is already installed
-            BOOL pluginExists = NO;
-            for(OECorePlugin *plugin in allPlugins)
-            {
-                if([[[plugin bundle] infoDictionary] valueForKey:@"SUFeedURL"])
-                {
-                    SUUpdater* updater = [SUUpdater updaterForBundle:[plugin bundle]];
-                    if([[updater feedURL] isEqual:core.appcastURL])
-                    {
-                        pluginExists = YES;
-                        break;
-                    }
-                }
-            }
-            
-            if(! pluginExists) [tempAvailableCores addObject:core];
-        }
-        
-        availableCores = [tempAvailableCores copy];
-    }    
-}
+#pragma mark Lifecycle
 
 - (id)init
 {
     return [self initWithWindowNibName:@"CoreDownloader"];
+}
+
+- (void)dealloc
+{
+    [downloadAllCoresButton  release];
+    [downloadArrayController release];
+    [downloadTableView       release];
+    [super                   dealloc];
 }
 
 - (void)windowDidLoad
@@ -106,57 +59,6 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
                                             autorelease];
     NSArray *sortDescriptors = [NSArray arrayWithObject:nameSortDescriptor];
     [downloadArrayController setSortDescriptors:sortDescriptors];
-    
-    [self loadCoreList];
-    [self loadAppcasts];
-}
-
-- (void)dealloc
-{
-    [availableCores          release];
-    [downloadAllCoresButton  release];
-    [downloadArrayController release];
-    [downloadTableView       release];
-    [super                   dealloc];
-}
-
-- (void)loadAppcasts
-{
-    // Fetch all the appcasts
-    for(OECoreInfo *core in availableCores)
-    {
-        core.appcast = [[[SUAppcast alloc] init] autorelease];
-        [core.appcast setDelegate:self];
-        [core.appcast fetchAppcastFromURL:core.appcastURL];
-    }
-}
-
-- (void)appcastDidFinishLoading:(SUAppcast *)appcast
-{
-    for(OECoreInfo *core in availableCores)
-    {
-        if(core.appcast == appcast)
-        {
-            OEDownload *download = [[[OEDownload alloc] initWithCoreInfo:core] autorelease];
-            [download setDelegate:self];
-            [downloadArrayController addObject:download];
-            [downloadAllCoresButton setEnabled:YES];
-            break;
-        }
-    }
-}
-
-- (void)appcast:(SUAppcast *)appcast failedToLoadWithError:(NSError *)error
-{
-    // Appcast couldn't load, remove it
-    for(OECoreInfo *core in availableCores)
-    {
-        if(core.appcast == appcast)
-        {
-            core.appcast = nil;
-            break;
-        }
-    }
 }
 
 - (void)OEDownloadDidStart:(OEDownload *)download
@@ -179,10 +81,6 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
 
 - (IBAction)downloadAllCores:(id)sender
 {
-    for(OEDownload *download in [downloadArrayController arrangedObjects])
-    {
-        if (download.enabled && ! download.downloading) [download startDownload:self];
-    }
 }
 
 - (IBAction)openCoreDownloaderWindow:(id)sender

@@ -40,7 +40,7 @@
 #import "OECorePickerController.h"
 #import "OECompositionPlugin.h"
 #import "OESaveState.h"
-#import "OECoreDownloader.h"
+#import "OECoreInstaller.h"
 
 #import "OEROMFile.h"
 #import "OEGameQuickLookDocument.h"
@@ -91,8 +91,8 @@
     
     if ( [plugins count] == 0 )
     {
-        coreDownloader = [[OECoreDownloader alloc] init];
-        [coreDownloader showWindow:self];
+        coreInstaller = [[OECoreInstaller alloc] init];
+        [coreInstaller showWindow:self];
     }
     
     
@@ -229,7 +229,7 @@
     [validExtensions release];
     [plugins release];
     [aboutCreditsPath release];
-    [coreDownloader release];
+    [coreInstaller release];
     
     [managedObjectContext release], managedObjectContext = nil;
     [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
@@ -271,13 +271,13 @@
 
 - (IBAction)openCoreDownloaderWindow:(id)sender
 {
-    if(coreDownloader == nil)
-        coreDownloader = [[OECoreDownloader alloc] init];
+    if(coreInstaller == nil)
+        coreInstaller = [[OECoreInstaller alloc] init];
     
     if([[self currentDocument] isFullScreen])
         [[self currentDocument] toggleFullScreen:sender];
     
-    [coreDownloader showWindow:sender];
+    [coreInstaller showWindow:sender];
 }
 
 - (void)addToVolume:(double)incr

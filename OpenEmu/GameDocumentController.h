@@ -35,7 +35,7 @@
 @class OESaveState;
 
 @class GameCore, OECorePlugin;
-@class GameDocument, OEGamePreferenceController, OESaveStateController, OECoreDownloader;
+@class GameDocument, OEGamePreferenceController, OESaveStateController, OECoreInstaller;
 
 @class OEHIDManager;
 
@@ -45,7 +45,7 @@
     OEGamePreferenceController *preferences;
     OESaveStateController      *saveStateManager;
 
-    OECoreDownloader           *coreDownloader;
+    OECoreInstaller            *coreInstaller;
     NSArray                    *filterNames;
     NSArray                    *plugins;
     NSArray                    *validExtensions;
@@ -112,7 +112,7 @@
 - (IBAction)openPreferenceWindow:(id)sender;
 - (IBAction)openAboutWindow:(id)sender;
 - (IBAction)openSaveStateWindow:(id)sender;
-- (IBAction)openCoreDownloaderWindow:(id)sender;
+- (IBAction)openCoreInstallerWindow:(id)sender;
 
 - (IBAction)volumeUp:(id)sender;
 - (IBAction)volumeDown:(id)sender;

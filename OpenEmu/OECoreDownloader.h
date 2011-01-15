@@ -30,8 +30,6 @@
 
 @interface OECoreDownloader : NSWindowController <OEDownloadDelegate>
 {
-    NSArray             *availableCores;
-    
     NSButton            *downloadAllCoresButton;
     NSArrayController   *downloadArrayController;
     NSTableView         *downloadTableView;
@@ -42,7 +40,5 @@
 @property(retain) IBOutlet NSTableView       *downloadTableView;
 
 - (IBAction)downloadAllCores:(id)sender;
-
-- (void)loadAppcasts;
 
 @end

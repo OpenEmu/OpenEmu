@@ -61,6 +61,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		14598A1012E151670001EBD0 /* OECoreInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 14598A0D12E151670001EBD0 /* OECoreInstaller.m */; };
+		14598A1112E151670001EBD0 /* OECoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 14598A0F12E151670001EBD0 /* OECoreUpdater.m */; };
 		14EBA4DE12C5A7730008DAD2 /* OECoreInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 14EBA4DD12C5A7730008DAD2 /* OECoreInfo.m */; };
 		1B223EE3100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B223EE2100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.m */; };
 		1B223EFC100B89BE00F42067 /* CRTDisplace.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B223EFA100B89BE00F42067 /* CRTDisplace.vert */; };
@@ -181,7 +183,6 @@
 		82798B340E85C123001DCA93 /* PrefsBundleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 82798B330E85C123001DCA93 /* PrefsBundleCell.m */; };
 		8283876E0E6C54E100A96E2C /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
 		8283882C0E6CE13C00A96E2C /* GameDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8283882B0E6CE13C00A96E2C /* GameDocumentController.m */; };
-		8288A0EF1027DB7600671FE1 /* OEDownloadCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8288A0EE1027DB7600671FE1 /* OEDownloadCell.xib */; };
 		8288A0F61027E16600671FE1 /* OEDownloadCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8288A0F51027E16600671FE1 /* OEDownloadCell.m */; };
 		828CF1850FD1D7C80041311B /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
 		828CF1A30FD1D8530041311B /* OEMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AD1B2F0FD1BD2A00B3A8A9 /* OEMap.h */; };
@@ -438,6 +439,10 @@
 
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		14598A0C12E151660001EBD0 /* OECoreInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreInstaller.h; sourceTree = "<group>"; };
+		14598A0D12E151670001EBD0 /* OECoreInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreInstaller.m; sourceTree = "<group>"; };
+		14598A0E12E151670001EBD0 /* OECoreUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreUpdater.h; sourceTree = "<group>"; };
+		14598A0F12E151670001EBD0 /* OECoreUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreUpdater.m; sourceTree = "<group>"; };
 		14EBA4DC12C5A7730008DAD2 /* OECoreInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreInfo.h; sourceTree = "<group>"; };
 		14EBA4DD12C5A7730008DAD2 /* OECoreInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreInfo.m; sourceTree = "<group>"; };
 		1B223EE1100B81F900F42067 /* OpenEmuQCCRTDisplacePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQCCRTDisplacePlugin.h; sourceTree = "<group>"; };
@@ -545,7 +550,6 @@
 		8283882A0E6CE13C00A96E2C /* GameDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameDocumentController.h; sourceTree = "<group>"; };
 		8283882B0E6CE13C00A96E2C /* GameDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameDocumentController.m; sourceTree = "<group>"; };
 		828389A80E6CF3A500A96E2C /* GameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameCore.h; sourceTree = "<group>"; };
-		8288A0EE1027DB7600671FE1 /* OEDownloadCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OEDownloadCell.xib; sourceTree = "<group>"; };
 		8288A0F41027E16600671FE1 /* OEDownloadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDownloadCell.h; sourceTree = "<group>"; };
 		8288A0F51027E16600671FE1 /* OEDownloadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDownloadCell.m; sourceTree = "<group>"; };
 		828E65980E8466A100B1860B /* OpenEmuQC.plugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenEmuQC.plugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -881,7 +885,6 @@
 				1DDD582A0DA1D0D100B32029 /* MainMenu.xib */,
 				82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */,
 				82DE49EF10263FF3007184EB /* CoreDownloader.xib */,
-				8288A0EE1027DB7600671FE1 /* OEDownloadCell.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -1151,6 +1154,10 @@
 		82DE498810263A09007184EB /* Downloader */ = {
 			isa = PBXGroup;
 			children = (
+				14598A0C12E151660001EBD0 /* OECoreInstaller.h */,
+				14598A0D12E151670001EBD0 /* OECoreInstaller.m */,
+				14598A0E12E151670001EBD0 /* OECoreUpdater.h */,
+				14598A0F12E151670001EBD0 /* OECoreUpdater.m */,
 				82DE498910263A1A007184EB /* OECoreDownloader.h */,
 				82DE498A10263A1A007184EB /* OECoreDownloader.m */,
 				82DE49F2102641CD007184EB /* OEDownload.h */,
@@ -1546,7 +1553,6 @@
 				826844C51022A0630019C7B0 /* smaller.tif in Resources */,
 				826844C61022A0630019C7B0 /* larger.tif in Resources */,
 				82DE49F010263FF3007184EB /* CoreDownloader.xib in Resources */,
-				8288A0EF1027DB7600671FE1 /* OEDownloadCell.xib in Resources */,
 				1E9F73FB10376BE40072EED6 /* OEROMOrganizer.xib in Resources */,
 				82965F851041DC3200F30B74 /* OECorePicker.xib in Resources */,
 				82C42C8610CAFB480046D1A3 /* download_arrow_down.png in Resources */,
@@ -1758,6 +1764,8 @@
 				82C5EFAE1237E76C001262F7 /* AsyncUdpSocket.m in Sources */,
 				82C5EFB31237E7E1001262F7 /* OENetServer.m in Sources */,
 				14EBA4DE12C5A7730008DAD2 /* OECoreInfo.m in Sources */,
+				14598A1012E151670001EBD0 /* OECoreInstaller.m in Sources */,
+				14598A1112E151670001EBD0 /* OECoreUpdater.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
