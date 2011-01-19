@@ -144,39 +144,6 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     }];
 }
 
-#pragma mark OEDownload delegate
-
-
-/*
-- (void)OEDownloadDidStart:(OEDownload *)download
-{
-    [downloadTableView setNeedsDisplay];
-}
-
-- (void)OEDownloadDidFinish:(OEDownload *)download
-{
-    [[GameDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[download fullPluginPath]]
-                                                                             display:NO
-                                                                               error:NULL];
-    [downloadArrayController removeObject:download];
-    [downloadTableView setNeedsDisplay];
-    if ([[downloadArrayController arrangedObjects] count] == 0) [downloadAllCoresButton setEnabled:NO];
-}
-
-- (void)OEIconDownloadDidFinish:(OEDownload *)download
-{
-    [downloadTableView setNeedsDisplay];
-}
-
-- (IBAction)downloadAllCores:(id)sender
-{
-    for (OEDownload *download in [downloadArrayController arrangedObjects])
-    {
-        if (download.enabled && ! download.downloading) [download startDownload:self];
-    }
-}
- */
-
 #pragma mark IB Actions
 
 - (IBAction)openCoreInstallerWindow:(id)sender
