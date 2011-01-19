@@ -51,8 +51,8 @@ extern NSString *const OEAdvancedPreferenceKey;
 @property(retain) IBOutlet NSArrayController *pluginController;
 @property(retain) IBOutlet NSToolbar         *toolbar;
 
-@property(readonly) NSArray     *plugins;
-@property(retain)   NSPredicate *availablePluginsPredicate;
-@property(retain)   NSIndexSet  *selectedPlugins;
+@property(readonly)         NSArray     *plugins;
+@property(retain)           NSPredicate *availablePluginsPredicate;
+@property(nonatomic,retain) NSIndexSet  *selectedPlugins;
 
 @end

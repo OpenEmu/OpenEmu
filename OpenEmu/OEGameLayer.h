@@ -79,7 +79,7 @@
 
 @property(copy) void (^screenshotHandler)(NSImage *img);
 
-@property(assign) id<OEGameCoreHelper> rootProxy;
+@property(nonatomic,assign) id<OEGameCoreHelper> rootProxy;
 
 @property         BOOL          vSyncEnabled;
 @property(assign) NSView       *ownerView;
