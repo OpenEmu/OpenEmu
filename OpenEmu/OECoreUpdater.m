@@ -49,8 +49,6 @@
         SUUpdater *updater = [SUUpdater updaterForBundle:plugin.bundle];
         if (updater)
         {
-            NSLog(@"updater %@ for plugin %@", updater, plugin);
-            
             [updater setDelegate:self];
             [updater setFeedURL:[NSURL URLWithString:appcastURLString]];
             [updater resetUpdateCycle];
@@ -85,11 +83,6 @@
             break;
         }
     }
-}
-
-- (IBAction)openCoreUpdaterWindow:(id)sender
-{
-    [self close];
 }
 
 @end
