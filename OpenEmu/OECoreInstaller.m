@@ -74,11 +74,9 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     if (coreNodes)
     {
         NSMutableArray *installedPluginIds = [NSMutableArray array];
-        
-        [[OECorePlugin allPlugins] enumerateObjectsUsingBlock:^(OECorePlugin *plugin, NSUInteger idx, BOOL *stop) {
+        for (OECorePlugin *plugin in [OECorePlugin allPlugins])
             [installedPluginIds addObject:[[plugin infoDictionary] objectForKey:@"CFBundleIdentifier"]];
-        }];
-        
+
         for (NSXMLElement *coreNode in coreNodes)
         {
             NSString *coreId = [[coreNode attributeForName:@"id"] stringValue];
@@ -107,11 +105,14 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     }    
 }
 
-- (void)windowDidLoad
+- (void)showWindow:(id)sender
 {
-    [super windowDidLoad];
+    [downloadArrayController removeObjects:[downloadArrayController arrangedObjects]];
     [self loadCoreList];
+    [downloadTableView setNeedsDisplay];
+    [super showWindow:sender];
 }
+
 
 #pragma mark Appcast delegate
 

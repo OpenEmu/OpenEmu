@@ -57,10 +57,12 @@
     }
 }
 
-- (void)windowDidLoad
+- (void)showWindow:(id)sender
 {
-    [super windowDidLoad];
+    [downloadArrayController removeObjects:[downloadArrayController arrangedObjects]];
     [self loadUpdateList];
+    [downloadTableView setNeedsDisplay];
+    [super showWindow:sender];
 }
 
 #pragma mark SUUpdater Delegate
