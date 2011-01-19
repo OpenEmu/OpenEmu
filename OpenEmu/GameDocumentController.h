@@ -35,7 +35,7 @@
 @class OESaveState;
 
 @class GameCore, OECorePlugin;
-@class GameDocument, OEGamePreferenceController, OESaveStateController, OECoreInstaller;
+@class GameDocument, OEGamePreferenceController, OESaveStateController, OECoreInstaller, OECoreUpdater;
 
 @class OEHIDManager;
 
@@ -46,6 +46,8 @@
     OESaveStateController      *saveStateManager;
 
     OECoreInstaller            *coreInstaller;
+    OECoreUpdater              *coreUpdater;
+    
     NSArray                    *filterNames;
     NSArray                    *plugins;
     NSArray                    *validExtensions;

@@ -26,40 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "OEPlugin.h"
+#import "OECoreDownloader.h"
 
-@class OEGameCoreController;
-
-@interface OECorePlugin : OEPlugin
-{
-    NSImage              *icon;
-    NSDictionary         *supportedTypes;
-    NSArray              *supportedTypeExtensions;
-    NSString             *typeName;
-    Class                 gameCoreClass;
-    OEGameCoreController *controller;
-}
-
-@property(readonly) OEGameCoreController *controller;
-@property(readonly) NSString             *details;
-@property(readonly) NSString             *typeName;
-@property(readonly) NSImage              *icon;
-@property(readonly) NSDictionary         *supportedTypes;
-@property(readonly) NSArray              *supportedTypeNames;
-@property(readonly) NSArray              *supportedTypeExtensions;
-@property(readonly) Class                 gameCoreClass;
-
-+ (NSArray *)supportedTypeExtensions;
-+ (NSArray *)pluginsForFileExtension:(NSString *)anExtension;
-+ (OECorePlugin *)corePluginWithBundleAtPath:(NSString *)bundlePath;
-
-- (NSArray *)availablePreferenceViewControllers;
-- (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey;
-- (NSArray *)extensionsForTypeName:(NSString *)aTypeName;
-- (NSString *)typeForExtension:(NSString *)extension;
-- (BOOL)supportsFileExtension:(NSString *)extension;
-- (BOOL)supportsFileType:(NSString *)aTypeName;
-
-- (NSArray *)typesPropertyList;
-
+@interface OECoreUpdater : OECoreDownloader
 @end

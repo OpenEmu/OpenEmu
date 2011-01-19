@@ -41,6 +41,7 @@
 #import "OECompositionPlugin.h"
 #import "OESaveState.h"
 #import "OECoreInstaller.h"
+#import "OECoreUpdater.h"
 
 #import "OEROMFile.h"
 #import "OEGameQuickLookDocument.h"
@@ -104,15 +105,8 @@
 
 -(void)updateBundles: (id) sender
 {
-    for(OECorePlugin *plugin in plugins)
-    {
-        //@try {
-        [plugin updateBundle:self];
-        //}
-        //@catch (NSException * e) {
-        //   NSLog(@"Tried to update bundle without sparkle");
-        //}
-    }
+    if (! coreUpdater) coreUpdater = [[OECoreUpdater alloc] init];
+    [coreUpdater showWindow:self];
     
     //see if QC plugins are installed
     NSBundle *OEQCPlugin = [NSBundle bundleWithPath:@"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin"];
@@ -230,6 +224,7 @@
     [plugins release];
     [aboutCreditsPath release];
     [coreInstaller release];
+    [coreUpdater release];
     
     [managedObjectContext release], managedObjectContext = nil;
     [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
