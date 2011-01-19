@@ -65,7 +65,7 @@
 {
     [[self window] setTitle:windowTitle];
     [downloadAllCoresButton setTitle:downloadAllButtonTitle];
-    NSSortDescriptor *nameSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"name"
+    NSSortDescriptor *nameSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"downloadTitle"
                                                                         ascending:YES
                                                                          selector:@selector(localizedCaseInsensitiveCompare:)]
                                             autorelease];
@@ -76,6 +76,18 @@
 - (void)OEDownloadDidStart:(OEDownload *)download
 {
     [downloadTableView setNeedsDisplay];
+
+    BOOL allDownloading = YES;
+    for (OEDownload *download in [downloadArrayController arrangedObjects])
+    {
+        if (! download.downloading)
+        {
+            allDownloading = NO;
+            break;
+        }
+    }
+    
+    [downloadAllCoresButton setEnabled:! allDownloading];
 }
 
 - (void)OEDownloadDidFinish:(OEDownload *)download
@@ -93,6 +105,10 @@
 
 - (IBAction)downloadAllCores:(id)sender
 {
+    for (OEDownload *download in [downloadArrayController arrangedObjects])
+    {
+        if (download.enabled && ! download.downloading) [download startDownload:self];
+    }
 }
 
 @end
