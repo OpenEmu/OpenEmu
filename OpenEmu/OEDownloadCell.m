@@ -66,9 +66,9 @@
 
         [secondaryText drawAtPoint:NSMakePoint(secondColumn, currentLine)
                     withAttributes:secondaryTextAttributes];
-
-        currentLine += 20;
     }
+
+    currentLine += 20;
 
     if (! download.downloading)
     {
