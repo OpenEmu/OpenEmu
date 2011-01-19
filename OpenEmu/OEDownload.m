@@ -29,36 +29,66 @@
 #import "GameDocumentController.h"
 #import <Sparkle/Sparkle.h>
 #import <XADMaster/XADArchive.h>
-#import "OECoreInfo.h"
 
 @implementation OEDownload
 
-@synthesize coreInfo, enabled, appcastItem, progressBar, delegate, fullPluginPath, button, downloading;
+@synthesize downloadTitle, downloadDescription, downloadIcon;
+@synthesize appcast, appcastItem;
+@synthesize progressBar, startDownloadButton, fullPluginPath;
+@synthesize delegate;
+@synthesize enabled, downloading;
+
+#pragma mark Lifecycle
+
+- (void)dealloc
+{
+    [downloadTitle release];
+    [downloadDescription release];
+    [downloadIcon release];
+    
+    [appcast release];
+    [appcastItem release];
+    
+    [progressBar release];
+    [startDownloadButton release];
+    [downloadPath release];
+    [fullPluginPath release];
+    
+    [iconData release];
+    [iconConnection release];
+    
+    [super dealloc];
+}
 
 - (id)init
 {
-    if(self = [super init])
+    if (self = [super init])
     {
+        //Assuming 0 is the best download, may or may not be the best
+        //[self setAppcastItem:[[coreInfo.appcast items] objectAtIndex:0]];
+        //NSLog(@"%@", [appcastItem propertiesDictionary]);
+        
         enabled        = YES;
         downloading    = NO;
         downloadedSize = 0;
         expectedLength = 1;
+
         progressBar    = [[NSProgressIndicator alloc] init];
-        
         [progressBar setControlSize:NSMiniControlSize];
         [progressBar setMinValue:0.0];
         [progressBar setMaxValue:1.0];
         [progressBar setStyle: NSProgressIndicatorBarStyle];
         [progressBar setIndeterminate:NO];
         
-        button = [[NSButton alloc] init];
-        [button setButtonType:NSMomentaryChangeButton];
-        [button setImage:[NSImage imageNamed:@"download_arrow_up.png"]];
-        [button setAlternateImage:[NSImage imageNamed:@"download_arrow_down.png"]];
-        [button setAction:@selector(startDownload:)];
-        [button setTarget:self];
-        [button setBordered:NO];
+        startDownloadButton = [[NSButton alloc] init];
+        [startDownloadButton setButtonType:NSMomentaryChangeButton];
+        [startDownloadButton setImage:[NSImage imageNamed:@"download_arrow_up.png"]];
+        [startDownloadButton setAlternateImage:[NSImage imageNamed:@"download_arrow_down.png"]];
+        [startDownloadButton setAction:@selector(startDownload:)];
+        [startDownloadButton setTarget:self];
+        [startDownloadButton setBordered:NO];
     }
+    
     return self;
 }
 
@@ -67,42 +97,21 @@
     return [self retain];
 }
 
-- (id)initWithCoreInfo:(OECoreInfo *)theCoreInfo
-{
-    if(self = [self init])
-    {
-        coreInfo = [theCoreInfo retain];
-        enabled = YES;
-
-        //Assuming 0 is the best download, may or may not be the best
-        [self setAppcastItem:[[coreInfo.appcast items] objectAtIndex:0]];
-        //NSLog(@"%@", [appcastItem propertiesDictionary]);
-
-        // download the icon, if any
-        if(coreInfo.iconURL)
-        {
-            iconData = [[NSMutableData data] retain];
-            NSURLRequest *request = [NSURLRequest requestWithURL:coreInfo.iconURL
-                                                     cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                                 timeoutInterval:10];
-            iconConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-        }
-    }
-    return self;
-}
+#pragma mark Core Download
 
 - (void)startDownload:(id)sender
 {
-    NSURLRequest  *request      = [NSURLRequest requestWithURL:[appcastItem fileURL]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:[appcastItem fileURL]];
     NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:self] autorelease];
     downloading = YES;
     [[self delegate] OEDownloadDidStart:self];
-    if(fileDownload == nil) NSLog(@"ERROR: Couldn't download!?? %@", self);
+    if (fileDownload == nil) NSLog(@"ERROR: Couldn't download %@", self);
 }
 
 
 - (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
-{    
+{
+    // TODO: use mkstemp() instead of tmpnam()
     downloadPath = [[NSString stringWithCString:tmpnam(nil) 
                                        encoding:[NSString defaultCStringEncoding]] retain];
     
@@ -120,14 +129,14 @@
 
 - (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
 {
-      DLog(@"%@, %@", @"created dest", path);
+    DLog(@"%@, %@", @"created dest", path);
 }
 
 - (void)download:(NSURLDownload *)download didReceiveDataOfLength:(NSUInteger)length
 {
     downloadedSize += length;
     [self willChangeValueForKey:@"progress"];
-    double progress = (double)downloadedSize / (double)expectedLength;
+    double progress = (double)downloadedSize / expectedLength;
     [progressBar setDoubleValue:progress];
     [self didChangeValueForKey:@"progress"];
     
@@ -158,6 +167,20 @@
     [delegate OEDownloadDidFinish:self];
 }
 
+#pragma mark Icon Download
+
+- (void)downloadIconFromURL:(NSURL *)iconURL
+{
+    self.downloadIcon = nil;
+    
+    if (iconData) [iconData release];
+    iconData = [[NSMutableData data] retain];
+    NSURLRequest *request = [NSURLRequest requestWithURL:iconURL
+                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                         timeoutInterval:10];
+    iconConnection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
+}
+
 - (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
     [iconData setLength:0];
@@ -183,7 +206,7 @@
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    coreInfo.icon = [[[NSImage alloc] initWithData:iconData] autorelease];
+    self.downloadIcon = [[[NSImage alloc] initWithData:iconData] autorelease];
     [[self delegate] OEIconDownloadDidFinish:self];
 
     [connection release];
@@ -192,25 +215,14 @@
     iconData = nil;
 }
 
-- (NSString *)name
+#pragma mark -
+
+- (NSString *)description
 {
     return [NSString stringWithFormat:@"%@%@ %@",
-            coreInfo.name,
-            (coreInfo.coreDescription ? [NSString stringWithFormat:@" (%@)", coreInfo.coreDescription] : @""),
+            downloadTitle,
+            (downloadDescription ? [NSString stringWithFormat:@" (%@)", downloadDescription] : @""),
             [appcastItem title]];
 }
 
-- (void)dealloc
-{
-    [progressBar release];
-    [downloadPath release];
-    [fullPluginPath release];
-    [button release];
-    [coreInfo release];
-    [iconConnection release];
-    [iconData release];
-    [self setAppcastItem:nil];
-    
-    [super dealloc];
-}
 @end

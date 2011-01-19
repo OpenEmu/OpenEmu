@@ -37,20 +37,25 @@
 
 @end
 
-@class SUAppcastItem, OECoreInfo;
+@class SUAppcast, SUAppcastItem;
 
 @interface OEDownload : NSViewController
 {
-    OECoreInfo *coreInfo;
-    SUAppcastItem       *appcastItem;
+    NSString *downloadTitle;
+    NSString *downloadDescription;
+    NSImage  *downloadIcon;
+    
+    SUAppcast     *appcast;
+    SUAppcastItem *appcastItem;
 
     NSProgressIndicator *progressBar;
-    NSButton            *button;
+    NSButton            *startDownloadButton;
     NSString            *downloadPath;
     NSString            *fullPluginPath;
     unsigned long long   expectedLength;
     unsigned long long   downloadedSize;
-    NSMutableData *iconData;
+    
+    NSMutableData   *iconData;
     NSURLConnection *iconConnection;
     
     id<OEDownloadDelegate> delegate;
@@ -59,17 +64,23 @@
     BOOL enabled;
 }
 
-@property(readonly) OECoreInfo             *coreInfo;
-@property(readonly) NSProgressIndicator    *progressBar;
-@property(readonly) NSButton               *button;
-@property(assign)   BOOL                    enabled;
+@property(copy)     NSString               *downloadTitle;
+@property(copy)     NSString               *downloadDescription;
+@property(retain)   NSImage                *downloadIcon;
+
+@property(retain)   SUAppcast              *appcast;
 @property(retain)   SUAppcastItem          *appcastItem;
-@property(assign)   id<OEDownloadDelegate>  delegate;
+
+@property(readonly) NSProgressIndicator    *progressBar;
+@property(readonly) NSButton               *startDownloadButton;
 @property(readonly) NSString               *fullPluginPath;
+
+@property(assign)   id<OEDownloadDelegate>  delegate;
+
+@property(assign)   BOOL                    enabled;
 @property(readonly) BOOL                    downloading;
 
-- (id)initWithCoreInfo:(OECoreInfo *)coreInfo;
 - (void)startDownload:(id)sender;
-- (NSString *)name;
+- (void)downloadIconFromURL:(NSURL *)iconURL;
 
 @end

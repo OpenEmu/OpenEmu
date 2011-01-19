@@ -269,7 +269,7 @@
     [saveStateManager showWindow:sender];
 }
 
-- (IBAction)openCoreDownloaderWindow:(id)sender
+- (IBAction)openCoreInstallerWindow:(id)sender
 {
     if(coreInstaller == nil)
         coreInstaller = [[OECoreInstaller alloc] init];

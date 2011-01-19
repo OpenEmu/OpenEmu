@@ -27,21 +27,20 @@
 
 #import "OEDownloadCell.h"
 #import "OEDownload.h"
-#import "OECoreInfo.h"
 
 @implementation OEDownloadCell
 
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
-    OEDownload *data               = [self objectValue];
-    BOOL        elementDisabled    = NO;
-    NSColor    *primaryColor       = ([self isHighlighted]
-                                      ? [NSColor alternateSelectedControlTextColor]
-                                      : (elementDisabled
-                                         ? [NSColor disabledControlTextColor]
-                                         : [NSColor textColor]));
-    NSString     *primaryText = [NSString stringWithFormat:@"%@ %@",
-                                 data.coreInfo.name,
-                                 [data.appcastItem title]];
+    OEDownload *download = [self objectValue];
+    BOOL elementDisabled = NO;
+    NSColor *primaryColor = ([self isHighlighted]
+                             ? [NSColor alternateSelectedControlTextColor]
+                             : (elementDisabled
+                                ? [NSColor disabledControlTextColor]
+                                : [NSColor textColor]));
+    NSString *primaryText = [NSString stringWithFormat:@"%@ %@",
+                             download.downloadTitle,
+                             ([download.appcastItem title] ? : @"")];
 
     NSDictionary *primaryTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                            primaryColor,                     NSForegroundColorAttributeName,
@@ -56,12 +55,10 @@
 
     currentLine += 20;
 
-    if(data.coreInfo.coreDescription)
+    NSString *secondaryText = download.downloadDescription;
+    if (secondaryText && [secondaryText length] > 0)
     {
         NSColor *secondaryColor = primaryColor;
-
-        NSString *secondaryText = data.coreInfo.coreDescription;
-
         NSDictionary *secondaryTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                                  secondaryColor,               NSForegroundColorAttributeName,
                                                  [NSFont systemFontOfSize:11], NSFontAttributeName,
@@ -73,29 +70,28 @@
         currentLine += 20;
     }
 
-    if(![data downloading])
+    if (! download.downloading)
     {
-        NSButton *button = [data button];
-
+        NSButton *button = download.startDownloadButton;
         [controlView addSubview:button];
         [button setFrame:NSMakeRect(secondColumn, currentLine, 14, 14)];
     }
     else
     {
-        [[data button] removeFromSuperview];
-        NSProgressIndicator *progressIndicator = [data progressBar];
+        [download.startDownloadButton removeFromSuperview];
 
+        NSProgressIndicator *progressIndicator = download.progressBar;
         [controlView addSubview:progressIndicator];
         [progressIndicator setFocusRingType:NSFocusRingTypeNone];
-
         [progressIndicator setFrame:NSMakeRect(secondColumn,
                                                currentLine,
-                                               cellFrame.size.width - 88, NSProgressIndicatorPreferredThickness)];
+                                               cellFrame.size.width - 88,
+                                               NSProgressIndicatorPreferredThickness)];
     }
 
-    if(data.coreInfo.icon)
+    NSImage *icon = [download.downloadIcon copy];
+    if (icon)
     {
-        NSImage *icon = [data.coreInfo.icon copy];
         [icon setSize:NSMakeSize(64, 64)];
         [icon setFlipped:YES];
         [icon drawAtPoint:NSMakePoint(cellFrame.origin.x + 4, cellFrame.origin.y + cellFrame.size.height / 2 - 32)
@@ -107,4 +103,3 @@
 }
 
 @end
-

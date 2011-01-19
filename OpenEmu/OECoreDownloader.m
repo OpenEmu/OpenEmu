@@ -30,7 +30,6 @@
 #import "OEDownload.h"
 #import "GameDocumentController.h"
 #import "OECorePlugin.h"
-#import "OECoreInfo.h"
 
 @implementation OECoreDownloader
 
@@ -38,21 +37,33 @@
 
 #pragma mark Lifecycle
 
+- (id)initWithWindowTitle:(NSString *)wtitle downloadAllButtonTitle:(NSString *)btitle
+{
+    windowTitle = [wtitle copy];
+    downloadAllButtonTitle = [btitle copy];
+    return [self initWithWindowNibName:@"CoreDownloader"];
+}
+
 - (id)init
 {
-    return [self initWithWindowNibName:@"CoreDownloader"];
+    return [self initWithWindowTitle:@"" downloadAllButtonTitle:@"Download All Cores"];
 }
 
 - (void)dealloc
 {
-    [downloadAllCoresButton  release];
+    [downloadAllCoresButton release];
     [downloadArrayController release];
-    [downloadTableView       release];
-    [super                   dealloc];
+    [downloadTableView release];
+    
+    [windowTitle release];
+    
+    [super dealloc];
 }
 
 - (void)windowDidLoad
 {
+    [[self window] setTitle:windowTitle];
+    [downloadAllCoresButton setTitle:downloadAllButtonTitle];
     NSSortDescriptor *nameSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"name"
                                                                         ascending:YES
                                                                          selector:@selector(localizedCaseInsensitiveCompare:)]
@@ -81,11 +92,6 @@
 
 - (IBAction)downloadAllCores:(id)sender
 {
-}
-
-- (IBAction)openCoreDownloaderWindow:(id)sender
-{
-    [self close];
 }
 
 @end
