@@ -41,6 +41,8 @@
 // control gamecore
 - (oneway void)setVolume:(float)value;
 - (oneway void)setPauseEmulation:(BOOL)flag;
+- (oneway void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button;
+- (oneway void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button;
 
 // gamecore attributes
 @property(readonly) OEIntSize   screenSize; // the rect inside the IOSurface which the game is drawing into
