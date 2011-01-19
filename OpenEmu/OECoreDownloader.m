@@ -56,6 +56,7 @@
     [downloadTableView release];
     
     [windowTitle release];
+    [downloadAllButtonTitle release];
     
     [super dealloc];
 }

@@ -64,16 +64,12 @@
 {
     if (self = [super init])
     {
-        //Assuming 0 is the best download, may or may not be the best
-        //[self setAppcastItem:[[coreInfo.appcast items] objectAtIndex:0]];
-        //NSLog(@"%@", [appcastItem propertiesDictionary]);
-        
         enabled        = YES;
         downloading    = NO;
         downloadedSize = 0;
         expectedLength = 1;
 
-        progressBar    = [[NSProgressIndicator alloc] init];
+        progressBar = [[NSProgressIndicator alloc] init];
         [progressBar setControlSize:NSMiniControlSize];
         [progressBar setMinValue:0.0];
         [progressBar setMaxValue:1.0];
