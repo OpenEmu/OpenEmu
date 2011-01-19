@@ -46,7 +46,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
     glDeleteTextures(1, &name);
 }
 
-
 @implementation OpenEmuQCNES
 
 @synthesize persistantControllerData;
@@ -268,6 +267,69 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
 
 @implementation OpenEmuQCNES (Execution)
 
+#pragma mark - State loading/saving
+
+- (void) saveState: (NSString *) fileName
+{
+    BOOL isDir;
+    DLog(@"saveState filename is %@", fileName);
+    
+    NSString *filePath = [fileName stringByDeletingLastPathComponent];
+    
+    // if the extension isn't .sav, make it so
+    if(![[fileName pathExtension] caseInsensitiveCompare:@"sav"]) 
+    {
+        fileName = [fileName stringByAppendingPathExtension:@"sav"];
+    }
+    
+    // see if directory exists
+    if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir] && isDir)
+    {
+        // if so, save the state
+        [[[gameCoreManager rootProxy] gameCore] saveStateToFileAtPath: fileName];
+    } 
+    else if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+    {
+        // if not, bitch about it
+        DLog(@"Save state directory does not exist");
+    }
+}
+
+- (BOOL) loadState: (NSString *) fileName
+{
+    BOOL isDir;    
+    DLog(@"loadState path is %@", fileName);
+    
+    if(![fileName caseInsensitiveCompare:@"sav"]) 
+    {
+        NSLog(@"Saved state files must have the extension \".sav\" to be loaded.");
+        return NO;
+    }
+    
+    if([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && !isDir)
+    {
+        //DO NOT CONCERN YOURSELF WITH EFFICIENCY OR ELEGANCE AT THIS JUNCTURE, DANIEL MORGAN WINCKLER.
+        
+        //if no ROM has been loaded, don't load the state
+        //        if(!self.loadedRom) {
+        //            NSLog(@"no ROM loaded -- please load a ROM before loading a state");
+        //            return NO;
+        //        }
+        //        else
+		{
+            [[[gameCoreManager rootProxy] gameCore] loadStateFromFileAtPath:fileName];
+            DLog(@"loaded new state");
+        }
+    }
+    else 
+    {
+        NSLog(@"loadState: bad path or filename");
+        return NO;
+    }
+    return YES;
+}
+
+#pragma mark Execution
 
 - (BOOL) startExecution:(id<QCPlugInContext>)context
 {    
@@ -590,68 +652,6 @@ static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* in
             [[gameCoreManager rootProxy] player:[playerNumber intValue] didReleaseButton:(i + 1)];
         }
     } 
-}
-
-#pragma mark - State loading/saving
-
-- (void) saveState: (NSString *) fileName
-{
-    BOOL isDir;
-    DLog(@"saveState filename is %@", fileName);
-    
-    NSString *filePath = [fileName stringByDeletingLastPathComponent];
-    
-    // if the extension isn't .sav, make it so
-    if(![[fileName pathExtension] caseInsensitiveCompare:@"sav"]) 
-    {
-        fileName = [fileName stringByAppendingPathExtension:@"sav"];
-    }
-    
-    // see if directory exists
-    if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDir] && isDir)
-    {
-        // if so, save the state
-        [[[gameCoreManager rootProxy] gameCore] saveStateToFileAtPath: fileName];
-    } 
-    else if (![[NSFileManager defaultManager] fileExistsAtPath:filePath])
-    {
-        // if not, bitch about it
-        DLog(@"Save state directory does not exist");
-    }
-}
-
-- (BOOL) loadState: (NSString *) fileName
-{
-    BOOL isDir;    
-    DLog(@"loadState path is %@", fileName);
-    
-    if(![fileName caseInsensitiveCompare:@"sav"]) 
-    {
-        NSLog(@"Saved state files must have the extension \".sav\" to be loaded.");
-        return NO;
-    }
-    
-    if([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && !isDir)
-    {
-        //DO NOT CONCERN YOURSELF WITH EFFICIENCY OR ELEGANCE AT THIS JUNCTURE, DANIEL MORGAN WINCKLER.
-        
-        //if no ROM has been loaded, don't load the state
-//        if(!self.loadedRom) {
-//            NSLog(@"no ROM loaded -- please load a ROM before loading a state");
-//            return NO;
-//        }
-//        else
-		{
-            [[[gameCoreManager rootProxy] gameCore] loadStateFromFileAtPath:fileName];
-            DLog(@"loaded new state");
-        }
-    }
-    else 
-    {
-        NSLog(@"loadState: bad path or filename");
-        return NO;
-    }
-    return YES;
 }
 
 #pragma mark Nestopia Add-ons
