@@ -92,7 +92,7 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
 
 @implementation OEGameCoreController
 
-@synthesize currentPreferenceViewController, bundle, pluginName, supportDirectoryPath, playerString, replacePlayerFormat;
+@synthesize currentPreferenceViewController, bundle, pluginName, supportDirectoryPath, playerString;
 
 static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 
@@ -215,22 +215,17 @@ static void OE_setupControlNames(OEGameCoreController *self)
         atLen++;
         play /= 10;
     }
-    char *atCStr = NSZoneMalloc(NSDefaultMallocZone(), atLen + 1);
-    for(NSUInteger i = 0; i < atLen; i++) atCStr[i] = '@';
-    atCStr[atLen] = '\0';
     
-    NSString *atStr  = [[NSString alloc] initWithBytes:atCStr  length:atLen encoding:NSASCIIStringEncoding];
-    NSZoneFree(NSDefaultMallocZone(), atCStr);
+    // I don't think we will ever support more than 2^64 players so this @ string is more than enough...
+    NSString *atStr  = [NSString stringWithFormat:@"%.*s", atLen, "@@@@@@@@@@@@@@@@@@@@"];
     
     self->playerString = atStr;
-    NSString *format = [[NSString alloc] initWithFormat:@"%%0%uu", [atStr length]];
-    self->replacePlayerFormat = format;
     
     for(NSUInteger i = 1; i <= playerCount; i++)
     {
+        NSString *playNo = [NSString stringWithFormat:@"%0*u", atLen, i];
         for(NSString *genericName in genericNames)
         {
-            NSString *playNo = [NSString stringWithFormat:format, i];
             NSString *add = [genericName stringByReplacingOccurrencesOfString:atStr withString:playNo];
             if(![temp containsObject:add]) [temp addObject:add];
         }
@@ -278,7 +273,6 @@ static void OE_setupControlNames(OEGameCoreController *self)
     [controlNames release];
     [playerString release];
     [gameDocuments release];
-    [replacePlayerFormat release];
     [currentPreferenceViewController release];
     [super dealloc];
 }
@@ -565,6 +559,12 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     
     NSUInteger ret = [[playerKey substringWithRange:atRange] integerValue];
     return (ret != 0 ? ret : NSNotFound);
+}
+
+- (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
+{
+    return [aKey stringByReplacingOccurrencesOfString:playerString withString:
+            [NSString stringWithFormat:@"%0*d", [playerString length], playerNumber]];
 }
 
 - (NSUInteger)playerNumberInKey:(NSString *)aPlayerKey getKeyIndex:(NSUInteger *)index

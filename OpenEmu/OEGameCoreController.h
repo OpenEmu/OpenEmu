@@ -45,7 +45,6 @@ extern NSString *const OEKeyboardEventValueKey;
     NSString       *pluginName;
     NSString       *supportDirectoryPath;
     NSString       *playerString;
-    NSString       *replacePlayerFormat;
     NSArray        *controlNames;
     NSMutableArray *gameDocuments;
     NSMutableArray *settingObservers;
@@ -55,7 +54,6 @@ extern NSString *const OEKeyboardEventValueKey;
 @property(readonly) Class     gameCoreClass;
 @property(readonly) id        currentPreferenceViewController;
 @property(readonly) NSString *playerString;
-@property(readonly) NSString *replacePlayerFormat;
 
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
 - (void)registerDefaultControls;
@@ -68,6 +66,7 @@ extern NSString *const OEKeyboardEventValueKey;
 @property(readonly) NSArray    *genericControlNames;
 @property(readonly) NSUInteger  playerCount;
 
+- (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
 - (NSUInteger)playerNumberInKey:(NSString *)aPlayerKey getKeyIndex:(NSUInteger *)index;
 /*
  * The method search for a registered class for the passed-in key and instanciate the controller

@@ -100,11 +100,9 @@
 
 - (NSString *)keyPathForKey:(NSString *)aKey
 {
-    OEGameCoreController *controller = [self controller];
     NSUInteger player = [self selectedPlayer];
     if(player != NSNotFound)
-        return [aKey stringByReplacingOccurrencesOfString:[controller playerString]
-                                               withString:[NSString stringWithFormat:[controller replacePlayerFormat], player]];
+        return [[self controller] playerKeyForKey:aKey player:player];
     else
         return aKey;
 }
