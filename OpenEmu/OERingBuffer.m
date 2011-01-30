@@ -41,7 +41,7 @@
     {
         _bufferLock = [[NSLock alloc] init];
         _bufferSize = length;
-        _buffer     = calloc(_bufferSize, sizeof(char));
+        _buffer     = NSZoneCalloc([self zone], _bufferSize, sizeof(char));
         if(_buffer == NULL)
         {
             [self release];
@@ -61,11 +61,11 @@
     [_bufferLock lock];
     if(length > _bufferSize)
     {
-        void *temp = calloc(length, sizeof(char));
+        void *temp = NSZoneCalloc([self zone], length, sizeof(char));
         // Checks whether the allocation went well
         if(temp != NULL)
         {
-            if(_buffer != NULL) free(_buffer);
+            if(_buffer != NULL) NSZoneFree([self zone], _buffer);
             _buffer = temp;
         }
         // If the allocation didn't work, we keep the old buffer
@@ -138,24 +138,24 @@
     return _bufferUsed;
 }
 
-- (NSUInteger) bytesAvailable
+- (NSUInteger)bytesAvailable
 {
     return [self availableBytes];
 }
 
-- (NSUInteger) bytesUsed
+- (NSUInteger)bytesUsed
 {
     return [self usedBytes];
 }
 
-- (NSString*) description
+- (NSString *)description
 {
     return [NSString stringWithFormat:@"Buffer with length %d.\nUsed: %d\nFree: %d\nRead position: %d\nWrite position: %d", _bufferSize, [self usedBytes], [self availableBytes], _readPosition, _writePosition];
 }
 
-- (void) dealloc
+- (void)dealloc
 {
-    if(_buffer != NULL) free(_buffer);
+    if(_buffer != NULL) NSZoneFree([self zone], _buffer);
     [_bufferLock release];
     [super dealloc];
 }
