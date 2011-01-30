@@ -254,7 +254,9 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
         NSBundle *theBundle = [NSBundle bundleWithPath:bundlePath];
         if(bundlePath != nil && theBundle != nil)
             ret = [[[aType alloc] initWithBundle:theBundle] autorelease];
-        else ret = [NSNull null];
+        
+        // If ret is still nil at this point, it means the plugin can't be loaded (old-style version for example)
+        if(ret == nil) ret = [NSNull null];
         
         [plugins setObject:ret forKey:aName];
         [aType didChangeValueForKey:@"allPlugins"];

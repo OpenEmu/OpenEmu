@@ -44,13 +44,17 @@
 {
     if((self = [super initWithBundle:aBundle]))
     {
-        gameCoreClass = [bundle principalClass];
+        Class mainClass = [bundle principalClass];
         
-        if([gameCoreClass isSubclassOfClass:[OEGameCoreController class]])
+        // Prevents old-style plugins from loading at all
+        if(![mainClass isSubclassOfClass:[OEGameCoreController class]])
         {
-            controller = [[gameCoreClass alloc] init];
-            gameCoreClass = [controller gameCoreClass];
+            [self release];
+            return nil;
         }
+        
+        controller = [[mainClass alloc] init];
+        gameCoreClass = [controller gameCoreClass];
         
         NSString *iconPath = [bundle pathForResource:[infoDictionary objectForKey:@"CFIconName"] ofType:@"icns"];
         icon = [[NSImage alloc] initWithContentsOfFile:iconPath];
