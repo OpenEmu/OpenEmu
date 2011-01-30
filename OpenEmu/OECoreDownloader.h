@@ -34,8 +34,8 @@
     NSArrayController *downloadArrayController;
     NSTableView       *downloadTableView;
     
-    NSString *windowTitle;
-    NSString *downloadAllButtonTitle;
+    NSString          *windowTitle;
+    NSString          *downloadAllButtonTitle;
 }
 
 @property(retain) IBOutlet NSButton          *downloadAllCoresButton;

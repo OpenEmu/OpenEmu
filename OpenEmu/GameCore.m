@@ -241,9 +241,9 @@ static NSTimeInterval currentTime()
     [self doesNotImplementSelector:_cmd];
 }
 
-- (void)executeFrameSkippingFrame:(BOOL) skip
+- (void)executeFrameSkippingFrame:(BOOL)skip
 {
-    [self executeFrame];    
+    [self executeFrame];
 }
 
 - (void)executeFrame
@@ -412,11 +412,11 @@ static NSTimeInterval currentTime()
 {
     OEEmulatorKey emulKey;
     GET_EMUL_KEY;
-	NSInteger appKey = 0;
-	//if ([theEvent respondsToSelector:@selector(keycode)])
-		appKey = KEYBOARD_MASK | [theEvent keycode];
-//	else
-//		appKey = KEYBOARD_MASK | [theEvent intValue];
+    NSInteger appKey = 0;
+    //if([theEvent respondsToSelector:@selector(keycode)])
+        appKey = KEYBOARD_MASK | [theEvent keycode];
+    //else
+    //    appKey = KEYBOARD_MASK | [theEvent intValue];
     
     [self setEventValue:appKey forEmulatorKey:emulKey];
 }
@@ -431,10 +431,12 @@ static NSTimeInterval currentTime()
     OEEmulatorKey emulKey;
     GET_EMUL_KEY;
     
-    NSInteger appKey = 0;
+    NSInteger   appKey  = 0;
     OEHIDEvent *anEvent = theEvent;
     appKey = HID_MASK | [anEvent padNumber] << 24;
-    switch ([anEvent type]) {
+    
+    switch ([anEvent type])
+    {
         case OEHIDAxis :
         {
             OEHIDDirection dir = [anEvent direction];

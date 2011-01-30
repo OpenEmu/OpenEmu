@@ -41,27 +41,27 @@
 
 @interface OEDownload : NSViewController
 {
-    NSString *downloadTitle;
-    NSString *downloadDescription;
-    NSImage  *downloadIcon;
+    id<OEDownloadDelegate>  delegate;
     
-    SUAppcast     *appcast;
-    SUAppcastItem *appcastItem;
-
-    NSProgressIndicator *progressBar;
-    NSButton            *startDownloadButton;
-    NSString            *downloadPath;
-    NSString            *fullPluginPath;
-    unsigned long long   expectedLength;
-    unsigned long long   downloadedSize;
+    NSString               *downloadTitle;
+    NSString               *downloadDescription;
+    NSImage                *downloadIcon;
     
-    NSMutableData   *iconData;
-    NSURLConnection *iconConnection;
+    SUAppcast              *appcast;
+    SUAppcastItem          *appcastItem;
     
-    id<OEDownloadDelegate> delegate;
+    NSProgressIndicator    *progressBar;
+    NSButton               *startDownloadButton;
+    NSString               *downloadPath;
+    NSString               *fullPluginPath;
+    unsigned long long      expectedLength;
+    unsigned long long      downloadedSize;
     
-    BOOL downloading;
-    BOOL enabled;
+    NSMutableData          *iconData;
+    NSURLConnection        *iconConnection;
+    
+    BOOL                    downloading;
+    BOOL                    enabled;
 }
 
 @property(copy)     NSString               *downloadTitle;
@@ -77,8 +77,8 @@
 
 @property(assign)   id<OEDownloadDelegate>  delegate;
 
-@property(assign)   BOOL                    enabled;
-@property(readonly) BOOL                    downloading;
+@property(assign  , getter=isEnabled)     BOOL enabled;
+@property(readonly, getter=isDownloading) BOOL downloading;
 
 - (void)startDownload:(id)sender;
 - (void)downloadIconFromURL:(NSURL *)iconURL;

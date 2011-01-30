@@ -39,9 +39,12 @@
 
 - (id)initWithWindowTitle:(NSString *)wtitle downloadAllButtonTitle:(NSString *)btitle
 {
-    windowTitle = [wtitle copy];
-    downloadAllButtonTitle = [btitle copy];
-    return [self initWithWindowNibName:@"CoreDownloader"];
+    if((self = [self initWithWindowNibName:@"CoreDownloader"]))
+    {
+        windowTitle = [wtitle copy];
+        downloadAllButtonTitle = [btitle copy];
+    }
+    return self;
 }
 
 - (id)init
@@ -76,18 +79,18 @@
 - (void)OEDownloadDidStart:(OEDownload *)download
 {
     [downloadTableView setNeedsDisplay];
-
+    
     BOOL allDownloading = YES;
-    for (OEDownload *download in [downloadArrayController arrangedObjects])
+    for(OEDownload *download in [downloadArrayController arrangedObjects])
     {
-        if (! download.downloading)
+        if(![download isDownloading])
         {
             allDownloading = NO;
             break;
         }
     }
     
-    [downloadAllCoresButton setEnabled:! allDownloading];
+    [downloadAllCoresButton setEnabled:!allDownloading];
 }
 
 - (void)OEDownloadDidFinish:(OEDownload *)download
@@ -95,7 +98,8 @@
     [[GameDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[download fullPluginPath]] display:NO error:nil];
     [downloadArrayController removeObject:download];
     [downloadTableView setNeedsDisplay];
-    if ([[downloadArrayController arrangedObjects] count] == 0) [downloadAllCoresButton setEnabled:NO];
+    if([[downloadArrayController arrangedObjects] count] == 0)
+        [downloadAllCoresButton setEnabled:NO];
 }
 
 - (void)OEIconDownloadDidFinish:(OEDownload *)download
@@ -105,10 +109,9 @@
 
 - (IBAction)downloadAllCores:(id)sender
 {
-    for (OEDownload *download in [downloadArrayController arrangedObjects])
-    {
-        if (download.enabled && ! download.downloading) [download startDownload:self];
-    }
+    for(OEDownload *download in [downloadArrayController arrangedObjects])
+        if([download isEnabled] && ![download isDownloading])
+            [download startDownload:self];
 }
 
 @end

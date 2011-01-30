@@ -42,7 +42,7 @@
 @property(retain) IBOutlet NSStepper   *playerStepper;
 @property(retain) IBOutlet NSTextField *playerField;
 
-@property(assign) NSControl *selectedControl;
+@property(assign)          NSControl   *selectedControl;
 
 - (NSString *)selectedKey;
 - (NSUInteger)selectedPlayer;

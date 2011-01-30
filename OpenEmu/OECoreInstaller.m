@@ -34,10 +34,11 @@
 
 @implementation OECoreInstaller
 
-static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
+static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
+{
     NSString *value = nil;
     NSArray *nodes = [element elementsForName:name];
-    if ([nodes count] > 0)
+    if([nodes count] > 0)
     {
         NSXMLElement *childNode = [nodes objectAtIndex:0];
         value = [childNode stringValue];
@@ -45,17 +46,12 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     return value;
 }
 
+#pragma mark -
 #pragma mark Lifecycle
-
-- (void)dealloc
-{
-    [availableDownloads release];
-    [super dealloc];
-}
 
 - (id)init
 {
-    if (self = [self initWithWindowTitle:@"Install New Cores" downloadAllButtonTitle:@"Install All Cores"])
+    if((self = [self initWithWindowTitle:@"Install New Cores" downloadAllButtonTitle:@"Install All Cores"]))
     {
         availableDownloads = [[NSMutableArray alloc] init];
     }
@@ -63,46 +59,56 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
     return self;
 }
 
+- (void)dealloc
+{
+    [availableDownloads release];
+    [super dealloc];
+}
+
 - (void)loadCoreList
 {
-    NSURL *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
+    NSURL         *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
     NSXMLDocument *coreListDoc = [[[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL] autorelease];
-    NSArray *coreNodes = nil;
+    NSArray       *coreNodes   = nil;
     
-    if (coreListDoc) coreNodes = [coreListDoc nodesForXPath:@"/cores/core" error:NULL];
+    if(coreListDoc != nil) coreNodes = [coreListDoc nodesForXPath:@"/cores/core" error:NULL];
     
-    if (coreNodes)
+    if(coreNodes != nil)
     {
         NSMutableArray *installedPluginIds = [NSMutableArray array];
-        for (OECorePlugin *plugin in [OECorePlugin allPlugins])
+        
+        for(OECorePlugin *plugin in [OECorePlugin allPlugins])
             [installedPluginIds addObject:[[plugin infoDictionary] objectForKey:@"CFBundleIdentifier"]];
-
-        for (NSXMLElement *coreNode in coreNodes)
+        
+        for(NSXMLElement *coreNode in coreNodes)
         {
             NSString *coreId = [[coreNode attributeForName:@"id"] stringValue];
             
             __block BOOL alreadyInstalled = NO;
-            [installedPluginIds enumerateObjectsUsingBlock:^(NSString *installedPluginId, NSUInteger idx, BOOL *stop) {
-                if ([coreId caseInsensitiveCompare:installedPluginId] == NSOrderedSame) alreadyInstalled = *stop = YES;
-            }];
+            [installedPluginIds enumerateObjectsUsingBlock:
+             ^(NSString *installedPluginId, NSUInteger idx, BOOL *stop)
+             {
+                 if([coreId caseInsensitiveCompare:installedPluginId] == NSOrderedSame)
+                     alreadyInstalled = *stop = YES;
+             }];
             
-            if (alreadyInstalled) continue;
+            if(alreadyInstalled) continue;
             
             OEDownload *download = [[[OEDownload alloc] init] autorelease];
             download.downloadTitle = [[coreNode attributeForName:@"name"] stringValue];
             download.downloadDescription = elementChildAsString(coreNode, @"description");
             
             NSString *iconURLString = elementChildAsString(coreNode, @"iconURL");
-            if (iconURLString) [download downloadIconFromURL:[NSURL URLWithString:iconURLString]];
+            if(iconURLString) [download downloadIconFromURL:[NSURL URLWithString:iconURLString]];
             
             NSURL *appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];
             download.appcast = [[[SUAppcast alloc] init] autorelease];
             [download.appcast setDelegate:self];
             [download.appcast fetchAppcastFromURL:appcastURL];
-
+            
             [availableDownloads addObject:download];
         }
-    }    
+    }
 }
 
 - (void)showWindow:(id)sender
@@ -118,31 +124,35 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name) {
 
 - (void)appcastDidFinishLoading:(SUAppcast *)appcast
 {
-    [availableDownloads enumerateObjectsUsingBlock:^(OEDownload *download, NSUInteger idx, BOOL *stop) {
-        if (download.appcast == appcast)
-        {
-            //Assuming 0 is the best download, may or may not be the best
-            NSArray *appcastItems = [appcast items];
-            if ([appcastItems count] > 0) download.appcastItem = [appcastItems objectAtIndex:0];
-            
-            [download setDelegate:self];
-            [downloadArrayController addObject:download];
-            [downloadAllCoresButton setEnabled:YES];
-            *stop = YES;
-        }
-    }];
+    [availableDownloads enumerateObjectsUsingBlock:
+     ^(OEDownload *download, NSUInteger idx, BOOL *stop)
+     {
+         if(download.appcast == appcast)
+         {
+             //Assuming 0 is the best download, may or may not be the best
+             NSArray *appcastItems = [appcast items];
+             if([appcastItems count] > 0) download.appcastItem = [appcastItems objectAtIndex:0];
+             
+             [download setDelegate:self];
+             [downloadArrayController addObject:download];
+             [downloadAllCoresButton setEnabled:YES];
+             *stop = YES;
+         }
+     }];
 }
 
 - (void)appcast:(SUAppcast *)appcast failedToLoadWithError:(NSError *)error
 {
     // Appcast couldn't load, remove it
-    [availableDownloads enumerateObjectsUsingBlock:^(OEDownload *download, NSUInteger idx, BOOL *stop) {
-        if (download.appcast == appcast)
-        {
-            download.appcast = nil;
-            *stop = YES;
-        }
-    }];
+    [availableDownloads enumerateObjectsUsingBlock:
+     ^(OEDownload *download, NSUInteger idx, BOOL *stop)
+     {
+         if(download.appcast == appcast)
+         {
+             download.appcast = nil;
+             *stop = YES;
+         }
+     }];
 }
 
 #pragma mark IB Actions

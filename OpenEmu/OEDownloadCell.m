@@ -30,7 +30,8 @@
 
 @implementation OEDownloadCell
 
-- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{
     OEDownload *download = [self objectValue];
     BOOL elementDisabled = NO;
     NSColor *primaryColor = ([self isHighlighted]
@@ -38,39 +39,40 @@
                              : (elementDisabled
                                 ? [NSColor disabledControlTextColor]
                                 : [NSColor textColor]));
+    
     NSString *primaryText = [NSString stringWithFormat:@"%@ %@",
                              download.downloadTitle,
                              ([download.appcastItem title] ? : @"")];
-
+    
     NSDictionary *primaryTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                           primaryColor,                     NSForegroundColorAttributeName,
+                                           primaryColor                    , NSForegroundColorAttributeName,
                                            [NSFont boldSystemFontOfSize:13], NSFontAttributeName,
                                            nil];
-
+    
     CGFloat secondColumn = cellFrame.origin.x + 80;
-    CGFloat currentLine = cellFrame.origin.y;
-
+    CGFloat currentLine  = cellFrame.origin.y;
+    
     [primaryText drawAtPoint:NSMakePoint(secondColumn, currentLine)
               withAttributes:primaryTextAttributes];
-
+    
     currentLine += 20;
-
-    NSString *secondaryText = download.downloadDescription;
-    if (secondaryText && [secondaryText length] > 0)
+    
+    NSString *secondaryText = [download downloadDescription];
+    if([secondaryText length] > 0)
     {
-        NSColor *secondaryColor = primaryColor;
+        NSColor      *secondaryColor          = primaryColor;
         NSDictionary *secondaryTextAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                 secondaryColor,               NSForegroundColorAttributeName,
+                                                 secondaryColor              , NSForegroundColorAttributeName,
                                                  [NSFont systemFontOfSize:11], NSFontAttributeName,
                                                  nil];
-
+        
         [secondaryText drawAtPoint:NSMakePoint(secondColumn, currentLine)
                     withAttributes:secondaryTextAttributes];
     }
-
+    
     currentLine += 20;
-
-    if (! download.downloading)
+    
+    if(![download isDownloading])
     {
         NSButton *button = download.startDownloadButton;
         [controlView addSubview:button];
@@ -79,7 +81,7 @@
     else
     {
         [download.startDownloadButton removeFromSuperview];
-
+        
         NSProgressIndicator *progressIndicator = download.progressBar;
         [controlView addSubview:progressIndicator];
         [progressIndicator setFocusRingType:NSFocusRingTypeNone];
@@ -88,9 +90,10 @@
                                                cellFrame.size.width - 88,
                                                NSProgressIndicatorPreferredThickness)];
     }
-
-    NSImage *icon = [download.downloadIcon copy];
-    if (icon)
+    
+    NSImage *icon = [[download downloadIcon] copy];
+    
+    if(icon != nil)
     {
         [icon setSize:NSMakeSize(64, 64)];
         [icon setFlipped:YES];

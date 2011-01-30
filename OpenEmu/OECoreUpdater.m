@@ -43,11 +43,12 @@
 
 - (void)loadUpdateList
 {
-    for (OECorePlugin *plugin in [OECorePlugin allPlugins])
+    for(OECorePlugin *plugin in [OECorePlugin allPlugins])
     {
-        NSString *appcastURLString = [plugin.infoDictionary objectForKey:@"SUFeedURL"];
-        SUUpdater *updater = [SUUpdater updaterForBundle:plugin.bundle];
-        if (updater)
+        NSString  *appcastURLString = [plugin.infoDictionary objectForKey:@"SUFeedURL"];
+        SUUpdater *updater          = [SUUpdater updaterForBundle:plugin.bundle];
+        
+        if(updater != nil)
         {
             [updater setDelegate:self];
             [updater setFeedURL:[NSURL URLWithString:appcastURLString]];
@@ -69,19 +70,19 @@
 
 - (void)updater:(SUUpdater *)updater didFindValidUpdate:(SUAppcastItem *)update
 {
-    for (OECorePlugin *plugin in [OECorePlugin allPlugins])
+    for(OECorePlugin *plugin in [OECorePlugin allPlugins])
     {
-        if (updater == [SUUpdater updaterForBundle:plugin.bundle])
+        if(updater == [SUUpdater updaterForBundle:plugin.bundle])
         {
             OEDownload *download = [[[OEDownload alloc] init] autorelease];
             download.downloadTitle = plugin.displayName;
-            download.downloadIcon = plugin.icon;
-            download.appcastItem = update;
+            download.downloadIcon  = plugin.icon;
+            download.appcastItem   = update;
             [download setDelegate:self];
             
             [downloadArrayController addObject:download];
-            [downloadAllCoresButton setEnabled:YES];        
-
+            [downloadAllCoresButton setEnabled:YES];
+            
             break;
         }
     }

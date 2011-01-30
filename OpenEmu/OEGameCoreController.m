@@ -106,20 +106,21 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 
 - (void)updateOldKeyboardControls;
 {
-	NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
-	[self OE_enumerateSettingKeysUsingBlock: ^(NSString *keyPath, NSString *keyName, NSString *keyType)
-	 {
-		 id event = [udc eventValueForKeyPath:keyPath];
-		 //Old style control, lets translate!
-		 if (event && ![event respondsToSelector:@selector(keycode)] && keyType == OEKeyboardEventValueKey)
-		 {
-			 OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0 
-															  keyCode:[OEHIDEvent keyCodeForVK:[event unsignedIntValue]]
-																state:NSOnState];
-			 [udc setValue:[self registarableValueWithObject:theEvent] forKeyPath:keyPath];
-		 }
-	 }];
-	
+    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
+    [self OE_enumerateSettingKeysUsingBlock:
+     ^(NSString *keyPath, NSString *keyName, NSString *keyType)
+     {
+         id event = [udc eventValueForKeyPath:keyPath];
+         // Old style control, lets translate!
+         if (event != nil && ![event respondsToSelector:@selector(keycode)] && keyType == OEKeyboardEventValueKey)
+         {
+             OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0
+                                                              keyCode:[OEHIDEvent keyCodeForVK:[event unsignedIntValue]]
+                                                                state:NSOnState];
+             [udc setValue:[self registarableValueWithObject:theEvent] forKeyPath:keyPath];
+         }
+     }];
+    
 }
 
 - (void)registerDefaultControls;
@@ -128,21 +129,25 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
     NSMutableDictionary *dict = [[[defaults initialValues] mutableCopy] autorelease];
     
-    [[self defaultControls] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) 
-    {
-        OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0 
-                                                         keyCode:[obj unsignedIntValue] 
-                                                           state:NSOnState];
-        
-        id value = [self registarableValueWithObject:theEvent];
-        NSString *keyPath = [self keyPathForKey:key withValueType:OEKeyboardEventValueKey];
-        //Need to strip the "values." off the front
-        keyPath = [keyPath substringFromIndex:[@"values." length]];
-        
-        [dict setValue:value forKey:keyPath];
-    }];
+    NSUInteger valueLength = [@"values." length];
     
-
+    [[self defaultControls] enumerateKeysAndObjectsUsingBlock:
+     ^(id key, id obj, BOOL *stop)
+     {
+         OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0
+                                                          keyCode:[obj unsignedIntValue]
+                                                            state:NSOnState];
+         
+         id        value   = [self registarableValueWithObject:theEvent];
+         NSString *keyPath = [self keyPathForKey:key withValueType:OEKeyboardEventValueKey];
+         
+         // Need to strip the "values." off the front
+         keyPath = [keyPath substringFromIndex:valueLength];
+         
+         [dict setValue:value forKey:keyPath];
+     }];
+    
+    
     [defaults setInitialValues:dict];
 }
 
@@ -198,13 +203,15 @@ static void OE_setupControlNames(OEGameCoreController *self)
 {
     //if(self->controlNames != nil) return;
     
-    NSArray *genericNames = [self genericControlNames];
-    NSUInteger playerCount = [self playerCount];
-    NSMutableArray *temp = [NSMutableArray arrayWithCapacity:[genericNames count] * playerCount];
+    NSArray        *genericNames = [self genericControlNames];
+    NSUInteger      playerCount  = [self playerCount];
+    NSMutableArray *temp         = [NSMutableArray arrayWithCapacity:[genericNames count] * playerCount];
     
     NSUInteger atLen = 0;
-    NSUInteger play = playerCount;
-    while (play != 0) {
+    NSUInteger play  = playerCount;
+    
+    while(play != 0)
+    {
         atLen++;
         play /= 10;
     }
@@ -218,7 +225,7 @@ static void OE_setupControlNames(OEGameCoreController *self)
     self->playerString = atStr;
     NSString *format = [[NSString alloc] initWithFormat:@"%%0%uu", [atStr length]];
     self->replacePlayerFormat = format;
-        
+    
     for(NSUInteger i = 1; i <= playerCount; i++)
     {
         for(NSString *genericName in genericNames)
@@ -228,7 +235,7 @@ static void OE_setupControlNames(OEGameCoreController *self)
             if(![temp containsObject:add]) [temp addObject:add];
         }
     }
-        
+    
     self->controlNames = [temp copy];
 }
 
@@ -252,7 +259,7 @@ static void OE_setupControlNames(OEGameCoreController *self)
         OE_setupControlNames(self);
         
         [self registerDefaultControls];
-		[self updateOldKeyboardControls];
+        [self updateOldKeyboardControls];
         [self OE_observeSettings];
         [self forceKeyBindingRecover];
     }
@@ -383,6 +390,7 @@ static void OE_setupControlNames(OEGameCoreController *self)
     NSUInteger elemCount = (OESettingValueKey == valueType ? 2 : 3);
     
     NSString *keyName = [[parts subarrayWithRange:NSMakeRange(elemCount, count - elemCount)] componentsJoinedByString:@"."];
+    
     // The change dictionary doesn't contain the New value as it should, so we get the value directly from the source.
     id event = [[NSUserDefaultsController sharedUserDefaultsController] eventValueForKeyPath:keyPath];
     BOOL removeKeyBinding = (event == nil);
@@ -537,11 +545,8 @@ static void OE_setupControlNames(OEGameCoreController *self)
     }
 }
 
-static NSCharacterSet *numberSet = nil;
 static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey)
 {
-    if(numberSet == nil) numberSet = [[NSCharacterSet decimalDigitCharacterSet] retain];
-    
     NSRange start = [atString rangeOfString:@"@"];
     if(start.location == NSNotFound)
         return ([atString isEqualToString:playerKey] ? 0 : NSNotFound);
@@ -576,7 +581,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
         }
         i++;
     }
-            
+    
     return NSNotFound;
 }
 

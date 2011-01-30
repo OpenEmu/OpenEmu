@@ -144,7 +144,7 @@ static void OEHandle_DeviceMatchingCallback(void* inContext,
                                             void* inSender,
                                             IOHIDDeviceRef inIOHIDDeviceRef )
 {
-    NSLog(@"Found device: %s( context: %p, result: %p, sender: %p, device: %p ).\n", __PRETTY_FUNCTION__, inContext, inResult, inSender, inIOHIDDeviceRef);
+    NSLog(@"Found device: %s( context: %p, result: %#x, sender: %p, device: %p ).\n", __PRETTY_FUNCTION__, inContext, inResult, inSender, inIOHIDDeviceRef);
     
     if (IOHIDDeviceOpen(inIOHIDDeviceRef, kIOHIDOptionsTypeNone) != kIOReturnSuccess)
     {

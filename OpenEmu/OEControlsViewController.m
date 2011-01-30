@@ -32,7 +32,7 @@
 @implementation OEControlsViewController
 @synthesize selectedControl, bindingType, playerSelector, playerStepper, playerField;
 
-- (void) dealloc
+- (void)dealloc
 {
     [bindingType    release];
     [playerSelector release];

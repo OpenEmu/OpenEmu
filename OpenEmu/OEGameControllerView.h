@@ -29,19 +29,21 @@
 
 
 @interface NSBezierPath (Shadowing)
-- (void)fillWithShadowAtDegrees:(float) angle withDistance: (float) distance;
+- (void)fillWithShadowAtDegrees:(float)angle withDistance:(float)distance;
 @end
 
 @interface OEGameControllerView : NSView
 {
-    NSImage *gameController;
+    NSImage      *gameController;
     NSBezierPath *lines;
-    NSRect controlZone;
-    NSRect drawRect;
+    NSRect        controlZone;
+    NSRect        drawRect;
 }
 
 @property(retain) NSImage *gameController;
-@property(assign) NSRect controlZone;
+@property(assign) NSRect   controlZone;
+
 - (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end;
 - (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end;
+
 @end

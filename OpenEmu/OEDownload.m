@@ -38,7 +38,36 @@
 @synthesize delegate;
 @synthesize enabled, downloading;
 
+#pragma mark -
 #pragma mark Lifecycle
+
+- (id)init
+{
+    if((self = [super init]))
+    {
+        enabled        = YES;
+        downloading    = NO;
+        downloadedSize = 0;
+        expectedLength = 1;
+        
+        progressBar = [[NSProgressIndicator alloc] init];
+        [progressBar setControlSize:NSMiniControlSize];
+        [progressBar setMinValue:0.0];
+        [progressBar setMaxValue:1.0];
+        [progressBar setStyle: NSProgressIndicatorBarStyle];
+        [progressBar setIndeterminate:NO];
+        
+        startDownloadButton = [[NSButton alloc] init];
+        [startDownloadButton setButtonType:NSMomentaryChangeButton];
+        [startDownloadButton setImage:[NSImage imageNamed:@"download_arrow_up.png"]];
+        [startDownloadButton setAlternateImage:[NSImage imageNamed:@"download_arrow_down.png"]];
+        [startDownloadButton setAction:@selector(startDownload:)];
+        [startDownloadButton setTarget:self];
+        [startDownloadButton setBordered:NO];
+    }
+    
+    return self;
+}
 
 - (void)dealloc
 {
@@ -60,34 +89,6 @@
     [super dealloc];
 }
 
-- (id)init
-{
-    if (self = [super init])
-    {
-        enabled        = YES;
-        downloading    = NO;
-        downloadedSize = 0;
-        expectedLength = 1;
-
-        progressBar = [[NSProgressIndicator alloc] init];
-        [progressBar setControlSize:NSMiniControlSize];
-        [progressBar setMinValue:0.0];
-        [progressBar setMaxValue:1.0];
-        [progressBar setStyle: NSProgressIndicatorBarStyle];
-        [progressBar setIndeterminate:NO];
-        
-        startDownloadButton = [[NSButton alloc] init];
-        [startDownloadButton setButtonType:NSMomentaryChangeButton];
-        [startDownloadButton setImage:[NSImage imageNamed:@"download_arrow_up.png"]];
-        [startDownloadButton setAlternateImage:[NSImage imageNamed:@"download_arrow_down.png"]];
-        [startDownloadButton setAction:@selector(startDownload:)];
-        [startDownloadButton setTarget:self];
-        [startDownloadButton setBordered:NO];
-    }
-    
-    return self;
-}
-
 - (id)copyWithZone:(NSZone *)zone
 {
     return [self retain];
@@ -97,11 +98,13 @@
 
 - (void)startDownload:(id)sender
 {
-    NSURLRequest *request = [NSURLRequest requestWithURL:[appcastItem fileURL]];
+    NSURLRequest  *request      = [NSURLRequest requestWithURL:[appcastItem fileURL]];
     NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:self] autorelease];
     downloading = YES;
+    
     [[self delegate] OEDownloadDidStart:self];
-    if (fileDownload == nil) NSLog(@"ERROR: Couldn't download %@", self);
+    
+    if(fileDownload == nil) NSLog(@"ERROR: Couldn't download %@", self);
 }
 
 
@@ -118,9 +121,9 @@
 {
     // inform the user
     [[NSApplication sharedApplication] presentError:error];
-    //    NSLog(@"Download failed! Error - %@ %@",
-    //    [error localizedDescription],
-    //    [[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
+    //NSLog(@"Download failed! Error - %@ %@",
+    //[error localizedDescription],
+    //[[error userInfo] objectForKey:NSErrorFailingURLStringKey]);
 }
 
 - (void)download:(NSURLDownload *)download didCreateDestination:(NSString *)path
@@ -146,7 +149,7 @@
 }
 
 - (void)downloadDidFinish:(NSURLDownload *)download
-{    
+{
     XADArchive *archive = [XADArchive archiveForFile:downloadPath];
     
     NSString *appsupportFolder = [[GameDocumentController sharedDocumentController] applicationSupportFolder];
@@ -193,7 +196,7 @@
     [iconData release];
     iconConnection = nil;
     iconData = nil;
-
+    
     // inform the user
     NSLog(@"Connection failed! Error - %@ %@",
           [error localizedDescription],
@@ -204,11 +207,11 @@
 {
     self.downloadIcon = [[[NSImage alloc] initWithData:iconData] autorelease];
     [[self delegate] OEIconDownloadDidFinish:self];
-
+    
     [connection release];
     [iconData release];
     iconConnection = nil;
-    iconData = nil;
+    iconData       = nil;
 }
 
 #pragma mark -

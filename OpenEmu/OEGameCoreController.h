@@ -49,13 +49,11 @@ extern NSString *const OEKeyboardEventValueKey;
     NSArray        *controlNames;
     NSMutableArray *gameDocuments;
     NSMutableArray *settingObservers;
-    
-    BOOL            hasRunningCore DEPRECATED_ATTRIBUTE;
 }
 
 @property(readonly) NSBundle *bundle;
-@property(readonly) Class gameCoreClass;
-@property(readonly) id currentPreferenceViewController;
+@property(readonly) Class     gameCoreClass;
+@property(readonly) id        currentPreferenceViewController;
 @property(readonly) NSString *playerString;
 @property(readonly) NSString *replacePlayerFormat;
 
