@@ -30,16 +30,16 @@
 
 #pragma mark -- Compiling shaders & linking a program object --
 
-static GLhandleARB OE_loadShader(GLenum theShaderType, 
-                                 const GLcharARB **theShader, 
+static GLhandleARB OE_loadShader(GLenum theShaderType,
+                                 const GLcharARB **theShader,
                                  GLint *theShaderCompiled,
-                                 CGLContextObj context) 
+                                 CGLContextObj context)
 {
     CGLContextObj cgl_ctx = context;
-        
+    
     GLhandleARB shaderObject = NULL;
     
-    if(theShader != NULL) 
+    if(theShader != NULL)
     {
         GLint infoLogLength = 0;
         
@@ -49,18 +49,18 @@ static GLhandleARB OE_loadShader(GLenum theShaderType,
         glCompileShaderARB(shaderObject);
         
         glGetObjectParameterivARB(shaderObject, 
-                                  GL_OBJECT_INFO_LOG_LENGTH_ARB, 
+                                  GL_OBJECT_INFO_LOG_LENGTH_ARB,
                                   &infoLogLength);
         
-        if(infoLogLength > 0) 
+        if(infoLogLength > 0)
         {
             GLcharARB *infoLog = (GLcharARB *)malloc(infoLogLength);
             
             if( infoLog != NULL )
             {
-                glGetInfoLogARB(shaderObject, 
-                                infoLogLength, 
-                                &infoLogLength, 
+                glGetInfoLogARB(shaderObject,
+                                infoLogLength,
+                                &infoLogLength,
                                 infoLog);
                 
                 NSLog(@">> Shader compile log:\n%s\n", infoLog);
@@ -70,7 +70,7 @@ static GLhandleARB OE_loadShader(GLenum theShaderType,
         } // if
         
         glGetObjectParameterivARB(shaderObject, 
-                                  GL_OBJECT_COMPILE_STATUS_ARB, 
+                                  GL_OBJECT_COMPILE_STATUS_ARB,
                                   theShaderCompiled);
         
         if(*theShaderCompiled == 0)
@@ -83,9 +83,9 @@ static GLhandleARB OE_loadShader(GLenum theShaderType,
 
 //---------------------------------------------------------------------------------
 
-static void OE_linkProgram(GLhandleARB programObject, 
+static void OE_linkProgram(GLhandleARB programObject,
                            GLint *theProgramLinked,
-                           CGLContextObj context) 
+                           CGLContextObj context)
 {
     CGLContextObj cgl_ctx = context;
     
@@ -94,18 +94,18 @@ static void OE_linkProgram(GLhandleARB programObject,
     glLinkProgramARB(programObject);
     
     glGetObjectParameterivARB(programObject, 
-                              GL_OBJECT_INFO_LOG_LENGTH_ARB, 
+                              GL_OBJECT_INFO_LOG_LENGTH_ARB,
                               &infoLogLength);
     
-    if(infoLogLength > 0) 
+    if(infoLogLength > 0)
     {
         GLcharARB *infoLog = malloc(infoLogLength);
         
         if(infoLog != NULL)
         {
-            glGetInfoLogARB(programObject, 
-                            infoLogLength, 
-                            &infoLogLength, 
+            glGetInfoLogARB(programObject,
+                            infoLogLength,
+                            &infoLogLength,
                             infoLog);
             
             NSLog(@">> Program link log:\n%s\n", infoLog);
@@ -114,8 +114,8 @@ static void OE_linkProgram(GLhandleARB programObject,
         } // if
     } // if
     
-    glGetObjectParameterivARB(programObject, 
-                              GL_OBJECT_LINK_STATUS_ARB, 
+    glGetObjectParameterivARB(programObject,
+                              GL_OBJECT_LINK_STATUS_ARB,
                               theProgramLinked);
     
     if(*theProgramLinked == 0)
@@ -134,29 +134,29 @@ static void OE_linkProgram(GLhandleARB programObject,
 @implementation OEGameShader
 
 #pragma mark -- Get shaders from resource --
-- (GLcharARB *)OE_shaderSourceWithResource:(NSString *)theShaderResourceName 
-                                 ofType:(NSString *)theExtension
-{    
-    NSString  *shaderTempSource = [bundleToLoadFrom pathForResource:theShaderResourceName 
-                                                             ofType:theExtension];    
+- (GLcharARB *)OE_shaderSourceWithResource:(NSString *)theShaderResourceName
+                                    ofType:(NSString *)theExtension
+{
+    NSString  *shaderTempSource = [bundleToLoadFrom pathForResource:theShaderResourceName
+                                                             ofType:theExtension];
     GLcharARB *shaderSource = NULL;
     
     shaderTempSource = [NSString stringWithContentsOfFile:shaderTempSource encoding:NSASCIIStringEncoding error:NULL];
     
     shaderSource = (GLcharARB *)[shaderTempSource cStringUsingEncoding:NSASCIIStringEncoding];
     
-    return  shaderSource;
+    return shaderSource;
 } // getShaderSourceFromResource
 
 - (void)OE_readFragmentShaderSourceWithName:(NSString *)theFragmentShaderResourceName
 {
-    fragmentShaderSource = [self OE_shaderSourceWithResource:theFragmentShaderResourceName 
+    fragmentShaderSource = [self OE_shaderSourceWithResource:theFragmentShaderResourceName
                                                       ofType:@"frag"];
 } // getFragmentShaderSourceFromResource
 
 - (void)OE_readVertexShaderSourceWithName:(NSString *)theVertexShaderResourceName
 {
-    vertexShaderSource = [self OE_shaderSourceWithResource:theVertexShaderResourceName 
+    vertexShaderSource = [self OE_shaderSourceWithResource:theVertexShaderResourceName
                                                     ofType:@"vert"];
 } // getVertexShaderSourceFromResource
 
@@ -170,8 +170,8 @@ static void OE_linkProgram(GLhandleARB programObject,
                                                theShaderSource, 
                                                &shaderCompiled, shaderContext);
     
-    if(!shaderCompiled) 
-        if(shaderHandle) 
+    if(!shaderCompiled)
+        if(shaderHandle)
         {
             glDeleteObjectARB(shaderHandle);
             shaderHandle = NULL;
@@ -180,7 +180,7 @@ static void OE_linkProgram(GLhandleARB programObject,
     return shaderHandle;
 } // loadShader
 
-- (BOOL)OE_setProgramObjectWithVertexHandle:(GLhandleARB)theVertexShader  
+- (BOOL)OE_setProgramObjectWithVertexHandle:(GLhandleARB)theVertexShader
                              fragmentHandle:(GLhandleARB)theFragmentShader
 {
     CGLContextObj cgl_ctx = shaderContext;
@@ -198,7 +198,7 @@ static void OE_linkProgram(GLhandleARB programObject,
     
     OE_linkProgram(programObject, &programLinked, cgl_ctx);
     
-    if(!programLinked) 
+    if(!programLinked)
     {
         glDeleteObjectARB(programObject);
         programObject = NULL;
@@ -209,28 +209,28 @@ static void OE_linkProgram(GLhandleARB programObject,
 } // newProgramObject
 
 - (BOOL)setProgramObject
-{    
+{
     BOOL programObjectSet = NO;
     
     // Load and compile both shaders
     
-    GLhandleARB vertexShader = [self OE_loadShaderWithType:GL_VERTEX_SHADER_ARB 
+    GLhandleARB vertexShader = [self OE_loadShaderWithType:GL_VERTEX_SHADER_ARB
                                                     source:&vertexShaderSource];
     
     // Ensure vertex shader compiled
     if(vertexShader != NULL)
     {
-        GLhandleARB fragmentShader = [self OE_loadShaderWithType:GL_FRAGMENT_SHADER_ARB 
+        GLhandleARB fragmentShader = [self OE_loadShaderWithType:GL_FRAGMENT_SHADER_ARB
                                                           source:&fragmentShaderSource];
         
         // Ensure fragment shader compiled
         if(fragmentShader != NULL) 
             // Create a program object and link both shaders
-            programObjectSet = [self OE_setProgramObjectWithVertexHandle:vertexShader 
+            programObjectSet = [self OE_setProgramObjectWithVertexHandle:vertexShader
                                                           fragmentHandle:fragmentShader];
     } // if
     
-    return  programObjectSet;
+    return programObjectSet;
 } // setProgramObject
 
 #pragma mark -- Designated Initializer --
@@ -239,7 +239,7 @@ static void OE_linkProgram(GLhandleARB programObject,
     if((self = [super init]))
     {
         bundleToLoadFrom = [bundle retain];
-        shaderContext = context; 
+        shaderContext = context;
 
         BOOL  loadedShaders = NO;
         
@@ -256,7 +256,7 @@ static void OE_linkProgram(GLhandleARB programObject,
                 loadedShaders = [self setProgramObject];
                 
                 if(!loadedShaders)
-                    NSLog(@">> WARNING: Failed to load GLSL \"%@\" fragment & vertex shaders!\n", 
+                    NSLog(@">> WARNING: Failed to load GLSL \"%@\" fragment & vertex shaders!\n",
                           theShadersName);
             } // if
         } // if
@@ -304,11 +304,10 @@ static void OE_linkProgram(GLhandleARB programObject,
 {
     CGLContextObj cgl_ctx = shaderContext;
     
-    GLint uniformLoacation = glGetUniformLocationARB(programObject, 
-                                                     theUniformName);
+    GLint uniformLoacation = glGetUniformLocationARB(programObject, theUniformName);
     
     if(uniformLoacation == -1) 
-        NSLog( @">> WARNING: No such uniform named \"%s\"\n", theUniformName );
+        NSLog(@">> WARNING: No such uniform named \"%s\"\n", theUniformName);
     
     return uniformLoacation;
 } // getUniformLocation

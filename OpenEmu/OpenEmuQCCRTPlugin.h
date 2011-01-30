@@ -31,41 +31,40 @@
 
 @interface OpenEmuQCCRT : QCPlugIn
 {
-
-    OEGameShader* CRTMask;
-    OEGameShader* phosphorBlur;
-    OEGameShader* dirtyScanline;
-    OEGameShader* niceScanline;
+    OEGameShader *CRTMask;
+    OEGameShader *phosphorBlur;
+    OEGameShader *dirtyScanline;
+    OEGameShader *niceScanline;
     
-    GLuint frameBuffer;
-    GLuint CRTPixelTexture; 
+    GLuint        frameBuffer;
+    GLuint        CRTPixelTexture;
     
-    GLuint lastFrameTexture;
+    GLuint        lastFrameTexture;
 }
 
 /*
  Declare here the Obj-C 2.0 properties to be used as input and output ports for the plug-in e.g.
  @property double inputFoo;
- @property(assign) NSString* outputBar;
+ @propertyassign) NSString *outputBar;
  You can access their values in the appropriate plug-in methods using self.inputFoo or self.inputBar
  */
 
-@property (assign) id<QCPlugInInputImageSource> inputImage;
-@property (assign) NSUInteger inputCRTPattern;
-@property (assign) double inputRenderDestinationWidth;
-@property (assign) double inputRenderDestinationHeight;
-@property (assign) double inputPhosphorBlurAmount;
-@property (assign) NSUInteger inputPhosphorBlurNumPasses;
-@property (assign) double inputScanlineAmount;
-@property (assign) NSUInteger inputScanlineQuality;
-@property (assign) BOOL inputEnablePhosphorDelay;
-@property (assign) double inputPhosphorDelayAmount;
-//@property (assign) NSUInteger inputScaler;
-@property (assign) id<QCPlugInOutputImageProvider> outputImage;
+@property(assign) id<QCPlugInInputImageSource>     inputImage;
+@property(assign) NSUInteger                       inputCRTPattern;
+@property(assign) double                           inputRenderDestinationWidth;
+@property(assign) double                           inputRenderDestinationHeight;
+@property(assign) double                           inputPhosphorBlurAmount;
+@property(assign) NSUInteger                       inputPhosphorBlurNumPasses;
+@property(assign) double                           inputScanlineAmount;
+@property(assign) NSUInteger                       inputScanlineQuality;
+@property(assign) BOOL                             inputEnablePhosphorDelay;
+@property(assign) double                           inputPhosphorDelayAmount;
+//@property(assign) NSUInteger                       inputScaler;
+@property(assign) id<QCPlugInOutputImageProvider>  outputImage;
 
 
 @end
 
 @interface OpenEmuQCCRT (Execution)
-- (BOOL) loadCRTTexture:(NSUInteger)texture context:(CGLContextObj)cgl_ctx;
+- (BOOL)loadCRTTexture:(NSUInteger)texture context:(CGLContextObj)cgl_ctx;
 @end

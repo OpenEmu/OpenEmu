@@ -29,19 +29,19 @@
 
 #import "OpenEmuQCFilters.h"
 
-#define    kQCPlugIn_Name                @"OpenEmu Filters"
-#define    kQCPlugIn_Description        @"Provides the scaling filters optimized for pixelated graphics from OpenEmu"
+static NSString *const kQCPlugInName        = @"OpenEmu Filters";
+static NSString *const kQCPlugInDescription = @"Provides the scaling filters optimized for pixelated graphics from OpenEmu";
 
 #pragma mark -
 #pragma mark Static Functions
 
-static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* info)
+static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void *info)
 {
     glDeleteTextures(1, &name);
 }
 
 // our render setup
-static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, OEGameShader* shader)
+static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, OEGameShader *shader)
 {
     CGLLockContext(cgl_ctx);
     
@@ -55,7 +55,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     // Create texture to render into 
     glGenTextures(1, &name);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, name);    
-    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
+    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     
     // bind our FBO
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBuffer);
@@ -64,9 +64,9 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
     // Assume FBOs JUST WORK, because we checked on startExecution    
-    //    status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
-    //    if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
-    {    
+    //status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+    //if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
+    {
         // Setup OpenGL states 
         glViewport(0, 0, width, height);
         glMatrixMode(GL_PROJECTION);
@@ -80,7 +80,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
         
         // bind video texture
         glClearColor(0.0, 0.0, 0.0, 0.0);
-        glClear(GL_COLOR_BUFFER_BIT);        
+        glClear(GL_COLOR_BUFFER_BIT);
         
         // draw our input video
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
@@ -97,13 +97,13 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
         glUseProgramObjectARB([shader programObject]);
         
         // set up shader variables
-        glUniform1iARB([shader uniformLocationWithName:"OGL2Texture"], 0);    // texture        
+        glUniform1iARB([shader uniformLocationWithName:"OGL2Texture"], 0); // texture
         
-        glBegin(GL_QUADS);    // Draw A Quad
+        glBegin(GL_QUADS); // Draw A Quad
         {
             glTexCoord2f(0.0f, 0.0f);
-            glVertex2f(0.0f, 0.0f);        
-            glTexCoord2f(pixelsWide, 0.0f );
+            glVertex2f(0.0f, 0.0f);
+            glTexCoord2f(pixelsWide, 0.0f);
             glVertex2f(width, 0.0f);
             glTexCoord2f(pixelsWide, pixelsHigh);
             glVertex2f(width, height);
@@ -115,19 +115,19 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
         // disable shader program
         glUseProgramObjectARB(NULL);
         
-        // Restore OpenGL states 
+        // Restore OpenGL states
         glMatrixMode(GL_MODELVIEW);
         glPopMatrix();
         glMatrixMode(GL_PROJECTION);
         glPopMatrix();
         
         // restore states
-        glPopAttrib();        
+        glPopAttrib();
     }
     
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
-    // Check for OpenGL errors 
+    // Check for OpenGL errors
     status = glGetError();
     if(status)
     {
@@ -137,7 +137,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     }
     
     CGLUnlockContext(cgl_ctx);
-    return name;    
+    return name;
 }
 
 
@@ -151,16 +151,16 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
 
 @dynamic inputImage, inputScaler, outputImage;
 
-+ (NSDictionary*) attributes
++ (NSDictionary *)attributes
 {
     /*
      Return a dictionary of attributes describing the plug-in (QCPlugInAttributeNameKey, QCPlugInAttributeDescriptionKey...).
      */
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey, kQCPlugIn_Description, QCPlugInAttributeDescriptionKey, nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugInName, QCPlugInAttributeNameKey, kQCPlugInDescription, QCPlugInAttributeDescriptionKey, nil];
 }
 
-+ (NSDictionary*) attributesForPropertyPortWithKey:(NSString*)key
++ (NSDictionary *)attributesForPropertyPortWithKey:(NSString *)key
 {
     if([key isEqualToString:@"inputImage"])
     {
@@ -169,11 +169,12 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     
     if([key isEqualToString:@"inputScaler"])
     {
-        return [NSDictionary dictionaryWithObjectsAndKeys:@"Scaler", QCPortAttributeNameKey,
+        return [NSDictionary dictionaryWithObjectsAndKeys:
+                @"Scaler"                                                                             , QCPortAttributeNameKey,
                 [NSArray arrayWithObjects:@"Scale2xPlus", @"Scale2xHQ", @"Scale4x", @"Scale4xHQ", nil], QCPortAttributeMenuItemsKey,
-                [NSNumber numberWithUnsignedInteger:0.0], QCPortAttributeMinimumValueKey,
-                [NSNumber numberWithUnsignedInteger:3], QCPortAttributeMaximumValueKey,
-                [NSNumber numberWithUnsignedInteger:0], QCPortAttributeDefaultValueKey,
+                [NSNumber numberWithUnsignedInteger:0.0]                                              , QCPortAttributeMinimumValueKey,
+                [NSNumber numberWithUnsignedInteger:3]                                                , QCPortAttributeMaximumValueKey,
+                [NSNumber numberWithUnsignedInteger:0]                                                , QCPortAttributeDefaultValueKey,
                 nil];
     }
     
@@ -184,12 +185,12 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     return nil;
 }
 
-+ (NSArray*) sortedPropertyPortKeys
++ (NSArray *)sortedPropertyPortKeys
 {
     return [NSArray arrayWithObjects:@"inputImage", @"inputAmount", nil];
 }
 
-+ (QCPlugInExecutionMode) executionMode
++ (QCPlugInExecutionMode)executionMode
 {
     /*
      Return the execution mode of the plug-in: kQCPlugInExecutionModeProvider, kQCPlugInExecutionModeProcessor, or kQCPlugInExecutionModeConsumer.
@@ -198,7 +199,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     return kQCPlugInExecutionModeProcessor;
 }
 
-+ (QCPlugInTimeMode) timeMode
++ (QCPlugInTimeMode)timeMode
 {
     /*
      Return the time dependency mode of the plug-in: kQCPlugInTimeModeNone, kQCPlugInTimeModeIdle or kQCPlugInTimeModeTimeBase.
@@ -207,9 +208,10 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     return kQCPlugInTimeModeNone;
 }
 
-- (id) init
+- (id)init
 {
-    if((self = [super init])) {
+    if((self = [super init]))
+    {
         /*
          Allocate any permanent resource required by the plug-in.
          */
@@ -218,12 +220,12 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     return self;
 }
 
-- (NSUInteger) inputScaler
-{        
+- (NSUInteger)inputScaler
+{
     return 1;
 }
 
-- (void) finalize
+- (void)finalize
 {
     /*
      Release any non garbage collected resources created in -init.
@@ -232,7 +234,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     [super finalize];
 }
 
-- (void) dealloc
+- (void)dealloc
 {
     /*
      Release any resources created in -init.
@@ -257,7 +259,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     // ()!@*)(!@*# *pant*
     
     // shaders
-    NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];    
+    NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];
     
     Scale2xPlus = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2xPlus" forContext:cgl_ctx];
     Scale2xHQ   = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"Scale2xHQ" forContext:cgl_ctx];
@@ -295,7 +297,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     
     status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
-    {    
+    {
         NSLog(@"Cannot create FBO");
         NSLog(@"OpenGL error %04X", status);
         
@@ -307,7 +309,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
         glDeleteTextures(1, &name);
         CGLUnlockContext(cgl_ctx);
         return NO;
-    }    
+    }
     
     // cleanup
     // return to our previous FBO;
@@ -321,7 +323,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     return YES;
 }
 
-- (BOOL) execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary*)arguments
+- (BOOL)execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary *)arguments
 {
     /*
      Called by Quartz Composer whenever the plug-in instance needs to execute.
@@ -356,15 +358,15 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
             selectedShader = Scale2xPlus;
             multiplier = 2.0;
             break;
-        case 1 :    
+        case 1 :
             selectedShader = Scale2xHQ;
             multiplier = 2.0;
             break;
-        case 2 :    
+        case 2 :
             selectedShader = Scale4x;
             multiplier = 4.0;
             break;
-        case 3 :    
+        case 3 :
             selectedShader = Scale4xHQ;
             multiplier = 4.0;
             break;
@@ -372,10 +374,10 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
     bounds = NSMakeRect(0.0, 0.0, width * multiplier, height * multiplier);
     
     if(image && [image lockTextureRepresentationWithColorSpace:[image imageColorSpace] forBounds:[image imageBounds]])
-    {    
+    {
         [image bindTextureRepresentationToCGLContext:cgl_ctx textureUnit:GL_TEXTURE0 normalizeCoordinates:YES];
         
-        // Make sure to flush as we use FBOs as the passed OpenGL context may not have a surface attached        
+        // Make sure to flush as we use FBOs as the passed OpenGL context may not have a surface attached
         GLuint finalOutput = renderToFBO(frameBuffer, cgl_ctx, width, height, bounds, [image textureName], selectedShader);
         glFlushRenderAPPLE();
         
@@ -410,7 +412,7 @@ static GLuint renderToFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger 
         
         [image unbindTextureRepresentationFromCGLContext:cgl_ctx textureUnit:GL_TEXTURE0];
         [image unlockTextureRepresentation];
-    }    
+    }
     else
         self.outputImage = nil;
     

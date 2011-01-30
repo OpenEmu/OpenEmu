@@ -36,89 +36,89 @@
 #pragma mark Nestopia specific extensions
 @interface GameCore (NesAdditions)
 
-- (BOOL) isUnlimitedSpritesEnabled;
-- (int) brightness;
-- (int) saturation;
-- (int) contrast;
-- (int) sharpness;
-- (int) colorRes;
-- (int) colorBleed;
-- (int) colorArtifacts;
-- (int) colorFringing;
-- (int) hue;
+- (BOOL)isUnlimitedSpritesEnabled;
+- (int)brightness;
+- (int)saturation;
+- (int)contrast;
+- (int)sharpness;
+- (int)colorRes;
+- (int)colorBleed;
+- (int)colorArtifacts;
+- (int)colorFringing;
+- (int)hue;
 
-- (void) applyNTSC: (id) sender;
-- (BOOL) isNTSCEnabled;
+- (void)applyNTSC:(id)sender;
+- (BOOL)isNTSCEnabled;
 
-- (void) toggleUnlimitedSprites: (id) sender;
-- (void) enableUnlimitedSprites: (BOOL) enable;
-- (void) setCode:(NSString*) code;
-- (void) enableRewinder:(BOOL) rewind;
-- (BOOL) isRewinderEnabled;
-- (void) rewinderDirection: (NSUInteger) rewinderDirection;
-- (void) enableRewinderBackwardsSound: (BOOL) rewindSound;
-- (BOOL) isRewinderBackwardsSoundEnabled;
+- (void)toggleUnlimitedSprites:(id)sender;
+- (void)enableUnlimitedSprites:(BOOL)enable;
+- (void)setCode:(NSString *)code;
+- (void)enableRewinder:(BOOL)rewind;
+- (BOOL)isRewinderEnabled;
+- (void)rewinderDirection:(NSUInteger)rewinderDirection;
+- (void)enableRewinderBackwardsSound:(BOOL)rewindSound;
+- (BOOL)isRewinderBackwardsSoundEnabled;
 
-- (int) cartVRamSize;
-- (int) chrRomSize;
-//- (void) setRandomNmtRamByte;
-//- (void) setRandomChrRamByte;
+- (int)cartVRamSize;
+- (int)chrRomSize;
+//- (void)setRandomNmtRamByte;
+//- (void)setRandomChrRamByte;
 
-- (void) setNMTRamByTable:(NSNumber*)table array:(NSArray*)nmtValueArray;
-- (void) setNmtRamBytes:(double)off value:(double)val;
-- (void) setChrRamBytes:(double)off value:(double)val;
+- (void)setNMTRamByTable:(NSNumber *)table array:(NSArray *)nmtValueArray;
+- (void)setNmtRamBytes:(double)off value:(double)val;
+- (void)setChrRamBytes:(double)off value:(double)val;
 
 //movie methods
-- (void) recordMovie:(NSString*) moviePath mode:(BOOL)append;
-- (void) playMovie:(NSString*) moviePath;
-- (void) stopMovie;
-- (BOOL) isMovieRecording;
-- (BOOL) isMoviePlaying;
-- (BOOL) isMovieStopped;
+- (void)recordMovie:(NSString *)moviePath mode:(BOOL)append;
+- (void)playMovie:(NSString *)moviePath;
+- (void)stopMovie;
+- (BOOL)isMovieRecording;
+- (BOOL)isMoviePlaying;
+- (BOOL)isMovieStopped;
 
 @end
 
 
 @interface OpenEmuQCNES : QCPlugIn
 {
-    OEGameCoreProcessManager    *gameCoreManager;
-    BOOL debugMode;
+    OEGameCoreProcessManager *gameCoreManager;
+    BOOL                      debugMode;
     
-	// Controller data
-	NSArray *persistantControllerData;	
-    NSArray *persistantNameTableData;
+    // Controller data
+    NSArray                  *persistantControllerData;
+    NSArray                  *persistantNameTableData;
 }
-@property (readwrite, retain) NSArray* persistantControllerData;
-@property (readwrite, retain) NSArray* persistantNameTableData;
-@property (readwrite) BOOL debugMode;
+@property(readwrite, retain) NSArray *persistantControllerData;
+@property(readwrite, retain) NSArray *persistantNameTableData;
+@property(readwrite)         BOOL     debugMode;
 
 #ifdef DEBUG_PRINT
-@property(assign) BOOL      inputEnableDebugMode;
+@property(assign) BOOL       inputEnableDebugMode;
 #endif
 
-@property(assign) NSString  *inputRom;
-@property(assign) NSArray   *inputControllerData;
-@property(assign) double     inputVolume;
-@property(assign) NSString  *inputSaveStatePath;
-@property(assign) NSString  *inputLoadStatePath;
-@property(assign) BOOL       inputPauseEmulation;
-@property(assign) NSString  *inputCheatCode;
+@property(assign) NSString   *inputRom;
+@property(assign) NSArray    *inputControllerData;
+@property(assign) double      inputVolume;
+@property(assign) NSString   *inputSaveStatePath;
+@property(assign) NSString   *inputLoadStatePath;
+@property(assign) BOOL        inputPauseEmulation;
+@property(assign) NSString   *inputCheatCode;
 
-@property(assign) BOOL       inputEnableRewinder;
-@property(assign) NSUInteger inputRewinderDirection;
-@property(assign) BOOL       inputEnableRewinderBackwardsSound;
-//@property(assign) BOOL       inputRewinderReset;
+@property(assign) BOOL        inputEnableRewinder;
+@property(assign) NSUInteger  inputRewinderDirection;
+@property(assign) BOOL        inputEnableRewinderBackwardsSound;
+//@property(assign) BOOL        inputRewinderReset;
 
-@property(assign) BOOL       inputNmtRamCorrupt;
-@property(assign) double     inputNmtRamOffset;
-@property(assign) double     inputNmtRamValue;
+@property(assign) BOOL        inputNmtRamCorrupt;
+@property(assign) double      inputNmtRamOffset;
+@property(assign) double      inputNmtRamValue;
 
-@property(assign) BOOL       inputCorruptNameTable;
+@property(assign) BOOL        inputCorruptNameTable;
 @property(assign) NSArray    *inputNameTableData;
 
-@property(assign) BOOL       inputChrRamCorrupt;
-@property(assign) double     inputChrRamOffset;
-@property(assign) double     inputChrRamValue;
+@property(assign) BOOL        inputChrRamCorrupt;
+@property(assign) double      inputChrRamOffset;
+@property(assign) double      inputChrRamValue;
 
 @property(assign) id<QCPlugInOutputImageProvider> outputImage;
 
@@ -130,7 +130,7 @@
 - (void)handleControllerData;
 - (BOOL)readFromURL:(NSURL *)absoluteURL;
 
-- (BOOL)validateNameTableData:(NSArray*)nameTableData;
+- (BOOL)validateNameTableData:(NSArray *)nameTableData;
 - (void)enableDebugMode:(BOOL)flag;
 @end
 

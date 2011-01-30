@@ -30,20 +30,20 @@
 #import "OEGameShader.h"
 #import "OpenEmuQCCRTDisplacePlugin.h"
 
-#define kQCPlugIn_Name        @"OpenEmu CRT Displace"
-#define kQCPlugIn_Description @"Provides CRT Tube displacement to warp the image to match tube curvature."
+static NSString *const kQCPlugInName        = @"OpenEmu CRT Displace";
+static NSString *const kQCPlugInDescription = @"Provides CRT Tube displacement to warp the image to match tube curvature.";
 
 
 #pragma mark -
 #pragma mark Static Functions
 
-static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void* info)
+static void _TextureReleaseCallback(CGLContextObj cgl_ctx, GLuint name, void *info)
 {
     glDeleteTextures(1, &name);
 }
 
 // our render setup
-static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, OEGameShader* shader, GLfloat amount)
+static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pixelsWide, NSUInteger pixelsHigh, NSRect bounds, GLuint videoTexture, OEGameShader *shader, GLfloat amount)
 {
     CGLLockContext(cgl_ctx);
     
@@ -54,10 +54,10 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     // save our current GL state
     glPushAttrib(GL_COLOR_BUFFER_BIT | GL_TRANSFORM_BIT | GL_VIEWPORT);
     
-    // Create texture to render into 
+    // Create texture to render into
     glGenTextures(1, &name);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, name);    
-    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL); 
+    glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     
     // bind our FBO
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBuffer);
@@ -65,10 +65,10 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     // attach our just created texture
     glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_RECTANGLE_EXT, name, 0);
     
-    // Assume FBOs JUST WORK, because we checked on startExecution    
-    status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);    
+    // Assume FBOs JUST WORK, because we checked on startExecution
+    status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     if(status == GL_FRAMEBUFFER_COMPLETE_EXT)
-    {    
+    {
         // Setup OpenGL states 
         glViewport(0, 0, width, height);
         glMatrixMode(GL_PROJECTION);
@@ -87,7 +87,7 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
         
         // bind video texture
         glClearColor(0.0, 0.0, 0.0, 0.0);
-        glClear(GL_COLOR_BUFFER_BIT);        
+        glClear(GL_COLOR_BUFFER_BIT);
         
         // glActiveTexture(GL_TEXTURE0);
         glEnable(GL_TEXTURE_RECTANGLE_EXT);
@@ -110,9 +110,9 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
         glUseProgramObjectARB([shader programObject]);
         
         // set up shader variables
-        glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);            // texture        
-        glUniform1fARB([shader uniformLocationWithName:"amount"], amount);            // texture        
-        glUniform2fARB([shader uniformLocationWithName:"size"], pixelsWide, pixelsHigh);            // texture        
+        glUniform1iARB([shader uniformLocationWithName:"tex0"], 0);                      // texture
+        glUniform1fARB([shader uniformLocationWithName:"amount"], amount);               // texture
+        glUniform2fARB([shader uniformLocationWithName:"size"], pixelsWide, pixelsHigh); // texture
         
         glBegin(GL_QUADS);    // Draw A Quad
         {
@@ -158,14 +158,14 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
         glPopMatrix();
         
         // restore states
-        //glPopAttrib();        
+        //glPopAttrib();
     }
     // restore states
-    glPopAttrib();        
+    glPopAttrib();
     
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
     
-    // Check for OpenGL errors 
+    // Check for OpenGL errors
     status = glGetError();
     if(status)
     {
@@ -175,7 +175,7 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     }
     
     CGLUnlockContext(cgl_ctx);
-    return name;    
+    return name;
 }
 
 
@@ -191,16 +191,16 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
 @dynamic inputCurvature;
 @dynamic outputImage;
 
-+ (NSDictionary*) attributes
++ (NSDictionary *)attributes
 {
     /*
      Return a dictionary of attributes describing the plug-in (QCPlugInAttributeNameKey, QCPlugInAttributeDescriptionKey...).
      */
     
-    return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugIn_Name, QCPlugInAttributeNameKey, kQCPlugIn_Description, QCPlugInAttributeDescriptionKey, nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys:kQCPlugInName, QCPlugInAttributeNameKey, kQCPlugInDescription, QCPlugInAttributeDescriptionKey, nil];
 }
 
-+ (NSDictionary*) attributesForPropertyPortWithKey:(NSString*)key
++ (NSDictionary *)attributesForPropertyPortWithKey:(NSString *)key
 {
     if([key isEqualToString:@"inputImage"])
     {
@@ -221,9 +221,10 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     return nil;
 }
 
-+ (NSArray*) sortedPropertyPortKeys
++ (NSArray *)sortedPropertyPortKeys
 {
-    return [NSArray arrayWithObjects:@"inputImage",
+    return [NSArray arrayWithObjects:
+            @"inputImage",
             @"inputAmount",
             @"inputRenderDestinationWidth",
             @"inputRenderDestinationHeight",
@@ -234,7 +235,7 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
             nil];
 }
 
-+ (QCPlugInExecutionMode) executionMode
++ (QCPlugInExecutionMode)executionMode
 {
     /*
      Return the execution mode of the plug-in: kQCPlugInExecutionModeProvider, kQCPlugInExecutionModeProcessor, or kQCPlugInExecutionModeConsumer.
@@ -243,7 +244,7 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     return kQCPlugInExecutionModeProcessor;
 }
 
-+ (QCPlugInTimeMode) timeMode
++ (QCPlugInTimeMode)timeMode
 {
     /*
      Return the time dependency mode of the plug-in: kQCPlugInTimeModeNone, kQCPlugInTimeModeIdle or kQCPlugInTimeModeTimeBase.
@@ -254,7 +255,8 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
 
 - (id) init
 {
-    if(self = [super init]) {
+    if((self = [super init]))
+    {
         /*
          Allocate any permanent resource required by the plug-in.
          */
@@ -268,7 +270,6 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     /*
      Release any non garbage collected resources created in -init.
      */
-    
     [super finalize];
 }
 
@@ -304,13 +305,13 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     NSBundle *pluginBundle =[NSBundle bundleForClass:[self class]];
     CRTDisplace = [[OEGameShader alloc] initWithShadersInBundle:pluginBundle withName:@"CRTDisplace" forContext:cgl_ctx];
     
-    // FBO Testing    
+    // FBO Testing
     GLuint name;
     glGenTextures(1, &name);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, name);
     glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA8, 640, 480, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
     
-    // Create temporary FBO to render in texture 
+    // Create temporary FBO to render in texture
     
     glGenFramebuffersEXT(1, &frameBuffer);
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, frameBuffer);
@@ -318,7 +319,7 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     
     status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
     if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
-    {    
+    {
         NSLog(@"Cannot create FBO");
         NSLog(@"OpenGL error %04X", status);
         
@@ -331,7 +332,7 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
         glDeleteTextures(1, &name);
         CGLUnlockContext(cgl_ctx);
         return NO;
-    }    
+    }
     
     // cleanup
     // return to our previous FBO;
@@ -340,13 +341,12 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     glBindFramebufferEXT(GL_DRAW_FRAMEBUFFER_EXT, previousDrawFBO);
     glDeleteTextures(1, &name);
     
-    
     CGLUnlockContext(cgl_ctx);
     
     return YES;
 }
 
-- (BOOL) execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary*)arguments
+- (BOOL)execute:(id<QCPlugInContext>)context atTime:(NSTimeInterval)time withArguments:(NSDictionary *)arguments
 {
     /*
      Called by Quartz Composer whenever the plug-in instance needs to execute.
@@ -366,22 +366,21 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
     glGetIntegerv(GL_READ_FRAMEBUFFER_BINDING_EXT, &previousReadFBO);
     glGetIntegerv(GL_DRAW_FRAMEBUFFER_BINDING_EXT, &previousDrawFBO);
     
-    
     //NSLog(@"Quartz Composer: gl context when attempting to use shader: %p", cgl_ctx);
     
     id<QCPlugInInputImageSource>   image = self.inputImage;
     
     if(image && [image lockTextureRepresentationWithColorSpace:[image imageColorSpace] forBounds:[image imageBounds]])
     {
-        NSUInteger width = [image imageBounds].size.width;
+        NSUInteger width  = [image imageBounds].size.width;
         NSUInteger height = [image imageBounds].size.height;
         
-        // our crt mask should be 'per pixel' on the destination device, be it a temp image or the screen. We let the user pass in the dim 
+        // our crt mask should be 'per pixel' on the destination device, be it a temp image or the screen. We let the user pass in the dim
         NSRect bounds = [image imageBounds];
         
         [image bindTextureRepresentationToCGLContext:cgl_ctx textureUnit:GL_TEXTURE0 normalizeCoordinates:NO];
         
-        // Make sure to flush as we use FBOs as the passed OpenGL context may not have a surface attached        
+        // Make sure to flush as we use FBOs as the passed OpenGL context may not have a surface attached
         GLuint finalOutput = renderFBO(frameBuffer, cgl_ctx, width, height, bounds, [image textureName], CRTDisplace, self.inputCurvature);
         
         // flush our FBO work.
@@ -402,7 +401,7 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
 #else
 #define OEPlugInPixelFormat QCPlugInPixelFormatBGRA8
 #endif
-        // output our final image as a QCPluginOutputImageProvider using the QCPluginContext convinience method. No need to go through the trouble of making our own conforming object.    
+        // output our final image as a QCPluginOutputImageProvider using the QCPluginContext convinience method. No need to go through the trouble of making our own conforming object.
         id provider = nil; // we are allowed to output nil.
         CGColorSpaceRef space = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
         provider = [context outputImageProviderFromTextureWithPixelFormat:OEPlugInPixelFormat
@@ -419,7 +418,7 @@ static GLuint renderFBO(GLuint frameBuffer, CGLContextObj cgl_ctx, NSUInteger pi
         
         [image unbindTextureRepresentationFromCGLContext:cgl_ctx textureUnit:GL_TEXTURE0];
         [image unlockTextureRepresentation];
-    }    
+    }
     else
         self.outputImage = nil;
     

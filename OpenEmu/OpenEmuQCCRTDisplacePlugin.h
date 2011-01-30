@@ -31,10 +31,10 @@
 
 @interface OpenEmuQCCRTDisplacePlugin : QCPlugIn
 {
-    OEGameShader* CRTDisplace;
+    OEGameShader *CRTDisplace;
     
-    GLuint frameBuffer;
-    GLuint CRTPixelTexture; 
+    GLuint        frameBuffer;
+    GLuint        CRTPixelTexture;
 }
 
 /*
@@ -44,11 +44,11 @@
  You can access their values in the appropriate plug-in methods using self.inputFoo or self.inputBar
  */
 
-@property (assign) id<QCPlugInInputImageSource> inputImage;
-@property (assign) double inputCurvature;
+@property(assign) id<QCPlugInInputImageSource>    inputImage;
+@property(assign) double                          inputCurvature;
 
-//@property (assign) NSUInteger inputScaler;
-@property (assign) id<QCPlugInOutputImageProvider> outputImage;
+//@property(assign) NSUInteger                      inputScaler;
+@property(assign) id<QCPlugInOutputImageProvider> outputImage;
 
 
 @end

@@ -35,26 +35,26 @@
 
 @interface OpenEmuQC : QCPlugIn
 {
-    OEGameCoreProcessManager    *gameCoreManager;
-    BOOL debugMode;
+    OEGameCoreProcessManager *gameCoreManager;
+    BOOL                      debugMode;
     
-	// Controller data
-	NSArray *persistantControllerData;
+    // Controller data
+    NSArray                  *persistantControllerData;
 }
 
-@property (readwrite, retain) NSArray *persistantControllerData;
-@property (readwrite) BOOL debugMode;
+@property(readwrite, retain) NSArray              *persistantControllerData;
+@property(readwrite)         BOOL                  debugMode;
 
-@property(assign) NSString *inputRom;
-@property(assign) NSArray  *inputControllerData;
-@property(assign) double    inputVolume;
-@property(assign) BOOL      inputPauseEmulation;
-@property(assign) NSString *inputSaveStatePath;
-@property(assign) NSString *inputLoadStatePath;
-@property(assign) id <QCPlugInOutputImageProvider> outputImage;
+@property(assign) NSString                         *inputRom;
+@property(assign) NSArray                          *inputControllerData;
+@property(assign) double                            inputVolume;
+@property(assign) BOOL                              inputPauseEmulation;
+@property(assign) NSString                         *inputSaveStatePath;
+@property(assign) NSString                         *inputLoadStatePath;
+@property(assign) id <QCPlugInOutputImageProvider>  outputImage;
 
 #ifdef DEBUG_PRINT
-@property(assign) BOOL      inputEnableDebugMode;
+@property(assign) BOOL                              inputEnableDebugMode;
 #endif
 
 @end
@@ -62,13 +62,13 @@
 @interface OpenEmuQC (Execution)
 - (void)terminateEmulation;
 - (BOOL)controllerDataValidate:(NSArray *)cData;
-- (void) handleControllerData;
+- (void)handleControllerData;
 - (BOOL)readFromURL:(NSURL *)absoluteURL;
 - (void)enableDebugMode:(BOOL)flag;
 
 //- (void)refresh;
 //- (OECorePlugin *)pluginForType:(NSString *)extension;
-//- (BOOL)loadRom:(NSString*)romPath;
+//- (BOOL)loadRom:(NSString *)romPath;
 //- (void)saveState:(NSString *)fileName;
 //- (BOOL)loadState:(NSString *)fileName;
 
