@@ -37,7 +37,7 @@
 
 - (id)initWithLength:(NSUInteger)length
 {
-    if(self = [super init])
+    if((self = [super init]))
     {
         _bufferLock = [[NSLock alloc] init];
         _bufferSize = length;

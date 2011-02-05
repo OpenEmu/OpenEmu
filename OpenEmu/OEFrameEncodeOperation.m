@@ -34,7 +34,7 @@
 
 - (id)initWithImage:(NSImage *)image forMovie:(QTMovie *)aMovie  withDuration:(NSTimeInterval)interval
 {        
-    if(self = [super init])
+    if((self = [super init]))
     {
         [self setImageToEncode:image];
         [self setMovie:aMovie];

@@ -105,7 +105,7 @@ static NSMutableDictionary *plugins = nil;
 
 - (id)initWithCompositionAtPath:(NSString *)aPath
 {
-    if(self = [super init])
+    if((self = [super init]))
     {
         if(![[aPath pathExtension] isEqualToString:@"qtz"])
         {
