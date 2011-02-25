@@ -68,7 +68,8 @@
     OEHIDEvent *ret = [OEHIDEvent buttonEventWithPadNumber:4
                                                  timestamp:[NSDate timeIntervalSinceReferenceDate]
                                               buttonNumber:b & 0x7F
-                                                     state:b & 0x80 ? NSOnState : NSOffState];
+                                                     state:b & 0x80 ? NSOnState : NSOffState
+                                                    cookie:0];
     
     [[NSApplication sharedApplication] postHIDEvent:ret];
     [asyncSocket receiveWithTimeout:-1 tag:1];

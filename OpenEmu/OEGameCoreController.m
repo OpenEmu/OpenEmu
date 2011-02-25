@@ -106,21 +106,21 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 
 - (void)updateOldKeyboardControls;
 {
-    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
-    [self OE_enumerateSettingKeysUsingBlock:
-     ^(NSString *keyPath, NSString *keyName, NSString *keyType)
-     {
-         id event = [udc eventValueForKeyPath:keyPath];
-         // Old style control, lets translate!
-         if (event != nil && ![event respondsToSelector:@selector(keycode)] && keyType == OEKeyboardEventValueKey)
-         {
-             OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0
-                                                              keyCode:[OEHIDEvent keyCodeForVK:[event unsignedIntValue]]
-                                                                state:NSOnState];
-             [udc setValue:[self registarableValueWithObject:theEvent] forKeyPath:keyPath];
-         }
-     }];
-    
+
+	NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
+	[self OE_enumerateSettingKeysUsingBlock: ^(NSString *keyPath, NSString *keyName, NSString *keyType)
+	 {
+		 id event = [udc eventValueForKeyPath:keyPath];
+		 //Old style control, lets translate!
+		 if (event && ![event respondsToSelector:@selector(keycode)] && keyType == OEKeyboardEventValueKey)
+		 {
+			 OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0 
+															  keyCode:[OEHIDEvent keyCodeForVK:[event unsignedIntValue]]
+																state:NSOnState
+                                                               cookie:NSNotFound];
+			 [udc setValue:[self registarableValueWithObject:theEvent] forKeyPath:keyPath];
+		 }
+	 }];
 }
 
 - (void)registerDefaultControls;
@@ -128,25 +128,21 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     
     NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
     NSMutableDictionary *dict = [[[defaults initialValues] mutableCopy] autorelease];
-    
-    NSUInteger valueLength = [@"values." length];
-    
-    [[self defaultControls] enumerateKeysAndObjectsUsingBlock:
-     ^(id key, id obj, BOOL *stop)
-     {
-         OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0
-                                                          keyCode:[obj unsignedIntValue]
-                                                            state:NSOnState];
-         
-         id        value   = [self registarableValueWithObject:theEvent];
-         NSString *keyPath = [self keyPathForKey:key withValueType:OEKeyboardEventValueKey];
-         
-         // Need to strip the "values." off the front
-         keyPath = [keyPath substringFromIndex:valueLength];
-         
-         [dict setValue:value forKey:keyPath];
-     }];
-    
+
+    [[self defaultControls] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) 
+    {
+        OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0 
+                                                         keyCode:[obj unsignedIntValue] 
+                                                           state:NSOnState
+                                                          cookie:NSNotFound];
+        
+        id value = [self registarableValueWithObject:theEvent];
+        NSString *keyPath = [self keyPathForKey:key withValueType:OEKeyboardEventValueKey];
+        //Need to strip the "values." off the front
+        keyPath = [keyPath substringFromIndex:[@"values." length]];
+        
+        [dict setValue:value forKey:keyPath];
+    }];
     
     [defaults setInitialValues:dict];
 }

@@ -73,14 +73,17 @@ typedef NSInteger OEHIDDirection;
             NSInteger      maximum;
         } axis;
         struct {
+            NSUInteger     cookie;
             NSUInteger     buttonNumber;
             NSInteger      state;
         } button;
         struct {
+            NSUInteger     cookie;
             NSUInteger     position;
             NSUInteger     count;
         } hatSwitch;
 		struct {
+            NSUInteger     cookie;
 			NSUInteger     keycode;
 			NSInteger      state;
 		} keypress;
@@ -92,9 +95,9 @@ typedef NSInteger OEHIDDirection;
 
 + (NSUInteger)keyCodeForVK:(CGCharCode)charCode;
 + (id)axisEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis scaledValue:(CGFloat)value;
-+ (id)buttonEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp buttonNumber:(NSUInteger)number state:(NSUInteger)state;
-+ (id)hatSwitchEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp position:(NSUInteger)position positionCount:(NSUInteger)count;
-+ (id)keyEventWithTimestamp:(NSTimeInterval)timestamp keyCode:(NSUInteger)keyCode state:(NSUInteger)state;
++ (id)buttonEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp buttonNumber:(NSUInteger)number state:(NSUInteger)state cookie:(NSUInteger)cookie;
++ (id)hatSwitchEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp position:(NSUInteger)position positionCount:(NSUInteger)count cookie:(NSUInteger)cookie;
++ (id)keyEventWithTimestamp:(NSTimeInterval)timestamp keyCode:(NSUInteger)keyCode state:(NSUInteger)state cookie:(NSUInteger)cookie;
 + (id)eventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 
 @property(readonly) NSUInteger     padNumber;
@@ -112,14 +115,15 @@ typedef NSInteger OEHIDDirection;
 // Button event
 @property(readonly) NSUInteger     buttonNumber;
 @property(readonly) NSInteger      state;
-
+@property(readonly) NSUInteger     cookie;
 // Key event
 @property(readonly) NSUInteger     keycode;
 //@property(readonly) NSInteger      state;
-
+//@property(readonly) NSUInteger     cookie;
 // HatSwitch event
 @property(readonly) NSUInteger     position;
 @property(readonly) NSUInteger     count;
+//@property(readonly) NSUInteger     cookie;
 @end
 
 @interface NSEvent (OEEventConversion)
