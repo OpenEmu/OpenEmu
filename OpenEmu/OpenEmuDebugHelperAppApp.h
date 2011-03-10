@@ -34,11 +34,11 @@
 #import <OpenGL/CGLIOSurface.h>
 
 // Task launching
-#import "TaskWrapper.h"
+#import "OETaskWrapper.h"
 
 #import "OEGameCoreHelper.h"
 
-@interface OpenEmuDebugHelperAppApp : NSResponder <NSApplicationDelegate, TaskWrapperController>
+@interface OpenEmuDebugHelperAppApp : NSResponder <NSApplicationDelegate, OETaskWrapperController>
 {
     IBOutlet NSTextField *romPathField;
     
@@ -59,7 +59,7 @@
     NSTimer              *renderTimer;
     
     // we will need a way to do IPC, for now its this.
-    TaskWrapper          *helper;
+    OETaskWrapper        *helper;
     NSString             *taskUUIDForDOServer;
     NSConnection         *taskConnection;
     

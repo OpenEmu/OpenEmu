@@ -30,6 +30,7 @@
 // for speedz
 #import <OpenGL/CGLMacro.h>
 #import "GameCore.h"
+#import "OECorePlugin.h"
 
 #import "NSString+UUID.h"
 
@@ -130,7 +131,7 @@
         
         NSArray *args = [NSArray arrayWithObjects: cliPath, taskUUIDForDOServer, nil];
         
-        helper = [[TaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
+        helper = [[OETaskWrapper alloc] initWithController:self arguments:args userInfo:nil];
         [helper startProcess];
         
         NSLog(@"launched task with environment: %@", [[helper task] environment]);
@@ -334,16 +335,16 @@
 
 #pragma mark TaskWrapper delegates
 
-- (void)appendOutput:(NSString *)output fromProcess: (TaskWrapper *)aTask
+- (void)appendOutput:(NSString *)output fromProcess:(OETaskWrapper *)aTask
 {
     printf("%s", [output UTF8String]);
 }
 
-- (void)processStarted: (TaskWrapper *)aTask
+- (void)processStarted:(OETaskWrapper *)aTask
 {
 }
 
-- (void)processFinished: (TaskWrapper *)aTask withStatus: (int)statusCode
+- (void)processFinished:(OETaskWrapper *)aTask withStatus:(NSInteger)statusCode
 {
 }
 
