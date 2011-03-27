@@ -37,11 +37,11 @@
 	<key>CFBundleSignature</key>
 	<string>OpEm</string>
 	<key>CFBundleVersion</key>
-	<string>0.2.1</string>
+	<string>0.2.1.1</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.sourceforge.net/crabemu_appcast.xml</string>
+	<string>http://openemu.org/update/crabemu_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 </dict>

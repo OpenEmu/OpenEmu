@@ -33,13 +33,13 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.9.1</string>
+	<string>1.9.1.1</string>
 	<key>NSPrincipalClass</key>
 	<string>GBAGameController</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.sourceforge.net/vba_appcast.xml</string>
+	<string>http://openemu.org/update/vba_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 </dict>

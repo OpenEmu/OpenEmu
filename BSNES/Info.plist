@@ -33,11 +33,11 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.057</string>
+	<string>0.057.1</string>
 	<key>NSPrincipalClass</key>
 	<string>BSNESGameController</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.sourceforge.net/bsnes_appcast.xml</string>
+	<string>http://openemu.org/update/bsnes_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 	<key>SUPublicDSAKeyFile</key>

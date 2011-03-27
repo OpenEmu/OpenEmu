@@ -32,13 +32,13 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.42</string>
+	<string>1.42.1</string>
 	<key>NSPrincipalClass</key>
 	<string>NESGameController</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.sourceforge.net/nestopia_appcast.xml</string>
+	<string>http://openemu.org/update/nestopia_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 </dict>

@@ -30,7 +30,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.4.3</string>
+	<string>0.4.3.1</string>
 	<key>NSPrincipalClass</key>
 	<string>GBGameController</string>
 	<key>ToolbarLabel</key>
@@ -38,7 +38,7 @@
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.sourceforge.net/gambatte_appcast.xml</string>
+	<string>http://openemu.org/update/gambatte_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 </dict>

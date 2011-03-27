@@ -31,7 +31,7 @@
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.sourceforge.net/appcast_qc.xml</string>
+	<string>http://openemu.org/update/appcast_qc.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 </dict>

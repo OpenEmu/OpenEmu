@@ -5,7 +5,7 @@
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.sourceforge.net/genesisplus_appcast.xml</string>
+	<string>http://openemu.org/update/genesisplus_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 	<key>CFBundleDevelopmentRegion</key>
@@ -25,7 +25,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.1.1</string>
+	<string>1.1.1.1</string>
 	<key>NSPrincipalClass</key>
 	<string>GenPlusGameController</string>
 	<key>CFBundleDocumentTypes</key>

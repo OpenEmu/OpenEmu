@@ -33,13 +33,13 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.52.1</string>
+	<string>1.52.2</string>
 	<key>NSPrincipalClass</key>
 	<string>SNESGameController</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
-	<string>http://openemu.sourceforge.net/snes9x_appcast.xml</string>
+	<string>http://openemu.org/update/snes9x_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 </dict>
