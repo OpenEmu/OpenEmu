@@ -313,8 +313,8 @@
 
 - (NSAttributedString *)projectURL
 {
-    return [NSAttributedString hyperlinkFromString:@"http://openemu.sourceforge.net"
-                                           withURL:[NSURL URLWithString:@"http://openemu.sourceforge.net"]];
+    return [NSAttributedString hyperlinkFromString:@"http://openemu.org"
+                                           withURL:[NSURL URLWithString:@"http://openemu.org"]];
 }
 
 - (void)updateFilterNames

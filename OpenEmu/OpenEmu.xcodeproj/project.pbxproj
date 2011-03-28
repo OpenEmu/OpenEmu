@@ -1601,7 +1601,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/bash;
-			shellScript = /usr/bin/openemu_qc_rb_automation.rb;
+			shellScript = /usr/bin/openemuqc_rb_automation.rb;
 			showEnvVarsInLog = 0;
 		};
 		82C9C96E0F080C7F0071460B /* ShellScript */ = {
@@ -2077,7 +2077,10 @@
 		82C9C9710F080C800071460B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = (
+					x86_64,
+					i386,
+				);
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = Disribution;
 			};
@@ -2149,7 +2152,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				ARCHS = (
+					i386,
+					x86_64,
+				);
 				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
