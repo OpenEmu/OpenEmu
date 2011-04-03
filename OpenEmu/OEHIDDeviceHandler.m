@@ -127,18 +127,18 @@ static NSUInteger lastDeviceNumber = 0;
     [NSApp postHIDEvent:[self eventWithHIDValue:aValue]];
 }
 
-- (io_service_t)getServiceRef
+- (io_service_t)serviceRef
 {
 	io_service_t service = MACH_PORT_NULL;
 	
 #if MAC_OS_X_VERSION_MIN_REQUIRED > MAC_OS_X_VERSION_10_5
 	service = IOHIDDeviceGetService(device);
 #else
-	NSMutableDictionary *matchingDict = (NSMutableDictionary*)IOServiceMatching(kIOHIDDeviceKey);
-	if(matchingDict)
+	NSMutableDictionary *matchingDict = (NSMutableDictionary *)IOServiceMatching(kIOHIDDeviceKey);
+	if(matchingDict != nil)
 	{
-		[matchingDict setValue:[self locationID] forKey:[NSString stringWithFormat:@"%s", kIOHIDLocationIDKey]];
-		service = IOServiceGetMatchingService( kIOMasterPortDefault, (CFDictionaryRef)matchingDict);
+		[matchingDict setValue:[self locationID] forKey:(id)CFSTR(kIOHIDLocationIDKey)];
+		service = IOServiceGetMatchingService(kIOMasterPortDefault, (CFDictionaryRef)matchingDict);
 	}
 #endif
 	return service;
@@ -148,7 +148,7 @@ static NSUInteger lastDeviceNumber = 0;
 {
 	BOOL result = NO;
 	
-	io_service_t service = [self getServiceRef];
+	io_service_t service = [self serviceRef];
 	if(service != MACH_PORT_NULL)
 	{
 		HRESULT FFResult = FFIsForceFeedback(service);
@@ -161,7 +161,7 @@ static NSUInteger lastDeviceNumber = 0;
 {
 	if([self supportsForceFeedback])
 	{
-		io_service_t service = [self getServiceRef];
+		io_service_t service = [self serviceRef];
 		if(service != MACH_PORT_NULL)
 			FFCreateDevice(service, &ffDevice);
 	}
@@ -169,8 +169,7 @@ static NSUInteger lastDeviceNumber = 0;
 
 - (void)disableForceFeedback
 {
-	if(ffDevice)
-		FFReleaseDevice(ffDevice);
+	if(ffDevice != NULL) FFReleaseDevice(ffDevice);
 }
 
 @end

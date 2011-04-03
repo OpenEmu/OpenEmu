@@ -56,7 +56,7 @@
 - (id)initWithDevice:(IOHIDDeviceRef)aDevice;
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue;
 - (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue;
-- (io_service_t)getServiceRef;
+- (io_service_t)serviceRef;
 
 
 - (BOOL)supportsForceFeedback;

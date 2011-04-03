@@ -34,8 +34,8 @@
 
 @interface OEHIDManager : NSObject 
 {
-    IOHIDManagerRef             hidManager;
-    NSMutableArray             *deviceHandlers;
+    IOHIDManagerRef  hidManager;
+    NSMutableArray  *deviceHandlers;
 }
 
 - (void)registerDeviceTypes:(NSArray*)matchingTypes;

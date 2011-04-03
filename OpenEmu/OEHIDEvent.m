@@ -125,7 +125,7 @@
             ret = [NSString stringWithFormat:@" H%d/%d", _data.hatSwitch.position, _data.hatSwitch.count];
             break;
 		case OEHIDKeypress :
-			return [NSString stringWithFormat:@"%@", [OEHIDEvent stringForHIDKeyCode:_data.keypress.keycode]];
+			return [NSString stringWithFormat:@"%@", [OEHIDEvent stringForHIDKeyCode:_data.key.keycode]];
     }
     
     if(ret != nil) ret = [NSString stringWithFormat:@"P%d%@", _padNumber, ret];
@@ -201,10 +201,10 @@
     OEHIDEvent *ret = [[[self alloc] initWithPadNumber:0 timestamp:timestamp] autorelease];
     
     ret->_type = OEHIDKeypress;
-    ret->_data.keypress.keycode = keyCode;
-    ret->_data.keypress.state = state;
-    ret->_data.keypress.cookie = cookie;
-    ret->_isPushed = ret->_data.keypress.state != NSOffState;
+    ret->_data.key.keycode = keyCode;
+    ret->_data.key.state = state;
+    ret->_data.key.cookie = cookie;
+    ret->_isPushed = ret->_data.key.state != NSOffState;
     
     return ret;
 }
@@ -287,17 +287,17 @@
                 _isPushed = _data.button.state != NSOffState;
                 break;
 			case kHIDPage_KeyboardOrKeypad :
-				if (!((usage >= 0x04) && (usage <= 0xA4) ||
+				if(!((usage >= 0x04) && (usage <= 0xA4) ||
 					(usage >= 0xE0) && (usage <= 0xE7)))
 				{
 					[self release];
 					return nil;
 				}
 				_type = OEHIDKeypress;
-				_data.keypress.keycode = usage;
-				_data.keypress.state = value;
-                _data.keypress.cookie = cookie;
-				_isPushed = _data.keypress.state != NSOffState;
+				_data.key.keycode = usage;
+				_data.key.state = value;
+                _data.key.cookie = cookie;
+				_isPushed = _data.key.state != NSOffState;
 				break;
         }
     }
@@ -363,7 +363,7 @@
 - (NSUInteger)keycode
 {
     NSAssert1([self type] == OEHIDKeypress, @"Invalid message sent to event \"%@\"", self);	
-	return _data.keypress.keycode;
+	return _data.key.keycode;
 }
 
 - (NSUInteger)cookie
@@ -410,8 +410,8 @@
         subs = [NSString stringWithFormat:@"type=HatSwitch position=%lld/%lld", (int64_t)_data.hatSwitch.position, (int64_t)_data.hatSwitch.count];
     else if(_type == OEHIDKeypress)
 	{
-		char *st = (_data.keypress.state == NSOnState ? "On" : "Off");
-        subs = [NSString stringWithFormat:@"type=Keypress number=%lld state=%s", (int64_t)_data.keypress.keycode, st];	
+		char *st = (_data.key.state == NSOnState ? "On" : "Off");
+        subs = [NSString stringWithFormat:@"type=Key number=%lld state=%s", (int64_t)_data.key.keycode, st];	
 	}
 		
     return [NSString stringWithFormat:@"HID Event: pad=%lld %@ %@", (int64_t)_padNumber, subs, [self displayDescription]];
@@ -449,9 +449,9 @@ NSString *OEHIDEventCookieKey       = @"OEHIDEventCookieKey";
             _data.hatSwitch.cookie    = [decoder decodeIntegerForKey:OEHIDEventCookieKey];
             break;
 		case OEHIDKeypress :
-            _data.keypress.keycode    = [decoder decodeIntegerForKey:OEHIDEventKeycodeKey];
-            _data.keypress.state      = [decoder decodeIntegerForKey:OEHIDEventStateKey];
-            _data.keypress.cookie     = [decoder decodeIntegerForKey:OEHIDEventCookieKey];
+            _data.key.keycode    = [decoder decodeIntegerForKey:OEHIDEventKeycodeKey];
+            _data.key.state      = [decoder decodeIntegerForKey:OEHIDEventStateKey];
+            _data.key.cookie     = [decoder decodeIntegerForKey:OEHIDEventCookieKey];
             break;
     }
     

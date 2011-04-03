@@ -86,7 +86,7 @@ typedef NSInteger OEHIDDirection;
             NSUInteger     cookie;
 			NSUInteger     keycode;
 			NSInteger      state;
-		} keypress;
+		} key;
     }                      _data;
     BOOL                   _isPushed;
 }
