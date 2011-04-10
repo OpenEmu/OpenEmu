@@ -10,6 +10,7 @@
 *.perspectivev3
 !default.perspectivev3
 *.xcworkspace
+!OpenEmu.xcworkspace
 !default.xcworkspace
 xcuserdata
 profile

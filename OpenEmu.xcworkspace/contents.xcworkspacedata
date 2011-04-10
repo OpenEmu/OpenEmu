@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Workspace
+   version = "1.0">
+   <FileRef
+      location = "group:OpenEmu/OpenEmu.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:CrabEmu/CrabEmu.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:BSNES/BSNES.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:FilterPlugins/FilterPlugins.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Gambatte/Gambatte.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:GenesisPlus/GenesisPlus.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:iPhoneRemote/iPhoneRemote.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Mednafen/Mednafen.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Mupen64Plus/Mupen64Plus.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Nestopia/Nestopia.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:SNES9x/SNES9x.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:VisualBoyAdvance/VisualBoyAdvance.xcodeproj">
+   </FileRef>
+</Workspace>
