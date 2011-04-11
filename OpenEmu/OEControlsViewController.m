@@ -132,7 +132,7 @@
 
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
-    if([anEvent isPushed])
+    if([anEvent direction] != OEHIDDirectionNull)
     {
         [self registerEvent:anEvent];
         [self setSelectedBindingType:1];
@@ -145,10 +145,13 @@
     [self setSelectedBindingType:1];
 }
 
-- (void)hatSwitchDown:(OEHIDEvent *)anEvent
+- (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
 {
-    [self registerEvent:anEvent];
-    [self setSelectedBindingType:1];
+    if([anEvent position] != 0)
+    {
+        [self registerEvent:anEvent];
+        [self setSelectedBindingType:1];
+    }
 }
 
 - (void)hidKeyDown:(OEHIDEvent *)anEvent

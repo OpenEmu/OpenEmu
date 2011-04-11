@@ -32,7 +32,7 @@ typedef struct
 {
 	NSUInteger hidCode;
 	CGKeyCode vkCode;
-}OE_HIDVKCode;
+} OE_HIDVKCode;
 
 OE_HIDVKCode hidvk_codes[] = {
 	{kHIDUsage_Keyboard0, kVK_ANSI_0},
@@ -130,9 +130,9 @@ OE_HIDVKCode hidvk_codes[] = {
 
 typedef struct
 {
-	NSUInteger hidCode;
-	NSString * string;
-}OE_HIDString;
+	NSUInteger  hidCode;
+	NSString   *string;
+} OE_HIDString;
 
 OE_HIDString hidlabels[] = {
 

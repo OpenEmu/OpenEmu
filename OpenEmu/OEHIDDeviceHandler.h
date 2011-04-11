@@ -34,12 +34,14 @@
 
 @interface OEHIDDeviceHandler : NSObject
 {
-    IOHIDDeviceRef device;
-    NSUInteger     deviceNumber;
-    CGFloat        deadZone;
+@private
+    IOHIDDeviceRef           device;
+    NSUInteger               deviceNumber;
+    CGFloat                  deadZone;
+    NSMapTable              *mapTable;
 	
 	//force feedback support
-	FFDeviceObjectReference ffDevice;
+	FFDeviceObjectReference  ffDevice;
 }
 
 @property(readonly) IOHIDDeviceRef device;

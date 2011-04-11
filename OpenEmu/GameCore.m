@@ -536,19 +536,14 @@ static NSTimeInterval currentTime()
         [self releaseEmulatorKey:key];
 }
 
-- (void)hatSwitchDown:(OEHIDEvent *)anEvent
+- (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
 {
     OEEmulatorKey key;
-    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | OEHatSwitchMask | [anEvent position], &key))
+    if([anEvent hasPreviousState] && [anEvent previousPosition] != 0 && OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | OEHatSwitchMask | [anEvent previousPosition], &key))
+        [self releaseEmulatorKey:key];
+    
+    if([anEvent position] != 0 && OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | OEHatSwitchMask | [anEvent position], &key))
         [self pressEmulatorKey:key];
-}
-
-- (void)hatSwitchUp:(OEHIDEvent *)anEvent
-{
-    OEEmulatorKey key;
-    for(NSUInteger i = 1, count = [anEvent count]; i <= count; i++)
-        if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | OEHatSwitchMask | i, &key))
-            [self releaseEmulatorKey:key];
 }
 
 #pragma mark -

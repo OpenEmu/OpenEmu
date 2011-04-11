@@ -53,10 +53,7 @@
                 [self buttonDown:anEvent];
             break;
         case OEHIDHatSwitch :
-            if([anEvent position] == 0)
-                [self hatSwitchUp:anEvent];
-            else
-                [self hatSwitchDown:anEvent];
+            [self hatSwitchChanged:anEvent];
             break;
 		case OEHIDKeypress :
 			if([anEvent state] == NSOffState)
@@ -87,16 +84,10 @@
         [_nextResponder buttonUp:anEvent];
 }
 
-- (void)hatSwitchDown:(OEHIDEvent *)anEvent
+- (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
 {
     if(_nextResponder != nil)
-        [_nextResponder hatSwitchDown:anEvent];
-}
-
-- (void)hatSwitchUp:(OEHIDEvent *)anEvent
-{
-    if(_nextResponder != nil)
-        [_nextResponder hatSwitchUp:anEvent];
+        [_nextResponder hatSwitchChanged:anEvent];
 }
 
 - (void)hidKeyDown:(OEHIDEvent *)anEvent

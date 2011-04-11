@@ -29,6 +29,11 @@
 #import "NSApplication+OEHIDAdditions.h"
 #import "OEHIDEvent.h"
 
+@interface OEHIDEvent ()
+- (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
+@end
+
+
 @implementation OEHIDDeviceHandler
 
 @synthesize device, deviceNumber, deadZone;
@@ -51,6 +56,8 @@ static NSUInteger lastDeviceNumber = 0;
     self = [super init];
     if(self != nil)
     {
+        mapTable = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsOpaqueMemory | NSPointerFunctionsIntegerPersonality valueOptions:NSPointerFunctionsObjectPersonality capacity:10];
+        
         if(aDevice == NULL)
         {
             if(nilHandler == nil)
@@ -78,8 +85,9 @@ static NSUInteger lastDeviceNumber = 0;
 
 - (void)dealloc
 {
-	if(ffDevice)
-		FFReleaseDevice(ffDevice);
+	if(ffDevice) FFReleaseDevice(ffDevice);
+    [mapTable release];
+    
 	[super dealloc];
 }
 
@@ -119,7 +127,19 @@ static NSUInteger lastDeviceNumber = 0;
 
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue
 {
-    return [OEHIDEvent eventWithDeviceHandler:self value:aValue];
+    IOHIDElementRef elem   = IOHIDValueGetElement(aValue);
+    NSUInteger      cookie = (uint32_t)IOHIDElementGetCookie(elem);
+    
+    OEHIDEvent *event = [mapTable objectForKey:(id)cookie];
+    
+    if(event == nil)
+    {
+        event = [OEHIDEvent eventWithDeviceHandler:self value:aValue];
+        [mapTable setObject:event forKey:(id)cookie];
+    }
+    else NSAssert1([event OE_setupEventWithDeviceHandler:self value:aValue], @"The event setup went wrong for event: %@", event);
+    
+    return event;
 }
 
 - (void)dispatchEventWithHIDValue:(IOHIDValueRef)aValue
@@ -169,7 +189,11 @@ static NSUInteger lastDeviceNumber = 0;
 
 - (void)disableForceFeedback
 {
-	if(ffDevice != NULL) FFReleaseDevice(ffDevice);
+	if(ffDevice != NULL)
+    {
+        FFReleaseDevice(ffDevice);
+        ffDevice = NULL;
+    }
 }
 
 @end

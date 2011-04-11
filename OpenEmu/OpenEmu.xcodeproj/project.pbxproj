@@ -352,7 +352,7 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = OpenEmu;
 		};
-		C689A55E0FE4635200885BC3 /* PBXContainerItemProxy */ = {
+		C60FC00013522D9A00B53F64 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
@@ -1403,7 +1403,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				C689A55F0FE4635200885BC3 /* PBXTargetDependency */,
+				C60FC00113522D9A00B53F64 /* PBXTargetDependency */,
 				821FD3EA10BF71460036C942 /* PBXTargetDependency */,
 				1BFC26CF116C1C9900B95689 /* PBXTargetDependency */,
 			);
@@ -1675,6 +1675,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C63C680F0FB9F14C00F4E3E0 /* NSApplication+OEHIDAdditions.m in Sources */,
+				93B479F912BAB576008618A7 /* OEHIDManager.m in Sources */,
 				C68C4BE50FA4BA4900724B50 /* OEHIDDeviceHandler.m in Sources */,
 				C61C98E90F583221007F4242 /* OEHIDEvent.m in Sources */,
 				C61C98E70F583217007F4242 /* OEGameCoreController.m in Sources */,
@@ -1686,7 +1687,6 @@
 				82AFA66A0FDDC03500531EE3 /* OERingBuffer.m in Sources */,
 				C6AFE0D60FED6FDF00AC0CCF /* OEGameControllerView.m in Sources */,
 				1BEF2A68116826BC0090F72B /* NSString+UUID.m in Sources */,
-				93B479F912BAB576008618A7 /* OEHIDManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1813,10 +1813,10 @@
 			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
 			targetProxy = 82C9C97D0F080C920071460B /* PBXContainerItemProxy */;
 		};
-		C689A55F0FE4635200885BC3 /* PBXTargetDependency */ = {
+		C60FC00113522D9A00B53F64 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
-			targetProxy = C689A55E0FE4635200885BC3 /* PBXContainerItemProxy */;
+			targetProxy = C60FC00013522D9A00B53F64 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

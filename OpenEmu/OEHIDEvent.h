@@ -64,31 +64,35 @@ typedef NSInteger OEHIDDirection;
     OEHIDEventType         _type;
     NSUInteger             _padNumber;
     NSTimeInterval         _timestamp;
+    NSTimeInterval         _previousTimestamp;
+    NSUInteger             _cookie;
     union {
         struct {
             OEHIDEventAxis axis;
+            OEHIDDirection previousDirection;
             OEHIDDirection direction;
             NSInteger      minimum;
+            NSInteger      previousValue;
             NSInteger      value;
             NSInteger      maximum;
         } axis;
         struct {
-            NSUInteger     cookie;
             NSUInteger     buttonNumber;
+            NSInteger      previousState;
             NSInteger      state;
         } button;
         struct {
-            NSUInteger     cookie;
-            NSUInteger     position;
             NSUInteger     count;
+            NSUInteger     previousPosition;
+            NSUInteger     position;
         } hatSwitch;
 		struct {
-            NSUInteger     cookie;
 			NSUInteger     keycode;
+            NSInteger      previousState;
 			NSInteger      state;
 		} key;
     }                      _data;
-    BOOL                   _isPushed;
+    BOOL                   _hasPreviousState;
 }
 
 - (NSString *)displayDescription;
@@ -102,33 +106,40 @@ typedef NSInteger OEHIDDirection;
 
 @property(readonly) NSUInteger     padNumber;
 @property(readonly) NSTimeInterval timestamp;
+@property(readonly) NSTimeInterval previousTimestamp;
+@property(readonly) NSTimeInterval elapsedTime;
 @property(readonly) OEHIDEventType type;
-@property(readonly) BOOL           isPushed;
+@property(readonly) NSUInteger     cookie;
+@property(readonly) BOOL           hasPreviousState;
 
 // Axis event
 @property(readonly) OEHIDEventAxis axis;
+@property(readonly) OEHIDDirection previousDirection;
 @property(readonly) OEHIDDirection direction;
 @property(readonly) NSInteger      minimum;
+@property(readonly) NSInteger      previousValue;
 @property(readonly) NSInteger      value;
 @property(readonly) NSInteger      maximum;
 
 // Button event
 @property(readonly) NSUInteger     buttonNumber;
+@property(readonly) NSInteger      previousState;
 @property(readonly) NSInteger      state;
-@property(readonly) NSUInteger     cookie;
+
 // Key event
 @property(readonly) NSUInteger     keycode;
 //@property(readonly) NSInteger      state;
-//@property(readonly) NSUInteger     cookie;
+//@property(readonly) NSInteger      previousState;
+
 // HatSwitch event
-@property(readonly) NSUInteger     position;
 @property(readonly) NSUInteger     count;
-//@property(readonly) NSUInteger     cookie;
+@property(readonly) NSUInteger     previousPosition;
+@property(readonly) NSUInteger     position;
 @end
 
 @interface NSEvent (OEEventConversion)
 + (NSEvent *)eventWithKeyCode:(unsigned short)keyCode;
-+ (NSEvent *)eventWithKeyCode:(unsigned short)keyCode keyIsDown:(BOOL)_keyDown;
++ (NSEvent *)eventWithKeyCode:(unsigned short)keyCode keyIsDown:(BOOL)keyDown;
 + (NSString *)charactersForKeyCode:(unsigned short)keyCode;
 + (NSString *)printableCharactersForKeyCode:(unsigned short)keyCode;
 + (NSUInteger)modifierFlagsForKeyCode:(unsigned short)keyCode;
