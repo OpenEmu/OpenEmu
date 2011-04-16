@@ -154,7 +154,7 @@
     }
 }
 
-- (void)hidKeyDown:(OEHIDEvent *)anEvent
+- (void)HIDKeyDown:(OEHIDEvent *)anEvent
 {
 	[self registerEvent:anEvent];
     [self setSelectedBindingType:0];

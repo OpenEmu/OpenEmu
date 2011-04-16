@@ -469,14 +469,14 @@ static NSTimeInterval currentTime()
     //NSLog(@"Tracking: %f,%f", mousePosition.x, mousePosition.y);
 }
 
-- (void)hidKeyDown:(OEHIDEvent *)anEvent
+- (void)HIDKeyDown:(OEHIDEvent *)anEvent
 {
     OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keycode], &key))
         [self pressEmulatorKey:key];
 }
 
-- (void)hidKeyUp:(OEHIDEvent *)anEvent
+- (void)HIDKeyUp:(OEHIDEvent *)anEvent
 {
     OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keycode], &key))
