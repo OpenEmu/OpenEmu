@@ -28,14 +28,19 @@
 #import <Cocoa/Cocoa.h>
 #import "OEPreferenceViewController.h"
 
+@protocol OEControlsViewControllerDelegate;
+
 @interface OEControlsViewController : OEPreferenceViewController
 {
+@private
     id           selectedControl;
     NSMatrix    *bindingType;
     NSMatrix    *playerSelector;
     NSStepper   *playerStepper;
     NSTextField *playerField;
 }
+
+@property(assign) id<OEControlsViewControllerDelegate> delegate;
 
 @property(retain) IBOutlet NSMatrix    *bindingType;
 @property(retain) IBOutlet NSMatrix    *playerSelector;
@@ -55,5 +60,15 @@
 - (IBAction)showedBindingsChanged:(id)sender;
 - (IBAction)selectInputControl:(id)sender;
 - (void)resetKeyBindings;
+
+@end
+
+@protocol OEControlsViewControllerDelegate <NSObject>
+
+- (NSArray *)genericControlNamesInControlsViewController:(OEControlsViewController *)sender;
+- (NSString *)controlsViewController:(OEControlsViewController *)sender playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
+- (id)controlsViewController:(OEControlsViewController *)sender HIDEventForKey:(NSString *)keyName;
+- (id)controlsViewController:(OEControlsViewController *)sender keyboardEventForKey:(NSString *)keyName;
+- (void)controlsViewController:(OEControlsViewController *)sender registerEvent:(id)theEvent forKey:(NSString *)keyName;
 
 @end

@@ -26,8 +26,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEControlsViewController.h>
+#import <OEControlsViewController_old.h>
 
 
-@interface GBAControlsPreference : OEControlsViewController
+@interface GBAControlsPreference : OEControlsViewController_old
 @end

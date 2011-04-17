@@ -25,12 +25,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEControlsViewController.h"
+#import "OEControlsViewController_old.h"
 #import "OEHIDEvent.h"
 #import "OEGameCoreController.h"
 
-@implementation OEControlsViewController
-@synthesize selectedControl, bindingType, playerSelector, playerStepper, playerField, delegate;
+@implementation OEControlsViewController_old
+@synthesize selectedControl, bindingType, playerSelector, playerStepper, playerField;
 
 - (void)dealloc
 {

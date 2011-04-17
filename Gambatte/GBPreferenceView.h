@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <OEControlsViewController.h>
+#import <OEControlsViewController_old.h>
 
-@interface GBPreferenceView : OEControlsViewController
+@interface GBPreferenceView : OEControlsViewController_old
 @end

@@ -34,6 +34,7 @@
 
 @interface OEPlugin : NSObject <NSCopying>
 {
+@private
     NSDictionary *infoDictionary;
     NSBundle     *bundle;
     NSString     *displayName;

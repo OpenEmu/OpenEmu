@@ -128,21 +128,21 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     
     NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
     NSMutableDictionary *dict = [[[defaults initialValues] mutableCopy] autorelease];
-
+    
     [[self defaultControls] enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) 
-    {
-        OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0 
-                                                         keyCode:[obj unsignedIntValue] 
-                                                           state:NSOnState
-                                                          cookie:NSNotFound];
-        
-        id value = [self registarableValueWithObject:theEvent];
-        NSString *keyPath = [self keyPathForKey:key withValueType:OEKeyboardEventValueKey];
-        //Need to strip the "values." off the front
-        keyPath = [keyPath substringFromIndex:[@"values." length]];
-        
-        [dict setValue:value forKey:keyPath];
-    }];
+     {
+         OEHIDEvent *theEvent = [OEHIDEvent keyEventWithTimestamp:0 
+                                                          keyCode:[obj unsignedIntValue] 
+                                                            state:NSOnState
+                                                           cookie:NSNotFound];
+         
+         id value = [self registarableValueWithObject:theEvent];
+         NSString *keyPath = [self keyPathForKey:key withValueType:OEKeyboardEventValueKey];
+         //Need to strip the "values." off the front
+         keyPath = [keyPath substringFromIndex:[@"values." length]];
+         
+         [dict setValue:value forKey:keyPath];
+     }];
     
     [defaults setInitialValues:dict];
 }
@@ -478,7 +478,7 @@ static void OE_setupControlNames(OEGameCoreController *self)
 {
     // Recovers the event to save
     id value = nil;
-    if(anObject == nil) /* Do nothing: removes a key binding for the key. */;
+    if(anObject == nil) { /* Do nothing: removes a key binding for the key. */ }
     else if([anObject isKindOfClass:[NSEvent      class]])
         value = [NSNumber numberWithUnsignedShort:[anObject keyCode]];
     else if([anObject isKindOfClass:[NSString     class]] ||

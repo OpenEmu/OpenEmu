@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEControlsViewController.h>
+#import <OEControlsViewController_old.h>
 
-@interface SNESPreferenceViewController : OEControlsViewController
+@interface SNESPreferenceViewController : OEControlsViewController_old
 @end

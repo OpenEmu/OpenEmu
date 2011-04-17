@@ -25,49 +25,36 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import <Cocoa/Cocoa.h>
 #import "OEPreferenceViewController.h"
-#import "OEGameCoreController.h"
 
-@implementation OEPreferenceViewController
-
-- (OEGameCoreController *)controller
+DEPRECATED_ATTRIBUTE
+@interface OEControlsViewController_old : OEPreferenceViewController
 {
-    return (OEGameCoreController *) [self nextResponder];
+    id           selectedControl;
+    NSMatrix    *bindingType;
+    NSMatrix    *playerSelector;
+    NSStepper   *playerStepper;
+    NSTextField *playerField;
 }
 
-- (void)resetBindingsWithKeys:(NSArray *)keys
-{
-    for(NSString *key in keys)
-    {
-        [self willChangeValueForKey:key];
-        [self didChangeValueForKey:key];
-    }
-}
+@property(retain) IBOutlet NSMatrix    *bindingType;
+@property(retain) IBOutlet NSMatrix    *playerSelector;
+@property(retain) IBOutlet NSStepper   *playerStepper;
+@property(retain) IBOutlet NSTextField *playerField;
 
-- (void)resetSettingBindings
-{
-    [self resetBindingsWithKeys:[[self controller] usedSettingNames]];
-}
+@property(assign)          NSControl   *selectedControl;
 
-- (id)valueForKey:(NSString *)key
-{
-    OEGameCoreController *controller = [self controller];
-    if([[controller usedSettingNames] containsObject:key])
-        return [controller settingForKey:key];
-    return [super valueForKey:key];
-}
+- (NSString *)selectedKey;
+- (NSUInteger)selectedPlayer;
+- (NSString *)keyPathForKey:(NSString *)aKey;
 
-- (void)setValue:(id)value forKey:(NSString *)key
-{
-    OEGameCoreController *controller = [self controller];
-    // should be mutually exclusive
-    if([[controller usedSettingNames] containsObject:key])
-    {
-        [self willChangeValueForKey:key];
-        [controller registerSetting:value forKey:key];
-        [self didChangeValueForKey:key];
-    }
-    else [super setValue:value forKey:key];
-}
+- (void)setSelectedBindingType:(NSInteger)aTag;
+- (BOOL)isKeyboardEventSelected;
+- (void)registerEvent:(id)anEvent;
+
+- (IBAction)showedBindingsChanged:(id)sender;
+- (IBAction)selectInputControl:(id)sender;
+- (void)resetKeyBindings;
 
 @end

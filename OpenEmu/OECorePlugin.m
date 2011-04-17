@@ -27,7 +27,7 @@
 
 #import "OECorePlugin.h"
 #import "OEGameCoreController.h"
-#import "GameCore.h"
+#import "OEGameCore.h"
 
 @class OEGameDocument;
 
@@ -44,7 +44,7 @@
 {
     if((self = [super initWithBundle:aBundle]))
     {
-        Class mainClass = [bundle principalClass];
+        Class mainClass = [[self bundle] principalClass];
         
         // Prevents old-style plugins from loading at all
         if(![mainClass isSubclassOfClass:[OEGameCoreController class]])
@@ -56,12 +56,12 @@
         controller = [[mainClass alloc] init];
         gameCoreClass = [controller gameCoreClass];
         
-        NSString *iconPath = [bundle pathForResource:[infoDictionary objectForKey:@"CFIconName"] ofType:@"icns"];
+        NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         icon = [[NSImage alloc] initWithContentsOfFile:iconPath];
         
         NSMutableDictionary *tempTypes = [[NSMutableDictionary alloc] init];
         NSMutableArray *tempExts = [[NSMutableArray alloc] init];
-        NSArray *types = [infoDictionary objectForKey:@"CFBundleDocumentTypes"];
+        NSArray *types = [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
         for(NSDictionary *type in types)
         {
             NSArray *exts = [type objectForKey:@"CFBundleTypeExtensions"];
@@ -156,12 +156,12 @@
 
 - (NSString *)details
 {
-    return [NSString stringWithFormat: @"Version %@", [self version]];
+    return [NSString stringWithFormat:@"Version %@", [self version]];
 }
 
 - (NSArray *)typesPropertyList
 {
-    return [infoDictionary objectForKey:@"CFBundleDocumentTypes"];
+    return [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
 }
 
 - (NSString *)description

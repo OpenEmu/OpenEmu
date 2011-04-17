@@ -32,12 +32,13 @@
 
 @interface OEGameView : NSView
 {
+@private
     NSView      *gameView;
     OEGameLayer *gameLayer;
-    OEGameCore  *gameCore;
+    OEGameCore  *gameCore DEPRECATED_ATTRIBUTE;
 }
 
-@property(assign)   OEGameCore           *gameCore;
+@property(assign)   OEGameCore           *gameCore DEPRECATED_ATTRIBUTE;
 @property(readonly) OEGameLayer          *gameLayer;
 @property(assign)   id<OEGameCoreHelper>  rootProxy;
 @property(readonly) CGFloat               preferredWindowScale;

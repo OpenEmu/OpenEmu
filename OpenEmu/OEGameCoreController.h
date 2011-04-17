@@ -69,7 +69,7 @@ extern NSString *const OEKeyboardEventValueKey;
 - (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
 - (NSUInteger)playerNumberInKey:(NSString *)aPlayerKey getKeyIndex:(NSUInteger *)index;
 /*
- * The method search for a registered class for the passed-in key and instanciate the controller
+ * The method search for a registered class for the passed-in key and instantiate the controller
  * with the Nib name provided by the controller +preferenceNibName class method.
  * If +preferenceNibName is not overridden by the controller class, the receiver uses the default
  * nib name provided by the key.
