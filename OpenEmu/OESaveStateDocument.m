@@ -26,7 +26,7 @@
  */
 
 #import "OESaveStateDocument.h"
-#import "GameDocumentController.h"
+#import "OEGameDocumentController.h"
 #import <CoreData/CoreData.h>
 
 @implementation OESaveStateDocument
@@ -40,7 +40,7 @@
 {
     BOOL worked = YES;
     
-    GameDocumentController *docController = [GameDocumentController sharedDocumentController];
+    OEGameDocumentController *docController = [OEGameDocumentController sharedDocumentController];
     
     NSPersistentStoreCoordinator *persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[docController managedObjectModel]];
 

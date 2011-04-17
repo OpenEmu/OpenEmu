@@ -26,7 +26,7 @@
  */
 
 
-#import "GameCore.h"
+#import "OEGameCore.h"
 #import "GameDocument.h"
 #import "GameDocumentController.h"
 #import "OEGameCoreController.h"
@@ -41,7 +41,7 @@
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
 
-@implementation GameCore
+@implementation OEGameCore
 
 @synthesize frameInterval, owner, frameFinished;
 @synthesize mousePosition;
@@ -60,9 +60,9 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 + (void)initialize
 {
-    if(self == [GameCore class])
+    if(self == [OEGameCore class])
     {
-        GameCoreClass = [GameCore class];
+        GameCoreClass = [OEGameCore class];
     }
 }
 
@@ -158,7 +158,7 @@ static NSTimeInterval currentTime()
         }
     }
     DLog(@"Speed: %d", speed);
-    autoFrameSkipLastTime = time;    
+    autoFrameSkipLastTime = time;
 }
 
 - (void)setPauseEmulation:(BOOL)flag
@@ -387,7 +387,7 @@ static NSTimeInterval currentTime()
 #define PAD_NUMBER  ([anEvent padNumber] << 24)
 #define KEYBOARD_MASK 0x40000000u
 #define HID_MASK      0x20000000u
-#define DIRECTION_MASK(dir) (1 << ((dir) > OEHIDDirectionNull)) 
+#define DIRECTION_MASK(dir) (1 << ((dir) > OEHIDDirectionNull))
 
 #define GET_EMUL_KEY do {                                                   \
     NSUInteger index, player;                                               \

@@ -31,10 +31,10 @@
 
 @class OEGameCoreController, OEGameCoreManager;
 @class OEGameView;
-@class GameQTRecorder;
+@class OEGameQTRecorder;
 @protocol OEGameCoreHelper;
 
-@interface GameDocument : NSDocument <OETaskWrapperController>
+@interface OEGameDocument : NSDocument <OETaskWrapperController>
 {
     // IPC from our OEHelper
     id<OEGameCoreHelper>  rootProxy;
@@ -43,7 +43,7 @@
     
     // Standard game document stuff
     NSTimer              *frameTimer;
-    GameQTRecorder       *recorder;
+    OEGameQTRecorder     *recorder;
     NSString             *emulatorName;
     NSWindow             *gameWindow;
     OEGameView           *view;

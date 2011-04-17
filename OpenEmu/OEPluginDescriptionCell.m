@@ -25,10 +25,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "PrefsBundleCell.h"
+#import "OEPluginDescriptionCell.h"
 #import "OECorePlugin.h"
 
-@implementation PrefsBundleCell
+@implementation OEPluginDescriptionCell
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
@@ -44,7 +44,7 @@
     //TODO: Selection with gradient and selection color in white with shadow
     // check out http://www.cocoadev.com/index.pl?NSTableView
     
-    BOOL elementDisabled    = NO;    
+    BOOL elementDisabled = NO;
     /*if ([[self dataDelegate] respondsToSelector: @selector(disabledForCell:data:)]) {
         elementDisabled = [[self dataDelegate] disabledForCell: self data: data];
     }*/
@@ -75,7 +75,7 @@
                                              nil];
     
     [secondaryText drawAtPoint:NSMakePoint(cellFrame.origin.x + cellFrame.size.height + 10,
-                                           cellFrame.origin.y + cellFrame.size.height / 2) 
+                                           cellFrame.origin.y + cellFrame.size.height / 2)
                 withAttributes:secondaryTextAttributes];
     
     
@@ -89,11 +89,11 @@
         [xform scaleXBy:1.0 yBy:-1.0];
         [xform concat];
         yOffset = 0 - cellFrame.origin.y;
-    }    
-    NSImage *icon = [data icon];    
+    }
+    NSImage *icon = [data icon];
     
     NSImageInterpolation interpolation = [[NSGraphicsContext currentContext] imageInterpolation];
-    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];    
+    [[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationHigh];
     
     [icon drawInRect:NSMakeRect(cellFrame.origin.x + 5,yOffset + 3,cellFrame.size.height - 6, cellFrame.size.height - 6)
             fromRect:NSMakeRect(0, 0, [icon size].width, [icon size].height)
@@ -102,9 +102,7 @@
     
     [[NSGraphicsContext currentContext] setImageInterpolation:interpolation];
     
-    [[NSGraphicsContext currentContext] restoreGraphicsState];    
+    [[NSGraphicsContext currentContext] restoreGraphicsState];
 }
-
-
 
 @end

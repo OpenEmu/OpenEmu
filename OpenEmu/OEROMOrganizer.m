@@ -26,7 +26,7 @@
  */
 
 #import "OEROMOrganizer.h"
-#import "GameDocumentController.h"
+#import "OEGameDocumentController.h"
 #import "OECorePlugin.h"
 #import "OEROMFile.h"
 #import "OEGameQuickLookDocument.h"
@@ -82,7 +82,8 @@
         NSError *error;
         
         fileManager = [NSFileManager defaultManager];
-        applicationSupportFolder = [(GameDocumentController *) [NSApp delegate] applicationSupportFolder];
+        // FIXME: This should be provided by the owner of this object.
+        applicationSupportFolder = [(OEGameDocumentController *) [NSApp delegate] applicationSupportFolder];
         
         [fileManager createDirectoryAtPath:applicationSupportFolder withIntermediateDirectories:YES attributes:nil error:nil];
         
@@ -150,7 +151,7 @@
 
 - (IBAction)playROMs:(id)sender
 {
-    GameDocumentController *controller = (GameDocumentController *)[NSApp delegate];
+    OEGameDocumentController *controller = (OEGameDocumentController *)[NSApp delegate];
     NSError *error = nil;
     
     NSArray *romFiles = [allROMSController selectedObjects];

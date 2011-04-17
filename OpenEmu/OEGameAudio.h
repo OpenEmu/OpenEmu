@@ -29,11 +29,11 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import <AudioUnit/AudioUnit.h>
 
-@class GameCore;
+@class OEGameCore;
 
-@interface GameAudio : NSObject
+@interface OEGameAudio : NSObject
 {
-    GameCore   *gameCore;
+    OEGameCore *gameCore;
     AUGraph     mGraph;
     AUNode      mConverterNode, mMixerNode, mOutputNode;
     AudioUnit   mConverterUnit, mMixerUnit, mOutputUnit;
@@ -43,7 +43,7 @@
 
 @property float volume;
 
-- (id)initWithCore:(GameCore *)core;
+- (id)initWithCore:(OEGameCore *)core;
 
 - (void)createGraph;
 - (void)startAudio;

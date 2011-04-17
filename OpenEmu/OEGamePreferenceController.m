@@ -26,7 +26,7 @@
  */
 
 #import "OEGamePreferenceController.h"
-#import "GameDocumentController.h"
+#import "OEGameDocumentController.h"
 #import "OEGamePreferenceController_Toolbar.h"
 #import "OECorePlugin.h"
 #import "OEGameCoreController.h"
@@ -70,7 +70,7 @@
 
 - (NSArray *)plugins
 {
-    return [[GameDocumentController sharedDocumentController] plugins];
+    return [[OEGameDocumentController sharedDocumentController] plugins];
 }
 
 - (void)awakeFromNib

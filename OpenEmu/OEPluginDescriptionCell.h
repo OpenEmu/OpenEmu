@@ -26,27 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <QTKit/QTKit.h>
-#import "GameCore.h"
 
-// FIXME: This class is all dead inside
-@interface GameQTRecorder : NSObject
-{
-    QTMovie          *movie;
-    NSOperationQueue *encodingQueue;
-    GameCore         *gameCore;
-    BOOL              recording;
-    NSTimer          *timer;
-    NSTimeInterval    lastTime;
-}
 
-@property(readonly) BOOL recording;
-
-- (id)initWithGameCore:(GameCore *)core;
-- (void)startRecording;
-- (void)timerCallInstallLoop;
-- (void)addFrame;
-- (void)finishRecording;
-- (BOOL)writeMovieToFile:(NSString *)file withComponent:(NSDictionary *)component withExportSettings:(NSData *)exportSettings;
-
+@interface OEPluginDescriptionCell : NSTextFieldCell
 @end

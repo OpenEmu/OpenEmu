@@ -25,16 +25,16 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GameDocument.h"
+#import "OEGameDocument.h"
 #import "OECorePlugin.h"
-#import "GameDocumentController.h"
+#import "OEGameDocumentController.h"
 #import "OEGameLayer.h"
 #import "OEGameView.h"
-#import "GameCore.h"
+#import "OEGameCore.h"
 #import "NSApplication+OEHIDAdditions.h"
 #import "OEHIDEvent.h"
 #import "OEGameCoreController.h"
-#import "GameQTRecorder.h"
+#import "OEGameQTRecorder.h"
 #import "OECorePickerController.h"
 #import "OEGameCoreManager.h"
 
@@ -42,12 +42,12 @@
 
 #import "NSString+UUID.h"
 
-@interface GameDocument ()
+@interface OEGameDocument ()
 - (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError;
 @end
 
 
-@implementation GameDocument
+@implementation OEGameDocument
 
 @synthesize emulatorName, view, gameWindow, playPauseToolbarItem;
 
@@ -246,7 +246,7 @@
 }
 
 - (void)setPauseEmulation:(BOOL)flag
-{    
+{
     [rootProxy setPauseEmulation:flag];
 
     if (flag)
@@ -279,7 +279,7 @@
     }
     else
     {
-        [view exitFullScreenModeWithOptions:nil];           
+        [view exitFullScreenModeWithOptions:nil];
         [[view window] makeFirstResponder:view];
         [NSCursor unhide];
     }
@@ -357,7 +357,7 @@
 
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
-    [[GameDocumentController sharedDocumentController] setGameLoaded:YES];
+    [[OEGameDocumentController sharedDocumentController] setGameLoaded:YES];
     if([self backgroundPauses]) [self setPauseEmulation:NO];
 }
 
@@ -390,7 +390,7 @@
     [self terminateEmulation];
     
     //[recorder finishRecording];
-    [[GameDocumentController sharedDocumentController] setGameLoaded:NO];
+    [[OEGameDocumentController sharedDocumentController] setGameLoaded:NO];
 }
 
 - (void)performClose:(id)sender
@@ -403,7 +403,7 @@
 - (void)appendOutput:(NSString *)output fromProcess:(OETaskWrapper *)aTask
 {
     printf("%s", [output UTF8String]);
-}    
+}
 
 - (void)processStarted:(OETaskWrapper *)aTask
 {

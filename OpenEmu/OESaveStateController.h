@@ -31,7 +31,7 @@
 @class OESaveState;
 @class IKImageBrowserView, IKImageFlowView;
 
-@class OECorePlugin, GameDocumentController;
+@class OECorePlugin, OEGameDocumentController;
 
 @interface OESaveStateController : NSWindowController
 {

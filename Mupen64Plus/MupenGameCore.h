@@ -25,13 +25,13 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <GameCore.h>
+#import <OEGameCore.h>
 #import <pthread.h>
 
 extern pthread_mutex_t gEmuVIMutex;
 extern pthread_cond_t  gEmuVICond;
 
-@interface MupenGameCore : GameCore
+@interface MupenGameCore : OEGameCore
 {
     NSData *romData;
     uint8_t *black;

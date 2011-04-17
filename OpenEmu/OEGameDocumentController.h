@@ -34,14 +34,14 @@
 @class OEROMFile;
 @class OESaveState;
 
-@class GameCore, OECorePlugin;
-@class GameDocument, OEGamePreferenceController, OESaveStateController, OECoreInstaller, OECoreUpdater;
+@class OEGameCore, OECorePlugin;
+@class OEGameDocument, OEGamePreferenceController, OESaveStateController, OECoreInstaller, OECoreUpdater;
 
 @class OEHIDManager;
 
-@interface GameDocumentController : NSDocumentController <OENetServerDelegate>
+@interface OEGameDocumentController : NSDocumentController <OENetServerDelegate>
 {
-    GameDocument               *currentGame;
+    OEGameDocument             *currentGame;
     OEGamePreferenceController *preferences;
     OESaveStateController      *saveStateManager;
 
@@ -52,7 +52,7 @@
     NSArray                    *plugins;
     NSArray                    *validExtensions;
     BOOL                        gameLoaded;
-        
+    
     // added vade
     NSWindow                   *aboutWindow;
     NSString                   *aboutCreditsPath;
@@ -62,7 +62,7 @@
     // the key will be our filter name from the QC Composition attributes or if that is missing, the filename.
     // the value will of course be our QC Composition filter.
     // this will be passed into our QCRenderer in our CALayer where renderForTime will be called.
-    NSMutableDictionary *filterDictionary; // FIXME: Unused 
+    NSMutableDictionary        *filterDictionary; // FIXME: Unused
     
     // Core data controller info, used for savestates right now
     
@@ -87,7 +87,7 @@
 @property(readonly) NSString* appVersion;
 @property(readonly) NSAttributedString* projectURL;
 @property(readonly) NSString* aboutCreditsPath;
-@property(readonly) GameDocument *currentDocument;
+@property(readonly) OEGameDocument *currentDocument;
 
 @property(readwrite, retain) NSMutableDictionary *filterDictionary;
 

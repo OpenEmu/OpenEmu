@@ -26,7 +26,7 @@
  */
 
 #import "OEGameView.h"
-#import "GameCore.h"
+#import "OEGameCore.h"
 #import "OEGameLayer.h"
 #import "OEGameCoreHelper.h"
 
@@ -116,8 +116,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [self setGameCore:[value gameCore]];
 }
 
-- (GameCore *)gameCore { return gameCore; }
-- (void)setGameCore:(GameCore *)value
+- (OEGameCore *)gameCore { return gameCore; }
+- (void)setGameCore:(OEGameCore *)value
 {
     if(gameCore != value)
     {

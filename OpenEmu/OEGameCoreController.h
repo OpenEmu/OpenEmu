@@ -36,7 +36,7 @@ extern NSString *const OEHIDEventValueKey;
 extern NSString *const OEKeyboardEventValueKey;
 
 @protocol OESettingObserver;
-@class GameCore, GameDocument, OEHIDEvent;
+@class OEGameCore, OEGameDocument, OEHIDEvent;
 
 @interface OEGameCoreController : NSResponder
 {
@@ -79,7 +79,7 @@ extern NSString *const OEKeyboardEventValueKey;
  * the name).
  */
 - (id)newPreferenceViewControllerForKey:(NSString *)aKey;
-- (bycopy GameCore *)newGameCore;
+- (bycopy OEGameCore *)newGameCore;
 - (void)addSettingObserver:(id<OESettingObserver>)anObject;
 - (void)removeSettingObserver:(id<OESettingObserver>)anObject;
 - (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType;

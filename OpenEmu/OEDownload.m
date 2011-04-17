@@ -26,7 +26,7 @@
  */
 
 #import "OEDownload.h"
-#import "GameDocumentController.h"
+#import "OEGameDocumentController.h"
 #import <Sparkle/Sparkle.h>
 #import <XADMaster/XADArchive.h>
 
@@ -152,7 +152,7 @@
 {
     XADArchive *archive = [XADArchive archiveForFile:downloadPath];
     
-    NSString *appsupportFolder = [[GameDocumentController sharedDocumentController] applicationSupportFolder];
+    NSString *appsupportFolder = [[OEGameDocumentController sharedDocumentController] applicationSupportFolder];
     appsupportFolder = [appsupportFolder stringByAppendingPathComponent:@"Cores"];
     
     fullPluginPath = [[appsupportFolder stringByAppendingPathComponent:[archive nameOfEntry:0]] retain];

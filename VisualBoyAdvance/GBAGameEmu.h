@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <GameCore.h>
+#import <OEGameCore.h>
 
 typedef unsigned char u8;
 typedef unsigned short u16;
@@ -36,7 +36,7 @@ typedef unsigned int u32;
 OE_EXTERN NSString *GBAControlNames[];
 
 @class OERingBuffer;
-@interface GBAGameEmu : GameCore
+@interface GBAGameEmu : OEGameCore
 {
     unsigned char *tempBuffer;
     UInt16        *sndBuf;

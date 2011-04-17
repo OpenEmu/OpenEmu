@@ -26,10 +26,11 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "GameDocument.h"
+#import "OEGameDocument.h"
 
-@interface OEGameQuickLookDocument : GameDocument {
-
+@interface OEGameQuickLookDocument : OEGameDocument
+{
+    
 }
 
 @end

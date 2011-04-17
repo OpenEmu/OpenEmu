@@ -26,14 +26,14 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <GameCore.h>
+#import <OEGameCore.h>
 #import <OEHIDEvent.h>
 
 extern NSString *GenesisButtonNameTable[];
 
 @class OERingBuffer;
 
-@interface GenPlusGameCore : GameCore
+@interface GenPlusGameCore : OEGameCore
 {
     unsigned char *videoBuffer;
     NSLock        *soundLock;

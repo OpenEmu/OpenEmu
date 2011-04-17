@@ -25,8 +25,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GameAudio.h"
-#import "GameCore.h"
+#import "OEGameAudio.h"
+#import "OEGameCore.h"
 
 
 ExtAudioFileRef recordingFile;
@@ -38,14 +38,14 @@ OSStatus RenderCallback(void                       *in,
                         UInt32                      inNumberFrames,
                         AudioBufferList            *ioData)
 {
-    [((GameCore *)in) getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:0];
+    [((OEGameCore *)in) getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:0];
     //ExtAudioFileWriteAsync( recordingFile, inNumberFrames, ioData );
     
     return 0;
 }
 
 
-@implementation GameAudio
+@implementation OEGameAudio
 
 // No default version for this class
 - (id)init
@@ -55,10 +55,10 @@ OSStatus RenderCallback(void                       *in,
 }
 
 // Designated Initializer
-- (id)initWithCore:(GameCore *)core
+- (id)initWithCore:(OEGameCore *)core
 {
     self = [super init];
-    if(self)
+    if(self != nil)
     {
         gameCore = core;
         [self createGraph];
@@ -82,12 +82,12 @@ OSStatus RenderCallback(void                       *in,
 }
 
 - (void)startAudio
-{    
+{
     [self createGraph];
 }
 
 - (void)stopAudio
-{    
+{
     ExtAudioFileDispose(recordingFile);
     AUGraphStop(mGraph);
     AUGraphClose(mGraph);
@@ -95,7 +95,7 @@ OSStatus RenderCallback(void                       *in,
 }
 
 - (void)createGraph
-{    
+{
     OSStatus err;
     
     AUGraphStop(mGraph);
@@ -112,11 +112,11 @@ OSStatus RenderCallback(void                       *in,
     
     ComponentDescription desc;
     
-    desc.componentType = kAudioUnitType_Output;
-    desc.componentSubType = kAudioUnitSubType_DefaultOutput;
+    desc.componentType         = kAudioUnitType_Output;
+    desc.componentSubType      = kAudioUnitSubType_DefaultOutput;
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
-    desc.componentFlagsMask = 0;
-    desc.componentFlags  = 0; 
+    desc.componentFlagsMask    = 0;
+    desc.componentFlags        = 0;
 
     //Create the output node
     err = AUGraphAddNode(mGraph, (const AudioComponentDescription *)&desc, &mOutputNode);

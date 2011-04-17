@@ -27,7 +27,7 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import "GameCore.h"
+#import "OEGameCore.h"
 
 @class OEGameCoreController;
 
@@ -57,7 +57,7 @@
 @property(readonly) IOSurfaceID surfaceID;
 @property(retain) id <OEGameCoreHelperDelegate> delegate;
 
-- (byref GameCore *)gameCore;
+- (byref OEGameCore *)gameCore;
 
 - (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath owner:(byref OEGameCoreController *)owner;
 - (void)setupEmulation;

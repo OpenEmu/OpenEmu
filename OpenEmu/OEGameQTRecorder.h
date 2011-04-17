@@ -25,27 +25,28 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-
 #import <Cocoa/Cocoa.h>
+#import <QTKit/QTKit.h>
+#import "OEGameCore.h"
 
-@class XADArchive;
-
-@interface GamePickerController : NSWindowController <NSWindowDelegate>
+// FIXME: This class is all dead inside
+@interface OEGameQTRecorder : NSObject
 {
-    NSTableView *table;
-    NSString    *fileName;
-    NSArray     *files;
-    BOOL         safeExit;
+    QTMovie          *movie;
+    NSOperationQueue *encodingQueue;
+    OEGameCore       *gameCore;
+    BOOL              recording;
+    NSTimer          *timer;
+    NSTimeInterval    lastTime;
 }
 
-@property(retain) IBOutlet NSTableView *table;
+@property(readonly) BOOL recording;
 
-- (IBAction)unpackSelectedFile:(id)sender;
-- (IBAction)cancelPicker:(id)sender;
-- (IBAction)selectFile:(id)sender;
-- (NSInteger)selectedIndex;
-- (void)setArchive:(XADArchive *)archive;
-
-@property(readonly) NSString *fileName;
+- (id)initWithGameCore:(OEGameCore *)core;
+- (void)startRecording;
+- (void)timerCallInstallLoop;
+- (void)addFrame;
+- (void)finishRecording;
+- (BOOL)writeMovieToFile:(NSString *)file withComponent:(NSDictionary *)component withExportSettings:(NSData *)exportSettings;
 
 @end

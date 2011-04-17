@@ -25,10 +25,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GamePickerController.h"
+#import "OEGamePickerController.h"
 #import <XADMaster/XADArchive.h>
 
-@implementation GamePickerController
+@implementation OEGamePickerController
 
 @synthesize fileName, table;
 

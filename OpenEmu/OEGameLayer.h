@@ -33,7 +33,7 @@
 #import "OEGameCoreHelper.h"
 #import "OEGameShader.h"
 
-@class GameCore, GameDocument, GameDocumentController;
+@class OEGameCore, OEGameDocument, OEGameDocumentController;
 
 @interface OEGameLayer : CAOpenGLLayer <OEGameCoreHelperDelegate>
 {

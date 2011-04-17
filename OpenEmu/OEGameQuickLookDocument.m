@@ -30,7 +30,8 @@
 
 @implementation OEGameQuickLookDocument
 
--(NSString *)windowNibName{
+- (NSString *)windowNibName
+{
 	return @"OEGameQuickLookDocument";
 }
 

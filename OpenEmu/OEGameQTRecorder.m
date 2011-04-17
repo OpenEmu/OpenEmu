@@ -26,11 +26,11 @@
  */
 
 #import "GameDocument.h"
-#import "GameQTRecorder.h"
+#import "OEGameQTRecorder.h"
 #import "OEFrameEncodeOperation.h"
 #import <sys/time.h>
 
-@implementation GameQTRecorder
+@implementation OEGameQTRecorder
 //#if !__LP64__
 @synthesize recording;
 
@@ -43,7 +43,7 @@ static NSTimeInterval currentTime()
 }
 
 
-- (id) initWithGameCore: (GameCore*) core
+- (id)initWithGameCore:(OEGameCore *)core
 {
     self = [super init];
     if(self)
@@ -54,12 +54,12 @@ static NSTimeInterval currentTime()
     return self;
 }
 
-- (void) startRecording
+- (void)startRecording
 {
     
     recording = YES;
     // generate a name for our movie file
-    NSString *tempName = [NSString stringWithCString:tmpnam(nil) 
+    NSString *tempName = [NSString stringWithCString:tmpnam(nil)
                                             encoding:[NSString defaultCStringEncoding]];
     
     
@@ -67,11 +67,11 @@ static NSTimeInterval currentTime()
     movie = [[QTMovie alloc] initToWritableFile:tempName error:NULL];
     
     
-    [movie setAttribute:[NSNumber numberWithBool:YES] 
+    [movie setAttribute:[NSNumber numberWithBool:YES]
                  forKey:QTMovieEditableAttribute];
     
     timer = [[NSTimer timerWithTimeInterval:1.0/30.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true] retain];
-    [[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];         
+    [[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];
     
     lastTime = currentTime();
     encodingQueue = [[NSOperationQueue alloc] init];
@@ -79,20 +79,20 @@ static NSTimeInterval currentTime()
     //[[[NSThread alloc] initWithTarget: self selector: @selector(timerCallInstallLoop) object: nil] start];
 }
 
--(void) timerCallInstallLoop
+- (void)timerCallInstallLoop
 {
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     //[NSThread setThreadPriority:1.0];
     //add NTSC/PAL timer
     
     timer = [[NSTimer timerWithTimeInterval:1.0f/10.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true] retain];
-    [[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];         
+    [[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];
     
     [[NSRunLoop currentRunLoop] run];
     [pool release];
 }
 
-- (void) addFrame
+- (void)addFrame
 {
     // FIXME: Need to be rewrote to work with the helper
 #if 0
@@ -114,7 +114,7 @@ static NSTimeInterval currentTime()
 }
 
 
--(void) finishRecording
+- (void)finishRecording
 {
     [timer invalidate];
     
@@ -142,10 +142,8 @@ static NSTimeInterval currentTime()
         [audioTrackMovie insertSegmentOfTrack: videoTrack fromRange: videoRange scaledToRange: audioRange ];
     }
     
-    
-    
-    BOOL result = [audioTrackMovie writeToFile:@"/Users/jweinberg/test.mov" withAttributes:    [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] 
-                                                                                                                           forKey:QTMovieFlatten]];
+    BOOL result = [audioTrackMovie writeToFile:@"/Users/jweinberg/test.mov" withAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES]
+                                                                                                                       forKey:QTMovieFlatten]];
     if(!result)
     {
         NSLog(@"Couldn't write movie to file");
@@ -204,7 +202,7 @@ static NSTimeInterval currentTime()
     TimeValue duration = GetMovieDuration(theMovie) ;
     
     Boolean canceled;
-    MovieExportComponent exporter; 
+    MovieExportComponent exporter;
     OSErr err = noErr;
     
     err = OpenAComponent(c, &exporter);
@@ -260,8 +258,7 @@ static NSTimeInterval currentTime()
      nil];*/
     
     
-    BOOL result = [movie writeToFile:file withAttributes:[NSDictionary 
-                                                          dictionaryWithObject: [NSNumber numberWithBool: YES] forKey: QTMovieFlatten]];
+    BOOL result = [movie writeToFile:file withAttributes:[NSDictionary dictionaryWithObject:[NSNumber numberWithBool:YES] forKey:QTMovieFlatten]];
     
     if(!result)
     {

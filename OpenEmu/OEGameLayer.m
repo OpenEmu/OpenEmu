@@ -28,8 +28,8 @@
 #import <OpenGL/CGLMacro.h>
 
 #import "OEGameLayer.h"
-#import "GameCore.h"
-#import "GameDocument.h"
+#import "OEGameCore.h"
+#import "OEGameDocument.h"
 #import "OECompositionPlugin.h"
 
 #import <IOSurface/IOSurface.h>

@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <GameCore.h>
+#import <OEGameCore.h>
 #import <OEHIDEvent.h>
 
 typedef enum SMSButtons {
@@ -51,7 +51,7 @@ extern NSString *SMSButtonNameTable[];
 
 @class OERingBuffer;
 
-@interface SMSGameCore : GameCore
+@interface SMSGameCore : OEGameCore
 {
     unsigned char *tempBuffer;
     NSLock        *soundLock;

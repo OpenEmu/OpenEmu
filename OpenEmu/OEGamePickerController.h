@@ -25,8 +25,27 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 #import <Cocoa/Cocoa.h>
 
+@class XADArchive;
 
-@interface PrefsBundleCell : NSTextFieldCell
+@interface OEGamePickerController : NSWindowController <NSWindowDelegate>
+{
+    NSTableView *table;
+    NSString    *fileName;
+    NSArray     *files;
+    BOOL         safeExit;
+}
+
+@property(retain) IBOutlet NSTableView *table;
+
+- (IBAction)unpackSelectedFile:(id)sender;
+- (IBAction)cancelPicker:(id)sender;
+- (IBAction)selectFile:(id)sender;
+- (NSInteger)selectedIndex;
+- (void)setArchive:(XADArchive *)archive;
+
+@property(readonly) NSString *fileName;
+
 @end

@@ -25,10 +25,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GamePickerController.h"
-#import "GameDocumentController.h"
-#import "GameDocument.h"
-#import "GameCore.h"
+#import "OEGamePickerController.h"
+#import "OEGameDocumentController.h"
+#import "OEGameDocument.h"
+#import "OEGameCore.h"
 #import <Sparkle/Sparkle.h>
 #import <Quartz/Quartz.h>
 //#import "ArchiveReader.h"
@@ -52,14 +52,14 @@
 #import "OEHIDManager.h"
 #import <IOKit/hid/IOHIDUsageTables.h>
 
-@interface GameDocumentController ()
+@interface OEGameDocumentController ()
 @property(readwrite, retain) NSArray *plugins;
 
 - (BOOL)migrateOESaveStateAtPath:(NSString *)saveStatePath;
 @end
 
 
-@implementation GameDocumentController
+@implementation OEGameDocumentController
 
 @dynamic appVersion, projectURL, currentDocument;
 @synthesize gameLoaded, aboutWindow;
@@ -301,7 +301,7 @@
     [sender setTitle:(pause ? @"Unpause All Emulators" : @"Pause All Emulators")];
     [sender setState:(pause ? NSOnState : NSOffState)];
     
-    for(GameDocument *doc in [self documents])
+    for(OEGameDocument *doc in [self documents])
         [doc setPauseEmulation:pause];
 }
 
@@ -454,7 +454,7 @@
         
         if([archive numberOfEntries] != 1) //more than one rom in the archive
         {
-            GamePickerController *c = [[[GamePickerController alloc] init] autorelease];
+            OEGamePickerController *c = [[[OEGamePickerController alloc] init] autorelease];
             [c setArchive:archive];
             
             if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
@@ -513,7 +513,7 @@
 	}else{
 		ret = [super documentClassForType:documentTypeName];
 		if(ret == nil){
-			ret = [GameDocument class]; DLog(@"documentClassForType: Long path");
+			ret = [OEGameDocument class]; DLog(@"documentClassForType: Long path");
 		}
 	}
     return ret;
@@ -570,25 +570,21 @@
 
 - (BOOL)isGameKey
 {
-    if([[self currentDocument] isFullScreen])
-        return YES;
+    if([[self currentDocument] isFullScreen]) return YES;
     
     NSDocument *doc = [self documentForWindow:[[NSApplication sharedApplication] keyWindow]];
     return doc != nil;
 }
 
 - (IBAction)saveScreenshot:(id)sender
-{    
-    [(GameDocument*) [self currentDocument] captureScreenshotUsingBlock:^(NSImage* img)
-     {  
-         
+{
+    [(OEGameDocument *) [self currentDocument] captureScreenshotUsingBlock:
+     ^(NSImage *img)
+     {
          [[NSFileManager defaultManager] createFileAtPath:[[[[self currentDocument] fileURL] path] stringByAppendingPathExtension:@"screenshot.tiff"]
                                                  contents:[img TIFFRepresentation]
                                                attributes:nil];
-         
      }];
-    
-    
 }
 
 #pragma mark -
@@ -695,7 +691,8 @@
  handle the saving of changes in the application managed object context
  before the application terminates.
  */
-- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender {
+- (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
+{
     
     NSError *error = nil;
     NSApplicationTerminateReply reply = NSTerminateNow;
@@ -781,7 +778,7 @@
         NSDocument *doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
         
         DLog(@"Loading state from %@", [object saveDataPath]);
-        [(GameDocument*)doc loadStateFromFile:[object saveDataPath]];
+        [(OEGameDocument*)doc loadStateFromFile:[object saveDataPath]];
     }
 }
 
@@ -798,13 +795,13 @@
     [newState setBundlePath:[[[[self applicationSupportFolder] stringByAppendingPathComponent: @"Save States"]
                               stringByAppendingPathComponent:saveFileName] stringByAppendingPathExtension:@"savestate"]];
     
-    [newState setEmulatorID:[(GameDocument *) [self currentDocument] emulatorName]];
+    [newState setEmulatorID:[(OEGameDocument *) [self currentDocument] emulatorName]];
     
-    [(GameDocument *)[self currentDocument] saveStateToFile:[newState saveDataPath]];
+    [(OEGameDocument *)[self currentDocument] saveStateToFile:[newState saveDataPath]];
 
     // NOTE: This assumes that a screenshot can be taken, otherwise it will not
     // add the state without providing any feedback.
-    [(GameDocument *)[self currentDocument] captureScreenshotUsingBlock:^(NSImage* img)
+    [(OEGameDocument *)[self currentDocument] captureScreenshotUsingBlock:^(NSImage* img)
      {
          [newState setScreenshot:img];
          OEROMFile *romFile = [OEROMFile fileWithPath:romPath
@@ -848,8 +845,6 @@
                NSLocalizedString(@"Could not migrate save state at path.", @"Single file migration fail error message"), NSLocalizedDescriptionKey,
                statePath, NSFilePathErrorKey,
                nil]]];
-    
-    
     
     if([errors count] > 0)
     {

@@ -31,10 +31,10 @@
 #import "OEGameCoreHelper.h"
 #import "OEGameCoreManager.h"
 
-#import "GameCore.h"
+#import "OEGameCore.h"
 
 #pragma mark Nestopia specific extensions
-@interface GameCore (NesAdditions)
+@interface OEGameCore (NesAdditions)
 
 - (BOOL)isUnlimitedSpritesEnabled;
 - (int)brightness;

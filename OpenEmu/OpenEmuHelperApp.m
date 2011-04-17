@@ -33,8 +33,8 @@
 #import "NSString+UUID.h"
 
 // Open Emu
-#import "GameCore.h"
-#import "GameAudio.h"
+#import "OEGameCore.h"
+#import "OEGameAudio.h"
 #import "OECorePlugin.h"
 #import "NSApplication+OEHIDAdditions.h"
 
@@ -142,7 +142,7 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     [[NSApplication sharedApplication] terminate:nil];
 }
 
-- (byref GameCore *)gameCore
+- (byref OEGameCore *)gameCore
 {
     return gameCore;
 }
@@ -625,7 +625,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     [gameCore setupEmulation];
     
     // audio!
-    gameAudio = [[GameAudio alloc] initWithCore:gameCore];
+    gameAudio = [[OEGameAudio alloc] initWithCore:gameCore];
     DLog(@"initialized audio");
     
     // starts the threaded emulator timer

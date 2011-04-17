@@ -96,7 +96,7 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 
 @class OEHIDEvent, OERingBuffer;
 
-@interface GameCore : NSResponder <OESettingObserver>
+@interface OEGameCore : NSResponder <OESettingObserver>
 {
     NSThread              *emulationThread;
     NSTimeInterval         frameInterval;
@@ -209,7 +209,7 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 @end
 
 #pragma mark Optional
-@interface GameCore (OptionalMethods)
+@interface OEGameCore (OptionalMethods)
 - (IBAction)pauseEmulation:(id)sender;
 
 - (NSTrackingAreaOptions)mouseTrackingOptions;

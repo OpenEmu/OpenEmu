@@ -34,13 +34,13 @@
 
 // DO  object
 #import "OEGameCoreHelper.h"
-#import "GameCore.h"
+#import "OEGameCore.h"
 
 // we are going to be cheap and just use gameCore for now.
 
-@class GameCore, OECorePlugin;
+@class OEGameCore, OECorePlugin;
 @class OEGameCoreController;
-@class GameAudio;
+@class OEGameAudio;
 
 extern NSString *const OEHelperServerNamePrefix;
 extern NSString *const OEHelperProcessErrorDomain;
@@ -80,8 +80,8 @@ enum _OEHelperAppErrorCodes
     // OE stuff
     NSArray          *plugins;
     NSArray          *validExtensions;
-    GameCore         *gameCore;
-    GameAudio        *gameAudio;
+    OEGameCore       *gameCore;
+    OEGameAudio      *gameAudio;
     
     BOOL              loadedRom;
     

@@ -28,7 +28,7 @@
 #import "OECoreDownloader.h"
 #import <Sparkle/Sparkle.h>
 #import "OEDownload.h"
-#import "GameDocumentController.h"
+#import "OEGameDocumentController.h"
 #import "OECorePlugin.h"
 
 @implementation OECoreDownloader
@@ -95,7 +95,7 @@
 
 - (void)OEDownloadDidFinish:(OEDownload *)download
 {
-    [[GameDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[download fullPluginPath]] display:NO error:nil];
+    [[OEGameDocumentController sharedDocumentController] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[download fullPluginPath]] display:NO error:nil];
     [downloadArrayController removeObject:download];
     [downloadTableView setNeedsDisplay];
     if([[downloadArrayController arrangedObjects] count] == 0)

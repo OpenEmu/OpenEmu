@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <GameCore.h>
+#import <OEGameCore.h>
 
 @class OERingBuffer;
 
@@ -51,7 +51,7 @@ OE_EXTERN NSString *const NESColorFringing ;
 OE_EXTERN NSString *const NESHue;
 OE_EXTERN NSString *const NESUnlimitedSprites;
 
-@interface NESGameEmu : GameCore
+@interface NESGameEmu : OEGameCore
 {
     NSString             *romPath;
     NSLock               *soundLock;

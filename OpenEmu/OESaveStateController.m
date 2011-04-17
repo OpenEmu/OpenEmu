@@ -26,7 +26,7 @@
  */
 
 #import "OESaveStateController.h"
-#import "GameDocumentController.h"
+#import "OEGameDocumentController.h"
 #import <Quartz/Quartz.h>
 #import "IKImageFlowView.h"
 #import "OESaveState.h"
@@ -115,9 +115,9 @@
 static void *const OEContentChangedContext   = @"OEContentChangedContext";
 static void *const OESelectionChangedContext = @"OESelectionChangedContext";
 
-- (GameDocumentController *)docController
+- (OEGameDocumentController *)docController
 {
-    return [GameDocumentController sharedDocumentController];
+    return [OEGameDocumentController sharedDocumentController];
 }
 
 - (NSPredicate *)selectedPluginsPredicate
@@ -201,7 +201,7 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
 
 - (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
 {
-    [[GameDocumentController sharedDocumentController] loadState:[NSArray arrayWithObject:[self selectedSaveState]]];
+    [[OEGameDocumentController sharedDocumentController] loadState:[NSArray arrayWithObject:[self selectedSaveState]]];
 }
 
 - (id)imageFlow:(id)aBrowser itemAtIndex:(NSUInteger)index
@@ -248,12 +248,12 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
     id selectedObject = [outlineView itemAtRow:[outlineView selectedRow]];
     
     if([selectedObject isKindOfClass:[OESaveState class]])
-        [[GameDocumentController sharedDocumentController] loadState:[NSArray arrayWithObject:selectedObject]];
+        [[OEGameDocumentController sharedDocumentController] loadState:[NSArray arrayWithObject:selectedObject]];
 }
 
 - (NSArray *)plugins
 {
-    return [[GameDocumentController sharedDocumentController] plugins];
+    return [[OEGameDocumentController sharedDocumentController] plugins];
 }
 
 - (void)setSelectedPlugins:(NSIndexSet *)indexes
@@ -303,7 +303,7 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
 
 - (void)imageBrowser:(IKImageBrowserView *)aBrowser cellWasDoubleClickedAtIndex:(NSUInteger) index
 {
-    [[GameDocumentController sharedDocumentController] loadState:[NSSet setWithObject:[self selectedSaveState]]];
+    [[OEGameDocumentController sharedDocumentController] loadState:[NSSet setWithObject:[self selectedSaveState]]];
 }
 
 - (void)updateRomGroups

@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <GameCore.h>
+#import <OEGameCore.h>
 #import <OEHIDEvent.h>
 
 typedef enum GBButtons {
@@ -45,7 +45,7 @@ extern NSString *GBButtonNameTable[];
 
 @class OERingBuffer;
 
-@interface GBGameEmu : GameCore
+@interface GBGameEmu : OEGameCore
 {
     const void *videoBuffer;
     UInt16     *tmpBuf;

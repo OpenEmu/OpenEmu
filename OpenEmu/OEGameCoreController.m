@@ -29,7 +29,7 @@
 #import "OEAbstractAdditions.h"
 #import "OEControlsViewController.h"
 #import "NSApplication+OEHIDAdditions.h"
-#import "GameCore.h"
+#import "OEGameCore.h"
 #import "OEHIDEvent.h"
 #import <objc/runtime.h>
 
@@ -306,7 +306,7 @@ static void OE_setupControlNames(OEGameCoreController *self)
     return [currentPreferenceViewController retain];
 }
 
-- (GameCore *)newGameCore
+- (OEGameCore *)newGameCore
 {
     return [[[self gameCoreClass] alloc] init];
 }

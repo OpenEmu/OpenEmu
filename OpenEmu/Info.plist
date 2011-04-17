@@ -49,7 +49,7 @@
 			<key>CFBundleTypeRole</key>
 			<string>Viewer</string>
 			<key>NSDocumentClass</key>
-			<string>GameDocument</string>
+			<string>OEGameDocument</string>
 		</dict>
 		<dict>
 			<key>CFBundleTypeExtensions</key>
