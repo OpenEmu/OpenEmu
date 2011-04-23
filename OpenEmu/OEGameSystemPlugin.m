@@ -11,7 +11,27 @@
 
 @implementation OEGameSystemPlugin
 
-@synthesize inputViewClass, controller;
+static NSMutableDictionary *pluginsBySystemNames = nil;
+
++ (void)initialize
+{
+    if(self == [OEGameSystemPlugin class])
+    {
+        pluginsBySystemNames = [[NSMutableDictionary alloc] init];
+    }
+}
+
++ (OEGameSystemPlugin *)gameSystemPluginForName:(NSString *)gameSystemName;
+{
+    return [pluginsBySystemNames objectForKey:gameSystemName];
+}
+
++ (void)registerGameSystemPlugin:(OEGameSystemPlugin *)plugin forName:(NSString *)gameSystemName;
+{
+    [pluginsBySystemNames setObject:plugin forKey:gameSystemName];
+}
+
+@synthesize responderClass, controller, icon, gameSystemName;
 
 + (OEGameSystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;
 {
@@ -30,33 +50,25 @@
             return nil;
         }
         
-        controller = [[mainClass alloc] init];
-        inputViewClass = [controller inputViewClass];
+        gameSystemName = [[self infoDictionary] objectForKey:gameSystemName];
+        controller     = [[mainClass alloc] init];
+        responderClass = [controller responderClass];
         
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         
         icon = [[NSImage alloc] initWithContentsOfFile:iconPath];
+        
+        [[self class] registerGameSystemPlugin:self forName:gameSystemName];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [icon       release];
-    [controller release];
-    [super      dealloc];
-}
-
-- (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey
-{
-    NSViewController *ret = [controller newPreferenceViewControllerForKey:aKey];
-    if(ret == nil) ret = [[NSViewController alloc] initWithNibName:@"UnimplementedPreference" bundle:[NSBundle mainBundle]];
-    return ret;
-}
-
-- (NSArray *)availablePreferenceViewControllers
-{
-    return [controller availablePreferenceViewControllers];
+    [gameSystemName release];
+    [icon           release];
+    [controller     release];
+    [super          dealloc];
 }
 
 @end

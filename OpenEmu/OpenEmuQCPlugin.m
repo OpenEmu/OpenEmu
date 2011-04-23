@@ -32,7 +32,7 @@
 #import <Quartz/Quartz.h>
 #import <OpenGL/OpenGL.h>
 
-#import "GameCore.h"
+#import "OEGameCore.h"
 #import "OECorePlugin.h"
 
 #import <IOSurface/IOSurface.h>

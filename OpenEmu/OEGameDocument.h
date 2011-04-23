@@ -29,7 +29,7 @@
 #import <QuartzCore/CoreAnimation.h>
 #import "OETaskWrapper.h"
 
-@class OEGameCoreController, OEGameCoreManager;
+@class OEGameCoreController, OEGameCoreManager, OEGameSystemResponder, OEGameSystemController;
 @class OEGameView;
 @class OEGameQTRecorder;
 @protocol OEGameCoreHelper;
@@ -37,19 +37,21 @@
 @interface OEGameDocument : NSDocument <OETaskWrapperController>
 {
     // IPC from our OEHelper
-    id<OEGameCoreHelper>  rootProxy;
+    id<OEGameCoreHelper>    rootProxy;
     
-    OEGameCoreManager    *gameCoreManager;
+    OEGameCoreManager      *gameCoreManager;
     
     // Standard game document stuff
-    NSTimer              *frameTimer;
-    OEGameQTRecorder     *recorder;
-    NSString             *emulatorName;
-    NSWindow             *gameWindow;
-    OEGameView           *view;
-    OEGameCoreController *gameController;
-    NSToolbarItem        *playPauseToolbarItem;
-    BOOL                  keyedOnce;
+    NSTimer                *frameTimer;
+    OEGameQTRecorder       *recorder;
+    NSString               *emulatorName;
+    NSWindow               *gameWindow;
+    OEGameView             *view;
+    OEGameSystemController *gameSystemController;
+    OEGameSystemResponder  *gameSystemResponder;
+    OEGameCoreController   *gameController;
+    NSToolbarItem          *playPauseToolbarItem;
+    BOOL                    keyedOnce;
 }
 
 @property(retain) IBOutlet NSToolbarItem *playPauseToolbarItem;

@@ -66,7 +66,7 @@
     }
 }
 
-- (IBAction)showedBindingsChanged:(id)sender
+- (IBAction)displayedBindingsChanged:(id)sender
 {
     if(sender == playerField)
         [playerStepper setIntegerValue:[playerField integerValue]];
@@ -76,9 +76,18 @@
     [self resetKeyBindings];
 }
 
+- (void)resetBindingsWithKeys:(NSArray *)keys
+{
+    for(NSString *key in keys)
+    {
+        [self willChangeValueForKey:key];
+        [self didChangeValueForKey:key];
+    }
+}
+
 - (void)resetKeyBindings
 {
-    [self resetBindingsWithKeys:[[self controller] genericControlNames]];
+    [self resetBindingsWithKeys:[[self delegate] genericControlNamesInControlsViewController:self]];
 }
 
 - (BOOL)isKeyboardEventSelected
@@ -95,6 +104,7 @@
 {
     if(playerStepper  != nil) return [playerStepper intValue];
     if(playerSelector != nil) return [playerSelector selectedTag];
+    
     return NSNotFound;
 }
 
@@ -102,7 +112,7 @@
 {
     NSUInteger player = [self selectedPlayer];
     if(player != NSNotFound)
-        return [[self controller] playerKeyForKey:aKey player:player];
+        return [[self delegate] controlsViewController:self playerKeyForKey:aKey player:player];
     else
         return aKey;
 }
@@ -162,14 +172,13 @@
 
 - (id)valueForKey:(NSString *)key
 {
-    OEGameCoreController *controller = [self controller];
-    if([[controller genericControlNames] containsObject:key])
+    if([[[self delegate] genericControlNamesInControlsViewController:self] containsObject:key])
     {
         id anEvent = nil;
         if([self isKeyboardEventSelected])
-            anEvent = [controller keyboardEventForKey:[self keyPathForKey:key]];
+            anEvent = [[self delegate] controlsViewController:self keyboardEventForKey:[self keyPathForKey:key]];
         else
-            anEvent = [controller HIDEventForKey:[self keyPathForKey:key]];
+            anEvent = [[self delegate] controlsViewController:self HIDEventForKey:[self keyPathForKey:key]];
         
         return (anEvent != nil ? [anEvent displayDescription] : @"<empty>");
     }
@@ -179,12 +188,11 @@
 
 - (void)setValue:(id)value forKey:(NSString *)key
 {
-    OEGameCoreController *controller = [self controller];
     // should be mutually exclusive
-    if([[controller genericControlNames] containsObject:key])
+    if([[[self delegate] genericControlNamesInControlsViewController:self] containsObject:key])
     {
         [self willChangeValueForKey:key];
-        [controller registerEvent:value forKey:[self keyPathForKey:key]];
+        [[self delegate] controlsViewController:self registerEvent:value forKey:key];
         [self didChangeValueForKey:key];
     }
     else [super setValue:value forKey:key];

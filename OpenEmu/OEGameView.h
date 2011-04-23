@@ -28,20 +28,19 @@
 #import <Cocoa/Cocoa.h>
 
 @protocol OEGameCoreHelper;
-@class OEGameLayer, OEGameCore;
+@class OEGameLayer, OEGameSystemResponder;
 
 @interface OEGameView : NSView
 {
 @private
     NSView      *gameView;
     OEGameLayer *gameLayer;
-    OEGameCore  *gameCore DEPRECATED_ATTRIBUTE;
 }
 
-@property(assign)   OEGameCore           *gameCore DEPRECATED_ATTRIBUTE;
-@property(readonly) OEGameLayer          *gameLayer;
-@property(assign)   id<OEGameCoreHelper>  rootProxy;
-@property(readonly) CGFloat               preferredWindowScale;
+@property(readonly) OEGameLayer           *gameLayer;
+@property(assign)   OEGameSystemResponder *gameResponder;
+@property(assign)   id<OEGameCoreHelper>   rootProxy;
+@property(readonly) CGFloat                preferredWindowScale;
 
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 

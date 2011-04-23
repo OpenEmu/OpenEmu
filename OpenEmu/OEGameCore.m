@@ -27,8 +27,8 @@
 
 
 #import "OEGameCore.h"
-#import "GameDocument.h"
-#import "GameDocumentController.h"
+#import "OEGameDocument.h"
+#import "OEGameDocumentController.h"
 #import "OEGameCoreController.h"
 #import "OEAbstractAdditions.h"
 #import "OEHIDEvent.h"
@@ -389,12 +389,12 @@ static NSTimeInterval currentTime()
 #define HID_MASK      0x20000000u
 #define DIRECTION_MASK(dir) (1 << ((dir) > OEHIDDirectionNull))
 
-#define GET_EMUL_KEY do {                                                   \
-    NSUInteger index, player;                                               \
-    player = [owner playerNumberInKey:keyName getKeyIndex:&index];          \
-    if(player == NSNotFound) return;                                        \
-    emulKey = [self emulatorKeyForKey:keyName index:index player:player];   \
-} while(0)
+#define GET_EMUL_KEY(keyName) ({                                   \
+    NSUInteger index, player;                                      \
+    player = [owner playerNumberInKey:keyName getKeyIndex:&index]; \
+    if(player == NSNotFound) return;                               \
+    [self emulatorKeyForKey:keyName index:index player:player];    \
+})
 
 - (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey
 {
@@ -403,15 +403,13 @@ static NSTimeInterval currentTime()
 
 - (void)unsetEventForKey:(NSString *)keyName withValueMask:(NSUInteger)keyMask
 {
-    OEEmulatorKey emulKey;
-    GET_EMUL_KEY;
+    OEEmulatorKey emulKey = GET_EMUL_KEY(keyName);
     OEMapRemoveMaskedKeysForValue(keyMap, keyMask, emulKey);
 }
 
 - (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName
 {
-    OEEmulatorKey emulKey;
-    GET_EMUL_KEY;
+    OEEmulatorKey emulKey = GET_EMUL_KEY(keyName);
     NSInteger appKey = 0;
     //if([theEvent respondsToSelector:@selector(keycode)])
         appKey = KEYBOARD_MASK | [theEvent keycode];
@@ -428,8 +426,7 @@ static NSTimeInterval currentTime()
 
 - (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName
 {
-    OEEmulatorKey emulKey;
-    GET_EMUL_KEY;
+    OEEmulatorKey emulKey = GET_EMUL_KEY(keyName);
     
     NSInteger   appKey  = 0;
     OEHIDEvent *anEvent = theEvent;

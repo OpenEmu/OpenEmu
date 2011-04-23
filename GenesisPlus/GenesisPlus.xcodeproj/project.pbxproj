@@ -553,6 +553,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0410;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "GenesisPlus" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -751,7 +752,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GenesisPlus_Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"";
@@ -830,7 +830,6 @@
 		822C1941101EA4B00034119F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Release;
@@ -849,7 +848,6 @@
 					x86_64,
 					i386,
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = Distribution;
 			};
 			name = Release;

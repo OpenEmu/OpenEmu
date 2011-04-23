@@ -646,6 +646,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0410;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "SNES9x" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -865,7 +866,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SNES9x_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
@@ -977,7 +977,6 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build & Install";
 				ZERO_LINK = NO;
 			};
@@ -1007,7 +1006,6 @@
 				);
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				OTHER_CFLAGS = (
 					"-DUNZIP_SUPPORT",
 					"-D__MACOSX__",

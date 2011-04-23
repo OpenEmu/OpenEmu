@@ -990,6 +990,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0410;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "Mupen64Plus" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1198,7 +1199,6 @@
 				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_FAST_MATH = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1274,7 +1274,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"";
 				ONLY_ACTIVE_ARCH = YES;
-				PREBINDING = NO;
 				SDKROOT = macosx10.6;
 			};
 			name = Debug;
@@ -1290,7 +1289,6 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"";
-				PREBINDING = NO;
 				SDKROOT = macosx10.6;
 			};
 			name = Release;
@@ -1310,7 +1308,6 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build & Install";
 				ZERO_LINK = NO;
 			};

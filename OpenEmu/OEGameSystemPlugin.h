@@ -11,20 +11,18 @@
 
 @class OEGameSystemController;
 
+extern NSString *const OEGameSystemPluginName;
+
 @interface OEGameSystemPlugin : OEPlugin
-{
-    NSImage                *icon;
-    Class                   inputViewClass;
-    OEGameSystemController *controller;
-}
 
 @property(readonly) OEGameSystemController *controller;
+@property(readonly) NSString               *gameSystemName;
 @property(readonly) NSImage                *icon;
-@property(readonly) Class                   inputViewClass;
+@property(readonly) Class                   responderClass;
+
++ (OEGameSystemPlugin *)gameSystemPluginForName:(NSString *)gameSystemName;
++ (void)registerGameSystemPlugin:(OEGameSystemPlugin *)plugin forName:(NSString *)gameSystemName;
 
 + (OEGameSystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;
-
-- (NSArray *)availablePreferenceViewControllers;
-- (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey;
 
 @end

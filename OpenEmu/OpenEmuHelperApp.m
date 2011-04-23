@@ -579,7 +579,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 #pragma mark -
 #pragma mark Game Core methods
 
-- (BOOL)loadRomAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath owner:(byref OEGameCoreController *)owner
+- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath owner:(byref OEGameCoreController *)owner
 {
     aPath = [aPath stringByStandardizingPath];
     BOOL isDir;

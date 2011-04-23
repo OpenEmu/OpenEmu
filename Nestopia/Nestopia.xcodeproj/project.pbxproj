@@ -1968,6 +1968,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0410;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "Nestopia" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -2441,7 +2442,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Nestopia_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
@@ -2528,7 +2528,6 @@
 					x86_64,
 					i386,
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = Distribution;
 			};
 			name = Release;
@@ -2543,7 +2542,6 @@
 		82D814E70F1D81BF00EF8CF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Release;

@@ -37,6 +37,9 @@
 #import "OEGameQTRecorder.h"
 #import "OECorePickerController.h"
 #import "OEGameCoreManager.h"
+#import "OEGameSystemPlugin.h"
+#import "OEGameSystemController.h"
+#import "OEGameSystemResponder.h"
 
 #import "OEGameCoreHelper.h"
 
@@ -86,9 +89,10 @@
     return @"GameDocument";
 }
 
-- (void)windowControllerDidLoadNib:(NSWindowController *) aController
+- (void)windowControllerDidLoadNib:(NSWindowController *)aController
 {
     [view setRootProxy:rootProxy];
+    [view setGameResponder:gameSystemResponder];
     [gameWindow setAcceptsMouseMovedEvents:YES];
     
     OEIntSize maxScreenSize = rootProxy.screenSize;
@@ -127,8 +131,12 @@
         
         if(plugin == nil) return NO;
         
-        gameController = [[plugin controller] retain];
-        emulatorName = [[plugin displayName] retain];
+        gameController = [[plugin controller]  retain];
+        emulatorName   = [[plugin displayName] retain];
+        
+        gameSystemController = [[[OEGameSystemPlugin gameSystemPluginForName:[gameController gameSystemName]] controller] retain];
+        gameSystemResponder  = [gameSystemController newGameSystemResponder];
+        [gameSystemController registerGameSystemResponder:gameSystemResponder];
         
         Class managerClass = ([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.gameCoreInBackgroundThread"] boolValue]
                               ? [OEGameCoreThreadManager  class]
@@ -141,9 +149,9 @@
         {
             rootProxy = [[gameCoreManager rootProxy] retain];
             
-            [gameController addSettingObserver:[rootProxy gameCore]];
-            
             [rootProxy setupEmulation];
+            
+            [gameSystemResponder setClient:[rootProxy gameCore]];
             
             return YES;
         }
@@ -204,9 +212,15 @@
 - (void)terminateEmulation
 {
     [view setRootProxy:nil];
+    [view setGameResponder:nil];
     
     [gameController removeSettingObserver:[rootProxy gameCore]];
     [gameWindow makeFirstResponder:nil];
+    
+    [gameSystemController release];
+    gameSystemController = nil;
+    [gameSystemResponder release];
+    gameSystemResponder  = nil;
     
     // kill our background friend
     [gameCoreManager stop];

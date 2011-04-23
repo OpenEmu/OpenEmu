@@ -64,7 +64,7 @@
     if([[controller usedSettingNames] containsObject:key])
     {
         [self willChangeValueForKey:key];
-        [controller registerSetting:value forKey:key];
+        [controller setSetting:value forKey:key];
         [self didChangeValueForKey:key];
     }
     else [super setValue:value forKey:key];

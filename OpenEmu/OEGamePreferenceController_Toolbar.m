@@ -286,7 +286,8 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
         ret = [[NSViewController alloc] initWithNibName:viewNibName bundle:[NSBundle mainBundle]];
     }
     
-    [ret loadView];
+    // FIXME: this is bad
+    //[ret loadView];
     
     return ret;
 }

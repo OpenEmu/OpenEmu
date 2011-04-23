@@ -2,17 +2,16 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10D573</string>
-		<string key="IBDocument.InterfaceBuilderVersion">783</string>
-		<string key="IBDocument.AppKitVersion">1038.29</string>
-		<string key="IBDocument.HIToolboxVersion">460.00</string>
+		<string key="IBDocument.SystemVersion">11A430e</string>
+		<string key="IBDocument.InterfaceBuilderVersion">902</string>
+		<string key="IBDocument.AppKitVersion">1117</string>
+		<string key="IBDocument.HIToolboxVersion">552.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">783</string>
+			<string key="NS.object.0">902</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -39,7 +38,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSCustomView" id="1005">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">268</int>
 				<object class="NSMutableArray" key="NSSubviews">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -56,7 +55,7 @@
 							<object class="NSFont" key="NSSupport" id="527695485">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
-								<int key="NSfFlags">1044</int>
+								<int key="NSfFlags">1040</int>
 							</object>
 							<reference key="NSControlView" ref="51244061"/>
 							<object class="NSColor" key="NSBackgroundColor" id="345442993">
@@ -302,7 +301,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 				</object>
 				<string key="NSFrameSize">{607, 554}</string>
-				<reference key="NSSuperview"/>
 				<string key="NSClassName">OEGameControllerView</string>
 			</object>
 		</object>
@@ -327,11 +325,11 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">showedBindingsChanged:</string>
+						<string key="label">displayedBindingsChanged:</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="447403053"/>
 					</object>
-					<int key="connectionID">237</int>
+					<int key="connectionID">238</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -464,7 +462,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">237</int>
+			<int key="maxID">238</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -487,8 +485,8 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>displayedBindingsChanged:</string>
 							<string>selectInputControl:</string>
-							<string>showedBindingsChanged:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -500,17 +498,17 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>displayedBindingsChanged:</string>
 							<string>selectInputControl:</string>
-							<string>showedBindingsChanged:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
-								<string key="name">selectInputControl:</string>
+								<string key="name">displayedBindingsChanged:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
-								<string key="name">showedBindingsChanged:</string>
+								<string key="name">selectInputControl:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 						</object>

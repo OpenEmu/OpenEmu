@@ -7,20 +7,28 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OEGameCoreController.h"
 
 @protocol OEGameSystemResponderClient;
 
-@interface OEGameSystemResponder : NSResponder <OESettingObserver>
+@interface OEGameSystemResponder : NSResponder
 {
     
 }
-
-+ (Protocol *)gameSystemResponderClientProtocol;
 
 @property(nonatomic, assign) id<OEGameSystemResponderClient> client;
 
 @end
 
-@protocol OEGameSystemResponderClient <NSObject>
+// Methods that subclasses must override
+@interface OEGameSystemResponder (OEGameSystemResponderSubclass)
+
++ (Protocol *)gameSystemResponderClientProtocol;
+
+- (void)settingWasSet:(bycopy id)aValue forKey:(bycopy NSString *)keyName;
+- (void)keyboardEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
+- (void)keyboardEventWasRemovedForKey:(bycopy NSString *)keyName;
+
+- (void)HIDEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
+- (void)HIDEventWasRemovedForKey:(bycopy NSString *)keyName;
+
 @end

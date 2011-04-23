@@ -675,6 +675,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0410;
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "Gambatte" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -896,7 +897,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Gambatte_Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"";
@@ -913,7 +913,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Gambatte_Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"";
@@ -940,7 +939,6 @@
 					x86_64,
 					i386,
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = Distribution;
 			};
 			name = Release;
@@ -955,7 +953,6 @@
 		82D815940F1D880400EF8CF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Release;
