@@ -24,6 +24,7 @@
 NSString *const OESettingValueKey       = @"OESettingValueKey";
 NSString *const OEHIDEventValueKey      = @"OEHIDEventValueKey";
 NSString *const OEKeyboardEventValueKey = @"OEKeyboardEventValueKey";
+NSString *const OEControlsPreferenceKey = @"OEControlsPreferenceKey";
 
 static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey);
 

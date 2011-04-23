@@ -39,6 +39,7 @@
 #import "OECorePlugin.h"
 #import "OECorePickerController.h"
 #import "OECompositionPlugin.h"
+#import "OEGameSystemPlugin.h"
 #import "OESaveState.h"
 #import "OECoreInstaller.h"
 #import "OECoreUpdater.h"
@@ -79,9 +80,13 @@
     [initialValues setValue:[NSNumber numberWithFloat:1.0]
                      forKey:@"volume"];
     [defaults setInitialValues:initialValues];
+    
+    [OEPlugin registerPluginClass:[OECorePlugin class]];
+    [OEPlugin registerPluginClass:[OEGameSystemPlugin class]];
+    [OEPlugin registerPluginClass:[OECompositionPlugin class]];
 }
 
-- (void) applicationDidFinishLaunching:(NSNotification*)aNotification
+- (void)applicationDidFinishLaunching:(NSNotification*)aNotification
 {
     NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
     [QCPlugIn loadPlugInAtPath:pluginString];
@@ -90,7 +95,7 @@
     [self updateFilterNames];
     
     
-    if ( [plugins count] == 0 )
+    if([plugins count] == 0)
     {
         coreInstaller = [[OECoreInstaller alloc] init];
         [coreInstaller showWindow:self];
@@ -132,7 +137,7 @@
 {
     if(object == [OECorePlugin class])
     {
-        [self setPlugins:[OECorePlugin allPlugins]];
+        [self setPlugins:[OEPlugin allPlugins]];
         [self updateValidExtensions];
     }
 }
@@ -152,13 +157,13 @@
 		NSError *error = nil;
 		if(server == nil || ![server start:&error]) {
 			NSLog(@"Failed creating server: %@", error);
-//			[self _showAlert:@"Failed creating server"];
+            //[self _showAlert:@"Failed creating server"];
 		}
 		
 		//Start advertising to clients, passing nil for the name to tell Bonjour to pick use default name
 		if(![server enableBonjourWithDomain:@"local" applicationProtocol:[OENetServer bonjourTypeFromIdentifier:@"openemu"] name:nil]) {
 			NSLog(@"No advertisment");
-//			[self _showAlert:@"Failed advertising server"];
+            //[self _showAlert:@"Failed advertising server"];
 		}
 		
         [self setGameLoaded:NO];
@@ -217,7 +222,7 @@
 {
     [hidManager release]; hidManager = nil;
 	
-	[[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
+	[[OEPlugin class] removeObserver:self forKeyPath:@"allPlugins"];
     
     [filterNames release];
     [validExtensions release];

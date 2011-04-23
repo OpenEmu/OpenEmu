@@ -41,13 +41,16 @@
     NSString     *version;
 }
 
++ (NSSet *)pluginClasses;
++ (void)registerPluginClass:(Class)pluginClass;
+
 @property(readonly) NSDictionary *infoDictionary;
 @property(readonly) NSBundle     *bundle;
 @property(readonly) NSString     *displayName;
 @property(readonly) NSString     *version;
 
-// All plugins should be get with this method
-// It ensures a plugin is loaded only once
+// All plugins should be retrieved with this method
+// Ensuring a plugin is loaded only once
 + (id)pluginWithBundleName:(NSString *)aName type:(Class)pluginType;
 + (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType;
 + (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType forceReload:(BOOL)reload;

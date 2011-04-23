@@ -28,7 +28,7 @@
 #import <Cocoa/Cocoa.h>
 #import "OEMap.h"
 
-extern NSString *const OEControlsPreferenceKey;
+extern NSString *const OEControlsPreferenceKey DEPRECATED_ATTRIBUTE;
 extern NSString *const OEAdvancedPreferenceKey;
 
 extern NSString *const OESettingValueKey DEPRECATED_ATTRIBUTE;

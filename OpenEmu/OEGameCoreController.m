@@ -38,8 +38,6 @@
 - (NSString *)applicationSupportFolder;
 @end
 
-
-NSString *const OEControlsPreferenceKey = @"OEControlsPreferenceKey";
 NSString *const OEAdvancedPreferenceKey = @"OEAdvancedPreferenceKey";
 
 NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardNamespace", @"OEHIDNamespace", @"OEMouseNamespace", @"OEOtherNamespace" };

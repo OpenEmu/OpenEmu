@@ -37,6 +37,7 @@ extern NSString *const OEAdvancedPreferenceKey;
     NSSplitView       *splitView;
     NSTableView       *pluginTableView;
     NSArrayController *pluginController;
+    NSArrayController *allPluginController;
     NSToolbar         *toolbar;
     NSDictionary      *preferencePanels;
     NSString          *currentViewIdentifier;
@@ -49,10 +50,11 @@ extern NSString *const OEAdvancedPreferenceKey;
 @property(retain) IBOutlet NSSplitView       *splitView;
 @property(retain) IBOutlet NSTableView       *pluginTableView;
 @property(retain) IBOutlet NSArrayController *pluginController;
+@property(retain) IBOutlet NSArrayController *allPluginController;
 @property(retain) IBOutlet NSToolbar         *toolbar;
 
-@property(readonly)         NSArray     *plugins;
-@property(retain)           NSPredicate *availablePluginsPredicate;
-@property(nonatomic,retain) NSIndexSet  *selectedPlugins;
+@property(readonly)          NSArray     *plugins;
+@property(retain)            NSPredicate *availablePluginsPredicate;
+@property(nonatomic, retain) NSIndexSet  *selectedPlugins;
 
 @end

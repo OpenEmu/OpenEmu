@@ -14,6 +14,7 @@
 extern NSString *const OESettingValueKey;
 extern NSString *const OEHIDEventValueKey;
 extern NSString *const OEKeyboardEventValueKey;
+extern NSString *const OEControlsPreferenceKey;
 
 @interface OEGameSystemController : NSObject <OEControlsViewControllerDelegate>
 {
