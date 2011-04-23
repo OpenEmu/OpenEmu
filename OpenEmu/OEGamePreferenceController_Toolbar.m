@@ -27,7 +27,7 @@
 
 #import "OEGamePreferenceController_Toolbar.h"
 #import "OECorePlugin.h"
-#import "OEGameSystemPlugin.h"
+#import "OESystemPlugin.h"
 
 static NSString *OEToolbarLabelKey        = @"OEToolbarLabelKey";
 static NSString *OEToolbarPaletteLabelKey = @"OEToolbarPaletteLabelKey";
@@ -74,7 +74,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
                                       @"Control Preferences",
                                       [NSImage imageNamed:NSImageNamePreferencesGeneral],
                                       @"UnavailablePlugins",
-                                      [OEGameSystemPlugin class], OEPluginClassKey,
+                                      [OESystemPlugin class], OEPluginClassKey,
                                       OEControlsPreferenceKey, OEPluginViewKey), OEControlsToolbarItemIdentifier,
                         CREATE_RECORD(@"Advanced",
                                       @"Advanced",

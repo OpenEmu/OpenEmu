@@ -8,19 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-@protocol OEGameSystemResponderClient;
+@protocol OESystemResponderClient;
 
-@interface OEGameSystemResponder : NSResponder
+@interface OESystemResponder : NSResponder
 {
     
 }
 
-@property(nonatomic, assign) id<OEGameSystemResponderClient> client;
+@property(nonatomic, assign) id<OESystemResponderClient> client;
 
 @end
 
 // Methods that subclasses must override
-@interface OEGameSystemResponder (OEGameSystemResponderSubclass)
+@interface OESystemResponder (OEGameSystemResponderSubclass)
 
 + (Protocol *)gameSystemResponderClientProtocol;
 

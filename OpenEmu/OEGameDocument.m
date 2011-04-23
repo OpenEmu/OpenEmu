@@ -37,9 +37,9 @@
 #import "OEGameQTRecorder.h"
 #import "OECorePickerController.h"
 #import "OEGameCoreManager.h"
-#import "OEGameSystemPlugin.h"
-#import "OEGameSystemController.h"
-#import "OEGameSystemResponder.h"
+#import "OESystemPlugin.h"
+#import "OESystemController.h"
+#import "OESystemResponder.h"
 
 #import "OEGameCoreHelper.h"
 
@@ -134,7 +134,7 @@
         gameController = [[plugin controller]  retain];
         emulatorName   = [[plugin displayName] retain];
         
-        gameSystemController = [[[OEGameSystemPlugin gameSystemPluginForName:[gameController gameSystemName]] controller] retain];
+        gameSystemController = [[[OESystemPlugin gameSystemPluginForName:[gameController gameSystemName]] controller] retain];
         gameSystemResponder  = [gameSystemController newGameSystemResponder];
         [gameSystemController registerGameSystemResponder:gameSystemResponder];
         

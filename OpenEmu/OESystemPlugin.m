@@ -6,35 +6,37 @@
 //  Copyright 2011 NuLayer Inc. All rights reserved.
 //
 
-#import "OEGameSystemPlugin.h"
-#import "OEGameSystemController.h"
+#import "OESystemPlugin.h"
+#import "OESystemController.h"
 
-@implementation OEGameSystemPlugin
+NSString *const OESystemPluginName = @"OESystemPluginName";
+
+@implementation OESystemPlugin
 @dynamic controller;
 
 static NSMutableDictionary *pluginsBySystemNames = nil;
 
 + (void)initialize
 {
-    if(self == [OEGameSystemPlugin class])
+    if(self == [OESystemPlugin class])
     {
         pluginsBySystemNames = [[NSMutableDictionary alloc] init];
     }
 }
 
-+ (OEGameSystemPlugin *)gameSystemPluginForName:(NSString *)gameSystemName;
++ (OESystemPlugin *)gameSystemPluginForName:(NSString *)gameSystemName;
 {
     return [pluginsBySystemNames objectForKey:gameSystemName];
 }
 
-+ (void)registerGameSystemPlugin:(OEGameSystemPlugin *)plugin forName:(NSString *)gameSystemName;
++ (void)registerGameSystemPlugin:(OESystemPlugin *)plugin forName:(NSString *)gameSystemName;
 {
     [pluginsBySystemNames setObject:plugin forKey:gameSystemName];
 }
 
 @synthesize responderClass, icon, gameSystemName;
 
-+ (OEGameSystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;
++ (OESystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;
 {
     return [self pluginWithBundleAtPath:bundlePath type:self];
 }
@@ -64,7 +66,7 @@ static NSMutableDictionary *pluginsBySystemNames = nil;
 
 - (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
 {
-    if(![bundleClass isSubclassOfClass:[OEGameSystemController class]]) return nil;
+    if(![bundleClass isSubclassOfClass:[OESystemController class]]) return nil;
     
     return [super newPluginControllerWithClass:bundleClass];
 }

@@ -28,7 +28,7 @@
 #import <Cocoa/Cocoa.h>
 #import "OEMap.h"
 #import "OEGameCoreController.h"
-#import "OEGameSystemResponderClient.h"
+#import "OESystemResponderClient.h"
 
 #ifndef DLog
 
@@ -97,7 +97,7 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 
 @class OEHIDEvent, OERingBuffer;
 
-@interface OEGameCore : NSResponder <OEGameSystemResponderClient, OESettingObserver>
+@interface OEGameCore : NSResponder <OESystemResponderClient, OESettingObserver>
 {
     NSThread              *emulationThread;
     NSTimeInterval         frameInterval;

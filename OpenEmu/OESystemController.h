@@ -10,14 +10,14 @@
 #import "OEPluginController.h"
 #import "OEControlsViewController.h"
 
-@class OEGameSystemResponder;
+@class OESystemResponder;
 
 extern NSString *const OESettingValueKey;
 extern NSString *const OEHIDEventValueKey;
 extern NSString *const OEKeyboardEventValueKey;
 extern NSString *const OEControlsPreferenceKey;
 
-@interface OEGameSystemController : NSObject <OEPluginController, OEControlsViewControllerDelegate>
+@interface OESystemController : NSObject <OEPluginController, OEControlsViewControllerDelegate>
 {
 @private
     NSBundle            *_bundle;
@@ -71,7 +71,7 @@ extern NSString *const OEControlsPreferenceKey;
 #pragma mark Game System Responder objects
 
 - (id)newGameSystemResponder;
-- (void)registerGameSystemResponder:(OEGameSystemResponder *)responder;
-- (void)unregisterGameSystemResponder:(OEGameSystemResponder *)responder;
+- (void)registerGameSystemResponder:(OESystemResponder *)responder;
+- (void)unregisterGameSystemResponder:(OESystemResponder *)responder;
 
 @end

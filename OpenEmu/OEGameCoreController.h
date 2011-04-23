@@ -37,7 +37,7 @@ extern NSString *const OEHIDEventValueKey DEPRECATED_ATTRIBUTE;
 extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 
 @protocol OESettingObserver;
-@class OEGameCore, OEGameDocument, OEHIDEvent, OEGameSystemResponder;
+@class OEGameCore, OEGameDocument, OEHIDEvent, OESystemResponder;
 
 @interface OEGameCoreController : NSResponder <OEPluginController>
 {

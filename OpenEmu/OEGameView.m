@@ -29,7 +29,7 @@
 #import "OEGameCore.h"
 #import "OEGameLayer.h"
 #import "OEGameCoreHelper.h"
-#import "OEGameSystemResponder.h"
+#import "OESystemResponder.h"
 
 static void OE_bindGameLayer(OEGameLayer *gameLayer)
 {
@@ -113,8 +113,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 - (id<OEGameCoreHelper>)rootProxy                { return [gameLayer rootProxy];   }
 - (void)setRootProxy:(id<OEGameCoreHelper>)value { [gameLayer setRootProxy:value]; }
 
-- (OEGameSystemResponder *)gameResponder { return gameResponder; }
-- (void)setGameResponder:(OEGameSystemResponder *)value
+- (OESystemResponder *)gameResponder { return gameResponder; }
+- (void)setGameResponder:(OESystemResponder *)value
 {
     if(gameResponder != value)
     {

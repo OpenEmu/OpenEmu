@@ -39,7 +39,7 @@
 #import "OECorePlugin.h"
 #import "OECorePickerController.h"
 #import "OECompositionPlugin.h"
-#import "OEGameSystemPlugin.h"
+#import "OESystemPlugin.h"
 #import "OESaveState.h"
 #import "OECoreInstaller.h"
 #import "OECoreUpdater.h"
@@ -82,7 +82,7 @@
     [defaults setInitialValues:initialValues];
     
     [OEPlugin registerPluginClass:[OECorePlugin class]];
-    [OEPlugin registerPluginClass:[OEGameSystemPlugin class]];
+    [OEPlugin registerPluginClass:[OESystemPlugin class]];
     [OEPlugin registerPluginClass:[OECompositionPlugin class]];
 }
 

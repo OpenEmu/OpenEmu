@@ -28,7 +28,7 @@
 #import <Cocoa/Cocoa.h>
 
 @protocol OEGameCoreHelper;
-@class OEGameLayer, OEGameSystemResponder;
+@class OEGameLayer, OESystemResponder;
 
 @interface OEGameView : NSView
 {
@@ -37,10 +37,10 @@
     OEGameLayer *gameLayer;
 }
 
-@property(readonly) OEGameLayer           *gameLayer;
-@property(assign)   OEGameSystemResponder *gameResponder;
-@property(assign)   id<OEGameCoreHelper>   rootProxy;
-@property(readonly) CGFloat                preferredWindowScale;
+@property(readonly) OEGameLayer          *gameLayer;
+@property(assign)   OESystemResponder    *gameResponder;
+@property(assign)   id<OEGameCoreHelper>  rootProxy;
+@property(readonly) CGFloat               preferredWindowScale;
 
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 

@@ -6,13 +6,13 @@
 //  Copyright 2011 NuLayer Inc. All rights reserved.
 //
 
-#import "OEGameSystemController.h"
-#import "OEGameSystemResponder.h"
+#import "OESystemController.h"
+#import "OESystemResponder.h"
 #import "OEHIDEvent.h"
 #import "NSString+OEAdditions.h"
 #import "NSUserDefaultsController+OEEventAdditions.h"
 
-@interface OEGameSystemController ()
+@interface OESystemController ()
 
 @property(readonly) NSArray *controlNames;
 
@@ -28,7 +28,7 @@ NSString *const OEControlsPreferenceKey = @"OEControlsPreferenceKey";
 
 static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey);
 
-@implementation OEGameSystemController
+@implementation OESystemController
 @synthesize playerString, controlNames, systemName;
 
 - (id)init
@@ -97,7 +97,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (Class)responderClass
 {
-    return [OEGameSystemController class];
+    return [OESystemController class];
 }
 
 - (NSArray *)genericSettingNames
@@ -112,7 +112,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (id)newGameSystemResponder;
 {
-    OEGameSystemResponder *responder = [[[self responderClass] alloc] init];
+    OESystemResponder *responder = [[[self responderClass] alloc] init];
     
     [self registerGameSystemResponder:responder];
     
@@ -277,7 +277,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 #pragma mark -
 #pragma mark Responder management
 
-- (void)registerGameSystemResponder:(OEGameSystemResponder *)responder;
+- (void)registerGameSystemResponder:(OESystemResponder *)responder;
 {
     NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
     
@@ -297,7 +297,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     [_gameSystemResponders addObject:responder];
 }
 
-- (void)unregisterGameSystemResponder:(OEGameSystemResponder *)responder;
+- (void)unregisterGameSystemResponder:(OESystemResponder *)responder;
 {
     [_gameSystemResponders removeObject:responder];
 }
@@ -362,7 +362,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     
     [self registerValue:[self registarableValueWithObject:settingValue] forKeyPath:keyPath];
     
-    for(OEGameSystemResponder *observer in _gameSystemResponders)
+    for(OESystemResponder *observer in _gameSystemResponders)
         [observer settingWasSet:settingValue forKey:keyName];
 }
 
@@ -378,7 +378,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     [self removeBindingsToEvent:value withValueType:valueType];
     [self registerValue:value forKeyPath:keyPath];
     
-    for(OEGameSystemResponder *observer in _gameSystemResponders)
+    for(OESystemResponder *observer in _gameSystemResponders)
         if(isKeyBoard)
             [observer keyboardEventWasSet:theEvent forKey:keyName];
         else

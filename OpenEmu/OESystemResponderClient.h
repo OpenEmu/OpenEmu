@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol OEGameSystemResponderClient <NSObject>
+@protocol OESystemResponderClient <NSObject>
 
 @end
