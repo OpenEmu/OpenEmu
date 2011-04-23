@@ -73,14 +73,14 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
                                       @"Controls",
                                       @"Control Preferences",
                                       [NSImage imageNamed:NSImageNamePreferencesGeneral],
-                                      @"ControlPreferences",
+                                      @"UnavailablePlugins",
                                       [OEGameSystemPlugin class], OEPluginClassKey,
                                       OEControlsPreferenceKey, OEPluginViewKey), OEControlsToolbarItemIdentifier,
                         CREATE_RECORD(@"Advanced",
                                       @"Advanced",
                                       @"Advanced Preferences",
                                       [NSImage imageNamed:NSImageNameAdvanced],
-                                      @"AdvancedPreferences",
+                                      @"UnavailablePlugins",
                                       [OECorePlugin class], OEPluginClassKey,
                                       OEAdvancedPreferenceKey, OEPluginViewKey), OEAdvancedToolbarItemIdentifier,
                         CREATE_RECORD(@"Plugins",
@@ -278,12 +278,13 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
     
     if(pluginViewName != nil && pluginClass != Nil)
     {
-        self.availablePluginsPredicate = [NSPredicate predicateWithFormat:@"%@ IN availablePreferenceViewControllers && class == %@", pluginViewName, pluginClass];
+        self.availablePluginsPredicate = [NSPredicate predicateWithFormat:@"%@ IN availablePreferenceViewControllerKeys && class == %@", pluginViewName, pluginClass];
         //[pluginDrawer open:self];
         if(currentPlugin == nil) ret = [[NSViewController alloc] initWithNibName:@"SelectPluginPreferences" bundle:[NSBundle mainBundle]];
-        else ret = [currentPlugin newPreferenceViewControllerForKey:pluginViewName];
+        else ret = [[currentPlugin controller] preferenceViewControllerForKey:pluginViewName];
     }
-    else
+    
+    if(ret == nil)
     {
         //[pluginDrawer close:self];
         NSString *viewNibName = [desc objectForKey:OEToolbarNibNameKey];

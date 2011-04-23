@@ -95,11 +95,6 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     return nil;
 }
 
-- (NSArray *)availablePreferenceViewControllers
-{
-    return [[_preferenceViewControllerClasses objectForKey:[self class]] allKeys];
-}
-
 - (NSUInteger)playerCount
 {
     //[self doesNotImplementSelector:_cmd];
@@ -167,6 +162,16 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     return YES;
 }
 
+- (NSDictionary *)preferenceViewControllerClasses;
+{
+    return [NSDictionary dictionary];
+}
+
+- (NSArray *)availablePreferenceViewControllerKeys;
+{
+    return [[self preferenceViewControllerClasses] allKeys];
+}
+
 - (id)preferenceViewControllerForKey:(NSString *)aKey;
 {
     id ctrl = [preferenceViewControllers objectForKey:aKey];
@@ -177,15 +182,13 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
         [preferenceViewControllers setObject:ctrl forKey:aKey];
     }
     
-    [ctrl setNextResponder:self];
-    
     return ctrl;
 }
 
 - (id)newPreferenceViewControllerForKey:(NSString *)aKey
 {
     id ret = nil;
-    Class controllerClass = [[_preferenceViewControllerClasses objectForKey:[self class]] objectForKey:aKey];
+    Class controllerClass = [[self preferenceViewControllerClasses] objectForKey:aKey];
     
     if(controllerClass != nil)
     {

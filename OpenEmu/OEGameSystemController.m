@@ -39,7 +39,8 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
         systemName = [[[_bundle infoDictionary] objectForKey:@"CFBundleExecutable"] retain];
         if(systemName == nil) systemName = [[_bundle infoDictionary] objectForKey:@"CFBundleName"];
         
-        _gameSystemResponders = [[NSMutableArray alloc] init];
+        _gameSystemResponders      = [[NSMutableArray alloc] init];
+        _preferenceViewControllers = [[NSMutableDictionary alloc] init];
         
         [self OE_setupControlNames];
         
@@ -51,6 +52,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (void)dealloc
 {
+    [_preferenceViewControllers release];
     [_gameSystemResponders release];
     [playerString release];
     [controlNames release];
@@ -125,6 +127,45 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 - (NSUInteger)numberOfPlayers;
 {
     return 0;
+}
+
+- (NSDictionary *)preferenceViewControllerClasses;
+{
+    return [NSDictionary dictionary];
+}
+
+- (NSArray *)availablePreferenceViewControllerKeys;
+{
+    return [[self preferenceViewControllerClasses] allKeys];
+}
+
+- (id)preferenceViewControllerForKey:(NSString *)aKey;
+{
+    id ctrl = [_preferenceViewControllers objectForKey:aKey];
+    
+    if(ctrl == nil)
+    {
+        ctrl = [self newPreferenceViewControllerForKey:aKey];
+        [_preferenceViewControllers setObject:ctrl forKey:aKey];
+    }
+    
+    return ctrl;
+}
+
+- (id)newPreferenceViewControllerForKey:(NSString *)aKey
+{
+    id ret = nil;
+    Class controllerClass = [[self preferenceViewControllerClasses] objectForKey:aKey];
+    
+    if(controllerClass != nil)
+    {
+        NSString *nibName = [aKey substringWithRange:NSMakeRange(2, [aKey length] - 5)]; 
+        ret = [[controllerClass alloc] initWithNibName:nibName bundle:_bundle];
+    }
+    else
+        ret = [[NSViewController alloc] initWithNibName:@"UnimplementedPreference" bundle:[NSBundle mainBundle]];
+    
+    return ret;
 }
 
 #pragma mark -

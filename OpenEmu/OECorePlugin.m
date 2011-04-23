@@ -32,8 +32,8 @@
 @class OEGameDocument;
 
 @implementation OECorePlugin
-
-@synthesize icon, supportedTypes, supportedTypeExtensions, gameCoreClass, controller, typeName;
+@dynamic controller;
+@synthesize icon, supportedTypes, supportedTypeExtensions, gameCoreClass, typeName;
 
 + (OECorePlugin *)corePluginWithBundleAtPath:(NSString *)bundlePath
 {
@@ -44,17 +44,7 @@
 {
     if((self = [super initWithBundle:aBundle]))
     {
-        Class mainClass = [[self bundle] principalClass];
-        
-        // Prevents old-style plugins from loading at all
-        if(![mainClass isSubclassOfClass:[OEGameCoreController class]])
-        {
-            [self release];
-            return nil;
-        }
-        
-        controller = [[mainClass alloc] init];
-        gameCoreClass = [controller gameCoreClass];
+        gameCoreClass = [[self controller] gameCoreClass];
         
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         icon = [[NSImage alloc] initWithContentsOfFile:iconPath];
@@ -84,22 +74,16 @@
 - (void)dealloc
 {
     [icon release];
-    [controller release];
     [supportedTypes release];
     [supportedTypeExtensions release];
     [super dealloc];
 }
 
-- (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey
+- (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
 {
-    NSViewController *ret = [controller newPreferenceViewControllerForKey:aKey];
-    if(ret == nil) ret = [[NSViewController alloc] initWithNibName:@"UnimplementedPreference" bundle:[NSBundle mainBundle]];
-    return ret;
-}
-
-- (NSArray *)availablePreferenceViewControllers
-{
-    return [controller availablePreferenceViewControllers];
+    if(![bundleClass isSubclassOfClass:[OEGameCoreController class]]) return nil;
+    
+    return [super newPluginControllerWithClass:bundleClass];
 }
 
 - (BOOL)supportsFileExtension:(NSString *)extension

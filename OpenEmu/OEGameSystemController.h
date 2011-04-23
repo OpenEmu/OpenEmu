@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OEPluginController.h"
 #import "OEControlsViewController.h"
 
 @class OEGameSystemResponder;
@@ -16,12 +17,28 @@ extern NSString *const OEHIDEventValueKey;
 extern NSString *const OEKeyboardEventValueKey;
 extern NSString *const OEControlsPreferenceKey;
 
-@interface OEGameSystemController : NSObject <OEControlsViewControllerDelegate>
+@interface OEGameSystemController : NSObject <OEPluginController, OEControlsViewControllerDelegate>
 {
 @private
-    NSBundle       *_bundle;
-    NSMutableArray *_gameSystemResponders;
+    NSBundle            *_bundle;
+    NSMutableArray      *_gameSystemResponders;
+    NSMutableDictionary *_preferenceViewControllers;
 }
+
+/*
+ * The method search for a class associated with aKey and instantiate the controller
+ * with the default Nib name provided by the key.
+ * 
+ * For example: if the passed-in key is @"OEControlsPreferenceKey" the default nib name will be
+ * @"ControlsPreference" (the two-letter prefix "OE" and three-letter suffix "Key" are removed from
+ * the name).
+ */
+- (id)newPreferenceViewControllerForKey:(NSString *)aKey;
+
+// A dictionary of keys and UIViewController classes, keys are different panels available in the preferences
+// Must be overridden by subclasses to provide the appropriate classes
+- (NSDictionary *)preferenceViewControllerClasses;
+
 
 @property(readonly) NSString   *systemName;
 

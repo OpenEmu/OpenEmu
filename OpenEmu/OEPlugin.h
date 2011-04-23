@@ -27,6 +27,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "OEPluginController.h"
+
 @interface NSObject (OEPlugin)
 + (BOOL)isPluginClass;
 @end
@@ -35,19 +37,24 @@
 @interface OEPlugin : NSObject <NSCopying>
 {
 @private
-    NSDictionary *infoDictionary;
-    NSBundle     *bundle;
-    NSString     *displayName;
-    NSString     *version;
+    NSDictionary           *infoDictionary;
+    NSBundle               *bundle;
+    NSString               *displayName;
+    NSString               *version;
+    id<OEPluginController>  controller;
 }
 
 + (NSSet *)pluginClasses;
 + (void)registerPluginClass:(Class)pluginClass;
 
-@property(readonly) NSDictionary *infoDictionary;
-@property(readonly) NSBundle     *bundle;
-@property(readonly) NSString     *displayName;
-@property(readonly) NSString     *version;
+// Subclass hook to perform checks or setups of the controller.
+- (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass;
+
+@property(readonly) id<OEPluginController>  controller; // Main Class of the bundle, can be nil
+@property(readonly) NSDictionary           *infoDictionary;
+@property(readonly) NSBundle               *bundle;
+@property(readonly) NSString               *displayName;
+@property(readonly) NSString               *version;
 
 // All plugins should be retrieved with this method
 // Ensuring a plugin is loaded only once
@@ -64,4 +71,5 @@
 + (NSString *)pluginExtension;
 + (Class)typeForExtension:(NSString *)anExtension;
 
+- (NSArray *)availablePreferenceViewControllerKeys;
 @end

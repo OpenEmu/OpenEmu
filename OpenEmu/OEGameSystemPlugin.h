@@ -15,10 +15,11 @@ extern NSString *const OEGameSystemPluginName;
 
 @interface OEGameSystemPlugin : OEPlugin
 
-@property(readonly) OEGameSystemController *controller;
-@property(readonly) NSString               *gameSystemName;
-@property(readonly) NSImage                *icon;
-@property(readonly) Class                   responderClass;
+@property(readonly) OEGameSystemController<OEPluginController> *controller;
+
+@property(readonly) NSString *gameSystemName;
+@property(readonly) NSImage  *icon;
+@property(readonly) Class     responderClass;
 
 + (OEGameSystemPlugin *)gameSystemPluginForName:(NSString *)gameSystemName;
 + (void)registerGameSystemPlugin:(OEGameSystemPlugin *)plugin forName:(NSString *)gameSystemName;

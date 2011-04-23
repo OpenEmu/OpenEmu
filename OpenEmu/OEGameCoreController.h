@@ -26,6 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import "OEPluginController.h"
 #import "OEMap.h"
 
 extern NSString *const OEControlsPreferenceKey DEPRECATED_ATTRIBUTE;
@@ -38,7 +39,7 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 @protocol OESettingObserver;
 @class OEGameCore, OEGameDocument, OEHIDEvent, OEGameSystemResponder;
 
-@interface OEGameCoreController : NSResponder
+@interface OEGameCoreController : NSResponder <OEPluginController>
 {
 @private
     id                   currentPreferenceViewController DEPRECATED_ATTRIBUTE;
@@ -57,10 +58,24 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 @property(readonly) id        currentPreferenceViewController;
 @property(readonly) NSString *playerString;
 
-+ (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
++ (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses DEPRECATED_ATTRIBUTE;
 - (void)registerDefaultControls DEPRECATED_ATTRIBUTE;
 
-- (NSArray *)availablePreferenceViewControllers;
+/*
+ * The method search for a class associated with aKey and instantiate the controller
+ * with the Nib name provided by the controller +preferenceNibName class method.
+ * If +preferenceNibName is not overridden by the controller class, the receiver uses the default
+ * nib name provided by the key.
+ * 
+ * For example: if the passed-in key is @"OEControlsPreferenceKey" the default nib name will be
+ * @"ControlsPreference" (the two-letter prefix "OE" and three-letter suffix "Key" are removed from
+ * the name).
+ */
+- (id)newPreferenceViewControllerForKey:(NSString *)aKey;
+
+// A dictionary of keys and UIViewController classes, keys are different panels available in the preferences
+// Must be overridden by subclasses to provide the appropriate classes
+- (NSDictionary *)preferenceViewControllerClasses;
 
 @property(readonly) NSString   *pluginName;
 @property(readonly) NSString   *gameSystemName;
@@ -71,18 +86,7 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 
 - (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber DEPRECATED_ATTRIBUTE;
 - (NSUInteger)playerNumberInKey:(NSString *)aPlayerKey getKeyIndex:(NSUInteger *)index DEPRECATED_ATTRIBUTE;
-/*
- * The method search for a registered class for the passed-in key and instantiate the controller
- * with the Nib name provided by the controller +preferenceNibName class method.
- * If +preferenceNibName is not overridden by the controller class, the receiver uses the default
- * nib name provided by the key.
- * 
- * For example: if the passed-in key is @"OEControlsPreferenceKey" the default nib name will be
- * @"ControlsPreference" (the two-letter prefix "OE" and three-letter suffix "Key" are removed from
- * the name).
- */
-- (id)preferenceViewControllerForKey:(NSString *)aKey;
-- (id)newPreferenceViewControllerForKey:(NSString *)aKey;
+
 - (bycopy OEGameCore *)newGameCore;
 
 - (id)settingForKey:(NSString *)keyName;

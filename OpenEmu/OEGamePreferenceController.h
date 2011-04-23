@@ -30,10 +30,11 @@
 extern NSString *const OEControlsPreferenceKey;
 extern NSString *const OEAdvancedPreferenceKey;
 
-@class OECorePlugin;
+@class OEPlugin;
 
 @interface OEGamePreferenceController : NSWindowController
 {
+@private
     NSSplitView       *splitView;
     NSTableView       *pluginTableView;
     NSArrayController *pluginController;
@@ -43,7 +44,7 @@ extern NSString *const OEAdvancedPreferenceKey;
     NSString          *currentViewIdentifier;
     NSPredicate       *availablePluginsPredicate;
     NSIndexSet        *selectedPlugins;
-    OECorePlugin      *currentPlugin;
+    OEPlugin          *currentPlugin;
     NSViewController  *currentViewController;
 }
 

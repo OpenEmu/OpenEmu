@@ -26,7 +26,7 @@
  */
 
 #import "OEPlugin.h"
-
+#import <objc/runtime.h>
 
 @implementation NSObject (OEPlugin)
 + (BOOL)isPluginClass
@@ -37,7 +37,7 @@
 
 @implementation OEPlugin
 
-@synthesize infoDictionary, version, displayName, bundle;
+@synthesize infoDictionary, version, displayName, bundle, controller;
 
 static NSMutableDictionary *allPlugins       = nil;
 static NSMutableDictionary *pluginFolders    = nil;
@@ -144,6 +144,22 @@ static NSMutableSet        *allPluginClasses = nil;
         infoDictionary = [[bundle infoDictionary] retain];
         version        = [[infoDictionary objectForKey:@"CFBundleVersion"] retain];
         displayName    = ([[infoDictionary objectForKey:@"CFBundleName"] retain] ? : [[infoDictionary objectForKey:@"CFBundleExecutable"] retain]);
+        
+        Class principalClass = [[self bundle] principalClass];
+        
+        if(principalClass != Nil && !class_conformsToProtocol(principalClass, @protocol(OEPluginController)))
+        {
+            [self release];
+            return nil;
+        }
+        
+        controller = [self newPluginControllerWithClass:principalClass];
+        
+        if(controller == nil && principalClass != Nil)
+        {
+            [self release];
+            return nil;
+        }
     }
     return self;
 }
@@ -153,9 +169,15 @@ static NSMutableSet        *allPluginClasses = nil;
     [bundle         unload];
     [bundle         release];
     [version        release];
+    [controller     release];
     [displayName    release];
     [infoDictionary release];
     [super          dealloc];
+}
+
+- (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
+{
+    return [[bundleClass alloc] init];
 }
 
 static NSString *OE_pluginPathForNameType(NSString *aName, Class aType)
@@ -308,4 +330,8 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
     return [self pluginWithBundleAtPath:OE_pluginPathForNameType(aName, aType) type:aType];
 }
 
+- (NSArray *)availablePreferenceViewControllerKeys
+{
+    return [controller availablePreferenceViewControllerKeys];
+}
 @end

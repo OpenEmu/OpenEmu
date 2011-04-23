@@ -10,6 +10,7 @@
 #import "OEGameSystemController.h"
 
 @implementation OEGameSystemPlugin
+@dynamic controller;
 
 static NSMutableDictionary *pluginsBySystemNames = nil;
 
@@ -31,7 +32,7 @@ static NSMutableDictionary *pluginsBySystemNames = nil;
     [pluginsBySystemNames setObject:plugin forKey:gameSystemName];
 }
 
-@synthesize responderClass, controller, icon, gameSystemName;
+@synthesize responderClass, icon, gameSystemName;
 
 + (OEGameSystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;
 {
@@ -42,17 +43,8 @@ static NSMutableDictionary *pluginsBySystemNames = nil;
 {
     if((self = [super initWithBundle:aBundle]))
     {
-        Class mainClass = [[self bundle] principalClass];
-        
-        if(![mainClass isSubclassOfClass:[OEGameSystemController class]])
-        {
-            [self release];
-            return nil;
-        }
-        
         gameSystemName = [[self infoDictionary] objectForKey:gameSystemName];
-        controller     = [[mainClass alloc] init];
-        responderClass = [controller responderClass];
+        responderClass = [[self controller] responderClass];
         
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         
@@ -67,8 +59,14 @@ static NSMutableDictionary *pluginsBySystemNames = nil;
 {
     [gameSystemName release];
     [icon           release];
-    [controller     release];
     [super          dealloc];
+}
+
+- (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
+{
+    if(![bundleClass isSubclassOfClass:[OEGameSystemController class]]) return nil;
+    
+    return [super newPluginControllerWithClass:bundleClass];
 }
 
 @end
