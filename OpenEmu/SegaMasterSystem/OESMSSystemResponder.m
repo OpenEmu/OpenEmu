@@ -39,8 +39,8 @@ NSString *OESMSButtonNameTable[] =
     
     switch(button)
     {
-        case OESMSStart : [[self client] didPushStartButton]; break;
-        case OESMSReset : [[self client] didPushResetButton]; break;
+        case OESMSButtonStart : [[self client] didPushStartButton]; break;
+        case OESMSButtonReset : [[self client] didPushResetButton]; break;
         default :
             [[self client] didPushButton:button forPlayer:aKey.player];
             break;
@@ -53,8 +53,8 @@ NSString *OESMSButtonNameTable[] =
     
     switch(button)
     {
-        case OESMSStart : [[self client] didReleaseStartButton]; break;
-        case OESMSReset : [[self client] didReleaseResetButton]; break;
+        case OESMSButtonStart : [[self client] didReleaseStartButton]; break;
+        case OESMSButtonReset : [[self client] didReleaseResetButton]; break;
         default :
             [[self client] didReleaseButton:button forPlayer:aKey.player];
             break;

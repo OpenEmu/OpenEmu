@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 
-
 @protocol OESystemResponderClient <NSObject>
 
 @end

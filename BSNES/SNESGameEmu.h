@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <GameCore.h>
+#import <OEGameCore.h>
 #include <base.hpp>
 #include "BSNESInterface.h"
 
@@ -37,7 +37,7 @@ extern NSString *BSNESEmulatorNames[];
 
 @class OERingBuffer;
 
-@interface BSNESGameEmu : GameCore
+@interface BSNESGameEmu : OEGameCore
 {
     uint32    controlPad[MAC_MAX_PLAYERS];
     UInt16 *soundBuffer;

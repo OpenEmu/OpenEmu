@@ -127,6 +127,13 @@
 			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
 		};
+		C68A395A1364B67E006CEB34 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6480FC113648F670094FA33;
+			remoteInfo = SuperNES;
+		};
 		C6E917CF0FD356A500AC2CCC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
@@ -452,6 +459,7 @@
 				C64CBD241363DA8C00BEE4F3 /* OpenEmuSystem.framework */,
 				C64CBD261363DA8C00BEE4F3 /* SegaMasterSystem.oesystemplugin */,
 				C6480F42136489BD0094FA33 /* NES.oesystemplugin */,
+				C68A395B1364B67E006CEB34 /* SuperNES.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -553,6 +561,13 @@
 			fileType = wrapper.cfbundle;
 			path = SegaMasterSystem.oesystemplugin;
 			remoteRef = C64CBD251363DA8C00BEE4F3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C68A395B1364B67E006CEB34 /* SuperNES.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SuperNES.oesystemplugin;
+			remoteRef = C68A395A1364B67E006CEB34 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C6E917D00FD356A500AC2CCC /* OpenEmu.app */ = {

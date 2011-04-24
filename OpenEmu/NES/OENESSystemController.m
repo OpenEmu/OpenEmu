@@ -29,7 +29,7 @@
 
 - (NSArray *)genericControlNames;
 {
-    return [NSArray arrayWithObjects:OENESControlNameTable count:8];
+    return [NSArray arrayWithObjects:OENESControlNameTable count:OENESButtonCount];
 }
 
 - (NSUInteger)numberOfPlayers;

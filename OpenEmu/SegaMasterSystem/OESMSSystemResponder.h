@@ -17,8 +17,9 @@ typedef enum _OESMSButton
     OESMSButtonRight,
     OESMSButtonA,
     OESMSButtonB,
-    OESMSStart,
-    OESMSReset,
+    OESMSButtonStart,
+    OESMSButtonReset,
+    OESMSButtonCount,
 } OESMSButton;
 
 @protocol OESMSSystemResponderClient <OESystemResponderClient, NSObject>

@@ -34,7 +34,7 @@
 
 - (NSArray *)genericControlNames;
 {
-    return [NSArray arrayWithObjects:OESMSButtonNameTable count:8];
+    return [NSArray arrayWithObjects:OESMSButtonNameTable count:OESMSButtonCount];
 }
 
 - (NSDictionary *)defaultControls

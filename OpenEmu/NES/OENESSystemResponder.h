@@ -21,6 +21,7 @@ typedef enum _OENESButton
     OENESButtonRight,
     OENESButtonStart,
     OENESButtonSelect,
+    OENESButtonCount
 } OENESButton;
 
 @protocol OENESSystemResponderClient <OESystemResponderClient, NSObject>
