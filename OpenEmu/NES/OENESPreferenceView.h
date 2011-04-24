@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEControlsViewController_old.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-@interface NESControlsPreference : OEControlsViewController_old
+@interface OENESPreferenceView : OEControlsViewController
 @end

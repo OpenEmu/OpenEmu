@@ -57,6 +57,8 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 @property(readonly) id        currentPreferenceViewController;
 @property(readonly) NSString *playerString;
 
++ (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
+
 /*
  * The method search for a class associated with aKey and instantiate the controller
  * with the Nib name provided by the controller +preferenceNibName class method.

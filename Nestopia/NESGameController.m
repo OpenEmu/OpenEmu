@@ -26,7 +26,6 @@
  */
 
 #import "NESGameController.h"
-#import "NESControlsPreference.h"
 #import "NESAdvancedPreference.h"
 #import "NESGameEmu.h"
 
@@ -42,12 +41,8 @@ NSArray *NESUsedSettingNames = nil;
     {
         [self registerPreferenceViewControllerClasses:
          [NSDictionary dictionaryWithObjectsAndKeys:
-          [NESControlsPreference class], OEControlsPreferenceKey,
-          [NESAdvancedPreference class], OEAdvancedPreferenceKey, nil
-         ]
-        ];
-        
-        NESRawControlNames = [[NSArray alloc] initWithObjects:NESControlNames count:NES_CONTROL_COUNT];
+          [NESAdvancedPreference class], OEAdvancedPreferenceKey,
+          nil]];
         
         NESUsedSettingNames = [[NSArray alloc] initWithObjects:NESNTSC, NESBrightness, NESSaturation, NESContrast, NESSharpness, NESColorRes, NESColorBleed, NESColorArtifacts, NESColorFringing, NESHue, NESUnlimitedSprites, nil];
     }

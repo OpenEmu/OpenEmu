@@ -12,26 +12,6 @@
 
 @implementation OESMSSystemController
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
-}
-
-- (void)dealloc
-{
-    [super dealloc];
-}
-
-- (NSString *)systemName;
-{
-    return @"Sega Master System";
-}
-
 - (NSUInteger)numberOfPlayers;
 {
     return 2;
@@ -57,7 +37,7 @@
     return [NSArray arrayWithObjects:OESMSButtonNameTable count:8];
 }
 
-- (NSDictionary*)defaultControls
+- (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OESMSButtonUp[1]"   ,

@@ -59,10 +59,8 @@
 		B5DA7D820F5B28280008F047 /* terebi.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D710F5B28280008F047 /* terebi.c */; };
 		B5DA7D830F5B28280008F047 /* tms9918a.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D730F5B28280008F047 /* tms9918a.c */; };
 		C61C99CB0F58341D007F4242 /* SMSGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C61C99CA0F58341D007F4242 /* SMSGameController.m */; };
-		C61C9C820F58C221007F4242 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C61C9C810F58C221007F4242 /* ControlsPreference.xib */; };
 		C66DFC1A0F51D82F0080AA28 /* SMSGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFC180F51D82F0080AA28 /* SMSGameCore.m */; };
 		C689A5390FE4621C00885BC3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */; };
-		C6DD29320F62E168009776AE /* smscont.png in Resources */ = {isa = PBXBuildFile; fileRef = C6DD29310F62E168009776AE /* smscont.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +98,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
+		};
+		C6480F41136489BD0094FA33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C64BB08D136478E600C1AB23;
+			remoteInfo = NES;
 		};
 		C64CBD231363DA8C00BEE4F3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -230,11 +235,9 @@
 		B5DA7D8C0F5B28940008F047 /* CrabEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrabEmu.h; sourceTree = "<group>"; };
 		C61C99C90F58341D007F4242 /* SMSGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSGameController.h; sourceTree = "<group>"; };
 		C61C99CA0F58341D007F4242 /* SMSGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSGameController.m; sourceTree = "<group>"; };
-		C61C9C810F58C221007F4242 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
 		C66DFC180F51D82F0080AA28 /* SMSGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSGameCore.m; sourceTree = "<group>"; };
 		C66DFC190F51D82F0080AA28 /* SMSGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSGameCore.h; sourceTree = "<group>"; };
 		C689A4DC0FE45C2A00885BC3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		C6DD29310F62E168009776AE /* smscont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smscont.png; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -278,12 +281,10 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				C6DD29310F62E168009776AE /* smscont.png */,
 				82CAFAD90FEDA5CA00CCDC7E /* dsa_pub.pem */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				3720DB4C0F19510D00744A9A /* CrabEmu.icns */,
-				C61C9C810F58C221007F4242 /* ControlsPreference.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -450,6 +451,7 @@
 				3746BCD71029454F007C78A6 /* OESaveStateQLPlugin.qlgenerator */,
 				C64CBD241363DA8C00BEE4F3 /* OpenEmuSystem.framework */,
 				C64CBD261363DA8C00BEE4F3 /* SegaMasterSystem.oesystemplugin */,
+				C6480F42136489BD0094FA33 /* NES.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -532,6 +534,13 @@
 			remoteRef = C62A256A116F07070003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C6480F42136489BD0094FA33 /* NES.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NES.oesystemplugin;
+			remoteRef = C6480F41136489BD0094FA33 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C64CBD241363DA8C00BEE4F3 /* OpenEmuSystem.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -576,8 +585,6 @@
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				3720DB4D0F19510D00744A9A /* CrabEmu.icns in Resources */,
-				C61C9C820F58C221007F4242 /* ControlsPreference.xib in Resources */,
-				C6DD29320F62E168009776AE /* smscont.png in Resources */,
 				82CAFADA0FEDA5CA00CCDC7E /* dsa_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,8 +9,6 @@
 #import "OESystemPlugin.h"
 #import "OESystemController.h"
 
-NSString *const OESystemPluginName = @"OESystemPluginName";
-
 @implementation OESystemPlugin
 @dynamic controller;
 

@@ -25,6 +25,7 @@ NSString *const OESettingValueKey       = @"OESettingValueKey";
 NSString *const OEHIDEventValueKey      = @"OEHIDEventValueKey";
 NSString *const OEKeyboardEventValueKey = @"OEKeyboardEventValueKey";
 NSString *const OEControlsPreferenceKey = @"OEControlsPreferenceKey";
+NSString *const OESystemPluginName      = @"OESystemPluginName";
 
 static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey);
 
@@ -36,7 +37,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     if((self = [super init]))
     {
         _bundle    = [NSBundle bundleForClass:[self class]];
-        systemName = [[[_bundle infoDictionary] objectForKey:@"CFBundleExecutable"] retain];
+        systemName = [[[_bundle infoDictionary] objectForKey:OESystemPluginName] retain];
         if(systemName == nil) systemName = [[_bundle infoDictionary] objectForKey:@"CFBundleName"];
         
         _gameSystemResponders      = [[NSMutableArray alloc] init];

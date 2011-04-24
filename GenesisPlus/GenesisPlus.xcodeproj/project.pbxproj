@@ -134,6 +134,27 @@
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = GenesisPlus;
 		};
+		C619320B1364894900F48758 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6711807136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		C619320D1364894900F48758 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C671180F136368330034379A;
+			remoteInfo = SegaMasterSystem;
+		};
+		C619320F1364894900F48758 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C64BB08D136478E600C1AB23;
+			remoteInfo = NES;
+		};
 		C62A25AF116F07940003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
@@ -376,6 +397,9 @@
 				82287C54101E9F060072172D /* OpenEmuQC.plugin */,
 				82287C56101E9F060072172D /* OpenEmuBase.framework */,
 				3783946E102922A200168304 /* OESaveStateQLPlugin.qlgenerator */,
+				C619320C1364894900F48758 /* OpenEmuSystem.framework */,
+				C619320E1364894900F48758 /* SegaMasterSystem.oesystemplugin */,
+				C61932101364894900F48758 /* NES.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -606,6 +630,27 @@
 			fileType = wrapper.framework;
 			path = OpenEmuBase.framework;
 			remoteRef = 82287C55101E9F060072172D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C619320C1364894900F48758 /* OpenEmuSystem.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuSystem.framework;
+			remoteRef = C619320B1364894900F48758 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C619320E1364894900F48758 /* SegaMasterSystem.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SegaMasterSystem.oesystemplugin;
+			remoteRef = C619320D1364894900F48758 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C61932101364894900F48758 /* NES.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NES.oesystemplugin;
+			remoteRef = C619320F1364894900F48758 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A25B0116F07940003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {

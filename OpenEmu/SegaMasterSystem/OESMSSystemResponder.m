@@ -23,21 +23,6 @@ NSString *OESMSButtonNameTable[] =
 @implementation OESMSSystemResponder
 @dynamic client;
 
-- (id)init
-{
-    if((self = [super init]))
-    {
-        // Initialization code here.
-    }
-    
-    return self;
-}
-
-- (void)dealloc
-{
-    [super dealloc];
-}
-
 + (Protocol *)gameSystemResponderClientProtocol;
 {
     return @protocol(OESMSSystemResponderClient);

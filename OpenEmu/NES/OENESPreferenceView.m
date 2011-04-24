@@ -25,10 +25,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NESControlsPreference.h"
-#import <OEGameControllerView.h>
+#import "OENESPreferenceView.h"
 
-@implementation NESControlsPreference
+@implementation OENESPreferenceView
 
 - (void)awakeFromNib
 {
@@ -38,16 +37,16 @@
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"nespad.png"];
     [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
     
-    [view addButtonWithName:@"PAD@_UP"     toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  166) endPosition:NSMakePoint(219, 145)];
-    [view addButtonWithName:@"PAD@_LEFT"   toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  134) endPosition:NSMakePoint(197, 132)];
-    [view addButtonWithName:@"PAD@_RIGHT"  toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  102) endPosition:NSMakePoint(231, 131)];
-    [view addButtonWithName:@"PAD@_DOWN"   toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,   70) endPosition:NSMakePoint(207, 118)];
+    [view addButtonWithName:@"OENESButtonUp[@]"     toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  166) endPosition:NSMakePoint(219, 145)];
+    [view addButtonWithName:@"OENESButtonLeft[@]"   toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  134) endPosition:NSMakePoint(197, 132)];
+    [view addButtonWithName:@"OENESButtonRight[@]"  toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  102) endPosition:NSMakePoint(231, 131)];
+    [view addButtonWithName:@"OENESButtonDown[@]"   toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,   70) endPosition:NSMakePoint(207, 118)];
     
-    [view addButtonWithName:@"PAD@_A"      toolTip:@"A Button"      target:self startPosition:NSMakePoint(600, 150) endPosition:NSMakePoint(409, 118)];
-    [view addButtonWithName:@"PAD@_B"      toolTip:@"B Button"      target:self startPosition:NSMakePoint(600,  86) endPosition:NSMakePoint(369, 118)];
+    [view addButtonWithName:@"OENESButtonA[@]"      toolTip:@"A Button"      target:self startPosition:NSMakePoint(600, 150) endPosition:NSMakePoint(409, 118)];
+    [view addButtonWithName:@"OENESButtonB[@]"      toolTip:@"B Button"      target:self startPosition:NSMakePoint(600,  86) endPosition:NSMakePoint(369, 118)];
     
-    [view addButtonWithName:@"PAD@_START"  toolTip:@"Start Button"  target:self startPosition:NSMakePoint(368,  10) endPosition:NSMakePoint(316, 117)];
-    [view addButtonWithName:@"PAD@_SELECT" toolTip:@"Select Button" target:self startPosition:NSMakePoint(272,  10) endPosition:NSMakePoint(276, 117)];
+    [view addButtonWithName:@"OENESButtonStart[@]"  toolTip:@"Start Button"  target:self startPosition:NSMakePoint(368,  10) endPosition:NSMakePoint(316, 117)];
+    [view addButtonWithName:@"OENESButtonSelect[@]" toolTip:@"Select Button" target:self startPosition:NSMakePoint(272,  10) endPosition:NSMakePoint(276, 117)];
 }
 
 @end

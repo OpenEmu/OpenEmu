@@ -349,9 +349,7 @@
 		82F3642F0F51FB4A001495F6 /* NESGameEmu+NESFeatures.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82F3642E0F51FB4A001495F6 /* NESGameEmu+NESFeatures.mm */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		C6296A9F0FCECA22004F84C4 /* NESControlsPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = C6296A9E0FCECA22004F84C4 /* NESControlsPreference.m */; };
 		C6296AA20FCECA2C004F84C4 /* NESGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6296AA10FCECA2C004F84C4 /* NESGameController.m */; };
-		C6296AFA0FCED16F004F84C4 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6296AF90FCED16F004F84C4 /* ControlsPreference.xib */; };
 		C6296C600FCEEDF8004F84C4 /* NESAdvancedPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = C6296C5F0FCEEDF8004F84C4 /* NESAdvancedPreference.m */; };
 		C6296C620FCEEE45004F84C4 /* AdvancedPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6296C610FCEEE45004F84C4 /* AdvancedPreference.xib */; };
 		C6D44DFA0FCE3378007C5258 /* nespad.png in Resources */ = {isa = PBXBuildFile; fileRef = C6D44DF90FCE3378007C5258 /* nespad.png */; };
@@ -413,6 +411,27 @@
 			proxyType = 2;
 			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
+		};
+		C64BB0B11364837C00C1AB23 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6711807136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		C64BB0B31364837C00C1AB23 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C671180F136368330034379A;
+			remoteInfo = SegaMasterSystem;
+		};
+		C64BB0B51364837C00C1AB23 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C64BB08D136478E600C1AB23;
+			remoteInfo = NES;
 		};
 		C689A5D40FE4647900885BC3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1098,11 +1117,8 @@
 		82F45ED70E887EAF00B7B023 /* Preferences.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Nestopia.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Nestopia.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C6296A9D0FCECA22004F84C4 /* NESControlsPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NESControlsPreference.h; sourceTree = "<group>"; };
-		C6296A9E0FCECA22004F84C4 /* NESControlsPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NESControlsPreference.m; sourceTree = "<group>"; };
 		C6296AA00FCECA2C004F84C4 /* NESGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NESGameController.h; sourceTree = "<group>"; };
 		C6296AA10FCECA2C004F84C4 /* NESGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NESGameController.m; sourceTree = "<group>"; };
-		C6296AF90FCED16F004F84C4 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
 		C6296C5E0FCEEDF8004F84C4 /* NESAdvancedPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NESAdvancedPreference.h; sourceTree = "<group>"; };
 		C6296C5F0FCEEDF8004F84C4 /* NESAdvancedPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NESAdvancedPreference.m; sourceTree = "<group>"; };
 		C6296C610FCEEE45004F84C4 /* AdvancedPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvancedPreference.xib; sourceTree = "<group>"; };
@@ -1156,7 +1172,6 @@
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				82F45ED70E887EAF00B7B023 /* Preferences.xib */,
 				8249C9A50E89BA140027EFDF /* Menu.xib */,
-				C6296AF90FCED16F004F84C4 /* ControlsPreference.xib */,
 				C6296C610FCEEE45004F84C4 /* AdvancedPreference.xib */,
 			);
 			name = Resources;
@@ -1170,8 +1185,6 @@
 				82F3642E0F51FB4A001495F6 /* NESGameEmu+NESFeatures.mm */,
 				C6296AA00FCECA2C004F84C4 /* NESGameController.h */,
 				C6296AA10FCECA2C004F84C4 /* NESGameController.m */,
-				C6296A9D0FCECA22004F84C4 /* NESControlsPreference.h */,
-				C6296A9E0FCECA22004F84C4 /* NESControlsPreference.m */,
 				C6296C5E0FCEEDF8004F84C4 /* NESAdvancedPreference.h */,
 				C6296C5F0FCEEDF8004F84C4 /* NESAdvancedPreference.m */,
 			);
@@ -1222,6 +1235,9 @@
 				82444BCF0F512685007C171B /* OpenEmuQC.plugin */,
 				82444BD10F512685007C171B /* OpenEmuBase.framework */,
 				37372B14102511E2006ADD56 /* OESaveStateQLPlugin.qlgenerator */,
+				C64BB0B21364837C00C1AB23 /* OpenEmuSystem.framework */,
+				C64BB0B41364837C00C1AB23 /* SegaMasterSystem.oesystemplugin */,
+				C64BB0B61364837C00C1AB23 /* NES.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2040,6 +2056,27 @@
 			remoteRef = C62A2603116F08760003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C64BB0B21364837C00C1AB23 /* OpenEmuSystem.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuSystem.framework;
+			remoteRef = C64BB0B11364837C00C1AB23 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C64BB0B41364837C00C1AB23 /* SegaMasterSystem.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SegaMasterSystem.oesystemplugin;
+			remoteRef = C64BB0B31364837C00C1AB23 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C64BB0B61364837C00C1AB23 /* NES.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NES.oesystemplugin;
+			remoteRef = C64BB0B51364837C00C1AB23 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -2063,7 +2100,6 @@
 				8249C9A60E89BA140027EFDF /* Menu.xib in Resources */,
 				82C9CA720F0847310071460B /* dsa_pub.pem in Resources */,
 				C6D44DFA0FCE3378007C5258 /* nespad.png in Resources */,
-				C6296AFA0FCED16F004F84C4 /* ControlsPreference.xib in Resources */,
 				C6296C620FCEEE45004F84C4 /* AdvancedPreference.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2400,7 +2436,6 @@
 				82789B710E70D27D00C01C82 /* NESGameEmu.mm in Sources */,
 				82C5EDE70F0C4CE70019E2DC /* NstApiRam.cpp in Sources */,
 				82F3642F0F51FB4A001495F6 /* NESGameEmu+NESFeatures.mm in Sources */,
-				C6296A9F0FCECA22004F84C4 /* NESControlsPreference.m in Sources */,
 				C6296AA20FCECA2C004F84C4 /* NESGameController.m in Sources */,
 				C6296C600FCEEDF8004F84C4 /* NESAdvancedPreference.m in Sources */,
 			);

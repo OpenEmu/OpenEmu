@@ -35,10 +35,6 @@
 #define nesVideo ((Nes::Api::Video::Output *) _nesVideo)
 #define controls ((Nes::Api::Input::Controllers *)_controls)
 
-
-#define NES_CONTROL_COUNT 8
-OE_EXTERN NSString *const NESControlNames[];
-
 OE_EXTERN NSString *const NESNTSC;
 OE_EXTERN NSString *const NESBrightness;
 OE_EXTERN NSString *const NESSaturation;
