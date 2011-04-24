@@ -62,12 +62,6 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     }
 }
 
-- (void)registerDefaultControls;
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-}
-
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses
 {
     if([viewControllerClasses count] == 0) return;
@@ -87,7 +81,8 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 
 - (NSString *)gameSystemName;
 {
-    return nil;
+    // FIXME: This is pretty weak
+    return [[[self bundle] infoDictionary] objectForKey:@"OESystemPluginName"];
 }
 
 - (NSDictionary *)defaultControls
@@ -280,115 +275,6 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 {
     // FIXME: We may have to convert the value before saving.
     [[NSUserDefaultsController sharedUserDefaultsController] setValue:value forKeyPath:[self keyPathForSettingKey:keyName]];
-}
-
-- (void)registerValue:(id)aValue forKey:(NSString *)keyName withValueType:(NSString *)aType
-{
-    NSUserDefaultsController *udc = [NSUserDefaultsController sharedUserDefaultsController];
-    NSString *keyPath = [self keyPathForKey:keyName withValueType:aType];
-    [udc setValue:aValue forKeyPath:keyPath];
-}
-
-- (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-}
-
-- (void)unsetEventForKey:(bycopy NSString *)keyName withValueMask:(NSUInteger)keyMask
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-}
-
-- (void)keyboardEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-}
-
-- (void)keyboardEventWasRemovedForKey:(bycopy NSString *)keyName
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-}
-
-- (void)HIDEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-}
-
-- (void)HIDEventWasRemovedForKey:(bycopy NSString *)keyName
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-}
-
-- (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-    return nil;
-}
-
-- (void)registerSetting:(id)settingValue forKey:(NSString *)keyName
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-}
-
-- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-}
-
-- (void)removeBindingsToEvent:(id)theEvent withValueType:(NSString *)aType
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-}
-
-- (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-    return nil;
-}
-
-- (NSUInteger)playerNumberInKey:(NSString *)aPlayerKey getKeyIndex:(NSUInteger *)index
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-    return NSNotFound;
-}
-
-- (void)forceKeyBindingRecover 
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-}
-
-- (id)HIDEventForKey:(NSString *)keyName
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-    return nil;
-}
-
-- (id)keyboardEventForKey:(NSString *)keyName
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-    return nil;
-}
-
-- (id)valueForKeyPath:(NSString *)keyPath
-{
-#warning This method is a lie
-    NSAssert(NO, @"This method should not be called.");
-    return nil;
 }
 
 @end

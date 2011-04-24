@@ -7,17 +7,23 @@
 //
 
 #import "OESystemResponder.h"
+#import "OESystemController.h"
 #import "OESystemResponderClient.h"
 #import <objc/runtime.h>
 
 @implementation OESystemResponder
-@synthesize client;
+@synthesize client, controller;
 
 - (id)init
 {
+    return [self initWithController:nil];
+}
+
+- (id)initWithController:(OESystemController *)value;
+{
     if((self = [super init]))
     {
-        // Initialization code here.
+        controller = value;
     }
     
     return self;
@@ -48,32 +54,27 @@
     }
 }
 
-- (void)unsetEventForKey:(bycopy NSString *)keyName withValueMask:(NSUInteger)keyMask;
+- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
 {
     
 }
 
-- (void)settingWasSet:(bycopy id)aValue forKey:(bycopy NSString *)keyName;
+- (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName;
 {
     
 }
 
-- (void)keyboardEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
+- (void)keyboardEventWasRemovedForKey:(NSString *)keyName;
 {
     
 }
 
-- (void)keyboardEventWasRemovedForKey:(bycopy NSString *)keyName;
+- (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName;
 {
     
 }
 
-- (void)HIDEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
-{
-    
-}
-
-- (void)HIDEventWasRemovedForKey:(bycopy NSString *)keyName;
+- (void)HIDEventWasRemovedForKey:(NSString *)keyName;
 {
     
 }

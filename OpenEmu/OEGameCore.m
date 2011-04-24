@@ -78,7 +78,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         for(NSUInteger i = 0; i < count; i++)
             ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self soundBufferSize] * 16];
         
-        keyMap = OEMapCreate(32);
+        //keyMap = OEMapCreate(32);
     }
     return self;
 }
@@ -86,7 +86,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 - (void)dealloc
 {
     DLog(@"%s", __FUNCTION__);
-    if(keyMap != NULL) OEMapRelease(keyMap);
+    //if(keyMap != NULL) OEMapRelease(keyMap);
     
     [emulationThread release];
     
@@ -334,6 +334,7 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
+/*
 #pragma mark Input Settings & Parsing
 - (NSUInteger)playerCount
 {
@@ -360,7 +361,7 @@ static NSTimeInterval currentTime()
 {
     [self doesNotImplementSelector:_cmd];
 }
-
+ */
 #pragma mark Input
 - (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton
 {
@@ -383,6 +384,7 @@ static NSTimeInterval currentTime()
     [self doesNotImplementSelector:_cmd];
 }
 
+/*
 #define OEHatSwitchMask     (0x39 << 16)
 #define PAD_NUMBER  ([anEvent padNumber] << 24)
 #define KEYBOARD_MASK 0x40000000u
@@ -443,11 +445,11 @@ static NSTimeInterval currentTime()
         }
             break;
         case OEHIDButton :
-            if([anEvent state]     == NSOffState)         return;
+            if([anEvent state]    == NSOffState) return;
             appKey |= [anEvent cookie];
             break;
         case OEHIDHatSwitch :
-            if([anEvent position]  == 0)                  return;
+            if([anEvent position] == 0)          return;
             appKey |= [anEvent position] | OEHatSwitchMask;
             break;
         default : return;
@@ -542,7 +544,7 @@ static NSTimeInterval currentTime()
     if([anEvent position] != 0 && OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | OEHatSwitchMask | [anEvent position], &key))
         [self pressEmulatorKey:key];
 }
-
+ */
 #pragma mark -
 #pragma Save state
 

@@ -20,9 +20,9 @@
     NSUInteger i = 0;
     while(i < length1 && i < length2)
     {
-        if(aRange.location <= i && i < aRange.location + aRange.length)
+        if(NSLocationInRange(i, aRange))
         {
-            i = aRange.location + aRange.length;
+            i = NSMaxRange(aRange);
             continue;
         }
         

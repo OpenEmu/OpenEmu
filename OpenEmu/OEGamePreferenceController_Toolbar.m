@@ -87,7 +87,8 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
                                       @"Plugins",
                                       @"Plugin Preferences",
                                       [NSImage imageNamed:NSImageNameEveryone],
-                                      @"PluginPreferences"), OEPluginsToolbarItemIdentifier,
+                                      @"PluginPreferences",
+                                      [OECorePlugin class], OEPluginClassKey), OEPluginsToolbarItemIdentifier,
                         nil];
 #undef CREATE_RECORD
     currentViewIdentifier = OEVideoSoundToolbarItemIdentifier;
@@ -283,6 +284,8 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
         if(currentPlugin == nil) ret = [[NSViewController alloc] initWithNibName:@"SelectPluginPreferences" bundle:[NSBundle mainBundle]];
         else ret = [[currentPlugin controller] preferenceViewControllerForKey:pluginViewName];
     }
+    else if(pluginClass != Nil)
+        self.availablePluginsPredicate = [NSPredicate predicateWithFormat:@"class == %@", pluginClass];
     
     if(ret == nil)
     {

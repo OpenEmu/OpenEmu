@@ -27,7 +27,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OEPluginController.h"
-#import "OEMap.h"
 
 extern NSString *const OEControlsPreferenceKey DEPRECATED_ATTRIBUTE;
 extern NSString *const OEAdvancedPreferenceKey;
@@ -58,9 +57,6 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 @property(readonly) id        currentPreferenceViewController;
 @property(readonly) NSString *playerString;
 
-+ (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses DEPRECATED_ATTRIBUTE;
-- (void)registerDefaultControls DEPRECATED_ATTRIBUTE;
-
 /*
  * The method search for a class associated with aKey and instantiate the controller
  * with the Nib name provided by the controller +preferenceNibName class method.
@@ -81,11 +77,7 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 @property(readonly) NSString   *gameSystemName;
 @property(readonly) NSString   *supportDirectoryPath;
 @property(readonly) NSArray    *usedSettingNames;
-@property(readonly) NSArray    *genericControlNames DEPRECATED_ATTRIBUTE;
 @property(readonly) NSUInteger  playerCount;
-
-- (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber DEPRECATED_ATTRIBUTE;
-- (NSUInteger)playerNumberInKey:(NSString *)aPlayerKey getKeyIndex:(NSUInteger *)index DEPRECATED_ATTRIBUTE;
 
 - (bycopy OEGameCore *)newGameCore;
 
@@ -94,22 +86,7 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 - (void)addSettingObserver:(id<OESettingObserver>)anObject;
 - (void)removeSettingObserver:(id<OESettingObserver>)anObject;
 - (NSString *)keyPathForSettingKey:(NSString *)keyName;
-- (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType DEPRECATED_ATTRIBUTE;
 
-- (id)registarableValueWithObject:(id)anObject DEPRECATED_ATTRIBUTE;
-- (id)valueForKeyPath:(NSString *)aValue DEPRECATED_ATTRIBUTE;
-- (void)registerValue:(id)aValue forKey:(NSString *)keyName withValueType:(NSString *)aType DEPRECATED_ATTRIBUTE;
-
-- (void)registerSetting:(id)settingValue forKey:(NSString *)keyName DEPRECATED_ATTRIBUTE;
-- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName DEPRECATED_ATTRIBUTE;
-
-
-- (void)forceKeyBindingRecover DEPRECATED_ATTRIBUTE;
-- (id)HIDEventForKey:(NSString *)keyName DEPRECATED_ATTRIBUTE;
-- (id)keyboardEventForKey:(NSString *)keyName DEPRECATED_ATTRIBUTE;
-- (void)removeBindingsToEvent:(id)theEvent withValueType:(NSString *)aType DEPRECATED_ATTRIBUTE;
-
-- (NSDictionary *)defaultControls DEPRECATED_ATTRIBUTE;
 @end
 
 @interface NSViewController (OEGameCoreControllerAddition)
@@ -118,15 +95,5 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 
 @protocol OESettingObserver <NSObject>
 - (void)settingWasSet:(bycopy id)aValue forKey:(bycopy NSString *)keyName;
-
-@optional
-- (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey DEPRECATED_ATTRIBUTE;
-- (void)unsetEventForKey:(bycopy NSString *)keyName withValueMask:(NSUInteger)keyMask DEPRECATED_ATTRIBUTE;
-- (void)keyboardEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName DEPRECATED_ATTRIBUTE;
-- (void)keyboardEventWasRemovedForKey:(bycopy NSString *)keyName DEPRECATED_ATTRIBUTE;
-
-- (void)HIDEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName DEPRECATED_ATTRIBUTE;
-- (void)HIDEventWasRemovedForKey:(bycopy NSString *)keyName DEPRECATED_ATTRIBUTE;
-
 @end
 

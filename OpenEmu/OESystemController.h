@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OEPluginController.h"
-#import "OEControlsViewController.h"
+#import <OpenEmuSystem/OEControlsViewController.h>
 
 @class OESystemResponder;
 
@@ -47,6 +47,8 @@ extern NSString *const OEControlsPreferenceKey;
 @property(readonly) NSArray    *genericSettingNames;
 @property(readonly) NSArray    *genericControlNames;
 @property(readonly) NSString   *playerString;
+
+- (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx;
 
 #pragma mark -
 #pragma mark Bindings settings

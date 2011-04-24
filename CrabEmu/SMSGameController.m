@@ -27,7 +27,6 @@
 
 #import "SMSGameController.h"
 #import "SMSGameCore.h"
-#import "SMSPreferenceView.h"
 
 @implementation SMSGameController
 
@@ -35,14 +34,17 @@
 {
     if(self == [SMSGameController class])
     {
+        /*
         [self registerPreferenceViewControllerClasses:
          [NSDictionary dictionaryWithObject:[SMSPreferenceView class]
                                      forKey:OEControlsPreferenceKey]];
+         */
     }
 }
 
 - (NSDictionary*)defaultControls
 {
+    /*
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow], @"SMS_PAD1_UP",
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"SMS_PAD1_RIGHT",
@@ -51,18 +53,22 @@
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA], @"SMS_PAD1_A",
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS], @"SMS_PAD1_B",
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape], @"SMS_RESET",nil];
-                              
-    return controls;                          
+    return controls;
+     */
+    return nil;
 }
 
 - (NSArray *)genericControlNames
 {
+    return nil;
+    /*
     static NSArray *genericControlNames = nil;
     if(genericControlNames == nil)
     {
-        genericControlNames = [[NSArray alloc] initWithObjects:SMSButtonNameTable count:8];
+        //genericControlNames = [[NSArray alloc] initWithObjects:SMSButtonNameTable count:8];
     }
     return genericControlNames;
+     */
 }
 
 - (NSUInteger)playerCount

@@ -112,7 +112,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (id)newGameSystemResponder;
 {
-    OESystemResponder *responder = [[[self responderClass] alloc] init];
+    OESystemResponder *responder = [[[self responderClass] alloc] initWithController:self];
     
     [self registerGameSystemResponder:responder];
     
@@ -165,7 +165,30 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     else
         ret = [[NSViewController alloc] initWithNibName:@"UnimplementedPreference" bundle:[NSBundle mainBundle]];
     
+    if([ret respondsToSelector:@selector(setDelegate:)])
+        [ret setDelegate:self];
+    
     return ret;
+}
+
+- (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)keyIndex;
+{
+    NSUInteger idx = 0;
+    for(NSString *genericKey in [self genericControlNames])
+    {
+        NSRange range = [genericKey rangeOfString:[self playerString]];
+        
+        if([genericKey isEqualToString:keyName excludingRange:range])
+        {
+            if(keyIndex != NULL) *keyIndex = idx;
+            
+            if(range.location != NSNotFound)
+                return [[keyName substringWithRange:range] integerValue];
+        }
+        idx++;
+    }
+    
+    return NSNotFound;
 }
 
 #pragma mark -
@@ -192,24 +215,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
         NSLog(@"%s: Can't save %@ to the user defaults.", __FUNCTION__, anObject);
     
     return value;
-}
-
-- (NSUInteger)playerNumberInKey:(NSString *)aPlayerKey getKeyIndex:(NSUInteger *)index
-{
-    if(index != NULL) *index = NSNotFound;
-    NSUInteger i = 0;
-    for(NSString *genericKey in [self genericControlNames])
-    {
-        NSUInteger temp = OE_playerNumberInKeyWithGenericKey(genericKey, aPlayerKey);
-        if(temp != NSNotFound)
-        {
-            if(index != NULL) *index = i;
-            return temp;
-        }
-        i++;
-    }
-    
-    return NSNotFound;
 }
 
 - (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType

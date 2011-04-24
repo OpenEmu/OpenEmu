@@ -45,7 +45,7 @@ static NSMutableDictionary *pluginsBySystemNames = nil;
 {
     if((self = [super initWithBundle:aBundle]))
     {
-        gameSystemName = [[self infoDictionary] objectForKey:gameSystemName];
+        gameSystemName = [[self infoDictionary] objectForKey:OESystemPluginName];
         responderClass = [[self controller] responderClass];
         
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];

@@ -53,6 +53,7 @@
 @property(readonly) id<OEPluginController>  controller; // Main Class of the bundle, can be nil
 @property(readonly) NSDictionary           *infoDictionary;
 @property(readonly) NSBundle               *bundle;
+@property(readonly) NSString               *details;
 @property(readonly) NSString               *displayName;
 @property(readonly) NSString               *version;
 

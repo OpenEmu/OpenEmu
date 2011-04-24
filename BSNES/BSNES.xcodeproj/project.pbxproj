@@ -161,6 +161,20 @@
 			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
 		};
+		C6E542941363CC130075BA8C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6711807136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		C6E542961363CC130075BA8C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C671180F136368330034379A;
+			remoteInfo = SegaMasterSystem;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -1880,6 +1894,8 @@
 				826FE11F1014D8CF0023A8E9 /* OpenEmuQC.plugin */,
 				826FE1211014D8CF0023A8E9 /* OpenEmuBase.framework */,
 				37C19C84102656280075F0F8 /* OESaveStateQLPlugin.qlgenerator */,
+				C6E542951363CC130075BA8C /* OpenEmuSystem.framework */,
+				C6E542971363CC130075BA8C /* SegaMasterSystem.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2009,6 +2025,20 @@
 			fileType = "compiled.mach-o.executable";
 			path = OpenEmuHelperApp;
 			remoteRef = C62A2545116F06C80003DEE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6E542951363CC130075BA8C /* OpenEmuSystem.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuSystem.framework;
+			remoteRef = C6E542941363CC130075BA8C /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6E542971363CC130075BA8C /* SegaMasterSystem.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SegaMasterSystem.oesystemplugin;
+			remoteRef = C6E542961363CC130075BA8C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

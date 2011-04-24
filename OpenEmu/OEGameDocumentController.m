@@ -363,9 +363,11 @@
 
 - (void)updateInfoPlist
 {
-    NSMutableDictionary *allTypes = [NSMutableDictionary dictionaryWithCapacity:[plugins count]];
+    NSArray *corePlugins = [OECorePlugin allPlugins];
     
-    for(OECorePlugin *plugin in plugins)
+    NSMutableDictionary *allTypes = [NSMutableDictionary dictionaryWithCapacity:[corePlugins count]];
+    
+    for(OECorePlugin *plugin in corePlugins)
         for(NSDictionary *type in [plugin typesPropertyList])
         {
             NSMutableDictionary *reType = [[type mutableCopy] autorelease];

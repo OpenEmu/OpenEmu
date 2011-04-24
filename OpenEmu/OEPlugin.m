@@ -147,7 +147,7 @@ static NSMutableSet        *allPluginClasses = nil;
         
         Class principalClass = [[self bundle] principalClass];
         
-        if(principalClass != Nil && !class_conformsToProtocol(principalClass, @protocol(OEPluginController)))
+        if(principalClass != Nil && ![principalClass conformsToProtocol:@protocol(OEPluginController)])
         {
             [self release];
             return nil;
@@ -205,6 +205,11 @@ static NSString *OE_pluginPathForNameType(NSString *aName, Class aType)
     
     if(ret == nil) ret = [[NSBundle mainBundle] pathForResource:aName ofType:extension inDirectory:folderName];
     return ret;
+}
+
+- (NSString *)details
+{
+    return [NSString stringWithFormat:@"Version %@", [self version]];
 }
 
 - (NSString *)description

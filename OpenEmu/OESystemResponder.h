@@ -6,8 +6,9 @@
 //  Copyright 2011 NuLayer Inc. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <Cocoa/Cocoa.h>
 
+@class    OESystemController;
 @protocol OESystemResponderClient;
 
 @interface OESystemResponder : NSResponder
@@ -15,6 +16,10 @@
     
 }
 
+// Designated initializer
+- (id)initWithController:(OESystemController *)controller;
+
+@property(nonatomic, readonly) OESystemController *controller;
 @property(nonatomic, assign) id<OESystemResponderClient> client;
 
 @end
@@ -24,11 +29,11 @@
 
 + (Protocol *)gameSystemResponderClientProtocol;
 
-- (void)settingWasSet:(bycopy id)aValue forKey:(bycopy NSString *)keyName;
-- (void)keyboardEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
-- (void)keyboardEventWasRemovedForKey:(bycopy NSString *)keyName;
+- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
+- (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName;
+- (void)keyboardEventWasRemovedForKey:(NSString *)keyName;
 
-- (void)HIDEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
-- (void)HIDEventWasRemovedForKey:(bycopy NSString *)keyName;
+- (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName;
+- (void)HIDEventWasRemovedForKey:(NSString *)keyName;
 
 @end

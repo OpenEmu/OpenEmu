@@ -41,7 +41,6 @@
 
 @property(readonly) OEGameCoreController<OEPluginController> *controller;
 
-@property(readonly) NSString     *details;
 @property(readonly) NSString     *typeName;
 @property(readonly) NSImage      *icon;
 @property(readonly) NSDictionary *supportedTypes;

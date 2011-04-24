@@ -138,11 +138,6 @@
     return nil;
 }
 
-- (NSString *)details
-{
-    return [NSString stringWithFormat:@"Version %@", [self version]];
-}
-
 - (NSArray *)typesPropertyList
 {
     return [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];

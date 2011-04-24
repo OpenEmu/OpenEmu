@@ -148,7 +148,7 @@
     // Make sure the task will actually stop!
     [task terminate];
     
-    
+#if 0
 #if !USE_EXTERNAL_FILE
     NSData *data;
     
@@ -157,6 +157,7 @@
         [controller appendOutput: [[[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding] autorelease]
                      fromProcess: self];
     }
+#endif
 #endif
     // we tell the controller that we finished, via the callback, and then blow away our connection
     // to the controller.  NSTasks are one-shot (not for reuse), so we might as well be too.

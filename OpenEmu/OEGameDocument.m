@@ -107,6 +107,7 @@
     //[gameWindow setContentResizeIncrements:aspect];
     
     //[recorder startRecording];
+    [gameWindow makeFirstResponder:view];
     [gameWindow makeKeyAndOrderFront:self];
     
     if([self defaultsToFullScreenMode])
