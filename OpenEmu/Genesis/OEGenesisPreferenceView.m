@@ -25,11 +25,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GenPlusPreferenceView.h"
-#import "GenPlusGameController.h"
-#import "GenPlusGameCore.h"
-#import <OEGameControllerView.h>
-@implementation GenPlusPreferenceView
+#import "OEGenesisPreferenceView.h"
+
+@implementation OEGenesisPreferenceView
 
 - (void)awakeFromNib
 {

@@ -188,6 +188,20 @@
 			remoteGlobalIDString = C6480FC113648F670094FA33;
 			remoteInfo = SuperNES;
 		};
+		C6B948301365187100A425F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6B947AF1364ECA600A425F0;
+			remoteInfo = GameBoy;
+		};
+		C6B948321365187100A425F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6B947E61365080B00A425F0;
+			remoteInfo = Genesis;
+		};
 		C6E916620FD34B8000AC2CCC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
@@ -481,6 +495,8 @@
 				C6480FF31364A4E40094FA33 /* SegaMasterSystem.oesystemplugin */,
 				C6480FF51364A4E40094FA33 /* NES.oesystemplugin */,
 				C6480FF71364A4E40094FA33 /* SuperNES.oesystemplugin */,
+				C6B948311365187100A425F0 /* GameBoy.oesystemplugin */,
+				C6B948331365187100A425F0 /* Genesis.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -764,6 +780,21 @@
 			fileType = wrapper.cfbundle;
 			path = SuperNES.oesystemplugin;
 			remoteRef = C6480FF61364A4E40094FA33 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6B948311365187100A425F0 /* GameBoy.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GameBoy.oesystemplugin;
+			remoteRef = C6B948301365187100A425F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6B948331365187100A425F0 /* Genesis.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			name = Genesis.oesystemplugin;
+			path = Genesis.oesystemplugin;
+			remoteRef = C6B948321365187100A425F0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

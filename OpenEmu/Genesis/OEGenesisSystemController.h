@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,26 +25,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GenPlusGameController.h"
-#import "GenPlusGameCore.h"
+#import <Cocoa/Cocoa.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-@implementation GenPlusGameController
-
-+ (void)initialize
-{
-    if(self == [GenPlusGameController class])
-    {
-    }
-}
-
-- (NSUInteger)playerCount
-{
-    return 2;
-}
-
-- (Class)gameCoreClass
-{
-    return [GenPlusGameCore class];
-}
+@interface OEGenesisSystemController : OESystemController
 
 @end

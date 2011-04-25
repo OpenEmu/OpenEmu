@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,26 +25,30 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GenPlusGameController.h"
-#import "GenPlusGameCore.h"
+#import <Foundation/Foundation.h>
 
-@implementation GenPlusGameController
+@protocol OESystemResponderClient;
 
-+ (void)initialize
+typedef enum _OEGenesisButton
 {
-    if(self == [GenPlusGameController class])
-    {
-    }
-}
+    OEGenesisButtonA,
+    OEGenesisButtonB,
+    OEGenesisButtonC,
+    OEGenesisButtonX,
+    OEGenesisButtonY,
+    OEGenesisButtonZ,
+    OEGenesisButtonUp,
+    OEGenesisButtonDown,
+    OEGenesisButtonLeft,
+    OEGenesisButtonRight,
+    OEGenesisButtonStart,
+    OEGenesisButtonMode,
+    OEGenesisButtonCount,
+} OEGenesisButton;
 
-- (NSUInteger)playerCount
-{
-    return 2;
-}
+@protocol OEGenesisSystemResponderClient <OESystemResponderClient, NSObject>
 
-- (Class)gameCoreClass
-{
-    return [GenPlusGameCore class];
-}
+- (void)didPushButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
+- (void)didReleaseButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
 
 @end

@@ -25,7 +25,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <OEControlsViewController_old.h>
+#import <Cocoa/Cocoa.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-@interface GenPlusPreferenceView : OEControlsViewController_old
+@interface OEGenesisPreferenceView : OEControlsViewController
 @end

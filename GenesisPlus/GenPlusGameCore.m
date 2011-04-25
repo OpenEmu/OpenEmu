@@ -27,8 +27,9 @@
 
 #import "GenPlusGameCore.h"
 #import <IOKit/hid/IOHIDLib.h>
-#import <GameDocument.h>
+#import <OEGameDocument.h>
 #import <OERingBuffer.h>
+#import "OEGenesisSystemResponderClient.h"
 
 //#include "shared.h"
 #include "system.h"
@@ -208,27 +209,21 @@ void update_input()
     [self player:thePlayer didChangeButtonState:gameButton toPressed:NO];
 }
 
-NSString *GenesisButtonNameTable[] = { @"CONTROLLER@_UP", @"CONTROLLER@_DOWN", @"CONTROLLER@_LEFT", @"CONTROLLER@_RIGHT", @"CONTROLLER@_START", @"CONTROLLER@_A", @"CONTROLLER@_B", @"CONTROLLER@_C", @"CONTROLLER@_MODE", @"CONTROLLER@_X", @"CONTROLLER@_Y", @"CONTROLLER@_Z" };
-NSUInteger GenesisControlValues[] = { INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, INPUT_START, INPUT_A, INPUT_B, INPUT_C, INPUT_MODE, INPUT_X, INPUT_Y, INPUT_Z };
+NSUInteger GenesisControlValues[] = { INPUT_A, INPUT_B, INPUT_C, INPUT_X, INPUT_Y, INPUT_Z, INPUT_UP, INPUT_DOWN, INPUT_LEFT, INPUT_RIGHT, INPUT_START, INPUT_MODE };
 
 - (BOOL)shouldPauseForButton:(NSInteger)button
 {
     return NO;
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)didPushButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
 {
-    return OEMakeEmulatorKey(thePlayer - 1, GenesisControlValues[index]);
+    input.pad[player - 1] |=  GenesisControlValues[button];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)didReleaseButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
 {
-    input.pad[aKey.player] |= aKey.key;
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    input.pad[aKey.player] &= ~aKey.key;
+    input.pad[player - 1] &= ~GenesisControlValues[button];
 }
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName

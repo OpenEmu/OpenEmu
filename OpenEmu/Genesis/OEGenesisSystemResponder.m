@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,26 +25,45 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GenPlusGameController.h"
-#import "GenPlusGameCore.h"
+#import "OEGenesisSystemResponder.h"
 
-@implementation GenPlusGameController
-
-+ (void)initialize
+NSString *OEGenesisButtonNameTable[] =
 {
-    if(self == [GenPlusGameController class])
-    {
-    }
+    @"OEGenesisButtonA[@]",
+    @"OEGenesisButtonB[@]",
+    @"OEGenesisButtonC[@]",
+    @"OEGenesisButtonX[@]",
+    @"OEGenesisButtonY[@]",
+    @"OEGenesisButtonZ[@]",
+    @"OEGenesisButtonUp[@]",
+    @"OEGenesisButtonDown[@]",
+    @"OEGenesisButtonLeft[@]",
+    @"OEGenesisButtonRight[@]",
+    @"OEGenesisButtonStart[@]",
+    @"OEGenesisButtonMode[@]",
+};
+
+@implementation OEGenesisSystemResponder
+@dynamic client;
+
++ (Protocol *)gameSystemResponderClientProtocol;
+{
+    return @protocol(OEGenesisSystemResponderClient);
 }
 
-- (NSUInteger)playerCount
+- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
 {
-    return 2;
+    return OEMakeEmulatorKey(thePlayer, index);
 }
 
-- (Class)gameCoreClass
+- (void)pressEmulatorKey:(OEEmulatorKey)aKey
 {
-    return [GenPlusGameCore class];
+    [[self client] didPushButton:(OEGenesisButton)aKey.key forPlayer:aKey.player];
+}
+
+- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
+{
+    [[self client] didReleaseButton:(OEGenesisButton)aKey.key forPlayer:aKey.player];
 }
 
 @end
