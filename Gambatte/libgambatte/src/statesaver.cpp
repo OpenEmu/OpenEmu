@@ -378,7 +378,7 @@ bool StateSaver::loadState(SaveState &state, const char *filename) {
 	file.ignore(get24(file));
 	
 	Array<char> labelbuf(list.maxLabelsize());
-	const Saver labelbufSaver = { label: labelbuf, save: 0, load: 0, labelsize: list.maxLabelsize() };
+	const Saver labelbufSaver = { .label = labelbuf, .save = 0, .load = 0, .labelsize = list.maxLabelsize() };
 	
 	SaverList::const_iterator done = list.begin();
 	

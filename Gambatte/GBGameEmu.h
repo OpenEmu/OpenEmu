@@ -27,7 +27,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OEGameCore.h>
-#import <OEHIDEvent.h>
 
 typedef enum GBButtons {
     GB_Up      = 0,

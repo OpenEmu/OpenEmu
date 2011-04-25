@@ -31,6 +31,7 @@
 #define NEWSIZESOUNDBUFFER 80000
 
 #import <OERingBuffer.h>
+#import "OEGBSystemResponderClient.h"
 #import "GBGameEmu.h"
 #include "gambatte.h"
 #include "CocoaBlitter.h"
@@ -39,8 +40,8 @@
 #include "resamplerinfo.h"
 #include <sys/time.h>
 
-@interface GBGameEmu ()
-- (void)GB_setInputForButton:(GBButtons)gameButton isPressed:(BOOL)isPressed;
+@interface GBGameEmu () <OEGBSystemResponderClient>
+- (void)GB_setInputForButton:(OEGBButton)gameButton isPressed:(BOOL)isPressed;
 @end
 
 
@@ -66,8 +67,11 @@ usec_t getusecs() {
 }
 
 void usecsleep(const usec_t usecs) {
-    timespec tspec = { tv_sec: 0,
-        tv_nsec: usecs * 1000 };
+    timespec tspec =
+    {
+        .tv_sec  = 0,
+        .tv_nsec = usecs * 1000
+    };
     
     nanosleep(&tspec, NULL);
 }
@@ -174,18 +178,29 @@ void usecsleep(const usec_t usecs) {
     return GL_RGB8;
 }
 
-- (void)GB_setInputForButton:(GBButtons)gameButton isPressed:(BOOL)isPressed
+- (void)didPushButton:(OEGBButton)button;
+{
+    [self GB_setInputForButton:(OEGBButton)button isPressed:YES];
+}
+
+- (void)didReleaseButton:(OEGBButton)button;
+{
+    [self GB_setInputForButton:(OEGBButton)button isPressed:NO];
+}
+
+- (void)GB_setInputForButton:(OEGBButton)gameButton isPressed:(BOOL)isPressed
 {
     switch(gameButton)
     {
-        case GB_A      : input.setButA(isPressed);   break;
-        case GB_B      : input.setButB(isPressed);   break;
-        case GB_Up     : input.setUp(isPressed);     break;
-        case GB_Down   : input.setDown(isPressed);   break;
-        case GB_Left   : input.setLeft(isPressed);   break;
-        case GB_Right  : input.setRight(isPressed);  break;
-        case GB_Start  : input.setStart(isPressed);  break;
-        case GB_Select : input.setSelect(isPressed); break;
+        case OEGBButtonA      : input.setButA(isPressed);   break;
+        case OEGBButtonB      : input.setButB(isPressed);   break;
+        case OEGBButtonUp     : input.setUp(isPressed);     break;
+        case OEGBButtonDown   : input.setDown(isPressed);   break;
+        case OEGBButtonLeft   : input.setLeft(isPressed);   break;
+        case OEGBButtonRight  : input.setRight(isPressed);  break;
+        case OEGBButtonStart  : input.setStart(isPressed);  break;
+        case OEGBButtonSelect : input.setSelect(isPressed); break;
+        default : break;
     }
 }
 
@@ -197,14 +212,9 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
     return NO;
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
-{
-    return OEMakeEmulatorKey(0, index);
-}
-
-
 - (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton
 {
+    /*
     switch (gameButton) {
         case OEButton_Up:
             [self GB_setInputForButton:GB_Up isPressed:YES];
@@ -231,10 +241,12 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
             [self GB_setInputForButton:GB_B isPressed:YES];
             break;
     }
+    */
 }
 
 - (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton
 {
+    /*
     switch (gameButton) {
         case OEButton_Up:
             [self GB_setInputForButton:GB_Up isPressed:NO];
@@ -261,18 +273,7 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
             [self GB_setInputForButton:GB_B isPressed:NO];
             break;
     }
-}
-
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
-{
-    unsigned button = aKey.key;
-    [self GB_setInputForButton:(GBButtons)button isPressed:YES];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    unsigned button = aKey.key;
-    [self GB_setInputForButton:(GBButtons)button isPressed:NO];
+    */
 }
 
 - (NSUInteger)channelCount
