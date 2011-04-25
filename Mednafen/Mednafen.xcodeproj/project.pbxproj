@@ -352,7 +352,6 @@
 		8296617D1042474500F30B74 /* libcdio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8296617C1042474500F30B74 /* libcdio.a */; };
 		829661AE1042483900F30B74 /* version.h.in in Resources */ = {isa = PBXBuildFile; fileRef = 829661A91042483900F30B74 /* version.h.in */; };
 		829661C410424C2000F30B74 /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 829661C310424C1F00F30B74 /* libsndfile.a */; };
-		829665B21043898B00F30B74 /* MednafenControlsPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = 829665B11043898B00F30B74 /* MednafenControlsPreference.m */; };
 		829665EE10438CDC00F30B74 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = 829665EC10438CDC00F30B74 /* ControlsPreference.xib */; };
 		829665EF10438CDC00F30B74 /* gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 829665ED10438CDC00F30B74 /* gba.png */; };
 		82B0F96A104A389D005F3B26 /* wonderswan.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82B0F969104A389D005F3B26 /* wonderswan.jpg */; };
@@ -1144,8 +1143,6 @@
 		829661AA1042483900F30B74 /* xa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xa.h; sourceTree = "<group>"; };
 		829661C310424C1F00F30B74 /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsndfile.a; sourceTree = "<group>"; };
 		829661C810424C4E00F30B74 /* sndfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sndfile.h; sourceTree = "<group>"; };
-		829665B01043898B00F30B74 /* MednafenControlsPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MednafenControlsPreference.h; sourceTree = "<group>"; };
-		829665B11043898B00F30B74 /* MednafenControlsPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MednafenControlsPreference.m; sourceTree = "<group>"; };
 		829665EC10438CDC00F30B74 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
 		829665ED10438CDC00F30B74 /* gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba.png; sourceTree = "<group>"; };
 		82B0F969104A389D005F3B26 /* wonderswan.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wonderswan.jpg; sourceTree = "<group>"; };
@@ -1223,8 +1220,6 @@
 				824088350FFDDCF400F0FE7D /* MednafenGameCore.mm */,
 				824089EE0FFDEA6C00F0FE7D /* MednafenGameController.h */,
 				824089EF0FFDEA6C00F0FE7D /* MednafenGameController.mm */,
-				829665B01043898B00F30B74 /* MednafenControlsPreference.h */,
-				829665B11043898B00F30B74 /* MednafenControlsPreference.m */,
 				82CFB39D0FFE4BA1002B6C7C /* input.h */,
 			);
 			name = Classes;
@@ -2746,7 +2741,6 @@
 				824087EF0FFDDC2200F0FE7D /* window.c in Sources */,
 				824088360FFDDCF400F0FE7D /* MednafenGameCore.mm in Sources */,
 				824089F00FFDEA6C00F0FE7D /* MednafenGameController.mm in Sources */,
-				829665B21043898B00F30B74 /* MednafenControlsPreference.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
