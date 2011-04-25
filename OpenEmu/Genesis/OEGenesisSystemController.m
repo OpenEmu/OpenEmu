@@ -59,18 +59,18 @@
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OESNESButtonUp[1]"          ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OESNESButtonDown[1]"        ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OESNESButtonLeft[1]"        ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OESNESButtonRight[1]"       ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD]         , @"OESNESButtonA[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OESNESButtonB[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OESNESButtonX[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OESNESButtonY[1]"           ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OESNESButtonTriggerLeft[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OESNESButtonTriggerRight[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OESNESButtonStart[1]"       ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OESNESButtonSelect[1]"      ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEGenesisButtonUp[1]"   ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEGenesisButtonDown[1]" ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEGenesisButtonLeft[1]" ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEGenesisButtonRight[1]",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEGenesisButtonA[1]"    ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEGenesisButtonB[1]"    ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardD]         , @"OEGenesisButtonC[1]"    ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardQ]         , @"OEGenesisButtonX[1]"    ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardW]         , @"OEGenesisButtonY[1]"    ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardE]         , @"OEGenesisButtonZ[1]"    ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OEGenesisButtonStart[1]",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OEGenesisButtonMode[1]" ,
                               nil];
     return controls;
 }

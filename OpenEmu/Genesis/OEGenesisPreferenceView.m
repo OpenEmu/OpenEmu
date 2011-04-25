@@ -37,77 +37,18 @@
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"gen6btn.png"];
     [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
     
-    [view addButtonWithName:@"CONTROLLER@_UP"
-                    toolTip:@"D-Pad Up"
-                     target:self
-              startPosition:NSMakePoint(88, 196)
-                endPosition:NSMakePoint(230, 165)];
-    
-    [view addButtonWithName:@"CONTROLLER@_LEFT"
-                    toolTip:@"D-Pad Left"
-                     target:self
-              startPosition:NSMakePoint(88, 164)
-                endPosition:NSMakePoint(207, 148)];
-    
-    [view addButtonWithName:@"CONTROLLER@_RIGHT"
-                    toolTip:@"D-Pad Right"
-                     target:self
-              startPosition:NSMakePoint(88, 132)
-                endPosition:NSMakePoint(249, 143)];
-    
-    [view addButtonWithName:@"CONTROLLER@_DOWN"
-                    toolTip:@"D-Pad Down"
-                     target:self
-              startPosition:NSMakePoint(88, 100)
-                endPosition:NSMakePoint(222, 120)];
-    
-    [view addButtonWithName:@"CONTROLLER@_MODE"
-                    toolTip:@"Mode Button"
-                     target:self
-              startPosition:NSMakePoint(252, 25)
-                endPosition:NSMakePoint(293, 114)];
-    
-    [view addButtonWithName:@"CONTROLLER@_START"
-                    toolTip:@"Start Button"
-                     target:self
-              startPosition:NSMakePoint(348, 25)
-                endPosition:NSMakePoint(328, 114)];
-    
-    [view addButtonWithName:@"CONTROLLER@_A"
-                    toolTip:@"A Button"
-                     target:self
-              startPosition:NSMakePoint(510, 68)
-                endPosition:NSMakePoint(367, 122)];
-    
-    [view addButtonWithName:@"CONTROLLER@_B"
-                    toolTip:@"B Button"
-                     target:self
-              startPosition:NSMakePoint(510, 100)
-                endPosition:NSMakePoint(399, 132)];
-    
-    [view addButtonWithName:@"CONTROLLER@_C"
-                    toolTip:@"C Button"
-                     target:self
-              startPosition:NSMakePoint(510, 132)
-                endPosition:NSMakePoint(429, 142)];
-    
-    [view addButtonWithName:@"CONTROLLER@_Z"
-                    toolTip:@"Z Button"
-                     target:self
-              startPosition:NSMakePoint(510, 164)
-                endPosition:NSMakePoint(413, 172)];
-    
-    [view addButtonWithName:@"CONTROLLER@_Y"
-                    toolTip:@"Y Button"
-                     target:self
-              startPosition:NSMakePoint(510, 196)
-                endPosition:NSMakePoint(381, 161)];
-    
-    [view addButtonWithName:@"CONTROLLER@_X"
-                    toolTip:@"X Button"
-                     target:self
-              startPosition:NSMakePoint(510, 228)
-                endPosition:NSMakePoint(355, 153)];
+    [view addButtonWithName:@"OEGenesisButtonUp[@]"    toolTip:@"D-Pad Up"     target:self startPosition:NSMakePoint(88, 196)  endPosition:NSMakePoint(230, 165)];
+    [view addButtonWithName:@"OEGenesisButtonLeft[@]"  toolTip:@"D-Pad Left"   target:self startPosition:NSMakePoint(88, 164)  endPosition:NSMakePoint(207, 148)];
+    [view addButtonWithName:@"OEGenesisButtonRight[@]" toolTip:@"D-Pad Right"  target:self startPosition:NSMakePoint(88, 132)  endPosition:NSMakePoint(249, 143)];
+    [view addButtonWithName:@"OEGenesisButtonDown[@]"  toolTip:@"D-Pad Down"   target:self startPosition:NSMakePoint(88, 100)  endPosition:NSMakePoint(222, 120)];
+    [view addButtonWithName:@"OEGenesisButtonMode[@]"  toolTip:@"Mode Button"  target:self startPosition:NSMakePoint(252, 25)  endPosition:NSMakePoint(293, 114)];
+    [view addButtonWithName:@"OEGenesisButtonStart[@]" toolTip:@"Start Button" target:self startPosition:NSMakePoint(348, 25)  endPosition:NSMakePoint(328, 114)];
+    [view addButtonWithName:@"OEGenesisButtonA[@]"     toolTip:@"A Button"     target:self startPosition:NSMakePoint(510, 68)  endPosition:NSMakePoint(367, 122)];
+    [view addButtonWithName:@"OEGenesisButtonB[@]"     toolTip:@"B Button"     target:self startPosition:NSMakePoint(510, 100) endPosition:NSMakePoint(399, 132)];
+    [view addButtonWithName:@"OEGenesisButtonC[@]"     toolTip:@"C Button"     target:self startPosition:NSMakePoint(510, 132) endPosition:NSMakePoint(429, 142)];
+    [view addButtonWithName:@"OEGenesisButtonZ[@]"     toolTip:@"Z Button"     target:self startPosition:NSMakePoint(510, 164) endPosition:NSMakePoint(413, 172)];
+    [view addButtonWithName:@"OEGenesisButtonY[@]"     toolTip:@"Y Button"     target:self startPosition:NSMakePoint(510, 196) endPosition:NSMakePoint(381, 161)];
+    [view addButtonWithName:@"OEGenesisButtonX[@]"     toolTip:@"X Button"     target:self startPosition:NSMakePoint(510, 228) endPosition:NSMakePoint(355, 153)];
 }
 
 @end
