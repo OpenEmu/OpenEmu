@@ -28,31 +28,7 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
-typedef enum _OESMSButton
-{
-    OESMSButtonUp,
-    OESMSButtonDown,
-    OESMSButtonLeft,
-    OESMSButtonRight,
-    OESMSButtonA,
-    OESMSButtonB,
-    OESMSButtonStart,
-    OESMSButtonReset,
-    OESMSButtonCount,
-} OESMSButton;
-
-@protocol OESMSSystemResponderClient <OESystemResponderClient, NSObject>
-
-- (void)didPushButton:(OESMSButton)button forPlayer:(NSUInteger)player;
-- (void)didReleaseButton:(OESMSButton)button forPlayer:(NSUInteger)player;
-
-- (void)didPushStartButton;
-- (void)didReleaseStartButton;
-
-- (void)didPushResetButton;
-- (void)didReleaseResetButton;
-
-@end
+@protocol OESMSSystemResponderClient;
 
 extern NSString *OESMSButtonNameTable[];
 

@@ -26,6 +26,7 @@
  */
 
 #import "OENESSystemResponder.h"
+#import "OENESSystemResponderClient.h"
 
 NSString *const OENESControlNameTable[] =
 {
@@ -54,12 +55,12 @@ NSString *const OENESControlNameTable[] =
 
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didPushButton:(OENESButton)aKey.key forPlayer:aKey.player];
+    [[self client] didPushNESButton:(OENESButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didReleaseButton:(OENESButton)aKey.key forPlayer:aKey.player];
+    [[self client] didReleaseNESButton:(OENESButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

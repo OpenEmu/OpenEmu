@@ -58,12 +58,12 @@ static NSUInteger BSNESEmulatorValues[] =
     SNES::Input::JoypadR,
 };
 
-- (void)didPushButton:(OESNESButton)button forPlayer:(NSUInteger)player;
+- (void)didPushSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
 {
     interface->pad[player-1][BSNESEmulatorValues[button]] = 0xFFFF;
 }
 
-- (void)didReleaseButton:(OESNESButton)button forPlayer:(NSUInteger)player;
+- (void)didReleaseSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
 {
     interface->pad[player-1][BSNESEmulatorValues[button]] = 0;
 }

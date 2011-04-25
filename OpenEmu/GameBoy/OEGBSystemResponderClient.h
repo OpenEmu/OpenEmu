@@ -44,7 +44,7 @@ typedef enum _OEGBButton
 
 @protocol OEGBSystemResponderClient <OESystemResponderClient, NSObject>
 
-- (void)didPushButton:(OEGBButton)button;
-- (void)didReleaseButton:(OEGBButton)button;
+- (void)didPushGBButton:(OEGBButton)button;
+- (void)didReleaseGBButton:(OEGBButton)button;
 
 @end

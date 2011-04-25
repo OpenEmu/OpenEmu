@@ -28,27 +28,9 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
 
+@protocol OENESSystemResponderClient;
+
 extern NSString *const OENESControlNameTable[];
-
-typedef enum _OENESButton
-{
-    OENESButtonA,
-    OENESButtonB,
-    OENESButtonUp,
-    OENESButtonDown,
-    OENESButtonLeft,
-    OENESButtonRight,
-    OENESButtonStart,
-    OENESButtonSelect,
-    OENESButtonCount
-} OENESButton;
-
-@protocol OENESSystemResponderClient <OESystemResponderClient, NSObject>
-
-- (void)didPushButton:(OENESButton)button forPlayer:(NSUInteger)player;
-- (void)didReleaseButton:(OENESButton)button forPlayer:(NSUInteger)player;
-
-@end
 
 @interface OENESSystemResponder : OEBasicSystemResponder
 

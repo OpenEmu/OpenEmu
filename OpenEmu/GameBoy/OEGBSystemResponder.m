@@ -26,6 +26,7 @@
  */
 
 #import "OEGBSystemResponder.h"
+#import "OEGBSystemResponderClient.h"
 
 NSString *OEGBButtonNameTable[] =
 {
@@ -54,12 +55,12 @@ NSString *OEGBButtonNameTable[] =
 
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didPushButton:(OEGBButton)aKey.key];
+    [[self client] didPushGBButton:(OEGBButton)aKey.key];
 }
 
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didReleaseButton:(OEGBButton)aKey.key];
+    [[self client] didReleaseGBButton:(OEGBButton)aKey.key];
 }
 
 @end

@@ -26,6 +26,7 @@
  */
 
 #import "OESNESSystemResponder.h"
+#import "OESNESSystemResponderClient.h"
 
 NSString *OESNESButtonNameTable[] =
 {
@@ -58,12 +59,12 @@ NSString *OESNESButtonNameTable[] =
 
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didPushButton:(OESNESButton)aKey.key forPlayer:aKey.player];
+    [[self client] didPushSNESButton:(OESNESButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didReleaseButton:(OESNESButton)aKey.key forPlayer:aKey.player];
+    [[self client] didReleaseSNESButton:(OESNESButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

@@ -216,12 +216,12 @@ NSUInteger GenesisControlValues[] = { INPUT_A, INPUT_B, INPUT_C, INPUT_X, INPUT_
     return NO;
 }
 
-- (void)didPushButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
+- (void)didPushGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
 {
     input.pad[player - 1] |=  GenesisControlValues[button];
 }
 
-- (void)didReleaseButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
+- (void)didReleaseGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
 {
     input.pad[player - 1] &= ~GenesisControlValues[button];
 }

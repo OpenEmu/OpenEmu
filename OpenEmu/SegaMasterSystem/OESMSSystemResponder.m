@@ -26,6 +26,7 @@
  */
 
 #import "OESMSSystemResponder.h"
+#import "OESMSSystemResponderClient.h"
 
 NSString *OESMSButtonNameTable[] =
 {
@@ -58,10 +59,10 @@ NSString *OESMSButtonNameTable[] =
     
     switch(button)
     {
-        case OESMSButtonStart : [[self client] didPushStartButton]; break;
-        case OESMSButtonReset : [[self client] didPushResetButton]; break;
+        case OESMSButtonStart : [[self client] didPushSMSStartButton]; break;
+        case OESMSButtonReset : [[self client] didPushSMSResetButton]; break;
         default :
-            [[self client] didPushButton:button forPlayer:aKey.player];
+            [[self client] didPushSMSButton:button forPlayer:aKey.player];
             break;
     }
 }
@@ -72,10 +73,10 @@ NSString *OESMSButtonNameTable[] =
     
     switch(button)
     {
-        case OESMSButtonStart : [[self client] didReleaseStartButton]; break;
-        case OESMSButtonReset : [[self client] didReleaseResetButton]; break;
+        case OESMSButtonStart : [[self client] didReleaseSMSStartButton]; break;
+        case OESMSButtonReset : [[self client] didReleaseSMSResetButton]; break;
         default :
-            [[self client] didReleaseButton:button forPlayer:aKey.player];
+            [[self client] didReleaseSMSButton:button forPlayer:aKey.player];
             break;
     }
 }

@@ -178,12 +178,12 @@ void usecsleep(const usec_t usecs) {
     return GL_RGB8;
 }
 
-- (void)didPushButton:(OEGBButton)button;
+- (void)didPushGBButton:(OEGBButton)button;
 {
     [self GB_setInputForButton:(OEGBButton)button isPressed:YES];
 }
 
-- (void)didReleaseButton:(OEGBButton)button;
+- (void)didReleaseGBButton:(OEGBButton)button;
 {
     [self GB_setInputForButton:(OEGBButton)button isPressed:NO];
 }

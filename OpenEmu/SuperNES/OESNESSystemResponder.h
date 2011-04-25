@@ -27,7 +27,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
-#import "OESNESSystemResponderClient.h"
+
+@protocol OESNESSystemResponderClient;
 
 extern NSString *OESNESButtonNameTable[];
 

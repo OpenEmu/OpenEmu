@@ -27,7 +27,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
-#import "OEGBSystemResponderClient.h"
+
+@protocol OEGBSystemResponderClient;
 
 extern NSString *OEGBButtonNameTable[];
 

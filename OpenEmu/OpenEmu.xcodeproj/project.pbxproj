@@ -789,6 +789,8 @@
 		C6AC9D4C1190C9AE0083DDFD /* OEGameCoreManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCoreManager.m; sourceTree = "<group>"; };
 		C6AFE0D50FED6FDF00AC0CCF /* OEGameControllerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameControllerView.m; sourceTree = "<group>"; };
 		C6B0B4980FB17D8D00661561 /* UnimplementedPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UnimplementedPreference.xib; sourceTree = "<group>"; };
+		C6B3E67B1365250D00D34947 /* OESMSSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESMSSystemResponderClient.h; sourceTree = "<group>"; };
+		C6B3E691136525D100D34947 /* OENESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENESSystemResponderClient.h; sourceTree = "<group>"; };
 		C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSApplication+OEHIDAdditions.h"; sourceTree = "<group>"; };
 		C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSApplication+OEHIDAdditions.m"; sourceTree = "<group>"; };
 		C6B947AF1364ECA600A425F0 /* GameBoy.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GameBoy.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1516,6 +1518,7 @@
 				C64BB09D13647AEF00C1AB23 /* OENESSystemController.m */,
 				C64BB09F13647B3500C1AB23 /* OENESSystemResponder.h */,
 				C64BB0A013647B3500C1AB23 /* OENESSystemResponder.m */,
+				C6B3E691136525D100D34947 /* OENESSystemResponderClient.h */,
 				C64BB0A2136482BA00C1AB23 /* OENESPreferenceView.h */,
 				C64BB0A3136482BA00C1AB23 /* OENESPreferenceView.m */,
 				C64BB0B7136483A700C1AB23 /* ControlsPreference.xib */,
@@ -1595,6 +1598,7 @@
 				C6711823136369020034379A /* OESMSSystemController.m */,
 				C6711825136369DE0034379A /* OESMSSystemResponder.h */,
 				C6711826136369DE0034379A /* OESMSSystemResponder.m */,
+				C6B3E67B1365250D00D34947 /* OESMSSystemResponderClient.h */,
 				C64CBD501363E2D100BEE4F3 /* OESMSPreferenceView.h */,
 				C64CBD511363E2D100BEE4F3 /* OESMSPreferenceView.m */,
 				C64CBD561363E64B00BEE4F3 /* ControlsPreference.xib */,
@@ -3303,6 +3307,7 @@
 				C6B947B91364ECA700A425F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C6B947EF1365080B00A425F0 /* Build configuration list for PBXNativeTarget "Genesis" */ = {
 			isa = XCConfigurationList;
@@ -3311,6 +3316,7 @@
 				C6B947F11365080B00A425F0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

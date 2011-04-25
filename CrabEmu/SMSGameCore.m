@@ -29,7 +29,7 @@
 #import <IOKit/hid/IOHIDLib.h>
 #import <OEGameDocument.h>
 #import <OERingBuffer.h>
-#import "OESMSSystemResponder.h"
+#import "OESMSSystemResponderClient.h"
 
 #define _UINT32
 
@@ -286,21 +286,21 @@ void gui_set_title(const char *str)
     return btn;
 }
 
-- (void)didPushButton:(OESMSButton)button forPlayer:(NSUInteger)player;
+- (void)didPushSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
 {
     int btn = [self crabButtonForButton:button player:player];
     
     if(btn > 0) sms_button_pressed(btn);
 }
 
-- (void)didReleaseButton:(OESMSButton)button forPlayer:(NSUInteger)player;
+- (void)didReleaseSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
 {
     int btn = [self crabButtonForButton:button player:player];
     
     if(btn > 0) sms_button_released(btn);
 }
 
-- (void)didPushStartButton;
+- (void)didPushSMSStartButton;
 {
     if(sms_console != CONSOLE_GG)
         [self pauseEmulation:self];
@@ -308,17 +308,17 @@ void gui_set_title(const char *str)
         sms_button_pressed(GG_START);
 }
 
-- (void)didReleaseStartButton;
+- (void)didReleaseSMSStartButton;
 {
     
 }
 
-- (void)didPushResetButton;
+- (void)didPushSMSResetButton;
 {
     sms_button_pressed(SMS_RESET);
 }
 
-- (void)didReleaseResetButton;
+- (void)didReleaseSMSResetButton;
 {
     sms_button_released(SMS_RESET);
 }

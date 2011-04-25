@@ -26,6 +26,7 @@
  */
 
 #import "OEGenesisSystemResponder.h"
+#import "OEGenesisSystemResponderClient.h"
 
 NSString *OEGenesisButtonNameTable[] =
 {
@@ -58,12 +59,12 @@ NSString *OEGenesisButtonNameTable[] =
 
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didPushButton:(OEGenesisButton)aKey.key forPlayer:aKey.player];
+    [[self client] didPushGenesisButton:(OEGenesisButton)aKey.key forPlayer:aKey.player];
 }
 
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey
 {
-    [[self client] didReleaseButton:(OEGenesisButton)aKey.key forPlayer:aKey.player];
+    [[self client] didReleaseGenesisButton:(OEGenesisButton)aKey.key forPlayer:aKey.player];
 }
 
 @end

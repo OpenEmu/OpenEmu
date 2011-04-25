@@ -27,7 +27,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OpenEmuSystem.h>
-#import "OEGenesisSystemResponderClient.h"
+
+@protocol OEGenesisSystemResponderClient;
 
 extern NSString *OEGenesisButtonNameTable[];
 

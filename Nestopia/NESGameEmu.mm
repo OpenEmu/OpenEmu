@@ -43,7 +43,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
-#import "OENESSystemResponder.h"
+#import "OENESSystemResponderClient.h"
 
 #define SAMPLERATE 48000
 
@@ -662,12 +662,12 @@ static int Heights[2] =
     [super dealloc];
 }
 
-- (void)didPushButton:(OENESButton)button forPlayer:(NSUInteger)player;
+- (void)didPushNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
 {
     controls->pad[player - 1].buttons |=  NESControlValues[button];
 }
 
-- (void)didReleaseButton:(OENESButton)button forPlayer:(NSUInteger)player;
+- (void)didReleaseNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
 {
     controls->pad[player - 1].buttons &= ~NESControlValues[button];
 }
