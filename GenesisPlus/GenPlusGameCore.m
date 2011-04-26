@@ -27,7 +27,7 @@
 
 #import "GenPlusGameCore.h"
 #import <IOKit/hid/IOHIDLib.h>
-#import <GameDocument.h>
+#import <OEGameDocument.h>
 #import <OERingBuffer.h>
 
 //#include "shared.h"

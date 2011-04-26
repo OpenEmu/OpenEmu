@@ -27,7 +27,7 @@
 
 #import "SMSGameCore.h"
 #import <IOKit/hid/IOHIDLib.h>
-#import <GameDocument.h>
+#import <OEGameDocument.h>
 #import <OERingBuffer.h>
 
 #define _UINT32

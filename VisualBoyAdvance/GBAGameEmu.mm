@@ -27,7 +27,7 @@
 
 #import "GBAGameEmu.h"
 #include <sys/time.h>
-#import <GameDocument.h>
+#import <OEGameDocument.h>
 #import <OERingBuffer.h>
 #import <OEHIDEvent.h>
 #import "GBAGameController.h"

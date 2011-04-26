@@ -27,7 +27,7 @@
 
 #import "OECorePlugin.h"
 #import "OEGameCoreController.h"
-#import "GameCore.h"
+#import "OEGameCore.h"
 
 @class OEGameDocument;
 

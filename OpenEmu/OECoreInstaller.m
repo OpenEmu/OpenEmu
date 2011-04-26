@@ -29,7 +29,7 @@
 #import "OECoreDownloader.h"
 #import <Sparkle/Sparkle.h>
 #import "OEDownload.h"
-#import "GameDocumentController.h"
+#import "OEGameDocumentController.h"
 #import "OECorePlugin.h"
 
 @implementation OECoreInstaller

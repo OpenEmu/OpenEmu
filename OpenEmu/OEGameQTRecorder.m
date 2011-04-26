@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GameDocument.h"
+#import "OEGameDocument.h"
 #import "OEGameQTRecorder.h"
 #import "OEFrameEncodeOperation.h"
 #import <sys/time.h>
