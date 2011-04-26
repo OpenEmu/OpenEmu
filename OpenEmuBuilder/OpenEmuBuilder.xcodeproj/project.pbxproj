@@ -835,7 +835,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "open \"SRCROOT/../../OpenEmu/build/release/OpenEmu.app\"";
+			shellScript = "open \"$BUILT_PRODUCTS_DIR/OpenEmu.app\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
