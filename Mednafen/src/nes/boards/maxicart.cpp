@@ -52,10 +52,6 @@ static void M125_Reset(CartInfo *info)
 
 static void M125_Power(CartInfo *info)
 {
- SetReadHandler(0x6000,0xFFFF,CartBR);
- SetWriteHandler(0x5000,0x5001,M125w);
- SetWriteHandler(0x6000,0x7FFF,CartBW);
-
  Mapper125.PRGSelect = ~0;
  Mapper125.RAMSelect = 0;
 
@@ -115,5 +111,10 @@ int Mapper125_Init(CartInfo *info)
   info->SaveGame[0] = WRAM;
   info->SaveGameLen[0] = 32768;
  }
+
+ SetReadHandler(0x6000,0xFFFF,CartBR);
+ SetWriteHandler(0x5000,0x5001,M125w);
+ SetWriteHandler(0x6000,0x7FFF,CartBW);
+
  return(1);
 }

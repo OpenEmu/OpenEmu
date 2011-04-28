@@ -1,8 +1,5 @@
 /* Mednafen - Multi-system Emulator
  *
- * Copyright notice for this file:
- *  Copyright (C) 2002 Xodnizel
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -18,14 +15,12 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "mednafen.h"
+
 #include <stdlib.h>
 #include <errno.h>
 
-#include "mednafen.h"
 #include "memory.h"
-#include "general.h"
-
-//static int testie = 4;
 
 void *MDFN_calloc_real(uint32 nmemb, uint32 size, const char *purpose, const char *_file, const int _line)
 {

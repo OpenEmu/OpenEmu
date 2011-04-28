@@ -2,12 +2,12 @@
 // $Id: dis_decode.cc,v 1.32 2006/05/12 17:04:19 sshwarts Exp $
 /////////////////////////////////////////////////////////////////////////
 
+#include "disasm.h"
+#include "dis_tables.h"
+
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-
-#include "disasm.h"
-#include "dis_tables.h"
 
 x86_insn::x86_insn()
 {

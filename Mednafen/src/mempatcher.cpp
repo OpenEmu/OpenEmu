@@ -231,11 +231,11 @@ void MDFN_LoadGameCheats(FILE *override)
   MDFN_printf(_("Loading cheats from %s...\n"), fn.c_str());
   MDFN_indent(1);
 
-  fp = fopen(fn.c_str(),"rb");
-
-  if(!fp) 
+  if(!(fp = fopen(fn.c_str(),"rb")))
   {
-   MDFN_printf(_("Error opening file: %s\n"), strerror(errno));
+   ErrnoHolder ene(errno);
+
+   MDFN_printf(_("Error opening file: %s\n"), ene.StrError());
    MDFN_indent(-1);
    return;
   }
@@ -286,7 +286,10 @@ void MDFN_LoadGameCheats(FILE *override)
     }
     else if(namebuf[x]<0x20) namebuf[x]=' ';
    }
-   fgets(linebuf, 2048, fp);
+
+   // November 9, 2009 return value fix.
+   if(fgets(linebuf, 2048, fp) == NULL)
+    linebuf[0] = 0;
 
    for(x=0;x<strlen(linebuf);x++)
    {
@@ -1006,7 +1009,7 @@ void MDFNI_CheatSearchBegin(void)
 }
 
 
-static uint64 ALWAYS_INLINE CAbs(uint64 x)
+static uint64 INLINE CAbs(uint64 x)
 {
  if(x < 0)
   return(0 - x);
@@ -1104,6 +1107,6 @@ static void SettingChanged(const char *name)
 
 MDFNSetting MDFNMP_Settings[] =
 {
- { "cheats", "Enable cheats.", MDFNST_BOOL, "1", NULL, NULL, NULL, SettingChanged },
+ { "cheats", MDFNSF_NOFLAGS, "Enable cheats.", NULL, MDFNST_BOOL, "1", NULL, NULL, NULL, SettingChanged },
  { NULL}
 };

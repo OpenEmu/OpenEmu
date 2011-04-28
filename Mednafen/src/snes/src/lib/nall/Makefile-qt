@@ -1,0 +1,55 @@
+# requires nall/Makefile
+
+# exports the following symbols:
+# $(moc)   -- meta-object compiler
+# $(rcc)   -- resource compiler
+# $(qtinc) -- includes for compiling
+# $(qtlib) -- libraries for linking
+
+ifeq ($(moc),)
+moc := moc
+endif
+
+ifeq ($(rcc),)
+rcc := rcc
+endif
+
+ifeq ($(platform),x)
+  qtinc := `pkg-config --cflags QtCore QtGui`
+  qtlib := `pkg-config --libs QtCore QtGui`
+else ifeq ($(platform),osx)
+  qtinc := -I/Library/Frameworks/QtCore.framework/Versions/4/Headers
+  qtinc += -I/Library/Frameworks/QtGui.framework/Versions/4/Headers
+  qtinc += -I/Library/Frameworks/QtOpenGL.framework/Versions/4/Headers
+
+  qtlib := -L/Library/Frameworks
+  qtlib += -framework QtCore
+  qtlib += -framework QtGui
+  qtlib += -framework QtOpenGL
+  qtlib += -framework Carbon
+  qtlib += -framework Cocoa
+  qtlib += -framework OpenGL
+  qtlib += -framework AppKit
+  qtlib += -framework ApplicationServices
+else ifeq ($(platform),win)
+  ifeq ($(qtpath),)
+    # find Qt install directory from PATH environment variable
+    qtpath := $(foreach path,$(subst ;, ,$(PATH)),$(if $(wildcard $(path)/$(moc).exe),$(path)))
+    qtpath := $(strip $(qtpath))
+    qtpath := $(subst \,/,$(qtpath))
+    qtpath := $(patsubst %/bin,%,$(qtpath))
+  endif
+
+  qtinc := -I$(qtpath)/include
+  qtinc += -I$(qtpath)/include/QtCore
+  qtinc += -I$(qtpath)/include/QtGui
+
+  qtlib := -L$(qtpath)/lib
+  qtlib += -L$(qtpath)/plugins/imageformats
+
+  qtlib += -lmingw32 -lqtmain -lQtGui4 -lcomdlg32 -loleaut32 -limm32 -lwinmm
+  qtlib += -lwinspool -lmsimg32 -lQtCore4 -lole32 -ladvapi32 -lws2_32 -luuid -lgdi32
+
+  # optional image-file support:
+  # qtlib += -lqjpeg -lqmng
+endif

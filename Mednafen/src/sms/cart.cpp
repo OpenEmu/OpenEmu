@@ -19,9 +19,11 @@
 #include "shared.h"
 #include "romdb.h"
 #include "cart.h"
-#include "../memory.h"
 #include "../general.h"
 #include "../md5.h"
+
+namespace MDFN_IEN_SMS
+{
 
 static uint8 *rom = NULL;
 static uint8 pages;
@@ -93,9 +95,9 @@ bool SMS_CartInit(const uint8 *data, uint32 size)
   return(0);
 
  pages = size / 0x2000;
- page_mask8 = uppow2(pages) - 1;
+ page_mask8 = round_up_pow2(pages) - 1;
  page_mask16 = page_mask8 >> 1;
- rom_mask = (uppow2(pages) * 8192) - 1;
+ rom_mask = (round_up_pow2(pages) * 8192) - 1;
 
  crc = crc32(0, data, size);
 
@@ -146,7 +148,6 @@ bool SMS_CartInit(const uint8 *data, uint32 size)
    gzclose(savegame_fp);
   }
  }
-
  return(TRUE);
 }
 
@@ -182,7 +183,6 @@ void SMS_CartClose(void)
   sram = NULL;
  }
 }
-
 
 void SMS_CartWrite(uint16 A, uint8 V)
 {
@@ -281,3 +281,4 @@ int SMS_CartStateAction(StateMem *sm, int load, int data_only)
  return(ret);
 }
 
+}

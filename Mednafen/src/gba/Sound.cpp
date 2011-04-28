@@ -16,47 +16,69 @@
 // along with this program; if not, write to the Free Software Foundation,
 // Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <memory.h>
-
 #include "GBA.h"
 #include "Globals.h"
 #include "Sound.h"
 
+#include <memory.h>
+#include <math.h>
+
 #include <blip/Blip_Buffer.h>
-#include "Gba_Apu.h"
+#include "gb_apu/Gb_Apu.h"
+
 #include <blip/Stereo_Buffer.h>
 
 typedef Blip_Synth<blip_good_quality, 0xFF * 2> Synth;
 
 static Synth synth;
-static Gba_Apu gba_apu;
+
+static Gb_Apu gba_apu;
 static Stereo_Buffer gba_buf;
 
 extern uint32 soundTS;
 
+static int lleft = 0, lright = 0;
+
 int soundControl = 0;
 
-int soundDSFifoAIndex = 0;
-int soundDSFifoACount = 0;
-int soundDSFifoAWriteIndex = 0;
-bool8 soundDSAEnabled = false;
-int soundDSATimer = 0;
-uint8  soundDSFifoA[32];
-uint8 soundDSAValue = 0;
+typedef struct
+{
+ int32 FifoIndex;
+ int32 FifoCount;
+ int32 FifoWriteIndex;
+ bool Enabled;
+ int32 Timer;
+ uint8 Fifo[32];
+ uint8 Value;
+} GBADigiSound;
 
-int soundDSFifoBIndex = 0;
-int soundDSFifoBCount = 0;
-int soundDSFifoBWriteIndex = 0;
-bool8 soundDSBEnabled = false;
-int soundDSBTimer = 0;
-uint8  soundDSFifoB[32];
-uint8 soundDSBValue = 0;
+GBADigiSound DSChans[2]; // Digital sound channels, not Nintendo DS :b
+
+#define soundDSFifoAIndex DSChans[0].FifoIndex
+#define soundDSFifoACount DSChans[0].FifoCount
+#define soundDSFifoAWriteIndex DSChans[0].FifoWriteIndex
+#define soundDSAEnabled  DSChans[0].Enabled
+#define soundDSATimer DSChans[0].Timer
+#define soundDSFifoA DSChans[0].Fifo
+#define soundDSAValue DSChans[0].Value
+
+#define soundDSFifoBIndex DSChans[1].FifoIndex
+#define soundDSFifoBCount DSChans[1].FifoCount
+#define soundDSFifoBWriteIndex DSChans[1].FifoWriteIndex
+#define soundDSBEnabled  DSChans[1].Enabled
+#define soundDSBTimer DSChans[1].Timer
+#define soundDSFifoB DSChans[1].Fifo
+#define soundDSBValue DSChans[1].Value
 
 #include "../state.h"
 
-
 int MDFNGBASOUND_StateAction(StateMem *sm, int load, int data_only)
 {
+ gb_apu_state_t apu_state;
+ 
+ //if(!load) // always save state, in case there is none to load
+  gba_apu.save_state( &apu_state );
+ 
  SFORMAT StateRegs[] = 
  {
   SFVAR(soundControl),
@@ -65,112 +87,26 @@ int MDFNGBASOUND_StateAction(StateMem *sm, int load, int data_only)
   SFVAR(soundDSFifoAWriteIndex),
   SFVAR(soundDSAEnabled),
   SFVAR(soundDSATimer),
-  {soundDSFifoA, sizeof(soundDSFifoA), "soundDSFifoA" },
+  SFARRAYN(soundDSFifoA, sizeof(soundDSFifoA), "soundDSFifoA"),
   SFVAR(soundDSAValue),
   SFVAR(soundDSFifoBIndex),
   SFVAR(soundDSFifoBCount),
   SFVAR(soundDSFifoBWriteIndex),
   SFVAR(soundDSBEnabled),
   SFVAR(soundDSBTimer),
-  {soundDSFifoB, sizeof(soundDSFifoB), "soundDSFifoB" },
+  SFARRAYN(soundDSFifoB, sizeof(soundDSFifoB), "soundDSFifoB"),
   SFVAR(soundDSBValue),
 
- {&gba_apu.regs, sizeof(gba_apu.regs), "REGS"},
-
- {&gba_apu.square1.phase, sizeof(int) | MDFNSTATE_RLSB, "s1PH" },
- {&gba_apu.square1.duty, sizeof(int) | MDFNSTATE_RLSB, "s1DU" },
-
- {&gba_apu.square1.sweep_period, sizeof(int) | MDFNSTATE_RLSB, "s1SP" },
- {&gba_apu.square1.sweep_delay, sizeof(int) | MDFNSTATE_RLSB, "s1SweepDelay" },
- {&gba_apu.square1.sweep_shift, sizeof(int) | MDFNSTATE_RLSB, "s1SS" },
- {&gba_apu.square1.sweep_dir, sizeof(int) | MDFNSTATE_RLSB, "s1SweepDir" },
- {&gba_apu.square1.sweep_freq, sizeof(int) | MDFNSTATE_RLSB, "s1SF" },
-
- {&gba_apu.square1.env_period, sizeof(int) | MDFNSTATE_RLSB, "s1EP" },
- {&gba_apu.square1.env_dir, sizeof(int) | MDFNSTATE_RLSB, "s1ED" },
- {&gba_apu.square1.env_delay, sizeof(int) | MDFNSTATE_RLSB, "s1Ed" },
-
- {&gba_apu.square1.new_env_period, sizeof(int) | MDFNSTATE_RLSB, "s1NP" },
- {&gba_apu.square1.new_env_dir, sizeof(int) | MDFNSTATE_RLSB, "s1ND" },
- {&gba_apu.square1.new_volume, sizeof(int) | MDFNSTATE_RLSB, "s1NV" },
-
- {&gba_apu.square1.period, sizeof(int) | MDFNSTATE_RLSB, "s1OP" },
- {&gba_apu.square1.volume, sizeof(int) | MDFNSTATE_RLSB, "s1OV" },
- {&gba_apu.square1.frequency, sizeof(int) | MDFNSTATE_RLSB, "s1OF" },
- {&gba_apu.square1.length, sizeof(int) | MDFNSTATE_RLSB, "s1OL" },
- {&gba_apu.square1.new_length, sizeof(int) | MDFNSTATE_RLSB, "s1Ol" },
- {&gba_apu.square1.ME, sizeof(int) | MDFNSTATE_RLSB, "s1OM" },
- {&gba_apu.square1.enabled, sizeof(bool8) | MDFNSTATE_RLSB, "s1OE" },
- {&gba_apu.square1.length_enabled, sizeof(bool8) | MDFNSTATE_RLSB, "s1Oe" },
- {&gba_apu.square1.output_select, sizeof(int) | MDFNSTATE_RLSB, "s1OS" },
-
-
- {&gba_apu.square2.phase, sizeof(int) | MDFNSTATE_RLSB, "s2PH" },
- {&gba_apu.square2.duty, sizeof(int) | MDFNSTATE_RLSB, "s2DU" },
-
- {&gba_apu.square2.sweep_period, sizeof(int) | MDFNSTATE_RLSB, "s2SP" },
- {&gba_apu.square2.sweep_delay, sizeof(int) | MDFNSTATE_RLSB, "s2SweepDelay" },
- {&gba_apu.square2.sweep_shift, sizeof(int) | MDFNSTATE_RLSB, "s2SS" },
- {&gba_apu.square2.sweep_dir, sizeof(int) | MDFNSTATE_RLSB, "s2SweepDir" },
- {&gba_apu.square2.sweep_freq, sizeof(int) | MDFNSTATE_RLSB, "s2SF" },
- {&gba_apu.square2.env_period, sizeof(int) | MDFNSTATE_RLSB, "s2EP" },
- {&gba_apu.square2.env_dir, sizeof(int) | MDFNSTATE_RLSB, "s2ED" },
- {&gba_apu.square2.env_delay, sizeof(int) | MDFNSTATE_RLSB, "s2Ed" },
-
- {&gba_apu.square2.new_env_period, sizeof(int) | MDFNSTATE_RLSB, "s2NP" },
- {&gba_apu.square2.new_env_dir, sizeof(int) | MDFNSTATE_RLSB, "s2ND" },
- {&gba_apu.square2.new_volume, sizeof(int) | MDFNSTATE_RLSB, "s2NV" },
-
- {&gba_apu.square2.period, sizeof(int) | MDFNSTATE_RLSB, "s2OP" },
- {&gba_apu.square2.volume, sizeof(int) | MDFNSTATE_RLSB, "s2OV" },
- {&gba_apu.square2.frequency, sizeof(int) | MDFNSTATE_RLSB, "s2OF" },
- {&gba_apu.square2.length, sizeof(int) | MDFNSTATE_RLSB, "s2OL" },
- {&gba_apu.square2.new_length, sizeof(int) | MDFNSTATE_RLSB, "s2Ol" },
- {&gba_apu.square2.ME, sizeof(int) | MDFNSTATE_RLSB, "s2OM" },
- {&gba_apu.square2.enabled, sizeof(bool8) | MDFNSTATE_RLSB, "s2OE" },
- {&gba_apu.square2.length_enabled, sizeof(bool8) | MDFNSTATE_RLSB, "s2Oe" },
- {&gba_apu.square2.output_select, sizeof(int) | MDFNSTATE_RLSB, "s2OS" },
-
-
- {&gba_apu.noise.bits, sizeof(int) | MDFNSTATE_RLSB, "sNNB" },
- {&gba_apu.noise.tap, sizeof(int) | MDFNSTATE_RLSB, "sNNT" },
-
- {&gba_apu.noise.env_period, sizeof(int) | MDFNSTATE_RLSB, "sNEP" },
- {&gba_apu.noise.env_dir, sizeof(int) | MDFNSTATE_RLSB, "sNED" },
- {&gba_apu.noise.env_delay, sizeof(int) | MDFNSTATE_RLSB, "sNEd" },
-
- {&gba_apu.noise.new_env_period, sizeof(int) | MDFNSTATE_RLSB, "sNNP" },
- {&gba_apu.noise.new_env_dir, sizeof(int) | MDFNSTATE_RLSB, "sNND" },
- {&gba_apu.noise.new_volume, sizeof(int) | MDFNSTATE_RLSB, "sNNV" },
-
- {&gba_apu.noise.period, sizeof(int) | MDFNSTATE_RLSB, "sNOP" },
- {&gba_apu.noise.volume, sizeof(int) | MDFNSTATE_RLSB, "sNOV" },
- {&gba_apu.noise.frequency, sizeof(int) | MDFNSTATE_RLSB, "sNOF" },
- {&gba_apu.noise.length, sizeof(int) | MDFNSTATE_RLSB, "sNOL" },
- {&gba_apu.noise.new_length, sizeof(int) | MDFNSTATE_RLSB, "sNOl" },
- {&gba_apu.noise.ME, sizeof(int) | MDFNSTATE_RLSB, "sNOM" },
- {&gba_apu.noise.enabled, sizeof(bool8) | MDFNSTATE_RLSB, "sNOE" },
- {&gba_apu.noise.length_enabled, sizeof(bool8) | MDFNSTATE_RLSB, "sNOe" },
-
-
- {&gba_apu.wave.volume_shift, sizeof(int) | MDFNSTATE_RLSB, "sWWS" },
- {&gba_apu.wave.wave_pos, sizeof(int) | MDFNSTATE_RLSB, "sWWP" },
- {gba_apu.wave.wave, 32 * 2, "WaveData" },
-
- {&gba_apu.wave.period, sizeof(int) | MDFNSTATE_RLSB, "sWOP" },
- {&gba_apu.wave.volume, sizeof(int) | MDFNSTATE_RLSB, "sWOV" },
- {&gba_apu.wave.frequency, sizeof(int) | MDFNSTATE_RLSB, "sWOF" },
- {&gba_apu.wave.length, sizeof(int) | MDFNSTATE_RLSB, "sWOL" },
- {&gba_apu.wave.new_length, sizeof(int) | MDFNSTATE_RLSB, "sWOl" },
- {&gba_apu.wave.ME, sizeof(int) | MDFNSTATE_RLSB, "sWOM" },
- {&gba_apu.wave.enabled, sizeof(bool8) | MDFNSTATE_RLSB, "sWOE" },
- {&gba_apu.wave.length_enabled, sizeof(bool8) | MDFNSTATE_RLSB, "sWOe" },
- SFEND
+  SFVARN(apu_state, "apu_state"),
+  SFEND
  };
 
  int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "SND");
- if(load)
-  gba_apu.dirty();
+ if(ret && load)
+ {
+  gba_apu.reset( gba_apu.mode_agb, true );
+  (void) gba_apu.load_state( apu_state ); // TODO: warn if this returns error
+ }
  return(ret);
 }
 
@@ -316,63 +252,12 @@ void soundEvent(uint32 address, uint16 data)
     break;    
   }
 }
-static void soundLick(void);
-
-void soundDirectSoundATimer()
-{
-  if(soundDSAEnabled) {
-    if(soundDSFifoACount <= 16) {
-      CPUCheckDMA(3, 2);
-    }
-    
-    if(soundDSFifoACount > 16)
-    {
-     soundDSAValue = (soundDSFifoA[soundDSFifoAIndex]);
-     soundDSFifoAIndex = (soundDSFifoAIndex + 1) & 31;
-     soundDSFifoACount--;
-    } 
-  } 
-  else
-  {
-   soundDSAValue = 0;
-  }
- soundLick();
-}
-
-void soundDirectSoundBTimer()
-{
-  if(soundDSBEnabled) {
-    if(soundDSFifoBCount <= 16) {
-      CPUCheckDMA(3, 4);
-    }
-    
-    if(soundDSFifoBCount > 16)
-    {
-     soundDSBValue = (soundDSFifoB[soundDSFifoBIndex]);
-     soundDSFifoBIndex = (soundDSFifoBIndex + 1) & 31;
-     soundDSFifoBCount--;
-    }
-  } else {
-    soundDSBValue = 0;
-  }
-  soundLick();
-}
-
-void soundTimerOverflow(int timer)
-{
-  if(soundDSAEnabled && (soundDSATimer == timer)) {
-    soundDirectSoundATimer();
-  }
-  if(soundDSBEnabled && (soundDSBTimer == timer)) {
-    soundDirectSoundBTimer();
-  }
-}
 
 #ifndef max
 #define max(a,b) (a)<(b)?(b):(a)
 #endif
 
-static ALWAYS_INLINE void soundMix(int &left, int &right)
+static inline void soundMix(int &left, int &right)
 {
   int res = 0;
   int dsaRatio = ioMem[0x82] & 4;
@@ -420,127 +305,141 @@ static ALWAYS_INLINE void soundMix(int &left, int &right)
  right = res;
 }
 
-static int lleft = 0, lright = 0;
-static bool forcemono;
+int meow = 0;
 
-void soundLick()
+static inline void soundLick(void)
 {
  int left, right;
 
- left=right=0;
+ left = right = 0;
 
  soundMix(left, right);
 
- if(forcemono)
- {
-  int tmp = (left + right) / 2;
-  left = right = tmp;
+ if(left != lleft)
+  synth.offset_inline(soundTS, left - lleft, gba_buf.left());
 
-  if(left != lleft)
-   synth.offset_inline(soundTS, left - lleft, gba_buf.left());
- }
- else
- {
-  if(left != lleft)
-   synth.offset_inline(soundTS, left - lleft, gba_buf.left());
-
-  if(right != lright)
-   synth.offset_inline(soundTS, right - lright, gba_buf.right());
- }
+ if(right != lright)
+  synth.offset_inline(soundTS, right - lright, gba_buf.right());
 
  lleft = left;
  lright = right;
 }
 
-int16 *MDFNGBASOUND_Flush(int32 *len)
+static void DSTimer(int which, int dmamask)
 {
- static int16 yaybuf[8000];
- int love2;
+ if(DSChans[which].Enabled)
+ {
+  if(DSChans[which].FifoCount <= 16)
+  {
+   CPUCheckDMA(3, dmamask);
+  }
 
- int ratio = ioMem[0x82] & 3;
- int rat_table[4] = { 2, 1, 0, 2 };
+  if(DSChans[which].FifoCount > 16)
+  {
+   DSChans[which].Value = (DSChans[which].Fifo[DSChans[which].FifoIndex]);
+   DSChans[which].FifoIndex = (DSChans[which].FifoIndex + 1) & 0x1F;
+   DSChans[which].FifoCount--;
+  }
+ }
+ else
+ {
+  DSChans[which].Value = 0;
+ }
+}
+
+void soundTimerOverflow(int timer)
+{
+ bool NeedLick = FALSE;
+
+ if(soundDSAEnabled && (soundDSATimer == timer))
+ {
+  DSTimer(0, 2);
+  NeedLick = TRUE;
+ }
+
+ if(soundDSBEnabled && (soundDSBTimer == timer))
+ {
+  DSTimer(1, 4);
+  NeedLick = TRUE;
+ }
+
+ if(NeedLick)
+  soundLick();
+}
+
+int32 MDFNGBASOUND_Flush(int16 *SoundBuf, const int32 MaxSoundFrames)
+{
+ const int ratio = ioMem[0x82] & 3;
+ static const int rat_table[4] = { 2, 1, 0, 2 };
+ int32 FrameCount = 0;
  
- gba_apu.volume(0.30 * (double)(4 >> rat_table[ratio]) / 4);
+ gba_apu.volume(0.333 * (double)(4 >> rat_table[ratio]) / 4);
 
  gba_apu.end_frame(soundTS);
 
- if(forcemono)
- {
-  gba_buf.left()->end_frame(soundTS);
-  love2 = gba_buf.left()->read_samples(yaybuf, 8000);
- }
+ gba_buf.end_frame(soundTS);
+
+ if(SoundBuf)
+  FrameCount = gba_buf.read_samples(SoundBuf, MaxSoundFrames * 2) / 2;
  else
- {
-  gba_buf.end_frame(soundTS);
-  love2 = gba_buf.read_samples(yaybuf, 8000);
- }
+  gba_buf.clear();
 
  soundTS = 0;
 
- if(!FSettings.SndRate)
+
+#if 0
+ if(SoundBuf)
  {
-  *len = 0;
-  return(NULL);
+  unsigned long long crf = (unsigned long long)gba_buf.left()->clock_rate_factor(gba_buf.left()->clock_rate());
+  double real_rate = (double)crf * gba_buf.left()->clock_rate() / (1ULL << BLIP_BUFFER_ACCURACY);
+
+  printf("%f\n", real_rate);
  }
+#endif
 
- if(!forcemono)
-  love2 /= 2;
-
- *len = love2;
- return(yaybuf);
+ return(FrameCount);
 }
 
-void MDFNGBASOUND_Init(bool WantMono)
+void MDFNGBASOUND_Init(void)
 {
- gba_buf.set_sample_rate(FSettings.SndRate?FSettings.SndRate:44100, 60);
- gba_buf.clock_rate((long)(4194304 * 4 * FSettings.soundmultiplier));
+ MDFNGBA_SetSoundRate(0);	
 
- forcemono = WantMono;
+ gba_buf.clock_rate((long)(4194304 * 4));
 
- if(forcemono)
-  gba_apu.output(gba_buf.left(), NULL, NULL);
- else
-  gba_apu.output(gba_buf.center(), gba_buf.left(), gba_buf.right());
+ gba_apu.set_output(gba_buf.center(), gba_buf.left(), gba_buf.right());
 
- gba_apu.setgba(1);
- gba_apu.volume(0.30);
+ gba_apu.reset( gba_apu.mode_agb, true );
 
- synth.volume(0.60); //0.25);
+ gba_apu.volume(0.333);
+ synth.volume(0.666);
+
  gba_buf.bass_freq(20);
-}
-
-void soundShutdown()
-{
-
 }
 
 void soundReset()
 {
-  int addr = 0x90;
-
-  while(addr < 0xA0) {
-    ioMem[addr++] = 0x00;
-    ioMem[addr++] = 0xff;
+  for(int ch = 0; ch < 2; ch++)
+  {
+   DSChans[ch].FifoIndex = 0;
+   DSChans[ch].FifoCount = 0;
+   DSChans[ch].FifoWriteIndex = 0;
+   DSChans[ch].Enabled = false;
+   DSChans[ch].Timer = 0;
+   memset(DSChans[ch].Fifo, 0, 32);
+   DSChans[ch].Value = 0;
   }
 
-  addr = 0;
+  for(int addr = 0x90; addr < 0xA0;)
+  {
+   ioMem[addr++] = 0x00;
+   ioMem[addr++] = 0xff;
+  }
+
+  gba_apu.reset( gba_apu.mode_agb, true );
 }
 
-bool8 soundInit()
+bool MDFNGBA_SetSoundRate(uint32 rate)
 {
-    return true;
-}  
-
-void MDFNGBA_SetSoundMultiplier(double multiplier)
-{
-        gba_buf.clock_rate((long)(4194304 * 4 * multiplier));
-}
-
-void MDFNGBA_SetSoundVolume(uint32 volume)
-{
-
-}
-void MDFNGBA_Sound(int rate)
-{
-        gba_buf.set_sample_rate(rate?rate:44100, 60);
+ gba_buf.set_sample_rate(rate?rate:44100, 60);
+ return(TRUE);
 }

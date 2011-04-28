@@ -18,13 +18,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
-#include <errno.h>
-
 #include	"nes.h"
 #include	"cart.h"
 #include        "unif.h"
-#include	"memory.h"
 #include	"input.h"
 #include	"vsuni.h"
 
@@ -138,7 +134,7 @@ static void InitBoardMirroring(void)
 static int DoMirroring(MDFNFILE *fp)
 {
  uint8 t;
- t=MDFN_fgetc(fp);
+ t = fp->fgetc();
  mirrortodo=t; 
 
  {
@@ -158,7 +154,7 @@ static int NAME(MDFNFILE *fp)
  MDFN_printf(_("Name: "));
  index=0;
 
- while((t=MDFN_fgetc(fp))>0)
+ while((t = fp->fgetc())>0)
   if(index<99)
    namebuf[index++]=t;
 
@@ -179,17 +175,17 @@ static int DINF(MDFNFILE *fp)
  uint16 y;
  int t;
 
- if(MDFN_fread(name,1,100,fp)!=100)
+ if(fp->fread(name, 1, 100) != 100)
   return(0);
- if((t=MDFN_fgetc(fp))==EOF) return(0);
+ if((t=fp->fgetc())==EOF) return(0);
  d=t;
- if((t=MDFN_fgetc(fp))==EOF) return(0);
+ if((t=fp->fgetc())==EOF) return(0);
  m=t;
- if((t=MDFN_fgetc(fp))==EOF) return(0);
+ if((t=fp->fgetc())==EOF) return(0);
  y=t;
- if((t=MDFN_fgetc(fp))==EOF) return(0);
+ if((t=fp->fgetc())==EOF) return(0);
  y|=t<<8;
- if(MDFN_fread(method,1,100,fp)!=100)
+ if(fp->fread(method, 1, 100)!=100)
   return(0);
  name[99]=method[99]=0;
  MDFN_printf(_("Dumped by: %s\n"),name);
@@ -208,7 +204,7 @@ static int CTRL(MDFNFILE *fp)
 {
  int t;
 
- if((t=MDFN_fgetc(fp))==EOF)
+ if((t=fp->fgetc())==EOF)
   return(0);
  /* The information stored in this byte isn't very helpful, but it's
     better than nothing...maybe.
@@ -234,7 +230,7 @@ static int CTRL(MDFNFILE *fp)
 static int TVCI(MDFNFILE *fp)
 {
  int t;
- if( (t=MDFN_fgetc(fp)) ==EOF)
+ if( (t=fp->fgetc()) ==EOF)
   return(0);
  if(t<=2)
  {
@@ -253,7 +249,7 @@ static int TVCI(MDFNFILE *fp)
 static int EnableBattery(MDFNFILE *fp)
 {
  MDFN_printf(_("Battery-backed.\n"));
- if(MDFN_fgetc(fp)==EOF)
+ if(fp->fgetc()==EOF)
   return(0);
  UNIFCart.battery=1;
  return(1);
@@ -283,9 +279,9 @@ static int LoadPRG(MDFNFILE *fp)
   return(0);
  mallocedsizes[z]=t;
  memset(malloced[z]+uchead.info,0xFF,t-uchead.info);
- if(MDFN_fread(malloced[z],1,uchead.info,fp)!=uchead.info)
+ if(fp->fread(malloced[z],1,uchead.info)!=uchead.info)
  {
-  MDFN_printf("%m\n", errno);
+  MDFN_PrintError(_("Error reading PRG chunk %d"), z);
   return(0);
  }
  else
@@ -299,7 +295,9 @@ static int SetBoardName(MDFNFILE *fp)
 {
  if(!(boardname=(uint8 *)malloc(uchead.info+1)))
   return(0);
- MDFN_fread(boardname,1,uchead.info,fp);
+
+ fp->fread(boardname,1,uchead.info);
+
  boardname[uchead.info]=0;
  MDFN_printf(_("Board name: %s\n"),boardname);
  sboardname=boardname;
@@ -322,9 +320,9 @@ static int LoadCHR(MDFNFILE *fp)
   return(0);
  mallocedsizes[16+z]=t;
  memset(malloced[16+z]+uchead.info,0xFF,t-uchead.info);
- if(MDFN_fread(malloced[16+z],1,uchead.info,fp)!=uchead.info)
+ if(fp->fread(malloced[16+z],1,uchead.info)!=uchead.info)
  {
-  MDFN_printf("%m\n", errno);
+  MDFN_PrintError(_("Error reading CHR chunk %d"), z);
   return(0);
  }
  else
@@ -441,14 +439,14 @@ int LoadUNIFChunks(MDFNFILE *fp)
    int t;
    for(;;)
    {
-    t=MDFN_fread(&uchead,1,4,fp);
+    t = fp->fread(&uchead,1,4);
     if(t<4) 
     {
      if(t>0)
       return 0; 
      return 1;
     }
-    if(!(MDFN_read32le(&uchead.info,fp))) 
+    if(!(fp->read32le(&uchead.info))) 
      return 0;
     t=0;
     x=0;
@@ -465,7 +463,7 @@ int LoadUNIFChunks(MDFNFILE *fp)
      x++;
     }
     if(!t)
-     if(MDFN_fseek(fp,uchead.info,SEEK_CUR))
+     if(fp->fseek(uchead.info, SEEK_CUR))
       return(0);
    }
 }
@@ -544,16 +542,16 @@ bool UNIFLoad(const char *name, MDFNFILE *fp, NESGameType *gt)
 	if(!UNIF_TestMagic(name, fp))
 	 return(FALSE);
 
-	MDFN_fseek(fp, 4, SEEK_SET);
+	fp->fseek(4, SEEK_SET);
 
 	ResetCartMapping();
 
         ResetUNIF();
 	memset(WantInput, 0, sizeof(WantInput));
 
-        if(!MDFN_read32le(&unhead.info,fp))
+        if(!fp->read32le(&unhead.info))
 	 goto aborto;
-        if(MDFN_fseek(fp,0x20,SEEK_SET)<0)
+        if(fp->fseek(0x20,SEEK_SET)<0)
 	 goto aborto;
         if(!LoadUNIFChunks(fp))
 	 goto aborto;

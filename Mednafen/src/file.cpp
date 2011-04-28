@@ -22,6 +22,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
+#include <trio/trio.h>
 
 #ifdef HAVE_MMAP
 #include <sys/mman.h>
@@ -35,9 +36,11 @@
 #include "compress/unzip.h"
 
 #include "file.h"
-#include "endian.h"
-#include "memory.h"
 #include "general.h"
+
+#ifndef __GNUC__
+ #define strcasecmp strcmp
+#endif
 
 static const int64 MaxROMImageSize = (int64)1 << 26; // 2 ^ 26 = 64MiB
 
@@ -47,255 +50,6 @@ enum
  MDFN_FILETYPE_GZIP = 1,
  MDFN_FILETYPE_ZIP = 2,
 };
-
-static bool ApplyIPS(FILE *ips, MDFNFILE *dest, const char *path)
-{
- uint8 header[5];
- uint32 count=0;
- 
- MDFN_printf(_("Applying IPS file \"%s\"...\n"), path);
- MDFN_indent(1);
- if(fread(header,1,5,ips) != 5 || memcmp(header, "PATCH", 5))
- {
-  fclose(ips);
-  MDFN_PrintError(_("IPS file \"%s\" is not valid!"), path);
-  MDFN_indent(-1);
-  return(0);
- }
-
- while(fread(header,1,3,ips)==3)
- {
-  uint32 offset=(header[0]<<16)|(header[1]<<8)|header[2];
-  uint32 size;
-
-  if(!memcmp(header,"EOF",3))
-  {
-   MDFN_printf(_("IPS EOF:  Did %d patches\n\n"),count);
-   MDFN_indent(-1);
-   fclose(ips);
-   return(1);
-  }
-
-  size=fgetc(ips)<<8;
-  size|=fgetc(ips);
-  if(!size)	/* RLE */
-  {
-   uint8 *start;
-   uint8 b;
-   size=fgetc(ips)<<8;
-   size|=fgetc(ips);
-
-   // Is this right?
-   if(!size)
-    size = 65536;
-
-   //MDFN_printf("  Offset: %8d  Size: %5d RLE\n",offset,size);
-
-   if((offset+size)>dest->size)
-   {
-    uint8 *tmp;
-
-    if((offset + size) > MaxROMImageSize)
-    {
-     MDFN_PrintError(_("ROM image will be too large after IPS patch; maximum size allowed is %llu bytes."), (unsigned long long)MaxROMImageSize);
-     fclose(ips);
-     return(0);
-    }
-
-    tmp=(uint8 *)MDFN_realloc(dest->data, offset+size, _("file read buffer"));
-    if(!tmp)
-    {
-     fclose(ips);
-     return(0);
-    }
-
-    dest->size=offset+size;
-    dest->data=tmp;
-    memset(dest->data+dest->size,0,offset+size-dest->size);
-   }
-
-   b=fgetc(ips);
-   start=dest->data+offset;
-
-   while(size--)
-   {
-    *start=b;
-    start++;
-   }
-
-  }
-  else		/* Normal patch */
-  {
-   //MDFN_printf("  Offset: %8d  Size: %5d\n",offset,size);
-   if((offset+size)>dest->size)
-   {
-    uint8 *tmp;
-    
-    tmp=(uint8 *)MDFN_realloc(dest->data, offset+size, _("file read buffer"));
-    if(!tmp)
-    {
-     fclose(ips);
-     MDFN_indent(-1);
-     return(0);
-    }
-    dest->data=tmp;
-    memset(dest->data+dest->size,0,offset+size-dest->size);
-   }
-   fread(dest->data+offset,1,size,ips);
-  }
-  count++;
- }
- fclose(ips);
-
- MDFN_printf(_("Warning:  IPS ended without an EOF chunk.\n"));
- MDFN_printf(_("IPS EOF:  Did %d patches\n\n"), count);
-
- MDFN_indent(-1);
-
- return(1);
-}
-
-// This function should ALWAYS close the system file "descriptor"(gzip library, zip library, or FILE *) it's given,
-// even if it errors out.
-static MDFNFILE *MakeMemWrap(void *tz, int type)
-{
- MDFNFILE *tmp = NULL;
-
- if(!(tmp=(MDFNFILE *)MDFN_malloc(sizeof(MDFNFILE), _("file read buffer"))))
-  goto doret;
- 
- #ifdef HAVE_MMAP
- tmp->is_mmap = FALSE;
- #endif
-
- tmp->location = 0;
-
- if(type == MDFN_FILETYPE_PLAIN)
- {
-  fseek((FILE *)tz,0,SEEK_END);
-  tmp->size=ftell((FILE *)tz);
-  fseek((FILE *)tz,0,SEEK_SET);
-
-  if(tmp->size > MaxROMImageSize)
-  {
-   MDFN_PrintError(_("ROM image is too large; maximum size allowed is %llu bytes."), (unsigned long long)MaxROMImageSize);
-   free(tmp);
-   tmp = NULL;
-   goto doret;
-  }
-
-  #ifdef HAVE_MMAP
-  if((void *)-1 != (tmp->data = (uint8 *)mmap(NULL, tmp->size, PROT_READ, MAP_SHARED, fileno((FILE *)tz), 0)))
-  {
-   //puts("mmap'ed");
-   tmp->is_mmap = TRUE;
-   #ifdef HAVE_MADVISE
-   if(0 == madvise(tmp->data, tmp->size, MADV_SEQUENTIAL | MADV_WILLNEED))
-   {
-    //puts("madvised");
-   }
-   #endif
-  }
-  else
-  {
-  #endif
-   if(!(tmp->data=(uint8*)MDFN_malloc(tmp->size, _("file read buffer"))))
-   {
-    free(tmp);
-    tmp=0;
-    goto doret;
-   }
-   if((int64)fread(tmp->data, 1, tmp->size, (FILE *)tz) != tmp->size)
-   {
-    free(tmp->data);
-    free(tmp);
-    tmp = NULL;
-    goto doret;
-   }
-  #ifdef HAVE_MMAP
-  }
-  #endif
- }
- else if(type == MDFN_FILETYPE_GZIP)
- {
-  uint32_t cur_size = 0;
-  uint32_t cur_alloced = 65536;
-  int howmany;
-
-  if(!(tmp->data=(uint8*)MDFN_malloc(cur_alloced, _("file read buffer"))))
-  {
-   free(tmp);
-   tmp = NULL;
-   goto doret;
-  }
-
-  while((howmany = gzread(tz, tmp->data + cur_size, cur_alloced - cur_size)) > 0)
-  {
-   cur_size += howmany;
-   cur_alloced <<= 1;
-   if(!(tmp->data = (uint8 *)MDFN_realloc(tmp->data, cur_alloced, _("file read buffer")))) 
-   {
-    free(tmp);
-    tmp = NULL;
-    goto doret;
-   }
-  }
-
-  if(!(tmp->data = (uint8 *)MDFN_realloc(tmp->data, cur_size, _("file read buffer")))) 
-  {
-   free(tmp);
-   tmp = NULL;
-   goto doret;
-  }
-
-  tmp->size = cur_size;
- }
- else if(type == MDFN_FILETYPE_ZIP)
- {
-  unz_file_info ufo; 
-  unzGetCurrentFileInfo(tz,&ufo,0,0,0,0,0,0);  
-
-  tmp->size=ufo.uncompressed_size;
-
-  if(tmp->size > MaxROMImageSize)
-  {
-   MDFN_PrintError(_("ROM image is too large; maximum size allowed is %llu bytes."), (unsigned long long)MaxROMImageSize);
-   free(tmp);
-   tmp = NULL;
-   goto doret;
-  }
-
-  if(!(tmp->data=(uint8 *)MDFN_malloc(ufo.uncompressed_size, _("file read buffer"))))
-  {
-   free(tmp);
-   tmp = NULL;
-   goto doret;
-  }
-  unzReadCurrentFile(tz,tmp->data,ufo.uncompressed_size);
- }
-
- doret:
-
- if(type == MDFN_FILETYPE_PLAIN)
- {
-  fclose((FILE *)tz);
- }
- else if(type == MDFN_FILETYPE_GZIP)
- {
-  gzclose(tz);
- }
- else if(type == MDFN_FILETYPE_ZIP)
- {
-  unzCloseCurrentFile(tz);
-  unzClose(tz);
- }
-
- return(tmp);
-}
-
-#ifndef __GNUC__
- #define strcasecmp strcmp
-#endif
 
 static const char *unzErrorString(int error_code)
 {
@@ -319,14 +73,312 @@ static const char *unzErrorString(int error_code)
   return("ZIP Unknown");
 }
 
-MDFNFILE * MDFN_fopen(const char *path, const char *ipsfn, const char *mode, const char *ext)
+bool MDFNFILE::ApplyIPS(FILE *ips)
 {
- MDFNFILE *fceufp = NULL;
+ uint8 header[5];
+ uint32 count = 0;
+ 
+ //MDFN_printf(_("Applying IPS file \"%s\"...\n"), path);
+
+ MDFN_indent(1);
+ if(::fread(header, 1, 5, ips) != 5)
+ {
+  ErrnoHolder ene(errno);
+
+  MDFN_PrintError(_("Error reading IPS file header: %s"), ene.StrError());
+  MDFN_indent(-1);
+  return(0);
+ }
+
+ if(memcmp(header, "PATCH", 5))
+ {
+  MDFN_PrintError(_("IPS file header is invalid."));
+  MDFN_indent(-1);
+  return(0);
+ }
+
+ #ifdef HAVE_MMAP
+ // If the file is mmap()'d, move it to malloc()'d RAM
+ if(is_mmap)
+ {
+  void *tmp_ptr = MDFN_malloc(f_size, _("file read buffer"));
+  if(!tmp_ptr)
+  {
+   //Close();
+   //fclose(ipsfile);
+   return(0);
+  }
+  memcpy(tmp_ptr, f_data, f_size);
+
+  munmap(f_data, f_size);
+
+  is_mmap = FALSE;
+  f_data = (uint8 *)tmp_ptr;
+ }
+ #endif
+
+ while(::fread(header, 1, 3, ips) == 3)
+ {
+  uint32 offset = (header[0] << 16) | (header[1] << 8) | header[2];
+  uint8 patch_size_raw[2];
+  uint32 patch_size;
+  bool rle = false;
+
+  if(!memcmp(header, "EOF", 3))
+  {
+   MDFN_printf(_("IPS EOF:  Did %d patches\n\n"), count);
+   MDFN_indent(-1);
+   return(1);
+  }
+
+  if(::fread(patch_size_raw, 1, 2, ips) != 2)
+  {
+   ErrnoHolder ene(errno);
+   MDFN_PrintError(_("Error reading IPS patch length: %s"), ene.StrError());
+   return(0);
+  }
+
+  patch_size = MDFN_de16msb(patch_size_raw);
+
+  if(!patch_size)	/* RLE */
+  {
+   if(::fread(patch_size_raw, 1, 2, ips) != 2)
+   {
+    ErrnoHolder ene(errno);
+    MDFN_PrintError(_("Error reading IPS RLE patch length: %s"), ene.StrError());
+    return(0);
+   }
+
+   patch_size = MDFN_de16msb(patch_size_raw);
+
+   // Is this right?
+   if(!patch_size)
+    patch_size = 65536;
+
+   rle = true;
+   //MDFN_printf("  Offset: %8d  Size: %5d RLE\n",offset, patch_size);
+  }
+
+  if((offset + patch_size) > f_size)
+  {
+   uint8 *tmp;
+
+   //printf("%d\n", offset + patch_size, f_size);
+
+   if((offset + patch_size) > MaxROMImageSize)
+   {
+    MDFN_PrintError(_("ROM image will be too large after IPS patch; maximum size allowed is %llu bytes."), (unsigned long long)MaxROMImageSize);
+    return(0);
+   }
+
+   if(!(tmp = (uint8 *)MDFN_realloc(f_data, offset + patch_size, _("file read buffer"))))
+    return(0);
+
+   // Zero newly-allocated memory
+   memset(tmp + f_size, 0, (offset + patch_size) - f_size);
+
+   f_size = offset + patch_size;
+   f_data = tmp;
+  }
+
+
+  if(rle)
+  {
+   const int b = ::fgetc(ips);
+   uint8 *start = f_data + offset;
+
+   if(EOF == b)
+   {
+    ErrnoHolder ene(errno);
+
+    MDFN_PrintError(_("Error reading IPS RLE patch byte: %s"), ene.StrError());
+
+    return(0);
+   }
+
+   while(patch_size--)
+   {
+    *start=b;
+    start++;
+   }
+
+  }
+  else		/* Normal patch */
+  {
+   //MDFN_printf("  Offset: %8d  Size: %5d\n", offset, patch_size);
+   if(::fread(f_data + offset, 1, patch_size, ips) != patch_size)
+   {
+    ErrnoHolder ene(errno);
+
+    MDFN_PrintError(_("Error reading IPS patch: %s"), ene.StrError());
+    return(0);
+   }
+  }
+  count++;
+ }
+ ErrnoHolder ene(errno);
+
+ //MDFN_printf(_("Warning:  IPS ended without an EOF chunk.\n"));
+ //MDFN_printf(_("IPS EOF:  Did %d patches\n\n"), count);
+ MDFN_indent(-1);
+
+ MDFN_PrintError(_("Error reading IPS patch header: %s"), ene.StrError());
+ return(0);
+
+ //return(1);
+}
+
+// This function should ALWAYS close the system file "descriptor"(gzip library, zip library, or FILE *) it's given,
+// even if it errors out.
+bool MDFNFILE::MakeMemWrap(void *tz, int type)
+{
+ bool ret = FALSE;
+
+ #ifdef HAVE_MMAP
+ is_mmap = FALSE;
+ #endif
+ location = 0;
+
+ if(type == MDFN_FILETYPE_PLAIN)
+ {
+  ::fseek((FILE *)tz, 0, SEEK_END);
+  f_size = ::ftell((FILE *)tz);
+  ::fseek((FILE *)tz, 0, SEEK_SET);
+
+  if(size > MaxROMImageSize)
+  {
+   MDFN_PrintError(_("ROM image is too large; maximum size allowed is %llu bytes."), (unsigned long long)MaxROMImageSize);
+   goto doret;
+  }
+
+  #ifdef HAVE_MMAP
+  if((void *)-1 != (f_data = (uint8 *)mmap(NULL, size, PROT_READ, MAP_SHARED, fileno((FILE *)tz), 0)))
+  {
+   //puts("mmap'ed");
+   is_mmap = TRUE;
+   #ifdef HAVE_MADVISE
+   if(0 == madvise(f_data, size, MADV_SEQUENTIAL | MADV_WILLNEED))
+   {
+    //puts("madvised");
+   }
+   #endif
+  }
+  else
+  {
+  #endif
+   if(!(f_data = (uint8*)MDFN_malloc(size, _("file read buffer"))))
+   {
+    goto doret;
+   }
+   if((int64)::fread(f_data, 1, size, (FILE *)tz) != size)
+   {
+    free(f_data);
+    goto doret;
+   }
+  #ifdef HAVE_MMAP
+  }
+  #endif
+ }
+ else if(type == MDFN_FILETYPE_GZIP)
+ {
+  uint32_t cur_size = 0;
+  uint32_t cur_alloced = 65536;
+  int howmany;
+
+  if(!(f_data = (uint8*)MDFN_malloc(cur_alloced, _("file read buffer"))))
+  {
+   goto doret;
+  }
+
+  while((howmany = gzread(tz, f_data + cur_size, cur_alloced - cur_size)) > 0)
+  {
+   cur_size += howmany;
+   cur_alloced <<= 1;
+   if(!(f_data = (uint8 *)MDFN_realloc(f_data, cur_alloced, _("file read buffer")))) 
+   {
+    goto doret;
+   }
+  }
+
+  if(!(f_data = (uint8 *)MDFN_realloc(f_data, cur_size, _("file read buffer")))) 
+  {
+   goto doret;
+  }
+
+  f_size = cur_size;
+ }
+ else if(type == MDFN_FILETYPE_ZIP)
+ {
+  unz_file_info ufo; 
+  unzGetCurrentFileInfo(tz, &ufo, 0, 0, 0, 0, 0, 0);
+
+  f_size = ufo.uncompressed_size;
+
+  if(size > MaxROMImageSize)
+  {
+   MDFN_PrintError(_("ROM image is too large; maximum size allowed is %llu bytes."), (unsigned long long)MaxROMImageSize);
+   goto doret;
+  }
+
+  if(!(f_data=(uint8 *)MDFN_malloc(ufo.uncompressed_size, _("file read buffer"))))
+  {
+   goto doret;
+  }
+
+  unzReadCurrentFile(tz, f_data, ufo.uncompressed_size);
+ }
+
+ ret = TRUE;
+
+ doret:
+ if(type == MDFN_FILETYPE_PLAIN)
+ {
+  fclose((FILE *)tz);
+ }
+ else if(type == MDFN_FILETYPE_GZIP)
+ {
+  gzclose(tz);
+ }
+ else if(type == MDFN_FILETYPE_ZIP)
+ {
+  unzCloseCurrentFile(tz);
+  unzClose(tz);
+ }
+
+ return(ret);
+}
+
+MDFNFILE::MDFNFILE() : size(f_size), data((const uint8* const &)f_data), ext((const char * const &)f_ext)
+{
+ f_data = NULL;
+ f_size = 0;
+ f_ext = NULL;
+
+ location = 0;
+
+ #ifdef HAVE_MMAP
+ is_mmap = 0;
+ #endif
+}
+
+MDFNFILE::~MDFNFILE()
+{
+ Close();
+}
+
+
+bool MDFNFILE::Open(const char *path, const FileExtensionSpecStruct *known_ext, const char *purpose, const bool suppress_notfound_pe)
+{
  void *t;
  unzFile tz;
 
+ local_errno = 0;
+ error_code = MDFNFILE_EC_OTHER;	// Set to 0 at the end if the function succeeds.
+
+ //f_data = (uint8 *)0xDEADBEEF;
+
  // Try opening it as a zip file first
- if((tz=unzOpen(path)))
+ if((tz = unzOpen(path)))
  {
   char tempu[1024];
   int errcode;
@@ -335,36 +387,38 @@ MDFNFILE * MDFN_fopen(const char *path, const char *ipsfn, const char *mode, con
   {
    MDFN_PrintError(_("Could not seek to first file in ZIP archive: %s"), unzErrorString(errcode));
    unzClose(tz);
+
    return(NULL);
   }
 
-  if(ext)
+  if(known_ext)
   {
    bool FileFound = FALSE;
    while(!FileFound)
    {
     size_t tempu_strlen;
-    size_t ttmeow;
-    const char *extpoo = ext;
+    const FileExtensionSpecStruct *ext_search = known_ext;
 
     if((errcode = unzGetCurrentFileInfo(tz, 0, tempu, 1024, 0, 0, 0, 0)) != UNZ_OK)
     {
      MDFN_PrintError(_("Could not get file information in ZIP archive: %s"), unzErrorString(errcode));
      unzClose(tz);
+
      return(NULL);
     }
 
     tempu[1023] = 0;
     tempu_strlen = strlen(tempu);
 
-    while((ttmeow = strlen(extpoo)) && !FileFound)
+    while(ext_search->extension && !FileFound)
     {
+     size_t ttmeow = strlen(ext_search->extension);
      if(tempu_strlen >= ttmeow)
      {
-      if(!strcasecmp(tempu + tempu_strlen - ttmeow, extpoo))
+      if(!strcasecmp(tempu + tempu_strlen - ttmeow, ext_search->extension))
        FileFound = TRUE;
      }
-     extpoo += ttmeow + 1;
+     ext_search++;
     }
 
     if(FileFound)
@@ -398,36 +452,47 @@ MDFNFILE * MDFN_fopen(const char *path, const char *ipsfn, const char *mode, con
    return(NULL);
   }
 
-  if(!(fceufp=MakeMemWrap(tz, MDFN_FILETYPE_ZIP)))
+  if(!MakeMemWrap(tz, MDFN_FILETYPE_ZIP))
    return(0);
 
   char *ld = strrchr(tempu, '.');
-  fceufp->ext = strdup(ld ? ld + 1 : "");
+
+  f_ext = strdup(ld ? ld + 1 : "");
  }
  else // If it's not a zip file, handle it as...another type of file!
  {
-  t = fopen(path,"rb");
-  if(!t)
+  if(!(t = fopen(path,"rb")))
   {
-   MDFN_PrintError(_("Error opening \"%s\": %s"), path, strerror(errno));
+   ErrnoHolder ene(errno);
+   local_errno = ene.Errno();
+
+   if(ene.Errno() == ENOENT)
+   {
+    local_errno = ene.Errno();
+    error_code = MDFNFILE_EC_NOTFOUND;
+   }
+   
+   if(ene.Errno() != ENOENT || !suppress_notfound_pe)
+    MDFN_PrintError(_("Error opening \"%s\": %s"), path, ene.StrError());
+
    return(0);
   }
 
   uint32 gzmagic;
 
-  gzmagic=fgetc((FILE *)t);
-  gzmagic|=fgetc((FILE *)t)<<8;
-  gzmagic|=fgetc((FILE *)t)<<16;
+  gzmagic = ::fgetc((FILE *)t);
+  gzmagic |= ::fgetc((FILE *)t)<<8;
+  gzmagic |= ::fgetc((FILE *)t)<<16;
 
   if(gzmagic!=0x088b1f)   /* Not gzip... */
   {
-   fseek((FILE *)t,0,SEEK_SET);
+   ::fseek((FILE *)t,0,SEEK_SET);
 
-   if(!(fceufp = MakeMemWrap(t, 0)))
+   if(!MakeMemWrap(t, 0))
     return(0);
 
    const char *ld = strrchr(path, '.');
-   fceufp->ext = strdup(ld ? ld + 1 : "");
+   f_ext = strdup(ld ? ld + 1 : "");
   }
   else                  /* Probably gzip */
   {
@@ -436,13 +501,13 @@ MDFNFILE * MDFN_fopen(const char *path, const char *ipsfn, const char *mode, con
    fd = dup(fileno( (FILE *)t));
    lseek(fd, 0, SEEK_SET);
 
-   if(!(t=gzdopen(fd, mode)))
+   if(!(t=gzdopen(fd, "rb")))
    {
     close(fd);
     return(0);
    }
 
-   if(!(fceufp = MakeMemWrap(t, 1)))
+   if(!MakeMemWrap(t, 1))
    {
     gzclose(t);
     return(0);
@@ -458,190 +523,135 @@ MDFNFILE * MDFN_fopen(const char *path, const char *ipsfn, const char *mode, con
     ld = strrchr(tmp_path, '.');
     if(!ld) { *last_ld = '.'; ld = last_ld; }
    }
-   fceufp->ext = strdup(ld ? ld + 1 : "");
+   f_ext = strdup(ld ? ld + 1 : "");
    free(tmp_path);
   } // End gzip handling
  } // End normal and gzip file handling else to zip
 
- if(strchr(mode,'r') && ipsfn)
- {
-  FILE *ipsfile = fopen(ipsfn, "rb");
+ // FIXME:  Handle extension fixing for cases where loaded filename is like "moo.moo/lalala"
 
-  if(!ipsfile)
-  {
-   if(errno != ENOENT)
-   {
-    MDFN_PrintError(_("Error opening \"%s\": %s"), path, strerror(errno));
-    MDFN_fclose(fceufp);
-    return(NULL);
-   }
-  }
-  else
-  {
-   #ifdef HAVE_MMAP
-   // If the file is mmap()'d, move it to malloc()'d RAM
-   if(fceufp->is_mmap)
-   {
-    void *tmp_ptr = MDFN_malloc(fceufp->size, _("file read buffer"));
-    if(!tmp_ptr)
-    {
-     MDFN_fclose(fceufp);
-     fclose(ipsfile);
-    }
-    memcpy(tmp_ptr, fceufp->data, fceufp->size);
+ error_code = 0;
 
-    munmap(fceufp->data, fceufp->size);
-
-    fceufp->is_mmap = FALSE;
-    fceufp->data = (uint8 *)tmp_ptr;
-   }
-   #endif
-
-   if(!ApplyIPS(ipsfile, fceufp, ipsfn))
-   {
-    MDFN_fclose(fceufp);
-    return(0);
-   }
-  }
- }
-
- return(fceufp);
+ return(TRUE);
 }
 
-int MDFN_fclose(MDFNFILE *fp)
+bool MDFNFILE::Close(void)
 {
- if(fp->ext)
-  free(fp->ext);
+ if(f_ext)
+ {
+  free(f_ext);
+  f_ext = NULL;
+ }
 
- if(fp->data)
+ if(f_data)
  {
   #if HAVE_MMAP
-  if(fp->is_mmap) 
-   munmap(fp->data, fp->size);
+  if(is_mmap) 
+   munmap(f_data, size);
   else
   #endif
-   free(fp->data);
+   free(f_data);
+  f_data = NULL;
  }
- free(fp);
 
  return(1);
 }
 
-uint64 MDFN_fread(void *ptr, size_t size, size_t nmemb, MDFNFILE *fp)
+uint64 MDFNFILE::fread(void *ptr, size_t element_size, size_t nmemb)
 {
- uint32 total=size*nmemb;
+ uint32 total = element_size * nmemb;
 
- if(fp->location>=fp->size) return 0;
+ if(location >= f_size)
+  return 0;
 
- if((fp->location+total)>fp->size)
+ if((location + total) > f_size)
  {
-  int ak=fp->size-fp->location;
-  memcpy((uint8*)ptr,fp->data+fp->location,ak);
-  fp->location=fp->size;
-  return(ak/size);
+  int64 ak = f_size - location;
+
+  memcpy((uint8*)ptr, f_data + location, ak);
+
+  location = f_size;
+
+  return(ak / element_size);
  }
  else
  {
-  memcpy((uint8*)ptr,fp->data+fp->location,total);
-  fp->location+=total;
+  memcpy((uint8*)ptr, f_data + location, total);
+
+  location += total;
+
   return nmemb;
  }
 }
 
-uint64 MDFN_fwrite(void *ptr, size_t size, size_t nmemb, MDFNFILE *fp)
-{
- return(0); // TODO
-}
-
-int MDFN_fseek(MDFNFILE *fp, int64 offset, int whence)
+int MDFNFILE::fseek(int64 offset, int whence)
 {
   switch(whence)
   {
-   case SEEK_SET:if(offset>=fp->size)
+   case SEEK_SET:if(offset >= f_size)
                   return(-1);
-                 fp->location=offset;break;
-   case SEEK_CUR:if(offset+fp->location>fp->size)
-                  return (-1);
-                 fp->location+=offset;
+                 location = offset;
+		 break;
+
+   case SEEK_CUR:if((offset + location) > f_size)
+                  return(-1);
+
+                 location += offset;
                  break;
   }    
   return 0;
 }
 
-uint64 MDFN_ftell(MDFNFILE *fp)
+int MDFNFILE::read16le(uint16 *val)
 {
- return(fp->location);
-}
-
-void MDFN_rewind(MDFNFILE *fp)
-{
- fp->location = 0;
-}
-
-int MDFN_read16le(uint16 *val, MDFNFILE *fp)
-{
- if((fp->location + 2) > fp->size)
+ if((location + 2) > size)
   return 0;
 
- *val = MDFN_de16lsb(fp->data + fp->location);
+ *val = MDFN_de16lsb(data + location);
 
- fp->location += 2;
+ location += 2;
 
  return(1);
 }
 
-int MDFN_read32le(uint32 *val, MDFNFILE *fp)
+int MDFNFILE::read32le(uint32 *val)
 {
- if((fp->location + 4) > fp->size)
+ if((location + 4) > size)
   return 0;
 
- *val = MDFN_de32lsb(fp->data + fp->location);
+ *val = MDFN_de32lsb(data + location);
 
- fp->location += 4;
+ location += 4;
 
  return(1);
 }
 
-char *MDFN_fgets(char *s, int size, MDFNFILE *fp)
+char *MDFNFILE::fgets(char *s, int buffer_size)
 {
  int pos = 0;
 
- if(!size) return(NULL);
+ if(!buffer_size)
+  return(NULL);
 
- if(fp->location >= fp->size) return(NULL);
+ if(location >= buffer_size)
+  return(NULL);
 
- while(pos < (size - 1) && fp->location < fp->size)
+ while(pos < (buffer_size - 1) && location < buffer_size)
  {
-  int v = fp->data[fp->location];
+  int v = data[location];
   s[pos] = v;
-  fp->location++;
+  location++;
   pos++;
   if(v == '\n') break;
  }
 
- if(size)
+ if(buffer_size)
   s[pos] = 0;
+
  return(s);
 }
 
-int MDFN_fgetc(MDFNFILE *fp)
-{
- if(fp->location<fp->size)
-  return fp->data[fp->location++];
- return EOF;
-}
-
-uint64 MDFN_fgetsize(MDFNFILE *fp)
-{
- return fp->size;
-}
-
-int MDFN_fisarchive(MDFNFILE *fp)
-{
- return 0;
-}
-
-static bool MDFN_DumpToFileReal(const char *filename, int compress, const std::vector<PtrLengthPair> &pearpairs)
+static INLINE bool MDFN_DumpToFileReal(const char *filename, int compress, const std::vector<PtrLengthPair> &pearpairs)
 {
  if(MDFN_GetSettingB("filesys.disablesavegz"))
   compress = 0;
@@ -651,26 +661,28 @@ static bool MDFN_DumpToFileReal(const char *filename, int compress, const std::v
   char mode[64];
   gzFile gp;
 
-  snprintf(mode, 64, "wb%d", compress);
+  trio_snprintf(mode, 64, "wb%d", compress);
 
   gp = gzopen(filename, mode);
 
   if(!gp)
   {
-   MDFN_PrintError(_("Error opening \"%s\": %m"), filename, errno);
+   ErrnoHolder ene(errno);
+
+   MDFN_PrintError(_("Error opening \"%s\": %s"), filename, ene.StrError());
    return(0);
   }
 
   for(unsigned int i = 0; i < pearpairs.size(); i++)
   {
    const void *data = pearpairs[i].GetData();
-   const uint64 length = pearpairs[i].GetLength();
+   const int64 length = pearpairs[i].GetLength();
 
-   if(gzwrite(gp, data, length) != (int64)length)
+   if(gzwrite(gp, data, length) != length)
    {
     int errnum;
 
-    MDFN_PrintError(_("Error writing to \"%s\": %m"), filename, gzerror(gp, &errnum));
+    MDFN_PrintError(_("Error writing to \"%s\": %s"), filename, gzerror(gp, &errnum));
     gzclose(gp);
     return(0);
    }
@@ -687,7 +699,9 @@ static bool MDFN_DumpToFileReal(const char *filename, int compress, const std::v
   FILE *fp = fopen(filename, "wb");
   if(!fp)
   {
-   MDFN_PrintError(_("Error opening \"%s\": %m"), filename, errno);
+   ErrnoHolder ene(errno);
+
+   MDFN_PrintError(_("Error opening \"%s\": %s"), filename, ene.StrError());
    return(0);
   }
 
@@ -698,13 +712,21 @@ static bool MDFN_DumpToFileReal(const char *filename, int compress, const std::v
 
    if(fwrite(data, 1, length, fp) != length)
    {
-    MDFN_PrintError(_("Error writing to \"%s\": %m"), filename, errno);
+    ErrnoHolder ene(errno);
+
+    MDFN_PrintError(_("Error writing to \"%s\": %s"), filename, ene.StrError());
     fclose(fp);
     return(0);
    }
   }
 
-  fclose(fp);
+  if(fclose(fp) == EOF)
+  {
+   ErrnoHolder ene(errno);
+
+   MDFN_PrintError(_("Error closing \"%s\": %s"), filename, ene.StrError());
+   return(0);
+  }
  }
  return(1);
 }

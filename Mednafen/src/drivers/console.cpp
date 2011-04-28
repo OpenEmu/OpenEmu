@@ -1,7 +1,6 @@
-#include <math.h>
 #include "main.h"
 #include "console.h"
-
+#include <math.h>
 
 MDFNConsole::MDFNConsole(bool setshellstyle, bool setsmallfont)
 {
@@ -23,14 +22,29 @@ bool MDFNConsole::TextHook(UTF8 *text)
  return(1);
 }
 
-void MDFNConsole::Scroll(int amount)
+void MDFNConsole::Scroll(int32 amount, bool SetPos)
 {
- int64 ts = Scrolled;
- ts += amount;
+ if(SetPos)
+ {
+  // Scroll to the beginning
+  if(amount == 0)
+  {
+   //Scrolled = 
+  }
+  else // Scroll to the end
+  {
+   Scrolled = 0;
+  }
+ }
+ else
+ {
+  int64 ts = Scrolled;
+  ts += amount;
 
- if(ts < 0)
-  ts = 0;
- Scrolled = ts;
+  if(ts < 0)
+   ts = 0;
+  Scrolled = ts;
+ }
 }
 
 #include "../string/ConvertUTF.h"
@@ -44,10 +58,20 @@ int MDFNConsole::Event(const SDL_Event *event)
                     switch(event->key.keysym.sym)
                     {
 		     case SDLK_HOME:
-			kb_cursor_pos = 0;
+			if(event->key.keysym.mod & KMOD_SHIFT)
+			{
+			 Scroll(0, TRUE); // Scroll to the beginning
+			}
+			else
+			 kb_cursor_pos = 0;
 			break;
 		     case SDLK_END:
-			kb_cursor_pos = kb_buffer.size();
+			if(event->key.keysym.mod & KMOD_SHIFT)
+			{
+			 Scroll(-1, TRUE); // Scroll to the end
+			}
+			else
+			 kb_cursor_pos = kb_buffer.size();
 			break;
 	             case SDLK_LEFT:
 	                if(kb_cursor_pos)
@@ -58,8 +82,24 @@ int MDFNConsole::Event(const SDL_Event *event)
 	                 kb_cursor_pos++;
 	                break;
 
-		     case SDLK_UP: Scroll(1); break;
-		     case SDLK_DOWN: Scroll(-1); break;
+		     case SDLK_UP: 
+			if(event->key.keysym.mod & KMOD_SHIFT)
+			 Scroll(1); 
+			else
+			{
+
+			}
+			break;
+		     case SDLK_DOWN: 
+			if(event->key.keysym.mod & KMOD_SHIFT)
+			{
+			 Scroll(-1); 
+			}
+			else
+			{
+
+			}
+			break;
 
                      case SDLK_RETURN:
                      {

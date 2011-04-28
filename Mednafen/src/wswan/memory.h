@@ -9,7 +9,7 @@ extern uint8 wsEEPROM[2048];
 uint8 WSwan_readmem20(uint32);
 void WSwan_writemem20(uint32 address,uint8 data);
 
-void WSwan_MemoryInit(bool IsWSC, uint32 ssize);
+void WSwan_MemoryInit(bool IsWSC, uint32 ssize, bool SkipSaveLoad);
 void WSwan_MemoryKill(void);
 
 void WSwan_CheckSoundDMA(void);

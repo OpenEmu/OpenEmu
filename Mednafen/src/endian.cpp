@@ -18,9 +18,8 @@
 #include "mednafen.h"
 #include "endian.h"
 
-void Endian_A16_NE_to_LE(void *src, uint32 nelements)
+void Endian_A16_Swap(void *src, uint32 nelements)
 {
- #ifdef MSB_FIRST
  uint32 i;
  uint8 *nsrc = (uint8 *)src;
 
@@ -31,12 +30,10 @@ void Endian_A16_NE_to_LE(void *src, uint32 nelements)
   nsrc[i * 2] = nsrc[i * 2 + 1];
   nsrc[i * 2 + 1] = tmp;
  }
- #endif
 }
 
-void Endian_A32_NE_to_LE(void *src, uint32 nelements)
+void Endian_A32_Swap(void *src, uint32 nelements)
 {
- #ifdef MSB_FIRST
  uint32 i;
  uint8 *nsrc = (uint8 *)src;
 
@@ -51,8 +48,48 @@ void Endian_A32_NE_to_LE(void *src, uint32 nelements)
   nsrc[i * 4 + 2] = tmp2;
   nsrc[i * 4 + 3] = tmp1;
  }
+}
+
+void Endian_A64_Swap(void *src, uint32 nelements)
+{
+ uint32 i;
+ uint8 *nsrc = (uint8 *)src;
+
+ for(i = 0; i < nelements; i++)
+ {
+  uint8 *base = &nsrc[i * 8];
+
+  for(int z = 0; z < 4; z++)
+  {
+   uint8 tmp = base[z];
+
+   base[z] = base[7 - z];
+   base[7 - z] = tmp;
+  }
+ }
+}
+
+void Endian_A16_NE_to_LE(void *src, uint32 nelements)
+{
+ #ifdef MSB_FIRST
+ Endian_A16_Swap(src, nelements);
  #endif
 }
+
+void Endian_A32_NE_to_LE(void *src, uint32 nelements)
+{
+ #ifdef MSB_FIRST
+ Endian_A32_Swap(src, nelements);
+ #endif
+}
+
+void Endian_A64_NE_to_LE(void *src, uint32 nelements)
+{
+ #ifdef MSB_FIRST
+ Endian_A64_Swap(src, nelements);
+ #endif
+}
+
 
 void Endian_A16_LE_to_NE(void *src, uint32 nelements)
 {
@@ -103,6 +140,27 @@ void Endian_A32_LE_to_NE(void *src, uint32 nelements)
 
   nsrc[i * 4 + 2] = tmp2;
   nsrc[i * 4 + 3] = tmp1;
+ }
+ #endif
+}
+
+void Endian_A64_LE_to_NE(void *src, uint32 nelements)
+{
+ #ifdef MSB_FIRST
+ uint32 i;
+ uint8 *nsrc = (uint8 *)src;
+
+ for(i = 0; i < nelements; i++)
+ {
+  uint8 *base = &nsrc[i * 8];
+
+  for(int z = 0; z < 4; z++)
+  {
+   uint8 tmp = base[z];
+
+   base[z] = base[7 - z];
+   base[7 - z] = tmp;
+  }
  }
  #endif
 }
@@ -183,28 +241,5 @@ int read16le(char *d, FILE *fp)
  ret+=fread(d,1,1,fp);
  return ret<2?0:2;
  #endif
-}
-
-void MDFN_en32lsb(uint8 *buf, uint32 morp)
-{ 
- buf[0]=morp;
- buf[1]=morp>>8;
- buf[2]=morp>>16;
- buf[3]=morp>>24;
-} 
-
-uint32 MDFN_de32lsb(uint8 *morp)
-{
- return(morp[0]|(morp[1]<<8)|(morp[2]<<16)|(morp[3]<<24));
-}
-
-uint16 MDFN_de16lsb(uint8 *morp)
-{
- return(morp[0] | (morp[1] << 8));
-}
-
-uint32 MDFN_de32msb(uint8 *morp)
-{
- return(morp[3]|(morp[2]<<8)|(morp[1]<<16)|(morp[0]<<24));
 }
 

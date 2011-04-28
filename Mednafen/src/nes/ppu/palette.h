@@ -1,16 +1,12 @@
 #ifndef _PPU_PALETTEH
 #define _PPU_PALETTEH
 
-#include "palette-driver.h"
+typedef struct {
+        uint8 r,g,b;
+} MDFNPalStruct;
 
-extern MDFNPalStruct *palo;
-extern MDFNPalStruct MDFNPalette[256];
-extern int MDFNPaletteChanged;
+extern MDFNPalStruct ActiveNESPalette[0x200];
 
-void MDFN_ResetPalette(void);
-void MDFN_ResetMessages();
-void MDFN_LoadGamePalette(void);
-
-void MDFN_SetPPUPalette(int fishie);
+void MDFN_InitPalette(const unsigned int which);
 
 #endif

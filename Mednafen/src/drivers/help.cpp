@@ -15,9 +15,9 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
-
 #include "main.h"
+
+#include <string.h>
 
 static bool IsActive;
 
@@ -55,7 +55,6 @@ gettext_noop(" F12 - Exit"),
 };
 
  DrawTextTrans(pixels, surface->pitch, rect->w, (UTF8*)_("Mednafen Quickie Help"), MK_COLOR_A(0x00,0xFF,0x00,0xFF), TRUE, FALSE);
- DrawTextTrans(pixels + pitch32 * 18, surface->pitch, rect->w, (UTF8*)_("(now with 30% more moaning)"), MK_COLOR_A(0xa0,0x40,0x40,0xFF), TRUE, TRUE);
 
  for(unsigned int x = 0; x < sizeof(HelpStrings) / sizeof(char *); x++)
    DrawTextTrans(pixels + pitch32 * (x * 18 + 30), surface->pitch, rect->w, (UTF8*)_(HelpStrings[x]), MK_COLOR_A(0x00,0xFF,0x00,0xFF), FALSE, FALSE);
@@ -75,10 +74,10 @@ bool Help_Toggle(void)
 
 void Help_Init(void)
 {
- IsActive = MDFN_GetSettingB("helpenabled");
+ IsActive = false;
 }
 
 void Help_Close(void)
 {
- MDFNI_SetSettingB("helpenable", IsActive);
+
 }

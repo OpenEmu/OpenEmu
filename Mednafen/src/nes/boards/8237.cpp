@@ -112,8 +112,6 @@ static void UNL8237Reset(CartInfo *info)
 
   for(x=0;x<8;x++) regs[x]=0;  
   master=chrm=cmd=cmdin=IRQCount=IRQa=0;
-  SetReadHandler(0x8000,0xFFFF,CartBR);
-  SetWriteHandler(0x5000,0xFFFF,UNL8237Write);
   DoPRG();
   DoCHR();
 }
@@ -159,5 +157,9 @@ int UNL8237_Init(CartInfo *info)
   GameHBIRQHook=hooko;
   info->Power=UNL8237Reset;
   info->StateAction = StateAction;
+
+  SetReadHandler(0x8000,0xFFFF,CartBR);
+  SetWriteHandler(0x5000,0xFFFF,UNL8237Write);
+
   return(1);
 }

@@ -29,6 +29,9 @@
 
 #endif
 
+#define MDFN_GL_TRY(x, ...) { x; GLenum errcode = p_glGetError(); if(errcode != GL_NO_ERROR) { __VA_ARGS__; throw(errcode); } }
+
+typedef GLenum GLAPIENTRY (*glGetError_Func)(void);
 
 typedef void GLAPIENTRY (*glBindTexture_Func)(GLenum target,GLuint texture);
 typedef void GLAPIENTRY (*glColorTableEXT_Func)(GLenum target,
@@ -101,7 +104,11 @@ typedef void GLAPIENTRY (*glGetInfoLogARB_Func)(GLhandleARB, GLsizei, GLsizei *,
 typedef GLint GLAPIENTRY (*glGetUniformLocationARB_Func)(GLhandleARB, const GLcharARB *);
 typedef void GLAPIENTRY (*glDeleteObjectARB_Func)(GLhandleARB);
 typedef void GLAPIENTRY (*glDetachObjectARB_Func)(GLhandleARB, GLhandleARB);
+
+typedef void GLAPIENTRY (*glGetObjectParameterivARB_Func)(GLhandleARB, GLenum, GLint *);
 #endif
+
+extern glGetError_Func p_glGetError;
 
 extern glBindTexture_Func p_glBindTexture;
 extern glColorTableEXT_Func p_glColorTableEXT;
@@ -156,6 +163,7 @@ extern glGetUniformLocationARB_Func p_glGetUniformLocationARB;
 extern glDeleteObjectARB_Func p_glDeleteObjectARB;
 extern glDetachObjectARB_Func p_glDetachObjectARB;
 
+extern glGetObjectParameterivARB_Func p_glGetObjectParameterivARB;
 #endif
 
 #include <string>
@@ -163,7 +171,7 @@ extern glDetachObjectARB_Func p_glDetachObjectARB;
 void BlitOpenGLRaw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect *dest_rect);
 void BlitOpenGL(SDL_Surface *src_surface, const SDL_Rect *src_rect, const SDL_Rect *dest_rect, const SDL_Rect *original_src_rect, bool alpha_blend);
 void KillOpenGL(void);
-int InitOpenGL(int ipolate, int scanlines, std::string pixshader, SDL_Surface *screen);
+int InitOpenGL(int ipolate, int scanlines, std::string pixshader, SDL_Surface *screen, int *rs, int *gs, int *bs, int *as);
 void ClearBackBufferOpenGL(SDL_Surface *screen);
 void FlipOpenGL(void);
 

@@ -1,6 +1,6 @@
 #include "share.h"
 
-static uint8 GunSight[]={
+static const uint8 GunSight[]={
         0,0,0,0,0,0,1,0,0,0,0,0,0,
         0,0,0,0,0,0,2,0,0,0,0,0,0,
         0,0,0,0,0,0,1,0,0,0,0,0,0,
@@ -15,7 +15,7 @@ static uint8 GunSight[]={
         0,0,0,0,0,0,2,0,0,0,0,0,0,
         0,0,0,0,0,0,1,0,0,0,0,0,0,
 };
-static uint8 MDFNcursor[11*19]=
+static const uint8 MDFNcursor[11*19]=
 {
  1,0,0,0,0,0,0,0,0,0,0,
  1,1,0,0,0,0,0,0,0,0,0,
@@ -38,11 +38,15 @@ static uint8 MDFNcursor[11*19]=
  0,0,0,0,0,0,0,1,1,0,0,
 };
 
-void MDFN_DrawGunSight(uint32 *buf, int xc, int yc)
+void MDFN_DrawGunSight(MDFN_Surface *surface, int xc, int yc)
 {
+ uint32 *buf = surface->pixels;
  int x,y;
  int c,d;
- const int ctransform[2] = { MK_COLOR(0xff,0xff,0xff), MK_COLOR(0,0,0) };
+ const int ctransform[2] = { surface->MakeColor(0xff, 0xff, 0xff), surface->MakeColor(0, 0, 0) };
+ MDFN_Rect DisplayRect;
+
+ NESPPU_GetDisplayRect(&DisplayRect);
 
   for(y=0;y<13;y++)
    for(x=0;x<13;x++)
@@ -52,24 +56,30 @@ void MDFN_DrawGunSight(uint32 *buf, int xc, int yc)
     if(a)
     {
      c = (yc+y-7);
-     d = (x-7) + xc * (MDFNGameInfo->DisplayRect.w + MDFNGameInfo->DisplayRect.x) / 256;
-     if(c>=0 && d>=0 && d<MDFNGameInfo->DisplayRect.w && c<240)
+     d = (x-7) + xc * (DisplayRect.w + DisplayRect.x) / 256;
+     if(c>=0 && d>=0 && d<DisplayRect.w && c<240)
      {
       if(a==3)
-       buf[c*(MDFNGameInfo->pitch >> 2)+d]=~(buf[c*(MDFNGameInfo->pitch >> 2)+d]);
+       buf[c * surface->pitch32 + d] = ~(buf[c * surface->pitch32 + d]);
       else
-       buf[c*(MDFNGameInfo->pitch >> 2)+d]=ctransform[(a-1)&1];
+       buf[c * surface->pitch32 + d] = ctransform[(a - 1) & 1];
      }
     }
    }
 }
 
 
-void MDFN_DrawCursor(uint32 *buf, int xc, int yc)
+void MDFN_DrawCursor(MDFN_Surface *surface, int xc, int yc)
 {
+ uint32 *buf = surface->pixels;
  int x,y;
  int c,d;
- const int ctransform[4] = { MK_COLOR(0,0,0), MK_COLOR(0,0,0), MK_COLOR(0xff,0xff,0xff), MK_COLOR(0,0,0) };
+ const int ctransform[4] = { surface->MakeColor(0, 0, 0), surface->MakeColor(0, 0, 0),
+			     surface->MakeColor(0xff, 0xff, 0xff), surface->MakeColor(0, 0, 0)
+			   };
+ MDFN_Rect DisplayRect;
+
+ NESPPU_GetDisplayRect(&DisplayRect);
 
  for(y=0;y<19;y++)
   for(x=0;x<11;x++)
@@ -79,10 +89,10 @@ void MDFN_DrawCursor(uint32 *buf, int xc, int yc)
    if(a)
    {
     c =(yc+y);
-    d =x + xc * (MDFNGameInfo->DisplayRect.w + MDFNGameInfo->DisplayRect.x) / 256;
+    d =x + xc * (DisplayRect.w + DisplayRect.x) / 256;
 
-    if(c>=0 && d>=0 && d<MDFNGameInfo->DisplayRect.w && c<240)
-     buf[c*(MDFNGameInfo->pitch >> 2)+d]=ctransform[a & 0x3]; // + 0xFF; //+ 127;
+    if(c>=0 && d>=0 && d<DisplayRect.w && c<240)
+     buf[c * surface->pitch32 + d] = ctransform[a & 0x3]; // + 0xFF; //+ 127;
 
    }
   }

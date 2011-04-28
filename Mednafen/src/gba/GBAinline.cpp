@@ -172,8 +172,8 @@ uint32 CPUReadHalfWord(uint32 address)
   case 10:
   case 11:
   case 12:
-    if(address == 0x80000c4 || address == 0x80000c6 || address == 0x80000c8)
-      value = rtcRead(address);
+    if(GBA_RTC && (address == 0x80000c4 || address == 0x80000c6 || address == 0x80000c8))
+     value = GBA_RTC->Read(address);
     else
       value = READ16LE(((uint16 *)&rom[address & 0x1FFFFFE]));
     break;    

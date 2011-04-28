@@ -20,9 +20,9 @@
 
 #include "mapinc.h"
 
-static char latches[2];
+static uint8 latches[2];
 static uint8 CHRBanks[4];
-static char Mirroring;
+static uint8 Mirroring;
 static uint8 PRGBank;
 
 static void latchcheck(uint32 VAddr)

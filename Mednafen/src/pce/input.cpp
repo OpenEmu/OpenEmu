@@ -18,28 +18,100 @@
 #include "pce.h"
 #include "input.h"
 #include "huc.h"
-#include "../movie.h"
-#include "../netplay.h"
-#include "../endian.h"
 
-static int InputTypes[5];
+#include "vce.h"	// For debugging only(but not the debugger :b)
+
+#include "input/gamepad.h"
+#include "input/mouse.h"
+#include "input/tsushinkb.h"
+
+namespace MDFN_IEN_PCE
+{
+
+enum
+{
+ PCEINPUT_NONE = 0,
+ PCEINPUT_GAMEPAD = 1,
+ PCEINPUT_MOUSE = 2,
+ PCEINPUT_TSUSHINKB = 3,
+};
+
+//PCE_Input_Device::PCE_Input_Device(int which)
+//{
+//
+//}
+
+PCE_Input_Device::~PCE_Input_Device()
+{
+
+}
+
+void PCE_Input_Device::Power(int32 timestamp)
+{
+
+
+}
+
+void PCE_Input_Device::AdjustTS(int32 delta)
+{
+
+}
+
+void PCE_Input_Device::Write(int32 timestamp, bool old_SEL, bool new_SEL, bool old_CLR, bool new_CLR)
+{
+
+}
+
+uint8 PCE_Input_Device::Read(int32 timestamp)
+{
+ return(0xF);
+}
+
+void PCE_Input_Device::Update(const void *data)
+{
+
+}
+
+int PCE_Input_Device::StateAction(StateMem *sm, int load, int data_only, const char *section_name)
+{
+ return(1);
+}
+
+static PCE_Input_Device *devices[5] = { NULL };
+static bool MultiTapEnabled = TRUE;
+static int InputTypes[5] = { 0 };
 static uint8 *data_ptr[5];
+static bool SEL, CLR;
+static uint8 read_index = 0;
 
-static bool8 AVPad6Which[5]; // Lower(8 buttons) or higher(4 buttons).
-static bool8 AVPad6Enabled[5];
+static void RemakeDevices(int which = -1)
+{
+ int s = 0;
+ int e = 5;
 
-uint16 pce_jp_data[5];
+ if(which != -1)
+ {
+  s = which;
+  e = which + 1;
+ }
 
-static int64 mouse_last_meow[5];
+ for(int i = s; i < e; i++)
+ {
+  if(devices[i])
+   delete devices[i];
+  devices[i] = NULL;
 
-static int32 mouse_x[5], mouse_y[5];
-static uint16 mouse_rel[5];
+  switch(InputTypes[i])
+  {
+   default:
+   case PCEINPUT_NONE: break;
+   case PCEINPUT_GAMEPAD: devices[i] = PCEINPUT_MakeGamepad(i); break;
+   case PCEINPUT_MOUSE: devices[i] = PCEINPUT_MakeMouse(); break;
+   case PCEINPUT_TSUSHINKB: devices[i] = PCEINPUT_MakeTsushinKB(); break;
+  }
+ }
+}
 
-uint8 pce_mouse_button[5];
-uint8 mouse_index[5];
-
-static uint8 sel;
-static uint8 read_index;
 
 static void SyncSettings(void);
 
@@ -50,24 +122,8 @@ void PCEINPUT_SettingChanged(const char *name)
 
 void PCEINPUT_Init(void)
 {
- memset(AVPad6Enabled, 0, sizeof(AVPad6Enabled));
-
  SyncSettings();
-}
-
-void PCEINPUT_Power(void)
-{
- //puts("Moo");
- memset(AVPad6Which, 0, sizeof(AVPad6Which));
- //memset(AVPad6Enabled, 0, sizeof(AVPad6Enabled));
-
- memset(mouse_last_meow, 0, sizeof(mouse_last_meow));
- memset(mouse_x, 0, sizeof(mouse_x));
- memset(mouse_y, 0, sizeof(mouse_y));
- memset(mouse_rel, 0, sizeof(mouse_rel));
- memset(mouse_index, 0, sizeof(mouse_index));
- sel = 0;
- read_index = 0;
+ RemakeDevices();
 }
 
 void PCEINPUT_SetInput(int port, const char *type, void *ptr)
@@ -75,126 +131,111 @@ void PCEINPUT_SetInput(int port, const char *type, void *ptr)
  assert(port < 5);
 
  if(!strcasecmp(type, "gamepad"))
-  InputTypes[port] = 1;
+  InputTypes[port] = PCEINPUT_GAMEPAD;
  else if(!strcasecmp(type, "mouse"))
-  InputTypes[port] = 2;
+  InputTypes[port] = PCEINPUT_MOUSE;
+ else if(!strcasecmp(type, "tsushinkb"))
+  InputTypes[port] = PCEINPUT_TSUSHINKB;
  else
-  InputTypes[port] = 0;
+  InputTypes[port] = PCEINPUT_NONE;
+
  data_ptr[port] = (uint8 *)ptr;
+
+ RemakeDevices(port);
+}
+
+uint16 INPUT_HESHack(void)
+{
+ uint16 ret = 0;
+
+ switch(InputTypes[0])
+ {
+  case PCEINPUT_GAMEPAD: ret = MDFN_de16lsb(data_ptr[0]);
+			 break;
+ }
+ return(ret);
 }
 
 void INPUT_Frame(void)
 {
- for(int x = 0; x < 5; x++)
- {
-  if(InputTypes[x] == 1)
-  {
-   uint16 new_data = data_ptr[x][0] | (data_ptr[x][1] << 8);
-
-   if((new_data & 0x1000) && !(pce_jp_data[x] & 0x1000))
-   {
-    AVPad6Enabled[x] = !AVPad6Enabled[x];
-    MDFN_DispMessage("%d-button mode selected for pad %d", AVPad6Enabled[x] ? 6 : 2, x + 1);
-   }
-
-   pce_jp_data[x] = new_data;
-  }
-  else if(InputTypes[x] == 2)
-  {
-   mouse_x[x] += (int32)MDFN_de32lsb(data_ptr[x] + 0);
-   mouse_y[x] += (int32)MDFN_de32lsb(data_ptr[x] + 4);
-   pce_mouse_button[x] = *(uint8 *)(data_ptr[x] + 8);
-  }
- }
+ for(int i = 0; i < 5; i++)
+  if(devices[i])
+   devices[i]->Update(data_ptr[i]);
 }
 
-void INPUT_FixTS(void)
+void INPUT_FixTS(int32 timestamp)
 {
- for(int x = 0; x < 5; x++)
- {
-  if(InputTypes[x] == 2)
-   mouse_last_meow[x] -= HuCPU.timestamp;
- }
+ for(int i = 0; i < 5; i++)
+  if(devices[i])
+   devices[i]->AdjustTS(-timestamp);
 }
 
-static ALWAYS_INLINE bool CheckLM(int n)
-{
-   if((int64)HuCPU.timestamp - mouse_last_meow[n] > 10000)
-   {
-    mouse_last_meow[n] = HuCPU.timestamp;
-
-    int32 rel_x = (int32)((0-mouse_x[n]));
-    int32 rel_y = (int32)((0-mouse_y[n]));
-
-    if(rel_x < -127) rel_x = -127;
-    if(rel_x > 127) rel_x = 127;
-    if(rel_y < -127) rel_y = -127;
-    if(rel_y > 127) rel_y = 127;
-
-    mouse_rel[n] = ((rel_x & 0xF0) >> 4) | ((rel_x & 0x0F) << 4);
-    mouse_rel[n] |= (((rel_y & 0xF0) >> 4) | ((rel_y & 0x0F) << 4)) << 8;
-
-    mouse_x[n] += (int32)(rel_x);
-    mouse_y[n] += (int32)(rel_y);
-
-    return(1);
-   }
-  return(0);
-}
-
-uint8 INPUT_Read(unsigned int A)
+static INLINE uint8 RealPortRead(int32 timestamp, int which)
 {
  uint8 ret = 0xF;
- int tmp_ri = read_index;
 
- if(tmp_ri > 4)
-  ret ^= 0xF;
+ //printf("RealInputRead: %d %d\n", which, timestamp);
+ if(devices[which])
+  ret = devices[which]->Read(timestamp);
+
+ return(ret);
+}
+
+static INLINE void RealPortWrite(int32 timestamp, int which, bool old_SEL, bool new_SEL, bool old_CLR, bool new_CLR)
+{
+ if(devices[which])
+  devices[which]->Write(timestamp, old_SEL, new_SEL, old_CLR, new_CLR);
+}
+
+static INLINE uint8 MultiTapRead(int32 timestamp)
+{
+ uint8 ret = 0xF;
+
+ if(read_index > 4)
+  ret = 0;
  else
+  ret = RealPortRead(timestamp, read_index);
+
+ return(ret);
+}
+
+static INLINE void MultiTapWrite(int32 timestamp, bool old_SEL, bool new_SEL, bool old_CLR, bool new_CLR)
+{
+ for(int i = 0; i < 5; i++)
+  RealPortWrite(timestamp, i, old_SEL, new_SEL, old_CLR, new_CLR);
+
+ // SEL held high, CLR transitions from 0->1, reset counter.
+ // Scratch that, only check if SEL is high on the write that changes CLR from 0 to 1, to fix "Strip Fighter".
+ if(/*old_SEL &&*/ new_SEL && !old_CLR && new_CLR)
  {
-  if(!InputTypes[tmp_ri])
-   ret ^= 0xF;
-  else if(InputTypes[tmp_ri] == 2) // Mouse
-  {   
-   if(sel & 1)
-   {
-    CheckLM(tmp_ri);
-    ret ^= 0xF;
-    ret ^= mouse_rel[tmp_ri] & 0xF;
+  //puts("Reset read index");
 
-    mouse_rel[tmp_ri] >>= 4;
-   }
-   else
-   {
-    if(pce_mouse_button[tmp_ri] & 1)
-     ret ^= 0x3; //pce_mouse_button[tmp_ri];
-
-    if(pce_mouse_button[tmp_ri] & 0x2)
-     ret ^= 0x8;
-   }
-  }
-  else
-  {
-   if(InputTypes[tmp_ri] == 1) // Gamepad
-   {
-    if(AVPad6Which[tmp_ri] && AVPad6Enabled[tmp_ri])
-    {
-     if(sel & 1)
-      ret ^= 0x0F;
-     else
-      ret ^= (pce_jp_data[tmp_ri] >> 8) & 0x0F;
-    }
-    else
-    {
-     if(sel & 1)
-      ret ^= (pce_jp_data[tmp_ri] >> 4) & 0x0F;
-     else
-      ret ^= pce_jp_data[tmp_ri] & 0x0F;
-    }
-    if(!(sel & 1))
-     AVPad6Which[tmp_ri] = !AVPad6Which[tmp_ri];
-   }
-  }
+  read_index = 0;
  }
+ // CLR held low, SEL transitions from 0->1, increment counter.
+ else if(!old_CLR && !new_CLR && !old_SEL && new_SEL)
+ {
+  //puts("Increment read index");
+  if(read_index < 255)
+   read_index++;
+ }
+}
+
+uint8 INPUT_Read(int32 timestamp, unsigned int A)
+{
+ uint8 ret;
+
+ //{
+ // extern VCE *vce;
+ // printf("Input Read: %04x, %d\n", A, vce->GetScanlineNo());
+ //}
+
+ if(MultiTapEnabled && InputTypes[0] != PCEINPUT_TSUSHINKB)
+  ret = MultiTapRead(timestamp);
+ else
+  ret = RealPortRead(timestamp, 0);
+
+ //printf("Input read: %04x, %02x\n",A,ret);
 
  if(!PCE_IsCD)
   ret |= 0x80; // Set when CDROM is not attached
@@ -206,95 +247,60 @@ uint8 INPUT_Read(unsigned int A)
  return(ret);
 }
 
-void INPUT_Write(unsigned int A, uint8 V)
+void INPUT_Write(int32 timestamp, unsigned int A, uint8 V)
 {
- if((V & 1) && !(sel & 2) && (V & 2))
- {
-  read_index = 0;
- }
- else if((V & 1) && !(sel & 1))
- {
-  if(read_index < 255)
-   read_index++;
- }
- sel = V & 3;
+ //printf("Input Write: %04x, %02x\n", A, V);
+ bool new_SEL = V & 0x1;
+ bool new_CLR = V & 0x2;
+
+ if(MultiTapEnabled)
+  MultiTapWrite(timestamp, SEL, new_SEL, CLR, new_CLR);
+ else
+  RealPortWrite(timestamp, 0, SEL, new_SEL, CLR, new_CLR);
+
+ SEL = new_SEL;
+ CLR = new_CLR;
+}
+
+void PCEINPUT_Power(int32 timestamp)
+{
+ read_index = 0;
+ SEL = 0;
+ CLR = 0;
+
+ for(int i = 0; i < 5; i++)
+  if(devices[i])
+   devices[i]->Power(timestamp);
 }
 
 int INPUT_StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
-  // 0.8.A fix:
-  SFARRAY(AVPad6Enabled, 5),
-  SFARRAY(AVPad6Which, 5),
-  
-  SFVARN(mouse_last_meow[0], "mlm_0"),
-  SFVARN(mouse_last_meow[1], "mlm_1"),
-  SFVARN(mouse_last_meow[2], "mlm_2"),
-  SFVARN(mouse_last_meow[3], "mlm_3"),
-  SFVARN(mouse_last_meow[4], "mlm_4"),
-
-  SFARRAY32(mouse_x, 5),
-  SFARRAY32(mouse_y, 5),
-  SFARRAY16(mouse_rel, 5),
-  SFARRAY(pce_mouse_button, 5),
-  SFARRAY(mouse_index, 5),
-  // end 0.8.A fix
-
-  SFARRAY16(pce_jp_data, 5),
-  SFVAR(sel),
+  SFVAR(SEL),
+  SFVAR(CLR),
   SFVAR(read_index),
   SFEND
  };
- int ret =  MDFNSS_StateAction(sm, load, data_only, StateRegs, "JOY");
+
+ int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "JOY");
+
+ for(int i = 0; i < 5; i++)
+ {
+  if(devices[i])
+  {
+   char sn[8];
+   snprintf(sn, 8, "INP%d", i);
+   ret &= devices[i]->StateAction(sm, load, data_only, sn);
+  }
+ }
  
  return(ret);
 }
 
-// GamepadIDII and GamepadIDII_DSR must be EXACTLY the same except for the RUN+SELECT exclusion in the latter.
-static const InputDeviceInputInfoStruct GamepadIDII[] =
-{
- { "i", "I", 12, IDIT_BUTTON_CAN_RAPID, NULL },
- { "ii", "II", 11, IDIT_BUTTON_CAN_RAPID, NULL },
- { "select", "SELECT", 4, IDIT_BUTTON, NULL },
- { "run", "RUN", 5, IDIT_BUTTON, NULL },
- { "up", "UP ↑", 0, IDIT_BUTTON, "down" },
- { "right", "RIGHT →", 3, IDIT_BUTTON, "left" },
- { "down", "DOWN ↓", 1, IDIT_BUTTON, "up" },
- { "left", "LEFT ←", 2, IDIT_BUTTON, "right" },
- { "iii", "III", 10, IDIT_BUTTON, NULL },
- { "iv", "IV", 7, IDIT_BUTTON, NULL },
- { "v", "V", 8, IDIT_BUTTON, NULL },
- { "vi", "VI", 9, IDIT_BUTTON, NULL },
- { "mode_select", "2/6 Mode Select", 6, IDIT_BUTTON, NULL },
-};
-static const InputDeviceInputInfoStruct GamepadIDII_DSR[] =
-{
- { "i", "I", 12, IDIT_BUTTON_CAN_RAPID, NULL },
- { "ii", "II", 11, IDIT_BUTTON_CAN_RAPID, NULL },
- { "select", "SELECT", 4, IDIT_BUTTON, "run" },
- { "run", "RUN", 5, IDIT_BUTTON, "select" },
- { "up", "UP ↑", 0, IDIT_BUTTON, "down" },
- { "right", "RIGHT →", 3, IDIT_BUTTON, "left" },
- { "down", "DOWN ↓", 1, IDIT_BUTTON, "up" },
- { "left", "LEFT ←", 2, IDIT_BUTTON, "right" },
- { "iii", "III", 10, IDIT_BUTTON, NULL },
- { "iv", "IV", 7, IDIT_BUTTON, NULL },
- { "v", "V", 8, IDIT_BUTTON, NULL },
- { "vi", "VI", 9, IDIT_BUTTON, NULL },
- { "mode_select", "2/6 Mode Select", 6, IDIT_BUTTON, NULL },
-};
-
-static const InputDeviceInputInfoStruct MouseIDII[] =
-{
- { "x_axis", "X Axis", -1, IDIT_X_AXIS_REL },
- { "y_axis", "Y Axis", -1, IDIT_Y_AXIS_REL },
- { "left", "Left Button", 0, IDIT_BUTTON, NULL },
- { "right", "Right Button", 1, IDIT_BUTTON, NULL },
-};
-
-// If we add more devices to this array, REMEMBER TO UPDATE the hackish array indexing in the SyncSettings() function
+// If we add more devices to these arrays before "gamepad", REMEMBER TO UPDATE the hackish array indexing in the SyncSettings() function
 // below.
+
 static InputDeviceInfoStruct InputDeviceInfo[] =
 {
  // None
@@ -311,8 +317,8 @@ static InputDeviceInfoStruct InputDeviceInfo[] =
   "gamepad",
   "Gamepad",
   NULL,
-  sizeof(GamepadIDII) / sizeof(InputDeviceInputInfoStruct),
-  GamepadIDII,
+  sizeof(PCE_GamepadIDII) / sizeof(InputDeviceInputInfoStruct),
+  PCE_GamepadIDII,
  },
 
  // Mouse
@@ -320,19 +326,58 @@ static InputDeviceInfoStruct InputDeviceInfo[] =
   "mouse",
   "Mouse",
   NULL,
-  sizeof(MouseIDII) / sizeof(InputDeviceInputInfoStruct),
-  MouseIDII,
+  sizeof(PCE_MouseIDII) / sizeof(InputDeviceInputInfoStruct),
+  PCE_MouseIDII,
+ },
+};
+
+static InputDeviceInfoStruct InputDeviceInfoPort1[] =
+{
+ // None
+ {
+  "none",
+  "none",
+  NULL,
+  0,
+  NULL
  },
 
+ // Gamepad
+ {
+  "gamepad",
+  "Gamepad",
+  NULL,
+  sizeof(PCE_GamepadIDII) / sizeof(InputDeviceInputInfoStruct),
+  PCE_GamepadIDII,
+ },
+
+ // Mouse
+ {
+  "mouse",
+  "Mouse",
+  NULL,
+  sizeof(PCE_MouseIDII) / sizeof(InputDeviceInputInfoStruct),
+  PCE_MouseIDII,
+ },
+
+ // Tsushin Keyboard
+ {
+  "tsushinkb",
+  "Tsushin Keyboard",
+  NULL,
+  sizeof(PCE_TsushinKBIDII) / sizeof(InputDeviceInputInfoStruct),
+  PCE_TsushinKBIDII,
+ },
+  
 };
 
 static const InputPortInfoStruct PortInfo[] =
 {
- { 0, "port1", "Port 1", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo},
- { 0, "port2", "Port 2", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo },
- { 0, "port3", "Port 3", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo },
- { 0, "port4", "Port 4", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo },
- { 0, "port5", "Port 5", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo },
+ { 0, "port1", "Port 1", sizeof(InputDeviceInfoPort1) / sizeof(InputDeviceInfoStruct), InputDeviceInfoPort1, "gamepad" },
+ { 0, "port2", "Port 2", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { 0, "port3", "Port 3", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { 0, "port4", "Port 4", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { 0, "port5", "Port 5", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
 };
 
 InputInfoStruct PCEInputInfo =
@@ -344,6 +389,8 @@ InputInfoStruct PCEInputInfo =
 static void SyncSettings(void)
 {
  MDFNGameInfo->mouse_sensitivity = MDFN_GetSettingF("pce.mouse_sensitivity");
- InputDeviceInfo[1].IDII = MDFN_GetSettingB("pce.disable_softreset") ? GamepadIDII_DSR : GamepadIDII;
+ InputDeviceInfo[1].IDII = MDFN_GetSettingB("pce.disable_softreset") ? PCE_GamepadIDII_DSR : PCE_GamepadIDII;
+ MultiTapEnabled = MDFN_GetSettingB("pce.input.multitap");
 }
 
+};

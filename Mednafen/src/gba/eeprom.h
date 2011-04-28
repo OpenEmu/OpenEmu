@@ -28,7 +28,7 @@ extern int eepromRead(uint32 address);
 extern void eepromWrite(uint32 address, uint8 value);
 extern void eepromInit();
 extern void eepromReset();
-extern bool8 eepromInUse;
+extern bool eepromInUse;
 extern int eepromSize;
 extern uint8 eepromData[0x2000];
 

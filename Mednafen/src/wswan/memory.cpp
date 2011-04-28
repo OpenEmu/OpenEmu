@@ -28,6 +28,9 @@
 #include "../mempatcher.h"
 #include <time.h>
 #include <math.h>
+#include <trio/trio.h>
+
+static bool SkipSL; // Skip save and load
 
 uint32 wsRAMSize;
 uint8 wsRAM[65536];
@@ -379,14 +382,14 @@ static void PutAddressSpaceBytes(const char *name, uint32 Address, uint32 Length
 
 static RegType MiscRegs[] =
 {
- { "ROMBBSLCT", "ROM Bank Base Selector for 64KiB banks 0x4-0xF", 1 },
- { "BNK1SLCT", "???", 1 },
- { "BNK2SLCT", "ROM Bank Selector for 64KiB bank 0x2", 1 },
- { "BNK3SLCT", "ROM Bank Selector for 64KiB bank 0x3", 1 },
- { "IStatus", "Interrupt Status", 1 },
- { "IEnable", "Interrupt Enable", 1 },
- { "IVectorBase", "Interrupt Vector Base", 1 },
- { "", "", 0 },
+ { 0, "ROMBBSLCT", "ROM Bank Base Selector for 64KiB banks 0x4-0xF", 1 },
+ { 0, "BNK1SLCT", "???", 1 },
+ { 0, "BNK2SLCT", "ROM Bank Selector for 64KiB bank 0x2", 1 },
+ { 0, "BNK3SLCT", "ROM Bank Selector for 64KiB bank 0x3", 1 },
+ { 0, "IStatus", "Interrupt Status", 1 },
+ { 0, "IEnable", "Interrupt Enable", 1 },
+ { 0, "IVectorBase", "Interrupt Vector Base", 1 },
+ { 0, "", "", 0 },
 };
 
 static uint32 GetRegister(const std::string &oname, std::string *special)
@@ -396,7 +399,7 @@ static uint32 GetRegister(const std::string &oname, std::string *special)
   if(special)
   {
    char tmpstr[256];
-   snprintf(tmpstr, 256, "((0x%02x * 0x100000) %% 0x%08x) + 20 bit address = 0x%08x + 20 bit address", BankSelector[0], rom_size, (BankSelector[0] * 0x100000) & (rom_size - 1));
+   trio_snprintf(tmpstr, 256, "((0x%02x * 0x100000) %% 0x%08x) + 20 bit address = 0x%08x + 20 bit address", BankSelector[0], rom_size, (BankSelector[0] * 0x100000) & (rom_size - 1));
    *special = std::string(tmpstr);
   }
   return(BankSelector[0]);
@@ -427,7 +430,10 @@ static void SetRegister(const std::string &oname, uint32 value)
 
 static RegGroupType MiscRegsGroup =
 {
+ "Misc",
  MiscRegs,
+ NULL,
+ NULL,
  GetRegister,
  SetRegister,
 };
@@ -437,11 +443,11 @@ static RegGroupType MiscRegsGroup =
 
 void WSwan_MemoryKill(void)
 {
- if(sram_size || eeprom_size)
+ if((sram_size || eeprom_size) && !SkipSL)
  {
   std::vector<PtrLengthPair> EvilRams;
 
-  if(eeprom_size) 
+  if(eeprom_size)
    EvilRams.push_back(PtrLengthPair(wsEEPROM, eeprom_size));
 
   if(sram_size)
@@ -457,8 +463,10 @@ void WSwan_MemoryKill(void)
  }
 }
 
-void WSwan_MemoryInit(bool IsWSC, uint32 ssize)
+void WSwan_MemoryInit(bool IsWSC, uint32 ssize, bool SkipSaveLoad)
 {
+ SkipSL = SkipSaveLoad;
+
  wsRAMSize = 65536;
  sram_size = ssize;
 
@@ -469,47 +477,19 @@ void WSwan_MemoryInit(bool IsWSC, uint32 ssize)
 
  #ifdef WANT_DEBUGGER
  MDFNDBG_AddRegGroup(&MiscRegsGroup);
- MDFNDBG_AddASpace(GetAddressSpaceBytes, PutAddressSpaceBytes, "physical", "CPU Physical", 20);
- MDFNDBG_AddASpace(GetAddressSpaceBytes, PutAddressSpaceBytes, "ram", "RAM", (int)(log(wsRAMSize) / log(2)));
+ ASpace_Add(GetAddressSpaceBytes, PutAddressSpaceBytes, "physical", "CPU Physical", 20);
+ ASpace_Add(GetAddressSpaceBytes, PutAddressSpaceBytes, "ram", "RAM", (int)(log(wsRAMSize) / log(2)));
  #endif
 
  uint16 byear = MDFN_GetSettingUI("wswan.byear");
  uint8 bmonth = MDFN_GetSettingUI("wswan.bmonth");
  uint8 bday = MDFN_GetSettingUI("wswan.bday");
- std::string sex_s = MDFN_GetSettingS("wswan.sex");
- std::string blood_s = MDFN_GetSettingS("wswan.blood");
- uint8 sex = 1, blood = 1;
+ uint8 sex, blood;
 
- if(!strcasecmp(sex_s.c_str(), "m") || !strcasecmp(sex_s.c_str(), "male"))
-  sex = 1;
- else if(!strcasecmp(sex_s.c_str(), "f") || !strcasecmp(sex_s.c_str(), "female"))
-  sex = 2;
- else
- {
-  int tmp_num;
-  if(sscanf(sex_s.c_str(), "%u", &tmp_num) == 1)
-  {
-   sex = tmp_num;
-  }
- }
+ sex = MDFN_GetSettingI("wswan.sex");
+ blood = MDFN_GetSettingI("wswan.blood");
 
- if(!strcasecmp(blood_s.c_str(), "a"))
-  blood = 1;
- else if(!strcasecmp(blood_s.c_str(), "b"))
-  blood = 2;
- else if(!strcasecmp(blood_s.c_str(), "o"))
-  blood = 3;
- else if(!strcasecmp(blood_s.c_str(), "ab"))
-  blood = 4;
- else
- {
-  int tmp_num;
-  if(sscanf(blood_s.c_str(), "%u", &tmp_num) == 1)
-  {
-   blood = tmp_num;
-  }
- }
-
+ // WSwan_EEPROMInit() will also clear wsEEPROM
  WSwan_EEPROMInit(MDFN_GetSettingS("wswan.name").c_str(), byear, bmonth, bday, sex, blood);
 
  if(sram_size)
@@ -518,7 +498,7 @@ void WSwan_MemoryInit(bool IsWSC, uint32 ssize)
   memset(wsSRAM, 0, sram_size);
  }
 
- if(sram_size || eeprom_size)
+ if((sram_size || eeprom_size) && !SkipSL)
  {
   gzFile savegame_fp;
 

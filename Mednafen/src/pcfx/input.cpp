@@ -18,46 +18,96 @@
 #include "pcfx.h"
 #include "interrupt.h"
 #include "input.h"
-#include "v810_cpu.h"
-#include "../endian.h"
 
-enum
+#include "input/gamepad.h"
+#include "input/mouse.h"
+
+#define PCFX_PORTS	2
+#define TOTAL_PORTS	8
+
+#define TAP_PORTS	4
+
+static const int TapMap[2][TAP_PORTS] =
 {
- FX_SIG_MOUSE = 0xD,
- FX_SIG_TAP = 0xE,
- FX_SIG_PAD = 0xF
+ { 0, 2, 3, 4 },
+ { 1, 5, 6, 7 },
 };
+
+
+static void RemakeDevices(int which = -1);
+static uint8 MultiTapEnabled;
 
 // Mednafen-specific input type numerics
 enum
 {
  FXIT_NONE = 0,
- FXIT_PAD = 1,
+ FXIT_GAMEPAD = 1,
  FXIT_MOUSE = 2,
 };
+
+PCFX_Input_Device::~PCFX_Input_Device()
+{
+
+}
+
+uint32 PCFX_Input_Device::ReadTransferTime(void)
+{
+ return(1536);
+}
+
+uint32 PCFX_Input_Device::WriteTransferTime(void)
+{
+ return(1536);
+}
+
+uint32 PCFX_Input_Device::Read(void)
+{
+ return(0);
+}
+
+void PCFX_Input_Device::Write(uint32 data)
+{
+
+
+}
+
+void PCFX_Input_Device::Power(void)
+{
+
+}
+
+void PCFX_Input_Device::Frame(const void *data)
+{
+
+}
+
+int PCFX_Input_Device::StateAction(StateMem *sm, int load, int data_only, const char *section_name)
+{
+ return(1);
+}
+
+static PCFX_Input_Device *devices[TOTAL_PORTS] = { NULL };
+
 
 // D0 = TRG, trigger bit
 // D1 = MOD, multi-tap clear mode?
 // D2 = IOS, data direction.  0 = output, 1 = input
 
-static uint8 control[2];
-static uint8 latched[2];
+static uint8 TapCounter[PCFX_PORTS];
+static uint8 control[PCFX_PORTS];
+static bool latched[PCFX_PORTS];
+static int32 LatchPending[PCFX_PORTS];
 
-static int InputTypes[2];
-static void *data_ptr[2];
-static uint16 data_save[2];
-static uint32 data_latch[2];
-
-static int32 LatchPending[2];
-
-static int32 mouse_x[2], mouse_y[2];
-static uint8 mouse_button[2];
+static int InputTypes[TOTAL_PORTS];
+static void *data_ptr[TOTAL_PORTS];
+static uint32 data_latch[TOTAL_PORTS];
 
 static void SyncSettings(void);
 
 void FXINPUT_Init(void)
 {
  SyncSettings();
+ RemakeDevices();
 }
 
 void FXINPUT_SettingChanged(const char *name)
@@ -86,7 +136,7 @@ bool FXINPUT_GetRegister(const std::string &name, uint32 &value, std::string *sp
 }
 #endif
 
-static ALWAYS_INLINE int32 min(int32 a, int32 b, int32 c)
+static INLINE int32 min(int32 a, int32 b, int32 c)
 {
  int32 ret = a;
 
@@ -98,9 +148,36 @@ static ALWAYS_INLINE int32 min(int32 a, int32 b, int32 c)
  return(ret);
 }
 
-static ALWAYS_INLINE void SetEvent(void)
+static INLINE int32 CalcNextEventTS(const v810_timestamp_t timestamp)
 {
- v810_setevent(V810_EVENT_PAD, min(LatchPending[0] > 0 ? LatchPending[0] : V810_EVENT_NONONO, LatchPending[1] > 0 ? LatchPending[1] : V810_EVENT_NONONO, V810_EVENT_NONONO));
+ return(min(LatchPending[0] > 0 ? (timestamp + LatchPending[0]) : PCFX_EVENT_NONONO, LatchPending[1] > 0 ? (timestamp + LatchPending[1]) : PCFX_EVENT_NONONO, PCFX_EVENT_NONONO));
+}
+
+static void RemakeDevices(int which)
+{
+ int s = 0;
+ int e = TOTAL_PORTS;
+
+ if(which != -1)
+ {
+  s = which;
+  e = which + 1;
+ }
+
+ for(int i = s; i < e; i++)
+ {
+  if(devices[i])
+   delete devices[i];
+  devices[i] = NULL;
+
+  switch(InputTypes[i])
+  {
+   default:
+   case FXIT_NONE: devices[i] = new PCFX_Input_Device(); break;
+   case FXIT_GAMEPAD: devices[i] = PCFXINPUT_MakeGamepad(i); break;
+   case FXIT_MOUSE: devices[i] = PCFXINPUT_MakeMouse(i); break;
+  }
+ }
 }
 
 void FXINPUT_SetInput(int port, const char *type, void *ptr)
@@ -109,24 +186,25 @@ void FXINPUT_SetInput(int port, const char *type, void *ptr)
 
  if(!strcasecmp(type, "mouse"))
  {
-  InputTypes[port] = 2;
+  InputTypes[port] = FXIT_MOUSE;
  }
  else if(!strcasecmp(type, "gamepad"))
-  InputTypes[port] = 1;
+  InputTypes[port] = FXIT_GAMEPAD;
  else
-  InputTypes[port] = 0;
+  InputTypes[port] = FXIT_NONE;
+ RemakeDevices(port);
 }
 
-uint8 FXINPUT_Read8(uint32 A)
+uint8 FXINPUT_Read8(uint32 A, const v810_timestamp_t timestamp)
 {
  //printf("Read8: %04x\n", A);
 
- return(FXINPUT_Read16(A &~1) >> ((A & 1) * 8));
+ return(FXINPUT_Read16(A &~1, timestamp) >> ((A & 1) * 8));
 }
 
-uint16 FXINPUT_Read16(uint32 A)
+uint16 FXINPUT_Read16(uint32 A, const v810_timestamp_t timestamp)
 {
- FXINPUT_Update();
+ FXINPUT_Update(timestamp);
 
  uint16 ret = 0;
  
@@ -155,20 +233,20 @@ uint16 FXINPUT_Read16(uint32 A)
  }
 
  if(!latched[0] && !latched[1])
-   PCFXIRQ_Assert(11, FALSE);
+   PCFXIRQ_Assert(PCFXIRQ_SOURCE_INPUT, FALSE);
 
  return(ret);
 }
 
-void FXINPUT_Write16(uint32 A, uint16 V)
+void FXINPUT_Write16(uint32 A, uint16 V, const v810_timestamp_t timestamp)
 {
- FXINPUT_Update();
+ FXINPUT_Update(timestamp);
 
- //printf("Write: %04x:%02x\n", A, V);
+ //printf("Write16: %04x:%02x, %d\n", A, V, timestamp / 1365);
 
- //PCFXIRQ_Assert(11, FALSE);
+ //PCFXIRQ_Assert(PCFXIRQ_SOURCE_INPUT, FALSE);
  //if(V != 7 && V != 5)
- //printf("PAD Write16: %04x %04x %d\n", A, V, v810_timestamp);
+ //printf("PAD Write16: %04x %04x %d\n", A, V, timestamp);
 
  switch(A & 0xC0)
  {
@@ -179,14 +257,14 @@ void FXINPUT_Write16(uint32 A, uint16 V)
 
 	     if((V & 0x1) && !(control[w] & 0x1))
 	     {
+	      //printf("Start: %d\n", w);
+	      if(MultiTapEnabled & (1 << w))
+	      {
+	       if(V & 0x2)
+	        TapCounter[w] = 0;
+	      }
 	      LatchPending[w] = 1536;
-	      //if(InputTypes[w] == FXIT_PAD)
- 	      // LatchPending[w] = 100; //2560; //100;
-	      //else if(InputTypes[w] == FXIT_MOUSE)
-	      // LatchPending[w] = 2560;
-	      //else
-	      // LatchPending[w] = 100;
-	      SetEvent();
+	      PCFX_SetEvent(PCFX_EVENT_PAD, CalcNextEventTS(timestamp));
 	     }
 	     control[w] = V & 0x7;
 	    }
@@ -194,33 +272,24 @@ void FXINPUT_Write16(uint32 A, uint16 V)
  }
 }
 
-void FXINPUT_Write8(uint32 A, uint8 V)
+void FXINPUT_Write8(uint32 A, uint8 V, const v810_timestamp_t timestamp)
 {
- FXINPUT_Write16(A, V); 
+ FXINPUT_Write16(A, V, timestamp); 
 }
 
 void FXINPUT_Frame(void)
 {
- for(int i = 0; i < 2; i++)
+ for(int i = 0; i < TOTAL_PORTS; i++)
  {
-  if(InputTypes[i] == FXIT_PAD)
-  {
-   data_save[i] = MDFN_de16lsb((uint8 *)data_ptr[i]);
-  }
-  else if(InputTypes[i] == FXIT_MOUSE)
-  {
-   mouse_x[i] += (int32)MDFN_de32lsb((uint8 *)data_ptr[i] + 0);
-   mouse_y[i] += (int32)MDFN_de32lsb((uint8 *)data_ptr[i] + 4);
-   mouse_button[i] = *(uint8 *)((uint8 *)data_ptr[i] + 8);
-  }
+  devices[i]->Frame(data_ptr[i]);
  }
 }
 
-static uint32 lastts;
+static v810_timestamp_t lastts;
 
-void FXINPUT_Update(void)
+v810_timestamp_t FXINPUT_Update(const v810_timestamp_t timestamp)
 {
- int32 run_time = v810_timestamp - lastts;
+ int32 run_time = timestamp - lastts;
 
  for(int i = 0; i < 2; i++)
  {
@@ -229,42 +298,41 @@ void FXINPUT_Update(void)
    LatchPending[i] -= run_time;
    if(LatchPending[i] <= 0)
    {
-    if(InputTypes[i] == FXIT_MOUSE)
+    //printf("Update: %d, %d\n", i, timestamp / 1365);
+
+    if(MultiTapEnabled & (1 << i))
     {
-     uint32 moo = FX_SIG_MOUSE << 28;
-     int32 rel_x = (int32)(mouse_x[i]);
-     int32 rel_y = (int32)(mouse_y[i]);
-
-     if(rel_x < -127) rel_x = -127;
-     if(rel_x > 127) rel_x = 127;
-     if(rel_y < -127) rel_y = -127;
-     if(rel_y > 127) rel_y = 127;
-
-     moo |= ((rel_x & 0xFF) << 8) | ((rel_y & 0xFF) << 0);
-
-     mouse_x[i] += (int32)(0 - rel_x);
-     mouse_y[i] += (int32)(0 - rel_y);
-
-     //printf("%d %d\n", rel_x, rel_y);
-
-     moo |= mouse_button[i] << 16;
-     data_latch[i] = moo;
+     if(TapCounter[i] >= TAP_PORTS)
+      data_latch[i] = FX_SIG_TAP << 28;
+     else
+     {
+      data_latch[i] = devices[TapMap[i][TapCounter[i]]]->Read();
+     }
     }
-    else if(InputTypes[i] == FXIT_PAD)
-     data_latch[i] = data_save[i] | (FX_SIG_PAD << 28);
     else
-     data_latch[i] = 0;
-
+    {
+     data_latch[i] = devices[i]->Read();
+    }
+    // printf("Moo: %d, %d, %08x\n", i, TapCounter[i], data_latch[i]);
     latched[i] = TRUE;
     control[i] &= ~1;
-    PCFXIRQ_Assert(11, TRUE);
+    PCFXIRQ_Assert(PCFXIRQ_SOURCE_INPUT, TRUE);
+
+    if(MultiTapEnabled & (1 << i))
+    {
+     if(TapCounter[i] < TAP_PORTS)
+     {
+      TapCounter[i]++;
+     }
+    }
+
    }
   }
  }
 
- lastts = v810_timestamp;
+ lastts = timestamp;
 
- SetEvent();
+ return(CalcNextEventTS(timestamp));
 }
 
 void FXINPUT_ResetTS(void)
@@ -277,61 +345,30 @@ int FXINPUT_StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
+  SFARRAY(TapCounter, 2),
   SFARRAY32(LatchPending, 2),
   SFARRAY(control, 2),
-  SFARRAY(latched, 2),
+  SFARRAYB(latched, 2),
   SFARRAY32(data_latch, 2),
   SFEND
  };
 
- int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "PAD");
+ int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "INPUT");
+
+ for(int i = 0; i < TOTAL_PORTS; i++)
+ {
+  char sname[256];
+  snprintf(sname, 256, "INPUT%d:%d", i, InputTypes[i]);
+  ret &= devices[i]->StateAction(sm, load, data_only, sname);
+ }
 
  if(load)
-  SetEvent();
+ {
 
+ }
+  
  return(ret);
 }
-
-// GamepadIDII and GamepadIDII_DSR must be EXACTLY the same except for the RUN+SELECT exclusion in the latter.
-static const InputDeviceInputInfoStruct GamepadIDII[] =
-{
- { "i", "I", 11, IDIT_BUTTON, NULL },
- { "ii", "II", 10, IDIT_BUTTON, NULL },
- { "iii", "III", 9, IDIT_BUTTON, NULL },
- { "iv", "IV", 6, IDIT_BUTTON, NULL },
- { "v", "V", 7, IDIT_BUTTON, NULL },
- { "vi", "VI", 8, IDIT_BUTTON, NULL },
- { "select", "SELECT", 4, IDIT_BUTTON, NULL },
- { "run", "RUN", 5, IDIT_BUTTON, NULL },
- { "up", "UP ↑", 0, IDIT_BUTTON, "down" },
- { "right", "RIGHT →", 3, IDIT_BUTTON, "left" },
- { "down", "DOWN ↓", 1, IDIT_BUTTON, "up" },
- { "left", "LEFT ←", 2, IDIT_BUTTON, "right" },
-};
-static const InputDeviceInputInfoStruct GamepadIDII_DSR[] =
-{
- { "i", "I", 11, IDIT_BUTTON, NULL },
- { "ii", "II", 10, IDIT_BUTTON, NULL },
- { "iii", "III", 9, IDIT_BUTTON, NULL },
- { "iv", "IV", 6, IDIT_BUTTON, NULL },
- { "v", "V", 7, IDIT_BUTTON, NULL },
- { "vi", "VI", 8, IDIT_BUTTON, NULL },
- { "select", "SELECT", 4, IDIT_BUTTON, "run" },
- { "run", "RUN", 5, IDIT_BUTTON, "select" },
- { "up", "UP ↑", 0, IDIT_BUTTON, "down" },
- { "right", "RIGHT →", 3, IDIT_BUTTON, "left" },
- { "down", "DOWN ↓", 1, IDIT_BUTTON, "up" },
- { "left", "LEFT ←", 2, IDIT_BUTTON, "right" },
-};
-
-
-static const InputDeviceInputInfoStruct MouseIDII[] =
-{
- { "x_axis", "X Axis", -1, IDIT_X_AXIS_REL },
- { "y_axis", "Y Axis", -1, IDIT_Y_AXIS_REL },
- { "left", "Left Button", 0, IDIT_BUTTON, NULL },
- { "right", "Right Button", 1, IDIT_BUTTON, NULL },
-};
 
 // If we add more devices to this array, REMEMBER TO UPDATE the hackish array indexing in the SyncSettings() function
 // below.
@@ -351,8 +388,8 @@ static InputDeviceInfoStruct InputDeviceInfo[] =
   "gamepad",
   "Gamepad",
   NULL,
-  sizeof(GamepadIDII) / sizeof(InputDeviceInputInfoStruct),
-  GamepadIDII,
+  sizeof(PCFX_GamepadIDII) / sizeof(InputDeviceInputInfoStruct),
+  PCFX_GamepadIDII,
  },
 
  // Mouse
@@ -360,15 +397,21 @@ static InputDeviceInfoStruct InputDeviceInfo[] =
   "mouse",
   "Mouse",
   NULL,
-  sizeof(MouseIDII) / sizeof(InputDeviceInputInfoStruct),
-  MouseIDII
+  sizeof(PCFX_MouseIDII) / sizeof(InputDeviceInputInfoStruct),
+  PCFX_MouseIDII
  }
 };
 
 static const InputPortInfoStruct PortInfo[] =
 {
- { 0, "port1", "Port 1", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo},
- { 0, "port2", "Port 2", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo },
+ { 0, "port1", "Port 1", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { 0, "port2", "Port 2", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { 0, "port3", "Port 3", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { 0, "port4", "Port 4", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { 0, "port5", "Port 5", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { 0, "port6", "Port 6", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { 0, "port7", "Port 7", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
+ { 0, "port8", "Port 8", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" },
 };
 
 InputInfoStruct PCFXInputInfo =
@@ -381,6 +424,9 @@ InputInfoStruct PCFXInputInfo =
 static void SyncSettings(void)
 {
  MDFNGameInfo->mouse_sensitivity = MDFN_GetSettingF("pcfx.mouse_sensitivity");
- InputDeviceInfo[1].IDII = MDFN_GetSettingB("pcfx.disable_softreset") ? GamepadIDII_DSR : GamepadIDII;
+ InputDeviceInfo[1].IDII = MDFN_GetSettingB("pcfx.disable_softreset") ? PCFX_GamepadIDII_DSR : PCFX_GamepadIDII;
+
+ MultiTapEnabled = MDFN_GetSettingB("pcfx.input.port1.multitap");
+ MultiTapEnabled |= MDFN_GetSettingB("pcfx.input.port2.multitap") << 1;
 }
 

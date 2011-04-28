@@ -1,14 +1,16 @@
 #ifndef _STATE_H
 #define _STATE_H
 
-//#include <stdio.h>
 #include <zlib.h>
 
-#include "state-driver.h"
+#include "video.h"
+#include "state-common.h"
 
-int MDFNSS_Save(const char *, const char *suffix, uint32 *fb = (uint32 *)NULL, MDFN_Rect *LineWidths = (MDFN_Rect *)NULL);
+void MDFNSS_GetStateInfo(const char *filename, StateStatusStruct *status);
+
+int MDFNSS_Save(const char *, const char *suffix, const MDFN_Surface *surface = (MDFN_Surface *)NULL, const MDFN_Rect *DisplayRect = (MDFN_Rect*)NULL, const MDFN_Rect *LineWidths = (MDFN_Rect *)NULL);
 int MDFNSS_Load(const char *, const char *suffix);
-int MDFNSS_SaveFP(gzFile fp, uint32 *fb = (uint32 *)NULL, MDFN_Rect *LineWidths = (MDFN_Rect *)NULL);
+int MDFNSS_SaveFP(gzFile fp, const MDFN_Surface *surface = (MDFN_Surface *)NULL, const MDFN_Rect *DisplayRect = (MDFN_Rect*)NULL, const MDFN_Rect *LineWidths = (MDFN_Rect *)NULL);
 int MDFNSS_LoadFP(gzFile fp);
 
 typedef struct
@@ -32,36 +34,85 @@ int32 smem_seek(StateMem *st, uint32 offset, int whence);
 int smem_write32le(StateMem *st, uint32 b);
 int smem_read32le(StateMem *st, uint32 *b);
 
-int MDFNSS_SaveSM(StateMem *st, int wantpreview, int data_only, uint32 *fb = (uint32 *)NULL, MDFN_Rect *LineWidths = (MDFN_Rect *)NULL);
+int MDFNSS_SaveSM(StateMem *st, int wantpreview, int data_only, const MDFN_Surface *surface = (MDFN_Surface *)NULL, const MDFN_Rect *DisplayRect = (MDFN_Rect*)NULL, const MDFN_Rect *LineWidths = (MDFN_Rect *)NULL);
 int MDFNSS_LoadSM(StateMem *st, int haspreview, int data_only);
 
 void MDFNSS_CheckStates(void);
 
-typedef struct {
-           void *v;	// Value
-           uint32 s;	// Length(if 0, the subchunk isn't saved)
-	   const char *desc;	// Description
-} SFORMAT;
-
+// Flag for a single, >= 1 byte native-endian variable
 #define MDFNSTATE_RLSB            0x80000000
+
+// 32-bit native-endian elements
 #define MDFNSTATE_RLSB32          0x40000000
+
+// 16-bit native-endian elements
 #define MDFNSTATE_RLSB16          0x20000000
 
-#define SFVAR(x) { &x, sizeof(x) | MDFNSTATE_RLSB, #x }
-#define SFVARN(x, n) { &x, sizeof(x) | MDFNSTATE_RLSB, n }
+// 64-bit native-endian elements
+#define MDFNSTATE_RLSB64          0x10000000
 
-#define SFARRAY(x, l) { x, l, #x }
-//TODO:#define SFARRAY(x, l) { x, (l * sizeof(x[0])) | ((sizeof(x[0]) == 2) ? MDFNSTATE_RLSB16) | ((sizeof(x[0]) == 4) ? MDFNSTATE_RLSB32), #x }
+#define MDFNSTATE_BOOL		  0x08000000
 
-#define SFARRAYN(x, l, n) { x, l, n }
 
-#define SFARRAY16(x, l) {x, MDFNSTATE_RLSB16 | (l * sizeof(uint16)), #x }
-#define SFARRAY16N(x, l, n) {x, MDFNSTATE_RLSB16 | (l * sizeof(uint16)), n }
+//// Array of structures
+//#define MDFNSTATE_ARRAYOFS	  0x04000000
 
-#define SFARRAY32(x, l) {x, MDFNSTATE_RLSB32 | (l * sizeof(uint32)), #x }
-#define SFARRAY32N(x, l, n) {x, MDFNSTATE_RLSB32 | (l * sizeof(uint32)), n }
+typedef struct {
+           void *v;		// Pointer to the variable/array
+           uint32 size;		// Length, in bytes, of the data to be saved EXCEPT:
+				//  In the case of MDFNSTATE_BOOL, it is the number of bool elements to save(bool is not always 1-byte).
+				//  AND, in the case of MDFNSTATE_ARRAYS, it's the number of structures to save.
+				// If 0, the subchunk isn't saved.
+	   uint32 flags;	// Flags
+	   const char *name;	// Name
+	   //uint32 struct_size;	// Only used for MDFNSTATE_ARRAYOFS, sizeof(struct) that members of the linked SFORMAT struct are in.
+} SFORMAT;
 
-#define SFEND { 0, 0, 0 }
+INLINE int SF_IS_BOOL(bool *) { return(1); }
+INLINE int SF_IS_BOOL(void *) { return(0); }
+
+INLINE int SF_FORCE_AB(bool *) { return(0); }
+
+INLINE int SF_FORCE_A8(int8 *) { return(0); }
+INLINE int SF_FORCE_A8(uint8 *) { return(0); }
+
+INLINE int SF_FORCE_A16(int16 *) { return(0); }
+INLINE int SF_FORCE_A16(uint16 *) { return(0); }
+
+INLINE int SF_FORCE_A32(int32 *) { return(0); }
+INLINE int SF_FORCE_A32(uint32 *) { return(0); }
+
+INLINE int SF_FORCE_A64(int64 *) { return(0); }
+INLINE int SF_FORCE_A64(uint64 *) { return(0); }
+
+INLINE int SF_FORCE_D(double *) { return(0); }
+
+#define SFVARN(x, n) { &x, SF_IS_BOOL(&x) ? 1 : sizeof(x), MDFNSTATE_RLSB | (SF_IS_BOOL(&x) ? MDFNSTATE_BOOL : 0), n }
+#define SFVAR(x) SFVARN(x, #x)
+
+#define SFARRAYN(x, l, n) { x, l, 0 | SF_FORCE_A8(x), n }
+#define SFARRAY(x, l) SFARRAYN(x, l, #x)
+
+#define SFARRAYBN(x, l, n) { x, l, MDFNSTATE_BOOL | SF_FORCE_AB(x), n }
+#define SFARRAYB(x, l) SFARRAYBN(x, l, #x)
+
+#define SFARRAY16N(x, l, n) {x, (l * sizeof(uint16)), MDFNSTATE_RLSB16 | SF_FORCE_A16(x), n }
+#define SFARRAY16(x, l) SFARRAY16N(x, l, #x)
+
+#define SFARRAY32N(x, l, n) {x, (l * sizeof(uint32)), MDFNSTATE_RLSB32 | SF_FORCE_A32(x), n }
+#define SFARRAY32(x, l) SFARRAY32N(x, l, #x)
+
+#define SFARRAY64N(x, l, n) {x, (l * sizeof(uint64)), MDFNSTATE_RLSB64 | SF_FORCE_A64(x), n }
+#define SFARRAY64(x, l) SFARRAY64N(x, l, #x)
+
+#if SIZEOF_DOUBLE != 8
+#error "sizeof(double) != 8"
+#endif
+
+#define SFARRAYDN(x, l, n) {x, (l * 8), MDFNSTATE_RLSB64 | SF_FORCE_D(x), n }
+#define SFARRAYD(x, l) SFARRAYDN(x, l, #x)
+
+#define SFEND { 0, 0, 0, 0 }
 
 #include <vector>
 

@@ -48,6 +48,7 @@ static const int zlutSize = 256; //32;
 
 static GLuint slut_texture, zlut_texture;
 static GLhandleARB v, f, p;
+static bool v_valid = false, f_valid = false, p_valid = false;
 static const char *vertexProg = "void main(void)\n{\ngl_Position = ftransform();\ngl_TexCoord[0] = gl_MultiTexCoord0;\n}";
 static const char *fragProgIpolateSharper = 
 "uniform sampler2D Tex0;\n\
@@ -176,7 +177,7 @@ void main()\n\
 }";
 
 
-static void ShaderErrorTest(GLenum moe)
+static void SLP(GLenum moe)
 {
  char buf[1000];
  GLsizei buflen = 0;
@@ -185,7 +186,7 @@ static void ShaderErrorTest(GLenum moe)
  buf[buflen] = 0;
 
  if(buflen)
-  throw(buf);
+  MDFN_PrintError("%s\n", buf);
 }
 
 static void InitSLUT(void);
@@ -241,34 +242,52 @@ bool InitShader(ShaderType shader_type)
 
 	try
 	{
-         v = p_glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB);
-         f = p_glCreateShaderObjectARB(GL_FRAGMENT_SHADER_ARB);
+	 int opi;
 
-         p_glShaderSourceARB(v, 1, &vv, NULL);
-         ShaderErrorTest(v);
-         p_glShaderSourceARB(f, 1, &ff, NULL);
-         ShaderErrorTest(f);
+         MDFN_GL_TRY(v = p_glCreateShaderObjectARB(GL_VERTEX_SHADER_ARB));
+	 v_valid = true;
 
-         p_glCompileShaderARB(v);
-         ShaderErrorTest(v);
-         p_glCompileShaderARB(f);
-         ShaderErrorTest(f);
+         MDFN_GL_TRY(f = p_glCreateShaderObjectARB(GL_FRAGMENT_SHADER_ARB));
+	 f_valid = true;
 
-         p = p_glCreateProgramObjectARB();
-         ShaderErrorTest(p);
+         MDFN_GL_TRY(p_glShaderSourceARB(v, 1, &vv, NULL), SLP(v));
+         MDFN_GL_TRY(p_glShaderSourceARB(f, 1, &ff, NULL), SLP(f));
 
-         p_glAttachObjectARB(p, v);
-         p_glAttachObjectARB(p, f);
+         MDFN_GL_TRY(p_glCompileShaderARB(v), SLP(v));
+	 MDFN_GL_TRY(p_glGetObjectParameterivARB(v, GL_OBJECT_COMPILE_STATUS_ARB, &opi));
+	 if(GL_FALSE == opi)
+	 {
+	  SLP(v);
+	  throw((void *)NULL);
+	 }
 
-         p_glLinkProgramARB(p);
-         ShaderErrorTest(p);
+         MDFN_GL_TRY(p_glCompileShaderARB(f), SLP(f));
+         MDFN_GL_TRY(p_glGetObjectParameterivARB(f, GL_OBJECT_COMPILE_STATUS_ARB, &opi));
+         if(GL_FALSE == opi)
+	 {
+	  SLP(f);
+          throw((void *)NULL);
+	 }
 
-	 ShaderErrorTest(p);
-         p_glDisable(GL_FRAGMENT_PROGRAM_ARB);
+         MDFN_GL_TRY(p = p_glCreateProgramObjectARB(), SLP(p));
+	 p_valid = true;
+
+         MDFN_GL_TRY(p_glAttachObjectARB(p, v));
+         MDFN_GL_TRY(p_glAttachObjectARB(p, f));
+
+         MDFN_GL_TRY(p_glLinkProgramARB(p), SLP(p));
+
+         MDFN_GL_TRY(p_glDisable(GL_FRAGMENT_PROGRAM_ARB));
 	}
-	catch(char *message)
+	catch(GLenum errcode)
 	{
-	 MDFN_PrintError("%s\n", message);
+	 MDFN_PrintError("OpenGL Error: %d\n", (int)(long long)errcode); // FIXME: Print an error string and not an arcane number.
+	 KillShader();
+	 return(0);
+	}
+	catch(void *)
+	{
+	 KillShader();
 	 return(0);
 	}
 	return(1);
@@ -505,13 +524,23 @@ bool KillShader(void)
 {
         p_glUseProgramObjectARB(0);
 
-	p_glDetachObjectARB(p, f);
-	p_glDetachObjectARB(p, v);
-	p_glDeleteObjectARB(f);
-	p_glDeleteObjectARB(v);
-	p_glDeleteObjectARB(p);
+	if(p_valid)
+	{
+	 if(f_valid)
+	  p_glDetachObjectARB(p, f);
+	 if(v_valid)
+  	  p_glDetachObjectARB(p, v);
+	}
+	if(f_valid)
+	 p_glDeleteObjectARB(f);
+	if(v_valid)
+	 p_glDeleteObjectARB(v);
+	if(p_valid)
+	 p_glDeleteObjectARB(p);
 
         p_glDisable(GL_FRAGMENT_PROGRAM_ARB);
+
+	f_valid = v_valid = p_valid = false;
 
 	return(1);
 }
@@ -811,42 +840,42 @@ static void InitZLUT(void)
 		{
 			// get uv.
 			float u = (float(j)+0.5f)/zlutSize;
-			float v = (float(i)+0.5f)/zlutSize;
+			float v_c = (float(i)+0.5f)/zlutSize;
 			
 			// compute the zone index.
 			int index;
 			float uu, vv;
 			if(u < 0.5f)
 			{
-				if(v < 0.5f)
+				if(v_c < 0.5f)
 				{
 					index = 0;
 					uu = -u + 0.5f;
-					vv = v;
+					vv = v_c;
 					if(uu < vv) index += 4;
 				}
 				else
 				{
 					index = 1;
 					uu = -u;
-					vv = -v + 0.5f;
+					vv = -v_c + 0.5f;
 					if(uu < vv) index += 4;
 				}
 			}
 			else
 			{
-				if(v < 0.5f)
+				if(v_c < 0.5f)
 				{
 					index = 3;
 					uu = u - 0.5f;
-					vv = v;
+					vv = v_c;
 					if(uu < vv) index += 4;
 				}
 				else
 				{
 					index = 2;
 					uu = u - 1.0f;
-					vv = -v + 0.5f;
+					vv = -v_c + 0.5f;
 					if(uu < vv) index += 4;
 				}
 			}

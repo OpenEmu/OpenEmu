@@ -47,10 +47,10 @@
 //#include <crtdbg.h>
 //#define   TRACE_ROM
 
-#include <string.h>
-#include <errno.h>
 #include "system.h"
 #include "rom.h"
+
+#include <errno.h>
 
 CRom::CRom(const char *romfile)
 {
@@ -62,27 +62,22 @@ CRom::CRom(const char *romfile)
 
 	// Load up the file
 
-	FILE	*fp;
+	MDFNFILE BIOSFile;
 
-	if((fp=fopen(romfile,"rb"))==NULL)
+	if(!BIOSFile.Open(romfile, NULL, _("Lynx Boot ROM")))
 	{
-		std::string message;
-
-		MDFN_PrintError("The Lynx Boot ROM image(%s) couldn't be opened: %s\n", romfile, strerror(errno));
-		throw(0);
+	 throw(0);
 	}
 
-	// Read in the 512 bytes
-
-	if(fread(mRomData,sizeof(char),ROM_SIZE,fp)!=ROM_SIZE)
+	if(BIOSFile.Size() < 512)
 	{
-                std::string message;
-
-                MDFN_PrintError("The Lynx Boot ROM image(%s) couldn't be read: %s\n", romfile, strerror(errno));
-                throw(0);    
+	 MDFN_PrintError(_("The Lynx Boot ROM Image is an incorrect size."));
+	 throw(0);
 	}
 
-	fclose(fp);
+	memcpy(mRomData, BIOSFile.Data(), 512);
+
+	BIOSFile.Close();
 }
 
 void CRom::Reset(void)

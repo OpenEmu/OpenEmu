@@ -134,10 +134,17 @@ class MemDebuggerPrompt : public HappyPrompt
         {
 
         }
+
         private:
 
-	bool DoBSSearch(uint32 byte_count, uint8 *thebytes)
-	{
+        bool DoBSSearch(uint32 byte_count, uint8 *thebytes);
+	bool DoRSearch(uint32 byte_count, uint8 *the_bytes);
+        uint8 *TextToBS(const char *text, size_t *TheCount);
+        void TheEnd(const std::string &pstring);
+};
+
+bool MemDebuggerPrompt::DoBSSearch(uint32 byte_count, uint8 *thebytes)
+{
 	 const uint64 zemod = SizeCache[CurASpace];
          const uint32 start_a = ASpacePos[CurASpace] % zemod;
          uint32 a = start_a;
@@ -160,10 +167,10 @@ class MemDebuggerPrompt : public HappyPrompt
 
 	 free(bbuffer);
 	 return(found);
-	}
+}
 
-	bool DoRSearch(uint32 byte_count, uint8 *the_bytes)
-	{
+bool MemDebuggerPrompt::DoRSearch(uint32 byte_count, uint8 *the_bytes)
+{
 	 const uint64 zemod = SizeCache[CurASpace];
          const uint32 start_a = (ASpacePos[CurASpace] - 1) % zemod;
          uint32 a = start_a;
@@ -196,10 +203,10 @@ class MemDebuggerPrompt : public HappyPrompt
 	 free(bbuffer);
 
 	 return(found);
-	}
+}
 
-	uint8 *TextToBS(const char *text, size_t *TheCount)
-	{
+uint8 *MemDebuggerPrompt::TextToBS(const char *text, size_t *TheCount)
+{
           size_t byte_count;
           uint8 *thebytes = NULL;
 	  size_t text_len = strlen(text);
@@ -245,10 +252,10 @@ class MemDebuggerPrompt : public HappyPrompt
           byte_count = nib_count >> 1;
 	  *TheCount = byte_count;
 	  return(thebytes);
-	}
+}
 
-        void TheEnd(const std::string &pstring)
-        {
+void MemDebuggerPrompt::TheEnd(const std::string &pstring)
+{
 	 if(error_string)
 	 {
 	  free(error_string);
@@ -271,7 +278,7 @@ class MemDebuggerPrompt : public HappyPrompt
 	  if(ICV_Init(pstring.c_str()))
 	  {
 	   LockGameMutex(1);
-	   MDFNI_SetSetting(std::string(std::string(CurGame->shortname) + "." + std::string("debugger.memcharset")).c_str(), pstring.c_str());
+	   MDFNI_SetSetting(std::string(std::string(CurGame->shortname) + "." + std::string("debugger.memcharenc")).c_str(), pstring.c_str());
 	   LockGameMutex(0);
 	  }
 	 }
@@ -471,8 +478,7 @@ class MemDebuggerPrompt : public HappyPrompt
 	  free(the_bytes);
 	 }
          InPrompt = None;
-	}
-};
+}
 
 static MemDebuggerPrompt *myprompt = NULL;
 
@@ -519,7 +525,14 @@ void MemDebugger_Draw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect
 
  Ameow = A &~ 0xF;
 
- for(int y = 0; y < 16; y++)
+ int numrows = zemod / 16;
+
+ if(numrows > 16)
+  numrows = 16;
+ else if(numrows < 4)
+  numrows = 4;
+
+ for(int y = 0; y < numrows; y++)
  {
   uint8 byte_buffer[16];
   char abuf[32];
@@ -652,15 +665,48 @@ void MemDebugger_Draw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect
 
    DrawTextTrans(pixels + cpplen + cplen + 8, surface->pitch, rect->w, (UTF8*)ggddstr, MK_COLOR_A(0xFF, 0x80, 0x80, 0xFF), 0, 1);
   }
-
-
   pixels += 5 + 10 * pitch32;
+
   tmpval = zebytes[0];
   trio_snprintf(cpstr, 32, "%02x(%u, %d)", tmpval, (uint8)tmpval, (int8)tmpval);
   cpplen = DrawTextTrans(pixels, surface->pitch, rect->w, (UTF8*)"1-byte value: ", MK_COLOR_A(0xA0, 0xA0, 0xFF, 0xFF), 0, 1);
   DrawTextTrans(pixels + cpplen, surface->pitch, rect->w, (UTF8*)cpstr , MK_COLOR_A(0xFF, 0xFF, 0xFF, 0xFF), 0, 1);
 
   pixels += 10 * pitch32;
+
+
+  if(ASpace->IsWave && SizeCache[CurASpace] <= 128 && ASpace->WaveBits <= 6)
+  {
+   const int32 wf_size = SizeCache[CurASpace];
+   uint8 waveform[wf_size];
+   const int32 pcm_max = (1 << ASpace->WaveBits) - 1;
+
+   DrawTextTrans(pixels - 5, surface->pitch, rect->w, (UTF8 *)"Full waveform:", MK_COLOR_A(0xA0, 0xA0, 0xFF, 0xFF), 0, 1);
+   pixels += 9 * pitch32;
+   MDFN_DrawRectangleFill(pixels, surface->pitch >> 2, 0, 0, MK_COLOR_A(0xA0,0xA0,0xA0,0xFF), MK_COLOR_A(0,0,0,0xFF), 2 + wf_size * 2 + 2, 2 + (pcm_max + 1) + 2);
+
+   ASpace->GetAddressSpaceBytes(ASpace->name, 0, wf_size, waveform);
+
+   for(int i = 0; i < wf_size; i++)
+   {
+    int32 delta;
+    int32 current;
+    int32 previous;
+
+    current = waveform[i];
+    previous = waveform[(i + wf_size - 1) % wf_size];
+
+    delta = current - previous;
+
+    for(int y = previous; y != current; y += delta / abs(delta))
+     pixels[2 + i * 2 + 0 + (2 + (pcm_max - y)) * (surface->pitch >> 2)] = MK_COLOR_A(0x00,0xA0,0x00,0xFF);
+
+    pixels[2 + i * 2 + 0 + (2 + (pcm_max - current)) * (surface->pitch >> 2)] = MK_COLOR_A(0x00,0xA0,0x00,0xFF);
+    pixels[2 + i * 2 + 1 + (2 + (pcm_max - current)) * (surface->pitch >> 2)] = MK_COLOR_A(0x00,0xA0,0x00,0xFF);
+   }
+  }
+  else
+  {
   tmpval = zebytes[0] | (zebytes[1] << 8);
   trio_snprintf(cpstr, 32, "%04x(%u, %d)", tmpval, (uint16)tmpval, (int16)tmpval);
   cpplen = DrawTextTrans(pixels, surface->pitch, rect->w, (UTF8*)"2-byte value(LSB): ", MK_COLOR_A(0xA0, 0xA0, 0xFF, 0xFF), 0, 1);
@@ -707,6 +753,8 @@ void MemDebugger_Draw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect
   }
 
  }
+
+ }
  LockGameMutex(0);
 
  if(InPrompt)
@@ -747,7 +795,6 @@ static void ChangePos(int64 delta)
  LowNib = FALSE;
 }
 
-#if 0
 static void DoCrazy(void)
 {
  uint32 start = ASpacePos[CurASpace];
@@ -812,7 +859,6 @@ static void DoCrazy(void)
  fprintf(fp, "%08x %08x\n", start, ASpacePos[CurASpace]);
  fclose(fp);
 }
-#endif
 
 // Call this from the main thread
 int MemDebugger_Event(const SDL_Event *event)
@@ -994,7 +1040,6 @@ int MemDebugger_Event(const SDL_Event *event)
 			LowNib = FALSE;
 			break;
 
-	 #if 0
 	 case SDLK_b: //InMarkMode = !InMarkMode;
 		      //if(InMarkMode)
  		      // MarkModeBegin = ASpacePos[CurASpace];
@@ -1009,7 +1054,6 @@ int MemDebugger_Event(const SDL_Event *event)
 		       InMarkMode = FALSE;
 		      }
 		      break;
-	 #endif
 	}
 	break;
  }
@@ -1045,7 +1089,7 @@ bool MemDebugger_Init(void)
    SizeCache[i] = tmpsize;
   }
 
-  ICV_Init( MDFN_GetSettingS(std::string(std::string(CurGame->shortname) + "." + std::string("debugger.memcharset")).c_str()).c_str() );
+  ICV_Init( MDFN_GetSettingS(std::string(std::string(CurGame->shortname) + "." + std::string("debugger.memcharenc")).c_str()).c_str() );
  }
  else
   AddressSpaces = NULL;

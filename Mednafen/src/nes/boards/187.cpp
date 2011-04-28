@@ -18,15 +18,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+// TODO:  Remove this mapper or add a StateAction for it!
+
 #include "mapinc.h"
 
 static uint8 LastWr;
 static uint8 ExtMode;
 static uint8 cmd;
 static uint8 DRegs[8];
-static uint32 count=0;
-static uint32 last=0;
-static int safe=0;
+static uint32 count;
+static uint32 last;
+static int safe;
 static uint8 poofish;
 
 static int32 IRQCount;
@@ -120,11 +122,21 @@ static DECLFR(ProtRead)
 
 static void M187Power(CartInfo *info)
 {
- SetWriteHandler(0x5000,0x5fff,M187Write);
- SetWriteHandler(0x8000,0xFFFF,M187HWrite); 
- SetReadHandler(0x5000,0x5FFF,ProtRead);
- SetWriteHandler(0x6000,0x7FFF,M187Write);
- SetReadHandler(0x8000,0xffff,CartBR);
+ LastWr = 0;
+ ExtMode = 0;
+ cmd = 0;
+
+ memset(DRegs, 0, sizeof(DRegs));
+
+ count = 0;
+ last = 0;
+ safe = 0;
+ poofish = 0;
+
+ IRQCount = 0;
+ IRQa = 0;
+ IRQLatch = 0;
+
  Sync();
 }
 
@@ -162,6 +174,13 @@ int Mapper187_Init(CartInfo *info)
  info->Power=M187Power;
  //GameHBIRQHook=sl;
  PPU_hook=foo;
+
+ SetWriteHandler(0x5000,0x5fff,M187Write);
+ SetWriteHandler(0x8000,0xFFFF,M187HWrite);
+ SetReadHandler(0x5000,0x5FFF,ProtRead);
+ SetWriteHandler(0x6000,0x7FFF,M187Write);
+ SetReadHandler(0x8000,0xffff,CartBR);
+
  return(1);
 }
 

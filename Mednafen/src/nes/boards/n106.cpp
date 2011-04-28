@@ -179,8 +179,7 @@ static DECLFW(Mapper19_write)
 		   //puts("Hmm");
 		   if(dopol&0x40)
                    {
-                    if(FSettings.SndRate)
-		     DoNamcoSound();
+		    DoNamcoSound();
 		    FixCache(dopol,V);
                    }
 		   IRAM[dopol&0x7f]=V;
@@ -231,7 +230,7 @@ static void SyncHQ(int32 ts)
 	...?
 */
 
-static ALWAYS_INLINE uint32 FetchDuff(uint32 P, uint32 envelope)
+static INLINE uint32 FetchDuff(uint32 P, uint32 envelope)
 {
     uint32 duff;
     duff=IRAM[((IRAM[0x46+(P<<3)]+(PlayIndex[P]>>TOINDEX))&0xFF)>>1];
@@ -242,7 +241,7 @@ static ALWAYS_INLINE uint32 FetchDuff(uint32 P, uint32 envelope)
     return(duff);
 }
 
-static ALWAYS_INLINE uint32 FetchDuffBS(uint32 P, uint32 envelope)
+static INLINE uint32 FetchDuffBS(uint32 P, uint32 envelope)
 {
     uint32 duff;
     duff=IRAM[((IRAM[0x46+(P<<3)]+(PlayIndex[P]>>TOINDEXBS))&0xFF)>>1];
@@ -398,26 +397,36 @@ int NSFN106_Init(EXPSOUND *ep, bool MultiChip)
  return(1);
 }
 
-static void N106_Power(CartInfo *info)
+static void InstallRW(CartInfo *info)
 {
-	int x;
-
         SetReadHandler(0x8000,0xFFFF,CartBR);
         SetWriteHandler(0x8000,0xffff,Mapper19_write);
         SetWriteHandler(0x4020,0x5fff,Mapper19_write);
-  
-	if(!is210)
-	{
+
+        if(!is210)
+        {
          SetWriteHandler(0xc000,0xdfff,Mapper19C0D8_write);
          SetReadHandler(0x4800,0x4fff,Namco_Read4800);
          SetReadHandler(0x5000,0x57ff,Namco_Read5000);
          SetReadHandler(0x5800,0x5fff,Namco_Read5800);
+        }
+
+        SetReadHandler(0x6000,0x7FFF,AWRAM);
+        SetWriteHandler(0x6000,0x7FFF,BWRAM);
+
+
+}
+
+static void N106_Power(CartInfo *info)
+{
+	int x;
+
+	if(!is210)
+	{
 	 NTAPage[0]=NTAPage[1]=NTAPage[2]=NTAPage[3]=0xFF;
 	 FixNTAR();
 	}
 
-        SetReadHandler(0x6000,0x7FFF,AWRAM);
-        SetWriteHandler(0x6000,0x7FFF,BWRAM);
         MDFNMP_AddRAM(8192, 0x6000, WRAM);
 
         gorfus=0xFF;
@@ -483,7 +492,7 @@ static void PutAddressSpaceBytes(const char *name, uint32 Address, uint32 Length
 }
 #endif
 
-void Mapper19_Init(CartInfo *info)
+int Mapper19_Init(CartInfo *info)
 {
 	is210=0;
 
@@ -502,10 +511,15 @@ void Mapper19_Init(CartInfo *info)
 	 info->SaveGame[1] = IRAM;
 	 info->SaveGameLen[1] = 128;
 	}
+
 	#ifdef WANT_DEBUGGER
-	MDFNDBG_AddASpace(GetAddressSpaceBytes, PutAddressSpaceBytes, "wram", "Cart WRAM", 13);
-	MDFNDBG_AddASpace(GetAddressSpaceBytes, PutAddressSpaceBytes, "iram", "N106 Internal RAM", 7);
+	ASpace_Add(GetAddressSpaceBytes, PutAddressSpaceBytes, "wram", "Cart WRAM", 13);
+	ASpace_Add(GetAddressSpaceBytes, PutAddressSpaceBytes, "iram", "N106 Internal RAM", 7);
 	#endif
+
+	InstallRW(info);
+
+	return(1);
 }
 
 static int Mapper210_StateAction(StateMem *sm, int load, int data_only)
@@ -526,9 +540,13 @@ static int Mapper210_StateAction(StateMem *sm, int load, int data_only)
  return(ret);
 }
 
-void Mapper210_Init(CartInfo *info)
+int Mapper210_Init(CartInfo *info)
 {
  is210=1;
  info->StateAction = Mapper210_StateAction;
  info->Power=N106_Power;
+
+ InstallRW(info);
+
+ return(1);
 }

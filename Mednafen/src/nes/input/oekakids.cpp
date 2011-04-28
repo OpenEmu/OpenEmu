@@ -18,7 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
 #include "share.h"
 
 static uint8 OKValR,LastWR;
@@ -80,10 +79,10 @@ static void OK_Update(void *data)
  OKB=((uint8*)data)[8];
 }
 
-static void DrawOeka(uint32 *buf)
+static void DrawOeka(MDFN_Surface *surface)
 {
  if(OKY<44)
-  MDFN_DrawCursor(buf, OKX, OKY);
+  MDFN_DrawCursor(surface, OKX, OKY);
 }  
 
 static int StateActionFC(StateMem *sm, int load, int data_only)

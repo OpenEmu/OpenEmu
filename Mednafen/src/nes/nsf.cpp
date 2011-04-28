@@ -15,16 +15,14 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
-#include <math.h>
-
 #include "nes.h"
+#include <math.h>
 #include "x6502.h"
 #include "sound.h"
 #include "nsf.h"
 #include "nsfe.h"
-#include "memory.h"
 #include "fds.h"
+#include "fds-sound.h"
 #include "cart.h"
 #include "input.h"
 #include "../player.h"
@@ -129,15 +127,16 @@ static INLINE void BANKSET(uint32 A, uint32 bank)
 int LoadNSF(MDFNFILE *fp)
 {
  NSF_HEADER NSFHeader;
- MDFN_fseek(fp, 0, SEEK_SET);
- MDFN_fread(&NSFHeader, 1, 0x80, fp);
+
+ fp->rewind();
+ fp->fread(&NSFHeader, 1, 0x80);
 
  // NULL-terminate strings just in case.
  NSFHeader.GameName[31] = NSFHeader.Artist[31] = NSFHeader.Copyright[31] = 0;
 
- NSFInfo->GameName = (UTF8*)MDFN_FixString(strdup((char *)NSFHeader.GameName));
- NSFInfo->Artist = (UTF8 *)MDFN_FixString(strdup((char *)NSFHeader.Artist));
- NSFInfo->Copyright = (UTF8 *)MDFN_FixString(strdup((char *)NSFHeader.Copyright));
+ NSFInfo->GameName = (UTF8*)MDFN_RemoveControlChars(strdup((char *)NSFHeader.GameName));
+ NSFInfo->Artist = (UTF8 *)MDFN_RemoveControlChars(strdup((char *)NSFHeader.Artist));
+ NSFInfo->Copyright = (UTF8 *)MDFN_RemoveControlChars(strdup((char *)NSFHeader.Copyright));
 
  MDFN_trim((char*)NSFInfo->GameName);
  MDFN_trim((char*)NSFInfo->Artist);
@@ -147,17 +146,18 @@ int LoadNSF(MDFNFILE *fp)
  NSFInfo->InitAddr = NSFHeader.InitAddressLow | (NSFHeader.InitAddressHigh << 8);
  NSFInfo->PlayAddr = NSFHeader.PlayAddressLow | (NSFHeader.PlayAddressHigh << 8);
 
- NSFInfo->NSFSize = MDFN_fgetsize(fp)-0x80;
+ NSFInfo->NSFSize = fp->Size() - 0x80;
 
  NSFInfo->NSFMaxBank = ((NSFInfo->NSFSize+(NSFInfo->LoadAddr&0xfff)+4095)/4096);
- NSFInfo->NSFMaxBank = uppow2(NSFInfo->NSFMaxBank);
+ NSFInfo->NSFMaxBank = round_up_pow2(NSFInfo->NSFMaxBank);
 
  if(!(NSFInfo->NSFDATA=(uint8 *)MDFN_malloc(NSFInfo->NSFMaxBank*4096, _("NSF data"))))
   return 0;
 
- MDFN_fseek(fp,0x80,SEEK_SET);
+ fp->fseek(0x80, SEEK_SET);
+
  memset(NSFInfo->NSFDATA, 0x00, NSFInfo->NSFMaxBank*4096);
- MDFN_fread(NSFInfo->NSFDATA+(NSFInfo->LoadAddr&0xfff), 1, NSFInfo->NSFSize, fp);
+ fp->fread(NSFInfo->NSFDATA+(NSFInfo->LoadAddr&0xfff), 1, NSFInfo->NSFSize);
  
  NSFInfo->NSFMaxBank--;
 
@@ -197,8 +197,8 @@ bool NSFLoad(const char *name, MDFNFILE *fp, NESGameType *gt)
  }
  memset(NSFInfo, 0, sizeof(NSFINFO));
 
- MDFN_fseek(fp,0,SEEK_SET);
- MDFN_fread(magic, 1, 5, fp);
+ fp->rewind();
+ fp->fread(magic, 1, 5);
 
  if(!memcmp(magic, "NESM\x1a", 5))
  {
@@ -210,7 +210,7 @@ bool NSFLoad(const char *name, MDFNFILE *fp, NESGameType *gt)
  }
  else if(!memcmp(magic, "NSFE", 4))
  {
-  if(!LoadNSFE(NSFInfo, fp->data, MDFN_fgetsize(fp),0))
+  if(!LoadNSFE(NSFInfo, fp->data, fp->Size(), 0))
   {
    FreeNSF();
    return(0);
@@ -464,17 +464,17 @@ static DECLFR(NSF_read)
  case 0x3ff1:
 	    if(!fceuindbg)
 	    {
-	     extern uint8 RAM[0x800]; // from nes.cpp
-
-             memset(RAM,0x00,0x800);
+	     for(int i = 0; i < 0x800; i++)
+	      BWrite[i](i, 0x00);
 
              BWrite[0x4015](0x4015,0x0);
              for(x=0;x<0x14;x++)
               BWrite[0x4000+x](0x4000+x,0);
              BWrite[0x4015](0x4015,0xF);
 
-	     if(NSFInfo->SoundChip&4) 
+	     if(NSFInfo->SoundChip & 4) 
 	     {
+	      FDSSound_Power();
 	      BWrite[0x4017](0x4017,0xC0);	/* FDS BIOS writes $C0 */
 	      BWrite[0x4089](0x4089,0x80);
 	      BWrite[0x408A](0x408A,0xE8);
@@ -548,8 +548,8 @@ void DoNSFFrame(void)
  }
 }
 
-void MDFNNES_DrawNSF(uint32 *XBuf, int16 *samples, int32 scount)
+void MDFNNES_DrawNSF(MDFN_Surface *surface, MDFN_Rect *DisplayRect, int16 *samples, int32 scount)
 {
- Player_Draw(XBuf, NSFInfo->CurrentSong, samples, scount);
+ Player_Draw(surface, DisplayRect, NSFInfo->CurrentSong, samples, scount);
 }
 

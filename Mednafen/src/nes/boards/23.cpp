@@ -21,6 +21,7 @@
 #include "mapinc.h"
 
 static uint8 CHRBanks[8], PRGBanks[2], IRQCount, IRQLatch, Mirroring, K4IRQ, IRQa, K4sel;
+static int32 acount;
 static uint8 *WRAM = NULL;
 
 static void DoMirroring(void)
@@ -56,7 +57,6 @@ static void DoPRG(void)
  setprg8(0xa000, PRGBanks[1]);
 }
 
-static int acount=0;
 static DECLFW(Mapper23_write)
 {
   if((A&0xF000)==0x8000)
@@ -119,6 +119,7 @@ static int StateAction(StateMem *sm, int load, int data_only)
  {
   SFARRAY(CHRBanks, 8), SFARRAY(PRGBanks, 2), SFARRAY(WRAM, 8192),
   SFVAR(K4IRQ), SFVAR(K4sel), SFVAR(IRQCount), SFVAR(IRQLatch), SFVAR(Mirroring), SFVAR(IRQa),
+  SFVAR(acount),
   SFEND
  };
 
@@ -134,8 +135,7 @@ static int StateAction(StateMem *sm, int load, int data_only)
 
 static void Power(CartInfo *info)
 {
-	int x;
-	for(x = 0; x < 8; x++)
+	for(int x = 0; x < 8; x++)
 	 CHRBanks[x] = ~0;
 	PRGBanks[0] = PRGBanks[1] = ~0;
 	setprg8r(0x10, 0x6000, 0);
@@ -148,6 +148,8 @@ static void Power(CartInfo *info)
 
 	if(!info->battery)
 	 memset(WRAM, 0xFF, 8192);
+
+	acount = 0;
 }
 
 static void Close(void)

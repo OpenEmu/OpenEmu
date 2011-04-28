@@ -88,9 +88,9 @@ static void FastRefreshLine(int firsttile, uint8 *target)
 	 }
          else if(MMC5HackCHRMode==1 && (MMC5HackSPMode&0x80))
 	 {
-          uint8 ys;
-          ys=((scanline>>3)+MMC5HackSPScroll)&0x1F;
-          if(ys>=0x1E) ys-=0x1E;
+          uint8 ys_tmp;
+          ys_tmp = ((scanline>>3)+MMC5HackSPScroll)&0x1F;
+          if(ys_tmp >= 0x1E) ys_tmp -= 0x1E;
 
           #define PPUT_MMC5SP
 	  #define PPUT_MMC5CHR1

@@ -4,8 +4,11 @@
 */
 #include "shared.h"
 
-io_state io_lut[2][256];
-io_state *io_current;
+namespace MDFN_IEN_SMS
+{
+
+static io_state io_lut[2][256];
+static const io_state *io_current;
 
 void pio_init(void)
 {
@@ -255,3 +258,32 @@ void sio_w(int offset, int data)
     }
 }
 
+int SMS_PIOStateAction(StateMem *sm, int load, int data_only)
+{
+ SFORMAT StateRegs[] =
+ {
+  SFVAR(sms.sio.pdr),
+  SFVAR(sms.sio.ddr),
+  SFVAR(sms.sio.txdata),
+  SFVAR(sms.sio.rxdata),
+  SFVAR(sms.sio.sctrl),
+  SFVAR(sms.ioctrl),
+
+
+  SFEND
+ };
+
+
+ int ret;
+
+ ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "PIO");
+
+ if(load)
+ {
+  io_current = &io_lut[sms.territory][sms.ioctrl];
+ }
+
+ return(ret);
+}
+
+}

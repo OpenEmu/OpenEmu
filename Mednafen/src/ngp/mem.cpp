@@ -26,7 +26,7 @@
 //=============================================================================
 
 //Hack way of returning good Flash status.
-bool8 FlashStatusEnable = FALSE;
+bool FlashStatusEnable = FALSE;
 static uint32 FlashStatus;	
 
 uint8 CPUExRAM[16384];
@@ -512,7 +512,7 @@ void storeL(uint32 address, uint32 data)
 
 //=============================================================================
 
-static uint8 systemMemory[] = 
+static const uint8 systemMemory[] = 
 {
 	// 0x00												// 0x08
 	0x00, 0x00, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,		0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x08, 0xFF, 0xFF,

@@ -1,4 +1,3 @@
-#ifdef NETWORK
 /* Network interface */
 
 void MDFNI_NetplayChangeNick(UTF8 *newnick);
@@ -23,10 +22,18 @@ void MDFND_NetplayText(const uint8 *text, bool NetEcho);
 /* Encode and send text over the network. */
 void MDFNI_NetplayText(const uint8 *text);
 
+
+/* Starts a process to determine the integrity(synchronization) of all players
+   in the current game session on the server.  Outputs result via MDFND_NetplayText()
+   when they are received from the server(not in this function).
+*/
+void MDFNI_NetplayIntegrity(void);
+
+/* Pings the server.  Outputs result via MDFND_NetplayText() when received from the server(not in this function). */
+void MDFNI_NetplayPing(void);
+
 /* Called when a fatal error occurred and network play can't continue.  This function
    should call MDFNI_NetplayStop() after it has deinitialized the network on the driver
    side.
 */
 void MDFND_NetworkClose(void);
-#endif
-

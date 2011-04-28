@@ -21,8 +21,7 @@
 
 NGPGFX_CLASS::NGPGFX_CLASS(void)
 {
-
-
+ layer_enable = 1 | 2 | 4;
 }
 
 NGPGFX_CLASS::~NGPGFX_CLASS()
@@ -35,7 +34,7 @@ void NGPGFX_CLASS::reset(void)
 {
  memset(SPPLT, 0x7, sizeof(SPPLT));
  memset(SCRP1PLT, 0x7, sizeof(SCRP1PLT));
- memset(SCRP2PLT, 0x7, sizeof(SCRP2PLT)),
+ memset(SCRP2PLT, 0x7, sizeof(SCRP2PLT));
 
  raster_line = 0;
  S1SO_H = 0;
@@ -119,7 +118,7 @@ bool NGPGFX_CLASS::hint(void)
 	return(0);
 }
 
-void NGPGFX_CLASS::set_pixel_format(int rs, int gs, int bs)
+void NGPGFX_CLASS::set_pixel_format(const MDFN_PixelFormat &format)
 {
  for(int x = 0; x < 4096; x++)
  {
@@ -127,13 +126,11 @@ void NGPGFX_CLASS::set_pixel_format(int rs, int gs, int bs)
   int g = ((x >> 4) & 0xF) * 17;
   int b = ((x >> 8) & 0xF) * 17;
 
-  ColorMap[x] = (r << rs) | (g << gs) | (b << bs);
+  ColorMap[x] = format.MakeColor(r, g, b);
  }
 }
 
-static int layer_enable = 1 | 2 | 4;
-
-bool NGPGFX_CLASS::draw(bool skip)
+bool NGPGFX_CLASS::draw(MDFN_Surface *surface, bool skip)
 {
 	bool ret = 0;
 
@@ -143,7 +140,7 @@ bool NGPGFX_CLASS::draw(bool skip)
                 if (!K2GE_MODE)        draw_scanline_colour(layer_enable, raster_line);
                 else                   draw_scanline_mono(layer_enable, raster_line);
 
-                uint32 *dest = (uint32 *)MDFNGameInfo->fb + (MDFNGameInfo->pitch >> 2) * raster_line;
+                uint32 *dest = surface->pixels + surface->pitch32 * raster_line;
                 for(int x = 0; x < SCREEN_WIDTH; x++)
                  dest[x] = ColorMap[cfb_scanline[x] & 4095];
         }

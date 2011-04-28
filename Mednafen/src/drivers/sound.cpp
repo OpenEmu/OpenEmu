@@ -27,17 +27,29 @@
 
 #include "../sexyal/sexyal.h"
 
-static SexyAL *Interface;
-static SexyAL_device *Output;
+static SexyAL *Interface = NULL;
+static SexyAL_device *Output = NULL;
 static SexyAL_format format;
 static SexyAL_buffering buffering;
-static SexyAL_enumtype *DriverTypes;
+static SexyAL_enumtype *DriverTypes = NULL;
 static int CurDriverIndex = 0;
+
+static int16 *EmuModBuffer = NULL;
+static int32 EmuModBufferSize = 0;	// In frames.
+
+static double SoundRate = 0;
+
+double GetSoundRate(void)
+{
+ return(SoundRate);
+}
 
 uint32 GetMaxSound(void)
 {
- if(!Output) return(0);
- return(buffering.totalsize);
+ if(!Output)
+  return(0);
+
+ return(buffering.buffer_size);
 }
 
 uint32 GetWriteSound(void)
@@ -183,24 +195,30 @@ static bool RunSexyALTest(SexyAL *interface, SexyAL_buffering *buffering, const 
 }
 #endif
 
-int InitSound(MDFNGI *gi)
+bool InitSound(MDFNGI *gi)
 {
+ SoundRate = 0;
+
  memset(&format,0,sizeof(format));
  memset(&buffering,0,sizeof(buffering));
-
- MDFNI_SetSoundVolume(MDFN_GetSettingUI("soundvol"));
 
  Interface = (SexyAL *)SexyAL_Init(0);
  DriverTypes = Interface->EnumerateTypes(Interface);
 
- format.sampformat=SEXYAL_FMT_PCMS16;
- format.channels=gi->soundchan?gi->soundchan:1;
- format.revbyteorder = 0;
- format.rate=gi->soundrate?gi->soundrate : MDFN_GetSettingUI("soundrate");
- buffering.ms = MDFN_GetSettingUI("soundbufsize");
+ format.sampformat = SEXYAL_FMT_PCMS16;
 
- std::string zedevice = MDFN_GetSettingS("sounddevice");
- std::string zedriver = MDFN_GetSettingS("sounddriver");
+ assert(gi->soundchan);
+ format.channels = gi->soundchan;
+
+ format.revbyteorder = 0;
+
+ format.rate = gi->soundrate ? gi->soundrate : MDFN_GetSettingUI("sound.rate");
+
+ buffering.ms = MDFN_GetSettingUI("sound.buffer_time");
+ buffering.period_us = MDFN_GetSettingUI("sound.period_time");
+
+ std::string zedevice = MDFN_GetSettingS("sound.device");
+ std::string zedriver = MDFN_GetSettingS("sound.driver");
 
  CurDriverIndex = -1;
 
@@ -235,7 +253,7 @@ int InitSound(MDFNGI *gi)
   Interface->Destroy(Interface);
   Interface = NULL;
   MDFN_indent(-1);
-  return(0);  
+  return(FALSE);
  }
 
  MDFNI_printf(_("Using \"%s\" audio driver with device \"%s\":"),DriverTypes[CurDriverIndex].name, zedevice.c_str());
@@ -250,7 +268,7 @@ int InitSound(MDFNGI *gi)
   Interface->Destroy(Interface);
   Interface=0;
   MDFN_indent(-2);
-  return(0);
+  return(FALSE);
  }
 
  if(format.rate<8192 || format.rate > 48000)
@@ -258,30 +276,38 @@ int InitSound(MDFNGI *gi)
   MDFND_PrintError(_("Set rate is out of range [8192-48000]"));
   KillSound();
   MDFN_indent(-2);
-  return(0);
+  return(FALSE);
  }
- MDFNI_printf(_("\nBits: %u\nRate: %u\nChannels: %u\nByte order: CPU %s\nBuffer size: %u sample frames(%f ms)\n"),(format.sampformat>>4)*8,format.rate,format.channels,format.revbyteorder?"Reversed":"Native",buffering.latency,(double)buffering.latency*1000/format.rate);
+ MDFNI_printf(_("\nBits: %u\nRate: %u\nChannels: %u\nByte order: CPU %s\nBuffer size: %u sample frames(%f ms)\n"), (format.sampformat>>4)*8,format.rate,format.channels,format.revbyteorder?"Reversed":"Native", buffering.buffer_size, (double)buffering.buffer_size * 1000 / format.rate);
+ MDFNI_printf(_("Latency: %u sample frames(%f ms)\n"), buffering.latency, (double)buffering.latency * 1000 / format.rate);
 
+ if(buffering.period_size)
+ {
+  int64_t pt_test_result = ((int64_t)buffering.period_size * (1000 * 1000) / format.rate);
+
+  MDFNI_printf(_("Period size: %u sample frames(%f ms)\n"), buffering.period_size, (double)buffering.period_size * 1000 / format.rate);
+
+  if(pt_test_result > 5333)
+  {
+   MDFN_indent(1);
+   MDFN_printf(_("Warning: Period time is too large(it should be <= ~5.333ms).  Video will appear very jerky.\n"));
+   MDFN_indent(-1);
+  }
+ }
  format.sampformat=SEXYAL_FMT_PCMS16;
  format.channels=gi->soundchan?gi->soundchan:1;
  format.revbyteorder=0;
 
  //format.rate=gi->soundrate?gi->soundrate:soundrate;
 
- Output->SetConvert(Output,&format);
+ Output->SetConvert(Output, &format);
 
- MDFNI_Sound(format.rate);
+ EmuModBufferSize = (500 * format.rate + 999) / 1000;
+ EmuModBuffer = (int16 *)calloc(sizeof(int16) * format.channels, EmuModBufferSize);
+
+ SoundRate = format.rate;
  MDFN_indent(-2);
 
- extern char *soundrecfn;
- if(soundrecfn)
- {
-  if(!MDFNI_BeginWaveRecord(format.rate, format.channels, soundrecfn))
-  {
-   free(soundrecfn);
-   soundrecfn=0;
-  }
- }
  return(1);
 }
 
@@ -290,15 +316,38 @@ void SilenceSound(int n)
 
 }
 
-int KillSound(void)
+bool KillSound(void)
 {
- MDFNI_Sound(0);
+ SoundRate = 0;
+
+ if(EmuModBuffer)
+ {
+  free(EmuModBuffer);
+  EmuModBuffer = NULL;
+
+  EmuModBufferSize = 0;
+ }
+
  if(Output)
   Output->Close(Output);
+
  if(Interface)
   Interface->Destroy(Interface);
- Interface=0;
- if(!Output) return(0);
- Output=0;
- return(1);
+
+ Interface = NULL;
+
+ if(!Output)
+  return(FALSE);
+
+ Output = NULL;
+
+ return(TRUE);
+}
+
+
+int16 *GetEmuModSoundBuffer(int32 *max_size_bytes)
+{
+ *max_size_bytes = EmuModBufferSize;
+
+ return(EmuModBuffer);
 }

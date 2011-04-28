@@ -378,9 +378,11 @@ SexyAL_device *SexyALI_SDL_Open(const char *id, SexyAL_format *format, SexyAL_bu
 
  sw->BufferIn = sw->BufferRead = sw->BufferWrite = 0;
 
- buffering->totalsize = sw->BufferSize;
+ buffering->buffer_size = sw->BufferSize;
 
  buffering->latency = (obtained.samples * 2 + sw->BufferSize);
+ buffering->period_size = 0;
+
  //printf("%d\n", buffering->latency);
 
  sw->BufferSize_Raw = sw->BufferSize * format->channels * (format->sampformat >> 4);

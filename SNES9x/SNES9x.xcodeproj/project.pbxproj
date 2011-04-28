@@ -792,7 +792,6 @@
 		C6B948331365187100A425F0 /* Genesis.oesystemplugin */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			name = Genesis.oesystemplugin;
 			path = Genesis.oesystemplugin;
 			remoteRef = C6B948321365187100A425F0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;

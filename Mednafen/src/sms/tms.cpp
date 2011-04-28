@@ -4,6 +4,9 @@
 */
 #include "shared.h"
 
+namespace MDFN_IEN_SMS
+{
+
 int text_counter;               /* Text offset counter */
 uint8 tms_lookup[16][256][2];   /* Expand BD, PG data into 8-bit pixels (G1,G2) */
 uint8 mc_lookup[16][256][8];    /* Expand BD, PG data into 8-bit pixels (MC) */
@@ -106,7 +109,7 @@ void render_obj_tms(int line)
 {
     int i, x = 0;
     int size, start, end, mode;
-    uint8 *lb, *lut, *ex[2];
+    uint8 *lb, *obj_lut, *ex[2];
     tms_sprite *p;
 
     mode = vdp.reg[1] & 3;
@@ -117,7 +120,7 @@ void render_obj_tms(int line)
     {
         p = &sprites[i];
         lb = &linebuf[p->xpos];
-        lut = &tms_obj_lut[(p->attr & 0x0F) << 8];
+        obj_lut = &tms_obj_lut[(p->attr & 0x0F) << 8];
 
         /* Point to expanded PG data */
         ex[0] = bp_expand[p->sg[0]];
@@ -141,28 +144,28 @@ void render_obj_tms(int line)
             case 0: /* 8x8 */
                 for(x = start; x < end; x++) {
                     if(ex[0][x])
-                        lb[x] = lut[lb[x]];
+                        lb[x] = obj_lut[lb[x]];
                 }
                 break;
 
             case 1: /* 8x8 zoomed */
                 for(x = start; x < end; x++) {                   
                     if(ex[0][x >> 1])
-                        lb[x] = lut[lb[x]];
+                        lb[x] = obj_lut[lb[x]];
                 }
                 break;
 
             case 2: /* 16x16 */
                 for(x = start; x < end; x++) {
                     if(ex[(x >> 3) & 1][x & 7])
-                        lb[x] = lut[lb[x]];
+                        lb[x] = obj_lut[lb[x]];
                 }
                 break;
 
             case 3: /* 16x16 zoomed */
                 for(x = start; x < end; x++) {
                     if(ex[(x >> 4) & 1][(x >> 1) & 7])
-                        lb[x] = lut[lb[x]];
+                        lb[x] = obj_lut[lb[x]];
                 }
                 break;
         }
@@ -515,3 +518,4 @@ void render_bg_m2(int line)
     }
 }
 
+}

@@ -2,8 +2,8 @@
 // $Id: syntax.cc,v 1.10 2006/04/27 15:11:45 sshwarts Exp $
 /////////////////////////////////////////////////////////////////////////
 
-#include <stdio.h>
 #include "disasm.h"
+#include <stdio.h>
 
 //////////////////
 // Intel STYLE

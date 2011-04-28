@@ -4,6 +4,9 @@
 */
 #include "shared.h"
 
+namespace MDFN_IEN_SMS
+{
+
 /* SMS context */
 sms_t sms;
 
@@ -111,3 +114,4 @@ void sms_reset(void)
     sms.ioctrl      = 0xFF;
 }
 
+}

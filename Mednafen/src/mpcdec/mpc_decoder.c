@@ -248,8 +248,8 @@ mpc_decoder_reset_globals(mpc_decoder *d)
 
     memset(d->Y_L             , 0, sizeof d->Y_L              );
     memset(d->Y_R             , 0, sizeof d->Y_R              );
-	memset(d->SCF_Index_L     , 1, sizeof d->SCF_Index_L      );
-    memset(d->SCF_Index_R     , 1, sizeof d->SCF_Index_R      );
+    memset(d->SCF_Index_L     , 0, sizeof d->SCF_Index_L      );
+    memset(d->SCF_Index_R     , 0, sizeof d->SCF_Index_R      );
     memset(d->Res_L           , 0, sizeof d->Res_L            );
     memset(d->Res_R           , 0, sizeof d->Res_R            );
     memset(d->SCFI_L          , 0, sizeof d->SCFI_L           );
@@ -1189,7 +1189,7 @@ mpc_bool_t mpc_decoder_initialize(mpc_decoder *d, mpc_streaminfo *si)
     mpc_decoder_seek(d, get_initial_fpos(d));
 
     d->seeking_pwr = 0;
-    while (d->OverallFrames > (SEEKING_TABLE_SIZE << d->seeking_pwr))
+    while( d->OverallFrames > ((mpc_int64_t) SEEKING_TABLE_SIZE << d->seeking_pwr) )
         d->seeking_pwr++;
     d->seeking_table_frames = 0;
     d->seeking_table[0] = get_initial_fpos(d);

@@ -24,49 +24,39 @@
 #include <time.h>
 #include <memory.h>
 
-enum RTCSTATE { IDLE, COMMAND, DATA, READDATA };
-
-typedef struct {
-  uint8 byte0;
-  uint8 byte1;
-  uint8 byte2;
-  uint8 command;
-  int dataLen;
-  int bits;
-  RTCSTATE state;
-  uint8 data[12];
-  // reserved variables for future
-  uint8 reserved[12];
-  bool8 reserved2;
-  uint32 reserved3;
-} RTCCLOCKDATA;
-
-static RTCCLOCKDATA rtcClockData;
-static bool8 rtcEnabled = false;
-
-void rtcEnable(bool8 e)
+namespace MDFN_IEN_GBA
 {
-  rtcEnabled = e;
+
+RTC::RTC()
+{
+ InitTime();
+ Reset(); 
 }
 
-bool8 rtcIsEnabled()
+RTC::~RTC()
 {
-  return rtcEnabled;
+
 }
 
-uint16 rtcRead(uint32 address)
+void RTC::InitTime(void)
 {
-  if(rtcEnabled) {
+ time_t long_time;
+
+ time( &long_time );                /* Get time as long integer. */
+
+ curtime = (int64)long_time * 16777216;
+}
+
+uint16 RTC::Read(uint32 address)
+{
     if(address == 0x80000c8)
-      return rtcClockData.byte2;
+      return byte2;
     else if(address == 0x80000c6)
-      return rtcClockData.byte1;
-    else if(address == 0x80000c4) {
-      return rtcClockData.byte0;
-    }
-  }
-  
-  return READ16LE((&rom[address & 0x1FFFFFE]));
+      return byte1;
+    else if(address == 0x80000c4)
+      return byte0;
+
+ abort();
 }
 
 static uint8 toBCD(uint8 value)
@@ -77,45 +67,42 @@ static uint8 toBCD(uint8 value)
   return h * 16 + l;
 }
 
-bool8 rtcWrite(uint32 address, uint16 value)
+void RTC::Write(uint32 address, uint16 value)
 {
-  if(!rtcEnabled)
-    return false;
-  
   if(address == 0x80000c8) {
-    rtcClockData.byte2 = (uint8)value; // enable ?
+    byte2 = (uint8)value; // enable ?
   } else if(address == 0x80000c6) {
-    rtcClockData.byte1 = (uint8)value; // read/write
+    byte1 = (uint8)value; // read/write
   } else if(address == 0x80000c4) {
-    if(rtcClockData.byte2 & 1) {
-      if(rtcClockData.state == IDLE && rtcClockData.byte0 == 1 && value == 5) {
-          rtcClockData.state = COMMAND;
-          rtcClockData.bits = 0;
-          rtcClockData.command = 0;
-      } else if(!(rtcClockData.byte0 & 1) && (value & 1)) { // bit transfer
-        rtcClockData.byte0 = (uint8)value;        
-        switch(rtcClockData.state) {
+    if(byte2 & 1) {
+      if(state == IDLE && byte0 == 1 && value == 5) {
+          state = COMMAND;
+          bits = 0;
+          command = 0;
+      } else if(!(byte0 & 1) && (value & 1)) { // bit transfer
+        byte0 = (uint8)value;        
+        switch(state) {
         case COMMAND:
-          rtcClockData.command |= ((value & 2) >> 1) << (7-rtcClockData.bits);
-          rtcClockData.bits++;
-          if(rtcClockData.bits == 8) {
-            rtcClockData.bits = 0;
-            switch(rtcClockData.command) {
+          command |= ((value & 2) >> 1) << (7-bits);
+          bits++;
+          if(bits == 8) {
+            bits = 0;
+            switch(command) {
             case 0x60:
               // not sure what this command does but it doesn't take parameters
               // maybe it is a reset or stop
-              rtcClockData.state = IDLE;
-              rtcClockData.bits = 0;
+              state = IDLE;
+              bits = 0;
               break;
             case 0x62:
               // this sets the control state but not sure what those values are
-              rtcClockData.state = READDATA;
-              rtcClockData.dataLen = 1;
+              state = READDATA;
+              dataLen = 1;
               break;
             case 0x63:
-              rtcClockData.dataLen = 1;
-              rtcClockData.data[0] = 0x40;
-              rtcClockData.state = DATA;
+              dataLen = 1;
+              data[0] = 0x40;
+              state = DATA;
               break;
            case 0x64:
               break;
@@ -124,18 +111,18 @@ bool8 rtcWrite(uint32 address, uint16 value)
                 struct tm *newtime;
                 time_t long_time;
 
-                time( &long_time );                /* Get time as long integer. */
+                long_time = curtime / 16777216;
                 newtime = localtime( &long_time ); /* Convert to local time. */
                 
-                rtcClockData.dataLen = 7;
-                rtcClockData.data[0] = toBCD(newtime->tm_year);
-                rtcClockData.data[1] = toBCD(newtime->tm_mon+1);
-                rtcClockData.data[2] = toBCD(newtime->tm_mday);
-                rtcClockData.data[3] = toBCD(newtime->tm_wday);
-                rtcClockData.data[4] = toBCD(newtime->tm_hour);
-                rtcClockData.data[5] = toBCD(newtime->tm_min);
-                rtcClockData.data[6] = toBCD(newtime->tm_sec);
-                rtcClockData.state = DATA;
+                dataLen = 7;
+                data[0] = toBCD(newtime->tm_year);
+                data[1] = toBCD(newtime->tm_mon+1);
+                data[2] = toBCD(newtime->tm_mday);
+                data[3] = toBCD(newtime->tm_wday);
+                data[4] = toBCD(newtime->tm_hour);
+                data[5] = toBCD(newtime->tm_min);
+                data[6] = toBCD(newtime->tm_sec);
+                state = DATA;
               }
               break;              
             case 0x67:
@@ -143,46 +130,46 @@ bool8 rtcWrite(uint32 address, uint16 value)
                 struct tm *newtime;
                 time_t long_time;
 
-                time( &long_time );                /* Get time as long integer. */
+		long_time = curtime / 16777216;
                 newtime = localtime( &long_time ); /* Convert to local time. */
                 
-                rtcClockData.dataLen = 3;
-                rtcClockData.data[0] = toBCD(newtime->tm_hour);
-                rtcClockData.data[1] = toBCD(newtime->tm_min);
-                rtcClockData.data[2] = toBCD(newtime->tm_sec);
-                rtcClockData.state = DATA;
+                dataLen = 3;
+                data[0] = toBCD(newtime->tm_hour);
+                data[1] = toBCD(newtime->tm_min);
+                data[2] = toBCD(newtime->tm_sec);
+                state = DATA;
               }
               break;
             default:
-              //systemMessage(0, N_("Unknown RTC command %02x"), rtcClockData.command);
-              rtcClockData.state = IDLE;
+              //systemMessage(0, N_("Unknown RTC command %02x"), command);
+              state = IDLE;
               break;
             }
           }
           break;
         case DATA:
-          if(rtcClockData.byte1 & 2) {
+          if(byte1 & 2) {
           } else {
-            rtcClockData.byte0 = (rtcClockData.byte0 & ~2) |
-              ((rtcClockData.data[rtcClockData.bits >> 3] >>
-                (rtcClockData.bits & 7)) & 1)*2;
-            rtcClockData.bits++;
-            if(rtcClockData.bits == 8*rtcClockData.dataLen) {
-              rtcClockData.bits = 0;
-              rtcClockData.state = IDLE;
+            byte0 = (byte0 & ~2) |
+              ((data[bits >> 3] >>
+                (bits & 7)) & 1)*2;
+            bits++;
+            if(bits == 8*dataLen) {
+              bits = 0;
+              state = IDLE;
             }
           }
           break;
         case READDATA:
-          if(!(rtcClockData.byte1 & 2)) {
+          if(!(byte1 & 2)) {
           } else {
-            rtcClockData.data[rtcClockData.bits >> 3] =
-              (rtcClockData.data[rtcClockData.bits >> 3] >> 1) |
+            data[bits >> 3] =
+              (data[bits >> 3] >> 1) |
               ((value << 6) & 128);
-            rtcClockData.bits++;
-            if(rtcClockData.bits == 8*rtcClockData.dataLen) {
-              rtcClockData.bits = 0;
-              rtcClockData.state = IDLE;
+            bits++;
+            if(bits == 8*dataLen) {
+              bits = 0;
+              state = IDLE;
             }
           }
           break;
@@ -190,21 +177,48 @@ bool8 rtcWrite(uint32 address, uint16 value)
           break;
         }
       } else
-        rtcClockData.byte0 = (uint8)value;
+        byte0 = (uint8)value;
     }
   }
-  return true;
 }
 
-void rtcReset()
+void RTC::Reset(void)
 {
-  memset(&rtcClockData, 0, sizeof(rtcClockData));
-  
-  rtcClockData.byte0 = 0;
-  rtcClockData.byte1 = 0;
-  rtcClockData.byte2 = 0;
-  rtcClockData.command = 0;
-  rtcClockData.dataLen = 0;
-  rtcClockData.bits = 0;
-  rtcClockData.state = IDLE;
+ byte0 = 0;
+ byte1 = 0;
+ byte2 = 0;
+ command = 0;
+ dataLen = 0;
+ bits = 0;
+ state = IDLE;
+
+ memset(data, 0, sizeof(data));
+}
+
+int RTC::StateAction(StateMem *sm, int load, int data_only)
+{
+ SFORMAT StateRegs[] = 
+ {
+  SFVAR(byte0),
+  SFVAR(byte1),
+  SFVAR(byte2),
+  SFVAR(command),
+  SFVAR(dataLen),
+  SFVAR(bits),
+  SFVAR(state),
+  SFARRAY(data, 12),
+  SFEND
+ };
+
+
+ int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "RTC");
+
+ if(load)
+ {
+
+ }
+
+ return(ret);
+}
+
 }

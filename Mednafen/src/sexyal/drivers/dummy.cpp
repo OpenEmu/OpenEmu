@@ -68,9 +68,9 @@ static int RawCanWrite(SexyAL_device *device, uint32_t *can_write)
  else
   ret = (curtime - dstate->data_written_to) / 1000 * device->format.rate / 1000;
 
- if(ret > device->buffering.totalsize)
+ if(ret > device->buffering.buffer_size)
  {
-  ret = device->buffering.totalsize;
+  ret = device->buffering.buffer_size;
   dstate->data_written_to = curtime - dstate->buffering_us;
  }
 
@@ -183,11 +183,11 @@ SexyAL_device *SexyALI_Dummy_Open(const char *id, SexyAL_format *format, SexyAL_
  if(!buffering->ms) 
   buffering->ms = 32;
 
- buffering->totalsize = buffering->ms * format->rate / 1000;
- buffering->ms = buffering->totalsize * 1000 / format->rate;
- buffering->latency = buffering->totalsize;
+ buffering->buffer_size = buffering->ms * format->rate / 1000;
+ buffering->ms = buffering->buffer_size * 1000 / format->rate;
+ buffering->latency = buffering->buffer_size;
 
- dstate->buffering_us = (int64_t)buffering->totalsize * 1000 * 1000 / format->rate;
+ dstate->buffering_us = (int64_t)buffering->buffer_size * 1000 * 1000 / format->rate;
 
  memcpy(&device->format, format, sizeof(SexyAL_format));
  memcpy(&device->buffering, buffering, sizeof(SexyAL_buffering));

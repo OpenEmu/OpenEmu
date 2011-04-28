@@ -19,14 +19,16 @@
 #include "../state.h"
 #include "gb.h"
 #include "sound.h"
-#include "sound/Gb_Apu.h"
+#include "gb_apu/Gb_Apu.h"
 #include <blip/Stereo_Buffer.h>
 
 static Gb_Apu gb_apu;
-static Stereo_Buffer gb_buf;
+static Stereo_Buffer *gb_buf = NULL;
 
 void MDFNGBSOUND_Reset(void)
 {
+	// TODO: set hardware mode to mode_dmg, mode_cgb, or mode_agb
+	// (latter if you're running classic GB game on Game Boy Advance)
 	gb_apu.reset();
 }
 
@@ -34,9 +36,7 @@ uint32 MDFNGBSOUND_Read(int ts, uint32 addr)
 {
 	uint32 ret;
 
-	ret = gb_apu.read_register(ts, addr);
-
-	//printf("Read: %04x %02x\n", addr, ret);
+	ret = gb_apu.read_register(ts*GB_APU_OVERCLOCK, addr);
 
 	return(ret);
 }
@@ -45,49 +45,52 @@ void MDFNGBSOUND_Write(int ts, uint32 addr, uint8 val)
 {
 	//if(addr == 0xFF26)
  	// printf("%04x %02x\n", addr, val);
-	gb_apu.write_register(ts, addr, val);
+	gb_apu.write_register(ts * GB_APU_OVERCLOCK, addr, val);
 }
 
-void MDFNGB_SetSoundMultiplier(double multiplier)
+static bool RedoBuffer(uint32 rate)
 {
-	gb_buf.clock_rate((long)(4194304 * multiplier));
+	if(gb_buf)
+	{
+	 delete gb_buf;
+	 gb_buf = NULL;
+	}
+
+	gb_apu.set_output(NULL, NULL, NULL);
+
+	if(rate)
+	{
+	 gb_buf = new Stereo_Buffer();
+	 
+         gb_buf->set_sample_rate(rate, 40);
+         gb_buf->clock_rate((long)(4194304 * GB_APU_OVERCLOCK * 1));
+
+         gb_apu.set_output(gb_buf->center(), gb_buf->left(), gb_buf->right());
+        }
+
+	return(TRUE);
 }
 
-void MDFNGB_SetSoundVolume(uint32 volume)
+bool MDFNGB_SetSoundRate(uint32 rate)
 {
-	gb_apu.volume((double)volume / 2 / 100);
-}
+	RedoBuffer(rate);
 
-void MDFNGB_Sound(int rate)
-{
-	gb_buf.set_sample_rate(rate?rate:44100, 40);
+	return(TRUE);
 }
 
 int MDFNGBSOUND_StateAction(StateMem *sm, int load, int data_only)
 {
- Gb_ApuState gb_state;
+ gb_apu_state_t gb_state;
  int ret = 1;
 
- memset(&gb_state, 0, sizeof(Gb_ApuState));
-
- if(!load)
+ //if(!load) // always save state, in case there is none to load
  {
   gb_apu.save_state(&gb_state);
  }
 
  SFORMAT StateRegs[] =
  {
-  SFARRAYN(gb_state.regs, sizeof(gb_state.regs), "regs"),
-  SFARRAY32N(gb_state.sq_phase, 2, "sq_phase"), 
-  SFARRAY32N(gb_state.sq_sweep_delay, 2, "sq_sweep_delay"),
-  SFARRAY32N(gb_state.sq_sweep_freq, 2, "sq_sweep_freq"),
-  SFVARN(gb_state.noise_bits, "noise_bits"),
-  SFVARN(gb_state.wave_pos, "wave_pos"),
-  SFARRAYN(gb_state.wave, sizeof(gb_state.wave), "wave"),
-  SFARRAY32N(gb_state.env_delay, 3, "env_delay"),
-  SFARRAY32N(gb_state.length, 4, "length"),
-  SFARRAY32N(gb_state.volume, 4, "volume"),
-  SFARRAY32N(gb_state.enabled, 4, "enabled"),
+  SFVARN(gb_state, "apu_state"),
   SFEND
  };
 
@@ -95,49 +98,34 @@ int MDFNGBSOUND_StateAction(StateMem *sm, int load, int data_only)
   ret = 0;
  else if(load)
  {
-  gb_apu.load_state(&gb_state);
+  // TODO: set hardware mode to mode_dmg, mode_cgb, or mode_agb
+  // (latter if you're running classic GB game on Game Boy Advance)
+  gb_apu.reset();
+  gb_apu.load_state(gb_state);
  }
  return(ret);
 }
 
-static bool forcemono;
-
-void MDFNGBSOUND_Init(bool WantMono)
+void MDFNGBSOUND_Init(void)
 {
-	gb_buf.set_sample_rate(FSettings.SndRate?FSettings.SndRate:44100, 40);
-	gb_buf.clock_rate(4194304);
+        gb_apu.volume(0.5);
 
-        forcemono = WantMono;
-
-        if(forcemono)
- 	 gb_apu.output(gb_buf.left(), NULL, NULL);
-	else
-         gb_apu.output(gb_buf.center(), gb_buf.left(), gb_buf.right());
+	RedoBuffer(0);
 }
 
-int16 *MDFNGBSOUND_Flush(int ts, int32 *length)
+int32 MDFNGBSOUND_Flush(int ts, int16 *SoundBuf, const int32 MaxSoundFrames)
 {
-	static int16 buffer[8000];
+	int32 SoundFrames = 0;
 
-	gb_apu.end_frame(ts);
+	gb_apu.end_frame(ts * GB_APU_OVERCLOCK);
 
-	if(forcemono)
-        {
-         gb_buf.left()->end_frame(ts);
-         *length = gb_buf.left()->read_samples(buffer, 8000);
-        }
-	else
+	if(SoundBuf && gb_buf)
 	{
-	 gb_buf.end_frame(ts);
-	 *length = gb_buf.read_samples(buffer, 8000);
-	 *length /= 2;
+	 gb_buf->end_frame(ts * GB_APU_OVERCLOCK);
+	 SoundFrames = gb_buf->read_samples(SoundBuf, MaxSoundFrames * 2) / 2;
 	}
+	else if(gb_buf)
+	 exit(1);
 
-	if(!FSettings.SndRate)
-	{
-	 *length = 0;
-	 return(NULL);
-	}
-
-	return(buffer);
+	return(SoundFrames);
 }

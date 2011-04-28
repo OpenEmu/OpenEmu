@@ -18,204 +18,114 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h> 
-
 #include "../nes.h"
-
+#include <math.h>
 #include "palette.h"
-#include "palettes/palettes.h"
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
-/* These are dynamically filled/generated palettes: */
-MDFNPalStruct palettei[64];       // Custom palette for an individual game.
-MDFNPalStruct palettec[64];       // Custom "global" palette.  
-
-static void ChoosePalette(void);
-static void WritePalette(void);
-static uint8 pale = 0;
-
-MDFNPalStruct *palo;
-int MDFNPaletteChanged = 0;
-MDFNPalStruct MDFNPalette[256];
-
-static MDFNPalStruct *palpoint[8]=
-{
-     palette,
-     rp2c04001,
-     rp2c04002,
-     rp2c04003,
-     rp2c05004,
+static const MDFNPalStruct rp2c04_0001[64] = {
+ #include "palettes/rp2c04-0001.h"
 };
 
-static uint8 lastd=0;
-void SetNESDeemph(uint8 d, int force)
-{
- static const double rtmul[7]={1.239,.794,1.019,.905,1.023,.741,.75};
- static const double gtmul[7]={.915,1.086,.98,1.026,.908,.987,.75};
- static const double btmul[7]={.743,.882,.653,1.277,.979,.101,.75};
- double r,g,b;
- int x;
+static const MDFNPalStruct rp2c04_0002[64] = {
+ #include "palettes/rp2c04-0002.h"
+};
 
- /* If it's not forced(only forced when the palette changes),
-    don't waste cpu time if the same deemphasis bits are set as the last call.
- */
- if(!force)
+static const MDFNPalStruct rp2c04_0003[64] = {
+ #include "palettes/rp2c04-0003.h"
+};
+
+static const MDFNPalStruct rp2c04_0004[64] = {
+ #include "palettes/rp2c04-0004.h"
+};
+
+static const MDFNPalStruct rp2c0x[64] = {
+ #include "palettes/rp2c0x.h"
+};
+
+/* Default palette */
+static const MDFNPalStruct default_palette[64] = {
+ #include "palettes/default.h"
+};
+
+
+MDFNPalStruct ActiveNESPalette[0x200];
+
+static const char *pal_altnames[6] = { NULL, "rp2c04-0001", "rp2c04-0002", "rp2c04-0003", "rp2c04-0004", "rp2c0x" };
+static const MDFNPalStruct *Palettes[6] =
+{
+     default_palette,
+     rp2c04_0001,
+     rp2c04_0002,
+     rp2c04_0003,
+     rp2c04_0004,
+     rp2c0x
+};
+
+static bool LoadCPalette(MDFNPalStruct *palette, const char *sys)
+{
+ uint8 ptmp[192];
+ FILE *fp;
+
+ std::string cpalette_fn = MDFN_MakeFName(MDFNMKF_PALETTE, 0, sys).c_str();
+
+ MDFN_printf(_("Loading custom palette from \"%s\"...\n"),  cpalette_fn.c_str());
+ MDFN_indent(1);
+
+ if(!(fp = fopen(cpalette_fn.c_str(), "rb")))
  {
-  if(d==lastd)
-   return;
+  ErrnoHolder ene(errno);
+
+  MDFN_printf(_("Error opening file: %s\n"), ene.StrError());
+  MDFN_indent(-1);
+  return(false);
  }
- else   /* Only set this when palette has changed. */
+
+ if(fread(ptmp, 1, 192, fp) != 192)
  {
-  r=rtmul[6];
-  g=rtmul[6];
-  b=rtmul[6];
+  ErrnoHolder ene(errno);
 
-  for(x=0;x<0x40;x++)
-  {
-   double m,n,o;
-
-   m =r * palo[x].r;
-   n =g * palo[x].g; 
-   o =b * palo[x].b; 
-
-   if(m>0xff) m=0xff;
-   if(n>0xff) n=0xff;
-   if(o>0xff) o=0xff;
-
-   MDFNPalette[x | 0xc0].r = (uint8)m;
-   MDFNPalette[x | 0xc0].g = (uint8)n;
-   MDFNPalette[x | 0xc0].b = (uint8)o;
-  }
-  MDFNPaletteChanged = 1;
- } 
- if(!d) return; /* No deemphasis, so return. */
-
- r=rtmul[d-1];
- g=gtmul[d-1];
- b=btmul[d-1];
-
- for(x=0;x<0x40;x++)
- {
-  double m,n,o;
-  
-  m = r * palo[x].r;
-  n = g * palo[x].g;
-  o = b * palo[x].b;
-
-  if(m>0xff) m=0xff;
-  if(n>0xff) n=0xff;
-  if(o>0xff) o=0xff;
-    
-  MDFNPalette[x | 0x40].r = (uint8)m;
-  MDFNPalette[x | 0x40].g = (uint8)n;
-  MDFNPalette[x | 0x40].b = (uint8)o;
+  MDFN_PrintError(_("Error reading file: %s\n"), feof(fp) ? _("File length is too short") : ene.StrError());
+  fclose(fp);
+  return(false);
  }
- MDFNPaletteChanged = 1;     
- lastd=d;
-}
- 
-static int ipalette=0; 
-          
-void MDFN_LoadGamePalette(void)
-{
-  uint8 ptmp[192];
-  FILE *fp;
 
-  std::string cpalette_fn = MDFN_GetSettingS("nes.cpalette");
+ fclose(fp);
 
-  if(cpalette_fn != "")
-  {
-   fp = fopen(cpalette_fn.c_str(), "rb");
-   fread(ptmp, 1, 192, fp);
-   fclose(fp);
-   palpoint[0]=palettec;
-   for(int x=0;x<64;x++)
-   {
-    palpoint[0][x].r=ptmp[x * 3];
-    palpoint[0][x].g=ptmp[x * 3 + 1];
-    palpoint[0][x].b=ptmp[x * 3 + 2];
-   }
-  }
-
-  ipalette=0;
-  if((fp=fopen(MDFN_MakeFName(MDFNMKF_PALETTE,0,0).c_str(),"rb")))
-  {
-   int x;
-   fread(ptmp,1,192,fp);
-   fclose(fp);
-   for(x=0;x<64;x++) 
-   {
-    palettei[x].r=ptmp[x+x+x];
-    palettei[x].g=ptmp[x+x+x+1];
-    palettei[x].b=ptmp[x+x+x+2];
-   }
-   ipalette=1;
-  }
-}
-
-void MDFN_ResetPalette(void)
-{
- if(MDFNGameInfo)
+ for(int x = 0; x < 64; x++)
  {
-   ChoosePalette();
-   WritePalette(); 
+  palette[x].r = ptmp[x * 3 + 0];
+  palette[x].g = ptmp[x * 3 + 1];
+  palette[x].b = ptmp[x * 3 + 2];
  }
-}
- 
-static void ChoosePalette(void)
-{
-    if(MDFNGameInfo->GameType == GMT_PLAYER)
-     palo=0;
-    else if(ipalette)
-     palo=palettei;  
-    else
-     palo=palpoint[pale];
+
+ return(true);
 }
 
-void MDFN_SetPPUPalette(int fishie)
+void MDFN_InitPalette(const unsigned int which)
 {
- pale = fishie;
-}
+ static const double rtmul[8] = { 1, 1.239,  .794, 1.019,  .905, 1.023, .741, .75 };
+ static const double gtmul[8] = { 1,  .915, 1.086,  .98,  1.026,  .908, .987, .75 };
+ static const double btmul[8] = { 1,  .743,  .882,  .653, 1.277,  .979, .101, .75 };
+ MDFNPalStruct custom_palette[64];
+ const MDFNPalStruct *palette = Palettes[which];
 
+ if(LoadCPalette(custom_palette, pal_altnames[which]))
+  palette = custom_palette;
 
-/* Returns Mednafen's default GUI palette. */
-MDFNPalStruct *MDFNI_GetDefaultPalette(void)
-{
- return(unvpalette);
-}
+ for(int x = 0; x < 0x200; x++)
+ {
+  int emp = which ? 0 : (x >> 6);
+  int r = (int)(rtmul[emp] * palette[x & 0x3F].r);
+  int g = (int)(gtmul[emp] * palette[x & 0x3F].g);
+  int b = (int)(btmul[emp] * palette[x & 0x3F].b);
 
-void WritePalette(void)
-{
-    int x;
-    
-    /* Entries 0-64 are colorsused by GUI components. */
-    for(x=0;x<64;x++)
-    {
-     MDFNPalette[x].r = unvpalette[x].r;
-     MDFNPalette[x].g = unvpalette[x].g;
-     MDFNPalette[x].b = unvpalette[x].b;
-    }
+  if(r > 255) r = 255;
+  if(g > 255) g = 255;
+  if(b > 255) b = 255;
 
-    if(MDFNGameInfo->GameType == GMT_PLAYER)
-    {
-     //for(x=0;x<128;x++)
-     // MDFND_SetPalette(x,x,0,x);
-    }
-    else
-    {   
-     for(x=0;x<64;x++)
-     {
-      MDFNPalette[0x80 + x].r = palo[x].r;
-      MDFNPalette[0x80 + x].g = palo[x].g;
-      MDFNPalette[0x80 + x].b = palo[x].b;
-     }
-     SetNESDeemph(lastd,1);
-    }
-    MDFNPaletteChanged = 1;
+  ActiveNESPalette[x].r = r;
+  ActiveNESPalette[x].g = g;
+  ActiveNESPalette[x].b = b;
+ }
 }
 

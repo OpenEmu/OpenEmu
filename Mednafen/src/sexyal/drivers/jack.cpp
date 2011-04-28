@@ -221,8 +221,8 @@ static int Get_RCW(SexyAL_device *device, uint32_t *can_write, bool want_nega = 
 
   return(1);
  }
- else if(cw > jw->RealBufferSize)
-  cw = jw->RealBufferSize;
+ else if(cw > jw->RealBufferSize * sizeof(float))
+  cw = jw->RealBufferSize * sizeof(float);
 
  *can_write = cw * device->format.channels;
 
@@ -403,7 +403,7 @@ SexyAL_device *SexyALI_JACK_Open(const char *id, SexyAL_format *format, SexyAL_b
  // *2 for safety, perhaps make more precise in the future
  jw->RealBufferSize = SexyAL_rupow2(jw->BufferSize + (jw->EPMaxVal + 2048) * 2);
 
- buffering->totalsize = jw->BufferSize;
+ buffering->buffer_size = jw->BufferSize;
 
  if(!(jw->tmpbuf[0] = jack_ringbuffer_create(jw->RealBufferSize * sizeof(jack_default_audio_sample_t))))
  {
@@ -433,6 +433,7 @@ SexyAL_device *SexyALI_JACK_Open(const char *id, SexyAL_format *format, SexyAL_b
  jw->NeedActivate = 1;
 
  buffering->latency = jw->BufferSize;
+ buffering->period_size = 0;
 
  memcpy(&device->format,format,sizeof(SexyAL_format));
  memcpy(&device->buffering,buffering,sizeof(SexyAL_buffering));

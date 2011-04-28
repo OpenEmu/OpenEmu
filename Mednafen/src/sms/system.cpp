@@ -17,9 +17,10 @@
 */
 
 #include "shared.h"
-#include "../memory.h"
-#include "../netplay.h"
 #include "../mempatcher.h"
+
+namespace MDFN_IEN_SMS
+{
 
 bitmap_t bitmap;
 input_t input;
@@ -66,54 +67,27 @@ void system_reset(void)
     SMS_SoundReset();
 }
 
-static int SMS_Z80StateAction(StateMem *sm, int load, int data_only)
-{
- uint8 r_register;
-
- SFORMAT StateRegs[] =
- {
-  SFVARN(z80.af.w, "AF"),
-  SFVARN(z80.bc, "BC"),
-  SFVARN(z80.de, "DE"),
-  SFVARN(z80.hl, "HL"),
-  SFVARN(z80.af_, "AF_"),
-  SFVARN(z80.bc_, "BC_"),
-  SFVARN(z80.de_, "DE_"),
-  SFVARN(z80.hl_, "HL_"),
-  SFVARN(z80.ix, "IX"),
-  SFVARN(z80.iy, "IY"),
-  SFVARN(z80.sp, "SP"),
-  SFVARN(z80.pc, "PC"),
-  SFVARN(z80.iff1, "IFF1"),
-  SFVARN(z80.iff2, "IFF2"),
-  SFVARN(z80.im, "IM"),
-  SFVARN(r_register, "R"),
-  SFEND
- };
-
- if(!load)
-  r_register = (z80.r7 & 0x80) | (z80.r & 0x7f);
-
- if(!MDFNSS_StateAction(sm, load, data_only, StateRegs, "Z80"))
- {
-  return(0);
- }
-
- if(load)
- {
-  z80.r7 = r_register & 0x80;
-  z80.r = r_register & 0x7F;
- }
-
- return(1);
-}
-
 static int StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
   SFVAR(SoftResetCount),
+  SFVAR(sms.cycle_counter),
   SFARRAYN(sms.wram, 0x2000, "RAM"),
+
+  SFVAR(sms.paused),
+
+  SFVAR(input.pad[0]),
+  SFVAR(input.pad[1]),
+
+  SFVAR(input.analog[0]),
+  SFVAR(input.analog[1]),
+
+  SFVAR(input.system),
+
+  SFVAR(sms.fm_detect),
+  SFVAR(sms.memctrl),
+
   //SFVAR(z80_runtime),
   //SFARRAY(CPUExRAM, 16384),
   //SFVAR(FlashStatusEnable),
@@ -122,15 +96,19 @@ static int StateAction(StateMem *sm, int load, int data_only)
  int ret = 1;
 
  ret &= MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN");
- ret &= SMS_Z80StateAction(sm, load, data_only);
+ ret &= z80_state_action(sm, load, data_only, "Z80");
  ret &= SMS_CartStateAction(sm, load, data_only);
+ ret &= SMS_PIOStateAction(sm, load, data_only);
  ret &= SMS_SoundStateAction(sm, load, data_only);
  ret &= SMS_VDPStateAction(sm, load, data_only);
 
  if(load)
  {
-
-
+  if(sms.cycle_counter > 1000)
+  {
+   sms.cycle_counter = 1000;
+   puts("sms.cycle_counter sanity failed");
+  }
  } 
 
  return(ret);
@@ -145,16 +123,22 @@ static void SetInput(int port, const char *type, void *ptr)
 
 static void Emulate(EmulateSpecStruct *espec)
 {
- MDFNGameInfo->fb = espec->pixels;
+ if(espec->VideoFormatChanged)
+  SMS_VDPSetPixelFormat(espec->surface->format);
+
+ if(espec->SoundFormatChanged)
+  SMS_SetSoundRate(espec->SoundRate);
+
+
  sms.timestamp = 0;
 
-	input.pad[0] = 0;//*InputPtrs[0] & 0x3F;
+ input.pad[0] = *InputPtrs[0] & 0x3F;
 
-// if(IS_SMS)
-// {
-  //input.pad[1] = 0//*InputPtrs[1] & 0x3F;
+ if(IS_SMS)
+ {
+  input.pad[1] = *InputPtrs[1] & 0x3F;
 
-/*  if((*InputPtrs[0] | *InputPtrs[1]) & 0x40)
+  if((*InputPtrs[0] | *InputPtrs[1]) & 0x40)
    input.system |= INPUT_PAUSE;
   else
    input.system &= ~INPUT_PAUSE;
@@ -168,24 +152,39 @@ static void Emulate(EmulateSpecStruct *espec)
   else
    input.system &= ~INPUT_START;
  }
-*/
+
  //NGPJoyLatch = *chee;
 
  MDFNMP_ApplyPeriodicCheats();
 
- bitmap.data = (uint8*)espec->pixels;
+ if(sms.console == CONSOLE_GG)
+ {
+  espec->DisplayRect.x = 48;
+  espec->DisplayRect.y = 48;
+  espec->DisplayRect.w = 160;
+  espec->DisplayRect.h = 144;
+ }
+ else
+ {
+  espec->DisplayRect.x = 0;
+  espec->DisplayRect.y = 0;
+  espec->DisplayRect.w = 256;
+  espec->DisplayRect.h = 240;
+ }
+
+ bitmap.data = (uint8*)espec->surface->pixels;
  bitmap.width = 256;
  bitmap.height = 240;
  bitmap.pitch = 256 * sizeof(uint32);
 
  system_frame(espec->skip);
 
- *(espec->SoundBuf) = SMS_SoundFlush(espec->SoundBufSize);
+ espec->MasterCycles = sms.timestamp;
+ espec->SoundBufSize = SMS_SoundFlush(espec->SoundBuf, espec->SoundBufMaxSize);
 }
 
 static void CloseGame(void)
 {
- MDFN_FlushGameCheats(0);
  SMS_CartClose();
 
  sms_shutdown();
@@ -207,18 +206,11 @@ static int LoadCommon(const char *name, MDFNFILE *fp)
  }
 
  /* Assign default settings (US NTSC machine) */
- {
-  std::string tmp_string;
+ sms.display     = DISPLAY_NTSC;
 
-  sms.display     = DISPLAY_NTSC;
+ sms.territory   = MDFN_GetSettingI("sms.territory");
+ sms.use_fm      = FALSE;
 
-  tmp_string = MDFN_GetSettingS("sms.territory");
-  if(!strcasecmp(tmp_string.c_str(), "domestic"))
-   sms.territory = TERRITORY_DOMESTIC;
-  else
-   sms.territory = TERRITORY_EXPORT;
-  sms.use_fm      = FALSE;
- }
 
  if(!SMS_CartInit(data_ptr, size))
   return(0);
@@ -238,10 +230,8 @@ static int LoadCommon(const char *name, MDFNFILE *fp)
  vdp_init();
  render_init();
 
- MDFN_LoadGameCheats(NULL);
  MDFNGameInfo->GameSetMD5Valid = FALSE;
 
- //if(sms.console == CONSOLE_SMS || MDFN_GetSettingB("gg.forcemono"))
  uint32 sndclk;
 
  if(sms.display == DISPLAY_PAL)
@@ -255,8 +245,9 @@ static int LoadCommon(const char *name, MDFNFILE *fp)
   MDFNGameInfo->fps = (uint32)((uint64)65536 * 256 * sndclk / 262 / 228); //6144000 * 65536 * 256 / 515 / 198); // 3072000 * 2 * 10000 / 515 / 198
  }
 
- MDFNGameInfo->soundchan = 2;
- SMS_SoundInit(0, sndclk, sms.use_fm);
+ MDFNGameInfo->MasterClock = MDFN_MASTERCLOCK_FIXED(sndclk);
+
+ SMS_SoundInit(sndclk, sms.use_fm);
 
  sms.save = 0;
 
@@ -266,11 +257,25 @@ static int LoadCommon(const char *name, MDFNFILE *fp)
  return(1);
 }
 
-static int LoadSMS(const char *name, MDFNFILE *fp)
+static bool TestMagicSMS(const char *name, MDFNFILE *fp)
 {
  if(strcasecmp(fp->ext, "sms") && strcasecmp(fp->ext, "sg") && strcasecmp(fp->ext, "sc"))
-  return(-1);
- 
+  return(FALSE);
+
+ return(TRUE);
+}
+
+static bool TestMagicGG(const char *name, MDFNFILE *fp)
+{
+ if(strcasecmp(fp->ext, "gg"))
+  return(FALSE);
+
+ return(TRUE);
+}
+
+
+static int LoadSMS(const char *name, MDFNFILE *fp)
+{
  sms.console = CONSOLE_SMS;
 
  return(LoadCommon(name, fp));
@@ -278,14 +283,12 @@ static int LoadSMS(const char *name, MDFNFILE *fp)
 
 static int LoadGG(const char *name, MDFNFILE *fp)
 {
- if(strcasecmp(fp->ext, "gg"))
-  return(-1);
-
  sms.console = CONSOLE_GG;
 
  return(LoadCommon(name, fp));
 }
 
+}
 
 static const InputDeviceInputInfoStruct GGGamepadIDII[] =
 {
@@ -333,13 +336,13 @@ static InputDeviceInfoStruct SMSInputDeviceInfo[] =
 
 static const InputPortInfoStruct GGPortInfo[] =
 {
- { 0, "builtin", "Built-In", sizeof(GGInputDeviceInfo) / sizeof(InputDeviceInfoStruct), GGInputDeviceInfo },
+ { 0, "builtin", "Built-In", sizeof(GGInputDeviceInfo) / sizeof(InputDeviceInfoStruct), GGInputDeviceInfo, "gamepad" },
 };
 
 static const InputPortInfoStruct SMSPortInfo[] =
 {
- { 0, "port1", "Port 1", sizeof(SMSInputDeviceInfo) / sizeof(InputDeviceInfoStruct), SMSInputDeviceInfo },
- { 0, "port2", "Port 2", sizeof(SMSInputDeviceInfo) / sizeof(InputDeviceInfoStruct), SMSInputDeviceInfo }
+ { 0, "port1", "Port 1", sizeof(SMSInputDeviceInfo) / sizeof(InputDeviceInfoStruct), SMSInputDeviceInfo, "gamepad" },
+ { 0, "port2", "Port 2", sizeof(SMSInputDeviceInfo) / sizeof(InputDeviceInfoStruct), SMSInputDeviceInfo, "gamepad" }
 };
 
 static InputInfoStruct GGInputInfo =
@@ -358,8 +361,8 @@ static void DoSimpleCommand(int cmd)
 {
  switch(cmd)
  {
-  case MDFNNPCMD_POWER: system_reset(); break;
-  case MDFNNPCMD_RESET: if(IS_SMS)
+  case MDFN_MSC_POWER: system_reset(); break;
+  case MDFN_MSC_RESET: if(IS_SMS)
 			{
 			 input.system |= INPUT_RESET;
 			 SoftResetCount = 20;
@@ -375,45 +378,49 @@ static bool ToggleLayer(int which)
  return(TRUE);
 }
 
-static void SetPixelFormat(int rs, int gs, int bs)
+static MDFNSetting_EnumList Territory_List[] =
 {
- SMS_VDPSetPixelFormat(rs, gs, bs);
-}
-
-static bool ValidateSetting(const char *name, const char *value)
-{
- if(!strcasecmp(name, "sms.territory"))
- {
-  if(strcasecmp(value, "domestic") && strcasecmp(value, "export"))
-   return(FALSE);
- }
- return(TRUE);
-}
+ { "domestic", TERRITORY_DOMESTIC, gettext_noop("Domestic(Japanese)") },
+ { "export", TERRITORY_EXPORT, gettext_noop("Export(World)") },
+ { NULL, 0 },
+};
 
 static MDFNSetting SMSSettings[] =
 {
- //{ "ngp.language", gettext_noop("If =1, tell games to display in English, if =0, in Japanese."), MDFNST_UINT, "1", "0", "1" },
- //{ "ngp.forcemono", gettext_noop("Force monophonic sound output."), MDFNST_BOOL, "0" },
- { "sms.territory", gettext_noop("Territory, \"domestic\"(Japan) or \"export\"."), MDFNST_STRING, "export", NULL, NULL, ValidateSetting },
- { "sms.fm", gettext_noop("Enable FM sound emulation when playing domestic/Japan-region games."), MDFNST_BOOL, "1" },
+ { "sms.territory", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("System territory/region."), NULL, MDFNST_ENUM, "export", NULL, NULL, NULL, NULL, Territory_List },
+ { "sms.fm", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Enable FM sound emulation when playing domestic/Japan-region games."), NULL, MDFNST_BOOL, "1" },
  { NULL }
 };
 
 static MDFNSetting GGSettings[] =
 {
- { "gg.forcemono", gettext_noop("Force monophonic sound output."), MDFNST_BOOL, "0" },
  { NULL }
 };
 
 
+static const FileExtensionSpecStruct SMSKnownExtensions[] =
+{
+ { ".sms", gettext_noop("Sega Master System ROM Image") },
+ { NULL, NULL }
+};
+
+static const FileExtensionSpecStruct GGKnownExtensions[] =
+{
+ { ".gg", gettext_noop("Game Gear ROM Image") },
+ { NULL, NULL }
+};
+
 MDFNGI EmulatedSMS =
 {
  "sms",
- #ifdef WANT_DEBUGGER
+ "Sega Master System",
+ SMSKnownExtensions,
+ MODPRIO_INTERNAL_HIGH,
  NULL,
- #endif
  &SMSInputInfo,
  LoadSMS,
+ TestMagicSMS,
+ NULL,
  NULL,
  CloseGame,
  ToggleLayer,
@@ -423,33 +430,37 @@ MDFNGI EmulatedSMS =
  NULL,
  StateAction,
  Emulate,
- SetPixelFormat,
  SetInput,
- NULL,
- NULL,
- NULL,
- SMS_SetSoundMultiplier,
- SMS_SetSoundVolume,
- SMS_Sound,
  DoSimpleCommand,
  SMSSettings,
  0,
- NULL,
- 256,
- 240,
- 256, // Save state preview width
- 256 * sizeof(uint32),
- {0, 0, 256, 240},
+ 0,
+ FALSE, // Multires possible?
+
+ 256,   // lcm_width
+ 240,   // lcm_height
+ NULL,  // Dummy
+
+ 256,	// Nominal width
+ 240,	// Nominal height
+
+ 256,	// Framebuffer width
+ 256,	// Framebuffer height
+
+ 2,     // Number of output sound channels
 };
 
 MDFNGI EmulatedGG =
 {
  "gg",
- #ifdef WANT_DEBUGGER
+ "Game Gear",
+ GGKnownExtensions,
+ MODPRIO_INTERNAL_HIGH,
  NULL,
- #endif
  &GGInputInfo,
  LoadGG,
+ TestMagicGG,
+ NULL,
  NULL,
  CloseGame,
  ToggleLayer,
@@ -459,22 +470,24 @@ MDFNGI EmulatedGG =
  NULL,
  StateAction,
  Emulate,
- SetPixelFormat,
  SetInput,
- NULL,
- NULL,
- NULL,
- SMS_SetSoundMultiplier,
- SMS_SetSoundVolume,
- SMS_Sound,
  DoSimpleCommand,
  GGSettings,
  0,
- NULL,
- 160,
- 144 * 2,
- 160, // Save state preview width
- 256 * sizeof(uint32),
- {48, 48, 160, 144},
+ 0,
+ FALSE, // Multires possible?
+
+ 160,   // lcm_width
+ 144,   // lcm_height           
+ NULL,  // Dummy
+
+
+ 160,	// nominal width
+ 144,	// nominal height
+
+ 256,	// Framebuffer width
+ 256,	// Framebuffer height 
+
+ 2,     // Number of output sound channels
 };
 

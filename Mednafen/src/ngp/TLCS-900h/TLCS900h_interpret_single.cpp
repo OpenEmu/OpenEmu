@@ -400,11 +400,12 @@ void sngSWI()
 {
 	cycles = 16;
 
+	printf("SWI: %02x\n", first & 0x7);
 	switch(first & 7)
 	{
 		//System Call
-	case 1: push32(pc);	
-			pc = loadL(0xFFFE00 + (rCodeB(0x31) << 2));
+	case 1: push32(pc);
+			pc = loadL(0xFFFE00 + ((rCodeB(0x31) & 0x1F) << 2));
 			break;
 
 	case 3: interrupt(0);	//SWI 3

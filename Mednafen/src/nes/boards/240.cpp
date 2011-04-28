@@ -44,12 +44,6 @@ static DECLFR(AWRAM)
 
 static void Power(CartInfo *info)
 {
- SetReadHandler(0x8000, 0xFFFF, CartBR);
- SetWriteHandler(0x4020, 0x5FFF, Write);
-
- SetReadHandler(0x6000, 0x7FFF, AWRAM);
- SetWriteHandler(0x6000, 0x7FFF, BWRAM);
-
  latch = 0xFF;
  Sync();
 
@@ -62,6 +56,7 @@ static int StateAction(StateMem *sm, int load, int data_only)
  SFORMAT StateRegs[] =
  {
   SFVAR(latch),
+  SFARRAY(WRAM, 8192),
   SFEND
  };
 
@@ -102,6 +97,12 @@ int Mapper240_Init(CartInfo *info)
   info->SaveGame[0] = WRAM;
   info->SaveGameLen[0] = 8192;
  }
+
+ SetReadHandler(0x8000, 0xFFFF, CartBR);
+ SetWriteHandler(0x4020, 0x5FFF, Write);
+
+ SetReadHandler(0x6000, 0x7FFF, AWRAM);
+ SetWriteHandler(0x6000, 0x7FFF, BWRAM);
 
  return(1);
 }

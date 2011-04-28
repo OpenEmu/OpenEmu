@@ -62,8 +62,8 @@ typedef union {
 extern memoryMap map[256];
 #endif
 
-extern bool8 busPrefetch;
-extern bool8 busPrefetchEnable;
+extern bool busPrefetch;
+extern bool busPrefetchEnable;
 extern uint32 busPrefetchCount;
 extern uint32 cpuPrefetch[2];
 
@@ -77,20 +77,20 @@ extern reg_pair reg[45];
 extern uint8 biosProtected[4];
 
 extern uint32 N_FLAG;
-extern bool8 Z_FLAG;
-extern bool8 C_FLAG;
-extern bool8 V_FLAG;
-extern bool8 armIrqEnable;
-extern bool8 armState;
+extern bool Z_FLAG;
+extern bool C_FLAG;
+extern bool V_FLAG;
+extern bool armIrqEnable;
+extern bool armState;
 extern int armMode;
 extern void (*cpuSaveGameFunc)(uint32,uint8);
 
-extern bool8 CPUWriteBatteryFile(const char *);
-extern bool8 CPUReadBatteryFile(const char *);
+extern bool CPUWriteBatteryFile(const char *);
+extern bool CPUReadBatteryFile(const char *);
 
 extern void CPUCleanUp();
 extern void CPUUpdateRender();
-extern void doMirroring(bool8);
+extern void doMirroring(bool);
 extern void CPUUpdateRegister(uint32, uint16);
 extern void applyTimer ();
 
@@ -101,14 +101,14 @@ void CPUWriteByte(uint32, uint8);
 extern void CPULoop(int);
 extern void CPUCheckDMA(int,int);
 
-extern void CPUSwitchMode(int mode, bool8 saveState, bool8 breakLoop);
-extern void CPUSwitchMode(int mode, bool8 saveState);
+extern void CPUSwitchMode(int mode, bool saveState, bool breakLoop);
+extern void CPUSwitchMode(int mode, bool saveState);
 extern void CPUUndefinedException();
 extern void CPUSoftwareInterrupt();
 extern void CPUSoftwareInterrupt(int comment);
 extern void CPUCompareVCOUNT();
 extern void CPUUpdateCPSR();
-extern void CPUUpdateFlags(bool8 breakLoop);
+extern void CPUUpdateFlags(bool breakLoop);
 extern void CPUUpdateFlags();
 
 
@@ -116,6 +116,9 @@ extern uint8 cpuBitsSet[256];
 extern uint8 cpuLowestBitSet[256];
 
 extern struct EmulatedSystem GBASystem;
+
+int32 MDFNGBA_GetTimerPeriod(int which);
+
 
 #define R13_IRQ  18
 #define R14_IRQ  19
@@ -143,5 +146,9 @@ extern struct EmulatedSystem GBASystem;
 #include "Globals.h"
 #include "eeprom.h"
 #include "flash.h"
+#include "RTC.h"
+
+extern RTC *GBA_RTC;
+
 
 #endif //VBA_GBA_H

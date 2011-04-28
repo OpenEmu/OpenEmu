@@ -1,34 +1,28 @@
 /* Mednafen - Multi-system Emulator
- * 
+ *
  * Copyright notice for this file:
  *  Copyright (C) 1998 BERO
  *  Copyright (C) 2003 Xodnizel
- *  
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or   
+ * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of 
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the 
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include        <string.h>
-#include        <stdio.h>
-#include        <stdlib.h>
-
 #include        "../nes.h"
 #include        "../x6502.h"
 #include	"../nsf.h"
 #include        "../sound.h"
-#include        "../../endian.h"
-#include        "../../memory.h"
 
 #include        "../cart.h"
 #include	"ppu.h"
@@ -49,7 +43,6 @@
 
 static nes_ntsc_emph_t *NTSCBlitter = NULL;
 static nes_ntsc_setup_t setup;
-static bool was_short_frame;
 
 static void FetchSpriteData(void);
 static void RefreshLine(int lastpixel);
@@ -58,11 +51,8 @@ static void RefreshSprites(void);
 static void Fixit1(void);
 static uint32 ppulut1[256], ppulut2[256], ppulut3[128];
 
-
 static void DoGfxDecode(void);
-static uint32 *GfxDecode_Buf = NULL;
-static int GfxDecode_Width = 0;
-static int GfxDecode_Height = 0;
+static MDFN_Surface *GfxDecode_Buf = NULL;
 static int GfxDecode_Line = -1;
 static int GfxDecode_Layer = 0;
 static int GfxDecode_Scroll = 0;
@@ -107,7 +97,7 @@ static void makeppulut(void)
 } 
   
 static int ppudead;
-static int kook = 0;
+static int kook;
 int fceuindbg=0;
 
 int MMC5Hack;
@@ -129,70 +119,49 @@ uint8 PPUCHRRAM;
 void (*GameHBIRQHook)(void), (*GameHBIRQHook2)(void);
 void (*PPU_hook)(uint32 A);
 
-static uint8 vtoggle=0;
-static uint8 XOffset=0;
-   
-static uint32 TempAddr,RefreshAddr;
+static uint8 vtoggle;
+static uint8 XOffset;
+static uint32 TempAddr, RefreshAddr;
   
-static int maxsprites=8;  
+static int maxsprites; 
     
 /* scanline is equal to the current visible scanline we're on. */
      
 int scanline;
 static uint32 scanlines_per_frame;
     
+#define V_FLIP  0x80
+#define H_FLIP  0x40
+#define SP_BACK 0x20
+
+typedef struct {
+        uint8 y,no,atr,x;
+} SPR;
+
+typedef struct {
+        uint8 ca[2],atr,x;
+} SPRB;
+
 uint8 PPU[4];
 uint8 PPUSPL;
-uint8 NTARAM[0x800],PALRAM[0x20],PALRAMCache[0x20],SPRAM[0x100],SPRBUF[0x100];
+uint8 NTARAM[0x800],PALRAM[0x20],PALRAMCache[0x20];
+
+uint8 SPRAM[0x100];
+static SPRB SPRBUF[64];	// 8] if we didn't have an excess sprites option.
 
 static uint32 PALRAMLUTCache[0x200];
-static const double rtmul[8]={1, 1.239,.794,1.019,.905,1.023,.741,.75};
-static const double gtmul[8]={1, .915,1.086,.98,1.026,.908,.987,.75};
-static const double btmul[8]={1, .743,.882,.653,1.277,.979,.101,.75};
 
-static void RefreshPaletteCache(void)
+void MDFNNES_SetPixelFormat(const MDFN_PixelFormat &pixel_format)
 {
- int x;
-
- for(x = 0; x < 0x200; x++)
+ for(int x = 0; x < 0x200; x++)
  {
-  int emp = x >> 6;
-  int r = (int)(rtmul[emp] * palo[x & 0x3F].r);
-  int g = (int)(gtmul[emp] * palo[x & 0x3F].g);
-  int b = (int)(btmul[emp] * palo[x & 0x3F].b);
+  int r = ActiveNESPalette[x].r;
+  int g = ActiveNESPalette[x].g;
+  int b = ActiveNESPalette[x].b;
 
-  if(r > 255) r = 255;
-  if(g > 255) g = 255;
-  if(b > 255) b = 255;
-  PALRAMLUTCache[x] = MK_COLOR(r,g,b);
+  PALRAMLUTCache[x] = pixel_format.MakeColor(r, g, b);
  }
 }
-
-static INLINE void RefreshPaletteCacheS(unsigned int which)
-{
- int x;
-
- for(x = which; x < 0x200; x+= 64)
- {
-  int emp = x >> 6;
-  int r = (int)(rtmul[emp] * palo[x & 0x3F].r);
-  int g = (int)(gtmul[emp] * palo[x & 0x3F].g);
-  int b = (int)(btmul[emp] * palo[x & 0x3F].b);
-
-  if(r > 255) r = 255;
-  if(g > 255) g = 255;
-  if(b > 255) b = 255;
-  PALRAMLUTCache[x] = MK_COLOR(r,g,b);
- }
-
-}
-
-void MDFNNES_SetPixelFormat(int r, int g, int b)
-{
- if(MDFNGameInfo->GameType != GMT_PLAYER)
-  RefreshPaletteCache();
-}
-
 
 #define MMC5SPRVRAMADR(V)      &MMC5SPRVPage[(V)>>10][(V)]
 #define MMC5BGVRAMADR(V)      &MMC5BGVPage[(V)>>10][(V)]  
@@ -405,7 +374,6 @@ static DECLFW(B2007)
                         {
                          tmp &= (tmp & 3)? 0x1F : 0x0C;
                          PALRAM[tmp] = PALRAMCache[tmp] = V & 0x3F;
-			 RefreshPaletteCacheS(tmp);
                         }
                         else if(tmp<0x2000)
                         {
@@ -441,8 +409,8 @@ static void ResetRL(uint8 *target)
  //MDFNPPU_LineUpdate();
 }
 
-static uint8 sprlinebuf[256+8] __attribute__ ((aligned (16)));
-static uint8 emphlinebuf[256] __attribute__ ((aligned (16)));
+static MDFN_ALIGN(16) uint8 sprlinebuf[256+8];
+static MDFN_ALIGN(16) uint8 emphlinebuf[256];
 
 void MDFNPPU_LineUpdate(void)
 {
@@ -477,7 +445,7 @@ static uint32 atlatch;
 static uint8 xs, ys;
 static int tochange;
 
-static ALWAYS_INLINE void FetchNT(int MMC5Ex)
+static INLINE void FetchNT(int MMC5Ex)
 {
 	uint8 *C;
 
@@ -497,7 +465,7 @@ static ALWAYS_INLINE void FetchNT(int MMC5Ex)
 	}
 }
 
-static ALWAYS_INLINE void FetchAT(int MMC5Ex)
+static INLINE void FetchAT(int MMC5Ex)
 {
 	uint8 cc, zz;
 	uint8 *C;
@@ -528,7 +496,7 @@ static ALWAYS_INLINE void FetchAT(int MMC5Ex)
 	 PPU_hook(RefreshAddr & 0x3FFF);
 }
 
-static ALWAYS_INLINE void FetchCD1(int MMC5Ex)
+static INLINE void FetchCD1(int MMC5Ex)
 {
  uint32 vofs = ((PPU[0]&0x10)<<8) | ((RefreshAddr>>12)&7);
  uint32 vadr = (NT_TMP << 4) | vofs;
@@ -540,7 +508,9 @@ static ALWAYS_INLINE void FetchCD1(int MMC5Ex)
   C += (((MMC5NT_TMP) & 0x3f & MMC5HackVROMMask) << 12) + (vadr & 0xfff);
  }
  else if(MMC5Ex == 2)
+ {
   C = MMC5BGVRAMADR(vadr);
+ }
  else if(MMC5Ex == 3 || MMC5Ex == 4)
  {
   if(((tochange<=0 && MMC5HackSPMode&0x40) || (tochange>0 && !(MMC5HackSPMode&0x40))) )
@@ -549,7 +519,9 @@ static ALWAYS_INLINE void FetchCD1(int MMC5Ex)
    C += ((MMC5HackSPPage & 0x3f & MMC5HackVROMMask) << 12);
   }
   else
+  {
    C = MMC5BGVRAMADR(vadr);
+  }
  }
 
  pshift[0] |= C[0];
@@ -558,7 +530,7 @@ static ALWAYS_INLINE void FetchCD1(int MMC5Ex)
   PPU_hook(vadr);
 }
 
-static ALWAYS_INLINE void FetchCD2(int MMC5Ex)
+static INLINE void FetchCD2(int MMC5Ex)
 {
  uint32 vofs = ((PPU[0]&0x10)<<8) | ((RefreshAddr>>12)&7);
  uint32 vadr = (NT_TMP << 4) | vofs;
@@ -570,7 +542,9 @@ static ALWAYS_INLINE void FetchCD2(int MMC5Ex)
   C += (((MMC5NT_TMP) & 0x3f & MMC5HackVROMMask) << 12) + (vadr & 0xfff);
  }
  else if(MMC5Ex == 2)
+ {
   C = MMC5BGVRAMADR(vadr);
+ }
  else if(MMC5Ex == 3 || MMC5Ex == 4)
  {
   if(((tochange<=0 && MMC5HackSPMode&0x40) || (tochange>0 && !(MMC5HackSPMode&0x40))) )
@@ -579,7 +553,9 @@ static ALWAYS_INLINE void FetchCD2(int MMC5Ex)
    C += ((MMC5HackSPPage & 0x3f & MMC5HackVROMMask) << 12);
   }
   else
+  {
    C = MMC5BGVRAMADR(vadr);
+  }
   //printf("%d, %d\n",scanline,xs);
   xs++;
   tochange--;
@@ -717,9 +693,10 @@ static void Fixit1(void)
 
 #include "ppu-fastrl.h"
 
-#define MEOW_OUT(n, a) { uint32 otmp; NES_NTSC_RAW_OUT(n, otmp); a = (((otmp >> 21) & 0xFF) << FSettings.rshift) | (((otmp >> 11) & 0xFF) << FSettings.gshift) | (((otmp >>  1) & 0xFF) << FSettings.bshift); }
+// FIXME, use MakeColor() method
+#define MEOW_OUT(n, a) { uint32 otmp; NES_NTSC_RAW_OUT(n, otmp); a = (((otmp >> 21) & 0xFF) << pixel_format.Rshift) | (((otmp >> 11) & 0xFF) << pixel_format.Gshift) | (((otmp >>  1) & 0xFF) << pixel_format.Bshift); }
 
-void nes_ntsc_blit( nes_ntsc_emph_t const* ntsc, uint8 const* nes_in, uint8 const* nes_emph_in, long in_pitch,
+static void nes_ntsc_blit(const MDFN_PixelFormat &pixel_format, nes_ntsc_emph_t const* ntsc, uint8 const* nes_in, uint8 const* nes_emph_in, long in_pitch,
                 int burst_phase, int width, int height, uint32* rgb_out, long out_pitch )
 {
         /* determine how many chunks to blit, less one for the final chunk */
@@ -777,7 +754,7 @@ void nes_ntsc_blit( nes_ntsc_emph_t const* ntsc, uint8 const* nes_in, uint8 cons
 static int BurstPhase = 0;
 
 void MMC5_hb(int);     /* Ugh ugh ugh. */
-static void DoLine(int skip)
+static void DoLine(MDFN_Surface *surface, int skip)
 {
  uint8 target[256];
 
@@ -828,19 +805,51 @@ static void DoLine(int skip)
 
  if(scanline >= 0)
  {
-  uint32 *real_target = &((uint32 *)MDFNGameInfo->fb)[scanline * MDFNGameInfo->pitch / 4];
+  uint32 *real_target = NULL;
+  uint16 *real_target16 = NULL;
+
+  if(surface->pixels)
+   real_target = surface->pixels + scanline * surface->pitchinpix;
+
+  if(surface->pixels16)
+   real_target16 = surface->pixels16 + scanline * surface->pitchinpix;
 
   if(NTSCBlitter)
   {
    if(!skip)
-    nes_ntsc_blit(NTSCBlitter, target, emphlinebuf, nes_ntsc_min_in_width, setup.merge_fields ? scanline % 3 : BurstPhase, nes_ntsc_min_out_width, 1, real_target, MDFNGameInfo->pitch);
+   {
+    // TODO:  Factor this out/make it more elegant.
+    if(surface->format.colorspace != MDFN_COLORSPACE_RGB || surface->format.bpp != 32)
+    {
+     MDFN_PixelFormat nf;
+
+     memset(&nf, 0, sizeof(nf));
+
+     nf.bpp = 32;
+     nf.colorspace = MDFN_COLORSPACE_RGB;
+     
+     nf.Rshift = 0;
+     nf.Gshift = 8;
+     nf.Bshift = 16;
+     nf.Ashift = 24;
+
+     surface->SetFormat(nf, false);
+    }
+    nes_ntsc_blit(surface->format, NTSCBlitter, target, emphlinebuf, nes_ntsc_min_in_width, setup.merge_fields ? scanline % 3 : BurstPhase, nes_ntsc_min_out_width, 1, real_target, surface->pitch32 * sizeof(uint32));
+   }
    BurstPhase = (BurstPhase + 1) % 3;
   }
   else
   {
    if(!skip) 
-    for(int x = 0; x < 256; x++)
-     real_target[x] = PALRAMLUTCache[(target[x] & 0x3F) | (emphlinebuf[x] << 6)];
+   {
+    if(real_target16)
+     for(int x = 0; x < 256; x++)
+      real_target16[x] = PALRAMLUTCache[(target[x] & 0x3F) | (emphlinebuf[x] << 6)];
+    else
+     for(int x = 0; x < 256; x++)
+      real_target[x] = PALRAMLUTCache[(target[x] & 0x3F) | (emphlinebuf[x] << 6)];
+   }
   }
  }
  sphitx=0x100;
@@ -889,25 +898,12 @@ static void DoLine(int skip)
  scanline++;
 }
 
-#define V_FLIP  0x80
-#define H_FLIP  0x40
-#define SP_BACK 0x20
-
-typedef struct {
-        uint8 y,no,atr,x;
-} SPR;
-
-typedef struct {
-        uint8 ca[2],atr,x;
-} SPRB;
-
 static uint8 numsprites,SpriteBlurp;
 
 static void FetchSpriteData(void)
 {
         uint8 ns,sb;
         uint8 H;
-        int n;
         int vofs;
         uint8 P0=PPU[0];
 
@@ -931,10 +927,11 @@ static void FetchSpriteData(void)
 
                 if(ns<maxsprites)
                 {
-                 if(n == 0) sb=1;
+                 SPRB *dst = &SPRBUF[ns];
 
-                 {
-                  SPRB dst;
+                 if(n == 0)
+		  sb=1;
+
                   uint8 *C;
                   int t;
                   unsigned int vadr;
@@ -959,9 +956,9 @@ static void FetchSpriteData(void)
                         vadr+=t&8;
                   }
 
-                  if(MMC5Hack && geniestage!=1) C = MMC5SPRVRAMADR(vadr);
+                  if(MMC5Hack && geniestage!=1 && Sprite16) C = MMC5SPRVRAMADR(vadr);
                   else C = VRAMADR(vadr);
-                  dst.ca[0]=C[0];
+                  dst->ca[0]=C[0];
 
 		  if(PPU_hook && ns < 8)
 		  {
@@ -969,16 +966,13 @@ static void FetchSpriteData(void)
                    PPU_hook(vadr);
                   }
 
-                  dst.ca[1]=C[8];
+                  dst->ca[1]=C[8];
 
                   if(PPU_hook && ns<8)
                    PPU_hook(vadr | 8);
 
-                  dst.x=spr->x;
-                  dst.atr=spr->atr;
-
-                  *(uint32 *)&SPRBUF[ns<<2]=*(uint32 *)&dst;
-                 }
+                  dst->x=spr->x;
+                  dst->atr=spr->atr;
 
                  ns++;
                 }
@@ -994,7 +988,7 @@ static void FetchSpriteData(void)
                                            scanline option is enabled. */
         else if(PPU_hook)
         {
-         for(n=0;n<(8-ns);n++)
+         for(int n = 0; n < (8-ns); n++)
          {
                  PPU_hook(0x2000);
                  PPU_hook(vofs);
@@ -1008,23 +1002,20 @@ static void FetchSpriteData(void)
 
 static void RefreshSprites(void)
 {
-        int n;
-        SPRB *spr;
-
-        spork=0;
+        spork = 0;
 
         MDFN_FastU32MemsetM8((uint32 *)sprlinebuf, 0x80808080, 256 / sizeof(uint32));
-        if(!numsprites) return;
 
-        numsprites--;
-	spr = (SPRB*)SPRBUF+numsprites;
+        if(!numsprites)
+	 return;
 
-	for(n=numsprites;n>=0;n--,spr--)
+	for(int n = numsprites - 1; n >= 0; n--)
 	{
 	 register uint32 pixdata;
 	 register uint8 J,atr;
+	 register SPRB *spr = &SPRBUF[n];
 
-	 int x=spr->x;
+	 int x = spr->x;
          uint8 *C;
          uint8 *VB;
                 
@@ -1098,64 +1089,35 @@ static void RefreshSprites(void)
 
 void MDFNPPU_Reset(void)
 {
-        VRAMBuffer=PPU[0]=PPU[1]=PPU_status=PPU[3]=0;   
+        VRAMBuffer=PPU[0]=PPU[1]=PPU_status=PPU[3]=0;
         PPUSPL=0;
         PPUGenLatch=0;
         RefreshAddr=TempAddr=0;
+	XOffset = 0;
         vtoggle = 0;
-        ppudead = 2;
+        ppudead = 1;
 	kook = 0;
-	was_short_frame = 0;
 	RedoRenderCache();
 }
 
 void MDFNPPU_Power(void)
 {
-	int x;
-
-        memset(NTARAM,0x00,0x800);
-        memset(PALRAM,0x00,0x20); 
-        memset(SPRAM,0x00,0x100); 
+        memset(NTARAM, 0x00, 0x800);
+        memset(PALRAM, 0x00, 0x20); 
+        memset(SPRAM, 0x00, 0x100); 
         MDFNPPU_Reset();
-
-        for(x=0x2000;x<0x4000;x+=8)
-        {
-         SetReadHandler(x, x, A200x);
-         BWrite[x]=B2000;
-
-         SetReadHandler(x+1, x+1, A200x);
-         BWrite[x+1]=B2001;
-
-         SetReadHandler(x+2, x+2, A2002);
-         BWrite[x+2]=B2002;
-
-         SetReadHandler(x+3, x+3, A200x);
-         BWrite[x+3]=B2003;
-
-         SetReadHandler(x+4, x+4, A2004);
-         BWrite[x+4]=B2004;
-
-         SetReadHandler(x+5, x+5, A200x);
-         BWrite[x+5]=B2005;
-
-         SetReadHandler(x+6, x+6, A200x);
-         BWrite[x+6]=B2006;
-
-         SetReadHandler(x+7, x+7, A2007);
-         BWrite[x+7]=B2007;
-        }
-        BWrite[0x4014]=B4014;
 }
 
 
-int MDFNPPU_Loop(int skip)
+int MDFNPPU_Loop(MDFN_Surface *surface, int skip)
 {
-  if(ppudead) /* Needed for Knight Rider, possibly others. */
+  if(ppudead) /* Needed for Knight Rider, Time Lord, possibly others. */
   {
    if(!skip)
-    memset(MDFNGameInfo->fb, 0, 256 * 240 * sizeof(uint32));
-   X6502_Run(scanlines_per_frame*(256+85));
-   ppudead--;
+    surface->Fill(0, 0, 0, 0);
+
+   X6502_Run(27384 - (256 + 85));
+   ppudead = 0;
   }
   else
   {
@@ -1180,7 +1142,7 @@ int MDFNPPU_Loop(int skip)
    X6502_Run((scanlines_per_frame-242)*(256+85)-12);
    PPU_status&=0x1F;
    scanline = -1;
-   DoLine(skip);
+   DoLine(surface, skip);
 
    /* Clean this stuff up later. */
    spork=numsprites=0;
@@ -1191,9 +1153,9 @@ int MDFNPPU_Loop(int skip)
    {
     for(scanline=0;scanline<240;)       //scanline is incremented in  DoLine.  Evil. :/
     {
-     if(scanline == GfxDecode_Line)
+     if(GfxDecode_Buf && scanline == GfxDecode_Line)
       DoGfxDecode();
-     DoLine(skip);
+     DoLine(surface, skip);
     }
     if(MMC5Hack && (ScreenON || SpriteON)) MMC5_hb(scanline);
    }
@@ -1205,12 +1167,32 @@ int MDFNPPU_Loop(int skip)
    return(1);
 }
 
-uint32 NESPPU_GetRegister(const std::string &name)
+uint32 NESPPU_GetRegister(const std::string &name, std::string *special)
 {
  if(name == "PPU0")
+ {
+  if(special)
+  {
+   char buf[256];
+   snprintf(buf, 256, "VBlank NMI: %s, Sprite size: 8x%d, BG CHR: 0x%04x, SPR CHR: 0x%04x, VRAM Addr Increment: %d", (PPU[0] & 0x80) ? "On" : "Off",
+	(PPU[0] & 0x20) ? 16 : 8, (PPU[0] & 0x10) ? 0x1000 : 0x0000, (PPU[0] & 0x08) ? 0x1000 : 0x0000,
+	(PPU[0] & 0x04) ? 32 : 1);
+   *special = std::string(buf);
+  }
   return(PPU[0]);
+ }
  else if(name == "PPU1")
+ {
+  if(special)
+  {
+   char buf[256];
+   snprintf(buf, 256, "Sprites: %s, Background: %s, Leftmost 8 SPR Pixels: %s, Leftmost 8 BG Pixels: %s",
+	(PPU[1] & 0x10) ? "On" : "Off", (PPU[1] & 0x08) ? "On" : "Off",
+	(PPU[1] & 0x04) ? "On" : "Off", (PPU[1] & 0x02) ? "On" : "Off");
+   *special = std::string(buf);
+  }
   return(PPU[1]);
+ }
  else if(name == "PPU2")
   return(PPU[2]);
  else if(name == "PPU3")
@@ -1321,40 +1303,50 @@ int MDFNPPU_StateAction(StateMem *sm, int load, int data_only)
  return(ret);
 }
 
+static MDFN_Rect PPUDisplayRect;
+
+void NESPPU_GetDisplayRect(MDFN_Rect *DisplayRect)
+{
+ memcpy(DisplayRect, &PPUDisplayRect, sizeof(MDFN_Rect));
+}
 
 static void RedoRL(void)
 {
- MDFNGameInfo->DisplayRect.x = NTSCBlitter ? 4 : 0;
- MDFNGameInfo->DisplayRect.w = NTSCBlitter ? 602 - 4 - 2: 256;
+ PPUDisplayRect.x = NTSCBlitter ? 4 : 0;
+ PPUDisplayRect.w = NTSCBlitter ? 602 - 4 - 2: 256;
 
  if(PAL)
  {
-  MDFNGameInfo->DisplayRect.y = MDFN_GetSettingUI("nes.slstartp");
-  MDFNGameInfo->DisplayRect.h = MDFN_GetSettingUI("nes.slendp") - MDFNGameInfo->DisplayRect.y + 1;
+  PPUDisplayRect.y = MDFN_GetSettingUI("nes.slstartp");
+  PPUDisplayRect.h = MDFN_GetSettingUI("nes.slendp") - PPUDisplayRect.y + 1;
  }
  else
  {
-  MDFNGameInfo->DisplayRect.y = MDFN_GetSettingUI("nes.slstart");
-  MDFNGameInfo->DisplayRect.h = MDFN_GetSettingUI("nes.slend") - MDFNGameInfo->DisplayRect.y + 1;
+  PPUDisplayRect.y = MDFN_GetSettingUI("nes.slstart");
+  PPUDisplayRect.h = MDFN_GetSettingUI("nes.slend") - PPUDisplayRect.y + 1;
  }
 
  if(MDFN_GetSettingUI("nes.clipsides"))
  {
   if(NTSCBlitter)
   {
-   MDFNGameInfo->DisplayRect.x += 18;
-   MDFNGameInfo->DisplayRect.w -= 36;
+   PPUDisplayRect.x += 18;
+   PPUDisplayRect.w -= 36;
   }
   else
   {
-   MDFNGameInfo->DisplayRect.x += 8;
-   MDFNGameInfo->DisplayRect.w -= 16;
+   PPUDisplayRect.x += 8;
+   PPUDisplayRect.w -= 16;
   }
  }
 
- MDFNGameInfo->width = NTSCBlitter ? MDFNGameInfo->DisplayRect.w / 2 : MDFNGameInfo->DisplayRect.w;
- MDFNGameInfo->pitch = (NTSCBlitter ? 768 : 256) * sizeof(uint32);
+ MDFNGameInfo->nominal_width = NTSCBlitter ? PPUDisplayRect.w / 2 : PPUDisplayRect.w;
+ MDFNGameInfo->nominal_height = PPUDisplayRect.h;
 
+ MDFNGameInfo->lcm_width = PPUDisplayRect.w;
+ MDFNGameInfo->lcm_height = MDFNGameInfo->nominal_height;
+
+ MDFNGameInfo->fb_width = (NTSCBlitter ? 768 : 256);
 }
 
 void MDFNPPU_Init(void) 
@@ -1413,6 +1405,36 @@ void MDFNPPU_Init(void)
 
  if(MDFNGameInfo->GameType != GMT_PLAYER)
   RedoRL();
+
+
+ for(int x = 0x2000;x < 0x4000; x += 8)
+ {
+         SetReadHandler(x, x, A200x);
+         BWrite[x] = B2000;
+
+         SetReadHandler(x+1, x+1, A200x);
+         BWrite[x+1] = B2001;
+
+         SetReadHandler(x+2, x+2, A2002);
+         BWrite[x+2] = B2002;
+
+         SetReadHandler(x+3, x+3, A200x);
+         BWrite[x+3] = B2003;
+
+         SetReadHandler(x+4, x+4, A2004);
+         BWrite[x+4] = B2004;
+
+         SetReadHandler(x+5, x+5, A200x);
+         BWrite[x+5] = B2005;
+
+         SetReadHandler(x+6, x+6, A200x);
+         BWrite[x+6] = B2006;
+
+         SetReadHandler(x+7, x+7, A2007);
+         BWrite[x+7] = B2007;
+ }
+ BWrite[0x4014] = B4014;
+
 }
 
 void NESPPU_SettingChanged(const char *name)
@@ -1458,7 +1480,6 @@ void NESPPU_PutAddressSpaceBytes(const char *name, uint32 Address, uint32 Length
    {
     uint32 tmp = Address & ((Address & 3)? 0x1F : 0x0C);
     PALRAM[tmp] = PALRAMCache[tmp] = *Buffer;
-    RefreshPaletteCacheS(tmp);
    }
    else
     vnapage[(Address >> 10) & 0x3][Address & 0x3FF] = *Buffer;
@@ -1470,55 +1491,38 @@ void NESPPU_PutAddressSpaceBytes(const char *name, uint32 Address, uint32 Length
 }
 
 
-void NESPPU_SetGraphicsDecode(int line, int which, int w, int h, int xscroll, int yscroll, int pbn)
+void NESPPU_SetGraphicsDecode(MDFN_Surface *surface, int line, int which, int xscroll, int yscroll, int pbn)
 {
- if(line == -1)
- {
-  if(GfxDecode_Buf)
-  {
-   free(GfxDecode_Buf);
-   GfxDecode_Buf = NULL;
-  }
- }
- else
-  GfxDecode_Buf = (uint32*)realloc(GfxDecode_Buf, w * h * sizeof(uint32) * 3); // *2 for extra address info.
-
+ GfxDecode_Buf = surface;
  GfxDecode_Line = line;
- GfxDecode_Width = w;
- GfxDecode_Height = h;
  GfxDecode_Layer = which;
  GfxDecode_Scroll = yscroll;
  GfxDecode_Pbn = pbn;
 
- if(GfxDecode_Line == 0xB00B13)
+ if(GfxDecode_Line == -1)
   DoGfxDecode();
-}
-
-uint32 *NESPPU_GetGraphicsDecodeBuffer(void)
-{
- return(GfxDecode_Buf);
 }
 
 static void DoGfxDecode(void)
 {
- uint32 *target = GfxDecode_Buf;
+ uint32 *target = GfxDecode_Buf->pixels;
  int pbn = GfxDecode_Pbn & 0x3;
  uint32 neo_palette[4];
 
  if(GfxDecode_Pbn == -1)
  {
   for(int x = 0; x <  4; x++)
-   neo_palette[x] = MK_COLORA(x * 85, x * 85, x * 85, 0xFF);
+   neo_palette[x] = GfxDecode_Buf->format.MakeColor(x * 85, x * 85, x * 85, 0xFF);
  }
  else
   for(int x = 0; x < 4; x++)
-   neo_palette[x] = PALRAMLUTCache[PALRAMCache[pbn * 4 + x] & 0x3F] | MK_COLORA(0, 0, 0, 0xFF);
+   neo_palette[x] = PALRAMLUTCache[PALRAMCache[pbn * 4 + x] & 0x3F] | GfxDecode_Buf->format.MakeColor(0, 0, 0, 0xFF);
 
-  for(int y = 0; y < GfxDecode_Height; y++)
+  for(int y = 0; y < GfxDecode_Buf->h; y++)
   {
-   for(int x = 0; x < GfxDecode_Width; x+=8)
+   for(int x = 0; x < GfxDecode_Buf->w; x+=8)
    {
-    int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Width / 8);
+    int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Buf->w / 8);
 
     uint8 *cg_ptr;
     uint8 cg[2];
@@ -1573,7 +1577,7 @@ static void DoGfxDecode(void)
 
     if(which_tile >= tile_c)
     {
-     for(int sx = 0; sx < 8; sx++) target[x + sx] = MK_COLORA(0, 0, 0, 0);
+     for(int sx = 0; sx < 8; sx++) target[x + sx] = GfxDecode_Buf->format.MakeColor(0, 0, 0, 0);
      continue;
     }
 
@@ -1583,13 +1587,13 @@ static void DoGfxDecode(void)
     for(int sx = 0; sx < 8; sx++)
      target[x + sx] = neo_palette[((cg[0] >> (7-sx)) & 0x1) | (((cg[1] >> (7-sx)) & 0x1) << 1)];
 
-    target[x + GfxDecode_Width*2 + 0] = target[x + GfxDecode_Width*2 + 1] = target[x + GfxDecode_Width*2 + 2] = target[x + GfxDecode_Width*2 + 3] =
-    target[x + GfxDecode_Width*2 + 4] = target[x + GfxDecode_Width*2 + 5] = target[x + GfxDecode_Width*2 + 6] = target[x + GfxDecode_Width*2 + 7] = which_tile * 16;
+    target[x + GfxDecode_Buf->w*2 + 0] = target[x + GfxDecode_Buf->w*2 + 1] = target[x + GfxDecode_Buf->w*2 + 2] = target[x + GfxDecode_Buf->w*2 + 3] =
+    target[x + GfxDecode_Buf->w*2 + 4] = target[x + GfxDecode_Buf->w*2 + 5] = target[x + GfxDecode_Buf->w*2 + 6] = target[x + GfxDecode_Buf->w*2 + 7] = which_tile * 16;
 
-    target[x + GfxDecode_Width*1 + 0]=target[x + GfxDecode_Width*1 + 1]=target[x + GfxDecode_Width*1 + 2]=target[x + GfxDecode_Width*1 + 3] =
-    target[x + GfxDecode_Width*1 + 4]=target[x + GfxDecode_Width*1 + 5]=target[x + GfxDecode_Width*1 + 6]=target[x + GfxDecode_Width*1 + 7] = which_tile;
+    target[x + GfxDecode_Buf->w*1 + 0]=target[x + GfxDecode_Buf->w*1 + 1]=target[x + GfxDecode_Buf->w*1 + 2]=target[x + GfxDecode_Buf->w*1 + 3] =
+    target[x + GfxDecode_Buf->w*1 + 4]=target[x + GfxDecode_Buf->w*1 + 5]=target[x + GfxDecode_Buf->w*1 + 6]=target[x + GfxDecode_Buf->w*1 + 7] = which_tile;
    }
-   target += GfxDecode_Width * 3;
+   target += GfxDecode_Buf->w * 3;
   }
 
 

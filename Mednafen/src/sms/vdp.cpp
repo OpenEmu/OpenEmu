@@ -3,15 +3,10 @@
     Video Display Processor (VDP) emulation.
 */
 #include "shared.h"
-#include "hvc.h"
+#include "hvc.inc"
 
-static const uint8 tms_crom[] =
+namespace MDFN_IEN_SMS
 {
-    0x00, 0x00, 0x08, 0x0C,
-    0x10, 0x30, 0x01, 0x3C,
-    0x02, 0x03, 0x05, 0x0F,
-    0x04, 0x33, 0x15, 0x3F
-};
 
 /* Mark a pattern as dirty */
 #define MARK_BG_DIRTY(addr)                                \
@@ -92,38 +87,8 @@ void viewport_check(void)
     // check if this is switching out of tms
     if(!IS_GG)
     {
-        if(m4)
-        {
-            /* Restore SMS palette */
-            for(i = 0; i < PALETTE_SIZE; i++)
-            {
-                palette_sync(i, 1);
-            }
-        }
-        else
-        {
-            /* Load TMS9918 palette */
-            for(i = 0; i < PALETTE_SIZE; i++)
-            {
-                int r, g, b;
-    
-                r = (tms_crom[i & 0x0F] >> 0) & 3;
-                g = (tms_crom[i & 0x0F] >> 2) & 3;
-                b = (tms_crom[i & 0x0F] >> 4) & 3;
-        
-                r = sms_cram_expand_table[r];
-                g = sms_cram_expand_table[g];
-                b = sms_cram_expand_table[b];
-            
-                bitmap.pal.color[i][0] = r;
-                bitmap.pal.color[i][1] = g;
-                bitmap.pal.color[i][2] = b;
-            
-                pixel[i] = MAKE_PIXEL(r, g, b);
-            
-                bitmap.pal.dirty[i] = bitmap.pal.update = 1;
-            }
-        }
+     for(i = 0; i < PALETTE_SIZE; i++)
+      palette_sync(i, 1);
     }
 
     /* Check for extended modes when M4 and M2 are set */
@@ -324,7 +289,7 @@ uint8 vdp_read(int offset)
 
 uint8 vdp_counter_r(int offset)
 {
-    int pixel;
+    int pixel_pos;
 
     switch(offset & 1)
     {
@@ -332,11 +297,11 @@ uint8 vdp_counter_r(int offset)
             return vc_table[sms.display][vdp.extended][vdp.line & 0x1FF];
 
         case 1: /* H Counter */
-            //pixel = (((z80_get_elapsed_cycles() % CYCLES_PER_LINE) / 4) * 3) * 2;
+            //pixel_pos = (((z80_get_elapsed_cycles() % CYCLES_PER_LINE) / 4) * 3) * 2;
 	    // FIXME
             // FIXME
-            pixel = (((sms.timestamp % CYCLES_PER_LINE) / 4) * 3) * 2;
-            return hc_table[0][(pixel >> 1) & 0x01FF];
+            pixel_pos = (((sms.timestamp % CYCLES_PER_LINE) / 4) * 3) * 2;
+            return hc_table[0][(pixel_pos >> 1) & 0x01FF];
     }
 
     /* Just to please the compiler */
@@ -561,7 +526,7 @@ static INLINE void ExecuteCycles(int32 count)
 
 void SMS_VDPRunFrame(int skip_render)
 {
-    static int iline_table[] = {0xC0, 0xE0, 0xF0};
+    static const int iline_table[] = {0xC0, 0xE0, 0xF0};
     int iline;
 
     text_counter = 0;
@@ -599,8 +564,7 @@ void SMS_VDPRunFrame(int skip_render)
             }
         }
         else
-        {
-            vdp.left = vdp.reg[0x0A];
+        {            vdp.left = vdp.reg[0x0A];
         }
 
         if(vdp.line == iline)
@@ -679,4 +643,7 @@ int SMS_VDPStateAction(StateMem *sm, int load, int data_only)
  }
 
  return(ret);
+}
+
+
 }

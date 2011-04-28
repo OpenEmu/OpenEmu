@@ -36,7 +36,7 @@ extern bool memory_unlock_flash_write;
 extern bool memory_flash_error;
 extern bool memory_flash_command;
 
-extern bool8 FlashStatusEnable;
+extern bool FlashStatusEnable;
 extern uint8 COMMStatus;
 
 //=============================================================================

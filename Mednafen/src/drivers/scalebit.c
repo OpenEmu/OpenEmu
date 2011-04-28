@@ -368,9 +368,9 @@ int scale_precondition(unsigned scale, unsigned pixel, unsigned width, unsigned 
  * \param width Horizontal size in pixels of the source bitmap.
  * \param height Vertical size in pixels of the source bitmap.
  */
-void scale(unsigned scale, void* void_dst, unsigned dst_slice, const void* void_src, unsigned src_slice, unsigned pixel, unsigned width, unsigned height)
+void scale(unsigned scale_factor, void* void_dst, unsigned dst_slice, const void* void_src, unsigned src_slice, unsigned pixel, unsigned width, unsigned height)
 {
-	switch (scale) {
+	switch (scale_factor) {
 	case 2 :
 		scale2x(void_dst, dst_slice, void_src, src_slice, pixel, width, height);
 		break;

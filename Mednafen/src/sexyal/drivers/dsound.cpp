@@ -180,10 +180,11 @@ SexyAL_device *SexyALI_DSound_Open(const char *id, SexyAL_format *format, SexyAL
  if(!buffering->ms)
   buffering->ms=53;
 
- buffering->totalsize=(int64_t)format->rate*buffering->ms/1000;
- fobby->BufHowMuch=buffering->totalsize* format->channels * (format->sampformat>>4);
+ buffering->buffer_size=(int64_t)format->rate*buffering->ms/1000;
+ fobby->BufHowMuch=buffering->buffer_size * format->channels * (format->sampformat>>4);
 
- buffering->latency = buffering->totalsize; // TODO:  Add estimated WaveOut latency when using an emulated DirectSound device.
+ buffering->latency = buffering->buffer_size; // TODO:  Add estimated WaveOut latency when using an emulated DirectSound device.
+ buffering->period_size = 0;
 
  //printf("%d\n",fobby->BufHowMuch);
  //fflush(stdout);

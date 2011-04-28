@@ -15,7 +15,7 @@ class MDFNConsole
 
 	void SetSmallFont(bool newsmallfont) { SmallFont = newsmallfont; }
 	void SetShellStyle(bool newsetting) { shellstyle = newsetting; }
-	void Scroll(int amount);
+	void Scroll(int32 amount, bool SetPos = FALSE);
 	private:
 	std::vector<std::string> TextLog;
 	std::vector<std::string> kb_buffer;

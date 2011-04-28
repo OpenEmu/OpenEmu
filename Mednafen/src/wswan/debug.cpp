@@ -362,7 +362,7 @@ void WSwanDBG_Disassemble(uint32 &a, uint32 SpecialA, char *text_buffer)
  for(int i = 0; i < consumed; i++)
  {
   char tmp[16];
-  snprintf(tmp, 16, " %02x", instr_buffer[i]);
+  trio_snprintf(tmp, 16, " %02x", instr_buffer[i]);
   strcat(text_buffer, tmp);
  }
 

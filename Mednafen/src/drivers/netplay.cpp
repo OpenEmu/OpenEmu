@@ -18,7 +18,6 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#ifdef NETWORK
 #include "main.h"
 #include <stdarg.h>
 #include <SDL_net.h>
@@ -30,14 +29,63 @@
 
 #include <trio/trio.h>
 
+class NetplayConsole : public MDFNConsole
+{
+        public:
+        NetplayConsole(void);
+
+        private:
+        virtual bool TextHook(UTF8 *text);
+};
+
+static NetplayConsole NetConsole;
+
+// All command functions are called in the main(video blitting) thread.
+typedef struct
+{
+ const char *name;
+ bool (*func)(const UTF8 *arg);
+ const char *help_args;
+ const char *help_desc;
+} CommandEntry;
+
+static bool CC_server(const UTF8 *arg);
+static bool CC_quit(const UTF8 *arg);
+static bool CC_help(const UTF8 *arg);
+static bool CC_nick(const UTF8 *arg);
+static bool CC_ping(const UTF8 *arg);
+static bool CC_integrity(const UTF8 *arg);
+static bool CC_gamekey(const UTF8 *arg);
+
+static CommandEntry ConsoleCommands[]   =
+{
+ { "/server", CC_server,	"REMOTE_HOST [PORT]", "Connects to REMOTE_HOST(IP address or FQDN), optionally on a custom PORT." },
+
+ { "/connect", CC_server,	NULL, NULL },
+
+// { "/gamekey", CC_gamekey,	"GAMEKEY", "Changes the game key to the specified GAMEKEY." },
+
+ { "/quit", CC_quit,		"", "Disconnects from the netplay server."  },
+
+ { "/help", CC_help,		"", "Help, I'm drowning in a sea of cliche metaphors!" },
+
+ { "/nick", CC_nick,		"NICKNAME", "Changes your nickname to the specified NICKNAME." },
+
+ { "/ping", CC_ping,		"", "Pings the server." },
+
+ { "/integrity", CC_integrity,	"", "Starts netplay integrity check sequence." },
+
+ { NULL, NULL },
+};
+
 static const int PopupTime = 3500;
 static volatile int inputable = 0;
 static volatile int viewable = 0;
-static int32 LastTextTime = -1;
+static int64 LastTextTime = -1;
 
 int MDFNDnetplay = 0;  // Only write/read this global variable in the game thread.
 
-static void CC_server(const UTF8 *arg)
+static bool CC_server(const UTF8 *arg)
 {
  UTF8 server[300];
  unsigned int *port;
@@ -57,20 +105,48 @@ static void CC_server(const UTF8 *arg)
  }
 
  SendCEvent(CEVT_NP_CONNECT, strdup((char*)server), port);
+ return(FALSE);
 }
 
-static void CC_quit(const UTF8 *arg)
+static bool CC_gamekey(const UTF8 *arg)
+{
+// SendCEvent(CEVT_NP_SETGAMEKEY, strdup(arg), NULL);
+ return(FALSE);
+}
+
+static bool CC_quit(const UTF8 *arg)
 {
  SendCEvent(CEVT_NP_CONNECT, NULL, NULL);
+ return(FALSE);
 }
 
-static void CC_help(const UTF8 *arg)
+static bool CC_ping(const UTF8 *arg)
 {
-
-
+ SendCEvent(CEVT_NP_PING, NULL, NULL);
+ return(FALSE);
 }
 
-static void CC_nick(const UTF8 *arg)
+static bool CC_integrity(const UTF8 *arg)
+{
+ SendCEvent(CEVT_NP_INTEGRITY, NULL, NULL);
+ return(FALSE);
+}
+
+static bool CC_help(const UTF8 *arg)
+{
+ for(unsigned int x = 0; ConsoleCommands[x].name; x++)
+ {
+  if(ConsoleCommands[x].help_desc)
+  {
+   char help_buf[256];
+   trio_snprintf(help_buf, 256, "%s %s  -  %s", ConsoleCommands[x].name, ConsoleCommands[x].help_args, ConsoleCommands[x].help_desc);
+   NetConsole.WriteLine((UTF8*)help_buf);
+  }
+ }
+ return(TRUE);
+}
+
+static bool CC_nick(const UTF8 *arg)
 {
  char newnick[512];
 
@@ -78,43 +154,25 @@ static void CC_nick(const UTF8 *arg)
  {
   SendCEvent(CEVT_NP_SETNICK, strdup(newnick), NULL);
  }
+ return(FALSE);
 }
 
-typedef struct
+
+NetplayConsole::NetplayConsole(void)
 {
- const char *name;
- void (*func)(const UTF8 *arg);
-} CommandEntry;
+ //SetSmallFont(1);
+}
 
-static CommandEntry ConsoleCommands[]   =
+// Called from main thread
+bool NetplayConsole::TextHook(UTF8 *text)
 {
- { "/server", CC_server },
- { "/connect", CC_server },
- { "/quit", CC_quit },
- { "/help", CC_help },
- { "/nick", CC_nick },
-};
-
-
-
-class NetplayConsole : public MDFNConsole
-{
-	public:
-	NetplayConsole(void)
-	{
-         //SetSmallFont(1);
-	}
-
-	private:
-        // Called from main thread
-        virtual bool TextHook(UTF8 *text)
-        {
          bool found = 0;
+	 bool cc_retval = 0;
 
-         for(unsigned int x = 0; x < sizeof(ConsoleCommands) / sizeof(CommandEntry); x++)
+         for(unsigned int x = 0; ConsoleCommands[x].name; x++)
           if(!strncasecmp(ConsoleCommands[x].name, (char*)text, strlen(ConsoleCommands[x].name)) && text[strlen(ConsoleCommands[x].name)] <= 0x20)
           {
-           ConsoleCommands[x].func(&text[strlen(ConsoleCommands[x].name)]);
+           cc_retval = ConsoleCommands[x].func(&text[strlen(ConsoleCommands[x].name)]);
            found = TRUE;
            free(text);
            break;
@@ -124,9 +182,13 @@ class NetplayConsole : public MDFNConsole
          {
 	  MDFNI_NetplayText(text);
          }
-         inputable = FALSE;
 
-	 if(text[0])
+	 if(cc_retval)
+	  inputable = TRUE;
+	 else
+          inputable = FALSE;
+
+	 if(text[0] || cc_retval)
 	 {
           LastTextTime = SDL_GetTicks();
           viewable = TRUE;
@@ -137,10 +199,7 @@ class NetplayConsole : public MDFNConsole
 	  LastTextTime = -1;
 	 }
          return(1);
-        }
-
-};
-static NetplayConsole NetConsole;
+}
 
 static TCPsocket Socket = NULL;
 
@@ -180,10 +239,10 @@ int MDFND_NetworkConnect(void)
   return(0);
  }
 
- std::string nickname = MDFN_GetSettingS("netnick");
- std::string remote_host = MDFN_GetSettingS("nethost");
- unsigned int remote_port = MDFN_GetSettingUI("netport");
- std::string game_key = MDFN_GetSettingS("netgamekey");
+ std::string nickname = MDFN_GetSettingS("netplay.nick");
+ std::string remote_host = MDFN_GetSettingS("netplay.host");
+ unsigned int remote_port = MDFN_GetSettingUI("netplay.port");
+ std::string game_key = MDFN_GetSettingS("netplay.gamekey");
 
  if(SDLNet_ResolveHost(&IPa, remote_host.c_str(), remote_port) == -1)
  {
@@ -201,7 +260,7 @@ int MDFND_NetworkConnect(void)
  PrintNetStatus(_("*** Sending initialization data to server."));
 
  MDFNDnetplay = 1;
- if(!MDFNI_NetplayStart(MDFN_GetSettingUI("netlocalplayers"), MDFN_GetSettingUI("netmerge"), nickname, game_key, MDFN_GetSettingS("netpassword")))
+ if(!MDFNI_NetplayStart(MDFN_GetSettingUI("netplay.localplayers"), MDFN_GetSettingUI("netplay.merge"), nickname, game_key, MDFN_GetSettingS("netplay.password")))
  {
   MDFNDnetplay = 0;
   return(0);
@@ -321,7 +380,7 @@ bool Netplay_TryTextExit(void)
   LastTextTime = -1;
   return(TRUE);
  }
- else if(LastTextTime > 0 && SDL_GetTicks() < (LastTextTime + PopupTime + 500)) // Allow some extra time if a user tries to escape away an auto popup box but misses
+ else if(LastTextTime > 0 && (int64)SDL_GetTicks() < (LastTextTime + PopupTime + 500)) // Allow some extra time if a user tries to escape away an auto popup box but misses
  {
   return(TRUE);
  }
@@ -340,7 +399,7 @@ void DrawNetplayTextBuffer(SDL_Surface *surface, const SDL_Rect *src_rect)
  }
  if(!inputable)
  {
-  if(SDL_GetTicks() >= (LastTextTime + PopupTime))
+  if((int64)SDL_GetTicks() >= (LastTextTime + PopupTime))
   {
    viewable = 0;
    return;
@@ -357,7 +416,7 @@ int NetplayEventHook(const SDL_Event *event)
   switch(event->user.code)
   {
    case CEVT_NP_TOGGLE_TT:
-	NetConsole.SetSmallFont(MDFN_GetSettingB("netsmallfont"));
+	NetConsole.SetSmallFont(MDFN_GetSettingB("netplay.smallfont"));
 	if(viewable && !inputable)
 	{
 	 inputable = TRUE;
@@ -393,8 +452,16 @@ int NetplayEventHook_GT(const SDL_Event *event)
  if(event->type == SDL_USEREVENT)
   switch(event->user.code)
   {
+   case CEVT_NP_INTEGRITY:
+	MDFNI_NetplayIntegrity();
+	break;
+
+   case CEVT_NP_PING:
+	MDFNI_NetplayPing();
+	break;
+
    case CEVT_NP_SETNICK:
-	MDFNI_SetSetting("netnick", (char*)event->user.data1);
+	MDFNI_SetSetting("netplay.nick", (char*)event->user.data1);
 	if(MDFNDnetplay)
 	 MDFNI_NetplayChangeNick((UTF8*)event->user.data1);
 	free(event->user.data1);
@@ -403,10 +470,10 @@ int NetplayEventHook_GT(const SDL_Event *event)
    case CEVT_NP_CONNECT:
 	if(event->user.data1) // Connect!
 	{
-	 MDFNI_SetSetting("nethost", (char*)event->user.data1);
+	 MDFNI_SetSetting("netplay.host", (char*)event->user.data1);
 	 if(event->user.data2)
 	 {
-	  MDFNI_SetSettingUI("netport", *(unsigned int *)event->user.data2);
+	  MDFNI_SetSettingUI("netplay.port", *(unsigned int *)event->user.data2);
 	  free(event->user.data2);
 	 }
 	 free(event->user.data1);
@@ -422,5 +489,4 @@ int NetplayEventHook_GT(const SDL_Event *event)
  return(1);
 }
 
-#endif
 

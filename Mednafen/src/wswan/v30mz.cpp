@@ -73,7 +73,7 @@ uint32 v30mz_timestamp;
 int32 v30mz_ICount;
 
 static v30mz_regs_t I;
-static bool8 InHLT;
+static bool InHLT;
 
 static uint32 prefix_base;	/* base address of the latest prefix segment */
 static char seg_prefix;		/* prefix segment indicator */
@@ -92,13 +92,13 @@ static bool hookie_hickey = 0;
 
 static uint8 parity_table[256];
 
-static ALWAYS_INLINE void i_real_pushf(void)
+static INLINE void i_real_pushf(void)
 {
  PUSH( CompressFlags() ); 
  CLK(2);
 }
 
-static ALWAYS_INLINE void i_real_popf(void)
+static INLINE void i_real_popf(void)
 {
  uint32 tmp; 
  POP(tmp); 
@@ -111,26 +111,29 @@ static ALWAYS_INLINE void i_real_popf(void)
 #ifdef WANT_DEBUGGER
 static RegType DBGCPURegs[] =
 {
-        { "IP", "Instruction Pointer", 2 },
-        { "PSW", "Program Status Word", 2 },
-        { "AX", "Accumulator", 2 },
-        { "BX", "Base", 2 },
-        { "CX", "Counter", 2 },
-        { "DX", "Data", 2 },
-        { "SP", "Stack Pointer", 2 },
-        { "BP", "Base Pointer", 2 },
-        { "SI", "Source Index", 2 },
-        { "DI", "Dest Index", 2 },
-        { "CS", "Program Segment", 2 },
-        { "SS", "Stack Segment", 2 },
-        { "DS", "Data Segment", 2 },
-        { "ES", "Extra Segment(Destination)", 2 },
-        { "", "", 0 },
+        { 0, "IP", "Instruction Pointer", 2 },
+        { 0, "PSW", "Program Status Word", 2 },
+        { 0, "AX", "Accumulator", 2 },
+        { 0, "BX", "Base", 2 },
+        { 0, "CX", "Counter", 2 },
+        { 0, "DX", "Data", 2 },
+        { 0, "SP", "Stack Pointer", 2 },
+        { 0, "BP", "Base Pointer", 2 },
+        { 0, "SI", "Source Index", 2 },
+        { 0, "DI", "Dest Index", 2 },
+        { 0, "CS", "Program Segment", 2 },
+        { 0, "SS", "Stack Segment", 2 },
+        { 0, "DS", "Data Segment", 2 },
+        { 0, "ES", "Extra Segment(Destination)", 2 },
+        { 0, "", "", 0 },
 };
 
 static RegGroupType DBGCPURegsGroup =
 {
+ "V30MZ",
  DBGCPURegs,
+ NULL,
+ NULL,
  WSwanDBG_GetRegister,
  WSwanDBG_SetRegister,
 };
@@ -254,14 +257,14 @@ static bool CheckInHLT(void)
 /*                             OPCODES                                      */
 /****************************************************************************/
 
-static ALWAYS_INLINE void i_real_insb(void)
+static INLINE void i_real_insb(void)
 {
  PutMemB(DS1,I.regs.w[IY], read_port(I.regs.w[DW])); 
  I.regs.w[IY]+= -2 * I.DF + 1; 
  CLK(6); 
 }
 
-static ALWAYS_INLINE void i_real_insw(void)
+static INLINE void i_real_insw(void)
 { 
  PutMemB(DS1,I.regs.w[IY],read_port(I.regs.w[DW])); 
  PutMemB(DS1,(I.regs.w[IY]+1)&0xffff,read_port((I.regs.w[DW]+1)&0xffff)); 
@@ -269,14 +272,14 @@ static ALWAYS_INLINE void i_real_insw(void)
  CLK(6); 
 }
 
-static ALWAYS_INLINE void i_real_outsb(void)
+static INLINE void i_real_outsb(void)
 { 
  write_port(I.regs.w[DW],GetMemB(DS0,I.regs.w[IX])); 
  I.regs.w[IX]+= -2 * I.DF + 1; 
  CLK(7); 
 } 
 
-static ALWAYS_INLINE void i_real_outsw(void)
+static INLINE void i_real_outsw(void)
 {
  write_port(I.regs.w[DW],GetMemB(DS0,I.regs.w[IX])); 
  write_port((I.regs.w[DW]+1)&0xffff,GetMemB(DS0,(I.regs.w[IX]+1)&0xffff)); 
@@ -284,7 +287,7 @@ static ALWAYS_INLINE void i_real_outsw(void)
  CLK(7); 
 }
 
-static ALWAYS_INLINE void i_real_movsb(void) 
+static INLINE void i_real_movsb(void) 
 { 
  uint32 tmp = GetMemB(DS0,I.regs.w[IX]); 
  PutMemB(DS1,I.regs.w[IY], tmp); 
@@ -293,51 +296,51 @@ static ALWAYS_INLINE void i_real_movsb(void)
  CLK(5); 
 }
 
-static ALWAYS_INLINE void i_real_movsw(void) 
+static INLINE void i_real_movsw(void) 
 {
  uint32 tmp = GetMemW(DS0,I.regs.w[IX]); PutMemW(DS1,I.regs.w[IY], tmp); I.regs.w[IY] += -4 * I.DF + 2; 
 I.regs.w[IX] += -4 * I.DF + 2; CLK(5); 
 }
 
-static ALWAYS_INLINE void i_real_cmpsb(void) 
+static INLINE void i_real_cmpsb(void) 
 {
  uint32 src = GetMemB(DS1, I.regs.w[IY]); uint32 dst = GetMemB(DS0, I.regs.w[IX]); SUBB; I.regs.w[IY] += -2 * I.DF + 1; 
 I.regs.w[IX] += -2 * I.DF + 1; CLK(6); 
 }
 
-static ALWAYS_INLINE void i_real_cmpsw(void) 
+static INLINE void i_real_cmpsw(void) 
 {
  uint32 src = GetMemW(DS1, I.regs.w[IY]); uint32 dst = GetMemW(DS0, I.regs.w[IX]); SUBW; I.regs.w[IY] += -4 * I.DF + 2; 
 I.regs.w[IX] += -4 * I.DF + 2; CLK(6); 
 }
 
-static ALWAYS_INLINE void i_real_stosb(void) 
+static INLINE void i_real_stosb(void) 
 {
  PutMemB(DS1,I.regs.w[IY],I.regs.b[AL]);       I.regs.w[IY] += -2 * I.DF + 1; CLK(3);  
 }
 
-static ALWAYS_INLINE void i_real_stosw(void) 
+static INLINE void i_real_stosw(void) 
 {
  PutMemW(DS1,I.regs.w[IY],I.regs.w[AW]);       I.regs.w[IY] += -4 * I.DF + 2; CLK(3);
 }
 
-static ALWAYS_INLINE void i_real_lodsb(void) 
+static INLINE void i_real_lodsb(void) 
 {
  I.regs.b[AL] = GetMemB(DS0,I.regs.w[IX]); I.regs.w[IX] += -2 * I.DF + 1; CLK(3); 
 }
 
-static ALWAYS_INLINE void i_real_lodsw(void) 
+static INLINE void i_real_lodsw(void) 
 {
  I.regs.w[AW] = GetMemW(DS0,I.regs.w[IX]); I.regs.w[IX] += -4 * I.DF + 2; CLK(3); 
 }
 
-static ALWAYS_INLINE void i_real_scasb(void) 
+static INLINE void i_real_scasb(void) 
 { 
  uint32 src = GetMemB(DS1, I.regs.w[IY]);      uint32 dst = I.regs.b[AL]; SUBB;
  I.regs.w[IY] += -2 * I.DF + 1; CLK(4); 
 }
 
-static ALWAYS_INLINE void i_real_scasw(void) 
+static INLINE void i_real_scasw(void) 
 { 
  uint32 src = GetMemW(DS1, I.regs.w[IY]);      uint32 dst = I.regs.w[AW]; SUBW; 
  I.regs.w[IY] += -4 * I.DF + 2; CLK(4); 

@@ -116,9 +116,9 @@ typedef struct
 	int Opcode;	// Instruction opcode          8 bits
 	int Operand;// Intructions operand		  16 bits
 	int PC;		// Program Counter            16 bits
-	bool8 NMI;
-	bool8 IRQ;
-	bool8 WAIT;
+	bool NMI;
+	bool IRQ;
+	bool WAIT;
 }C6502_REGS;
 
 //
@@ -205,7 +205,7 @@ class C65C02
 
 //		inline void SetBreakpoint(uint32 breakpoint) {mPcBreakpoint=breakpoint;};
 
-		inline void SetRegs(C6502_REGS &regs)
+		INLINE void SetRegs(C6502_REGS &regs)
 		{
 			PS(regs.PS);
 			mA=regs.A;
@@ -220,7 +220,7 @@ class C65C02
 			gSystemIRQ=regs.IRQ;
 		}
 
-		inline void GetRegs(C6502_REGS &regs)
+		INLINE void GetRegs(C6502_REGS &regs)
 		{
 			regs.PS=PS();
 			regs.A=mA;
@@ -273,7 +273,7 @@ class C65C02
 	private:
 
 		// Answers value of the Processor Status register
-		int PS(void) const
+		INLINE int PS(void) const
 		{
 			uint8 ps = 0x20;
 			if(mN) ps|=0x80;
@@ -288,7 +288,7 @@ class C65C02
 
 
 		// Change the processor flags to correspond to the given value
-		void PS(int ps)
+		INLINE void PS(int ps)
 		{
 			mN=ps&0x80;
 			mV=ps&0x40;

@@ -22,10 +22,8 @@
 #include "../file.h"
 #include "../state.h"
 #include "../movie.h"
-#include "../netplay.h"
 #include "../mempatcher.h"
 #include "../md5.h"
-#include "../endian.h"
 #include "GBAinline.h"
 #include "Globals.h"
 #include "Gfx.h"
@@ -57,32 +55,34 @@ static void CPUReset(void);
 #define _stricmp strcasecmp
 #endif
 
+RTC *GBA_RTC = NULL;
+
 int SWITicks = 0;
 int IRQTicks = 0;
 
 int layerEnableDelay = 0;
-bool8 busPrefetch = false;
-bool8 busPrefetchEnable = false;
+bool busPrefetch = false;
+bool busPrefetchEnable = false;
 uint32 busPrefetchCount = 0;
 int cpuDmaTicksToUpdate = 0;
 int cpuDmaCount = 0;
-bool8 cpuDmaHack = false;
+bool cpuDmaHack = false;
 uint32 cpuDmaLast = 0;
 int dummyAddress = 0;
 
-bool8 cpuBreakLoop = false;
+bool cpuBreakLoop = false;
 int cpuNextEvent = 0;
 
-static bool8 intState = false;
-static bool8 stopState = false;
-static bool8 holdState = false;
+static bool intState = false;
+static bool stopState = false;
+static bool holdState = false;
 static int holdType = 0;
 
 static bool FlashSizeSet; // Set to TRUE if explicitly set by the user
-bool8 cpuSramEnabled;
-bool8 cpuFlashEnabled;
-bool8 cpuEEPROMEnabled;
-bool8 cpuEEPROMSensorEnabled;
+bool cpuSramEnabled;
+bool cpuFlashEnabled;
+bool cpuEEPROMEnabled;
+bool cpuEEPROMSensorEnabled;
 
 uint32 cpuPrefetch[2];
 
@@ -95,8 +95,8 @@ GBATimer timers[4];
 uint32 dmaSource[4] = {0};
 uint32 dmaDest[4] = {0};
 void (*renderLine)() = mode0RenderLine;
-bool8 fxOn = false;
-bool8 windowOn = false;
+bool fxOn = false;
+bool windowOn = false;
 
 static const int TIMER_TICKS[4] = 
 {
@@ -112,7 +112,7 @@ const uint8 gamepakWaitState[4] =  { 4, 3, 2, 8 };
 const uint8 gamepakWaitState0[2] = { 2, 1 };
 const uint8 gamepakWaitState1[2] = { 4, 1 };
 const uint8 gamepakWaitState2[2] = { 8, 1 };
-const bool8 isInRom [16]=
+const bool isInRom [16]=
   { false, false, false, false, false, false, false, false,
     true, true, true, true, true, true, false, false };              
 
@@ -213,7 +213,7 @@ void CPUUpdateWindow1()
     }\
   }\
 
-void CPUUpdateRenderBuffers(bool8 force)
+void CPUUpdateRenderBuffers(bool force)
 {
   if(!(layerEnable & 0x0100) || force) {
     CLEAR_ARRAY(line0);
@@ -240,9 +240,11 @@ static SFORMAT Joy_StateRegs[] =
 
 static int StateAction(StateMem *sm, int load, int data_only)
 {
+ int ret = 1;
+
  SFORMAT StateRegs[] =
  {
-  //{ reg, sizeof(reg), "reg"},
+  // Type-cast to uint32* so the macro will work(they really are 32-bit elements, just wrapped up in a union)
   SFARRAY32N((uint32 *)reg, sizeof(reg) / sizeof(reg_pair), "reg"),
 
   SFVAR(busPrefetch),
@@ -362,8 +364,7 @@ static int StateAction(StateMem *sm, int load, int data_only)
   SFEND
  };
 
- if(!MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN"))
-  return(0);
+ ret &= MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN");
 
  SFORMAT RAMState[] =
  {
@@ -376,26 +377,18 @@ static int StateAction(StateMem *sm, int load, int data_only)
   SFEND
  };
 
- if(!MDFNSS_StateAction(sm, load, data_only, RAMState, "RAM"))
-  return(0);
+ ret &= MDFNSS_StateAction(sm, load, data_only, RAMState, "RAM");
 
  if(cpuEEPROMEnabled)
- {
-  if(!MDFNSS_StateAction(sm, load, data_only, eepromSaveData, "EEPR"))
-   return(0);
- }
+  ret &= MDFNSS_StateAction(sm, load, data_only, eepromSaveData, "EEPR");
 
- if(!GBA_Flash_StateAction(sm, load, data_only))
-  return(0);
+ ret &= GBA_Flash_StateAction(sm, load, data_only);
 
- if(!load || load >= 0x500)
- {
-  if(!MDFNSS_StateAction(sm, load, data_only, Joy_StateRegs, "JOY"))
-   return(0);
- }
+ if(GBA_RTC)
+  ret &= GBA_RTC->StateAction(sm, load, data_only);
 
- if(!MDFNGBASOUND_StateAction(sm, load, data_only))
-  return(0);
+ ret &= MDFNSS_StateAction(sm, load, data_only, Joy_StateRegs, "JOY");
+ ret &= MDFNGBASOUND_StateAction(sm, load, data_only);
 
  if(load)
  {
@@ -414,10 +407,10 @@ static int StateAction(StateMem *sm, int load, int data_only)
   }
   CPUUpdateRegister(0x204, CPUReadHalfWordQuick(0x4000204));
  }
- return(1);
+ return(ret);
 }
 
-bool8 CPUWriteBatteryFile(const char *filename)
+bool CPUWriteBatteryFile(const char *filename)
 {
  if(cpuSramEnabled || cpuFlashEnabled)
  {
@@ -436,7 +429,7 @@ bool8 CPUWriteBatteryFile(const char *filename)
  return(FALSE);
 }
 
-bool8 CPUReadBatteryFile(const char *filename)
+bool CPUReadBatteryFile(const char *filename)
 {
  gzFile gp = gzopen(filename, "rb");
  long size;
@@ -494,7 +487,7 @@ bool8 CPUReadBatteryFile(const char *filename)
 
 void CPUCleanUp()
 {
- if(rom)
+ if(rom) 
  {
   MDFN_free(rom);
   rom = NULL;
@@ -511,20 +504,20 @@ void CPUCleanUp()
   MDFN_free(paletteRAM);
   paletteRAM = NULL;
  }
-
- if(internalRAM)
+  
+ if(internalRAM) 
  {
   MDFN_free(internalRAM);
   internalRAM = NULL;
  }
 
- if(workRAM)
+ if(workRAM) 
  {
   MDFN_free(workRAM);
   workRAM = NULL;
  }
 
- if(bios)
+ if(bios) 
  {
   MDFN_free(bios);
   bios = NULL;
@@ -536,7 +529,7 @@ void CPUCleanUp()
   pix = NULL;
  }
 
- if(oam)
+ if(oam) 
  {
   MDFN_free(oam);
   oam = NULL;
@@ -547,7 +540,7 @@ void CPUCleanUp()
   MDFN_free(ioMem);
   ioMem = NULL;
  }
-
+  
  if(systemColorMap32)
  {
   MDFN_free(systemColorMap32);
@@ -555,6 +548,12 @@ void CPUCleanUp()
  }
 
  GBA_Flash_Kill();
+
+ if(GBA_RTC)
+ {
+  delete GBA_RTC;
+  GBA_RTC = NULL;
+ }
 }
 
 #include "../psf.h"
@@ -564,7 +563,6 @@ static void CloseGame(void)
 {
  if(!pi)
  {
-  MDFN_FlushGameCheats(0);
   GBA_EEPROM_SaveFile(MDFN_MakeFName(MDFNMKF_SAV, 0, "eep").c_str());
   CPUWriteBatteryFile(MDFN_MakeFName(MDFNMKF_SAV, 0, "sav").c_str());
  }
@@ -608,28 +606,31 @@ static void gsf_load_func(void *data, uint32 len)
  //printf("%d %08x %08x %08x\n", len, entry_point, gsf_offset, size);
 }
 
-static void RedoColorMap(int rshift, int gshift, int bshift)
+static void RedoColorMap(const MDFN_PixelFormat &format) //int rshift, int gshift, int bshift)
 {
- int x;
-
  if(CustomColorMap)
  {
-  for(x = 0; x < 65536; x++)
+  for(int x = 0; x < 65536; x++)
   {
    int r = CustomColorMap[(x & 0x7FFF) * 3 + 0];
    int g = CustomColorMap[(x & 0x7FFF) * 3 + 1];
    int b = CustomColorMap[(x & 0x7FFF) * 3 + 2];
-   systemColorMap32[x] = (r << rshift) | (g << gshift) | (b << bshift);
+
+   systemColorMap32[x] = format.MakeColor(r, g, b);
   }
  }
  else
  {
-  rshift += 3;
-  gshift += 3;
-  bshift += 3;
+  for(int x = 0; x < 65536; x++)
+  {
+   int r, g, b;
 
-  for(x=0;x<65536;x++)
-   systemColorMap32[x] = ((x & 0x1f) << rshift) | (((x & 0x3e0)>>5) << gshift) | (((x & 0x7c00)>>10) << bshift);
+   r = (x & 0x1F) << 3;
+   g = ((x & 0x3E0) >> 5) << 3;
+   b = ((x & 0x7C00) >> 10) << 3;
+
+   systemColorMap32[x] = format.MakeColor(r, g, b);
+  }
  }
 }
 
@@ -652,9 +653,6 @@ static bool TestMagic(const char *name, MDFNFILE *fp)
 
 static int Load(const char *name, MDFNFILE *fp)
 {
-  if(!TestMagic(name, fp))
-   return(-1);
-
   layerSettings = 0xFF00;
 
   if(!(rom = (uint8 *)MDFN_malloc(0x2000000, _("ROM"))))
@@ -674,6 +672,7 @@ static int Load(const char *name, MDFNFILE *fp)
    int t = MDFNPSF_Load(0x22, fp, &pi, gsf_load_func);
    if(!t)
    {
+    MDFN_PrintError("GSF load error.");
     MDFN_free(workRAM);
     MDFN_free(rom);
     return(0);
@@ -714,7 +713,7 @@ static int Load(const char *name, MDFNFILE *fp)
    uint16 *temp = (uint16 *)(rom+((size+1)&~1));
    int i;
 
-   for(i = (size+1)&~1; i < 0x2000000; i+=2)
+   for(i = (size+1)&~1; i < 0x2000000; i+=2) 
    {
     WRITE16LE(temp, (i >> 1) & 0xFFFF);
     temp++;
@@ -767,16 +766,7 @@ static int Load(const char *name, MDFNFILE *fp)
 
   MDFNGameInfo->GameSetMD5Valid = FALSE;
 
-  if(MDFN_GetSettingB("gba.forcemono"))
-  {
-   MDFNGBASOUND_Init(1);
-   MDFNGameInfo->soundchan = 1;
-  }
-  else  
-  {
-   MDFNGBASOUND_Init(0);
-   MDFNGameInfo->soundchan = 2;
-  }
+  MDFNGBASOUND_Init();
 
   if(!pi)
   {
@@ -784,7 +774,6 @@ static int Load(const char *name, MDFNFILE *fp)
 
    MDFNMP_AddRAM(0x40000, 0x2 << 24, workRAM);
    MDFNMP_AddRAM(0x08000, 0x3 << 24, internalRAM);
-   MDFN_LoadGameCheats(0);
   }
 
   if(!CPUInit(MDFN_GetSettingS("gba.bios")))
@@ -808,19 +797,24 @@ static int Load(const char *name, MDFNFILE *fp)
     GBA_EEPROM_LoadFile(MDFN_MakeFName(MDFNMKF_SAV, 0, "eep").c_str());
   }
 
-  std::string colormap_fn = MDFN_GetSettingS("gba.colormap");
+  std::string colormap_fn = MDFN_MakeFName(MDFNMKF_PALETTE, 0, NULL).c_str();
 
-  if(colormap_fn != "" && colormap_fn != "0" && colormap_fn != "none")
   {
-   MDFN_printf(_("Loading custom color map from \"%s\"...\n"),  colormap_fn.c_str());
+   MDFN_printf(_("Loading custom palette from \"%s\"...\n"),  colormap_fn.c_str());
    MDFN_indent(1);
    gzFile gp = gzopen(colormap_fn.c_str(), "rb");
    if(!gp)
    {
-    MDFN_printf(_("Error opening file: %m\n"), errno);        // FIXME, zlib and errno...
+    ErrnoHolder ene(errno);
+
+    MDFN_printf(_("Error opening file: %s\n"), ene.StrError());	// FIXME, zlib and errno...
     MDFN_indent(-1);
-    CPUCleanUp();
-    return(0);
+
+    if(ene.Errno() != ENOENT)
+    {
+     CPUCleanUp();
+     return(0);
+    }
    }
    else if((CustomColorMap = (uint8*)MDFN_malloc(32768 * 3, _("custom color map"))))
    {
@@ -835,15 +829,16 @@ static int Load(const char *name, MDFNFILE *fp)
     }
     else
     {
- 
+
     }
    }
    MDFN_indent(-1);
   }
+
  return(1);
 }
 
-void doMirroring (bool8 b)
+void doMirroring (bool b)
 {
   uint32 mirroredRomSize = (((romSize)>>20) & 0x3F)<<20;
   uint32 mirroredRomAddress = romSize;
@@ -940,7 +935,7 @@ void CPUUpdateCPSR()
   reg[16].I = CPSR;
 }
 
-void CPUUpdateFlags(bool8 breakLoop)
+void CPUUpdateFlags(bool breakLoop)
 {
   uint32 CPSR = reg[16].I;
   
@@ -977,7 +972,7 @@ static void CPUSwap(uint32 *a, uint32 *b)
 }
 #endif
 
-void CPUSwitchMode(int mode, bool8 saveState, bool8 breakLoop)
+void CPUSwitchMode(int mode, bool saveState, bool breakLoop)
 {
   //  if(armMode == mode)
   //    return;
@@ -1091,7 +1086,7 @@ void CPUSwitchMode(int mode, bool8 saveState, bool8 breakLoop)
   CPUUpdateCPSR();
 }
 
-void CPUSwitchMode(int mode, bool8 saveState)
+void CPUSwitchMode(int mode, bool saveState)
 {
   CPUSwitchMode(mode, saveState, true);
 }
@@ -1099,7 +1094,7 @@ void CPUSwitchMode(int mode, bool8 saveState)
 void CPUUndefinedException()
 {
   uint32 PC = reg[15].I;
-  bool8 savedArmState = armState;
+  bool savedArmState = armState;
   CPUSwitchMode(0x1b, true, false);
   reg[14].I = PC - (savedArmState ? 4 : 2);
   reg[15].I = 0x04;
@@ -1113,7 +1108,7 @@ void CPUUndefinedException()
 void CPUSoftwareInterrupt()
 {
   uint32 PC = reg[15].I;
-  bool8 savedArmState = armState;
+  bool savedArmState = armState;
   CPUSwitchMode(0x13, true, false);
   reg[14].I = PC - (savedArmState ? 4 : 2);
   reg[15].I = 0x08;
@@ -1126,7 +1121,7 @@ void CPUSoftwareInterrupt()
 
 void CPUSoftwareInterrupt(int comment)
 {
-  static bool8 disableMessage = false;
+  static bool disableMessage = false;
   if(armState) comment >>= 16;
   if(comment == 0xfa) {
     return;
@@ -1640,8 +1635,8 @@ void CPUUpdateRegister(uint32 address, uint16 value)
     {
       if ((value & 7) >5)
           DISPCNT = (value &7);
-      bool8 change = ((DISPCNT ^ value) & 0x80) ? true : false;
-      bool8 changeBG = ((DISPCNT ^ value) & 0x0F00) ? true : false;
+      bool change = ((DISPCNT ^ value) & 0x80) ? true : false;
+      bool changeBG = ((DISPCNT ^ value) & 0x0F00) ? true : false;
       uint16 changeBGon = (((~DISPCNT) & value) & 0x0F00);
       DISPCNT = (value & 0xFFF7);
       UPDATE_REG(0x00, DISPCNT);
@@ -1897,7 +1892,7 @@ void CPUUpdateRegister(uint32 address, uint16 value)
     break;
   case 0xBA:
     {
-      bool8 start = ((DMCNT_H[0] ^ value) & 0x8000) ? true : false;
+      bool start = ((DMCNT_H[0] ^ value) & 0x8000) ? true : false;
       value &= 0xF7E0;
 
       DMCNT_H[0] = value;
@@ -1932,7 +1927,7 @@ void CPUUpdateRegister(uint32 address, uint16 value)
     break;
   case 0xC6:
     {
-      bool8 start = ((DMCNT_H[1] ^ value) & 0x8000) ? true : false;
+      bool start = ((DMCNT_H[1] ^ value) & 0x8000) ? true : false;
       value &= 0xF7E0;
       
       DMCNT_H[1] = value;
@@ -1967,7 +1962,7 @@ void CPUUpdateRegister(uint32 address, uint16 value)
     break;
   case 0xD2:
     {
-      bool8 start = ((DMCNT_H[2] ^ value) & 0x8000) ? true : false;
+      bool start = ((DMCNT_H[2] ^ value) & 0x8000) ? true : false;
       
       value &= 0xF7E0;
       
@@ -2004,7 +1999,7 @@ void CPUUpdateRegister(uint32 address, uint16 value)
     break;
   case 0xDE:
     {
-      bool8 start = ((DMCNT_H[3] ^ value) & 0x8000) ? true : false;
+      bool start = ((DMCNT_H[3] ^ value) & 0x8000) ? true : false;
 
       value &= 0xFFE0;
 
@@ -2290,10 +2285,10 @@ void CPUWriteHalfWord(uint32 address, uint16 value)
     break;
   case 8:
   case 9:
-    if(address == 0x80000c4 || address == 0x80000c6 || address == 0x80000c8) {
-      if(!rtcWrite(address, value))
-        goto unwritable;
-    } else goto unwritable;
+    if(GBA_RTC && (address == 0x80000c4 || address == 0x80000c6 || address == 0x80000c8))
+     GBA_RTC->Write(address, value);
+    else
+     goto unwritable;
     break;
   case 13:
     if(cpuEEPROMEnabled) 
@@ -2459,14 +2454,19 @@ static bool CPUInit(const std::string bios_fn)
    if(acount < 1)
     continue;
 
+   //MDFN_printf(_("Backup memory type override: %s %s\n"), linebuffer, (acount > 1) ? args[1] : "");
+
    if(!strcasecmp(args[0], "sram"))
+   {
     cpuSramEnabled = TRUE;
+   }
    else if(!strcasecmp(args[0], "flash"))
    {
     cpuFlashEnabled = TRUE;
     if(acount == 2)
     {
      int size_temp = atoi(args[1]);
+
      if(size_temp == 0x10000 || size_temp == 0x20000)
      {
       flashSetSize(size_temp);
@@ -2485,6 +2485,8 @@ static bool CPUInit(const std::string bios_fn)
     cpuEEPROMEnabled = TRUE;
    else if(!strcasecmp(args[0], "sensor"))
     cpuEEPROMSensorEnabled = TRUE;
+   else if(!strcasecmp(args[0], "rtc"))
+    GBA_RTC = new RTC();
   }
   fclose(memfp);
  }
@@ -2500,34 +2502,36 @@ static bool CPUInit(const std::string bios_fn)
   
  if(bios_fn != "" && bios_fn != "0" && bios_fn != "none")
  {
-  MDFNFILE *bios_fp;
-  bios_fp = MDFN_fopen(bios_fn.c_str(), NULL, "rb", ".gba\0.agb\0.bin\0.bios\0");
-
-  if(!bios_fp)
+  static const FileExtensionSpecStruct KnownBIOSExtensions[] =
   {
-   MDFN_PrintError(_("Error opening \"%s\""), bios_fn.c_str());
+   { ".gba", gettext_noop("GameBoy Advance ROM Image") },
+   { ".agb", gettext_noop("GameBoy Advance ROM Image") },
+   { ".bin", gettext_noop("GameBoy Advance ROM Image") },
+   { ".bios", gettext_noop("BIOS Image") },
+   { NULL, NULL }
+  };
+
+  MDFNFILE bios_fp;
+
+  if(!bios_fp.Open(bios_fn, KnownBIOSExtensions, _("GBA BIOS")))
+  {
    return(0);
   }
   
-  if(MDFN_fgetsize(bios_fp) != 0x4000)
+  if(bios_fp.Size() != 0x4000)
   {
    MDFN_PrintError(_("Invalid BIOS file size"));
-   MDFN_fclose(bios_fp);
+   bios_fp.Close();
    return(0);
   }
 
-  if(MDFN_fread(bios, 1, 0x4000, bios_fp) != 0x4000)
-  {
-   MDFN_PrintError(_("Error reading BIOS file"));
-   MDFN_fclose(bios_fp);
-   return(0);
-  }
+  memcpy(bios, bios_fp.Data(), 0x4000);
 
-  MDFN_fclose(bios_fp);
+  bios_fp.Close();
   useBios = true;
  }
 
- if(!useBios)
+ if(!useBios) 
  {
   memcpy(bios, myROM, sizeof(myROM));
   Endian_A32_NE_to_LE(bios, sizeof(myROM) / 4);
@@ -2600,7 +2604,9 @@ static bool CPUInit(const std::string bios_fn)
 
 static void CPUReset()
 {
-  rtcReset();
+  if(GBA_RTC)
+   GBA_RTC->Reset();
+
   // clean registers
   memset(&reg[0], 0, sizeof(reg));
   // clean OAM
@@ -2808,7 +2814,7 @@ static void CPUReset()
 void CPUInterrupt()
 {
   uint32 PC = reg[15].I;
-  bool8 savedState = armState;
+  bool savedState = armState;
   CPUSwitchMode(0x12, true, false);
   reg[14].I = PC;
   if(!savedState)
@@ -2828,11 +2834,6 @@ void CPUInterrupt()
   biosProtected[3] = 0xe5;
 }
 
-static void SetPixelFormat(int rshift, int gshift, int bshift)
-{
- RedoColorMap(rshift, gshift, bshift);
-}
-
 int32 soundTS = 0;
 static uint8 *padq;
 
@@ -2841,10 +2842,17 @@ void MDFNGBA_SetInput(int port, const char *type, void *ptr)
  padq = (uint8*)ptr;
 }
 
+int32 MDFNGBA_GetTimerPeriod(int which)
+{
+ int32 ret = ((0x10000 - timers[which].Reload) << timers[which].ClockReload);
+// printf("%d, %08x\n", ret, timers[which].Reload);
+ return(ret);
+}
+
 static int frameready;
 static int HelloSkipper;
 
-void CPULoop(int ticks)
+void CPULoop(MDFN_Surface *surface, int ticks)
 {  
   int clockTicks;
   int timerOverflow = 0;
@@ -2975,7 +2983,7 @@ void CPULoop(int ticks)
             if(!HelloSkipper)
             {
 	      //printf("RL: %d\n", VCOUNT);
-              uint32 *dest = (uint32 *)MDFNGameInfo->fb + VCOUNT * (MDFNGameInfo->pitch >> 2);
+              uint32 *dest = surface->pixels + VCOUNT * surface->pitch32;
               uint32 *src = lineMix;
               (*renderLine)();
               for(int x = 120; x; x--)
@@ -3195,9 +3203,42 @@ void CPULoop(int ticks)
 
 static void Emulate(EmulateSpecStruct *espec)
 {
+ espec->DisplayRect.x = 0;
+ espec->DisplayRect.y = 0;
+ espec->DisplayRect.w = 240;
+ espec->DisplayRect.h = 160;
+
+ if(espec->VideoFormatChanged)
+  RedoColorMap(espec->surface->format); //espec->surface->format.Rshift, espec->surface->format.Gshift, espec->surface->format.Bshift);
+
+ if(espec->SoundFormatChanged)
+  MDFNGBA_SetSoundRate(espec->SoundRate);
+
+ #if 0
+ int cursong = workRAM[0x2020c96- (0x2 << 24)];
+ static int last_song = 0;
+
+ if(cursong != last_song)
+ {
+  if(last_song == 250)
+  {
+   MDFNI_EndWaveRecord();
+   exit(1);
+  }
+  else
+  {
+   char wavepath[256];
+   if(last_song != 0)
+    MDFNI_EndWaveRecord();
+   snprintf(wavepath, 256, "/meow/mother3-%d.wav", cursong);
+   MDFNI_BeginWaveRecord(FSettings.SndRate, 2, wavepath);
+  }
+  last_song = cursong;
+ }
+ #endif
+
  padbufblah = padq[0] | (padq[1] << 8);
 
- MDFNGameInfo->fb = espec->pixels;
  frameready = 0;
 
  HelloSkipper = espec->skip;
@@ -3208,11 +3249,14 @@ static void Emulate(EmulateSpecStruct *espec)
   MDFNMP_ApplyPeriodicCheats();
 
  while(!frameready && (soundTS < 300000))
-  CPULoop(300000);
+  CPULoop(espec->surface, 300000);
 
- *(espec->SoundBuf) = MDFNGBASOUND_Flush(espec->SoundBufSize);
+ espec->MasterCycles = soundTS;
+
+ espec->SoundBufSize = MDFNGBASOUND_Flush(espec->SoundBuf, espec->SoundBufMaxSize);
+
  if(pi)
-  Player_Draw(espec->pixels, 0, *(espec->SoundBuf), *(espec->SoundBufSize));
+  Player_Draw(espec->surface, &espec->DisplayRect, 0, espec->SoundBuf, espec->SoundBufSize);
 }
 
 static bool ToggleLayer(int which)
@@ -3232,31 +3276,38 @@ static void DoSimpleCommand(int cmd)
 {
  switch(cmd)
  {
-  case MDFNNPCMD_POWER:
-  case MDFNNPCMD_RESET: CPUReset(); break;
+  case MDFN_MSC_POWER:
+  case MDFN_MSC_RESET: CPUReset(); break;
  }
 }
 
 static MDFNSetting GBASettings[] =
 {
- { "gba.bios", gettext_noop("Path to optional GBA BIOS ROM image."), MDFNST_STRING, "" },
- { "gba.forcemono", gettext_noop("Force monophonic sound output."), MDFNST_BOOL, "0" },
- { "gba.colormap", gettext_noop("Load custom color map from specified file."), MDFNST_STRING, "" },
+ { "gba.bios", 	MDFNSF_EMU_STATE,	gettext_noop("Path to optional GBA BIOS ROM image."), NULL, MDFNST_STRING, "" },
  { NULL }
 };
 
 static const InputDeviceInputInfoStruct IDII[] =
 {
- { "a", "A", 7, IDIT_BUTTON_CAN_RAPID, NULL },
- { "b", "B", 6, IDIT_BUTTON_CAN_RAPID, NULL },
- { "select", "SELECT", 4, IDIT_BUTTON, NULL },
- { "start", "START", 5, IDIT_BUTTON, NULL },
- { "right", "RIGHT →", 3, IDIT_BUTTON, "left" },
- { "left", "LEFT ←", 2, IDIT_BUTTON, "right" },
- { "up", "UP ↑", 0, IDIT_BUTTON, "down" },
- { "down", "DOWN ↓", 1, IDIT_BUTTON, "up" },
- { "shoulder_r", "SHOULDER R", 9, IDIT_BUTTON, NULL },
- { "shoulder_l", "SHOULDER L", 8, IDIT_BUTTON, NULL },
+ { "a", "A", 		/*VIRTB_1,*/ 7, IDIT_BUTTON_CAN_RAPID, NULL },
+
+ { "b", "B", 		/*VIRTB_0,*/ 6, IDIT_BUTTON_CAN_RAPID, NULL },
+
+ { "select", "SELECT", 	/*VIRTB_SELECT,*/ 4, IDIT_BUTTON, NULL },
+
+ { "start", "START", 	/*VIRTB_START,*/ 5, IDIT_BUTTON, NULL },
+
+ { "right", "RIGHT →", 	/*VIRTB_DP0_R,*/ 3, IDIT_BUTTON, "left" },
+
+ { "left", "LEFT ←", 	/*VIRTB_DP0_L,*/ 2, IDIT_BUTTON, "right" },
+
+ { "up", "UP ↑", 	/*VIRTB_DP0_U,*/ 0, IDIT_BUTTON, "down" },
+
+ { "down", "DOWN ↓",	/*VIRTB_DP0_D,*/ 1, IDIT_BUTTON, "up" },
+
+ { "shoulder_r", "SHOULDER R", /*VIRTB_SHLDR_L,*/	9, IDIT_BUTTON, NULL },
+
+ { "shoulder_l", "SHOULDER L", /*VIRTB_SHLDR_R,*/	8, IDIT_BUTTON, NULL },
 };
 
 static InputDeviceInfoStruct InputDeviceInfo[] =
@@ -3272,7 +3323,7 @@ static InputDeviceInfoStruct InputDeviceInfo[] =
 
 static const InputPortInfoStruct PortInfo[] = 
 { 
- { 0, "builtin", "Built-In", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo } 
+ { 0, "builtin", "Built-In", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" } 
 };
 
 static InputInfoStruct InputInfo = 
@@ -3281,14 +3332,25 @@ static InputInfoStruct InputInfo =
  PortInfo
 };
 
+static const FileExtensionSpecStruct KnownExtensions[] =
+{
+ { ".gba", gettext_noop("GameBoy Advance ROM Image") },
+ { ".agb", gettext_noop("GameBoy Advance ROM Image") },
+ { ".bin", gettext_noop("GameBoy Advance ROM Image") },
+ { NULL, NULL }
+};
+
 MDFNGI EmulatedGBA =
 {
  "gba",
- #ifdef WANT_DEBUGGER
- NULL, 
- #endif
+ "GameBoy Advance",
+ KnownExtensions,
+ MODPRIO_INTERNAL_HIGH,
+ NULL,
  &InputInfo,
  Load,
+ TestMagic,
+ NULL,
  NULL,
  CloseGame,
  ToggleLayer,
@@ -3298,22 +3360,24 @@ MDFNGI EmulatedGBA =
  NULL,
  StateAction,
  Emulate,
- SetPixelFormat,
  MDFNGBA_SetInput,
- NULL,
- NULL,
- NULL,
- MDFNGBA_SetSoundMultiplier,
- MDFNGBA_SetSoundVolume,
- MDFNGBA_Sound,
  DoSimpleCommand,
  GBASettings,
+ MDFN_MASTERCLOCK_FIXED(16777216),
  (uint32)((double)4194304 / 70224 * 65536 * 256),
- NULL,
- 240,
- 160,
- 240, // Save state preview width
- 256 * sizeof(uint32),
- { 0, 0, 240, 160 },
+
+ false, // Multires possible?
+
+ 240,   // lcm_width
+ 160,   // lcm_height
+ NULL,  // Dummy
+
+ 240,	// Nominal width
+ 160,	// Nominal height
+
+ 240,	// Framebuffer width
+ 160,	// Framebuffer height
+
+ 2,	// Number of output sound channels
 };
 

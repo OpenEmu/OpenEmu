@@ -32,27 +32,27 @@
 #define VERBOSE_AGBPRINT           512
 
 extern reg_pair reg[45];
-extern bool8 ioReadable[0x400];
+extern bool ioReadable[0x400];
 
 extern uint32 N_FLAG;
-extern bool8 C_FLAG;
-extern bool8 Z_FLAG;
-extern bool8 V_FLAG;
+extern bool C_FLAG;
+extern bool Z_FLAG;
+extern bool V_FLAG;
 
-extern bool8 armState;
-extern bool8 armIrqEnable;
+extern bool armState;
+extern bool armIrqEnable;
 extern uint32 armNextPC;
 extern int armMode;
 extern uint32 stop;
 extern int saveType;
-extern bool8 useBios;
-extern bool8 skipBios;
+extern bool useBios;
+extern bool skipBios;
 extern int frameSkip;
-extern bool8 speedup;
-extern bool8 synchronize;
-extern bool8 cpuDisableSfx;
-extern bool8 cpuIsMultiBoot;
-extern bool8 parseDebug;
+extern bool speedup;
+extern bool synchronize;
+extern bool cpuDisableSfx;
+extern bool cpuIsMultiBoot;
+extern bool parseDebug;
 extern int layerSettings;
 extern int layerEnable;
 

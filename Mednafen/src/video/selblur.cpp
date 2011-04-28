@@ -20,7 +20,7 @@
 #include <math.h>
 
 #if 0
-static ALWAYS_INLINE void GetSourcePixel(const SelBlurImage *spec, int32 x, int32 y, unsigned int &r, unsigned int &g, unsigned int &b)
+static INLINE void GetSourcePixel(const SelBlurImage *spec, int32 x, int32 y, unsigned int &r, unsigned int &g, unsigned int &b)
 {
  uint32 pixel = spec->source[x + y * spec->source_pitch32];
  r = (pixel >> spec->red_shift) & 0xFF;
@@ -28,7 +28,7 @@ static ALWAYS_INLINE void GetSourcePixel(const SelBlurImage *spec, int32 x, int3
  b = (pixel >> spec->blue_shift) & 0xFF;
 }
 
-static ALWAYS_INLINE void SetDestPixel(const SelBlurImage *spec, int32 x, int32 y, const unsigned int r, const unsigned int g, const unsigned int b)
+static INLINE void SetDestPixel(const SelBlurImage *spec, int32 x, int32 y, const unsigned int r, const unsigned int g, const unsigned int b)
 {
  spec->dest[x + y * spec->dest_pitch32] = (r << spec->red_shift) | (g << spec->green_shift) | (b << spec->blue_shift);
 }
@@ -55,15 +55,15 @@ void MDFN_SelBlur(SelBlurImage *spec)
 
  for(int i = 0; i < 512; i++)
  {
-  if(abs(i - 256) <= spec->red_threshold)
+  if((unsigned int)abs(i - 256) <= spec->red_threshold)
    r_thresh[i] = 0;
   else r_thresh[i] = 8;
 
-  if(abs(i - 256) <= spec->green_threshold)
+  if((unsigned int)abs(i - 256) <= spec->green_threshold)
    g_thresh[i] = 0;
   else g_thresh[i] = 8;
 
-  if(abs(i - 256) <= spec->blue_threshold)
+  if((unsigned int)abs(i - 256) <= spec->blue_threshold)
    b_thresh[i] = 0;
   else b_thresh[i] = 8;
  }

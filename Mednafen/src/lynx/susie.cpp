@@ -49,7 +49,6 @@
 //#include <crtdbg.h>
 //#define TRACE_SUSIE
 
-#include <string.h>
 #include "system.h"
 #include "susie.h"
 #include "lynxdef.h"
@@ -532,7 +531,7 @@ uint32 CSusie::PaintSprites(void)
 				int sprite_v=mVPOSSTRT.Val16;
 				int sprite_h=mHPOSSTRT.Val16;
 
-				bool8 render=FALSE;
+				bool render=FALSE;
 
 				// Set quadrand multipliers
 				hsign=(quadrant==0 || quadrant==1)?1:-1;
@@ -616,7 +615,7 @@ uint32 CSusie::PaintSprites(void)
 				int pixel;
 				int hoff,voff;
 				int hloop,vloop;
-				bool8 onscreen;
+				bool onscreen;
 
 				if(render)
 				{
@@ -836,7 +835,7 @@ uint32 CSusie::PaintSprites(void)
 }
 
 
-ALWAYS_INLINE void CSusie::WritePixel(uint32 hoff,uint32 pixel)
+INLINE void CSusie::WritePixel(uint32 hoff,uint32 pixel)
 {
         uint32 scr_addr=mLineBaseAddress+(hoff/2);
 
@@ -859,7 +858,7 @@ ALWAYS_INLINE void CSusie::WritePixel(uint32 hoff,uint32 pixel)
         cycles_used+=2*SPR_RDWR_CYC;
 }
 
-ALWAYS_INLINE uint32 CSusie::ReadPixel(uint32 hoff)
+INLINE uint32 CSusie::ReadPixel(uint32 hoff)
 {
         uint32 scr_addr=mLineBaseAddress+(hoff/2);
 
@@ -881,7 +880,7 @@ ALWAYS_INLINE uint32 CSusie::ReadPixel(uint32 hoff)
         return data;
 }
 
-ALWAYS_INLINE void CSusie::WriteCollision(uint32 hoff,uint32 pixel)
+INLINE void CSusie::WriteCollision(uint32 hoff,uint32 pixel)
 {
         uint32 col_addr=mLineCollisionAddress+(hoff/2);
 
@@ -904,7 +903,7 @@ ALWAYS_INLINE void CSusie::WriteCollision(uint32 hoff,uint32 pixel)
         cycles_used+=2*SPR_RDWR_CYC;
 }
 
-ALWAYS_INLINE uint32 CSusie::ReadCollision(uint32 hoff)
+INLINE uint32 CSusie::ReadCollision(uint32 hoff)
 {
         uint32 col_addr=mLineCollisionAddress+(hoff/2);
 
@@ -927,7 +926,7 @@ ALWAYS_INLINE uint32 CSusie::ReadCollision(uint32 hoff)
 }
 
 
-ALWAYS_INLINE uint32 CSusie::LineGetBits(uint32 bits)
+INLINE uint32 CSusie::LineGetBits(uint32 bits)
 {
         uint32 retval;
 
@@ -2197,7 +2196,7 @@ int CSusie::StateAction(StateMem *sm, int load, int data_only)
         SFVAR(mSPRGO),
         SFVAR(mEVERON),
 
-        { mPenIndex, 16, "mPenIndex" },
+        SFARRAYN(mPenIndex, 16, "mPenIndex"),
 
         SFVAR(mLineType),
         SFVAR(mLineShiftRegCount),

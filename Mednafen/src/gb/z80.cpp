@@ -349,9 +349,9 @@ static gbRegister BC;
 static gbRegister DE;
 static gbRegister HL;
 static uint8 IFF;
-static bool8 InHALT;
-static bool8 RepeatNextByte;
-static bool8 EI_Delayed;
+static bool InHALT;
+static bool RepeatNextByte;
+static bool EI_Delayed;
 
 void GBZ80_Interrupt(int which)
 {

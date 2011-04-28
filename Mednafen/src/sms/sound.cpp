@@ -18,15 +18,18 @@
 
 #include "shared.h"
 #include <blip/Blip_Buffer.h>
-#include "Sms_Apu.h"
 #include <blip/Stereo_Buffer.h>
-#include "emu2413.h"
+
+#include "sms_apu/Sms_Apu.h"
+#include "ym2413/emu2413.h"
+
+namespace MDFN_IEN_SMS
+{
 
 static Sms_Apu apu;
 static Stereo_Buffer zebuf;
 typedef Blip_Synth<blip_good_quality, 8192> FMSynth_t;
 static FMSynth_t fmsynth;
-static bool forcemono;
 static EMU2413 *FMThing = NULL;
 static uint32 SoundClock;
 
@@ -51,11 +54,13 @@ void psg_write(int data)
 
 int fmunit_detect_r(void)
 {
+	//printf("Detect_r: %02x\n", sms.fm_detect);
     return sms.fm_detect;
 }
 
 void fmunit_detect_w(int data)
 {
+	//printf("Detect_w: %02x\n", data);
     sms.fm_detect = data;
 }
 
@@ -70,9 +75,16 @@ static void UpdateFM(void)
  fm_div -= cycles;
  while(fm_div <= 0)
  {
-  int16 new_value;
+  int32 new_value;
 
-  new_value = EMU2413_calc(FMThing);
+  new_value = EMU2413_calc(FMThing) >> 1;
+
+  if(new_value > 32767) 
+   new_value = 32767;
+
+  if(new_value < -32768)
+   new_value = -32768;
+
   fmsynth.offset(sms.timestamp + fm_div, new_value - fm_last_value, zebuf.left());
   fmsynth.offset(sms.timestamp + fm_div, new_value - fm_last_value, zebuf.right());
   fm_last_value = new_value;
@@ -87,6 +99,7 @@ void fmunit_write(int offset, int data)
  //printf("FM Write: %d %d\n", offset, data);
  if(FMThing)
  {
+  UpdateFM();
   EMU2413_writeIO(FMThing, offset, data);
  }
 }
@@ -99,62 +112,40 @@ void SMS_SoundReset(void)
 }
 
 
-int16 *SMS_SoundFlush(int32 *length)
+int32 SMS_SoundFlush(int16 *SoundBuf, int32 MaxSoundFrames)
 {
-        static int16 buffer[8000];
+	int32 FrameCount = 0;
 
 	if(FMThing)
  	 UpdateFM();
 
         apu.end_frame(sms.timestamp);
 
-        if(forcemono)
-        {
-         zebuf.left()->end_frame(sms.timestamp);
-         *length = zebuf.left()->read_samples(buffer, 8000);
-        }
-        else
-        {
-         zebuf.end_frame(sms.timestamp);
-         *length = zebuf.read_samples(buffer, 8000);
-         *length /= 2;
-        }
+        zebuf.end_frame(sms.timestamp);
 
-        if(!FSettings.SndRate)
-        {
-         *length = 0;
-         return(NULL);
-        }
+        if(SoundBuf)
+         FrameCount = zebuf.read_samples(SoundBuf, MaxSoundFrames * 2) / 2;
+	else
+	 zebuf.clear();
 
 	fm_last_timestamp = 0;
 
-        return(buffer);
+        return(FrameCount);
 }
 
 static void RedoVolume(void)
 {
- if(forcemono)
- {
-  apu.output(zebuf.center(), zebuf.left(), zebuf.left());
-  apu.volume((double)FSettings.SoundVolume * 0.50 / 2 / 100);
-  fmsynth.volume((double)FSettings.SoundVolume * 0.10 / 2 / 100);
- }
- else
- {
-  apu.output(zebuf.center(), zebuf.left(), zebuf.right());
-  apu.volume((double)FSettings.SoundVolume * 0.50 / 100);
-  fmsynth.volume((double)FSettings.SoundVolume * 0.10 / 100);
- }
+ apu.output(zebuf.center(), zebuf.left(), zebuf.right());
+ apu.volume(0.50);
+ fmsynth.volume(0.20);
 }
 
-void SMS_SoundInit(bool WantMono, uint32 clock, bool WantFM)
+void SMS_SoundInit(uint32 clock, bool WantFM)
 {
  SoundClock = clock;
 
- zebuf.set_sample_rate(FSettings.SndRate?FSettings.SndRate:44100, 60);
- zebuf.clock_rate((long)(SoundClock * FSettings.soundmultiplier));
-
- forcemono = WantMono;
+ SMS_SetSoundRate(0);
+ zebuf.clock_rate((long)(SoundClock));
 
  RedoVolume();
  zebuf.bass_freq(20);
@@ -173,19 +164,11 @@ void SMS_SoundClose(void)
 
 }
 
-void SMS_SetSoundMultiplier(double multiplier)
+bool SMS_SetSoundRate(uint32 rate)
 {
- zebuf.clock_rate((long)(SoundClock * multiplier));
-}
+ zebuf.set_sample_rate(rate ? rate : 44100, 60);
 
-void SMS_SetSoundVolume(uint32 volume)
-{
- RedoVolume();
-}
-
-void SMS_Sound(int rate)
-{
- zebuf.set_sample_rate(rate?rate:44100, 60);
+ return(TRUE);
 }
 
 
@@ -221,4 +204,6 @@ int SMS_SoundStateAction(StateMem *sm, int load, int data_only)
   apu.load_state(&sn_state);
  }
  return(ret);
+}
+
 }

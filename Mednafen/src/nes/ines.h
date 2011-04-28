@@ -3,14 +3,15 @@ extern uint32 iNESGameCRC32;
 #else
 #endif
 
-	typedef struct {
-		char ID[4]; /*NES^Z*/
-                uint8 ROM_size;
-                uint8 VROM_size;
-                uint8 ROM_type;
-                uint8 ROM_type2;
-                uint8 reserve[8];
-	} iNES_HEADER;
+struct iNES_HEADER
+{
+	char ID[4]; /*NES^Z*/
+        uint8 ROM_size;
+        uint8 VROM_size;
+        uint8 ROM_type;
+        uint8 ROM_type2;
+        uint8 reserve[8];
+};
 
 int Mapper1_Init(CartInfo *);
 int Mapper4_Init(CartInfo *);

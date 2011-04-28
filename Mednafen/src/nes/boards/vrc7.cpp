@@ -18,6 +18,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+// TODO: Fix NSF variable initialization
+
 #include "mapinc.h"
 #include "../nsf.h"
 
@@ -32,7 +34,8 @@ static int32 divc;
 
 static OPLL *VRC7Sound=NULL;
 static uint32 V7BC;
-static int32 V7out = 0;
+static int32 V7out;
+
 void DoVRC7Sound(void)
 {
  uint32 V;
@@ -78,8 +81,7 @@ static DECLFW(Mapper85_write)
 	}
 	else if(A==0x9030)
 	{
-	 if(FSettings.SndRate)
- 	  DoVRC7Sound();
+	 DoVRC7Sound();
 	 OPLL_writeReg(VRC7Sound, indox, V);
 	}
 	else switch(A&0xF010)
@@ -174,6 +176,7 @@ static void Power(CartInfo *info)
  for(int x = 0; x < 3; x++)
   PRGBanks[x] = x;
  Mirroring = IRQLatch = IRQCount = IRQEnabled = vrctemp = indox = acount = divc = 0;
+ V7out = 0;
  Sync();
 
  OPLL_reset(VRC7Sound);
@@ -198,7 +201,9 @@ static int StateAction(StateMem *sm, int load, int data_only)
   SFVAR(VRC7Sound->am_phase), SFVAR(VRC7Sound->lfo_am),
   SFARRAY32(VRC7Sound->patch_number, 6),
   SFARRAY32(VRC7Sound->key_status, 6),
-  SFARRAY(VRC7Sound->slot, sizeof(VRC7Sound->slot)),
+
+  // FIXME
+  SFARRAYN((uint8 *)VRC7Sound->slot, sizeof(VRC7Sound->slot), "VRC7Sound->slot"),
   SFEND
  };
 

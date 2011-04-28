@@ -27,20 +27,20 @@
 #ifdef INCED_FROM_ARM_CPP
 #define EXCLUDE_ARM_FROM_INLINE
 #else
-#define EXCLUDE_ARM_FROM_INLINE ALWAYS_INLINE
+#define EXCLUDE_ARM_FROM_INLINE INLINE
 #endif
 
-extern bool8 cpuSramEnabled;
-extern bool8 cpuFlashEnabled;
-extern bool8 cpuEEPROMEnabled;
-extern bool8 cpuEEPROMSensorEnabled;
-extern bool8 cpuDmaHack;
+extern bool cpuSramEnabled;
+extern bool cpuFlashEnabled;
+extern bool cpuEEPROMEnabled;
+extern bool cpuEEPROMSensorEnabled;
+extern bool cpuDmaHack;
 extern uint32 cpuDmaLast;
 
 typedef struct
 {
         uint16 Value;
-        bool8 On;
+        bool On;
         int32 Ticks;
         int32 Reload;
         int32 ClockReload;
@@ -83,8 +83,7 @@ uint32 CPUReadMemory(uint32 address);
 
 uint32 CPUReadHalfWord(uint32 address);
 
-
-static ALWAYS_INLINE uint16 CPUReadHalfWordSigned(uint32 address)
+static INLINE uint16 CPUReadHalfWordSigned(uint32 address)
 {
   uint16 value = CPUReadHalfWord(address);
   if((address & 1))

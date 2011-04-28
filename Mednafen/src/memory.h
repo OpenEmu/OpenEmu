@@ -13,29 +13,37 @@ void MDFN_free(void *ptr);
 
 static INLINE void MDFN_FastU32MemsetM8(uint32 *array, uint32 value_32, unsigned int u32len)
 {
- // gcc's optimizer is smart enough to use the floating-point unit to do this memset
- // on non-64-bit processors, at least on x86.
- uint64 value = (uint64)value_32 | ((uint64)value_32 << 32);
- uint64 *newarray = (uint64 *)array;
+ #ifdef ARCH_X86 
+ uint32 dummy_output0, dummy_output1;
 
- u32len >>= 1;
- for(unsigned int i = 0; i < u32len; i++)
-  *newarray++ = value;
-}
+ #ifdef __x86_64__
+ asm volatile(
+        "cld\n\t"
+        "rep stosq\n\t"
+        : "=D" (dummy_output0), "=c" (dummy_output1)
+        : "a" (value_32 | ((uint64)value_32 << 32)), "D" (array), "c" (u32len >> 1)
+        : "cc", "memory");
+ #else
+ asm volatile(
+        "cld\n\t"
+        "rep stosl\n\t"
+        : "=D" (dummy_output0), "=c" (dummy_output1)
+        : "a" (value_32), "D" (array), "c" (u32len)
+        : "cc", "memory");
 
-static INLINE void MDFN_FastMemcpyM8(void *dest, void *src, unsigned int bytelen)
-{
- unsigned int len = bytelen >> 3;
- uint64 *dest_64 = (uint64 *)dest;
- uint64 *src_64 = (uint64 *)src;
+ #endif
 
- do
+ #else
+
+ for(uint32 *ai = array; ai < array + u32len; ai += 2)
  {
-  *dest_64++ = *src_64++;
-  len--;
- } while(len);
-}
+  ai[0] = value_32;
+  ai[1] = value_32;
+ }
 
+ #endif
+ //printf("%08x %d\n", (int)(long long)array, u32len);
+}
 
 #define _MDFN_MEMORY_H
 #endif

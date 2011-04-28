@@ -13,6 +13,22 @@ class md5_context
  std::string asciistr(void);
  void starts(void);
  void update(const uint8 *input, uint32 length);
+ inline void update_u32_as_lsb(const uint32 input)
+ {
+  uint8 buf[4];
+
+  buf[0] = input >> 0;
+  buf[1] = input >> 8;
+  buf[2] = input >> 16;
+  buf[3] = input >> 24;
+
+  update(buf, 4);
+ }
+
+ inline void update_string(const char *string)
+ {
+  update((const uint8 *)string, strlen(string));
+ }
  void finish(uint8 digest[16]); 
 
  private:

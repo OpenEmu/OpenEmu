@@ -1,25 +1,32 @@
 #ifndef _PCE_H
 
-#include "../types.h"
 #include "../mednafen.h"
 #include "../state.h"
 #include "../general.h"
-#include "../memory.h"
+
+namespace MDFN_IEN_PCE
+{
+
+#define PCE_MASTER_CLOCK	21477272.727273
 
 #define DECLFR(x) uint8 x (uint32 A)
 #define DECLFW(x) void x (uint32 A, uint8 V)
 
-#include "huc6280.h"
+};
 
+#include "huc6280/huc6280.h"
 
-extern bool PCE_InDebug;
+namespace MDFN_IEN_PCE
+{
+extern HuC6280 *HuCPU;
+
+extern uint32 PCE_InDebug;
 extern bool PCE_ACEnabled; // Arcade Card emulation enabled?
 void PCE_Power(void);
 
-extern readfunc PCERead[0x100];
-extern writefunc PCEWrite[0x100];
-extern uint8 PCEIODataBuffer;
-extern int pce_overclocked;
+void PCE_MidSync(void);
+
+};
 
 #define _PCE_H
 #endif

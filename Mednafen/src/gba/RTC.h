@@ -19,10 +19,43 @@
 
 #ifndef VBA_RTC_H
 #define VBA_RTC_H
-extern uint16 rtcRead(uint32 address);
-extern bool8 rtcWrite(uint32 address, uint16 value);
-extern void rtcEnable(bool8);
-extern bool8 rtcIsEnabled();
-extern void rtcReset();
 
+namespace MDFN_IEN_GBA
+{
+
+class RTC
+{
+ public:
+
+ RTC();
+ ~RTC();
+
+ void InitTime(void);
+
+ uint16 Read(uint32 address);
+ void Write(uint32 address, uint16 value);
+ void Reset(void);
+
+ int StateAction(StateMem *sm, int load, int data_only);
+
+ private:
+
+ enum RTCSTATE { IDLE, COMMAND, DATA, READDATA };
+
+ uint8 byte0;
+ uint8 byte1;
+ uint8 byte2;
+ uint8 command;
+ int dataLen;
+ int bits;
+ RTCSTATE state;
+ uint8 data[12];
+
+ int64 curtime;        // GBA CPU cycles since the Epoch, in local time.
+
+};
+
+}
+
+using namespace MDFN_IEN_GBA;
 #endif

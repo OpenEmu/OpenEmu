@@ -13,7 +13,6 @@
 //---------------------------------------------------------------------------
 
 #include "neopop.h"
-#include "../netplay.h"
 #include "../general.h"
 #include "../md5.h"
 
@@ -67,16 +66,28 @@ static uint8 *chee;
 
 bool NGPFrameSkip;
 int32 ngpc_soundTS = 0;
-static int32 z80_runtime = 0;
+static int32 z80_runtime;
 
 static void Emulate(EmulateSpecStruct *espec)
 {
 	bool MeowMeow = 0;
 
-	MDFNGameInfo->fb = espec->pixels;
+	espec->DisplayRect.x = 0;
+	espec->DisplayRect.y = 0;
+	espec->DisplayRect.w = 160;
+	espec->DisplayRect.h = 152;
 
-//	NGPJoyLatch = *chee;
-//	storeB(0x6F82, *chee);
+	if(espec->VideoFormatChanged)
+	 NGPGfx->set_pixel_format(espec->surface->format);
+		//espec->surface->format.Rshift, espec->surface->format.Gshift,
+		//espec->surface->format.Bshift);
+
+	if(espec->SoundFormatChanged)
+	 MDFNNGPC_SetSoundRate(espec->SoundRate);
+
+
+	NGPJoyLatch = *chee;
+	storeB(0x6F82, *chee);
 
 	MDFNMP_ApplyPeriodicCheats();
 
@@ -86,7 +97,7 @@ static void Emulate(EmulateSpecStruct *espec)
 	{
 	 int timetime = TLCS900h_interpret();
 
-	 MeowMeow |= updateTimers(timetime);
+	 MeowMeow |= updateTimers(espec->surface, timetime);
 
 	 z80_runtime += timetime;
 
@@ -105,7 +116,9 @@ static void Emulate(EmulateSpecStruct *espec)
 	 }
 	} while(!MeowMeow);
 
-	*(espec->SoundBuf) = MDFNNGPCSOUND_Flush(espec->SoundBufSize);
+
+	espec->MasterCycles = ngpc_soundTS;
+	espec->SoundBufSize = MDFNNGPCSOUND_Flush(espec->SoundBuf, espec->SoundBufMaxSize);
 }
 
 static bool TestMagic(const char *name, MDFNFILE *fp)
@@ -118,10 +131,9 @@ static bool TestMagic(const char *name, MDFNFILE *fp)
 
 static int Load(const char *name, MDFNFILE *fp)
 {
- if(strcasecmp(fp->ext, "ngp") && strcasecmp(fp->ext, "ngpc") && strcasecmp(fp->ext, "ngc") && strcasecmp(fp->ext, "npc"))
-  return(-1);
+ if(!(ngpc_rom.data = (uint8 *)MDFN_malloc(fp->size, _("Cart ROM"))))
+  return(0);
 
- ngpc_rom.data = (uint8 *)malloc(fp->size);
  ngpc_rom.length = fp->size;
  memcpy(ngpc_rom.data, fp->data, fp->size);
 
@@ -138,28 +150,18 @@ static int Load(const char *name, MDFNFILE *fp)
 
  NGPGfx = new NGPGFX_CLASS();
 
- NGPGfx->set_pixel_format(FSettings.rshift, FSettings.gshift, FSettings.bshift);
-
-
- MDFN_LoadGameCheats(NULL);
  MDFNGameInfo->fps = (uint32)((uint64)6144000 * 65536 * 256 / 515 / 198); // 3072000 * 2 * 10000 / 515 / 198
  MDFNGameInfo->GameSetMD5Valid = FALSE;
 
- if(MDFN_GetSettingB("ngp.forcemono"))
- {
-  MDFNGameInfo->soundchan = 1;
-  MDFNNGPCSOUND_Init(1);
- }
- else
- {
-  MDFNGameInfo->soundchan = 2;
-  MDFNNGPCSOUND_Init(0);
- }
+ MDFNNGPCSOUND_Init();
+
  MDFNMP_AddRAM(16384, 0x4000, CPUExRAM);
 
  SetFRM(); // Set up fast read memory mapping
 
  bios_install();
+
+ z80_runtime = 0;
 
  reset();
 
@@ -168,13 +170,7 @@ static int Load(const char *name, MDFNFILE *fp)
 
 static void CloseGame(void)
 {
- MDFN_FlushGameCheats(0);
  rom_unload();
-}
-
-static void SetPixelFormat(int rs, int gs, int bs)
-{
- NGPGfx->set_pixel_format(rs, gs, bs);
 }
 
 static void SetInput(int port, const char *type, void *ptr)
@@ -244,16 +240,26 @@ static void DoSimpleCommand(int cmd)
 {
  switch(cmd)
  {
-  case MDFNNPCMD_POWER:
-  case MDFNNPCMD_RESET: reset();
+  case MDFN_MSC_POWER:
+  case MDFN_MSC_RESET: reset();
 			break;
  }
 }
 
+static const MDFNSetting_EnumList LanguageList[] =
+{
+ { "english", 0, gettext_noop("English") },
+ { "0", 0 },
+
+ { "japanese", 1, gettext_noop("Japanese") },
+ { "1", 1 },
+
+ { NULL, 0 },
+};
+
 static MDFNSetting NGPSettings[] =
 {
- { "ngp.language", gettext_noop("If =1, tell games to display in English, if =0, in Japanese."), MDFNST_UINT, "1", "0", "1" },
- { "ngp.forcemono", gettext_noop("Force monophonic sound output."), MDFNST_BOOL, "0" },
+ { "ngp.language", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Language games should display text in."), NULL, MDFNST_ENUM, "english", NULL, NULL, NULL, NULL, LanguageList },
  { NULL }
 };
 
@@ -318,7 +324,7 @@ static InputDeviceInfoStruct InputDeviceInfo[] =
 
 static const InputPortInfoStruct PortInfo[] =
 {
- { 0, "builtin", "Built-In", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo }
+ { 0, "builtin", "Built-In", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" }
 };
 
 static InputInfoStruct InputInfo =
@@ -327,14 +333,24 @@ static InputInfoStruct InputInfo =
  PortInfo
 };
 
+static const FileExtensionSpecStruct KnownExtensions[] =
+{
+ { ".ngp", gettext_noop("Neo Geo Pocket ROM Image") },
+ { ".ngc", gettext_noop("Neo Geo Pocket Color ROM Image") },
+ { NULL, NULL }
+};
+
 MDFNGI EmulatedNGP =
 {
  "ngp",
- #ifdef WANT_DEBUGGER
+ "Neo Geo Pocket (Color)",
+ KnownExtensions,
+ MODPRIO_INTERNAL_HIGH,
  NULL,
- #endif
  &InputInfo,
  Load,
+ TestMagic,
+ NULL,
  NULL,
  CloseGame,
  ToggleLayer,
@@ -344,22 +360,24 @@ MDFNGI EmulatedNGP =
  NULL,
  StateAction,
  Emulate,
- SetPixelFormat,
  SetInput,
- NULL,
- NULL,
- NULL,
- MDFNNGPC_SetSoundMultiplier,
- MDFNNGPC_SetSoundVolume,
- MDFNNGPC_Sound,
  DoSimpleCommand,
  NGPSettings,
+ MDFN_MASTERCLOCK_FIXED(6144000),
  0,
- NULL,
- 160,
- 152,
- 160, // Save state preview width
- 256 * sizeof(uint32),
- {0, 0, 160, 152},
+
+ false, // Multires possible?
+
+ 160,   // lcm_width
+ 152,   // lcm_height
+ NULL,  // Dummy
+
+ 160,	// Nominal width
+ 152,	// Nominal height
+
+ 160,	// Framebuffer width
+ 152,	// Framebuffer height
+
+ 2,     // Number of output sound channels
 };
 

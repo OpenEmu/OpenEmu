@@ -62,6 +62,25 @@ static void Reset(CartInfo *info)
   memset(WRAM, 0xFF, 0x800);
 }
 
+static int StateAction(StateMem *sm, int load, int data_only)
+{
+ SFORMAT StateRegs[] =
+ {
+  SFARRAY(PRGBanks, 4),
+  SFARRAY(CHRBanks, 4),
+  SFARRAY(WRAM, 0x800),
+  SFEND
+ };
+
+ int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAPR");
+
+ if(load)
+ {
+  Sync();
+ }
+ return(ret);
+}
+
 int Mapper246_Init(CartInfo *info)
 {
  SetupCartPRGMapping(0x10, WRAM, 0x800, 1);
@@ -71,7 +90,7 @@ int Mapper246_Init(CartInfo *info)
  SetReadHandler(0x6800, 0x6FFF, CartBR);
  SetWriteHandler(0x6800, 0x6FFF, CartBW);
  info->Reset = info->Power = Reset;
-
+ info->StateAction = StateAction;
  if(info->battery)
  {
   memset(WRAM, 0xFF, 0x800);

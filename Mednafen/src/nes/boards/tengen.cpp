@@ -137,14 +137,14 @@ static DECLFW(RAMBO1_write)
 static int StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[]={
-        {&cmd, 1, "CMD"},
-        {&mir, 1, "MIR"},
-        {&rmode, 1, "RMOD"},
-        {&IRQmode, 1, "IRQM"},
-        {&IRQCount, 1, "IRQC"},
-        {&IRQa, 1, "IRQA"},
-        {&IRQLatch, 1, "IRQL"},
-        {DRegs, 11, "DREG"},
+        SFVARN(cmd, "CMD"),
+        SFVARN(mir, "MIR"),
+        SFVARN(rmode, "RMOD"),
+        SFVARN(IRQmode, "IRQM"),
+        SFVARN(IRQCount, "IRQC"),
+        SFVARN(IRQa, "IRQA"),
+        SFVARN(IRQLatch, "IRQL"),
+        SFARRAYN(DRegs, 11, "DREG"),
         SFEND
  };
 

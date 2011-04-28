@@ -66,6 +66,34 @@ void nnx(int factor, SDL_Surface *src, SDL_Rect *src_rect, SDL_Surface *dest, SD
   }
   break;
 
+  case 5:
+  for(int y = src_rect->h; y; y--)
+  {
+   for(int x = max_x; x; x--)
+   {
+    // Line 0
+    dest_pixies[0] = dest_pixies[1] = dest_pixies[2] = dest_pixies[3] = dest_pixies[4] =
+
+    // Line 1
+    dest_pixies[dest_pitch] = dest_pixies[dest_pitch + 1] = dest_pixies[dest_pitch + 2] = dest_pixies[dest_pitch + 3] = dest_pixies[dest_pitch + 4] =
+
+    // Line 2
+    dest_pixies[dest_pitch << 1] = dest_pixies[(dest_pitch << 1) + 1] = dest_pixies[(dest_pitch << 1) + 2] = dest_pixies[(dest_pitch << 1) + 3] = dest_pixies[(dest_pitch << 1) + 4] =  
+
+    // Line 3
+    dest_pixies[(dest_pitch << 1) + dest_pitch] = dest_pixies[(dest_pitch << 1) + dest_pitch + 1] = dest_pixies[(dest_pitch << 1) + dest_pitch + 2] = dest_pixies[(dest_pitch << 1) + dest_pitch + 3] = dest_pixies[(dest_pitch << 1) + dest_pitch + 4] = *source_pixies;
+
+    // Line 3
+    dest_pixies[(dest_pitch << 2)] = dest_pixies[(dest_pitch << 2) + 1] = dest_pixies[(dest_pitch << 2) + 2] = dest_pixies[(dest_pitch << 2) + 3] = dest_pixies[(dest_pitch << 2) + 4] = *source_pixies;
+
+    source_pixies++;
+    dest_pixies += 5;
+   }
+   dest_pixies += dest_pitch_diff;
+   source_pixies += source_pitch_diff;
+  }
+  break;
+
  }
 }
 

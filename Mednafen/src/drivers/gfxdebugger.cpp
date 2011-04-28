@@ -18,7 +18,9 @@
 #include "main.h"
 #include "gfxdebugger.h"
 #include "debugger.h"
+#include <trio/trio.h>
 
+static MDFN_Surface *gd_surface = NULL;
 static bool IsActive = 0;
 static const char *LayerNames[16];
 static int LayerScanline[16] = { 0 };
@@ -29,16 +31,13 @@ static int CurLayer = 0;
 
 static void RedoSGD(bool instant = 0)
 {
- if(IsActive)
-  CurGame->Debugger->SetGraphicsDecode(instant ? 0xB00B13 : LayerScanline[CurLayer], CurLayer, 128, 128, 0, LayerScroll[CurLayer], LayerPBN[CurLayer]);
- else
-  CurGame->Debugger->SetGraphicsDecode(0, 0, 0, 0, 0, 0, 0);
+ CurGame->Debugger->SetGraphicsDecode(gd_surface, instant ? -1 : LayerScanline[CurLayer], CurLayer, 0, LayerScroll[CurLayer], LayerPBN[CurLayer]);
 }
 
 // Call this function from either thread.
 void GfxDebugger_SetActive(bool newia)
 {
- if(CurGame->Debugger)
+ if(CurGame->Debugger && CurGame->Debugger->SetGraphicsDecode)
  {
   LockGameMutex(1);
 
@@ -58,6 +57,19 @@ void GfxDebugger_SetActive(bool newia)
    }
   }
 
+  if(!IsActive)
+  {
+   if(gd_surface)
+   {
+    delete gd_surface;
+    gd_surface = NULL;
+   }
+  }
+  else if(IsActive)
+  {
+   if(!gd_surface)
+    gd_surface = new MDFN_Surface(NULL, 128, 128, 128 * 3, MDFN_PixelFormat(MDFN_COLORSPACE_RGB, 0, 8, 16, 24));
+  }
   RedoSGD();
   LockGameMutex(0);
  }
@@ -68,8 +80,10 @@ void GfxDebugger_SetActive(bool newia)
 // Call this function from the main thread
 void GfxDebugger_Draw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect *screen_rect)
 {
- if(!IsActive) return;
+ if(!IsActive)
+  return;
 
+ uint32 *src_pixels;
  uint32 * pixels = (uint32 *)surface->pixels;
  uint32 pitch32 = surface->pitch >> 2;
  bool ism;
@@ -83,7 +97,25 @@ void GfxDebugger_Draw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect
   RedoSGD(TRUE);
  }
 
- uint32 *src_pixels = CurGame->Debugger->GetGraphicsDecodeBuffer(); // Returns NULL if graphics decoding is off.
+ if(gd_surface->format.Rshift != surface->format->Rshift || gd_surface->format.Gshift != surface->format->Gshift ||
+  gd_surface->format.Bshift != surface->format->Bshift || gd_surface->format.Ashift != surface->format->Ashift ||
+  gd_surface->format.colorspace != MDFN_COLORSPACE_RGB)
+ {
+  MDFN_PixelFormat nf;
+
+  //puts("Convert Meow");
+
+  nf.Rshift = surface->format->Rshift;
+  nf.Gshift = surface->format->Gshift;
+  nf.Bshift = surface->format->Bshift;
+  nf.Ashift = surface->format->Ashift;
+  nf.colorspace = MDFN_COLORSPACE_RGB;
+  nf.bpp = 32;
+
+  gd_surface->SetFormat(nf, TRUE);
+ }
+
+ src_pixels = gd_surface->pixels;
 
  if(!src_pixels)
  {
@@ -114,9 +146,9 @@ void GfxDebugger_Draw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect
   char buf[256];
 
   if(ism)
-   snprintf(buf, 256, "%s, PBN: %d, Scroll: %d, Instant", LayerNames[CurLayer], LayerPBN[CurLayer], LayerScroll[CurLayer]);
+   trio_snprintf(buf, 256, "%s, PBN: %d, Scroll: %d, Instant", LayerNames[CurLayer], LayerPBN[CurLayer], LayerScroll[CurLayer]);
   else
-   snprintf(buf, 256, "%s, PBN: %d, Scroll: %d, Line: %d", LayerNames[CurLayer], LayerPBN[CurLayer], LayerScroll[CurLayer], LayerScanline[CurLayer]);
+   trio_snprintf(buf, 256, "%s, PBN: %d, Scroll: %d, Line: %d", LayerNames[CurLayer], LayerPBN[CurLayer], LayerScroll[CurLayer], LayerScanline[CurLayer]);
   DrawTextTransShadow(pixels + 256 * pitch32, surface->pitch, rect->w, (UTF8*)buf, MK_COLOR_A(0xF0, 0xF0, 0xF0, 0xFF), MK_COLOR_A(0, 0, 0, 0xFF), 1, FALSE);
  }
 
@@ -141,7 +173,7 @@ void GfxDebugger_Draw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect
     }
    char buf[256];
 
-   snprintf(buf, 256, "Tile: %08x, Address: %08x", src_pixels[128 + vx + vy * 128 * 3], src_pixels[256 + vx + vy * 128 * 3]);
+   trio_snprintf(buf, 256, "Tile: %08x, Address: %08x", src_pixels[128 + vx + vy * 128 * 3], src_pixels[256 + vx + vy * 128 * 3]);
 
    DrawTextTransShadow(pixels + 278 * pitch32, surface->pitch, rect->w, (UTF8*)buf, MK_COLOR_A(0xF0, 0xF0, 0xF0, 0xFF), MK_COLOR_A(0, 0, 0, 0xFF), 1, FALSE);  
   }

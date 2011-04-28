@@ -20,7 +20,7 @@ void MDFN_DrawRectangle(uint32 *XBuf, int pitch, int xpos, int ypos, uint32 colo
  }
 }
 
-void MDFN_DrawRectangleAlpha(uint32 *XBuf, int pitch, int xpos, int ypos, uint32 color, uint32 width, uint32 height)
+void MDFN_DrawRectangleAlpha(uint32 *XBuf, int pitch, int xpos, int ypos, uint32 color, uint32 alpha_color, uint32 width, uint32 height)
 {
  uint32 x;
  uint32 y;
@@ -45,7 +45,7 @@ void MDFN_DrawRectangleAlpha(uint32 *XBuf, int pitch, int xpos, int ypos, uint32
  for(y=0;y<height-2;y++)
   for(x=0;x<width-2;x++)
   {
-   XBuf[y*pitch+x] = MK_COLORA(0x00, 0x00, 0x00, 0x80);
+   XBuf[y*pitch+x] = alpha_color; //MK_COLORA(0x00, 0x00, 0x00, 0x80);
   }
 }
 

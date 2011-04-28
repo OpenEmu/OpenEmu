@@ -31,10 +31,6 @@ static void MALEEReset(CartInfo *info)
 {
   memset(WRAM, 0x00, 2048);
   setprg2r(0x10,0x7000,0);
-  SetReadHandler(0x8000,0xFFFF,CartBR);
-  SetReadHandler(0x6000,0x67ff,CartBR);
-  SetReadHandler(0x7000,0x77FF,CartBR);
-  SetWriteHandler(0x7000,0x77FF,MWrite);
   setprg2r(1,0x6000,0);
   setprg32(0x8000,0);
   setchr8(0);
@@ -57,6 +53,11 @@ int MALEE_Init(CartInfo *info)
  SetupCartPRGMapping(0x10, WRAM, 2048, 1);
  info->Power=MALEEReset;
  info->StateAction = StateAction;
+
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetReadHandler(0x6000,0x67ff,CartBR);
+ SetReadHandler(0x7000,0x77FF,CartBR);
+ SetWriteHandler(0x7000,0x77FF,MWrite);
 
  return(1);
 }

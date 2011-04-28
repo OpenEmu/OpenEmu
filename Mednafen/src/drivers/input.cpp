@@ -15,12 +15,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "main.h"
+
 #include <string.h>
 #include <ctype.h>
 #include <trio/trio.h>
 #include <map>
 
-#include "main.h"
 #include "input.h"
 #include "input-config.h"
 #include "sound.h"
@@ -40,7 +41,9 @@ static double MouseDataRel[2];
 
 static unsigned int autofirefreq;
 static unsigned int ckdelay;
-static bool fftoggle;
+
+static bool fftoggle_setting;
+static bool sftoggle_setting;
 
 int ConfigDevice(int arg);
 static void ConfigDeviceBegin(void);
@@ -197,7 +200,6 @@ static unsigned int NumPorts;
 typedef std::vector<const InputDeviceInfoStruct*> SnugglyWuggly;
 static std::map<const char *, SnugglyWuggly *> PortPossibleDevices;
 
-
 static unsigned int PortCurrentDeviceIndex[16]; // index into PortPossibleDevices
 static void *PortData[16];
 static uint32 PortDataSize[16]; // In bytes, not bits!
@@ -212,6 +214,14 @@ static std::vector<int> PortButtConfigPrettyPrio[16];
 
 static std::vector<uint32> PortBitOffsets[16]; // within PortData, mask with 0x80000000 for rapid buttons
 static std::vector<uint32> PortButtBitOffsets[16];
+
+typedef struct
+{
+ uint32 rotate[3];
+} RotateOffsets_t;
+
+static std::vector<RotateOffsets_t> PortButtRotateOffsets[16];
+
 
 static std::vector<uint32> PortButtExclusionBitOffsets[16]; // 0xFFFFFFFF represents none
 static std::vector<char *> PortButtSettingNames[16];
@@ -237,6 +247,7 @@ static void KillPortInfo(void) // Murder it!!
 
   PortBitOffsets[port].clear();
   PortButtBitOffsets[port].clear();
+  PortButtRotateOffsets[port].clear();
   PortButtExclusionBitOffsets[port].clear();
 
   for(unsigned int x = 0; x < PortButtSettingNames[port].size(); x++)
@@ -251,6 +262,8 @@ static void KillPortInfo(void) // Murder it!!
 
 static void BuildPortInfo(MDFNGI *gi)
 {
+ const RotateOffsets_t NullRotate = { { ~0, ~0, ~0 } };
+
  NumPorts = 0;
 
  while(PortPossibleDevices[gi->shortname][NumPorts].size())
@@ -290,11 +303,7 @@ static void BuildPortInfo(MDFNGI *gi)
 
   PortCurrentDeviceIndex[NumPorts] = device;
 
-  if(!zedevice)
-  {
-   puts("Dackadaf");
-   exit(1);
-  }
+  assert(zedevice);
 
   PortDevice[NumPorts] = zedevice;
 
@@ -305,6 +314,30 @@ static void BuildPortInfo(MDFNGI *gi)
   if(!zedevice->PortExpanderDeviceInfo)
   for(int x = 0; x < zedevice->NumInputs; x++)
   {
+   // Handle dummy/padding button entries(the setting name will be NULL in such cases)
+   if(NULL == zedevice->IDII[x].SettingName)
+   {
+    //printf("Dummy: %s\n", zedevice->IDII[x].Name);
+    switch(zedevice->IDII[x].Type)
+    {
+     default: bit_offset = ((bit_offset + 31) &~ 31) + 32;
+	      break;
+
+     case IDIT_BUTTON:
+     case IDIT_BUTTON_CAN_RAPID: bit_offset += 1;
+				 break;
+
+     case IDIT_BUTTON_BYTE: bit_offset = ((bit_offset + 7) & ~7) + 8;
+			    break;
+
+ 
+     case IDIT_BYTE_SPECIAL: bit_offset += 8;
+			       break;
+    }
+    continue;
+   }   // End of handling dummy/padding entries
+   
+
    if(zedevice->IDII[x].Type == IDIT_BUTTON || zedevice->IDII[x].Type == IDIT_BUTTON_CAN_RAPID || zedevice->IDII[x].Type == IDIT_BUTTON_BYTE)
    {
     if(zedevice->IDII[x].Type == IDIT_BUTTON_BYTE)
@@ -412,35 +445,68 @@ static void BuildPortInfo(MDFNGI *gi)
    memset(PortData[NumPorts], 0, PortDataSize[NumPorts]);
   }
 
-  // Now, search for exclusion buttons
+  // Now, search for exclusion buttons and rotated inputs.
   if(!zedevice->PortExpanderDeviceInfo)
-  for(int x = 0; x < zedevice->NumInputs; x++)
   {
-   if(zedevice->IDII[x].Type == IDIT_BUTTON || zedevice->IDII[x].Type == IDIT_BUTTON_CAN_RAPID)
+   for(int x = 0; x < zedevice->NumInputs; x++)
    {
-    if(zedevice->IDII[x].ExcludeName)
+    if(NULL == zedevice->IDII[x].SettingName)
+     continue;
+
+    if(zedevice->IDII[x].Type == IDIT_BUTTON || zedevice->IDII[x].Type == IDIT_BUTTON_CAN_RAPID)
     {
-     int bo = 0xFFFFFFFF;
-
-     for(unsigned int sub_x = 0; sub_x < PortButtSettingNames[NumPorts].size(); sub_x++)
+     if(zedevice->IDII[x].ExcludeName)
      {
-      if(!strcasecmp(zedevice->IDII[x].ExcludeName, strrchr(PortButtSettingNames[NumPorts][sub_x], '.') + 1 ))
-       bo = PortButtBitOffsets[NumPorts][sub_x];
+      int bo = 0xFFFFFFFF;
+
+      for(unsigned int sub_x = 0; sub_x < PortButtSettingNames[NumPorts].size(); sub_x++)
+      {
+       if(!strcasecmp(zedevice->IDII[x].ExcludeName, strrchr(PortButtSettingNames[NumPorts][sub_x], '.') + 1 ))
+        bo = PortButtBitOffsets[NumPorts][sub_x];
+      }
+      //printf("%s %s %d\n", zedevice->IDII[x].SettingName, zedevice->IDII[x].ExcludeName, bo);
+      PortButtExclusionBitOffsets[NumPorts].push_back(bo);
      }
-     //printf("%s %s %d\n", zedevice->IDII[x].SettingName, zedevice->IDII[x].ExcludeName, bo);
-     PortButtExclusionBitOffsets[NumPorts].push_back(bo);
+     else
+      PortButtExclusionBitOffsets[NumPorts].push_back(0xFFFFFFFF);
+
+     if(zedevice->IDII[x].RotateName[0])
+     {
+      RotateOffsets_t RotoCat = NullRotate;
+
+      for(int rodir = 0; rodir < 3; rodir++)
+      {
+       for(unsigned int sub_x = 0; sub_x < PortButtSettingNames[NumPorts].size(); sub_x++)
+       {
+        if(!strcasecmp(zedevice->IDII[x].RotateName[rodir], strrchr(PortButtSettingNames[NumPorts][sub_x], '.') + 1 ))
+        {
+         RotoCat.rotate[rodir] = PortButtBitOffsets[NumPorts][sub_x];
+         break;
+        }
+       }
+       //printf("%s %s %d\n", zedevice->IDII[x].SettingName, zedevice->IDII[x].ExcludeName, bo);
+      }
+      PortButtRotateOffsets[NumPorts].push_back(RotoCat);
+     }
+     else
+      PortButtRotateOffsets[NumPorts].push_back(NullRotate);
+
+     if(zedevice->IDII[x].Type == IDIT_BUTTON_CAN_RAPID) // FIXME in the future, but I doubt we'll ever have rapid-fire directional buttons!
+     {
+      PortButtExclusionBitOffsets[NumPorts].push_back(0xFFFFFFFF);
+      PortButtRotateOffsets[NumPorts].push_back(NullRotate);
+     }
     }
-    else
+    else if(zedevice->IDII[x].Type == IDIT_BUTTON_BYTE)
+    {
      PortButtExclusionBitOffsets[NumPorts].push_back(0xFFFFFFFF);
-
-    if(zedevice->IDII[x].Type == IDIT_BUTTON_CAN_RAPID) // FIXME in the future, but I doubt we'll ever have rapid-fire directional buttons!
-     PortButtExclusionBitOffsets[NumPorts].push_back(0xFFFFFFFF);
-
+     PortButtRotateOffsets[NumPorts].push_back(NullRotate);
+    }
    }
-   else if(zedevice->IDII[x].Type == IDIT_BUTTON_BYTE)
-    PortButtExclusionBitOffsets[NumPorts].push_back(0xFFFFFFFF);
+  } // End search for exclusion buttons and rotated inputs.
 
-  }
+  assert(PortButtExclusionBitOffsets[NumPorts].size() == PortButtBitOffsets[NumPorts].size());
+  assert(PortButtRotateOffsets[NumPorts].size() == PortButtBitOffsets[NumPorts].size());
 
   MDFNI_SetInput(NumPorts, zedevice->ShortName, PortData[NumPorts], PortDataSize[NumPorts]);
   NumPorts++;
@@ -504,6 +570,7 @@ typedef enum {
 	CK_TAKE_SNAPSHOT,
 	CK_TOGGLE_FS,
 	CK_FAST_FORWARD,
+	CK_SLOW_FORWARD,
 
 	CK_INSERT_COIN,
 	CK_TOGGLE_DIPVIEW,
@@ -515,10 +582,13 @@ typedef enum {
 	CK_TOGGLE_CDISABLE,
 	CK_INPUT_CONFIG1,
 	CK_INPUT_CONFIG2,
-	CK_INPUT_CONFIGC,
         CK_INPUT_CONFIG3,
         CK_INPUT_CONFIG4,
 	CK_INPUT_CONFIG5,
+        CK_INPUT_CONFIG6,
+        CK_INPUT_CONFIG7,
+        CK_INPUT_CONFIG8,
+        CK_INPUT_CONFIGC,
 	CK_RESET,
 	CK_POWER,
 	CK_EXIT,
@@ -539,6 +609,10 @@ typedef enum {
         CK_DEVICE_SELECT3,
         CK_DEVICE_SELECT4,
         CK_DEVICE_SELECT5,
+        CK_DEVICE_SELECT6,
+        CK_DEVICE_SELECT7,
+        CK_DEVICE_SELECT8,
+
 	_CK_COUNT
 } CommandKey;
 
@@ -594,6 +668,8 @@ static COKE CKeys[_CK_COUNT]	=
 	{ MK_CK(F9), "take_snapshot", ~0, 1, gettext_noop("Take screen snapshot") },
 	{ MK_CK_ALT(RETURN), "toggle_fs", ~0, 1, gettext_noop("Toggle fullscreen mode") },
 	{ MK_CK(BACKQUOTE), "fast_forward", ~0, 1, gettext_noop("Fast-forward") },
+        { MK_CK(BACKSLASH), "slow_forward", ~0, 1, gettext_noop("Slow-forward") },
+
 	{ MK_CK(F8), "insert_coin", ~0, 1, gettext_noop("Insert coin") },
 	{ MK_CK(F6), "toggle_dipview", ~0, 1, gettext_noop("Toggle DIP switch view") },
 	{ MK_CK(F6), "select_disk", ~0, 1, gettext_noop("Select disk/disc") },
@@ -603,10 +679,14 @@ static COKE CKeys[_CK_COUNT]	=
 	{ MK_CK_SHIFT(SCROLLOCK), "toggle_cidisable", ~0, 1, gettext_noop("Grab input and disable commands") },
 	{ MK_CK_ALT_SHIFT(1), "input_config1", ~0, 0, gettext_noop("Configure buttons on virtual port 1") },
 	{ MK_CK_ALT_SHIFT(2), "input_config2", ~0, 0, gettext_noop("Configure buttons on virtual port 2")  },
-        { MK_CK(F2), "input_configc", ~0, 0, gettext_noop("Configure command key") },
         { MK_CK_ALT_SHIFT(3), "input_config3", ~0, 0, gettext_noop("Configure buttons on virtual port 3")  },
         { MK_CK_ALT_SHIFT(4), "input_config4", ~0, 0, gettext_noop("Configure buttons on virtual port 4")  },
 	{ MK_CK_ALT_SHIFT(5), "input_config5", ~0, 0, gettext_noop("Configure buttons on virtual port 5")  },
+        { MK_CK_ALT_SHIFT(6), "input_config6", ~0, 0, gettext_noop("Configure buttons on virtual port 6")  },
+        { MK_CK_ALT_SHIFT(7), "input_config7", ~0, 0, gettext_noop("Configure buttons on virtual port 7")  },
+        { MK_CK_ALT_SHIFT(8), "input_config8", ~0, 0, gettext_noop("Configure buttons on virtual port 8")  },
+        { MK_CK(F2), "input_configc", ~0, 0, gettext_noop("Configure command key") },
+
 	{ MK_CK(F10), "reset", ~0, 0, gettext_noop("Reset") },
 	{ MK_CK(F11), "power", ~0, 0, gettext_noop("Power toggle") },
 	{ MK_CK2(F12, ESCAPE), "exit", ~0, 0, gettext_noop("Exit") },
@@ -628,6 +708,9 @@ static COKE CKeys[_CK_COUNT]	=
         { MK_CK_CTRL_SHIFT(3), "device_select3", ~0, 1, gettext_noop("Select virtual device on virtual input port 3") },
         { MK_CK_CTRL_SHIFT(4), "device_select4", ~0, 1, gettext_noop("Select virtual device on virtual input port 4") },
         { MK_CK_CTRL_SHIFT(5), "device_select5", ~0, 1, gettext_noop("Select virtual device on virtual input port 5") },
+        { MK_CK_CTRL_SHIFT(6), "device_select6", ~0, 1, gettext_noop("Select virtual device on virtual input port 6") },
+        { MK_CK_CTRL_SHIFT(7), "device_select7", ~0, 1, gettext_noop("Select virtual device on virtual input port 7") },
+        { MK_CK_CTRL_SHIFT(8), "device_select8", ~0, 1, gettext_noop("Select virtual device on virtual input port 8") },
 };
 
 static std::vector<ButtConfig> CKeysBC[_CK_COUNT];
@@ -664,15 +747,40 @@ static int CK_CheckActive(CommandKey which)
 {
  return(DTestButtonCombo(CKeysBC[which], keys));
 }
+#if 0
+static int ckg_scroll = 0;
+static bool ckg_isactive = false;
+bool CKGUI_IsActive(void)
+{
+ return(ckg_isactive);
+}
 
+void CKGUI_Draw(SDL_Surface *surface, const SDL_Rect *rect)
+{
+
+}
+
+bool CKGUI_Toggle(void)
+{
+ return(ckg_isactive);
+}
+
+void CKGUI_Event(const SDL_Event *event)
+{
+
+}
+
+#endif
 int NoWaiting = 0;
 
-static int DIPS=0;
+static bool ViewDIPSwitches = false;
 
 #define KEY(__a) keys[MKK(__a)]
 
 static int cidisabled=0;
-static int inff = 0;
+
+static bool inff = 0;
+static bool insf = 0;
 
 typedef enum
 {
@@ -682,19 +790,47 @@ typedef enum
 	Port3,
 	Port4,
 	Port5,
+	Port6,
+	Port7,
+	Port8,
 	Command
 } ICType;
 
 static ICType IConfig = none;
 static int ICLatch;
+static uint32 ICDeadDelay = 0;
+
+static void UpdatePhysicalDeviceState(void)
+{
+ int mouse_x, mouse_y;
+
+ MouseData[2] = SDL_GetMouseState(&mouse_x, &mouse_y);
+ PtoV(&mouse_x, &mouse_y);
+ MouseData[0] = mouse_x & 0xFFFF;
+ MouseData[1] = mouse_y & 0xFFFF;
+
+ SDL_GetRelativeMouseState(&mouse_x, &mouse_y);
+
+ MouseDataRel[0] -= (int32)MouseDataRel[0]; //floor(MouseDataRel[0]);
+ MouseDataRel[1] -= (int32)MouseDataRel[1]; //floor(MouseDataRel[1]);
+
+ MouseDataRel[0] += CurGame->mouse_sensitivity * mouse_x;
+ MouseDataRel[1] += CurGame->mouse_sensitivity * mouse_y;
+
+ memcpy(keys, SDL_GetKeyState(0), MKK_COUNT);
+ SDL_JoystickUpdate();
+
+ CurTicks = SDL_GetTicks();
+}
+
+
 
 static bool NeedBLExitNow = 0;
 bool MDFND_ExitBlockingLoop(void)
 {
  SDL_Delay(1);
- memcpy(keys, SDL_GetKeyState(0), MKK_COUNT);
 
- CurTicks = SDL_GetTicks();
+ UpdatePhysicalDeviceState();
 
  if(CK_Check(CK_EXIT))
  {
@@ -706,12 +842,58 @@ bool MDFND_ExitBlockingLoop(void)
  return(NeedBLExitNow);
 }
 
-static void KeyboardCommands(void)
+static void RedoFFSF(void)
 {
-  memcpy(keys, SDL_GetKeyState(0), MKK_COUNT);
+ if(inff)
+  RefreshThrottleFPS(MDFN_GetSettingF("ffspeed"));
+ else if(insf)
+  RefreshThrottleFPS(MDFN_GetSettingF("sfspeed"));
+ else
+  RefreshThrottleFPS(1);
+}
 
-  CurTicks = SDL_GetTicks();
 
+// TODO: Remove this in the future when digit-string input devices are better abstracted.
+static uint8 BarcodeWorldData[1 + 13];
+
+static void DoKeyStateZeroing(void)
+{
+  if(IConfig == none && !(cidisabled & 0x1))	// Match the statement in CheckCommandKeys for when DoKeyStateZeroing()
+						// is called insterad of CheckCommandKeys
+  {
+   if(Netplay_IsTextInput() || IsConsoleCheatConfigActive())
+   {
+    memset(keys, 0, sizeof(keys)); // This effectively disables keyboard input, but still
+                                   // allows physical joystick input when in the chat mode.
+   }
+
+   if(Debugger_IsActive())
+   {
+    static char keys_backup[MKK_COUNT];
+    memcpy(keys_backup, keys, MKK_COUNT);
+    memset(keys, 0, sizeof(keys));
+
+    keys[SDLK_F1] = keys_backup[SDLK_F1];
+    keys[SDLK_F2] = keys_backup[SDLK_F2];
+    keys[SDLK_F3] = keys_backup[SDLK_F3];
+    keys[SDLK_F4] = keys_backup[SDLK_F4];
+    keys[SDLK_F5] = keys_backup[SDLK_F5];
+    keys[SDLK_F6] = keys_backup[SDLK_F6];
+    keys[SDLK_F7] = keys_backup[SDLK_F7];
+    keys[SDLK_F8] = keys_backup[SDLK_F8];
+    keys[SDLK_F9] = keys_backup[SDLK_F9];
+    keys[SDLK_F10] = keys_backup[SDLK_F10];
+    keys[SDLK_F11] = keys_backup[SDLK_F11];
+    keys[SDLK_F12] = keys_backup[SDLK_F12];
+    keys[SDLK_F13] = keys_backup[SDLK_F13];
+    keys[SDLK_F14] = keys_backup[SDLK_F14];
+    keys[SDLK_F15] = keys_backup[SDLK_F15];
+   }
+ }
+}
+
+static void CheckCommandKeys(void)
+{
   if(IConfig == none && !(cidisabled & 0x1))
   {
    if(CK_Check(CK_TOGGLE_HELP))
@@ -738,121 +920,43 @@ static void KeyboardCommands(void)
     }
    }
 
-   if(Netplay_IsTextInput() || IsConsoleCheatConfigActive())
-   {
-    memset(keys, 0, sizeof(keys)); // This effectively disables keyboard input, but still
-				   // allows physical joystick input when in the chat mode.
-    //return;
-   }
+   DoKeyStateZeroing();
 
    if(!IsConsoleCheatConfigActive() && !Debugger_IsActive())
     if(CK_Check(CK_TOGGLENETVIEW))
     {
      Netplay_ToggleTextView();
     }
-
-
-   if(Debugger_IsActive())
-   {
-    static char keys_backup[MKK_COUNT];
-    memcpy(keys_backup, keys, MKK_COUNT);
-    memset(keys, 0, sizeof(keys));
-
-    keys[SDLK_F1] = keys_backup[SDLK_F1];
-    keys[SDLK_F2] = keys_backup[SDLK_F2];
-    keys[SDLK_F3] = keys_backup[SDLK_F3];
-    keys[SDLK_F4] = keys_backup[SDLK_F4];
-    keys[SDLK_F5] = keys_backup[SDLK_F5];
-    keys[SDLK_F6] = keys_backup[SDLK_F6];
-    keys[SDLK_F7] = keys_backup[SDLK_F7];
-    keys[SDLK_F8] = keys_backup[SDLK_F8];
-    keys[SDLK_F9] = keys_backup[SDLK_F9];
-    keys[SDLK_F10] = keys_backup[SDLK_F10];
-    keys[SDLK_F11] = keys_backup[SDLK_F11];
-    keys[SDLK_F12] = keys_backup[SDLK_F12];
-    keys[SDLK_F13] = keys_backup[SDLK_F13];
-    keys[SDLK_F14] = keys_backup[SDLK_F14];
-    keys[SDLK_F15] = keys_backup[SDLK_F15];
-   }
   }
 
-   if(IConfig == Port1)
+   for(int i = 0; i < 8; i++)
    {
-    if(CK_Check(CK_INPUT_CONFIG1))
+    if(IConfig == Port1 + i)
     {
-     IConfig = none;
-     SetJoyReadMode(1);
-     MDFNI_DispMessage(_("Configuration interrupted."));
-    }
-    else if(ConfigDevice(0))
-    {
-     IConfig = none;
-     SetJoyReadMode(1);
+     if(CK_Check((CommandKey)(CK_INPUT_CONFIG1 + i)))
+     {
+      IConfig = none;
+      SetJoyReadMode(1);
+      MDFNI_DispMessage(_("Configuration interrupted."));
+     }
+     else if(ConfigDevice(i))
+     {
+      ICDeadDelay = CurTicks + 300;
+      IConfig = none;
+      SetJoyReadMode(1);
+     }
+     break;
     }
    }
-   else if(IConfig == Port2)
-   {
-    if(CK_Check(CK_INPUT_CONFIG2))
-    {
-     IConfig = none;
-     SetJoyReadMode(1);
-     MDFNI_DispMessage(_("Configuration interrupted."));
-    }
-    else if(ConfigDevice(1))
-    {
-     IConfig = none;
-     SetJoyReadMode(1);
-    }
-   }
-   if(IConfig == Port3)
-   {
-    if(CK_Check(CK_INPUT_CONFIG3))
-    {
-     IConfig = none;
-     SetJoyReadMode(1);
-     MDFNI_DispMessage(_("Configuration interrupted."));
-    }
-    else if(ConfigDevice(2))
-    {
-     IConfig = none;
-     SetJoyReadMode(1);
-    }
-   }
-   else if(IConfig == Port4)
-   {
-    if(CK_Check(CK_INPUT_CONFIG4))
-    {
-     IConfig = none;
-     SetJoyReadMode(1);
-     MDFNI_DispMessage(_("Configuration interrupted."));
-    }
-    else if(ConfigDevice(3))
-    {
-     IConfig = none;
-     SetJoyReadMode(1);
-    }
-   }
-   else if(IConfig == Port5)
-   {
-    if(CK_Check(CK_INPUT_CONFIG5))
-    {
-     IConfig = none;
-     SetJoyReadMode(1);
-     MDFNI_DispMessage(_("Configuration interrupted."));
-    }
-    else if(ConfigDevice(4))
-    {
-     IConfig = none;
-     SetJoyReadMode(1);
-    }
-   }
-   else if(IConfig == Command)
+
+   if(IConfig == Command)
    {
     if(ICLatch != -1)
     {
      if(subcon(CKeys[ICLatch].text, CKeysBC[ICLatch], 1))
      {
       MDFNI_DispMessage(_("Configuration finished."));
+      ICDeadDelay = CurTicks + 300;
       IConfig = none;
       SetJoyReadMode(1);
       CKeysLastState[ICLatch] = 1;	// We don't want to accidentally
@@ -954,72 +1058,24 @@ static void KeyboardCommands(void)
 
   if(!Debugger_IsActive()) // We don't want to start button configuration when the debugger is active!
   {
-   if(CK_Check(CK_INPUT_CONFIG1))
+   for(int i = 0; i < 8; i++)
    {
-    if(!PortButtConfig[0].size())
+    if(CK_Check((CommandKey)(CK_INPUT_CONFIG1 + i)))
     {
-     MDFN_DispMessage(_("No buttons to configure for input port %d!"), 1);
-    }
-    else
-    {
-     SetJoyReadMode(0);
-     ConfigDeviceBegin();
-     IConfig = Port1;
+     if(!PortButtConfig[i].size())
+     {
+      MDFN_DispMessage(_("No buttons to configure for input port %d!"), i);
+     }
+     else
+     {
+      SetJoyReadMode(0);
+      ConfigDeviceBegin();
+      IConfig = (ICType)(Port1 + i);
+     }
     }
    }
-   else if(CK_Check(CK_INPUT_CONFIG2))
-   {
-    if(!PortButtConfig[1].size())
-    {
-     MDFN_DispMessage(_("No buttons to configure for input port %d!"), 2);
-    }
-    else
-    {
-     SetJoyReadMode(0);
-     ConfigDeviceBegin();
-     IConfig = Port2;
-    }
-   }
-   else if(CK_Check(CK_INPUT_CONFIG3))
-   {
-    if(!PortButtConfig[2].size())
-    {
-     MDFN_DispMessage(_("No buttons to configure for input port %d!"), 3);
-    }
-    else
-    {
-     SetJoyReadMode(0);
-     ConfigDeviceBegin();
-     IConfig = Port3;
-    }
-   }
-   else if(CK_Check(CK_INPUT_CONFIG4))
-   {
-    if(!PortButtConfig[3].size())
-    {
-     MDFN_DispMessage(_("No buttons to configure for input port %d!"), 4);
-    }
-    else
-    {
-     SetJoyReadMode(0);
-     ConfigDeviceBegin();
-     IConfig = Port4;
-    }
-   }
-   else if(CK_Check(CK_INPUT_CONFIG5))
-   {
-    if(!PortButtConfig[4].size())
-    {
-     MDFN_DispMessage(_("No buttons to configure for input port %d!"), 5);
-    }
-    else
-    {
-     SetJoyReadMode(0);
-     ConfigDeviceBegin();
-     IConfig = Port5;
-    }
-   }
-   else if(CK_Check(CK_INPUT_CONFIGC))
+
+   if(CK_Check(CK_INPUT_CONFIGC))
    {
     SetJoyReadMode(0);
     ConfigDeviceBegin();
@@ -1058,35 +1114,25 @@ static void KeyboardCommands(void)
    RewindState ^= 1;
    MDFNI_EnableStateRewind(RewindState);
 
-   MDFNI_DispMessage(RewindState?_("State rewinding functionality enabled.") : _("State rewinding functionality disabled."));
+   MDFNI_DispMessage(RewindState ? _("State rewinding functionality enabled.") : _("State rewinding functionality disabled."));
   }
 
-  if(fftoggle)
   {
-   if(CK_Check(CK_FAST_FORWARD))
-   {
-    inff = !inff;
-    RefreshThrottleFPS(inff ? MDFN_GetSettingUI("ffspeed") : 1);
-   }
-  }
-  else
-  {
-   if(CK_CheckActive(CK_FAST_FORWARD))
-   {
-    if(!inff) 
-    {
-     RefreshThrottleFPS(MDFN_GetSettingUI("ffspeed"));
-     inff = 1;
-    }
-   }
+   bool previous_ff = inff;
+   bool previous_sf = insf;
+
+   if(fftoggle_setting)
+    inff ^= CK_Check(CK_FAST_FORWARD);
    else
-   {
-    if(inff) 
-    {
-     RefreshThrottleFPS(1);
-    }
-    inff = 0;
-   }
+    inff = CK_CheckActive(CK_FAST_FORWARD);
+
+   if(sftoggle_setting)
+    insf ^= CK_Check(CK_SLOW_FORWARD);
+   else
+    insf = CK_CheckActive(CK_SLOW_FORWARD);
+
+   if(previous_ff != inff || previous_sf != insf)
+    RedoFFSF();
   }
 
   if(CurGame->GameType == GMT_DISK || CurGame->GameType == GMT_CDROM)
@@ -1100,7 +1146,7 @@ static void KeyboardCommands(void)
    if(CK_Check(CK_INSERTEJECT_DISK)) 
    {
     LockGameMutex(1);
-    MDFNI_DiskInsert(0);
+    MDFNI_DiskInsert();
     LockGameMutex(0);
    }
   }
@@ -1122,7 +1168,7 @@ static void KeyboardCommands(void)
   if(CK_Check(CK_TAKE_SNAPSHOT)) 
 	pending_snapshot = 1;
 
-  if(CurGame->GameType != GMT_PLAYER)
+//  if(CurGame->GameType != GMT_PLAYER)
   {
    if(CK_Check(CK_SAVE_STATE))
 	pending_save_state = 1;
@@ -1194,24 +1240,26 @@ static void KeyboardCommands(void)
 
   if(CurGame->GameType == GMT_ARCADE)
   {
-	#ifdef WANT_NES_EMU
 	if(CK_Check(CK_INSERT_COIN))
-		MDFNI_VSUniCoin();
+		MDFNI_InsertCoin();
+
 	if(CK_Check(CK_TOGGLE_DIPVIEW))
         {
-	 DIPS^=1;
-	 MDFNI_VSUniToggleDIPView();
+	 ViewDIPSwitches = !ViewDIPSwitches;
+	 MDFNI_ToggleDIPView();
 	}
-	if(!(DIPS&1)) goto DIPSless;
-	if(CK_Check(CK_1)) MDFNI_VSUniToggleDIP(0);
-	if(CK_Check(CK_2)) MDFNI_VSUniToggleDIP(1);
-	if(CK_Check(CK_3)) MDFNI_VSUniToggleDIP(2);
-	if(CK_Check(CK_4)) MDFNI_VSUniToggleDIP(3);
-	if(CK_Check(CK_5)) MDFNI_VSUniToggleDIP(4);
-	if(CK_Check(CK_6)) MDFNI_VSUniToggleDIP(5);
-	if(CK_Check(CK_7)) MDFNI_VSUniToggleDIP(6);
-	if(CK_Check(CK_8)) MDFNI_VSUniToggleDIP(7);
-	#endif
+
+	if(!ViewDIPSwitches)
+	 goto DIPSless;
+
+	if(CK_Check(CK_1)) MDFNI_ToggleDIP(0);
+	if(CK_Check(CK_2)) MDFNI_ToggleDIP(1);
+	if(CK_Check(CK_3)) MDFNI_ToggleDIP(2);
+	if(CK_Check(CK_4)) MDFNI_ToggleDIP(3);
+	if(CK_Check(CK_5)) MDFNI_ToggleDIP(4);
+	if(CK_Check(CK_6)) MDFNI_ToggleDIP(5);
+	if(CK_Check(CK_7)) MDFNI_ToggleDIP(6);
+	if(CK_Check(CK_8)) MDFNI_ToggleDIP(7);
   }
   else
   {
@@ -1229,12 +1277,10 @@ static void KeyboardCommands(void)
      {
       if(!strcmp(PortDevice[4]->ShortName, "bworld"))
       {
-       uint8 *meowptr = (uint8 *)PortData[4];
+       BarcodeWorldData[0] = 1;
+       memset(BarcodeWorldData + 1, 0, 13);
 
-       memset(meowptr + 1, 0, 13);
-       meowptr[0] = 1;
-
-       strncpy((char*)meowptr + 1, (char *)bbuf, 13);
+       strncpy((char *)BarcodeWorldData + 1, (char *)bbuf, 13);
       }
       else
        MDFNI_DatachSet(bbuf);
@@ -1264,9 +1310,11 @@ static void KeyboardCommands(void)
     if(CK_Check(CK_9)) SSM(9);
    }
    else
+   #else
+   DIPSless: ;
    #endif
    {
-    if(CurGame->GameType != GMT_PLAYER)
+    //if(CurGame->GameType != GMT_PLAYER)
     {
      if(CK_Check(CK_0)) MDFNI_SelectState(0);
      if(CK_Check(CK_1)) MDFNI_SelectState(1);
@@ -1295,37 +1343,42 @@ static void KeyboardCommands(void)
  }
 }
 
-void MDFND_UpdateInput(void)
+void MDFND_UpdateInput(bool VirtualDevicesOnly, bool UpdateRapidFire)
 {
  static unsigned int rapid=0;
- int mouse_x, mouse_y;
 
- MouseData[2] = SDL_GetMouseState(&mouse_x,&mouse_y);
- PtoV(&mouse_x, &mouse_y);
- MouseData[0] = mouse_x&0xFFFF;
- MouseData[1] = mouse_y&0xFFFF;
+ UpdatePhysicalDeviceState();
 
- SDL_GetRelativeMouseState(&mouse_x, &mouse_y);
+ //
+ // Check command keys/buttons.  CheckCommandKeys() may modify(such as memset to 0) the state of the "keys" array
+ // under certain circumstances.
+ //
+ if(VirtualDevicesOnly)
+  DoKeyStateZeroing();	// Normally called from CheckCommandKeys(), but since we're not calling CheckCommandKeys() here...
+ else
+  CheckCommandKeys();
 
- MouseDataRel[0] -= (int32)MouseDataRel[0]; //floor(MouseDataRel[0]);
- MouseDataRel[1] -= (int32)MouseDataRel[1]; //floor(MouseDataRel[1]);
+ if(UpdateRapidFire)
+  rapid = (rapid + 1) % (autofirefreq + 1);
 
- MouseDataRel[0] += CurGame->mouse_sensitivity * mouse_x;
- MouseDataRel[1] += CurGame->mouse_sensitivity * mouse_y;
-
- SDL_JoystickUpdate();
-
- rapid = (rapid + 1) % (autofirefreq + 1);
+ int RotateInput = -1;
 
  // Do stuff here
  for(unsigned int x = 0; x < NumPorts; x++)
  {
-  if(!PortData[x]) continue;
-
-  if(IConfig != none && (Port1 + x) == IConfig) continue;	// Don't update state if we're configuring for this input port.
+  if(!PortData[x])
+   continue;
 
   memset(PortData[x], 0, PortDataSize[x]);
-  
+
+  if(IConfig != none)
+   continue;
+
+  if(ICDeadDelay > CurTicks)
+   continue;
+  else
+   ICDeadDelay = 0;
+
   // First, handle buttons
   for(unsigned int butt = 0; butt < PortButtConfig[x].size(); butt++)
   {
@@ -1334,6 +1387,18 @@ void MDFND_UpdateInput(void)
     uint8 *tptr = (uint8 *)PortData[x];
     uint32 bo = PortButtBitOffsets[x][butt];
 
+    if(CurGame->rotated && PortButtRotateOffsets[x][butt].rotate[CurGame->rotated - 1] != 0xFFFFFFFF)
+    {
+     if(RotateInput < 0)
+     {
+      char tmp_setting_name[256];
+
+      trio_snprintf(tmp_setting_name, 256, "%s.rotateinput", CurGame->shortname);
+      RotateInput = MDFN_GetSettingB(tmp_setting_name);
+     }
+     if(RotateInput)
+      bo = PortButtRotateOffsets[x][butt].rotate[CurGame->rotated - 1];
+    }
     if(!(bo & 0x80000000) || rapid >= (autofirefreq + 1) / 2)
      tptr[(bo & 0x7FFFFFFF) / 8] |= 1 << (bo & 7);
    }
@@ -1365,6 +1430,12 @@ void MDFND_UpdateInput(void)
    switch(PortDevice[x]->IDII[tmi].Type)
    {
     default: break;
+
+    case IDIT_BYTE_SPECIAL:
+			assert(tmi < 13 + 1);
+			((uint8 *)PortData[x])[tmi] = BarcodeWorldData[tmi];
+			break;
+
     case IDIT_X_AXIS_REL:
     case IDIT_Y_AXIS_REL:
                       MDFN_en32lsb(((uint8 *)PortData[x] + PortBitOffsets[x][tmi] / 8), (uint32)((PortDevice[x]->IDII[tmi].Type == IDIT_Y_AXIS_REL) ? MouseDataRel[1] : MouseDataRel[0]));
@@ -1379,106 +1450,15 @@ void MDFND_UpdateInput(void)
   }
  }
 
- // Handle Lynx and WonderSwan screen rotation...this code is ugly and wrong, FIXME
- if(CurGame->rotated != MDFN_ROTATE0)
- {
-  bool WantRotate = 0;
-  int numsets = 1;
-  char tmp_setting_name[64];
-
-  snprintf(tmp_setting_name, 64, "%s.rotateinput", CurGame->shortname);
-  WantRotate = MDFN_GetSettingB(tmp_setting_name);
-
-  if(!strcasecmp(CurGame->shortname, "wswan"))
-   numsets = 2;
-
-  if(WantRotate)
-  for(int i = 0; i < numsets; i++)
-   for(unsigned int x = 0; x < NumPorts; x++)
-   {
-    if(!PortData[x]) continue;
-    uint32 oldbo[4] = {0, 0, 0, 0}; // right, up, left, down.
-    bool meowb[4];
-
-    uint8 *tptr = (uint8 *)PortData[x];
-
-    // FIXME:  Factor this code out so it doesn't run every frame.
-    for(unsigned int butt = 0; butt < PortButtConfig[x].size(); butt++)
-    {
-     uint32 bo = PortButtBitOffsets[x][butt];
-     const char *sname =  PortButtSettingNames[x][butt];
-
-     if(numsets == 2)
-     {
-      if(i == 0)
-      {
-       if(strstr(sname, ".up-x"))
-        oldbo[1] = bo;
-       else if(strstr(sname, ".down-x"))
-        oldbo[3] = bo;
-       else if(strstr(sname, ".left-x"))
-        oldbo[2] = bo;
-       else if(strstr(sname, ".right-x"))
-        oldbo[0] = bo;
-      }
-      else
-      {
-       if(strstr(sname, ".up-y"))
-        oldbo[1] = bo;
-       else if(strstr(sname, ".down-y"))
-        oldbo[3] = bo;
-       else if(strstr(sname, ".left-y"))
-        oldbo[2] = bo;
-       else if(strstr(sname, ".right-y"))
-        oldbo[0] = bo;
-      }
-     }
-     else
-     {
-      if(strstr(sname, ".up"))
-       oldbo[1] = bo;
-      else if(strstr(sname, ".down"))
-       oldbo[3] = bo;
-      else if(strstr(sname, ".left"))
-       oldbo[2] = bo;
-      else if(strstr(sname, ".right"))
-       oldbo[0] = bo;
-     }
-    }
-
-    for(int caca = 0; caca < 4; caca++)
-    {
-     uint32 bo = oldbo[caca];
-     meowb[caca] = (tptr[bo / 8] >> (bo & 0x7)) & 0x1;
-     tptr[bo / 8] &= ~(1 << (bo & 0x7));
-    }
-    int maha = 0;
-
-    if(CurGame->rotated == MDFN_ROTATE90)
-     maha = 3;
-    else if(CurGame->rotated == MDFN_ROTATE270)
-     maha = 1;
-
-    for(int caca = 0; caca < 4; caca++)
-    {
-     uint32 bo = oldbo[maha];
-
-     tptr[bo / 8] |= meowb[caca] << (bo & 0x7);
-     maha = (maha + 1) & 0x3;
-    }
-   }
- }
-
-
- // KLUDGE, call command handling after general port handling(with the memset() 0 fun) so that
- // the Barcode World stuff will work.
- KeyboardCommands();
+ memset(BarcodeWorldData, 0, sizeof(BarcodeWorldData));
 }
 
 void InitGameInput(MDFNGI *gi)
 {
  autofirefreq = MDFN_GetSettingUI("autofirefreq");
- fftoggle = MDFN_GetSettingB("fftoggle");
+ fftoggle_setting = MDFN_GetSettingB("fftoggle");
+ sftoggle_setting = MDFN_GetSettingB("sftoggle");
+
  ckdelay = MDFN_GetSettingUI("ckdelay");
 
  memset(CKeysPressTime, 0xff, sizeof(CKeysPressTime));
@@ -1520,12 +1500,9 @@ static void subcon_begin(std::vector<ButtConfig> &bc)
 /* Configures an individual virtual button. */
 static int subcon(const char *text, std::vector<ButtConfig> &bc, int commandkey)
 {
- char buf[256];
-
  while(1)
  {
-  sprintf(buf,"%s (%d)",text,subcon_wc+1);
-  MDFNI_DispMessage(buf);
+  MDFNI_DispMessage("%s (%d)", text, subcon_wc + 1);
 
   if(subcon_tb != subcon_wc)
   {
@@ -1599,9 +1576,9 @@ int ConfigDevice(int arg)
   // For Lynx, GB, GBA, NGP, WonderSwan(especially wonderswan!)
   //if(!strcasecmp(PortDevice[arg]->ShortName, "builtin")) // && !arg)
   if(NumPorts == 1 && PortPossibleDevices[CurGame->shortname][0].size() == 1)
-   sprintf(buf, "%s", PortButtons[arg][snooty]);
+   trio_snprintf(buf, 256, "%s", PortButtons[arg][snooty]);
   else
-   sprintf(buf, "%s %d: %s", PortDevice[arg]->FullName, arg + 1, PortButtons[arg][snooty]);
+   trio_snprintf(buf, 256, "%s %d: %s", PortDevice[arg]->FullName, arg + 1, PortButtons[arg][snooty]);
 
   if(cd_x != cd_lx)
   {
@@ -1647,6 +1624,9 @@ static void MakeSettingsForDevice(std::vector <MDFNSetting> &settings, const MDF
   if(info->IDII[x].Type != IDIT_BUTTON && info->IDII[x].Type != IDIT_BUTTON_CAN_RAPID && info->IDII[x].Type != IDIT_BUTTON_BYTE)
    continue;
 
+  if(NULL == info->IDII[x].SettingName)
+   continue;
+
   MDFNSetting tmp_setting;
 
   const char *default_value = "";
@@ -1684,6 +1664,9 @@ static void MakeSettingsForDevice(std::vector <MDFNSetting> &settings, const MDF
   tmp_setting.type = MDFNST_STRING;
   tmp_setting.default_value = default_value;
   
+  tmp_setting.flags = MDFNSF_SUPPRESS_DOC;
+  tmp_setting.description_extra = NULL;
+
   settings.push_back(tmp_setting);
 
   // Now make a rapid butt-on-stick-on-watermelon
@@ -1697,6 +1680,10 @@ static void MakeSettingsForDevice(std::vector <MDFNSetting> &settings, const MDF
    PendingGarbage.push_back((void *)( tmp_setting.description = trio_aprintf("%s, %s, %s: Rapid %s", system->shortname, system->InputInfo->Types[w].FullName, info->FullName, info->IDII[x].Name) ));
    tmp_setting.type = MDFNST_STRING;
    tmp_setting.default_value = "";
+
+   tmp_setting.flags = MDFNSF_SUPPRESS_DOC;
+   tmp_setting.description_extra = NULL;
+
    settings.push_back(tmp_setting);
   }
   butti++;
@@ -1706,6 +1693,56 @@ static void MakeSettingsForDevice(std::vector <MDFNSetting> &settings, const MDF
 
 static void MakeSettingsForPort(std::vector <MDFNSetting> &settings, const MDFNGI *system, const int w, const InputPortInfoStruct *info)
 {
+#if 1
+ if(info->NumTypes > 1)
+ {
+  MDFNSetting tmp_setting;
+  MDFNSetting_EnumList *EnumList;
+
+  memset(&tmp_setting, 0, sizeof(MDFNSetting));
+
+  EnumList = (MDFNSetting_EnumList *)calloc(sizeof(MDFNSetting_EnumList), info->NumTypes + 1);
+
+  for(int device = 0; device < info->NumTypes; device++)
+  {
+   const InputDeviceInfoStruct *dinfo = &info->DeviceInfo[device];
+
+   EnumList[device].string = strdup(dinfo->ShortName);
+   EnumList[device].number = device;
+   EnumList[device].description = strdup(info->DeviceInfo[device].FullName);
+   EnumList[device].description_extra = NULL;
+
+   PendingGarbage.push_back((void *)EnumList[device].string);
+   PendingGarbage.push_back((void *)EnumList[device].description);
+  }
+
+  PendingGarbage.push_back(EnumList);
+
+
+  char tmp_sn[256];
+  trio_snprintf(tmp_sn, 256, "%s.input.%s", system->shortname, info->ShortName);
+
+  tmp_setting.name = strdup(tmp_sn);
+  PendingGarbage.push_back((void *)tmp_setting.name);
+
+  trio_snprintf(tmp_sn, 256, "Input device for %s", info->FullName);
+  tmp_setting.description = strdup(tmp_sn);
+  PendingGarbage.push_back((void *)tmp_setting.description);
+
+
+  tmp_setting.type = MDFNST_ENUM;
+  tmp_setting.default_value = info->DefaultDevice;
+
+  assert(info->DefaultDevice);
+
+  tmp_setting.flags = MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE;
+  tmp_setting.description_extra = NULL;
+  tmp_setting.enum_list = EnumList;
+
+  settings.push_back(tmp_setting);
+ }
+#endif
+
  for(int device = 0; device < info->NumTypes; device++)
  {
   const InputDeviceInfoStruct *dinfo = &info->DeviceInfo[device];
@@ -1735,11 +1772,13 @@ static void MakeSettingsForPort(std::vector <MDFNSetting> &settings, const MDFNG
 void MakeInputSettings(std::vector <MDFNSetting> &settings)
 {
  // First, build system settings
- for(unsigned int x = 0; x < MDFNSystemCount; x++)
+ for(unsigned int x = 0; x < MDFNSystems.size(); x++)
  {
   if(MDFNSystems[x]->InputInfo)
   {
    PortPossibleDevices[MDFNSystems[x]->shortname] = new SnugglyWuggly[16];
+
+   assert(MDFNSystems[x]->InputInfo->InputPorts <= 16);
 
    for(int port = 0; port < MDFNSystems[x]->InputInfo->InputPorts; port++)
     MakeSettingsForPort(settings, MDFNSystems[x], port, &MDFNSystems[x]->InputInfo->Types[port]);
@@ -1760,6 +1799,9 @@ void MakeInputSettings(std::vector <MDFNSetting> &settings)
   PendingGarbage.push_back((void *)( tmp_setting.name = strdup(setting_name) ));
   tmp_setting.description = CKeys[x].description;
   tmp_setting.type = MDFNST_STRING;
+
+  tmp_setting.flags = MDFNSF_SUPPRESS_DOC;
+  tmp_setting.description_extra = NULL;
 
   PendingGarbage.push_back((void *)( tmp_setting.default_value = strdup(BCsToString(CKeys[x].bc, 2).c_str()) ));
   settings.push_back(tmp_setting);

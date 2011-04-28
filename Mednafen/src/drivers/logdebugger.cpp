@@ -22,6 +22,7 @@
 #include "debugger.h"
 #include "prompt.h"
 
+#include <trio/trio.h>
 #include <vector>
 #include <map>
 #include <string>
@@ -117,7 +118,7 @@ void LogDebugger_Draw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect
  uint32 pitch32 = surface->pitch >> 2;
  char logmessage[256];
  
- snprintf(logmessage, 256, "%s (%d messages)", LoggingActive ? (UTF8*)"Logging Enabled" : (UTF8*)"Logging Disabled", (int)WhichLog->entries.size());
+ trio_snprintf(logmessage, 256, "%s (%d messages)", LoggingActive ? (UTF8*)"Logging Enabled" : (UTF8*)"Logging Disabled", (int)WhichLog->entries.size());
  DrawTextTrans(pixels, surface->pitch, rect->w, (UTF8*)logmessage, MK_COLOR_A(0x20, 0xFF, 0x20, 0xFF), 1, MDFN_FONT_6x13_12x13);
  pixels += 13 * pitch32;
 
@@ -129,7 +130,7 @@ void LogDebugger_Draw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect
   uint32 group_color = MK_COLOR_A(0x80, 0x80, 0x80, 0xFF);
   char group_string[256];
 
-  snprintf(group_string, 256, "%s(%d)", dl_iter->first.c_str(), (int)dl_iter->second.entries.size());
+  trio_snprintf(group_string, 256, "%s(%d)", dl_iter->first.c_str(), (int)dl_iter->second.entries.size());
 
   if(&dl_iter->second == WhichLog)
    group_color = MK_COLOR_A(0xFF, 0x80, 0x80, 0xFF);
@@ -151,7 +152,7 @@ void LogDebugger_Draw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect
 				      };
   char tmpbuf[64];
 
-  snprintf(tmpbuf, 64, "%d", i);
+  trio_snprintf(tmpbuf, 64, "%d", i);
   typelen = DrawTextTrans(pixels, surface->pitch, rect->w, (UTF8*)tmpbuf, MK_COLOR_A(0x80, 0x80, 0xD0, 0xFF), FALSE, MDFN_FONT_5x7);
   typelen += 1;
 

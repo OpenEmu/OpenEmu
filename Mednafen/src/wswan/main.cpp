@@ -19,9 +19,9 @@
  */
 
 #include "wswan.h"
-#include "../netplay.h"
 #include "../md5.h"
 #include "../mempatcher.h"
+#include "../player.h"
 
 #include <fcntl.h>
 #include <sys/types.h>
@@ -43,6 +43,10 @@ uint32		rom_size;
 
 uint16 WSButtonStatus;
 
+
+static bool IsWSR;
+static uint8 WSRCurrentSong;
+
 static void Reset(void)
 {
 	int		u0;
@@ -60,24 +64,85 @@ static void Reset(void)
 
 	v30mz_set_reg(NEC_SS,0);
 	v30mz_set_reg(NEC_SP,0x2000);
+
+	if(IsWSR)
+	{
+	 v30mz_set_reg(NEC_AW, WSRCurrentSong);
+	}
 }
 
 static uint8 *chee;
 static void Emulate(EmulateSpecStruct *espec)
 {
- MDFNGameInfo->fb = espec->pixels;
+ espec->DisplayRect.x = 0;
+ espec->DisplayRect.y = 0;
+ espec->DisplayRect.w = 224;
+ espec->DisplayRect.h = 144;
 
- WSButtonStatus = chee[0] | (chee[1] << 8);
+ if(espec->VideoFormatChanged)
+  WSwan_SetPixelFormat(espec->surface->format);
+
+ if(espec->SoundFormatChanged)
+  WSwan_SetSoundRate(espec->SoundRate);
+
+ uint16 butt_data = chee[0] | (chee[1] << 8);
+
+ WSButtonStatus = butt_data;
+ 
 
  MDFNMP_ApplyPeriodicCheats();
 
- while(!wsExecuteLine(espec->pixels, espec->skip))
+ while(!wsExecuteLine(espec->surface, espec->skip))
  {
 
  }
 
 
- *(espec->SoundBuf) = WSwan_SoundFlush(espec->SoundBufSize);
+ espec->SoundBufSize = WSwan_SoundFlush(espec->SoundBuf, espec->SoundBufMaxSize);
+
+ espec->MasterCycles = v30mz_timestamp;
+ v30mz_timestamp = 0;
+
+ if(IsWSR)
+ {
+  bool needreload = FALSE;
+  static uint16 last;
+
+  Player_Draw(espec->surface, &espec->DisplayRect, WSRCurrentSong, espec->SoundBuf, espec->SoundBufSize);
+
+  if((WSButtonStatus & 0x02) && !(last & 0x02))
+  {
+   WSRCurrentSong++;
+   needreload = 1;
+  }
+
+  if((WSButtonStatus & 0x08) && !(last & 0x08))
+  {
+   WSRCurrentSong--;
+   needreload = 1;
+  }
+
+  if((WSButtonStatus & 0x100) && !(last & 0x100))
+   needreload = 1;
+
+  if((WSButtonStatus & 0x01) && !(last & 0x01))
+  {
+   WSRCurrentSong += 10;
+   needreload = 1;
+  }
+
+  if((WSButtonStatus & 0x04) && !(last & 0x04))
+  {
+   WSRCurrentSong -= 10;
+   needreload = 1;
+  }
+
+
+  last = WSButtonStatus;
+
+  if(needreload)
+   Reset();
+ }
 }
 
 typedef struct
@@ -128,8 +193,8 @@ static DLEntry Developers[] =
 
 static bool TestMagic(const char *name, MDFNFILE *fp)
 {
-// if(strcasecmp(fp->ext, "ws") && strcasecmp(fp->ext, "wsc"))
-//  return(FALSE);
+ if(strcasecmp(fp->ext, "ws") && strcasecmp(fp->ext, "wsc") && strcasecmp(fp->ext, "wsr"))
+  return(FALSE);
 
  if(fp->size < 65536)
   return(FALSE);
@@ -139,16 +204,40 @@ static bool TestMagic(const char *name, MDFNFILE *fp)
 
 static int Load(const char *name, MDFNFILE *fp)
 {
- if(!TestMagic(name, fp))
-  return(-1);
+ uint32 real_rom_size;
 
- rom_size = uppow2(fp->size);
+ if(fp->size < 65536)
+ {
+  MDFN_PrintError(_("%s ROM image is too small."), MDFNGameInfo->fullname);
+  return(0);
+ }
+
+ if(!memcmp(fp->data + fp->size - 0x20, "WSRF", 4))
+ {
+  const uint8 *wsr_footer = fp->data + fp->size - 0x20;
+
+  IsWSR = TRUE;
+  WSRCurrentSong = wsr_footer[0x5];
+
+  Player_Init(256, NULL, NULL, NULL, NULL);
+ }
+ else
+  IsWSR = false;
+
+ real_rom_size = (fp->size + 0xFFFF) & ~0xFFFF;
+ rom_size = round_up_pow2(real_rom_size); //fp->size);
 
  wsCartROM = (uint8 *)calloc(1, rom_size);
 
- memcpy(wsCartROM, fp->data, fp->size);
 
- MDFN_printf(_("ROM:       %dKiB\n"), rom_size / 1024);
+ // This real_rom_size vs rom_size funny business is intended primarily for handling
+ // WSR files.
+ if(real_rom_size < rom_size)
+  memset(wsCartROM, 0xFF, rom_size - real_rom_size);
+
+ memcpy(wsCartROM + (rom_size - real_rom_size), fp->data, fp->size);
+
+ MDFN_printf(_("ROM:       %dKiB\n"), real_rom_size / 1024);
  md5_context md5;
  md5.starts();
  md5.update(wsCartROM, rom_size);
@@ -213,28 +302,22 @@ static int Load(const char *name, MDFNFILE *fp)
   wsCartROM[0xfffec]=0x20;
  }
 
- if(header[6] & 0x1)
-  MDFNGameInfo->rotated = MDFN_ROTATE90;
+ if(!IsWSR)
+ {
+  if(header[6] & 0x1)
+   MDFNGameInfo->rotated = MDFN_ROTATE90;
+ }
 
  MDFNMP_Init(16384, (1 << 20) / 1024);
 
  v30mz_init(WSwan_readmem20, WSwan_writemem20, WSwan_readport, WSwan_writeport);
- WSwan_MemoryInit(wsc, SRAMSize); // EEPROM and SRAM are loaded in this func.
+ WSwan_MemoryInit(wsc, SRAMSize, IsWSR); // EEPROM and SRAM are loaded in this func.
  WSwan_GfxInit();
- MDFN_LoadGameCheats(NULL);
  MDFNGameInfo->fps = (uint32)((uint64)3072000 * 65536 * 256 / (159*256));
  MDFNGameInfo->GameSetMD5Valid = FALSE;
 
- if(MDFN_GetSettingB("wswan.forcemono"))
- {
-  MDFNGameInfo->soundchan = 1;
-  WSwan_SoundInit(1);
- }
- else
- {
-  MDFNGameInfo->soundchan = 2;
-  WSwan_SoundInit(0);
- }
+ WSwan_SoundInit();
+
  wsMakeTiles();
 
  Reset();
@@ -245,8 +328,6 @@ static int Load(const char *name, MDFNFILE *fp)
 static void CloseGame(void)
 {
  WSwan_MemoryKill(); // saves sram/eeprom
-
- MDFN_FlushGameCheats(0);
 
  if(wsCartROM)
  {
@@ -294,37 +375,60 @@ static void DoSimpleCommand(int cmd)
 {
  switch(cmd)
  {
-  case MDFNNPCMD_POWER:
-  case MDFNNPCMD_RESET: Reset();
+  case MDFN_MSC_POWER:
+  case MDFN_MSC_RESET: Reset();
                         break;
  }
 }
 
+static MDFNSetting_EnumList SexList[] =
+{
+ { "m", WSWAN_SEX_MALE },
+ { "male", WSWAN_SEX_MALE, gettext_noop("Male") },
+
+ { "f", WSWAN_SEX_FEMALE },
+ { "female", WSWAN_SEX_FEMALE, gettext_noop("Female") },
+
+ { "3", 3 },
+
+ { NULL, 0 },
+};
+
+static MDFNSetting_EnumList BloodList[] =
+{
+ { "a", WSWAN_BLOOD_A, "A" },
+ { "b", WSWAN_BLOOD_B, "B" },
+ { "o", WSWAN_BLOOD_O, "O" },
+ { "ab", WSWAN_BLOOD_AB, "AB" },
+
+ { "5", 5 },
+
+ { NULL, 0 },
+};
+
 static MDFNSetting WSwanSettings[] =
 {
- //{ "ngp.language", "If =1, tell games to display in English, if =0, in Japanese.", MDFNST_UINT, "1", "0", "1" },
- { "wswan.rotateinput",  gettext_noop("Virtually rotate D-pads along with screen."), MDFNST_BOOL, "0" },
- { "wswan.forcemono", gettext_noop("Force monophonic sound output."), MDFNST_BOOL, "0" },
- { "wswan.name", gettext_noop("Name"), MDFNST_STRING, "Mednafen" },
- { "wswan.byear", gettext_noop("Birth Year"), MDFNST_UINT, "1989", "0", "9999" },
- { "wswan.bmonth", gettext_noop("Birth Month"), MDFNST_UINT, "6", "1", "12" },
- { "wswan.bday", gettext_noop("Birth Day"), MDFNST_UINT, "23", "1", "31" },
- { "wswan.sex", gettext_noop("Sex"), MDFNST_STRING, "F" },
- { "wswan.blood", gettext_noop("Blood Type"), MDFNST_STRING, "O" },
+ { "wswan.rotateinput", MDFNSF_NOFLAGS, gettext_noop("Virtually rotate D-pads along with screen."), NULL, MDFNST_BOOL, "0" },
+ { "wswan.name", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Name"), NULL, MDFNST_STRING, "Mednafen" },
+ { "wswan.byear", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Birth Year"), NULL, MDFNST_UINT, "1989", "0", "9999" },
+ { "wswan.bmonth", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Birth Month"), NULL, MDFNST_UINT, "6", "1", "12" },
+ { "wswan.bday", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Birth Day"), NULL, MDFNST_UINT, "23", "1", "31" },
+ { "wswan.sex", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Sex"), NULL, MDFNST_ENUM, "F", NULL, NULL, NULL, NULL, SexList },
+ { "wswan.blood", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Blood Type"), NULL, MDFNST_ENUM, "O", NULL, NULL, NULL, NULL, BloodList },
  { NULL }
 };
 
 static const InputDeviceInputInfoStruct IDII[] =
 {
- { "up-x", "UP ↑, X Cursors", 0, IDIT_BUTTON, "down-x" },
- { "right-x", "RIGHT →, X Cursors", 3, IDIT_BUTTON, "left-x" },
- { "down-x", "DOWN ↓, X Cursors", 1, IDIT_BUTTON, "up-x" },
- { "left-x", "LEFT ←, X Cursors", 2, IDIT_BUTTON, "right-x" },
+ { "up-x", "UP ↑, X Cursors", 0, IDIT_BUTTON, "down-x",				{ "right-x", "down-x", "left-x" } },
+ { "right-x", "RIGHT →, X Cursors", 3, IDIT_BUTTON, "left-x",			{ "down-x", "left-x", "up-x" } },
+ { "down-x", "DOWN ↓, X Cursors", 1, IDIT_BUTTON, "up-x", 			{ "left-x", "up-x", "right-x" } },
+ { "left-x", "LEFT ←, X Cursors", 2, IDIT_BUTTON, "right-x",			{ "up-x", "right-x", "down-x" } },
 
- { "up-y", "UP ↑, Y Cur: MUST NOT = X CURSORS", 4, IDIT_BUTTON, "down-y" },
- { "right-y", "RIGHT →, Y Cur: MUST NOT = X CURSORS", 7, IDIT_BUTTON, "left-y" },
- { "down-y", "DOWN ↓, Y Cur: MUST NOT = X CURSORS", 5, IDIT_BUTTON, "up-y" },
- { "left-y", "LEFT ←, Y Cur: MUST NOT = X CURSORS", 6, IDIT_BUTTON, "right-y" },
+ { "up-y", "UP ↑, Y Cur: MUST NOT = X CURSORS", 4, IDIT_BUTTON, "down-y",	{ "right-y", "down-y", "left-y" } },
+ { "right-y", "RIGHT →, Y Cur: MUST NOT = X CURSORS", 7, IDIT_BUTTON, "left-y",	{ "down-y", "left-y", "up-y" } },
+ { "down-y", "DOWN ↓, Y Cur: MUST NOT = X CURSORS", 5, IDIT_BUTTON, "up-y",	{ "left-y", "up-y", "right-y" } },
+ { "left-y", "LEFT ←, Y Cur: MUST NOT = X CURSORS", 6, IDIT_BUTTON, "right-y",	{ "up-y", "right-y", "down-y" } },
 
  { "start", "Start", 8, IDIT_BUTTON, NULL },
  { "a", "A", 10, IDIT_BUTTON_CAN_RAPID,  NULL },
@@ -344,7 +448,7 @@ static InputDeviceInfoStruct InputDeviceInfo[] =
 
 static const InputPortInfoStruct PortInfo[] =
 {
- { 0, "builtin", "Built-In", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo }
+ { 0, "builtin", "Built-In", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, "gamepad" }
 };
 
 static InputInfoStruct InputInfo =
@@ -357,8 +461,9 @@ static InputInfoStruct InputInfo =
 #ifdef WANT_DEBUGGER
 static DebuggerInfoStruct DBGInfo =
 {
- 7 + 1 + 8, // Fixme, probably not right...  maximum number of prefixes + 1 for opcode + 4 for operand(go with 8 to be safe)
-
+ "shift_jis",
+ 7 + 1 + 8,	// Fixme, probably not right...  maximum number of prefixes + 1 for opcode + 4 for operand(go with 8 to be safe)
+ 1,             // Instruction alignment(bytes)
  16,
  20,
  0x0000,
@@ -375,18 +480,32 @@ static DebuggerInfoStruct DBGInfo =
  WSwanDBG_SetBPCallback,
  WSwanDBG_GetBranchTrace,
  WSwan_GfxSetGraphicsDecode,
- WSwan_GfxGetGraphicsDecodeBuffer
 };
 #endif
+
+static const FileExtensionSpecStruct KnownExtensions[] =
+{
+ { ".ws", gettext_noop("WonderSwan ROM Image") },
+ { ".wsc", gettext_noop("WonderSwan Color ROM Image") },
+ { ".wsr", gettext_noop("WonderSwan Music Rip") },
+ { NULL, NULL }
+};
 
 MDFNGI EmulatedWSwan =
 {
  "wswan",
+ "WonderSwan",
+ KnownExtensions,
+ MODPRIO_INTERNAL_HIGH,
  #ifdef WANT_DEBUGGER
  &DBGInfo,
+ #else
+ NULL,
  #endif
  &InputInfo,
  Load,
+ TestMagic,
+ NULL,
  NULL,
  CloseGame,
  WSwan_GfxToggleLayer,
@@ -396,22 +515,23 @@ MDFNGI EmulatedWSwan =
  NULL,
  StateAction,
  Emulate,
- WSwan_SetPixelFormat,
  SetInput,
- NULL,
- NULL,
- NULL,
- WSwan_SetSoundMultiplier,
- WSwan_SetSoundVolume,
- WSwan_Sound,
  DoSimpleCommand,
  WSwanSettings,
+ MDFN_MASTERCLOCK_FIXED(3072000),
  0,
- NULL,
- 224,
- 144,
- 224, // Save state preview width
- 256 * sizeof(uint32),
- {0, 0, 224, 144},
+ FALSE, // Multires possible?
+
+ 224,   // lcm_width
+ 144,   // lcm_height
+ NULL,  // Dummy
+
+ 224,	// Nominal width
+ 144,	// Nominal height
+
+ 224,	// Framebuffer width
+ 144,	// Framebuffer height
+
+ 2,     // Number of output sound channels
 };
 

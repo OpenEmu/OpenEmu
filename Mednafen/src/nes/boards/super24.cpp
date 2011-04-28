@@ -26,7 +26,7 @@ static uint8 IRQa,resetmode,mbia;
 static uint8 sizer,bigbank,bigbank2;
 static uint8 DRegBuf[8],MMC3_cmd;
 
-static int masko8[8]={63,31,15,1,3,0,0,0};
+static const int masko8[8] = { 63,31,15,1,3,0,0,0 };
 //static int masko1[8]={511,255,127,7,7,0,0,0};
 
 static void swsetprg8(uint32 A, uint32 V)
@@ -193,10 +193,6 @@ static DECLFW(Super24Write)
 
 static void Super24Reset(CartInfo *info)
 {
- SetWriteHandler(0x8000,0xBFFF,Super24hiwrite);
- SetWriteHandler(0x5000,0x7FFF,Super24Write);
- SetWriteHandler(0xC000,0xFFFF,Sup24IRQWrite);
- SetReadHandler(0x8000,0xFFFF,CartBR);
  GameHBIRQHook=Sup24_hb;
  IRQCount=IRQLatch=IRQa=resetmode=0;
  sizer=0x24;
@@ -250,7 +246,15 @@ int Super24_Init(CartInfo *info)
 
  if(!(CHRRAM = (uint8 *)malloc(8192)))
   return(0);
+
  info->Close = Super24Close;
+
  SetupCartCHRMapping(0x10, CHRRAM, 8192, 1);
+
+ SetWriteHandler(0x8000,0xBFFF,Super24hiwrite);
+ SetWriteHandler(0x5000,0x7FFF,Super24Write);
+ SetWriteHandler(0xC000,0xFFFF,Sup24IRQWrite);
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+
  return(1);
 }

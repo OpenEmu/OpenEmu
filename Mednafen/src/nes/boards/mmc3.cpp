@@ -42,7 +42,7 @@ static void (*pwrap)(uint32 A, uint8 V);
 static void (*cwrap)(uint32 A, uint8 V);
 static void (*mwrap)(uint8 V);
 
-static int mmc3opts=0;
+static int mmc3opts;
 
 static void GenMMC3Close(void);
 static int GenMMC3_Init(CartInfo *info, int prg, int chr, int wram, int battery);
@@ -266,12 +266,13 @@ static void M12_Power(CartInfo *info)
 {
  EXPREGS[0]=EXPREGS[1]=0;
  GenMMC3Power(info);
- SetWriteHandler(0x4100,0x5FFF,M12Write);   
 }
 
 int Mapper12_Init(CartInfo *info)
 {
  if(!(GenMMC3_Init(info, 512, 256, 8, info->battery))) return(0);
+
+ SetWriteHandler(0x4100,0x5FFF,M12Write);
 
  cwrap=M12CW;
  info->Power=M12_Power;
@@ -306,13 +307,15 @@ static void M47_Power(CartInfo *info)
 {
  EXPREGS[0]=0;
  GenMMC3Power(info);
- SetWriteHandler(0x6000,0x7FFF,M47Write);
- SetReadHandler(0x6000,0x7FFF,0);
 }
 
 int Mapper47_Init(CartInfo *info)
 {
  if(!(GenMMC3_Init(info, 512, 256, 8, info->battery))) return(0);
+
+ SetWriteHandler(0x6000,0x7FFF,M47Write);
+ SetReadHandler(0x6000,0x7FFF,0);
+
  pwrap=M47PW;
  cwrap=M47CW;
  info->Power=M47_Power;
@@ -353,12 +356,14 @@ static void M44_Power(CartInfo *info)
 {
  EXPREGS[0]=0;
  GenMMC3Power(info);
- SetWriteHandler(0xA000,0xBFFF,Mapper44_write);
 }
 
 int Mapper44_Init(CartInfo *info)
 {
  if(!(GenMMC3_Init(info, 512, 256, 8, info->battery))) return(0);
+
+ SetWriteHandler(0xA000,0xBFFF,Mapper44_write);
+
  cwrap=M44CW;
  pwrap=M44PW;
  info->Power=M44_Power;
@@ -405,13 +410,15 @@ static void M52Power(CartInfo *info)
 {
  M52Reset(info);
  GenMMC3Power(info);
- SetWriteHandler(0x6000,0x7FFF,Mapper52_write);
 }
 
 int Mapper52_Init(CartInfo *info)
 {
  if(!(GenMMC3_Init(info, 512, 256, 8, info->battery)))
   return(0);
+
+ SetWriteHandler(0x6000,0x7FFF,Mapper52_write);
+
  cwrap=M52CW;
  pwrap=M52PW;
  info->Reset=M52Reset;
@@ -466,13 +473,14 @@ static void M45Power(CartInfo *info)
 {
  M45Reset(info);
  GenMMC3Power(info);
- SetWriteHandler(0x6000,0x7FFF,Mapper45_write);
 }
 
 int Mapper45_Init(CartInfo *info)
 {
  if(!(GenMMC3_Init(info, 512, 256, 8, info->battery)))
   return(0);
+
+ SetWriteHandler(0x6000,0x7FFF,Mapper45_write);
 
  cwrap=M45CW;
  pwrap=M45PW;
@@ -525,14 +533,15 @@ static void M49Power(CartInfo *info)
 {
  M49Reset(info);
  GenMMC3Power(info);
- SetWriteHandler(0x6000,0x7FFF,M49Write);
- SetReadHandler(0x6000,0x7FFF,0);
 }
 
 int Mapper49_Init(CartInfo *info)
 {
  if(!(GenMMC3_Init(info, 512, 256, 0, 0)))
   return(0);
+
+ SetWriteHandler(0x6000,0x7FFF,M49Write);
+ SetReadHandler(0x6000,0x7FFF,0);
 
  cwrap=M49CW;
  pwrap=M49PW;
@@ -568,14 +577,16 @@ static DECLFW(M115Write)
 static void M115Power(CartInfo *info)
 {
  GenMMC3Power(info);
- SetWriteHandler(0x6000,0x7FFF,M115Write);
- SetReadHandler(0x6000,0x7FFF,0);
 }
 
 int Mapper115_Init(CartInfo *info)
 {
  if(!(GenMMC3_Init(info, 512, 512, 0, 0)))
   return(0);
+
+ SetWriteHandler(0x6000,0x7FFF,M115Write);
+ SetReadHandler(0x6000,0x7FFF,0);
+
  cwrap=M115CW;
  pwrap=M115PW;
  info->Power=M115Power;
@@ -629,15 +640,15 @@ static void M116Power(CartInfo *info)
  EXPREGS[3]=0;
 
  GenMMC3Power(info);
-
- SetWriteHandler(0x4020,0x7fff,M116Write);
- SetWriteHandler(0xa000,0xbfff,M116Write2);
 }
 
 int Mapper116_Init(CartInfo *info)
 {
  if(!(GenMMC3_Init(info, 512, 256, 0, 0)))
   return(0);
+
+ SetWriteHandler(0x4020,0x7fff,M116Write);
+ SetWriteHandler(0xa000,0xbfff,M116Write2);
 
  cwrap=M116CW;
  pwrap=M116PW;
@@ -737,7 +748,7 @@ int Mapper165_Init(CartInfo *info)
 
 // ---------------------------- Mapper 215 ------------------------------
 
-static uint8 m215_perm[8] = {0, 2, 5, 3, 6, 1, 7, 4};
+static const uint8 m215_perm[8] = {0, 2, 5, 3, 6, 1, 7, 4};
 
 static void M215CW(uint32 A, uint8 V)
 {
@@ -812,13 +823,15 @@ static void M215Power(CartInfo *info)
  EXPREGS[1]=0xFF;
  EXPREGS[2]=4;
  GenMMC3Power(info);
- SetWriteHandler(0x8000,0xFFFF,M215Write);
- SetWriteHandler(0x5000,0x7FFF,M215ExWrite);
 }
 
 int Mapper215_Init(CartInfo *info)
 {
  GenMMC3_Init(info, 256, 256, 0, 0);
+
+ SetWriteHandler(0x8000,0xFFFF,M215Write);
+ SetWriteHandler(0x5000,0x7FFF,M215ExWrite);
+
  cwrap=M215CW;
  pwrap=M215PW;
  info->Power=M215Power;
@@ -830,7 +843,7 @@ int Mapper215_Init(CartInfo *info)
 
 // ---------------------------- Mapper 217 ------------------------------
 
-static uint8 m217_perm[8] = {0, 6, 3, 7, 5, 2, 4, 1};
+static const uint8 m217_perm[8] = {0, 6, 3, 7, 5, 2, 4, 1};
 
 static void M217CW(uint32 A, uint8 V)
 {
@@ -902,8 +915,6 @@ static void M217Power(CartInfo *info)
  EXPREGS[1]=0xFF;
  EXPREGS[2]=3;
  GenMMC3Power(info);
- SetWriteHandler(0x8000,0xFFFF,M217Write);
- SetWriteHandler(0x5000,0x7FFF,M217ExWrite);
 }
 
 int Mapper217_Init(CartInfo *info)
@@ -913,6 +924,9 @@ int Mapper217_Init(CartInfo *info)
  cwrap=M217CW;
  pwrap=M217PW;
  info->Power=M217Power;
+
+ SetWriteHandler(0x8000,0xFFFF,M217Write);
+ SetWriteHandler(0x5000,0x7FFF,M217ExWrite);
 
  return(1);
 }
@@ -932,8 +946,6 @@ static DECLFW(M250_IRQWrite)
 static void M250_Power(CartInfo *info)
 {
 	GenMMC3Power(info);
-	SetWriteHandler(0x8000,0xBFFF,Mapper250_write);
-	SetWriteHandler(0xC000,0xFFFF,M250_IRQWrite);
 }
 
 int Mapper250_Init(CartInfo *info)
@@ -941,6 +953,9 @@ int Mapper250_Init(CartInfo *info)
  if(!(GenMMC3_Init(info, 512, 256, 8, info->battery)))
   return(0);
  info->Power=M250_Power;
+
+ SetWriteHandler(0x8000,0xBFFF,Mapper250_write);
+ SetWriteHandler(0xC000,0xFFFF,M250_IRQWrite);
 
  return(1);
 }
@@ -978,7 +993,6 @@ static void M249Power(CartInfo *info)
 {
  EXPREGS[0]=0;
  GenMMC3Power(info);
- SetWriteHandler(0x5000,0x5000,Mapper249_write);
 }
 
 int Mapper249_Init(CartInfo *info)
@@ -989,6 +1003,9 @@ int Mapper249_Init(CartInfo *info)
  pwrap=M249PW;
  info->Power=M249Power;
  EXPRCount = 1;
+
+ SetWriteHandler(0x5000,0x5000,Mapper249_write);
+
  return(1);
 }
 
@@ -1031,12 +1048,23 @@ void m74p(uint32 a, uint8 v)
  setprg8(a,v&0x3f);
 }
 
+void m74m(uint8 V)
+{
+ A000B = V;
+ setmirror(V ^ 1);
+}
+
 static void m74kie(uint32 a, uint8 v)
 {
- if(v==((PRGsize[0]>>16)&0x08) || v==1+((PRGsize[0]>>16)&0x08))
-  setchr1r(0x10,a,v);
+ if(v == 0x8 || v == 0x9) //((PRGsize[0]>>16)&0x08) || v==1+((PRGsize[0]>>16)&0x08))
+  setchr1r(0x10,a, v & 0x1);
  else
   setchr1r(0x0,a,v);
+}
+
+static void M74_Power(CartInfo *info)
+{
+ GenMMC3Power(info);
 }
 
 int Mapper74_Init(CartInfo *info)
@@ -1045,6 +1073,10 @@ int Mapper74_Init(CartInfo *info)
   return(0);
  cwrap=m74kie;
  pwrap=m74p;
+ mwrap = m74m;
+
+ info->Power = M74_Power;
+
  if(!(CHRRAM=(uint8*)malloc(2048)))
  {
   GenMMC3Close();
@@ -1080,7 +1112,7 @@ int Mapper148_Init(CartInfo *info)
 }
 
 
-static uint8 UNL6035052_lut[4] = { 0x00, 0x02, 0x02, 0x03 };
+static const uint8 UNL6035052_lut[4] = { 0x00, 0x02, 0x02, 0x03 };
 
 static DECLFW(UNL6035052ProtWrite)
 {
@@ -1095,14 +1127,15 @@ static DECLFR(UNL6035052ProtRead)
 static void UNL6035052Power(CartInfo *info)
 {
   GenMMC3Power(info);
-  SetWriteHandler(0x4020,0x7FFF,UNL6035052ProtWrite);
-  SetReadHandler(0x4020,0x7FFF,UNL6035052ProtRead);
 }
 
 int UNL6035052_Init(CartInfo *info)
 {
   if(!GenMMC3_Init(info, 128, 256, 0, 0))
    return(0);
+
+  SetWriteHandler(0x4020,0x7FFF,UNL6035052ProtWrite);
+  SetReadHandler(0x4020,0x7FFF,UNL6035052ProtRead);
 
   info->Power=UNL6035052Power;
   EXPRCount = 1;
@@ -1171,19 +1204,19 @@ static int StateAction(StateMem *sm, int load, int data_only)
  {
   SFARRAY(WRAM, wrams),
   SFARRAY(CHRRAM, CHRRAMSize),
-        {DRegBuf, 8, "REGS"},
-        {&resetmode, 1, "RMOD"},
-        {&MMC3_cmd, 1, "CMD"},
-        {&A000B, 1, "A000"},
-        {&A001B, 1, "A001"},
-        {&IRQReload, 1, "IRQR"},
-        {&IRQCount, 1, "IRQC"},
-        {&IRQLatch, 1, "IRQL"},
-        {&IRQa, 1, "IRQA"},
- SFVAR(PPUCHRBus),
- SFARRAY(EXPREGS, EXPRCount),
- SFVAR(cmdin),
- SFEND
+  SFARRAYN(DRegBuf, 8, "REGS"),
+  SFVARN(resetmode, "RMOD"),
+  SFVARN(MMC3_cmd, "CMD"),
+  SFVARN(A000B, "A000"),
+  SFVARN(A001B, "A001"),
+  SFVARN(IRQReload, "IRQR"),
+  SFVARN(IRQCount, "IRQC"),
+  SFVARN(IRQLatch, "IRQL"),
+  SFVARN(IRQa, "IRQA"),
+  SFVAR(PPUCHRBus),
+  SFARRAY(EXPREGS, EXPRCount),
+  SFVAR(cmdin),
+  SFEND
  };
  int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAPR");
  if(load)
@@ -1197,27 +1230,12 @@ static int StateAction(StateMem *sm, int load, int data_only)
 
 static void GenMMC3Power(CartInfo *info)
 {
- SetWriteHandler(0x8000,0xBFFF,MMC3_CMDWrite);
- SetReadHandler(0x8000,0xFFFF,CartBR);
- SetWriteHandler(0xC000,0xFFFF,MMC3_IRQWrite);
  A001B=A000B=0;
  setmirror((A000B&1)^1);
  if(mmc3opts&1)
  {
-  if(wrams==1024)
-  {
-   MDFNMP_AddRAM(1024,0x7000,WRAM);
-   SetReadHandler(0x7000,0x7FFF,MAWRAMMMC6);
-   SetWriteHandler(0x7000,0x7FFF,MBWRAMMMC6);
-  }
-  else
-  {
-   MDFNMP_AddRAM(wrams, 0x6000, WRAM);
-   SetReadHandler(0x6000,0x6000+wrams-1,MAWRAM);
-   SetWriteHandler(0x6000,0x6000+wrams-1,MBWRAM);
-  }
   if(!(mmc3opts&2))
-   memset(WRAM,0,wrams);
+   memset(WRAM, 0x00, wrams);
  }
  MMC3RegReset(info);
  if(CHRRAM)
@@ -1234,94 +1252,171 @@ static void GenMMC3Close(void)
 }
 
 #ifdef WANT_DEBUGGER
-static RegType DBGMMC3Regs[] =
+enum
 {
- { "Control", "Command/Control", 1 },
- { "Mirroring", "Mirroring", 1 },
- { "WRAMProtect", "Cart WRAM Protect", 1 },
- { "CHRBank0", "CHR Bank(2KiB) Register 0", 1 },
- { "CHRBank1", "CHR Bank(2KiB) Register 1", 1 },
- { "CHRBank2", "CHR Bank(1KiB) Register 2", 1 },
- { "CHRBank3", "CHR Bank(1KiB) Register 3", 1 },
- { "CHRBank4", "CHR Bank(1KiB) Register 4", 1 },
- { "CHRBank5", "CHR Bank(1KiB) Register 5", 1 },
- { "PRGBank0", "PRG Bank(8KiB, @8000 or C000) Register 0", 1 },
- { "PRGBank1", "PRG Bank(8KiB, @A000) Register 1", 1 },
-
- { "IRQCount", "IRQ Counter", 1 },
- { "IRQLatch", "IRQ Counter Latch", 1 },
- { "IRQEnable", "IRQ Counter Enable", 1 },
-
- { "", "", 0 },
+ MMC3_GSREG_CONTROL = 0,
+ MMC3_GSREG_MIRRORING,
+ MMC3_GSREG_WRAMPROTECT,
+ MMC3_GSREG_CHRBANK0,
+ MMC3_GSREG_CHRBANK1,
+ MMC3_GSREG_CHRBANK2,
+ MMC3_GSREG_CHRBANK3,
+ MMC3_GSREG_CHRBANK4,
+ MMC3_GSREG_CHRBANK5,
+ MMC3_GSREG_PRGBANK0,
+ MMC3_GSREG_PRGBANK1,
+ MMC3_GSREG_IRQCOUNT,
+ MMC3_GSREG_IRQLATCH,
+ MMC3_GSREG_IRQENABLE
 };
 
-static uint32 MMC3DBG_GetRegister(const std::string &oname, std::string *special)
+static RegType DBGMMC3Regs[] =
 {
- if(oname == "Control")
-  return(MMC3_cmd);
- else if(oname == "CHRBank0")
-  return(DRegBuf[0]);
- else if(oname == "CHRBank1")
-  return(DRegBuf[1]);
- else if(oname == "CHRBank2")
-  return(DRegBuf[2]);
- else if(oname == "CHRBank3")
-  return(DRegBuf[3]);
- else if(oname == "CHRBank4")
-  return(DRegBuf[4]);
- else if(oname == "CHRBank5")
-  return(DRegBuf[5]);
- else if(oname == "PRGBank0")
-  return(DRegBuf[6]);
- else if(oname == "PRGBank1")
-  return(DRegBuf[7]);
- else if(oname == "IRQCount")
-  return(IRQCount);
- else if(oname == "IRQLatch")
-  return(IRQLatch);
- else if(oname == "IRQEnable")
-  return(IRQa);
- else if(oname == "Mirroring")
-  return(A000B);
- else if(oname == "WRAMProtect")
-  return(A001B);
+ { MMC3_GSREG_CONTROL, "Control", "Command/Control", 1 },
+ { MMC3_GSREG_MIRRORING, "Mirroring", "Mirroring", 1 },
+ { MMC3_GSREG_WRAMPROTECT, "WRAMProtect", "Cart WRAM Protect", 1 },
+ { MMC3_GSREG_CHRBANK0, "CHRBank0", "CHR Bank(2KiB) Register 0", 1 },
+ { MMC3_GSREG_CHRBANK1, "CHRBank1", "CHR Bank(2KiB) Register 1", 1 },
+ { MMC3_GSREG_CHRBANK2, "CHRBank2", "CHR Bank(1KiB) Register 2", 1 },
+ { MMC3_GSREG_CHRBANK3, "CHRBank3", "CHR Bank(1KiB) Register 3", 1 },
+ { MMC3_GSREG_CHRBANK4, "CHRBank4", "CHR Bank(1KiB) Register 4", 1 },
+ { MMC3_GSREG_CHRBANK5, "CHRBank5", "CHR Bank(1KiB) Register 5", 1 },
+ { MMC3_GSREG_PRGBANK0, "PRGBank0", "PRG Bank(8KiB, @8000 or C000) Register 0", 1 },
+ { MMC3_GSREG_PRGBANK1, "PRGBank1", "PRG Bank(8KiB, @A000) Register 1", 1 },
 
- return(0);
+ { MMC3_GSREG_IRQCOUNT, "IRQCount", "IRQ Counter", 1 },
+ { MMC3_GSREG_IRQLATCH, "IRQLatch", "IRQ Counter Latch", 1 },
+ { MMC3_GSREG_IRQENABLE, "IRQEnable", "IRQ Counter Enable", 1 },
+
+ { 0, "", "", 0 },
+};
+
+static uint32 MMC3DBG_GetRegister(const unsigned int id, char *special, const uint32 special_len)
+{
+ uint32 value = 0xDEADBEEF;
+
+ switch(id)
+ {
+  case MMC3_GSREG_CONTROL:
+	value = MMC3_cmd;
+	break;
+
+  case MMC3_GSREG_CHRBANK0:
+	value = DRegBuf[0];
+	break;
+
+  case MMC3_GSREG_CHRBANK1:
+        value = DRegBuf[1];
+	break;
+
+  case MMC3_GSREG_CHRBANK2:
+        value = DRegBuf[2];
+	break;
+
+  case MMC3_GSREG_CHRBANK3:
+        value = DRegBuf[3];
+	break;
+
+  case MMC3_GSREG_CHRBANK4:
+        value = DRegBuf[4];
+	break;
+
+  case MMC3_GSREG_CHRBANK5:
+        value = DRegBuf[5];
+	break;
+
+  case MMC3_GSREG_PRGBANK0:
+        value = DRegBuf[6];
+        break;
+
+  case MMC3_GSREG_PRGBANK1:
+        value = DRegBuf[7];
+        break;
+
+  case MMC3_GSREG_IRQCOUNT:
+	value = IRQCount;
+	break;
+
+  case MMC3_GSREG_IRQLATCH:
+	value = IRQLatch;
+	break;
+
+  case MMC3_GSREG_IRQENABLE:
+	value = IRQa;
+	break;
+
+  case MMC3_GSREG_MIRRORING:
+	value = A000B;
+	break;
+
+  case MMC3_GSREG_WRAMPROTECT:
+	value = A001B;
+	break;
+ }
+ return(value);
 }
 
-static void MMC3DBG_SetRegister(const std::string &oname, uint32 value)
+static void MMC3DBG_SetRegister(const unsigned int id, uint32 value)
 {
- if(oname == "Control")
-  MMC3_cmd = value;
- else if(oname == "CHRBank0")
-  DRegBuf[0] = value;
- else if(oname == "CHRBank1")
-  DRegBuf[1] = value;
- else if(oname == "CHRBank2")
-  DRegBuf[2] = value;
- else if(oname == "CHRBank3")
-  DRegBuf[3] = value;
- else if(oname == "CHRBank4")
-  DRegBuf[4] = value;
- else if(oname == "CHRBank5")
-  DRegBuf[5] = value;
- else if(oname == "PRGBank0")
-  DRegBuf[6] = value;
- else if(oname == "PRGBank1")
-  DRegBuf[7] = value;
- else if(oname == "IRQCount")
-  IRQCount = value;
- else if(oname == "IRQLatch")
-  IRQLatch = value;
- else if(oname == "IRQEnable")
-  IRQa = value;
- else if(oname == "Mirroring")
+ switch(id)
  {
-  A000B = value;
-  mwrap(A000B&1);
+  case MMC3_GSREG_CONTROL:
+        MMC3_cmd = value;
+        break;
+
+  case MMC3_GSREG_CHRBANK0:
+        DRegBuf[0] = value;
+        break;
+
+  case MMC3_GSREG_CHRBANK1:
+        DRegBuf[1] = value;
+        break;
+
+  case MMC3_GSREG_CHRBANK2:
+        DRegBuf[2] = value;
+        break;
+
+  case MMC3_GSREG_CHRBANK3:
+        DRegBuf[3] = value;
+        break;
+
+  case MMC3_GSREG_CHRBANK4:
+        DRegBuf[4] = value;
+        break;
+
+  case MMC3_GSREG_CHRBANK5:
+        DRegBuf[5] = value;
+        break;
+
+  case MMC3_GSREG_PRGBANK0:
+        DRegBuf[6] = value;
+        break;
+
+  case MMC3_GSREG_PRGBANK1:
+        DRegBuf[7] = value;
+        break;
+
+  case MMC3_GSREG_IRQCOUNT:
+        IRQCount = value;
+        break;
+
+  case MMC3_GSREG_IRQLATCH:
+        IRQLatch = value;
+        break;
+
+  case MMC3_GSREG_IRQENABLE:
+        IRQa = value;
+        break;
+
+  case MMC3_GSREG_MIRRORING:
+        A000B = value;
+	mwrap(A000B&1);
+        break;
+
+  case MMC3_GSREG_WRAMPROTECT:
+        A001B = value;
+        break;
  }
- else if(oname == "WRAMProtect")
-  A001B = value;
 
  FixMMC3PRG(MMC3_cmd);
  FixMMC3CHR(MMC3_cmd);
@@ -1329,6 +1424,7 @@ static void MMC3DBG_SetRegister(const std::string &oname, uint32 value)
 
 static RegGroupType DBGMMC3RegsGroup =
 {
+ "MMC3",
  DBGMMC3Regs,
  MMC3DBG_GetRegister,
  MMC3DBG_SetRegister,
@@ -1338,6 +1434,8 @@ static RegGroupType DBGMMC3RegsGroup =
 
 static int GenMMC3_Init(CartInfo *info, int prg, int chr, int wram, int battery)
 {
+ mmc3opts = 0;
+
  pwrap=GENPWRAP;
  cwrap=GENCWRAP;
  mwrap=GENMWRAP;
@@ -1397,10 +1495,30 @@ static int GenMMC3_Init(CartInfo *info, int prg, int chr, int wram, int battery)
  MDFNDBG_AddRegGroup(&DBGMMC3RegsGroup);
  #endif
 
+ SetWriteHandler(0x8000,0xBFFF,MMC3_CMDWrite);
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetWriteHandler(0xC000,0xFFFF,MMC3_IRQWrite);
+
+ if(mmc3opts&1)
+ {
+  if(wrams==1024)
+  {
+   MDFNMP_AddRAM(1024,0x7000,WRAM);
+   SetReadHandler(0x7000,0x7FFF,MAWRAMMMC6);
+   SetWriteHandler(0x7000,0x7FFF,MBWRAMMMC6);
+  }
+  else
+  {
+   MDFNMP_AddRAM(wrams, 0x6000, WRAM);
+   SetReadHandler(0x6000,0x6000+wrams-1,MAWRAM);
+   SetWriteHandler(0x6000,0x6000+wrams-1,MBWRAM);
+  }
+ }
+
  return(1);
 }
 
-static int hackm4=0;		/* For Karnov, maybe others.  BLAH.  Stupid iNES format.*/
+static int hackm4;		/* For Karnov, maybe others.  BLAH.  Stupid iNES format.*/
 
 static void Mapper4Power(CartInfo *info)
 {

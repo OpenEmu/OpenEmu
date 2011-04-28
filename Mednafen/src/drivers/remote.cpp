@@ -26,11 +26,11 @@
 
 // Code for the stdio emulator interface.
 static char *InputBuffer;
-static size_t InputBufferLen;
-static off_t InputBufferOffset;
+static int64 InputBufferLen;
+static int64 InputBufferOffset;
 
 // This kludge gives me nightmares.
-static bool CaptureErrorMessages = FALSE;
+//static bool CaptureErrorMessages = FALSE;
 static std::string CapturedError;
 
 static void Remote_SendCommand(const char *command, int nargs, ...)
@@ -158,6 +158,37 @@ static void ParseSTDIOCommand(char *buf)
    else
     puts("Invalid number of arguments");
   }
+  else if(!strcasecmp(arguments[0], "get_known_fileexts"))
+  {
+   uint32 count = 0;
+   char count_string[64];
+
+   // TODO:  Move to core
+   for(unsigned int i = 0; i < MDFNSystems.size(); i++)
+   {
+    const FileExtensionSpecStruct *FileExtensions = MDFNSystems[i]->FileExtensions;
+    if(FileExtensions)
+     while(FileExtensions->extension)
+     {
+      count++;
+      FileExtensions++;
+     }
+   }
+   trio_snprintf(count_string, 64, "%u", count);
+   Remote_SendCommand("result_count", 1, count_string);
+
+   for(unsigned int i = 0; i < MDFNSystems.size(); i++)
+   {
+    const FileExtensionSpecStruct *FileExtensions = MDFNSystems[i]->FileExtensions;
+    if(FileExtensions)
+     while(FileExtensions->extension)
+     {
+      Remote_SendCommand("result", 3, MDFNSystems[i]->shortname, FileExtensions->extension, FileExtensions->description);
+      FileExtensions++;
+     }
+   }
+   success = TRUE;
+  }
   else
   {
    puts("Unknown command!");
@@ -195,7 +226,7 @@ void CheckForSTDIOMessages(void)
   {
    InputBuffer[InputBufferOffset] = 0;
 
-   for(size_t x = 0; x < InputBufferOffset; x++)
+   for(int64 x = 0; x < InputBufferOffset; x++)
     if(InputBuffer[x] == '\r')
      InputBuffer[x] = 0;
 

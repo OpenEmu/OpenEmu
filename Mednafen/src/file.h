@@ -1,16 +1,101 @@
 #ifndef MDFN_FILE_H
 #define MDFN_FILE_H
-typedef struct {
-	uint8 *data;
-	int64 size;
-	int64 location;
-	char *ext;
+
+#include <string>
+
+#define MDFNFILE_EC_NOTFOUND	1
+#define MDFNFILE_EC_OTHER	2
+
+class MDFNFILE
+{
+	public:
+
+	MDFNFILE();
+	~MDFNFILE();
+
+	bool Open(const char *path, const FileExtensionSpecStruct *known_ext, const char *purpose = NULL, const bool suppress_notfound_pe = FALSE);
+	INLINE bool Open(const std::string &path, const FileExtensionSpecStruct *known_ext, const char *purpose = NULL, const bool suppress_notfound_pe = FALSE)
+	{
+	 return(Open(path.c_str(), known_ext, purpose, suppress_notfound_pe));
+	}
+
+        bool ApplyIPS(FILE *);
+	bool Close(void);
+
+	const int64 &size;
+	const uint8 * const &data;
+	const char * const &ext;
+
+	// Currently, only valid with Open()
+	inline int GetErrorCode(int *get_errno = NULL)
+	{
+	 if(get_errno)
+	  *get_errno = local_errno;
+
+	 return(error_code);
+	}
+
+	inline int64 Size(void)
+	{
+	 return(f_size);
+	}
+
+	inline const uint8 *Data(void)
+	{
+	 return(f_data);
+	}
+	
+	uint64 fread(void *ptr, size_t size, size_t nmemb);
+	int fseek(int64 offset, int whence);
+
+	inline uint64 ftell(void)
+	{
+	 return(location);
+	}
+
+	inline void rewind(void)
+	{
+	 location = 0;
+	}
+
+	int read32le(uint32 *Bufo);
+	int read16le(uint16 *Bufo);
+
+	inline int fgetc(void)
+	{
+	 if(location < f_size)
+	  return f_data[location++];
+
+	 return EOF;
+	}
+
+	inline int fisarchive(void)
+	{
+	 return(0);
+	}
+
+	char *fgets(char *s, int size);
+
+	private:
+
+        uint8 *f_data;
+        int64 f_size;
+        char *f_ext;
+
+	int error_code;
+	int local_errno;
+
+        int64 location;
+
 	#ifdef HAVE_MMAP
 	bool is_mmap;
 	#endif
-} MDFNFILE;
 
-MDFNFILE *MDFN_fopen(const char *path, const char *ipsfn, const char *mode, const char *ext);
+	bool MakeMemWrap(void *tz, int type);
+};
+
+#if 0
+MDFNFILE *MDFN_fopen(const char *path, const char *ipsfn, const char *mode, const FileExtensionSpecStruct *known_ext);
 int MDFN_fclose(MDFNFILE*);
 uint64 MDFN_fread(void *ptr, size_t size, size_t nmemb, MDFNFILE*);
 uint64 MDFN_fwrite(void *ptr, size_t size, size_t nmemb, MDFNFILE*);
@@ -23,6 +108,7 @@ int MDFN_fgetc(MDFNFILE*);
 uint64 MDFN_fgetsize(MDFNFILE*);
 int MDFN_fisarchive(MDFNFILE*);
 char *MDFN_fgets(char *s, int size, MDFNFILE *);
+#endif
 
 class PtrLengthPair
 {
@@ -39,12 +125,12 @@ class PtrLengthPair
 
  } 
 
- inline const void *GetData(void) const
+ INLINE const void *GetData(void) const
  {
   return(data);
  }
 
- inline uint64 GetLength(void) const
+ INLINE uint64 GetLength(void) const
  {
   return(length);
  }

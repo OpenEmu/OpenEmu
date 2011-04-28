@@ -1,6 +1,9 @@
 #ifndef _TMS_H_
 #define _TMS_H_
 
+namespace MDFN_IEN_SMS
+{
+
 extern int text_counter;
 
 
@@ -15,5 +18,7 @@ void render_bg_m3x(int line);
 void render_bg_m2(int line);
 void render_obj_tms(int line);
 void parse_line(int line);
+
+}
 
 #endif /* _TMS_H_ */

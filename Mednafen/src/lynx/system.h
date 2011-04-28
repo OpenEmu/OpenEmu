@@ -46,9 +46,9 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include <string>
-
 #include "machine.h"
+
+#include <string>
 
 #define HANDY_SYSTEM_FREQ						16000000
 #define HANDY_TIMER_FREQ						20
@@ -117,7 +117,7 @@ class CSystem;
 class CSystem : public CSystemBase
 {
 	public:
-		CSystem(uint8 *, int32);
+		CSystem(const uint8 *, int32);
 		~CSystem();
 
 	public:
@@ -188,8 +188,8 @@ class CSystem : public CSystemBase
 		inline void  Poke_CARTB1(uint8 data) {mCart->Poke1(data);};
 		inline uint8 Peek_CARTB0(void) {return mCart->Peek0();}
 		inline uint8 Peek_CARTB1(void) {return mCart->Peek1();}
-		inline void  CartAddressStrobe(bool8 strobe) {mCart->CartAddressStrobe(strobe);};
-		inline void  CartAddressData(bool8 data) {mCart->CartAddressData(data);};
+		inline void  CartAddressStrobe(bool strobe) {mCart->CartAddressStrobe(strobe);};
+		inline void  CartAddressData(bool data) {mCart->CartAddressData(data);};
 
 // Low level CPU access
 
@@ -198,7 +198,7 @@ class CSystem : public CSystemBase
 
 // Mikey system interfacing
 
-		void	DisplaySetAttributes(int rs, int gs, int bs, uint32 Pitch) { mMikie->DisplaySetAttributes(rs,gs,bs,Pitch); };
+		void	DisplaySetAttributes(const MDFN_PixelFormat &format, uint32 Pitch) { mMikie->DisplaySetAttributes(format, Pitch); };
 
 		void	ComLynxCable(int status) { mMikie->ComLynxCable(status); };
 		void	ComLynxRxData(int data)  { mMikie->ComLynxRxData(data); };
@@ -229,5 +229,6 @@ class CSystem : public CSystemBase
 		uint32			mFileType;
 };
 
+extern bool LynxLineDrawn[256];
 
 #endif

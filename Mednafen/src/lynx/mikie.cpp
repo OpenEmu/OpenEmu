@@ -50,7 +50,6 @@
 //#include <crtdbg.h>
 //#define	TRACE_MIKIE
 
-#include <string.h>
 #include "system.h"
 #include "mikie.h"
 #include "lynxdef.h"
@@ -339,7 +338,7 @@ void CMikie::ComLynxRxData(int data)
 
 		// Receive the byte
 		mUART_Rx_input_queue[mUART_Rx_input_ptr]=data;
-		mUART_Rx_input_ptr=(++mUART_Rx_input_ptr)%UART_MAX_RX_QUEUE;
+		mUART_Rx_input_ptr = (mUART_Rx_input_ptr + 1) % UART_MAX_RX_QUEUE;
 		mUART_Rx_waiting++;
 		TRACE_MIKIE2("ComLynxRxData() - input ptr=%02d waiting=%02d",mUART_Rx_input_ptr,mUART_Rx_waiting);
 	}
@@ -360,7 +359,7 @@ void CMikie::ComLynxTxLoopback(int data)
 		if(!mUART_Rx_waiting) mUART_RX_COUNTDOWN=UART_RX_TIME_PERIOD;
 
 		// Receive the byte - INSERT into front of queue
-		mUART_Rx_output_ptr=(--mUART_Rx_output_ptr)%UART_MAX_RX_QUEUE;
+		mUART_Rx_output_ptr = (mUART_Rx_output_ptr - 1) % UART_MAX_RX_QUEUE;
 		mUART_Rx_input_queue[mUART_Rx_output_ptr]=data;
 		mUART_Rx_waiting++;
 		TRACE_MIKIE2("ComLynxTxLoopback() - input ptr=%02d waiting=%02d",mUART_Rx_input_ptr,mUART_Rx_waiting);
@@ -378,7 +377,7 @@ void CMikie::ComLynxTxCallback(void (*function)(int data,uint32 objref),uint32 o
 }
 
 
-void CMikie::DisplaySetAttributes(int rs, int gs, int bs,uint32 Pitch)
+void CMikie::DisplaySetAttributes(const MDFN_PixelFormat &format, uint32 Pitch)
 {
 	mDisplayPitch=Pitch;
 	mpDisplayCurrent=NULL;
@@ -390,9 +389,8 @@ void CMikie::DisplaySetAttributes(int rs, int gs, int bs,uint32 Pitch)
 
 	for(Spot.Index=0;Spot.Index<4096;Spot.Index++)
 	{
-		mColourMap[Spot.Index]=((Spot.Colours.Red * 15) + 30) << rs;
-		mColourMap[Spot.Index]|= ((Spot.Colours.Green * 15) + 30) << gs;
-		mColourMap[Spot.Index]|= ((Spot.Colours.Blue * 15) + 30) << bs;
+		mColourMap[Spot.Index]= format.MakeColor(((Spot.Colours.Red * 15) + 30), ((Spot.Colours.Green * 15) + 30),
+							 ((Spot.Colours.Blue * 15) + 30));
 	}
 
 	// Reset screen related counters/vars
@@ -410,8 +408,6 @@ void CMikie::DisplaySetAttributes(int rs, int gs, int bs,uint32 Pitch)
 
 uint32 CMikie::DisplayRenderLine(void)
 {
-	uint8 *bitmap_tmp=NULL;
-	uint32 source,loop;
 	uint32 work_done=0;
 
 	if(!mpDisplayCurrent) return 0;
@@ -465,28 +461,39 @@ uint32 CMikie::DisplayRenderLine(void)
 		// Assign the temporary pointer;
 		if(!mpSkipFrame)
 		{
-			bitmap_tmp=mpDisplayCurrent;
-			for(loop=0;loop<SCREEN_WIDTH/2;loop++)
+			uint32 *bitmap_tmp = mpDisplayCurrent + mpDisplayCurrentLine * mDisplayPitch;
+
+			if(mpDisplayCurrentLine > 102)
 			{
-				source=mpRamPointer[mLynxAddr];
+                         printf("Lynx Line Overflow: %d\n", mpDisplayCurrentLine);
+			 bitmap_tmp = mpDisplayCurrent;
+			}
+
+			for(uint32 loop=0;loop<SCREEN_WIDTH/2;loop++)
+			{
+				uint32 source = mpRamPointer[mLynxAddr];
 				if(mDISPCTL_Flip)
 				{
 					mLynxAddr--;
-					*((uint32*)(bitmap_tmp))=mColourMap[mPalette[source&0x0f].Index];
-					bitmap_tmp+=sizeof(uint32);
-					*((uint32*)(bitmap_tmp))=mColourMap[mPalette[source>>4].Index];
-					bitmap_tmp+=sizeof(uint32);
+					*bitmap_tmp=mColourMap[mPalette[source&0x0f].Index];
+					bitmap_tmp++;
+					*bitmap_tmp=mColourMap[mPalette[source>>4].Index];
+					bitmap_tmp++;
 				}
 				else
 				{
 					mLynxAddr++;
-					*((uint32*)(bitmap_tmp))=mColourMap[mPalette[source>>4].Index];
-					bitmap_tmp+=sizeof(uint32);
-					*((uint32*)(bitmap_tmp))=mColourMap[mPalette[source&0x0f].Index];
-					bitmap_tmp+=sizeof(uint32);
+					*bitmap_tmp = mColourMap[mPalette[source>>4].Index];
+					bitmap_tmp++;
+					*bitmap_tmp = mColourMap[mPalette[source&0x0f].Index];
+					bitmap_tmp++;
 				}
 			}	
-			mpDisplayCurrent+=mDisplayPitch;
+
+			if(mpDisplayCurrentLine < 102)
+			 LynxLineDrawn[mpDisplayCurrentLine] = TRUE;
+
+			mpDisplayCurrentLine++;
 		}
 	}
 	return work_done;
@@ -1546,7 +1553,8 @@ int CMikie::StateAction(StateMem *sm, int load, int data_only)
         SFVAR(mTimerStatusFlags),
         SFVAR(mTimerInterruptMask),
 
-        { mPalette, sizeof(TPALETTE) * 16, "mPalette" },
+	// TPALETTE is a union'd 32-bit integer
+	SFARRAY32N((uint32 *)mPalette, 16, "mPalette"),
         SFVAR(mIODAT),
         SFVAR(mIODAT_REST_SIGNAL),
         SFVAR(mIODIR),
@@ -1740,9 +1748,7 @@ int CMikie::StateAction(StateMem *sm, int load, int data_only)
 	SFEND
 	};
 
-	std::vector <SSDescriptor> love;
-	love.push_back(SSDescriptor(MikieRegs, "MIKY"));
-	int ret = MDFNSS_StateAction(sm, load, data_only, love);
+	int ret = MDFNSS_StateAction(sm, load, data_only, MikieRegs, "MIKY");
 
 	if(load)
 	{
@@ -1751,6 +1757,22 @@ int CMikie::StateAction(StateMem *sm, int load, int data_only)
 
 	}
         return ret;
+}
+
+void CMikie::CombobulateSound(uint32 teatime)
+{
+                                int cur_sample = 0;
+                                static int last_sample;
+                                int x;
+
+                                teatime >>= 2;
+                                for(x = 0; x < 4; x++)
+                                 if(mSTEREO & (0x11 << x))
+                                   cur_sample += mAUDIO_OUTPUT[x];
+
+                                if(cur_sample != last_sample)
+                                 miksynth.offset_inline(teatime, cur_sample - last_sample, &mikbuf);
+                                last_sample = cur_sample;
 }
 
 void CMikie::Update(void)
@@ -2056,7 +2078,7 @@ void CMikie::Update(void)
 							if(mUART_Rx_waiting>0)
 							{
 								mUART_RX_DATA=mUART_Rx_input_queue[mUART_Rx_output_ptr];
-								mUART_Rx_output_ptr=(++mUART_Rx_output_ptr)%UART_MAX_RX_QUEUE;
+								mUART_Rx_output_ptr = (mUART_Rx_output_ptr + 1) % UART_MAX_RX_QUEUE;
 								mUART_Rx_waiting--;
 								TRACE_MIKIE2("Update() - RX Byte output ptr=%02d waiting=%02d",mUART_Rx_output_ptr,mUART_Rx_waiting);
 							}

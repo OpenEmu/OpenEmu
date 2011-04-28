@@ -5,10 +5,18 @@
 
 #include "shared.h"
 
-static void remap_8_to_32(int line);
+namespace MDFN_IEN_SMS
+{
 
-uint8 sms_cram_expand_table[4];
-uint8 gg_cram_expand_table[16];
+static const uint8 tms_crom[] =
+{
+    0x00, 0x00, 0x08, 0x0C,
+    0x10, 0x30, 0x01, 0x3C,
+    0x02, 0x03, 0x05, 0x0F,
+    0x04, 0x33, 0x15, 0x3F
+};
+
+static void remap_8_to_32(int line);
 
 /* Background drawing function */
 void (*render_bg)(int line) = NULL;
@@ -132,16 +140,6 @@ void render_init(void)
 #else
         bp_lut[(i << 8) | (j)] = out;
 #endif
-    }
-
-    for(i = 0; i < 4; i++)
-    {
-        sms_cram_expand_table[i] = i * 85;
-    }
-
-    for(i = 0; i < 16; i++)
-    {
-        gg_cram_expand_table[i] = i * 17;
     }
 
     render_reset();
@@ -487,8 +485,8 @@ void update_bg_pattern_cache(void)
             {
                 uint8 *dst = &bg_pattern_cache[name << 6];
 
-                uint16 bp01 = *(uint16 *)&vdp.vram[(name << 5) | (y << 2) | (0)];
-                uint16 bp23 = *(uint16 *)&vdp.vram[(name << 5) | (y << 2) | (2)];
+                uint16 bp01 = vdp.vram16[(name << 4) | (y << 1) | (0)];
+                uint16 bp23 = vdp.vram16[(name << 4) | (y << 1) | (1)];
                 uint32 temp = (bp_lut[bp01] >> 2) | (bp_lut[bp23]);
 
                 for(x = 0; x < 8; x++)
@@ -506,49 +504,25 @@ void update_bg_pattern_cache(void)
     bg_list_index = 0;
 }
 
+static uint32 SystemColorMap[4096];
 
 /* Update a palette entry */
 void palette_sync(int index, int force)
 {
-    int r, g, b;
+ uint32 color;
 
-    // unless we are forcing an update,
-    // if not in mode 4, exit
-
-
-    if(IS_SMS && !force && ((vdp.reg[0] & 4) == 0) )
-        return;
-
-    if(IS_GG)
-    {
-        /* ----BBBBGGGGRRRR */
-        r = (vdp.cram[(index << 1) | (0)] >> 0) & 0x0F;
-        g = (vdp.cram[(index << 1) | (0)] >> 4) & 0x0F;
-        b = (vdp.cram[(index << 1) | (1)] >> 0) & 0x0F;
-    
-        r = gg_cram_expand_table[r];
-        g = gg_cram_expand_table[g];
-        b = gg_cram_expand_table[b];
-    }
-    else
-    {
-        /* --BBGGRR */
-        r = (vdp.cram[index] >> 0) & 3;
-        g = (vdp.cram[index] >> 2) & 3;
-        b = (vdp.cram[index] >> 4) & 3;
-    
-        r = sms_cram_expand_table[r];
-        g = sms_cram_expand_table[g];
-        b = sms_cram_expand_table[b];
-    }
-    
-    bitmap.pal.color[index][0] = r;
-    bitmap.pal.color[index][1] = g;
-    bitmap.pal.color[index][2] = b;
-
-    pixel[index] = MAKE_PIXEL(r, g, b);
-
-    bitmap.pal.dirty[index] = bitmap.pal.update = 1;
+ if(IS_GG)
+  color = SystemColorMap[(vdp.cram[(index << 1) | 0] | (vdp.cram[(index << 1) | 1] << 8)) & 4095];
+ else
+ {
+  if(!(vdp.reg[0] & 0x4))
+  {
+   color = SystemColorMap[tms_crom[index & 0x0F] & 0x3F];
+  }
+  else
+   color = SystemColorMap[vdp.cram[index] & 0x3F];
+ }  
+ pixel[index] = color;
 }
 
 static void remap_8_to_32(int line)
@@ -562,8 +536,37 @@ static void remap_8_to_32(int line)
     }
 }
 
-void SMS_VDPSetPixelFormat(int, int, int)
+void SMS_VDPSetPixelFormat(const MDFN_PixelFormat &format)
 {
+ int r, g, b;
 
+ if(IS_GG)
+ {
+  for(int i = 0; i < 4096; i++)
+  {
+   /* ----BBBBGGGGRRRR */
+   r = (i & 0xF) * 17;
+   g = ((i >> 4) & 0xF) * 17;
+   b = ((i >> 8) & 0xF) * 17;
+
+   SystemColorMap[i] = format.MakeColor(r, g, b);
+  }
+ }
+ else
+ {
+  for(int i = 0; i < 64; i++)
+  {
+   /* --BBGGRR */
+   r = (i & 0x3) * 85;
+   g = ((i >> 2) & 0x3) * 85;
+   b = ((i >> 4) & 0x3) * 85;
+
+   SystemColorMap[i] = format.MakeColor(r, g, b);
+  }
+ } 
+
+ for(int i = 0; i < PALETTE_SIZE; i++)
+  palette_sync(i, 1);
 }
 
+}

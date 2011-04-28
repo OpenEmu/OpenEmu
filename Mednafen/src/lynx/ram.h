@@ -63,7 +63,7 @@ class CRam : public CLynxBase
 	// Function members
 
 	public:
-		CRam(uint8 *filememory,uint32 filesize);
+		CRam(const uint8 *filememory,uint32 filesize);
 		~CRam();
 
 	public:

@@ -1,6 +1,3 @@
-#include	<string.h>
-#include	<stdlib.h>
-
 #include	"../nes.h"
 #include        "../x6502.h"
 #include	"../ppu/ppu.h"

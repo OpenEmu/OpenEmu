@@ -24,7 +24,7 @@
 #define SIFC_FKB        4
 #define SIFC_HYPERSHOT  5
 #define SIFC_MAHJONG    6
-#define SIFC_QUIZKING   7
+#define SIFC_PARTYTAP   7
 #define SIFC_FTRAINERA  8
 #define SIFC_FTRAINERB  9
 #define SIFC_OEKAKIDS   10
@@ -45,7 +45,7 @@ typedef struct {
         void (*Strobe)(int w);
 	void (*Update)(int w, void *data);
 	void (*SLHook)(int w, uint8 *bg, uint8 *spr, uint32 linets, int final);
-	void (*Draw)(int w, uint32 *buf);
+	void (*Draw)(int w, MDFN_Surface *surface);
 	int (*StateAction)(int w, StateMem *sm, int load, int data_only);
 	int InDataElements;
 	int InDataElementSize;
@@ -57,13 +57,13 @@ typedef struct {
 	void (*Strobe)(void);
         void (*Update)(void *data);
         void (*SLHook)(uint8 *bg, uint8 *spr, uint32 linets, int final);
-        void (*Draw)(uint32 *buf);
+        void (*Draw)(MDFN_Surface *surface);
         int (*StateAction)(StateMem *sm, int load, int data_only);
         int InDataElements;
         int InDataElementSize;
 } INPUTCFC;
 
-void MDFN_DrawInput(uint32 *buf);
+void MDFN_DrawInput(MDFN_Surface *surface);
 void MDFN_UpdateInput(void);
 void NESINPUT_Power(void);
 void NESINPUT_Init(void);

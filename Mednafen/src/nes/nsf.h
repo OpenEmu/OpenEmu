@@ -59,7 +59,7 @@ void NSF_init(void);
 void NSFDealloc(void);
 void NSFDodo(void);
 void DoNSFFrame(void);
-void MDFNNES_DrawNSF(uint32 *XBuf, int16 *samples, int32 scount);
+void MDFNNES_DrawNSF(MDFN_Surface *surface, MDFN_Rect *DisplayRect, int16 *samples, int32 scount);
 
 // NSF Expansion Chip Set Write Handler
 void NSFECSetWriteHandler(int32 start, int32 end, writefunc func);

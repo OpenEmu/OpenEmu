@@ -34,11 +34,14 @@ static int StateAction(StateMem *sm, int load, int data_only)
   Sync();
  return(ret);
 }
-void Mapper184_Init(CartInfo *info)
+
+int Mapper184_Init(CartInfo *info)
 {
  SetWriteHandler(0x6000,0xffff,Mapper184_write);
  SetReadHandler(0x8000, 0xFFFF, CartBR);
  info->Power = Power;
  info->StateAction = StateAction;
+
+ return(1);
 }
 

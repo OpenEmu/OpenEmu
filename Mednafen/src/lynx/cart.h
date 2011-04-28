@@ -63,7 +63,7 @@ typedef struct
    uint8   manufname[16];
    uint8   rotation; 
    uint8   spare[5];
-}LYNX_HEADER;
+} __attribute__((__packed__)) LYNX_HEADER;
 
 
 class CCart : public CLynxBase
@@ -72,12 +72,14 @@ class CCart : public CLynxBase
 	// Function members
 
 	public:
-		CCart(uint8 *gamedata,uint32 gamesize);
+		CCart(const uint8 *gamedata, uint32 gamesize);
 		~CCart();
 
 	public:
 
 // Access for sensible members of the clan
+
+		static bool TestMagic(const uint8 *data, uint32 size);
 
 		void	Reset(void);
 		void	Poke(uint32 addr,uint8 data);

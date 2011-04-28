@@ -1,4 +1,3 @@
-#include <string.h>
 #include "share.h"
 #include "suborkb.h"
 #define AK2(x,y)	( (FKB_##x) | (FKB_##y <<8) )
@@ -9,7 +8,7 @@ static uint8 ksmode;
 static uint8 ksindex;
 
 
-static uint16 matrix[13][2][4]=
+static const uint16 matrix[13][2][4]=
 {
 {{AK(4),AK(G),AK(F),AK(C)},
     {AK(F2),AK(E),AK(5),AK(V)}},

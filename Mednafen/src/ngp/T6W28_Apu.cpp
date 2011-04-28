@@ -36,7 +36,7 @@ void T6W28_Osc::reset()
 
 // T6W28_Square
 
-inline void T6W28_Square::reset()
+blip_inline void T6W28_Square::reset()
 {
 	period = 0;
 	phase = 0;
@@ -124,7 +124,7 @@ void T6W28_Square::run( sms_time_t time, sms_time_t end_time )
 
 static const int noise_periods [3] = { 0x100, 0x200, 0x400 };
 
-inline void T6W28_Noise::reset()
+blip_inline void T6W28_Noise::reset()
 {
 	period = &noise_periods [0];
 	shifter = 0x8000;

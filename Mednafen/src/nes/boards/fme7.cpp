@@ -85,7 +85,6 @@ static DECLFW(Mapper69_SWH)
 {
 	     int x;
 
-	     if(FSettings.SndRate)
              switch(sr_index)
              {
               case 0:

@@ -104,10 +104,11 @@ void setntamem(uint8 *p, int ram, uint32 b);
 
 extern uint8 geniestage;
 
-void GeniePower(void);
+bool Genie_Init(void);
+void Genie_Kill(void);
+bool Genie_BIOSInstalled(void);
 
-void OpenGenie(void);
-void CloseGenie(void);
-void MDFN_KillGenie(void);
+void Genie_Power(void);
+
 
 #endif

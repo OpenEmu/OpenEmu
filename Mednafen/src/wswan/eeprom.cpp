@@ -24,8 +24,8 @@
 #include <ctype.h>
 
 uint8 wsEEPROM[2048];
-
-static uint8 iEEPROM[] = 
+static uint8 iEEPROM[0x400];
+static const uint8 iEEPROM_Init[0x400] = 
 {
  255,255,255,255,255,255,192,255,0,0,0,0,
  0,0,0,0,0,0,0,0,0,0,0,0,
@@ -173,6 +173,9 @@ void WSwan_EEPROMReset(void)
 
 void WSwan_EEPROMInit(const char *Name, const uint16 BYear, const uint8 BMonth, const uint8 BDay, const uint8 Sex, const uint8 Blood)
 {
+ memset(wsEEPROM, 0, 2048);
+ memcpy(iEEPROM, iEEPROM_Init, 0x400);
+
  for(unsigned int x = 0; x < 16; x++)
  {
   uint8 zechar = 0;

@@ -36,7 +36,7 @@ static uint8 HDMAStartVector[4];
 
 static int32 ipending[24];
 static int32 IntPrio[0xB]; // 0070-007a
-static bool8 h_int = FALSE, timer0, timer2;
+static bool h_int, timer0, timer2;
 
 // The way interrupt processing is set up is still written towards BIOS HLE emulation, which assumes
 // that the interrupt handler will immediately call DI, clear the interrupt latch(so the interrupt won't happen again when interrupts are re-enabled),
@@ -226,7 +226,7 @@ void TestIntHDMA(int bios_num, int vec_num)
 extern int32 ngpc_soundTS;
 extern bool NGPFrameSkip;
 
-bool updateTimers(uint8 cputicks)
+bool updateTimers(MDFN_Surface *surface, uint8 cputicks)
 {
 	bool ret = 0;
 
@@ -244,7 +244,7 @@ bool updateTimers(uint8 cputicks)
 		// ============= END OF CURRENT SCANLINE =============
 
 		h_int = NGPGfx->hint();	
-		ret = NGPGfx->draw(NGPFrameSkip);
+		ret = NGPGfx->draw(surface, NGPFrameSkip);
 
 		// ============= START OF NEXT SCANLINE =============
 

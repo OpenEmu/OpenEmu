@@ -19,6 +19,7 @@
 #include "GBA.h"
 #include "Globals.h"
 #include "Gfx.h"
+#include "gfx-draw.h"
 
 void mode0RenderLine()
 {
@@ -47,7 +48,7 @@ void mode0RenderLine()
     gfxDrawTextScreen(BG3CNT, BGHOFS[3], BGVOFS[3], line3);
   }
 
-  gfxDrawSprites(lineOBJ);
+  gfxDrawSprites();
 
   uint32 backdrop = (READ16LE(&palette[0]) | 0x30000000);
 
@@ -107,17 +108,17 @@ void mode0RenderLine()
 
       if(top2 & (BLDMOD>>8))
         color = gfxAlphaBlend(color, back,
-                              coeff[COLEV & 0x1F],
-                              coeff[(COLEV >> 8) & 0x1F]);
+                              all_coeff[COLEV & 0x1F],
+                              all_coeff[(COLEV >> 8) & 0x1F]);
         else {
           switch((BLDMOD >> 6) & 3) {
           case 2:
             if(BLDMOD & top)
-              color = gfxIncreaseBrightness(color, coeff[COLY & 0x1F]);
+              color = gfxIncreaseBrightness(color, all_coeff[COLY & 0x1F]);
             break;
           case 3:
             if(BLDMOD & top)
-              color = gfxDecreaseBrightness(color, coeff[COLY & 0x1F]);
+              color = gfxDecreaseBrightness(color, all_coeff[COLY & 0x1F]);
             break;
           }       
         }      
@@ -154,7 +155,7 @@ void mode0RenderLineNoWindow()
     gfxDrawTextScreen(BG3CNT, BGHOFS[3], BGVOFS[3], line3);
   }
 
-  gfxDrawSprites(lineOBJ);
+  gfxDrawSprites();
 
   uint32 backdrop = (READ16LE(&palette[0]) | 0x30000000);
 
@@ -235,19 +236,19 @@ void mode0RenderLineNoWindow()
             
             if(top2 & (BLDMOD>>8))
               color = gfxAlphaBlend(color, back,
-                                    coeff[COLEV & 0x1F],
-                                    coeff[(COLEV >> 8) & 0x1F]);
+                                    all_coeff[COLEV & 0x1F],
+                                    all_coeff[(COLEV >> 8) & 0x1F]);
             
           }
         }
         break;
       case 2:
         if(BLDMOD & top)
-          color = gfxIncreaseBrightness(color, coeff[COLY & 0x1F]);
+          color = gfxIncreaseBrightness(color, all_coeff[COLY & 0x1F]);
         break;
       case 3:
         if(BLDMOD & top)
-          color = gfxDecreaseBrightness(color, coeff[COLY & 0x1F]);
+          color = gfxDecreaseBrightness(color, all_coeff[COLY & 0x1F]);
         break;
       }
     } else {
@@ -277,17 +278,17 @@ void mode0RenderLineNoWindow()
 
       if(top2 & (BLDMOD>>8))
         color = gfxAlphaBlend(color, back,
-                              coeff[COLEV & 0x1F],
-                              coeff[(COLEV >> 8) & 0x1F]);
+                              all_coeff[COLEV & 0x1F],
+                              all_coeff[(COLEV >> 8) & 0x1F]);
       else {
         switch((BLDMOD >> 6) & 3) {
         case 2:
           if(BLDMOD & top)
-            color = gfxIncreaseBrightness(color, coeff[COLY & 0x1F]);
+            color = gfxIncreaseBrightness(color, all_coeff[COLY & 0x1F]);
           break;
         case 3:
           if(BLDMOD & top)
-            color = gfxDecreaseBrightness(color, coeff[COLY & 0x1F]);
+            color = gfxDecreaseBrightness(color, all_coeff[COLY & 0x1F]);
           break;
         }         
       }
@@ -308,8 +309,8 @@ void mode0RenderLineAll()
     return;
   }
 
-  bool8 inWindow0 = false;
-  bool8 inWindow1 = false;
+  bool inWindow0 = false;
+  bool inWindow1 = false;
 
   if(layerEnable & 0x2000) {
     uint8 v0 = WIN0V >> 8;
@@ -346,8 +347,8 @@ void mode0RenderLineAll()
     gfxDrawTextScreen(BG3CNT, BGHOFS[3], BGVOFS[3], line3);
   }
 
-  gfxDrawSprites(lineOBJ);
-  gfxDrawOBJWin(lineOBJWin);  
+  gfxDrawSprites();
+  gfxDrawOBJWin();  
 
   uint32 backdrop = (READ16LE(&palette[0]) | 0x30000000);
 
@@ -448,18 +449,18 @@ void mode0RenderLineAll()
               
               if(top2 & (BLDMOD>>8))
                 color = gfxAlphaBlend(color, back,
-                coeff[COLEV & 0x1F],
-                coeff[(COLEV >> 8) & 0x1F]);
+                all_coeff[COLEV & 0x1F],
+                all_coeff[(COLEV >> 8) & 0x1F]);
             }
           }
           break;
         case 2:
           if(BLDMOD & top)
-            color = gfxIncreaseBrightness(color, coeff[COLY & 0x1F]);
+            color = gfxIncreaseBrightness(color, all_coeff[COLY & 0x1F]);
           break;
         case 3:
           if(BLDMOD & top)
-            color = gfxDecreaseBrightness(color, coeff[COLY & 0x1F]);
+            color = gfxDecreaseBrightness(color, all_coeff[COLY & 0x1F]);
           break;
         }
       } else {
@@ -489,17 +490,17 @@ void mode0RenderLineAll()
         
         if(top2 & (BLDMOD>>8))
           color = gfxAlphaBlend(color, back,
-          coeff[COLEV & 0x1F],
-          coeff[(COLEV >> 8) & 0x1F]);
+          all_coeff[COLEV & 0x1F],
+          all_coeff[(COLEV >> 8) & 0x1F]);
         else {
           switch((BLDMOD >> 6) & 3) {
           case 2:
             if(BLDMOD & top)
-              color = gfxIncreaseBrightness(color, coeff[COLY & 0x1F]);
+              color = gfxIncreaseBrightness(color, all_coeff[COLY & 0x1F]);
             break;
           case 3:
             if(BLDMOD & top)
-              color = gfxDecreaseBrightness(color, coeff[COLY & 0x1F]);
+              color = gfxDecreaseBrightness(color, all_coeff[COLY & 0x1F]);
             break;
           }       
         }
@@ -531,17 +532,17 @@ void mode0RenderLineAll()
       
       if(top2 & (BLDMOD>>8))
         color = gfxAlphaBlend(color, back,
-        coeff[COLEV & 0x1F],
-        coeff[(COLEV >> 8) & 0x1F]);
+        all_coeff[COLEV & 0x1F],
+        all_coeff[(COLEV >> 8) & 0x1F]);
       else {
         switch((BLDMOD >> 6) & 3) {
         case 2:
           if(BLDMOD & top)
-            color = gfxIncreaseBrightness(color, coeff[COLY & 0x1F]);
+            color = gfxIncreaseBrightness(color, all_coeff[COLY & 0x1F]);
           break;
         case 3:
           if(BLDMOD & top)
-            color = gfxDecreaseBrightness(color, coeff[COLY & 0x1F]);
+            color = gfxDecreaseBrightness(color, all_coeff[COLY & 0x1F]);
           break;
         }         
       }

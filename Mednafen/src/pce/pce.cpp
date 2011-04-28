@@ -15,145 +15,77 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <zlib.h>
 #include "pce.h"
-#include "vdc.h"
-#include "psg.h"
+#include "vce.h"
+#include "pce_psg/pce_psg.h"
 #include "input.h"
 #include "huc.h"
-#include "cdrom.h"
+#include "../cdrom/pcecd.h"
 #include "hes.h"
 #include "debug.h"
 #include "tsushin.h"
-#include "../netplay.h"
+#include "arcade_card/arcade_card.h"
 #include "../mempatcher.h"
+#include "../cdrom/cdromif.h"
+#include "../md5.h"
 
-#ifdef WANT_DEBUGGER
-static RegType SGXRegsVDC[] =
+#include <zlib.h>
+#include <errno.h>
+
+#define PCE_DEBUG(x, ...) { /* printf(x, ## __VA_ARGS__); */ }
+
+namespace MDFN_IEN_PCE
 {
-        { "MAWR-B", "Memory Write Address, VDC-B", 2 },
-        { "MARR-B", "Memory Read Address, VDC-B", 2 },
-        { "CR-B", "Control, VDC-B", 2 },
-        { "RCR-B", "Raster Counter, VDC-B", 2 },
-        { "BXR-B", "X Scroll, VDC-B", 2 },
-        { "BYR-B", "Y Scroll, VDC-B", 2 },
-        { "MWR-B", "Memory Width, VDC-B", 2 },
 
-        { "HSR-B", "HSR, VDC-B", 2 },
-        { "HDR-B", "HDR, VDC-B", 2 },
-        { "VSR-B", "VSR, VDC-B", 2 },
-        { "VDR-B", "VDR, VDC-B", 2 },
-
-        { "VCR-B", "VCR, VDC-B", 2 },
-        { "DCR-B", "DMA Control, VDC-B", 2 },
-        { "SOUR-B", "VRAM DMA Source Address, VDC-B", 2 },
-        { "DESR-B", "VRAM DMA Dest Address, VDC-B", 2 },
-        { "LENR-B", "VRAM DMA Length, VDC-B", 2 },
-        { "SATB-B", "SATB Update Address, VDC-B", 2 },
-        { "", "", 0 },
+static const MDFNSetting_EnumList PSGRevisionList[] =
+{
+ { "huc6280", PCE_PSG::REVISION_HUC6280, "HuC6280", gettext_noop("HuC6280 as found in the original PC Engine.") },
+ { "huc6280a", PCE_PSG::REVISION_HUC6280A, "HuC6280A", gettext_noop("HuC6280A as found in the SuperGrafx and CoreGrafx I.  Provides proper channel amplitude centering, but may cause clicking in a few games designed with the original HuC6280's sound characteristics in mind.") },
+ { "enhanced", PCE_PSG::REVISION_ENHANCED, "Enhanced", gettext_noop("Emulator-only pseudo-revision, designed to reduce clicking and audio artifacts in games designed for either real revision.") },
+ { "match", PCE_PSG::_REVISION_COUNT, gettext_noop("Match emulation mode."), gettext_noop("Selects \"huc6280\" for non-SuperGrafx mode, and \"huc6280a\" for SuperGrafx(full) mode.") },
+ { NULL, 0 },
 };
 
-static RegGroupType SGXRegsVDCGroup =
-{
-        SGXRegsVDC,
-        PCEDBG_GetRegister,
-        PCEDBG_SetRegister
-};
+HuC6280 *HuCPU;
 
-static RegType PCERegs[] =
-{
-        { "PC", "Program Counter", 2 },
-        { "A", "Accumulator", 1 },
-        { "X", "X Index Register", 1 },
-        { "Y", "Y Index Register", 1 },
-        { "SP", "Stack Pointer", 1 },
-        { "P", "Status", 1 },
-        { "MPR0", "MPR0", 1},
-        { "MPR1", "MPR1", 1},
-        { "MPR2", "MPR2", 1},
-        { "MPR3", "MPR3", 1},
-        { "MPR4", "MPR4", 1},
-        { "MPR5", "MPR5", 1},
-        { "MPR6", "MPR6", 1},
-        { "MPR7", "MPR7", 1},
-        { "SPD", "CPU Speed", 1 },
-        { "IRQM", "IRQ Mask", 1},
-        { "TIMS", "Timer Status", 1},
-        { "TIMV", "Timer Value", 1},
-        { "TIML", "Timer Load", 1},
-        { "TIMD", "Timer Div Counter", 2},
-        { "", "", 0 },
-};
+VCE *vce = NULL;
 
-static RegGroupType PCERegsGroup =
-{
-        PCERegs,
-        PCEDBG_GetRegister,
-        PCEDBG_SetRegister
-};
+static PCE_PSG *psg = NULL;
 
+extern ArcadeCard *arcade_card;	// Bah, lousy globals.
 
-static RegType PCERegsVDC[] =
-{
-        { "MAWR", "Memory Write Address", 2 },
-        { "MARR", "Memory Read Address", 2 },
-        { "CR", "Control", 2 },
-        { "RCR", "Raster Counter", 2 },
-        { "BXR", "X Scroll", 2 },
-        { "BYR", "Y Scroll", 2 },
-        { "MWR", "Memory Width", 2 },
+static Blip_Buffer sbuf[2];
+static bool SetSoundRate(double rate);
 
-        { "HSR", "HSR", 2 },
-        { "HDR", "HDR", 2 },
-        { "VSR", "VSR", 2 },
-        { "VDR", "VDR", 2 },
-
-        { "VCR", "VCR", 2 },
-        { "DCR", "DMA Control", 2 },
-        { "SOUR", "VRAM DMA Source Address", 2 },
-        { "DESR", "VRAM DMA Dest Address", 2 },
-        { "LENR", "VRAM DMA Length", 2 },
-        { "SATB", "SATB Update Address", 2 },
-
-        { "Frm Cntr", "Frame Counter", 2 },
-        { "VCECR", "VCE CR", 2 },
-        { "", "", 0 },
-};
-
-static RegGroupType PCERegsVDCGroup =
-{
-        PCERegsVDC,
-        PCEDBG_GetRegister,
-        PCEDBG_SetRegister
-};
-
-#endif
 
 bool PCE_ACEnabled;
-bool PCE_InDebug = 0;
-uint64 PCE_TimestampBase;
+uint32 PCE_InDebug = 0;
+uint64 PCE_TimestampBase;	// Only used with the debugger for the time being.
 
 extern MDFNGI EmulatedPCE;
 static bool IsSGX;
 static bool IsHES;
-int pce_overclocked;
 
 // Accessed in debug.cpp
 static uint8 BaseRAM[32768]; // 8KB for PCE, 32KB for Super Grafx
 
-uint8 PCEIODataBuffer;
-readfunc PCERead[0x100], NonCheatPCERead[0x100];
-writefunc PCEWrite[0x100];
+HuC6280::readfunc NonCheatPCERead[0x100];
 
 static DECLFR(PCEBusRead)
 {
- //printf("BUS Read: %02x:%04x(%06x)\n", A >> 13, A & 0x1FFF, A);
+ if(!PCE_InDebug)
+ {
+  PCE_DEBUG("Unmapped Read: %02x %04x\n", A >> 13, A);
+ }
  return(0xFF);
 }
 
 static DECLFW(PCENullWrite)
 {
- //printf("Null Write: %02x:%04x(%06x) %02x\n", A >> 13, A & 0x1FFF, A, V);
+ if(!PCE_InDebug)
+ {
+  PCE_DEBUG("Unmapped Write: %02x, %08x %02x\n", A >> 13, A, V);
+ }
 }
 
 static DECLFR(BaseRAMReadSGX)
@@ -182,85 +114,191 @@ static DECLFR(IORead)
 
  switch(A & 0x1c00)
  {
-  case 0x0000: if(!PCE_InDebug) HuC6280_StealCycles(1); 
-	       return(VDC_Read(A));
-  case 0x0400: if(!PCE_InDebug) HuC6280_StealCycles(1); 
-	       return(VCE_Read(A));
-  case 0x0800: if(HuCPU.in_block_move)
+  case 0x0000: if(!PCE_InDebug)
+		HuCPU->StealCycle(); 
+	       return(vce->ReadVDC(A));
+
+  case 0x0400: if(!PCE_InDebug)
+		HuCPU->StealCycle(); 
+	       return(vce->Read(A));
+
+  case 0x0800: if(HuCPU->InBlockMove())
 		return(0);
-	       return(PCEIODataBuffer); 
-  case 0x0c00: if(HuCPU.in_block_move)
+	       return(HuCPU->GetIODataBuffer());
+
+  case 0x0c00: if(HuCPU->InBlockMove())
                 return(0);
 	       {
-		uint8 ret = HuC6280_TimerRead(A);
-                if(!PCE_InDebug) PCEIODataBuffer = ret;
+		uint8 ret = HuCPU->TimerRead(A, PCE_InDebug);
+                if(!PCE_InDebug)
+		 HuCPU->SetIODataBuffer(ret);
                 return(ret);
                }
-  case 0x1000: if(HuCPU.in_block_move)
+
+  case 0x1000: if(HuCPU->InBlockMove())
                 return(0);
 	       {
-	        uint8 ret = INPUT_Read(A);
-                if(!PCE_InDebug) PCEIODataBuffer = ret;
+	        uint8 ret = INPUT_Read(HuCPU->Timestamp(), A);
+                if(!PCE_InDebug)
+		 HuCPU->SetIODataBuffer(ret);
                 return(ret);
                }
-  case 0x1400: if(HuCPU.in_block_move)
+
+  case 0x1400: if(HuCPU->InBlockMove())
                 return(0);
 	       {
-	        uint8 ret = HuC6280_IRQStatusRead(A);
-		if(!PCE_InDebug) PCEIODataBuffer = ret;
+	        uint8 ret = HuCPU->IRQStatusRead(A, PCE_InDebug);
+		if(!PCE_InDebug)
+		 HuCPU->SetIODataBuffer(ret);
 	        return(ret);
 	       }
+
   case 0x1800: if(IsTsushin)
 		return(PCE_TsushinRead(A));
 
-	       if(!PCE_IsCD) break;
+	       if(!PCE_IsCD)
+		break;
 	       if((A & 0x1E00) == 0x1A00)
 	       {
-		if(PCE_ACEnabled)
-		 return(PCE_ACRead(A));
+		if(arcade_card)
+		 return(arcade_card->Read(A, PCE_InDebug));
 		else
 		 return(0);
 	       }
 	       else
-		return(PCECD_Read(A));
-  case 0x1C00: if(IsHES) return(ReadIBP(A)); 
+	       {
+		int32 next_cd_event;
+		uint8 ret;
+
+		ret = PCECD_Read(HuCPU->Timestamp(), A, next_cd_event, PCE_InDebug);
+
+		vce->SetCDEvent(next_cd_event);
+
+		return(ret);
+	       }
+
+  case 0x1C00: if(IsHES)
+		return(ReadIBP(A)); 
 	       break; // Expansion
-  //default: printf("Eeep\n");break;
  }
+
+ if(!PCE_InDebug)
+ {
+  PCE_DEBUG("I/O Unmapped Read: %04x\n", A);
+ }
+
  return(0xFF);
 }
 
 static DECLFW(IOWrite)
 {
- A &= 0x1FFF;
-  
  switch(A & 0x1c00)
  {
-  case 0x0000: if(!PCE_InDebug) HuC6280_StealCycles(1);
-	       VDC_Write(A, V); break;
-  case 0x0400: if(!PCE_InDebug) HuC6280_StealCycles(1); 
-	       VCE_Write(A, V); break;
-  case 0x0800: PCEIODataBuffer = V; PSG_Write(A, V); break;
-  case 0x0c00: PCEIODataBuffer = V; HuC6280_TimerWrite(A, V); break;
-  case 0x1000: PCEIODataBuffer = V; INPUT_Write(A, V); break;
-  case 0x1400: PCEIODataBuffer = V; HuC6280_IRQStatusWrite(A, V); break;
-  case 0x1800: if(IsTsushin)
-                PCE_TsushinWrite(A, V);
+  case 0x0000: HuCPU->StealCycle();
+	       vce->WriteVDC(A & 0x80001FFF, V);
+	       break;
 
-	       if(!PCE_IsCD) break;
+  case 0x0400: HuCPU->StealCycle(); 
+	       vce->Write(A & 0x1FFF, V);
+	       break;
+
+  case 0x0800: HuCPU->SetIODataBuffer(V); 
+	       psg->Write(HuCPU->Timestamp() / 3, A & 0x1FFF, V);
+	       break;
+
+  case 0x0c00: HuCPU->SetIODataBuffer(V);
+	       HuCPU->TimerWrite(A & 0x1FFF, V);
+	       break;
+
+  case 0x1000: HuCPU->SetIODataBuffer(V);
+	       INPUT_Write(HuCPU->Timestamp(), A & 0x1FFF, V);
+	       break;
+
+  case 0x1400: HuCPU->SetIODataBuffer(V);
+	       HuCPU->IRQStatusWrite(A & 0x1FFF, V);
+	       break;
+
+  case 0x1800: if(IsTsushin)
+                PCE_TsushinWrite(A & 0x1FFF, V);
+
+	       if(!PCE_IsCD)
+	       {
+		if(!PCE_InDebug)
+		{
+		 PCE_DEBUG("I/O Unmapped Write: %04x %02x\n", A, V);
+		}
+		break;
+	       }
+
 	       if((A & 0x1E00) == 0x1A00)
 	       {
-		if(PCE_ACEnabled)
-		 PCE_ACWrite(A, V);
+		if(arcade_card)
+		 arcade_card->Write(A& 0x1FFF, V);
 	       }
 	       else
-	        PCECD_Write(A, V); 
-	       break;
-  //case 0x1C00: break; // Expansion
-  //default: printf("Eep: %04x\n", A); break;
- }
+	       {
+	        int32 next_cd_event = PCECD_Write(HuCPU->Timestamp(), A & 0x1FFF, V);
 
+		vce->SetCDEvent(next_cd_event);
+	       }
+		
+	       break;
+
+  case 0x1C00:  if(!PCE_InDebug)
+		{
+		 PCE_DEBUG("I/O Unmapped Write: %04x %02x\n", A, V);
+		}
+		break;
+ }
 }
+
+static void PCECDIRQCB(bool asserted)
+{
+ if(asserted)
+  HuCPU->IRQBegin(HuC6280::IQIRQ2);
+ else
+  HuCPU->IRQEnd(HuC6280::IQIRQ2);
+}
+
+static bool LoadCustomPalette(const char *path)
+{
+ uint8 CustomColorMap[1024 * 3];
+
+ MDFN_printf(_("Loading custom palette from \"%s\"...\n"),  path);
+ MDFN_indent(1);
+
+ gzFile gp = gzopen(path, "rb");
+ if(!gp)
+ {
+  ErrnoHolder ene(errno);
+
+  MDFN_printf(_("Error opening file: %s\n"), ene.StrError());        // FIXME, zlib and errno...
+  MDFN_indent(-1);
+  return(FALSE);
+ }
+ else
+ {
+  long length_read;
+
+  length_read = gzread(gp, CustomColorMap, 1024 * 3);
+
+  if(length_read == 512 * 3)
+   MDFN_printf("Palette only has 512 entries.  Calculating the strip-colorburst entries.\n");
+
+  if(length_read != 1024 * 3 && length_read != 512 * 3)
+  {
+   MDFN_printf(_("Error reading file\n"));
+   MDFN_indent(-1);
+   return(FALSE);
+  }
+
+  vce->SetCustomColorMap(CustomColorMap, length_read / 3);
+ }
+ MDFN_indent(-1);
+
+ return(TRUE);
+}
+
 
 static int LoadCommon(void);
 static void LoadCommonPre(void);
@@ -273,18 +311,54 @@ static bool TestMagic(const char *name, MDFNFILE *fp)
  return(TRUE);
 }
 
+static void SetCDSettings(bool silent_status = false)
+{
+ PCECD_Settings cd_settings;
+ memset(&cd_settings, 0, sizeof(PCECD_Settings));
+
+ cd_settings.CDDA_Volume = (double)MDFN_GetSettingUI("pce.cddavolume") / 100;
+ cd_settings.CD_Speed = 1;
+
+ cd_settings.ADPCM_Volume = (double)MDFN_GetSettingUI("pce.adpcmvolume") / 100;
+ cd_settings.ADPCM_LPF = MDFN_GetSettingB("pce.adpcmlp");
+
+ PCECD_SetSettings(&cd_settings);
+
+ if(!silent_status)
+ {
+  if(cd_settings.CDDA_Volume != 1.0)
+   MDFN_printf(_("CD-DA Volume: %d%%\n"), (int)(100 * cd_settings.CDDA_Volume));
+
+  if(cd_settings.ADPCM_Volume != 1.0)
+   MDFN_printf(_("ADPCM Volume: %d%%\n"), (int)(100 * cd_settings.ADPCM_Volume));
+ }
+
+
+ unsigned int cdpsgvolume = MDFN_GetSettingUI("pce.cdpsgvolume");
+
+ if(cdpsgvolume != 100)
+ {
+  MDFN_printf(_("CD PSG Volume: %d%%\n"), cdpsgvolume);
+ }
+
+ psg->SetVolume(0.678 * cdpsgvolume / 100);
+}
+
+static void CDSettingChanged(const char *name)
+{
+ SetCDSettings(true);
+}
+
 static int Load(const char *name, MDFNFILE *fp)
 {
  uint32 headerlen = 0;
  uint32 r_size;
 
  IsHES = 0;
+ IsSGX = 0;
 
  if(!memcmp(fp->data, "HESM", 4))
   IsHES = 1;
-
- if(strcasecmp(fp->ext, "pce") && strcasecmp(fp->ext, "sgx") && !IsHES)
-  return(-1);
 
  LoadCommonPre();
 
@@ -297,12 +371,6 @@ static int Load(const char *name, MDFNFILE *fp)
  r_size = fp->size - headerlen;
  if(r_size > 4096 * 1024) r_size = 4096 * 1024;
 
- for(int x = 0; x < 0x100; x++)
- {
-  PCERead[x] = PCEBusRead;
-  PCEWrite[x] = PCENullWrite;
- }
-
  uint32 crc = crc32(0, fp->data + headerlen, fp->size - headerlen);
 
 
@@ -310,10 +378,20 @@ static int Load(const char *name, MDFNFILE *fp)
  {
   if(!PCE_HESLoad(fp->data, fp->size))
    return(0);
+
+  // FIXME:  If a HES rip tries to execute a SCSI command, the CD emulation code will probably crash.  Obviously, a HES rip shouldn't do this,
+  // but Mednafen shouldn't crash either. ;)
+  PCE_IsCD = 1;
+  PCECD_Init(NULL, PCECDIRQCB, PCE_MASTER_CLOCK, 1, &sbuf[0], &sbuf[1]);
  }
  else
-  HuCLoad(fp->data + headerlen, fp->size - headerlen, crc);
-
+ {
+  HuCLoad(fp->data + headerlen, fp->size - headerlen, crc, MDFN_GetSettingB("pce.disable_bram_hucard"));
+  #if 0	// For testing
+  PCE_IsCD = 1;
+  PCECD_Init(NULL, PCECDIRQCB, PCE_MASTER_CLOCK, 1, &sbuf[0], &sbuf[1]);
+  #endif
+ }
  if(!strcasecmp(fp->ext, "sgx"))
   IsSGX = TRUE;
 
@@ -356,28 +434,18 @@ static int Load(const char *name, MDFNFILE *fp)
 static void LoadCommonPre(void)
 {
  // FIXME:  Make these globals less global!
- pce_overclocked = MDFN_GetSettingUI("pce.ocmultiplier");
  PCE_ACEnabled = MDFN_GetSettingB("pce.arcadecard");
 
- if(pce_overclocked > 1)
-  MDFN_printf(_("CPU overclock: %dx\n"), pce_overclocked);
+ HuCPU = new HuC6280(IsHES);
 
- if(MDFN_GetSettingUI("pce.cdspeed") > 1)
-  MDFN_printf(_("CD-ROM speed:  %ux\n"), (unsigned int)MDFN_GetSettingUI("pce.cdspeed"));
-
- memset(HuCPUFastMap, 0, sizeof(HuCPUFastMap));
  for(int x = 0; x < 0x100; x++)
  {
-  PCERead[x] = PCEBusRead;
-  PCEWrite[x] = PCENullWrite;
+  HuCPU->SetFastRead(x, NULL);
+  HuCPU->SetReadHandler(x, PCEBusRead);
+  HuCPU->SetWriteHandler(x, PCENullWrite);
  }
 
  MDFNMP_Init(1024, (1 << 21) / 1024);
-
- #ifdef WANT_DEBUGGER
- MDFNDBG_AddRegGroup(&PCERegsGroup);
- MDFNDBG_AddRegGroup(&PCERegsVDCGroup);
- #endif
 }
 
 static int LoadCommon(void)
@@ -388,57 +456,54 @@ static int LoadCommon(void)
   IsSGX = 1;
  // Don't modify IsSGX past this point.
  
-
- #ifdef WANT_DEBUGGER
- MDFNDBG_AddASpace(PCEDBG_GetAddressSpaceBytes, PCEDBG_PutAddressSpaceBytes, "cpu", "CPU Logical", 16);
- MDFNDBG_AddASpace(PCEDBG_GetAddressSpaceBytes, PCEDBG_PutAddressSpaceBytes, "physical", "CPU Physical", 21);
- MDFNDBG_AddASpace(PCEDBG_GetAddressSpaceBytes, PCEDBG_PutAddressSpaceBytes, "ram", "RAM", IsSGX ? 15 : 13);
- #endif
-
- VDC_Init(IsSGX);
+ vce = new VCE(IsSGX, MDFN_GetSettingB("pce.nospritelimit"));
 
  if(IsSGX)
- {
   MDFN_printf("SuperGrafx Emulation Enabled.\n");
-  PCERead[0xF8] = PCERead[0xF9] = PCERead[0xFA] = PCERead[0xFB] = BaseRAMReadSGX;
-  PCEWrite[0xF8] = PCEWrite[0xF9] = PCEWrite[0xFA] = PCEWrite[0xFB] = BaseRAMWriteSGX;
 
-  for(int x = 0xf8; x < 0xfb; x++)
-   HuCPUFastMap[x] = BaseRAM - 0xf8 * 8192;
- }
- else
+ for(int i = 0xF8; i < 0xFC; i++)
  {
-  PCERead[0xF8] = PCERead[0xF9] = PCERead[0xFA] = PCERead[0xFB] = BaseRAMRead;
-  PCEWrite[0xF8] = PCEWrite[0xF9] = PCEWrite[0xFA] = PCEWrite[0xFB] = BaseRAMWrite;
+  HuCPU->SetReadHandler(i, IsSGX ? BaseRAMReadSGX : BaseRAMRead);
+  HuCPU->SetWriteHandler(i, IsSGX ? BaseRAMWriteSGX : BaseRAMWrite);
 
-  for(int x = 0xf8; x < 0xfb; x++)
-   HuCPUFastMap[x] = BaseRAM - x * 8192;
+  if(IsSGX)
+   HuCPU->SetFastRead(i, BaseRAM + (i & 0x3) * 8192);
+  else
+   HuCPU->SetFastRead(i, BaseRAM);
  }
+
+ LoadCustomPalette(MDFN_MakeFName(MDFNMKF_PALETTE, 0, NULL).c_str());
 
  MDFNMP_AddRAM(IsSGX ? 32768 : 8192, 0xf8 * 8192, BaseRAM);
 
- PCERead[0xFF] = IORead;
- PCEWrite[0xFF] = IOWrite;
+ HuCPU->SetReadHandler(0xFF, IORead);
+ HuCPU->SetWriteHandler(0xFF, IOWrite);
 
- HuC6280_Init();
-
- #ifdef WANT_DEBUGGER
- if(IsSGX)
-  MDFNDBG_AddRegGroup(&SGXRegsVDCGroup);
- #endif
-
- MDFNGameInfo->pitch = 1024 * sizeof(uint32);
-
- if(MDFN_GetSettingB("pce.forcemono"))
  {
-  MDFNGameInfo->soundchan = 1;
-  PSG_Init(1);
+  int psgrevision = MDFN_GetSettingI("pce.psgrevision");
+
+  if(psgrevision == PCE_PSG::_REVISION_COUNT)
+  {
+   psgrevision = IsSGX ? PCE_PSG::REVISION_HUC6280A : PCE_PSG::REVISION_HUC6280;
+  }
+
+  for(const MDFNSetting_EnumList *el = PSGRevisionList; el->string; el++)
+  {
+   if(el->number == psgrevision)
+   {
+    MDFN_printf(_("PSG Revision: %s\n"), el->description);
+    break;
+   }
+  }
+  psg = new PCE_PSG(&sbuf[0], &sbuf[1], psgrevision);
  }
- else
- {
-  MDFNGameInfo->soundchan = 2;
-  PSG_Init(0);
- }
+
+ psg->SetVolume(1.0);
+
+ if(PCE_IsCD)
+  SetCDSettings();
+
+ SetSoundRate(0);
 
  PCEINPUT_Init();
 
@@ -448,26 +513,141 @@ static int LoadCommon(void)
  MDFNGameInfo->fps = (uint32)((double)7159090.90909090 / 455 / 263 * 65536 * 256);
 
 
- memcpy(NonCheatPCERead, PCERead, sizeof(PCERead));
+ for(unsigned int i = 0; i < 0x100; i++)
+  NonCheatPCERead[i] = HuCPU->GetReadHandler(i);
 
- MDFN_LoadGameCheats(0);
- MDFNMP_InstallReadPatches();
+ if(!IsHES)
+ {
+  MDFNGameInfo->nominal_height = MDFN_GetSettingUI("pce.slend") - MDFN_GetSettingUI("pce.slstart") + 1;
+  MDFNGameInfo->nominal_width = MDFN_GetSettingB("pce.h_overscan") ? 320 : 288;
 
- MDFNGameInfo->DisplayRect.y = MDFN_GetSettingUI("pce.slstart");
- MDFNGameInfo->DisplayRect.h = MDFN_GetSettingUI("pce.slend") - MDFNGameInfo->DisplayRect.y + 1;
+  MDFNGameInfo->lcm_width = MDFN_GetSettingB("pce.h_overscan") ? 1120 : 1024;
+  MDFNGameInfo->lcm_height = MDFNGameInfo->nominal_height;
+ }
+
+ vce->SetShowHorizOS(MDFN_GetSettingB("pce.h_overscan")); 
+
+#ifdef WANT_DEBUGGER
+ PCEDBG_Init(IsSGX, psg);
+#endif
+
 
  return(1);
 }
 
+static bool TestMagicCD(void)
+{
+ static const uint8 magic_test[0x20] = { 0x82, 0xB1, 0x82, 0xCC, 0x83, 0x76, 0x83, 0x8D, 0x83, 0x4F, 0x83, 0x89, 0x83, 0x80, 0x82, 0xCC,  
+				   	 0x92, 0x98, 0x8D, 0xEC, 0x8C, 0xA0, 0x82, 0xCD, 0x8A, 0x94, 0x8E, 0xAE, 0x89, 0xEF, 0x8E, 0xD0
+				       };
+ uint8 sector_buffer[2048];
+ CD_TOC toc;
+ bool ret = FALSE;
+
+ memset(sector_buffer, 0, sizeof(sector_buffer));
+
+ CDIF_ReadTOC(&toc);
+
+ for(int32 track = toc.first_track; track <= toc.last_track; track++)
+ {
+  if(toc.tracks[track].control & 0x4)
+  {
+   CDIF_ReadSector(sector_buffer, toc.tracks[track].lba, 1);
+
+   if(!memcmp((char*)sector_buffer, (char *)magic_test, 0x20))
+    ret = TRUE;
+
+   // PCE CD BIOS apparently only looks at the first data track.
+   break;
+  }
+ }
+
+ // If it's a PC-FX CD(Battle Heat), return false.
+ // This is very kludgy.
+ for(int32 track = toc.first_track; track <= toc.last_track; track++)
+ {
+  if(toc.tracks[track].control & 0x4)
+  {
+   CDIF_ReadSector(sector_buffer, toc.tracks[track].lba, 1);
+   if(!strncmp("PC-FX:Hu_CD-ROM", (char*)sector_buffer, strlen("PC-FX:Hu_CD-ROM")))
+   {
+    return(false);
+   }
+  }
+ }
+
+
+ // Now, test for the Games Express CD games.  The GE BIOS seems to always look at sector 0x10, but only if the first track is a
+ // data track.
+ if(toc.first_track == 1 && (toc.tracks[1].control & 0x4))
+ {
+  if(CDIF_ReadSector(sector_buffer, 0x10, 1))
+  {
+   if(!memcmp((char *)sector_buffer + 0x8, "HACKER CD ROM SYSTEM", 0x14))
+   {
+    ret = TRUE;
+   }
+  }
+ }
+
+ return(ret);
+}
+
 static int LoadCD(void)
 {
+ static const FileExtensionSpecStruct KnownBIOSExtensions[] =
+ {
+  { ".pce", gettext_noop("PC Engine ROM Image") },
+  { ".bin", gettext_noop("PC Engine ROM Image") },
+  { ".bios", gettext_noop("BIOS Image") },
+  { NULL, NULL }
+ };
+ md5_context md5;
+ uint32 headerlen = 0;
+
+ MDFNFILE fp;
+
  IsHES = 0;
  IsSGX = 0;
 
  LoadCommonPre();
 
- if(!HuCLoadCD(/*MDFN_GetSettingS("pce.cdbios").c_str())*/"/syscard3.pce"))
+ std::string bios_path = MDFN_MakeFName(MDFNMKF_FIRMWARE, 0, MDFN_GetSettingS("pce.cdbios").c_str() );
+
+ if(!fp.Open(bios_path, KnownBIOSExtensions, _("CD BIOS")))
+ {
   return(0);
+ }
+
+ if(fp.Size() & 0x200)
+  headerlen = 512;
+
+
+ //md5.starts();
+ //md5.update(fp.Data(), fp.Size());
+ //md5.update(MDFNGameInfo->MD5, 16);
+ //md5.finish(MDFNGameInfo->MD5);
+
+ bool disable_bram_cd = MDFN_GetSettingB("pce.disable_bram_cd");
+
+ if(disable_bram_cd)
+  MDFN_printf(_("Warning: BRAM is disabled per pcfx.disable_bram_cd setting.  This is simulating a malfunction.\n"));
+
+ if(!HuCLoad(fp.Data() + headerlen, fp.Size() - headerlen, 0, disable_bram_cd, PCE_ACEnabled ? SYSCARD_ARCADE : SYSCARD_3))
+ {
+  return(0);
+ }
+
+ PCE_IsCD = 1;
+
+ if(!PCECD_Init(NULL, PCECDIRQCB, PCE_MASTER_CLOCK, 1, &sbuf[0], &sbuf[1]))
+ {
+  HuCClose();
+  return(0);
+ }
+
+ MDFN_printf(_("CD Layout:   0x%s\n"), md5_context::asciistr(MDFNGameInfo->MD5, 0).c_str());
+ MDFN_printf(_("Arcade Card Emulation:  %s\n"), PCE_ACEnabled ? _("Enabled") : _("Disabled"));
 
  return(LoadCommon());
 }
@@ -475,30 +655,121 @@ static int LoadCD(void)
 
 static void CloseGame(void)
 {
+ if(PCE_IsCD)
+ {
+  PCECD_Close();
+ }
+
  if(IsHES)
   HES_Close();
  else
  {
-  MDFN_FlushGameCheats(0);
   HuCClose();
  }
- VDC_Close();
- PSG_Kill();
+
+ if(vce)
+ {
+  delete vce;
+  vce = NULL;
+ }
+
+ if(psg)
+ {
+  delete psg;
+  psg = NULL;
+ }
+
+ if(HuCPU)
+ {
+  delete HuCPU;
+  HuCPU = NULL;
+ }
 }
 
+static EmulateSpecStruct *es;
 static void Emulate(EmulateSpecStruct *espec)
 {
- MDFNGameInfo->fb = espec->pixels;
-	INPUT_Frame();
+ es = espec;
+
+ espec->MasterCycles = 0;
+ espec->SoundBufSize = 0;
 
  MDFNMP_ApplyPeriodicCheats();
 
- VDC_RunFrame(espec->pixels, espec->LineWidths, IsHES ? 1 : espec->skip);
+ if(espec->VideoFormatChanged)
+  vce->SetPixelFormat(espec->surface->format);
 
- *(espec->SoundBuf) = PSG_Flush(espec->SoundBufSize);
+ if(espec->SoundFormatChanged)
+  SetSoundRate(espec->SoundRate);
 
- if(IsHES && !espec->skip)
-  HES_Draw(espec->pixels, *(espec->SoundBuf), *(espec->SoundBufSize));
+ vce->StartFrame(espec->surface, &espec->DisplayRect, espec->LineWidths, IsHES ? 1 : espec->skip);
+
+ // Begin loop here:
+ //for(int i = 0; i < 2; i++)
+ bool rp_rv;
+ do
+ {
+  INPUT_Frame();
+
+  //vce->RunFrame(espec->surface, &espec->DisplayRect, espec->LineWidths, IsHES ? 1 : espec->skip);
+  rp_rv = vce->RunPartial();
+
+  INPUT_FixTS(HuCPU->Timestamp());
+
+  psg->EndFrame(HuCPU->Timestamp() / 3);
+
+  //assert(!(HuCPU->Timestamp() % 3));
+
+  if(espec->SoundBuf)
+  {
+   int32 new_sc;
+   for(int y = 0; y < 2; y++)
+   {
+    sbuf[y].end_frame(HuCPU->Timestamp() / 3);
+
+    new_sc = sbuf[y].read_samples(espec->SoundBuf + espec->SoundBufSize * 2 + y, espec->SoundBufMaxSize - espec->SoundBufSize, 1);
+   }
+   espec->SoundBufSize += new_sc;
+  }
+
+  PCE_TimestampBase += HuCPU->Timestamp();
+  espec->MasterCycles += HuCPU->Timestamp();
+
+  HuCPU->SyncAndResetTimestamp();
+
+  if(PCE_IsCD)
+   PCECD_ResetTS();
+
+  if(!rp_rv)
+  {
+   MDFN_MidSync(espec);
+  }
+ } while(!rp_rv);
+
+ // End loop here.
+ //printf("%d\n", vce->GetScanlineNo());
+
+ if(IsHES)
+  HES_Update(espec, INPUT_HESHack());	//Draw(espec->skip ? NULL : espec->surface, espec->skip ? NULL : &espec->DisplayRect, espec->SoundBuf, espec->SoundBufSize, INPUT_HESHack());
+
+#if 0
+ if(espec->SoundRate)
+ {
+  unsigned long long crf = (unsigned long long)sbuf[0].clock_rate_factor(sbuf[0].clock_rate());
+  double real_rate = (double)crf * sbuf[0].clock_rate() / (1ULL << BLIP_BUFFER_ACCURACY);
+
+  printf("%f\n", real_rate);
+ }
+#endif
+}
+
+void PCE_MidSync(void)
+{
+ INPUT_Frame();
+
+ es->MasterCycles = HuCPU->Timestamp();
+
+ //MDFN_MidSync(es);
 }
 
 static int StateAction(StateMem *sm, int load, int data_only)
@@ -506,15 +777,15 @@ static int StateAction(StateMem *sm, int load, int data_only)
  SFORMAT StateRegs[] =
  {
   SFARRAY(BaseRAM, IsSGX? 32768 : 8192),
-  SFVAR(PCEIODataBuffer),
+  SFVAR(PCE_TimestampBase),
   SFEND
  };
 
  int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "MAIN");
 
- ret &= HuC6280_StateAction(sm, load, data_only);
- ret &= VDC_StateAction(sm, load, data_only);
- ret &= PSG_StateAction(sm, load, data_only);
+ ret &= HuCPU->StateAction(sm, load, data_only);
+ ret &= vce->StateAction(sm, load, data_only);
+ ret &= psg->StateAction(sm, load, data_only);
  ret &= INPUT_StateAction(sm, load, data_only);
  ret &= HuC_StateAction(sm, load, data_only);
 
@@ -529,54 +800,72 @@ static int StateAction(StateMem *sm, int load, int data_only)
 void PCE_Power(void)
 {
  memset(BaseRAM, 0x00, sizeof(BaseRAM));
- PCEIODataBuffer = 0xFF;
 
- HuC6280_Power();
- VDC_Power();
- PSG_Power();
- HuC_Power();
- PCEINPUT_Power();
+ HuCPU->Power();
+ PCE_TimestampBase = 0;
+ const int32 timestamp = HuCPU->Timestamp();
+
+ vce->Reset(timestamp);
+ psg->Power(timestamp);
 
  if(IsHES)
   HES_Reset();
+ else
+  HuC_Power();
+
+ PCEINPUT_Power(timestamp);
 
  if(PCE_IsCD)
-  PCECD_Power();
+ {
+  vce->SetCDEvent(PCECD_Power(timestamp));
+ }
 }
 
 static void DoSimpleCommand(int cmd)
 {
  switch(cmd)
  {
-  case MDFNNPCMD_RESET: PCE_Power(); break;
-  case MDFNNPCMD_POWER: PCE_Power(); break;
+  case MDFN_MSC_RESET: PCE_Power(); break;
+  case MDFN_MSC_POWER: PCE_Power(); break;
  }
 }
 
 static MDFNSetting PCESettings[] = 
 {
-  { "pce.input.port1", gettext_noop("Select input device for input port 1."), MDFNST_STRING, "gamepad", NULL, NULL },
-  { "pce.input.port2", gettext_noop("Select input device for input port 2."), MDFNST_STRING, "gamepad", NULL, NULL },
-  { "pce.input.port3", gettext_noop("Select input device for input port 3."), MDFNST_STRING, "gamepad", NULL, NULL },
-  { "pce.input.port4", gettext_noop("Select input device for input port 4."), MDFNST_STRING, "gamepad", NULL, NULL },
-  { "pce.input.port5", gettext_noop("Select input device for input port 5."), MDFNST_STRING, "gamepad", NULL, NULL },
-  { "pce.slstart", gettext_noop("First rendered scanline."), MDFNST_UINT, "4" },
-  { "pce.slend", gettext_noop("Last rendered scanline."), MDFNST_UINT, "235" },
-  { "pce.mouse_sensitivity", gettext_noop("Set mouse sensitivity."), MDFNST_FLOAT, "0.50", NULL, NULL, NULL, PCEINPUT_SettingChanged },
-  { "pce.disable_softreset", gettext_noop("If set, when RUN+SEL are pressed simultaneously, disable both buttons temporarily."), MDFNST_BOOL, "0", NULL, NULL, NULL, PCEINPUT_SettingChanged },
-  { "pce.forcemono", gettext_noop("Force monophonic sound output."), MDFNST_BOOL, "0" },
-  { "pce.forcesgx", gettext_noop("Force SuperGrafx emulation."), MDFNST_BOOL, "0" },
-  { "pce.arcadecard", gettext_noop("Enable Arcade Card emulation."), MDFNST_BOOL, "1" },
-  { "pce.ocmultiplier", gettext_noop("CPU overclock multiplier."), MDFNST_UINT, "1", "1", "50"},
-  { "pce.cdspeed", gettext_noop("CD-ROM data transfer speed multiplier."), MDFNST_UINT, "1", "1", "100" },
-  { "pce.nospritelimit", gettext_noop("No 16-sprites-per-scanline limit option."), MDFNST_BOOL, "0" },
-  { "pce.colormap", gettext_noop("Load custom color map from specified file."), MDFNST_STRING, "" },
+  { "pce.input.multitap", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Enable multitap(TurboTap) emulation."), NULL, MDFNST_BOOL, "1" },
 
-  { "pce.cdbios", gettext_noop("Path to the CD BIOS"), MDFNST_STRING, "pce.cdbios PATH NOT SET" },
-  { "pce.adpcmlp", gettext_noop("Enable lowpass filter dependent on playback-frequency."), MDFNST_BOOL, "0" },
-  { "pce.cdpsgvolume", gettext_noop("PSG volume when playing a CD game."), MDFNST_UINT, "100", "0", "200" },
-  { "pce.cddavolume", gettext_noop("CD-DA volume."), MDFNST_UINT, "100", "0", "200" },
-  { "pce.adpcmvolume", gettext_noop("ADPCM volume."), MDFNST_UINT, "100", "0", "200" },
+  { "pce.slstart", MDFNSF_NOFLAGS, gettext_noop("First rendered scanline."), NULL, MDFNST_UINT, "4", "0", "239" },
+  { "pce.slend", MDFNSF_NOFLAGS, gettext_noop("Last rendered scanline."), NULL, MDFNST_UINT, "235", "0", "239" },
+
+  { "pce.h_overscan", MDFNSF_NOFLAGS, gettext_noop("Show horizontal overscan area."), NULL, MDFNST_BOOL, "0" },
+
+  { "pce.mouse_sensitivity", MDFNSF_NOFLAGS, gettext_noop("Emulated mouse sensitivity."), NULL, MDFNST_FLOAT, "0.50", NULL, NULL, NULL, PCEINPUT_SettingChanged },
+  { "pce.disable_softreset", MDFNSF_NOFLAGS, gettext_noop("If set, when RUN+SEL are pressed simultaneously, disable both buttons temporarily."), NULL, MDFNST_BOOL, "0", NULL, NULL, NULL, PCEINPUT_SettingChanged },
+
+  { "pce.disable_bram_cd", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Disable BRAM(saved game memory) for CD games."), gettext_noop("It is intended for viewing CD games' error screens that may be different from simple BRAM full and uninitialized BRAM error screens, though it can cause the game to crash outright."), MDFNST_BOOL, "0" },
+  { "pce.disable_bram_hucard", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Disable BRAM(saved game memory) for HuCard games."), gettext_noop("It is intended for changing the behavior(passwords vs save games) of some HuCard games."), MDFNST_BOOL, "0" },
+
+  { "pce.forcesgx", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Force SuperGrafx emulation."), 
+		gettext_noop("Enabling this option is not necessary to run unrecognized PCE ROM images in SuperGrafx mode, and enabling it is discouraged; ROM images with a file extension of \".sgx\" will automatically enable SuperGrafx emulation."), MDFNST_BOOL, "0" },
+
+  { "pce.arcadecard", MDFNSF_EMU_STATE | MDFNSF_UNTRUSTED_SAFE, gettext_noop("Enable Arcade Card emulation."), 
+	gettext_noop("Leaving this option enabled is recommended, unless you want to see special warning screens on ACD games, or you prefer the non-enhanced modes of ACD-enhanced SCD games.  Additionally, you may want to disable it you you wish to use state rewinding with a SCD ACD-enhanced game on a slow CPU, as the extra 2MiB of RAM the Arcade Card offers is difficult to compress in real-time."), MDFNST_BOOL, "1" },
+
+  { "pce.nospritelimit", MDFNSF_NOFLAGS, gettext_noop("Remove 16-sprites-per-scanline hardware limit."), 
+					 gettext_noop("WARNING: Enabling this option may cause undesirable graphics glitching on some games(such as \"Bloody Wolf\")."), MDFNST_BOOL, "0" },
+
+  { "pce.cdbios", MDFNSF_EMU_STATE, gettext_noop("Path to the CD BIOS"), NULL, MDFNST_STRING, "syscard3.pce" },
+
+  { "pce.adpcmlp", MDFNSF_NOFLAGS, gettext_noop("Enable lowpass filter with rolloff dependent on playback-frequency."), 
+	gettext_noop("This makes ADPCM voices sound less \"harsh\", however, the downside is that it will cause many ADPCM sound effects to sound a bit muffled."), MDFNST_BOOL, "0", NULL, NULL, NULL, CDSettingChanged },
+
+  { "pce.psgrevision", MDFNSF_NOFLAGS, gettext_noop("Select PSG revision."), gettext_noop("WARNING: HES playback will always use the \"huc6280a\" revision if this setting is set to \"match\", since HES playback is always done with SuperGrafx emulation enabled."), MDFNST_ENUM, "huc6280a", NULL, NULL, NULL, NULL, PSGRevisionList  },
+
+  { "pce.cdpsgvolume", MDFNSF_NOFLAGS, gettext_noop("PSG volume when playing a CD game."), NULL, MDFNST_UINT, "100", "0", "200", NULL, CDSettingChanged },
+  { "pce.cddavolume", MDFNSF_NOFLAGS, gettext_noop("CD-DA volume."), NULL, MDFNST_UINT, "100", "0", "200", NULL, CDSettingChanged },
+  { "pce.adpcmvolume", MDFNSF_NOFLAGS, gettext_noop("ADPCM volume."), NULL, MDFNST_UINT, "100", "0", "200", NULL, CDSettingChanged },
+
+  { "pce.vramsize", MDFNSF_NOFLAGS, gettext_noop("Size of emulated VRAM per VDC in 16-bit words.  DO NOT CHANGE THIS UNLESS YOU KNOW WTF YOU ARE DOING."), NULL, MDFNST_UINT, "32768", "32768", "65536" },
   { NULL }
 };
 
@@ -606,176 +895,85 @@ static uint8 MemRead(uint32 addr)
 
 static void InstallReadPatch(uint32 address)
 {
- HuCPUFastMap[address / 8192] = NULL;
- PCERead[address / 8192] = CheatReadFunc;
+ HuCPU->SetFastRead(address >> 13, NULL);
+ HuCPU->SetReadHandler(address >> 13, CheatReadFunc);
 }
 
 static void RemoveReadPatches(void)
 {
  for(int x = 0; x < 0x100; x++)
-  PCERead[x] = NonCheatPCERead[x];
+  HuCPU->SetReadHandler(x, NonCheatPCERead[x]);
 }
 
-#ifdef WANT_DEBUGGER
-void PCEDBG_GetAddressSpaceBytes(const char *name, uint32 Address, uint32 Length, uint8 *Buffer)
+static bool ToggleLayer(int which)
 {
- PCE_InDebug = 1;
-
- if(!strcmp(name, "cpu"))
- {
-  while(Length--)
-  {
-   Address &= 0xFFFF;
-
-   uint8 wmpr = HuCPU.MPR[Address >> 13];
-   *Buffer = PCERead[wmpr]((wmpr << 13) | (Address & 0x1FFF));
-
-   Address++;
-   Buffer++;
-  }
- }
- else if(!strcmp(name, "physical"))
- {
-  while(Length--)
-  {
-   Address &= 0x1FFFFF;
-
-   uint8 wmpr = Address >> 13;
-   *Buffer = PCERead[wmpr]((wmpr << 13) | (Address & 0x1FFF));
-
-   Address++;
-   Buffer++;
-  }
-
- }
- else if(!strcmp(name, "ram"))
- {
-  while(Length--)
-  {
-   Address &= (IsSGX ? 32768 : 8192) - 1;
-   *Buffer = BaseRAM[Address];
-   Address++;
-   Buffer++;
-  }
- }
- PCE_InDebug = 0;
+ return(vce->ToggleLayer(which));
 }
 
-void PCEDBG_PutAddressSpaceBytes(const char *name, uint32 Address, uint32 Length, uint32 Granularity, bool hl, const uint8 *Buffer)
+static const FileExtensionSpecStruct KnownExtensions[] =
 {
- PCE_InDebug = 1;
-
- if(!strcmp(name, "cpu"))
- {
-  while(Length--)
-  {
-   Address &= 0xFFFF;
-
-   uint8 wmpr = HuCPU.MPR[Address >> 13];
-   if(hl)
-   {
-    if(HuCPUFastMap[wmpr])
-     HuCPUFastMap[wmpr][((wmpr << 13) | (Address & 0x1FFF))] = *Buffer;
-   }
-   else
-    PCEWrite[wmpr](Address, *Buffer);
-
-   Address++;
-   Buffer++;
-  }
- }
- else if(!strcmp(name, "physical"))
- {
-  while(Length--)
-  {
-   Address &= 0x1FFFFF;
-
-   uint8 wmpr = Address >> 13;
-
-   if(hl)
-   {
-    if(HuCPUFastMap[wmpr])
-     HuCPUFastMap[wmpr][((wmpr << 13) | (Address & 0x1FFF))] = *Buffer;
-   }
-   else
-    PCEWrite[wmpr](Address, *Buffer);
-   Address++;
-   Buffer++;
-  }
-
- }
- else if(!strcmp(name, "ram"))
- {
-  while(Length--)
-  {
-   Address &= (IsSGX ? 32768 : 8192) - 1;
-   BaseRAM[Address] = *Buffer;
-   Address++;
-   Buffer++;
-  }
- }
-
- PCE_InDebug = 0;
-}
-
-
-static DebuggerInfoStruct DBGInfo =
-{
- 7,
- 16,
- 21,
- 0x2000,
- 0x2000, // ZP
-
- PCEDBG_MemPeek,
- PCEDBG_Disassemble,
- NULL,
- PCEDBG_IRQ,
- NULL, //NESDBG_GetVector,
- PCEDBG_FlushBreakPoints,
- PCEDBG_AddBreakPoint,
- PCEDBG_SetCPUCallback,
- PCEDBG_SetBPCallback,
- PCEDBG_GetBranchTrace,
- VDC_SetGraphicsDecode,
- VDC_GetGraphicsDecodeBuffer,
- PCEDBG_SetLogFunc,
+ { ".pce", gettext_noop("PC Engine ROM Image") },
+ { ".hes", gettext_noop("PC Engine Music Rip") },
+ { ".sgx", gettext_noop("SuperGrafx ROM Image") },
+ { NULL, NULL }
 };
-#endif
+
+static bool SetSoundRate(double rate)
+{
+ for(int y = 0; y < 2; y++)
+ {
+  sbuf[y].set_sample_rate(rate ? rate : 44100, 50);
+  sbuf[y].clock_rate((long)(PCE_MASTER_CLOCK / 3));
+  sbuf[y].bass_freq(20);
+ }
+
+ return(TRUE);
+}
+
+};
+
+using namespace MDFN_IEN_PCE;
 
 MDFNGI EmulatedPCE =
 {
  "pce",
+ "PC Engine (CD)/TurboGrafx 16 (CD)/SuperGrafx",
+ KnownExtensions,
+ MODPRIO_INTERNAL_HIGH,
  #ifdef WANT_DEBUGGER
- &DBGInfo,
+ &PCEDBGInfo,
+ #else
+ NULL,
  #endif
  &PCEInputInfo,
  Load,
+ TestMagic,
  LoadCD,
+ TestMagicCD,
  CloseGame,
- VDC_ToggleLayer,
+ ToggleLayer,
  NULL,
  InstallReadPatch,
  RemoveReadPatches,
  MemRead,
  StateAction,
  Emulate,
- VDC_SetPixelFormat,
  PCEINPUT_SetInput,
- NULL,
- NULL,
- NULL,
- PSG_SetSoundMultiplier,
- PSG_SetSoundVolume,
- PSG_Sound,
  DoSimpleCommand,
  PCESettings,
+ MDFN_MASTERCLOCK_FIXED(PCE_MASTER_CLOCK),
  0,
- NULL,
- 320,
- 232,
- 256, // Save state preview width
- 1024 * sizeof(uint32),
- { 0, 4, 320, 232 },
+ TRUE,  // Multires possible?
+
+ 0,   // lcm_width
+ 0,   // lcm_height
+ NULL,  // Dummy
+
+ 320,	// Nominal width
+ 232,	// Nominal height
+ 1365,	// Framebuffer width
+ 270,	// Framebuffer height(TODO: decrease to 264(263 + spillover line))
+
+ 2,     // Number of output sound channels
 };
 

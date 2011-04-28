@@ -19,16 +19,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "nes.h"
+
 #include <string.h>
 #include <string>
 #include <zlib.h>
 #include <math.h>
 
-#include "nes.h"
 #include "x6502.h"
 #include "cart.h"
 #include "ppu/ppu.h"
-#include "memory.h"
 
 #define INESPRIV
 #include "ines.h"
@@ -283,8 +283,8 @@ static void SetInput(void)
          {0xbba58be5,"gamepad","gamepad","ftrainerb"},  /* Family Trainer: Manhattan Police */
 	 {0xea90f3e2,"gamepad","gamepad","ftrainerb"},  /* Family Trainer:  Running Stadium */
 
-	 {0xd9f45be9,"gamepad","gamepad","quizking"},  /* Gimme a Break ... */
-	 {0x1545bd13,"gamepad","gamepad","quizking"},  /* Gimme a Break ... 2 */
+	 {0xd9f45be9,"gamepad","gamepad","partytap"},  /* Gimme a Break ... */
+	 {0x1545bd13,"gamepad","gamepad","partytap"},  /* Gimme a Break ... 2 */
 
 	 {0x7b44fb2a,"gamepad","gamepad","mahjong"},  /* Ide Yousuke Meijin no Jissen Mahjong 2 */
 	 {0x9fae4d46,"gamepad","gamepad","mahjong"},  /* Ide Yousuke Meijin no Jissen Mahjong */
@@ -574,7 +574,7 @@ bool iNESLoad(const char *name, MDFNFILE *fp, NESGameType *gt)
 
 	/* File size is too small to be an iNES file */
         memcpy(&head, fp->data, 16);
-	MDFN_fseek(fp, 16, SEEK_SET);
+	fp->fseek(16, SEEK_SET);
 
 	memset(&iNESCart,0,sizeof(iNESCart));
 
@@ -607,10 +607,10 @@ bool iNESLoad(const char *name, MDFNFILE *fp, NESGameType *gt)
 	}
         ROM_size = head.ROM_size;
         VROM_size = head.VROM_size;
-	ROM_size = uppow2(ROM_size);
+	ROM_size = round_up_pow2(ROM_size);
 
         if(VROM_size)
-	 VROM_size = uppow2(VROM_size);
+	 VROM_size = round_up_pow2(VROM_size);
 
         MapperNo = (head.ROM_type>>4);
         MapperNo|=(head.ROM_type2&0xF0);
@@ -625,7 +625,7 @@ bool iNESLoad(const char *name, MDFNFILE *fp, NESGameType *gt)
 	}
 
 	#ifdef WANT_DEBUGGER
-	MDFNDBG_AddASpace(iNES_GetAddressSpaceBytes, iNES_PutAddressSpaceBytes, "prgrom", "PRG ROM", (unsigned int)(log(ROM_size << 14) / log(2)));
+	ASpace_Add(iNES_GetAddressSpaceBytes, iNES_PutAddressSpaceBytes, "prgrom", "PRG ROM", (unsigned int)(log(ROM_size << 14) / log(2)));
 	#endif
 
         if (VROM_size) 
@@ -636,14 +636,14 @@ bool iNESLoad(const char *name, MDFNFILE *fp, NESGameType *gt)
 	  return 0;
 	 }
 	 #ifdef WANT_DEBUGGER
-	 MDFNDBG_AddASpace(iNES_GetAddressSpaceBytes, iNES_PutAddressSpaceBytes, "chrrom", "CHR ROM", (unsigned int)(log(VROM_size << 13) / log(2)));
+	 ASpace_Add(iNES_GetAddressSpaceBytes, iNES_PutAddressSpaceBytes, "chrrom", "CHR ROM", (unsigned int)(log(VROM_size << 13) / log(2)));
 	 #endif
 	}
         memset(ROM,0xFF,ROM_size<<14);
         if(VROM_size) memset(VROM,0xFF,VROM_size<<13);
         if(head.ROM_type&4)     /* Trainer */
         {
-         if(MDFN_fread(trainerpoo,512,1,fp) != 1)
+         if(fp->fread(trainerpoo,512,1) != 1)
 	 {
 	  MDFN_PrintError(_("Error reading trainer."));
 	  return(0);
@@ -654,7 +654,7 @@ bool iNESLoad(const char *name, MDFNFILE *fp, NESGameType *gt)
 
 	SetupCartPRGMapping(0,ROM,ROM_size*0x4000,0);
 
-        if(MDFN_fread(ROM,0x4000,head.ROM_size,fp) != head.ROM_size)
+        if(fp->fread(ROM,0x4000,head.ROM_size) != head.ROM_size)
 	{
 	 MDFN_PrintError(_("Error reading PRG ROM data"));
 	 iNESFree();
@@ -663,7 +663,7 @@ bool iNESLoad(const char *name, MDFNFILE *fp, NESGameType *gt)
 
 	if(VROM_size)
 	{
-	 if(MDFN_fread(VROM,0x2000,head.VROM_size,fp) != head.VROM_size)
+	 if(fp->fread(VROM,0x2000,head.VROM_size) != head.VROM_size)
 	 {
 	  MDFN_PrintError(_("Error reading CHR ROM data"));
 	  iNESFree();
@@ -908,7 +908,7 @@ static int NewiNES_Init(int num)
     SetupCartCHRMapping(0x0,VROM,CHRRAMSize,1);
 
     #ifdef WANT_DEBUGGER
-    MDFNDBG_AddASpace(iNES_GetAddressSpaceBytes, iNES_PutAddressSpaceBytes, "chrram", "CHR RAM", (unsigned int)(log(CHRRAMSize) / log(2)));
+    ASpace_Add(iNES_GetAddressSpaceBytes, iNES_PutAddressSpaceBytes, "chrram", "CHR RAM", (unsigned int)(log(CHRRAMSize) / log(2)));
     #endif
    }
 
@@ -926,7 +926,7 @@ static int NewiNES_Init(int num)
     iNESCart.SaveGameLen[0] = 8192;
 
     #ifdef WANT_DEBUGGER
-    MDFNDBG_AddASpace(iNES_GetAddressSpaceBytes, iNES_PutAddressSpaceBytes, "wram", "WRAM", 13);
+    ASpace_Add(iNES_GetAddressSpaceBytes, iNES_PutAddressSpaceBytes, "wram", "WRAM", 13);
     #endif
    }
 

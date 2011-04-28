@@ -4,6 +4,9 @@
 */
 #include "shared.h"
 
+namespace MDFN_IEN_SMS
+{
+
 /* Pull-up resistors on data bus */
 uint8 data_bus_pullup   = 0x00;
 uint8 data_bus_pulldown = 0x00;
@@ -134,7 +137,7 @@ uint8 smsj_port_r(uint16 port)
 {
     port &= 0xFF;
 
-    if(port == 0xF2 && !(sms.memctrl & 4))
+    if(port == 0xF2)	// && !(sms.memctrl & 4))
         return fmunit_detect_r();
 
     switch(port & 0xC0)
@@ -347,3 +350,4 @@ uint8 md_port_r(uint16 port)
     return -1;
 }
 
+}

@@ -15,12 +15,15 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
-
 #include "main.h"
+
+#include <string.h>
+#include <trio/trio.h>
+
 #include "opengl.h"
 #include "shader.h"
 
+glGetError_Func p_glGetError;
 glBindTexture_Func p_glBindTexture;
 glColorTableEXT_Func p_glColorTableEXT;
 glTexImage2D_Func p_glTexImage2D;
@@ -75,10 +78,13 @@ glGetInfoLogARB_Func p_glGetInfoLogARB;
 glGetUniformLocationARB_Func p_glGetUniformLocationARB;
 glDeleteObjectARB_Func p_glDeleteObjectARB;
 glDetachObjectARB_Func p_glDetachObjectARB;
+glGetObjectParameterivARB_Func p_glGetObjectParameterivARB;
 #endif
 
 static uint32 MaxTextureSize; // Maximum power-of-2 texture width/height(we assume they're the same, and if they're not, this is set to the lower value of the two)
-static bool SupportNPOT; // True if the OpenGL implementation supports non-power-of-2-sized textures
+static bool SupportNPOT; 		// True if the OpenGL implementation supports non-power-of-2-sized textures
+static GLenum PixelFormat;		// For glTexSubImage2D()
+static GLenum PixelType;		// For glTexSubImage2D()
 
 static SDL_Surface *gl_screen = NULL;
 static GLuint textures[4] = {0, 0, 0, 0}; // emulated fb, scanlines, osd, raw(netplay)
@@ -88,13 +94,12 @@ static bool using_scanlines = 0;
 static unsigned int last_w, last_h;
 static float twitchy;
 
-extern uint32 uppow2(uint32);
 static uint32 OSDLastWidth, OSDLastHeight;
 
 static bool UsingShader = FALSE; // TRUE if we're using a pixel shader.
 static bool UsingIP;	// True if bilinear interpolation is enabled.
 
-static uint32 *DummyBlack; // Black/Zeroed image data for cleaning textures
+static uint32 *DummyBlack = NULL; // Black/Zeroed image data for cleaning textures
 static uint32 DummyBlackSize;
 
 void BlitOpenGLRaw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect *dest_rect)
@@ -109,8 +114,8 @@ void BlitOpenGLRaw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect *d
  }
  else
  {
-  tmpwidth = uppow2(rect->w);
-  tmpheight = uppow2(rect->h);
+  tmpwidth = round_up_pow2(rect->w);
+  tmpheight = round_up_pow2(rect->h);
  }
 
  if(tmpwidth > MaxTextureSize || tmpheight > MaxTextureSize)
@@ -150,7 +155,7 @@ void BlitOpenGLRaw(SDL_Surface *surface, const SDL_Rect *rect, const SDL_Rect *d
   p_glPixelStorei(GL_UNPACK_ROW_LENGTH, surface->pitch >> 2);
 
   p_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tmpwidth, tmpheight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-  p_glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, rect->w, rect->h, GL_RGBA, GL_UNSIGNED_BYTE, (uint32 *)surface->pixels + rect->x + rect->y * (surface->pitch >> 2));
+  p_glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, rect->w, rect->h, PixelFormat, PixelType, (uint32 *)surface->pixels + rect->x + rect->y * (surface->pitch >> 2));
 
   p_glBegin(GL_QUADS);
 
@@ -209,11 +214,11 @@ void BlitOpenGL(SDL_Surface *src_surface, const SDL_Rect *src_rect, const SDL_Re
  {
   bool ImageSizeChange = FALSE;
 
-  tmpwidth = uppow2(src_rect->w);
-  tmpheight = uppow2(src_rect->h);
+  tmpwidth = round_up_pow2(src_rect->w);
+  tmpheight = round_up_pow2(src_rect->h);
 
   // If the required GL texture size has changed, resize the texture! :b
-  if(tmpwidth != uppow2(last_w) || tmpheight != uppow2(last_h))
+  if(tmpwidth != round_up_pow2(last_w) || tmpheight != round_up_pow2(last_h))
   {
    p_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tmpwidth, tmpheight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
    ImageSizeChange = TRUE;
@@ -282,7 +287,8 @@ void BlitOpenGL(SDL_Surface *src_surface, const SDL_Rect *src_rect, const SDL_Re
  }
 
  p_glPixelStorei(GL_UNPACK_ROW_LENGTH, src_surface->pitch >> 2);
- p_glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, right, bottom, GL_RGBA, GL_UNSIGNED_BYTE, src_pixies);
+
+ p_glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, right, bottom, PixelFormat, PixelType, src_pixies);
 
  bool DoneAgain = 0;
 
@@ -304,7 +310,7 @@ void BlitOpenGL(SDL_Surface *src_surface, const SDL_Rect *src_rect, const SDL_Re
    p_glTexCoord2f(1.0f * right / tmpwidth, 0);
     p_glVertex2f(dest_rect->x,  dest_rect->y);
   }
-  else
+  else if(CurGame->rotated == MDFN_ROTATE270)
   {
    p_glTexCoord2f(1.0f * right / tmpwidth, (float)src_rect->h / tmpheight);
     p_glVertex2f(dest_rect->x, dest_rect->y + dest_rect->h);
@@ -314,6 +320,10 @@ void BlitOpenGL(SDL_Surface *src_surface, const SDL_Rect *src_rect, const SDL_Re
     p_glVertex2f(dest_rect->x + dest_rect->w,  dest_rect->y);
    p_glTexCoord2f(0, (float)src_rect->h / tmpheight);
     p_glVertex2f(dest_rect->x,  dest_rect->y);
+  }
+  else
+  {
+   puts("MOO, TODO");
   }
  }
  else
@@ -360,10 +370,10 @@ void BlitOpenGL(SDL_Surface *src_surface, const SDL_Rect *src_rect, const SDL_Re
 
   p_glBegin(GL_QUADS);
 
-  p_glTexCoord2f(0.0f, 1.0f * sl_bottom/256);  // Bottom left of our picture.
+  p_glTexCoord2f(0.0f, 1.0f * sl_bottom / 256);  // Bottom left of our picture.
   p_glVertex2f(dest_rect->x, dest_rect->y + dest_rect->h);
 
-  p_glTexCoord2f(1.0f, 1.0f * sl_bottom/256); // Bottom right of our picture.
+  p_glTexCoord2f(1.0f, 1.0f * sl_bottom / 256); // Bottom right of our picture.
   p_glVertex2f(dest_rect->x + dest_rect->w, dest_rect->y + dest_rect->h);
 
   p_glTexCoord2f(1.0f, 0.0f);    // Top right of our picture.
@@ -438,15 +448,30 @@ static bool CheckExtension(const char *extensions, const char *testval)
  return(FALSE);
 }
 
-/* Rectangle, left, right(not inclusive), top, bottom(not inclusive). */
+static bool CheckAlternateFormat(const uint32 version_h)
+{
+ if(version_h >= 0x0102)        // >= 1.2
+ {
+  #if defined(__amd64__) || defined(__x86_64__) || defined(_M_AMD64) || defined(__386__) || defined(__i386__) || defined(__i386) || defined(_M_IX86) || defined(_M_I386)
+  return(true);
+  #endif
+ }
+ return(false);
+}
 
-int InitOpenGL(int ipolate, int scanlines, std::string pixshader, SDL_Surface *screen)
+/* Rectangle, left, right(not inclusive), top, bottom(not inclusive). */
+int InitOpenGL(int ipolate, int scanlines, std::string pixshader, SDL_Surface *screen, int *rs, int *gs, int *bs, int *as)
 {
  const char *extensions;
+ const char *vendor;
+ const char *renderer;
+ const char *version;
+ uint32 version_h;
 
  #define LFG(x) if(!(p_##x = (x##_Func) SDL_GL_GetProcAddress(#x))) { MDFN_PrintError(_("Error getting proc address for: %s\n"), #x); return(0); }
  #define LFGN(x) p_##x = (x##_Func) SDL_GL_GetProcAddress(#x)
 
+ LFG(glGetError);
  LFG(glBindTexture);
  LFGN(glColorTableEXT);
  LFG(glTexImage2D);
@@ -484,8 +509,23 @@ int InitOpenGL(int ipolate, int scanlines, std::string pixshader, SDL_Surface *s
 
  gl_screen = screen;
 
- MDFN_printf(_("OpenGL Implementation: %s %s %s\n"), p_glGetString(GL_VENDOR), p_glGetString(GL_RENDERER), p_glGetString(GL_VERSION));
- extensions=(const char*)p_glGetString(GL_EXTENSIONS);
+ vendor = (const char *)p_glGetString(GL_VENDOR);
+ renderer = (const char *)p_glGetString(GL_RENDERER);
+ version = (const char *)p_glGetString(GL_VERSION);
+
+ {
+  int major = 0, minor = 0;
+  trio_sscanf(version, "%d.%d", &major, &minor);
+  if(minor < 0) minor = 0;
+  if(minor > 255) minor = 255;
+
+  version_h = (major << 8) | minor;
+  //printf("%08x\n", version_h);
+ }
+
+ MDFN_printf(_("OpenGL Implementation: %s %s %s\n"), vendor, renderer, version);
+
+ extensions = (const char*)p_glGetString(GL_EXTENSIONS);
 
  MDFN_printf(_("Checking extensions:\n"));
  MDFN_indent(1);
@@ -550,6 +590,8 @@ int InitOpenGL(int ipolate, int scanlines, std::string pixshader, SDL_Surface *s
   LFG(glDeleteObjectARB);
   LFG(glDetachObjectARB);
 
+  LFG(glGetObjectParameterivARB);
+
   if(!InitShader(pixshadertype))
   {
    return(0);
@@ -571,8 +613,6 @@ int InitOpenGL(int ipolate, int scanlines, std::string pixshader, SDL_Surface *s
  if(scanlines)	// Check for scanlines, and disable them if vertical scaling isn't large enough.
  {
   int slcount;
-  uint8 *buf;
-  int x,y;
 
   using_scanlines = scanlines;
 
@@ -580,22 +620,28 @@ int InitOpenGL(int ipolate, int scanlines, std::string pixshader, SDL_Surface *s
   p_glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);
   p_glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);
 
-  buf=(uint8*)malloc(64 * (256 * 2) * 4);
+  uint8 *buf=(uint8*)malloc(64 * (256 * 2) * 4);
 
   slcount = 0;
-  for(y=0;y<(256 * 2);y++)
+  for(int y=0;y<(256 * 2);y++)
   {
-   for(x=0;x<64;x++)
+   for(int x=0;x<64;x++)
    {
+    int sl_alpha;
+
+    if(slcount)
+     sl_alpha = 0xFF;
+    else
+     sl_alpha = 0xFF - (0xFF * scanlines / 100);
+
     buf[y*64*4+x*4]=0;
     buf[y*64*4+x*4+1]=0;
     buf[y*64*4+x*4+2]=0;
-    buf[y*64*4+x*4+3]=slcount?0xFF:0xFF - (0xFF / (scanlines));
+    buf[y*64*4+x*4+3] = sl_alpha;
     //buf[y*256+x]=(y&1)?0x00:0xFF;
    }
    slcount ^= 1;
   }
-
   p_glPixelStorei(GL_UNPACK_ROW_LENGTH, 64);
   p_glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, 64, 256 * 2, 0, GL_RGBA,GL_UNSIGNED_BYTE,buf);
   free(buf);
@@ -695,6 +741,34 @@ int InitOpenGL(int ipolate, int scanlines, std::string pixshader, SDL_Surface *s
  DummyBlackSize = 0;
 
  MDFN_indent(-1);
+
+ if(!CheckAlternateFormat(version_h))
+ {
+  #ifdef LSB_FIRST
+  *rs = 0;
+  *gs = 8;
+  *bs = 16;
+  *as = 24;
+  #else
+  *rs = 24;
+  *gs = 16;
+  *bs = 8;
+  *as = 0;
+  #endif
+  PixelFormat = GL_RGBA;
+  PixelType = GL_UNSIGNED_BYTE;
+  MDFN_printf(_("Using GL_RGBA, GL_UNSIGNED_BYTE for texture source data.\n"));
+ }
+ else
+ {
+  *as = 24;
+  *rs = 16;
+  *gs = 8;
+  *bs = 0;
+  PixelFormat = GL_BGRA;
+  PixelType = GL_UNSIGNED_INT_8_8_8_8_REV;
+  MDFN_printf(_("Using GL_BGRA, GL_UNSIGNED_INT_8_8_8_8_REV for texture source data.\n"));
+ }
 
  return(1);
 }

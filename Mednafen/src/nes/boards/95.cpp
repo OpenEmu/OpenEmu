@@ -24,10 +24,10 @@ static uint8 lastA;
 static uint8 DRegs[8];
 static uint8 cmd;
 static uint8 MirCache[8];
+static int32 lastmc;
 
 static void dragonbust_ppu(uint32 A)
 { 
- static int last=-1;
  static uint8 z;
 
  if(A>=0x2000) return;
@@ -37,10 +37,10 @@ static void dragonbust_ppu(uint32 A)
  lastA=A;  
 
  z=MirCache[A];
- if(z!=last)
+ if(z!=lastmc)
  {
   setmirror(z?MI_1:MI_0);
-  last=z;
+  lastmc = z;
  }
 }
 
@@ -102,6 +102,8 @@ static void DBSync()
 
 static void DBPower(CartInfo *info)
 {
+ lastmc = -1;
+
  memset(DRegs,0x3F,8);
  DRegs[0]=DRegs[1]=0x1F;
 
@@ -109,9 +111,6 @@ static void DBPower(CartInfo *info)
 
  setprg8(0xc000,0x3E);
  setprg8(0xe000,0x3F);
-
- SetReadHandler(0x8000,0xffff,CartBR);
- SetWriteHandler(0x8000,0xffff,Mapper95_write);
 }
 
 static int StateAction(StateMem *sm, int load, int data_only)
@@ -120,6 +119,7 @@ static int StateAction(StateMem *sm, int load, int data_only)
         SFARRAYN(DRegs, 8, "DREG"),
 	SFVARN(cmd, "CMD"),
 	SFVARN(lastA, "LAST"),
+	SFVAR(lastmc),
 	SFEND
  };
 
@@ -136,7 +136,11 @@ int Mapper95_Init(CartInfo *info)
 {
   info->Power=DBPower;
   info->StateAction = StateAction;
-  PPU_hook=dragonbust_ppu;
+  PPU_hook = dragonbust_ppu;
+
+  SetReadHandler(0x8000,0xffff,CartBR);
+  SetWriteHandler(0x8000,0xffff,Mapper95_write);
+
   return(1);
 }
 

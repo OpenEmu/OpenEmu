@@ -1,8 +1,5 @@
 /* Mednafen - Multi-system Emulator
  *
- * Copyright notice for this file:
- *  Copyright (C) 2002 Xodnizel
- *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
@@ -26,11 +23,12 @@
 /*								*/
 /****************************************************************/
 
+#include "../types.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#include "../types.h"
 #include "args.h"
 
 static int ParseEA(int x, int argc, char *argv[], ARGPSTRUCT *argsps)
@@ -84,7 +82,7 @@ static int ParseEA(int x, int argc, char *argv[], ARGPSTRUCT *argsps)
      else	// Value
       switch(argsps[y].substype&(~0x4000))
       {
-       case 0:		// Integer
+       case SUBSTYPE_INTEGER:
 	      {
 	       char *endptr = NULL;
  	       *(int *)argsps[y].subs = strtol(argv[x+1], &endptr, 10);
@@ -95,7 +93,8 @@ static int ParseEA(int x, int argc, char *argv[], ARGPSTRUCT *argsps)
 	       }
 	      }
 	      break;
-       case 2:		// Double float
+
+       case SUBSTYPE_DOUBLE:
 	      {
 		char *endptr = NULL;
 	       *(double *)argsps[y].subs = strtod(argv[x+1], &endptr);
@@ -106,7 +105,8 @@ static int ParseEA(int x, int argc, char *argv[], ARGPSTRUCT *argsps)
 	       }
 	      }
 	      break;
-       case 1:		// String
+
+       case SUBSTYPE_STRING:		// String
 	      if(argsps[y].substype&0x4000)
 	      {
                if(*(char **)argsps[y].subs)
@@ -155,12 +155,15 @@ int ParseArguments(int argc, char *argv[], ARGPSTRUCT *argsps, char **first_not)
  return(1);
 }
 
-void ShowArgumentsHelpSub(ARGPSTRUCT *argsps)
+void ShowArgumentsHelpSub(ARGPSTRUCT *argsps, bool show_linked)
 {
  while(argsps->var || argsps->subs)
  {
   if(!argsps->name)
-   ShowArgumentsHelpSub((ARGPSTRUCT *)argsps->var);
+  {
+   if(show_linked)
+    ShowArgumentsHelpSub((ARGPSTRUCT *)argsps->var, show_linked);
+  }
   else
   {
    if(argsps->subs)
@@ -173,10 +176,11 @@ void ShowArgumentsHelpSub(ARGPSTRUCT *argsps)
 
 }
 
-int ShowArgumentsHelp(ARGPSTRUCT *argsps)
+int ShowArgumentsHelp(ARGPSTRUCT *argsps, bool show_linked)
 {
  printf("\nOptions:\n\n");
- ShowArgumentsHelpSub(argsps);
+
+ ShowArgumentsHelpSub(argsps, show_linked);
 
  return(1);
 }

@@ -18,8 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
-
 #include "nes.h"
 #include "x6502.h"
 #include "input.h"
@@ -49,7 +47,7 @@ VSUNIENTRY *curvs;
 static uint8 DIPS=0;
 uint8 vsdip=0;
 
-void MDFNI_VSUniToggleDIPView(void)
+void MDFN_VSUniToggleDIPView(void)
 {
  DIPS=!DIPS;
 }
@@ -62,7 +60,7 @@ void MDFN_VSUniToggleDIP(int w)
 void MDFNI_VSUniSetDIP(int w, int state)
 {
  if(((vsdip >> w) & 1) != state)
-  MDFNI_VSUniToggleDIP(w);
+  MDFN_VSUniToggleDIP(w);
 }
  
 uint8 MDFNI_VSUniGetDIPs(void)
@@ -110,9 +108,9 @@ static int curppu;
 static int64 curmd5;
 
 #define RP2C04_001      1
-#define RP2C04_002      2 
+#define RP2C04_002      2
 #define RP2C04_003      3
-#define RP2C05_004      4
+#define RP2C04_004      4
 #define RCP2C03B        5
 #define RC2C05_01       6
 #define RC2C05_02       7
@@ -175,17 +173,16 @@ void MDFN_VSUniSwap(uint8 *j0, uint8 *j1)
  }
 }
 
-void MDFN_VSUniPower(void)
+void MDFN_VSUniInstallRWHooks(void)
 {
- coinon = 0;
- VSindex = 0;
+ assert(NESIsVSUni);
 
  if(secptr)
   SetReadHandler(0x5e00,0x5e01,VSSecRead);
 
  if(curppu == RC2C05_04)
  {
-  OldReadPPU = GetReadHandler(0x2002);  
+  OldReadPPU = GetReadHandler(0x2002);
   SetReadHandler(0x2002, 0x2002, A2002_Topgun);
  }
  else if(curppu == RC2C05_03)
@@ -208,6 +205,13 @@ void MDFN_VSUniPower(void)
  {
   SetReadHandler(0x5400,0x57FF,XevRead);
  }
+}
+
+void MDFN_VSUniPower(void)
+{
+ coinon = 0;
+ VSindex = 0;
+
  memset(WRAM, 0xFF, 8192);
  setprg8r(0x10, 0x6000, 0);
 }
@@ -221,86 +225,26 @@ void MDFN_VSUniPower(void)
    Wrecking Crew
 */
 
-/* Games/PPU list.  Information copied from MAME.  ROMs are exchangable, so don't take
-   this list as "this game must use this PPU".
-
-RP2C04-001:
-- Baseball   
-- Freedom Force
-- Gradius
-- Hogan's Alley
-- Mach Rider (Japan, Fighting Course)
-- Pinball
-- Platoon  
-- Super Xevious
-
-RP2C04-002:
-- Castlevania 
-- Ladies golf
-- Mach Rider (Endurance Course)
-- Raid on Bungeling Bay (Japan)
-- Slalom
-- Stroke N' Match Golf
-- Wrecking Crew
-
-RP2C04-003:
-- Dr mario
-- Excite Bike
-- Goonies
-- Soccer
-- TKO Boxing
-
-RP2c05-004:
-- Clu Clu Land
-- Excite Bike (Japan)
-- Ice Climber
-- Ice Climber Dual (Japan)  
-- Super Mario Bros.
-
-Rcp2c03b:
-- Battle City
-- Duck Hunt
-- Mahjang
-- Pinball (Japan)
-- Rbi Baseball
-- Star Luster 
-- Stroke and Match Golf (Japan)
-- Super Skykid
-- Tennis
-- Tetris
-
-RC2C05-01:
-- Ninja Jajamaru Kun (Japan)
-
-RC2C05-02:
-- Mighty Bomb Jack (Japan)
-
-RC2C05-03:
-- Gumshoe   
-
-RC2C05-04: 
-- Top Gun
-*/
-
 VSUNIENTRY VSUniGames[]	=
 {
  {"Baseball",		0x691d4200ea42be45LL, 99, 2,RP2C04_001,0},
   {"Battle City",	0x8540949d74c4d0ebLL, 99, 2,RP2C04_001,0},
   {"Battle City(Bootleg)",0x8093cbe7137ac031LL, 99, 2,RP2C04_001,0},
 
-  {"Clu Clu Land",	0x1b8123218f62b1eeLL, 99, 2,RP2C05_004,IOPTION_SWAPDIRAB},
+  {"Clu Clu Land",	0x1b8123218f62b1eeLL, 99, 2,RP2C04_004,IOPTION_SWAPDIRAB},
   {"Dr Mario",		0xe1af09c477dc0081LL,  1, 0,RP2C04_003,IOPTION_SWAPDIRAB},
   {"Duck Hunt",		0x47735d1e5f1205bbLL, 99, 2,RCP2C03B  ,IOPTION_GUN},
   {"Excitebike",		0x3dcd1401bcafde77LL, 99, 2,RP2C04_003,0},
-  {"Excitebike (J)",		0x7ea51c9d007375f0LL, 99, 2,RP2C05_004,0},
-  {"Freedom Force",	0xed96436bd1b5e688LL,  4, 0,RP2C04_001,IOPTION_GUN}, /* Wrong color in game select screen? */
+  {"Excitebike (J)",		0x7ea51c9d007375f0LL, 99, 2,RP2C04_004,0},
+  {"Freedom Force",	0xed96436bd1b5e688LL,  4, 0,RP2C04_001,IOPTION_GUN},
   {"Stroke and Match Golf",0x612325606e82bc66LL, 99, 2,RP2C04_002,IOPTION_SWAPDIRAB|IOPTION_PREDIP,0x01},
 
   {"Goonies",		0x3b0085c4ff29098eLL, 151,1,RP2C04_003,0},
+  {"Goonies",	        0xb4032d694e1d2733LL, 151, 1, RP2C04_003, 0 },
   {"Gradius",		0x50687ae63bdad976LL,151, 1,RP2C04_001,IOPTION_SWAPDIRAB},
   {"Gumshoe",		0xb8500780bf69ce29LL, 99, 2,RC2C05_03,IOPTION_GUN},
   {"Hogan's Alley",	0xd78b7f0bb621fb45LL, 99, 2,RP2C04_001,IOPTION_GUN},
-  {"Ice Climber",	0xd21e999513435e2aLL, 99, 2,RP2C05_004,IOPTION_SWAPDIRAB},
+  {"Ice Climber",	0xd21e999513435e2aLL, 99, 2,RP2C04_004,IOPTION_SWAPDIRAB},
   {"Ladies Golf",	0x781b24be57ef6785LL, 99, 2,RP2C04_002,IOPTION_SWAPDIRAB|IOPTION_PREDIP,0x1},
 
   {"Mach Rider",	0x015672618af06441LL, 99, 2, RP2C04_002,0},
@@ -321,10 +265,20 @@ VSUNIENTRY VSUniGames[]	=
   {"Top Gun",		0xf1dea36e6a7b531dLL,  2, 0,RC2C05_04 ,0},
   {"VS Castlevania",     0x92fd6909c81305b9LL,  2, 1,RP2C04_002,0},
   {"VS Slalom",		0x4889b5a50a623215LL,  0, 1,RP2C04_002,0},
-  {"VS Super Mario Bros",0x39d8cfa788e20b6cLL, 99, 2,RP2C05_004,0},
+
+  {"VS Super Mario Bros",0x39d8cfa788e20b6cLL, 99, 2,RP2C04_004,0},	// Bad?
+  {"VS Super Mario Bros",0xfc182e5aefbce14dLL, 99, 2,RP2C04_004,0},
+
   {"VS TKO Boxing",	0x6e1ee06171d8ce3aLL,4, 1,RP2C04_003,IOPTION_PREDIP,0x00},
  {0}
 };
+
+static unsigned int wpal;
+
+unsigned int MDFN_VSUniGetPaletteNum(void)
+{
+ return(wpal);
+}
 
 void MDFN_VSUniCheck(uint64 md5partial, int *MapperNo, int *Mirroring)
 {
@@ -335,7 +289,9 @@ void MDFN_VSUniCheck(uint64 md5partial, int *MapperNo, int *Mirroring)
   if(md5partial == vs->md5partial)
   {
    if(vs->ppu < RCP2C03B) 
-    MDFN_SetPPUPalette(vs->ppu);
+    wpal = vs->ppu;
+   else
+    wpal = 5;
    //puts(vs->name);
    *MapperNo = vs->mapper;
    *Mirroring = vs->mirroring;
@@ -390,8 +346,10 @@ void MDFN_VSUniCheck(uint64 md5partial, int *MapperNo, int *Mirroring)
  }
 }
 
-void MDFN_VSUniDraw(uint32 *XBuf)
+void MDFN_VSUniDraw(MDFN_Surface *surface)
 {
+ uint32 *XBuf = surface->pixels;
+
   uint32 *dest;
   int y,x;
 
@@ -401,14 +359,14 @@ void MDFN_VSUniDraw(uint32 *XBuf)
   for(y=24;y;y--,dest+=256-72)
   {
    for(x=72;x;x--,dest++) 
-    *dest=MK_COLOR(0,0,0);
+    *dest = surface->MakeColor(0, 0, 0);
   }
   
   dest=(uint32 *)(XBuf+256*(12+4)+164+6 );
   for(y=16;y;y--,dest+=256-64)
    for(x=8;x;x--)
    {
-    uint32 col = MK_COLOR(0xE0,0xE0,0xE0);
+    uint32 col = surface->MakeColor(0xE0, 0xE0, 0xE0);
     *dest=col; //0x01010101;
     *(dest + 1) = col;
     *(dest + 2) = col;
@@ -425,7 +383,7 @@ void MDFN_VSUniDraw(uint32 *XBuf)
     da+=256*10;
    for(y=4;y;y--,da+=256)
    {
-    *da = *(da + 1) = *(da + 2) = *(da + 3) = MK_COLOR(0x70,0x10,0x70);
+    *da = *(da + 1) = *(da + 2) = *(da + 3) = surface->MakeColor(0x70, 0x10, 0x70);
    }
   } 
  

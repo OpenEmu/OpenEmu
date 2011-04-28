@@ -34,8 +34,6 @@ static void CPROMReset(CartInfo *info)
  setprg32(0x8000,0);
  setchr4(0x0000, 0);
  setchr4(0x1000, 0);
- SetReadHandler(0x8000,0xFFFF,CartBR);
- SetWriteHandler(0x8000,0xffff,CPROMWrite);
 }
 
 static int CPROM_StateAction(StateMem *sm, int load, int data_only)
@@ -55,6 +53,10 @@ int CPROM_Init(CartInfo *info)
 {
  info->Power=CPROMReset;
  info->StateAction = CPROM_StateAction;
+
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetWriteHandler(0x8000,0xffff,CPROMWrite);
+
  return(1);
 }
 
@@ -73,8 +75,8 @@ static int CNROM_StateAction(StateMem *sm, int load, int data_only)
 
 static DECLFW(CNROMWrite)
 {
- latche=V&3;
- setchr8(V&3);
+ latche = V & 3 & CartBR(A);
+ setchr8(latche);
 }
 
 static void CNROMReset(CartInfo *info)
@@ -83,15 +85,16 @@ static void CNROMReset(CartInfo *info)
  setprg16(0x8000,0);
  setprg16(0xC000,1);
  setchr8(0);
-
- SetReadHandler(0x8000,0xFFFF,CartBR);
- SetWriteHandler(0x8000,0xffff,CNROMWrite);
 }
 
 int CNROM_Init(CartInfo *info)
 {
  info->Power=CNROMReset;
  info->StateAction = CNROM_StateAction;
+
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetWriteHandler(0x8000,0xffff,CNROMWrite);
+
  return(1);
 }
 
@@ -100,7 +103,6 @@ static void NROM128Reset(CartInfo *info)
   setprg16(0x8000,0);
   setprg16(0xC000,0);
   setchr8(0);
-  SetReadHandler(0x8000,0xFFFF,CartBR);
 }
 
 static void NROM256Reset(CartInfo *info)
@@ -108,18 +110,21 @@ static void NROM256Reset(CartInfo *info)
   setprg16(0x8000,0);
   setprg16(0xC000,1);
   setchr8(0);
-  SetReadHandler(0x8000,0xFFFF,CartBR);
 }
 
 int NROM128_Init(CartInfo *info)
 {
-  info->Power=NROM128Reset;
+ info->Power=NROM128Reset;
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+
  return(1);
 }
 
 int NROM256_Init(CartInfo *info)
 {
-  info->Power=NROM256Reset;
+ info->Power=NROM256Reset;
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+
  return(1);
 }
 
@@ -167,28 +172,24 @@ int MHROM_Init(CartInfo *info)
 #ifdef WANT_DEBUGGER
 static RegType DBGUNROMRegs[] =
 {
- { "PRGBank", "PRG Bank, 16KiB @8000", 1 },
- { "", "", 0 },
+ { 0, "PRGBank", "PRG Bank, 16KiB @8000", 1 },
+ { 0, "", "", 0 },
 };
 
-static uint32 UNROMDBG_GetRegister(const std::string &oname, std::string *special)
+static uint32 UNROMDBG_GetRegister(const unsigned int id, char *special, const uint32 special_len)
 {
- if(oname == "PRGBank")
-  return(latche);
- return(0);
+ return(latche);
 }
 
-static void UNROMDBG_SetRegister(const std::string &oname, uint32 value)
+static void UNROMDBG_SetRegister(const unsigned int id, uint32 value)
 {
- if(oname == "PRGBank")
- {
-  latche = value;
-  setprg16(0x8000, latche);
- }
+ latche = value;
+ setprg16(0x8000, latche);
 }
 
 static RegGroupType DBGUNROMRegsGroup =
 {
+ "UNROM",
  DBGUNROMRegs,
  UNROMDBG_GetRegister,
  UNROMDBG_SetRegister,
@@ -220,8 +221,6 @@ static void UNROMReset(CartInfo *info)
  setchr8(0);
  setprg16(0x8000,0);
  setprg16(0xc000,~0);
- SetWriteHandler(0x8000,0xffff,UNROMWrite);
- SetReadHandler(0x8000,0xFFFF,CartBR);
  latche=0;
 }
 
@@ -233,6 +232,9 @@ int UNROM_Init(CartInfo *info)
  #ifdef WANT_DEBUGGER
  MDFNDBG_AddRegGroup(&DBGUNROMRegsGroup);
  #endif
+
+ SetWriteHandler(0x8000,0xffff,UNROMWrite);
+ SetReadHandler(0x8000,0xFFFF,CartBR);
 
  //PRGmask16[0]&=7;
  return(1);
@@ -267,14 +269,16 @@ static void GNROMReset(CartInfo *info)
 {
  latche=0;
  GNROMSync(); 
- SetWriteHandler(0x8000,0xffff,GNROMWrite);
- SetReadHandler(0x8000,0xFFFF,CartBR);
 }
 
 int GNROM_Init(CartInfo *info)
 {
  info->Power=GNROMReset;
  info->StateAction = GNROM_StateAction;
+
+ SetWriteHandler(0x8000,0xffff,GNROMWrite);
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+
  return(1);
 }
 

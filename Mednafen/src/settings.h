@@ -3,11 +3,9 @@
 
 #include <string>
 
-#include "git.h"
 #include "settings-common.h"
 
 bool MFDN_LoadSettings(const char *);
-bool MDFN_MergeSettings(const MDFNGI *);
 bool MDFN_MergeSettings(const MDFNSetting *);
 bool MDFN_MergeSettings(const std::vector<MDFNSetting> &);
 bool MDFN_SaveSettings(void);

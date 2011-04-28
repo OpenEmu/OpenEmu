@@ -12,7 +12,6 @@ void PCFXDBG_SetRegister(const std::string &name, uint32 value);
 void PCFXDBG_SetCPUCallback(void (*callb)(uint32 PC));
 void PCFXDBG_SetBPCallback(void (*callb)(uint32 PC));
 
-void PCFXDBG_AddBranchTrace(uint32 PC);
 std::vector<std::string> PCFXDBG_GetBranchTrace(void);
 
 void PCFXDBG_CheckBP(int type, uint32 address, unsigned int len);

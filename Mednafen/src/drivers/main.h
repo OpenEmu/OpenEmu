@@ -23,8 +23,6 @@
 #include "../driver.h"
 #include "../mednafen.h"
 #include "../settings.h"
-#include "../endian.h"
-#include "../memory.h"
 #include "config.h"
 #include "args.h"
 
@@ -39,8 +37,6 @@
 
 #define CEVT_TOGGLEGUI	1
 #define CEVT_TOGGLEFS	2
-#define CEVT_PRINTERROR	3
-#define CEVT_PRINTMESSAGE	4
 #define CEVT_VIDEOSYNC	5
 #define CEVT_SHOWCURSOR		0x0c
 #define CEVT_CHEATTOGGLEVIEW	0x10
@@ -62,6 +58,8 @@
 #define CEVT_NP_TOGGLE_TT	0x103
 #define CEVT_NP_CONNECT		0x104
 #define CEVT_NP_SETNICK		0x105
+#define CEVT_NP_PING		0x106
+#define CEVT_NP_INTEGRITY	0x107
 
 void SendCEvent(unsigned int code, void *data1, void *data2);
 
@@ -74,12 +72,11 @@ extern int NoWaiting;
 extern MDFNGI *CurGame;
 int CloseGame(void);
 
-void RefreshThrottleFPS(int);
+void RefreshThrottleFPS(double);
 void PumpWrap(void);
 void SetJoyReadMode(int mode);
 void MainSetEventHook(int (*eh)(const SDL_Event *event));
 
-int LoadGame(const char *path);
 void MainRequestExit(void);
 
 extern bool pending_save_state, pending_snapshot, pending_save_movie;

@@ -2,9 +2,10 @@
 // $Id: resolve.cc,v 1.13 2006/08/11 17:22:43 sshwarts Exp $
 /////////////////////////////////////////////////////////////////////////
 
+#include "disasm.h"
+
 #include <stdio.h>
 #include <assert.h>
-#include "disasm.h"
 
 void disassembler::decode_modrm(x86_insn *insn)
 {

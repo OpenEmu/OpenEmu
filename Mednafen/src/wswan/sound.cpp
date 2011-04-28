@@ -15,6 +15,10 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+/*
+ Noise emulation is almost certainly wrong wrong wrong.  Testing on a real system is needed to determine LFSR(assuming it uses an LFSR) taps.
+*/
+
 #include "wswan.h"
 #include "sound.h"
 #include "v30mz.h"
@@ -26,9 +30,8 @@ static Blip_Synth<blip_good_quality, 256> WaveSynth;
 static Blip_Synth<blip_med_quality, 256> NoiseSynth;
 static Blip_Synth<blip_good_quality, 256 * 15> VoiceSynth;
 
-static Blip_Buffer sbuf[2];
-static bool forcemono;
-static int16 WaveIL[8000];
+static Blip_Buffer *sbuf[2] = { NULL };
+static int32 OutputChannels; // 1 or 2, used to be: bool forcemono;
 
 static uint16 period[4];
 static uint8 volume[4]; // left volume in upper 4 bits, right in lower 4 bits
@@ -77,8 +80,8 @@ static uint32 last_ts;
 #define SYNCSAMPLE(wt)	\
    {	\
     int32 left = sample_cache[ch][0], right = sample_cache[ch][1];	\
-    WaveSynth.offset_inline(wt, left - last_val[ch][0], &sbuf[0]);	\
-    WaveSynth.offset_inline(wt, right - last_val[ch][1], &sbuf[1]);	\
+    WaveSynth.offset_inline(wt, left - last_val[ch][0], sbuf[0]);	\
+    WaveSynth.offset_inline(wt, right - last_val[ch][1], sbuf[1]);	\
     last_val[ch][0] = left;	\
     last_val[ch][1] = right;	\
    }
@@ -86,8 +89,8 @@ static uint32 last_ts;
 #define SYNCSAMPLE_NOISE(wt)  \
    {    \
     int32 left = sample_cache[ch][0], right = sample_cache[ch][1];      \
-    NoiseSynth.offset_inline(wt, left - last_val[ch][0], &sbuf[0]);      \
-    NoiseSynth.offset_inline(wt, right - last_val[ch][1], &sbuf[1]);     \
+    NoiseSynth.offset_inline(wt, left - last_val[ch][0], sbuf[0]);      \
+    NoiseSynth.offset_inline(wt, right - last_val[ch][1], sbuf[1]);     \
     last_val[ch][0] = left;     \
     last_val[ch][1] = right;    \
    }
@@ -110,8 +113,8 @@ void WSwan_SoundUpdate(void)
   {
    int32 neoval = (volume[ch] - 0x80) * voice_volume;
 
-   VoiceSynth.offset(v30mz_timestamp, neoval - last_v_val, &sbuf[0]);
-   VoiceSynth.offset(v30mz_timestamp, neoval - last_v_val, &sbuf[1]);
+   VoiceSynth.offset(v30mz_timestamp, neoval - last_v_val, sbuf[0]);
+   VoiceSynth.offset(v30mz_timestamp, neoval - last_v_val, sbuf[1]);
 
    last_v_val = neoval;
   }
@@ -166,7 +169,8 @@ void WSwan_SoundUpdate(void)
     // Yay, random numbers, so let's use totally wrong numbers to make them!
     const int bstab1[8] = { 14, 13, 12, 14, 12, 13, 14, 14 };
     const int bstab2[8] = { 13, 12,  9, 12,  1,  1,  5, 11 };
-
+    //const int bstab1[8] = { 14, 13, 12, 14, 10, 9, 8, 13 };
+    //const int bstab2[8] = { 13, 12, 9, 12, 1, 6, 4, 11 };
     nreg = (~((nreg << 1) | ( ((nreg >> bstab1[noise_control & 0x7]) & 1) ^ ((nreg >> bstab2[noise_control & 0x7]) & 1)))) & 0x7FFF;
     if(control & 0x80)
     {
@@ -206,8 +210,8 @@ void WSwan_SoundUpdate(void)
 
   if(tmphv - last_hv_val)
   {
-   WaveSynth.offset_inline(v30mz_timestamp, tmphv - last_hv_val, &sbuf[0]);
-   WaveSynth.offset_inline(v30mz_timestamp, tmphv - last_hv_val, &sbuf[1]);
+   WaveSynth.offset_inline(v30mz_timestamp, tmphv - last_hv_val, sbuf[0]);
+   WaveSynth.offset_inline(v30mz_timestamp, tmphv - last_hv_val, sbuf[1]);
    last_hv_val = tmphv;
   }
  }
@@ -310,36 +314,24 @@ uint8 WSwan_SoundRead(uint32 A)
 }
 
 
-int16 *WSwan_SoundFlush(int32 *len)
+int32 WSwan_SoundFlush(int16 *SoundBuf, const int32 MaxSoundFrames)
 {
+	int32 FrameCount = 0;
+
 	WSwan_SoundUpdate();
 
-	if(FSettings.SndRate)
+	if(SoundBuf)
 	{
-	 int love;
-	 for(int y = 0; y < 2; y++)
+	 for(int y = 0; y < OutputChannels; y++)
 	 {
-	  sbuf[y].end_frame(v30mz_timestamp);
-	  love = sbuf[y].read_samples(&WaveIL[y], 8000, 1);
+	  sbuf[y]->end_frame(v30mz_timestamp);
+ 	  FrameCount = sbuf[y]->read_samples(SoundBuf + y, MaxSoundFrames, (OutputChannels == 2));
 	 }
-	 if(forcemono)
-	 {
-	  for(int x = 0; x < love; x++)
-	   WaveIL[x] = ((int32)WaveIL[x * 2] + WaveIL[x * 2 + 1]) >> 1;
-	 }
-	 *len = love;
 	}
 
 	last_ts = 0;
-	v30mz_timestamp = 0;
 
-        if(!FSettings.SndRate)
-        {
-         *len = 0;
-         return(NULL);
-        }
-
-	return(WaveIL);
+	return(FrameCount);
 }
 
 // Call before wsRAM is updated
@@ -351,40 +343,41 @@ void WSwan_SoundCheckRAMWrite(uint32 A)
 
 static void RedoVolume(void)
 {
-  WaveSynth.volume((double)FSettings.SoundVolume / 100 / 4);
-  NoiseSynth.volume((double)FSettings.SoundVolume / 100 / 4);
-  VoiceSynth.volume((double)FSettings.SoundVolume / 100 / 4);
+ double eff_volume = 1.0 / 4;
+
+ if(OutputChannels == 1)
+  eff_volume /= 2;
+
+ WaveSynth.volume(eff_volume);
+ NoiseSynth.volume(eff_volume);
+ VoiceSynth.volume(eff_volume);
 }
 
-void WSwan_SoundInit(bool WantMono)
+void WSwan_SoundInit(void)
 {
- for(int i = 0; i < 2; i++)
+ OutputChannels = 2;
+
+ for(int i = 0; i < OutputChannels; i++)
  {
-  sbuf[i].set_sample_rate(FSettings.SndRate?FSettings.SndRate:44100, 60);
-  sbuf[i].clock_rate((long)(3072000 * FSettings.soundmultiplier));
-  sbuf[i].bass_freq(20);
+  sbuf[i] = new Blip_Buffer();
+
+  sbuf[i]->set_sample_rate(0 ? 0 : 44100, 60);
+  sbuf[i]->clock_rate((long)(3072000));
+  sbuf[i]->bass_freq(20);
  }
 
- forcemono = WantMono;
+ if(OutputChannels == 1)
+  sbuf[1] = sbuf[0];
 
  RedoVolume();
 }
 
-void WSwan_SetSoundMultiplier(double multiplier)
+bool WSwan_SetSoundRate(uint32 rate)
 {
- for(int i = 0; i < 2; i++)
-  sbuf[i].clock_rate((long)(3072000 * multiplier));
-}
+ for(int i = 0; i < OutputChannels; i++)
+  sbuf[i]->set_sample_rate(rate?rate:44100, 60);
 
-void WSwan_SetSoundVolume(uint32 new_volume)
-{
- RedoVolume();
-}
-
-void WSwan_Sound(int rate)
-{
- for(int i = 0; i < 2; i++)
-  sbuf[i].set_sample_rate(rate?rate:44100, 60);
+ return(TRUE);
 }
 
 int WSwan_SoundStateAction(StateMem *sm, int load, int data_only)
@@ -440,6 +433,6 @@ void WSwan_SoundReset(void)
  HyperVoice = 0;
  last_hv_val = 0;
 
- sbuf[0].clear();
- sbuf[1].clear();
+ for(int y = 0; y < OutputChannels; y++)
+  sbuf[y]->clear();
 }

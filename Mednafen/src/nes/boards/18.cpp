@@ -22,6 +22,7 @@
 
 static uint16 IRQCount, IRQLatch, Mirroring;
 static uint8 IRQa, PRGBanks[4], CHRBanks[8];
+static uint8 WRAM[8192];
 
 static void JalecoIRQHook(int a)
 {
@@ -110,12 +111,19 @@ static void Power(CartInfo *info)
  DoPRG();
  DoCHR();
  DoMirroring();
+
+
+ setprg8r(0x10, 0x6000, 0);
+
+ if(!info->battery)
+  memset(WRAM, 0xFF, 8192);
 }
 
 static int StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
+  SFARRAY(WRAM, 8192),
   SFVAR(IRQCount), SFVAR(IRQLatch), SFVAR(Mirroring),
   SFVAR(IRQa), SFARRAY(PRGBanks, 4), SFARRAY(CHRBanks, 8),
   SFEND
@@ -133,11 +141,24 @@ static int StateAction(StateMem *sm, int load, int data_only)
 
 int Mapper18_Init(CartInfo *info)
 {
+ SetupCartPRGMapping(0x10, WRAM, 8192, 1);
+ SetReadHandler(0x6000, 0x7FFF, CartBR);
+ SetWriteHandler(0x6000, 0x7FFF, CartBW);
+
+
  info->StateAction = StateAction;
  info->Power = Power;
  SetWriteHandler(0x8000,0xffff,Mapper18_write);
  SetReadHandler(0x8000, 0xFFFF, CartBR);
  MapIRQHook=JalecoIRQHook;
+
+
+ if(info->battery)
+ {
+  info->SaveGame[0] = WRAM;
+  info->SaveGameLen[0] = 8192;
+ }
+
 
  return(1);
 }

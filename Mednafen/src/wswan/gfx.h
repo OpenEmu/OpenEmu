@@ -22,7 +22,7 @@ extern uint32		dx_r,dx_g,dx_b,dx_sr,dx_sg,dx_sb;
 extern uint32		dx_bits,dx_pitch,cmov,dx_linewidth_blit,dx_buffer_line;
 
 
-void WSwan_SetPixelFormat(int rs, int gs, int bs);
+void WSwan_SetPixelFormat(const MDFN_PixelFormat &format);
 
 void WSwan_GfxInit(void);
 void WSwan_GfxReset(void);
@@ -30,14 +30,13 @@ void WSwan_GfxWrite(uint32 A, uint8 V);
 uint8 WSwan_GfxRead(uint32 A);
 void WSwan_GfxWSCPaletteRAMWrite(uint32 ws_offset, uint8 data);
 
-bool wsExecuteLine(uint32 *pXBuf, bool skip);
+bool wsExecuteLine(MDFN_Surface *surface, bool skip);
 
 bool WSwan_GfxToggleLayer(int which);
 int WSwan_GfxStateAction(StateMem *sm, int load, int data_only);
 
 #ifdef WANT_DEBUGGER
-void WSwan_GfxSetGraphicsDecode(int line, int which, int w, int h, int xscroll, int yscroll, int pbn);
-uint32 *WSwan_GfxGetGraphicsDecodeBuffer(void);
+void WSwan_GfxSetGraphicsDecode(MDFN_Surface *surface, int line, int which, int xscroll, int yscroll, int pbn);
 uint32 WSwan_GfxGetRegister(const std::string &oname, std::string *special);
 #endif
 

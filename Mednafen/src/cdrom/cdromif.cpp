@@ -15,142 +15,254 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "../mednafen.h"
 #include <string.h>
 #include <sys/types.h>
-#include <cdio/cdio.h>
-#include "../mednafen.h"
+//#include <cdio/cdio.h>
+#include <trio/trio.h>
 #include "cdromif.h"
 #include "cdromfile.h"
 #include "../general.h"
+#include "dvdisaster.h"
 
-typedef struct __TRACK_INFO
-{
-        lba_t LSN;
-	lba_t Pregap;
-        track_format_t Format;
-} TRACK_INFO;
+#include <queue>
 
-typedef struct __CD_INFO
-{
-        track_t NumTracks;
-        track_t FirstTrack;
-        TRACK_INFO Tracks[100]; // Track #0(HMM?) through 99
-} CD_INFO;
+// Read from either thread, only written to during the startup of the CD reading thread.
+static CD_TOC toc;
 
-static CD_INFO CD_Info;
+// Only access from CD reading thread!
 static CDRFile *p_cdrfile = NULL;
 
-#include <sndfile.h>
+static MDFN_Thread *CDReadThread = NULL;
 
-static void DumpCUEISOWAV(void)
+static bool LEC_Eval;
+
+enum
 {
- FILE *cuep = fopen("cd.cue", "wb");
+ CDIF_MSG_INIT_DONE = 0,	// Read -> emu
+ CDIF_MSG_FATAL_ERROR,		// Read -> emu
 
- for(int track = CDIF_GetFirstTrack(); track <= CDIF_GetLastTrack(); track++)
+ CDIF_MSG_DIEDIEDIE,		// Emu -> read
+
+ CDIF_MSG_READ_SECTOR,		/* Emu -> read
+					args[0] = lba
+				*/
+};
+
+class CDIF_Message
+{
+ public:
+
+ CDIF_Message()
  {
-  CDIF_Track_Format format;
-  uint32 sectors;
+  message = 0;
 
-  sectors = cdrfile_get_track_sec_count(p_cdrfile, track);
-  CDIF_GetTrackFormat(track, format);
+  memset(args, 0, sizeof(args));
+  parg = NULL;
+ }
 
-  if(format == CDIF_FORMAT_AUDIO)
+ CDIF_Message(unsigned int _message, uint32 arg0, uint32 arg1, uint32 arg2, uint32 arg3, void *_parg)
+ {
+  message = _message;
+  args[0] = arg0;
+  args[1] = arg1;
+  args[2] = arg2;
+  args[3] = arg3;
+  parg = _parg;
+ }
+
+ ~CDIF_Message()
+ {
+
+ }
+
+ unsigned int message;
+ uint32 args[4];
+ void *parg;
+};
+
+class CDIF_Queue
+{
+ public:
+
+ CDIF_Queue()
+ {
+  ze_mutex = MDFND_CreateMutex();
+ }
+
+ ~CDIF_Queue()
+ {
+  MDFND_DestroyMutex(ze_mutex);
+ }
+
+ // Returns FALSE if message not read, TRUE if it was read.  Will always return TRUE if "blocking" is set.
+ bool Read(CDIF_Message *message, bool blocking = TRUE)
+ {
+  TryAgain:
+
+  MDFND_LockMutex(ze_mutex);
+  
+  if(ze_queue.size() > 0)
   {
-   char buf[256];
-   sprintf(buf, "%d.wav", track);
-
-   static SNDFILE *sfp;
-   SF_INFO slinfo;
-   memset(&slinfo, 0, sizeof(SF_INFO));
-
-   fprintf(cuep, "FILE \"%s\" WAVE\n", buf);
-   fprintf(cuep, " TRACK %02d AUDIO\n", track);
-   fprintf(cuep, "  INDEX 01 00:00:00\n");
-
-   slinfo.samplerate = 44100;
-   slinfo.channels = 2;
-   slinfo.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
-
-   sfp = sf_open(buf, SFM_WRITE, &slinfo);
-   for(uint32 i = 0; i < sectors; i++)
-   {
-    uint8 secbuf[2352];
-
-    CDIF_ReadAudioSector((int16*)secbuf, NULL, CDIF_GetTrackStartPositionLBA(track) + i);
-
-    sf_writef_short(sfp, (int16*)secbuf, 2352 / 4);
-   }
-   sf_close(sfp);
+   *message = ze_queue.front();
+   ze_queue.pop();
+   MDFND_UnlockMutex(ze_mutex);
+   return(TRUE);
+  }
+  else if(blocking)
+  {
+   MDFND_UnlockMutex(ze_mutex);
+   MDFND_Sleep(1);
+   goto TryAgain;
   }
   else
   {
-   char buf[256];
-   sprintf(buf, "%d.iso", track);
-   FILE *fp = fopen(buf, "wb");
-
-   fprintf(cuep, "FILE \"%s\" BINARY\n", buf);
-   fprintf(cuep, " TRACK %02d MODE1/2048\n", track);
-   fprintf(cuep, "  INDEX 01 00:00:00\n");
-
-
-   for(uint32 i = 0; i < sectors; i++)
-   {
-    uint8 secbuf[2048];
-    CDIF_ReadSector(secbuf, NULL, CDIF_GetTrackStartPositionLBA(track) + i, 1);
-    fwrite(secbuf, 1, 2048, fp);
-   }
-   fclose(fp);
+   MDFND_UnlockMutex(ze_mutex);
+   return(FALSE);
   }
  }
- fclose(cuep);
-}
 
-bool CDIF_ReadAudioSector(int16 *buffer, uint8 *SubPWBuf, uint32 read_sec)
-{
- return(cdrfile_read_audio_sector(p_cdrfile, buffer, SubPWBuf, read_sec));
-}
+ void Write(const CDIF_Message &message)
+ {
+  MDFND_LockMutex(ze_mutex);
 
-static bool cdif_open_sub(const char *device_name)
+  ze_queue.push(message);
+
+  MDFND_UnlockMutex(ze_mutex);
+ }
+
+ std::queue<CDIF_Message> ze_queue;
+ MDFN_Mutex *ze_mutex;
+};
+
+// Queue for messages to the read thread.
+static CDIF_Queue *ReadThreadQueue = NULL;
+
+// Queue for messages to the emu thread.
+static CDIF_Queue *EmuThreadQueue = NULL;
+
+
+typedef struct
 {
+ bool valid;
+ uint32 lba;
+ uint8 data[2352 + 96];
+} CDIF_Sector_Buffer;
+
+static CDIF_Sector_Buffer *SectorBuffers = NULL;
+static uint32 SBWritePos;
+static const uint32 SBSize = 256;
+static MDFN_Mutex *SBMutex = NULL;
+
+static uint32 ra_lba;
+static int ra_count;
+static int32 last_read_lba;
+
+static int ReadThreadStart(void *arg)
+{
+ char *device_name = (char *)arg;
+ bool Running = TRUE;
+
  MDFN_printf(_("Loading %s...\n\n"), device_name ? device_name : _("PHYSICAL CDROM DISC"));
  MDFN_indent(1);
 
  if(!(p_cdrfile = cdrfile_open(device_name)))
  {
   MDFN_indent(-1);
+  EmuThreadQueue->Write(CDIF_Message(CDIF_MSG_INIT_DONE, FALSE, 0, 0, 0, NULL));
   return(0);
  }
 
- CD_Info.NumTracks = cdrfile_get_num_tracks(p_cdrfile);
- if(CD_Info.NumTracks < 1 || CD_Info.NumTracks > 100)
+ if(!cdrfile_read_toc(p_cdrfile, &toc))
  {
+  puts("Error reading TOC");
   MDFN_indent(-1);
+  EmuThreadQueue->Write(CDIF_Message(CDIF_MSG_INIT_DONE, FALSE, 0, 0, 0, NULL));
   return(0);
  }
 
- CD_Info.FirstTrack = cdrfile_get_first_track_num(p_cdrfile);
-
- for(track_t track = CD_Info.FirstTrack; track < CD_Info.FirstTrack + CD_Info.NumTracks; track++)
+ if(toc.first_track < 1 || toc.last_track > 99 || toc.first_track > toc.last_track)
  {
-  CD_Info.Tracks[track].LSN = cdrfile_get_track_lsn(p_cdrfile, track);
-  CD_Info.Tracks[track].Format = cdrfile_get_track_format(p_cdrfile, track);
-  MDFN_printf(_("Track %2d, LSN: %6d %s\n"), track, CD_Info.Tracks[track].LSN, track_format2str[CD_Info.Tracks[track].Format]);
+  puts("First/Last track numbers bad");
+  MDFN_indent(-1);
+  EmuThreadQueue->Write(CDIF_Message(CDIF_MSG_INIT_DONE, FALSE, 0, 0, 0, NULL));
+  return(0);
  }
+
+ for(int32 track = toc.first_track; track <= toc.last_track; track++)
+ {
+  MDFN_printf(_("Track %2d, LBA: %6d  %s\n"), track, toc.tracks[track].lba, (toc.tracks[track].control & 0x4) ? "DATA" : "AUDIO");
+ }
+
+ MDFN_printf("Leadout: %6d\n", toc.tracks[100].lba);
  MDFN_indent(-1);
- return(1);
-}
 
-bool CDIF_Open(const char *device_name)
-{
- bool ret = cdif_open_sub(device_name);
+ EmuThreadQueue->Write(CDIF_Message(CDIF_MSG_INIT_DONE, TRUE, 0, 0, 0, NULL));
 
- //DumpCUEISOWAV();
+ while(Running)
+ {
+  CDIF_Message msg;
 
- return(ret);
-}
+  // Only do a blocking-wait for a message if we don't have any sectors to read-ahead.
+  if(ReadThreadQueue->Read(&msg, ra_count ? FALSE : TRUE))
+  {
+   switch(msg.message)
+   {
+    case CDIF_MSG_DIEDIEDIE: Running = FALSE;
+ 		 	 break;
 
-bool CDIF_Close(void)
-{
+    case CDIF_MSG_READ_SECTOR:
+			 {
+			  uint32 new_lba = msg.args[0];
+
+			  if(new_lba == (last_read_lba + 1))
+			  {
+			   //if(ra_count < 8)
+			   // ra_count += 2;
+			   //else
+			    ra_count++;
+			  }
+			  else
+			  {
+                           ra_lba = new_lba;
+			   ra_count = 4;
+			  }
+			  last_read_lba = new_lba;
+			 }
+			 break;
+   }
+  }
+
+  // Don't read >= the "end" of the disc, silly snake.  Slither.
+  if(ra_count && ra_lba == toc.tracks[100].lba)
+  {
+   ra_count = 0;
+   //printf("Ephemeral scarabs: %d!\n", ra_lba);
+  }
+
+  if(ra_count)
+  {
+   uint8 tmpbuf[2352 + 96];
+
+   if(!cdrfile_read_raw_sector(p_cdrfile, tmpbuf, ra_lba))
+   {
+    printf("Sector %d read error!  Abandon ship!", ra_lba);
+    memset(tmpbuf, 0, sizeof(tmpbuf));
+   }
+   MDFND_LockMutex(SBMutex);
+
+   SectorBuffers[SBWritePos].lba = ra_lba;
+   memcpy(SectorBuffers[SBWritePos].data, tmpbuf, 2352 + 96);
+   SectorBuffers[SBWritePos].valid = TRUE;
+   SBWritePos = (SBWritePos + 1) % SBSize;
+
+   MDFND_UnlockMutex(SBMutex);
+
+   ra_lba++;
+   ra_count--;
+  }
+ }
+
  if(p_cdrfile)
  {
   cdrfile_destroy(p_cdrfile);
@@ -160,105 +272,209 @@ bool CDIF_Close(void)
  return(1);
 }
 
-bool CDIF_Init(void)
+bool CDIF_Open(const char *device_name)
 {
- return(1);
-}
+ CDIF_Message msg;
 
-void CDIF_Deinit(void)
-{
+ ReadThreadQueue = new CDIF_Queue();
+ EmuThreadQueue = new CDIF_Queue();
+ 
+ SBMutex = MDFND_CreateMutex();
+ SectorBuffers = (CDIF_Sector_Buffer *)calloc(SBSize, sizeof(CDIF_Sector_Buffer));
 
-}
+ SBWritePos = 0;
+ ra_lba = 0;
+ ra_count = 0;
+ last_read_lba = -1;
 
-int32 CDIF_GetFirstTrack()
-{
- return(CD_Info.FirstTrack);
-}
+ CDReadThread = MDFND_CreateThread(ReadThreadStart, device_name ? strdup(device_name) : NULL);
 
-int32 CDIF_GetLastTrack()
-{
- return(CD_Info.FirstTrack + CD_Info.NumTracks - 1);
-}
+ EmuThreadQueue->Read(&msg);
 
-bool CDIF_GetTrackStartPositionMSF(int32 track, int &min, int &sec, int &frame)
-{
- uint32          lba;
-
- if(track == (CD_Info.FirstTrack + CD_Info.NumTracks)) // Leadout track.
+ if(!msg.args[0])
  {
-  lba = CD_Info.Tracks[track - 1].LSN + cdrfile_get_track_sec_count(p_cdrfile, track - 1);
-  //printf("GTSPMSF Leadout: %d\n", lba);
+  MDFND_WaitThread(CDReadThread, NULL);
+  delete ReadThreadQueue;
+  delete EmuThreadQueue;
+
+  ReadThreadQueue = NULL;
+  EmuThreadQueue = NULL;
+
+  return(FALSE);
  }
- else if(track < CD_Info.FirstTrack || track >= (CD_Info.FirstTrack + CD_Info.NumTracks))
-  return(0);
- else
-  lba   = CD_Info.Tracks[track].LSN;
 
- lba += 150;
- min   = (uint8)(lba / 75 / 60);
- sec   = (uint8)((lba - min * 75 * 60) / 75);
- frame = (uint8)(lba - (min * 75 * 60) - (sec * 75));
+ LEC_Eval = MDFN_GetSettingB("cdrom.lec_eval");
+ if(LEC_Eval)
+ {
+  Init_LEC_Correct();
+ }
 
- return(1);
+ MDFN_printf(_("Raw rip data correction using L-EC: %s\n\n"), LEC_Eval ? _("Enabled") : _("Disabled"));
+
+ return(TRUE);
 }
 
-bool CDIF_GetTrackFormat(int32 track, CDIF_Track_Format &format)
+bool CDIF_ValidateRawSector(uint8 *buf)
 {
- if(track == (CD_Info.FirstTrack + CD_Info.NumTracks))
- {
-  //printf("GTF Leadout\n");
-  format = CDIF_FORMAT_AUDIO;
-  return(1);
- }
- if(track < CD_Info.FirstTrack || track >= (CD_Info.FirstTrack + CD_Info.NumTracks))
-  return(0);
+ int mode = buf[12 + 3];
 
- switch(CD_Info.Tracks[track].Format)
+ if(mode != 0x1 && mode != 0x2)
+  return(false);
+
+ if(LEC_Eval || cdrfile_is_physical(p_cdrfile))
  {
-  default:
-  case TRACK_FORMAT_ERROR: return(0); break;
-  case TRACK_FORMAT_AUDIO: format = CDIF_FORMAT_AUDIO; break;
-  case TRACK_FORMAT_DATA: format = CDIF_FORMAT_MODE1; break;
-  case TRACK_FORMAT_XA: format = CDIF_FORMAT_MODE2; break;
-  case TRACK_FORMAT_PSX: format = CDIF_FORMAT_PSX; break;
-  case TRACK_FORMAT_CDI: format = CDIF_FORMAT_CDI; break;
+  if(!ValidateRawSector(buf, mode == 2))
+   return(false);
  }
- return(1);
+ return(true);
 }
 
-uint32 CDIF_GetSectorCountLBA(void)
+bool CDIF_Close(void)
 {
- return(cdrfile_stat_size(p_cdrfile));
+ ReadThreadQueue->Write(CDIF_Message(CDIF_MSG_DIEDIEDIE, 0, 0, 0, 0, NULL));
+ MDFND_WaitThread(CDReadThread, NULL);
+
+ if(SectorBuffers)
+ {
+  free(SectorBuffers);
+  SectorBuffers = NULL;
+ }
+
+ if(ReadThreadQueue)
+ {
+  delete ReadThreadQueue;
+  ReadThreadQueue = NULL;
+ }
+
+ if(EmuThreadQueue)
+ {
+  delete EmuThreadQueue;
+  EmuThreadQueue = NULL;
+ }
+
+ if(SBMutex)
+ {
+  MDFND_DestroyMutex(SBMutex);
+  SBMutex = NULL;
+ }
+
+ return(1);
 }
 
 uint32 CDIF_GetTrackStartPositionLBA(int32 track)
 {
- if(track == (CD_Info.FirstTrack + CD_Info.NumTracks)) // Leadout track.
+ if(track == (toc.last_track + 1)) // Leadout track.
+  track = 100;
+ else if(track < toc.first_track || track > toc.last_track)
  {
-  uint32 lba = CD_Info.Tracks[track - 1].LSN + cdrfile_get_track_sec_count(p_cdrfile, track - 1);
-  //printf("GTSPLBA Leadout: %d\n", lba);
-  return(lba);
- }
- else if(track < CD_Info.FirstTrack || track >= (CD_Info.FirstTrack + CD_Info.NumTracks))
+  assert(0);
   return(0);
- return(CD_Info.Tracks[track].LSN);
+ }
+
+ return(toc.tracks[track].lba);
 }
 
 int CDIF_FindTrackByLBA(uint32 LBA)
 {
- for(track_t track = CD_Info.FirstTrack; track < CD_Info.FirstTrack + CD_Info.NumTracks; track++)
+ for(int32 track = toc.first_track; track <= (toc.last_track + 1); track++)
  {
-  if(LBA >= CD_Info.Tracks[track].LSN && LBA < (CD_Info.Tracks[track].LSN + cdrfile_get_track_sec_count(p_cdrfile, track)))
+  if(track == (toc.last_track + 1))
   {
-   return(track);
+   if(LBA < toc.tracks[100].lba)
+    return(track - 1);
+  }
+  else
+  {
+   if(LBA < toc.tracks[track].lba)
+    return(track - 1);
   }
  }
  return(0);
 }
 
-bool CDIF_ReadSector(uint8* pBuf, uint8 *SubPWBuf, uint32 lsn_sector, uint32 nSectors)
+bool CDIF_ReadRawSector(uint8 *buf, uint32 lba)
 {
- return(cdrfile_read_mode1_sectors(p_cdrfile, pBuf, SubPWBuf, lsn_sector, false, nSectors));
+ bool found = FALSE;
+
+ // This shouldn't happen, the emulated-system-specific CDROM emulation code should make sure the emulated program doesn't try
+ // to read past the last "real" sector of the disc.
+ if(lba >= toc.tracks[100].lba)
+ {
+  printf("Attempt to read LBA %d, >= LBA %d\n", lba, toc.tracks[100].lba);
+  return(FALSE);
+ }
+
+ ReadThreadQueue->Write(CDIF_Message(CDIF_MSG_READ_SECTOR, lba, 0, 0, 0, NULL));
+
+ do
+ {
+  MDFND_LockMutex(SBMutex);
+
+  for(int i = 0; i < SBSize; i++)
+  {
+   if(SectorBuffers[i].valid && SectorBuffers[i].lba == lba)
+   {
+    memcpy(buf, SectorBuffers[i].data, 2352 + 96);
+    found = TRUE;
+   }
+  }
+
+  MDFND_UnlockMutex(SBMutex);
+
+  if(!found)
+   MDFND_Sleep(1);
+ } while(!found);
+
+ return(TRUE);
+}
+
+bool CDIF_HintReadSector(uint32 lba)
+{
+ ReadThreadQueue->Write(CDIF_Message(CDIF_MSG_READ_SECTOR, lba, 0, 0, 0, NULL));
+
+ return(1);
+}
+
+bool CDIF_ReadSector(uint8* pBuf, uint32 lba, uint32 nSectors)
+{
+ while(nSectors--)
+ {
+  uint8 tmpbuf[2352 + 96];
+
+  if(!CDIF_ReadRawSector(tmpbuf, lba))
+  {
+   puts("CDIF Raw Read error");
+   return(FALSE);
+  }
+
+  if(!CDIF_ValidateRawSector(tmpbuf))
+  {
+   MDFN_DispMessage(_("Uncorrectable data at sector %d"), lba);
+   MDFN_PrintError(_("Uncorrectable data at sector %d"), lba);
+   return(false);
+  }
+
+  const int mode = tmpbuf[12 + 3];
+
+  if(mode == 1)
+  {
+   memcpy(pBuf, &tmpbuf[12 + 4], 2048);
+  }
+  else if(mode == 2)
+  {
+   memcpy(pBuf, &tmpbuf[12 + 4 + 8], 2048);
+  }
+  else
+  {
+   printf("CDIF_ReadSector() invalid sector type at LBA=%u\n", (unsigned int)lba);
+   return(false);
+  }
+
+  pBuf += 2048;
+  lba++;
+ }
+
+ return(true);
 }
 
 uint32 CDIF_GetTrackSectorCount(int32 track)
@@ -271,3 +487,46 @@ bool CDIF_CheckSubQChecksum(uint8 *SubQBuf)
  return(cdrfile_check_subq_checksum(SubQBuf));
 }
 
+bool CDIF_ReadTOC(CD_TOC *read_target)
+{
+ *read_target = toc;
+
+ return(TRUE);
+}
+
+
+bool CDIF_DumpCD(const char *fn)
+{
+ FILE *fp;
+
+ if(!(fp = fopen(fn, "wb")))
+ {
+  ErrnoHolder ene(errno);
+
+  printf("File open error: %s\n", ene.StrError());
+  return(0);
+ }
+
+ for(long long i = 0; i < toc.tracks[100].lba; i++)
+ {
+  uint8 buf[2352 + 96];
+
+  CDIF_ReadRawSector(buf, i);
+
+  if(fwrite(buf, 1, 2352 + 96, fp) != 2352 + 96)
+  {
+   ErrnoHolder ene(errno);
+
+   printf("File write error: %s\n", ene.StrError());
+  }
+ }
+
+ if(fclose(fp))
+ {
+  ErrnoHolder ene(errno);
+
+  printf("fclose error: %s\n", ene.StrError());
+ }
+
+ return(1);
+}

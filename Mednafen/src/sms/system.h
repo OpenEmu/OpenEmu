@@ -2,6 +2,9 @@
 #ifndef _SYSTEM_H_
 #define _SYSTEM_H_
 
+namespace MDFN_IEN_SMS
+{
+
 #define APP_NAME            "SMS Plus"
 #define APP_VERSION         "1.2"
 
@@ -44,12 +47,6 @@ typedef struct
     int width;
     int height;
     int pitch;
-    struct
-    {
-        uint8 color[PALETTE_SIZE][3];
-        uint8 dirty[PALETTE_SIZE];
-        uint8 update;
-    }pal;
 } bitmap_t;
 
 /* Global variables */
@@ -63,6 +60,8 @@ void system_reset(void);
 void system_manage_sram(uint8 *sram, int slot, int mode);
 void system_poweron(void);
 void system_poweroff(void);
+
+}
 
 #endif /* _SYSTEM_H_ */
 

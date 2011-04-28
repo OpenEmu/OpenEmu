@@ -22,12 +22,12 @@
 
 static uint8 Mirroring, PRGBanks[3], CHRBanks[6], WRAM[8192];
 static uint32 lastA;
-static int isfu;
+static bool isfu;
 static uint8 CCache[8];
+static int32 lastmc;
 
 static void Fudou_PPU(uint32 A)
 {
- static int last=-1;
  static uint8 z;
   
  if(A>=0x2000) return;
@@ -36,10 +36,10 @@ static void Fudou_PPU(uint32 A)
  lastA=A;
 
  z=CCache[A];
- if(z!=last)
+ if(z != lastmc)
  {
   setmirror(z?MI_1:MI_0);
-  last=z;
+  lastmc = z;
  }
 }
 
@@ -98,7 +98,10 @@ static int StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
-  SFVAR(Mirroring), SFARRAY(PRGBanks, 3), SFVAR(lastA),
+  SFVAR(Mirroring),
+  SFARRAY(PRGBanks, 3),
+  SFVAR(lastA),
+  SFVAR(lastmc),
   SFARRAY(CHRBanks, 6),
   SFEND
  };
@@ -117,6 +120,7 @@ static int StateAction(StateMem *sm, int load, int data_only)
 static void Power(CartInfo *info)
 {
  int x;
+
  for(x = 0; x < 6; x++)
   CHRBanks[x] = 0;
 
@@ -125,6 +129,7 @@ static void Power(CartInfo *info)
 
  Mirroring = 0;
  lastA = 0;
+ lastmc = -1;
 
  setprg8(0xe000, ~0);
  DoPRG();
@@ -144,7 +149,7 @@ int Mapper80_Init(CartInfo *info)
  SetWriteHandler(0x6000, 0x7eef, CartBW);
  SetWriteHandler(0x7f00, 0x7fff, CartBW);
  SetReadHandler(0x6000, 0xFFFF, CartBR);
- isfu=0;
+ isfu = false;
  SetupCartPRGMapping(0x10, WRAM, 8192, 1); // For Minelvation Saga, at least.  Total amount of RAM on the actual board is unknown, though...
 
  if(info->battery)
@@ -158,7 +163,7 @@ int Mapper80_Init(CartInfo *info)
 int Mapper207_Init(CartInfo *info)
 {
  Mapper80_Init(info);
- isfu=1;
+ isfu = true;
  PPU_hook=Fudou_PPU;
 
  return(1);

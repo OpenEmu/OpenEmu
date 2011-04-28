@@ -48,12 +48,11 @@
 //#include <crtdbg.h>
 //#define   TRACE_RAM
 
-#include <string.h>
 #include "system.h"
 #include "ram.h"
 #include "../mempatcher.h"
 
-CRam::CRam(uint8 *filememory,uint32 filesize)
+CRam::CRam(const uint8 *filememory,uint32 filesize)
 {
 	HOME_HEADER	header;
 

@@ -247,8 +247,8 @@ int AddToList(char *text, uint32 id)
 
 typedef struct MENU {
 	const char *text;
-	void *action;
-	int type;	// 0 for menu, 1 for function.
+	void (*func_action)(void);
+	struct MENU *menu_action;
 } MENU;
 
 static void SetOC(void)
@@ -599,94 +599,102 @@ static void DoSearch(void)
 
 static void DoMenu(MENU *men, bool topmost = 0)
 {
- int x=0;
+ bool MenuLoop = TRUE;
 
- redisplay:
- x=0;
- CHEAT_puts("");
- while(men[x].text)
+ while(MenuLoop)
  {
-  CHEAT_printf("%d) %s",x+1,men[x].text);
-  x++;
- }
- CHEAT_puts("D) Display Menu");
- if(!topmost)
-  CHEAT_puts("X) Return to Previous");
+  int x = 0;
 
- {
-  char buf[32];
-  int c;
+  CHEAT_puts("");
 
-  recommand:
-  CHEAT_printf("Command> ");
-  CHEAT_gets(buf,32);
-  c=tolower(buf[0]);
-  if(c == 0)
-   goto recommand;
-  else if(c=='d')
-   goto redisplay;
-  else if(c=='x' && !topmost)
+  while(men[x].text)
   {
-   return;
+   CHEAT_printf("%d) %s",x+1,men[x].text);
+   x++;
   }
-  else if(trio_sscanf(buf,"%d",&c))
+
+  CHEAT_puts("D) Display Menu");
+
+  if(!topmost)
+   CHEAT_puts("X) Return to Previous");
+
+  bool CommandLoop = TRUE;
+
+  while(CommandLoop)
   {
-   if(c>x) goto invalid;
-   if(men[c-1].type)
+   char buf[32];
+   int c, c_numeral;
+
+   CHEAT_printf("Command> ");
+   CHEAT_gets(buf,32);
+
+   c = tolower(buf[0]);
+   if(c == 0)
+    continue;
+   else if(c == 'd')
    {
-    void (*func)(void)=(void(*)())men[c-1].action;
-    func();
+    CommandLoop = FALSE;
+   }
+   else if(c == 'x' && !topmost)
+   {
+    CommandLoop = FALSE;
+    MenuLoop = FALSE;
+   }
+   else if(trio_sscanf(buf, "%d", &c_numeral) == 1 && c_numeral <= x && c_numeral >= 1)
+   {
+    assert(!(men[c_numeral - 1].func_action && men[c_numeral - 1].menu_action));
+
+    if(men[c_numeral - 1].func_action)
+     men[c_numeral - 1].func_action();
+    else if(men[c_numeral - 1].menu_action)
+     DoMenu(men[c_numeral - 1].menu_action);	/* Mmm...recursivey goodness. */
+
+    CommandLoop = FALSE;
    }
    else
-    DoMenu((MENU*)men[c-1].action);	/* Mmm...recursivey goodness. */
-   goto redisplay;
-  }
-  else
-  {
-   invalid:
-   CHEAT_puts("Invalid command.");
-   goto recommand;
-  }
-
- }
+   {
+    CHEAT_puts("Invalid command.");
+   }
+  } // while(CommandLoop)
+ } // while(MenuLoop)
 }
 
 int CheatLoop(void *arg)
 {
  MENU NewCheatsMenuNES[] =
  {
-  {"Add Cheat",(void *)AddCheat, 1},
-  {"Reset Search",(void *)ResetSearch, 1},
-  {"Do Search",(void *)DoSearch, 1},
-  {"Set Original to Current",(void *)SetOC, 1},
-  {"Unhide Excluded",(void *)UnhideEx, 1},
-  {"Show Results",(void *)ShowRes, 1},
-  {"Add Game Genie Cheat",(void *)AddCheatGG, 1},
-  {"Add PAR Cheat",(void *)AddCheatPAR, 1},
-  {0}
+  { "Add Cheat", AddCheat, NULL },
+  { "Reset Search", ResetSearch, NULL },
+  { "Do Search", DoSearch, NULL },
+  { "Set Original to Current", SetOC, NULL },
+  { "Unhide Excluded", UnhideEx, NULL },
+  { "Show Results", ShowRes, NULL },
+  { "Add Game Genie Cheat", AddCheatGG, NULL },
+  { "Add PAR Cheat", AddCheatPAR, NULL },
+  { NULL }
  };
 
  MENU NewCheatsMenuGB[] =
  {
-  {"Add Cheat",(void *)AddCheat, 1},
-  {"Reset Search",(void *)ResetSearch, 1},
-  {"Do Search",(void *)DoSearch, 1},
-  {"Set Original to Current",(void *)SetOC, 1},
-  {"Unhide Excluded",(void *)UnhideEx, 1},
-  {"Show Results",(void *)ShowRes, 1},
-  {"Add Game Genie Cheat",(void *)AddCheatGG, 1},
-  {0}
+  { "Add Cheat", AddCheat, NULL },
+  { "Reset Search", ResetSearch, NULL },
+  { "Do Search", DoSearch, NULL },
+  { "Set Original to Current", SetOC, NULL },
+  { "Unhide Excluded", UnhideEx, NULL },
+  { "Show Results", ShowRes, NULL },
+  { "Add Game Genie Cheat", AddCheatGG, NULL },
+  { NULL }
  };
 
  MENU NewCheatsMenu[] =
  {
-  {"Add Cheat",(void *)AddCheat, 1},
-  {"Reset Search",(void *)ResetSearch, 1},
-  {"Do Search",(void *)DoSearch, 1},
-  {"Set Original to Current",(void *)SetOC, 1},
-  {"Unhide Excluded",(void *)UnhideEx, 1},
-  {"Show Results",(void *)ShowRes, 1},
-  {0}
+  { "Add Cheat", AddCheat, NULL },
+  { "Reset Search", ResetSearch, NULL },
+  { "Do Search", DoSearch, NULL },
+  { "Set Original to Current", SetOC, NULL },
+  { "Unhide Excluded", UnhideEx, NULL },
+  { "Show Results", ShowRes, NULL },
+  { NULL }
  };
 
  MENU *thenewcm = NewCheatsMenu;
@@ -697,9 +705,9 @@ int CheatLoop(void *arg)
   thenewcm = NewCheatsMenuGB;
 
  MENU MainMenu[] = {
-  {"List Cheats",(void *)ListCheats,1},
-  {"New Cheats...",(void *)thenewcm,0},
-  {0}
+  { "List Cheats", ListCheats, NULL },
+  { "New Cheats...", NULL, thenewcm },
+  { NULL }
  };
 
  DoMenu(MainMenu, 1);

@@ -1,6 +1,6 @@
 /*************************************************************************
  *
- * $Id: triostr.c,v 1.30 2005/11/26 14:47:54 breese Exp $
+ * $Id: triostr.c,v 1.36 2010/01/26 13:02:02 breese Exp $
  *
  * Copyright (C) 2001 Bjorn Reese and Daniel Stenberg.
  *
@@ -100,15 +100,21 @@
 
 #if defined(TRIO_PLATFORM_WIN32)
 # define USE_STRCASECMP
-# define strcasecmp(x,y) strcmpi(x,y)
+# if defined(TRIO_PLATFORM_WINCE)
+#  define strcasecmp(x,y) _stricmp(x,y)
+# else
+#  define strcasecmp(x,y) strcmpi(x,y)
+# endif
 #endif
 
-#if !(defined(TRIO_PLATFORM_SUNOS))
-# define USE_TOLOWER
-# define USE_TOUPPER
+#if !defined(HAVE_CONFIG_H)
+# if !(defined(TRIO_PLATFORM_SUNOS))
+#  define HAVE_TOLOWER
+#  define HAVE_TOUPPER
+# endif
 #endif
 
-#if defined(USE_MATH)
+#if defined(USE_MATH) && !defined(TRIO_NO_POWL)
 # if !defined(HAVE_POWL)
 #  if defined(PREDEF_STANDARD_C99) \
    || defined(PREDEF_STANDARD_UNIX03)
@@ -154,7 +160,7 @@ struct _trio_string_t
  */
 
 #if !defined(TRIO_EMBED_STRING)
-static TRIO_CONST char rcsid[] = "@(#)$Id: triostr.c,v 1.30 2005/11/26 14:47:54 breese Exp $";
+static TRIO_CONST char rcsid[] = "@(#)$Id: triostr.c,v 1.36 2010/01/26 13:02:02 breese Exp $";
 #endif
 
 /*************************************************************************
@@ -267,7 +273,8 @@ TRIO_ARGS2((self, delta),
  * used (that is, the size of the string is never decreased).
  */
 #if defined(TRIO_FUNC_STRING_APPEND) \
- || defined(TRIO_FUNC_XSTRING_APPEND)
+ || defined(TRIO_FUNC_XSTRING_APPEND) \
+ || defined(TRIO_FUNC_XSTRING_APPEND_MAX)
 
 TRIO_PRIVATE_STRING BOOLEAN_T
 internal_string_grow_to
@@ -290,7 +297,7 @@ internal_to_upper
 TRIO_ARGS1((source),
 	   int source)
 {
-# if defined(USE_TOUPPER)
+# if defined(HAVE_TOUPPER)
   
   return toupper(source);
   
@@ -359,6 +366,33 @@ TRIO_ARGS1((string),
 	   TRIO_CONST char *string)
 {
   return strlen(string);
+}
+
+#endif
+
+/**
+   Count at most @p max characters in a string.
+
+   @param string String to measure.
+   @param max Maximum number of characters to count.
+   @return The maximum value of @p max and number of characters in @p string.
+*/
+#if defined(TRIO_FUNC_LENGTH_MAX)
+
+TRIO_PUBLIC_STRING size_t
+trio_length_max
+TRIO_ARGS2((string, max),
+	   TRIO_CONST char *string,
+	   size_t max)
+{
+  size_t i;
+
+  for (i = 0; i < max; ++i)
+    {
+      if (string[i] == 0)
+	break;
+    }
+  return i;
 }
 
 #endif
@@ -486,15 +520,19 @@ TRIO_ARGS2((target, source),
 #endif
 
 /**
-   Copy at most @p max characters from @p source to @p target.
+   Copy at most @p max - 1 characters from @p source to @p target.
    
    @param target Target string.
-   @param max Maximum number of characters to append.
+   @param max Maximum number of characters to append (one of which is
+   a NUL terminator).  In other words @p source must point to at least
+   @p max - 1 bytes, but @p target must point to at least @p max
+   bytes.
    @param source Source string.
    @return Boolean value indicating success or failure.
    
    @pre @p target must point to a memory chunk with sufficient room to
-   contain the @p source string (at most @p max characters).
+   contain the @p source string and a NUL terminator (at most @p max
+   bytes total).
    @pre No boundary checking is performed, so insufficient memory will
    result in a buffer overrun.
    @post @p target will be zero terminated.
@@ -812,7 +850,7 @@ TRIO_ARGS4((target, max, format, datetime),
   assert(format);
   assert(datetime);
   assert(max > 0);
-  
+
   return strftime(target, max, format, datetime);
 }
 
@@ -1394,7 +1432,7 @@ trio_to_lower
 TRIO_ARGS1((source),
 	   int source)
 {
-# if defined(USE_TOLOWER)
+# if defined(HAVE_TOLOWER)
   
   return tolower(source);
   
@@ -1558,7 +1596,7 @@ TRIO_ARGS1((self),
    number of characters from the ending of the string, starting at the
    terminating zero, is returned.
 */
-#if defined(TRIO_FUNCT_STRING_GET)
+#if defined(TRIO_FUNC_STRING_GET)
 
 TRIO_PUBLIC_STRING char *
 trio_string_get
@@ -1771,6 +1809,41 @@ TRIO_ARGS2((self, character),
     }
   self->content[self->length] = character;
   self->length++;
+  return TRUE;
+  
+ error:
+  return FALSE;
+}
+
+#endif
+
+/*
+ * trio_xstring_append_max
+ */
+#if defined(TRIO_FUNC_XSTRING_APPEND_MAX)
+
+TRIO_PUBLIC_STRING int
+trio_xstring_append_max
+TRIO_ARGS3((self, other, max),
+	   trio_string_t *self,
+	   TRIO_CONST char *other,
+           size_t max)
+{
+  size_t length;
+  
+  assert(self);
+  assert(other);
+
+  length = self->length + trio_length_max(other, max);
+  if (!internal_string_grow_to(self, length))
+    goto error;
+
+  /*
+   * Pass max + 1 since trio_copy_max copies one character less than
+   * this from the source to make room for a terminating zero.
+   */
+  trio_copy_max(&self->content[self->length], max + 1, other);
+  self->length = length;
   return TRUE;
   
  error:

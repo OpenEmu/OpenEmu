@@ -9,15 +9,15 @@ int NetplayStart(const char *PortDeviceCache[16], const uint32 PortDataLenCache[
 
 extern int MDFNnetplay;
 
-#define MDFNNPCMD_RESET 	0x01
-#define MDFNNPCMD_POWER 	0x02
+#define MDFNNPCMD_RESET 	MDFN_MSC_RESET
+#define MDFNNPCMD_POWER 	MDFN_MSC_POWER
 
-#define MDFNNPCMD_VSUNICOIN     0x07
-#define MDFNNPCMD_VSUNIDIP0	0x08
-#define MDFNNPCMD_FDSINSERTx	0x10
-#define MDFNNPCMD_FDSINSERT	0x18
-#define MDFNNPCMD_FDSEJECT	0x19
-#define MDFNNPCMD_FDSSELECT	0x1A
+#define MDFNNPCMD_VSUNICOIN     MDFN_MSC_INSERT_COIN
+#define MDFNNPCMD_VSUNIDIP0	MDFN_MSC_TOGGLE_DIP0
+#define MDFNNPCMD_FDSINSERTx	MDFN_MSC_INSERT_DISK0
+#define MDFNNPCMD_FDSINSERT	MDFN_MSC_INSERT_DISK
+#define MDFNNPCMD_FDSEJECT	MDFN_MSC_EJECT_DISK
+#define MDFNNPCMD_FDSSELECT	MDFN_MSC_SELECT_DISK
 
 #define MDFNNPCMD_SETFPS        0x40 /* Sent from client to server ONLY(it should be ignored server-side if it's not from the first
                                         active player for the game). */
@@ -30,11 +30,19 @@ extern int MDFNnetplay;
 
 #define MDFNNPCMD_SETSETTING	0x91 /* TODO:  WIP */
 
+#define MDFNNPCMD_SERVERTEXT	0x93 // Server text message(informational), server->client
+#define MDFNNPCMD_ECHO		0x94 // Echos the string(no larger than 256 bytes) back to the client(used for pinging).
+
+#define MDFNNPCMD_INTEGRITY	0x95 // Send from a client to a server, then from the server to all clients.
+#define MDFNNPCMD_INTEGRITY_RES	0x96 // Integrity result, sent from the clients to the server.  The result should be no larger
+				     // than 256 bytes.
+
 #define MDFNNPCMD_SETNICK       0x98 /* Sent from client to server only. */
 
 #define MDFNNPCMD_PLAYERJOINED	0xA0	// Data:  <byte: bitmask, which inputs this player controls>
 					//	  <bytestream: nickname>
 #define MDFNNPCMD_PLAYERLEFT	0xA1	// Data: (see above)
+
 #define MDFNNPCMD_YOUJOINED     0xB0
 #define MDFNNPCMD_YOULEFT       0xB1
 

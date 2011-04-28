@@ -22,10 +22,20 @@ typedef struct
 
 typedef struct
 {
-	uint32_t totalsize;	/* Shouldn't be filled in by application code. */
-	uint32_t ms;		/* Milliseconds of buffering, approximate. */
+	/* Inputs(requested) and Outputs(obtained) */
+	uint32_t ms;		/* Desired buffer size, in milliseconds. */
+	uint32_t period_us;	/* Desired period size, in MICROseconds */
 
-	uint32_t latency;	/* Estimated latency between Write() and sound output, in frames. */
+	/* Outputs Only(obtained) */
+	uint32_t buffer_size;	/* Buffer size(as in the maximum value returned by CanWrite()). In frames. */
+	uint32_t period_size;	/* Period/Fragment size.  In frames. */
+	uint32_t latency;	/* Estimated total latency(between first Write() and actual sound output; essentially equal to the maximum value of
+				   CanWrite() plus any additional internal or external buffering). In frames. */
+
+        //uint32_t ms;            /* Milliseconds of buffering, approximate(application code should set this value to control buffer size). */
+	//uint32_t period_time;	/* If non-zero, specifies the desired period/fragment size, in frames. */
+	//uint32_t size;		/* Shouldn't be filled in by application code. */
+	//uint32_t latency;	/* Estimated latency between Write() and sound output, in frames. */
 } SexyAL_buffering;
 
 
@@ -164,4 +174,5 @@ void *SexyAL_Init(int version);
 
 /* Utility functions: */
 uint32_t SexyAL_rupow2(uint32_t v);
+int32_t SexyAL_rnearestpow2(int32_t v, bool round_halfway_up = true);
 int64_t SexyAL_Time64(void);

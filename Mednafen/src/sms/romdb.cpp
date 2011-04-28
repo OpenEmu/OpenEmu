@@ -1,6 +1,9 @@
 #include "shared.h"
 #include "romdb.h"
 
+namespace MDFN_IEN_SMS
+{
+
 static const rominfo_t game_list[] = {
     {0x29822980, MAPPER_CODIES, DISPLAY_PAL, TERRITORY_EXPORT, -1, "Cosmic Spacehead"},
     {0xB9664AE1, MAPPER_CODIES, DISPLAY_PAL, TERRITORY_EXPORT, -1, "Fantastic Dizzy"},
@@ -32,3 +35,4 @@ const rominfo_t *find_rom_in_db(uint32 crc)
  return(NULL);
 }
 
+}

@@ -21,7 +21,6 @@
 #include <stdarg.h>
 #include <zlib.h>
 
-#include "endian.h"
 #include "file.h"
 #include "psf.h"
 #include "general.h"
@@ -182,33 +181,38 @@ static PSFINFO *LoadPSF(void (*datafunc)(void *, uint32), MDFNFILE *fp, int leve
         psfi->stop=~0;
         psfi->fade=0; 
 
-        MDFN_fread(&reserved,1,4,fp);
-        MDFN_fread(&complen,1,4,fp);
+        fp->fread(&reserved, 1, 4);
+        fp->fread(&complen, 1, 4);
 
 	#ifdef MSB_FIRST
 	FlipByteOrder((uint8*)&complen, sizeof(complen));
 	#endif
 
-        MDFN_fread(&crc32,1,4,fp);
+        fp->fread(&crc32, 1, 4);
+
         #ifdef MSB_FIRST
         FlipByteOrder((uint8*)&crc32, sizeof(crc32));
         #endif
 
-        MDFN_fseek(fp,reserved,SEEK_CUR);
+        fp->fseek(reserved, SEEK_CUR);
 
         if(type)
-	 MDFN_fseek(fp,complen,SEEK_CUR);
+	 fp->fseek(complen,SEEK_CUR);
         else
         {
          in=(char *)malloc(complen);
 	 out = (char *)malloc(1024 * 1024 * 32 + 12);
          //out=(char *)malloc(1024*1024*2+0x800);
-         MDFN_fread(in,1,complen,fp);
+         fp->fread(in,1,complen);
          outlen=1024 * 1024 * 32 + 12; //1024*1024*2;
 	 int t = uncompress((Bytef *)out,&outlen,(const Bytef*)in,complen);
          free(in);
 
-	 if(t) exit(1); //return(0);
+	 if(t) 
+	 {
+	  printf("Decompress error?\n");	// FIXME(verbose, correct error output)
+	  return(0);
+	 }
 
  	 if(level)
  	 {
@@ -219,13 +223,13 @@ static PSFINFO *LoadPSF(void (*datafunc)(void *, uint32), MDFNFILE *fp, int leve
 
         {
          uint8 tagdata[5];
-         if(MDFN_fread(tagdata,1,5,fp)==5)
+         if(fp->fread(tagdata, 1, 5) == 5)
          {
           if(!memcmp(tagdata,"[TAG]",5))
           {
            char linebuf[1024];
 
-           while(MDFN_fgets(linebuf,1024,fp)>0)
+           while(fp->fgets(linebuf, 1024) > 0)
            {
             int x;
 	    char *key=0,*value=0;
@@ -256,29 +260,30 @@ static PSFINFO *LoadPSF(void (*datafunc)(void *, uint32), MDFNFILE *fp, int leve
 
 	    if(!strcasecmp(key,"_lib") && !type)
 	    {
-	     MDFNFILE *tmpfp;
+	     MDFNFILE tmpfp;
 	     /* Load file name "value" from the directory specified in
 		the full path(directory + file name) "path"
 	     */
-	     tmpfp = MDFN_fopen(MDFN_MakeFName(MDFNMKF_AUX, 0, value).c_str(), NULL, "rb", NULL);
-	     if(!tmpfp)
+	     if(!tmpfp.Open(MDFN_MakeFName(MDFNMKF_AUX, 0, value).c_str(), NULL, NULL))
 	     {
 	      FreeTags(psfi->tags);
 	      free(psfi);
 	      return(0);
 	     }
-	     MDFN_fseek(tmpfp,4,SEEK_SET);
-	     if(!(tmpi=LoadPSF(datafunc, tmpfp,level+1,0))) 
+
+	     tmpfp.fseek(4, SEEK_SET);
+
+	     if(!(tmpi = LoadPSF(datafunc, &tmpfp, level + 1, 0))) 
 	     {
 	      free(key);
 	      free(value);
  	      if(!level) free(out);
-	      MDFN_fclose(tmpfp);
+	      tmpfp.Close();
 	      FreeTags(psfi->tags);
 	      free(psfi);
 	      return(0);
 	     }
-	     MDFN_fclose(tmpfp);
+	     tmpfp.Close();
 	     FreeTags(tmpi->tags);
 	     free(tmpi);
 	    }
@@ -325,14 +330,15 @@ static PSFINFO *LoadPSF(void (*datafunc)(void *, uint32), MDFNFILE *fp, int leve
 	   tag=tag->next;
 	  }
 	  qsort(cache, libncount, sizeof(LIBNCACHE), ccomp);
-	  for(cur=0;cur<libncount;cur++)
+	  for(cur = 0; cur < libncount; cur++)
 	  {
  	   if(cache[cur].num < 2) continue;
 
-	   MDFNFILE *tmpfp;
-           tmpfp = MDFN_fopen(MDFN_MakeFName(MDFNMKF_AUX, 0, cache[cur].value).c_str(), NULL, "rb", NULL);
+	   MDFNFILE tmpfp;
 
-           if(!(tmpi=LoadPSF(datafunc, tmpfp,level+1,0)))
+           tmpfp.Open(MDFN_MakeFName(MDFNMKF_AUX, 0, cache[cur].value).c_str(), NULL, NULL);
+
+           if(!(tmpi = LoadPSF(datafunc, &tmpfp, level + 1, 0)))
            {
             //free(key);
             //free(value);
@@ -371,7 +377,7 @@ int MDFNPSF_Load(int desired_version, MDFNFILE *fp, PSFINFO **info, void (*dataf
 	version = fp->data[3];
 	if(desired_version != version) return(-1);
 
-	MDFN_fseek(fp, 4, SEEK_SET);
+	fp->fseek(4, SEEK_SET);
 
 	if(!(pi=LoadPSF(datafunc, fp,0,0)))
 	 return(0);

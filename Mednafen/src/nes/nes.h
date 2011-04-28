@@ -1,16 +1,16 @@
 #ifndef _NES_H
 #define _NES_H
 
-#include "../types.h"
 #include "../mednafen.h"
-#include "../endian.h"
 #include "../state.h"
 #include "../movie.h"
 #include "../general.h"
-#include "../memory.h"
 #include "../file.h"
 #include "../md5.h"
 #include "../video.h"
+
+typedef void (*writefunc)(uint32 A, uint8 V);
+typedef uint8 (*readfunc)(uint32 A);
 
 void ResetMapping(void);
 void ResetNES(void);
@@ -39,15 +39,13 @@ void ResetGameLoaded(void);
 #define DECLFR(x) uint8 x (uint32 A)
 #define DECLFW(x) void x (uint32 A, uint8 V)
 
-void MDFN_MemoryRand(uint8 *ptr, uint32 size);
+DECLFR(ANull);
+DECLFW(BNull);
+
 void SetReadHandler(int32 start, int32 end, readfunc func, bool snc = 1);
 void SetWriteHandler(int32 start, int32 end, writefunc func);
 writefunc GetWriteHandler(int32 a);
 readfunc GetReadHandler(int32 a);
-
-int AllocGenieRW(void);
-void FlushGenieRW(void);
-
 
 typedef struct
 {

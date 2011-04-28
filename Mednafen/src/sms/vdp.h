@@ -2,6 +2,9 @@
 #ifndef _VDP_H_
 #define _VDP_H_
 
+namespace MDFN_IEN_SMS
+{
+
 /*
     vdp1
 
@@ -24,7 +27,12 @@
 /* VDP context */
 typedef struct
 {
-    uint8 vram[0x4000];
+    union
+    {
+     uint8 vram[0x4000];
+     uint16 vram16[0x2000];
+    };
+
     uint8 cram[0x40]; 
     uint8 reg[0x10];
     uint8 status;     
@@ -66,9 +74,10 @@ void tms_write(int offset, int data);
 
 
 void SMS_VDPRunFrame(int skip_render);
-void SMS_VDPSetPixelFormat(int, int, int);
+void SMS_VDPSetPixelFormat(const MDFN_PixelFormat &format);
 int SMS_VDPStateAction(StateMem *sm, int load, int data_only);
 
+}
 
 #endif /* _VDP_H_ */
 

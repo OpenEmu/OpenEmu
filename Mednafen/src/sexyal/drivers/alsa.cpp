@@ -33,12 +33,21 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <alsa/asoundlib.h>
 #include <unistd.h>
 
+#ifndef FALSE
+#define FALSE 0
+#endif
+
+#ifndef TRUE
+#define TRUE 1
+#endif
+
 typedef struct
 {
 	snd_pcm_t *alsa_pcm;
 
 	uint32_t period_size;
 	int interleaved;
+	//bool heavy_sync;
 } ADStruct;
 
 
@@ -70,17 +79,17 @@ static int RawCanWrite(SexyAL_device *device, uint32_t *can_write)
 {
  ADStruct *ads = (ADStruct *)device->private_data;
  uint32_t ret;
- snd_pcm_sframes_t delay;
+ snd_pcm_sframes_t avail;
 
 
- while(snd_pcm_delay(ads->alsa_pcm, &delay) < 0)
+ while(/*(ads->heavy_sync && snd_pcm_hwsync(ads->alsa_pcm) < 0) ||*/ (avail = snd_pcm_avail_update(ads->alsa_pcm)) < 0)
  {
-  // If the call to snd_pcm_delay() fails, try to figure out the status of the PCM stream and take the best action.
+  // If the call to snd_pcm_avail() fails, try to figure out the status of the PCM stream and take the best action.
   switch(snd_pcm_state(ads->alsa_pcm))
   {
    // This shouldn't happen, but in case it does...
    default: //puts("What1?"); 
-	    *can_write = device->buffering.totalsize;
+	    *can_write = device->buffering.buffer_size * (device->format.sampformat >> 4) * device->format.channels;
 	    return(1);
 
    //default: break;
@@ -90,7 +99,7 @@ static int RawCanWrite(SexyAL_device *device, uint32_t *can_write)
    case SND_PCM_STATE_PAUSED:
    case SND_PCM_STATE_DRAINING:
    case SND_PCM_STATE_OPEN:
-   case SND_PCM_STATE_DISCONNECTED: *can_write = device->buffering.totalsize;
+   case SND_PCM_STATE_DISCONNECTED: *can_write = device->buffering.buffer_size * (device->format.sampformat >> 4) * device->format.channels;
 				    return(1);
 
    case SND_PCM_STATE_SETUP:
@@ -98,12 +107,12 @@ static int RawCanWrite(SexyAL_device *device, uint32_t *can_write)
    case SND_PCM_STATE_XRUN:
 			   //puts("XRun1");
 			   snd_pcm_prepare(ads->alsa_pcm);
-			   *can_write = device->buffering.totalsize;
+			   *can_write = device->buffering.buffer_size * (device->format.sampformat >> 4) * device->format.channels;
 			   return(1);
   }
  }
 
- ret = device->buffering.totalsize - delay;
+ ret = avail * (device->format.sampformat >> 4) * device->format.channels;
 
  if(ret < 0)
   ret = 0;
@@ -122,6 +131,13 @@ static int RawWrite(SexyAL_device *device, const void *data, uint32_t len)
  #if 0
  RawCanWrite(device);
  #endif
+
+ 
+ //if(ads->heavy_sync)
+ //{
+ // uint32_t cw;
+ // while(RawCanWrite(device, &cw) > 0 && ((int)cw) < len) usleep(750);
+ //}
 
  while(len > 0)
  {
@@ -294,15 +310,30 @@ SexyAL_device *SexyALI_ALSA_Open(const char *id, SexyAL_format *format, SexyAL_b
  snd_pcm_hw_params_t *hw_params = NULL;
  snd_pcm_sw_params_t *sw_params = NULL;
  int interleaved = 1;
- int des_ps;
-
+ int desired_pt;		// Desired period time, in MICROseconds.
+ int desired_buffertime;	// Desired buffer time, in milliseconds
+ //bool heavy_sync = FALSE;
  snd_pcm_format_t sampformat;
+
+
+ desired_pt = buffering->period_us ? buffering->period_us : 1250;	// 1.25 milliseconds
+ desired_buffertime = buffering->ms ? buffering->ms : 32; 		// 32 milliseconds
+
+ // Try to force at least 2 channels...
+ if(format->channels < 2)
+  format->channels = 2;
+
+ //...and at least >= 16-bit samples.  Doing so will allow us to achieve lower period sizes(since minimum period sizes in the ALSA core
+ // are expressed in bytes).
+ if(format->sampformat == SEXYAL_FMT_PCMU8 || format->sampformat == SEXYAL_FMT_PCMS8)
+  format->sampformat = SEXYAL_FMT_PCMS16;
+
+
+ sampformat = Format_SexyAL_to_ALSA(format->sampformat);
 
  ALSA_TRY(snd_pcm_open(&alsa_pcm, id ? id : "hw:0", SND_PCM_STREAM_PLAYBACK, 0));
  ALSA_TRY(snd_pcm_hw_params_malloc(&hw_params));
  ALSA_TRY(snd_pcm_sw_params_malloc(&sw_params));
-
- sampformat = Format_SexyAL_to_ALSA(format->sampformat);
 
  ALSA_TRY(snd_pcm_hw_params_any(alsa_pcm, hw_params));
  ALSA_TRY(snd_pcm_hw_params_set_periods_integer(alsa_pcm, hw_params));
@@ -376,25 +407,43 @@ SexyAL_device *SexyALI_ALSA_Open(const char *id, SexyAL_format *format, SexyAL_b
   ALSA_TRY(snd_pcm_hw_params_set_channels(alsa_pcm, hw_params, format->channels));
  }
 
- des_ps = 128;
-
- if(format->rate <= 24000)
+ // Limit desired_buffertime to what the sound card is capable of at this playback rate.
  {
-  des_ps >>= 1;
-  if(format->rate <= 12000)
-   des_ps >>= 1;
+  unsigned int btm = 0;
+  int dir = 0;
+  ALSA_TRY(snd_pcm_hw_params_get_buffer_time_max(hw_params, &btm, &dir));
+
+  // btm > 32 may be unnecessary, but it's there in case ALSA returns a bogus value far too small...
+  if(btm > 32 && desired_buffertime > btm)
+   desired_buffertime = btm;
+
+  //printf("BTM: %d\n", btm);
  }
-
- if(snd_pcm_hw_params_set_period_size(alsa_pcm, hw_params, des_ps, 0) < 0)
  {
-  //puts("Zoom");
-  if(snd_pcm_hw_params_set_period_size(alsa_pcm, hw_params, des_ps * 2, 0) < 0)
+  int dir = 0;
+  unsigned int max_periods;
+
+  ALSA_TRY(snd_pcm_hw_params_get_periods_max(hw_params, &max_periods, &dir));
+  if(((int64_t)desired_pt * max_periods) < ((int64_t)1000 * desired_buffertime))
   {
-   puts("ALSA Warning:  Could not set period size to a nice value. :(");
+   //puts("\nHRMMM. max_periods is not large enough to meet desired buffering size at desired period time.\n");
+   desired_pt = 1000 * desired_buffertime / max_periods;
+
+   if(desired_pt > 5400)
+    desired_pt = 5400;
   }
+  //printf("Max Periods: %d\n", max_periods);
  }
+
+ {
+  snd_pcm_uframes_t tmpps = (int64_t)desired_pt * format->rate / (1000 * 1000);
+  int dir = 0;
+
+  snd_pcm_hw_params_set_period_size_near(alsa_pcm, hw_params, &tmpps, &dir);
+ }
+
  snd_pcm_uframes_t tmp_uft;
- tmp_uft = buffering->ms * format->rate / 1000;
+ tmp_uft = desired_buffertime * format->rate / 1000;
  ALSA_TRY(snd_pcm_hw_params_set_buffer_size_near(alsa_pcm, hw_params, &tmp_uft));
 
  ALSA_TRY(snd_pcm_hw_params(alsa_pcm, hw_params));
@@ -414,12 +463,11 @@ SexyAL_device *SexyALI_ALSA_Open(const char *id, SexyAL_format *format, SexyAL_b
  ALSA_TRY(snd_pcm_sw_params(alsa_pcm, sw_params));
  snd_pcm_sw_params_free(sw_params);
 
-
  buffer_size = period_size * periods;
 
- buffering->totalsize = buffer_size;
- buffering->ms = buffering->totalsize * 1000 / format->rate;
- buffering->latency = buffering->totalsize;
+ buffering->period_size = period_size;
+ buffering->buffer_size = buffer_size;
+ buffering->latency = buffering->buffer_size;
 
  device = (SexyAL_device *)calloc(1, sizeof(SexyAL_device));
  ads = (ADStruct *)calloc(1, sizeof(ADStruct));
@@ -427,6 +475,7 @@ SexyAL_device *SexyALI_ALSA_Open(const char *id, SexyAL_format *format, SexyAL_b
  ads->alsa_pcm = alsa_pcm;
  ads->period_size = period_size;
  ads->interleaved = interleaved;
+ //ads->heavy_sync = heavy_sync;
 
  device->private_data = ads;
  device->RawWrite = RawWrite;

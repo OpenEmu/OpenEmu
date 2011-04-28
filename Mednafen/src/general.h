@@ -3,11 +3,12 @@
 
 #include <string>
 
+extern uint32 MDFN_RoundUpPow2(uint32);
+
 void GetFileBase(const char *f);
-extern uint32 uppow2(uint32 n);
 
 std::string MDFN_MakeFName(int type, int id1, const char *cd1);
-char *MDFN_FixString(char *str);
+char *MDFN_RemoveControlChars(char *str);
 
 void MDFN_ltrim(char *string);
 void MDFN_rtrim(char *string);
@@ -19,15 +20,13 @@ typedef enum
  MDFNMKF_SNAP,
  MDFNMKF_SAV,
  MDFNMKF_CHEAT,
- MDFNMKF_FDSROM,
  MDFNMKF_PALETTE,
- MDFNMKF_GGROM,
  MDFNMKF_IPS,
  MDFNMKF_MOVIE,
  MDFNMKF_AUX,
- MDFNMKF_LYNXROM,
  MDFNMKF_SNAP_DAT,
  MDFNMKF_CHEAT_TMP,
+ MDFNMKF_FIRMWARE
 } MakeFName_Type;
 
 std::string MDFN_MakeFName(MakeFName_Type type, int id1, const char *cd1);

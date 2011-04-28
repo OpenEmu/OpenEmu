@@ -53,9 +53,6 @@ static DECLFW(SuperHi)
 
 static void SuperReset(CartInfo *info)
 {
- SetWriteHandler(0x6000,0x7FFF,SuperWrite);
- SetWriteHandler(0x8000,0xFFFF,SuperHi);
- SetReadHandler(0x6000,0xFFFF,CartBR);  
  latch[0] = latch[1] = 0;
  setprg32r(4,0x8000,0);
  setchr8(0);
@@ -78,5 +75,10 @@ int Supervision16_Init(CartInfo *info)
 {
  info->Power=SuperReset;
  info->StateAction = StateAction;
+
+ SetWriteHandler(0x6000,0x7FFF,SuperWrite);
+ SetWriteHandler(0x8000,0xFFFF,SuperHi);
+ SetReadHandler(0x6000,0xFFFF,CartBR);
+
  return(1);
 }

@@ -53,9 +53,9 @@ void MDFNDBG_Kill(void)
  RegGroups.clear();
 }
 
-void MDFNDBG_AddASpace(void (*gasb)(const char *name, uint32 Address, uint32 Length, uint8 *Buffer),
+int ASpace_Add(void (*gasb)(const char *name, uint32 Address, uint32 Length, uint8 *Buffer),
         void (*pasb)(const char *name, uint32 Address, uint32 Length, uint32 Granularity, bool hl, const uint8 *Buffer), const char *name, const char *long_name,
-        uint32 TotalBits, bool IsSegmented, uint32 SegmentBits, uint32 OffsetBits, uint32 BitsOverlapped)
+        uint32 TotalBits, uint32 NP2Size, bool IsSegmented, uint32 SegmentBits, uint32 OffsetBits, uint32 BitsOverlapped)
 {
  AddressSpaceType newt;
 
@@ -67,11 +67,150 @@ void MDFNDBG_AddASpace(void (*gasb)(const char *name, uint32 Address, uint32 Len
  newt.name = strdup(name);
  newt.long_name = strdup(long_name);
  newt.TotalBits = TotalBits;
+ newt.NP2Size = NP2Size;
  newt.IsSegmented = IsSegmented;
  newt.SegmentBits = SegmentBits;
  newt.OffsetBits = OffsetBits;
  newt.BitsOverlapped = BitsOverlapped;
  AddressSpaces.push_back(newt);
+
+ return(AddressSpaces.size() - 1);
+}
+
+int ASpace_Add(const AddressSpaceType &newt)
+{
+ AddressSpaces.push_back(newt);
+ return(AddressSpaces.size() - 1);
+}
+
+// Returns number of new bytes allocated.
+static INLINE uint64 IncUsageMap(uint64 *****UsageMap, const uint32 address)
+{
+ uint64 ret = 0;
+
+ if(!(*UsageMap))
+ {
+  (*UsageMap) = (uint64 ****)MDFN_calloc(sizeof(uint64 ***), 256, "Usage map");
+  ret += sizeof(uint64 ***) * 256;
+ }
+
+ if(!(*UsageMap)[address >> 24])
+ {
+  (*UsageMap)[address >> 24] = (uint64 ***)MDFN_calloc(sizeof(uint64 **), 256, "Usage map");
+  ret += sizeof(uint64 **) * 256;
+ }
+
+ if(!(*UsageMap)[address >> 24][(address >> 16) & 0xFF])
+ {
+  (*UsageMap)[address >> 24][(address >> 16) & 0xFF] = (uint64 **)MDFN_calloc(sizeof(uint64 *), 256, "Usage map");
+  ret += sizeof(uint64 *) * 256;
+ }
+
+ if(!(*UsageMap)[address >> 24][(address >> 16) & 0xFF][(address >> 8) & 0xFF])
+ {
+  (*UsageMap)[address >> 24][(address >> 16) & 0xFF][(address >> 8) & 0xFF] = (uint64 *)MDFN_calloc(sizeof(uint64), 256, "Usage map");
+  ret += sizeof(uint64) * 256;
+ }
+
+ (*UsageMap)[address >> 24][(address >> 16) & 0xFF][(address >> 8) & 0xFF][address & 0xFF]++;
+
+ return(ret);
+}
+
+bool ASpace_Read(const int id, const uint32 address, const unsigned int size, const bool pre_bpoint)
+{
+ AddressSpaceType *as;
+
+ assert(id > 0 && (const unsigned int)id < AddressSpaces.size());
+
+ as = &AddressSpaces[id];
+
+ if(pre_bpoint)
+  return(FALSE);
+ else
+ {
+  as->UsageReadMemUsed += IncUsageMap(&as->UsageMapRead, address);
+ }
+ return(FALSE);
+}
+
+bool ASpace_Write(const int id, const uint32 address, const uint32 value, const unsigned int size, const bool pre_bpoint)
+{
+ AddressSpaceType *as;
+
+ assert(id > 0 && (const unsigned int)id < AddressSpaces.size());
+
+ as = &AddressSpaces[id];
+
+ if(pre_bpoint)
+  return(FALSE);
+ else
+ {
+  as->UsageWriteMemUsed += IncUsageMap(&as->UsageMapWrite, address);
+  return(FALSE);
+ }
+}
+
+static INLINE void ClearUsageMap(uint64 *****UsageMap)
+{
+ // Maybe we should use an alloced memory vector to speed this up...
+ if((*UsageMap))
+ {
+  for(int a = 0; a < 256; a++)
+  {
+   if((*UsageMap)[a])
+   {   
+    for(int b = 0; b < 256; b++)
+    {
+     if((*UsageMap)[a][b])
+     {
+      for(int c = 0; c < 256; c++)
+      {
+       if((*UsageMap)[a][b][c])
+       {
+        MDFN_free((*UsageMap)[a][b][c]);
+        (*UsageMap)[a][b][c] = NULL;
+       }
+      }
+      MDFN_free((*UsageMap)[a][b]);
+      (*UsageMap)[a][b] = NULL;
+     }
+    }
+
+    MDFN_free((*UsageMap)[a]);
+    (*UsageMap)[a] = NULL;
+   }
+  }
+
+  MDFN_free((*UsageMap));
+  (*UsageMap) = NULL;
+ }
+}
+
+void ASpace_ClearReadMap(const int id)
+{
+ AddressSpaceType *as;
+
+ assert(id > 0 && (const unsigned int)id < AddressSpaces.size());
+
+ as = &AddressSpaces[id];
+
+ ClearUsageMap(&as->UsageMapRead);
+
+ as->UsageReadMemUsed = 0;
+}
+
+void ASpace_ClearWriteMap(const int id)
+{
+ AddressSpaceType *as;
+
+ assert(id > 0 && (const unsigned int)id < AddressSpaces.size());
+
+ as = &AddressSpaces[id];
+
+ ClearUsageMap(&as->UsageMapWrite);
+
+ as->UsageWriteMemUsed = 0;
 }
 
 void MDFNDBG_ResetRegGroupsInfo(void)
@@ -84,9 +223,15 @@ void MDFNDBG_AddRegGroup(RegGroupType *groupie)
  RegGroups.push_back(groupie);
 }
 
-void MDFNDBG_ResetASpaceInfo(void)
+void ASpace_Reset(void)
 {
  AddressSpaces.clear();
+}
+
+
+RegType::~RegType()
+{
+
 }
 
 #endif

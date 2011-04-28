@@ -6,13 +6,15 @@ static uint8 IStatus;
 static uint8 IEnable;
 static uint8 IVectorBase;
 
-static bool IOn_Cache = FALSE;
-static uint32 IOn_Which = 0;
-static uint32 IVector_Cache = 0;
+static bool IOn_Cache;
+static uint32 IOn_Which;
+static uint32 IVector_Cache;
 
 static void RecalcInterrupt(void)
 {
  IOn_Cache = FALSE;
+ IOn_Which = 0;
+ IVector_Cache = 0;
 
  for(int i = 0; i < 8; i++)
  {

@@ -1,16 +1,22 @@
 SUBDIRS	= trio
 AUTOMAKE_OPTIONS = subdir-objects
 DEFS = -DLOCALEDIR=\"$(datadir)/locale\" @DEFS@ @MATH_OPTIMIZER_FLAGS@
-DEFAULT_INCLUDES = -I$(top_builddir)/include -I$(top_srcdir)/intl
+DEFAULT_INCLUDES = -I$(top_builddir)/include -I$(top_builddir)/include/blip -I$(top_srcdir)/intl -I$(top_srcdir)
 
 bin_PROGRAMS	=	mednafen
-mednafen_SOURCES 	= 	debug.cpp error.cpp mempatcher.cpp settings.cpp Blip_Buffer.cpp Stereo_Buffer.cpp endian.cpp mednafen.cpp file.cpp general.cpp md5.cpp memory.cpp netplay.cpp state.cpp movie.cpp wave.cpp player.cpp psf.cpp tests.cpp
-mednafen_LDADD = @LIBINTL@ @LIBICONV@ trio/libtrio.a
-mednafen_DEPENDENCIES	=	trio/libtrio.a
+mednafen_SOURCES 	= 	cputest.cpp debug.cpp error.cpp mempatcher.cpp settings.cpp endian.cpp mednafen.cpp file.cpp general.cpp md5.cpp memory.cpp netplay.cpp state.cpp movie.cpp player.cpp psf.cpp tests.cpp qtrecord.cpp cdplay.cpp okiadpcm.cpp math_ops.cpp FileWrapper.cpp
+mednafen_LDADD 		= 	trio/libtrio.a drivers/libmdfnsdl.a sexyal/libsexyal.a @SDL_LIBS@
+mednafen_DEPENDENCIES	=	trio/libtrio.a drivers/libmdfnsdl.a sexyal/libsexyal.a
+
+SUBDIRS			+=	sexyal drivers
 
 if WANT_DEBUGGER
 mednafen_SOURCES	+=	dis6280.cpp dis6502.cpp
 endif
+
+SUBDIRS += demo
+mednafen_LDADD		+=	demo/libdemo.a
+mednafen_DEPENDENCIES	+=	demo/libdemo.a
 
 if WANT_GB_EMU
 SUBDIRS += gb
@@ -28,6 +34,12 @@ if WANT_LYNX_EMU
 SUBDIRS += lynx
 mednafen_LDADD          +=      lynx/liblynx.a
 mednafen_DEPENDENCIES   +=      lynx/liblynx.a
+endif
+
+if WANT_MD_EMU
+SUBDIRS += md
+mednafen_LDADD          +=      md/libmd.a
+mednafen_DEPENDENCIES   +=      md/libmd.a
 endif
 
 if WANT_NES_EMU
@@ -48,6 +60,12 @@ mednafen_LDADD          +=      pce/libpce.a
 mednafen_DEPENDENCIES   +=      pce/libpce.a
 endif
 
+if WANT_PCE_FAST_EMU
+SUBDIRS += pce_fast
+mednafen_LDADD          +=      pce_fast/libpce_fast.a
+mednafen_DEPENDENCIES   +=      pce_fast/libpce_fast.a
+endif
+
 if WANT_PCFX_EMU
 SUBDIRS += pcfx
 mednafen_LDADD          +=      pcfx/libpcfx.a
@@ -60,33 +78,60 @@ mednafen_LDADD          +=      sms/libsms.a
 mednafen_DEPENDENCIES   +=      sms/libsms.a
 endif
 
+if WANT_SNES_EMU
+SUBDIRS += snes
+mednafen_LDADD          +=      snes/libsnes.a
+mednafen_DEPENDENCIES   +=      snes/libsnes.a
+endif
+
+if WANT_VB_EMU
+SUBDIRS += vb
+mednafen_LDADD		+=	vb/libvb.a
+mednafen_DEPENDENCIES	+=	vb/libvb.a
+endif
+
 if WANT_WSWAN_EMU
 SUBDIRS += wswan
 mednafen_LDADD          +=      wswan/libwswan.a
 mednafen_DEPENDENCIES   +=      wswan/libwswan.a
 endif
 
-
-if NEED_Z80EMU
-mednafen_SOURCES	+=	z80-fuse/z80.cpp z80-fuse/z80_ops.cpp
+if WANT_DEBUGGER
+SUBDIRS += desa68
+mednafen_LDADD		+=	desa68/libdesa68.a
+mednafen_DEPENDENCIES	+=	desa68/libdesa68.a
 endif
 
-if NEED_CDEMU
+SUBDIRS	+= hw_cpu
+mednafen_LDADD		+=	hw_cpu/libmdfnhwcpu.a
+mednafen_DEPENDENCIES	+=	hw_cpu/libmdfnhwcpu.a
+
+SUBDIRS += hw_misc
+mednafen_LDADD          +=      hw_misc/libmdfnhwmisc.a
+mednafen_DEPENDENCIES   +=      hw_misc/libmdfnhwmisc.a
+
+SUBDIRS += hw_sound
+mednafen_LDADD          +=      hw_sound/libmdfnhwsound.a
+mednafen_DEPENDENCIES   +=      hw_sound/libmdfnhwsound.a
+
+SUBDIRS += hw_video
+mednafen_LDADD          +=      hw_video/libmdfnhwvideo.a
+mednafen_DEPENDENCIES   +=      hw_video/libmdfnhwvideo.a
+
 SUBDIRS += tremor mpcdec
 mednafen_LDADD		+=	tremor/libvorbisidec.a mpcdec/libmpcdec.a
 mednafen_DEPENDENCIES	+=	tremor/libvorbisidec.a mpcdec/libmpcdec.a
 include cdrom/Makefile.am.inc
-endif
 
-if NEED_YM2612EMU
-mednafen_SOURCES	+=	Ym2612_Emu.cpp
-endif
+
+SUBDIRS			+=	sound
+mednafen_LDADD		+=	sound/libmdfnsound.a
+mednafen_DEPENDENCIES	+=	sound/libmdfnsound.a
 
 include compress/Makefile.am.inc
 include string/Makefile.am.inc
 include video/Makefile.am.inc
-include sexyal/Makefile.am.inc
-include drivers/Makefile.am.inc
 
-mednafen_SOURCES	+=	$(sexyal_SOURCES)
+
+mednafen_LDADD		+= 	@LIBINTL@ @LIBICONV@
 

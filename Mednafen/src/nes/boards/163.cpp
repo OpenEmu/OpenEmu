@@ -120,12 +120,6 @@ static DECLFR(AWRAM)
 
 static void Power(CartInfo *info)
 {
- SetReadHandler(0x5000, 0x5FFF, ReadLow);
- SetWriteHandler(0x5000, 0x5FFF, Write);
- SetReadHandler(0x8000, 0xFFFF, CartBR);
-
- SetReadHandler(0x6000, 0x7FFF, AWRAM);
- SetWriteHandler(0x6000, 0x7FFF, BWRAM);
 
  regs[0] = 0x8F;
  regs[1] = 0x00;
@@ -193,6 +187,13 @@ int Mapper163_Init(CartInfo *info)
   info->SaveGame[0] = WRAM;
   info->SaveGameLen[0] = 8192;
  }
+
+ SetReadHandler(0x5000, 0x5FFF, ReadLow);
+ SetWriteHandler(0x5000, 0x5FFF, Write);
+ SetReadHandler(0x8000, 0xFFFF, CartBR);
+
+ SetReadHandler(0x6000, 0x7FFF, AWRAM);
+ SetWriteHandler(0x6000, 0x7FFF, BWRAM);
 
  return(1);
 }

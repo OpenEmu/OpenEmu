@@ -18,10 +18,8 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-#include <string.h>
 
 #include "nes.h"
-#include "../netplay.h"
 #include "x6502.h"
 #include "sound.h"
 #include "input.h"
@@ -182,7 +180,7 @@ static const InputDeviceInputInfoStruct MahjongIDII[] =
  { "21", "21", 20, IDIT_BUTTON, NULL },
 };
 
-static const InputDeviceInputInfoStruct QuizkingIDII[] =
+static const InputDeviceInputInfoStruct PartyTapIDII[] =
 {
  { "buzzer_1", "Buzzer 1", 0, IDIT_BUTTON, NULL },
  { "buzzer_2", "Buzzer 2", 1, IDIT_BUTTON, NULL },
@@ -246,8 +244,8 @@ static InputDeviceInfoStruct InputDevice4Player[] =
 
 static const InputPortInfoStruct PortInfo4Player[] =
 {
- { -2, "port3", "Port 3", sizeof(InputDevice4Player) / sizeof(InputDeviceInfoStruct), InputDevice4Player },
- { -2, "port4", "Port 4", sizeof(InputDevice4Player) / sizeof(InputDeviceInfoStruct), InputDevice4Player },
+ { -2, "port3", "Port 3", sizeof(InputDevice4Player) / sizeof(InputDeviceInfoStruct), InputDevice4Player, "gamepad" },
+ { -2, "port4", "Port 4", sizeof(InputDevice4Player) / sizeof(InputDeviceInfoStruct), InputDevice4Player, "gamepad" },
 };
 
 static InputDeviceInfoStruct InputDeviceInfoNESPort34[] =
@@ -395,13 +393,13 @@ static InputDeviceInfoStruct InputDeviceInfoFamicomPort[] =
   MahjongIDII,
  },
 
- // Quiz King
+ // Party Tap
  {
-  "quizking",
-  "Quiz King Buzzers",
+  "partytap",
+  "Party Tap",
   NULL,
-  sizeof(QuizkingIDII) / sizeof(InputDeviceInputInfoStruct),
-  QuizkingIDII,
+  sizeof(PartyTapIDII) / sizeof(InputDeviceInputInfoStruct),
+  PartyTapIDII,
  },
 
  // Family Trainer A
@@ -444,11 +442,11 @@ static InputDeviceInfoStruct InputDeviceInfoFamicomPort[] =
 
 static const InputPortInfoStruct PortInfo[] =
 {
- { 0, "port1", "Port 1", sizeof(InputDeviceInfoNESPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoNESPort },
- { 0, "port2", "Port 2", sizeof(InputDeviceInfoNESPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoNESPort },
- { 0, "port3", "Port 3", sizeof(InputDeviceInfoNESPort34) / sizeof(InputDeviceInfoStruct), InputDeviceInfoNESPort34 },
- { 0, "port4", "Port 4", sizeof(InputDeviceInfoNESPort34) / sizeof(InputDeviceInfoStruct), InputDeviceInfoNESPort34 },
- { 0, "fcexp", "Famicom Expansion Port", sizeof(InputDeviceInfoFamicomPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoFamicomPort },
+ { 0, "port1", "Port 1", sizeof(InputDeviceInfoNESPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoNESPort, "gamepad" },
+ { 0, "port2", "Port 2", sizeof(InputDeviceInfoNESPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoNESPort, "gamepad" },
+ { 0, "port3", "Port 3", sizeof(InputDeviceInfoNESPort34) / sizeof(InputDeviceInfoStruct), InputDeviceInfoNESPort34, "gamepad" },
+ { 0, "port4", "Port 4", sizeof(InputDeviceInfoNESPort34) / sizeof(InputDeviceInfoStruct), InputDeviceInfoNESPort34, "gamepad" },
+ { 0, "fcexp", "Famicom Expansion Port", sizeof(InputDeviceInfoFamicomPort) / sizeof(InputDeviceInfoStruct), InputDeviceInfoFamicomPort, "none" },
 };
 
 InputInfoStruct NESInputInfo = 
@@ -467,7 +465,7 @@ extern INPUTCFC *MDFN_InitSpaceShadow(void);
 extern INPUTCFC *MDFN_InitFKB(void);
 extern INPUTCFC *MDFN_InitHS(void);
 extern INPUTCFC *MDFN_InitMahjong(void);
-extern INPUTCFC *MDFN_InitQuizKing(void);
+extern INPUTCFC *MDFN_InitPartyTap(void);
 extern INPUTCFC *MDFN_InitFamilyTrainerA(void);
 extern INPUTCFC *MDFN_InitFamilyTrainerB(void);
 extern INPUTCFC *MDFN_InitOekaKids(void);
@@ -648,20 +646,18 @@ static INPUTCFC FAMI4C = { ReadFami4,0,StrobeFami4,0,0,0, StateActionGPFC, 4, 1 
 static INPUTC GPC = {ReadGP,0,StrobeGP,UpdateGamepad,0,0, StateActionGP, 4, 1};
 static INPUTC GPCVS = {ReadGPVS,0,StrobeGP,UpdateGamepad,0,0, StateActionGP, 4, 1};
 
-void MDFN_DrawInput(uint32 *buf)
+void MDFN_DrawInput(MDFN_Surface *surface)
 {
  int x;
 
  for(x=0;x<2;x++)
   if(JPorts[x]->Draw)
-   JPorts[x]->Draw(x,buf);
+   JPorts[x]->Draw(x, surface);
+
  if(FCExp)
   if(FCExp->Draw)
-   FCExp->Draw(buf);
+   FCExp->Draw(surface);
 }
-
-#define SFMODATOA16(_x) { (_x)->s = ((_x)->s & 0xFFFFFF) * sizeof(uint16); (_x)->s |= MDFNSTATE_RLSB16; }
-#define SFMODATOA32(_x) { (_x)->s = ((_x)->s & 0xFFFFFF) * sizeof(uint32); (_x)->s |= MDFNSTATE_RLSB32; }
 
 void MDFN_UpdateInput(void)
 {
@@ -756,8 +752,8 @@ static void SetInputStuff(int x)
 	  FCExp=MDFN_InitHS();
          else if(!strcasecmp(ts, "mahjong"))
 	  FCExp=MDFN_InitMahjong();
-         else if(!strcasecmp(ts, "quizking"))
-	  FCExp=MDFN_InitQuizKing();
+         else if(!strcasecmp(ts, "partytap"))
+	  FCExp=MDFN_InitPartyTap();
          else if(!strcasecmp(ts, "ftrainera"))
 	  FCExp=MDFN_InitFamilyTrainerA();
          else if(!strcasecmp(ts, "ftrainerb"))
@@ -795,16 +791,6 @@ void NESINPUT_Power(void)
         memset(joy,0,sizeof(joy));
 	LastStrobe = 0;
 
-	if(NESIsVSUni)
-        {
-         SetReadHandler(0x4016,0x4016,VSUNIRead0);
-         SetReadHandler(0x4017,0x4017,VSUNIRead1);
-        } 
-        else
-         SetReadHandler(0x4016,0x4017,JPRead);
-
-        SetWriteHandler(0x4016,0x4016,B4016);
-
 	for(int x = 0; x < 5; x++)
          SetInputStuff(x);
 }
@@ -839,9 +825,35 @@ int NESINPUT_StateAction(StateMem *sm, int load, int data_only)
  return(ret);
 }
 
+static writefunc Other4016WHandler;
+
+static DECLFW(B4016_Chained)
+{
+ Other4016WHandler(A, V);
+ B4016(A, V);
+}
+
 void NESINPUT_Init(void)
 {
  FSDisable = MDFN_GetSettingB("nes.nofs");
+
+ if(NESIsVSUni)
+ {
+  SetReadHandler(0x4016, 0x4016, VSUNIRead0);
+  SetReadHandler(0x4017, 0x4017, VSUNIRead1);
+ }
+ else
+  SetReadHandler(0x4016, 0x4017, JPRead);
+
+ Other4016WHandler = GetWriteHandler(0x4016);
+ 
+ if(Other4016WHandler != BNull)
+ {
+  puts("Mapper 99 yay?");
+  SetWriteHandler(0x4016, 0x4016, B4016_Chained);
+ }
+ else
+  SetWriteHandler(0x4016, 0x4016, B4016);
 }
 
 
@@ -850,51 +862,33 @@ void MDFNNES_DoSimpleCommand(int cmd)
 {
  switch(cmd)
  {
-   case MDFNNPCMD_FDSINSERT: FDS_DiskInsert(-1);break;
-   case MDFNNPCMD_FDSSELECT: FDS_DiskSelect();break;
-   case MDFNNPCMD_FDSEJECT: FDS_DiskEject();break;
-   case MDFNNPCMD_VSUNICOIN: MDFN_VSUniCoin(); break;
-   case MDFNNPCMD_VSUNIDIP0 ... (MDFNNPCMD_VSUNIDIP0 + 7): MDFN_VSUniToggleDIP(cmd - MDFNNPCMD_VSUNIDIP0);break;
-   case MDFNNPCMD_POWER: PowerNES();break;
-   case MDFNNPCMD_RESET: ResetNES();break;
+   case MDFN_MSC_INSERT_DISK: 
+		FDS_DiskInsert(-1);
+		break;
+
+   case MDFN_MSC_SELECT_DISK: 
+		FDS_DiskSelect();
+		break;
+
+   case MDFN_MSC_EJECT_DISK: 
+		FDS_DiskEject();
+		break;
+
+   case MDFN_MSC_INSERT_COIN: 
+		MDFN_VSUniCoin();
+		break;
+
+   case MDFN_MSC_TOGGLE_DIP0 ... MDFN_MSC_TOGGLE_DIP7: 
+		MDFN_VSUniToggleDIP(cmd - MDFN_MSC_TOGGLE_DIP0);
+		break;
+
+   case MDFN_MSC_POWER:
+		PowerNES();
+		break;
+
+   case MDFN_MSC_RESET:
+		ResetNES();
+		break;
  }
-}
-
-void MDFNI_FDSSelect(void)
-{ 
- MDFN_QSimpleCommand(MDFNNPCMD_FDSSELECT);
-} 
-
-int MDFNI_FDSInsert(int oride)
-{ 
- MDFN_QSimpleCommand(MDFNNPCMD_FDSINSERT);
- return(1);
-}
-
-
-int MDFNI_FDSEject(void)
-{
-        MDFN_QSimpleCommand(MDFNNPCMD_FDSEJECT);
-        return(1);
-}
-
-void MDFNI_VSUniToggleDIP(int w)
-{
- MDFN_QSimpleCommand(MDFNNPCMD_VSUNIDIP0 + w);
-}
-
-void MDFNI_VSUniCoin(void)
-{
-	MDFN_QSimpleCommand(MDFNNPCMD_VSUNICOIN);
-}
-
-void MDFNNES_Reset(void)
-{
-	MDFN_QSimpleCommand(MDFNNPCMD_RESET);
-}
-  
-void MDFNNES_Power(void)
-{
-        MDFN_QSimpleCommand(MDFNNPCMD_POWER);
 }
 

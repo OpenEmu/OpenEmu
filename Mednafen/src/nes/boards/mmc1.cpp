@@ -136,81 +136,120 @@ static void MMC1MIRROR(void)
 }
 
 #ifdef WANT_DEBUGGER
-static RegType DBGMMC1Regs[] =
+enum
 {
- { "Control", "Control(MMC1 register 0)", 1 },
- { "CHRBank0", "CHR Bank Register 0(MMC1 register 1)", 1 },
- { "CHRBank1", "CHR Bank Register 1(MMC1 register 2)", 1 },
- { "PRGBank", "PRG Bank Bank Register(MMC1 register 3)", 1 },
- { "Buffer", "Shifty buffer that takes your moneys!", 1 },
- { "BufferShift", "Place to stick bit in shifty bit buffer", 1 },
- { "", "", 0 },
+ MMC1_GSREG_CONTROL = 0,
+ MMC1_GSREG_CHRBANK0,
+ MMC1_GSREG_CHRBANK1,
+ MMC1_GSREG_PRGBANK,
+ MMC1_GSREG_BUFFER,
+ MMC1_GSREG_BUFFERSHIFT
 };
 
-static uint32 MMC1DBG_GetRegister(const std::string &oname, std::string *special)
+static RegType DBGMMC1Regs[] =
 {
- if(oname == "Control")
+ { MMC1_GSREG_CONTROL, "Control", "Control(MMC1 register 0)", 1 },
+ { MMC1_GSREG_CHRBANK0, "CHRBank0", "CHR Bank Register 0(MMC1 register 1)", 1 },
+ { MMC1_GSREG_CHRBANK1, "CHRBank1", "CHR Bank Register 1(MMC1 register 2)", 1 },
+ { MMC1_GSREG_PRGBANK, "PRGBank", "PRG Bank Bank Register(MMC1 register 3)", 1 },
+ { MMC1_GSREG_BUFFER, "Buffer", "Shifty buffer that takes your moneys!", 1 },
+ { MMC1_GSREG_BUFFERSHIFT, "BufferShift", "Place to stick bit in shifty bit buffer", 1 },
+ { 0, "", "", 0 },
+};
+
+static uint32 MMC1DBG_GetRegister(const unsigned int id, char *special, const uint32 special_len)
+{
+ uint32 value = 0xDEADBEEF;
+
+ switch(id)
  {
-  if(special)
-  {
-   static const char *PMNames[4] = { "One-screen(0)", "One-screen(1)", "Vertical", "Horizontal" };
-   char tmpstr[256];
-   tmpstr[0] = 0;
+  case MMC1_GSREG_CONTROL:
+	value = DRegs[0];
 
-   sprintf(tmpstr + strlen(tmpstr), "PRG Bank Size: %dKiB", (DRegs[0] & 0x8) ? 16 : 32);
-   if(DRegs[0] & 0x8)
-   {
-    sprintf(tmpstr + strlen(tmpstr), " @ 0x%04x, ", (DRegs[0] & 0x4) ? 0x8000 : 0xC000);
-   }
-   else
-    strcat(tmpstr, ", ");
+	if(special)
+	{
+	 static const char *PMNames[4] = { "One-screen(0)", "One-screen(1)", "Vertical", "Horizontal" };
+	 char tmpstr[256];
+	 tmpstr[0] = 0;
 
-   sprintf(tmpstr + strlen(tmpstr), "CHR Bank Size: %dKiB, ", (DRegs[0]&0x10) ? 4 : 8);
+	 sprintf(tmpstr + strlen(tmpstr), "PRG Bank Size: %dKiB", (DRegs[0] & 0x8) ? 16 : 32);
+	 if(DRegs[0] & 0x8)
+	 {
+	  sprintf(tmpstr + strlen(tmpstr), " @ 0x%04x, ", (DRegs[0] & 0x4) ? 0x8000 : 0xC000);
+	 }
+	 else
+	  strcat(tmpstr, ", ");
 
-   if(!CartHasHardMirroring())
-    sprintf(tmpstr + strlen(tmpstr), "Mirroring: %s", PMNames[DRegs[0] & 0x3]);
-   *special = std::string(tmpstr);
-  }
+	 sprintf(tmpstr + strlen(tmpstr), "CHR Bank Size: %dKiB, ", (DRegs[0]&0x10) ? 4 : 8);
 
-  return(DRegs[0]);
+	 if(!CartHasHardMirroring())
+	  sprintf(tmpstr + strlen(tmpstr), "Mirroring: %s", PMNames[DRegs[0] & 0x3]);
+
+	 strncpy(special, tmpstr, special_len);
+	}
+	break;
+
+  case MMC1_GSREG_CHRBANK0:
+	value = DRegs[1];
+	break;
+
+  case MMC1_GSREG_CHRBANK1:
+	value = DRegs[2];
+	break;
+
+  case MMC1_GSREG_PRGBANK:
+	value = DRegs[3];
+	break;
+
+  case MMC1_GSREG_BUFFER:
+	value = Buffer;
+	break;
+
+  case MMC1_GSREG_BUFFERSHIFT:
+	value = BufferShift;
+	break;
  }
- else if(oname == "CHRBank0")
- {
-  return(DRegs[1]);
- }
- else if(oname == "CHRBank1")
-  return(DRegs[2]);
- else if(oname == "PRGBank")
-  return(DRegs[3]);
- else if(oname == "Buffer")
-  return(Buffer);
- else if(oname == "BufferShift")
-  return(BufferShift);
- return(0);
+
+ return(value);
 }
 
-static void MMC1DBG_SetRegister(const std::string &oname, uint32 value)
+static void MMC1DBG_SetRegister(const unsigned int id, uint32 value)
 {
- if(oname == "Control")
-  DRegs[0] = value;
- else if(oname == "CHRBank0")
-  DRegs[1] = value;
- else if(oname == "CHRBank1")
-  DRegs[2] = value;
- else if(oname == "PRGBank")
-  DRegs[3] = value;
- else if(oname == "Buffer")
-  Buffer = value;
- else if(oname == "BufferShift")
-  BufferShift = value % 5;
+ switch(id)
+ {
+  case MMC1_GSREG_CONTROL:
+	DRegs[0] = value;
+	break;
 
-        MMC1MIRROR();
-        MMC1CHR();
-        MMC1PRG();
+  case MMC1_GSREG_CHRBANK0:
+	DRegs[1] = value;
+	break;
+
+  case MMC1_GSREG_CHRBANK1:
+	DRegs[2] = value;
+	break;
+
+  case MMC1_GSREG_PRGBANK:
+	DRegs[3] = value;
+	break;
+
+  case MMC1_GSREG_BUFFER:
+	Buffer = value;
+	break;
+
+  case MMC1_GSREG_BUFFERSHIFT:
+	BufferShift = value % 5;
+	break;
+ }
+
+ MMC1MIRROR();
+ MMC1CHR();
+ MMC1PRG();
 }
 
 static RegGroupType DBGMMC1RegsGroup =
 {
+ "MMC1",
  DBGMMC1Regs,
  MMC1DBG_GetRegister,
  MMC1DBG_SetRegister,
@@ -368,19 +407,14 @@ static void GenMMC1Power(CartInfo *info)
  lreset=0;
  if(mmc1opts&1)
  {
-  MDFNMP_AddRAM(8192,0x6000,WRAM);
   if(mmc1opts&4)
    memset(WRAM,0,8192);
   else if(!(mmc1opts&2))
    memset(WRAM,0,8192);
  }
- SetWriteHandler(0x8000,0xFFFF,MMC1_write);
- SetReadHandler(0x8000,0xFFFF,CartBR);
 
  if(mmc1opts&1)
  {
-  SetReadHandler(0x6000,0x7FFF,MAWRAM);
-  SetWriteHandler(0x6000,0x7FFF,MBWRAM);
   setprg8r(0x10,0x6000,0);
  }
 
@@ -496,6 +530,16 @@ static int GenMMC1Init(CartInfo *info, int prg, int chr, int wram, int battery)
  #ifdef WANT_DEBUGGER
  MDFNDBG_AddRegGroup(&DBGMMC1RegsGroup);
  #endif
+
+ SetWriteHandler(0x8000,0xFFFF,MMC1_write);
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+
+ if(mmc1opts&1)
+ {
+  MDFNMP_AddRAM(8192,0x6000,WRAM);
+  SetReadHandler(0x6000,0x7FFF,MAWRAM);
+  SetWriteHandler(0x6000,0x7FFF,MBWRAM);
+ }
 
  return(1);
 }

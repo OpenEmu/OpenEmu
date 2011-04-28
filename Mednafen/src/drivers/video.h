@@ -1,11 +1,18 @@
 #ifndef __MDFN_DRIVERS_VIDEO_H
 #define __MDFN_DRIVERS_VIDEO_H
 
+enum
+{
+ VDRIVER_OPENGL = 0,
+ VDRIVER_SOFTSDL = 1,
+ VDRIVER_OVERLAY = 2
+};
+
+
 void PtoV(int *x, int *y);
 int InitVideo(MDFNGI *gi);
-int VideoCanBlit(void);
 void KillVideo(void);
-void BlitScreen(uint32 *XBuf, MDFN_Rect *DisplayRect, MDFN_Rect *LineWidths);
+void BlitScreen(MDFN_Surface *, const MDFN_Rect *DisplayRect, const MDFN_Rect *LineWidths);
 void ToggleFS();
 void ClearVideoSurfaces(void);
 
@@ -25,12 +32,32 @@ void ClearVideoSurfaces(void);
 #define NTVB_NNY3X       11
 #define NTVB_NNY4X       12
 
-bool MDFND_ValidateVideoSetting(const char *name, const char *value);
-bool MDFND_ValidateSpecialScalerSetting(const char *name, const char *value);
+#define NTVB_2XSAI       13
+#define NTVB_SUPER2XSAI  14
+#define NTVB_SUPEREAGLE  15
+
 int VideoResize(int nw, int nh);
 
 void VideoShowMessage(UTF8 *text);
 
-void BlitRaw(SDL_Surface *src, SDL_Rect *src_rect, SDL_Rect *dest_rect);
+void BlitRaw(SDL_Surface *src, const SDL_Rect *src_rect, const SDL_Rect *dest_rect);
+
+// Called from the main thread
+bool Video_Init(MDFNGI *gi);
+
+// Called from the main thread
+void Video_Kill(void);
+
+// Called from the game thread
+void Video_GetInternalBB(uint32 **XBuf, MDFN_Rect **LineWidths);
+
+// Called from the game thread
+void Video_SetInternalBBReady(const MDFN_Rect &DisplayRect);
+
+// Called from the main thread.
+bool Video_ScreenBlitReady(void);
+
+// Called from the main thread.
+void Video_BlitToScreen(void);
 
 #endif

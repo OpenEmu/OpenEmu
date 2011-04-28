@@ -21,7 +21,12 @@
 #include <stdarg.h>
 #include <trio/trio.h>
 
-MDFN_Error::MDFN_Error(int errno_code_new, const char *format, ...)
+MDFN_Error::MDFN_Error() throw()
+{
+ abort();
+}
+
+MDFN_Error::MDFN_Error(int errno_code_new, const char *format, ...) throw()
 {
  errno_code = errno_code_new;
 
@@ -31,7 +36,7 @@ MDFN_Error::MDFN_Error(int errno_code_new, const char *format, ...)
  va_end(ap);
 }
 
-MDFN_Error::~MDFN_Error()
+MDFN_Error::~MDFN_Error() throw()
 {
  if(error_message)
  {
@@ -40,19 +45,83 @@ MDFN_Error::~MDFN_Error()
  }
 }
 
-MDFN_Error::MDFN_Error(const MDFN_Error &ze_error)
+MDFN_Error::MDFN_Error(const MDFN_Error &ze_error) throw()
 {
  if(ze_error.error_message)
   error_message = strdup(ze_error.error_message);
+ else
+  error_message = NULL;
+
+ errno_code = ze_error.errno_code;
 }
 
-const char * MDFN_Error::GetErrorMessage(void)
+MDFN_Error& MDFN_Error::operator=(const MDFN_Error &ze_error) throw()
 {
+ char *new_error_message = ze_error.error_message ? strdup(ze_error.error_message) : NULL;
+ int new_errno_code = ze_error.errno_code;
+
+ if(error_message)
+  free(error_message);
+
+ error_message = new_error_message;
+ errno_code = new_errno_code;
+
+ return(*this);
+}
+
+
+const char * MDFN_Error::what(void) const throw()
+{
+ if(!error_message)
+  return("Error allocating memory for the error message!");
+
  return(error_message);
 }
 
-int MDFN_Error::GetErrno(void)
+int MDFN_Error::GetErrno(void) throw()
 {
  return(errno_code);
+}
+
+static const char *srr_wrap(int ret, const char *local_strerror)
+{
+ if(ret == -1)
+  return("ERROR IN strerror_r()!!!");
+
+ return(local_strerror);
+}
+
+static const char *srr_wrap(const char *ret, const char *local_strerror)
+{
+ if(ret == NULL)
+  return("ERROR IN strerror_r()!!!");
+
+ return(ret);
+}
+
+void ErrnoHolder::SetErrno(int the_errno)
+{
+ local_errno = the_errno;
+
+ if(the_errno == 0)
+  local_strerror[0] = 0;
+ else
+ {
+  #ifdef HAVE_STRERROR_R
+   const char *retv;
+
+   retv = srr_wrap(strerror_r(the_errno, local_strerror, 256), local_strerror);
+
+   if(retv != local_strerror)
+    strncpy(local_strerror, retv, 255);
+
+  #else	// No strerror_r :(
+
+   strncpy(local_strerror, strerror(the_errno), 255);
+
+  #endif
+
+  local_strerror[255] = 0;
+ }
 }
 

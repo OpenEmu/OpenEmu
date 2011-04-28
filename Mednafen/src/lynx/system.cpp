@@ -54,16 +54,14 @@
 //#include <crtdbg.h>
 //#define	TRACE_SYSTEM
 
-#include <string.h>
 #include "system.h"
 
 #include "../movie.h"
 #include "../general.h"
-#include "../netplay.h"
 #include "../mempatcher.h"
 #include "../md5.h"
 
-CSystem::CSystem(uint8 *filememory, int32 filesize)
+CSystem::CSystem(const uint8 *filememory, int32 filesize)
 	:mCart(NULL),
 	mRom(NULL),
 	mMemMap(NULL),
@@ -102,7 +100,7 @@ CSystem::CSystem(uint8 *filememory, int32 filesize)
 
 	// Attempt to load the cartridge errors caught above here...
 
-	mRom = new CRom(MDFN_MakeFName(MDFNMKF_LYNXROM,0,0).c_str());
+	mRom = new CRom(MDFN_MakeFName(MDFNMKF_FIRMWARE, 0, "lynxboot.img").c_str());
 
 	// An exception from this will be caught by the level above
 
@@ -113,8 +111,19 @@ CSystem::CSystem(uint8 *filememory, int32 filesize)
 			mRam = new CRam(0,0);
 			break;
 		case HANDY_FILETYPE_HOMEBREW:
-			mCart = new CCart(0,0);
-			mRam = new CRam(filememory,filesize);
+			{
+			 #if 0
+			 static uint8 dummy_cart[sizeof(LYNX_HEADER) + 65536] = 
+			 {
+				'L', 'Y', 'N', 'X', 0x00, 0x01, 0x00, 0x00,
+				0x01, 0x00,
+			 };
+			 mCart = new CCart(dummy_cart, sizeof(dummy_cart));
+			 #else
+			 mCart = new CCart(NULL, 0);
+			 #endif
+			 mRam = new CRam(filememory,filesize);
+			}
 			break;
 		case HANDY_FILETYPE_SNAPSHOT:
 		case HANDY_FILETYPE_ILLEGAL:
@@ -188,8 +197,16 @@ void CSystem::Reset(void)
 	}
 }
 
+// Somewhat of a hack to make sure undrawn lines are black.
+bool LynxLineDrawn[256];
+
 static CSystem *lynxie = NULL;
 extern MDFNGI EmulatedLynx;
+
+static bool TestMagic(const char *name, MDFNFILE *fp)
+{
+ return(CCart::TestMagic(fp->data, fp->size));
+}
 
 static int Load(const char *name, MDFNFILE *fp)
 {
@@ -203,16 +220,6 @@ static int Load(const char *name, MDFNFILE *fp)
   return(i);
  }
 
- lynxie->DisplaySetAttributes(FSettings.rshift, FSettings.gshift, FSettings.bshift, 256 * sizeof(uint32));
-
- lynxie->mMikie->mikbuf.set_sample_rate(FSettings.SndRate? FSettings.SndRate : 44100, 60);
- lynxie->mMikie->mikbuf.clock_rate(16000000 / 4);
- lynxie->mMikie->mikbuf.bass_freq(60);
-
- lynxie->mMikie->miksynth.volume(0.50);
-
- MDFNGameInfo->soundchan = 1;
-
  int rot = lynxie->CartGetRotate();
  if(rot == CART_ROTATE_LEFT) MDFNGameInfo->rotated = MDFN_ROTATE270;
  else if(rot == CART_ROTATE_RIGHT) MDFNGameInfo->rotated = MDFN_ROTATE90;
@@ -225,8 +232,6 @@ static int Load(const char *name, MDFNFILE *fp)
  MDFN_printf(_("ROM:       %dKiB\n"), (lynxie->mCart->InfoROMSize + 1023) / 1024);
  MDFN_printf(_("ROM CRC32: 0x%08x\n"), lynxie->mCart->CRC32());
  MDFN_printf(_("ROM MD5:   0x%s\n"), md5_context::asciistr(MDFNGameInfo->MD5, 0).c_str());
-
- MDFN_LoadGameCheats(NULL);
 
  MDFNGameInfo->fps = (uint32)(59.8 * 65536 * 256);
 
@@ -243,22 +248,43 @@ static int Load(const char *name, MDFNFILE *fp)
 
 static void CloseGame(void)
 {
- MDFN_FlushGameCheats(0);
  if(lynxie)
+ {
   delete lynxie;
+  lynxie = NULL;
+ }
 }
 
 static uint8 *chee;
 static void Emulate(EmulateSpecStruct *espec)
 {
- MDFNGameInfo->fb = espec->pixels;
+ espec->DisplayRect.x = 0;
+ espec->DisplayRect.y = 0;
+ espec->DisplayRect.w = 160;
+ espec->DisplayRect.h = 102;
 
- lynxie->SetButtonData(chee[0] | (chee[1] << 8));
+ if(espec->VideoFormatChanged)
+  lynxie->DisplaySetAttributes(espec->surface->format, espec->surface->pitch32); // FIXME, pitch
+
+ if(espec->SoundFormatChanged)
+ {
+  lynxie->mMikie->mikbuf.set_sample_rate(espec->SoundRate ? espec->SoundRate : 44100, 60);
+  lynxie->mMikie->mikbuf.clock_rate((long int)(16000000 / 4));
+  lynxie->mMikie->mikbuf.bass_freq(60);
+  lynxie->mMikie->miksynth.volume(0.50);
+ }
+
+ uint16 butt_data = chee[0] | (chee[1] << 8);
+
+ lynxie->SetButtonData(butt_data);
 
  MDFNMP_ApplyPeriodicCheats();
 
+ memset(LynxLineDrawn, 0, sizeof(LynxLineDrawn[0]) * 102);
+
  lynxie->mMikie->mpSkipFrame = espec->skip;
- lynxie->mMikie->mpDisplayCurrent = (uint8 *)espec->pixels;
+ lynxie->mMikie->mpDisplayCurrent = espec->surface->pixels;
+ lynxie->mMikie->mpDisplayCurrentLine = 0;
  lynxie->mMikie->startTS = gSystemCycleCount;
 
  while(lynxie->mMikie->mpDisplayCurrent && (gSystemCycleCount - lynxie->mMikie->startTS) < 700000)
@@ -267,50 +293,36 @@ static void Emulate(EmulateSpecStruct *espec)
 //  printf("%d ", gSystemCycleCount - lynxie->mMikie->startTS);
  }
 
- if(FSettings.SndRate)
  {
-  static int16 yaybuf[8000];
-  int love;
+  // FIXME, we should integrate this into mikie.*
+  uint32 color_black = espec->surface->MakeColor(30, 30, 30);
 
+  for(int y = 0; y < 102; y++)
+  {
+   uint32 *row = espec->surface->pixels + y * espec->surface->pitch32;
+
+   if(!LynxLineDrawn[y])
+   {
+    for(int x = 0; x < 160; x++)
+     row[x] = color_black;
+   }
+  }
+ }
+
+ espec->MasterCycles = gSystemCycleCount - lynxie->mMikie->startTS;
+
+ if(espec->SoundBuf)
+ {
   lynxie->mMikie->mikbuf.end_frame((gSystemCycleCount - lynxie->mMikie->startTS) >> 2);
-  love = lynxie->mMikie->mikbuf.read_samples(yaybuf, 8000);
-
-  //printf("%d %d\n",love, gSystemCycleCount - lynxie->mMikie->startTS);
-  *(espec->SoundBufSize) = love;
-  *(espec->SoundBuf) = yaybuf;
+  espec->SoundBufSize = lynxie->mMikie->mikbuf.read_samples(espec->SoundBuf, espec->SoundBufMaxSize);
  }
  else
- {
-  *(espec->SoundBufSize) = 0;
-  *(espec->SoundBuf) = NULL;
- }
-}
-
-static void SetPixelFormat(int rs, int gs, int bs)
-{
- lynxie->DisplaySetAttributes(rs, gs, bs, 256 * sizeof(uint32));
+  espec->SoundBufSize = 0;
 }
 
 static void SetInput(int port, const char *type, void *ptr)
 {
  chee = (uint8 *)ptr;
-}
-
-static void SetSoundMultiplier(double mult)
-{
- lynxie->mMikie->mikbuf.set_sample_rate(FSettings.SndRate? FSettings.SndRate : 44100, 60);
- lynxie->mMikie->mikbuf.clock_rate((long int)(16000000 * mult / 4));
-}
-
-static void SetSoundVolume(uint32 volume)
-{
-
-}
-
-static void Sound(int32 rate)
-{
- lynxie->mMikie->mikbuf.set_sample_rate(rate? rate : 44100, 60);
- lynxie->mMikie->mikbuf.clock_rate((long int)(16000000 * FSettings.soundmultiplier / 4));
 }
 
 static int StateAction(StateMem *sm, int load, int data_only)
@@ -325,7 +337,7 @@ static int StateAction(StateMem *sm, int load, int data_only)
         SFVAR(gSystemNMI),
         SFVAR(gSystemCPUSleep),
         SFVAR(gSystemHalt),
-	{lynxie->GetRamPointer(), RAM_SIZE, "RAM"},
+	SFARRAYN(lynxie->GetRamPointer(), RAM_SIZE, "RAM"),
 	SFEND
  };
  std::vector <SSDescriptor> love;
@@ -360,28 +372,37 @@ static void DoSimpleCommand(int cmd)
 {
  switch(cmd)
  {
-  case MDFNNPCMD_POWER:
-  case MDFNNPCMD_RESET: lynxie->Reset(); break;
+  case MDFN_MSC_POWER:
+  case MDFN_MSC_RESET: lynxie->Reset(); break;
  }
 }
 
 static MDFNSetting LynxSettings[] =
 {
- { "lynx.rotateinput", gettext_noop("Virtually rotate D-pad along with screen."), MDFNST_BOOL, "1" },
- { "lynx.lowpass", gettext_noop("Enable sound output lowpass filter."), MDFNST_BOOL, "1" },
+ { "lynx.rotateinput", MDFNSF_NOFLAGS,	gettext_noop("Virtually rotate D-pad along with screen."), NULL, MDFNST_BOOL, "1" },
+ { "lynx.lowpass", MDFNSF_CAT_SOUND,	gettext_noop("Enable sound output lowpass filter."), NULL, MDFNST_BOOL, "1" },
  { NULL }
 };
 
 static const InputDeviceInputInfoStruct IDII[] =
 {
  { "a", "A (outer)", 8, IDIT_BUTTON_CAN_RAPID, NULL },
+
  { "b", "B (inner)", 7, IDIT_BUTTON_CAN_RAPID, NULL },
+
  { "option_2", "Option 2 (lower)", 5, IDIT_BUTTON_CAN_RAPID, NULL },
+
  { "option_1", "Option 1 (upper)", 4, IDIT_BUTTON_CAN_RAPID, NULL },
- { "left", "LEFT ←", 2, IDIT_BUTTON, "right" },
- { "right", "RIGHT →", 3, IDIT_BUTTON, "left" },
- { "up", "UP ↑", 0, IDIT_BUTTON, "down" },
- { "down", "DOWN ↓", 1, IDIT_BUTTON, "up" },
+
+
+ { "left", "LEFT ←", 	/*VIRTB_DPAD0_L,*/ 2, IDIT_BUTTON, "right",		{ "up", "right", "down" } },
+
+ { "right", "RIGHT →", 	/*VIRTB_DPAD0_R,*/ 3, IDIT_BUTTON, "left", 		{ "down", "left", "up" } },
+
+ { "up", "UP ↑", 	/*VIRTB_DPAD0_U,*/ 0, IDIT_BUTTON, "down",		{ "right", "down", "left" } },
+
+ { "down", "DOWN ↓", 	/*VIRTB_DPAD0_D,*/ 1, IDIT_BUTTON, "up", 		{ "left", "up", "right" } },
+
  { "pause", "PAUSE", 6, IDIT_BUTTON, NULL },
 };
 
@@ -398,7 +419,7 @@ static InputDeviceInfoStruct InputDeviceInfo[] =
 
 static const InputPortInfoStruct PortInfo[] =
 {
- { 0, "builtin", "Built-In", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo }
+ { 0, "builtin", "Built-In", sizeof(InputDeviceInfo) / sizeof(InputDeviceInfoStruct), InputDeviceInfo, 0 }
 };
 
 static InputInfoStruct InputInfo =
@@ -407,15 +428,23 @@ static InputInfoStruct InputInfo =
  PortInfo
 };
 
+static const FileExtensionSpecStruct KnownExtensions[] =
+{
+ { ".lnx", gettext_noop("Atari Lynx ROM Image") },
+ { NULL, NULL }
+};
 
 MDFNGI EmulatedLynx =
 {
  "lynx",
- #ifdef WANT_DEBUGGER
+ "Atari Lynx",
+ KnownExtensions,
+ MODPRIO_INTERNAL_HIGH,
  NULL,
- #endif
  &InputInfo,
  Load,
+ TestMagic,
+ NULL,
  NULL,
  CloseGame,
  ToggleLayer,
@@ -425,22 +454,25 @@ MDFNGI EmulatedLynx =
  NULL,
  StateAction,
  Emulate,
- SetPixelFormat,
  SetInput,
- NULL,
- NULL,
- NULL,
- SetSoundMultiplier,
- SetSoundVolume,
- Sound,
  DoSimpleCommand,
  LynxSettings,
+ MDFN_MASTERCLOCK_FIXED(16000000),
  0,
- NULL,
- 160,
- 102,
- 160, // Save state preview width
- 256 * sizeof(uint32),
- {0, 0, 160, 102},
+
+ false, // Multires possible?
+
+ 160,   // lcm_width
+ 102,   // lcm_height
+ NULL,  // Dummy
+
+
+ 160,	// Nominal width
+ 102,	// Nominal height
+
+ 160,	// Framebuffer width
+ 102,	// Framebuffer height
+
+ 1,     // Number of output sound channels
 };
 

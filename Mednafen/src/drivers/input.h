@@ -8,8 +8,6 @@ typedef struct {
 	uint64 DeviceID;
 } ButtConfig;
 
-extern CFGSTRUCT InputConfig[];
-
 #define BUTTC_NONE		0x00
 #define BUTTC_KEYBOARD          0x01
 #define BUTTC_JOYSTICK          0x02
@@ -27,7 +25,7 @@ void ResyncGameInputSettings(void);
 // Called when a game is closed.
 void KillGameInput(void);
 
-void MDFND_UpdateInput(void);
+void MDFND_UpdateInput(bool VirtualDevicesOnly = false, bool UpdateRapidFire = true);
 
 void MakeInputSettings(std::vector <MDFNSetting> &settings);
 void KillInputSettings(void); // Called after MDFNI_Kill() is called

@@ -20,7 +20,6 @@
 #include "Globals.h"
 #include "flash.h"
 #include "sram.h"
-#include "../memory.h"
 
 #include <memory.h>
 
@@ -51,7 +50,7 @@ int GBA_Flash_StateAction(StateMem *sm, int load, int data_only)
    SFVAR(flashReadState),
    SFVAR(flashSize),
    SFVAR(flashBank),
-   { flashSaveMemory, 0x20000, "flashSaveMemory" },
+   SFARRAYN(flashSaveMemory, 0x20000, "flashSaveMemory"),
    SFEND
  };
 

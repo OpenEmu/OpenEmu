@@ -27,6 +27,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>	// For debugging
+#include <assert.h>
 
 #ifdef HAVE_GETTIMEOFDAY
 #include <sys/time.h>
@@ -36,7 +37,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include <errno.h>
 
 #include "convert.h"
-
 
 /* kludge.  yay. */
 SexyAL_enumdevice *SexyALI_OSS_EnumerateDevices(void);
@@ -204,8 +204,19 @@ static SexyAL_device *Open(SexyAL *iface, const char *id, SexyAL_format *format,
    id += strlen("sexyal-literal-");
  }
 
+ assert(0 == buffering->buffer_size);
+ assert(0 == buffering->period_size);
+ assert(0 == buffering->latency);
+
  if(!(ret = driver->Open(id, format, buffering)))
   return(0);
+
+ assert(0 != buffering->buffer_size);
+ //assert(0 != buffering->period_size);
+ assert(0 != buffering->latency);
+
+ buffering->ms = (uint64_t)buffering->buffer_size * 1000 / format->rate;
+ buffering->period_us = (uint64_t)buffering->period_size * (1000 * 1000) / format->rate;
 
  ret->Write = Write;
  ret->Close = Close;
@@ -283,6 +294,30 @@ uint32_t SexyAL_rupow2(uint32_t v)
  return(v);
 }
 
+int32_t SexyAL_rnearestpow2(int32_t v, bool round_halfway_up)
+{
+ int32_t upper, lower;
+ int32_t diff_upper, diff_lower;
+
+ upper = SexyAL_rupow2(v);
+ lower = upper >> 1;
+
+ if(!lower)
+  lower = 1;
+
+ diff_upper = abs(v - upper);
+ diff_lower = abs(v - lower);
+
+ if(diff_upper == diff_lower)
+ {
+  return(round_halfway_up ? upper : lower);
+ }
+ else if(diff_upper < diff_lower)
+  return(upper);
+
+ return(lower);
+}
+
 // Returns (preferably-monotonic) time in microseconds.
 int64_t SexyAL_Time64(void)
 {
@@ -308,7 +343,7 @@ int64_t SexyAL_Time64(void)
    res_test = 1;
   }
 
-  return((int64_t)tp.tv_sec * 1e6 + tp.tv_nsec / 1e3);
+  return((int64_t)tp.tv_sec * (1000 * 1000) + tp.tv_nsec / 1000);
  }
  #else
    #warning "SexyAL: clock_gettime() with CLOCK_MONOTONIC not available"

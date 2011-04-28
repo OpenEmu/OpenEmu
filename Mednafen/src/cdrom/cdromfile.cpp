@@ -17,13 +17,17 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#define _CDROMFILE_INTERNAL
 #include "../mednafen.h"
 
 #include <sys/types.h>
 #include <sys/stat.h>
+
+#ifdef HAVE_LIBCDIO
 #include <cdio/cdio.h>
-#include "../tremor/ivorbisfile.h"
-//#include <sndfile.h>
+#include <cdio/mmc.h>
+#endif
+
 #include <string.h>
 #include <errno.h>
 #include <time.h>
@@ -31,11 +35,58 @@
 
 #include "../general.h"
 #include "../endian.h"
+
 #include "cdromif.h"
 #include "cdromfile.h"
 #include "dvdisaster.h"
+#include "lec.h"
 
-static bool LEC_Eval;
+#include "audioreader.h"
+
+struct CDRFILE_TRACK_INFO
+{
+        int32 LBA;
+	
+	CD_Track_Format_t Format;
+	uint32 DIFormat;
+
+        //track_format_t Format;	
+	//bool IsData2352;
+
+
+        int32 pregap;
+	int32 index;
+	int32 sectors;	// Not including pregap sectors!
+        FILE *fp;
+	bool FirstFileInstance;
+	bool RawAudioMSBFirst;
+	long FileOffset;
+	unsigned int SubchannelMode;
+
+	uint32 LastSamplePos;
+
+	AudioReader *AReader;
+	int16 AudioBuf[588 * 2];
+};
+
+struct CDRFile
+{
+        int32 NumTracks;
+        int32 FirstTrack;
+        int32 total_sectors;
+        CDRFILE_TRACK_INFO Tracks[100]; // Track #0(HMM?) through 99
+
+	#ifdef HAVE_LIBCDIO
+        CdIo *p_cdio;
+	bool CanMMC;		// TODO: Can run MMC commands directly.
+	bool CanRawRead;	// TODO: Can do raw reads of data sectors(of parity and headers etc, 2352 bytes total)
+	bool CanSubRead;	// TODO: Can read subchannel data.
+	#endif
+};
+
+
+// 1-bit per sector on the physical CD.  If set, don't read that sector.
+static uint8 SkipSectorRead[65536];
 
 // lookup table for crc calculation
 static uint16 subq_crctab[256] = 
@@ -89,8 +140,18 @@ bool cdrfile_check_subq_checksum(uint8 *SubQBuf)
 
 
 // MakeSubQ will OR the simulated Q subchannel data into SubPWBuf.
-static void MakeSubQ(const CDRFile *p_cdrfile, uint32 lsn, uint8 *SubPWBuf);
+static void MakeSubQ(const CDRFile *p_cdrfile, uint32 lba, uint8 *SubPWBuf);
 
+
+void cdrfile_deinterleave_subq(const uint8 *SubPWBuf, uint8 *qbuf)
+{
+ memset(qbuf, 0, 0xC);
+
+ for(int i = 0; i < 96; i++)
+ {
+  qbuf[i >> 3] |= ((SubPWBuf[i] >> 6) & 0x1) << (7 - (i & 0x7));
+ }
+}
 
 static char *UnQuotify(char *src, char *dest)
 {
@@ -140,38 +201,10 @@ static uint32 GetSectorCount(CDRFILE_TRACK_INFO *track)
 {
  // - track->FileOffset is really only meaningful for TOC files
  // ...and the last track for CUE/BIN
- if(track->Format == TRACK_FORMAT_DATA)
+ if(track->DIFormat == DI_FORMAT_AUDIO)
  {
-  struct stat stat_buf;
-
-  if(fstat(fileno(track->fp), &stat_buf))
-  {
-   //printf("Erra: %m\n", errno);
-  }
-  if(track->IsData2352)
-  {
-   return((stat_buf.st_size - track->FileOffset) / 2352);
-  }
-  else
-  {
-   //printf("%d %d %d\n", (int)stat_buf.st_size, (int)track->FileOffset, (int)stat_buf.st_size - (int)track->FileOffset);
-   return((stat_buf.st_size - track->FileOffset) / 2048);
-  }
- }
- else if(track->Format == TRACK_FORMAT_AUDIO)
- {
-  if(track->sf)
-  {
-   // 2352 / 588 = 4;
-
-   return(((track->sfinfo.frames * 4) - track->FileOffset) / 2352);
-  }
-  else if(track->ovfile)
-   return(ov_pcm_total(track->ovfile, -1) / 588);
-  else if(track->MPCReaderFile)
-  {
-   return(((track->MPCStreamInfo->frames - 1) * MPC_FRAME_LENGTH + track->MPCStreamInfo->last_frame_samples) / 588);
-  }
+  if(track->AReader)
+   return(((track->AReader->FrameCount() * 4) - track->FileOffset) / 2352);
   else
   {
    struct stat stat_buf;
@@ -184,39 +217,41 @@ static uint32 GetSectorCount(CDRFILE_TRACK_INFO *track)
     return((stat_buf.st_size - track->FileOffset) / 2352);
   }
  }
- 
+ else
+ {
+  struct stat stat_buf;
+
+  if(fstat(fileno(track->fp), &stat_buf))
+  {
+   ErrnoHolder ene(errno);
+
+   printf("Error: %s\n", ene.StrError());
+   exit(1);
+  }
+
+  return((stat_buf.st_size - track->FileOffset) / DI_Size_Table[track->DIFormat]);
+ }
+
  return(0);
 }
 
 void cdrfile_destroy(CDRFile *p_cdrfile)
 {
+ #ifdef HAVE_LIBCDIO
  if(p_cdrfile->p_cdio)
   cdio_destroy(p_cdrfile->p_cdio);
  else
+ #endif
  {
-  track_t track;
+  int32 track;
   for(track = p_cdrfile->FirstTrack; track < (p_cdrfile->FirstTrack + p_cdrfile->NumTracks); track++)
   {
    CDRFILE_TRACK_INFO *this_track = &p_cdrfile->Tracks[track];
-   
-   if(this_track->MPCReaderFile)
-    free(this_track->MPCReaderFile);
-   if(this_track->MPCStreamInfo)
-    free(this_track->MPCStreamInfo);
-   if(this_track->MPCDecoder)
-    free(this_track->MPCDecoder);
-   if(this_track->MPCBuffer)
-    free(this_track->MPCBuffer);
  
-   if(p_cdrfile->Tracks[track].sf)
+   if(p_cdrfile->Tracks[track].AReader)
    {
-    sf_close(p_cdrfile->Tracks[track].sf);
-   }
-
-   if(p_cdrfile->Tracks[track].ovfile)
-   {
-    ov_clear(p_cdrfile->Tracks[track].ovfile);
-    free(p_cdrfile->Tracks[track].ovfile);
+    delete p_cdrfile->Tracks[track].AReader;
+    p_cdrfile->Tracks[track].AReader = NULL;
    }
    else
    {
@@ -239,22 +274,21 @@ static bool ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int tracknum, 
 
  if(NULL == (track->fp = fopen(efn.c_str(), "rb")))
  {
-  MDFN_printf(_("Could not open referenced file \"%s\": %m\n"), efn.c_str(), errno);
+  ErrnoHolder ene(errno);
+
+  MDFN_printf(_("Could not open referenced file \"%s\": %s\n"), efn.c_str(), ene.StrError());
   return(0);
  }
 
  if(strlen(filename) >= 4 && !strcasecmp(filename + strlen(filename) - 4, ".wav"))
  {
-  if((track->sf = sf_open_fd(fileno(track->fp), SFM_READ, &track->sfinfo, 0)))
-  {
+  track->AReader = AR_Open(track->fp);
 
-  }
+  if(!track->AReader)
+   return(false);
  }
 
- if(track->Format == TRACK_FORMAT_AUDIO || track->IsData2352)
-  sector_mult = 2352;
- else
-  sector_mult = 2048;
+ sector_mult = DI_Size_Table[track->DIFormat];
 
  if(track->SubchannelMode)
   sector_mult += 96;
@@ -279,7 +313,7 @@ static bool ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int tracknum, 
 
   if(trio_sscanf(length, "%d:%d:%d", &m, &s, &f) == 3)
    tmp_long = (m * 60 + s) * 75 + f;
-  else if(track->Format == TRACK_FORMAT_AUDIO)
+  else if(track->DIFormat == DI_FORMAT_AUDIO)
   {
    char *endptr = NULL;
 
@@ -297,7 +331,7 @@ static bool ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int tracknum, 
 
   if(tmp_long > sectors)
   {
-   MDFN_printf(_("Length specified in TOC file for track %d is too large by %d sectors!\n"), (int)tracknum, (int)(tmp_long - sectors));
+   MDFN_printf(_("Length specified in TOC file for track %d is too large by %ld sectors!\n"), tracknum, (long)(tmp_long - sectors));
    return(FALSE);
   }
   sectors = tmp_long;
@@ -309,13 +343,62 @@ static bool ParseTOCFileLineInfo(CDRFILE_TRACK_INFO *track, const int tracknum, 
  return(TRUE);
 }
 
-CDRFile *cdrfile_open(const char *path)
+#ifdef HAVE_LIBCDIO
+static void DetermineFeatures(CDRFile *p_cdrfile)
+{
+ uint8 buf[256];
+ uint8 *page;
+
+ mmc_cdb_t cdb = {{0, }};
+
+ CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_MODE_SENSE_10);
+
+ memset(buf, 0, sizeof(buf));
+
+ cdb.field[2] = 0x2A;
+
+ cdb.field[7] = sizeof(buf) >> 8;
+ cdb.field[8] = sizeof(buf) & 0xFF;
+
+ p_cdrfile->CanMMC = false;
+ p_cdrfile->CanRawRead = false;
+ p_cdrfile->CanSubRead = false;
+
+ if(mmc_run_cmd (p_cdrfile->p_cdio, MMC_TIMEOUT_DEFAULT,
+                    &cdb,
+                    SCSI_MMC_DATA_READ,
+                    sizeof(buf),
+                    buf))
+ {
+  MDFN_printf(_("MMC [MODE SENSE 10] command failed.\n"));
+ }
+ else
+ {
+  page = &buf[8];
+
+  if(page[0] != 0x2A || page[1] < 0x14)
+   MDFN_printf(_("MMC [MODE SENSE 10] command returned bogus data for mode page 0x2A?\n"));
+  else
+  {
+   //printf("%02x\n", page[5]);
+   p_cdrfile->CanMMC = true;
+   if(page[5] & 0x04)
+    p_cdrfile->CanSubRead = true;
+  }
+ }
+ //for(int i = 0; i < 256; i++)
+ // printf("%02x\n", buf[i]);
+ // p_cdrfile->CanMMC = false;
+ MDFN_printf("Using MMC commands directly: %s\n", p_cdrfile->CanMMC ? _("Yes") : _("No"));
+ MDFN_printf("Performing subchannel R-W Reading: %s\n", p_cdrfile->CanSubRead ? _("Yes") : _("No"));
+}
+#endif
+
+#ifdef HAVE_LIBCDIO
+static CDRFile *PhysOpen(const char *path)
 {
  CDRFile *ret = (CDRFile *)calloc(1, sizeof(CDRFile));
- struct stat stat_buf;
 
- if(path == NULL || stat(path, &stat_buf) || !S_ISREG(stat_buf.st_mode))
- {
   CdIo *p_cdio;
   char **devices;
   char **parseit;
@@ -377,28 +460,106 @@ CDRFile *cdrfile_open(const char *path)
    return(NULL);
   }
 
-  for(track_t track = ret->FirstTrack; track < (ret->FirstTrack + ret->NumTracks); track++)
+  for(int32 track = ret->FirstTrack; track < (ret->FirstTrack + ret->NumTracks); track++)
   {
    memset(&ret->Tracks[track], 0, sizeof(CDRFILE_TRACK_INFO));
 
    ret->Tracks[track].sectors = cdio_get_track_sec_count(ret->p_cdio, track);
-   ret->Tracks[track].LSN = cdio_get_track_lsn(ret->p_cdio, track);
-   ret->Tracks[track].Format = cdio_get_track_format(ret->p_cdio, track);
+   ret->Tracks[track].LBA = cdio_get_track_lsn(ret->p_cdio, track);
+
+   switch(cdio_get_track_format(ret->p_cdio, track))
+   {
+    case TRACK_FORMAT_AUDIO:
+	ret->Tracks[track].Format = CD_TRACK_FORMAT_AUDIO;
+	break;
+
+    default:
+	ret->Tracks[track].Format = CD_TRACK_FORMAT_DATA;
+	break;
+   }
   }
 
-  return(ret);
- }
+ //
+ // Determine how we can read this CD.
+ //
+ DetermineFeatures(ret);
 
-  FILE *fp = fopen(path, "rb");
-  bool IsTOC = FALSE;
+ #if 1
+ memset(SkipSectorRead, 0, sizeof(SkipSectorRead));
+ #else
+ // Determine/Calculate unreadable portions of the disc.
+ {
+  int32 a_to_d_skip = 0;	// In frames;
+
+  memset(SkipSectorRead, 0, sizeof(SkipSectorRead));
+
+  // Find track type transitions.
+  for(int track = ret->FirstTrack + 1; track < (ret->FirstTrack + ret->NumTracks); track++)
+  {
+   bool transition = false;
+
+   if(ret->Tracks[track - 1].Format != ret->Tracks[track].Format)
+    transition = true;
+
+   if(transition)
+   {
+    int32 lba = ret->Tracks[track].LBA;
+    uint8 dummy_buf[2352 + 96];
+    static const int test_offsets[] = { -75 * 4, -75 * 3   };
+
+    for(int frame = -75 * 4; frame < 0; frame += 75)
+    {
+     for(int subframe = -1; subframe <= 1; subframe++)
+     {
+      int32 eff_offset = frame + subframe;
+      int32 eff_lba = lba + eff_offset;
+      if(eff_lba >= 0)
+      {
+       if(!cdrfile_read_raw_sector(ret, dummy_buf, eff_lba))
+       {
+	printf("Failure: %d\n", eff_lba);
+	for(int32 il = eff_lba; il < ret->Tracks[track].LBA; il++)
+        {
+	 printf(" Skipping: %d\n", il);
+	 SkipSectorRead[il >> 3] |= 1 << (il & 7);
+        }
+	goto EndFrameTest;
+       }
+       else
+	printf("Success: %d\n", eff_lba);
+      }
+     }
+    }
+    EndFrameTest: ;
+   }
+  }
+
+  //if(a_to_d_skip)
+  //{
+  //}
+ }
+ #endif
+
+ return(ret);
+}
+#endif
+
+
+static CDRFile *ImageOpen(const char *path)
+{
+ CDRFile *ret = (CDRFile *)calloc(1, sizeof(CDRFile));
+ FILE *fp = NULL;
+ bool IsTOC = FALSE;
 
   // Assign opposite maximum values so our tests will work!
   int FirstTrack = 99;
   int LastTrack = 0;
 
-  if(!fp)
+  if(!(fp = fopen(path, "rb")))
   {
-   MDFN_PrintError(_("Error opening CUE sheet/TOC \"%s\": %m\n"), path, errno);
+   ErrnoHolder ene(errno);
+
+   MDFN_PrintError(_("Error opening CUE sheet/TOC \"%s\": %s\n"), path, ene.StrError());
    free(ret);
    return(NULL);
   }
@@ -483,22 +644,26 @@ CDRFile *cdrfile_open(const char *path)
      if(active_track > LastTrack)
       LastTrack = active_track;
 
-     if(!strcasecmp(args[0], "AUDIO"))
+     int format_lookup;
+     for(format_lookup = 0; format_lookup < _DI_FORMAT_COUNT; format_lookup++)
      {
-      TmpTrack.Format = TRACK_FORMAT_AUDIO;
+      if(!strcasecmp(args[0], DI_CDRDAO_Strings[format_lookup]))
+      {
+       TmpTrack.DIFormat = format_lookup;
+       break;
+      }
+     }
+
+     if(format_lookup == _DI_FORMAT_COUNT)
+     {
+      MDFN_printf(_("Invalid track format: %s\n"), args[0]);
+      free(ret);
+      return(0);
+     }
+
+     if(TmpTrack.DIFormat == DI_FORMAT_AUDIO)
       TmpTrack.RawAudioMSBFirst = TRUE; // Silly cdrdao...
-     }
-     else if(!strcasecmp(args[0], "MODE1"))
-     {
-      TmpTrack.Format = TRACK_FORMAT_DATA;
-      TmpTrack.IsData2352 = 0;
-     }
-     else if(!strcasecmp(args[0], "MODE1_RAW"))
-     {
-      TmpTrack.Format = TRACK_FORMAT_DATA;
-      TmpTrack.IsData2352 = 1;
-     }
-    
+
      if(!strcasecmp(args[1], "RW"))
      {
       TmpTrack.SubchannelMode = CDRF_SUBM_RW;
@@ -603,7 +768,9 @@ CDRFile *cdrfile_open(const char *path)
      std::string efn = MDFN_MakeFName(MDFNMKF_AUX, 0, args[0]);
      if(NULL == (TmpTrack.fp = fopen(efn.c_str(), "rb")))
      {
-      MDFN_printf(_("Could not open referenced file \"%s\": %m\n"), efn.c_str(), errno);
+      ErrnoHolder ene(errno);
+
+      MDFN_printf(_("Could not open referenced file \"%s\": %s\n"), efn.c_str(), ene.StrError());
       free(ret);
       return(0);
      }
@@ -618,57 +785,13 @@ CDRFile *cdrfile_open(const char *path)
      else if(!strcasecmp(args[1], "OGG") || !strcasecmp(args[1], "VORBIS") || !strcasecmp(args[1], "WAVE") || !strcasecmp(args[1], "WAV") || !strcasecmp(args[1], "PCM")
 	|| !strcasecmp(args[1], "MPC") || !strcasecmp(args[1], "MP+"))
      {
-      TmpTrack.ovfile = (OggVorbis_File *) calloc(1, sizeof(OggVorbis_File));
-
-      if((TmpTrack.sf = sf_open_fd(fileno(TmpTrack.fp), SFM_READ, &TmpTrack.sfinfo, 0)))
+      TmpTrack.AReader = AR_Open(TmpTrack.fp);
+      if(!TmpTrack.AReader)
       {
-       free(TmpTrack.ovfile);
-       TmpTrack.ovfile = NULL;
-      }
-      else if(!lseek(fileno(TmpTrack.fp), 0, SEEK_SET) && !ov_open(TmpTrack.fp, TmpTrack.ovfile, NULL, 0))
-      {
-       //TmpTrack.Format = TRACK_FORMAT_AUDIO;
-       //TmpTrack.sectors = ov_pcm_total(&TmpTrack.ovfile, -1) / 588;
-      }
-      else
-      {      
-       free(TmpTrack.ovfile);
-       TmpTrack.ovfile = NULL;
-
-       fseek(TmpTrack.fp, 0, SEEK_SET);
-
-       TmpTrack.MPCReaderFile = (mpc_reader_file *)calloc(1, sizeof(mpc_reader_file));
-       TmpTrack.MPCStreamInfo = (mpc_streaminfo *)calloc(1, sizeof(mpc_streaminfo));
-       TmpTrack.MPCDecoder = (mpc_decoder *)calloc(1, sizeof(mpc_decoder));
-       TmpTrack.MPCBuffer = (MPC_SAMPLE_FORMAT *)calloc(MPC_DECODER_BUFFER_LENGTH, sizeof(MPC_SAMPLE_FORMAT));
-
-       mpc_streaminfo_init(TmpTrack.MPCStreamInfo);
-
-       mpc_reader_setup_file_reader(TmpTrack.MPCReaderFile, TmpTrack.fp);
-
-       if(mpc_streaminfo_read(TmpTrack.MPCStreamInfo, &TmpTrack.MPCReaderFile->reader) != ERROR_CODE_OK)
-       {
-        MDFN_printf(_("Unsupported audio track file format: %s\n"), args[0]);
-        free(TmpTrack.MPCReaderFile);
-        free(TmpTrack.MPCStreamInfo);
-        free(TmpTrack.MPCDecoder);
-        free(TmpTrack.MPCBuffer);
-        free(ret);
-        return(0);
-       }
-
-       mpc_decoder_setup(TmpTrack.MPCDecoder, &TmpTrack.MPCReaderFile->reader);
-       if(!mpc_decoder_initialize(TmpTrack.MPCDecoder, TmpTrack.MPCStreamInfo))
-       {
-        MDFN_printf(_("Error initializing MusePack decoder: %s!\n"), args[0]);
-        free(TmpTrack.MPCReaderFile);
-        free(TmpTrack.MPCStreamInfo);
-        free(TmpTrack.MPCDecoder);
-        free(TmpTrack.MPCBuffer);
-        free(ret);
-        return(0);
-       }
-      }
+       MDFN_printf(_("Unsupported audio track file format: %s\n"), args[0]);
+       free(ret);
+       return(0);
+      }     
      }
      else
      {
@@ -692,18 +815,23 @@ CDRFile *cdrfile_open(const char *path)
      if(active_track > LastTrack)
       LastTrack = active_track;
 
-     if(!strcasecmp(args[1], "AUDIO"))
-      TmpTrack.Format = TRACK_FORMAT_AUDIO;
-     else if(!strcasecmp(args[1], "MODE1/2048"))
+     int format_lookup;
+     for(format_lookup = 0; format_lookup < _DI_FORMAT_COUNT; format_lookup++)
      {
-      TmpTrack.Format = TRACK_FORMAT_DATA;
-      TmpTrack.IsData2352 = 0;
+      if(!strcasecmp(args[1], DI_CUE_Strings[format_lookup]))
+      {
+       TmpTrack.DIFormat = format_lookup;
+       break;
+      }
      }
-     else if(!strcasecmp(args[1], "MODE1/2352"))
+
+     if(format_lookup == _DI_FORMAT_COUNT)
      {
-      TmpTrack.Format = TRACK_FORMAT_DATA;
-      TmpTrack.IsData2352 = 1;
+      MDFN_printf(_("Invalid track format: %s\n"), args[0]);
+      return(0);
      }
+
+
      TmpTrack.sectors = GetSectorCount(&TmpTrack);
      if(active_track < 0 || active_track > 99)
      {
@@ -734,10 +862,13 @@ CDRFile *cdrfile_open(const char *path)
 
  if(ferror(fp))
  {
+  ErrnoHolder ene(errno);	// Is errno valid here?
+
   if(IsTOC)
-   MDFN_printf(_("Error reading TOC file: %m\n"), errno);
+   MDFN_printf(_("Error reading TOC file: %s\n"), ene.StrError());
   else
-   MDFN_printf(_("Error reading CUE sheet: %m\n"), errno);
+   MDFN_printf(_("Error reading CUE sheet: %s\n"), ene.StrError());
+
   return(0);
  }
 
@@ -753,17 +884,22 @@ CDRFile *cdrfile_open(const char *path)
  ret->FirstTrack = FirstTrack;
  ret->NumTracks = 1 + LastTrack - FirstTrack;
 
- lsn_t RunningLSN = 0;
- lsn_t LastIndex = 0;
+ int32 RunningLBA = 0;
+ int32 LastIndex = 0;
  long FileOffset = 0;
 
  for(int x = ret->FirstTrack; x < (ret->FirstTrack + ret->NumTracks); x++)
  {
+  if(ret->Tracks[x].DIFormat == DI_FORMAT_AUDIO)
+   ret->Tracks[x].Format = CD_TRACK_FORMAT_AUDIO;
+  else
+   ret->Tracks[x].Format = CD_TRACK_FORMAT_DATA;
+
   if(IsTOC)
   {
-   RunningLSN += ret->Tracks[x].pregap;
-   ret->Tracks[x].LSN = RunningLSN;
-   RunningLSN += ret->Tracks[x].sectors;
+   RunningLBA += ret->Tracks[x].pregap;
+   ret->Tracks[x].LBA = RunningLBA;
+   RunningLBA += ret->Tracks[x].sectors;
   }
   else // else handle CUE sheet...
   {
@@ -772,9 +908,9 @@ CDRFile *cdrfile_open(const char *path)
     LastIndex = 0;
     FileOffset = 0;
    }
-   RunningLSN += ret->Tracks[x].pregap;
+   RunningLBA += ret->Tracks[x].pregap;
 
-   ret->Tracks[x].LSN = RunningLSN;
+   ret->Tracks[x].LBA = RunningLBA;
 
    // Make sure this is set before the call to GetSectorCount() for the last track sector count fix.
    ret->Tracks[x].FileOffset = FileOffset;
@@ -789,7 +925,7 @@ CDRFile *cdrfile_open(const char *path)
    }
    else if(ret->Tracks[x+1].FirstFileInstance)
    {
-    //RunningLSN += ret->Tracks[x].sectors;
+    //RunningLBA += ret->Tracks[x].sectors;
    }
    else
    { 
@@ -798,263 +934,329 @@ CDRFile *cdrfile_open(const char *path)
    }
 
    //printf("Poo: %d %d\n", x, ret->Tracks[x].sectors);
-   RunningLSN += ret->Tracks[x].sectors;
+   RunningLBA += ret->Tracks[x].sectors;
 
-   //printf("%d, %ld %d %d %d %d\n", x, FileOffset, ret->Tracks[x].index, ret->Tracks[x].pregap, ret->Tracks[x].sectors, ret->Tracks[x].LSN);
+   //printf("%d, %ld %d %d %d %d\n", x, FileOffset, ret->Tracks[x].index, ret->Tracks[x].pregap, ret->Tracks[x].sectors, ret->Tracks[x].LBA);
 
-   if(ret->Tracks[x].Format == TRACK_FORMAT_AUDIO || TmpTrack.IsData2352)
-    FileOffset += ret->Tracks[x].sectors * 2352;
-   else
-    FileOffset += ret->Tracks[x].sectors * 2048;
+   FileOffset += ret->Tracks[x].sectors * DI_Size_Table[ret->Tracks[x].DIFormat];
   } // end to cue sheet handling
  } // end to track loop
 
- LEC_Eval = MDFN_GetSettingB("cdrom.lec_eval");
- if(LEC_Eval)
- {
-  Init_LEC_Correct();
- }
- MDFN_printf(_("Raw rip data correction using L-EC: %s\n\n"), LEC_Eval ? _("Enabled") : _("Disabled"));
+ ret->total_sectors = RunningLBA;
 
- ret->total_sectors = RunningLSN; // Running LBA?  Running LSN? arghafsdf...LSNBAN!#!$ -_-
  return(ret);
 }
 
-lsn_t cdrfile_get_track_lsn(const CDRFile *p_cdrfile, track_t i_track)
+
+CDRFile *cdrfile_open(const char *path)
 {
- return(p_cdrfile->Tracks[i_track].LSN);
+ struct stat stat_buf;
+ CDRFile *ret;
+
+#ifdef HAVE_LIBCDIO
+ if(path == NULL || stat(path, &stat_buf) || !S_ISREG(stat_buf.st_mode))
+  ret = PhysOpen(path);
+ else
+#endif
+  ret = ImageOpen(path);
+
+ return(ret);
 }
 
-int cdrfile_read_audio_sector(CDRFile *p_cdrfile, void *buf, uint8 *SubPWBuf, lsn_t lsn)
+int32 cdrfile_get_track_lba(const CDRFile *p_cdrfile, int32 i_track)
 {
- if(SubPWBuf)
- {
-  memset(SubPWBuf, 0, 96);
-  MakeSubQ(p_cdrfile, lsn, SubPWBuf);
- }
+ return(p_cdrfile->Tracks[i_track].LBA);
+}
 
+int cdrfile_read_raw_sector(CDRFile *p_cdrfile, uint8 *buf, int32 lba)
+{
+ uint8 SimuQ[0xC];
+ uint8 qbuf[0xC];
+
+ memset(buf + 2352, 0, 96);
+
+ MakeSubQ(p_cdrfile, lba, buf + 2352);
+
+ cdrfile_deinterleave_subq(buf + 2352, SimuQ);
+
+#ifdef HAVE_LIBCDIO
  if(p_cdrfile->p_cdio)
  {
-  if(cdio_read_audio_sector(p_cdrfile->p_cdio, buf, lsn) < 0)
+  if(SkipSectorRead[lba >> 3] & 1 << (lba & 7))
   {
+   printf("Read(skipped): %d\n", lba);
    memset(buf, 0, 2352);
-   return(0);
   }
-  Endian_A16_LE_to_NE(buf, 588 * 2);
-  return(1);
+  else if(p_cdrfile->CanMMC)
+  {
+   mmc_cdb_t cdb = {{0, }};
+
+   CDIO_MMC_SET_COMMAND(cdb.field, CDIO_MMC_GPCMD_READ_CD);
+   CDIO_MMC_SET_READ_TYPE    (cdb.field, CDIO_MMC_READ_TYPE_ANY);
+   CDIO_MMC_SET_READ_LBA     (cdb.field, lba);
+   CDIO_MMC_SET_READ_LENGTH24(cdb.field, 1);
+
+   cdb.field[9] = 0xF8;
+
+
+   cdb.field[10] = p_cdrfile->CanSubRead ? 0x1 : 0x0;
+
+   if(mmc_run_cmd (p_cdrfile->p_cdio, MMC_TIMEOUT_DEFAULT,
+                      &cdb,
+                      SCSI_MMC_DATA_READ,
+                      (p_cdrfile->CanSubRead ? (2352 + 96) : 2352),
+                      buf))
+   {
+    printf("MMC read error, sector %d\n", lba);
+    memset(buf, 0, 2352);
+    return(0);
+   }
+  }
+  else // else to if(p_cdrfile->CanMMC)
+  {
+   // using the subq data calculated in MakeSubQ() makes more sense than figuring out which track we're on again.
+   if(SimuQ[0] & 0x40)	// Data sector
+   {
+    int64 end_time = MDFND_GetTime() + MMC_TIMEOUT_DEFAULT;
+    bool read_success = false;
+
+    do
+    {
+     if(cdio_read_mode1_sectors(p_cdrfile->p_cdio, buf + 12 + 3 + 1, lba, 0, 1) >= 0)
+     {
+      read_success = true;
+      break;
+     }
+     if(MDFND_ExitBlockingLoop())
+      break;
+    } while(MDFND_GetTime() < end_time);
+
+    if(!read_success)
+     return(0);
+
+    lec_encode_mode1_sector(lba + 150, buf);
+   }
+   else // Audio sector
+   {
+    if(cdio_read_audio_sector(p_cdrfile->p_cdio, buf, lba) < 0)
+    {
+     printf("Audio read error, sector %d\n", lba);
+     memset(buf, 0, 2352);
+     return(0);
+    }
+   }
+  }
  }
  else
+#endif
  {
-  track_t track;
-  for(track = p_cdrfile->FirstTrack; track < (p_cdrfile->FirstTrack + p_cdrfile->NumTracks); track++)
+  bool TrackFound = FALSE;
+
+  for(int32 track = p_cdrfile->FirstTrack; track < (p_cdrfile->FirstTrack + p_cdrfile->NumTracks); track++)
   {
-   if(lsn >= (p_cdrfile->Tracks[track].LSN - p_cdrfile->Tracks[track].pregap) && lsn < (p_cdrfile->Tracks[track].LSN + p_cdrfile->Tracks[track].sectors))
+   CDRFILE_TRACK_INFO *ct = &p_cdrfile->Tracks[track];
+
+   if(lba >= (ct->LBA - ct->pregap) && lba < (ct->LBA + ct->sectors))
    {
-    if(lsn < p_cdrfile->Tracks[track].LSN)
+    TrackFound = TRUE;
+
+    if(lba < ct->LBA)
     {
      //puts("Pregap read");
      memset(buf, 0, 2352);
     }
     else
     {
-     if(p_cdrfile->Tracks[track].sf)
+     if(ct->AReader)
      {
-      long SeekPos = (p_cdrfile->Tracks[track].FileOffset / 4) + (lsn - p_cdrfile->Tracks[track].LSN) * 588;
+      long SeekPos = (ct->FileOffset / 4) + (lba - ct->LBA) * 588;
 
-      //printf("%d, %d\n", lsn, p_cdrfile->Tracks[track].LSN);
-      if(p_cdrfile->Tracks[track].LastSamplePos != SeekPos)
+      if(ct->LastSamplePos != SeekPos)
       {
-	//printf("Seek: %d %d\n", SeekPos, p_cdrfile->Tracks[track].LastSamplePos);
-       sf_seek(p_cdrfile->Tracks[track].sf, SeekPos, SEEK_SET);
-       p_cdrfile->Tracks[track].LastSamplePos = SeekPos;
+       if(ct->AReader->Seek(SeekPos))
+        ct->LastSamplePos = SeekPos;
       }
-      sf_count_t readcount = sf_read_short(p_cdrfile->Tracks[track].sf, (short*)buf, 588 * 2);
 
-      p_cdrfile->Tracks[track].LastSamplePos += readcount / 2;
-     }
-     else if(p_cdrfile->Tracks[track].ovfile)// vorbis
-     {
-      int cursection = 0;
-
-      if(p_cdrfile->Tracks[track].LastSamplePos != 588 * (lsn - p_cdrfile->Tracks[track].LSN))
-      {
-       ov_pcm_seek((OggVorbis_File *)p_cdrfile->Tracks[track].ovfile, (lsn - p_cdrfile->Tracks[track].LSN) * 588);
-       p_cdrfile->Tracks[track].LastSamplePos = 588 * (lsn - p_cdrfile->Tracks[track].LSN);
-      }
-      long toread = 2352;
-      while(toread > 0)
-      {
-       long didread = ov_read((OggVorbis_File *)p_cdrfile->Tracks[track].ovfile, (char*)buf, toread, &cursection);
-
-       if(didread == 0)
-       {
-	memset(buf, 0, toread);
-	toread = 0;
-        break;
-       }
-       buf = (uint8 *)buf + didread;
-       toread -= didread;
-       p_cdrfile->Tracks[track].LastSamplePos += didread / 4;
-      }
-     } // end if vorbis
-     else if(p_cdrfile->Tracks[track].MPCReaderFile)	// MPC
-     {
-      //printf("%d %d\n", (lsn - p_cdrfile->Tracks[track].LSN), p_cdrfile->Tracks[track].LastSamplePos);
-      if(p_cdrfile->Tracks[track].LastSamplePos != 1176 * (lsn - p_cdrfile->Tracks[track].LSN))
-      {
-       mpc_decoder_seek_sample(p_cdrfile->Tracks[track].MPCDecoder, 588 * (lsn - p_cdrfile->Tracks[track].LSN));
-       p_cdrfile->Tracks[track].LastSamplePos = 1176 * (lsn - p_cdrfile->Tracks[track].LSN);
-      }
-      //MPC_SAMPLE_FORMAT sample_buffer[MPC_DECODER_BUFFER_LENGTH];
-      //  MPC_SAMPLE_FORMAT MPCBuffer[MPC_DECODER_BUFFER_LENGTH];
-      //  uint32 MPCBufferIn;
-      int16 *cowbuf = (int16 *)buf;
-      int32 toread = 1176;
-
-      while(toread)
-      {
-       int32 tmplen;
-
-       if(!p_cdrfile->Tracks[track].MPCBufferIn)
-       {
-        int status = mpc_decoder_decode(p_cdrfile->Tracks[track].MPCDecoder, p_cdrfile->Tracks[track].MPCBuffer, 0, 0);
-	if(status < 0)
-	{
-	 printf("Bah\n");
-	 break;
-	}
-        p_cdrfile->Tracks[track].MPCBufferIn = status * 2;
-	p_cdrfile->Tracks[track].MPCBufferOffs = 0;
-       }
-
-       tmplen = p_cdrfile->Tracks[track].MPCBufferIn;
-
-       if(tmplen >= toread)
-        tmplen = toread;
-
-       for(int x = 0; x < tmplen; x++)
-       {
-	int32 samp = p_cdrfile->Tracks[track].MPCBuffer[p_cdrfile->Tracks[track].MPCBufferOffs + x] >> 14;
-
-	//if(samp < - 32768 || samp > 32767) // This happens with some MPCs of ripped games I've tested, and it's not just 1 or 2 over, and I don't know why!
-	// printf("MPC Sample out of range: %d\n", samp);
-        *cowbuf = (int16)samp;
-        cowbuf++;
-       }
+      int frames_read = ct->AReader->Read(ct->AudioBuf, 588);
       
-       p_cdrfile->Tracks[track].MPCBufferOffs += tmplen;
-       toread -= tmplen;
-       p_cdrfile->Tracks[track].LastSamplePos += tmplen;
-       p_cdrfile->Tracks[track].MPCBufferIn -= tmplen;        
-     }
+      ct->LastSamplePos += frames_read;
 
+      if(frames_read < 0 || frames_read > 588)	// This shouldn't happen.
+      {
+       printf("Error: frames_read out of range: %d\n", frames_read);
+       frames_read = 0;
+      }
+
+      if(frames_read < 588)
+       memset((uint8 *)ct->AudioBuf + frames_read * 2 * sizeof(int16), 0, (588 - frames_read) * 2 * sizeof(int16));
+
+      for(int i = 0; i < 588 * 2; i++)
+       MDFN_en16lsb(buf + i * 2, ct->AudioBuf[i]);
      }
      else	// Binary, woo.
      {
-      long SeekPos = p_cdrfile->Tracks[track].FileOffset + 2352 * (lsn - p_cdrfile->Tracks[track].LSN); //(lsn - p_cdrfile->Tracks[track].index - p_cdrfile->Tracks[track].pregap);
- 
-      if(p_cdrfile->Tracks[track].SubchannelMode)
-       SeekPos += 96 * (lsn - p_cdrfile->Tracks[track].LSN);
+      long SeekPos = ct->FileOffset;
+      long LBARelPos = lba - ct->LBA;
 
-      if(!fseek(p_cdrfile->Tracks[track].fp, SeekPos, SEEK_SET))
+      SeekPos += LBARelPos * DI_Size_Table[ct->DIFormat];
+
+      if(ct->SubchannelMode)
+       SeekPos += 96 * (lba - ct->LBA);
+
+      fseek(ct->fp, SeekPos, SEEK_SET);
+
+      switch(ct->DIFormat)
       {
-       size_t didread = fread(buf, 1, 2352, p_cdrfile->Tracks[track].fp);
-       if(didread != 2352)
-       {
-        if(didread < 0) didread = 0;
-        memset((uint8*)buf + didread, 0, 2352 - didread);
-       }
+	case DI_FORMAT_AUDIO:
+		fread(buf, 1, 2352, ct->fp);
 
-       if(SubPWBuf && p_cdrfile->Tracks[track].SubchannelMode)
-       {
-        fread(SubPWBuf, 1, 96, p_cdrfile->Tracks[track].fp);
-       }
+		if(ct->RawAudioMSBFirst)
+		 Endian_A16_Swap(buf, 588 * 2);
+		break;
 
-       if(p_cdrfile->Tracks[track].RawAudioMSBFirst)
-        Endian_A16_BE_to_NE(buf, 588 * 2);
-       else
-        Endian_A16_LE_to_NE(buf, 588 * 2);
+	case DI_FORMAT_MODE1:
+		fread(buf + 12 + 3 + 1, 1, 2048, ct->fp);
+		lec_encode_mode1_sector(lba + 150, buf);
+		break;
+
+	case DI_FORMAT_MODE1_RAW:
+	case DI_FORMAT_MODE2_RAW:
+		fread(buf, 1, 2352, ct->fp);
+		break;
+
+	case DI_FORMAT_MODE2:
+		fread(buf + 16, 1, 2336, ct->fp);
+		lec_encode_mode2_sector(lba + 150, buf);
+		break;
+
+
+	// FIXME: M2F1, M2F2, does sub-header come before or after user data(standards say before, but I wonder
+	// about cdrdao...).
+	case DI_FORMAT_MODE2_FORM1:
+		fread(buf + 24, 1, 2048, ct->fp);
+		//lec_encode_mode2_form1_sector(lba + 150, buf);
+		break;
+
+	case DI_FORMAT_MODE2_FORM2:
+		fread(buf + 24, 1, 2324, ct->fp);
+		//lec_encode_mode2_form2_sector(lba + 150, buf);
+		break;
+
       }
-      else
-       memset(buf, 0, 2352);
+
+      if(ct->SubchannelMode)
+       fread(buf + 2352, 1, 96, ct->fp);
      }
     } // end if audible part of audio track read.
     break;
-   } // End if LSN is in range
+   } // End if LBA is in range
   } // end track search loop
 
-  if(track == (p_cdrfile->FirstTrack + p_cdrfile->NumTracks))
+  if(!TrackFound)
   {
+   puts("MOOOO");
    memset(buf, 0, 2352);
    return(0);
   }
-  return(1);
  }
+
+#if 0
+ if(qbuf[0] & 0x40)
+ {
+  uint8 dummy_buf[2352 + 96];
+  bool any_mismatch = FALSE;
+
+  memcpy(dummy_buf + 16, buf + 16, 2048); 
+  memset(dummy_buf + 2352, 0, 96);
+
+  MakeSubQ(p_cdrfile, lba, dummy_buf + 2352);
+  lec_encode_mode1_sector(lba + 150, dummy_buf);
+
+  for(int i = 0; i < 2352 + 96; i++)
+  {
+   if(dummy_buf[i] != buf[i])
+   {
+    printf("Mismatch at %d, %d: %02x:%02x; ", lba, i, dummy_buf[i], buf[i]);
+    any_mismatch = TRUE;
+   }
+  }
+  if(any_mismatch)
+   puts("\n");
+ }
+#endif
+
+ cdrfile_deinterleave_subq(buf + 2352, qbuf);
+
+ //printf("%02x\n", qbuf[0]);
+ //printf("%02x\n", buf[12 + 3]);
+
+ return(true);
 }
 
-track_t cdrfile_get_num_tracks (const CDRFile *p_cdrfile)
+int32 cdrfile_get_num_tracks (const CDRFile *p_cdrfile)
 {
  return(p_cdrfile->NumTracks);
 }
 
-track_format_t cdrfile_get_track_format(const CDRFile *p_cdrfile, track_t i_track)
+CD_Track_Format_t cdrfile_get_track_format(const CDRFile *p_cdrfile, int32 i_track)
 {
  return(p_cdrfile->Tracks[i_track].Format);
 }
 
-unsigned int cdrfile_get_track_sec_count(const CDRFile *p_cdrfile, track_t i_track)
+unsigned int cdrfile_get_track_sec_count(const CDRFile *p_cdrfile, int32 i_track)
 {
  return(p_cdrfile->Tracks[i_track].sectors);
 }
 
-track_t cdrfile_get_first_track_num(const CDRFile *p_cdrfile)
+int32 cdrfile_get_first_track_num(const CDRFile *p_cdrfile)
 {
  return(p_cdrfile->FirstTrack);
 }
 
-static void MakeSubQ(const CDRFile *p_cdrfile, uint32 lsn, uint8 *SubPWBuf)
+static void MakeSubQ(const CDRFile *p_cdrfile, uint32 lba, uint8 *SubPWBuf)
 {
  uint8 buf[0xC];
- track_t track;
- track_format_t tf;
- uint32 lsn_relative;
+ int32 track;
+ uint32 lba_relative;
  uint32 ma, sa, fa;
  uint32 m, s, f;
  bool track_found = FALSE;
 
  for(track = p_cdrfile->FirstTrack; track < (p_cdrfile->FirstTrack + p_cdrfile->NumTracks); track++)
  {
-  if(lsn >= (p_cdrfile->Tracks[track].LSN - p_cdrfile->Tracks[track].pregap) && lsn < (p_cdrfile->Tracks[track].LSN + p_cdrfile->Tracks[track].sectors))
+  if(lba >= (p_cdrfile->Tracks[track].LBA - p_cdrfile->Tracks[track].pregap) && lba < (p_cdrfile->Tracks[track].LBA + p_cdrfile->Tracks[track].sectors))
   {
    track_found = TRUE;
    break;
   }
  }
 
+ //printf("%d %d\n", p_cdrfile->Tracks[1].LBA, p_cdrfile->Tracks[1].sectors);
+
  if(!track_found)
  {
-  puts("MakeSubQ error!");
+  printf("MakeSubQ error for sector %u!", lba);
   track = p_cdrfile->FirstTrack;
  }
 
- tf = p_cdrfile->Tracks[track].Format;
- lsn_relative = abs((int32)lsn - p_cdrfile->Tracks[track].LSN);
+ lba_relative = abs((int32)lba - p_cdrfile->Tracks[track].LBA);
 
- f = (lsn_relative % 75);
- s = ((lsn_relative / 75) % 60);
- m = (lsn_relative / 75 / 60);
+ f = (lba_relative % 75);
+ s = ((lba_relative / 75) % 60);
+ m = (lba_relative / 75 / 60);
 
- fa = (lsn + 150) % 75;
- sa = ((lsn + 150) / 75) % 60;
- ma = ((lsn + 150) / 75 / 60);
+ fa = (lba + 150) % 75;
+ sa = ((lba + 150) / 75) % 60;
+ ma = ((lba + 150) / 75 / 60);
 
  uint8 adr = 0x1; // Q channel data encodes position
- uint8 control = (tf == TRACK_FORMAT_AUDIO) ? 0x00 : 0x04;
+ uint8 control = (p_cdrfile->Tracks[track].Format == CD_TRACK_FORMAT_AUDIO) ? 0x00 : 0x04;
 
+ memset(buf, 0, 0xC);
  buf[0] = (adr << 0) | (control << 4);
  buf[1] = INT_TO_BCD(track);
 
- if(lsn < p_cdrfile->Tracks[track].LSN) // Index is 00 in pregap
+ if(lba < p_cdrfile->Tracks[track].LBA) // Index is 00 in pregap
   buf[2] = INT_TO_BCD(0x00);
  else
   buf[2] = INT_TO_BCD(0x01);
@@ -1084,103 +1286,47 @@ static void MakeSubQ(const CDRFile *p_cdrfile, uint32 lsn, uint8 *SubPWBuf)
   SubPWBuf[i] |= ((buf[i >> 3] >> (7 - (i & 0x7))) & 1) ? 0x40 : 0x00;
 }
 
-int cdrfile_read_mode1_sectors (const CDRFile *p_cdrfile, void *buf, uint8 *SubPWBuf, lsn_t lsn, bool b_form2, unsigned int i_sectors)
-{
- if(SubPWBuf)
- {
-  memset(SubPWBuf, 0, 96);
-  MakeSubQ(p_cdrfile, lsn, SubPWBuf);
- }
-
- if(p_cdrfile->p_cdio)
- {
-  while(cdio_read_mode1_sectors(p_cdrfile->p_cdio, buf, lsn, b_form2, i_sectors) < 0)
-  {
-   if(MDFND_ExitBlockingLoop())
-    return(0);
-  }
-  return(1);
- }
- else
- {
-  lsn_t end_lsn = lsn + i_sectors - 1;
-  
-  for(;lsn <= end_lsn; lsn++)
-  {
-   track_t track;
-   for(track = p_cdrfile->FirstTrack; track < (p_cdrfile->FirstTrack + p_cdrfile->NumTracks); track++)
-   {
-    unsigned int lt_lsn; // = p_cdrfile->Tracks[track].LSN + p_cdrfile->Tracks[track].sectors;
-
-    if((track + 1) < (p_cdrfile->FirstTrack + p_cdrfile->NumTracks))
-     lt_lsn = p_cdrfile->Tracks[track + 1].LSN;
-    else
-     lt_lsn = ~0;
-
-    if(lsn >= (p_cdrfile->Tracks[track].LSN - p_cdrfile->Tracks[track].pregap) && lsn < lt_lsn)
-    {
-     if(lsn < p_cdrfile->Tracks[track].LSN)
-     {
-      MDFN_printf("PREGAPREAD!!! mode1 sector read out of range!\n");
-      memset(buf, 0x00, 2048);
-     }
-     else
-     {
-      long SeekPos = p_cdrfile->Tracks[track].FileOffset;
-      long LSNRelPos = lsn - p_cdrfile->Tracks[track].LSN; //lsn - p_cdrfile->Tracks[track].index - p_cdrfile->Tracks[track].pregap;
-      uint8 raw_read_buf[2352 * 6];
-
-      if(p_cdrfile->Tracks[track].IsData2352)
-       SeekPos += LSNRelPos * 2352;
-      else
-       SeekPos += LSNRelPos * 2048;
-
-      if(p_cdrfile->Tracks[track].SubchannelMode)
-       SeekPos += 96 * (lsn - p_cdrfile->Tracks[track].LSN);
-
-      fseek(p_cdrfile->Tracks[track].fp, SeekPos, SEEK_SET);
-
-      if(p_cdrfile->Tracks[track].IsData2352)
-      {
-       // + 12 + 3 + 1;
-       fread(raw_read_buf, 1, 2352, p_cdrfile->Tracks[track].fp);
-
-       if(LEC_Eval)
-       {
-        if(!ValidateRawSector(raw_read_buf, FALSE))
-        {
-	 MDFN_DispMessage(_("Uncorrectable data at sector %d"), lsn);
-         MDFN_PrintError(_("Uncorrectable data at sector %d"), lsn);
-        }
-       }
-       memcpy(buf, raw_read_buf + 12 + 3 + 1, 2048);
-      }
-      else
-       fread(buf, 1, 2048, p_cdrfile->Tracks[track].fp);
-
-      if(SubPWBuf && p_cdrfile->Tracks[track].SubchannelMode)
-      {
-       if(p_cdrfile->Tracks[track].IsData2352)
-        fseek(p_cdrfile->Tracks[track].fp, 2352 - (12 + 3 + 1 + 2048), SEEK_CUR);
-
-       fread(SubPWBuf, 1, 96, p_cdrfile->Tracks[track].fp);
-      }
-     }
-     break;
-    }
-   }
-   if(track == (p_cdrfile->FirstTrack + p_cdrfile->NumTracks))
-   {
-    MDFN_printf("mode1 sector read out of range!\n");
-    memset(buf, 0x00, 2048);
-   }
-   buf = (uint8*)buf + 2048;
-  }
-  return(1);
- }
-}
-
 uint32_t cdrfile_stat_size (const CDRFile *p_cdrfile)
 {
  return(p_cdrfile->total_sectors);
+}
+
+
+
+bool cdrfile_read_toc(const CDRFile *p_cdrfile, CD_TOC *toc)
+{
+ toc->first_track = p_cdrfile->FirstTrack;
+ toc->last_track = p_cdrfile->FirstTrack + p_cdrfile->NumTracks - 1;
+ toc->disc_type = DISC_TYPE_CDDA_OR_M1;	// FIXME
+
+ for(int i = toc->first_track; i <= toc->last_track; i++)
+ {
+  toc->tracks[i].lba = p_cdrfile->Tracks[i].LBA;
+  toc->tracks[i].adr = ADR_CURPOS;
+  toc->tracks[i].control = 0x0;
+
+  if(p_cdrfile->Tracks[i].Format != CD_TRACK_FORMAT_AUDIO)
+   toc->tracks[i].control |= 0x4;
+ }
+
+
+ toc->tracks[100].lba = p_cdrfile->total_sectors;
+ toc->tracks[100].adr = ADR_CURPOS;
+ toc->tracks[100].control = 0x00;	// Audio...
+
+ // Convenience leadout track duplication.
+ if(toc->last_track < 99)
+  toc->tracks[toc->last_track + 1] = toc->tracks[100];
+
+ return(true);
+}
+
+bool cdrfile_is_physical(const CDRFile *p_cdrfile)
+{
+ #ifdef HAVE_LIBCDIO
+ if(p_cdrfile->p_cdio)
+  return(true);
+ #endif
+
+ return(false);
 }

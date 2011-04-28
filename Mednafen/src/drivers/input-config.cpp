@@ -15,15 +15,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "main.h"
+
 #include <string.h>
 
-#include "main.h"
 #include "input.h"
 #include "input-config.h"
 #include "video.h"
 #include "joystick.h"
 
-int DTestButton(std::vector<ButtConfig> &bc, char *KeyState, const uint32 *MouseData)
+int DTestButton(std::vector<ButtConfig> &bc, const char *KeyState, const uint32 *MouseData)
 {
  unsigned int x;
 
@@ -81,7 +82,7 @@ int DTestButton(std::vector<ButtConfig> &bc, char *KeyState, const uint32 *Mouse
  return(0);
 }
 
-int DTestButton(ButtConfig &bc, char *KeyState, const uint32 *MouseData)
+int DTestButton(ButtConfig &bc, const char *KeyState, const uint32 *MouseData)
 {
  std::vector<ButtConfig> neobc;
  neobc.push_back(bc);
@@ -95,7 +96,7 @@ int DTestButton(ButtConfig &bc, char *KeyState, const uint32 *MouseData)
 #define ICSS_CTRL	4
 
 /* Used for command keys */
-int DTestButtonCombo(std::vector<ButtConfig> &bc, char *KeyState)
+int DTestButtonCombo(std::vector<ButtConfig> &bc, const char *KeyState)
 {
  unsigned int x;
  unsigned int ss = 0;
@@ -122,7 +123,7 @@ int DTestButtonCombo(std::vector<ButtConfig> &bc, char *KeyState)
  return(0);
 }
 
-int DTestButtonCombo(ButtConfig &bc, char *KeyState)
+int DTestButtonCombo(ButtConfig &bc, const char *KeyState)
 {
  std::vector<ButtConfig> neobc;
  neobc.push_back(bc);
@@ -239,3 +240,4 @@ int DTryButtonEnd(ButtConfig *bc)
 
  return(1);
 }
+

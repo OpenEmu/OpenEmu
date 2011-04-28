@@ -28,7 +28,7 @@ int eepromBits = 0;
 int eepromAddress = 0;
 uint8 eepromData[0x2000];
 static uint8 eepromBuffer[16];
-bool8 eepromInUse = false;
+bool eepromInUse = false;
 int eepromSize = 512;
 
 #include "../state.h"
@@ -41,8 +41,8 @@ SFORMAT eepromSaveData[] =
   SFVAR(eepromAddress),
   SFVAR(eepromInUse),
   SFVAR(eepromSize),
-  { eepromData, 0x2000, "eepromData" },
-  { eepromBuffer, 16, "eepromBuffer" },
+  SFARRAYN(eepromData, 0x2000, "eepromData"),
+  SFARRAYN(eepromBuffer, 16, "eepromBuffer"),
   SFEND
 };
 
@@ -71,7 +71,7 @@ bool GBA_EEPROM_LoadFile(const char *filename)
 
   if(size == 512 || size == 0x2000)
   {
-   if(fread(eepromData, 1, size, fp) == size)
+   if((long)fread(eepromData, 1, size, fp) == size)
    {
     eepromInUse = TRUE;
     eepromSize = size;

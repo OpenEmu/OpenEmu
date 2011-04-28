@@ -19,16 +19,15 @@
 
 #include <math.h>
 
-#include "mednafen.h"
 #include "video.h"
 #include "player.h"
-#include "memory.h"
 
 static UTF8 *AlbumName, *Artist, *Copyright, **SongNames;
 static int TotalSongs;
 
-static ALWAYS_INLINE void DrawLine(uint32 *buf, uint32 color, uint32 bmatch, uint32 breplace, int x1, int y1, int x2, int y2)
+static INLINE void DrawLine(MDFN_Surface *surface, uint32 color, uint32 bmatch, uint32 breplace, int x1, int y1, int x2, int y2)
 {
+ uint32 *buf = surface->pixels;
  float dy_dx = (float)(y2 - y1) / (x2 - x1);
  int x;
 
@@ -51,13 +50,13 @@ static ALWAYS_INLINE void DrawLine(uint32 *buf, uint32 color, uint32 bmatch, uin
     for(unsigned int y = (unsigned int) ys; y <= (unsigned int)ye; y++)
     {
      uint32 tmpcolor = color;
-     if(buf[x + (y + y1) * (MDFNGameInfo->pitch >> 2)] == bmatch) tmpcolor = breplace;
-     if(buf[x + (y + y1) * (MDFNGameInfo->pitch >> 2)] != breplace)
-      buf[x + (y + y1) * (MDFNGameInfo->pitch >> 2)] = tmpcolor;
+     if(buf[x + (y + y1) * surface->pitch32] == bmatch) tmpcolor = breplace;
+     if(buf[x + (y + y1) * surface->pitch32] != breplace)
+      buf[x + (y + y1) * surface->pitch32] = tmpcolor;
     }
    else
     for(unsigned int y = (unsigned int)ys; y <= (unsigned int)ye; y++)
-     buf[x + (y + y1) * (MDFNGameInfo->pitch >> 2)] = color;
+     buf[x + (y + y1) * surface->pitch32] = color;
   }
   else
   {
@@ -72,16 +71,16 @@ static ALWAYS_INLINE void DrawLine(uint32 *buf, uint32 color, uint32 bmatch, uin
     {
      uint32 tmpcolor = color;
 
-     if(buf[x + (y + y1) * (MDFNGameInfo->pitch >> 2)] == bmatch)
+     if(buf[x + (y + y1) * surface->pitch32] == bmatch)
       tmpcolor = breplace;
 
-     if(buf[x + (y + y1) * (MDFNGameInfo->pitch >> 2)] != breplace)
-      buf[x + (y + y1) * (MDFNGameInfo->pitch >> 2)] = tmpcolor;
+     if(buf[x + (y + y1) * surface->pitch32] != breplace)
+      buf[x + (y + y1) * surface->pitch32] = tmpcolor;
     }
    else
     for(int y = (int)ys; y >= (int)ye; y--)
     {
-     buf[x + (y + y1) * (MDFNGameInfo->pitch >> 2)] = color;
+     buf[x + (y + y1) * surface->pitch32] = color;
     }
   }
  }
@@ -96,33 +95,40 @@ int Player_Init(int tsongs, UTF8 *album, UTF8 *artist, UTF8 *copyright, UTF8 **s
 
  TotalSongs = tsongs;
 
- MDFNGameInfo->width = 384;
- MDFNGameInfo->height = 240;
- MDFNGameInfo->pitch = 384 * sizeof(uint32);
+ MDFNGameInfo->nominal_width = 384;
+ MDFNGameInfo->nominal_height = 240;
 
- MDFNGameInfo->DisplayRect.x = 0;
- MDFNGameInfo->DisplayRect.y = 0;
- MDFNGameInfo->DisplayRect.w = 384;
- MDFNGameInfo->DisplayRect.h = 240;
+ MDFNGameInfo->fb_width = 384;
+ MDFNGameInfo->fb_height = 240;
+
+ MDFNGameInfo->lcm_width = 384;
+ MDFNGameInfo->lcm_height = 240;
 
  MDFNGameInfo->GameType = GMT_PLAYER;
 
  return(1);
 }
 
-void Player_Draw(uint32 *XBuf, int CurrentSong, int16 *samples, int32 sampcount)
+void Player_Draw(MDFN_Surface *surface, MDFN_Rect *dr, int CurrentSong, int16 *samples, int32 sampcount)
 {
- MDFN_Rect *dr = &MDFNGameInfo->DisplayRect;
+ uint32 *XBuf = surface->pixels;
+ //MDFN_Rect *dr = &MDFNGameInfo->DisplayRect;
  int x,y;
- uint32 *backXB;
- uint32 text_color = MK_COLOR(0xE8, 0xE8, 0xE8);
+ const uint32 text_color = surface->MakeColor(0xE8, 0xE8, 0xE8);
+ const uint32 text_shadow_color = surface->MakeColor(0x00, 0x18, 0x10);
+ const uint32 bg_color = surface->MakeColor(0x20, 0x00, 0x08);
+ const uint32 left_color = surface->MakeColor(0x80, 0x80, 0xFF);
+ const uint32 right_color = surface->MakeColor(0x80, 0xff, 0x80);
+ const uint32 center_color = surface->MakeColor(0x80, 0xCC, 0xCC);
 
- XBuf += dr->x + (dr->y) * (MDFNGameInfo->pitch >> 2);
- backXB = XBuf;
+ dr->x = 0;
+ dr->y = 0;
+ dr->w = 384;
+ dr->h = 240;
 
  // Draw the background color
  for(y = 0; y < dr->h; y++)
-  MDFN_FastU32MemsetM8(&XBuf[y * (MDFNGameInfo->pitch >> 2)], MK_COLOR(0x20, 0x00, 0x08), dr->w);
+  MDFN_FastU32MemsetM8(&XBuf[y * surface->pitch32], bg_color, dr->w);
 
  // Now we draw the waveform data.  It should be centered vertically, and extend the screen horizontally from left to right.
  int32 x_scale;
@@ -138,8 +144,10 @@ void Player_Draw(uint32 *XBuf, int CurrentSong, int16 *samples, int32 sampcount)
  {
   for(int wc = 0; wc < MDFNGameInfo->soundchan; wc++)
   {
-   uint32 color =  wc ? MK_COLOR(0x80, 0xff, 0x80) : MK_COLOR(0x80, 0x80, 0xFF);
-   if(MDFNGameInfo->soundchan == 1) color = MK_COLOR(0x80, 0xc0, 0xc0);
+   uint32 color =  wc ? right_color : left_color; //MK_COLOR(0x80, 0xff, 0x80) : MK_COLOR(0x80, 0x80, 0xFF);
+
+   if(MDFNGameInfo->soundchan == 1) 
+    color = center_color; //MK_COLOR(0x80, 0xc0, 0xc0);
 
    lastX = -1;
    lastY = 0;
@@ -153,7 +161,7 @@ void Player_Draw(uint32 *XBuf, int CurrentSong, int16 *samples, int32 sampcount)
     if(ypos < 0 || ypos >= dr->h) ypos = dr->h / 2;
 
     if(lastX >= 0) 
-     DrawLine(backXB, color, wc ? MK_COLOR(0x80, 0x80, 0xFF) : ~0, MK_COLOR(0x80, 0xc0, 0xc0), lastX, lastY, x, ypos);
+     DrawLine(surface, color, wc ? left_color : ~0, center_color, lastX, lastY, x, ypos);
     lastX = x;
     lastY = ypos;
    }
@@ -163,19 +171,19 @@ void Player_Draw(uint32 *XBuf, int CurrentSong, int16 *samples, int32 sampcount)
  // Quick warning:  DrawTextTransShadow() has the possibility of drawing past the visible display area by 1 pixel on each axis.  This should only be a cosmetic issue
  // if 1-pixel line overflowing occurs onto the next line(most likely with NES, where width == pitch).  Fixme in the future?
 
- XBuf += 2 * (MDFNGameInfo->pitch >> 2);
+ XBuf += 2 * surface->pitch32;
  if(AlbumName)
-  DrawTextTransShadow(XBuf, MDFNGameInfo->pitch, dr->w, AlbumName, text_color, MK_COLOR(0x00, 0x18, 0x10), 1);
+  DrawTextTransShadow(XBuf, surface->pitch32 * sizeof(uint32), dr->w, AlbumName, text_color, text_shadow_color, 1);
 
- XBuf += (13 + 2) * (MDFNGameInfo->pitch >> 2);
+ XBuf += (13 + 2) * surface->pitch32;
  if(Artist)
-  DrawTextTransShadow(XBuf, MDFNGameInfo->pitch, dr->w, Artist, text_color, MK_COLOR(0x00, 0x18, 0x10), 1);
+  DrawTextTransShadow(XBuf, surface->pitch32 * sizeof(uint32), dr->w, Artist, text_color, text_shadow_color, 1);
 
- XBuf += (13 + 2) * (MDFNGameInfo->pitch >> 2);
+ XBuf += (13 + 2) * surface->pitch32;
  if(Copyright)
-  DrawTextTransShadow(XBuf, MDFNGameInfo->pitch, dr->w, Copyright, text_color, MK_COLOR(0x00, 0x18, 0x10), 1);
+  DrawTextTransShadow(XBuf, surface->pitch32 * sizeof(uint32), dr->w, Copyright, text_color, text_shadow_color, 1);
 
- XBuf += (13 * 2) * (MDFNGameInfo->pitch >> 2);
+ XBuf += (13 * 2) * surface->pitch32;
  
  // If each song has an individual name, show this song's name.
  UTF8 *tmpsong = SongNames?SongNames[CurrentSong] : 0;
@@ -184,13 +192,13 @@ void Player_Draw(uint32 *XBuf, int CurrentSong, int16 *samples, int32 sampcount)
   tmpsong = (UTF8 *)_("Song:");
 
  if(tmpsong)
-  DrawTextTransShadow(XBuf, MDFNGameInfo->pitch, dr->w, tmpsong, text_color, MK_COLOR(0x00, 0x18, 0x10), 1);
+  DrawTextTransShadow(XBuf, surface->pitch32 * sizeof(uint32), dr->w, tmpsong, text_color, text_shadow_color, 1);
  
- XBuf += (13 + 2) * (MDFNGameInfo->pitch >> 2);
+ XBuf += (13 + 2) * surface->pitch32;
  if(TotalSongs > 1)
  {
   char snbuf[32];
   snprintf(snbuf, 32, "<%d/%d>", CurrentSong + 1, TotalSongs);
-  DrawTextTransShadow(XBuf, MDFNGameInfo->pitch, dr->w, (uint8*)snbuf, text_color, MK_COLOR(0x00, 0x18, 0x10), 1);
+  DrawTextTransShadow(XBuf, surface->pitch32 * sizeof(uint32), dr->w, (uint8*)snbuf, text_color, text_shadow_color, 1);
  }
 }

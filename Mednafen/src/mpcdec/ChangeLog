@@ -1,3 +1,7 @@
+1.2.6
+   * Fix an infinite loop regression from 1.2.3
+   * Fix possible noise at the beginning of files
+
 1.2.5
    * Properly increase API version since it has changed since 1.2.3
      Apps compiled with 1.2.2 WILL BREAK when used with 1.2.3 & 1.2.4 libs installed

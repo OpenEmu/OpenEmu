@@ -15,6 +15,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+#include "video-common.h"
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -23,46 +25,63 @@
 
 #include <trio/trio.h>
 
-#include "video-common.h"
+#include "png.h"
 
-void MDFNI_SaveSnapshot(void)
+void MDFNI_SaveSnapshot(const MDFN_Surface *src, const MDFN_Rect *rect, const MDFN_Rect *LineWidths)
 {
+ FileWrapper *pp = NULL;
+
  try
  {
-  FILE *pp=NULL;
   std::string fn;
-  int u;
+  int u = 0;
 
-  if(!(pp = fopen(MDFN_MakeFName(MDFNMKF_SNAP_DAT, 0, NULL).c_str(), "rb")))
-   u = 0;
-  else
+  try
   {
-   if(fscanf(pp, "%d", &u) == 0)
-    u = 0;
-   fclose(pp);
+   pp = new FileWrapper(MDFN_MakeFName(MDFNMKF_SNAP_DAT, 0, NULL).c_str(), FileWrapper::MODE_READ);
+  }
+  catch(std::exception &e)
+  {
+
   }
 
-  if(!(pp = fopen(MDFN_MakeFName(MDFNMKF_SNAP_DAT, 0, NULL).c_str(), "wb")))
-   throw(0);
+  if(pp)
+  {
+   if(pp->scanf("%d", &u) != 1)
+    u = 0;
 
-  fseek(pp, 0, SEEK_SET);
-  fprintf(pp, "%d\n", u + 1);
-  fclose(pp);
+   delete pp;
+   pp = NULL;
+  }
+
+  pp = new FileWrapper(MDFN_MakeFName(MDFNMKF_SNAP_DAT, 0, NULL).c_str(), FileWrapper::MODE_WRITE);
+
+  pp->seek(0, SEEK_SET);
+  pp->printf("%d\n", u + 1);
+
+  delete pp;
+  pp = NULL;
 
   fn = MDFN_MakeFName(MDFNMKF_SNAP, u, "png");
 
-  if(!MDFN_SavePNGSnapshot(fn.c_str(), (uint32*)MDFNGameInfo->fb, &MDFNGameInfo->DisplayRect, MDFNGameInfo->pitch))
-   throw(0);
+  PNGWrite(fn.c_str(), src, *rect, LineWidths);
 
   MDFN_DispMessage(_("Screen snapshot %d saved."), u);
  }
- catch(int x)
+ catch(std::exception &e)
  {
-  MDFN_DispMessage(_("Error saving screen snapshot."));
+  if(pp)
+  {
+   delete pp;
+   pp = NULL;
+  }
+
+  MDFN_PrintError(_("Error saving screen snapshot: %s"), e.what());
+  MDFN_DispMessage(_("Error saving screen snapshot: %s"), e.what());
  }
 }
 
-void MDFN_DispMessage(const char *format, ...)
+void MDFN_DispMessage(const char *format, ...) throw()
 {
  va_list ap;
  va_start(ap,format);
@@ -78,4 +97,5 @@ void MDFN_ResetMessages(void)
 {
  MDFND_DispMessage(NULL);
 }
+
 

@@ -16,13 +16,13 @@
 // along with this program; if not, write to the Free Software Foundation,
 // Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-#include <math.h>
-#include <memory.h>
-
 #include "GBA.h"
 #include "bios.h"
 #include "GBAinline.h"
 #include "Globals.h"
+
+#include <math.h>
+#include <memory.h>
 
 int16 sineTable[256] = {
   (int16)0x0000, (int16)0x0192, (int16)0x0323, (int16)0x04B5, (int16)0x0645, (int16)0x07D5, (int16)0x0964, (int16)0x0AF1,
@@ -159,7 +159,7 @@ void BIOS_BitUnPack()
   int revbits = 8 - bits; 
   // uint32 value = 0;
   uint32 base = CPUReadMemory(header+4);
-  bool8 addBase = (base & 0x80000000) ? true : false;
+  bool addBase = (base & 0x80000000) ? true : false;
   base &= 0x7fffffff;
   int dataSize = CPUReadByte(header+3);
 
@@ -379,7 +379,7 @@ void BIOS_Diff8bitUnFilterWram()
   source += 4;
 
   if(((source & 0xe000000) == 0) ||
-     ((source + ((header >> 8) & 0x1fffff) & 0xe000000) == 0))
+     (((source + ((header >> 8) & 0x1fffff)) & 0xe000000) == 0))
     return;  
 
   int len = header >> 8;
@@ -558,7 +558,7 @@ void BIOS_HuffUnComp()
   int pos = 0;
   uint8 rootNode = CPUReadByte(treeStart);
   uint8 currentNode = rootNode;
-  bool8 writeData = false;
+  bool writeData = false;
   int byteShift = 0;
   int byteCount = 0;
   uint32 writeValue = 0;
@@ -706,7 +706,8 @@ void BIOS_LZ77UnCompVram()
           int length = (data >> 12) + 3;
           int offset = (data & 0x0FFF);
           uint32 windowOffset = dest + byteCount - offset - 1;
-          for(int i = 0; i < length; i++) {
+
+          for(int j = 0; j < length; j++) {
             writeValue |= (CPUReadByte(windowOffset++) << byteShift);
             byteShift += 8;
             byteCount++;
@@ -791,7 +792,7 @@ void BIOS_LZ77UnCompWram()
           int length = (data >> 12) + 3;
           int offset = (data & 0x0FFF);
           uint32 windowOffset = dest - offset - 1;
-          for(int i = 0; i < length; i++) {
+          for(int j = 0; j < length; j++) {
             CPUWriteByte(dest++, CPUReadByte(windowOffset++));
             len--;
             if(len == 0)

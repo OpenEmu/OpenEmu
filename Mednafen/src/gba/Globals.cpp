@@ -20,27 +20,27 @@
 
 reg_pair reg[45];
 memoryMap map[256];
-bool8 ioReadable[0x400];
+bool ioReadable[0x400];
 
 uint32 N_FLAG = 0;
-bool8 C_FLAG = 0;
-bool8 Z_FLAG = 0;
-bool8 V_FLAG = 0;
+bool C_FLAG = 0;
+bool Z_FLAG = 0;
+bool V_FLAG = 0;
 
-bool8 armState = true;
-bool8 armIrqEnable = true;
+bool armState = true;
+bool armIrqEnable = true;
 uint32 armNextPC = 0x00000000;
 int armMode = 0x1f;
 uint32 stop = 0x08000568;
 int saveType = 0;
-bool8 useBios = false;
-bool8 skipBios = false;
+bool useBios = false;
+bool skipBios = false;
 int frameSkip = 1;
-bool8 speedup = false;
-bool8 synchronize = true;
-bool8 cpuDisableSfx = false;
-bool8 cpuIsMultiBoot = false;
-bool8 parseDebug = true;
+bool speedup = false;
+bool synchronize = true;
+bool cpuDisableSfx = false;
+bool cpuIsMultiBoot = false;
+bool parseDebug = true;
 int layerSettings = 0xff00;
 int layerEnable = 0xff00;
 

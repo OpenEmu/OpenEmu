@@ -2,9 +2,9 @@
 // $Id: dis_groups.cc,v 1.33 2006/08/13 09:40:07 sshwarts Exp $
 /////////////////////////////////////////////////////////////////////////
 
+#include "disasm.h"
 #include <stdio.h>
 #include <assert.h>
-#include "disasm.h"
 
 /*
 #if BX_DEBUGGER

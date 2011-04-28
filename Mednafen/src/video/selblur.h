@@ -1,6 +1,7 @@
 #ifndef __MDFN_SELBLUR_H
 #define __MDFN_SELBLUR_H
 
+#include "../video.h"
 
 typedef struct
 {
@@ -8,6 +9,7 @@ typedef struct
  unsigned int green_threshold;
  unsigned int blue_threshold;
  int32 radius;
+
  uint32 *source;
  uint32 source_pitch32;
  uint32 *dest;

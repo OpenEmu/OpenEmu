@@ -95,10 +95,6 @@ static void H2288Reset(CartInfo *info)
 {
   int x;
 
-  SetReadHandler(0x5000,0x5FFF,H2288Read);
-  SetReadHandler(0x8000,0xFFFF,CartBR);
-  SetWriteHandler(0x5000,0x5FFF,PWrite);
-  SetWriteHandler(0x8000,0xFFFF,H2288Write);
   for(x=0;x<8;x++) regs[x]=0;
   regs[4]=0;
   regs[5]=1;
@@ -110,5 +106,11 @@ static void H2288Reset(CartInfo *info)
 int H2288_Init(CartInfo *info)
 {
  info->Power=H2288Reset;
+
+ SetReadHandler(0x5000,0x5FFF,H2288Read);
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetWriteHandler(0x5000,0x5FFF,PWrite);
+ SetWriteHandler(0x8000,0xFFFF,H2288Write);
+
  return(1);
 }

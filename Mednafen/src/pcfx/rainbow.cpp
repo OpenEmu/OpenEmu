@@ -24,17 +24,7 @@
 #include "jrevdct.h"
 #include "../clamp.h"
 
-static const uint8 zigzag[63] =
-{
- 0x01, 0x08, 0x10, 0x09, 0x02, 0x03, 0x0A, 0x11,
- 0x18, 0x20, 0x19, 0x12, 0x0B, 0x04, 0x05, 0x0C,
- 0x13, 0x1A, 0x21, 0x28, 0x30, 0x29, 0x22, 0x1B,
- 0x14, 0x0D, 0x06, 0x07, 0x0E, 0x15, 0x1C, 0x23,
- 0x2A, 0x31, 0x38, 0x39, 0x32, 0x2B, 0x24, 0x1D,
- 0x16, 0x0F, 0x17, 0x1E, 0x25, 0x2C, 0x33, 0x3A,
- 0x3B, 0x34, 0x2D, 0x26, 0x1F, 0x27, 0x2E, 0x35,
- 0x3C, 0x3D, 0x36, 0x2F, 0x37, 0x3E, 0x3F
-};
+static bool ChromaIP;	// Bilinearly interpolate chroma channel
 
 /* Y = luminance/luma, UV = chrominance/chroma */
 
@@ -45,6 +35,12 @@ typedef struct
 	const uint32 *minimum;
 	const uint32 *maximum;
 } HuffmanTable;
+
+typedef struct
+{
+        uint8 *lut;             // LUT for getting the code.
+        uint8 *lut_bits;        // Bit count for the code
+} HuffmanQuickLUT;
 
 /* Luma DC Huffman tables */
 static const uint8 dc_y_base[17] =
@@ -227,8 +223,63 @@ static const HuffmanTable ac_uv_table =
 	ac_uv_maximum
 };
 
+static const uint8 zigzag[63] =
+{
+ 0x01, 0x08, 0x10, 0x09, 0x02, 0x03, 0x0A, 0x11,
+ 0x18, 0x20, 0x19, 0x12, 0x0B, 0x04, 0x05, 0x0C,
+ 0x13, 0x1A, 0x21, 0x28, 0x30, 0x29, 0x22, 0x1B,
+ 0x14, 0x0D, 0x06, 0x07, 0x0E, 0x15, 0x1C, 0x23,
+ 0x2A, 0x31, 0x38, 0x39, 0x32, 0x2B, 0x24, 0x1D,
+ 0x16, 0x0F, 0x17, 0x1E, 0x25, 0x2C, 0x33, 0x3A,
+ 0x3B, 0x34, 0x2D, 0x26, 0x1F, 0x27, 0x2E, 0x35,
+ 0x3C, 0x3D, 0x36, 0x2F, 0x37, 0x3E, 0x3F
+};
+
+static HuffmanQuickLUT dc_y_qlut, dc_uv_qlut, ac_y_qlut, ac_uv_qlut;
+
+static bool BuildHuffmanLUT(const HuffmanTable *table, HuffmanQuickLUT *qlut, const int bitmax)
+{
+ // TODO: Allocate only (1 << bitmax) entries.
+ // TODO: What should we set invalid bitsequences/entries to? 0? ~0?  Something else?
+
+ if(!(qlut->lut = (uint8 *)MDFN_calloc(1 << 12, 1, _("Huffman LUT"))))
+  return(FALSE);
+
+ if(!(qlut->lut_bits = (uint8 *)MDFN_calloc(1 << 12, 1, _("Huffman LUT"))))
+  return(FALSE);
+
+ for(int numbits = 2; numbits <= 12; numbits++)
+ {
+  if(table->maximum[numbits] != 0xFFFF)
+  {
+   for(unsigned int i = table->minimum[numbits]; i <= table->maximum[numbits]; i++)
+   {
+    for(int b = 0; b < (1 << (bitmax - numbits)); b++)
+    {
+     int lut_index = (i << (bitmax - numbits)) + b;
+
+     assert(lut_index < (1 << bitmax));
+
+     qlut->lut[lut_index] = table->codes[table->base[numbits] + (i - table->minimum[numbits])];
+     qlut->lut_bits[lut_index] = numbits;
+    }
+   }
+  }
+ }
+
+ //printf("\n\n%d\n", bitmax);
+ for(int i = 0; i < (1 << bitmax); i++)
+ {
+  //if(!qlut->lut_bits[i])
+  // printf("%d %d\n", i, qlut->lut_bits[i]);
+ }
+
+ return(TRUE);
+}
+
+
 static uint8 *DecodeBuffer[2] = { NULL, NULL };
-static int DecodeFormat[2]; // The format each buffer is in(0 = palettized 8-bit, 1 = YUV)
+static int32 DecodeFormat[2]; // The format each buffer is in(-1 = invalid, 0 = palettized 8-bit, 1 = YUV)
 static uint32 QuantTables[2][64], QuantTablesBase[2][64];	// 0 = Y, 1 = UV
 
 static uint32 DecodeBufferWhichRead;
@@ -249,7 +300,7 @@ static void InitBits(int32 bcount)
  bits_buffered_bits = 0;
 }
 
-static ALWAYS_INLINE uint8 FetchWidgywabbit(void)
+static INLINE uint8 FetchWidgywabbit(void)
 {
  if(bits_bytes_left <= 0)
   return(0);
@@ -269,7 +320,7 @@ enum
  MDFNBITS_FUNNYSIGN = 2,
 };
 
-static ALWAYS_INLINE uint32 GetBits(const unsigned int count, const unsigned int how = 0)
+static INLINE uint32 GetBits(const unsigned int count, const unsigned int how = 0)
 {
  uint32 ret;
 
@@ -287,22 +338,17 @@ static ALWAYS_INLINE uint32 GetBits(const unsigned int count, const unsigned int
 
  if((how & MDFNBITS_FUNNYSIGN) && count)
  {
-  if(ret < (1 << (count - 1)))
+  if(ret < (1U << (count - 1)))
    ret += 1 - (1 << count);
  }
 
  return(ret);
 }
 
-static ALWAYS_INLINE void SkipBits(const unsigned int count)
+// Note: SkipBits is intended to be called right after GetBits() with "how" MDFNBITS_PEEK,
+// and the count pass to SkipBits must be less than or equal to the count passed to GetBits().
+static INLINE void SkipBits(const unsigned int count)
 {
- while(bits_buffered_bits < count)
- {
-  bits_buffer <<= 8;
-  bits_buffer |= FetchWidgywabbit();
-  bits_buffered_bits += 8;
- }
-
  bits_buffered_bits -= count;
 }
 
@@ -317,28 +363,28 @@ static void CalcHappyColor(void)
  HappyColor = (y_c << 16) | (u_c << 8) | (v_c << 0);
 }
 
-static uint32 get_ac_coeff(const HuffmanTable *table, int32 *zeroes)
+static uint32 get_ac_coeff(const HuffmanQuickLUT *table, int32 *zeroes)
 {
  unsigned int numbits;
+ uint32 rawbits;
  uint32 code;
 
- for(numbits = 2; ; numbits++)
+ rawbits = GetBits(12, MDFNBITS_PEEK);
+ if((rawbits & 0xF80) == 0xF80)
+ //if(rawbits >= 0xF80)
  {
-  code = GetBits(numbits, MDFNBITS_PEEK);
-  
-  if((numbits == 5) && (code == 0x1F))
-  {
-   SkipBits(5);
-   *zeroes = 0;
-   return(0);
-  }
-  if((code <= table->maximum[numbits]) && (table->maximum[numbits] != 0xFFFF))
-  {
-   SkipBits(numbits);
-   code = table->codes[table->base[numbits] + (code - table->minimum[numbits])];
-   break;
-  }
+  SkipBits(5);
+  *zeroes = 0;
+  return(0);
  }
+
+ if(!table->lut_bits[rawbits])
+ {
+  FXDBG("Invalid AC bit sequence: %03x\n", rawbits);
+ }
+
+ code = table->lut[rawbits];
+ SkipBits(table->lut_bits[rawbits]);
 
  numbits = code & 0xF;
  *zeroes = code >> 4;
@@ -346,23 +392,21 @@ static uint32 get_ac_coeff(const HuffmanTable *table, int32 *zeroes)
  return(GetBits(numbits, MDFNBITS_FUNNYSIGN));
 }
 
-static uint32 get_dc_coeff(const HuffmanTable *table, int32 *zeroes)
+static uint32 get_dc_coeff(const HuffmanQuickLUT *table, int32 *zeroes, int maxbits)
 {
- unsigned int numbits;
  uint32 code;
 
  for(;;)
  {
-  for(numbits = 2; ; numbits++)
+  uint32 rawbits = GetBits(maxbits, MDFNBITS_PEEK);
+
+  if(!table->lut_bits[rawbits])
   {
-   code = GetBits(numbits, MDFNBITS_PEEK);
-   if((code <= table->maximum[numbits]) && (table->maximum[numbits] != 0xFFFF))
-   {
-    SkipBits(numbits);
-    code = table->codes[table->base[numbits] + (code - table->minimum[numbits])];
-    break;
-   }
+   FXDBG("Invalid DC bit sequence: %03x\n", rawbits);
   }
+
+  code = table->lut[rawbits];
+  SkipBits(table->lut_bits[rawbits]);
 
   if(code < 0xF)
   {
@@ -371,7 +415,7 @@ static uint32 get_dc_coeff(const HuffmanTable *table, int32 *zeroes)
   }
   else if(code == 0xF)
   {
-   get_ac_coeff(&ac_y_table, zeroes);
+   get_ac_coeff(&ac_y_qlut, zeroes);
    (*zeroes)++;
    return(0);
   }
@@ -410,7 +454,25 @@ static uint32 get_dc_coeff(const HuffmanTable *table, int32 *zeroes)
 
 }
 
-static void decode(int32 *dct, const uint32 *QuantTable, const int32 dc, const HuffmanTable *table)
+static INLINE uint32 get_dc_y_coeff(int32 *zeroes)
+{
+ return(get_dc_coeff(&dc_y_qlut, zeroes, 9));
+}
+
+static uint32 get_dc_uv_coeff(void)
+{
+ const HuffmanQuickLUT *table = &dc_uv_qlut;
+ uint32 code;
+ uint32 rawbits = GetBits(8, MDFNBITS_PEEK);
+
+ code = table->lut[rawbits];
+ SkipBits(table->lut_bits[rawbits]);
+
+ return(GetBits(code, MDFNBITS_FUNNYSIGN));
+}
+
+
+static void decode(int32 *dct, const uint32 *QuantTable, const int32 dc, const HuffmanQuickLUT *table)
 {
  int32 coeff;
  int zeroes;
@@ -454,65 +516,66 @@ static void decode(int32 *dct, const uint32 *QuantTable, const int32 dc, const H
 #ifdef WANT_DEBUGGER
 static RegType RainbowRegs[] =
 {
- { "RSCRLL", "Rainbow Horizontal Scroll", 2 },
- { "RCTRL", "Rainbow Control", 2 },
- { "RNRY", "Rainbow Null Run Y", 2 },
- { "RNRU", "Rainbow Null Run U", 2 },
- { "RNRV", "Rainbow Null Run V", 2 },
- { "------", "", 0xFFFF },
-        { "BGMODE", "Background Mode", 2 },
-        { "BGPRIO", "Background Priority", 2 },
-        { "BGSCRM", "Background Scroll Mode", 2 },
-        { "BGSIZ0", "Background 0 Size", 2 },
-        { "BGSIZ1", "Background 1 Size", 2 },
-        { "BGSIZ2", "Background 2 Size", 2 },
-        { "BGSIZ3", "Background 3 Size", 2 },
-        { "BGXSC0", "Background 0 X Scroll", 2 },
-        { "BGXSC1", "Background 1 X Scroll", 2 },
-        { "BGXSC2", "Background 2 X Scroll", 2 },
-        { "BGXSC3", "Background 3 X Scroll", 2 },
-        { "BGYSC0", "Background 0 Y Scroll", 2 },
-        { "BGYSC1", "Background 1 Y Scroll", 2 },
-        { "BGYSC2", "Background 2 Y Scroll", 2 },
-        { "BGYSC3", "Background 3 Y Scroll", 2 },
+ { 0, "RSCRLL", "Rainbow Horizontal Scroll", 2 },
+ { 0, "RCTRL", "Rainbow Control", 2 },
+ { 0, "RHSYNC", "Rainbow HSync?", 1 },
+ { 0, "RNRY", "Rainbow Null Run Y", 2 },
+ { 0, "RNRU", "Rainbow Null Run U", 2 },
+ { 0, "RNRV", "Rainbow Null Run V", 2 },
+ { 0, "------", "", 0xFFFF },
+        { 0, "BGMODE", "Background Mode", 2 },
+        { 0, "BGPRIO", "Background Priority", 2 },
+        { 0, "BGSCRM", "Background Scroll Mode", 2 },
+        { 0, "BGSIZ0", "Background 0 Size", 2 },
+        { 0, "BGSIZ1", "Background 1 Size", 1 },
+        { 0, "BGSIZ2", "Background 2 Size", 1 },
+        { 0, "BGSIZ3", "Background 3 Size", 1 },
+        { 0, "BGXSC0", "Background 0 X Scroll", 0x100 | 11 },
+        { 0, "BGXSC1", "Background 1 X Scroll", 0x100 | 10 },
+        { 0, "BGXSC2", "Background 2 X Scroll", 0x100 | 10 },
+        { 0, "BGXSC3", "Background 3 X Scroll", 0x100 | 10 },
+        { 0, "BGYSC0", "Background 0 Y Scroll", 0x100 | 11 },
+        { 0, "BGYSC1", "Background 1 Y Scroll", 0x100 | 10 },
+        { 0, "BGYSC2", "Background 2 Y Scroll", 0x100 | 10 },
+        { 0, "BGYSC3", "Background 3 Y Scroll", 0x100 | 10 },
 
-        { "BGBAT0", "Background 0 BAT Address", 2 },
-        { "BGBATS", "Background SUB BAT Address", 2 },
-        { "BGBAT1", "Background 1 BAT Address", 2 },
-        { "BGBAT2", "Background 2 BAT Address", 2 },
-        { "BGBAT3", "Background 3 BAT Address", 2 },
-        { "BGCG0", "Background 0 CG Address", 2 },
-        { "BGCGS", "Background SUB CG Address", 2 },
-        { "BGCG1", "Background 1 CG Address", 2 },
-        { "BGCG2", "Background 2 CG Address", 2 },
-        { "BGCG3", "Background 3 CG Address", 2 },
+        { 0, "BGBAT0", "Background 0 BAT Address", 1 },
+        { 0, "BGBATS", "Background SUB BAT Address", 1 },
+        { 0, "BGBAT1", "Background 1 BAT Address", 1 },
+        { 0, "BGBAT2", "Background 2 BAT Address", 1 },
+        { 0, "BGBAT3", "Background 3 BAT Address", 1 },
+        { 0, "BGCG0", "Background 0 CG Address", 1 },
+        { 0, "BGCGS", "Background SUB CG Address", 1 },
+        { 0, "BGCG1", "Background 1 CG Address", 1 },
+        { 0, "BGCG2", "Background 2 CG Address", 1 },
+        { 0, "BGCG3", "Background 3 CG Address", 1 },
 
- { "BGAFFINA", "Background Affin Coefficient A", 2 },
- { "BGAFFINB", "Background Affin Coefficient B", 2 },
- { "BGAFFINC", "Background Affin Coefficient C", 2 },
- { "BGAFFIND", "Background Affin Coefficient D", 2 },
- { "BGAFFINX", "Background Affin Center X", 2 },
- { "BGAFFINY", "Background Affin Center Y", 2 },
- { "MPROG0", "Micro-program", 2},
- { "MPROG1", "Micro-program", 2},
- { "MPROG2", "Micro-program", 2},
- { "MPROG3", "Micro-program", 2},
- { "MPROG4", "Micro-program", 2},
- { "MPROG5", "Micro-program", 2},
- { "MPROG6", "Micro-program", 2},
- { "MPROG7", "Micro-program", 2},
- { "MPROG8", "Micro-program", 2},
- { "MPROG9", "Micro-program", 2},
- { "MPROGA", "Micro-program", 2},
- { "MPROGB", "Micro-program", 2},
- { "MPROGC", "Micro-program", 2},
- { "MPROGD", "Micro-program", 2},
- { "MPROGE", "Micro-program", 2},
- { "MPROGF", "Micro-program", 2},
+ { 0, "AFFINA", "Background Affin Coefficient A", 2 },
+ { 0, "AFFINB", "Background Affin Coefficient B", 2 },
+ { 0, "AFFINC", "Background Affin Coefficient C", 2 },
+ { 0, "AFFIND", "Background Affin Coefficient D", 2 },
+ { 0, "AFFINX", "Background Affin Center X", 2 },
+ { 0, "AFFINY", "Background Affin Center Y", 2 },
+ { 0, "MPROG0", "Micro-program", 2},
+ { 0, "MPROG1", "Micro-program", 2},
+ { 0, "MPROG2", "Micro-program", 2},
+ { 0, "MPROG3", "Micro-program", 2},
+ { 0, "MPROG4", "Micro-program", 2},
+ { 0, "MPROG5", "Micro-program", 2},
+ { 0, "MPROG6", "Micro-program", 2},
+ { 0, "MPROG7", "Micro-program", 2},
+ { 0, "MPROG8", "Micro-program", 2},
+ { 0, "MPROG9", "Micro-program", 2},
+ { 0, "MPROGA", "Micro-program", 2},
+ { 0, "MPROGB", "Micro-program", 2},
+ { 0, "MPROGC", "Micro-program", 2},
+ { 0, "MPROGD", "Micro-program", 2},
+ { 0, "MPROGE", "Micro-program", 2},
+ { 0, "MPROGF", "Micro-program", 2},
 
  // EVIL EVIL:
 
- { "", "", 0 },
+ { 0, "", "", 0 },
 };
 
 static uint32 RainbowDBG_GetRegister(const std::string &name, std::string *special)
@@ -529,6 +592,8 @@ static uint32 RainbowDBG_GetRegister(const std::string &name, std::string *speci
   value = NullRunU;
  else if(name == "RNRV")
   value = NullRunV;
+ else if(name == "RHSYNC")
+  value = HSync;
  else
   value = KING_GetRegister(name, special); // EVIL EVIL
  return(value);
@@ -552,18 +617,27 @@ static void RainbowDBG_SetRegister(const std::string &name, uint32 value)
 
 static RegGroupType RainbowRegsGroup =
 {
+ NULL,
  RainbowRegs,
+ NULL,
+ NULL,
  RainbowDBG_GetRegister,
  RainbowDBG_SetRegister
 };
 
 #endif
 
-bool RAINBOW_Init(void)
+static uint32 LastLine[256];
+static bool FirstDecode;
+static bool GarbageData;
+
+bool RAINBOW_Init(bool arg_ChromaIP)
 {
  #ifdef WANT_DEBUGGER
  MDFNDBG_AddRegGroup(&RainbowRegsGroup);
  #endif
+
+ ChromaIP = arg_ChromaIP;
 
  for(int i = 0; i < 2; i++)
  {
@@ -571,6 +645,24 @@ bool RAINBOW_Init(void)
    return(0);
   memset(DecodeBuffer[i], 0, 0x2000 * 4);
  }
+
+ if(!BuildHuffmanLUT(&dc_y_table, &dc_y_qlut, 9))
+  return(FALSE);
+
+ if(!BuildHuffmanLUT(&dc_uv_table, &dc_uv_qlut, 8))
+  return(FALSE);
+
+ if(!BuildHuffmanLUT(&ac_y_table, &ac_y_qlut, 12))
+  return(FALSE);
+
+ if(!BuildHuffmanLUT(&ac_uv_table, &ac_uv_qlut, 12))
+  return(FALSE);
+
+ DecodeFormat[0] = DecodeFormat[1] = -1;
+ DecodeBufferWhichRead = 0;
+ GarbageData = FALSE;
+ FirstDecode = TRUE;
+ RasterReadPos = 0;
 
  return(1);
 }
@@ -622,28 +714,36 @@ void RAINBOW_Write16(uint32 A, uint16 V)
  }
 }
 
-static uint32 LastLine[256];
-static bool FirstDecode;
-static bool GarbageData;
-
-void RAINBOW_TransferStart(void)
+void RAINBOW_ForceTransferReset(void)
 {
- GarbageData = FALSE;
- FirstDecode = TRUE;
- //DecodeBufferWhichRead = 0;
  RasterReadPos = 0;
- //MDFN_FastU32MemsetM8((uint32*)DecodeBuffer[DecodeBufferWhichRead], 0x008080, 256 * 16);
- //memset(DecodeBuffer[DecodeBufferWhichRead], 0, 256 * 4 * 16);
- //printf("TransferStart, bufferread: %d\n", DecodeBufferWhichRead);
+ DecodeFormat[0] = DecodeFormat[1] = -1;
 }
 
-int RAINBOW_FetchRaster(uint8 *ptr, bool WantDecode, bool Skip)
+void RAINBOW_SwapBuffers(void)
 {
- if(RasterReadPos == 0 && WantDecode)
- {
+ DecodeBufferWhichRead ^= 1;
+ RasterReadPos = 0;
+}
+
+void RAINBOW_DecodeBlock(bool arg_FirstDecode, bool Skip)
+{
    uint8 block_type;
    int32 block_size;
    int icount;
+   int which_buffer = DecodeBufferWhichRead ^ 1;
+
+   if(!(Control & 0x01))
+   {
+    puts("Rainbow decode when disabled!!");
+    return;
+   }
+
+   if(arg_FirstDecode)
+   {
+    FirstDecode = TRUE;
+    GarbageData = FALSE;
+   }
 
    if(GarbageData)
     icount = 0;
@@ -668,22 +768,30 @@ int RAINBOW_FetchRaster(uint8 *ptr, bool WantDecode, bool Skip)
     block_size -= 2;
     if(block_type == 0xFF && block_size <= 0)
      for(int i = 0; i < 128; i++,icount--) KING_RB_Fetch();
+
+    //fprintf(stderr, "Block: %d\n", block_size);
    } while(block_size <= 0 && icount > 0);
+
+   //if(!GarbageData && icount < 500)
+   //{
+   // FXDBG("Partial garbage data. %d", icount);
+   //}
 
    //printf("%d\n", icount);
    if(icount <= 0)
    {
+    FXDBG("Garbage data.");
     GarbageData = TRUE;
     //printf("Dooom: %d\n");
-    DecodeFormat[DecodeBufferWhichRead ^ 1] = 0;
-    memset(DecodeBuffer[DecodeBufferWhichRead ^ 1], 0, 0x2000);
+    DecodeFormat[which_buffer] = 0;
+    memset(DecodeBuffer[which_buffer], 0, 0x2000);
     goto BufferNoDecode;
    }
 
    if(block_type == 0xf8 || block_type == 0xff)
-    DecodeFormat[DecodeBufferWhichRead ^ 1] = 1;
+    DecodeFormat[which_buffer] = 1;
    else
-    DecodeFormat[DecodeBufferWhichRead ^ 1] = 0;
+    DecodeFormat[which_buffer] = 0;
 
    if(block_type == 0xF8 || block_type == 0xFF)
    {
@@ -703,13 +811,13 @@ int RAINBOW_FetchRaster(uint8 *ptr, bool WantDecode, bool Skip)
     InitBits(block_size);
 
     int32 dc_y = 0, dc_u = 0, dc_v = 0;
-    uint32 *dest_base = (uint32 *)DecodeBuffer[DecodeBufferWhichRead ^ 1];
+    uint32 *dest_base = (uint32 *)DecodeBuffer[which_buffer];
     for(int column = 0; column < 16; column++)
     {
      uint32 *dest_base_column = &dest_base[column * 16];
-     int zeroes;
+     int zeroes = 0;
 
-     dc_y += get_dc_coeff(&dc_y_table, &zeroes);
+     dc_y += get_dc_y_coeff(&zeroes);
 
      if(zeroes) // If set, clear the number of columns
      {
@@ -735,24 +843,37 @@ int RAINBOW_FetchRaster(uint8 *ptr, bool WantDecode, bool Skip)
       int32 dct_u[64];
       int32 dct_v[64];
 
-      if(Skip) continue;
-
       // Y/Luma, 16x16 components
-      decode(&dct_y[0x00], QuantTables[0], dc_y, &ac_y_table);
-      dc_y += get_dc_coeff(&dc_y_table, &zeroes);
-      decode(&dct_y[0x40], QuantTables[0], dc_y, &ac_y_table);
-      dc_y += get_dc_coeff(&dc_y_table, &zeroes);
-      decode(&dct_y[0x80], QuantTables[0], dc_y, &ac_y_table);
-      dc_y += get_dc_coeff(&dc_y_table, &zeroes);
-      decode(&dct_y[0xC0], QuantTables[0], dc_y, &ac_y_table);
+      // ---------
+      // | A | C |
+      // |-------|
+      // | B | D |
+      // ---------
+      // A (0, 0)
+      decode(&dct_y[0x00], QuantTables[0], dc_y, &ac_y_qlut);
+
+      // B (0, 1)
+      dc_y += get_dc_y_coeff(&zeroes);
+      decode(&dct_y[0x40], QuantTables[0], dc_y, &ac_y_qlut);
+
+      // C (1, 0)
+      dc_y += get_dc_y_coeff(&zeroes);
+      decode(&dct_y[0x80], QuantTables[0], dc_y, &ac_y_qlut);
+
+      // D (1, 1)
+      dc_y += get_dc_y_coeff(&zeroes);
+      decode(&dct_y[0xC0], QuantTables[0], dc_y, &ac_y_qlut);
 
       // U, 8x8 components
-      dc_u += get_dc_coeff(&dc_uv_table, &zeroes);
-      decode(&dct_u[0x00], QuantTables[1], dc_u, &ac_uv_table);
+      dc_u += get_dc_uv_coeff();
+      decode(&dct_u[0x00], QuantTables[1], dc_u, &ac_uv_qlut);
 
       // V, 8x8 components
-      dc_v += get_dc_coeff(&dc_uv_table, &zeroes);
-      decode(&dct_v[0x00], QuantTables[1], dc_v, &ac_uv_table);
+      dc_v += get_dc_uv_coeff();
+      decode(&dct_v[0x00], QuantTables[1], dc_v, &ac_uv_qlut);
+
+      if(Skip)
+       continue;
 
       j_rev_dct(&dct_y[0x00]);
       j_rev_dct(&dct_y[0x40]);
@@ -765,75 +886,89 @@ int RAINBOW_FetchRaster(uint8 *ptr, bool WantDecode, bool Skip)
        for(int x = 0; x < 16; x++)
         dest_base_column[y * 256 + x] = clamp_to_u8(dct_y[y * 8 + (x & 0x7) + ((x & 0x8) << 4)] + 0x80) << 16;
 
-      for(int y = 0; y < 8; y++)
+      if(!ChromaIP)
       {
-       for(int x = 0; x < 8; x++)
+       for(int y = 0; y < 8; y++)
        {
-        uint32 component_uv = (clamp_to_u8(dct_u[y * 8 + x] + 0x80) << 8) | clamp_to_u8(dct_v[y * 8 + x] + 0x80);
-	dest_base_column[y * 512 + (256 * 1) + x * 2 + 0] |= component_uv;
+        for(int x = 0; x < 8; x++)
+        {
+         uint32 component_uv = (clamp_to_u8(dct_u[y * 8 + x] + 0x80) << 8) | clamp_to_u8(dct_v[y * 8 + x] + 0x80);
+         dest_base_column[y * 512 + (256 * 0) + x * 2 + 0] |= component_uv;
+         dest_base_column[y * 512 + (256 * 0) + x * 2 + 1] |= component_uv;
+         dest_base_column[y * 512 + (256 * 1) + x * 2 + 0] |= component_uv;
+         dest_base_column[y * 512 + (256 * 1) + x * 2 + 1] |= component_uv;
+        }
+       }
+      }
+      else
+      {
+       for(int y = 0; y < 8; y++)
+       {
+        for(int x = 0; x < 8; x++)
+        {
+         uint32 component_uv = (clamp_to_u8(dct_u[y * 8 + x] + 0x80) << 8) | clamp_to_u8(dct_v[y * 8 + x] + 0x80);
+ 	 dest_base_column[y * 512 + (256 * 1) + x * 2 + 0] |= component_uv;
+        }
        }
       }
      }
     }
 
     // Do bilinear interpolation on the chroma channels:
-    if(!Skip)
-    for(int y = 0; y < 16; y+= 2)
+    if(!Skip && ChromaIP)
     {
-     uint32 *linebase = &dest_base[y * 256];
-     uint32 *linebase1 = &dest_base[(y + 1) * 256];
-
-     for(int x = 0; x < 254; x += 2)
+     for(int y = 0; y < 16; y+= 2)
      {
-      unsigned int u, v;
+      uint32 *linebase = &dest_base[y * 256];
+      uint32 *linebase1 = &dest_base[(y + 1) * 256];
 
-      u = (((linebase1[x] >> 8) & 0xFF) + ((linebase1[x + 2] >> 8) & 0xFF)) >> 1;
-      v = (((linebase1[x] >> 0) & 0xFF) + ((linebase1[x + 2] >> 0) & 0xFF)) >> 1;
-
-      linebase1[x + 1] = (linebase1[x + 1] & ~ 0xFFFF) | (u << 8) | v;
-     }
-
-     linebase1[0xFF] = (linebase1[0xFF] & ~ 0xFFFF) | (linebase1[0xFE] & 0xFFFF);
-
-     if(FirstDecode)
-     {
-      for(int x = 0; x < 256; x++) linebase[x] = (linebase[x] & ~ 0xFFFF) | (linebase1[x] & 0xFFFF);
-      FirstDecode = 0;
-     }
-     else
-      for(int x = 0; x < 256; x++)
+      for(int x = 0; x < 254; x += 2)
       {
-       unsigned int u, v;         
- 
-       u = (((LastLine[x] >> 8) & 0xFF) + ((linebase1[x] >> 8) & 0xFF)) >> 1;
-       v = (((LastLine[x] >> 0) & 0xFF) + ((linebase1[x] >> 0) & 0xFF)) >> 1;
+       unsigned int u, v;
 
-       linebase[x] = (linebase[x] & ~ 0xFFFF) | (u << 8) | v;
+       u = (((linebase1[x] >> 8) & 0xFF) + ((linebase1[x + 2] >> 8) & 0xFF)) >> 1;
+       v = (((linebase1[x] >> 0) & 0xFF) + ((linebase1[x + 2] >> 0) & 0xFF)) >> 1;
+
+       linebase1[x + 1] = (linebase1[x + 1] & ~ 0xFFFF) | (u << 8) | v;
       }
 
-     memcpy(LastLine, linebase1, 256 * 4);
-    }
+      linebase1[0xFF] = (linebase1[0xFF] & ~ 0xFFFF) | (linebase1[0xFE] & 0xFFFF);
+
+      if(FirstDecode)
+      {
+       for(int x = 0; x < 256; x++) linebase[x] = (linebase[x] & ~ 0xFFFF) | (linebase1[x] & 0xFFFF);
+       FirstDecode = 0;
+      }
+      else
+       for(int x = 0; x < 256; x++)
+       {
+        unsigned int u, v;
+ 
+        u = (((LastLine[x] >> 8) & 0xFF) + ((linebase1[x] >> 8) & 0xFF)) >> 1;
+        v = (((LastLine[x] >> 0) & 0xFF) + ((linebase1[x] >> 0) & 0xFF)) >> 1;
+
+        linebase[x] = (linebase[x] & ~ 0xFFFF) | (u << 8) | v;
+       }
+
+      memcpy(LastLine, linebase1, 256 * 4);
+     }
+    } // End chroma interpolation
    } // end jpeg-like decoding
    else 
    {
-    unsigned int plt_shift;
-    unsigned int crl_mask;
+    // Earlier code confines the set to F0,F1,F2, and F3.
+    // F0 = (4, 0xF), F1 = (3, 0x7), F2 = (0x2, 0x3), F3 = 0x1, 0x1)
+    const unsigned int plt_shift = 4 - (block_type & 0x3);
+    const unsigned int crl_mask = (1 << plt_shift) - 1;
     int x = 0;
     
-    switch(block_type)
-    {
-     default: // Not reached, but shuts up the compiler.
-     case 0xF0: plt_shift = 4; crl_mask = 0xF; break; // 16 color
-     case 0xF1: plt_shift = 3; crl_mask = 0x7; break; // 32 color
-     case 0xF2: plt_shift = 2; crl_mask = 0x3; break; // 64 color
-     case 0xF3: plt_shift = 1; crl_mask = 0x1; break; // 128 color
-    }
-
     while(block_size > 0)
     {
-     uint8 boot = KING_RB_Fetch();
-     block_size--;
+     uint8 boot;
      unsigned int rle_count;
+
+     boot = KING_RB_Fetch();
+     block_size--;
 
      if(boot == 0xFF)
      {
@@ -862,7 +997,7 @@ int RAINBOW_FetchRaster(uint8 *ptr, bool WantDecode, bool Skip)
        //puts("Oops");
        break; // Don't overflow our decode buffer!
       }
-      DecodeBuffer[DecodeBufferWhichRead ^ 1][x] = (boot >> plt_shift);
+      DecodeBuffer[which_buffer][x] = (boot >> plt_shift);
       x++;
      }
     }
@@ -872,50 +1007,84 @@ int RAINBOW_FetchRaster(uint8 *ptr, bool WantDecode, bool Skip)
    // KING_RB_Fetch();
 
   BufferNoDecode: ;
- }
- int ret = DecodeFormat[DecodeBufferWhichRead];
+}
 
- if(ptr)
+void KING_Moo(void);
+
+// NOTE:  layer_or and palette_ptr are optimizations, the real RAINBOW chip knows not of such things.
+int RAINBOW_FetchRaster(uint32 *linebuffer, uint32 layer_or, uint32 *palette_ptr)
+{
+ int ret;
+
+ ret = DecodeFormat[DecodeBufferWhichRead];
+
+ if(linebuffer)
  {
-  uint16 tmpss = HScroll & 0x1FF;
-
-  if(DecodeFormat[DecodeBufferWhichRead] == 1)
+  if(DecodeFormat[DecodeBufferWhichRead] == -1) // None
   {
-   uint32 *out_ptr = (uint32*)ptr;
+   if(linebuffer)
+    MDFN_FastU32MemsetM8(linebuffer, 0, 256);
+  }
+  else if(DecodeFormat[DecodeBufferWhichRead] == 1)	// YUV
+  {
    uint32 *in_ptr = (uint32*)&DecodeBuffer[DecodeBufferWhichRead][RasterReadPos * 256 * 4];
 
-   for(int x = 0; x < 256; x++)
+   if(Control & 0x2)	// Endless scroll mode:
    {
-    if((Control & 0x2) || tmpss < 256)
-     out_ptr[x] = in_ptr[tmpss & 0xFF];
-    else
-     out_ptr[x] = 0;
-    tmpss = (tmpss + 1) & 0x1FF;
-   }
+    uint8 tmpss = HScroll;
 
-   MDFN_FastU32MemsetM8((uint32*)&DecodeBuffer[DecodeBufferWhichRead][RasterReadPos * 256 * 4], 0x008080, 256);
+    for(int x = 0; x < 256; x++)
+    {
+     linebuffer[x] = in_ptr[tmpss] | layer_or;
+     tmpss++;
+    }
+   }
+   else // Non-endless
+   {
+    uint16 tmpss = HScroll & 0x1FF;
+
+    for(int x = 0; x < 256; x++)
+    {
+     linebuffer[x] = (tmpss < 256) ? (in_ptr[tmpss] | layer_or) : 0;
+     tmpss = (tmpss + 1) & 0x1FF;
+    }
+   }
+    MDFN_FastU32MemsetM8(in_ptr, 0, 256);
   }
-  else
+  else if(DecodeFormat[DecodeBufferWhichRead] == 0)	// Palette
   {
-   uint8 *out_ptr = ptr;
    uint8 *in_ptr = &DecodeBuffer[DecodeBufferWhichRead][RasterReadPos * 256];
 
-   for(int x = 0; x < 256; x++)
+   if(Control & 0x2)    // Endless scroll mode:
    {
-    if((Control & 0x2) || tmpss < 256)
-     out_ptr[x] = in_ptr[tmpss & 0xFF];
-    else
-     out_ptr[x] = 0;
-    tmpss = (tmpss + 1) & 0x1FF;
+    uint8 tmpss = HScroll;
+
+    for(int x = 0; x < 256; x++)
+    {
+     linebuffer[x] = in_ptr[tmpss] ? (palette_ptr[in_ptr[tmpss]] | layer_or) : 0;
+     tmpss++;
+    }
    }
-   memset(&DecodeBuffer[DecodeBufferWhichRead][RasterReadPos * 256], 0, 256);
+   else // Non-endless
+   {
+    uint16 tmpss = HScroll & 0x1FF;
+
+    for(int x = 0; x < 256; x++)
+    {
+     linebuffer[x] = (tmpss < 256 && in_ptr[tmpss]) ? (palette_ptr[in_ptr[tmpss]] | layer_or) : 0;
+     tmpss = (tmpss + 1) & 0x1FF;
+    }
+   }
+   //MDFN_FastU32MemsetM8((uint32 *)in_ptr, 0, 256 / 4);
   }
  }
 
- //printf("Fetch: %d, buffer: %d\n", RasterReadPos, DecodeBufferWhichRead);
- RasterReadPos = (RasterReadPos + 1) % 16;
- if(!RasterReadPos) DecodeBufferWhichRead ^= 1;
+ RasterReadPos = (RasterReadPos + 1) & 0xF;
 
+ if(!RasterReadPos)
+  DecodeFormat[DecodeBufferWhichRead] = -1;     // Invalidate this buffer.
+
+ //printf("Fetch: %d, buffer: %d\n", RasterReadPos, DecodeBufferWhichRead);
  return(ret);
 }
 
@@ -929,7 +1098,7 @@ void RAINBOW_Reset(void)
 
  memset(QuantTables, 0, sizeof(QuantTables));
  memset(QuantTablesBase, 0, sizeof(QuantTablesBase));
- DecodeFormat[0] = DecodeFormat[1] = 0;
+ DecodeFormat[0] = DecodeFormat[1] = -1;
 
  CalcHappyColor();
 }
@@ -946,6 +1115,11 @@ int RAINBOW_StateAction(StateMem *sm, int load, int data_only)
    SFVAR(NullRunY),
    SFVAR(NullRunU),
    SFVAR(NullRunV),
+   SFVAR(HSync),
+   SFARRAY32(DecodeFormat, 2),
+   //  if(!(DecodeBuffer[i] = (uint8*)MDFN_malloc(0x2000 * 4, _("RAINBOW buffer RAM"))))
+   SFARRAY(DecodeBuffer[0], 0x2000 * 4),
+   SFARRAY(DecodeBuffer[1], 0x2000 * 4),
    SFEND
  };
 

@@ -19,33 +19,28 @@
 #ifndef CDROM_INTERFACE_H_INCLUDED
 #define CDROM_INTERFACE_H_INCLUDED
 
-typedef enum
-{
- CDIF_FORMAT_AUDIO,
- CDIF_FORMAT_MODE1,
- CDIF_FORMAT_MODE2,
- CDIF_FORMAT_PSX,
- CDIF_FORMAT_CDI
-} CDIF_Track_Format;
+#include "cdromfile-stuff.h"
 
 bool CDIF_Open(const char *device_name);
 bool CDIF_Close(void);
 
-bool CDIF_Init(void);
-void CDIF_Deinit(void);
+// Basic functions
+bool CDIF_ReadTOC(CD_TOC *toc);
 
-int32 CDIF_GetFirstTrack();
-int32 CDIF_GetLastTrack();
+// lba_end is NOT inclusive.  IE for a count of 1, lba_end will be lba + 1.
+// Passing ~0U for "lba_end" is equivalent to passing the LBA of the leadout track.
+bool CDIF_HintReadSector(uint32 lba);
+bool CDIF_ReadRawSector(uint8 *buf, uint32 lba);
 
-bool CDIF_GetTrackStartPositionMSF(int32 track, int &min, int &sec, int &frame);
-bool CDIF_GetTrackFormat(int32 track, CDIF_Track_Format &format);
+// Call for mode 1 or mode 2 form 1 only.
+// Will only evaluate checksum and L-EC data if cdrom.lec_eval setting is true(the default), or the disc is real/physical.
+bool CDIF_ValidateRawSector(uint8 *buf);
+
+// Utility/Wrapped functions
+bool CDIF_ReadSector(uint8* pBuf, uint32 sector, uint32 nSectors);
 
 uint32 CDIF_GetTrackStartPositionLBA(int32 track);
 int CDIF_FindTrackByLBA(uint32 LBA);
-
-bool CDIF_ReadSector(uint8* pBuf, uint8 *SubPWBuf, uint32 sector, uint32 nSectors);
-uint32 CDIF_GetSectorCountLBA(void);
-bool CDIF_ReadAudioSector(int16 *buffer, uint8 *SubPWBuf, uint32 read_sec);
 
 uint32 CDIF_GetTrackSectorCount(int32 track);
 

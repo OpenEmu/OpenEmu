@@ -17,17 +17,16 @@
 
 #include "mednafen.h"
 
+#include <string.h>
+#include <vector>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <string.h>
-#include <vector>
 
 #include "driver.h"
 #include "state.h"
 #include "general.h"
 #include "video.h"
-#include "endian.h"
 #include "netplay.h"
 #include "movie.h"
 
@@ -72,7 +71,7 @@ static void StopRecording(void)
  }
 }
 
-void MDFNI_SaveMovie(char *fname, uint32 *fb, MDFN_Rect *LineWidths)
+void MDFNI_SaveMovie(char *fname, const MDFN_Surface *surface, const MDFN_Rect *DisplayRect, const MDFN_Rect *LineWidths)
 {
  gzFile fp;
 
@@ -88,7 +87,7 @@ void MDFNI_SaveMovie(char *fname, uint32 *fb, MDFN_Rect *LineWidths)
  memset(&RewindBuffer, 0, sizeof(StateMem));
  RewindBuffer.initial_malloc = 16;
 
- current=CurrentMovie;
+ current = CurrentMovie;
 
  if(fname)
   fp = gzopen(fname, "wb3");
@@ -99,7 +98,7 @@ void MDFNI_SaveMovie(char *fname, uint32 *fb, MDFN_Rect *LineWidths)
 
  if(!fp) return;
 
- MDFNSS_SaveFP(fp, fb, LineWidths);
+ MDFNSS_SaveFP(fp, surface, DisplayRect, LineWidths);
  gzseek(fp, 0, SEEK_END);
  gzflush(fp, Z_SYNC_FLUSH); // Flush output so that previews will still work right while
 			    // the movie is being recorded.  Purely cosmetic. :)
@@ -133,13 +132,12 @@ void MDFNI_LoadMovie(char *fname)
 
  if(current > 0)        /* Can't interrupt recording.*/
   return;
-#ifdef NETWORK
+
  if(MDFNnetplay)	/* Playback is UNPOSSIBLE during netplay. */
  {
   MDFN_DispMessage(_("Can't play movies during netplay."));
   return;
  }
-#endif
 
  if(current < 0)        /* Stop playback. */
  {
@@ -166,6 +164,7 @@ void MDFNI_LoadMovie(char *fname)
 
  current = -1 - current;
  MovieStatus[CurrentMovie] = 1;
+
  MDFN_DispMessage(_("Movie playback started."));
 }
 
@@ -318,78 +317,25 @@ void MDFNMOV_CheckMovies(void)
 
 void MDFNI_SelectMovie(int w)
 {
- gzFile fp;
- uint32 MovieShow = 0;
- uint32 *MovieShowPB = NULL;
- uint32 MovieShowPBWidth;
- uint32 MovieShowPBHeight;
+ StateStatusStruct *status = NULL;
 
- if(w == -1) { MovieShow = 0; return; }
+ if(w == -1)
+ { 
+  return; 
+ }
  MDFNI_SelectState(-1);
 
- CurrentMovie=w;
- MovieShow = MDFND_GetTime() + 2000;;
+ CurrentMovie = w;
+ MDFN_ResetMessages();
 
- fp = gzopen(MDFN_MakeFName(MDFNMKF_MOVIE,CurrentMovie,NULL).c_str(), "rb");
-
- if(fp)
- {
-  uint8 header[32];
-
-  gzread(fp, header, 32);
-  uint32 width = MDFN_de32lsb(header + 24);
-  uint32 height = MDFN_de32lsb(header + 28);
-
-  if(width > 512) width = 512;
-  if(height > 512) height = 512;
- 
-  {
-   uint8 previewbuffer[3 * width * height];
-   uint8 *rptr = previewbuffer;
-
-   gzread(fp, previewbuffer, 3 * width * height);
-
-   if(MovieShowPB)
-   {
-    free(MovieShowPB);
-    MovieShowPB = NULL;
-   }
-
-   MovieShowPB = (uint32 *)malloc(4 * width * height);
-   MovieShowPBWidth = width;
-   MovieShowPBHeight = height;
-
-   for(unsigned int y=0; y < height; y++)
-    for(unsigned int x=0; x < width; x++)
-    {
-     MovieShowPB[x + y * width] = MK_COLORA(rptr[0],rptr[1],rptr[2], 0xFF);
-     rptr+=3;
-    }
-   gzclose(fp);
-  }
- }
- else
- {
-  if(MovieShowPB)
-  {
-   free(MovieShowPB);
-   MovieShowPB = NULL;
-  }
-  MovieShowPBWidth = MDFNGameInfo->ss_preview_width;
-  MovieShowPBHeight = MDFNGameInfo->height;
- }
-
- StateStatusStruct *status = (StateStatusStruct*)calloc(1, sizeof(StateStatusStruct));
+ status = (StateStatusStruct*)MDFN_calloc(1, sizeof(StateStatusStruct), _("Movie status"));
 
  memcpy(status->status, MovieStatus, 10 * sizeof(int));
  status->current = CurrentMovie;
  status->current_movie = current;
  status->recently_saved = RecentlySavedMovie;
- status->gfx = MovieShowPB;
- status->w = MovieShowPBWidth;
- status->h = MovieShowPBHeight;
- status->pitch = MovieShowPBWidth;
 
+ MDFNSS_GetStateInfo(MDFN_MakeFName(MDFNMKF_MOVIE,CurrentMovie,NULL).c_str(), status);
  MDFND_SetMovieStatus(status);
 }
 

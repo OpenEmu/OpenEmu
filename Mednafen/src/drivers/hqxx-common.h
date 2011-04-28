@@ -16,6 +16,7 @@ static inline unsigned int hqxx_RGB_to_YUV(unsigned int value)
  int r,g,b;
  int Y, u, v;
 
+#if 0
  r = (value >> 0) & 0xF8;
  g = (value >> 8) & 0xFC;
  b = (value >> 16) & 0xF8;
@@ -23,6 +24,16 @@ static inline unsigned int hqxx_RGB_to_YUV(unsigned int value)
  Y = (r + g + b) >> 2;
  u = 128 + ((r - b) >> 2);
  v = 128 + ((-r + 2*g - b) >> 3);
+#endif
+
+ r = (value >> (16 + 2)) & 0x3E;
+ g = (value >> ( 8 + 2)) & 0x3F;
+ b = (value >> ( 0 + 2)) & 0x3E;
+
+ Y = (r + g + b);
+ u = 128 + (r - b);
+ v = 128 + ((-r + 2*g - b) >> 1);
+
  return((Y<<16) + (u<<8) + v);
 }
 #endif

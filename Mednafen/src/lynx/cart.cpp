@@ -44,14 +44,27 @@
 
 #define CART_CPP
 
+#include "system.h"
+
+#include <algorithm>
 #include <string.h>
 #include <zlib.h>
-#include "system.h"
 #include "cart.h"
 #include "../state.h"
 #include "../md5.h"
 
-CCart::CCart(uint8 *gamedata, uint32 gamesize)
+bool CCart::TestMagic(const uint8 *data, uint32 size)
+{
+ if(size <= (int)sizeof(LYNX_HEADER))
+  return(FALSE);
+
+ if(memcmp(data, "LYNX", 4) || data[8] != 0x01)
+  return(FALSE);
+
+ return(TRUE);
+}
+
+CCart::CCart(const uint8 *gamedata, uint32 gamesize)
 {
 	LYNX_HEADER	header;
 	uint32 loop;
@@ -206,20 +219,23 @@ CCart::CCart(uint8 *gamedata, uint32 gamesize)
         md5_context md5;
         md5.starts();
 
-	if(mMaskBank0)
-	{
-		memcpy(mCartBank0, gamedata, mMaskBank0+1);
-	        md5.update(mCartBank0, mMaskBank0 + 1);
-		gamedata += mMaskBank0 + 1;
-	}
+        if(mMaskBank0)
+        {
+         int size = std::min(gamesize, mMaskBank0+1);
+         memcpy(mCartBank0, gamedata, size);
+         md5.update(mCartBank0, size);
+         gamedata += size;
+         gamesize -= size;
+        }
 
-	// Read in the BANK0 bytes
-	if(mMaskBank1)
-	{
-		memcpy(mCartBank1, gamedata, mMaskBank1+1);
-	        md5.update(mCartBank1, mMaskBank1 + 1);
-		gamedata += mMaskBank1 + 1;
-	}
+        // Read in the BANK0 bytes
+        if(mMaskBank1)
+        {
+         int size = std::min(gamesize, mMaskBank1+1);
+         memcpy(mCartBank1, gamedata, size);
+         md5.update(mCartBank1, size);
+         gamedata += size;
+        }
 
         md5.finish(MD5);
 
@@ -260,7 +276,7 @@ void CCart::Reset(void)
 	last_strobe = 0;
 }
 
-ALWAYS_INLINE void CCart::Poke(uint32 addr, uint8 data)
+INLINE void CCart::Poke(uint32 addr, uint8 data)
 {
 	if(mBank==bank0)
 	{
@@ -273,7 +289,7 @@ ALWAYS_INLINE void CCart::Poke(uint32 addr, uint8 data)
 }
 
 
-ALWAYS_INLINE uint8 CCart::Peek(uint32 addr)
+INLINE uint8 CCart::Peek(uint32 addr)
 {
 	if(mBank==bank0)
 	{
@@ -387,11 +403,12 @@ int CCart::StateAction(StateMem *sm, int load, int data_only)
         SFVAR(mWriteEnableBank0),
         SFVAR(mWriteEnableBank1),
 	SFVAR(last_strobe),
-	{mCartBank1, mCartRAM ? mMaskBank1 + 1 : 0, "mCartBank1" },
+	SFARRAYN(mCartBank1, mCartRAM ? mMaskBank1 + 1 : 0, "mCartBank1"),
 	SFEND
  };
-	std::vector <SSDescriptor> love;
-	love.push_back(SSDescriptor(CartRegs, "CART"));
-	return(MDFNSS_StateAction(sm, load, data_only, love));
+ int ret = MDFNSS_StateAction(sm, load, data_only, CartRegs, "CART");
+
+
+ return(ret);
 }
 

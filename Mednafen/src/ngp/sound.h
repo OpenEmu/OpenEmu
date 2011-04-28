@@ -21,12 +21,9 @@ void Write_SoundChipRight(uint8 data);
 void dac_write_left(uint8);
 void dac_write_right(uint8);
 
-
-int16 *MDFNNGPCSOUND_Flush(int32 *len);
-void MDFNNGPCSOUND_Init(bool WantMono);
-void MDFNNGPC_SetSoundMultiplier(double multiplier);
-void MDFNNGPC_SetSoundVolume(uint32 volume);
-void MDFNNGPC_Sound(int rate);
+int32 MDFNNGPCSOUND_Flush(int16 *SoundBuf, const int32 MaxSoundFrames);
+void MDFNNGPCSOUND_Init(void);
+bool MDFNNGPC_SetSoundRate(uint32 rate);
 int MDFNNGPCSOUND_StateAction(StateMem *sm, int load, int data_only);
 void MDFNNGPCSOUND_SetEnable(bool set);
 

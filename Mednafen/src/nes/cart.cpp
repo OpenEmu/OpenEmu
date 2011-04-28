@@ -18,13 +18,13 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
-#include <errno.h>
-
 #include "nes.h"
+#include <errno.h>
 #include "ppu/ppu.h"
 #include "cart.h"
 #include "x6502.h"
+
+#include "../mempatcher.h"
 
 /* 
    This file contains all code for coordinating the mapping in of the
@@ -284,8 +284,9 @@ void setchr4r(int r, unsigned int A, unsigned int V)
   V&=CHRmask4[r];
   VPageR[(A)>>10]=VPageR[((A)>>10)+1]=
   VPageR[((A)>>10)+2]=VPageR[((A)>>10)+3]=&CHRptr[r][(V)<<12]-(A);
+
   if(CHRram[r])
-   PPUCHRRAM|=(15<<(A>>10));
+   PPUCHRRAM |= (15<<(A>>10));
   else
    PPUCHRRAM&=~(15<<(A>>10));
 }
@@ -299,10 +300,11 @@ void setchr8r(int r, unsigned int V)
   V&=CHRmask8[r];
   for(x=7;x>=0;x--)
    VPageR[x]=&CHRptr[r][V<<13];
+
   if(CHRram[r])
-   PPUCHRRAM|=(255);
+   PPUCHRRAM = 0xFF;
   else
-   PPUCHRRAM&=~(255);
+   PPUCHRRAM = 0;
 }
 
 void setchr1(unsigned int A, unsigned int V)
@@ -392,7 +394,8 @@ void setntamem(uint8 *p, int ram, uint32 b)
   PPUNTARAM|=1<<b;
 }
 
-static int mirrorhard=0;
+static bool mirrorhard = FALSE;
+
 void setmirrorw(int a, int b, int c, int d)
 {
  MDFNPPU_LineUpdate();
@@ -428,9 +431,9 @@ void setmirror(int t)
 
 void SetupCartMirroring(int m, int hard, uint8 *extra)
 {
- if(m<4)
+ if(m < 4)
  {
-  mirrorhard = 0;
+  mirrorhard = FALSE;
   setmirror(m);
  }
  else
@@ -449,79 +452,133 @@ bool CartHasHardMirroring(void)
  return(mirrorhard);
 }
 
-static uint8 *GENIEROM=0;
+static uint8 *GENIEROM = NULL;
+static readfunc GenieBackup[3] = { NULL, NULL, NULL };
+static void FixGenieMap(void);
 
-void FixGenieMap(void);
+static DECLFW(GenieWrite);
+static DECLFR(GenieRead);
+static bool GenieBIOSHooksInstalled = FALSE;
+static readfunc *AReadGG = NULL;
+static writefunc *BWriteGG = NULL;
+
+bool Genie_BIOSInstalled(void)
+{
+ return(GenieBIOSHooksInstalled);
+}
+
+static void InstallGenieBIOSHooks(void)
+{
+ if(GenieBIOSHooksInstalled)
+  return;
+
+ for(int i = 0; i < 0x8000; i++)
+ {
+  AReadGG[i] = GetReadHandler(i + 0x8000);
+  BWriteGG[i] = GetWriteHandler(i + 0x8000);
+ }
+
+ SetWriteHandler(0x8000, 0xFFFF, GenieWrite);
+ SetReadHandler(0x8000, 0xFFFF, GenieRead);
+
+ GenieBIOSHooksInstalled = TRUE;
+}
 
 /* Called when a game(file) is opened successfully. */
-void OpenGenie(void)
+bool Genie_Init(void)
 {
- MDFNFILE *fp;
- int x;
+ MDFNFILE fp;
 
  if(!GENIEROM)
  {
-  if(!(GENIEROM=(uint8 *)MDFN_malloc(4096+1024, _("Game Genie ROM image")))) return;
+  if(!(GENIEROM=(uint8 *)MDFN_malloc(4096+1024, _("Game Genie ROM image")))) 
+   return(FALSE);
 
-  std::string fn = MDFN_MakeFName(MDFNMKF_GGROM, 0, 0);
+  std::string fn = MDFN_MakeFName(MDFNMKF_FIRMWARE, 0, MDFN_GetSettingS("nes.ggrom").c_str());
 
-  fp = MDFN_fopen(fn.c_str(), NULL, "rb", NULL);
-  if(!fp)
+  if(!fp.Open(fn.c_str(), NULL, _("Game Genie ROM Image")))
   {
-   MDFN_PrintError(_("Error opening Game Genie ROM image \"%s\": %m"), fn.c_str(), errno);
    free(GENIEROM);
    GENIEROM=0;
-   return;
+   return(FALSE);
   }
-  if(MDFN_fread(GENIEROM,1,16,fp)!=16)
+
+  if(fp.fread(GENIEROM, 1, 16) != 16)
   {
    grerr:
    MDFN_PrintError(_("Error reading from Game Genie ROM image!"));
    free(GENIEROM);
-   GENIEROM=0;
-   MDFN_fclose(fp);
-   return;
+   GENIEROM = NULL;
+   fp.Close();
+   return(FALSE);
   }
+
   if(!memcmp(GENIEROM, "NES\x1A", 4))	/* iNES ROM image */
   {
-   if(MDFN_fread(GENIEROM,1,4096,fp)!=4096)
+   if(fp.fread(GENIEROM,1,4096) != 4096)
     goto grerr;
-   if(MDFN_fseek(fp,16384-4096,SEEK_CUR))
+
+   if(fp.fseek(16384 - 4096, SEEK_CUR))
     goto grerr;
-   if(MDFN_fread(GENIEROM+4096,1,256,fp)!=256)
+
+   if(fp.fread(GENIEROM + 4096, 1, 256) != 256)
     goto grerr;
   }
   else
   {
-   if(MDFN_fread(GENIEROM+16,1,4352-16,fp)!=(4352-16))
+   if(fp.fread(GENIEROM + 16, 1, 4352-16) != (4352 - 16))
     goto grerr;
   }
-  MDFN_fclose(fp);
+  fp.Close();
  
   /* Workaround for the Mednafen CHR page size only being 1KB */
-  for(x=0;x<4;x++)
-   memcpy(GENIEROM+4096+(x<<8),GENIEROM+4096,256);
+  for(int x = 0; x < 4; x++)
+   memcpy(GENIEROM + 4096 + (x<<8), GENIEROM + 4096, 256);
+ }
+
+ if(!(AReadGG = (readfunc *)MDFN_calloc(sizeof(readfunc), 32768, _("Game Genie Read Map Backup"))) ||
+    !(BWriteGG = (writefunc *)MDFN_calloc(sizeof(writefunc), 32768, _("Game Genie Write Map Backup"))) )
+ {
+  if(GENIEROM)
+  {
+   free(GENIEROM);
+   GENIEROM = NULL;
+  }
+  return(FALSE);
+ }
+
+ GenieBIOSHooksInstalled = FALSE;
+ memset(AReadGG, 0, sizeof(AReadGG));
+ memset(BWriteGG, 0, sizeof(BWriteGG));
+
+ for(int x = 0; x < 3; x++)
+ {
+  GenieBackup[x] = NULL;
+
+  genieval[x] = 0xFF;
+  geniech[x] = 0xFF;
+  genieaddr[x] = 0xFFFF;
  }
 
  geniestage=1;
+
+ return(1);
 }
 
-/* Called when a game is closed. */
-void CloseGenie(void)
-{
- /* No good reason to free() the Game Genie ROM image data. */
- geniestage=0;
- FlushGenieRW();
- VPageR=VPage;
-}
 
-void MDFN_KillGenie(void)
+void Genie_Kill(void)
 {
+ geniestage = 0;
+ //FlushGenieRW();
+ VPageR = VPage;
+
  if(GENIEROM)
  {
   free(GENIEROM);
-  GENIEROM=0;
+  GENIEROM = NULL;
  }
+
+ memset(&GenieBackup, 0, sizeof(GenieBackup));
 }
 
 static DECLFR(GenieRead)
@@ -535,33 +592,40 @@ static DECLFW(GenieWrite)
  {
   case 0x800c:
   case 0x8008:
-  case 0x8004:genieval[((A-4)&0xF)>>2]=V;break;
+  case 0x8004:
+	      genieval[((A-4)&0xF)>>2]=V;
+	      break;
 
   case 0x800b:
   case 0x8007:
-  case 0x8003:geniech[((A-3)&0xF)>>2]=V;break;
+  case 0x8003:
+	      geniech[((A-3)&0xF)>>2]=V;
+	      break;
 
   case 0x800a:
   case 0x8006:
-  case 0x8002:genieaddr[((A-2)&0xF)>>2]&=0xFF00;genieaddr[((A-2)&0xF)>>2]|=V;break;
+  case 0x8002:genieaddr[((A-2)&0xF)>>2] &= 0xFF00;
+	      genieaddr[((A-2)&0xF)>>2] |= V;
+	      break;
 
   case 0x8009:
   case 0x8005:
-  case 0x8001:genieaddr[((A-1)&0xF)>>2]&=0xFF;genieaddr[((A-1)&0xF)>>2]|=(V|0x80)<<8;break;
+  case 0x8001:genieaddr[((A-1)&0xF)>>2] &= 0x00FF;
+	      genieaddr[((A-1)&0xF)>>2] |= (V | 0x80) << 8;
+	      break;
 
   case 0x8000:if(!V)
                FixGenieMap();
               else
               {
-               modcon=V^0xFF;
-               if(V==0x71) 
+               modcon = V ^ 0xFF;
+               if(V == 0x71) 
 		modcon=0;
               }
               break;
  }
 }
 
-static readfunc GenieBackup[3];
 
 static DECLFR(GenieFix1)
 {
@@ -600,53 +664,65 @@ static DECLFR(GenieFix3)
 }
 
 
-void FixGenieMap(void)
+static void FixGenieMap(void)
 {
- int x;
+ geniestage = 2;
 
- geniestage=2;
+ for(int x = 0; x < 8; x++)
+  VPage[x] = VPageG[x];
 
- for(x=0;x<8;x++)
-  VPage[x]=VPageG[x];
+ VPageR = VPage;
 
- VPageR=VPage;
- FlushGenieRW();
- //printf("Rightyo\n"); 
- for(x=0;x<3;x++)
-  if((modcon>>(4+x))&1)
+ if(!GenieBIOSHooksInstalled)
+  return;
+
+ for(int i = 0; i < 0x8000; i++)
+ {
+  SetReadHandler(i + 0x8000, i + 0x8000, AReadGG[i]);
+  SetWriteHandler(i + 0x8000, i + 0x8000, BWriteGG[i]);
+ }
+
+ GenieBIOSHooksInstalled = FALSE;
+
+ for(int x = 0; x < 3; x++)
+  if((modcon >> (4 + x)) & 1)
   {
-   readfunc tmp[3]={GenieFix1,GenieFix2,GenieFix3};
+   readfunc tmp[3] = { GenieFix1, GenieFix2, GenieFix3 };
    GenieBackup[x]=GetReadHandler(genieaddr[x]);
    SetReadHandler(genieaddr[x],genieaddr[x],tmp[x]);
   }
+
+ // Call this last, after GenieBIOSHooksInstalled = FALSE and our read cheat hooks are installed.  Yay spaghetti code.
+ MDFNMP_InstallReadPatches();
 }
 
-void GeniePower(void)
+void Genie_Power(void)
 {
- uint32 x;
-
  if(!geniestage)
   return;
 
- geniestage=1;
- for(x=0;x<3;x++)
+ for(int x = 0; x < 3; x++)
  {
-  genieval[x]=0xFF;
-  geniech[x]=0xFF;
-  genieaddr[x]=0xFFFF;
+  if(GenieBackup[x])
+  {
+   SetReadHandler(genieaddr[x], genieaddr[x], GenieBackup[x]);
+   GenieBackup[x] = NULL;
+  }
+  genieval[x] = 0xFF;
+  geniech[x] = 0xFF;
+  genieaddr[x] = 0xFFFF;
  }
- modcon=0;
 
- SetWriteHandler(0x8000,0xFFFF,GenieWrite);
- SetReadHandler(0x8000,0xFFFF,GenieRead);
+ geniestage = 1;
+ modcon = 0;
 
- for(x=0;x<8;x++)
+ if(!GenieBIOSHooksInstalled)
+  InstallGenieBIOSHooks();
+
+ for(int x = 0; x < 8; x++)
   VPage[x]=GENIEROM+4096-0x400*x;
 
- if(AllocGenieRW())
-  VPageR=VPageG;
- else
-  geniestage=2;
+ VPageR=VPageG;
 }
 
 

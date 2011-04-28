@@ -182,9 +182,9 @@ static void ParseBreakpoints(const std::string &Breakpoints, int type)
 static unsigned int RegsPos = 0;
 static uint32 InRegs = 0;
 static uint32 RegsCols = 0;
-static uint32 RegsColsCounts[5];
-static uint32 RegsColsPixOffset[5];
-static uint32 RegsWhichFont[5];
+static uint32 RegsColsCounts[16];	// FIXME[5];
+static uint32 RegsColsPixOffset[16];	//[5];
+static uint32 RegsWhichFont[16];	//[5];
 static uint32 RegsTotalWidth;
 
 #define MK_COLOR_A(r,g,b,a) ( ((a)<<surface->format->Ashift) | ((r)<<surface->format->Rshift) | ((g) << surface->format->Gshift) | ((b) << surface->format->Bshift))
@@ -205,7 +205,7 @@ static void RedoPCBreakPoints(void)
  LockGameMutex(0);
 }
 
-static ALWAYS_INLINE bool IsPCBreakPoint(uint32 A)
+static INLINE bool IsPCBreakPoint(uint32 A)
 {
  unsigned int max = PCBreakPoints.size();
 
@@ -258,6 +258,10 @@ static void DrawRegs(RegGroupType *rg, SDL_Surface *surface, uint32 *pixels, int
    uint32 rname_color = MK_COLOR_A(0xE0, 0xFF, 0xFF, 0xFF);
 
    std::string *details_ptr = NULL;
+   char details_string[256];
+   uint32 details_string_len = sizeof(details_string);
+
+   details_string[0] = 0;
 
    if(highlight != -1)
    {
@@ -272,14 +276,38 @@ static void DrawRegs(RegGroupType *rg, SDL_Surface *surface, uint32 *pixels, int
 
    if(rec->bsize != 0xFFFF)
    {
-    if(rec->bsize == 4)
-     trio_snprintf(nubuf, 256, ": %08X", rg->GetRegister(rec->name, details_ptr));
-    else if(rec->bsize == 3)
-     trio_snprintf(nubuf, 256, ": %06X", rg->GetRegister(rec->name, details_ptr));
-    else if(rec->bsize == 2)
-     trio_snprintf(nubuf, 256, ": %04X", rg->GetRegister(rec->name, details_ptr));
-    else if(rec->bsize == 1)
-     trio_snprintf(nubuf, 256, ": %02X", rg->GetRegister(rec->name, details_ptr));
+    uint32 regval;
+
+    if(rg->GetRegister || rg->SetRegister)
+     regval = rg->GetRegister(rec->id, details_ptr ? details_string : NULL, details_string_len);
+    else
+     regval = rg->OLDGetRegister(rec->name, details_ptr);
+
+    if(rec->bsize & 0x100)
+    {
+     char fstring[7] = ": %08X";
+     int nib_size = ((rec->bsize & 0xFF) + 3) / 4;
+
+     fstring[3] = '0' + (nib_size / 10);
+     fstring[4] = '0' + (nib_size % 10);
+
+     trio_snprintf(nubuf, 256, fstring, regval);
+    }
+    else
+    {
+     if(rec->bsize == 4)
+      trio_snprintf(nubuf, 256, ": %08X", regval);
+     else if(rec->bsize == 3)
+      trio_snprintf(nubuf, 256, ": %06X", regval);
+     else if(rec->bsize == 2)
+      trio_snprintf(nubuf, 256, ": %04X", regval);
+     else if(rec->bsize == 1)
+      trio_snprintf(nubuf, 256, ": %02X", regval);
+    }
+
+    if(details_ptr && details_string[0])
+     *details_ptr = std::string(details_string);
+
     DrawTextTrans(row + prew, surface->pitch, 64, (UTF8*)nubuf, color, 0, which_font);
    }
 
@@ -363,7 +391,11 @@ typedef enum
  ForceInt,
  TraceLogPrompt
 } PromptType;
+
+// FIXME, cleanup, less spaghetti:
 static PromptType InPrompt = None;
+static RegType *CurRegIP;
+static RegGroupType *CurRegGroupIP;
 
 class DebuggerPrompt : public HappyPrompt
 {
@@ -378,6 +410,7 @@ class DebuggerPrompt : public HappyPrompt
 
 	}
 	private:
+
 	void TheEnd(const std::string &pstring)
 	{
                   char *tmp_c_str = strdup(pstring.c_str());
@@ -531,10 +564,21 @@ class DebuggerPrompt : public HappyPrompt
 
                    trio_sscanf(tmp_c_str, "%08X", &RegValue);
                    LockGameMutex(1);
-		   if((*CurGame->Debugger->RegGroups)[(InRegs - 1)]->SetRegister)
-                    (*CurGame->Debugger->RegGroups)[(InRegs - 1)]->SetRegister(PromptText, RegValue);
+
+		   if(CurRegGroupIP->SetRegister || CurRegGroupIP->GetRegister)
+		   {
+		    if(CurRegGroupIP->SetRegister)
+                     CurRegGroupIP->SetRegister(CurRegIP->id, RegValue);
+		    else
+		     puts("Null SetRegister!");
+	           }
 		   else
-		    puts("Null SetRegister!");
+                   {
+                    if(CurRegGroupIP->OLDSetRegister)
+                     CurRegGroupIP->OLDSetRegister(CurRegIP->name, RegValue);
+                    else
+                     puts("Null (OLD)SetRegister!");
+                   }     
 
                    LockGameMutex(0);
                   }
@@ -644,6 +688,10 @@ void Debugger_Draw(SDL_Surface *surface, SDL_Rect *rect, const SDL_Rect *screen_
   DisBytes -= consumed;
  }
 
+ char addr_text_fs[64];	 // Format string.
+
+ trio_snprintf(addr_text_fs, 64, " %%0%0dX: ", (CurGame->Debugger->LogAddrBits + 3) / 4);
+
  for(int x = 0; x < DIS_ENTRIES; x++)
  {
   int32 dbi = indexcow - (DIS_ENTRIES / 2) + x;
@@ -661,10 +709,7 @@ void Debugger_Draw(SDL_Surface *surface, SDL_Rect *rect, const SDL_Rect *screen_
   uint32 color = MK_COLOR_A(0xFF, 0xFF, 0xFF, 0xFF);
   uint32 addr_color = MK_COLOR_A(0xa0, 0xa0, 0xFF, 0xFF);
 
-  if(CurGame->Debugger->LogAddrBits == 32)
-   trio_snprintf(addr_text, 256, " %08X: ", dis_A);
-  else
-   trio_snprintf(addr_text, 256, " %04X: ", dis_A);
+  trio_snprintf(addr_text, 256, addr_text_fs, dis_A);
   
   if(dis_A == DisAddr)
   {
@@ -970,7 +1015,11 @@ bool Debugger_Toggle(void)
 
     NeedInit = FALSE;
     WatchAddr = CurGame->Debugger->DefaultWatchAddr;
-    DisAddr = (*CurGame->Debugger->RegGroups)[0]->GetRegister("PC", NULL);
+
+    if((*CurGame->Debugger->RegGroups)[0]->GetRegister)
+     DisAddr = (*CurGame->Debugger->RegGroups)[0]->GetRegister(/*PC*/0, NULL, 0); // FIXME
+    else
+     DisAddr = (*CurGame->Debugger->RegGroups)[0]->OLDGetRegister("PC", NULL); // FIXME
 
     RegsCols = 0;
     RegsTotalWidth = 0;
@@ -987,7 +1036,13 @@ bool Debugger_Toggle(void)
      {
       if((*CurGame->Debugger->RegGroups)[r]->Regs[x].bsize != 0xFFFF)
       {
-       uint32 tmp_pw = (strlen((*CurGame->Debugger->RegGroups)[r]->Regs[x].name.c_str()) + (*CurGame->Debugger->RegGroups)[r]->Regs[x].bsize * 2 + 2 + 2);
+       uint32 tmp_pw = strlen((*CurGame->Debugger->RegGroups)[r]->Regs[x].name.c_str());
+       unsigned int bsize = (*CurGame->Debugger->RegGroups)[r]->Regs[x].bsize;
+
+       if(bsize & 0x100)
+	tmp_pw += ((bsize & 0xFF) + 3) / 4 + 2 + 2;
+       else
+        tmp_pw += bsize * 2 + 2 + 2;
 
        if(tmp_pw > pw)
         pw = tmp_pw;
@@ -1012,6 +1067,9 @@ bool Debugger_Toggle(void)
 
      RegsCols++;
      RegsColsPixOffset[r] = pw_offset;
+
+     //printf("Column %d, Offset %d\n", r, pw_offset);
+
      pw_offset += pw;
     }
     RegsTotalWidth = pw_offset;
@@ -1042,7 +1100,7 @@ bool Debugger_Toggle(void)
   {
    // Only uninstall our hooks if we don't have any active breakpoints, and trace log is off.
    if(!PCBreakPoints.size() && !ReadBreakpoints.size() && !WriteBreakpoints.size() && !IOReadBreakpoints.size() && 
-	!IOWriteBreakpoints.size() && !AuxReadBreakpoints.size() && !AuxWriteBreakpoints.size()
+	!IOWriteBreakpoints.size() && !AuxReadBreakpoints.size() && !AuxWriteBreakpoints.size() && !OpBreakpoints.size()
 	&& !TraceLog)
    {
     NeedHooksInstalled = TRUE;
@@ -1168,6 +1226,9 @@ void Debugger_Event(const SDL_Event *event)
 		}
 		else
 		 DisAddr = ((1ULL << CurGame->Debugger->LogAddrBits) - 1);
+
+		DisAddr &= ~1;
+		printf("Moo: %08x\n", DisAddr);
 		break;
 
          case SDLK_PAGEUP:
@@ -1371,11 +1432,20 @@ void Debugger_Event(const SDL_Event *event)
 		     break;
 
 		    InPrompt = (PromptType)(EditRegs);
-		    ptext = (*CurGame->Debugger->RegGroups)[InRegs - 1]->Regs[RegsPos].name;
-		    int len = (*CurGame->Debugger->RegGroups)[InRegs - 1]->Regs[RegsPos].bsize;
+		    CurRegIP = &(*CurGame->Debugger->RegGroups)[InRegs - 1]->Regs[RegsPos];
+		    CurRegGroupIP = (*CurGame->Debugger->RegGroups)[InRegs - 1];
+
+		    ptext = CurRegIP->name;
+		    int len = CurRegIP->bsize;
 
 		    LockGameMutex(1);
-		    uint32 RegValue = (*CurGame->Debugger->RegGroups)[InRegs - 1]->GetRegister(ptext, NULL);
+		    uint32 RegValue;
+
+		    if(CurRegGroupIP->GetRegister)
+		     RegValue = CurRegGroupIP->GetRegister(CurRegIP->id, NULL, 0);
+		    else
+		     RegValue = CurRegGroupIP->OLDGetRegister(CurRegIP->name, NULL);
+
 		    LockGameMutex(0);
 
 		    if(len == 1)

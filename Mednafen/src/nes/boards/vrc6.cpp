@@ -32,10 +32,10 @@ static uint8 WRAM[8192];
 
 static int swaparoo;
 
-static uint8 b3=0;
-static int32 phaseacc=0;
+static uint8 b3;
+static int32 phaseacc;
 
-static int32 acount=0;
+static int32 acount;
 
 static int32 CVBC[3];
 static int32 vcount[3];
@@ -247,7 +247,7 @@ static int StateAction(StateMem *sm, int load, int data_only)
   SFVAR(b3), SFVAR(phaseacc), SFVAR(acount),
   SFVAR(vcount[0]), SFVAR(vcount[1]), SFVAR(vcount[2]),
   SFVAR(dcount[0]), SFVAR(dcount[1]),
-  SFARRAY(VPSG, 3 * 3),
+  SFARRAYN(&VPSG[0][0], 3 * 3, "VPSG"),
   SFEND
  };
  int ret = MDFNSS_StateAction(sm, load, data_only, StateRegs, "VRC6");
@@ -269,14 +269,13 @@ static void VRC6_ESI(EXPSOUND *ep)
 	memset(CVBC,0,sizeof(CVBC));
 	memset(vcount,0,sizeof(vcount));
 	memset(dcount,0,sizeof(dcount));
-	if(FSettings.SndRate)
-	{
-	 sfun[0]=DoSQV1HQ;
-	 sfun[1]=DoSQV2HQ;
-	 sfun[2]=DoSawVHQ;
-	}
-	else
-	 memset(sfun,0,sizeof(sfun));
+        b3 = 0;
+        phaseacc = 0;
+        acount = 0;
+
+	sfun[0] = DoSQV1HQ;
+	sfun[1] = DoSQV2HQ;
+	sfun[2] = DoSawVHQ;
 }
 
 static void Close(void)
@@ -286,9 +285,9 @@ static void Close(void)
 
 static void Power(CartInfo *info)
 {
-	int x;
-	for(x = 0; x < 8; x++)
+	for(int x = 0; x < 8; x++)
 	 CHRBanks[x] = x;
+
 	DoCHR();
 
 	if(!info->battery)
@@ -304,6 +303,11 @@ static void Power(CartInfo *info)
 	IRQCount = IRQLatch = IRQEnabled = 0;
 	Mirroring = 0;
 	DoMirroring();
+
+	b3 = 0;
+	phaseacc = 0;
+	acount = 0;
+
 }
 
 static int VRC6_Init(CartInfo *info)

@@ -18,61 +18,43 @@
 #include "pce.h"
 #include "hes.h"
 #include "huc.h"
-#include "cdrom.h"
-#include "adpcm.h"
+#include "../cdrom/pcecd.h"
 #include "../player.h"
-#include "../endian.h"
+
+namespace MDFN_IEN_PCE
+{
 
 static uint8 mpr_start[8];
-static uint8 IBP[0x10];
+static uint8 IBP[0x100];
 static uint8 *rom = NULL, *rom_backup = NULL;
 
 static uint8 CurrentSong;
-static bool8 bootstrap;
+static bool bootstrap;
 static bool ROMWriteWarningGiven;
-
-#if 0
-static void AllocateBanks(uint32 start, uint32 count)
-{
- uint32 start_bank = start / 8192;
- uint32 limit_bank = (start + count + 8191) / 8192;
-
- if(limit_bank > 0x100) 
- {
-  puts("Hrm");
-  limit_bank = 0x100;
- }
-
- for(uint32 b = start_bank; b < limit_bank; b++)
- {
-  if(!rom[b])
-   rom[b] = MDFN_malloc(8192, _("HES ROM"));
-  if(!rom_backup[b])
-   rom_backup[b] = MDFN_malloc(8192, _("HES ROM"));
- }
-}
-#endif
 
 uint8 ReadIBP(unsigned int A)
 {
- // Lovely EVIL speed hack.
- if(!PCE_InDebug)
-  if((A&0xF) == 0x6)
-  {
-   int cycrun = HuCPU.count - HuCPU.tcount;
-   if(cycrun > 0 && HuCPU.timer_div > 0)
-   {
-    if(HuCPU.timer_div < cycrun)
-     cycrun = HuCPU.timer_div;
-    HuC6280_StealCycles(cycrun);
-   }
-  }
+ if(!(A & 0x100))
+  return(IBP[A & 0xFF]);
 
- return(IBP[A & 0xF]);
+ if(bootstrap && !PCE_InDebug)
+ {
+  memcpy(rom + 0x1FF0, rom_backup + 0x1FF0, 16);
+  bootstrap = false;
+  return(CurrentSong);
+ }
+
+ return(0xFF);
 }
 
 static DECLFW(HESROMWrite)
 {
+ if(bootstrap)
+ {
+  puts("Write during bootstrap?");
+  return;
+ }
+
  rom[A] = V;
  //printf("%08x: %02x\n", A, V);
  if(!ROMWriteWarningGiven)
@@ -82,48 +64,33 @@ static DECLFW(HESROMWrite)
  }
 }
 
+static const uint8 BootROM[16] = { 0xA9, 0xFF, 0x53, 0x01, 0xEA, 0xEA, 0xEA, 0xEA, 
+				   0xEA, 0xEA, 0xEA, 0x4C, 0x00, 0x1C, 0xF0, 0xFF };
+
 static DECLFR(HESROMRead)
 {
- if(bootstrap)
- {
-  if(A == 0x1FFE)
-   return(0x00);
-  else if(A == 0x1FFF)
-  {
-   if(!PCE_InDebug)
-   {
-    PCECD_Power();
-
-    memcpy(rom, rom_backup, 0x88 * 8192);
-
-    HuCPU.A = CurrentSong;
-    HuCPU.PC = 0x1C00;
-
-    HuCPUFastMap[0] = rom;
-
-    for(int x=0;x<8;x++)
-    {
-     HuCPU.MPR[x] = mpr_start[x];
-    }
-    HuCPU.MPR[8] = HuCPU.MPR[0];
-   
-    HuC6280_FlushMPRCache();
-
-    bootstrap = 0;
-   }
-   return(0x1C);
-  }
- }
  return(rom[A]);
 }
 
-int PCE_HESLoad(uint8 *buf, uint32 size)
+int PCE_HESLoad(const uint8 *buf, uint32 size)
 {
  uint32 LoadAddr, LoadSize;
  uint32 CurPos;
  uint16 InitAddr;
  uint8 StartingSong;
  int TotalSongs;
+
+ if(size < 0x10)
+ {
+  MDFN_PrintError(_("HES header is too small."));
+  return(0);
+ }
+
+ if(memcmp(buf, "HESM", 4))
+ {
+  MDFN_PrintError(_("HES header magic is invalid."));
+  return(0);
+ }
 
  InitAddr = MDFN_de16lsb(&buf[0x6]);
 
@@ -139,6 +106,20 @@ int PCE_HESLoad(uint8 *buf, uint32 size)
   return(0);
  }
 
+ MDFN_printf(_("HES Information:\n"));
+ MDFN_indent(1);
+
+ StartingSong = buf[5];
+
+ MDFN_printf(_("Init address: 0x%04x\n"), InitAddr);
+ MDFN_printf(_("Starting song: %d\n"), StartingSong + 1);
+
+ for(int x = 0; x < 8; x++)
+ {
+  mpr_start[x] = buf[0x8 + x];
+  MDFN_printf("MPR%d: %02x\n", x, mpr_start[x]);
+ }
+
  memset(rom, 0, 0x88 * 8192);
  memset(rom_backup, 0, 0x88 * 8192);
 
@@ -148,6 +129,11 @@ int PCE_HESLoad(uint8 *buf, uint32 size)
   LoadAddr = MDFN_de32lsb(&buf[CurPos + 0x8]);
 
   //printf("Size: %08x(%d), Addr: %08x, La: %02x\n", LoadSize, LoadSize, LoadAddr, LoadAddr / 8192);
+  MDFN_printf(_("Chunk load:\n"));
+  MDFN_indent(1);
+  MDFN_printf(_("File offset:  0x%08x\n"), CurPos);
+  MDFN_printf(_("Load size:  0x%08x\n"), LoadSize);
+  MDFN_printf(_("Load target address:  0x%08x\n"), LoadAddr);
 
   CurPos += 0x10;
 
@@ -170,97 +156,126 @@ int PCE_HESLoad(uint8 *buf, uint32 size)
 
    LoadSize = 0x110000 - LoadAddr;
   }
-
+  MDFN_indent(-1);
   memcpy(rom + LoadAddr, &buf[CurPos], LoadSize);
   CurPos += LoadSize;
  }
 
  memcpy(rom_backup, rom, 0x88 * 8192);
 
- //system_init(hes);
- //system_reset(hes);
-
- CurrentSong = StartingSong = buf[5];
+ CurrentSong = StartingSong;
  TotalSongs = 256;
+ uint8 *IBP_WR = IBP;
 
- IBP[0x00] = 0x20;
- IBP[0x01] = InitAddr;
- IBP[0x02] = InitAddr >> 8;
- IBP[0x03] = 0x58;
- IBP[0x04] = 0x4C;
- IBP[0x05] = 0x04;
- IBP[0x06] = 0x1C;
+ for(int i = 0; i < 8; i++)
+ {
+  *IBP_WR++ = 0xA9;		// LDA (immediate)
+  *IBP_WR++ = mpr_start[i];
+  *IBP_WR++ = 0x53;		// TAM
+  *IBP_WR++ = 1 << i;
+ }
+
+ // Initialize VDC registers.
+ {
+  //  uint8 vdc_init_rom[] = { 0xA2, 0x0A, 0xA9, 0xFF, 0x8E, 0x00, 0x00, 0x8D, 0x02, 0x00, 0x8D, 0x03, 0x00, 0xE8, 0xE0, 0x0F, 0xD0, 0xF2 };
+  //  uint8 vdc_init_rom[] = { 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEA, 0xEa, 0xEA };
+
+  static const uint8 vdc_init_rom[] = {
+	0xA2, 0x1F, 0x8E, 0x00,
+	0x00, 0x9C, 0x02, 0x00,
+	0x9C, 0x03, 0x00, 0xCA,
+	0x10, 0xF4, 0x03, 0x0A,
+	0x13, 0x02, 0x23, 0x02,
+	0x03, 0x0B, 0x13, 0x1F,
+	0x23, 0x04, 0x03, 0x0C,
+	0x13, 0x02, 0x23, 0x0D,
+	0x03, 0x0D, 0x13, 0xEF,
+	0x23, 0x00, 0x03, 0x0E,
+	0x13, 0x04, 0xA9, 0x04,
+	0x8D, 0x00, 0x04
+       };
+
+  memcpy(IBP_WR, vdc_init_rom, sizeof(vdc_init_rom));
+  IBP_WR += sizeof(vdc_init_rom);
+ }
+
+
+ *IBP_WR++ = 0xAD;		// LDA(absolute)
+ *IBP_WR++ = 0x00;		//
+ *IBP_WR++ = 0x1D;		//
+ *IBP_WR++ = 0x20;               // JSR
+ *IBP_WR++ = InitAddr;           //  JSR target LSB
+ *IBP_WR++ = InitAddr >> 8;      //  JSR target MSB
+ *IBP_WR++ = 0x58;               // CLI
+ *IBP_WR++ = 0xCB;               // (Mednafen Special)
+ *IBP_WR++ = 0x80;               // BRA
+ *IBP_WR++ = 0xFD;               //  -3
+
+ assert((unsigned int)(IBP_WR - IBP) <= sizeof(IBP));
 
  Player_Init(TotalSongs, NULL, NULL, NULL, NULL); //UTF8 **snames);
 
- for(int x = 0; x < 8; x++)
-  mpr_start[x] = buf[0x8 + x];
-
- for(int x = 0; x < 0x80; x++)
+ for(int x = 0; x < 0x88; x++)
  {
-  HuCPUFastMap[x] = rom;
-  PCERead[x] = HESROMRead;
-  PCEWrite[x] = HESROMWrite;
+  if(x)
+   HuCPU->SetFastRead(x, rom + x * 8192);
+  HuCPU->SetReadHandler(x, HESROMRead);
+  HuCPU->SetWriteHandler(x, HESROMWrite);
  }
 
- // FIXME:  If a HES rip tries to execute a SCSI command, the CD emulation code will probably crash.  Obviously, a HES rip shouldn't do this,
- // but Mednafen shouldn't crash either. ;)
- PCE_IsCD = 1;
- PCECD_Init();
- ADPCM_Init();
-
  ROMWriteWarningGiven = FALSE;
+
+ MDFN_indent(-1);
 
  return(1);
 }
 
 void HES_Reset(void)
 {
- HuCPUFastMap[0] = NULL;
- HuC6280_FlushMPRCache();
- bootstrap = 1;
+ memcpy(rom, rom_backup, 0x88 * 8192);
+ memcpy(rom + 0x1FF0, BootROM, 16);
+ bootstrap = true;
 }
 
-
-void HES_Draw(uint32 *pXBuf, int16 *SoundBuf, int32 SoundBufSize)
+void HES_Update(EmulateSpecStruct *espec, uint16 jp_data)
 {
- extern uint16 pce_jp_data[5];
  static uint8 last = 0;
  bool needreload = 0;
 
- if((pce_jp_data[0] & 0x20) && !(last & 0x20))
+ if((jp_data & 0x20) && !(last & 0x20))
  {
   CurrentSong++;
   needreload = 1;
  }
 
- if((pce_jp_data[0] & 0x80) && !(last & 0x80))
+ if((jp_data & 0x80) && !(last & 0x80))
  {
   CurrentSong--;
   needreload = 1;
  }
 
- if((pce_jp_data[0] & 0x8) && !(last & 0x8))
+ if((jp_data & 0x8) && !(last & 0x8))
   needreload = 1;
 
- if((pce_jp_data[0] & 0x10) && !(last & 0x10))
+ if((jp_data & 0x10) && !(last & 0x10))
  {
   CurrentSong += 10;
   needreload = 1;
  }
 
- if((pce_jp_data[0] & 0x40) && !(last & 0x40))
+ if((jp_data & 0x40) && !(last & 0x40))
  {
   CurrentSong -= 10;
   needreload = 1;
  }
 
- last = pce_jp_data[0];
+ last = jp_data;
 
  if(needreload)
   PCE_Power();
 
- Player_Draw(pXBuf, CurrentSong, SoundBuf, SoundBufSize);
+ if(!espec->skip)
+  Player_Draw(espec->surface, &espec->DisplayRect, CurrentSong, espec->SoundBuf, espec->SoundBufSize);
 }
 
 void HES_Close(void)
@@ -271,3 +286,6 @@ void HES_Close(void)
   rom = NULL;
  }
 }
+
+
+};

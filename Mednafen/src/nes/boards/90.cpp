@@ -273,11 +273,6 @@ static void togglie(CartInfo *info)
 
 static void M90Power(CartInfo *info)
 {
-  SetWriteHandler(0x5000,0xffff,Mapper90_write);
-  SetReadHandler(0x5000,0x5fff,tekread);
-
-  SetReadHandler(0x6000,0xffff,CartBR); 
-
   mul[0]=mul[1]=regie=0xFF;
 
   tkcom[0]=tkcom[1]=tkcom[2]=tkcom[3]=0xFF;
@@ -300,19 +295,19 @@ static void M90Power(CartInfo *info)
 static int StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[]={
-        {&IRQCount, 1, "IRQC"},
-        {&IRQa, 1, "IRQa"},
-        {mul, 2, "MUL"},
-        {&regie, 1, "REGI"},
-        {tkcom, 4, "TKCO"},
-        {prgb, 4, "PRGB"},
-        {chrlow, 4, "CHRL"},
-        {chrhigh, 8, "CHRH"},
-        {&names[0], 2|MDFNSTATE_RLSB, "NMS0"},
-        {&names[1], 2|MDFNSTATE_RLSB, "NMS1"},
-        {&names[2], 2|MDFNSTATE_RLSB, "NMS2"},
-        {&names[3], 2|MDFNSTATE_RLSB, "NMS3"},
-        {&tekker, 1, "TEKR"},
+        SFVARN(IRQCount, "IRQC"),
+        SFVARN(IRQa, "IRQa"),
+        SFARRAYN(mul, 2, "MUL"),
+        SFVARN(regie, "REGI"),
+        SFARRAYN(tkcom, 4, "TKCO"),
+        SFARRAYN(prgb, 4, "PRGB"),
+        SFARRAYN(chrlow, 4, "CHRL"),
+        SFARRAYN(chrhigh, 8, "CHRH"),
+        SFVARN(names[0], "NMS0"),
+        SFVARN(names[1], "NMS1"),
+        SFVARN(names[2], "NMS2"),
+        SFVARN(names[3], "NMS3"),
+        SFVARN(tekker, "TEKR"),
         SFEND
 };
 
@@ -335,6 +330,12 @@ int Mapper90_Init(CartInfo *info)
   //PPU_hook = YARGH;
   info->StateAction = StateAction;
   GameHBIRQHook2 = SLWrap; 
+
+  SetWriteHandler(0x5000,0xffff,Mapper90_write);
+  SetReadHandler(0x5000,0x5fff,tekread);
+
+  SetReadHandler(0x6000,0xffff,CartBR);
+
   return(1);
 }
 
@@ -346,6 +347,12 @@ int Mapper209_Init(CartInfo *info)
   //PPU_hook = YARGH;
   GameHBIRQHook2 = SLWrap; 
   info->StateAction = StateAction;
+
+  SetWriteHandler(0x5000,0xffff,Mapper90_write);
+  SetReadHandler(0x5000,0x5fff,tekread);
+
+  SetReadHandler(0x6000,0xffff,CartBR);
+
   return(1);
 } 
 

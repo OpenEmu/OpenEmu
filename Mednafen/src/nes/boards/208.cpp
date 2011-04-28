@@ -18,14 +18,16 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
+// TODO: Remove this mapper or add a StateAction()
+
 #include "mapinc.h"
 
 static uint8 PRGSel;
 static uint8 PBuf[4],PSel;
 static uint8 cmd;
 static uint8 DRegs[8];
-static uint32 count=0;
-static uint32 last=0;
+static uint32 count;
+static uint32 last;
 static int32 IRQCount;
 static uint8 IRQLatch;
 static uint8 IRQa;
@@ -38,7 +40,7 @@ static DECLFW(M208Write1)
 
 static DECLFW(M208Write2)
 {
- static uint8 lut[256]={
+ static const uint8 lut[256]={
   0x59, 0x59, 0x59, 0x59, 0x59, 0x59, 0x59, 0x59,0x59, 0x49, 0x19, 0x09, 0x59, 0x49, 0x19, 0x09,
   0x59, 0x59, 0x59, 0x59, 0x59, 0x59, 0x59, 0x59,0x51, 0x41, 0x11, 0x01, 0x51, 0x41, 0x11, 0x01,
   0x59, 0x59, 0x59, 0x59, 0x59, 0x59, 0x59, 0x59,0x59, 0x49, 0x19, 0x09, 0x59, 0x49, 0x19, 0x09,
@@ -95,13 +97,18 @@ static DECLFW(M208HWrite)
 
 static void M208Power(CartInfo *info)
 {
- PRGSel=3;
+ memset(PBuf, 0, sizeof(PBuf));
+ PSel = 0;
+ cmd = 0;
+ memset(DRegs, 0, sizeof(DRegs));
+ count = 0;
+ last = 0;
+ IRQCount = 0;
+ IRQLatch = 0;
+ IRQa = 0;
+ PRGSel = 3;
+
  setprg32(0x8000,3);
- SetWriteHandler(0x4800,0x4FFF,M208Write1);
- SetWriteHandler(0x5000,0x5fff,M208Write2);
- SetWriteHandler(0x8000,0xFFFF,M208HWrite); 
- SetReadHandler(0x5800,0x5FFF,M208Read);
- SetReadHandler(0x8000,0xffff,CartBR);
 }
 
 static void sl(void)
@@ -138,6 +145,13 @@ int Mapper208_Init(CartInfo *info)
  info->Power=M208Power;
  //GameHBIRQHook=sl;
  PPU_hook=foo;
+
+ SetWriteHandler(0x4800,0x4FFF,M208Write1);
+ SetWriteHandler(0x5000,0x5fff,M208Write2);
+ SetWriteHandler(0x8000,0xFFFF,M208HWrite);
+ SetReadHandler(0x5800,0x5FFF,M208Read);
+ SetReadHandler(0x8000,0xffff,CartBR);
+
  return(1);
 }
 

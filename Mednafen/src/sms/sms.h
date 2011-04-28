@@ -2,6 +2,9 @@
 #ifndef _SMS_H_
 #define _SMS_H_
 
+namespace MDFN_IEN_SMS
+{
+
 enum {
     SLOT_BIOS   = 0,
     SLOT_CARD   = 1,
@@ -92,4 +95,5 @@ void sms_shutdown(void);
 void sms_mapper_w(int address, int data);
 int sms_irq_callback(int param);
 
+}
 #endif /* _SMS_H_ */

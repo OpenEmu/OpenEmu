@@ -172,7 +172,6 @@ enum
 	MIKIE_PIXEL_FORMAT_32BPP,
 };
 
-
 #include <blip/Blip_Buffer.h>
 
 typedef Blip_Synth<blip_good_quality, 256 * 4> Synth;
@@ -202,7 +201,7 @@ class CMikie : public CLynxBase
 		void	ComLynxTxLoopback(int data);
 		void	ComLynxTxCallback(void (*function)(int data,uint32 objref),uint32 objref);
 		
-		void	DisplaySetAttributes(int rs, int gs, int bs, uint32 Pitch);
+		void	DisplaySetAttributes(const MDFN_PixelFormat &format, uint32 Pitch);
 		
 		void	BlowOut(void);
 
@@ -214,25 +213,12 @@ class CMikie : public CLynxBase
 		inline void SetCPUSleep(void) {gSystemCPUSleep=TRUE;};
 		inline void ClearCPUSleep(void) {gSystemCPUSleep=FALSE;};
 
-		void CombobulateSound(uint32 teatime)
-		{
-                                int cur_sample = 0;
-                                static int last_sample;
-                                int x;
-
-				teatime >>= 2;
-				for(x = 0; x < 4; x++)
-				 if(mSTEREO & (0x11 << x))
-				   cur_sample += mAUDIO_OUTPUT[x];
-
-				if(cur_sample != last_sample)
-                                 miksynth.offset(teatime, cur_sample - last_sample, &mikbuf);
-				last_sample = cur_sample;
-		}
+		void CombobulateSound(uint32 teatime);
 		void Update(void);
 
 		bool		mpSkipFrame;
-                uint8           *mpDisplayCurrent;
+                uint32         *mpDisplayCurrent;
+		uint32		mpDisplayCurrentLine;
 
 	private:
 		CSystem		&mSystem;

@@ -18,6 +18,9 @@
 
 #include "pce.h"
 
+namespace MDFN_IEN_PCE
+{
+
 /*
   Startup:
 	0x80 -> $1830
@@ -37,13 +40,14 @@
 
 DECLFR(PCE_TsushinRead)
 {
- printf("Read: %04x\n", A);
+ //printf("Read: %04x, %04x\n", A, HuCPU.PC);
 
  return(0x80);
 }
 
 DECLFW(PCE_TsushinWrite)
 {
- printf("Write: %04x %02x\n", A, V);
+ //printf("Write: %04x %02x, %04x\n", A, V, HuCPU.PC);
 }
 
+};

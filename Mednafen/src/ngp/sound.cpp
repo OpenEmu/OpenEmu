@@ -9,15 +9,13 @@ static T6W28_Apu apu;
 
 static Stereo_Buffer buf;
 
-static bool forcemono;
-
 static uint8 LastDACLeft = 0, LastDACRight = 0;
 static uint8 CurrentDACLeft = 0, CurrentDACRight = 0;
 
 typedef Blip_Synth<blip_good_quality, 0xFF> Synth;
 static Synth synth;
 extern int32 ngpc_soundTS;
-static bool8 schipenable = 0;
+static bool schipenable = 0;
 
 void MDFNNGPCSOUND_SetEnable(bool set)
 {
@@ -58,74 +56,42 @@ void dac_write_right(uint8 data)
 }
 
 
-int16 *MDFNNGPCSOUND_Flush(int32 *length)
+int32 MDFNNGPCSOUND_Flush(int16 *SoundBuf, const int32 MaxSoundFrames)
 {
-        static int16 buffer[8000];
+	int32 FrameCount = 0;
 
         apu.end_frame(ngpc_soundTS >> 1);
 
-        if(forcemono)
-        {
-         buf.left()->end_frame(ngpc_soundTS >> 1);
-         *length = buf.left()->read_samples(buffer, 8000);
-        }
-        else
-        {
-         buf.end_frame(ngpc_soundTS >> 1);
-         *length = buf.read_samples(buffer, 8000);
-         *length /= 2;
-        }
+        buf.end_frame(ngpc_soundTS >> 1);
 
-	if(!FSettings.SndRate)
-	{
-	 *length = 0;
-	 return(NULL);
-	}
+	if(SoundBuf)
+         FrameCount = buf.read_samples(SoundBuf, MaxSoundFrames * 2) / 2;
+	else
+	 buf.clear();
 
-
-        return(buffer);
+        return(FrameCount);
 }
 
 static void RedoVolume(void)
 {
- if(forcemono)
- {
-  apu.output(buf.center(), buf.left(), buf.left());
-  apu.volume((double)FSettings.SoundVolume * 0.30 / 2 / 100);
-  synth.volume((double)FSettings.SoundVolume * 0.40 / 2 / 100);
- }
- else
- {
-  apu.output(buf.center(), buf.left(), buf.right());
-  apu.volume((double)FSettings.SoundVolume * 0.30 / 100);
-  synth.volume((double)FSettings.SoundVolume * 0.40 / 100);
- }
+ apu.output(buf.center(), buf.left(), buf.right());
+ apu.volume(0.30);
+ synth.volume(0.40);
 }
 
-void MDFNNGPCSOUND_Init(bool WantMono)
+void MDFNNGPCSOUND_Init(void)
 {
- buf.set_sample_rate(FSettings.SndRate?FSettings.SndRate:44100, 60);
- buf.clock_rate((long)(3072000 * FSettings.soundmultiplier));
-
- forcemono = WantMono;
+ MDFNNGPC_SetSoundRate(0);
+ buf.clock_rate((long)(3072000));
 
  RedoVolume();
  buf.bass_freq(20);
 }
 
-void MDFNNGPC_SetSoundMultiplier(double multiplier)
+bool MDFNNGPC_SetSoundRate(uint32 rate)
 {
-        buf.clock_rate((long)(3072000 * multiplier));
-}
-
-void MDFNNGPC_SetSoundVolume(uint32 volume)
-{
- RedoVolume();
-}
-
-void MDFNNGPC_Sound(int rate)
-{
-        buf.set_sample_rate(rate?rate:44100, 60);
+ buf.set_sample_rate(rate?rate:44100, 60);
+ return(TRUE);
 }
 
 int MDFNNGPCSOUND_StateAction(StateMem *sm, int load, int data_only)

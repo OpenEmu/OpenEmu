@@ -23,7 +23,7 @@
 #include <iconv.h>
 
 #include "debug.h"
-#include "v810_cpuD.h"
+#include "v810/v810_cpuD.h"
 #include "interrupt.h"
 #include "timer.h"
 #include "king.h"
@@ -33,6 +33,7 @@
 static void (*CPUHook)(uint32);
 static void (*BPCallB)(uint32 PC) = NULL;
 static void (*LogFunc)(const char *, const char *);
+static iconv_t sjis_ict = (iconv_t)-1;
 bool PCFX_LoggingOn = FALSE;
 
 typedef struct __PCFX_BPOINT {
@@ -49,7 +50,7 @@ static bool FoundBPoint = 0;
 static int BTIndex = 0;
 static uint32 BTEntries[16];
 
-void PCFXDBG_AddBranchTrace(uint32 PC)
+static void AddBranchTrace(uint32 PC)
 {
  if(BTEntries[(BTIndex - 1) & 0xF] == PC) return;
 
@@ -142,7 +143,7 @@ enum
 
 typedef struct
 {
- int number;
+ unsigned int number;
  const char *name;
  int arguments;
  int argument_types[16];
@@ -181,6 +182,7 @@ static const syscall_t SysDefs[] =
 
 static void DoSyscallLog(void)
 {
+ uint32 ws = 0;
  unsigned int which = 0;
  unsigned int nargs = 0;
  const char *func_name = "<unknown>";
@@ -188,7 +190,7 @@ static void DoSyscallLog(void)
 
  for(unsigned int i = 0; i < sizeof(SysDefs) / sizeof(syscall_t); i++)
  {
-  if(SysDefs[i].number == P_REG[10])
+  if(SysDefs[i].number == PCFX_V810.GetPR(10))
   {
    nargs = SysDefs[i].arguments;
    func_name = SysDefs[i].name;
@@ -213,7 +215,7 @@ static void DoSyscallLog(void)
 
     do
     {
-     uint32 A = P_REG[6 + i] + qbuf_index;
+     uint32 A = PCFX_V810.GetPR(6 + i) + qbuf_index;
 
      quickiebuf[qbuf_index] = 0;
 
@@ -223,15 +225,7 @@ static void DoSyscallLog(void)
       break;
      }
 
-     quickiebuf[qbuf_index] = mem_rbyte(A);
-
-     // TODO:  Add SJIS decoding
-     if(quickiebuf[qbuf_index] >= 0x80)
-     {
-      error_thing = TRUE;
-      break;
-     }
-     
+     quickiebuf[qbuf_index] = mem_peekbyte(ws, A);
     } while(quickiebuf[qbuf_index] && ++qbuf_index < 64);
 
     if(qbuf_index == 64) 
@@ -240,12 +234,32 @@ static void DoSyscallLog(void)
     quickiebuf[64] = 0;
 
     if(error_thing)
-     pos += trio_sprintf(pos, "0x%08x, ", P_REG[6 + i]);
+     pos += trio_sprintf(pos, "0x%08x, ", PCFX_V810.GetPR(6 + i));
     else
-     pos += trio_sprintf(pos, "@0x%08x=\"%s\", ", P_REG[6+i], quickiebuf);
+    {
+	uint8 quickiebuf_utf8[64 * 6 + 1];
+	char *in_ptr, *out_ptr;
+	size_t ibl, obl;
+
+	ibl = qbuf_index;
+	obl = sizeof(quickiebuf_utf8) - 1;
+
+	in_ptr = (char *)quickiebuf;
+	out_ptr = (char *)quickiebuf_utf8;
+
+	if(iconv(sjis_ict, (ICONV_CONST char **)&in_ptr, &ibl, &out_ptr, &obl) == (size_t) -1)
+	{
+	 pos += trio_sprintf(pos, "0x%08x, ", PCFX_V810.GetPR(6 + i));
+	}
+	else
+	{
+	 *out_ptr = 0;
+	 pos += trio_sprintf(pos, "@0x%08x=\"%s\", ", PCFX_V810.GetPR(6 + i), quickiebuf_utf8);
+	}
+    }
    }
    else
-    pos += trio_sprintf(pos, "0x%08x, ", P_REG[6 + i]);
+    pos += trio_sprintf(pos, "0x%08x, ", PCFX_V810.GetPR(6 + i));
   }
 
   // Get rid of the trailing comma and space
@@ -255,7 +269,7 @@ static void DoSyscallLog(void)
   trio_sprintf(pos, ");");
  }
 
- PCFXDBG_DoLog("SYSCALL", "0x%02x, %s: %s", P_REG[10], func_name, argsbuffer);
+ PCFXDBG_DoLog("SYSCALL", "0x%02x, %s: %s", PCFX_V810.GetPR(10), func_name, argsbuffer);
 }
 
 static void CPUHandler(uint32 PC)
@@ -270,6 +284,7 @@ static void CPUHandler(uint32 PC)
    break;
   }
  }
+ PCFX_V810.CheckBreakpoints(PCFXDBG_CheckBP, mem_peekhword, NULL);	// FIXME: mem_peekword
 
  if(PCFX_LoggingOn)
  {
@@ -284,8 +299,10 @@ static void CPUHandler(uint32 PC)
     "KANJI16x16", "KANJI12x12", "ANK8x16", "ANK6x12", "ANK8x8", "ANK8x12"
    };
 
-   PCFXDBG_DoLog("ROMFONT", "0x%08x->0xFFF0000C, PR7=0x%08x=%s, PR6=0x%04x = %s", lastPC, P_REG[7], (P_REG[7] > 5) ? "?" : font_sizes[P_REG[7]], P_REG[6] & 0xFFFF, PCFXDBG_ShiftJIS_to_UTF8(P_REG[6] & 0xFFFF));
-   //printf("%s", PCFXDBG_ShiftJIS_to_UTF8(P_REG[6] & 0xFFFF));
+   // FIXME, overflow possible and speed
+   PCFXDBG_DoLog("ROMFONT", "0x%08x->0xFFF0000C, PR7=0x%08x=%s, PR6=0x%04x = %s", lastPC, PCFX_V810.GetPR(7), (PCFX_V810.GetPR(7) > 5) ? "?" : font_sizes[PCFX_V810.GetPR(7)], PCFX_V810.GetPR(6) & 0xFFFF, PCFXDBG_ShiftJIS_to_UTF8(PCFX_V810.GetPR(6) & 0xFFFF));
+   setvbuf(stdout, NULL, _IONBF, 0);
+   printf("%s", PCFXDBG_ShiftJIS_to_UTF8(PCFX_V810.GetPR(6) & 0xFFFF));
   }
   else if(PC == 0xFFF00008)
    DoSyscallLog();
@@ -310,7 +327,11 @@ static void RedoCPUHook(void)
  HappyTest = PCFX_LoggingOn || BreakPointsPC.size() || BreakPointsRead.size() || BreakPointsWrite.size() ||
 		BreakPointsIOWrite.size() || BreakPointsIORead.size() || BreakPointsAux0Read.size() || BreakPointsAux0Write.size();
 
- v810_setCPUHook(HappyTest ? CPUHandler : CPUHook);
+ void (*cpuh)(uint32);
+
+ cpuh = HappyTest ? CPUHandler : CPUHook;
+
+ PCFX_V810.SetCPUHook(cpuh, cpuh ? AddBranchTrace : NULL);
 }
 
 void PCFXDBG_FlushBreakPoints(int type)
@@ -365,10 +386,7 @@ void PCFXDBG_AddBreakPoint(int type, unsigned int A1, unsigned int A2, bool logi
 
 static uint16 dis_readhw(uint32 A)
 {
- if(A < 0x80000000 || A > 0xEFFFFFFF)
-  return(mem_rhword(A));
- else
-  return(0);
+ return(mem_peekhword(0, A));
 }
 
 void PCFXDBG_Disassemble(uint32 &a, uint32 SpecialA, char *TextBuf)
@@ -379,14 +397,12 @@ void PCFXDBG_Disassemble(uint32 &a, uint32 SpecialA, char *TextBuf)
 uint32 PCFXDBG_MemPeek(uint32 A, unsigned int bsize, bool hl, bool logical)
 {
  uint32 ret = 0;
+ uint32 ws = 0;
 
  for(unsigned int i = 0; i < bsize; i++)
  {
   A &= 0xFFFFFFFF;
-  if(A < 0x80000000 || A > 0xEFFFFFFF)
-  {
-   ret |= mem_rbyte(A) << (i * 8);
-  }
+  ret |= mem_peekbyte(ws, A) << (i * 8);
   A++;
  }
 
@@ -397,28 +413,30 @@ uint32 PCFXDBG_GetRegister(const std::string &name, std::string *special)
 {
  if(name == "PC")
  {
-  return(v810_getPC());
+  return(PCFX_V810.GetPC());
  }
  const char *thestring = name.c_str();
 
  if(!strncmp(thestring, "PR", 2))
  {
-  return(P_REG[atoi(thestring + 2)]);
+  return(PCFX_V810.GetPR(atoi(thestring + 2)));
  }
  else if(!strcmp(thestring, "HSP"))
-  return(P_REG[2]);
+  return(PCFX_V810.GetPR(2));
  else if(!strcmp(thestring, "SP"))
-  return(P_REG[3]);
+  return(PCFX_V810.GetPR(3));
  else if(!strcmp(thestring, "GP"))
-  return(P_REG[4]);
+  return(PCFX_V810.GetPR(4));
  else if(!strcmp(thestring, "TP"))
-  return(P_REG[5]);
+  return(PCFX_V810.GetPR(5));
  else if(!strcmp(thestring, "LP"))
-  return(P_REG[31]);
+  return(PCFX_V810.GetPR(31));
+ else if(!strcmp(thestring, "TStamp"))
+  return(PCFX_V810.v810_timestamp);
  else if(!strncmp(thestring, "SR", 2))
  {
   int which_one = atoi(thestring + 2);
-  uint32 val =  S_REG[which_one];
+  uint32 val =  PCFX_V810.GetSR(which_one);
 
   if(special && which_one == PSW)
   {
@@ -443,7 +461,7 @@ void PCFXDBG_SetRegister(const std::string &name, uint32 value)
 {
  if(name == "PC")
  {
-  v810_setPC(value);
+  PCFX_V810.SetPC(value);
   return;
  }
 
@@ -451,21 +469,21 @@ void PCFXDBG_SetRegister(const std::string &name, uint32 value)
 
  if(!strncmp(thestring, "PR", 2))
  {
-  P_REG[atoi(thestring + 2)] = value;
+  PCFX_V810.SetPR(atoi(thestring + 2), value);
  }
  else if(!strcmp(thestring, "HSP"))
-  P_REG[2] = value;
+  PCFX_V810.SetPR(2, value);
  else if(!strcmp(thestring, "SP"))
-  P_REG[3] = value;
+  PCFX_V810.SetPR(3, value);
  else if(!strcmp(thestring, "GP"))
-  P_REG[4] = value;
+  PCFX_V810.SetPR(4, value);
  else if(!strcmp(thestring, "TP"))
-  P_REG[5] = value;
+  PCFX_V810.SetPR(5, value);
  else if(!strcmp(thestring, "LP"))
-  P_REG[31] = value;
+  PCFX_V810.SetPR(31, value);
  else if(!strncmp(thestring, "SR", 2))
  {
-  S_REG[atoi(thestring + 2)] = value;
+  PCFX_V810.SetSR(atoi(thestring + 2), value);
  }
  else if(PCFXIRQ_SetRegister(name, value))
  {
@@ -502,8 +520,6 @@ void PCFXDBG_DoLog(const char *type, const char *format, ...)
  }
 }
 
-static iconv_t sjis_ict = (iconv_t)-1;
-
 void PCFXDBG_SetLogFunc(void (*func)(const char *, const char *))
 {
  LogFunc = func;
@@ -535,8 +551,6 @@ char *PCFXDBG_ShiftJIS_to_UTF8(const uint16 sjc)
  char *in_ptr, *out_ptr;
  size_t ibl, obl;
 
- ret[0] = 0;
-
  if(sjc < 256)
  {
   inbuf[0] = sjc;
@@ -556,6 +570,8 @@ char *PCFXDBG_ShiftJIS_to_UTF8(const uint16 sjc)
  obl = 16;
 
  iconv(sjis_ict, (ICONV_CONST char **)&in_ptr, &ibl, &out_ptr, &obl);
+
+ *out_ptr = 0;
 
  return(ret);
 }

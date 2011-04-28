@@ -18,7 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
 #include "share.h"
 #include "fkb.h"
 #define AK2(x,y)	( (FKB_##x) | (FKB_##y <<8) )
@@ -29,7 +28,7 @@ static uint8 ksmode;
 static uint8 ksindex;
 
 
-static uint16 matrix[9][2][4]=
+static const uint16 matrix[9][2][4]=
 {
 {{AK(F8),AK(RETURN),AK(BRACKETLEFT),AK(BRACKETRIGHT)},   
 	{AK(KANA),AK(RIGHTSHIFT),AK(BACKSLASH),AK(STOP)}},

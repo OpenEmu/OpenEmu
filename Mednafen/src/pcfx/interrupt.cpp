@@ -16,18 +16,17 @@
  */
 
 #include "pcfx.h"
-#include "v810_cpu.h"
-
-void snortus(void);
+#include "interrupt.h"
+#include <trio/trio.h>
 
 static uint16 InterruptAsserted;
-static uint16 InterruptMask = 0;
+static uint16 InterruptMask;
 static uint16 InterruptPriority[2];
 
 static void BuildInterruptCache(void)
 {
  uint32 iwithmask = InterruptAsserted &~ InterruptMask;
- uint32 InterruptCache = 0;
+ int InterruptCache = -1;
  int last_prio = -1;
 
  for(int level = 8; level < 16; level++)
@@ -44,22 +43,24 @@ static void BuildInterruptCache(void)
    {
     if(tmp_prio == last_prio)
     {
-     printf("Undefined IRQ behavior: %d, %d", level, tmp_prio);
+     FXDBG("Undefined IRQ behavior: %d, %d\n", level, tmp_prio);
     }
     InterruptCache = 8 + tmp_prio;
     last_prio = tmp_prio;
    }
   }
 
- v810_setint(InterruptCache);
+ PCFX_V810.SetInt(InterruptCache);
 }
 
-void PCFXIRQ_Assert(int level, bool assert)
+void PCFXIRQ_Assert(int source, bool assert)
 {
- InterruptAsserted &= ~(1 << (15 - level));
+ assert(source >= 0 && source <= 7);
+
+ InterruptAsserted &= ~(1 << (7 - source));
  
  if(assert)
-  InterruptAsserted |= (1 << (15 - level));
+  InterruptAsserted |= (1 << (7 - source));
 
  BuildInterruptCache();
 }
@@ -87,12 +88,29 @@ uint8 PCFXIRQ_Read8(uint32 A)
 
 void PCFXIRQ_Write16(uint32 A, uint16 V)
 {
+// printf("IRQ Controller Write: %08x %04x\n", A, V);
  switch(A & 0xC0)
  {
-  case 0x00: puts("Address error clear"); break;
-  case 0x40: InterruptMask = V; BuildInterruptCache(); break;
-  case 0x80: InterruptPriority[0] = V; BuildInterruptCache(); break;
-  case 0xC0: InterruptPriority[1] = V; BuildInterruptCache(); break;
+  case 0x00: puts("Address error clear");
+	     break;
+
+  case 0x40: InterruptMask = V & 0x7F;
+	     BuildInterruptCache();
+	     break;
+
+  case 0x80: if(InterruptMask == 0x7F)
+	     {
+	      InterruptPriority[0] = V & 0xFFF;
+	      BuildInterruptCache();
+	     }
+	     break;
+
+  case 0xC0: if(InterruptMask == 0x7F)
+	     {
+	      InterruptPriority[1] = V & 0x1FF;
+	      BuildInterruptCache();
+	     }
+	     break;
  }
 }
 
@@ -118,17 +136,17 @@ bool PCFXIRQ_SetRegister(const std::string &name, uint32 value)
 {
  if(name == "IMASK")
  {
-  InterruptMask = value;
+  InterruptMask = value & 0x7F;
   BuildInterruptCache();
  }
  else if(name == "IPRIO0")
  {
-  InterruptPriority[0] = value;
+  InterruptPriority[0] = value & 0xFFF;
   BuildInterruptCache();
  }
  else if(name == "IPRIO1")
  {
-  InterruptPriority[1] = value;
+  InterruptPriority[1] = value & 0x1FF;
   BuildInterruptCache();
  }
  else if(name == "IPEND")
@@ -147,7 +165,7 @@ bool PCFXIRQ_GetRegister(const std::string &name, uint32 &value, std::string *sp
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "IRQ Allowed; HuC6273: %s, HuC6270-B: %s, HuC6272: %s, HuC6270-A: %s, Pad: %s, Timer: %s, Reset: %s",
+   trio_snprintf(buf, 256, "IRQ Allowed; HuC6273: %s, HuC6270-B: %s, HuC6272: %s, HuC6270-A: %s, Pad: %s, Timer: %s, Reset: %s",
 	(InterruptMask & (1 << 0)) ? "No" : "Yes", (InterruptMask & (1 << 1)) ? "No" : "Yes",
 	(InterruptMask & (1 << 2)) ? "No" : "Yes", (InterruptMask & (1 << 3)) ? "No" : "Yes",
 	(InterruptMask & (1 << 4)) ? "No" : "Yes", (InterruptMask & (1 << 6)) ? "No" : "Yes",
@@ -162,7 +180,7 @@ bool PCFXIRQ_GetRegister(const std::string &name, uint32 &value, std::string *sp
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "HuC6273: %d, HuC6270-B: %d, HuC6272: %d, HuC6270-A: %d",
+   trio_snprintf(buf, 256, "HuC6273: %d, HuC6270-B: %d, HuC6272: %d, HuC6270-A: %d",
  	 (InterruptPriority[0] >> 0) & 0x7, (InterruptPriority[0] >> 3) & 0x7,
 	 (InterruptPriority[0] >> 6) & 0x7, (InterruptPriority[0] >> 9) & 0x7);
    *special = std::string(buf);
@@ -175,7 +193,7 @@ bool PCFXIRQ_GetRegister(const std::string &name, uint32 &value, std::string *sp
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "Pad: %d, ??: %d, Timer: %d, Reset: %d",
+   trio_snprintf(buf, 256, "Pad: %d, ??: %d, Timer: %d, Reset: %d",
          (InterruptPriority[1] >> 0) & 0x7, (InterruptPriority[1] >> 3) & 0x7,
          (InterruptPriority[1] >> 6) & 0x7, (InterruptPriority[1] >> 9) & 0x7);
    *special = std::string(buf);
@@ -188,7 +206,7 @@ bool PCFXIRQ_GetRegister(const std::string &name, uint32 &value, std::string *sp
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "HuC6273: %d, HuC6270-B: %d, HuC6272: %d, HuC6270-A: %d, Pad: %d, ??: %d, Timer: %d, Reset: %d", (int)(bool)(value & 0x01), (int)(bool)(value & 0x02),
+   trio_snprintf(buf, 256, "HuC6273: %d, HuC6270-B: %d, HuC6272: %d, HuC6270-A: %d, Pad: %d, ??: %d, Timer: %d, Reset: %d", (int)(bool)(value & 0x01), (int)(bool)(value & 0x02),
 	(int)(bool)(value & 0x04), (int)(bool)(value & 0x08), (int)(bool)(value & 0x10), (int)(bool)(value & 0x20),
 	(int)(bool)(value & 0x40), (int)(bool)(value & 0x80));
    *special = std::string(buf);
@@ -198,3 +216,15 @@ bool PCFXIRQ_GetRegister(const std::string &name, uint32 &value, std::string *sp
  else
   return(FALSE);
 }
+
+void PCFXIRQ_Reset(void)
+{
+ InterruptAsserted = 0;
+ InterruptMask = 0xFFFF;
+
+ InterruptPriority[0] = 0;
+ InterruptPriority[1] = 0;
+
+ BuildInterruptCache();
+}
+

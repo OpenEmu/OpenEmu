@@ -15,10 +15,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
-#include <math.h>
-
 #include "nes.h"
+#include <math.h>
 #include "x6502.h"
 #include "sound.h"
 #include "cart.h"
@@ -26,20 +24,20 @@
 #include "nsfe.h"
 
 
-static uint32 ToU32(uint8 *buf)
+static uint32 ToU32(const uint8 *buf)
 {
  return(buf[0] | (buf[1]<<8) | (buf[2]<<16) | (buf[3]<<24));
 }
 
-static uint16 ToU16(uint8 *buf)
+static uint16 ToU16(const uint8 *buf)
 {
  return(buf[0] |(buf[1]<<8));
 }
 
 
-int LoadNSFE(NSFINFO *nfe, uint8 *buf, int32 size, int info_only)
+int LoadNSFE(NSFINFO *nfe, const uint8 *buf, int32 size, int info_only)
 {
- uint8 *nbuf = 0;
+ const uint8 *nbuf = 0;
 
  size -= 4;
  buf += 4;
@@ -109,8 +107,8 @@ int LoadNSFE(NSFINFO *nfe, uint8 *buf, int32 size, int info_only)
   {
    if(chunk_size == 0 && nbuf)
    {
-    nfe->NSFMaxBank=((nfe->NSFSize+(nfe->LoadAddr&0xfff)+4095)/4096);
-    nfe->NSFMaxBank=uppow2(nfe->NSFMaxBank);
+    nfe->NSFMaxBank = ((nfe->NSFSize+(nfe->LoadAddr&0xfff)+4095)/4096);
+    nfe->NSFMaxBank = round_up_pow2(nfe->NSFMaxBank);
 
     if(!info_only)
     {
@@ -137,7 +135,7 @@ int LoadNSFE(NSFINFO *nfe, uint8 *buf, int32 size, int info_only)
    {
     int slen = strlen((char *)buf);
 
-    nfe->SongNames[songcount++] = (UTF8*)MDFN_FixString(strdup((char *)buf));
+    nfe->SongNames[songcount++] = (UTF8*)MDFN_RemoveControlChars(strdup((char *)buf));
 
     buf += slen + 1;
     chunk_size -= slen + 1;
@@ -178,10 +176,10 @@ int LoadNSFE(NSFINFO *nfe, uint8 *buf, int32 size, int info_only)
    {
     int slen = strlen((char *)buf);
 
-    if(!which) nfe->GameName = (UTF8*)MDFN_FixString(strdup((char *)buf));
-    else if(which == 1) nfe->Artist = (UTF8*)MDFN_FixString(strdup((char *)buf));
-    else if(which == 2) nfe->Copyright = (UTF8*)MDFN_FixString(strdup((char *)buf));
-    else if(which == 3) nfe->Ripper = (UTF8*)MDFN_FixString(strdup((char *)buf));
+    if(!which) nfe->GameName = (UTF8*)MDFN_RemoveControlChars(strdup((char *)buf));
+    else if(which == 1) nfe->Artist = (UTF8*)MDFN_RemoveControlChars(strdup((char *)buf));
+    else if(which == 2) nfe->Copyright = (UTF8*)MDFN_RemoveControlChars(strdup((char *)buf));
+    else if(which == 3) nfe->Ripper = (UTF8*)MDFN_RemoveControlChars(strdup((char *)buf));
 
     which++;
     buf += slen +1;

@@ -145,7 +145,7 @@ void NGPGFX_CLASS::draw_scanline_colour(int layer_enable, int ngpc_scanline)
 {
 	int16 lastSpriteX;
 	int16 lastSpriteY;
-	int spr, x;
+	int spr;
 	uint16 data16;
 
 	memset(cfb_scanline, 0, SCREEN_WIDTH * sizeof(uint16));
@@ -158,7 +158,7 @@ void NGPGFX_CLASS::draw_scanline_colour(int layer_enable, int ngpc_scanline)
 	//Top
 	if (ngpc_scanline < winy)
 	{
-		for (x = 0; x < SCREEN_WIDTH; x++)
+		for (int x = 0; x < SCREEN_WIDTH; x++)
 			cfb_scanline[x] = data16;
 	}
 	else
@@ -166,15 +166,15 @@ void NGPGFX_CLASS::draw_scanline_colour(int layer_enable, int ngpc_scanline)
 		//Middle
 		if (ngpc_scanline < winy + winh)
 		{
-			for (x = 0; x < min(winx, SCREEN_WIDTH); x++)
+			for (int x = 0; x < min(winx, SCREEN_WIDTH); x++)
 				cfb_scanline[x] = data16;
 			
-			for (x = min(winx + winw, SCREEN_WIDTH); x < SCREEN_WIDTH; x++)
+			for (int x = min(winx + winw, SCREEN_WIDTH); x < SCREEN_WIDTH; x++)
 				cfb_scanline[x] = data16;
 		}
 		else	//Bottom
 		{
-			for (x = 0; x < SCREEN_WIDTH; x++)
+			for (int x = 0; x < SCREEN_WIDTH; x++)
 				cfb_scanline[x] = data16;
 		}
 	}
@@ -192,7 +192,7 @@ void NGPGFX_CLASS::draw_scanline_colour(int layer_enable, int ngpc_scanline)
 		if (negative) data16 = ~data16;
 		
 		//Draw background!
-		for (x = winx; x < min(winx + winw, SCREEN_WIDTH); x++)	
+		for (int x = winx; x < min(winx + winw, SCREEN_WIDTH); x++)	
 			cfb_scanline[x] = data16;
 
 		//Swap Front/Back scroll planes?

@@ -37,17 +37,18 @@ class NGPGFX_CLASS
 
  int StateAction(StateMem *sm, int load, int data_only);
  bool ToggleLayer(int which);
- void set_pixel_format(int rs, int gs, int bs);
+ void set_pixel_format(const MDFN_PixelFormat &format);
 
- bool draw(bool skip);
+ bool draw(MDFN_Surface *surface, bool skip);
  bool hint(void);
 
  void power(void);
 
  private:
 
- uint8 zbuffer[256]  __attribute__ ((aligned (8)));	//Line z-buffer
- uint16 cfb_scanline[256] __attribute__ ((aligned (8)));
+ // TODO: Alignment for faster memset
+ uint8 zbuffer[256];		//  __attribute__ ((aligned (8)));	//Line z-buffer
+ uint16 cfb_scanline[256];	// __attribute__ ((aligned (8)));
 
  uint8 winx, winw;
  uint8 winy, winh;
@@ -88,7 +89,7 @@ class NGPGFX_CLASS
  uint8 raster_line;
  uint8 S1SO_H, S1SO_V, S2SO_H, S2SO_V;
  uint8 WBA_H, WBA_V, WSI_H, WSI_V;
- bool8 C_OVR, BLNK;
+ bool C_OVR, BLNK;
  uint8 PO_H, PO_V;
  uint8 P_F;
  uint8 BG_COL;
@@ -98,6 +99,8 @@ class NGPGFX_CLASS
  uint8 K2GE_MODE;
 
  uint32 ColorMap[4096];
+
+ int layer_enable;
 };
 
 #endif

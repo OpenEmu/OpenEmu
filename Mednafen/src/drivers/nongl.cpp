@@ -1,8 +1,9 @@
-#include <math.h>
 #include "main.h"
 #include "video.h"
 #include "nongl.h"
 #include "nnx.h"
+
+#include <math.h>
 
 void BlitRotated(SDL_Surface *src_surface, const SDL_Rect *src_rect, const SDL_Rect *original_src_rect, const SDL_Rect *dest_rect, SDL_Surface *dest_surface, int scanlines, int rotated);
 
@@ -36,6 +37,8 @@ void BlitNonGL(SDL_Surface *src_surface, const SDL_Rect *src_rect, const SDL_Rec
   dr.h = dest_surface->h - dr.y;
  }
 
+ //printf("%d:%d, %d:%d, %d:%d\n", sr.x, sr.w, sr.y, sr.h, src_surface->w, src_surface->h);
+
  if(sr.w == dr.w && sr.h == dr.h)
  {
   SDL_BlitSurface(src_surface, &sr, dest_surface, &dr);
@@ -48,15 +51,55 @@ void BlitNonGL(SDL_Surface *src_surface, const SDL_Rect *src_rect, const SDL_Rec
  if(SDL_MUSTLOCK(dest_surface))
   SDL_LockSurface(dest_surface);
 
+ double dw_to_sw_ratio = (double)dr.w / sr.w;
+ double dh_to_sh_ratio = (double)dr.h / sr.h;
+
  if(!scanlines && sr.w * 2 == dr.w && sr.h * 2 == dr.h)
   nnx(2, src_surface, &sr, dest_surface, &dr);
  else if(!scanlines && sr.w * 3 == dr.w && sr.h * 3 == dr.h)
   nnx(3, src_surface, &sr, dest_surface, &dr);
  else if(!scanlines && sr.w * 4 == dr.w && sr.h * 4 == dr.h)
   nnx(4, src_surface, &sr, dest_surface, &dr);
+ else if(!scanlines && sr.w * 5 == dr.w && sr.h * 5 == dr.h)
+  nnx(5, src_surface, &sr, dest_surface, &dr);
+ else if(!scanlines && floor(dw_to_sw_ratio) == dw_to_sw_ratio && floor(dh_to_sh_ratio) == dh_to_sh_ratio)
+ {
+  int xscale = dw_to_sw_ratio;
+  int yscale = dh_to_sh_ratio;
+  int32 dpitch_diff;
+
+  uint32 *src_row, *dest_row;
+
+  src_row = (uint32 *)src_surface->pixels + (src_surface->pitch >> 2) * sr.y + sr.x;
+  dest_row = (uint32 *)dest_surface->pixels + (dest_surface->pitch >> 2) * dr.y + dr.x;
+
+  dpitch_diff = (dest_surface->pitch >> 2) - (sr.w * xscale);
+
+  //printf("%f %f, %d %d\n", dw_to_sw_ratio, dh_to_sh_ratio, xscale, yscale);
+
+  for(int y = sr.h; y; y--)
+  {
+   for(int ys = yscale; ys; ys--)
+   {
+    uint32 *src_pixels = src_row;
+
+    for(int x = sr.w; x; x--)
+    {
+     uint32 tmp_pixel = *src_pixels;
+
+     for(int xs = xscale; xs; xs--)
+      *dest_row++ = tmp_pixel;
+
+     src_pixels++;
+    }
+    dest_row += dpitch_diff;
+   }
+   src_row += (src_surface->pitch >> 2);
+  }
+ }
  else if(scanlines)
  {
-  uint32 sl_mult = 65536 - 65536 / scanlines;
+  uint32 sl_mult = 65536 - 65536 * scanlines / 100;
   uint32 src_x = sr.x * 65536;
   uint32 src_x_inc = 65536 * sr.w / dr.w;
   uint32 src_y = sr.y * 65536;
@@ -183,13 +226,11 @@ void BlitRotated(SDL_Surface *src_surface, const SDL_Rect *src_rect, const SDL_R
   {
    src_x_inc = -65536 * sr.h / dr.w;
    src_x_init = (sr.x + sr.h) * 65536 + src_x_inc;
-
    src_y = sr.y * 65536;
    src_y_inc = 65536 * sr.w / dr.h;
   }
 
   //printf("%d\n", src_pitch32);
-
   if(src_pitch32 == 256) // Yay, optimization
    for(unsigned int y = 0; y < dr.h; y++)
    {

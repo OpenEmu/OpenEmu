@@ -15,10 +15,8 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
-#include <trio/trio.h>
-
 #include "nes.h"
+#include <trio/trio.h>
 #include "x6502.h"
 #include "debug.h"
 #include "ppu/ppu.h"
@@ -139,8 +137,8 @@ void NESDBG_IRQ(int level)
 
 uint32 NESDBG_GetVector(int level)
 {
-
-
+ // Fixme?
+ return(0);
 }
 
 class Dis2A03 : public Dis6502
@@ -221,9 +219,9 @@ static void CPUHandler(uint32 PC)
   CPUHook(PC);
 }
 
-static uint8 ReadHandler(X6502 *X, unsigned int A)
+static uint8 ReadHandler(X6502 *cur_X, unsigned int A)
 {
- if(X->preexec)
+ if(cur_X->preexec)
  {
   std::vector<NES_BPOINT>::iterator bpit;
 
@@ -239,9 +237,9 @@ static uint8 ReadHandler(X6502 *X, unsigned int A)
  return(ARead[A](A));
 }
 
-static void WriteHandler(X6502 *X, unsigned int A, uint8 V)
+static void WriteHandler(X6502 *cur_X, unsigned int A, uint8 V)
 {
- if(X->preexec)
+ if(cur_X->preexec)
  {
   std::vector<NES_BPOINT>::iterator bpit;
 
@@ -302,53 +300,169 @@ void NESDBG_SetBPCallback(void (*callb)(uint32 PC))
  BPCallB = callb;
 }
 
-uint32 NESDBG_GetRegister(const std::string &name, std::string *special)
+enum
 {
- if(name == "PC")
-  return(X.PC);
- else if(name == "A")
-  return(X.A);
- else if(name == "X")
-  return(X.X);
- else if(name == "Y")
-  return(X.Y);
- else if(name == "SP")
-  return(X.S);
- else if(name == "P")
-  return(X.P);
- else 
-  return(NESPPU_GetRegister(name));
+ CPU_GSREG_PC = 0,
+ CPU_GSREG_A,
+ CPU_GSREG_X,
+ CPU_GSREG_Y,
+ CPU_GSREG_SP,
+ CPU_GSREG_P,
+ CPU_GSREG_TIMESTAMP
+};
+
+static RegType NESCPURegs[] =
+{
+        { CPU_GSREG_PC, "PC", "Program Counter", 2 },
+        { CPU_GSREG_A, "A", "Accumulator", 1 },
+        { CPU_GSREG_X, "X", "X Index", 1 },
+        { CPU_GSREG_Y, "Y", "Y Index", 1 },
+        { CPU_GSREG_SP, "SP", "Stack Pointer", 1 },
+        { CPU_GSREG_P, "P", "Status", 1 },
+	{ CPU_GSREG_TIMESTAMP, "TiSt", "Timestamp", 4 },
+        { 0, "", "", 0 },
+};
+
+static uint32 GetRegister_CPU(const unsigned int id, char *special, const uint32 special_len)
+{
+ uint32 value = 0xDEADBEEF;
+
+ switch(id)
+ {
+  case CPU_GSREG_PC:
+        value = X.PC;
+        break;
+
+  case CPU_GSREG_A:
+        value = X.A;
+        break;
+
+  case CPU_GSREG_X:
+        value = X.X;
+        break;
+
+  case CPU_GSREG_Y:
+        value = X.Y;
+        break;
+
+  case CPU_GSREG_SP:
+        value = X.S;
+        break;
+
+  case CPU_GSREG_P:
+        value = X.P;
+        if(special)
+        {
+         trio_snprintf(special, special_len, "N: %d, V: %d, D: %d, I: %d, Z: %d, C: %d", (int)(bool)(value & N_FLAG),
+                (int)(bool)(value & V_FLAG),
+                (int)(bool)(value & D_FLAG),
+                (int)(bool)(value & I_FLAG),
+                (int)(bool)(value & Z_FLAG),
+                (int)(bool)(value & C_FLAG));
+        }
+        break;
+
+  case CPU_GSREG_TIMESTAMP:
+	value = timestamp;
+	break;
+ }
+
+ return(value);
 }
 
-void NESDBG_SetRegister(const std::string &name, uint32 value)
+static void SetRegister_CPU(const unsigned int id, uint32 value)
 {
- if(name == "PC")
+ switch(id)
  {
-  X.PC = value & 0xFFFF;
- }
- else if(name == "A")
- {
-  X.A = value & 0xFF;
- }
- else if(name == "X")
- {
-  X.X = value & 0xFF;
- }
- else if(name == "Y")
- {
-  X.Y = value & 0xFF;
- }
- else if(name == "SP")
- {
-  X.S = value & 0xFF;
- }
- else if(name == "P")
- {
-  X.P = value & 0xFF & ~(B_FLAG | U_FLAG);
- }
- else
-  NESPPU_SetRegister(name, value);
+  case CPU_GSREG_PC:
+        X.PC = value & 0xFFFF;
+        break;
 
+  case CPU_GSREG_A:
+        X.A = value & 0xFF;
+        break;
 
+  case CPU_GSREG_X:
+        X.X = value & 0xFF;
+        break;
+
+  case CPU_GSREG_Y:
+        X.Y = value & 0xFF;
+        break;
+
+  case CPU_GSREG_SP:
+        X.S = value & 0xFF;
+        break;
+
+  case CPU_GSREG_P:
+        X.P = (value & 0xFF) & ~(B_FLAG | U_FLAG);
+        break;
+
+  case CPU_GSREG_TIMESTAMP:
+	break;
+ }
 }
 
+static RegGroupType NESCPURegsGroup =
+{
+        "6502",
+        NESCPURegs,
+        GetRegister_CPU,
+        SetRegister_CPU
+};
+
+
+static RegType NESPPURegs[] =
+{
+        { PPU_GSREG_PPU0, "PPU0", "PPU0", 1 },
+        { PPU_GSREG_PPU1, "PPU1", "PPU1", 1 },
+        { PPU_GSREG_PPU2, "PPU2", "PPU2", 1 },
+        { PPU_GSREG_PPU3, "PPU3", "PPU3", 1 },
+        { PPU_GSREG_XOFFSET, "XOffset", "Tile X Offset", 1},
+        { PPU_GSREG_RADDR, "RAddr", "Refresh Address", 2},
+        { PPU_GSREG_TADDR, "TAddr", "Temp Address", 2},
+        { PPU_GSREG_VRAMBUF, "VRAM Buf", "VRAM Buffer", 1},
+        { PPU_GSREG_VTOGGLE, "V-Toggle", "High/low Toggle", 1},
+        { PPU_GSREG_SCANLINE, "Scanline", "Current Scanline(0 = first visible, 0xF0 = in vblank)", 1 },
+        { 0, "", "", 0 },
+};
+
+static RegGroupType NESPPURegsGroup =
+{
+ "PPU",
+ NESPPURegs,
+ NULL,
+ NULL,
+ NESPPU_GetRegister,
+ NESPPU_SetRegister
+};
+
+DebuggerInfoStruct NESDBGInfo =
+{
+ "cp437",
+ 3,
+ 1,             // Instruction alignment(bytes)
+ 16,
+ 16,
+ 0x0000, // Default watch addr
+ 0x0000, // ZP
+ NESDBG_MemPeek,
+ NESDBG_Disassemble,
+ NULL,
+ NESDBG_IRQ,
+ NESDBG_GetVector,
+ NESDBG_FlushBreakPoints,
+ NESDBG_AddBreakPoint,
+ NESDBG_SetCPUCallback,
+ NESDBG_SetBPCallback,
+ NESDBG_GetBranchTrace,
+ NESPPU_SetGraphicsDecode,
+};
+
+bool NESDBG_Init(void)
+{
+ MDFNDBG_AddRegGroup(&NESCPURegsGroup);
+ MDFNDBG_AddRegGroup(&NESPPURegsGroup);
+
+ return(TRUE);
+}

@@ -2,13 +2,12 @@
 #ifndef _RENDER_H_
 #define _RENDER_H_
 
-#define MAKE_PIXEL(r,g,b)   (r << FSettings.rshift) | (g << FSettings.gshift) | (b << FSettings.bshift)
+namespace MDFN_IEN_SMS
+{
 
 /* Used for blanking a line in whole or in part */
 #define BACKDROP_COLOR      (0x10 | (vdp.reg[7] & 0x0F))
 
-extern uint8 sms_cram_expand_table[4];
-extern uint8 gg_cram_expand_table[16];
 extern void (*render_bg)(int line);
 extern void (*render_obj)(int line);
 extern uint8 *linebuf;
@@ -33,5 +32,7 @@ void render_bg_sms(int line);
 void render_obj_sms(int line);
 void update_bg_pattern_cache(void);
 void palette_sync(int index, int force);
+
+}
 
 #endif /* _RENDER_H_ */

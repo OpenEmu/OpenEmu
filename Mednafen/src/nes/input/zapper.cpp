@@ -18,9 +18,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include        <string.h>
-#include	<stdlib.h>
-
 #include        "share.h"
 
 typedef struct {
@@ -56,7 +53,7 @@ static void ZapperFrapper(int w, uint8 *bg, uint8 *spr, uint32 linets, int final
      a1=bg[xs];
      a1 &= 0x3F;
 
-     sum=palo[a1].r+palo[a1].g+palo[a1].b;
+     sum = ActiveNESPalette[a1].r + ActiveNESPalette[a1].g + ActiveNESPalette[a1].b;
      if(sum>=100*3)
      {
       ZD[w].zaphit = timestampbase + timestamp;
@@ -107,9 +104,9 @@ static uint8 ReadZapper(int w)
                 return ret;
 }
 
-static void DrawZapper(int w, uint32 *buf)
+static void DrawZapper(int w, MDFN_Surface *surface)
 {
- MDFN_DrawGunSight(buf, ZD[w].mzx,ZD[w].mzy);
+ MDFN_DrawGunSight(surface, ZD[w].mzx, ZD[w].mzy);
 }
 
 static void UpdateZapper(int w, void *data)

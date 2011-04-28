@@ -21,9 +21,10 @@
 
 /* PK: SDL joystick input stuff */
 
+#include "main.h"
+
 #include <errno.h>
 
-#include "main.h"
 #include "input.h"
 
 #include "../md5.h"
@@ -48,9 +49,9 @@ static uint64 GetJoystickUniqueID(SDL_Joystick *joystick, int n)
  hashie.starts();
  hashie.update((uint8 *)tohash, sizeof(tohash));
 
- #if MEDNAFEN_VERSION_NUMERIC >= 0x000900
- hashie.update_string(SDL_JoystickName(n));
- #endif
+ //#if MEDNAFEN_VERSION_NUMERIC >= 0x000900
+ //hashie.update_string(SDL_JoystickName(n));
+ //#endif
 
  hashie.finish(digest);
 
@@ -138,7 +139,7 @@ int InitJoysticks (void)
 
 	  UniqueID[n] = uid;
 
-	  MDFN_printf(_("Joystick %d - %s - Unique ID: %016llx\n"), n, SDL_JoystickName(n), UniqueID[n]);
+	  MDFN_printf(_("Joystick %d - %s - Unique ID: %016llx\n"), n, SDL_JoystickName(n), (unsigned long long)UniqueID[n]);
 	 }
 	 else
 	  MDFN_printf(_("Could not open joystick %d: %s.\n"), n, SDL_GetError());
@@ -152,6 +153,13 @@ int InitJoysticks (void)
 
 static int FindByUniqueID(uint64 id)
 {
+ for(int x = 0; x < MAX_JOYSTICKS; x++)
+  if(Joysticks[x])
+  {
+   if(UniqueID[x] == id)
+    return(x);
+  }
+
  return(0xFFFF);
 }
 

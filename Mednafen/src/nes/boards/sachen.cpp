@@ -29,7 +29,8 @@ static int StateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
-  { &cmd, cmd_save, "cmd" },
+  // FIXME to not abuse SFARRAYN:
+  SFARRAYN(&cmd, cmd_save, "cmd"),
   SFARRAY(latch, latch_save),
   SFEND
  };
@@ -81,8 +82,6 @@ static void S74LS374NReset(CartInfo *info)
  latch[0]=latch[2]=0;
  latch[1]=3;
  S74LS374NSynco();
- SetReadHandler(0x8000,0xFFFF,CartBR);
- SetWriteHandler(0x4100,0x7FFF,S74LS374NWrite);
 }
 
 static void S74LS374NRestore(int version)
@@ -94,6 +93,10 @@ int S74LS374N_Init(CartInfo *info)
 {
  info->Power=S74LS374NReset;
  StateInit(info, S74LS374NRestore, 1, 3);
+
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetWriteHandler(0x4100,0x7FFF,S74LS374NWrite);
+
  return(1);
 }
 
@@ -146,8 +149,6 @@ static void S8259Reset(CartInfo *info)
  if(UNIFchrrama) setchr8(0);
 
  S8259Synco();
- SetReadHandler(0x8000,0xFFFF,CartBR);
- SetWriteHandler(0x4100,0x7FFF,S8259Write);
 }
 
 static void S8259Restore(int version)
@@ -160,6 +161,9 @@ int S8259A_Init(CartInfo *info)
  info->Power=S8259Reset;
  StateInit(info, S8259Restore, 1, 8);
  type=0;
+
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetWriteHandler(0x4100,0x7FFF,S8259Write);
 
  return(1);
 }
@@ -194,8 +198,6 @@ static void SAReset(CartInfo *info)
 {
  latch[0]=0;
  WSync();
- SetReadHandler(0x8000,0xFFFF,CartBR);
- SetWriteHandler(0x4100,0x5FFF,SAWrite);
 }
 
 static void SA0161MRestore(int version)
@@ -208,6 +210,10 @@ int SA0161M_Init(CartInfo *info)
  WSync=SA0161MSynco;
  StateInit(info, SA0161MRestore, 0, 1);
  info->Power=SAReset;
+
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetWriteHandler(0x4100,0x5FFF,SAWrite);
+
  return(1);
 }
 
@@ -227,6 +233,10 @@ int SA72007_Init(CartInfo *info)
  WSync=SA72007Synco;
  StateInit(info, SA72007Restore, 0, 1);
  info->Power=SAReset;
+
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetWriteHandler(0x4100,0x5FFF,SAWrite);
+
  return(1);
 }
 
@@ -247,6 +257,9 @@ int SA72008_Init(CartInfo *info)
  StateInit(info, SA72008Restore, 0, 1);
  info->Power=SAReset;
 
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetWriteHandler(0x4100,0x5FFF,SAWrite);
+
  return(1);
 }
 
@@ -260,8 +273,6 @@ static void SADReset(CartInfo *info)
 {
  latch[0]=0;
  WSync();
- SetReadHandler(0x8000,0xFFFF,CartBR);
- SetWriteHandler(0x8000,0xFFFF,SADWrite);
 }
 
 static void SA0036Synco()
@@ -292,6 +303,9 @@ int SA0036_Init(CartInfo *info)
  StateInit(info, SA0036Restore, 0, 1);
  info->Power=SADReset;
 
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetWriteHandler(0x8000,0xFFFF,SADWrite);
+
  return(1);
 }
 
@@ -300,6 +314,9 @@ int SA0037_Init(CartInfo *info)
  WSync=SA0037Synco;
  StateInit(info, SA0037Restore, 0, 1);
  info->Power=SADReset;
+
+ SetReadHandler(0x8000,0xFFFF,CartBR);
+ SetWriteHandler(0x8000,0xFFFF,SADWrite);
 
  return(1);
 }

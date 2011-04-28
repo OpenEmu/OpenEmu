@@ -16,10 +16,24 @@
  */
 
 /* Emulation for HuC6261(descendant of the VCE) and the HuC6272(KING) */
+/* Note: Some technical comments may be outdated */
+
+/*
+ Current issues:
+	VCE "natural" priorities for the layers when their priorities are the same(technically an illegal condition) are probably not correct.  A game test case: "Miraculum" erroneously sets
+	up the priority	registers like this after exiting the airship(I believe).
+
+	SCSI RST interrupt timing is guessed(and with nothing to go on), so it definitely needs to be tested on the real thing.
+
+	The data bus is not handled/asserted properly.  Excluding pseudo-DMA and DMA modes(which I'd need to test), the data bus will only be asserted if the lower bit of register 0x1 is set, and the
+	phase match bits must match the state of the C/D, I/O, and MSG signals(IE there isn't a bus mismatch state).
+
+	Raw subchannel reading timing is probably wrong.
+
+	KRAM mode register is not emulated(I'm not even sure what it does exactly).
+*/
 
 #include "pcfx.h"
-#include "v810_cpu.h"
-#include "vdc.h"
 #include "king.h"
 #include "../cdrom/scsicd.h"
 #include "interrupt.h"
@@ -29,49 +43,41 @@
 #include "timer.h"
 #include "debug.h"
 #include <trio/trio.h>
-
+#include <math.h>
 #include "../video.h"
 #include "../clamp.h"
 
-//#define KINGDBG(format, ...) printf("%lld - KING: (DB: %02x)" format, (long long)pcfx_timestamp_base + v810_timestamp, SCSICD_GetDB(), ## __VA_ARGS__)
-#define KINGDBG(format, ...)
+#ifdef __MMX__
+#include <mmintrin.h>
+#endif
+
+#define KINGDBG(format, ...) (void)0
+//#define KINGDBG FXDBG
+#define KING_UNDEF FXDBG
+#define ADPCMDBG(format, ...) (void)0
+//FXDBG
 
 /*
- SCSI Questions(SCSI emulation needs a bit of work, but these questions need to be answered first):
+ SCSI Questions(this list needs to be revised more and merged into the issues list at the beginning of the file):
 
-  What happens when there is no more data to transfer during DMA
-  and the status SCSI bus phase is entered(before the DMA count reaches 0)?
+  What happens when there is no more data to transfer during DMA and the status SCSI bus phase is entered(before the DMA count reaches 0)?
 
   Why is the "sequential DMA" bit needed?
 
-  How does the register that somehow controls I/O, C/D, and MSG signals work?  How is it related
-  to "bus phase mismatch"?
+  Which SCSI registers return the values of the SCSI bus, and which return latched values(from previous writes or pseudo-DMA)?
 
-  Under what conditions are SCSI interrupts generated?
+  Is real DMA layered on top of pseudo-DMA?  Reading the developer documents, it looks that way.
 
-  Which SCSI registers return the values of the SCSI bus, and which return latched values(from previous writes or false DMA)?
-
-  Is real DMA layered on top of false DMA?  Reading the developer documents, it looks that way.
-
-  What triggers the setting of ACK during false DMA?  A timer?  Reading from the upper 16-bits of KING register 0x05?  The lower bits(in which case,
+  What triggers the setting of ACK during pseudo-DMA?  A timer?  Reading from the upper 16-bits of KING register 0x05?  The lower bits(in which case,
   the value would be latched..)?
-
-  What is the timing for subchannel reading like on a real PC-FX?
-
- Other questions:
-
-  Does the KRAM mode register setting have any effect on a real PC-FX(or FXGA?)?
 
 */
 
-// 16 bit YUV format:  upper 8 bits Y, next 4 bits U, lower 4 bits V, transformed to 8-bit U and 8-bit V by adding 0 or 1, who knows.
+// 16 bit YUV format:  upper 8 bits Y, next 4 bits U, lower 4 bits V, transformed to 8-bit U and 8-bit V by shifting in 0 in lower bits.
 
 typedef struct
 {
  uint8 AR;
-
- //
- unsigned int layer_mask_cache[7]; // 0x00 if layer disabled, 0xFF if enabled.
 
  uint16 priority[2];	/* uint16 0:
 			   	bit   3-0: Legacy VDC BG priority?
@@ -84,11 +90,38 @@ typedef struct
 				bit 15-12: KING BG3 priority
 			*/
 
- bool8 odd_field;
- bool8 in_hblank;
+ bool odd_field;	/* TRUE if interlaced mode is enabled and we're in the odd field, FALSE otherwise. */
 
+ bool in_hblank;	/* TRUE if we're in H-blank */
+ bool in_vdc_hsync;
+
+ bool frame_interlaced;
+
+ /*						   */
+ /* Begin emulation-specific interlaced variables. */
+ /* 	Don't bother saving these in save states?  */
+ /*	Or if we do, they need lots of sanity checks. */
+ /*	TODO: handle emulator(output) pixel format changes.	   */
+ uint32 interlaced_count;                /* Number of contiguous(set to 0 if interlacing is disabled) frame starts that happened
+					    with interlacing mode enabled.
+					 */
+ uint32 *LastField;	//[1024 * 256];
+ MDFN_Rect LastLineWidths[256];
+ //bool LastFieldValid = 0;
+
+ /* 						 */
+ /* End emulation-specific interlaced variables. */
+ /*						 */
 
  uint16 picture_mode;
+
+ bool dot_clock;	 // Cached from picture_mode in hblank
+ uint32 dot_clock_ratio; // Cached from picture mode in hblank
+ int32 clock_divider;
+
+ int32 vdc_event[2];
+
+
  uint32 raster_counter;
 
  uint16 palette_rw_offset; // Read/write offset
@@ -99,7 +132,6 @@ typedef struct
 			   // RAINBOW in lower(?) 8 bits of [3]?
 
  uint16 palette_table[512]; // The YUV palette, woohoo!
- uint32 palette_table_cache[512 * 2]; // 24-bit YUV cache for SPEED(HAH), * 2 to remove need for & 0x1FF in rendering code
 
  // Chroma keys, minimum value in lower 8 bits, maximum value in upper 8 bits
  uint16 ChromaKeyY; // Register 0xA
@@ -128,16 +160,80 @@ typedef struct
 
  uint16 coefficients[6]; // Cellophane coefficients, YUV, 4-bits each, on the least-significant end(xxxxYYYYUUUUVVVV).
 			 // Valid settings: 0(cellophane disabled for layer), 1-8.  9-F are "unsupported".
-
- uint8 coefficient_mul_table_y[16][256];
- int8 coefficient_mul_table_uv[16][256];
 } fx_vce_t;
 
 fx_vce_t fx_vce;
 
-static uint32 priority_0_dummybuf[512];
+//
+// VCE render cache, including registers cached at hblank
+//
+typedef struct
+{
+ uint16 priority[2];
+ uint16 picture_mode;
 
-static uint8 happymap[17][17][17][3];
+ uint16 palette_offset[4];
+ uint32 palette_table_cache[512 * 2]; // 24-bit YUV cache for SPEED(HAH), * 2 to remove need for & 0x1FF in rendering code
+
+ uint16 ChromaKeyY;
+ uint16 ChromaKeyU;
+ uint16 ChromaKeyV;
+
+ uint16 CCR;
+ uint16 BLE;
+
+ uint16 SPBL;
+
+ uint16 coefficients[6];
+
+ uint8 coefficient_mul_table_y[16][256];
+ int8 coefficient_mul_table_uv[16][256];
+
+ uint32 LayerPriority[8];	// [LAYER_n] = ordered_priority_for_n(real priority 0-15 mapped to 1-7)
+				//	       priority = 0, layer is disabled(via the layer enable bit not being set)
+} vce_rendercache_t;
+
+static vce_rendercache_t vce_rendercache;
+
+static int32 scsicd_ne;
+
+enum
+{
+ HPHASE_ACTIVE = 0,
+ HPHASE_HBLANK_PART1,
+ HPHASE_HBLANK_PART3,
+ HPHASE_HBLANK_PART4,
+ HPHASE_COUNT
+};
+
+static int32 HPhase;
+static int32 HPhaseCounter;
+static int32 vdc_lb_pos;
+
+static MDFN_ALIGN(8) uint16 vdc_linebuffers[2][512];
+static MDFN_ALIGN(8) uint32 vdc_linebuffer[512];
+static MDFN_ALIGN(8) uint32 vdc_linebuffer_yuved[512];
+static MDFN_ALIGN(8) uint32 rainbow_linebuffer[256];
+
+// 8 * 2 for left + right padding for scrolling
+static MDFN_ALIGN(8) uint32 bg_linebuffer[256 + 8 + 8];
+
+
+
+// Don't change these enums, there are some hardcoded values still used(particularly, LAYER_NONE).
+enum
+{
+ LAYER_NONE = 0,
+ LAYER_BG0,
+ LAYER_BG1,
+ LAYER_BG2,
+ LAYER_BG3,
+ LAYER_VDC_BG,
+ LAYER_VDC_SPR,
+ LAYER_RAINBOW
+};
+
+static uint8 VCEPrioMap[8][8][8][4];	// [n][n][n][3] is dummy, for padding to a power of 2.
 
 static void BuildCMT(void)
 {
@@ -145,32 +241,153 @@ static void BuildCMT(void)
  {
   for(int value = 0; value < 256; value++)
   {
-   fx_vce.coefficient_mul_table_y[coeff][value] = (value * coeff / 8); // Y
-   fx_vce.coefficient_mul_table_uv[coeff][value] = ((value - 128) * coeff / 8); // UV
+   vce_rendercache.coefficient_mul_table_y[coeff][value] = (value * coeff / 8); // Y
+   vce_rendercache.coefficient_mul_table_uv[coeff][value] = ((value - 128) * coeff / 8); // UV
   }
  }
 
 }
 
-static INLINE void RebuildLayerMaskCache(void)
+static INLINE void RebuildLayerPrioCache(void)
 {
- for(int x = 0; x < 4; x++)
-  fx_vce.layer_mask_cache[x] = ((fx_vce.picture_mode >> (10 + x)) & 1) ? 0xFF : 0x00;
- 
- fx_vce.layer_mask_cache[4] = (fx_vce.picture_mode & 0x0100) ? 0xFF : 0x00; // VDC BG
- fx_vce.layer_mask_cache[5] = (fx_vce.picture_mode & 0x0200) ? 0xFF : 0x00; // VDC SPR
- fx_vce.layer_mask_cache[6] = (fx_vce.picture_mode & 0x4000) ? 0xFF : 0x00; // Rainbow
+ vce_rendercache_t *vr = &vce_rendercache;
+
+ vr->LayerPriority[LAYER_NONE] = 0;
+
+ for(int n = 0; n < 4; n++)
+ {
+  if(((fx_vce.picture_mode >> (10 + n)) & 1))
+  {
+   vr->LayerPriority[LAYER_BG0 + n] = (((vce_rendercache.priority[1] >> (n * 4)) & 0xF) + 1);
+   if(vr->LayerPriority[LAYER_BG0 + n] > 8)
+   {
+    printf("KING BG%d Priority Too Large: %d\n", n, vr->LayerPriority[LAYER_BG0 + n] - 1);
+    vr->LayerPriority[LAYER_BG0 + n] = 0;
+   }
+  }
+  else
+   vr->LayerPriority[LAYER_BG0 + n] = 0;
+ }
+
+ if(fx_vce.picture_mode & 0x0100)
+ {
+  vr->LayerPriority[LAYER_VDC_BG] = ((vce_rendercache.priority[0] & 0xF) + 1);
+  if(vr->LayerPriority[LAYER_VDC_BG] > 8)
+  {
+   printf("VDC BG Priority Too Large: %d\n", vr->LayerPriority[LAYER_VDC_BG] - 1);
+   vr->LayerPriority[LAYER_VDC_BG] = 0;
+  }
+ }
+ else
+  vr->LayerPriority[LAYER_VDC_BG] = 0;
+
+ if(fx_vce.picture_mode & 0x0200)
+ {
+  vr->LayerPriority[LAYER_VDC_SPR] = (((vce_rendercache.priority[0] >> 4) & 0xF) + 1);
+  if(vr->LayerPriority[LAYER_VDC_SPR] > 8)
+  {
+   printf("VDC SPR Priority Too Large: %d\n", vr->LayerPriority[LAYER_VDC_SPR] - 1);
+   vr->LayerPriority[LAYER_VDC_SPR] = 0;
+  }
+ }
+ else 
+  vr->LayerPriority[LAYER_VDC_SPR] = 0;
+
+ if(fx_vce.picture_mode & 0x4000)
+ {
+  vr->LayerPriority[LAYER_RAINBOW] = (((vce_rendercache.priority[0] >> 8) & 0xF) + 1);
+  if(vr->LayerPriority[LAYER_RAINBOW] > 8)
+  {
+   printf("RAINBOW Priority Too Large: %d\n", vr->LayerPriority[LAYER_RAINBOW] - 1);
+   vr->LayerPriority[LAYER_RAINBOW] = 0;
+  }
+ }
+ else
+  vr->LayerPriority[LAYER_RAINBOW] = 0;
+
+
+ // At this point, all entries in vr->LayerPriority should be one of 0 through 8(inclusive).
+
+ int RemapPriority = 1;
+ bool Done[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
+
+ for(int i = 1; i < (1 + 8); i++)
+ {
+  for(int n = 0; n < 4; n++)
+  {
+   if(vr->LayerPriority[LAYER_BG0 + n] == i && !Done[LAYER_BG0 + n])
+   {
+    vr->LayerPriority[LAYER_BG0 + n] = RemapPriority++;
+    Done[LAYER_BG0 + n] = true;
+   }
+  }
+
+  if(vr->LayerPriority[LAYER_VDC_BG] == i && !Done[LAYER_VDC_BG])
+  {
+   vr->LayerPriority[LAYER_VDC_BG] = RemapPriority++;
+   Done[LAYER_VDC_BG] = true;
+  }
+
+  if(vr->LayerPriority[LAYER_VDC_SPR] == i && !Done[LAYER_VDC_SPR])
+  {
+   vr->LayerPriority[LAYER_VDC_SPR] = RemapPriority++;
+   Done[LAYER_VDC_SPR] = true;
+  }
+
+  if(vr->LayerPriority[LAYER_RAINBOW] == i && !Done[LAYER_RAINBOW])
+  {
+   vr->LayerPriority[LAYER_RAINBOW] = RemapPriority++;
+   Done[LAYER_RAINBOW] = true;
+  }
+ }
+ assert(RemapPriority <= 8);
+
+ //if(fx_vce.raster_counter == 50)
+ // MDFN_DispMessage("%d BG0: %d %d %d %d, VBG: %d, VSPR: %d, RAIN: %d", vr->LayerPriority[0], vr->LayerPriority[1], vr->LayerPriority[2], vr->LayerPriority[3],
+ //						vr->LayerPriority[4], vr->LayerPriority[5], vr->LayerPriority[6], vr->LayerPriority[7]);
 }
 
-static ALWAYS_INLINE void RedoPaletteCache(int n)
+// Call this function in FX VCE hblank(or at the end/immediate start of active display)
+static void DoHBlankVCECaching(void)
+{
+ const fx_vce_t *source = &fx_vce;
+ vce_rendercache_t *dest = &vce_rendercache;
+
+ dest->picture_mode = source->picture_mode;
+
+ fx_vce.dot_clock = (bool)(fx_vce.picture_mode & 0x08);
+ fx_vce.dot_clock_ratio = (fx_vce.picture_mode & 0x08) ? 3 : 4;
+
+ for(int i = 0; i < 2; i++)
+  dest->priority[i] = source->priority[i];
+ 
+
+ for(int i = 0; i < 4; i++)
+  dest->palette_offset[i] = source->palette_offset[i];
+
+ dest->ChromaKeyY = source->ChromaKeyY;
+ dest->ChromaKeyU = source->ChromaKeyU;
+ dest->ChromaKeyV = source->ChromaKeyV;
+
+ dest->CCR = source->CCR;
+ dest->BLE = source->BLE;
+ dest->SPBL = source->SPBL;
+
+ for(int i = 0; i < 6; i++)
+  dest->coefficients[i] = source->coefficients[i];
+
+ RebuildLayerPrioCache();
+}
+
+static INLINE void RedoPaletteCache(int n)
 {
  uint32 YUV = fx_vce.palette_table[n];
  uint8 Y = (YUV >> 8) & 0xFF;
  uint8 U = (YUV & 0xF0);
  uint8 V = (YUV & 0x0F) << 4;
 
- fx_vce.palette_table_cache[n] = 
- fx_vce.palette_table_cache[0x200 | n] = (Y << 16) | (U << 8) | (V << 0);
+ vce_rendercache.palette_table_cache[n] = 
+ vce_rendercache.palette_table_cache[0x200 | n] = (Y << 16) | (U << 8) | (V << 0);
 }
 
 enum
@@ -188,16 +405,12 @@ enum
 typedef struct
 {
 	uint8 AR;
-
-	uint16 KRAM[2][262144];
+	
 	uint32 KRAMRA, KRAMWA;
 	uint8 KRAM_Mode;
 
-	// Convenience masks, calculated from KRAM_Mode
-	uint32 KRAM_Mask_Full;	// Either 0x3FFFF or 0x27FFF
-	uint32 KRAM_Mask_Sub;	// Either 0x1FFFF or 0x07FFF
-
 	uint32 PageSetting;
+        uint16 *RainbowPagePtr, *DMAPagePtr;    // Calculated off of PageSetting
 
 	uint16 bgmode; // 4 bits each BG: 3333 2222 1111 0000
 		       /* Possible settings:
@@ -216,16 +429,16 @@ typedef struct
 
 	uint16 BGScrollMode;	// Register 0x16
 	uint16 BGSize[4];
-	uint16 BGBATAddr[4];
-	uint16 BGCGAddr[4];
+
+	uint8 BGBATAddr[4];
+	uint8 BGCGAddr[4];
+        uint8 BG0SubBATAddr, BG0SubCGAddr;
+
 	uint16 BGXScroll[4];
 	uint16 BGYScroll[4];
 	
         uint16 BGXScrollCache[4];
         uint16 BGYScrollCache[4];
-
-
-	uint16 BG0SubBATAddr, BG0SubCGAddr;
 
 	uint16 BGAffinA, BGAffinB, BGAffinC, BGAffinD;
 	uint16 BGAffinCenterX, BGAffinCenterY;
@@ -239,21 +452,23 @@ typedef struct
 	uint32 ADPCMPlayAddress[2];
 	uint16 ADPCMIntermediateAddress[2];
 	uint16 ADPCMStatus[2]; // Register 0x53, a bit maimed :)
-
+	bool ADPCMIRQPending;
 
 	uint16 RAINBOWTransferControl; // Register 0x40
 	uint32 RAINBOWKRAMA;	       // Register 0x41
         uint16 RAINBOWTransferStartPosition; // Register 0x42, line number(0-262)
-	uint16 RAINBOWTBC;
-	uint32 RAINBOWRasterCounter;
 	uint16 RAINBOWTransferBlockCount; // Register 0x43
 
+
+	bool RAINBOWStartPending;
+	int32 RAINBOWBusyCount, RAINBOWBlockCount;
+
 	uint16 RasterIRQLine; // Register 0x44
-	bool8 RasterIRQPending;
+	bool RasterIRQPending;
 
 	uint32 RAINBOWKRAMReadPos;
 
-	bool8 DMATransferFlipFlop;
+	bool DMATransferFlipFlop;
 	uint32 DMATransferAddr; // Register 0x09
 	uint32 DMATransferSize; // Register 0x0A
 	uint16 DMAStatus;	// Register 0x0B
@@ -265,7 +480,7 @@ typedef struct
 	uint16 MPROGAddress;
 	uint16 MPROGData[0x10];
 
-	bool8 DMAInterrupt;
+	bool DMAInterrupt;
 	uint8 Reg00;
 	uint8 Reg01;
 	uint8 Reg02;
@@ -274,34 +489,30 @@ typedef struct
 
 	uint8 SubChannelControl;
 
-	bool8 CDInterrupt, SubChannelInterrupt;
+	bool CDInterrupt, SubChannelInterrupt;
 	uint8 SubChannelBuf;
 	uint8 data_cache;
 
-	bool8 DRQ;
-	bool8 dma_receive_active;
-	bool8 dma_send_active;
+	bool DRQ;
+	bool dma_receive_active;
+	bool dma_send_active;
 	int32 dma_cycle_counter;
 	int32 lastts;
 
-	#define KING_MAGIC_INTERVAL 10 //4 //32 //10
 
+        uint16 KRAM[2][262144];
+
+	#define KING_MAGIC_INTERVAL 10 //4 //32 //10
 } king_t;
 
 static king_t *king = NULL;
-
-static INLINE void RecalcKRAM_Mask(void)
-{
- king->KRAM_Mask_Full = (king->KRAM_Mode || 1) ? 0x3FFFF : 0x27FFF;
- king->KRAM_Mask_Sub = (king->KRAM_Mode || 1) ? 0x1FFFF : 0x07FFF;
-}
 
 static uint8 BGLayerDisable;
 static bool RAINBOWLayerDisable;
 
 static void RedoKINGIRQCheck(void);
 
-static ALWAYS_INLINE void REGSETP(uint16 &reg, const uint8 data, const bool msb)
+static INLINE void REGSETP(uint16 &reg, const uint8 data, const bool msb)
 {
  reg &= 0xFF << (msb ? 0 : 8);
  reg |= data << (msb ? 8 : 0);
@@ -316,8 +527,8 @@ void KING_NotifyOfBPE(bool read, bool write)
  KRAMReadBPE = read;
  KRAMWriteBPE = write;
 
- FXVDC_SetAux0BPBpase(fx_vdc_chips[0], (read || write) ? 0x80000 : ~0);
- FXVDC_SetAux0BPBpase(fx_vdc_chips[1], (read || write) ? 0x90000 : ~0);
+ //FXVDC_SetAux0BPBpase(fx_vdc_chips[0], (read || write) ? 0x80000 : ~0);
+ //FXVDC_SetAux0BPBpase(fx_vdc_chips[1], (read || write) ? 0x90000 : ~0);
 }
 
 static void (*KINGLog)(const char *, const char *, ...) = NULL;
@@ -326,9 +537,7 @@ void KING_SetLogFunc(void (*logfunc)(const char *, const char *, ...))
  KINGLog = logfunc;
 }
 
-static uint32 *GfxDecode_Buf = NULL;
-static int GfxDecode_Width = 0;
-static int GfxDecode_Height = 0;
+static MDFN_Surface *GfxDecode_Buf = NULL;
 static int GfxDecode_Line = -1;
 static int GfxDecode_Layer = 0;
 static int GfxDecode_Scroll = 0;
@@ -369,7 +578,7 @@ static void KING_GetAddressSpaceBytes(const char *name, uint32 Address, uint32 L
  }
  else if(trio_sscanf(name, "vdcvram%d", &which) == 1)
  {
-  FXVDC_GetAddressSpaceBytes(fx_vdc_chips[which], "vram", Address, Length, Buffer);
+  //FXVDC_GetAddressSpaceBytes(fx_vdc_chips[which], "vram", Address, Length, Buffer);
  }
 
 }
@@ -402,18 +611,24 @@ static void KING_PutAddressSpaceBytes(const char *name, uint32 Address, uint32 L
  }
  else if(trio_sscanf(name, "vdcvram%d", &which) == 1)
  {
-  FXVDC_PutAddressSpaceBytes(fx_vdc_chips[which], "vram", Address, Length, Granularity, hl, Buffer);
+  //FXVDC_PutAddressSpaceBytes(fx_vdc_chips[which], "vram", Address, Length, Granularity, hl, Buffer);
  }
 
 }
 #endif
 
+static void RecalcKRAMPagePtrs(void)
+{
+ king->RainbowPagePtr = king->KRAM[(king->PageSetting & 0x1000) ? 1 : 0];
+ king->DMAPagePtr = king->KRAM[king->PageSetting & 1];
+}
+
 uint8 KING_RB_Fetch(void)
 {
- int page = (king->PageSetting & 0x1000) ? 1 : 0;
- uint8 ret = king->KRAM[page][(king->RAINBOWKRAMReadPos >> 1) & king->KRAM_Mask_Full] >> ((king->RAINBOWKRAMReadPos & 1) * 8);
+ uint8 ret = king->RainbowPagePtr[(king->RAINBOWKRAMReadPos >> 1) & 0x3FFFF] >> ((king->RAINBOWKRAMReadPos & 1) * 8);
 
  king->RAINBOWKRAMReadPos = ((king->RAINBOWKRAMReadPos + 1) & 0x3FFFF) | (king->RAINBOWKRAMReadPos & 0x40000);
+
  return(ret);
 }
 
@@ -423,7 +638,7 @@ static void DoRealDMA(uint8 db)
   king->DMALatch = db;
  else
  {
-  king->KRAM[king->PageSetting & 1][king->DMATransferAddr & king->KRAM_Mask_Full] = king->DMALatch | (db << 8);
+  king->DMAPagePtr[king->DMATransferAddr & 0x3FFFF] = king->DMALatch | (db << 8);
   king->DMATransferAddr = ((king->DMATransferAddr + 1) & 0x1FFFF) | (king->DMATransferAddr & 0x20000);
   king->DMATransferSize = (king->DMATransferSize - 2) & 0x3FFFF;
   if(!king->DMATransferSize)
@@ -514,9 +729,6 @@ void FXVCE_Write16(uint32 A, uint16 V)
   switch(fx_vce.AR)
   {
 		case 0x00: fx_vce.picture_mode = V;
-			   RebuildLayerMaskCache();
-			   FXVDC_SetDotClock(fx_vdc_chips[0], (fx_vce.picture_mode & 0x08) ? 1 : 0);
-			   FXVDC_SetDotClock(fx_vdc_chips[1], (fx_vce.picture_mode & 0x08) ? 1 : 0);
 			   break;
 
 		case 0x01: fx_vce.palette_rw_offset = V & 0x1FF;
@@ -560,12 +772,10 @@ static void RedoKINGIRQCheck(void)
 {
  bool asserted = 0;
 
- for(int ch = 0; ch < 2; ch++)
-  if((king->ADPCMBufferMode[ch] >> 1) & 0x3 & king->ADPCMStatus[ch]) // Trigger end/intermediate IRQ
-  {
-   //puts("IRQd!");
-   asserted = 1;
-  }
+ if(king->ADPCMIRQPending)
+ {
+  asserted = 1;
+ }
 
  if(king->DMAInterrupt && (king->DMAStatus & 0x2))
  {
@@ -583,7 +793,7 @@ static void RedoKINGIRQCheck(void)
  if(king->RasterIRQPending)
   asserted = 1;
 
- PCFXIRQ_Assert(13, asserted);
+ PCFXIRQ_Assert(PCFXIRQ_SOURCE_KING, asserted);
 }
 
 void KING_CDIRQ(int type)
@@ -625,109 +835,169 @@ void KING_StuffSubchannels(uint8 subchannels, int subindex)
 
 }
 
-uint8 KING_Read8(uint32 A)
+uint8 KING_Read8(const v810_timestamp_t timestamp, uint32 A)
 {
- uint8 ret = KING_Read16(A & ~1) >> ((A & 1) * 8);
+ uint8 ret = KING_Read16(timestamp, A & ~1) >> ((A & 1) * 8);
 
  //printf("Read8: %04x\n", A);
  return(ret);
 }
 
-void KING_ResetTS(void)
+void KING_EndFrame(v810_timestamp_t timestamp)
 {
- if(king->dma_receive_active || king->dma_send_active)
-  KING_DoMagic();
+ PCFX_SetEvent(PCFX_EVENT_KING, KING_Update(timestamp));
+ scsicd_ne = SCSICD_Run(timestamp);
+
+ SCSICD_ResetTS();
 
  king->lastts = 0;
-}
 
-static ALWAYS_INLINE void StartKingMagic(void)
-{
- king->lastts = v810_timestamp;
- king->dma_cycle_counter = KING_MAGIC_INTERVAL;
- v810_setevent(V810_EVENT_KING, KING_MAGIC_INTERVAL);
-}
-
-static ALWAYS_INLINE void StopKingMagic(void)
-{
- v810_setevent(V810_EVENT_KING, V810_EVENT_NONONO);
-}
-
-void KING_DoMagic(void)
-{
- int32 cycles_elapsed;
-
- cycles_elapsed = v810_timestamp - king->lastts;
- king->lastts = v810_timestamp;
-
- king->dma_cycle_counter -= cycles_elapsed;
-
- //printf("%d\n", cycles_elapsed);
- while(king->dma_cycle_counter <= 0)
+ if(king->dma_cycle_counter & 0x40000000)
  {
-  king->dma_cycle_counter += KING_MAGIC_INTERVAL;
+  king->dma_cycle_counter = 0x7FFFFFFF;
+ }
+}
 
-  if(king->dma_receive_active)
+//static INLINE void StartKingMagic(void)
+//{
+// king->lastts = v810_timestamp;
+// king->dma_cycle_counter = KING_MAGIC_INTERVAL;
+// PCFX_SetEvent(PCFX_EVENT_KING, KING_MAGIC_INTERVAL);
+//}
+
+static INLINE int32 CalcNextEvent(int32 next_event)
+{
+ if(king->dma_cycle_counter < next_event)
+  next_event = king->dma_cycle_counter;
+
+ if(scsicd_ne < next_event)
+  next_event = scsicd_ne;
+
+ return(next_event);
+}
+
+static int32 CalcNextExternalEvent(int32 next_event)
+{
+ // 100 = Hack to make the emulator go faster during CD DMA transfers.
+ if(king->dma_cycle_counter < next_event)
+  next_event = 100;	//king->dma_cycle_counter;
+
+ if(scsicd_ne < next_event)
+  next_event = scsicd_ne;
+
+ if(next_event > HPhaseCounter)
+  next_event = HPhaseCounter;
+
+ //printf("KING: %d %d %d; %d\n", king->dma_cycle_counter, scsicd_ne, HPhaseCounter, next_event);
+
+ for(int chip = 0; chip < 2; chip++)
+ {
+  int fwoom = (fx_vce.vdc_event[chip] * fx_vce.dot_clock_ratio - fx_vce.clock_divider);
+
+  if(fwoom < 1)
+   fwoom = 1;
+
+  if(next_event > fwoom)
+   next_event = fwoom;
+ }
+
+ return(next_event);
+}
+
+static void MDFN_FASTCALL KING_RunGfx(int32 clocks);
+
+v810_timestamp_t MDFN_FASTCALL KING_Update(const v810_timestamp_t timestamp)
+{
+ int32 clocks = timestamp - king->lastts;
+ uint32 running_timestamp = king->lastts;
+
+ //printf("KING Run for: %d\n", clocks);
+
+ king->lastts = timestamp;
+
+ KING_RunGfx(clocks);
+
+ while(clocks > 0)
+ {
+  int32 chunk_clocks = CalcNextEvent(clocks);
+
+  running_timestamp += chunk_clocks;
+  clocks -= chunk_clocks;
+
+  scsicd_ne -= chunk_clocks;
+  if(scsicd_ne <= 0)
+   scsicd_ne = SCSICD_Run(running_timestamp);
+
+  king->dma_cycle_counter -= chunk_clocks;
+  if(king->dma_cycle_counter <= 0)
   {
-   if(!SCSICD_GetCD() && SCSICD_GetIO())
-   {    
-    if(SCSICD_GetREQ() && !SCSICD_GetACK())
-    {
-     if(!king->DRQ)
+   //assert(king->dma_receive_active || king->dma_send_active);
+   king->dma_cycle_counter += KING_MAGIC_INTERVAL;
+   if(king->dma_receive_active)
+   {
+    if(!SCSICD_GetCD() && SCSICD_GetIO())
+    {    
+     if(SCSICD_GetREQ() && !SCSICD_GetACK())
      {
-      king->DRQ = TRUE;
-      king->data_cache = SCSICD_GetDB();
-      //SCSICD_SetACK(TRUE);
-      //v810_setevent(V810_EVENT_SCSI, SCSICD_Run(v810_timestamp));
-
-      if(king->DMAStatus & 0x1)
+      if(!king->DRQ)
       {
-       king->DRQ = FALSE;
-       DoRealDMA(king->data_cache);
-       SCSICD_SetACK(TRUE);
-       v810_setevent(V810_EVENT_SCSI, SCSICD_Run(v810_timestamp));
+       king->DRQ = TRUE;
+       king->data_cache = SCSICD_GetDB();
+       //SCSICD_SetACK(TRUE);
+       //PCFX_SetEvent(PCFX_EVENT_SCSI, SCSICD_Run(timestamp));
+
+       if(king->DMAStatus & 0x1)
+       {
+        king->DRQ = FALSE;
+        DoRealDMA(king->data_cache);
+        SCSICD_SetACK(TRUE);
+        scsicd_ne = SCSICD_Run(running_timestamp);
+       }
       }
      }
-    }
-    else if(SCSICD_GetACK() && !SCSICD_GetREQ())
-    {
-     SCSICD_SetACK(FALSE);
-     v810_setevent(V810_EVENT_SCSI, SCSICD_Run(v810_timestamp));
-    }
-   }
-  }
-  else if(king->dma_send_active)
-  {
-   if(!SCSICD_GetIO())
-   {
-    if(SCSICD_GetREQ() && !SCSICD_GetACK())
-    {
-     if(!king->DRQ)
+     else if(SCSICD_GetACK() && !SCSICD_GetREQ())
      {
-      //KINGDBG("Did write: %02x\n", king->data_cache);
-      SCSICD_SetDB(king->data_cache);
-      SCSICD_SetACK(TRUE);
-      v810_setevent(V810_EVENT_SCSI, SCSICD_Run(v810_timestamp));
-      king->DRQ = TRUE;
+      SCSICD_SetACK(FALSE);
+      scsicd_ne = SCSICD_Run(running_timestamp);
      }
     }
-    else if(SCSICD_GetACK() && !SCSICD_GetREQ())
+   }
+   else if(king->dma_send_active)
+   {
+    if(!SCSICD_GetIO())
     {
-     SCSICD_SetACK(FALSE);
-     v810_setevent(V810_EVENT_SCSI, SCSICD_Run(v810_timestamp));
+     if(SCSICD_GetREQ() && !SCSICD_GetACK())
+     {
+      if(!king->DRQ)
+      {
+       //KINGDBG("Did write: %02x\n", king->data_cache);
+       SCSICD_SetDB(king->data_cache);
+       SCSICD_SetACK(TRUE);
+       scsicd_ne = SCSICD_Run(running_timestamp);
+       king->DRQ = TRUE;
+      }
+     }
+     else if(SCSICD_GetACK() && !SCSICD_GetREQ())
+     {
+      SCSICD_SetACK(FALSE);
+      scsicd_ne = SCSICD_Run(running_timestamp);
+     }
     }
    }
   }
- }
- //printf("Post: %d %d\n", king->dma_cycle_counter, KING_MAGIC_INTERVAL);
- v810_setevent(V810_EVENT_KING, king->dma_cycle_counter);
+ } // end while(clocks > 0)
+
+ return(timestamp + CalcNextExternalEvent(0x4FFFFFFF));
 }
 
-uint16 KING_Read16(uint32 A)
+uint16 KING_Read16(const v810_timestamp_t timestamp, uint32 A)
 {
  int msh = A & 2;
+ uint16 ret = 0;
 
- //printf("KRead16: %08x, %d; %04x\n", A, v810_timestamp, king->AR);
+ KING_Update(timestamp);
+
+ //printf("KRead16: %08x, %d; %04x\n", A, timestamp, king->AR);
 
  switch(A & 0x704)
  {
@@ -740,34 +1010,30 @@ uint16 KING_Read16(uint32 A)
 
 	      if(!msh)
 	      {
-	       uint16 ret = king->AR;
+	       ret = king->AR;
 
-	       if(king->ADPCMStatus[0] & 0x3 & (king->ADPCMBufferMode[0] >> 1))
+	       if(king->ADPCMIRQPending)
 		ret |= 0x400;
 
-	       if(king->ADPCMStatus[1] & 0x3 & (king->ADPCMBufferMode[1] >> 1))
-                ret |= 0x400;
-
-	       if(king->SubChannelInterrupt) ret |= 0x1000;
+	       if(king->SubChannelInterrupt)
+		ret |= 0x1000;
 	
 	       // Gaaah, this is probably a hack...Anime Freak FX Vol 4 gets confused and crashes
 	       // if both bits are set at once.
-	       if(king->DMAInterrupt && (king->DMAStatus & 0x2)) ret |= 0x2000;
-	       else if(king->CDInterrupt) ret |= 0x4000;
+	       if(king->DMAInterrupt && (king->DMAStatus & 0x2))
+		ret |= 0x2000;
+	       else if(king->CDInterrupt)
+		ret |= 0x4000;
 
-	       if(king->RasterIRQPending) ret |= 0x800;
+	       if(king->RasterIRQPending)
+		ret |= 0x800;
 
-		king->SubChannelInterrupt = FALSE;
+	       king->SubChannelInterrupt = FALSE;
                king->RasterIRQPending = FALSE;
                RedoKINGIRQCheck();
-
-
-	       return(ret);
 	      }
 	      else
 	      {
-		uint16 ret = 0;
-
 		ret |= SCSICD_GetSEL() ? 0x02: 0x00;
 		ret |= SCSICD_GetIO() ? 0x04 : 0x00;
 		ret |= SCSICD_GetCD() ? 0x08 : 0x00;
@@ -777,9 +1043,7 @@ uint16 KING_Read16(uint32 A)
 		ret |= SCSICD_GetRST() ? 0x80 : 0x00;
 
 		ret |= king->SubChannelBuf << 8;
-
-		return(ret);
- 	      }
+	      }
 	      break; // status...
 
   case 0x604: switch(king->AR)
@@ -787,19 +1051,26 @@ uint16 KING_Read16(uint32 A)
 		default: 
 			KINGDBG("Unknown 16-bit register read: %02x\n", king->AR);
 			break;
+
 		case 0x00:
-			return(SCSICD_GetDB());
+			ret = SCSICD_GetDB();
+			break;
+
 		case 0x01:
-			return(REGGETHW(king->Reg01, msh));
+			ret = REGGETHW(king->Reg01, msh);
+			break;
+
 		case 0x02:
-			return(REGGETHW(king->Reg02, msh));
+			ret = REGGETHW(king->Reg02, msh);
+			break;
+
 		case 0x03:
-			return(REGGETHW(king->Reg03, msh));
+			ret = REGGETHW(king->Reg03, msh);
+			break;
+
 		case 0x04:
 			if(!msh)
 			{
-	                 uint16 ret = 0;
-
           	         ret |= SCSICD_GetSEL() ? 0x02: 0x00;
                 	 ret |= SCSICD_GetIO() ? 0x04 : 0x00;
 	                 ret |= SCSICD_GetCD() ? 0x08 : 0x00;
@@ -807,28 +1078,29 @@ uint16 KING_Read16(uint32 A)
 	                 ret |= SCSICD_GetREQ() ? 0x20 : 0x00;
 	                 ret |= SCSICD_GetBSY() ? 0x40 : 0x00;
 	                 ret |= SCSICD_GetRST() ? 0x80 : 0x00;
-
-         	         return(ret);	
 			}
-			return(0x00);
+			break;
 
 		case 0x05:
+			if(king->Reg01 & 0x80)
+                        {
+			 ret = 0x00;
+		         break;
+			}
+
 		        if(msh)
 			{
-			 uint8 ret = king->data_cache;
+			 ret = king->data_cache;
 			 //printf("Fooball: %02x\n", ret);
 			 if(king->dma_receive_active)
 			 {
 			  king->DRQ = FALSE;
      			  SCSICD_SetACK(TRUE);
-     			  v810_setevent(V810_EVENT_SCSI, SCSICD_Run(v810_timestamp));
+     			  scsicd_ne = 1;
 			 }
-			 return(ret);
 			}
 			else
 			{
-			 uint16 ret = 0;
-
 			 ret |= SCSICD_GetACK() ? 0x01 : 0x00;
 			 ret |= SCSICD_GetATN() ? 0x02 : 0x00;
 
@@ -847,73 +1119,94 @@ uint16 KING_Read16(uint32 A)
                          {
                	          ret |= 0x8;	// Phase match
                          }
-			
-			 return(ret);
 			}
 			break;
 
 		case 0x06: // SCSI Input Data Register, same value returned as reading D16-D23 of register 0x05?
 			KINGDBG("Input data for...?\n");
-			return(king->data_cache);
+			ret = king->data_cache;
+			break;
 
 		case 0x07: 
 			// SCSI IRQ acknowledge/reset
 			KINGDBG("SCSI IRQ acknowledge\n");
 			king->CDInterrupt = FALSE;
                         RedoKINGIRQCheck();
-			return(0xFF);
+			ret = 0xFF;
+			break;
 
 		case 0x08: 	// Sub-channel data
+			if(!msh)
 			{
-			 uint8 ret = king->SubChannelBuf;
+			 ret = king->SubChannelBuf;
 			 king->SubChannelBuf = 0;
 			 //puts("Sub-channel data read.");
-			 return(REGGETHW(ret, msh));
 			}
+			break;
 
-                case 0x09: return(REGGETHW(king->DMATransferAddr, msh));
-                case 0x0A: return(REGGETHW(king->DMATransferSize, msh));
+                case 0x09: 
+			ret = REGGETHW(king->DMATransferAddr, msh);
+			break;
+
+                case 0x0A: 
+			ret = REGGETHW(king->DMATransferSize, msh);
+			break;
+
 		case 0x0B: // Value read in the BIOS always seems to be discarded...  DMA IRQ acknowledge?
+			if(!msh)
 			{
-			 uint16 ret = 0;
-			 if(!msh)
-			 {
-			  ret = king->DMAInterrupt ? 1 : 0;
-                          KINGDBG("DMA IRQ Acknowledge: %d\n", ret);
-                          king->DMAInterrupt = 0;
-                          RedoKINGIRQCheck();
-			 }
- 	 	   	 return(ret);
+			 ret = king->DMAInterrupt ? 1 : 0;
+                         KINGDBG("DMA IRQ Acknowledge: %d\n", ret);
+                         king->DMAInterrupt = 0;
+                         RedoKINGIRQCheck();
 			}
-		case 0x0C: return(REGGETHW(king->KRAMRA, msh));
-		case 0x0D: return(REGGETHW(king->KRAMWA, msh));
+			break;
+
+		case 0x0C: 
+			ret = REGGETHW(king->KRAMRA, msh);
+			break;
+
+		case 0x0D:
+			ret = REGGETHW(king->KRAMWA, msh);
+			break;
+
 		case 0x0E:
-                         {
-                          unsigned int page = (king->KRAMRA & 0x80000000) ? 1 : 0;
-                          int32 inc_amount = ((int32)((king->KRAMRA & (0x3FF << 18)) << 4)) >> 22; // Convert from 10-bit signed 2's complement 
-                          uint16 ret = king->KRAM[page][king->KRAMRA & king->KRAM_Mask_Full];
+			{
+                         unsigned int page = (king->KRAMRA & 0x80000000) ? 1 : 0;
+                         int32 inc_amount = ((int32)((king->KRAMRA & (0x3FF << 18)) << 4)) >> 22; // Convert from 10-bit signed 2's complement 
 
-	                  #ifdef WANT_DEBUGGER 
-			  if(KRAMReadBPE) 
-			   PCFXDBG_CheckBP(BPOINT_AUX_READ, (king->KRAMRA & 0x3FFFF) | (page ? 0x40000 : 0), 1);
-			  #endif
+                         ret = king->KRAM[page][king->KRAMRA & 0x3FFFF];
+
+	                 #ifdef WANT_DEBUGGER 
+			 if(KRAMReadBPE) 
+			  PCFXDBG_CheckBP(BPOINT_AUX_READ, (king->KRAMRA & 0x3FFFF) | (page ? 0x40000 : 0), 1);
+			 #endif
 	
-                          king->KRAMRA = (king->KRAMRA &~ 0x1FFFF) | ((king->KRAMRA + inc_amount) & 0x1FFFF);
-			  return(ret);
-                          }
-                          break;
-		case 0x0F: return(king->PageSetting);
-                case 0x10: return(REGGETHW(king->bgmode, msh));
-		case 0x15: return(king->MPROGControl);
+                         king->KRAMRA = (king->KRAMRA &~ 0x1FFFF) | ((king->KRAMRA + inc_amount) & 0x1FFFF);
+                        }
+			break;
 
-		case 0x40: return(0);	// Super Power League FX reads this, but I think it's write-only.
+		case 0x0F: ret = king->PageSetting;
+			   break;
+
+                case 0x10: ret = REGGETHW(king->bgmode, msh);
+			   break;
+
+		case 0x15: ret = king->MPROGControl;
+			   break;
+
+		//case 0x40: break; 	// Super Power League FX reads this, but I think it's write-only.
 
 		case 0x53:
 			  {
-			   uint16 ret = king->ADPCMStatus[0] | (king->ADPCMStatus[1] << 2);
+			   ret = king->ADPCMStatus[0] | (king->ADPCMStatus[1] << 2);
+
 			   king->ADPCMStatus[0] = king->ADPCMStatus[1] = 0;
+			   king->ADPCMIRQPending = 0;
+
 			   RedoKINGIRQCheck();
-			   return(ret);
+
+			   ADPCMDBG("Status read: %02x\n", ret);
 			  }
 			  break;
 	      }
@@ -921,15 +1214,17 @@ uint16 KING_Read16(uint32 A)
 	      
  }
 
- return(0);
+ PCFX_SetEvent(PCFX_EVENT_KING, timestamp + CalcNextExternalEvent(0x4FFFFFFF));    // TODO: Optimize this to only be called when necessary.
+
+ return(ret);
 }
 
-void KING_Write8(uint32 A, uint8 V)
+void KING_Write8(const v810_timestamp_t timestamp, uint32 A, uint8 V)
 {
- KING_Write16(A & 0x706, V << ((A & 1) ? 8 : 0));
+ KING_Write16(timestamp, A & 0x706, V << ((A & 1) ? 8 : 0));
 }
 
-static ALWAYS_INLINE void SCSI_Reg0_Write(uint8 V, bool delay_run = 0)
+static INLINE void SCSI_Reg0_Write(const v810_timestamp_t timestamp, uint8 V, bool delay_run = 0)
 {
  king->Reg00 = V;
  SCSICD_SetDB(V);
@@ -937,10 +1232,12 @@ static ALWAYS_INLINE void SCSI_Reg0_Write(uint8 V, bool delay_run = 0)
  KINGDBG("WriteDB: %02x\n", V);
 
  if(!delay_run)
-  v810_setevent(V810_EVENT_SCSI, SCSICD_Run(v810_timestamp));
+ {
+  scsicd_ne = 1; //SCSICD_Run(timestamp);
+ }
 }
 
-static ALWAYS_INLINE void SCSI_Reg2_Write(uint8 V, bool delay_run = 0)
+static INLINE void SCSI_Reg2_Write(const v810_timestamp_t timestamp, uint8 V, bool delay_run = 0)
 {
  KINGDBG("SCSI Mode: %04x\n", V);
 
@@ -968,30 +1265,36 @@ static ALWAYS_INLINE void SCSI_Reg2_Write(uint8 V, bool delay_run = 0)
   SCSICD_SetACK(0);
 
   if(!delay_run)
-   v810_setevent(V810_EVENT_SCSI, SCSICD_Run(v810_timestamp));
-
+  {
+   scsicd_ne = 1; //SCSICD_Run(timestamp);
+  }
   king->DRQ = FALSE;
 
   king->dma_receive_active = FALSE;
   king->dma_send_active = FALSE;
-  StopKingMagic();
+  king->dma_cycle_counter = 0x7FFFFFFF;
  }
 
  king->Reg02 = V;
 }
 
-static ALWAYS_INLINE void SCSI_Reg3_Write(uint8 V, bool delay_run = 0)
+static INLINE void SCSI_Reg3_Write(const v810_timestamp_t timestamp, uint8 V, bool delay_run = 0)
 {
  KINGDBG("Set phase match SCSI bus bits: IO: %d, CD: %d, MSG: %d\n", (int)(bool)(V & 1), (int)(bool)(V & 2), (int)(bool)(V & 4));
  king->Reg03 = V & 0x7;
 
  if(!delay_run)
-  v810_setevent(V810_EVENT_SCSI, SCSICD_Run(v810_timestamp));
+ {
+  scsicd_ne = 1; //SCSICD_Run(timestamp);
+ }
 }
 
-void KING_Write16(uint32 A, uint16 V)
+void KING_Write16(const v810_timestamp_t timestamp, uint32 A, uint16 V)
 {
  int msh = A & 0x2;
+
+ //printf("Write16: %08x %04x\n", A, V);
+
 
  if(!(A & 0x4))
  {
@@ -1000,63 +1303,94 @@ void KING_Write16(uint32 A, uint16 V)
  }
  else
  {
-  //if(king->AR == 0x2 || king->AR == 0xB || king->AR == 0x3 || king->AR == 0x01 || king->AR == 0x00 || king->AR == 0x03 || king->AR == 0x05)
-  //printf("KING: %02x %04x, %d\n", king->AR, V, fx_vce.raster_counter);
+  //if(king->AR != 0x0E)
+  // printf("KING: %02x %04x, %d\n", king->AR, V, fx_vce.raster_counter);
+  KING_Update(timestamp);
+
+  if(king->AR >= 0x50 && king->AR <= 0x5E)
+  {
+   //ADPCMDBG("Write: %02x(%d), %04x", king->AR, msh, V);
+  }
 
 	      switch(king->AR)
 	      {
 		default: 
 			KINGDBG("Unknown 16-bit register write: %02x %04x %d\n", king->AR, V, msh); 
 			break;
-		case 0x00: if(!msh) 
+
+		case 0x00: if(king->Reg01 & 0x80)
+			    break;
+
+			   if(!msh) 
 			   {
-			    SCSI_Reg0_Write(V);
+			    SCSI_Reg0_Write(timestamp, V);
 			   }
 			   break;
+
 		case 0x01: if(!msh)
 			   {
+                            KINGDBG("Set SCSI BUS bits; Assert DB: %d, ATN: %d, SEL: %d, ACK: %d, RST: %d, %02x\n",
+                                (int)(bool)(V & 1), (int)(bool)(V & 2), (int)(bool)(V & 4),
+                                (int)(bool)(V & 0x10), (int)(bool)(V &0x80), SCSICD_GetDB());
+
 			    if(V & 0x80)	// RST, silly KING, resets SCSI internal control registers too!
 			    {
-			     SCSI_Reg0_Write(0, TRUE);
-			     SCSI_Reg2_Write(0, TRUE);
-			     SCSI_Reg3_Write(0, TRUE);
+			     if(!(king->Reg01 & 0x80))
+			     {
+			      SCSI_Reg0_Write(timestamp, 0, TRUE);
+			      SCSI_Reg2_Write(timestamp, 0, TRUE);
+			      SCSI_Reg3_Write(timestamp, 0, TRUE);
+			      king->data_cache = 0x00;
+
+			      //king->CDInterrupt = true;
+			      //RedoKINGIRQCheck();
+			      //puts("KING RST IRQ");
+			     }
+
 			     king->Reg01 = V & 0x80; // Only this bit remains...how lonely.
 			    }
 			    else
 			    {
 			     king->Reg01 = V & (1 | 2 | 4 | 0x10 | 0x80);
 
-			     KINGDBG("Set SCSI BUS bits; Assert DB: %d, ATN: %d, SEL: %d, ACK: %d, RST: %d, %02x\n", (int)(bool)(V & 1), (int)(bool)(V & 2), (int)(bool)(V & 4), (int)(bool)(V & 0x10), (int)(bool)(V &0x80), SCSICD_GetDB());
-
 			     SCSICD_SetATN(V & 2);
 			     SCSICD_SetSEL(V & 4);
 			     SCSICD_SetACK(V & 0x10);
 			    }
                             SCSICD_SetRST(V & 0x80);
-			    v810_setevent(V810_EVENT_SCSI, SCSICD_Run(v810_timestamp));
-			   }
-			   break;
-		case 0x02:
-			   if(!msh)
-			   {
-			    SCSI_Reg2_Write(V);
-			   }
-			   break;
-		case 0x03: 
-			   if(!msh)
-			   {
-			    SCSI_Reg3_Write(V);
+			    scsicd_ne = 1;
 			   }
 			   break;
 
-		case 0x05: 
+		case 0x02: if(king->Reg01 & 0x80)
+                            break;
+
+			   if(!msh)
+			   {
+			    SCSI_Reg2_Write(timestamp, V);
+			   }
+			   break;
+
+		case 0x03: if(king->Reg01 & 0x80)
+                            break;
+
+			   if(!msh)
+			   {
+			    SCSI_Reg3_Write(timestamp, V);
+			   }
+			   break;
+
+		case 0x05: if(king->Reg01 & 0x80)
+                            break;
+
 			   if(!msh)	// Start DMA target receive
 			   {
                             KINGDBG("DMA target receive: %04x, %d\n", V, msh);
                             king->dma_receive_active = FALSE;
                             king->dma_send_active = TRUE;
 			    king->DRQ = TRUE;
-			    StartKingMagic();
+			    //StartKingMagic();
+			    king->dma_cycle_counter = KING_MAGIC_INTERVAL;
 			   }
 			   else
 			   {
@@ -1071,13 +1405,17 @@ void KING_Write16(uint32 A, uint16 V)
 
 		case 0x06: break; // Not used for writes?
 
-		case 0x07: KINGDBG("Start DMA initiator receive: %04x\n", V);
+		case 0x07: if(king->Reg01 & 0x80)
+                            break;
+
+			   KINGDBG("Start DMA initiator receive: %04x\n", V);
 
 			   if(king->Reg02 & 0x2)
 			   {
 			    king->dma_receive_active = TRUE;
 			    king->dma_send_active = FALSE;
-			    StartKingMagic();
+			    //StartKingMagic();
+			    king->dma_cycle_counter = KING_MAGIC_INTERVAL;
 			   }
 			   break;
 
@@ -1120,36 +1458,66 @@ void KING_Write16(uint32 A, uint16 V)
                             PCFXDBG_CheckBP(BPOINT_AUX_WRITE, (king->KRAMWA & 0x3FFFF) | (page ? 0x40000 : 0), 1);
 			   #endif
 
-			   king->KRAM[page][king->KRAMWA & king->KRAM_Mask_Full] = V;
+			   king->KRAM[page][king->KRAMWA & 0x3FFFF] = V;
 			   king->KRAMWA = (king->KRAMWA &~ 0x1FFFF) | ((king->KRAMWA + inc_amount) & 0x1FFFF);
 			  }
 			  break;
-		case 0x0F: REGSETHW(king->PageSetting, V, msh); break;
-		case 0x10: REGSETHW(king->bgmode, V, msh); break;
-		case 0x12: REGSETHW(king->priority, V, msh); break;
 
-		case 0x13: REGSETHW(king->MPROGAddress, V, msh); king->MPROGAddress &= 0xF; break; // Microprogram address
-		case 0x14: if(!msh)	// Microprogram data
+
+		// Page settings(0/1) for BG, DMA, ADPCM, and RAINBOW transfers.
+		case 0x0F: REGSETHW(king->PageSetting, V, msh);
+			   RecalcKRAMPagePtrs();
+			   break;
+
+
+		// Background Modes
+		case 0x10: REGSETHW(king->bgmode, V, msh);
+			   break;
+
+
+		// Background priorities and affine transform master enable.
+		case 0x12: if(!msh)
+			   {
+			    king->priority = V;
+			    if(king->priority & ~0x1FFF)
+			    {
+			     KING_UNDEF("Invalid priority bits set: %04x\n", king->priority);
+			    }
+			   }
+			   break;
+
+
+		// Microprogram Address
+		case 0x13: if(!msh)
+			   {
+			    king->MPROGAddress = V & 0xF;
+			   }
+			   break;
+
+
+		// Microprogram Data Port
+		case 0x14: if(!msh)
 			   {
 			    king->MPROGData[king->MPROGAddress] = V;
 			    king->MPROGAddress = (king->MPROGAddress + 1) & 0xF;
 			   }
 			   break;
+
 		case 0x15: REGSETHW(king->MPROGControl, V, msh); king->MPROGControl &= 0x1; break;
 
 		case 0x16: REGSETHW(king->BGScrollMode, V, msh); king->BGScrollMode &= 0xF; break;
 
-		case 0x20: REGSETHW(king->BGBATAddr[0], V, msh); king->BGBATAddr[0] &= 0x1FF; break;
-		case 0x21: REGSETHW(king->BGCGAddr[0], V, msh); king->BGCGAddr[0] &= 0x1FF; break;
-		case 0x22: REGSETHW(king->BG0SubBATAddr, V, msh); king->BG0SubBATAddr &= 0x1FF; break;
-	  	case 0x23: REGSETHW(king->BG0SubCGAddr, V, msh); king->BG0SubCGAddr &= 0x1FF; break;
+		case 0x20: REGSETHW(king->BGBATAddr[0], V, msh); break;
+		case 0x21: REGSETHW(king->BGCGAddr[0], V, msh); break;
+		case 0x22: REGSETHW(king->BG0SubBATAddr, V, msh); break;
+	  	case 0x23: REGSETHW(king->BG0SubCGAddr, V, msh); break;
 
-		case 0x24: REGSETHW(king->BGBATAddr[1], V, msh); king->BGBATAddr[1] &= 0x1FF; break;
-		case 0x25: REGSETHW(king->BGCGAddr[1], V, msh); king->BGCGAddr[1] &= 0x1FF; break;
-		case 0x28: REGSETHW(king->BGBATAddr[2], V, msh); king->BGBATAddr[2] &= 0x1FF; break;
-		case 0x29: REGSETHW(king->BGCGAddr[2], V, msh); king->BGCGAddr[2] &= 0x1FF; break;
-		case 0x2A: REGSETHW(king->BGBATAddr[3], V, msh); king->BGBATAddr[3] &= 0x1FF; break;
-		case 0x2B: REGSETHW(king->BGCGAddr[3], V, msh); king->BGCGAddr[3] &= 0x1FF; break;
+		case 0x24: REGSETHW(king->BGBATAddr[1], V, msh); break;
+		case 0x25: REGSETHW(king->BGCGAddr[1], V, msh); break;
+		case 0x28: REGSETHW(king->BGBATAddr[2], V, msh); break;
+		case 0x29: REGSETHW(king->BGCGAddr[2], V, msh); break;
+		case 0x2A: REGSETHW(king->BGBATAddr[3], V, msh); break;
+		case 0x2B: REGSETHW(king->BGCGAddr[3], V, msh); break;
 
 		case 0x2C: REGSETHW(king->BGSize[0], V, msh); break;
 		case 0x2D: REGSETHW(king->BGSize[1], V, msh); king->BGSize[1] &= 0x00FF; break;
@@ -1179,35 +1547,77 @@ void KING_Write16(uint32 A, uint16 V)
 
 		case 0x40: // ------IE
 			   // I = 1, interrupt enable??
-			   // E = 1, rainbow transfer start
+			   // E = 1, rainbow transfer enable
 			   if(!msh)
 			   {
 			    king->RAINBOWTransferControl = V & 0x3;
+			    if(!(V & 1))
+			    {
+			     //if(king->RAINBOWBusyCount || king->RAINBOWBlockCount)
+			     // puts("RAINBOW transfer reset");
+			     // Not sure if this is completely correct or not.  Test cases: "Tonari no Princess Rolfee", (others?)
+			     //king->RAINBOWBusyCount = 0;
+			     //king->RAINBOWBlockCount = 0;
+			     //RAINBOW_ForceTransferReset();
+			     king->RAINBOWBlockCount = 0;
+			    }
 			   }
 			   king->RasterIRQPending = FALSE;
 			   RedoKINGIRQCheck();
+                           //printf("Transfer Control: %d, %08x\n", fx_vce.raster_counter,  king->RAINBOWTransferControl);
 			   break;
-                case 0x41: REGSETHW(king->RAINBOWKRAMA, V, msh); king->RAINBOWKRAMA &= 0x3FFFF; break; // Rainbow transfer address
-		case 0x42: if(!msh) king->RAINBOWTransferStartPosition = V & 0x1FF; break; // 0-262
-		case 0x43: REGSETHW(king->RAINBOWTransferBlockCount, V, msh); king->RAINBOWTransferBlockCount &= 0x1F; break;
-		case 0x44: if(!msh) king->RasterIRQLine = V & 0x1FF; break; // Raster IRQ line
+
+		// Rainbow transfer address
+                case 0x41: REGSETHW(king->RAINBOWKRAMA, V, msh); 
+			   king->RAINBOWKRAMA &= 0x3FFFF;
+			   //printf("KRAM Transfer Addr: %d, %08x\n", fx_vce.raster_counter,  king->RAINBOWKRAMA);
+			   break;
+
+		// 0-262
+		case 0x42: if(!msh) 
+			   {
+			    king->RAINBOWTransferStartPosition = V & 0x1FF;
+			    //fprintf(stderr, "%d\n", king->RAINBOWTransferStartPosition);
+	                    //printf("RAINBOW Start Line: %d, %08x\n", fx_vce.raster_counter,  king->RAINBOWTransferStartPosition);
+			   }
+			   break;
+
+		case 0x43: REGSETHW(king->RAINBOWTransferBlockCount, V, msh);
+			   king->RAINBOWTransferBlockCount &= 0x1F;
+                           //printf("KRAM Transfer Block Count: %d, %08x\n", fx_vce.raster_counter,  king->RAINBOWTransferBlockCount);
+			   break;
+
+		// Raster IRQ line
+		case 0x44: if(!msh)
+			   {
+			    king->RasterIRQLine = V & 0x1FF;
+                            //printf("Raster IRQ scanline: %d, %08x\n", fx_vce.raster_counter, king->RasterIRQLine);
+			   }
+			   break;
 
 		case 0x50: 
 			   if(!msh)
 			   {
 			    for(int ch = 0; ch < 2; ch++)
+			    {
 			     if(!(king->ADPCMControl & (1 << ch)) && (V & (1 << ch)))
 			     { 
 			      king->ADPCMPlayAddress[ch] = king->ADPCMSAL[ch] * 256;
-			      king->ADPCMStatus[ch] = 0;
 			     }
+			    }
 			    king->ADPCMControl = V; 
 			    RedoKINGIRQCheck();
 			    SoundBox_SetKINGADPCMControl(king->ADPCMControl);
 			   }
 			   break;
-		case 0x51: REGSETHW(king->ADPCMBufferMode[0], V, msh); RedoKINGIRQCheck(); break;
-		case 0x52: REGSETHW(king->ADPCMBufferMode[1], V, msh); RedoKINGIRQCheck(); break;
+
+		case 0x51: REGSETHW(king->ADPCMBufferMode[0], V, msh);
+			   RedoKINGIRQCheck();
+			   break;
+
+		case 0x52: REGSETHW(king->ADPCMBufferMode[1], V, msh);
+			   RedoKINGIRQCheck();
+			   break;
 
 		case 0x58: REGSETHW(king->ADPCMSAL[0], V, msh); king->ADPCMSAL[0] &= 0x3FF; break;
 		case 0x59: REGSETHW(king->ADPCMEndAddress[0], V, msh); king->ADPCMEndAddress[0] &= 0x3FFFF; break;
@@ -1222,23 +1632,30 @@ void KING_Write16(uint32 A, uint16 V)
 			   {
 			    KINGDBG("KRAM Mode Change To: %02x\n", V & 1);
 			    king->KRAM_Mode = V & 0x1; 
-			    RecalcKRAM_Mask();
 			   }
 			   break;
 	      }
 
+  PCFX_SetEvent(PCFX_EVENT_KING, timestamp + CalcNextExternalEvent(0x4FFFFFFF));	// TODO: Optimize this to only be called when necessary.
  }
 }
 
 uint16 KING_GetADPCMHalfWord(int ch)
 {
  int page = (king->PageSetting & 0x0100) ? 1 : 0;
- uint16 ret = king->KRAM[page][king->ADPCMPlayAddress[ch] & king->KRAM_Mask_Full];
+ uint16 ret = king->KRAM[page][king->ADPCMPlayAddress[ch] & 0x3FFFF];
 
  king->ADPCMPlayAddress[ch] = (king->ADPCMPlayAddress[ch] & 0x20000) | ((king->ADPCMPlayAddress[ch] + 1) & 0x1FFFF);
 
+ if(!(king->ADPCMPlayAddress[ch] & 0x1FFFF))
+ {
+  ADPCMDBG("Ch %d Wrapped", ch);
+ }
+
  if(king->ADPCMPlayAddress[ch] == (((king->ADPCMEndAddress[ch] + 1) & 0x1FFFF) | (king->ADPCMEndAddress[ch] & 0x20000)) )
  {
+  ADPCMDBG("Ch %d End", ch);
+
   if(!(king->ADPCMBufferMode[ch] & 1))
   {
    king->ADPCMControl &= ~(1 << ch);
@@ -1250,24 +1667,30 @@ uint16 KING_GetADPCMHalfWord(int ch)
   }
 
   king->ADPCMStatus[ch] |= 1;
-  RedoKINGIRQCheck();
+
+  if(king->ADPCMBufferMode[ch] & (0x1 << 1))
+  {
+   king->ADPCMIRQPending = TRUE;
+   RedoKINGIRQCheck();
+  }
  }
  else if(king->ADPCMPlayAddress[ch] == ((uint32)king->ADPCMIntermediateAddress[ch] << 6) )
  {
+  ADPCMDBG("Ch %d Intermediate", ch);
   king->ADPCMStatus[ch] |= 2;
-  RedoKINGIRQCheck();
+
+  if(king->ADPCMBufferMode[ch] & (0x2 << 1))
+  {
+   king->ADPCMIRQPending = TRUE;
+   RedoKINGIRQCheck();
+  }
  }
 
  return(ret);
 }
 
-static uint32 TTRANS_LUT[256];
-static const uint32 TRANS_OR = 0x1 << 24;
-static const uint32 TRANS_OR_SHIFT = 24;
 static uint32 HighDotClockWidth;
 extern Blip_Buffer FXsbuf[2]; // FIXME, externals are evil!
-
-#define TTRANS(_testvar) TTRANS_LUT[_testvar] //((_testvar) ? 0 : TRANS_OR)
 
 bool KING_Init(void)
 {
@@ -1277,79 +1700,82 @@ bool KING_Init(void)
  HighDotClockWidth = MDFN_GetSettingUI("pcfx.high_dotclock_width");
  BGLayerDisable = 0;
 
- for(int x = 0; x < 512; x++)
-  priority_0_dummybuf[x] = TRANS_OR;
+ BuildCMT();
 
- // Build happy map!
+ // Build VCE priority map.
  // Don't change this unless you know what you're doing!
  // There may appear to be a bug in the pixel mixing
  // code elsewhere, because it accesses this array like [vdc][bg][rainbow], but it's not a bug.
  // This multi-dimensional array has no concept of bg, vdc, rainbow, or their orders per-se, it just
  // contains priority information for 3 different layers.
 
- for(int bg_prio = 0; bg_prio < 17; bg_prio++)
-  for(int vdc_prio = 0; vdc_prio < 17; vdc_prio++)
-   for(int rainbow_prio = 0; rainbow_prio < 17; rainbow_prio++)
+ for(int bg_prio = 0; bg_prio < 8; bg_prio++)
+  for(int vdc_prio = 0; vdc_prio < 8; vdc_prio++)
+   for(int rainbow_prio = 0; rainbow_prio < 8; rainbow_prio++)
    {
     int bg_prio_test = bg_prio ? bg_prio : 0x10;
     int vdc_prio_test = vdc_prio ? vdc_prio : 0x10;
     int rainbow_prio_test = rainbow_prio ? rainbow_prio : 0x10;
 
-    if(bg_prio_test > 8)
-     happymap[bg_prio][vdc_prio][rainbow_prio][0] = 3;
+    if(bg_prio_test >= 8)
+     VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][0] = 3;
     else
     {
      if(bg_prio_test < vdc_prio_test && bg_prio_test < rainbow_prio_test)
-      happymap[bg_prio][vdc_prio][rainbow_prio][0] = 0;
+      VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][0] = 0;
      else if(bg_prio_test > vdc_prio_test && bg_prio_test > rainbow_prio_test)
-      happymap[bg_prio][vdc_prio][rainbow_prio][0] = 2;
+      VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][0] = 2;
      else 
-      happymap[bg_prio][vdc_prio][rainbow_prio][0] = 1;
+      VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][0] = 1;
     }
 
-    if(vdc_prio_test > 8)
-     happymap[bg_prio][vdc_prio][rainbow_prio][1] = 3;
+    if(vdc_prio_test >= 8)
+     VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][1] = 3;
     else
     {
      if(vdc_prio_test < bg_prio_test && vdc_prio_test < rainbow_prio_test)
-      happymap[bg_prio][vdc_prio][rainbow_prio][1] = 0;
+      VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][1] = 0;
      else if(vdc_prio_test > bg_prio_test && vdc_prio_test > rainbow_prio_test)
-      happymap[bg_prio][vdc_prio][rainbow_prio][1] = 2;
+      VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][1] = 2;
      else
-      happymap[bg_prio][vdc_prio][rainbow_prio][1] = 1;
+      VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][1] = 1;
     }
 
-    if(rainbow_prio_test > 8)
-     happymap[bg_prio][vdc_prio][rainbow_prio][2] = 3;
+    if(rainbow_prio_test >= 8)
+     VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][2] = 3;
     else
     {
      if(rainbow_prio_test < bg_prio_test && rainbow_prio_test < vdc_prio_test)
-      happymap[bg_prio][vdc_prio][rainbow_prio][2] = 0;
+      VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][2] = 0;
      else if(rainbow_prio_test > bg_prio_test && rainbow_prio_test > vdc_prio_test)
-      happymap[bg_prio][vdc_prio][rainbow_prio][2] = 2;
+      VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][2] = 2;
      else
-      happymap[bg_prio][vdc_prio][rainbow_prio][2] = 1;
+      VCEPrioMap[bg_prio][vdc_prio][rainbow_prio][2] = 1;
     }
    }
 
- for(int x = 0; x < 256; x++)
-  TTRANS_LUT[x] = x ? 0 : TRANS_OR;
-
  #ifdef WANT_DEBUGGER
- MDFNDBG_AddASpace(KING_GetAddressSpaceBytes, KING_PutAddressSpaceBytes, "kram0", "KRAM Page 0", 19);
- MDFNDBG_AddASpace(KING_GetAddressSpaceBytes, KING_PutAddressSpaceBytes, "kram1", "KRAM Page 1", 19);
- MDFNDBG_AddASpace(KING_GetAddressSpaceBytes, KING_PutAddressSpaceBytes, "vdcvram0", "VDC-A VRAM", 17);
- MDFNDBG_AddASpace(KING_GetAddressSpaceBytes, KING_PutAddressSpaceBytes, "vdcvram1", "VDC-B VRAM", 17);
- MDFNDBG_AddASpace(KING_GetAddressSpaceBytes, KING_PutAddressSpaceBytes, "vce", "VCE Palette RAM", 10);
+ ASpace_Add(KING_GetAddressSpaceBytes, KING_PutAddressSpaceBytes, "kram0", "KRAM Page 0", 19);
+ ASpace_Add(KING_GetAddressSpaceBytes, KING_PutAddressSpaceBytes, "kram1", "KRAM Page 1", 19);
+ ASpace_Add(KING_GetAddressSpaceBytes, KING_PutAddressSpaceBytes, "vdcvram0", "VDC-A VRAM", 17);
+ ASpace_Add(KING_GetAddressSpaceBytes, KING_PutAddressSpaceBytes, "vdcvram1", "VDC-B VRAM", 17);
+ ASpace_Add(KING_GetAddressSpaceBytes, KING_PutAddressSpaceBytes, "vce", "VCE Palette RAM", 10);
  #endif
 
  SCSICD_Init(SCSICD_PCFX, 3, &FXsbuf[0], &FXsbuf[1], 153600 * MDFN_GetSettingUI("pcfx.cdspeed"), 21477273, KING_CDIRQ, KING_StuffSubchannels);
+
+
+ if(!(fx_vce.LastField = (uint32 *)MDFN_calloc(1024 * 256, sizeof(uint32), _("Interlaced mode last field buffer"))))
+  return(0);
 
  return(1);
 }
 
 void KING_Close(void)
 {
+ if(fx_vce.LastField)
+  MDFN_free(fx_vce.LastField);
+
  if(king)
  {
   free(king);
@@ -1360,8 +1786,12 @@ void KING_Close(void)
 
 void KING_Reset(void)
 {
+ uint32 *lf_save = fx_vce.LastField;
+
  memset(&fx_vce, 0, sizeof(fx_vce));
  memset(king, 0, sizeof(king_t));
+
+ fx_vce.LastField = lf_save;
 
  king->Reg00 = 0;
  king->Reg01 = 0;
@@ -1369,108 +1799,198 @@ void KING_Reset(void)
  king->Reg03 = 0;
  king->dma_receive_active = FALSE;
  king->dma_send_active = FALSE;
- StopKingMagic();
+ king->dma_cycle_counter = 0x7FFFFFFF;
 
 
- BuildCMT();
+ RecalcKRAMPagePtrs();
+
+ HPhase = HPHASE_HBLANK_PART1;
+ HPhaseCounter = 1;
+ vdc_lb_pos = 0;
+
+ memset(vdc_linebuffers, 0, sizeof(vdc_linebuffers));
+ memset(vdc_linebuffer, 0, sizeof(vdc_linebuffer));
+ memset(vdc_linebuffer_yuved, 0, sizeof(vdc_linebuffer_yuved));
+ memset(rainbow_linebuffer, 0, sizeof(rainbow_linebuffer));
+ memset(bg_linebuffer, 0, sizeof(bg_linebuffer));
+
+
+ king->dma_cycle_counter = 0x7FFFFFFF;
+ scsicd_ne = 1;	// FIXME
 
  RedoKINGIRQCheck();
- RebuildLayerMaskCache();
- RecalcKRAM_Mask();
 
  for(unsigned int x = 0; x < 0x200; x++)
   RedoPaletteCache(x);
 
+ DoHBlankVCECaching();
+
  SoundBox_SetKINGADPCMControl(0);
 
- SCSICD_Power();
+ SCSICD_Power(0);	// FIXME
+
+ memset(king->KRAM, 0xFF, sizeof(king->KRAM));
 }
 
 
-static INLINE void DRAWBG8x1_4(uint32 *target, uint16 cg, uint32 *palette_ptr, uint32 layer_or)
+static INLINE void DRAWBG8x1_4(uint32 *target, const uint16 *cg, const uint32 *palette_ptr, const uint32 layer_or)
 {
- if(target[0] & TRANS_OR) target[0] = TTRANS(cg >> 14) | palette_ptr[(cg >> 14)] | layer_or;
- if(target[1] & TRANS_OR) target[1] = TTRANS((cg >> 12) & 0x3) | palette_ptr[((cg >> 12) & 0x3)] | layer_or;
- if(target[2] & TRANS_OR) target[2] = TTRANS((cg >> 10) & 0x3) | palette_ptr[((cg >> 10) & 0x3)] | layer_or;
- if(target[3] & TRANS_OR) target[3] = TTRANS((cg >> 8) & 0x3) | palette_ptr[((cg >> 8) & 0x3)] | layer_or;
- if(target[4] & TRANS_OR) target[4] = TTRANS((cg >> 6) & 0x3) | palette_ptr[((cg >> 6) & 0x3)] | layer_or;
- if(target[5] & TRANS_OR) target[5] = TTRANS((cg >> 4) & 0x3) | palette_ptr[((cg >> 4) & 0x3)] | layer_or;
- if(target[6] & TRANS_OR) target[6] = TTRANS((cg >> 2) & 0x3) | palette_ptr[((cg >> 2) & 0x3)] | layer_or;
- if(target[7] & TRANS_OR) target[7] = TTRANS((cg >> 0) & 0x3) | palette_ptr[((cg >> 0) & 0x3)] | layer_or;
+ if(*cg >> 14) target[0] = palette_ptr[(*cg >> 14)] | layer_or;
+ if((*cg >> 12) & 0x3) target[1] = palette_ptr[((*cg >> 12) & 0x3)] | layer_or;
+ if((*cg >> 10) & 0x3) target[2] = palette_ptr[((*cg >> 10) & 0x3)] | layer_or;
+ if((*cg >> 8) & 0x3) target[3] = palette_ptr[((*cg >> 8) & 0x3)] | layer_or;
+ if((*cg >> 6) & 0x3) target[4] = palette_ptr[((*cg >> 6) & 0x3)] | layer_or;
+ if((*cg >> 4) & 0x3) target[5] = palette_ptr[((*cg >> 4) & 0x3)] | layer_or;
+ if((*cg >> 2) & 0x3) target[6] = palette_ptr[((*cg >> 2) & 0x3)] | layer_or;
+ if((*cg >> 0) & 0x3) target[7] = palette_ptr[((*cg >> 0) & 0x3)] | layer_or;
 }
 
-static INLINE void DRAWBG8x1_16(uint32 *target, uint16 *cgptr, uint32 *palette_ptr, uint32 layer_or)
+static INLINE void DRAWBG8x1_16(uint32 *target, const uint16 *cgptr, const uint32 *palette_ptr, const uint32 layer_or)
 {
- if(target[0] & TRANS_OR) target[0] = TTRANS(cgptr[0] >> 12) | palette_ptr[((cgptr[0] >> 12))] | layer_or;
- if(target[1] & TRANS_OR) target[1] = TTRANS((cgptr[0] >> 8) & 0xF) | palette_ptr[(((cgptr[0] >> 8) & 0xF))] | layer_or;
- if(target[2] & TRANS_OR) target[2] = TTRANS((cgptr[0] >> 4) & 0xF) | palette_ptr[(((cgptr[0] >> 4) & 0xF))] | layer_or;
- if(target[3] & TRANS_OR) target[3] = TTRANS((cgptr[0] >> 0) & 0xF) | palette_ptr[(((cgptr[0] >> 0) & 0xF))] | layer_or;
+ if(cgptr[0] >> 12) target[0] = palette_ptr[((cgptr[0] >> 12))] | layer_or;
+ if((cgptr[0] >> 8) & 0xF) target[1] = palette_ptr[(((cgptr[0] >> 8) & 0xF))] | layer_or;
+ if((cgptr[0] >> 4) & 0xF) target[2] = palette_ptr[(((cgptr[0] >> 4) & 0xF))] | layer_or;
+ if((cgptr[0] >> 0) & 0xF) target[3] = palette_ptr[(((cgptr[0] >> 0) & 0xF))] | layer_or;
 
- if(target[4] & TRANS_OR) target[4] = TTRANS(cgptr[1] >> 12) | palette_ptr[((cgptr[1] >> 12))] | layer_or;
- if(target[5] & TRANS_OR) target[5] = TTRANS((cgptr[1] >> 8) & 0xF) | palette_ptr[(((cgptr[1] >> 8) & 0xF))] | layer_or;
- if(target[6] & TRANS_OR) target[6] = TTRANS((cgptr[1] >> 4) & 0xF) | palette_ptr[(((cgptr[1] >> 4) & 0xF))] | layer_or;
- if(target[7] & TRANS_OR) target[7] = TTRANS((cgptr[1] >> 0) & 0xF) | palette_ptr[(((cgptr[1] >> 0) & 0xF))] | layer_or;
+ if(cgptr[1] >> 12) target[4] = palette_ptr[((cgptr[1] >> 12))] | layer_or;
+ if((cgptr[1] >> 8) & 0xF) target[5] = palette_ptr[(((cgptr[1] >> 8) & 0xF))] | layer_or;
+ if((cgptr[1] >> 4) & 0xF) target[6] = palette_ptr[(((cgptr[1] >> 4) & 0xF))] | layer_or;
+ if((cgptr[1] >> 0) & 0xF) target[7] = palette_ptr[(((cgptr[1] >> 0) & 0xF))] | layer_or;
 }
 
-static INLINE void DRAWBG8x1_256(uint32 *target, uint16 *cgptr, uint32 *palette_ptr, uint32 layer_or)
+static INLINE void DRAWBG8x1_256(uint32 *target, const uint16 *cgptr, const uint32 *palette_ptr, const uint32 layer_or)
 {
- if(target[0] & TRANS_OR) target[0] = TTRANS(cgptr[0] >> 0x8) | palette_ptr[(cgptr[0] >> 0x8)] | layer_or;
- if(target[1] & TRANS_OR) target[1] = TTRANS(cgptr[0] & 0xFF) | palette_ptr[(cgptr[0] & 0xFF)] | layer_or;
- if(target[2] & TRANS_OR) target[2] = TTRANS(cgptr[1] >> 0x8) | palette_ptr[(cgptr[1] >> 0x8)] | layer_or;
- if(target[3] & TRANS_OR) target[3] = TTRANS(cgptr[1] & 0xFF) | palette_ptr[(cgptr[1] & 0xFF)] | layer_or;
- if(target[4] & TRANS_OR) target[4] = TTRANS(cgptr[2] >> 0x8) | palette_ptr[(cgptr[2] >> 0x8)] | layer_or;
- if(target[5] & TRANS_OR) target[5] = TTRANS(cgptr[2] & 0xFF) | palette_ptr[(cgptr[2] & 0xFF)] | layer_or;
- if(target[6] & TRANS_OR) target[6] = TTRANS(cgptr[3] >> 0x8) | palette_ptr[(cgptr[3] >> 0x8)] | layer_or;
- if(target[7] & TRANS_OR) target[7] = TTRANS(cgptr[3] & 0xFF) | palette_ptr[(cgptr[3] & 0xFF)] | layer_or;
+ if(cgptr[0] >> 8) target[0] = palette_ptr[(cgptr[0] >> 0x8)] | layer_or;
+ if(cgptr[0] & 0xFF) target[1] = palette_ptr[(cgptr[0] & 0xFF)] | layer_or;
+ if(cgptr[1] >> 8) target[2] = palette_ptr[(cgptr[1] >> 0x8)] | layer_or;
+ if(cgptr[1] & 0xFF) target[3] = palette_ptr[(cgptr[1] & 0xFF)] | layer_or;
+ if(cgptr[2] >> 8) target[4] = palette_ptr[(cgptr[2] >> 0x8)] | layer_or;
+ if(cgptr[2] & 0xFF) target[5] = palette_ptr[(cgptr[2] & 0xFF)] | layer_or;
+ if(cgptr[3] >> 8) target[6] = palette_ptr[(cgptr[3] >> 0x8)] | layer_or;
+ if(cgptr[3] & 0xFF) target[7] = palette_ptr[(cgptr[3] & 0xFF)] | layer_or;
 }
 
-static INLINE void DRAWBG8x1_64K(uint32 *target, uint16 *cgptr, uint32 *palette_ptr, uint32 layer_or)
+static INLINE void DRAWBG8x1_64K(uint32 *target, const uint16 *cgptr, const uint32 *palette_ptr, const uint32 layer_or)
 {
- if(target[0] & TRANS_OR) target[0] = TTRANS(cgptr[0] >> 8) | ((cgptr[0x0] & 0x00F0) << 8) | ((cgptr[0] & 0x000F)<<4) | ((cgptr[0] & 0xFF00) << 8) | layer_or;
- if(target[1] & TRANS_OR) target[1] = TTRANS(cgptr[1] >> 8) | ((cgptr[0x1] & 0x00F0) << 8) | ((cgptr[1] & 0x000F)<<4) | ((cgptr[1] & 0xFF00) << 8) | layer_or;
- if(target[2] & TRANS_OR) target[2] = TTRANS(cgptr[2] >> 8) | ((cgptr[0x2] & 0x00F0) << 8) | ((cgptr[2] & 0x000F)<<4) | ((cgptr[2] & 0xFF00) << 8) | layer_or;
- if(target[3] & TRANS_OR) target[3] = TTRANS(cgptr[3] >> 8) | ((cgptr[0x3] & 0x00F0) << 8) | ((cgptr[3] & 0x000F)<<4) | ((cgptr[3] & 0xFF00) << 8) | layer_or;
- if(target[4] & TRANS_OR) target[4] = TTRANS(cgptr[4] >> 8) | ((cgptr[0x4] & 0x00F0) << 8) | ((cgptr[4] & 0x000F)<<4) | ((cgptr[4] & 0xFF00) << 8) | layer_or;
- if(target[5] & TRANS_OR) target[5] = TTRANS(cgptr[5] >> 8) | ((cgptr[0x5] & 0x00F0) << 8) | ((cgptr[5] & 0x000F)<<4) | ((cgptr[5] & 0xFF00) << 8) | layer_or;
- if(target[6] & TRANS_OR) target[6] = TTRANS(cgptr[6] >> 8) | ((cgptr[0x6] & 0x00F0) << 8) | ((cgptr[6] & 0x000F)<<4) | ((cgptr[6] & 0xFF00) << 8) | layer_or;
- if(target[7] & TRANS_OR) target[7] = TTRANS(cgptr[7] >> 8) | ((cgptr[0x7] & 0x00F0) << 8) | ((cgptr[7] & 0x000F)<<4) | ((cgptr[7] & 0xFF00) << 8) | layer_or;
+ if(cgptr[0] & 0xFF00) target[0] = ((cgptr[0x0] & 0x00F0) << 8) | ((cgptr[0] & 0x000F)<<4) | ((cgptr[0] & 0xFF00) << 8) | layer_or;
+ if(cgptr[1] & 0xFF00) target[1] = ((cgptr[0x1] & 0x00F0) << 8) | ((cgptr[1] & 0x000F)<<4) | ((cgptr[1] & 0xFF00) << 8) | layer_or;
+ if(cgptr[2] & 0xFF00) target[2] = ((cgptr[0x2] & 0x00F0) << 8) | ((cgptr[2] & 0x000F)<<4) | ((cgptr[2] & 0xFF00) << 8) | layer_or;
+ if(cgptr[3] & 0xFF00) target[3] = ((cgptr[0x3] & 0x00F0) << 8) | ((cgptr[3] & 0x000F)<<4) | ((cgptr[3] & 0xFF00) << 8) | layer_or;
+ if(cgptr[4] & 0xFF00) target[4] = ((cgptr[0x4] & 0x00F0) << 8) | ((cgptr[4] & 0x000F)<<4) | ((cgptr[4] & 0xFF00) << 8) | layer_or;
+ if(cgptr[5] & 0xFF00) target[5] = ((cgptr[0x5] & 0x00F0) << 8) | ((cgptr[5] & 0x000F)<<4) | ((cgptr[5] & 0xFF00) << 8) | layer_or;
+ if(cgptr[6] & 0xFF00) target[6] = ((cgptr[0x6] & 0x00F0) << 8) | ((cgptr[6] & 0x000F)<<4) | ((cgptr[6] & 0xFF00) << 8) | layer_or;
+ if(cgptr[7] & 0xFF00) target[7] = ((cgptr[0x7] & 0x00F0) << 8) | ((cgptr[7] & 0x000F)<<4) | ((cgptr[7] & 0xFF00) << 8) | layer_or;
 }
 
-static INLINE void DRAWBG8x1_16M(uint32 *target, uint16 *cgptr, uint32 *palette_ptr, uint32 layer_or)
+static INLINE void DRAWBG8x1_16M(uint32 *target, const uint16 *cgptr, const uint32 *palette_ptr, const uint32 layer_or)
 {
- if(target[0] & TRANS_OR) target[0] = TTRANS(cgptr[0] >> 8) | ((cgptr[0x0] & 0xFF00) << 8) | (cgptr[1] & 0xFF00) | (cgptr[1] & 0xFF) | layer_or;
- if(target[1] & TRANS_OR) target[1] = TTRANS(cgptr[0] & 0xFF) | ((cgptr[0x0] & 0x00FF) << 16) | (cgptr[1] & 0xFF00) | (cgptr[1] & 0xFF) | layer_or;
- if(target[2] & TRANS_OR) target[2] = TTRANS(cgptr[2] >> 8) | ((cgptr[0x2] & 0xFF00) << 8) | (cgptr[3] & 0xFF00) | (cgptr[3] & 0xFF) | layer_or;
- if(target[3] & TRANS_OR) target[3] = TTRANS(cgptr[2] & 0xFF) | ((cgptr[0x2] & 0x00FF) << 16) | (cgptr[3] & 0xFF00) | (cgptr[3] & 0xFF) | layer_or;
- if(target[4] & TRANS_OR) target[4] = TTRANS(cgptr[4] >> 8) | ((cgptr[0x4] & 0xFF00) << 8) | (cgptr[5] & 0xFF00) | (cgptr[5] & 0xFF) | layer_or;
- if(target[5] & TRANS_OR) target[5] = TTRANS(cgptr[4] & 0xFF) | ((cgptr[0x4] & 0x00FF) << 16) | (cgptr[5] & 0xFF00) | (cgptr[5] & 0xFF) | layer_or;
- if(target[6] & TRANS_OR) target[6] = TTRANS(cgptr[6] >> 8) | ((cgptr[0x6] & 0xFF00) << 8) | (cgptr[7] & 0xFF00) | (cgptr[7] & 0xFF) | layer_or;       
- if(target[7] & TRANS_OR) target[7] = TTRANS(cgptr[6] & 0xFF) | ((cgptr[0x6] & 0x00FF) << 16) | (cgptr[7] & 0xFF00) | (cgptr[7] & 0xFF) | layer_or;
+ if(cgptr[0] >> 8) target[0] = ((cgptr[0x0] & 0xFF00) << 8) | (cgptr[1] & 0xFF00) | (cgptr[1] & 0xFF) | layer_or;
+ if(cgptr[0] & 0xFF) target[1] = ((cgptr[0x0] & 0x00FF) << 16) | (cgptr[1] & 0xFF00) | (cgptr[1] & 0xFF) | layer_or;
+ if(cgptr[2] >> 8) target[2] = ((cgptr[0x2] & 0xFF00) << 8) | (cgptr[3] & 0xFF00) | (cgptr[3] & 0xFF) | layer_or;
+ if(cgptr[2] & 0xFF) target[3] = ((cgptr[0x2] & 0x00FF) << 16) | (cgptr[3] & 0xFF00) | (cgptr[3] & 0xFF) | layer_or;
+ if(cgptr[4] >> 8) target[4] = ((cgptr[0x4] & 0xFF00) << 8) | (cgptr[5] & 0xFF00) | (cgptr[5] & 0xFF) | layer_or;
+ if(cgptr[4] & 0xFF) target[5] = ((cgptr[0x4] & 0x00FF) << 16) | (cgptr[5] & 0xFF00) | (cgptr[5] & 0xFF) | layer_or;
+ if(cgptr[6] >> 8) target[6] = ((cgptr[0x6] & 0xFF00) << 8) | (cgptr[7] & 0xFF00) | (cgptr[7] & 0xFF) | layer_or;
+ if(cgptr[6] & 0xFF) target[7] = ((cgptr[0x6] & 0x00FF) << 16) | (cgptr[7] & 0xFF00) | (cgptr[7] & 0xFF) | layer_or;
 }
-
-// Loop prefix non-endless
-#define DRAWBG8x1_LPRE() if(bat_x < bat_width) {
-
-// Loop postfix non-endless
-#define DRAWBG8x1_LPOST() } bat_x = (bat_x + 1) & bat_width_mask;
 
 static bool bgmode_warning = 0; // Debug
 
-static void DrawBG(uint32 *target, int n)
+#include "king-bgfast.inc"
+
+static INLINE int32 max(int32 a, int32 b)
 {
- uint16 bgmode = (king->bgmode >> (n * 4)) & 0xF;
- bool endless = (king->BGScrollMode >> n) & 0x1;
- uint32 XScroll = king->BGXScroll[n];
- uint32 YScroll = king->BGYScroll[n];
- uint32 bat_offset = king->BGBATAddr[n] * 1024;
- uint32 cg_offset = king->BGCGAddr[n] * 1024;
- uint32 bat_and_cg_bank = (king->PageSetting & 0x0010) ? 1 : 0;
- unsigned int bat_width, bat_width_mask, bat_width_shift;
- int bat_height, bat_height_mask, bat_height_shift;
+ if(a > b)
+  return(a);
+
+ return(b);
+}
+
+static void DrawBG(uint32 *target, int n, bool sub)
+{
+ // TODO: Verify behavior when size is out of bounds on BG1-3.
+ // With BG0 at least, it behaves as if the size is at its minimum, with caveats(TO BE INVESTIGATED).
+ const uint32 bg_ss_table[2][0x10] = 
+ {
+  { 0x3, 0x3, 0x3, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0xA, 0x3, 0x3, 0x3, 0x3, 0x3 },
+  { 0x3, 0x3, 0x3, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9, 0x3, 0x3, 0x3, 0x3, 0x3, 0x3 },
+ };
+
+ const bool bg_ss_invalid_table[2][0x10] =
+ {
+  { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1 },
+  { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1 },
+ };
+
+
+ const uint32 cg_per_mode[0x8] = 
+ {
+  0, // Invalid mode
+  1, // 2-bit mode
+  2, // 4-bit mode
+  4, // 8-bit mode
+  8, // 16-bit mode
+  8, // 16-bit mode
+  8, // 16-bit mode
+  8, // 16-bit mode
+ };
+
+ const uint32 layer_or = (LAYER_BG0 + n) << 28;
+
+ const uint32 palette_offset = ((fx_vce.palette_offset[1 + (n >> 1)] >> ((n & 1) ? 8 : 0)) << 1) & 0x1FF;
+ const uint32 *palette_ptr = &vce_rendercache.palette_table_cache[palette_offset];
+ const uint32 bat_and_cg_page = (king->PageSetting & 0x0010) ? 1 : 0;
+
+ const uint16 bgmode = (king->bgmode >> (n * 4)) & 0xF;
+ const bool endless = (king->BGScrollMode >> n) & 0x1;
+ const uint32 XScroll = king->BGXScroll[n];
+ const uint32 YScroll = king->BGYScroll[n];
+
+ const uint32 YOffset = (YScroll + (fx_vce.raster_counter - 22)) & 0xFFFF;
+
+ const uint32 bat_offset = king->BGBATAddr[n] * 1024;
+ const uint32 bat_sub_offset = n ? bat_offset : (king->BG0SubBATAddr * 1024);
+ const uint16 *bat_base = &king->KRAM[bat_and_cg_page][bat_offset & 0x20000];
+ const uint16 *bat_sub_base = &king->KRAM[bat_and_cg_page][bat_sub_offset & 0x20000];
+
+ const uint32 cg_offset = king->BGCGAddr[n] * 1024;
+ const uint32 cg_sub_offset = n ? cg_offset : (king->BG0SubCGAddr * 1024);
+ const uint16 *cg_base = &king->KRAM[bat_and_cg_page][cg_offset & 0x20000];
+ const uint16 *cg_sub_base = &king->KRAM[bat_and_cg_page][cg_sub_offset & 0x20000];
+
+ const int bat_bitsize_mask = (n ? 0x3FF : 0x7FF) >> 3;
+
+ const uint32 bat_width_shift = bg_ss_table[(bool)n][(king->BGSize[n] & 0xF0) >> 4];
+ const bool bat_width_invalid = bg_ss_invalid_table[(bool)n][(king->BGSize[n] & 0xF0) >> 4];
+ const uint32 bat_width = (1 << bat_width_shift) >> 3;
+
+ const int32 bat_height_shift = bg_ss_table[(bool)n][king->BGSize[n] & 0x0F];
+ //const bool bat_height_invalid = bg_ss_invalid_table[(bool)n][king->BGSize[n] & 0x0F];
+ const int32 bat_height = (1 << bat_height_shift) >> 3;
+
+ const bool bat_sub_width_invalid = n ? bat_width_invalid : bg_ss_invalid_table[(bool)n][(king->BGSize[n] & 0xF000) >> 12];
+ const uint32 bat_sub_width_shift = n ? bat_width_shift : bg_ss_table[(bool)n][(king->BGSize[n] & 0xF000) >> 12];
+ const uint32 bat_sub_width = (1 << bat_sub_width_shift) >> 3;
+ const uint32 bat_sub_width_mask = bat_sub_width - 1;
+ const uint32 bat_sub_width_test = endless ? (bat_bitsize_mask + 1) : max(bat_width, bat_sub_width);
+
+ const int32 bat_sub_height_shift = n ? bat_height_shift : bg_ss_table[(bool)n][(king->BGSize[n] & 0x0F00) >> 8];
+ const int32 bat_sub_height = (1 << bat_sub_height_shift) >> 3;
+ const int32 bat_sub_height_mask = bat_sub_height - 1;
+ const int32 bat_sub_height_test = endless ? (bat_bitsize_mask + 1) : max(bat_height, bat_sub_height);
+
  uint16 cg_mask[8];
  uint16 cg_remap[8];
- bool rotate_mode = 0;
- uint16 *king_cg_base, *king_bat_base;
+ bool cg_ofbat[8];
+
+ uint16 cg_sub_mask[8];
+ uint16 cg_sub_remap[8];
+ bool cg_sub_ofbat[8];
+
+ bool BATFetchCycle = FALSE;
+ bool BATSubFetchCycle = FALSE;
+
+ const bool rotate_mode = (n == 0) && (king->priority & 0x1000);
 
  // If the bg mode is invalid, don't draw this layer, duuhhhh
  if(!(bgmode & 0x7))
@@ -1486,149 +2006,101 @@ static void DrawBG(uint32 *target, int n)
   return;
  }
 
- bat_width_shift = (king->BGSize[n] & 0xF0) >> 4;
- bat_height_shift = king->BGSize[n] & 0x0F;
-
- if(!n && !bat_width_shift && !bat_height_shift && (king->BGSize[0] & 0xF000) && (king->BGSize[0] & 0x0F00))
- {
-  //puts("Angelique Special Hack");
-  bat_offset = king->BG0SubBATAddr * 1024;
-  cg_offset = king->BG0SubCGAddr * 1024;
-  bat_width_shift = (king->BGSize[n] & 0xF000) >> 12;
-  bat_height_shift = (king->BGSize[n] & 0x0F00) >> 8;
- }
-
- // We don't need to &= cg_offset and bat_offset with 0x1ffff after here, as the effective addresses 
- // calculated with them are anded with 0x1ffff in the rendering code already.
- king_cg_base = &king->KRAM[bat_and_cg_bank][cg_offset & 0x20000 & king->KRAM_Mask_Full];
- king_bat_base = &king->KRAM[bat_and_cg_bank][bat_offset & 0x20000 & king->KRAM_Mask_Full];
-
-
  memset(cg_mask, 0, sizeof(cg_mask));
  memset(cg_remap, 0, sizeof(cg_remap));
-
- // Longterm TODO:  Phase out BATFetchCycle in favor of BATFetchCycles
- bool BATFetchCycle = FALSE;
- bool BATFetchCycles[8] = { FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE };
+ memset(cg_ofbat, 0, sizeof(cg_ofbat));
+ memset(cg_sub_mask, 0, sizeof(cg_sub_mask));
+ memset(cg_sub_remap, 0, sizeof(cg_sub_remap));
+ memset(cg_sub_ofbat, 0, sizeof(cg_sub_ofbat));
 
  if(king->MPROGControl & 0x1)
  {
   int remap_thing = 0;
+  int remap_sub_thing = 0;
 
-  remap_thing = 0;
   for(int x = 0; x < 8; x++)
   {
-   uint16 mpd = king->MPROGData[((cg_offset & 0x20000) ? 0x8 : 0x0) + x];
+   uint16 mpd;
+
+   // Forcing CG and BAT to 0 if the affine bit != rotate_mode is not technically correct.
+   // If there is a mismatch, it's more likely the effective CG and BAT address for the pixel/segment
+   // being drawn won't be calculated correctly, likely being just the initial offsets.
+
+   mpd = king->MPROGData[((cg_offset & 0x20000) ? 0x8 : 0x0) + x];
    if(((mpd >> 6) & 0x3) == n && !(mpd & 0x100) && !(mpd & 0x010))
    {
     cg_mask[remap_thing] = 0xFFFF;
+    cg_remap[remap_thing] = mpd & 0x7;
+    cg_ofbat[remap_thing] = mpd & 0x8;
 
-    if(mpd & 0x20)
+    if((bool)(mpd & 0x20) != rotate_mode)
     {
-     cg_remap[remap_thing] = remap_thing;
-     if(n == 0) 
-     {
-      // Rotation/scaling isn't possible in 16M color mode.
-      if((bgmode & 0x7) == BGMODE_4 || (bgmode & 0x7) == BGMODE_16 || (bgmode & 0x7) == BGMODE_256 || (bgmode & 0x7) == BGMODE_64K)
-       rotate_mode = TRUE;
-     }
+     KINGDBG("Affine bit != rotate_mode?");
+     cg_mask[remap_thing] = 0;
     }
-    else
-     cg_remap[remap_thing] = mpd & 0x7;
-
     remap_thing++;
+   }
+
+   mpd = king->MPROGData[((cg_sub_offset & 0x20000) ? 0x8 : 0x0) + x];
+   if(((mpd >> 6) & 0x3) == n && !(mpd & 0x100) && !(mpd & 0x010))
+   {
+    cg_sub_mask[remap_sub_thing] = 0xFFFF;
+    cg_sub_remap[remap_sub_thing] = mpd & 0x7;
+    cg_sub_ofbat[remap_sub_thing] = mpd & 0x8;
+
+    if((bool)(mpd & 0x20) != rotate_mode)
+    {
+     KINGDBG("Affine bit != rotate_mode? (SUB)");
+     cg_sub_mask[remap_sub_thing] = 0;
+    }
+    remap_sub_thing++;
    }
   }
 
   for(int x = 0; x < 8; x++)
   {
-   uint16 mpd = king->MPROGData[((bat_offset & 0x20000) ? 0x8 : 0x0) + x];
-   if(((mpd >> 6) & 0x3) == n && !(mpd & 0x100) && (mpd & 0x010))
-   {
+   uint16 mpd;
+
+   mpd = king->MPROGData[((bat_offset & 0x20000) ? 0x8 : 0x0) + x];
+   if(((mpd >> 6) & 0x3) == n && !(mpd & 0x100) && (mpd & 0x010) && (bool)(mpd & 0x020) == rotate_mode)
     BATFetchCycle = TRUE;
-    BATFetchCycles[x] = TRUE;
-   }
+
+   mpd = king->MPROGData[((bat_sub_offset & 0x20000) ? 0x8 : 0x0) + x];
+   if(((mpd >> 6) & 0x3) == n && !(mpd & 0x100) && (mpd & 0x010) && (bool)(mpd & 0x020) == rotate_mode)
+    BATSubFetchCycle = TRUE;
   }
  }
 
- if(!BATFetchCycle)
- {
-  bgmode &= ~0x8;  
- }
-
- // BG0 supports a virtual screen up to 1024x1024(0xA by 0xA, 2**10 = 1024).
- // BG1-3 support a virtual screen up to 512x512(0x9 by 0x9, 2 ** 9 = 512)
- //  FIXME:  What happens if a game sets the screen width or height setting too high?? 
- int max_size_setting;
- 
- if(!n)
-  max_size_setting = 0xA;
- else
-  max_size_setting = 0x9;
-
- if(bat_width_shift < 3) bat_width_shift = 3;
- if(bat_width_shift > max_size_setting) bat_width_shift = max_size_setting;
-
- bat_width = (1 << bat_width_shift) >> 3;
- bat_width_mask = bat_width - 1;
-
- if(bat_height_shift < 3) bat_height_shift = 3;
- if(bat_height_shift > max_size_setting) bat_height_shift = max_size_setting;
-
- bat_height = (1 << bat_height_shift) >> 3;
- bat_height_mask = bat_height - 1;
-
- if(!endless)
- {
-  bat_width_mask = bat_height_mask = (((1 << max_size_setting) * 2) / 8) - 1;
- }
-
- uint32 YOffset = (YScroll + (fx_vce.raster_counter - 22)) & 0xFFFF;
- uint32 layer_or = n << 28;
-
- int bat_y = (YOffset >> 3) & bat_height_mask;
- uint32 bat_x = (XScroll >> 3) & bat_width_mask;
+ int bat_y = (YOffset >> 3) & bat_bitsize_mask;
+ uint32 bat_x = (XScroll >> 3) & bat_bitsize_mask;
  int ysmall = YOffset & 0x7;
+
+ const uint32 bat_invalid_y_mask = bat_width_invalid ? 0 : 0xFFFFFFFF;
+ const uint32 bat_invalid_sub_y_mask = bat_sub_width_invalid ? 0 : 0xFFFFFFFF;
 
  if(rotate_mode)
   target += 8;
  else
   target += 8 - (XScroll & 0x7);
 
- // If we're in non-endless scroll mode, and we've scrolled past our visible area in the vertical direction, so return.
- // If we're in rotation mode, do NOT do this, as coordinate transformations occur; the height(and width) checking code for
- // non-endless mode in rotation mode is in with the rotation mode rendering code.
- if(!rotate_mode && !endless && bat_y >= bat_height) // Draw this line as transparency and return?
- {
-  return;
- }
-
- // Adjust/corrupt bat_y to be faster in our blitting code
- bat_y = (bat_y << bat_width_shift) >> 3;
-
- uint32 palette_offset = fx_vce.palette_offset[1 + (n >> 1)] >> ((n & 1) ? 8 : 0);
- palette_offset <<= 1;
- palette_offset &= 0x1FF;
-
- uint32 *palette_ptr = &fx_vce.palette_table_cache[palette_offset];
 
  {
-  int wmul = (1 << bat_width_shift), wmask = (1 << bat_height_shift) - 1;
-  int sexy_y_pos = (YOffset & wmask) * wmul;
+  int32 wmul = (1 << bat_width_shift), wmask = ((1 << bat_height_shift) - 1) & bat_invalid_y_mask;
+  int32 sexy_y_pos = (YOffset & wmask) * wmul;
   
+  int32 wmul_sub = (1 << bat_sub_width_shift), wmask_sub = ((1 << bat_sub_height_shift) - 1) & bat_invalid_sub_y_mask;
+  int32 sexy_y_sub_pos = (YOffset & wmask_sub) * wmul_sub;
+
 
   #define ROTCODE_PRE	\
+	 const int32 bat_width_mask = endless ? (bat_width - 1) : 0xFFFF;		\
+	 const int32 bat_height_mask = endless ? (bat_height - 1) : 0xFFFF;		\
          int32 a, b, c, d;	\
          int32 raw_x_coord = (int32)sign_11_to_s16(XScroll) - (int16)king->BGAffinCenterX;	\
          int32 raw_y_coord = fx_vce.raster_counter + (int32)sign_11_to_s16(YScroll) - 22 - (int16)king->BGAffinCenterY;		\
          int32 xaccum;	\
          int32 yaccum;	\
 	\
-         if(!endless)	\
-         {	\
-          bat_width_mask = 0xFFFF;	\
-          bat_height_mask = 0xFFFF;	\
-         }	\
          a = (int16)king->BGAffinA;	\
          b = (int16)king->BGAffinB;	\
          c = (int16)king->BGAffinC;	\
@@ -1644,7 +2116,7 @@ static void DrawBG(uint32 *target, int n)
          {	\
           uint16 new_x = (xaccum >> 8);	\
           uint16 new_y = (yaccum >> 8);	\
-          uint16 *cgptr;	\
+          const uint16 *cgptr;	\
           bat_x = (new_x >> 3) & bat_width_mask;	\
           bat_y = (new_y >> 3) & bat_height_mask;	\
           ysmall = new_y & 0x7;	
@@ -1654,7 +2126,6 @@ static void DrawBG(uint32 *target, int n)
           yaccum += c;	\
          }
 
-
   if((bgmode & 0x7) == BGMODE_4 && rotate_mode)
   {
          ROTCODE_PRE;
@@ -1663,21 +2134,20 @@ static void DrawBG(uint32 *target, int n)
 	 uint32 pbn = 0;
          if(bgmode & 0x8)
          {
-          uint16 bat = king_bat_base[(bat_offset + (bat_x + ((bat_y << bat_width_shift) >> 3)  )) & king->KRAM_Mask_Sub];
+          uint16 bat = bat_base[(bat_offset + (bat_x + ((bat_y << bat_width_shift) >> 3)  )) & 0x1FFFF];
           pbn = ((bat >> 12) << 2);
           bat &= 0x0FFF;
-          cgptr = &king_cg_base[(cg_offset + (bat * 8) + ysmall) & king->KRAM_Mask_Sub];
+          cgptr = &cg_base[(cg_offset + (bat * 8) + ysmall) & 0x1FFFF];
          }
          else
          {
-          sexy_y_pos = (new_y & wmask) * wmul / 8;
-          cgptr = &king_cg_base[(cg_offset + bat_x + sexy_y_pos) & king->KRAM_Mask_Sub];
+          cgptr = &cg_base[(cg_offset + bat_x + ((new_y & wmask) * wmul / 8)) & 0x1FFFF];
          }
          uint8 ze_cg = (cgptr[0] >> ((7 - (new_x & 7)) << 1)) & 0x03;
 
          if(endless || (bat_x < bat_width && bat_y < bat_height))
          {
-          if(target[x] & TRANS_OR) target[x] = TTRANS(ze_cg) | palette_ptr[pbn + ze_cg] | layer_or;
+          if(ze_cg) target[x] = palette_ptr[pbn + ze_cg] | layer_or;
          }
         ROTCODE_LOOP_POST;
   }
@@ -1690,21 +2160,20 @@ static void DrawBG(uint32 *target, int n)
 
          if(bgmode & 0x8)
          {
-          uint16 bat = king_bat_base[(bat_offset + (bat_x + ((bat_y << bat_width_shift) >> 3)  )) & king->KRAM_Mask_Sub];
+          uint16 bat = bat_base[(bat_offset + (bat_x + ((bat_y << bat_width_shift) >> 3)  )) & 0x1FFFF];
           pbn = ((bat >> 12) << 4);
 	  bat &= 0x0FFF;
-          cgptr = &king_cg_base[(cg_offset + (bat * 16) + ysmall * 2) & king->KRAM_Mask_Sub];
+          cgptr = &cg_base[(cg_offset + (bat * 16) + ysmall * 2) & 0x1FFFF];
          }
          else
          {
-          sexy_y_pos = (new_y & wmask) * wmul / 4;
-          cgptr = &king_cg_base[(cg_offset + (bat_x * 2) + sexy_y_pos) & king->KRAM_Mask_Sub];
+          cgptr = &cg_base[(cg_offset + (bat_x * 2) + ((new_y & wmask) * wmul / 4)) & 0x1FFFF];
          }
          uint8 ze_cg = (cgptr[(new_x >> 2) & 0x1] >> ((3 - (new_x & 3)) << 2)) & 0x0F;
 
          if(endless || (bat_x < bat_width && bat_y < bat_height))
          {
-          if(target[x] & TRANS_OR) target[x] = TTRANS(ze_cg) | palette_ptr[pbn + ze_cg] | layer_or;
+          if(ze_cg) target[x] = palette_ptr[pbn + ze_cg] | layer_or;
          }
         ROTCODE_LOOP_POST;
   }
@@ -1715,19 +2184,18 @@ static void DrawBG(uint32 *target, int n)
 	 ROTCODE_LOOP_PRE;
           if(bgmode & 0x8)
           {
-           uint16 bat = king_bat_base[(bat_offset + (bat_x + ((bat_y << bat_width_shift) >> 3)  )) & king->KRAM_Mask_Sub];
-           cgptr = &king_cg_base[(cg_offset + (bat * 32) + ysmall * 4) & king->KRAM_Mask_Sub];
+           uint16 bat = bat_base[(bat_offset + (bat_x + ((bat_y << bat_width_shift) >> 3)  )) & 0x1FFFF];
+           cgptr = &cg_base[(cg_offset + (bat * 32) + ysmall * 4) & 0x1FFFF];
           }
           else
           {
-           sexy_y_pos = (new_y & wmask) * wmul / 2;
-           cgptr = &king_cg_base[(cg_offset + (bat_x * 4) + sexy_y_pos) & king->KRAM_Mask_Sub];
+           cgptr = &cg_base[(cg_offset + (bat_x * 4) + ((new_y & wmask) * wmul / 2)) & 0x1FFFF];
           }
           uint8 ze_cg = cgptr[(new_x >> 1) & 0x3] >> (((new_x & 1) ^ 1) << 3);
 
           if(endless || (bat_x < bat_width && bat_y < bat_height))
           {
-           if(target[x] & TRANS_OR) target[x] = TTRANS(ze_cg) | palette_ptr[ze_cg] | layer_or;
+           if(ze_cg) target[x] = palette_ptr[ze_cg] | layer_or;
           }
 	 ROTCODE_LOOP_POST;
   } 
@@ -1737,140 +2205,117 @@ static void DrawBG(uint32 *target, int n)
 	ROTCODE_LOOP_PRE;
           if(bgmode & 0x8)
           {
-           uint16 bat = king_bat_base[(bat_offset + (bat_x + ((bat_y << bat_width_shift) >> 3)  )) & king->KRAM_Mask_Sub];
-           cgptr = &king_cg_base[(cg_offset + (bat * 64) + ysmall * 8) & king->KRAM_Mask_Sub];
+           uint16 bat = bat_base[(bat_offset + (bat_x + ((bat_y << bat_width_shift) >> 3)  )) & 0x1FFFF];
+           cgptr = &cg_base[(cg_offset + (bat * 64) + ysmall * 8) & 0x1FFFF];
           }
           else
           {
-           sexy_y_pos = (new_y & wmask) * wmul;
-           cgptr = &king_cg_base[(cg_offset + (bat_x * 8) + sexy_y_pos) & king->KRAM_Mask_Sub];
+           cgptr = &cg_base[(cg_offset + (bat_x * 8) + ((new_y & wmask) * wmul)) & 0x1FFFF];
           }
           uint16 ze_cg = cgptr[new_x & 0x7];
 
           if(endless || (bat_x < bat_width && bat_y < bat_height))
           {
-           if(target[x] & TRANS_OR) target[x] = TTRANS(ze_cg >> 8) | ((ze_cg & 0x00F0) << 8) | ((ze_cg & 0x000F)<<4) | ((ze_cg & 0xFF00) << 8) | layer_or;
+           if(ze_cg >> 8) target[x] = ((ze_cg & 0x00F0) << 8) | ((ze_cg & 0x000F)<<4) | ((ze_cg & 0xFF00) << 8) | layer_or;
           }
          ROTCODE_LOOP_POST;
   }
   else switch(bgmode & 0x7)
   {
+#define DRAWBG8x1_MAC(cg_needed, blit_suffix, pbn_arg)	\
+			 for(int x = 0; x < 256 + 8; x+= 8)     	\
+                         {                                      	\
+                          if(bat_x < bat_width && bat_y < bat_height)	\
+                          {                                     	\
+                           uint32 eff_bat_loc = bat_offset;     	\
+                           uint16 bat = 0;                      	\
+                           uint16 pbn = 0;                      	\
+  		  	   const uint16 *cgptr[2];			\
+			   uint16 cg[cg_needed];			\
+									\
+                           if(bgmode & 0x8)                     	\
+                            eff_bat_loc += bat_x + (((bat_y & bat_invalid_y_mask) << bat_width_shift) >> 3);       	\
+                                                                	\
+                           eff_bat_loc &= 0x1FFFF;		  	\
+                                                                	\
+                           if(BATFetchCycle)                    	\
+                            bat = bat_base[eff_bat_loc];		\
+									\
+			   if(bgmode & 0x08)				\
+			    pbn = bat >> 12;				\
+			   bat &= 0xFFF;				\
+									\
+                           cgptr[0] = &cg_base[(cg_offset + (bat_x * cg_needed) + sexy_y_pos)	\
+				& 0x1FFFF];      						\
+		           cgptr[1] = &cg_base[(cg_offset + (bat * 8 * cg_needed) + ysmall * cg_needed) \
+				& 0x1FFFF];							\
+													\
+		           for(int cow = 0; cow < cg_needed; cow++)					\
+		            cg[cow] = cgptr[cg_ofbat[cow]][cg_remap[cow]] & cg_mask[cow];		\
+													\
+		           DRAWBG8x1_##blit_suffix(target + x, cg, palette_ptr + pbn_arg, layer_or);	\
+			  }                                     					\
+			  else if(bat_x < bat_sub_width_test && bat_y < bat_sub_height_test)		\
+			  {										\
+                           uint32 eff_bat_loc = bat_sub_offset;         \
+                           uint16 bat = 0;                              \
+                           uint16 pbn = 0;                              \
+                           const uint16 *cgptr[2];                      \
+                           uint16 cg[cg_needed];                        \
+                                                                        \
+                           if(bgmode & 0x8)                             \
+                            eff_bat_loc += (bat_x & bat_sub_width_mask) + (((bat_y & bat_invalid_sub_y_mask & bat_sub_height_mask) << bat_sub_width_shift) >> 3);           \
+                                                                        \
+                           eff_bat_loc &= 0x1FFFF;          \
+                                                                        \
+                           if(BATSubFetchCycle)                         \
+                            bat = bat_sub_base[eff_bat_loc];            \
+                                                                        \
+                           if(bgmode & 0x08)                            \
+                            pbn = bat >> 12;                            \
+                           bat &= 0xFFF;                                \
+                                                                        \
+                           cgptr[0] = &cg_sub_base[(cg_sub_offset + ((bat_x & bat_sub_width_mask) * cg_needed) + sexy_y_sub_pos)   \
+                                & 0x1FFFF];                                                 \
+                           cgptr[1] = &cg_sub_base[(cg_sub_offset + (bat * 8 * cg_needed) + ysmall * cg_needed) \
+                                & 0x1FFFF];                                                 \
+                                                                                                        \
+                           for(int cow = 0; cow < cg_needed; cow++)                                     \
+                            cg[cow] = cgptr[cg_sub_ofbat[cow]][cg_sub_remap[cow]] & cg_sub_mask[cow];   \
+                                                                                                        \
+                           DRAWBG8x1_##blit_suffix(target + x, cg, palette_ptr + pbn_arg, layer_or);    \
+			  }										\
+                          bat_x = (bat_x + 1) & bat_bitsize_mask; 					\
+                         }
+
+
    case 0x01: // 4 color, 1/4 byte per pixel :b
         sexy_y_pos >>= 3;
-        for(int x = 0; x < 256 + 8; x+= 8)
-        {
-	 DRAWBG8x1_LPRE();
-         uint16 *cgptr;
-	 uint16 cg[1];
+	sexy_y_sub_pos >>= 3;
 
-	 uint32 pbn = 0;
-	 if(bgmode & 0x8)
-	 {
-          uint16 bat = king_bat_base[(bat_offset + (bat_x + bat_y)) & king->KRAM_Mask_Sub];
-          pbn = (bat >> 12) << 2;
-          bat &= 0x0FFF;
-          cgptr = &king_cg_base[(cg_offset + (bat * 8) + ysmall) & king->KRAM_Mask_Sub];
-	 }
-	 else
-  	  cgptr = &king_cg_base[(cg_offset + (bat_x * 1) + sexy_y_pos) & king->KRAM_Mask_Sub];
-
-	 cg[0] = cgptr[cg_remap[0]] & cg_mask[0];
-
-         DRAWBG8x1_4(target + x, cg[0], palette_ptr + pbn, layer_or);
-         DRAWBG8x1_LPOST();
-        }
+	DRAWBG8x1_MAC(1, 4, (pbn << 2));
 	break;
+
    case 0x02: // 16 color, 1/2 byte per pixel
 	sexy_y_pos >>= 2;
-        for(int x = 0; x < 256 + 8; x+= 8)
-        {
-	 DRAWBG8x1_LPRE();
-         uint16 *cgptr;
-	 uint16 cg[2];
-	 uint32 pbn = 0;
+	sexy_y_sub_pos >>= 2;
 
-	 if(bgmode & 0x8)
-	 {
-          uint16 bat = king_bat_base[(bat_offset + (bat_x + bat_y)) & king->KRAM_Mask_Sub];
-          pbn = ((bat >> 12) << 4);
-          bat &= 0x0FFF;
-          cgptr = &king_cg_base[(cg_offset + (bat * 16) + ysmall * 2) & king->KRAM_Mask_Sub];
-	 }
-	 else 
-	  cgptr = &king_cg_base[(cg_offset + (bat_x * 2) + sexy_y_pos) & king->KRAM_Mask_Sub];
-
-         for(int cow = 0; cow < 2; cow++)
-          cg[cow] = cgptr[cg_remap[cow]] & cg_mask[cow];
-
-         DRAWBG8x1_16(target + x, cg, palette_ptr + pbn, layer_or);
-         DRAWBG8x1_LPOST();
-        }
+	DRAWBG8x1_MAC(2, 16, (pbn << 4));
         break;
+
    case 0x03: // 256 color, 1 byte per pixel palettized - OK
-	 sexy_y_pos >>= 1;
-         for(int x = 0; x < 256 + 8; x+= 8)
-         {
-	  DRAWBG8x1_LPRE();
-	  uint16 *cgptr;
-	  uint16 cg[4];
+	sexy_y_pos >>= 1;
+	sexy_y_sub_pos >>= 1;
 
-	  if(bgmode & 0x8)
-	  {
-           uint16 bat = king_bat_base[(bat_offset + (bat_x + bat_y)) & king->KRAM_Mask_Sub];
-           cgptr = &king_cg_base[(cg_offset + (bat * 32) + ysmall * 4) & king->KRAM_Mask_Sub];
-	  }
-	  else
-           cgptr = &king_cg_base[(cg_offset + (bat_x * 4) + sexy_y_pos) & king->KRAM_Mask_Sub];
-
-	  for(int cow = 0; cow < 4; cow++)
-           cg[cow] = cgptr[cg_remap[cow]] & cg_mask[cow];
-
-          DRAWBG8x1_256(target + x, cg, palette_ptr, layer_or);
-          DRAWBG8x1_LPOST();
-        }
+	DRAWBG8x1_MAC(4, 256, 0);
 	break;
 
    case 0x04: // 64K color, 2 bytes per pixel - OK
-        for(int x = 0; x < 256 + 8; x+=8)
-        {
-	 DRAWBG8x1_LPRE();
-	 uint16 *cgptr;
-	 uint16 cg[8];
-	 if(bgmode & 0x8)
-	 {
-          uint16 bat = king_bat_base[(bat_offset + (bat_x + bat_y)) & king->KRAM_Mask_Sub];
-          cgptr = &king_cg_base[(cg_offset + (bat * 64) + ysmall * 8) & king->KRAM_Mask_Sub];
-	 }
-	 else
-          cgptr = &king_cg_base[(cg_offset + (bat_x * 8) + sexy_y_pos) & king->KRAM_Mask_Sub];
-
-         for(int cow = 0; cow < 8; cow++)
-          cg[cow] = cgptr[cg_remap[cow]] & cg_mask[cow];
-
-         DRAWBG8x1_64K(target + x, cg, palette_ptr, layer_or);
-         DRAWBG8x1_LPOST();
-        }
+	DRAWBG8x1_MAC(8, 64K, 0);
 	break;
+
    case 0x05: // 16M color, 2 bytes per pixel - OK
-        for(int x = 0; x < 256 + 8; x+=8)
-        {
-	 DRAWBG8x1_LPRE();
-	 uint16 *cgptr;
-	 uint16 cg[8];
-	 if(bgmode & 0x8)
-	 {
-          uint16 bat = king_bat_base[(bat_offset + (bat_x + bat_y)) & king->KRAM_Mask_Sub];
-          cgptr = &king_cg_base[(cg_offset + (bat * 64) + ysmall * 8) & king->KRAM_Mask_Sub];
-	 }
-         else 
-	  cgptr = &king_cg_base[(cg_offset + (bat_x * 8) + sexy_y_pos) & king->KRAM_Mask_Sub];
-
-         for(int cow = 0; cow < 8; cow++)
-          cg[cow] = cgptr[cg_remap[cow]] & cg_mask[cow];
-
-         DRAWBG8x1_16M(target + x, cg, palette_ptr, layer_or);
-         DRAWBG8x1_LPOST();
-        }
+	DRAWBG8x1_MAC(8, 16M, 0);
 	break;
   #if 0
    case BGMODE_64K_EXTDOT:
@@ -1888,10 +2333,12 @@ static void DrawBG(uint32 *target, int n)
 
 static int16 UVLUT[65536][3];
 static uint8 RGBDeflower[1152]; // 0 is at 384
+static uint32 CbCrLUT[65536];
 
-static void RebuildUVLUT(void)
+static void RebuildUVLUT(const MDFN_PixelFormat &format)
 {
  for(int ur = 0; ur < 256; ur++)
+ {
   for(int vr = 0; vr < 256; vr++)
   {
    int r, g, b;
@@ -1908,7 +2355,13 @@ static void RebuildUVLUT(void)
    UVLUT[vr + ur * 256][0] = r;
    UVLUT[vr + ur * 256][1] = g;
    UVLUT[vr + ur * 256][2] = b;
+ 
+   CbCrLUT[vr + ur * 256] = clamp_to_u8(128 + ((r * -9699 + g * -19071 + b * 28770) >> 16)) << format.Cbshift;
+   CbCrLUT[vr + ur * 256] |= clamp_to_u8(128 + ((r * 28770 + g * -24117 + b * -4653) >> 16)) << format.Crshift;
+
+   //printf("%d %d %d, %08x\n", r, g, b, CbCrLUT[vr + ur * 256]);
   }
+ }
  for(int x = 0; x < 1152; x++)
  {
   if(x < 384) RGBDeflower[x] = 0;
@@ -1918,7 +2371,10 @@ static void RebuildUVLUT(void)
  }
 }
 
-static uint32 ALWAYS_INLINE YUV888_TO_RGB888(uint32 yuv)
+// FIXME
+static int rs, gs, bs;
+
+static uint32 INLINE YUV888_TO_RGB888(uint32 yuv)
 {
  int32 r, g, b;
  uint8 y = yuv >> 16;
@@ -1931,187 +2387,192 @@ static uint32 ALWAYS_INLINE YUV888_TO_RGB888(uint32 yuv)
  g = clamp_to_u8(g);
  b = clamp_to_u8(b);
 
- return((r << FSettings.rshift) | (g << FSettings.gshift) | (b << FSettings.bshift));
+ return((r << rs) | (g << gs) | (b << bs));
 }
 
-void KING_RunFrame(fx_vdc_t **vdc_chips, uint32 *pXBuf, MDFN_Rect *LineWidths, int skip)
+static uint32 INLINE YUV888_TO_YCbCr888(uint32 yuv)
 {
+ uint32 y;
+
+ y = 16 + ((((yuv >> 16) & 0xFF) * 220) >> 8);
+
+ return(y | CbCrLUT[yuv & 0xFFFF]);
+}
+
+// FIXME: 
+//static unsigned int lines_per_frame; //= (fx_vce.picture_mode & 0x1) ? 262 : 263;
+static VDC **vdc_chips;
+static MDFN_Surface *surface;
+static MDFN_Rect *DisplayRect;
+static MDFN_Rect *LineWidths;
+static int skip;
+
+void KING_StartFrame(VDC **arg_vdc_chips, MDFN_Surface *arg_surface, MDFN_Rect *arg_DisplayRect, MDFN_Rect *arg_LineWidths, int arg_skip)
+{
+ ::vdc_chips = arg_vdc_chips;
+ ::surface = arg_surface;
+ ::DisplayRect = arg_DisplayRect;
+ ::LineWidths = arg_LineWidths;
+ ::skip = arg_skip;
+
  //MDFN_DispMessage("P0:%06x P1:%06x; I0: %06x I1: %06x", king->ADPCMPlayAddress[0], king->ADPCMPlayAddress[1], king->ADPCMIntermediateAddress[0] << 6, king->ADPCMIntermediateAddress[1] << 6);
  //MDFN_DispMessage("%d %d\n", SCSICD_GetACK(), SCSICD_GetREQ());
 
- fx_vce.raster_counter = 0;
- for(;;)
+ // These 2 should be overwritten in the big loop below.
+ DisplayRect->x = 0;
+ DisplayRect->w = 256;
+
+ DisplayRect->y = MDFN_GetSettingUI("pcfx.slstart");
+ DisplayRect->h = MDFN_GetSettingUI("pcfx.slend") - DisplayRect->y + 1;
+
+
+ if(fx_vce.interlaced_count >= 1)
  {
-  uint32 vdc_linebuffers[2][512]  __attribute__ ((aligned (8)));
-  uint32 vdc_linebuffer[512]  __attribute__ ((aligned (8)));
-  uint32 vdc_linebuffer_yuved[512]  __attribute__ ((aligned (8)));
-  unsigned int width = (fx_vce.picture_mode & 0x08) ? 341 : 256;
-
-  #ifdef WANT_DEBUGGER
-  if(GfxDecode_Line == fx_vce.raster_counter)
-   DoGfxDecode();
-  #endif
-
-  if(fx_vce.raster_counter == king->RAINBOWTransferStartPosition && (king->RAINBOWTransferControl & 1))
+  skip = FALSE;
+  if(fx_vce.interlaced_count == 2)
   {
-   //printf("RBS: %d\n", fx_vce.raster_counter);
-   king->RAINBOWKRAMReadPos = king->RAINBOWKRAMA << 1;
-   RAINBOW_TransferStart();
-   king->RAINBOWTBC = king->RAINBOWTransferBlockCount + 1;
-   king->RAINBOWRasterCounter = 0;
+   DisplayRect->y *= 2;
+   DisplayRect->h *= 2;
+  }
+ }
+}
+
+static int rb_type;
+//  unsigned int width = (fx_vce.picture_mode & 0x08) ? 341 : 256;
+
+static void DrawActive(void)
+{
+ rb_type = -1;
+
+ #ifdef WANT_DEBUGGER
+ if(GfxDecode_Buf && GfxDecode_Line == fx_vce.raster_counter)
+  DoGfxDecode();
+ #endif
+
+ if(fx_vce.raster_counter == king->RAINBOWTransferStartPosition && (king->RAINBOWTransferControl & 1))
+ {
+  king->RAINBOWStartPending = TRUE;
+
+  //printf("Rainbow start pending: line=%d, busycount=%d, blockcount=%d\n", fx_vce.raster_counter, king->RAINBOWBusyCount, king->RAINBOWBlockCount);
+
+  //if(fx_vce.raster_counter == 262)
+  // puts("MOOO");
+ }
+
+ if(fx_vce.raster_counter < 262)
+ {
+  if(king->RAINBOWBusyCount)
+  {
+   king->RAINBOWBusyCount--;
+   if(!king->RAINBOWBusyCount)
+    RAINBOW_SwapBuffers();
   }
 
-  FXVDC_DoLine(vdc_chips[0], vdc_linebuffers[0], skip);
-  FXVDC_DoLine(vdc_chips[1], vdc_linebuffers[1], skip);
-
-  uint8 rb_data[256 * 4]; // *2 for YUV data
-  int rb_type = -1;
-
-  //if(fx_vce.raster_counter == king->RasterIRQLine && (king->RAINBOWTransferControl & 0x2))
-  //{
-  // //printf("Wovely: %d, %d, %d\n", fx_vce.raster_counter, king->RAINBOWRasterCounter, king->RAINBOWTransferControl);
-  // king->RasterIRQPending = TRUE;
-  // RedoKINGIRQCheck();
-  //}
-
-  if(king->RAINBOWTBC)
+  if(!king->RAINBOWBusyCount)
   {
-   rb_type = RAINBOW_FetchRaster(rb_data, king->RAINBOWTBC > 1, 0); //skip && fx_vce.raster_counter < (262 - 16));
-   king->RAINBOWRasterCounter = (king->RAINBOWRasterCounter + 1) & 0x1FF;
+   bool WantDecode = FALSE;
+   bool FirstDecode = FALSE;
 
-   if(!(king->RAINBOWRasterCounter & 0xF))
+   if(!king->RAINBOWBlockCount && king->RAINBOWStartPending)
    {
-    king->RAINBOWTBC--;
-    if(!king->RAINBOWTBC)
+    //printf("Rainbow start real: %d %d\n", fx_vce.raster_counter, king->RAINBOWTransferBlockCount);
+    king->RAINBOWBlockCount = king->RAINBOWTransferBlockCount;
+    if(king->RAINBOWBlockCount)
     {
-
+     king->RAINBOWKRAMReadPos = king->RAINBOWKRAMA << 1;
+     FirstDecode = TRUE;
     }
+   }
+
+   if(king->RAINBOWBlockCount)
+   {
+    king->RAINBOWBlockCount--;
+    WantDecode = TRUE;
+   }
+
+   if(WantDecode)
+   {
+    king->RAINBOWBusyCount = 16;
+
+    if(fx_vce.raster_counter == 262)
+     king->RAINBOWBusyCount++;
+
+    // If we ever change the emulation time range from the current 0 through 262/263, we will need to readjust this
+    // statement to prevent the previous frame's skip value to mess up the current frame's graphics data, since
+    // RAINBOW data is delayed by 16 scanlines from when it's decoded(16 + 15 maximum delay).
+    RAINBOW_DecodeBlock(FirstDecode, skip && fx_vce.raster_counter < 246);
    }
   }
 
-  if(fx_vce.raster_counter >= 22 && fx_vce.raster_counter < 262)
+  rb_type = RAINBOW_FetchRaster(skip ? NULL : rainbow_linebuffer, LAYER_RAINBOW << 28, &vce_rendercache.palette_table_cache[((fx_vce.palette_offset[3] >> 0) & 0xFF) << 1]);
+
+  king->RAINBOWStartPending = FALSE;
+ } // end   if(fx_vce.raster_counter < 262)
+
+ if(fx_vce.raster_counter >= 22 && fx_vce.raster_counter < 262)
+ {
+  if(!skip)
   {
-   int start, end;
-
-   if(width == 256)
-    start = 8 + 2 * 8;
-   else
-    start = 8 + 30; //64; //64;
-
-   end = start + width;
-
-   if(width == 341) // Fix for high dot-clock default layer mixing code, 1023 / 3 = 341(for rightmost pixel) so we ++ here, especially
-    end++;	    // so the layer number is set properly!
-
-   // 8 * 2 for left + right padding for scrolling
-   uint32 bg_linebuffer[256 + 8 + 8] __attribute__ ((aligned (8)));
-   uint32 rainbow_linebuffer[256] __attribute__ ((aligned (8)));
-
-   if(!skip)
+   if(rb_type == 1) // YUV
    {
-    uint32 vdc_poffset[2];
- 
-    vdc_poffset[0] = ((fx_vce.palette_offset[0] >> 0) & 0xFF) << 1; // BG
-    vdc_poffset[1] = ((fx_vce.palette_offset[0] >> 8) & 0xFF) << 1; // SPR
-
-    for(int x = start; x < end; x++)
+    // Only chroma key when we're not in 7.16MHz pixel mode
+    if(!(fx_vce.picture_mode & 0x08))
     {
-     static const uint32 layer_num[2] = { 4 << 28, 5 << 28};
-     uint32 zort[2];
+     const unsigned int ymin = fx_vce.ChromaKeyY & 0xFF;
+     const unsigned int ymax = fx_vce.ChromaKeyY >> 8;
+     const unsigned int umin = fx_vce.ChromaKeyU & 0xFF;
+     const unsigned int umax = fx_vce.ChromaKeyU >> 8;
+     const unsigned int vmin = fx_vce.ChromaKeyV & 0xFF;
+     const unsigned int vmax = fx_vce.ChromaKeyV >> 8;
 
-     zort[0] = vdc_linebuffers[0][x];
-     zort[1] = vdc_linebuffers[1][x];
-
-     // SPR combination
-     if((fx_vce.picture_mode & 0x80) && (zort[1] & 0x100) && (zort[1] & 0x80) && !(zort[1] & 0x200))
+     if((fx_vce.ChromaKeyY | fx_vce.ChromaKeyU | fx_vce.ChromaKeyV) == 0)
      {
-      uint8 cheepix = (zort[1] & 0xF) | ((zort[0] & 0xF) << 4);
-      uint32 pali = (cheepix + vdc_poffset[1]) & 0x1FF;
-
-      zort[0] = zort[1] = (pali & 0x1FF) | 0x200;
-
-      if(!cheepix) { zort[0] |= 0x400; zort[1] |= 0x400; }
-     }
-     // BG combination
-     else if((fx_vce.picture_mode & 0x40) && !(zort[1] & 0x100) && (zort[1] & 0x80) && !(zort[1] & 0x200))
-     {
-      uint8 cheepix = (zort[1] & 0xF) | ((zort[0] & 0xF) << 4);
-      uint32 pali = (cheepix + vdc_poffset[0]) & 0x1FF;
-
-      zort[0] = zort[1] = pali;
-      
-      if(!cheepix) { zort[0] |= 0x400; zort[1] |= 0x400; }
-     }
-     else
-     {
-      zort[0] = ((vdc_poffset[(zort[0] >> 8) & 1] + (zort[0]&0xFF)) & 0x1FF) | ((zort[0] & 0x300) << 1);
-      zort[1] = ((vdc_poffset[(zort[1] >> 8) & 1] + (zort[1]&0xFF)) & 0x1FF) | ((zort[1] & 0x300) << 1);
-     }
-
-     vdc_linebuffer[x - start] = vdc_linebuffers[0][x];
-
-     if(!(zort[1] & 0x400))
-     {
-      vdc_linebuffer[x - start] = vdc_linebuffers[1][x];
-      zort[0] = zort[1];
-     }
-     // Original:
-     //vdc_linebuffer_yuved[x] = fx_vce.palette_table_cache[zort[0] & 0x1FF] | ((zort[0] & 0x200) ? 5 << 28 : 4 << 28) | ((zort[0] & 0x400) ? TRANS_OR : 0);
-     // Optimized:
-     vdc_linebuffer_yuved[x - start] = fx_vce.palette_table_cache[zort[0] & 0x1FF] | layer_num[(zort[0] >> 9) & 1] | ((zort[0] & 0x400) << (TRANS_OR_SHIFT - 10));
-    }
-
-    if(rb_type == 1) // YUV
-    {
-     #if 0
-     // Gah, disabling chroma key creates a super-evil green border of doom in Nirgends during movies :(
-     if(fx_vce.picture_mode & 0x08) // No chroma key in 7.16MHz pixel mode
-     {
-      uint32 *meow = (uint32 *)rb_data;
-
+      //puts("Opt: 0 chroma key");
       for(int x = 0; x < 256; x++)
-       rainbow_linebuffer[x] = (meow[x] &~ TRANS_OR) | (6 << 28);
+      {
+       if(!(rainbow_linebuffer[x] & 0xFFFFFF))
+        rainbow_linebuffer[x] = 0;
+      }
      }
-     else // Otherwise, chroma key away!
-     #endif
+     else if(ymin == ymax && umin == umax && vmin == vmax)
      {
-      uint32 *meow = (uint32 *)rb_data;
-      unsigned int ymin = fx_vce.ChromaKeyY & 0xFF;
-      unsigned int ymax = fx_vce.ChromaKeyY >> 8;
-      unsigned int umin = fx_vce.ChromaKeyU & 0xFF;
-      unsigned int umax = fx_vce.ChromaKeyU >> 8;
-      unsigned int vmin = fx_vce.ChromaKeyV & 0xFF;
-      unsigned int vmax = fx_vce.ChromaKeyV >> 8;
+      const uint32 compare_color = (ymin << 16) | (umin << 8) | (vmin << 0);
+
+      //puts("Opt: Single color chroma key");
 
       for(int x = 0; x < 256; x++)
       {
-       unsigned int y, u, v;
-       uint32 pixel = meow[x];
-       pixel |= 6 << 28;
-
-       y = (pixel >> 16) & 0xFF;
-       u = (pixel >> 8) & 0xFF;
-       v = (pixel >> 0) & 0xFF;
-
-       if(y >= ymin && y <= ymax && u >= umin && u <= umax && v >= vmin && v <= vmax)
-        pixel |= TRANS_OR;
-
-       rainbow_linebuffer[x] = pixel;
+       if((rainbow_linebuffer[x] & 0xFFFFFF) == compare_color)
+        rainbow_linebuffer[x] = 0;
       }
      }
-    }
-    else if(rb_type == 0)
-    {
-     uint32 *rb_pptr = &fx_vce.palette_table_cache[((fx_vce.palette_offset[3] >> 0) & 0xFF) << 1];
-
-     for(int x = 0; x < 256; x++)
+     else if(ymin <= ymax && umin <= umax && vmin <= vmax)
      {
-      rainbow_linebuffer[x] = rb_pptr[rb_data[x]] | TTRANS(rb_data[x]) | (6 << 28);
+      const uint32 yv_min_sub = (ymin << 16) | vmin;
+      const uint32 u_min_sub = umin << 8;
+      const uint32 yv_max_add = ((0xFF - ymax) << 16) | (0xFF - vmax);
+      const uint32 u_max_add = (0xFF - umax) << 8;
+
+      for(int x = 0; x < 256; x++)
+      {
+       const uint32 pixel = rainbow_linebuffer[x];
+       const uint32 yv = pixel & 0xFF00FF;
+       const uint32 u = pixel & 0x00FF00;
+       uint32 testie;
+
+       testie = ((yv - yv_min_sub) | (yv + yv_max_add)) & 0xFF00FF00;
+       testie |= ((u - u_min_sub) | (u + u_max_add)) & 0x00FF00FF;
+
+       if(!testie)
+        rainbow_linebuffer[x] = 0;
+      }
+     }
+     else
+     {
+      //puts("Opt: color keying off\n");
      }
     }
-    else
-     MDFN_FastU32MemsetM8(rainbow_linebuffer, TRANS_OR | (6 << 28), 256);
-
+   }
 
     /*
         4 = Foremost
@@ -2119,9 +2580,12 @@ void KING_RunFrame(fx_vdc_t **vdc_chips, uint32 *pXBuf, MDFN_Rect *LineWidths, i
         0 = Hidden
     */
 
-    MDFN_FastU32MemsetM8(bg_linebuffer + 8, TRANS_OR | (0 << 28), 256);
+   MDFN_FastU32MemsetM8(bg_linebuffer + 8, 0, 256);
 
-    for(int prio = 7; prio >= 1; prio--)
+    // Only bother to draw the BGs if the microprogram is enabled.
+   if(king->MPROGControl & 0x1)
+   {
+    for(int prio = 1; prio <= 7; prio++)
     {
      for(int x = 0; x < 4; x++)
      {
@@ -2130,41 +2594,101 @@ void KING_RunFrame(fx_vdc_t **vdc_chips, uint32 *pXBuf, MDFN_Rect *LineWidths, i
       if(BGLayerDisable & (1 << x)) continue;
 
       if(thisprio == prio)
-       DrawBG(bg_linebuffer, x);
+      {
+       //if(fx_vce.raster_counter == 50)
+        // CanDrawBG_Fast(x);
+
+       // TODO/FIXME: TEST MORE
+       if(CanDrawBG_Fast(x)) // && (rand() & 1))
+	DrawBG_Fast(bg_linebuffer, x);
+       else
+        DrawBG(bg_linebuffer, x, 0);
+      }
      }
     }
+   }
+
+  } // end if(!skip)
+ } // end if(fx_vce.raster_counter >= 22 && fx_vce.raster_counter < 262)
+}
+
+static INLINE void VDC_PIXELMIX(bool SPRCOMBO_ON, bool BGCOMBO_ON)
+{
+    static const uint32 vdc_layer_num[2] = { LAYER_VDC_BG << 28, LAYER_VDC_SPR << 28};
+    const uint32 vdc_poffset[2] = {
+                                ((fx_vce.palette_offset[0] >> 0) & 0xFF) << 1, // BG
+                                ((fx_vce.palette_offset[0] >> 8) & 0xFF) << 1 // SPR
+                               };
+
+    const int width = fx_vce.dot_clock ? 342 : 256; // 342, not 341, to prevent garbage pixels in high dot clock mode.
+
+    for(int x = 0; x < width; x++)
+    {
+     const uint32 zort[2] = { vdc_linebuffers[0][x], vdc_linebuffers[1][x] };
+     uint32 tmp_pixel;
+   
+     /* SPR combination */
+     if(SPRCOMBO_ON && (zort[1] & 0x18F) > 0x180)
+      tmp_pixel = (zort[1] & 0xF) | ((zort[0] & 0xF) << 4) | 0x100;
+     /* BG combination  */                                                      
+     else if(BGCOMBO_ON && ((zort[1] ^ 0x100) & 0x18F) > 0x180)
+      tmp_pixel = (zort[1] & 0xF) | ((zort[0] & 0xF) << 4);
+     else
+      tmp_pixel = (zort[1] & 0xF) ? zort[1] : zort[0];
+
+     vdc_linebuffer[x] = tmp_pixel;
+     vdc_linebuffer_yuved[x] = 0;
+     if(tmp_pixel & 0xF)
+      vdc_linebuffer_yuved[x] = vce_rendercache.palette_table_cache[(tmp_pixel & 0xFF) + vdc_poffset[(tmp_pixel >> 8) & 1]] | vdc_layer_num[(tmp_pixel >> 8) & 1];
+    }
+}
+
+static void MixVDC(void) NO_INLINE;
+static void MixVDC(void)
+{
+    // Optimization for when both layers are disabled in the VCE.
+    if(!vce_rendercache.LayerPriority[LAYER_VDC_BG] && !vce_rendercache.LayerPriority[LAYER_VDC_SPR])
+    {
+     MDFN_FastU32MemsetM8(vdc_linebuffer_yuved, 0, 512);
+    }
+    else switch(fx_vce.picture_mode & 0xC0)
+    {
+     case 0x00: VDC_PIXELMIX(0, 0); break;      // None on
+     case 0x40: VDC_PIXELMIX(0, 1); break;      // BG combo on
+     case 0x80: VDC_PIXELMIX(1, 0); break;      // SPR combo on
+     case 0xC0: VDC_PIXELMIX(1, 1); break;      // Both on
+    }
+}
+
+
+static void MixLayers(void)
+{
+ uint32 *pXBuf = surface->pixels;
 
     // Now we have to mix everything together... I'm scared, mommy.
     // We have, vdc_linebuffer[0] and bg_linebuffer
-    // Which layer is specified in bits 28-31:
-    //  0 : BG0, 1: BG1, 2: BG2, 3: BG3
-    //  4 : VDC BG, 5: VDC SPR
-    //  6 : RAINBOW
-    uint32 priority_remap[7];
+    // Which layer is specified in bits 28-31(check the enum earlier on)
+    uint32 priority_remap[8];
     uint32 ble_cache[8];
     bool ble_cache_any = FALSE;
 
-    //MDFN_DispMessage("%04x %04x, %04x-%04x %04x-%04x %04x-%04x", fx_vce.BLE, fx_vce.CCR, fx_vce.coefficients[0], fx_vce.coefficients[1], fx_vce.coefficients[2], fx_vce.coefficients[3], fx_vce.coefficients[4], fx_vce.coefficients[5]);
-    for(int x = 0; x < 4; x++)
+    for(int n = 0; n < 8; n++)
     {
-     priority_remap[x] = (((fx_vce.priority[1] >> (x * 4)) & 0xF) + 1) & fx_vce.layer_mask_cache[x];
-     //printf("RM: %d %d\n", x, priority_remap[x]);
+     priority_remap[n] = vce_rendercache.LayerPriority[n];
+     //printf("%d: %d\n", n, priority_remap[n]);
     }
-    priority_remap[4] = ((fx_vce.priority[0] & 0xF) + 1) & fx_vce.layer_mask_cache[4];
-    priority_remap[5] = (((fx_vce.priority[0] >> 4) & 0xF) + 1) & fx_vce.layer_mask_cache[5];
-    priority_remap[6] = (((fx_vce.priority[0] >> 8) & 0xF) + 1) & fx_vce.layer_mask_cache[6];
 
     // Rainbow layer disabled?
     if(rb_type == -1 || RAINBOWLayerDisable)
-     priority_remap[6] = 0;
+     priority_remap[LAYER_RAINBOW] = 0;
 
+    ble_cache[LAYER_NONE] = 0;
     for(int x = 0; x < 4; x++)
-     ble_cache[x] = (fx_vce.BLE >> (4 + x * 2)) & 0x3;
+     ble_cache[LAYER_BG0 + x] = (vce_rendercache.BLE >> (4 + x * 2)) & 0x3;
 
-    ble_cache[4] = (fx_vce.BLE >> 0) & 0x3;
-    ble_cache[5] = (fx_vce.BLE >> 2) & 0x3;
-    ble_cache[6] = (fx_vce.BLE >> 12) & 0x3;
-    ble_cache[7] = 0;
+    ble_cache[LAYER_VDC_BG] = (vce_rendercache.BLE >> 0) & 0x3;
+    ble_cache[LAYER_VDC_SPR] = (vce_rendercache.BLE >> 2) & 0x3;
+    ble_cache[LAYER_RAINBOW] = (vce_rendercache.BLE >> 12) & 0x3;
 
     for(int x = 0; x < 8; x++)
      if(ble_cache[x])
@@ -2180,17 +2704,23 @@ void KING_RunFrame(fx_vdc_t **vdc_chips, uint32 *pXBuf, MDFN_Rect *LineWidths, i
 
     for(int x = 0; x < 3; x++)
     {
-     coeff_cache_y_fore[x] = fx_vce.coefficient_mul_table_y[(fx_vce.coefficients[x * 2 + 0] >> 8) & 0xF];
-     coeff_cache_u_fore[x] = fx_vce.coefficient_mul_table_uv[(fx_vce.coefficients[x * 2 + 0] >> 4) & 0xF];
-     coeff_cache_v_fore[x] = fx_vce.coefficient_mul_table_uv[(fx_vce.coefficients[x * 2 + 0] >> 0) & 0xF];
+     coeff_cache_y_fore[x] = vce_rendercache.coefficient_mul_table_y[(vce_rendercache.coefficients[x * 2 + 0] >> 8) & 0xF];
+     coeff_cache_u_fore[x] = vce_rendercache.coefficient_mul_table_uv[(vce_rendercache.coefficients[x * 2 + 0] >> 4) & 0xF];
+     coeff_cache_v_fore[x] = vce_rendercache.coefficient_mul_table_uv[(vce_rendercache.coefficients[x * 2 + 0] >> 0) & 0xF];
 
-     coeff_cache_y_back[x] = fx_vce.coefficient_mul_table_y[(fx_vce.coefficients[x * 2 + 1] >> 8) & 0xF];
-     coeff_cache_u_back[x] = fx_vce.coefficient_mul_table_uv[(fx_vce.coefficients[x * 2 + 1] >> 4) & 0xF];
-     coeff_cache_v_back[x] = fx_vce.coefficient_mul_table_uv[(fx_vce.coefficients[x * 2 + 1] >> 0) & 0xF];
+     coeff_cache_y_back[x] = vce_rendercache.coefficient_mul_table_y[(vce_rendercache.coefficients[x * 2 + 1] >> 8) & 0xF];
+     coeff_cache_u_back[x] = vce_rendercache.coefficient_mul_table_uv[(vce_rendercache.coefficients[x * 2 + 1] >> 4) & 0xF];
+     coeff_cache_v_back[x] = vce_rendercache.coefficient_mul_table_uv[(vce_rendercache.coefficients[x * 2 + 1] >> 0) & 0xF];
     }
 
-    uint32 *target = pXBuf + (MDFNGameInfo->pitch >> 2) * (fx_vce.raster_counter - 22);
-    uint32 BPC_Cache = TRANS_OR | (7 << 28); // Backmost pixel color(cache)
+    uint32 *target;
+    uint32 BPC_Cache = (LAYER_NONE << 28); // Backmost pixel color(cache)
+
+    if(fx_vce.interlaced_count == 2)
+     target = pXBuf + surface->pitch32 * ((fx_vce.raster_counter - 22) * 2 + fx_vce.odd_field);
+    else
+     target = pXBuf + surface->pitch32 * (fx_vce.raster_counter - 22);
+    
 
     // If at least one layer is enabled with the HuC6261, hindmost color is palette[0]
     // If no layers are on, this color is black.
@@ -2201,13 +2731,13 @@ void KING_RunFrame(fx_vdc_t **vdc_chips, uint32 *pXBuf, MDFN_Rect *LineWidths, i
     //  or if it just outputs black.
     // TODO:  See if enabling front/back cellophane in high dot-clock mode will set the hindmost color, even though the cellophane color mixing
     //  is disabled in high dot-clock mode.
-    if(fx_vce.picture_mode & 0x7F00)
-     BPC_Cache |= fx_vce.palette_table_cache[0];
+    if(vce_rendercache.picture_mode & 0x7F00)
+     BPC_Cache |= vce_rendercache.palette_table_cache[0];
     else			
      BPC_Cache |= 0x008080;
 
 #define DOCELLO(pixpoo) \
-	if((pixel[pixpoo] >> 28) != 5 || ((fx_vce.SPBL >> ((vdc_linebuffer[x] & 0xF0)>> 4)) & 1))	\
+	if((pixel[pixpoo] >> 28) != LAYER_VDC_SPR || ((vce_rendercache.SPBL >> ((vdc_linebuffer[x] & 0xF0)>> 4)) & 1))	\
         {	\
          int which_co = (ble_cache[pixel[pixpoo] >> 28] - 1);	\
          uint8 back_y = coeff_cache_y_back[which_co][(zeout >> 16) & 0xFF];	\
@@ -2235,30 +2765,32 @@ void KING_RunFrame(fx_vdc_t **vdc_chips, uint32 *pXBuf, MDFN_Rect *LineWidths, i
       prio[0] = priority_remap[vdc_linebuffer_yuved[index_341] >> 28];  \
       prio[1] = priority_remap[(bg_linebuffer + 8)[index_256] >> 28];	\
       prio[2] = priority_remap[rainbow_linebuffer[index_256] >> 28];	\
-      pixel[0] = zeout;	\
-      pixel[1] = zeout;	\
-      pixel[2] = zeout;	\
+      pixel[0] = 0;	\
+      pixel[1] = 0;	\
+      pixel[2] = 0;	\
       {	\
-       uint8 pi0 = happymap[prio[0]][prio[1]][prio[2]][0];	\
-       uint8 pi1 = happymap[prio[0]][prio[1]][prio[2]][1];	\
-       uint8 pi2 = happymap[prio[0]][prio[1]][prio[2]][2];	\
-       if(pixel[pi0] & TRANS_OR) pixel[pi0] = vdc_linebuffer_yuved[index_341];  \
-       if(pixel[pi1] & TRANS_OR) pixel[pi1] = (bg_linebuffer + 8)[index_256];	\
-       if(pixel[pi2] & TRANS_OR) pixel[pi2] = rainbow_linebuffer[index_256];	\
+       uint8 pi0 = VCEPrioMap[prio[0]][prio[1]][prio[2]][0];	\
+       uint8 pi1 = VCEPrioMap[prio[0]][prio[1]][prio[2]][1];	\
+       uint8 pi2 = VCEPrioMap[prio[0]][prio[1]][prio[2]][2];	\
+       /*assert(pi0 == 3 || !pixel[pi0]);*/ pixel[pi0] = vdc_linebuffer_yuved[index_341]; 	\
+       /*assert(pi1 == 3 || !pixel[pi1]);*/ pixel[pi1] = (bg_linebuffer + 8)[index_256];	\
+       /*assert(pi2 == 3 || !pixel[pi2]);*/ pixel[pi2] = rainbow_linebuffer[index_256];		\
       }
 
 #define LAYER_MIX_FINAL_NOCELLO	\
-       if(!(pixel[0] & TRANS_OR))	\
+       if(pixel[0])	\
         zeout = pixel[0];	\
-       if(!(pixel[1] & TRANS_OR))	\
+       if(pixel[1])	\
          zeout = pixel[1];	\
-       if(!(pixel[2] & TRANS_OR))	\
+       if(pixel[2])	\
          zeout = pixel[2];	\
-       target[x] = YUV888_TO_RGB888(zeout);	\
+       target[x] = YUV888_TO_xxx(zeout);	\
       }
 
+// For back cellophane, the hindmost pixel is always a valid pixel to mix with, a "layer" in its own right,
+// so we don't need to check the current pixel value before mixing.
 #define LAYER_MIX_FINAL_BACK_CELLO     \
-      if(!(pixel[0] & TRANS_OR))        \
+      if(pixel[0])        \
       { \
        if(ble_cache[pixel[0] >> 28])     \
        {        \
@@ -2267,7 +2799,7 @@ void KING_RunFrame(fx_vdc_t **vdc_chips, uint32 *pXBuf, MDFN_Rect *LineWidths, i
        else     \
         zeout = pixel[0];       \
       } \
-      if(!(pixel[1] & TRANS_OR))        \
+      if(pixel[1])        \
       { \
        if(ble_cache[pixel[1] >> 28])     \
        {        \
@@ -2276,7 +2808,7 @@ void KING_RunFrame(fx_vdc_t **vdc_chips, uint32 *pXBuf, MDFN_Rect *LineWidths, i
        else     \
         zeout = pixel[1];       \
       } \
-      if(!(pixel[2] & TRANS_OR))        \
+      if(pixel[2])        \
       { \
        if(ble_cache[pixel[2] >> 28])     \
        {        \
@@ -2285,24 +2817,36 @@ void KING_RunFrame(fx_vdc_t **vdc_chips, uint32 *pXBuf, MDFN_Rect *LineWidths, i
        else     \
         zeout = pixel[2];       \
       } \
-      target[x] = YUV888_TO_RGB888(zeout);      \
+      target[x] = YUV888_TO_xxx(zeout);      \
      }
 
+// ..however, for front and "normal" cellophane, we need to make sure that the
+// layer is indeed a real layer(KBG, VDC, RAINBOW) before mixing.
+// Note: We need to check the upper 4 bits in determining whether the previous pixel is from a real layer or not, because the default
+// hindmost non-layer color in front cellophane and normal cellophane modes is black, and black is represented in YUV as non-zero.  We COULD bias/XOR each of U/V
+// by 0x80 in the rendering code so that it would work if we just tested for the non-zeroness of the previous pixel, and adjust the YUV->RGB
+// to compensate...TODO as a future possible optimization(MAYBE, it would obfuscate things more than they already are).
+//
+// Also, since the hindmost real layer pixel will never mix with anything behind it, we can leave
+// out a few checks for the first possible hindmost real pixel.
+//
+// Also, the front cellophane effect itself doesn't need to check if the effective pixel output is a real layer (TODO: Confirm on real hardware!)
+//
 #define LAYER_MIX_FINAL_FRONT_CELLO	\
-      if(!(pixel[0] & TRANS_OR))	\
+      if(pixel[0])	\
        zeout = pixel[0];	\
-      if(!(pixel[1] & TRANS_OR))	\
+      if(pixel[1])	\
       {	\
-       if(ble_cache[pixel[1] >> 28] && !(zeout & TRANS_OR)) \
+       if(ble_cache[pixel[1] >> 28] && (zeout & (0xF << 28))) \
        {	\
         DOCELLO(1);	\
        }	\
        else	\
         zeout = pixel[1];	\
       }	\
-      if(!(pixel[2] & TRANS_OR))	\
+      if(pixel[2])	\
       {	\
-       if(ble_cache[pixel[2] >> 28] && !(zeout & TRANS_OR))	\
+       if(ble_cache[pixel[2] >> 28] && (zeout & (0xF << 28)))	\
        {	\
         DOCELLO(2);	\
        }	\
@@ -2310,136 +2854,229 @@ void KING_RunFrame(fx_vdc_t **vdc_chips, uint32 *pXBuf, MDFN_Rect *LineWidths, i
         zeout = pixel[2];	\
       }	\
       DOCELLOSPECIALFRONT();	\
-      target[x] = YUV888_TO_RGB888(zeout);	\
+      target[x] = YUV888_TO_xxx(zeout);	\
      }
 
 #define LAYER_MIX_FINAL_CELLO	\
-      if(!(pixel[0] & TRANS_OR))	\
+      if(pixel[0])	\
        zeout = pixel[0];	\
-      if(!(pixel[1] & TRANS_OR))	\
+      if(pixel[1])	\
       {	\
-       if(ble_cache[pixel[1] >> 28] && !(zeout & TRANS_OR)) 	\
+       if(ble_cache[pixel[1] >> 28] && (zeout & (0xF << 28))) 	\
        {	\
         DOCELLO(1);	\
        }	\
        else	\
         zeout = pixel[1];	\
       }	\
-      if(!(pixel[2] & TRANS_OR))	\
+      if(pixel[2])	\
       {	\
-       if(ble_cache[pixel[2] >> 28] && !(zeout & TRANS_OR))	\
+       if(ble_cache[pixel[2] >> 28] && (zeout & (0xF << 28)))	\
        {	\
         DOCELLO(2);	\
        }	\
        else	\
         zeout = pixel[2];	\
       }	\
-      target[x] = YUV888_TO_RGB888(zeout);	\
+      target[x] = YUV888_TO_xxx(zeout);	\
      }
 
-    if(fx_vce.picture_mode & 0x08) // No cellophane in 7.16MHz pixel mode
+    if(surface->format.colorspace == MDFN_COLORSPACE_YCbCr)
     {
-     if(HighDotClockWidth == 341)
-      for(unsigned int x = 0; x < 341; x++)
-      {
-       LAYER_MIX_BODY(x * 256 / 341, x);
-       LAYER_MIX_FINAL_NOCELLO;
-      }
-     else if(HighDotClockWidth == 256)
-      for(unsigned int x = 0; x < 256; x++)
-      {
-       LAYER_MIX_BODY(x, x * 341 / 256);
-       LAYER_MIX_FINAL_NOCELLO;
-      }
-     else
-      for(unsigned int x = 0; x < 1024; x++)
-      {
-       LAYER_MIX_BODY(x / 4, x / 3);
-       LAYER_MIX_FINAL_NOCELLO;
-      }
+     #define YUV888_TO_xxx YUV888_TO_YCbCr888
+     #include "king_mix_body.inc"
+     #undef YUV888_TO_xxx
     }
-    else if((fx_vce.BLE & 0xC000) == 0xC000) // Front cellophane
+    else
     {
-     uint8 CCR_Y_front = fx_vce.coefficient_mul_table_y[(fx_vce.coefficients[0] >> 8) & 0xF][(fx_vce.CCR >> 8) & 0xFF];
-     int8 CCR_U_front = fx_vce.coefficient_mul_table_uv[(fx_vce.coefficients[0] >> 4) & 0xF][(fx_vce.CCR & 0xF0)];
-     int8 CCR_V_front = fx_vce.coefficient_mul_table_uv[(fx_vce.coefficients[0] >> 0) & 0xF][(fx_vce.CCR << 4) & 0xF0];
-
-     BPC_Cache = 0x008080 | (7 << 28) | TRANS_OR;
-
-     for(unsigned int x = 0; x < 256; x++)
-     {
-      LAYER_MIX_BODY(x, x);
-      LAYER_MIX_FINAL_FRONT_CELLO;
-     }
+     #define YUV888_TO_xxx YUV888_TO_RGB888
+     #include "king_mix_body.inc"
+     #undef YUV888_TO_xxx
     }
-    else if((fx_vce.BLE & 0xC000) == 0x4000) // Back cellophane
+    DisplayRect->w = fx_vce.dot_clock ? HighDotClockWidth : 256;
+    DisplayRect->x = 0;
+
+    if(fx_vce.interlaced_count == 2)
     {
-     BPC_Cache = ((fx_vce.CCR & 0xFF00) << 8) | ((fx_vce.CCR & 0xF0) << 8) | ((fx_vce.CCR & 0x0F) << 4) | (7 << 28) | TRANS_OR;
+     uint32 *target2 = pXBuf + surface->pitch32 * ((fx_vce.raster_counter - 22) * 2 + (fx_vce.odd_field ^ 1));
 
-     for(unsigned int x = 0; x < 256; x++)
-     {
-      LAYER_MIX_BODY(x, x);
-      LAYER_MIX_FINAL_BACK_CELLO;
-     }
+     LineWidths[(fx_vce.raster_counter - 22) * 2 + fx_vce.odd_field] = *DisplayRect;
+     LineWidths[(fx_vce.raster_counter - 22) * 2 + (fx_vce.odd_field ^ 1)] = fx_vce.LastLineWidths[fx_vce.raster_counter - 22];
+
+     memcpy(target2, &fx_vce.LastField[(fx_vce.raster_counter - 22) * 1024], 1024 * sizeof(uint32));
     }
-    else if(ble_cache_any)		     // No front/back cello, but cellophane on at least 1 layer
+    else
+     LineWidths[fx_vce.raster_counter - 22] = *DisplayRect;
+
+    if(fx_vce.interlaced_count)
     {
-     for(unsigned int x = 0; x < 256; x++)
-     {
-      LAYER_MIX_BODY(x, x);
-      LAYER_MIX_FINAL_CELLO
-     }
+     memcpy(&fx_vce.LastField[(fx_vce.raster_counter - 22) * 1024], target, 1024 * sizeof(uint32));
+     fx_vce.LastLineWidths[fx_vce.raster_counter - 22] = *DisplayRect;
     }
-    else				     // No cellophane at all
-    {
-     for(unsigned int x = 0; x < 256; x++)
-     {
-      LAYER_MIX_BODY(x, x);
-      LAYER_MIX_FINAL_NOCELLO
-     }
-    }
-   }
-   MDFNGameInfo->DisplayRect.w = (width == 341) ? HighDotClockWidth : width;
-   MDFNGameInfo->DisplayRect.x = 0;
-   LineWidths[fx_vce.raster_counter - 22] = MDFNGameInfo->DisplayRect;
-  }
 
-  int hblank_run = 85 * 4;
-
-  if(fx_vce.raster_counter == 5)
-  {
-   FXVDC_VSync(vdc_chips[0]);
-   FXVDC_VSync(vdc_chips[1]);
-  }
-
-  v810_run(1365 - hblank_run);	// Run active display
-
-  // HBlank here:
-
-  FXVDC_DoLineHBlank(vdc_chips[0]);
-  FXVDC_DoLineHBlank(vdc_chips[1]);
-
-  fx_vce.in_hblank = TRUE;
-  fx_vce.raster_counter = (fx_vce.raster_counter + 1) % 263;
-
-  if(fx_vce.raster_counter == king->RasterIRQLine && (king->RAINBOWTransferControl & 0x2))
-  {
-   //printf("Wovely: %d, %d, %d\n", fx_vce.raster_counter, king->RAINBOWRasterCounter, king->RAINBOWTransferControl);
-   king->RasterIRQPending = TRUE;
-   RedoKINGIRQCheck();
-  }
-
-  v810_run(hblank_run);		// Run hblank
-  fx_vce.in_hblank = FALSE;
-
-  if(!fx_vce.raster_counter)
-   break;
- }
 }
 
-void KING_SetPixelFormat(int rshift, int gshift, int bshift)
+static INLINE void RunVDCs(const int master_cycles, uint16 *pixels0, uint16 *pixels1)
 {
- RebuildUVLUT();
+ int32 div_clocks;
+
+ fx_vce.clock_divider += master_cycles;
+ div_clocks = fx_vce.clock_divider / fx_vce.dot_clock_ratio;
+ fx_vce.clock_divider -= div_clocks * fx_vce.dot_clock_ratio;
+
+ if(pixels0)
+  pixels0 += vdc_lb_pos;
+
+ if(pixels1)
+  pixels1 += vdc_lb_pos;
+
+ assert((vdc_lb_pos + div_clocks) <= 512);
+
+ fx_vce.vdc_event[0] = vdc_chips[0]->Run(div_clocks, pixels0, pixels0 ? false : true);
+ fx_vce.vdc_event[1] = vdc_chips[1]->Run(div_clocks, pixels1, pixels1 ? false : true);
+
+ vdc_lb_pos += div_clocks;
+
+// printf("%d\n", vdc_lb_pos);
+// if(fx_vce.dot_clock)
+//  assert(vdc_lb_pos <= 342);
+// else
+//  assert(vdc_lb_pos <= 257);
+}
+
+static void MDFN_FASTCALL KING_RunGfx(int32 clocks)
+{
+ while(clocks > 0)
+ {
+  int32 chunk_clocks = clocks;
+
+  if(chunk_clocks > HPhaseCounter)
+   chunk_clocks = HPhaseCounter;
+
+  clocks -= chunk_clocks;
+  HPhaseCounter -= chunk_clocks;
+
+  if(skip)
+   RunVDCs(chunk_clocks, NULL, NULL);
+  else if(fx_vce.in_hblank)
+  {
+   static uint16 dummybuf[1024];
+   RunVDCs(chunk_clocks, dummybuf, dummybuf);
+  }
+  else
+  {
+   RunVDCs(chunk_clocks, vdc_linebuffers[0], vdc_linebuffers[1]);
+  }
+
+  assert(HPhaseCounter >= 0);
+
+  while(HPhaseCounter <= 0)
+  {
+   HPhase = (HPhase + 1) % HPHASE_COUNT;
+   switch(HPhase)
+   {
+    case HPHASE_ACTIVE: vdc_lb_pos = 0;
+			fx_vce.in_hblank = false;
+			DoHBlankVCECaching();
+			DrawActive();
+			HPhaseCounter += 1024;
+			break;
+
+    case HPHASE_HBLANK_PART1:
+                        if(!skip)
+                        {
+                         if(fx_vce.raster_counter >= 22 && fx_vce.raster_counter < 262)
+                         {
+                          MixVDC();
+                          MixLayers();
+                         }
+                        }
+			fx_vce.in_hblank = true;
+                        fx_vce.in_vdc_hsync = true;
+
+                        for(int chip = 0; chip < 2; chip++)
+                         vdc_chips[chip]->HSync(true);
+
+			HPhaseCounter += 48;
+			break;
+
+    case HPHASE_HBLANK_PART3:
+			fx_vce.raster_counter = (fx_vce.raster_counter + 1) % ((fx_vce.picture_mode & 0x1) ? 262 : 263); //lines_per_frame;
+
+                        if(fx_vce.raster_counter == 0)
+                         for(int chip = 0; chip < 2; chip++)
+                          vdc_chips[chip]->VSync(true);
+
+                        if(fx_vce.raster_counter == 3)
+                         for(int chip = 0; chip < 2; chip++)
+                          vdc_chips[chip]->VSync(false);
+
+			if(!fx_vce.raster_counter)
+			{
+			 fx_vce.frame_interlaced = fx_vce.picture_mode & 2;
+
+			 if(fx_vce.frame_interlaced)
+			 {
+			  fx_vce.odd_field ^= 1;
+			  if(fx_vce.interlaced_count < 2)
+			   fx_vce.interlaced_count++;
+			 }
+			 else
+			 {
+			  fx_vce.odd_field = 0;
+			  fx_vce.interlaced_count = 0;
+			 }
+			}
+
+			if(fx_vce.raster_counter == king->RasterIRQLine && (king->RAINBOWTransferControl & 0x2))
+			{
+			 //printf("Wovely: %d, %d, %d\n", fx_vce.raster_counter, king->RAINBOWRasterCounter, king->RAINBOWTransferControl);
+
+			 //if(fx_vce.raster_counter == 262)
+			 //{
+			 // printf("Rainbow raster IRQ on line 262?\n");
+			 //}
+			 //else
+			 {
+			  king->RasterIRQPending = TRUE;
+			  RedoKINGIRQCheck();
+			 }
+			}
+
+			if(!fx_vce.raster_counter)
+			 PCFX_V810.Exit();
+
+			// This -18(and +18) may or may not be correct in regards to how a real PC-FX adjusts the VDC layer horizontal position
+			// versus the KING and RAINBOW layers.
+
+			if(fx_vce.dot_clock)
+			 HPhaseCounter += 173 - 18;
+			else
+			 HPhaseCounter += 165;
+			break;
+
+    case HPHASE_HBLANK_PART4:
+			fx_vce.in_vdc_hsync = false;
+                        for(int chip = 0; chip < 2; chip++)
+			 vdc_chips[chip]->HSync(false);
+
+			if(fx_vce.dot_clock)
+			 HPhaseCounter += 120 + 18;
+			else
+ 		  	 HPhaseCounter += 128;
+			break;
+
+   } // end: switch(HPhase)
+  } // end: while(HPhaseCounter <= 0)
+ } // end: while(clocks > 0)
+} // end KING_RunGfx()
+
+void KING_SetPixelFormat(const MDFN_PixelFormat &format) 
+{
+ rs = format.Rshift;
+ gs = format.Gshift;
+ bs = format.Bshift;
+ RebuildUVLUT(format);
 }
 
 bool KING_ToggleLayer(int which)
@@ -2452,11 +3089,11 @@ bool KING_ToggleLayer(int which)
  }
  else if(which == 4 || which == 5)
  {
-  return(FXVDC_ToggleLayer(fx_vdc_chips[0], which - 4));
+  return(fx_vdc_chips[0]->ToggleLayer(which - 4));
  }
  else if(which == 6 || which == 7)
  {
-  return(FXVDC_ToggleLayer(fx_vdc_chips[1], which - 6));
+  return(fx_vdc_chips[1]->ToggleLayer(which - 6));
  }
  else if(which == 8)
  {
@@ -2483,12 +3120,14 @@ int KING_StateAction(StateMem *sm, int load, int data_only)
   SFVARN(king->priority, "priority"),
   SFVARN(king->BGScrollMode, "BGScrollMode"),
   SFARRAY16N(king->BGSize, 4, "BGSize"),
-  SFARRAY16N(king->BGBATAddr, 4, "BGBATAddr"),
-  SFARRAY16N(king->BGCGAddr, 4, "BGCGAddr"),
-  SFARRAY16N(king->BGXScroll, 4, "BGXScroll"),
-  SFARRAY16N(king->BGYScroll, 4, "BGYScroll"),
+
+  SFARRAYN(king->BGBATAddr, 4, "BGBATAddr"),
+  SFARRAYN(king->BGCGAddr, 4, "BGCGAddr"),
   SFVARN(king->BG0SubBATAddr, "BG0SubBATAddr"),
   SFVARN(king->BG0SubCGAddr, "BG0SubCGAddr"),
+
+  SFARRAY16N(king->BGXScroll, 4, "BGXScroll"),
+  SFARRAY16N(king->BGYScroll, 4, "BGYScroll"),
   SFVARN(king->BGAffinA, "BGAffinA"),
   SFVARN(king->BGAffinB, "BGAffinB"),
   SFVARN(king->BGAffinC, "BGAffinC"),
@@ -2503,10 +3142,16 @@ int KING_StateAction(StateMem *sm, int load, int data_only)
   SFARRAY32N(king->ADPCMPlayAddress, 2, "ADPCMPlayAddress"),
   SFARRAY16N(king->ADPCMIntermediateAddress, 2, "ADPCMIntermediateAddress"),
   SFARRAY16N(king->ADPCMStatus, 2, "ADPCMStatus"),
+  SFVARN(king->ADPCMIRQPending, "ADPCMIRQPending"),
   SFVARN(king->RAINBOWTransferControl, "RAINBOWTransferControl"),
   SFVARN(king->RAINBOWKRAMA, "RAINBOWKRAMA"),
   SFVARN(king->RAINBOWTransferStartPosition, "RAINBOWTransferStartPosition"),
   SFVARN(king->RAINBOWTransferBlockCount, "RAINBOWTransferBlockCount"),
+
+  SFVARN(king->RAINBOWStartPending, "RAINBOWStartPending"),
+  SFVARN(king->RAINBOWBusyCount, "RAINBOWBusyCount"),
+  SFVARN(king->RAINBOWBlockCount, "RAINBOWBlockCount"),
+
   SFVARN(king->RasterIRQLine, "RasterIRQLine"),
   SFVARN(king->RasterIRQPending, "RasterIRQPending"),
   SFVARN(king->RAINBOWKRAMReadPos, "RAINBOWKRAMReadPos"),
@@ -2519,6 +3164,7 @@ int KING_StateAction(StateMem *sm, int load, int data_only)
   SFVARN(king->MPROGControl, "MPROGControl"),
   SFVARN(king->MPROGAddress, "MPROGAddress"),
   SFARRAY16N(king->MPROGData, 16, "MPROGData"),
+  SFVARN(king->Reg00, "Port00"),
   SFVARN(king->Reg01, "Port01"),
   SFVARN(king->Reg02, "Port02"),
   SFVARN(king->Reg03, "Port03"),
@@ -2533,6 +3179,8 @@ int KING_StateAction(StateMem *sm, int load, int data_only)
   SFVARN(king->SubChannelInterrupt, "SubChannelInterrupt"),
   SFVARN(king->SubChannelControl, "SubChannelControl"),
 
+  SFVAR(scsicd_ne),
+  // scsicd_ne here??
   SFEND
  };
 
@@ -2542,7 +3190,18 @@ int KING_StateAction(StateMem *sm, int load, int data_only)
   SFARRAY16N(fx_vce.priority, 2, "priority"),
   SFVARN(fx_vce.odd_field, "odd_field"),
   SFVARN(fx_vce.in_hblank, "in_hblank"),
+  SFVARN(fx_vce.in_vdc_hsync, "in_vdc_hsync"),
   SFVARN(fx_vce.picture_mode, "picture_mode"),
+
+  SFVARN(HPhase, "HPhase"),
+  SFVARN(HPhaseCounter, "HPhaseCounter"),
+  SFVAR(vdc_lb_pos),
+
+  SFVARN(fx_vce.dot_clock, "dot_clock"),
+  SFVARN(fx_vce.clock_divider, "clock_divider"),
+
+  SFARRAY32N(fx_vce.vdc_event, 2, "vdc_event"),
+
   SFVARN(fx_vce.raster_counter, "raster_counter"),
   SFVARN(fx_vce.palette_rw_offset, "palette_rw_offset"),
   SFVARN(fx_vce.palette_rw_latch, "palette_rw_latch"),
@@ -2555,6 +3214,21 @@ int KING_StateAction(StateMem *sm, int load, int data_only)
   SFVARN(fx_vce.BLE, "BLE"),
   SFVARN(fx_vce.SPBL, "SPBL"),
   SFARRAY16N(fx_vce.coefficients, 6, "coefficients"),
+
+
+  // HB render cache:
+  // FIXME
+  SFARRAY16N(vce_rendercache.priority, 2, "rc_priority"),
+  SFVARN(vce_rendercache.picture_mode, "rc_picture_mode"),
+  SFARRAY16N(vce_rendercache.palette_offset, 4, "rc_palette_offset"),
+  SFVARN(vce_rendercache.ChromaKeyY, "rc_ChromaKeyY"),
+  SFVARN(vce_rendercache.ChromaKeyU, "rc_ChromaKeyU"),
+  SFVARN(vce_rendercache.ChromaKeyV, "rc_ChromaKeyV"),
+  SFVARN(vce_rendercache.CCR, "rc_CCR"),
+  SFVARN(vce_rendercache.BLE, "rc_BLE"),
+  SFVARN(vce_rendercache.SPBL, "rc_SPBL"),
+  SFARRAY16N(vce_rendercache.coefficients, 6, "rc_coefficients"),
+
   SFEND
  };
 
@@ -2564,6 +3238,10 @@ int KING_StateAction(StateMem *sm, int load, int data_only)
 
  if(load)
  {
+  RecalcKRAMPagePtrs();
+
+  fx_vce.dot_clock_ratio = fx_vce.dot_clock ? 3 : 4;
+
   fx_vce.palette_rw_offset &= 0x1FF;
   fx_vce.palette_offset[3] &= 0x00FF;
   fx_vce.priority[0] &= 0x0777;
@@ -2572,19 +3250,13 @@ int KING_StateAction(StateMem *sm, int load, int data_only)
   for(int x = 0; x < 6; x++)
    fx_vce.coefficients[x] &= 0x0FFF;
 
-  RebuildLayerMaskCache();
   for(int x = 0; x < 0x200; x++)
    RedoPaletteCache(x);
 
-  RecalcKRAM_Mask();
-  RedoKINGIRQCheck();
-  FXVDC_SetDotClock(fx_vdc_chips[0], (fx_vce.picture_mode & 0x08) ? 1 : 0);
-  FXVDC_SetDotClock(fx_vdc_chips[1], (fx_vce.picture_mode & 0x08) ? 1 : 0);
-  SoundBox_SetKINGADPCMControl(king->ADPCMControl);
+  vdc_lb_pos &= 0x1FF; // FIXME: Better checks(in case we remove the assert() elsewhere)?
 
-  // FIXME:  Should we just go ahead and save pending events in save states in v810_cpu.cpp?
-  if(king->dma_receive_active || king->dma_send_active)
-   v810_setevent(V810_EVENT_KING, king->dma_cycle_counter);
+  RedoKINGIRQCheck();
+  SoundBox_SetKINGADPCMControl(king->ADPCMControl);
  }
  return(ret);
 }
@@ -2612,6 +3284,7 @@ void KING_SetRegister(const std::string &name, uint32 value)
  else if(name == "PAGESET")
  {
   king->PageSetting = value;
+  RecalcKRAMPagePtrs();
  }
  else if(name == "BGMODE")
  {
@@ -2649,35 +3322,35 @@ void KING_SetRegister(const std::string &name, uint32 value)
   king->BGYScroll[2] = value & 0x3FF;
  else if(name == "BGYSC3")
   king->BGYScroll[3] = value & 0x3FF;
- else if(name == "BGAFFINA")
+ else if(name == "AFFINA")
   king->BGAffinA = value;
- else if(name == "BGAFFINB")
+ else if(name == "AFFINB")
   king->BGAffinB = value;
- else if(name == "BGAFFINC")
+ else if(name == "AFFINC")
   king->BGAffinC = value;
- else if(name == "BGAFFIND")
+ else if(name == "AFFIND")
   king->BGAffinD = value;
- else if(name == "BGAFFINX")
+ else if(name == "AFFINX")
   king->BGAffinCenterX = value;
- else if(name == "BGAFFINY")
+ else if(name == "AFFINY")
   king->BGAffinCenterY = value;
  else if(name ==  "BGBAT0")
-  king->BGBATAddr[0] = value & 0x1FF;
+  king->BGBATAddr[0] = value;
  else if(name ==  "BGBATS")
-  king->BG0SubBATAddr = value & 0x1FF;
+  king->BG0SubBATAddr = value;
  else if(name ==  "BGBAT1")
-  king->BGBATAddr[1] = value & 0x1FF;
+  king->BGBATAddr[1] = value;
  else if(name ==  "BGBAT2")
-  king->BGBATAddr[2] = value & 0x1FF;
+  king->BGBATAddr[2] = value;
  else if(name ==  "BGBAT3")
-  king->BGBATAddr[3] = value & 0x1FF;
+  king->BGBATAddr[3] = value;
  else if(name == "BGCG0" || name == "BGCGS" || name == "BGCG1" || name == "BGCG2" || name == "BGCG3")
  {
   char which = name[4];
   if(which == 'S')
-   king->BG0SubCGAddr = value & 0x1FF;
+   king->BG0SubCGAddr = value;
   else
-   king->BGCGAddr[which - '0'] = value & 0x1FF;
+   king->BGCGAddr[which - '0'] = value;
  }
  else if(name == "RTCTRL")
   king->RAINBOWTransferControl = value & 0x3;
@@ -2732,6 +3405,10 @@ void KING_SetRegister(const std::string &name, uint32 value)
   unsigned int which = name[7] - '0';
   king->ADPCMEndAddress[which] = value;
  }
+ else if(name == "ADPCMStat")
+ {
+
+ }
  else if(name == "Reg01")
  {
   king->Reg01 = value;
@@ -2778,7 +3455,7 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
    char buf[256];
    static const char *atypes[4] = { "CG", "CG of BAT", "BAT", "???" };
 
-   snprintf(buf, 256, "Offset: %d, Access Type: %s, Rotation: %d, BG Number: %d, NOP: %d",
+   trio_snprintf(buf, 256, "Offset: %d, Access Type: %s, Rotation: %d, BG Number: %d, NOP: %d",
         value & 0x7, atypes[(value >> 3) & 0x3], (int)(bool)(value & 0x20),
         (value >> 6) & 0x3, (int)(bool)(value & 0x100));
 
@@ -2793,7 +3470,7 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "SCSI: %d, BG: %d, ADPCM: %d, RAINBOW: %d", (int)(bool)(value & 0x1), (int)(bool)(value & 0x10), (int)(bool)(value & 0x100), (int)(bool)(value & 0x1000));
+   trio_snprintf(buf, 256, "SCSI: %d, BG: %d, ADPCM: %d, RAINBOW: %d", (int)(bool)(value & 0x1), (int)(bool)(value & 0x10), (int)(bool)(value & 0x100), (int)(bool)(value & 0x1000));
    *special = std::string(buf);
   }
  }
@@ -2806,7 +3483,7 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
 				      "Disabled", "4-color w/BAT", "16-color w/BAT", "256-color w/BAT", "64K-color w/BAT", "16M-color w/BAT", "Undefined", "Undefined"
 				    };
    char buf[256];
-   snprintf(buf, 256, "BG0: %2d(%s), BG1: %2d(%s), BG2: %2d(%s), BG3: %2d(%s)", value & 0xF, bgmodes[value & 0xF], (value >> 4) & 0xF, bgmodes[(value >> 4) & 0xF], (value >> 8) & 0xF, bgmodes[(value >> 8) & 0xf], (value >> 12) & 0xF, bgmodes[(value >> 12) & 0xf]);
+   trio_snprintf(buf, 256, "BG0: %2d(%s), BG1: %2d(%s), BG2: %2d(%s), BG3: %2d(%s)", value & 0xF, bgmodes[value & 0xF], (value >> 4) & 0xF, bgmodes[(value >> 4) & 0xF], (value >> 8) & 0xF, bgmodes[(value >> 8) & 0xf], (value >> 12) & 0xF, bgmodes[(value >> 12) & 0xf]);
    *special = std::string(buf);
   }
  }
@@ -2816,7 +3493,7 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "BG0: %2d, BG1: %2d, BG2: %2d, BG3: %2d", value & 0x7, (value >> 3) & 0x7, (value >> 6) & 0x7, (value >> 9) & 0x7);
+   trio_snprintf(buf, 256, "Affine enable: %s - BG0: %2d, BG1: %2d, BG2: %2d, BG3: %2d", (value & (1 << 12)) ? "Yes" : "No", value & 0x7, (value >> 3) & 0x7, (value >> 6) & 0x7, (value >> 9) & 0x7);
    *special = std::string(buf);
   }
  }
@@ -2826,7 +3503,7 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "BG0: %s, BG1: %s, BG2: %s, BG3: %s", (value & 1) ? "Endless" : "Non-endless",(value & 2) ? "Endless" : "Non-endless",
+   trio_snprintf(buf, 256, "BG0: %s, BG1: %s, BG2: %s, BG3: %s", (value & 1) ? "Endless" : "Non-endless",(value & 2) ? "Endless" : "Non-endless",
 	(value & 4) ? "Endless" : "Non-endless", (value & 8) ? "Endless" : "Non-endless");
    *special = std::string(buf);
   }
@@ -2860,31 +3537,36 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
   value = king->BGYScroll[2];
  else if(name == "BGYSC3")
   value = king->BGYScroll[3];
- else if(name == "BGAFFINA")
-  value = king->BGAffinA;
- else if(name == "BGAFFINB")
-  value = king->BGAffinB;
- else if(name == "BGAFFINC")
-  value = king->BGAffinC;
- else if(name == "BGAFFIND")
-  value = king->BGAffinD;
- else if(name == "BGAFFINX")
+ else if(name == "AFFINA" || name == "AFFINB" || name == "AFFINC" || name == "AFFIND")
+ {
+  const uint16 *coeffs[4] = { &king->BGAffinA, &king->BGAffinB, &king->BGAffinC, &king->BGAffinD };
+  value = *coeffs[name[5] - 'A'];
+  if(special)
+  {
+   char buf[256];
+   trio_snprintf(buf, 256, "%f", (double)(int16)value / 256);
+   *special = std::string(buf);
+  }
+ }
+ else if(name == "AFFINX")
   value = king->BGAffinCenterX;
- else if(name == "BGAFFINY")
+ else if(name == "AFFINY")
   value = king->BGAffinCenterY;
+ else if(name == "BGBAT0" || name == "BGBATS" || name == "BGBAT1" || name == "BGBAT2" || name == "BGBAT3")
+ {
+  char which = name[5];
+  if(which == 'S')
+   value = king->BG0SubBATAddr;
+  else
+   value = king->BGBATAddr[which - '0'];
+  if(special)
+  {
+   char buf[256];
+   trio_snprintf(buf, 256, "0x%04x * 1024 = 0x%05x", value, (value * 1024) & 0x3FFFF);
+   *special = std::string(buf);
+  }
+ }
 
-
-
- else if(name ==  "BGBAT0")
-  value = king->BGBATAddr[0];
- else if(name ==  "BGBATS")
-  value = king->BG0SubBATAddr;
- else if(name ==  "BGBAT1")
-  value = king->BGBATAddr[1];
- else if(name ==  "BGBAT2")
-  value = king->BGBATAddr[2];
- else if(name ==  "BGBAT3")
-  value = king->BGBATAddr[3];
  else if(name == "BGCG0" || name == "BGCGS" || name == "BGCG1" || name == "BGCG2" || name == "BGCG3")
  {
   char which = name[4];
@@ -2895,7 +3577,7 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "0x%04x * 1024 = 0x%05x", value, (value * 1024) & 0x3FFFF);
+   trio_snprintf(buf, 256, "0x%04x * 1024 = 0x%05x", value, (value * 1024) & 0x3FFFF);
    *special = std::string(buf);
   }
  }
@@ -2906,7 +3588,7 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "Raster Interrupt: %s, Rainbow Transfer: %s", (value & 2) ? "On" : "Off", (value & 1) ? "On" : "Off");
+   trio_snprintf(buf, 256, "Raster Interrupt: %s, Rainbow Transfer: %s", (value & 2) ? "On" : "Off", (value & 1) ? "On" : "Off");
    *special = std::string(buf);
   }
  }
@@ -2959,13 +3641,30 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
  {
   unsigned int which = name[7] - '0';
   value = king->ADPCMIntermediateAddress[which];
-
+  if(special)
+  {
+   char buf[256];
+   trio_snprintf(buf, 256, "0x%03x * 64 = 0x%08x", king->ADPCMIntermediateAddress[which], king->ADPCMIntermediateAddress[which] << 6);
+   *special = std::string(buf);
+  }
  }
  else if(name == "ADPCMEA0" || name == "ADPCMEA1")
  {
   unsigned int which = name[7] - '0';
   value = king->ADPCMEndAddress[which];
-
+ }
+ else if(name == "ADPCMStat")
+ {
+  value = king->ADPCMStatus[0] | (king->ADPCMStatus[1] << 2);
+  if(special)
+  {
+   char buf[256];
+   trio_snprintf(buf, 256, "Ch0 End: %d, Ch0 Intermediate: %d, Ch1 End: %d, Ch1 Intermediate: %d", (int)(bool)(value & 0x1),
+												   (int)(bool)(value & 0x2),
+												   (int)(bool)(value & 0x4),
+												   (int)(bool)(value & 0x8));
+   *special = std::string(buf);
+  }
  }
  else if(name == "Reg01")
  {
@@ -2973,7 +3672,7 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "BSY: %d, ATN: %d, SEL: %d, ACK: %d, RST: %d", (int)(bool)(value & 1), (int)(bool)(value & 2), (int)(bool)(value & 4),
+   trio_snprintf(buf, 256, "BSY: %d, ATN: %d, SEL: %d, ACK: %d, RST: %d", (int)(bool)(value & 1), (int)(bool)(value & 2), (int)(bool)(value & 4),
 	(int)(bool)(value & 0x10), (int)(bool)(value & 0x80));
    *special = std::string(buf);
   }
@@ -2989,7 +3688,7 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
   {
    char buf[256];
 
-   snprintf(buf, 256, "I/O: %d, C/D: %d, MSG: %d", (int)(bool)(value & 1), (int)(bool)(value & 2), (int)(bool)(value & 4));
+   trio_snprintf(buf, 256, "I/O: %d, C/D: %d, MSG: %d", (int)(bool)(value & 1), (int)(bool)(value & 2), (int)(bool)(value & 4));
    *special = std::string(buf);
   }
  }
@@ -3000,10 +3699,12 @@ uint32 KING_GetRegister(const std::string &name, std::string *special)
   {
    char buf[256];
 
-   snprintf(buf, 256, "Subchannel reading: %s, Subchannel read IRQ: %s", (value & 0x1) ? "Enabled" : "Disabled", (value & 0x2) ? "On" : "Off");
+   trio_snprintf(buf, 256, "Subchannel reading: %s, Subchannel read IRQ: %s", (value & 0x1) ? "Enabled" : "Disabled", (value & 0x2) ? "On" : "Off");
    *special = std::string(buf);
   }
  }
+ else if(name == "DB")
+  value = SCSICD_GetDB();
  else if(name == "BSY")
   value = SCSICD_GetBSY();
  else if(name == "REQ")
@@ -3028,16 +3729,13 @@ void FXVDCVCE_SetRegister(const std::string &name, uint32 value)
  {
   fx_vce.priority[0] = value & 0x0777;
  }
- else if(name == "VCEPRIO1")
+ else if(name == "PRIO1")
  {
   fx_vce.priority[1] = value & 0x7777;
  }
- else if(name == "VCEPICMODE")
+ else if(name == "PICMODE")
  {
   fx_vce.picture_mode = value;
-  RebuildLayerMaskCache();
-  FXVDC_SetDotClock(fx_vdc_chips[0], (fx_vce.picture_mode & 0x08) ? 1 : 0);
-  FXVDC_SetDotClock(fx_vdc_chips[1], (fx_vce.picture_mode & 0x08) ? 1 : 0);
  }
  else if(name == "VCEPALRWOF")
  {
@@ -3068,41 +3766,34 @@ void FXVDCVCE_SetRegister(const std::string &name, uint32 value)
   int which = name.c_str()[strlen("VCECOEFF")] - '0';
   fx_vce.coefficients[which] = value;
  }
- else if(name[name.size() - 2] == '-')
- {
-  std::string neoname = name.substr(0, name.size() - 2);
-  int wv = (name[name.size() - 1] == 'A') ? 0 : 1;
-
-  FXVDC_SetRegister(fx_vdc_chips[wv], neoname, value);
- }
 }
 
 
 uint32 FXVDCVCE_GetRegister(const std::string &name, std::string *special)
 {
- uint32 value = 0;
+ uint32 value = 0xDEADBEEF;
 
- if(name == "VCEPRIO0")
+ if(name == "PRIO0")
  {
   value = fx_vce.priority[0];
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "VDC BG: %2d, VDC SPR: %2d, RAINBOW: %2d", value & 0xF, (value >> 4) & 0xF, (value >> 8) & 0xF);
+   trio_snprintf(buf, 256, "VDC BG: %2d, VDC SPR: %2d, RAINBOW: %2d", value & 0xF, (value >> 4) & 0xF, (value >> 8) & 0xF);
    *special = std::string(buf);
   }
  }
- else if(name == "VCEPRIO1")
+ else if(name == "PRIO1")
  {
   value = fx_vce.priority[1];
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "BG0: %2d, BG1: %2d, BG2: %2d, BG3: %2d", value & 0xF, (value >> 4) & 0xF, (value >> 8) & 0xF, (value >> 12) & 0xF);
+   trio_snprintf(buf, 256, "BG0: %2d, BG1: %2d, BG2: %2d, BG3: %2d", value & 0xF, (value >> 4) & 0xF, (value >> 8) & 0xF, (value >> 12) & 0xF);
    *special = std::string(buf);
   }
  }
- else if(name == "VCEPICMODE")
+ else if(name == "PICMODE")
  {
   value = fx_vce.picture_mode;
   if(special)
@@ -3113,7 +3804,7 @@ uint32 FXVDCVCE_GetRegister(const std::string &name, std::string *special)
     "263 lines/frame", "262 lines/frame", "Interlaced", "Interlaced+1/2 dot shift" 
    };
 
-   snprintf(buf, 256, "BG0: %s, BG1: %s, BG2: %s, BG3: %s, VDC BG: %s%s, VDC SPR: %s%s, RAINBOW: %s, VDC Clk: %sMHz, %s",
+   trio_snprintf(buf, 256, "BG0: %s, BG1: %s, BG2: %s, BG3: %s, VDC BG: %s%s, VDC SPR: %s%s, RAINBOW: %s, VDC Clk: %sMHz, %s",
 	(value & (1 << 10)) ? "On" : "Off", (value & (1 << 11)) ? "On": "Off",
         (value & (1 << 12)) ? "On" : "Off", (value & (1 << 13)) ? "On": "Off",
 	(value & 0x0100) ? "On" : "Off", (value & 0x0040) ? "+merge mode" : "", (value & 0x0200) ? "On" : "Off", (value & 0x0080) ? "+merge mode" : "",
@@ -3121,95 +3812,72 @@ uint32 FXVDCVCE_GetRegister(const std::string &name, std::string *special)
    *special = std::string(buf);
   }
  }
- else if(name == "Frame Cntr")
+ else if(name == "Line")
   value = fx_vce.raster_counter;
- else if(name == "VCEPALRWOF")
+ else if(name == "PALRWOF")
   value = fx_vce.palette_rw_offset;
- else if(name == "VCEPALRWLA")
+ else if(name == "PALRWLA")
   value = fx_vce.palette_rw_latch;
- else if(name == "VCEPALOFS0")
+ else if(name == "PALOFS0")
   value = fx_vce.palette_offset[0];
- else if(name == "VCEPALOFS1")
+ else if(name == "PALOFS1")
   value = fx_vce.palette_offset[1];
- else if(name == "VCEPALOFS2")
+ else if(name == "PALOFS2")
   value = fx_vce.palette_offset[2];
- else if(name == "VCEPALOFS3")
+ else if(name == "PALOFS3")
   value = fx_vce.palette_offset[3];
- else if(name == "ChromaKeyY")
+ else if(name == "CKeyY")
   value = fx_vce.ChromaKeyY;
- else if(name == "ChromaKeyU")
+ else if(name == "CKeyU")
   value = fx_vce.ChromaKeyU;
- else if(name == "ChromaKeyV")
+ else if(name == "CKeyV")
   value = fx_vce.ChromaKeyV;
 
- else if(name == "VCECCR")
+ else if(name == "CCR")
   value = fx_vce.CCR;
- else if(name == "VCEBLE")
+ else if(name == "BLE")
  {
   value = fx_vce.BLE;
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "%s(%s), Rainbow: %d, BG3: %d, BG2: %d, BG1: %d, BG0: %d, VDC SP: %d, VDC BG: %d", (value & 0x8000) ? "Front" : "Back", (value & 0x4000) ? "On" : "Off", (value >> 12) & 0x3,
+   trio_snprintf(buf, 256, "%s(%s), Rainbow: %d, BG3: %d, BG2: %d, BG1: %d, BG0: %d, VDC SP: %d, VDC BG: %d", (value & 0x8000) ? "Front" : "Back", (value & 0x4000) ? "On" : "Off", (value >> 12) & 0x3,
 		(value >> 10) & 3, (value >> 8) & 3, (value >> 6) & 3, (value >> 4) & 3, (value >> 2) & 3, value & 3);
    *special = std::string(buf);
   }
  }
- else if(name == "VCESPBL")
+ else if(name == "SPBL")
   value = fx_vce.SPBL;
- else if(!strncasecmp(name.c_str(), "VCECOEFF", strlen("VCECOEFF")))
+ else if(!strncasecmp(name.c_str(), "COEFF", strlen("COEFF")))
  {
-  int which = name.c_str()[strlen("VCECOEFF")] - '0';
+  int which = name.c_str()[strlen("COEFF")] - '0';
   value = fx_vce.coefficients[which];
   if(special)
   {
    char buf[256];
-   snprintf(buf, 256, "Y: %1d, U: %1d, V: %1d", (value >> 8) & 0xF, (value >> 4) & 0xf, value & 0xf);
+   trio_snprintf(buf, 256, "Y: %1d, U: %1d, V: %1d", (value >> 8) & 0xF, (value >> 4) & 0xf, value & 0xf);
    *special = std::string(buf);
   }
  } 
- else if(name[name.size() - 2] == '-')
- {
-  std::string neoname = name.substr(0, name.size() - 2);
-  int wv = (name[name.size() - 1] == 'A') ? 0 : 1;
-
-  value = FXVDC_GetRegister(fx_vdc_chips[wv], neoname, special);
- }
 
  return(value);
 }
 
-void KING_SetGraphicsDecode(int line, int which, int w, int h, int xscroll, int yscroll, int pbn)
+void KING_SetGraphicsDecode(MDFN_Surface *surface, int line, int which, int xscroll, int yscroll, int pbn)
 {
- if(line == -1)
- {
-  if(GfxDecode_Buf)
-  {
-   free(GfxDecode_Buf);
-   GfxDecode_Buf = NULL;
-  }
- }
- else
-  GfxDecode_Buf = (uint32*)realloc(GfxDecode_Buf, w * h * sizeof(uint32) * 3); // *2 for extra address info.
-
+ GfxDecode_Buf = surface;
  GfxDecode_Line = line;
- GfxDecode_Width = w;
- GfxDecode_Height = h;
  GfxDecode_Layer = which;
  GfxDecode_Scroll = yscroll;
  GfxDecode_PBN = pbn;
 
- if(GfxDecode_Line == 0xB00B13)
+ if(GfxDecode_Buf && GfxDecode_Line == -1)
   DoGfxDecode();
-}
-
-uint32 *KING_GetGraphicsDecodeBuffer(void)
-{
- return(GfxDecode_Buf);
 }
 
 static void DoGfxDecode(void)
 {
+ const uint32 alpha_or = (0xFF << GfxDecode_Buf->format.Ashift);
  int pbn = GfxDecode_PBN;
 
  if(GfxDecode_Layer >= 4 && GfxDecode_Layer <= 7)
@@ -3217,28 +3885,42 @@ static void DoGfxDecode(void)
   uint32 palette_offset = fx_vce.palette_offset[0] >> (((GfxDecode_Layer - 4) & 1) * 8);
   palette_offset <<= 1;
   palette_offset &= 0x1FF;
-  uint32 *palette_ptr = &fx_vce.palette_table_cache[palette_offset];
+  uint32 *palette_ptr = &vce_rendercache.palette_table_cache[palette_offset];
   uint32 neo_palette[16];
 
-  pbn &= 0x0F;
-  palette_ptr += pbn * 16;
+  if(pbn == -1)
+  {
+   for(int x = 0; x < 16; x++)
+   {
+    int ccval = (int)(255 * pow((double)x / 15, 1.0f / 2.2));
+    neo_palette[x] = GfxDecode_Buf->MakeColor(ccval, ccval, ccval, 0xFF);
+   }
+  }
+  else
+  {
+   pbn &= 0x0F;
+   palette_ptr += pbn * 16;
 
-  for(int x = 0; x < 16; x++) neo_palette[x] = YUV888_TO_RGB888(palette_ptr[x]) | MK_COLORA(0, 0, 0, 0xFF);
-  FXVDC_DoGfxDecode(fx_vdc_chips[(GfxDecode_Layer - 4) / 2], neo_palette, GfxDecode_Buf, GfxDecode_Width, GfxDecode_Height, GfxDecode_Scroll, (GfxDecode_Layer - 4) & 1);
+   for(int x = 0; x < 16; x++) 
+    neo_palette[x] = YUV888_TO_RGB888(palette_ptr[x]) | alpha_or;
+  }
+
+  //FXVDC_DoGfxDecode(fx_vdc_chips[(GfxDecode_Layer - 4) / 2], neo_palette, GfxDecode_Buf, GfxDecode_Scroll, (GfxDecode_Layer - 4) & 1);
+  fx_vdc_chips[(GfxDecode_Layer - 4) / 2]->DoGfxDecode(GfxDecode_Buf->pixels, neo_palette, GfxDecode_Buf->MakeColor(0, 0, 0, 0xFF), (GfxDecode_Layer - 4) & 1, GfxDecode_Buf->w, GfxDecode_Buf->h, GfxDecode_Scroll);
  }
  else if(GfxDecode_Layer < 4)
  {
   int n = GfxDecode_Layer;
   uint16 bgmode = (king->bgmode >> (n * 4)) & 0xF;
   uint32 cg_offset = king->BGCGAddr[n] * 1024;
-  uint32 bat_and_cg_bank = (king->PageSetting & 0x0010) ? 1 : 0;
-  uint32 *target = GfxDecode_Buf;
+  uint32 bat_and_cg_page = (king->PageSetting & 0x0010) ? 1 : 0;
+  uint32 *target = GfxDecode_Buf->pixels;
   uint32 layer_or = 0;
-  uint32 page_addr_or = bat_and_cg_bank ? 0x40000 : 0x00000;
+  uint32 page_addr_or = bat_and_cg_page ? 0x40000 : 0x00000;
   uint32 palette_offset = fx_vce.palette_offset[1 + (n >> 1)] >> ((n & 1) ? 8 : 0);
   palette_offset <<= 1;
   palette_offset &= 0x1FF;
-  uint32 *palette_ptr = &fx_vce.palette_table_cache[palette_offset];
+  uint32 *palette_ptr = &vce_rendercache.palette_table_cache[palette_offset];
   int tile_width = 8;
   int tile_height = 8;
 
@@ -3254,36 +3936,38 @@ static void DoGfxDecode(void)
    if(shiftmoo > 0xA) shiftmoo = 0xA;
    tile_height = 1 << shiftmoo;
 
-   if(tile_width > GfxDecode_Width) tile_width = GfxDecode_Width;
-   if(tile_height > GfxDecode_Height) tile_height = GfxDecode_Height;
+   if(tile_width > GfxDecode_Buf->w) tile_width = GfxDecode_Buf->w;
+   if(tile_height > GfxDecode_Buf->h) tile_height = GfxDecode_Buf->h;
   }
 
   switch(bgmode & 0x7)
   {
-   default: memset(target, 0, GfxDecode_Width * GfxDecode_Height * sizeof(uint32) * 3); break;
+   default: memset(target, 0, GfxDecode_Buf->w * GfxDecode_Buf->h * sizeof(uint32) * 3);
+	    break;
+
    case 0x01: // 4
    {
     pbn *= 4;
     pbn &= 0x1FF;
 
-    for(int y = 0; y < GfxDecode_Height; y++)
+    for(int y = 0; y < GfxDecode_Buf->h; y++)
     {
-     for(int x = 0; x < GfxDecode_Width; x+=8)
+     for(int x = 0; x < GfxDecode_Buf->w; x+=8)
      {
-      int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Width / 8);
-      uint16 cg = king->KRAM[bat_and_cg_bank][(cg_offset + (which_tile * 8) + (y & 0x7)) & king->KRAM_Mask_Full];
+      int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Buf->w / 8);
+      uint16 cg = king->KRAM[bat_and_cg_page][(cg_offset + (which_tile * 8) + (y & 0x7)) & 0x3FFFF];
 
-      DRAWBG8x1_4(target + x, cg, palette_ptr + pbn, layer_or);
+      DRAWBG8x1_4(target + x, &cg, palette_ptr + pbn, layer_or);
 
-      target[x + GfxDecode_Width*2 + 0] = target[x + GfxDecode_Width*2 + 1] = target[x + GfxDecode_Width*2 + 2] = target[x + GfxDecode_Width*2 + 3] =
-      target[x + GfxDecode_Width*2 + 4] = target[x + GfxDecode_Width*2 + 5] = target[x + GfxDecode_Width*2 + 6] = target[x + GfxDecode_Width*2 + 7] = ((cg_offset + (which_tile * 8)) & 0x3FFFF) | page_addr_or;
+      target[x + GfxDecode_Buf->w * 2 + 0] = target[x + GfxDecode_Buf->w * 2 + 1] = target[x + GfxDecode_Buf->w * 2 + 2] = target[x + GfxDecode_Buf->w * 2 + 3] =
+      target[x + GfxDecode_Buf->w * 2 + 4] = target[x + GfxDecode_Buf->w * 2 + 5] = target[x + GfxDecode_Buf->w * 2 + 6] = target[x + GfxDecode_Buf->w * 2 + 7] = ((cg_offset + (which_tile * 8)) & 0x3FFFF) | page_addr_or;
 
-      target[x + GfxDecode_Width*1 + 0]=target[x + GfxDecode_Width*1 + 1]=target[x + GfxDecode_Width*1 + 2]=target[x + GfxDecode_Width*1 + 3] =
-      target[x + GfxDecode_Width*1 + 4]=target[x + GfxDecode_Width*1 + 5]=target[x + GfxDecode_Width*1 + 6]=target[x + GfxDecode_Width*1 + 7] = which_tile;
+      target[x + GfxDecode_Buf->w*1 + 0]=target[x + GfxDecode_Buf->w*1 + 1]=target[x + GfxDecode_Buf->w*1 + 2]=target[x + GfxDecode_Buf->w*1 + 3] =
+      target[x + GfxDecode_Buf->w*1 + 4]=target[x + GfxDecode_Buf->w*1 + 5]=target[x + GfxDecode_Buf->w*1 + 6]=target[x + GfxDecode_Buf->w*1 + 7] = which_tile;
      }
-     for(int x = 0; x < GfxDecode_Width; x++)
-      target[x] = YUV888_TO_RGB888(target[x]) | MK_COLORA(0, 0, 0, 0xFF);
-     target += GfxDecode_Width * 3;
+     for(int x = 0; x < GfxDecode_Buf->w; x++)
+      target[x] = YUV888_TO_RGB888(target[x]) | alpha_or;
+     target += GfxDecode_Buf->w * 3;
     }
    }
    break;
@@ -3292,94 +3976,94 @@ static void DoGfxDecode(void)
    {
     pbn *= 8;
     pbn &= 0x1FF;
-    for(int y = 0; y < GfxDecode_Height; y++)
+    for(int y = 0; y < GfxDecode_Buf->h; y++)
     {
-     for(int x = 0; x < GfxDecode_Width; x+=8)
+     for(int x = 0; x < GfxDecode_Buf->w; x+=8)
      {
-      int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Width / 8);
-      uint16 *cgptr = &king->KRAM[bat_and_cg_bank][(cg_offset + (which_tile * 16) + (y & 0x7) * 2) & king->KRAM_Mask_Full];
+      int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Buf->w / 8);
+      uint16 *cgptr = &king->KRAM[bat_and_cg_page][(cg_offset + (which_tile * 16) + (y & 0x7) * 2) & 0x3FFFF];
 
       DRAWBG8x1_16(target + x, cgptr, palette_ptr + pbn, layer_or);
 
-      target[x + GfxDecode_Width*2 + 0] = target[x + GfxDecode_Width*2 + 1] = target[x + GfxDecode_Width*2 + 2] = target[x + GfxDecode_Width*2 + 3] =
-      target[x + GfxDecode_Width*2 + 4] = target[x + GfxDecode_Width*2 + 5] = target[x + GfxDecode_Width*2 + 6] = target[x + GfxDecode_Width*2 + 7] = ((cg_offset + (which_tile * 16)) & 0x3FFFF) | page_addr_or;
+      target[x + GfxDecode_Buf->w*2 + 0] = target[x + GfxDecode_Buf->w*2 + 1] = target[x + GfxDecode_Buf->w*2 + 2] = target[x + GfxDecode_Buf->w*2 + 3] =
+      target[x + GfxDecode_Buf->w*2 + 4] = target[x + GfxDecode_Buf->w*2 + 5] = target[x + GfxDecode_Buf->w*2 + 6] = target[x + GfxDecode_Buf->w*2 + 7] = ((cg_offset + (which_tile * 16)) & 0x3FFFF) | page_addr_or;
 
-      target[x + GfxDecode_Width*1 + 0]=target[x + GfxDecode_Width*1 + 1]=target[x + GfxDecode_Width*1 + 2]=target[x + GfxDecode_Width*1 + 3] =
-      target[x + GfxDecode_Width*1 + 4]=target[x + GfxDecode_Width*1 + 5]=target[x + GfxDecode_Width*1 + 6]=target[x + GfxDecode_Width*1 + 7] = which_tile;
+      target[x + GfxDecode_Buf->w*1 + 0]=target[x + GfxDecode_Buf->w*1 + 1]=target[x + GfxDecode_Buf->w*1 + 2]=target[x + GfxDecode_Buf->w*1 + 3] =
+      target[x + GfxDecode_Buf->w*1 + 4]=target[x + GfxDecode_Buf->w*1 + 5]=target[x + GfxDecode_Buf->w*1 + 6]=target[x + GfxDecode_Buf->w*1 + 7] = which_tile;
      }
-     for(int x = 0; x < GfxDecode_Width; x++)
-      target[x] = YUV888_TO_RGB888(target[x]) | MK_COLORA(0, 0, 0, 0xFF);
-     target += GfxDecode_Width * 3;
+     for(int x = 0; x < GfxDecode_Buf->w; x++)
+      target[x] = YUV888_TO_RGB888(target[x]) | alpha_or;
+     target += GfxDecode_Buf->w * 3;
     }
    }
    break;
 
    case 0x03: // 256
    {
-    for(int y = 0; y < GfxDecode_Height; y++)
+    for(int y = 0; y < GfxDecode_Buf->h; y++)
     {
-     for(int x = 0; x < GfxDecode_Width; x+=8)
+     for(int x = 0; x < GfxDecode_Buf->w; x+=8)
      {
-      int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Width / 8);
-      uint16 *cgptr = &king->KRAM[bat_and_cg_bank][(cg_offset + (which_tile * 32) + (y & 0x7) * 4) & king->KRAM_Mask_Full];
+      int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Buf->w / 8);
+      uint16 *cgptr = &king->KRAM[bat_and_cg_page][(cg_offset + (which_tile * 32) + (y & 0x7) * 4) & 0x3FFFF];
 
       DRAWBG8x1_256(target + x, cgptr, palette_ptr, layer_or);
 
-      target[x + GfxDecode_Width*2 + 0] = target[x + GfxDecode_Width*2 + 1] = target[x + GfxDecode_Width*2 + 2] = target[x + GfxDecode_Width*2 + 3] =
-      target[x + GfxDecode_Width*2 + 4] = target[x + GfxDecode_Width*2 + 5] = target[x + GfxDecode_Width*2 + 6] = target[x + GfxDecode_Width*2 + 7] = ((cg_offset + (which_tile * 32)) & 0x3FFFF) | page_addr_or;
+      target[x + GfxDecode_Buf->w*2 + 0] = target[x + GfxDecode_Buf->w*2 + 1] = target[x + GfxDecode_Buf->w*2 + 2] = target[x + GfxDecode_Buf->w*2 + 3] =
+      target[x + GfxDecode_Buf->w*2 + 4] = target[x + GfxDecode_Buf->w*2 + 5] = target[x + GfxDecode_Buf->w*2 + 6] = target[x + GfxDecode_Buf->w*2 + 7] = ((cg_offset + (which_tile * 32)) & 0x3FFFF) | page_addr_or;
 
-      target[x + GfxDecode_Width*1 + 0]=target[x + GfxDecode_Width*1 + 1]=target[x + GfxDecode_Width*1 + 2]=target[x + GfxDecode_Width*1 + 3] =
-      target[x + GfxDecode_Width*1 + 4]=target[x + GfxDecode_Width*1 + 5]=target[x + GfxDecode_Width*1 + 6]=target[x + GfxDecode_Width*1 + 7] = which_tile;
+      target[x + GfxDecode_Buf->w*1 + 0]=target[x + GfxDecode_Buf->w*1 + 1]=target[x + GfxDecode_Buf->w*1 + 2]=target[x + GfxDecode_Buf->w*1 + 3] =
+      target[x + GfxDecode_Buf->w*1 + 4]=target[x + GfxDecode_Buf->w*1 + 5]=target[x + GfxDecode_Buf->w*1 + 6]=target[x + GfxDecode_Buf->w*1 + 7] = which_tile;
      }
 
-     for(int x = 0; x < GfxDecode_Width; x++)
-      target[x] = YUV888_TO_RGB888(target[x]) | MK_COLORA(0, 0, 0, 0xFF);
+     for(int x = 0; x < GfxDecode_Buf->w; x++)
+      target[x] = YUV888_TO_RGB888(target[x]) | alpha_or;
 
-     target += GfxDecode_Width * 3;
+     target += GfxDecode_Buf->w * 3;
     }
    }
    break;
 
    case 0x04: // 64K
-    for(int y = 0; y < GfxDecode_Height; y++)
+    for(int y = 0; y < GfxDecode_Buf->h; y++)
     {
-     for(int x = 0; x < GfxDecode_Width; x+=8)
+     for(int x = 0; x < GfxDecode_Buf->w; x+=8)
      {
-      int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Width / 8);
-      uint16 *cgptr = &king->KRAM[bat_and_cg_bank][(cg_offset + (which_tile * 64) + (y & 0x7) * 8) & king->KRAM_Mask_Full];
+      int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Buf->w / 8);
+      uint16 *cgptr = &king->KRAM[bat_and_cg_page][(cg_offset + (which_tile * 64) + (y & 0x7) * 8) & 0x3FFFF];
 
       DRAWBG8x1_64K(target + x, cgptr, palette_ptr, layer_or);
      }
 
-     for(int x = 0; x < GfxDecode_Width; x++)
-      target[x] = YUV888_TO_RGB888(target[x]) | MK_COLORA(0, 0, 0, 0xFF);
+     for(int x = 0; x < GfxDecode_Buf->w; x++)
+      target[x] = YUV888_TO_RGB888(target[x]) | alpha_or;
 
-     target += GfxDecode_Width * 3;
+     target += GfxDecode_Buf->w * 3;
     }
    break;
 
    case 0x05: // 16M
-    for(int y = 0; y < GfxDecode_Height; y++)
+    for(int y = 0; y < GfxDecode_Buf->h; y++)
     {
-     for(int x = 0; x < GfxDecode_Width; x+=8)
+     for(int x = 0; x < GfxDecode_Buf->w; x+=8)
      {
-      int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Width / 8);
-      uint16 *cgptr = &king->KRAM[bat_and_cg_bank][(cg_offset + (which_tile * 64) + (y & 0x7) * 8) & king->KRAM_Mask_Full];
+      int which_tile = (x / 8) + (GfxDecode_Scroll + (y / 8)) * (GfxDecode_Buf->w / 8);
+      uint16 *cgptr = &king->KRAM[bat_and_cg_page][(cg_offset + (which_tile * 64) + (y & 0x7) * 8) & 0x3FFFF];
 
       DRAWBG8x1_16M(target + x, cgptr, palette_ptr, layer_or);
      }
 
-     for(int x = 0; x < GfxDecode_Width; x++)
-      target[x] = YUV888_TO_RGB888(target[x]) | MK_COLORA(0, 0, 0, 0xFF);
+     for(int x = 0; x < GfxDecode_Buf->w; x++)
+      target[x] = YUV888_TO_RGB888(target[x]) | alpha_or;
 
-     target += GfxDecode_Width * 3;
+     target += GfxDecode_Buf->w * 3;
     }
    break;
 
   }
  }
  else
-  memset(GfxDecode_Buf, 0, GfxDecode_Width * GfxDecode_Height * sizeof(uint32) * 3);
+  memset(GfxDecode_Buf, 0, GfxDecode_Buf->w * GfxDecode_Buf->h * sizeof(uint32) * 3);
 }
 
 #endif

@@ -125,9 +125,9 @@ char *escape_string(const char *text)
 
  for(uint32 x = 0; x < slen; x++)
  {
-  int c = text[x];
+  int c = (uint8)text[x];
 
-  if(c < 0x20 || c == '\\' || c == '\'' || c == '"')
+  if(c < 0x20 || c == 0x7F || c == '\\' || c == '\'' || c == '"')
   {
    *outoo++ = '\\';
 

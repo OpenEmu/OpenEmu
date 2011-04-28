@@ -52,14 +52,13 @@ extern void soundEvent(uint32, uint8);
 extern void soundEvent(uint32, uint16);
 extern void soundTimerOverflow(int);
 
-int16 *MDFNGBASOUND_Flush(int32 *len);
-void MDFNGBASOUND_Init(bool WantMono);
+int32 MDFNGBASOUND_Flush(int16 *SoundBuf, const int32 MaxSoundFrames);
+void MDFNGBASOUND_Init(void);
 
 uint8 soundRead(uint32 address);
 
-void MDFNGBA_SetSoundMultiplier(double multiplier);
 void MDFNGBA_SetSoundVolume(uint32 volume);
-void MDFNGBA_Sound(int rate);
+bool MDFNGBA_SetSoundRate(uint32 rate);
 int MDFNGBASOUND_StateAction(StateMem *sm, int load, int data_only);
 
 

@@ -1,6 +1,8 @@
 #ifndef _DEBUG_H
 #define _DEBUG_H
 
+#ifdef WANT_DEBUGGER
+
 #include "debug-driver.h"
 
 #include "x6502struct.h"
@@ -27,5 +29,11 @@ std::vector<std::string> NESDBG_GetBranchTrace(void);
 
 void NESDBG_GetAddressSpaceBytes(const char *name, uint32 Address, uint32 Length, uint8 *Buffer);
 void NESDBG_PutAddressSpaceBytes(const char *name, uint32 Address, uint32 Length, uint32 Granularity, bool hl, const uint8 *Buffer);
+
+bool NESDBG_Init(void);
+
+extern DebuggerInfoStruct NESDBGInfo;
+
+#endif
 
 #endif

@@ -18,9 +18,9 @@
 
 /* Modified for usage in Mednafen */
 
+#include "main.h"
 #include <string.h>
 
-#include "main.h"
 #define HQXX_INTERNAL
 #include "hqxx-common.h"
 

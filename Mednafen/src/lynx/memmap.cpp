@@ -47,10 +47,10 @@
 //#include <crtdbg.h>
 //#define	TRACE_MEMMAP
 
-#include <string.h>
 #include "system.h"
 #include "memmap.h"
 
+#include <string.h>
 
 // IGNORE THIS TEXT, now overridden by new system
 //
@@ -101,7 +101,7 @@ void CMemMap::Reset(void)
 }
 
 
-ALWAYS_INLINE void CMemMap::Poke(uint32 addr, uint8 data)
+INLINE void CMemMap::Poke(uint32 addr, uint8 data)
 {
 	TRACE_MEMMAP1("Poke() - Data %02x",data);
 
@@ -174,7 +174,7 @@ ALWAYS_INLINE void CMemMap::Poke(uint32 addr, uint8 data)
 
 }
 
-ALWAYS_INLINE uint8 CMemMap::Peek(uint32 addr)
+INLINE uint8 CMemMap::Peek(uint32 addr)
 {
 	uint8 retval=0;
 

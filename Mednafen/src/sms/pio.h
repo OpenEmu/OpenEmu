@@ -1,6 +1,9 @@
 #ifndef _PIO_H_
 #define _PIO_H_
 
+namespace MDFN_IEN_SMS
+{
+
 #define SIO_TXFL    (1 << 0)    /* 1= Transmit buffer full */
 #define SIO_RXRD    (1 << 1)    /* 1= Receive buffer full */
 #define SIO_FRER    (1 << 2)    /* 1= Framing error occured */
@@ -38,20 +41,20 @@ typedef struct {
     uint8 th_dir[2];    /* TH pin direction */
 } io_state;
 
-/* Global variables */
-extern io_state io_lut[2][256];
-extern io_state *io_current;
-
 /* Function prototypes */
 void pio_init(void);
 void pio_reset(void);
 void pio_shutdown(void);
 void system_assign_device(int port, int type);
 
+int SMS_PIOStateAction(StateMem *sm, int load, int data_only);
+
 void io_lut_init(void);
 void ioctrl_w(uint8 data);
 uint8 input_r(int offset);
 void sio_w(int offset, int data);
 uint8 sio_r(int offset);
+
+}
 
 #endif /* _PIO_H_ */

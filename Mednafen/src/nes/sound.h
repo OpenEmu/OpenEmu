@@ -1,13 +1,10 @@
 #ifndef __NES_SOUND_H
 #define __NES_SOUND_H
 
-#include "sound-driver.h"
-
 typedef struct __EXPSOUND {
 	   void (*HiFill)(void);
 	   void (*HiSync)(int32 ts);
 
-	   void (*RChange)(struct __EXPSOUND *);
 	   void (*Kill)(void);
 } EXPSOUND;
 
@@ -15,16 +12,14 @@ typedef struct __EXPSOUND {
 
 extern std::vector<EXPSOUND> GameExpSound;
 
-int GetSoundBuffer(float **W);
-int FlushEmulateSound(int);
+int FlushEmulateSound(int reverse, int16 *SoundBuf, int32 MaxSoundFrames);
 
-extern int16 WaveFinal[2048+512] __attribute__ ((aligned (16)));
-extern int16 WaveHiEx[40000] __attribute__ ((aligned (16)));
+extern MDFN_ALIGN(16) int16 WaveHiEx[40000];
 
 extern uint32 soundtsoffs;
 #define SOUNDTS (timestamp + soundtsoffs)
 
-int MDFNSND_Init(int PAL);
+int MDFNSND_Init(bool IsPAL);
 void MDFNSND_Close(void);
 void MDFNSND_Power(void);
 void MDFNSND_Reset(void);
@@ -35,6 +30,6 @@ void MDFN_SoundCPUHook(int);
 int MDFNSND_StateAction(StateMem *sm, int load, int data_only);
 void MDFNNES_SetSoundVolume(uint32 volume);
 void MDFNNES_SetSoundMultiplier(double multiplier);
-void MDFNNES_Sound(int Rate);
+bool MDFNNES_SetSoundRate(double Rate);
 
 #endif

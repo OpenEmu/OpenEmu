@@ -15,8 +15,6 @@
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-#include <string.h>
-
 #include "nes.h"
 #include "x6502.h"
 #include "sound.h"
@@ -54,12 +52,12 @@ void (*MapIRQHook)(int a);
 
 extern uint8 *Page[32];
 
-static ALWAYS_INLINE uint8 RdMemNorm(unsigned int A)
+static INLINE uint8 RdMemNorm(unsigned int A)
 {
  return(_DB=ARead[A](A));
 }
 
-static ALWAYS_INLINE void WrMemNorm(unsigned int A, uint8 V)
+static INLINE void WrMemNorm(unsigned int A, uint8 V)
 {
  BWrite[A](A,V);
 }
@@ -69,7 +67,7 @@ X6502 XSave;     /* This is getting ugly. */
 //#define RdMemHook(A)	( X.ReadHook?(_DB=X.ReadHook(&X,A)):(_DB=ARead[A](A)) )
 //#define WrMemHook(A,V)	{ if(X.WriteHook) X.WriteHook(&X,A,V); else BWrite[A](A,V); }
 
-static ALWAYS_INLINE uint8 RdMemHook(unsigned int A)
+static INLINE uint8 RdMemHook(unsigned int A)
 {
  if(X.ReadHook)
   return(_DB = X.ReadHook(&X,A) );
@@ -77,7 +75,7 @@ static ALWAYS_INLINE uint8 RdMemHook(unsigned int A)
   return(_DB=ARead[A](A));
 }
  
-static ALWAYS_INLINE void WrMemHook(unsigned int A, uint8 V)
+static INLINE void WrMemHook(unsigned int A, uint8 V)
 {
  if(X.WriteHook)
   X.WriteHook(&X,A,V);
@@ -341,7 +339,7 @@ static uint8 ZNTable[256];
 #define ST_IX(r)	{unsigned int A; GetIX(A); WrMem(A,r); break; }
 #define ST_IY(r)	{unsigned int A; GetIYWR(A); WrMem(A,r); break; }
 
-static uint8 CycTable[256] =
+static const uint8 CycTable[256] =
 {                             
 /*0x00*/ 7,6,2,8,3,3,5,5,3,2,2,2,4,4,6,6,
 /*0x10*/ 2,5,2,8,4,4,6,6,2,4,2,7,4,4,7,7,
@@ -363,11 +361,13 @@ static uint8 CycTable[256] =
 
 void X6502_IRQBegin(int w)
 {
+ //printf("IRQ begin: %d; %d\n", w, _IRQlow);
  _IRQlow|=w;
 }
 
 void X6502_IRQEnd(int w)
 {
+ //printf("IRQ end: %d; %d\n", w, _IRQlow);
  _IRQlow&=~w;
 }
 
@@ -537,7 +537,7 @@ static void X6502_RunDebug(int32 cycles)
 	  goto PenguinPower;
 	 X.cpoint = 0;
 
-         _PI=_P;
+         _PI = _P;
          b1=RdMem(_PC);
          ADDCYC(CycTable[b1]);
 
@@ -552,6 +552,7 @@ static void X6502_RunDebug(int32 cycles)
          {
           #include "ops.h"
          } 
+         _PC &= 0xFFFF;
         }
         #undef RdMem
         #undef WrMem
@@ -646,7 +647,8 @@ void X6502_Run(int32 cycles)
 	 }
 
  	 SephirothBishie:
-	 _PI=_P;
+
+	 _PI = _P;
 	 b1=RdMem(_PC);
 
 	 ADDCYC(CycTable[b1]);
@@ -661,6 +663,7 @@ void X6502_Run(int32 cycles)
          {
           #include "ops.h"
          } 
+         _PC &= 0xFFFF;
 	}
 
         #undef _PC
@@ -677,6 +680,7 @@ int X6502_StateAction(StateMem *sm, int load, int data_only)
   SFVARN(X.PC, "PC"),
   SFVARN(X.A, "A"),
   SFVARN(X.P, "P"),
+  SFVARN(X.mooPI, "PI"),
   SFVARN(X.X, "X"),
   SFVARN(X.Y, "Y"),
   SFVARN(X.S, "S"),
@@ -685,24 +689,28 @@ int X6502_StateAction(StateMem *sm, int load, int data_only)
  };
 
  SFORMAT SFCPUC[]={
-  SFVARN(X.jammed, "JAMM"),
-  SFVARN(X.IRQlow, "IQLB"),
-  SFVARN(X.tcount, "ICoa"),
-  SFVARN(X.count, "ICou"),
-  SFVARN(timestampbase, "TSBS"),
+  SFVARN(X.jammed, "jammed"),
+  SFVARN(X.IRQlow, "IRQLow"),
+  SFVARN(X.tcount, "tcount"),
+  SFVARN(X.count, "count"),
+  SFVARN(timestampbase, "timestampbase"),
   SFVARN(X.cpoint, "CPoint"),
   SFEND
  };
-
-
- if(load && load < 0x0603)
-  X.cpoint = 0;
 
  std::vector <SSDescriptor> love;
  love.push_back(SSDescriptor(SFCPU, "CPU"));
  love.push_back(SSDescriptor(SFCPUC, "CPUC"));
 
- return(MDFNSS_StateAction(sm, load, data_only, love));
+
+ int ret = MDFNSS_StateAction(sm, load, data_only, love);
+
+ if(load)
+ {
+  X.PC &= 0xFFFF;
+ }
+
+ return(ret);
 }
 
 #ifdef WANT_DEBUGGER

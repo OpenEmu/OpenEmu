@@ -24,6 +24,7 @@
 #include "v30mz.h"
 #include "rtc.h"
 #include "../video.h"
+#include <trio/trio.h>
 
 static uint32 wsMonoPal[16][4];
 static uint32 wsColors[8];
@@ -31,7 +32,7 @@ static uint32 wsCols[16][16];
 
 static uint32 ColorMapG[16];
 static uint32 ColorMap[16*16*16];
-static uint32 LayerEnabled = 7; // BG, FG, sprites
+static uint32 LayerEnabled;
 
 static uint8 wsLine;                 /*current scanline*/
 
@@ -61,37 +62,37 @@ static uint8 VideoMode;
 
 RegType WSwanGfxRegs[] =
 {
- { "DispControl", "Display Control", 1 },
- { "VideoMode", "Video Mode", 1 },
- { "LCDControl", "LCD Control", 1 },
- { "LCDIcons", "LCD Icons", 1 },
- { "BTimerControl", "VB/HB Timer Control", 1 },
- { "HBTimerPeriod", "Horizontal blank timer counter period", 2 },
- { "VBTimerPeriod", "Vertical blank timer counter period", 2 },
- { "HBCounter", "Horizontal blank counter", 1 },
- { "VBCounter", "Vertical blank counter", 1 },
- { "BGColor", "Background Color", 1 },
- { "LineCompare", "Line Compare", 1 },
- { "SPRBase", "Sprite Table Base", 1 },
- { "SpriteStart", "SpriteStart", 1 },
- { "SpriteCount", "SpriteCount", 1 },
+ { 0, "DispControl", "Display Control", 1 },
+ { 0, "VideoMode", "Video Mode", 1 },
+ { 0, "LCDControl", "LCD Control", 1 },
+ { 0, "LCDIcons", "LCD Icons", 1 },
+ { 0, "BTimerControl", "VB/HB Timer Control", 1 },
+ { 0, "HBTimerPeriod", "Horizontal blank timer counter period", 2 },
+ { 0, "VBTimerPeriod", "Vertical blank timer counter period", 2 },
+ { 0, "HBCounter", "Horizontal blank counter", 1 },
+ { 0, "VBCounter", "Vertical blank counter", 1 },
+ { 0, "BGColor", "Background Color", 1 },
+ { 0, "LineCompare", "Line Compare", 1 },
+ { 0, "SPRBase", "Sprite Table Base", 1 },
+ { 0, "SpriteStart", "SpriteStart", 1 },
+ { 0, "SpriteCount", "SpriteCount", 1 },
 
- { "FGBGLoc", "FG/BG Map Location", 1 },
+ { 0, "FGBGLoc", "FG/BG Map Location", 1 },
 
- { "FGx0", "Foreground Window X0", 1 }, 
- { "FGy0", "Foreground Window Y0", 1 },
- { "FGx1", "Foreground Window X1", 1 },
- { "FGy1", "Foreground Window Y1", 1 },
- { "SPRx0", "Sprite Window X0", 1 },
- { "SPRy0", "Sprite Window Y0", 1 },
- { "SPRx1", "Sprite Window X1", 1 },
- { "SPRy1", "Sprite Window Y1", 1 },
+ { 0, "FGx0", "Foreground Window X0", 1 }, 
+ { 0, "FGy0", "Foreground Window Y0", 1 },
+ { 0, "FGx1", "Foreground Window X1", 1 },
+ { 0, "FGy1", "Foreground Window Y1", 1 },
+ { 0, "SPRx0", "Sprite Window X0", 1 },
+ { 0, "SPRy0", "Sprite Window Y0", 1 },
+ { 0, "SPRx1", "Sprite Window X1", 1 },
+ { 0, "SPRy1", "Sprite Window Y1", 1 },
 
- { "BGXScroll", "Background X Scroll", 1 },
- { "BGYScroll", "Background Y Scroll", 1 },
- { "FGXScroll", "Foreground X Scroll", 1 },
- { "FGYScroll", "Foreground Y Scroll", 1 },
- { "", "", 0 },
+ { 0, "BGXScroll", "Background X Scroll", 1 },
+ { 0, "BGYScroll", "Background Y Scroll", 1 },
+ { 0, "FGXScroll", "Foreground X Scroll", 1 },
+ { 0, "FGYScroll", "Foreground Y Scroll", 1 },
+ { 0, "", "", 0 },
 };
 
 uint32 WSwan_GfxGetRegister(const std::string &oname, std::string *special)
@@ -107,7 +108,7 @@ uint32 WSwan_GfxGetRegister(const std::string &oname, std::string *special)
   if(special)
   {
    char tmpstr[256];
-   snprintf(tmpstr, 256, "0x%02x * 0x200 = 0x%04x", SPRBase, SPRBase * 0x200);
+   trio_snprintf(tmpstr, 256, "0x%02x * 0x200 = 0x%04x", SPRBase, SPRBase * 0x200);
    *special = std::string(tmpstr);
   }
   return(SPRBase);
@@ -156,10 +157,9 @@ uint32 WSwan_GfxGetRegister(const std::string &oname, std::string *special)
   return(HBCounter);
  if(oname == "VBCounter")
   return(VBCounter);
- if(oname == "VideoMode");
+ if(oname == "VideoMode")
   return(VideoMode);
 
- puts("Err");
  return(0);
 }
 
@@ -217,7 +217,7 @@ void WSwan_GfxSetRegister(const std::string &oname, uint32 value)
   HBCounter = value;
  if(oname == "VBCounter")
   VBCounter = value;
- if(oname == "VideoMode");
+ if(oname == "VideoMode")
  {
   VideoMode = value;
   wsSetVideo(VideoMode >> 5, false);
@@ -226,16 +226,17 @@ void WSwan_GfxSetRegister(const std::string &oname, uint32 value)
 
 static RegGroupType WSwanGfxRegsGroup =
 {
+ "Gfx",
  WSwanGfxRegs,
+ NULL,
+ NULL,
  WSwan_GfxGetRegister,
  WSwan_GfxSetRegister,
 };
 
 
 static void DoGfxDecode(void);
-static uint32 *GfxDecode_Buf = NULL;
-static int GfxDecode_Width = 0;
-static int GfxDecode_Height = 0;
+static MDFN_Surface *GfxDecode_Buf = NULL;
 static int GfxDecode_Line = -1;
 static int GfxDecode_Layer = 0;
 static int GfxDecode_Scroll = 0;
@@ -244,6 +245,7 @@ static int GfxDecode_Pbn = 0;
 
 void WSwan_GfxInit(void)
 {
+ LayerEnabled = 7; // BG, FG, sprites
  #ifdef WANT_DEBUGGER
  MDFNDBG_AddRegGroup(&WSwanGfxRegsGroup);
  #endif
@@ -369,19 +371,19 @@ uint8 WSwan_GfxRead(uint32 A)
  }
 }
 
-bool wsExecuteLine(uint32 *pXBuf, bool skip)
+bool wsExecuteLine(MDFN_Surface *surface, bool skip)
 {
         bool ret = FALSE;
 
          #ifdef WANT_DEBUGGER
-         if(GfxDecode_Line >=0 && wsLine == GfxDecode_Line)
+         if(GfxDecode_Buf && GfxDecode_Line >=0 && wsLine == GfxDecode_Line)
           DoGfxDecode();
          #endif
 
 	if(wsLine < 144)
 	{
 	 if(!skip)
-          wsScanline(pXBuf + wsLine * 256);
+          wsScanline(surface->pixels + wsLine * surface->pitch32);
 	}
 
 	WSwan_CheckSoundDMA();
@@ -452,7 +454,7 @@ bool WSwan_GfxToggleLayer(int which)
  return((LayerEnabled >> which) & 1);
 }
 
-void WSwan_SetPixelFormat(int rs, int gs, int bs)
+void WSwan_SetPixelFormat(const MDFN_PixelFormat &format)
 {
  for(int r = 0; r < 16; r++)
   for(int g = 0; g < 16; g++)
@@ -464,7 +466,7 @@ void WSwan_SetPixelFormat(int rs, int gs, int bs)
     neo_g = g * 17;
     neo_b = b * 17;
 
-    ColorMap[(r << 8) | (g << 4) | (b << 0)] = (neo_r << rs) | (neo_g << gs) | (neo_b << bs);
+    ColorMap[(r << 8) | (g << 4) | (b << 0)] = format.MakeColor(neo_r, neo_g, neo_b); //(neo_r << rs) | (neo_g << gs) | (neo_b << bs);
    }
 
  for(int i = 0; i < 16; i++)
@@ -475,7 +477,7 @@ void WSwan_SetPixelFormat(int rs, int gs, int bs)
   neo_g = (i) * 17;
   neo_b = (i) * 17;
 
-  ColorMapG[i] = (neo_r << rs) | (neo_g << gs) | (neo_b << bs);
+  ColorMapG[i] = format.MakeColor(neo_r, neo_g, neo_b); //(neo_r << rs) | (neo_g << gs) | (neo_b << bs);
  }
 }
 
@@ -804,12 +806,12 @@ int WSwan_GfxStateAction(StateMem *sm, int load, int data_only)
 {
  SFORMAT StateRegs[] =
  {
-  SFARRAY32(wsMonoPal, 16 * 4),
+  SFARRAY32N(&wsMonoPal[0][0], 16 * 4, "wsMonoPal"),
   SFARRAY32(wsColors, 8),
 
   SFVAR(wsLine),
 
-  SFARRAY(SpriteTable, 0x80 * 4),
+  SFARRAYN(&SpriteTable[0][0], 0x80 * 4, "SpriteTable"),
   SFVAR(SpriteCountCache),
   SFVAR(DispControl),
   SFVAR(BGColor),
@@ -861,13 +863,15 @@ int WSwan_GfxStateAction(StateMem *sm, int load, int data_only)
 #ifdef WANT_DEBUGGER
 static void DoGfxDecode(void)
 {
+ // FIXME
  uint32 *palette_ptr;
- uint32 *target = GfxDecode_Buf;
- int w = GfxDecode_Width;
- int h = GfxDecode_Height;
+ uint32 *target = GfxDecode_Buf->pixels;
+ int w = GfxDecode_Buf->w;
+ int h = GfxDecode_Buf->h;
  int scroll = GfxDecode_Scroll;
  uint32 neo_palette[16];
  uint32 tile_limit;
+ uint32 zero_color = GfxDecode_Buf->MakeColor(0, 0, 0, 0);
 
  if(wsVMode && GfxDecode_Layer != 2) // Sprites can't use the extra tile bank in WSC mode
   tile_limit = 0x400;
@@ -879,23 +883,32 @@ static void DoGfxDecode(void)
   if(wsVMode)
   {
    for(int x = 0; x < 16; x++)
-    neo_palette[x] = MK_COLORA(x * 17, x * 17, x * 17, 0xFF);
+    neo_palette[x] = GfxDecode_Buf->MakeColor(x * 17, x * 17, x * 17, 0xFF);
   }
   else
    for(int x = 0; x < 16; x++)
-    neo_palette[x] = MK_COLORA(x * 85, x * 85, x * 85, 0xFF);
+    neo_palette[x] = GfxDecode_Buf->MakeColor(x * 85, x * 85, x * 85, 0xFF);
  }
  else
  {
   if(wsVMode)
    for(int x = 0; x < 16; x++)
    {
-    neo_palette[x] = ColorMap[wsCols[GfxDecode_Pbn & 0xF][x]] | MK_COLORA(0, 0, 0, 0xFF);
+    uint32 raw = wsCols[GfxDecode_Pbn & 0xF][x];
+    uint32 r, g, b;
+
+    r = (raw >> 8) & 0x0F;
+    g = (raw >> 4) & 0x0F;
+    b = (raw >> 0) & 0x0F;
+
+    neo_palette[x] = GfxDecode_Buf->MakeColor(r * 17, g * 17, b * 17, 0xFF);
    }
   else
    for(int x = 0; x < 4; x++)
    {
-    neo_palette[x] = ColorMapG[wsMonoPal[GfxDecode_Pbn & 0xF][x]] | MK_COLORA(0, 0, 0, 0xFF);
+    uint32 raw = wsMonoPal[GfxDecode_Pbn & 0xF][x];
+
+    neo_palette[x] = GfxDecode_Buf->MakeColor(raw * 17 , raw * 17, raw * 17, 0xFF);
    }
  }
  palette_ptr = neo_palette;
@@ -910,7 +923,7 @@ static void DoGfxDecode(void)
    {
     for(int sx = 0; sx < 8; sx++)
     {
-     target[x + sx] = MK_COLORA(0, 0, 0, 0);
+     target[x + sx] = zero_color;
      target[x + w * 1 + sx] = 0;
      target[x + w * 2 + sx] = 0;
     }
@@ -957,37 +970,18 @@ static void DoGfxDecode(void)
   }
   target += w * 3;
  }
-
-
 }
 
-void WSwan_GfxSetGraphicsDecode(int line, int which, int w, int h, int xscroll, int yscroll, int pbn)
+void WSwan_GfxSetGraphicsDecode(MDFN_Surface *surface, int line, int which, int xscroll, int yscroll, int pbn)
 {
- if(line == -1)
- {
-  if(GfxDecode_Buf)
-  {
-   free(GfxDecode_Buf);
-   GfxDecode_Buf = NULL;
-  }
- }
- else
-  GfxDecode_Buf = (uint32*)realloc(GfxDecode_Buf, w * h * sizeof(uint32) * 3); // *2 for extra address info.
-
+ GfxDecode_Buf = surface;
  GfxDecode_Line = line;
- GfxDecode_Width = w;
- GfxDecode_Height = h;
  GfxDecode_Layer = which;
  GfxDecode_Scroll = yscroll;
  GfxDecode_Pbn = pbn;
 
- if(GfxDecode_Line == 0xB00B13)
+ if(GfxDecode_Line == -1)
   DoGfxDecode();
-}
-
-uint32 *WSwan_GfxGetGraphicsDecodeBuffer(void)
-{
- return(GfxDecode_Buf);
 }
 
 #endif

@@ -20,7 +20,6 @@
 
 #include "mapinc.h"
 
-static writefunc oldmorko;
 static uint8 latch;
 
 static void Sync(void)
@@ -33,16 +32,11 @@ static DECLFW(Write)
 {
  latch = V;
  Sync();
- oldmorko(A,V);
 }
 
 static void Power(CartInfo *info)
 {
  setprg32(0x8000, 0);
-
- // FIXME when we make separate Init and Power functions for input.cpp
- oldmorko = GetWriteHandler(0x4016);
- SetWriteHandler(0x4016,0x4016,Write);
 
  latch = 0;
  Sync();
@@ -65,6 +59,9 @@ int Mapper99_Init(CartInfo *info)
 {
  info->Power = Power;
  info->StateAction = StateAction;
+
  SetReadHandler(0x8000, 0xFFFF, CartBR);
+ SetWriteHandler(0x4016, 0x4016, Write);	// Warning: relies on kludge in input.cpp
+
  return(1);
 }

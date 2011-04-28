@@ -16,7 +16,7 @@
 #define __Z80_CONTROL__
 //=============================================================================
 
-#include "../z80-fuse/z80.h"
+#include "z80-fuse/z80.h"
 
 uint8 Z80_ReadComm(void);
 void Z80_WriteComm(uint8 data);

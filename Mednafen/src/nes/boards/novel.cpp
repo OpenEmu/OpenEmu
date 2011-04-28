@@ -36,8 +36,6 @@ static DECLFW(NovelWrite)
 
 static void NovelReset(CartInfo *info)
 {
- SetWriteHandler(0x8000,0xFFFF,NovelWrite);
- SetReadHandler(0x8000,0xFFFF,CartBR);  
  latch = 0;
  DoNovel();
 }
@@ -59,6 +57,9 @@ int Novel_Init(CartInfo *info)
 {
  info->StateAction = StateAction;
  info->Power=NovelReset;
+
+ SetWriteHandler(0x8000,0xFFFF,NovelWrite);
+ SetReadHandler(0x8000,0xFFFF,CartBR);
 
  return(1);
 }

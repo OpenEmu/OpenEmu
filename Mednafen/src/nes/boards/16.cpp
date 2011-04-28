@@ -51,7 +51,7 @@ static void DoPRG(void)
 
 static void DoMirroring(void)
 {
- int mir_tab[4] = {MI_V, MI_H, MI_0, MI_1 };
+ static const int mir_tab[4] = { MI_V, MI_H, MI_0, MI_1 };
  setmirror(mir_tab[Mirroring & 3]);
 }
 
