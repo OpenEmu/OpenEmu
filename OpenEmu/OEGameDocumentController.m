@@ -70,23 +70,25 @@
 
 + (void)initialize
 {
-    //This can get called many times, don't need to be blowing away the defaults
+    // This can get called many times, don't need to be blowing away the defaults
     NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
     NSDictionary *initialValues = [[[defaults initialValues] mutableCopy] autorelease];
-    if (!initialValues)
+    if(initialValues == nil)
         initialValues = [NSMutableDictionary dictionary];
-    [initialValues setValue:@"Linear"
-                    forKey:@"filterName"];
-    [initialValues setValue:[NSNumber numberWithFloat:1.0]
-                     forKey:@"volume"];
+    
+    [initialValues setValue:@"Linear"                      forKey:@"filterName"];
+    [initialValues setValue:[NSNumber numberWithFloat:1.0] forKey:@"volume"];
     [defaults setInitialValues:initialValues];
     
-    [OEPlugin registerPluginClass:[OECorePlugin class]];
-    [OEPlugin registerPluginClass:[OESystemPlugin class]];
-    [OEPlugin registerPluginClass:[OECompositionPlugin class]];
+    if([OEGameDocumentController class] != self)
+    {
+        [OEPlugin registerPluginClass:[OECorePlugin class]];
+        [OEPlugin registerPluginClass:[OESystemPlugin class]];
+        [OEPlugin registerPluginClass:[OECompositionPlugin class]];
+    }
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification*)aNotification
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
     [QCPlugIn loadPlugInAtPath:pluginString];
@@ -108,26 +110,28 @@
     [versionMigrator runMigrationIfNeeded];
 }
 
--(void)updateBundles: (id) sender
+- (void)updateBundles:(id)sender
 {
-    if (! coreUpdater) coreUpdater = [[OECoreUpdater alloc] init];
+    if(coreUpdater == nil) coreUpdater = [[OECoreUpdater alloc] init];
+    
     [coreUpdater showWindow:self];
     
     //see if QC plugins are installed
     NSBundle *OEQCPlugin = [NSBundle bundleWithPath:@"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin"];
     //if so, get the bundle
-    if(OEQCPlugin)
+    if(OEQCPlugin != nil)
     {
         DLog(@"%@", [[SUUpdater updaterForBundle:OEQCPlugin] feedURL]);
         @try
         {
-            if( [[SUUpdater updaterForBundle:OEQCPlugin] feedURL] )
+            if([[SUUpdater updaterForBundle:OEQCPlugin] feedURL])
             {
                 [[SUUpdater updaterForBundle:OEQCPlugin] resetUpdateCycle];
                 [[SUUpdater updaterForBundle:OEQCPlugin] checkForUpdates:self];
             }
         }
-        @catch (NSException * e) {
+        @catch (NSException *e)
+        {
             NSLog(@"Tried to update QC bundle without Sparkle");
         }
     }
@@ -144,8 +148,7 @@
 
 - (id)init
 {
-    self = [super init];
-    if(self)
+    if((self = [super init]))
     {
         versionMigrator = [OEVersionMigrationController defaultMigrationController];
         [versionMigrator addMigratorTarget:self selector:@selector(migrateSaveStatesWithError:) forVersion:@"1.0.0b5"];
@@ -155,13 +158,15 @@
 		[server setDelegate:self];
 		
 		NSError *error = nil;
-		if(server == nil || ![server start:&error]) {
+		if(server == nil || ![server start:&error])
+        {
 			NSLog(@"Failed creating server: %@", error);
             //[self _showAlert:@"Failed creating server"];
 		}
 		
 		//Start advertising to clients, passing nil for the name to tell Bonjour to pick use default name
-		if(![server enableBonjourWithDomain:@"local" applicationProtocol:[OENetServer bonjourTypeFromIdentifier:@"openemu"] name:nil]) {
+		if(![server enableBonjourWithDomain:@"local" applicationProtocol:[OENetServer bonjourTypeFromIdentifier:@"openemu"] name:nil])
+        {
 			NSLog(@"No advertisment");
             //[self _showAlert:@"Failed advertising server"];
 		}
@@ -224,18 +229,18 @@
 	
 	[[OEPlugin class] removeObserver:self forKeyPath:@"allPlugins"];
     
-    [filterNames release];
-    [validExtensions release];
-    [plugins release];
+    [filterNames      release];
+    [validExtensions  release];
+    [plugins          release];
     [aboutCreditsPath release];
-    [coreInstaller release];
-    [coreUpdater release];
+    [coreInstaller    release];
+    [coreUpdater      release];
     
-    [managedObjectContext release], managedObjectContext = nil;
+    [managedObjectContext       release], managedObjectContext = nil;
     [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
-    [managedObjectModel release], managedObjectModel = nil;
+    [managedObjectModel         release], managedObjectModel = nil;
     
-    [organizer release], organizer = nil;
+    [organizer       release], organizer = nil;
     [versionMigrator release], versionMigrator = nil;
     
     [super dealloc];
@@ -419,7 +424,8 @@
     NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
 }
 
-- (id)previewROMFile:(OEROMFile *)romFile withSaveState:(OESaveState *)saveState fromPoint:(NSPoint)pt{
+- (id)previewROMFile:(OEROMFile *)romFile withSaveState:(OESaveState *)saveState fromPoint:(NSPoint)pt
+{
 	id document = nil;
 	
 	isOpeningQuickLook = YES;
@@ -432,11 +438,12 @@
 	return document;
 }
 
-- (id)previewROMFile:(OEROMFile *)romFile fromPoint:(NSPoint)pt{
+- (id)previewROMFile:(OEROMFile *)romFile fromPoint:(NSPoint)pt
+{
 	return [self previewROMFile:romFile withSaveState:nil fromPoint:pt];
 }
 
-//FIXME: it looks like our code here expects the file to be an archive and shits its pants (throws an error
+// FIXME: it looks like our code here expects the file to be an archive and shits its pants (throws an error
 // popup saying "can't open files of type "Nestopia Cartridge" " or similar) if it's not.
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
 {
@@ -472,14 +479,14 @@
                     filePath = [filePath stringByAppendingPathComponent:[archive nameOfEntry:idx]];
                     absoluteURL = [NSURL fileURLWithPath:filePath];
                 }
-                else if(outError)
-                        *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:
-                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                      @"Couldn't extract archive", NSLocalizedDescriptionKey, nil]];
+                else if(outError != NULL)
+                    *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:
+                                 [NSDictionary dictionaryWithObjectsAndKeys:
+                                  @"Couldn't extract archive", NSLocalizedDescriptionKey, nil]];
             }
             else
             {
-                if (outError)
+                if(outError != NULL)
                     *outError = [NSError errorWithDomain:NSCocoaErrorDomain
                                                     code:NSUserCancelledError userInfo:nil];
                 return nil;
@@ -515,12 +522,18 @@
 {
 	Class ret = NULL;
 	
-	if(isOpeningQuickLook){
-		ret = [OEGameQuickLookDocument class]; DLog(@"documentClassForType: Quick Look");
-	}else{
+	if(isOpeningQuickLook)
+    {
+		ret = [OEGameQuickLookDocument class];
+        DLog(@"documentClassForType: Quick Look");
+    }
+	else
+    {
 		ret = [super documentClassForType:documentTypeName];
-		if(ret == nil){
-			ret = [OEGameDocument class]; DLog(@"documentClassForType: Long path");
+		if(ret == nil)
+        {
+			ret = [OEGameDocument class];
+            DLog(@"documentClassForType: Long path");
 		}
 	}
     return ret;
@@ -628,7 +641,7 @@
  store for the application to it.  (The folder for the store is created,
  if necessary.)
  */
-- (NSPersistentStoreCoordinator *) persistentStoreCoordinator
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
     if (persistentStoreCoordinator != nil) return persistentStoreCoordinator;
     
@@ -658,7 +671,7 @@
  Returns the managed object context for the application (which is already
  bound to the persistent store coordinator for the application.)
  */
-- (NSManagedObjectContext *) managedObjectContext
+- (NSManagedObjectContext *)managedObjectContext
 {
     if(managedObjectContext != nil) return managedObjectContext;
     
@@ -700,7 +713,6 @@
  */
 - (NSApplicationTerminateReply)applicationShouldTerminate:(NSApplication *)sender
 {
-    
     NSError *error = nil;
     NSApplicationTerminateReply reply = NSTerminateNow;
     
@@ -742,9 +754,9 @@
     NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     BOOL win = YES;
     
-    NSManagedObjectModel *model = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:saveStatePath]] autorelease];
+    NSManagedObjectModel         *model       = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:saveStatePath]] autorelease];
     NSPersistentStoreCoordinator *coordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model] autorelease];
-    NSManagedObjectContext *context = [[[NSManagedObjectContext alloc] init] autorelease];
+    NSManagedObjectContext       *context     = [[[NSManagedObjectContext alloc] init] autorelease];
     [context setPersistentStoreCoordinator:coordinator];
     
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
@@ -808,7 +820,8 @@
 
     // NOTE: This assumes that a screenshot can be taken, otherwise it will not
     // add the state without providing any feedback.
-    [(OEGameDocument *)[self currentDocument] captureScreenshotUsingBlock:^(NSImage* img)
+    [(OEGameDocument *)[self currentDocument] captureScreenshotUsingBlock:
+     ^(NSImage *img)
      {
          [newState setScreenshot:img];
          OEROMFile *romFile = [OEROMFile fileWithPath:romPath
@@ -856,7 +869,7 @@
     if([errors count] > 0)
     {
         if([errors count] == 1)
-            *err = [errors objectAtIndex:0];
+            *err = [errors lastObject];
         else
             *err = [NSError errorWithDomain:OESaveStateMigrationErrorDomain code:300
                                    userInfo:
