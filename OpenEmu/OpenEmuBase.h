@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -26,10 +26,12 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OpenEmuBase/OpenEmuBase.h>
 
-OE_EXTERN NSArray *MednafenRawControlNames;
-OE_EXTERN NSArray *MednafenUsedControlNames;
-
-@interface MednafenGameController : OEGameCoreController
-@end
+#import <OpenEmuBase/OESystemResponderClient.h>
+#import <OpenEmuBase/OEPluginController.h>
+#import <OpenEmuBase/OEGameCoreController.h>
+#import <OpenEmuBase/OEGameCore.h>
+#import <OpenEmuBase/OEPreferenceViewController.h>
+#import <OpenEmuBase/OEAbstractAdditions.h>
+#import <OpenEmuBase/NSString+OEAdditions.h>
+#import <OpenEmuBase/OERingBuffer.h>

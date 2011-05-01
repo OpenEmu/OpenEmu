@@ -13,6 +13,7 @@
 
 #ifdef __OBJC__
 #import <Cocoa/Cocoa.h>
+#import <OpenEmuBase/OpenEmuBase.h>
 #else
 //	#include <stdint.h>
 #include <strings.h>

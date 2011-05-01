@@ -26,8 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
-#import <OEHIDEvent.h>
+#import <OpenEmuBase/OpenEmuBase.h>
 #include <vector>
 #include "mednafen.h"
 
