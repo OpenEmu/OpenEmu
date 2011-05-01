@@ -30,18 +30,10 @@
 		824089F00FFDEA6C00F0FE7D /* MednafenGameController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 824089EF0FFDEA6C00F0FE7D /* MednafenGameController.mm */; };
 		8296617D1042474500F30B74 /* libcdio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8296617C1042474500F30B74 /* libcdio.a */; };
 		829661C410424C2000F30B74 /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 829661C310424C1F00F30B74 /* libsndfile.a */; };
-		829665EE10438CDC00F30B74 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = 829665EC10438CDC00F30B74 /* ControlsPreference.xib */; };
-		829665EF10438CDC00F30B74 /* gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 829665ED10438CDC00F30B74 /* gba.png */; };
-		82B0F96A104A389D005F3B26 /* wonderswan.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 82B0F969104A389D005F3B26 /* wonderswan.jpg */; };
-		82CFB5DD0FFE54E2002B6C7C /* lynxboot.img in Resources */ = {isa = PBXBuildFile; fileRef = 82CFB5DC0FFE54E2002B6C7C /* lynxboot.img */; };
 		82CFBC520FFEF432002B6C7C /* Mednafen.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82CFBC510FFEF432002B6C7C /* Mednafen.icns */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		C62954BE1369241300F94899 /* config.h.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294EAF1369241200F94899 /* config.h.in */; };
 		C62954BF1369241300F94899 /* desa68.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294EB11369241200F94899 /* desa68.c */; };
-		C62954C01369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C6294EB31369241200F94899 /* Makefile.am */; };
-		C62954C11369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294EB41369241200F94899 /* Makefile.in */; };
-		C62954C21369241300F94899 /* CHANGES in Resources */ = {isa = PBXBuildFile; fileRef = C6294EC11369241200F94899 /* CHANGES */; };
 		C62954C31369241300F94899 /* cdplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EC81369241200F94899 /* cdplay.cpp */; };
 		C62954C41369241300F94899 /* audioreader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294ECA1369241200F94899 /* audioreader.cpp */; };
 		C62954C51369241300F94899 /* cdromfile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294ECD1369241200F94899 /* cdromfile.cpp */; };
@@ -50,63 +42,24 @@
 		C62954C81369241300F94899 /* galois.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294ED41369241200F94899 /* galois.cpp */; };
 		C62954C91369241300F94899 /* l-ec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294ED51369241200F94899 /* l-ec.cpp */; };
 		C62954CA1369241300F94899 /* lec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294ED61369241200F94899 /* lec.cpp */; };
-		C62954CB1369241300F94899 /* Makefile.am.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294ED81369241200F94899 /* Makefile.am.inc */; };
 		C62954CC1369241300F94899 /* pcecd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294ED91369241200F94899 /* pcecd.cpp */; };
 		C62954CD1369241300F94899 /* recover-raw.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EDB1369241200F94899 /* recover-raw.cpp */; };
-		C62954CE1369241300F94899 /* scsicd-pce-commands.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294EDC1369241200F94899 /* scsicd-pce-commands.inc */; };
 		C62954CF1369241300F94899 /* scsicd.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EDD1369241200F94899 /* scsicd.cpp */; };
 		C62954D01369241300F94899 /* SimpleFIFO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EDF1369241200F94899 /* SimpleFIFO.cpp */; };
 		C62954D11369241300F94899 /* blz.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294EE31369241200F94899 /* blz.c */; };
 		C62954D21369241300F94899 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294EE51369241200F94899 /* ioapi.c */; };
-		C62954D31369241300F94899 /* Makefile.am.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294EE91369241200F94899 /* Makefile.am.inc */; };
 		C62954D41369241300F94899 /* minilzo.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294EEA1369241200F94899 /* minilzo.c */; };
 		C62954D51369241300F94899 /* quicklz.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294EEC1369241200F94899 /* quicklz.c */; };
 		C62954D61369241300F94899 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294EEE1369241200F94899 /* unzip.c */; };
 		C62954D71369241300F94899 /* cputest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF01369241200F94899 /* cputest.cpp */; };
 		C62954D81369241300F94899 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF21369241200F94899 /* debug.cpp */; };
 		C62954D91369241300F94899 /* demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF51369241200F94899 /* demo.cpp */; };
-		C62954DA1369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C6294EF61369241200F94899 /* Makefile.am */; };
-		C62954DB1369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294EF71369241200F94899 /* Makefile.in */; };
 		C62954DC1369241300F94899 /* desa68.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF91369241200F94899 /* desa68.c */; };
-		C62954DD1369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C6294EFB1369241200F94899 /* Makefile.am */; };
-		C62954DE1369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294EFC1369241200F94899 /* Makefile.in */; };
 		C62954DF1369241300F94899 /* dis6280.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EFD1369241200F94899 /* dis6280.cpp */; };
 		C62954E01369241300F94899 /* dis6502.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EFF1369241200F94899 /* dis6502.cpp */; };
-		C62954E11369241300F94899 /* 2xSaI.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F031369241200F94899 /* 2xSaI.cpp */; };
-		C62954E21369241300F94899 /* args.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F051369241200F94899 /* args.cpp */; };
-		C62954E31369241300F94899 /* cheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F071369241200F94899 /* cheat.cpp */; };
-		C62954E41369241300F94899 /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F091369241200F94899 /* console.cpp */; };
-		C62954E51369241300F94899 /* debugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F0B1369241200F94899 /* debugger.cpp */; };
-		C62954E61369241300F94899 /* ers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F0D1369241200F94899 /* ers.cpp */; };
-		C62954E71369241300F94899 /* fps.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F0F1369241200F94899 /* fps.cpp */; };
-		C62954E81369241300F94899 /* gfxdebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F111369241200F94899 /* gfxdebugger.cpp */; };
-		C62954E91369241300F94899 /* help.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F131369241200F94899 /* help.cpp */; };
-		C62954EA1369241300F94899 /* hq2x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F151369241200F94899 /* hq2x.cpp */; };
-		C62954EB1369241300F94899 /* hq3x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F161369241200F94899 /* hq3x.cpp */; };
-		C62954EC1369241300F94899 /* hq4x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F171369241200F94899 /* hq4x.cpp */; };
-		C62954ED1369241300F94899 /* hqxx-common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F181369241200F94899 /* hqxx-common.cpp */; };
-		C62954EE1369241300F94899 /* input-config.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F1B1369241200F94899 /* input-config.cpp */; };
-		C62954EF1369241300F94899 /* input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F1E1369241200F94899 /* input.cpp */; };
-		C62954F01369241300F94899 /* joystick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F201369241200F94899 /* joystick.cpp */; };
-		C62954F11369241300F94899 /* logdebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F221369241200F94899 /* logdebugger.cpp */; };
-		C62954F21369241300F94899 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F241369241200F94899 /* main.cpp */; };
-		C62954F31369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C6294F261369241200F94899 /* Makefile.am */; };
-		C62954F41369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294F271369241200F94899 /* Makefile.in */; };
-		C62954F51369241300F94899 /* memdebugger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F281369241200F94899 /* memdebugger.cpp */; };
-		C62954F61369241300F94899 /* netplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F2A1369241200F94899 /* netplay.cpp */; };
-		C62954F71369241300F94899 /* nnx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F2C1369241200F94899 /* nnx.cpp */; };
-		C62954F81369241300F94899 /* nongl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F2E1369241200F94899 /* nongl.cpp */; };
-		C62954F91369241300F94899 /* opengl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F301369241200F94899 /* opengl.cpp */; };
-		C62954FA1369241300F94899 /* overlay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F321369241200F94899 /* overlay.cpp */; };
-		C62954FB1369241300F94899 /* prompt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F341369241200F94899 /* prompt.cpp */; };
-		C62954FC1369241300F94899 /* remote.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F361369241200F94899 /* remote.cpp */; };
 		C62954FD1369241300F94899 /* scale2x.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294F381369241200F94899 /* scale2x.c */; };
 		C62954FE1369241300F94899 /* scale3x.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294F3A1369241200F94899 /* scale3x.c */; };
 		C62954FF1369241300F94899 /* scalebit.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294F3C1369241200F94899 /* scalebit.c */; };
-		C62955001369241300F94899 /* shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F3E1369241200F94899 /* shader.cpp */; };
-		C62955011369241300F94899 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F401369241200F94899 /* sound.cpp */; };
-		C62955021369241300F94899 /* video-state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F421369241200F94899 /* video-state.cpp */; };
-		C62955031369241300F94899 /* video.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F441369241200F94899 /* video.cpp */; };
 		C62955041369241300F94899 /* endian.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F461369241200F94899 /* endian.cpp */; };
 		C62955051369241300F94899 /* error.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F481369241200F94899 /* error.cpp */; };
 		C62955061369241300F94899 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F4A1369241200F94899 /* file.cpp */; };
@@ -114,8 +67,6 @@
 		C62955081369241300F94899 /* gb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F4F1369241200F94899 /* gb.cpp */; };
 		C62955091369241300F94899 /* gbGlobals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F531369241200F94899 /* gbGlobals.cpp */; };
 		C629550A1369241300F94899 /* gfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F551369241200F94899 /* gfx.cpp */; };
-		C629550B1369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C6294F561369241200F94899 /* Makefile.am */; };
-		C629550C1369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294F571369241200F94899 /* Makefile.in */; };
 		C629550D1369241300F94899 /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F581369241200F94899 /* memory.cpp */; };
 		C629550E1369241300F94899 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F5A1369241200F94899 /* sound.cpp */; };
 		C629550F1369241300F94899 /* z80.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F5C1369241200F94899 /* z80.cpp */; };
@@ -127,8 +78,6 @@
 		C62955151369241300F94899 /* GBAinline.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F691369241200F94899 /* GBAinline.cpp */; };
 		C62955161369241300F94899 /* Gfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F6C1369241200F94899 /* Gfx.cpp */; };
 		C62955171369241300F94899 /* Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F6E1369241200F94899 /* Globals.cpp */; };
-		C62955181369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C6294F701369241200F94899 /* Makefile.am */; };
-		C62955191369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294F711369241200F94899 /* Makefile.in */; };
 		C629551A1369241300F94899 /* Mode0.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F721369241200F94899 /* Mode0.cpp */; };
 		C629551B1369241300F94899 /* Mode1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F731369241200F94899 /* Mode1.cpp */; };
 		C629551C1369241300F94899 /* Mode2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F741369241200F94899 /* Mode2.cpp */; };
@@ -141,76 +90,32 @@
 		C62955231369241300F94899 /* thumb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F801369241200F94899 /* thumb.cpp */; };
 		C62955241369241300F94899 /* general.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294F821369241200F94899 /* general.cpp */; };
 		C62955251369241300F94899 /* c68k.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294F891369241200F94899 /* c68k.c */; };
-		C62955261369241300F94899 /* c68k_ini.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F8B1369241200F94899 /* c68k_ini.inc */; };
-		C62955271369241300F94899 /* c68k_op0.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F8C1369241200F94899 /* c68k_op0.inc */; };
-		C62955281369241300F94899 /* c68k_op1.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F8D1369241200F94899 /* c68k_op1.inc */; };
-		C62955291369241300F94899 /* c68k_op2.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F8E1369241200F94899 /* c68k_op2.inc */; };
-		C629552A1369241300F94899 /* c68k_op3.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F8F1369241200F94899 /* c68k_op3.inc */; };
-		C629552B1369241300F94899 /* c68k_op4.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F901369241200F94899 /* c68k_op4.inc */; };
-		C629552C1369241300F94899 /* c68k_op5.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F911369241200F94899 /* c68k_op5.inc */; };
-		C629552D1369241300F94899 /* c68k_op6.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F921369241200F94899 /* c68k_op6.inc */; };
-		C629552E1369241300F94899 /* c68k_op7.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F931369241200F94899 /* c68k_op7.inc */; };
-		C629552F1369241300F94899 /* c68k_op8.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F941369241200F94899 /* c68k_op8.inc */; };
-		C62955301369241300F94899 /* c68k_op9.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F951369241200F94899 /* c68k_op9.inc */; };
-		C62955311369241300F94899 /* c68k_opA.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F961369241200F94899 /* c68k_opA.inc */; };
-		C62955321369241300F94899 /* c68k_opB.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F971369241200F94899 /* c68k_opB.inc */; };
-		C62955331369241300F94899 /* c68k_opC.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F981369241200F94899 /* c68k_opC.inc */; };
-		C62955341369241300F94899 /* c68k_opD.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F991369241200F94899 /* c68k_opD.inc */; };
-		C62955351369241300F94899 /* c68k_opE.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F9A1369241200F94899 /* c68k_opE.inc */; };
-		C62955361369241300F94899 /* c68k_opF.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F9B1369241200F94899 /* c68k_opF.inc */; };
 		C62955371369241300F94899 /* c68kexec.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294F9C1369241200F94899 /* c68kexec.c */; };
-		C62955381369241300F94899 /* c68kmac.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294F9D1369241200F94899 /* c68kmac.inc */; };
 		C62955391369241300F94899 /* gen68k.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294F9E1369241200F94899 /* gen68k.c */; };
-		C629553A1369241300F94899 /* gen68k.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294FA01369241200F94899 /* gen68k.inc */; };
 		C629553B1369241300F94899 /* huc6280.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FA21369241200F94899 /* huc6280.cpp */; };
-		C629553C1369241300F94899 /* huc6280_step.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294FA41369241200F94899 /* huc6280_step.inc */; };
-		C629553D1369241300F94899 /* ops.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294FA51369241200F94899 /* ops.inc */; };
-		C629553E1369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C6294FA61369241200F94899 /* Makefile.am */; };
-		C629553F1369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294FA71369241200F94899 /* Makefile.in */; };
-		C62955401369241300F94899 /* softfloat-macros in Resources */ = {isa = PBXBuildFile; fileRef = C6294FAC1369241200F94899 /* softfloat-macros */; };
-		C62955411369241300F94899 /* softfloat-specialize in Resources */ = {isa = PBXBuildFile; fileRef = C6294FAD1369241200F94899 /* softfloat-specialize */; };
 		C62955421369241300F94899 /* softfloat.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294FAE1369241200F94899 /* softfloat.c */; };
 		C62955431369241300F94899 /* timesoftfloat.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294FB01369241200F94899 /* timesoftfloat.c */; };
 		C62955441369241300F94899 /* v810_cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FB11369241200F94899 /* v810_cpu.cpp */; };
 		C62955451369241300F94899 /* v810_cpuD.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FB31369241200F94899 /* v810_cpuD.cpp */; };
-		C62955461369241300F94899 /* v810_op_table.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294FB61369241200F94899 /* v810_op_table.inc */; };
-		C62955471369241300F94899 /* v810_oploop.inc in Sources */ = {isa = PBXBuildFile; fileRef = C6294FB71369241200F94899 /* v810_oploop.inc */; };
-		C62955481369241300F94899 /* coretest.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294FBA1369241200F94899 /* coretest.c */; };
-		C62955491369241300F94899 /* opcodes_base.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294FBB1369241200F94899 /* opcodes_base.c */; };
 		C629554A1369241300F94899 /* z80.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FBC1369241200F94899 /* z80.cpp */; };
-		C629554B1369241300F94899 /* z80_cb.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294FBE1369241200F94899 /* z80_cb.c */; };
-		C629554C1369241300F94899 /* z80_ddfd.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294FBF1369241200F94899 /* z80_ddfd.c */; };
-		C629554D1369241300F94899 /* z80_ddfdcb.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294FC01369241200F94899 /* z80_ddfdcb.c */; };
-		C629554E1369241300F94899 /* z80_ed.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294FC11369241200F94899 /* z80_ed.c */; };
 		C629554F1369241300F94899 /* z80_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FC31369241200F94899 /* z80_ops.cpp */; };
 		C62955501369241300F94899 /* arcade_card.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FC61369241200F94899 /* arcade_card.cpp */; };
-		C62955511369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C6294FC81369241200F94899 /* Makefile.am */; };
-		C62955521369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294FC91369241200F94899 /* Makefile.in */; };
 		C62955531369241300F94899 /* Gb_Apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FCF1369241200F94899 /* Gb_Apu.cpp */; };
 		C62955541369241300F94899 /* Gb_Apu_State.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FD11369241200F94899 /* Gb_Apu_State.cpp */; };
 		C62955551369241300F94899 /* Gb_Oscs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FD21369241200F94899 /* Gb_Oscs.cpp */; };
-		C62955561369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C6294FD41369241200F94899 /* Makefile.am */; };
-		C62955571369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294FD51369241200F94899 /* Makefile.in */; };
 		C62955581369241300F94899 /* pce_psg.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FD71369241200F94899 /* pce_psg.cpp */; };
 		C62955591369241300F94899 /* Sms_Apu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FDA1369241200F94899 /* Sms_Apu.cpp */; };
 		C629555A1369241300F94899 /* emu2413.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FDF1369241200F94899 /* emu2413.cpp */; };
 		C629555B1369241300F94899 /* Ym2612_Emu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FE21369241200F94899 /* Ym2612_Emu.cpp */; };
 		C629555C1369241300F94899 /* vdc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FE61369241200F94899 /* vdc.cpp */; };
-		C629555D1369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C6294FE81369241200F94899 /* Makefile.am */; };
-		C629555E1369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294FE91369241200F94899 /* Makefile.in */; };
 		C629555F1369241300F94899 /* c65c02.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FED1369241200F94899 /* c65c02.cpp */; };
 		C62955601369241300F94899 /* cart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FEF1369241200F94899 /* cart.cpp */; };
-		C62955611369241300F94899 /* license.txt in Resources */ = {isa = PBXBuildFile; fileRef = C6294FF11369241200F94899 /* license.txt */; };
-		C62955621369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C6294FF51369241200F94899 /* Makefile.am */; };
-		C62955631369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C6294FF61369241200F94899 /* Makefile.in */; };
 		C62955641369241300F94899 /* memmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FF71369241200F94899 /* memmap.cpp */; };
 		C62955651369241300F94899 /* mikie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FF91369241200F94899 /* mikie.cpp */; };
 		C62955661369241300F94899 /* ram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FFB1369241200F94899 /* ram.cpp */; };
 		C62955671369241300F94899 /* rom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FFD1369241200F94899 /* rom.cpp */; };
 		C62955681369241300F94899 /* susie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294FFF1369241200F94899 /* susie.cpp */; };
 		C62955691369241300F94899 /* system.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950021369241200F94899 /* system.cpp */; };
-		C629556A1369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62950041369241200F94899 /* Makefile.am */; };
-		C629556B1369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62950051369241200F94899 /* Makefile.in */; };
 		C629556C1369241300F94899 /* math_ops.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950061369241200F94899 /* math_ops.cpp */; };
 		C629556D1369241300F94899 /* cart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629500A1369241200F94899 /* cart.cpp */; };
 		C629556E1369241300F94899 /* map_eeprom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629500C1369241200F94899 /* map_eeprom.cpp */; };
@@ -233,8 +138,6 @@
 		C629557F1369241300F94899 /* header.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950311369241200F94899 /* header.cpp */; };
 		C62955801369241300F94899 /* gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950351369241200F94899 /* gamepad.cpp */; };
 		C62955811369241300F94899 /* mouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950371369241200F94899 /* mouse.cpp */; };
-		C62955821369241300F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C629503A1369241200F94899 /* Makefile.am */; };
-		C62955831369241300F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C629503B1369241200F94899 /* Makefile.in */; };
 		C62955841369241300F94899 /* mem68k.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629503C1369241200F94899 /* mem68k.cpp */; };
 		C62955851369241300F94899 /* membnk.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629503E1369241200F94899 /* membnk.cpp */; };
 		C62955861369241300F94899 /* memvdp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950401369241200F94899 /* memvdp.cpp */; };
@@ -242,19 +145,14 @@
 		C62955881369241300F94899 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950461369241200F94899 /* sound.cpp */; };
 		C62955891369241300F94899 /* system.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950481369241200F94899 /* system.cpp */; };
 		C629558A1369241300F94899 /* vdp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629504B1369241200F94899 /* vdp.cpp */; };
-		C629558B1369241300F94899 /* vdp_run.inc in Sources */ = {isa = PBXBuildFile; fileRef = C629504D1369241200F94899 /* vdp_run.inc */; };
 		C629558C1369241400F94899 /* md5.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629504E1369241200F94899 /* md5.cpp */; };
 		C629558D1369241400F94899 /* mednafen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950511369241200F94899 /* mednafen.cpp */; };
 		C629558E1369241400F94899 /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950531369241200F94899 /* memory.cpp */; };
 		C629558F1369241400F94899 /* mempatcher.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950561369241200F94899 /* mempatcher.cpp */; };
 		C62955901369241400F94899 /* movie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950591369241200F94899 /* movie.cpp */; };
-		C62955911369241400F94899 /* ChangeLog in Resources */ = {isa = PBXBuildFile; fileRef = C629505C1369241200F94899 /* ChangeLog */; };
-		C62955921369241400F94899 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = C629505D1369241200F94899 /* COPYING */; };
 		C62955931369241400F94899 /* huffsv46.c in Sources */ = {isa = PBXBuildFile; fileRef = C629505E1369241200F94899 /* huffsv46.c */; };
 		C62955941369241400F94899 /* huffsv7.c in Sources */ = {isa = PBXBuildFile; fileRef = C629505F1369241200F94899 /* huffsv7.c */; };
 		C62955951369241400F94899 /* idtag.c in Sources */ = {isa = PBXBuildFile; fileRef = C62950601369241200F94899 /* idtag.c */; };
-		C62955961369241400F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62950611369241200F94899 /* Makefile.am */; };
-		C62955971369241400F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62950621369241200F94899 /* Makefile.in */; };
 		C62955981369241400F94899 /* mpc_decoder.c in Sources */ = {isa = PBXBuildFile; fileRef = C62950631369241200F94899 /* mpc_decoder.c */; };
 		C62955991369241400F94899 /* mpc_reader.c in Sources */ = {isa = PBXBuildFile; fileRef = C62950641369241200F94899 /* mpc_reader.c */; };
 		C629559A1369241400F94899 /* requant.c in Sources */ = {isa = PBXBuildFile; fileRef = C62950651369241200F94899 /* requant.c */; };
@@ -336,7 +234,6 @@
 		C62955E61369241400F94899 /* ffe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950B51369241200F94899 /* ffe.cpp */; };
 		C62955E71369241400F94899 /* fme7.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950B61369241200F94899 /* fme7.cpp */; };
 		C62955E81369241400F94899 /* h2288.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950B71369241200F94899 /* h2288.cpp */; };
-		C62955E91369241400F94899 /* Makefile.am.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62950B81369241200F94899 /* Makefile.am.inc */; };
 		C62955EA1369241400F94899 /* malee.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950B91369241200F94899 /* malee.cpp */; };
 		C62955EB1369241400F94899 /* maxicart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950BB1369241200F94899 /* maxicart.cpp */; };
 		C62955EC1369241400F94899 /* mmc1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950BC1369241200F94899 /* mmc1.cpp */; };
@@ -366,7 +263,6 @@
 		C62956041369241400F94899 /* ftrainer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950E11369241200F94899 /* ftrainer.cpp */; };
 		C62956051369241400F94899 /* hypershot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950E21369241200F94899 /* hypershot.cpp */; };
 		C62956061369241400F94899 /* mahjong.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950E31369241200F94899 /* mahjong.cpp */; };
-		C62956071369241400F94899 /* Makefile.am.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62950E41369241200F94899 /* Makefile.am.inc */; };
 		C62956081369241400F94899 /* oekakids.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950E51369241200F94899 /* oekakids.cpp */; };
 		C62956091369241400F94899 /* partytap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950E61369241200F94899 /* partytap.cpp */; };
 		C629560A1369241400F94899 /* powerpad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950E71369241200F94899 /* powerpad.cpp */; };
@@ -375,24 +271,13 @@
 		C629560D1369241400F94899 /* toprider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950EC1369241200F94899 /* toprider.cpp */; };
 		C629560E1369241400F94899 /* zapper.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950ED1369241200F94899 /* zapper.cpp */; };
 		C629560F1369241400F94899 /* input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950EE1369241200F94899 /* input.cpp */; };
-		C62956101369241400F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62950F01369241200F94899 /* Makefile.am */; };
-		C62956111369241400F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62950F11369241200F94899 /* Makefile.in */; };
 		C62956121369241400F94899 /* nes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950F21369241200F94899 /* nes.cpp */; };
 		C62956131369241400F94899 /* nsf.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950F41369241200F94899 /* nsf.cpp */; };
 		C62956141369241400F94899 /* nsfe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950F61369241200F94899 /* nsfe.cpp */; };
-		C62956151369241400F94899 /* benchmark.c in Sources */ = {isa = PBXBuildFile; fileRef = C62950F91369241200F94899 /* benchmark.c */; };
-		C62956161369241400F94899 /* changes.txt in Resources */ = {isa = PBXBuildFile; fileRef = C62950FA1369241200F94899 /* changes.txt */; };
-		C62956171369241400F94899 /* demo.c in Sources */ = {isa = PBXBuildFile; fileRef = C62950FB1369241200F94899 /* demo.c */; };
-		C62956181369241400F94899 /* LGPL.txt in Resources */ = {isa = PBXBuildFile; fileRef = C62950FC1369241200F94899 /* LGPL.txt */; };
-		C62956191369241400F94899 /* nes.raw in Resources */ = {isa = PBXBuildFile; fileRef = C62950FD1369241200F94899 /* nes.raw */; };
 		C629561A1369241400F94899 /* nes_ntsc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62950FE1369241200F94899 /* nes_ntsc.cpp */; };
-		C629561B1369241400F94899 /* nes_ntsc.txt in Resources */ = {isa = PBXBuildFile; fileRef = C62951001369241200F94899 /* nes_ntsc.txt */; };
-		C629561C1369241400F94899 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = C62951011369241200F94899 /* readme.txt */; };
-		C629561D1369241400F94899 /* Makefile.am.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62951051369241200F94899 /* Makefile.am.inc */; };
 		C629561E1369241400F94899 /* palette.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951061369241200F94899 /* palette.cpp */; };
 		C629561F1369241400F94899 /* ppu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951111369241200F94899 /* ppu.cpp */; };
 		C62956201369241400F94899 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951131369241200F94899 /* sound.cpp */; };
-		C62956211369241400F94899 /* unif.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951151369241200F94899 /* unif.cpp */; };
 		C62956221369241400F94899 /* vsuni.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951171369241200F94899 /* vsuni.cpp */; };
 		C62956231369241400F94899 /* x6502.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951191369241200F94899 /* x6502.cpp */; };
 		C62956241369241400F94899 /* netplay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629511D1369241200F94899 /* netplay.cpp */; };
@@ -404,8 +289,6 @@
 		C629562A1369241400F94899 /* gfx_scanline_colour.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951291369241200F94899 /* gfx_scanline_colour.cpp */; };
 		C629562B1369241400F94899 /* gfx_scanline_mono.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629512A1369241200F94899 /* gfx_scanline_mono.cpp */; };
 		C629562C1369241400F94899 /* interrupt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629512B1369241200F94899 /* interrupt.cpp */; };
-		C629562D1369241400F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C629512D1369241200F94899 /* Makefile.am */; };
-		C629562E1369241400F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C629512E1369241200F94899 /* Makefile.in */; };
 		C629562F1369241400F94899 /* mem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629512F1369241200F94899 /* mem.cpp */; };
 		C62956301369241400F94899 /* neopop.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951311369241200F94899 /* neopop.cpp */; };
 		C62956311369241400F94899 /* rom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951331369241200F94899 /* rom.cpp */; };
@@ -427,48 +310,31 @@
 		C62956411369241400F94899 /* okiadpcm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951601369241200F94899 /* okiadpcm.cpp */; };
 		C62956421369241400F94899 /* okiadpcm_generate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951621369241200F94899 /* okiadpcm_generate.cpp */; };
 		C62956431369241400F94899 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951641369241200F94899 /* debug.cpp */; };
-		C62956441369241400F94899 /* EVENT_SYSTEM_NOTES in Resources */ = {isa = PBXBuildFile; fileRef = C62951661369241200F94899 /* EVENT_SYSTEM_NOTES */; };
 		C62956451369241400F94899 /* hes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951671369241200F94899 /* hes.cpp */; };
 		C62956461369241400F94899 /* huc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951691369241200F94899 /* huc.cpp */; };
 		C62956471369241400F94899 /* gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629516C1369241200F94899 /* gamepad.cpp */; };
 		C62956481369241400F94899 /* mouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629516E1369241200F94899 /* mouse.cpp */; };
 		C62956491369241400F94899 /* tsushinkb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951701369241200F94899 /* tsushinkb.cpp */; };
 		C629564A1369241400F94899 /* input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951721369241200F94899 /* input.cpp */; };
-		C629564B1369241400F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62951741369241200F94899 /* Makefile.am */; };
-		C629564C1369241400F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62951751369241200F94899 /* Makefile.in */; };
 		C629564D1369241400F94899 /* pce.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951761369241200F94899 /* pce.cpp */; };
 		C629564E1369241400F94899 /* tsushin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951781369241200F94899 /* tsushin.cpp */; };
 		C629564F1369241400F94899 /* vce.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629517A1369241200F94899 /* vce.cpp */; };
-		C62956501369241400F94899 /* vce_sync.inc in Sources */ = {isa = PBXBuildFile; fileRef = C629517C1369241200F94899 /* vce_sync.inc */; };
 		C62956511369241400F94899 /* hes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629517E1369241200F94899 /* hes.cpp */; };
 		C62956521369241400F94899 /* huc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951801369241200F94899 /* huc.cpp */; };
 		C62956531369241400F94899 /* huc6280.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951821369241200F94899 /* huc6280.cpp */; };
-		C62956541369241400F94899 /* huc6280_ops.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62951841369241200F94899 /* huc6280_ops.inc */; };
 		C62956551369241400F94899 /* input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951851369241200F94899 /* input.cpp */; };
-		C62956561369241400F94899 /* ioread.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62951871369241200F94899 /* ioread.inc */; };
-		C62956571369241400F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62951881369241200F94899 /* Makefile.am */; };
-		C62956581369241400F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62951891369241200F94899 /* Makefile.in */; };
 		C62956591369241400F94899 /* pce.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629518A1369241200F94899 /* pce.cpp */; };
 		C629565A1369241400F94899 /* tsushin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629518C1369241200F94899 /* tsushin.cpp */; };
 		C629565B1369241400F94899 /* vdc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629518E1369241200F94899 /* vdc.cpp */; };
-		C629565C1369241400F94899 /* vpc_mix_inner.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62951901369241200F94899 /* vpc_mix_inner.inc */; };
 		C629565D1369241400F94899 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951921369241200F94899 /* debug.cpp */; };
 		C629565E1369241400F94899 /* fxscsi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951941369241200F94899 /* fxscsi.cpp */; };
-		C629565F1369241400F94899 /* gamedb.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62951961369241200F94899 /* gamedb.inc */; };
 		C62956601369241400F94899 /* huc6273.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951971369241200F94899 /* huc6273.cpp */; };
 		C62956611369241400F94899 /* gamepad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629519A1369241200F94899 /* gamepad.cpp */; };
 		C62956621369241400F94899 /* mouse.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629519C1369241200F94899 /* mouse.cpp */; };
 		C62956631369241400F94899 /* input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629519E1369241200F94899 /* input.cpp */; };
 		C62956641369241400F94899 /* interrupt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951A01369241200F94899 /* interrupt.cpp */; };
-		C62956651369241400F94899 /* io-handler.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62951A21369241200F94899 /* io-handler.inc */; };
 		C62956661369241400F94899 /* jrevdct.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951A31369241200F94899 /* jrevdct.cpp */; };
-		C62956671369241400F94899 /* king-bgfast-blit.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62951A51369241200F94899 /* king-bgfast-blit.inc */; };
-		C62956681369241400F94899 /* king-bgfast.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62951A61369241200F94899 /* king-bgfast.inc */; };
 		C62956691369241400F94899 /* king.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951A71369241200F94899 /* king.cpp */; };
-		C629566A1369241400F94899 /* king_mix_body.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62951A91369241200F94899 /* king_mix_body.inc */; };
-		C629566B1369241400F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62951AA1369241200F94899 /* Makefile.am */; };
-		C629566C1369241400F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62951AB1369241200F94899 /* Makefile.in */; };
-		C629566D1369241400F94899 /* mem-handler.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62951AC1369241200F94899 /* mem-handler.inc */; };
 		C629566E1369241400F94899 /* pcfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951AD1369241200F94899 /* pcfx.cpp */; };
 		C629566F1369241400F94899 /* rainbow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951AF1369241200F94899 /* rainbow.cpp */; };
 		C62956701369241400F94899 /* soundbox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951B11369241200F94899 /* soundbox.cpp */; };
@@ -478,26 +344,14 @@
 		C62956741369241400F94899 /* qtrecord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951B91369241200F94899 /* qtrecord.cpp */; };
 		C62956751369241400F94899 /* settings.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951BD1369241200F94899 /* settings.cpp */; };
 		C62956761369241400F94899 /* convert.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951C01369241200F94899 /* convert.cpp */; };
-		C62956771369241400F94899 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = C62951C21369241200F94899 /* COPYING */; };
 		C62956781369241400F94899 /* alsa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951C41369241200F94899 /* alsa.cpp */; };
 		C62956791369241400F94899 /* dsound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951C51369241200F94899 /* dsound.cpp */; };
 		C629567A1369241400F94899 /* dummy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951C61369241200F94899 /* dummy.cpp */; };
 		C629567B1369241400F94899 /* jack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951C71369241200F94899 /* jack.cpp */; };
 		C629567C1369241400F94899 /* oss.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951C81369241200F94899 /* oss.cpp */; };
 		C629567D1369241400F94899 /* sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951C91369241200F94899 /* sdl.cpp */; };
-		C629567E1369241400F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62951CA1369241200F94899 /* Makefile.am */; };
-		C629567F1369241400F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62951CB1369241200F94899 /* Makefile.in */; };
-		C62956801369241400F94899 /* README in Resources */ = {isa = PBXBuildFile; fileRef = C62951CC1369241200F94899 /* README */; };
 		C62956811369241400F94899 /* sexyal.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951CD1369241200F94899 /* sexyal.cpp */; };
 		C62956821369241400F94899 /* cart.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951D01369241200F94899 /* cart.cpp */; };
-		C62956831369241400F94899 /* changelog in Resources */ = {isa = PBXBuildFile; fileRef = C62951D31369241200F94899 /* changelog */; };
-		C62956841369241400F94899 /* compatability.txt in Resources */ = {isa = PBXBuildFile; fileRef = C62951D41369241200F94899 /* compatability.txt */; };
-		C62956851369241400F94899 /* license in Resources */ = {isa = PBXBuildFile; fileRef = C62951D51369241200F94899 /* license */; };
-		C62956861369241400F94899 /* porting.txt in Resources */ = {isa = PBXBuildFile; fileRef = C62951D61369241200F94899 /* porting.txt */; };
-		C62956871369241400F94899 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = C62951D71369241200F94899 /* readme.txt */; };
-		C62956881369241400F94899 /* hvc.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62951D81369241200F94899 /* hvc.inc */; };
-		C62956891369241400F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62951D91369241200F94899 /* Makefile.am */; };
-		C629568A1369241400F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62951DA1369241200F94899 /* Makefile.in */; };
 		C629568B1369241400F94899 /* memz80.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951DB1369241200F94899 /* memz80.cpp */; };
 		C629568C1369241400F94899 /* pio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951DD1369241200F94899 /* pio.cpp */; };
 		C629568D1369241400F94899 /* render.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951DF1369241200F94899 /* render.cpp */; };
@@ -508,13 +362,10 @@
 		C62956921369241400F94899 /* tms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951EA1369241200F94899 /* tms.cpp */; };
 		C62956931369241400F94899 /* vdp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951EC1369241200F94899 /* vdp.cpp */; };
 		C62956941369241400F94899 /* interface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951EF1369241200F94899 /* interface.cpp */; };
-		C62956951369241400F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62951F01369241200F94899 /* Makefile.am */; };
-		C62956961369241400F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62951F11369241200F94899 /* Makefile.in */; };
 		C62956971369241400F94899 /* cartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951F51369241200F94899 /* cartridge.cpp */; };
 		C62956981369241400F94899 /* gameboyheader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951F71369241200F94899 /* gameboyheader.cpp */; };
 		C62956991369241400F94899 /* header.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951F81369241200F94899 /* header.cpp */; };
 		C629569A1369241400F94899 /* serialization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951F91369241200F94899 /* serialization.cpp */; };
-		C629569B1369241400F94899 /* cc.bat in Resources */ = {isa = PBXBuildFile; fileRef = C62951FA1369241200F94899 /* cc.bat */; };
 		C629569C1369241400F94899 /* cheat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62951FD1369241200F94899 /* cheat.cpp */; };
 		C629569D1369241400F94899 /* 21fx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62952011369241200F94899 /* 21fx.cpp */; };
 		C629569E1369241400F94899 /* serialization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62952031369241200F94899 /* serialization.cpp */; };
@@ -570,7 +421,6 @@
 		C62956D01369241400F94899 /* superfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629526B1369241200F94899 /* superfx.cpp */; };
 		C62956D11369241400F94899 /* timing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629526E1369241200F94899 /* timing.cpp */; };
 		C62956D21369241400F94899 /* supergameboy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62952711369241200F94899 /* supergameboy.cpp */; };
-		C62956D31369241400F94899 /* clean.bat in Resources */ = {isa = PBXBuildFile; fileRef = C62952731369241200F94899 /* clean.bat */; };
 		C62956D41369241400F94899 /* algorithms.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62952761369241200F94899 /* algorithms.cpp */; };
 		C62956D51369241400F94899 /* core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62952771369241200F94899 /* core.cpp */; };
 		C62956D61369241400F94899 /* disassembler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629527A1369241200F94899 /* disassembler.cpp */; };
@@ -593,39 +443,6 @@
 		C62956E71369241400F94899 /* irq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629529B1369241200F94899 /* irq.cpp */; };
 		C62956E81369241400F94899 /* joypad.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629529C1369241200F94899 /* joypad.cpp */; };
 		C62956E91369241400F94899 /* timing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629529D1369241200F94899 /* timing.cpp */; };
-		C62956EA1369241400F94899 /* bsnes.desktop in Resources */ = {isa = PBXBuildFile; fileRef = C62952A01369241200F94899 /* bsnes.desktop */; };
-		C62956EB1369241400F94899 /* bsnes.ico in Resources */ = {isa = PBXBuildFile; fileRef = C62952A11369241200F94899 /* bsnes.ico */; };
-		C62956EC1369241400F94899 /* bsnes.Manifest in Resources */ = {isa = PBXBuildFile; fileRef = C62952A21369241200F94899 /* bsnes.Manifest */; };
-		C62956ED1369241400F94899 /* bsnes.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952A31369241200F94899 /* bsnes.png */; };
-		C62956EE1369241400F94899 /* documentation.html in Resources */ = {isa = PBXBuildFile; fileRef = C62952A41369241200F94899 /* documentation.html */; };
-		C62956EF1369241400F94899 /* accessories-text-editor.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952A61369241200F94899 /* accessories-text-editor.png */; };
-		C62956F01369241400F94899 /* applications-multimedia.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952A71369241200F94899 /* applications-multimedia.png */; };
-		C62956F11369241400F94899 /* appointment-new.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952A81369241200F94899 /* appointment-new.png */; };
-		C62956F21369241400F94899 /* audio-volume-high.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952A91369241200F94899 /* audio-volume-high.png */; };
-		C62956F31369241400F94899 /* document-open.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952AA1369241200F94899 /* document-open.png */; };
-		C62956F41369241400F94899 /* folder-new.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952AB1369241200F94899 /* folder-new.png */; };
-		C62956F51369241400F94899 /* folder.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952AC1369241200F94899 /* folder.png */; };
-		C62956F61369241400F94899 /* help-browser.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952AD1369241200F94899 /* help-browser.png */; };
-		C62956F71369241400F94899 /* image-x-generic.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952AE1369241200F94899 /* image-x-generic.png */; };
-		C62956F81369241400F94899 /* input-gaming.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952AF1369241200F94899 /* input-gaming.png */; };
-		C62956F91369241400F94899 /* item-check-off.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952B01369241200F94899 /* item-check-off.png */; };
-		C62956FA1369241400F94899 /* item-check-on.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952B11369241200F94899 /* item-check-on.png */; };
-		C62956FB1369241400F94899 /* item-radio-off.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952B21369241200F94899 /* item-radio-off.png */; };
-		C62956FC1369241400F94899 /* item-radio-on.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952B31369241200F94899 /* item-radio-on.png */; };
-		C62956FD1369241400F94899 /* media-playback-start.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952B41369241200F94899 /* media-playback-start.png */; };
-		C62956FE1369241400F94899 /* media-playback-stop.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952B51369241200F94899 /* media-playback-stop.png */; };
-		C62956FF1369241400F94899 /* media-record.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952B61369241200F94899 /* media-record.png */; };
-		C62957001369241400F94899 /* preferences-desktop.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952B71369241200F94899 /* preferences-desktop.png */; };
-		C62957011369241400F94899 /* preferences-system.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952B81369241200F94899 /* preferences-system.png */; };
-		C62957021369241400F94899 /* process-stop.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952B91369241200F94899 /* process-stop.png */; };
-		C62957031369241400F94899 /* system-file-manager.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952BA1369241200F94899 /* system-file-manager.png */; };
-		C62957041369241400F94899 /* system-search.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952BB1369241200F94899 /* system-search.png */; };
-		C62957051369241400F94899 /* text-x-generic.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952BC1369241200F94899 /* text-x-generic.png */; };
-		C62957061369241400F94899 /* utilities-terminal.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952BD1369241200F94899 /* utilities-terminal.png */; };
-		C62957071369241400F94899 /* video-display.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952BE1369241200F94899 /* video-display.png */; };
-		C62957081369241400F94899 /* view-refresh.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952BF1369241200F94899 /* view-refresh.png */; };
-		C62957091369241400F94899 /* license.html in Resources */ = {isa = PBXBuildFile; fileRef = C62952C01369241200F94899 /* license.html */; };
-		C629570A1369241400F94899 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = C62952C11369241200F94899 /* logo.png */; };
 		C629570B1369241400F94899 /* adsp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62952C41369241200F94899 /* adsp.cpp */; };
 		C629570C1369241400F94899 /* adsp_tables.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62952C61369241200F94899 /* adsp_tables.cpp */; };
 		C629570D1369241400F94899 /* brr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62952C91369241200F94899 /* brr.cpp */; };
@@ -639,29 +456,11 @@
 		C62957151369241400F94899 /* serialization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62952D41369241200F94899 /* serialization.cpp */; };
 		C62957161369241400F94899 /* voice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62952D51369241200F94899 /* voice.cpp */; };
 		C62957171369241400F94899 /* amd64.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952D91369241200F94899 /* amd64.c */; };
-		C62957181369241400F94899 /* benchmark.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952DB1369241200F94899 /* benchmark.c */; };
-		C62957191369241400F94899 /* benchmark_impl.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952DC1369241200F94899 /* benchmark_impl.c */; };
-		C629571A1369241400F94899 /* libco.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952DE1369241200F94899 /* libco.c */; };
-		C629571B1369241400F94899 /* ppc.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952E01369241200F94899 /* ppc.c */; };
-		C629571C1369241400F94899 /* ppc.S in Sources */ = {isa = PBXBuildFile; fileRef = C62952E11369241200F94899 /* ppc.S */; };
-		C629571D1369241400F94899 /* ppc_regs.S in Sources */ = {isa = PBXBuildFile; fileRef = C62952E31369241200F94899 /* ppc_regs.S */; };
-		C629571E1369241400F94899 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = C62952E41369241200F94899 /* readme.txt */; };
-		C629571F1369241400F94899 /* run_tests in Resources */ = {isa = PBXBuildFile; fileRef = C62952E51369241200F94899 /* run_tests */; };
-		C62957201369241400F94899 /* run_tests.txt in Resources */ = {isa = PBXBuildFile; fileRef = C62952E61369241200F94899 /* run_tests.txt */; };
-		C62957211369241400F94899 /* test_libco.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952E71369241200F94899 /* test_libco.c */; };
-		C62957221369241400F94899 /* test_regs.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952E81369241200F94899 /* test_regs.c */; };
-		C62957231369241400F94899 /* test_threads.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952E91369241200F94899 /* test_threads.c */; };
 		C62957241369241400F94899 /* fiber.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952EB1369241200F94899 /* fiber.c */; };
 		C62957251369241400F94899 /* libco.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952EC1369241200F94899 /* libco.c */; };
-		C62957261369241400F94899 /* ppc-elf.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952EE1369241200F94899 /* ppc-elf.c */; };
-		C62957271369241400F94899 /* ppc.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952EF1369241200F94899 /* ppc.c */; };
-		C62957281369241400F94899 /* ppc.s in Sources */ = {isa = PBXBuildFile; fileRef = C62952F01369241200F94899 /* ppc.s */; };
-		C62957291369241400F94899 /* ppc64.s in Sources */ = {isa = PBXBuildFile; fileRef = C62952F11369241200F94899 /* ppc64.s */; };
 		C629572A1369241400F94899 /* sjlj.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952F21369241200F94899 /* sjlj.c */; };
 		C629572B1369241400F94899 /* ucontext.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952F31369241200F94899 /* ucontext.c */; };
 		C629572C1369241400F94899 /* x86.c in Sources */ = {isa = PBXBuildFile; fileRef = C62952F41369241200F94899 /* x86.c */; };
-		C629572D1369241400F94899 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = C62953061369241200F94899 /* Makefile */; };
-		C629572E1369241400F94899 /* Makefile-qt in Resources */ = {isa = PBXBuildFile; fileRef = C62953071369241200F94899 /* Makefile-qt */; };
 		C629572F1369241400F94899 /* alsa.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953291369241200F94899 /* alsa.cpp */; };
 		C62957301369241400F94899 /* ao.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629532A1369241200F94899 /* ao.cpp */; };
 		C62957311369241400F94899 /* directsound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629532B1369241200F94899 /* directsound.cpp */; };
@@ -686,9 +485,6 @@
 		C62957441369241400F94899 /* sdl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953451369241200F94899 /* sdl.cpp */; };
 		C62957451369241400F94899 /* wgl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953461369241200F94899 /* wgl.cpp */; };
 		C62957461369241400F94899 /* xv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953471369241200F94899 /* xv.cpp */; };
-		C62957471369241400F94899 /* sync.bat in Resources */ = {isa = PBXBuildFile; fileRef = C62953491369241200F94899 /* sync.bat */; };
-		C62957481369241400F94899 /* sync.sh in Resources */ = {isa = PBXBuildFile; fileRef = C629534A1369241200F94899 /* sync.sh */; };
-		C62957491369241400F94899 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = C629534B1369241200F94899 /* Makefile */; };
 		C629574A1369241400F94899 /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629534E1369241200F94899 /* memory.cpp */; };
 		C629574B1369241400F94899 /* generic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953511369241200F94899 /* generic.cpp */; };
 		C629574C1369241400F94899 /* serialization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953521369241200F94899 /* serialization.cpp */; };
@@ -769,13 +565,10 @@
 		C62957971369241500F94899 /* filter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953F01369241200F94899 /* filter.cpp */; };
 		C62957981369241500F94899 /* reader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953F21369241200F94899 /* reader.cpp */; };
 		C62957991369241500F94899 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953F41369241200F94899 /* main.cpp */; };
-		C629579A1369241500F94899 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = C62953F51369241200F94899 /* Makefile */; };
 		C629579B1369241500F94899 /* movie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953F71369241200F94899 /* movie.cpp */; };
 		C629579C1369241500F94899 /* platform_osx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953FA1369241200F94899 /* platform_osx.cpp */; };
 		C629579D1369241500F94899 /* platform_win.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953FB1369241200F94899 /* platform_win.cpp */; };
 		C629579E1369241500F94899 /* platform_x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62953FC1369241200F94899 /* platform_x.cpp */; };
-		C629579F1369241500F94899 /* resource.qrc in Resources */ = {isa = PBXBuildFile; fileRef = C62953FE1369241200F94899 /* resource.qrc */; };
-		C62957A01369241500F94899 /* resource.rc in Sources */ = {isa = PBXBuildFile; fileRef = C62953FF1369241200F94899 /* resource.rc */; };
 		C62957A11369241500F94899 /* advanced.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954011369241300F94899 /* advanced.cpp */; };
 		C62957A21369241500F94899 /* audio.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954031369241300F94899 /* audio.cpp */; };
 		C62957A31369241500F94899 /* input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954051369241300F94899 /* input.cpp */; };
@@ -791,62 +584,44 @@
 		C62957AD1369241500F94899 /* system-state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629541D1369241300F94899 /* system-state.cpp */; };
 		C62957AE1369241500F94899 /* utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629541E1369241300F94899 /* utility.cpp */; };
 		C62957AF1369241500F94899 /* window.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954201369241300F94899 /* window.cpp */; };
-		C62957B01369241500F94899 /* VERSION.BSNES in Resources */ = {isa = PBXBuildFile; fileRef = C62954211369241300F94899 /* VERSION.BSNES */; };
 		C62957B11369241500F94899 /* Blip_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954231369241300F94899 /* Blip_Buffer.cpp */; };
 		C62957B21369241500F94899 /* Fir_Resampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954241369241300F94899 /* Fir_Resampler.cpp */; };
-		C62957B31369241500F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62954251369241300F94899 /* Makefile.am */; };
-		C62957B41369241500F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62954261369241300F94899 /* Makefile.in */; };
 		C62957B51369241500F94899 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954271369241300F94899 /* sound.cpp */; };
 		C62957B61369241500F94899 /* Stereo_Buffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954281369241300F94899 /* Stereo_Buffer.cpp */; };
 		C62957B71369241500F94899 /* WAVRecord.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954291369241300F94899 /* WAVRecord.cpp */; };
 		C62957B81369241500F94899 /* state.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629542E1369241300F94899 /* state.cpp */; };
 		C62957B91369241500F94899 /* ConvertUTF.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954311369241300F94899 /* ConvertUTF.cpp */; };
 		C62957BA1369241500F94899 /* escape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954331369241300F94899 /* escape.cpp */; };
-		C62957BB1369241500F94899 /* Makefile.am.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62954351369241300F94899 /* Makefile.am.inc */; };
 		C62957BC1369241500F94899 /* world_strtod.c in Sources */ = {isa = PBXBuildFile; fileRef = C62954361369241300F94899 /* world_strtod.c */; };
 		C62957BD1369241500F94899 /* tests.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954381369241300F94899 /* tests.cpp */; };
 		C62957BE1369241500F94899 /* bitwise.c in Sources */ = {isa = PBXBuildFile; fileRef = C629543D1369241300F94899 /* bitwise.c */; };
 		C62957BF1369241500F94899 /* block.c in Sources */ = {isa = PBXBuildFile; fileRef = C629543E1369241300F94899 /* block.c */; };
-		C62957C01369241500F94899 /* CHANGELOG in Resources */ = {isa = PBXBuildFile; fileRef = C62954401369241300F94899 /* CHANGELOG */; };
 		C62957C11369241500F94899 /* codebook.c in Sources */ = {isa = PBXBuildFile; fileRef = C62954411369241300F94899 /* codebook.c */; };
-		C62957C21369241500F94899 /* configure.in in Resources */ = {isa = PBXBuildFile; fileRef = C62954451369241300F94899 /* configure.in */; };
-		C62957C31369241500F94899 /* COPYING in Resources */ = {isa = PBXBuildFile; fileRef = C62954461369241300F94899 /* COPYING */; };
 		C62957C41369241500F94899 /* floor0.c in Sources */ = {isa = PBXBuildFile; fileRef = C62954471369241300F94899 /* floor0.c */; };
 		C62957C51369241500F94899 /* floor1.c in Sources */ = {isa = PBXBuildFile; fileRef = C62954481369241300F94899 /* floor1.c */; };
 		C62957C61369241500F94899 /* framing.c in Sources */ = {isa = PBXBuildFile; fileRef = C62954491369241300F94899 /* framing.c */; };
 		C62957C71369241500F94899 /* info.c in Sources */ = {isa = PBXBuildFile; fileRef = C629544A1369241300F94899 /* info.c */; };
 		C62957C81369241500F94899 /* ivorbisfile_example.c in Sources */ = {isa = PBXBuildFile; fileRef = C629544D1369241300F94899 /* ivorbisfile_example.c */; };
-		C62957C91369241500F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C629544F1369241300F94899 /* Makefile.am */; };
-		C62957CA1369241500F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62954501369241300F94899 /* Makefile.in */; };
 		C62957CB1369241500F94899 /* mapping0.c in Sources */ = {isa = PBXBuildFile; fileRef = C62954511369241300F94899 /* mapping0.c */; };
 		C62957CC1369241500F94899 /* mdct.c in Sources */ = {isa = PBXBuildFile; fileRef = C62954521369241300F94899 /* mdct.c */; };
-		C62957CD1369241500F94899 /* README in Resources */ = {isa = PBXBuildFile; fileRef = C62954591369241300F94899 /* README */; };
 		C62957CE1369241500F94899 /* registry.c in Sources */ = {isa = PBXBuildFile; fileRef = C629545A1369241300F94899 /* registry.c */; };
 		C62957CF1369241500F94899 /* res012.c in Sources */ = {isa = PBXBuildFile; fileRef = C629545C1369241300F94899 /* res012.c */; };
 		C62957D01369241500F94899 /* sharedbook.c in Sources */ = {isa = PBXBuildFile; fileRef = C629545D1369241300F94899 /* sharedbook.c */; };
 		C62957D11369241500F94899 /* synthesis.c in Sources */ = {isa = PBXBuildFile; fileRef = C629545E1369241300F94899 /* synthesis.c */; };
-		C62957D21369241500F94899 /* Version_script.in in Resources */ = {isa = PBXBuildFile; fileRef = C629545F1369241300F94899 /* Version_script.in */; };
 		C62957D31369241500F94899 /* vorbisfile.c in Sources */ = {isa = PBXBuildFile; fileRef = C62954601369241300F94899 /* vorbisfile.c */; };
 		C62957D41369241500F94899 /* window.c in Sources */ = {isa = PBXBuildFile; fileRef = C62954611369241300F94899 /* window.c */; };
-		C62957D51369241500F94899 /* CHANGES in Resources */ = {isa = PBXBuildFile; fileRef = C62954651369241300F94899 /* CHANGES */; };
-		C62957D61369241500F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62954661369241300F94899 /* Makefile.am */; };
-		C62957D71369241500F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62954671369241300F94899 /* Makefile.in */; };
 		C62957D81369241500F94899 /* trio.c in Sources */ = {isa = PBXBuildFile; fileRef = C62954681369241300F94899 /* trio.c */; };
 		C62957D91369241500F94899 /* trionan.c in Sources */ = {isa = PBXBuildFile; fileRef = C62954691369241300F94899 /* trionan.c */; };
 		C62957DA1369241500F94899 /* triostr.c in Sources */ = {isa = PBXBuildFile; fileRef = C629546A1369241300F94899 /* triostr.c */; };
 		C62957DB1369241500F94899 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629546D1369241300F94899 /* debug.cpp */; };
 		C62957DC1369241500F94899 /* input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629546F1369241300F94899 /* input.cpp */; };
-		C62957DD1369241500F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62954711369241300F94899 /* Makefile.am */; };
-		C62957DE1369241500F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62954721369241300F94899 /* Makefile.in */; };
 		C62957DF1369241500F94899 /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954731369241300F94899 /* timer.cpp */; };
 		C62957E01369241500F94899 /* vb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954751369241300F94899 /* vb.cpp */; };
 		C62957E11369241500F94899 /* vip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954771369241300F94899 /* vip.cpp */; };
-		C62957E21369241500F94899 /* vip_draw.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62954791369241300F94899 /* vip_draw.inc */; };
 		C62957E31369241500F94899 /* vsu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629547A1369241300F94899 /* vsu.cpp */; };
 		C62957E41369241500F94899 /* font-data-12x13.c in Sources */ = {isa = PBXBuildFile; fileRef = C629547D1369241300F94899 /* font-data-12x13.c */; };
 		C62957E51369241500F94899 /* font-data-18x18.c in Sources */ = {isa = PBXBuildFile; fileRef = C629547E1369241300F94899 /* font-data-18x18.c */; };
 		C62957E61369241500F94899 /* font-data.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629547F1369241300F94899 /* font-data.cpp */; };
-		C62957E71369241500F94899 /* Makefile.am.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62954871369241300F94899 /* Makefile.am.inc */; };
 		C62957E81369241500F94899 /* png.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954881369241300F94899 /* png.cpp */; };
 		C62957E91369241500F94899 /* primitives.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629548A1369241300F94899 /* primitives.cpp */; };
 		C62957EA1369241500F94899 /* resize.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629548C1369241300F94899 /* resize.cpp */; };
@@ -858,22 +633,17 @@
 		C62957F01369241500F94899 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629549B1369241300F94899 /* debug.cpp */; };
 		C62957F11369241500F94899 /* dis_decode.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629549E1369241300F94899 /* dis_decode.cpp */; };
 		C62957F21369241500F94899 /* dis_groups.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C629549F1369241300F94899 /* dis_groups.cpp */; };
-		C62957F31369241500F94899 /* dis_tables.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62954A11369241300F94899 /* dis_tables.inc */; };
-		C62957F41369241500F94899 /* opcodes.inc in Sources */ = {isa = PBXBuildFile; fileRef = C62954A31369241300F94899 /* opcodes.inc */; };
 		C62957F51369241500F94899 /* resolve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954A41369241300F94899 /* resolve.cpp */; };
 		C62957F61369241500F94899 /* syntax.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954A51369241300F94899 /* syntax.cpp */; };
 		C62957F71369241500F94899 /* eeprom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954A61369241300F94899 /* eeprom.cpp */; };
 		C62957F81369241500F94899 /* gfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954A81369241300F94899 /* gfx.cpp */; };
 		C62957F91369241500F94899 /* interrupt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954AA1369241300F94899 /* interrupt.cpp */; };
 		C62957FA1369241500F94899 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954AC1369241300F94899 /* main.cpp */; };
-		C62957FB1369241500F94899 /* Makefile.am in Resources */ = {isa = PBXBuildFile; fileRef = C62954AD1369241300F94899 /* Makefile.am */; };
-		C62957FC1369241500F94899 /* Makefile.in in Resources */ = {isa = PBXBuildFile; fileRef = C62954AE1369241300F94899 /* Makefile.in */; };
 		C62957FD1369241500F94899 /* memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954AF1369241300F94899 /* memory.cpp */; };
 		C62957FE1369241500F94899 /* rtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954B11369241300F94899 /* rtc.cpp */; };
 		C62957FF1369241500F94899 /* sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954B31369241300F94899 /* sound.cpp */; };
 		C62958001369241500F94899 /* tcache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954B61369241300F94899 /* tcache.cpp */; };
 		C62958011369241500F94899 /* v30mz.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C62954BA1369241300F94899 /* v30mz.cpp */; };
-		C62958021369241500F94899 /* wstech24.txt in Resources */ = {isa = PBXBuildFile; fileRef = C62954BC1369241300F94899 /* wstech24.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1008,7 +778,7 @@
 		C6294EAA1369241200F94899 /* blargg_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blargg_source.h; sourceTree = "<group>"; };
 		C6294EAC1369241200F94899 /* Blip_Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Blip_Buffer.h; sourceTree = "<group>"; };
 		C6294EAD1369241200F94899 /* Stereo_Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stereo_Buffer.h; sourceTree = "<group>"; };
-		C6294EAF1369241200F94899 /* config.h.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.h.in; sourceTree = "<group>"; };
+		C6294EAF1369241200F94899 /* config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config.h; sourceTree = "<group>"; };
 		C6294EB11369241200F94899 /* desa68.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = desa68.c; sourceTree = "<group>"; };
 		C6294EB21369241200F94899 /* desa68.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = desa68.h; sourceTree = "<group>"; };
 		C6294EB31369241200F94899 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
@@ -2224,7 +1994,7 @@
 		C62953FB1369241200F94899 /* platform_win.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = platform_win.cpp; sourceTree = "<group>"; };
 		C62953FC1369241200F94899 /* platform_x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = platform_x.cpp; sourceTree = "<group>"; };
 		C62953FE1369241200F94899 /* resource.qrc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = resource.qrc; sourceTree = "<group>"; };
-		C62953FF1369241200F94899 /* resource.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rc; path = resource.rc; sourceTree = "<group>"; };
+		C62953FF1369241200F94899 /* resource.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = resource.rc; sourceTree = "<group>"; };
 		C62954011369241300F94899 /* advanced.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = advanced.cpp; sourceTree = "<group>"; };
 		C62954021369241300F94899 /* advanced.moc.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = advanced.moc.hpp; sourceTree = "<group>"; };
 		C62954031369241300F94899 /* audio.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = audio.cpp; sourceTree = "<group>"; };
@@ -2550,7 +2320,7 @@
 				C6294EAA1369241200F94899 /* blargg_source.h */,
 				C6294EAB1369241200F94899 /* blip */,
 				C6294EAE1369241200F94899 /* boost */,
-				C6294EAF1369241200F94899 /* config.h.in */,
+				C6294EAF1369241200F94899 /* config.h */,
 				C6294EB01369241200F94899 /* desa68 */,
 				C6294EB51369241200F94899 /* Fir_Resampler.h */,
 				C6294EB61369241200F94899 /* mpcdec */,
@@ -2583,7 +2353,8 @@
 				C6294EB31369241200F94899 /* Makefile.am */,
 				C6294EB41369241200F94899 /* Makefile.in */,
 			);
-			path = desa68;
+			name = desa68;
+			path = ../mednafen/desa68;
 			sourceTree = "<group>";
 		};
 		C6294EB61369241200F94899 /* mpcdec */ = {
@@ -2717,7 +2488,8 @@
 				C62954991369241300F94899 /* video.h */,
 				C629549A1369241300F94899 /* wswan */,
 			);
-			path = src;
+			name = src;
+			path = mednafen;
 			sourceTree = "<group>";
 		};
 		C6294EC91369241200F94899 /* cdrom */ = {
@@ -5359,135 +5131,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
-				82CFB5DD0FFE54E2002B6C7C /* lynxboot.img in Resources */,
 				82CFBC520FFEF432002B6C7C /* Mednafen.icns in Resources */,
-				829665EE10438CDC00F30B74 /* ControlsPreference.xib in Resources */,
-				829665EF10438CDC00F30B74 /* gba.png in Resources */,
-				82B0F96A104A389D005F3B26 /* wonderswan.jpg in Resources */,
-				C62954BE1369241300F94899 /* config.h.in in Resources */,
-				C62954C01369241300F94899 /* Makefile.am in Resources */,
-				C62954C11369241300F94899 /* Makefile.in in Resources */,
-				C62954C21369241300F94899 /* CHANGES in Resources */,
-				C62954DA1369241300F94899 /* Makefile.am in Resources */,
-				C62954DB1369241300F94899 /* Makefile.in in Resources */,
-				C62954DD1369241300F94899 /* Makefile.am in Resources */,
-				C62954DE1369241300F94899 /* Makefile.in in Resources */,
-				C62954F31369241300F94899 /* Makefile.am in Resources */,
-				C62954F41369241300F94899 /* Makefile.in in Resources */,
-				C629550B1369241300F94899 /* Makefile.am in Resources */,
-				C629550C1369241300F94899 /* Makefile.in in Resources */,
-				C62955181369241300F94899 /* Makefile.am in Resources */,
-				C62955191369241300F94899 /* Makefile.in in Resources */,
-				C629553E1369241300F94899 /* Makefile.am in Resources */,
-				C629553F1369241300F94899 /* Makefile.in in Resources */,
-				C62955401369241300F94899 /* softfloat-macros in Resources */,
-				C62955411369241300F94899 /* softfloat-specialize in Resources */,
-				C62955511369241300F94899 /* Makefile.am in Resources */,
-				C62955521369241300F94899 /* Makefile.in in Resources */,
-				C62955561369241300F94899 /* Makefile.am in Resources */,
-				C62955571369241300F94899 /* Makefile.in in Resources */,
-				C629555D1369241300F94899 /* Makefile.am in Resources */,
-				C629555E1369241300F94899 /* Makefile.in in Resources */,
-				C62955611369241300F94899 /* license.txt in Resources */,
-				C62955621369241300F94899 /* Makefile.am in Resources */,
-				C62955631369241300F94899 /* Makefile.in in Resources */,
-				C629556A1369241300F94899 /* Makefile.am in Resources */,
-				C629556B1369241300F94899 /* Makefile.in in Resources */,
-				C62955821369241300F94899 /* Makefile.am in Resources */,
-				C62955831369241300F94899 /* Makefile.in in Resources */,
-				C62955911369241400F94899 /* ChangeLog in Resources */,
-				C62955921369241400F94899 /* COPYING in Resources */,
-				C62955961369241400F94899 /* Makefile.am in Resources */,
-				C62955971369241400F94899 /* Makefile.in in Resources */,
-				C62956101369241400F94899 /* Makefile.am in Resources */,
-				C62956111369241400F94899 /* Makefile.in in Resources */,
-				C62956161369241400F94899 /* changes.txt in Resources */,
-				C62956181369241400F94899 /* LGPL.txt in Resources */,
-				C62956191369241400F94899 /* nes.raw in Resources */,
-				C629561B1369241400F94899 /* nes_ntsc.txt in Resources */,
-				C629561C1369241400F94899 /* readme.txt in Resources */,
-				C629562D1369241400F94899 /* Makefile.am in Resources */,
-				C629562E1369241400F94899 /* Makefile.in in Resources */,
-				C62956441369241400F94899 /* EVENT_SYSTEM_NOTES in Resources */,
-				C629564B1369241400F94899 /* Makefile.am in Resources */,
-				C629564C1369241400F94899 /* Makefile.in in Resources */,
-				C62956571369241400F94899 /* Makefile.am in Resources */,
-				C62956581369241400F94899 /* Makefile.in in Resources */,
-				C629566B1369241400F94899 /* Makefile.am in Resources */,
-				C629566C1369241400F94899 /* Makefile.in in Resources */,
-				C62956771369241400F94899 /* COPYING in Resources */,
-				C629567E1369241400F94899 /* Makefile.am in Resources */,
-				C629567F1369241400F94899 /* Makefile.in in Resources */,
-				C62956801369241400F94899 /* README in Resources */,
-				C62956831369241400F94899 /* changelog in Resources */,
-				C62956841369241400F94899 /* compatability.txt in Resources */,
-				C62956851369241400F94899 /* license in Resources */,
-				C62956861369241400F94899 /* porting.txt in Resources */,
-				C62956871369241400F94899 /* readme.txt in Resources */,
-				C62956891369241400F94899 /* Makefile.am in Resources */,
-				C629568A1369241400F94899 /* Makefile.in in Resources */,
-				C62956951369241400F94899 /* Makefile.am in Resources */,
-				C62956961369241400F94899 /* Makefile.in in Resources */,
-				C629569B1369241400F94899 /* cc.bat in Resources */,
-				C62956D31369241400F94899 /* clean.bat in Resources */,
-				C62956EA1369241400F94899 /* bsnes.desktop in Resources */,
-				C62956EB1369241400F94899 /* bsnes.ico in Resources */,
-				C62956EC1369241400F94899 /* bsnes.Manifest in Resources */,
-				C62956ED1369241400F94899 /* bsnes.png in Resources */,
-				C62956EE1369241400F94899 /* documentation.html in Resources */,
-				C62956EF1369241400F94899 /* accessories-text-editor.png in Resources */,
-				C62956F01369241400F94899 /* applications-multimedia.png in Resources */,
-				C62956F11369241400F94899 /* appointment-new.png in Resources */,
-				C62956F21369241400F94899 /* audio-volume-high.png in Resources */,
-				C62956F31369241400F94899 /* document-open.png in Resources */,
-				C62956F41369241400F94899 /* folder-new.png in Resources */,
-				C62956F51369241400F94899 /* folder.png in Resources */,
-				C62956F61369241400F94899 /* help-browser.png in Resources */,
-				C62956F71369241400F94899 /* image-x-generic.png in Resources */,
-				C62956F81369241400F94899 /* input-gaming.png in Resources */,
-				C62956F91369241400F94899 /* item-check-off.png in Resources */,
-				C62956FA1369241400F94899 /* item-check-on.png in Resources */,
-				C62956FB1369241400F94899 /* item-radio-off.png in Resources */,
-				C62956FC1369241400F94899 /* item-radio-on.png in Resources */,
-				C62956FD1369241400F94899 /* media-playback-start.png in Resources */,
-				C62956FE1369241400F94899 /* media-playback-stop.png in Resources */,
-				C62956FF1369241400F94899 /* media-record.png in Resources */,
-				C62957001369241400F94899 /* preferences-desktop.png in Resources */,
-				C62957011369241400F94899 /* preferences-system.png in Resources */,
-				C62957021369241400F94899 /* process-stop.png in Resources */,
-				C62957031369241400F94899 /* system-file-manager.png in Resources */,
-				C62957041369241400F94899 /* system-search.png in Resources */,
-				C62957051369241400F94899 /* text-x-generic.png in Resources */,
-				C62957061369241400F94899 /* utilities-terminal.png in Resources */,
-				C62957071369241400F94899 /* video-display.png in Resources */,
-				C62957081369241400F94899 /* view-refresh.png in Resources */,
-				C62957091369241400F94899 /* license.html in Resources */,
-				C629570A1369241400F94899 /* logo.png in Resources */,
-				C629571E1369241400F94899 /* readme.txt in Resources */,
-				C629571F1369241400F94899 /* run_tests in Resources */,
-				C62957201369241400F94899 /* run_tests.txt in Resources */,
-				C629572E1369241400F94899 /* Makefile-qt in Resources */,
-				C62957471369241400F94899 /* sync.bat in Resources */,
-				C62957481369241400F94899 /* sync.sh in Resources */,
-				C629579F1369241500F94899 /* resource.qrc in Resources */,
-				C62957B01369241500F94899 /* VERSION.BSNES in Resources */,
-				C62957B31369241500F94899 /* Makefile.am in Resources */,
-				C62957B41369241500F94899 /* Makefile.in in Resources */,
-				C62957C01369241500F94899 /* CHANGELOG in Resources */,
-				C62957C21369241500F94899 /* configure.in in Resources */,
-				C62957C31369241500F94899 /* COPYING in Resources */,
-				C62957C91369241500F94899 /* Makefile.am in Resources */,
-				C62957CA1369241500F94899 /* Makefile.in in Resources */,
-				C62957CD1369241500F94899 /* README in Resources */,
-				C62957D21369241500F94899 /* Version_script.in in Resources */,
-				C62957D51369241500F94899 /* CHANGES in Resources */,
-				C62957D61369241500F94899 /* Makefile.am in Resources */,
-				C62957D71369241500F94899 /* Makefile.in in Resources */,
-				C62957DD1369241500F94899 /* Makefile.am in Resources */,
-				C62957DE1369241500F94899 /* Makefile.in in Resources */,
-				C62957FB1369241500F94899 /* Makefile.am in Resources */,
-				C62957FC1369241500F94899 /* Makefile.in in Resources */,
-				C62958021369241500F94899 /* wstech24.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5525,15 +5169,12 @@
 				C62954C81369241300F94899 /* galois.cpp in Sources */,
 				C62954C91369241300F94899 /* l-ec.cpp in Sources */,
 				C62954CA1369241300F94899 /* lec.cpp in Sources */,
-				C62954CB1369241300F94899 /* Makefile.am.inc in Sources */,
 				C62954CC1369241300F94899 /* pcecd.cpp in Sources */,
 				C62954CD1369241300F94899 /* recover-raw.cpp in Sources */,
-				C62954CE1369241300F94899 /* scsicd-pce-commands.inc in Sources */,
 				C62954CF1369241300F94899 /* scsicd.cpp in Sources */,
 				C62954D01369241300F94899 /* SimpleFIFO.cpp in Sources */,
 				C62954D11369241300F94899 /* blz.c in Sources */,
 				C62954D21369241300F94899 /* ioapi.c in Sources */,
-				C62954D31369241300F94899 /* Makefile.am.inc in Sources */,
 				C62954D41369241300F94899 /* minilzo.c in Sources */,
 				C62954D51369241300F94899 /* quicklz.c in Sources */,
 				C62954D61369241300F94899 /* unzip.c in Sources */,
@@ -5543,39 +5184,9 @@
 				C62954DC1369241300F94899 /* desa68.c in Sources */,
 				C62954DF1369241300F94899 /* dis6280.cpp in Sources */,
 				C62954E01369241300F94899 /* dis6502.cpp in Sources */,
-				C62954E11369241300F94899 /* 2xSaI.cpp in Sources */,
-				C62954E21369241300F94899 /* args.cpp in Sources */,
-				C62954E31369241300F94899 /* cheat.cpp in Sources */,
-				C62954E41369241300F94899 /* console.cpp in Sources */,
-				C62954E51369241300F94899 /* debugger.cpp in Sources */,
-				C62954E61369241300F94899 /* ers.cpp in Sources */,
-				C62954E71369241300F94899 /* fps.cpp in Sources */,
-				C62954E81369241300F94899 /* gfxdebugger.cpp in Sources */,
-				C62954E91369241300F94899 /* help.cpp in Sources */,
-				C62954EA1369241300F94899 /* hq2x.cpp in Sources */,
-				C62954EB1369241300F94899 /* hq3x.cpp in Sources */,
-				C62954EC1369241300F94899 /* hq4x.cpp in Sources */,
-				C62954ED1369241300F94899 /* hqxx-common.cpp in Sources */,
-				C62954EE1369241300F94899 /* input-config.cpp in Sources */,
-				C62954EF1369241300F94899 /* input.cpp in Sources */,
-				C62954F01369241300F94899 /* joystick.cpp in Sources */,
-				C62954F11369241300F94899 /* logdebugger.cpp in Sources */,
-				C62954F21369241300F94899 /* main.cpp in Sources */,
-				C62954F51369241300F94899 /* memdebugger.cpp in Sources */,
-				C62954F61369241300F94899 /* netplay.cpp in Sources */,
-				C62954F71369241300F94899 /* nnx.cpp in Sources */,
-				C62954F81369241300F94899 /* nongl.cpp in Sources */,
-				C62954F91369241300F94899 /* opengl.cpp in Sources */,
-				C62954FA1369241300F94899 /* overlay.cpp in Sources */,
-				C62954FB1369241300F94899 /* prompt.cpp in Sources */,
-				C62954FC1369241300F94899 /* remote.cpp in Sources */,
 				C62954FD1369241300F94899 /* scale2x.c in Sources */,
 				C62954FE1369241300F94899 /* scale3x.c in Sources */,
 				C62954FF1369241300F94899 /* scalebit.c in Sources */,
-				C62955001369241300F94899 /* shader.cpp in Sources */,
-				C62955011369241300F94899 /* sound.cpp in Sources */,
-				C62955021369241300F94899 /* video-state.cpp in Sources */,
-				C62955031369241300F94899 /* video.cpp in Sources */,
 				C62955041369241300F94899 /* endian.cpp in Sources */,
 				C62955051369241300F94899 /* error.cpp in Sources */,
 				C62955061369241300F94899 /* file.cpp in Sources */,
@@ -5606,43 +5217,14 @@
 				C62955231369241300F94899 /* thumb.cpp in Sources */,
 				C62955241369241300F94899 /* general.cpp in Sources */,
 				C62955251369241300F94899 /* c68k.c in Sources */,
-				C62955261369241300F94899 /* c68k_ini.inc in Sources */,
-				C62955271369241300F94899 /* c68k_op0.inc in Sources */,
-				C62955281369241300F94899 /* c68k_op1.inc in Sources */,
-				C62955291369241300F94899 /* c68k_op2.inc in Sources */,
-				C629552A1369241300F94899 /* c68k_op3.inc in Sources */,
-				C629552B1369241300F94899 /* c68k_op4.inc in Sources */,
-				C629552C1369241300F94899 /* c68k_op5.inc in Sources */,
-				C629552D1369241300F94899 /* c68k_op6.inc in Sources */,
-				C629552E1369241300F94899 /* c68k_op7.inc in Sources */,
-				C629552F1369241300F94899 /* c68k_op8.inc in Sources */,
-				C62955301369241300F94899 /* c68k_op9.inc in Sources */,
-				C62955311369241300F94899 /* c68k_opA.inc in Sources */,
-				C62955321369241300F94899 /* c68k_opB.inc in Sources */,
-				C62955331369241300F94899 /* c68k_opC.inc in Sources */,
-				C62955341369241300F94899 /* c68k_opD.inc in Sources */,
-				C62955351369241300F94899 /* c68k_opE.inc in Sources */,
-				C62955361369241300F94899 /* c68k_opF.inc in Sources */,
 				C62955371369241300F94899 /* c68kexec.c in Sources */,
-				C62955381369241300F94899 /* c68kmac.inc in Sources */,
 				C62955391369241300F94899 /* gen68k.c in Sources */,
-				C629553A1369241300F94899 /* gen68k.inc in Sources */,
 				C629553B1369241300F94899 /* huc6280.cpp in Sources */,
-				C629553C1369241300F94899 /* huc6280_step.inc in Sources */,
-				C629553D1369241300F94899 /* ops.inc in Sources */,
 				C62955421369241300F94899 /* softfloat.c in Sources */,
 				C62955431369241300F94899 /* timesoftfloat.c in Sources */,
 				C62955441369241300F94899 /* v810_cpu.cpp in Sources */,
 				C62955451369241300F94899 /* v810_cpuD.cpp in Sources */,
-				C62955461369241300F94899 /* v810_op_table.inc in Sources */,
-				C62955471369241300F94899 /* v810_oploop.inc in Sources */,
-				C62955481369241300F94899 /* coretest.c in Sources */,
-				C62955491369241300F94899 /* opcodes_base.c in Sources */,
 				C629554A1369241300F94899 /* z80.cpp in Sources */,
-				C629554B1369241300F94899 /* z80_cb.c in Sources */,
-				C629554C1369241300F94899 /* z80_ddfd.c in Sources */,
-				C629554D1369241300F94899 /* z80_ddfdcb.c in Sources */,
-				C629554E1369241300F94899 /* z80_ed.c in Sources */,
 				C629554F1369241300F94899 /* z80_ops.cpp in Sources */,
 				C62955501369241300F94899 /* arcade_card.cpp in Sources */,
 				C62955531369241300F94899 /* Gb_Apu.cpp in Sources */,
@@ -5690,7 +5272,6 @@
 				C62955881369241300F94899 /* sound.cpp in Sources */,
 				C62955891369241300F94899 /* system.cpp in Sources */,
 				C629558A1369241300F94899 /* vdp.cpp in Sources */,
-				C629558B1369241300F94899 /* vdp_run.inc in Sources */,
 				C629558C1369241400F94899 /* md5.cpp in Sources */,
 				C629558D1369241400F94899 /* mednafen.cpp in Sources */,
 				C629558E1369241400F94899 /* memory.cpp in Sources */,
@@ -5780,7 +5361,6 @@
 				C62955E61369241400F94899 /* ffe.cpp in Sources */,
 				C62955E71369241400F94899 /* fme7.cpp in Sources */,
 				C62955E81369241400F94899 /* h2288.cpp in Sources */,
-				C62955E91369241400F94899 /* Makefile.am.inc in Sources */,
 				C62955EA1369241400F94899 /* malee.cpp in Sources */,
 				C62955EB1369241400F94899 /* maxicart.cpp in Sources */,
 				C62955EC1369241400F94899 /* mmc1.cpp in Sources */,
@@ -5810,7 +5390,6 @@
 				C62956041369241400F94899 /* ftrainer.cpp in Sources */,
 				C62956051369241400F94899 /* hypershot.cpp in Sources */,
 				C62956061369241400F94899 /* mahjong.cpp in Sources */,
-				C62956071369241400F94899 /* Makefile.am.inc in Sources */,
 				C62956081369241400F94899 /* oekakids.cpp in Sources */,
 				C62956091369241400F94899 /* partytap.cpp in Sources */,
 				C629560A1369241400F94899 /* powerpad.cpp in Sources */,
@@ -5822,14 +5401,10 @@
 				C62956121369241400F94899 /* nes.cpp in Sources */,
 				C62956131369241400F94899 /* nsf.cpp in Sources */,
 				C62956141369241400F94899 /* nsfe.cpp in Sources */,
-				C62956151369241400F94899 /* benchmark.c in Sources */,
-				C62956171369241400F94899 /* demo.c in Sources */,
 				C629561A1369241400F94899 /* nes_ntsc.cpp in Sources */,
-				C629561D1369241400F94899 /* Makefile.am.inc in Sources */,
 				C629561E1369241400F94899 /* palette.cpp in Sources */,
 				C629561F1369241400F94899 /* ppu.cpp in Sources */,
 				C62956201369241400F94899 /* sound.cpp in Sources */,
-				C62956211369241400F94899 /* unif.cpp in Sources */,
 				C62956221369241400F94899 /* vsuni.cpp in Sources */,
 				C62956231369241400F94899 /* x6502.cpp in Sources */,
 				C62956241369241400F94899 /* netplay.cpp in Sources */,
@@ -5871,32 +5446,22 @@
 				C629564D1369241400F94899 /* pce.cpp in Sources */,
 				C629564E1369241400F94899 /* tsushin.cpp in Sources */,
 				C629564F1369241400F94899 /* vce.cpp in Sources */,
-				C62956501369241400F94899 /* vce_sync.inc in Sources */,
 				C62956511369241400F94899 /* hes.cpp in Sources */,
 				C62956521369241400F94899 /* huc.cpp in Sources */,
 				C62956531369241400F94899 /* huc6280.cpp in Sources */,
-				C62956541369241400F94899 /* huc6280_ops.inc in Sources */,
 				C62956551369241400F94899 /* input.cpp in Sources */,
-				C62956561369241400F94899 /* ioread.inc in Sources */,
 				C62956591369241400F94899 /* pce.cpp in Sources */,
 				C629565A1369241400F94899 /* tsushin.cpp in Sources */,
 				C629565B1369241400F94899 /* vdc.cpp in Sources */,
-				C629565C1369241400F94899 /* vpc_mix_inner.inc in Sources */,
 				C629565D1369241400F94899 /* debug.cpp in Sources */,
 				C629565E1369241400F94899 /* fxscsi.cpp in Sources */,
-				C629565F1369241400F94899 /* gamedb.inc in Sources */,
 				C62956601369241400F94899 /* huc6273.cpp in Sources */,
 				C62956611369241400F94899 /* gamepad.cpp in Sources */,
 				C62956621369241400F94899 /* mouse.cpp in Sources */,
 				C62956631369241400F94899 /* input.cpp in Sources */,
 				C62956641369241400F94899 /* interrupt.cpp in Sources */,
-				C62956651369241400F94899 /* io-handler.inc in Sources */,
 				C62956661369241400F94899 /* jrevdct.cpp in Sources */,
-				C62956671369241400F94899 /* king-bgfast-blit.inc in Sources */,
-				C62956681369241400F94899 /* king-bgfast.inc in Sources */,
 				C62956691369241400F94899 /* king.cpp in Sources */,
-				C629566A1369241400F94899 /* king_mix_body.inc in Sources */,
-				C629566D1369241400F94899 /* mem-handler.inc in Sources */,
 				C629566E1369241400F94899 /* pcfx.cpp in Sources */,
 				C629566F1369241400F94899 /* rainbow.cpp in Sources */,
 				C62956701369241400F94899 /* soundbox.cpp in Sources */,
@@ -5914,7 +5479,6 @@
 				C629567D1369241400F94899 /* sdl.cpp in Sources */,
 				C62956811369241400F94899 /* sexyal.cpp in Sources */,
 				C62956821369241400F94899 /* cart.cpp in Sources */,
-				C62956881369241400F94899 /* hvc.inc in Sources */,
 				C629568B1369241400F94899 /* memz80.cpp in Sources */,
 				C629568C1369241400F94899 /* pio.cpp in Sources */,
 				C629568D1369241400F94899 /* render.cpp in Sources */,
@@ -6019,25 +5583,11 @@
 				C62957151369241400F94899 /* serialization.cpp in Sources */,
 				C62957161369241400F94899 /* voice.cpp in Sources */,
 				C62957171369241400F94899 /* amd64.c in Sources */,
-				C62957181369241400F94899 /* benchmark.c in Sources */,
-				C62957191369241400F94899 /* benchmark_impl.c in Sources */,
-				C629571A1369241400F94899 /* libco.c in Sources */,
-				C629571B1369241400F94899 /* ppc.c in Sources */,
-				C629571C1369241400F94899 /* ppc.S in Sources */,
-				C629571D1369241400F94899 /* ppc_regs.S in Sources */,
-				C62957211369241400F94899 /* test_libco.c in Sources */,
-				C62957221369241400F94899 /* test_regs.c in Sources */,
-				C62957231369241400F94899 /* test_threads.c in Sources */,
 				C62957241369241400F94899 /* fiber.c in Sources */,
 				C62957251369241400F94899 /* libco.c in Sources */,
-				C62957261369241400F94899 /* ppc-elf.c in Sources */,
-				C62957271369241400F94899 /* ppc.c in Sources */,
-				C62957281369241400F94899 /* ppc.s in Sources */,
-				C62957291369241400F94899 /* ppc64.s in Sources */,
 				C629572A1369241400F94899 /* sjlj.c in Sources */,
 				C629572B1369241400F94899 /* ucontext.c in Sources */,
 				C629572C1369241400F94899 /* x86.c in Sources */,
-				C629572D1369241400F94899 /* Makefile in Sources */,
 				C629572F1369241400F94899 /* alsa.cpp in Sources */,
 				C62957301369241400F94899 /* ao.cpp in Sources */,
 				C62957311369241400F94899 /* directsound.cpp in Sources */,
@@ -6062,7 +5612,6 @@
 				C62957441369241400F94899 /* sdl.cpp in Sources */,
 				C62957451369241400F94899 /* wgl.cpp in Sources */,
 				C62957461369241400F94899 /* xv.cpp in Sources */,
-				C62957491369241400F94899 /* Makefile in Sources */,
 				C629574A1369241400F94899 /* memory.cpp in Sources */,
 				C629574B1369241400F94899 /* generic.cpp in Sources */,
 				C629574C1369241400F94899 /* serialization.cpp in Sources */,
@@ -6143,12 +5692,10 @@
 				C62957971369241500F94899 /* filter.cpp in Sources */,
 				C62957981369241500F94899 /* reader.cpp in Sources */,
 				C62957991369241500F94899 /* main.cpp in Sources */,
-				C629579A1369241500F94899 /* Makefile in Sources */,
 				C629579B1369241500F94899 /* movie.cpp in Sources */,
 				C629579C1369241500F94899 /* platform_osx.cpp in Sources */,
 				C629579D1369241500F94899 /* platform_win.cpp in Sources */,
 				C629579E1369241500F94899 /* platform_x.cpp in Sources */,
-				C62957A01369241500F94899 /* resource.rc in Sources */,
 				C62957A11369241500F94899 /* advanced.cpp in Sources */,
 				C62957A21369241500F94899 /* audio.cpp in Sources */,
 				C62957A31369241500F94899 /* input.cpp in Sources */,
@@ -6172,7 +5719,6 @@
 				C62957B81369241500F94899 /* state.cpp in Sources */,
 				C62957B91369241500F94899 /* ConvertUTF.cpp in Sources */,
 				C62957BA1369241500F94899 /* escape.cpp in Sources */,
-				C62957BB1369241500F94899 /* Makefile.am.inc in Sources */,
 				C62957BC1369241500F94899 /* world_strtod.c in Sources */,
 				C62957BD1369241500F94899 /* tests.cpp in Sources */,
 				C62957BE1369241500F94899 /* bitwise.c in Sources */,
@@ -6199,12 +5745,10 @@
 				C62957DF1369241500F94899 /* timer.cpp in Sources */,
 				C62957E01369241500F94899 /* vb.cpp in Sources */,
 				C62957E11369241500F94899 /* vip.cpp in Sources */,
-				C62957E21369241500F94899 /* vip_draw.inc in Sources */,
 				C62957E31369241500F94899 /* vsu.cpp in Sources */,
 				C62957E41369241500F94899 /* font-data-12x13.c in Sources */,
 				C62957E51369241500F94899 /* font-data-18x18.c in Sources */,
 				C62957E61369241500F94899 /* font-data.cpp in Sources */,
-				C62957E71369241500F94899 /* Makefile.am.inc in Sources */,
 				C62957E81369241500F94899 /* png.cpp in Sources */,
 				C62957E91369241500F94899 /* primitives.cpp in Sources */,
 				C62957EA1369241500F94899 /* resize.cpp in Sources */,
@@ -6216,8 +5760,6 @@
 				C62957F01369241500F94899 /* debug.cpp in Sources */,
 				C62957F11369241500F94899 /* dis_decode.cpp in Sources */,
 				C62957F21369241500F94899 /* dis_groups.cpp in Sources */,
-				C62957F31369241500F94899 /* dis_tables.inc in Sources */,
-				C62957F41369241500F94899 /* opcodes.inc in Sources */,
 				C62957F51369241500F94899 /* resolve.cpp in Sources */,
 				C62957F61369241500F94899 /* syntax.cpp in Sources */,
 				C62957F71369241500F94899 /* eeprom.cpp in Sources */,
@@ -6282,7 +5824,7 @@
 					"-DIN_LIBINTL",
 				);
 				PRODUCT_NAME = Mednafen;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include/** $(PROJECT_DIR)/src $(PROJECT_DIR) $(PROJECT_DIR)/mednafen/**";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Debug;
@@ -6310,7 +5852,7 @@
 					"-DIN_LIBINTL",
 				);
 				PRODUCT_NAME = Mednafen;
-				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include/** $(PROJECT_DIR)/src $(PROJECT_DIR) $(PROJECT_DIR)/mednafen/**";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Release;

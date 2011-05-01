@@ -149,13 +149,13 @@ NSString *MednafenControlNames[] = {
     EmulateSpecStruct espec;
     memset(&espec, 0, sizeof(EmulateSpecStruct));
     //NSLog(@"Executing frame");
-    espec.pixels = (uint32*)videoBuffer;
-    espec.LineWidths = lineWidths;
-    espec.SoundBuf = (int16**)(&sndBuf);
-    espec.SoundBufSize = &ssize;
-    espec.skip = 0;
-    espec.soundmultiplier = 1;
-    espec.NeedRewind = 0;
+//    espec.pixels = (uint32*)videoBuffer;
+//    espec.LineWidths = lineWidths;
+//    espec.SoundBuf = (int16**)(&sndBuf);
+//    espec.SoundBufSize = &ssize;
+//    espec.skip = 0;
+//    espec.soundmultiplier = 1;
+//    espec.NeedRewind = 0;
     
     //input_buffer[0] = 255;
     //input_buffer[1] = 255;
@@ -179,22 +179,22 @@ NSString *MednafenControlNames[] = {
     
     //MDFNI_Initialize(<#char * dir#>, <#const std * #>);
     
-    if(gameInfo = MDFNI_LoadGame([path UTF8String]))
-    {
-        MDFNI_SetPixelFormat(8,16,24,0);
-        NSLog(@"Really loaded file");
-        videoBuffer = (unsigned char *)malloc(gameInfo->pitch * 256);
-        tempBuffer = (unsigned char *)malloc(gameInfo->pitch * 256);
-        
-        MDFNI_SetSoundVolume(100);
-        
-        MDFNI_Sound( gameInfo->soundrate ? gameInfo->soundrate : 48000 );
-        NSLog(@"Alloced vid");
-        lineWidths = (MDFN_Rect *)calloc(256, sizeof(MDFN_Rect));
-        
-        BuildPortInfo(gameInfo);
-        return YES;
-    }
+//    if(gameInfo = MDFNI_LoadGame([path UTF8String]))
+//    {
+//        MDFNI_SetPixelFormat(8,16,24,0);
+//        NSLog(@"Really loaded file");
+//        videoBuffer = (unsigned char *)malloc(gameInfo->pitch * 256);
+//        tempBuffer = (unsigned char *)malloc(gameInfo->pitch * 256);
+//        
+//        MDFNI_SetSoundVolume(100);
+//        
+//        MDFNI_Sound( gameInfo->soundrate ? gameInfo->soundrate : 48000 );
+//        NSLog(@"Alloced vid");
+//        lineWidths = (MDFN_Rect *)calloc(256, sizeof(MDFN_Rect));
+//        
+//        BuildPortInfo(gameInfo);
+//        return YES;
+//    }
     
     return NO;
 }
@@ -217,12 +217,12 @@ NSString *MednafenControlNames[] = {
 
 - (OEIntRect)screenRect
 {
-    return OERectMake(gameInfo->DisplayRect.x, gameInfo->DisplayRect.y, gameInfo->DisplayRect.w, gameInfo->DisplayRect.h);
+    return (OEIntRect){0,0};//OERectMake(gameInfo->DisplayRect.x, gameInfo->DisplayRect.y, gameInfo->DisplayRect.w, gameInfo->DisplayRect.h);
 }
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(gameInfo->pitch / 4, gameInfo->height);
+    return (OEIntSize){0,0};//OESizeMake(gameInfo->pitch / 4, gameInfo->height);
 }
 
 - (const void *)videoBuffer
@@ -258,7 +258,7 @@ NSString *MednafenControlNames[] = {
 
 - (NSUInteger)frameSampleRate
 {
-    return FSettings.SndRate;
+    return 0;//FSettings.SndRate;
 }
 
 - (NSUInteger)channelCount
@@ -266,20 +266,20 @@ NSString *MednafenControlNames[] = {
     return gameInfo->soundchan;
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
-{
-    return OEMakeEmulatorKey(thePlayer, MednafenControlValues[index]);
-}
-
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
-{
-    input_buffer[aKey.player - 1] |= aKey.key;
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    input_buffer[aKey.player - 1] &= ~aKey.key;
-}
+//- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+//{
+//    return 0;//OEMakeEmulatorKey(thePlayer, MednafenControlValues[index]);
+//}
+//
+//- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+//{
+//    //input_buffer[aKey.player - 1] |= aKey.key;
+//}
+//
+//- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
+//{
+//   // input_buffer[aKey.player - 1] &= ~aKey.key;
+//}
 
 void MDFND_Message(const char *s)
 {

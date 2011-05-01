@@ -2,20 +2,18 @@
 // Prefix header for all source files of the 'Mednafen' target in the 'Mednafen' project.
 //
 
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#else
-	#include <strings.h>
-//	#include <stdint.h>
-	#include "config.h"
-
-#endif
+#include "config.h"
 
 #ifdef __cplusplus
 #define OE_EXTERN extern "C"
+#include "types.h"
 #else
 #define OE_EXTERN extern
 #endif
 
-
-
+#ifdef __OBJC__
+#import <Cocoa/Cocoa.h>
+#else
+//	#include <stdint.h>
+#include <strings.h>
+#endif

@@ -27,7 +27,6 @@
 
 #import "MednafenGameController.h"
 #import "MednafenGameCore.h"
-#import "MednafenControlsPreference.h"
 
 NSArray *MednafenRawControlNames = nil;
 NSArray *MednafenUsedControlNames = nil;
@@ -38,9 +37,9 @@ NSArray *MednafenUsedControlNames = nil;
 {
     if(self == [MednafenGameController class])
     {
-        [self registerPreferenceViewControllerClasses:
-         [NSDictionary dictionaryWithObject:[MednafenControlsPreference class]
-                                     forKey:@"OEControlsPreferenceKey"]];
+//        [self registerPreferenceViewControllerClasses:
+//         [NSDictionary dictionaryWithObject:[MednafenControlsPreference class]
+//                                     forKey:@"OEControlsPreferenceKey"]];
         MednafenRawControlNames = [[NSArray alloc] initWithObjects:MednafenControlNames count:GBA_CONTROL_COUNT];
     }
 }
