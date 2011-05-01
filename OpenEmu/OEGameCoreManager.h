@@ -38,6 +38,7 @@ enum _OEGameDocumentErrorCodes
     OEConnectionTimedOutError      = -4,
     OEInvalidHelperConnectionError = -5,
     OENilRootProxyObjectError      = -6,
+    OECouldNotLoadROMError         = -10,
 };
 
 @protocol OEGameCoreHelper;

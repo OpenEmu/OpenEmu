@@ -135,8 +135,6 @@
         gameController = [[plugin controller]  retain];
         emulatorName   = [[plugin displayName] retain];
         
-        gameSystemController = [[[OESystemPlugin gameSystemPluginForName:[gameController gameSystemName]] controller] retain];
-        gameSystemResponder  = [gameSystemController newGameSystemResponder];
         [gameSystemController registerGameSystemResponder:gameSystemResponder];
         
         Class managerClass = ([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.gameCoreInBackgroundThread"] boolValue]
@@ -152,7 +150,12 @@
             
             [rootProxy setupEmulation];
             
-            [gameSystemResponder setClient:[rootProxy gameCore]];
+            OEGameCore *gameCore = [rootProxy gameCore];
+            
+            gameSystemController = [[[OESystemPlugin gameSystemPluginForName:[gameCore gameSystemName]] controller] retain];
+            gameSystemResponder  = [gameSystemController newGameSystemResponder];
+            
+            [gameSystemResponder setClient:gameCore];
             
             return YES;
         }
@@ -382,10 +385,12 @@
     {
         if(![self isFullScreen])
         {
-            @try {
+            @try
+            {
                 [self setPauseEmulation:YES];
             }
-            @catch (NSException * e) {
+            @catch (NSException *e)
+            {
                 NSLog(@"Failed to pause");
             }
         }

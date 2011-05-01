@@ -99,7 +99,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     
     if(!ret && outError != NULL)
         *outError = [NSError errorWithDomain:@"OEHelperProcessErrorDomain"
-                                        code:-10 // FIXME: whatever
+                                        code:OECouldNotLoadROMError
                                     userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The ROM couldn't be loaded.", @"OEGameCoreManager loadROMError: error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
     
     return ret;
