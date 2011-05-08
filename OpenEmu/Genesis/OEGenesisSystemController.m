@@ -28,6 +28,7 @@
 #import "OEGenesisSystemController.h"
 #import "OEGenesisSystemResponder.h"
 #import "OEGenesisPreferenceView.h"
+#import "OEGenesisSystemResponderClient.h"
 
 @implementation OEGenesisSystemController
 

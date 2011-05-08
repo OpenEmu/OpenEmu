@@ -25,10 +25,9 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GBAControlsPreference.h"
-#import <OEGameControllerView.h>
+#import "OEGBAControlsPreference.h"
 
-@implementation GBAControlsPreference
+@implementation OEGBAControlsPreference
 
 - (void)awakeFromNib
 {
@@ -38,18 +37,18 @@
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"gba.png"];
     [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
     
-    [view addButtonWithName:@"KEY@_BUTTON_L"      toolTip:@"Left Trigger"  target:self startPosition:NSMakePoint(50, 220)  endPosition:NSMakePoint(203, 208)];
-    [view addButtonWithName:@"KEY@_UP"            toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50, 188)  endPosition:NSMakePoint(210, 172)];
-    [view addButtonWithName:@"KEY@_LEFT"          toolTip:@"D-Pad Left"    target:self startPosition:NSMakePoint(50, 156)  endPosition:NSMakePoint(199, 161)];
-    [view addButtonWithName:@"KEY@_RIGHT"         toolTip:@"D-Pad Right"   target:self startPosition:NSMakePoint(50, 124)  endPosition:NSMakePoint(221, 163)];
-    [view addButtonWithName:@"KEY@_DOWN"          toolTip:@"D-Pad Down"    target:self startPosition:NSMakePoint(50, 92)   endPosition:NSMakePoint(210, 151)];
+    [view addButtonWithName:@"OEGBAButtonL[@]"      toolTip:@"Left Trigger"  target:self startPosition:NSMakePoint(50, 220)  endPosition:NSMakePoint(203, 208)];
+    [view addButtonWithName:@"OEGBAButtonUp[@]"     toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50, 188)  endPosition:NSMakePoint(210, 172)];
+    [view addButtonWithName:@"OEGBAButtonLeft[@]"   toolTip:@"D-Pad Left"    target:self startPosition:NSMakePoint(50, 156)  endPosition:NSMakePoint(199, 161)];
+    [view addButtonWithName:@"OEGBAButtonRight[@]"  toolTip:@"D-Pad Right"   target:self startPosition:NSMakePoint(50, 124)  endPosition:NSMakePoint(221, 163)];
+    [view addButtonWithName:@"OEGBAButtonDown[@]"   toolTip:@"D-Pad Down"    target:self startPosition:NSMakePoint(50, 92)   endPosition:NSMakePoint(210, 151)];
     
-    [view addButtonWithName:@"KEY@_BUTTON_START"  toolTip:@"Start Button"  target:self startPosition:NSMakePoint(348, 20)  endPosition:NSMakePoint(227, 127)];
-    [view addButtonWithName:@"KEY@_BUTTON_SELECT" toolTip:@"Select Button" target:self startPosition:NSMakePoint(252, 20)  endPosition:NSMakePoint(227, 114)];
+    [view addButtonWithName:@"OEGBAButtonStart[@]"  toolTip:@"Start Button"  target:self startPosition:NSMakePoint(348, 20)  endPosition:NSMakePoint(227, 127)];
+    [view addButtonWithName:@"OEGBAButtonSelect[@]" toolTip:@"Select Button" target:self startPosition:NSMakePoint(252, 20)  endPosition:NSMakePoint(227, 114)];
     
-    [view addButtonWithName:@"KEY@_BUTTON_R"      toolTip:@"Right Trigger" target:self startPosition:NSMakePoint(550, 220) endPosition:NSMakePoint(393, 210)];
-    [view addButtonWithName:@"KEY@_BUTTON_A"      toolTip:@"A Button"      target:self startPosition:NSMakePoint(550, 124) endPosition:NSMakePoint(403, 167)];
-    [view addButtonWithName:@"KEY@_BUTTON_B"      toolTip:@"B Button"      target:self startPosition:NSMakePoint(550, 92)  endPosition:NSMakePoint(379, 159)];
+    [view addButtonWithName:@"OEGBAButtonR[@]"      toolTip:@"Right Trigger" target:self startPosition:NSMakePoint(550, 220) endPosition:NSMakePoint(393, 210)];
+    [view addButtonWithName:@"OEGBAButtonA[@]"      toolTip:@"A Button"      target:self startPosition:NSMakePoint(550, 124) endPosition:NSMakePoint(403, 167)];
+    [view addButtonWithName:@"OEGBAButtonB[@]"      toolTip:@"B Button"      target:self startPosition:NSMakePoint(550, 92)  endPosition:NSMakePoint(379, 159)];
 }
 
 @end

@@ -26,8 +26,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEControlsViewController_old.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 
-@interface GBAControlsPreference : OEControlsViewController_old
+@interface OEGBAControlsPreference : OEControlsViewController
 @end

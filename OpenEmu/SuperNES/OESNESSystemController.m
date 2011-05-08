@@ -28,6 +28,7 @@
 #import "OESNESSystemController.h"
 #import "OESNESSystemResponder.h"
 #import "OESNESPreferenceViewController.h"
+#import "OESNESSystemResponderClient.h"
 
 @implementation OESNESSystemController
 

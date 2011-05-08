@@ -28,6 +28,7 @@
 #import "OEGBSystemController.h"
 #import "OEGBSystemResponder.h"
 #import "OEGBPreferenceView.h"
+#import "OEGBSystemResponderClient.h"
 
 @implementation OEGBSystemController
 

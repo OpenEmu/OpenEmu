@@ -235,6 +235,14 @@
 		C62F549B0FE6CC1500DF15BA /* OECorePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C62F549A0FE6CC1500DF15BA /* OECorePlugin.m */; };
 		C62F56540FE6FDA700DF15BA /* OEGameLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = C62F56530FE6FDA700DF15BA /* OEGameLayer.m */; };
 		C63AF5A60FE41E90009856D4 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
+		C646574913771F12002A4F70 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		C646574F13771F12002A4F70 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C646574D13771F12002A4F70 /* InfoPlist.strings */; };
+		C646575613771F38002A4F70 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		C646575C13771F6B002A4F70 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C646575A13771F6B002A4F70 /* ControlsPreference.xib */; };
+		C646575D13771F6B002A4F70 /* gba.png in Resources */ = {isa = PBXBuildFile; fileRef = C646575B13771F6B002A4F70 /* gba.png */; };
+		C646576013771FB0002A4F70 /* OEGBAControlsPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = C646575F13771FB0002A4F70 /* OEGBAControlsPreference.m */; };
+		C6465764137721D5002A4F70 /* OEGBASystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6465763137721D5002A4F70 /* OEGBASystemController.m */; };
+		C646576713772251002A4F70 /* OEGBASystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C646576613772251002A4F70 /* OEGBASystemResponder.m */; };
 		C6480FB913648ABE0094FA33 /* nespad.png in Resources */ = {isa = PBXBuildFile; fileRef = C6480FB813648ABE0094FA33 /* nespad.png */; };
 		C6480FC213648F670094FA33 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		C6480FC813648F670094FA33 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6480FC613648F670094FA33 /* InfoPlist.strings */; };
@@ -418,6 +426,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
+		};
+		C646575413771F2C002A4F70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
 		};
 		C6480FCE13648F8C0094FA33 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -723,6 +738,19 @@
 		C62F56520FE6FDA700DF15BA /* OEGameLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameLayer.h; sourceTree = "<group>"; };
 		C62F56530FE6FDA700DF15BA /* OEGameLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameLayer.m; sourceTree = "<group>"; };
 		C63E7C11136298F4001CC78B /* OESystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESystemResponderClient.h; sourceTree = "<group>"; };
+		C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "GameBoy Advance.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		C646574C13771F12002A4F70 /* GameBoy Advance-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GameBoy Advance-Info.plist"; sourceTree = "<group>"; };
+		C646574E13771F12002A4F70 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C646575013771F12002A4F70 /* GameBoy Advance-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GameBoy Advance-Prefix.pch"; sourceTree = "<group>"; };
+		C646575A13771F6B002A4F70 /* ControlsPreference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
+		C646575B13771F6B002A4F70 /* gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba.png; sourceTree = "<group>"; };
+		C646575E13771FB0002A4F70 /* OEGBAControlsPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBAControlsPreference.h; sourceTree = "<group>"; };
+		C646575F13771FB0002A4F70 /* OEGBAControlsPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBAControlsPreference.m; sourceTree = "<group>"; };
+		C6465761137720D5002A4F70 /* OEGBASystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBASystemResponderClient.h; sourceTree = "<group>"; };
+		C6465762137721D5002A4F70 /* OEGBASystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBASystemController.h; sourceTree = "<group>"; };
+		C6465763137721D5002A4F70 /* OEGBASystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBASystemController.m; sourceTree = "<group>"; };
+		C646576513772251002A4F70 /* OEGBASystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBASystemResponder.h; sourceTree = "<group>"; };
+		C646576613772251002A4F70 /* OEGBASystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBASystemResponder.m; sourceTree = "<group>"; };
 		C6480FB813648ABE0094FA33 /* nespad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nespad.png; sourceTree = "<group>"; };
 		C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperNES.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6480FC513648F670094FA33 /* SuperNES-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuperNES-Info.plist"; sourceTree = "<group>"; };
@@ -928,6 +956,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C646574513771F12002A4F70 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C646575613771F38002A4F70 /* OpenEmuSystem.framework in Frameworks */,
+				C646574913771F12002A4F70 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C6480FBE13648F670094FA33 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1031,6 +1068,7 @@
 				C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */,
 				C6B947AF1364ECA600A425F0 /* GameBoy.oesystemplugin */,
 				C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */,
+				C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1487,6 +1525,33 @@
 			name = Plugins;
 			sourceTree = "<group>";
 		};
+		C646574A13771F12002A4F70 /* GameBoy Advance */ = {
+			isa = PBXGroup;
+			children = (
+				C646575E13771FB0002A4F70 /* OEGBAControlsPreference.h */,
+				C646575F13771FB0002A4F70 /* OEGBAControlsPreference.m */,
+				C6465762137721D5002A4F70 /* OEGBASystemController.h */,
+				C6465763137721D5002A4F70 /* OEGBASystemController.m */,
+				C646576513772251002A4F70 /* OEGBASystemResponder.h */,
+				C646576613772251002A4F70 /* OEGBASystemResponder.m */,
+				C6465761137720D5002A4F70 /* OEGBASystemResponderClient.h */,
+				C646574B13771F12002A4F70 /* Supporting Files */,
+			);
+			path = "GameBoy Advance";
+			sourceTree = "<group>";
+		};
+		C646574B13771F12002A4F70 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C646574C13771F12002A4F70 /* GameBoy Advance-Info.plist */,
+				C646574D13771F12002A4F70 /* InfoPlist.strings */,
+				C646575013771F12002A4F70 /* GameBoy Advance-Prefix.pch */,
+				C646575A13771F6B002A4F70 /* ControlsPreference.xib */,
+				C646575B13771F6B002A4F70 /* gba.png */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		C6480FC313648F670094FA33 /* SuperNES */ = {
 			isa = PBXGroup;
 			children = (
@@ -1592,6 +1657,7 @@
 				C6480FC313648F670094FA33 /* SuperNES */,
 				C6B947B11364ECA700A425F0 /* GameBoy */,
 				C6B947E81365080B00A425F0 /* Genesis */,
+				C646574A13771F12002A4F70 /* GameBoy Advance */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -1880,6 +1946,24 @@
 			productReference = 8D15AC370486D014006FF6A4 /* OpenEmu.app */;
 			productType = "com.apple.product-type.application";
 		};
+		C646574713771F12002A4F70 /* GameBoy Advance */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C646575113771F12002A4F70 /* Build configuration list for PBXNativeTarget "GameBoy Advance" */;
+			buildPhases = (
+				C646574413771F12002A4F70 /* Sources */,
+				C646574513771F12002A4F70 /* Frameworks */,
+				C646574613771F12002A4F70 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C646575513771F2C002A4F70 /* PBXTargetDependency */,
+			);
+			name = "GameBoy Advance";
+			productName = "GameBoy Advance";
+			productReference = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		C6480FC013648F670094FA33 /* SuperNES */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C6480FCA13648F670094FA33 /* Build configuration list for PBXNativeTarget "SuperNES" */;
@@ -2028,6 +2112,7 @@
 				C6480FC013648F670094FA33 /* SuperNES */,
 				C6B947AE1364ECA600A425F0 /* GameBoy */,
 				C6B947E51365080B00A425F0 /* Genesis */,
+				C646574713771F12002A4F70 /* GameBoy Advance */,
 			);
 		};
 /* End PBXProject section */
@@ -2132,6 +2217,16 @@
 				82C42C8710CAFB480046D1A3 /* download_arrow_up.png in Resources */,
 				82DD29DB12369F1100B58A8F /* KeyboardUsages.plist in Resources */,
 				C67117E9136361170034379A /* UnavailablePlugins.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C646574613771F12002A4F70 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C646574F13771F12002A4F70 /* InfoPlist.strings in Resources */,
+				C646575C13771F6B002A4F70 /* ControlsPreference.xib in Resources */,
+				C646575D13771F6B002A4F70 /* gba.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2392,6 +2487,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		C646574413771F12002A4F70 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C646576013771FB0002A4F70 /* OEGBAControlsPreference.m in Sources */,
+				C6465764137721D5002A4F70 /* OEGBASystemController.m in Sources */,
+				C646576713772251002A4F70 /* OEGBASystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C6480FBD13648F670094FA33 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2523,6 +2628,11 @@
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
 			targetProxy = C60FC00013522D9A00B53F64 /* PBXContainerItemProxy */;
 		};
+		C646575513771F2C002A4F70 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = C646575413771F2C002A4F70 /* PBXContainerItemProxy */;
+		};
 		C6480FCF13648F8C0094FA33 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -2594,6 +2704,14 @@
 				82E741890E7209C400AE60C4 /* English */,
 			);
 			name = GameDocument.xib;
+			sourceTree = "<group>";
+		};
+		C646574D13771F12002A4F70 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C646574E13771F12002A4F70 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		C6480FC613648F670094FA33 /* InfoPlist.strings */ = {
@@ -2894,7 +3012,7 @@
 				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2920,7 +3038,7 @@
 				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = NS_BUILD_32_LIKE_64;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
@@ -2929,6 +3047,45 @@
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx10.6;
+			};
+			name = Release;
+		};
+		C646575213771F12002A4F70 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GameBoy Advance/GameBoy Advance-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "GameBoy Advance/GameBoy Advance-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		C646575313771F12002A4F70 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "GameBoy Advance/GameBoy Advance-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				INFOPLIST_FILE = "GameBoy Advance/GameBoy Advance-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -3268,6 +3425,15 @@
 			buildConfigurations = (
 				C05733CC08A9546B00998B17 /* Debug */,
 				C05733CD08A9546B00998B17 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C646575113771F12002A4F70 /* Build configuration list for PBXNativeTarget "GameBoy Advance" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C646575213771F12002A4F70 /* Debug */,
+				C646575313771F12002A4F70 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

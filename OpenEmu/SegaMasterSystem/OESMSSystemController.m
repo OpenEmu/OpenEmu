@@ -28,6 +28,7 @@
 #import "OESMSSystemController.h"
 #import "OESMSSystemResponder.h"
 #import "OESMSPreferenceView.h"
+#import "OESMSSystemResponderClient.h"
 
 @implementation OESMSSystemController
 

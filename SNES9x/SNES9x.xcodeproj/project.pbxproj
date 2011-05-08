@@ -160,6 +160,13 @@
 			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
 		};
+		C646577F1377290C002A4F70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
+		};
 		C6480FF01364A4E40094FA33 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
@@ -497,6 +504,7 @@
 				C6480FF71364A4E40094FA33 /* SuperNES.oesystemplugin */,
 				C6B948311365187100A425F0 /* GameBoy.oesystemplugin */,
 				C6B948331365187100A425F0 /* Genesis.oesystemplugin */,
+				C64657801377290C002A4F70 /* GameBoy Advance.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -752,6 +760,13 @@
 			fileType = "compiled.mach-o.executable";
 			path = OpenEmuHelperApp;
 			remoteRef = C62A2626116F08B60003DEE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C64657801377290C002A4F70 /* GameBoy Advance.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "GameBoy Advance.bundle";
+			remoteRef = C646577F1377290C002A4F70 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C6480FF11364A4E40094FA33 /* OpenEmuSystem.framework */ = {

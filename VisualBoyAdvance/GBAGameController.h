@@ -28,8 +28,5 @@
 #import <Cocoa/Cocoa.h>
 #import <OEGameCoreController.h>
 
-OE_EXTERN NSArray *GBARawControlNames;
-OE_EXTERN NSArray *GBAUsedControlNames;
-
 @interface GBAGameController : OEGameCoreController
 @end

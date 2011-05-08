@@ -28,6 +28,7 @@
 #import "OENESSystemController.h"
 #import "OENESSystemResponder.h"
 #import "OENESPreferenceView.h"
+#import "OENESSystemResponderClient.h"
 
 @implementation OENESSystemController
 
