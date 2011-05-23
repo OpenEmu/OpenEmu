@@ -765,7 +765,7 @@
 		C64657801377290C002A4F70 /* GameBoy Advance.bundle */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = "GameBoy Advance.bundle";
+			path = "GameBoy Advance.oesystemplugin";
 			remoteRef = C646577F1377290C002A4F70 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
