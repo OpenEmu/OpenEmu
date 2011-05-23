@@ -38,16 +38,18 @@
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-    BOOL worked = YES;
-    NSString *path = [absoluteURL path];
-    Class type = [OEPlugin typeForExtension:[path pathExtension]];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
+    BOOL      worked = YES;
+    NSString *path   = [absoluteURL path];
+    Class     type   = [OEPlugin typeForExtension:[path pathExtension]];
+    NSArray  *paths  = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
+    
     if([paths count] > 0)
     {
         NSString *folder = [[[paths objectAtIndex:0] stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPathComponent:[type pluginFolder]];
         NSString *newPath = [folder stringByAppendingPathComponent:[path lastPathComponent]];
+        
         //If the file isn't already in the right place
-        if( ![newPath isEqualToString:path] )
+        if(![newPath isEqualToString:path])
         {            
             NSFileManager *manager = [NSFileManager defaultManager];
             
@@ -59,6 +61,7 @@
             
             if(worked) worked = [manager copyItemAtPath:path toPath:newPath error:outError];
         }
+        
         if(worked)
         {
             worked = [OEPlugin pluginWithBundleAtPath:newPath type:type forceReload:YES] != nil;

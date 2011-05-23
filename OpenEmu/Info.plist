@@ -87,6 +87,24 @@
 		<dict>
 			<key>CFBundleTypeExtensions</key>
 			<array>
+				<string>oesystemplugin</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>OECorePluginIcon.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>System Plugin</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSTypeIsPackage</key>
+			<true/>
+			<key>NSDocumentClass</key>
+			<string>OEPluginDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
 				<string>oefilterplugin</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
