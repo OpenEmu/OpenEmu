@@ -48,9 +48,11 @@
 
 #import "SaveState.h"
 
+#import "LibraryController.h"
 //HID support
 #import "OEHIDManager.h"
 #import <IOKit/hid/IOHIDUsageTables.h>
+
 
 @interface GameDocumentController ()
 @property(readwrite, retain) NSArray *plugins;
@@ -97,13 +99,13 @@
     }
     
     
-    organizer = [[OEROMOrganizer alloc] init];
-    //[organizer showWindow:self];
+    organizer = [[LibraryController alloc] init];
+    [organizer showWindow:self];
     
     [versionMigrator runMigrationIfNeeded];
 }
 
--(void)updateBundles: (id) sender
+- (void)updateBundles: (id) sender
 {
     if (! coreUpdater) coreUpdater = [[OECoreUpdater alloc] init];
     [coreUpdater showWindow:self];
