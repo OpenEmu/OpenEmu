@@ -10,13 +10,20 @@
 #import "NSImage+OEDrawingAdditions.h"
 #define NoInterpol [NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:NSImageInterpolationNone] forKey:NSImageHintInterpolation]
 @implementation OESlider
++ (void)initialize{
+	NSImage* image = [NSImage imageNamed:@"grid_slider_large"];
+	[image setName:@"grid_slider_large_enabled" forSubimageInRect:NSMakeRect(0, 0, 10, 10)];
+	[image setName:@"grid_slider_large_disabled" forSubimageInRect:NSMakeRect(10, 0, 10, 10)];
+	
+	image = [NSImage imageNamed:@"grid_slider_small"];
+	[image setName:@"grid_slider_small_enabled" forSubimageInRect:NSMakeRect(0, 0, 7, 7)];
+	[image setName:@"grid_slider_small_disabled" forSubimageInRect:NSMakeRect(7, 0, 7, 7)];
+}
+
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
 		[self setContinuous:YES];
-		
-		
-		[self loadImages];
     }
     return self;
 }
@@ -24,36 +31,9 @@
 - (id)init {
     self = [super init];
     if (self) {
-        [self loadImages];
     }
     return self;
 }
-
-
-- (void)loadImages{
-	if([NSImage imageNamed:@"grid_slider_large_enabled"]==nil){
-		NSImage* image = [NSImage imageNamed:@"grid_slider_large"];
-		
-		NSImage* subImage = [image subImageFromRect:NSMakeRect(0, 0, 10, 10)];
-		[subImage setName:@"grid_slider_large_enabled"];
-		[subImage retain];
-		
-		subImage = [image subImageFromRect:NSMakeRect(10, 0, 10, 10)];
-		[subImage setName:@"grid_slider_large_disabled"];
-		[subImage retain];
-		
-		image = [NSImage imageNamed:@"grid_slider_small"];
-		
-		subImage = [image subImageFromRect:NSMakeRect(0, 0, 7, 7)];
-		[subImage setName:@"grid_slider_small_enabled"];
-		[subImage retain];
-		
-		subImage = [image subImageFromRect:NSMakeRect(7, 0, 7, 7)];
-		[subImage setName:@"grid_slider_small_disabled"];
-		[subImage retain];
-	}
-}
-
 
 - (void)drawRect:(NSRect)dirtyRect{
 	[super drawRect:dirtyRect];

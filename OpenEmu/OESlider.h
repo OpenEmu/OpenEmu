@@ -13,8 +13,6 @@
 	IBOutlet NSImageView* minHint;
 	IBOutlet NSImageView* maxHint;
 }
-
-- (void)loadImages;
 @property (assign) IBOutlet NSImageView* minHint;
 @property (assign) IBOutlet NSImageView* maxHint;
 @end

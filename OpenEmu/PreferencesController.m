@@ -14,11 +14,21 @@
 #import "INAppStoreWindow.h"
 
 #import "NSImage+OEDrawingAdditions.h"
+
+#import "OEPreferencePane.h"
+
+#import "OEPrefLibraryController.h"
+#import "OEPrefGameplayController.h"
+#import "OEPrefControlsController.h"
+#import "OEPrefCoresController.h"
+
 @interface PreferencesController (priavte)
 - (void)_showView:(NSView*)view atSize:(NSSize)size;
+- (void)_reloadPreferencePanes;
+- (void)_rebuildToolbar;
 @end
 @implementation PreferencesController
-
+@synthesize preferencePanes;
 - (id)initWithWindow:(NSWindow *)window{
     self = [super initWithWindow:window];
     if (self) {
@@ -31,6 +41,8 @@
 	[toolbar release];
 	toolbar = nil;
 	
+	[preferencePanes release];
+	preferencePanes = nil;
 	
     [super dealloc];
 }
@@ -47,132 +59,90 @@
 	NSColor* windowBackgroundColor = [NSColor colorWithDeviceRed:0.149 green:0.149 blue:0.149 alpha:1.0];
 	[win setBackgroundColor:windowBackgroundColor];
 	
-	NSImage* controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
-	[(OEBackgroundImageView*)controls setImage:controlsBackgroundImage];
+	[self _reloadPreferencePanes];
 	
-	NSColor* controlsTopLineColor = [NSColor colorWithDeviceWhite:0.32 alpha:1.0];
-	[(OEBackgroundImageView*)controls setTopLineColor:controlsTopLineColor];
-	
-	toolbar = [[OEToolbarView alloc] initWithFrame:NSMakeRect(0, 0, win.frame.size.width-10, 58)];
-	
-	coreGradientOverlayView.topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
-	coreGradientOverlayView.bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
-	
-	// Setup Toolbar
-	OEToolbarItem* libraryItem = [[[OEToolbarItem alloc] init] autorelease];
-	[libraryItem setTitle:@"Library"];
-	[libraryItem setIcon:[NSImage imageNamed:@"tb_pref_library"]];
-	[libraryItem setTarget:self];
-	[libraryItem setAction:@selector(showLibrary:)];
-	[toolbar addItem:libraryItem];
-	
-	
-	OEToolbarItem* gameplayItem = [[[OEToolbarItem alloc] init] autorelease];
-	[gameplayItem setTitle:@"Gameplay"];
-	[gameplayItem setIcon:[NSImage imageNamed:@"tb_pref_gameplay"]];
-	[gameplayItem setTarget:self];
-	[gameplayItem setAction:@selector(showGameplay:)];
-	[toolbar addItem:gameplayItem];
-	
-	
-	OEToolbarItem* controlsItem = [[[OEToolbarItem alloc] init] autorelease];
-	[controlsItem setTitle:@"Controls"];
-	[controlsItem setIcon:[NSImage imageNamed:@"tb_pref_controls"]];
-	[controlsItem setTarget:self];
-	[controlsItem setAction:@selector(showControls:)];
-	[toolbar addItem:controlsItem];
-	
-	
-	OEToolbarItem* coresItem = [[[OEToolbarItem alloc] init] autorelease];
-	[coresItem setTitle:@"Cores"];
-	[coresItem setIcon:[NSImage imageNamed:@"tb_pref_cores"]];
-	[coresItem setTarget:self];
-	[coresItem setAction:@selector(showCores:)];
-	[toolbar addItem:coresItem];
-		
 	win.titleBarString = @"Preferences";
 	win.titleBarHeight = 83;
 	win.titleBarView = toolbar;
 	win.trafficLightAlignment = 0;
 
-	/** ** ** ** ** ** ** ** **/
-	// Setup controls popup console list
-	NSMenu* consolesMenu = [[NSMenu alloc] init];
-	
-	NSMenuItem* item = [[[NSMenuItem alloc] initWithTitle:@"Nintendo (NES)" action:NULL keyEquivalent:@""] autorelease];
-	[item setImage:[NSImage imageNamed:[item title]]];
-	[consolesMenu addItem:item];
-	
-	item = [[[NSMenuItem alloc] initWithTitle:@"Super Nintendo (SNES)" action:NULL keyEquivalent:@""] autorelease];
-	[item setImage:[NSImage imageNamed:[item title]]];
-	[consolesMenu addItem:item];
-	
-	item = [[[NSMenuItem alloc] initWithTitle:@"GameBoy" action:NULL keyEquivalent:@""] autorelease];
-	[item setImage:[NSImage imageNamed:[item title]]];
-	[consolesMenu addItem:item];
-	
-	item = [[[NSMenuItem alloc] initWithTitle:@"GameBoy Advance" action:NULL keyEquivalent:@""] autorelease];
-	[item setImage:[NSImage imageNamed:[item title]]];
-	[consolesMenu addItem:item];
-	
-	item = [[[NSMenuItem alloc] initWithTitle:@"Sega SG-1000" action:NULL keyEquivalent:@""] autorelease];
-	[item setImage:[NSImage imageNamed:[item title]]];
-	[consolesMenu addItem:item];
-	
-	item = [[[NSMenuItem alloc] initWithTitle:@"Sega Master System" action:NULL keyEquivalent:@""] autorelease];
-	[item setImage:[NSImage imageNamed:[item title]]];
-	[consolesMenu addItem:item];
-	
-	item = [[[NSMenuItem alloc] initWithTitle:@"Sega Genesis" action:NULL keyEquivalent:@""] autorelease];
-	[item setImage:[NSImage imageNamed:[item title]]];
-	[consolesMenu addItem:item];
-	
-	item = [[[NSMenuItem alloc] initWithTitle:@"Game Gear" action:NULL keyEquivalent:@""] autorelease];
-	[item setImage:[NSImage imageNamed:[item title]]];
-	[consolesMenu addItem:item];
-	
-	[consolesPopupButton setMenu:consolesMenu];
-
-	[consolesMenu release];
-	/** ** ** ** ** ** ** ** **/
-	[self showLibrary:nil];
+		/** ** ** ** ** ** ** ** **/
+	[self switchView:[[toolbar items] objectAtIndex:0]];
 }
 #pragma mark -
-- (IBAction)showLibrary:(id)sender{
-	toolbar.contentSeperatorColor = [NSColor blackColor];
+- (void)_reloadPreferencePanes{
+	NSMutableArray* array = [NSMutableArray array];
 	
-	NSSize viewSize = NSMakeSize(423, 480);
-	[self _showView:library atSize:viewSize];
+	NSViewController <OEPreferencePane> * controller;
+	
+	controller = [[[OEPrefLibraryController alloc] init] autorelease];
+	[array addObject:controller];
+	
+	controller = [[[OEPrefGameplayController alloc] init] autorelease];
+	[array addObject:controller];
+	
+	controller = [[[OEPrefControlsController alloc] init] autorelease];
+	[array addObject:controller];
+	
+	controller = [[[OEPrefCoresController alloc] init] autorelease];
+	[array addObject:controller];
+	
+	
+	
+	self.preferencePanes = array;
+	[self _rebuildToolbar];
 }
 
-- (IBAction)showGameplay:(id)sender{
+- (void)_rebuildToolbar{
+	if(toolbar){
+		[toolbar removeFromSuperview];
+		[toolbar release];
+		toolbar = nil;
+	}
+	
+	INAppStoreWindow* win = (INAppStoreWindow*)[self window];
+	toolbar = [[OEToolbarView alloc] initWithFrame:NSMakeRect(0, 0, win.frame.size.width-10, 58)];
+	
+	for(id <OEPreferencePane> aPreferencePane in self.preferencePanes){
+		OEToolbarItem* toolbarItem = [[[OEToolbarItem alloc] init] autorelease];
+		[toolbarItem setTitle:[aPreferencePane title]];
+		[toolbarItem setIcon:[aPreferencePane icon]];
+		[toolbarItem setTarget:self];
+		[toolbarItem setAction:@selector(switchView:)];
+		[toolbar addItem:toolbarItem];
+	}
+	
+	[toolbar markItemAsSelected:[toolbar.items objectAtIndex:0]];
+}
+#pragma mark -
+- (void)switchView:(id)sender{
+	NSViewController <OEPreferencePane> * pane = [self.preferencePanes objectAtIndex:[[toolbar items] indexOfObject:sender]];
+	
+	NSSize viewSize = [pane viewSize];
+	NSView* view = [pane view];
+	
 	toolbar.contentSeperatorColor = [NSColor blackColor];
 	
-	NSSize viewSize = NSMakeSize(423, 347);
-	[self _showView:gameplay atSize:viewSize];
-}
-
-- (IBAction)showControls:(id)sender{
-	toolbar.contentSeperatorColor = [NSColor colorWithDeviceRed:0.318 green:0.318 blue:0.318 alpha:1.0];
-
-	NSSize viewSize = NSMakeSize(561, 536);
-	[self _showView:controls atSize:viewSize];
-}
-
-- (IBAction)showCores:(id)sender{
-	toolbar.contentSeperatorColor = [NSColor blackColor];
+	[self _showView:view atSize:viewSize];
 	
-	NSSize viewSize = NSMakeSize(423, 480);
-	
-	[self _showView:cores atSize:viewSize];
+	BOOL viewHasCustomColor = [pane respondsToSelector:@selector(toolbarSeparationColor)];	
+	if(viewHasCustomColor) toolbar.contentSeperatorColor = [pane toolbarSeparationColor];
 }
 
 - (void)_showView:(NSView*)view atSize:(NSSize)size{
 	NSWindow* win = [self window];
 	
+	if(view==[win contentView]) return;
+		
+	NSRect contentRect = [win contentRectForFrameRect:[win frame]];
+	contentRect.size = size;
+	NSRect frameRect = [win frameRectForContentRect:contentRect];
+	frameRect.origin.y += win.frame.size.height-frameRect.size.height;
+	
+	[win setContentView:[[[NSView alloc] init] autorelease]];
+	[win setFrame:frameRect display:TRUE animate:TRUE];
+	
 	[view setFrameSize:size];
-
-	[win setContentSize:size];
 	[win setContentView:view];
 }
 

@@ -183,6 +183,15 @@
 	return rect;
 }
 
+- (NSRect)frameRectForContentRect:(NSRect)contentRect{
+	NSRect rect = [super frameRectForContentRect:contentRect];
+
+	float adjustment = self.titleBarHeight - 22;
+	rect.size.height += adjustment;
+	
+	return rect;
+}
+
 - (void)setFrame:(NSRect)frameRect display:(BOOL)flag{
 	if(!NSEqualSizes(frameRect.size, self.frame.size)){
 		float topPos = self.frame.origin.y + self.frame.size.height;

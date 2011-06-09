@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OEMenu.h"
 
-@class OEMenu;
-@interface OEControlsPopupButton : NSPopUpButton {
+@interface OEControlsPopupButton : NSPopUpButton <OEMenuDelegate>{
 @private
     OEMenu* oemenu;
 	NSMenuItem* selectedItem;

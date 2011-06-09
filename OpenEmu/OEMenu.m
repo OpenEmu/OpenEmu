@@ -14,7 +14,7 @@
 @end
 
 @implementation OEMenu
-@synthesize menu, supermenu, visible, minSize, maxSize, btn;
+@synthesize menu, supermenu, visible, minSize, maxSize, btn, delegate;
 
 + (void)initialize{
 	NSImage* menuArrows = [NSImage imageNamed:@"menu_arrow"];
@@ -76,11 +76,15 @@
 	[self setFrameOrigin:p];
 	
 	[(OEMenuView*)[self contentView] updateView];
+	
+	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidShow:)]) [self.delegate performSelector:@selector(menuDidShow:) withObject:self];
 }
 
 - (void)closeMenuWithoutChanges{
 	if(self.submenu) [self.submenu closeMenuWithoutChanges];
 	[self _performcloseMenu];
+	
+	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidCancel:)]) [self.delegate performSelector:@selector(menuDidCancel:) withObject:self];
 }
 
 - (void)closeMenu{
@@ -111,6 +115,8 @@
 	
 	if(self.submenu) [self.submenu closeMenuWithoutChanges];
 	[self _performcloseMenu];
+
+	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidSelect:)]) [self.delegate performSelector:@selector(menuDidSelect:) withObject:self];
 }
 
 
@@ -128,6 +134,17 @@
 	
 	[[self parentWindow] removeChildWindow:self];
 	[self orderOut:self];
+	
+	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidHide:)]) [self.delegate performSelector:@selector(menuDidHide:) withObject:self];
+}
+
+- (void)setMenu:(NSMenu *)nmenu{
+	[nmenu retain];
+	[menu release];
+	
+	menu = nmenu;
+	
+	[(OEMenuView*)[self contentView] updateView];
 }
 #pragma mark -
 #pragma mark Setter / getter
@@ -172,6 +189,7 @@
 - (OEMenu*)submenu{
 	return submenu;
 }
+
 #pragma mark -
 #pragma mark NSMenu wrapping
 - (NSArray *)itemArray{

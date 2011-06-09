@@ -9,9 +9,9 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 
-@implementation NSImage (OEDrawingAdditions)
+@implementation NSImage (NSImage_OEDrawingAdditions)
 - (void)drawInRect:(NSRect)rect fromRect:(NSRect)imageRect operation:(NSCompositingOperation)op fraction:(CGFloat)frac respectFlipped:(BOOL)flipped hints:(NSDictionary *)hints leftBorder:(float)leftBorder rightBorder:(float)rightBorder topBorder:(float)topBorder bottomBorder:(float)bottomBorder{
-	
+		
 	if(NSEqualRects(imageRect, NSZeroRect)) imageRect=NSMakeRect(0, 0, [self size].width, [self size].height);
 	
 	// Draw Center
@@ -23,7 +23,6 @@
 	targetRect.origin.y += topBorder;
 	targetRect.size.height = rect.size.height-topBorder-bottomBorder;
 	[self drawInRect:targetRect fromRect:sourceRect operation:op fraction:frac respectFlipped:flipped hints:nil];
-	
 	
 	// Left Bottom
 	sourceRect = imageRect;

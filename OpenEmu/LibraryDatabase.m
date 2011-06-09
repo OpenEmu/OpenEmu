@@ -12,31 +12,8 @@
 #import "NSImage+OEDrawingAdditions.h"
 @implementation LibraryDatabase
 
-- (id)init{
-    self = [super init];
-    if (self) {
-        consoles = [NSArray new];
-        collections = [NSArray new];
-		
-		romsController = [[NSArrayController alloc] init];
-		
-		[self loadConsoleImages];
-    }
-    
-    return self;
-}
-
-- (void)dealloc{
-	[consoles release];
-	[collections release];
-	
-	[romsController release];
-	
-    [super dealloc];
-}
-
-
-- (void)loadConsoleImages{
++ (void)initialize{
+	NSLog(@"initialize LibraryDatabase");
 	NSImage* consoleIcons = [NSImage imageNamed:@"consoles"];
 	
 	// Bottom Left -> top right
@@ -62,8 +39,30 @@
 	[consoleIcons setName:@"Arcade (MAME)" forSubimageInRect:NSMakeRect(0, 48, 16, 16)];	
 	[consoleIcons setName:@"Atari 2600" forSubimageInRect:NSMakeRect(16, 48, 16, 16)];	
 	[consoleIcons setName:@"Nintendo (NES)" forSubimageInRect:NSMakeRect(32, 48, 16, 16)]; // eu / us, load only for locale????
-	[consoleIcons setName:@"Famicom" forSubimageInRect:NSMakeRect(48, 48, 16, 16)]; // jap, load only for locale????	
+	[consoleIcons setName:@"Famicom" forSubimageInRect:NSMakeRect(48, 48, 16, 16)]; // jap, load only for locale????
 }
+
+- (id)init{
+    self = [super init];
+    if (self) {
+        consoles = [NSArray new];
+        collections = [NSArray new];
+		
+		romsController = [[NSArrayController alloc] init];
+    }
+    
+    return self;
+}
+
+- (void)dealloc{
+	[consoles release];
+	[collections release];
+	
+	[romsController release];
+	
+    [super dealloc];
+}
+
 #pragma mark -
 #pragma mark For Testing...
 - (void)setConsoles:(NSArray*)newConsoles{
@@ -114,7 +113,7 @@
 }
 
 - (NSArray*)romsInCollection:(id)collection{
-	NSLog(@"asking for romsInCollection");
+	NSLog(@"Roms in collection called");
 	return [NSArray array];
 }
 

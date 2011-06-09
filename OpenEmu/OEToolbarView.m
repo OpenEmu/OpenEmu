@@ -65,6 +65,20 @@
 }
 
 #pragma mark -
+- (OEToolbarItem*)selectedItem{
+	return selectedItem;
+}
+
+- (void)markItemAsSelected:(OEToolbarItem*)tbItem{
+	@try {
+		selectedItem = [self.items objectAtIndex:[self.items indexOfObject:tbItem]];
+	}
+	@catch (NSException *exception) {
+		
+	}	
+}
+
+#pragma mark -
 - (BOOL)isOpaque{
 	return NO;
 }

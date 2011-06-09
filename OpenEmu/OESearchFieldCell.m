@@ -55,30 +55,14 @@
 		if(![NSImage imageNamed:@"search_cancel_active"]){
 			// Load and split cnacel button
 			NSImage* image = [NSImage imageNamed:@"search_cancel"];
-			NSImage* newImage = [image subImageFromRect:NSMakeRect(0, 0, 20, 20)];
-			[newImage setName:@"search_cancel_active"];
-			[newImage retain];
-			
-			newImage = [image subImageFromRect:NSMakeRect(20, 0, 20, 20)];
-			[newImage setName:@"search_cancel_pressed"];
-			[newImage retain];			
+			[image setName:@"search_cancel_active" forSubimageInRect:NSMakeRect(0, 0, 20, 20)];
+			[image setName:@"search_cancel_pressed" forSubimageInRect:NSMakeRect(20, 0, 20, 20)];
 			
 			// load and split loupe button
 			image = [NSImage imageNamed:@"search_loupe"];
-			
-			newImage = [image subImageFromRect:NSMakeRect(0, 0, 13, 14)];
-			[newImage setName:@"search_loupe_disabled"];
-			[newImage retain];
-			
-			newImage = [image subImageFromRect:NSMakeRect(13, 0, 13, 14)];
-			[newImage setName:@"search_loupe_inactive"];
-			[newImage retain];
-			
-			
-			newImage = [image subImageFromRect:NSMakeRect(26, 0, 13, 14)];
-			[newImage setName:@"search_loupe_active"];
-			[newImage retain];
-			
+			[image setName:@"search_loupe_disabled" forSubimageInRect:NSMakeRect(0, 0, 13, 14)];
+			[image setName:@"search_loupe_inactive" forSubimageInRect:NSMakeRect(13, 0, 13, 14)];
+			[image setName:@"search_loupe_active" forSubimageInRect:NSMakeRect(26, 0, 13, 14)];			
 		}
 		
 		if(![self placeholderAttributedString] && [self placeholderString]) {
@@ -115,6 +99,8 @@
 - (NSText *)setUpFieldEditorAttributes:(NSText *)textObj {
 	textObj = [super setUpFieldEditorAttributes:textObj];
     if([textObj isKindOfClass:[NSTextView class]]) {
+		
+		NSLog(@"NSTextView");
 		NSShadow* shadow = [[NSShadow new] autorelease];
 		NSParagraphStyle* paraStyle = [[NSParagraphStyle new] autorelease];
 		

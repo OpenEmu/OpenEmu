@@ -237,10 +237,12 @@
 	NSPoint loc = [theEvent locationInWindow];
 	[self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
+
 - (void)mouseDragged:(NSEvent *)theEvent{
 	NSPoint loc = [theEvent locationInWindow];
 	[self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
+
 - (void)mouseEntered:(NSEvent *)theEvent{
 	NSPoint loc = [theEvent locationInWindow];
 	[self highlightItemAtPoint:[self convertPointFromBase:loc]];
@@ -262,7 +264,7 @@
 }
 
 - (NSMenuItem*)itemAtPoint:(NSPoint)p{
-	if(p.x <= 5 || p.x >= self.bounds.size.width-5){
+	if(p.x <= 5 || p.x >= self.bounds.size.width){
 		return nil;
 	}
 	if(p.y <= menuItemSpacingTop || p.y >= self.bounds.size.height-menuItemSpacingBottom){

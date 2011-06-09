@@ -27,6 +27,8 @@
 
 #import "OERatingCell.h"
 #import "NSImage+OEDrawingAdditions.h"
+
+#import "OEBackgroundColorView.h"
 @implementation LibraryController
 
 + (void)initialize{
@@ -67,6 +69,7 @@
 	[image setName:@"selector_ring_active" forSubimageInRect:NSMakeRect(0, 0, 29, 29)];
 	[image setName:@"selector_ring_inactive" forSubimageInRect:NSMakeRect(29, 0, 29, 29)];
 }
+
 - (void)dealloc{
 	[romsController release];
 	
@@ -87,6 +90,11 @@
 - (void)windowDidLoad{
     [super windowDidLoad];
     
+	//FIXME: Only creating an instance of LibraryDatabase to get it to call its +initialize and split console image
+	LibraryDatabase* db = [[LibraryDatabase alloc] init];
+	[db release];
+	db = nil;
+	
     // Set up window
     [[self window] setOpaque:NO];
     [[self window] setBackgroundColor:[NSColor clearColor]];

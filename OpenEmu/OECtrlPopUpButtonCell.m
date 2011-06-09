@@ -8,7 +8,7 @@
 
 #import "OECtrlPopUpButtonCell.h"
 #import "NSImage+OEDrawingAdditions.h"
-
+#import "OEControlsPopupButton.h"
 @implementation OECtrlPopUpButtonCell
 
 - (id)init
@@ -30,7 +30,7 @@
 	NSImage* image = [NSImage imageNamed:@"CTRLPopUpButton"];
 	
 	[image setName:@"ctrlpopupbutton" forSubimageInRect:NSMakeRect(0, image.size.height/2, image.size.width, image.size.height/2)];
-	[image setName:@"ctrlpopupbutton" forSubimageInRect:NSMakeRect(0, 0, image.size.width, image.size.height/2)];
+	[image setName:@"ctrlpopupbutton_pressed" forSubimageInRect:NSMakeRect(0, 0, image.size.width, image.size.height/2)];
 }
 #pragma mark -
 - (void)drawImageWithFrame:(NSRect)cellFrame inView:(NSView *)controlView{
@@ -57,14 +57,20 @@
 - (void)drawBorderAndBackgroundWithFrame:(NSRect)cellFrame inView:(NSView *)controlView{
 	cellFrame.size.height = 23;
 	
-	NSImage* img = [NSImage imageNamed:@"ctrlpopupbutton"];
+	NSImage* img = [((OEControlsPopupButton*)controlView).oemenu isVisible] ? [NSImage imageNamed:@"ctrlpopupbutton_pressed"] : [NSImage imageNamed:@"ctrlpopupbutton"];
 	[img drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:11 rightBorder:17 topBorder:0 bottomBorder:0];
 }
 #pragma mark -
 - (NSAttributedString *)attributedTitle{
 	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9.0 size:11.0];
+	NSFont* font;
+	
+	if(![((OEControlsPopupButton*)[self controlView]).oemenu isVisible]){
+		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9.0 size:11.0];
+	} else {
+		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:4.0 size:11.0];
+	}
 	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowBlurRadius:1.0];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.25]];

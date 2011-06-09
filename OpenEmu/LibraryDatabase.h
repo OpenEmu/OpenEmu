@@ -22,9 +22,6 @@
 	
 	NSArrayController* romsController;
 }
-// not sure where to put this
-- (void)loadConsoleImages;
-
 #pragma mark -
 #pragma mark For Testing...
 - (void)setConsoles:(NSArray*)newConsoles;

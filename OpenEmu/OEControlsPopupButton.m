@@ -7,8 +7,6 @@
 //
 
 #import "OEControlsPopupButton.h"
-#import "OEMenu.h"
-
 @implementation OEControlsPopupButton
 @synthesize oemenu;
 
@@ -32,6 +30,9 @@
 	} else {
 		NSWindow* win = [self window];
 		NSPoint location = [win convertBaseToScreen:self.frame.origin];
+		
+		location.y += (self.frame.size.height-self.oemenu.frame.size.height)/2;
+		location.x += self.frame.size.width/2;
 		[self.oemenu openAtPoint:location ofWindow:win];
 	}
 }
@@ -39,8 +40,8 @@
 - (void)setMenu:(NSMenu *)menu{
 	[super setMenu:menu];
 	self.oemenu = [[self menu] convertToOEMenu];
-	
 	self.oemenu.btn = self;
+	self.oemenu.delegate = self;
 	
 	NSSize minSize = self.oemenu.minSize;
 	minSize.width = self.frame.size.width;
@@ -60,5 +61,13 @@
 - (NSString *)itemTitleAtIndex:(NSInteger)index{
 	NSLog(@"itemTitleAtIndex:");
 	return [super itemTitleAtIndex:index];
+}
+
+#pragma mark - OEMenuDelegate
+- (void)menuDidShow:(OEMenu *)men{
+	[self setNeedsDisplay];
+}
+- (void)menuDidHide:(OEMenu *)men{
+	[self setNeedsDisplay];
 }
 @end

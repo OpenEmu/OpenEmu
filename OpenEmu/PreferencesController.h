@@ -8,20 +8,19 @@
 
 #import <Cocoa/Cocoa.h>
 
+
 @class OEBackgroundImageView;
 @class OEBackgroundGradientView;
 @class OEToolbarView;
 @interface PreferencesController : NSWindowController {
 @private
-	OEToolbarView* toolbar;
-	IBOutlet NSView *library, *controls, *gameplay, *cores;
+	NSArray* preferencePanes;
+	OEToolbarView* toolbar;	
 	
-	IBOutlet NSPopUpButton* consolesPopupButton;
 	IBOutlet OEBackgroundGradientView* coreGradientOverlayView;
 }
 
-- (IBAction)showLibrary:(id)sender;
-- (IBAction)showGameplay:(id)sender;
-- (IBAction)showControls:(id)sender;
-- (IBAction)showCores:(id)sender;
+- (void)switchView:(id)sender;
+
+@property (retain, readwrite) NSArray* preferencePanes;
 @end

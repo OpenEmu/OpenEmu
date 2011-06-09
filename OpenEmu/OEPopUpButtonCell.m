@@ -8,7 +8,7 @@
 
 #import "OEPopUpButtonCell.h"
 #import "NSImage+OEDrawingAdditions.h"
-
+#import "OEControlsPopupButton.h"
 @implementation OEPopUpButtonCell
 
 - (id)init{
@@ -33,7 +33,6 @@
 - (NSAttributedString *)attributedTitle{
 	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	
 	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:4.0 size:11.0];
 	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowBlurRadius:1.0];
@@ -43,8 +42,6 @@
 	[attributes setObject:[NSColor colorWithDeviceWhite:0.89 alpha:1.0] forKey:NSForegroundColorAttributeName];
 	[attributes setObject:font forKey:NSFontAttributeName];
 	[attributes setObject:shadow forKey:NSShadowAttributeName];
-	
-	
 	
 	return [[[NSAttributedString alloc] initWithString:[self title] attributes:attributes] autorelease];
 }
@@ -57,13 +54,31 @@
 	cellFrame.origin.x -= 3;
 	cellFrame.size.width += 3;
 	
+	if([((OEControlsPopupButton*)controlView).oemenu isVisible]){
+		NSShadow* shadow = [[NSShadow alloc] init];
+		[shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.4]];
+		[shadow setShadowOffset:NSMakeSize(0, 0)];
+		[shadow setShadowBlurRadius:8];
+		NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
+		NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:4.0 size:11.0];
+		[attributes setObject:[NSColor colorWithDeviceWhite:0.89 alpha:1.0] forKey:NSForegroundColorAttributeName];
+		[attributes setObject:font forKey:NSFontAttributeName];
+		[attributes setObject:shadow forKey:NSShadowAttributeName];
+		NSRect glowRect = cellFrame;
+		glowRect.origin.x += 11;
+		glowRect.origin.y += 3;
+		[[self title] drawInRect:glowRect withAttributes:attributes];
+		[shadow release];
+	}
+	
 	[super drawTitleWithFrame:cellFrame inView:controlView];
+	
 }
 
 - (void)drawBorderAndBackgroundWithFrame:(NSRect)cellFrame inView:(NSView *)controlView{
 	cellFrame.size.height = 23;
 	
-	NSImage* img = [NSImage imageNamed:@"popupbutton"];
+	NSImage* img = [((OEControlsPopupButton*)controlView).oemenu isVisible] ? [NSImage imageNamed:@"popupbutton_pressed"] : [NSImage imageNamed:@"popupbutton"];
 	[img drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:9 rightBorder:21 topBorder:0 bottomBorder:0];
 }
 @end

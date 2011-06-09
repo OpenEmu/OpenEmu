@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class LibraryDatabase;
-@class OEBackgroundColorView;
+@class BackgroundColorView;
 @class SidebarController;
 @class LibrarySplitView;
 @class IKSGridView;

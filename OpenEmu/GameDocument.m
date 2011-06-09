@@ -379,8 +379,7 @@
 
 - (void)windowDidResize:(NSNotification *)notification
 {
-    //adjust the window to zoom from the center
-    if([gameWindow isZoomed]) [gameWindow center];
+	
 }
 
 - (void)windowWillClose:(NSNotification *)notification

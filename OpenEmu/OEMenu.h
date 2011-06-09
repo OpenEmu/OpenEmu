@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class OEControlsPopupButton;
+@protocol OEMenuDelegate;
 @interface OEMenu : NSWindow {
 @private
 	OEControlsPopupButton* btn;
@@ -22,6 +23,8 @@
 	id _localMonitor;
 	
 	BOOL visible;
+	
+	id <OEMenuDelegate> delegate;
 }
 #pragma mark -
 - (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
@@ -37,11 +40,22 @@
 @property (nonatomic, retain) OEMenu* submenu;
 @property (nonatomic, retain) OEMenu* supermenu;
 
-@property (retain) NSMenu* menu;
+@property (nonatomic, retain) NSMenu* menu;
 @property (retain) NSMenuItem* highlightedItem;
 @property (readonly, getter = isVisible) BOOL visible;
+
+@property (nonatomic, retain) id <OEMenuDelegate> delegate;
 @end
 
 @interface NSMenu (OEAdditions)
 - (OEMenu*)convertToOEMenu;
+@end
+
+@protocol OEMenuDelegate <NSObject>
+@optional
+- (void)menuDidShow:(OEMenu*)men;
+- (void)menuDidHide:(OEMenu*)men;
+- (void)menuDidSelect:(OEMenu*)men;
+- (void)menuDidCancel:(OEMenu*)men;
+
 @end
