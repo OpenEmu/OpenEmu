@@ -4,14 +4,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -19,10 +19,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "GamePickerController.h"
@@ -77,7 +77,7 @@
     if (!initialValues)
         initialValues = [NSMutableDictionary dictionary];
     [initialValues setValue:@"Linear"
-                    forKey:@"filterName"];
+			   forKey:@"filterName"];
     [initialValues setValue:[NSNumber numberWithFloat:1.0]
                      forKey:@"volume"];
     [defaults setInitialValues:initialValues];
@@ -97,12 +97,7 @@
         coreInstaller = [[OECoreInstaller alloc] init];
         [coreInstaller showWindow:self];
     }
-    
-    
-    organizer = [[LibraryController alloc] init];
-    [organizer showWindow:self];
-    
-    [versionMigrator runMigrationIfNeeded];
+        [versionMigrator runMigrationIfNeeded];
 }
 
 - (void)updateBundles: (id) sender
@@ -148,21 +143,21 @@
         [versionMigrator addMigratorTarget:self selector:@selector(migrateSaveStatesWithError:) forVersion:@"1.0.0b5"];
         [versionMigrator addMigratorTarget:self selector:@selector(removeFrameworkFromLibraryWithError:) forVersion:@"1.0.0b5"];
         
-		server = [[OENetServer alloc] init];
-		[server setDelegate:self];
-		
-		NSError *error = nil;
-		if(server == nil || ![server start:&error]) {
-			NSLog(@"Failed creating server: %@", error);
-//			[self _showAlert:@"Failed creating server"];
-		}
-		
-		//Start advertising to clients, passing nil for the name to tell Bonjour to pick use default name
-		if(![server enableBonjourWithDomain:@"local" applicationProtocol:[OENetServer bonjourTypeFromIdentifier:@"openemu"] name:nil]) {
-			NSLog(@"No advertisment");
-//			[self _showAlert:@"Failed advertising server"];
-		}
-		
+	  server = [[OENetServer alloc] init];
+	  [server setDelegate:self];
+	  
+	  NSError *error = nil;
+	  if(server == nil || ![server start:&error]) {
+		NSLog(@"Failed creating server: %@", error);
+		//			[self _showAlert:@"Failed creating server"];
+	  }
+	  
+	  //Start advertising to clients, passing nil for the name to tell Bonjour to pick use default name
+	  if(![server enableBonjourWithDomain:@"local" applicationProtocol:[OENetServer bonjourTypeFromIdentifier:@"openemu"] name:nil]) {
+		NSLog(@"No advertisment");
+		//			[self _showAlert:@"Failed advertising server"];
+	  }
+	  
         [self setGameLoaded:NO];
         
         [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
@@ -218,8 +213,8 @@
 - (void)dealloc
 {
     [hidManager release]; hidManager = nil;
-	
-	[[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
+    
+    [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
     
     [filterNames release];
     [validExtensions release];
@@ -232,7 +227,6 @@
     [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
     [managedObjectModel release], managedObjectModel = nil;
     
-    [organizer release], organizer = nil;
     [versionMigrator release], versionMigrator = nil;
     
     [super dealloc];
@@ -415,20 +409,20 @@
 }
 
 - (id)previewROMFile:(OEROMFile *)romFile withSaveState:(OESaveState *)saveState fromPoint:(NSPoint)pt{
-	id document = nil;
-	
-	isOpeningQuickLook = YES;
-	
-	NSError *error = nil;
-	document = [self openDocumentWithContentsOfURL:[romFile pathURL] display:YES error:&error];
-	
-	isOpeningQuickLook = NO;
-	
-	return document;
+    id document = nil;
+    
+    isOpeningQuickLook = YES;
+    
+    NSError *error = nil;
+    document = [self openDocumentWithContentsOfURL:[romFile pathURL] display:YES error:&error];
+    
+    isOpeningQuickLook = NO;
+    
+    return document;
 }
 
 - (id)previewROMFile:(OEROMFile *)romFile fromPoint:(NSPoint)pt{
-	return [self previewROMFile:romFile withSaveState:nil fromPoint:pt];
+    return [self previewROMFile:romFile withSaveState:nil fromPoint:pt];
 }
 
 //FIXME: it looks like our code here expects the file to be an archive and shits its pants (throws an error
@@ -468,9 +462,9 @@
                     absoluteURL = [NSURL fileURLWithPath:filePath];
                 }
                 else if(outError)
-                        *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:
-                                     [NSDictionary dictionaryWithObjectsAndKeys:
-                                      @"Couldn't extract archive", NSLocalizedDescriptionKey, nil]];
+			  *outError = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteUnknownError userInfo:
+					   [NSDictionary dictionaryWithObjectsAndKeys:
+					    @"Couldn't extract archive", NSLocalizedDescriptionKey, nil]];
             }
             else
             {
@@ -508,16 +502,16 @@
 
 - (Class)documentClassForType:(NSString *)documentTypeName
 {
-	Class ret = NULL;
-	
-	if(isOpeningQuickLook){
-		ret = [OEGameQuickLookDocument class]; DLog(@"documentClassForType: Quick Look");
-	}else{
-		ret = [super documentClassForType:documentTypeName];
-		if(ret == nil){
-			ret = [GameDocument class]; DLog(@"documentClassForType: Long path");
-		}
-	}
+    Class ret = NULL;
+    
+    if(isOpeningQuickLook){
+	  ret = [OEGameQuickLookDocument class]; DLog(@"documentClassForType: Quick Look");
+    }else{
+	  ret = [super documentClassForType:documentTypeName];
+	  if(ret == nil){
+		ret = [GameDocument class]; DLog(@"documentClassForType: Long path");
+	  }
+    }
     return ret;
 }
 
@@ -540,12 +534,12 @@
     
     NSError *error = nil;
     BOOL isDirectory = YES;
-	
-	if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory] && isDirectory)
-		if(![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error])
-			NSLog(@"%@", error);
-		else
-			DLog(@"Deleted temp files");
+    
+    if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory] && isDirectory)
+	  if(![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error])
+		NSLog(@"%@", error);
+	  else
+		DLog(@"Deleted temp files");
 }
 
 - (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
@@ -803,7 +797,7 @@
     [newState setEmulatorID:[(GameDocument *) [self currentDocument] emulatorName]];
     
     [(GameDocument *)[self currentDocument] saveStateToFile:[newState saveDataPath]];
-
+    
     // NOTE: This assumes that a screenshot can be taken, otherwise it will not
     // add the state without providing any feedback.
     [(GameDocument *)[self currentDocument] captureScreenshotUsingBlock:^(NSImage* img)
@@ -813,10 +807,10 @@
                                     createIfNecessary:NO
                                inManagedObjectContext:self.managedObjectContext];
          NSLog(@"Got romFile %p with path %@, saveState is %p", romFile, romPath, newState);
-
+	   
          [self.managedObjectContext insertObject:newState];
          [[romFile mutableSetValueForKey:@"saveStates"] addObject:newState];
-
+	   
          [self.managedObjectContext save:nil];
      }];
 }
@@ -886,7 +880,7 @@
 
 - (void)setupHIDSupport
 {
-	NSArray *matchingTypes =
+    NSArray *matchingTypes =
     [NSArray arrayWithObjects:
      [NSDictionary dictionaryWithObjectsAndKeys:
       [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
@@ -894,13 +888,13 @@
      [NSDictionary dictionaryWithObjectsAndKeys:
       [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
       [NSNumber numberWithInteger:kHIDUsage_GD_GamePad], @ kIOHIDDeviceUsageKey, nil],
-	 [NSDictionary dictionaryWithObjectsAndKeys:
+     [NSDictionary dictionaryWithObjectsAndKeys:
       [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
       [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
      nil];
-	
-	hidManager = [[OEHIDManager alloc] init];
-	[hidManager registerDeviceTypes:matchingTypes];
+    
+    hidManager = [[OEHIDManager alloc] init];
+    [hidManager registerDeviceTypes:matchingTypes];
 }
 
 @end

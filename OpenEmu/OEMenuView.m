@@ -144,7 +144,7 @@
 	[grad drawInBezierPath:path angle:90];
 	
 	// draw background border
-	NSImage* img = [self.menu supermenu]==nil ? [NSImage imageNamed:@"menu_body"] : [NSImage imageNamed:@"menu_body_submenu"];
+	NSImage* img = [self.menu supermenu]==nil ? [NSImage imageNamed:@"dark_menu_body"] : [NSImage imageNamed:@"dark_submenu_body"];
 	[img drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:17 rightBorder:17 topBorder:19 bottomBorder:19];
 	
 	
@@ -184,7 +184,7 @@
 		
 		// Draw submenu arrow
 		if(hasSubmenu){
-			NSImage* arrow = isSelected ? [NSImage imageNamed:@"submenu_arrow_selected"] : [NSImage imageNamed:@"submenu_arrow"];
+			NSImage* arrow = isSelected ? [NSImage imageNamed:@"dark_menu_popover_arrow_selected"] : [NSImage imageNamed:@"dark_menu_popover_arrow_normal"];
 			NSRect arrowRect = NSMakeRect(0, 0, 0, 0);
 			arrowRect.size = arrow.size;
 			arrowRect.origin.x = menuItemFrame.origin.x + menuItemFrame.size.width - 11;

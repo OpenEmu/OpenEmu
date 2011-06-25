@@ -14,11 +14,30 @@ typedef enum {
 	OEUIStateActive,
 	OEUIStatePressed,
 	
+	OEUIStateRollover,
+	
 	OEUIStateUnfocusedUnselected,
 	OEUIStateUnfocusedSelected,
 	OEUIStateFocusedUnselected,
 	OEUIStateFocusedSelected,
 } OEUIState;
+
+typedef enum {
+	OEButtonStateSelectedDisabled,
+	OEButtonStateUnselectedDisabled,
+	
+	OEButtonStateSelectedHover,
+	OEButtonStateUnselectedHover,
+	
+	OEButtonStateSelectedPressed,
+	OEButtonStateUnselectedPressed,
+	
+	OEButtonStateSelectedInactive,
+	OEButtonStateUnselectedInactive,
+	
+	OEButtonStateSelectedNormal,
+	OEButtonStateUnselectedNormal
+} OEButtonState;
 
 // rounds a rect to avoid sub pixels
 CGRect RoundCGRect(CGRect imageFrame);

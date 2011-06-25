@@ -30,10 +30,9 @@
 	[[NSGraphicsContext currentContext] setCompositingOperation:NSCompositeCopy];
 	
 	NSImage* scanLineImage = [NSImage imageNamed:@"missing_artwork"];
-	
 	CGFloat width = self.bounds.size.width;
 	CGFloat height = scanLineImage.size.height;
-	
+        
 	CGFloat y=0;
 	for (y=0; y<self.bounds.size.height; y+= height) {
 		NSRect aScanLineRect = NSMakeRect(0, y, width, height);

@@ -199,6 +199,36 @@
 	return [view0 frame].size.width;
 }
 
+
+- (NSView*)rightContentView{
+    return [[[[self subviews] objectAtIndex:1] subviews] objectAtIndex:0];
+}
+
+- (NSView*)leftContentView{
+
+    return [[[[self subviews] objectAtIndex:0] subviews] objectAtIndex:0];
+}
+
+- (void)_replaceView:(NSView*)aView withView:(NSView*)anotherView animated:(BOOL)flag{
+    if(!flag){
+	  NSRect frame = [aView frame];
+	  NSView* superView = [aView superview];
+	  
+	  [superView replaceSubview:aView with:anotherView];	 
+	  [anotherView setFrame:frame];
+    } else {
+	  NSLog(@"animation not implemented yet");
+    }
+
+}
+- (void)replaceLeftContentViewWithView:(NSView*)contentView animated:(BOOL)animationFlag{
+    [self _replaceView:[self leftContentView] withView:contentView animated:animationFlag];
+}
+- (void)replaceRightContentViewWithView:(NSView*)contentView animated:(BOOL)animationFlag{
+    [self _replaceView:[self rightContentView] withView:contentView animated:animationFlag];
+}
+
+
 #pragma mark -
 #pragma mark Events
 - (void)mouseDown:(NSEvent *)theEvent{

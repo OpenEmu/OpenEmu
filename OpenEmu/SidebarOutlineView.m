@@ -9,6 +9,7 @@
 #import "SidebarOutlineView.h"
 
 #import "SidebarFieldEditor.h"
+#import "SidebarController.h"
 @implementation SidebarOutlineView
 
 - (id)init{
@@ -122,4 +123,14 @@
 	
 	return rect;
 }
+
+#pragma mark -
+- (void) keyDown:(NSEvent *) theEvent{
+    if([theEvent keyCode]==51 || [theEvent keyCode]==117){
+	  [(SidebarController*)[self dataSource] removeSelectedItemsOfOutlineView:self];
+    } else {
+	  [super keyDown:theEvent];
+    }
+}
+
 @end

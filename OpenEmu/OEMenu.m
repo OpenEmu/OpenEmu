@@ -17,9 +17,9 @@
 @synthesize menu, supermenu, visible, minSize, maxSize, btn, delegate;
 
 + (void)initialize{
-	NSImage* menuArrows = [NSImage imageNamed:@"menu_arrow"];
-	[menuArrows setName:@"submenu_arrow" forSubimageInRect:NSMakeRect(0, menuArrows.size.height/2, menuArrows.size.width, menuArrows.size.height/2)];
-	[menuArrows setName:@"submenu_arrow_selected" forSubimageInRect:NSMakeRect(0, 0, menuArrows.size.width, menuArrows.size.height/2)];
+	NSImage* menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
+	[menuArrows setName:@"dark_menu_popover_arrow_normal" forSubimageInRect:NSMakeRect(0, menuArrows.size.height/2, menuArrows.size.width, menuArrows.size.height/2)];
+	[menuArrows setName:@"dark_menu_popover_arrow_selected" forSubimageInRect:NSMakeRect(0, 0, menuArrows.size.width, menuArrows.size.height/2)];
 }
 
 - (id)init{

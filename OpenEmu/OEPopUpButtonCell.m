@@ -24,10 +24,10 @@
 }
 
 + (void)initialize{
-	NSImage* image = [NSImage imageNamed:@"PopUpButton"];
+	NSImage* image = [NSImage imageNamed:@"dark_popup_button"];
 	
-	[image setName:@"popupbutton" forSubimageInRect:NSMakeRect(0, image.size.height/2, image.size.width, image.size.height/2)];
-	[image setName:@"popupbutton_pressed" forSubimageInRect:NSMakeRect(0, 0, image.size.width, image.size.height/2)];
+	[image setName:@"dark_popup_button_normal" forSubimageInRect:NSMakeRect(0, image.size.height/2, image.size.width, image.size.height/2)];
+	[image setName:@"dark_popup_button_pressed" forSubimageInRect:NSMakeRect(0, 0, image.size.width, image.size.height/2)];
 }
 
 - (NSAttributedString *)attributedTitle{
@@ -78,7 +78,7 @@
 - (void)drawBorderAndBackgroundWithFrame:(NSRect)cellFrame inView:(NSView *)controlView{
 	cellFrame.size.height = 23;
 	
-	NSImage* img = [((OEControlsPopupButton*)controlView).oemenu isVisible] ? [NSImage imageNamed:@"popupbutton_pressed"] : [NSImage imageNamed:@"popupbutton"];
+	NSImage* img = [((OEControlsPopupButton*)controlView).oemenu isVisible] ? [NSImage imageNamed:@"dark_popup_button_pressed"] : [NSImage imageNamed:@"dark_popup_button_normal"];
 	[img drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:9 rightBorder:21 topBorder:0 bottomBorder:0];
 }
 @end

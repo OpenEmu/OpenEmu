@@ -12,7 +12,7 @@
 @implementation OEPrefBoxControls
 
 - (void)drawRect:(NSRect)dirtyRect{
-	NSImage* image = [NSImage imageNamed:@"box_controls"];
+	NSImage* image = [NSImage imageNamed:@"wood_inset_box"];
 	[image drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:16 rightBorder:16 topBorder:16 bottomBorder:16];
 }
 

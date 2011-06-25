@@ -32,7 +32,7 @@
 
 #pragma mark OEPreferencePane Protocol
 - (NSImage*)icon{
-	return [NSImage imageNamed:@"tb_pref_gameplay"];
+	return [NSImage imageNamed:@"gameplay_tab_icon"];
 }
 
 - (NSString*)title{

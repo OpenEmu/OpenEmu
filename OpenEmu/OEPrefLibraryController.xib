@@ -44,6 +44,7 @@
 						<string key="NSFrame">{{42, 383}, {339, 40}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="564645779"/>
 						<string key="NSClassName">OEPrefBoxPlain</string>
 					</object>
 					<object class="NSCustomView" id="946194237">
@@ -52,6 +53,7 @@
 						<string key="NSFrame">{{0, 175}, {423, 2}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="458868926"/>
 						<string key="NSClassName">OEHorizontalLine</string>
 					</object>
 					<object class="NSCustomView" id="525206165">
@@ -60,6 +62,7 @@
 						<string key="NSFrame">{{0, 321}, {423, 2}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="696764023"/>
 						<string key="NSClassName">OEHorizontalLine</string>
 					</object>
 					<object class="NSMatrix" id="857991778">
@@ -68,6 +71,7 @@
 						<string key="NSFrame">{{42, 21}, {344, 106}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<int key="NSNumRows">4</int>
 						<int key="NSNumCols">2</int>
@@ -271,6 +275,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{41, 140}, {124, 17}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="857991778"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="414676808">
 							<int key="NSCellFlags">68288064</int>
@@ -296,6 +301,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{41, 286}, {144, 17}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="723895576"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="434931325">
 							<int key="NSCellFlags">68288064</int>
@@ -313,10 +319,11 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{63, 394}, {297, 17}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="54998610"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="942269313">
 							<int key="NSCellFlags">67239488</int>
-							<int key="NSCellFlags2">272632320</int>
+							<int key="NSCellFlags2">-1874851328</int>
 							<string key="NSContents">/Users/Mucx/Library/OpenEmu/Games</string>
 							<reference key="NSSupport" ref="486301316"/>
 							<reference key="NSControlView" ref="564645779"/>
@@ -330,6 +337,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{42, 200}, {377, 74}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="946194237"/>
 						<bool key="NSEnabled">YES</bool>
 						<int key="NSNumRows">3</int>
 						<int key="NSNumCols">1</int>
@@ -443,6 +451,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{41, 441}, {193, 17}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="245748282"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="705821885">
 							<int key="NSCellFlags">68288064</int>
@@ -460,6 +469,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{238, 345}, {67, 23}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="399148658"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="57951525">
 							<int key="NSCellFlags">67239424</int>
@@ -481,6 +491,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 						<string key="NSFrame">{{313, 345}, {67, 23}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="525206165"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="649078697">
 							<int key="NSCellFlags">67239424</int>
@@ -500,6 +511,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="NSFrameSize">{423, 480}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
+				<reference key="NSNextKeyView" ref="457362967"/>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -661,6 +673,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBObjectRecord">
 						<int key="objectID">17</int>
 						<reference key="object" ref="942269313"/>
+						<array class="NSMutableArray" key="children"/>
 						<reference key="parent" ref="564645779"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -824,7 +837,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">34</int>
+			<int key="maxID">35</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">

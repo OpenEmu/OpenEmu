@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OEDBCollection : NSObject <NSCopying> {
-    NSString* name;
-	NSMutableArray* items;
+@interface OEDBCollection : NSManagedObject {
 }
+// Core Data utilities
++ (NSString *)entityName;
++ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
-@property (readwrite, retain) NSString* name;
-@property (readwrite, retain) NSMutableArray* items;
+- (NSMutableArray*)items;
 
 @end

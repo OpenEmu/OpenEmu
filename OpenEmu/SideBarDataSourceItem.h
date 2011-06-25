@@ -16,4 +16,6 @@
 - (BOOL)isSelectableInSdebar;
 - (BOOL)isEditableInSdebar;
 - (BOOL)isGroupHeaderInSdebar;
+
+- (BOOL)hasSubCollections;
 @end

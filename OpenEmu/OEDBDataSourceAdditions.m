@@ -8,46 +8,64 @@
 
 #import "OEDBDataSourceAdditions.h"
 
-@implementation OEDBRom (DataSourceAdditions)
+@implementation OEDBGame (DataSourceAdditions)
 
 #pragma mark -
 #pragma mark CoverGridDataSourceItem
 - (NSString*)gridTitle{
-    return self.title;
+    return [self valueForKey:@"name"];
 }
 - (void)setGridTitle:(NSString*)str{
-	self.title = str;
+    [self setValue:str forKey:@"name"];
 }
 
 - (int)gridStatus{
-	return self.fileStatus;
+	return 0;
 }
 
 - (void)setGridRating:(NSUInteger)newRating{
-	self.rating = newRating;
+    [self setValue:[NSNumber numberWithUnsignedInteger:newRating] forKey:@"rating"];
 }
 
 - (NSUInteger)gridRating{
-	return self.rating;
+    return [[self valueForKey:@"rating"] unsignedIntegerValue];
 }
 
 - (NSImage*)gridImage{
-	if(self.coverArt==nil){
-		return [[[NSImage alloc] initWithContentsOfFile:self.coverPath] autorelease];
-	}
-	return self.coverArt;
+    NSManagedObject* boxImage = [self valueForKey:@"box"];
+    if(boxImage==nil) return nil;
+    
+
+    if([boxImage valueForKey:@"data"]){
+	  NSImage* cover = [[NSImage alloc] initWithData:[boxImage valueForKey:@"data"]];
+	  return [cover autorelease];	  
+    }
+    
+    if([boxImage valueForKey:@"url"]) return nil;
+    
+    return nil;
 }
 
 - (void)setGridImage:(NSImage *)gridImage{
-	self.coverArt = gridImage;
+    NSManagedObject* boxImage = [self valueForKey:@"box"];
+    if(boxImage!=nil){
+	  [[boxImage managedObjectContext] deleteObject:boxImage];
+    }
+    
+    NSManagedObjectContext* context = [self managedObjectContext];
+    boxImage = [NSEntityDescription insertNewObjectForEntityForName:@"Image" inManagedObjectContext:context];
+    [boxImage setValue:[gridImage TIFFRepresentation] forKey:@"data"];
+    
+    [self setValue:boxImage forKey:@"box"];
 }
 
 #pragma mark -
 #pragma mark CoverFlowDataSourceItem
-- (NSString *) imageUID{
-	if(self.coverPath)
+- (NSString *)imageUID{
+    /*if(self.coverPath)
 		return self.coverPath;
-	
+	*/
+    
 	// Create a new UUID
 	CFUUIDRef  uuidObj = CFUUIDCreate(nil);
 	
@@ -62,32 +80,40 @@
     return IKImageBrowserNSImageRepresentationType;
 }
 
-- (id)imageRepresentation{
-	if(self.coverArt==nil)
-		self.coverArt = [[[NSImage alloc] initWithContentsOfFile:self.coverPath] autorelease];
-	
-	return self.coverArt;
+- (id)imageRepresentation{    
+    NSManagedObject* boxImage = [self valueForKey:@"box"];
+    if(boxImage==nil) return nil;
+    
+    
+    if([boxImage valueForKey:@"data"]){
+	  NSImage* cover = [[NSImage alloc] initWithData:[boxImage valueForKey:@"data"]];
+	  return [cover autorelease];	  
+    }
+    
+    if([boxImage valueForKey:@"url"]) return nil;
+    
+    return nil;
 }
 
 - (NSString *)imageTitle{
-    return self.title;
+    return [self valueForKey:@"name"];
 }
 
-- (NSString *) imageSubtitle{
+- (NSString *)imageSubtitle{
     return nil;
 }
 
 - (NSUInteger)gameRating{
-	return self.rating;
+    return [[self valueForKey:@"rating"] unsignedIntegerValue];
 }
 
 - (void)setImage:(NSImage*)img{
-	self.coverArt = img;
+
 }
 #pragma mark -
 #pragma mark ListView DataSource Item
 - (NSImage*)listViewStatus:(BOOL)selected{
-	if(self.fileStatus==1 && !selected){
+	/*if(self.fileStatus==1 && !selected){
 		NSImage* res = [NSImage imageNamed:@"list_indicators_missing"];
 		return res;
 	} 
@@ -104,44 +130,46 @@
 	
 	if([refDate isEqualToDate:self.romLastPlayed] && selected){
 		return [NSImage imageNamed:@"list_indicators_unplayed_selected"];
-	}
+	}*/
 	
 	return nil;
 }
 
 - (void)setListViewRating:(NSNumber*)number{
-	self.rating = [number intValue];
+    [self setValue:number forKey:@"rating"];
 }
 
 - (NSNumber*)listViewRating{
-	return [NSNumber numberWithInteger:self.rating];
+	return [self valueForKey:@"name"];
 }
 - (NSString*)listViewTitle{
-	return self.title;
+	return [self valueForKey:@"name"];
 }
 - (NSString*)listViewLastPlayed{
-	return [NSString stringWithFormat:@"%@", self.romLastPlayed];
+    return @"";
+//	return [NSString stringWithFormat:@"%@", self.romLastPlayed];
 }
 
 - (NSString*)listViewConsoleName{
-	return self.consoleName;
+	return [[self valueForKey:@"system"] valueForKey:@"name"];
 }
 
 - (void)setGridViewRating:(NSNumber*)number{
-	self.rating = [number intValue];
+    [self setValue:number forKey:@"rating"];
 }
 @end
 #pragma mark -
-@implementation OEDBConsole (DataSourceAdditions)
+
+@implementation OEDBSystem (DataSourceAdditions)
 - (NSImage*)sidebarIcon{
 	return self.icon;
 }
 - (NSString*)sidebarName{
-	return self.name;
+    return [self valueForKey:@"name"];
 }
 
 - (void)setSidebarName:(NSString*)newName{
-	self.name = newName;
+    [self setValue:newName forKey:@"name"];
 }
 
 - (BOOL)isSelectableInSdebar{
@@ -153,6 +181,11 @@
 - (BOOL)isGroupHeaderInSdebar{
 	return NO;
 }
+
+- (BOOL)hasSubCollections{
+    return NO;
+}
+
 @end
 #pragma mark -
 @implementation OEDBCollection (DataSourceAdditions)
@@ -160,11 +193,11 @@
 	return [NSImage imageNamed:@"collections_simple"];
 }
 - (NSString*)sidebarName{
-	return self.name;
+    return [self valueForKey:@"name"];
 }
 
 - (void)setSidebarName:(NSString*)newName{
-	self.name = newName;
+    [self setValue:newName forKey:@"name"];
 }
 
 - (BOOL)isSelectableInSdebar{
@@ -176,28 +209,131 @@
 - (BOOL)isGroupHeaderInSdebar{
 	return NO;
 }
+
+- (BOOL)hasSubCollections{
+    return NO;
+}
+
 @end
 #pragma mark -
 @implementation OEDBSmartCollection (DataSourceAdditions)
 - (NSImage*)sidebarIcon{
 	return [NSImage imageNamed:@"collections_smart"];
 }
-- (NSString*)sidebarName{
-	return self.name;
+@end
+
+#pragma mark -
+@implementation OEDBCollectionFolder (DataSourceAdditions)
+- (NSImage*)sidebarIcon{
+    return [NSImage imageNamed:@"collections_folder"];
+}
+- (BOOL)hasSubCollections{
+    return YES;
+}
+@end
+
+
+#pragma mark -
+#pragma mark Implementation of items that can be presented by CollectionView
+@implementation OEDBSystem (OECollectionViewItemAdditions)
+- (NSString*)collectionViewName{
+    return [self valueForKey:@"name"];
+}
+- (BOOL)isCollectionEditable{
+    return YES;
+}
+- (BOOL)removingGamesDeletesThem{
+    return YES;
+}
+- (NSArray*)items{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    
+    NSEntityDescription* systemDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+    NSFetchRequest* req = [[[NSFetchRequest alloc] init] autorelease];
+    [req setEntity:systemDescription];
+    [req setPropertiesToFetch:nil];
+    
+    NSPredicate* pred = [NSPredicate predicateWithFormat:@"system == %@", self];
+    [req setPredicate:pred];
+    
+    NSError* error = nil;
+    id systemResult = [context executeFetchRequest:req error:&error];
+    if(error!=nil){
+	  // TODO: decide if we really want to bother the user with this
+	  [NSApp presentError:error];
+	  return nil;
+    }
+    
+    NSLog(@"System has %lu games", [systemResult count]);
+    
+    return systemResult;
+}
+@end
+
+@implementation OEDBCollection (OECollectionViewItemAdditions)
+- (NSString*)collectionViewName{
+    return [self valueForKey:@"name"];
+}
+- (BOOL)isCollectionEditable{
+    return YES;
 }
 
-- (void)setSidebarName:(NSString*)newName{
-	self.name = newName;
+- (BOOL)removingGamesDeletesThem{
+    return YES;
 }
 
+- (NSArray*)items{
+    return nil;
+}
+@end
 
-- (BOOL)isSelectableInSdebar{
-	return YES;
+// TODO: check how itunes treats folders
+@implementation OEDBCollectionFolder (OECollectionViewItemAdditions)
+- (NSString*)collectionViewName{
+    return [self valueForKey:@"name"];
 }
-- (BOOL)isEditableInSdebar{
-	return YES;
+
+- (BOOL)isCollectionEditable{
+    return YES;
 }
-- (BOOL)isGroupHeaderInSdebar{
-	return NO;
+
+- (BOOL)removingGamesDeletesThem{
+    return NO;
+}
+
+- (NSArray*)items{
+    return nil;
+}
+@end
+@implementation OEDBSmartCollection (OECollectionViewItemAdditions)
+- (NSString*)collectionViewName{
+    return [self valueForKey:@"name"];
+}
+- (BOOL)isCollectionEditable{
+    return NO;
+}
+- (BOOL)removingGamesDeletesThem{
+    @throw @"bUb";
+    return NO;
+}
+- (NSArray*)items{
+    return nil;
+}
+@end
+@implementation OEDBAllGamesCollection (OECollectionViewItemAdditions)
+- (NSString*)collectionViewName{
+    return [self valueForKey:@"name"];
+}
+
+- (BOOL)isCollectionEditable{
+    return YES;
+}
+
+- (BOOL)removingGamesDeletesThem{
+    return YES;
+}
+
+- (NSArray*)items{
+    return nil;
 }
 @end

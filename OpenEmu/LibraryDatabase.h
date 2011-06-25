@@ -10,32 +10,38 @@
 
 
 @interface LibraryDatabase : NSObject {
-@private
-    NSArray* consoles;
-	NSArray* collections;
-	
-	// Simple caching :)
-	NSString* lastSystem;
-	NSString* lastSearch;
-	
-	NSArray* lastResult;
-	
-	NSArrayController* romsController;
+@private	
+    NSArrayController* romsController;
+    
+    NSPersistentStoreCoordinator *__persistentStoreCoordinator;
+    NSManagedObjectModel *__managedObjectModel;
+    NSManagedObjectContext *__managedObjectContext;
+    
+    NSURL* __databaseURL;
 }
-#pragma mark -
-#pragma mark For Testing...
-- (void)setConsoles:(NSArray*)newConsoles;
-- (void)addRoms:(NSArray*)newRoms;
-- (void)setCollections:(NSArray*)newCollections;
+
+- (BOOL)save:(NSError**)error;
 #pragma mark -
 #pragma mark Database queries
-- (NSArray*)consoles;
+- (NSArray*)systems;
+- (NSInteger)systemsCount;
+
+- (NSUInteger)collectionsCount;
 - (NSArray*)collections;
 
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate;
 - (NSArray*)romsInCollection:(id)collection;
 #pragma mark -
-#pragma mark Basic Database rom editing
+#pragma mark Database Collection editing
+- (void)removeCollection:(NSManagedObject*)collection;
+
+- (id)addNewCollection:(NSString*)name;
+- (id)addNewSmartCollection:(NSString*)name;
+- (id)addNewCollectionFolder:(NSString*)name;
+
+#pragma mark -
+#pragma mark Database Game editing
+- (void)addGamesFromPath:(NSString*)path toCollection:(NSManagedObject*)collection searchSubfolders:(BOOL)subfolderFlag;
 /*
 - (void)addRomsWithFiles:(NSArray*)files;
 - (void)addRomWithFile:(NSString*)file;
@@ -57,10 +63,5 @@
 - (void)addRule:(id)rule toCollection:(id)collection;
 - (void)removeRule:(id)rule fromCollection:(id)collection;
 */
-
-@property (retain) NSString* lastSystem;
-@property (retain) NSString* lastSearch;
-
-@property (retain) NSArray* lastResult;
 
 @end

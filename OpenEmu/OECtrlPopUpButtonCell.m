@@ -27,10 +27,10 @@
 }
 
 + (void)initialize{
-	NSImage* image = [NSImage imageNamed:@"CTRLPopUpButton"];
+	NSImage* image = [NSImage imageNamed:@"wood_popup_button"];
 	
-	[image setName:@"ctrlpopupbutton" forSubimageInRect:NSMakeRect(0, image.size.height/2, image.size.width, image.size.height/2)];
-	[image setName:@"ctrlpopupbutton_pressed" forSubimageInRect:NSMakeRect(0, 0, image.size.width, image.size.height/2)];
+	[image setName:@"wood_popup_button_normal" forSubimageInRect:NSMakeRect(0, image.size.height/2, image.size.width, image.size.height/2)];
+	[image setName:@"wood_popup_button_pressed" forSubimageInRect:NSMakeRect(0, 0, image.size.width, image.size.height/2)];
 }
 #pragma mark -
 - (void)drawImageWithFrame:(NSRect)cellFrame inView:(NSView *)controlView{
@@ -57,7 +57,7 @@
 - (void)drawBorderAndBackgroundWithFrame:(NSRect)cellFrame inView:(NSView *)controlView{
 	cellFrame.size.height = 23;
 	
-	NSImage* img = [((OEControlsPopupButton*)controlView).oemenu isVisible] ? [NSImage imageNamed:@"ctrlpopupbutton_pressed"] : [NSImage imageNamed:@"ctrlpopupbutton"];
+	NSImage* img = [((OEControlsPopupButton*)controlView).oemenu isVisible] ? [NSImage imageNamed:@"wood_popup_button_pressed"] : [NSImage imageNamed:@"wood_popup_button_normal"];
 	[img drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:11 rightBorder:17 topBorder:0 bottomBorder:0];
 }
 #pragma mark -

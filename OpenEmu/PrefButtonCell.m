@@ -27,10 +27,10 @@
 }
 
 + (void)initialize{
-	NSImage* image = [NSImage imageNamed:@"PrefButton"];
+	NSImage* image = [NSImage imageNamed:@"dark_button"];
 	
-	[image setName:@"prefbutton" forSubimageInRect:NSMakeRect(0, image.size.height/2, image.size.width, image.size.height/2)];
-	[image setName:@"prefbutton_pressed" forSubimageInRect:NSMakeRect(0, 0, image.size.width, image.size.height/2)];
+	[image setName:@"dark_button_normal" forSubimageInRect:NSMakeRect(0, image.size.height/2, image.size.width, image.size.height/2)];
+	[image setName:@"dark_button_pressed" forSubimageInRect:NSMakeRect(0, 0, image.size.width, image.size.height/2)];
 }
 #pragma mark -
 
@@ -38,7 +38,7 @@
 	NSRect cellFrame = frame;
 	cellFrame.size.height = 23;
 	
-	NSImage* img = [self isHighlighted] ? [NSImage imageNamed:@"prefbutton_pressed"] : [NSImage imageNamed:@"prefbutton"];
+	NSImage* img = [self isHighlighted] ? [NSImage imageNamed:@"dark_button_pressed"] : [NSImage imageNamed:@"dark_button_normal"];
 	[img drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:10 rightBorder:10 topBorder:0 bottomBorder:0];
 }
 

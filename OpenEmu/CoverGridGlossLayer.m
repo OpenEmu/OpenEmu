@@ -61,7 +61,7 @@
 - (NSImage*)glossImage{
 	static NSImage* upperGlossImage = nil;
 	if(upperGlossImage == nil){
-		upperGlossImage = [NSImage imageNamed:@"box_gloss_top"];
+		upperGlossImage = [NSImage imageNamed:@"box_gloss"];
 	}	
 	return upperGlossImage;
 }

@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OEDBCollection.h"
 
+@interface OEDBSmartCollection : OEDBCollection {
 
-@interface OEDBSmartCollection : NSObject <NSCopying> {
-	NSString* name;
-	NSPredicate* predicate; 
 }
-@property (readwrite, retain) NSString* name;
-@property (readwrite, retain) NSPredicate* predicate;
+// Core Data utilities
++ (NSString *)entityName;
++ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
+
 @end

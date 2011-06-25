@@ -12,7 +12,7 @@
 @implementation OEPrefBoxPlain
 
 - (void)drawRect:(NSRect)dirtyRect{
-	NSImage* image = [NSImage imageNamed:@"box_plain"];
+	NSImage* image = [NSImage imageNamed:@"dark_box"];
 	[image drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:16 rightBorder:16 topBorder:16 bottomBorder:16];
 }
 

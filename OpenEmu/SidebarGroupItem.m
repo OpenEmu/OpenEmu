@@ -33,15 +33,11 @@
 	return YES;
 }
 
-- (void)setSidebarName:(NSString *)newName{}
-
-- (id)copyWithZone:(NSZone *)zone{
-    SidebarGroupItem *copy = [[self class] allocWithZone:zone];
-
-    [copy setName:self.name];
-    
-    return copy;
+- (BOOL)hasSubCollections{
+    return FALSE;
 }
+
+- (void)setSidebarName:(NSString *)newName{}
 
 
 - (void)dealloc {

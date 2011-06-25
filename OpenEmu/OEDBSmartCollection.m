@@ -10,22 +10,14 @@
 
 
 @implementation OEDBSmartCollection
-@synthesize name;
-@synthesize predicate;
 
-- (id)copyWithZone:(NSZone *)zone{
-    OEDBSmartCollection *copy = [[self class] allocWithZone:zone];
-    
-    [copy setName:self.name];    
-    [copy setPredicate:self.predicate];
-    
-    return copy;
++ (NSString *)entityName{
+    return @"SmartCollection";
 }
 
-- (void)dealloc {
-    self.name = nil;
-	self.predicate = nil;
-	
-    [super dealloc];
++ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context{
+    return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
+
+
 @end

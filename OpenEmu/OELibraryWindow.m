@@ -23,8 +23,8 @@
 }
 
 
-
 @end
+
 @implementation OELibraryWindowTitleBarView
 - (void)drawRect:(NSRect)dirtyRect{
 	NSRect lineRect = [self bounds];

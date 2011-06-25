@@ -29,7 +29,7 @@
 
 #pragma mark OEPreferencePane Protocol
 - (NSImage*)icon{
-	return [NSImage imageNamed:@"tb_pref_library"];
+	return [NSImage imageNamed:@"library_tab_icon"];
 }
 
 - (NSString*)title{

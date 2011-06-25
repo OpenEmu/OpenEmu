@@ -48,12 +48,12 @@
 @implementation OECheckBoxCell
 
 + (void)initialize{	
-	NSImage* image = [NSImage imageNamed:@"checkbox"];
+	NSImage* image = [NSImage imageNamed:@"dark_checkbox"];
 	
-	[image setName:@"checkbox_off" forSubimageInRect:NSMakeRect(0, 16, 16, 16)];
-	[image setName:@"checkbox_off_pressed" forSubimageInRect:NSMakeRect(16, 16, 16, 16)];
-	[image setName:@"checkbox_on" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
-	[image setName:@"checkbox_on_pressed" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
+	[image setName:@"dark_checkbox_off" forSubimageInRect:NSMakeRect(0, 16, 16, 16)];
+	[image setName:@"dark_checkbox_off_pressed" forSubimageInRect:NSMakeRect(16, 16, 16, 16)];
+	[image setName:@"dark_checkbox_on" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
+	[image setName:@"dark_checkbox_on_pressed" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
 }
 
 - (NSAttributedString *)attributedTitle{
@@ -93,13 +93,13 @@
 - (void)drawImage:(NSImage*)image withFrame:(NSRect)frame inView:(NSView*)controlView{
 	NSImage* checkboximage;	
 	if ([self isHighlighted] && [self state]==NSOnState)
-		checkboximage = [NSImage imageNamed:@"checkbox_on_pressed"];
+		checkboximage = [NSImage imageNamed:@"dark_checkbox_on_pressed"];
 	else if (![self isHighlighted] && [self state]==NSOnState)
-		checkboximage = [NSImage imageNamed:@"checkbox_on"];
+		checkboximage = [NSImage imageNamed:@"dark_checkbox_on"];
 	else if (![self isHighlighted] && [self state]==NSOffState)
-		checkboximage = [NSImage imageNamed:@"checkbox_off"];
+		checkboximage = [NSImage imageNamed:@"dark_checkbox_off"];
 	else 
-		checkboximage = [NSImage imageNamed:@"checkbox_off_pressed"];
+		checkboximage = [NSImage imageNamed:@"dark_checkbox_off_pressed"];
 	
 	CGFloat y = NSMaxY(frame) - (frame.size.height - checkboximage.size.height) / 2.0 - 15;
 	[checkboximage drawInRect:NSMakeRect(frame.origin.x, roundf(y), checkboximage.size.width, checkboximage.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];

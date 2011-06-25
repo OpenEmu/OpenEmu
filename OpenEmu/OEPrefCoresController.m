@@ -35,7 +35,7 @@
 
 #pragma mark OEPreferencePane Protocol
 - (NSImage*)icon{
-	return [NSImage imageNamed:@"tb_pref_cores"];
+	return [NSImage imageNamed:@"cores_tab_icon"];
 }
 
 - (NSString*)title{

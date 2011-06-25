@@ -10,22 +10,18 @@
 
 
 @implementation OEDBCollection
-@synthesize name;
-@synthesize items;
 
-- (id)copyWithZone:(NSZone *)zone{
-    OEDBCollection *copy = [[self class] allocWithZone:zone];
-    
-    [copy setName:self.name];    
-    [copy setItems:self.items];
-    
-    return copy;
++ (NSString *)entityName{
+    return @"Collection";
 }
 
-- (void)dealloc {
-//    self.name = nil;
-//		self.items = nil;
-	
-    [super dealloc];
++ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context{
+    return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
+
+
+- (NSMutableArray*)items{
+    return [NSMutableArray array];
+}
+
 @end

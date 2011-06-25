@@ -17,12 +17,20 @@
 	LibraryDatabase* database;
 @private	
 	id editingItem;
+    
+    IBOutlet NSButton	* addCollectionBtn;
 }
+- (IBAction)addCollectionAction:(id)sender;
 
+- (void)setEnabled:(BOOL)enabled;
 
 - (void)reloadData;
 - (void)addCollection:(BOOL)isSmart;
 
+- (void)selectItem:(id)item;
+- (void)startEditingItem:(id)item;
+- (void)expandCollections:(id)sender;
+- (void)removeSelectedItemsOfOutlineView:(NSOutlineView*)outlineView;
 @property (retain, readwrite) LibraryDatabase* database;
 @property (retain, readwrite) NSArray* groups;
 

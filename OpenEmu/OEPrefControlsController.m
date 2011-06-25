@@ -82,7 +82,7 @@
 
 #pragma mark OEPreferencePane Protocol
 - (NSImage*)icon{
-	return [NSImage imageNamed:@"tb_pref_controls"];
+	return [NSImage imageNamed:@"controls_tab_icon"];
 }
 
 - (NSString*)title{

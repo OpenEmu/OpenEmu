@@ -10,7 +10,7 @@
 #import "SidebarDataSourceItem.h"
 
 
-@interface SidebarGroupItem : NSObject <NSCopying, SidebarDataSourceItem> {
+@interface SidebarGroupItem : NSObject <SidebarDataSourceItem> {
 @private
     NSString* name;
 }
