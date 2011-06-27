@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>archiveID</key>
+		<integer>33</integer>
+		<key>name</key>
+		<string>GameBoy Advance</string>
+		<key>shortname</key>
+		<string>gba</string>
+	</dict>
+	<dict>
+		<key>archiveID</key>
+		<integer>32</integer>
+		<key>name</key>
+		<string>Super Nintendo (SNES)</string>
+		<key>shortname</key>
+		<string>snes</string>
+	</dict>
+	<dict>
+		<key>archiveID</key>
+		<integer>87</integer>
+		<key>name</key>
+		<string>Nintendo 64</string>
+		<key>shortname</key>
+		<string>n64</string>
+	</dict>
+</array>
+</plist>

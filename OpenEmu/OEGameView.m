@@ -135,6 +135,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (void)setNextResponder:(NSResponder *)aResponder
 {
+    NSLog(@"setNextResponder: %@ | gamecore: %@", aResponder, gameCore);
     if(gameCore != nil)
         [gameCore setNextResponder:aResponder];
     else
