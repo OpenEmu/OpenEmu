@@ -343,11 +343,11 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 - (void)initDisplayLink
 {
     DLog(@"initing display link");
-    CVReturn            error = kCVReturnSuccess;
-    CGDirectDisplayID   displayID = CGMainDisplayID();
+    CVReturn          error     = kCVReturnSuccess;
+    CGDirectDisplayID displayID = CGMainDisplayID();
     
     error = CVDisplayLinkCreateWithCGDisplay(displayID, &displayLink);
-    if(error)
+    if(error != kCVReturnSuccess)
     {
         NSLog(@"DisplayLink created with error:%d - Terminating helper", error);
         displayLink = NULL;
@@ -356,7 +356,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     }
     
     error = CVDisplayLinkSetOutputCallback(displayLink,MyDisplayLinkCallback, self);
-    if(error)
+    if(error != kCVReturnSuccess)
     {
         NSLog(@"DisplayLink could not link to callback, error:%d - Terminating helper", error);
         displayLink = NULL;
@@ -440,7 +440,8 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     OEIntSize bufferSize = gameCore.bufferSize;
     OEIntRect screenRect = gameCore.screenRect;
 
-    if (memcmp(&screenRect.size, &previousScreenSize, sizeof(screenRect.size))) {
+    if(memcmp(&screenRect.size, &previousScreenSize, sizeof(screenRect.size)))
+    {
         [self updateScreenSize];
         [delegate gameCoreDidChangeScreenSizeTo:correctedSize];
     }
@@ -546,20 +547,21 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         gameAspectRatio = screenRect.size.width / (float)screenRect.size.height;
     
     previousScreenSize = screenRect.size;
-    if (drawSquarePixels) {
+    if (drawSquarePixels)
+    {
         float screenAspect = screenRect.size.width / (float)screenRect.size.height;
         correctedSize = screenRect.size;
 
         // try to maximize the drawn rect so we don't lose any pixels
         // (risk: we can only upscale bilinearly as opposed to filteredly)
-        if (screenAspect > gameAspectRatio) {
+        if (screenAspect > gameAspectRatio)
             correctedSize.height = correctedSize.width / gameAspectRatio;
-        } else {
+        else
             correctedSize.width  = correctedSize.height * gameAspectRatio;
-        }
-    } else {
-        correctedSize = screenRect.size;
     }
+    else
+        correctedSize = screenRect.size;
+
 }
 
 - (void)destroySurface
@@ -579,7 +581,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 #pragma mark -
 #pragma mark Game Core methods
 
-- (BOOL)loadRomAtPath:(NSString *)aPath withCorePluginAtPath:(NSString *)pluginPath owner:(byref OEGameCoreController *)owner
+- (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath owner:(byref OEGameCoreController *)owner
 {
     aPath = [aPath stringByStandardizingPath];
     BOOL isDir;
@@ -617,6 +619,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         }
     }
     else NSLog(@"bad ROM path or filename");
+    
     return NO;
 }
 

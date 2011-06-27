@@ -32,29 +32,26 @@
 
 @interface OECorePlugin : OEPlugin
 {
-    NSImage              *icon;
-    NSDictionary         *supportedTypes;
-    NSArray              *supportedTypeExtensions;
-    NSString             *typeName;
-    Class                 gameCoreClass;
-    OEGameCoreController *controller;
+    NSImage      *icon;
+    NSDictionary *supportedTypes;
+    NSArray      *supportedTypeExtensions;
+    NSString     *typeName;
+    Class         gameCoreClass;
 }
 
-@property(readonly) OEGameCoreController *controller;
-@property(readonly) NSString             *details;
-@property(readonly) NSString             *typeName;
-@property(readonly) NSImage              *icon;
-@property(readonly) NSDictionary         *supportedTypes;
-@property(readonly) NSArray              *supportedTypeNames;
-@property(readonly) NSArray              *supportedTypeExtensions;
-@property(readonly) Class                 gameCoreClass;
+@property(readonly) OEGameCoreController<OEPluginController> *controller;
+
+@property(readonly) NSString     *typeName;
+@property(readonly) NSImage      *icon;
+@property(readonly) NSDictionary *supportedTypes;
+@property(readonly) NSArray      *supportedTypeNames;
+@property(readonly) NSArray      *supportedTypeExtensions;
+@property(readonly) Class         gameCoreClass;
 
 + (NSArray *)supportedTypeExtensions;
 + (NSArray *)pluginsForFileExtension:(NSString *)anExtension;
 + (OECorePlugin *)corePluginWithBundleAtPath:(NSString *)bundlePath;
 
-- (NSArray *)availablePreferenceViewControllers;
-- (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey;
 - (NSArray *)extensionsForTypeName:(NSString *)aTypeName;
 - (NSString *)typeForExtension:(NSString *)extension;
 - (BOOL)supportsFileExtension:(NSString *)extension;

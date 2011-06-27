@@ -1,6 +1,6 @@
 /*************************************************************************
  *
- * $Id: triodef.h,v 1.28 2005/12/30 16:15:33 breese Exp $
+ * $Id: triodef.h,v 1.35 2009/09/20 11:37:14 breese Exp $
  *
  * Copyright (C) 2001 Bjorn Reese <breese@users.sourceforge.net>
  *
@@ -54,6 +54,10 @@
 # define TRIO_COMPILER_HP
 #endif
 
+#if defined(sgi) || defined(__sgi)
+# define TRIO_COMPILER_MIPSPRO
+#endif
+
 #if defined(_MSC_VER)
 # define TRIO_COMPILER_MSVC
 #endif
@@ -88,6 +92,11 @@
 # define TRIO_PLATFORM_UNIX
 #endif
 
+#if defined(__Lynx__)
+# define TRIO_PLATFORM_UNIX
+# define TRIO_PLATFORM_LYNX
+#endif
+
 #if defined(__APPLE__) && defined(__MACH__)
 # define TRIO_PLATFORM_UNIX
 #endif
@@ -107,6 +116,10 @@
 
 #if defined(TRIO_COMPILER_MSVC) || defined(WIN32) || defined(_WIN32)
 # define TRIO_PLATFORM_WIN32
+#endif
+
+#if defined(_WIN32_WCE)
+# define TRIO_PLATFORM_WINCE
 #endif
 
 #if defined(mpeix) || defined(__mpexl)
@@ -135,7 +148,7 @@
 
 #if defined(__STDC__) \
  || defined(_MSC_EXTENSIONS) \
- || defined(TRIO_COMPILER_BORLAND)
+ || defined(TRIO_COMPILER_BCB)
 # define PREDEF_STANDARD_C89
 #endif
 #if defined(__STDC_VERSION__)
@@ -162,6 +175,13 @@
 
 #if defined(TRIO_PLATFORM_UNIX)
 # include <unistd.h>
+#endif
+
+#if defined(_POSIX_VERSION)
+# define PREDEF_STANDARD_POSIX _POSIX_VERSION
+# if (_POSIX_VERSION >= 199506L)
+#  define PREDEF_STANDARD_POSIX_1996
+# endif
 #endif
 
 #if (_XOPEN_VERSION - 0 >= 3) || defined(_XOPEN_XPG3)
@@ -211,6 +231,7 @@ typedef char * trio_pointer_t;
 # define TRIO_ARGS4(list,a1,a2,a3,a4) list a1; a2; a3; a4;
 # define TRIO_ARGS5(list,a1,a2,a3,a4,a5) list a1; a2; a3; a4; a5;
 # define TRIO_ARGS6(list,a1,a2,a3,a4,a5,a6) list a1; a2; a3; a4; a5; a6;
+# define TRIO_ARGS7(list,a1,a2,a3,a4,a5,a6,a7) list a1; a2; a3; a4; a5; a6; a7;
 # define TRIO_VARGS2(list,a1,a2) list a1; a2
 # define TRIO_VARGS3(list,a1,a2,a3) list a1; a2; a3
 # define TRIO_VARGS4(list,a1,a2,a3,a4) list a1; a2; a3; a4
@@ -233,6 +254,7 @@ typedef void * trio_pointer_t;
 # define TRIO_ARGS4(list,a1,a2,a3,a4) (a1,a2,a3,a4)
 # define TRIO_ARGS5(list,a1,a2,a3,a4,a5) (a1,a2,a3,a4,a5)
 # define TRIO_ARGS6(list,a1,a2,a3,a4,a5,a6) (a1,a2,a3,a4,a5,a6)
+# define TRIO_ARGS7(list,a1,a2,a3,a4,a5,a6,a7) (a1,a2,a3,a4,a5,a6,a7)
 # define TRIO_VARGS2 TRIO_ARGS2
 # define TRIO_VARGS3 TRIO_ARGS3
 # define TRIO_VARGS4 TRIO_ARGS4
@@ -270,14 +292,10 @@ typedef void * trio_pointer_t;
  */
 # pragma message disable (UNDERFLOW, FLOATOVERFL)
 
-# if (__CRTL_VER < 80000000)
+# if (__CRTL_VER < 80210001)
 /*
  * Although the compiler supports C99 language constructs, the C
  * run-time library does not contain all C99 functions.
- *
- * This was the case for 70300022. Update the 80000000 value when
- * it has been accurately determined what version of the library
- * supports C99.
  */
 #  if defined(PREDEF_STANDARD_C99)
 #   undef PREDEF_STANDARD_C99
@@ -291,6 +309,27 @@ typedef void * trio_pointer_t;
 #if defined(TRIO_COMPILER_MSVC) || defined(TRIO_COMPILER_BCB)
 #else
 # define TRIO_COMPILER_SUPPORTS_LL
+#endif
+
+#if defined(__CYGWIN__)
+/*
+ * Cygwin defines the macros for hosted C99, but does not support certain
+ * long double math functions.
+ */
+# include <cygwin/version.h>
+# define TRIO_CYGWIN_VERSION_API CYGWIN_VERSION_API_MAJOR * 1000 + \
+   CYGWIN_VERSION_API_MINOR
+/*
+ * Please change the version number below when the Cygwin API supports
+ * long double math functions (powl, fmodl, etc.)
+ */
+# if TRIO_CYGWIN_VERSION_API < 99999999
+#  define TRIO_NO_FLOORL 1
+#  define TRIO_NO_CEILL 1
+#  define TRIO_NO_POWL 1
+#  define TRIO_NO_FMODL 1
+#  define TRIO_NO_LOG10L 1
+# endif
 #endif
 
 #endif /* TRIO_TRIODEF_H */

@@ -44,5 +44,7 @@
 	<string>http://openemu.org/update/crabemu_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
+	<key>OESystemPluginName</key>
+	<string>Sega Master System</string>
 </dict>
 </plist>

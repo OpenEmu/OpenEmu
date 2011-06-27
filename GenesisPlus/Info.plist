@@ -41,5 +41,7 @@
 			<string>Genesis Game</string>
 		</dict>
 	</array>
+	<key>OESystemPluginName</key>
+	<string>Genesis</string>
 </dict>
 </plist>

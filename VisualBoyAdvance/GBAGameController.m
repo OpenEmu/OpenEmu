@@ -26,11 +26,7 @@
  */
 
 #import "GBAGameController.h"
-#import "GBAControlsPreference.h"
 #import "GBAGameEmu.h"
-
-NSArray *GBARawControlNames = nil;
-NSArray *GBAUsedControlNames = nil;
 
 @implementation GBAGameController
 
@@ -38,17 +34,7 @@ NSArray *GBAUsedControlNames = nil;
 {
     if(self == [GBAGameController class])
     {
-        [self registerPreferenceViewControllerClasses:
-         [NSDictionary dictionaryWithObject:[GBAControlsPreference class]
-                                     forKey:@"OEControlsPreferenceKey"]];
-        
-        GBARawControlNames = [[NSArray alloc] initWithObjects:GBAControlNames count:GBA_CONTROL_COUNT];
     }
-}
-
-- (NSArray *)genericControlNames
-{
-    return GBARawControlNames;
 }
 
 - (NSUInteger)playerCount

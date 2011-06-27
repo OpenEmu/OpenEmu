@@ -1,6 +1,6 @@
 /*************************************************************************
  *
- * $Id: triop.h,v 1.15 2005/03/24 15:43:03 breese Exp $
+ * $Id: triop.h,v 1.18 2009/07/05 10:14:07 breese Exp $
  *
  * Copyright (C) 2000 Bjorn Reese and Daniel Stenberg.
  *
@@ -128,6 +128,16 @@ extern "C" {
  */
 #if !defined(TRIO_EXTENSION)
 # define TRIO_EXTENSION 1
+#endif
+
+/*
+ * TRIO_DEPRECATED (=0 or =1)
+ *
+ * Define this to 0 to disable deprecated functionality, or define
+ * to 1 to enable them.
+ */
+#if !defined(TRIO_DEPRECATED)
+# define TRIO_DEPRECATED 1
 #endif
 
 /*************************************************************************
@@ -394,7 +404,8 @@ trio_pointer_t trio_register TRIO_PROTO((trio_callback_t callback, const char *n
 void trio_unregister TRIO_PROTO((trio_pointer_t handle));
 
 TRIO_CONST char *trio_get_format TRIO_PROTO((trio_pointer_t ref));
-trio_pointer_t trio_get_argument TRIO_PROTO((trio_pointer_t ref));
+/* Mednafen modification to fix a gcc warning */
+/*TRIO_CONST*/ trio_pointer_t trio_get_argument TRIO_PROTO((trio_pointer_t ref));
 
 /* Modifiers */
 int  trio_get_width TRIO_PROTO((trio_pointer_t ref));
@@ -419,7 +430,7 @@ int  trio_get_alternative TRIO_PROTO((trio_pointer_t ref)); /* # */
 void trio_set_alternative TRIO_PROTO((trio_pointer_t ref, int is_alternative));
 int  trio_get_alignment TRIO_PROTO((trio_pointer_t ref)); /* - */
 void trio_set_alignment TRIO_PROTO((trio_pointer_t ref, int is_leftaligned));
-int  trio_get_spacing TRIO_PROTO((trio_pointer_t ref)); /*  TRIO_PROTO((space) */
+int  trio_get_spacing TRIO_PROTO((trio_pointer_t ref)); /* (space) */
 void trio_set_spacing TRIO_PROTO((trio_pointer_t ref, int is_space));
 int  trio_get_sign TRIO_PROTO((trio_pointer_t ref)); /* + */
 void trio_set_sign TRIO_PROTO((trio_pointer_t ref, int is_showsign));
@@ -452,7 +463,7 @@ void trio_print_uint TRIO_PROTO((trio_pointer_t ref, unsigned int number));
 /*  void trio_print_long TRIO_PROTO((trio_pointer_t ref, long number)); */
 /*  void trio_print_ulong TRIO_PROTO((trio_pointer_t ref, unsigned long number)); */
 void trio_print_double TRIO_PROTO((trio_pointer_t ref, double number));
-void trio_print_string TRIO_PROTO((trio_pointer_t ref, char *string));
+void trio_print_string TRIO_PROTO((trio_pointer_t ref, TRIO_CONST char *string));
 void trio_print_pointer TRIO_PROTO((trio_pointer_t ref, trio_pointer_t pointer));
 
 #ifdef __cplusplus

@@ -32,8 +32,8 @@
 @class OEGameDocument;
 
 @implementation OECorePlugin
-
-@synthesize icon, supportedTypes, supportedTypeExtensions, gameCoreClass, controller, typeName;
+@dynamic controller;
+@synthesize icon, supportedTypes, supportedTypeExtensions, gameCoreClass, typeName;
 
 + (OECorePlugin *)corePluginWithBundleAtPath:(NSString *)bundlePath
 {
@@ -44,24 +44,14 @@
 {
     if((self = [super initWithBundle:aBundle]))
     {
-        Class mainClass = [bundle principalClass];
+        gameCoreClass = [[self controller] gameCoreClass];
         
-        // Prevents old-style plugins from loading at all
-        if(![mainClass isSubclassOfClass:[OEGameCoreController class]])
-        {
-            [self release];
-            return nil;
-        }
-        
-        controller = [[mainClass alloc] init];
-        gameCoreClass = [controller gameCoreClass];
-        
-        NSString *iconPath = [bundle pathForResource:[infoDictionary objectForKey:@"CFIconName"] ofType:@"icns"];
+        NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         icon = [[NSImage alloc] initWithContentsOfFile:iconPath];
         
         NSMutableDictionary *tempTypes = [[NSMutableDictionary alloc] init];
         NSMutableArray *tempExts = [[NSMutableArray alloc] init];
-        NSArray *types = [infoDictionary objectForKey:@"CFBundleDocumentTypes"];
+        NSArray *types = [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
         for(NSDictionary *type in types)
         {
             NSArray *exts = [type objectForKey:@"CFBundleTypeExtensions"];
@@ -84,22 +74,16 @@
 - (void)dealloc
 {
     [icon release];
-    [controller release];
     [supportedTypes release];
     [supportedTypeExtensions release];
     [super dealloc];
 }
 
-- (NSViewController *)newPreferenceViewControllerForKey:(NSString *)aKey
+- (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
 {
-    NSViewController *ret = [controller newPreferenceViewControllerForKey:aKey];
-    if(ret == nil) ret = [[NSViewController alloc] initWithNibName:@"UnimplementedPreference" bundle:[NSBundle mainBundle]];
-    return ret;
-}
-
-- (NSArray *)availablePreferenceViewControllers
-{
-    return [controller availablePreferenceViewControllers];
+    if(![bundleClass isSubclassOfClass:[OEGameCoreController class]]) return nil;
+    
+    return [super newPluginControllerWithClass:bundleClass];
 }
 
 - (BOOL)supportsFileExtension:(NSString *)extension
@@ -154,14 +138,9 @@
     return nil;
 }
 
-- (NSString *)details
-{
-    return [NSString stringWithFormat: @"Version %@", [self version]];
-}
-
 - (NSArray *)typesPropertyList
 {
-    return [infoDictionary objectForKey:@"CFBundleDocumentTypes"];
+    return [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
 }
 
 - (NSString *)description

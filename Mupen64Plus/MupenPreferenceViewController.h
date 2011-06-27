@@ -25,7 +25,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEControlsViewController.h>
+#import <OEControlsViewController_old.h>
 
-@interface MupenPreferenceViewController : OEControlsViewController
+@interface MupenPreferenceViewController : OEControlsViewController_old
 @end

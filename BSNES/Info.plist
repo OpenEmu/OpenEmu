@@ -42,5 +42,7 @@
 	<string>1</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>OESystemPluginName</key>
+	<string>SuperNES</string>
 </dict>
 </plist>

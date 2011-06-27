@@ -83,7 +83,6 @@
 		82EC409F0FD9EC420017FC19 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EC409E0FD9EC420017FC19 /* libz.dylib */; };
 		82EC40A30FD9EC5A0017FC19 /* GBAGameEmu.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5008DAE0E8BFB3E005AECAF /* GBAGameEmu.mm */; };
 		82EC40A40FD9EC5D0017FC19 /* GBAGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C63E6C7A0FCDA5D6009C8555 /* GBAGameController.m */; };
-		82EC40A50FD9EC600017FC19 /* GBAControlsPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = C63E6C780FCDA5BC009C8555 /* GBAControlsPreference.m */; };
 		82EC41110FD9EEC10017FC19 /* CASoundDriver.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82EC41100FD9EEC10017FC19 /* CASoundDriver.mm */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -147,6 +146,55 @@
 			proxyType = 2;
 			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
+		};
+		C646575813771F4F002A4F70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
+		};
+		C6B948FF13651ACD00A425F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6711807136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		C6B9490113651ACD00A425F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C671180F136368330034379A;
+			remoteInfo = SegaMasterSystem;
+		};
+		C6B9490313651ACD00A425F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C64BB08D136478E600C1AB23;
+			remoteInfo = NES;
+		};
+		C6B9490513651ACD00A425F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6480FC113648F670094FA33;
+			remoteInfo = SuperNES;
+		};
+		C6B9490713651ACD00A425F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6B947AF1364ECA600A425F0;
+			remoteInfo = GameBoy;
+		};
+		C6B9490913651ACD00A425F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6B947E61365080B00A425F0;
+			remoteInfo = Genesis;
 		};
 		C6E916860FD34D5800AC2CCC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -278,8 +326,6 @@
 		B5008DAD0E8BFB3E005AECAF /* GBAGameEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAGameEmu.h; sourceTree = "<group>"; };
 		B5008DAE0E8BFB3E005AECAF /* GBAGameEmu.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAGameEmu.mm; sourceTree = "<group>"; };
 		C63E6C640FCDA565009C8555 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
-		C63E6C770FCDA5BC009C8555 /* GBAControlsPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAControlsPreference.h; sourceTree = "<group>"; };
-		C63E6C780FCDA5BC009C8555 /* GBAControlsPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAControlsPreference.m; sourceTree = "<group>"; };
 		C63E6C790FCDA5D6009C8555 /* GBAGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAGameController.h; sourceTree = "<group>"; };
 		C63E6C7A0FCDA5D6009C8555 /* GBAGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAGameController.m; sourceTree = "<group>"; };
 		C63E6CCD0FCDABEF009C8555 /* gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba.png; sourceTree = "<group>"; };
@@ -344,8 +390,6 @@
 				B5008DAE0E8BFB3E005AECAF /* GBAGameEmu.mm */,
 				C63E6C790FCDA5D6009C8555 /* GBAGameController.h */,
 				C63E6C7A0FCDA5D6009C8555 /* GBAGameController.m */,
-				C63E6C770FCDA5BC009C8555 /* GBAControlsPreference.h */,
-				C63E6C780FCDA5BC009C8555 /* GBAControlsPreference.m */,
 				82EC410F0FD9EEC10017FC19 /* CASoundDriver.h */,
 				82EC41100FD9EEC10017FC19 /* CASoundDriver.mm */,
 			);
@@ -396,6 +440,13 @@
 				82EA60530F514D80008E18C5 /* OpenEmuQC.plugin */,
 				82EA60550F514D80008E18C5 /* OpenEmuBase.framework */,
 				378394E51029257000168304 /* OESaveStateQLPlugin.qlgenerator */,
+				C6B9490013651ACD00A425F0 /* OpenEmuSystem.framework */,
+				C6B9490213651ACD00A425F0 /* SegaMasterSystem.oesystemplugin */,
+				C6B9490413651ACD00A425F0 /* NES.oesystemplugin */,
+				C6B9490613651ACD00A425F0 /* SuperNES.oesystemplugin */,
+				C6B9490813651ACD00A425F0 /* GameBoy.oesystemplugin */,
+				C6B9490A13651ACD00A425F0 /* Genesis.oesystemplugin */,
+				C646575913771F4F002A4F70 /* GameBoy Advance.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -558,6 +609,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0410;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "VisualBoyAdvance" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -624,6 +676,55 @@
 			fileType = "compiled.mach-o.executable";
 			path = OpenEmuHelperApp;
 			remoteRef = C62A2649116F094C0003DEE4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C646575913771F4F002A4F70 /* GameBoy Advance.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "GameBoy Advance.oesystemplugin";
+			remoteRef = C646575813771F4F002A4F70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6B9490013651ACD00A425F0 /* OpenEmuSystem.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuSystem.framework;
+			remoteRef = C6B948FF13651ACD00A425F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6B9490213651ACD00A425F0 /* SegaMasterSystem.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SegaMasterSystem.oesystemplugin;
+			remoteRef = C6B9490113651ACD00A425F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6B9490413651ACD00A425F0 /* NES.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NES.oesystemplugin;
+			remoteRef = C6B9490313651ACD00A425F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6B9490613651ACD00A425F0 /* SuperNES.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SuperNES.oesystemplugin;
+			remoteRef = C6B9490513651ACD00A425F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6B9490813651ACD00A425F0 /* GameBoy.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GameBoy.oesystemplugin;
+			remoteRef = C6B9490713651ACD00A425F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6B9490A13651ACD00A425F0 /* Genesis.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Genesis.oesystemplugin;
+			remoteRef = C6B9490913651ACD00A425F0 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -720,7 +821,6 @@
 				82EC40880FD9EB560017FC19 /* Util.cpp in Sources */,
 				82EC40A30FD9EC5A0017FC19 /* GBAGameEmu.mm in Sources */,
 				82EC40A40FD9EC5D0017FC19 /* GBAGameController.m in Sources */,
-				82EC40A50FD9EC600017FC19 /* GBAControlsPreference.m in Sources */,
 				82EC41110FD9EEC10017FC19 /* CASoundDriver.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -762,7 +862,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = VisualBoyAdvance_Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"/**";
@@ -822,10 +921,7 @@
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -851,7 +947,6 @@
 		82CAFD090FEDD57400CCDC7E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = Distribution;
 			};
 			name = Release;
@@ -866,7 +961,6 @@
 		82D815AD0F1D882C00EF8CF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Release;

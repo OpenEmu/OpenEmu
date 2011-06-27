@@ -26,28 +26,30 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "OEMap.h"
+#import "OEPluginController.h"
 
-extern NSString *const OEControlsPreferenceKey;
+extern NSString *const OEControlsPreferenceKey DEPRECATED_ATTRIBUTE;
 extern NSString *const OEAdvancedPreferenceKey;
 
-extern NSString *const OESettingValueKey;
-extern NSString *const OEHIDEventValueKey;
-extern NSString *const OEKeyboardEventValueKey;
+extern NSString *const OESettingValueKey DEPRECATED_ATTRIBUTE;
+extern NSString *const OEHIDEventValueKey DEPRECATED_ATTRIBUTE;
+extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 
 @protocol OESettingObserver;
-@class OEGameCore, OEGameDocument, OEHIDEvent;
+@class OEGameCore, OEGameDocument, OEHIDEvent, OESystemResponder;
 
-@interface OEGameCoreController : NSResponder
+@interface OEGameCoreController : NSResponder <OEPluginController>
 {
-    id              currentPreferenceViewController;
-    NSBundle       *bundle;
-    NSString       *pluginName;
-    NSString       *supportDirectoryPath;
-    NSString       *playerString;
-    NSArray        *controlNames;
-    NSMutableArray *gameDocuments;
-    NSMutableArray *settingObservers;
+@private
+    id                   currentPreferenceViewController DEPRECATED_ATTRIBUTE;
+    NSBundle            *bundle;
+    NSString            *pluginName;
+    NSString            *supportDirectoryPath;
+    NSString            *playerString DEPRECATED_ATTRIBUTE;
+    NSArray             *controlNames DEPRECATED_ATTRIBUTE;
+    NSMutableArray      *gameDocuments;
+    NSMutableArray      *settingObservers;
+    NSMutableDictionary *preferenceViewControllers;
 }
 
 @property(readonly) NSBundle *bundle;
@@ -56,20 +58,9 @@ extern NSString *const OEKeyboardEventValueKey;
 @property(readonly) NSString *playerString;
 
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
-- (void)registerDefaultControls;
 
-- (NSArray *)availablePreferenceViewControllers;
-
-@property(readonly) NSString   *pluginName;
-@property(readonly) NSString   *supportDirectoryPath;
-@property(readonly) NSArray    *usedSettingNames;
-@property(readonly) NSArray    *genericControlNames;
-@property(readonly) NSUInteger  playerCount;
-
-- (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
-- (NSUInteger)playerNumberInKey:(NSString *)aPlayerKey getKeyIndex:(NSUInteger *)index;
 /*
- * The method search for a registered class for the passed-in key and instanciate the controller
+ * The method search for a class associated with aKey and instantiate the controller
  * with the Nib name provided by the controller +preferenceNibName class method.
  * If +preferenceNibName is not overridden by the controller class, the receiver uses the default
  * nib name provided by the key.
@@ -79,40 +70,32 @@ extern NSString *const OEKeyboardEventValueKey;
  * the name).
  */
 - (id)newPreferenceViewControllerForKey:(NSString *)aKey;
+
+// A dictionary of keys and UIViewController classes, keys are different panels available in the preferences
+// Must be overridden by subclasses to provide the appropriate classes
+- (NSDictionary *)preferenceViewControllerClasses;
+
+@property(readonly) NSString   *pluginName;
+@property(readonly) NSString   *gameSystemName;
+@property(readonly) NSString   *supportDirectoryPath;
+@property(readonly) NSArray    *usedSettingNames;
+@property(readonly) NSUInteger  playerCount;
+
 - (bycopy OEGameCore *)newGameCore;
-- (void)addSettingObserver:(id<OESettingObserver>)anObject;
-- (void)removeSettingObserver:(id<OESettingObserver>)anObject;
-- (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType;
-
-- (id)registarableValueWithObject:(id)anObject;
-- (id)valueForKeyPath:(NSString *)aValue;
-- (void)registerValue:(id)aValue forKey:(NSString *)keyName withValueType:(NSString *)aType;
-
-- (void)registerSetting:(id)settingValue forKey:(NSString *)keyName;
-- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName;
 
 - (id)settingForKey:(NSString *)keyName;
+- (void)setSetting:(id)value forKey:(NSString *)keyName;
+- (void)addSettingObserver:(id<OESettingObserver>)anObject;
+- (void)removeSettingObserver:(id<OESettingObserver>)anObject;
+- (NSString *)keyPathForSettingKey:(NSString *)keyName;
 
-- (void)forceKeyBindingRecover;
-- (id)HIDEventForKey:(NSString *)keyName;
-- (id)keyboardEventForKey:(NSString *)keyName;
-- (void)removeBindingsToEvent:(id)theEvent withValueType:(NSString *)aType;
-
-- (NSDictionary *)defaultControls;
 @end
 
 @interface NSViewController (OEGameCoreControllerAddition)
 + (NSString *)preferenceNibName;
 @end
 
-@protocol OESettingObserver
-- (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey;
-- (void)unsetEventForKey:(bycopy NSString *)keyName withValueMask:(NSUInteger)keyMask;
+@protocol OESettingObserver <NSObject>
 - (void)settingWasSet:(bycopy id)aValue forKey:(bycopy NSString *)keyName;
-- (void)keyboardEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
-- (void)keyboardEventWasRemovedForKey:(bycopy NSString *)keyName;
-
-- (void)HIDEventWasSet:(bycopy id)theEvent forKey:(bycopy NSString *)keyName;
-- (void)HIDEventWasRemovedForKey:(bycopy NSString *)keyName;
 @end
 

@@ -300,8 +300,8 @@
             _data.button.state = value;
             break;
         case kHIDPage_KeyboardOrKeypad :
-            if(!((usage >= 0x04) && (usage <= 0xA4) ||
-                 (usage >= 0xE0) && (usage <= 0xE7)))
+            if(!(((usage >= 0x04) && (usage <= 0xA4)) ||
+                 ((usage >= 0xE0) && (usage <= 0xE7))))
                 return NO;
             
             _type = OEHIDKeypress;

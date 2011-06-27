@@ -26,23 +26,22 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "OEPreferenceViewController.h"
 
-@interface OEControlsViewController : OEPreferenceViewController
+@protocol OEControlsViewControllerDelegate;
+
+@interface OEControlsViewController : NSViewController
 {
-    id           selectedControl;
-    NSMatrix    *bindingType;
-    NSMatrix    *playerSelector;
-    NSStepper   *playerStepper;
-    NSTextField *playerField;
+@private
 }
+
+@property(assign) id<OEControlsViewControllerDelegate> delegate;
+
+@property(assign) id selectedControl;
 
 @property(retain) IBOutlet NSMatrix    *bindingType;
 @property(retain) IBOutlet NSMatrix    *playerSelector;
 @property(retain) IBOutlet NSStepper   *playerStepper;
 @property(retain) IBOutlet NSTextField *playerField;
-
-@property(assign)          NSControl   *selectedControl;
 
 - (NSString *)selectedKey;
 - (NSUInteger)selectedPlayer;
@@ -52,8 +51,27 @@
 - (BOOL)isKeyboardEventSelected;
 - (void)registerEvent:(id)anEvent;
 
-- (IBAction)showedBindingsChanged:(id)sender;
+- (IBAction)displayedBindingsChanged:(id)sender;
 - (IBAction)selectInputControl:(id)sender;
 - (void)resetKeyBindings;
+
+- (void)resetBindingsWithKeys:(NSArray *)keys;
+
+@end
+
+@protocol OEControlsViewControllerDelegate <NSObject>
+
+- (NSArray *)genericSettingNamesInControlsViewController:(OEControlsViewController *)sender;
+- (NSArray *)genericControlNamesInControlsViewController:(OEControlsViewController *)sender;
+- (NSString *)controlsViewController:(OEControlsViewController *)sender playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
+
+// Reading values
+- (id)controlsViewController:(OEControlsViewController *)sender settingForKey:(NSString *)keyName;
+- (id)controlsViewController:(OEControlsViewController *)sender HIDEventForKey:(NSString *)keyName;
+- (id)controlsViewController:(OEControlsViewController *)sender keyboardEventForKey:(NSString *)keyName;
+
+// Writting values
+- (void)controlsViewController:(OEControlsViewController *)sender registerSetting:(id)settingValue forKey:(NSString *)keyName;
+- (void)controlsViewController:(OEControlsViewController *)sender registerEvent:(id)theEvent forKey:(NSString *)keyName;
 
 @end

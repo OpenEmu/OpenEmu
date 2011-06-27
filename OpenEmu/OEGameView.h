@@ -28,17 +28,17 @@
 #import <Cocoa/Cocoa.h>
 
 @protocol OEGameCoreHelper;
-@class OEGameLayer, OEGameCore;
+@class OEGameLayer, OESystemResponder;
 
 @interface OEGameView : NSView
 {
+@private
     NSView      *gameView;
     OEGameLayer *gameLayer;
-    OEGameCore  *gameCore;
 }
 
-@property(assign)   OEGameCore           *gameCore;
 @property(readonly) OEGameLayer          *gameLayer;
+@property(assign)   OESystemResponder    *gameResponder;
 @property(assign)   id<OEGameCoreHelper>  rootProxy;
 @property(readonly) CGFloat               preferredWindowScale;
 

@@ -29,6 +29,7 @@
 #import "OEGameCore.h"
 #import "OEGameLayer.h"
 #import "OEGameCoreHelper.h"
+#import "OESystemResponder.h"
 
 static void OE_bindGameLayer(OEGameLayer *gameLayer)
 {
@@ -39,7 +40,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 @implementation OEGameView
 
-@synthesize gameLayer;
+@synthesize gameLayer, gameResponder;
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -109,23 +110,19 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     return YES;
 }
 
-- (id<OEGameCoreHelper>)rootProxy { return [gameLayer rootProxy]; }
-- (void)setRootProxy:(id<OEGameCoreHelper>)value
-{
-    [gameLayer setRootProxy:value];
-    [self setGameCore:[value gameCore]];
-}
+- (id<OEGameCoreHelper>)rootProxy                { return [gameLayer rootProxy];   }
+- (void)setRootProxy:(id<OEGameCoreHelper>)value { [gameLayer setRootProxy:value]; }
 
-- (OEGameCore *)gameCore { return gameCore; }
-- (void)setGameCore:(OEGameCore *)value
+- (OESystemResponder *)gameResponder { return gameResponder; }
+- (void)setGameResponder:(OESystemResponder *)value
 {
-    if(gameCore != value)
+    if(gameResponder != value)
     {
-        id next = (gameCore == nil
+        id next = (gameResponder == nil
                    ? [super nextResponder]
-                   : [gameCore nextResponder]);
+                   : [gameResponder nextResponder]);
         
-        gameCore = value;
+        gameResponder = value;
         
         [value setNextResponder:next];
         if(value == nil) value = next;
@@ -135,9 +132,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (void)setNextResponder:(NSResponder *)aResponder
 {
-    NSLog(@"setNextResponder: %@ | gamecore: %@", aResponder, gameCore);
-    if(gameCore != nil)
-        [gameCore setNextResponder:aResponder];
+    if(gameResponder != nil)
+        [gameResponder setNextResponder:aResponder];
     else
         [super setNextResponder:aResponder];
 }

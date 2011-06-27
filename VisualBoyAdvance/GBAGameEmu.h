@@ -32,9 +32,6 @@ typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
 
-#define GBA_CONTROL_COUNT 10
-OE_EXTERN NSString *GBAControlNames[];
-
 @class OERingBuffer;
 @interface GBAGameEmu : OEGameCore
 {

@@ -1,6 +1,6 @@
 /*************************************************************************
  *
- * $Id: trio.h,v 1.17 2005/05/29 11:58:14 breese Exp $
+ * $Id: trio.h,v 1.19 2009/09/13 10:12:22 breese Exp $
  *
  * Copyright (C) 1998 Bjorn Reese and Daniel Stenberg.
  *
@@ -32,15 +32,9 @@
 # include <config.h>
 #endif
 
-#include "triodef.h"
+#include "triop.h"
 
 #include <stdio.h>
-#include <stdlib.h>
-#if defined(TRIO_COMPILER_ANCIENT)
-# include <varargs.h>
-#else
-# include <stdarg.h>
-#endif
 
 #ifdef __cplusplus
 extern "C" {
@@ -110,8 +104,10 @@ int trio_snprintfcat TRIO_PROTO((char *buffer, size_t max, TRIO_CONST char *form
 int trio_vsnprintfcat TRIO_PROTO((char *buffer, size_t bufferSize, TRIO_CONST char *format,
                       va_list args));
 
+#if defined(TRIO_DEPRECATED)
 char *trio_aprintf TRIO_PROTO((TRIO_CONST char *format, ...));
 char *trio_vaprintf TRIO_PROTO((TRIO_CONST char *format, va_list args));
+#endif
 
 int trio_asprintf TRIO_PROTO((char **ret, TRIO_CONST char *format, ...));
 int trio_vasprintf TRIO_PROTO((char **ret, TRIO_CONST char *format, va_list args));
@@ -156,55 +152,77 @@ void trio_locale_set_grouping TRIO_PROTO((char *grouping));
 #ifdef TRIO_REPLACE_STDIO
 /* Replace the <stdio.h> functions */
 #ifndef HAVE_PRINTF
+# undef printf
 # define printf trio_printf
 #endif
 #ifndef HAVE_VPRINTF
+# undef vprintf
 # define vprintf trio_vprintf
 #endif
 #ifndef HAVE_FPRINTF
+# undef fprintf
 # define fprintf trio_fprintf
 #endif
 #ifndef HAVE_VFPRINTF
+# undef vfprintf
 # define vfprintf trio_vfprintf
 #endif
 #ifndef HAVE_SPRINTF
+# undef sprintf
 # define sprintf trio_sprintf
 #endif
 #ifndef HAVE_VSPRINTF
+# undef vsprintf
 # define vsprintf trio_vsprintf
 #endif
 #ifndef HAVE_SNPRINTF
+# undef snprintf
 # define snprintf trio_snprintf
 #endif
 #ifndef HAVE_VSNPRINTF
+# undef vsnprintf
 # define vsnprintf trio_vsnprintf
 #endif
 #ifndef HAVE_SCANF
+# undef scanf
 # define scanf trio_scanf
 #endif
 #ifndef HAVE_VSCANF
+# undef vscanf
 # define vscanf trio_vscanf
 #endif
 #ifndef HAVE_FSCANF
+# undef fscanf
 # define fscanf trio_fscanf
 #endif
 #ifndef HAVE_VFSCANF
+# undef vfscanf
 # define vfscanf trio_vfscanf
 #endif
 #ifndef HAVE_SSCANF
+# undef sscanf
 # define sscanf trio_sscanf
 #endif
 #ifndef HAVE_VSSCANF
+# undef vsscanf
 # define vsscanf trio_vsscanf
 #endif
 /* These aren't stdio functions, but we make them look similar */
+#undef dprintf
 #define dprintf trio_dprintf
+#undef vdprintf
 #define vdprintf trio_vdprintf
+#undef aprintf
 #define aprintf trio_aprintf
+#undef vaprintf
 #define vaprintf trio_vaprintf
+#undef asprintf
 #define asprintf trio_asprintf
+#undef vasprintf
 #define vasprintf trio_vasprintf
+#undef dscanf
 #define dscanf trio_dscanf
+#undef vdscanf
 #define vdscanf trio_vdscanf
 #endif
 

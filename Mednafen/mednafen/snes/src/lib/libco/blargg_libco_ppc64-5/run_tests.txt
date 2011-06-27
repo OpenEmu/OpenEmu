@@ -1,0 +1,106 @@
+$ cat /proc/cpuinfo
+processor       : 0
+cpu             : PPC970, altivec supported
+clock           : 2000.000000MHz
+revision        : 2.2 (pvr 0039 0202)
+
+processor       : 1
+cpu             : PPC970, altivec supported
+clock           : 2000.000000MHz
+revision        : 2.2 (pvr 0039 0202)
+
+timebase        : 33333333
+platform        : PowerMac
+model           : PowerMac7,2
+machine         : PowerMac7,2
+motherboard     : PowerMac7,2 MacRISC4 Power Macintosh
+detected as     : 336 (PowerMac G5)
+pmac flags      : 00000000
+L2 cache        : 512K unified
+pmac-generation : NewWorld
+
+$ ./run_tests
+32-bit tests
+Basic test
+PPC32 FP ALTIVEC
+Passed
+
+Thread test
+PPC32
+Passed
+
+Thread test
+PPC32 FP ALTIVEC
+Passed
+
+PPC32
+291.30 M function calls per sec
+ 18.93 M co_switch()x2  per sec
+Function call is 15.4X faster than two co_switch() calls.
+
+PPC32 FP
+291.20 M function calls per sec
+ 12.74 M co_switch()x2  per sec
+Function call is 22.9X faster than two co_switch() calls.
+
+PPC32 FP ALTIVEC
+291.90 M function calls per sec
+  9.64 M co_switch()x2  per sec
+Function call is 30.3X faster than two co_switch() calls.
+
+Register test
+PPC32
+Checking for modified system registers
+Checking for unpreserved non-volatiles
+Checking for unnecessarily preserved volatiles
+Passed
+
+Register test
+PPC32 FP ALTIVEC
+Checking for modified system registers
+Checking for unpreserved non-volatiles
+Checking for unnecessarily preserved volatiles
+Passed
+
+
+64-bit tests
+Basic test
+PPC64 FP ALTIVEC
+Passed
+
+Thread test
+PPC64
+Passed
+
+Thread test
+PPC64 FP ALTIVEC
+Passed
+
+PPC64
+291.70 M function calls per sec
+ 15.25 M co_switch()x2  per sec
+Function call is 19.1X faster than two co_switch() calls.
+
+PPC64 FP
+292.00 M function calls per sec
+ 12.69 M co_switch()x2  per sec
+Function call is 23.0X faster than two co_switch() calls.
+
+PPC64 FP ALTIVEC
+291.60 M function calls per sec
+  9.57 M co_switch()x2  per sec
+Function call is 30.5X faster than two co_switch() calls.
+
+Register test
+PPC64
+Checking for modified system registers
+Checking for unpreserved non-volatiles
+Checking for unnecessarily preserved volatiles
+Passed
+
+Register test
+PPC64 FP ALTIVEC
+Checking for modified system registers
+Checking for unpreserved non-volatiles
+Checking for unnecessarily preserved volatiles
+Passed

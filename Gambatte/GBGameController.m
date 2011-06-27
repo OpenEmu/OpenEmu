@@ -27,28 +27,14 @@
 
 #import "GBGameEmu.h"
 #import "GBGameController.h"
-#import "GBPreferenceView.h"
+
 @implementation GBGameController
 
 + (void)initialize
 {
     if(self == [GBGameController class])
     {
-        [self registerPreferenceViewControllerClasses:
-         [NSDictionary dictionaryWithObject:[GBPreferenceView class]
-                                     forKey:OEControlsPreferenceKey]];
     }
-}
-
-- (NSArray *)genericControlNames
-{
-    static NSArray *genericControlNames = nil;
-    if(genericControlNames == nil)
-    {
-        genericControlNames = [[NSArray alloc] initWithObjects:GBButtonNameTable
-                                                         count:8];
-    }
-    return genericControlNames;
 }
 
 - (NSUInteger)playerCount

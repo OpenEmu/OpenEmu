@@ -31,6 +31,7 @@
 #import <OERingBuffer.h>
 #import <OEHIDEvent.h>
 #import "GBAGameController.h"
+#import "OEGBASystemResponderClient.h"
 
 #include "Core/gba/GBA.h"
 #include "Core/gba/agbprint.h"
@@ -52,7 +53,7 @@
 #define SAMPLEFRAME (SAMPLERATE/60)
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
 
-@interface GBAGameEmu ()
+@interface GBAGameEmu () <OEGBASystemResponderClient>
 - (NSUInteger)GBA_buttonMaskForButton:(OEButton)gameButton;
 @end
 
@@ -288,19 +289,14 @@ OERingBuffer *ringBuffer = nil;
     return SAMPLERATE;
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)didPushGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
 {
-    return OEMakeEmulatorKey(thePlayer, GBAControlValues[index]);
+    _GBAButtons[player - 1] |=  (1 << button);
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)didReleaseGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
 {
-    _GBAButtons[aKey.player - 1] |= aKey.key;
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    _GBAButtons[aKey.player - 1] &= ~aKey.key;
+    _GBAButtons[player - 1] &= ~(1 << button);
 }
 
 - (NSUInteger)GBA_buttonMaskForButton:(OEButton)gameButton

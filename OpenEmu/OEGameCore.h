@@ -26,8 +26,8 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "OEMap.h"
 #import "OEGameCoreController.h"
+#import "OESystemResponderClient.h"
 
 #ifndef DLog
 
@@ -67,7 +67,7 @@ enum {
     OEButton_19,
     OEButton_20 // = 30
 };
-typedef NSInteger OEButton;
+typedef NSInteger OEButton DEPRECATED_ATTRIBUTE;
 
 typedef struct OEIntPoint {
     int x;
@@ -96,13 +96,13 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 
 @class OEHIDEvent, OERingBuffer;
 
-@interface OEGameCore : NSResponder <OESettingObserver>
+@interface OEGameCore : NSResponder <OESystemResponderClient, OESettingObserver>
 {
     NSThread              *emulationThread;
     NSTimeInterval         frameInterval;
     OEGameCoreController  *owner;
-    OEMapRef               keyMap;
     OERingBuffer         **ringBuffers;
+    //OEMapRef               keyMap;
     NSUInteger             frameSkip;
     NSUInteger             frameCounter;
     NSUInteger             tenFrameCounter;
@@ -124,6 +124,7 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 
 @property(assign)   OEGameCoreController *owner;
 @property(readonly) NSString             *pluginName;
+@property(readonly) NSString             *gameSystemName;
 @property(readonly) NSString             *supportDirectoryPath;
 @property(readonly) NSString             *batterySavesDirectoryPath;
 
@@ -143,15 +144,16 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 - (void)startEmulation;
 
 #pragma mark Tracking preference changes
+- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
+/*
 - (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey;
 - (void)unsetEventForKey:(NSString *)keyName withValueMask:(NSUInteger)keyMask;
-- (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
 - (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName;
 - (void)keyboardEventWasRemovedForKey:(NSString *)keyName;
 
 - (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName;
 - (void)HIDEventWasRemovedForKey:(NSString *)keyName;
-
+ */
 // ============================================================================
 // Abstract methods: Those methods should be overridden by subclasses
 // ============================================================================
@@ -186,17 +188,18 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 @property(readonly) NSUInteger  frameSampleRate;
 
 #pragma mark Lightgun/Pointer Support
-@property(readwrite) NSPoint mousePosition;
+@property(readwrite) NSPoint mousePosition DEPRECATED_ATTRIBUTE;
 
+/*
 #pragma mark Input Settings & Parsing
 - (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;
 - (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey;
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey;
-
+ */
 #pragma mark Input
-- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
-- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton;
+//- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
+//- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton;
 
 #pragma mark Save state - Optional
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName;

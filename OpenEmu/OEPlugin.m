@@ -26,7 +26,7 @@
  */
 
 #import "OEPlugin.h"
-
+#import <objc/runtime.h>
 
 @implementation NSObject (OEPlugin)
 + (BOOL)isPluginClass
@@ -37,20 +37,36 @@
 
 @implementation OEPlugin
 
-@synthesize infoDictionary, version, displayName, bundle;
+@synthesize infoDictionary, version, displayName, bundle, controller;
 
-static NSMutableDictionary *allPlugins = nil;
-static NSMutableDictionary *pluginFolders = nil;
-static NSMutableDictionary *needsReload = nil;
+static NSMutableDictionary *allPlugins       = nil;
+static NSMutableDictionary *pluginFolders    = nil;
+static NSMutableDictionary *needsReload      = nil;
+static NSMutableSet        *allPluginClasses = nil;
 
 + (void)initialize
 {
     if(self == [OEPlugin class])
     {
-        allPlugins    = [[NSMutableDictionary alloc] init];
-        pluginFolders = [[NSMutableDictionary alloc] init];
-        needsReload   = [[NSMutableDictionary alloc] init];
+        allPlugins       = [[NSMutableDictionary alloc] init];
+        pluginFolders    = [[NSMutableDictionary alloc] init];
+        needsReload      = [[NSMutableDictionary alloc] init];
+        allPluginClasses = [[NSMutableSet alloc] init];
     }
+}
+
++ (NSSet *)pluginClasses;
+{
+    return [[allPluginClasses copy] autorelease];
+}
+
++ (void)registerPluginClass:(Class)pluginClass;
+{
+    NSAssert1([pluginClass isPluginClass], @"Class %@ is not a subclass of OEPlugin.", pluginClass);
+    
+    [allPluginClasses addObject:pluginClass];
+    
+    [self pluginsForType:pluginClass];
 }
 
 + (NSString *)pluginType
@@ -128,6 +144,22 @@ static NSMutableDictionary *needsReload = nil;
         infoDictionary = [[bundle infoDictionary] retain];
         version        = [[infoDictionary objectForKey:@"CFBundleVersion"] retain];
         displayName    = ([[infoDictionary objectForKey:@"CFBundleName"] retain] ? : [[infoDictionary objectForKey:@"CFBundleExecutable"] retain]);
+        
+        Class principalClass = [[self bundle] principalClass];
+        
+        if(principalClass != Nil && ![principalClass conformsToProtocol:@protocol(OEPluginController)])
+        {
+            [self release];
+            return nil;
+        }
+        
+        controller = [self newPluginControllerWithClass:principalClass];
+        
+        if(controller == nil && principalClass != Nil)
+        {
+            [self release];
+            return nil;
+        }
     }
     return self;
 }
@@ -137,9 +169,15 @@ static NSMutableDictionary *needsReload = nil;
     [bundle         unload];
     [bundle         release];
     [version        release];
+    [controller     release];
     [displayName    release];
     [infoDictionary release];
     [super          dealloc];
+}
+
+- (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
+{
+    return [[bundleClass alloc] init];
 }
 
 static NSString *OE_pluginPathForNameType(NSString *aName, Class aType)
@@ -167,6 +205,11 @@ static NSString *OE_pluginPathForNameType(NSString *aName, Class aType)
     
     if(ret == nil) ret = [[NSBundle mainBundle] pathForResource:aName ofType:extension inDirectory:folderName];
     return ret;
+}
+
+- (NSString *)details
+{
+    return [NSString stringWithFormat:@"Version %@", [self version]];
 }
 
 - (NSString *)description
@@ -227,9 +270,11 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
     NSArray *ret = nil;
     if(self == [OEPlugin class])
     {
-        ret = [NSMutableArray array];
+        NSMutableArray *temp = [NSMutableArray array];
         for(Class key in allPlugins)
-            [(NSMutableArray *)ret addObjectsFromArray:[self pluginsForType:key]];
+            [temp addObjectsFromArray:[self pluginsForType:key]];
+        
+        ret = [[temp copy] autorelease];
     }
     else ret = [self pluginsForType:self];
     
@@ -261,6 +306,7 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
     // No plugin with such name, attempt to actually load the file at the given path
     if(ret == nil)
     {
+        [OEPlugin willChangeValueForKey:@"allPlugins"];
         [aType willChangeValueForKey:@"allPlugins"];
         NSBundle *theBundle = [NSBundle bundleWithPath:bundlePath];
         if(bundlePath != nil && theBundle != nil)
@@ -271,6 +317,7 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
         
         [plugins setObject:ret forKey:aName];
         [aType didChangeValueForKey:@"allPlugins"];
+        [OEPlugin didChangeValueForKey:@"allPlugins"];
     }
     
     if(ret == [NSNull null]) ret = nil;
@@ -288,4 +335,8 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
     return [self pluginWithBundleAtPath:OE_pluginPathForNameType(aName, aType) type:aType];
 }
 
+- (NSArray *)availablePreferenceViewControllerKeys
+{
+    return [controller availablePreferenceViewControllerKeys];
+}
 @end

@@ -27,7 +27,6 @@
 
 #import "GenPlusGameController.h"
 #import "GenPlusGameCore.h"
-#import "GenPlusPreferenceView.h"
 
 @implementation GenPlusGameController
 
@@ -35,20 +34,7 @@
 {
     if(self == [GenPlusGameController class])
     {
-        [self registerPreferenceViewControllerClasses:
-         [NSDictionary dictionaryWithObject:[GenPlusPreferenceView class]
-                                     forKey:OEControlsPreferenceKey]];
     }
-}
-
-- (NSArray *)genericControlNames
-{
-    static NSArray *genericControlNames = nil;
-    if(genericControlNames == nil)
-    {
-        genericControlNames = [[NSArray alloc] initWithObjects:GenesisButtonNameTable count:12];
-    }
-    return genericControlNames;
 }
 
 - (NSUInteger)playerCount

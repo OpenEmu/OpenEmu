@@ -79,13 +79,13 @@
 
 @property(retain) IBOutlet NSWindow *aboutWindow;
 
-@property(readonly) NSArray *filterNames;
-@property(readonly, retain) NSArray *plugins;
-@property(readwrite) BOOL gameLoaded;
-@property(readonly) NSString* appVersion;
-@property(readonly) NSAttributedString* projectURL;
-@property(readonly) NSString* aboutCreditsPath;
-@property(readonly) OEGameDocument *currentDocument;
+@property(readonly)         NSArray     *filterNames;
+@property(readonly, retain) NSArray     *plugins;
+@property(readwrite) BOOL                gameLoaded;
+@property(readonly)  NSString           *appVersion;
+@property(readonly)  NSAttributedString *projectURL;
+@property(readonly)  NSString           *aboutCreditsPath;
+@property(readonly)  OEGameDocument     *currentDocument;
 
 @property(readwrite, retain) NSMutableDictionary *filterDictionary;
 

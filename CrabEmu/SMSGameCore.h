@@ -27,7 +27,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OEGameCore.h>
-#import <OEHIDEvent.h>
 
 typedef enum SMSButtons {
     SMSPad1Up      = 0,
@@ -59,11 +58,7 @@ extern NSString *SMSButtonNameTable[];
     UInt16        *sndBuf;
     int            oldrun;
     int            position;
-    NSUInteger     buttons[SMSButtonCount];
-    NSUInteger     keycodes[SMSButtonCount];
     BOOL           paused;
 }
-
-- (BOOL)shouldPauseForButton:(NSInteger)button;
 
 @end
