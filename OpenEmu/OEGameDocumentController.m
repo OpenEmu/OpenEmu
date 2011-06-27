@@ -96,10 +96,6 @@
         [coreInstaller showWindow:self];
     }
     
-    
-    organizer = [[OEROMOrganizer alloc] init];
-    //[organizer showWindow:self];
-    
     [versionMigrator runMigrationIfNeeded];
 }
 
@@ -230,7 +226,6 @@
     [persistentStoreCoordinator release], persistentStoreCoordinator = nil;
     [managedObjectModel release], managedObjectModel = nil;
     
-    [organizer release], organizer = nil;
     [versionMigrator release], versionMigrator = nil;
     
     [super dealloc];
