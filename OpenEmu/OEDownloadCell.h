@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <AppKit/Appkit.h>
+#import <AppKit/AppKit.h>
 
 @interface OEDownloadCell : NSTextFieldCell
 @end
