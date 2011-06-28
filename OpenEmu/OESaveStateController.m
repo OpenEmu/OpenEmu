@@ -392,7 +392,7 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
 - (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
 { 
     if([item isKindOfClass:[OEROMFile class]])
-        return [item name];
+        return [(OEROMFile *)item name];
     else if([item isKindOfClass:[OESaveState class]])
         return [item imageSubtitle];
     return nil;

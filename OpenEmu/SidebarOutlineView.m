@@ -59,7 +59,7 @@
 
 - (void)highlightSelectionInClipRect:(NSRect)theClipRect{
 	NSWindow* win = [self window];
-	BOOL isActive = [win isMainWindow] && [win firstResponder]==self || [win firstResponder]==[SidebarFieldEditor fieldEditor];
+	BOOL isActive = ([win isMainWindow] && [win firstResponder]==self) || [win firstResponder]==[SidebarFieldEditor fieldEditor];
 	
 	NSColor* bottomLineColor;
 	NSColor* topLineColor;

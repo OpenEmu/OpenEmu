@@ -306,13 +306,6 @@
 		53439C2413B93920005C0CC8 /* dark_popup_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BD213B93920005C0CC8 /* dark_popup_button.png */; };
 		53439C2513B93920005C0CC8 /* dark_submenu_body.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BD313B93920005C0CC8 /* dark_submenu_body.png */; };
 		53439C2613B93920005C0CC8 /* gameplay_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BD413B93920005C0CC8 /* gameplay_tab_icon.png */; };
-		53439C2713B93920005C0CC8 /* hud_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BD513B93920005C0CC8 /* hud_bar.png */; };
-		53439C2813B93920005C0CC8 /* hud_close_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BD613B93920005C0CC8 /* hud_close_button.png */; };
-		53439C2913B93920005C0CC8 /* hud_glyphs.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BD713B93920005C0CC8 /* hud_glyphs.png */; };
-		53439C2A13B93920005C0CC8 /* hud_slider_level.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BD813B93920005C0CC8 /* hud_slider_level.png */; };
-		53439C2B13B93920005C0CC8 /* hud_slider_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BD913B93920005C0CC8 /* hud_slider_thumb.png */; };
-		53439C2C13B93920005C0CC8 /* hud_slider_track.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BDA13B93920005C0CC8 /* hud_slider_track.png */; };
-		53439C2D13B93920005C0CC8 /* hud_window.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BDB13B93920005C0CC8 /* hud_window.png */; };
 		53439C2E13B93920005C0CC8 /* library_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BDC13B93920005C0CC8 /* library_tab_icon.png */; };
 		53439C2F13B93920005C0CC8 /* mark_slider_thumb.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BDD13B93920005C0CC8 /* mark_slider_thumb.png */; };
 		53439C3013B93920005C0CC8 /* mark_slider_track.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BDE13B93920005C0CC8 /* mark_slider_track.png */; };
@@ -340,7 +333,6 @@
 		53439CB913B9503D005C0CC8 /* OpenEmuDatabaseTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 53439CB713B9503D005C0CC8 /* OpenEmuDatabaseTest.xcdatamodeld */; };
 		820376260F3974FD00EC2F97 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
-		82444BA80F51259A007C171B /* OEGameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* OEGameCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		824508BF0FEC8B2600F16307 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		8268432A1022606B0019C7B0 /* SaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 826843291022606B0019C7B0 /* SaveState.m */; };
 		826844C51022A0630019C7B0 /* smaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C31022A0630019C7B0 /* smaller.tif */; };
@@ -1057,13 +1049,6 @@
 		53439BD213B93920005C0CC8 /* dark_popup_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dark_popup_button.png; sourceTree = "<group>"; };
 		53439BD313B93920005C0CC8 /* dark_submenu_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dark_submenu_body.png; sourceTree = "<group>"; };
 		53439BD413B93920005C0CC8 /* gameplay_tab_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameplay_tab_icon.png; sourceTree = "<group>"; };
-		53439BD513B93920005C0CC8 /* hud_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_bar.png; sourceTree = "<group>"; };
-		53439BD613B93920005C0CC8 /* hud_close_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_close_button.png; sourceTree = "<group>"; };
-		53439BD713B93920005C0CC8 /* hud_glyphs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_glyphs.png; sourceTree = "<group>"; };
-		53439BD813B93920005C0CC8 /* hud_slider_level.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_slider_level.png; sourceTree = "<group>"; };
-		53439BD913B93920005C0CC8 /* hud_slider_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_slider_thumb.png; sourceTree = "<group>"; };
-		53439BDA13B93920005C0CC8 /* hud_slider_track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_slider_track.png; sourceTree = "<group>"; };
-		53439BDB13B93920005C0CC8 /* hud_window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_window.png; sourceTree = "<group>"; };
 		53439BDC13B93920005C0CC8 /* library_tab_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = library_tab_icon.png; sourceTree = "<group>"; };
 		53439BDD13B93920005C0CC8 /* mark_slider_thumb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mark_slider_thumb.png; sourceTree = "<group>"; };
 		53439BDE13B93920005C0CC8 /* mark_slider_track.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mark_slider_track.png; sourceTree = "<group>"; };
@@ -2259,13 +2244,6 @@
 				53439BD213B93920005C0CC8 /* dark_popup_button.png */,
 				53439BD313B93920005C0CC8 /* dark_submenu_body.png */,
 				53439BD413B93920005C0CC8 /* gameplay_tab_icon.png */,
-				53439BD513B93920005C0CC8 /* hud_bar.png */,
-				53439BD613B93920005C0CC8 /* hud_close_button.png */,
-				53439BD713B93920005C0CC8 /* hud_glyphs.png */,
-				53439BD813B93920005C0CC8 /* hud_slider_level.png */,
-				53439BD913B93920005C0CC8 /* hud_slider_thumb.png */,
-				53439BDA13B93920005C0CC8 /* hud_slider_track.png */,
-				53439BDB13B93920005C0CC8 /* hud_window.png */,
 				53439BDC13B93920005C0CC8 /* library_tab_icon.png */,
 				53439BDD13B93920005C0CC8 /* mark_slider_thumb.png */,
 				53439BDE13B93920005C0CC8 /* mark_slider_track.png */,
@@ -2754,7 +2732,6 @@
 				C68C4BE40FA4BA3E00724B50 /* OEHIDDeviceHandler.h in Headers */,
 				C6EB73FF136DF60100B39A6F /* OpenEmuBase.h in Headers */,
 				C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */,
-				82444BA80F51259A007C171B /* OEGameCore.h in Headers */,
 				C6EB73FC136DF5C200B39A6F /* OEPluginController.h in Headers */,
 				82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */,
 				C669163E0FC9BC3E007DE3D8 /* OEGameControllerView.h in Headers */,
@@ -2766,7 +2743,6 @@
 				82DD2B8D1236D0C400B58A8F /* OEHIDUsageToVK.h in Headers */,
 				93B479F812BAB576008618A7 /* OEHIDManager.h in Headers */,
 				C67B0CA91363369500F18A5D /* OESystemResponderClient.h in Headers */,
-				82444BA80F51259A007C171B /* OEGameCore.h in Headers */,
 				C6D268D6135BCE4900154550 /* NSString+OEAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3046,7 +3022,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "OpenEmu" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -3239,13 +3215,6 @@
 				53439C2413B93920005C0CC8 /* dark_popup_button.png in Resources */,
 				53439C2513B93920005C0CC8 /* dark_submenu_body.png in Resources */,
 				53439C2613B93920005C0CC8 /* gameplay_tab_icon.png in Resources */,
-				53439C2713B93920005C0CC8 /* hud_bar.png in Resources */,
-				53439C2813B93920005C0CC8 /* hud_close_button.png in Resources */,
-				53439C2913B93920005C0CC8 /* hud_glyphs.png in Resources */,
-				53439C2A13B93920005C0CC8 /* hud_slider_level.png in Resources */,
-				53439C2B13B93920005C0CC8 /* hud_slider_thumb.png in Resources */,
-				53439C2C13B93920005C0CC8 /* hud_slider_track.png in Resources */,
-				53439C2D13B93920005C0CC8 /* hud_window.png in Resources */,
 				53439C2E13B93920005C0CC8 /* library_tab_icon.png in Resources */,
 				53439C2F13B93920005C0CC8 /* mark_slider_thumb.png in Resources */,
 				53439C3013B93920005C0CC8 /* mark_slider_track.png in Resources */,
@@ -3917,7 +3886,6 @@
 		1BEF2A9611682A530090F72B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INSTALL_PATH = /usr/local/bin;
@@ -3930,7 +3898,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INSTALL_PATH = /usr/local/bin;
@@ -3942,7 +3909,6 @@
 		1BEF2D00116854660090F72B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "OpenEmuDebugHelperAppApp-Info.plist";
@@ -3954,7 +3920,6 @@
 		1BEF2D01116854660090F72B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "OpenEmuDebugHelperAppApp-Info.plist";
@@ -3973,7 +3938,6 @@
 		37C80303101564A300356EF3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build & Copy OpenEmuBase";
 			};
 			name = Release;
@@ -3981,7 +3945,6 @@
 		3887A7F81024D1FA000FC4CF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				INFOPLIST_FILE = "OESaveStateQLPlugin-Info.plist";
 				INSTALL_PATH = /Library/QuickLook;
 				PRODUCT_NAME = OESaveStateQLPlugin;
@@ -3992,7 +3955,6 @@
 		3887A7F91024D1FA000FC4CF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				INFOPLIST_FILE = "OESaveStateQLPlugin-Info.plist";
 				INSTALL_PATH = /Library/QuickLook;
 				PRODUCT_NAME = OESaveStateQLPlugin;
@@ -4008,7 +3970,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "OpenEmuBase-Info.plist";
@@ -4026,7 +3987,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
 				INFOPLIST_FILE = "OpenEmuBase-Info.plist";
@@ -4046,7 +4006,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OpenEmuQC_Prefix.pch;
 				INFOPLIST_FILE = "OpenEmuQC-Info.plist";
@@ -4067,7 +4026,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OpenEmuQC_Prefix.pch;
 				INFOPLIST_FILE = "OpenEmuQC-Info.plist";
@@ -4088,7 +4046,6 @@
 		828E65E50E8467E900B1860B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Copy & Build QC";
 			};
 			name = Release;
@@ -4103,7 +4060,6 @@
 		82BCA6040FEF092600DD3FC4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "OpenEmuQC Distribution";
 			};
 			name = Release;
@@ -4120,7 +4076,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = x86_64;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = Disribution;
 			};
 			name = Release;
@@ -4134,7 +4089,6 @@
 					"\"$(SRCROOT)\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
 				);
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
 				INFOPLIST_FILE = "OpenEmu-Info.plist";
@@ -4180,12 +4134,13 @@
 				);
 				GCC_PREPROCESSOR_DEFINITIONS_NOT_USED_IN_PRECOMPS = "";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -4201,11 +4156,12 @@
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = NS_BUILD_32_LIKE_64;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

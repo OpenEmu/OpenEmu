@@ -233,8 +233,8 @@
 }
 #pragma mark -
 - (NSRect)resizeRect{
-	const CGFloat resizeBoxSize = 11.0;
-	const CGFloat contentViewPadding = 2.0;
+	// unused // const CGFloat resizeBoxSize = 11.0;
+	// unused // const CGFloat contentViewPadding = 2.0;
 	
 	return NSMakeRect([self bounds].size.width-11, 0, 11, 11);
 }

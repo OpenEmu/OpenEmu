@@ -2151,9 +2151,9 @@ static void MyCFSocketCallback(CFSocketRef, CFSocketCallBackType, CFDataRef, con
 							{
 								buf = realloc(buf, result);
 							}
-							theCurrentReceive->buffer = [[NSData alloc] initWithBytesNoCopy:buf
+							theCurrentReceive->buffer = [[[NSData alloc] initWithBytesNoCopy:buf
 																					 length:result
-																			   freeWhenDone:YES];
+																			   freeWhenDone:YES] mutableCopy];
 							theCurrentReceive->host = [host retain];
 							theCurrentReceive->port = port;
 						}
@@ -2185,9 +2185,9 @@ static void MyCFSocketCallback(CFSocketRef, CFSocketCallBackType, CFDataRef, con
 							{
 								buf = realloc(buf, result);
 							}
-							theCurrentReceive->buffer = [[NSData alloc] initWithBytesNoCopy:buf
+							theCurrentReceive->buffer = [[[NSData alloc] initWithBytesNoCopy:buf
 																					 length:result
-																			   freeWhenDone:YES];
+																			   freeWhenDone:YES] mutableCopy];
 							theCurrentReceive->host = [host retain];
 							theCurrentReceive->port = port;
 						}

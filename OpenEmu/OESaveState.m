@@ -26,6 +26,7 @@
  */
 
 #import "OESaveState.h"
+#import "OEROMFile.h"
 
 @interface OESaveState ()
 - (void)_OE_writeDataToPlist;

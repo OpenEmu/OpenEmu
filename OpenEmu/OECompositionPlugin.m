@@ -134,7 +134,7 @@ static NSMutableDictionary *plugins = nil;
 - (BOOL)isEqual:(id)object
 {
     if([object isKindOfClass:[OECompositionPlugin class]])
-        return [[self name] isEqualToString:[object name]];
+        return [[self name] isEqualToString:[(OECompositionPlugin *)object name]];
     else if([object isKindOfClass:[NSString class]])
         return [[self name] isEqualToString:object];
     return [super isEqual:object];
