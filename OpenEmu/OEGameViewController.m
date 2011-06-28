@@ -12,12 +12,12 @@
 #import "OECorePlugin.h"
 #import "OEGameLayer.h"
 #import "OEGameView.h"
-#import "GameCore.h"
+#import "OEGameCore.h"
 
 #import "NSApplication+OEHIDAdditions.h"
 #import "OEHIDEvent.h"
 #import "OEGameCoreController.h"
-#import "GameQTRecorder.h"
+#import "OEGameQTRecorder.h"
 #import "OECorePickerController.h"
 #import "OEGameCoreManager.h"
 
