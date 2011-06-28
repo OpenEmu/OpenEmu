@@ -812,7 +812,7 @@
 		3887A8961024D796000FC4CF /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
 		53439A8113B92B70005C0CC8 /* OEGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameViewController.h; sourceTree = "<group>"; };
 		53439A8213B92B70005C0CC8 /* OEGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameViewController.m; sourceTree = "<group>"; };
-		53439A8313B92B70005C0CC8 /* OEGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = OEGameViewController.xib; path = ../../../OpenEmuCyco/OpenEmu/OpenEmu/OEGameViewController.xib; sourceTree = "<group>"; };
+		53439A8313B92B70005C0CC8 /* OEGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEGameViewController.xib; sourceTree = "<group>"; };
 		53439A8A13B92C4A005C0CC8 /* LibraryDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryDatabase.h; sourceTree = "<group>"; };
 		53439A8B13B92C4A005C0CC8 /* LibraryDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryDatabase.m; sourceTree = "<group>"; };
 		53439A8E13B92C68005C0CC8 /* OEDBDataSourceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBDataSourceAdditions.h; sourceTree = "<group>"; };
@@ -2988,20 +2988,20 @@
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
 				1BEF2A9311682A530090F72B /* OpenEmuHelperApp */,
 				1BEF2CFC116854650090F72B /* OpenEmuDebugHelperAppApp */,
-				82C9C96F0F080C7F0071460B /* Distribution */,
 				828E65970E8466A100B1860B /* OpenEmuQC */,
-				828E65E30E8467E900B1860B /* Build & Copy OpenEmuQC */,
 				82444BA00F51256C007C171B /* OpenEmuBase */,
-				82BCA6020FEF092600DD3FC4 /* OpenEmuQC Distribution */,
-				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
-				3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */,
 				C67117ED136367240034379A /* OpenEmuSystem */,
+				3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */,
 				C671180E136368330034379A /* SegaMasterSystem */,
 				C64BB08C136478E600C1AB23 /* NES */,
 				C6480FC013648F670094FA33 /* SuperNES */,
 				C6B947AE1364ECA600A425F0 /* GameBoy */,
 				C6B947E51365080B00A425F0 /* Genesis */,
 				C646574713771F12002A4F70 /* GameBoy Advance */,
+				82C9C96F0F080C7F0071460B /* Distribution */,
+				828E65E30E8467E900B1860B /* Build & Copy OpenEmuQC */,
+				82BCA6020FEF092600DD3FC4 /* OpenEmuQC Distribution */,
+				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 			);
 		};
 /* End PBXProject section */
