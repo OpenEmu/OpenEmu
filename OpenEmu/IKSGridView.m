@@ -677,7 +677,7 @@ typedef enum {
 	self.draggedLayer = nil;
 	
 	NSPoint location = [self convertPoint:[sender draggingLocation] fromView:nil];
-	CALayer* dragLayer = [self _layerAtPoint:location];
+	CALayer <IKSGridItemLayerDragProtocol> * dragLayer = (CALayer <IKSGridItemLayerDragProtocol> *) [self _layerAtPoint:location];
 	
 	if([dragLayer isKindOfClass:[IKSGridItemLayer class]] &&
 	   NSPointInRect(location, [(IKSGridItemLayer*)dragLayer hitRect])){
@@ -698,7 +698,7 @@ typedef enum {
 	self.dragIndicationLayer.hidden = YES;
 	
 	if(self.draggedLayer){
-		[self.draggedLayer draggingExited:sender];
+		[(CALayer <IKSGridItemLayerDragProtocol> *)self.draggedLayer draggingExited:sender];
 		self.draggedLayer = nil;
 		return;
 	}
@@ -709,13 +709,13 @@ typedef enum {
 	NSPoint location = [self convertPoint:[sender draggingLocation] fromView:nil];
 	if(self.draggedLayer){		
 		if(NSPointInRect(location, [self.draggedLayer frame])){
-			NSDragOperation layerOp = [self.draggedLayer draggingUpdated:sender];
+			NSDragOperation layerOp = [(CALayer <IKSGridItemLayerDragProtocol> *)self.draggedLayer draggingUpdated:sender];
 			if(layerOp!=NSDragOperationNone){
 				self.dragIndicationLayer.hidden = YES;
 				return layerOp;
 			}
 		}
-		[self.draggedLayer draggingExited:sender];
+		[(CALayer <IKSGridItemLayerDragProtocol> *)self.draggedLayer draggingExited:sender];
 	}
 	
 	CALayer* dragLayer = [self _layerAtPoint:location];
@@ -723,7 +723,7 @@ typedef enum {
 	   NSPointInRect(location, [(IKSGridItemLayer*)dragLayer hitRect])){
 		self.draggedLayer = (IKSGridItemLayer*)dragLayer;
 		
-		NSDragOperation layerOp = [dragLayer draggingEntered:sender];
+		NSDragOperation layerOp = [(CALayer <IKSGridItemLayerDragProtocol> *)dragLayer draggingEntered:sender];
 		if(layerOp!=NSDragOperationNone){
 			self.dragIndicationLayer.hidden = YES;	
 			return layerOp;
@@ -743,7 +743,7 @@ typedef enum {
 }
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender{
-	if(self.draggedLayer) return [self.draggedLayer performDragOperation:sender];
+	if(self.draggedLayer) return [(CALayer <IKSGridItemLayerDragProtocol> *)self.draggedLayer performDragOperation:sender];
 	
 	self.dragIndicationLayer.hidden = YES;
 	
