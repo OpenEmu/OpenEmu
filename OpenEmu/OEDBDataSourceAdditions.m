@@ -151,7 +151,7 @@
 }
 
 - (NSString*)listViewConsoleName{
-	return [[self valueForKey:@"system"] valueForKey:@"name"];
+    return NSLocalizedString([[self valueForKey:@"system"] valueForKey:@"name"], @"");
 }
 
 - (void)setGridViewRating:(NSNumber*)number{
@@ -165,7 +165,7 @@
 	return self.icon;
 }
 - (NSString*)sidebarName{
-    return [self valueForKey:@"name"];
+    return NSLocalizedString([self valueForKey:@"name"], @"");
 }
 
 - (void)setSidebarName:(NSString*)newName{

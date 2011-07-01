@@ -51,8 +51,8 @@
     // Fourth row (top):
     [consoleIcons setName:@"Arcade (MAME)" forSubimageInRect:NSMakeRect(0, 48, 16, 16)];	
     [consoleIcons setName:@"Atari 2600" forSubimageInRect:NSMakeRect(16, 48, 16, 16)];	
-    [consoleIcons setName:@"Nintendo (NES)" forSubimageInRect:NSMakeRect(32, 48, 16, 16)]; // eu / us, load only for locale????
-    [consoleIcons setName:@"Famicom" forSubimageInRect:NSMakeRect(48, 48, 16, 16)]; // jap, load only for locale????
+    [consoleIcons setName:@"Nintendo (NES)" forSubimageInRect:NSMakeRect(32, 48, 16, 16)]; // eu / us
+    [consoleIcons setName:@"Famicom" forSubimageInRect:NSMakeRect(48, 48, 16, 16)]; // jap
 }
 
 - (id)init{
@@ -463,6 +463,34 @@
     NSString* name = [[[path lastPathComponent] lastPathComponent] stringByDeletingPathExtension];
     [newGame setValue:name forKey:@"name"];
     [newGame setValue:system forKey:@"system"];
+    req = [[[NSFetchRequest alloc] init] autorelease];
+    NSEntityDescription* entity = [NSEntityDescription entityForName:@"ROMFile" inManagedObjectContext:context];
+    [req setEntity:entity];
+    [req setFetchLimit:1];
+    
+    pred = [NSPredicate predicateWithFormat:@"path == %@", path];
+    [req setPredicate:pred];
+    
+    
+    id fetchResult = [context executeFetchRequest:req error:&error];
+    if(error!=nil){
+	  // TODO: decide if we really want to bother the user with this error
+	  [NSApp presentError:error];
+	  return;
+    }
+    
+    NSManagedObject* romFile;
+    if(fetchResult && [fetchResult count]!=0){
+	  NSLog(@"file already exists in db, skipping it!");
+	  return;
+    }
+    
+    romFile = [NSEntityDescription insertNewObjectForEntityForName:@"ROMFile" inManagedObjectContext:context];
+    
+    
+    // create roms from path, copy to database folder?
+    // add multiple roms from archive
+    
     if(collection!=nil){
 	  [[collection valueForKey:@"games"] addObject:newGame];
     }

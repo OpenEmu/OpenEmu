@@ -66,7 +66,7 @@
 	// We make sure that there is at least one column, otherwise it will attempt to divide by zero (EXC_ARITHMETIC)
 	// Calculate rows by taking the total number of layers / number of columns and rounding it to the highest integer
 	//
-	NSUInteger columns = floor((self.visibleRect.size.width - self.minimumSpacing.width) / paddedSize.width);
+	NSInteger columns = floor((self.visibleRect.size.width - self.minimumSpacing.width) / paddedSize.width);
 	if (columns < 1) { columns = 1; } // Make sure there's at least one column, otherwise it will divide by zero
 	NSUInteger rows = ceil((CGFloat)numberOfItems / (CGFloat)columns);
 	

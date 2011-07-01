@@ -17,6 +17,7 @@
 
 #import "ListViewDataSourceItem.h"
 #import "OERatingCell.h"
+#import "OEHorizontalSplitView.h"
 @interface CollectionViewController (Private)
 - (void)_reloadData;
 - (void)_selectView:(int)view;

@@ -54,7 +54,7 @@ static NSUInteger lastDeviceNumber = 0;
 - (id)initWithDevice:(IOHIDDeviceRef)aDevice
 {
     self = [super init];
-    if(self != nil)
+    if(self)
     {
         mapTable = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsOpaqueMemory | NSPointerFunctionsIntegerPersonality valueOptions:NSPointerFunctionsObjectPersonality capacity:10];
         

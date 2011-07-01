@@ -11,7 +11,13 @@
 
 @interface OEHorizontalSplitView : NSSplitView {
 @private
+    BOOL resizesLeftView;
+    BOOL _hidingLeftView;
+    
+    NSPoint lastMousePoint;
     
 }
-
+- (void)setSplitterPosition:(CGFloat)newPosition animated:(BOOL)animatedFlag;
+- (float)splitterPosition;
+@property BOOL resizesLeftView;
 @end

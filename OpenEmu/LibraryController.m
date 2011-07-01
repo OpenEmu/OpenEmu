@@ -168,8 +168,7 @@
     if(result != NSOKButton) return;
     
     NSError* error = nil;
-    NSString* path = [panel filename];
-    NSURL* fileURL = [NSURL fileURLWithPath:path];
+    NSURL* fileURL = [panel URL];
     
     gameViewController = [[OEGameViewController alloc] init];
     
@@ -184,7 +183,12 @@
     [collectionViewController willHide];
     
     NSView* gameDocView = [gameViewController view];
-    [mainSplitView replaceRightContentViewWithView:gameDocView animated:NO];    
+    [[mainSplitView superview] addSubview:gameDocView];
+    
+    NSRect frame = [[mainSplitView superview] bounds];
+    frame.origin.y += 45; // Toolbar Height+1px black line;
+    frame.size.height -= 45;
+    [gameDocView setFrame:frame];
     [[self window] makeFirstResponder:[[gameDocView subviews] objectAtIndex:0]];
 }
 

@@ -71,7 +71,8 @@
 // Do basic initialization
 - (id)initWithController: (id <OETaskWrapperController>)cont arguments: (NSArray *)args userInfo: (id)someInfo
 {
-    if ([super init]) {
+    self = [super init];
+    if (self) {
         controller = cont;
         arguments  = [args retain];
         userInfo   = [someInfo retain];

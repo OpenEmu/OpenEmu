@@ -1,30 +1,62 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<array>
-	<dict>
+    <array>
+	  <dict>
 		<key>archiveID</key>
-		<integer>33</integer>
+		<integer>49</integer>
 		<key>name</key>
-		<string>GameBoy Advance</string>
+		<string>Game Boy</string>
+		<key>shortname</key>
+		<string>gameboy</string>
+	  </dict>
+	  <dict>
+		<key>archiveID</key>
+		<integer>85</integer>
+		<key>name</key>
+		<string>Game Boy Advance</string>
 		<key>shortname</key>
 		<string>gba</string>
-	</dict>
-	<dict>
+	  </dict>
+	  <dict>
+		<key>archiveID</key>
+		<integer>67</integer>
+		<key>name</key>
+		<string>Game Boy Color</string>
+		<key>shortname</key>
+		<string>gbc</string>
+	  </dict>
+	  <dict>
+		<key>archiveID</key>
+		<integer>86</integer>
+		<key>name</key>
+		<string>GameCube</string>
+		<key>shortname</key>
+		<string>gamecube</string>
+	  </dict>
+	  <dict>
 		<key>archiveID</key>
 		<integer>32</integer>
 		<key>name</key>
-		<string>Super Nintendo (SNES)</string>
+		<string>NES</string>
+		<key>shortname</key>
+		<string>nes</string>
+	  </dict>
+	  <dict>
+		<key>archiveID</key>
+		<integer>47</integer>
+		<key>name</key>
+		<string>SNES</string>
 		<key>shortname</key>
 		<string>snes</string>
-	</dict>
-	<dict>
+	  </dict>
+	  <dict>
 		<key>archiveID</key>
-		<integer>87</integer>
+		<integer>82</integer>
 		<key>name</key>
-		<string>Nintendo 64</string>
+		<string>VirtualBoy</string>
 		<key>shortname</key>
-		<string>n64</string>
-	</dict>
-</array>
+		<string>virtualboy</string>
+	  </dict>
+    </array>
 </plist>

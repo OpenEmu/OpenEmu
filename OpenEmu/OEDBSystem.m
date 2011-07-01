@@ -22,7 +22,8 @@
 }
 #pragma mark -
 - (NSImage*)icon{
-    NSImage* image = [NSImage imageNamed:[self valueForKey:@"name"]];
+    NSString* locName = NSLocalizedString([self valueForKey:@"name"], @"");
+    NSImage* image = [NSImage imageNamed:locName];
         
     return image;
 }

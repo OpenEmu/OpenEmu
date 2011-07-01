@@ -10,11 +10,11 @@
 #import "IKSGridView.h"
 #import "IKSGridViewProtocols.h"
 #import "IKImageFlowView.h"
-#import "LibrarySplitView.h"
 
 #import "CollectionViewItemProtocol.h"
 
 @class LibraryDatabase;
+@class OEHorizontalSplitView;
 @interface CollectionViewController : NSViewController <IKSGridViewDelegate, IKSGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource>{
 @private
     LibraryDatabase	* database;
@@ -25,7 +25,7 @@
     IBOutlet NSView			* gridViewContainer;	// gridview
     IBOutlet IKSGridView		* gridView;			// scrollview for gridview
     
-    IBOutlet LibrarySplitView		* flowlistViewContainer; // cover flow and simple list container
+    IBOutlet OEHorizontalSplitView	* flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView		* coverFlowView;
     IBOutlet NSTableView			* listView;
     
