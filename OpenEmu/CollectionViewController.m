@@ -55,20 +55,35 @@
 
 - (void)dealloc{
     [collectionItem release], collectionItem = nil;
-    [gamesController release];
+    [gamesController release], gamesController = nil;
     
     [super dealloc];
 }
 #pragma mark -
 #pragma mark View Controller Stuff
-- (void)awakeFromNib{
-    NSLog(@"CollectionViewController did awake");
-    
+- (void)awakeFromNib{}
+
+- (NSString*)nibName{
+    return @"CollectionViewController";
+}
+
+- (void)finishSetup{
+	if(gamesController!=nil) return;
+	
     // Set up games controller
     gamesController = [[NSArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
-    [gamesController setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
-    
+	[gamesController setAutomaticallyPreparesContent:YES];
+	
+	NSManagedObjectContext* context = [self.database managedObjectContext];
+	//	[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
+	
+	[gamesController setManagedObjectContext:context];
+	[gamesController setEntityName:@"Game"];
+	[gamesController setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+	[gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
+    [gamesController prepareContent];
+	
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     
@@ -92,10 +107,10 @@
     [gridView addBackgroundLayer:backgroundLayer];
     
     //set initial zoom value
-// TODO: Restore last slider value!
+	// TODO: Restore last slider value!
     [sizeSlider setContinuous:YES];
     [self changeGridSize:sizeSlider];
-
+	
     // set up flow view
     [coverFlowView setDelegate:self];
     [coverFlowView setDataSource:self];
@@ -104,13 +119,11 @@
     [listView setDelegate:self];	
     [listView setDataSource:self];
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+	
+	[self selectGridView:self];
+	
+	[self _reloadData];
 }
-
-
-- (NSString*)nibName{
-    return @"CollectionViewController";
-}
-
 #pragma mark -
 #pragma mark View Selection
 - (IBAction)selectGridView:(id)sender{
@@ -165,7 +178,7 @@
     if(!nextView || [nextView superview]!=nil)
 	  return;
     
-    if([[[self view] subviews] count]!=0){
+    while([[[self view] subviews] count]!=0){
 	  NSView* currentSubview = [[[self view] subviews] objectAtIndex:0];
 	  [currentSubview removeFromSuperview];
     }
@@ -458,36 +471,15 @@
 #pragma mark -
 #pragma mark Private
 - (void)_reloadData{
-    if([noCollectionSelectedView superview]) [noCollectionSelectedView removeFromSuperview];
-    if([noItemsInCollectionView superview]) [noItemsInCollectionView removeFromSuperview];
-    
-    for(NSView* aView in [[self view] subviews]){
-	  [aView setHidden:YES];
-    }
-    
-    if(!collectionItem){	  
-	  [[self view] addSubview:noCollectionSelectedView];
-	  [noCollectionSelectedView setFrame:[[self view] bounds]];
-	  return;
-    } else if([[collectionItem items] count]==0){ // if collection is empty:
-	  [[self view] addSubview:noItemsInCollectionView];
-	  [noCollectionSelectedView setFrame:[[self view] bounds]];
-	  return;
-    }
-    
-    for(NSView* aView in [[self view] subviews]){
-	  [aView setHidden:NO];
-    }
-    
-    [gamesController removeObjects:[gamesController arrangedObjects]];
-    id objects = [collectionItem items];
-    [gamesController addObjects:objects];
-    
-    
+	NSPredicate* pred = [self.collectionItem predicate];
+	[gamesController setFetchPredicate:pred];
+	[gamesController fetch:self];
+	
     [gridView reloadData];
     [listView reloadData];
     [coverFlowView reloadData];
 }
+
 #pragma mark -
 #pragma mark Debug Actions
 /*

@@ -9,8 +9,9 @@
 #import "LibraryDatabase.h"
 
 #import "NSImage+OEDrawingAdditions.h"
-#import "OEDBAllGamesCollection.h"
 
+#import "OEDBAllGamesCollection.h"
+#import "OEDBSystem.h"
 #define OEDatabaseFileName @"OpenEmuDatabaseTest.storedata"
 
 #define UDDatabasePathKey @"databasePath"
@@ -184,6 +185,113 @@
 }
 #pragma mark -
 #pragma mark Database queries
+- (NSArray*)systems{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    
+    NSEntityDescription* descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
+    NSFetchRequest* req = [[NSFetchRequest alloc] init];
+    [req setEntity:descr];
+    
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
+    [req setSortDescriptors:[NSArray arrayWithObject:sort]];
+    [sort release];
+    
+    NSError* error = nil;
+	
+    id result = [context executeFetchRequest:req error:&error];
+    [req release];
+    if(!result){
+		NSLog(@"systems: Error: %@", error);
+		return nil;
+    }
+    return result;
+}
+
+- (OEDBSystem*)systemForFile:(NSString*)filePath{
+	NSString* suffix = [[filePath pathExtension] lowercaseString];
+
+	NSInteger systemID = -1;
+	
+	if(FALSE){
+	} else if([suffix isEqualToString:@"jag"] || [suffix isEqualToString:@"j64"]){
+		// Atari Jaguar
+		systemID = 76;
+	}  else if([suffix isEqualToString:@"vb"]){
+		// Virtual Boy
+		systemID = 82;
+	} else if([suffix isEqualToString:@"nds"]){
+		// Nintendo DS
+	} else if([suffix isEqualToString:@"gb"]){
+		// Game Boy
+		systemID = 49;
+	} else if([suffix isEqualToString:@"gbc"]){
+		// Game Boy Color
+		systemID = 67;
+	} else if([suffix isEqualToString:@"gba"]){
+		// Game Boy Advance
+		systemID = 85;
+	} else if([suffix isEqualToString:@"n64"] || [suffix isEqualToString:@"v64"]
+		   || [suffix isEqualToString:@"z64"] || [suffix isEqualToString:@"u64"]){
+		// Nintendo 64
+		systemID = 66;
+	} else if([suffix isEqualToString:@"nes"]){
+		// Nintendo Entertainment System
+		systemID = 32;
+	} else if([suffix isEqualToString:@"fds"]){
+		// Famicom Disk System
+		systemID = 36;
+	} else if([suffix isEqualToString:@"gg"]){
+		// Sega Game Gear
+		systemID = 55;
+	} else if([suffix isEqualToString:@"sms"]){
+		// Sega Master System
+		systemID = 34;
+	} else if([suffix isEqualToString:@"smd"]){
+		// Sega Mega Drive / Sega Genesis
+		systemID = 48;
+	} else if([suffix isEqualToString:@"smc"] || [suffix isEqualToString:@"snes"]
+		   || [suffix isEqualToString:@"fig"]){
+		// Super Nintendo Entertainment System
+		systemID = 47;
+	} else if([suffix isEqualToString:@"oce"]){
+		// TurboGrafx-16 / PC Engine
+		systemID = 64;
+	} else if([suffix isEqualToString:@"npc"]){
+		// Neo Geo Pocket
+		systemID = 94;
+	} else if([suffix isEqualToString:@"tzx"]){
+		// ZX Spectrum
+		systemID = 45;
+	} else if([suffix isEqualToString:@"t64"] || [suffix isEqualToString:@"d64"]
+		   || [suffix isEqualToString:@"crt"]){
+		// Commodore 64
+		systemID = 33;
+		// T64 magic 43363453207461706520696D6167652066696C65
+		// crt magic: 43363420434152545249444745
+	} else if([suffix isEqualToString:@"adf"] || [suffix isEqualToString:@"adz"]){
+		// Amiga
+		systemID = 53;
+	}
+
+	NSManagedObjectContext* context = [self managedObjectContext];	
+	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"System"];
+	[fetchRequest setFetchLimit:1];
+	
+	NSPredicate* predicate = [NSPredicate predicateWithFormat:@"archiveID == %ld", systemID];
+	[fetchRequest setPredicate:predicate];
+	
+	NSError* error = nil;
+	NSArray* fetchResult = [context executeFetchRequest:fetchRequest error:&error];
+	if(error!=nil){
+		NSLog(@"Could not get System!");
+		[NSApp presentError:error];
+		return nil;
+	}
+		
+	NSLog(@"%@ => %ld", suffix, systemID);
+	return [fetchResult lastObject];
+}
+
 - (NSInteger)systemsCount{
     NSManagedObjectContext *context = [self managedObjectContext];
     
@@ -206,32 +314,9 @@
     return count;
 }
 
-- (NSArray*)systems{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    
-    NSEntityDescription* descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
-    NSFetchRequest* req = [[NSFetchRequest alloc] init];
-    [req setEntity:descr];
-    
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
-    [req setSortDescriptors:[NSArray arrayWithObject:sort]];
-    [sort release];
-    
-    NSError* error = nil;
-    id result = [context executeFetchRequest:req error:&error];
-    [req release];
-    if(!result){
-	  NSLog(@"systems: Error: %@", error);
-	  return nil;
-    }
-    return result;
-}
-
 - (NSUInteger)collectionsCount{
     NSUInteger count = 1;
     NSManagedObjectContext *context = [self managedObjectContext];
-    
-    
     
     NSEntityDescription* descr = [NSEntityDescription entityForName:@"SmartCollection" inManagedObjectContext:context];
     NSFetchRequest* req = [[NSFetchRequest alloc] init];
@@ -260,14 +345,12 @@
     }
     count += ccount;
     
-    
     return count;
 }
 
 - (NSArray*)collections{
     NSManagedObjectContext *context = [self managedObjectContext];
     NSMutableArray* collectionsArray = [NSMutableArray array];
-    
     
     // insert "all games" item here !
     OEDBAllGamesCollection* allGamesCollections = [[OEDBAllGamesCollection alloc] init];
@@ -284,6 +367,7 @@
     [req setEntity:descr];
     
     NSError* error = nil;
+	
     id result = [context executeFetchRequest:req error:&error];
     if(!result){
 	  [req release];
@@ -295,7 +379,6 @@
     descr = [NSEntityDescription entityForName:@"Collection" inManagedObjectContext:context];
     [req setEntity:descr];
     
-    error = nil;
     result = [context executeFetchRequest:req error:&error];
     [req release];
     if(!result){
@@ -408,6 +491,34 @@
 
 #pragma mark -
 #pragma mark Database Game editing
+- (BOOL)isFileInDatabaseWithPath:(NSString*)path hash:(NSString*)hash error:(NSError**)error{
+	NSManagedObjectContext *context = [self managedObjectContext];
+    NSFetchRequest* fetchReq;
+	NSEntityDescription* entityDesc;
+	NSPredicate* predicate;
+	
+	// check if game is already in database
+	// TODO: also use crc or md5 to check
+	entityDesc = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+	predicate = [NSPredicate predicateWithFormat:@"path == %@", path];
+	
+	fetchReq = [[NSFetchRequest alloc] init];
+	[fetchReq setFetchLimit:1];
+	[fetchReq setEntity:entityDesc];
+	[fetchReq setPredicate:predicate];
+	
+	NSUInteger count = [context countForFetchRequest:fetchReq error:error];
+	if(*error != nil){
+		NSLog(@"Error while checking if file is included.");
+		[NSApp presentError:*error];
+		[fetchReq release];
+		return FALSE;
+	}
+	[fetchReq release];
+
+	return count!=0;
+}
+
 - (void)addGamesFromPath:(NSString*)path toCollection:(NSManagedObject*)collection searchSubfolders:(BOOL)subfolderFlag{
     NSFileManager* fileManager = [NSFileManager defaultManager];
     BOOL isDir = NO;
@@ -430,66 +541,77 @@
 	  return;
     }
     
-    // File exists, is not directory...
     NSManagedObjectContext *context = [self managedObjectContext];
-    
-    // TODO: check if game is already in database
-    // TODO: find out which system this game belongs to
-    // if ther is none, return
-    NSEntityDescription* systemDescription = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
-    NSFetchRequest* req = [[[NSFetchRequest alloc] init] autorelease];
-    [req setEntity:systemDescription];
-    [req setFetchLimit:1];
-    [req setPropertiesToFetch:nil];
-    
-    NSPredicate* pred = [NSPredicate predicateWithFormat:@"name == %@", @"Nintendo 64"];
-    [req setPredicate:pred];
-    
-    NSError* error = nil;
-    id systemResult = [context executeFetchRequest:req error:&error];
-    
-    if(error!=nil){
-	  // TODO: decide if we really want to bother the user with this
-	  [NSApp presentError:error];
-	  return;
-    }
-    
-    NSManagedObject* system = [systemResult objectAtIndex:0];
-    if(system==nil) return;
+    NSFetchRequest* fetchReq;
+	id fetchResult;
+	NSEntityDescription* entityDesc;
+	NSPredicate* predicate;
+	NSError* error = nil;
+	
+	BOOL isInDatabase = [self isFileInDatabaseWithPath:path hash:nil error:&error];
+	if(isInDatabase){
+		NSLog(@"File is already in Databse.");
+		return;
+	}
+	
+	if(error!=nil){
+		// TODO: decide if we really want to bother the user with this
+		[NSApp presentError:error];
+		return;
+	}
+
+    // Detect file format
+	NSString* fileSuffix = [path pathExtension];
+	if([fileSuffix isEqualToString:@"zip"]){ // extract files
+		// TODO: ask user preferences if we are allowed to take archives apart for storage
+		// add files recursively
+		NSLog(@"Found zip archive, pretend to extract ...");
+		return;
+	} else if([fileSuffix isEqualToString:@"7z"]){ // extract files
+		// TODO: ask user preferences if we are allowed to take archives apart for storage
+		// add files recursively
+		NSLog(@"Found 7z archive, pretend to extract ...");
+		return;
+	}
+	
+	// TODO: find out which system this game belongs to
+	NSManagedObject* system = [self systemForFile:path];
+	if(system == nil){
+		NSLog(@"Unkown system!");	
+		return;
+	}
+	
+	// copy file to database
+	// TODO: ask user preferences if this step is necessary
+	BOOL copyFilesToDatabaseFolder;
+	NSString* finalPath = nil;
+	if(copyFilesToDatabaseFolder){
+		// TODO: get database folder path
+		NSString* databaseFolder = @"";
+		// TODO: localize unsorted folder name
+		NSString* unsortedFolderName = @"unsorted";
+		finalPath = [NSString stringWithFormat:@"%@/%@", databaseFolder, unsortedFolderName];
+		BOOL copySuccess = NO; //[fileManager copyItemAtPath:path toPath:finalPath error:&error];
+		if(!copySuccess){
+			NSLog(@"Could not copy file to database folder!");
+			[NSApp presentError:error];
+			return;
+		}
+	} else {
+		finalPath = path;
+	}
     
     NSManagedObject *newGame = [NSEntityDescription insertNewObjectForEntityForName:@"Game" inManagedObjectContext:context];
     
-    NSString* name = [[[path lastPathComponent] lastPathComponent] stringByDeletingPathExtension];
+    NSString* name = [[finalPath lastPathComponent] stringByDeletingPathExtension];
     [newGame setValue:name forKey:@"name"];
     [newGame setValue:system forKey:@"system"];
-    req = [[[NSFetchRequest alloc] init] autorelease];
-    NSEntityDescription* entity = [NSEntityDescription entityForName:@"ROMFile" inManagedObjectContext:context];
-    [req setEntity:entity];
-    [req setFetchLimit:1];
-    
-    pred = [NSPredicate predicateWithFormat:@"path == %@", path];
-    [req setPredicate:pred];
-    
-    
-    id fetchResult = [context executeFetchRequest:req error:&error];
-    if(error!=nil){
-	  // TODO: decide if we really want to bother the user with this error
-	  [NSApp presentError:error];
-	  return;
-    }
-    
-    NSManagedObject* romFile;
-    if(fetchResult && [fetchResult count]!=0){
-	  NSLog(@"file already exists in db, skipping it!");
-	  return;
-    }
-    
-    romFile = [NSEntityDescription insertNewObjectForEntityForName:@"ROMFile" inManagedObjectContext:context];
-    
-    
-    // create roms from path, copy to database folder?
-    // add multiple roms from archive
-    
+	
+	NSManagedObject* rom = [NSEntityDescription insertNewObjectForEntityForName:@"ROM" inManagedObjectContext:context];
+	[rom setValue:finalPath forKey:@"path"];
+	[[newGame valueForKey:@"roms"] addObject:rom];
+	
+	// TODO: initiate archive sync
     if(collection!=nil){
 	  [[collection valueForKey:@"games"] addObject:newGame];
     }

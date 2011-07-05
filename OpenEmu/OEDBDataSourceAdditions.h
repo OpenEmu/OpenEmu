@@ -46,30 +46,30 @@
 - (NSString*)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (BOOL)removingGamesDeletesThem;
-- (NSArray*)items;
+- (NSPredicate*)predicate;
 @end
 
 @interface OEDBCollection (OECollectionViewItemAdditions) <CollectionViewItemProtocol>
 - (NSString*)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (BOOL)removingGamesDeletesThem;
-- (NSArray*)items;
+- (NSPredicate*)predicate;
 @end
 @interface OEDBCollectionFolder (OECollectionViewItemAdditions) <CollectionViewItemProtocol>
 - (NSString*)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (BOOL)removingGamesDeletesThem;
-- (NSArray*)items;
+- (NSPredicate*)predicate;
 @end
 @interface OEDBSmartCollection (OECollectionViewItemAdditions) <CollectionViewItemProtocol>
 - (NSString*)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (BOOL)removingGamesDeletesThem;
-- (NSArray*)items;
+- (NSPredicate*)predicate;
 @end
 @interface OEDBAllGamesCollection (OECollectionViewItemAdditions) <CollectionViewItemProtocol>
 - (NSString*)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (BOOL)removingGamesDeletesThem;
-- (NSArray*)items;
+- (NSPredicate*)predicate;
 @end

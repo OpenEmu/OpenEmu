@@ -185,6 +185,10 @@
     return NO;
 }
 
+- (NSPredicate*)predicate{
+	return [NSPredicate predicateWithFormat:@"system == %@", self];
+}
+
 @end
 #pragma mark -
 @implementation OEDBCollection (DataSourceAdditions)
@@ -244,29 +248,11 @@
 - (BOOL)removingGamesDeletesThem{
     return YES;
 }
-- (NSArray*)items{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    
-    NSEntityDescription* systemDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
-    NSFetchRequest* req = [[[NSFetchRequest alloc] init] autorelease];
-    [req setEntity:systemDescription];
-    [req setPropertiesToFetch:nil];
-    
-    NSPredicate* pred = [NSPredicate predicateWithFormat:@"system == %@", self];
-    [req setPredicate:pred];
-    
-    NSError* error = nil;
-    id systemResult = [context executeFetchRequest:req error:&error];
-    if(error!=nil){
-	  // TODO: decide if we really want to bother the user with this
-	  [NSApp presentError:error];
-	  return nil;
-    }
-    
-    NSLog(@"System has %lu games", [systemResult count]);
-    
-    return systemResult;
+
+- (NSPredicate*)predicate{
+	return [NSPredicate predicateWithFormat:@"system == %@", self];
 }
+
 @end
 
 @implementation OEDBCollection (OECollectionViewItemAdditions)
@@ -284,6 +270,10 @@
 - (NSArray*)items{
     return nil;
 }
+
+- (NSPredicate*)predicate{
+	return [NSPredicate predicateWithFormat:@"ANY collections == %@", self];
+}
 @end
 
 // TODO: check how itunes treats folders
@@ -300,8 +290,8 @@
     return NO;
 }
 
-- (NSArray*)items{
-    return nil;
+- (NSPredicate*)predicate{
+	return [NSPredicate predicateWithValue:NO];
 }
 @end
 @implementation OEDBSmartCollection (OECollectionViewItemAdditions)
@@ -315,8 +305,8 @@
     @throw @"bUb";
     return NO;
 }
-- (NSArray*)items{
-    return nil;
+- (NSPredicate*)predicate{
+	return [NSPredicate predicateWithValue:NO];
 }
 @end
 @implementation OEDBAllGamesCollection (OECollectionViewItemAdditions)
@@ -334,5 +324,9 @@
 
 - (NSArray*)items{
     return nil;
+}
+
+- (NSPredicate*)predicate{
+	return [NSPredicate predicateWithValue:YES];
 }
 @end

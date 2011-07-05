@@ -124,6 +124,7 @@ typedef enum {
 		[self.gridLayer setSublayers:content];
 */
 	[self.gridLayer setNeedsLayout];
+	[self.gridLayer setNeedsDisplay];
 }
 #pragma mark -
 #pragma mark Decoration Views

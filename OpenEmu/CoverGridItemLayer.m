@@ -715,9 +715,7 @@
 
 
 #pragma mark -
-- (void)controlTextDidEndEditing:(NSNotification *)aNotification{
-    // NSLog(@"control text did end editing");
-    
+- (void)controlTextDidEndEditing:(NSNotification *)aNotification{    
     NSTextField* field = [aNotification object];
     OEFieldEditor* fieldEditor = (OEFieldEditor*)[field superview];
     

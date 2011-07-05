@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10J869</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1306</string>
-		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<int key="IBDocument.SystemTarget">1070</int>
+		<string key="IBDocument.SystemVersion">11A511</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1565</string>
+		<string key="IBDocument.AppKitVersion">1138</string>
+		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1306</string>
+			<string key="NS.object.0">1565</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSScroller</string>
@@ -56,6 +56,7 @@
 				<string key="NSWindowTitle">Library</string>
 				<string key="NSWindowClass">OELibraryWindow</string>
 				<nil key="NSViewClass"/>
+				<nil key="NSUserInterfaceItemIdentifier"/>
 				<string key="NSWindowContentMinSize">{680, 230}</string>
 				<object class="NSView" key="NSWindowView" id="1006">
 					<reference key="NSNextResponder"/>
@@ -95,11 +96,9 @@
 																<reference key="NSTableView" ref="247228052"/>
 															</object>
 															<object class="_NSCornerView" key="NSCornerView" id="105958918">
-																<reference key="NSNextResponder" ref="667435729"/>
+																<nil key="NSNextResponder"/>
 																<int key="NSvFlags">-2147483392</int>
 																<string key="NSFrame">{{171, 0}, {16, 17}}</string>
-																<reference key="NSSuperview" ref="667435729"/>
-																<reference key="NSWindow"/>
 																<reference key="NSNextKeyView" ref="411773151"/>
 															</object>
 															<array class="NSMutableArray" key="NSTableColumns">
@@ -186,6 +185,7 @@
 															<int key="NSDraggingSourceMaskForNonLocal">0</int>
 															<bool key="NSAllowsTypeSelect">NO</bool>
 															<int key="NSTableViewDraggingDestinationStyle">0</int>
+															<int key="NSTableViewGroupRowStyle">1</int>
 															<bool key="NSOutlineViewAutoresizesOutlineColumnKey">NO</bool>
 														</object>
 													</array>
@@ -234,18 +234,16 @@
 													<reference key="NSBGColor" ref="395994190"/>
 													<int key="NScvFlags">4</int>
 												</object>
-												<reference ref="105958918"/>
 											</array>
 											<string key="NSFrame">{{0, 45}, {186, 511}}</string>
 											<reference key="NSSuperview" ref="214891354"/>
 											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="411773151"/>
-											<int key="NSsFlags">528</int>
+											<int key="NSsFlags">133648</int>
 											<reference key="NSVScroller" ref="993169309"/>
 											<reference key="NSHScroller" ref="948426263"/>
 											<reference key="NSContentView" ref="411773151"/>
 											<reference key="NSHeaderClipView" ref="61671220"/>
-											<reference key="NSCornerView" ref="105958918"/>
 											<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 										</object>
 										<object class="NSButton" id="204028101">
@@ -537,16 +535,17 @@
 							<string key="NSAutosaveName">mainSplitView</string>
 						</object>
 					</array>
-					<string key="NSFrame">{{7, 11}, {830, 555}}</string>
+					<string key="NSFrameSize">{830, 555}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="677115977"/>
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 800}}</string>
 				<string key="NSMinSize">{680, 252}</string>
-				<string key="NSMaxSize">{1e+13, 1e+13}</string>
+				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">LibraryWindow</string>
+				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCustomObject" id="331739331">
 				<string key="NSClassName">SidebarController</string>
@@ -1147,7 +1146,7 @@
 						<string key="coverFlowView">IKImageFlowView</string>
 						<string key="flowViewBtn">NSButton</string>
 						<string key="flowViewMenuItem">NSMenuItem</string>
-						<string key="flowlistViewContainer">LibrarySplitView</string>
+						<string key="flowlistViewContainer">OEHorizontalSplitView</string>
 						<string key="gridView">IKSGridView</string>
 						<string key="gridViewBtn">NSButton</string>
 						<string key="gridViewContainer">NSView</string>
@@ -1175,7 +1174,7 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="flowlistViewContainer">
 							<string key="name">flowlistViewContainer</string>
-							<string key="candidateClassName">LibrarySplitView</string>
+							<string key="candidateClassName">OEHorizontalSplitView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="gridView">
 							<string key="name">gridView</string>
@@ -1271,6 +1270,7 @@
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="filemenu_addToLibrary:">id</string>
 						<string key="filemenu_editSmartCollection:">id</string>
+						<string key="filemenu_launchGame:">id</string>
 						<string key="filemenu_newCollection:">id</string>
 						<string key="filemenu_newCollectionFolder:">id</string>
 						<string key="filemenu_newSmartCollection:">id</string>
@@ -1284,6 +1284,10 @@
 						</object>
 						<object class="IBActionInfo" key="filemenu_editSmartCollection:">
 							<string key="name">filemenu_editSmartCollection:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="filemenu_launchGame:">
+							<string key="name">filemenu_launchGame:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="filemenu_newCollection:">
@@ -1385,6 +1389,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OEBackgroundColorView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEHorizontalSplitView</string>
+					<string key="superclassName">NSSplitView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEHorizontalSplitView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

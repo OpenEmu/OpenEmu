@@ -14,5 +14,5 @@
 - (BOOL)isCollectionEditable;
 - (BOOL)removingGamesDeletesThem;
 
-- (NSArray*)items;
+- (NSPredicate*)predicate;
 @end

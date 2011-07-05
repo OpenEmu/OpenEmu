@@ -98,10 +98,12 @@
     
     // Select first view
     // to do: restore the last used view!
+	// to do: restore last selected collection item
     [collectionViewController setDatabase:self.database];
     [collectionViewController selectGridView:nil];
     [collectionViewController setCollectionItem:nil];
-    
+    [collectionViewController finishSetup];
+	
     // add collection controller's view to splitview
     NSView* rightContentView = [mainSplitView rightContentView];
     [rightContentView addSubview:[collectionViewController view]];

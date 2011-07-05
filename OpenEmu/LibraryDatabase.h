@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+@class OEDBSystem;
 @interface LibraryDatabase : NSObject {
 @private	
     NSArrayController* romsController;
@@ -21,9 +21,12 @@
 }
 
 - (BOOL)save:(NSError**)error;
+
+- (NSManagedObjectContext*)managedObjectContext;
 #pragma mark -
 #pragma mark Database queries
 - (NSArray*)systems;
+- (OEDBSystem*)systemForFile:(NSString*)filePath;
 - (NSInteger)systemsCount;
 
 - (NSUInteger)collectionsCount;
@@ -41,6 +44,7 @@
 
 #pragma mark -
 #pragma mark Database Game editing
+- (BOOL)isFileInDatabaseWithPath:(NSString*)path hash:(NSString*)hash error:(NSError**)error;
 - (void)addGamesFromPath:(NSString*)path toCollection:(NSManagedObject*)collection searchSubfolders:(BOOL)subfolderFlag;
 /*
 - (void)addRomsWithFiles:(NSArray*)files;
