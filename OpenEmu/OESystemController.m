@@ -165,7 +165,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     
     if(ctrl == nil)
     {
-        ctrl = [self newPreferenceViewControllerForKey:aKey];
+        ctrl = [[self newPreferenceViewControllerForKey:aKey] autorelease];
         [_preferenceViewControllers setObject:ctrl forKey:aKey];
     }
     

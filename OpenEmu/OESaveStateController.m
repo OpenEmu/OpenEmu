@@ -439,7 +439,7 @@ static void *const OESelectionChangedContext = @"OESelectionChangedContext";
      ^(NSInteger result)
      {
          if(result == NSOKButton)
-             [saveData writeToFile:[sheet filename] atomically:YES];
+			 [saveData writeToURL:[sheet URL] atomically:YES];
      }];
 }
 

@@ -48,16 +48,25 @@
 
 - (void)windowDidLoad{
     [super windowDidLoad];
+	
+    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSString* path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmuDatabaseTest"] path];
+    
+#define UDDatabasePathKey @"databasePath"
+#define UDDefaultDatabasePathKey @"defaultDatabasePath"
+    
+    NSDictionary* defaults = [NSDictionary dictionaryWithObjectsAndKeys:path, UDDefaultDatabasePathKey, path, UDDatabasePathKey, nil];
+    [standardDefaults registerDefaults:defaults];
     
     // load database
     LibraryDatabase* db = [[LibraryDatabase alloc] init];
     if(!db){
-	  [NSApp terminate:self];
-	  return;
+		[NSApp terminate:self];
+		return;
     }
     [self setDatabase:db];
     [db release];
-        
+	
     // Set up window
     [[self window] setOpaque:NO];
     [[self window] setBackgroundColor:[NSColor clearColor]];
@@ -112,19 +121,19 @@
     float widthCorrection;
     BOOL opening = [mainSplitView splitterPosition]==0;
     if(opening){
-	  frameRect.size.width += 186;
-	  frameRect.origin.x -= 186;
-	  
-	  widthCorrection = 186;
-	  // To do: Restore previous position instead of 186px
+		frameRect.size.width += 186;
+		frameRect.origin.x -= 186;
+		
+		widthCorrection = 186;
+		// To do: Restore previous position instead of 186px
     } else {
-	  NSView* sidebar = [[mainSplitView subviews] objectAtIndex:0];
-	  float sidebarWidth = [sidebar frame].size.width;
-	  
-	  widthCorrection = -sidebarWidth;
-	  
-	  frameRect.size.width -= sidebarWidth;
-	  frameRect.origin.x += sidebarWidth;
+		NSView* sidebar = [[mainSplitView subviews] objectAtIndex:0];
+		float sidebarWidth = [sidebar frame].size.width;
+		
+		widthCorrection = -sidebarWidth;
+		
+		frameRect.size.width -= sidebarWidth;
+		frameRect.origin.x += sidebarWidth;
     }
     
     NSRect splitViewRect = [mainSplitView frame];
@@ -143,9 +152,9 @@
 #pragma mark Menu Item Actions
 - (IBAction)toggleWindow:(id)sender{
     if([(NSMenuItem*)sender state]){
-	  [[self window] orderOut:self];
+		[[self window] orderOut:self];
     } else {
-	  [self showWindow:self];
+		[self showWindow:self];
     }
     
     [sender setState:![(NSMenuItem*)sender state]];	
@@ -154,16 +163,16 @@
 #pragma mark FileMenu Actions
 - (IBAction)filemenu_launchGame:(id)sender{
     if(gameViewController){
-	  [gameViewController terminateEmulation];
-	  [[gameViewController view] removeFromSuperview];
-	  [gameViewController release], gameViewController = nil;
+		[gameViewController terminateEmulation];
+		[[gameViewController view] removeFromSuperview];
+		[gameViewController release], gameViewController = nil;
     }
     
     NSOpenPanel* panel = [NSOpenPanel openPanel];
     [panel setCanChooseFiles:YES];
     [panel setCanChooseDirectories:NO];
     [panel setAllowsMultipleSelection:NO];
-
+	
     NSInteger result = [panel runModal];
     if(result != NSOKButton) return;
     
@@ -173,9 +182,9 @@
     gameViewController = [[OEGameViewController alloc] init];
     
     if(![gameViewController loadFromURL:fileURL error:&error]){
-	  [gameViewController release], gameViewController = nil;
-	  [NSApp presentError:error];
-	  return;
+		[gameViewController release], gameViewController = nil;
+		[NSApp presentError:error];
+		return;
     }
     
     [sidebarBtn setEnabled:NO];
@@ -223,11 +232,12 @@
     
     NSInteger result = [openPanel runModal];
     if(result != NSOKButton){
-	  return;
+		return;
     }
     
-    for(NSString* aPath in [openPanel filenames]){
-	  [self.database addGamesFromPath:aPath toCollection:nil searchSubfolders:YES];
+    for(NSURL* aURL in [openPanel URLs]){
+		NSString* aPath = [aURL path];
+		[self.database addGamesFromPath:aPath toCollection:nil searchSubfolders:YES];
     }
 }
 #pragma mark -

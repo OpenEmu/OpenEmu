@@ -169,7 +169,6 @@
 }
 
 - (void)setSidebarName:(NSString*)newName{
-    [self setValue:newName forKey:@"name"];
 }
 
 - (BOOL)isSelectableInSdebar{

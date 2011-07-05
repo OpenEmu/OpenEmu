@@ -9,10 +9,9 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OEHorizontalSplitView : NSSplitView {
+@interface OEHorizontalSplitView : NSSplitView <NSSplitViewDelegate>{
 @private
     BOOL resizesLeftView;
-    BOOL _hidingLeftView;
     
     NSPoint lastMousePoint;
     

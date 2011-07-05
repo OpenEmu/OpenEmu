@@ -27,21 +27,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-#define UDDatabasePathKey @"databasePath"
-#define UDDefaultDatabasePathKey @"defaultDatabasePath"
 int main(int argc, char *argv[])
-{
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
-    
-    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSString* path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmuDatabaseTest"] path];
-    
-    
-    NSDictionary* defaults = [NSDictionary dictionaryWithObjectsAndKeys:path, UDDefaultDatabasePathKey, path, UDDatabasePathKey, nil];
-    [standardDefaults registerDefaults:defaults];
-    
-    [pool drain];
-    
+{    
     return NSApplicationMain(argc, (const char **) argv);
 }
 

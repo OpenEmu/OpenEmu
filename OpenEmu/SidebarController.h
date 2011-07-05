@@ -15,6 +15,8 @@
 	
 	NSArray* groups;
 	LibraryDatabase* database;
+	
+	NSArray* systems, *collections;
 @private	
 	id editingItem;
     
@@ -31,8 +33,9 @@
 - (void)startEditingItem:(id)item;
 - (void)expandCollections:(id)sender;
 - (void)removeSelectedItemsOfOutlineView:(NSOutlineView*)outlineView;
-@property (retain, readwrite) LibraryDatabase* database;
+@property (assign) LibraryDatabase* database;
 @property (retain, readwrite) NSArray* groups;
+@property (retain, readwrite) NSArray* systems, *collections;
 
 @property (nonatomic, retain, readwrite) id editingItem;
 @end

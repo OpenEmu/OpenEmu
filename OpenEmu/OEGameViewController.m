@@ -207,7 +207,7 @@
                   completionHandler:
      ^(NSInteger result)
      {
-         if(result == NSOKButton) [self saveStateToFile:[panel filename]];
+         if(result == NSOKButton) [self saveStateToFile:[[panel URL] path]];
      }];
 }
 
@@ -219,7 +219,7 @@
                   completionHandler:
      ^(NSInteger result)
      {
-         if(result == NSOKButton) [self loadStateFromFile:[panel filename]];
+         if(result == NSOKButton) [self loadStateFromFile:[[panel URL] path]];
      }];
 }
 

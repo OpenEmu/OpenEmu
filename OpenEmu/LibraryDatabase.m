@@ -224,7 +224,6 @@
 	  NSLog(@"systems: Error: %@", error);
 	  return nil;
     }
-    
     return result;
 }
 

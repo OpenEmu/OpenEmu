@@ -4050,7 +4050,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
-					"\"$(SRCROOT)/../../../OpenEmuPsy/OpenEmu/OpenEmu\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
@@ -4069,7 +4068,6 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 					"\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Quartz.framework/Versions/A/Frameworks\"",
-					"\"$(SRCROOT)/../../../OpenEmuPsy/OpenEmu/OpenEmu\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OpenEmu_Prefix.pch;
