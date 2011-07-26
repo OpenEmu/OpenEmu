@@ -22,6 +22,7 @@
 	CGRect imageContainerRect;
 	
 	float imageRatio;	// keeps aspect ratio of artwork image
+	NSSize lastImageSize;
 	
 	CoverGridSelectionLayer *selectionLayer;	// Layer for selection indicator
 	CALayer *glossLayer;						// Effect overlay for artwork image 

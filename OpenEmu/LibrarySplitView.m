@@ -10,26 +10,31 @@
 
 
 @implementation LibrarySplitView
-@synthesize resizesLeftView;
+@synthesize resizesLeftView, drawsWindowResizer;
 - (id)init {
     self = [super init];
     if (self) {
+		self.drawsWindowResizer = YES;
 		[self setDelegate:self];
         self.resizesLeftView = NO;
     }
     return self;
 }
+
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
+		self.drawsWindowResizer = YES;
         self.resizesLeftView = NO;
 		[self setDelegate:self];
     }
     return self;
 }
+
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+		self.drawsWindowResizer = YES;
 		[self setDelegate:self];
         self.resizesLeftView = NO;
     }
@@ -147,6 +152,8 @@
 	[backgroundGradient release];
     
 	if(borderRad==0) return;
+	
+	if(!self.drawsWindowResizer) return;
     // Draw custom resize indicator
     NSImage* resizerImage = [NSImage imageNamed:@"resizer"];
     NSRect resizerRect = NSMakeRect(viewRect.size.width-11-4, viewRect.origin.y+viewRect.size.height-11-4, 11, 11);
@@ -236,15 +243,14 @@
 	if(![self isVertical] || [self frame].size.height - pointInView.y > 43){
 		lastMousePoint = NSZeroPoint;
 		
-		[super mouseDown:theEvent];
-		
+		[super mouseDown:theEvent];		
 		return;
 	}
 	
 	NSWindow *win = [self window];
 	NSPoint startPos = [win convertBaseToScreen:[theEvent locationInWindow]];
 	NSPoint origin = win.frame.origin;
-    while ((theEvent=[win nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)]) && theEvent && [theEvent type]!=NSLeftMouseUp){
+    while ([[self window] isMovable] && (theEvent=[win nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)]) && theEvent && [theEvent type]!=NSLeftMouseUp){
 		NSPoint newPos = [win convertBaseToScreen:[theEvent locationInWindow]];
 		[win setFrameOrigin:NSMakePoint(origin.x + newPos.x-startPos.x, origin.y + newPos.y-startPos.y)];
 	}

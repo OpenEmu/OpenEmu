@@ -7,7 +7,7 @@
 //
 
 #import "OEDBDataSourceAdditions.h"
-
+#import "OEDBImage.h"
 @implementation OEDBGame (DataSourceAdditions)
 
 #pragma mark -
@@ -32,31 +32,36 @@
 }
 
 - (NSImage*)gridImage{
-    NSManagedObject* boxImage = [self valueForKey:@"box"];
+    OEDBImage* boxImage = [self valueForKey:@"box"];
     if(boxImage==nil) return nil;
     
-
-    if([boxImage valueForKey:@"data"]){
-	  NSImage* cover = [[NSImage alloc] initWithData:[boxImage valueForKey:@"data"]];
-	  return [cover autorelease];	  
-    }
-    
-    if([boxImage valueForKey:@"url"]) return nil;
-    
-    return nil;
+	return [boxImage image];
 }
 
+- (NSImage*)gridImageWithSize:(NSSize)aSize{	
+    OEDBImage* boxImage = [self valueForKey:@"box"];
+    if(boxImage==nil) return nil;
+    	
+	return [boxImage imageForSize:aSize];
+}
+
+
 - (void)setGridImage:(NSImage *)gridImage{
-    NSManagedObject* boxImage = [self valueForKey:@"box"];
+    OEDBImage* boxImage = [self valueForKey:@"box"];
     if(boxImage!=nil){
 	  [[boxImage managedObjectContext] deleteObject:boxImage];
     }
     
     NSManagedObjectContext* context = [self managedObjectContext];
-    boxImage = [NSEntityDescription insertNewObjectForEntityForName:@"Image" inManagedObjectContext:context];
-    [boxImage setValue:[gridImage TIFFRepresentation] forKey:@"data"];
-    
+    boxImage = [OEDBImage newFromImage:gridImage inContext:context];
+	
+	[boxImage generateImageForSize:NSMakeSize(75, 75)];
+	[boxImage generateImageForSize:NSMakeSize(150, 150)];
+	[boxImage generateImageForSize:NSMakeSize(300, 300)];
+	[boxImage generateImageForSize:NSMakeSize(450, 450)];
+	
     [self setValue:boxImage forKey:@"box"];
+	
 }
 
 #pragma mark -
@@ -80,7 +85,9 @@
     return IKImageBrowserNSImageRepresentationType;
 }
 
-- (id)imageRepresentation{    
+- (id)imageRepresentation{  
+	return [self gridImage];
+	
     NSManagedObject* boxImage = [self valueForKey:@"box"];
     if(boxImage==nil) return nil;
     

@@ -219,13 +219,15 @@
 			//
 			if (redrawLayer) {
 				redrawnLayers ++;
-					dispatch_async(renderQueue, ^{
-						[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-						[currentLayer setNeedsLayout];
-						[currentLayer setNeedsDisplay];
-						[CATransaction flush];
-						[currentLayer endValueChange];
-					});
+				
+				[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+				[currentLayer setNeedsLayout];
+				[currentLayer setNeedsDisplay];
+				[CATransaction flush];
+				[currentLayer endValueChange];
+#warning Imortant to fix this sooon!!!
+				// TODO: check why coredata and thumbnails don't work in an async queue
+				//	dispatch_async(renderQueue, ^{});
 			}
 			
 			currentItemIndex++;

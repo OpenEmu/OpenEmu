@@ -20,6 +20,11 @@
 #import "OEBackgroundColorView.h"
 
 #import "OEGameView.h"
+@interface LibraryController (Private)
+- (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
+- (void)_startROMWithURL:(NSURL*)url inSeperateWindow:(BOOL)windowFlag inFullscreen:(BOOL)fullscreenFlag;
+
+@end
 @implementation LibraryController
 + (void)initialize{
     // toolbar sidebar button
@@ -86,9 +91,7 @@
     [listViewMenuItem setEnabled:TRUE];
     [flowViewBtn setEnabled:TRUE];    
     
-    // Set up Toggle Sidebar Button
-    NSImage* image = [mainSplitView splitterPosition]==0? [NSImage imageNamed:@"toolbar_sidebar_button_open"]:[NSImage imageNamed:@"toolbar_sidebar_button_close"];
-    [sidebarBtn setImage:image];
+	[self setSidebarChangesWindowSize:YES];
     
     // setup sidebar controller
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:@"SidebarSelectionChanged" object:sidebarController];
@@ -117,37 +120,49 @@
 #pragma mark -
 #pragma mark Toolbar Actions
 - (IBAction)toggleSidebar:(id)sender{
-    NSWindow* window = [self window];
-    NSRect frameRect = [window frame];
-    
-    float widthCorrection;
-    BOOL opening = [mainSplitView splitterPosition]==0;
-    if(opening){
-		frameRect.size.width += 186;
-		frameRect.origin.x -= 186;
+	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
 		
-		widthCorrection = 186;
-		// To do: Restore previous position instead of 186px
-    } else {
+	BOOL opening = [mainSplitView splitterPosition]==0;
+	float widthCorrection = 0;
+	if(opening){
+		widthCorrection = [standardDefaults floatForKey:UDKSidebarWidth];
+		if(widthCorrection==0)
+			widthCorrection = 168;
+	} else {
 		NSView* sidebar = [[mainSplitView subviews] objectAtIndex:0];
-		float sidebarWidth = [sidebar frame].size.width;
+		float lastWidth = [sidebar frame].size.width;
+		[standardDefaults setFloat:lastWidth forKey:UDKSidebarWidth];		
 		
-		widthCorrection = -sidebarWidth;
+		widthCorrection = -1*lastWidth;
+	}
+    
+	if(self.sidebarChangesWindowSize){
+		NSWindow* window = [self window];
+		NSRect frameRect = [window frame];
+
+		frameRect.origin.x -= widthCorrection;
+		frameRect.size.width += widthCorrection;
 		
-		frameRect.size.width -= sidebarWidth;
-		frameRect.origin.x += sidebarWidth;
-    }
-    
-    NSRect splitViewRect = [mainSplitView frame];
-    splitViewRect.size.width += widthCorrection;
-    
-    [mainSplitView setResizesLeftView:YES];
-    [window setFrame:frameRect display:YES animate:YES];
-    [mainSplitView setResizesLeftView:NO];
-    
-    NSImage* image = opening? [NSImage imageNamed:@"toolbar_sidebar_button_close"]:[NSImage imageNamed:@"toolbar_sidebar_button_open"];
+		NSRect splitViewRect = [mainSplitView frame];
+		splitViewRect.size.width += widthCorrection;
+		
+		[mainSplitView setResizesLeftView:YES];
+		[window setFrame:frameRect display:YES animate:YES];
+		[mainSplitView setResizesLeftView:NO];
+	} else {
+		widthCorrection = widthCorrection < 0 ? 0 : widthCorrection; 
+		[mainSplitView setSplitterPosition:widthCorrection animated:YES];
+	}
+	
+	NSImage* image;
+	if(self.sidebarChangesWindowSize){
+		image = !opening? [NSImage imageNamed:@"toolbar_sidebar_button_open"]:[NSImage imageNamed:@"toolbar_sidebar_button_close"];
+	} else {
+		image = !opening? [NSImage imageNamed:@"toolbar_sidebar_button_close"]:[NSImage imageNamed:@"toolbar_sidebar_button_open"];
+	}
     [sidebarBtn setImage:image];
-    // TODO: remember sidebar width
+	
+	[standardDefaults setBool:opening forKey:UDKSidebarVisible];
 }
 
 #pragma mark -
@@ -178,29 +193,9 @@
     NSInteger result = [panel runModal];
     if(result != NSOKButton) return;
     
-    NSError* error = nil;
     NSURL* fileURL = [panel URL];
     
-    gameViewController = [[OEGameViewController alloc] init];
-    
-    if(![gameViewController loadFromURL:fileURL error:&error]){
-		[gameViewController release], gameViewController = nil;
-		[NSApp presentError:error];
-		return;
-    }
-    
-    [sidebarBtn setEnabled:NO];
-    [sidebarController setEnabled:NO];
-    [collectionViewController willHide];
-    
-    NSView* gameDocView = [gameViewController view];
-    [[mainSplitView superview] addSubview:gameDocView];
-    
-    NSRect frame = [[mainSplitView superview] bounds];
-    frame.origin.y += 45; // Toolbar Height+1px black line;
-    frame.size.height -= 45;
-    [gameDocView setFrame:frame];
-    [[self window] makeFirstResponder:[[gameDocView subviews] objectAtIndex:0]];
+    [self _startROMWithURL:fileURL inSeperateWindow:NO inFullscreen:NO];
 }
 
 
@@ -242,6 +237,36 @@
 		[self.database addGamesFromPath:aPath toCollection:nil searchSubfolders:YES];
     }
 }
+
+
+- (IBAction)controlsmenu_startGame:(id)sender{
+	if([[collectionViewController view] isHidden]){
+		return;				
+	}
+	
+	NSArray* selection = [collectionViewController selectedGames];
+	if(!selection) return;
+	
+	OEDBGame* selectedGame = [selection lastObject];
+	if(selectedGame){
+		// TODO: determine if a game is running in main view
+		
+		NSSet* roms = [selectedGame valueForKey:@"roms"];
+		id romToStart = nil;
+		if([roms count] > 1){
+			// TODO: find out which rom to start			
+		} else {
+			romToStart = [roms anyObject];	
+		}
+		NSLog(@"%@", roms);
+		NSLog(@"%@", romToStart);
+		NSString* path = [romToStart valueForKey:@"path"];
+		if(!path) return;
+		
+		NSURL* url = [NSURL fileURLWithPath:path];
+		[self _startROMWithURL:url inSeperateWindow:NO inFullscreen:NO];
+	}
+}
 #pragma mark -
 #pragma mark Sidebar Helpers
 - (void)sidebarSelectionDidChange:(NSNotification*)notification{
@@ -255,6 +280,31 @@
 
 #pragma mark -
 #pragma mark NSWindow Delegates
+- (NSSize)window:(NSWindow *)window willUseFullScreenContentSize:(NSSize)proposedSize {
+	return proposedSize;
+}
+- (void)window:(NSWindow *)window willEncodeRestorableState:(NSCoder *)state{
+}
+- (void)window:(NSWindow *)window didDecodeRestorableState:(NSCoder *)state{
+}
+
+- (void)windowWillEnterFullScreen:(NSNotification *)notification{
+	[self _showFullscreen:YES animated:YES];
+}
+
+- (void)windowWillExitFullScreen:(NSNotification *)notification{
+	[self _showFullscreen:NO animated:YES];
+}
+
+
+- (void)windowDidFailToExitFullScreen:(NSWindow *)window{
+	[self _showFullscreen:YES animated:NO];
+}
+- (void)windowDidFailToEnterFullScreen:(NSWindow *)window{
+	[self _showFullscreen:NO animated:NO];
+}
+
+#pragma mark -
 - (void)windowDidBecomeKey:(NSNotification *)notification{
     [gridViewMenuItem setEnabled:[gridViewBtn isEnabled]];
     [listViewMenuItem setEnabled:[listViewBtn isEnabled]];
@@ -278,5 +328,78 @@
     
     [sidebarController reloadData];	
 }
+
+- (void)setSidebarChangesWindowSize:(BOOL)flag{
+	sidebarChangesWindowSize = flag;
+	
+	NSImage* image;
+	if(flag){
+		image = [mainSplitView splitterPosition]==0? [NSImage imageNamed:@"toolbar_sidebar_button_open"]:[NSImage imageNamed:@"toolbar_sidebar_button_close"];
+	} else {
+		image = [mainSplitView splitterPosition]==0? [NSImage imageNamed:@"toolbar_sidebar_button_close"]:[NSImage imageNamed:@"toolbar_sidebar_button_open"];
+	}
+   
+    [sidebarBtn setImage:image];
+}
+
+- (BOOL)sidebarChangesWindowSize{
+	return sidebarChangesWindowSize;
+}
+
+#pragma mark -
+#pragma mark Private
+- (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag{
+	[[self window] setMovable:!fsFlag];
+	[self setSidebarChangesWindowSize:!fsFlag];
+	mainSplitView.drawsWindowResizer = !fsFlag;
+	
+	if(fsFlag){
+		#ifdef NSApplicationPresentationAutoHideToolbar
+		[NSApp setPresentationOptions:NSApplicationPresentationAutoHideDock|NSApplicationPresentationAutoHideToolbar];
+		#else
+		
+		#endif
+	} else {
+		#ifdef NSApplicationPresentationAutoHideToolbar
+		[NSApp setPresentationOptions:NSApplicationPresentationDefault];	
+		#else	
+		
+		#endif
+	}
+	
+	
+}
+
+- (void)_startROMWithURL:(NSURL*)url inSeperateWindow:(BOOL)windowFlag inFullscreen:(BOOL)fullscreenFlag{
+	
+	// TODO: create seperate window if requested
+	// TODO: launch in fullscreen if requestet;
+	
+	gameViewController = [[OEGameViewController alloc] init];
+    
+	NSError* error = nil;
+    if(![gameViewController loadFromURL:url error:&error]){
+		[gameViewController release], gameViewController = nil;
+		[NSApp presentError:error];
+		return;
+    }
+    
+    [sidebarBtn setEnabled:NO];
+    [sidebarController setEnabled:NO];
+    [collectionViewController willHide];
+    
+    NSView* gameDocView = [gameViewController view];
+    [[mainSplitView superview] addSubview:gameDocView];
+    
+    NSRect frame = [[mainSplitView superview] bounds];
+    frame.origin.y += 45; // Toolbar Height+1px black line;
+    frame.size.height -= 45;
+    [gameDocView setFrame:frame];
+    [[self window] makeFirstResponder:[[gameDocView subviews] objectAtIndex:0]];
+
+
+
+}
+
 @synthesize mainSplitView, database;
 @end

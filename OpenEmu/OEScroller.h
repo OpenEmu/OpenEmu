@@ -27,6 +27,9 @@
 - (void)drawArrows;
 
 - (NSScrollArrowPosition)myArrowsPosition;
+
+#pragma mark -
+- (BOOL)autohidesScrollers;
 #pragma mark -
 - (NSRect)knobSubimageRectForState:(OEUIState)state;
 - (NSRect)arrowSubimageRectForState:(OEUIState)state;

@@ -84,7 +84,7 @@
 															<string key="NSFrameSize">{186, 494}</string>
 															<reference key="NSSuperview" ref="411773151"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="948426263"/>
+															<reference key="NSNextKeyView" ref="993169309"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="832801688">
 																<reference key="NSNextResponder" ref="61671220"/>
@@ -92,10 +92,10 @@
 																<string key="NSFrameSize">{186, 17}</string>
 																<reference key="NSSuperview" ref="61671220"/>
 																<reference key="NSWindow"/>
-																<reference key="NSNextKeyView" ref="105958918"/>
+																<reference key="NSNextKeyView" ref="411773151"/>
 																<reference key="NSTableView" ref="247228052"/>
 															</object>
-															<object class="_NSCornerView" key="NSCornerView" id="105958918">
+															<object class="_NSCornerView" key="NSCornerView">
 																<nil key="NSNextResponder"/>
 																<int key="NSvFlags">-2147483392</int>
 																<string key="NSFrame">{{171, 0}, {16, 17}}</string>
@@ -238,7 +238,7 @@
 											<string key="NSFrame">{{0, 45}, {186, 511}}</string>
 											<reference key="NSSuperview" ref="214891354"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="411773151"/>
+											<reference key="NSNextKeyView" ref="948426263"/>
 											<int key="NSsFlags">133648</int>
 											<reference key="NSVScroller" ref="993169309"/>
 											<reference key="NSHScroller" ref="948426263"/>
@@ -341,6 +341,7 @@
 											<string key="NSFrame">{{615, 14}, {15, 15}}</string>
 											<reference key="NSSuperview" ref="200629737"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSImageCell" key="NSCell" id="97198893">
 												<int key="NSCellFlags">130560</int>
@@ -541,10 +542,11 @@
 					<reference key="NSNextKeyView" ref="677115977"/>
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1280, 800}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1280, 778}}</string>
 				<string key="NSMinSize">{680, 252}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">LibraryWindow</string>
+				<int key="NSWindowCollectionBehavior">128</int>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCustomObject" id="331739331">
@@ -782,6 +784,7 @@
 							<reference ref="1006"/>
 						</array>
 						<reference key="parent" ref="0"/>
+						<string key="objectName">Library Window - Library</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">2</int>
@@ -1154,8 +1157,6 @@
 						<string key="listView">NSTableView</string>
 						<string key="listViewBtn">NSButton</string>
 						<string key="listViewMenuItem">NSMenuItem</string>
-						<string key="noCollectionSelectedView">NSView</string>
-						<string key="noItemsInCollectionView">NSView</string>
 						<string key="searchField">NSSearchField</string>
 						<string key="sizeSlider">NSSlider</string>
 					</dictionary>
@@ -1203,14 +1204,6 @@
 						<object class="IBToOneOutletInfo" key="listViewMenuItem">
 							<string key="name">listViewMenuItem</string>
 							<string key="candidateClassName">NSMenuItem</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="noCollectionSelectedView">
-							<string key="name">noCollectionSelectedView</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="noItemsInCollectionView">
-							<string key="name">noItemsInCollectionView</string>
-							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="searchField">
 							<string key="name">searchField</string>
@@ -1268,6 +1261,7 @@
 					<string key="className">LibraryController</string>
 					<string key="superclassName">NSWindowController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="controlsmenu_startGame:">id</string>
 						<string key="filemenu_addToLibrary:">id</string>
 						<string key="filemenu_editSmartCollection:">id</string>
 						<string key="filemenu_launchGame:">id</string>
@@ -1278,6 +1272,10 @@
 						<string key="toggleWindow:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="controlsmenu_startGame:">
+							<string key="name">controlsmenu_startGame:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="filemenu_addToLibrary:">
 							<string key="name">filemenu_addToLibrary:</string>
 							<string key="candidateClassName">id</string>

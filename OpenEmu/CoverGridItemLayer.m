@@ -46,64 +46,66 @@
 - (id)init{
     self = [super init];
     if (self) {
-	  // Setup image layer
-	  CALayer* iLayer = [CALayer layer];
-	  iLayer.shadowColor = [[NSColor blackColor] CGColor];
-	  iLayer.geometryFlipped = YES;
-	  iLayer.transform = CATransform3DMakeScale(1, -1, 1);
-	  iLayer.shadowOffset = CGSizeMake(0, 3);
-	  iLayer.shadowOpacity = 1.0;
-	  iLayer.shadowRadius = 3.0;
-	  iLayer.contentsGravity = kCAGravityResize;
-	  iLayer.delegate = self;
-	  
-	  self.imageLayer = iLayer;
-	  [self addSublayer:iLayer];
-	  
-	  // setup layer for status display (missing, processing, ....)
-	  CoverGridIndicationLayer* inLayer = [CoverGridIndicationLayer layer];
-	  inLayer.transform = CATransform3DMakeScale(1, -1, 1);
-	  inLayer.delegate = self;
-	  self.indicationLayer = inLayer;
-	  [self insertSublayer:inLayer above:iLayer];
-	  
-	  // setup gloss layer
-	  CoverGridGlossLayer* gLayer = [CoverGridGlossLayer layer];
-	  gLayer.delegate = self;
-	  self.glossLayer = gLayer;
-	  [self insertSublayer:gLayer above:inLayer];
-	  
-	  // setup selection layer
-	  CoverGridSelectionLayer* sLayer = [CoverGridSelectionLayer layer];
-	  sLayer.delegate = self;
-	  self.selectionLayer = sLayer;
-	  [self insertSublayer:sLayer above:gLayer];
-	  
-	  // setup title layer;
-	  CATextLayer* tLayer = [CATextLayer layer];
-	  tLayer.delegate = self;
-	  
-	  NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
-	  tLayer.font=font;
-	  tLayer.fontSize=12;
-	  tLayer.foregroundColor=[[NSColor whiteColor] CGColor];
-	  tLayer.truncationMode = kCATruncationEnd;
-	  tLayer.alignmentMode = kCAAlignmentCenter;
-	  
-	  tLayer.shadowColor = [[NSColor blackColor] CGColor];
-	  tLayer.shadowOffset = CGSizeMake(0, -1);
-	  tLayer.shadowRadius = 1.0;
-	  tLayer.shadowOpacity = 1.0;
-	  
-	  tLayer.transform = CATransform3DMakeScale(1, -1, 1);
-	  [self addSublayer:tLayer];
-	  self.titleLayer = tLayer;
-	  
-	  // setup rating layer
-	  CoverGridRatingLayer* rLayer = [CoverGridRatingLayer layer];
-	  rLayer.delegate = self;
-	  [self addSublayer:rLayer];
-	  self.ratingLayer = rLayer;
+		lastImageSize = NSZeroSize;
+		
+		// Setup image layer
+		CALayer* iLayer = [CALayer layer];
+		iLayer.shadowColor = [[NSColor blackColor] CGColor];
+		iLayer.geometryFlipped = YES;
+		iLayer.transform = CATransform3DMakeScale(1, -1, 1);
+		iLayer.shadowOffset = CGSizeMake(0, 3);
+		iLayer.shadowOpacity = 1.0;
+		iLayer.shadowRadius = 3.0;
+		iLayer.contentsGravity = kCAGravityResize;
+		iLayer.delegate = self;
+		
+		self.imageLayer = iLayer;
+		[self addSublayer:iLayer];
+		
+		// setup layer for status display (missing, processing, ....)
+		CoverGridIndicationLayer* inLayer = [CoverGridIndicationLayer layer];
+		inLayer.transform = CATransform3DMakeScale(1, -1, 1);
+		inLayer.delegate = self;
+		self.indicationLayer = inLayer;
+		[self insertSublayer:inLayer above:iLayer];
+		
+		// setup gloss layer
+		CoverGridGlossLayer* gLayer = [CoverGridGlossLayer layer];
+		gLayer.delegate = self;
+		self.glossLayer = gLayer;
+		[self insertSublayer:gLayer above:inLayer];
+		
+		// setup selection layer
+		CoverGridSelectionLayer* sLayer = [CoverGridSelectionLayer layer];
+		sLayer.delegate = self;
+		self.selectionLayer = sLayer;
+		[self insertSublayer:sLayer above:gLayer];
+		
+		// setup title layer;
+		CATextLayer* tLayer = [CATextLayer layer];
+		tLayer.delegate = self;
+		
+		NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
+		tLayer.font=font;
+		tLayer.fontSize=12;
+		tLayer.foregroundColor=[[NSColor whiteColor] CGColor];
+		tLayer.truncationMode = kCATruncationEnd;
+		tLayer.alignmentMode = kCAAlignmentCenter;
+		
+		tLayer.shadowColor = [[NSColor blackColor] CGColor];
+		tLayer.shadowOffset = CGSizeMake(0, -1);
+		tLayer.shadowRadius = 1.0;
+		tLayer.shadowOpacity = 1.0;
+		
+		tLayer.transform = CATransform3DMakeScale(1, -1, 1);
+		[self addSublayer:tLayer];
+		self.titleLayer = tLayer;
+		
+		// setup rating layer
+		CoverGridRatingLayer* rLayer = [CoverGridRatingLayer layer];
+		rLayer.delegate = self;
+		[self addSublayer:rLayer];
+		self.ratingLayer = rLayer;
     }
     
     return self;
@@ -139,7 +141,7 @@
     
     // make sure indication layer displays correctly
     if(!acceptingOnDrop)
-	  self.indicationLayer.type = [[self representedObject] gridStatus];
+		self.indicationLayer.type = [[self representedObject] gridStatus];
 }
 
 
@@ -165,6 +167,16 @@
     
     // calculate area where image is placed
     imageContainerRect = NSMakeRect(0+imageBorderLeft, 0+topBorder, self.bounds.size.width-imageBorderLeft-imageBorderRight, self.bounds.size.height - titleHeight-titleImageSpacing-subtitleHeight-topBorder);
+	
+	// get image for specific size
+	if(self.representedObject && self.imageLayer && !NSEqualSizes(lastImageSize, imageContainerRect.size)){
+		NSImage* image = [self.representedObject gridImageWithSize:imageContainerRect.size];
+		if(image){
+			self.imageLayer.contents = image;
+			lastImageSize = imageContainerRect.size;	
+		}
+	}
+	
     
     // calculate rect for title layer
     titleRect = CGRectMake(self.bounds.origin.x, imageContainerRect.origin.y+imageContainerRect.size.height+titleImageSpacing, self.bounds.size.width, titleHeight);
@@ -176,11 +188,11 @@
     // Calculated size of image in container frame
     float width, height;
     if(self.imageRatio<1){ // width > height
-	  width = imageContainerRect.size.width;
-	  height = width*self.imageRatio;
+		width = imageContainerRect.size.width;
+		height = width*self.imageRatio;
     } else {
-	  height = imageContainerRect.size.height;
-	  width = height/self.imageRatio;			
+		height = imageContainerRect.size.height;
+		width = height/self.imageRatio;			
     }
     
     // Determine actual frame for image
@@ -197,8 +209,9 @@
     titleLayer.frame = titleRect;
     ratingLayer.frame = ratingRect;
     self.glossLayer.frame = coverImageRect;
-    self.imageLayer.frame = coverImageRect; 
-    
+    self.imageLayer.frame = coverImageRect;
+	
+ 	
     NSWindow* win = [self.gridView window];
     
     // determine states that affect selection display
@@ -208,8 +221,8 @@
     
     CGRect selectionRect = CGRectInset(coverImageRect, -6, -6);
     if((self.selected && !CGRectEqualToRect(self.selectionLayer.frame, selectionRect)) ||
-	 (self.selected && self.selectionLayer.isInactive != selectionInactive)){
-	  [self.selectionLayer setNeedsDisplay];
+	   (self.selected && self.selectionLayer.isInactive != selectionInactive)){
+		[self.selectionLayer setNeedsDisplay];
     }
     
     self.selectionLayer.frame = selectionRect;
@@ -232,26 +245,26 @@
     
     
     if(NSPointInRect(p, NSRectFromCGRect(ratingRect))){
-	  isEditingRating = YES;
-	  
-	  [self setRatingWithPoint:p pressed:YES];
-	  
-	  return YES;
+		isEditingRating = YES;
+		
+		[self setRatingWithPoint:p pressed:YES];
+		
+		return YES;
     }
     
     isEditingRating = NO;
     
     if(NSPointInRect(p, self.titleLayer.frame)){
-	  if ([theEvent clickCount]==2 ){
-		CGRect fieldFrame = self.titleLayer.frame;
-		
-		fieldFrame.size.height += 1;
-		
-		OEFieldEditor* fieldEditor = [self.gridView fieldEditorForFrame:fieldFrame ofLayer:self];
-		[self setUpFieldEditor:fieldEditor];
-		
-		return YES;
-	  } 
+		if ([theEvent clickCount]==2 ){
+			CGRect fieldFrame = self.titleLayer.frame;
+			
+			fieldFrame.size.height += 1;
+			
+			OEFieldEditor* fieldEditor = [self.gridView fieldEditorForFrame:fieldFrame ofLayer:self];
+			[self setUpFieldEditor:fieldEditor];
+			
+			return YES;
+		} 
     }
     
     return NO;
@@ -262,8 +275,8 @@
     p.y -= self.frame.origin.y;
     p.x -= self.frame.origin.x;
     if(isEditingRating){
-	  [self setRatingWithPoint:p pressed:YES];
-	  return YES;
+		[self setRatingWithPoint:p pressed:YES];
+		return YES;
     }
     isEditingRating = NO;
     
@@ -288,15 +301,15 @@
     p.x -= self.frame.origin.x;
     
     if(isEditingRating){
-	  isEditingRating = NO;
-	  [self setRatingWithPoint:p pressed:NO];
-	  return YES; 
+		isEditingRating = NO;
+		[self setRatingWithPoint:p pressed:NO];
+		return YES; 
     }
     
     isEditingRating = NO;
     
     if(NSPointInRect(p, self.titleLayer.frame))
-	  return YES;
+		return YES;
     
     return NO;
 }
@@ -339,21 +352,21 @@
     id proposedImageRepresentation;
     NSArray* images = [[sender draggingPasteboard] readObjectsForClasses:[NSArray arrayWithObject:[NSImage class]] options:nil];
     if([images count]==0){
-	  // Didn't get image, look for files
-	  images = [[sender draggingPasteboard] readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]] options:nil];
-	  if(images==0){
-		return NSDragOperationNone;	
-	  }		
-	  
-	  // got a file url, check if it has image suffix
-	  NSURL* url = [images objectAtIndex:0];
-	  if([url hasImageSuffix]){
-		proposedImageRepresentation = url;
-	  } else {
-		return NSDragOperationNone;
-	  }
+		// Didn't get image, look for files
+		images = [[sender draggingPasteboard] readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]] options:nil];
+		if(images==0){
+			return NSDragOperationNone;	
+		}		
+		
+		// got a file url, check if it has image suffix
+		NSURL* url = [images objectAtIndex:0];
+		if([url hasImageSuffix]){
+			proposedImageRepresentation = url;
+		} else {
+			return NSDragOperationNone;
+		}
     } else {
-	  proposedImageRepresentation = [images objectAtIndex:0];
+		proposedImageRepresentation = [images objectAtIndex:0];
     }
     
     acceptingOnDrop = YES;
@@ -367,22 +380,22 @@
 
 - (void)_displayOnDrop:(id)sender{
     if(!acceptingOnDrop)
-	  return;
+		return;
     
     NSImage* proposedCoverImage;
     
     id userInfo = [sender userInfo];
     // check if we need to load image from url
     if([userInfo isKindOfClass:[NSURL class]]){
-	  proposedCoverImage = [[[NSImage alloc] initWithContentsOfURL:userInfo] autorelease];
-	  if(!proposedCoverImage){
-		// could not load image, cancel
-		acceptingOnDrop = NO;
-		
-		return;
-	  }
+		proposedCoverImage = [[[NSImage alloc] initWithContentsOfURL:userInfo] autorelease];
+		if(!proposedCoverImage){
+			// could not load image, cancel
+			acceptingOnDrop = NO;
+			
+			return;
+		}
     } else {
-	  proposedCoverImage = userInfo;
+		proposedCoverImage = userInfo;
     }
     
     // display drop acceptance
@@ -392,11 +405,11 @@
     float rat = [proposedCoverImage size].height/[proposedCoverImage size].width;
     float width, height;
     if(rat<1){ // width > height
-	  width = imageContainerRect.size.width;
-	  height = width*rat;
+		width = imageContainerRect.size.width;
+		height = width*rat;
     } else {
-	  height = imageContainerRect.size.height;
-	  width = height/rat;			
+		height = imageContainerRect.size.height;
+		width = height/rat;			
     }
     
     
@@ -438,18 +451,18 @@
     if(!acceptingOnDrop) return;	
     
     if(dropAnimationDelayTimer){ 
-	  [dropAnimationDelayTimer invalidate]; 
-	  [dropAnimationDelayTimer release]; 
-	  dropAnimationDelayTimer = nil; 
+		[dropAnimationDelayTimer invalidate]; 
+		[dropAnimationDelayTimer release]; 
+		dropAnimationDelayTimer = nil; 
     }
     
     float width, height;
     if(self.imageRatio<1){ // width > height
-	  width = imageContainerRect.size.width;
-	  height = width*self.imageRatio;
+		width = imageContainerRect.size.width;
+		height = width*self.imageRatio;
     } else {
-	  height = imageContainerRect.size.height;
-	  width = height/self.imageRatio;			
+		height = imageContainerRect.size.height;
+		width = height/self.imageRatio;			
     }
     
     // Space between left layer border and left side of image
@@ -459,13 +472,13 @@
     NSUInteger index = [[self sublayers] indexOfObjectIdenticalTo:self.imageLayer]+1;
     CALayer* newImageLayer = [[self sublayers] objectAtIndex:index];
     if([newImageLayer isKindOfClass:[CALayer class]]){
-	  [self resizeLayer:newImageLayer to:CGSizeMake(0, 0)];
-	  [self moveLayer:newImageLayer to:CGPointMake(self.frame.size.width/2, self.frame.size.height/2) centered:YES];
-	  
-	  [self performAfterDelay:0.2f block:^{
-		[newImageLayer removeFromSuperlayer];
-	  }];
-    
+		[self resizeLayer:newImageLayer to:CGSizeMake(0, 0)];
+		[self moveLayer:newImageLayer to:CGPointMake(self.frame.size.width/2, self.frame.size.height/2) centered:YES];
+		
+		[self performAfterDelay:0.2f block:^{
+			[newImageLayer removeFromSuperlayer];
+		}];
+		
     }
     
     //	[self moveLayer:self.imageLayer to:newCoverImageRect.origin];
@@ -500,19 +513,19 @@
     NSUInteger index = [[self sublayers] indexOfObjectIdenticalTo:self.imageLayer]+1;
     CALayer* newImageLayer = [[self sublayers] objectAtIndex:index];
     if([newImageLayer isKindOfClass:[CALayer class]]){
-	  
-	  id <CoverGridDataSourceItem> rObject = self.representedObject;
-	  [rObject setGridImage:((CALayer*) newImageLayer).contents];
-	  
-	  newImageLayer.shadowColor = self.imageLayer.shadowColor;
-	  newImageLayer.shadowOffset = self.imageLayer.shadowOffset;
-	  newImageLayer.shadowOpacity = self.imageLayer.shadowOpacity;
-	  newImageLayer.shadowRadius = self.imageLayer.shadowRadius;
-	  
-	  [self.imageLayer removeFromSuperlayer];
-	  self.imageLayer = (CALayer*)newImageLayer;
-	  
-	  [self _valuesDidChange];
+		
+		id <CoverGridDataSourceItem> rObject = self.representedObject;
+		[rObject setGridImage:((CALayer*) newImageLayer).contents];
+		
+		newImageLayer.shadowColor = self.imageLayer.shadowColor;
+		newImageLayer.shadowOffset = self.imageLayer.shadowOffset;
+		newImageLayer.shadowOpacity = self.imageLayer.shadowOpacity;
+		newImageLayer.shadowRadius = self.imageLayer.shadowRadius;
+		
+		[self.imageLayer removeFromSuperlayer];
+		self.imageLayer = (CALayer*)newImageLayer;
+		
+		[self _valuesDidChange];
     }
     
     return YES;
@@ -521,8 +534,8 @@
 #pragma mark "Cell" methods
 - (void)setRepresentedObject:(id)robJect{
     if((robJect != self.representedObject)){
-	  [super setRepresentedObject:robJect];
-	  [self _valuesDidChange];
+		[super setRepresentedObject:robJect];
+		[self _valuesDidChange];
     }
 }
 #pragma mark -
@@ -540,7 +553,7 @@
     self.selectionLayer.isInactive = selectionInactive;
     
     if(redraw){
-	  [self.selectionLayer setNeedsDisplay];
+		[self.selectionLayer setNeedsDisplay];
     }
 }
 
@@ -595,8 +608,8 @@
     animation.fromValue = [layer valueForKey:@"position"];
     
     if(!centered){
-	  point.x += layer.frame.size.width/2;
-	  point.y += layer.frame.size.height/2;
+		point.x += layer.frame.size.width/2;
+		point.y += layer.frame.size.height/2;
     }
     
     animation.toValue = [NSValue valueWithPoint:NSPointFromCGPoint(point)];
@@ -638,7 +651,8 @@
 - (void)_valuesDidChange{
     id <CoverGridDataSourceItem> rObject = self.representedObject;
     
-    NSImage* coverImage = [rObject gridImage];
+	NSSize imageContainerSize = NSSizeFromCGSize(self.imageLayer.bounds.size);
+    NSImage* coverImage = [rObject gridImageWithSize:imageContainerSize];
     float r = coverImage?[coverImage size].height/[coverImage size].width:1.365385;
     if(r!=self.imageRatio) [self setNeedsLayout];
     self.imageRatio = r;
@@ -646,19 +660,19 @@
     self.titleLayer.string = [rObject gridTitle];
     self.imageLayer.contents = coverImage;
     if(coverImage==nil){
-	  CoverGridNoArtwork* noArtworkLayer;
-	  if([self.imageLayer.sublayers count]==0){
-		noArtworkLayer = [CoverGridNoArtwork layer];
-		
-		noArtworkLayer.frame = CGRectMake(0, 0, self.imageLayer.bounds.size.width, self.imageLayer.bounds.size.height);
-		noArtworkLayer.autoresizingMask = kCALayerHeightSizable | kCALayerWidthSizable;
-		noArtworkLayer.delegate = self;
-		
-		[self.imageLayer addSublayer:noArtworkLayer];
-		[noArtworkLayer setNeedsDisplay];
-	  }
+		CoverGridNoArtwork* noArtworkLayer;
+		if([self.imageLayer.sublayers count]==0){
+			noArtworkLayer = [CoverGridNoArtwork layer];
+			
+			noArtworkLayer.frame = CGRectMake(0, 0, self.imageLayer.bounds.size.width, self.imageLayer.bounds.size.height);
+			noArtworkLayer.autoresizingMask = kCALayerHeightSizable | kCALayerWidthSizable;
+			noArtworkLayer.delegate = self;
+			noArtworkLayer.needsDisplayOnBoundsChange = YES;
+			[self.imageLayer addSublayer:noArtworkLayer];
+			[noArtworkLayer setNeedsDisplay];
+		}
     } else if([self.imageLayer.sublayers count]!=0){
-	  [[[self.imageLayer sublayers] objectAtIndex:0] removeFromSuperlayer];
+		[[[self.imageLayer sublayers] objectAtIndex:0] removeFromSuperlayer];
     }
     
     [self.ratingLayer setRating:[rObject gridRating] pressed:NO];
@@ -670,15 +684,15 @@
 #pragma mark Animation stuff
 - (id < CAAction >)actionForLayer:(CALayer *)layer forKey:(NSString *)key{
     if(layer == self.ratingLayer)
-	  if(isEditingRating && layer == self.ratingLayer && [key isEqualTo:@"contents"])
-		return nil;
+		if(isEditingRating && layer == self.ratingLayer && [key isEqualTo:@"contents"])
+			return nil;
     
     return (id < CAAction >)[NSNull null];
 }
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag{
     if(self.selected)
-	  [self.selectionLayer setNeedsDisplay];
+		[self.selectionLayer setNeedsDisplay];
     
     [self setNeedsDisplay];
 }
@@ -725,12 +739,12 @@
     NSString* newTitle = [fieldEditor string];
     id <CoverGridDataSourceItem> rObject = [self representedObject];
     if([newTitle isNotEqualTo:@""] && [newTitle isNotEqualTo:[rObject gridTitle]]){
-	  
-	  
-	  [rObject setGridTitle:newTitle];
-	  [self _valuesDidChange];
-	  
-	  [NSTimer scheduledTimerWithTimeInterval:0.3 target:self.gridView selector:@selector(reloadData) userInfo:nil repeats:NO];
+		
+		
+		[rObject setGridTitle:newTitle];
+		[self _valuesDidChange];
+		
+		[NSTimer scheduledTimerWithTimeInterval:0.3 target:self.gridView selector:@selector(reloadData) userInfo:nil repeats:NO];
     }
     
     [fieldEditor setDelegate:nil];

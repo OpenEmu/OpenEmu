@@ -40,3 +40,6 @@
 #else
 #define DLog(format, ...) do {} while (0)
 #endif
+
+#define UDKSidebarVisible @"isSidebarVisible"
+#define UDKSidebarWidth @"lastSidebarWidth"

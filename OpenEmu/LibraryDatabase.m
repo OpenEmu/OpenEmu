@@ -19,7 +19,7 @@
 
 @interface LibraryDatabase (Private)
 
-- (BOOL)_loadDatabase;
+- (BOOL)_loadDatabase:(BOOL)forceChoosing;
 - (BOOL)_createDatabaseAtURL:(NSURL*)url error:(NSError**)error;
 - (BOOL)_isValidDatabase:(NSURL*)url error:(NSError**)error;
 - (BOOL)_chooseDatabase;
@@ -61,7 +61,7 @@
     
     if (self) {
 	  romsController = [[NSArrayController alloc] init];	  
-	  if(![self _loadDatabase]){		
+		if(![self _loadDatabase:NO]){		
 		self = nil;
 		return nil;
 	  }
@@ -124,9 +124,12 @@
     NSURL *url = [__databaseURL URLByAppendingPathComponent:OEDatabaseFileName];
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
     if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]) {
-        [[NSApplication sharedApplication] presentError:error];
-        [__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
-        return nil;
+		// TODO: Try to migrate database to latest version
+		
+		[__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
+        
+		// [[NSApplication sharedApplication] presentError:error];
+		return nil;
     }
     
     return __persistentStoreCoordinator;
@@ -142,6 +145,7 @@
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict setValue:@"Failed to initialize the store" forKey:NSLocalizedDescriptionKey];
         [dict setValue:@"There was an error building up the data file." forKey:NSLocalizedFailureReasonErrorKey];
+		// TODO: adjust error domain
         NSError *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
         [[NSApplication sharedApplication] presentError:error];
         return nil;
@@ -160,7 +164,8 @@
 
 #pragma mark -
 - (BOOL)save:(NSError**)error{
-    if(error!=NULL) *error=nil;	
+	NSError* backupError;
+    if(error==NULL) error=&backupError;	
     
     if (![[self managedObjectContext] commitEditing]) {
         NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
@@ -282,6 +287,7 @@
 	
 	NSError* error = nil;
 	NSArray* fetchResult = [context executeFetchRequest:fetchRequest error:&error];
+	[fetchRequest release];
 	if(error!=nil){
 		NSLog(@"Could not get System!");
 		[NSApp presentError:error];
@@ -580,10 +586,10 @@
 		NSLog(@"Unkown system!");	
 		return;
 	}
-	
+
 	// copy file to database
 	// TODO: ask user preferences if this step is necessary
-	BOOL copyFilesToDatabaseFolder;
+	BOOL copyFilesToDatabaseFolder = NO;
 	NSString* finalPath = nil;
 	if(copyFilesToDatabaseFolder){
 		// TODO: get database folder path
@@ -608,8 +614,12 @@
     [newGame setValue:system forKey:@"system"];
 	
 	NSManagedObject* rom = [NSEntityDescription insertNewObjectForEntityForName:@"ROM" inManagedObjectContext:context];
+	
 	[rom setValue:finalPath forKey:@"path"];
-	[[newGame valueForKey:@"roms"] addObject:rom];
+	
+	
+	NSMutableSet *roms = [newGame mutableSetValueForKey:@"roms"];
+	[roms addObject:rom];
 	
 	// TODO: initiate archive sync
     if(collection!=nil){
@@ -631,10 +641,10 @@
 
 #pragma mark -
 #pragma mark Private (Init phase)
-- (BOOL)_loadDatabase{
+- (BOOL)_loadDatabase:(BOOL)forceChoosing{
     
     // determine database path
-    if( ([NSEvent modifierFlags] & NSAlternateKeyMask)==0 ){	// check if alt is not down
+    if(!forceChoosing && ([NSEvent modifierFlags] & NSAlternateKeyMask)==0 ){	// check if alt is not down
 	  // "default start"
 	  NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
 	  NSString* databasePath = [standardDefaults objectForKey:UDDatabasePathKey];
@@ -653,12 +663,18 @@
     
     if(!__databaseURL && ![self _chooseDatabase]){ // User did not chose a database
 	  NSLog(@"cancel database load");
-	  return FALSE;
+	  return NO;
     }		
     
-    if(![self managedObjectModel]){
-	  return NO;
+	
+    if(![self managedObjectContext]){
+		NSLog(@"no managedObjectContext");
+		[__databaseURL release];
+		__databaseURL = nil;
+		
+		return [self _loadDatabase:YES];
     }
+	
     
     return YES;
 }
@@ -720,7 +736,8 @@
 }
 
 - (BOOL)_createDatabaseAtURL:(NSURL*)url error:(NSError**)error{
-    if(error!=NULL) *error=nil;
+	NSError* backupError;
+    if(error==NULL) error=&backupError;
     
     NSError* _error;
     
@@ -805,7 +822,8 @@
 }
 
 - (BOOL)_isValidDatabase:(NSURL*)url error:(NSError**)error{
-    if(error!=NULL) *error=nil;
+	NSError* backupError;
+    if(error==NULL) error=&backupError;
     
     NSDictionary *properties = [url resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:error];
     if(!properties){

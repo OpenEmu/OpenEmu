@@ -67,9 +67,11 @@
 - (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError{
     NSString *romPath = [url path];
     
+	
+	NSLog(@"%@", [OECorePlugin supportedTypeExtensions]);
     if([[NSFileManager defaultManager] fileExistsAtPath:romPath]){
         OECorePlugin *plugin = [self OE_pluginForFileExtension:[url pathExtension] error:outError];
-        
+		
         if(plugin == nil) return NO;
         
         gameController = [[plugin controller] retain];
@@ -113,7 +115,6 @@
 - (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError
 {
     OECorePlugin *ret = nil;
-    
     
     NSArray *validPlugins = [OECorePlugin pluginsForFileExtension:ext];
     

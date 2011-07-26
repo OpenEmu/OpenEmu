@@ -21,13 +21,10 @@
 		[self setAutoresizesSubviews:NO];
 		
 		textView = [[NSTextField alloc] initWithFrame:NSMakeRect(10, 10, 80, 80)];
-		[self setHidden:YES];
 		[textView setBezeled:NO];
+        [textView setAllowsEditingTextAttributes:NO];
+        
 		[self setHidden:YES];
-		
-		textView = [[NSTextField alloc] initWithFrame:NSMakeRect(10, 10, 80, 80)];
-		[textView setBezeled:NO];
-		[textView setAllowsEditingTextAttributes:NO];
 		
 		[self setWantsLayer:YES];
 		

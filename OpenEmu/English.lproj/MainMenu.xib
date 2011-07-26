@@ -82,6 +82,7 @@
 							</object>
 							<string key="NSFrame">{{-13, 266}, {425, 159}}</string>
 							<reference key="NSSuperview" ref="307355646"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="1031005192"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSImageCell" key="NSCell" id="118476722">
@@ -113,6 +114,7 @@
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrameSize">{400, 96}</string>
 											<reference key="NSSuperview" ref="980752864"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="315702803"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="763549619">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -377,6 +379,7 @@
 									</object>
 									<string key="NSFrame">{{1, 1}, {400, 201}}</string>
 									<reference key="NSSuperview" ref="994725867"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="827722894"/>
 									<reference key="NSDocView" ref="827722894"/>
 									<reference key="NSBGColor" ref="1056215291"/>
@@ -413,6 +416,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{344, 1}, {15, 184}}</string>
 									<reference key="NSSuperview" ref="994725867"/>
+									<reference key="NSWindow"/>
 									<reference key="NSTarget" ref="994725867"/>
 									<string key="NSAction">_doScroller:</string>
 									<double key="NSPercent">0.90683227777481079</double>
@@ -422,6 +426,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="994725867"/>
+									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="980752864"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="994725867"/>
@@ -432,6 +437,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							</object>
 							<string key="NSFrameSize">{402, 203}</string>
 							<reference key="NSSuperview" ref="307355646"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="980752864"/>
 							<int key="NSsFlags">133650</int>
 							<reference key="NSVScroller" ref="511878541"/>
@@ -443,6 +449,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{17, 253}, {366, 18}}</string>
 							<reference key="NSSuperview" ref="307355646"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="726770214"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="944115925">
@@ -474,6 +481,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{145, 230}, {110, 15}}</string>
 							<reference key="NSSuperview" ref="307355646"/>
+							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="994725867"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSTextFieldCell" key="NSCell" id="55553108">
@@ -493,6 +501,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 					</object>
 					<string key="NSFrameSize">{400, 420}</string>
 					<reference key="NSSuperview"/>
+					<reference key="NSWindow"/>
 					<reference key="NSNextKeyView" ref="68727053"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
@@ -1851,14 +1860,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBActionConnection" key="connection">
-						<string key="label">volumeUp:</string>
-						<reference key="source" ref="1014"/>
-						<reference key="destination" ref="941894361"/>
-					</object>
-					<int key="connectionID">1031</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
 						<string key="label">volumeDown:</string>
 						<reference key="source" ref="1014"/>
 						<reference key="destination" ref="1018714908"/>
@@ -2264,6 +2265,14 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<reference key="destination" ref="381409668"/>
 					</object>
 					<int key="connectionID">1145</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">controlsmenu_startGame:</string>
+						<reference key="source" ref="673810394"/>
+						<reference key="destination" ref="941894361"/>
+					</object>
+					<int key="connectionID">1149</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -3664,7 +3673,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1148</int>
+			<int key="maxID">1149</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -3740,8 +3749,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>listView</string>
 							<string>listViewBtn</string>
 							<string>listViewMenuItem</string>
-							<string>noCollectionSelectedView</string>
-							<string>noItemsInCollectionView</string>
 							<string>searchField</string>
 							<string>sizeSlider</string>
 						</object>
@@ -3758,8 +3765,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>NSTableView</string>
 							<string>NSButton</string>
 							<string>NSMenuItem</string>
-							<string>NSView</string>
-							<string>NSView</string>
 							<string>NSSearchField</string>
 							<string>NSSlider</string>
 						</object>
@@ -3779,8 +3784,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<string>listView</string>
 							<string>listViewBtn</string>
 							<string>listViewMenuItem</string>
-							<string>noCollectionSelectedView</string>
-							<string>noItemsInCollectionView</string>
 							<string>searchField</string>
 							<string>sizeSlider</string>
 						</object>
@@ -3829,14 +3832,6 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 							<object class="IBToOneOutletInfo">
 								<string key="name">listViewMenuItem</string>
 								<string key="candidateClassName">NSMenuItem</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">noCollectionSelectedView</string>
-								<string key="candidateClassName">NSView</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">noItemsInCollectionView</string>
-								<string key="candidateClassName">NSView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">searchField</string>
@@ -3958,6 +3953,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>controlsmenu_startGame:</string>
 							<string>filemenu_addToLibrary:</string>
 							<string>filemenu_editSmartCollection:</string>
 							<string>filemenu_launchGame:</string>
@@ -3969,6 +3965,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -3983,6 +3980,7 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>controlsmenu_startGame:</string>
 							<string>filemenu_addToLibrary:</string>
 							<string>filemenu_editSmartCollection:</string>
 							<string>filemenu_launchGame:</string>
@@ -3994,6 +3992,10 @@ AAEAAQAAAT0AAwAAAAEAAgAAAVIAAwAAAAEAAQAAAVMAAwAAAAIAAQABAAAAAA</bytes>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBActionInfo">
+								<string key="name">controlsmenu_startGame:</string>
+								<string key="candidateClassName">id</string>
+							</object>
 							<object class="IBActionInfo">
 								<string key="name">filemenu_addToLibrary:</string>
 								<string key="candidateClassName">id</string>

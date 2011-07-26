@@ -35,11 +35,6 @@
     
     IBOutlet NSSlider		* sizeSlider;
     IBOutlet NSSearchField	* searchField;
-    
-    
-    IBOutlet NSView* noCollectionSelectedView;
-    IBOutlet NSView* noItemsInCollectionView;
-    
     /*
      *
      IBOutlet NSButton	*dbg_btn_colors;
@@ -52,6 +47,8 @@
 
 - (void)finishSetup;
 
+#pragma mark -
+- (NSArray*)selectedGames;
 #pragma mark -
 #pragma mark View Selection
 - (IBAction)selectGridView:(id)sender;

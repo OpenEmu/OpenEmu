@@ -19,5 +19,6 @@
 - (NSUInteger)gridRating;
 
 - (NSImage*)gridImage;
+- (NSImage*)gridImageWithSize:(NSSize)size;
 - (void)setGridImage:(NSImage*)gridImage;
 @end

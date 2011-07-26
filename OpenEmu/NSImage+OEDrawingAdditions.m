@@ -146,7 +146,7 @@
 - (NSImage*)setName:(NSString*)name forSubimageInRect:(NSRect)aRect{
 	NSImage* resultImage = [self subImageFromRect:aRect];
 	[resultImage setName:name];
-	
+    
 	return [resultImage retain];
 }
 @end

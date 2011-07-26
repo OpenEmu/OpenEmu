@@ -12,7 +12,6 @@
 #import "LibraryDatabase.h"
 
 #import "CoverGridForegroundLayer.h"
-#import "CoverGridBackgroundLayer.h"
 #import "CoverGridItemLayer.h"
 
 #import "ListViewDataSourceItem.h"
@@ -103,9 +102,6 @@
     CoverGridForegroundLayer *foregroundLayer = [CoverGridForegroundLayer layer];
     [gridView addForegroundLayer:foregroundLayer];
     
-    CoverGridBackgroundLayer *backgroundLayer = [CoverGridBackgroundLayer layer];
-    [gridView addBackgroundLayer:backgroundLayer];
-    
     //set initial zoom value
 	// TODO: Restore last slider value!
     [sizeSlider setContinuous:YES];
@@ -124,6 +120,11 @@
 	
 	[self _reloadData];
 }
+#pragma mark -
+- (NSArray*)selectedGames{
+	return [gamesController selectedObjects];
+}
+
 #pragma mark -
 #pragma mark View Selection
 - (IBAction)selectGridView:(id)sender{
@@ -246,7 +247,8 @@
 
 #pragma mark -
 #pragma mark GridView Delegate
-- (void)gridView:(IKSGridView*)gridView selectionChanged:(NSArray*)selectedItems{
+- (void)gridView:(IKSGridView*)aGridView selectionChanged:(NSArray*)selectedItems{
+	[gamesController setSelectionIndexes:[aGridView selectedIndexes]];
 }
 
 - (void)gridView:(IKSGridView*)gridView itemsMagnifiedToSize:(NSSize)newSize{

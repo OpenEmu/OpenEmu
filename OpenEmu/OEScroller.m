@@ -17,6 +17,9 @@
 + (CGFloat)scrollerWidthForControlSize:(NSControlSize)controlSize;
 @end
 @implementation OEScroller
+- (BOOL)autohidesScrollers{
+	return YES;
+}
 
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
@@ -30,6 +33,13 @@
 		else if([key isEqualTo:@"DoubleBoth"])	scrollArrowPos = NSScrollerArrowsDoubleBoth;
 		
 		else									scrollArrowPos = NSScrollerArrowsNone;
+		
+		
+#ifdef NSScrollerKnobStyleDefault
+		if([self respondsToSelector:@selector(setKnobStyle:)]){
+			[self setKnobStyle:NSScrollerKnobStyleDefault];
+		}
+#endif
     }
     return self;
 }
@@ -38,18 +48,33 @@
     self = [super init];
     if (self) {
 		[self detectOrientation];
+		
+		#ifdef NSScrollerKnobStyleDefault
+		if([self respondsToSelector:@selector(setKnobStyle:)]){
+			[self setKnobStyle:NSScrollerKnobStyleDefault];
+		}
+		#endif
+	
 	}
-    
     return self;
 }
 
 - (void)dealloc{
     [super dealloc];
 }
-
++ (BOOL)isCompatibleWithOverlayScrollers {
+	return YES;
+}
 #pragma mark -
 #pragma mark Scroller Drawing
+
 - (void)drawRect:(NSRect)aRect{
+	if([[self class] respondsToSelector:@selector(preferredScrollerStyle)] &&
+	   [[self class] preferredScrollerStyle]==1){
+		[super drawRect:aRect];
+		return;
+	}
+	
 	[[NSColor blackColor] set];
 	NSRectFill([self bounds]);
 
@@ -73,7 +98,7 @@
 	[self drawArrows];
 }
 
-- (void)drawKnobSlot{
+- (void)drawKnobSlot{	
 	NSRect imageRect = NSZeroRect;
 	NSRect targetRect = [self rectForPart:NSScrollerKnobSlot];
 		
@@ -83,6 +108,12 @@
 }
 
 - (void)drawKnob{
+	if([[self class] respondsToSelector:@selector(preferredScrollerStyle)] &&
+	   [[self class] preferredScrollerStyle]==1){
+		[super drawKnob];
+		return;
+	}
+	
 	BOOL windowActive = [[self window] isMainWindow];
 	
 	OEUIState state = OEUIStateInactive;
@@ -103,6 +134,7 @@
 }
 
 - (void)drawArrows{
+	
 	BOOL windowActive = [[self window] isMainWindow];
 	
 	
@@ -141,7 +173,13 @@
 	[image drawInRect:targetRect fromRect:imageRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
 }
 
-- (NSRect)rectForPart:(NSScrollerPart)aPart;{
+- (NSRect)rectForPart:(NSScrollerPart)aPart{
+	if([[self class] respondsToSelector:@selector(preferredScrollerStyle)] &&
+	   [[self class] preferredScrollerStyle]==1){
+		return [super rectForPart:aPart];
+	}
+	
+	
 	switch (aPart){
 		case NSScrollerNoPart:
 			return [self bounds];

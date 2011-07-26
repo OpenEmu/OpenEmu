@@ -14,6 +14,8 @@
 	BOOL _hidingLeftView;
 	
 	NSPoint lastMousePoint;
+	
+	BOOL drawsWindowResizer;
 }
 
 // returns view on the right/left that can be used wthout changeing toolbar background
@@ -23,6 +25,7 @@
 - (void)replaceLeftContentViewWithView:(NSView*)contentView animated:(BOOL)animationFlag;
 - (void)replaceRightContentViewWithView:(NSView*)contentView animated:(BOOL)animationFlag;
 @property BOOL resizesLeftView;
+@property BOOL drawsWindowResizer;
 
 - (void)setSplitterPosition:(CGFloat)newPosition animated:(BOOL)animatedFlag;
 - (float)splitterPosition;

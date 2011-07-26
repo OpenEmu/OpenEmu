@@ -95,6 +95,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 - (BOOL)loadROMError:(NSError **)outError
 {
+	DLog(@"[self rootProxy]: %@", [self rootProxy]);
     BOOL ret = [[self rootProxy] loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:owner];
     
     if(!ret && outError != NULL)

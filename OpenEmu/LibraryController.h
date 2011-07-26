@@ -32,6 +32,7 @@
     
     // Toolbar Items
     IBOutlet NSButton	* sidebarBtn;
+	BOOL sidebarChangesWindowSize;
     
     IBOutlet NSButton	* gridViewBtn;	IBOutlet NSMenuItem* gridViewMenuItem;
     IBOutlet NSButton	* flowViewBtn;	IBOutlet NSMenuItem* flowViewMenuItem;
@@ -57,8 +58,11 @@
 - (IBAction)filemenu_editSmartCollection:(id)sender;
 
 - (IBAction)filemenu_addToLibrary:(id)sender;
+
+- (IBAction)controlsmenu_startGame:(id)sender;
 #pragma mark -
 #pragma mark Properties
+@property (assign, nonatomic) BOOL sidebarChangesWindowSize;
 @property (assign) IBOutlet LibrarySplitView* mainSplitView;
 @property (retain, nonatomic) LibraryDatabase* database;
 @end
