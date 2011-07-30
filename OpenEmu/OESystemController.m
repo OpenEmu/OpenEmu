@@ -292,7 +292,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
         
         if([[udc valueForKeyPath:keyPath] isEqual:theEvent])
         {
-            [self registerValue:nil forKeyPath:aType];
+            [self registerValue:nil forKeyPath:keyPath];
             
             [_gameSystemResponders makeObjectsPerformSelector:targetSEL withObject:name];
         }

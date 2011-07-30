@@ -504,7 +504,7 @@
 				C6480FF71364A4E40094FA33 /* SuperNES.oesystemplugin */,
 				C6B948311365187100A425F0 /* GameBoy.oesystemplugin */,
 				C6B948331365187100A425F0 /* Genesis.oesystemplugin */,
-				C64657801377290C002A4F70 /* GameBoy Advance.bundle */,
+				C64657801377290C002A4F70 /* GameBoy Advance.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -762,7 +762,7 @@
 			remoteRef = C62A2626116F08B60003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C64657801377290C002A4F70 /* GameBoy Advance.bundle */ = {
+		C64657801377290C002A4F70 /* GameBoy Advance.oesystemplugin */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "GameBoy Advance.oesystemplugin";
