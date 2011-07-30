@@ -140,6 +140,16 @@
     }
 }
 
+- (void)keyDown:(NSEvent *)theEvent
+{
+    
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+    
+}
+
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
     if([anEvent direction] != OEHIDDirectionNull)
@@ -192,7 +202,7 @@
     if([[[self delegate] genericControlNamesInControlsViewController:self] containsObject:key])
     {
         [self willChangeValueForKey:key];
-        [[self delegate] controlsViewController:self registerEvent:value forKey:key];
+        [[self delegate] controlsViewController:self registerEvent:value forKey:[self keyPathForKey:key]];
         [self didChangeValueForKey:key];
     }
     else [super setValue:value forKey:key];
