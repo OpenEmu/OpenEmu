@@ -20,16 +20,16 @@
 			name = Distribution;
 			productName = Distribution;
 		};
-		82B9195310150EA2007BD6DB /* Build & Install */ = {
+		82B9195310150EA2007BD6DB /* Build & Install BSNES */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 82B9195D10150EA4007BD6DB /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 82B9195D10150EA4007BD6DB /* Build configuration list for PBXAggregateTarget "Build & Install BSNES" */;
 			buildPhases = (
 				82B9195210150EA2007BD6DB /* ShellScript */,
 			);
 			dependencies = (
 				82B9195F10150EB3007BD6DB /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install BSNES";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -1961,7 +1961,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* BSNES */,
-				82B9195310150EA2007BD6DB /* Build & Install */,
+				82B9195310150EA2007BD6DB /* Build & Install BSNES */,
 				82B91B8410151B4F007BD6DB /* libco */,
 				8230C6A110AFBC9100412F24 /* Distribution */,
 			);
@@ -2319,7 +2319,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82B9195D10150EA4007BD6DB /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		82B9195D10150EA4007BD6DB /* Build configuration list for PBXAggregateTarget "Build & Install BSNES" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82B9195410150EA2007BD6DB /* Debug */,

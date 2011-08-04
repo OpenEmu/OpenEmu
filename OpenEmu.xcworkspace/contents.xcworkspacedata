@@ -34,7 +34,4 @@
    <FileRef
       location = "group:VisualBoyAdvance/VisualBoyAdvance.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "container:OpenEmuBuilder/OpenEmuBuilder.xcodeproj">
-   </FileRef>
 </Workspace>

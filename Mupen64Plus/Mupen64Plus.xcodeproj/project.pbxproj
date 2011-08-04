@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		3D2091111183B8E900BEAA42 /* Build & Install */ = {
+		3D2091111183B8E900BEAA42 /* Build & Install Mupen64Plus */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 3D20911A1183B91A00BEAA42 /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 3D20911A1183B91A00BEAA42 /* Build configuration list for PBXAggregateTarget "Build & Install Mupen64Plus" */;
 			buildPhases = (
 				3D2091101183B8E900BEAA42 /* ShellScript */,
 			);
 			dependencies = (
 				3D2091151183B8F000BEAA42 /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install Mupen64Plus";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -1010,7 +1010,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* Mupen64Plus */,
-				3D2091111183B8E900BEAA42 /* Build & Install */,
+				3D2091111183B8E900BEAA42 /* Build & Install Mupen64Plus */,
 			);
 		};
 /* End PBXProject section */
@@ -1336,7 +1336,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3D20911A1183B91A00BEAA42 /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		3D20911A1183B91A00BEAA42 /* Build configuration list for PBXAggregateTarget "Build & Install Mupen64Plus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D2091121183B8E900BEAA42 /* Debug */,

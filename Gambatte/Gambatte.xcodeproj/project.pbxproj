@@ -20,16 +20,16 @@
 			name = Distribution;
 			productName = Distribution;
 		};
-		82D815920F1D880300EF8CF5 /* Build & Install */ = {
+		82D815920F1D880300EF8CF5 /* Build & Install Gambatte */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 82D8159F0F1D881300EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 82D8159F0F1D881300EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install Gambatte" */;
 			buildPhases = (
 				82D815910F1D880300EF8CF5 /* ShellScript */,
 			);
 			dependencies = (
 				82D815CB0F1D887800EF8CF5 /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install Gambatte";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -695,7 +695,7 @@
 			projectRoot = "";
 			targets = (
 				828387800E6CDB2200A96E2C /* Gambatte */,
-				82D815920F1D880300EF8CF5 /* Build & Install */,
+				82D815920F1D880300EF8CF5 /* Build & Install Gambatte */,
 				82CAFCD50FEDD3D400CCDC7E /* Distribution */,
 			);
 		};
@@ -1018,7 +1018,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82D8159F0F1D881300EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		82D8159F0F1D881300EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install Gambatte" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82D815930F1D880400EF8CF5 /* Debug */,

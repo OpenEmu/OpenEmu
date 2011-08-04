@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		822C193F101EA4AF0034119F /* Build & Install */ = {
+		822C193F101EA4AF0034119F /* Build & Install GenesisPlus */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 822C1944101EA4D40034119F /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 822C1944101EA4D40034119F /* Build configuration list for PBXAggregateTarget "Build & Install GenesisPlus" */;
 			buildPhases = (
 				822C193E101EA4AF0034119F /* ShellScript */,
 			);
 			dependencies = (
 				822C1943101EA4B60034119F /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install GenesisPlus";
 			productName = "Build & Install";
 		};
 		8230C7D110AFCB0600412F24 /* Distribution */ = {
@@ -573,7 +573,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* GenesisPlus */,
-				822C193F101EA4AF0034119F /* Build & Install */,
+				822C193F101EA4AF0034119F /* Build & Install GenesisPlus */,
 				8230C7D110AFCB0600412F24 /* Distribution */,
 			);
 		};
@@ -873,7 +873,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		822C1944101EA4D40034119F /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		822C1944101EA4D40034119F /* Build configuration list for PBXAggregateTarget "Build & Install GenesisPlus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				822C1940101EA4B00034119F /* Debug */,

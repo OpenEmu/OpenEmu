@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		82408A730FFDEB3F00F0FE7D /* Build & Install */ = {
+		82408A730FFDEB3F00F0FE7D /* Build & Install Mednafen */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 82408A980FFDEB5700F0FE7D /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 82408A980FFDEB5700F0FE7D /* Build configuration list for PBXAggregateTarget "Build & Install Mednafen" */;
 			buildPhases = (
 				82408A720FFDEB3F00F0FE7D /* ShellScript */,
 			);
 			dependencies = (
 				82408A770FFDEB4D00F0FE7D /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install Mednafen";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -2245,7 +2245,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* Mednafen */,
-				82408A730FFDEB3F00F0FE7D /* Build & Install */,
+				82408A730FFDEB3F00F0FE7D /* Build & Install Mednafen */,
 			);
 		};
 /* End PBXProject section */
@@ -2813,7 +2813,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82408A980FFDEB5700F0FE7D /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		82408A980FFDEB5700F0FE7D /* Build configuration list for PBXAggregateTarget "Build & Install Mednafen" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82408A740FFDEB3F00F0FE7D /* Debug */,

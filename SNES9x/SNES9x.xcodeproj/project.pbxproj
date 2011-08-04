@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		826C1BAA0F42306E00FB9014 /* Build & Install */ = {
+		826C1BAA0F42306E00FB9014 /* Build & Install SNES9x */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 826C1BAF0F42309700FB9014 /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 826C1BAF0F42309700FB9014 /* Build configuration list for PBXAggregateTarget "Build & Install SNES9x" */;
 			buildPhases = (
 				826C1BA90F42306E00FB9014 /* ShellScript */,
 			);
 			dependencies = (
 				826C1BAE0F42307900FB9014 /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install SNES9x";
 			productName = "Build & Install";
 		};
 		82CAFD4C0FEDD6A200CCDC7E /* Distribution */ = {
@@ -666,7 +666,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* SNES9x */,
-				826C1BAA0F42306E00FB9014 /* Build & Install */,
+				826C1BAA0F42306E00FB9014 /* Build & Install SNES9x */,
 				82CAFD4C0FEDD6A200CCDC7E /* Distribution */,
 			);
 		};
@@ -1037,7 +1037,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		826C1BAF0F42309700FB9014 /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		826C1BAF0F42309700FB9014 /* Build configuration list for PBXAggregateTarget "Build & Install SNES9x" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				826C1BAB0F42306E00FB9014 /* Debug */,
