@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		B56F6FC20F38FC1600DCE88B /* Build & Install */ = {
+		B56F6FC20F38FC1600DCE88B /* Build & Install NeoPop */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = B56F6FC70F38FC4B00DCE88B /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = B56F6FC70F38FC4B00DCE88B /* Build configuration list for PBXAggregateTarget "Build & Install NeoPop" */;
 			buildPhases = (
 				B56F6FC10F38FC1600DCE88B /* ShellScript */,
 			);
 			dependencies = (
 				B56F6FC60F38FC2D00DCE88B /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install NeoPop";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -416,9 +416,11 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0410;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "NeoPop" */;
 			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
@@ -434,7 +436,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* NeoPop */,
-				B56F6FC20F38FC1600DCE88B /* Build & Install */,
+				B56F6FC20F38FC1600DCE88B /* Build & Install NeoPop */,
 			);
 		};
 /* End PBXProject section */
@@ -508,7 +510,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"/Library/Application Support/OpenEmu/Cores\"\nrm -rf \"/Library/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"/Library/Application Support/OpenEmu/Cores/\"\n";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -575,7 +577,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = NeoPop_Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"";
@@ -651,7 +652,6 @@
 		B56F6FC40F38FC1700DCE88B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Release;
@@ -677,7 +677,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B56F6FC70F38FC4B00DCE88B /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		B56F6FC70F38FC4B00DCE88B /* Build configuration list for PBXAggregateTarget "Build & Install NeoPop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B56F6FC30F38FC1700DCE88B /* Debug */,

@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:NeoPop/NeoPop.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:OpenEmu/OpenEmu.xcodeproj">
    </FileRef>
    <FileRef
