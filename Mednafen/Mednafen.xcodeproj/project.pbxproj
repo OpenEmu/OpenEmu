@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		82408A730FFDEB3F00F0FE7D /* Build & Install */ = {
+		82408A730FFDEB3F00F0FE7D /* Build & Install Mednafen */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 82408A980FFDEB5700F0FE7D /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 82408A980FFDEB5700F0FE7D /* Build configuration list for PBXAggregateTarget "Build & Install Mednafen" */;
 			buildPhases = (
 				82408A720FFDEB3F00F0FE7D /* ShellScript */,
 			);
 			dependencies = (
 				82408A770FFDEB4D00F0FE7D /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install Mednafen";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -54,7 +54,6 @@
 		C62954D71369241300F94899 /* cputest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF01369241200F94899 /* cputest.cpp */; };
 		C62954D81369241300F94899 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF21369241200F94899 /* debug.cpp */; };
 		C62954D91369241300F94899 /* demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF51369241200F94899 /* demo.cpp */; };
-		C62954DC1369241300F94899 /* desa68.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF91369241200F94899 /* desa68.c */; };
 		C62954DF1369241300F94899 /* dis6280.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EFD1369241200F94899 /* dis6280.cpp */; };
 		C62954E01369241300F94899 /* dis6502.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EFF1369241200F94899 /* dis6502.cpp */; };
 		C62954FD1369241300F94899 /* scale2x.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294F381369241200F94899 /* scale2x.c */; };
@@ -588,6 +587,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = Mednafen;
+		};
+		8264155213EDB61A00591582 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
 		};
 		829661721042470500F30B74 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2078,6 +2084,7 @@
 				C6B947821364E1E200A425F0 /* SuperNES.oesystemplugin */,
 				C6B948BE1365195D00A425F0 /* GameBoy.oesystemplugin */,
 				C6B948C01365195D00A425F0 /* Genesis.oesystemplugin */,
+				8264155313EDB61A00591582 /* GameBoy Advance.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4477,7 +4484,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* Mednafen */,
-				82408A730FFDEB3F00F0FE7D /* Build & Install */,
+				82408A730FFDEB3F00F0FE7D /* Build & Install Mednafen */,
 			);
 		};
 /* End PBXProject section */
@@ -4502,6 +4509,13 @@
 			fileType = wrapper.framework;
 			path = OpenEmuBase.framework;
 			remoteRef = 824088D10FFDE05400F0FE7D /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8264155313EDB61A00591582 /* GameBoy Advance.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "GameBoy Advance.oesystemplugin";
+			remoteRef = 8264155213EDB61A00591582 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		829661731042470500F30B74 /* OESaveStateQLPlugin.qlgenerator */ = {
@@ -4593,7 +4607,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"/Library/Application Support/OpenEmu/Cores\"\nrm -rf \"/Library/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\" \"/Library/Application Support/OpenEmu/Cores/\"\n";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\" \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4625,7 +4639,6 @@
 				C62954D71369241300F94899 /* cputest.cpp in Sources */,
 				C62954D81369241300F94899 /* debug.cpp in Sources */,
 				C62954D91369241300F94899 /* demo.cpp in Sources */,
-				C62954DC1369241300F94899 /* desa68.c in Sources */,
 				C62954DF1369241300F94899 /* dis6280.cpp in Sources */,
 				C62954E01369241300F94899 /* dis6502.cpp in Sources */,
 				C62954FD1369241300F94899 /* scale2x.c in Sources */,
@@ -5285,7 +5298,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82408A980FFDEB5700F0FE7D /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		82408A980FFDEB5700F0FE7D /* Build configuration list for PBXAggregateTarget "Build & Install Mednafen" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82408A740FFDEB3F00F0FE7D /* Debug */,
