@@ -446,7 +446,7 @@
 				C6B9490613651ACD00A425F0 /* SuperNES.oesystemplugin */,
 				C6B9490813651ACD00A425F0 /* GameBoy.oesystemplugin */,
 				C6B9490A13651ACD00A425F0 /* Genesis.oesystemplugin */,
-				C646575913771F4F002A4F70 /* GameBoy Advance.bundle */,
+				C646575913771F4F002A4F70 /* GameBoy Advance.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -678,7 +678,7 @@
 			remoteRef = C62A2649116F094C0003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C646575913771F4F002A4F70 /* GameBoy Advance.bundle */ = {
+		C646575913771F4F002A4F70 /* GameBoy Advance.oesystemplugin */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "GameBoy Advance.oesystemplugin";
@@ -769,7 +769,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"{,.dSYM}\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 

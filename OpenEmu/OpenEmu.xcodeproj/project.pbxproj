@@ -2447,7 +2447,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/SegaMasterSystem.oesystemplugin\"{,.dsym}\nmkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\ncp -R \"$BUILT_PRODUCTS_DIR/SegaMasterSystem.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/SegaMasterSystem.oesystemplugin\"{,.dsym}\ncp -R \"$BUILT_PRODUCTS_DIR/SegaMasterSystem.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
 		};
 		826415A713EDC26B00591582 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2460,7 +2460,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/NES.oesystemplugin\"{,.dsym}\nmkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\ncp -R \"$BUILT_PRODUCTS_DIR/NES.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/NES.oesystemplugin\"{,.dsym}\ncp -R \"$BUILT_PRODUCTS_DIR/NES.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
 		};
 		826415AE13EDC29300591582 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2473,7 +2473,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/SuperNES.oesystemplugin\"{,.dsym}\nmkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\ncp -R \"$BUILT_PRODUCTS_DIR/SuperNES.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/SuperNES.oesystemplugin\"{,.dsym}\ncp -R \"$BUILT_PRODUCTS_DIR/SuperNES.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
 		};
 		826415B513EDC2BC00591582 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2486,7 +2486,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/GameBoy.oesystemplugin\"{,.dsym}\nmkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\ncp -R \"$BUILT_PRODUCTS_DIR/GameBoy.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/GameBoy.oesystemplugin\"{,.dsym}\ncp -R \"$BUILT_PRODUCTS_DIR/GameBoy.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
 		};
 		826415BC13EDC2E900591582 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2499,7 +2499,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/Genesis.oesystemplugin\"{,.dsym}\nmkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\ncp -R \"$BUILT_PRODUCTS_DIR/Genesis.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/Genesis.oesystemplugin\"{,.dsym}\ncp -R \"$BUILT_PRODUCTS_DIR/Genesis.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
 		};
 		826415C313EDC31000591582 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2512,7 +2512,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/GameBoy Advance.oesystemplugin\"{,.dsym}\nmkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\ncp -R \"$BUILT_PRODUCTS_DIR/GameBoy Advance.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/GameBoy Advance.oesystemplugin\"{,.dsym}\ncp -R \"$BUILT_PRODUCTS_DIR/GameBoy Advance.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
 		};
 		828E65E20E8467E900B1860B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
