@@ -41,7 +41,7 @@
     {
         _bufferLock = [[NSLock alloc] init];
         _bufferSize = length;
-        _buffer     = NSZoneCalloc([self zone], _bufferSize, sizeof(char));
+        _buffer     = calloc(_bufferSize, sizeof(char));
         if(_buffer == NULL)
         {
             [self release];
@@ -61,11 +61,11 @@
     [_bufferLock lock];
     if(length > _bufferSize)
     {
-        void *temp = NSZoneCalloc([self zone], length, sizeof(char));
+        void *temp = calloc(length, sizeof(char));
         // Checks whether the allocation went well
         if(temp != NULL)
         {
-            if(_buffer != NULL) NSZoneFree([self zone], _buffer);
+            if(_buffer != NULL) free(_buffer);
             _buffer = temp;
         }
         // If the allocation didn't work, we keep the old buffer
@@ -155,7 +155,7 @@
 
 - (void)dealloc
 {
-    if(_buffer != NULL) NSZoneFree([self zone], _buffer);
+    if(_buffer != NULL) free(_buffer);
     [_bufferLock release];
     [super dealloc];
 }
