@@ -100,9 +100,6 @@
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		C650C7320FD21B1C009AD8F2 /* SNESGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C650C7310FD21B1C009AD8F2 /* SNESGameController.m */; };
-		C650C7420FD21C34009AD8F2 /* SNESPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C650C7410FD21C34009AD8F2 /* SNESPreferenceViewController.m */; };
-		C650C7440FD21C91009AD8F2 /* snes_pad.png in Resources */ = {isa = PBXBuildFile; fileRef = C650C7430FD21C91009AD8F2 /* snes_pad.png */; };
-		C650C7B10FD21D80009AD8F2 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C650C7B00FD21D80009AD8F2 /* ControlsPreference.xib */; };
 		C67F02030FC200A6009C6CD6 /* SNESOESupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82AD85B50F41646E00DF0AE1 /* SNESOESupport.mm */; };
 /* End PBXBuildFile section */
 
@@ -162,6 +159,55 @@
 			proxyType = 2;
 			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
+		};
+		C646577F1377290C002A4F70 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
+		};
+		C6480FF01364A4E40094FA33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6711807136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		C6480FF21364A4E40094FA33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C671180F136368330034379A;
+			remoteInfo = SegaMasterSystem;
+		};
+		C6480FF41364A4E40094FA33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C64BB08D136478E600C1AB23;
+			remoteInfo = NES;
+		};
+		C6480FF61364A4E40094FA33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6480FC113648F670094FA33;
+			remoteInfo = SuperNES;
+		};
+		C6B948301365187100A425F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6B947AF1364ECA600A425F0;
+			remoteInfo = GameBoy;
+		};
+		C6B948321365187100A425F0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6B947E61365080B00A425F0;
+			remoteInfo = Genesis;
 		};
 		C6E916620FD34B8000AC2CCC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -340,12 +386,9 @@
 		82CAFD430FEDD66800CCDC7E /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* SNES9x.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SNES9x.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C6480FFA1364B1CF0094FA33 /* OESNESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OESNESSystemResponderClient.h; path = ../OpenEmu/SuperNES/OESNESSystemResponderClient.h; sourceTree = "<group>"; };
 		C650C7300FD21B1C009AD8F2 /* SNESGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNESGameController.h; sourceTree = "<group>"; };
 		C650C7310FD21B1C009AD8F2 /* SNESGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNESGameController.m; sourceTree = "<group>"; };
-		C650C7400FD21C34009AD8F2 /* SNESPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNESPreferenceViewController.h; sourceTree = "<group>"; };
-		C650C7410FD21C34009AD8F2 /* SNESPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNESPreferenceViewController.m; sourceTree = "<group>"; };
-		C650C7430FD21C91009AD8F2 /* snes_pad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = snes_pad.png; sourceTree = "<group>"; };
-		C650C7B00FD21D80009AD8F2 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -389,11 +432,9 @@
 			isa = PBXGroup;
 			children = (
 				82CAFD430FEDD66800CCDC7E /* dsa_pub.pem */,
-				C650C7430FD21C91009AD8F2 /* snes_pad.png */,
 				828F16CA0F43A10000FD7321 /* APPL.icns */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
-				C650C7B00FD21D80009AD8F2 /* ControlsPreference.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -401,6 +442,7 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				C6480FFA1364B1CF0094FA33 /* OESNESSystemResponderClient.h */,
 				826C1B1D0F420C2200FB9014 /* SNESGameEmu.h */,
 				826C1B1E0F420C2200FB9014 /* SNESGameEmu.mm */,
 				82AD83C60F4154DD00DF0AE1 /* core */,
@@ -408,8 +450,6 @@
 				82AD85B50F41646E00DF0AE1 /* SNESOESupport.mm */,
 				C650C7300FD21B1C009AD8F2 /* SNESGameController.h */,
 				C650C7310FD21B1C009AD8F2 /* SNESGameController.m */,
-				C650C7400FD21C34009AD8F2 /* SNESPreferenceViewController.h */,
-				C650C7410FD21C34009AD8F2 /* SNESPreferenceViewController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -458,6 +498,13 @@
 				82444DB50F51335E007C171B /* OpenEmuQC.plugin */,
 				82444DB70F51335E007C171B /* OpenEmuBase.framework */,
 				3783949E1029238000168304 /* OESaveStateQLPlugin.qlgenerator */,
+				C6480FF11364A4E40094FA33 /* OpenEmuSystem.framework */,
+				C6480FF31364A4E40094FA33 /* SegaMasterSystem.oesystemplugin */,
+				C6480FF51364A4E40094FA33 /* NES.oesystemplugin */,
+				C6480FF71364A4E40094FA33 /* SuperNES.oesystemplugin */,
+				C6B948311365187100A425F0 /* GameBoy.oesystemplugin */,
+				C6B948331365187100A425F0 /* Genesis.oesystemplugin */,
+				C64657801377290C002A4F70 /* GameBoy Advance.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -715,6 +762,55 @@
 			remoteRef = C62A2626116F08B60003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		C64657801377290C002A4F70 /* GameBoy Advance.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "GameBoy Advance.oesystemplugin";
+			remoteRef = C646577F1377290C002A4F70 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6480FF11364A4E40094FA33 /* OpenEmuSystem.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuSystem.framework;
+			remoteRef = C6480FF01364A4E40094FA33 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6480FF31364A4E40094FA33 /* SegaMasterSystem.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SegaMasterSystem.oesystemplugin;
+			remoteRef = C6480FF21364A4E40094FA33 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6480FF51364A4E40094FA33 /* NES.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NES.oesystemplugin;
+			remoteRef = C6480FF41364A4E40094FA33 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6480FF71364A4E40094FA33 /* SuperNES.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SuperNES.oesystemplugin;
+			remoteRef = C6480FF61364A4E40094FA33 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6B948311365187100A425F0 /* GameBoy.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GameBoy.oesystemplugin;
+			remoteRef = C6B948301365187100A425F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6B948331365187100A425F0 /* Genesis.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Genesis.oesystemplugin;
+			remoteRef = C6B948321365187100A425F0 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -724,8 +820,6 @@
 			files = (
 				8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */,
 				828F16CB0F43A10000FD7321 /* APPL.icns in Resources */,
-				C650C7440FD21C91009AD8F2 /* snes_pad.png in Resources */,
-				C650C7B10FD21D80009AD8F2 /* ControlsPreference.xib in Resources */,
 				82CAFD440FEDD66800CCDC7E /* dsa_pub.pem in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -825,7 +919,6 @@
 				826C1B1F0F420C2200FB9014 /* SNESGameEmu.mm in Sources */,
 				C67F02030FC200A6009C6CD6 /* SNESOESupport.mm in Sources */,
 				C650C7320FD21B1C009AD8F2 /* SNESGameController.m in Sources */,
-				C650C7420FD21C34009AD8F2 /* SNESPreferenceViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

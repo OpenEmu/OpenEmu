@@ -27,6 +27,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "OEPluginController.h"
+
 @interface NSObject (OEPlugin)
 + (BOOL)isPluginClass;
 @end
@@ -34,19 +36,29 @@
 
 @interface OEPlugin : NSObject <NSCopying>
 {
-    NSDictionary *infoDictionary;
-    NSBundle     *bundle;
-    NSString     *displayName;
-    NSString     *version;
+@private
+    NSDictionary           *infoDictionary;
+    NSBundle               *bundle;
+    NSString               *displayName;
+    NSString               *version;
+    id<OEPluginController>  controller;
 }
 
-@property(readonly) NSDictionary *infoDictionary;
-@property(readonly) NSBundle     *bundle;
-@property(readonly) NSString     *displayName;
-@property(readonly) NSString     *version;
++ (NSSet *)pluginClasses;
++ (void)registerPluginClass:(Class)pluginClass;
 
-// All plugins should be get with this method
-// It ensures a plugin is loaded only once
+// Subclass hook to perform checks or setups of the controller.
+- (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass;
+
+@property(readonly) id<OEPluginController>  controller; // Main Class of the bundle, can be nil
+@property(readonly) NSDictionary           *infoDictionary;
+@property(readonly) NSBundle               *bundle;
+@property(readonly) NSString               *details;
+@property(readonly) NSString               *displayName;
+@property(readonly) NSString               *version;
+
+// All plugins should be retrieved with this method
+// Ensuring a plugin is loaded only once
 + (id)pluginWithBundleName:(NSString *)aName type:(Class)pluginType;
 + (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType;
 + (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType forceReload:(BOOL)reload;
@@ -60,4 +72,5 @@
 + (NSString *)pluginExtension;
 + (Class)typeForExtension:(NSString *)anExtension;
 
+- (NSArray *)availablePreferenceViewControllerKeys;
 @end

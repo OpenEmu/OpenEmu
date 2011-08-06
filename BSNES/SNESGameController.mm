@@ -27,9 +27,6 @@
 
 #import "SNESGameController.h"
 #import "SNESGameEmu.h"
-#import "SNESPreferenceViewController.h"
-
-NSArray *BSNESRawControlNames = nil;
 
 @implementation BSNESGameController
 
@@ -37,18 +34,12 @@ NSArray *BSNESRawControlNames = nil;
 {
     if(self == [BSNESGameController class])
     {
-        [self registerPreferenceViewControllerClasses:
-         [NSDictionary dictionaryWithObject:[BSNESPreferenceViewController class]
-                                     forKey:OEControlsPreferenceKey]];
-        
-        BSNESRawControlNames = [[NSArray alloc] initWithObjects:BSNESEmulatorNames
-                                                          count:SNES_CONTROL_COUNT];
     }
 }
 
 - (NSArray *)genericControlNames
 {
-    return BSNESRawControlNames;
+    return nil;
 }
 
 - (NSUInteger)playerCount

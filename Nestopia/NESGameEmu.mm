@@ -28,7 +28,6 @@
 #import "NESGameEmu.h"
 #import "NESGameController.h"
 #import <OERingBuffer.h>
-#import <OEHIDEvent.h>
 #include <sys/time.h>
 #include <NstBase.hpp>
 #include <NstApiEmulator.hpp>
@@ -44,14 +43,13 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#import "OENESSystemResponderClient.h"
 
 #define SAMPLERATE 48000
 
-@interface NESGameEmu ()
+@interface NESGameEmu () <OENESSystemResponderClient>
 - (NSUInteger)NES_buttonMaskForButton:(OEButton)gameButton;
 @end
-
-NSString *const NESControlNames[] = { @"PAD@_A", @"PAD@_B", @"PAD@_UP", @"PAD@_DOWN", @"PAD@_LEFT", @"PAD@_RIGHT", @"PAD@_START", @"PAD@_SELECT" };
 
 NSUInteger NESControlValues[] = { Nes::Api::Input::Controllers::Pad::A, Nes::Api::Input::Controllers::Pad::B, Nes::Api::Input::Controllers::Pad::UP, Nes::Api::Input::Controllers::Pad::DOWN, Nes::Api::Input::Controllers::Pad::LEFT, Nes::Api::Input::Controllers::Pad::RIGHT, Nes::Api::Input::Controllers::Pad::START, Nes::Api::Input::Controllers::Pad::SELECT
 };
@@ -664,19 +662,14 @@ static int Heights[2] =
     [super dealloc];
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)didPushNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
 {
-    return OEMakeEmulatorKey(thePlayer, NESControlValues[index]);
+    controls->pad[player - 1].buttons |=  NESControlValues[button];
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)didReleaseNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
 {
-    controls->pad[aKey.player - 1].buttons |= aKey.key;
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    controls->pad[aKey.player - 1].buttons &= ~aKey.key;
+    controls->pad[player - 1].buttons &= ~NESControlValues[button];
 }
 
 - (NSUInteger)NES_buttonMaskForButton:(OEButton)gameButton

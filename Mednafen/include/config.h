@@ -1,18 +1,26 @@
 /* include/config.h.  Generated from config.h.in by configure.  */
 /* include/config.h.in.  Generated from configure.ac by autoheader.  */
 
-#ifdef __ppc__
+/* Define if building universal (internal helper macro) */
+/* #undef AC_APPLE_UNIVERSAL_BUILD */
+
 /* Define if we are compiling for PPC architectures. */
-#undef ARCH_POWERPC
+/* #undef ARCH_POWERPC */
 
 /* Define if we are compiling with AltiVec usage. */
-#undef ARCH_POWERPC_ALTIVEC
-#endif
+/* #undef ARCH_POWERPC_ALTIVEC */
 
 /* Define if we are compiling for x86 architectures. */
-#if defined(__x86_64__) || defined(__i386__)
 #define ARCH_X86 1
-#endif
+
+/* Blip Buffer resample ratio accuracy. */
+#define BLIP_BUFFER_ACCURACY 20
+
+/* Blip Buffer maximum quality. */
+#define BLIP_MAX_QUALITY 32
+
+/* Blip Buffer phase bits count. */
+#define BLIP_PHASE_BITS 8
 
 /* Define to one of `_getb67', `GETB67', `getb67' for Cray-2 and Cray-YMP
  systems. This function is required for `alloca.c' support on those systems.
@@ -24,7 +32,7 @@
 
 /* Define to 1 if translation of program messages to the user's native
  language is requested. */
-#define ENABLE_NLS 0
+/* #undef ENABLE_NLS */
 
 /* Define to 1 if you have `alloca', as a function or macro. */
 #define HAVE_ALLOCA 1
@@ -104,6 +112,24 @@
 /* Define to 1 if you have the <fcntl.h> header file. */
 #define HAVE_FCNTL_H 1
 
+/* Define to 1 if you have the `fopen64' function. */
+/* #undef HAVE_FOPEN64 */
+
+/* Define to 1 if fseeko (and presumably ftello) exists and is declared. */
+#define HAVE_FSEEKO 1
+
+/* Define to 1 if you have the `fseeko64' function. */
+/* #undef HAVE_FSEEKO64 */
+
+/* Define to 1 if you have the `fstat64' function. */
+#define HAVE_FSTAT64 1
+
+/* Define to 1 if you have the `ftello' function. */
+#define HAVE_FTELLO 1
+
+/* Define to 1 if you have the `ftello64' function. */
+/* #undef HAVE_FTELLO64 */
+
 /* Define to 1 if you have the `fwprintf' function. */
 #define HAVE_FWPRINTF 1
 
@@ -124,6 +150,9 @@
 
 /* Define to 1 if you have the `getpagesize' function. */
 #define HAVE_GETPAGESIZE 1
+
+/* Define to 1 if you have the `getpwuid' function. */
+#define HAVE_GETPWUID 1
 
 /* Define if the GNU gettext() function is already present or preinstalled. */
 /* #undef HAVE_GETTEXT */
@@ -158,6 +187,12 @@
 
 /* Define to 1 if you have the `asound' library (-lasound). */
 /* #undef HAVE_LIBASOUND */
+
+/* Define if we are compiling with libcdio support. */
+/* #undef HAVE_LIBCDIO */
+
+/* Define if we are compiling with libsndfile support. */
+/* #undef HAVE_LIBSNDFILE */
 
 /* Define to 1 if you have the `z' library (-lz). */
 #define HAVE_LIBZ 1
@@ -218,13 +253,16 @@
 #define HAVE_PUTENV 1
 
 /* Define if we are compiling with SDL sound support. */
-#define HAVE_SDL 1
+/* #undef HAVE_SDL */
 
 /* Define to 1 if you have the `setenv' function. */
 #define HAVE_SETENV 1
 
 /* Define to 1 if you have the `setlocale' function. */
 #define HAVE_SETLOCALE 1
+
+/* Define to 1 if you have the `sigaction' function. */
+#define HAVE_SIGACTION 1
 
 /* Define to 1 if you have the `signal' function. */
 #define HAVE_SIGNAL 1
@@ -253,6 +291,12 @@
 
 /* Define to 1 if you have the `strdup' function. */
 #define HAVE_STRDUP 1
+
+/* Define to 1 if you have the `strerror' function. */
+#define HAVE_STRERROR 1
+
+/* Define to 1 if you have the `strerror_r' function. */
+#define HAVE_STRERROR_R 1
 
 /* Define to 1 if you have the <strings.h> header file. */
 #define HAVE_STRINGS_H 1
@@ -315,11 +359,15 @@
 /* Define on little-endian platforms. */
 #define LSB_FIRST 1
 
+/* Define to the sub-directory in which libtool stores uninstalled libraries.
+ */
+#define LT_OBJDIR ".libs/"
+
 /* Mednafen version definition. */
-#define MEDNAFEN_VERSION "0.8.C"
+#define MEDNAFEN_VERSION "0.9.16"
 
 /* Mednafen version numeric. */
-#define MEDNAFEN_VERSION_NUMERIC 0x00080C
+#define MEDNAFEN_VERSION_NUMERIC 0x000916
 
 /* Define if config.h is present */
 #define MINILZO_HAVE_CONFIG_H 1
@@ -336,15 +384,8 @@
 /* Define on big-endian platforms. */
 /* #undef MSB_FIRST */
 
-/* Define if we are need CD support. */
-/* #undef NEED_CDEMU */
-#define NEED_CDEMU 1
-
-/* Define if we are need Z80 support. */
-#define NEED_Z80EMU 1
-
 /* Define if we are compiling with network play code. */
-/* #undef NETWORK */
+#define NETWORK 1
 
 /* Define to 1 if your C compiler doesn't accept -c and -o together. */
 /* #undef NO_MINUS_C_MINUS_O */
@@ -364,6 +405,9 @@
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME ""
 
+/* Define to the home page for this package. */
+#define PACKAGE_URL ""
+
 /* Define to the version of this package. */
 #define PACKAGE_VERSION ""
 
@@ -382,30 +426,33 @@
 /* The size of `int', as computed by sizeof. */
 #define SIZEOF_INT 4
 
+/* The size of `long', as computed by sizeof. */
+#define SIZEOF_LONG 8
+
 /* The size of `long long', as computed by sizeof. */
 #define SIZEOF_LONG_LONG 8
+
+/* The size of `off_t', as computed by sizeof. */
+#define SIZEOF_OFF_T 8
+
+/* The size of `ptrdiff_t', as computed by sizeof. */
+#define SIZEOF_PTRDIFF_T 8
 
 /* The size of `short', as computed by sizeof. */
 #define SIZEOF_SHORT 2
 
-#ifdef __LP64__
-#define SIZEOF_LONG 8
-#define SIZEOF_PTRDIFF_T 8
+/* The size of `size_t', as computed by sizeof. */
 #define SIZEOF_SIZE_T 8
+
+/* The size of `void *', as computed by sizeof. */
 #define SIZEOF_VOID_P 8
-#else
-#define SIZEOF_LONG 4
-#define SIZEOF_PTRDIFF_T 4
-#define SIZEOF_SIZE_T 4
-#define SIZEOF_VOID_P 4
-#endif
 
 /* The size of `__int64', as computed by sizeof. */
 #define SIZEOF___INT64 0
 
 /* Define as the maximum value of type 'size_t', if the system doesn't define
  it. */
-#define SIZE_MAX (((1UL << 63) - 1) * 2 + 1)
+/* #undef SIZE_MAX */
 
 /* If using the C implementation of alloca, define if you know the
  direction of stack growth for your system; otherwise it will be
@@ -439,14 +486,36 @@
  made weak. */
 /* #undef USE_SOLARIS_THREADS_WEAK */
 
+/* Enable extensions on AIX 3, Interix.  */
+#ifndef _ALL_SOURCE
+# define _ALL_SOURCE 1
+#endif
+/* Enable GNU extensions on systems that have them.  */
+#ifndef _GNU_SOURCE
+# define _GNU_SOURCE 1
+#endif
+/* Enable threading extensions on Solaris.  */
+#ifndef _POSIX_PTHREAD_SEMANTICS
+# define _POSIX_PTHREAD_SEMANTICS 1
+#endif
+/* Enable extensions on HP NonStop.  */
+#ifndef _TANDEM_SOURCE
+# define _TANDEM_SOURCE 1
+#endif
+/* Enable general extensions on Solaris.  */
+#ifndef __EXTENSIONS__
+# define __EXTENSIONS__ 1
+#endif
+
+
 /* Define if the Win32 multithreading API can be used. */
 /* #undef USE_WIN32_THREADS */
 
 /* Version number of package */
-#define VERSION "0.8.C"
+#define VERSION "0.9.16"
 
 /* Define if we are compiling with debugger. */
-/* #undef WANT_DEBUGGER */
+#define WANT_DEBUGGER 1
 
 /* Define if we are compiling with GBA emulation. */
 #define WANT_GBA_EMU 1
@@ -460,6 +529,9 @@
 /* Define if we are compiling with Lynx emulation. */
 #define WANT_LYNX_EMU 1
 
+/* Define if we are compiling with Sega Genesis/MegaDrive emulation. */
+#define WANT_MD_EMU 1
+
 /* Define if we are compiling with NES emulation. */
 #define WANT_NES_EMU 1
 
@@ -469,11 +541,20 @@
 /* Define if we are compiling with PCE emulation. */
 #define WANT_PCE_EMU 1
 
+/* Define if we are compiling with separate fast PCE emulation. */
+#define WANT_PCE_FAST_EMU 1
+
 /* Define if we are compiling with PC-FX emulation. */
 #define WANT_PCFX_EMU 1
 
 /* Define if we are compiling with SMS+GG emulation. */
 #define WANT_SMS_EMU 1
+
+/* Define if we are compiling with SNES emulation. */
+#define WANT_SNES_EMU 1
+
+/* Define if we are compiling with Virtual Boy emulation. */
+#define WANT_VB_EMU 1
 
 /* Define if we are compiling with WonderSwan emulation. */
 #define WANT_WSWAN_EMU 1
@@ -481,17 +562,26 @@
 /* Define if we are compiling for Win32. */
 /* #undef WIN32 */
 
-/* Define to 1 if on AIX 3.
- System headers sometimes define this.
- We just want to avoid a redefinition error message.  */
-#ifndef _ALL_SOURCE
-/* # undef _ALL_SOURCE */
+/* Define WORDS_BIGENDIAN to 1 if your processor stores words with the most
+ significant byte first (like Motorola and SPARC, unlike Intel). */
+#if defined AC_APPLE_UNIVERSAL_BUILD
+# if defined __BIG_ENDIAN__
+#  define WORDS_BIGENDIAN 1
+# endif
+#else
+# ifndef WORDS_BIGENDIAN
+/* #  undef WORDS_BIGENDIAN */
+# endif
 #endif
 
-/* Enable GNU extensions on systems that have them.  */
-#ifndef _GNU_SOURCE
-# define _GNU_SOURCE 1
-#endif
+/* Number of bits in a file offset, on hosts where this is settable. */
+/* #undef _FILE_OFFSET_BITS */
+
+/* Define to 1 to make fseeko visible on some hosts (e.g. glibc 2.2). */
+/* #undef _LARGEFILE_SOURCE */
+
+/* Define for large files, on AIX-style hosts. */
+/* #undef _LARGE_FILES */
 
 /* Define to 1 if on MINIX. */
 /* #undef _MINIX */
@@ -502,17 +592,6 @@
 
 /* Define to 1 if you need to in order for `stat' and other things to work. */
 /* #undef _POSIX_SOURCE */
-
-/* Enable extensions on Solaris.  */
-#ifndef __EXTENSIONS__
-# define __EXTENSIONS__ 1
-#endif
-#ifndef _POSIX_PTHREAD_SEMANTICS
-# define _POSIX_PTHREAD_SEMANTICS 1
-#endif
-#ifndef _TANDEM_SOURCE
-# define _TANDEM_SOURCE 1
-#endif
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */

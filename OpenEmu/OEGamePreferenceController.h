@@ -30,29 +30,32 @@
 extern NSString *const OEControlsPreferenceKey;
 extern NSString *const OEAdvancedPreferenceKey;
 
-@class OECorePlugin;
+@class OEPlugin;
 
 @interface OEGamePreferenceController : NSWindowController
 {
+@private
     NSSplitView       *splitView;
     NSTableView       *pluginTableView;
     NSArrayController *pluginController;
+    NSArrayController *allPluginController;
     NSToolbar         *toolbar;
     NSDictionary      *preferencePanels;
     NSString          *currentViewIdentifier;
     NSPredicate       *availablePluginsPredicate;
     NSIndexSet        *selectedPlugins;
-    OECorePlugin      *currentPlugin;
+    OEPlugin          *currentPlugin;
     NSViewController  *currentViewController;
 }
 
 @property(retain) IBOutlet NSSplitView       *splitView;
 @property(retain) IBOutlet NSTableView       *pluginTableView;
 @property(retain) IBOutlet NSArrayController *pluginController;
+@property(retain) IBOutlet NSArrayController *allPluginController;
 @property(retain) IBOutlet NSToolbar         *toolbar;
 
-@property(readonly)         NSArray     *plugins;
-@property(retain)           NSPredicate *availablePluginsPredicate;
-@property(nonatomic,retain) NSIndexSet  *selectedPlugins;
+@property(readonly)          NSArray     *plugins;
+@property(retain)            NSPredicate *availablePluginsPredicate;
+@property(nonatomic, retain) NSIndexSet  *selectedPlugins;
 
 @end

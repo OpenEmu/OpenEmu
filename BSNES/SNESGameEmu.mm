@@ -27,6 +27,7 @@
 
 #import "SNESGameEmu.h"
 #import <OERingBuffer.h>
+#import "OESNESSystemResponderClient.h"
 
 //#include <libreader/libreader.hpp>
 //#include <libreader/filereader.hpp>
@@ -36,31 +37,37 @@
 #define SAMPLEFRAME 800
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
 
-@interface BSNESGameEmu ()
-- (NSUInteger)SNES_buttonMaskForButton:(OEButton)gameButton;
+@interface BSNESGameEmu () <OESNESSystemResponderClient>
 @end
 
 @implementation BSNESGameEmu
 
-NSUInteger BSNESEmulatorValues[] = { SNES::Input::JoypadR, SNES::Input::JoypadL, SNES::Input::JoypadX, SNES::Input::JoypadA, SNES::Input::JoypadRight, SNES::Input::JoypadLeft, SNES::Input::JoypadDown, SNES::Input::JoypadUp, SNES::Input::JoypadStart, SNES::Input::JoypadSelect, SNES::Input::JoypadY, SNES::Input::JoypadB };
-NSString *BSNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Joypad@ A", @"Joypad@ Right", @"Joypad@ Left", @"Joypad@ Down", @"Joypad@ Up", @"Joypad@ Start", @"Joypad@ Select", @"Joypad@ Y", @"Joypad@ B" };
-
-- (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer
+static NSUInteger BSNESEmulatorValues[] =
 {
-    NSUInteger val = BSNESEmulatorValues[index];
-    OEEmulatorKey ret = OEMakeEmulatorKey(thePlayer, val);
-    return ret;
+    SNES::Input::JoypadA,
+    SNES::Input::JoypadB,
+    SNES::Input::JoypadX,
+    SNES::Input::JoypadY,
+    SNES::Input::JoypadUp,
+    SNES::Input::JoypadDown,
+    SNES::Input::JoypadLeft,
+    SNES::Input::JoypadRight,
+    SNES::Input::JoypadStart,
+    SNES::Input::JoypadSelect,
+    SNES::Input::JoypadL,
+    SNES::Input::JoypadR,
+};
+
+- (void)didPushSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
+{
+    interface->pad[player-1][BSNESEmulatorValues[button]] = 0xFFFF;
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)didReleaseSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
 {
-    interface->pad[aKey.player-1][aKey.key] = 0xFFFF;
+    interface->pad[player-1][BSNESEmulatorValues[button]] = 0;
 }
 
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    interface->pad[aKey.player-1][aKey.key] = 0;
-}
 #pragma mark Exectuion
 
 - (void)executeFrame

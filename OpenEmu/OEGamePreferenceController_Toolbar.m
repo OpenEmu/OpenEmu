@@ -27,12 +27,14 @@
 
 #import "OEGamePreferenceController_Toolbar.h"
 #import "OECorePlugin.h"
+#import "OESystemPlugin.h"
 
 static NSString *OEToolbarLabelKey        = @"OEToolbarLabelKey";
 static NSString *OEToolbarPaletteLabelKey = @"OEToolbarPaletteLabelKey";
 static NSString *OEToolbarToolTipKey      = @"OEToolbarToolTipKey";
 static NSString *OEToolbarImageKey        = @"OEToolbarImageKey";
 static NSString *OEToolbarNibNameKey      = @"OEToolbarNibNameKey";
+static NSString *OEPluginClassKey         = @"OEPluginClassKey";
 static NSString *OEPluginViewKey          = @"OEPluginViewKey";
 
 //static NSString *OEPreferenceToolbarIdentifier     = @"OEPreferenceToolbarIdentifier";
@@ -71,19 +73,22 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
                                       @"Controls",
                                       @"Control Preferences",
                                       [NSImage imageNamed:NSImageNamePreferencesGeneral],
-                                      @"ControlPreferences",
+                                      @"UnavailablePlugins",
+                                      [OESystemPlugin class], OEPluginClassKey,
                                       OEControlsPreferenceKey, OEPluginViewKey), OEControlsToolbarItemIdentifier,
                         CREATE_RECORD(@"Advanced",
                                       @"Advanced",
                                       @"Advanced Preferences",
                                       [NSImage imageNamed:NSImageNameAdvanced],
-                                      @"AdvancedPreferences",
+                                      @"UnavailablePlugins",
+                                      [OECorePlugin class], OEPluginClassKey,
                                       OEAdvancedPreferenceKey, OEPluginViewKey), OEAdvancedToolbarItemIdentifier,
                         CREATE_RECORD(@"Plugins",
                                       @"Plugins",
                                       @"Plugin Preferences",
                                       [NSImage imageNamed:NSImageNameEveryone],
-                                      @"PluginPreferences"), OEPluginsToolbarItemIdentifier,
+                                      @"PluginPreferences",
+                                      [OECorePlugin class], OEPluginClassKey), OEPluginsToolbarItemIdentifier,
                         nil];
 #undef CREATE_RECORD
     currentViewIdentifier = OEVideoSoundToolbarItemIdentifier;
@@ -268,25 +273,29 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
 {
     NSDictionary *desc = [preferencePanels objectForKey:identifier];
     
-    NSString *pluginViewName = [desc objectForKey:OEPluginViewKey];
-    NSViewController *ret = nil;
+    NSString         *pluginViewName = [desc objectForKey:OEPluginViewKey];
+    Class             pluginClass    = [desc objectForKey:OEPluginClassKey];
+    NSViewController *ret            = nil;
     
-    if(pluginViewName != nil)
+    if(pluginViewName != nil && pluginClass != Nil)
     {
-        self.availablePluginsPredicate = [NSPredicate predicateWithFormat:@"%@ IN availablePreferenceViewControllers", pluginViewName];
+        self.availablePluginsPredicate = [NSPredicate predicateWithFormat:@"%@ IN availablePreferenceViewControllerKeys && class == %@", pluginViewName, pluginClass];
         //[pluginDrawer open:self];
-        if(currentPlugin == nil) ret = [[NSViewController alloc] initWithNibName:@"SelectPluginPreferences"
-                                                                          bundle:[NSBundle mainBundle]];
-        else ret = [currentPlugin newPreferenceViewControllerForKey:pluginViewName];
+        if(currentPlugin == nil) ret = [[NSViewController alloc] initWithNibName:@"SelectPluginPreferences" bundle:[NSBundle mainBundle]];
+        else ret = [[currentPlugin controller] preferenceViewControllerForKey:pluginViewName];
     }
-    else
+    else if(pluginClass != Nil)
+        self.availablePluginsPredicate = [NSPredicate predicateWithFormat:@"class == %@", pluginClass];
+    
+    if(ret == nil)
     {
         //[pluginDrawer close:self];
         NSString *viewNibName = [desc objectForKey:OEToolbarNibNameKey];
         ret = [[NSViewController alloc] initWithNibName:viewNibName bundle:[NSBundle mainBundle]];
     }
     
-    [ret loadView];
+    // FIXME: this is bad
+    //[ret loadView];
     
     return ret;
 }

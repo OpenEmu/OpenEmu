@@ -26,7 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCoreController.h>
+#import <OpenEmuBase/OpenEmuBase.h>
 
 OE_EXTERN NSArray *MednafenRawControlNames;
 OE_EXTERN NSArray *MednafenUsedControlNames;

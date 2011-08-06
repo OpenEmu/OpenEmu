@@ -29,6 +29,7 @@
 #import <IOKit/hid/IOHIDLib.h>
 #import <OEGameDocument.h>
 #import <OERingBuffer.h>
+#import "OESMSSystemResponderClient.h"
 
 #define _UINT32
 
@@ -42,6 +43,10 @@
 #define SAMPLERATE 44100
 #define SAMPLEFRAME 735
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
+
+@interface SMSGameCore () <OESMSSystemResponderClient>
+- (int)crabButtonForButton:(OESMSButton)button player:(NSUInteger)player;
+@end
 
 @implementation SMSGameCore
 
@@ -264,42 +269,58 @@ void gui_set_title(const char *str)
     //NSLog(@"set_title%s", str);
 }
 
-unsigned SMSButtonTable[] = {
-    SMS_PAD1_UP, SMS_PAD1_DOWN, SMS_PAD1_LEFT, SMS_PAD1_RIGHT, SMS_PAD1_A, SMS_PAD1_B, SMS_RESET, GG_START,
-    SMS_PAD2_UP, SMS_PAD2_DOWN, SMS_PAD2_LEFT, SMS_PAD2_RIGHT, SMS_PAD2_A, SMS_PAD2_B, SMS_RESET, GG_START
-};
-
-NSString *SMSButtonNameTable[] = { @"SMS_PAD@_UP", @"SMS_PAD@_DOWN", @"SMS_PAD@_LEFT", @"SMS_PAD@_RIGHT", @"SMS_PAD@_A", @"SMS_PAD@_B", @"SMS_RESET", @"GG_START" };
-
-- (BOOL)shouldPauseForButton:(NSInteger)button
+- (int)crabButtonForButton:(OESMSButton)button player:(NSUInteger)player;
 {
-    if(button == GG_START && sms_console != CONSOLE_GG)
+    int btn = 0;
+    switch(button)
     {
-        [self pauseEmulation:self];
-        return YES;
+        case OESMSButtonUp    : btn = (player == 1 ? SMS_PAD1_UP    : SMS_PAD2_UP);    break;
+        case OESMSButtonDown  : btn = (player == 1 ? SMS_PAD1_DOWN  : SMS_PAD2_DOWN);  break;
+        case OESMSButtonLeft  : btn = (player == 1 ? SMS_PAD1_LEFT  : SMS_PAD2_LEFT);  break;
+        case OESMSButtonRight : btn = (player == 1 ? SMS_PAD1_RIGHT : SMS_PAD2_RIGHT); break;
+        case OESMSButtonA     : btn = (player == 1 ? SMS_PAD1_A     : SMS_PAD2_A);     break;
+        case OESMSButtonB     : btn = (player == 1 ? SMS_PAD1_B     : SMS_PAD2_B);     break;
+        default : break;
     }
-    return NO;
+    
+    return btn;
 }
 
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+- (void)didPushSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
 {
-    if(thePlayer > 0) thePlayer--;
-    index += 8 * thePlayer;
-    return OEMakeEmulatorKey(0, SMSButtonTable[index]);
+    int btn = [self crabButtonForButton:button player:player];
+    
+    if(btn > 0) sms_button_pressed(btn);
 }
 
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+- (void)didReleaseSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
 {
-    unsigned button = aKey.key;
-    if(![self shouldPauseForButton:button])
-        sms_button_pressed(button);
+    int btn = [self crabButtonForButton:button player:player];
+    
+    if(btn > 0) sms_button_released(btn);
 }
 
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
+- (void)didPushSMSStartButton;
 {
-    unsigned button = aKey.key;
-    if(button != GG_START)
-        sms_button_released(button);
+    if(sms_console != CONSOLE_GG)
+        [self pauseEmulation:self];
+    else
+        sms_button_pressed(GG_START);
+}
+
+- (void)didReleaseSMSStartButton;
+{
+    
+}
+
+- (void)didPushSMSResetButton;
+{
+    sms_button_pressed(SMS_RESET);
+}
+
+- (void)didReleaseSMSResetButton;
+{
+    sms_button_released(SMS_RESET);
 }
 
 @end

@@ -27,8 +27,9 @@
 
 #import <Cocoa/Cocoa.h>
 #import <Quartz/Quartz.h>
+#import "OEPlugin.h"
 
-@interface OECompositionPlugin : NSObject
+@interface OECompositionPlugin : OEPlugin
 {
     QCComposition *composition;
     NSString      *name;

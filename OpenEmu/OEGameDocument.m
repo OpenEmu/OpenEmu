@@ -37,6 +37,9 @@
 #import "OEGameQTRecorder.h"
 #import "OECorePickerController.h"
 #import "OEGameCoreManager.h"
+#import "OESystemPlugin.h"
+#import "OESystemController.h"
+#import "OESystemResponder.h"
 
 #import "OEGameCoreHelper.h"
 
@@ -86,9 +89,10 @@
     return @"GameDocument";
 }
 
-- (void)windowControllerDidLoadNib:(NSWindowController *) aController
+- (void)windowControllerDidLoadNib:(NSWindowController *)aController
 {
     [view setRootProxy:rootProxy];
+    [view setGameResponder:gameSystemResponder];
     [gameWindow setAcceptsMouseMovedEvents:YES];
     
     OEIntSize maxScreenSize = rootProxy.screenSize;
@@ -103,6 +107,7 @@
     //[gameWindow setContentResizeIncrements:aspect];
     
     //[recorder startRecording];
+    [gameWindow makeFirstResponder:view];
     [gameWindow makeKeyAndOrderFront:self];
     
     if([self defaultsToFullScreenMode])
@@ -127,8 +132,10 @@
         
         if(plugin == nil) return NO;
         
-        gameController = [[plugin controller] retain];
-        emulatorName = [[plugin displayName] retain];
+        gameController = [[plugin controller]  retain];
+        emulatorName   = [[plugin displayName] retain];
+        
+        [gameSystemController registerGameSystemResponder:gameSystemResponder];
         
         Class managerClass = ([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.gameCoreInBackgroundThread"] boolValue]
                               ? [OEGameCoreThreadManager  class]
@@ -141,9 +148,14 @@
         {
             rootProxy = [[gameCoreManager rootProxy] retain];
             
-            [gameController addSettingObserver:[rootProxy gameCore]];
-            
             [rootProxy setupEmulation];
+            
+            OEGameCore *gameCore = [rootProxy gameCore];
+            
+            gameSystemController = [[[OESystemPlugin gameSystemPluginForName:[gameCore gameSystemName]] controller] retain];
+            gameSystemResponder  = [gameSystemController newGameSystemResponder];
+            
+            [gameSystemResponder setClient:gameCore];
             
             return YES;
         }
@@ -204,9 +216,15 @@
 - (void)terminateEmulation
 {
     [view setRootProxy:nil];
+    [view setGameResponder:nil];
     
     [gameController removeSettingObserver:[rootProxy gameCore]];
     [gameWindow makeFirstResponder:nil];
+    
+    [gameSystemController release];
+    gameSystemController = nil;
+    [gameSystemResponder release];
+    gameSystemResponder  = nil;
     
     // kill our background friend
     [gameCoreManager stop];
@@ -367,10 +385,12 @@
     {
         if(![self isFullScreen])
         {
-            @try {
+            @try
+            {
                 [self setPauseEmulation:YES];
             }
-            @catch (NSException * e) {
+            @catch (NSException *e)
+            {
                 NSLog(@"Failed to pause");
             }
         }

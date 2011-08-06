@@ -29,7 +29,7 @@
 #import <QuartzCore/CoreAnimation.h>
 #import "OETaskWrapper.h"
 
-@class OEGameCoreController, OEGameCoreManager;
+@class OEGameCoreController, OEGameCoreManager, OESystemResponder, OESystemController;
 @class OEGameView;
 @class OEGameQTRecorder;
 @protocol OEGameCoreHelper;
@@ -47,6 +47,8 @@
     NSString             *emulatorName;
     NSWindow             *gameWindow;
     OEGameView           *view;
+    OESystemController   *gameSystemController;
+    OESystemResponder    *gameSystemResponder;
     OEGameCoreController *gameController;
     NSToolbarItem        *playPauseToolbarItem;
     BOOL                  keyedOnce;

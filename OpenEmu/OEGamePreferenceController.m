@@ -28,13 +28,14 @@
 #import "OEGamePreferenceController.h"
 #import "OEGameDocumentController.h"
 #import "OEGamePreferenceController_Toolbar.h"
+#import "OEPlugin.h"
 #import "OECorePlugin.h"
 #import "OEGameCoreController.h"
 
 @implementation OEGamePreferenceController
 
 @dynamic plugins;
-@synthesize selectedPlugins, availablePluginsPredicate, splitView, pluginTableView, pluginController, toolbar;
+@synthesize selectedPlugins, availablePluginsPredicate, splitView, pluginTableView, pluginController, allPluginController, toolbar;
 
 - (id)init
 {
@@ -47,12 +48,16 @@
     if(self != nil)
     {
         [self setupToolbar];
+        
+        [OEPlugin addObserver:self forKeyPath:@"allPlugins" options:NSKeyValueObservingOptionPrior context:NULL];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [OEPlugin removeObserver:self forKeyPath:@"allPlugins"];
+    
     [splitView             release];
     [pluginTableView       release];
     [pluginController      release];
@@ -63,6 +68,17 @@
     [super                 dealloc];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([object isEqual:[OEPlugin class]] && [keyPath isEqualToString:@"allPlugins"])
+    {
+        if([[change objectForKey:NSKeyValueChangeNotificationIsPriorKey] boolValue])
+            [self willChangeValueForKey:@"plugins"];
+        else
+            [self didChangeValueForKey:@"plugins"];
+    }
+}
+
 - (IBAction)openPreferenceWindow:(id)sender
 {
     [self close];
@@ -70,7 +86,7 @@
 
 - (NSArray *)plugins
 {
-    return [[OEGameDocumentController sharedDocumentController] plugins];
+    return [OEPlugin allPlugins];
 }
 
 - (void)awakeFromNib

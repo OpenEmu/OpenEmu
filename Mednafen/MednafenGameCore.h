@@ -26,8 +26,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <GameCore.h>
-#import <OEHIDEvent.h>
+#import <OpenEmuBase/OpenEmuBase.h>
 #include <vector>
 #include "mednafen.h"
 
@@ -36,7 +35,7 @@
 #define GBA_CONTROL_COUNT 17
 OE_EXTERN NSString *MednafenControlNames[];
 
-@interface MednafenGameCore : GameCore
+@interface MednafenGameCore : OEGameCore
 {
     unsigned char *videoBuffer;
     unsigned char *tempBuffer;

@@ -1,0 +1,48 @@
+1.2.6
+   * Fix an infinite loop regression from 1.2.3
+   * Fix possible noise at the beginning of files
+
+1.2.5
+   * Properly increase API version since it has changed since 1.2.3
+     Apps compiled with 1.2.2 WILL BREAK when used with 1.2.3 & 1.2.4 libs installed
+
+1.2.4
+	* Fix broken stream initialization on non-mpc files
+
+1.2.3
+    * Added fast-seeking (bit-perfect only with mppenc 1.16 files and later, optional but safe on pre mppenc 1.16 files). Patch by Nicolas Botti
+    * Reduced memory usage and code size. Patch by Peter Pawlowski
+
+1.2.2
+    * Fixed compilation under OpenBSD
+    * Unix EOF again
+
+1.2.1
+    * Warnings cleanup, patch by Tomas Salfischberger, Thom Johansen and
+    Daniel Stenberg (Rockbox)
+    * Mplayer interface, patch by Reimar Doffinger
+    * Unix EOF everywhere
+
+1.2
+    * 1.1.1 broke the API (BOOL type changed to mpc_bool_t). Version bumped to 1.2 to reflect the major change. Sorry to those who were caught by this error
+    * Fixed relative/absolute includes (#include "stuff.h" in /include/mpcdec, #include <mpcdec/stuff> in src/)
+    * Added msvc project files
+    * Changed mpc_reader_t structure, any specific data of the reader's
+    implementations should be hidden behind the (void*) data pointer. (example
+    in default implementation mpc_reader_file)
+    * Renamed to libmpcdec (to make room for libmpcenc)
+
+1.1.1
+    * fix for fixed-point mode bug
+
+1.1
+    * add compliance & cleanup patches from Michael Roitzsch of xine project 	
+    * switch to BSD license
+    * port to pure C
+    * add doxygen documentation
+    * revise API somewhat
+	
+1.0.3			
+    * autotools build process
+    * sample binary added
+    * floating-point mode by default

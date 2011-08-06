@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# Enable exit on error and error on use of undefined variables
+set -e -u
+
+echo "32-bit tests"
+
+# General
+gcc -O3 libco/libco.c test_libco.c -mno-powerpc64 -maltivec ; ./a.out
+
+# Stress
+gcc -O3 libco/libco.c test_threads.c -mno-powerpc64 -DLIBCO_PPC_NOFP ; ./a.out
+gcc -O3 libco/libco.c test_threads.c -mno-powerpc64 -maltivec        ; ./a.out
+
+# Benchmark
+gcc -O3 libco/libco.c benchmark*.c -mno-powerpc64 -DLIBCO_PPC_NOFP ; ./a.out
+gcc -O3 libco/libco.c benchmark*.c -mno-powerpc64                  ; ./a.out
+gcc -O3 libco/libco.c benchmark*.c -mno-powerpc64 -maltivec        ; ./a.out
+
+# Register preservation
+gcc -mregnames --omit-frame-pointer libco/libco.c ppc_regs.S test_regs.c -mno-powerpc64 -DLIBCO_PPC_NOFP ; ./a.out
+gcc -mregnames --omit-frame-pointer libco/libco.c ppc_regs.S test_regs.c -mno-powerpc64 -D__ALTIVEC__    ; ./a.out
+
+echo
+echo "64-bit tests"
+
+# General
+gcc -O3 libco/libco.c test_libco.c -mpowerpc64 -D__ALTIVEC__ ; ./a.out
+
+# Stress
+gcc -O3 libco/libco.c test_threads.c -mpowerpc64 -DLIBCO_PPC_NOFP ; ./a.out
+gcc -O3 libco/libco.c test_threads.c -mpowerpc64 -maltivec        ; ./a.out
+
+# Benchmark
+gcc -O3 libco/libco.c benchmark*.c -mpowerpc64 -DLIBCO_PPC_NOFP ; ./a.out
+gcc -O3 libco/libco.c benchmark*.c -mpowerpc64                  ; ./a.out
+gcc -O3 libco/libco.c benchmark*.c -mpowerpc64 -maltivec        ; ./a.out
+
+# Register preservation
+gcc -mregnames --omit-frame-pointer libco/libco.c ppc_regs.S test_regs.c -mpowerpc64 -DLIBCO_PPC_NOFP ; ./a.out
+gcc -mregnames --omit-frame-pointer libco/libco.c ppc_regs.S test_regs.c -mpowerpc64 -D__ALTIVEC__    ; ./a.out

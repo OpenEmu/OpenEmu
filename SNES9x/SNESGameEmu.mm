@@ -40,82 +40,47 @@
 #include "movie.h"
 #include "snapshot.h"
 #include "screenshot.h"
+#import "OESNESSystemResponderClient.h"
 
 
 #define SAMPLERATE      48000
 #define SAMPLEFRAME     800
 #define SIZESOUNDBUFFER SAMPLEFRAME * 4
 
-@interface SNESGameEmu ()
+@interface SNESGameEmu () <OESNESSystemResponderClient>
 - (NSUInteger)SNES_buttonMaskForButton:(OEButton)gameButton;
 @end
 
 @implementation SNESGameEmu
 
-enum
+NSString *SNESEmulatorKeys[] = { @"A", @"B", @"X", @"Y", @"Up", @"Down", @"Left", @"Right", @"Start", @"Select", @"L", @"R", nil };
+
+- (void)didPushSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
 {
-    kMacCMapPad1PX,
-    kMacCMapPad1PA,
-    kMacCMapPad1PB,
-    kMacCMapPad1PY,
-    kMacCMapPad1PL,
-    kMacCMapPad1PR,
-    kMacCMapPad1PSelect,
-    kMacCMapPad1PStart,
-    kMacCMapPad1PUp,
-    kMacCMapPad1PDown,
-    kMacCMapPad1PLeft,
-    kMacCMapPad1PRight,
-};
+    S9xReportButton((player << 16) | button, true);
+}
 
-enum
+- (void)didReleaseSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
 {
-    SNESPadPX,
-    SNESPadPA,
-    SNESPadPB,
-    SNESPadPY,
-    SNESPadPL,
-    SNESPadPR,
-    SNESPadPSelect,
-    SNESPadPStart,
-    SNESPadPUp,
-    SNESPadPDown,
-    SNESPadPLeft,
-    SNESPadPRight,
-    SNESPadCount
-};
+    S9xReportButton((player << 16) | button, false);
+}
 
-NSUInteger SNESEmulatorValues[] = { SNES_TR_MASK, SNES_TL_MASK, SNES_X_MASK, SNES_A_MASK, SNES_RIGHT_MASK, SNES_LEFT_MASK, SNES_DOWN_MASK, SNES_UP_MASK, SNES_START_MASK, SNES_SELECT_MASK, SNES_Y_MASK, SNES_B_MASK };
-NSString *SNESEmulatorNames[] = { @"Joypad@ R", @"Joypad@ L", @"Joypad@ X", @"Joypad@ A", @"Joypad@ Right", @"Joypad@ Left", @"Joypad@ Down", @"Joypad@ Up", @"Joypad@ Start", @"Joypad@ Select", @"Joypad@ Y", @"Joypad@ B" };
-
-
-#define ASSIGN_BUTTONf(n, s)  S9xMapButton (n, cmd = S9xGetCommandT(s), false)
-#define PLAYER_MASK(player)   (1 << (15 + (player)))
-#define EMULATOR_CMD(aKey)    (PLAYER_MASK((aKey).player) | ((aKey).key))
 - (void)mapButtons
 {
-    [[self owner] forceKeyBindingRecover];
+    for(NSUInteger player = 1; player <= 8; player++)
+    {
+        NSUInteger playerMask = player << 16;
+        
+        NSString *playerString = [NSString stringWithFormat:@"Joypad%d ", player];
+        
+        for(NSUInteger idx = 0; idx < OESNESButtonCount; idx++)
+        {
+            s9xcommand_t cmd = S9xGetCommandT([[playerString stringByAppendingString:SNESEmulatorKeys[idx]] UTF8String]);
+            S9xMapButton(playerMask | idx, cmd, false);
+        }
+    }
 }
 
-- (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer
-{
-    NSUInteger val = SNESEmulatorValues[index];
-    OEEmulatorKey ret = OEMakeEmulatorKey(thePlayer, val);
-    s9xcommand_t cmd = S9xGetCommandT([aKey UTF8String]);
-    S9xMapButton(EMULATOR_CMD(ret), cmd, false);
-    return ret;
-}
-
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
-{
-    S9xReportButton(EMULATOR_CMD(aKey), true);
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    S9xReportButton(EMULATOR_CMD(aKey), false);
-}
-#undef EMULATOR_CMD
 #pragma mark Exectuion
 
 - (void)executeFrame

@@ -1,6 +1,6 @@
 /*************************************************************************
  *
- * $Id: triostr.h,v 1.15 2005/05/29 11:56:01 breese Exp $
+ * $Id: triostr.h,v 1.18 2010/01/26 13:02:02 breese Exp $
  *
  * Copyright (C) 2001 Bjorn Reese and Daniel Stenberg.
  *
@@ -136,7 +136,7 @@ enum {
 #else
 
 /*
- * When triostr is not embedded all all functions are defined.
+ * When triostr is not embedded all functions are defined.
  */
 
 # define TRIO_FUNC_APPEND
@@ -154,11 +154,14 @@ enum {
 # define TRIO_FUNC_EQUAL_LOCALE
 # define TRIO_FUNC_EQUAL_MAX
 # define TRIO_FUNC_ERROR
-# define TRIO_FUNC_FORMAT_DATE_MAX
+# if !defined(TRIO_PLATFORM_WINCE)
+#  define TRIO_FUNC_FORMAT_DATE_MAX
+# endif
 # define TRIO_FUNC_HASH
 # define TRIO_FUNC_INDEX
 # define TRIO_FUNC_INDEX_LAST
 # define TRIO_FUNC_LENGTH
+# define TRIO_FUNC_LENGTH_MAX
 # define TRIO_FUNC_LOWER
 # define TRIO_FUNC_MATCH
 # define TRIO_FUNC_MATCH_CASE
@@ -186,7 +189,9 @@ enum {
 # define TRIO_FUNC_STRING_EQUAL_CASE_MAX
 # define TRIO_FUNC_STRING_EQUAL_MAX
 # define TRIO_FUNC_STRING_EXTRACT
-# define TRIO_FUNC_STRING_FORMAT_DATE_MAX
+# if !defined(TRIO_PLATFORM_WINCE)
+#  define TRIO_FUNC_STRING_FORMAT_DATE_MAX
+# endif
 # define TRIO_FUNC_STRING_GET
 # define TRIO_FUNC_STRING_INDEX
 # define TRIO_FUNC_STRING_INDEX_LAST
@@ -201,6 +206,7 @@ enum {
 
 # define TRIO_FUNC_XSTRING_APPEND
 # define TRIO_FUNC_XSTRING_APPEND_CHAR
+# define TRIO_FUNC_XSTRING_APPEND_MAX
 # define TRIO_FUNC_XSTRING_CONTAINS
 # define TRIO_FUNC_XSTRING_COPY
 # define TRIO_FUNC_XSTRING_DUPLICATE
@@ -338,6 +344,12 @@ TRIO_PROTO((TRIO_CONST char *string, int character));
 TRIO_PUBLIC_STRING size_t
 trio_length
 TRIO_PROTO((TRIO_CONST char *string));
+#endif
+
+#if defined(TRIO_FUNC_LENGTH_MAX)
+TRIO_PUBLIC_STRING size_t
+trio_length_max
+TRIO_PROTO((TRIO_CONST char *string, size_t max));
 #endif
 
 #if defined(TRIO_FUNC_LOWER)
@@ -588,6 +600,12 @@ TRIO_PROTO((trio_string_t *self, TRIO_CONST char *other));
 TRIO_PUBLIC_STRING int
 trio_xstring_append_char
 TRIO_PROTO((trio_string_t *self, char character));
+#endif
+
+#if defined(TRIO_FUNC_XSTRING_APPEND_MAX)
+TRIO_PUBLIC_STRING int
+trio_xstring_append_max
+TRIO_PROTO((trio_string_t *self, TRIO_CONST char *other, size_t max));
 #endif
 
 #if defined(TRIO_FUNC_XSTRING_CONTAINS)

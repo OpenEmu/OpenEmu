@@ -78,7 +78,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         for(NSUInteger i = 0; i < count; i++)
             ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self soundBufferSize] * 16];
         
-        keyMap = OEMapCreate(32);
+        //keyMap = OEMapCreate(32);
     }
     return self;
 }
@@ -86,7 +86,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 - (void)dealloc
 {
     DLog(@"%s", __FUNCTION__);
-    if(keyMap != NULL) OEMapRelease(keyMap);
+    //if(keyMap != NULL) OEMapRelease(keyMap);
     
     [emulationThread release];
     
@@ -105,6 +105,11 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 - (NSString *)pluginName
 {
     return [[self owner] pluginName];
+}
+
+- (NSString *)gameSystemName;
+{
+    return [[self owner] gameSystemName];
 }
 
 - (NSString *)supportDirectoryPath
@@ -334,33 +339,6 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
-#pragma mark Input Settings & Parsing
-- (NSUInteger)playerCount
-{
-    return 1;
-}
-
-- (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer
-{
-    return [self emulatorKeyForKeyIndex:index player:thePlayer];
-}
-
-- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
-{
-    [self doesNotImplementSelector:_cmd];
-    return (OEEmulatorKey){0, 0};
-}
-
-- (void)pressEmulatorKey:(OEEmulatorKey)aKey
-{
-    [self doesNotImplementSelector:_cmd];
-}
-
-- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
-{
-    [self doesNotImplementSelector:_cmd];
-}
-
 #pragma mark Input
 - (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton
 {
@@ -381,169 +359,6 @@ static NSTimeInterval currentTime()
 {
     DLog(@"keyName = %@", keyName);
     [self doesNotImplementSelector:_cmd];
-}
-
-#define OEHatSwitchMask     (0x39 << 16)
-#define PAD_NUMBER  ([anEvent padNumber] << 24)
-#define KEYBOARD_MASK 0x40000000u
-#define HID_MASK      0x20000000u
-#define DIRECTION_MASK(dir) (1 << ((dir) > OEHIDDirectionNull))
-
-#define GET_EMUL_KEY do {                                                   \
-    NSUInteger index, player;                                               \
-    player = [owner playerNumberInKey:keyName getKeyIndex:&index];          \
-    if(player == NSNotFound) return;                                        \
-    emulKey = [self emulatorKeyForKey:keyName index:index player:player];   \
-} while(0)
-
-- (void)setEventValue:(NSInteger)appKey forEmulatorKey:(OEEmulatorKey)emulKey
-{
-    OEMapSetValue(keyMap, appKey, emulKey);
-}
-
-- (void)unsetEventForKey:(NSString *)keyName withValueMask:(NSUInteger)keyMask
-{
-    OEEmulatorKey emulKey;
-    GET_EMUL_KEY;
-    OEMapRemoveMaskedKeysForValue(keyMap, keyMask, emulKey);
-}
-
-- (void)keyboardEventWasSet:(id)theEvent forKey:(NSString *)keyName
-{
-    OEEmulatorKey emulKey;
-    GET_EMUL_KEY;
-    NSInteger appKey = 0;
-    //if([theEvent respondsToSelector:@selector(keycode)])
-        appKey = KEYBOARD_MASK | [theEvent keycode];
-    //else
-    //    appKey = KEYBOARD_MASK | [theEvent intValue];
-    
-    [self setEventValue:appKey forEmulatorKey:emulKey];
-}
-
-- (void)keyboardEventWasRemovedForKey:(NSString *)keyName
-{
-    [self unsetEventForKey:keyName withValueMask:KEYBOARD_MASK];
-}
-
-- (void)HIDEventWasSet:(id)theEvent forKey:(NSString *)keyName
-{
-    OEEmulatorKey emulKey;
-    GET_EMUL_KEY;
-    
-    NSInteger   appKey  = 0;
-    OEHIDEvent *anEvent = theEvent;
-    appKey = HID_MASK | [anEvent padNumber] << 24;
-    
-    switch ([anEvent type])
-    {
-        case OEHIDAxis :
-        {
-            OEHIDDirection dir = [anEvent direction];
-            if(dir == OEHIDDirectionNull) return;
-            appKey |= ([anEvent axis] << 16);
-            appKey |= 1 << (dir > OEHIDDirectionNull);
-        }
-            break;
-        case OEHIDButton :
-            if([anEvent state]     == NSOffState)         return;
-            appKey |= [anEvent cookie];
-            break;
-        case OEHIDHatSwitch :
-            if([anEvent position]  == 0)                  return;
-            appKey |= [anEvent position] | OEHatSwitchMask;
-            break;
-        default : return;
-    }
-    
-    [self setEventValue:appKey forEmulatorKey:emulKey];
-}
-
-- (void)HIDEventWasRemovedForKey:(NSString *)keyName
-{
-    [self unsetEventForKey:keyName withValueMask:HID_MASK];
-}
-
-- (void)mouseMoved:(NSEvent *)theEvent
-{
-    //NSLog(@"Tracking: %f,%f", mousePosition.x, mousePosition.y);
-}
-
-- (void)HIDKeyDown:(OEHIDEvent *)anEvent
-{
-    OEEmulatorKey key;
-    if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keycode], &key))
-        [self pressEmulatorKey:key];
-}
-
-- (void)HIDKeyUp:(OEHIDEvent *)anEvent
-{
-    OEEmulatorKey key;
-    if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keycode], &key))
-        [self releaseEmulatorKey:key];
-}
-
-- (void)keyUp:(NSEvent *)theEvent
-{
-}
-
-- (void)keyDown:(NSEvent *)theEvent
-{
-}
-
-- (void)axisMoved:(OEHIDEvent *)anEvent
-{
-    NSUInteger value = HID_MASK | PAD_NUMBER;
-    NSInteger dir  = [anEvent direction];
-    NSInteger axis = value | [anEvent axis] << 16;
-    OEEmulatorKey key;
-    
-    if(dir == OEHIDDirectionNull)
-    {
-        if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDDirectionNegative), &key))
-            [self releaseEmulatorKey:key];
-        if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDDirectionPositive), &key))
-            [self releaseEmulatorKey:key];
-        return;
-    }
-    else if(dir == OEHIDDirectionNegative)
-    {
-        if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDDirectionPositive), &key))
-            [self releaseEmulatorKey:key];
-    }
-    else if(dir == OEHIDDirectionPositive)
-    {
-        if(OEMapGetValue(keyMap, axis | DIRECTION_MASK(OEHIDDirectionNegative), &key))
-            [self releaseEmulatorKey:key];
-    }
-    
-    value = axis  | DIRECTION_MASK(dir);
-    if(OEMapGetValue(keyMap, value, &key))
-        [self pressEmulatorKey:key];
-}
-
-- (void)buttonDown:(OEHIDEvent *)anEvent
-{
-    OEEmulatorKey key;
-    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | [anEvent cookie], &key))
-        [self pressEmulatorKey:key];
-}
-
-- (void)buttonUp:(OEHIDEvent *)anEvent
-{
-    OEEmulatorKey key;
-    if(OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | [anEvent cookie], &key))
-        [self releaseEmulatorKey:key];
-}
-
-- (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
-{
-    OEEmulatorKey key;
-    if([anEvent hasPreviousState] && [anEvent previousPosition] != 0 && OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | OEHatSwitchMask | [anEvent previousPosition], &key))
-        [self releaseEmulatorKey:key];
-    
-    if([anEvent position] != 0 && OEMapGetValue(keyMap, HID_MASK | PAD_NUMBER | OEHatSwitchMask | [anEvent position], &key))
-        [self pressEmulatorKey:key];
 }
 
 #pragma mark -
