@@ -4,28 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>OECoreListURL</key>
-	<string>http://openemu.org/update/oecores.xml</string>
-	<key>UTExportedTypeDeclarations</key>
-	<array>
-		<dict>
-			<key>UTTypeIdentifier</key>
-			<string>com.openemu.savestate</string>
-			<key>UTTypeDescription</key>
-			<string>OpenEmu Save State</string>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.data</string>
-			</array>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>oesavestate</string>
-				</array>
-			</dict>
-		</dict>
-	</array>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
@@ -136,16 +114,42 @@
 	<key>CFBundleSignature</key>
 	<string>OpEm</string>
 	<key>CFBundleVersion</key>
-	<string>1.0.0b7</string>
+	<string>1.0.0b8</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.games</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>OEBundlePath</key>
 	<string>~/Library/Application Support/OpenEmu/Cores/</string>
+	<key>OECoreListURL</key>
+	<string>http://openemu.org/update/oecores.xml</string>
 	<key>SUFeedURL</key>
 	<string>http://openemu.org/update/appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>OpenEmu Save State</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.openemu.savestate</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>oesavestate</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+	<key>LSMinimumSystemVersion</key>
+	<string>10.6.0</string>
 </dict>
 </plist>
