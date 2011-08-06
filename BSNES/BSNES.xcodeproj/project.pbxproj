@@ -186,6 +186,13 @@
 			remoteGlobalIDString = C6B947E61365080B00A425F0;
 			remoteInfo = Genesis;
 		};
+		C6E52E4113E715DF00165DA8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
+		};
 		C6E542941363CC130075BA8C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
@@ -1919,6 +1926,7 @@
 				C648100C1364B2E10094FA33 /* SuperNES.oesystemplugin */,
 				C671343C136A1C4A00EA271B /* GameBoy.oesystemplugin */,
 				C671343E136A1C4A00EA271B /* Genesis.oesystemplugin */,
+				C6E52E4213E715DF00165DA8 /* GameBoy Advance.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2076,6 +2084,13 @@
 			fileType = wrapper.cfbundle;
 			path = Genesis.oesystemplugin;
 			remoteRef = C671343D136A1C4A00EA271B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		C6E52E4213E715DF00165DA8 /* GameBoy Advance.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "GameBoy Advance.oesystemplugin";
+			remoteRef = C6E52E4113E715DF00165DA8 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C6E542951363CC130075BA8C /* OpenEmuSystem.framework */ = {
