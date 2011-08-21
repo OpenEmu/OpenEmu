@@ -27,8 +27,20 @@
 
 #import <Cocoa/Cocoa.h>
 
-int main(int argc, char *argv[])
-{    
-    return NSApplicationMain(argc, (const char **) argv);
+int main(int argc, char *argv[]){	
+	@autoreleasepool {
+	NSDictionary* defaults = [NSDictionary dictionaryWithObjectsAndKeys:
+							  
+								// Thumbnail sizes for game box images
+								[NSArray arrayWithObjects:	NSStringFromSize(NSMakeSize(75, 75)), 
+															NSStringFromSize(NSMakeSize(150, 150)), 
+															NSStringFromSize(NSMakeSize(300, 300)), 
+															NSStringFromSize(NSMakeSize(450, 450)), nil],	UDBoxSizesKey,
+							  nil];
+	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+	[standardDefaults registerDefaults:defaults];
+	}
+	
+	return NSApplicationMain(argc, (const char **) argv);
 }
 

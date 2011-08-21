@@ -82,5 +82,5 @@
 - (BOOL)performDragOperation:(id < NSDraggingInfo >)sender{
 	return NO;
 }
-@synthesize representedObject, representedIndex;
+@synthesize representedIndex;
 @end

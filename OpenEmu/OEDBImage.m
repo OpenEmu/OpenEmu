@@ -181,18 +181,17 @@
 	if(!usableThumbnail){
 		usableThumbnail = [[thumbnails lastObject] retain];	
 	}
-	
+
 	NSImage* image = nil;
 	@try {
-		
-	if(usableThumbnail && [usableThumbnail valueForKey:@"data"]){
-		NSManagedObjectContext* imageDataObj = [usableThumbnail valueForKey:@"data"];
+		NSManagedObject* imageDataObj = [usableThumbnail valueForKey:@"data"];
 		NSData* imageData = [imageDataObj valueForKey:@"data"];
+
 		image = [self _convertDataToImage:imageData];
-	}
 	}
 	@catch (NSException *exception) {
 		NSLog(@"caught exception!");
+		NSLog(@"%@", exception);
 	}
 	[usableThumbnail release];
 	

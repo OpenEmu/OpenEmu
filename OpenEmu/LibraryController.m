@@ -55,10 +55,7 @@
     [super windowDidLoad];
 	
     NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSString* path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmuDatabaseTest"] path];
-    
-#define UDDatabasePathKey @"databasePath"
-#define UDDefaultDatabasePathKey @"defaultDatabasePath"
+    NSString* path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Database"] path];
     
     NSDictionary* defaults = [NSDictionary dictionaryWithObjectsAndKeys:path, UDDefaultDatabasePathKey, path, UDDatabasePathKey, nil];
     [standardDefaults registerDefaults:defaults];
@@ -125,13 +122,13 @@
 	BOOL opening = [mainSplitView splitterPosition]==0;
 	float widthCorrection = 0;
 	if(opening){
-		widthCorrection = [standardDefaults floatForKey:UDKSidebarWidth];
+		widthCorrection = [standardDefaults floatForKey:UDSidebarWidthKey];
 		if(widthCorrection==0)
 			widthCorrection = 168;
 	} else {
 		NSView* sidebar = [[mainSplitView subviews] objectAtIndex:0];
 		float lastWidth = [sidebar frame].size.width;
-		[standardDefaults setFloat:lastWidth forKey:UDKSidebarWidth];		
+		[standardDefaults setFloat:lastWidth forKey:UDSidebarWidthKey];		
 		
 		widthCorrection = -1*lastWidth;
 	}
@@ -162,7 +159,7 @@
 	}
     [sidebarBtn setImage:image];
 	
-	[standardDefaults setBool:opening forKey:UDKSidebarVisible];
+	[standardDefaults setBool:opening forKey:UDSidebarVisibleKey];
 }
 
 #pragma mark -

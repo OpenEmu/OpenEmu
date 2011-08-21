@@ -23,7 +23,7 @@
 }
 
 
-- (void)drawInContext:(CGContextRef)ctx{
+- (void)drawInContext:(CGContextRef)ctx{	
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:YES];
 	[NSGraphicsContext saveGraphicsState];
 	[NSGraphicsContext setCurrentContext:graphicsContext];

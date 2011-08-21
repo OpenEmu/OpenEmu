@@ -49,7 +49,6 @@
     
     [[[sidebarView tableColumns] objectAtIndex:0] setDataCell:cell];
     [sidebarView setIndentationPerLevel:7];
-    [sidebarView setAutosaveExpandedItems:TRUE];
     [sidebarView setAutosaveName:@"sidebarView"];
     [sidebarView setAutoresizesOutlineColumn:NO];
     [sidebarView registerForDraggedTypes:[NSArray arrayWithObjects:@"org.openEmu.rom", NSFilenamesPboardType, nil]];
@@ -223,15 +222,7 @@
 			[(SidebarCell*)cell setIsEditing:NO];
     }
 }
-- (id)outlineView:(NSOutlineView *)outlineView persistentObjectForItem:(id)item{
-    if([[item className] isEqualToString:@"SidebarGroupItem"]){
-		return [item name];
-    } else if([item isKindOfClass:[NSManagedObject class]]){
-		return [(NSManagedObject*)item objectID];
-    }
-    
-    return nil;
-}
+
 
 - (void)setEditingItem:(id)newEdItem{
     [newEdItem retain];

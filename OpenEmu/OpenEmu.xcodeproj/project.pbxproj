@@ -380,12 +380,16 @@
 		82F7F7AA101FECFE00533B55 /* SaveStateManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */; };
 		82F7F7C8101FEEDD00533B55 /* OESaveStateController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82F7F7C7101FEEDD00533B55 /* OESaveStateController.m */; };
 		82FC495D102123D100408B4F /* OEFrameEncodeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FC495C102123D100408B4F /* OEFrameEncodeOperation.m */; };
+		8305267213FBC934006179C6 /* ArchiveVG.m in Sources */ = {isa = PBXBuildFile; fileRef = 8305267113FBC934006179C6 /* ArchiveVG.m */; };
+		8305267513FBC999006179C6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8305267413FBC999006179C6 /* Security.framework */; };
 		8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8310447013BE419000B283B0 /* OEHorizontalSplitView.m */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
 		8382D23113C5C5BB00906221 /* OEPrefCoresController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D22E13C5C5BB00906221 /* OEPrefCoresController.xib */; };
 		8382D23213C5C5BB00906221 /* OEPrefGameplayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */; };
 		8382D23313C5C5BB00906221 /* OEPrefLibraryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */; };
 		8382D23513C5C5E100906221 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23413C5C5E100906221 /* OEPrefControlsController.xib */; };
+		83A9011D13FB2D91000F4514 /* NSData+HashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */; };
+		83A9012013FB2E9D000F4514 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A9011F13FB2E9D000F4514 /* libcrypto.dylib */; };
 		83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F688BF13C6433600AA0F83 /* OEGridScrollView.m */; };
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
 		83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
@@ -1135,6 +1139,9 @@
 		82F7F7C7101FEEDD00533B55 /* OESaveStateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESaveStateController.m; sourceTree = "<group>"; };
 		82FC495B102123D100408B4F /* OEFrameEncodeOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFrameEncodeOperation.h; sourceTree = "<group>"; };
 		82FC495C102123D100408B4F /* OEFrameEncodeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFrameEncodeOperation.m; sourceTree = "<group>"; };
+		8305267013FBC934006179C6 /* ArchiveVG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArchiveVG.h; sourceTree = "<group>"; };
+		8305267113FBC934006179C6 /* ArchiveVG.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArchiveVG.m; sourceTree = "<group>"; };
+		8305267413FBC999006179C6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8310446F13BE419000B283B0 /* OEHorizontalSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHorizontalSplitView.h; sourceTree = "<group>"; };
 		8310447013BE419000B283B0 /* OEHorizontalSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHorizontalSplitView.m; sourceTree = "<group>"; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImage.h; sourceTree = "<group>"; };
@@ -1143,6 +1150,9 @@
 		8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefGameplayController.xib; sourceTree = "<group>"; };
 		8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefLibraryController.xib; sourceTree = "<group>"; };
 		8382D23413C5C5E100906221 /* OEPrefControlsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefControlsController.xib; sourceTree = "<group>"; };
+		83A9011B13FB2D91000F4514 /* NSData+HashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HashingAdditions.h"; sourceTree = "<group>"; };
+		83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HashingAdditions.m"; sourceTree = "<group>"; };
+		83A9011F13FB2E9D000F4514 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
 		83F688BF13C6433600AA0F83 /* OEGridScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridScrollView.m; sourceTree = "<group>"; };
 		83FA054D13B9DF940055A520 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = SOURCE_ROOT; };
@@ -1364,6 +1374,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8305267513FBC999006179C6 /* Security.framework in Frameworks */,
+				83A9012013FB2E9D000F4514 /* libcrypto.dylib in Frameworks */,
 				83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */,
 				53D32E4E13B95F9A00A6ACE0 /* AudioUnit.framework in Frameworks */,
 				53D32E4F13B95F9A00A6ACE0 /* AudioToolbox.framework in Frameworks */,
@@ -1453,6 +1465,8 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8305267413FBC999006179C6 /* Security.framework */,
+				83A9011F13FB2E9D000F4514 /* libcrypto.dylib */,
 				53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */,
 				53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */,
 				53D32E3213B95E2800A6ACE0 /* CoreAudio.framework */,
@@ -1624,6 +1638,8 @@
 		1BEF34751168F88A0090F72B /* Additions to standard classes */ = {
 			isa = PBXGroup;
 			children = (
+				83A9011B13FB2D91000F4514 /* NSData+HashingAdditions.h */,
+				83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */,
 				53439B8E13B937DB005C0CC8 /* NSImage+OEHighlight.h */,
 				53439B8F13B937DB005C0CC8 /* NSImage+OEHighlight.m */,
 				82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */,
@@ -1695,6 +1711,8 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				8305267013FBC934006179C6 /* ArchiveVG.h */,
+				8305267113FBC934006179C6 /* ArchiveVG.m */,
 				1BEF2A621168265D0090F72B /* Helper App (IOSurface helper & tester) */,
 				1BEF2A61116826510090F72B /* Distributed Object Protocol */,
 				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
@@ -1779,7 +1797,7 @@
 			name = "Game View";
 			sourceTree = "<group>";
 		};
-		53439A8713B92BEF005C0CC8 /* Preferences New */ = {
+		53439A8713B92BEF005C0CC8 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
 				53439B1C13B9306E005C0CC8 /* OEMenu */,
@@ -1797,7 +1815,7 @@
 				53439B7513B93303005C0CC8 /* OEPrefCoresController.h */,
 				53439B7613B93303005C0CC8 /* OEPrefCoresController.m */,
 			);
-			name = "Preferences New";
+			name = Preferences;
 			sourceTree = "<group>";
 		};
 		53439A8813B92BF4005C0CC8 /* Library Window */ = {
@@ -2246,7 +2264,7 @@
 			children = (
 				53439A8913B92BF6005C0CC8 /* Library Database */,
 				53439A8813B92BF4005C0CC8 /* Library Window */,
-				53439A8713B92BEF005C0CC8 /* Preferences New */,
+				53439A8713B92BEF005C0CC8 /* Preferences */,
 				53439A8613B92BEB005C0CC8 /* Game View */,
 				82C5EC781236EEA3001262F7 /* Network */,
 				1E2F3DB810DEAB370019AA84 /* Migration */,
@@ -3571,6 +3589,8 @@
 				8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */,
 				83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */,
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
+				83A9011D13FB2D91000F4514 /* NSData+HashingAdditions.m in Sources */,
+				8305267213FBC934006179C6 /* ArchiveVG.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

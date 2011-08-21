@@ -32,6 +32,7 @@
 		renderQueue = dispatch_queue_create("com.iksgridview.renderlayers", NULL);
 		dispatch_queue_t high = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0);
 		dispatch_set_target_queue(renderQueue, high);
+
 	}
 	return self;
 }
@@ -86,12 +87,13 @@
 
 	// calc rows per "page":  + 1 half visible on top + 1 half visible on bottom
 	NSInteger visibleRows = (self.visibleRect.size.height / paddedSize.height)+ 1 + 1;
+
 	
 	// calc first visible row
 	NSInteger firstVisibleRow = ((self.visibleRect.origin.y) / paddedSize.height);	
 	
 	// set object values for visible layers
-	if(currentGridState.columns == columns){
+	if(!reset && currentGridState.columns == columns){
 		if(currentGridState.rows == visibleRows){
 			if(currentGridState.firstVisibleRow != firstVisibleRow){
 				// do some magic to reduce drawing effort:				
@@ -113,24 +115,18 @@
 		}
 	} else {
 		NSUInteger requiredLayers = visibleRows*columns;
-
 		while(requiredLayers < [self.itemLayers count]){			
 			[[self.itemLayers objectAtIndex:0] removeFromSuperlayer];
 			[self.itemLayers removeObjectAtIndex:0];
 		}
-		
-		
 		while(requiredLayers > [self.itemLayers count]){
 			IKSGridItemLayer* itemLayer = [self.gridView.cellClass layer];
 			itemLayer.gridView = self.gridView;
+			itemLayer.representedIndex = -1;
 			[self.itemLayers addObject:itemLayer];
 			[layer addSublayer:itemLayer];
 		}
 	}
-	
-	// Call the delegate with the new content height
-	[self.delegate layoutManager:self contentHeightChanged:contentHeight];
-	[self.gridView layoutDecorationViews];
 	
 	// update state
 	currentGridState.rows = visibleRows;
@@ -159,6 +155,8 @@
 			
 			// if there is no object associated with the layer
 			if(currentItemIndex >= numberOfItems){
+				currentLayer.representedIndex = -1;
+				
 				// layer gets hidden
 				[CATransaction begin];
 				[CATransaction setDisableActions:YES];
@@ -174,10 +172,11 @@
 			}
 			
 			// get the object the layer is supposed to represent
-			id objectValue = [self.gridView.dataSource gridView:self.gridView objectValueOfItemAtIndex:currentItemIndex];
 			
 			// we need to redraw if layers current object value and the one it's supposed to have differ
-			BOOL redrawLayer = currentLayer.representedObject != objectValue;
+// TODO: check implementation
+	//		BOOL redrawLayer = currentLayer.representedObject != objectValue;
+			BOOL redrawLayer = currentLayer.representedIndex != currentItemIndex;
 			
 			if(redrawLayer){
 				// tell the layer that it's values are about to change (layer should disable animations, hide parts that might take long to update)
@@ -200,9 +199,10 @@
 			
 			newFrame.origin = CGPointMake(currentOriginX, currentOriginY);
 			
-			// tell the layer which item it currently represents
+			// tell the layer which item it currently represents			
+			// TODO: check implementation
 			currentLayer.representedIndex = currentItemIndex;
-			currentLayer.representedObject = objectValue;
+//			currentLayer.representedObject = objectValue;
 			
 			// show layer, and set frame without animations
 			[CATransaction begin];
@@ -219,15 +219,17 @@
 			//
 			if (redrawLayer) {
 				redrawnLayers ++;
-				
-				[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-				[currentLayer setNeedsLayout];
-				[currentLayer setNeedsDisplay];
-				[CATransaction flush];
-				[currentLayer endValueChange];
+				dispatch_async(renderQueue, ^{
+					[CATransaction begin];
+					[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+					[currentLayer setNeedsLayout];
+					//[currentLayer setNeedsDisplay];
+					[CATransaction commit];
+					[currentLayer endValueChange];
+				});
 #warning Imortant to fix this sooon!!!
 				// TODO: check why coredata and thumbnails don't work in an async queue
-				//	dispatch_async(renderQueue, ^{});
+				//	);
 			}
 			
 			currentItemIndex++;
@@ -235,6 +237,16 @@
 		}
 	}
 	
+	[self.delegate layoutManager:self contentHeightChanged:contentHeight];
+	[self.gridView layoutDecorationViews];
+	
+	reset = NO;
 }
-
+- (void)reset{	
+	while(gridView.gridLayer.sublayers.count)
+		[gridView.gridLayer.sublayers.lastObject removeFromSuperlayer];
+	self.itemLayers  = [NSMutableArray array];
+	
+	reset = YES;
+}
 @end

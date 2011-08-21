@@ -37,6 +37,8 @@
 
 - (void)setUpFieldEditor:(OEFieldEditor*)fieldEditor;
 
+- (id)_datasourceProxy_objectForKey:(NSString*)key;
+- (void)_datasourceProxy_setObject:(id)obj forKey:(NSString*)key;
 @end
 #pragma mark -
 @implementation CoverGridItemLayer
@@ -72,6 +74,7 @@
 		// setup gloss layer
 		CoverGridGlossLayer* gLayer = [CoverGridGlossLayer layer];
 		gLayer.delegate = self;
+		gLayer.needsDisplayOnBoundsChange = YES;
 		self.glossLayer = gLayer;
 		[self insertSublayer:gLayer above:inLayer];
 		
@@ -136,12 +139,19 @@
 
 
 #pragma mark -
-- (void)display{
+- (void)display{/*
     [self.glossLayer setNeedsDisplay];
     
     // make sure indication layer displays correctly
-    if(!acceptingOnDrop)
-		self.indicationLayer.type = [[self representedObject] gridStatus];
+    if(!acceptingOnDrop){
+		NSNumber* val = [self _datasourceProxy_objectForKey:@"status"];
+		self.indicationLayer.type = [val intValue];
+	}
+	*/
+	if(!acceptingOnDrop){
+		NSNumber* val = [self _datasourceProxy_objectForKey:@"status"];
+		self.indicationLayer.type = [val intValue];
+	}
 }
 
 
@@ -169,8 +179,8 @@
     imageContainerRect = NSMakeRect(0+imageBorderLeft, 0+topBorder, self.bounds.size.width-imageBorderLeft-imageBorderRight, self.bounds.size.height - titleHeight-titleImageSpacing-subtitleHeight-topBorder);
 	
 	// get image for specific size
-	if(self.representedObject && self.imageLayer && !NSEqualSizes(lastImageSize, imageContainerRect.size)){
-		NSImage* image = [self.representedObject gridImageWithSize:imageContainerRect.size];
+	NSImage* image = [self _datasourceProxy_objectForKey:@"image"];
+	if(image && self.imageLayer && !NSEqualSizes(lastImageSize, imageContainerRect.size)){
 		if(image){
 			self.imageLayer.contents = image;
 			lastImageSize = imageContainerRect.size;	
@@ -234,7 +244,7 @@
 #pragma mark IKSGridItemLayerEventProtocol
 - (BOOL)mouseDown:(NSEvent*)theEvent{	
     [self _valuesDidChange];
-    
+
     // update self, just in case
     [self setNeedsLayout];
     [self setNeedsDisplay];
@@ -313,7 +323,14 @@
     
     return NO;
 }
+#pragma mark -
+- (void)setRepresentedIndex:(NSInteger)repIn{
+	if(repIn!=self.representedIndex){
+		[super setRepresentedIndex:repIn];
+		[self _valuesDidChange];
+	}
 
+}
 #pragma mark -
 #pragma mark Dragging
 - (NSImage*)dragImage{
@@ -347,7 +364,7 @@
     // cancel if we are already working on a drop, when another comes in
     // (is that even possible?)
     if(acceptingOnDrop) return NSDragOperationNone;
-    
+	
     // Try to get an image directly from pasteboard
     id proposedImageRepresentation;
     NSArray* images = [[sender draggingPasteboard] readObjectsForClasses:[NSArray arrayWithObject:[NSImage class]] options:nil];
@@ -370,7 +387,7 @@
     }
     
     acceptingOnDrop = YES;
-    
+	
     // wait a while to prevent animation when dragging is just dragging by
     float dropAnimatioTimernDelay = [[NSUserDefaults standardUserDefaults] floatForKey:@"debug_drop_animation_delay"];
     dropAnimationDelayTimer = [[NSTimer scheduledTimerWithTimeInterval:dropAnimatioTimernDelay target:self selector:@selector(_displayOnDrop:) userInfo:proposedImageRepresentation repeats:NO] retain];	
@@ -381,7 +398,7 @@
 - (void)_displayOnDrop:(id)sender{
     if(!acceptingOnDrop)
 		return;
-    
+    	
     NSImage* proposedCoverImage;
     
     id userInfo = [sender userInfo];
@@ -433,7 +450,7 @@
     [self resizeLayer:self.glossLayer to:newCoverImageRect.size];
     [self resizeLayer:self.selectionLayer to:CGRectInset(newCoverImageRect, -6, -6).size];		
     [self resizeLayer:self.indicationLayer to:CGRectInset(newCoverImageRect, 1, 1).size];
-    
+
     [self fadeOpacityOfLayer:newImageLayer to:1.0f];
     [self resizeLayer:newImageLayer to:newCoverImageRect.size];
     [self moveLayer:newImageLayer to:newCoverImageRect.origin centered:NO];
@@ -442,7 +459,7 @@
     [self moveLayer:self.glossLayer to:newCoverImageRect.origin centered:NO];
     [self moveLayer:self.selectionLayer to:CGRectInset(newCoverImageRect, -6, -6).origin centered:NO];
     [self moveLayer:self.indicationLayer to:CGRectInset(newCoverImageRect, 1, 1).origin centered:NO];
-    
+	
     [dropAnimationDelayTimer invalidate];
     [dropAnimationDelayTimer release];
     dropAnimationDelayTimer = nil;
@@ -494,8 +511,8 @@
     [self moveLayer:self.selectionLayer to:CGRectInset(newCoverImageRect, -6, -6).origin centered:NO];
     [self moveLayer:self.indicationLayer to:CGRectInset(newCoverImageRect, 1, 1).origin centered:NO];
     
-    
-    self.indicationLayer.type = [[self representedObject] gridStatus];
+    NSNumber* val = [self _datasourceProxy_objectForKey:@"status"];
+    self.indicationLayer.type = [val intValue];
     
     acceptingOnDrop = NO;
 }
@@ -507,20 +524,29 @@
 }
 
 - (BOOL)performDragOperation:(id < NSDraggingInfo >)sender{
-    self.indicationLayer.type = [[self representedObject] gridStatus];
+	NSNumber* val = [self _datasourceProxy_objectForKey:@"status"];
+    self.indicationLayer.type = [val intValue];
     
     acceptingOnDrop = NO;
     NSUInteger index = [[self sublayers] indexOfObjectIdenticalTo:self.imageLayer]+1;
     CALayer* newImageLayer = [[self sublayers] objectAtIndex:index];
     if([newImageLayer isKindOfClass:[CALayer class]]){
+		[self _datasourceProxy_setObject:((CALayer*) newImageLayer).contents forKey:@"image"];
 		
-		id <CoverGridDataSourceItem> rObject = self.representedObject;
-		[rObject setGridImage:((CALayer*) newImageLayer).contents];
-		
+		newImageLayer.frame = self.imageLayer.frame;
+		newImageLayer.autoresizingMask = self.imageLayer.autoresizingMask;
+		newImageLayer.contentsGravity = self.imageLayer.contentsGravity;
+		newImageLayer.delegate = self.imageLayer.delegate;
 		newImageLayer.shadowColor = self.imageLayer.shadowColor;
 		newImageLayer.shadowOffset = self.imageLayer.shadowOffset;
 		newImageLayer.shadowOpacity = self.imageLayer.shadowOpacity;
 		newImageLayer.shadowRadius = self.imageLayer.shadowRadius;
+		newImageLayer.borderColor = self.imageLayer.borderColor;
+		newImageLayer.borderWidth = self.imageLayer.borderWidth;
+		newImageLayer.needsDisplayOnBoundsChange = NO;
+		newImageLayer.geometryFlipped = self.imageLayer.geometryFlipped;
+		newImageLayer.delegate = self.imageLayer.delegate;
+		newImageLayer.transform = self.imageLayer.transform;
 		
 		[self.imageLayer removeFromSuperlayer];
 		self.imageLayer = (CALayer*)newImageLayer;
@@ -529,14 +555,6 @@
     }
     
     return YES;
-}
-#pragma mark -
-#pragma mark "Cell" methods
-- (void)setRepresentedObject:(id)robJect{
-    if((robJect != self.representedObject)){
-		[super setRepresentedObject:robJect];
-		[self _valuesDidChange];
-    }
 }
 #pragma mark -
 #pragma mark ValueChanging
@@ -599,8 +617,7 @@
     else rating = ((pos/stepWidth)+1);
     
     [ratingLayer setRating:rating pressed:pressed];
-    id <CoverGridDataSourceItem> rObject = self.representedObject;
-    [rObject setGridRating:rating];
+	[self _datasourceProxy_setObject:[NSNumber numberWithInt:rating] forKey:@"status"];
 }
 
 - (void)moveLayer:(CALayer*)layer to:(CGPoint)point centered:(BOOL)centered{
@@ -649,19 +666,20 @@
 }
 
 - (void)_valuesDidChange{
-    id <CoverGridDataSourceItem> rObject = self.representedObject;
-    
+	NSImage* coverImage = [self _datasourceProxy_objectForKey:@"image"];
+	NSString* title = [self _datasourceProxy_objectForKey:@"title"];
+	int rating = [[self _datasourceProxy_objectForKey:@"rating"] intValue];
+	int status = [[self _datasourceProxy_objectForKey:@"status"] intValue];
+	
 	NSSize imageContainerSize = NSSizeFromCGSize(self.imageLayer.bounds.size);
-    NSImage* coverImage = [rObject gridImageWithSize:imageContainerSize];
     float r = coverImage?[coverImage size].height/[coverImage size].width:1.365385;
     if(r!=self.imageRatio) [self setNeedsLayout];
     self.imageRatio = r;
     
-    self.titleLayer.string = [rObject gridTitle];
-    self.imageLayer.contents = coverImage;
+    self.titleLayer.string = title;
     if(coverImage==nil){
-		CoverGridNoArtwork* noArtworkLayer;
-		if([self.imageLayer.sublayers count]==0){
+		if(![self.imageLayer isKindOfClass:[CoverGridNoArtwork class]]){
+			/*
 			noArtworkLayer = [CoverGridNoArtwork layer];
 			
 			noArtworkLayer.frame = CGRectMake(0, 0, self.imageLayer.bounds.size.width, self.imageLayer.bounds.size.height);
@@ -670,14 +688,61 @@
 			noArtworkLayer.needsDisplayOnBoundsChange = YES;
 			[self.imageLayer addSublayer:noArtworkLayer];
 			[noArtworkLayer setNeedsDisplay];
+			 */
+			CoverGridNoArtwork* noArtworkLayer = [CoverGridNoArtwork layer];
+			
+			noArtworkLayer.frame = self.imageLayer.frame;
+			noArtworkLayer.autoresizingMask = self.imageLayer.autoresizingMask;
+			noArtworkLayer.contentsGravity = self.imageLayer.contentsGravity;
+			noArtworkLayer.delegate = self.imageLayer.delegate;
+			noArtworkLayer.shadowColor = self.imageLayer.shadowColor;
+			noArtworkLayer.shadowOffset = self.imageLayer.shadowOffset;
+			noArtworkLayer.shadowOpacity = self.imageLayer.shadowOpacity;
+			noArtworkLayer.shadowRadius = self.imageLayer.shadowRadius;
+			noArtworkLayer.borderColor = self.imageLayer.borderColor;
+			noArtworkLayer.borderWidth = self.imageLayer.borderWidth;
+			noArtworkLayer.needsDisplayOnBoundsChange = YES;
+			
+			noArtworkLayer.geometryFlipped = self.imageLayer.geometryFlipped;
+			noArtworkLayer.delegate = self.imageLayer.delegate;
+			noArtworkLayer.transform = self.imageLayer.transform;
+
+			
+			[self.imageLayer.superlayer insertSublayer:noArtworkLayer above:self.imageLayer];
+			[self.imageLayer removeFromSuperlayer];
+			self.imageLayer = noArtworkLayer;
+//			[self.imageLayer addSublayer:noArtworkLayer];
+///			[self.imageLayer display];
+			
 		}
-    } else if([self.imageLayer.sublayers count]!=0){
-		[[[self.imageLayer sublayers] objectAtIndex:0] removeFromSuperlayer];
+    } else if([self.imageLayer isKindOfClass:[CoverGridNoArtwork class]]){
+		CALayer* newImageLayer = [CALayer layer];
+		
+		newImageLayer.frame = self.imageLayer.frame;
+		newImageLayer.autoresizingMask = self.imageLayer.autoresizingMask;
+		newImageLayer.contentsGravity = self.imageLayer.contentsGravity;
+		newImageLayer.delegate = self.imageLayer.delegate;
+		newImageLayer.shadowColor = self.imageLayer.shadowColor;
+		newImageLayer.shadowOffset = self.imageLayer.shadowOffset;
+		newImageLayer.shadowOpacity = self.imageLayer.shadowOpacity;
+		newImageLayer.shadowRadius = self.imageLayer.shadowRadius;
+		newImageLayer.borderColor = self.imageLayer.borderColor;
+		newImageLayer.borderWidth = self.imageLayer.borderWidth;
+		newImageLayer.needsDisplayOnBoundsChange = NO;
+		newImageLayer.geometryFlipped = self.imageLayer.geometryFlipped;
+		newImageLayer.delegate = self.imageLayer.delegate;
+		newImageLayer.transform = self.imageLayer.transform;
+
+		
+		[self.imageLayer.superlayer insertSublayer:newImageLayer above:self.imageLayer];
+		[self.imageLayer removeFromSuperlayer];
+		self.imageLayer = newImageLayer;
+		self.imageLayer.contents = coverImage;
     }
     
-    [self.ratingLayer setRating:[rObject gridRating] pressed:NO];
+    [self.ratingLayer setRating:rating pressed:NO];
     
-    self.indicationLayer.type = [rObject gridStatus];
+    self.indicationLayer.type = status;
 }
 
 #pragma mark -
@@ -699,8 +764,8 @@
 
 #pragma mark -
 - (void)setUpFieldEditor:(OEFieldEditor*)fieldEditor{
-    id <CoverGridDataSourceItem> rObject = self.representedObject;
-    [fieldEditor setString:[rObject gridTitle]];
+	NSString* title = [self _datasourceProxy_objectForKey:@"title"];
+    [fieldEditor setString:title];
     
     [fieldEditor setAlignment:NSCenterTextAlignment];
     [fieldEditor setBorderColor:[NSColor blackColor]];
@@ -737,11 +802,10 @@
     [fieldEditor setHidden:YES];
     
     NSString* newTitle = [fieldEditor string];
-    id <CoverGridDataSourceItem> rObject = [self representedObject];
-    if([newTitle isNotEqualTo:@""] && [newTitle isNotEqualTo:[rObject gridTitle]]){
+	NSString* title = [self _datasourceProxy_objectForKey:@"title"];
+    if([newTitle isNotEqualTo:@""] && [newTitle isNotEqualTo:title]){
 		
-		
-		[rObject setGridTitle:newTitle];
+		[self _datasourceProxy_setObject:newTitle forKey:@"title"];
 		[self _valuesDidChange];
 		
 		[NSTimer scheduledTimerWithTimeInterval:0.3 target:self.gridView selector:@selector(reloadData) userInfo:nil repeats:NO];
@@ -750,4 +814,12 @@
     [fieldEditor setDelegate:nil];
 }
 
+#pragma mark -
+
+- (id)_datasourceProxy_objectForKey:(NSString*)key{
+	return [self.gridView.dataSource gridView:self.gridView objectValueForKey:key atIndex:self.representedIndex];
+}
+- (void)_datasourceProxy_setObject:(id)obj forKey:(NSString*)key{
+	[self.gridView.dataSource gridView:self.gridView setObject:obj forKey:key atIndex:self.representedIndex];
+}
 @end

@@ -15,6 +15,4 @@
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
-- (NSMutableArray*)items;
-
 @end

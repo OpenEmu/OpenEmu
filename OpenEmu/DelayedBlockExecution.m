@@ -11,11 +11,11 @@
 @implementation NSObject (DelayedBlockExecution)
 
 - (void)performAfterDelay:(NSTimeInterval)delay block:(HHPerformBlock)block{
-    [self performSelector:@selector(runBlock:) withObject:[block copy] afterDelay:delay];
+    [self performSelector:@selector(runBlock:) withObject:[[block copy] autorelease] afterDelay:delay];
 }
 
 - (void)performOnMainThreadWait:(BOOL)wait block:(HHPerformBlock)block{
-    [self performSelectorOnMainThread:@selector(runBlock:) withObject:[block copy] waitUntilDone:wait];
+    [self performSelectorOnMainThread:@selector(runBlock:) withObject:[[block copy] autorelease] waitUntilDone:wait];
 }
 
 - (void)runBlock:(HHPerformBlock)block{

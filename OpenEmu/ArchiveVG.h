@@ -10,7 +10,7 @@
 /*
  *  NOTICE:
  
- *  The Following Methods have not been tested and might not work properly:
+ *  The following methods have not been tested and might not work properly:
  *
  *  + (BOOL)startSessionWithEmailAddress:(NSString*)emailAddress andPassword:(NSString*)password;
  *  + (NSArray*)userCollection;

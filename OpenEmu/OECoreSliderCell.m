@@ -48,7 +48,7 @@
 } 
 
 - (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped{
-	[[NSColor colorWithDeviceRed:0.141 green:0.141 blue:0.141 alpha:1.0] setFill];
+	[[NSColor colorWithDeviceRed:0.180 green:0.180 blue:0.180 alpha:1.0] setFill];
 	NSRectFill(aRect);
 	
 	aRect.size.height = 6;

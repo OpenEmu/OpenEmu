@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @class OEDBSystem;
+@class OEDBGame;
 @interface LibraryDatabase : NSObject {
-@private	
+@private
     NSArrayController* romsController;
     
     NSPersistentStoreCoordinator *__persistentStoreCoordinator;
@@ -29,9 +30,13 @@
 - (OEDBSystem*)systemForFile:(NSString*)filePath;
 - (NSInteger)systemsCount;
 
+- (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID;
+
 - (NSUInteger)collectionsCount;
 - (NSArray*)collections;
 
+- (NSManagedObject*)romForMD5Hash:(NSString*)hashString;
+- (NSManagedObject*)romForCRC32Hash:(NSString*)crc32String;
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate;
 - (NSArray*)romsInCollection:(id)collection;
 #pragma mark -

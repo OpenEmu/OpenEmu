@@ -91,6 +91,7 @@
 #pragma mark -
 - (BOOL)isItemSelectedAtIndex:(NSInteger)index;
 #pragma mark -
+
 @property (readwrite, assign) Class cellClass;
 
 

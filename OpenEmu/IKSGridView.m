@@ -44,7 +44,8 @@ typedef enum {
 	[pBoard clearContents];
 	
 	[self.selectedLayers enumerateObjectsUsingBlock:^(id layer, NSUInteger index, BOOL *stop){
-		[pBoard writeObjects:[NSArray arrayWithObject:((IKSGridItemLayer*)layer).representedObject]];
+#warning reimplement
+//		[pBoard writeObjects:[NSArray arrayWithObject:((IKSGridItemLayer*)layer).representedObject]];
 	}];
 }
 
@@ -122,9 +123,9 @@ typedef enum {
 			layer.parentGridView = self;
 		}
 		[self.gridLayer setSublayers:content];
-*/
+*/	
+	[layoutManager reset];
 	[self.gridLayer setNeedsLayout];
-	[self.gridLayer setNeedsDisplay];
 }
 #pragma mark -
 #pragma mark Decoration Views
@@ -408,6 +409,9 @@ typedef enum {
 
 
 - (NSArray*)embedInLayer:(NSArray*)items{
+	@throw @"embed in layer calles!!";
+	
+	
 	NSMutableArray* layers = [[items mutableCopy] autorelease];
 	
 	NSUInteger i;
@@ -415,7 +419,7 @@ typedef enum {
 		id anObj = [items objectAtIndex:i];
 		if([[anObj className] isNotEqualTo:[self.cellClass className]]){
 			IKSGridItemLayer* layer = [self.cellClass layer];
-			layer.representedObject = anObj;
+			//	layer.representedObject = anObj;
 			[layers replaceObjectAtIndex:i withObject:layer];
 		}
 	}
@@ -464,13 +468,14 @@ typedef enum {
 //
 - (void)layoutManager:(IKSGridLayoutManager*)manager contentHeightChanged:(CGFloat)height;
 {
-	if (![self enclosingScrollView]) {
+	if (![self enclosingScrollView] || height==self.frame.size.height) {
 		return;
-	}
+	}	
 	CGFloat newHeight = [[self enclosingScrollView] contentSize].height;
 	if (height > newHeight) {
 		newHeight = height;
 	}
+	
 	NSRect newFrame = [self frame];
 	newFrame.size.height = newHeight;
     BOOL oldLayoutEnabled = self.layoutEnabled;
@@ -540,7 +545,8 @@ typedef enum {
 		NSPasteboard* pBoard = [NSPasteboard pasteboardWithName:NSDragPboard];
 		[pBoard clearContents];
 		[self.selectedLayers enumerateObjectsUsingBlock:^(id layer, NSUInteger index, BOOL *stop){
-			[pBoard writeObjects:[NSArray arrayWithObject:((IKSGridItemLayer*)layer).representedObject]];
+#warning reimplement
+			// [pBoard writeObjects:[NSArray arrayWithObject:((IKSGridItemLayer*)layer).representedObject]];
 		}];
 		
 		[self dragImage:self.draggedImage at:NSMakePoint(offsetX, offsetY) offset:NSZeroSize event:theEvent pasteboard:pBoard source:self slideBack:NO];
@@ -792,8 +798,17 @@ typedef enum {
 - (void)windowChanged:(id)sender{
 	[self.gridLayer setNeedsLayout];
 }
+
+#pragma mark -
+- (void)setObjectValue:(id)obj forKey:(NSString*)key atIndex:(NSUInteger)index fromLayer:(CALayer*)layer{
+	[self.dataSource gridView:self setObject:obj forKey:key atIndex:index];
+	
+	[layer needsLayout];
+	[layer needsDisplay];
+}
 #pragma mark -
 #pragma mark Private
+
 - (void)_setupAutoresizing{
 	[self setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 }

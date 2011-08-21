@@ -19,9 +19,9 @@ const NSString* AVGGameESRBRatingKey    = @"AVGGameESRBRatingKey";
 const NSString* AVGGameCreditsKey       = @"AVGGameCreditsKey";
 const NSString* AVGCreditsNameKey       = @"AVGCreditsNameKey";
 const NSString* AVGCreditsPositionKey   = @"AVGCreditsPositionKey";
-const NSString* AVGSystemID         = @"AVGSystemID";
-const NSString* AVGSystemName       = @"AVGSystemName";
-const NSString* AVGSystemShort      = @"AVGSystemShort";
+const NSString* AVGSystemID				= @"AVGSystemID";
+const NSString* AVGSystemName			= @"AVGSystemName";
+const NSString* AVGSystemShort			= @"AVGSystemShort";
 
 #define KCSessionServiceName @"Archive.vg SessionKey"
 
@@ -539,7 +539,9 @@ static __strong NSString* sharedEmailAddress = nil;
     
     NSMutableDictionary* result = [NSMutableDictionary dictionary];
     if(gameIDVal){
-        [result setObject:[self removeHTMLEncodingsFromString:gameIDVal] forKey:AVGGameIDKey];
+		NSString* idStr = [self removeHTMLEncodingsFromString:gameIDVal];
+		
+        [result setObject:[NSNumber numberWithInteger:[idStr integerValue]] forKey:AVGGameIDKey];
     }
     if(gameTitleVal){
         [result setObject:[self removeHTMLEncodingsFromString:gameTitleVal] forKey:AVGGameTitleKey];

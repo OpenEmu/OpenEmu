@@ -9,9 +9,14 @@
 #import "LibraryDatabase.h"
 
 #import "NSImage+OEDrawingAdditions.h"
+#import "NSData+HashingAdditions.h"
 
 #import "OEDBAllGamesCollection.h"
 #import "OEDBSystem.h"
+#import	"OEDBGame.h"
+
+#import "ArchiveVG.h"
+
 #define OEDatabaseFileName @"OpenEmuDatabaseTest.storedata"
 
 #define UDDatabasePathKey @"databasePath"
@@ -24,6 +29,8 @@
 - (BOOL)_isValidDatabase:(NSURL*)url error:(NSError**)error;
 - (BOOL)_chooseDatabase;
 
+//	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	//
+- (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError;
 @end
 
 @implementation LibraryDatabase
@@ -255,7 +262,7 @@
 		// Sega Mega Drive / Sega Genesis
 		systemID = 48;
 	} else if([suffix isEqualToString:@"smc"] || [suffix isEqualToString:@"snes"]
-		   || [suffix isEqualToString:@"fig"]){
+		   || [suffix isEqualToString:@"fig"] || [suffix isEqualToString:@"sfc"]){
 		// Super Nintendo Entertainment System
 		systemID = 47;
 	} else if([suffix isEqualToString:@"oce"]){
@@ -279,8 +286,11 @@
 	}
 
 	NSManagedObjectContext* context = [self managedObjectContext];	
-	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] initWithEntityName:@"System"];
+	NSEntityDescription* description = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
+	
+	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init]; //[[NSFetchRequest alloc] initWithEntityName:@"System"];
 	[fetchRequest setFetchLimit:1];
+	[fetchRequest setEntity:description];
 	
 	NSPredicate* predicate = [NSPredicate predicateWithFormat:@"archiveID == %ld", systemID];
 	[fetchRequest setPredicate:predicate];
@@ -293,9 +303,12 @@
 		[NSApp presentError:error];
 		return nil;
 	}
-		
-	NSLog(@"%@ => %ld", suffix, systemID);
-	return [fetchResult lastObject];
+	
+	OEDBSystem* result = [fetchResult lastObject];
+	if(!result){
+		NSLog(@"%@", suffix);
+	}
+	return result;
 }
 
 - (NSInteger)systemsCount{
@@ -479,8 +492,7 @@
 		uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
 		[request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
 	  }
-	  
-	  name = uniqueName;	  
+		name = uniqueName;
     }
     
     NSManagedObject *aCollection = [NSEntityDescription insertNewObjectForEntityForName:@"CollectionFolder" inManagedObjectContext:context];
@@ -494,7 +506,6 @@
     [[collection managedObjectContext] deleteObject:collection];
 }
 
-
 #pragma mark -
 #pragma mark Database Game editing
 - (BOOL)isFileInDatabaseWithPath:(NSString*)path hash:(NSString*)hash error:(NSError**)error{
@@ -502,132 +513,310 @@
     NSFetchRequest* fetchReq;
 	NSEntityDescription* entityDesc;
 	NSPredicate* predicate;
-	
+
 	// check if game is already in database
 	// TODO: also use crc or md5 to check
 	entityDesc = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
 	predicate = [NSPredicate predicateWithFormat:@"path == %@", path];
-	
+
 	fetchReq = [[NSFetchRequest alloc] init];
 	[fetchReq setFetchLimit:1];
 	[fetchReq setEntity:entityDesc];
 	[fetchReq setPredicate:predicate];
-	
+
 	NSUInteger count = [context countForFetchRequest:fetchReq error:error];
+    [fetchReq release];
 	if(*error != nil){
 		NSLog(@"Error while checking if file is included.");
 		[NSApp presentError:*error];
-		[fetchReq release];
 		return FALSE;
 	}
-	[fetchReq release];
 
 	return count!=0;
 }
 
 - (void)addGamesFromPath:(NSString*)path toCollection:(NSManagedObject*)collection searchSubfolders:(BOOL)subfolderFlag{
-    NSFileManager* fileManager = [NSFileManager defaultManager];
-    BOOL isDir = NO;
-    BOOL exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
-    if(!exists) return;
-    if(isDir && !subfolderFlag) return;
-    
-    if(isDir){
-	  NSError* error = nil;
-	  NSArray* paths = [fileManager contentsOfDirectoryAtPath:path error:&error];
-	  if(error!=nil){
-		// TODO: decide if we really want to bother the user with this
-		[NSApp presentError:error];
-		return;
-	  }
-	  
-	  for(NSString* aPath in paths){
-		[self addGamesFromPath:[path stringByAppendingPathComponent:aPath] toCollection:collection searchSubfolders:subfolderFlag];
-	  }
-	  return;
-    }
-    
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSFetchRequest* fetchReq;
-	id fetchResult;
-	NSEntityDescription* entityDesc;
-	NSPredicate* predicate;
-	NSError* error = nil;
-	
-	BOOL isInDatabase = [self isFileInDatabaseWithPath:path hash:nil error:&error];
-	if(isInDatabase){
-		NSLog(@"File is already in Databse.");
-		return;
-	}
-	
-	if(error!=nil){
-		// TODO: decide if we really want to bother the user with this
-		[NSApp presentError:error];
+// Note, quick import skips hash calculation to speed things up. This reduces duplicate checking to filename comparison and only makes sense if automatic archive sync is deactivated.
+
+	NSError* err = nil;
+
+	// check files that have a "rom"-suffix
+	int fl = subfolderFlag ? 1 : 2;
+	NSArray* files = [self _romsBySuffixAtPath:path includeSubfolders:fl error:&err];
+	if(!files){
+		NSLog(@"Error Loading files.");
+		NSLog(@"%@", err);
 		return;
 	}
 
-    // Detect file format
-	NSString* fileSuffix = [path pathExtension];
-	if([fileSuffix isEqualToString:@"zip"]){ // extract files
-		// TODO: ask user preferences if we are allowed to take archives apart for storage
-		// add files recursively
-		NSLog(@"Found zip archive, pretend to extract ...");
-		return;
-	} else if([fileSuffix isEqualToString:@"7z"]){ // extract files
-		// TODO: ask user preferences if we are allowed to take archives apart for storage
-		// add files recursively
-		NSLog(@"Found 7z archive, pretend to extract ...");
-		return;
-	}
+	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+	BOOL automaticallyGetInfo = [standardDefaults boolForKey:UDAutmaticallyGetInfoKey];
+	BOOL copyToDatabase = [standardDefaults boolForKey:UDCopyToLibraryKey];
+	BOOL quickImport = [standardDefaults boolForKey:UDUseQuickImportKey] && !automaticallyGetInfo;
+	BOOL organizeLibrary = [standardDefaults boolForKey:UDOrganizeLibraryKey];
 	
-	// TODO: find out which system this game belongs to
-	NSManagedObject* system = [self systemForFile:path];
-	if(system == nil){
-		NSLog(@"Unkown system!");	
-		return;
-	}
-
-	// copy file to database
-	// TODO: ask user preferences if this step is necessary
-	BOOL copyFilesToDatabaseFolder = NO;
-	NSString* finalPath = nil;
-	if(copyFilesToDatabaseFolder){
-		// TODO: get database folder path
-		NSString* databaseFolder = @"";
-		// TODO: localize unsorted folder name
-		NSString* unsortedFolderName = @"unsorted";
-		finalPath = [NSString stringWithFormat:@"%@/%@", databaseFolder, unsortedFolderName];
-		BOOL copySuccess = NO; //[fileManager copyItemAtPath:path toPath:finalPath error:&error];
-		if(!copySuccess){
-			NSLog(@"Could not copy file to database folder!");
-			[NSApp presentError:error];
-			return;
+	BOOL md5 = [standardDefaults boolForKey:UDUseMD5HashingKey];
+	
+	NSInteger completeSize = 0;
+	// Skip size calculation if quick import is requested
+	if(!quickImport){
+		// Calculate size of all files to display progress
+		for(NSDictionary* romInfo in files){
+			NSNumber* fileSize = [romInfo valueForKey:@"filesize"];
+			completeSize += [fileSize integerValue];
 		}
-	} else {
-		finalPath = path;
+		NSLog(@"%ld Bytes, %f KB, %f MB, %f GB", completeSize, completeSize/1000.0, completeSize/1000.0/1000.0, completeSize/1000.0/1000.0/1000.0);
 	}
-    
-    NSManagedObject *newGame = [NSEntityDescription insertNewObjectForEntityForName:@"Game" inManagedObjectContext:context];
-    
-    NSString* name = [[finalPath lastPathComponent] stringByDeletingPathExtension];
-    [newGame setValue:name forKey:@"name"];
-    [newGame setValue:system forKey:@"system"];
-	
-	NSManagedObject* rom = [NSEntityDescription insertNewObjectForEntityForName:@"ROM" inManagedObjectContext:context];
-	
-	[rom setValue:finalPath forKey:@"path"];
-	
-	
-	NSMutableSet *roms = [newGame mutableSetValueForKey:@"roms"];
-	[roms addObject:rom];
-	
-	// TODO: initiate archive sync
-    if(collection!=nil){
-	  [[collection valueForKey:@"games"] addObject:newGame];
-    }
+
+	// TODO: Get threadsafe context
+	NSManagedObjectContext* context = [self managedObjectContext];
+
+	// Loop thorugh all files
+	NSInteger progress = 0;
+	for(NSDictionary* romInfo in files){
+		NSString* filePath = [romInfo valueForKey:@"filepath"];
+
+		NSManagedObject* rom = nil;
+		if(quickImport){
+			// create new game
+			NSEntityDescription* gameDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+			OEDBGame* game = [[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context];
+
+			// TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
+			NSString* gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
+			[game setValue:gameName forKey:@"name"];
+
+			// create new rom
+			NSEntityDescription* romDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+			rom = [[NSManagedObject alloc] initWithEntity:romDescription insertIntoManagedObjectContext:context];
+			[rom setValue:game forKey:@"game"];
+
+			[game release];
+
+			// update progress
+			progress += 1;
+			// NSLog(@"progress: %f%%", (progress/(float)[files count])*100.0);
+		} else {			
+			NSInteger fileSize = [[romInfo valueForKey:@"filesize"] integerValue];
+			
+			NSData* data = [[NSData alloc] initWithContentsOfFile:filePath options:NSDataReadingUncached error:nil];
+			NSString* hash;
+			
+			if(md5) hash = [data MD5HashString];
+			else hash = [data CRC32HashString];
+			
+			[data release];
+			
+			if(md5) rom = [self romForMD5Hash:hash];
+			else rom = [self romForCRC32Hash:hash];
+			BOOL hashInDatabase = rom!=nil;
+			if(hashInDatabase){
+				NSLog(@"Game is already in Database");
+				
+				// update progress
+				progress += fileSize;
+				// NSLog(@"progress: %f%%", (progress/(float)completeSize)*100.0);
+
+				// skip import for this file
+				continue;
+			}
+
+			// create new rom
+			NSEntityDescription* romDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+			rom = [[NSManagedObject alloc] initWithEntity:romDescription insertIntoManagedObjectContext:context];
+			[rom setValue:hash forKey:@"md5"];
+			
+			OEDBGame* game = nil;
+			if(automaticallyGetInfo){
+				NSDictionary* gameInfo;
+				if(md5) gameInfo = [ArchiveVG gameInfoByMD5:hash];
+				else gameInfo = [ArchiveVG gameInfoByCRC:hash];
+				
+				// get rom info
+				if([gameInfo valueForKey:@"AVGGameIDKey"]){
+					game = [OEDBGame gameWithArchiveDictionary:gameInfo inDatabase:self];
+				}
+				
+				if(game==nil){
+					NSEntityDescription* gameDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+					game = [[[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context] autorelease];
+					
+					// TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
+					NSString* gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
+					[game setValue:gameName forKey:@"name"];
+				}
+				
+				[rom setValue:game forKey:@"game"];
+			}
+			
+			if(game==nil){
+				// create new game
+				NSEntityDescription* gameDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+				game = [[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context];
+				
+				// TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
+				NSString* gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
+				[game setValue:gameName forKey:@"name"];
+				[rom setValue:game forKey:@"game"];
+				[game release];
+			}
+
+			// update progress
+			progress += fileSize;
+			// NSLog(@"progress: %f%%", (progress/(float)completeSize)*100.0);
+		}
+		
+		OEDBGame* game = [rom valueForKey:@"game"];
+		BOOL romHasSystem = [game valueForKey:@"system"]!=nil;
+		if(!romHasSystem){
+			// determine system based on file path + "magic"
+			OEDBSystem* system = [self systemForFile:filePath];
+			if(system){
+				[game setValue:system forKey:@"system"];
+				romHasSystem = YES;
+			}
+		}
+		
+		if(!romHasSystem){
+			// TODO: Decide if we want to bother the user with this
+			// throw error if necessary
+			NSLog(@"Could not determine System for '%@'", [[filePath lastPathComponent] stringByDeletingPathExtension]);
+						
+			// remove rom from database
+			if(game) [context deleteObject:game];
+			if(rom) [context deleteObject:rom];
+			
+			[rom release];
+			continue;
+		}
+		
+		
+		// TODO: Handle duplicate file names
+        NSFileManager* defaultManager = [NSFileManager defaultManager];
+		NSString* databaseFolder = [standardDefaults valueForKey:UDDatabasePathKey];
+		NSString* path = filePath;
+		if(copyToDatabase){
+			// TODO: copy to DB/unsorted
+			// TODO: use ROM Release Name instead of game name!!!
+			NSString* name = [game valueForKey:@"name"];
+			
+			// determine path, based on system, maybe developer, genre, etc
+			NSString* subpath = [NSString stringWithFormat:@"%@/%@", databaseFolder, 
+                                 NSLocalizedString(@"unsorted", @"")];
+			
+			path = [NSString stringWithFormat:@"%@/%@", subpath, name];
+			// copy file to path
+			BOOL fileOpSuccessful = [defaultManager createDirectoryAtPath:subpath withIntermediateDirectories:YES attributes:nil error:&err];
+			if(!fileOpSuccessful){
+				NSLog(@"Error creating directory '%@'", subpath);
+				NSLog(@"%@", err);
+				
+				// TODO: implement cleanup / user notification or something
+				path = filePath;
+			}
+			
+			fileOpSuccessful = [defaultManager copyItemAtPath:filePath toPath:path error:&err];
+			if(!fileOpSuccessful){
+				NSLog(@"Error copying rom file '%@'", path);
+				NSLog(@"%@", err);
+				
+				// TODO: implement cleanup or user notification or something
+				path = filePath;
+			}
+		}
+		
+		if(organizeLibrary && [[path substringToIndex:[databaseFolder length]] isEqualTo:databaseFolder]){
+            // TODO: move to sorted path within db folder 
+		}
+		
+		// set rom path
+		[rom setValue:path forKey:@"path"];
+		
+		// add to collection
+		if(collection){
+			NSMutableSet* collections = [game mutableSetValueForKey:@"collections"];
+			[collections addObject:collection];
+		}
+		[rom release];
+	}
+
+	return;
 }
 
 #pragma mark -
+- (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID{
+	NSManagedObjectContext* context = [self managedObjectContext];
+	NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+	
+	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+	[fetchRequest setEntity:entityDescription];
+	[fetchRequest setFetchLimit:1];
+	[fetchRequest setIncludesPendingChanges:YES];
+	[fetchRequest setResultType:NSManagedObjectResultType];
+	
+	NSPredicate* predicate = [NSPredicate predicateWithFormat:@"archiveID == %@", archiveID];
+	[fetchRequest setPredicate:predicate];
+	
+	NSError* err = nil;
+	NSArray* result = [context executeFetchRequest:fetchRequest error:&err];
+	[fetchRequest release];
+	if(result==nil){
+		NSLog(@"Error executing fetch request to get game by archiveID");
+		NSLog(@"%@", err);
+		return nil;
+	}
+	
+	return [result lastObject];
+}
+#pragma mark -
+- (NSManagedObject*)romForMD5Hash:(NSString*)hashString{
+	NSManagedObjectContext* context = [self managedObjectContext];
+	NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+	
+	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+	[fetchRequest setEntity:entityDescription];
+	[fetchRequest setFetchLimit:1];
+	[fetchRequest setIncludesPendingChanges:YES];
+	
+	NSPredicate* predicate = [NSPredicate predicateWithFormat:@"md5 == %@", hashString];
+	[fetchRequest setPredicate:predicate];
+	
+	NSError* err = nil;
+	NSArray* result = [context executeFetchRequest:fetchRequest error:&err];
+	[fetchRequest release];
+	if(result==nil){
+		NSLog(@"Error executing fetch request to get rom by md5");
+		NSLog(@"%@", err);
+		return nil;
+	}
+
+	return [result lastObject];	
+}
+
+- (NSManagedObject*)romForCRC32Hash:(NSString*)crc32String{
+	NSManagedObjectContext* context = [self managedObjectContext];
+	NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+	
+	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+	[fetchRequest setEntity:entityDescription];
+	[fetchRequest setFetchLimit:1];
+	[fetchRequest setIncludesPendingChanges:YES];
+	
+	NSPredicate* predicate = [NSPredicate predicateWithFormat:@"crc32 == %@", crc32String];
+	[fetchRequest setPredicate:predicate];
+	
+	NSError* err = nil;
+	NSArray* result = [context executeFetchRequest:fetchRequest error:&err];
+	[fetchRequest release];	
+	if(result==nil){
+		NSLog(@"Error executing fetch request to get rom by crc");
+		NSLog(@"%@", err);
+		return nil;
+	}
+	
+	return [result lastObject];
+}
+
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate{
     [romsController setFilterPredicate:predicate];
     
@@ -635,10 +824,54 @@
 }
 
 - (NSArray*)romsInCollection:(id)collection{
-    NSLog(@"Roms in collection called");
+	// TODO: implement
+    NSLog(@"Roms in collection called, but not implemented");
     return [NSArray array];
 }
+#pragma mark -
+#pragma mark Private (importing)
+- (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError{
+	NSFileManager* fileManager = [NSFileManager defaultManager];
+    BOOL isDir = NO;
+    BOOL exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
+	
+	if(!exists) return [NSArray array];
+	if(isDir && subfolderFlag==0) return [NSArray array];
+	if(subfolderFlag==2) subfolderFlag = 0;
+	
+    if(isDir){
+		NSURL* url = [NSURL fileURLWithPath:path];
+		NSArray* pathURLs = [fileManager contentsOfDirectoryAtURL:url includingPropertiesForKeys:[NSArray array] options:NSDirectoryEnumerationSkipsHiddenFiles error:outError];
+		if(outError!=NULL && *outError!=nil){
+			//NSLog(@"Error loading contents of '%@'", path);
+			*outError = nil;
+			// TODO: decide if we really want to bother the user with this
+			return [NSArray array];
+		}
+		
+		NSMutableArray* result = [NSMutableArray array];
+		for(NSURL* aUrl in pathURLs){
+			NSString* subPath = [aUrl path];
+			NSArray* subResult = [self _romsBySuffixAtPath:subPath includeSubfolders:subfolderFlag error:outError];
+			[result addObjectsFromArray:subResult];
+			if(outError!=NULL && *outError!=nil){
+			//	NSLog(@"error with subpath");
+				*outError = nil;
+				// return nil;
+			}
+		}
+		return result;
+    }
 
+	NSDictionary* fileInfo = [fileManager attributesOfItemAtPath:path error:outError];
+	if(!fileInfo){
+		NSLog(@"Error getting file info: %@", outError);
+		return [NSArray array];		
+	}
+	NSNumber* filesize = [fileInfo valueForKey:NSFileSize];
+	NSDictionary* res = [NSDictionary dictionaryWithObjectsAndKeys:filesize, @"filesize", path, @"filepath", nil];	
+	return [NSArray arrayWithObject:res];
+}
 #pragma mark -
 #pragma mark Private (Init phase)
 - (BOOL)_loadDatabase:(BOOL)forceChoosing{
@@ -753,7 +986,7 @@
         if (!ok) {
 		*error = [[_error copy] autorelease];
 		
-		NSLog(@"_createDatabaseAtURL:error: Exit 1");
+
             return NO;
         }
     } else if ([[properties objectForKey:NSURLIsDirectoryKey] boolValue] != YES) {
@@ -763,8 +996,8 @@
 	  [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
 	  _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:101 userInfo:dict];
 	  *error = [[_error copy] autorelease];
-	  NSLog(@"_createDatabaseAtURL:error: Exit 2");		
-	  return NO;
+
+		return NO;
     }
     
     NSManagedObjectModel *mom = [self managedObjectModel];
@@ -778,7 +1011,6 @@
 	  _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:103 userInfo:dict];
 	  *error = [[_error copy] autorelease];
 	  
-	  NSLog(@"_createDatabaseAtURL:error: Exit 3");
         return NO;
     }
     
@@ -793,9 +1025,7 @@
 	  [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
 	  _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:104 userInfo:dict];
 	  *error = [[_error copy] autorelease];
-	  
-	  NSLog(@"_createDatabaseAtURL:error: Exit 6 - Critical Error!");
-	  
+	  	  
 	  return NO;
     }
     
@@ -817,7 +1047,6 @@
 	  NSLog(@"Whoops, couldn't save: %@", [*error localizedDescription]);
     }
     
-    NSLog(@"_createDatabaseAtURL:error: Exit 5 - Success");
     return YES;
 }
 
@@ -827,7 +1056,6 @@
     
     NSDictionary *properties = [url resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:error];
     if(!properties){
-	  NSLog(@"_isValidDatabase:error: Exit 1");
 	  return NO;
     } else if ([[properties objectForKey:NSURLIsDirectoryKey] boolValue] != YES) {
 	  NSString *failureDescription = [NSString stringWithFormat:@"Expected a folder to store application data, found a file (%@).", [url path]]; 
@@ -836,14 +1064,12 @@
 	  [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
 	  *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:101 userInfo:dict];
 	  
-	  NSLog(@"_isValidDatabase:error: Exit 2");
 	  return NO;
     }
     
     NSURL *databaseFileUrl = [url URLByAppendingPathComponent:OEDatabaseFileName];
     properties = [databaseFileUrl resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:error];
     if(!properties){
-	  NSLog(@"_isValidDatabase:error: Exit 3 - Success, file will be created");
 	  return YES;
     } else if([[properties objectForKey:NSURLIsDirectoryKey] boolValue] == YES){
 	  NSString *failureDescription = [NSString stringWithFormat:@"Expected a file to store application data, found a folder (%@).", [url path]]; 
@@ -852,13 +1078,9 @@
 	  [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
 	  *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:102 userInfo:dict];
 	  
-	  NSLog(@"_isValidDatabase:error: Exit 4");
 	  return NO;
     }
     
-    
-    NSLog(@"_isValidDatabase:error: Exit 5 - Success");
-    return YES;
+	return YES;
 }
-
 @end

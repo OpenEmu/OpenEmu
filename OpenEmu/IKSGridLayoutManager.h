@@ -30,6 +30,7 @@ typedef struct IKSGridLayoutState IKSGridLayoutState;
 	IKSGridView* gridView;
 	
 	CGRect visibleRect;
+	BOOL reset;
 	/**
 	 The GCD queue that is used to render all the layers
 	 */
@@ -64,6 +65,7 @@ typedef struct IKSGridLayoutState IKSGridLayoutState;
  @returns a new layout manager
  */
 + (IKSGridLayoutManager*)layoutManager;
+- (void)reset;
 @end
 
 /**

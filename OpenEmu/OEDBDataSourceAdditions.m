@@ -47,21 +47,7 @@
 
 
 - (void)setGridImage:(NSImage *)gridImage{
-    OEDBImage* boxImage = [self valueForKey:@"box"];
-    if(boxImage!=nil){
-	  [[boxImage managedObjectContext] deleteObject:boxImage];
-    }
-    
-    NSManagedObjectContext* context = [self managedObjectContext];
-    boxImage = [OEDBImage newFromImage:gridImage inContext:context];
-	
-	[boxImage generateImageForSize:NSMakeSize(75, 75)];
-	[boxImage generateImageForSize:NSMakeSize(150, 150)];
-	[boxImage generateImageForSize:NSMakeSize(300, 300)];
-	[boxImage generateImageForSize:NSMakeSize(450, 450)];
-	
-    [self setValue:boxImage forKey:@"box"];
-	
+	[self setBoxImageByImage:gridImage];
 }
 
 #pragma mark -
@@ -147,10 +133,11 @@
 }
 
 - (NSNumber*)listViewRating{
-	return [self valueForKey:@"name"];
+    return [self valueForKey:@"rating"];
 }
 - (NSString*)listViewTitle{
-	return [self valueForKey:@"name"];
+	NSString* title = [self valueForKey:@"name"];
+    return title;
 }
 - (NSString*)listViewLastPlayed{
     return @"";

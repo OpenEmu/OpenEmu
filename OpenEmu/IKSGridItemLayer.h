@@ -20,7 +20,8 @@
 	IKSGridView *gridView;
 	
 	id representedObject;
-	NSUInteger representedIndex;
+	
+	NSInteger representedIndex;
 }
 - (NSRect)hitRect;
 /**
@@ -29,8 +30,7 @@
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
 @property (nonatomic, assign, getter=isFirstResponder) BOOL firstResponder;
 @property (nonatomic, assign) IKSGridView *gridView;
-@property (nonatomic, assign) id representedObject;
-@property (nonatomic, assign) NSUInteger representedIndex;
+@property (nonatomic, assign) NSInteger representedIndex;
 
 
 

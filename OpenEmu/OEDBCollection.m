@@ -19,9 +19,4 @@
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
 
-
-- (NSMutableArray*)items{
-    return [NSMutableArray array];
-}
-
 @end
