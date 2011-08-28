@@ -26,7 +26,7 @@
     self = [super initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     if (self) {
 		self.maxSize = NSMakeSize(192, 500);
-		self.minSize = NSMakeSize(82, 0);
+		self.minSize = NSMakeSize(82, 19*2);
 		
 		OEMenuView* view = [[OEMenuView alloc] initWithFrame:NSZeroRect];
 		[view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
@@ -72,8 +72,8 @@
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges) name:NSApplicationWillResignActiveNotification object:NSApp];
 	
-	[win addChildWindow:self ordered:NSWindowAbove];
 	[self setFrameOrigin:p];
+	[win addChildWindow:self ordered:NSWindowAbove];
 	
 	[(OEMenuView*)[self contentView] updateView];
 	

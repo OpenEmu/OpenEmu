@@ -57,6 +57,22 @@
 			name = Distribution;
 			productName = Disribution;
 		};
+		83977F6F1409007600175858 /* Build SystemPlugins */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 83977F701409007600175858 /* Build configuration list for PBXAggregateTarget "Build SystemPlugins" */;
+			buildPhases = (
+			);
+			dependencies = (
+				83977F741409008000175858 /* PBXTargetDependency */,
+				83977F761409008200175858 /* PBXTargetDependency */,
+				83977F7A1409008400175858 /* PBXTargetDependency */,
+				83977F781409008300175858 /* PBXTargetDependency */,
+				83977F7E1409008700175858 /* PBXTargetDependency */,
+				83977F7C1409008600175858 /* PBXTargetDependency */,
+			);
+			name = "Build SystemPlugins";
+			productName = "Build SystemPlugins";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -265,13 +281,6 @@
 		53439C1013B93920005C0CC8 /* missing_artwork.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 53439BBD13B93920005C0CC8 /* missing_artwork.pdf */; };
 		53439C1113B93920005C0CC8 /* missing_rom.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 53439BBE13B93920005C0CC8 /* missing_rom.pdf */; };
 		53439C1213B93920005C0CC8 /* noise.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BBF13B93920005C0CC8 /* noise.png */; };
-		53439C1313B93920005C0CC8 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BC113B93920005C0CC8 /* controller_fc.png */; };
-		53439C1413B93920005C0CC8 /* controller_gb.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BC213B93920005C0CC8 /* controller_gb.png */; };
-		53439C1513B93920005C0CC8 /* controller_nes.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BC313B93920005C0CC8 /* controller_nes.png */; };
-		53439C1613B93920005C0CC8 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BC413B93920005C0CC8 /* controller_sms.png */; };
-		53439C1713B93920005C0CC8 /* controller_snes_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BC513B93920005C0CC8 /* controller_snes_eu.png */; };
-		53439C1813B93920005C0CC8 /* controller_snes_jap.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BC613B93920005C0CC8 /* controller_snes_jap.png */; };
-		53439C1913B93920005C0CC8 /* controller_snes_usa.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BC713B93920005C0CC8 /* controller_snes_usa.png */; };
 		53439C1A13B93920005C0CC8 /* controls_background.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 53439BC813B93920005C0CC8 /* controls_background.jpg */; };
 		53439C1B13B93920005C0CC8 /* controls_tab_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BC913B93920005C0CC8 /* controls_tab_icon.png */; };
 		53439C1C13B93920005C0CC8 /* core_triangle.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BCA13B93920005C0CC8 /* core_triangle.png */; };
@@ -388,6 +397,26 @@
 		8382D23213C5C5BB00906221 /* OEPrefGameplayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */; };
 		8382D23313C5C5BB00906221 /* OEPrefLibraryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */; };
 		8382D23513C5C5E100906221 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23413C5C5E100906221 /* OEPrefControlsController.xib */; };
+		8396CC52140687EE0096F791 /* wood_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 8396CC51140687EE0096F791 /* wood_textfield.png */; };
+		83977F641408FE4700175858 /* controller_snes_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F611408FE4700175858 /* controller_snes_eu.png */; };
+		83977F651408FE4700175858 /* controller_snes_jap.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F621408FE4700175858 /* controller_snes_jap.png */; };
+		83977F661408FE4700175858 /* controller_snes_usa.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F631408FE4700175858 /* controller_snes_usa.png */; };
+		83977F681408FE6700175858 /* controller_gb.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F671408FE6700175858 /* controller_gb.png */; };
+		83977F6B1408FE8E00175858 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F691408FE8E00175858 /* controller_fc.png */; };
+		83977F6C1408FE8E00175858 /* controller_nes.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F6A1408FE8E00175858 /* controller_nes.png */; };
+		83977F6E1408FEA800175858 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F6D1408FEA800175858 /* controller_sms.png */; };
+		83977F8F140911D000175858 /* OEControlsKeyButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 8396CC5414068DA90096F791 /* OEControlsKeyButton.h */; };
+		83977F91140911ED00175858 /* OEControlsKeyLabelCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 8396CC5A140693830096F791 /* OEControlsKeyLabelCell.h */; };
+		83977F92140911F300175858 /* OEControlsKeyLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8396CC5B140693830096F791 /* OEControlsKeyLabelCell.m */; };
+		83977F93140911F800175858 /* OEControlsKeyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8396CC5514068DA90096F791 /* OEControlsKeyButton.m */; };
+		83977F941409121B00175858 /* OEControlsKeyButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 8396CC5514068DA90096F791 /* OEControlsKeyButton.m */; };
+		83977F951409124400175858 /* OEControlsKeyLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8396CC5B140693830096F791 /* OEControlsKeyLabelCell.m */; };
+		83977F961409124700175858 /* OEControlsKeyButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 8396CC5414068DA90096F791 /* OEControlsKeyButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		83977F971409124A00175858 /* OEControlsKeyLabelCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 8396CC5A140693830096F791 /* OEControlsKeyLabelCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		83977F981409127E00175858 /* AttributedTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 53439B5813B93255005C0CC8 /* AttributedTextFieldCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		83977F991409128000175858 /* AttributedTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5913B93255005C0CC8 /* AttributedTextFieldCell.m */; };
+		83977F9A1409128600175858 /* AttributedTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 53439B5813B93255005C0CC8 /* AttributedTextFieldCell.h */; };
+		83977F9B1409128D00175858 /* AttributedTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5913B93255005C0CC8 /* AttributedTextFieldCell.m */; };
 		83A9011D13FB2D91000F4514 /* NSData+HashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */; };
 		83A9012013FB2E9D000F4514 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A9011F13FB2E9D000F4514 /* libcrypto.dylib */; };
 		83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F688BF13C6433600AA0F83 /* OEGridScrollView.m */; };
@@ -418,11 +447,9 @@
 		C646574F13771F12002A4F70 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C646574D13771F12002A4F70 /* InfoPlist.strings */; };
 		C646575613771F38002A4F70 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		C646575C13771F6B002A4F70 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C646575A13771F6B002A4F70 /* ControlsPreference.xib */; };
-		C646575D13771F6B002A4F70 /* gba.png in Resources */ = {isa = PBXBuildFile; fileRef = C646575B13771F6B002A4F70 /* gba.png */; };
 		C646576013771FB0002A4F70 /* OEGBAControlsPreference.m in Sources */ = {isa = PBXBuildFile; fileRef = C646575F13771FB0002A4F70 /* OEGBAControlsPreference.m */; };
 		C6465764137721D5002A4F70 /* OEGBASystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6465763137721D5002A4F70 /* OEGBASystemController.m */; };
 		C646576713772251002A4F70 /* OEGBASystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C646576613772251002A4F70 /* OEGBASystemResponder.m */; };
-		C6480FB913648ABE0094FA33 /* nespad.png in Resources */ = {isa = PBXBuildFile; fileRef = C6480FB813648ABE0094FA33 /* nespad.png */; };
 		C6480FC213648F670094FA33 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		C6480FC813648F670094FA33 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6480FC613648F670094FA33 /* InfoPlist.strings */; };
 		C6480FCD13648F870094FA33 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -430,7 +457,6 @@
 		C6480FD5136490250094FA33 /* OESNESSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6480FD1136490250094FA33 /* OESNESSystemResponder.m */; };
 		C6480FDB13649FF30094FA33 /* OESNESPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6480FD913649FF20094FA33 /* OESNESPreferenceViewController.m */; };
 		C6480FDD1364A3D60094FA33 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6480FDC1364A3D60094FA33 /* ControlsPreference.xib */; };
-		C6480FDF1364A3DD0094FA33 /* snes_pad.png in Resources */ = {isa = PBXBuildFile; fileRef = C6480FDE1364A3DD0094FA33 /* snes_pad.png */; };
 		C64BB08E136478E600C1AB23 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		C64BB094136478E600C1AB23 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C64BB092136478E600C1AB23 /* InfoPlist.strings */; };
 		C64BB09B1364798E00C1AB23 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
@@ -445,7 +471,6 @@
 		C64CBD551363E40B00BEE4F3 /* OESMSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6711826136369DE0034379A /* OESMSSystemResponder.m */; };
 		C64CBD571363E64B00BEE4F3 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C64CBD561363E64B00BEE4F3 /* ControlsPreference.xib */; };
 		C6640E031363F04100ECCAA5 /* NSUserDefaultsController+OEEventAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D268D9135BD95A00154550 /* NSUserDefaultsController+OEEventAdditions.m */; };
-		C6640E051363F22100ECCAA5 /* smscont.png in Resources */ = {isa = PBXBuildFile; fileRef = C6640E041363F22100ECCAA5 /* smscont.png */; };
 		C66879CD116CEA64009B0AC7 /* NSApplication+OEHIDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */; };
 		C669163E0FC9BC3E007DE3D8 /* OEGameControllerView.h in Headers */ = {isa = PBXBuildFile; fileRef = C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */; };
 		C66DF0B00FEC38C0007E3A20 /* OEPlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = C62F54700FE6ADC500DF15BA /* OEPlugin.m */; };
@@ -498,7 +523,6 @@
 		C6B947C11364EE6C00A425F0 /* OEGBSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B947BD1364EE6C00A425F0 /* OEGBSystemController.m */; };
 		C6B947C41364FB7800A425F0 /* OEGBPreferenceView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B947C31364FB7800A425F0 /* OEGBPreferenceView.m */; };
 		C6B947DB1364FC8800A425F0 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6B947DA1364FC8800A425F0 /* ControlsPreference.xib */; };
-		C6B947DD1364FCA000A425F0 /* gameboy-1.png in Resources */ = {isa = PBXBuildFile; fileRef = C6B947DC1364FCA000A425F0 /* gameboy-1.png */; };
 		C6B947E11364FEB600A425F0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		C6B947E71365080B00A425F0 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		C6B947ED1365080B00A425F0 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6B947EB1365080B00A425F0 /* InfoPlist.strings */; };
@@ -506,7 +530,6 @@
 		C6B948101365096800A425F0 /* OEGenesisSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B9480B1365096800A425F0 /* OEGenesisSystemResponder.m */; };
 		C6B948111365096800A425F0 /* OEGenesisSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B9480D1365096800A425F0 /* OEGenesisSystemController.m */; };
 		C6B94814136511E100A425F0 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
-		C6B948171365154600A425F0 /* gen6btn.png in Resources */ = {isa = PBXBuildFile; fileRef = C6B948151365154600A425F0 /* gen6btn.png */; };
 		C6B948181365154600A425F0 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6B948161365154600A425F0 /* ControlsPreference.xib */; };
 		C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6BFB29E0F7CC8E700040FFA /* Localizable.strings */; };
 		C6C98CAF0F55F4C400116EA2 /* GamePreferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6C98CAE0F55F4C400116EA2 /* GamePreferences.xib */; };
@@ -600,6 +623,48 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = OpenEmu;
+		};
+		83977F731409008000175858 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C646574713771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
+		};
+		83977F751409008200175858 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6B947E51365080B00A425F0;
+			remoteInfo = Genesis;
+		};
+		83977F771409008300175858 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6B947AE1364ECA600A425F0;
+			remoteInfo = GameBoy;
+		};
+		83977F791409008400175858 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C6480FC013648F670094FA33;
+			remoteInfo = SuperNES;
+		};
+		83977F7B1409008600175858 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C64BB08C136478E600C1AB23;
+			remoteInfo = NES;
+		};
+		83977F7D1409008700175858 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C671180E136368330034379A;
+			remoteInfo = SegaMasterSystem;
 		};
 		C60FC00013522D9A00B53F64 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1025,13 +1090,6 @@
 		53439BBD13B93920005C0CC8 /* missing_artwork.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = missing_artwork.pdf; sourceTree = "<group>"; };
 		53439BBE13B93920005C0CC8 /* missing_rom.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = missing_rom.pdf; sourceTree = "<group>"; };
 		53439BBF13B93920005C0CC8 /* noise.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = noise.png; sourceTree = "<group>"; };
-		53439BC113B93920005C0CC8 /* controller_fc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc.png; sourceTree = "<group>"; };
-		53439BC213B93920005C0CC8 /* controller_gb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gb.png; sourceTree = "<group>"; };
-		53439BC313B93920005C0CC8 /* controller_nes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nes.png; sourceTree = "<group>"; };
-		53439BC413B93920005C0CC8 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
-		53439BC513B93920005C0CC8 /* controller_snes_eu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_eu.png; sourceTree = "<group>"; };
-		53439BC613B93920005C0CC8 /* controller_snes_jap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_jap.png; sourceTree = "<group>"; };
-		53439BC713B93920005C0CC8 /* controller_snes_usa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_usa.png; sourceTree = "<group>"; };
 		53439BC813B93920005C0CC8 /* controls_background.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = controls_background.jpg; sourceTree = "<group>"; };
 		53439BC913B93920005C0CC8 /* controls_tab_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controls_tab_icon.png; sourceTree = "<group>"; };
 		53439BCA13B93920005C0CC8 /* core_triangle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = core_triangle.png; sourceTree = "<group>"; };
@@ -1150,6 +1208,18 @@
 		8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefGameplayController.xib; sourceTree = "<group>"; };
 		8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefLibraryController.xib; sourceTree = "<group>"; };
 		8382D23413C5C5E100906221 /* OEPrefControlsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefControlsController.xib; sourceTree = "<group>"; };
+		8396CC51140687EE0096F791 /* wood_textfield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_textfield.png; sourceTree = "<group>"; };
+		8396CC5414068DA90096F791 /* OEControlsKeyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyButton.h; sourceTree = "<group>"; };
+		8396CC5514068DA90096F791 /* OEControlsKeyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyButton.m; sourceTree = "<group>"; };
+		8396CC5A140693830096F791 /* OEControlsKeyLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyLabelCell.h; sourceTree = "<group>"; };
+		8396CC5B140693830096F791 /* OEControlsKeyLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyLabelCell.m; sourceTree = "<group>"; };
+		83977F611408FE4700175858 /* controller_snes_eu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_eu.png; sourceTree = "<group>"; };
+		83977F621408FE4700175858 /* controller_snes_jap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_jap.png; sourceTree = "<group>"; };
+		83977F631408FE4700175858 /* controller_snes_usa.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_usa.png; sourceTree = "<group>"; };
+		83977F671408FE6700175858 /* controller_gb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gb.png; sourceTree = "<group>"; };
+		83977F691408FE8E00175858 /* controller_fc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc.png; sourceTree = "<group>"; };
+		83977F6A1408FE8E00175858 /* controller_nes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nes.png; sourceTree = "<group>"; };
+		83977F6D1408FEA800175858 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
 		83A9011B13FB2D91000F4514 /* NSData+HashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HashingAdditions.h"; sourceTree = "<group>"; };
 		83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HashingAdditions.m"; sourceTree = "<group>"; };
 		83A9011F13FB2E9D000F4514 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
@@ -1182,7 +1252,6 @@
 		C646574E13771F12002A4F70 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		C646575013771F12002A4F70 /* GameBoy Advance-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GameBoy Advance-Prefix.pch"; sourceTree = "<group>"; };
 		C646575A13771F6B002A4F70 /* ControlsPreference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
-		C646575B13771F6B002A4F70 /* gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba.png; sourceTree = "<group>"; };
 		C646575E13771FB0002A4F70 /* OEGBAControlsPreference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBAControlsPreference.h; sourceTree = "<group>"; };
 		C646575F13771FB0002A4F70 /* OEGBAControlsPreference.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBAControlsPreference.m; sourceTree = "<group>"; };
 		C6465761137720D5002A4F70 /* OEGBASystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBASystemResponderClient.h; sourceTree = "<group>"; };
@@ -1190,7 +1259,6 @@
 		C6465763137721D5002A4F70 /* OEGBASystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBASystemController.m; sourceTree = "<group>"; };
 		C646576513772251002A4F70 /* OEGBASystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBASystemResponder.h; sourceTree = "<group>"; };
 		C646576613772251002A4F70 /* OEGBASystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBASystemResponder.m; sourceTree = "<group>"; };
-		C6480FB813648ABE0094FA33 /* nespad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nespad.png; sourceTree = "<group>"; };
 		C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SuperNES.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6480FC513648F670094FA33 /* SuperNES-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SuperNES-Info.plist"; sourceTree = "<group>"; };
 		C6480FC713648F670094FA33 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1202,7 +1270,6 @@
 		C6480FD913649FF20094FA33 /* OESNESPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESNESPreferenceViewController.m; sourceTree = "<group>"; };
 		C6480FDA13649FF20094FA33 /* OESNESPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESNESPreferenceViewController.h; sourceTree = "<group>"; };
 		C6480FDC1364A3D60094FA33 /* ControlsPreference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
-		C6480FDE1364A3DD0094FA33 /* snes_pad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = snes_pad.png; sourceTree = "<group>"; };
 		C6480FF91364B18E0094FA33 /* OESNESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESNESSystemResponderClient.h; sourceTree = "<group>"; };
 		C64BB08D136478E600C1AB23 /* NES.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NES.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		C64BB091136478E600C1AB23 /* NES-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NES-Info.plist"; sourceTree = "<group>"; };
@@ -1218,7 +1285,6 @@
 		C64CBD501363E2D100BEE4F3 /* OESMSPreferenceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESMSPreferenceView.h; sourceTree = "<group>"; };
 		C64CBD511363E2D100BEE4F3 /* OESMSPreferenceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESMSPreferenceView.m; sourceTree = "<group>"; };
 		C64CBD561363E64B00BEE4F3 /* ControlsPreference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
-		C6640E041363F22100ECCAA5 /* smscont.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smscont.png; sourceTree = "<group>"; };
 		C669163B0FC9BC3E007DE3D8 /* OEGameControllerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameControllerView.h; sourceTree = "<group>"; };
 		C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAbstractAdditions.h; sourceTree = "<group>"; };
 		C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAbstractAdditions.m; sourceTree = "<group>"; };
@@ -1274,7 +1340,6 @@
 		C6B947C21364FB7800A425F0 /* OEGBPreferenceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGBPreferenceView.h; sourceTree = "<group>"; };
 		C6B947C31364FB7800A425F0 /* OEGBPreferenceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGBPreferenceView.m; sourceTree = "<group>"; };
 		C6B947DA1364FC8800A425F0 /* ControlsPreference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
-		C6B947DC1364FCA000A425F0 /* gameboy-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gameboy-1.png"; sourceTree = "<group>"; };
 		C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Genesis.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6B947EA1365080B00A425F0 /* Genesis-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Genesis-Info.plist"; sourceTree = "<group>"; };
 		C6B947EC1365080B00A425F0 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1286,7 +1351,6 @@
 		C6B9480C1365096800A425F0 /* OEGenesisSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemResponder.h; sourceTree = "<group>"; };
 		C6B9480D1365096800A425F0 /* OEGenesisSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGenesisSystemController.m; sourceTree = "<group>"; };
 		C6B9480E1365096800A425F0 /* OEGenesisSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGenesisSystemController.h; sourceTree = "<group>"; };
-		C6B948151365154600A425F0 /* gen6btn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gen6btn.png; sourceTree = "<group>"; };
 		C6B948161365154600A425F0 /* ControlsPreference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
 		C6BFB29C0F7CC8A600040FFA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C6C989C50F557D9200116EA2 /* OEHIDDeviceHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDDeviceHandler.h; sourceTree = "<group>"; };
@@ -2209,13 +2273,6 @@
 		53439BC013B93920005C0CC8 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				53439BC113B93920005C0CC8 /* controller_fc.png */,
-				53439BC213B93920005C0CC8 /* controller_gb.png */,
-				53439BC313B93920005C0CC8 /* controller_nes.png */,
-				53439BC413B93920005C0CC8 /* controller_sms.png */,
-				53439BC513B93920005C0CC8 /* controller_snes_eu.png */,
-				53439BC613B93920005C0CC8 /* controller_snes_jap.png */,
-				53439BC713B93920005C0CC8 /* controller_snes_usa.png */,
 				53439BC813B93920005C0CC8 /* controls_background.jpg */,
 				53439BC913B93920005C0CC8 /* controls_tab_icon.png */,
 				53439BCA13B93920005C0CC8 /* core_triangle.png */,
@@ -2235,6 +2292,7 @@
 				53439BDF13B93920005C0CC8 /* tab_selector.png */,
 				53439BE013B93920005C0CC8 /* wood_inset_box.png */,
 				53439BE113B93920005C0CC8 /* wood_popup_button.png */,
+				8396CC51140687EE0096F791 /* wood_textfield.png */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -2388,6 +2446,17 @@
 			name = Preferences;
 			sourceTree = "<group>";
 		};
+		83977F861409107C00175858 /* preferences controls */ = {
+			isa = PBXGroup;
+			children = (
+				8396CC5414068DA90096F791 /* OEControlsKeyButton.h */,
+				8396CC5514068DA90096F791 /* OEControlsKeyButton.m */,
+				8396CC5A140693830096F791 /* OEControlsKeyLabelCell.h */,
+				8396CC5B140693830096F791 /* OEControlsKeyLabelCell.m */,
+			);
+			name = "preferences controls";
+			sourceTree = "<group>";
+		};
 		83FA054F13B9DFC20055A520 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -2480,7 +2549,6 @@
 				C646574D13771F12002A4F70 /* InfoPlist.strings */,
 				C646575013771F12002A4F70 /* GameBoy Advance-Prefix.pch */,
 				C646575A13771F6B002A4F70 /* ControlsPreference.xib */,
-				C646575B13771F6B002A4F70 /* gba.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2504,10 +2572,12 @@
 		C6480FC413648F670094FA33 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83977F611408FE4700175858 /* controller_snes_eu.png */,
+				83977F621408FE4700175858 /* controller_snes_jap.png */,
+				83977F631408FE4700175858 /* controller_snes_usa.png */,
 				C6480FC513648F670094FA33 /* SuperNES-Info.plist */,
 				C6480FC613648F670094FA33 /* InfoPlist.strings */,
 				C6480FC913648F670094FA33 /* SuperNES-Prefix.pch */,
-				C6480FDE1364A3DD0094FA33 /* snes_pad.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2531,10 +2601,11 @@
 		C64BB090136478E600C1AB23 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83977F691408FE8E00175858 /* controller_fc.png */,
+				83977F6A1408FE8E00175858 /* controller_nes.png */,
 				C64BB091136478E600C1AB23 /* NES-Info.plist */,
 				C64BB092136478E600C1AB23 /* InfoPlist.strings */,
 				C64BB095136478E600C1AB23 /* NES-Prefix.pch */,
-				C6480FB813648ABE0094FA33 /* nespad.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2542,6 +2613,7 @@
 		C66DFA600F51C9550080AA28 /* GameCore framework */ = {
 			isa = PBXGroup;
 			children = (
+				83977F861409107C00175858 /* preferences controls */,
 				93B479F512BAB52F008618A7 /* HID */,
 				C6EB73FD136DF5FC00B39A6F /* OpenEmuBase.h */,
 				C67B0D5E136352A300F18A5D /* OEPluginController.h */,
@@ -2581,7 +2653,7 @@
 		C6711817136368330034379A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C6640E041363F22100ECCAA5 /* smscont.png */,
+				83977F6D1408FEA800175858 /* controller_sms.png */,
 				C6711818136368330034379A /* SegaMasterSystem-Info.plist */,
 				C6711819136368330034379A /* InfoPlist.strings */,
 				C671181C136368330034379A /* SegaMasterSystem-Prefix.pch */,
@@ -2668,8 +2740,8 @@
 		C6B947B21364ECA700A425F0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83977F671408FE6700175858 /* controller_gb.png */,
 				C6B947DA1364FC8800A425F0 /* ControlsPreference.xib */,
-				C6B947DC1364FCA000A425F0 /* gameboy-1.png */,
 				C6B947B31364ECA700A425F0 /* GameBoy-Info.plist */,
 				C6B947B41364ECA700A425F0 /* InfoPlist.strings */,
 				C6B947B71364ECA700A425F0 /* GameBoy-Prefix.pch */,
@@ -2699,7 +2771,6 @@
 				C6B947EA1365080B00A425F0 /* Genesis-Info.plist */,
 				C6B947EB1365080B00A425F0 /* InfoPlist.strings */,
 				C6B947EE1365080B00A425F0 /* Genesis-Prefix.pch */,
-				C6B948151365154600A425F0 /* gen6btn.png */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -2741,6 +2812,9 @@
 				C669163E0FC9BC3E007DE3D8 /* OEGameControllerView.h in Headers */,
 				C62969E40FCEA8BB004F84C4 /* OEControlsViewController.h in Headers */,
 				828CF1A30FD1D8530041311B /* OEMap.h in Headers */,
+				83977F8F140911D000175858 /* OEControlsKeyButton.h in Headers */,
+				83977F9A1409128600175858 /* AttributedTextFieldCell.h in Headers */,
+				83977F91140911ED00175858 /* OEControlsKeyLabelCell.h in Headers */,
 				828CF1A40FD1D86A0041311B /* OEPreferenceViewController.h in Headers */,
 				82AFA6690FDDC03500531EE3 /* OERingBuffer.h in Headers */,
 				1BEF2A67116826BC0090F72B /* NSString+UUID.h in Headers */,
@@ -2756,6 +2830,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C671182C13636A300034379A /* OpenEmuSystem.h in Headers */,
+				83977F981409127E00175858 /* AttributedTextFieldCell.h in Headers */,
+				83977F961409124700175858 /* OEControlsKeyButton.h in Headers */,
+				83977F971409124A00175858 /* OEControlsKeyLabelCell.h in Headers */,
 				C671182F1363725D0034379A /* OESystemResponderClient.h in Headers */,
 				C64CBD531363E33F00BEE4F3 /* OEGameControllerView.h in Headers */,
 				C67117FB136367240034379A /* OEHIDDeviceHandler.h in Headers */,
@@ -3060,6 +3137,7 @@
 				828E65E30E8467E900B1860B /* Build & Copy OpenEmuQC */,
 				82BCA6020FEF092600DD3FC4 /* OpenEmuQC Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
+				83977F6F1409007600175858 /* Build SystemPlugins */,
 			);
 		};
 /* End PBXProject section */
@@ -3199,13 +3277,6 @@
 				53439C1013B93920005C0CC8 /* missing_artwork.pdf in Resources */,
 				53439C1113B93920005C0CC8 /* missing_rom.pdf in Resources */,
 				53439C1213B93920005C0CC8 /* noise.png in Resources */,
-				53439C1313B93920005C0CC8 /* controller_fc.png in Resources */,
-				53439C1413B93920005C0CC8 /* controller_gb.png in Resources */,
-				53439C1513B93920005C0CC8 /* controller_nes.png in Resources */,
-				53439C1613B93920005C0CC8 /* controller_sms.png in Resources */,
-				53439C1713B93920005C0CC8 /* controller_snes_eu.png in Resources */,
-				53439C1813B93920005C0CC8 /* controller_snes_jap.png in Resources */,
-				53439C1913B93920005C0CC8 /* controller_snes_usa.png in Resources */,
 				53439C1A13B93920005C0CC8 /* controls_background.jpg in Resources */,
 				53439C1B13B93920005C0CC8 /* controls_tab_icon.png in Resources */,
 				53439C1C13B93920005C0CC8 /* core_triangle.png in Resources */,
@@ -3247,6 +3318,7 @@
 				8382D23213C5C5BB00906221 /* OEPrefGameplayController.xib in Resources */,
 				8382D23313C5C5BB00906221 /* OEPrefLibraryController.xib in Resources */,
 				8382D23513C5C5E100906221 /* OEPrefControlsController.xib in Resources */,
+				8396CC52140687EE0096F791 /* wood_textfield.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3256,7 +3328,6 @@
 			files = (
 				C646574F13771F12002A4F70 /* InfoPlist.strings in Resources */,
 				C646575C13771F6B002A4F70 /* ControlsPreference.xib in Resources */,
-				C646575D13771F6B002A4F70 /* gba.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3266,7 +3337,9 @@
 			files = (
 				C6480FC813648F670094FA33 /* InfoPlist.strings in Resources */,
 				C6480FDD1364A3D60094FA33 /* ControlsPreference.xib in Resources */,
-				C6480FDF1364A3DD0094FA33 /* snes_pad.png in Resources */,
+				83977F641408FE4700175858 /* controller_snes_eu.png in Resources */,
+				83977F651408FE4700175858 /* controller_snes_jap.png in Resources */,
+				83977F661408FE4700175858 /* controller_snes_usa.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3276,7 +3349,8 @@
 			files = (
 				C64BB094136478E600C1AB23 /* InfoPlist.strings in Resources */,
 				C64BB0B8136483A700C1AB23 /* ControlsPreference.xib in Resources */,
-				C6480FB913648ABE0094FA33 /* nespad.png in Resources */,
+				83977F6B1408FE8E00175858 /* controller_fc.png in Resources */,
+				83977F6C1408FE8E00175858 /* controller_nes.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3294,7 +3368,7 @@
 			files = (
 				C671181B136368330034379A /* InfoPlist.strings in Resources */,
 				C64CBD571363E64B00BEE4F3 /* ControlsPreference.xib in Resources */,
-				C6640E051363F22100ECCAA5 /* smscont.png in Resources */,
+				83977F6E1408FEA800175858 /* controller_sms.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3304,7 +3378,7 @@
 			files = (
 				C6B947B61364ECA700A425F0 /* InfoPlist.strings in Resources */,
 				C6B947DB1364FC8800A425F0 /* ControlsPreference.xib in Resources */,
-				C6B947DD1364FCA000A425F0 /* gameboy-1.png in Resources */,
+				83977F681408FE6700175858 /* controller_gb.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3313,7 +3387,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C6B947ED1365080B00A425F0 /* InfoPlist.strings in Resources */,
-				C6B948171365154600A425F0 /* gen6btn.png in Resources */,
 				C6B948181365154600A425F0 /* ControlsPreference.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3428,6 +3501,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C63C680F0FB9F14C00F4E3E0 /* NSApplication+OEHIDAdditions.m in Sources */,
+				83977F92140911F300175858 /* OEControlsKeyLabelCell.m in Sources */,
+				83977F9B1409128D00175858 /* AttributedTextFieldCell.m in Sources */,
+				83977F93140911F800175858 /* OEControlsKeyButton.m in Sources */,
 				93B479F912BAB576008618A7 /* OEHIDManager.m in Sources */,
 				C68C4BE50FA4BA4900724B50 /* OEHIDDeviceHandler.m in Sources */,
 				C61C98E90F583221007F4242 /* OEHIDEvent.m in Sources */,
@@ -3629,9 +3705,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C67117EF136367240034379A /* OEHIDDeviceHandler.m in Sources */,
+				83977F941409121B00175858 /* OEControlsKeyButton.m in Sources */,
+				83977F951409124400175858 /* OEControlsKeyLabelCell.m in Sources */,
 				C67117F0136367240034379A /* OEHIDManager.m in Sources */,
 				C67117F1136367240034379A /* OEHIDEvent.m in Sources */,
 				C6E542C51363D9BD0075BA8C /* OEMap.m in Sources */,
+				83977F991409128000175858 /* AttributedTextFieldCell.m in Sources */,
 				C67117F2136367240034379A /* OESystemController.m in Sources */,
 				C67117F3136367240034379A /* OESystemResponder.m in Sources */,
 				C6E542C41363D9760075BA8C /* OEBasicSystemResponder.m in Sources */,
@@ -3729,6 +3808,36 @@
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
 			targetProxy = 82C9C97D0F080C920071460B /* PBXContainerItemProxy */;
+		};
+		83977F741409008000175858 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C646574713771F12002A4F70 /* GameBoy Advance */;
+			targetProxy = 83977F731409008000175858 /* PBXContainerItemProxy */;
+		};
+		83977F761409008200175858 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6B947E51365080B00A425F0 /* Genesis */;
+			targetProxy = 83977F751409008200175858 /* PBXContainerItemProxy */;
+		};
+		83977F781409008300175858 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6B947AE1364ECA600A425F0 /* GameBoy */;
+			targetProxy = 83977F771409008300175858 /* PBXContainerItemProxy */;
+		};
+		83977F7A1409008400175858 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C6480FC013648F670094FA33 /* SuperNES */;
+			targetProxy = 83977F791409008400175858 /* PBXContainerItemProxy */;
+		};
+		83977F7C1409008600175858 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C64BB08C136478E600C1AB23 /* NES */;
+			targetProxy = 83977F7B1409008600175858 /* PBXContainerItemProxy */;
+		};
+		83977F7E1409008700175858 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C671180E136368330034379A /* SegaMasterSystem */;
+			targetProxy = 83977F7D1409008700175858 /* PBXContainerItemProxy */;
 		};
 		C60FC00113522D9A00B53F64 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4074,6 +4183,20 @@
 			buildSettings = {
 				ARCHS = x86_64;
 				PRODUCT_NAME = Disribution;
+			};
+			name = Release;
+		};
+		83977F711409007600175858 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		83977F721409007600175858 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -4523,6 +4646,15 @@
 			buildConfigurations = (
 				82C9C9700F080C800071460B /* Debug */,
 				82C9C9710F080C800071460B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		83977F701409007600175858 /* Build configuration list for PBXAggregateTarget "Build SystemPlugins" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				83977F711409007600175858 /* Debug */,
+				83977F721409007600175858 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

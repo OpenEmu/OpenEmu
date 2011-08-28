@@ -50,17 +50,19 @@
 {
     OEGameControllerView *view = (OEGameControllerView *)[self view];
     
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"smscont.png"];
-    [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
-    [view setControlZone:NSMakeRect(0, 0, 600, 230)];
-    
-    [view addButtonWithName:@"OESMSButtonUp[@]"    toolTip:@"D-Pad Up"    target:self startPosition:NSMakePoint(67, 163)  endPosition:NSMakePoint(230, 136)];
-    [view addButtonWithName:@"OESMSButtonLeft[@]"  toolTip:@"D-Pad Left"  target:self startPosition:NSMakePoint(67, 131)  endPosition:NSMakePoint(204, 117)];
-    [view addButtonWithName:@"OESMSButtonRight[@]" toolTip:@"D-Pad Right" target:self startPosition:NSMakePoint(67, 99)   endPosition:NSMakePoint(257, 117)];
-    [view addButtonWithName:@"OESMSButtonDown[@]"  toolTip:@"D-Pad Down"  target:self startPosition:NSMakePoint(67, 67)   endPosition:NSMakePoint(230, 90)];
-    
-    [view addButtonWithName:@"OESMSButtonA[@]"     toolTip:@"A Button"    target:self startPosition:NSMakePoint(552, 131) endPosition:NSMakePoint(358, 100)];
-    [view addButtonWithName:@"OESMSButtonB[@]"     toolTip:@"B Button"    target:self startPosition:NSMakePoint(552, 99)  endPosition:NSMakePoint(407, 100)];
+	[view addButtonWithName:@"OESMSButtonUp[@]" label:@"Up:" target:self];
+	[view addButtonWithName:@"OESMSButtonDown[@]" label:@"Down:" target:self];
+	[view addButtonWithName:@"OESMSButtonLeft[@]" label:@"Left:" target:self];
+	[view addButtonWithName:@"OESMSButtonRight[@]" label:@"Right:" target:self];
+	
+	[view addButtonWithName:@"OESMSButtonA[@]" label:@"Button 1 /Start:" target:self];
+	[view addButtonWithName:@"OESMSButtonB[@]" label:@"Button 2:" target:self];
+	
+	return;
 }
 
+- (NSImage*)controllerImage{
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_sms.png"];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
 @end

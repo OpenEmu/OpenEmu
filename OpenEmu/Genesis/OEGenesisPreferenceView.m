@@ -35,7 +35,6 @@
 
     OEGameControllerView *view = (OEGameControllerView *)[self view];
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"gen6btn.png"];
-    [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
     
     [view addButtonWithName:@"OEGenesisButtonUp[@]"    toolTip:@"D-Pad Up"     target:self startPosition:NSMakePoint(88, 196)  endPosition:NSMakePoint(230, 165)];
     [view addButtonWithName:@"OEGenesisButtonLeft[@]"  toolTip:@"D-Pad Left"   target:self startPosition:NSMakePoint(88, 164)  endPosition:NSMakePoint(207, 148)];
@@ -51,4 +50,7 @@
     [view addButtonWithName:@"OEGenesisButtonX[@]"     toolTip:@"X Button"     target:self startPosition:NSMakePoint(510, 228) endPosition:NSMakePoint(355, 153)];
 }
 
+- (NSImage*)controllerImage{
+	return nil;
+}
 @end

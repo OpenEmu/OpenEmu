@@ -57,6 +57,7 @@
 
 - (void)resetBindingsWithKeys:(NSArray *)keys;
 
+- (NSImage*)controllerImage;
 @end
 
 @protocol OEControlsViewControllerDelegate <NSObject>

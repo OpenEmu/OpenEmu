@@ -34,21 +34,27 @@
     [super awakeFromNib];
     
     OEGameControllerView *view = (OEGameControllerView *)[self view];
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"gba.png"];
-    [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
     
-    [view addButtonWithName:@"OEGBAButtonL[@]"      toolTip:@"Left Trigger"  target:self startPosition:NSMakePoint(50, 220)  endPosition:NSMakePoint(203, 208)];
-    [view addButtonWithName:@"OEGBAButtonUp[@]"     toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50, 188)  endPosition:NSMakePoint(210, 172)];
-    [view addButtonWithName:@"OEGBAButtonLeft[@]"   toolTip:@"D-Pad Left"    target:self startPosition:NSMakePoint(50, 156)  endPosition:NSMakePoint(199, 161)];
-    [view addButtonWithName:@"OEGBAButtonRight[@]"  toolTip:@"D-Pad Right"   target:self startPosition:NSMakePoint(50, 124)  endPosition:NSMakePoint(221, 163)];
-    [view addButtonWithName:@"OEGBAButtonDown[@]"   toolTip:@"D-Pad Down"    target:self startPosition:NSMakePoint(50, 92)   endPosition:NSMakePoint(210, 151)];
-    
-    [view addButtonWithName:@"OEGBAButtonStart[@]"  toolTip:@"Start Button"  target:self startPosition:NSMakePoint(348, 20)  endPosition:NSMakePoint(227, 127)];
-    [view addButtonWithName:@"OEGBAButtonSelect[@]" toolTip:@"Select Button" target:self startPosition:NSMakePoint(252, 20)  endPosition:NSMakePoint(227, 114)];
-    
-    [view addButtonWithName:@"OEGBAButtonR[@]"      toolTip:@"Right Trigger" target:self startPosition:NSMakePoint(550, 220) endPosition:NSMakePoint(393, 210)];
-    [view addButtonWithName:@"OEGBAButtonA[@]"      toolTip:@"A Button"      target:self startPosition:NSMakePoint(550, 124) endPosition:NSMakePoint(403, 167)];
-    [view addButtonWithName:@"OEGBAButtonB[@]"      toolTip:@"B Button"      target:self startPosition:NSMakePoint(550, 92)  endPosition:NSMakePoint(379, 159)];
+	[view addButtonWithName:@"OEGBAButtonUp[@]" label:@"Up:" target:self];
+	[view addButtonWithName:@"OEGBAButtonDown[@]" label:@"Down:" target:self];
+	[view addButtonWithName:@"OEGBAButtonLeft[@]" label:@"Left:" target:self];
+	[view addButtonWithName:@"OEGBAButtonRight[@]" label:@"Right:" target:self];
+	
+	
+	[view addButtonWithName:@"OEGBAButtonStart[@]" label:@"Start:" target:self];
+	[view addButtonWithName:@"OEGBAButtonSelect[@]" label:@"Select:" target:self];	
+	[view nextColumn];	
+	
+	[view addButtonWithName:@"OEGBAButtonA[@]" label:@"A:" target:self];
+	[view addButtonWithName:@"OEGBAButtonB[@]" label:@"B:" target:self];
+	
+	[view addButtonWithName:@"OEGBAButtonL[@]" label:@"Left Trigger:" target:self];
+	[view addButtonWithName:@"OEGBAButtonR[@]" label:@"Right Trigger:" target:self];
+	
+	[view updateButtons];
 }
 
+- (NSImage*)controllerImage{
+	return [NSImage imageNamed:@"controller"];
+}
 @end

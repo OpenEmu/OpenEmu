@@ -27,23 +27,15 @@
 
 #import <Cocoa/Cocoa.h>
 
-
-@interface NSBezierPath (Shadowing)
-- (void)fillWithShadowAtDegrees:(float)angle withDistance:(float)distance;
-@end
-
 @interface OEGameControllerView : NSView
 {
-    NSImage      *gameController;
-    NSBezierPath *lines;
-    NSRect        controlZone;
-    NSRect        drawRect;
+	NSMutableArray	* buttonsAndLabels;
 }
 
-@property(retain) NSImage *gameController;
-@property(assign) NSRect   controlZone;
-
-- (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end;
-- (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end;
-
+- (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end DEPRECATED_ATTRIBUTE;
+- (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end DEPRECATED_ATTRIBUTE;
+#pragma mark -
+- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget;
+- (void)updateButtons;
+- (void)nextColumn;
 @end

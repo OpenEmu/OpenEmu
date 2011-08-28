@@ -47,7 +47,7 @@
 }
 
 - (void)setStringValue:(NSString *)aString{
-	[self setAttributedStringValue:[[[NSAttributedString alloc] initWithString:aString attributes:self.textAttributes] autorelease]];
+	[super setAttributedStringValue:[[[NSAttributedString alloc] initWithString:aString attributes:self.textAttributes] autorelease]];
 }
 
 - (void)setupAttributes{

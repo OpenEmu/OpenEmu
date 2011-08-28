@@ -33,20 +33,23 @@
 {
     OEGameControllerView *view = (OEGameControllerView *)[self view];
     
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"gameboy-1.png"];
-    [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
-
-    [view addButtonWithName:@"OEGBButtonUp"     toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(115, 246) endPosition:NSMakePoint(222, 215)];
-    [view addButtonWithName:@"OEGBButtonLeft"   toolTip:@"D-Pad Left"    target:self startPosition:NSMakePoint(115, 213) endPosition:NSMakePoint(195, 196)];
-    [view addButtonWithName:@"OEGBButtonRight"  toolTip:@"D-Pad Right"   target:self startPosition:NSMakePoint(115, 180) endPosition:NSMakePoint(245, 196)];
-    [view addButtonWithName:@"OEGBButtonDown"   toolTip:@"D-Pad Down"    target:self startPosition:NSMakePoint(115, 147) endPosition:NSMakePoint(222, 173)];
-    
-    [view addButtonWithName:@"OEGBButtonA"      toolTip:@"A Button"      target:self startPosition:NSMakePoint(552, 213) endPosition:NSMakePoint(411, 208)];
-    [view addButtonWithName:@"OEGBButtonB"      toolTip:@"B Button"      target:self startPosition:NSMakePoint(552, 180) endPosition:NSMakePoint(365, 185)];
-
-    [view addButtonWithName:@"OEGBButtonSelect" toolTip:@"Select Button" target:self startPosition:NSMakePoint(245, 27)  endPosition:NSMakePoint(265, 130)];
-    [view addButtonWithName:@"OEGBButtonStart"  toolTip:@"Start Button"  target:self startPosition:NSMakePoint(360, 27)  endPosition:NSMakePoint(315, 130)];
-
+	[view addButtonWithName:@"OEGBButtonUp" label:@"Up:" target:self];
+	[view addButtonWithName:@"OEGBButtonDown" label:@"Down:" target:self];
+	[view addButtonWithName:@"OEGBButtonLeft" label:@"Left:" target:self];
+	[view addButtonWithName:@"OEGBButtonRight" label:@"Right:" target:self];
+	
+	[view addButtonWithName:@"OEGBButtonStart" label:@"Start:" target:self];
+	[view addButtonWithName:@"OEGBButtonSelect" label:@"Select:" target:self];
+	[view nextColumn];
+	
+	[view addButtonWithName:@"OEGBButtonA" label:@"A:" target:self];
+	[view addButtonWithName:@"OEGBButtonB" label:@"B:" target:self];
+	
+	[view updateButtons];
 }
 
+- (NSImage*)controllerImage{
+	 NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_gb.png"];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
 @end

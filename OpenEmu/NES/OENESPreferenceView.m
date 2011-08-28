@@ -34,19 +34,25 @@
     [super awakeFromNib];
     
     OEGameControllerView *view = (OEGameControllerView *)[self view];
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"nespad.png"];
-    [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
     
-    [view addButtonWithName:@"OENESButtonUp[@]"     toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  166) endPosition:NSMakePoint(219, 145)];
-    [view addButtonWithName:@"OENESButtonLeft[@]"   toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  134) endPosition:NSMakePoint(197, 132)];
-    [view addButtonWithName:@"OENESButtonRight[@]"  toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  102) endPosition:NSMakePoint(231, 131)];
-    [view addButtonWithName:@"OENESButtonDown[@]"   toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,   70) endPosition:NSMakePoint(207, 118)];
-    
-    [view addButtonWithName:@"OENESButtonA[@]"      toolTip:@"A Button"      target:self startPosition:NSMakePoint(600, 150) endPosition:NSMakePoint(409, 118)];
-    [view addButtonWithName:@"OENESButtonB[@]"      toolTip:@"B Button"      target:self startPosition:NSMakePoint(600,  86) endPosition:NSMakePoint(369, 118)];
-    
-    [view addButtonWithName:@"OENESButtonStart[@]"  toolTip:@"Start Button"  target:self startPosition:NSMakePoint(368,  10) endPosition:NSMakePoint(316, 117)];
-    [view addButtonWithName:@"OENESButtonSelect[@]" toolTip:@"Select Button" target:self startPosition:NSMakePoint(272,  10) endPosition:NSMakePoint(276, 117)];
+	[view addButtonWithName:@"OENESButtonUp[@]" label:@"Up:" target:self];
+	[view addButtonWithName:@"OENESButtonDown[@]" label:@"Down:" target:self];
+	[view addButtonWithName:@"OENESButtonLeft[@]" label:@"Left:" target:self];
+	[view addButtonWithName:@"OENESButtonRight[@]" label:@"Right:" target:self];
+	
+	[view addButtonWithName:@"OENESButtonStart[@]" label:@"Start:" target:self];
+	[view addButtonWithName:@"OENESButtonSelect[@]" label:@"Select:" target:self];	
+	[view nextColumn];	
+	
+	[view addButtonWithName:@"OENESButtonA[@]" label:@"A:" target:self];
+	[view addButtonWithName:@"OENESButtonB[@]" label:@"B:" target:self];
+	
+	[view updateButtons];
 }
 
+- (NSImage*)controllerImage{
+	//TODO: localize controller image
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_nes.png"];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
 @end

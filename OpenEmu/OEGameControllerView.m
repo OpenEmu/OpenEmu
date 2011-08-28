@@ -28,169 +28,137 @@
 #import "OEGameControllerView.h"
 #import "OEGameCore.h"
 
-@implementation NSBezierPath (Shadowing)
-
-/* fill a bezier path, but draw a shadow under it offset by the
- given angle (counter clockwise from the x-axis) and distance. */
-- (void)fillWithShadowAtDegrees:(float) angle withDistance: (float) distance {
-    float radians = angle*(3.141592/180.0);
-    
-    /* create a new shadow */
-    NSShadow* theShadow = [[NSShadow alloc] init];
-    
-    /* offset the shadow by the indicated direction and distance */
-    [theShadow setShadowOffset:NSMakeSize(cosf(radians)*distance, sinf(radians)*distance)];
-    
-    /* set other shadow parameters */
-    [theShadow setShadowBlurRadius:3.0];
-    [theShadow setShadowColor:[[NSColor blackColor] colorWithAlphaComponent:0.5]];
-    
-    /* save the graphics context */
-    [NSGraphicsContext saveGraphicsState];
-    
-    /* use the shadow */
-    [theShadow set];
-    
-    /* fill the NSBezierPath */
-    [self stroke]; // was fill
-    
-    /* restore the graphics context */
-    [NSGraphicsContext restoreGraphicsState];
-    
-    /* done with the shadow */
-    [theShadow release];
-}
-
-@end
+#import "OEControlsKeyButton.h"
+#import "OEControlsKeyLabelCell.h"
 
 
 @implementation OEGameControllerView
+NSRect RoundNSRect(NSRect imageFrame);
+NSRect RoundNSRect(NSRect imageFrame){
+	imageFrame.origin.x = floorf(imageFrame.origin.x);
+	imageFrame.origin.y = floorf(imageFrame.origin.y);
+	imageFrame.size.width = ceilf(imageFrame.size.width);
+	imageFrame.size.height = ceilf(imageFrame.size.height);
+	
+	return imageFrame;
+}
 
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
     {
-        [self setControlZone:frame];
-        lines = [[NSBezierPath bezierPath] retain];
-        [lines setLineWidth:3.0];
-        [lines setLineCapStyle:NSRoundLineCapStyle];
+		buttonsAndLabels = [[NSMutableArray alloc] init];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [lines release];
-    [gameController release];
+	[buttonsAndLabels release];
     [super dealloc];
 }
 
-- (void)drawRect:(NSRect)rect
-{
-    [gameController drawInRect:drawRect
-                      fromRect:NSZeroRect
-                     operation:NSCompositeSourceOver
-                      fraction:1.0];
-    
-    // open emu red
-    [[NSColor colorWithCalibratedRed:1.0 green:0.15 blue:0.1 alpha:0.6] set];
-    [lines fillWithShadowAtDegrees:315 withDistance:3];
-    [lines stroke];
-}
-
-- (void)mouseDown:(NSEvent *)anEvent
-{
-    DLog(@"%@", NSStringFromPoint([self convertPointFromBase:[anEvent locationInWindow]]));
-}
-
-- (NSRect)controlZone
-{
-    return controlZone;
-}
-
-- (void)setControlZone:(NSRect)aZone
-{
-    controlZone = aZone;
-    
-    drawRect.origin.x = 150.0 + controlZone.origin.x;
-    drawRect.origin.y = 50.0 + controlZone.origin.y;
-    drawRect.size.width = controlZone.size.width - 300;
-    drawRect.size.height = controlZone.size.height - 100;
-}
-
-- (NSImage *)gameController
-{
-    return [[gameController retain] autorelease];
-}
-
-- (void)setGameController:(NSImage *)_value
-{
-    [gameController autorelease];
-    gameController = [_value retain];
-}
-
-#define BUTTON_SIZE NSMakeSize(90.0, 32.0)
 - (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end
 {
-    [self addButtonWithName:aName toolTip:aName target:aTarget startPosition:start endPosition:end];
 }
 
-- (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end
-{
-    NSRect bounds = [self bounds];
-    NSRect button = NSZeroRect;
-    button.size = BUTTON_SIZE;
-    NSPoint middle = NSZeroPoint;
-    
-    if(start.y <= NSMinY(drawRect))
-    {
-        button.origin.x = start.x - button.size.width / 2.0;
-        button.origin.y = 14.0;
-        start.y = button.origin.y + button.size.height / 2.0;
-        middle.x = start.x;
-        middle.y = NSMinY(drawRect) + button.size.height / 2.0;
-    }
-    else if(start.x <= NSMinX(drawRect))
-    {
-        button.origin.x = 14.0;
-        start.x = button.origin.x + button.size.width / 2.0;
-        button.origin.y = start.y - button.size.height / 2.0;
-        middle.x = NSMinX(drawRect);
-        middle.y = start.y;
-    }
-    else if(start.x >= NSMaxX(drawRect))
-    {
-        button.origin.x = bounds.size.width - (button.size.width + 14.0);
-        start.x = button.origin.x + button.size.width / 2.0;
-        button.origin.y = start.y - button.size.height / 2.0;
-        middle.x = NSMaxX(drawRect);
-        middle.y = start.y;
-    }
-    else if(start.y >= NSMaxY(drawRect))
-    {
-        button.origin.x = start.x - button.size.width / 2.0;
-        button.origin.y = bounds.size.height - (button.size.height + 14.0);
-        start.y = button.origin.y + button.size.height / 2.0;
-        middle.x = start.x;
-        middle.y = NSMaxY(drawRect) - button.size.height / 2.0;
-    }
-    
-    NSButton *added = [[[NSButton alloc] initWithFrame:button] autorelease];
-    [added setTarget:aTarget];
-    [added setAction:@selector(selectInputControl:)];
-    [added bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
-    [added setBezelStyle:NSRoundRectBezelStyle];
-    [added setButtonType:NSPushOnPushOffButton];
-    [added setToolTip:aToolTip];
-    //[[added cell]  setControlSize:NSSmallControlSize];
-    
-    [self addSubview:added];
-    
-    [lines moveToPoint:start];
-    [lines lineToPoint:middle];
-    [lines lineToPoint:end];
-    
+- (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end{
+}
+#pragma mark -
+- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget{
+	NSRect labelRect = NSMakeRect(0, 0, 0, 0);
+	NSRect buttonRect = NSMakeRect(0, 0, 0, 0);;
+	
+	OEControlsKeyButton* button = [[OEControlsKeyButton alloc] initWithFrame:buttonRect];
+	[button setTarget:aTarget];
+    [button setAction:@selector(selectInputControl:)];
+    [button bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
+	[buttonsAndLabels addObject:button];
+	[button release];
+	
+	NSTextField* labelField = [[NSTextField alloc] initWithFrame:labelRect];
+	NSTextFieldCell* labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
+	[labelField setCell:labelFieldCell];
+	[labelField setStringValue:label];
+	[buttonsAndLabels addObject:labelField];
+	[labelField release];
 }
 
+- (void)nextColumn{
+	[buttonsAndLabels addObject:[NSNull null]];
+}
+
+- (void)updateButtons{
+	//TODO: Method needs cleanup
+	while([[self subviews] count]){
+		[[[self subviews] lastObject] removeFromSuperview];
+	}
+	
+	int columns = 1;
+	int rows = 0;
+	
+	for(NSUInteger i=0; i<[buttonsAndLabels count]/2; i++){
+		id x = [buttonsAndLabels objectAtIndex:i];
+		if(x == [NSNull null] || rows == 3){
+			rows = 0;
+			columns ++;
+		} else {
+			rows ++;
+		}
+	}
+	
+	// Spacing setup
+	float topBorder = 34.0;
+	
+	float leftBorder = 61.0;
+	float rightBorder = 21.0;
+	
+	float verticalItemSpacing	= 9.0;		// item bottom to top
+	float horizontalItemSpacing = 68.0;		// item right to item left
+	float labelWidth			= 60.0;		// max value!!!
+	float labelHeight			= 24.0;
+	float labelButtonSpacing	= 8.0;
+
+	if(columns==2){	
+		horizontalItemSpacing = 120;
+		labelWidth = 112;
+	}
+	float buttonHeight = 24.0;
+	float buttonWidth = (self.frame.size.width-leftBorder-rightBorder-((columns-1)*horizontalItemSpacing))/columns;
+	
+	int itemIndex;
+	int column = 0;
+	int row = 0;
+	for(itemIndex=0; itemIndex < [buttonsAndLabels count]; itemIndex++){
+		id item = [buttonsAndLabels objectAtIndex:itemIndex];
+		if(item == [NSNull null]){
+			column ++;
+			row = 0;
+			continue;
+		}
+		
+		if (row==4) {
+			column ++;
+			row = 0;
+		}
+		
+		NSRect buttonRect = RoundNSRect(NSMakeRect(leftBorder+column*(buttonWidth+horizontalItemSpacing), topBorder+(3-row)*(verticalItemSpacing+buttonHeight), buttonWidth, buttonHeight));
+		[item setFrame:buttonRect];
+		
+		NSRect labelRect = RoundNSRect(NSMakeRect(buttonRect.origin.x-labelWidth-labelButtonSpacing, buttonRect.origin.y-4, labelWidth, labelHeight));
+		[[buttonsAndLabels objectAtIndex:itemIndex+1] setFrame:labelRect];
+		
+		[self addSubview:item];
+		[self addSubview:[buttonsAndLabels objectAtIndex:itemIndex+1]];
+		
+		row++;
+		itemIndex++;
+	}
+}
+
+- (void)setFrame:(NSRect)frameRect{
+	[super setFrame:frameRect];
+	[self updateButtons];
+}
 @end

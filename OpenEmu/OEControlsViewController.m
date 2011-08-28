@@ -58,7 +58,7 @@
     if(sender == nil || [sender respondsToSelector:@selector(state)])
     {
         NSInteger state = [sender state];
-        
+		selectedControl = sender;
         [selectedControl setState:NSOffState];
         [[sender window] makeFirstResponder:(state == NSOnState ? [self view] : nil)];
         [[self view] setNextResponder:self];
@@ -124,6 +124,7 @@
 
 - (void)registerEvent:(id)anEvent
 {
+	NSLog(@"register event: %@", anEvent);
     if(selectedControl != nil)
     {
         [self setValue:anEvent forKey:[self selectedKey]];
@@ -198,4 +199,7 @@
     else [super setValue:value forKey:key];
 }
 
+- (NSImage*)controllerImage{
+	return nil;
+}
 @end

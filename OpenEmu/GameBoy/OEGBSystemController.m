@@ -34,7 +34,7 @@
 
 - (NSUInteger)numberOfPlayers;
 {
-    return 8;
+    return 1;
 }
 
 - (NSDictionary *)preferenceViewControllerClasses;

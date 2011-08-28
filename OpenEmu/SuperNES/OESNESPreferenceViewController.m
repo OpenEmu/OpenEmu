@@ -35,8 +35,6 @@
     
     OEGameControllerView *view = (OEGameControllerView *)[self view];
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"snes_pad.png"];
-    [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
-    [view setControlZone:NSMakeRect(0, 0, 600, 230)];
     
     [view addButtonWithName:@"OESNESButtonTriggerLeft[@]"  toolTip:@"Left Trigger"  target:self startPosition:NSMakePoint(50, 180)  endPosition:NSMakePoint(217, 178)];
     [view addButtonWithName:@"OESNESButtonUp[@]"           toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50, 148)  endPosition:NSMakePoint(220, 121)];
@@ -54,4 +52,9 @@
     [view addButtonWithName:@"OESNESButtonB[@]"            toolTip:@"B Button"      target:self startPosition:NSMakePoint(550, 52)  endPosition:NSMakePoint(386, 86)];
 }
 
+- (NSImage*)controllerImage{
+	// TODO: localize controller image
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_snes_usa.png"];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
 @end
