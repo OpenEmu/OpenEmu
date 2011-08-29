@@ -31,12 +31,12 @@
 @interface OERingBuffer : NSObject
 {
 @private
-    NSLock        *_bufferLock;
-    __strong void *_buffer;
-    NSUInteger     _bufferSize;
-    NSUInteger     _writePosition;
-    NSUInteger     _readPosition;
-    NSUInteger     _bufferUsed;
+    NSLock     *_bufferLock;
+    void       *_buffer;
+    NSUInteger  _bufferSize;
+    NSUInteger  _writePosition;
+    NSUInteger  _readPosition;
+    NSUInteger  _bufferUsed;
 }
 
 - (id)initWithLength:(NSUInteger)length;
@@ -45,7 +45,7 @@
 @property(readonly) NSUInteger availableBytes;
 @property(readonly) NSUInteger usedBytes;
 
-- (NSUInteger)bytesAvailable;
+- (NSUInteger)bytesAvailable DEPRECATED_ATTRIBUTE;
 - (NSUInteger)bytesUsed;
 - (NSUInteger)read:(void *)buffer maxLength:(NSUInteger)len;
 - (NSUInteger)write:(const void *)buffer maxLength:(NSUInteger)length;
