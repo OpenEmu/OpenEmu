@@ -403,6 +403,8 @@
 		83977F9B1409128D00175858 /* AttributedTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5913B93255005C0CC8 /* AttributedTextFieldCell.m */; };
 		83A9011D13FB2D91000F4514 /* NSData+HashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */; };
 		83A9012013FB2E9D000F4514 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A9011F13FB2E9D000F4514 /* libcrypto.dylib */; };
+		83AEF938140B78B6007803D7 /* filter_effect_2xsal.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AEF936140B78B6007803D7 /* filter_effect_2xsal.png */; };
+		83AEF939140B78B6007803D7 /* filter_effect_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AEF937140B78B6007803D7 /* filter_effect_frame.png */; };
 		83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F688BF13C6433600AA0F83 /* OEGridScrollView.m */; };
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
 		83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
@@ -1165,6 +1167,8 @@
 		83A9011B13FB2D91000F4514 /* NSData+HashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HashingAdditions.h"; sourceTree = "<group>"; };
 		83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HashingAdditions.m"; sourceTree = "<group>"; };
 		83A9011F13FB2E9D000F4514 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		83AEF936140B78B6007803D7 /* filter_effect_2xsal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_effect_2xsal.png; sourceTree = "<group>"; };
+		83AEF937140B78B6007803D7 /* filter_effect_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_effect_frame.png; sourceTree = "<group>"; };
 		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
 		83F688BF13C6433600AA0F83 /* OEGridScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridScrollView.m; sourceTree = "<group>"; };
 		83FA054D13B9DF940055A520 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = SOURCE_ROOT; };
@@ -1649,15 +1653,15 @@
 				53439B8E13B937DB005C0CC8 /* NSImage+OEHighlight.h */,
 				53439B8F13B937DB005C0CC8 /* NSImage+OEHighlight.m */,
 				82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */,
-				82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */,
-				1BEF2A65116826BC0090F72B /* NSString+UUID.h */,
-				1BEF2A66116826BC0090F72B /* NSString+UUID.m */,
 				53439B9113B937EA005C0CC8 /* NSImage+OEDrawingAdditions.h */,
 				53439B9213B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m */,
 				53439B9413B937F5005C0CC8 /* NSURL+OELibraryAdditions.h */,
 				53439B9513B937F5005C0CC8 /* NSURL+OELibraryAdditions.m */,
 				53439B9713B937FD005C0CC8 /* NSColor+IKSAdditions.h */,
 				53439B9813B937FD005C0CC8 /* NSColor+IKSAdditions.m */,
+				82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */,
+				1BEF2A65116826BC0090F72B /* NSString+UUID.h */,
+				1BEF2A66116826BC0090F72B /* NSString+UUID.m */,
 			);
 			name = "Additions to standard classes";
 			sourceTree = "<group>";
@@ -2215,6 +2219,8 @@
 		53439BC013B93920005C0CC8 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				83AEF936140B78B6007803D7 /* filter_effect_2xsal.png */,
+				83AEF937140B78B6007803D7 /* filter_effect_frame.png */,
 				53439BC813B93920005C0CC8 /* controls_background.jpg */,
 				53439BC913B93920005C0CC8 /* controls_tab_icon.png */,
 				53439BCA13B93920005C0CC8 /* core_triangle.png */,
@@ -3260,6 +3266,8 @@
 				8382D23313C5C5BB00906221 /* OEPrefLibraryController.xib in Resources */,
 				8382D23513C5C5E100906221 /* OEPrefControlsController.xib in Resources */,
 				8396CC52140687EE0096F791 /* wood_textfield.png in Resources */,
+				83AEF938140B78B6007803D7 /* filter_effect_2xsal.png in Resources */,
+				83AEF939140B78B6007803D7 /* filter_effect_frame.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
