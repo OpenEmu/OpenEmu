@@ -1718,7 +1718,8 @@
 				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
 				1BEF2CFF116854650090F72B /* OpenEmuDebugHelperAppApp-Info.plist */,
 				3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */,
-				53439CB513B94EF0005C0CC8 /* OpenEmu-Info.plist */,
+				8D15AC360486D014006FF6A4 /* OpenEmu-Info.plist */,
+				828E65990E8466A100B1860B /* OpenEmuQC-Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 				C6BFB29E0F7CC8E700040FFA /* Localizable.strings */,
 			);
