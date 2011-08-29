@@ -70,11 +70,7 @@ NSRect RoundNSRect(NSRect imageFrame){
 	NSRect labelRect = NSMakeRect(0, 0, 0, 0);
 	NSRect buttonRect = NSMakeRect(0, 0, 0, 0);;
 	
-	//OEControlsKeyButton* button = [[OEControlsKeyButton alloc] initWithFrame:buttonRect];
-	NSButton* button = [[NSButton alloc] initWithFrame:buttonRect];
-	[button setBezelStyle:NSRoundRectBezelStyle];
-    [button setButtonType:NSPushOnPushOffButton];
-	
+	OEControlsKeyButton* button = [[OEControlsKeyButton alloc] initWithFrame:buttonRect];
 	[button setTarget:aTarget];
     [button setAction:@selector(selectInputControl:)];
     [button bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
