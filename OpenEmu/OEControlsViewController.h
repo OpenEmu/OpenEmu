@@ -31,6 +31,8 @@
 
 @interface OEControlsViewController : NSViewController
 {
+	NSUInteger selectedPlayer;
+	NSInteger selectedBindingType;
 @private
 }
 
@@ -38,26 +40,20 @@
 
 @property(assign) id selectedControl;
 
-@property(retain) IBOutlet NSMatrix    *bindingType;
-@property(retain) IBOutlet NSMatrix    *playerSelector;
-@property(retain) IBOutlet NSStepper   *playerStepper;
-@property(retain) IBOutlet NSTextField *playerField;
-
 - (NSString *)selectedKey;
 - (NSUInteger)selectedPlayer;
+- (void)selectPlayer:(NSUInteger)_player;
 - (NSString *)keyPathForKey:(NSString *)aKey;
 
 - (void)setSelectedBindingType:(NSInteger)aTag;
 - (BOOL)isKeyboardEventSelected;
 - (void)registerEvent:(id)anEvent;
 
-- (IBAction)displayedBindingsChanged:(id)sender;
 - (IBAction)selectInputControl:(id)sender;
 - (void)resetKeyBindings;
 
 - (void)resetBindingsWithKeys:(NSArray *)keys;
 
-- (NSImage*)controllerImage;
 @end
 
 @protocol OEControlsViewControllerDelegate <NSObject>

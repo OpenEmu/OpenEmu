@@ -55,6 +55,7 @@
 
 #define UDSelectedPreferencesTab	@"selectedPreferencesTab"	/*	selected tab of preferences window	*/
 
+#define UDRegionKey					@"region"					/*	release region					*/
 
 #define UDUseQuickImportKey			@"UseQuickImport"			/*	skips duplicate verification when importing games if automatic info grabbing is deactivated	*/
 #define UDUseMD5HashingKey			@"UseMD5"					/*	use md5 instead of crc32 for rom identification												*/

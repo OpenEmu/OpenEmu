@@ -56,13 +56,14 @@
 }
 
 - (void)setTitle:(NSString *)_title{
+	NSLog(@"setTitle: %@", _title);
+	
 	NSString* newTitle = [_title copy];
 	[title release];
 	title = newTitle;
 	
 	[self setNeedsDisplay:YES];
 }
-
 #pragma mark -
 #pragma mark NSView Overrides
 - (void)drawRect:(NSRect)dirtyRect{
@@ -101,14 +102,17 @@
 		self.state = NSOffState;
 	} else {
 		self.state = NSOnState;
-		if(self.target && self.action!=NULL && [self.target respondsToSelector:self.action]){
-			//id result = [self.target performSelector:self.action withObject:self];
-			//NSLog(@"result: %@", result);
-		}
 	}
-	[self setNeedsDisplay:YES];
+	
+	if(self.target && self.action!=NULL && [self.target respondsToSelector:self.action]){
+		[self.target performSelector:self.action withObject:self];
+	}
 }
 
+- (void)setState:(NSCellStateValue)_state{
+	state = _state;
+	[self setNeedsDisplay:YES];
+}
 @synthesize target;
 @synthesize action;
 @synthesize title;

@@ -165,7 +165,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     
     if(ctrl == nil)
     {
-        ctrl = [[self newPreferenceViewControllerForKey:aKey] autorelease];
+        ctrl = [self newPreferenceViewControllerForKey:aKey];
         [_preferenceViewControllers setObject:ctrl forKey:aKey];
     }
     
@@ -240,6 +240,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 - (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType
 {
     NSString *type = (OESettingValueKey == aType ? @"" : [NSString stringWithFormat:@".%@", aType]);
+	
     return [NSString stringWithFormat:@"values.%@%@.%@", [self systemName], type, keyName];
 }
 
@@ -275,6 +276,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (void)registerValue:(id)aValue forKeyPath:(NSString *)keyPath;
 {
+	NSLog(@"saveAs: %@",keyPath);
     [[NSUserDefaultsController sharedUserDefaultsController] setValue:aValue forKeyPath:keyPath];
 }
 
@@ -285,14 +287,14 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     SEL targetSEL = (aType == OEHIDEventValueKey
                      ? @selector(HIDEventWasRemovedForKey:)
                      : @selector(keyboardEventWasRemovedForKey:));
-    
+
     for(NSString *name in controlNames)
     {
         NSString *keyPath = [self keyPathForKey:name withValueType:aType];
         
         if([[udc valueForKeyPath:keyPath] isEqual:theEvent])
         {
-            [self registerValue:nil forKeyPath:aType];
+            [self registerValue:nil forKeyPath:keyPath];
             
             [_gameSystemResponders makeObjectsPerformSelector:targetSEL withObject:name];
         }
@@ -392,22 +394,23 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 }
 
 - (void)controlsViewController:(OEControlsViewController *)sender registerEvent:(id)theEvent forKey:(NSString *)keyName;
-{
-    BOOL isKeyBoard = [theEvent isKindOfClass:[OEHIDEvent class]] && [(OEHIDEvent *)theEvent type] == OEHIDKeypress;
-    
+{	
+	
+    BOOL isKeyBoard = ([theEvent isKindOfClass:[OEHIDEvent class]] || [[theEvent className] isEqualTo:@"OEHIDEvent"]) && [(OEHIDEvent *)theEvent type] == OEHIDKeypress;
+   
     NSString *valueType = (isKeyBoard ? OEKeyboardEventValueKey : OEHIDEventValueKey);
     
     NSString *keyPath = [self keyPathForKey:keyName withValueType:valueType];
-    
     id value = [self registarableValueWithObject:theEvent];
     [self removeBindingsToEvent:value withValueType:valueType];
     [self registerValue:value forKeyPath:keyPath];
     
-    for(OESystemResponder *observer in _gameSystemResponders)
+    for(OESystemResponder *observer in _gameSystemResponders){
         if(isKeyBoard)
             [observer keyboardEventWasSet:theEvent forKey:keyName];
         else
             [observer HIDEventWasSet:theEvent forKey:keyName];
+	}
 }
 
 static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey)

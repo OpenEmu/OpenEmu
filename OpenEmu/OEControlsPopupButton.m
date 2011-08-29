@@ -59,10 +59,11 @@
 }
 
 - (NSString *)itemTitleAtIndex:(NSInteger)index{
-	NSLog(@"itemTitleAtIndex:");
 	return [super itemTitleAtIndex:index];
 }
-
+- (NSInteger)selectedTag{
+	return [[super selectedItem] tag];
+}
 #pragma mark - OEMenuDelegate
 - (void)menuDidShow:(OEMenu *)men{
 	[self setNeedsDisplay];

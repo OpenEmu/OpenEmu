@@ -30,22 +30,17 @@
 #import "OEGameCoreController.h"
 
 @implementation OEControlsViewController
-@synthesize selectedControl, bindingType, playerSelector, playerStepper, playerField, delegate;
+@synthesize selectedControl, delegate;
 
 - (void)dealloc
-{
-    [bindingType    release];
-    [playerSelector release];
-    [playerStepper  release];
-    [playerField    release];
-    
+{    
     [super dealloc];
 }
 
 - (void)awakeFromNib
 {
-    [playerField setIntegerValue:1];
-    [playerStepper setIntegerValue:1];
+	selectedPlayer = 1;
+	[self setSelectedBindingType:0];
 }
 
 - (BOOL)acceptsFirstResponder
@@ -58,22 +53,12 @@
     if(sender == nil || [sender respondsToSelector:@selector(state)])
     {
         NSInteger state = [sender state];
-		selectedControl = sender;
+        
         [selectedControl setState:NSOffState];
         [[sender window] makeFirstResponder:(state == NSOnState ? [self view] : nil)];
         [[self view] setNextResponder:self];
         selectedControl = (state == NSOnState ? sender : nil);
     }
-}
-
-- (IBAction)displayedBindingsChanged:(id)sender
-{
-    if(sender == playerField)
-        [playerStepper setIntegerValue:[playerField integerValue]];
-    else if(sender == playerStepper)
-        [playerField setIntegerValue:[playerStepper integerValue]];
-    
-    [self resetKeyBindings];
 }
 
 - (void)resetBindingsWithKeys:(NSArray *)keys
@@ -92,28 +77,30 @@
 
 - (BOOL)isKeyboardEventSelected
 {
-    return [bindingType selectedTag] == 0;
+    return selectedBindingType == 0;
 }
 
 - (NSString *)selectedKey
-{
+{	
     return [[selectedControl infoForBinding:@"title"] objectForKey:NSObservedKeyPathKey];
 }
 
 - (NSUInteger)selectedPlayer
 {
-    if(playerStepper  != nil) return [playerStepper intValue];
-    if(playerSelector != nil) return [playerSelector selectedTag];
-    
-    return NSNotFound;
+    return selectedPlayer;
+}
+- (void)selectPlayer:(NSUInteger)_player{
+	selectedPlayer = _player;
+	[self resetKeyBindings];
 }
 
 - (NSString *)keyPathForKey:(NSString *)aKey
 {
     NSUInteger player = [self selectedPlayer];
-    if(player != NSNotFound)
-        return [[self delegate] controlsViewController:self playerKeyForKey:aKey player:player];
-    else
+    if(player != NSNotFound){
+		NSString* keyPathForKey = [[self delegate] controlsViewController:self playerKeyForKey:aKey player:player];
+		return keyPathForKey;
+	}   else
         return aKey;
 }
 
@@ -124,7 +111,6 @@
 
 - (void)registerEvent:(id)anEvent
 {
-	NSLog(@"register event: %@", anEvent);
     if(selectedControl != nil)
     {
         [self setValue:anEvent forKey:[self selectedKey]];
@@ -134,11 +120,20 @@
 
 - (void)setSelectedBindingType:(NSInteger)aTag
 {
-    if([bindingType selectedTag] != aTag)
-    {
-        [bindingType selectCellWithTag:aTag];
+    if(selectedBindingType != aTag){
+		selectedBindingType = aTag;
         [self resetKeyBindings];
     }
+}
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+    
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+    
 }
 
 - (void)axisMoved:(OEHIDEvent *)anEvent
@@ -190,16 +185,13 @@
 - (void)setValue:(id)value forKey:(NSString *)key
 {
     // should be mutually exclusive
-    if([[[self delegate] genericControlNamesInControlsViewController:self] containsObject:key])
+	if([[[self delegate] genericControlNamesInControlsViewController:self] containsObject:key])
     {
         [self willChangeValueForKey:key];
-        [[self delegate] controlsViewController:self registerEvent:value forKey:key];
+        [[self delegate] controlsViewController:self registerEvent:value forKey:[self keyPathForKey:key]];
         [self didChangeValueForKey:key];
     }
     else [super setValue:value forKey:key];
 }
 
-- (NSImage*)controllerImage{
-	return nil;
-}
 @end

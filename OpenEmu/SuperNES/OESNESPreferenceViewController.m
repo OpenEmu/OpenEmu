@@ -34,22 +34,26 @@
     [super awakeFromNib];
     
     OEGameControllerView *view = (OEGameControllerView *)[self view];
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"snes_pad.png"];
-    
-    [view addButtonWithName:@"OESNESButtonTriggerLeft[@]"  toolTip:@"Left Trigger"  target:self startPosition:NSMakePoint(50, 180)  endPosition:NSMakePoint(217, 178)];
-    [view addButtonWithName:@"OESNESButtonUp[@]"           toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50, 148)  endPosition:NSMakePoint(220, 121)];
-    [view addButtonWithName:@"OESNESButtonLeft[@]"         toolTip:@"D-Pad Left"    target:self startPosition:NSMakePoint(50, 116)  endPosition:NSMakePoint(202, 107)];
-    [view addButtonWithName:@"OESNESButtonRight[@]"        toolTip:@"D-Pad Right"   target:self startPosition:NSMakePoint(50, 84)   endPosition:NSMakePoint(234, 106)];
-    [view addButtonWithName:@"OESNESButtonDown[@]"         toolTip:@"D-Pad Down"    target:self startPosition:NSMakePoint(50, 52)   endPosition:NSMakePoint(218, 91)];
-    
-    [view addButtonWithName:@"OESNESButtonSelect[@]"       toolTip:@"Select Button" target:self startPosition:NSMakePoint(252, 25)  endPosition:NSMakePoint(276, 98)];
-    [view addButtonWithName:@"OESNESButtonStart[@]"        toolTip:@"Start Button"  target:self startPosition:NSMakePoint(348, 25)  endPosition:NSMakePoint(308, 98)];
-    
-    [view addButtonWithName:@"OESNESButtonTriggerRight[@]" toolTip:@"Right Trigger" target:self startPosition:NSMakePoint(550, 180) endPosition:NSMakePoint(389, 177)];
-    [view addButtonWithName:@"OESNESButtonX[@]"            toolTip:@"X Button"      target:self startPosition:NSMakePoint(550, 148) endPosition:NSMakePoint(389, 128)];
-    [view addButtonWithName:@"OESNESButtonA[@]"            toolTip:@"A Button"      target:self startPosition:NSMakePoint(550, 116) endPosition:NSMakePoint(415, 107)];
-    [view addButtonWithName:@"OESNESButtonY[@]"            toolTip:@"Y Button"      target:self startPosition:NSMakePoint(550, 84)  endPosition:NSMakePoint(361, 108)];
-    [view addButtonWithName:@"OESNESButtonB[@]"            toolTip:@"B Button"      target:self startPosition:NSMakePoint(550, 52)  endPosition:NSMakePoint(386, 86)];
+	
+	[view addButtonWithName:@"OESNESButtonUp[@]" label:@"Up:" target:self];
+	[view addButtonWithName:@"OESNESButtonDown[@]" label:@"Down:" target:self];
+	[view addButtonWithName:@"OESNESButtonLeft[@]" label:@"Left:" target:self];
+	[view addButtonWithName:@"OESNESButtonRight[@]" label:@"Right:" target:self];
+
+	[view addButtonWithName:@"OESNESButtonSelect[@]" label:@"Start:" target:self];
+	[view addButtonWithName:@"OESNESButtonStart[@]" label:@"Select:" target:self];
+	[view nextColumn];
+
+	[view addButtonWithName:@"OESNESButtonA[@]" label:@"A:" target:self];
+	[view addButtonWithName:@"OESNESButtonB[@]" label:@"B:" target:self];
+	[view addButtonWithName:@"OESNESButtonX[@]" label:@"X:" target:self];
+	[view addButtonWithName:@"OESNESButtonY[@]" label:@"Y:" target:self];
+	
+	
+	[view addButtonWithName:@"OESNESButtonTriggerLeft[@]" label:@"Trigger Left:" target:self];
+	[view addButtonWithName:@"OESNESButtonTriggerRight[@]" label:@"Trigger Right:" target:self];	
+	
+	[view updateButtons];
 }
 
 - (NSImage*)controllerImage{

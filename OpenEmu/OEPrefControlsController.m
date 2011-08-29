@@ -70,7 +70,8 @@
 	NSMenu* playerMenu = [[NSMenu alloc] init];
 	for(NSUInteger player=0; player<numberOfPlayers; player++){
 		NSString* playerTitle = [NSString stringWithFormat:NSLocalizedString(@"Player %ld", @""), player+1];
-		NSMenuItem* playerItem = [[NSMenuItem alloc] initWithTitle:playerTitle action:@selector(changePlayer:) keyEquivalent:@""];
+		NSMenuItem* playerItem = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
+		[playerItem setTag:player+1];
 		[playerMenu addItem:playerItem];
 		[playerItem release];		
 	}
@@ -90,9 +91,23 @@
 	[controlsContainer addSubview:preferenceView];
 }
 
-- (IBAction)changePlayer:(id)sender{}
+- (IBAction)changePlayer:(id)sender{
+	NSInteger player = 1;
+	if(sender && [sender respondsToSelector:@selector(selectedTag)]){
+		player = [sender selectedTag];
+	} else if(sender && [sender respondsToSelector:@selector(tag)]){
+		player = [sender tag];
+	}
+	
+	if(selectedPlugin){
+		OESystemController* systemController = [selectedPlugin controller];
+		OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
+		[preferenceViewController selectPlayer:player];		
+	}
+}
 
-- (IBAction)changeInputDevice:(id)sender{}
+- (IBAction)changeInputDevice:(id)sender{
+}
 
 #pragma mark -
 #pragma mark OEPreferencePane Protocol

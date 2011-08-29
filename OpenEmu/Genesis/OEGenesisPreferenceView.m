@@ -34,20 +34,24 @@
     [super awakeFromNib];
 
     OEGameControllerView *view = (OEGameControllerView *)[self view];
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"gen6btn.png"];
-    
-    [view addButtonWithName:@"OEGenesisButtonUp[@]"    toolTip:@"D-Pad Up"     target:self startPosition:NSMakePoint(88, 196)  endPosition:NSMakePoint(230, 165)];
-    [view addButtonWithName:@"OEGenesisButtonLeft[@]"  toolTip:@"D-Pad Left"   target:self startPosition:NSMakePoint(88, 164)  endPosition:NSMakePoint(207, 148)];
-    [view addButtonWithName:@"OEGenesisButtonRight[@]" toolTip:@"D-Pad Right"  target:self startPosition:NSMakePoint(88, 132)  endPosition:NSMakePoint(249, 143)];
-    [view addButtonWithName:@"OEGenesisButtonDown[@]"  toolTip:@"D-Pad Down"   target:self startPosition:NSMakePoint(88, 100)  endPosition:NSMakePoint(222, 120)];
-    [view addButtonWithName:@"OEGenesisButtonMode[@]"  toolTip:@"Mode Button"  target:self startPosition:NSMakePoint(252, 25)  endPosition:NSMakePoint(293, 114)];
-    [view addButtonWithName:@"OEGenesisButtonStart[@]" toolTip:@"Start Button" target:self startPosition:NSMakePoint(348, 25)  endPosition:NSMakePoint(328, 114)];
-    [view addButtonWithName:@"OEGenesisButtonA[@]"     toolTip:@"A Button"     target:self startPosition:NSMakePoint(510, 68)  endPosition:NSMakePoint(367, 122)];
-    [view addButtonWithName:@"OEGenesisButtonB[@]"     toolTip:@"B Button"     target:self startPosition:NSMakePoint(510, 100) endPosition:NSMakePoint(399, 132)];
-    [view addButtonWithName:@"OEGenesisButtonC[@]"     toolTip:@"C Button"     target:self startPosition:NSMakePoint(510, 132) endPosition:NSMakePoint(429, 142)];
-    [view addButtonWithName:@"OEGenesisButtonZ[@]"     toolTip:@"Z Button"     target:self startPosition:NSMakePoint(510, 164) endPosition:NSMakePoint(413, 172)];
-    [view addButtonWithName:@"OEGenesisButtonY[@]"     toolTip:@"Y Button"     target:self startPosition:NSMakePoint(510, 196) endPosition:NSMakePoint(381, 161)];
-    [view addButtonWithName:@"OEGenesisButtonX[@]"     toolTip:@"X Button"     target:self startPosition:NSMakePoint(510, 228) endPosition:NSMakePoint(355, 153)];
+	
+	[view addButtonWithName:@"OEGenesisButtonUp[@]" label:@"Up:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonDown[@]" label:@"Down:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonLeft[@]" label:@"Left:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonRight[@]" label:@"Right:" target:self];
+	
+	[view addButtonWithName:@"OEGenesisButtonStart[@]" label:@"Start:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonMode[@]" label:@"Mode:" target:self];
+	[view nextColumn];
+	
+	[view addButtonWithName:@"OEGenesisButtonA[@]" label:@"A:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonB[@]" label:@"B:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonC[@]" label:@"C:" target:self];
+	[view nextColumn];
+	
+	[view addButtonWithName:@"OEGenesisButtonX[@]" label:@"X:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonY[@]" label:@"Y:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonZ[@]" label:@"Z:" target:self];
 }
 
 - (NSImage*)controllerImage{

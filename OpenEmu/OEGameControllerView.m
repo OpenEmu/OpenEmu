@@ -70,7 +70,11 @@ NSRect RoundNSRect(NSRect imageFrame){
 	NSRect labelRect = NSMakeRect(0, 0, 0, 0);
 	NSRect buttonRect = NSMakeRect(0, 0, 0, 0);;
 	
-	OEControlsKeyButton* button = [[OEControlsKeyButton alloc] initWithFrame:buttonRect];
+	//OEControlsKeyButton* button = [[OEControlsKeyButton alloc] initWithFrame:buttonRect];
+	NSButton* button = [[NSButton alloc] initWithFrame:buttonRect];
+	[button setBezelStyle:NSRoundRectBezelStyle];
+    [button setButtonType:NSPushOnPushOffButton];
+	
 	[button setTarget:aTarget];
     [button setAction:@selector(selectInputControl:)];
     [button bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
@@ -82,6 +86,7 @@ NSRect RoundNSRect(NSRect imageFrame){
 	[labelField setCell:labelFieldCell];
 	[labelField setStringValue:label];
 	[buttonsAndLabels addObject:labelField];
+	[labelFieldCell release];
 	[labelField release];
 }
 
@@ -95,12 +100,13 @@ NSRect RoundNSRect(NSRect imageFrame){
 		[[[self subviews] lastObject] removeFromSuperview];
 	}
 	
+	// Determine number of columns that we need (using 4 rows)
 	int columns = 1;
 	int rows = 0;
-	
-	for(NSUInteger i=0; i<[buttonsAndLabels count]/2; i++){
+	for(NSUInteger i=0; i<[buttonsAndLabels count]; i+=2){
 		id x = [buttonsAndLabels objectAtIndex:i];
-		if(x == [NSNull null] || rows == 3){
+		if(x == [NSNull null] || rows == 4){
+			if(x==[NSNull null]) i--;
 			rows = 0;
 			columns ++;
 		} else {
@@ -161,4 +167,11 @@ NSRect RoundNSRect(NSRect imageFrame){
 	[super setFrame:frameRect];
 	[self updateButtons];
 }
+#pragma mark -
+- (BOOL)acceptsFirstResponder{
+	return YES;
+}
+
+- (void)keyUp:(NSEvent *)theEvent{}
+- (void)keyDown:(NSEvent *)theEvent{}
 @end
