@@ -11,10 +11,14 @@
 
 @interface OEPrefGameplayController : NSViewController <OEPreferencePane> {
 @private
-    
+    IBOutlet NSImageView    * filterPreviewView;
+    IBOutlet NSPopUpButton  * filterSelection;
 }
 - (NSImage*)icon;
 - (NSString*)title;
 
 - (NSSize)viewSize;
+#pragma mark -
+#pragma mark UI Actions
+- (IBAction)changeFilter:(id)sender;
 @end

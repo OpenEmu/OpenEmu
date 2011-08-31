@@ -99,8 +99,6 @@
 - (NSText *)setUpFieldEditorAttributes:(NSText *)textObj {
 	textObj = [super setUpFieldEditorAttributes:textObj];
     if([textObj isKindOfClass:[NSTextView class]]) {
-		
-		NSLog(@"NSTextView");
 		NSShadow* shadow = [[NSShadow new] autorelease];
 		NSParagraphStyle* paraStyle = [[NSParagraphStyle new] autorelease];
 		

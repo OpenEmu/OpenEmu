@@ -32,7 +32,7 @@
 	
 	self.textAttributes = attributes;
 	
-	[self setStringValue:[self stringValue]];
+	[super setupAttributes];
 }
 
 @end

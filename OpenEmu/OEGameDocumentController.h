@@ -34,14 +34,13 @@
 @class OESaveState;
 
 @class OEGameCore, OECorePlugin;
-@class OEGameDocument, OEGamePreferenceController, OESaveStateController, OECoreInstaller, OECoreUpdater;
+@class OEGameDocument, OESaveStateController, OECoreInstaller, OECoreUpdater;
 
 @class OEHIDManager;
 
 @interface OEGameDocumentController : NSDocumentController <OENetServerDelegate>
 {
     OEGameDocument             *currentGame;
-    OEGamePreferenceController *preferences;
     OESaveStateController      *saveStateManager;
     
     OECoreInstaller            *coreInstaller;
@@ -109,7 +108,6 @@
 - (IBAction)saveStateToDatabase:(id)sender;
 - (void)loadState:(NSArray*)states;
 
-- (IBAction)openPreferenceWindow:(id)sender;
 - (IBAction)openAboutWindow:(id)sender;
 - (IBAction)openSaveStateWindow:(id)sender;
 - (IBAction)openCoreInstallerWindow:(id)sender;

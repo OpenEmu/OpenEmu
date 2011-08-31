@@ -40,7 +40,7 @@
 - (void)awakeFromNib
 {
 	selectedPlayer = 1;
-	[self setSelectedBindingType:0];
+    selectedBindingType = 0;
 }
 
 - (BOOL)acceptsFirstResponder
@@ -118,13 +118,18 @@
     }
 }
 
-- (void)setSelectedBindingType:(NSInteger)aTag
-{
-    if(selectedBindingType != aTag){
-		selectedBindingType = aTag;
+- (void)selectBindingType:(NSInteger)newType{
+    if(selectedBindingType != newType){
+		selectedBindingType = newType;
         [self resetKeyBindings];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"OEControlsViewControllerChangedBindingType" object:self];
     }
 }
+
+- (NSInteger)selectedBindingType{
+    return selectedBindingType;
+}
+
 
 - (void)keyDown:(NSEvent *)theEvent
 {
@@ -141,14 +146,14 @@
     if([anEvent direction] != OEHIDDirectionNull)
     {
         [self registerEvent:anEvent];
-        [self setSelectedBindingType:1];
+        [self selectBindingType:1];
     }
 }
 
 - (void)buttonDown:(OEHIDEvent *)anEvent
 {
     [self registerEvent:anEvent];
-    [self setSelectedBindingType:1];
+    [self selectBindingType:1];
 }
 
 - (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
@@ -156,14 +161,14 @@
     if([anEvent position] != 0)
     {
         [self registerEvent:anEvent];
-        [self setSelectedBindingType:1];
+        [self selectBindingType:1];
     }
 }
 
 - (void)HIDKeyDown:(OEHIDEvent *)anEvent
 {
 	[self registerEvent:anEvent];
-    [self setSelectedBindingType:0];
+    [self selectBindingType:0];
 }
 
 - (id)valueForKey:(NSString *)key
@@ -192,6 +197,11 @@
         [self didChangeValueForKey:key];
     }
     else [super setValue:value forKey:key];
+}
+
+
+- (NSImage*)controllerImage{
+    return nil;
 }
 
 @end

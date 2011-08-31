@@ -11,10 +11,15 @@
 
 @interface OEPrefLibraryController : NSViewController <OEPreferencePane> {
 @private
-    
+    IBOutlet NSTextField* pathField;
 }
 - (NSImage*)icon;
 - (NSString*)title;
 
 - (NSSize)viewSize;
+
+#pragma mark -
+#pragma mark UI Actions
+- (IBAction)resetLibraryFolder:(id)sender;
+- (IBAction)changeLibraryFolder:(id)sender;
 @end

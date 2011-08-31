@@ -49,12 +49,10 @@
 }
 
 - (NSString*)stringValue{
-	NSLog(@"stringValue");
 	return [selectedItem title];
 }
 
 - (id)objectValue{
-	NSLog(@"objectValue");
 	return [super objectValue];
 }
 

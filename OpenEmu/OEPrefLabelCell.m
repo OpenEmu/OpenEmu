@@ -15,6 +15,7 @@
 	
 	NSMutableParagraphStyle* paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
 	[paragraphStyle setAlignment:[self alignment]];
+	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
 	
 	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:4.0 size:11.0];
 	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
@@ -30,7 +31,7 @@
 		
 	self.textAttributes = attributes;
 	
-	[self setStringValue:[self stringValue]];
+	[super setupAttributes];
 }
 
 @end

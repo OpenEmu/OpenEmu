@@ -56,8 +56,6 @@
 }
 
 - (void)setTitle:(NSString *)_title{
-	NSLog(@"setTitle: %@", _title);
-	
 	NSString* newTitle = [_title copy];
 	[title release];
 	title = newTitle;

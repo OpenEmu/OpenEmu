@@ -51,6 +51,20 @@
 }
 
 - (void)setupAttributes{
-	self.textAttributes = [NSDictionary dictionary];
+	NSAttributedString* stringVal = [self attributedStringValue];
+	
+	@try {
+		NSMutableDictionary* attributes = [NSMutableDictionary dictionaryWithDictionary:[stringVal attributesAtIndex:0 effectiveRange:NULL]];
+		
+		for(NSString* aKey in [self.textAttributes allKeys]){
+			[attributes setValue:[self.textAttributes valueForKey:aKey] forKey:aKey];
+		}
+		self.textAttributes = attributes;
+		
+		[self setStringValue:[self stringValue]];
+		
+	}
+	@catch (NSException *exception) {
+	}	
 }
 @end

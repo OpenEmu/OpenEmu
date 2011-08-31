@@ -18,7 +18,6 @@
 #import "OEControlsViewController.h"
 @interface OEPrefControlsController (Private)
 - (void)_rebuildSystemsMenu;
-- (void)_rebuildPlayerMenu;
 - (void)_rebuildInputMenu;
 @end
 
@@ -38,6 +37,8 @@
 #pragma mark -
 #pragma mark ViewController Overrides
 - (void)awakeFromNib{
+    NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+    
 	NSImage* controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
 	[(OEBackgroundImageView*)[self view] setImage:controlsBackgroundImage];
 	
@@ -47,9 +48,24 @@
 	/** ** ** ** ** ** ** ** **/
 	// Setup controls popup console list
 	[self _rebuildSystemsMenu];
-	
+    
+    // restore previous state
+    NSInteger binding = [sud integerForKey:UDControlsDeviceTypeKey];
+    [inputPopupButton selectItemWithTag:binding];
+    [self changeInputDevice:self];
+    
+    NSString* pluginName = [sud stringForKey:UDControlsPluginNameKey];
+    if(pluginName && [consolesPopupButton itemWithTitle:pluginName]){
+        [consolesPopupButton selectItemWithTitle:pluginName];
+    } else {
+        [consolesPopupButton selectItemAtIndex:0];
+    }
+    [self changeSystem:consolesPopupButton];
+   	
 	gradientOverlay.topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
 	gradientOverlay.bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindingTypeChanged:) name:@"OEControlsViewControllerChangedBindingType" object:nil];
 }
 
 - (NSString*)nibName{
@@ -58,7 +74,9 @@
 
 #pragma mark -
 #pragma mark UI Methods
-- (IBAction)changeSystem:(id)sender{	
+- (IBAction)changeSystem:(id)sender{
+    NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+
 	NSMenuItem* menuItem = [consolesPopupButton selectedItem];
 	NSString* systemName = [menuItem title];
 	selectedPlugin = [OESystemPlugin gameSystemPluginForName:systemName];
@@ -80,15 +98,21 @@
 	
 	// Hide player PopupButton if there is only one player
 	[playerPopupButton setHidden:(numberOfPlayers==1)];
-
+    [playerPopupButton selectItemWithTag:[sud integerForKey:UDControlsPlayerKey]];
+    
 	OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
 	[controllerView setImage:[preferenceViewController controllerImage]];
-	
+    
 	NSView* preferenceView = [preferenceViewController view];
 	[preferenceView setFrame:[controlsContainer bounds]];
 	if([[controlsContainer subviews] count])
 		[[[controlsContainer subviews] lastObject] removeFromSuperview];
 	[controlsContainer addSubview:preferenceView];
+    
+    [sud setObject:systemName forKey:UDControlsPluginNameKey];
+    
+    [self changePlayer:playerPopupButton];
+    [self changeInputDevice:inputPopupButton];
 }
 
 - (IBAction)changePlayer:(id)sender{
@@ -104,9 +128,26 @@
 		OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
 		[preferenceViewController selectPlayer:player];		
 	}
+    
+    NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+    [sud setInteger:player forKey:UDControlsPlayerKey];
 }
 
 - (IBAction)changeInputDevice:(id)sender{
+    NSInteger bindingType = 0;
+	if(sender && [sender respondsToSelector:@selector(selectedTag)]){
+		bindingType = [sender selectedTag];
+	} else if(sender && [sender respondsToSelector:@selector(tag)]){
+		bindingType = [sender tag];
+	}
+    
+    if(selectedPlugin){
+		OESystemController* systemController = [selectedPlugin controller];
+		OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
+		[preferenceViewController selectBindingType:bindingType];		
+	}
+    NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+    [sud setInteger:bindingType forKey:UDControlsDeviceTypeKey];
 }
 
 #pragma mark -
@@ -130,8 +171,12 @@
 #pragma mark -
 - (void)_rebuildSystemsMenu{	
 	NSMenu* consolesMenu = [[NSMenu alloc] init];
-	
-	for(OESystemPlugin* plugin in [OEPlugin pluginsForType:[OESystemPlugin class]]){
+	NSArray* plugins = [OEPlugin pluginsForType:[OESystemPlugin class]];
+    NSArray* sortedPlugins = [plugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [[obj1 gameSystemName] compare:[obj2 gameSystemName]];
+    }];
+    
+	for(OESystemPlugin* plugin in sortedPlugins){
 		NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:[plugin gameSystemName] action:@selector(changeSystem:) keyEquivalent:@""];
 		[item setTarget:self];
 		
@@ -146,23 +191,12 @@
 	[consolesMenu release];
 }
 
-- (void)_rebuildPlayerMenu{
-	NSMenu* playerMenu = [[NSMenu alloc] init];
-	
-	int maxPlayerCount = 4; // TODO: get max player count from selected plugin
-	for(int i=1; i <= maxPlayerCount; i++){
-		NSString* title = [NSString stringWithFormat:@"%@ %d",NSLocalizedString(@"Player", @""), i];
-		NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:title action:NULL keyEquivalent:@""];
-
-		[playerMenu addItem:item];
-		[item release];
-	}
-	
-	[playerPopupButton setMenu:playerMenu];
-	[playerMenu release];
-}
-
 - (void)_rebuildInputMenu{
 	
+}
+#pragma mark -
+- (void)bindingTypeChanged:(id)sender{
+    id object = [sender object];
+    [inputPopupButton selectItemWithTag:[object selectedBindingType]];
 }
 @end

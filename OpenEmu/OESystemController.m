@@ -90,7 +90,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     
     NSUInteger atLen = 0;
     NSUInteger play  = playerCount;
-    
     while(play != 0)
     {
         atLen++;
@@ -167,6 +166,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     {
         ctrl = [self newPreferenceViewControllerForKey:aKey];
         [_preferenceViewControllers setObject:ctrl forKey:aKey];
+        [ctrl autorelease];
     }
     
     return ctrl;
@@ -276,7 +276,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (void)registerValue:(id)aValue forKeyPath:(NSString *)keyPath;
 {
-	NSLog(@"saveAs: %@",keyPath);
     [[NSUserDefaultsController sharedUserDefaultsController] setValue:aValue forKeyPath:keyPath];
 }
 
@@ -291,7 +290,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     for(NSString *name in controlNames)
     {
         NSString *keyPath = [self keyPathForKey:name withValueType:aType];
-        
         if([[udc valueForKeyPath:keyPath] isEqual:theEvent])
         {
             [self registerValue:nil forKeyPath:keyPath];

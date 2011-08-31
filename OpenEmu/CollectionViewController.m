@@ -269,7 +269,14 @@
 }
 
 - (void)gridView:(IKSGridView *)aView setObject:(id)obj forKey:(NSString*)key atIndex:(NSUInteger)index{
-	NSLog(@"set; %ld | %@ | %@", index, obj, key);
+    NSLog(@"gridView:setObject:forKey:atIndex: called on main thread: %@", [NSThread isMainThread]?@"Yes":@"No");
+    id <CoverGridDataSourceItem> object = [[gamesController arrangedObjects] objectAtIndex:index];
+    if([key isEqualTo:@"rating"]){
+        [object setGridRating:[obj unsignedIntegerValue]];
+    } else if([key isEqualTo:@"title"]){
+        [object setGridTitle:obj];
+    }
+    
 }
 - (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString *)key atIndex:(NSUInteger)index{
 	if(index==-1){

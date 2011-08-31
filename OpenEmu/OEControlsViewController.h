@@ -42,10 +42,13 @@
 
 - (NSString *)selectedKey;
 - (NSUInteger)selectedPlayer;
+
 - (void)selectPlayer:(NSUInteger)_player;
 - (NSString *)keyPathForKey:(NSString *)aKey;
 
-- (void)setSelectedBindingType:(NSInteger)aTag;
+- (void)selectBindingType:(NSInteger)newType;
+- (NSInteger)selectedBindingType;
+
 - (BOOL)isKeyboardEventSelected;
 - (void)registerEvent:(id)anEvent;
 
@@ -54,6 +57,7 @@
 
 - (void)resetBindingsWithKeys:(NSArray *)keys;
 
+- (NSImage*)controllerImage;
 @end
 
 @protocol OEControlsViewControllerDelegate <NSObject>

@@ -27,6 +27,6 @@
 	<key>NSPrincipalClass</key>
 	<string>OENESSystemController</string>
 	<key>OESystemPluginName</key>
-	<string>NES</string>
+	<string>Nintendo (NES)</string>
 </dict>
 </plist>

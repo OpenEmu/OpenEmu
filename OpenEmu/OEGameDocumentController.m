@@ -33,7 +33,6 @@
 #import <Quartz/Quartz.h>
 //#import "ArchiveReader.h"
 #import <XADMaster/XADArchive.h>
-#import "OEGamePreferenceController.h"
 #import "OESaveStateController.h"
 #import "NSAttributedString+Hyperlink.h"
 #import "OECorePlugin.h"
@@ -147,31 +146,12 @@
 {
     if((self = [super init]))
     {
-        versionMigrator = [OEVersionMigrationController defaultMigrationController];
-        [versionMigrator addMigratorTarget:self selector:@selector(migrateSaveStatesWithError:) forVersion:@"1.0.0b5"];
-        [versionMigrator addMigratorTarget:self selector:@selector(removeFrameworkFromLibraryWithError:) forVersion:@"1.0.0b5"];
-        
-		server = [[OENetServer alloc] init];
-		[server setDelegate:self];
-		
-		NSError *error = nil;
-		if(server == nil || ![server start:&error])
-        {
-			NSLog(@"Failed creating server: %@", error);
-            //[self _showAlert:@"Failed creating server"];
-		}
-		
-		//Start advertising to clients, passing nil for the name to tell Bonjour to pick use default name
-		if(![server enableBonjourWithDomain:@"local" applicationProtocol:[OENetServer bonjourTypeFromIdentifier:@"openemu"] name:nil])
-        {
-			NSLog(@"No advertisment");
-            //[self _showAlert:@"Failed advertising server"];
-		}
-		
+       		/*
+        NSLog(@"Init OEGameDocumentController");
         [self setGameLoaded:NO];
         
         [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
-        /*
+        *
          // set our initial value for our filters dictionary
          [self setFilterDictionary:[NSMutableDictionary new]];
          
@@ -207,7 +187,7 @@
          }
          
          NSLog(@"found filters: %@", filterDictionary);
-         */
+         *
         [self updateValidExtensions];
         
         [self setupHIDSupport];
@@ -216,6 +196,7 @@
         aboutCreditsPath = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
         [aboutCreditsPath retain];
         [self didChangeValueForKey:@"aboutCreditsPath"];
+        */
     }
     return self;
 }
@@ -240,17 +221,6 @@
     [versionMigrator release], versionMigrator = nil;
     
     [super dealloc];
-}
-
-- (IBAction)openPreferenceWindow:(id)sender
-{
-    if(preferences == nil)
-        preferences = [[OEGamePreferenceController alloc] init];
-    
-    if([[self currentDocument] isFullScreen])
-        [[self currentDocument] toggleFullScreen:sender];
-    
-    [preferences showWindow:sender];
 }
 
 - (IBAction)openAboutWindow:(id)sender

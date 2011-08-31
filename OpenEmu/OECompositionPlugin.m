@@ -81,9 +81,11 @@ static NSMutableDictionary *plugins = nil;
         {
             NSString *subpath = [path stringByAppendingPathComponent:openEmuSearchPath];
             NSArray  *subpaths = [manager contentsOfDirectoryAtPath:subpath error:nil];
-            for(NSString *bundlePath in subpaths)
-                if([extension isEqualToString:[bundlePath pathExtension]])
+            for(NSString *bundlePath in subpaths){
+                if([extension isEqualToString:[bundlePath pathExtension]]){
                     [self OE_addPluginWithPath:[subpath stringByAppendingPathComponent:bundlePath]];
+				}
+			}
         }
         
         paths = [[NSBundle mainBundle] pathsForResourcesOfType:extension inDirectory:folder];
@@ -108,7 +110,7 @@ static NSMutableDictionary *plugins = nil;
     if((self = [super init]))
     {
         if(![[aPath pathExtension] isEqualToString:@"qtz"])
-        {
+        {	
             [self release];
             return nil;
         }

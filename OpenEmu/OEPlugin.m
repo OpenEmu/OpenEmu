@@ -118,8 +118,10 @@ static NSMutableSet        *allPluginClasses = nil;
 
 - (id)init
 {
-    [self release];
-    return nil;
+	self = [super init];
+	// TODO: CHECK IF THIS WAS NEEDED ANYWHERE
+  //  [self release];
+    return self;
 }
 
 // When an instance is assigned as objectValue to a NSCell, the NSCell creates a copy.

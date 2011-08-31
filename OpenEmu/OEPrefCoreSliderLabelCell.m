@@ -26,15 +26,13 @@
 	
 	self.textAttributes = attributes;
 	
-	[self setStringValue:[self stringValue]];
-	
-	
-	
 	NSRect frame = [[self controlView] frame];
 	
 	frame.size.height += 5;
 	frame.origin.y -= 5;
-	[[self controlView] setFrame:frame];
+	[[self controlView] setFrame:frame];	
+	
+	[super setupAttributes];
 }
 
 @end

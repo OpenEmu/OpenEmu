@@ -22,6 +22,11 @@
 - (void)dealloc{
     [super dealloc];
 }
+
+- (void)awakeFromNib{
+	NSString* path = [[NSUserDefaults standardUserDefaults] objectForKey:UDDatabasePathKey];
+	[pathField setStringValue:[path stringByAbbreviatingWithTildeInPath]];
+}
 #pragma mark ViewController Overrides
 - (NSString*)nibName{
 	return @"OEPrefLibraryController";
@@ -37,7 +42,17 @@
 }
 
 - (NSSize)viewSize{
-	return NSMakeSize(423, 480);
+	// TODO: decide how to implement Available Libraries
+	return NSMakeSize(423, 480-177);
+}
+#pragma mark -
+#pragma mark UI Actions
+- (IBAction)resetLibraryFolder:(id)sender{
+	
+}
+
+- (IBAction)changeLibraryFolder:(id)sender{
+
 }
 
 @end
