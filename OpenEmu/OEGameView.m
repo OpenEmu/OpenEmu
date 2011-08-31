@@ -109,6 +109,9 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 {
     return YES;
 }
+- (BOOL)becomeFirstResponder{
+	return YES;
+}
 
 - (id<OEGameCoreHelper>)rootProxy                { return [gameLayer rootProxy];   }
 - (void)setRootProxy:(id<OEGameCoreHelper>)value { [gameLayer setRootProxy:value]; }

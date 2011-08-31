@@ -318,7 +318,7 @@
 		53439C4213B93920005C0CC8 /* track_vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BF013B93920005C0CC8 /* track_vertical.png */; };
 		53439C4313B93920005C0CC8 /* track_vertical_spacer.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BF113B93920005C0CC8 /* track_vertical_spacer.png */; };
 		53439C4513B93A89005C0CC8 /* DefaultSystems.plist in Resources */ = {isa = PBXBuildFile; fileRef = 53439C4413B93A89005C0CC8 /* DefaultSystems.plist */; };
-		53439CB913B9503D005C0CC8 /* OpenEmuDatabaseTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 53439CB713B9503D005C0CC8 /* OpenEmuDatabaseTest.xcdatamodeld */; };
+		53439CB913B9503D005C0CC8 /* OEDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 53439CB713B9503D005C0CC8 /* OEDatabase.xcdatamodeld */; };
 		5380E82213B9595800E76DEF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		5380E82413B9596500E76DEF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5380E82313B9596500E76DEF /* IOKit.framework */; };
 		5380E82E13B95C5C00E76DEF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -1146,7 +1146,7 @@
 		53439BF013B93920005C0CC8 /* track_vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = track_vertical.png; sourceTree = "<group>"; };
 		53439BF113B93920005C0CC8 /* track_vertical_spacer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = track_vertical_spacer.png; sourceTree = "<group>"; };
 		53439C4413B93A89005C0CC8 /* DefaultSystems.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultSystems.plist; sourceTree = "<group>"; };
-		53439CB813B9503D005C0CC8 /* OpenEmuDatabaseTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OpenEmuDatabaseTest.xcdatamodel; sourceTree = "<group>"; };
+		53439CB813B9503D005C0CC8 /* OEDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OEDatabase.xcdatamodel; sourceTree = "<group>"; };
 		5380E82313B9596500E76DEF /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		5380E83013B95C7C00E76DEF /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
@@ -1823,7 +1823,7 @@
 			isa = PBXGroup;
 			children = (
 				83FA054F13B9DFC20055A520 /* Frameworks */,
-				53439CB713B9503D005C0CC8 /* OpenEmuDatabaseTest.xcdatamodeld */,
+				53439CB713B9503D005C0CC8 /* OEDatabase.xcdatamodeld */,
 				1BEF34741168F8640090F72B /* PLists */,
 				1BEF34731168F8350090F72B /* Icons and Graphics */,
 				53439B9D13B93920005C0CC8 /* Interface Graphics */,
@@ -3659,7 +3659,7 @@
 				53439B9913B937FD005C0CC8 /* NSColor+IKSAdditions.m in Sources */,
 				53439B9C13B9380D005C0CC8 /* DelayedBlockExecution.m in Sources */,
 				C6289C32135B215B00EEE97C /* OESystemPlugin.m in Sources */,
-				53439CB913B9503D005C0CC8 /* OpenEmuDatabaseTest.xcdatamodeld in Sources */,
+				53439CB913B9503D005C0CC8 /* OEDatabase.xcdatamodeld in Sources */,
 				8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */,
 				83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */,
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
@@ -4741,13 +4741,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		53439CB713B9503D005C0CC8 /* OpenEmuDatabaseTest.xcdatamodeld */ = {
+		53439CB713B9503D005C0CC8 /* OEDatabase.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				53439CB813B9503D005C0CC8 /* OpenEmuDatabaseTest.xcdatamodel */,
+				53439CB813B9503D005C0CC8 /* OEDatabase.xcdatamodel */,
 			);
-			currentVersion = 53439CB813B9503D005C0CC8 /* OpenEmuDatabaseTest.xcdatamodel */;
-			path = OpenEmuDatabaseTest.xcdatamodeld;
+			currentVersion = 53439CB813B9503D005C0CC8 /* OEDatabase.xcdatamodel */;
+			path = OEDatabase.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -46,7 +46,7 @@
 	
 	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
 	NSString* selectedFilterName = [sud objectForKey:UDVideoFilterKey];
-	if([filterSelection itemWithTitle:selectedFilterName]){
+	if(selectedFilterName && [filterSelection itemWithTitle:selectedFilterName]){
 		[filterSelection selectItemWithTitle:selectedFilterName];
 	} else {
 		[filterSelection selectItemAtIndex:0];

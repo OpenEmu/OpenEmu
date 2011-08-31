@@ -17,7 +17,7 @@
 
 #import "ArchiveVG.h"
 
-#define OEDatabaseFileName @"OpenEmuDatabaseTest.storedata"
+#define OEDatabaseFileName @"Database.storedata"
 
 #define UDDatabasePathKey @"databasePath"
 #define UDDefaultDatabasePathKey @"defaultDatabasePath"
@@ -110,8 +110,10 @@
         return __managedObjectModel;
     }
     
-    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"OpenEmuDatabaseTest" withExtension:@"momd"];
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"OEDatabase" withExtension:@"momd"];
+	NSLog(@"%@", modelURL);
     __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
+	NSLog(@"%@", __managedObjectModel);
     return __managedObjectModel;
 }
 
@@ -913,7 +915,7 @@
 }
 - (BOOL)_chooseDatabase{
     NSString* title = @"Choose OpenEmu Library";
-    NSString* msg = [NSString stringWithFormat:@"OpenEmu need a library to continue. You may choose an existing OpenEmu library or create a new one"];
+    NSString* msg = [NSString stringWithFormat:@"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one"];
     
     NSString* chooseButton = @"Choose Library...";
     NSString* createButton = @"Create Library...";
@@ -933,7 +935,7 @@
 		    [openPanel setCanChooseDirectories:YES];
 		    [openPanel setTitle:@"Open OpenEmu Library"];
 		    result = [openPanel runModal];
-		    BOOL validPath = NO;
+		    BOOL validPath = YES;
 		    if(result == NSOKButton && (validPath=[self _isValidDatabase:[openPanel URL] error:&error]) ){
 			  if(__databaseURL) [__databaseURL release], __databaseURL=nil;
 			  __databaseURL = [[openPanel URL] copy];
@@ -945,10 +947,10 @@
 		case NSAlertOtherReturn:;	// createButton
 		    NSSavePanel* savePanel = [NSSavePanel savePanel];
 		    [savePanel setTitle:@"New OpenEmu Library"];
-		    [savePanel setNameFieldStringValue:@"OpenEmu DB"];
+		    [savePanel setNameFieldStringValue:@"OpenEmu Library"];
 		    result = [savePanel runModal];
 		    
-		    if(result == NSOKButton){
+		    if(result == NSFileHandlingPanelOKButton){
 			  BOOL dbCreated = [self _createDatabaseAtURL:[savePanel URL] error:&error];
 			  if(!dbCreated){
 				[NSApp presentError:error];
