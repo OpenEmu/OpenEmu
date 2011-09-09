@@ -20,16 +20,16 @@
 			name = Distribution;
 			productName = Distribution;
 		};
-		82D8155D0F1D878700EF8CF5 /* Build & Install */ = {
+		82D8155D0F1D878700EF8CF5 /* Build & Install CrabEmu */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 82D815710F1D87B000EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 82D815710F1D87B000EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install CrabEmu" */;
 			buildPhases = (
 				82D8155C0F1D878700EF8CF5 /* ShellScript */,
 			);
 			dependencies = (
 				82D815610F1D879200EF8CF5 /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install CrabEmu";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -70,6 +70,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 3887A7F61024D1F9000FC4CF;
 			remoteInfo = OESaveStateQLPlugin;
+		};
+		8264151613EDB5B700591582 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
 		};
 		82CAFB640FEDA62A00CCDC7E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -478,6 +485,7 @@
 				C68A395B1364B67E006CEB34 /* SuperNES.oesystemplugin */,
 				C6B3E68D1365255700D34947 /* GameBoy.oesystemplugin */,
 				C6B3E68F1365255700D34947 /* Genesis.oesystemplugin */,
+				8264151713EDB5B700591582 /* GameBoy Advance.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -532,7 +540,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* CrabEmu */,
-				82D8155D0F1D878700EF8CF5 /* Build & Install */,
+				82D8155D0F1D878700EF8CF5 /* Build & Install CrabEmu */,
 				82CAFB610FEDA62500CCDC7E /* Distribution */,
 			);
 		};
@@ -544,6 +552,13 @@
 			fileType = wrapper.cfbundle;
 			path = OESaveStateQLPlugin.qlgenerator;
 			remoteRef = 3746BCD61029454F007C78A6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8264151713EDB5B700591582 /* GameBoy Advance.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "GameBoy Advance.oesystemplugin";
+			remoteRef = 8264151613EDB5B700591582 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A2569116F07070003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
@@ -664,7 +679,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"/Library/Application Support/OpenEmu/Cores\"\nrm -rf \"/Library/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"/Library/Application Support/OpenEmu/Cores/\"\n";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"{,.dSYM}\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -869,7 +884,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82D815710F1D87B000EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		82D815710F1D87B000EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install CrabEmu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82D8155E0F1D878800EF8CF5 /* Debug */,

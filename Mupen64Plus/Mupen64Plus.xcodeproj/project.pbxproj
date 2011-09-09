@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		3D2091111183B8E900BEAA42 /* Build & Install */ = {
+		3D2091111183B8E900BEAA42 /* Build & Install Mupen64Plus */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 3D20911A1183B91A00BEAA42 /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 3D20911A1183B91A00BEAA42 /* Build configuration list for PBXAggregateTarget "Build & Install Mupen64Plus" */;
 			buildPhases = (
 				3D2091101183B8E900BEAA42 /* ShellScript */,
 			);
 			dependencies = (
 				3D2091151183B8F000BEAA42 /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install Mupen64Plus";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -1066,7 +1066,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* Mupen64Plus */,
-				3D2091111183B8E900BEAA42 /* Build & Install */,
+				3D2091111183B8E900BEAA42 /* Build & Install Mupen64Plus */,
 			);
 		};
 /* End PBXProject section */
@@ -1195,7 +1195,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"/Library/Application Support/OpenEmu/Cores\"\nrm -rf \"/Library/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"/Library/Application Support/OpenEmu/Cores/\"";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"{,.dSYM}\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1441,7 +1441,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3D20911A1183B91A00BEAA42 /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		3D20911A1183B91A00BEAA42 /* Build configuration list for PBXAggregateTarget "Build & Install Mupen64Plus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3D2091121183B8E900BEAA42 /* Debug */,

@@ -636,6 +636,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0410;
 			};
 			buildConfigurationList = 1E07AE3F10373EBC00B9EE89 /* Build configuration list for PBXProject "OpenEmuBuilder" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1005,7 +1006,6 @@
 		1E07AE4710373ECF00B9EE89 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = All;
 			};
 			name = Release;
@@ -1013,7 +1013,6 @@
 		1E4F56E610DE9F8100381953 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build Framework";
 			};
 			name = Release;
@@ -1021,7 +1020,6 @@
 		1E4F56F710DE9FC200381953 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build SNES9x";
 			};
 			name = Release;
@@ -1029,7 +1027,6 @@
 		1E4F56FD10DE9FEB00381953 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build GenesisPlus";
 			};
 			name = Release;
@@ -1037,7 +1034,6 @@
 		1E4F570010DE9FF200381953 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build Nestopia";
 			};
 			name = Release;
@@ -1045,7 +1041,6 @@
 		1E4F570310DE9FFA00381953 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build VisualBoyAdvance";
 			};
 			name = Release;
@@ -1053,7 +1048,6 @@
 		1E4F570610DEA00C00381953 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build OpenEmu App";
 			};
 			name = Release;
@@ -1061,7 +1055,6 @@
 		1E4F577810DEA13200381953 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build BSNES";
 			};
 			name = Release;
@@ -1069,7 +1062,6 @@
 		1E4F577F10DEA13F00381953 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build CrabEmu";
 			};
 			name = Release;
@@ -1077,7 +1069,6 @@
 		1E4F578810DEA15400381953 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build Gambatte";
 			};
 			name = Release;
@@ -1085,7 +1076,6 @@
 		1E4F578F10DEA15E00381953 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build Mednafen";
 			};
 			name = Release;
@@ -1093,7 +1083,6 @@
 		1E4F579610DEA16C00381953 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build NeoPop";
 			};
 			name = Release;

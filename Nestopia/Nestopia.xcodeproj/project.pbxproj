@@ -20,16 +20,16 @@
 			name = Distribution;
 			productName = Distribution;
 		};
-		82D814E50F1D81BE00EF8CF5 /* Build & Install */ = {
+		82D814E50F1D81BE00EF8CF5 /* Build & Install Nestopia */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 82D814EC0F1D81F100EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 82D814EC0F1D81F100EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install Nestopia" */;
 			buildPhases = (
 				82D814E40F1D81BE00EF8CF5 /* ShellScript */,
 			);
 			dependencies = (
 				82D814EB0F1D81D300EF8CF5 /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install Nestopia";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -382,6 +382,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 82444BA10F51256C007C171B;
 			remoteInfo = OpenEmuBase;
+		};
+		8264167913EDC4A800591582 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
 		};
 		82C9CA650F0846DA0071460B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1261,6 +1268,7 @@
 				C6480FE21364A4BB0094FA33 /* SuperNES.oesystemplugin */,
 				C6B3E6A3136525EB00D34947 /* GameBoy.oesystemplugin */,
 				C6B3E6A5136525EB00D34947 /* Genesis.oesystemplugin */,
+				8264167A13EDC4A800591582 /* GameBoy Advance.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2030,7 +2038,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* Nestopia */,
-				82D814E50F1D81BE00EF8CF5 /* Build & Install */,
+				82D814E50F1D81BE00EF8CF5 /* Build & Install Nestopia */,
 				82C9CA620F0846D40071460B /* Distribution */,
 			);
 		};
@@ -2063,6 +2071,13 @@
 			fileType = wrapper.framework;
 			path = OpenEmuBase.framework;
 			remoteRef = 82444BD00F512685007C171B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8264167A13EDC4A800591582 /* GameBoy Advance.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "GameBoy Advance.oesystemplugin";
+			remoteRef = 8264167913EDC4A800591582 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A2602116F08760003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
@@ -2174,7 +2189,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"/Library/Application Support/OpenEmu/Cores\"\nrm -rf \"/Library/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"/Library/Application Support/OpenEmu/Cores/\"\n";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"{,.dSYM}\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2654,7 +2669,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82D814EC0F1D81F100EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		82D814EC0F1D81F100EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install Nestopia" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82D814E60F1D81BF00EF8CF5 /* Debug */,

@@ -5,6 +5,9 @@
       location = "group:OpenEmu/OpenEmu.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:NeoPop/NeoPop.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:CrabEmu/CrabEmu.xcodeproj">
    </FileRef>
    <FileRef
@@ -33,8 +36,5 @@
    </FileRef>
    <FileRef
       location = "group:VisualBoyAdvance/VisualBoyAdvance.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "container:OpenEmuBuilder/OpenEmuBuilder.xcodeproj">
    </FileRef>
 </Workspace>
