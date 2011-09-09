@@ -28,6 +28,7 @@
 #import "SNESGameEmu.h"
 #import <OERingBuffer.h>
 #import "OESNESSystemResponderClient.h"
+#import <OpenGL/gl.h>
 
 //#include <libreader/libreader.hpp>
 //#include <libreader/filereader.hpp>

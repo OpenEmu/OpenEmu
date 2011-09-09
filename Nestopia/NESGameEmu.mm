@@ -43,6 +43,7 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#import <OpenGL/gl.h>
 #import "OENESSystemResponderClient.h"
 
 #define SAMPLERATE 48000
