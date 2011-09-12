@@ -252,7 +252,7 @@
         preferences = [[OEGamePreferenceController alloc] init];
     
     if([[self currentDocument] isFullScreen])
-        [[self currentDocument] toggleFullScreen:sender];
+        [[self currentDocument] toggleFullScreenMode:sender];
     
     [preferences showWindow:sender];
 }
@@ -269,7 +269,7 @@
         saveStateManager = [[OESaveStateController alloc] init];
     
     if([[self currentDocument] isFullScreen])
-        [[self currentDocument] toggleFullScreen:sender];
+        [[self currentDocument] toggleFullScreenMode:sender];
     
     [saveStateManager showWindow:sender];
 }
@@ -280,7 +280,7 @@
         coreInstaller = [[OECoreInstaller alloc] init];
     
     if([[self currentDocument] isFullScreen])
-        [[self currentDocument] toggleFullScreen:sender];
+        [[self currentDocument] toggleFullScreenMode:sender];
     
     [coreInstaller showWindow:sender];
 }

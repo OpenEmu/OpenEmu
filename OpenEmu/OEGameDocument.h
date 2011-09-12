@@ -76,7 +76,7 @@
 - (IBAction)resetGame:(id)sender;
 - (IBAction)saveState:(id)sender;
 - (IBAction)scrambleRam:(id)sender;
-- (IBAction)toggleFullScreen:(id)sender;
+- (IBAction)toggleFullScreenMode:(id)sender;
 - (IBAction)playPauseGame:(id)sender;
 
 - (BOOL)backgroundPauses;

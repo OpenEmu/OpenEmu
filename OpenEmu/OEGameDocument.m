@@ -111,7 +111,7 @@
     [gameWindow makeKeyAndOrderFront:self];
     
     if([self defaultsToFullScreenMode])
-        [self toggleFullScreen:self];
+        [self toggleFullScreenMode:self];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -284,7 +284,19 @@
     return [view isInFullScreenMode];
 }
 
-- (IBAction)toggleFullScreen:(id)sender
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+    NSLog(@"Validate menu item: %@ %@", menuItem, NSStringFromSelector([menuItem action]));
+    return YES;
+}
+
+- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)anItem
+{
+    NSLog(@"Validate action with item: %@ %@", anItem, NSStringFromSelector([anItem action]));
+    return YES;
+}
+
+- (IBAction)toggleFullScreenMode:(id)sender
 {
     [self setPauseEmulation:YES];
     if(![view isInFullScreenMode])
@@ -405,7 +417,7 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    if([view isInFullScreenMode]) [self toggleFullScreen:self];
+    if([view isInFullScreenMode]) [self toggleFullScreenMode:self];
 
     [self terminateEmulation];
     
