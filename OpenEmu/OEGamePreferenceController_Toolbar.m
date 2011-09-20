@@ -282,7 +282,7 @@ static NSString *OEPluginsToolbarItemIdentifier    = @"OEPluginsToolbarItemIdent
         self.availablePluginsPredicate = [NSPredicate predicateWithFormat:@"%@ IN availablePreferenceViewControllerKeys && class == %@", pluginViewName, pluginClass];
         //[pluginDrawer open:self];
         if(currentPlugin == nil) ret = [[NSViewController alloc] initWithNibName:@"SelectPluginPreferences" bundle:[NSBundle mainBundle]];
-        else ret = [[currentPlugin controller] preferenceViewControllerForKey:pluginViewName];
+        else ret = [[[currentPlugin controller] preferenceViewControllerForKey:pluginViewName] retain];
     }
     else if(pluginClass != Nil)
         self.availablePluginsPredicate = [NSPredicate predicateWithFormat:@"class == %@", pluginClass];
