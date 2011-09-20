@@ -90,8 +90,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
-    [QCPlugIn loadPlugInAtPath:pluginString];
+//    NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
+//    [QCPlugIn loadPlugInAtPath:pluginString];
     
     // now load QC plugins/compositions
     [self updateFilterNames];
