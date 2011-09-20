@@ -140,17 +140,8 @@
 		1BEF2CA011684E7E0090F72B /* OEGameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* OEGameAudio.m */; };
 		1BEF2CC511684EA70090F72B /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 820376250F3974FD00EC2F97 /* AudioUnit.framework */; };
 		1BEF2CC611684EA70090F72B /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 829779350E743F3A00631240 /* AudioToolbox.framework */; };
-		1BEF2D07116854A30090F72B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 828E65D20E8467A400B1860B /* Cocoa.framework */; };
-		1BEF2D08116854A30090F72B /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEF2AC311682A9D0090F72B /* IOSurface.framework */; };
-		1BEF2D11116854C30090F72B /* OpenEmuDebugHelperAppApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2CF4116854180090F72B /* OpenEmuDebugHelperAppApp.m */; };
 		1BEF2D15116855690090F72B /* OETaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* OETaskWrapper.m */; };
-		1BEF2D16116856D50090F72B /* OETaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* OETaskWrapper.m */; };
-		1BEF2D191168584D0090F72B /* OpenEmuDebugHelperAppApp.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2D17116858370090F72B /* OpenEmuDebugHelperAppApp.xib */; };
-		1BEF2D6111685C880090F72B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; };
-		1BEF2DA511685D570090F72B /* OpenEmuHelperApp in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */; };
-		1BEF2DFD1168600F0090F72B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
 		1BEF2DFE116860210090F72B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
-		1BEF34711168F8080090F72B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8283876D0E6C54E100A96E2C /* OpenGL.framework */; };
 		1BFC26D0116C1CA300B95689 /* OpenEmuHelperApp in Resources */ = {isa = PBXBuildFile; fileRef = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */; };
 		1BFC26D9116C1CB800B95689 /* IOSurface.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1BEF2AC311682A9D0090F72B /* IOSurface.framework */; };
 		1BFC2725116C1F6700B95689 /* OETaskWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2D14116855690090F72B /* OETaskWrapper.m */; };
@@ -347,13 +338,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
-		};
-		1BEF2D031168546C0090F72B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1BEF2A9311682A530090F72B;
-			remoteInfo = OpenEmuHelperApp;
 		};
 		1BFC26CE116C1C9900B95689 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -565,13 +549,9 @@
 		1BEF2A9411682A530090F72B /* OpenEmuHelperApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenEmuHelperApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEF2AC311682A9D0090F72B /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
 		1BEF2C4711684AE90090F72B /* OEGameCoreHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCoreHelper.h; sourceTree = "<group>"; };
-		1BEF2CF3116854180090F72B /* OpenEmuDebugHelperAppApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuDebugHelperAppApp.h; sourceTree = "<group>"; };
-		1BEF2CF4116854180090F72B /* OpenEmuDebugHelperAppApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuDebugHelperAppApp.m; sourceTree = "<group>"; };
-		1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmuDebugHelperAppApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEF2CFF116854650090F72B /* OpenEmuDebugHelperAppApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuDebugHelperAppApp-Info.plist"; sourceTree = "<group>"; };
 		1BEF2D13116855690090F72B /* OETaskWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETaskWrapper.h; sourceTree = "<group>"; };
 		1BEF2D14116855690090F72B /* OETaskWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETaskWrapper.m; sourceTree = "<group>"; };
-		1BEF2D17116858370090F72B /* OpenEmuDebugHelperAppApp.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenEmuDebugHelperAppApp.xib; sourceTree = "<group>"; };
 		1DDD582B0DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1E2F3DB910DEAB4C0019AA84 /* OEVersionMigrationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVersionMigrationController.h; sourceTree = "<group>"; };
 		1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVersionMigrationController.m; sourceTree = "<group>"; };
@@ -847,16 +827,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1BEF2CFB116854650090F72B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1BEF34711168F8080090F72B /* OpenGL.framework in Frameworks */,
-				1BEF2D07116854A30090F72B /* Cocoa.framework in Frameworks */,
-				1BEF2D08116854A30090F72B /* IOSurface.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3887A7F41024D1F9000FC4CF /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1006,7 +976,6 @@
 				82444BA10F51256C007C171B /* OpenEmuBase.framework */,
 				3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */,
 				1BEF2A9411682A530090F72B /* OpenEmuHelperApp */,
-				1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */,
 				C6711807136367240034379A /* OpenEmuSystem.framework */,
 				C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */,
 				C64BB08D136478E600C1AB23 /* NES.oesystemplugin */,
@@ -1085,17 +1054,14 @@
 			name = "Distributed Object Protocol";
 			sourceTree = "<group>";
 		};
-		1BEF2A621168265D0090F72B /* Helper App (IOSurface helper & tester) */ = {
+		1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */ = {
 			isa = PBXGroup;
 			children = (
 				C6AC9D371190C5E60083DDFD /* OpenEmuHelperAppMain.m */,
 				1BEF2A7311682A330090F72B /* OpenEmuHelperApp.h */,
 				1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */,
-				1BEF2CF3116854180090F72B /* OpenEmuDebugHelperAppApp.h */,
-				1BEF2CF4116854180090F72B /* OpenEmuDebugHelperAppApp.m */,
-				1BEF2D17116858370090F72B /* OpenEmuDebugHelperAppApp.xib */,
 			);
-			name = "Helper App (IOSurface helper & tester)";
+			name = "Helper App (IOSurface helper)";
 			sourceTree = "<group>";
 		};
 		1BEF34721168F8210090F72B /* XIBs */ = {
@@ -1209,7 +1175,7 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				1BEF2A621168265D0090F72B /* Helper App (IOSurface helper & tester) */,
+				1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */,
 				1BEF2A61116826510090F72B /* Distributed Object Protocol */,
 				3887A8011024D29D000FC4CF /* OpenEmuQLGenerator */,
 				C6289C33135B276B00EEE97C /* System Input Core */,
@@ -1772,24 +1738,6 @@
 			productReference = 1BEF2A9411682A530090F72B /* OpenEmuHelperApp */;
 			productType = "com.apple.product-type.tool";
 		};
-		1BEF2CFC116854650090F72B /* OpenEmuDebugHelperAppApp */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1BEF2D02116854660090F72B /* Build configuration list for PBXNativeTarget "OpenEmuDebugHelperAppApp" */;
-			buildPhases = (
-				1BEF2CF9116854650090F72B /* Resources */,
-				1BEF2CFA116854650090F72B /* Sources */,
-				1BEF2CFB116854650090F72B /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				1BEF2D041168546C0090F72B /* PBXTargetDependency */,
-			);
-			name = OpenEmuDebugHelperAppApp;
-			productName = OpenEmuDebugHelperAppApp;
-			productReference = 1BEF2CFD116854650090F72B /* OpenEmuDebugHelperAppApp.app */;
-			productType = "com.apple.product-type.application";
-		};
 		3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 3887A7FB1024D1FA000FC4CF /* Build configuration list for PBXNativeTarget "OESaveStateQLPlugin" */;
@@ -2003,7 +1951,6 @@
 			targets = (
 				8D15AC270486D014006FF6A4 /* OpenEmu */,
 				1BEF2A9311682A530090F72B /* OpenEmuHelperApp */,
-				1BEF2CFC116854650090F72B /* OpenEmuDebugHelperAppApp */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				82444BA00F51256C007C171B /* OpenEmuBase */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
@@ -2026,15 +1973,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		1BEF2CF9116854650090F72B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1BEF2DA511685D570090F72B /* OpenEmuHelperApp in Resources */,
-				1BEF2D191168584D0090F72B /* OpenEmuDebugHelperAppApp.xib in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3887A7F21024D1F9000FC4CF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2309,17 +2247,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		1BEF2CFA116854650090F72B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1BEF2D6111685C880090F72B /* main.m in Sources */,
-				1BEF2D16116856D50090F72B /* OETaskWrapper.m in Sources */,
-				1BEF2D11116854C30090F72B /* OpenEmuDebugHelperAppApp.m in Sources */,
-				1BEF2DFD1168600F0090F72B /* NSString+UUID.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		3887A7F31024D1F9000FC4CF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2476,11 +2403,6 @@
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
 			targetProxy = 1BEF2C7411684D9E0090F72B /* PBXContainerItemProxy */;
-		};
-		1BEF2D041168546C0090F72B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
-			targetProxy = 1BEF2D031168546C0090F72B /* PBXContainerItemProxy */;
 		};
 		1BFC26CF116C1C9900B95689 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2697,28 +2619,6 @@
 				INSTALL_PATH = /usr/local/bin;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/../Frameworks";
 				PRODUCT_NAME = OpenEmuHelperApp;
-			};
-			name = Release;
-		};
-		1BEF2D00116854660090F72B /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "OpenEmuDebugHelperAppApp-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = OpenEmuDebugHelperAppApp;
-			};
-			name = Debug;
-		};
-		1BEF2D01116854660090F72B /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				INFOPLIST_FILE = "OpenEmuDebugHelperAppApp-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				PRODUCT_NAME = OpenEmuDebugHelperAppApp;
 			};
 			name = Release;
 		};
@@ -3261,15 +3161,6 @@
 			buildConfigurations = (
 				1BEF2A9611682A530090F72B /* Debug */,
 				1BEF2A9711682A530090F72B /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1BEF2D02116854660090F72B /* Build configuration list for PBXNativeTarget "OpenEmuDebugHelperAppApp" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1BEF2D00116854660090F72B /* Debug */,
-				1BEF2D01116854660090F72B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
