@@ -131,8 +131,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (id)newGameSystemResponder;
 {
-    OESystemResponder *responder = [[[self responderClass] alloc] initWithController:self];
-    
+	OESystemResponder *responder = [[[self responderClass] alloc] initWithController:self];
     [self registerGameSystemResponder:responder];
     
     return responder;

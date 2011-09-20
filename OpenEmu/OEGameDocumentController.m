@@ -68,7 +68,7 @@
 @synthesize filterDictionary;
 
 + (void)initialize
-{
+{/*
 	NSLog(@"initialize OEGameDocumentController: ");
     // This can get called many times, don't need to be blowing away the defaults
     NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
@@ -85,7 +85,7 @@
         [OEPlugin registerPluginClass:[OECorePlugin class]];
         [OEPlugin registerPluginClass:[OESystemPlugin class]];
         [OEPlugin registerPluginClass:[OECompositionPlugin class]];
-    }
+    }*/
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification

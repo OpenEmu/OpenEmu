@@ -15,7 +15,7 @@
 @class LibrarySplitView;
 
 @class FullscreenWindow;
-@class OEGameViewController;
+@class OENewGameDocument;
 #import "IKSGridView.h"
 #import "OEUIDrawingUtils.h"
 
@@ -23,7 +23,7 @@
 @interface LibraryController : NSWindowController <NSWindowDelegate, NSSplitViewDelegate> {
 @private
     LibraryDatabase* database;
-    OEGameViewController* gameViewController;
+    OENewGameDocument* gameDocument;
     
     IBOutlet LibrarySplitView	* mainSplitView;
     

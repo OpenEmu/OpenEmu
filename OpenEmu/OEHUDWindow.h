@@ -8,17 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface OEHUDWindow : NSWindow {
+@class OEHUDWindowThemeView;
+@class OEImageButton;
+@interface OEHUDWindow : NSWindow <NSWindowDelegate>{
 @private
-    NSView* childContentView;
-	NSButton *closeButton;
-
+	NSWindow				* _borderWindow;
 }
-
+- (id)initWithContentRect:(NSRect)frame;
 @end
 @interface OEHUDWindowThemeView : NSView {
-	BOOL isResizing;
-	NSPoint lastMouseLocation;
 }
 @end

@@ -209,7 +209,7 @@
 - (void)updateTrackingAreas{
 	NSTrackingArea* area = [[self trackingAreas] objectAtIndex:0];
 	[self removeTrackingArea:area];
-	area = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
+	area = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveAlways owner:self userInfo:nil];
 	[self addTrackingArea:area];
 	[area release];
 }
@@ -291,6 +291,10 @@
 }
 #pragma mark -
 #pragma mark View Config Overrides
+- (BOOL)acceptsFirstResponder{
+	return YES;
+}
+
 - (BOOL)isFlipped{
 	return YES;
 }

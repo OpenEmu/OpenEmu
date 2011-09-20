@@ -45,7 +45,6 @@
     NSTimer              *frameTimer;
     OEGameQTRecorder     *recorder;
     NSString             *emulatorName;
-    NSWindow             *gameWindow;
     OEGameView           *view;
     OESystemController   *gameSystemController;
     OESystemResponder    *gameSystemResponder;
@@ -61,6 +60,9 @@
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
 @property(readonly) BOOL isFullScreen;
 @property(readonly) NSString *emulatorName;
+
++ (id)newDocumentWithROM:(id)rom error:(NSError**)error;
++ (id)newDocumentWithRomAtURL:(NSURL*)url error:(NSError**)error;
 
 // new task stuff
 - (void)terminateEmulation;

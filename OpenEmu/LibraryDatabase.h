@@ -19,6 +19,9 @@
     NSManagedObjectContext *__managedObjectContext;
     
     NSURL* __databaseURL;
+	
+	
+	NSMutableDictionary* managedObjectContexts;
 }
 
 - (BOOL)save:(NSError**)error;
@@ -49,7 +52,7 @@
 
 #pragma mark -
 #pragma mark Database Game editing
-- (BOOL)isFileInDatabaseWithPath:(NSString*)path hash:(NSString*)hash error:(NSError**)error;
+- (BOOL)isFileInDatabaseWithPath:(NSString*)path error:(NSError**)error;
 - (void)addGamesFromPath:(NSString*)path toCollection:(NSManagedObject*)collection searchSubfolders:(BOOL)subfolderFlag;
 /*
 - (void)addRomsWithFiles:(NSArray*)files;

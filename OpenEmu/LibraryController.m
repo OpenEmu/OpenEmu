@@ -10,8 +10,6 @@
 #import "LibraryDatabase.h"
 #import "OEDBSmartCollection.h"
 
-#import "OEGameViewController.h"
-
 #import "SidebarController.h"
 #import "CollectionViewController.h"
 #import "LibrarySplitView.h"
@@ -20,13 +18,40 @@
 #import "OEBackgroundColorView.h"
 
 #import "OEGameView.h"
+
+#import "OEHUDGameWindow.h"
+#import "OEROMImporter.h"
+
+
+#import "OENewGameDocument.h"
+
+#import "OEPlugin.h"
+#import "OECorePlugin.h"
+#import "OESystemPlugin.h"
+#import "OECompositionPlugin.h"
 @interface LibraryController (Private)
 - (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
-- (void)_startROMWithURL:(NSURL*)url inSeperateWindow:(BOOL)windowFlag inFullscreen:(BOOL)fullscreenFlag;
-
+- (void)_launchGameDoc:(id)gameDoc;
 @end
 @implementation LibraryController
 + (void)initialize{
+    // This can get called many times, don't need to be blowing away the defaults
+    NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
+    NSDictionary *initialValues = [[[defaults initialValues] mutableCopy] autorelease];
+    if(initialValues == nil)
+        initialValues = [NSMutableDictionary dictionary];
+    
+    [initialValues setValue:@"Linear"                      forKey:@"filterName"];
+    [initialValues setValue:[NSNumber numberWithFloat:1.0] forKey:@"volume"];
+    [defaults setInitialValues:initialValues];
+    
+    if([LibraryController class] != self){
+        [OEPlugin registerPluginClass:[OECorePlugin class]];
+        [OEPlugin registerPluginClass:[OESystemPlugin class]];
+        [OEPlugin registerPluginClass:[OECompositionPlugin class]];
+    }
+	
+	
     // toolbar sidebar button
     NSImage* image = [NSImage imageNamed:@"toolbar_sidebar_button"];
     [image setName:@"toolbar_sidebar_button_close" forSubimageInRect:NSMakeRect(0, 23, 84, 23)];
@@ -34,7 +59,10 @@
 }
 
 - (void)dealloc{
-    [gameViewController release], gameViewController = nil;
+	if(gameDocument){
+		[gameDocument terminateEmulation];
+		[gameDocument release], gameDocument = nil;
+	}
     [database release], database = nil;
     
     [super dealloc];
@@ -112,7 +140,12 @@
     [mainSplitView adjustSubviews];
     
     [[self window] makeKeyAndOrderFront:self];
+	
+	
+	// OEROMImporter* importer = [[OEROMImporter alloc] initWithDatabase:self.database];
+	// [importer importROMsAtPath:@"~/Documents" inBackground:YES error:nil];
 }
+
 
 #pragma mark -
 #pragma mark Toolbar Actions
@@ -165,6 +198,7 @@
 #pragma mark -
 #pragma mark Menu Item Actions
 - (IBAction)toggleWindow:(id)sender{
+	// TODO: this needs some fixing
     if([(NSMenuItem*)sender state]){
 		[[self window] orderOut:self];
     } else {
@@ -176,12 +210,6 @@
 
 #pragma mark FileMenu Actions
 - (IBAction)filemenu_launchGame:(id)sender{
-    if(gameViewController){
-		[gameViewController terminateEmulation];
-		[[gameViewController view] removeFromSuperview];
-		[gameViewController release], gameViewController = nil;
-    }
-    
     NSOpenPanel* panel = [NSOpenPanel openPanel];
     [panel setCanChooseFiles:YES];
     [panel setCanChooseDirectories:NO];
@@ -190,11 +218,16 @@
     NSInteger result = [panel runModal];
     if(result != NSOKButton) return;
     
-    NSURL* fileURL = [panel URL];
-    
-    [self _startROMWithURL:fileURL inSeperateWindow:NO inFullscreen:NO];
+	NSURL* fileURL = [panel URL];
+	NSError* error = nil;
+	OENewGameDocument* gameDoc = [OENewGameDocument newDocumentWithRomAtURL:fileURL error:&error];
+	if(!gameDoc){
+		[NSApp presentError:error];		
+		return;
+	}
+	[self _launchGameDoc:gameDoc];
+	[gameDoc release];
 }
-
 
 - (IBAction)filemenu_newCollection:(id)sender{
     [self.database addNewCollection:nil];
@@ -237,17 +270,12 @@
 
 
 - (IBAction)controlsmenu_startGame:(id)sender{
-	if([[collectionViewController view] isHidden]){
-		return;				
-	}
-	
 	NSArray* selection = [collectionViewController selectedGames];
 	if(!selection) return;
 	
+	// TODO: if multiple games are selected we could just start them all... if we want to
 	OEDBGame* selectedGame = [selection lastObject];
 	if(selectedGame){
-		// TODO: determine if a game is running in main view
-		
 		NSSet* roms = [selectedGame valueForKey:@"roms"];
 		id romToStart = nil;
 		if([roms count] > 1){
@@ -255,13 +283,15 @@
 		} else {
 			romToStart = [roms anyObject];	
 		}
-		NSLog(@"%@", roms);
-		NSLog(@"%@", romToStart);
-		NSString* path = [romToStart valueForKey:@"path"];
-		if(!path) return;
-		
-		NSURL* url = [NSURL fileURLWithPath:path];
-		[self _startROMWithURL:url inSeperateWindow:NO inFullscreen:NO];
+
+		NSError* error = nil;
+		OENewGameDocument* gameDoc = [OENewGameDocument newDocumentWithROM:romToStart error:&error];
+		if(!gameDoc){
+			[NSApp presentError:error];
+			return;
+		}
+		[self _launchGameDoc:gameDoc];
+		[gameDoc release];
 	}
 }
 #pragma mark -
@@ -292,7 +322,6 @@
 - (void)windowWillExitFullScreen:(NSNotification *)notification{
 	[self _showFullscreen:NO animated:YES];
 }
-
 
 - (void)windowDidFailToExitFullScreen:(NSWindow *)window{
 	[self _showFullscreen:YES animated:NO];
@@ -363,40 +392,67 @@
 		
 		#endif
 	}
-	
-	
 }
 
-- (void)_startROMWithURL:(NSURL*)url inSeperateWindow:(BOOL)windowFlag inFullscreen:(BOOL)fullscreenFlag{
+- (void)_removeGameView{
+	[collectionViewController willShow];
+	[[collectionViewController view] setHidden:NO];
 	
-	// TODO: create seperate window if requested
-	// TODO: launch in fullscreen if requestet;
+	[sidebarController willShow];
+	[[sidebarController view] setHidden:NO];
+	[gridViewBtn setEnabled:YES];
+	[flowViewBtn setEnabled:YES];
+	[listViewBtn setEnabled:YES];
 	
-	gameViewController = [[OEGameViewController alloc] init];
-    
-	NSError* error = nil;
-    if(![gameViewController loadFromURL:url error:&error]){
-		[gameViewController release], gameViewController = nil;
-		[NSApp presentError:error];
-		return;
+	[editSmartCollectionMenuItem setEnabled:YES];
+	[sidebarBtn setEnabled:YES];
+	
+	if(gameDocument){
+		[gameDocument terminateEmulation];
+		[[gameDocument gameView] removeFromSuperview];
+		[gameDocument release], gameDocument = nil;
     }
-    
-    [sidebarBtn setEnabled:NO];
-    [sidebarController setEnabled:NO];
-    [collectionViewController willHide];
-    
-    NSView* gameDocView = [gameViewController view];
-    [[mainSplitView superview] addSubview:gameDocView];
-    
+}
+
+- (void)_showGameView{
+	[collectionViewController willHide];
+	[[collectionViewController view] setHidden:YES];
+	
+	[sidebarController willHide];
+	[[sidebarController view] setHidden:YES];
+	[gridViewBtn setEnabled:NO];
+	[flowViewBtn setEnabled:NO];
+	[listViewBtn setEnabled:NO];
+	
+	[editSmartCollectionMenuItem setEnabled:NO];
+	[sidebarBtn setEnabled:NO];
+	
+	NSView* gameView = [gameDocument gameView];
+	[[mainSplitView superview] addSubview:gameView];
+	
     NSRect frame = [[mainSplitView superview] bounds];
     frame.origin.y += 45; // Toolbar Height+1px black line;
     frame.size.height -= 45;
-    [gameDocView setFrame:frame];
-    [[self window] makeFirstResponder:[[gameDocView subviews] objectAtIndex:0]];
-
-
-
+    [gameView setFrame:frame];
+    [[self window] makeFirstResponder:gameView];
 }
+
+- (void)_launchGameDoc:(id)gameDoc{
+	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+	BOOL allowsPopout = [sud boolForKey:UDAllowPopoutKey];
+	BOOL forcePopout = YES;
+	
+	if (allowsPopout && (gameDocument || forcePopout)) {
+		NSRect rect = NSMakeRect(150, 150, 320, 240);
+		[gameDoc openWindow:rect];
+	} else {
+		[self _removeGameView];
+		
+		gameDocument = [gameDoc retain];
+		[self _showGameView];
+	}
+}
+
 
 @synthesize mainSplitView, database;
 @end

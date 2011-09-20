@@ -228,6 +228,7 @@
 					[currentLayer endValueChange];
 				});
 #warning Imortant to fix this sooon!!!
+#warning fixed already??????
 				// TODO: check why coredata and thumbnails don't work in an async queue
 				//	);
 			}

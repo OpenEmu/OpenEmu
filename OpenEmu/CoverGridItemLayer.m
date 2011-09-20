@@ -617,7 +617,7 @@
     else rating = ((pos/stepWidth)+1);
     
     [ratingLayer setRating:rating pressed:pressed];
-	[self _datasourceProxy_setObject:[NSNumber numberWithInt:rating] forKey:@"status"];
+	[self _datasourceProxy_setObject:[NSNumber numberWithInt:rating] forKey:@"rating"];
 }
 
 - (void)moveLayer:(CALayer*)layer to:(CGPoint)point centered:(BOOL)centered{

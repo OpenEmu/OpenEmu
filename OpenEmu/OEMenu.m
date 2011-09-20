@@ -15,7 +15,9 @@
 
 @implementation OEMenu
 @synthesize menu, supermenu, visible, minSize, maxSize, btn, delegate;
-
+- (OEMenuView*)menuView{
+	return [[[self contentView] subviews] lastObject];
+}
 + (void)initialize{
 	NSImage* menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
 	[menuArrows setName:@"dark_menu_popover_arrow_normal" forSubimageInRect:NSMakeRect(0, menuArrows.size.height/2, menuArrows.size.width, menuArrows.size.height/2)];
@@ -25,12 +27,13 @@
 - (id)init{
     self = [super initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     if (self) {
+		NSLog(@"init menu");
 		self.maxSize = NSMakeSize(192, 500);
 		self.minSize = NSMakeSize(82, 19*2);
 		
 		OEMenuView* view = [[OEMenuView alloc] initWithFrame:NSZeroRect];
 		[view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-		[self setContentView:view];
+		[[self contentView] addSubview:view];
 		[self setHasShadow:NO];
 		[view release];
 		
@@ -41,6 +44,10 @@
 }
 
 - (void)dealloc{
+	NSLog(@"dealloc menu");
+
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+
 	self.btn = nil;
 	self.menu = nil;
 	self.highlightedItem = nil;
@@ -64,27 +71,34 @@
 			return incomingEvent;
 		} else {
 			// event is outside of window, close menu without changes and remove event
-			[self closeMenuWithoutChanges];
+			[self closeMenuWithoutChanges:nil];
 		}		
         return (NSEvent *)nil;
     }];
 	[_localMonitor retain];
 	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges) name:NSApplicationWillResignActiveNotification object:NSApp];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges:) name:NSApplicationWillResignActiveNotification object:NSApp];
 	
 	[self setFrameOrigin:p];
 	[win addChildWindow:self ordered:NSWindowAbove];
 	
-	[(OEMenuView*)[self contentView] updateView];
+	[[self menuView] updateView];
 	
 	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidShow:)]) [self.delegate performSelector:@selector(menuDidShow:) withObject:self];
 }
 
-- (void)closeMenuWithoutChanges{
-	if(self.submenu) [self.submenu closeMenuWithoutChanges];
+- (void)closeMenuWithoutChanges:(id)sender{
+	// make sure the menu does not vanish while being closed
+	[self retain];
+	
+	if(self.submenu) [self.submenu closeMenuWithoutChanges:sender];
+
 	[self _performcloseMenu];
 	
 	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidCancel:)]) [self.delegate performSelector:@selector(menuDidCancel:) withObject:self];
+	
+	// now we are ready to be deallocated if needed
+	[self release];
 }
 
 - (void)closeMenu{
@@ -113,7 +127,7 @@
 		[self.btn selectItem:selectedItem];
 	}
 	
-	if(self.submenu) [self.submenu closeMenuWithoutChanges];
+	if(self.submenu) [self.submenu closeMenuWithoutChanges:nil];
 	[self _performcloseMenu];
 
 	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidSelect:)]) [self.delegate performSelector:@selector(menuDidSelect:) withObject:self];
@@ -123,7 +137,7 @@
 - (void)_performcloseMenu{
 	visible = NO;
 	self.highlightedItem = nil;
-	
+
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	if(_localMonitor!=nil){
@@ -131,9 +145,9 @@
 		[_localMonitor release];
 		_localMonitor = nil;
 	}
-	
+
 	[[self parentWindow] removeChildWindow:self];
-	[self orderOut:self];
+	[self orderOut:nil];
 	
 	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidHide:)]) [self.delegate performSelector:@selector(menuDidHide:) withObject:self];
 }
@@ -144,7 +158,7 @@
 	
 	menu = nmenu;
 	
-	[(OEMenuView*)[self contentView] updateView];
+	[[self menuView] updateView];;
 }
 #pragma mark -
 #pragma mark Setter / getter
@@ -161,13 +175,13 @@
 
 - (void)setSubmenu:(OEMenu *)_submenu{
 	if(submenu){
-		[submenu closeMenuWithoutChanges];
+		[submenu closeMenuWithoutChanges:nil];
 	}
 	
 	if(_submenu){
-		[[_submenu contentView] updateView];
+		[[self menuView] updateView];
 		
-		NSRect selectedItemRect = [(OEMenuView*)[self contentView] rectOfItem:self.highlightedItem];
+		NSRect selectedItemRect = [[self menuView] rectOfItem:self.highlightedItem];
 		NSPoint submenuSpawnPoint = self.frame.origin;
 				
 		submenuSpawnPoint.x += self.frame.size.width;

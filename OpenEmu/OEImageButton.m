@@ -10,16 +10,13 @@
 #import "NSImage+OEDrawingAdditions.h"
 @implementation OEImageButton
 
-- (id)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder:coder];
-    if (self) {
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidBecomeMainNotification object:[self window]];
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidResignMainNotification object:[self window]];
-		
-		[self updateTrackingAreas];
-    }
-    return self;
+- (void)viewDidMoveToWindow{
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidBecomeMainNotification object:[self window]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidResignMainNotification object:[self window]];
+	
+	[self updateTrackingAreas];
 }
+
 - (void)updateTrackingAreas{
 	while([[self trackingAreas] count]>0){
 		[self removeTrackingArea:[[self trackingAreas] lastObject]];
@@ -36,8 +33,7 @@
 }
 
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeMainNotification object:[self window]];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignMainNotification object:[self window]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	
     [super dealloc];
 }

@@ -39,6 +39,10 @@
 
 @synthesize composition, name, path;
 
+
++ (void)initialize{
+}
+
 + (NSString *)pluginFolder
 {
     return @"Filters";

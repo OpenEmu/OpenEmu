@@ -165,8 +165,6 @@
 		3887A8071024D2BC000FC4CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8041024D2BC000FC4CF /* main.c */; };
 		3887A8971024D796000FC4CF /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887A8961024D796000FC4CF /* QuickLook.framework */; };
 		3D928A5F11F1B8F700CD6CAE /* OESaveStateQLPlugin-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */; };
-		53439A8413B92B70005C0CC8 /* OEGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8213B92B70005C0CC8 /* OEGameViewController.m */; };
-		53439A8513B92B70005C0CC8 /* OEGameViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 53439A8313B92B70005C0CC8 /* OEGameViewController.xib */; };
 		53439A8C13B92C4A005C0CC8 /* LibraryDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8B13B92C4A005C0CC8 /* LibraryDatabase.m */; };
 		53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */; };
 		53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.m */; };
@@ -392,6 +390,7 @@
 		8305267213FBC934006179C6 /* ArchiveVG.m in Sources */ = {isa = PBXBuildFile; fileRef = 8305267113FBC934006179C6 /* ArchiveVG.m */; };
 		8305267513FBC999006179C6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8305267413FBC999006179C6 /* Security.framework */; };
 		8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8310447013BE419000B283B0 /* OEHorizontalSplitView.m */; };
+		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
 		83703B43140E4F9100EC27A7 /* Linear.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B3D140E4F9100EC27A7 /* Linear.png */; };
 		83703B44140E4F9100EC27A7 /* Nearest Neighbor.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B3E140E4F9100EC27A7 /* Nearest Neighbor.png */; };
@@ -426,6 +425,8 @@
 		83A9011D13FB2D91000F4514 /* NSData+HashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */; };
 		83A9012013FB2E9D000F4514 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A9011F13FB2E9D000F4514 /* libcrypto.dylib */; };
 		83AEF939140B78B6007803D7 /* filter_effect_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AEF937140B78B6007803D7 /* filter_effect_frame.png */; };
+		83AF90871414CBC500B74C5B /* OEHUDGameWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AF90861414CBC500B74C5B /* OEHUDGameWindow.m */; };
+		83BACFBC1415229C008362DA /* OENewGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BACFBB1415229C008362DA /* OENewGameDocument.m */; };
 		83F37153140BB1A6005A7353 /* SegaMasterSystem.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
 		83F37154140BB1A6005A7353 /* NES.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
 		83F37155140BB1A6005A7353 /* SuperNES.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
@@ -906,9 +907,6 @@
 		3887A8041024D2BC000FC4CF /* main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		3887A80D1024D377000FC4CF /* OESaveStateQLPlugin-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OESaveStateQLPlugin-Info.plist"; sourceTree = "<group>"; };
 		3887A8961024D796000FC4CF /* QuickLook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuickLook.framework; path = System/Library/Frameworks/QuickLook.framework; sourceTree = SDKROOT; };
-		53439A8113B92B70005C0CC8 /* OEGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameViewController.h; sourceTree = "<group>"; };
-		53439A8213B92B70005C0CC8 /* OEGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameViewController.m; sourceTree = "<group>"; };
-		53439A8313B92B70005C0CC8 /* OEGameViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEGameViewController.xib; sourceTree = "<group>"; };
 		53439A8A13B92C4A005C0CC8 /* LibraryDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LibraryDatabase.h; sourceTree = "<group>"; };
 		53439A8B13B92C4A005C0CC8 /* LibraryDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LibraryDatabase.m; sourceTree = "<group>"; };
 		53439A8E13B92C68005C0CC8 /* OEDBDataSourceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBDataSourceAdditions.h; sourceTree = "<group>"; };
@@ -1219,6 +1217,8 @@
 		8305267413FBC999006179C6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8310446F13BE419000B283B0 /* OEHorizontalSplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHorizontalSplitView.h; sourceTree = "<group>"; };
 		8310447013BE419000B283B0 /* OEHorizontalSplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHorizontalSplitView.m; sourceTree = "<group>"; };
+		83199720142741790068C865 /* OEROMImporter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEROMImporter.h; sourceTree = "<group>"; };
+		83199721142741790068C865 /* OEROMImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMImporter.m; sourceTree = "<group>"; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImage.h; sourceTree = "<group>"; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImage.m; sourceTree = "<group>"; };
 		83703B3D140E4F9100EC27A7 /* Linear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Linear.png; sourceTree = "<group>"; };
@@ -1247,6 +1247,10 @@
 		83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HashingAdditions.m"; sourceTree = "<group>"; };
 		83A9011F13FB2E9D000F4514 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
 		83AEF937140B78B6007803D7 /* filter_effect_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_effect_frame.png; sourceTree = "<group>"; };
+		83AF90851414CBC500B74C5B /* OEHUDGameWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDGameWindow.h; sourceTree = "<group>"; };
+		83AF90861414CBC500B74C5B /* OEHUDGameWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDGameWindow.m; sourceTree = "<group>"; };
+		83BACFBA1415229C008362DA /* OENewGameDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENewGameDocument.h; sourceTree = "<group>"; };
+		83BACFBB1415229C008362DA /* OENewGameDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENewGameDocument.m; sourceTree = "<group>"; };
 		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
 		83F688BF13C6433600AA0F83 /* OEGridScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridScrollView.m; sourceTree = "<group>"; };
 		83FA054D13B9DF940055A520 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = SOURCE_ROOT; };
@@ -1869,6 +1873,8 @@
 				53439B7F13B933DA005C0CC8 /* Button Cells */,
 				53439B8013B933E9005C0CC8 /* OEHUDWindow.h */,
 				53439B8113B933E9005C0CC8 /* OEHUDWindow.m */,
+				83AF90851414CBC500B74C5B /* OEHUDGameWindow.h */,
+				83AF90861414CBC500B74C5B /* OEHUDGameWindow.m */,
 			);
 			name = "Game HUD";
 			sourceTree = "<group>";
@@ -1913,6 +1919,8 @@
 				53439A8A13B92C4A005C0CC8 /* LibraryDatabase.h */,
 				53439A8B13B92C4A005C0CC8 /* LibraryDatabase.m */,
 				53439A8D13B92C56005C0CC8 /* Items */,
+				83199720142741790068C865 /* OEROMImporter.h */,
+				83199721142741790068C865 /* OEROMImporter.m */,
 			);
 			name = "Library Database";
 			sourceTree = "<group>";
@@ -2357,9 +2365,8 @@
 				8283882B0E6CE13C00A96E2C /* OEGameDocumentController.m */,
 				C69DCCFF0FE994A5009AE5A6 /* OEPluginDocument.h */,
 				C69DCD000FE994A5009AE5A6 /* OEPluginDocument.m */,
-				53439A8113B92B70005C0CC8 /* OEGameViewController.h */,
-				53439A8213B92B70005C0CC8 /* OEGameViewController.m */,
-				53439A8313B92B70005C0CC8 /* OEGameViewController.xib */,
+				83BACFBA1415229C008362DA /* OENewGameDocument.h */,
+				83BACFBB1415229C008362DA /* OENewGameDocument.m */,
 			);
 			name = OpenEmuCore;
 			sourceTree = "<group>";
@@ -3235,7 +3242,6 @@
 				82C42C8610CAFB480046D1A3 /* download_arrow_down.png in Resources */,
 				82C42C8710CAFB480046D1A3 /* download_arrow_up.png in Resources */,
 				82DD29DB12369F1100B58A8F /* KeyboardUsages.plist in Resources */,
-				53439A8513B92B70005C0CC8 /* OEGameViewController.xib in Resources */,
 				53439B8913B936DA005C0CC8 /* CollectionViewController.xib in Resources */,
 				53439B8B13B936E1005C0CC8 /* Library.xib in Resources */,
 				53439B8D13B936EA005C0CC8 /* Preferences.xib in Resources */,
@@ -3579,7 +3585,6 @@
 				82C5EFB31237E7E1001262F7 /* OENetServer.m in Sources */,
 				14598A1012E151670001EBD0 /* OECoreInstaller.m in Sources */,
 				14598A1112E151670001EBD0 /* OECoreUpdater.m in Sources */,
-				53439A8413B92B70005C0CC8 /* OEGameViewController.m in Sources */,
 				53439A8C13B92C4A005C0CC8 /* LibraryDatabase.m in Sources */,
 				53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */,
 				53439A9A13B92C97005C0CC8 /* OEDBAllGamesCollection.m in Sources */,
@@ -3665,6 +3670,9 @@
 				8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */,
 				83A9011D13FB2D91000F4514 /* NSData+HashingAdditions.m in Sources */,
 				8305267213FBC934006179C6 /* ArchiveVG.m in Sources */,
+				83AF90871414CBC500B74C5B /* OEHUDGameWindow.m in Sources */,
+				83BACFBC1415229C008362DA /* OENewGameDocument.m in Sources */,
+				83199722142741790068C865 /* OEROMImporter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

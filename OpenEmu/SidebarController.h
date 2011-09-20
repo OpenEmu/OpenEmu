@@ -9,10 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @class LibraryDatabase, SidebarOutlineView;
-@interface SidebarController : NSObject <NSOutlineViewDelegate, NSOutlineViewDataSource>{
-@private
-    IBOutlet SidebarOutlineView* sidebarView;
-	
+@interface SidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>{
+@private	
 	NSArray* groups;
 	LibraryDatabase* database;
 	
@@ -34,6 +32,8 @@
 - (void)expandCollections:(id)sender;
 - (void)removeSelectedItemsOfOutlineView:(NSOutlineView*)outlineView;
 
+- (void)willHide;
+- (void)willShow;
 @property (assign) LibraryDatabase* database;
 @property (retain, readwrite) NSArray* groups;
 @property (retain, readwrite) NSArray* systems, *collections;

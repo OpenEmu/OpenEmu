@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "OEScrollView.h"
-@interface OEGridScrollView : OEScrollView
+@interface OEGridScrollView : OEScrollView{
+	NSSize lastSize;
+}
 
 @end

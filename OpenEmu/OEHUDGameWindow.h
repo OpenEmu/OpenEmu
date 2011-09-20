@@ -7,7 +7,10 @@
 //
 
 #import "OEHUDWindow.h"
-
-@interface OEHUDGameWindow : OEHUDWindow
-
+@class OENewGameDocument;
+@interface OEHUDGameWindow : OEHUDWindow{
+	OENewGameDocument* gameDocument;
+}
+- (id)initWithContentRect:(NSRect)contentRect andGameDocument:(OENewGameDocument*)gameDoc;
+@property (retain, nonatomic) OENewGameDocument* gameDocument;
 @end

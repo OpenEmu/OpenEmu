@@ -49,7 +49,8 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     {
         frame.origin = NSZeroPoint;
         gameView = [[[NSView alloc] initWithFrame:frame] autorelease];
-        
+		gameView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+
         [self addSubview:gameView];
         
         CALayer *rootLayer = [CALayer layer];
@@ -81,8 +82,16 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
           [CAConstraint constraintWithAttribute:kCAConstraintWidth  relativeTo:@"superlayer" attribute:kCAConstraintWidth],
           [CAConstraint constraintWithAttribute:kCAConstraintHeight relativeTo:@"superlayer" attribute:kCAConstraintHeight],
           nil]];
+		
+		NSLog(@"initing game view");
         
         [rootLayer addSublayer:gameLayer];
+
+		self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+		[self setWantsLayer:YES];
+        color = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 1.0);
+        [self.layer setBackgroundColor:color];
+        CGColorRelease(color);
     }
     return self;
 }
@@ -105,10 +114,15 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     NSRectFill([self bounds]);
 }
 
+- (void)viewDidMoveToWindow{
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"OEGameViewDidMoveToWindow" object:self];
+}
+
 - (BOOL)acceptsFirstResponder
 {
     return YES;
 }
+
 - (BOOL)becomeFirstResponder{
 	return YES;
 }

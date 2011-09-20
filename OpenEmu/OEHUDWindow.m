@@ -10,18 +10,21 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 #import "OEImageButton.h"
+#import "NSColor+IKSAdditions.h"
 @interface OEHUDWindow (Private)
-- (void)_setup;
+- (void)_initialSetup;
+@end
+@interface OEHUDBorderWindow : NSWindow
 @end
 @implementation OEHUDWindow
 
 + (void)initialize{
 	NSImage* img = [NSImage imageNamed:@"hud_window"];
 	
-	[[img setName:@"hud_window_active" forSubimageInRect:NSMakeRect(0, 0, img.size.width/2, img.size.height)] setFlipped:TRUE];
-	[[img setName:@"hud_window_inactive" forSubimageInRect:NSMakeRect(img.size.width/2, 0, img.size.width/2, img.size.height)] setFlipped:TRUE];
+	[img setName:@"hud_window_active" forSubimageInRect:NSMakeRect(0, 0, img.size.width/2, img.size.height)];
+	[img setName:@"hud_window_inactive" forSubimageInRect:NSMakeRect(img.size.width/2, 0, img.size.width/2, img.size.height)];
 }
-
+#pragma mark -
 - (id)initWithContentRect:(NSRect)contentRect
 				styleMask:(NSUInteger)windowStyle
 				  backing:(NSBackingStoreType)bufferingType
@@ -29,190 +32,144 @@
 {
 	self = [super
 			initWithContentRect:contentRect
-			styleMask:NSBorderlessWindowMask
+			styleMask:NSBorderlessWindowMask|NSResizableWindowMask
 			backing:bufferingType
 			defer:deferCreation];
-	if (self)
-	{
+	
+	if (self){
+		[self _initialSetup];		
+	}
+    return self;
+}
+
+- (id)initWithContentRect:(NSRect)frame {
+    self = [self initWithContentRect:frame styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:NO];
+    if (self) {}
+    return self;
+}
+
+- (void)awakeFromNib{
+	[super awakeFromNib];
+	[self _initialSetup];
+}
+
+- (void)dealloc {
+	[_borderWindow release];
+	_borderWindow = nil;
+	
+    [super dealloc];
+}
+#pragma mark -
+#pragma mark Private
+- (void)_initialSetup{
+	[self setHasShadow:NO];
+	[self setOpaque:NO];
+	[self setBackgroundColor:[NSColor clearColor]];
+	
+	NSRect frame;
+	frame.size = self.frame.size;
+	frame.origin = NSMakePoint(0, 0);
+	[super setContentView:[[[NSView alloc] initWithFrame:NSZeroRect] autorelease]];
+	[self setContentView:[[[NSView alloc] initWithFrame:NSZeroRect] autorelease]];
+	// Register for notifications
+	NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+	[nc addObserver:self selector:@selector(_layout) name:NSWindowDidResizeNotification object:self];
+
+	[nc addObserver:self selector:@selector(_layout) name:NSWindowDidResignKeyNotification object:self];
+	[nc addObserver:self selector:@selector(_layout) name:NSWindowDidBecomeKeyNotification object:self];
+		
+	_borderWindow = [[OEHUDBorderWindow alloc] init];
+	[self addChildWindow:_borderWindow ordered:NSWindowAbove];
+	[_borderWindow orderFront:self];
+}
+
+- (void)_layout{
+	[_borderWindow setFrame:self.frame display:YES];
+	[_borderWindow display];
+}
+
+- (id)contentView{
+	return [[[super contentView] subviews] lastObject];
+}
+
+- (void)setContentView:(NSView *)aView{
+	NSView* contentView = [[[super contentView] subviews] lastObject];
+
+	if(contentView)[contentView removeFromSuperview];
+	
+	NSView* actualContentView = [super contentView];
+	[actualContentView addSubview:aView];
+	
+	
+	NSRect contentRect;
+	contentRect.origin = NSMakePoint(0, 0);
+	contentRect.size = self.frame.size;
+	
+	contentRect = NSInsetRect(contentRect, 1, 1);
+	contentRect.size.height -= 21;
+	
+	[aView setFrame:contentRect];
+	[aView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+}
+#pragma mark -
+#pragma mark NSWindow Overrides
+- (BOOL)canBecomeKeyWindow{
+	return YES;
+}
+
+- (BOOL)canBecomeMainWindow{
+	return YES;
+}
+
+@end
+
+@implementation OEHUDBorderWindow
+- (id)init{
+	self = [self initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:NO];
+	if(self){		
+		[self setHasShadow:NO];
+		[self setMovableByWindowBackground:NO];
+		
 		[self setOpaque:NO];
 		[self setBackgroundColor:[NSColor clearColor]];
 		
-		[[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(mainWindowChanged:)
-		 name:NSWindowDidBecomeMainNotification
-		 object:self];
-		
-		[[NSNotificationCenter defaultCenter]
-		 addObserver:self
-		 selector:@selector(mainWindowChanged:)
-		 name:NSWindowDidResignMainNotification
-		 object:self];
-		
-		
-
+		NSView* borderView = [[OEHUDWindowThemeView alloc] initWithFrame:NSZeroRect];
+		[super setContentView:borderView];
+//		[[self contentView] addSubview:borderView];
+// 		[borderView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+		[borderView release];
 	}
+
 	return self;
 }
 
-//
-// dealloc
-//
-// Releases instance memory.
-//
-- (void)dealloc
-{
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super dealloc];
+- (void)setContentView:(NSView *)aView{}
+
+- (void)display{
+	NSLog(@"displaay called on some part of the hud window");
+	[[self contentView] display];
+}
+- (void)setParentWindow:(NSWindow *)window{
+	[super setParentWindow:window];
 }
 
-//
-// setContentSize:
-//
-// Convert from childContentView to frameView for size.
-//
-- (void)setContentSize:(NSSize)newSize
-{
-	NSSize sizeDelta = newSize;
-	NSSize childBoundsSize = [childContentView bounds].size;
-	sizeDelta.width -= childBoundsSize.width;
-	sizeDelta.height -= childBoundsSize.height;
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	OEHUDWindowThemeView *frameView = [super contentView];
-	NSSize newFrameSize = [frameView bounds].size;
-	newFrameSize.width += sizeDelta.width;
-	newFrameSize.height += sizeDelta.height;
-	
-	[super setContentSize:newFrameSize];
+    [super dealloc];
 }
 
-//
-// mainWindowChanged:
-//
-// Redraw the close button when the main window status changes.
-//
-- (void)mainWindowChanged:(NSNotification *)aNotification{
-	[[super contentView] display];
+- (BOOL)canBecomeKeyWindow{
+	return NO;
 }
 
-//
-// setContentView:
-//
-// Keep our frame view as the content view and make the specified "aView"
-// the child of that.
-//
-- (void)setContentView:(NSView *)aView
-{
-	if ([childContentView isEqualTo:aView])
-	{
-		return;
-	}
-	
-	NSRect bounds = [self frame];
-	bounds.origin = NSZeroPoint;
-	
-	NSView *frameView = [super contentView];
-	if (!frameView)
-	{
-		frameView = [[[NSView alloc] initWithFrame:bounds] autorelease];
-		
-		[super setContentView:frameView];
-		
-		OEHUDWindowThemeView* themeView = [[[OEHUDWindowThemeView alloc] initWithFrame:bounds] autorelease];
-		[frameView addSubview:themeView];
-		[themeView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-		[themeView setFrame:frameView.bounds];
-
-		closeButton = [[OEImageButton alloc] init];
-		OEImageButtonCell* pushCell = [[OEToolbarButtonPushCell alloc] init];
-		
-		[closeButton setCell:pushCell];
-		[pushCell setImage:[NSImage imageNamed:@"hud_close_button"]];
-		[pushCell release];
-		
-		[closeButton setAction:@selector(close)];
-		[closeButton setTarget:self];
-				
-		[closeButton setFrame:NSMakeRect(1, bounds.size.height-22, 21, 21)];
-		[closeButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-		[frameView addSubview:closeButton];
-	}
-	
-	if (childContentView)
-	{
-		[childContentView removeFromSuperview];
-	}
-	childContentView = aView;
-	[childContentView setFrame:[self contentRectForFrameRect:bounds]];
-	[childContentView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-	[frameView addSubview:childContentView positioned:NSWindowBelow relativeTo:[[frameView subviews] objectAtIndex:0]];
-}
-
-//
-// contentView
-//
-// Returns the child of our frame view instead of our frame view.
-//
-- (NSView *)contentView
-{
-	return childContentView;
-}
-
-//
-// canBecomeKeyWindow
-//
-// Overrides the default to allow a borderless window to be the key window.
-//
-- (BOOL)canBecomeKeyWindow
-{
-	return YES;
-}
-
-//
-// canBecomeMainWindow
-//
-// Overrides the default to allow a borderless window to be the main window.
-//
-- (BOOL)canBecomeMainWindow
-{
-	return YES;
-}
-
-//
-// contentRectForFrameRect:
-//
-// Returns the rect for the content rect, taking the frame.
-//
-- (NSRect)contentRectForFrameRect:(NSRect)windowFrame
-{
-	windowFrame.origin = NSZeroPoint;
-	
-	windowFrame = NSInsetRect(windowFrame, 1, 1);
-	windowFrame.size.height -= 21;
-	
-	return windowFrame;
-}
-
-//
-// frameRectForContentRect:styleMask:
-//
-// Ensure that the window is make the appropriate amount bigger than the content.
-//
-+ (NSRect)frameRectForContentRect:(NSRect)windowContentRect styleMask:(NSUInteger)windowStyle
-{
-	windowContentRect = NSInsetRect(windowContentRect, -1, -1);
-	windowContentRect.size.height += 21;
-	
-	return windowContentRect;
-}
-
-- (void)setTitle:(NSString *)aString{
-	[super setTitle:aString];
-	[[super contentView] display];
+- (BOOL)canBecomeMainWindow{
+	return NO;
 }
 @end
 
 @implementation OEHUDWindowThemeView
+
 - (id)init {
     self = [super init];
     if (self) {
@@ -232,6 +189,10 @@
     return self;
 }
 #pragma mark -
+- (BOOL)isOpaque{
+	return NO;
+}
+
 - (NSRect)resizeRect{
 	// unused // const CGFloat resizeBoxSize = 11.0;
 	// unused // const CGFloat contentViewPadding = 2.0;
@@ -246,25 +207,28 @@
 	titleBarRect.origin.y = [self bounds].size.height-titleBarRect.size.height;
 		
 	return titleBarRect;
-
 }
 
 - (void)drawRect:(NSRect)dirtyRect{
-	BOOL isFocued = [[self window] isMainWindow] && [NSApp isActive];
-	NSImage* borderImage = isFocued ? [NSImage imageNamed:@"hud_window_active"] : [NSImage imageNamed:@"hud_window_inactive"];
-	[borderImage drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:TRUE hints:nil leftBorder:14 rightBorder:14 topBorder:23 bottomBorder:23];
-
+	[[NSColor clearColor] setFill];
+	NSRectFill([self bounds]);
+	
+	BOOL isFocused = [[self window].parentWindow isMainWindow] && [NSApp isActive];
+	NSImage* borderImage = isFocused ? [NSImage imageNamed:@"hud_window_active"] : [NSImage imageNamed:@"hud_window_inactive"];
+	[borderImage drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver/*NSCompositeSourceOver*/ fraction:1.0 respectFlipped:TRUE hints:nil leftBorder:14 rightBorder:14 topBorder:23 bottomBorder:23];
+	NSLog(@"isFocused: %d", isFocused);
 	
 	NSMutableDictionary* titleAttribtues = [NSMutableDictionary dictionary];
 	
-	NSMutableParagraphStyle* ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	NSMutableParagraphStyle* ps = [[NSMutableParagraphStyle alloc] init];
 	[ps setLineBreakMode:NSLineBreakByTruncatingMiddle];
 	[ps setAlignment:NSCenterTextAlignment];
 	[titleAttribtues setObject:ps forKey:NSParagraphStyleAttributeName];
+	[ps release];
 	
-	NSColor* textColor = isFocued ? [NSColor colorWithDeviceWhite:0.86 alpha:1.0] : [NSColor colorWithDeviceWhite:0.61 alpha:1.0];
+	NSColor* textColor = isFocused ? [NSColor colorWithDeviceWhite:0.86 alpha:1.0] : [NSColor colorWithDeviceWhite:0.61 alpha:1.0];
 	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:2.0 size:13.0];
-	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow* shadow = [[NSShadow alloc] init];
 	[shadow setShadowColor:[NSColor colorWithDeviceRed:0.129 green:0.129 blue:0.129 alpha:1.0]];
 	[shadow setShadowBlurRadius:1.0];
 	[shadow setShadowOffset:NSMakeSize(0, 1)];
@@ -272,25 +236,23 @@
 	[titleAttribtues setObject:textColor forKey:NSForegroundColorAttributeName];
 	[titleAttribtues setObject:font forKey:NSFontAttributeName];
 	[titleAttribtues setObject:shadow forKey:NSShadowAttributeName];
+	[shadow release];
 	
 	NSRect titleBarRect = NSInsetRect([self titleBarRect], 10, 0);
 	titleBarRect.origin.y -= 2;
 	
-	NSString* windowTitle = [[self window] title];
+	NSString* windowTitle = [[self window].parentWindow title];
 	NSAttributedString* attributedWindowTitle = [[NSAttributedString alloc] initWithString:windowTitle attributes:titleAttribtues];
 	[attributedWindowTitle drawInRect:titleBarRect];
 	[attributedWindowTitle release];
 }
-
+/*
 - (void)mouseDown:(NSEvent *)theEvent{
 	NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
 	
 	lastMouseLocation = NSZeroPoint;
 	
 	isResizing = NO;
-	if (NSPointInRect(pointInView, [self resizeRect])){
-		isResizing = YES;
-	}
 	
 	if(!isResizing && !NSPointInRect(pointInView, [self titleBarRect])){
 		[[self nextResponder] mouseDown:theEvent];
@@ -300,7 +262,6 @@
 	NSWindow *window = [self window];
 	lastMouseLocation = [window convertBaseToScreen:[theEvent locationInWindow]];
 }
-
 
 - (void)mouseDragged:(NSEvent *)theEvent{
 	if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
@@ -334,7 +295,7 @@
 	lastMouseLocation = newMousePosition;
 }
 
-- (void)mouseUp:(NSEvent *)theEvent{
+- (void)mouseUp:(NSEvent *)theEvent{	
 	if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
 		[[self nextResponder] mouseUp:theEvent];		
 		return;
@@ -342,4 +303,5 @@
 	
 	isResizing = NO;
 }
+ */
 @end

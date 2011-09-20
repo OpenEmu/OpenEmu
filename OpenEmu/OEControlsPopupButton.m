@@ -26,7 +26,7 @@
 #pragma mark -
 - (void)mouseDown:(NSEvent *)theEvent{
 	if(self.oemenu.visible){
-		[self.oemenu closeMenuWithoutChanges];
+		[self.oemenu closeMenuWithoutChanges:self];
 	} else {
 		NSWindow* win = [self window];
 		NSPoint location = [win convertBaseToScreen:self.frame.origin];

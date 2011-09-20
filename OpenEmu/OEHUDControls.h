@@ -7,11 +7,14 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-
-@interface OEHUDControls : NSView {
-@private
-    
+@class OENewGameDocument;
+@interface OEHUDControlsWindow : NSWindow{
+	OENewGameDocument* gameDocument;
 }
+- (id)initWithGameDocument:(OENewGameDocument*)doc;
+@property (assign) OENewGameDocument* gameDocument;
+@end
 
+@interface OEHUDControlsView : NSView {}
+- (void)setupControls;
 @end

@@ -67,6 +67,9 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
 
 - (void)loadCoreList
 {
+#warning TODO: Remove return
+	return;
+	
     NSURL         *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
     NSXMLDocument *coreListDoc = [[[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL] autorelease];
     NSArray       *coreNodes   = nil;

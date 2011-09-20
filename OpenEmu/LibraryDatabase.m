@@ -10,6 +10,7 @@
 
 #import "NSImage+OEDrawingAdditions.h"
 #import "NSData+HashingAdditions.h"
+#import "NSString+UUID.h"
 
 #import "OEDBAllGamesCollection.h"
 #import "OEDBSystem.h"
@@ -63,11 +64,18 @@
     [consoleIcons setName:@"Famicom" forSubimageInRect:NSMakeRect(48, 48, 16, 16)]; // jap
 }
 
+- (void)_debug_logStats{
+	return;
+	NSLog(@"Holding %lu ManagedObjectContexts", [managedObjectContexts count]);
+	NSLog(@"%@", [managedObjectContexts allKeys]);
+}
+
 - (id)init{
     self = [super init];
     
     if (self) {
-	  romsController = [[NSArrayController alloc] init];	  
+	  romsController = [[NSArrayController alloc] init];	
+		managedObjectContexts = [[NSMutableDictionary alloc] init];
 		if(![self _loadDatabase:NO]){		
 		self = nil;
 		return nil;
@@ -84,9 +92,13 @@
     [__persistentStoreCoordinator release];
     [__managedObjectModel release];
     
+	[managedObjectContexts release];
+	
     [__databaseURL release];
     
     [romsController release];
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super dealloc];
 }
@@ -111,9 +123,7 @@
     }
     
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"OEDatabase" withExtension:@"momd"];
-	NSLog(@"%@", modelURL);
     __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];    
-	NSLog(@"%@", __managedObjectModel);
     return __managedObjectModel;
 }
 
@@ -145,7 +155,8 @@
 }
 
 - (NSManagedObjectContext *) managedObjectContext {
-    if (__managedObjectContext) {
+	
+    if ([NSThread isMainThread] && __managedObjectContext) {
         return __managedObjectContext;
     }
     
@@ -159,18 +170,61 @@
         [[NSApplication sharedApplication] presentError:error];
         return nil;
     }
-    __managedObjectContext = [[NSManagedObjectContext alloc] init];
-    if(!__managedObjectContext) return nil;
+	
+	if([NSThread isMainThread]){
+		__managedObjectContext = [[NSManagedObjectContext alloc] init];
+		if(!__managedObjectContext) return nil;
     
-    [__managedObjectContext setPersistentStoreCoordinator:coordinator];
+		[__managedObjectContext setPersistentStoreCoordinator:coordinator];
     
-    // remeber last loc as database path
-    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
-    [standardDefaults setObject:[__databaseURL path] forKey:UDDatabasePathKey];
-    
-    return __managedObjectContext;
+		// remeber last loc as database path
+		NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+		[standardDefaults setObject:[__databaseURL path] forKey:UDDatabasePathKey];
+		
+		
+		return __managedObjectContext;
+    } else {
+		[self _debug_logStats];
+		
+		NSThread* thread = [NSThread currentThread];
+		if(![thread name] || ![managedObjectContexts valueForKey:[thread name]]){
+			NSManagedObjectContext* context = [[NSManagedObjectContext alloc] init];
+			if(!context) return nil;
+			
+			if([[thread name] isEqualTo:@""]){
+				NSString* name = [NSString stringWithUUID];
+				[thread setName:name];
+			}
+
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillExit:) name:NSThreadWillExitNotification object:thread];
+			
+			[context setPersistentStoreCoordinator:coordinator];
+			[managedObjectContexts setValue:context forKey:[thread name]];
+			[context release];
+		}
+		[self _debug_logStats];
+		return [managedObjectContexts valueForKey:[thread name]];
+	
+	}
+	return nil;
 }
 
+- (void)threadWillExit:(NSNotification*)notification{
+	NSLog(@"Thread Will Exit");
+	[self _debug_logStats];
+	
+	NSThread* thread = [notification object];
+	NSLog(@"Thread: %@", thread);
+	
+	NSString* threadName = [thread name];
+	NSLog(@"Name: %@ | value: %@", threadName, [managedObjectContexts valueForKey:threadName]);
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
+	
+	[managedObjectContexts removeObjectForKey:threadName];
+	
+	NSLog(@"after thread will exit n stuff");
+	[self _debug_logStats];
+}
 #pragma mark -
 - (BOOL)save:(NSError**)error{
 	NSError* backupError;
@@ -510,14 +564,13 @@
 
 #pragma mark -
 #pragma mark Database Game editing
-- (BOOL)isFileInDatabaseWithPath:(NSString*)path hash:(NSString*)hash error:(NSError**)error{
+- (BOOL)isFileInDatabaseWithPath:(NSString*)path error:(NSError**)error{	
 	NSManagedObjectContext *context = [self managedObjectContext];
     NSFetchRequest* fetchReq;
 	NSEntityDescription* entityDesc;
 	NSPredicate* predicate;
 
 	// check if game is already in database
-	// TODO: also use crc or md5 to check
 	entityDesc = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
 	predicate = [NSPredicate predicateWithFormat:@"path == %@", path];
 

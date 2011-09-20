@@ -29,7 +29,7 @@
 #pragma mark -
 - (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
 
-- (void)closeMenuWithoutChanges;
+- (void)closeMenuWithoutChanges:(id)sender;
 - (void)closeMenu;
 #pragma mark -
 #pragma mark NSMenu wrapping
@@ -57,5 +57,4 @@
 - (void)menuDidHide:(OEMenu*)men;
 - (void)menuDidSelect:(OEMenu*)men;
 - (void)menuDidCancel:(OEMenu*)men;
-
 @end

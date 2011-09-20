@@ -269,8 +269,8 @@
 }
 
 - (void)gridView:(IKSGridView *)aView setObject:(id)obj forKey:(NSString*)key atIndex:(NSUInteger)index{
-    NSLog(@"gridView:setObject:forKey:atIndex: called on main thread: %@", [NSThread isMainThread]?@"Yes":@"No");
     id <CoverGridDataSourceItem> object = [[gamesController arrangedObjects] objectAtIndex:index];
+
     if([key isEqualTo:@"rating"]){
         [object setGridRating:[obj unsignedIntegerValue]];
     } else if([key isEqualTo:@"title"]){
@@ -317,7 +317,7 @@
 		[context setPersistentStoreCoordinator:[[manobj managedObjectContext] persistentStoreCoordinator]];
 		*/
 		id <ListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
-		
+
 		NSString* colIdent = [aTableColumn identifier];	
 		
 		

@@ -53,7 +53,14 @@
 @implementation OEGameDocument
 
 @synthesize emulatorName, view, gameWindow, playPauseToolbarItem;
++ (id)newDocumentWithROM:(id)rom error:(NSError**)error{
+	return nil;
+}
 
++ (id)newDocumentWithRomAtURL:(NSURL*)url error:(NSError**)error{
+	return nil;
+}
+#pragma mark -
 - (id)init
 {
     self = [super init];
@@ -181,7 +188,6 @@
 - (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError
 {
     OECorePlugin *ret = nil;
-    
     
     NSArray *validPlugins = [OECorePlugin pluginsForFileExtension:ext];
     

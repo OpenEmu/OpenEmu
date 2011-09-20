@@ -38,6 +38,8 @@
     // Setup toolbar button
     [addCollectionBtn setImage:[NSImage imageNamed:@"toolbar_add_button"]];
     
+	SidebarOutlineView* sidebarView = (SidebarOutlineView*)[self view];
+	
     // setup sidebar outline view
     [sidebarView setHeaderView:nil];
     
@@ -70,6 +72,7 @@
 #pragma mark -
 #pragma mark Public
 - (void)setEnabled:(BOOL)enabled{
+	SidebarOutlineView* sidebarView = (SidebarOutlineView*)[self view];
     [sidebarView setEnabled:enabled];
     [addCollectionBtn setEnabled:enabled];
 }
@@ -95,10 +98,13 @@
 	self.systems = self.database ? [self.database systems] : [NSArray array];
 	self.collections = self.database ? [self.database collections] : [NSArray array];
 	
+	SidebarOutlineView* sidebarView = (SidebarOutlineView*)[self view];
     [sidebarView reloadData];
 }
 
 - (void)selectItem:(id)item{
+	SidebarOutlineView* sidebarView = (SidebarOutlineView*)[self view];
+	
     if(![item isSelectableInSdebar]) return;
     NSInteger index = [sidebarView rowForItem:item];
     if(index == -1) return;
@@ -107,6 +113,7 @@
 }
 
 - (void)startEditingItem:(id)item{
+	SidebarOutlineView* sidebarView = (SidebarOutlineView*)[self view];
     if(![item isEditableInSdebar]) return;
     
     NSInteger index = [sidebarView rowForItem:item];
@@ -115,11 +122,13 @@
     [sidebarView editColumn:0 row:index withEvent:[[[NSEvent alloc] init] autorelease]  select:YES];
 }
 - (void)expandCollections:(id)sender{
+	SidebarOutlineView* sidebarView = (SidebarOutlineView*)[self view];
     [sidebarView expandItem:[self.groups objectAtIndex:1]];
 }
 #pragma mark -
 #pragma mark NSOutlineView Delegate
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification{
+	SidebarOutlineView* sidebarView = (SidebarOutlineView*)[self view];
     id selectedCollection = [sidebarView itemAtRow:[sidebarView selectedRow]];
     NSDictionary* userInfo = [NSDictionary dictionaryWithObject:selectedCollection forKey:@"selectedCollection"];
     
@@ -273,7 +282,13 @@
 		[self reloadData];
     }
 }
-
+#pragma mark -
+- (void)willHide{
+	[addCollectionBtn setEnabled:NO];
+}
+- (void)willShow{
+	[addCollectionBtn setEnabled:YES];
+}
 #pragma mark -
 - (void)controlTextDidBeginEditing:(NSNotification *)aNotification{
     
