@@ -19,13 +19,6 @@
 
 - (id)copyWithZone:(NSZone *)zone{
     NSLog(@"-----------");
-    NSLog(@"-----------");
-    NSLog(@"-----------");
-    NSLog(@"-----------");
-    NSLog(@"-----------");
-    NSLog(@"-----------");
-    NSLog(@"-----------");
-    NSLog(@"-----------");
     NSLog(@"Game was copied with zone");
 	
     return [self retain];

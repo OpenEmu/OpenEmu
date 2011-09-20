@@ -7,6 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Quartz/Quartz.h>
+
 #import "OEScrollView.h"
 @interface OEGridScrollView : OEScrollView{
 	NSSize lastSize;

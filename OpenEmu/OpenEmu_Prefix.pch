@@ -45,7 +45,7 @@
 // Archive.vg Support
 #define APIBase		@"http://api.archive.vg"
 #define APIVersion	@"1.0"
-#define APIKey		@"UADGF1EAWDPPWJ1AGGAJK6ZX1VXZCJCJ"
+#define APIKey		@"INSERTAPIKEYHERE"
 
 
 // Keys used for user defaults
