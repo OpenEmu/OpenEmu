@@ -41,5 +41,7 @@
 	<string>http://openemu.org/update/nestopia_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
+	<key>OESystemPluginName</key>
+	<string>NES</string>
 </dict>
 </plist>
