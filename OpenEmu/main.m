@@ -28,7 +28,9 @@
 #import <Cocoa/Cocoa.h>
 
 int main(int argc, char *argv[]){	
-	@autoreleasepool {
+    
+    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    
 	NSDictionary* defaults = [NSDictionary dictionaryWithObjectsAndKeys:
 								// Thumbnail sizes for game box images
 								[NSArray arrayWithObjects:	NSStringFromSize(NSMakeSize(75, 75)), 
@@ -39,8 +41,9 @@ int main(int argc, char *argv[]){
 							  nil];
 	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
 	[standardDefaults registerDefaults:defaults];
-	}
-	
+    
+	[pool drain];
+    
 	return NSApplicationMain(argc, (const char **) argv);
 }
 
