@@ -35,8 +35,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		1B46D09D14293CAD0025EF88 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B46D09C14293CAD0025EF88 /* libz.1.2.3.dylib */; };
 		3720DB4D0F19510D00744A9A /* CrabEmu.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3720DB4C0F19510D00744A9A /* CrabEmu.icns */; };
-		3DBDE4CB122E021500D73812 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DBDE4CA122E021500D73812 /* libz.1.2.3.dylib */; };
 		82CAFADA0FEDA5CA00CCDC7E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82CAFAD90FEDA5CA00CCDC7E /* dsa_pub.pem */; };
 		82CAFDB00FEDD88100CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFADD0FEDA5EA00CCDC7E /* config.yaml */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
@@ -91,13 +91,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = CrabEmu;
-		};
-		C62A2568116F07070003DEE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
-			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A256A116F07070003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -162,13 +155,6 @@
 			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
 			remoteInfo = OpenEmu;
 		};
-		C6E917D10FD356A500AC2CCC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 828E65980E8466A100B1860B;
-			remoteInfo = OpenEmuQC;
-		};
 		C6E917D30FD356A500AC2CCC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
@@ -189,15 +175,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		82EA5EEB0F5141FD008E18C5 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -205,9 +182,9 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		1B46D09C14293CAD0025EF88 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		32DBCF630370AF2F00C91783 /* CrabEmu_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrabEmu_Prefix.pch; sourceTree = "<group>"; };
 		3720DB4C0F19510D00744A9A /* CrabEmu.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = CrabEmu.icns; sourceTree = "<group>"; };
-		3DBDE4CA122E021500D73812 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = /usr/lib/libz.1.2.3.dylib; sourceTree = "<absolute>"; };
 		82CAFAD90FEDA5CA00CCDC7E /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82CAFADD0FEDA5EA00CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -277,7 +254,7 @@
 			files = (
 				C689A5390FE4621C00885BC3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				3DBDE4CB122E021500D73812 /* libz.1.2.3.dylib in Frameworks */,
+				1B46D09D14293CAD0025EF88 /* libz.1.2.3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,7 +310,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				3DBDE4CA122E021500D73812 /* libz.1.2.3.dylib */,
+				1B46D09C14293CAD0025EF88 /* libz.1.2.3.dylib */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";
@@ -475,8 +452,6 @@
 			children = (
 				C6E917D00FD356A500AC2CCC /* OpenEmu.app */,
 				C62A256B116F07070003DEE4 /* OpenEmuHelperApp */,
-				C62A2569116F07070003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				C6E917D20FD356A500AC2CCC /* OpenEmuQC.plugin */,
 				C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */,
 				3746BCD71029454F007C78A6 /* OESaveStateQLPlugin.qlgenerator */,
 				C64CBD241363DA8C00BEE4F3 /* OpenEmuSystem.framework */,
@@ -500,7 +475,6 @@
 				8D5B49AF048680CD000E48DA /* Resources */,
 				8D5B49B1048680CD000E48DA /* Sources */,
 				8D5B49B3048680CD000E48DA /* Frameworks */,
-				82EA5EEB0F5141FD008E18C5 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -561,13 +535,6 @@
 			remoteRef = 8264151613EDB5B700591582 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C62A2569116F07070003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmuDebugHelperAppApp.app;
-			remoteRef = C62A2568116F07070003DEE4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C62A256B116F07070003DEE4 /* OpenEmuHelperApp */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -622,13 +589,6 @@
 			fileType = wrapper.application;
 			path = OpenEmu.app;
 			remoteRef = C6E917CF0FD356A500AC2CCC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C6E917D20FD356A500AC2CCC /* OpenEmuQC.plugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OpenEmuQC.plugin;
-			remoteRef = C6E917D10FD356A500AC2CCC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */ = {
@@ -825,6 +785,7 @@
 		82CAFB620FEDA62500CCDC7E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				PRODUCT_NAME = Distribution;
 			};
 			name = Debug;
@@ -832,10 +793,7 @@
 		82CAFB630FEDA62500CCDC7E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				PRODUCT_NAME = Distribution;
 			};
 			name = Release;

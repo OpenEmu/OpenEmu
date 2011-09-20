@@ -72,7 +72,7 @@ static inline void lightgun_reset(int num)
 
 static inline void lightgun_update(int num)
 {
-  if ((input.analog[num][1] == v_counter + input.y_offset))
+  if (input.analog[num][1] == v_counter + input.y_offset)
   {
     /* HL enabled ? */
     if (io_reg[5] & 0x80)

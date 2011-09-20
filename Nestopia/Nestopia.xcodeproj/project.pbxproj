@@ -397,13 +397,6 @@
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = Nestopia;
 		};
-		C62A2601116F08760003DEE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
-			remoteInfo = OpenEmuDebugHelperAppApp;
-		};
 		C62A2603116F08760003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
@@ -1251,7 +1244,6 @@
 			children = (
 				82444BCD0F512685007C171B /* OpenEmu.app */,
 				C62A2604116F08760003DEE4 /* OpenEmuHelperApp */,
-				C62A2602116F08760003DEE4 /* OpenEmuDebugHelperAppApp.app */,
 				82444BD10F512685007C171B /* OpenEmuBase.framework */,
 				37372B14102511E2006ADD56 /* OESaveStateQLPlugin.qlgenerator */,
 				C64BB0B21364837C00C1AB23 /* OpenEmuSystem.framework */,
@@ -2065,13 +2057,6 @@
 			remoteRef = 8264167913EDC4A800591582 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		C62A2602116F08760003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmuDebugHelperAppApp.app;
-			remoteRef = C62A2601116F08760003DEE4 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		C62A2604116F08760003DEE4 /* OpenEmuHelperApp */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -2526,6 +2511,7 @@
 				INSTALL_PATH = "$(HOME)/Library/Application Support/OpenEmu/Cores";
 				LD_RUNPATH_SEARCH_PATHS = "\"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" /Library/Frameworks ~/Library/Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = Nestopia;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wno-switch-enum";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
@@ -2541,6 +2527,7 @@
 				INSTALL_PATH = "$(HOME)/Library/Application Support/OpenEmu/Cores";
 				LD_RUNPATH_SEARCH_PATHS = "\"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" /Library/Frameworks ~/Library/Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = Nestopia;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wno-switch-enum";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
