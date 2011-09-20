@@ -91,18 +91,6 @@
 			name = "Build & Copy GameBoy Advance Plugin";
 			productName = "Build & Copy GameBoy Advance Plugin";
 		};
-		82BCA6020FEF092600DD3FC4 /* OpenEmuQC Distribution */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 82BCA6180FEF095100DD3FC4 /* Build configuration list for PBXAggregateTarget "OpenEmuQC Distribution" */;
-			buildPhases = (
-				37CC66180FF8377700226BCB /* CopyFiles */,
-				82BCA6010FEF092600DD3FC4 /* ShellScript */,
-			);
-			dependencies = (
-			);
-			name = "OpenEmuQC Distribution";
-			productName = "OpenEmuQC Distribution";
-		};
 		82C9C96F0F080C7F0071460B /* Distribution */ = {
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 82C9C97C0F080C810071460B /* Build configuration list for PBXAggregateTarget "Distribution" */;
@@ -175,7 +163,6 @@
 		1EDFCD241050BEC900568AA5 /* OESaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 1EDFCD231050BEC900568AA5 /* OESaveState.m */; };
 		1EE941E01050EBBF00509E78 /* ROMFile.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1EE941DF1050EBBF00509E78 /* ROMFile.xcdatamodel */; };
 		1EE941FC1050EC8E00509E78 /* SaveState.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 1EE941FB1050EC8E00509E78 /* SaveState.xcdatamodel */; };
-		37CC661A0FF8379B00226BCB /* config_qc.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 37CC66190FF8379B00226BCB /* config_qc.yaml */; };
 		3887A8051024D2BC000FC4CF /* GenerateThumbnailForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8021024D2BC000FC4CF /* GenerateThumbnailForURL.m */; };
 		3887A8061024D2BC000FC4CF /* GeneratePreviewForURL.m in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8031024D2BC000FC4CF /* GeneratePreviewForURL.m */; };
 		3887A8071024D2BC000FC4CF /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 3887A8041024D2BC000FC4CF /* main.c */; };
@@ -503,16 +490,6 @@
 			name = "Copy Filters Folder To App Resources";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		37CC66180FF8377700226BCB /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 16;
-			files = (
-				37CC661A0FF8379B00226BCB /* config_qc.yaml in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		828ED4F00E7D98F60059F397 /* Copy Frameworks to App Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -527,16 +504,6 @@
 				1B880272142831C300E022E2 /* Syphon.framework in Copy Frameworks to App Frameworks */,
 			);
 			name = "Copy Frameworks to App Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82C42BD510CAF6740046D1A3 /* Copy QC Plugin to Plugins */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-			);
-			name = "Copy QC Plugin to Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		82CAFBAA0FEDAA1C00CCDC7E /* CopyFiles */ = {
@@ -1870,7 +1837,6 @@
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				828ED4F00E7D98F60059F397 /* Copy Frameworks to App Frameworks */,
-				82C42BD510CAF6740046D1A3 /* Copy QC Plugin to Plugins */,
 			);
 			buildRules = (
 			);
@@ -2040,7 +2006,6 @@
 				1BEF2CFC116854650090F72B /* OpenEmuDebugHelperAppApp */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				82444BA00F51256C007C171B /* OpenEmuBase */,
-				82BCA6020FEF092600DD3FC4 /* OpenEmuQC Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				3887A7F51024D1F9000FC4CF /* OESaveStateQLPlugin */,
 				C67117ED136367240034379A /* OpenEmuSystem */,
@@ -2298,20 +2263,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems/GameBoy Advance.oesystemplugin\"{,.dsym}\ncp -R \"$BUILT_PRODUCTS_DIR/GameBoy Advance.oesystemplugin\"{,.dsym} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Systems\"";
-		};
-		82BCA6010FEF092600DD3FC4 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/bash;
-			shellScript = /usr/bin/openemuqc_rb_automation.rb;
-			showEnvVarsInLog = 0;
 		};
 		82C9C96E0F080C7F0071460B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2921,20 +2872,6 @@
 			};
 			name = Release;
 		};
-		82BCA6030FEF092600DD3FC4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "OpenEmuQC Distribution";
-			};
-			name = Debug;
-		};
-		82BCA6040FEF092600DD3FC4 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				PRODUCT_NAME = "OpenEmuQC Distribution";
-			};
-			name = Release;
-		};
 		82C9C9700F080C800071460B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2957,6 +2894,7 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2975,6 +2913,7 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
@@ -3412,15 +3351,6 @@
 			buildConfigurations = (
 				826415BF13EDC30700591582 /* Debug */,
 				826415C013EDC30700591582 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		82BCA6180FEF095100DD3FC4 /* Build configuration list for PBXAggregateTarget "OpenEmuQC Distribution" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				82BCA6030FEF092600DD3FC4 /* Debug */,
-				82BCA6040FEF092600DD3FC4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
