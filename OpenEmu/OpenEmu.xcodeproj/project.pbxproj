@@ -708,12 +708,9 @@
 		1BEF2A9411682A530090F72B /* OpenEmuHelperApp */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = OpenEmuHelperApp; sourceTree = BUILT_PRODUCTS_DIR; };
 		1BEF2AC311682A9D0090F72B /* IOSurface.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOSurface.framework; path = System/Library/Frameworks/IOSurface.framework; sourceTree = SDKROOT; };
 		1BEF2C4711684AE90090F72B /* OEGameCoreHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCoreHelper.h; sourceTree = "<group>"; };
-		1BEF2CF3116854180090F72B /* OpenEmuDebugHelperAppApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuDebugHelperAppApp.h; sourceTree = "<group>"; };
-		1BEF2CF4116854180090F72B /* OpenEmuDebugHelperAppApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenEmuDebugHelperAppApp.m; sourceTree = "<group>"; };
 		1BEF2CFF116854650090F72B /* OpenEmuDebugHelperAppApp-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OpenEmuDebugHelperAppApp-Info.plist"; sourceTree = "<group>"; };
 		1BEF2D13116855690090F72B /* OETaskWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETaskWrapper.h; sourceTree = "<group>"; };
 		1BEF2D14116855690090F72B /* OETaskWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETaskWrapper.m; sourceTree = "<group>"; };
-		1BEF2D17116858370090F72B /* OpenEmuDebugHelperAppApp.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenEmuDebugHelperAppApp.xib; sourceTree = "<group>"; };
 		1DDD582B0DA1D0D100B32029 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		1E2F3DB910DEAB4C0019AA84 /* OEVersionMigrationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEVersionMigrationController.h; sourceTree = "<group>"; };
 		1E2F3DBA10DEAB4C0019AA84 /* OEVersionMigrationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEVersionMigrationController.m; sourceTree = "<group>"; };
@@ -1001,7 +998,6 @@
 		828389A80E6CF3A500A96E2C /* OEGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCore.h; sourceTree = "<group>"; };
 		8288A0F41027E16600671FE1 /* OEDownloadCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDownloadCell.h; sourceTree = "<group>"; };
 		8288A0F51027E16600671FE1 /* OEDownloadCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDownloadCell.m; sourceTree = "<group>"; };
-		828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuQC_Prefix.pch; sourceTree = "<group>"; };
 		828ED4D50E7D98940059F397 /* OEGamePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGamePickerController.h; sourceTree = "<group>"; };
 		828ED4D60E7D98940059F397 /* OEGamePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGamePickerController.m; sourceTree = "<group>"; };
 		828ED4D90E7D98A10059F397 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameFilePicker.xib; sourceTree = "<group>"; };
@@ -1469,9 +1465,6 @@
 				C6AC9D371190C5E60083DDFD /* OpenEmuHelperAppMain.m */,
 				1BEF2A7311682A330090F72B /* OpenEmuHelperApp.h */,
 				1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */,
-				1BEF2CF3116854180090F72B /* OpenEmuDebugHelperAppApp.h */,
-				1BEF2CF4116854180090F72B /* OpenEmuDebugHelperAppApp.m */,
-				1BEF2D17116858370090F72B /* OpenEmuDebugHelperAppApp.xib */,
 			);
 			name = "Helper App (IOSurface helper & tester)";
 			sourceTree = "<group>";
@@ -1623,7 +1616,6 @@
 				82CAFBB70FEDAA3D00CCDC7E /* config.yaml */,
 				37CC66190FF8379B00226BCB /* config_qc.yaml */,
 				32DBCF750370BD2300C91783 /* OpenEmu_Prefix.pch */,
-				828E65BF0E84675600B1860B /* OpenEmuQC_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 			);
 			name = "Other Sources";
