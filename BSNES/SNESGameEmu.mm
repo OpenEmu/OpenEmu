@@ -235,37 +235,6 @@ bool loadCartridge(const char *filename, SNES::MappedRAM &memory) {
     return 2;
 }
 
-- (NSUInteger)SNES_buttonMaskForButton:(OEButton)gameButton
-{
-    NSUInteger button = 0;
-    switch (gameButton)
-    {
-        case OEButton_1      : button = SNES::Input::JoypadA;      break;
-        case OEButton_2      : button = SNES::Input::JoypadB;      break;
-        case OEButton_3      : button = SNES::Input::JoypadX;      break;
-        case OEButton_4      : button = SNES::Input::JoypadY;      break;
-        case OEButton_5      : button = SNES::Input::JoypadL;     break;
-        case OEButton_6      : button = SNES::Input::JoypadR;     break;
-        case OEButton_Up     : button = SNES::Input::JoypadUp;     break;
-        case OEButton_Down   : button = SNES::Input::JoypadDown;   break;
-        case OEButton_Left   : button = SNES::Input::JoypadLeft;   break;
-        case OEButton_Right  : button = SNES::Input::JoypadRight;  break;
-        case OEButton_Start  : button = SNES::Input::JoypadStart;  break;
-        case OEButton_Select : button = SNES::Input::JoypadSelect; break;
-    }
-    return button;
-}
-
-- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
-{
-    controlPad[thePlayer - 1] |= [self SNES_buttonMaskForButton:gameButton];
-}
-
-- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton;
-{
-    controlPad[thePlayer - 1] &= ~[self SNES_buttonMaskForButton:gameButton];
-}
-
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
     SNES::system.runtosave();

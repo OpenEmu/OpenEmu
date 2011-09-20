@@ -48,10 +48,6 @@
 
 #define SAMPLERATE 48000
 
-@interface NESGameEmu () <OENESSystemResponderClient>
-- (NSUInteger)NES_buttonMaskForButton:(OEButton)gameButton;
-@end
-
 NSUInteger NESControlValues[] = { Nes::Api::Input::Controllers::Pad::A, Nes::Api::Input::Controllers::Pad::B, Nes::Api::Input::Controllers::Pad::UP, Nes::Api::Input::Controllers::Pad::DOWN, Nes::Api::Input::Controllers::Pad::LEFT, Nes::Api::Input::Controllers::Pad::RIGHT, Nes::Api::Input::Controllers::Pad::START, Nes::Api::Input::Controllers::Pad::SELECT
 };
 
@@ -671,34 +667,6 @@ static int Heights[2] =
 - (void)didReleaseNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
 {
     controls->pad[player - 1].buttons &= ~NESControlValues[button];
-}
-
-- (NSUInteger)NES_buttonMaskForButton:(OEButton)gameButton
-{
-    NSUInteger button = 0;
-    switch (gameButton)
-    {
-        case OEButton_1      : button = Nes::Api::Input::Controllers::Pad::A;      break;
-        case OEButton_2      : button = Nes::Api::Input::Controllers::Pad::B;      break;
-        case OEButton_Up     : button = Nes::Api::Input::Controllers::Pad::UP;     break;
-        case OEButton_Down   : button = Nes::Api::Input::Controllers::Pad::DOWN;   break;
-        case OEButton_Left   : button = Nes::Api::Input::Controllers::Pad::LEFT;   break;
-        case OEButton_Right  : button = Nes::Api::Input::Controllers::Pad::RIGHT;  break;
-        case OEButton_Start  : button = Nes::Api::Input::Controllers::Pad::START;  break;
-        case OEButton_Select : button = Nes::Api::Input::Controllers::Pad::SELECT; break;
-    }
-    
-    return button;
-}
-
-- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
-{
-    controls->pad[thePlayer].buttons |= [self NES_buttonMaskForButton:gameButton];
-}
-
-- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton
-{
-    controls->pad[thePlayer].buttons &= ~[self NES_buttonMaskForButton:gameButton];
 }
 
 - (NSUInteger)soundBufferSize

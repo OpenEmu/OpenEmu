@@ -53,10 +53,6 @@
 #define SAMPLEFRAME (SAMPLERATE/60)
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
 
-@interface GBAGameEmu () <OEGBASystemResponderClient>
-- (NSUInteger)GBA_buttonMaskForButton:(OEButton)gameButton;
-@end
-
 int systemFrameSkip = 0;
 
 @implementation GBAGameEmu
@@ -297,38 +293,6 @@ OERingBuffer *ringBuffer = nil;
 - (void)didReleaseGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
 {
     _GBAButtons[player - 1] &= ~(1 << button);
-}
-
-- (NSUInteger)GBA_buttonMaskForButton:(OEButton)gameButton
-{
-    NSUInteger button = 0;
-    switch (gameButton)
-    {
-        case OEButton_1      : button = KEY_BUTTON_A;      break;
-        case OEButton_2      : button = KEY_BUTTON_B;      break;
-        case OEButton_3      : button = KEY_BUTTON_R;      break;
-        case OEButton_4      : button = KEY_BUTTON_L;      break;
-        case OEButton_Up     : button = KEY_UP;            break;
-        case OEButton_Down   : button = KEY_DOWN;          break;
-        case OEButton_Left   : button = KEY_LEFT;          break;
-        case OEButton_Right  : button = KEY_RIGHT;         break;
-        case OEButton_Start  : button = KEY_BUTTON_START;  break;
-        case OEButton_Select : button = KEY_BUTTON_SELECT; break;
-    }
-    
-    return button;
-}
-
-- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton
-{
-    thePlayer %= 4;
-    _GBAButtons[thePlayer] |= [self GBA_buttonMaskForButton:gameButton];
-}
-
-- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton
-{
-    thePlayer %= 4;
-    _GBAButtons[thePlayer] &= ~[self GBA_buttonMaskForButton:gameButton];
 }
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
