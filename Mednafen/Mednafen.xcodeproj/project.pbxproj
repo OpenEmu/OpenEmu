@@ -561,19 +561,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1B98A4051429134A00B8FA7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
+		};
 		824088CD0FFDE05400F0FE7D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
 			remoteInfo = OpenEmu;
-		};
-		824088CF0FFDE05400F0FE7D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 828E65980E8466A100B1860B;
-			remoteInfo = OpenEmuQC;
 		};
 		824088D10FFDE05400F0FE7D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -602,13 +602,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
-		};
-		C62A25D7116F07B80003DEE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
-			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A25D9116F07B80003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2068,16 +2061,15 @@
 			children = (
 				824088CE0FFDE05400F0FE7D /* OpenEmu.app */,
 				C62A25DA116F07B80003DEE4 /* OpenEmuHelperApp */,
-				C62A25D8116F07B80003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				824088D00FFDE05400F0FE7D /* OpenEmuQC.plugin */,
 				824088D20FFDE05400F0FE7D /* OpenEmuBase.framework */,
-				829661731042470500F30B74 /* OESaveStateQLPlugin.qlgenerator */,
 				C6640DD81363E85F00ECCAA5 /* OpenEmuSystem.framework */,
+				829661731042470500F30B74 /* OESaveStateQLPlugin.qlgenerator */,
 				C6640DDA1363E85F00ECCAA5 /* SegaMasterSystem.oesystemplugin */,
 				C6B947801364E1E200A425F0 /* NES.oesystemplugin */,
 				C6B947821364E1E200A425F0 /* SuperNES.oesystemplugin */,
 				C6B948BE1365195D00A425F0 /* GameBoy.oesystemplugin */,
 				C6B948C01365195D00A425F0 /* Genesis.oesystemplugin */,
+				1B98A4061429134A00B8FA7B /* GameBoy Advance.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -4483,18 +4475,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		1B98A4061429134A00B8FA7B /* GameBoy Advance.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "GameBoy Advance.oesystemplugin";
+			remoteRef = 1B98A4051429134A00B8FA7B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		824088CE0FFDE05400F0FE7D /* OpenEmu.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
 			path = OpenEmu.app;
 			remoteRef = 824088CD0FFDE05400F0FE7D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		824088D00FFDE05400F0FE7D /* OpenEmuQC.plugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OpenEmuQC.plugin;
-			remoteRef = 824088CF0FFDE05400F0FE7D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		824088D20FFDE05400F0FE7D /* OpenEmuBase.framework */ = {
@@ -4509,13 +4501,6 @@
 			fileType = wrapper.cfbundle;
 			path = OESaveStateQLPlugin.qlgenerator;
 			remoteRef = 829661721042470500F30B74 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C62A25D8116F07B80003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmuDebugHelperAppApp.app;
-			remoteRef = C62A25D7116F07B80003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A25DA116F07B80003DEE4 /* OpenEmuHelperApp */ = {
@@ -5183,6 +5168,7 @@
 				);
 				PRODUCT_NAME = Mednafen;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include/** $(PROJECT_DIR)/src $(PROJECT_DIR) $(PROJECT_DIR)/mednafen/**";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Debug;
@@ -5211,6 +5197,7 @@
 				);
 				PRODUCT_NAME = Mednafen;
 				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/include/** $(PROJECT_DIR)/src $(PROJECT_DIR) $(PROJECT_DIR)/mednafen/**";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Release;

@@ -119,20 +119,6 @@
 			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
 		};
-		3D208B901182427D00BEAA42 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
-			remoteInfo = OpenEmuDebugHelperAppApp;
-		};
-		3D208B921182427D00BEAA42 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 828E65980E8466A100B1860B;
-			remoteInfo = OpenEmuQC;
-		};
 		3D208B941182427D00BEAA42 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */;
@@ -567,8 +553,6 @@
 			children = (
 				3D208B8D1182427D00BEAA42 /* OpenEmu.app */,
 				3D208B8F1182427D00BEAA42 /* OpenEmuHelperApp */,
-				3D208B911182427D00BEAA42 /* OpenEmuDebugHelperAppApp.app */,
-				3D208B931182427D00BEAA42 /* OpenEmuQC.plugin */,
 				3D208B951182427D00BEAA42 /* OpenEmuBase.framework */,
 				C6B948741365191300A425F0 /* OpenEmuSystem.framework */,
 				3D208B971182427D00BEAA42 /* OESaveStateQLPlugin.qlgenerator */,
@@ -1086,20 +1070,6 @@
 			remoteRef = 3D208B8E1182427D00BEAA42 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		3D208B911182427D00BEAA42 /* OpenEmuDebugHelperAppApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmuDebugHelperAppApp.app;
-			remoteRef = 3D208B901182427D00BEAA42 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3D208B931182427D00BEAA42 /* OpenEmuQC.plugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OpenEmuQC.plugin;
-			remoteRef = 3D208B921182427D00BEAA42 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		3D208B951182427D00BEAA42 /* OpenEmuBase.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1326,6 +1296,7 @@
 					"-DDYNAREC",
 				);
 				PRODUCT_NAME = Mupen64Plus;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
@@ -1362,6 +1333,7 @@
 				);
 				PRESERVE_DEAD_CODE_INITS_AND_TERMS = YES;
 				PRODUCT_NAME = Mupen64Plus;
+				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wall";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};

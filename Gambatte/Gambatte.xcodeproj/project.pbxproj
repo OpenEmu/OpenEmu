@@ -127,26 +127,12 @@
 			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
 			remoteInfo = OpenEmu;
 		};
-		82EA5FFC0F514B1D008E18C5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5FF20F514B1D008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 828E65980E8466A100B1860B;
-			remoteInfo = OpenEmuQC;
-		};
 		82EA5FFE0F514B1D008E18C5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82EA5FF20F514B1D008E18C5 /* OpenEmu.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 82444BA10F51256C007C171B;
 			remoteInfo = OpenEmuBase;
-		};
-		C62A258C116F07300003DEE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5FF20F514B1D008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
-			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A258E116F07300003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -488,11 +474,9 @@
 			children = (
 				82EA5FFB0F514B1D008E18C5 /* OpenEmu.app */,
 				C62A258F116F07300003DEE4 /* OpenEmuHelperApp */,
-				C62A258D116F07300003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				82EA5FFD0F514B1D008E18C5 /* OpenEmuQC.plugin */,
 				82EA5FFF0F514B1D008E18C5 /* OpenEmuBase.framework */,
-				3754E16F10268EFE00DCBFB7 /* OESaveStateQLPlugin.qlgenerator */,
 				C6B05DB31363B435007EAAFA /* OpenEmuSystem.framework */,
+				3754E16F10268EFE00DCBFB7 /* OESaveStateQLPlugin.qlgenerator */,
 				C6B05DB51363B435007EAAFA /* SegaMasterSystem.oesystemplugin */,
 				C6B947D41364FC5900A425F0 /* NES.oesystemplugin */,
 				C6B947D61364FC5900A425F0 /* SuperNES.oesystemplugin */,
@@ -763,25 +747,11 @@
 			remoteRef = 82EA5FFA0F514B1D008E18C5 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		82EA5FFD0F514B1D008E18C5 /* OpenEmuQC.plugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OpenEmuQC.plugin;
-			remoteRef = 82EA5FFC0F514B1D008E18C5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		82EA5FFF0F514B1D008E18C5 /* OpenEmuBase.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = OpenEmuBase.framework;
 			remoteRef = 82EA5FFE0F514B1D008E18C5 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C62A258D116F07300003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmuDebugHelperAppApp.app;
-			remoteRef = C62A258C116F07300003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A258F116F07300003DEE4 /* OpenEmuHelperApp */ = {
@@ -998,6 +968,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				OTHER_CFLAGS = "-DHAVE_STDINT_H";
 				PRODUCT_NAME = Gambatte;
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Debug;
@@ -1014,6 +985,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				OTHER_CFLAGS = "-DHAVE_STDINT_H";
 				PRODUCT_NAME = Gambatte;
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Release;
@@ -1028,10 +1000,7 @@
 		82CAFCD70FEDD3D500CCDC7E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				PRODUCT_NAME = Distribution;
 			};
 			name = Release;

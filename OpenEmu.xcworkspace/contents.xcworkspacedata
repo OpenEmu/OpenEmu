@@ -2,7 +2,13 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "container:OpenEmuBuilder/OpenEmuBuilder.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:OpenEmu/OpenEmu.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:iPhoneRemote/iPhoneRemote.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:CrabEmu/CrabEmu.xcodeproj">
@@ -15,9 +21,6 @@
    </FileRef>
    <FileRef
       location = "group:GenesisPlus/GenesisPlus.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:iPhoneRemote/iPhoneRemote.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Mednafen/Mednafen.xcodeproj">
@@ -33,8 +36,5 @@
    </FileRef>
    <FileRef
       location = "group:VisualBoyAdvance/VisualBoyAdvance.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "container:OpenEmuBuilder/OpenEmuBuilder.xcodeproj">
    </FileRef>
 </Workspace>

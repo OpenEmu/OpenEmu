@@ -64,6 +64,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1B98A3D9142912E600B8FA7B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
+		};
 		3746BCD61029454F007C78A6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
@@ -84,13 +91,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = CrabEmu;
-		};
-		C62A2568116F07070003DEE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
-			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A256A116F07070003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -154,13 +154,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
 			remoteInfo = OpenEmu;
-		};
-		C6E917D10FD356A500AC2CCC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 828E65980E8466A100B1860B;
-			remoteInfo = OpenEmuQC;
 		};
 		C6E917D30FD356A500AC2CCC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -468,16 +461,15 @@
 			children = (
 				C6E917D00FD356A500AC2CCC /* OpenEmu.app */,
 				C62A256B116F07070003DEE4 /* OpenEmuHelperApp */,
-				C62A2569116F07070003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				C6E917D20FD356A500AC2CCC /* OpenEmuQC.plugin */,
 				C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */,
-				3746BCD71029454F007C78A6 /* OESaveStateQLPlugin.qlgenerator */,
 				C64CBD241363DA8C00BEE4F3 /* OpenEmuSystem.framework */,
+				3746BCD71029454F007C78A6 /* OESaveStateQLPlugin.qlgenerator */,
 				C64CBD261363DA8C00BEE4F3 /* SegaMasterSystem.oesystemplugin */,
 				C6480F42136489BD0094FA33 /* NES.oesystemplugin */,
 				C68A395B1364B67E006CEB34 /* SuperNES.oesystemplugin */,
 				C6B3E68D1365255700D34947 /* GameBoy.oesystemplugin */,
 				C6B3E68F1365255700D34947 /* Genesis.oesystemplugin */,
+				1B98A3DA142912E600B8FA7B /* GameBoy Advance.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -539,18 +531,18 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		1B98A3DA142912E600B8FA7B /* GameBoy Advance.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "GameBoy Advance.oesystemplugin";
+			remoteRef = 1B98A3D9142912E600B8FA7B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		3746BCD71029454F007C78A6 /* OESaveStateQLPlugin.qlgenerator */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = OESaveStateQLPlugin.qlgenerator;
 			remoteRef = 3746BCD61029454F007C78A6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C62A2569116F07070003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmuDebugHelperAppApp.app;
-			remoteRef = C62A2568116F07070003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A256B116F07070003DEE4 /* OpenEmuHelperApp */ = {
@@ -607,13 +599,6 @@
 			fileType = wrapper.application;
 			path = OpenEmu.app;
 			remoteRef = C6E917CF0FD356A500AC2CCC /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C6E917D20FD356A500AC2CCC /* OpenEmuQC.plugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OpenEmuQC.plugin;
-			remoteRef = C6E917D10FD356A500AC2CCC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */ = {
@@ -817,10 +802,7 @@
 		82CAFB630FEDA62500CCDC7E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				PRODUCT_NAME = Distribution;
 			};
 			name = Release;

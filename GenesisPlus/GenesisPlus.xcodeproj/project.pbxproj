@@ -96,13 +96,6 @@
 			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
 			remoteInfo = OpenEmu;
 		};
-		82287C53101E9F060072172D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 828E65980E8466A100B1860B;
-			remoteInfo = OpenEmuQC;
-		};
 		82287C55101E9F060072172D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
@@ -151,13 +144,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = C64BB08D136478E600C1AB23;
 			remoteInfo = NES;
-		};
-		C62A25AF116F07940003DEE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82287C47101E9F060072172D /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
-			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A25B1116F07940003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -412,11 +398,9 @@
 			children = (
 				82287C52101E9F060072172D /* OpenEmu.app */,
 				C62A25B2116F07940003DEE4 /* OpenEmuHelperApp */,
-				C62A25B0116F07940003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				82287C54101E9F060072172D /* OpenEmuQC.plugin */,
 				82287C56101E9F060072172D /* OpenEmuBase.framework */,
-				3783946E102922A200168304 /* OESaveStateQLPlugin.qlgenerator */,
 				C619320C1364894900F48758 /* OpenEmuSystem.framework */,
+				3783946E102922A200168304 /* OESaveStateQLPlugin.qlgenerator */,
 				C619320E1364894900F48758 /* SegaMasterSystem.oesystemplugin */,
 				C61932101364894900F48758 /* NES.oesystemplugin */,
 				C6B94802136508F400A425F0 /* SuperNES.oesystemplugin */,
@@ -641,13 +625,6 @@
 			remoteRef = 82287C51101E9F060072172D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		82287C54101E9F060072172D /* OpenEmuQC.plugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OpenEmuQC.plugin;
-			remoteRef = 82287C53101E9F060072172D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		82287C56101E9F060072172D /* OpenEmuBase.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -674,13 +651,6 @@
 			fileType = wrapper.cfbundle;
 			path = NES.oesystemplugin;
 			remoteRef = C619320F1364894900F48758 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C62A25B0116F07940003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmuDebugHelperAppApp.app;
-			remoteRef = C62A25AF116F07940003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A25B2116F07940003DEE4 /* OpenEmuHelperApp */ = {
@@ -854,6 +824,7 @@
 				OTHER_CFLAGS = "-DLSB_FIRST";
 				PRODUCT_NAME = GenesisPlus;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Debug;
@@ -873,6 +844,7 @@
 				OTHER_CFLAGS = "-DLSB_FIRST";
 				PRODUCT_NAME = GenesisPlus;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)\"";
+				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Release;
@@ -937,10 +909,7 @@
 		8230C7D310AFCB0600412F24 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				PRODUCT_NAME = Distribution;
 			};
 			name = Release;
