@@ -418,14 +418,14 @@ static CGColorSpaceRef CreateSystemColorSpace()
                 [filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
                 [filterRenderer renderAtTime:time arguments:arguments];
                 
-                if(filterHasOutputMousePositionKeys)
-                {
-                    NSPoint mousePoint;
-                    mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
-                    mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
-                    
-                    [rootProxy setMousePosition:mousePoint]; 
-                }
+//                if(filterHasOutputMousePositionKeys)
+//                {
+//                    NSPoint mousePoint;
+//                    mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
+//                    mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
+//                    
+//                    [rootProxy setMousePosition:mousePoint]; 
+//                }
             }
             
             /*****************
