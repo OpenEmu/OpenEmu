@@ -41,7 +41,7 @@
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSCustomView" id="243981024">
 						<reference key="NSNextResponder" ref="268028433"/>
-						<int key="NSvFlags">266</int>
+						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{0, 253}, {561, 283}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
@@ -61,7 +61,7 @@
 					<object class="NSTextField" id="967997443">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">297</int>
-						<string key="NSFrame">{{399, 228}, {42, 17}}</string>
+						<string key="NSFrame">{{397, 228}, {42, 17}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="214329737"/>
@@ -99,7 +99,7 @@
 					<object class="NSPopUpButton" id="433849363">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">300</int>
-						<string key="NSFrame">{{21, 222}, {159, 26}}</string>
+						<string key="NSFrame">{{25, 222}, {206, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="687338305"/>
@@ -228,7 +228,7 @@
 					<object class="NSPopUpButton" id="687338305">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">297</int>
-						<string key="NSFrame">{{304, 222}, {82, 26}}</string>
+						<string key="NSFrame">{{297, 222}, {89, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="967997443"/>
@@ -306,7 +306,7 @@
 					<object class="NSPopUpButton" id="214329737">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">297</int>
-						<string key="NSFrame">{{443, 222}, {93, 26}}</string>
+						<string key="NSFrame">{{441, 222}, {93, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="613243695"/>
@@ -492,9 +492,9 @@
 							<reference ref="687338305"/>
 							<reference ref="433849363"/>
 							<reference ref="214329737"/>
-							<reference ref="967997443"/>
 							<reference ref="613243695"/>
 							<reference ref="243981024"/>
+							<reference ref="967997443"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Controls</string>
