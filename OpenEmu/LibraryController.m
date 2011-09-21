@@ -45,7 +45,7 @@
     [initialValues setValue:[NSNumber numberWithFloat:1.0] forKey:@"volume"];
     [defaults setInitialValues:initialValues];
     
-    if([LibraryController class] != self){
+    if([LibraryController class] == self){
         [OEPlugin registerPluginClass:[OECorePlugin class]];
         [OEPlugin registerPluginClass:[OESystemPlugin class]];
         [OEPlugin registerPluginClass:[OECompositionPlugin class]];
