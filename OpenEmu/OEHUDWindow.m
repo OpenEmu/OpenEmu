@@ -43,7 +43,7 @@
 }
 
 - (id)initWithContentRect:(NSRect)frame {
-    self = [self initWithContentRect:frame styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:NO];
+    self = [self initWithContentRect:frame styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     if (self) {}
     return self;
 }
@@ -125,7 +125,7 @@
 
 @implementation OEHUDBorderWindow
 - (id)init{
-	self = [self initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:NO];
+	self = [self initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
 	if(self){		
 		[self setHasShadow:NO];
 		[self setMovableByWindowBackground:NO];
