@@ -47,10 +47,6 @@
 #define SAMPLEFRAME     800
 #define SIZESOUNDBUFFER SAMPLEFRAME * 4
 
-@interface SNESGameEmu () <OESNESSystemResponderClient>
-- (NSUInteger)SNES_buttonMaskForButton:(OEButton)gameButton;
-@end
-
 @implementation SNESGameEmu
 
 NSString *SNESEmulatorKeys[] = { @"A", @"B", @"X", @"Y", @"Up", @"Down", @"Left", @"Right", @"Start", @"Select", @"L", @"R", nil };
@@ -294,38 +290,6 @@ bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
 - (NSUInteger)channelCount
 {
     return 2;
-}
-
-- (NSUInteger)SNES_buttonMaskForButton:(OEButton)gameButton
-{
-    NSUInteger button = 0;
-    switch (gameButton)
-    {
-        case OEButton_1      : button = SNES_A_MASK;      break;
-        case OEButton_2      : button = SNES_B_MASK;      break;
-        case OEButton_3      : button = SNES_X_MASK;      break;
-        case OEButton_4      : button = SNES_Y_MASK;      break;
-        case OEButton_5      : button = SNES_TL_MASK;     break;
-        case OEButton_6      : button = SNES_TR_MASK;     break;
-        case OEButton_Up     : button = SNES_UP_MASK;     break;
-        case OEButton_Down   : button = SNES_DOWN_MASK;   break;
-        case OEButton_Left   : button = SNES_LEFT_MASK;   break;
-        case OEButton_Right  : button = SNES_RIGHT_MASK;  break;
-        case OEButton_Start  : button = SNES_START_MASK;  break;
-        case OEButton_Select : button = SNES_SELECT_MASK; break;
-    }
-    
-    return button;
-}
-
-- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
-{
-    controlPad[thePlayer - 1] |= [self SNES_buttonMaskForButton:gameButton];
-}
-
-- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton;
-{
-    controlPad[thePlayer - 1] &= ~[self SNES_buttonMaskForButton:gameButton];
 }
 
 - (BOOL)saveStateToFileAtPath: (NSString *) fileName

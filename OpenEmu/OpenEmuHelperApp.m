@@ -668,6 +668,11 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     return [gameCore isEmulationPaused];
 }
 
+- (void) setPauseEmulation:(BOOL)paused
+{
+    [gameCore setPauseEmulation:paused];
+}
+
 // methods
 - (void)setVolume:(float)volume
 {
@@ -678,42 +683,6 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 {
     drawSquarePixels = _drawSquarePixels;
     [self updateScreenSize];
-}
-
-- (NSPoint) mousePosition
-{
-    return [gameCore mousePosition];
-}
-
-- (void)setMousePosition:(NSPoint)pos
-{
-    [gameCore setMousePosition:pos];
-}
-
-- (void)setPauseEmulation:(BOOL)paused
-{
-    if(paused)
-    {
-        [gameAudio pauseAudio];
-        [gameCore setPauseEmulation:YES];
-    }
-    else
-    {
-        [gameAudio startAudio];
-        [gameCore setPauseEmulation:NO];
-    }
-}
-
-- (void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button
-{
-//    DLog(@"did Press Button");
-    [gameCore player:playerNumber didPressButton:button];
-}
-
-- (void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button
-{
-//    DLog(@"did Release Button");
-    [gameCore player:playerNumber didReleaseButton:button];
 }
 
 @end

@@ -39,36 +39,6 @@
 
 #endif
 
-enum {
-    OEButton_Up = 1,
-    OEButton_Down,
-    OEButton_Left,
-    OEButton_Right,
-    OEButton_Start,
-    OEButton_Select,
-    OEButton_1 = 11,
-    OEButton_2,
-    OEButton_3,
-    OEButton_4,
-    OEButton_5,
-    OEButton_6,
-    OEButton_7,
-    OEButton_8,
-    OEButton_9,
-    OEButton_10,
-    OEButton_11,
-    OEButton_12,
-    OEButton_13,
-    OEButton_14,
-    OEButton_15,
-    OEButton_16,
-    OEButton_17,
-    OEButton_18,
-    OEButton_19,
-    OEButton_20 // = 30
-};
-typedef NSInteger OEButton DEPRECATED_ATTRIBUTE;
-
 typedef struct OEIntPoint {
     int x;
     int y;
@@ -197,9 +167,7 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey;
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey;
  */
-#pragma mark Input
-//- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
-//- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton;
+
 
 #pragma mark Save state - Optional
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName;

@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		B56F6FC20F38FC1600DCE88B /* Build & Install */ = {
+		B56F6FC20F38FC1600DCE88B /* Build & Install NeoPop */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = B56F6FC70F38FC4B00DCE88B /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = B56F6FC70F38FC4B00DCE88B /* Build configuration list for PBXAggregateTarget "Build & Install NeoPop" */;
 			buildPhases = (
 				B56F6FC10F38FC1600DCE88B /* ShellScript */,
 			);
 			dependencies = (
 				B56F6FC60F38FC2D00DCE88B /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install NeoPop";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -77,6 +77,55 @@
 			proxyType = 2;
 			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
 			remoteInfo = OpenEmuDebugHelperAppApp;
+		};
+		826415DB13EDC44D00591582 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6711807136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		826415DD13EDC44D00591582 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C671180F136368330034379A;
+			remoteInfo = SegaMasterSystem;
+		};
+		826415DF13EDC44D00591582 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C64BB08D136478E600C1AB23;
+			remoteInfo = NES;
+		};
+		826415E113EDC44D00591582 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6480FC113648F670094FA33;
+			remoteInfo = SuperNES;
+		};
+		826415E313EDC44D00591582 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6B947AF1364ECA600A425F0;
+			remoteInfo = GameBoy;
+		};
+		826415E513EDC44D00591582 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C6B947E61365080B00A425F0;
+			remoteInfo = Genesis;
+		};
+		826415E713EDC44D00591582 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
 		};
 		B56F6FC50F38FC2D00DCE88B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -384,6 +433,13 @@
 				C66DFD510F51F1840080AA28 /* OpenEmuQC.plugin */,
 				C66DFD530F51F1840080AA28 /* OpenEmuBase.framework */,
 				3746BCA9102942B0007C78A6 /* OESaveStateQLPlugin.qlgenerator */,
+				826415DC13EDC44D00591582 /* OpenEmuSystem.framework */,
+				826415DE13EDC44D00591582 /* SegaMasterSystem.oesystemplugin */,
+				826415E013EDC44D00591582 /* NES.oesystemplugin */,
+				826415E213EDC44D00591582 /* SuperNES.oesystemplugin */,
+				826415E413EDC44D00591582 /* GameBoy.oesystemplugin */,
+				826415E613EDC44D00591582 /* Genesis.oesystemplugin */,
+				826415E813EDC44D00591582 /* GameBoy Advance.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -416,9 +472,11 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 0410;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "NeoPop" */;
 			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				en,
@@ -434,7 +492,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* NeoPop */,
-				B56F6FC20F38FC1600DCE88B /* Build & Install */,
+				B56F6FC20F38FC1600DCE88B /* Build & Install NeoPop */,
 			);
 		};
 /* End PBXProject section */
@@ -459,6 +517,55 @@
 			fileType = wrapper.application;
 			path = OpenEmuDebugHelperAppApp.app;
 			remoteRef = 3D81E2951175814300B37FD5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		826415DC13EDC44D00591582 /* OpenEmuSystem.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuSystem.framework;
+			remoteRef = 826415DB13EDC44D00591582 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		826415DE13EDC44D00591582 /* SegaMasterSystem.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SegaMasterSystem.oesystemplugin;
+			remoteRef = 826415DD13EDC44D00591582 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		826415E013EDC44D00591582 /* NES.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NES.oesystemplugin;
+			remoteRef = 826415DF13EDC44D00591582 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		826415E213EDC44D00591582 /* SuperNES.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SuperNES.oesystemplugin;
+			remoteRef = 826415E113EDC44D00591582 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		826415E413EDC44D00591582 /* GameBoy.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GameBoy.oesystemplugin;
+			remoteRef = 826415E313EDC44D00591582 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		826415E613EDC44D00591582 /* Genesis.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Genesis.oesystemplugin;
+			remoteRef = 826415E513EDC44D00591582 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		826415E813EDC44D00591582 /* GameBoy Advance.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "GameBoy Advance.oesystemplugin";
+			remoteRef = 826415E713EDC44D00591582 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C66DFD4F0F51F1840080AA28 /* OpenEmu.app */ = {
@@ -508,7 +615,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"/Library/Application Support/OpenEmu/Cores\"\nrm -rf \"/Library/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"/Library/Application Support/OpenEmu/Cores/\"\n";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"{,.dSYM}\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -575,7 +682,6 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = NeoPop_Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"";
@@ -651,7 +757,6 @@
 		B56F6FC40F38FC1700DCE88B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Release;
@@ -677,7 +782,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B56F6FC70F38FC4B00DCE88B /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		B56F6FC70F38FC4B00DCE88B /* Build configuration list for PBXAggregateTarget "Build & Install NeoPop" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B56F6FC30F38FC1700DCE88B /* Debug */,

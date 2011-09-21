@@ -11,6 +11,9 @@
       location = "group:iPhoneRemote/iPhoneRemote.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:NeoPop/NeoPop.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:CrabEmu/CrabEmu.xcodeproj">
    </FileRef>
    <FileRef

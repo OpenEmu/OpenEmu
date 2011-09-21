@@ -20,16 +20,16 @@
 			name = Distribution;
 			productName = Distribution;
 		};
-		82D815AB0F1D882B00EF8CF5 /* Build & Install */ = {
+		82D815AB0F1D882B00EF8CF5 /* Build & Install VisualBoyAdvance */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 82D815B90F1D883D00EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 82D815B90F1D883D00EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install VisualBoyAdvance" */;
 			buildPhases = (
 				82D815AA0F1D882B00EF8CF5 /* ShellScript */,
 			);
 			dependencies = (
 				82D815AF0F1D883500EF8CF5 /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install VisualBoyAdvance";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -613,7 +613,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* VisualBoyAdvance */,
-				82D815AB0F1D882B00EF8CF5 /* Build & Install */,
+				82D815AB0F1D882B00EF8CF5 /* Build & Install VisualBoyAdvance */,
 				82CAFD070FEDD57400CCDC7E /* Distribution */,
 			);
 		};
@@ -739,7 +739,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"/Library/Application Support/OpenEmu/Cores\"\nrm -rf \"/Library/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"/Library/Application Support/OpenEmu/Cores/\"\n";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"{,.dSYM}\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -969,7 +969,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82D815B90F1D883D00EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		82D815B90F1D883D00EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install VisualBoyAdvance" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82D815AC0F1D882C00EF8CF5 /* Debug */,

@@ -42,5 +42,7 @@
 	<string>http://openemu.org/update/vba_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
+	<key>OESystemPluginName</key>
+	<string>GameBoy Advance</string>
 </dict>
 </plist>

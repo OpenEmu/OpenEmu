@@ -123,6 +123,4 @@ enum _OEHelperAppErrorCodes
 #pragma mark OE DO protocol delegate methods
 - (void)setVolume:(float)volume;
 - (void)setPauseEmulation:(BOOL)paused;
-- (oneway void)player:(NSUInteger)playerNumber didPressButton:(OEButton)button;
-- (oneway void)player:(NSUInteger)playerNumber didReleaseButton:(OEButton)button;
 @end

@@ -340,15 +340,6 @@ static NSTimeInterval currentTime()
 }
 
 #pragma mark Input
-- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton
-{
-    [self doesNotImplementSelector:_cmd];
-}
-
-- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton
-{
-    [self doesNotImplementSelector:_cmd];
-}
 
 - (NSTrackingAreaOptions)mouseTrackingOptions
 {

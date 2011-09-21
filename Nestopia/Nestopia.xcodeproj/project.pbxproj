@@ -2511,6 +2511,7 @@
 				INSTALL_PATH = "$(HOME)/Library/Application Support/OpenEmu/Cores";
 				LD_RUNPATH_SEARCH_PATHS = "\"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" /Library/Frameworks ~/Library/Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = Nestopia;
+				SDKROOT = macosx10.6;
 				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wno-switch-enum";
 				WRAPPER_EXTENSION = oecoreplugin;
@@ -2527,6 +2528,7 @@
 				INSTALL_PATH = "$(HOME)/Library/Application Support/OpenEmu/Cores";
 				LD_RUNPATH_SEARCH_PATHS = "\"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" /Library/Frameworks ~/Library/Frameworks @loader_path/../Frameworks";
 				PRODUCT_NAME = Nestopia;
+				SDKROOT = macosx10.6;
 				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wno-switch-enum";
 				WRAPPER_EXTENSION = oecoreplugin;
@@ -2585,6 +2587,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = x86_64;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Distribution;
 				SDKROOT = "";
 			};
@@ -2594,6 +2597,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = x86_64;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Distribution;
 				SDKROOT = "";
 			};

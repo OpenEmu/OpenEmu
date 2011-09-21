@@ -268,7 +268,7 @@ void gbRenderLine()
 
             //bx >>= ((gbSCXLine[0]+(((swx>1) && (swx != 7)) ? 1 : 0)) & 7);
 
-            if ((swx == 7))
+            if (swx == 7)
             {
               //wx = 0;
               if ((gbWindowLine>0) || (wy == 0))
