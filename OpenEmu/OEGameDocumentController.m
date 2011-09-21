@@ -90,8 +90,8 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-    NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
-    [QCPlugIn loadPlugInAtPath:pluginString];
+//    NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
+//    [QCPlugIn loadPlugInAtPath:pluginString];
     
     // now load QC plugins/compositions
     [self updateFilterNames];
@@ -223,6 +223,17 @@
     [super dealloc];
 }
 
+//- (IBAction)openPreferenceWindow:(id)sender
+//{
+//    if(preferences == nil)
+//        preferences = [[OEGamePreferenceController alloc] init];
+//    
+//    if([[self currentDocument] isFullScreen])
+//        [[self currentDocument] toggleFullScreenMode:sender];
+//    
+//    [preferences showWindow:sender];
+//}
+
 - (IBAction)openAboutWindow:(id)sender
 {
     [aboutWindow center];
@@ -235,7 +246,7 @@
         saveStateManager = [[OESaveStateController alloc] init];
     
     if([[self currentDocument] isFullScreen])
-        [[self currentDocument] toggleFullScreen:sender];
+        [[self currentDocument] toggleFullScreenMode:sender];
     
     [saveStateManager showWindow:sender];
 }
@@ -246,7 +257,7 @@
         coreInstaller = [[OECoreInstaller alloc] init];
     
     if([[self currentDocument] isFullScreen])
-        [[self currentDocument] toggleFullScreen:sender];
+        [[self currentDocument] toggleFullScreenMode:sender];
     
     [coreInstaller showWindow:sender];
 }

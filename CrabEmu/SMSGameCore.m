@@ -191,33 +191,6 @@ static const NSUInteger buttonActions[2][2] = {
     { SMS_PAD2_A, SMS_PAD2_B }
 };
 
-- (void)player:(NSUInteger)thePlayer didChangeButtonState:(OEButton)gameButton toPressed:(BOOL)flag
-{
-    if(thePlayer > 1) return;
-    
-    void (*sms_button)(int) = (flag ? sms_button_pressed : sms_button_released);
-    NSUInteger button = 0;
-    
-    if(OEButton_Up <= gameButton && gameButton <= OEButton_Right)
-        button = buttonDirections[thePlayer][gameButton];
-    else if(gameButton == OEButton_Start)
-        button = GG_START;
-    else if(OEButton_1 <= gameButton)
-        button = buttonActions[thePlayer][(gameButton - OEButton_1) % 2];
-    
-    if(button != 0) sms_button(button);
-}
-
-- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton
-{
-    [self player:thePlayer didChangeButtonState:gameButton toPressed:YES];
-}
-
-- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton
-{
-    [self player:thePlayer didChangeButtonState:gameButton toPressed:NO];
-}
-
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
     return sms_save_state([fileName UTF8String]) == 0;

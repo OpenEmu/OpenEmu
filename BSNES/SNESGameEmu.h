@@ -45,6 +45,5 @@ extern NSString *BSNESEmulatorNames[];
     BSNESInterface *interface;
     //SNES::System *system;
 }
-//- (void) reportControlPad: (int) padID withFlags: (uint32) flags;
 
 @end

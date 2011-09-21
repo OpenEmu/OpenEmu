@@ -237,6 +237,8 @@ static CGColorSpaceRef CreateSystemColorSpace()
     surfaceID  = rootProxy.surfaceID;
     screenSize = rootProxy.screenSize;
     
+    gameServer = [[SyphonServer alloc] initWithName:@"Game Name" context:layerContext options:nil];
+    
     return layerContext;
 }
 
@@ -416,14 +418,14 @@ static CGColorSpaceRef CreateSystemColorSpace()
                 [filterRenderer setValue:[self gameCIImage] forInputKey:@"OEImageInput"];
                 [filterRenderer renderAtTime:time arguments:arguments];
                 
-                if(filterHasOutputMousePositionKeys)
-                {
-                    NSPoint mousePoint;
-                    mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
-                    mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
-                    
-                    [rootProxy setMousePosition:mousePoint]; 
-                }
+//                if(filterHasOutputMousePositionKeys)
+//                {
+//                    NSPoint mousePoint;
+//                    mousePoint.x = [[filterRenderer valueForOutputKey:@"OEMousePositionX"] floatValue];
+//                    mousePoint.y = [[filterRenderer valueForOutputKey:@"OEMousePositionY"] floatValue];
+//                    
+//                    [rootProxy setMousePosition:mousePoint]; 
+//                }
             }
             
             /*****************
@@ -451,6 +453,9 @@ static CGColorSpaceRef CreateSystemColorSpace()
             [self setScreenshotHandler:nil];
         }
         
+        if([gameServer hasClients])
+            [gameServer publishFrameTexture:gameTexture textureTarget:GL_TEXTURE_RECTANGLE_ARB imageRegion:textureRect textureDimensions:textureRect.size flipped:NO];
+        
         // super calls flush for us.
         [super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
         
@@ -460,6 +465,10 @@ static CGColorSpaceRef CreateSystemColorSpace()
 
 - (void)dealloc
 {
+    
+    [gameServer release];
+    gameServer = nil;
+    
     [filters release];
     
     [self setScreenshotHandler:nil];

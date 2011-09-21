@@ -49,10 +49,6 @@ _u8 system_frameskip_key;
 
 BOOL system_rom_load(const char *filename);
 
-@interface NGPGameEmu ()
-- (NSUInteger)NGP_buttonMaskForButton:(OEButton)button;
-@end
-
 
 @implementation NGPGameEmu
 
@@ -178,32 +174,6 @@ int *gBlit = NULL;
 - (void*)soundBuffer
 {
     return sndBuf;
-}
-
-- (NSUInteger)NGP_buttonMaskForButton:(OEButton)gameButton
-{
-    NSUInteger button = 0;
-    switch (gameButton)
-    {
-        case OEButton_Up    : button = NGPButtonUp;     break;
-        case OEButton_Down  : button = NGPButtonDown;   break;
-        case OEButton_Left  : button = NGPButtonLeft;   break;
-        case OEButton_Right : button = NGPButtonRight;  break;
-        case OEButton_1     : button = NGPButtonA;      break;
-        case OEButton_2     : button = NGPButtonB;      break;
-        case OEButton_Start : button = NGPButtonOption; break;
-    }
-    return button;
-}
-
-- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton
-{
-    ram[JOYPORT_ADDR] |= [self NGP_buttonMaskForButton:gameButton];
-}
-
-- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton
-{
-    ram[JOYPORT_ADDR] &= ~[self NGP_buttonMaskForButton:gameButton];
 }
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName

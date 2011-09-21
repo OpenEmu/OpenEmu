@@ -29,9 +29,12 @@
 
 #import "OEPluginController.h"
 
+
+
 @interface NSObject (OEPlugin)
 + (BOOL)isPluginClass;
 @end
+
 
 
 @interface OEPlugin : NSObject <NSCopying>

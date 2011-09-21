@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXAggregateTarget section */
-		822C193F101EA4AF0034119F /* Build & Install */ = {
+		822C193F101EA4AF0034119F /* Build & Install GenesisPlus */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 822C1944101EA4D40034119F /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 822C1944101EA4D40034119F /* Build configuration list for PBXAggregateTarget "Build & Install GenesisPlus" */;
 			buildPhases = (
 				822C193E101EA4AF0034119F /* ShellScript */,
 			);
 			dependencies = (
 				822C1943101EA4B60034119F /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install GenesisPlus";
 			productName = "Build & Install";
 		};
 		8230C7D110AFCB0600412F24 /* Distribution */ = {
@@ -604,7 +604,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* GenesisPlus */,
-				822C193F101EA4AF0034119F /* Build & Install */,
+				822C193F101EA4AF0034119F /* Build & Install GenesisPlus */,
 				8230C7D110AFCB0600412F24 /* Distribution */,
 			);
 		};
@@ -719,7 +719,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"/Library/Application Support/OpenEmu/Cores\"\nrm -rf \"/Library/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"/Library/Application Support/OpenEmu/Cores/\"\n";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"{,.dSYM}\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
 		};
 		8230C7D010AFCB0600412F24 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -935,7 +935,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		822C1944101EA4D40034119F /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		822C1944101EA4D40034119F /* Build configuration list for PBXAggregateTarget "Build & Install GenesisPlus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				822C1940101EA4B00034119F /* Debug */,

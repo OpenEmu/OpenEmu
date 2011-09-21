@@ -20,16 +20,16 @@
 			name = Distribution;
 			productName = Distribution;
 		};
-		82B9195310150EA2007BD6DB /* Build & Install */ = {
+		82B9195310150EA2007BD6DB /* Build & Install BSNES */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 82B9195D10150EA4007BD6DB /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 82B9195D10150EA4007BD6DB /* Build configuration list for PBXAggregateTarget "Build & Install BSNES" */;
 			buildPhases = (
 				82B9195210150EA2007BD6DB /* ShellScript */,
 			);
 			dependencies = (
 				82B9195F10150EB3007BD6DB /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install BSNES";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -116,13 +116,6 @@
 			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
 			remoteInfo = OpenEmu;
 		};
-		826FE11E1014D8CF0023A8E9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 828E65980E8466A100B1860B;
-			remoteInfo = OpenEmuQC;
-		};
 		826FE1201014D8CF0023A8E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
@@ -143,13 +136,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = BSNES;
-		};
-		C62A2543116F06C80003DEE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
-			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A2545116F06C80003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1916,8 +1902,6 @@
 			children = (
 				826FE11D1014D8CF0023A8E9 /* OpenEmu.app */,
 				C62A2546116F06C80003DEE4 /* OpenEmuHelperApp */,
-				C62A2544116F06C80003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				826FE11F1014D8CF0023A8E9 /* OpenEmuQC.plugin */,
 				826FE1211014D8CF0023A8E9 /* OpenEmuBase.framework */,
 				C6E542951363CC130075BA8C /* OpenEmuSystem.framework */,
 				37C19C84102656280075F0F8 /* OESaveStateQLPlugin.qlgenerator */,
@@ -2008,7 +1992,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* BSNES */,
-				82B9195310150EA2007BD6DB /* Build & Install */,
+				82B9195310150EA2007BD6DB /* Build & Install BSNES */,
 				82B91B8410151B4F007BD6DB /* libco */,
 				8230C6A110AFBC9100412F24 /* Distribution */,
 			);
@@ -2030,25 +2014,11 @@
 			remoteRef = 826FE11C1014D8CF0023A8E9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		826FE11F1014D8CF0023A8E9 /* OpenEmuQC.plugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OpenEmuQC.plugin;
-			remoteRef = 826FE11E1014D8CF0023A8E9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		826FE1211014D8CF0023A8E9 /* OpenEmuBase.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = OpenEmuBase.framework;
 			remoteRef = 826FE1201014D8CF0023A8E9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C62A2544116F06C80003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmuDebugHelperAppApp.app;
-			remoteRef = C62A2543116F06C80003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A2546116F06C80003DEE4 /* OpenEmuHelperApp */ = {
@@ -2155,7 +2125,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"/Library/Application Support/OpenEmu/Cores\"\nrm -rf \"/Library/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"/Library/Application Support/OpenEmu/Cores/\"\n";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"{,.dSYM}\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2265,6 +2235,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = BSNES;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/core/\"";
 				WRAPPER_EXTENSION = oecoreplugin;
@@ -2290,6 +2261,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)\"",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = BSNES;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/core/\"";
 				WRAPPER_EXTENSION = oecoreplugin;
@@ -2339,6 +2311,7 @@
 		8230C6A210AFBC9100412F24 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Distribution;
 			};
 			name = Debug;
@@ -2346,6 +2319,7 @@
 		8230C6A310AFBC9100412F24 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Distribution;
 			};
 			name = Release;
@@ -2353,6 +2327,7 @@
 		82B9195410150EA2007BD6DB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Debug;
@@ -2360,6 +2335,7 @@
 		82B9195510150EA2007BD6DB /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Release;
@@ -2368,6 +2344,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = libco;
 			};
 			name = Debug;
@@ -2377,6 +2354,7 @@
 			buildSettings = {
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				INSTALL_PATH = /usr/local/lib;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = libco;
 			};
 			name = Release;
@@ -2411,7 +2389,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82B9195D10150EA4007BD6DB /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		82B9195D10150EA4007BD6DB /* Build configuration list for PBXAggregateTarget "Build & Install BSNES" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82B9195410150EA2007BD6DB /* Debug */,

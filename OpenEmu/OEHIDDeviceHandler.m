@@ -70,7 +70,7 @@ static NSUInteger lastDeviceNumber = 0;
             else
             {
                 [self release];
-                self = [nilHandler retain];
+                return [nilHandler retain];
             }
         }
         else

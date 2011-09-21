@@ -53,10 +53,9 @@
 /* Begin PBXBuildFile section */
 		14598A1012E151670001EBD0 /* OECoreInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 14598A0D12E151670001EBD0 /* OECoreInstaller.m */; };
 		14598A1112E151670001EBD0 /* OECoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 14598A0F12E151670001EBD0 /* OECoreUpdater.m */; };
-		1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224006100BD61D00F42067 /* Debug.qtz */; };
 		1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
-		1B224175100C049000F42067 /* CRT.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224174100C049000F42067 /* CRT.qtz */; };
-		1B224177100C049E00F42067 /* TV.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224176100C049E00F42067 /* TV.qtz */; };
+		1B42C66D1429510A004691D7 /* Syphon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B42C66C1429510A004691D7 /* Syphon.framework */; };
+		1B42C66F14295130004691D7 /* Syphon.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 1B42C66C1429510A004691D7 /* Syphon.framework */; };
 		1B4D77EB117A5FFD0001F629 /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
 		1B4D77EE117A60ED0001F629 /* Scale4x.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC00F08A13500770B6D /* Scale4x.frag */; };
 		1B4D77EF117A60ED0001F629 /* Scale4x.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885EC10F08A13500770B6D /* Scale4x.vert */; };
@@ -603,9 +602,6 @@
 			dstPath = Filters;
 			dstSubfolderSpec = 7;
 			files = (
-				1B224175100C049000F42067 /* CRT.qtz in Copy Filters Folder To App Resources */,
-				1B224177100C049E00F42067 /* TV.qtz in Copy Filters Folder To App Resources */,
-				1B224028100BD67F00F42067 /* Debug.qtz in Copy Filters Folder To App Resources */,
 			);
 			name = "Copy Filters Folder To App Resources";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -621,18 +617,9 @@
 				82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */,
 				1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */,
 				C67D54BD138AC014004FCA0B /* OpenEmuSystem.framework in Copy Frameworks to App Frameworks */,
+				1B42C66F14295130004691D7 /* Syphon.framework in Copy Frameworks to App Frameworks */,
 			);
 			name = "Copy Frameworks to App Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		82C42BD510CAF6740046D1A3 /* Copy QC Plugin to Plugins */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-			);
-			name = "Copy QC Plugin to Plugins";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		82CAFBAA0FEDAA1C00CCDC7E /* CopyFiles */ = {
@@ -683,6 +670,7 @@
 		1B2242EC100D9C7900F42067 /* CRTScanlines.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTScanlines.frag; sourceTree = "<group>"; };
 		1B2242ED100D9C7900F42067 /* CRTScanlines.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTScanlines.vert; sourceTree = "<group>"; };
 		1B2243AE100E92E700F42067 /* CRTMaskShadow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskShadow.tiff; sourceTree = "<group>"; };
+		1B42C66C1429510A004691D7 /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Syphon.framework; sourceTree = "<group>"; };
 		1B4B324C1009BC7500F36BB1 /* CRTMask.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.frag; sourceTree = "<group>"; };
 		1B4B324D1009BC7500F36BB1 /* CRTMask.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTMask.vert; sourceTree = "<group>"; };
 		1B4B338E100A792500F36BB1 /* CRTPhosphorBlur.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTPhosphorBlur.frag; sourceTree = "<group>"; };
@@ -1278,6 +1266,7 @@
 				53D32E4D13B95F6200A6ACE0 /* QTKit.framework in Frameworks */,
 				82DE4B62102655D5007184EB /* XADMaster.framework in Frameworks */,
 				83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */,
+				1B42C66D1429510A004691D7 /* Syphon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1352,6 +1341,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1B42C66C1429510A004691D7 /* Syphon.framework */,
 				8305267413FBC999006179C6 /* Security.framework */,
 				83A9011F13FB2E9D000F4514 /* libcrypto.dylib */,
 				53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */,
@@ -2704,7 +2694,6 @@
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				828ED4F00E7D98F60059F397 /* Copy Frameworks to App Frameworks */,
-				82C42BD510CAF6740046D1A3 /* Copy QC Plugin to Plugins */,
 			);
 			buildRules = (
 			);

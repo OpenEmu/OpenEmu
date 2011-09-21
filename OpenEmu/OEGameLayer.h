@@ -33,6 +33,8 @@
 #import "OEGameCoreHelper.h"
 #import "OEGameShader.h"
 
+#import <Syphon/Syphon.h>
+
 @class OEGameCore, OEGameDocument, OEGameDocumentController;
 
 @interface OEGameLayer : CAOpenGLLayer <OEGameCoreHelperDelegate>
@@ -75,6 +77,8 @@
     
     IOSurfaceID surfaceID;
     OEIntSize screenSize;
+    
+    SyphonServer* gameServer;
 }
 
 @property(copy) void (^screenshotHandler)(NSImage *img);
