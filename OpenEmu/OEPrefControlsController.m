@@ -66,16 +66,44 @@
    	
 	gradientOverlay.topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
 	gradientOverlay.bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
-    
-    CIFilter *filter = [CIFilter filterWithName:@"CIDissolveTransition"];
-    [filter setDefaults];
+
+    // Animation for controller image swapping
     CATransition *transition = [CATransition animation];
-    transition.filter = filter;
-    transition.duration = 0.5;
+    transition.type = kCATransitionPush;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    transition.duration = 1.0;
+    
     [controllerView setWantsLayer:YES];
-    [controllerView setAnimations: [NSDictionary dictionaryWithObject: transition forKey:@"subviews"]];
-        
+
+    controllerView.layer.shadowOpacity = 0.3;
+    controllerView.layer.shadowRadius = 10.0;
+    controllerView.layer.shadowOffset = CGSizeMake(0.0, 15.0);
+    
+    [controllerView setAnimations: [NSDictionary dictionaryWithObject:transition forKey:@"subviews"]];
+       
+    // The following enables the pixelation animation, if you want it.
+//    CIFilter *pixellate = [CIFilter filterWithName:@"CIPixellate"];
+//    [pixellate setDefaults];
+//    [pixellate setValue:[NSNumber numberWithInt:1.0] forKeyPath:@"inputScale"];
+//    pixellate.name = @"pixellate";
+//
+//    controllerView.layer.filters = [NSArray arrayWithObject:pixellate];
+//    transition.delegate = self;
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindingTypeChanged:) name:@"OEControlsViewControllerChangedBindingType" object:nil];
+}
+
+- (void)animationDidStart:(CAAnimation *)theAnimation
+{
+    [controllerView.layer setValue:[NSNumber numberWithFloat:1.0] forKeyPath:@"filters.pixellate.inputScale"];
+}
+
+- (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
+{
+    if(flag)
+    {          
+        [controllerView.layer setValue:[NSNumber numberWithInt:10.0] forKeyPath:@"filters.pixellate.inputScale"];
+    }
 }
 
 - (NSString*)nibName{
