@@ -94,8 +94,8 @@
 	[array addObject:controller];
 	
 	// TODO: decide if we need cores tab or not
-	// controller = [[[OEPrefCoresController alloc] init] autorelease];
-	// [array addObject:controller];
+	controller = [[[OEPrefCoresController alloc] init] autorelease];
+	[array addObject:controller];
 	
 	self.preferencePanes = array;
 	[self _rebuildToolbar];
