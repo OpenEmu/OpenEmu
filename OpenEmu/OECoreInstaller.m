@@ -67,7 +67,7 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
 
 - (void)loadCoreList
 {
-#warning TODO: Remove return
+#warning Remove return, to enable updating
 	return;
 	
     NSURL         *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];

@@ -173,11 +173,10 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     
     if(ctrl == nil)
     {
-        ctrl = [[self newPreferenceViewControllerForKey:aKey] autorelease];
+        ctrl = [self newPreferenceViewControllerForKey:aKey];
         [preferenceViewControllers setObject:ctrl forKey:aKey];
-	  [ctrl autorelease];
+		[ctrl autorelease];
     }
-    
     return ctrl;
 }
 

@@ -73,12 +73,7 @@
     transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
     transition.duration = 1.0;
     
-    [controllerView setWantsLayer:YES];
-
-    controllerView.layer.shadowOpacity = 0.3;
-    controllerView.layer.shadowRadius = 10.0;
-    controllerView.layer.shadowOffset = CGSizeMake(0.0, 15.0);
-    
+    [controllerView setWantsLayer:YES];    
     [controllerView setAnimations: [NSDictionary dictionaryWithObject:transition forKey:@"subviews"]];
        
     // The following enables the pixelation animation, if you want it.
@@ -117,7 +112,10 @@
 
 	NSMenuItem* menuItem = [consolesPopupButton selectedItem];
 	NSString* systemName = [menuItem title];
-	selectedPlugin = [OESystemPlugin gameSystemPluginForName:systemName];
+	
+	OESystemPlugin* nextPlugin = [OESystemPlugin gameSystemPluginForName:systemName];
+	if(selectedPlugin!=nil && nextPlugin==selectedPlugin) return;
+	selectedPlugin = nextPlugin;
 	
 	OESystemController* systemController = [selectedPlugin controller];
 	
@@ -153,8 +151,9 @@
     [self changeInputDevice:inputPopupButton];
     
     NSImageView* newControllerView = [[NSImageView alloc] initWithFrame:[controllerView bounds]];
-    [newControllerView setImage:[preferenceViewController controllerImage]];
-   
+    [newControllerView setImageAlignment:NSImageAlignTop];
+	[newControllerView setImage:[preferenceViewController controllerImage]];
+	
     if([[controllerView subviews] count])
     {
         [[controllerView animator] replaceSubview:[[controllerView subviews] objectAtIndex:0] with:newControllerView];
