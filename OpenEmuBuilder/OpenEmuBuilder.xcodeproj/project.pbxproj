@@ -86,6 +86,7 @@
 			buildPhases = (
 			);
 			dependencies = (
+				1B7082B7142992F50012818A /* PBXTargetDependency */,
 				1E4F572210DEA04F00381953 /* PBXTargetDependency */,
 			);
 			name = OpenEmu.app;
@@ -171,6 +172,13 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXContainerItemProxy section */
+		1B7082B6142992F50012818A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1EB956DC10373FE9003C6109 /* OpenEmu.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 83F37141140BB166005A7353;
+			remoteInfo = "Build SystemPlugins";
+		};
 		1E4B6CF610DEDF3000B2CD45 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1E07AE3C10373EBC00B9EE89 /* Project object */;
@@ -916,6 +924,11 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1B7082B7142992F50012818A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Build SystemPlugins";
+			targetProxy = 1B7082B6142992F50012818A /* PBXContainerItemProxy */;
+		};
 		1E4B6CF710DEDF3000B2CD45 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1E4F578610DEA15400381953 /* Gambatte */;
