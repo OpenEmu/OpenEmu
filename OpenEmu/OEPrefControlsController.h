@@ -13,7 +13,7 @@
 @class OESystemPlugin;
 @interface OEPrefControlsController : NSViewController <OEPreferencePane> {
 @private
-	IBOutlet NSImageView	* controllerView;
+	IBOutlet NSView	* controllerView;
 	
     IBOutlet NSPopUpButton	* consolesPopupButton;
     IBOutlet NSPopUpButton	* playerPopupButton;

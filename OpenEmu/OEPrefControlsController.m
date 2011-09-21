@@ -6,6 +6,8 @@
 //  Copyright 2011 none. All rights reserved.
 //
 
+#import <Quartz/Quartz.h>
+
 #import "OEPrefControlsController.h"
 #import "OEBackgroundGradientView.h"
 #import "OEBackgroundImageView.h"
@@ -65,6 +67,14 @@
 	gradientOverlay.topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
 	gradientOverlay.bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
     
+    CIFilter *filter = [CIFilter filterWithName:@"CIDissolveTransition"];
+    [filter setDefaults];
+    CATransition *transition = [CATransition animation];
+    transition.filter = filter;
+    transition.duration = 0.5;
+    [controllerView setWantsLayer:YES];
+    [controllerView setAnimations: [NSDictionary dictionaryWithObject: transition forKey:@"subviews"]];
+        
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindingTypeChanged:) name:@"OEControlsViewControllerChangedBindingType" object:nil];
 }
 
@@ -101,8 +111,8 @@
     [playerPopupButton selectItemWithTag:[sud integerForKey:UDControlsPlayerKey]];
     
 	OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
-	[controllerView setImage:[preferenceViewController controllerImage]];
     
+       
 	NSView* preferenceView = [preferenceViewController view];
 	[preferenceView setFrame:[controlsContainer bounds]];
 	if([[controlsContainer subviews] count])
@@ -113,6 +123,19 @@
     
     [self changePlayer:playerPopupButton];
     [self changeInputDevice:inputPopupButton];
+    
+    NSImageView* newControllerView = [[NSImageView alloc] initWithFrame:[controllerView bounds]];
+    [newControllerView setImage:[preferenceViewController controllerImage]];
+   
+    if([[controllerView subviews] count])
+    {
+        [[controllerView animator] replaceSubview:[[controllerView subviews] objectAtIndex:0] with:newControllerView];
+    }
+    else
+        [[controllerView animator] addSubview:newControllerView];
+    
+    [newControllerView release];
+
 }
 
 - (IBAction)changePlayer:(id)sender{
