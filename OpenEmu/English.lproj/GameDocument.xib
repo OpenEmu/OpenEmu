@@ -252,13 +252,11 @@
 							<int key="NSvFlags">274</int>
 							<string key="NSFrameSize">{427, 294}</string>
 							<reference key="NSSuperview" ref="1006"/>
-							<reference key="NSWindow"/>
 							<string key="NSClassName">OEGameView</string>
 						</object>
 					</array>
 					<string key="NSFrameSize">{427, 294}</string>
 					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>

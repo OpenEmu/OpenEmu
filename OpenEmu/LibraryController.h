@@ -60,6 +60,12 @@
 - (IBAction)filemenu_addToLibrary:(id)sender;
 
 - (IBAction)controlsmenu_startGame:(id)sender;
+
+- (IBAction) switchToGridView:(id)sender;
+- (IBAction) switchToListView:(id)sender;
+- (IBAction) switchToFlowView:(id)sender;
+
+
 #pragma mark -
 #pragma mark Properties
 @property (assign, nonatomic) BOOL sidebarChangesWindowSize;

@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1891</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.SystemVersion">11C57</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.AppKitVersion">1138.21</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1891</string>
+			<string key="NS.object.0">1617</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSTableHeaderView</string>
@@ -37,10 +37,7 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
-			<integer value="1" key="NS.object.0"/>
-		</object>
+		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
 				<string key="NSClassName">CollectionViewController</string>
@@ -68,7 +65,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="430694040">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSButton" id="990930852">
@@ -520,9 +517,10 @@
 							<bool key="NSTransparent">NO</bool>
 						</object>
 					</array>
-					<string key="NSFrame">{{7, 11}, {201, 408}}</string>
+					<string key="NSFrameSize">{201, 408}</string>
+					<reference key="NSSuperview"/>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
@@ -535,8 +533,9 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrameSize">{735, 332}</string>
 						<reference key="NSSuperview" ref="6079965"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="664306359"/>
-						<string key="NSClassName">NSView</string>
+						<string key="NSClassName">IKImageFlowView</string>
 					</object>
 					<object class="NSScrollView" id="664306359">
 						<reference key="NSNextResponder" ref="6079965"/>
@@ -551,13 +550,15 @@
 										<int key="NSvFlags">4370</int>
 										<string key="NSFrameSize">{735, 319}</string>
 										<reference key="NSSuperview" ref="311889962"/>
-										<reference key="NSNextKeyView" ref="247794307"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="1040507511"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTableHeaderView" key="NSHeaderView" id="1012813773">
 											<reference key="NSNextResponder" ref="247794307"/>
 											<int key="NSvFlags">4352</int>
 											<string key="NSFrameSize">{735, 17}</string>
 											<reference key="NSSuperview" ref="247794307"/>
+											<reference key="NSWindow"/>
 											<reference key="NSNextKeyView" ref="311889962"/>
 											<reference key="NSTableView" ref="887282208"/>
 										</object>
@@ -776,6 +777,7 @@
 								</array>
 								<string key="NSFrame">{{0, 17}, {735, 319}}</string>
 								<reference key="NSSuperview" ref="664306359"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="887282208"/>
 								<reference key="NSDocView" ref="887282208"/>
 								<object class="NSColor" key="NSBGColor">
@@ -790,6 +792,7 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{720, 17}, {15, 303}}</string>
 								<reference key="NSSuperview" ref="664306359"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="364856155"/>
 								<reference key="NSTarget" ref="664306359"/>
 								<string key="NSAction">_doScroller:</string>
@@ -800,6 +803,8 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{0, 320}, {720, 15}}</string>
 								<reference key="NSSuperview" ref="664306359"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="664306359"/>
 								<string key="NSAction">_doScroller:</string>
@@ -813,6 +818,7 @@
 								</array>
 								<string key="NSFrameSize">{735, 17}</string>
 								<reference key="NSSuperview" ref="664306359"/>
+								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="1012813773"/>
 								<reference key="NSDocView" ref="1012813773"/>
 								<reference key="NSBGColor" ref="455417535"/>
@@ -821,7 +827,8 @@
 						</array>
 						<string key="NSFrame">{{0, 333}, {735, 336}}</string>
 						<reference key="NSSuperview" ref="6079965"/>
-						<reference key="NSNextKeyView" ref="311889962"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="247794307"/>
 						<int key="NSsFlags">133680</int>
 						<reference key="NSVScroller" ref="1040507511"/>
 						<reference key="NSHScroller" ref="364856155"/>
@@ -832,11 +839,12 @@
 				</array>
 				<string key="NSFrameSize">{735, 669}</string>
 				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="977515685"/>
 				<int key="NSDividerStyle">2</int>
 			</object>
 			<object class="NSCustomView" id="501487370">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSCustomView" id="239391905">
@@ -928,12 +936,13 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{371, 139}</string>
+				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="239391905"/>
 				<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSCustomView" id="359497738">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">292</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSCustomView" id="403994968">
@@ -998,6 +1007,7 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{382, 139}</string>
+				<reference key="NSSuperview"/>
 				<reference key="NSNextKeyView" ref="403994968"/>
 				<string key="NSClassName">NSView</string>
 			</object>
@@ -1014,15 +1024,13 @@
 								<int key="NSvFlags">18</int>
 								<string key="NSFrameSize">{643, 510}</string>
 								<reference key="NSSuperview" ref="384876260"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView" ref="941444314"/>
+								<reference key="NSNextKeyView" ref="102222795"/>
 								<int key="NSViewLayerContentsRedrawPolicy">2</int>
 								<string key="NSClassName">IKSGridView</string>
 							</object>
 						</array>
 						<string key="NSFrameSize">{643, 510}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="705979620"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<reference key="NSDocView" ref="705979620"/>
@@ -1037,8 +1045,6 @@
 						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{628, 0}, {15, 495}}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<bool key="NSViewCanDrawConcurrently">YES</bool>
 						<reference key="NSTarget" ref="700958242"/>
@@ -1052,7 +1058,6 @@
 						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{-100, -100}, {628, 15}}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="384876260"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<int key="NSsFlags">1</int>
@@ -1064,8 +1069,7 @@
 				</array>
 				<string key="NSFrameSize">{643, 510}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
-				<reference key="NSNextKeyView" ref="102222795"/>
+				<reference key="NSNextKeyView" ref="384876260"/>
 				<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				<int key="NSsFlags">133680</int>
 				<reference key="NSVScroller" ref="941444314"/>
@@ -1115,6 +1119,14 @@
 						<reference key="destination" ref="700958242"/>
 					</object>
 					<int key="connectionID">100</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">coverFlowView</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="977515685"/>
+					</object>
+					<int key="connectionID">101</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1773,7 +1785,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">100</int>
+			<int key="maxID">101</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1810,6 +1822,7 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="coverFlowView">IKImageFlowView</string>
 						<string key="flowViewBtn">NSButton</string>
 						<string key="flowViewMenuItem">NSMenuItem</string>
 						<string key="flowlistViewContainer">OEHorizontalSplitView</string>
@@ -1824,6 +1837,10 @@
 						<string key="sizeSlider">NSSlider</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="coverFlowView">
+							<string key="name">coverFlowView</string>
+							<string key="candidateClassName">IKImageFlowView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="flowViewBtn">
 							<string key="name">flowViewBtn</string>
 							<string key="candidateClassName">NSButton</string>
@@ -1876,6 +1893,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/CollectionViewController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">IKImageFlowView</string>
+					<string key="superclassName">NSOpenGLView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/IKImageFlowView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

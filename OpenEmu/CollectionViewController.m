@@ -112,8 +112,10 @@
     [self changeGridSize:sizeSlider];
 	
     // set up flow view
-	//   [coverFlowView setDelegate:self];
-	//   [coverFlowView setDataSource:self];
+    [coverFlowView setDelegate:self];
+    [coverFlowView setDataSource:self];
+    [coverFlowView setCellsAlignOnBaseline:YES];
+    [coverFlowView setCellBorderColor:[NSColor blueColor]];
     
     // Set up list view
     [listView setDelegate:self];	
@@ -222,7 +224,7 @@
     [gamesController setFilterPredicate:pred];
     
     [listView reloadData];
-	//  [coverFlowView reloadData];
+	[coverFlowView reloadData];
     [gridView reloadData];
 }
 - (IBAction)changeGridSize:(id)sender{
@@ -464,7 +466,7 @@
     if( aTableView == listView ){
 		NSIndexSet* selectedIndexes = [listView selectedRowIndexes];
 		
-		// [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
+		 [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
 		
 		[selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
 			[listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
@@ -495,8 +497,15 @@
 #pragma mark ImageFlow Delegates
 - (NSUInteger)imageFlow:(IKImageFlowView *)browser writeItemsAtIndexes:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pasteboard{ return 0; }
 - (void)imageFlow:(IKImageFlowView *)sender removeItemsAtIndexes:(NSIndexSet *)indexes{}
-- (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index{}
-- (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index{}
+- (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
+{
+    // TODO: run game eventually
+}
+
+- (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index
+{    
+    [listView selectRowIndexes:[NSIndexSet indexSetWithIndex:[sender selectedIndex]] byExtendingSelection:NO];
+}
 
 #pragma mark -
 #pragma mark Private
@@ -516,7 +525,7 @@
 	
     [gridView reloadData];
     [listView reloadData];
-	//	[coverFlowView reloadData];
+    [coverFlowView reloadData];
 }
 
 #pragma mark -
