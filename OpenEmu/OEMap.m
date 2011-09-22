@@ -47,6 +47,7 @@ typedef struct __OEMap {
     _OECompare  valueIsEqual;
 } OEMap;
 
+BOOL defaultIsEqual(OEMapValue v1, OEMapValue v2);
 BOOL defaultIsEqual(OEMapValue v1, OEMapValue v2)
 {
     return v1.key == v2.key && v1.player == v2.player;
