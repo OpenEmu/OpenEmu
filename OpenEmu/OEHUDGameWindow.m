@@ -11,12 +11,16 @@
 @implementation OEHUDGameWindow
 @synthesize gameDocument;
 - (id)initWithContentRect:(NSRect)contentRect andGameDocument:(OENewGameDocument*)gameDoc {
-    self = [super initWithContentRect:contentRect];
+    
+    self = [super initWithContentRect:contentRect styleMask: NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask  backing:NSBackingStoreBuffered defer:NO];
+    
+    //self = [super initWithContentRect:contentRect];
     if (self) {
 		[self setReleasedWhenClosed:YES];
 		self.gameDocument = gameDoc;
 		self.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
     }
+        
     return self;
 }
 
@@ -32,11 +36,11 @@
 - (void)setGameDocument:(OENewGameDocument *)gameDoc{
 	if(gameDoc && [gameDoc url]){
 		NSURL* url = [gameDoc url];
-		self.title = [url lastPathComponent];
+		self.title = [[url lastPathComponent] stringByDeletingPathExtension];
 	} else if(gameDoc && [gameDoc rom]){
 		id rom = [gameDoc rom];
 		NSString* path = [rom valueForKey:@"path"];
-		self.title = [path lastPathComponent];
+		self.title = [[path lastPathComponent] stringByDeletingPathExtension];
 	}
 	
 	if([[[self contentView] subviews] count]){

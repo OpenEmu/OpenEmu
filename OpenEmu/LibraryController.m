@@ -460,7 +460,7 @@
 	BOOL forcePopout = YES;
 	
 	if (allowsPopout && (gameDocument || forcePopout)) {
-		NSRect rect = NSMakeRect(150, 150, 320, 240);
+		NSRect rect = NSMakeRect(150, 150, 640, 480);
 		[gameDoc openWindow:rect];
 	} else {
 		[self _removeGameView];
