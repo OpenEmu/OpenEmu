@@ -119,13 +119,6 @@
 			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
 		};
-		3D208B901182427D00BEAA42 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
-			remoteInfo = OpenEmuDebugHelperAppApp;
-		};
 		3D208B941182427D00BEAA42 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */;
@@ -560,7 +553,6 @@
 			children = (
 				3D208B8D1182427D00BEAA42 /* OpenEmu.app */,
 				3D208B8F1182427D00BEAA42 /* OpenEmuHelperApp */,
-				3D208B911182427D00BEAA42 /* OpenEmuDebugHelperAppApp.app */,
 				3D208B951182427D00BEAA42 /* OpenEmuBase.framework */,
 				3D208B971182427D00BEAA42 /* OESaveStateQLPlugin.qlgenerator */,
 				C6B948741365191300A425F0 /* OpenEmuSystem.framework */,
@@ -1076,13 +1068,6 @@
 			fileType = "compiled.mach-o.executable";
 			path = OpenEmuHelperApp;
 			remoteRef = 3D208B8E1182427D00BEAA42 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3D208B911182427D00BEAA42 /* OpenEmuDebugHelperAppApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmuDebugHelperAppApp.app;
-			remoteRef = 3D208B901182427D00BEAA42 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3D208B951182427D00BEAA42 /* OpenEmuBase.framework */ = {

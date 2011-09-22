@@ -116,13 +116,6 @@
 			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
 			remoteInfo = OpenEmu;
 		};
-		826FE11E1014D8CF0023A8E9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 828E65980E8466A100B1860B;
-			remoteInfo = OpenEmuQC;
-		};
 		826FE1201014D8CF0023A8E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
@@ -143,13 +136,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = BSNES;
-		};
-		C62A2543116F06C80003DEE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
-			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A2545116F06C80003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1916,8 +1902,6 @@
 			children = (
 				826FE11D1014D8CF0023A8E9 /* OpenEmu.app */,
 				C62A2546116F06C80003DEE4 /* OpenEmuHelperApp */,
-				C62A2544116F06C80003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				826FE11F1014D8CF0023A8E9 /* OpenEmuQC.plugin */,
 				826FE1211014D8CF0023A8E9 /* OpenEmuBase.framework */,
 				37C19C84102656280075F0F8 /* OESaveStateQLPlugin.qlgenerator */,
 				C6E542951363CC130075BA8C /* OpenEmuSystem.framework */,
@@ -2030,25 +2014,11 @@
 			remoteRef = 826FE11C1014D8CF0023A8E9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		826FE11F1014D8CF0023A8E9 /* OpenEmuQC.plugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OpenEmuQC.plugin;
-			remoteRef = 826FE11E1014D8CF0023A8E9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		826FE1211014D8CF0023A8E9 /* OpenEmuBase.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
 			path = OpenEmuBase.framework;
 			remoteRef = 826FE1201014D8CF0023A8E9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C62A2544116F06C80003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmuDebugHelperAppApp.app;
-			remoteRef = C62A2543116F06C80003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A2546116F06C80003DEE4 /* OpenEmuHelperApp */ = {
@@ -2311,7 +2281,6 @@
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.6;
 			};
 			name = Debug;
 		};
@@ -2330,7 +2299,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.6;
 			};
 			name = Release;
 		};
