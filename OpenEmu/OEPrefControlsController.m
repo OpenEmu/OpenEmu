@@ -68,13 +68,13 @@
 	gradientOverlay.bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
 
     // Animation for controller image swapping
-    CATransition *transition = [CATransition animation];
-    transition.type = kCATransitionPush;
-    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-    transition.duration = 1.0;
+    CATransition *controllerTransition = [CATransition animation];
+    controllerTransition.type = kCATransitionPush;
+    controllerTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    controllerTransition.duration = 1.0;
     
     [controllerView setWantsLayer:YES];    
-    [controllerView setAnimations: [NSDictionary dictionaryWithObject:transition forKey:@"subviews"]];
+    [controllerView setAnimations: [NSDictionary dictionaryWithObject:controllerTransition forKey:@"subviews"]];
        
     // The following enables the pixelation animation, if you want it.
 //    CIFilter *pixellate = [CIFilter filterWithName:@"CIPixellate"];
@@ -84,6 +84,14 @@
 //
 //    controllerView.layer.filters = [NSArray arrayWithObject:pixellate];
 //    transition.delegate = self;
+
+    CATransition *controlsTransition = [CATransition animation];
+    controlsTransition.type = kCATransitionFade;
+    controlsTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    controlsTransition.duration = 1.0;
+
+    [controlsContainer setWantsLayer:YES];
+    [controlsContainer setAnimations: [NSDictionary dictionaryWithObject:controlsTransition forKey:@"subviews"]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindingTypeChanged:) name:@"OEControlsViewControllerChangedBindingType" object:nil];
 }
@@ -138,12 +146,12 @@
     
 	OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
     
-       
 	NSView* preferenceView = [preferenceViewController view];
 	[preferenceView setFrame:[controlsContainer bounds]];
 	if([[controlsContainer subviews] count])
-		[[[controlsContainer subviews] lastObject] removeFromSuperview];
-	[controlsContainer addSubview:preferenceView];
+        [[controlsContainer animator] replaceSubview:[[controlsContainer subviews] objectAtIndex:0] with:preferenceView];
+
+	[[controlsContainer animator] addSubview:preferenceView];
     
     [sud setObject:systemName forKey:UDControlsPluginNameKey];
     
