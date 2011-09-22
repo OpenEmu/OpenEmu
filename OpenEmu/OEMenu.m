@@ -62,20 +62,13 @@
 	
 	NSAssert(_localMonitor == nil, @"_localMonitor still exists somehow");
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask handler:^(NSEvent *incomingEvent) {
-		
-		OEMenuView* view = [[[self contentView] subviews] lastObject];
-		switch ([incomingEvent type]) {
-			case NSKeyDown:
+	
+	OEMenuView* view = [[[self contentView] subviews] lastObject];
+		if([incomingEvent type] == NSKeyDown){
 				[view keyDown:incomingEvent];
 				return (NSEvent *)nil;
-				break;				
-				
-			default:
-				break;
 		}
-		
-		
-		
+	
 		
 		if([[incomingEvent window] isKindOfClass:[self class]]){ // mouse down in window, will be handle by content view
 			return incomingEvent;
@@ -499,7 +492,6 @@
 }
 #pragma mark -
 - (void)keyDown:(NSEvent *)theEvent{
-	NSLog(@"keyDown: %@", theEvent);
 	switch (theEvent.keyCode) {
 		case 126: // UP
 			if(self.menu.highlightedItem){
