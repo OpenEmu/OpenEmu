@@ -477,7 +477,8 @@ static CGColorSpaceRef CreateSystemColorSpace()
     [self unbind:@"vSyncEnabled"];
     
     CGLContextObj cgl_ctx = layerContext;
-    glDeleteTextures(1, &gameTexture);
+    if(gameTexture)
+        glDeleteTextures(1, &gameTexture);
     
     [filterRenderer release];
     
