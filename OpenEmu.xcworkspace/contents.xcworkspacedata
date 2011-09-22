@@ -2,9 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "container:OpenEmuBuilder/OpenEmuBuilder.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:OpenEmu/OpenEmu.xcodeproj">
    </FileRef>
    <FileRef
