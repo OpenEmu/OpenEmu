@@ -174,6 +174,7 @@
 }
 
 - (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError**)outError{
+#warning finish method implementation
 	// check if path has readable suffix
 	BOOL hasReadableSuffix = YES;
 	if(!hasReadableSuffix) return YES;
@@ -181,12 +182,14 @@
 	NSError* error = nil;
 	
 	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+/*
 	BOOL automaticallyGetInfo = [standardDefaults boolForKey:UDAutmaticallyGetInfoKey];
 	BOOL quickImport = [standardDefaults boolForKey:UDUseQuickImportKey] && !automaticallyGetInfo;
 	BOOL organizeLibrary = [standardDefaults boolForKey:UDOrganizeLibraryKey];
 	
 	BOOL md5 = [standardDefaults boolForKey:UDUseMD5HashingKey];
-
+ */
+ 
 	// get managed object
 	// check if path is in database
 

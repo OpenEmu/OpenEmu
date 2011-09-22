@@ -26,7 +26,7 @@
     IBOutlet IKSGridView		* gridView;			// scrollview for gridview
     
     IBOutlet OEHorizontalSplitView	* flowlistViewContainer; // cover flow and simple list container
-  //  IBOutlet IKImageFlowView		* coverFlowView;
+    IBOutlet IKImageFlowView		* coverFlowView;
     IBOutlet NSTableView			* listView;
     
     IBOutlet NSButton	* gridViewBtn;	IBOutlet NSMenuItem* gridViewMenuItem;

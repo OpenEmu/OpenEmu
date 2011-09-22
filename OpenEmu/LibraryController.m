@@ -249,7 +249,24 @@
 - (IBAction)filemenu_editSmartCollection:(id)sender{
     NSLog(@"Edit smart collection: ");
 }
+
+- (IBAction) switchToGridView:(id)sender
+{
+    [collectionViewController selectGridView:sender]; 
+}
+
+- (IBAction) switchToListView:(id)sender
+{
+    [collectionViewController selectListView:sender]; 
+}
+
+- (IBAction) switchToFlowView:(id)sender
+{
+    [collectionViewController selectFlowView:sender];
+}
+
 #pragma mark -
+
 - (IBAction)filemenu_addToLibrary:(id)sender{
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
     [openPanel setAllowsMultipleSelection:YES];
@@ -443,7 +460,7 @@
 	BOOL forcePopout = YES;
 	
 	if (allowsPopout && (gameDocument || forcePopout)) {
-		NSRect rect = NSMakeRect(150, 150, 320, 240);
+		NSRect rect = NSMakeRect(150, 150, 640, 480);
 		[gameDoc openWindow:rect];
 	} else {
 		[self _removeGameView];

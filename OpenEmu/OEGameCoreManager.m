@@ -186,7 +186,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     }
     
     // now that we have a valid connection...
-    rootProxy = [[taskConnection rootProxy] retain];
+    rootProxy = (id <OEGameCoreHelper>)[[taskConnection rootProxy] retain];
     if(rootProxy == nil)
     {
         NSLog(@"nil root proxy object?");
@@ -340,7 +340,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     }
     
     // now that we have a valid connection...
-    rootProxy = [[taskConnection rootProxy] retain];
+    rootProxy = (id <OEGameCoreHelper>)[[taskConnection rootProxy] retain];
     if(rootProxy == nil)
     {
         NSLog(@"nil root proxy object?");

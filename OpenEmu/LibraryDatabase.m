@@ -593,6 +593,8 @@
 - (void)addGamesFromPath:(NSString*)path toCollection:(NSManagedObject*)collection searchSubfolders:(BOOL)subfolderFlag{
 // Note, quick import skips hash calculation to speed things up. This reduces duplicate checking to filename comparison and only makes sense if automatic archive sync is deactivated.
 
+    NSString* originalPath = path;
+    
 	NSError* err = nil;
 
 	// check files that have a "rom"-suffix
@@ -620,7 +622,7 @@
 			NSNumber* fileSize = [romInfo valueForKey:@"filesize"];
 			completeSize += [fileSize integerValue];
 		}
-		NSLog(@"%ld Bytes, %f KB, %f MB, %f GB", completeSize, completeSize/1000.0, completeSize/1000.0/1000.0, completeSize/1000.0/1000.0/1000.0);
+		//NSLog(@"%ld Bytes, %f KB, %f MB, %f GB", completeSize, completeSize/1000.0, completeSize/1000.0/1000.0, completeSize/1000.0/1000.0/1000.0);
 	}
 
 	// TODO: Get threadsafe context
@@ -770,6 +772,9 @@
 				path = filePath;
 			}
 			
+            // Fix: need to ensure our original path extension is moved along with our file.
+            path = [path stringByAppendingPathExtension:[originalPath pathExtension]];
+            
 			fileOpSuccessful = [defaultManager copyItemAtPath:filePath toPath:path error:&err];
 			if(!fileOpSuccessful){
 				NSLog(@"Error copying rom file '%@'", path);

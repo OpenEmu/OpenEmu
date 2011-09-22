@@ -671,6 +671,7 @@
 	int rating = [[self _datasourceProxy_objectForKey:@"rating"] intValue];
 	int status = [[self _datasourceProxy_objectForKey:@"status"] intValue];
 	
+	// imageContainerSize should be cached and used to determine if gridview selection rect hits this item
 	NSSize imageContainerSize = NSSizeFromCGSize(self.imageLayer.bounds.size);
     float r = coverImage?[coverImage size].height/[coverImage size].width:1.365385;
     if(r!=self.imageRatio) [self setNeedsLayout];

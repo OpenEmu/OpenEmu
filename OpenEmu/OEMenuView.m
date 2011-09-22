@@ -19,6 +19,7 @@
 
 #define menuItemHeightNoImage 17
 #define menuItemHeightImage 20
+#define menuItemSeparatorHeight 7
 #define menuItemHeight (imageIncluded ? menuItemHeightImage : menuItemHeightNoImage)
 
 @interface OEMenuView (Private)
@@ -96,10 +97,15 @@
 	NSArray* items = [self.menu itemArray];
 		
 	float width = 0;
-		
+	
 	imageIncluded = NO;
+	
+	int normalItems = 0;
+	int separatorItems = 0;
 	NSDictionary* attributes = [self itemTextAttributes];
 	for(NSMenuItem* menuItem in items){
+		if([menuItem isSeparatorItem]){ separatorItems++; continue; }
+		
 		NSAttributedString* attributedTitle = [[NSAttributedString alloc] initWithString:menuItem.title attributes:attributes];
 		width = width < attributedTitle.size.width ? attributedTitle.size.width : width;
 		[attributedTitle release];
@@ -107,9 +113,10 @@
 		if(menuItem.image!=nil){
 			imageIncluded = YES;
 		}
+		normalItems ++;
 	}
 		
-	float height = menuItemHeight*[items count] + menuItemSpacingTop+menuItemSpacingBottom;
+	float height = menuItemHeight*normalItems + menuItemSeparatorHeight*separatorItems + menuItemSpacingTop+menuItemSpacingBottom;
 	
 	width += menuItemSpacingLeft + menuItemSpacingRight;
 	width += imageIncluded ? menuItemImageWidth+menuItemImageTitleSpacing : 0 ;
@@ -151,6 +158,22 @@
 	NSArray* items = [self.menu itemArray];
 	float y = menuItemSpacingTop;
 	for(NSMenuItem* menuItem in items){
+		if([menuItem isSeparatorItem]){
+			NSRect lineRect = NSMakeRect(0, y, self.frame.size.width, 1);
+			lineRect = NSInsetRect(lineRect, 5, 0);
+			
+			lineRect.origin.y += 2;
+			[[NSColor blackColor] setFill];
+			NSRectFill(lineRect);
+			
+			lineRect.origin.y += 1;
+			[[NSColor colorWithDeviceWhite:1.0 alpha:0.12] setFill];
+			NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
+ 			
+			y += menuItemSeparatorHeight;
+			continue;
+		}
+		
 		NSRect itemRect = NSMakeRect(menuItemSpacingLeft, y, self.frame.size.width-menuItemSpacingLeft-menuItemSpacingRight, menuItemHeight);
 		NSRect menuItemFrame = NSMakeRect(5, y, self.frame.size.width-5-5, menuItemHeight);
 	
@@ -257,6 +280,10 @@
 - (void)highlightItemAtPoint:(NSPoint)p{
 	NSMenuItem* highlighItem = [self itemAtPoint:p];
 	if(highlighItem != self.menu.highlightedItem){
+		if([highlighItem isSeparatorItem]){
+			highlighItem = nil;
+		}
+		
 		self.menu.highlightedItem = highlighItem;
 		
 		[self setNeedsDisplay:YES];
@@ -270,15 +297,19 @@
 	if(p.y <= menuItemSpacingTop || p.y >= self.bounds.size.height-menuItemSpacingBottom){
 		return nil;
 	}
+	
 
-	int pos = (p.y-menuItemSpacingTop) / menuItemHeight;
-		
-	NSArray* itemArray = [self.menu itemArray];
-	if([itemArray count] <= pos){
-		return nil;
+	float y=menuItemSpacingTop;
+	for(NSMenuItem* item in [self.menu itemArray]){
+		if([item isSeparatorItem]){
+			y += menuItemSeparatorHeight; continue;
+		}
+		y+= menuItemHeight;
+		if(p.y < y && p.y > y-menuItemHeight)
+			return item;
 	}
-
-	return [itemArray objectAtIndex:pos];
+	
+	return nil;
 }
 
 - (NSRect)rectOfItem:(NSMenuItem*)m{

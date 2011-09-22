@@ -146,17 +146,15 @@
 {
     if((self = [super init]))
     {
-       		/*
         NSLog(@"Init OEGameDocumentController");
         [self setGameLoaded:NO];
         
         [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
-        *
+        
          // set our initial value for our filters dictionary
-         [self setFilterDictionary:[NSMutableDictionary new]];
+         [self setFilterDictionary:[[NSMutableDictionary new] autorelease]];
          
          // load up our QC Compositions that will replace our filters.
-         
          NSString* filtersLocation = @"/Library/Application Support/OpenEmu/Filters";
          
          NSDirectoryEnumerator * filterEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:filtersLocation];
@@ -187,7 +185,7 @@
          }
          
          NSLog(@"found filters: %@", filterDictionary);
-         *
+         
         [self updateValidExtensions];
         
         [self setupHIDSupport];
@@ -196,7 +194,6 @@
         aboutCreditsPath = [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
         [aboutCreditsPath retain];
         [self didChangeValueForKey:@"aboutCreditsPath"];
-        */
     }
     return self;
 }

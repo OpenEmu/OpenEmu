@@ -519,7 +519,7 @@ static __strong NSString* sharedEmailAddress = nil;
             NSString* name = [[[obj nodesForXPath:@"./name[1]/node()[1]" error:outError] lastObject] stringValue];
             NSString* job = [[[obj nodesForXPath:@"./position[1]/node()[1]" error:outError] lastObject] stringValue];
             
-            NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:name, AVGCreditsNameKey, job, AVGCreditsPositionKey, nil];
+            NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:[self removeHTMLEncodingsFromString:name], AVGCreditsNameKey, [self removeHTMLEncodingsFromString:job], AVGCreditsPositionKey, nil];
             [credits addObject:dict];
         }];
     }

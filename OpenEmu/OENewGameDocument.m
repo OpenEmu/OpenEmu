@@ -91,6 +91,7 @@
 - (void)openWindow:(NSRect)contentFrame{
 	OEHUDGameWindow* gameWindow = [[OEHUDGameWindow alloc] initWithContentRect:contentFrame andGameDocument:self];
 	[gameWindow makeKeyAndOrderFront:self];
+    [gameWindow center];
 	// check if we default to fullscreen, then go fullscreen
 }
 

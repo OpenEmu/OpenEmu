@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1891</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.SystemVersion">11C57</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.AppKitVersion">1138.21</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1891</string>
+			<string key="NS.object.0">1617</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSScroller</string>
@@ -34,10 +34,7 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
-			<integer value="1" key="NS.object.0"/>
-		</object>
+		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
 				<string key="NSClassName">LibraryController</string>
@@ -84,7 +81,7 @@
 															<string key="NSFrameSize">{186, 494}</string>
 															<reference key="NSSuperview" ref="411773151"/>
 															<reference key="NSWindow"/>
-															<reference key="NSNextKeyView" ref="948426263"/>
+															<reference key="NSNextKeyView" ref="993169309"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="832801688">
 																<reference key="NSNextResponder" ref="61671220"/>
@@ -238,7 +235,7 @@
 											<string key="NSFrame">{{0, 45}, {186, 511}}</string>
 											<reference key="NSSuperview" ref="214891354"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="411773151"/>
+											<reference key="NSNextKeyView" ref="948426263"/>
 											<int key="NSsFlags">133648</int>
 											<reference key="NSVScroller" ref="993169309"/>
 											<reference key="NSHScroller" ref="948426263"/>
@@ -341,6 +338,7 @@
 											<string key="NSFrame">{{615, 14}, {15, 15}}</string>
 											<reference key="NSSuperview" ref="200629737"/>
 											<reference key="NSWindow"/>
+											<reference key="NSNextKeyView"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSImageCell" key="NSCell" id="97198893">
 												<int key="NSCellFlags">130560</int>
@@ -541,7 +539,7 @@
 					<reference key="NSNextKeyView" ref="677115977"/>
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
-				<string key="NSScreenRect">{{0, 0}, {1920, 1200}}</string>
+				<string key="NSScreenRect">{{0, 0}, {1680, 1028}}</string>
 				<string key="NSMinSize">{680, 252}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">LibraryWindow</string>
@@ -829,11 +827,6 @@
 						<reference key="parent" ref="677115977"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">404</int>
-						<reference key="object" ref="266503384"/>
-						<reference key="parent" ref="200629737"/>
-					</object>
-					<object class="IBObjectRecord">
 						<int key="objectID">408</int>
 						<reference key="object" ref="204028101"/>
 						<array class="NSMutableArray" key="children">
@@ -1009,6 +1002,11 @@
 						<reference key="parent" ref="0"/>
 						<string key="objectName">CollectionView Controller</string>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">404</int>
+						<reference key="object" ref="266503384"/>
+						<reference key="parent" ref="200629737"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -1075,7 +1073,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">580</int>
+			<int key="maxID">581</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1112,6 +1110,7 @@
 						</object>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="coverFlowView">IKImageFlowView</string>
 						<string key="flowViewBtn">NSButton</string>
 						<string key="flowViewMenuItem">NSMenuItem</string>
 						<string key="flowlistViewContainer">OEHorizontalSplitView</string>
@@ -1126,6 +1125,10 @@
 						<string key="sizeSlider">NSSlider</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="coverFlowView">
+							<string key="name">coverFlowView</string>
+							<string key="candidateClassName">IKImageFlowView</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="flowViewBtn">
 							<string key="name">flowViewBtn</string>
 							<string key="candidateClassName">NSButton</string>
@@ -1181,6 +1184,14 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
+					<string key="className">IKImageFlowView</string>
+					<string key="superclassName">NSOpenGLView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/IKImageFlowView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
 					<string key="className">IKSGridView</string>
 					<string key="superclassName">NSView</string>
 					<object class="NSMutableDictionary" key="actions">
@@ -1221,6 +1232,9 @@
 						<string key="filemenu_newCollection:">id</string>
 						<string key="filemenu_newCollectionFolder:">id</string>
 						<string key="filemenu_newSmartCollection:">id</string>
+						<string key="switchToFlowView:">id</string>
+						<string key="switchToGridView:">id</string>
+						<string key="switchToListView:">id</string>
 						<string key="toggleSidebar:">id</string>
 						<string key="toggleWindow:">id</string>
 					</dictionary>
@@ -1251,6 +1265,18 @@
 						</object>
 						<object class="IBActionInfo" key="filemenu_newSmartCollection:">
 							<string key="name">filemenu_newSmartCollection:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="switchToFlowView:">
+							<string key="name">switchToFlowView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="switchToGridView:">
+							<string key="name">switchToGridView:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="switchToListView:">
+							<string key="name">switchToListView:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="toggleSidebar:">
