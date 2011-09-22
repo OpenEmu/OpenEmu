@@ -16,10 +16,10 @@
 #define rando(x0, x1)  ((float)(x0 + (x1 - x0) * rand() / ((float) RAND_MAX)))
 
 #define collapsedHeight 57
-#define seperatorHeight 2
+#define separatorHeight 2
 
-#define seperatorUpperColor [NSColor colorWithDeviceWhite:0.0 alpha:1.0]
-#define seperatorLowerColor [NSColor colorWithDeviceWhite:0.22 alpha:1.0]
+#define separatorUpperColor [NSColor colorWithDeviceWhite:0.0 alpha:1.0]
+#define separatorLowerColor [NSColor colorWithDeviceWhite:0.22 alpha:1.0]
 
 - (id)initWithFrame:(NSRect)frame
 {
@@ -110,7 +110,7 @@
 		}
 		
 		if(aCore != [cores lastObject]){
-			height += seperatorHeight;
+			height += separatorHeight;
 		}
 		cellRect.size.height = height;
 		cellRect.origin.y -= height;
@@ -170,14 +170,14 @@
 			[aCore.detailView setHidden:NO];		
 		}
 		
-		// Draw seperator line if appropriate
+		// Draw separator line if appropriate
 		if(aCore != [cores lastObject]){
 			NSRect lineRect = NSMakeRect(0, cellRect.origin.y+2, self.frame.size.width, 1);
-			[seperatorUpperColor setFill];
+			[separatorUpperColor setFill];
 			NSRectFill(lineRect);
 			
 			lineRect.origin.y -= 1;
-			[seperatorLowerColor setFill];
+			[separatorLowerColor setFill];
 			NSRectFill(lineRect);
 		}
 		
@@ -212,7 +212,7 @@
 		}
 		
 		if(core != [cores lastObject]){
-			height += seperatorHeight;
+			height += separatorHeight;
 		}
 		
 	}

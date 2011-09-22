@@ -53,15 +53,15 @@
 	[self setNeedsDisplay:YES];
 }
 #pragma mark -
-- (void)setContentSeperatorColor:(NSColor *)contentSeperatorColor{
-	[contentSeperatorColor retain];
-	[_contentSeperatorColor release];
+- (void)setContentseparatorColor:(NSColor *)contentseparatorColor{
+	[contentseparatorColor retain];
+	[_contentseparatorColor release];
 	
-	_contentSeperatorColor = contentSeperatorColor;
+	_contentseparatorColor = contentseparatorColor;
 	[self setNeedsDisplay:YES];
 }
-- (NSColor*)contentSeperatorColor{
-	return _contentSeperatorColor;
+- (NSColor*)contentseparatorColor{
+	return _contentseparatorColor;
 }
 
 #pragma mark -
@@ -86,11 +86,11 @@
 - (void)drawRect:(NSRect)dirtyRect{
 	[super drawRect:dirtyRect];
 	
-	if(self.contentSeperatorColor){
+	if(self.contentseparatorColor){
 		NSRect lineRect = self.bounds;
 		lineRect.size.height = 1;
 		
-		[self.contentSeperatorColor setFill];
+		[self.contentseparatorColor setFill];
 		NSRectFill(lineRect);
 	}
 	

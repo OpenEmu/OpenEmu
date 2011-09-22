@@ -16,7 +16,7 @@
 	OEToolbarItem* highlightedItem;
 	OEToolbarItem* selectedItem;
 	
-	NSColor* _contentSeperatorColor;
+	NSColor* _contentseparatorColor;
 }
 
 - (void)addItem:(OEToolbarItem*)item;
@@ -24,7 +24,7 @@
 - (void)markItemAsSelected:(OEToolbarItem*)tbItem; // basically selects a toolbar item without invoking its actions
 
 @property (retain, readwrite) NSMutableArray* items;
-@property (nonatomic, retain) NSColor* contentSeperatorColor;
+@property (nonatomic, retain) NSColor* contentseparatorColor;
 @end
 
 @interface OEToolbarItem : NSObject {

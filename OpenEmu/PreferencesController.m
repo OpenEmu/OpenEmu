@@ -132,12 +132,12 @@
 	NSSize viewSize = [pane viewSize];
 	NSView* view = [pane view];
 	
-	toolbar.contentSeperatorColor = [NSColor blackColor];
+	toolbar.contentseparatorColor = [NSColor blackColor];
 	
 	[self _showView:view atSize:viewSize animate:animateFlag];
 	
 	BOOL viewHasCustomColor = [pane respondsToSelector:@selector(toolbarSeparationColor)];	
-	if(viewHasCustomColor) toolbar.contentSeperatorColor = [pane toolbarSeparationColor];
+	if(viewHasCustomColor) toolbar.contentseparatorColor = [pane toolbarSeparationColor];
 	
 	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
 	[standardDefaults setInteger:selectedTab forKey:UDSelectedPreferencesTab];
