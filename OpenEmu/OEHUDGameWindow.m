@@ -12,12 +12,14 @@
 @synthesize gameDocument;
 - (id)initWithContentRect:(NSRect)contentRect andGameDocument:(OENewGameDocument*)gameDoc {
     
-    self = [super initWithContentRect:contentRect styleMask: NSTitledWindowMask | NSClosableWindowMask | NSResizableWindowMask  backing:NSBackingStoreBuffered defer:NO];
+    self = [super initWithContentRect:contentRect styleMask: (NSHUDWindowMask | NSNonactivatingPanelMask | NSTitledWindowMask | NSResizableWindowMask | NSUtilityWindowMask | NSClosableWindowMask)  backing:NSBackingStoreBuffered defer:NO];
     
     //self = [super initWithContentRect:contentRect];
     if (self) {
 		[self setReleasedWhenClosed:YES];
 		self.gameDocument = gameDoc;
+        self.floatingPanel = NO;
+        
 		self.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
     }
         

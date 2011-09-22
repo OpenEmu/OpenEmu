@@ -8,7 +8,7 @@
 
 #import "OEHUDWindow.h"
 @class OENewGameDocument;
-@interface OEHUDGameWindow : NSWindow
+@interface OEHUDGameWindow : NSPanel
 {
 	OENewGameDocument* gameDocument;
 }
