@@ -48,6 +48,24 @@
 	[menu addItem:item];
 	[item release];
 	
+	
+	NSArray* saveStates;
+	if(self.gameDocument.rom && (saveStates=[self.gameDocument.rom valueForKey:@"saveStates"]) && [saveStates count]){
+		[menu addItem:[NSMenuItem separatorItem]];
+		for(id saveState in saveStates){
+			
+			NSString* itemTitle = [saveState valueForKey:@"userDescription"];
+			if(!itemTitle || [itemTitle isEqualToString:@""]){
+				itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timeStamp"]];
+			}
+			
+			item = [[NSMenuItem alloc] initWithTitle:itemTitle action:NULL keyEquivalent:@""];
+			[menu addItem:item];
+			[item release];
+		}
+	}
+	
+	
 	OEMenu* oemenu = [menu convertToOEMenu];
 	NSRect buttonRect = [sender frame];
 	NSPoint menuPoint = NSMakePoint(NSMaxX(buttonRect)+self.frame.origin.x, NSMinY(buttonRect)+self.frame.origin.y);

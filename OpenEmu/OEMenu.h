@@ -58,3 +58,20 @@
 - (void)menuDidSelect:(OEMenu*)men;
 - (void)menuDidCancel:(OEMenu*)men;
 @end
+
+@interface OEMenuView : NSView {
+@private
+    BOOL imageIncluded;
+}
+
+- (void)updateView; // TODO: rename method
+#pragma mark -
+- (NSMenuItem*)itemAtPoint:(NSPoint)p;
+- (NSRect)rectOfItem:(NSMenuItem*)m;
+#pragma mark -
+#pragma mark TextAttributes
+- (NSDictionary*)itemTextAttributes;
+- (NSDictionary*)selectedItemTextAttributes;
+- (NSDictionary*)disabledItemTextAttributes;
+@property (nonatomic, readonly) OEMenu* menu;
+@end

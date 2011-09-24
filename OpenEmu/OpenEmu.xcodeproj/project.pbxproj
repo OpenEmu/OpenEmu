@@ -133,7 +133,6 @@
 		53439B1A13B92FFA005C0CC8 /* SidebarGroupItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B1413B92FFA005C0CC8 /* SidebarGroupItem.m */; };
 		53439B1B13B92FFA005C0CC8 /* SidebarOutlineView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B1613B92FFA005C0CC8 /* SidebarOutlineView.m */; };
 		53439B2113B93078005C0CC8 /* OEMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B1E13B93078005C0CC8 /* OEMenu.m */; };
-		53439B2213B93078005C0CC8 /* OEMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2013B93078005C0CC8 /* OEMenuView.m */; };
 		53439B2E13B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2513B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m */; };
 		53439B2F13B930A1005C0CC8 /* OEPrefCtrlHeadlineLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2713B930A1005C0CC8 /* OEPrefCtrlHeadlineLabelCell.m */; };
 		53439B3013B930A1005C0CC8 /* OEPrefCtrlLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2913B930A1005C0CC8 /* OEPrefCtrlLabelCell.m */; };
@@ -818,8 +817,6 @@
 		53439B1613B92FFA005C0CC8 /* SidebarOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SidebarOutlineView.m; sourceTree = "<group>"; };
 		53439B1D13B93078005C0CC8 /* OEMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMenu.h; sourceTree = "<group>"; };
 		53439B1E13B93078005C0CC8 /* OEMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMenu.m; sourceTree = "<group>"; };
-		53439B1F13B93078005C0CC8 /* OEMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMenuView.h; sourceTree = "<group>"; };
-		53439B2013B93078005C0CC8 /* OEMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEMenuView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		53439B2413B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefCoreSliderLabelCell.h; sourceTree = "<group>"; };
 		53439B2513B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefCoreSliderLabelCell.m; sourceTree = "<group>"; };
 		53439B2613B930A1005C0CC8 /* OEPrefCtrlHeadlineLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefCtrlHeadlineLabelCell.h; sourceTree = "<group>"; };
@@ -1670,7 +1667,8 @@
 		53439A8713B92BEF005C0CC8 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				53439B1C13B9306E005C0CC8 /* OEMenu */,
+				53439B1D13B93078005C0CC8 /* OEMenu.h */,
+				53439B1E13B93078005C0CC8 /* OEMenu.m */,
 				53439B2313B9307C005C0CC8 /* Label Cells */,
 				53439B3313B930A9005C0CC8 /* Controls */,
 				53439B6813B932C5005C0CC8 /* OEPreferencePane.h */,
@@ -1893,17 +1891,6 @@
 				53439B1613B92FFA005C0CC8 /* SidebarOutlineView.m */,
 			);
 			name = Sidebar;
-			sourceTree = "<group>";
-		};
-		53439B1C13B9306E005C0CC8 /* OEMenu */ = {
-			isa = PBXGroup;
-			children = (
-				53439B1D13B93078005C0CC8 /* OEMenu.h */,
-				53439B1E13B93078005C0CC8 /* OEMenu.m */,
-				53439B1F13B93078005C0CC8 /* OEMenuView.h */,
-				53439B2013B93078005C0CC8 /* OEMenuView.m */,
-			);
-			name = OEMenu;
 			sourceTree = "<group>";
 		};
 		53439B2313B9307C005C0CC8 /* Label Cells */ = {
@@ -3252,7 +3239,6 @@
 				53439B1A13B92FFA005C0CC8 /* SidebarGroupItem.m in Sources */,
 				53439B1B13B92FFA005C0CC8 /* SidebarOutlineView.m in Sources */,
 				53439B2113B93078005C0CC8 /* OEMenu.m in Sources */,
-				53439B2213B93078005C0CC8 /* OEMenuView.m in Sources */,
 				53439B2E13B930A1005C0CC8 /* OEPrefCoreSliderLabelCell.m in Sources */,
 				53439B2F13B930A1005C0CC8 /* OEPrefCtrlHeadlineLabelCell.m in Sources */,
 				53439B3013B930A1005C0CC8 /* OEPrefCtrlLabelCell.m in Sources */,
@@ -3727,7 +3713,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
 				PRODUCT_NAME = OpenEmu;
-				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -3748,7 +3733,6 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "-DUSE_SCALE_RANDOMWRITE";
 				PRODUCT_NAME = OpenEmu;
-				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
@@ -3776,7 +3760,6 @@
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -3797,7 +3780,6 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx;
 			};
 			name = Release;
 		};
