@@ -47,6 +47,7 @@
     IBOutlet NSWindow* importSheet;
     IBOutlet NSProgressIndicator* importProgress;
     IBOutlet NSTextField* importCurrentItem;
+    BOOL cancelImport;
 }
 
 #pragma mark -
@@ -66,6 +67,8 @@
 - (IBAction)filemenu_editSmartCollection:(id)sender;
 
 - (IBAction)filemenu_addToLibrary:(id)sender;
+- (void) startImportSheet:(NSArray*)URLs;
+- (IBAction) cancelImport:(id)sender;
 
 - (IBAction)controlsmenu_startGame:(id)sender;
 
@@ -74,6 +77,7 @@
 - (IBAction) switchToFlowView:(id)sender;
 
 // import finished
+- (void) startImportSheet:(NSArray*)URLs;
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 
@@ -82,4 +86,5 @@
 @property (assign, nonatomic) BOOL sidebarChangesWindowSize;
 @property (assign) IBOutlet LibrarySplitView* mainSplitView;
 @property (retain, nonatomic) LibraryDatabase* database;
+@property (readwrite, assign) BOOL cancelImport;
 @end

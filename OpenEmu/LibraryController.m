@@ -77,6 +77,8 @@
 - (void)awakeFromNib{
     // load the window
     [self window];
+    
+    self.cancelImport = NO;
 }
 
 - (void)windowDidLoad{
@@ -266,6 +268,7 @@
 }
 
 #pragma mark -
+#pragma mark Import
 
 - (IBAction)filemenu_addToLibrary:(id)sender{
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
@@ -274,53 +277,60 @@
     [openPanel setCanCreateDirectories:NO];
     [openPanel setCanChooseDirectories:YES];
     
-    NSInteger result = [openPanel runModal];
-    if(result != NSOKButton){
-		return;
-    }
-    
-    double max = [[openPanel URLs] count];
-    [importProgress setMaxValue:max];
+    [openPanel beginSheetModalForWindow:libraryWindow completionHandler:^(NSInteger result){
+        if(result == NSFileHandlingPanelOKButton)
+        {
+            // exit our initial open panels completion handler
+            [self performSelector:@selector(startImportSheet:) withObject:[openPanel URLs] afterDelay:0.0];
+        }
+    }];
+}
+
+- (void) startImportSheet:(NSArray*)URLs
+{    
+    [importProgress setMaxValue:[URLs count]];
     
     [NSApp beginSheet:importSheet
        modalForWindow:libraryWindow
         modalDelegate:self
        didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
           contextInfo:nil];
-        
     
+    // need to wait a 'tick' for the NSRunloop to finish, so we do this. Not so bad
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     
-    for(NSURL* aURL in [openPanel URLs])
-    {
-        NSString* aPath = [aURL path];
-        
-        [aPath retain];
-        
-        DLog(@"importing: %@", aPath);
-        
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        for(NSURL* aURL in URLs)
+        {
+            if(self.cancelImport)
+            {
+                self.cancelImport = NO;
+                break;
+            }
+                                
+            // NSManagedObjectContext wants main queue for Core Data store access
+            dispatch_sync(dispatch_get_main_queue(), ^{                
+                [self.database addGamesFromPath:[aURL path] toCollection:nil searchSubfolders:YES];
+            });
             
-            [self.database addGamesFromPath:aPath toCollection:nil searchSubfolders:YES];
-
-        });
+            [importCurrentItem setStringValue:[[[aURL path] lastPathComponent] stringByDeletingPathExtension]];
+            [importProgress incrementBy:1.0];
+        }
         
-        [importCurrentItem setStringValue:[[aPath lastPathComponent] stringByDeletingPathExtension]];
-        [importProgress incrementBy:1.0];
-        
-        [importSheet display];
-        
-        [aPath release];
-    }
-    
-    [NSApp endSheet:importSheet];
+        [NSApp endSheet:importSheet];
+    });    
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {    
     [importSheet close];
-    DLog(@"Finished Importing");
 }
 
+- (IBAction) cancelImport:(id)sender
+{
+    self.cancelImport = YES;
+}
+
+#pragma mark -
 
 - (IBAction)controlsmenu_startGame:(id)sender{
 	NSArray* selection = [collectionViewController selectedGames];
@@ -508,4 +518,6 @@
 
 
 @synthesize mainSplitView, database;
+@synthesize cancelImport;
+
 @end
