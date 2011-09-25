@@ -35,17 +35,17 @@
     
     OEGameControllerView *view = (OEGameControllerView *)[self view];
     
-	[view addButtonWithName:@"OENESButtonUp[@]" label:@"Up:" target:self];
-	[view addButtonWithName:@"OENESButtonDown[@]" label:@"Down:" target:self];
-	[view addButtonWithName:@"OENESButtonLeft[@]" label:@"Left:" target:self];
-	[view addButtonWithName:@"OENESButtonRight[@]" label:@"Right:" target:self];
+	[view addButtonWithName:@"OENESButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(159, 116)];
+	[view addButtonWithName:@"OENESButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(159, 66)];
+	[view addButtonWithName:@"OENESButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(135, 92)];
+	[view addButtonWithName:@"OENESButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(184, 92)];
 	
-	[view addButtonWithName:@"OENESButtonStart[@]" label:@"Start:" target:self];
-	[view addButtonWithName:@"OENESButtonSelect[@]" label:@"Select:" target:self];	
+	[view addButtonWithName:@"OENESButtonStart[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(306, 71)];
+	[view addButtonWithName:@"OENESButtonSelect[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(256, 71)];	
 	[view nextColumn];	
 	
-	[view addButtonWithName:@"OENESButtonA[@]" label:@"A:" target:self];
-	[view addButtonWithName:@"OENESButtonB[@]" label:@"B:" target:self];
+	[view addButtonWithName:@"OENESButtonA[@]" label:@"A:" target:self highlightPoint:NSMakePoint(441, 70)];
+	[view addButtonWithName:@"OENESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(384, 70)];
 	
 	[view updateButtons];
 }
