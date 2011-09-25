@@ -35,23 +35,22 @@
     
     OEGameControllerView *view = (OEGameControllerView *)[self view];
 	
-	[view addButtonWithName:@"OESNESButtonUp[@]" label:@"Up:" target:self];
-	[view addButtonWithName:@"OESNESButtonDown[@]" label:@"Down:" target:self];
-	[view addButtonWithName:@"OESNESButtonLeft[@]" label:@"Left:" target:self];
-	[view addButtonWithName:@"OESNESButtonRight[@]" label:@"Right:" target:self];
+	[view addButtonWithName:@"OESNESButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(98, 133)];
+	[view addButtonWithName:@"OESNESButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(98, 89)];
+	[view addButtonWithName:@"OESNESButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(76, 111)];
+	[view addButtonWithName:@"OESNESButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(121, 111)];
 
-	[view addButtonWithName:@"OESNESButtonSelect[@]" label:@"Start:" target:self];
-	[view addButtonWithName:@"OESNESButtonStart[@]" label:@"Select:" target:self];
+	[view addButtonWithName:@"OESNESButtonSelect[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(228, 96)];
+	[view addButtonWithName:@"OESNESButtonStart[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(181, 96)];
 	[view nextColumn];
 
-	[view addButtonWithName:@"OESNESButtonA[@]" label:@"A:" target:self];
-	[view addButtonWithName:@"OESNESButtonB[@]" label:@"B:" target:self];
-	[view addButtonWithName:@"OESNESButtonX[@]" label:@"X:" target:self];
-	[view addButtonWithName:@"OESNESButtonY[@]" label:@"Y:" target:self];
+	[view addButtonWithName:@"OESNESButtonA[@]" label:@"A:" target:self highlightPoint:NSMakePoint(385, 109)];
+	[view addButtonWithName:@"OESNESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(342, 74)];
+	[view addButtonWithName:@"OESNESButtonX[@]" label:@"X:" target:self highlightPoint:NSMakePoint(345, 143)];
+	[view addButtonWithName:@"OESNESButtonY[@]" label:@"Y:" target:self highlightPoint:NSMakePoint(302, 109)];
 	
-	
-	[view addButtonWithName:@"OESNESButtonTriggerLeft[@]" label:@"Trigger Left:" target:self];
-	[view addButtonWithName:@"OESNESButtonTriggerRight[@]" label:@"Trigger Right:" target:self];	
+	[view addButtonWithName:@"OESNESButtonTriggerLeft[@]" label:@"Trigger Left:" target:self highlightPoint:NSMakePoint(95, 199)];
+	[view addButtonWithName:@"OESNESButtonTriggerRight[@]" label:@"Trigger Right:" target:self highlightPoint:NSMakePoint(352, 199)];	
 	
 	[view updateButtons];
 }
