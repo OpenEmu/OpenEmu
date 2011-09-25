@@ -307,12 +307,14 @@
 		8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8310447013BE419000B283B0 /* OEHorizontalSplitView.m */; };
 		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
+		83507247142F6029005D9033 /* OEControlerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControlerImageView.m */; };
 		83703B43140E4F9100EC27A7 /* Linear.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B3D140E4F9100EC27A7 /* Linear.png */; };
 		83703B44140E4F9100EC27A7 /* Nearest Neighbor.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B3E140E4F9100EC27A7 /* Nearest Neighbor.png */; };
 		83703B45140E4F9100EC27A7 /* Scale2xHQ.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B3F140E4F9100EC27A7 /* Scale2xHQ.png */; };
 		83703B46140E4F9100EC27A7 /* Scale2xPlus.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B40140E4F9100EC27A7 /* Scale2xPlus.png */; };
 		83703B47140E4F9100EC27A7 /* Scale4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B41140E4F9100EC27A7 /* Scale4x.png */; };
 		83703B48140E4F9100EC27A7 /* Scale4xHQ.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B42140E4F9100EC27A7 /* Scale4xHQ.png */; };
+		83802E6A142F6FF900130517 /* controls_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = 83802E69142F6FF900130517 /* controls_highlight.png */; };
 		8382D23113C5C5BB00906221 /* OEPrefCoresController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D22E13C5C5BB00906221 /* OEPrefCoresController.xib */; };
 		8382D23213C5C5BB00906221 /* OEPrefGameplayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */; };
 		8382D23313C5C5BB00906221 /* OEPrefLibraryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */; };
@@ -1034,12 +1036,15 @@
 		83199721142741790068C865 /* OEROMImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMImporter.m; sourceTree = "<group>"; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImage.h; sourceTree = "<group>"; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImage.m; sourceTree = "<group>"; };
+		83507245142F6029005D9033 /* OEControlerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlerImageView.h; sourceTree = "<group>"; };
+		83507246142F6029005D9033 /* OEControlerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlerImageView.m; sourceTree = "<group>"; };
 		83703B3D140E4F9100EC27A7 /* Linear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Linear.png; sourceTree = "<group>"; };
 		83703B3E140E4F9100EC27A7 /* Nearest Neighbor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Nearest Neighbor.png"; sourceTree = "<group>"; };
 		83703B3F140E4F9100EC27A7 /* Scale2xHQ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale2xHQ.png; sourceTree = "<group>"; };
 		83703B40140E4F9100EC27A7 /* Scale2xPlus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale2xPlus.png; sourceTree = "<group>"; };
 		83703B41140E4F9100EC27A7 /* Scale4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale4x.png; sourceTree = "<group>"; };
 		83703B42140E4F9100EC27A7 /* Scale4xHQ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale4xHQ.png; sourceTree = "<group>"; };
+		83802E69142F6FF900130517 /* controls_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controls_highlight.png; sourceTree = "<group>"; };
 		8382D22E13C5C5BB00906221 /* OEPrefCoresController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefCoresController.xib; sourceTree = "<group>"; };
 		8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefGameplayController.xib; sourceTree = "<group>"; };
 		8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefLibraryController.xib; sourceTree = "<group>"; };
@@ -1928,6 +1933,8 @@
 				53439B6313B932A1005C0CC8 /* OEBackgroundGradientView.m */,
 				53439B6413B932A1005C0CC8 /* OEBackgroundImageView.h */,
 				53439B6513B932A1005C0CC8 /* OEBackgroundImageView.m */,
+				83507245142F6029005D9033 /* OEControlerImageView.h */,
+				83507246142F6029005D9033 /* OEControlerImageView.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -2068,6 +2075,7 @@
 		53439BC013B93920005C0CC8 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				83802E69142F6FF900130517 /* controls_highlight.png */,
 				83703B3A140E4F2800EC27A7 /* Filter */,
 				83AEF937140B78B6007803D7 /* filter_effect_frame.png */,
 				53439BC813B93920005C0CC8 /* controls_background.jpg */,
@@ -2995,6 +3003,7 @@
 				83703B46140E4F9100EC27A7 /* Scale2xPlus.png in Resources */,
 				83703B47140E4F9100EC27A7 /* Scale4x.png in Resources */,
 				83703B48140E4F9100EC27A7 /* Scale4xHQ.png in Resources */,
+				83802E6A142F6FF900130517 /* controls_highlight.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3284,6 +3293,7 @@
 				83AF90871414CBC500B74C5B /* OEHUDGameWindow.m in Sources */,
 				83BACFBC1415229C008362DA /* OENewGameDocument.m in Sources */,
 				83199722142741790068C865 /* OEROMImporter.m in Sources */,
+				83507247142F6029005D9033 /* OEControlerImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

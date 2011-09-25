@@ -12,6 +12,7 @@
 - (void)_setup;
 @end
 @implementation OEControlsKeyButton
+
 + (void)initialize{
 	[self exposeBinding:@"title"];
 	
@@ -111,6 +112,8 @@
 	state = _state;
 	[self setNeedsDisplay:YES];
 }
+#pragma mark -
+@synthesize highlightPoint;
 @synthesize target;
 @synthesize action;
 @synthesize title;

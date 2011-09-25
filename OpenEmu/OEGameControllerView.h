@@ -36,6 +36,8 @@
 - (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end DEPRECATED_ATTRIBUTE;
 #pragma mark -
 - (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget;
+- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget highlightPoint:(NSPoint)p;
+
 - (void)updateButtons;
 - (void)nextColumn;
 @end

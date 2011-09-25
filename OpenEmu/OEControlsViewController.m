@@ -59,6 +59,12 @@
         [[self view] setNextResponder:self];
         selectedControl = (state == NSOnState ? sender : nil);
     }
+	
+	if(!selectedControl || ![selectedControl state]){
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"OEControlsPreferencesSelectedButtonDidChange" object:nil];
+	} else {
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"OEControlsPreferencesSelectedButtonDidChange" object:selectedControl];
+	}
 }
 
 - (void)resetBindingsWithKeys:(NSArray *)keys

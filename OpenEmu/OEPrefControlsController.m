@@ -18,6 +18,7 @@
 #import "OESystemController.h"
 
 #import "OEControlsViewController.h"
+#import "OEControlerImageView.h"
 @interface OEPrefControlsController (Private)
 - (void)_rebuildSystemsMenu;
 - (void)_rebuildInputMenu;
@@ -158,8 +159,7 @@
     [self changePlayer:playerPopupButton];
     [self changeInputDevice:inputPopupButton];
     
-    NSImageView* newControllerView = [[NSImageView alloc] initWithFrame:[controllerView bounds]];
-    [newControllerView setImageAlignment:NSImageAlignTop];
+    OEControlerImageView* newControllerView = [[OEControlerImageView alloc] initWithFrame:[controllerView bounds]];
 	[newControllerView setImage:[preferenceViewController controllerImage]];
 	
     if([[controllerView subviews] count])

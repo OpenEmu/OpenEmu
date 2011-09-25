@@ -15,10 +15,13 @@
 	SEL action;
 	
 	NSCellStateValue state;
+	NSPoint highlightPoint;
 }
 
 @property (nonatomic) NSCellStateValue state;
 @property (nonatomic, copy) NSString* title;
 @property (assign) id target;
 @property SEL action;
+
+@property NSPoint highlightPoint;
 @end

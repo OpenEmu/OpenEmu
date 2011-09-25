@@ -67,10 +67,15 @@ NSRect RoundNSRect(NSRect imageFrame){
 }
 #pragma mark -
 - (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget{
+	[self addButtonWithName:aName label:label target:aTarget highlightPoint:NSZeroPoint];}
+
+- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget highlightPoint:(NSPoint)p{
 	NSRect labelRect = NSMakeRect(0, 0, 0, 0);
 	NSRect buttonRect = NSMakeRect(0, 0, 0, 0);;
 	
 	OEControlsKeyButton* button = [[OEControlsKeyButton alloc] initWithFrame:buttonRect];
+	button.highlightPoint = p;
+	
 	[button setTarget:aTarget];
     [button setAction:@selector(selectInputControl:)];
     [button bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
@@ -85,6 +90,7 @@ NSRect RoundNSRect(NSRect imageFrame){
 	[labelFieldCell release];
 	[labelField release];
 }
+
 
 - (void)nextColumn{
 	[buttonsAndLabels addObject:[NSNull null]];
