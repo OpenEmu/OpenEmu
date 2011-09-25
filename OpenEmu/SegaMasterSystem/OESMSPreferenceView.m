@@ -50,13 +50,13 @@
 {
     OEGameControllerView *view = (OEGameControllerView *)[self view];
     
-	[view addButtonWithName:@"OESMSButtonUp[@]" label:@"Up:" target:self];
-	[view addButtonWithName:@"OESMSButtonDown[@]" label:@"Down:" target:self];
-	[view addButtonWithName:@"OESMSButtonLeft[@]" label:@"Left:" target:self];
-	[view addButtonWithName:@"OESMSButtonRight[@]" label:@"Right:" target:self];
+	[view addButtonWithName:@"OESMSButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(113, 144)];
+	[view addButtonWithName:@"OESMSButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(113, 59)];
+	[view addButtonWithName:@"OESMSButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(75, 106)];
+	[view addButtonWithName:@"OESMSButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(152, 106)];
 	
-	[view addButtonWithName:@"OESMSButtonA[@]" label:@"Button 1 /Start:" target:self];
-	[view addButtonWithName:@"OESMSButtonB[@]" label:@"Button 2:" target:self];
+	[view addButtonWithName:@"OESMSButtonA[@]" label:@"Button 1 /Start:" target:self highlightPoint:NSMakePoint(301, 82)];
+	[view addButtonWithName:@"OESMSButtonB[@]" label:@"Button 2:" target:self highlightPoint:NSMakePoint(371, 82)];
 	
 	return;
 }
