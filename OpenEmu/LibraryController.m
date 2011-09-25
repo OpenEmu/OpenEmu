@@ -279,10 +279,46 @@
 		return;
     }
     
-    for(NSURL* aURL in [openPanel URLs]){
-		NSString* aPath = [aURL path];
-		[self.database addGamesFromPath:aPath toCollection:nil searchSubfolders:YES];
+    double max = [[openPanel URLs] count];
+    [importProgress setMaxValue:max];
+    
+    [NSApp beginSheet:importSheet
+       modalForWindow:libraryWindow
+        modalDelegate:self
+       didEndSelector:@selector(sheetDidEnd:returnCode:contextInfo:)
+          contextInfo:nil];
+        
+    
+    
+    for(NSURL* aURL in [openPanel URLs])
+    {
+        NSString* aPath = [aURL path];
+        
+        [aPath retain];
+        
+        DLog(@"importing: %@", aPath);
+        
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            
+            [self.database addGamesFromPath:aPath toCollection:nil searchSubfolders:YES];
+
+        });
+        
+        [importCurrentItem setStringValue:[[aPath lastPathComponent] stringByDeletingPathExtension]];
+        [importProgress incrementBy:1.0];
+        
+        [importSheet display];
+        
+        [aPath release];
     }
+    
+    [NSApp endSheet:importSheet];
+}
+
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{    
+    [importSheet close];
+    DLog(@"Finished Importing");
 }
 
 

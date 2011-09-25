@@ -115,6 +115,8 @@ static __strong NSString* sharedEmailAddress = nil;
     _ArchiveVGOperation operation = AVGGetInfoByCRC;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:crc]];
     
+   // NSLog(@"Archive URL:%@", url);
+
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
     return result;
@@ -122,6 +124,8 @@ static __strong NSString* sharedEmailAddress = nil;
 + (NSDictionary*)gameInfoByMD5:(NSString*)md5{
     _ArchiveVGOperation operation = AVGGetInfoByMD5;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:md5]];
+    
+    //NSLog(@"Archive URL:%@", url);
     
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
@@ -132,6 +136,8 @@ static __strong NSString* sharedEmailAddress = nil;
     NSNumber* gameIDObj = [NSNumber numberWithInteger:gameID]; 
     NSURL* url = [ArchiveVG urlForOperation:operation	withOptions:[NSArray arrayWithObject:gameIDObj]];
     
+    NSLog(@"Archive URL:%@", url);
+
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
     return result;

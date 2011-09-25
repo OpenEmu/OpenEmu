@@ -611,8 +611,7 @@
 	BOOL copyToDatabase = [standardDefaults boolForKey:UDCopyToLibraryKey];
 	BOOL quickImport = [standardDefaults boolForKey:UDUseQuickImportKey] && !automaticallyGetInfo;
 	BOOL organizeLibrary = [standardDefaults boolForKey:UDOrganizeLibraryKey];
-	
-	BOOL md5 = [standardDefaults boolForKey:UDUseMD5HashingKey];
+    BOOL md5 = [standardDefaults boolForKey:UDUseMD5HashingKey];
 	
 	NSInteger completeSize = 0;
 	// Skip size calculation if quick import is requested
@@ -655,8 +654,9 @@
 			// NSLog(@"progress: %f%%", (progress/(float)[files count])*100.0);
 		} else {			
 			NSInteger fileSize = [[romInfo valueForKey:@"filesize"] integerValue];
-			
+			            
 			NSData* data = [[NSData alloc] initWithContentsOfFile:filePath options:NSDataReadingUncached error:nil];
+
 			NSString* hash;
 			
 			if(md5) hash = [data MD5HashString];
@@ -785,9 +785,9 @@
 			}
 		}
 		
-		if(organizeLibrary && [[path substringToIndex:[databaseFolder length]] isEqualTo:databaseFolder]){
-            // TODO: move to sorted path within db folder 
-		}
+//		if(organizeLibrary && [[path substringToIndex:[databaseFolder length]] isEqualTo:databaseFolder]){
+//            // TODO: move to sorted path within db folder 
+//		}
 		
 		// set rom path
 		[rom setValue:path forKey:@"path"];

@@ -25,6 +25,8 @@
     LibraryDatabase* database;
     OENewGameDocument* gameDocument;
     
+    IBOutlet NSWindow* libraryWindow;
+    
     IBOutlet LibrarySplitView	* mainSplitView;
     
     IBOutlet SidebarController	* sidebarController;
@@ -40,7 +42,13 @@
     
     // MenuItems
     IBOutlet NSMenuItem* editSmartCollectionMenuItem;
+    
+    // Import Sheet
+    IBOutlet NSWindow* importSheet;
+    IBOutlet NSProgressIndicator* importProgress;
+    IBOutlet NSTextField* importCurrentItem;
 }
+
 #pragma mark -
 #pragma mark Toolbar Actions
 - (IBAction)toggleSidebar:(id)sender;
@@ -64,6 +72,9 @@
 - (IBAction) switchToGridView:(id)sender;
 - (IBAction) switchToListView:(id)sender;
 - (IBAction) switchToFlowView:(id)sender;
+
+// import finished
+- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
 
 
 #pragma mark -
