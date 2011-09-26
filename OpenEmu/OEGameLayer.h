@@ -59,7 +59,6 @@
     
     QCRenderer           *filterRenderer;
     
-    CGColorSpaceRef       ntscColorSpace;
     CGColorSpaceRef       rgbColorSpace;
     
     // for QCRenderer
