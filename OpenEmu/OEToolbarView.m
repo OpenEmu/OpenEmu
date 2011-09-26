@@ -70,12 +70,12 @@
 }
 
 - (void)markItemAsSelected:(OEToolbarItem*)tbItem{
-	@try {
-		selectedItem = [self.items objectAtIndex:[self.items indexOfObject:tbItem]];
+	NSUInteger index = [self.items indexOfObject:tbItem];
+	if(index == NSNotFound){
+		selectedItem = nil;
+	} else {
+		selectedItem = [self.items objectAtIndex:index];
 	}
-	@catch (NSException *exception) {
-		
-	}	
 }
 
 #pragma mark -
