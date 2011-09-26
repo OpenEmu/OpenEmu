@@ -105,12 +105,15 @@ static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
 {
     // If we have a context (ie we are active) lets make a new QCRenderer...
     // but only if its appropriate
+
+    DLog(@"releasing old filterRenderer");
+    
+    [filterRenderer release];
+    filterRenderer = nil;
+
+    
     if([filters objectForKey:filterName] == nil && layerContext != NULL)
     {
-        DLog(@"releasing old filterRenderer");
-        
-        [filterRenderer release];
-        filterRenderer = nil;
         
         DLog(@"making new filter renderer");
         
