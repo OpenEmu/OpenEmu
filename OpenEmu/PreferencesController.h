@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @class OEBackgroundImageView;
 @class OEBackgroundGradientView;
 @class OEToolbarView;
@@ -18,6 +17,8 @@
 	OEToolbarView* toolbar;	
 	
 	IBOutlet OEBackgroundGradientView* coreGradientOverlayView;
+	
+	NSView *nextView;
 }
 
 - (void)switchView:(id)sender;

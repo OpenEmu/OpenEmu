@@ -154,14 +154,21 @@
 	frameRect.origin.y += win.frame.size.height-frameRect.size.height;
 	
 	[win setContentView:[[[NSView alloc] init] autorelease]];
-	
-	[NSAnimationContext beginGrouping];
-	[[win animator] setFrame:frameRect display:YES];
-	[[NSAnimationContext currentContext] setCompletionHandler:^(void) {
-		[view setFrameSize:size];
-		[win setContentView:view];
-	}];
-	[NSAnimationContext endGrouping];	
-}
 
+	nextView = view;
+	[view setFrameSize:size];
+	
+	CAAnimation* anim = [win animationForKey:@"frame"];
+	[anim setDelegate:self];
+	[win setAnimations:[NSDictionary dictionaryWithObject:anim forKey:@"frame"]];
+	
+	[[win animator] setFrame:frameRect display:YES];
+}
+#pragma mark -
+- (void)animationDidStart:(CAAnimation *)anim{}
+- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
+	NSWindow* win = [self window];
+	[win setContentView:nextView];
+	[anim setDelegate:nil];
+}
 @end
