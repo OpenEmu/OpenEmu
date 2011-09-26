@@ -48,6 +48,8 @@ NSString *const OEHelperServerNamePrefix   = @"com.openemu.OpenEmuHelper-";
 NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 #pragma mark Display Link Callback
+CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext);
+
 CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
 {
     CVReturn error = [(OpenEmuHelperApp*) displayLinkContext displayLinkRenderCallback:inOutputTime];

@@ -35,6 +35,8 @@
 }
 @end
 
+NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx);
+
 @implementation OEPlugin
 
 @synthesize infoDictionary, version, displayName, bundle, controller;

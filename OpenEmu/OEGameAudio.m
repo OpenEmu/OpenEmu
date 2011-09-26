@@ -36,6 +36,13 @@ OSStatus RenderCallback(void                       *in,
                         const AudioTimeStamp       *inTimeStamp,
                         UInt32                      inBusNumber,
                         UInt32                      inNumberFrames,
+                        AudioBufferList            *ioData);
+
+OSStatus RenderCallback(void                       *in,
+                        AudioUnitRenderActionFlags *ioActionFlags,
+                        const AudioTimeStamp       *inTimeStamp,
+                        UInt32                      inBusNumber,
+                        UInt32                      inNumberFrames,
                         AudioBufferList            *ioData)
 {
     [((OEGameCore *)in) getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:0];
