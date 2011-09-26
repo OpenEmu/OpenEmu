@@ -2504,7 +2504,7 @@
 		1DEB913B08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
+				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Nestopia_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
@@ -2520,7 +2520,7 @@
 		1DEB913C08733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
+				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Nestopia_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;

@@ -1271,7 +1271,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_FAST_MATH = YES;
@@ -1306,7 +1305,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEAD_CODE_STRIPPING = YES;
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
 				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_DYNAMIC_NO_PIC = YES;
 				GCC_FAST_MATH = YES;
