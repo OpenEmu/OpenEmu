@@ -34,7 +34,7 @@
 static void OE_bindGameLayer(OEGameLayer *gameLayer)
 {
     NSUserDefaultsController *ctrl = [NSUserDefaultsController sharedUserDefaultsController];
-    [gameLayer bind:@"filterName"   toObject:ctrl withKeyPath:@"values.filterName" options:nil];
+    [gameLayer bind:@"filterName"   toObject:ctrl withKeyPath:@"values.videoFilter" options:nil];
     [gameLayer bind:@"vSyncEnabled" toObject:ctrl withKeyPath:@"values.vsync"      options:nil];
 }
 
