@@ -66,6 +66,7 @@
 		1B4D77F5117A60ED0001F629 /* Scale2xHQ.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */; };
 		1B4D77F6117A60ED0001F629 /* Scale2xPlus.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E080F085EA500770B6D /* Scale2xPlus.frag */; };
 		1B4D77F7117A60ED0001F629 /* Scale2xPlus.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B885E090F085EA500770B6D /* Scale2xPlus.vert */; };
+		1B6A24FF143072B0009F1CE1 /* TV.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224176100C049E00F42067 /* TV.qtz */; };
 		1B7505140FEEB72700B0D0AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B7505100FEEB4F600B0D0AF /* About.png */; };
 		1B98144E142F02FA00114A30 /* OESetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B98144D142F02FA00114A30 /* OESetupAssistant.xib */; };
 		1BEF2A67116826BC0090F72B /* NSString+UUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEF2A65116826BC0090F72B /* NSString+UUID.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -605,6 +606,7 @@
 			dstPath = Filters;
 			dstSubfolderSpec = 7;
 			files = (
+				1B6A24FF143072B0009F1CE1 /* TV.qtz in Copy Filters Folder To App Resources */,
 			);
 			name = "Copy Filters Folder To App Resources";
 			runOnlyForDeploymentPostprocessing = 0;
