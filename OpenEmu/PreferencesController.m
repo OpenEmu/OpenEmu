@@ -154,10 +154,14 @@
 	frameRect.origin.y += win.frame.size.height-frameRect.size.height;
 	
 	[win setContentView:[[[NSView alloc] init] autorelease]];
-	[win setFrame:frameRect display:TRUE animate:animateFlag];
 	
-	[view setFrameSize:size];
-	[win setContentView:view];
+	[NSAnimationContext beginGrouping];
+	[[win animator] setFrame:frameRect display:YES];
+	[[NSAnimationContext currentContext] setCompletionHandler:^(void) {
+		[view setFrameSize:size];
+		[win setContentView:view];
+	}];
+	[NSAnimationContext endGrouping];	
 }
 
 @end
