@@ -21,6 +21,7 @@
     
     NSInteger step;
 }
+
 @property (readwrite, retain) IBOutlet NSView* replaceView;
 
 @property (readwrite, retain) IBOutlet NSView* step1;
