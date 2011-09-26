@@ -19,7 +19,7 @@
 		[self setReleasedWhenClosed:YES];
 		self.gameDocument = gameDoc;
         self.floatingPanel = NO;
-        
+        self.movableByWindowBackground = NO;
 		self.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
     }
         
