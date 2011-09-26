@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1891</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.SystemVersion">11C57</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.AppKitVersion">1138.21</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1891</string>
+			<string key="NS.object.0">1617</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSTextField</string>
@@ -24,10 +24,7 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
-			<integer value="1" key="NS.object.0"/>
-		</object>
+		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
 				<string key="NSClassName">OEPrefLibraryController</string>
@@ -160,7 +157,7 @@
 							<object class="NSButtonCell" id="187697617">
 								<int key="NSCellFlags">-2080244224</int>
 								<int key="NSCellFlags2">0</int>
-								<string key="NSContents">Sega genesis</string>
+								<string key="NSContents">Sega Genesis</string>
 								<reference key="NSSupport" ref="486301316"/>
 								<reference key="NSControlView" ref="857991778"/>
 								<int key="NSButtonFlags">1211912703</int>
@@ -470,7 +467,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="NSButton" id="54998610">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{238, 345}, {67, 23}}</string>
+						<string key="NSFrame">{{232, 345}, {71, 25}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="399148658"/>
@@ -492,7 +489,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="NSButton" id="399148658">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{313, 345}, {67, 23}}</string>
+						<string key="NSFrame">{{313, 345}, {67, 25}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="525206165"/>

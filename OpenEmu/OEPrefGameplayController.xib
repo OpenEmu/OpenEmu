@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">11B26</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1891</string>
-		<string key="IBDocument.AppKitVersion">1138</string>
-		<string key="IBDocument.HIToolboxVersion">566.00</string>
+		<string key="IBDocument.SystemVersion">11C57</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.AppKitVersion">1138.21</string>
+		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1891</string>
+			<string key="NS.object.0">1617</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSPopUpButton</string>
@@ -28,10 +28,7 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<object class="NSMutableDictionary" key="IBDocument.Metadata">
-			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
-			<integer value="1" key="NS.object.0"/>
-		</object>
+		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
 				<string key="NSClassName">OEPrefGameplayController</string>
@@ -142,6 +139,7 @@
 						<string key="NSFrame">{{42, 27}, {305, 18}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="465085204">
 							<int key="NSCellFlags">-2080244224</int>
@@ -229,7 +227,7 @@
 						<string key="NSFrame">{{41, 176}, {130, 115}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="1044078460"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSImageCell" key="NSCell" id="270672598">
 							<int key="NSCellFlags">130560</int>
@@ -248,7 +246,7 @@
 					<object class="NSTextField" id="546566880">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{195, 269}, {41, 17}}</string>
+						<string key="NSFrame">{{194, 270}, {41, 17}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="139973920"/>
@@ -310,6 +308,7 @@
 						<string key="NSFrame">{{41, 176}, {130, 115}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView" ref="546566880"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSImageCell" key="NSCell" id="876784234">
 							<int key="NSCellFlags">130560</int>
@@ -410,22 +409,6 @@
 					<int key="connectionID">34</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">selectedValue: values.videoFilter</string>
-						<reference key="source" ref="139973920"/>
-						<reference key="destination" ref="404735014"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="139973920"/>
-							<reference key="NSDestination" ref="404735014"/>
-							<string key="NSLabel">selectedValue: values.videoFilter</string>
-							<string key="NSBinding">selectedValue</string>
-							<string key="NSKeyPath">values.videoFilter</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">38</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">filterSelection</string>
 						<reference key="source" ref="1001"/>
@@ -448,6 +431,46 @@
 						<reference key="destination" ref="139973920"/>
 					</object>
 					<int key="connectionID">47</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">contentValues: delegate.filterNames</string>
+						<reference key="source" ref="139973920"/>
+						<reference key="destination" ref="1004"/>
+						<object class="NSNibBindingConnector" key="connector" id="730367247">
+							<reference key="NSSource" ref="139973920"/>
+							<reference key="NSDestination" ref="1004"/>
+							<string key="NSLabel">contentValues: delegate.filterNames</string>
+							<string key="NSBinding">contentValues</string>
+							<string key="NSKeyPath">delegate.filterNames</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">48</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">selectedValue: values.videoFilter</string>
+						<reference key="source" ref="139973920"/>
+						<reference key="destination" ref="404735014"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="139973920"/>
+							<reference key="NSDestination" ref="404735014"/>
+							<string key="NSLabel">selectedValue: values.videoFilter</string>
+							<string key="NSBinding">selectedValue</string>
+							<string key="NSKeyPath">values.videoFilter</string>
+							<dictionary key="NSOptions">
+								<string key="NSMultipleValuesPlaceholder">Linear Interpolation</string>
+								<string key="NSNoSelectionPlaceholder">Linear Interpolation</string>
+								<string key="NSNotApplicablePlaceholder">Linear Interpolation</string>
+								<string key="NSNullPlaceholder">Linear Interpolation</string>
+								<boolean value="YES" key="NSValidatesImmediately"/>
+							</dictionary>
+							<reference key="NSPreviousConnector" ref="730367247"/>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">54</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -481,15 +504,15 @@
 						<reference key="object" ref="450679658"/>
 						<array class="NSMutableArray" key="children">
 							<reference ref="491901795"/>
-							<reference ref="982783455"/>
-							<reference ref="1021236093"/>
-							<reference ref="1017937277"/>
 							<reference ref="131891071"/>
 							<reference ref="325105551"/>
-							<reference ref="546566880"/>
 							<reference ref="139973920"/>
 							<reference ref="307976280"/>
 							<reference ref="406681499"/>
+							<reference ref="546566880"/>
+							<reference ref="982783455"/>
+							<reference ref="1021236093"/>
+							<reference ref="1017937277"/>
 							<reference ref="1044078460"/>
 						</array>
 						<reference key="parent" ref="0"/>
@@ -630,6 +653,7 @@
 						<int key="objectID">28</int>
 						<reference key="object" ref="404735014"/>
 						<reference key="parent" ref="0"/>
+						<string key="objectName">Shared User Defaults Controller</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">45</int>
@@ -692,7 +716,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">47</int>
+			<int key="maxID">54</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
