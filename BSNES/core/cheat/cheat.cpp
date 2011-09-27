@@ -1,3 +1,5 @@
+#ifndef __clang_analyzer__
+
 #include <../base.hpp>
 
 #define CHEAT_CPP
@@ -393,3 +395,4 @@ string& Cheat::decode_description(string &desc) const {
 
 };
 
+#endif
