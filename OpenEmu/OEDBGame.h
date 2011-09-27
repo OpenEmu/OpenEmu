@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-@class LibraryDatabase;
+@class OELibraryDatabase;
 @interface OEDBGame : NSManagedObject <NSPasteboardWriting>{
 }
-+ (id)gameWithArchiveDictionary:(NSDictionary*)gameInfo inDatabase:(LibraryDatabase*)database;
++ (id)gameWithArchiveDictionary:(NSDictionary*)gameInfo inDatabase:(OELibraryDatabase*)database;
 #pragma mark -
 - (void)setBoxImageByImage:(NSImage*)img;
 - (void)setBoxImageByURL:(NSURL*)url;

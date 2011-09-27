@@ -8,8 +8,6 @@
 
 #import "OEFieldEditor.h"
 
-@interface TestField : NSTextField {}
-@end
 #pragma mark -
 @implementation OEFieldEditor
 @synthesize borderColor;

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 // used for cover grid and cover flow
-@protocol CoverGridDataSourceItem <NSObject>
+@protocol OECoverGridDataSourceItem <NSObject>
 - (NSString*)gridTitle;
 - (void)setGridTitle:(NSString*)str;
 

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol CoverFlowDataSourceItem <NSObject>
+@protocol OECoverFlowDataSourceItem <NSObject>
 
 - (NSString *) imageUID;
 - (NSString *) imageRepresentationType;

@@ -10,7 +10,7 @@
 #import "IKSGridItemLayer.h"
 
 #import "CoverGridDataSourceItem.h"
-#import "CoverGridNoArtwork.h"
+#import "OECoverGridNoArtwork.h"
 
 #import "OEUIDrawingUtils.h"
 #import "NSColor+IKSAdditions.h"
@@ -65,21 +65,21 @@
 		[self addSublayer:iLayer];
 		
 		// setup layer for status display (missing, processing, ....)
-		CoverGridIndicationLayer* inLayer = [CoverGridIndicationLayer layer];
+		OECoverGridIndicationLayer* inLayer = [OECoverGridIndicationLayer layer];
 		inLayer.transform = CATransform3DMakeScale(1, -1, 1);
 		inLayer.delegate = self;
 		self.indicationLayer = inLayer;
 		[self insertSublayer:inLayer above:iLayer];
 		
 		// setup gloss layer
-		CoverGridGlossLayer* gLayer = [CoverGridGlossLayer layer];
+		OECoverGridGlossLayer* gLayer = [OECoverGridGlossLayer layer];
 		gLayer.delegate = self;
 		gLayer.needsDisplayOnBoundsChange = YES;
 		self.glossLayer = gLayer;
 		[self insertSublayer:gLayer above:inLayer];
 		
 		// setup selection layer
-		CoverGridSelectionLayer* sLayer = [CoverGridSelectionLayer layer];
+		OECoverGridSelectionLayer* sLayer = [OECoverGridSelectionLayer layer];
 		sLayer.delegate = self;
 		self.selectionLayer = sLayer;
 		[self insertSublayer:sLayer above:gLayer];
@@ -105,7 +105,7 @@
 		self.titleLayer = tLayer;
 		
 		// setup rating layer
-		CoverGridRatingLayer* rLayer = [CoverGridRatingLayer layer];
+		OECoverGridRatingLayer* rLayer = [OECoverGridRatingLayer layer];
 		rLayer.delegate = self;
 		[self addSublayer:rLayer];
 		self.ratingLayer = rLayer;
@@ -679,7 +679,7 @@
     
     self.titleLayer.string = title;
     if(coverImage==nil){
-		if(![self.imageLayer isKindOfClass:[CoverGridNoArtwork class]]){
+		if(![self.imageLayer isKindOfClass:[OECoverGridNoArtwork class]]){
 			/*
 			noArtworkLayer = [CoverGridNoArtwork layer];
 			
@@ -690,7 +690,7 @@
 			[self.imageLayer addSublayer:noArtworkLayer];
 			[noArtworkLayer setNeedsDisplay];
 			 */
-			CoverGridNoArtwork* noArtworkLayer = [CoverGridNoArtwork layer];
+			OECoverGridNoArtwork* noArtworkLayer = [OECoverGridNoArtwork layer];
 			
 			noArtworkLayer.frame = self.imageLayer.frame;
 			noArtworkLayer.autoresizingMask = self.imageLayer.autoresizingMask;
@@ -716,7 +716,7 @@
 ///			[self.imageLayer display];
 			
 		}
-    } else if([self.imageLayer isKindOfClass:[CoverGridNoArtwork class]]){
+    } else if([self.imageLayer isKindOfClass:[OECoverGridNoArtwork class]]){
 		CALayer* newImageLayer = [CALayer layer];
 		
 		newImageLayer.frame = self.imageLayer.frame;

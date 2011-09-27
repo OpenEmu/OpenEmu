@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#import "AttributedTextFieldCell.h"
-@interface OEPrefCtrlHeadlineLabelCell : AttributedTextFieldCell {
+#import "OEAttributedTextFieldCell.h"
+@interface OEPrefCtrlHeadlineLabelCell : OEAttributedTextFieldCell {
 @private
     
 }
