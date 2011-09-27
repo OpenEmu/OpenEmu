@@ -34,9 +34,12 @@
     transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
     transition.duration = 1.0;
 
-    [[[replaceView superview] layer] setBackgroundColor:CGColorCreateGenericGray(0.129, 1.0)];
+	CGColorRef colorRef = CGColorCreateGenericGray(0.129, 1.0);
+    [[[replaceView superview] layer] setBackgroundColor:colorRef];
 
-    [[replaceView layer] setBackgroundColor:CGColorCreateGenericGray(0.129, 1.0)];
+	
+    [[replaceView layer] setBackgroundColor:colorRef];
+	CGColorRelease(colorRef);
     
     [replaceView setWantsLayer:YES];
     

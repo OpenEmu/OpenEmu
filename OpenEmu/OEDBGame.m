@@ -10,7 +10,7 @@
 #import "OEDBImage.h"
 
 #import "ArchiveVG.h"
-#import "LibraryDatabase.h"
+#import "OELibraryDatabase.h"
 @interface OEDBGame (Private)
 - (void)_performUpdate;
 + (void)_cpyValForKey:(const NSString*)keyA of:(NSDictionary*)dictionary toKey:(const NSString*)keyB ofGame:(OEDBGame*)game;
@@ -32,7 +32,7 @@
  }
  */
 
-+ (id)gameWithArchiveDictionary:(NSDictionary*)gameInfo inDatabase:(LibraryDatabase*)database{
++ (id)gameWithArchiveDictionary:(NSDictionary*)gameInfo inDatabase:(OELibraryDatabase*)database{
 	NSManagedObjectContext* context = [database managedObjectContext];
 	NSEntityDescription* description = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
 	

@@ -15,20 +15,20 @@ enum _OEImportErrorBehavior {
 	OEImportErrorIgnore
 };
 typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
-@class LibraryDatabase;
+@class OELibraryDatabase;
 @interface OEROMImporter : NSObject{
 	BOOL canceld;
 	
 	OEImportErrorBehavior errorBehaviour;
 	NSMutableArray* import;
 	
-	LibraryDatabase* database;
+	OELibraryDatabase* database;
 }
-- (id)initWithDatabase:(LibraryDatabase*)_database;
+- (id)initWithDatabase:(OELibraryDatabase*)_database;
 
 - (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError**)outError;
 - (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError**)outError;
 
 @property OEImportErrorBehavior errorBehaviour;
-@property (assign) LibraryDatabase* database;
+@property (assign) OELibraryDatabase* database;
 @end

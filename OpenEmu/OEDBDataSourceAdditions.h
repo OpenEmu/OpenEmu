@@ -18,56 +18,56 @@
 
 #import "CoverGridDataSourceItem.h"
 #import "CoverFlowDataSourceItem.h"
-#import "SideBarDataSourceItem.h"
+#import "OESideBarDataSourceItem.h"
 #import "ListViewDataSourceItem.h"
 #import "OEDBAllGamesCollection.h"
 
-#import "CollectionViewItemProtocol.h"
-@interface OEDBGame (DataSourceAdditions) <CoverGridDataSourceItem, CoverFlowDataSourceItem, ListViewDataSourceItem>
+#import "OECollectionViewItemProtocol.h"
+@interface OEDBGame (DataSourceAdditions) <OECoverGridDataSourceItem, OECoverFlowDataSourceItem, OEListViewDataSourceItem>
 @end
 
-@interface OEDBSystem (DataSourceAdditions) <SidebarDataSourceItem> 
+@interface OEDBSystem (DataSourceAdditions) <OESidebarDataSourceItem> 
 @end
 
 
-@interface OEDBCollection (DataSourceAdditions) <SidebarDataSourceItem> 
+@interface OEDBCollection (DataSourceAdditions) <OESidebarDataSourceItem> 
 @end
 
-@interface OEDBSmartCollection (DataSourceAdditions) <SidebarDataSourceItem> 
+@interface OEDBSmartCollection (DataSourceAdditions) <OESidebarDataSourceItem> 
 @end
 
-@interface OEDBCollectionFolder (DataSourceAdditions) <SidebarDataSourceItem> 
+@interface OEDBCollectionFolder (DataSourceAdditions) <OESidebarDataSourceItem> 
 @end
 
 #pragma mark -
 #pragma mark Implementation of items that can be presented by CollectionView
 
-@interface OEDBSystem (OECollectionViewItemAdditions) <CollectionViewItemProtocol>
+@interface OEDBSystem (OECollectionViewItemAdditions) <OECollectionViewItemProtocol>
 - (NSString*)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (BOOL)removingGamesDeletesThem;
 - (NSPredicate*)predicate;
 @end
 
-@interface OEDBCollection (OECollectionViewItemAdditions) <CollectionViewItemProtocol>
+@interface OEDBCollection (OECollectionViewItemAdditions) <OECollectionViewItemProtocol>
 - (NSString*)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (BOOL)removingGamesDeletesThem;
 - (NSPredicate*)predicate;
 @end
-@interface OEDBCollectionFolder (OECollectionViewItemAdditions) <CollectionViewItemProtocol>
+@interface OEDBCollectionFolder (OECollectionViewItemAdditions) <OECollectionViewItemProtocol>
 - (NSString*)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (BOOL)removingGamesDeletesThem;
 - (NSPredicate*)predicate;
 @end
-@interface OEDBSmartCollection (OECollectionViewItemAdditions) <CollectionViewItemProtocol>
+@interface OEDBSmartCollection (OECollectionViewItemAdditions) <OECollectionViewItemProtocol>
 - (NSString*)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (BOOL)removingGamesDeletesThem;
 - (NSPredicate*)predicate;
 @end
-@interface OEDBAllGamesCollection (OECollectionViewItemAdditions) <CollectionViewItemProtocol>
+@interface OEDBAllGamesCollection (OECollectionViewItemAdditions) <OECollectionViewItemProtocol>
 - (NSString*)collectionViewName;
 - (BOOL)isCollectionEditable;
 - (BOOL)removingGamesDeletesThem;

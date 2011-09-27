@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SideBarDataSourceItem.h"
+#import "OESideBarDataSourceItem.h"
 
-@interface OEDBAllGamesCollection : NSObject <SidebarDataSourceItem> {
+@interface OEDBAllGamesCollection : NSObject <OESidebarDataSourceItem> {
 @private
     
 }

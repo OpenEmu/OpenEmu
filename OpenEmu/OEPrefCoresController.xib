@@ -1,28 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11A511</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1565</string>
+		<int key="IBDocument.SystemTarget">1060</int>
+		<string key="IBDocument.SystemVersion">11B26</string>
+		<string key="IBDocument.InterfaceBuilderVersion">907</string>
 		<string key="IBDocument.AppKitVersion">1138</string>
 		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1565</string>
+			<string key="NS.object.0">907</string>
 		</object>
-		<array key="IBDocument.IntegratedClassDependencies">
-			<string>NSTextField</string>
-			<string>NSView</string>
-			<string>NSTextFieldCell</string>
-			<string>NSSliderCell</string>
-			<string>NSScrollView</string>
-			<string>NSCustomView</string>
-			<string>NSSlider</string>
-			<string>NSButtonCell</string>
-			<string>NSButton</string>
-			<string>NSScroller</string>
-			<string>NSCustomObject</string>
-		</array>
+		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs"/>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
@@ -38,7 +26,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSView" id="753923070">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSScrollView" id="862651121">
@@ -54,14 +42,12 @@
 										<int key="NSvFlags">274</int>
 										<string key="NSFrameSize">{423, 480}</string>
 										<reference key="NSSuperview" ref="905659623"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="699602566"/>
-										<string key="NSClassName">CoreView</string>
+										<string key="NSClassName">OECoreView</string>
 									</object>
 								</array>
 								<string key="NSFrameSize">{423, 480}</string>
 								<reference key="NSSuperview" ref="862651121"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="856289293"/>
 								<reference key="NSDocView" ref="856289293"/>
 								<object class="NSColor" key="NSBGColor" id="482693887">
@@ -80,7 +66,6 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{408, 0}, {15, 465}}</string>
 								<reference key="NSSuperview" ref="862651121"/>
-								<reference key="NSWindow"/>
 								<reference key="NSTarget" ref="862651121"/>
 								<string key="NSAction">_doScroller:</string>
 								<double key="NSCurValue">1</double>
@@ -91,7 +76,6 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{-100, -100}, {408, 15}}</string>
 								<reference key="NSSuperview" ref="862651121"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="905659623"/>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="862651121"/>
@@ -101,7 +85,6 @@
 						</array>
 						<string key="NSFrameSize">{423, 480}</string>
 						<reference key="NSSuperview" ref="753923070"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="905659623"/>
 						<int key="NSsFlags">133648</int>
 						<reference key="NSVScroller" ref="983991698"/>
@@ -110,8 +93,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{423, 480}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="862651121"/>
 			</object>
 			<object class="NSView" id="519011402">
@@ -139,7 +120,7 @@
 							<object class="NSFont" key="NSSupport">
 								<string key="NSName">LucidaGrande</string>
 								<double key="NSSize">13</double>
-								<int key="NSfFlags">1044</int>
+								<int key="NSfFlags">1040</int>
 							</object>
 							<reference key="NSControlView" ref="429313405"/>
 							<int key="NSButtonFlags">1211912703</int>
@@ -642,25 +623,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">CoreView</string>
-					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">sampleCoreSettings</string>
-						<string key="NS.object.0">NSView</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">sampleCoreSettings</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">sampleCoreSettings</string>
-							<string key="candidateClassName">NSView</string>
-						</object>
-					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/CoreView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">OECheckBox</string>
 					<string key="superclassName">NSButton</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -682,6 +644,25 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OECoreSliderCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OECoreView</string>
+					<string key="superclassName">NSView</string>
+					<object class="NSMutableDictionary" key="outlets">
+						<string key="NS.key.0">sampleCoreSettings</string>
+						<string key="NS.object.0">NSView</string>
+					</object>
+					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<string key="NS.key.0">sampleCoreSettings</string>
+						<object class="IBToOneOutletInfo" key="NS.object.0">
+							<string key="name">sampleCoreSettings</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+					</object>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -737,6 +718,7 @@
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
+		<nil key="IBDocument.LastKnownRelativeProjectPath"/>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<object class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NS.key.0">NSSwitch</string>

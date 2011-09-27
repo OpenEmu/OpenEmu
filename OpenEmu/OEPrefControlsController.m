@@ -11,7 +11,7 @@
 #import "OEPrefControlsController.h"
 #import "OEBackgroundGradientView.h"
 #import "OEBackgroundImageView.h"
-#import "LibraryDatabase.h"
+#import "OELibraryDatabase.h"
 
 #import "OEPlugin.h"
 #import "OESystemPlugin.h"

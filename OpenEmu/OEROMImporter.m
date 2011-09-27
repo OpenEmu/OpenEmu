@@ -7,7 +7,7 @@
 //
 
 #import "OEROMImporter.h"
-#import "LibraryDatabase.h"
+#import "OELibraryDatabase.h"
 @interface OEROMImporter (Private)
 - (BOOL)_performImportWithPath:(NSString*)path error:(NSError**)outError;	// paths must not contain tilde, path must be absolute
 - (BOOL)_performImportWithPaths:(NSArray*)paths error:(NSError**)outError;	// paths must be absolute
@@ -19,7 +19,7 @@
 @implementation OEROMImporter
 @synthesize errorBehaviour, database;
 
-- (id)initWithDatabase:(LibraryDatabase*)_database{
+- (id)initWithDatabase:(OELibraryDatabase*)_database{
     self = [super init];
     if (self) {
 		self.database = _database;

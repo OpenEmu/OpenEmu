@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@protocol ListViewDataSourceItem <NSObject>
+@protocol OEListViewDataSourceItem <NSObject>
 
 - (NSImage*)listViewStatus:(BOOL)selected;
 - (NSNumber*)listViewRating;

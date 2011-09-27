@@ -6,8 +6,8 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "AttributedTextFieldCell.h"
+#import "OEAttributedTextFieldCell.h"
 
-@interface OEControlsKeyLabelCell : AttributedTextFieldCell
+@interface OEControlsKeyLabelCell : OEAttributedTextFieldCell
 
 @end
