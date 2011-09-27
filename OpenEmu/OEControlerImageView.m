@@ -110,11 +110,11 @@
 
 - (void)selectedButtonChanged:(NSNotification*)notification{
 	NSPoint newHighlightPoint;
-	id <OEControlsButtonHighlightProtocol> obj = (id <OEControlsButtonHighlightProtocol>)[notification object];
-	if(!obj || ![obj respondsToSelector:@selector(highlightPoint)]){
+	id <OEControlsButtonHighlightProtocol> selectedButton = (id <OEControlsButtonHighlightProtocol>)[notification object];
+	if(!selectedButton || ![selectedButton respondsToSelector:@selector(highlightPoint)]){
 		newHighlightPoint = NSZeroPoint;
 	} else {
-		newHighlightPoint = [obj highlightPoint];
+		newHighlightPoint = [selectedButton highlightPoint];
 	}
 	
 	[NSAnimationContext beginGrouping];

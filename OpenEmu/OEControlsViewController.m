@@ -119,8 +119,12 @@
 {
     if(selectedControl != nil)
     {
+		id button = selectedControl;
+		id gameControllerView = [selectedControl superview];
         [self setValue:anEvent forKey:[self selectedKey]];
         [self selectInputControl:nil];
+		
+		if([gameControllerView respondsToSelector:@selector(selectNextKeyButton:)]) [gameControllerView performSelector:@selector(selectNextKeyButton:) withObject:button];
     }
 }
 
@@ -189,7 +193,6 @@
         
         return (anEvent != nil ? [anEvent displayDescription] : @"<empty>");
     }
-    
     return [super valueForKey:key];
 }
 
