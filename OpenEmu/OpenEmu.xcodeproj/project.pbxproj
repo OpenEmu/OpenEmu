@@ -471,6 +471,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1B6A25011430F8FB009F1CE1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 83F37141140BB166005A7353;
+			remoteInfo = "Build SystemPlugins";
+		};
 		1BEF2C7411684D9E0090F72B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -2713,6 +2720,7 @@
 			dependencies = (
 				C60FC00113522D9A00B53F64 /* PBXTargetDependency */,
 				C6711809136367920034379A /* PBXTargetDependency */,
+				1B6A25021430F8FB009F1CE1 /* PBXTargetDependency */,
 				1BFC26CF116C1C9900B95689 /* PBXTargetDependency */,
 			);
 			name = OpenEmu;
@@ -3401,6 +3409,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1B6A25021430F8FB009F1CE1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 83F37141140BB166005A7353 /* Build SystemPlugins */;
+			targetProxy = 1B6A25011430F8FB009F1CE1 /* PBXContainerItemProxy */;
+		};
 		1BEF2C7511684D9E0090F72B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
