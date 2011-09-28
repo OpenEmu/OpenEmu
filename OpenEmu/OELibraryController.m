@@ -148,7 +148,6 @@
 	// [importer importROMsAtPath:@"~/Documents" inBackground:YES error:nil];
 }
 
-
 #pragma mark -
 #pragma mark Toolbar Actions
 - (IBAction)toggleSidebar:(id)sender{

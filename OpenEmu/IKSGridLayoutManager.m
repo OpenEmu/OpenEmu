@@ -139,9 +139,7 @@
 	IKSGridItemLayer *currentLayer = nil;
 	
 	currentItemIndex = firstVisibleRow*columns;
-	
-	NSUInteger redrawnLayers = 0, layersHidden = 0, unhiddenLayers = 0;
-	
+		
 	// iterate though columns and rows	
 	for (j = firstVisibleRow; j < firstVisibleRow+visibleRows; j++){
         for (k = 0; k < columns; k++){
@@ -161,7 +159,6 @@
 				[CATransaction begin];
 				[CATransaction setDisableActions:YES];
 				currentLayer.hidden = YES;
-				layersHidden ++;
 				[CATransaction commit];
 				
 				currentItemIndex++;
@@ -204,28 +201,26 @@
 			currentLayer.representedIndex = currentItemIndex;
 //			currentLayer.representedObject = objectValue;
 			
-			// show layer, and set frame without animations
+			
 			[CATransaction begin];
 			[CATransaction setDisableActions:YES];
 			currentLayer.frame = newFrame;
 			currentLayer.hidden = NO;
-			unhiddenLayers ++;
 			[CATransaction commit];
-			
+
 			//
 			// Rendering
 			// If there are multiple layers, they are rendered on a separate GCD queue which prevents the main application from stalling
 			// If there is only one layer, it is rendered on the main thread to avoid lag
 			//
 			if (redrawLayer) {
-				redrawnLayers ++;
 				dispatch_async(renderQueue, ^{
-					[CATransaction begin];
-					[CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
-					[currentLayer setNeedsLayout];
-					//[currentLayer setNeedsDisplay];
-					[CATransaction commit];
-					[currentLayer endValueChange];
+					
+						[CATransaction begin];
+						[CATransaction setDisableActions:YES];
+						[currentLayer reloadData];
+						[CATransaction commit];
+						[currentLayer endValueChange];
 				});
 #warning Imortant to fix this sooon!!!
 #warning fixed already??????

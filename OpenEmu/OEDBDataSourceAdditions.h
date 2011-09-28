@@ -16,10 +16,10 @@
 
 #import <ImageKit/ImageKit.h>
 
-#import "CoverGridDataSourceItem.h"
-#import "CoverFlowDataSourceItem.h"
+#import "OECoverGridDataSourceItem.h"
+#import "OECoverFlowDataSourceItem.h"
 #import "OESideBarDataSourceItem.h"
-#import "ListViewDataSourceItem.h"
+#import "OEListViewDataSourceItem.h"
 #import "OEDBAllGamesCollection.h"
 
 #import "OECollectionViewItemProtocol.h"

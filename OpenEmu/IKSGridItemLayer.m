@@ -18,14 +18,15 @@
 - (void)setSelected:(BOOL)newSelected{
 	if (selected != newSelected) {
 		selected = newSelected;
-		[self setNeedsLayout];
+		return;
 	}
 }
 
 - (void)setFirstResponder:(BOOL)newFirstResponder{
 	if (firstResponder != newFirstResponder) {
 		firstResponder = newFirstResponder;
-		if (self.selected) { [self setNeedsLayout]; }
+		if (self.selected) {
+			return; [self setNeedsLayout]; }
 	}
 }
 
@@ -44,6 +45,7 @@
 - (void)endValueChange{
 	// called after changing represented object
 }
+- (void)reloadData{}
 #pragma mark -
 #pragma mark IKSGridItemLayerEventProtocol
 - (BOOL)mouseDown:(NSEvent*)theEvent{	   
