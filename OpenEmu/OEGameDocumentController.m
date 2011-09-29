@@ -99,10 +99,10 @@
     [self updateFilterNames];
     
     
-    OESetupAssistant* assistant = [[OESetupAssistant alloc] initWithWindowNibName:@"OESetupAssistant"];
-    
-    [[assistant window] center];
-    [[assistant window] makeKeyAndOrderFront:nil];
+//    OESetupAssistant* assistant = [[OESetupAssistant alloc] initWithWindowNibName:@"OESetupAssistant"];
+//    
+//    [[assistant window] center];
+//    [[assistant window] makeKeyAndOrderFront:nil];
     
     
     if([plugins count] == 0)

@@ -762,7 +762,7 @@
 		53439AA513B92CC7005C0CC8 /* OELibraryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryController.m; sourceTree = "<group>"; };
 		53439AA813B92CE5005C0CC8 /* OECollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECollectionViewController.h; sourceTree = "<group>"; };
 		53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECollectionViewController.m; sourceTree = "<group>"; };
-		53439AAA13B92CE5005C0CC8 /* OECollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; path = OECollectionViewItemProtocol.h; sourceTree = "<group>"; };
+		53439AAA13B92CE5005C0CC8 /* OECollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECollectionViewItemProtocol.h; sourceTree = "<group>"; };
 		53439AAF13B92D1A005C0CC8 /* CoverFlowDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoverFlowDataSourceItem.h; sourceTree = "<group>"; };
 		53439AB013B92D2D005C0CC8 /* IKSGridViewProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKSGridViewProtocols.h; sourceTree = "<group>"; };
 		53439AB113B92DA3005C0CC8 /* CoverGridDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoverGridDataSourceItem.h; sourceTree = "<group>"; };
@@ -824,10 +824,10 @@
 		53439B0D13B92FFA005C0CC8 /* OESidebarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarCell.m; sourceTree = "<group>"; };
 		53439B0E13B92FFA005C0CC8 /* OESidebarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarController.h; sourceTree = "<group>"; };
 		53439B0F13B92FFA005C0CC8 /* OESidebarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarController.m; sourceTree = "<group>"; };
-		53439B1013B92FFA005C0CC8 /* OESideBarDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; path = OESideBarDataSourceItem.h; sourceTree = "<group>"; };
+		53439B1013B92FFA005C0CC8 /* OESideBarDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESideBarDataSourceItem.h; sourceTree = "<group>"; };
 		53439B1113B92FFA005C0CC8 /* OESidebarFieldEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarFieldEditor.h; sourceTree = "<group>"; };
 		53439B1213B92FFA005C0CC8 /* OESidebarFieldEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarFieldEditor.m; sourceTree = "<group>"; };
-		53439B1313B92FFA005C0CC8 /* OESideBarGroupItem.h */ = {isa = PBXFileReference; fileEncoding = 4; path = OESideBarGroupItem.h; sourceTree = "<group>"; };
+		53439B1313B92FFA005C0CC8 /* OESideBarGroupItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESideBarGroupItem.h; sourceTree = "<group>"; };
 		53439B1413B92FFA005C0CC8 /* OESidebarGroupItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarGroupItem.m; sourceTree = "<group>"; };
 		53439B1513B92FFA005C0CC8 /* OESidebarOutlineView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarOutlineView.h; sourceTree = "<group>"; };
 		53439B1613B92FFA005C0CC8 /* OESidebarOutlineView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarOutlineView.m; sourceTree = "<group>"; };
