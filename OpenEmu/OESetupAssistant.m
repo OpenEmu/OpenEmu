@@ -166,7 +166,7 @@
     
     NSLog(@"SearchString: %@", searchString);
     
-    MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (CFStringRef)searchString, NULL, NULL /* sortArray */);
+    MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (CFStringRef)searchString, NULL, NULL);
             
     if(searchQuery)
     {
@@ -176,7 +176,6 @@
         [self.resultProgress startAnimation:nil];
         [self.resultProgress setHidden:NO];
         [self.resultFinishedLabel setHidden:YES];    
-
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finalizeSearchResults:)
                                                      name:(NSString*)kMDQueryDidFinishNotification
@@ -191,15 +190,7 @@
                                                    object:(id)searchQuery];
     
         MDQuerySetSearchScope(searchQuery, (CFArrayRef) [NSArray arrayWithObject:(NSString*) kMDQueryScopeComputer], 0);
-        
-//        MDQueryBatchingParams batchParam = MDQueryGetBatchingParameters(searchQuery);
-//        
-//        batchParam.first_max_num = 1;
-//        batchParam.progress_max_num = 1;
-//        batchParam.update_max_num = 1;
-//        
-//        MDQuerySetBatchingParameters(searchQuery, batchParam);
-        
+                
         if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
             NSLog(@"Searching for importable roms");
         
@@ -224,9 +215,6 @@
         resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
         resultPath = (NSString*)MDItemCopyAttribute(resultItem, kMDItemPath);
     
-        // Check to see if the path contains any in appropriate dirctories, like /tmp, /Library /System
-        //NSString* pathRoot = [[resultPath pathComponents] objectAtIndex:1]; // (0 = "/")
-        
         NSArray* dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
                                                         @"System",
                                                         @"Library",
@@ -256,15 +244,11 @@
                 [resultDict setValue:[[resultPath lastPathComponent] stringByDeletingPathExtension] forKey:@"Name"];
                 
                 [self.resultController addObject:resultDict];
-            
-                //NSLog(@"found %@", resultPath);
-                
             }
         }
 
         [resultPath release];
-        resultPath = nil;
-    
+        resultPath = nil;    
     } 
 }
 
