@@ -31,7 +31,6 @@
 #import "OEControlsKeyButton.h"
 #import "OEControlsKeyLabelCell.h"
 
-
 @implementation OEGameControllerView
 NSRect RoundNSRect(NSRect imageFrame);
 NSRect RoundNSRect(NSRect imageFrame){
@@ -67,7 +66,8 @@ NSRect RoundNSRect(NSRect imageFrame){
 }
 #pragma mark -
 - (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget{
-	[self addButtonWithName:aName label:label target:aTarget highlightPoint:NSZeroPoint];}
+	[self addButtonWithName:aName label:label target:aTarget highlightPoint:NSZeroPoint];
+}
 
 - (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget highlightPoint:(NSPoint)p{
 	NSRect labelRect = NSMakeRect(0, 0, 0, 0);
@@ -168,6 +168,40 @@ NSRect RoundNSRect(NSRect imageFrame){
 - (void)setFrame:(NSRect)frameRect{
 	[super setFrame:frameRect];
 	[self updateButtons];
+}
+#pragma mark -
+- (void)selectNextKeyButton:(id)currentButton{
+	if(!currentButton || !buttonsAndLabels) return;
+	
+	NSInteger index = [buttonsAndLabels indexOfObject:currentButton];
+	if(index == NSNotFound) return;
+	
+	
+	NSInteger i;
+	id nextButton = nil;
+	for(i=index+1; i < [buttonsAndLabels count]; i++){
+		id potentialButton = [buttonsAndLabels objectAtIndex:i];
+		if([potentialButton isKindOfClass:[OEControlsKeyButton class]]){
+			nextButton = potentialButton;
+			break;
+		}
+	}
+	
+	/* // Remove comment if selection is supposed to move back to first button
+	if(nextButton==nil){
+		for(id potentialButton in buttonsAndLabels){
+			if([potentialButton isKindOfClass:[OEControlsKeyButton class]]){
+				nextButton = potentialButton;
+				break;
+			}
+		}	
+	}
+	 */
+	
+	if(nextButton && [nextButton target] && [nextButton action] && [[nextButton target] respondsToSelector:[nextButton action]]){
+			[nextButton setState:NSOnState];
+			[[nextButton target] performSelector:[nextButton action] withObject:nextButton];
+	}
 }
 #pragma mark -
 - (BOOL)acceptsFirstResponder{

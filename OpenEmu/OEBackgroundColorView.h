@@ -13,6 +13,6 @@
 @private
     NSColor* backgroundColor;
 }
-@property (retain) NSColor* backgroundColor;
+@property (retain, nonatomic) NSColor* backgroundColor;
 
 @end

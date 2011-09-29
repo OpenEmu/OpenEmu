@@ -959,7 +959,7 @@
 		828387830E6CDB2300A96E2C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
+				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Gambatte_Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"";
@@ -976,7 +976,7 @@
 		828387840E6CDB2300A96E2C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
+				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Gambatte_Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"";

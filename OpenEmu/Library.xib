@@ -2,13 +2,13 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11C57</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
-		<string key="IBDocument.AppKitVersion">1138.21</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
+		<string key="IBDocument.SystemVersion">11B26</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1891</string>
+		<string key="IBDocument.AppKitVersion">1138</string>
+		<string key="IBDocument.HIToolboxVersion">566.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">1891</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSSliderCell</string>
@@ -36,10 +36,13 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
-				<string key="NSClassName">LibraryController</string>
+				<string key="NSClassName">OELibraryController</string>
 			</object>
 			<object class="NSCustomObject" id="1003">
 				<string key="NSClassName">FirstResponder</string>
@@ -82,7 +85,7 @@
 															<int key="NSvFlags">4352</int>
 															<string key="NSFrameSize">{186, 494}</string>
 															<reference key="NSSuperview" ref="411773151"/>
-															<reference key="NSNextKeyView" ref="993169309"/>
+															<reference key="NSNextKeyView" ref="948426263"/>
 															<bool key="NSEnabled">YES</bool>
 															<object class="NSTableHeaderView" key="NSHeaderView" id="832801688">
 																<reference key="NSNextResponder" ref="61671220"/>
@@ -230,7 +233,7 @@
 											</array>
 											<string key="NSFrame">{{0, 45}, {186, 511}}</string>
 											<reference key="NSSuperview" ref="214891354"/>
-											<reference key="NSNextKeyView" ref="948426263"/>
+											<reference key="NSNextKeyView" ref="411773151"/>
 											<int key="NSsFlags">133648</int>
 											<reference key="NSVScroller" ref="993169309"/>
 											<reference key="NSHScroller" ref="948426263"/>
@@ -328,7 +331,6 @@
 											</set>
 											<string key="NSFrame">{{615, 14}, {15, 15}}</string>
 											<reference key="NSSuperview" ref="200629737"/>
-											<reference key="NSNextKeyView"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="NSImageCell" key="NSCell" id="97198893">
 												<int key="NSCellFlags">130560</int>
@@ -528,12 +530,13 @@
 				<bool key="NSWindowIsRestorable">YES</bool>
 			</object>
 			<object class="NSCustomObject" id="331739331">
-				<string key="NSClassName">SidebarController</string>
+				<string key="NSClassName">OESidebarController</string>
 			</object>
 			<object class="NSCustomObject" id="320399549">
-				<string key="NSClassName">CollectionViewController</string>
+				<string key="NSClassName">OECollectionViewController</string>
 			</object>
 			<object class="NSWindowTemplate" id="969932372">
+				<int key="NSWindowStyleMask">1</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{163, 199}, {480, 118}}</string>
 				<int key="NSWTFlags">1685588992</int>
@@ -542,7 +545,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="131636936">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSProgressIndicator" id="561253903">
@@ -585,7 +588,6 @@
 							<int key="NSvFlags">268</int>
 							<string key="NSFrame">{{384, 12}, {82, 32}}</string>
 							<reference key="NSSuperview" ref="131636936"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:161</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="168130226">
@@ -605,7 +607,6 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{480, 118}</string>
-					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="561253903"/>
 					<string key="NSReuseIdentifierKey">_NS:2818</string>
 				</object>
@@ -1169,7 +1170,7 @@
 				<boolean value="NO" key="1.NSWindowTemplate.visibleAtLaunch"/>
 				<string key="2.CustomClassName">OEBackgroundColorView</string>
 				<string key="2.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="393.CustomClassName">LibrarySplitView</string>
+				<string key="393.CustomClassName">OELibrarySplitView</string>
 				<string key="393.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="394.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="395.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -1212,7 +1213,7 @@
 				<string key="550.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="551.CustomClassName">OEScroller</string>
 				<string key="551.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="552.CustomClassName">SidebarOutlineView</string>
+				<string key="552.CustomClassName">OESidebarOutlineView</string>
 				<string key="552.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="554.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="557.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>

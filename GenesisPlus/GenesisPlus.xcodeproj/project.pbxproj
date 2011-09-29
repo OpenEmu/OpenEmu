@@ -813,7 +813,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
+				EXPORTED_SYMBOLS_FILE = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GenesisPlus_Prefix.pch;
@@ -833,7 +833,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
+				EXPORTED_SYMBOLS_FILE = "";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GenesisPlus_Prefix.pch;

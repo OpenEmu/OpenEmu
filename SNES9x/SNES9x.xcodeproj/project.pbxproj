@@ -928,7 +928,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
+				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SNES9x_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
@@ -954,7 +954,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
+				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SNES9x_Prefix.pch;
 				GCC_STRICT_ALIASING = YES;

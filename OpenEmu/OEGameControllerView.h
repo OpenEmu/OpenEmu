@@ -40,4 +40,6 @@
 
 - (void)updateButtons;
 - (void)nextColumn;
+
+- (void)selectNextKeyButton:(id)currentButton;
 @end

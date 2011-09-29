@@ -7,11 +7,15 @@
 //
 
 #import <AppKit/AppKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @interface OEControlerImageView : NSView {
 	NSImage* image;
 	
-	NSPoint highlightedButtonPoint;
+	NSPoint ringPosition;
+	float overlayAlpha, ringAlpha;
 }
+@property (nonatomic) float overlayAlpha, ringAlpha;
+@property (nonatomic) NSPoint ringPosition;
 @property (nonatomic, retain) NSImage* image;
 @end
