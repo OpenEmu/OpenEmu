@@ -542,7 +542,7 @@
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
 				<object class="NSView" key="NSWindowView" id="131636936">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
 						<object class="NSProgressIndicator" id="561253903">
@@ -604,7 +604,6 @@
 						</object>
 					</array>
 					<string key="NSFrameSize">{480, 118}</string>
-					<reference key="NSSuperview"/>
 					<reference key="NSNextKeyView" ref="561253903"/>
 					<string key="NSReuseIdentifierKey">_NS:2818</string>
 				</object>

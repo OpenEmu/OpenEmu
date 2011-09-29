@@ -184,9 +184,7 @@
 
 	NSImage* image = nil;
 	@try {
-		NSManagedObject* imageDataObj = [usableThumbnail valueForKey:@"data"];
-		NSData* imageData = [imageDataObj valueForKey:@"data"];
-
+		NSData* imageData = [usableThumbnail valueForKeyPath:@"data.data"];
 		image = [self _convertDataToImage:imageData];
 	}
 	@catch (NSException *exception) {

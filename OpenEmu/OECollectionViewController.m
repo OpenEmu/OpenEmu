@@ -12,13 +12,13 @@
 #import "OELibraryDatabase.h"
 
 #import "OECoverGridForegroundLayer.h"
-#import "CoverGridItemLayer.h"
+#import "OECoverGridItemLayer.h"
 
-#import "ListViewDataSourceItem.h"
+#import "OEListViewDataSourceItem.h"
 #import "OERatingCell.h"
 #import "OEHorizontalSplitView.h"
 
-#import "CoverGridDataSourceItem.h"
+#import "OECoverGridDataSourceItem.h"
 @interface OECollectionViewController (Private)
 - (void)_reloadData;
 - (void)_selectView:(int)view;
@@ -96,7 +96,7 @@
     [listViewBtn setImage:[NSImage imageNamed:@"toolbar_view_button_list"]];
     
     // Set up GridView
-    [gridView setCellClass:[CoverGridItemLayer class]];
+    [gridView setCellClass:[OECoverGridItemLayer class]];
     [gridView setItemSize:NSMakeSize(168, 193)];
     [gridView setMinimumSpacing:NSMakeSize(22, 29)];
     [gridView setDelegate:self];
@@ -267,11 +267,12 @@
 }
 
 - (id)gridView:(IKSGridView*)aView objectValueOfItemAtIndex:(NSUInteger)index{
-    return [[gamesController arrangedObjects] objectAtIndex:index];
+	NSManagedObjectID* objid = [(NSManagedObject*)[[gamesController arrangedObjects] objectAtIndex:index] objectID];
+    return [[[self database] managedObjectContext] objectWithID:objid];
 }
 
 - (void)gridView:(IKSGridView *)aView setObject:(id)obj forKey:(NSString*)key atIndex:(NSUInteger)index{
-    id <OECoverGridDataSourceItem> object = [[gamesController arrangedObjects] objectAtIndex:index];
+    id <OECoverGridDataSourceItem> object = [self gridView:aView objectValueOfItemAtIndex:index];
 
     if([key isEqualTo:@"rating"]){
         [object setGridRating:[obj unsignedIntegerValue]];
@@ -285,7 +286,7 @@
 		return nil;
 	}
 	
-	id <OECoverGridDataSourceItem> object = [[gamesController arrangedObjects] objectAtIndex:index];
+    id <OECoverGridDataSourceItem> object = [self gridView:aView objectValueOfItemAtIndex:index];
 	if([key isEqualTo:@"status"]){
 		return [NSNumber numberWithInt:[object gridStatus]];
 	} else if([key isEqualTo:@"image"]){

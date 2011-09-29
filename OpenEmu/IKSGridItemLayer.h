@@ -33,7 +33,7 @@
 @property (nonatomic, assign) NSInteger representedIndex;
 
 
-
+- (void)reloadData;
 - (void)beginValueChange;
 - (void)endValueChange;
 /**

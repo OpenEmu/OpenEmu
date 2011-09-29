@@ -39,7 +39,6 @@
 #import "OECorePickerController.h"
 #import "OECompositionPlugin.h"
 #import "OESystemPlugin.h"
-#import "OESaveState.h"
 #import "OECoreInstaller.h"
 #import "OECoreUpdater.h"
 
@@ -48,6 +47,8 @@
 
 #import "OESetupAssistant.h"
 
+
+#import "OESaveState.h"
 #import "SaveState.h"
 
 //HID support
@@ -97,13 +98,6 @@
     
     // now load QC plugins/compositions
     [self updateFilterNames];
-    
-    
-//    OESetupAssistant* assistant = [[OESetupAssistant alloc] initWithWindowNibName:@"OESetupAssistant"];
-//    
-//    [[assistant window] center];
-//    [[assistant window] makeKeyAndOrderFront:nil];
-    
     
     if([plugins count] == 0)
     {
