@@ -668,7 +668,8 @@
 			else rom = [self romForCRC32Hash:hash];
 			BOOL hashInDatabase = rom!=nil;
 			if(hashInDatabase){
-				NSLog(@"Game is already in Database");
+				
+                NSLog(@"Game is already in Database");
 				
 				// update progress
 				progress += fileSize;
