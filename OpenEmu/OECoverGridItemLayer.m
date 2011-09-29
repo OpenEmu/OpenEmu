@@ -6,11 +6,11 @@
 //  Copyright 2011 none. All rights reserved.
 //
 
-#import "CoverGridItemLayer.h"
+#import "OECoverGridItemLayer.h"
 #import "IKSGridItemLayer.h"
 
-#import "CoverGridDataSourceItem.h"
-#import "OECoverGridNoArtwork.h"
+#import "OECoverGridDataSourceItem.h"
+#import "OECoverGridNoArtworkLayer.h"
 
 #import "OEUIDrawingUtils.h"
 #import "NSColor+IKSAdditions.h"
@@ -19,7 +19,8 @@
 #import "OEFieldEditor.h"
 
 #import "DelayedBlockExecution.h"
-@interface CoverGridItemLayer (privates)
+#import <QuickLook/QuickLook.h>
+@interface OECoverGridItemLayer (privates)
 // Sets rating by click point
 - (void)setRatingWithPoint:(NSPoint)p pressed:(BOOL)pressed;
 
@@ -29,8 +30,7 @@
 - (void)moveLayer:(CALayer*)layer to:(CGPoint)point centered:(BOOL)centered;
 // animates opacity of layer
 - (void)fadeOpacityOfLayer:(CALayer*)layer to:(float)newOpacity;
-// updates values
-- (void)_valuesDidChange;
+
 
 // called to display on drop animation
 - (void)_displayOnDrop:(id)sender;
@@ -39,12 +39,16 @@
 
 - (id)_datasourceProxy_objectForKey:(NSString*)key;
 - (void)_datasourceProxy_setObject:(id)obj forKey:(NSString*)key;
+
+- (void)_layoutStaticElements;
+- (void)_layoutImageAndSelection;
 @end
 #pragma mark -
-@implementation CoverGridItemLayer
+@implementation OECoverGridItemLayer
 @synthesize imageRatio;
 @synthesize selectionLayer, glossLayer, indicationLayer, imageLayer, titleLayer, ratingLayer;
-
+@synthesize image;
+@synthesize isReloading;
 - (id)init{
     self = [super init];
     if (self) {
@@ -109,7 +113,9 @@
 		rLayer.delegate = self;
 		[self addSublayer:rLayer];
 		self.ratingLayer = rLayer;
-    }
+		
+		lastSize = self.bounds.size;
+	}
     
     return self;
 }
@@ -137,65 +143,136 @@
     return rect;
 }
 
-
 #pragma mark -
-- (void)display{/*
-    [self.glossLayer setNeedsDisplay];
-    
-    // make sure indication layer displays correctly
-    if(!acceptingOnDrop){
-		NSNumber* val = [self _datasourceProxy_objectForKey:@"status"];
-		self.indicationLayer.type = [val intValue];
-	}
-	*/
-	if(!acceptingOnDrop){
-		NSNumber* val = [self _datasourceProxy_objectForKey:@"status"];
-		self.indicationLayer.type = [val intValue];
-	}
+- (void)reloadImage{
+	reloadImage = NO;
+	self.image = [self _datasourceProxy_objectForKey:@"image"];
+	[self _layoutImageAndSelection];
 }
 
+- (void)reloadData{
+	NSString* title = [self _datasourceProxy_objectForKey:@"title"];
+	self.titleLayer.string = title;
+	
+	int rating = [[self _datasourceProxy_objectForKey:@"rating"] intValue];
+    [self.ratingLayer setRating:rating pressed:NO];
+	
+	int status = [[self _datasourceProxy_objectForKey:@"status"] intValue];
+	self.indicationLayer.type = status;
+	
+	if(reloadImage){
+		reloadImage = NO;
+		[self reloadImage];
+	}
+	self.isReloading = NO;
+}
 
 - (void)layoutSublayers{
-    if(acceptingOnDrop) return;
-    
-    // Border between top of layer and top of image
-    float topBorder = 7;
-    
+	if(!CGSizeEqualToSize(lastSize, self.bounds.size)){
+		[self _layoutStaticElements];
+		
+		reloadImage = NO;
+		self.image = [self _datasourceProxy_objectForKey:@"image"];
+		[self _layoutImageAndSelection];
+	}
+	
+	lastSize = self.bounds.size;
+}
+
+- (void)_layoutStaticElements{
+	[CATransaction begin];
+    [CATransaction setDisableActions:YES];
     // Height of title string
     float titleHeight = 16;
+	
     // Space between bottom of image and top of title string
     float titleImageSpacing = 17;
     
-    
     float subtitleHeight = 11;
     float subtitleWidth = 56;
-    
-    // Space between left layer border and left side of image
-    float imageBorderLeft = 13;
-    // Space between right side of image and right border of layer
-    float imageBorderRight = 13;
-    
-    // calculate area where image is placed
-    imageContainerRect = NSMakeRect(0+imageBorderLeft, 0+topBorder, self.bounds.size.width-imageBorderLeft-imageBorderRight, self.bounds.size.height - titleHeight-titleImageSpacing-subtitleHeight-topBorder);
 	
-	// get image for specific size
-	NSImage* image = [self _datasourceProxy_objectForKey:@"image"];
-	if(image && self.imageLayer && !NSEqualSizes(lastImageSize, imageContainerRect.size)){
-		if(image){
-			self.imageLayer.contents = image;
-			lastImageSize = imageContainerRect.size;	
-		}
-	}
-	
-    
     // calculate rect for title layer
-    titleRect = CGRectMake(self.bounds.origin.x, imageContainerRect.origin.y+imageContainerRect.size.height+titleImageSpacing, self.bounds.size.width, titleHeight);
+    titleRect = CGRectMake(self.bounds.origin.x, (self.bounds.size.height-titleHeight-titleImageSpacing-subtitleHeight+titleImageSpacing), self.bounds.size.width, titleHeight);
     // calculate rect for rating layer
     ratingRect = RoundCGRect(CGRectMake(self.bounds.origin.x+(self.bounds.size.width-subtitleWidth)/2, titleRect.origin.y+titleRect.size.height, subtitleWidth, subtitleHeight));
     // make sure it has correct size to prevent sub pixel stuff
     ratingRect.size = CGSizeMake(55, 11);
     
-    // Calculated size of image in container frame
+    // set background colors for debug (to point out the various frames)
+    BOOL debug_colors = NO;
+	if(debug_colors){
+		titleLayer.backgroundColor = [[NSColor greenColor] CGColor];
+		imageLayer.backgroundColor = [[NSColor blueColor] CGColor];
+		ratingLayer.backgroundColor = [[NSColor orangeColor] CGColor];
+		self.backgroundColor = [[NSColor yellowColor] CGColor];
+    } else {
+		titleLayer.backgroundColor = imageLayer.backgroundColor = ratingLayer.backgroundColor = self.backgroundColor = NULL;
+	}
+    // update layer frames
+    titleLayer.frame = titleRect;
+    ratingLayer.frame = ratingRect;
+	[CATransaction commit];
+}
+
+- (void)_layoutImageAndSelection{
+	[CATransaction begin];
+	[CATransaction setDisableActions:YES];
+	[self retain];
+	
+	imageRatio = 1.0;
+	CALayer* newImageLayer;
+	if(self.image==nil){
+		imageRatio = 1.365385;
+		newImageLayer = [OECoverGridNoArtworkLayer layer];
+		newImageLayer.needsDisplayOnBoundsChange = YES;
+		newImageLayer.contents = nil;
+	} else {
+		imageRatio = self.image.size.height/self.image.size.width;
+		
+		newImageLayer = [CALayer layer];
+		newImageLayer.contents = self.image;
+	}
+	
+	newImageLayer.shadowColor = [[NSColor blackColor] CGColor];
+	newImageLayer.geometryFlipped = YES;
+	newImageLayer.transform = CATransform3DMakeScale(1, -1, 1);
+	newImageLayer.shadowOffset = CGSizeMake(0, 3);
+	newImageLayer.shadowOpacity = 1.0;
+	newImageLayer.shadowRadius = 3.0;
+	newImageLayer.contentsGravity = kCAGravityResize;
+	newImageLayer.delegate = self;
+	
+	@try {
+		[self.imageLayer.superlayer replaceSublayer:self.imageLayer with:newImageLayer];
+		self.imageLayer = newImageLayer;
+	}
+	@catch (NSException *exception) {
+		NSLog(@"%@", exception);
+		[CATransaction commit];
+		[self release];
+		return;
+	}
+	
+	// Height of title string
+    float titleHeight = 16;
+	
+    // Space between bottom of image and top of title string
+    float titleImageSpacing = 17;
+    float subtitleHeight = 11;	
+	
+	// Border between top of layer and top of image
+	float topBorder = 7;
+	
+	// Space between left layer border and left side of image
+	float imageBorderLeft = 13;
+	// Space between right side of image and right border of layer
+	float imageBorderRight = 13;
+	
+	
+	// calculate area where image is placed
+	imageContainerRect = NSMakeRect(0+imageBorderLeft, 0+topBorder, self.bounds.size.width-imageBorderLeft-imageBorderRight, self.bounds.size.height - titleHeight-titleImageSpacing-subtitleHeight-topBorder);
+	
+	// Calculated size of image in container frame
     float width, height;
     if(self.imageRatio<1){ // width > height
 		width = imageContainerRect.size.width;
@@ -204,50 +281,90 @@
 		height = imageContainerRect.size.height;
 		width = height/self.imageRatio;			
     }
-    
-    // Determine actual frame for image
-    CGRect coverImageRect = RoundCGRect(CGRectMake(imageContainerRect.origin.x+(imageContainerRect.size.width-width)/2, imageContainerRect.origin.y+imageContainerRect.size.height-height, width, height));
-    
-    // set background colors for debug (to point out the various frames)
-    BOOL debug_colors = ([[NSUserDefaults standardUserDefaults] objectForKey:@"debug_showGridFrameBorder"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"debug_showGridFrameBorder"]);
-    titleLayer.backgroundColor = debug_colors?[[NSColor greenColor] CGColor]:NULL;
-    imageLayer.backgroundColor = debug_colors?[[NSColor blueColor] CGColor]:NULL;
-    ratingLayer.backgroundColor = debug_colors?[[NSColor orangeColor] CGColor]:NULL;
-    self.backgroundColor = debug_colors?[[NSColor yellowColor] CGColor]:NULL;
-    
-    // update layer frames
-    titleLayer.frame = titleRect;
-    ratingLayer.frame = ratingRect;
-    self.glossLayer.frame = coverImageRect;
-    self.imageLayer.frame = coverImageRect;
 	
- 	
-    NSWindow* win = [self.gridView window];
-    
-    // determine states that affect selection display
-    BOOL selectionInactive = (![win isMainWindow] && [win firstResponder] == self.gridView);
-    BOOL selectionHidden = !self.selected;
-    self.selectionLayer.isInactive = selectionInactive;
-    
-    CGRect selectionRect = CGRectInset(coverImageRect, -6, -6);
-    if((self.selected && !CGRectEqualToRect(self.selectionLayer.frame, selectionRect)) ||
+	// Determine actual frame for image
+	CGRect coverImageRect = RoundCGRect(CGRectMake(imageContainerRect.origin.x+(imageContainerRect.size.width-width)/2, imageContainerRect.origin.y+imageContainerRect.size.height-height, width, height));
+	
+	self.glossLayer.frame = coverImageRect;
+	self.imageLayer.frame = coverImageRect;
+	
+	NSWindow* win = [self.gridView window];
+	
+	// determine states that affect selection display
+	BOOL selectionInactive = (![win isMainWindow] && [win firstResponder] == self.gridView);
+	BOOL selectionHidden = !self.selected;
+	self.selectionLayer.isInactive = selectionInactive;
+	
+	CGRect selectionRect = CGRectInset(coverImageRect, -6, -6);
+	if((self.selected && !CGRectEqualToRect(self.selectionLayer.frame, selectionRect)) ||
 	   (self.selected && self.selectionLayer.isInactive != selectionInactive)){
 		[self.selectionLayer setNeedsDisplay];
-    }
+	}
+	
+	self.selectionLayer.frame = selectionRect;
+	self.selectionLayer.hidden = selectionHidden;
+	self.indicationLayer.frame = CGRectInset(coverImageRect, 1, 1);
+	
+	[CATransaction commit];
+	
+	[self release];
+}
+#pragma mark -
+- (void)display{
+	if(!acceptingOnDrop){
+		NSNumber* val = [self _datasourceProxy_objectForKey:@"status"];
+		self.indicationLayer.type = [val intValue];
+	}
+}
+
+- (void)setRepresentedIndex:(NSInteger)_representedIndex{
+	if(_representedIndex!=representedIndex){
+		reloadImage = YES;
+	}
+	
+	[super setRepresentedIndex:_representedIndex];
+}
+
+- (void)setImage:(NSImage *)_image{
+	[_image retain];
+	[image release];
+	
+	image = _image;
+	[self _layoutImageAndSelection];
+}
+#pragma mark -
+- (void)beginValueChange{
+	[CATransaction begin];
+    [CATransaction setDisableActions:YES];
     
-    self.selectionLayer.frame = selectionRect;
-    self.selectionLayer.hidden = selectionHidden;
-    self.indicationLayer.frame = CGRectInset(coverImageRect, 1, 1);
+    // hide layers that might take long to change value, or look weired without those that don't
+    self.imageLayer.hidden = YES;
+    
+    self.glossLayer.hidden = YES;
+    self.indicationLayer.hidden = YES;
+    self.selectionLayer.hidden = YES;
+    
+    [CATransaction commit];
+}
+
+- (void)endValueChange{
+	[CATransaction begin];
+    [CATransaction setDisableActions:YES];
+    // show layers that have previously been hidden
+    self.imageLayer.hidden = NO;
+    
+    self.glossLayer.hidden = NO;
+    self.indicationLayer.hidden = NO;
+    
+    [CATransaction commit];
 }
 
 #pragma mark -
 #pragma mark IKSGridItemLayerEventProtocol
 - (BOOL)mouseDown:(NSEvent*)theEvent{	
-    [self _valuesDidChange];
-
-    // update self, just in case
-    [self setNeedsLayout];
-    [self setNeedsDisplay];
+	id obj = [self.gridView.dataSource gridView:self.gridView objectValueOfItemAtIndex:self.representedIndex];
+	NSString* val = [NSString stringWithFormat:@"%@\t\t|\t%@\n", [obj valueForKey:@"name"], [obj valueForKey:@"archiveID"]];
+	printf("%s", [val cStringUsingEncoding:NSUTF8StringEncoding]);
     
     NSPoint p = [self.gridView convertPoint:[theEvent locationInWindow] fromView:nil];
     p.y -= self.frame.origin.y;
@@ -324,14 +441,6 @@
     return NO;
 }
 #pragma mark -
-- (void)setRepresentedIndex:(NSInteger)repIn{
-	if(repIn!=self.representedIndex){
-		[super setRepresentedIndex:repIn];
-		[self _valuesDidChange];
-	}
-
-}
-#pragma mark -
 #pragma mark Dragging
 - (NSImage*)dragImage{
     CGSize imageSize = self.imageLayer.bounds.size;
@@ -398,22 +507,27 @@
 - (void)_displayOnDrop:(id)sender{
     if(!acceptingOnDrop)
 		return;
-    	
+	
     NSImage* proposedCoverImage;
     
     id userInfo = [sender userInfo];
     // check if we need to load image from url
     if([userInfo isKindOfClass:[NSURL class]]){
-		proposedCoverImage = [[[NSImage alloc] initWithContentsOfURL:userInfo] autorelease];
-		if(!proposedCoverImage){
-			// could not load image, cancel
-			acceptingOnDrop = NO;
-			
-			return;
-		}
-    } else {
+		QLThumbnailRef thumbnailRef = QLThumbnailCreate(NULL, (CFURLRef)userInfo, self.frame.size, NULL);
+		CGImageRef thumbnailImageRef = QLThumbnailCopyImage(thumbnailRef);
+		proposedCoverImage = [[NSImage alloc] initWithCGImage:thumbnailImageRef size:NSMakeSize(CGImageGetWidth(thumbnailImageRef), CGImageGetHeight(thumbnailImageRef))];
+		CGImageRelease(thumbnailImageRef);
+		
+		[proposedCoverImage autorelease];
+	} else {
 		proposedCoverImage = userInfo;
     }
+	
+	if(![proposedCoverImage isValid]){
+		acceptingOnDrop = NO;
+		return;
+	}
+		
     
     // display drop acceptance
     self.indicationLayer.type = 3;
@@ -450,7 +564,7 @@
     [self resizeLayer:self.glossLayer to:newCoverImageRect.size];
     [self resizeLayer:self.selectionLayer to:CGRectInset(newCoverImageRect, -6, -6).size];		
     [self resizeLayer:self.indicationLayer to:CGRectInset(newCoverImageRect, 1, 1).size];
-
+	
     [self fadeOpacityOfLayer:newImageLayer to:1.0f];
     [self resizeLayer:newImageLayer to:newCoverImageRect.size];
     [self moveLayer:newImageLayer to:newCoverImageRect.origin centered:NO];
@@ -550,9 +664,7 @@
 		
 		[self.imageLayer removeFromSuperlayer];
 		self.imageLayer = (CALayer*)newImageLayer;
-		
-		[self _valuesDidChange];
-    }
+	}
     
     return YES;
 }
@@ -575,36 +687,6 @@
     }
 }
 
-- (void)beginValueChange{
-    isChangingValues = YES;
-    
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
-    
-    // hide layers that might take long to change value, or look weired without those that don't
-    self.imageLayer.hidden = YES;
-    
-    self.glossLayer.hidden = YES;
-    self.indicationLayer.hidden = YES;
-    self.selectionLayer.hidden = YES;
-    
-    [CATransaction commit];
-}
-
-- (void)endValueChange{
-    
-    [CATransaction begin];
-    [CATransaction setDisableActions:YES];
-    // show layers that have previously been hidden
-    self.imageLayer.hidden = NO;
-    
-    self.glossLayer.hidden = NO;
-    self.indicationLayer.hidden = NO;
-    
-    [CATransaction commit];
-    
-    isChangingValues = NO;
-}
 #pragma mark -
 #pragma mark Helpers and private methods
 - (void)setRatingWithPoint:(NSPoint)p pressed:(BOOL)pressed{
@@ -663,87 +745,6 @@
     animation.delegate = self;
     
     [layer addAnimation:animation forKey:@"opacity"];
-}
-
-- (void)_valuesDidChange{
-	NSImage* coverImage = [self _datasourceProxy_objectForKey:@"image"];
-	NSString* title = [self _datasourceProxy_objectForKey:@"title"];
-	int rating = [[self _datasourceProxy_objectForKey:@"rating"] intValue];
-	int status = [[self _datasourceProxy_objectForKey:@"status"] intValue];
-	
-	// imageContainerSize should be cached and used to determine if gridview selection rect hits this item
-	NSSize imageContainerSize = NSSizeFromCGSize(self.imageLayer.bounds.size);
-    float r = coverImage?[coverImage size].height/[coverImage size].width:1.365385;
-    if(r!=self.imageRatio) [self setNeedsLayout];
-    self.imageRatio = r;
-    
-    self.titleLayer.string = title;
-    if(coverImage==nil){
-		if(![self.imageLayer isKindOfClass:[OECoverGridNoArtwork class]]){
-			/*
-			noArtworkLayer = [CoverGridNoArtwork layer];
-			
-			noArtworkLayer.frame = CGRectMake(0, 0, self.imageLayer.bounds.size.width, self.imageLayer.bounds.size.height);
-			noArtworkLayer.autoresizingMask = kCALayerHeightSizable | kCALayerWidthSizable;
-			noArtworkLayer.delegate = self;
-			noArtworkLayer.needsDisplayOnBoundsChange = YES;
-			[self.imageLayer addSublayer:noArtworkLayer];
-			[noArtworkLayer setNeedsDisplay];
-			 */
-			OECoverGridNoArtwork* noArtworkLayer = [OECoverGridNoArtwork layer];
-			
-			noArtworkLayer.frame = self.imageLayer.frame;
-			noArtworkLayer.autoresizingMask = self.imageLayer.autoresizingMask;
-			noArtworkLayer.contentsGravity = self.imageLayer.contentsGravity;
-			noArtworkLayer.delegate = self.imageLayer.delegate;
-			noArtworkLayer.shadowColor = self.imageLayer.shadowColor;
-			noArtworkLayer.shadowOffset = self.imageLayer.shadowOffset;
-			noArtworkLayer.shadowOpacity = self.imageLayer.shadowOpacity;
-			noArtworkLayer.shadowRadius = self.imageLayer.shadowRadius;
-			noArtworkLayer.borderColor = self.imageLayer.borderColor;
-			noArtworkLayer.borderWidth = self.imageLayer.borderWidth;
-			noArtworkLayer.needsDisplayOnBoundsChange = YES;
-			
-			noArtworkLayer.geometryFlipped = self.imageLayer.geometryFlipped;
-			noArtworkLayer.delegate = self.imageLayer.delegate;
-			noArtworkLayer.transform = self.imageLayer.transform;
-
-			
-			[self.imageLayer.superlayer insertSublayer:noArtworkLayer above:self.imageLayer];
-			[self.imageLayer removeFromSuperlayer];
-			self.imageLayer = noArtworkLayer;
-//			[self.imageLayer addSublayer:noArtworkLayer];
-///			[self.imageLayer display];
-			
-		}
-    } else if([self.imageLayer isKindOfClass:[OECoverGridNoArtwork class]]){
-		CALayer* newImageLayer = [CALayer layer];
-		
-		newImageLayer.frame = self.imageLayer.frame;
-		newImageLayer.autoresizingMask = self.imageLayer.autoresizingMask;
-		newImageLayer.contentsGravity = self.imageLayer.contentsGravity;
-		newImageLayer.delegate = self.imageLayer.delegate;
-		newImageLayer.shadowColor = self.imageLayer.shadowColor;
-		newImageLayer.shadowOffset = self.imageLayer.shadowOffset;
-		newImageLayer.shadowOpacity = self.imageLayer.shadowOpacity;
-		newImageLayer.shadowRadius = self.imageLayer.shadowRadius;
-		newImageLayer.borderColor = self.imageLayer.borderColor;
-		newImageLayer.borderWidth = self.imageLayer.borderWidth;
-		newImageLayer.needsDisplayOnBoundsChange = NO;
-		newImageLayer.geometryFlipped = self.imageLayer.geometryFlipped;
-		newImageLayer.delegate = self.imageLayer.delegate;
-		newImageLayer.transform = self.imageLayer.transform;
-
-		
-		[self.imageLayer.superlayer insertSublayer:newImageLayer above:self.imageLayer];
-		[self.imageLayer removeFromSuperlayer];
-		self.imageLayer = newImageLayer;
-		self.imageLayer.contents = coverImage;
-    }
-    
-    [self.ratingLayer setRating:rating pressed:NO];
-    
-    self.indicationLayer.type = status;
 }
 
 #pragma mark -
@@ -807,7 +808,7 @@
     if([newTitle isNotEqualTo:@""] && [newTitle isNotEqualTo:title]){
 		
 		[self _datasourceProxy_setObject:newTitle forKey:@"title"];
-		[self _valuesDidChange];
+		[self reloadData];
 		
 		[NSTimer scheduledTimerWithTimeInterval:0.3 target:self.gridView selector:@selector(reloadData) userInfo:nil repeats:NO];
     }

@@ -6,22 +6,22 @@
 //  Copyright 2011 none. All rights reserved.
 //
 
-#import "OECoverGridNoArtwork.h"
+#import "OECoverGridNoArtworkLayer.h"
 
 
-@implementation OECoverGridNoArtwork
+@implementation OECoverGridNoArtworkLayer
 
 - (id)init{
     self = [super init];
-    if (self){}
-    
+    if (self){
+		
+	}
     return self;
 }
 
 - (void)dealloc{
     [super dealloc];
 }
-
 
 - (void)drawInContext:(CGContextRef)ctx{	
 	NSGraphicsContext *graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:YES];

@@ -15,8 +15,9 @@
 #import "OECoverGridGlossLayer.h"
 #import "OECoverGridIndicationLayer.h"
 #import "OECoverGridRatingLayer.h"
-@interface CoverGridItemLayer : IKSGridItemLayer <NSTextViewDelegate> {
+@interface OECoverGridItemLayer : IKSGridItemLayer <NSTextViewDelegate> {
 @private
+	CGSize lastSize;
 	// often reused rects
     CGRect titleRect, ratingRect;
 	CGRect imageContainerRect;
@@ -31,13 +32,17 @@
 	CATextLayer* titleLayer;
 	OECoverGridRatingLayer* ratingLayer;			// Displays star rating (interaction is done on item layer)
 	
-	BOOL isChangingValues;
 	BOOL acceptingOnDrop; // keeps track of "on drop" state
 	NSTimer* dropAnimationDelayTimer;
 	
 	BOOL isEditingRating;
+	
+	NSImage* image;
+	BOOL reloadImage;
 }
 
+@property BOOL isReloading;
+@property (readwrite, retain, nonatomic) NSImage* image;
 @property float imageRatio;
 
 @property (readwrite, retain) OECoverGridSelectionLayer *selectionLayer;

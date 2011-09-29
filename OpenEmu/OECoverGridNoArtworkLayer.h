@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <Quartz/Quartz.h>
 
-@interface OECoverGridNoArtwork : CALayer {
+@interface OECoverGridNoArtworkLayer : CALayer {
 @private
     
 }
