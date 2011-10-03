@@ -38,6 +38,7 @@ int main(int argc, char *argv[]){
 															NSStringFromSize(NSMakeSize(300, 300)), 
 															NSStringFromSize(NSMakeSize(450, 450)), nil],	UDBoxSizesKey,
 							  @"JAP", UDRegionKey,
+							  [NSNumber numberWithBool:YES], UDUseMD5HashingKey,
 							  nil];
 	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
 	[standardDefaults registerDefaults:defaults];
