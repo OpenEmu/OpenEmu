@@ -53,7 +53,6 @@
 	if(self.gameDocument.rom && (saveStates=[self.gameDocument.rom valueForKey:@"saveStates"]) && [saveStates count]){
 		[menu addItem:[NSMenuItem separatorItem]];
 		for(id saveState in saveStates){
-			
 			NSString* itemTitle = [saveState valueForKey:@"userDescription"];
 			if(!itemTitle || [itemTitle isEqualToString:@""]){
 				itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timeStamp"]];
@@ -79,6 +78,10 @@
 
 - (void)fullscreenAction:(id)sender{
 	[[self parentWindow] toggleFullScreen:nil];
+}
+
+- (void)volumeAction:(id)sender{
+	[self.gameDocument setVolume:[sender floatValue]];
 }
 
 @synthesize gameDocument;
@@ -219,7 +222,9 @@
 	[slider setContinuous:YES];
 	[slider setMaxValue:1.0];
 	[slider setMinValue:0.0];
-	[slider bind:@"value" toObject:[NSUserDefaultsController sharedUserDefaultsController] withKeyPath:@"values.volume" options:nil];
+	[slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey]];
+	[slider setTarget:[self window]];
+	[slider setAction:@selector(volumeAction:)];
 
 	[self addSubview:slider];
 	[slider release];

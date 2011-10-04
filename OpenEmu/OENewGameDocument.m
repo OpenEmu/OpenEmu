@@ -148,6 +148,11 @@
 	[rootProxy setPauseEmulation:flag];
 	// TODO: Update HUD Button state
 }
+
+- (void)setVolume:(float)volume{
+	[rootProxy setVolume:volume];
+	[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:UDVolumeKey];
+}
 #pragma mark -
 #pragma mark Save States
 - (void)loadState:(id)state{}
@@ -211,6 +216,9 @@
             rootProxy = [[gameCoreManager rootProxy] retain];
             
             [rootProxy setupEmulation];
+			
+			// set initial volume
+			[self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey]];
             
             OEGameCore *gameCore = [rootProxy gameCore];
             NSLog(@"-----------------------------------");

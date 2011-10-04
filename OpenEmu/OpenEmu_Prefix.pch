@@ -76,6 +76,9 @@
 #define UDAllowPopoutKey			@"allowPopout"				/*	Preferences -> Gameplay -> Allow popout gameplay window					*/
 #define UDBackgroundPauseKey		@"backgroundPause"			/*	Preferences -> Gameplay -> Always pause gameplay when in background		*/
 
+// OEHudControls
+#define UDVolumeKey					@"volume"					/*	GamePlay window -> hud bar -> volume slider start value					*/
+
 // Preferences, Controls tab
 #define UDControlsPluginNameKey     @"lastControlsPlugin"
 #define UDControlsPlayerKey         @"lastControlsPlayer"

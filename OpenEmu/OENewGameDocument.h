@@ -44,6 +44,7 @@
 - (void)playGame;
 - (BOOL)isEmulationPaused;
 - (void)setPauseEmulation:(BOOL)flag;
+- (void)setVolume:(float)volume;
 #pragma mark -
 - (void)loadState:(id)state;
 - (void)saveState:(NSString*)stateName; // alternatively: -(void)saveState:(OESaveState**)outState ?
