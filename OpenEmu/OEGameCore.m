@@ -43,6 +43,7 @@
 
 @implementation OEGameCore
 
+@synthesize renderDelegate;
 @synthesize frameInterval, owner, frameFinished;
 @synthesize mousePosition;
 
@@ -166,6 +167,15 @@ static NSTimeInterval currentTime()
     autoFrameSkipLastTime = time;
 }
 
+// GameCores that render direct to OpenGL rather than a buffer should override this and return YES
+// If the GameCore subclass returns YES, the renderDelegate will set the appropriate GL Context
+// So the GameCore subclass can just draw to OpenGL
+- (BOOL)rendersToOpenGL
+{
+    return NO;
+}
+
+
 - (void)setPauseEmulation:(BOOL)flag
 {
     if(flag) [self stopEmulation];
@@ -198,7 +208,11 @@ static NSTimeInterval currentTime()
         
         willSkipFrame = (frameCounter != frameSkip);
         
+        [renderDelegate willExecute];
+        
         [self executeFrameSkippingFrame:willSkipFrame];
+        
+        [renderDelegate didExecute];
         
         if(frameCounter >= frameSkip) frameCounter = 0;
         else                          frameCounter++;

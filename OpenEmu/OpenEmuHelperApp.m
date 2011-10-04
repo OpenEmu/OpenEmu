@@ -42,19 +42,8 @@
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
 
-#define OE_USE_DISPLAYLINK NO
-
 NSString *const OEHelperServerNamePrefix   = @"com.openemu.OpenEmuHelper-";
 NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
-
-#pragma mark Display Link Callback
-CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext);
-
-CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *inNow,const CVTimeStamp *inOutputTime,CVOptionFlags flagsIn,CVOptionFlags *flagsOut,void *displayLinkContext)
-{
-    CVReturn error = [(OpenEmuHelperApp*) displayLinkContext displayLinkRenderCallback:inOutputTime];
-    return error;
-}
 
 @interface OpenEmuHelperApp ()
 @property(readwrite, assign, getter=isRunning) BOOL running;
@@ -120,24 +109,32 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     // init resources
     [self setupOpenGLOnScreen:[NSScreen mainScreen]];
 
-    //[self setupIOSurface];
-    //[self setupFBO];
-    //[self setupGameTexture];
-    
-    // being rendering
-    if(OE_USE_DISPLAYLINK) [self initDisplayLink];
-    
-    // poll for our parent app at a lower frequency in the main run loop.
-    [self setupRenderTimer];
+    if(![gameCore rendersToOpenGL])
+        [self setupGameTexture];
+
+    [self setupIOSurface];
+    [self setupFBO];
     
     [self updateScreenSize];
+}
+
+- (void)setupProcessPollingTimer
+{
+    pollingTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                    target:self
+                                                  selector:@selector(pollParentProcess)
+                                                  userInfo:nil
+                                                   repeats:YES];
+}
+
+- (void)pollParentProcess
+{
+    if([parentApplication isTerminated]) [self quitHelperTool];
 }
 
 - (void)quitHelperTool
 {
     // TODO: add proper deallocs etc.
-    if(OE_USE_DISPLAYLINK) CVDisplayLinkStop(displayLink);
-    else [timer invalidate];
     
     [pollingTimer invalidate];
     
@@ -197,7 +194,6 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         
     // make a new texture.
     CGLContextObj cgl_ctx = glContext;
-    CGLLockContext(cgl_ctx);
     
     glGenTextures(1, &ioSurfaceTexture);
     glEnable(GL_TEXTURE_RECTANGLE_ARB);
@@ -208,8 +204,6 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     {
         NSLog(@"Error creating IOSurface texture: %s & %x", CGLErrorString(err), glGetError());
     }
-    
-    CGLUnlockContext(cgl_ctx);
 }
 
 // make an FBO and bind out IOSurface backed texture to it
@@ -218,7 +212,6 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
     GLenum status;
     
     CGLContextObj cgl_ctx = glContext;
-    CGLLockContext(cgl_ctx);
     
     // Create temporary FBO to render in texture
     glGenFramebuffersEXT(1, &gameFBO);
@@ -233,14 +226,14 @@ CVReturn MyDisplayLinkCallback(CVDisplayLinkRef displayLink,const CVTimeStamp *i
         
         glDeleteFramebuffersEXT(1, &gameFBO);
     }
-    
-    CGLUnlockContext(cgl_ctx);
 }
 
 static int PixelFormatToBPP(GLenum pixelFormat)
 {
-    switch (pixelFormat) {
-        case GL_RGB4: case GL_RGB5:
+    switch (pixelFormat)
+    {
+        case GL_RGB4:
+        case GL_RGB5:
             return 2; // short
         case GL_RGB8: default:
             return 4; // int
@@ -254,9 +247,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     GLenum status;
     
     CGLContextObj cgl_ctx = glContext;
-    
-    CGLLockContext(cgl_ctx);
-    
+        
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     // create our texture
     glGenTextures(1, &gameTexture);
@@ -316,104 +307,10 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
     glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
-    
-    CGLUnlockContext(cgl_ctx);
-    
+        
     DLog(@"Finished Setting up gameTexture");
 }
 
-- (void)setupProcessPollingTimer
-{
-    pollingTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
-                                                    target:self
-                                                  selector:@selector(pollParentProcess)
-                                                  userInfo:nil
-                                                   repeats:YES];
-}
-
-- (void)setupRenderTimer
-{
-    if(!OE_USE_DISPLAYLINK)
-        timer = [NSTimer scheduledTimerWithTimeInterval:1.0 / 60.0
-                                                 target:self
-                                               selector:@selector(render)
-                                               userInfo:nil
-                                                repeats:YES];
-}
-
-// TODO: do we need to worry about displays other than main?
-- (void)initDisplayLink
-{
-    DLog(@"initing display link");
-    CVReturn          error     = kCVReturnSuccess;
-    CGDirectDisplayID displayID = CGMainDisplayID();
-    
-    error = CVDisplayLinkCreateWithCGDisplay(displayID, &displayLink);
-    if(error != kCVReturnSuccess)
-    {
-        NSLog(@"DisplayLink created with error:%d - Terminating helper", error);
-        displayLink = NULL;
-        
-        [[NSApplication sharedApplication] terminate:nil];
-    }
-    
-    error = CVDisplayLinkSetOutputCallback(displayLink,MyDisplayLinkCallback, self);
-    if(error != kCVReturnSuccess)
-    {
-        NSLog(@"DisplayLink could not link to callback, error:%d - Terminating helper", error);
-        displayLink = NULL;
-        
-        [[NSApplication sharedApplication] terminate:nil];
-    }
-    
-    DLog(@"finished setup display link");
-    
-    CVDisplayLinkStart(displayLink);
-    
-    if(!CVDisplayLinkIsRunning(displayLink))
-    {
-        NSLog(@"DisplayLink is not able to be started - Terminating Helper");
-        
-        [[NSApplication sharedApplication] terminate:nil];
-    }
-}
-
-- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp
-{
-    CVReturn rv = kCVReturnError;
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    {
-        [self render];
-        rv = kCVReturnSuccess;
-    }
-    [pool drain];
-    return rv;
-}
-
-- (void)pollParentProcess
-{
-    if([parentApplication isTerminated]) [self quitHelperTool];
-}
-
-- (void)render
-{
-    CGLContextObj cgl_ctx = glContext;
-    CGLLockContext(cgl_ctx);
-    
-    if([gameCore frameFinished])
-    {
-        if(gameTexture == 0)
-        {
-            [self setupIOSurface];
-            [self setupFBO];
-            [self setupGameTexture];
-        }
-        
-        [self updateGameTexture];
-        [self drawIntoIOSurface];
-    }
-    CGLUnlockContext(cgl_ctx);
-}
 
 - (void)updateGameTexture
 {
@@ -437,7 +334,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     }
 }
 
-- (void)drawIntoIOSurface
+- (void)beginDrawToIOSurface
 {
     OEIntSize bufferSize = gameCore.bufferSize;
     OEIntRect screenRect = gameCore.screenRect;
@@ -449,7 +346,10 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     }
     
     CGLContextObj cgl_ctx = glContext;
-    CGLLockContext(cgl_ctx);
+    
+    // Incase of a GameCore that renders direct to GL, do some state 'protection'
+    glPushAttrib(GL_ALL_ATTRIB_BITS);
+    glPushClientAttrib(GL_CLIENT_ALL_ATTRIB_BITS);
     
     // bind our FBO / and thus our IOSurface
     glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, gameFBO);
@@ -480,65 +380,84 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         // dont bother clearing. we dont have any alpha so we just write over the buffer contents. saves us an expensive write.
         glClearColor(0.0, 0.0, 0.0, 0.0);
         glClear(GL_COLOR_BUFFER_BIT);
-        
-        glActiveTexture(GL_TEXTURE0);
-        glEnable(GL_TEXTURE_RECTANGLE_EXT);
-        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
-        
-        // do a bilinear interp, note we only need to scale anything if drawSquarePixels
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        
-        glColor4f(1.0, 1.0, 1.0, 1.0);
-        
-        // why do we need it ?
-        glDisable(GL_BLEND);
-        
-        const GLint tex_coords[] = 
-        {
-            screenRect.origin.x, screenRect.size.height + screenRect.origin.y,
-            screenRect.size.width + screenRect.origin.x, screenRect.size.height + screenRect.origin.y,
-            screenRect.size.width + screenRect.origin.x, screenRect.origin.y,
-            screenRect.origin.x, screenRect.origin.y
-        };
-
-        const GLint verts[] = 
-        {
-            0, 0,
-            correctedSize.width, 0,
-            correctedSize.width, correctedSize.height,
-            0, correctedSize.height
-        };
-        
-        glEnableClientState( GL_TEXTURE_COORD_ARRAY );
-        glTexCoordPointer(2, GL_INT, 0, tex_coords );
-        glEnableClientState(GL_VERTEX_ARRAY);
-        glVertexPointer(2, GL_INT, 0, verts );
-        glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
-        glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-        glDisableClientState(GL_VERTEX_ARRAY);
-        
-        // Restore OpenGL states
-        glMatrixMode(GL_MODELVIEW);
-        glPopMatrix();
-        
-        glMatrixMode(GL_PROJECTION);
-        glPopMatrix();
-        
-        // flush to make sure IOSurface updates are seen in parent app.
-        glFlushRenderAPPLE();
-        
-        // get the updated surfaceID to pass to STDOut...
-        surfaceID = IOSurfaceGetID(surfaceRef);
+                
+        // draw
     }
+    
     if(status != GL_FRAMEBUFFER_COMPLETE_EXT)
     {
         NSLog(@"OpenGL error %04X in drawIntoIOSurface", status);
         //glDeleteTextures(1, &gameTexture);
         //gameTexture = 0;
     }
+
+}
+
+- (void) endDrawToIOSurface
+{    
+    CGLContextObj cgl_ctx = glContext;
+
+    // Restore OpenGL states
+    glMatrixMode(GL_MODELVIEW);
+    glPopMatrix();
     
-    CGLUnlockContext(cgl_ctx);
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    
+    glPopAttrib();
+    glPopClientAttrib();
+    
+    // flush to make sure IOSurface updates are seen in parent app.
+    glFlushRenderAPPLE();
+    
+    // get the updated surfaceID to pass to STDOut...
+    surfaceID = IOSurfaceGetID(surfaceRef);
+
+}
+
+- (void) drawGameTexture
+{
+    OEIntRect screenRect = gameCore.screenRect;
+
+    CGLContextObj cgl_ctx = glContext;
+
+    glActiveTexture(GL_TEXTURE0);
+    glEnable(GL_TEXTURE_RECTANGLE_EXT);
+    glBindTexture(GL_TEXTURE_RECTANGLE_EXT, gameTexture);
+    
+    // do a bilinear interp, note we only need to scale anything if drawSquarePixels
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    glColor4f(1.0, 1.0, 1.0, 1.0);
+    
+    // why do we need it ?
+    glDisable(GL_BLEND);
+    
+    const GLint tex_coords[] = 
+    {
+        screenRect.origin.x, screenRect.size.height + screenRect.origin.y,
+        screenRect.size.width + screenRect.origin.x, screenRect.size.height + screenRect.origin.y,
+        screenRect.size.width + screenRect.origin.x, screenRect.origin.y,
+        screenRect.origin.x, screenRect.origin.y
+    };
+    
+    const GLint verts[] = 
+    {
+        0, 0,
+        correctedSize.width, 0,
+        correctedSize.width, correctedSize.height,
+        0, correctedSize.height
+    };
+    
+    glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+    glTexCoordPointer(2, GL_INT, 0, tex_coords );
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glVertexPointer(2, GL_INT, 0, verts );
+    glDrawArrays( GL_TRIANGLE_FAN, 0, 4 );
+    glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+    glDisableClientState(GL_VERTEX_ARRAY);
+
 }
 
 - (void)updateScreenSize
@@ -605,7 +524,8 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         
         gameCore = [[[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller] newGameCore];
         [gameCore setOwner:owner];
-        
+        [gameCore setRenderDelegate:self];
+
         DLog(@"Loaded bundle. About to load rom...");
         
         if([gameCore loadFileAtPath:aPath])
@@ -633,24 +553,25 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     gameAudio = [[OEGameAudio alloc] initWithCore:gameCore];
     DLog(@"initialized audio");
     
+    [self setupGameCore];
+    
     // starts the threaded emulator timer
     [gameCore startEmulation];
     
     DLog(@"About to start audio");
     [gameAudio startAudio];
     
-    [self setupGameCore];
-    
     DLog(@"finished starting rom");
 }
 
 - (void)stopEmulation
 {
-    [timer invalidate], timer = nil;
-    [pollingTimer invalidate], timer = nil;
+    [pollingTimer invalidate], pollingTimer = nil;
     
+
     [gameCore stopEmulation];
     [gameAudio stopAudio];
+    [gameCore setRenderDelegate:nil];
     [gameCore release],  gameCore = nil;
     [gameAudio release], gameAudio = nil;
     
@@ -687,4 +608,26 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     [self updateScreenSize];
 }
 
+#pragma mark -
+#pragma mark OERenderDelegate protocol methods
+
+- (void)willExecute
+{
+
+    if (![gameCore rendersToOpenGL]) 
+    {
+        [self updateGameTexture];
+        
+        [self beginDrawToIOSurface];
+        
+        [self drawGameTexture];
+    }
+    else
+        [self beginDrawToIOSurface];
+}
+
+- (void)didExecute
+{    
+    [self endDrawToIOSurface];
+}
 @end

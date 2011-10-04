@@ -39,6 +39,16 @@
 
 #endif
 
+#pragma mark -
+@protocol OERenderDelegate
+
+@required
+- (void) willExecute;
+- (void) didExecute;
+@end
+
+#pragma mark -
+
 typedef struct OEIntPoint {
     int x;
     int y;
@@ -66,8 +76,12 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 
 @class OEHIDEvent, OERingBuffer;
 
+#pragma mark -
+
 @interface OEGameCore : NSResponder <OESystemResponderClient, OESettingObserver>
 {
+    id<OERenderDelegate> renderDelegate;
+    
     NSThread              *emulationThread;
     NSTimeInterval         frameInterval;
     OEGameCoreController  *owner;
@@ -92,6 +106,8 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 + (NSTimeInterval)defaultTimeInterval;
 + (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval;
 
+@property (readwrite, retain) id<OERenderDelegate> renderDelegate;
+
 @property(assign)   OEGameCoreController *owner;
 @property(readonly) NSString             *pluginName;
 @property(readonly) NSString             *gameSystemName;
@@ -106,13 +122,16 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 
 - (void)calculateFrameSkip:(NSUInteger)rate;
 
+#pragma mark -
 #pragma mark Execution
 @property(getter=isEmulationPaused) BOOL pauseEmulation;
+- (BOOL)rendersToOpenGL;
 - (void)frameRefreshThread:(id)anArgument;
 - (void)setupEmulation;
 - (void)stopEmulation;
 - (void)startEmulation;
 
+#pragma mark -
 #pragma mark Tracking preference changes
 - (void)settingWasSet:(id)aValue forKey:(NSString *)keyName;
 /*
@@ -133,6 +152,7 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 
 - (BOOL)loadFileAtPath:(NSString *)path;
 
+#pragma mark -
 #pragma mark Video
 // current subrect in the videoBuffer which is being updated
 // the size of the game window is set to screenRect.size of the first frame
@@ -149,6 +169,7 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 @property(readonly) GLenum      pixelType;
 @property(readonly) GLenum      internalPixelFormat;
 
+#pragma mark -
 #pragma mark Audio
 @property(readonly) NSUInteger  soundBufferCount; // overriding it is optional, should be constant
 @property(readonly) const void *soundBuffer;
@@ -157,6 +178,7 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 @property(readonly) NSUInteger  soundBufferSize;
 @property(readonly) NSUInteger  frameSampleRate;
 
+#pragma mark -
 #pragma mark Lightgun/Pointer Support
 @property(readwrite) NSPoint mousePosition DEPRECATED_ATTRIBUTE;
 
@@ -168,7 +190,7 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey;
  */
 
-
+#pragma mark -
 #pragma mark Save state - Optional
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName;
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName;
@@ -179,6 +201,7 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 
 @end
 
+#pragma mark -
 #pragma mark Optional
 @interface OEGameCore (OptionalMethods)
 - (IBAction)pauseEmulation:(id)sender;
