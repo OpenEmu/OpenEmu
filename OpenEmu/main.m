@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2009-2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ int main(int argc, char *argv[]){
 															NSStringFromSize(NSMakeSize(300, 300)), 
 															NSStringFromSize(NSMakeSize(450, 450)), nil],	UDBoxSizesKey,
 							  @"JAP", UDRegionKey,
+							  [NSNumber numberWithBool:YES], UDUseMD5HashingKey,
 							  nil];
 	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
 	[standardDefaults registerDefaults:defaults];

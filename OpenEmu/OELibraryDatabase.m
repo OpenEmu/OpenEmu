@@ -18,7 +18,7 @@
 
 #import "ArchiveVG.h"
 
-#define OEDatabaseFileName @"Database.storedata"
+#define OEDatabaseFileName @"Library.storedata"
 
 #define UDDatabasePathKey @"databasePath"
 #define UDDefaultDatabasePathKey @"defaultDatabasePath"
@@ -612,7 +612,7 @@
 	BOOL quickImport = [standardDefaults boolForKey:UDUseQuickImportKey] && !automaticallyGetInfo;
 	BOOL organizeLibrary = [standardDefaults boolForKey:UDOrganizeLibraryKey];
     BOOL md5 = [standardDefaults boolForKey:UDUseMD5HashingKey];
-	
+		
 	NSInteger completeSize = 0;
 	// Skip size calculation if quick import is requested
 	if(!quickImport){
@@ -631,9 +631,8 @@
 	NSInteger progress = 0;
 	for(NSDictionary* romInfo in files){
 		NSString* filePath = [romInfo valueForKey:@"filepath"];
-
 		NSManagedObject* rom = nil;
-		if(quickImport){
+		if(quickImport && NO){
 			// create new game
 			NSEntityDescription* gameDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
 			OEDBGame* game = [[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context];
@@ -661,7 +660,7 @@
 			
 			if(md5) hash = [data MD5HashString];
 			else hash = [data CRC32HashString];
-			
+						
 			[data release];
 			
 			if(md5) rom = [self romForMD5Hash:hash];

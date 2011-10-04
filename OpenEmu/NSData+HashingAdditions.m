@@ -72,7 +72,13 @@ static const unsigned long crc32table[] =
 	
 	unsigned int crc32 = crcval ^ 0xffffffff;
     
-    return [NSString stringWithFormat:@"%0x", crc32];
+	NSString* res = [NSString stringWithFormat:@"%0x", crc32];
+	
+	while([res length]<8){
+		res = [@"0" stringByAppendingString:res];
+	}
+	
+	return res;
 }
 
 @end
