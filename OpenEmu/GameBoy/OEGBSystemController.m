@@ -72,4 +72,10 @@
     return controls;
 }
 
+- (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx{
+	if(idx!=NULL) *idx = [[self genericControlNames] indexOfObject:keyName];
+	
+	return 1;
+}
+
 @end
