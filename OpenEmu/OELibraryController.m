@@ -51,7 +51,6 @@
         [OEPlugin registerPluginClass:[OECompositionPlugin class]];
     }
 	
-	
     // toolbar sidebar button
     NSImage* image = [NSImage imageNamed:@"toolbar_sidebar_button"];
     [image setName:@"toolbar_sidebar_button_close" forSubimageInRect:NSMakeRect(0, 23, 84, 23)];
@@ -406,6 +405,14 @@
     [flowViewMenuItem setEnabled:FALSE];
 }
 
+
+- (void)windowWillBeginSheet:(NSNotification *)notification{
+
+}
+
+- (void)windowWillClose:(NSNotification *)notification{
+	[self _removeGameView];
+}
 #pragma mark -
 #pragma mark Properties
 - (void)setDatabase:(OELibraryDatabase *)newDatabase{
@@ -503,7 +510,7 @@
 - (void)_launchGameDoc:(id)gameDoc{
 	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
 	BOOL allowsPopout = [sud boolForKey:UDAllowPopoutKey];
-	BOOL forcePopout = YES;
+	BOOL forcePopout = [sud boolForKey:UDForcePopoutKey];
 	
 	if (allowsPopout && (gameDocument || forcePopout)) {
 		NSRect rect = NSMakeRect(150, 150, 640, 480);

@@ -71,7 +71,7 @@
 }
 #pragma mark -
 - (void)setBoxImageByImage:(NSImage*)img{
-	OEDBImage* boxImage = [self valueForKey:@"box"];
+	OEDBImage* boxImage = [self valueForKey:@"boxImage"];
     if(boxImage!=nil){
 		[[boxImage managedObjectContext] deleteObject:boxImage];
     }
@@ -88,7 +88,7 @@
 		[boxImage generateImageForSize:size];	
 	}
 	
-	[self setValue:boxImage forKey:@"box"];
+	[self setValue:boxImage forKey:@"boxImage"];
 	[boxImage release];
 }
 - (void)setBoxImageByURL:(NSURL*)url{
@@ -137,5 +137,4 @@
 	if([dictionary valueForKey:keyA])
 		[game setValue:[dictionary valueForKey:keyA] forKey:keyB];
 }
-
 @end

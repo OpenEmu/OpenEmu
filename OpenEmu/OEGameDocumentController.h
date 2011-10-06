@@ -30,9 +30,6 @@
 #import "OEVersionMigrationController.h"
 #import "OENetServer.h"
 
-@class OEROMFile;
-@class OESaveState;
-
 @class OEGameCore, OECorePlugin;
 @class OEGameDocument, OESaveStateController, OECoreInstaller, OECoreUpdater;
 

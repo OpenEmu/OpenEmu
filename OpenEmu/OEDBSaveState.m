@@ -10,14 +10,13 @@
 
 @implementation OEDBSaveState
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
++ (id)newSaveStateInContext:(NSManagedObjectContext*)context{
+	NSEntityDescription* description = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
+	OEDBSaveState* result = [[OEDBSaveState alloc] initWithEntity:description insertIntoManagedObjectContext:context];
+	
+	[result setValue:[NSDate date] forKey:@"timestamp"];
+	
+	return result;
 }
 
 @end

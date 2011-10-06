@@ -110,7 +110,9 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 
 @property(assign)   OEGameCoreController *owner;
 @property(readonly) NSString             *pluginName;
-@property(readonly) NSString             *gameSystemName;
+@property(readonly) NSString             *gameSystemName DEPRECATED_ATTRIBUTE;
+@property(readonly) NSString             *systemIdentifier;
+
 @property(readonly) NSString             *supportDirectoryPath;
 @property(readonly) NSString             *batterySavesDirectoryPath;
 

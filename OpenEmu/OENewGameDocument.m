@@ -28,6 +28,8 @@
 #import "NSString+UUID.h"
 #import "OEHUDControls.h"
 #import "OEHUDGameWindow.h"
+
+#import "OEDBSaveState.h"
 @interface OENewGameDocument (Private)
 - (void)_setup;
 - (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError;
@@ -156,7 +158,48 @@
 #pragma mark -
 #pragma mark Save States
 - (void)loadState:(id)state{}
-- (void)saveState:(NSString*)stateName{}
+- (void)saveStateAskingUser:(NSString *)proposedName{
+	return;
+	if(!proposedName){
+		// TODO: properly format date
+		proposedName = [NSString stringWithFormat:@"%@", [NSDate date]];
+	}
+	
+	NSString* name = nil;
+	[self saveState:name];
+
+}
+
+#define OESaveStatePath @""
+- (void)saveState:(NSString*)stateName{
+	return;
+	if(!self.rom){
+		NSLog(@"Error: Can not save states without rom");
+		return;
+	}
+	
+	NSString* systemIdentifier		= [[rootProxy gameCore] systemIdentifier];
+	NSString* systemSaveDirectory	= [OESaveStatePath stringByAppendingPathComponent:systemIdentifier];
+	
+	/*
+	NSString* fileName				= 
+	
+	
+	NSString* tmpFileName = [NSString stringWithUUID];
+	NSString* tmpSaveDirectory = @"tmp"];
+	NSString* tmpSavePath = [[tmpSaveDirectory stringByAppendingPathComponent:tmpFileName] stringByAppendingPathExtension:@"oesavestate"];
+	BOOL success = [[rootProxy gameCore] saveStateToFileAtPath:tmpSavePath];
+	if(!success){
+		NSLog(@"Error could not save state!");
+		// TODO: writer proper error, decide what to do with it!
+		return;
+	}	
+	
+	OEDBSaveState* saveState = [OEDBSaveState newSaveStateInContext:[self.rom managedObjectContext]];
+	if(stateName)
+		[saveState setValue:stateName forKey:@"userDescription"];
+	 */
+}
 
 - (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error{
 	return YES;
@@ -223,8 +266,8 @@
             OEGameCore *gameCore = [rootProxy gameCore];
             NSLog(@"-----------------------------------");
 			NSLog(@"%@", gameCore);
-            gameSystemController = [[[OESystemPlugin gameSystemPluginForName:[gameCore gameSystemName]] controller] retain];
-			NSLog(@"[gameCore gameSystemName]: %@", [gameCore gameSystemName]);
+            gameSystemController = [[[OESystemPlugin gameSystemPluginForIdentifier:[gameCore systemIdentifier]] controller] retain];
+			NSLog(@"[gameCore systemIdentifier]: %@", [gameCore systemIdentifier]);
 			NSLog(@"gameSystemController: %@",gameSystemController);
             gameSystemResponder  = [gameSystemController newGameSystemResponder];
 			NSLog(@"%@", gameSystemController);

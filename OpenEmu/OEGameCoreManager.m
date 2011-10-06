@@ -98,7 +98,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 	DLog(@"[self rootProxy]: %@", [self rootProxy]);
     BOOL ret = [[self rootProxy] loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:owner];
     
-    if(!ret && outError != NULL)
+    if(!ret && outError != NULL) 
         *outError = [NSError errorWithDomain:@"OEHelperProcessErrorDomain"
                                         code:OECouldNotLoadROMError
                                     userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The ROM couldn't be loaded.", @"OEGameCoreManager loadROMError: error reason.") forKey:NSLocalizedFailureReasonErrorKey]];

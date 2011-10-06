@@ -76,7 +76,9 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 - (NSDictionary *)preferenceViewControllerClasses;
 
 @property(readonly) NSString   *pluginName;
-@property(readonly) NSString   *gameSystemName;
+@property(readonly) NSString   *gameSystemName DEPRECATED_ATTRIBUTE;
+@property(readonly) NSString   *systemIdentifier;
+
 @property(readonly) NSString   *supportDirectoryPath;
 @property(readonly) NSArray    *usedSettingNames;
 @property(readonly) NSUInteger  playerCount;

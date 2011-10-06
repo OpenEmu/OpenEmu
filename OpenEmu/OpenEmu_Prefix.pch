@@ -55,12 +55,6 @@
 
 #define UDSelectedPreferencesTab	@"selectedPreferencesTab"	/*	selected tab of preferences window	*/
 
-#define UDRegionKey					@"region"					/*	release region					*/
-
-#define UDUseQuickImportKey			@"UseQuickImport"			/*	skips duplicate verification when importing games if automatic info grabbing is deactivated	*/
-#define UDUseMD5HashingKey			@"UseMD5"					/*	use md5 instead of crc32 for rom identification												*/
-#define UDBoxSizesKey				@"BoxSizes"					/*	Array of sizes used for Box Artwork thumbnails (defaults registered in main.m)				*/
-
 // Preferences, Library tab
 #define UDDatabasePathKey			@"databasePath"				/*	path of database folder			*/
 #define UDDefaultDatabasePathKey	@"defaultDatabasePath"		/*	default path of database folder */
@@ -83,3 +77,11 @@
 #define UDControlsPluginNameKey     @"lastControlsPlugin"
 #define UDControlsPlayerKey         @"lastControlsPlayer"
 #define UDControlsDeviceTypeKey     @"lastControlsDevice"
+
+// "Hidden" preferences
+#define UDRegionKey					@"region"					/*	release region (force a region)*/
+
+#define UDForcePopoutKey			@"forcePopOut"	
+#define UDUseQuickImportKey			@"UseQuickImport"			/*	skips duplicate verification when importing games if automatic info grabbing is deactivated	*/
+#define UDUseMD5HashingKey			@"UseMD5"					/*	use md5 instead of crc32 for rom identification	 (default: YES)										*/
+#define UDBoxSizesKey				@"BoxSizes"					/*	Array of sizes used for Box Artwork thumbnails (defaults registered in main.m)				*/

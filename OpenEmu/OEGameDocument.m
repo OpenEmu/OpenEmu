@@ -159,7 +159,7 @@
             
             OEGameCore *gameCore = [rootProxy gameCore];
             
-            gameSystemController = [[[OESystemPlugin gameSystemPluginForName:[gameCore gameSystemName]] controller] retain];
+            gameSystemController = [[[OESystemPlugin gameSystemPluginForIdentifier:[gameCore systemIdentifier]] controller] retain];
             gameSystemResponder  = [gameSystemController newGameSystemResponder];
             
             [gameSystemResponder setClient:gameCore];

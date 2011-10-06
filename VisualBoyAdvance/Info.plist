@@ -44,5 +44,7 @@
 	<string>1</string>
 	<key>OESystemPluginName</key>
 	<string>GameBoy Advance</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.gba</string>
 </dict>
 </plist>

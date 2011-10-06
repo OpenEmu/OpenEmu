@@ -43,5 +43,7 @@
 	<string>1</string>
 	<key>OESystemPluginName</key>
 	<string>GameBoy</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.gb</string>
 </dict>
 </plist>

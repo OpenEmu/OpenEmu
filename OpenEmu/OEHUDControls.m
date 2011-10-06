@@ -40,14 +40,26 @@
 	[self.gameDocument setPauseEmulation:![self.gameDocument isEmulationPaused]];
 }
 
+- (void)doneAction:(id)sender{
+	[[self animator] setAlphaValue:0.0];
+}
+
+- (void)fullscreenAction:(id)sender{
+	[[self parentWindow] toggleFullScreen:nil];
+}
+
+- (void)volumeAction:(id)sender{
+	[self.gameDocument setVolume:[sender floatValue]];
+}
+#pragma mark Save States
 - (void)saveAction:(id)sender{
 	NSMenu* menu = [[NSMenu alloc] init];
 	
 	NSMenuItem* item;
-	item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game", @"") action:NULL keyEquivalent:@""];
+	item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game", @"") action:@selector(doSaveState:) keyEquivalent:@""];
+	[item setTarget:self];
 	[menu addItem:item];
 	[item release];
-	
 	
 	NSArray* saveStates;
 	if(self.gameDocument.rom && (saveStates=[self.gameDocument.rom valueForKey:@"saveStates"]) && [saveStates count]){
@@ -58,7 +70,8 @@
 				itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timeStamp"]];
 			}
 			
-			item = [[NSMenuItem alloc] initWithTitle:itemTitle action:NULL keyEquivalent:@""];
+			item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
+			[item setTarget:self];
 			[menu addItem:item];
 			[item release];
 		}
@@ -71,19 +84,22 @@
 	[oemenu openAtPoint:menuPoint ofWindow:self];
 	[menu release];
 }
-
-- (void)doneAction:(id)sender{
-	[[self animator] setAlphaValue:0.0];
+- (void)doLoadState:(id)stateItem{}
+- (void)doSaveState:(id)sender{
+	[self.gameDocument saveStateAskingUser:nil];
 }
 
-- (void)fullscreenAction:(id)sender{
-	[[self parentWindow] toggleFullScreen:nil];
+- (void)stateNameAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo{
+	NSTextField *input = (NSTextField *)[alert accessoryView];
+	
+	if (returnCode == NSAlertDefaultReturn) {
+		[input validateEditing];
+		[self.gameDocument saveState:[input stringValue]];
+	} else if (returnCode == NSAlertAlternateReturn) {
+	} else {
+	}
 }
-
-- (void)volumeAction:(id)sender{
-	[self.gameDocument setVolume:[sender floatValue]];
-}
-
+#pragma mark -
 @synthesize gameDocument;
 @end
 

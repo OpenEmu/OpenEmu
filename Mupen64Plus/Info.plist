@@ -43,5 +43,7 @@
 	<string>1.99.3.1</string>
 	<key>NSPrincipalClass</key>
 	<string>MupenGameController</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.n64</string>
 </dict>
 </plist>

@@ -26,13 +26,14 @@
  */
 
 #import "OENESPreferenceView.h"
-
+#import "OELocalizationHelper.h"
 @implementation OENESPreferenceView
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    
+    BOOL famicom = [[OELocalizationHelper sharedHelper] isRegionJAP];
+	
     OEGameControllerView *view = (OEGameControllerView *)[self view];
     
 	[view addButtonWithName:@"OENESButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(159, 116)];
@@ -40,19 +41,21 @@
 	[view addButtonWithName:@"OENESButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(135, 92)];
 	[view addButtonWithName:@"OENESButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(184, 92)];
 	
-	[view addButtonWithName:@"OENESButtonStart[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(306, 71)];
-	[view addButtonWithName:@"OENESButtonSelect[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(256, 71)];	
+	[view addButtonWithName:@"OENESButtonStart[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(famicom?260:306, famicom?67:71)];
+	[view addButtonWithName:@"OENESButtonSelect[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(famicom?309:256, famicom?67:71)];	
 	[view nextColumn];	
 	
-	[view addButtonWithName:@"OENESButtonA[@]" label:@"A:" target:self highlightPoint:NSMakePoint(441, 70)];
-	[view addButtonWithName:@"OENESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(384, 70)];
+	
+	[view addButtonWithName:@"OENESButtonA[@]" label:@"A:" target:self highlightPoint:NSMakePoint(famicom?449:441, 70)];
+	[view addButtonWithName:@"OENESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(famicom?391:384, 70)];
 	
 	[view updateButtons];
 }
 
 - (NSImage*)controllerImage{
-	//TODO: localize controller image
-	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_nes.png"];
+	NSString* controllerImageName = [[OELocalizationHelper sharedHelper] isRegionJAP]?@"controller_fc.png":@"controller_nes.png";
+	
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:controllerImageName];
 	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 }
 @end

@@ -8,6 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-@interface OERegonizer : NSObject
+enum _OERegion {
+	OERegionNA,
+	OERegionJAP,
+	OERegionEU,
+	OERegionOther
+}typedef OERegion;
 
+@interface OELocalizationHelper : NSObject{
+	OERegion region;
+}
++ (OELocalizationHelper*)sharedHelper;
+
+- (BOOL)isRegionNA;
+- (BOOL)isRegionEU;
+- (BOOL)isRegionJAP;
 @end

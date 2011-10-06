@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 @class OEHUDControlsWindow, OEGameView, OEGameCoreManager;
 @class OEGameQTRecorder, OESystemController, OESystemResponder, OEGameCoreController;
+
 @protocol OEGameCoreHelper;
 @interface OENewGameDocument : NSObject{
-	id rom;
+	NSManagedObject* rom;
 	NSURL* url;
 	
 	OEHUDControlsWindow	*controlsWindow;
@@ -47,6 +48,7 @@
 - (void)setVolume:(float)volume;
 #pragma mark -
 - (void)loadState:(id)state;
+- (void)saveStateAskingUser:(NSString*)proposedName;
 - (void)saveState:(NSString*)stateName; // alternatively: -(void)saveState:(OESaveState**)outState ?
 
 - (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error;
@@ -56,6 +58,6 @@
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage* img))block;
 #pragma mark -
 #pragma mark Properties
-@property (retain, readonly) id rom;
+@property (retain, readonly) NSManagedObject* rom;
 @property (retain, readonly) NSURL* url;
 @end

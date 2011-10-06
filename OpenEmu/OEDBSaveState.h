@@ -8,6 +8,8 @@
 
 #import <CoreData/CoreData.h>
 
-@interface OEDBSaveState : NSManagedObject
+@interface OEDBSaveState : NSManagedObject{
 
+}
++ (id)newSaveStateInContext:(NSManagedObjectContext*)context;
 @end

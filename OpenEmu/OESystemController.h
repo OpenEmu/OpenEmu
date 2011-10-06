@@ -36,6 +36,8 @@ extern NSString *const OEHIDEventValueKey;
 extern NSString *const OEKeyboardEventValueKey;
 extern NSString *const OEControlsPreferenceKey;
 extern NSString *const OESystemPluginName;
+extern NSString *const OESystemName;
+extern NSString *const OESystemIdentifier;
 
 @interface OESystemController : NSObject <OEPluginController, OEControlsViewControllerDelegate>
 {
@@ -60,6 +62,7 @@ extern NSString *const OESystemPluginName;
 - (NSDictionary *)preferenceViewControllerClasses;
 
 
+@property(readonly) NSString   *systemIdentifier;
 @property(readonly) NSString   *systemName;
 
 @property(readonly) NSUInteger  numberOfPlayers;

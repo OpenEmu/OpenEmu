@@ -44,5 +44,7 @@
 	<string>dsa_pub.pem</string>
 	<key>OESystemPluginName</key>
 	<string>SuperNES</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.snes</string>
 </dict>
 </plist>

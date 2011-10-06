@@ -37,7 +37,6 @@ int main(int argc, char *argv[]){
 															NSStringFromSize(NSMakeSize(150, 150)), 
 															NSStringFromSize(NSMakeSize(300, 300)), 
 															NSStringFromSize(NSMakeSize(450, 450)), nil],	UDBoxSizesKey,
-							  @"JAP", UDRegionKey,
 							  [NSNumber numberWithBool:YES], UDUseMD5HashingKey,
 							  [NSNumber numberWithFloat:0.5], UDVolumeKey,
 							  nil];

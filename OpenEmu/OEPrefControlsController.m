@@ -120,9 +120,9 @@
     NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
 
 	NSMenuItem* menuItem = [consolesPopupButton selectedItem];
-	NSString* systemName = [menuItem title];
+	NSString* systemIdentifier = [menuItem representedObject];
 	
-	OESystemPlugin* nextPlugin = [OESystemPlugin gameSystemPluginForName:systemName];
+	OESystemPlugin* nextPlugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
 	if(selectedPlugin!=nil && nextPlugin==selectedPlugin) return;
 	selectedPlugin = nextPlugin;
 	
@@ -154,7 +154,7 @@
 
 	[[controlsContainer animator] addSubview:preferenceView];
     
-    [sud setObject:systemName forKey:UDControlsPluginNameKey];
+    [sud setObject:systemIdentifier forKey:UDControlsPluginNameKey];
     
     [self changePlayer:playerPopupButton];
     [self changeInputDevice:inputPopupButton];
@@ -231,12 +231,13 @@
 	NSMenu* consolesMenu = [[NSMenu alloc] init];
 	NSArray* plugins = [OEPlugin pluginsForType:[OESystemPlugin class]];
     NSArray* sortedPlugins = [plugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [[obj1 gameSystemName] compare:[obj2 gameSystemName]];
+        return [[obj1 systemName] compare:[obj2 systemName]];
     }];
     
 	for(OESystemPlugin* plugin in sortedPlugins){
-		NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:[plugin gameSystemName] action:@selector(changeSystem:) keyEquivalent:@""];
+		NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:[plugin systemName] action:@selector(changeSystem:) keyEquivalent:@""];
 		[item setTarget:self];
+		[item setRepresentedObject:[plugin systemIdentifier]];
 		
 		if([plugin icon]) [item setImage:[plugin icon]];
 		else [item setImage:[NSImage imageNamed:[item title]]]; // TODO: remove if/else, only keep [plugin icon]

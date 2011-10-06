@@ -29,7 +29,7 @@
 #import "OESNESSystemResponder.h"
 #import "OESNESPreferenceViewController.h"
 #import "OESNESSystemResponderClient.h"
-
+#import "OELocalizationHelper.h"
 @implementation OESNESSystemController
 
 - (NSUInteger)numberOfPlayers;
@@ -74,6 +74,13 @@
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OESNESButtonSelect[1]"      ,
                               nil];
     return controls;
+}
+
+- (NSString*)systemName{
+	if([[OELocalizationHelper sharedHelper] isRegionJAP])
+		return @"Super Famicom";
+	else 
+		return @"Super Nintendo (SNES)";
 }
 
 @end

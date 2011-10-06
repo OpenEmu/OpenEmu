@@ -44,5 +44,7 @@
 	<string>1</string>
 	<key>OESystemPluginName</key>
 	<string>SuperNES</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.snes</string>
 </dict>
 </plist>

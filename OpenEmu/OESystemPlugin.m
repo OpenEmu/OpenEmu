@@ -31,27 +31,27 @@
 @implementation OESystemPlugin
 @dynamic controller;
 
-static NSMutableDictionary *pluginsBySystemNames = nil;
+static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
 
 + (void)initialize
 {
     if(self == [OESystemPlugin class])
     {
-        pluginsBySystemNames = [[NSMutableDictionary alloc] init];
+        pluginsBySystemIdentifiers = [[NSMutableDictionary alloc] init];
     }
 }
 
-+ (OESystemPlugin *)gameSystemPluginForName:(NSString *)gameSystemName;
++ (OESystemPlugin *)gameSystemPluginForIdentifier:(NSString *)gameSystemIdentifier;
 {
-    return [pluginsBySystemNames objectForKey:gameSystemName];
+    return [pluginsBySystemIdentifiers objectForKey:gameSystemIdentifier];
 }
 
-+ (void)registerGameSystemPlugin:(OESystemPlugin *)plugin forName:(NSString *)gameSystemName;
++ (void)registerGameSystemPlugin:(OESystemPlugin *)plugin forIdentifier:(NSString *)gameSystemIdentifier;
 {
-    [pluginsBySystemNames setObject:plugin forKey:gameSystemName];
+    [pluginsBySystemIdentifiers setObject:plugin forKey:gameSystemIdentifier];
 }
 
-@synthesize responderClass, icon, gameSystemName;
+@synthesize responderClass, icon, gameSystemName, systemName, systemIdentifier;
 
 + (OESystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;
 {
@@ -63,13 +63,14 @@ static NSMutableDictionary *pluginsBySystemNames = nil;
     if((self = [super initWithBundle:aBundle]))
     {
         gameSystemName = [[self infoDictionary] objectForKey:OESystemPluginName];
+		systemIdentifier = [[self infoDictionary] objectForKey:OESystemIdentifier];
         responderClass = [[self controller] responderClass];
         
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         
         icon = [[NSImage alloc] initWithContentsOfFile:iconPath];
         
-        [[self class] registerGameSystemPlugin:self forName:gameSystemName];
+        [[self class] registerGameSystemPlugin:self forIdentifier:systemIdentifier];
     }
     return self;
 }
@@ -86,6 +87,10 @@ static NSMutableDictionary *pluginsBySystemNames = nil;
     if(![bundleClass isSubclassOfClass:[OESystemController class]]) return nil;
     
     return [super newPluginControllerWithClass:bundleClass];
+}
+
+- (NSString*)systemName{
+	return [(OESystemController*)[self controller] systemName];
 }
 
 @end

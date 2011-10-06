@@ -45,19 +45,23 @@ NSString *const OEHIDEventValueKey      = @"OEHIDEventValueKey";
 NSString *const OEKeyboardEventValueKey = @"OEKeyboardEventValueKey";
 NSString *const OEControlsPreferenceKey = @"OEControlsPreferenceKey";
 NSString *const OESystemPluginName      = @"OESystemPluginName";
+NSString *const OESystemIdentifier      = @"OESystemIdentifier";
+NSString *const OESystemName			= @"OESystemName";
 
 static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey);
 
 @implementation OESystemController
-@synthesize playerString, controlNames, systemName;
+@synthesize playerString, controlNames, systemIdentifier;
 
 - (id)init
 {
     if((self = [super init]))
     {
         _bundle    = [NSBundle bundleForClass:[self class]];
-        systemName = [[[_bundle infoDictionary] objectForKey:OESystemPluginName] retain];
-        if(systemName == nil) systemName = [[_bundle infoDictionary] objectForKey:@"CFBundleName"];
+        systemIdentifier = [[[_bundle infoDictionary] objectForKey:OESystemIdentifier] retain];
+		NSLog(@"systemIdentifier: %@", systemIdentifier);
+        if(systemIdentifier == nil) systemIdentifier = [[_bundle infoDictionary] objectForKey:OESystemPluginName];
+        if(systemIdentifier == nil) systemIdentifier = [[_bundle infoDictionary] objectForKey:@"CFBundleName"];
         
         _gameSystemResponders      = [[NSMutableArray alloc] init];
         _preferenceViewControllers = [[NSMutableDictionary alloc] init];
@@ -210,6 +214,9 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     return NSNotFound;
 }
 
+- (NSString*)systemName{
+	return [[_bundle infoDictionary] objectForKey:OESystemName];
+}
 #pragma mark -
 #pragma mark Helper methods
 
@@ -240,7 +247,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 {
     NSString *type = (OESettingValueKey == aType ? @"" : [NSString stringWithFormat:@".%@", aType]);
 	
-    return [NSString stringWithFormat:@"values.%@%@.%@", [self systemName], type, keyName];
+    return [NSString stringWithFormat:@"values.%@%@.%@", [self systemIdentifier], type, keyName];
 }
 
 #pragma mark -
@@ -328,7 +335,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (void)OE_enumerateSettingKeysUsingBlock:(void(^)(NSString *keyPath, NSString *keyName, NSString *keyType))block
 {
-    NSString *baseName = [NSString stringWithFormat:@"values.%@.", [self systemName]];
+    NSString *baseName = [NSString stringWithFormat:@"values.%@.", [self systemIdentifier]];
     
     // register gamecore custom settings
     NSArray *settingNames = [self genericSettingNames];

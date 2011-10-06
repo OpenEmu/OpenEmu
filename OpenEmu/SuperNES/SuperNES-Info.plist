@@ -28,5 +28,7 @@
 	<string>OESNESSystemController</string>
 	<key>OESystemPluginName</key>
 	<string>Super Nintendo (SNES)</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.snes</string>
 </dict>
 </plist>

@@ -26,7 +26,7 @@
  */
 
 #import "OESNESPreferenceViewController.h"
-
+#import "OELocalizationHelper.h"
 @implementation OESNESPreferenceViewController
 
 - (void)awakeFromNib
@@ -56,8 +56,18 @@
 }
 
 - (NSImage*)controllerImage{
+	NSString* controllerImageName;
+	if([[OELocalizationHelper sharedHelper] isRegionJAP]){
+		controllerImageName = @"controller_snes_jap.png";		
+	} else if([[OELocalizationHelper sharedHelper] isRegionNA]){
+		controllerImageName = @"controller_snes_usa.png";
+	} else if([[OELocalizationHelper sharedHelper] isRegionEU]){
+		controllerImageName = @"controller_snes_eu.png";
+	}
+	
+	
 	// TODO: localize controller image
-	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_snes_usa.png"];
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:controllerImageName];
 	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 }
 @end

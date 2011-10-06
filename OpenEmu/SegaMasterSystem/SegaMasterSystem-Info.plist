@@ -28,5 +28,9 @@
 	<string>OESMSSysemController</string>
 	<key>OESystemPluginName</key>
 	<string>Sega Master System</string>
+	<key>OESystemName</key>
+	<string>Sega Master System</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.sms</string>
 </dict>
 </plist>

@@ -16,6 +16,8 @@
 #import "OEDBSystem.h"
 #import	"OEDBGame.h"
 
+#import "OELocalizationHelper.h"
+
 #import "ArchiveVG.h"
 
 #define OEDatabaseFileName @"Library.storedata"
@@ -52,8 +54,10 @@
     [consoleIcons setName:@"Sega Master System" forSubimageInRect:NSMakeRect(48, 16, 16, 16)];
     
     // Third row:
-    [consoleIcons setName:@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(0, 32, 16, 16)];
-    [consoleIcons setName:@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(16, 32, 16, 16)];
+	if([[OELocalizationHelper sharedHelper] isRegionNA])
+		[consoleIcons setName:@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(16, 32, 16, 16)];
+	else
+		[consoleIcons setName:[[OELocalizationHelper sharedHelper] isRegionJAP]?@"Super Famicom":@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(0, 32, 16, 16)];
     [consoleIcons setName:@"Nintendo 64" forSubimageInRect:NSMakeRect(32, 32, 16, 16)];
     [consoleIcons setName:@"GameBoy" forSubimageInRect:NSMakeRect(48, 32, 16, 16)];
     

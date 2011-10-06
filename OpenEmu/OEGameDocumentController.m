@@ -33,7 +33,6 @@
 #import <Quartz/Quartz.h>
 //#import "ArchiveReader.h"
 #import <XADMaster/XADArchive.h>
-#import "OESaveStateController.h"
 #import "NSAttributedString+Hyperlink.h"
 #import "OECorePlugin.h"
 #import "OECorePickerController.h"
@@ -46,10 +45,6 @@
 #import "OEGameQuickLookDocument.h"
 
 #import "OESetupAssistant.h"
-
-
-#import "OESaveState.h"
-#import "SaveState.h"
 
 //HID support
 #import "OEHIDManager.h"
@@ -241,13 +236,7 @@
 
 - (IBAction)openSaveStateWindow:(id)sender
 {
-    if(saveStateManager == nil)
-        saveStateManager = [[OESaveStateController alloc] init];
     
-    if([[self currentDocument] isFullScreen])
-        [[self currentDocument] toggleFullScreenMode:sender];
-    
-    [saveStateManager showWindow:sender];
 }
 
 - (IBAction)openCoreInstallerWindow:(id)sender
@@ -398,25 +387,6 @@
     }
     
     NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
-}
-
-- (id)previewROMFile:(OEROMFile *)romFile withSaveState:(OESaveState *)saveState fromPoint:(NSPoint)pt
-{
-	id document = nil;
-	
-	isOpeningQuickLook = YES;
-	
-	NSError *error = nil;
-	document = [self openDocumentWithContentsOfURL:[romFile pathURL] display:YES error:&error];
-	
-	isOpeningQuickLook = NO;
-	
-	return document;
-}
-
-- (id)previewROMFile:(OEROMFile *)romFile fromPoint:(NSPoint)pt
-{
-	return [self previewROMFile:romFile withSaveState:nil fromPoint:pt];
 }
 
 // FIXME: it looks like our code here expects the file to be an archive and shits its pants (throws an error
@@ -727,136 +697,22 @@
 
 - (BOOL)migrateOESaveStateAtPath:(NSString *)saveStatePath
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-    BOOL win = YES;
-    
-    NSManagedObjectModel         *model       = [[[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:saveStatePath]] autorelease];
-    NSPersistentStoreCoordinator *coordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:model] autorelease];
-    NSManagedObjectContext       *context     = [[[NSManagedObjectContext alloc] init] autorelease];
-    [context setPersistentStoreCoordinator:coordinator];
-    
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
-    
-    NSFetchRequest *fetch = [[[NSFetchRequest alloc] init] autorelease];
-    [fetch setEntity:entityDescription];
-    
-    NSArray *saves = [context executeFetchRequest:fetch error:nil];
-    
-    for(SaveState *save in saves)
-    {
-        OESaveState *saveState = [[[OESaveState alloc] initInsertedIntoManagedObjectContext:self.managedObjectContext] autorelease];
-        [saveState setBundlePath:[[saveStatePath stringByDeletingPathExtension] stringByAppendingPathExtension:@"savestate"]];
-        
-        [saveState setRomFile:[OEROMFile fileWithPath:[save rompath]
-                                    createIfNecessary:YES
-                               inManagedObjectContext:self.managedObjectContext]];
-        
-        [saveState setEmulatorID:[save emulatorID]];
-        [saveState setTimeStamp: [save timeStamp]];
-        
-        [saveState setSaveData:  [[save saveData] valueForKey:@"data"]];
-        [saveState setScreenshot:[[[NSImage alloc] initWithData:[[save screenShot] valueForKey:@"data"]] autorelease]];
-    }
-    
-    if(win) [[NSFileManager defaultManager] removeItemAtPath:saveStatePath error:nil];
-    
-    [pool drain];
-    return win;
+	return YES;
 }
 
 - (IBAction)loadState:(NSArray *)states
 {
-    for(OESaveState *object in states)
-    {
-        NSError *error = nil;
-        
-        NSDocument *doc = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[[object romFile] path]] display:YES error:&error];
-        
-        DLog(@"Loading state from %@", [object saveDataPath]);
-        [(OEGameDocument*)doc loadStateFromFile:[object saveDataPath]];
-    }
 }
 
 - (IBAction)saveStateToDatabase:(id)sender
-{
-    NSString *romPath = [[[self currentDocument] fileURL] path];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:@"SaveState"
-                                              inManagedObjectContext:self.managedObjectContext];
-    OESaveState *newState = [[[OESaveState alloc] initWithEntity:entity insertIntoManagedObjectContext:nil] autorelease];
-    
-    NSString *saveFileName = [NSString stringWithFormat:@"%@-%@", [[romPath lastPathComponent] stringByDeletingPathExtension],
-                              [[NSDate date] descriptionWithCalendarFormat:@"%m-%d-%Y_%H-%M-%S-%F" timeZone:nil locale:nil]];
-    
-    [newState setBundlePath:[[[[self applicationSupportFolder] stringByAppendingPathComponent: @"Save States"]
-                              stringByAppendingPathComponent:saveFileName] stringByAppendingPathExtension:@"savestate"]];
-    
-    [newState setEmulatorID:[(OEGameDocument *) [self currentDocument] emulatorName]];
-    
-    [(OEGameDocument *)[self currentDocument] saveStateToFile:[newState saveDataPath]];
-
-    // NOTE: This assumes that a screenshot can be taken, otherwise it will not
-    // add the state without providing any feedback.
-    [(OEGameDocument *)[self currentDocument] captureScreenshotUsingBlock:
-     ^(NSImage *img)
-     {
-         [newState setScreenshot:img];
-         OEROMFile *romFile = [OEROMFile fileWithPath:romPath
-                                    createIfNecessary:NO
-                               inManagedObjectContext:self.managedObjectContext];
-         NSLog(@"Got romFile %p with path %@, saveState is %p", romFile, romPath, newState);
-
-         [self.managedObjectContext insertObject:newState];
-         [[romFile mutableSetValueForKey:@"saveStates"] addObject:newState];
-
-         [self.managedObjectContext save:nil];
-     }];
-}
+{}
 
 #pragma mark -
 #pragma mark Migration
 
 - (BOOL)migrateSaveStatesWithError:(NSError **)err
 {
-    NSString *statesPath = [[self applicationSupportFolder] stringByAppendingPathComponent:@"Save States"];
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    
-    if(![fileManager fileExistsAtPath:statesPath isDirectory:NULL])
-        [fileManager createDirectoryAtPath:statesPath withIntermediateDirectories:YES attributes:nil error:nil];
-    
-    static NSString *OESaveStateMigrationErrorDomain = @"OESaveStateMigrationErrorDomain";
-    
-    NSArray        *subpaths = [fileManager contentsOfDirectoryAtPath:statesPath error:nil];
-    NSMutableArray *errors   = (err != nil ? [NSMutableArray array] : nil);
-    
-    for(NSString *statePath in subpaths)
-        if([@"oesavestate" isEqualToString:[statePath pathExtension]] &&
-           ![self migrateOESaveStateAtPath:statePath]                 &&
-           errors != nil)
-            [errors addObject:
-             [NSError errorWithDomain:OESaveStateMigrationErrorDomain
-                                 code:400
-                             userInfo:
-              [NSDictionary dictionaryWithObjectsAndKeys:
-               NSLocalizedString(@"Could not migrate save state at path.", @"Single file migration fail error message"), NSLocalizedDescriptionKey,
-               statePath, NSFilePathErrorKey,
-               nil]]];
-    
-    if([errors count] > 0)
-    {
-        if([errors count] == 1)
-            *err = [errors lastObject];
-        else
-            *err = [NSError errorWithDomain:OESaveStateMigrationErrorDomain code:300
-                                   userInfo:
-                    [NSDictionary dictionaryWithObjectsAndKeys:
-                     NSLocalizedString(@"Multiple save states failed to migrate", @"Multiple file migration fail error message"), NSLocalizedDescriptionKey,
-                     errors, @"OESaveStateMigrationErrors",
-                     nil]];
-        return NO;
-    }
-    
-    return YES;
+	return YES;
 }
 
 - (BOOL)removeFrameworkFromLibraryWithError:(NSError **)err

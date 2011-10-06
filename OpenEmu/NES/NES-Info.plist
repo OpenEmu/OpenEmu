@@ -28,5 +28,7 @@
 	<string>OENESSystemController</string>
 	<key>OESystemPluginName</key>
 	<string>Nintendo (NES)</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.nes</string>
 </dict>
 </plist>

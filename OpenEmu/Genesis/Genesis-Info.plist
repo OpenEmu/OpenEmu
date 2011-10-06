@@ -28,5 +28,9 @@
 	<string>OEGenesisSystemController</string>
 	<key>OESystemPluginName</key>
 	<string>Sega Genesis</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.sg</string>
+	<key>OESystemName</key>
+	<string>Sega Genesis</string>
 </dict>
 </plist>

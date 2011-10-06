@@ -32,14 +32,14 @@
 }
 
 - (NSImage*)gridImage{
-    OEDBImage* boxImage = [self valueForKey:@"box"];
+    OEDBImage* boxImage = [self valueForKey:@"boxImage"];
     if(boxImage==nil) return nil;
     
 	return [boxImage image];
 }
 
 - (NSImage*)gridImageWithSize:(NSSize)aSize{	
-    OEDBImage* boxImage = [self valueForKey:@"box"];
+    OEDBImage* boxImage = [self valueForKey:@"boxImage"];
     if(boxImage==nil) return nil;
     	
 	return [boxImage imageForSize:aSize];
@@ -74,7 +74,7 @@
 - (id)imageRepresentation{  
 	return [self gridImage];
 	
-    NSManagedObject* boxImage = [self valueForKey:@"box"];
+    NSManagedObject* boxImage = [self valueForKey:@"boxImage"];
     if(boxImage==nil) return nil;
     
     
