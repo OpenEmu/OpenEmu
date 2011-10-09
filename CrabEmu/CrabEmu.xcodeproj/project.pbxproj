@@ -20,16 +20,16 @@
 			name = Distribution;
 			productName = Distribution;
 		};
-		82D8155D0F1D878700EF8CF5 /* Build & Install */ = {
+		82D8155D0F1D878700EF8CF5 /* Build & Install CrabEmu */ = {
 			isa = PBXAggregateTarget;
-			buildConfigurationList = 82D815710F1D87B000EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */;
+			buildConfigurationList = 82D815710F1D87B000EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install CrabEmu" */;
 			buildPhases = (
 				82D8155C0F1D878700EF8CF5 /* ShellScript */,
 			);
 			dependencies = (
 				82D815610F1D879200EF8CF5 /* PBXTargetDependency */,
 			);
-			name = "Build & Install";
+			name = "Build & Install CrabEmu";
 			productName = "Build & Install";
 		};
 /* End PBXAggregateTarget section */
@@ -524,7 +524,7 @@
 			projectRoot = "";
 			targets = (
 				8D5B49AC048680CD000E48DA /* CrabEmu */,
-				82D8155D0F1D878700EF8CF5 /* Build & Install */,
+				82D8155D0F1D878700EF8CF5 /* Build & Install CrabEmu */,
 				82CAFB610FEDA62500CCDC7E /* Distribution */,
 			);
 		};
@@ -855,7 +855,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		82D815710F1D87B000EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install" */ = {
+		82D815710F1D87B000EF8CF5 /* Build configuration list for PBXAggregateTarget "Build & Install CrabEmu" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				82D8155E0F1D878800EF8CF5 /* Debug */,
