@@ -104,12 +104,12 @@ NSRect RoundNSRect(NSRect imageFrame){
 	
 	// Determine number of columns that we need (using 4 rows)
 	int columns = 1;
-	int rows = 0;
-	for(NSUInteger i=0; i<[buttonsAndLabels count]; i+=2){
+	int rows = 1;
+	for(NSUInteger i=0; i<[buttonsAndLabels count]-2; i+=2){
 		id x = [buttonsAndLabels objectAtIndex:i];
 		if(x == [NSNull null] || rows == 4){
 			if(x==[NSNull null]) i--;
-			rows = 0;
+			rows = 1;
 			columns ++;
 		} else {
 			rows ++;
