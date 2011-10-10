@@ -38,6 +38,7 @@
 				83F37152140BB197005A7353 /* CopyFiles */,
 			);
 			dependencies = (
+				1415542B1442C4B700A01683 /* PBXTargetDependency */,
 				83F3714F140BB17B005A7353 /* PBXTargetDependency */,
 				83F37151140BB17C005A7353 /* PBXTargetDependency */,
 				83F37149140BB177005A7353 /* PBXTargetDependency */,
@@ -51,6 +52,15 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		141554101442B3B300A01683 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		141554161442B3B300A01683 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 141554141442B3B300A01683 /* InfoPlist.strings */; };
+		1415541E1442B61700A01683 /* OEN64SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1415541D1442B61700A01683 /* OEN64SystemController.m */; };
+		141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 141554201442B7B100A01683 /* OEN64SystemResponder.m */; };
+		141554251442BA1E00A01683 /* OEN64PreferenceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 141554241442BA1E00A01683 /* OEN64PreferenceView.m */; };
+		141554271442BB2300A01683 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141554261442BB2200A01683 /* ControlsPreference.xib */; };
+		141554291442C12200A01683 /* controller_n64.png in Resources */ = {isa = PBXBuildFile; fileRef = 141554281442C12200A01683 /* controller_n64.png */; };
+		1415542C1442C52500A01683 /* N64.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1415540F1442B3B300A01683 /* N64.oesystemplugin */; };
+		1415542D1442C84B00A01683 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		14598A1012E151670001EBD0 /* OECoreInstaller.m in Sources */ = {isa = PBXBuildFile; fileRef = 14598A0D12E151670001EBD0 /* OECoreInstaller.m */; };
 		14598A1112E151670001EBD0 /* OECoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 14598A0F12E151670001EBD0 /* OECoreUpdater.m */; };
 		1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
@@ -469,6 +479,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1415542A1442C4B700A01683 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1415540E1442B3B300A01683;
+			remoteInfo = N64;
+		};
 		1B6A25011430F8FB009F1CE1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -648,6 +665,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				1415542C1442C52500A01683 /* N64.oesystemplugin in CopyFiles */,
 				83F37153140BB1A6005A7353 /* SegaMasterSystem.oesystemplugin in CopyFiles */,
 				83F37154140BB1A6005A7353 /* NES.oesystemplugin in CopyFiles */,
 				83F37155140BB1A6005A7353 /* SuperNES.oesystemplugin in CopyFiles */,
@@ -661,6 +679,19 @@
 
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		1415540F1442B3B300A01683 /* N64.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = N64.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		141554131442B3B300A01683 /* N64-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "N64-Info.plist"; sourceTree = "<group>"; };
+		141554151442B3B300A01683 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		141554171442B3B300A01683 /* N64-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "N64-Prefix.pch"; sourceTree = "<group>"; };
+		1415541C1442B61700A01683 /* OEN64SystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemController.h; sourceTree = "<group>"; };
+		1415541D1442B61700A01683 /* OEN64SystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEN64SystemController.m; sourceTree = "<group>"; };
+		1415541F1442B7B100A01683 /* OEN64SystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemResponder.h; sourceTree = "<group>"; };
+		141554201442B7B100A01683 /* OEN64SystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEN64SystemResponder.m; sourceTree = "<group>"; };
+		141554221442B85000A01683 /* OEN64SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64SystemResponderClient.h; sourceTree = "<group>"; };
+		141554231442BA1E00A01683 /* OEN64PreferenceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEN64PreferenceView.h; sourceTree = "<group>"; };
+		141554241442BA1E00A01683 /* OEN64PreferenceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEN64PreferenceView.m; sourceTree = "<group>"; };
+		141554261442BB2200A01683 /* ControlsPreference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
+		141554281442C12200A01683 /* controller_n64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_n64.png; sourceTree = "<group>"; };
 		14598A0C12E151660001EBD0 /* OECoreInstaller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreInstaller.h; sourceTree = "<group>"; };
 		14598A0D12E151670001EBD0 /* OECoreInstaller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreInstaller.m; sourceTree = "<group>"; };
 		14598A0E12E151670001EBD0 /* OECoreUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreUpdater.h; sourceTree = "<group>"; };
@@ -1219,6 +1250,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1415540C1442B3B300A01683 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1415542D1442C84B00A01683 /* OpenEmuSystem.framework in Frameworks */,
+				141554101442B3B300A01683 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1BEF2A9211682A530090F72B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1372,6 +1412,33 @@
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
 		};
+		141554111442B3B300A01683 /* N64 */ = {
+			isa = PBXGroup;
+			children = (
+				1415541C1442B61700A01683 /* OEN64SystemController.h */,
+				1415541D1442B61700A01683 /* OEN64SystemController.m */,
+				1415541F1442B7B100A01683 /* OEN64SystemResponder.h */,
+				141554201442B7B100A01683 /* OEN64SystemResponder.m */,
+				141554221442B85000A01683 /* OEN64SystemResponderClient.h */,
+				141554231442BA1E00A01683 /* OEN64PreferenceView.h */,
+				141554241442BA1E00A01683 /* OEN64PreferenceView.m */,
+				141554261442BB2200A01683 /* ControlsPreference.xib */,
+				141554121442B3B300A01683 /* Supporting Files */,
+			);
+			path = N64;
+			sourceTree = "<group>";
+		};
+		141554121442B3B300A01683 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				141554281442C12200A01683 /* controller_n64.png */,
+				141554131442B3B300A01683 /* N64-Info.plist */,
+				141554141442B3B300A01683 /* InfoPlist.strings */,
+				141554171442B3B300A01683 /* N64-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		19C28FB0FE9D524F11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1386,6 +1453,7 @@
 				C6B947AF1364ECA600A425F0 /* GameBoy.oesystemplugin */,
 				C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */,
 				C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */,
+				1415540F1442B3B300A01683 /* N64.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2474,6 +2542,7 @@
 		C67118201363687A0034379A /* System Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				141554111442B3B300A01683 /* N64 */,
 				C6711821136368A30034379A /* Sega Master System */,
 				C64BB08F136478E600C1AB23 /* NES */,
 				C6480FC313648F670094FA33 /* SuperNES */,
@@ -2637,6 +2706,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		1415540E1442B3B300A01683 /* N64 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1415541A1442B3B300A01683 /* Build configuration list for PBXNativeTarget "N64" */;
+			buildPhases = (
+				1415540B1442B3B300A01683 /* Sources */,
+				1415540C1442B3B300A01683 /* Frameworks */,
+				1415540D1442B3B300A01683 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = N64;
+			productName = N64;
+			productReference = 1415540F1442B3B300A01683 /* N64.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		1BEF2A9311682A530090F72B /* OpenEmuHelperApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1BEF2AC211682A980090F72B /* Build configuration list for PBXNativeTarget "OpenEmuHelperApp" */;
@@ -2877,6 +2963,7 @@
 				C6B947AE1364ECA600A425F0 /* GameBoy */,
 				C6B947E51365080B00A425F0 /* Genesis */,
 				C646574713771F12002A4F70 /* GameBoy Advance */,
+				1415540E1442B3B300A01683 /* N64 */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -2885,6 +2972,16 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1415540D1442B3B300A01683 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				141554161442B3B300A01683 /* InfoPlist.strings in Resources */,
+				141554271442BB2300A01683 /* ControlsPreference.xib in Resources */,
+				141554291442C12200A01683 /* controller_n64.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		3887A7F21024D1F9000FC4CF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3132,6 +3229,16 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1415540B1442B3B300A01683 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1415541E1442B61700A01683 /* OEN64SystemController.m in Sources */,
+				141554211442B7B100A01683 /* OEN64SystemResponder.m in Sources */,
+				141554251442BA1E00A01683 /* OEN64PreferenceView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1BEF2A9111682A530090F72B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3393,6 +3500,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1415542B1442C4B700A01683 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1415540E1442B3B300A01683 /* N64 */;
+			targetProxy = 1415542A1442C4B700A01683 /* PBXContainerItemProxy */;
+		};
 		1B6A25021430F8FB009F1CE1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 83F37141140BB166005A7353 /* Build SystemPlugins */;
@@ -3499,6 +3611,14 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
+		141554141442B3B300A01683 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				141554151442B3B300A01683 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		1DDD582A0DA1D0D100B32029 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -3598,6 +3718,54 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		141554181442B3B300A01683 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "N64/N64-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "N64/N64-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		141554191442B3B300A01683 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "N64/N64-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "N64/N64-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Release;
+		};
 		1BEF2A9611682A530090F72B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4106,6 +4274,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1415541A1442B3B300A01683 /* Build configuration list for PBXNativeTarget "N64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				141554181442B3B300A01683 /* Debug */,
+				141554191442B3B300A01683 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		1BEF2AC211682A980090F72B /* Build configuration list for PBXNativeTarget "OpenEmuHelperApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
