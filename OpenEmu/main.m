@@ -32,13 +32,14 @@ int main(int argc, char *argv[]){
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     
 	NSDictionary* defaults = [NSDictionary dictionaryWithObjectsAndKeys:
-								// Thumbnail sizes for game box images
+								// default thumbnail sizes for game box images
 								[NSArray arrayWithObjects:	NSStringFromSize(NSMakeSize(75, 75)), 
 															NSStringFromSize(NSMakeSize(150, 150)), 
 															NSStringFromSize(NSMakeSize(300, 300)), 
 															NSStringFromSize(NSMakeSize(450, 450)), nil],	UDBoxSizesKey,
-							  [NSNumber numberWithBool:YES], UDUseMD5HashingKey,
-							  [NSNumber numberWithFloat:0.5], UDVolumeKey,
+							  [NSNumber numberWithBool:YES], UDUseMD5HashingKey,	// Default Hashing algorithm
+							  [NSNumber numberWithFloat:0.5], UDVolumeKey,			// Default Volume
+							  @"Save States",	UDSaveStateFolderNameKey,			// Default name of Save States folder
 							  nil];
 	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
 	[standardDefaults registerDefaults:defaults];

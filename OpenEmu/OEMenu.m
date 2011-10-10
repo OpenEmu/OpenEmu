@@ -123,7 +123,7 @@
 	NSMenuItem* selectedItem = subMen.highlightedItem;
 	
 	if(selectedItem && [selectedItem isEnabled] && [selectedItem target] && [selectedItem action]!=NULL && [[selectedItem target] respondsToSelector:[selectedItem action]]){
-		[[selectedItem target] performSelectorOnMainThread:[selectedItem action] withObject:self waitUntilDone:NO];
+		[[selectedItem target] performSelectorOnMainThread:[selectedItem action] withObject:selectedItem waitUntilDone:NO];
 	}
 
 	if([selectedItem isEnabled] && self.btn){

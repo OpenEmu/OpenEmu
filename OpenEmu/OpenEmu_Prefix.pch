@@ -79,9 +79,10 @@
 #define UDControlsDeviceTypeKey     @"lastControlsDevice"
 
 // "Hidden" preferences
-#define UDRegionKey					@"region"					/*	release region (force a region)*/
+#define UDRegionKey					@"region"					/*	release region (force a region)	*/
+#define UDSaveStateFolderNameKey	@"saveStateFolder"			/*  name of save state folder		*/
 
 #define UDForcePopoutKey			@"forcePopOut"	
 #define UDUseQuickImportKey			@"UseQuickImport"			/*	skips duplicate verification when importing games if automatic info grabbing is deactivated	*/
-#define UDUseMD5HashingKey			@"UseMD5"					/*	use md5 instead of crc32 for rom identification	 (default: YES)										*/
+#define UDUseMD5HashingKey			@"UseMD5"					/*	use md5 instead of crc32 for rom identification	 (default: YES)								*/
 #define UDBoxSizesKey				@"BoxSizes"					/*	Array of sizes used for Box Artwork thumbnails (defaults registered in main.m)				*/

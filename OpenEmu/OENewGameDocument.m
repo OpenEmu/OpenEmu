@@ -35,6 +35,7 @@
 - (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError;
 - (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError;
 
+- (NSString *)_convertToValidFileName:(NSString *)fileName;
 - (void)_setURL:(NSURL*)aURL;
 - (void)_setROM:(id)aRom;
 @end
@@ -94,7 +95,7 @@
 	OEHUDGameWindow* gameWindow = [[OEHUDGameWindow alloc] initWithContentRect:contentFrame andGameDocument:self];
 	[gameWindow makeKeyAndOrderFront:self];
     [gameWindow center];
-	// check if we default to fullscreen, then go fullscreen
+	// TODO: check if we default to fullscreen, then go fullscreen
 }
 
 - (OEGameView*)gameView{
@@ -157,54 +158,87 @@
 }
 #pragma mark -
 #pragma mark Save States
-- (void)loadState:(id)state{}
+- (void)loadState:(id)state{
+	NSString* path = [state valueForKey:@"path"];
+	[self loadStateFromFile:path error:nil];
+}
+
 - (void)saveStateAskingUser:(NSString *)proposedName{
-	return;
 	if(!proposedName){
 		// TODO: properly format date
 		proposedName = [NSString stringWithFormat:@"%@", [NSDate date]];
 	}
 	
 	NSString* name = nil;
+	
+	
+	
 	[self saveState:name];
 
 }
 
-#define OESaveStatePath @""
+#define OESaveStatePath (NSString*)^{\
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);\
+NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();\
+NSString* saveStateFolderName = [[NSUserDefaults standardUserDefaults] valueForKey:UDSaveStateFolderNameKey];\
+return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPathComponent:saveStateFolderName];\
+}()
+
 - (void)saveState:(NSString*)stateName{
-	return;
 	if(!self.rom){
 		NSLog(@"Error: Can not save states without rom");
 		return;
 	}
-	
+
 	NSString* systemIdentifier		= [[rootProxy gameCore] systemIdentifier];
-	NSString* systemSaveDirectory	= [OESaveStatePath stringByAppendingPathComponent:systemIdentifier];
-	
-	/*
-	NSString* fileName				= 
-	
-	
-	NSString* tmpFileName = [NSString stringWithUUID];
-	NSString* tmpSaveDirectory = @"tmp"];
-	NSString* tmpSavePath = [[tmpSaveDirectory stringByAppendingPathComponent:tmpFileName] stringByAppendingPathExtension:@"oesavestate"];
-	BOOL success = [[rootProxy gameCore] saveStateToFileAtPath:tmpSavePath];
+	NSURL* systemSaveDirectoryURL	= [NSURL fileURLWithPath:[OESaveStatePath stringByAppendingPathComponent:systemIdentifier]];
+
+	NSError* err = nil;
+	BOOL success = [[NSFileManager defaultManager] createDirectoryAtURL:systemSaveDirectoryURL withIntermediateDirectories:YES attributes:nil error:&err];
 	if(!success){
-		NSLog(@"Error could not save state!");
-		// TODO: writer proper error, decide what to do with it!
+		// TODO: inform user
+		NSLog(@"could not create save state directory");		
+		NSLog(@"%@", err);
 		return;
-	}	
+	}
+
+	NSString* fileName = stateName;
+	if(!fileName) fileName = [NSString stringWithFormat:@"%@", [NSDate date]];	
+	fileName = [self _convertToValidFileName:fileName];
 	
+	NSURL* saveStateURL = [[systemSaveDirectoryURL URLByAppendingPathComponent:fileName] URLByAppendingPathExtension:@"oesavestate"];
+	int count = 0;
+	while([[NSFileManager defaultManager] fileExistsAtPath:[saveStateURL path] isDirectory:NULL]){
+		count ++;
+		
+		NSString* countedFileName = [NSString stringWithFormat:@"%@ %d.oesavestate", fileName, count];
+		saveStateURL = [systemSaveDirectoryURL URLByAppendingPathComponent:countedFileName];
+	}
+	
+	success = [[rootProxy gameCore] saveStateToFileAtPath:[saveStateURL path]];
+	if(!success){
+		// TODO: inform user
+		NSLog(@"could not write file");		
+		NSLog(@"%@", err);
+		return;
+	}
+
+	// we need to make sure we are on the same thread where self.rom was created!!
 	OEDBSaveState* saveState = [OEDBSaveState newSaveStateInContext:[self.rom managedObjectContext]];
-	if(stateName)
-		[saveState setValue:stateName forKey:@"userDescription"];
-	 */
+	[saveState setValue:[saveStateURL path] forKey:@"path"];
+	[saveState setValue:[NSDate date] forKey:@"timestamp"];
+	[saveState setValue:[[rootProxy gameCore] pluginName] forKey:@"emulatorID"];
+	[saveState setValue:self.rom forKey:@"rom"];
 }
 
 - (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error{
 	return YES;
 }
 - (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error{
+	if(error!=NULL) *error = nil;
+	
+	[[rootProxy gameCore] loadStateFromFileAtPath:fileName];
+	
 	return YES;
 }
 
@@ -264,20 +298,12 @@
 			[self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey]];
             
             OEGameCore *gameCore = [rootProxy gameCore];
-            NSLog(@"-----------------------------------");
-			NSLog(@"%@", gameCore);
             gameSystemController = [[[OESystemPlugin gameSystemPluginForIdentifier:[gameCore systemIdentifier]] controller] retain];
-			NSLog(@"[gameCore systemIdentifier]: %@", [gameCore systemIdentifier]);
-			NSLog(@"gameSystemController: %@",gameSystemController);
             gameSystemResponder  = [gameSystemController newGameSystemResponder];
-			NSLog(@"%@", gameSystemController);
             [gameSystemResponder setClient:gameCore];
 
 			
 			if(gameView){
-				NSLog(@"setting root proxy + game system responder");
-				NSLog(@"%@", rootProxy);
-				NSLog(@"%@", gameSystemResponder);
 				[gameView setRootProxy:rootProxy];
 				[gameView setGameResponder:gameSystemResponder];
 			}
@@ -311,6 +337,12 @@
 	origin.y += 19;
 	
 	[controlsWindow setFrameOrigin:origin];
+}
+
+
+- (NSString *)_convertToValidFileName:(NSString *)fileName{
+    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
+    return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
 }
 #pragma mark -
 #pragma mark Notifications

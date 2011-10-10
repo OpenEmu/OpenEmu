@@ -67,11 +67,12 @@
 		for(id saveState in saveStates){
 			NSString* itemTitle = [saveState valueForKey:@"userDescription"];
 			if(!itemTitle || [itemTitle isEqualToString:@""]){
-				itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timeStamp"]];
+				itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timestamp"]];
 			}
 			
 			item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
 			[item setTarget:self];
+			[item setRepresentedObject:saveState];
 			[menu addItem:item];
 			[item release];
 		}
@@ -84,7 +85,9 @@
 	[oemenu openAtPoint:menuPoint ofWindow:self];
 	[menu release];
 }
-- (void)doLoadState:(id)stateItem{}
+- (void)doLoadState:(id)stateItem{	
+	[self.gameDocument loadState:[stateItem representedObject]];
+}
 - (void)doSaveState:(id)sender{
 	[self.gameDocument saveStateAskingUser:nil];
 }

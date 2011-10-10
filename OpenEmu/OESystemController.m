@@ -59,7 +59,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     {
         _bundle    = [NSBundle bundleForClass:[self class]];
         systemIdentifier = [[[_bundle infoDictionary] objectForKey:OESystemIdentifier] retain];
-		NSLog(@"systemIdentifier: %@", systemIdentifier);
         if(systemIdentifier == nil) systemIdentifier = [[_bundle infoDictionary] objectForKey:OESystemPluginName];
         if(systemIdentifier == nil) systemIdentifier = [[_bundle infoDictionary] objectForKey:@"CFBundleName"];
         
