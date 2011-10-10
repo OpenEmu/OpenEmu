@@ -31,6 +31,14 @@
 
 #import "OEDBSaveState.h"
 #import "OEDBRom.h"
+
+#define OESaveStatePath (NSString*)^{\
+NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);\
+NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();\
+NSString* saveStateFolderName = [[NSUserDefaults standardUserDefaults] valueForKey:UDSaveStateFolderNameKey];\
+return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPathComponent:saveStateFolderName];\
+}()
+
 @interface OENewGameDocument (Private)
 - (void)_setup;
 - (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError;
@@ -212,13 +220,6 @@
 	}
 }
 
-#define OESaveStatePath (NSString*)^{\
-NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);\
-NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();\
-NSString* saveStateFolderName = [[NSUserDefaults standardUserDefaults] valueForKey:UDSaveStateFolderNameKey];\
-return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPathComponent:saveStateFolderName];\
-}()
-
 - (void)saveState:(NSString*)stateName{
 	if(!self.rom){
 		NSLog(@"Error: Can not save states without rom");
@@ -258,7 +259,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 		return;
 	}
 
-	// we need to make sure we are on the same thread where self.rom was created!!
+	// we need to make sure that we are on the same thread where self.rom was created!!
 	OEDBSaveState* saveState = [OEDBSaveState newSaveStateInContext:[self.rom managedObjectContext]];
 	[saveState setValue:[saveStateURL path] forKey:@"path"];
 	[saveState setValue:[NSDate date] forKey:@"timestamp"];
@@ -266,6 +267,11 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 	[saveState setValue:self.rom forKey:@"rom"];
 	if(stateName)
 		[saveState setValue:stateName forKey:@"userDescription"];
+	
+	[self captureScreenshotUsingBlock:^(NSImage *img) {
+		NSData* imgData = [img TIFFRepresentation];		
+		[saveState setValue:imgData forKey:@"screenshot"];
+	}];
 }
 
 - (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error{
@@ -281,7 +287,9 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 
 #pragma mark -
 #pragma mark Recording
-- (void)captureScreenshotUsingBlock:(void(^)(NSImage* img))block{}
+- (void)captureScreenshotUsingBlock:(void(^)(NSImage* img))block{
+	[self.gameView captureScreenshotUsingBlock:block];
+}
 
 #pragma mark -
 #pragma mark Private Methods
