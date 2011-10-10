@@ -28,7 +28,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D8155D0F1D878700EF8CF5"
-               BuildableName = "Build &amp; Install"
+               BuildableName = "Build &amp; Install CrabEmu"
                BlueprintName = "Build &amp; Install CrabEmu"
                ReferencedContainer = "container:CrabEmu/CrabEmu.xcodeproj">
             </BuildableReference>
@@ -56,7 +56,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D814E50F1D81BE00EF8CF5"
-               BuildableName = "Build &amp; Install"
+               BuildableName = "Build &amp; Install Nestopia"
                BlueprintName = "Build &amp; Install Nestopia"
                ReferencedContainer = "container:Nestopia/Nestopia.xcodeproj">
             </BuildableReference>
