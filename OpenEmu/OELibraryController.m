@@ -6,6 +6,8 @@
 //  Copyright 2011 Christoph Leimbrock. All rights reserved.
 //
 
+#import "OENewGameDocument.h"
+
 #import "OELibraryController.h"
 #import "OELibraryDatabase.h"
 #import "OEDBSmartCollection.h"
@@ -21,9 +23,6 @@
 
 #import "OEHUDGameWindow.h"
 #import "OEROMImporter.h"
-
-
-#import "OENewGameDocument.h"
 
 #import "OEPlugin.h"
 #import "OECorePlugin.h"
@@ -478,7 +477,8 @@
 	[sidebarBtn setEnabled:YES];
 	
 	if(gameDocument){
-		[gameDocument terminateEmulation];
+        if([gameDocument isEmulationPaused])
+            [gameDocument terminateEmulation];
 		[[gameDocument gameView] removeFromSuperview];
 		[gameDocument release], gameDocument = nil;
     }
@@ -519,10 +519,16 @@
 		[self _removeGameView];
 		
 		gameDocument = [gameDoc retain];
+        gameDocument.delegate = self;
 		[self _showGameView];
 	}
 }
 
+#pragma mark -
+#pragma OENewDocumentDelegateProtocol Implementation
+- (void)gameDocumentDidTerminateEmulation:(OENewGameDocument*)doc{
+    [self _removeGameView];
+}
 
 @synthesize mainSplitView, database;
 @synthesize cancelImport;

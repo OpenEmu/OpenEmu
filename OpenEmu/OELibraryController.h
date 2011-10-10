@@ -20,7 +20,8 @@
 #import "OEUIDrawingUtils.h"
 
 #import "IKSGridViewProtocols.h"
-@interface OELibraryController : NSWindowController <NSWindowDelegate, NSSplitViewDelegate> {
+@protocol OENewGameDocumentDelegateProtocol;
+@interface OELibraryController : NSWindowController <NSWindowDelegate, NSSplitViewDelegate, OENewGameDocumentDelegateProtocol> {
 @private
     OELibraryDatabase* database;
     OENewGameDocument* gameDocument;

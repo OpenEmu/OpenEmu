@@ -40,6 +40,7 @@ int main(int argc, char *argv[]){
 							  [NSNumber numberWithBool:YES], UDUseMD5HashingKey,	// Default Hashing algorithm
 							  [NSNumber numberWithFloat:0.5], UDVolumeKey,			// Default Volume
 							  @"Save States",	UDSaveStateFolderNameKey,			// Default name of Save States folder
+                              [NSNumber numberWithDouble:3.0], UDHUDFadeOutDelayKey,// Time until hud controls bar fades out
 							  nil];
 	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
 	[standardDefaults registerDefaults:defaults];

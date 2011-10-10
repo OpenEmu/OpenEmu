@@ -11,7 +11,12 @@
 @class OEGameQTRecorder, OESystemController, OESystemResponder, OEGameCoreController;
 @class OEDBRom;
 @protocol OEGameCoreHelper;
-@interface OENewGameDocument : NSObject{
+@class OENewGameDocument;
+@protocol OENewGameDocumentDelegateProtocol <NSObject>
+@optional
+- (void)gameDocumentDidTerminateEmulation:(OENewGameDocument*)doc;
+@end
+@interface OENewGameDocument : NSObject <OENewGameDocumentDelegateProtocol>{
 	OEDBRom* rom;
 	NSURL* url;
 	
@@ -30,6 +35,10 @@
     OESystemResponder    *gameSystemResponder;
     OEGameCoreController *gameController;
     BOOL                  keyedOnce;
+    
+    id<OENewGameDocumentDelegateProtocol>   _delegate;
+    
+    BOOL emulationRunning;
 }
 
 + (id)newDocumentWithROM:(id)rom error:(NSError**)error;
@@ -60,4 +69,7 @@
 #pragma mark Properties
 @property (retain, readonly) OEDBRom* rom;
 @property (retain, readonly) NSURL* url;
+
+@property (assign) id<OENewGameDocumentDelegateProtocol> delegate;
 @end
+

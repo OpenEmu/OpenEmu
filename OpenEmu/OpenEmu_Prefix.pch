@@ -82,6 +82,8 @@
 // "Hidden" preferences
 #define UDRegionKey					@"region"					/*	release region (force a region)	*/
 #define UDSaveStateFolderNameKey	@"saveStateFolder"			/*  name of save state folder		*/
+#define UDHUDFadeOutDelayKey        @"fadeoutdelay"             /*  time until hudcontrolsbar fades out after last mouse movement   */
+
 
 #define UDForcePopoutKey			@"forcePopOut"	
 #define UDUseQuickImportKey			@"UseQuickImport"			/*	skips duplicate verification when importing games if automatic info grabbing is deactivated	*/

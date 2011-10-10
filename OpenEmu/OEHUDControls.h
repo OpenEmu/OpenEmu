@@ -10,9 +10,17 @@
 @class OENewGameDocument;
 @interface OEHUDControlsWindow : NSWindow{
 	OENewGameDocument* gameDocument;
+    NSTimer* fadeTimer;
+    id       eventMonitor;
+    NSDate*  lastMouseMovement;
 }
+
 - (id)initWithGameDocument:(OENewGameDocument*)doc;
+
+- (void)show;
+- (void)hide;
 @property (assign) OENewGameDocument* gameDocument;
+@property (retain, nonatomic) NSDate* lastMouseMovement;
 @end
 
 @interface OEHUDControlsView : NSView {}

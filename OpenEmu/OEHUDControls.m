@@ -15,12 +15,16 @@
 
 #import "OENewGameDocument.h"
 #import "OEMenu.h"
+#import "OEDBRom.h"
 @implementation OEHUDControlsWindow
-- (id)initWithGameDocument:(OENewGameDocument*)doc{
+@synthesize lastMouseMovement;
+- (id)initWithGameDocument:(OENewGameDocument*)doc
+{
     self = [super initWithContentRect:NSMakeRect(0, 0, 431, 45) styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:YES];
-    if (self) {
+    if (self) 
+    {
 		self.gameDocument = doc;
-		
+        
 		[self setOpaque:NO];
 		[self setBackgroundColor:[NSColor clearColor]];
 		
@@ -28,31 +32,131 @@
 		[[self contentView] addSubview:controlsView];
 		[controlsView setupControls];
 		[controlsView release];
+        
+        [self setAlphaValue:0.0];
+        
+        eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:^(NSEvent*incomingEvent)
+                        {
+                            [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:incomingEvent waitUntilDone:NO];
+                        }];
+        [eventMonitor retain];
 	}
     return self;
 }
+- (void)dealloc
+{    
+    [fadeTimer invalidate];
+    [fadeTimer release];
+    fadeTimer = nil;
+    
+    [lastMouseMovement release];
+    
+    [NSEvent removeMonitor:eventMonitor];
+    [eventMonitor release];
+    
+    [super dealloc];
+}
+#pragma mark -
+- (void)show
+{
+    [[self animator] setAlphaValue:1.0];
+}
+- (void)hide
+{
+    [[self animator] setAlphaValue:0.0];
+    [fadeTimer invalidate];
+    [fadeTimer release];
+    fadeTimer = nil;
+}
 
-- (void)resetAction:(id)sender{
+- (void)mouseMoved:(NSEvent *)theEvent
+{
+    if(self.alphaValue==0.0)
+    {
+        [lastMouseMovement release];
+        lastMouseMovement = [[NSDate date] retain];       
+        [self show];
+    }
+    else 
+    {
+        NSWindow *parentWindow = self.parentWindow;
+        if(NSPointInRect([NSEvent mouseLocation], [parentWindow convertRectToScreen:[(NSView*)self.gameDocument.gameView frame]]))
+            [self setLastMouseMovement:[NSDate date]];
+    }
+}
+
+- (void)setLastMouseMovement:(NSDate *)lastMouseMovementDate
+{
+    if(!fadeTimer)
+    {
+        NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:UDHUDFadeOutDelayKey];
+        //    NSDate* nextTime = [lastMouseMovementDate dateByAddingTimeInterval:interval];
+        fadeTimer = [[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES] retain];
+        // [[NSTimer alloc] initWithFireDate:nextTime interval:0 target:self selector:@selector(timerDidFire:) userInfo:nil repeats:NO];      
+    }
+    
+    [lastMouseMovementDate retain];
+    [lastMouseMovement release];
+    
+    lastMouseMovement = lastMouseMovementDate;    
+}
+
+- (void)timerDidFire:(NSTimer*)timer
+{
+    NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:UDHUDFadeOutDelayKey];
+    NSDate* hideDate = [lastMouseMovement dateByAddingTimeInterval:interval];
+    
+    if(([NSDate timeIntervalSinceReferenceDate]-[hideDate timeIntervalSinceReferenceDate]) <= 0.0)
+    {
+        NSPoint mouseLoc = [NSEvent mouseLocation];
+        if(!NSPointInRect(mouseLoc, [self convertRectToBacking:self.frame]))
+        {
+            [fadeTimer invalidate];
+            [fadeTimer release];
+            fadeTimer = nil;
+            
+            [self hide];
+        } 
+        else 
+        {
+            NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:UDHUDFadeOutDelayKey];
+            NSDate* nextTime = [NSDate dateWithTimeIntervalSinceNow:interval];
+            
+            [fadeTimer setFireDate:nextTime];
+        }       
+    } 
+    else
+        [fadeTimer setFireDate:hideDate];
+}
+
+#pragma mark -
+- (void)resetAction:(id)sender
+{
 	[self.gameDocument resetGame];
 }
 
-- (void)playPauseAction:(id)sender{
+- (void)playPauseAction:(id)sender
+{
 	[self.gameDocument setPauseEmulation:![self.gameDocument isEmulationPaused]];
 }
 
-- (void)doneAction:(id)sender{
-	[[self animator] setAlphaValue:0.0];
+- (void)stopAction:(id)sender
+{
+	[self.gameDocument terminateEmulation];
 }
 
-- (void)fullscreenAction:(id)sender{
+- (void)fullscreenAction:(id)sender
+{
 	[[self parentWindow] toggleFullScreen:nil];
 }
 
-- (void)volumeAction:(id)sender{
+- (void)volumeAction:(id)sender
+{
 	[self.gameDocument setVolume:[sender floatValue]];
 }
 #pragma mark Save States
-- (void)saveAction:(id)sender{
+- (void)saveAction:(id)sender
+{
 	NSMenu* menu = [[NSMenu alloc] init];
 	
 	NSMenuItem* item;
@@ -62,11 +166,14 @@
 	[item release];
 	
 	NSArray* saveStates;
-	if(self.gameDocument.rom && (saveStates=[self.gameDocument.rom saveStatesByTimestampAscending:YES]) && [saveStates count]){
+	if(self.gameDocument.rom && (saveStates=[self.gameDocument.rom saveStatesByTimestampAscending:YES]) && [saveStates count])
+    {
 		[menu addItem:[NSMenuItem separatorItem]];
-		for(id saveState in saveStates){
+		for(id saveState in saveStates)
+        {
 			NSString* itemTitle = [saveState valueForKey:@"userDescription"];
-			if(!itemTitle || [itemTitle isEqualToString:@""]){
+			if(!itemTitle || [itemTitle isEqualToString:@""])
+            {
 				itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timestamp"]];
 			}
 			
@@ -78,28 +185,35 @@
 		}
 	}
 	
-	
 	OEMenu* oemenu = [menu convertToOEMenu];
 	NSRect buttonRect = [sender frame];
 	NSPoint menuPoint = NSMakePoint(NSMaxX(buttonRect)+self.frame.origin.x, NSMinY(buttonRect)+self.frame.origin.y);
 	[oemenu openAtPoint:menuPoint ofWindow:self];
 	[menu release];
 }
-- (void)doLoadState:(id)stateItem{	
-	[self.gameDocument loadState:[stateItem representedObject]];
+- (void)doLoadState:(id)stateItem
+{
+    [self.gameDocument loadState:[stateItem representedObject]];
 }
-- (void)doSaveState:(id)sender{
+- (void)doSaveState:(id)sender
+{
 	[self.gameDocument saveStateAskingUser:nil];
 }
 
-- (void)stateNameAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo{
+- (void)stateNameAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
+{
 	NSTextField *input = (NSTextField *)[alert accessoryView];
 	
-	if (returnCode == NSAlertDefaultReturn) {
+	if (returnCode == NSAlertDefaultReturn) 
+    {
 		[input validateEditing];
 		[self.gameDocument saveState:[input stringValue]];
-	} else if (returnCode == NSAlertAlternateReturn) {
-	} else {
+	} 
+    else if (returnCode == NSAlertAlternateReturn) 
+    {
+	} 
+    else 
+    {
 	}
 }
 #pragma mark -
@@ -108,9 +222,10 @@
 
 @implementation OEHUDControlsView
 
-+ (void)initialize{
++ (void)initialize
+{
 	NSImage* spriteSheet = [NSImage imageNamed:@"hud_glyphs"];
-
+    
 	[spriteSheet setName:@"hud_playpause" forSubimageInRect:NSMakeRect(0, 56, spriteSheet.size.width, 56)];
 	[spriteSheet setName:@"hud_restart" forSubimageInRect:NSMakeRect(0, 28, spriteSheet.size.width, 28)];
 	[spriteSheet setName:@"hud_save" forSubimageInRect:NSMakeRect(0, 0, spriteSheet.size.width, 28)];
@@ -124,38 +239,45 @@
 	[volume setName:@"hud_volume_up" forSubimageInRect:NSMakeRect(volume.size.width/2, 0, volume.size.width/2, volume.size.height)];
 }
 
-- (id)initWithFrame:(NSRect)frame{
+- (id)initWithFrame:(NSRect)frame
+{
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self) 
+    {
 		[self setWantsLayer:TRUE];
 	}
     return self;
 }
 
-- (void)dealloc{
+- (void)dealloc
+{    
     [super dealloc];
 }
 
-- (void)awakeFromNib{
+- (void)awakeFromNib
+{
 }
 
-- (BOOL)isOpaque{
+- (BOOL)isOpaque
+{
 	return NO;
 }
 
 #pragma mark -
-- (void)drawRect:(NSRect)dirtyRect{
+- (void)drawRect:(NSRect)dirtyRect
+{
 	NSImage* barBackground = [NSImage imageNamed:@"hud_bar"];
 	[barBackground drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:TRUE hints:nil leftBorder:15 rightBorder:15 topBorder:0 bottomBorder:0];
 }
 
-- (void)setupControls{	
+- (void)setupControls
+{
 	OEImageButton* pauseButton = [[OEImageButton alloc] init];
 	OEImageButtonHoverSelectable* cell = [[OEImageButtonHoverSelectable alloc] init];
 	[pauseButton setCell:cell];
 	[cell setImage:[NSImage imageNamed:@"hud_playpause"]];
 	[cell release];
-		
+    
 	[pauseButton setTarget:[self window]];
 	[pauseButton setAction:@selector(playPauseAction:)];
 	[pauseButton setFrame:NSMakeRect(83, 9, 28, 28)];	
@@ -189,22 +311,22 @@
 	[saveButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
 	[self addSubview:saveButton];
 	[saveButton release];
-		
+    
 	
-	NSButton* doneButton = [[NSButton alloc] init];
+	NSButton* stopButton = [[NSButton alloc] init];
 	OEHUDButtonCell* pcell = [[OEHUDButtonCell alloc] init];
 	[pcell setBlue:YES];
-	[doneButton setCell:pcell];
+	[stopButton setCell:pcell];
 	[pcell release];
-	[doneButton setTitle:@"Done"];
+	[stopButton setTitle:@"Stop"];
 	
-	[doneButton setTarget:[self window]];
-	[doneButton setAction:@selector(doneAction:)];
-	[doneButton setFrame:NSMakeRect(9, 13, 51, 23)];	
-	[doneButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-	[self addSubview:doneButton];
-	[doneButton release];
-
+	[stopButton setTarget:[self window]];
+	[stopButton setAction:@selector(stopAction:)];
+	[stopButton setFrame:NSMakeRect(9, 13, 51, 23)];	
+	[stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
+	[self addSubview:stopButton];
+	[stopButton release];
+    
 	
 	NSButton* fsButton = [[NSButton alloc] init];
 	pcell = [[OEHUDButtonCell alloc] init];
@@ -213,10 +335,10 @@
 	
 	[fsButton setImage:[NSImage imageNamed:@"hud_fullscreen_glyph_normal"]];
 	[fsButton setAlternateImage:[NSImage imageNamed:@"hud_fullscreen_glyph_pressed"]];
-
+    
 	[fsButton setTarget:[self window]];
 	[fsButton setAction:@selector(fullscreenAction:)];
-
+    
 	[fsButton setFrame:NSMakeRect(370, 13, 51, 23)];	
 	[fsButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
 	[self addSubview:fsButton];
@@ -244,7 +366,7 @@
 	[slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey]];
 	[slider setTarget:[self window]];
 	[slider setAction:@selector(volumeAction:)];
-
+    
 	[self addSubview:slider];
 	[slider release];
 }
