@@ -34,15 +34,17 @@
 {
     OEGameControllerView *view = (OEGameControllerView *)[self view];
     
-    [view addButtonWithName:@"OEN64ButtonDPadUp[@]" label:@"D-Pad Up" target:self highlightPoint:NSZeroPoint];
-    [view addButtonWithName:@"OEN64ButtonDPadDown[@]" label:@"D-Pad Down" target:self highlightPoint:NSZeroPoint];
-    [view addButtonWithName:@"OEN64ButtonDPadLeft[@]" label:@"D-Pad Left" target:self highlightPoint:NSZeroPoint];
-    [view addButtonWithName:@"OEN64ButtonDPadRight[@]" label:@"D-Pad Right" target:self highlightPoint:NSZeroPoint];
+	[view addColumnLabel:@"D-Pad"];
+    [view addButtonWithName:@"OEN64ButtonDPadUp[@]" label:@"Up" target:self highlightPoint:NSZeroPoint];
+    [view addButtonWithName:@"OEN64ButtonDPadDown[@]" label:@"Down" target:self highlightPoint:NSZeroPoint];
+    [view addButtonWithName:@"OEN64ButtonDPadLeft[@]" label:@"Left" target:self highlightPoint:NSZeroPoint];
+    [view addButtonWithName:@"OEN64ButtonDPadRight[@]" label:@"Right" target:self highlightPoint:NSZeroPoint];
 
-    [view addButtonWithName:@"OEN64ButtonCUp[@]" label:@"C Up" target:self highlightPoint:NSZeroPoint];
-    [view addButtonWithName:@"OEN64ButtonCDown[@]" label:@"C Down" target:self highlightPoint:NSZeroPoint];
-    [view addButtonWithName:@"OEN64ButtonCLeft[@]" label:@"C Left" target:self highlightPoint:NSZeroPoint];
-    [view addButtonWithName:@"OEN64ButtonCRight[@]" label:@"C Right" target:self highlightPoint:NSZeroPoint];
+	[view addColumnLabel:@"C-Pad"];
+    [view addButtonWithName:@"OEN64ButtonCUp[@]" label:@"Up" target:self highlightPoint:NSZeroPoint];
+    [view addButtonWithName:@"OEN64ButtonCDown[@]" label:@"Down" target:self highlightPoint:NSZeroPoint];
+    [view addButtonWithName:@"OEN64ButtonCLeft[@]" label:@"Left" target:self highlightPoint:NSZeroPoint];
+    [view addButtonWithName:@"OEN64ButtonCRight[@]" label:@"Right" target:self highlightPoint:NSZeroPoint];
     
     [view addButtonWithName:@"OEN64ButtonL[@]" label:@"L" target:self highlightPoint:NSZeroPoint];
     [view addButtonWithName:@"OEN64ButtonR[@]" label:@"R" target:self highlightPoint:NSZeroPoint];

@@ -39,6 +39,7 @@
 - (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget highlightPoint:(NSPoint)p;
 
 - (void)updateButtons;
+- (void)addColumnLabel:(NSString*)label;
 - (void)nextColumn;
 
 - (void)selectNextKeyButton:(id)currentButton;

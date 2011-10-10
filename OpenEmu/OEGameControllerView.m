@@ -30,6 +30,7 @@
 
 #import "OEControlsKeyButton.h"
 #import "OEControlsKeyLabelCell.h"
+#import "OEControlsKeyHeadlineCell.h"
 
 @implementation OEGameControllerView
 NSRect RoundNSRect(NSRect imageFrame);
@@ -96,17 +97,35 @@ NSRect RoundNSRect(NSRect imageFrame){
 	[buttonsAndLabels addObject:[NSNull null]];
 }
 
+- (void)addColumnLabel:(NSString*)label{
+	NSRect labelRect = NSMakeRect(0, 0, 0, 0);
+	NSTextField* labelField = [[NSTextField alloc] initWithFrame:labelRect];
+	NSTextFieldCell* labelFieldCell = [[OEControlsKeyHeadlineCell alloc] init];
+	[labelField setCell:labelFieldCell];
+	[labelField setStringValue:label];
+	[buttonsAndLabels addObject:labelField];
+	[labelFieldCell release];
+	[labelField release];
+}
+
 - (void)updateButtons{
 	//TODO: Method needs cleanup
 	while([[self subviews] count]){
 		[[[self subviews] lastObject] removeFromSuperview];
 	}
 	
+	BOOL hasGroups = NO;
 	// Determine number of columns that we need (using 4 rows)
 	int columns = 1;
 	int rows = 1;
 	for(NSUInteger i=0; i<[buttonsAndLabels count]-2; i+=2){
 		id x = [buttonsAndLabels objectAtIndex:i];
+		if([x isKindOfClass:[NSTextField class]] && [[x cell] isKindOfClass:[OEControlsKeyHeadlineCell class]]){
+			i --;
+			hasGroups = YES;
+			continue;
+		}
+		
 		if(x == [NSNull null] || rows == 4){
 			if(x==[NSNull null]) i--;
 			rows = 1;
@@ -127,6 +146,9 @@ NSRect RoundNSRect(NSRect imageFrame){
 	float labelWidth			= 60.0;		// max value!!!
 	float labelHeight			= 24.0;
 	float labelButtonSpacing	= 8.0;
+	
+	float groupXIndent = 10.0;
+	float groupYIndent = -10.0;
 
 	if(columns==2){	
 		horizontalItemSpacing = 120;
@@ -138,23 +160,54 @@ NSRect RoundNSRect(NSRect imageFrame){
 	int itemIndex;
 	int column = 0;
 	int row = 0;
+	
+	BOOL inGroup = NO;
 	for(itemIndex=0; itemIndex < [buttonsAndLabels count]; itemIndex++){
+		
+		
 		id item = [buttonsAndLabels objectAtIndex:itemIndex];
 		if(item == [NSNull null]){
 			column ++;
 			row = 0;
+			
+			inGroup = NO;
 			continue;
 		}
 		
 		if (row==4) {
 			column ++;
 			row = 0;
+			
+			inGroup = NO;
 		}
 		
+		
+		if([item isKindOfClass:[NSTextField class]] && [[item cell] isKindOfClass:[OEControlsKeyHeadlineCell class]]){
+			inGroup = YES;
+			
+			float columnWidth = buttonWidth+labelWidth+labelButtonSpacing;
+			
+			NSRect headlineFrame = RoundNSRect(NSMakeRect(leftBorder+column*(buttonWidth+horizontalItemSpacing)-columnWidth, topBorder+3.5*(verticalItemSpacing+buttonHeight), columnWidth, labelHeight));
+			[item setFrame:headlineFrame];
+			[self addSubview:item];
+			 
+			 continue;
+		}
+			 
 		NSRect buttonRect = RoundNSRect(NSMakeRect(leftBorder+column*(buttonWidth+horizontalItemSpacing), topBorder+(3-row)*(verticalItemSpacing+buttonHeight), buttonWidth, buttonHeight));
+		
+		if(inGroup){
+			buttonRect.origin.x += groupXIndent;
+			buttonRect.size.width -= groupXIndent/2;
+		}
+		if(hasGroups){
+			buttonRect.origin.y += groupYIndent;
+		}
+		
 		[item setFrame:buttonRect];
 		
 		NSRect labelRect = RoundNSRect(NSMakeRect(buttonRect.origin.x-labelWidth-labelButtonSpacing, buttonRect.origin.y-4, labelWidth, labelHeight));
+		if(inGroup) labelRect.size.width -= groupXIndent/2;
 		[[buttonsAndLabels objectAtIndex:itemIndex+1] setFrame:labelRect];
 		
 		[self addSubview:item];
