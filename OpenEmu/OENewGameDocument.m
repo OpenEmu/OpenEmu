@@ -30,6 +30,7 @@
 #import "OEHUDGameWindow.h"
 
 #import "OEDBSaveState.h"
+#import "OEDBRom.h"
 @interface OENewGameDocument (Private)
 - (void)_setup;
 - (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError;
@@ -164,17 +165,49 @@
 }
 
 - (void)saveStateAskingUser:(NSString *)proposedName{
+	BOOL dateAsName = NO;
 	if(!proposedName){
 		// TODO: properly format date
 		proposedName = [NSString stringWithFormat:@"%@", [NSDate date]];
+		dateAsName = YES;
 	}
 	
 	NSString* name = nil;
-	
-	
-	
-	[self saveState:name];
+	if(![[NSUserDefaults standardUserDefaults] boolForKey:UDNameStateByDateKey]){		
+		NSAlert* alert = [NSAlert alertWithMessageText:@"Save Satate" defaultButton:@"Save" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Enter a description for this save state"];
+		
+		NSTextField* field = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 240, 22)];
+		if(dateAsName)
+			[[field cell] setPlaceholderString:proposedName];
+		
+		[field setAutoresizingMask:NSViewWidthSizable];
+		[alert setAccessoryView:field];
+		[field setStringValue:proposedName];
+		[field release];
+		
+		[alert setShowsSuppressionButton:YES];
+		
+		[alert beginSheetModalForWindow:self.gameView.window modalDelegate:self didEndSelector:@selector(stateNameSheetDidEnd:returnCode:) contextInfo:NULL];
+	} else {
+		[self saveState:name];
+	}
+}
 
+- (void)stateNameSheetDidEnd:(NSAlert*)alert returnCode:(NSInteger) aReturnCode{
+	if(aReturnCode == NSCancelButton) return;
+
+	[[NSUserDefaults standardUserDefaults] setBool:[[alert suppressionButton] state] forKey:UDNameStateByDateKey];
+	
+	NSTextField* inputField = (NSTextField*)[alert accessoryView];
+	NSString* stateName = [inputField stringValue];
+	
+	// if either statename is nil or the same date as placeholder string (not changed)
+	if([stateName isEqualToString:@""] || ([[inputField cell] placeholderString] && [[[inputField cell] placeholderString] isEqualToString:stateName])){
+		// we want to use the date as name (default behavior)
+		[self saveState:nil];
+	} else {
+		[self saveState:stateName];	
+	}
 }
 
 #define OESaveStatePath (NSString*)^{\
@@ -229,6 +262,8 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 	[saveState setValue:[NSDate date] forKey:@"timestamp"];
 	[saveState setValue:[[rootProxy gameCore] pluginName] forKey:@"emulatorID"];
 	[saveState setValue:self.rom forKey:@"rom"];
+	if(stateName)
+		[saveState setValue:stateName forKey:@"userDescription"];
 }
 
 - (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error{

@@ -326,6 +326,7 @@
 		8382D23213C5C5BB00906221 /* OEPrefGameplayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */; };
 		8382D23313C5C5BB00906221 /* OEPrefLibraryController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */; };
 		8382D23513C5C5E100906221 /* OEPrefControlsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8382D23413C5C5E100906221 /* OEPrefControlsController.xib */; };
+		838AC28014434EED00AC74C3 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
 		8396CC52140687EE0096F791 /* wood_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 8396CC51140687EE0096F791 /* wood_textfield.png */; };
 		83977F641408FE4700175858 /* controller_snes_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F611408FE4700175858 /* controller_snes_eu.png */; };
 		83977F651408FE4700175858 /* controller_snes_jap.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F621408FE4700175858 /* controller_snes_jap.png */; };
@@ -1087,6 +1088,8 @@
 		8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefGameplayController.xib; sourceTree = "<group>"; };
 		8382D23013C5C5BB00906221 /* OEPrefLibraryController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefLibraryController.xib; sourceTree = "<group>"; };
 		8382D23413C5C5E100906221 /* OEPrefControlsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefControlsController.xib; sourceTree = "<group>"; };
+		838AC27E14434EED00AC74C3 /* OEDBRom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBRom.h; sourceTree = "<group>"; };
+		838AC27F14434EED00AC74C3 /* OEDBRom.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBRom.m; sourceTree = "<group>"; };
 		8396CC51140687EE0096F791 /* wood_textfield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_textfield.png; sourceTree = "<group>"; };
 		8396CC5414068DA90096F791 /* OEControlsKeyButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyButton.h; sourceTree = "<group>"; };
 		8396CC5514068DA90096F791 /* OEControlsKeyButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyButton.m; sourceTree = "<group>"; };
@@ -1819,6 +1822,8 @@
 				8328D9E413C75CAE0026D2A7 /* OEDBImage.m */,
 				83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */,
 				83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */,
+				838AC27E14434EED00AC74C3 /* OEDBRom.h */,
+				838AC27F14434EED00AC74C3 /* OEDBRom.m */,
 			);
 			name = Items;
 			sourceTree = "<group>";
@@ -3425,6 +3430,7 @@
 				1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */,
 				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,
 				83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */,
+				838AC28014434EED00AC74C3 /* OEDBRom.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

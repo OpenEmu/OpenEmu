@@ -62,7 +62,7 @@
 	[item release];
 	
 	NSArray* saveStates;
-	if(self.gameDocument.rom && (saveStates=[self.gameDocument.rom valueForKey:@"saveStates"]) && [saveStates count]){
+	if(self.gameDocument.rom && (saveStates=[self.gameDocument.rom saveStatesByTimestampAscending:YES]) && [saveStates count]){
 		[menu addItem:[NSMenuItem separatorItem]];
 		for(id saveState in saveStates){
 			NSString* itemTitle = [saveState valueForKey:@"userDescription"];

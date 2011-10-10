@@ -72,6 +72,7 @@
 
 // OEHudControls
 #define UDVolumeKey					@"volume"					/*	GamePlay window -> hud bar -> volume slider start value					*/
+#define UDNameStateByDateKey		@"dateName"					/*  skips if true:	Gameplay window -> sheet -> state name					*/
 
 // Preferences, Controls tab
 #define UDControlsPluginNameKey     @"lastControlsPlugin"

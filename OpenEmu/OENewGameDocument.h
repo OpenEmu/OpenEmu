@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 @class OEHUDControlsWindow, OEGameView, OEGameCoreManager;
 @class OEGameQTRecorder, OESystemController, OESystemResponder, OEGameCoreController;
-
+@class OEDBRom;
 @protocol OEGameCoreHelper;
 @interface OENewGameDocument : NSObject{
-	NSManagedObject* rom;
+	OEDBRom* rom;
 	NSURL* url;
 	
 	OEHUDControlsWindow	*controlsWindow;
@@ -58,6 +58,6 @@
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage* img))block;
 #pragma mark -
 #pragma mark Properties
-@property (retain, readonly) NSManagedObject* rom;
+@property (retain, readonly) OEDBRom* rom;
 @property (retain, readonly) NSURL* url;
 @end
