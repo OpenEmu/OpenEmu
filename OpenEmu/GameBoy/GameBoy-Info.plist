@@ -32,5 +32,15 @@
 	<string>GameBoy</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.gb</string>
+	<key>OEArchiveIDs</key>
+	<array>
+		<integer>49</integer>
+		<integer>67</integer>
+	</array>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>gb</string>
+		<string>gbc</string>
+	</array>
 </dict>
 </plist>

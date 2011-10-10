@@ -31,6 +31,7 @@
 @class OESystemController;
 
 extern NSString *const OESystemPluginName;
+extern NSString *const OEArchieIDs;
 
 @interface OESystemPlugin : OEPlugin
 
@@ -39,12 +40,11 @@ extern NSString *const OESystemPluginName;
 @property(readonly) NSString *gameSystemName DEPRECATED_ATTRIBUTE;
 @property(readonly) NSString *systemIdentifier;
 @property(readonly) NSString *systemName;
+
 @property(readonly) NSImage  *icon;
 @property(readonly) Class     responderClass;
 
 + (OESystemPlugin *)gameSystemPluginForIdentifier:(NSString *)gameSystemIdentifier; 
 + (void)registerGameSystemPlugin:(OESystemPlugin *)plugin forIdentifier:(NSString *)gameSystemIdentifier;
-
 + (OESystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;
-
 @end

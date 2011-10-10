@@ -25,11 +25,13 @@
 }
 
 - (BOOL)save:(NSError**)error;
-
 - (NSManagedObjectContext*)managedObjectContext;
+
++ (OELibraryDatabase*)defaultDatabase;
 #pragma mark -
 #pragma mark Database queries
 - (NSArray*)systems;
+- (OEDBSystem*)systemWithIdentifier:(NSString*)identifier;
 - (OEDBSystem*)systemForFile:(NSString*)filePath;
 - (NSInteger)systemsCount;
 

@@ -32,5 +32,16 @@
 	<string>Nintendo 64</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.n64</string>
+	<key>OEArchiveIDs</key>
+	<array>
+		<integer>66</integer>
+	</array>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>n64</string>
+		<string>z64</string>
+		<string>v64</string>
+		<string>u64</string>
+	</array>
 </dict>
 </plist>

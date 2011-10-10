@@ -40,6 +40,10 @@
 
 @end
 
+@interface OESystemController (PrivateRomStuff) 
+- (void)_initROMHandling;
+- (void)_deallocROMHandling;
+@end
 NSString *const OESettingValueKey       = @"OESettingValueKey";
 NSString *const OEHIDEventValueKey      = @"OEHIDEventValueKey";
 NSString *const OEKeyboardEventValueKey = @"OEKeyboardEventValueKey";
@@ -47,6 +51,9 @@ NSString *const OEControlsPreferenceKey = @"OEControlsPreferenceKey";
 NSString *const OESystemPluginName      = @"OESystemPluginName";
 NSString *const OESystemIdentifier      = @"OESystemIdentifier";
 NSString *const OESystemName			= @"OESystemName";
+
+NSString *const OEArchiveIDs			= @"OEArchiveIDs";
+NSString *const OEFileTypes				= @"OEFileSuffixes";
 
 static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey);
 
@@ -68,6 +75,8 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
         [self OE_setupControlNames];
         
         [self registerDefaultControls];
+		
+		[self _initROMHandling];
     }
     
     return self;
@@ -75,6 +84,8 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (void)dealloc
 {
+	[self _deallocROMHandling];
+	
     [_preferenceViewControllers release];
     [_gameSystemResponders release];
     [playerString release];
@@ -436,6 +447,22 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     
     NSUInteger ret = [[playerKey substringWithRange:atRange] integerValue];
     return (ret != 0 ? ret : NSNotFound);
+}
+
+#pragma mark -
+#pragma mark Rom Handling
+@synthesize fileTypes, archiveIDs;
+- (void)_initROMHandling{
+	archiveIDs = [[[_bundle infoDictionary] objectForKey:OEArchiveIDs] retain];
+	fileTypes  = [[[_bundle infoDictionary] objectForKey:OEFileTypes] retain];
+}
+- (void)_deallocROMHandling{
+	[archiveIDs release];
+	[fileTypes release];
+}
+
+- (BOOL)canHandleFile:(NSString *)path{
+	return [fileTypes containsObject:[path pathExtension]];
 }
 
 @end

@@ -32,5 +32,13 @@
 	<string>openemu.system.sg</string>
 	<key>OESystemName</key>
 	<string>Sega Genesis</string>
+	<key>OEArchiveIDs</key>
+	<array>
+		<integer>48</integer>
+	</array>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>smd</string>
+	</array>
 </dict>
 </plist>

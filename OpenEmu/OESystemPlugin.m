@@ -28,6 +28,8 @@
 #import "OESystemPlugin.h"
 #import "OESystemController.h"
 
+#import "OELibraryDatabase.h"
+#import "OEDBSystem.h"
 @implementation OESystemPlugin
 @dynamic controller;
 
@@ -49,6 +51,9 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
 + (void)registerGameSystemPlugin:(OESystemPlugin *)plugin forIdentifier:(NSString *)gameSystemIdentifier;
 {
     [pluginsBySystemIdentifiers setObject:plugin forKey:gameSystemIdentifier];
+
+	OELibraryDatabase* db = [OELibraryDatabase defaultDatabase];
+	[OEDBSystem createSystemFromPlugin:plugin inDatabase:db];
 }
 
 @synthesize responderClass, icon, gameSystemName, systemName, systemIdentifier;
@@ -65,7 +70,7 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
         gameSystemName = [[self infoDictionary] objectForKey:OESystemPluginName];
 		systemIdentifier = [[self infoDictionary] objectForKey:OESystemIdentifier];
         responderClass = [[self controller] responderClass];
-        
+		
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         
         icon = [[NSImage alloc] initWithContentsOfFile:iconPath];

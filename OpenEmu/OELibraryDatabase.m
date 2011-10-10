@@ -8,6 +8,9 @@
 
 #import "OELibraryDatabase.h"
 
+#import "OESystemPlugin.h"
+#import "OESystemController.h"
+
 #import "NSImage+OEDrawingAdditions.h"
 #import "NSData+HashingAdditions.h"
 #import "NSString+UUID.h"
@@ -35,7 +38,7 @@
 //	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	//
 - (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError;
 @end
-
+static OELibraryDatabase* defaultDatabase = nil;
 @implementation OELibraryDatabase
 + (void)initialize{
     NSImage* consoleIcons = [NSImage imageNamed:@"consoles"];
@@ -74,7 +77,12 @@
 	NSLog(@"%@", [managedObjectContexts allKeys]);
 }
 
++ (OELibraryDatabase*)defaultDatabase{
+	return defaultDatabase ?: [[self new] autorelease];
+}
+
 - (id)init{
+	NSLog(@"creating new LibraryDatabase");
     self = [super init];
     
     if (self) {
@@ -88,10 +96,15 @@
 	  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
     }
     
+	if(!defaultDatabase){
+		defaultDatabase = [self retain];
+	}
+	
     return self;
 }
 
 - (void)dealloc{   
+	NSLog(@"destroying LibraryDatabase");
     [__managedObjectContext release];
     [__persistentStoreCoordinator release];
     [__managedObjectModel release];
@@ -107,8 +120,7 @@
     [super dealloc];
 }
 
-- (void)awakeFromNib{
-}
+- (void)awakeFromNib{}
 
 - (void)applicationWillTerminate:(id)sender{
     NSError* error = nil;
@@ -263,11 +275,7 @@
     NSEntityDescription* descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
     NSFetchRequest* req = [[NSFetchRequest alloc] init];
     [req setEntity:descr];
-    
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
-    [req setSortDescriptors:[NSArray arrayWithObject:sort]];
-    [sort release];
-    
+	
     NSError* error = nil;
 	
     id result = [context executeFetchRequest:req error:&error];
@@ -276,10 +284,64 @@
 		NSLog(@"systems: Error: %@", error);
 		return nil;
     }
-    return result;
+    return [result sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		return [[obj1 name] compare:[obj2 name]];
+	}];
+}
+- (OEDBSystem*)systemWithIdentifier:(NSString*)identifier{
+	NSManagedObjectContext *context = [self managedObjectContext];
+	NSEntityDescription* descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
+    NSFetchRequest* req = [[NSFetchRequest alloc] init];
+	[req setFetchLimit:1];
+    [req setEntity:descr];
+	
+	NSPredicate* pred = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", identifier];
+	[req setPredicate:pred];
+        
+    NSError* error = nil;
+	
+    id result = [context executeFetchRequest:req error:&error];
+    [req release];
+    if(!result){
+		NSLog(@"systemWithIdentifier: Error: %@", error);
+		return nil;
+    }
+    return [result lastObject];
 }
 
 - (OEDBSystem*)systemForFile:(NSString*)filePath{
+	NSString* systemIdentifier = nil;
+	for(OESystemPlugin* aPlugin in [OESystemPlugin allPlugins])
+		if([[aPlugin controller] canHandleFile:filePath]){ systemIdentifier = [aPlugin systemIdentifier]; break; }
+	
+	if(!systemIdentifier) return nil;
+	
+	NSManagedObjectContext* context = [self managedObjectContext];	
+	NSEntityDescription* description = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
+	
+	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init]; //[[NSFetchRequest alloc] initWithEntityName:@"System"];
+	[fetchRequest setFetchLimit:1];
+	[fetchRequest setEntity:description];
+	
+	NSPredicate* predicate = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", systemIdentifier];
+	[fetchRequest setPredicate:predicate];
+	
+	NSError* error = nil;
+	NSArray* fetchResult = [context executeFetchRequest:fetchRequest error:&error];
+	[fetchRequest release];
+	if(error!=nil){
+		NSLog(@"Could not get System!");
+		[NSApp presentError:error];
+		return nil;
+	}
+	
+	OEDBSystem* result = [fetchResult lastObject];
+	if(!result){
+		NSLog(@"%@", [filePath pathExtension]);
+	}
+	return result;
+	
+	/*
 	NSString* suffix = [[filePath pathExtension] lowercaseString];
 
 	NSInteger systemID = -1;
@@ -369,6 +431,7 @@
 		NSLog(@"%@", suffix);
 	}
 	return result;
+	 */
 }
 
 - (NSInteger)systemsCount{
@@ -1093,24 +1156,7 @@
 	  return NO;
     }
     
-    
-    // Load some default systems
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSString* defaultSystemsPlistPath = [[NSBundle mainBundle] pathForResource:@"DefaultSystems" ofType:@"plist"];
-    NSArray* defaultSystems = [NSArray arrayWithContentsOfFile:defaultSystemsPlistPath];
-    for(NSDictionary* aSystemDict in defaultSystems){
-	  
-	  NSManagedObject *aSystem = [NSEntityDescription insertNewObjectForEntityForName:@"System" inManagedObjectContext:context];
-	  [aSystem setValue:[aSystemDict valueForKey:@"name"] forKey:@"name"];
-	  [aSystem setValue:[aSystemDict valueForKey:@"shortname"] forKey:@"shortname"];
-	  [aSystem setValue:[aSystemDict valueForKey:@"archiveID"] forKey:@"archiveID"];
-	  
-    }
-    
-    if (![context save:error]) {
-	  NSLog(@"Whoops, couldn't save: %@", [*error localizedDescription]);
-    }
-    
+        
     return YES;
 }
 

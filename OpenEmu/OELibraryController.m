@@ -91,7 +91,7 @@
     [standardDefaults registerDefaults:defaults];
     
     // load database
-    OELibraryDatabase* db = [[OELibraryDatabase alloc] init];
+    OELibraryDatabase* db = [OELibraryDatabase defaultDatabase];
     if(!db){
 		[NSApp terminate:self];
 		return;

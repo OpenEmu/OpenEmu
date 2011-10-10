@@ -8,15 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
-
+@class OESystemPlugin, OELibraryDatabase;
 @interface OEDBSystem : NSManagedObject {
 	NSImage* icon;
 }
++ (id)createSystemFromPlugin:(OESystemPlugin*)plugin inDatabase:(OELibraryDatabase*)database;
 #pragma mark -
 #pragma mark Core Data utilities
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 #pragma mark -
+- (OESystemPlugin*)plugin;
+
 - (NSImage*)icon;
 
+@property (readonly) NSString* name;
 @end

@@ -32,5 +32,13 @@
 	<string>Sega Master System</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.sms</string>
+	<key>OEArchiveIDs</key>
+	<array>
+		<integer>34</integer>
+	</array>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>sms</string>
+	</array>
 </dict>
 </plist>

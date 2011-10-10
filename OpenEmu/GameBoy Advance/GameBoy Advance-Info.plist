@@ -32,5 +32,13 @@
 	<string>openemu.system.gba</string>
 	<key>OESystemName</key>
 	<string>GameBoy Advance</string>
+	<key>OEArchiveIDs</key>
+	<array>
+		<integer>85</integer>
+	</array>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>gba</string>
+	</array>
 </dict>
 </plist>

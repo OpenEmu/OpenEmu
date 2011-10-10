@@ -38,6 +38,8 @@ extern NSString *const OEControlsPreferenceKey;
 extern NSString *const OESystemPluginName;
 extern NSString *const OESystemName;
 extern NSString *const OESystemIdentifier;
+extern NSString *const OEArchiveIDs;
+extern NSString *const OEFileTypes;
 
 @interface OESystemController : NSObject <OEPluginController, OEControlsViewControllerDelegate>
 {
@@ -99,4 +101,10 @@ extern NSString *const OESystemIdentifier;
 - (void)registerGameSystemResponder:(OESystemResponder *)responder;
 - (void)unregisterGameSystemResponder:(OESystemResponder *)responder;
 
+#pragma mark -
+#pragma mark ROM Handling
+@property(readonly) NSArray *fileTypes;
+@property(readonly) NSArray *archiveIDs;
+
+- (BOOL)canHandleFile:(NSString*)path;
 @end

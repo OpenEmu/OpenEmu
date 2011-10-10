@@ -141,8 +141,8 @@
 #pragma mark -
 #pragma mark Private
 - (void)_performUpdate{
-    // get file checksum if none exists
-    // contact archive, get infos
+    // TODO: get file checksum if none exists
+    // TODO: contact archive, get infos
 }
 
 + (void)_cpyValForKey:(NSString*)keyA of:(NSDictionary*)dictionary toKey:(NSString*)keyB ofGame:(OEDBGame*)game{
