@@ -355,6 +355,11 @@
 		83B6E443143E13C400BCDB7A /* OELocalizationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B6E43E143E090800BCDB7A /* OELocalizationHelper.m */; };
 		83BACFBC1415229C008362DA /* OENewGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BACFBB1415229C008362DA /* OENewGameDocument.m */; };
 		83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */; };
+		83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
+		83DB70E21442F48F00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
+		83DB70E31442F49600850CD8 /* OEControlsKeyHeadlineCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 83DB70DE1442F40B00850CD8 /* OEControlsKeyHeadlineCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		83DB70E41442F4A700850CD8 /* OEControlsKeyHeadlineCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 83DB70DE1442F40B00850CD8 /* OEControlsKeyHeadlineCell.h */; };
+		83DB70E51442F4B400850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
 		83F37153140BB1A6005A7353 /* SegaMasterSystem.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
 		83F37154140BB1A6005A7353 /* NES.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
 		83F37155140BB1A6005A7353 /* SuperNES.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
@@ -1106,6 +1111,8 @@
 		83BACFBB1415229C008362DA /* OENewGameDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENewGameDocument.m; sourceTree = "<group>"; };
 		83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveState.h; sourceTree = "<group>"; };
 		83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveState.m; sourceTree = "<group>"; };
+		83DB70DE1442F40B00850CD8 /* OEControlsKeyHeadlineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyHeadlineCell.h; sourceTree = "<group>"; };
+		83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyHeadlineCell.m; sourceTree = "<group>"; };
 		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
 		83F688BF13C6433600AA0F83 /* OEGridScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridScrollView.m; sourceTree = "<group>"; };
 		83FA054D13B9DF940055A520 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = SOURCE_ROOT; };
@@ -2322,6 +2329,8 @@
 				8396CC5514068DA90096F791 /* OEControlsKeyButton.m */,
 				8396CC5A140693830096F791 /* OEControlsKeyLabelCell.h */,
 				8396CC5B140693830096F791 /* OEControlsKeyLabelCell.m */,
+				83DB70DE1442F40B00850CD8 /* OEControlsKeyHeadlineCell.h */,
+				83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */,
 			);
 			name = "preferences controls";
 			sourceTree = "<group>";
@@ -2673,6 +2682,7 @@
 				1BEF2A67116826BC0090F72B /* NSString+UUID.h in Headers */,
 				82DD2B8D1236D0C400B58A8F /* OEHIDUsageToVK.h in Headers */,
 				93B479F812BAB576008618A7 /* OEHIDManager.h in Headers */,
+				83DB70E41442F4A700850CD8 /* OEControlsKeyHeadlineCell.h in Headers */,
 				83B6E441143E136F00BCDB7A /* OELocalizationHelper.h in Headers */,
 				C67B0CA91363369500F18A5D /* OESystemResponderClient.h in Headers */,
 				C6D268D6135BCE4900154550 /* NSString+OEAdditions.h in Headers */,
@@ -2687,6 +2697,7 @@
 				83977F981409127E00175858 /* OEAttributedTextFieldCell.h in Headers */,
 				83977F961409124700175858 /* OEControlsKeyButton.h in Headers */,
 				83977F971409124A00175858 /* OEControlsKeyLabelCell.h in Headers */,
+				83DB70E31442F49600850CD8 /* OEControlsKeyHeadlineCell.h in Headers */,
 				C671182F1363725D0034379A /* OESystemResponderClient.h in Headers */,
 				C64CBD531363E33F00BEE4F3 /* OEGameControllerView.h in Headers */,
 				C67117FB136367240034379A /* OEHIDDeviceHandler.h in Headers */,
@@ -3270,6 +3281,7 @@
 			files = (
 				C63C680F0FB9F14C00F4E3E0 /* NSApplication+OEHIDAdditions.m in Sources */,
 				83977F92140911F300175858 /* OEControlsKeyLabelCell.m in Sources */,
+				83DB70E51442F4B400850CD8 /* OEControlsKeyHeadlineCell.m in Sources */,
 				83977F9B1409128D00175858 /* OEAttributedTextFieldCell.m in Sources */,
 				83977F93140911F800175858 /* OEControlsKeyButton.m in Sources */,
 				93B479F912BAB576008618A7 /* OEHIDManager.m in Sources */,
@@ -3412,6 +3424,7 @@
 				83507247142F6029005D9033 /* OEControlerImageView.m in Sources */,
 				1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */,
 				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,
+				83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3456,6 +3469,7 @@
 				C67117F1136367240034379A /* OEHIDEvent.m in Sources */,
 				C6E542C51363D9BD0075BA8C /* OEMap.m in Sources */,
 				83977F991409128000175858 /* OEAttributedTextFieldCell.m in Sources */,
+				83DB70E21442F48F00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */,
 				C67117F2136367240034379A /* OESystemController.m in Sources */,
 				C67117F3136367240034379A /* OESystemResponder.m in Sources */,
 				C6E542C41363D9760075BA8C /* OEBasicSystemResponder.m in Sources */,
@@ -4281,6 +4295,7 @@
 				141554191442B3B300A01683 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1BEF2AC211682A980090F72B /* Build configuration list for PBXNativeTarget "OpenEmuHelperApp" */ = {
 			isa = XCConfigurationList;

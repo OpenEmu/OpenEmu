@@ -58,11 +58,13 @@
     [self changeInputDevice:self];
     
     NSString* pluginName = [sud stringForKey:UDControlsPluginNameKey];
-    if(pluginName && [consolesPopupButton itemWithTitle:pluginName]){
-        [consolesPopupButton selectItemWithTitle:pluginName];
-    } else {
-        [consolesPopupButton selectItemAtIndex:0];
-    }
+	[consolesPopupButton selectItemAtIndex:0];
+	for(NSMenuItem* anItem in [consolesPopupButton itemArray]){
+		if([[anItem representedObject] isEqualTo:pluginName]){
+			[consolesPopupButton selectItem:anItem];
+			break;
+		}
+	}
     [self changeSystem:consolesPopupButton];
    	
 	gradientOverlay.topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
