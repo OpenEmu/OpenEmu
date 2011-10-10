@@ -175,6 +175,8 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 }
 
 - (void)saveStateAskingUser:(NSString *)proposedName{
+	[self pauseGame];
+	
 	BOOL dateAsName = NO;
 	if(!proposedName){
 		// TODO: properly format date
@@ -197,34 +199,19 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 		
 		[alert setShowsSuppressionButton:YES];
 		
-		[alert beginSheetModalForWindow:self.gameView.window modalDelegate:self didEndSelector:@selector(stateNameSheetDidEnd:returnCode:) contextInfo:NULL];
+		[alert beginSheetModalForWindow:self.gameView.window modalDelegate:self didEndSelector:@selector(_stateNameSheetDidEnd:returnCode:) contextInfo:NULL];
 	} else {
 		[self saveState:name];
-	}
-}
-
-- (void)stateNameSheetDidEnd:(NSAlert*)alert returnCode:(NSInteger) aReturnCode{
-	if(aReturnCode == NSCancelButton) return;
-
-	[[NSUserDefaults standardUserDefaults] setBool:[[alert suppressionButton] state] forKey:UDNameStateByDateKey];
-	
-	NSTextField* inputField = (NSTextField*)[alert accessoryView];
-	NSString* stateName = [inputField stringValue];
-	
-	// if either statename is nil or the same date as placeholder string (not changed)
-	if([stateName isEqualToString:@""] || ([[inputField cell] placeholderString] && [[[inputField cell] placeholderString] isEqualToString:stateName])){
-		// we want to use the date as name (default behavior)
-		[self saveState:nil];
-	} else {
-		[self saveState:stateName];	
 	}
 }
 
 - (void)saveState:(NSString*)stateName{
 	if(!self.rom){
 		NSLog(@"Error: Can not save states without rom");
+		[self playGame];
 		return;
 	}
+	[self pauseGame];
 
 	NSString* systemIdentifier		= [[rootProxy gameCore] systemIdentifier];
 	NSURL* systemSaveDirectoryURL	= [NSURL fileURLWithPath:[OESaveStatePath stringByAppendingPathComponent:systemIdentifier]];
@@ -235,6 +222,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 		// TODO: inform user
 		NSLog(@"could not create save state directory");		
 		NSLog(@"%@", err);
+		[self playGame];
 		return;
 	}
 
@@ -256,6 +244,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 		// TODO: inform user
 		NSLog(@"could not write file");		
 		NSLog(@"%@", err);
+		[self playGame];
 		return;
 	}
 
@@ -272,6 +261,8 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 		NSData* imgData = [img TIFFRepresentation];		
 		[saveState setValue:imgData forKey:@"screenshot"];
 	}];
+
+	[self playGame];
 }
 
 - (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error{
@@ -279,10 +270,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 }
 - (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error{
 	if(error!=NULL) *error = nil;
-	
-	[[rootProxy gameCore] loadStateFromFileAtPath:fileName];
-	
-	return YES;
+	return [[rootProxy gameCore] loadStateFromFileAtPath:fileName];;
 }
 
 #pragma mark -
@@ -388,6 +376,26 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 - (NSString *)_convertToValidFileName:(NSString *)fileName{
     NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
     return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
+}
+- (void)_stateNameSheetDidEnd:(NSAlert*)alert returnCode:(NSInteger) aReturnCode{
+	if(aReturnCode == NSCancelButton){
+		
+		[self playGame];
+		return;
+	}
+	
+	[[NSUserDefaults standardUserDefaults] setBool:[[alert suppressionButton] state] forKey:UDNameStateByDateKey];
+	
+	NSTextField* inputField = (NSTextField*)[alert accessoryView];
+	NSString* stateName = [inputField stringValue];
+	
+	// if either statename is nil or the same date as placeholder string (not changed)
+	if([stateName isEqualToString:@""] || ([[inputField cell] placeholderString] && [[[inputField cell] placeholderString] isEqualToString:stateName])){
+		// we want to use the date as name (default behavior)
+		[self saveState:nil];
+	} else {
+		[self saveState:stateName];	
+	}
 }
 #pragma mark -
 #pragma mark Notifications
