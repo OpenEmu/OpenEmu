@@ -96,6 +96,18 @@
 	[self setBoxImageByImage:img];
 	[img release];
 }
+
+- (NSDate*)lastPlayed{	
+	NSArray* roms = [self valueForKey:@"roms"];
+	NSArray* sortedByLastPlayed = [roms sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+		NSDate* d1 = [obj1 valueForKey:@"lastPlayed"], *d2=[obj2 valueForKey:@"lastPlayed"];
+		return [d1 compare:d2];
+	}];
+	if(![sortedByLastPlayed count])
+		return nil;
+	
+	return [[sortedByLastPlayed lastObject] valueForKey:@"lastPlayed"];
+}
 #pragma mark -
 #pragma mark Core Data utilities
 + (NSString *)entityName{

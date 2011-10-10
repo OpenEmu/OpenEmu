@@ -46,6 +46,8 @@
 	id result = [[self alloc] init];
 	
 	[result _setROM:aRom];
+	
+	[aRom setValue:[NSDate date] forKey:@"lastPlayed"];
 	NSString* path = [aRom valueForKey:@"path"];
 	
 	if(!path){

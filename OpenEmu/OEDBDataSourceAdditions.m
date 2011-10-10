@@ -140,8 +140,16 @@
     return title;
 }
 - (NSString*)listViewLastPlayed{
-    return @"";
-//	return [NSString stringWithFormat:@"%@", self.romLastPlayed];
+	// TODO: properly format date
+	NSDate* lastPlayedDate = self.lastPlayed;
+	NSString* lastPlayed;
+	if(!lastPlayedDate){
+		lastPlayed = NSLocalizedString(@"never", @"");
+	} else {
+		lastPlayed = [NSString stringWithFormat:@"%@", self.lastPlayed];
+	}
+	
+	return lastPlayed;
 }
 
 - (NSString*)listViewConsoleName{

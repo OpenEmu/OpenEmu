@@ -20,4 +20,5 @@
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
 - (void)updateInfoInBackground;
+@property (readonly) NSDate* lastPlayed;
 @end

@@ -321,9 +321,7 @@
 		*/
 		id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
 
-		NSString* colIdent = [aTableColumn identifier];	
-		
-		
+		NSString* colIdent = [aTableColumn identifier];			
 		id result = nil;
 		if([colIdent isEqualToString:@"romStatus"]){
 			result = [obj listViewStatus:([aTableView selectedRow]==rowIndex)];
