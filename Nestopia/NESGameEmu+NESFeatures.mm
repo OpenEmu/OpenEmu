@@ -126,7 +126,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 - (void)applyNTSC:(id)sender
 {
     NSLog(@"Filters!");
-    Nes::Api::Video video( *emu );
+    Nes::Api::Video video( (Nes::Core::Machine&)*emu );
     
     video.SetSharpness([self sharpness]);
     video.SetColorResolution([self colorRes]);
@@ -148,7 +148,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 
 - (void)enableUnlimitedSprites:(BOOL)enable 
 {
-    Nes::Api::Video video( *emu );
+    Nes::Api::Video video( (Nes::Core::Machine&)*emu );
     
     video.EnableUnlimSprites(enable ? true : false);
 }
@@ -159,7 +159,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
     {
         char cCode[9];
         [code cStringUsingEncoding:NSUTF8StringEncoding];
-        Nes::Api::Cheats cheater(*emu);
+        Nes::Api::Cheats cheater((Nes::Core::Machine&)*emu);
         Nes::Api::Cheats::Code ggCode;
         Nes::Api::Cheats::GameGenieDecode(cCode, ggCode); //FIXME: something's going awry here --dmw
         cheater.SetCode(ggCode);
@@ -172,19 +172,19 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 
 - (void)enableRewinder:(BOOL)rewind 
 {
-    Nes::Api::Rewinder rewinder(*emu);
+    Nes::Api::Rewinder rewinder((Nes::Core::Machine&)*emu);
     rewinder.Enable(rewind);
 }
 
 - (BOOL)isRewinderEnabled
 {
-    Nes::Api::Rewinder rewinder(*emu);
+    Nes::Api::Rewinder rewinder((Nes::Core::Machine&)*emu);
     return rewinder.IsEnabled();
 }
 
 - (void)rewinderDirection: (NSUInteger) rewinderDirection
 {
-    Nes::Api::Rewinder rewinder(*emu);
+    Nes::Api::Rewinder rewinder((Nes::Core::Machine&)*emu);
     
     if(rewinderDirection == 1) {
         rewinder.SetDirection(Nes::Api::Rewinder::FORWARD);
@@ -198,7 +198,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 
 - (void)enableRewinderBackwardsSound: (BOOL) rewindSound
 {
-    Nes::Api::Rewinder rewinder(*emu);
+    Nes::Api::Rewinder rewinder((Nes::Core::Machine&)*emu);
     if(rewindSound) 
     {
         rewinder.EnableSound(YES);
@@ -211,13 +211,13 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 
 - (BOOL)isRewinderBackwardsSoundEnabled
 {
-    Nes::Api::Rewinder rewinder(*emu);
+    Nes::Api::Rewinder rewinder((Nes::Core::Machine&)*emu);
     return rewinder.IsSoundEnabled();
 }
 
 - (void)setRamBytes:(double)off value:(double)val
 {
-    Nes::Api::Ram ram(*emu);
+    Nes::Api::Ram ram((Nes::Core::Machine&)*emu);
     
     int prgRomOffset = (off * 0x2000) + 0x8000;
     int prgRomValue = (int) (val * 256);
@@ -228,7 +228,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 - (int)cartVRamSize 
 {
     // note: some cartridges had VRAM some, some did not.  If they didn't, they used the PPU's 2K of RAM alone.
-    Nes::Api::Cartridge cart(*emu);
+    Nes::Api::Cartridge cart((Nes::Core::Machine&)*emu);
     const Nes::Api::Cartridge::Profile* profile = cart.GetProfile();
     int vRamSize = profile->board.GetVram();
     
@@ -246,7 +246,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
                                 // nametable is an attribute table, which controls the palette of the preceding nametable's tiles.
                                 // note: depending on the cartridge's mirroring mode, there can be one, two or four nametables (functionally speaking), while the others are just mirrors (copies).
     
-    Nes::Api::Machine machine(*emu);
+    Nes::Api::Machine machine((Nes::Core::Machine&)*emu);
     
     int numPages = 3;
     
@@ -262,7 +262,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 
 - (void)setNMTRamByTable:(NSNumber*)table array:(NSArray*)nmtValueArray
 {
-    Nes::Api::Machine machine(*emu);
+    Nes::Api::Machine machine((Nes::Core::Machine&)*emu);
     
     int startOfNameTable = [table unsignedIntValue] * 0x400;
     
@@ -274,7 +274,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 
 - (int)chrRomSize //TODO: OK, sometimes games have CHR ROM, sometimes CHR RAM, sometimes both (or none). maybe just cut the ROM and call it chrSize?  that's what GetChr() seems to be returning anyway.  or maybe we'd be better served just replacing this with sprite-only-gltiching methods.
 {
-    Nes::Api::Cartridge cart(*emu);
+    Nes::Api::Cartridge cart((Nes::Core::Machine&)*emu);
     const Nes::Api::Cartridge::Profile* profile = cart.GetProfile();
     int romSize = profile->board.GetChr();
     //    DLog(@"called chrRomSize. result: %U", romSize);
@@ -290,7 +290,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
                             // using 2K makes glitches across all screens, whereas 1K
                             // occasionally would leave entire screen widths unaltered...
     
-    Nes::Api::Ram ram(*emu);
+    Nes::Api::Ram ram((Nes::Core::Machine&)*emu);
     
     int romSize = [self chrRomSize];    // should be 4096  --ORLY? :P TODO: prove it. 
     int numPages = romSize / pageSize;
@@ -306,7 +306,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 
 - (void)recordMovie:(NSString*) moviePath mode:(BOOL)append
 {
-    Nes::Api::Movie movie(*emu);
+    Nes::Api::Movie movie((Nes::Core::Machine&)*emu);
     Nes::Result result; 
     
     std::fstream movieFile([moviePath cStringUsingEncoding:NSUTF8StringEncoding], std::ios::in | std::ios::binary);
@@ -319,7 +319,7 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 
 - (void)playMovie:(NSString*) moviePath
 {
-    Nes::Api::Movie movie(*emu);
+    Nes::Api::Movie movie((Nes::Core::Machine&)*emu);
     Nes::Result result; 
     
     std::ifstream movieFile([moviePath cStringUsingEncoding:NSUTF8StringEncoding], std::ios::in | std::ios::binary);
@@ -329,25 +329,25 @@ NSString * const NESUnlimitedSprites = @"NESUnlimitedSprites";
 
 - (void)stopMovie
 {
-    Nes::Api::Movie movie(*emu);
+    Nes::Api::Movie movie((Nes::Core::Machine&)*emu);
     movie.Stop();
 }
 
 - (BOOL)isMovieRecording
 {
-    Nes::Api::Movie movie(*emu);
+    Nes::Api::Movie movie((Nes::Core::Machine&)*emu);
     return movie.IsRecording();
 }
 
 - (BOOL)isMoviePlaying
 {
-    Nes::Api::Movie movie(*emu);
+    Nes::Api::Movie movie((Nes::Core::Machine&)*emu);
     return movie.IsPlaying();
 }
 
 - (BOOL)isMovieStopped
 {
-    Nes::Api::Movie movie(*emu);
+    Nes::Api::Movie movie((Nes::Core::Machine&)*emu);
     return movie.IsStopped();
 }
 
