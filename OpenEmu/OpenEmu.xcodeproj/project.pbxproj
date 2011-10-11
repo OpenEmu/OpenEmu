@@ -305,6 +305,7 @@
 		82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
 		82DE4B8010265600007184EB /* UniversalDetector.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEE1026533E007184EB /* UniversalDetector.framework */; };
 		82E7418A0E7209C400AE60C4 /* GameDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82E741880E7209C400AE60C4 /* GameDocument.xib */; };
+		82EE73E11443C1F700080CCB /* OEGameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* OEGameCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
 		82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82F7F7AA101FECFE00533B55 /* SaveStateManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */; };
@@ -2691,6 +2692,7 @@
 				83B6E441143E136F00BCDB7A /* OELocalizationHelper.h in Headers */,
 				C67B0CA91363369500F18A5D /* OESystemResponderClient.h in Headers */,
 				C6D268D6135BCE4900154550 /* NSString+OEAdditions.h in Headers */,
+				82EE73E11443C1F700080CCB /* OEGameCore.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
