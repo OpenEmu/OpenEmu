@@ -212,8 +212,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 	
 	NSString* name = nil;
 	if(![[NSUserDefaults standardUserDefaults] boolForKey:UDNameStateByDateKey])
-    {	
-        
+    {	        
 		NSAlert* alert = [NSAlert alertWithMessageText:@"Save Satate" defaultButton:@"Save" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Enter a description for this save state"];
 		
 		NSTextField* field = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 240, 22)];

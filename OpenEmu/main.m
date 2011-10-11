@@ -31,6 +31,8 @@ int main(int argc, char *argv[]){
     
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     
+    NSString* path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
+    
 	NSDictionary* defaults = [NSDictionary dictionaryWithObjectsAndKeys:
 								// default thumbnail sizes for game box images
 								[NSArray arrayWithObjects:	NSStringFromSize(NSMakeSize(75, 75)), 
@@ -41,7 +43,10 @@ int main(int argc, char *argv[]){
 							  [NSNumber numberWithFloat:0.5], UDVolumeKey,			// Default Volume
 							  @"Save States",	UDSaveStateFolderNameKey,			// Default name of Save States folder
                               [NSNumber numberWithDouble:3.0], UDHUDFadeOutDelayKey,// Time until hud controls bar fades out
+                              path, UDDefaultDatabasePathKey,
+                              path, UDDatabasePathKey,
 							  nil];
+    
 	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
 	[standardDefaults registerDefaults:defaults];
     

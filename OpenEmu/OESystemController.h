@@ -47,6 +47,8 @@ extern NSString *const OEFileTypes;
     NSBundle            *_bundle;
     NSMutableArray      *_gameSystemResponders;
     NSMutableDictionary *_preferenceViewControllers;
+    
+    NSString* _systemName;
 }
 
 /*

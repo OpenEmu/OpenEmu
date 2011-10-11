@@ -69,15 +69,8 @@
    	
 	gradientOverlay.topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
 	gradientOverlay.bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
-
-    // Animation for controller image swapping
-    CATransition *controllerTransition = [CATransition animation];
-    controllerTransition.type = kCATransitionPush;
-    controllerTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-    controllerTransition.duration = 1.0;
     
     [controllerView setWantsLayer:YES];    
-    [controllerView setAnimations: [NSDictionary dictionaryWithObject:controllerTransition forKey:@"subviews"]];
        
     // The following enables the pixelation animation, if you want it.
 //    CIFilter *pixellate = [CIFilter filterWithName:@"CIPixellate"];
@@ -124,6 +117,8 @@
 	NSMenuItem* menuItem = [consolesPopupButton selectedItem];
 	NSString* systemIdentifier = [menuItem representedObject];
 	
+    NSString *oldPluginName = [selectedPlugin systemName];
+    
 	OESystemPlugin* nextPlugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
 	if(selectedPlugin!=nil && nextPlugin==selectedPlugin) return;
 	selectedPlugin = nextPlugin;
@@ -164,6 +159,18 @@
     OEControlerImageView* newControllerView = [[OEControlerImageView alloc] initWithFrame:[controllerView bounds]];
 	[newControllerView setImage:[preferenceViewController controllerImage]];
 	
+    // Animation for controller image swapping
+    NSComparisonResult order = [oldPluginName compare:[selectedPlugin systemName]];
+    CATransition *controllerTransition = [CATransition animation];
+    controllerTransition.type = kCATransitionPush;
+    controllerTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    controllerTransition.duration = 1.0;
+    controllerTransition.subtype = (order == NSOrderedDescending ? kCATransitionFromLeft : kCATransitionFromRight);
+    
+    
+    [controllerView setAnimations:[NSDictionary dictionaryWithObject:controllerTransition 
+                                                           forKey:@"subviews"]];
+    
     if([[controllerView subviews] count])
     {
         [[controllerView animator] replaceSubview:[[controllerView subviews] objectAtIndex:0] with:newControllerView];

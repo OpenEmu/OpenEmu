@@ -37,7 +37,8 @@
         
         eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:^(NSEvent*incomingEvent)
                         {
-                            [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:incomingEvent waitUntilDone:NO];
+                            if([NSApp isActive] && [self.parentWindow isMainWindow])
+                                [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:incomingEvent waitUntilDone:NO];
                         }];
         [eventMonitor retain];
 	}
@@ -71,18 +72,21 @@
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
+    NSWindow *parentWindow = self.parentWindow;
+    NSPoint mouseLoc = [NSEvent mouseLocation];
+    if(!NSPointInRect(mouseLoc, [parentWindow convertRectToScreen:[(NSView*)self.gameDocument.gameView frame]])) return;
+
     if(self.alphaValue==0.0)
     {
         [lastMouseMovement release];
         lastMouseMovement = [[NSDate date] retain];       
         [self show];
     }
-    else 
-    {
-        NSWindow *parentWindow = self.parentWindow;
-        if(NSPointInRect([NSEvent mouseLocation], [parentWindow convertRectToScreen:[(NSView*)self.gameDocument.gameView frame]]))
-            [self setLastMouseMovement:[NSDate date]];
-    }
+    
+    [self setLastMouseMovement:[NSDate date]];
+        
+    
+
 }
 
 - (void)setLastMouseMovement:(NSDate *)lastMouseMovementDate
@@ -90,9 +94,7 @@
     if(!fadeTimer)
     {
         NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:UDHUDFadeOutDelayKey];
-        //    NSDate* nextTime = [lastMouseMovementDate dateByAddingTimeInterval:interval];
         fadeTimer = [[NSTimer scheduledTimerWithTimeInterval:interval target:self selector:@selector(timerDidFire:) userInfo:nil repeats:YES] retain];
-        // [[NSTimer alloc] initWithFireDate:nextTime interval:0 target:self selector:@selector(timerDidFire:) userInfo:nil repeats:NO];      
     }
     
     [lastMouseMovementDate retain];
@@ -106,7 +108,7 @@
     NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:UDHUDFadeOutDelayKey];
     NSDate* hideDate = [lastMouseMovement dateByAddingTimeInterval:interval];
     
-    if(([NSDate timeIntervalSinceReferenceDate]-[hideDate timeIntervalSinceReferenceDate]) <= 0.0)
+    if(([NSDate timeIntervalSinceReferenceDate]-[hideDate timeIntervalSinceReferenceDate]) >= 0.0)
     {
         NSPoint mouseLoc = [NSEvent mouseLocation];
         if(!NSPointInRect(mouseLoc, [self convertRectToBacking:self.frame]))
@@ -125,8 +127,9 @@
             [fadeTimer setFireDate:nextTime];
         }       
     } 
-    else
+    else {
         [fadeTimer setFireDate:hideDate];
+    }
 }
 
 #pragma mark -

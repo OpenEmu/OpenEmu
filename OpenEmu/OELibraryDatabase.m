@@ -51,7 +51,7 @@ static OELibraryDatabase* defaultDatabase = nil;
     [consoleIcons setName:@"Game Gear" forSubimageInRect:NSMakeRect(48, 0, 16, 16)];
     
     // Second row:
-    [consoleIcons setName:@"GameBoy Advance" forSubimageInRect:NSMakeRect(0, 16, 16, 16)];
+    [consoleIcons setName:@"Game Boy Advance" forSubimageInRect:NSMakeRect(0, 16, 16, 16)];
     [consoleIcons setName:@"VirtualBoy" forSubimageInRect:NSMakeRect(16, 16, 16, 16)];
     [consoleIcons setName:@"Sega SG-1000" forSubimageInRect:NSMakeRect(32, 16, 16, 16)];
     [consoleIcons setName:@"Sega Master System" forSubimageInRect:NSMakeRect(48, 16, 16, 16)];
@@ -62,7 +62,7 @@ static OELibraryDatabase* defaultDatabase = nil;
 	else
 		[consoleIcons setName:[[OELocalizationHelper sharedHelper] isRegionJAP]?@"Super Famicom":@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(0, 32, 16, 16)];
     [consoleIcons setName:@"Nintendo 64" forSubimageInRect:NSMakeRect(32, 32, 16, 16)];
-    [consoleIcons setName:@"GameBoy" forSubimageInRect:NSMakeRect(48, 32, 16, 16)];
+    [consoleIcons setName:@"Game Boy" forSubimageInRect:NSMakeRect(48, 32, 16, 16)];
     
     // Fourth row (top):
     [consoleIcons setName:@"Arcade (MAME)" forSubimageInRect:NSMakeRect(0, 48, 16, 16)];	
