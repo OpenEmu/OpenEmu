@@ -41,8 +41,6 @@
 	<string>http://openemu.org/update/gambatte_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
-	<key>OESystemPluginName</key>
-	<string>GameBoy</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.gb</string>
 </dict>

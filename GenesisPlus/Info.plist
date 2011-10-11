@@ -41,8 +41,6 @@
 			<string>Genesis Game</string>
 		</dict>
 	</array>
-	<key>OESystemPluginName</key>
-	<string>Genesis</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.sg</string>
 </dict>

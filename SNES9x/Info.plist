@@ -42,8 +42,6 @@
 	<string>http://openemu.org/update/snes9x_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
-	<key>OESystemPluginName</key>
-	<string>SuperNES</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.snes</string>
 </dict>
