@@ -77,15 +77,7 @@
 }
 
 - (void)windowDidLoad{
-    [super windowDidLoad];
-	
-	// TODO: move this default stuff to a better place
-    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSString* path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
-    
-    NSDictionary* defaults = [NSDictionary dictionaryWithObjectsAndKeys:path, UDDefaultDatabasePathKey, path, UDDatabasePathKey, nil];
-    [standardDefaults registerDefaults:defaults];
-    
+    [super windowDidLoad];    
     // load database
     OELibraryDatabase* db = [OELibraryDatabase defaultDatabase];
     if(!db){

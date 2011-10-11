@@ -40,7 +40,7 @@
 - (void)setMenu:(NSMenu *)menu{
 	[super setMenu:menu];
 	self.oemenu = [[self menu] convertToOEMenu];
-	self.oemenu.btn = self;
+	self.oemenu.popupButton = self;
 	self.oemenu.delegate = self;
 	
 	NSSize minSize = self.oemenu.minSize;
