@@ -52,7 +52,7 @@ static OELibraryDatabase* defaultDatabase = nil;
     
     // Second row:
     [consoleIcons setName:@"GameBoy Advance" forSubimageInRect:NSMakeRect(0, 16, 16, 16)];
-    [consoleIcons setName:@"VirtualBoy" forSubimageInRect:NSMakeRect(16, 16, 16, 16)];
+    [consoleIcons setName:@"Virtual Boy" forSubimageInRect:NSMakeRect(16, 16, 16, 16)];
     [consoleIcons setName:@"Sega SG-1000" forSubimageInRect:NSMakeRect(32, 16, 16, 16)];
     [consoleIcons setName:@"Sega Master System" forSubimageInRect:NSMakeRect(48, 16, 16, 16)];
     
