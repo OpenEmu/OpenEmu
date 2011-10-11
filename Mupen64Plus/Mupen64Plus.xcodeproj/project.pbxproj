@@ -95,7 +95,6 @@
 		3D208E5D11824E2D00BEAA42 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D208D3C11824C2200BEAA42 /* util.c */; };
 		3D208E981182550400BEAA42 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D208E971182550400BEAA42 /* OpenGL.framework */; };
 		3D208E9E1182551500BEAA42 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D208E9D1182551500BEAA42 /* libz.dylib */; };
-		3D208F241182A48E00BEAA42 /* MupenPreferenceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D208F231182A48E00BEAA42 /* MupenPreferenceViewController.m */; };
 		3D208F321182A6ED00BEAA42 /* MupenGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D208F311182A6ED00BEAA42 /* MupenGameController.m */; };
 		3D208F821182B00300BEAA42 /* MupenGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D208F811182B00300BEAA42 /* MupenGameCore.m */; };
 		3D2090231182D67E00BEAA42 /* OEMupenSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D2090221182D67E00BEAA42 /* OEMupenSupport.mm */; };
@@ -105,6 +104,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		14F584D01443CB17002286BD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1415540F1442B3B300A01683;
+			remoteInfo = N64;
+		};
 		3D208B8C1182427D00BEAA42 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */;
@@ -424,8 +430,6 @@
 		3D208DB711824C2200BEAA42 /* uninstall_binary_bundle.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall_binary_bundle.sh; sourceTree = "<group>"; };
 		3D208E971182550400BEAA42 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		3D208E9D1182551500BEAA42 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		3D208F221182A48E00BEAA42 /* MupenPreferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MupenPreferenceViewController.h; sourceTree = "<group>"; };
-		3D208F231182A48E00BEAA42 /* MupenPreferenceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MupenPreferenceViewController.m; sourceTree = "<group>"; };
 		3D208F301182A6ED00BEAA42 /* MupenGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MupenGameController.h; sourceTree = "<group>"; };
 		3D208F311182A6ED00BEAA42 /* MupenGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MupenGameController.m; sourceTree = "<group>"; };
 		3D208F801182B00300BEAA42 /* MupenGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MupenGameCore.h; sourceTree = "<group>"; };
@@ -488,8 +492,6 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				3D208F221182A48E00BEAA42 /* MupenPreferenceViewController.h */,
-				3D208F231182A48E00BEAA42 /* MupenPreferenceViewController.m */,
 				3D208F301182A6ED00BEAA42 /* MupenGameController.h */,
 				3D208F311182A6ED00BEAA42 /* MupenGameController.m */,
 				3D208F801182B00300BEAA42 /* MupenGameCore.h */,
@@ -562,6 +564,7 @@
 				C6B9487C1365191300A425F0 /* GameBoy.oesystemplugin */,
 				C6B9487E1365191300A425F0 /* Genesis.oesystemplugin */,
 				C66AD7F713779C4000CDAA6A /* GameBoy Advance.oesystemplugin */,
+				14F584D11443CB17002286BD /* N64.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1056,6 +1059,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		14F584D11443CB17002286BD /* N64.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = N64.oesystemplugin;
+			remoteRef = 14F584D01443CB17002286BD /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		3D208B8D1182427D00BEAA42 /* OpenEmu.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -1232,7 +1242,6 @@
 				3D208E5B11824E2600BEAA42 /* cheat.c in Sources */,
 				3D208E5C11824E2B00BEAA42 /* main.c in Sources */,
 				3D208E5D11824E2D00BEAA42 /* util.c in Sources */,
-				3D208F241182A48E00BEAA42 /* MupenPreferenceViewController.m in Sources */,
 				3D208F321182A6ED00BEAA42 /* MupenGameController.m in Sources */,
 				3D208F821182B00300BEAA42 /* MupenGameCore.m in Sources */,
 				3D2090231182D67E00BEAA42 /* OEMupenSupport.mm in Sources */,
