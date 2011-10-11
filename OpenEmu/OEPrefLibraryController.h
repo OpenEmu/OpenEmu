@@ -9,9 +9,13 @@
 #import <Cocoa/Cocoa.h>
 #import "OEPreferencePane.h"
 
-@interface OEPrefLibraryController : NSViewController <OEPreferencePane> {
+@interface OEPrefLibraryController : NSViewController <OEPreferencePane> 
+{
 @private
     IBOutlet NSTextField* pathField;
+    
+    float height;
+    IBOutlet NSView* librariesView;
 }
 - (NSImage*)icon;
 - (NSString*)title;

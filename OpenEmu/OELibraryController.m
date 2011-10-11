@@ -5,9 +5,6 @@
 //  Created by Christoph Leimbrock on 30.03.11.
 //  Copyright 2011 Christoph Leimbrock. All rights reserved.
 //
-
-#import "OENewGameDocument.h"
-
 #import "OELibraryController.h"
 #import "OELibraryDatabase.h"
 #import "OEDBSmartCollection.h"
@@ -96,7 +93,6 @@
 		return;
     }
     [self setDatabase:db];
-    [db release];
 	
     // Set up window
     [[self window] setOpaque:NO];

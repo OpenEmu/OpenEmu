@@ -14,21 +14,25 @@
 @end
 @implementation OECheckBox
 
-- (id)init{
+- (id)init
+{
     self = [super init];
-    if (self) {    
+    if (self) 
+    {    
 		[self _setupCell];
 	}
     return self;
 }
-- (id)initWithCoder:(NSCoder *)aDecoder{
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
     self = [super initWithCoder:aDecoder];
-    if (self) {    
-		[self _setupCell];
+    if (self) 
+    {    
 	}
     return self;
 }
-- (id)initWithFrame:(NSRect)frameRect{
+- (id)initWithFrame:(NSRect)frameRect
+{
 	self = [super initWithFrame:frameRect];
     if (self) {    
 		[self _setupCell];
@@ -36,18 +40,47 @@
     return self;
 }
 #pragma mark -
-- (void)_setupCell{
+- (void)_setupCell
+{
+
+    OECheckBoxCell* cell = [[OECheckBoxCell alloc] init];
+    [self setCell:cell];
+    [cell release];
+    
+    
+    [self setBordered:NO];
+    [self setButtonType:NSSwitchButton];
+    [self setTransparent:NO];
+
 }
 #pragma mark -
-- (void)dealloc{
+- (void)dealloc
+{
     [super dealloc];
 }
 
+- (void)awakeFromNib
+{
+}
 @end
 
 @implementation OECheckBoxCell
+- (id)init 
+{
+    self = [super init];
+    if (self) 
+    {
+        [self setBezeled:NO];
+        [self setBordered:NO];
+        [self setImagePosition:NSImageLeft];
+    }
+    return self;
+}
+- (void)awakeFromNib{
+}
 
-+ (void)initialize{	
++ (void)initialize
+{	
 	NSImage* image = [NSImage imageNamed:@"dark_checkbox"];
 	
 	[image setName:@"dark_checkbox_off" forSubimageInRect:NSMakeRect(0, 16, 16, 16)];
@@ -56,10 +89,11 @@
 	[image setName:@"dark_checkbox_on_pressed" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
 }
 
-- (NSAttributedString *)attributedTitle{
+- (NSAttributedString *)attributedTitle
+{
 	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:4.0 size:11.0];
+	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0.0 size:11.0];
 	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowBlurRadius:1.0];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.4]];
@@ -72,7 +106,8 @@
 	return [[[NSAttributedString alloc] initWithString:[self title] attributes:attributes] autorelease];
 }
 
-- (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView{
+- (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView
+{
 	CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
 	CGContextSaveGState(context);
 	CGContextSetShouldSmoothFonts(context, NO);
@@ -90,7 +125,8 @@
 	return rect;
 }
 
-- (void)drawImage:(NSImage*)image withFrame:(NSRect)frame inView:(NSView*)controlView{
+- (void)drawImage:(NSImage*)image withFrame:(NSRect)frame inView:(NSView*)controlView
+{
 	NSImage* checkboximage;	
 	if ([self isHighlighted] && [self state]==NSOnState)
 		checkboximage = [NSImage imageNamed:@"dark_checkbox_on_pressed"];
