@@ -39,6 +39,7 @@ int main(int argc, char *argv[]){
 															NSStringFromSize(NSMakeSize(150, 150)), 
 															NSStringFromSize(NSMakeSize(300, 300)), 
 															NSStringFromSize(NSMakeSize(450, 450)), nil],	UDBoxSizesKey,
+                              @"Linear", UDVideoFilterKey,
 							  [NSNumber numberWithBool:YES], UDUseMD5HashingKey,	// Default Hashing algorithm
 							  [NSNumber numberWithFloat:0.5], UDVolumeKey,			// Default Volume
 							  @"Save States",	UDSaveStateFolderNameKey,			// Default name of Save States folder

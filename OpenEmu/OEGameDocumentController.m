@@ -393,6 +393,7 @@
 // popup saying "can't open files of type "Nestopia Cartridge" " or similar) if it's not.
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
 {
+    return nil;
     // Add the file to the ROM database
     [OEROMFile fileWithPath:[absoluteURL path] createIfNecessary:YES inManagedObjectContext:self.managedObjectContext];
     
@@ -575,6 +576,8 @@
  */
 - (NSManagedObjectModel *)managedObjectModel
 {
+
+    return nil;
     if (managedObjectModel != nil) return managedObjectModel;
     
     managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"ROMFile" ofType:@"mom"]]];
@@ -589,6 +592,7 @@
  */
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
+    return nil;
     if (persistentStoreCoordinator != nil) return persistentStoreCoordinator;
     
     NSString      *applicationSupportFolder = [self applicationSupportFolder];

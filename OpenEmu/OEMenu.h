@@ -26,6 +26,8 @@
 	
 	id <OEMenuDelegate> delegate;
     BOOL closing;
+    
+    int itemsAboveScroller, itemsBelowScroller;
 }
 #pragma mark -
 - (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
@@ -46,6 +48,7 @@
 @property (readonly, getter = isVisible) BOOL visible;
 @property BOOL closing;
 
+@property int itemsAboveScroller, itemsBelowScroller;
 @property (nonatomic, retain) id <OEMenuDelegate> delegate;
 @end
 

@@ -16,6 +16,7 @@
 @implementation OEMenu
 @synthesize closing;
 @synthesize menu, supermenu, visible, minSize, maxSize, popupButton, delegate;
+@synthesize itemsAboveScroller, itemsBelowScroller;
 - (OEMenuView*)menuView
 {
 	return [[[self contentView] subviews] lastObject];
@@ -25,6 +26,11 @@
 	NSImage* menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
 	[menuArrows setName:@"dark_menu_popover_arrow_normal" forSubimageInRect:NSMakeRect(0, menuArrows.size.height/2, menuArrows.size.width, menuArrows.size.height/2)];
 	[menuArrows setName:@"dark_menu_popover_arrow_selected" forSubimageInRect:NSMakeRect(0, 0, menuArrows.size.width, menuArrows.size.height/2)];
+    
+    
+    NSImage* scrollArrows = [NSImage imageNamed:@"dark_menu_scroll_arrows"];
+    [scrollArrows setName:@"dark_menu_scroll_up" forSubimageInRect:NSMakeRect(0, 0, 9, 15)];
+    [scrollArrows setName:@"dark_menu_scroll_down" forSubimageInRect:NSMakeRect(0, 15, 9, 15)];
 }
 
 - (id)init
@@ -35,6 +41,10 @@
 		self.maxSize = NSMakeSize(192, 500);
 		self.minSize = NSMakeSize(82, 19*2);
 		
+        
+        self.itemsAboveScroller = 0;
+        self.itemsBelowScroller = 0;
+        
 		OEMenuView* view = [[OEMenuView alloc] initWithFrame:NSZeroRect];
 		[view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 		[[self contentView] addSubview:view];
@@ -73,7 +83,8 @@
     self.closing = NO;
 	
 	NSAssert(_localMonitor == nil, @"_localMonitor still exists somehow");
-    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask handler:^(NSEvent *incomingEvent) {
+    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask handler:^(NSEvent *incomingEvent) 
+    {
         OEMenuView* view = [[[self contentView] subviews] lastObject];
 		if([incomingEvent type] == NSKeyDown)
         {
@@ -302,6 +313,7 @@
 #define menuItemSeparatorHeight 7
 #define menuItemHeight (imageIncluded ? menuItemHeightImage : menuItemHeightNoImage)
 #pragma mark -
+#define menuItemScrollerHeight 15
 @interface OEMenuView (Private)
 - (void)highlightItemAtPoint:(NSPoint)p;
 @end

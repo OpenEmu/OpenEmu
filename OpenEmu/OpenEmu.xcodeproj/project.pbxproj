@@ -362,6 +362,7 @@
 		83DB70E31442F49600850CD8 /* OEControlsKeyHeadlineCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 83DB70DE1442F40B00850CD8 /* OEControlsKeyHeadlineCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		83DB70E41442F4A700850CD8 /* OEControlsKeyHeadlineCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 83DB70DE1442F40B00850CD8 /* OEControlsKeyHeadlineCell.h */; };
 		83DB70E51442F4B400850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
+		83F1F83B14448F9800819F98 /* dark_menu_scroll_arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F1F83A14448F9800819F98 /* dark_menu_scroll_arrows.png */; };
 		83F37153140BB1A6005A7353 /* SegaMasterSystem.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
 		83F37154140BB1A6005A7353 /* NES.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
 		83F37155140BB1A6005A7353 /* SuperNES.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
@@ -1117,6 +1118,7 @@
 		83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveState.m; sourceTree = "<group>"; };
 		83DB70DE1442F40B00850CD8 /* OEControlsKeyHeadlineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsKeyHeadlineCell.h; sourceTree = "<group>"; };
 		83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsKeyHeadlineCell.m; sourceTree = "<group>"; };
+		83F1F83A14448F9800819F98 /* dark_menu_scroll_arrows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dark_menu_scroll_arrows.png; path = ../dark_menu_scroll_arrows.png; sourceTree = "<group>"; };
 		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
 		83F688BF13C6433600AA0F83 /* OEGridScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridScrollView.m; sourceTree = "<group>"; };
 		83FA054D13B9DF940055A520 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = SOURCE_ROOT; };
@@ -2185,6 +2187,7 @@
 				53439BCF13B93920005C0CC8 /* dark_inset_box.png */,
 				53439BD013B93920005C0CC8 /* dark_menu_body.png */,
 				53439BD113B93920005C0CC8 /* dark_menu_popover_arrow.png */,
+				83F1F83A14448F9800819F98 /* dark_menu_scroll_arrows.png */,
 				53439BD213B93920005C0CC8 /* dark_popup_button.png */,
 				53439BD313B93920005C0CC8 /* dark_submenu_body.png */,
 				53439BD413B93920005C0CC8 /* gameplay_tab_icon.png */,
@@ -3133,6 +3136,7 @@
 				83703B48140E4F9100EC27A7 /* Scale4xHQ.png in Resources */,
 				83802E6A142F6FF900130517 /* controls_highlight.png in Resources */,
 				1B98144E142F02FA00114A30 /* OESetupAssistant.xib in Resources */,
+				83F1F83B14448F9800819F98 /* dark_menu_scroll_arrows.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
