@@ -27,11 +27,11 @@
 	<key>NSPrincipalClass</key>
 	<string>OEGBASystemController</string>
 	<key>OESystemPluginName</key>
-	<string>GameBoy Advance</string>
+	<string>Game Boy Advance</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.gba</string>
 	<key>OESystemName</key>
-	<string>GameBoy Advance</string>
+	<string>Game Boy Advance</string>
 	<key>OEArchiveIDs</key>
 	<array>
 		<integer>85</integer>

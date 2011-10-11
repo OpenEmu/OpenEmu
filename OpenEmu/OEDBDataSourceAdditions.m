@@ -167,7 +167,7 @@
 	return self.icon;
 }
 - (NSString*)sidebarName{
-    return NSLocalizedString([self valueForKey:@"name"], @"");
+    return [self name];
 }
 
 - (void)setSidebarName:(NSString*)newName{

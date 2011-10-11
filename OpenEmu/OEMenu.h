@@ -12,7 +12,7 @@
 @protocol OEMenuDelegate;
 @interface OEMenu : NSWindow {
 @private
-	OEControlsPopupButton* btn;
+	OEControlsPopupButton* popupButton;
 	NSMenu* menu;
 	NSMenuItem* highlightedItem;
 	OEMenu* submenu;
@@ -36,7 +36,7 @@
 - (NSArray *)itemArray;
 
 @property (readwrite) NSSize minSize, maxSize;
-@property (retain) OEControlsPopupButton* btn;
+@property (retain) OEControlsPopupButton* popupButton;
 @property (nonatomic, retain) OEMenu* submenu;
 @property (nonatomic, retain) OEMenu* supermenu;
 

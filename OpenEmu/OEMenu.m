@@ -13,7 +13,7 @@
 @end
 
 @implementation OEMenu
-@synthesize menu, supermenu, visible, minSize, maxSize, btn, delegate;
+@synthesize menu, supermenu, visible, minSize, maxSize, popupButton, delegate;
 - (OEMenuView*)menuView{
 	return [[[self contentView] subviews] lastObject];
 }
@@ -43,8 +43,8 @@
 
 - (void)dealloc{
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	self.btn = nil;
+    
+	self.popupButton = nil;
 	self.menu = nil;
 	self.highlightedItem = nil;
 	
@@ -62,14 +62,12 @@
 	
 	NSAssert(_localMonitor == nil, @"_localMonitor still exists somehow");
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask handler:^(NSEvent *incomingEvent) {
-	
-	OEMenuView* view = [[[self contentView] subviews] lastObject];
+        OEMenuView* view = [[[self contentView] subviews] lastObject];
 		if([incomingEvent type] == NSKeyDown){
-				[view keyDown:incomingEvent];
-				return (NSEvent *)nil;
+            [view keyDown:incomingEvent];
+            return (NSEvent *)nil;
 		}
-	
-		
+        		
 		if([[incomingEvent window] isKindOfClass:[self class]]){ // mouse down in window, will be handle by content view
 			return incomingEvent;
 		} else {
@@ -95,7 +93,7 @@
 	[self retain];
 	
 	if(self.submenu) [self.submenu closeMenuWithoutChanges:sender];
-
+    
 	[self _performcloseMenu];
 	
 	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidCancel:)]) [self.delegate performSelector:@selector(menuDidCancel:) withObject:self];
@@ -109,7 +107,7 @@
 	while(superMen.supermenu){
 		superMen = superMen.supermenu;
 	}
-
+    
 	if(superMen != self){
 		[superMen closeMenu];
 		return;
@@ -125,14 +123,14 @@
 	if(selectedItem && [selectedItem isEnabled] && [selectedItem target] && [selectedItem action]!=NULL && [[selectedItem target] respondsToSelector:[selectedItem action]]){
 		[[selectedItem target] performSelectorOnMainThread:[selectedItem action] withObject:selectedItem waitUntilDone:NO];
 	}
-
-	if([selectedItem isEnabled] && self.btn){
-		[self.btn selectItem:selectedItem];
+    
+	if([selectedItem isEnabled] && self.popupButton){
+		[self.popupButton selectItem:selectedItem];
 	}
 	
 	if(self.submenu) [self.submenu closeMenuWithoutChanges:nil];
 	[self _performcloseMenu];
-
+    
 	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidSelect:)]) [self.delegate performSelector:@selector(menuDidSelect:) withObject:self];
 }
 
@@ -140,7 +138,7 @@
 - (void)_performcloseMenu{
 	visible = NO;
 	self.highlightedItem = nil;
-
+    
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	if(_localMonitor!=nil){
@@ -148,7 +146,7 @@
 		[_localMonitor release];
 		_localMonitor = nil;
 	}
-
+    
 	[[self parentWindow] removeChildWindow:self];
 	[self orderOut:nil];
 	
@@ -186,14 +184,14 @@
 		
 		NSRect selectedItemRect = [[self menuView] rectOfItem:self.highlightedItem];
 		NSPoint submenuSpawnPoint = self.frame.origin;
-				
+        
 		submenuSpawnPoint.x += self.frame.size.width;
 		submenuSpawnPoint.x -= 9;
 		
 		
 		submenuSpawnPoint.y = 8 - selectedItemRect.origin.y + self.frame.origin.y -_submenu.frame.size.height + self.frame.size.height;
-
-		_submenu.btn = self.btn;
+        
+		_submenu.popupButton = self.popupButton;
 		_submenu.supermenu = self;
 		[_submenu openAtPoint:submenuSpawnPoint ofWindow:self];		
 	}

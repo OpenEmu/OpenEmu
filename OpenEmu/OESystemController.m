@@ -66,11 +66,13 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     {
         _bundle    = [NSBundle bundleForClass:[self class]];
         systemIdentifier = [[[_bundle infoDictionary] objectForKey:OESystemIdentifier] retain];
-        if(systemIdentifier == nil) systemIdentifier = [[_bundle infoDictionary] objectForKey:OESystemPluginName];
-        if(systemIdentifier == nil) systemIdentifier = [[_bundle infoDictionary] objectForKey:@"CFBundleName"];
+        if(systemIdentifier == nil) systemIdentifier = [[[_bundle infoDictionary] objectForKey:OESystemPluginName] copy];
+        if(systemIdentifier == nil) systemIdentifier = [[[_bundle infoDictionary] objectForKey:@"CFBundleName"] copy];
         
         _gameSystemResponders      = [[NSMutableArray alloc] init];
         _preferenceViewControllers = [[NSMutableDictionary alloc] init];
+        
+        _systemName = [[[_bundle infoDictionary] objectForKey:OESystemName] copy];
         
         [self OE_setupControlNames];
         
@@ -86,6 +88,8 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 {
 	[self _deallocROMHandling];
 	
+    [_systemName release];
+    
     [_preferenceViewControllers release];
     [_gameSystemResponders release];
     [playerString release];
@@ -225,7 +229,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 }
 
 - (NSString*)systemName{
-	return [[_bundle infoDictionary] objectForKey:OESystemName];
+	return _systemName;
 }
 #pragma mark -
 #pragma mark Helper methods

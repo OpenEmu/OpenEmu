@@ -21,8 +21,6 @@
 	system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
 	// TODO: get archive id(s) from plugin
 	[system setValue:systemIdentifier forKey:@"systemIdentifier"];
-	
-	NSLog(@"new system: %@", system);
 	return [system autorelease];		
 }
 #pragma mark -
@@ -43,13 +41,14 @@
 }
 #pragma mark -
 - (NSImage*)icon{
-    NSString* locName = NSLocalizedString([self valueForKey:@"name"], @"");
+    NSString* locName = [self name];
     NSImage* image = [NSImage imageNamed:locName];
         
     return image;
 }
 
 - (NSString*)name{
+   
 	return [[self plugin] systemName];
 }
 
