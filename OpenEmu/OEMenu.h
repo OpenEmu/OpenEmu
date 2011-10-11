@@ -25,6 +25,7 @@
 	BOOL visible;
 	
 	id <OEMenuDelegate> delegate;
+    BOOL closing;
 }
 #pragma mark -
 - (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
@@ -43,6 +44,7 @@
 @property (nonatomic, retain) NSMenu* menu;
 @property (retain) NSMenuItem* highlightedItem;
 @property (readonly, getter = isVisible) BOOL visible;
+@property BOOL closing;
 
 @property (nonatomic, retain) id <OEMenuDelegate> delegate;
 @end

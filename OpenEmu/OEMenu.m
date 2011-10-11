@@ -10,22 +10,28 @@
 #import "NSImage+OEDrawingAdditions.h"
 @interface OEMenu (Private)
 - (void)_performcloseMenu;
+- (void)_closeByClickingItem:(NSMenuItem*)selectedItem;
 @end
 
 @implementation OEMenu
+@synthesize closing;
 @synthesize menu, supermenu, visible, minSize, maxSize, popupButton, delegate;
-- (OEMenuView*)menuView{
+- (OEMenuView*)menuView
+{
 	return [[[self contentView] subviews] lastObject];
 }
-+ (void)initialize{
++ (void)initialize
+{
 	NSImage* menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
 	[menuArrows setName:@"dark_menu_popover_arrow_normal" forSubimageInRect:NSMakeRect(0, menuArrows.size.height/2, menuArrows.size.width, menuArrows.size.height/2)];
 	[menuArrows setName:@"dark_menu_popover_arrow_selected" forSubimageInRect:NSMakeRect(0, 0, menuArrows.size.width, menuArrows.size.height/2)];
 }
 
-- (id)init{
+- (id)init
+{
     self = [super initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
-    if (self) {
+    if (self) 
+    {
 		self.maxSize = NSMakeSize(192, 500);
 		self.minSize = NSMakeSize(82, 19*2);
 		
@@ -41,7 +47,8 @@
     return self;
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     
 	self.popupButton = nil;
@@ -50,27 +57,36 @@
 	
     [super dealloc];
 }
+
+
 #pragma mark -
 #pragma mark NSWindow overrides
-- (BOOL)isOpaque{
+- (BOOL)isOpaque
+{
 	return NO;
 }
 
 #pragma mark -
-- (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win{
+- (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win
+{
 	visible = YES;
+    self.closing = NO;
 	
 	NSAssert(_localMonitor == nil, @"_localMonitor still exists somehow");
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask handler:^(NSEvent *incomingEvent) {
         OEMenuView* view = [[[self contentView] subviews] lastObject];
-		if([incomingEvent type] == NSKeyDown){
+		if([incomingEvent type] == NSKeyDown)
+        {
             [view keyDown:incomingEvent];
             return (NSEvent *)nil;
 		}
-        		
-		if([[incomingEvent window] isKindOfClass:[self class]]){ // mouse down in window, will be handle by content view
+        
+		if([[incomingEvent window] isKindOfClass:[self class]])// mouse down in window, will be handle by content view
+        { 
 			return incomingEvent;
-		} else {
+		} 
+        else 
+        {
 			// event is outside of window, close menu without changes and remove event
 			[self closeMenuWithoutChanges:nil];
 		}
@@ -84,11 +100,14 @@
 	[win addChildWindow:self ordered:NSWindowAbove];
 	
 	[[self menuView] updateView];
-	
+	self.alphaValue = 1.0;
+    
 	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidShow:)]) [self.delegate performSelector:@selector(menuDidShow:) withObject:self];
 }
 
-- (void)closeMenuWithoutChanges:(id)sender{
+- (void)closeMenuWithoutChanges:(id)sender
+{
+    self.closing = YES;
 	// make sure the menu does not vanish while being closed
 	[self retain];
 	
@@ -102,46 +121,83 @@
 	[self release];
 }
 
-- (void)closeMenu{
+- (void)closeMenu
+{   
+    self.closing = YES;
+    
 	OEMenu* superMen = self;
-	while(superMen.supermenu){
+	while(superMen.supermenu)
+    {
 		superMen = superMen.supermenu;
 	}
     
-	if(superMen != self){
+	if(superMen != self)
+    {
 		[superMen closeMenu];
 		return;
 	}
 	
 	OEMenu* subMen = self;
-	while(subMen.submenu){
+	while(subMen.submenu)
+    {
 		subMen = subMen.submenu;
 	}
 	
 	NSMenuItem* selectedItem = subMen.highlightedItem;
-	
-	if(selectedItem && [selectedItem isEnabled] && [selectedItem target] && [selectedItem action]!=NULL && [[selectedItem target] respondsToSelector:[selectedItem action]]){
-		[[selectedItem target] performSelectorOnMainThread:[selectedItem action] withObject:selectedItem waitUntilDone:NO];
-	}
-    
-	if([selectedItem isEnabled] && self.popupButton){
+	[self _closeByClickingItem:selectedItem];
+}
+
+
+#define flickerDelay 0.08
+- (void)_closeByClickingItem:(NSMenuItem*)selectedItem
+{    
+    self.closing = YES;
+	if([selectedItem isEnabled] && self.popupButton)
+    {
 		[self.popupButton selectItem:selectedItem];
 	}
 	
 	if(self.submenu) [self.submenu closeMenuWithoutChanges:nil];
-	[self _performcloseMenu];
     
-	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidSelect:)]) [self.delegate performSelector:@selector(menuDidSelect:) withObject:self];
+    
+    [NSTimer scheduledTimerWithTimeInterval:flickerDelay target:self selector:@selector(_closeTimer:) userInfo:selectedItem repeats:NO];
+    self.highlightedItem = nil;
+    [self display];
+}
+- (void)_closeTimer:(NSTimer*)timer
+{
+    NSMenuItem* selectedItem = [timer userInfo];
+    [timer invalidate];
+    
+    [NSTimer scheduledTimerWithTimeInterval:flickerDelay target:self selector:@selector(_finalClosing:) userInfo:selectedItem repeats:NO];
+    
+    self.highlightedItem = selectedItem;
+    [self display];
+}
+- (void)_finalClosing:(NSTimer*)timer
+{
+    NSMenuItem* selectedItem = [timer userInfo];
+    [timer invalidate];
+    
+    [self _performcloseMenu];
+    
+    if(selectedItem && [selectedItem isEnabled] && [selectedItem target] && [selectedItem action]!=NULL && [[selectedItem target] respondsToSelector:[selectedItem action]])
+    {
+		[[selectedItem target] performSelectorOnMainThread:[selectedItem action] withObject:selectedItem waitUntilDone:NO];
+	}
+    
+    if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidSelect:)]) [self.delegate performSelector:@selector(menuDidSelect:) withObject:self];
 }
 
-
 - (void)_performcloseMenu{
+    [[self animator] setAlphaValue:0.1];
 	visible = NO;
 	self.highlightedItem = nil;
     
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	if(_localMonitor!=nil){
+	if(_localMonitor!=nil)
+    {
 		[NSEvent removeMonitor:_localMonitor];
 		[_localMonitor release];
 		_localMonitor = nil;
@@ -149,37 +205,46 @@
     
 	[[self parentWindow] removeChildWindow:self];
 	[self orderOut:nil];
+    
+    self.alphaValue = 1.0;
 	
 	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidHide:)]) [self.delegate performSelector:@selector(menuDidHide:) withObject:self];
+    self.closing = NO;
 }
 
-- (void)setMenu:(NSMenu *)nmenu{
+- (void)setMenu:(NSMenu *)nmenu
+{
 	[nmenu retain];
 	[menu release];
 	
 	menu = nmenu;
 	
-	[[self menuView] updateView];;
+	[[self menuView] updateView];
 }
 #pragma mark -
 #pragma mark Setter / getter
-- (void)setHighlightedItem:(NSMenuItem *)_highlightedItem{
+- (void)setHighlightedItem:(NSMenuItem *)_highlightedItem
+{
 	[_highlightedItem retain];
 	[highlightedItem release];
 	highlightedItem = _highlightedItem;
 	
 	self.submenu = [[highlightedItem submenu] convertToOEMenu];
 }
-- (NSMenuItem*)highlightedItem{
+- (NSMenuItem*)highlightedItem
+{
 	return highlightedItem;
 }
 
-- (void)setSubmenu:(OEMenu *)_submenu{
-	if(submenu){
+- (void)setSubmenu:(OEMenu *)_submenu
+{
+	if(submenu)
+    {
 		[submenu closeMenuWithoutChanges:nil];
 	}
 	
-	if(_submenu){
+	if(_submenu)
+    {
 		[[self menuView] updateView];
 		
 		NSRect selectedItemRect = [[self menuView] rectOfItem:self.highlightedItem];
@@ -201,19 +266,22 @@
 	submenu = _submenu;
 }
 
-- (OEMenu*)submenu{
+- (OEMenu*)submenu
+{
 	return submenu;
 }
 
 #pragma mark -
 #pragma mark NSMenu wrapping
-- (NSArray *)itemArray{
+- (NSArray *)itemArray
+{
 	return [self.menu itemArray];
 }
 @end
 #pragma mark -
 @implementation NSMenu (OEAdditions)
-- (OEMenu*)convertToOEMenu{
+- (OEMenu*)convertToOEMenu
+{
 	OEMenu* menu = [[OEMenu alloc] init];
 	
 	menu.menu = self;
@@ -239,9 +307,11 @@
 @end
 @implementation OEMenuView
 
-- (id)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame 
+{
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self) 
+    {
 		NSTrackingArea* area = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
         [self addTrackingArea:area];
 		[area release];
@@ -249,8 +319,10 @@
     return self;
 }
 
-- (void)dealloc{
-	while([[self trackingAreas] count] != 0){
+- (void)dealloc
+{
+	while([[self trackingAreas] count] != 0)
+    {
 		[self removeTrackingArea:[[self trackingAreas] lastObject]];		
 	}
 	
@@ -259,7 +331,9 @@
 
 #pragma mark -
 #pragma mark TextAttributes
-- (NSDictionary*)itemTextAttributes{
+- (NSDictionary*)itemTextAttributes
+{
+    
 	NSMutableDictionary* dict = [NSMutableDictionary dictionary];
 	
 	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
@@ -274,7 +348,8 @@
 	return dict;
 }
 
-- (NSDictionary*)selectedItemTextAttributes{
+- (NSDictionary*)selectedItemTextAttributes
+{
 	NSMutableDictionary* dict = [NSMutableDictionary dictionary];
 	
 	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
@@ -289,7 +364,8 @@
 	return dict;
 }
 
-- (NSDictionary*)disabledItemTextAttributes{
+- (NSDictionary*)disabledItemTextAttributes
+{
 	NSMutableDictionary* dict = [NSMutableDictionary dictionary];
 	
 	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
@@ -305,7 +381,8 @@
 }
 #pragma mark -
 #pragma mark Drawing
-- (void)updateView{
+- (void)updateView
+{
 	NSArray* items = [self.menu itemArray];
 	
 	float width = 0;
@@ -315,14 +392,19 @@
 	int normalItems = 0;
 	int separatorItems = 0;
 	NSDictionary* attributes = [self itemTextAttributes];
-	for(NSMenuItem* menuItem in items){
-		if([menuItem isSeparatorItem]){ separatorItems++; continue; }
+	for(NSMenuItem* menuItem in items)
+    {
+		if([menuItem isSeparatorItem])
+        { 
+            separatorItems++; continue;
+        }
 		
 		NSAttributedString* attributedTitle = [[NSAttributedString alloc] initWithString:menuItem.title attributes:attributes];
 		width = width < attributedTitle.size.width ? attributedTitle.size.width : width;
 		[attributedTitle release];
 		
-		if(menuItem.image!=nil){
+		if(menuItem.image!=nil)
+        {
 			imageIncluded = YES;
 		}
 		normalItems ++;
@@ -346,7 +428,8 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (void)drawRect:(NSRect)dirtyRect{
+- (void)drawRect:(NSRect)dirtyRect
+{
 	
 	NSColor* startColor = [NSColor colorWithDeviceWhite:0.91 alpha:0.10];
 	NSColor* endColor = [startColor colorWithAlphaComponent:0.0];
@@ -369,8 +452,10 @@
 	
 	NSArray* items = [self.menu itemArray];
 	float y = menuItemSpacingTop;
-	for(NSMenuItem* menuItem in items){
-		if([menuItem isSeparatorItem]){
+	for(NSMenuItem* menuItem in items)
+    {
+		if([menuItem isSeparatorItem])
+        {
 			NSRect lineRect = NSMakeRect(0, y, self.frame.size.width, 1);
 			lineRect = NSInsetRect(lineRect, 5, 0);
 			
@@ -395,7 +480,8 @@
 		BOOL hasImage = [menuItem image]!=nil;
 		BOOL hasSubmenu = [menuItem hasSubmenu];
 		
-		if(!isDisabled && isSelected){
+		if(!isDisabled && isSelected)
+        {
 			NSColor* cTop = [NSColor colorWithDeviceWhite:0.91 alpha:1.0];
 			NSColor* cBottom = [NSColor colorWithDeviceWhite:0.71 alpha:1.0];
 			
@@ -405,7 +491,8 @@
 		}
 		
 		// Draw menu item image
-		if(hasImage){
+		if(hasImage)
+        {
 			NSRect imageRect = itemRect;
 			imageRect.origin.y += 2;
 			imageRect.size.width = menuItemImageWidth;
@@ -418,7 +505,8 @@
 		}
 		
 		// Draw submenu arrow
-		if(hasSubmenu){
+		if(hasSubmenu)
+        {
 			NSImage* arrow = isSelected ? [NSImage imageNamed:@"dark_menu_popover_arrow_selected"] : [NSImage imageNamed:@"dark_menu_popover_arrow_normal"];
 			NSRect arrowRect = NSMakeRect(0, 0, 0, 0);
 			arrowRect.size = arrow.size;
@@ -441,7 +529,8 @@
 }
 #pragma mark -
 #pragma mark Interaction
-- (void)updateTrackingAreas{
+- (void)updateTrackingAreas
+{
 	NSTrackingArea* area = [[self trackingAreas] objectAtIndex:0];
 	[self removeTrackingArea:area];
 	area = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveAlways owner:self userInfo:nil];
@@ -450,67 +539,94 @@
 }
 
 
-- (void)mouseUp:(NSEvent *)theEvent{
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    if(self.menu.closing) return;
 	// check if on selected item && selected item not disabled
 	// perform action, update selected item
 	
-	if(![[self.menu highlightedItem] hasSubmenu]){
+	if(![[self.menu highlightedItem] hasSubmenu])
+    {
 		[self.menu closeMenu];
 	}
 }
 
-- (void)mouseDown:(NSEvent *)theEvent{
-	if(!NSPointInRect([theEvent locationInWindow], self.frame)){
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    return;
+	if(!NSPointInRect([theEvent locationInWindow], self.frame))
+    {
 		[self.menu closeMenu];
-	} else {
+	} 
+    else 
+    {
 		NSPoint loc = [theEvent locationInWindow];
 		[self highlightItemAtPoint:[self convertPointFromBase:loc]];
 	}
 }
 
-- (void)mouseMoved:(NSEvent *)theEvent{
+- (void)mouseMoved:(NSEvent *)theEvent
+{
+    if(self.menu.closing) return;
 	NSPoint loc = [theEvent locationInWindow];
 	[self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
-- (void)mouseDragged:(NSEvent *)theEvent{
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+    if(self.menu.closing) return;
 	NSPoint loc = [theEvent locationInWindow];
 	[self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
-- (void)mouseEntered:(NSEvent *)theEvent{
+- (void)mouseEntered:(NSEvent *)theEvent
+{
+    if(self.menu.closing) return;
 	NSPoint loc = [theEvent locationInWindow];
 	[self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
-- (void)mouseExited:(NSEvent *)theEvent{
+- (void)mouseExited:(NSEvent *)theEvent
+{
+    if(self.menu.closing) return;
 	// if not mouse on subwindow
 	NSPoint loc = [theEvent locationInWindow];
 	[self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 #pragma mark -
-- (void)keyDown:(NSEvent *)theEvent{
-	switch (theEvent.keyCode) {
+- (void)keyDown:(NSEvent *)theEvent
+{
+    if(self.menu.closing) return;
+	switch (theEvent.keyCode) 
+    {
 		case 126: // UP
-			if(self.menu.highlightedItem){
+			if(self.menu.highlightedItem)
+            {
 				NSInteger index = [self.menu.itemArray indexOfObject:self.menu.highlightedItem];
-				if(index>0){
+				if(index>0)
+                {
 					self.menu.highlightedItem = [self.menu.itemArray objectAtIndex:index-1];
 					[self setNeedsDisplay:YES];
 				}
-			} else {
+			}
+            else 
+            {
 				self.menu.highlightedItem = self.menu.itemArray.lastObject;
 				[self setNeedsDisplay:YES];
 			}
 			break;
 		case 125: // DOWN
-			if(self.menu.highlightedItem){
+			if(self.menu.highlightedItem)
+            {
 				NSInteger index = [self.menu.itemArray indexOfObject:self.menu.highlightedItem];
-				if(index < self.menu.itemArray.count-1){
+				if(index < self.menu.itemArray.count-1)
+                {
 					self.menu.highlightedItem = [self.menu.itemArray objectAtIndex:index+1];
 					[self setNeedsDisplay:YES];
 				}
-			} else {
+			} 
+            else 
+            {
 				self.menu.highlightedItem = [self.menu.itemArray objectAtIndex:0];
 				[self setNeedsDisplay:YES];
 			}
@@ -530,10 +646,13 @@
 	}
 }
 #pragma mark -
-- (void)highlightItemAtPoint:(NSPoint)p{
+- (void)highlightItemAtPoint:(NSPoint)p
+{
 	NSMenuItem* highlighItem = [self itemAtPoint:p];
-	if(highlighItem != self.menu.highlightedItem){
-		if([highlighItem isSeparatorItem]){
+	if(highlighItem != self.menu.highlightedItem)
+    {
+		if([highlighItem isSeparatorItem])
+        {
 			highlighItem = nil;
 		}
 		
@@ -543,18 +662,23 @@
 	}
 }
 
-- (NSMenuItem*)itemAtPoint:(NSPoint)p{
-	if(p.x <= 5 || p.x >= self.bounds.size.width){
+- (NSMenuItem*)itemAtPoint:(NSPoint)p
+{
+	if(p.x <= 5 || p.x >= self.bounds.size.width)
+    {
 		return nil;
 	}
-	if(p.y <= menuItemSpacingTop || p.y >= self.bounds.size.height-menuItemSpacingBottom){
+	if(p.y <= menuItemSpacingTop || p.y >= self.bounds.size.height-menuItemSpacingBottom)
+    {
 		return nil;
 	}
 	
 	
 	float y=menuItemSpacingTop;
-	for(NSMenuItem* item in [self.menu itemArray]){
-		if([item isSeparatorItem]){
+	for(NSMenuItem* item in [self.menu itemArray])
+    {
+		if([item isSeparatorItem])
+        {
 			y += menuItemSeparatorHeight; continue;
 		}
 		y+= menuItemHeight;
@@ -565,7 +689,8 @@
 	return nil;
 }
 
-- (NSRect)rectOfItem:(NSMenuItem*)m{
+- (NSRect)rectOfItem:(NSMenuItem*)m
+{
 	NSArray* itemArray = [self.menu itemArray];
 	NSUInteger pos = [itemArray indexOfObject:m];
 	
@@ -575,19 +700,23 @@
 }
 #pragma mark -
 #pragma mark View Config Overrides
-- (BOOL)acceptsFirstResponder{
+- (BOOL)acceptsFirstResponder
+{
 	return YES;
 }
 
-- (BOOL)isFlipped{
+- (BOOL)isFlipped
+{
 	return YES;
 }
 
-- (BOOL)isOpaque{
+- (BOOL)isOpaque
+{
 	return NO;
 }
 #pragma mark -
-- (OEMenu*)menu{
+- (OEMenu*)menu
+{
 	return (OEMenu*)[self window];
 }
 
