@@ -514,6 +514,13 @@
 			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
 		};
+		3DAA589914464890001C09A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1BEF2A9311682A530090F72B;
+			remoteInfo = OpenEmuHelperApp;
+		};
 		3DFAAFD514464234005EF0C3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -2811,6 +2818,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				3DAA589A14464890001C09A8 /* PBXTargetDependency */,
 				C60FC00113522D9A00B53F64 /* PBXTargetDependency */,
 				C6711809136367920034379A /* PBXTargetDependency */,
 				1B6A25021430F8FB009F1CE1 /* PBXTargetDependency */,
@@ -3548,6 +3556,11 @@
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
 			targetProxy = 37C80304101564A800356EF3 /* PBXContainerItemProxy */;
+		};
+		3DAA589A14464890001C09A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
+			targetProxy = 3DAA589914464890001C09A8 /* PBXContainerItemProxy */;
 		};
 		82C9C97E0F080C920071460B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
