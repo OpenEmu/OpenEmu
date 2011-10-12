@@ -71,6 +71,13 @@
 			remoteGlobalIDString = 1BEF2A9411682A530090F72B;
 			remoteInfo = OpenEmuHelperApp;
 		};
+		3DFAAFE514464235005EF0C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1415540F1442B3B300A01683;
+			remoteInfo = N64;
+		};
 		826415DB13EDC44D00591582 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
@@ -424,6 +431,7 @@
 				826415E413EDC44D00591582 /* GameBoy.oesystemplugin */,
 				826415E613EDC44D00591582 /* Genesis.oesystemplugin */,
 				826415E813EDC44D00591582 /* GameBoy Advance.oesystemplugin */,
+				3DFAAFE614464235005EF0C3 /* N64.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -456,7 +464,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "NeoPop" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -494,6 +502,13 @@
 			fileType = "compiled.mach-o.executable";
 			path = OpenEmuHelperApp;
 			remoteRef = 3D81E2931175814300B37FD5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		3DFAAFE614464235005EF0C3 /* N64.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = N64.oesystemplugin;
+			remoteRef = 3DFAAFE514464235005EF0C3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		826415DC13EDC44D00591582 /* OpenEmuSystem.framework */ = {
@@ -693,7 +708,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-D__cdecl=";
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -713,7 +728,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_CFLAGS = "-D__cdecl=";
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

@@ -54,7 +54,6 @@
 		C62954D71369241300F94899 /* cputest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF01369241200F94899 /* cputest.cpp */; };
 		C62954D81369241300F94899 /* debug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF21369241200F94899 /* debug.cpp */; };
 		C62954D91369241300F94899 /* demo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF51369241200F94899 /* demo.cpp */; };
-		C62954DC1369241300F94899 /* desa68.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294EF91369241200F94899 /* desa68.c */; };
 		C62954DF1369241300F94899 /* dis6280.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EFD1369241200F94899 /* dis6280.cpp */; };
 		C62954E01369241300F94899 /* dis6502.cpp in Sources */ = {isa = PBXBuildFile; fileRef = C6294EFF1369241200F94899 /* dis6502.cpp */; };
 		C62954FD1369241300F94899 /* scale2x.c in Sources */ = {isa = PBXBuildFile; fileRef = C6294F381369241200F94899 /* scale2x.c */; };
@@ -589,6 +588,13 @@
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = Mednafen;
 		};
+		8264155213EDB61A00591582 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
+		};
 		829661721042470500F30B74 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
@@ -671,9 +677,6 @@
 		824089EF0FFDEA6C00F0FE7D /* MednafenGameController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MednafenGameController.mm; sourceTree = "<group>"; };
 		8296617C1042474500F30B74 /* libcdio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcdio.a; sourceTree = "<group>"; };
 		829661C310424C1F00F30B74 /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsndfile.a; sourceTree = "<group>"; };
-		829665EC10438CDC00F30B74 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
-		829665ED10438CDC00F30B74 /* gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba.png; sourceTree = "<group>"; };
-		82B0F969104A389D005F3B26 /* wonderswan.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wonderswan.jpg; sourceTree = "<group>"; };
 		82CFB39D0FFE4BA1002B6C7C /* input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
 		82CFB5DC0FFE54E2002B6C7C /* lynxboot.img */ = {isa = PBXFileReference; lastKnownFileType = file; path = lynxboot.img; sourceTree = "<group>"; };
 		82CFBC510FFEF432002B6C7C /* Mednafen.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Mednafen.icns; sourceTree = "<group>"; };
@@ -1987,9 +1990,6 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				82B0F969104A389D005F3B26 /* wonderswan.jpg */,
-				829665EC10438CDC00F30B74 /* ControlsPreference.xib */,
-				829665ED10438CDC00F30B74 /* gba.png */,
 				82CFBC510FFEF432002B6C7C /* Mednafen.icns */,
 				82CFB5DC0FFE54E2002B6C7C /* lynxboot.img */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
@@ -4449,7 +4449,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "Mednafen" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -4496,11 +4496,11 @@
 			remoteRef = 824088D10FFDE05400F0FE7D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		829661731042470500F30B74 /* OESaveStateQLPlugin.qlgenerator */ = {
+		8264155313EDB61A00591582 /* GameBoy Advance.oesystemplugin */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = OESaveStateQLPlugin.qlgenerator;
-			remoteRef = 829661721042470500F30B74 /* PBXContainerItemProxy */;
+			path = "GameBoy Advance.oesystemplugin";
+			remoteRef = 8264155213EDB61A00591582 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A25DA116F07B80003DEE4 /* OpenEmuHelperApp */ = {
@@ -4578,7 +4578,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\" \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"{,.dSYM}\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -4610,7 +4610,6 @@
 				C62954D71369241300F94899 /* cputest.cpp in Sources */,
 				C62954D81369241300F94899 /* debug.cpp in Sources */,
 				C62954D91369241300F94899 /* demo.cpp in Sources */,
-				C62954DC1369241300F94899 /* desa68.c in Sources */,
 				C62954DF1369241300F94899 /* dis6280.cpp in Sources */,
 				C62954E01369241300F94899 /* dis6502.cpp in Sources */,
 				C62954FD1369241300F94899 /* scale2x.c in Sources */,
@@ -5215,7 +5214,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -5233,7 +5232,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

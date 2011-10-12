@@ -35,7 +35,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		82444C050F51279C007C171B /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BD10F512685007C171B /* OpenEmuBase.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		3DFAB00C144644A5005EF0C3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFAB00A144643AA005EF0C3 /* OpenEmuBase.framework */; };
+		82444C050F51279C007C171B /* GameBoy Advance.oesystemplugin in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BD10F512685007C171B /* GameBoy Advance.oesystemplugin */; settings = {ATTRIBUTES = (Required, ); }; };
 		8249C9A60E89BA140027EFDF /* Menu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8249C9A50E89BA140027EFDF /* Menu.xib */; };
 		827899CA0E70CFD100C01C82 /* NstApiBarcodeReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8278976E0E70CFC900C01C82 /* NstApiBarcodeReader.cpp */; };
 		827899CB0E70CFD100C01C82 /* NstApiCartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 827897700E70CFC900C01C82 /* NstApiCartridge.cpp */; };
@@ -362,6 +363,13 @@
 			remoteGlobalIDString = 3887A7F61024D1F9000FC4CF;
 			remoteInfo = OESaveStateQLPlugin;
 		};
+		3DFAB009144643AA005EF0C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82444BA10F51256C007C171B;
+			remoteInfo = OpenEmuBase;
+		};
 		82444BCC0F512685007C171B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
@@ -373,8 +381,8 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 82444BA10F51256C007C171B;
-			remoteInfo = OpenEmuBase;
+			remoteGlobalIDString = C646574813771F12002A4F70;
+			remoteInfo = "GameBoy Advance";
 		};
 		82C9CA650F0846DA0071460B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -389,13 +397,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = Nestopia;
-		};
-		8317CA0F140E3AAB0050C8A8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C646574813771F12002A4F70;
-			remoteInfo = "GameBoy Advance";
 		};
 		83DB70AE1442F01200850CD8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1151,8 +1152,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DFAB00C144644A5005EF0C3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				82444C050F51279C007C171B /* OpenEmuBase.framework in Frameworks */,
+				82444C050F51279C007C171B /* GameBoy Advance.oesystemplugin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1251,7 +1253,7 @@
 			children = (
 				82444BCD0F512685007C171B /* OpenEmu.app */,
 				C62A2604116F08760003DEE4 /* OpenEmuHelperApp */,
-				82444BD10F512685007C171B /* OpenEmuBase.framework */,
+				3DFAB00A144643AA005EF0C3 /* OpenEmuBase.framework */,
 				C64BB0B21364837C00C1AB23 /* OpenEmuSystem.framework */,
 				37372B14102511E2006ADD56 /* OESaveStateQLPlugin.qlgenerator */,
 				C64BB0B41364837C00C1AB23 /* SegaMasterSystem.oesystemplugin */,
@@ -1259,7 +1261,7 @@
 				C6480FE21364A4BB0094FA33 /* SuperNES.oesystemplugin */,
 				C6B3E6A3136525EB00D34947 /* GameBoy.oesystemplugin */,
 				C6B3E6A5136525EB00D34947 /* Genesis.oesystemplugin */,
-				8317CA10140E3AAB0050C8A8 /* GameBoy Advance.oesystemplugin */,
+				82444BD10F512685007C171B /* GameBoy Advance.oesystemplugin */,
 				83DB70AF1442F01200850CD8 /* N64.oesystemplugin */,
 			);
 			name = Products;
@@ -2044,6 +2046,13 @@
 			remoteRef = 37372B13102511E2006ADD56 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		3DFAB00A144643AA005EF0C3 /* OpenEmuBase.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuBase.framework;
+			remoteRef = 3DFAB009144643AA005EF0C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		82444BCD0F512685007C171B /* OpenEmu.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -2051,18 +2060,11 @@
 			remoteRef = 82444BCC0F512685007C171B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		82444BD10F512685007C171B /* OpenEmuBase.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = OpenEmuBase.framework;
-			remoteRef = 82444BD00F512685007C171B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8317CA10140E3AAB0050C8A8 /* GameBoy Advance.oesystemplugin */ = {
+		82444BD10F512685007C171B /* GameBoy Advance.oesystemplugin */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "GameBoy Advance.oesystemplugin";
-			remoteRef = 8317CA0F140E3AAB0050C8A8 /* PBXContainerItemProxy */;
+			remoteRef = 82444BD00F512685007C171B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		83DB70AF1442F01200850CD8 /* N64.oesystemplugin */ = {
@@ -2522,6 +2524,7 @@
 				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Nestopia_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Application Support/OpenEmu/Cores";
 				LD_RUNPATH_SEARCH_PATHS = "\"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" /Library/Frameworks ~/Library/Frameworks @loader_path/../Frameworks";
@@ -2538,6 +2541,7 @@
 				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Nestopia_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Application Support/OpenEmu/Cores";
 				LD_RUNPATH_SEARCH_PATHS = "\"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" /Library/Frameworks ~/Library/Frameworks @loader_path/../Frameworks";
@@ -2558,7 +2562,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -2567,7 +2571,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
@@ -2583,7 +2587,7 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_OPTIMIZATION_LEVEL = 3;
-				GCC_VERSION = "";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
@@ -2591,7 +2595,7 @@
 					"core/**",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};
 			name = Release;
@@ -2600,6 +2604,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = x86_64;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Distribution;
 			};
@@ -2617,6 +2622,7 @@
 		82D814E60F1D81BF00EF8CF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Debug;
@@ -2624,6 +2630,7 @@
 		82D814E70F1D81BF00EF8CF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Release;

@@ -31,6 +31,7 @@
 #define NEWSIZESOUNDBUFFER 80000
 
 #import <OERingBuffer.h>
+#import <OpenGL/gl.h>
 #import "OEGBSystemResponderClient.h"
 #import "GBGameEmu.h"
 #include "gambatte.h"

@@ -191,6 +191,9 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey;
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey;
  */
+#pragma mark Input
+//- (void)player:(NSUInteger)thePlayer didPressButton:(OEButton)gameButton;
+//- (void)player:(NSUInteger)thePlayer didReleaseButton:(OEButton)gameButton;
 
 #pragma mark -
 #pragma mark Save state - Optional
