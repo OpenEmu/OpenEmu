@@ -35,7 +35,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		1B46D09D14293CAD0025EF88 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B46D09C14293CAD0025EF88 /* libz.1.2.3.dylib */; };
+		1B46D09D14293CAD0025EF88 /* libz.1.2.5.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B46D09C14293CAD0025EF88 /* libz.1.2.5.dylib */; };
 		3720DB4D0F19510D00744A9A /* CrabEmu.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3720DB4C0F19510D00744A9A /* CrabEmu.icns */; };
 		82CAFADA0FEDA5CA00CCDC7E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82CAFAD90FEDA5CA00CCDC7E /* dsa_pub.pem */; };
 		82CAFDB00FEDD88100CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFADD0FEDA5EA00CCDC7E /* config.yaml */; };
@@ -182,7 +182,7 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		1B46D09C14293CAD0025EF88 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
+		1B46D09C14293CAD0025EF88 /* libz.1.2.5.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.5.dylib; path = usr/lib/libz.1.2.5.dylib; sourceTree = SDKROOT; };
 		32DBCF630370AF2F00C91783 /* CrabEmu_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrabEmu_Prefix.pch; sourceTree = "<group>"; };
 		3720DB4C0F19510D00744A9A /* CrabEmu.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = CrabEmu.icns; sourceTree = "<group>"; };
 		82CAFAD90FEDA5CA00CCDC7E /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
@@ -254,7 +254,7 @@
 			files = (
 				C689A5390FE4621C00885BC3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				1B46D09D14293CAD0025EF88 /* libz.1.2.3.dylib in Frameworks */,
+				1B46D09D14293CAD0025EF88 /* libz.1.2.5.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -310,7 +310,7 @@
 		1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				1B46D09C14293CAD0025EF88 /* libz.1.2.3.dylib */,
+				1B46D09C14293CAD0025EF88 /* libz.1.2.5.dylib */,
 				1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */,
 			);
 			name = "Linked Frameworks";

@@ -29,6 +29,7 @@
 #import <IOKit/hid/IOHIDLib.h>
 #import <OEGameDocument.h>
 #import <OERingBuffer.h>
+#import <OpenGL/gl.h>
 #import "OEGenesisSystemResponderClient.h"
 
 //#include "shared.h"

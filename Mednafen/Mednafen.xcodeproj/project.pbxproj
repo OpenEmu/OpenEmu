@@ -567,13 +567,6 @@
 			remoteGlobalIDString = 8D15AC370486D014006FF6A4;
 			remoteInfo = OpenEmu;
 		};
-		824088CF0FFDE05400F0FE7D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 828E65980E8466A100B1860B;
-			remoteInfo = OpenEmuQC;
-		};
 		824088D10FFDE05400F0FE7D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
@@ -608,13 +601,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
-		};
-		C62A25D7116F07B80003DEE4 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1BEF2CFD116854650090F72B;
-			remoteInfo = OpenEmuDebugHelperAppApp;
 		};
 		C62A25D9116F07B80003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -684,9 +670,6 @@
 		824089EF0FFDEA6C00F0FE7D /* MednafenGameController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MednafenGameController.mm; sourceTree = "<group>"; };
 		8296617C1042474500F30B74 /* libcdio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcdio.a; sourceTree = "<group>"; };
 		829661C310424C1F00F30B74 /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsndfile.a; sourceTree = "<group>"; };
-		829665EC10438CDC00F30B74 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
-		829665ED10438CDC00F30B74 /* gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba.png; sourceTree = "<group>"; };
-		82B0F969104A389D005F3B26 /* wonderswan.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wonderswan.jpg; sourceTree = "<group>"; };
 		82CFB39D0FFE4BA1002B6C7C /* input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
 		82CFB5DC0FFE54E2002B6C7C /* lynxboot.img */ = {isa = PBXFileReference; lastKnownFileType = file; path = lynxboot.img; sourceTree = "<group>"; };
 		82CFBC510FFEF432002B6C7C /* Mednafen.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Mednafen.icns; sourceTree = "<group>"; };
@@ -2000,9 +1983,6 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				82B0F969104A389D005F3B26 /* wonderswan.jpg */,
-				829665EC10438CDC00F30B74 /* ControlsPreference.xib */,
-				829665ED10438CDC00F30B74 /* gba.png */,
 				82CFBC510FFEF432002B6C7C /* Mednafen.icns */,
 				82CFB5DC0FFE54E2002B6C7C /* lynxboot.img */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
@@ -2074,8 +2054,6 @@
 			children = (
 				824088CE0FFDE05400F0FE7D /* OpenEmu.app */,
 				C62A25DA116F07B80003DEE4 /* OpenEmuHelperApp */,
-				C62A25D8116F07B80003DEE4 /* OpenEmuDebugHelperAppApp.app */,
-				824088D00FFDE05400F0FE7D /* OpenEmuQC.plugin */,
 				824088D20FFDE05400F0FE7D /* OpenEmuBase.framework */,
 				829661731042470500F30B74 /* OESaveStateQLPlugin.qlgenerator */,
 				C6640DD81363E85F00ECCAA5 /* OpenEmuSystem.framework */,
@@ -4464,7 +4442,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 			};
 			buildConfigurationList = 1DEB913E08733D840010E9CD /* Build configuration list for PBXProject "Mednafen" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -4497,13 +4475,6 @@
 			remoteRef = 824088CD0FFDE05400F0FE7D /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		824088D00FFDE05400F0FE7D /* OpenEmuQC.plugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OpenEmuQC.plugin;
-			remoteRef = 824088CF0FFDE05400F0FE7D /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		824088D20FFDE05400F0FE7D /* OpenEmuBase.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -4523,13 +4494,6 @@
 			fileType = wrapper.cfbundle;
 			path = OESaveStateQLPlugin.qlgenerator;
 			remoteRef = 829661721042470500F30B74 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C62A25D8116F07B80003DEE4 /* OpenEmuDebugHelperAppApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OpenEmuDebugHelperAppApp.app;
-			remoteRef = C62A25D7116F07B80003DEE4 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A25DA116F07B80003DEE4 /* OpenEmuHelperApp */ = {
@@ -5241,7 +5205,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -5259,7 +5223,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Release;
 		};

@@ -29,6 +29,7 @@
 #import <IOKit/hid/IOHIDLib.h>
 #import <OEGameDocument.h>
 #import <OERingBuffer.h>
+#import <OpenGL/gl.h>
 #import "OESMSSystemResponderClient.h"
 
 #define _UINT32

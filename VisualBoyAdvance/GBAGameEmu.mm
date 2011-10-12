@@ -30,6 +30,7 @@
 #import <OEGameDocument.h>
 #import <OERingBuffer.h>
 #import <OEHIDEvent.h>
+#import <OpenGL/gl.h>
 #import "GBAGameController.h"
 #import "OEGBASystemResponderClient.h"
 

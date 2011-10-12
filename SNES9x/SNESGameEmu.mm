@@ -27,6 +27,7 @@
 
 #import "SNESGameEmu.h"
 #import <OERingBuffer.h>
+#import <OpenGL/gl.h>
 
 #include "memmap.h"
 #include "pixform.h"
