@@ -87,9 +87,6 @@
     }
     
     [self setLastMouseMovement:[NSDate date]];
-    
-    
-    
 }
 
 - (void)setLastMouseMovement:(NSDate *)lastMouseMovementDate
@@ -136,6 +133,20 @@
 }
 
 #pragma mark -
+
+- (void)muteAction:(id)sender
+{
+    id slider = [(OEHUDControlsView*)[self.contentView subviews].lastObject  slider];
+    [slider setFloatValue:0.0];
+    [self.gameDocument setVolume:0.0];
+}
+- (void)unmuteAction:(id)sender
+{
+    id slider = [(OEHUDControlsView*)[self.contentView subviews].lastObject  slider];
+    [slider setFloatValue:1.0];
+    [self.gameDocument setVolume:1.0];
+}
+
 - (void)resetAction:(id)sender
 {
 	[self.gameDocument resetGame];
@@ -313,6 +324,7 @@
 @end
 
 @implementation OEHUDControlsView
+@synthesize slider;
 
 + (void)initialize
 {
@@ -440,17 +452,25 @@
         [optionsButton release];
     }    
 	
-    NSImageView* volumeDownView = [[NSImageView alloc] initWithFrame:NSMakeRect(223+(hideOptions?0:50), 17, 13, 14)];
+    NSButton* volumeDownView = [[NSButton alloc] initWithFrame:NSMakeRect(223+(hideOptions?0:50), 17, 13, 14)];
+    [volumeDownView setBordered:NO];
+    [[volumeDownView cell] setHighlightsBy:NSNoCellMask];
 	[volumeDownView setImage:[NSImage imageNamed:@"hud_volume_down"]];
+    [volumeDownView setTarget:[self window]];
+    [volumeDownView setAction:@selector(muteAction:)];    
 	[self addSubview:volumeDownView];
 	[volumeDownView release];
 	
-	NSImageView* volumeUpView = [[NSImageView alloc] initWithFrame:NSMakeRect(320+(hideOptions?0:50), 17, 15, 14)];
+	NSButton* volumeUpView = [[NSButton alloc] initWithFrame:NSMakeRect(320+(hideOptions?0:50), 17, 15, 14)];
+    [volumeUpView setBordered:NO];
+    [[volumeUpView cell] setHighlightsBy:NSNoCellMask];
 	[volumeUpView setImage:[NSImage imageNamed:@"hud_volume_up"]];
+    [volumeUpView setTarget:[self window]];
+    [volumeUpView setAction:@selector(unmuteAction:)];
 	[self addSubview:volumeUpView];
 	[volumeUpView release];
 	
-	OEHUDSlider* slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(240+(hideOptions?0:50), 13, 80, 23)];
+	slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(240+(hideOptions?0:50), 13, 80, 23)];
 	
 	OEHUDSliderCell* sliderCell = [[OEHUDSliderCell alloc] init];
 	[slider setCell:sliderCell];
