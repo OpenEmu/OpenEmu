@@ -22,7 +22,7 @@
 @synthesize lastMouseMovement;
 - (id)initWithGameDocument:(OENewGameDocument*)doc
 {
-    BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:UDHUDBarHideOptions];
+    BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:UDHUDHideOptionsKey];
     self = [super initWithContentRect:NSMakeRect(0, 0, 431+(hideOptions?0:50), 45) styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:YES];
     if (self) 
     {
@@ -245,12 +245,27 @@
             {
 				itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timestamp"]];
 			}
-			
-			item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
-			[item setTarget:self];
-			[item setRepresentedObject:saveState];
-			[menu addItem:item];
-			[item release];
+			if([[NSUserDefaults standardUserDefaults] boolForKey:OEHUDCanDeleteStateKey])
+            {
+                OEMenuItem* oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
+                [oeitem setTarget:self];
+                
+                [oeitem setHasAlternate:YES];
+                [oeitem setAlternateTarget:self];
+                [oeitem setAlternateAction:@selector(doDeleteState:)];
+                
+                [oeitem setRepresentedObject:saveState];
+                [menu addItem:oeitem];
+                [oeitem release];
+            }
+            else 
+            {
+                item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
+                [item setTarget:self];
+                [item setRepresentedObject:saveState];
+                [menu addItem:item];
+                [item release];                
+            }
 		}
 	}
 	
@@ -266,6 +281,12 @@
 {
     [self.gameDocument loadState:[stateItem representedObject]];
 }
+
+- (void)doDeleteState:(id)stateItem
+{
+    [self.gameDocument deleteState:[stateItem representedObject]];
+}
+
 - (void)doSaveState:(id)sender
 {
 	[self.gameDocument saveStateAskingUser:nil];
@@ -403,7 +424,7 @@
 	[self addSubview:saveButton];
 	[saveButton release];
 	
-    BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:UDHUDBarHideOptions];
+    BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:UDHUDHideOptionsKey];
     if(!hideOptions)
     {       
         OEImageButton* optionsButton = [[OEImageButton alloc] init];

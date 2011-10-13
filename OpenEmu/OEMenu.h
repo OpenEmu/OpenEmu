@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "OEMenuItem.h"
 @class OEControlsPopupButton;
 @protocol OEMenuDelegate;
 @class OEMenuView;
@@ -26,9 +26,10 @@
     int itemsAboveScroller, itemsBelowScroller;
     
 	id _localMonitor;
-	BOOL visible;	
+	BOOL visible;
     BOOL closing;
     
+    BOOL _alternate;
     id <OEMenuDelegate> delegate;
 }
 #pragma mark -
@@ -38,6 +39,8 @@
 #pragma mark -
 #pragma mark NSMenu wrapping
 - (NSArray *)itemArray;
+
+@property (readonly) BOOL alternate;;
 
 @property (readwrite) NSSize minSize, maxSize;
 @property (retain) OEControlsPopupButton* popupButton;
@@ -77,6 +80,7 @@
 #pragma mark TextAttributes
 - (NSDictionary*)itemTextAttributes;
 - (NSDictionary*)selectedItemTextAttributes;
+- (NSDictionary*)selectedItemAlternateTextAttributes;
 - (NSDictionary*)disabledItemTextAttributes;
 @property (nonatomic, readonly) OEMenu* menu;
 @end

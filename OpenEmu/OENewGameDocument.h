@@ -57,6 +57,7 @@
 - (void)setVolume:(float)volume;
 #pragma mark -
 - (void)loadState:(id)state;
+- (void)deleteState:(id)state;
 - (void)saveStateAskingUser:(NSString*)proposedName;
 - (void)saveState:(NSString*)stateName; // alternatively: -(void)saveState:(OESaveState**)outState ?
 

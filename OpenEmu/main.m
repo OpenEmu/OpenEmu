@@ -28,7 +28,6 @@
 #import <Cocoa/Cocoa.h>
 
 int main(int argc, char *argv[]){	
-    
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     
     NSString* path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
@@ -46,6 +45,7 @@ int main(int argc, char *argv[]){
                               [NSNumber numberWithDouble:3.0], UDHUDFadeOutDelayKey,// Time until hud controls bar fades out
                               path, UDDefaultDatabasePathKey,
                               path, UDDatabasePathKey,
+                              [NSNumber numberWithBool:YES], OEHUDCanDeleteStateKey,
 							  nil];
     
 	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];

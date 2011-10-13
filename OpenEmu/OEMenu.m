@@ -14,11 +14,14 @@
 - (OEMenuView*)menuView;
 - (void)_performcloseMenu;
 - (void)_closeByClickingItem:(NSMenuItem*)selectedItem;
+
+- (void)setIsAlternate:(BOOL)flag;
 @end
 
 @implementation OEMenu
 @synthesize menu, supermenu, visible, popupButton, delegate;
 @synthesize minSize, maxSize, itemsAboveScroller, itemsBelowScroller;
+@synthesize alternate=_alternate;
 + (void)initialize
 {
 	NSImage* menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
@@ -83,14 +86,22 @@
 {
 	visible = YES;
     closing = NO;
-	
+    _alternate = NO;
     self.alphaValue = 1.0;
+    
 	NSAssert(_localMonitor == nil, @"_localMonitor still exists somehow");
-    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask handler:^(NSEvent *incomingEvent) 
-                     {        
+    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask handler:^(NSEvent *incomingEvent) 
+                     {
                          OEMenuView* view = [[[self contentView] subviews] lastObject];
+                         
+                         if([incomingEvent type] == NSFlagsChanged){
+                             [self setIsAlternate:([incomingEvent modifierFlags] & NSAlternateKeyMask) != 0];
+                             return (NSEvent *)nil;
+                         } 
+                         
                          if([incomingEvent type] == NSKeyDown)
                          {
+                             
                              [view keyDown:incomingEvent];
                              return (NSEvent *)nil;
                          }
@@ -241,7 +252,7 @@
 
 - (void)_performcloseMenu
 {
-    // fade menu window out
+    // fade menu window out 
     [[self animator] setAlphaValue:0.0];
     self.highlightedItem = nil;
     
@@ -299,6 +310,11 @@
     
     [self _performcloseMenu];
     
+    BOOL doAlternateAction = selectedItem && [selectedItem isEnabled] && [selectedItem isKindOfClass:[OEMenuItem class]] && [(OEMenuItem*)selectedItem hasAlternate] && self.alternate;
+    if(doAlternateAction){
+        ((OEMenuItem*)selectedItem).isAlternate = YES;
+    }
+    
     // if an item is selected and the menu is attached to a popupbutton
 	if(selectedItem && [selectedItem isEnabled] && self.popupButton)
     {
@@ -307,13 +323,26 @@
 	}
     
     // if an item is selected and has a targen + action we call it
-    if(selectedItem && [selectedItem isEnabled] && [selectedItem target] && [selectedItem action]!=NULL && [[selectedItem target] respondsToSelector:[selectedItem action]])
+    
+    
+    if(doAlternateAction && [(OEMenuItem*)selectedItem alternateTarget] && [(OEMenuItem*)selectedItem alternateAction]!=NULL && [[(OEMenuItem*)selectedItem alternateTarget] respondsToSelector:[(OEMenuItem*)selectedItem alternateAction]])
+    {
+        [[(OEMenuItem*)selectedItem alternateTarget] performSelectorOnMainThread:[(OEMenuItem*)selectedItem alternateAction] withObject:selectedItem waitUntilDone:NO];
+    }
+    else if(selectedItem && [selectedItem isEnabled] && [selectedItem target] && [selectedItem action]!=NULL && [[selectedItem target] respondsToSelector:[selectedItem action]])
     {
 		[[selectedItem target] performSelectorOnMainThread:[selectedItem action] withObject:selectedItem waitUntilDone:NO];
 	}
     
     // tell the delegate that the menu selected an item
     if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidSelect:)]) [self.delegate performSelector:@selector(menuDidSelect:) withObject:self];
+}
+
+- (void)setIsAlternate:(BOOL)flag{
+    if(closing || flag==_alternate) return;
+    
+    _alternate = flag;
+    if(self.highlightedItem) [self display];
 }
 @end
 #pragma mark -
@@ -403,7 +432,21 @@
 	
 	return dict;
 }
-
+- (NSDictionary*)selectedItemAlternateTextAttributes
+{
+	NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+	
+	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
+	NSColor* textColor = [NSColor whiteColor];
+	NSMutableParagraphStyle* ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	[ps setLineBreakMode:NSLineBreakByTruncatingTail];
+	
+	[dict setObject:font forKey:NSFontAttributeName];
+	[dict setObject:textColor forKey:NSForegroundColorAttributeName];
+	[dict setObject:ps forKey:NSParagraphStyleAttributeName];
+	
+	return dict;
+}
 - (NSDictionary*)disabledItemTextAttributes
 {
 	NSMutableDictionary* dict = [NSMutableDictionary dictionary];
@@ -519,11 +562,22 @@
 		BOOL hasImage = [menuItem image]!=nil;
 		BOOL hasSubmenu = [menuItem hasSubmenu];
 		
+        BOOL drawAlternate = !isDisabled && isSelected && [menuItem isKindOfClass:[OEMenuItem class]] && [(OEMenuItem*)menuItem hasAlternate] && self.menu.alternate;
 		if(!isDisabled && isSelected)
         {
-			NSColor* cTop = [NSColor colorWithDeviceWhite:0.91 alpha:1.0];
-			NSColor* cBottom = [NSColor colorWithDeviceWhite:0.71 alpha:1.0];
-			
+            NSColor *cTop, *cBottom;
+            
+            if(drawAlternate)
+            {
+                cTop = [NSColor colorWithDeviceRed:0.71 green:0.07 blue:0.14 alpha:1.0];
+                cBottom = [NSColor colorWithDeviceRed:0.48 green:0.02 blue:0.07 alpha:1.0];
+            }
+            else
+            {
+                cTop = [NSColor colorWithDeviceWhite:0.91 alpha:1.0];
+                cBottom = [NSColor colorWithDeviceWhite:0.71 alpha:1.0];
+			}
+            
 			NSGradient* selectionGrad = [[NSGradient alloc] initWithStartingColor:cTop endingColor:cBottom];
 			[selectionGrad drawInRect:menuItemFrame angle:90];
 			[selectionGrad release];
@@ -555,7 +609,7 @@
 		}
 		
 		// Draw Item Title
-		NSDictionary* textAttributes = isSelected ? [self selectedItemTextAttributes] : [self itemTextAttributes];
+		NSDictionary* textAttributes = isSelected ? drawAlternate ? [self selectedItemAlternateTextAttributes]:[self selectedItemTextAttributes] : [self itemTextAttributes];
 		textAttributes = isDisabled ? [self disabledItemTextAttributes] : textAttributes;
 		
 		NSAttributedString* attrStr = [[NSAttributedString alloc] initWithString:menuItem.title attributes:textAttributes];

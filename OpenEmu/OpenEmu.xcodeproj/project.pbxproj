@@ -347,6 +347,7 @@
 		83977F991409128000175858 /* OEAttributedTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5913B93255005C0CC8 /* OEAttributedTextFieldCell.m */; };
 		83977F9A1409128600175858 /* OEAttributedTextFieldCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 53439B5813B93255005C0CC8 /* OEAttributedTextFieldCell.h */; };
 		83977F9B1409128D00175858 /* OEAttributedTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5913B93255005C0CC8 /* OEAttributedTextFieldCell.m */; };
+		839CA80414477DD8006AF845 /* OEMenuItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 839CA80314477DD8006AF845 /* OEMenuItem.m */; };
 		83A9011D13FB2D91000F4514 /* NSData+HashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */; };
 		83A9012013FB2E9D000F4514 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A9011F13FB2E9D000F4514 /* libcrypto.dylib */; };
 		83A9E152144723E20051AF1D /* hud_power_glyph.png in Resources */ = {isa = PBXBuildFile; fileRef = 83A9E151144723E20051AF1D /* hud_power_glyph.png */; };
@@ -1111,6 +1112,8 @@
 		83977F691408FE8E00175858 /* controller_fc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc.png; sourceTree = "<group>"; };
 		83977F6A1408FE8E00175858 /* controller_nes.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nes.png; sourceTree = "<group>"; };
 		83977F6D1408FEA800175858 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
+		839CA80214477DD8006AF845 /* OEMenuItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMenuItem.h; sourceTree = "<group>"; };
+		839CA80314477DD8006AF845 /* OEMenuItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMenuItem.m; sourceTree = "<group>"; };
 		83A9011B13FB2D91000F4514 /* NSData+HashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HashingAdditions.h"; sourceTree = "<group>"; };
 		83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HashingAdditions.m"; sourceTree = "<group>"; };
 		83A9011F13FB2E9D000F4514 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
@@ -1777,6 +1780,8 @@
 			children = (
 				53439B1D13B93078005C0CC8 /* OEMenu.h */,
 				53439B1E13B93078005C0CC8 /* OEMenu.m */,
+				839CA80214477DD8006AF845 /* OEMenuItem.h */,
+				839CA80314477DD8006AF845 /* OEMenuItem.m */,
 				53439B2313B9307C005C0CC8 /* Label Cells */,
 				53439B3313B930A9005C0CC8 /* Controls */,
 				53439B6813B932C5005C0CC8 /* OEPreferencePane.h */,
@@ -3447,6 +3452,7 @@
 				83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */,
 				838AC28014434EED00AC74C3 /* OEDBRom.m in Sources */,
 				3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */,
+				839CA80414477DD8006AF845 /* OEMenuItem.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
