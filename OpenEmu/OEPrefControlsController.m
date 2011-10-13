@@ -39,7 +39,8 @@
 }
 #pragma mark -
 #pragma mark ViewController Overrides
-- (void)awakeFromNib{
+- (void)awakeFromNib
+{
     NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
     
 	NSImage* controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
@@ -59,8 +60,10 @@
     
     NSString* pluginName = [sud stringForKey:UDControlsPluginNameKey];
 	[consolesPopupButton selectItemAtIndex:0];
-	for(NSMenuItem* anItem in [consolesPopupButton itemArray]){
-		if([[anItem representedObject] isEqualTo:pluginName]){
+	for(NSMenuItem* anItem in [consolesPopupButton itemArray])
+    {
+		if([[anItem representedObject] isEqualTo:pluginName])
+        {
 			[consolesPopupButton selectItem:anItem];
 			break;
 		}
@@ -74,24 +77,7 @@
 	gradientOverlay.bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
     
     [controllerView setWantsLayer:YES];    
-       
-    // The following enables the pixelation animation, if you want it.
-//    CIFilter *pixellate = [CIFilter filterWithName:@"CIPixellate"];
-//    [pixellate setDefaults];
-//    [pixellate setValue:[NSNumber numberWithInt:1.0] forKeyPath:@"inputScale"];
-//    pixellate.name = @"pixellate";
-//
-//    controllerView.layer.filters = [NSArray arrayWithObject:pixellate];
-//    transition.delegate = self;
-
-    CATransition *controlsTransition = [CATransition animation];
-    controlsTransition.type = kCATransitionFade;
-    controlsTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-    controlsTransition.duration = 1.0;
-
-    [controlsContainer setWantsLayer:YES];
-    [controlsContainer setAnimations: [NSDictionary dictionaryWithObject:controlsTransition forKey:@"subviews"]];
-
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindingTypeChanged:) name:@"OEControlsViewControllerChangedBindingType" object:nil];
 }
 
@@ -108,15 +94,17 @@
     }
 }
 
-- (NSString*)nibName{
+- (NSString*)nibName
+{
 	return @"OEPrefControlsController";
 }
 
 #pragma mark -
 #pragma mark UI Methods
-- (IBAction)changeSystem:(id)sender{
+- (IBAction)changeSystem:(id)sender
+{
     NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
-
+    
 	NSMenuItem* menuItem = [consolesPopupButton selectedItem];
 	NSString* systemIdentifier = [menuItem representedObject];
 	
@@ -131,7 +119,8 @@
 	// Rebuild player menu
 	NSUInteger numberOfPlayers = [systemController numberOfPlayers];
 	NSMenu* playerMenu = [[NSMenu alloc] init];
-	for(NSUInteger player=0; player<numberOfPlayers; player++){
+	for(NSUInteger player=0; player<numberOfPlayers; player++)
+    {
 		NSString* playerTitle = [NSString stringWithFormat:NSLocalizedString(@"Player %ld", @""), player+1];
 		NSMenuItem* playerItem = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
 		[playerItem setTag:player+1];
@@ -151,7 +140,7 @@
 	[preferenceView setFrame:[controlsContainer bounds]];
 	if([[controlsContainer subviews] count])
         [[controlsContainer animator] replaceSubview:[[controlsContainer subviews] objectAtIndex:0] with:preferenceView];
-
+    
 	[[controlsContainer animator] addSubview:preferenceView];
     
     [sud setObject:systemIdentifier forKey:UDControlsPluginNameKey];
@@ -170,9 +159,8 @@
     controllerTransition.duration = 1.0;
     controllerTransition.subtype = (order == NSOrderedDescending ? kCATransitionFromLeft : kCATransitionFromRight);
     
-    
     [controllerView setAnimations:[NSDictionary dictionaryWithObject:controllerTransition 
-                                                           forKey:@"subviews"]];
+                                                              forKey:@"subviews"]];
     
     if([[controllerView subviews] count])
     {
@@ -182,18 +170,24 @@
         [[controllerView animator] addSubview:newControllerView];
     
     [newControllerView release];
-
+    
+    [controllerView setAnimations:[NSDictionary dictionary]];
 }
 
-- (IBAction)changePlayer:(id)sender{
+- (IBAction)changePlayer:(id)sender
+{
 	NSInteger player = 1;
-	if(sender && [sender respondsToSelector:@selector(selectedTag)]){
+	if(sender && [sender respondsToSelector:@selector(selectedTag)])
+    {
 		player = [sender selectedTag];
-	} else if(sender && [sender respondsToSelector:@selector(tag)]){
+	} 
+    else if(sender && [sender respondsToSelector:@selector(tag)])
+    {
 		player = [sender tag];
 	}
 	
-	if(selectedPlugin){
+	if(selectedPlugin)
+    {
 		OESystemController* systemController = [selectedPlugin controller];
 		OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
 		[preferenceViewController selectPlayer:player];		
@@ -203,15 +197,20 @@
     [sud setInteger:player forKey:UDControlsPlayerKey];
 }
 
-- (IBAction)changeInputDevice:(id)sender{
+- (IBAction)changeInputDevice:(id)sender
+{
     NSInteger bindingType = 0;
-	if(sender && [sender respondsToSelector:@selector(selectedTag)]){
+	if(sender && [sender respondsToSelector:@selector(selectedTag)])
+    {
 		bindingType = [sender selectedTag];
-	} else if(sender && [sender respondsToSelector:@selector(tag)]){
+	}
+    else if(sender && [sender respondsToSelector:@selector(tag)])
+    {
 		bindingType = [sender tag];
 	}
     
-    if(selectedPlugin){
+    if(selectedPlugin)
+    {
 		OESystemController* systemController = [selectedPlugin controller];
 		OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
 		[preferenceViewController selectBindingType:bindingType];		
@@ -222,31 +221,38 @@
 
 #pragma mark -
 #pragma mark OEPreferencePane Protocol
-- (NSImage*)icon{
+- (NSImage*)icon
+{
 	return [NSImage imageNamed:@"controls_tab_icon"];
 }
 
-- (NSString*)title{
+- (NSString*)title
+{
 	return @"Controls";
 }
 
-- (NSSize)viewSize{
+- (NSSize)viewSize
+{
 	return NSMakeSize(561, 536);
 }
 
-- (NSColor*)toolbarSeparationColor{
+- (NSColor*)toolbarSeparationColor
+{
 	return [NSColor colorWithDeviceWhite:0.32 alpha:1.0];
 }
 
 #pragma mark -
-- (void)_rebuildSystemsMenu{	
+- (void)_rebuildSystemsMenu
+{
 	NSMenu* consolesMenu = [[NSMenu alloc] init];
 	NSArray* plugins = [OEPlugin pluginsForType:[OESystemPlugin class]];
-    NSArray* sortedPlugins = [plugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [[obj1 systemName] compare:[obj2 systemName]];
-    }];
+    NSArray* sortedPlugins = [plugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) 
+                              {
+                                  return [[obj1 systemName] compare:[obj2 systemName]];
+                              }];
     
-	for(OESystemPlugin* plugin in sortedPlugins){
+	for(OESystemPlugin* plugin in sortedPlugins)
+    {
 		NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:[plugin systemName] action:@selector(changeSystem:) keyEquivalent:@""];
 		[item setTarget:self];
 		[item setRepresentedObject:[plugin systemIdentifier]];
@@ -257,16 +263,18 @@
 		[consolesMenu addItem:item];
 		[item release];
 	}
-
+    
 	[consolesPopupButton setMenu:consolesMenu];	
 	[consolesMenu release];
 }
 
-- (void)_rebuildInputMenu{
+- (void)_rebuildInputMenu
+{
 	
 }
 #pragma mark -
-- (void)bindingTypeChanged:(id)sender{
+- (void)bindingTypeChanged:(id)sender
+{
     id object = [sender object];
     [inputPopupButton selectItemWithTag:[object selectedBindingType]];
 }
