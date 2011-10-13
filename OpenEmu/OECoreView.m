@@ -151,13 +151,13 @@
 		[attributedTitle release];	
 		
 		// Draw collapse / expand button
-	//	if(aCore.detailView!=nil){
+		if(aCore.detailView!=nil){
 			NSRect btnRect = NSMakeRect(27, textRect.origin.y+25, 9, 10);
 			NSImage* btnImage = aCore.collapsed ? [NSImage imageNamed:@"core_triangle_closed"] : [NSImage imageNamed:@"core_triangle_open"];
 			[btnImage drawInRect:btnRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 		
 			aCore.btnRect = btnRect;
-	//	}
+		}
 		
 		// adjust frame of subview if necessary
 		if(!aCore.collapsed){
