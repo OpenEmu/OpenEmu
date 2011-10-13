@@ -75,7 +75,7 @@
     NSWindow *parentWindow = self.parentWindow;
     NSPoint mouseLoc = [NSEvent mouseLocation];
     if(!NSPointInRect(mouseLoc, [parentWindow convertRectToScreen:[(NSView*)self.gameDocument.gameView frame]])) return;
-
+    
     if(self.alphaValue==0.0)
     {
         [lastMouseMovement release];
@@ -84,9 +84,9 @@
     }
     
     [self setLastMouseMovement:[NSDate date]];
-        
     
-
+    
+    
 }
 
 - (void)setLastMouseMovement:(NSDate *)lastMouseMovementDate
@@ -320,12 +320,13 @@
 	
 	NSButton* stopButton = [[NSButton alloc] init];
 	OEHUDButtonCell* pcell = [[OEHUDButtonCell alloc] init];
-	[pcell setBlue:YES];
+	pcell.buttonColor = OEHUDButtonColorRed;
 	[stopButton setCell:pcell];
+    [stopButton setImage:[NSImage imageNamed:@"hud_power_glyph_normal"]];
+    [stopButton setAlternateImage:[NSImage imageNamed:@"hud_power_glyph_pressed"]];
 	[pcell release];
-	[stopButton setTitle:@"Stop"];
-	
-	[stopButton setTarget:[self window]];
+    
+    [stopButton setTarget:[self window]];
 	[stopButton setAction:@selector(stopAction:)];
 	[stopButton setFrame:NSMakeRect(9, 13, 51, 23)];	
 	[stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];

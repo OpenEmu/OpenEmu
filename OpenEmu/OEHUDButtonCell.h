@@ -8,10 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface OEHUDButtonCell : NSButtonCell {
-@private
-    BOOL blue;
+enum _OEHUDButtonColor 
+{
+	OEHUDButtonColorDefault,
+	OEHUDButtonColorBlue,
+	OEHUDButtonColorRed
 }
-@property (getter = isBlue) BOOL blue;
+typedef OEHUDButtonColor;
+
+@interface OEHUDButtonCell : NSButtonCell 
+{
+@private
+    OEHUDButtonColor buttonColor;
+}
+@property OEHUDButtonColor buttonColor;
 @end

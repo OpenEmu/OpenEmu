@@ -9,24 +9,31 @@
 #import "OEHUDButtonCell.h"
 #import "NSImage+OEDrawingAdditions.h"
 
+@interface OEHUDButtonCell (Private)
+- (NSImage*)_imageForHudButtonColor:(OEHUDButtonColor)color;
+@end
 @implementation OEHUDButtonCell
-@synthesize blue;
+@synthesize buttonColor;
 
 - (id)init
 {
     self = [super init];
-    if (self) {
+    if (self) 
+    {
 		[self setBordered:YES];
 		[self setFocusRingType:NSFocusRingTypeNone];
 		[self setBezeled:NO];
 		[self setBackgroundColor:nil];
 		[self setButtonType:NSMomentaryPushInButton];
 		[self setBezelStyle:NSSmallSquareBezelStyle];
+        
+        self.buttonColor = OEHUDButtonColorDefault;
     }
     
     return self;
 }
-- (BOOL)isOpaque{
+- (BOOL)isOpaque
+{
 	return NO;
 }
 
@@ -35,41 +42,57 @@
     [super dealloc];
 }
 
-+ (void)initialize{
++ (void)initialize
+{
 	NSImage* image = [NSImage imageNamed:@"hud_button"];
-	
-	[image setName:@"hud_button_pressed" forSubimageInRect:NSMakeRect(0, 0, image.size.width, image.size.height/3)];
-	[image setName:@"hud_button_blue" forSubimageInRect:NSMakeRect(0, image.size.height/3, image.size.width, image.size.height/3)];
-	[image setName:@"hud_button_normal" forSubimageInRect:NSMakeRect(0, 2*image.size.height/3, image.size.width, image.size.height/3)];
+    
+	[image setName:@"hud_button_pressed" forSubimageInRect:NSMakeRect(0, 2*image.size.height/4, image.size.width, image.size.height/4)];
+	[image setName:@"hud_button_blue" forSubimageInRect:NSMakeRect(0, 3*image.size.height/4, image.size.width, image.size.height/4)];
+	[image setName:@"hud_button_normal" forSubimageInRect:NSMakeRect(0, 1*image.size.height/4, image.size.width, image.size.height/4)];
+	[image setName:@"hud_button_red" forSubimageInRect:NSMakeRect(0, 0, image.size.width, image.size.height/4)];
+    
+    image = [NSImage imageNamed:@"hud_power_glyph"];
+    
+    [image setName:@"hud_power_glyph_normal" forSubimageInRect:(NSRect){{image.size.width/2,0}, {image.size.width/2, image.size.height}}];
+    [image setName:@"hud_power_glyph_pressed" forSubimageInRect:(NSRect){{0,0}, {image.size.width/2, image.size.height}}];
 }
 #pragma mark -
-- (void)drawBezelWithFrame:(NSRect)frame inView:(NSView *)controlView{
+- (void)drawBezelWithFrame:(NSRect)frame inView:(NSView *)controlView
+{
 	NSRect cellFrame = frame;
 	cellFrame.size.height = 23;
 	
 	NSImage* img;
-	if([self isHighlighted]){
+	if([self isHighlighted])
+    {
 		img = [NSImage imageNamed:@"hud_button_pressed"];
-	} else {
-		img = [self isBlue] ? [NSImage imageNamed:@"hud_button_blue"] : [NSImage imageNamed:@"hud_button_normal"];
 	}
-
-	[img drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:4 rightBorder:4 topBorder:0 bottomBorder:0];
+    else 
+    {
+		img = [self _imageForHudButtonColor:self.buttonColor];
+	}
+    
+	[img drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:5 rightBorder:5 topBorder:0 bottomBorder:0];
 }
 
-- (void)drawImage:(NSImage *)image withFrame:(NSRect)frame inView:(NSView *)controlView{
-
-	if([self isHighlighted]){
+- (void)drawImage:(NSImage *)image withFrame:(NSRect)frame inView:(NSView *)controlView
+{
+	if([self isHighlighted])
+    {
 		image = [self alternateImage];
-	} else {
+	} 
+    else 
+    {
 		image = [self image];
 	}
+    frame.origin.y -= 1;
 	
 	[super drawImage:image withFrame:frame inView:controlView];
 }
 
 
-- (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView{
+- (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView
+{
 	NSRect titleRect = frame;
 	
 	titleRect.origin.y -= 1;
@@ -78,7 +101,8 @@
 	return titleRect;
 }
 #pragma mark -
-- (NSAttributedString*)attributedTitle{
+- (NSAttributedString*)attributedTitle
+{
 	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
 	
 	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:3.0 size:11.0];
@@ -87,11 +111,14 @@
 	NSMutableParagraphStyle* ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
 	[ps setAlignment:NSCenterTextAlignment];
 	
-	if([self isHighlighted]){
+	if([self isHighlighted])
+    {
 		[attributes setObject:[NSColor colorWithDeviceWhite:0.03 alpha:1.0] forKey:NSForegroundColorAttributeName];	
 		[shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.4]];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];
-	} else {
+	} 
+    else 
+    {
 		[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
 		[attributes setObject:[NSColor colorWithDeviceWhite:0.91 alpha:1.0] forKey:NSForegroundColorAttributeName];
 		[shadow setShadowOffset:NSMakeSize(0, 1)];
@@ -102,6 +129,26 @@
 	[attributes setObject:shadow forKey:NSShadowAttributeName];
 	
 	return [[[NSAttributedString alloc] initWithString:[self title] attributes:attributes] autorelease];
+}
+
+
+- (NSImage*)_imageForHudButtonColor:(OEHUDButtonColor)color
+{
+    switch (color) 
+    {
+        case OEHUDButtonColorDefault:
+            return  [NSImage imageNamed:@"hud_button_normal"];
+            break;
+        case OEHUDButtonColorBlue:
+            return [NSImage imageNamed:@"hud_button_blue"];            
+            break;
+        case OEHUDButtonColorRed:
+            return [NSImage imageNamed:@"hud_button_red"];
+            break;            
+        default:
+            break;
+    }
+    return nil;
 }
 
 @end

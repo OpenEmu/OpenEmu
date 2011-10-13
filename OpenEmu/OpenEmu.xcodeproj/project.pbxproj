@@ -349,6 +349,7 @@
 		83977F9B1409128D00175858 /* OEAttributedTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B5913B93255005C0CC8 /* OEAttributedTextFieldCell.m */; };
 		83A9011D13FB2D91000F4514 /* NSData+HashingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */; };
 		83A9012013FB2E9D000F4514 /* libcrypto.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 83A9011F13FB2E9D000F4514 /* libcrypto.dylib */; };
+		83A9E152144723E20051AF1D /* hud_power_glyph.png in Resources */ = {isa = PBXBuildFile; fileRef = 83A9E151144723E20051AF1D /* hud_power_glyph.png */; };
 		83AEF939140B78B6007803D7 /* filter_effect_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AEF937140B78B6007803D7 /* filter_effect_frame.png */; };
 		83AF90871414CBC500B74C5B /* OEHUDGameWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AF90861414CBC500B74C5B /* OEHUDGameWindow.m */; };
 		83B6E441143E136F00BCDB7A /* OELocalizationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B6E43D143E090800BCDB7A /* OELocalizationHelper.h */; };
@@ -1113,6 +1114,7 @@
 		83A9011B13FB2D91000F4514 /* NSData+HashingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+HashingAdditions.h"; sourceTree = "<group>"; };
 		83A9011C13FB2D91000F4514 /* NSData+HashingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+HashingAdditions.m"; sourceTree = "<group>"; };
 		83A9011F13FB2E9D000F4514 /* libcrypto.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcrypto.dylib; path = usr/lib/libcrypto.dylib; sourceTree = SDKROOT; };
+		83A9E151144723E20051AF1D /* hud_power_glyph.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_power_glyph.png; sourceTree = "<group>"; };
 		83AEF937140B78B6007803D7 /* filter_effect_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_effect_frame.png; sourceTree = "<group>"; };
 		83AF90851414CBC500B74C5B /* OEHUDGameWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDGameWindow.h; sourceTree = "<group>"; };
 		83AF90861414CBC500B74C5B /* OEHUDGameWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDGameWindow.m; sourceTree = "<group>"; };
@@ -2163,6 +2165,7 @@
 		53439BA913B93920005C0CC8 /* Game Window */ = {
 			isa = PBXGroup;
 			children = (
+				83A9E151144723E20051AF1D /* hud_power_glyph.png */,
 				53439BAA13B93920005C0CC8 /* hud_bar.png */,
 				53439BAB13B93920005C0CC8 /* hud_button.png */,
 				53439BAC13B93920005C0CC8 /* hud_close_button.png */,
@@ -3143,6 +3146,7 @@
 				83802E6A142F6FF900130517 /* controls_highlight.png in Resources */,
 				1B98144E142F02FA00114A30 /* OESetupAssistant.xib in Resources */,
 				83F1F83B14448F9800819F98 /* dark_menu_scroll_arrows.png in Resources */,
+				83A9E152144723E20051AF1D /* hud_power_glyph.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
