@@ -24,13 +24,15 @@
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {}
+    if (self) 
+    {}
     
     return self;
 }
 
-- (void)awakeFromNib{
- // Fake some cores
+- (void)awakeFromNib
+{
+    // Fake some cores
 	OECoreViewItem* bsnes = [[[OECoreViewItem alloc] init] autorelease];
 	bsnes.title = @"bsnes";
 	bsnes.version = @"v078";
@@ -51,10 +53,10 @@
 	visualboyadvance.title = @"Visual Boy Advance";
 	visualboyadvance.version = @"v1.7.2";
 	
-/*	NSImageView* imgView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, 0, 0)];
-	[imgView setImage:[NSImage imageNamed:@"subviewtest"]];
-	[imgView setImageFrameStyle:NSImageFrameNone];
-*/
+    /*	NSImageView* imgView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, 0, 0)];
+     [imgView setImage:[NSImage imageNamed:@"subviewtest"]];
+     [imgView setImageFrameStyle:NSImageFrameNone];
+     */
 	
 	visualboyadvance.detailView = sampleCoreSettings;
 	visualboyadvance.detailViewSize = NSMakeSize(324, 264);
@@ -84,32 +86,37 @@
 	[self scrollPoint:NSMakePoint(0, self.frame.size.height)];
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
 	[cores release];
 	cores = nil;
 	
     [super dealloc];
 }
 
-+ (void)initialize{
++ (void)initialize
+{
 	NSImage* coreTri = [NSImage imageNamed:@"core_triangle"];
 	[coreTri setName:@"core_triangle_closed" forSubimageInRect:NSMakeRect(0, 0, 9, 10)];
 	[coreTri setName:@"core_triangle_open" forSubimageInRect:NSMakeRect(9, 0, 9, 10)];
 }
 
-- (void)drawRect:(NSRect)dirtyRect{
+- (void)drawRect:(NSRect)dirtyRect
+{
 	NSRect cellRect = NSMakeRect(0, self.frame.size.height, self.frame.size.width, 0);
 	
 	for(OECoreViewItem* aCore in cores){
 		float height = 0;
 		height += collapsedHeight;
 		
-		if(!aCore.collapsed){
+		if(!aCore.collapsed)
+        {
 			height += 23;
 			height += aCore.detailViewSize.height;
 		}
 		
-		if(aCore != [cores lastObject]){
+		if(aCore != [cores lastObject])
+        {
 			height += separatorHeight;
 		}
 		cellRect.size.height = height;
@@ -122,7 +129,7 @@
 		textRect = NSInsetRect(textRect, 43, 10);
 		
 		textRect.origin.y -= 10;
-
+        
 		// Draw title
 		NSColor* textColor = [NSColor colorWithDeviceWhite:0.96 alpha:1.0];
 		NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:5.0 size:11.0];
@@ -151,16 +158,18 @@
 		[attributedTitle release];	
 		
 		// Draw collapse / expand button
-		if(aCore.detailView!=nil){
+		if(aCore.detailView!=nil)
+        {
 			NSRect btnRect = NSMakeRect(27, textRect.origin.y+25, 9, 10);
 			NSImage* btnImage = aCore.collapsed ? [NSImage imageNamed:@"core_triangle_closed"] : [NSImage imageNamed:@"core_triangle_open"];
 			[btnImage drawInRect:btnRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
-		
+            
 			aCore.btnRect = btnRect;
 		}
 		
 		// adjust frame of subview if necessary
-		if(!aCore.collapsed){
+		if(!aCore.collapsed)
+        {
 			NSRect detailViewFrame = cellRect;
 			detailViewFrame.size = aCore.detailViewSize;
 			detailViewFrame.origin.x += 42;
@@ -171,7 +180,8 @@
 		}
 		
 		// Draw separator line if appropriate
-		if(aCore != [cores lastObject]){
+		if(aCore != [cores lastObject])
+        {
 			NSRect lineRect = NSMakeRect(0, cellRect.origin.y+2, self.frame.size.width, 1);
 			[separatorUpperColor setFill];
 			NSRectFill(lineRect);
@@ -185,11 +195,13 @@
 	}
 }
 
-- (void)_updateContent{	
+- (void)_updateContent
+{
 	// calculate new height;
 	float height = 0;
 	
-	for(OECoreViewItem* core in cores){
+	for(OECoreViewItem* core in cores)
+    {
 		height += collapsedHeight;
 		
 		if(!core.collapsed){
@@ -197,9 +209,11 @@
 			height += core.detailViewSize.height;
 			
 			// check if we are already superview
-			if([core.detailView superview]!=self){
+			if([core.detailView superview]!=self)
+            {
 				// check if view somehow has another superview
-				if([core.detailView superview]){
+				if([core.detailView superview])
+                {
 					// remove from super view
 					[core.detailView removeFromSuperview];
 				}
@@ -207,11 +221,14 @@
 				[self addSubview:core.detailView];
 				[core.detailView setHidden:YES];				
 			}
-		} else if([core.detailView superview]==self){
+		} 
+        else if([core.detailView superview]==self)
+        {
 			[core.detailView removeFromSuperview];
 		}
 		
-		if(core != [cores lastObject]){
+		if(core != [cores lastObject])
+        {
 			height += separatorHeight;
 		}
 		
@@ -234,34 +251,41 @@
 }
 
 
-- (void)mouseDown:(NSEvent *)theEvent{
+- (void)mouseDown:(NSEvent *)theEvent
+{
 	coreToBeExpanded = nil;
-
+    
 	NSPoint loc = [self convertPointFromBase:[theEvent locationInWindow]];
-	for(OECoreViewItem* aCore in cores){
-		if(NSPointInRect(loc, aCore.btnRect)){
+	for(OECoreViewItem* aCore in cores)
+    {
+		if(NSPointInRect(loc, aCore.btnRect))
+        {
 			coreToBeExpanded = aCore;
 			return;
 		}
 	}
 }
 
-- (void)mouseUp:(NSEvent *)theEvent{
+- (void)mouseUp:(NSEvent *)theEvent
+{
 	NSPoint loc = [self convertPointFromBase:[theEvent locationInWindow]];
-	if(coreToBeExpanded && NSPointInRect(loc, coreToBeExpanded.btnRect)){
+	if(coreToBeExpanded && NSPointInRect(loc, coreToBeExpanded.btnRect))
+    {
 		coreToBeExpanded.collapsed = !coreToBeExpanded.collapsed;
 		[self _updateContent];
 	}
-
+    
 }
 @end
 
 @implementation OECoreViewItem
 @synthesize collapsed, title, version, detailViewSize, detailView, btnRect;
 
-- (id)init {
+- (id)init 
+{
     self = [super init];
-    if (self) {
+    if (self) 
+    {
         self.collapsed = YES;
     }
     return self;

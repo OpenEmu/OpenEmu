@@ -9,7 +9,8 @@
 #import <Cocoa/Cocoa.h>
 
 @class OECoreViewItem;
-@interface OECoreView : NSView {
+@interface OECoreView : NSView 
+{
 @private
     NSArray* cores;
 	
@@ -20,7 +21,8 @@
 
 @end
 
-@interface OECoreViewItem : NSObject {
+@interface OECoreViewItem : NSObject 
+{
 @private
 	BOOL collapsed;
 	NSString* title;
