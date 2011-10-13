@@ -10,28 +10,29 @@
 
 @class OEControlsPopupButton;
 @protocol OEMenuDelegate;
-@interface OEMenu : NSWindow {
+@class OEMenuView;
+@interface OEMenu : NSWindow 
+{
 @private
-	OEControlsPopupButton* popupButton;
-	NSMenu* menu;
+    NSMenu* menu;
 	NSMenuItem* highlightedItem;
-	OEMenu* submenu;
+    
+    OEMenu* submenu;
 	OEMenu* supermenu;
 	
+	OEControlsPopupButton* popupButton;
+	
 	NSSize minSize, maxSize;
-	
+    int itemsAboveScroller, itemsBelowScroller;
+    
 	id _localMonitor;
-	
-	BOOL visible;
-	
-	id <OEMenuDelegate> delegate;
+	BOOL visible;	
     BOOL closing;
     
-    int itemsAboveScroller, itemsBelowScroller;
+    id <OEMenuDelegate> delegate;
 }
 #pragma mark -
 - (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
-
 - (void)closeMenuWithoutChanges:(id)sender;
 - (void)closeMenu;
 #pragma mark -
@@ -46,7 +47,6 @@
 @property (nonatomic, retain) NSMenu* menu;
 @property (retain) NSMenuItem* highlightedItem;
 @property (readonly, getter = isVisible) BOOL visible;
-@property BOOL closing;
 
 @property int itemsAboveScroller, itemsBelowScroller;
 @property (nonatomic, retain) id <OEMenuDelegate> delegate;
@@ -64,11 +64,11 @@
 - (void)menuDidCancel:(OEMenu*)men;
 @end
 
-@interface OEMenuView : NSView {
+@interface OEMenuView : NSView 
+{
 @private
     BOOL imageIncluded;
 }
-
 - (void)updateView; // TODO: rename method
 #pragma mark -
 - (NSMenuItem*)itemAtPoint:(NSPoint)p;

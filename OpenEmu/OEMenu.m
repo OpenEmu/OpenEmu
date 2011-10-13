@@ -8,19 +8,17 @@
 
 #import "OEMenu.h"
 #import "NSImage+OEDrawingAdditions.h"
+
 @interface OEMenu (Private)
+- (BOOL)_isClosing;
+- (OEMenuView*)menuView;
 - (void)_performcloseMenu;
 - (void)_closeByClickingItem:(NSMenuItem*)selectedItem;
 @end
 
 @implementation OEMenu
-@synthesize closing;
-@synthesize menu, supermenu, visible, minSize, maxSize, popupButton, delegate;
-@synthesize itemsAboveScroller, itemsBelowScroller;
-- (OEMenuView*)menuView
-{
-	return [[[self contentView] subviews] lastObject];
-}
+@synthesize menu, supermenu, visible, popupButton, delegate;
+@synthesize minSize, maxSize, itemsAboveScroller, itemsBelowScroller;
 + (void)initialize
 {
 	NSImage* menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
@@ -41,18 +39,18 @@
 		self.maxSize = NSMakeSize(192, 500);
 		self.minSize = NSMakeSize(82, 19*2);
 		
-        
         self.itemsAboveScroller = 0;
         self.itemsBelowScroller = 0;
         
 		OEMenuView* view = [[OEMenuView alloc] initWithFrame:NSZeroRect];
 		[view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 		[[self contentView] addSubview:view];
-		[self setHasShadow:NO];
 		[view release];
 		
 		[self setLevel:NSTornOffMenuWindowLevel];
 		[self setBackgroundColor:[NSColor clearColor]];	
+		[self setHasShadow:NO];
+        [self setOpaque:NO];
 	}
     return self;
 }
@@ -62,29 +60,34 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
     
 	self.popupButton = nil;
-	self.menu = nil;
 	self.highlightedItem = nil;
-	
+    
+    self.menu = nil;
+    self.submenu = nil;
+    self.supermenu = nil;
+
+    self.delegate = nil;
+    
+    if(_localMonitor){
+        [NSEvent removeMonitor:_localMonitor];
+        [_localMonitor release];
+        _localMonitor = nil;
+    }
+    
     [super dealloc];
 }
 
-
 #pragma mark -
-#pragma mark NSWindow overrides
-- (BOOL)isOpaque
-{
-	return NO;
-}
-
-#pragma mark -
+#pragma mark Opening / Closing the menu
 - (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win
 {
 	visible = YES;
-    self.closing = NO;
+    closing = NO;
 	
+    self.alphaValue = 1.0;
 	NSAssert(_localMonitor == nil, @"_localMonitor still exists somehow");
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask handler:^(NSEvent *incomingEvent) 
-    {
+    {        
         OEMenuView* view = [[[self contentView] subviews] lastObject];
 		if([incomingEvent type] == NSKeyDown)
         {
@@ -111,14 +114,13 @@
 	[win addChildWindow:self ordered:NSWindowAbove];
 	
 	[[self menuView] updateView];
-	self.alphaValue = 1.0;
     
 	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidShow:)]) [self.delegate performSelector:@selector(menuDidShow:) withObject:self];
 }
 
 - (void)closeMenuWithoutChanges:(id)sender
 {
-    self.closing = YES;
+    closing = YES;
 	// make sure the menu does not vanish while being closed
 	[self retain];
 	
@@ -134,7 +136,7 @@
 
 - (void)closeMenu
 {   
-    self.closing = YES;
+    closing = YES;
     
 	OEMenu* superMen = self;
 	while(superMen.supermenu)
@@ -156,71 +158,6 @@
 	
 	NSMenuItem* selectedItem = subMen.highlightedItem;
 	[self _closeByClickingItem:selectedItem];
-}
-
-
-#define flickerDelay 0.08
-- (void)_closeByClickingItem:(NSMenuItem*)selectedItem
-{    
-    self.closing = YES;
-	if([selectedItem isEnabled] && self.popupButton)
-    {
-		[self.popupButton selectItem:selectedItem];
-	}
-	
-	if(self.submenu) [self.submenu closeMenuWithoutChanges:nil];
-    
-    
-    [NSTimer scheduledTimerWithTimeInterval:flickerDelay target:self selector:@selector(_closeTimer:) userInfo:selectedItem repeats:NO];
-    self.highlightedItem = nil;
-    [self display];
-}
-- (void)_closeTimer:(NSTimer*)timer
-{
-    NSMenuItem* selectedItem = [timer userInfo];
-    [timer invalidate];
-    
-    [NSTimer scheduledTimerWithTimeInterval:flickerDelay target:self selector:@selector(_finalClosing:) userInfo:selectedItem repeats:NO];
-    
-    self.highlightedItem = selectedItem;
-    [self display];
-}
-- (void)_finalClosing:(NSTimer*)timer
-{
-    NSMenuItem* selectedItem = [timer userInfo];
-    [timer invalidate];
-    
-    [self _performcloseMenu];
-    
-    if(selectedItem && [selectedItem isEnabled] && [selectedItem target] && [selectedItem action]!=NULL && [[selectedItem target] respondsToSelector:[selectedItem action]])
-    {
-		[[selectedItem target] performSelectorOnMainThread:[selectedItem action] withObject:selectedItem waitUntilDone:NO];
-	}
-    
-    if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidSelect:)]) [self.delegate performSelector:@selector(menuDidSelect:) withObject:self];
-}
-
-- (void)_performcloseMenu{
-    [[self animator] setAlphaValue:0.1];
-	visible = NO;
-	self.highlightedItem = nil;
-    
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	if(_localMonitor!=nil)
-    {
-		[NSEvent removeMonitor:_localMonitor];
-		[_localMonitor release];
-		_localMonitor = nil;
-	}
-    
-	[[self parentWindow] removeChildWindow:self];
-	[self orderOut:nil];
-    
-    self.alphaValue = 1.0;
-	
-	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidHide:)]) [self.delegate performSelector:@selector(menuDidHide:) withObject:self];
-    self.closing = NO;
 }
 
 - (void)setMenu:(NSMenu *)nmenu
@@ -288,19 +225,111 @@
 {
 	return [self.menu itemArray];
 }
+#pragma mark -
+#pragma mark Private Methods
+#define flickerDelay 0.09
+
+- (BOOL)_isClosing
+{
+    return closing;
+}
+
+- (OEMenuView*)menuView
+{
+	return [[[self contentView] subviews] lastObject];
+}
+
+- (void)_performcloseMenu
+{
+    // fade menu window out
+    [[self animator] setAlphaValue:0.0];
+    self.highlightedItem = nil;
+ 
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	
+    // Remove event monitor
+	if(_localMonitor!=nil)
+    {
+		[NSEvent removeMonitor:_localMonitor];
+		[_localMonitor release];
+		_localMonitor = nil;
+	} else {
+        NSLog(@"skip freeing event monitor, does this happen?");
+    }
+    
+    // remove window
+	[[self parentWindow] removeChildWindow:self];
+	[self orderOut:nil];
+    
+    // call menuDidHide: on delegate
+	if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidHide:)]) [self.delegate performSelector:@selector(menuDidHide:) withObject:self];
+    
+    visible = NO;
+    closing = NO;
+    
+    // display to make sure next time the menu opens it shows the correct state
+    [self display];
+}
+
+- (void)_closeByClickingItem:(NSMenuItem*)selectedItem
+{    
+    closing = YES;
+	if(self.submenu) [self.submenu closeMenuWithoutChanges:nil];
+    
+    [NSTimer scheduledTimerWithTimeInterval:flickerDelay target:self selector:@selector(_closeTimer:) userInfo:selectedItem repeats:NO];
+    self.highlightedItem = nil;
+    [self display];
+}
+
+- (void)_closeTimer:(NSTimer*)timer
+{
+    NSMenuItem* selectedItem = [timer userInfo];
+    [timer invalidate];
+    if(![self _isClosing]) return;
+    
+    [NSTimer scheduledTimerWithTimeInterval:flickerDelay target:self selector:@selector(_finalClosing:) userInfo:selectedItem repeats:NO];
+    
+    self.highlightedItem = selectedItem;
+    [self display];
+}
+
+- (void)_finalClosing:(NSTimer*)timer
+{
+    NSMenuItem* selectedItem = [timer userInfo];
+    [timer invalidate];
+    if(![self _isClosing]) return;
+    
+    [self _performcloseMenu];
+    
+    // if an item is selected and the menu is attached to a popupbutton
+	if(selectedItem && [selectedItem isEnabled] && self.popupButton)
+    {
+        // we tell the popupbutton to select the item
+		[self.popupButton selectItem:selectedItem];
+	}
+
+    // if an item is selected and has a targen + action we call it
+    if(selectedItem && [selectedItem isEnabled] && [selectedItem target] && [selectedItem action]!=NULL && [[selectedItem target] respondsToSelector:[selectedItem action]])
+    {
+		[[selectedItem target] performSelectorOnMainThread:[selectedItem action] withObject:selectedItem waitUntilDone:NO];
+	}
+    
+    // tell the delegate that the menu selected an item
+    if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidSelect:)]) [self.delegate performSelector:@selector(menuDidSelect:) withObject:self];
+}
 @end
 #pragma mark -
 @implementation NSMenu (OEAdditions)
 - (OEMenu*)convertToOEMenu
 {
 	OEMenu* menu = [[OEMenu alloc] init];
-	
-	menu.menu = self;
-	
+    menu.menu = self;
 	return [menu autorelease];
 }
 @end
 
+#pragma mark -
+#pragma mark Menu Item Sizes + Spacing
 #define menuItemSpacingTop 8 + (imageIncluded ? 1 : 0)
 #define menuItemSpacingBottom 9 + (imageIncluded ? 1 : 0)
 #define menuItemSpacingLeft 13 + (imageIncluded ? 13 : 0)
@@ -312,8 +341,10 @@
 #define menuItemHeightImage 20
 #define menuItemSeparatorHeight 7
 #define menuItemHeight (imageIncluded ? menuItemHeightImage : menuItemHeightNoImage)
-#pragma mark -
+
 #define menuItemScrollerHeight 15
+#pragma mark -
+#pragma mark OEMenuView
 @interface OEMenuView (Private)
 - (void)highlightItemAtPoint:(NSPoint)p;
 @end
@@ -345,7 +376,6 @@
 #pragma mark TextAttributes
 - (NSDictionary*)itemTextAttributes
 {
-    
 	NSMutableDictionary* dict = [NSMutableDictionary dictionary];
 	
 	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
@@ -553,7 +583,7 @@
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    if(self.menu.closing) return;
+    if([self.menu _isClosing]) return;
 	// check if on selected item && selected item not disabled
 	// perform action, update selected item
 	
@@ -562,45 +592,30 @@
 		[self.menu closeMenu];
 	}
 }
-
-- (void)mouseDown:(NSEvent *)theEvent
-{
-    return;
-	if(!NSPointInRect([theEvent locationInWindow], self.frame))
-    {
-		[self.menu closeMenu];
-	} 
-    else 
-    {
-		NSPoint loc = [theEvent locationInWindow];
-		[self highlightItemAtPoint:[self convertPointFromBase:loc]];
-	}
-}
-
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-    if(self.menu.closing) return;
+    if([self.menu _isClosing]) return;
 	NSPoint loc = [theEvent locationInWindow];
 	[self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    if(self.menu.closing) return;
+    if([self.menu _isClosing]) return;
 	NSPoint loc = [theEvent locationInWindow];
 	[self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent
 {
-    if(self.menu.closing) return;
+    if([self.menu _isClosing]) return;
 	NSPoint loc = [theEvent locationInWindow];
 	[self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
-    if(self.menu.closing) return;
+    if([self.menu _isClosing]) return;
 	// if not mouse on subwindow
 	NSPoint loc = [theEvent locationInWindow];
 	[self highlightItemAtPoint:[self convertPointFromBase:loc]];
@@ -608,7 +623,7 @@
 #pragma mark -
 - (void)keyDown:(NSEvent *)theEvent
 {
-    if(self.menu.closing) return;
+    if([self.menu _isClosing]) return;
 	switch (theEvent.keyCode) 
     {
 		case 126: // UP
