@@ -181,6 +181,8 @@
         searchString = [searchString stringByAppendingString:@" || "];
     }
     
+    [supportedFileExtensions release];
+    
     searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
     
     NSLog(@"SearchString: %@", searchString);
