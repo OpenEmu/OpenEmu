@@ -90,9 +90,9 @@
     // get all system plugins, order them by name
 	NSArray* systemPlugins = [OESystemPlugin allPlugins];
     systemPlugins = [systemPlugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) 
-    {
-        return [[obj1 systemName] compare:[obj2 systemName]];
-    }];
+                     {
+                         return [[obj1 systemName] compare:[obj2 systemName]];
+                     }];
     
     // calculate number of rows (using 2 columns)
     int rows = ceil([systemPlugins count]/2.0);
@@ -103,34 +103,39 @@
     
     // calculate complete view height
     height = 374+(iHeight*rows+(rows-1)*vSpace);
+    
+    if(!librariesView)
+        return;
+    
     [librariesView setFrameSize:(NSSize){librariesView.frame.size.width, (iHeight*rows+(rows-1)*vSpace)}];
     
     __block float x = 0;
-    __block float y = librariesView.frame.size.height-iHeight;
+    __block float y =  librariesView.frame.size.height-iHeight;
     
     // enumerate plugins and add buttons for them
     [systemPlugins enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
-    {
-        // if we're still in the first column an we should be in the second
-        if(x==0 && idx>[systemPlugins count]/2){
-            // we reset x and y
-            x += iWidth+hSpace;
-            y = librariesView.frame.size.height-iHeight;
-        }
-        
-        // creating the button
-        NSRect rect = (NSRect){{x, y}, {iWidth, iHeight}};
-        OECheckBox* button = [[OECheckBox alloc] initWithFrame:rect];
-
-        [button setTarget:self];
-        [button setAction:@selector(toggleLibrary:)];
-        [button setTitle:[obj systemName]];
-        [librariesView addSubview:button];
-        [button release];
-        
-        // decreasing y
-        y -= iHeight+vSpace;
-    }];
+     {
+         // if we're still in the first column an we should be in the second
+         if(x==0 && idx>[systemPlugins count]/2){
+             // we reset x and y
+             x += iWidth+hSpace;
+             y = librariesView.frame.size.height-iHeight;
+         }
+         
+         // creating the button
+         NSRect rect = (NSRect){{x, y}, {iWidth, iHeight}};
+         OECheckBox* button = [[OECheckBox alloc] initWithFrame:rect];
+         
+         [button setTarget:self];
+         [button setAction:@selector(toggleLibrary:)];
+         [button setTitle:[obj systemName]];
+         
+         [librariesView addSubview:button];
+         [button release];
+         
+         // decreasing y
+         y -= iHeight+vSpace;
+     }];
 }
 
 @end

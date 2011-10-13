@@ -65,7 +65,7 @@
     self.menu = nil;
     self.submenu = nil;
     self.supermenu = nil;
-
+    
     self.delegate = nil;
     
     if(_localMonitor){
@@ -87,25 +87,25 @@
     self.alphaValue = 1.0;
 	NSAssert(_localMonitor == nil, @"_localMonitor still exists somehow");
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask handler:^(NSEvent *incomingEvent) 
-    {        
-        OEMenuView* view = [[[self contentView] subviews] lastObject];
-		if([incomingEvent type] == NSKeyDown)
-        {
-            [view keyDown:incomingEvent];
-            return (NSEvent *)nil;
-		}
-        
-		if([[incomingEvent window] isKindOfClass:[self class]])// mouse down in window, will be handle by content view
-        { 
-			return incomingEvent;
-		} 
-        else 
-        {
-			// event is outside of window, close menu without changes and remove event
-			[self closeMenuWithoutChanges:nil];
-		}
-        return (NSEvent *)nil;
-    }];
+                     {        
+                         OEMenuView* view = [[[self contentView] subviews] lastObject];
+                         if([incomingEvent type] == NSKeyDown)
+                         {
+                             [view keyDown:incomingEvent];
+                             return (NSEvent *)nil;
+                         }
+                         
+                         if([[incomingEvent window] isKindOfClass:[self class]])// mouse down in window, will be handle by content view
+                         { 
+                             return incomingEvent;
+                         } 
+                         else 
+                         {
+                             // event is outside of window, close menu without changes and remove event
+                             [self closeMenuWithoutChanges:nil];
+                         }
+                         return (NSEvent *)nil;
+                     }];
 	[_localMonitor retain];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges:) name:NSApplicationWillResignActiveNotification object:NSApp];
@@ -244,7 +244,7 @@
     // fade menu window out
     [[self animator] setAlphaValue:0.0];
     self.highlightedItem = nil;
- 
+    
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
     // Remove event monitor
@@ -253,9 +253,7 @@
 		[NSEvent removeMonitor:_localMonitor];
 		[_localMonitor release];
 		_localMonitor = nil;
-	} else {
-        NSLog(@"skip freeing event monitor, does this happen?");
-    }
+	}
     
     // remove window
 	[[self parentWindow] removeChildWindow:self];
@@ -307,7 +305,7 @@
         // we tell the popupbutton to select the item
 		[self.popupButton selectItem:selectedItem];
 	}
-
+    
     // if an item is selected and has a targen + action we call it
     if(selectedItem && [selectedItem isEnabled] && [selectedItem target] && [selectedItem action]!=NULL && [[selectedItem target] respondsToSelector:[selectedItem action]])
     {
@@ -511,8 +509,7 @@
  			
 			y += menuItemSeparatorHeight;
 			continue;
-		}
-		
+		}		
 		NSRect itemRect = NSMakeRect(menuItemSpacingLeft, y, self.frame.size.width-menuItemSpacingLeft-menuItemSpacingRight, menuItemHeight);
 		NSRect menuItemFrame = NSMakeRect(5, y, self.frame.size.width-5-5, menuItemHeight);
 		

@@ -10,50 +10,62 @@
 #import "NSImage+OEDrawingAdditions.h"
 #define NoInterpol [NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:NSImageInterpolationNone] forKey:NSImageHintInterpolation]
 @implementation OEHUDSlider
-- (id)initWithCoder:(NSCoder *)coder {
+- (id)initWithCoder:(NSCoder *)coder 
+{
     self = [super initWithCoder:coder];
-    if (self) {
+    if (self) 
+    {
 		[self setContinuous:YES];
 		[self setCanDrawConcurrently:YES];
     }
     return self;
 }
 
-- (id)init {
+- (id)init 
+{
     self = [super init];
-    if (self) {
+    if (self) 
+    {
     }
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
     [super dealloc];
 }
 @end
 
 @implementation OEHUDSliderCell
-- (id)initWithCoder:(NSCoder *)coder {
+- (id)initWithCoder:(NSCoder *)coder 
+{
     self = [super initWithCoder:coder];
-    if (self) {
+    if (self) 
+    {
 		[self setContinuous:YES];
     }
     return self;
 }
-- (id)init {
+- (id)init 
+{
     self = [super init];
-    if (self) {
+    if (self) 
+    {
         [self setContinuous:YES];
     }
     return self;
 }
-- (void)dealloc {
+- (void)dealloc 
+{
     [super dealloc];
 }
-- (BOOL)_usesCustomTrackImage{
+- (BOOL)_usesCustomTrackImage
+{
 	return YES;
 }
 #pragma mark -
-- (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped {
+- (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped 
+{
 	NSImage* track = [NSImage imageNamed:@"hud_slider_track"];
 	NSRect targetRect = NSMakeRect(aRect.origin.x+3,aRect.origin.y+9, aRect.size.width-12, 6);
 	[track drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:4 rightBorder:4 topBorder:0 bottomBorder:0];
@@ -68,11 +80,13 @@
 	[level drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:3 rightBorder:1 topBorder:0 bottomBorder:0];
 }
 
-- (CGFloat)knobThickness{
+- (CGFloat)knobThickness
+{
 	return 12.0;
 }
 
-- (void)drawKnob:(NSRect)knobRect{
+- (void)drawKnob:(NSRect)knobRect
+{
 	NSImage* track = [NSImage imageNamed:@"hud_slider_thumb"];
 	
 	NSRect targetRect = NSMakeRect(knobRect.origin.x, 7, 16, 16);

@@ -10,14 +10,16 @@
 #import "NSImage+OEDrawingAdditions.h"
 @implementation OEImageButton
 
-- (void)viewDidMoveToWindow{
+- (void)viewDidMoveToWindow
+{
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidBecomeMainNotification object:[self window]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidResignMainNotification object:[self window]];
 	
 	[self updateTrackingAreas];
 }
 
-- (void)updateTrackingAreas{
+- (void)updateTrackingAreas
+{
 	while([[self trackingAreas] count]>0){
 		[self removeTrackingArea:[[self trackingAreas] lastObject]];
 	}
@@ -28,35 +30,42 @@
 	}
 }
 
-- (void)windowChanged:(id)sender{
+- (void)windowChanged:(id)sender
+{
 	[self setNeedsDisplay:YES];
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	
     [super dealloc];
 }
 
-- (void)mouseEntered:(NSEvent *)theEvent{
+- (void)mouseEntered:(NSEvent *)theEvent
+{
 	[self setNeedsDisplay:TRUE];
 }
-- (void)mouseExited:(NSEvent *)theEvent{
+- (void)mouseExited:(NSEvent *)theEvent
+{
 	[self setNeedsDisplay:TRUE];
 }
 
-- (void)setCell:(NSCell *)aCell{
+- (void)setCell:(NSCell *)aCell
+{
 	[super setCell:aCell];
 	[self updateTrackingAreas];
 }
 @end
 #pragma mark -
 @implementation OEImageButtonCell
-- (BOOL)displaysHover{
+- (BOOL)displaysHover
+{
 	return NO;
 }
 #pragma mark -
-- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView{
+- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{
 	if(!image) return;
 	
 	BOOL windowActive = [[controlView window] isMainWindow] || ([[controlView window] parentWindow] && [[[controlView window] parentWindow] isMainWindow]);
@@ -67,7 +76,8 @@
 	NSPoint p = [controlView convertPointFromBase:[[controlView window] convertScreenToBase:[NSEvent mouseLocation]]];
 	BOOL rollover = NSPointInRect(p, controlView.frame);
 	OEButtonState buttonState;
-	if(isSelected){
+	if(isSelected)
+    {
 		if(!isEnabled){
 			buttonState = OEButtonStateSelectedDisabled;
 		} else if(!windowActive){
@@ -79,7 +89,9 @@
 		} else {
 			buttonState = OEButtonStateSelectedNormal;
 		}
-	} else {
+	}
+    else 
+    {
 		if(!isEnabled){
 			buttonState = OEButtonStateUnselectedDisabled;
 		} else if(!windowActive){
@@ -92,24 +104,28 @@
 			buttonState = OEButtonStateUnselectedNormal;
 		}
 	}
-		
+    
 	NSRect sourceRect = [self imageRectForButtonState:buttonState];
 	NSRect targetRect = cellFrame;
+    
 	[self.image drawInRect:targetRect fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:0 rightBorder:0 topBorder:0 bottomBorder:0];
 }
 
-- (NSRect)imageRectForButtonState:(OEButtonState)state{
+- (NSRect)imageRectForButtonState:(OEButtonState)state
+{
 	return NSZeroRect;
 }
 @synthesize image;
 @end
 
 @implementation OEToolbarButtonPushCell
-- (BOOL)displaysHover{
+- (BOOL)displaysHover
+{
 	return NO;
 }
 
-- (NSRect)imageRectForButtonState:(OEButtonState)state{
+- (NSRect)imageRectForButtonState:(OEButtonState)state
+{
 	NSRect rect = NSMakeRect(0, 0, [self.image size].width/3, [self.image size].height);
 	switch (state) {
 		case OEButtonStateSelectedInactive:
@@ -136,28 +152,33 @@
 @end
 
 @implementation OEToolbarButtonSelectableCell
-- (BOOL)displaysHover{
+- (BOOL)displaysHover
+{
 	return NO;
 }
 
-- (NSRect)imageRectForButtonState:(OEButtonState)state{
+- (NSRect)imageRectForButtonState:(OEButtonState)state
+{
 	NSRect rect = NSMakeRect(0, 0, [self.image size].width, [self.image size].height/5);
-	switch (state) {
+    
+    float height = [self.image size].height/5;
+	switch (state) 
+    {
 		case OEButtonStateSelectedDisabled:
 		case OEButtonStateSelectedInactive:
-			rect.origin.y = 69;
+			rect.origin.y = 4*height;
 			break;
 		case OEButtonStateUnselectedDisabled:
 		case OEButtonStateUnselectedInactive:
-			rect.origin.y = 92;
+			rect.origin.y = 3*height;
 			break;
 		case OEButtonStateUnselectedHover:
 		case OEButtonStateUnselectedNormal:
-			rect.origin.y = 46;
+			rect.origin.y = 2*height;
 			break;
 		case OEButtonStateSelectedHover:
 		case OEButtonStateSelectedNormal:
-			rect.origin.y = 23;
+			rect.origin.y = 1*height;
 			break;
 		case OEButtonStateSelectedPressed:
 		case OEButtonStateUnselectedPressed:
@@ -172,15 +193,18 @@
 @end
 
 @implementation OEImageButtonHoverPressed
-- (BOOL)displaysHover{
+- (BOOL)displaysHover
+{
 	return YES;
 }
-- (NSRect)imageRectForButtonState:(OEButtonState)state{
+- (NSRect)imageRectForButtonState:(OEButtonState)state
+{
 	NSRect rect = NSMakeRect(0, 0, [self.image size].width/3, [self.image size].height);
-	switch (state) {
+	switch (state) 
+    {
 		case OEButtonStateSelectedHover:
 		case OEButtonStateUnselectedHover:
-			rect.origin.x = 28;
+			rect.origin.x = [self.image size].width/3;
 			break;
 		case OEButtonStateSelectedPressed:
 		case OEButtonStateUnselectedPressed:
@@ -195,16 +219,18 @@
 @end
 
 @implementation OEImageButtonHoverSelectable
-- (BOOL)displaysHover{
+- (BOOL)displaysHover
+{
 	return YES;
 }
 
-- (NSRect)imageRectForButtonState:(OEButtonState)state{
+- (NSRect)imageRectForButtonState:(OEButtonState)state
+{
 	NSRect rect = NSMakeRect(0, 0, [self.image size].width/3, [self.image size].height/2);
 	switch (state) {
 		case OEButtonStateSelectedHover:
 		case OEButtonStateUnselectedHover:
-			rect.origin.x = 28;
+			rect.origin.x = rect.size.width;
 			break;
 		case OEButtonStateSelectedPressed:
 		case OEButtonStateUnselectedPressed:
@@ -213,8 +239,9 @@
 		default:
 			break;
 	}
-	
-	switch (state) {
+    
+	switch (state) 
+    {
 		case OEButtonStateSelectedInactive:
 		case OEButtonStateSelectedDisabled:
 		case OEButtonStateSelectedPressed:
@@ -238,14 +265,17 @@
 
 @implementation OEImageButtonPressed
 
-- (BOOL)displaysHover{
+- (BOOL)displaysHover
+{
 	return FALSE;
 }
 
-- (NSRect)imageRectForButtonState:(OEButtonState)state{
+- (NSRect)imageRectForButtonState:(OEButtonState)state
+{
 	NSRect rect = NSMakeRect(0, 0, [self.image size].width, [self.image size].height/2);
-
-	switch (state) {
+    
+	switch (state) 
+    {
 		case OEButtonStateSelectedInactive:
 		case OEButtonStateSelectedDisabled:
 		case OEButtonStateSelectedNormal:
@@ -255,7 +285,7 @@
 		case OEButtonStateUnselectedInactive:
 		case OEButtonStateUnselectedDisabled:
 			rect.origin.y = 0;
-		break;
+            break;
 		case OEButtonStateUnselectedPressed:
 		case OEButtonStateSelectedPressed:
 			rect.origin.y = rect.size.height;

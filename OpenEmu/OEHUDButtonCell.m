@@ -47,14 +47,9 @@
 	NSImage* image = [NSImage imageNamed:@"hud_button"];
     
 	[image setName:@"hud_button_pressed" forSubimageInRect:NSMakeRect(0, 2*image.size.height/4, image.size.width, image.size.height/4)];
-	[image setName:@"hud_button_blue" forSubimageInRect:NSMakeRect(0, 3*image.size.height/4, image.size.width, image.size.height/4)];
-	[image setName:@"hud_button_normal" forSubimageInRect:NSMakeRect(0, 1*image.size.height/4, image.size.width, image.size.height/4)];
+	[image setName:@"hud_button_blue" forSubimageInRect:NSMakeRect(0, 1*image.size.height/4, image.size.width, image.size.height/4)];
+	[image setName:@"hud_button_normal" forSubimageInRect:NSMakeRect(0, 3*image.size.height/4, image.size.width, image.size.height/4)];
 	[image setName:@"hud_button_red" forSubimageInRect:NSMakeRect(0, 0, image.size.width, image.size.height/4)];
-    
-    image = [NSImage imageNamed:@"hud_power_glyph"];
-    
-    [image setName:@"hud_power_glyph_normal" forSubimageInRect:(NSRect){{image.size.width/2,0}, {image.size.width/2, image.size.height}}];
-    [image setName:@"hud_power_glyph_pressed" forSubimageInRect:(NSRect){{0,0}, {image.size.width/2, image.size.height}}];
 }
 #pragma mark -
 - (void)drawBezelWithFrame:(NSRect)frame inView:(NSView *)controlView
@@ -85,7 +80,7 @@
     {
 		image = [self image];
 	}
-    frame.origin.y -= 1;
+    frame.origin.y = roundf((frame.size.height-image.size.height)/2)+3;
 	
 	[super drawImage:image withFrame:frame inView:controlView];
 }
