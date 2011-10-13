@@ -26,6 +26,8 @@
     self = [super initWithContentRect:NSMakeRect(0, 0, 431+(hideOptions?0:50), 45) styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:YES];
     if (self) 
     {
+        [self setMovableByWindowBackground:YES];
+        
 		self.gameDocument = doc;
         
 		[self setOpaque:NO];
