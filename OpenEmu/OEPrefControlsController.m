@@ -18,7 +18,7 @@
 #import "OESystemController.h"
 
 #import "OEControlsViewController.h"
-#import "OEControlerImageView.h"
+#import "OEControllerImageView.h"
 @interface OEPrefControlsController (Private)
 - (void)_rebuildSystemsMenu;
 - (void)_rebuildInputMenu;
@@ -159,7 +159,7 @@
     [self changePlayer:playerPopupButton];
     [self changeInputDevice:inputPopupButton];
     
-    OEControlerImageView* newControllerView = [[OEControlerImageView alloc] initWithFrame:[controllerView bounds]];
+    OEControllerImageView* newControllerView = [[OEControllerImageView alloc] initWithFrame:[controllerView bounds]];
 	[newControllerView setImage:[preferenceViewController controllerImage]];
 	
     // Animation for controller image swapping

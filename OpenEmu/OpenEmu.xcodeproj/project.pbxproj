@@ -314,7 +314,7 @@
 		8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8310447013BE419000B283B0 /* OEHorizontalSplitView.m */; };
 		83199722142741790068C865 /* OEROMImporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83199721142741790068C865 /* OEROMImporter.m */; };
 		8328D9E513C75CAE0026D2A7 /* OEDBImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 8328D9E413C75CAE0026D2A7 /* OEDBImage.m */; };
-		83507247142F6029005D9033 /* OEControlerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControlerImageView.m */; };
+		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
 		83703B43140E4F9100EC27A7 /* Linear.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B3D140E4F9100EC27A7 /* Linear.png */; };
 		83703B44140E4F9100EC27A7 /* Nearest Neighbor.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B3E140E4F9100EC27A7 /* Nearest Neighbor.png */; };
 		83703B45140E4F9100EC27A7 /* Scale2xHQ.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B3F140E4F9100EC27A7 /* Scale2xHQ.png */; };
@@ -1085,8 +1085,8 @@
 		83199721142741790068C865 /* OEROMImporter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEROMImporter.m; sourceTree = "<group>"; };
 		8328D9E313C75CAE0026D2A7 /* OEDBImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBImage.h; sourceTree = "<group>"; };
 		8328D9E413C75CAE0026D2A7 /* OEDBImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBImage.m; sourceTree = "<group>"; };
-		83507245142F6029005D9033 /* OEControlerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlerImageView.h; sourceTree = "<group>"; };
-		83507246142F6029005D9033 /* OEControlerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlerImageView.m; sourceTree = "<group>"; };
+		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
+		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
 		83703B3D140E4F9100EC27A7 /* Linear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Linear.png; sourceTree = "<group>"; };
 		83703B3E140E4F9100EC27A7 /* Nearest Neighbor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Nearest Neighbor.png"; sourceTree = "<group>"; };
 		83703B3F140E4F9100EC27A7 /* Scale2xHQ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale2xHQ.png; sourceTree = "<group>"; };
@@ -2045,8 +2045,8 @@
 				53439B6313B932A1005C0CC8 /* OEBackgroundGradientView.m */,
 				53439B6413B932A1005C0CC8 /* OEBackgroundImageView.h */,
 				53439B6513B932A1005C0CC8 /* OEBackgroundImageView.m */,
-				83507245142F6029005D9033 /* OEControlerImageView.h */,
-				83507246142F6029005D9033 /* OEControlerImageView.m */,
+				83507245142F6029005D9033 /* OEControllerImageView.h */,
+				83507246142F6029005D9033 /* OEControllerImageView.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -3446,7 +3446,7 @@
 				83AF90871414CBC500B74C5B /* OEHUDGameWindow.m in Sources */,
 				83BACFBC1415229C008362DA /* OENewGameDocument.m in Sources */,
 				83199722142741790068C865 /* OEROMImporter.m in Sources */,
-				83507247142F6029005D9033 /* OEControlerImageView.m in Sources */,
+				83507247142F6029005D9033 /* OEControllerImageView.m in Sources */,
 				1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */,
 				83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */,
 				83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */,

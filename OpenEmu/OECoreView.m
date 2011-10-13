@@ -140,7 +140,7 @@
 		[attributedTitle drawInRect:textRect];
 		
 		// Draw version
-		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Helvetica" traits:NSBoldFontMask weight:4.0 size:11.0];
+		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Helvetica" traits:0 weight:0.0 size:11.0];
 		textColor = [NSColor colorWithDeviceWhite:0.62 alpha:1.0];
 		[textAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
 		[textAttributes setObject:font forKey:NSFontAttributeName];

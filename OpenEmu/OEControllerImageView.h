@@ -9,7 +9,7 @@
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface OEControlerImageView : NSView {
+@interface OEControllerImageView : NSView {
 	NSImage* image;
 	
 	NSPoint ringPosition;
