@@ -11,36 +11,45 @@
 
 @implementation OESidebarGroupItem
 
-+ (id)groupItemWithName:(NSString*)name{
++ (id)groupItemWithName:(NSString*)name
+{
 	OESidebarGroupItem* newItem = [[self alloc] init];
 	newItem.name = name;
 	return [newItem autorelease];
 }
 
-- (NSImage*)sidebarIcon{
+- (NSImage*)sidebarIcon
+{
 	return nil;
 }
-- (NSString*)sidebarName{
+- (NSString*)sidebarName
+{
 	return self.name;
 }
-- (BOOL)isSelectableInSdebar{
+- (BOOL)isSelectableInSdebar
+{
 	return NO;
 }
-- (BOOL)isEditableInSdebar{
+- (BOOL)isEditableInSdebar
+{
 	return NO;
 }
-- (BOOL)isGroupHeaderInSdebar{
+- (BOOL)isGroupHeaderInSdebar
+{
 	return YES;
 }
 
-- (BOOL)hasSubCollections{
+- (BOOL)hasSubCollections
+{
     return FALSE;
 }
 
-- (void)setSidebarName:(NSString *)newName{}
+- (void)setSidebarName:(NSString *)newName
+{}
 
 
-- (void)dealloc {
+- (void)dealloc 
+{
 	self.name = nil;
 	
     [super dealloc];

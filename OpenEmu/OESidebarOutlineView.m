@@ -12,30 +12,40 @@
 #import "OESidebarController.h"
 @implementation OESidebarOutlineView
 
-- (id)init{
+- (id)init
+{
     self = [super init];
-    if (self) {
+    if (self) 
+    {
     }
     
     return self;
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
     [super dealloc];
 }
 
 
-- (void)reloadData{
+- (void)reloadData
+{
 	[super reloadData];
-	[self expandItem:[self itemAtRow:0]];
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
+        [self expandItem:[self itemAtRow:0]];
 }
 
-- (void)reloadItem:(id)item{
+- (void)reloadItem:(id)item
+{
 	[super reloadItem:item];
-	[self expandItem:[self itemAtRow:0]];
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
+        [self expandItem:[self itemAtRow:0]];
 }
 
-- (id)_highlightColorForCell:(NSCell *)cell{
+- (id)_highlightColorForCell:(NSCell *)cell
+{
 	// we need to override this to return nil
 	// or we'll see the default selection rectangle when the app is running 
 	// in any OS before leopard
@@ -45,19 +55,21 @@
 }
 
 
-- (void)drawRect:(NSRect)dirtyRect{
+- (void)drawRect:(NSRect)dirtyRect
+{
 	[super drawRect:dirtyRect];
 	
 	[[NSColor blackColor] setFill];
 	NSRect blackBorderLine = [self bounds];
-
+    
 	blackBorderLine.origin.x += blackBorderLine.size.width-1;
 	blackBorderLine.size.width = 1;
 	
 	NSRectFill(blackBorderLine);
 }
 
-- (void)highlightSelectionInClipRect:(NSRect)theClipRect{
+- (void)highlightSelectionInClipRect:(NSRect)theClipRect
+{
 	NSWindow* win = [self window];
 	BOOL isActive = ([win isMainWindow] && [win firstResponder]==self) || [win firstResponder]==[OESidebarFieldEditor fieldEditor];
 	
@@ -67,13 +79,16 @@
 	NSColor* gradientTop;
 	NSColor* gradientBottom;
 	
-	if(isActive){ // Active
+	if(isActive)
+    { // Active
 		topLineColor = [NSColor colorWithDeviceRed:0.373 green:0.584 blue:0.91 alpha:1];
 		bottomLineColor = [NSColor colorWithDeviceRed:0.157 green:0.157 blue:0.157 alpha:1];
 		
 		gradientTop = [NSColor colorWithDeviceRed:0.263 green:0.51 blue:0.894 alpha:1];
 		gradientBottom = [NSColor colorWithDeviceRed:0.137 green:0.243 blue:0.906 alpha:1];
-	} else { // Inactive
+	}
+    else 
+    { // Inactive
 		topLineColor = [NSColor colorWithDeviceRed:0.671 green:0.671 blue:0.671 alpha:1];
 		bottomLineColor = [NSColor colorWithDeviceRed:0.184 green:0.184 blue:0.184 alpha:1];
 		
@@ -87,8 +102,10 @@
 	NSUInteger		anEndRow = aRow + aVisibleRowIndexes.length;
 	
 	// draw highlight for the visible, selected rows
-    for ( ; aRow < anEndRow; aRow++){
-		if([aSelectedRowIndexes containsIndex:aRow]){
+    for ( ; aRow < anEndRow; aRow++)
+    {
+		if([aSelectedRowIndexes containsIndex:aRow])
+        {
 			NSRect rowFrame = [self rectOfRow:aRow];
 			
 			NSRect innerTopLine = NSMakeRect(rowFrame.origin.x, rowFrame.origin.y+1, rowFrame.size.width, 1);
@@ -113,10 +130,11 @@
 	}
 }
 
-- (NSRect)frameOfOutlineCellAtRow:(NSInteger)row{
-	if(row==0)
+- (NSRect)frameOfOutlineCellAtRow:(NSInteger)row
+{
+	if(row==0 && [[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
 		return NSZeroRect;
-
+    
 	NSRect rect = [super frameOfOutlineCellAtRow:row];
 	
 	rect.origin.y += 3;
@@ -125,11 +143,15 @@
 }
 
 #pragma mark -
-- (void) keyDown:(NSEvent *) theEvent{
-    if([theEvent keyCode]==51 || [theEvent keyCode]==117){
-	  [(OESidebarController*)[self dataSource] removeSelectedItemsOfOutlineView:self];
-    } else {
-	  [super keyDown:theEvent];
+- (void) keyDown:(NSEvent *) theEvent
+{
+    if([theEvent keyCode]==51 || [theEvent keyCode]==117)
+    {
+        [(OESidebarController*)[self dataSource] removeSelectedItemsOfOutlineView:self];
+    } 
+    else
+    {
+        [super keyDown:theEvent];
     }
 }
 

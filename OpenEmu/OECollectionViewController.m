@@ -579,9 +579,7 @@
 #pragma mark Private
 - (void)_reloadData
 {
-	if(!collectionItem) return;
-	
-	NSPredicate* pred = [self.collectionItem predicate];
+	NSPredicate* pred = self.collectionItem?[self.collectionItem predicate]:[NSPredicate predicateWithValue:NO];
 	[gamesController setFetchPredicate:pred];
 	
 	NSError *error = nil;

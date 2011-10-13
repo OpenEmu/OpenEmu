@@ -18,18 +18,21 @@
 @synthesize groups, database, editingItem;
 @synthesize systems, collections;
 
-+ (void)initialize{
++ (void)initialize
+{
     // Collection Icons for sidebar
     NSImage* image = [NSImage imageNamed:@"collections"];
     
     [image setName:@"collections_simple" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
     [image setName:@"collections_smart" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
 }
-- (void)dealloc{
+- (void)dealloc
+{
     [super dealloc];
 }
 
-- (void)awakeFromNib{
+- (void)awakeFromNib
+{
     self.groups = [NSArray arrayWithObjects:
 				   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"")],
 				   [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"")],
@@ -61,28 +64,36 @@
     [sidebarView expandItem:[sidebarView itemAtRow:0]];
     
     NSScrollView* enclosingScrollView = [sidebarView enclosingScrollView];
-    if(enclosingScrollView){
+    if(enclosingScrollView)
+    {
 		[enclosingScrollView setDrawsBackground:YES];
 		[enclosingScrollView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
 		
 		[sidebarView setBackgroundColor:[NSColor clearColor]];
     }
+    
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
+        [sidebarView setAllowsEmptySelection:YES];
 }
 
 #pragma mark -
 #pragma mark Public
-- (void)setEnabled:(BOOL)enabled{
+- (void)setEnabled:(BOOL)enabled
+{
 	OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView setEnabled:enabled];
     [addCollectionBtn setEnabled:enabled];
 }
-- (IBAction)addCollectionAction:(id)sender{
+- (IBAction)addCollectionAction:(id)sender
+{
     [self addCollection:([NSEvent modifierFlags] & NSAlternateKeyMask)==0];
 }
-- (void)addCollection:(BOOL)isSmart{
+- (void)addCollection:(BOOL)isSmart
+{
     id item;
     
-    if(isSmart){
+    if(isSmart)
+    {
 		item = [self.database addNewCollection:nil];
     } else {
 		item = [self.database addNewSmartCollection:nil];
@@ -94,7 +105,8 @@
     [self startEditingItem:item];
 }
 
-- (void)reloadData{
+- (void)reloadData
+{
 	self.systems = self.database ? [self.database systems] : [NSArray array];
 	self.collections = self.database ? [self.database collections] : [NSArray array];
 	
@@ -102,7 +114,8 @@
     [sidebarView reloadData];
 }
 
-- (void)selectItem:(id)item{
+- (void)selectItem:(id)item
+{
 	OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
 	
     if(![item isSelectableInSdebar]) return;
@@ -112,7 +125,8 @@
     [sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:index] byExtendingSelection:NO];
 }
 
-- (void)startEditingItem:(id)item{
+- (void)startEditingItem:(id)item
+{
 	OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
     if(![item isEditableInSdebar]) return;
     
@@ -121,81 +135,99 @@
     
     [sidebarView editColumn:0 row:index withEvent:[[[NSEvent alloc] init] autorelease]  select:YES];
 }
-- (void)expandCollections:(id)sender{
+- (void)expandCollections:(id)sender
+{
 	OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView expandItem:[self.groups objectAtIndex:1]];
 }
 #pragma mark -
 #pragma mark NSOutlineView Delegate
-- (void)outlineViewSelectionDidChange:(NSNotification *)notification{
+- (void)outlineViewSelectionDidChange:(NSNotification *)notification
+{
 	OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
     id selectedCollection = [sidebarView itemAtRow:[sidebarView selectedRow]];
-    NSDictionary* userInfo = [NSDictionary dictionaryWithObject:selectedCollection forKey:@"selectedCollection"];
     
+    NSDictionary* userInfo = selectedCollection?[NSDictionary dictionaryWithObject:selectedCollection forKey:@"selectedCollection"]:nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SidebarSelectionChanged" object:self userInfo:userInfo];
 }
 
-- (void)outlineViewSelectionIsChanging:(NSNotification *)notification{}
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item{
+- (void)outlineViewSelectionIsChanging:(NSNotification *)notification
+{}
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldSelectItem:(id)item
+{
     return ![item isGroupHeaderInSdebar];
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item{
-    if ( item==[self.groups objectAtIndex:0] ) {
-		return NO;
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldCollapseItem:(id)item
+{
+    if ( item==[self.groups objectAtIndex:0] ) 
+    {
+		return YES;
     }
     return YES;
 }
 #pragma mark -
 #pragma mark NSOutlineView DataSource
-- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item{
-    if( item == nil){
+- (id)outlineView:(NSOutlineView *)outlineView child:(NSInteger)index ofItem:(id)item
+{
+    if( item == nil)
+    {
 		return [self.groups objectAtIndex:index];
     }
     
-    if( item == [self.groups objectAtIndex:0] ){
+    if( item == [self.groups objectAtIndex:0] )
+    {
 	  	return [self.systems objectAtIndex:index];
     }
     
-    if( item == [self.groups objectAtIndex:1] ){
+    if( item == [self.groups objectAtIndex:1] )
+    {
 		return [self.collections objectAtIndex:index];
     }
     
     return nil;
 }
-- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item{
+- (BOOL)outlineView:(NSOutlineView *)outlineView isItemExpandable:(id)item
+{
     return [(id <OESidebarDataSourceItem>)item isGroupHeaderInSdebar];
 }
 
-- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item{
-    if( item == nil ){
+- (NSInteger)outlineView:(NSOutlineView *)outlineView numberOfChildrenOfItem:(id)item
+{
+    if( item == nil )
+    {
 		return [self.groups count];
     }
     
     if(!self.database)
 		return 0;
     
-    if( item == [self.groups objectAtIndex:0] ){
+    if( item == [self.groups objectAtIndex:0] )
+    {
 		int count = [self.systems count];
 		return count;
     }
     
-    if( item == [self.groups objectAtIndex:1] ){
+    if( item == [self.groups objectAtIndex:1] )
+    {
 		return [self.collections count];
     }
     
     return 0;
 }
 
-- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item{
+- (id)outlineView:(NSOutlineView *)outlineView objectValueForTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+{
     return [item sidebarName];
 }
 
-- (void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item{
+- (void)outlineView:(NSOutlineView *)outlineView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn byItem:(id)item
+{
     self.editingItem = nil;
     
     
-    if([[object stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] isNotEqualTo:@""]){
+    if([[object stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" "]] isNotEqualTo:@""])
+    {
 		[item setSidebarName:object];
 		[self reloadData];
 		
@@ -204,26 +236,34 @@
     }
 }
 
-- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item {
+- (BOOL)outlineView:(NSOutlineView *)outlineView shouldEditTableColumn:(NSTableColumn *)tableColumn item:(id)item 
+{
     BOOL result = [item isEditableInSdebar];
-    if(result){
+    if(result)
+    {
 		self.editingItem = item;
-    } else {
+    }
+    else
+    {
 		self.editingItem = nil;
     }
     
     return result;
 }
 
-- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item{
-    if([item isGroupHeaderInSdebar]){ 
+- (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
+{
+    if([item isGroupHeaderInSdebar]){
+        
 		return 26.0;
     }	
     return 20.0;
 }
 
-- (void)outlineView:(NSOutlineView *)olv willDisplayCell:(NSCell*)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item {
-    if([cell isKindOfClass:[OESidebarCell class]]){
+- (void)outlineView:(NSOutlineView *)olv willDisplayCell:(NSCell*)cell forTableColumn:(NSTableColumn *)tableColumn item:(id)item 
+{
+    if([cell isKindOfClass:[OESidebarCell class]])
+    {
 		[(OESidebarCell*)cell setImage:[item sidebarIcon]];
 		[(OESidebarCell*)cell setIsGroup:[item isGroupHeaderInSdebar]];
 		
@@ -233,7 +273,8 @@
 }
 
 
-- (void)setEditingItem:(id)newEdItem{
+- (void)setEditingItem:(id)newEdItem
+{
     [newEdItem retain];
     [editingItem release];
     
@@ -241,16 +282,18 @@
 }
 
 
-- (void)removeSelectedItemsOfOutlineView:(NSOutlineView*)outlineView{
+- (void)removeSelectedItemsOfOutlineView:(NSOutlineView*)outlineView
+{
     NSIndexSet* indexes = [outlineView selectedRowIndexes];
     NSUInteger index = [indexes firstIndex];
     
     id item = [outlineView itemAtRow:index];
     BOOL removeItem = NO;
-    if([item isEditableInSdebar]){  
-		NSString* AlertSuppressedKey = @"ASRemoveCollection"; 
-		BOOL alertSuppressed = [[NSUserDefaults standardUserDefaults] boolForKey:AlertSuppressedKey];
-		if(!alertSuppressed){
+    if([item isEditableInSdebar])
+    {         
+		BOOL alertSuppressed = [[NSUserDefaults standardUserDefaults] boolForKey:UDRemoveCollectionSuppresedKey];
+		if(!alertSuppressed)
+        {
 			NSString* msg = NSLocalizedString(@"Errorrororo", @"");
 			NSString* info = NSLocalizedString(@"Blubbbi die blub blub", @"");
 			NSString* confirm = NSLocalizedString(@"Remove", @"");
@@ -260,19 +303,24 @@
 			[alert setShowsSuppressionButton:YES];
 			
 			removeItem = [alert runModal]==NSOKButton;
-			if(removeItem){
-				[[NSUserDefaults standardUserDefaults] setBool:[[alert suppressionButton] state] forKey:AlertSuppressedKey];		    
+			if(removeItem)
+            {
+				[[NSUserDefaults standardUserDefaults] setBool:[[alert suppressionButton] state] forKey:UDRemoveCollectionSuppresedKey];		    
 			}
-		} else {
+		}
+        else 
+        {
 			removeItem = alertSuppressed;
 		}
     }
     
-    if(removeItem){
+    if(removeItem)
+    {
 		[self.database removeCollection:item];
 		
 		// keep selection on last object if the one we removed was last
-		if(index == [outlineView numberOfRows]-1){
+		if(index == [outlineView numberOfRows]-1)
+        {
 			index --;
 		}
 		
@@ -283,17 +331,21 @@
     }
 }
 #pragma mark -
-- (void)willHide{
+- (void)willHide
+{
 	[addCollectionBtn setEnabled:NO];
 }
-- (void)willShow{
+- (void)willShow
+{
 	[addCollectionBtn setEnabled:YES];
 }
 #pragma mark -
-- (void)controlTextDidBeginEditing:(NSNotification *)aNotification{
+- (void)controlTextDidBeginEditing:(NSNotification *)aNotification
+{
     
 }
-- (void)controlTextDidEndEditing:(NSNotification *)aNotification{
+- (void)controlTextDidEndEditing:(NSNotification *)aNotification
+{
     self.editingItem = nil;
 }
 

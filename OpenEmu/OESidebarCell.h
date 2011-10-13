@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OESidebarCell : NSTextFieldCell {
+@interface OESidebarCell : NSTextFieldCell 
+{
 @private
 	BOOL isGroup, isEditing;
 	NSImage* image;

@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OESidebarOutlineView : NSOutlineView {
+@interface OESidebarOutlineView : NSOutlineView 
+{
 @private
     
 }

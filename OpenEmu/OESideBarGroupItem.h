@@ -10,7 +10,8 @@
 #import "OESidebarDataSourceItem.h"
 
 
-@interface OESidebarGroupItem : NSObject <OESidebarDataSourceItem> {
+@interface OESidebarGroupItem : NSObject <OESidebarDataSourceItem> 
+{
 @private
     NSString* name;
 }
