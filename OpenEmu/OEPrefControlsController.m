@@ -65,8 +65,11 @@
 			break;
 		}
 	}
+    
+    [CATransaction setDisableActions:YES];
     [self changeSystem:consolesPopupButton];
-   	
+   	[CATransaction commit];
+    
 	gradientOverlay.topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
 	gradientOverlay.bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
     
