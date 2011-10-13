@@ -50,7 +50,7 @@
 	NSRect titleRect = frame;
 	titleRect.origin.x += (titleRect.size.width-title.size.width)/2;
 	titleRect.size.width = title.size.width;
-	titleRect.origin.y -= 1;
+    titleRect.origin.y -= 2;
 	
 	[title drawInRect:titleRect];
 	return titleRect;

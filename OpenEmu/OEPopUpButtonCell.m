@@ -67,24 +67,6 @@
 	cellFrame.origin.x -= 3;
 	cellFrame.size.width += 3;
 	
-	if(FALSE && [((OEControlsPopupButton*)controlView).oemenu isVisible])
-    {
-		NSShadow* shadow = [[NSShadow alloc] init];
-		[shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.4]];
-		[shadow setShadowOffset:NSMakeSize(0, 0)];
-		[shadow setShadowBlurRadius:8];
-		NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
-		NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0.0 size:11.0];
-		[attributes setObject:[NSColor colorWithDeviceWhite:0.89 alpha:1.0] forKey:NSForegroundColorAttributeName];
-		[attributes setObject:font forKey:NSFontAttributeName];
-		[attributes setObject:shadow forKey:NSShadowAttributeName];
-		NSRect glowRect = cellFrame;
-		glowRect.origin.x += 11;
-		glowRect.origin.y += 3;
-		[[self title] drawInRect:glowRect withAttributes:attributes];
-		[shadow release];
-	}
-	
 	[super drawTitleWithFrame:cellFrame inView:controlView];
 	
 }
