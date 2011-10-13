@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1891</string>
 		<string key="IBDocument.AppKitVersion">1138.23</string>
 		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1938</string>
+			<string key="NS.object.0">1891</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSTextField</string>
@@ -39,7 +39,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSView" id="268028433">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSCustomView" id="243981024">
@@ -47,6 +47,7 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{0, 262}, {561, 274}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="347657162"/>
 						<string key="NSReuseIdentifierKey">_NS:499</string>
 						<string key="NSClassName">NSView</string>
@@ -54,15 +55,17 @@
 					<object class="NSCustomView" id="613243695">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{24, 25}, {512, 189}}</string>
+						<string key="NSFrame">{{24, 22}, {512, 189}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<string key="NSClassName">OEPrefBoxControls</string>
 					</object>
 					<object class="NSTextField" id="967997443">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">297</int>
-						<string key="NSFrame">{{392, 228}, {42, 17}}</string>
+						<string key="NSFrame">{{392, 225}, {42, 17}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="214329737"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="750678677">
@@ -98,8 +101,9 @@
 					<object class="NSPopUpButton" id="433849363">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">300</int>
-						<string key="NSFrame">{{25, 222}, {206, 26}}</string>
+						<string key="NSFrame">{{25, 219}, {206, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="687338305"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="122850583">
@@ -226,8 +230,9 @@
 					<object class="NSPopUpButton" id="687338305">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">297</int>
-						<string key="NSFrame">{{297, 222}, {89, 26}}</string>
+						<string key="NSFrame">{{297, 219}, {89, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="967997443"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="989294453">
@@ -303,8 +308,9 @@
 					<object class="NSPopUpButton" id="214329737">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">297</int>
-						<string key="NSFrame">{{436, 222}, {98, 26}}</string>
+						<string key="NSFrame">{{436, 219}, {98, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="613243695"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="665852651">
@@ -360,6 +366,7 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{0, 495}, {561, 41}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="433849363"/>
 						<bool key="NSViewIsLayerTreeHost">YES</bool>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -367,6 +374,8 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{561, 536}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="243981024"/>
 			</object>
 		</array>
@@ -727,12 +736,136 @@
 			<nil key="sourceID"/>
 			<int key="maxID">104</int>
 		</object>
-		<object class="IBClassDescriber" key="IBDocument.Classes"/>
+		<object class="IBClassDescriber" key="IBDocument.Classes">
+			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
+				<object class="IBPartialClassDescription">
+					<string key="className">OEAttributedTextFieldCell</string>
+					<string key="superclassName">NSTextFieldCell</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEAttributedTextFieldCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEBackgroundGradientView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEBackgroundGradientView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEBackgroundImageView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEBackgroundImageView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEControlsPopupButton</string>
+					<string key="superclassName">NSPopUpButton</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEControlsPopupButton.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OECtrlPopUpButtonCell</string>
+					<string key="superclassName">NSPopUpButtonCell</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OECtrlPopUpButtonCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEPrefBoxControls</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEPrefBoxControls.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEPrefControlsController</string>
+					<string key="superclassName">NSViewController</string>
+					<dictionary class="NSMutableDictionary" key="actions">
+						<string key="changeInputDevice:">id</string>
+						<string key="changePlayer:">id</string>
+						<string key="changeSystem:">id</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="actionInfosByName">
+						<object class="IBActionInfo" key="changeInputDevice:">
+							<string key="name">changeInputDevice:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="changePlayer:">
+							<string key="name">changePlayer:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="changeSystem:">
+							<string key="name">changeSystem:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="consolesPopupButton">NSPopUpButton</string>
+						<string key="controllerView">NSView</string>
+						<string key="controlsContainer">NSView</string>
+						<string key="gradientOverlay">OEBackgroundGradientView</string>
+						<string key="inputPopupButton">NSPopUpButton</string>
+						<string key="playerPopupButton">NSPopUpButton</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="consolesPopupButton">
+							<string key="name">consolesPopupButton</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="controllerView">
+							<string key="name">controllerView</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="controlsContainer">
+							<string key="name">controlsContainer</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="gradientOverlay">
+							<string key="name">gradientOverlay</string>
+							<string key="candidateClassName">OEBackgroundGradientView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="inputPopupButton">
+							<string key="name">inputPopupButton</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="playerPopupButton">
+							<string key="name">playerPopupButton</string>
+							<string key="candidateClassName">NSPopUpButton</string>
+						</object>
+					</dictionary>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEPrefControlsController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEPrefCtrlLabelCell</string>
+					<string key="superclassName">OEAttributedTextFieldCell</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEPrefCtrlLabelCell.h</string>
+					</object>
+				</object>
+			</array>
+		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
+		</object>
+		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
+			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
+			<real value="0.0" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>

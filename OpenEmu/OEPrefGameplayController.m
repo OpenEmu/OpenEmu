@@ -14,7 +14,8 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
+    if (self) 
+    {
     }
     return self;
 }
@@ -24,21 +25,23 @@
     [super dealloc];
 }
 
-- (void)awakeFromNib{
+- (void)awakeFromNib
+{
     // Setup plugins menu
 	NSArray *filterPlugins = [[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     // These filters are loaded and run by GL, and do not rely on QTZs
     NSArray* filterNames = [filterPlugins arrayByAddingObjectsFromArray:
-                    [NSArray arrayWithObjects:
-                     @"Linear",
-                     @"Nearest Neighbor",
-                     @"Scale2xHQ",
-                     @"Scale2xPlus",
-                     @"Scale4x",
-                     @"Scale4xHQ",
-                     nil]];
+                            [NSArray arrayWithObjects:
+                             @"Linear",
+                             @"Nearest Neighbor",
+                             @"Scale2xHQ",
+                             @"Scale2xPlus",
+                             @"Scale4x",
+                             @"Scale4xHQ",
+                             nil]];
 	NSMenu* filterMenu = [[NSMenu alloc] init];
-    for(NSString* aName in filterNames){
+    for(NSString* aName in filterNames)
+    {
 		[filterMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
 	}
 	[filterSelection setMenu:filterMenu];
@@ -46,33 +49,41 @@
 	
 	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
 	NSString* selectedFilterName = [sud objectForKey:UDVideoFilterKey];
-	if(selectedFilterName && [filterSelection itemWithTitle:selectedFilterName]){
+	if(selectedFilterName && [filterSelection itemWithTitle:selectedFilterName])
+    {
 		[filterSelection selectItemWithTitle:selectedFilterName];
-	} else {
+	} 
+    else 
+    {
 		[filterSelection selectItemAtIndex:0];
 	}
 	[self changeFilter:filterSelection];
 }
 #pragma mark ViewController Overrides
-- (NSString*)nibName{
+- (NSString*)nibName
+{
 	return @"OEPrefGameplayController";
 }
 
 #pragma mark OEPreferencePane Protocol
-- (NSImage*)icon{
+- (NSImage*)icon
+{
 	return [NSImage imageNamed:@"gameplay_tab_icon"];
 }
 
-- (NSString*)title{
+- (NSString*)title
+{
 	return @"Gameplay";
 }
 
-- (NSSize)viewSize{
-	return NSMakeSize(423, 347);
+- (NSSize)viewSize
+{
+	return NSMakeSize(423, 339);
 }
 #pragma mark -
 #pragma mark UI Actions
-- (IBAction)changeFilter:(id)sender{
+- (IBAction)changeFilter:(id)sender
+{
 	NSString* filterName =  [[filterSelection selectedItem] title];
     // TODO: check if filter is loaded externaly -> use an image from there
 	// else ...

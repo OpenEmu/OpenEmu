@@ -9,7 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "OEPreferencePane.h"
 
-@interface OEPrefGameplayController : NSViewController <OEPreferencePane> {
+@interface OEPrefGameplayController : NSViewController <OEPreferencePane> 
+{
 @private
     IBOutlet NSImageView    * filterPreviewView;
     IBOutlet NSPopUpButton  * filterSelection;
