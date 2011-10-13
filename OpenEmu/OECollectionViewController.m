@@ -26,7 +26,8 @@
 
 @implementation OECollectionViewController
 @synthesize database;
-+ (void)initialize{
++ (void)initialize
+{
     // Indicators for list view
     NSImage* image = [NSImage imageNamed:@"list_indicators"];
     
@@ -54,7 +55,8 @@
     [image setName:@"selector_ring_inactive" forSubimageInRect:NSMakeRect(29, 0, 29, 29)];
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
     [collectionItem release], collectionItem = nil;
     [gamesController release], gamesController = nil;
     
@@ -62,15 +64,18 @@
 }
 #pragma mark -
 #pragma mark View Controller Stuff
-- (void)awakeFromNib{
+- (void)awakeFromNib
+{
 	[gamesController setUsesLazyFetching:YES];
 }
 
-- (NSString*)nibName{
+- (NSString*)nibName
+{
     return @"CollectionViewController";
 }
 
-- (void)finishSetup{
+- (void)finishSetup
+{
 	if(gamesController!=nil) return;
 	
     // Set up games controller
@@ -127,33 +132,39 @@
 	[self _reloadData];
 }
 #pragma mark -
-- (NSArray*)selectedGames{
+- (NSArray*)selectedGames
+{
 	return [gamesController selectedObjects];
 }
 
 #pragma mark -
 #pragma mark View Selection
-- (IBAction)selectGridView:(id)sender{
+- (IBAction)selectGridView:(id)sender
+{
     [self _selectView:0];
 }
 
-- (IBAction)selectFlowView:(id)sender{
+- (IBAction)selectFlowView:(id)sender
+{
     [self _selectView:1];
 }
 
-- (IBAction)selectListView:(id)sender{   
+- (IBAction)selectListView:(id)sender
+{ 
     [self _selectView:2];
 }
 
 
-- (void)_selectView:(int)view{
+- (void)_selectView:(int)view
+{
     [gridViewBtn setState: NSOffState];
     [flowViewBtn setState: NSOffState];
     [listViewBtn setState: NSOffState];
     
     NSView* nextView = nil;
     float splitterPosition =-1;
-    switch (view) {
+    switch (view) 
+    {
 		case 0: ;// Grid View
 			[gridViewBtn setState: NSOnState];
 			nextView = gridViewContainer;
@@ -185,7 +196,8 @@
     if(!nextView || [nextView superview]!=nil)
 		return;
     
-    while([[[self view] subviews] count]!=0){
+    while([[[self view] subviews] count]!=0)
+    {
 		NSView* currentSubview = [[[self view] subviews] objectAtIndex:0];
 		[currentSubview removeFromSuperview];
     }
@@ -196,7 +208,8 @@
 }
 #pragma mark -
 #pragma mark "Notifications" (not really)
-- (void)willHide{
+- (void)willHide
+{
     [searchField setEnabled:NO];
     
     [sizeSlider setEnabled:NO];
@@ -206,7 +219,8 @@
     [listViewBtn setEnabled:NO];
     [listView setEnabled:NO];
 }
-- (void)willShow{
+- (void)willShow
+{
     [searchField setEnabled:YES];
     
     [sizeSlider setEnabled:YES];
@@ -219,7 +233,8 @@
 
 #pragma mark -
 #pragma mark Toolbar Actions
-- (IBAction)search:(id)sender{
+- (IBAction)search:(id)sender
+{
     NSPredicate* pred = [[sender stringValue] isEqualToString:@""]?nil:[NSPredicate predicateWithFormat:@"name contains[cd] %@", [sender stringValue]];
     [gamesController setFilterPredicate:pred];
     
@@ -227,7 +242,8 @@
 	[coverFlowView reloadData];
     [gridView reloadData];
 }
-- (IBAction)changeGridSize:(id)sender{
+- (IBAction)changeGridSize:(id)sender
+{
     
     float zoomValue = [sender floatValue];
     [gridView setItemSize:NSMakeSize(roundf(26+142*zoomValue), roundf(44+7+142*zoomValue))];
@@ -237,7 +253,8 @@
 
 #pragma mark -
 #pragma mark Property Getters / Setters
-- (void)setCollectionItem:(id <NSObject, OECollectionViewItemProtocol>)_collectionItem{
+- (void)setCollectionItem:(id <NSObject, OECollectionViewItemProtocol>)_collectionItem
+{
     [_collectionItem retain];
     [collectionItem release];
     
@@ -246,54 +263,70 @@
     [self _reloadData];
 }
 
-- (id)collectionItem{
+- (id)collectionItem
+{
     return collectionItem;
 }
 
 
 #pragma mark -
 #pragma mark GridView Delegate
-- (void)gridView:(IKSGridView*)aGridView selectionChanged:(NSArray*)selectedItems{
+- (void)gridView:(IKSGridView*)aGridView selectionChanged:(NSArray*)selectedItems
+{
 	[gamesController setSelectionIndexes:[aGridView selectedIndexes]];
 }
 
-- (void)gridView:(IKSGridView*)gridView itemsMagnifiedToSize:(NSSize)newSize{
-}
+- (void)gridView:(IKSGridView*)gridView itemsMagnifiedToSize:(NSSize)newSize
+{}
 
 #pragma mark -
 #pragma mark Grid View DataSource
-- (NSUInteger)numberOfItemsInGridView:(IKSGridView*)aView{
+- (NSUInteger)numberOfItemsInGridView:(IKSGridView*)aView
+{
     return [[gamesController arrangedObjects] count];
 }
 
-- (id)gridView:(IKSGridView*)aView objectValueOfItemAtIndex:(NSUInteger)index{
+- (id)gridView:(IKSGridView*)aView objectValueOfItemAtIndex:(NSUInteger)index
+{
 	NSManagedObjectID* objid = [(NSManagedObject*)[[gamesController arrangedObjects] objectAtIndex:index] objectID];
     return [[[self database] managedObjectContext] objectWithID:objid];
 }
 
-- (void)gridView:(IKSGridView *)aView setObject:(id)obj forKey:(NSString*)key atIndex:(NSUInteger)index{
+- (void)gridView:(IKSGridView *)aView setObject:(id)obj forKey:(NSString*)key atIndex:(NSUInteger)index
+{
     id <OECoverGridDataSourceItem> object = [self gridView:aView objectValueOfItemAtIndex:index];
-
-    if([key isEqualTo:@"rating"]){
+    
+    if([key isEqualTo:@"rating"])
+    {
         [object setGridRating:[obj unsignedIntegerValue]];
-    } else if([key isEqualTo:@"title"]){
+    } else if([key isEqualTo:@"title"])
+    {
         [object setGridTitle:obj];
     }
     
 }
-- (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString *)key atIndex:(NSUInteger)index{
-	if(index==-1){
+- (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString *)key atIndex:(NSUInteger)index
+{
+	if(index==-1)
+    {
 		return nil;
 	}
 	
     id <OECoverGridDataSourceItem> object = [self gridView:aView objectValueOfItemAtIndex:index];
-	if([key isEqualTo:@"status"]){
+	if([key isEqualTo:@"status"])
+    {
 		return [NSNumber numberWithInt:[object gridStatus]];
-	} else if([key isEqualTo:@"image"]){
+	}
+    else if([key isEqualTo:@"image"])
+    {
 		return [object gridImageWithSize:[gridView itemSize]];
-	} else if([key isEqualTo:@"title"]){
+	} 
+    else if([key isEqualTo:@"title"])
+    {
 		return [object gridTitle];
-	} else if([key isEqualTo:@"rating"]){
+	} 
+    else if([key isEqualTo:@"rating"])
+    {
 		return [NSNumber numberWithInt:[object gridRating]];		
 	}
 	
@@ -301,7 +334,8 @@
 }
 #pragma mark -
 #pragma mark NSTableView DataSource
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView{
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+{
     
     if( aTableView == listView){
 		return [[gamesController arrangedObjects] count];
@@ -310,28 +344,39 @@
     return 0;
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex{
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
     
-    if( aTableView == listView){
-	/*	NSManagedObject* manobj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
-		NSManagedObjectID* objID = [manobj objectID];
-		
-		NSManagedObjectContext* context = [[NSManagedObjectContext alloc] init];
-		[context setPersistentStoreCoordinator:[[manobj managedObjectContext] persistentStoreCoordinator]];
-		*/
+    if( aTableView == listView)
+    {
+        /*	NSManagedObject* manobj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
+         NSManagedObjectID* objID = [manobj objectID];
+         
+         NSManagedObjectContext* context = [[NSManagedObjectContext alloc] init];
+         [context setPersistentStoreCoordinator:[[manobj managedObjectContext] persistentStoreCoordinator]];
+         */
 		id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
-
+        
 		NSString* colIdent = [aTableColumn identifier];			
 		id result = nil;
-		if([colIdent isEqualToString:@"romStatus"]){
+		if([colIdent isEqualToString:@"romStatus"])
+        {
 			result = [obj listViewStatus:([aTableView selectedRow]==rowIndex)];
-		} else if([colIdent isEqualToString:@"romName"]){
+		} 
+        else if([colIdent isEqualToString:@"romName"])
+        {
 			result = [obj listViewTitle];
-		} else if([colIdent isEqualToString:@"romRating"]){
+		} 
+        else if([colIdent isEqualToString:@"romRating"])
+        {
 			result = [obj listViewRating];
-		} else if([colIdent isEqualToString:@"romLastPlayed"]){
+		} 
+        else if([colIdent isEqualToString:@"romLastPlayed"])
+        {
 			result = [obj listViewLastPlayed];			
-		} else if([colIdent isEqualToString:@"romConsole"]){
+		}
+        else if([colIdent isEqualToString:@"romConsole"])
+        {
 			result = [obj listViewConsoleName];
 		}
 		
@@ -342,14 +387,15 @@
 	return nil;
 }
 
-- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex{
+- (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
     
-    if( aTableView == listView){
+    if( aTableView == listView)
+    {
 		id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
-		if([[aTableColumn identifier] isEqualTo:@"rating"]){
+		if([[aTableColumn identifier] isEqualTo:@"romRating"]){
 			[obj setListViewRating:anObject];
-		}
-		
+		}		
 		return;
     }
     
@@ -357,13 +403,16 @@
     return;
 }
 
-- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors{
-    if( aTableView==listView ){
+- (void)tableView:(NSTableView *)aTableView sortDescriptorsDidChange:(NSArray *)oldDescriptors
+{
+    if( aTableView==listView )
+    {
     }
 }
 #pragma mark -
 #pragma mark TableView Drag and Drop 
-- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation{
+- (BOOL)tableView:(NSTableView *)aTableView acceptDrop:(id < NSDraggingInfo >)info row:(NSInteger)row dropOperation:(NSTableViewDropOperation)operation
+{
     
     if( aTableView == listView && operation==NSTableViewDropAbove)
 		return YES;
@@ -371,7 +420,8 @@
     return NO;
 }
 
-- (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation{
+- (NSDragOperation)tableView:(NSTableView *)aTableView validateDrop:(id < NSDraggingInfo >)info proposedRow:(NSInteger)row proposedDropOperation:(NSTableViewDropOperation)operation
+{
     
     if( aTableView == listView && operation==NSTableViewDropAbove)
 		return NSDragOperationGeneric;
@@ -381,13 +431,16 @@
 }
 
 
-- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard{
+- (BOOL)tableView:(NSTableView *)aTableView writeRowsWithIndexes:(NSIndexSet *)rowIndexes toPasteboard:(NSPasteboard *)pboard
+{
     
-    if( aTableView == listView ){
-		[rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-			id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:idx];
-			[pboard writeObjects:[NSArray arrayWithObject:obj]];			
-		}];
+    if( aTableView == listView )
+    {
+		[rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) 
+         {
+             id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:idx];
+             [pboard writeObjects:[NSArray arrayWithObject:obj]];			
+         }];
 		
 		return YES;
     }
@@ -397,14 +450,16 @@
 
 #pragma mark -
 #pragma mark NSTableView Delegate
-- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex{
-    
-    if(aTableView == listView){
-		
-		if([aCell isKindOfClass:[NSTextFieldCell class]]){
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    if(aTableView == listView)
+    {
+		if([aCell isKindOfClass:[NSTextFieldCell class]])
+        {
 			NSDictionary* attr;
 			
-			if([[aTableView selectedRowIndexes] containsIndex:rowIndex]){
+			if([[aTableView selectedRowIndexes] containsIndex:rowIndex])
+            {
 				attr = [NSDictionary dictionaryWithObjectsAndKeys:
 						[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:9 size:11.0], NSFontAttributeName, 
 						[NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];		
@@ -423,8 +478,10 @@
     
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex{
-    if( aTableView == listView ){
+- (BOOL)tableView:(NSTableView *)aTableView shouldEditTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    if( aTableView == listView )
+    {
 		if([[aTableColumn identifier] isEqualTo:@"romRating"]) return NO;
 		
 		return YES;
@@ -433,9 +490,11 @@
     return NO;	
 }
 
-- (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView{
+- (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView
+{
     
-    if( aTableView == listView ){
+    if( aTableView == listView )
+    {
 		return YES;
     }
     
@@ -443,15 +502,18 @@
     return YES;
 }
 
-- (CGFloat)tableView:(NSTableView *)aTableView heightOfRow:(NSInteger)row{	
-    if( aTableView == listView ){
+- (CGFloat)tableView:(NSTableView *)aTableView heightOfRow:(NSInteger)row
+{
+    if( aTableView == listView )
+    {
 		return 17.0;
     }
     
     return 0.0;
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex{
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
+{
     if( aTableView == listView ){
 		return YES;
     }
@@ -459,13 +521,15 @@
     return YES;
 }
 
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification{
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+{
     NSTableView* aTableView = [aNotification object];
     
-    if( aTableView == listView ){
+    if( aTableView == listView )
+    {
 		NSIndexSet* selectedIndexes = [listView selectedRowIndexes];
 		
-		 [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
+        [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
 		
 		[selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
 			[listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
@@ -475,19 +539,23 @@
     }
 }
 
-- (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row{
-    if( tableView == listView && [[tableColumn identifier] isEqualTo:@"romRating"] ){
+- (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+{
+    if( tableView == listView && [[tableColumn identifier] isEqualTo:@"romRating"] )
+    {
 		return YES;
     }
     return NO;
 }
 #pragma mark -
 #pragma mark ImageFlow Data Source
-- (NSUInteger)numberOfItemsInImageFlow:(IKImageFlowView *)aBrowser{
+- (NSUInteger)numberOfItemsInImageFlow:(IKImageFlowView *)aBrowser
+{
     return [[gamesController arrangedObjects] count];
 }
 
-- (id)imageFlow:(id)aFlowLayer itemAtIndex:(int)index{
+- (id)imageFlow:(id)aFlowLayer itemAtIndex:(int)index
+{
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
 
@@ -495,10 +563,11 @@
 #pragma mark -
 #pragma mark ImageFlow Delegates
 - (NSUInteger)imageFlow:(IKImageFlowView *)browser writeItemsAtIndexes:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pasteboard{ return 0; }
-- (void)imageFlow:(IKImageFlowView *)sender removeItemsAtIndexes:(NSIndexSet *)indexes{}
+- (void)imageFlow:(IKImageFlowView *)sender removeItemsAtIndexes:(NSIndexSet *)indexes
+{}
 - (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
 {
-    // TODO: run game eventually
+    // TODO: run game
 }
 
 - (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index
@@ -508,7 +577,8 @@
 
 #pragma mark -
 #pragma mark Private
-- (void)_reloadData{
+- (void)_reloadData
+{
 	if(!collectionItem) return;
 	
 	NSPredicate* pred = [self.collectionItem predicate];
@@ -516,7 +586,8 @@
 	
 	NSError *error = nil;
 	BOOL ok = [gamesController fetchWithRequest:nil merge:NO error:&error];
-	if(!ok){
+	if(!ok)
+    {
 		NSLog(@"Error while fetching: %@", error);
 		return;
 	}

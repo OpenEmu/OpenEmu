@@ -15,13 +15,14 @@
 
 @class OELibraryDatabase;
 @class OEHorizontalSplitView;
-@interface OECollectionViewController : NSViewController <IKSGridViewDelegate, IKSGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource>{
+@interface OECollectionViewController : NSViewController <IKSGridViewDelegate, IKSGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource>
+{
 @private
     OELibraryDatabase	* database;
     NSArrayController	* gamesController;
     
     id <NSObject, OECollectionViewItemProtocol> collectionItem;
-
+    
     IBOutlet NSView			* gridViewContainer;	// gridview
     IBOutlet IKSGridView		* gridView;			// scrollview for gridview
     
