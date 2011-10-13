@@ -39,7 +39,14 @@
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.4]];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];
 	
-	[attributes setObject:[NSColor colorWithDeviceWhite:0.89 alpha:1.0] forKey:NSForegroundColorAttributeName];
+    if([((OEControlsPopupButton*)self.controlView).oemenu isVisible])
+    {
+	 [attributes setObject:[NSColor colorWithDeviceRed:0.741 green:0.737 blue:0.737 alpha:1.0] forKey:NSForegroundColorAttributeName];
+    } 
+    else 
+    {
+        [attributes setObject:[NSColor colorWithDeviceWhite:0.89 alpha:1.0] forKey:NSForegroundColorAttributeName];
+    }
 	[attributes setObject:font forKey:NSFontAttributeName];
 	[attributes setObject:shadow forKey:NSShadowAttributeName];
 	
@@ -54,7 +61,7 @@
 	cellFrame.origin.x -= 3;
 	cellFrame.size.width += 3;
 	
-	if([((OEControlsPopupButton*)controlView).oemenu isVisible]){
+	if(FALSE && [((OEControlsPopupButton*)controlView).oemenu isVisible]){
 		NSShadow* shadow = [[NSShadow alloc] init];
 		[shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.4]];
 		[shadow setShadowOffset:NSMakeSize(0, 0)];
