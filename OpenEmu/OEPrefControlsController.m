@@ -140,8 +140,8 @@
 	[preferenceView setFrame:[controlsContainer bounds]];
 	if([[controlsContainer subviews] count])
         [[controlsContainer animator] replaceSubview:[[controlsContainer subviews] objectAtIndex:0] with:preferenceView];
-    
-	[[controlsContainer animator] addSubview:preferenceView];
+    else
+        [[controlsContainer animator] addSubview:preferenceView];
     
     [sud setObject:systemIdentifier forKey:UDControlsPluginNameKey];
     

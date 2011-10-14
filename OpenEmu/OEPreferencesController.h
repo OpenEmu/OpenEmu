@@ -7,11 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
 @class OEBackgroundImageView;
 @class OEBackgroundGradientView;
 @class OEToolbarView;
-@interface OEPreferencesController : NSWindowController {
+@interface OEPreferencesController : NSWindowController 
+{
 @private
 	NSArray* preferencePanes;
 	OEToolbarView* toolbar;	

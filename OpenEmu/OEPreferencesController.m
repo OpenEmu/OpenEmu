@@ -7,6 +7,8 @@
 //
 
 #import "OEPreferencesController.h"
+#import <Quartz/Quartz.h>
+
 #import "OEBackgroundImageView.h"
 #import "OEBackgroundGradientView.h"
 
@@ -22,6 +24,7 @@
 #import "OEPrefControlsController.h"
 #import "OEPrefCoresController.h"
 
+#define AnimationDuration 0.3
 @interface OEPreferencesController (priavte)
 - (void)_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag;
 - (void)_reloadPreferencePanes;
@@ -29,15 +32,18 @@
 @end
 @implementation OEPreferencesController
 @synthesize preferencePanes;
-- (id)initWithWindow:(NSWindow *)window{
+- (id)initWithWindow:(NSWindow *)window
+{
     self = [super initWithWindow:window];
-    if (self) {
+    if (self) 
+    {
     }
     
     return self;
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
 	[toolbar release];
 	toolbar = nil;
 	
@@ -47,11 +53,13 @@
     [super dealloc];
 }
 
-- (NSString*)windowNibName{
+- (NSString*)windowNibName
+{
 	return @"Preferences";
 }
 
-- (void)windowDidLoad{
+- (void)windowDidLoad
+{
     [super windowDidLoad];
 	
 	INAppStoreWindow* win = (INAppStoreWindow*)[self window];	
@@ -70,16 +78,27 @@
 	NSInteger selectedTab = [standardDefaults integerForKey:UDSelectedPreferencesTab];
 	
 	// Make sure that value from User Defaults is valid
-	if(selectedTab < 0 || selectedTab >= [[toolbar items] count]){
+	if(selectedTab < 0 || selectedTab >= [[toolbar items] count])
+    {
 		selectedTab = 0;
 	}
 	
 	OEToolbarItem* selectedItem = [[toolbar items] objectAtIndex:selectedTab];
 	[toolbar markItemAsSelected:selectedItem];
 	[self switchView:selectedItem animate:NO];
+    
+    [self.window.contentView setWantsLayer:YES];    
+    
+    CATransition *paneTransition = [CATransition animation];
+    paneTransition.type = kCATransitionFade;
+    paneTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    paneTransition.duration = AnimationDuration;
+    
+    [self.window.contentView setAnimations:[NSDictionary dictionaryWithObject:paneTransition  forKey:@"subviews"]];
 }
 #pragma mark -
-- (void)_reloadPreferencePanes{
+- (void)_reloadPreferencePanes
+{
 	NSMutableArray* array = [NSMutableArray array];
 	
 	NSViewController <OEPreferencePane> * controller;
@@ -101,8 +120,10 @@
 	[self _rebuildToolbar];
 }
 
-- (void)_rebuildToolbar{
-	if(toolbar){
+- (void)_rebuildToolbar
+{
+	if(toolbar)
+    {
 		[toolbar removeFromSuperview];
 		[toolbar release];
 		toolbar = nil;
@@ -111,7 +132,8 @@
 	INAppStoreWindow* win = (INAppStoreWindow*)[self window];
 	toolbar = [[OEToolbarView alloc] initWithFrame:NSMakeRect(0, 0, win.frame.size.width-10, 58)];
 	
-	for(id <OEPreferencePane> aPreferencePane in self.preferencePanes){
+	for(id <OEPreferencePane> aPreferencePane in self.preferencePanes)
+    {
 		OEToolbarItem* toolbarItem = [[[OEToolbarItem alloc] init] autorelease];
 		[toolbarItem setTitle:[aPreferencePane title]];
 		[toolbarItem setIcon:[aPreferencePane icon]];
@@ -121,11 +143,13 @@
 	}
 }
 #pragma mark -
-- (void)switchView:(id)sender{
+- (void)switchView:(id)sender
+{
 	[self switchView:sender animate:YES];
 }
 
-- (void)switchView:(id)sender animate:(BOOL)animateFlag{
+- (void)switchView:(id)sender animate:(BOOL)animateFlag
+{
 	NSInteger selectedTab = [[toolbar items] indexOfObject:sender];
 	NSViewController <OEPreferencePane> * pane = [self.preferencePanes objectAtIndex:selectedTab];
 	
@@ -143,7 +167,8 @@
 	[standardDefaults setInteger:selectedTab forKey:UDSelectedPreferencesTab];
 }
 
-- (void)_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag{
+- (void)_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag
+{
 	NSWindow* win = [self window];
 	
 	if(view==[win contentView]) return;
@@ -152,23 +177,21 @@
 	contentRect.size = size;
 	NSRect frameRect = [win frameRectForContentRect:contentRect];
 	frameRect.origin.y += win.frame.size.height-frameRect.size.height;
-	
-	[win setContentView:[[[NSView alloc] init] autorelease]];
 
 	nextView = view;
 	[view setFrameSize:size];
-	
+            
 	CAAnimation* anim = [win animationForKey:@"frame"];
-	[anim setDelegate:self];
+    anim.duration = AnimationDuration;
 	[win setAnimations:[NSDictionary dictionaryWithObject:anim forKey:@"frame"]];
 	
-	[[win animator] setFrame:frameRect display:YES];
-}
-#pragma mark -
-- (void)animationDidStart:(CAAnimation *)anim{}
-- (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag{
-	NSWindow* win = [self window];
-	[win setContentView:nextView];
-	[anim setDelegate:nil];
+    [CATransaction begin];
+    if([win.contentView subviews].count)
+        [animateFlag?[win.contentView animator]:win.contentView replaceSubview:[win.contentView subviews].lastObject with:view];
+    else {
+        [animateFlag?[win.contentView animator]:win.contentView addSubview:view];
+    }
+    [animateFlag?[win animator]:win setFrame:frameRect display:YES];
+    [CATransaction commit];
 }
 @end
