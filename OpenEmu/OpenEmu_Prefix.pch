@@ -76,9 +76,9 @@
 #define UDNameStateByDateKey		@"dateName"					/*  skips if true:	Gameplay window -> sheet -> state name					*/
 
 // Preferences, Controls tab
-#define UDControlsPluginNameKey     @"lastControlsPlugin"
-#define UDControlsPlayerKey         @"lastControlsPlayer"
-#define UDControlsDeviceTypeKey     @"lastControlsDevice"
+#define UDControlsPluginIdentifierKey   @"lastControlsPlugin"
+#define UDControlsPlayerKey             @"lastControlsPlayer"
+#define UDControlsDeviceTypeKey         @"lastControlsDevice"
 
 // "Hidden" preferences
 #define UDRegionKey					@"region"					/*	release region (force a region)	*/

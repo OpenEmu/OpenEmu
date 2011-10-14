@@ -58,7 +58,7 @@
     [inputPopupButton selectItemWithTag:binding];
     [self changeInputDevice:self];
     
-    NSString* pluginName = [sud stringForKey:UDControlsPluginNameKey];
+    NSString* pluginName = [sud stringForKey:UDControlsPluginIdentifierKey];
 	[consolesPopupButton selectItemAtIndex:0];
 	for(NSMenuItem* anItem in [consolesPopupButton itemArray])
     {
@@ -143,7 +143,7 @@
     else
         [[controlsContainer animator] addSubview:preferenceView];
     
-    [sud setObject:systemIdentifier forKey:UDControlsPluginNameKey];
+    [sud setObject:systemIdentifier forKey:UDControlsPluginIdentifierKey];
     
     [self changePlayer:playerPopupButton];
     [self changeInputDevice:inputPopupButton];
