@@ -10,10 +10,11 @@
 
 @implementation OEControlsKeyLabelCell
 
-- (void)setupAttributes{
+- (void)setupAttributes
+{
 	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
+	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0.0 size:11.0];
 	
 	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowBlurRadius:1.0];

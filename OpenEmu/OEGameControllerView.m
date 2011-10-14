@@ -4,14 +4,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -19,10 +19,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OEGameControllerView.h"
@@ -34,7 +34,8 @@
 
 @implementation OEGameControllerView
 NSRect RoundNSRect(NSRect imageFrame);
-NSRect RoundNSRect(NSRect imageFrame){
+NSRect RoundNSRect(NSRect imageFrame)
+{
 	imageFrame.origin.x = floorf(imageFrame.origin.x);
 	imageFrame.origin.y = floorf(imageFrame.origin.y);
 	imageFrame.size.width = ceilf(imageFrame.size.width);
@@ -63,14 +64,17 @@ NSRect RoundNSRect(NSRect imageFrame){
 {
 }
 
-- (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end{
+- (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end
+{
 }
 #pragma mark -
-- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget{
+- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget
+{
 	[self addButtonWithName:aName label:label target:aTarget highlightPoint:NSZeroPoint];
 }
 
-- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget highlightPoint:(NSPoint)p{
+- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget highlightPoint:(NSPoint)p
+{
 	NSRect labelRect = NSMakeRect(0, 0, 0, 0);
 	NSRect buttonRect = NSMakeRect(0, 0, 0, 0);;
 	
@@ -93,11 +97,13 @@ NSRect RoundNSRect(NSRect imageFrame){
 }
 
 
-- (void)nextColumn{
+- (void)nextColumn
+{
 	[buttonsAndLabels addObject:[NSNull null]];
 }
 
-- (void)addColumnLabel:(NSString*)label{
+- (void)addColumnLabel:(NSString*)label
+{
 	NSRect labelRect = NSMakeRect(0, 0, 0, 0);
 	NSTextField* labelField = [[NSTextField alloc] initWithFrame:labelRect];
 	NSTextFieldCell* labelFieldCell = [[OEControlsKeyHeadlineCell alloc] init];
@@ -108,9 +114,11 @@ NSRect RoundNSRect(NSRect imageFrame){
 	[labelField release];
 }
 
-- (void)updateButtons{
+- (void)updateButtons
+{
 	//TODO: Method needs cleanup
-	while([[self subviews] count]){
+	while([[self subviews] count])
+    {
 		[[[self subviews] lastObject] removeFromSuperview];
 	}
 	
@@ -118,19 +126,24 @@ NSRect RoundNSRect(NSRect imageFrame){
 	// Determine number of columns that we need (using 4 rows)
 	int columns = 1;
 	int rows = 1;
-	for(NSUInteger i=0; i<[buttonsAndLabels count]-2; i+=2){
+	for(NSUInteger i=0; i<[buttonsAndLabels count]-2; i+=2)
+    {
 		id x = [buttonsAndLabels objectAtIndex:i];
-		if([x isKindOfClass:[NSTextField class]] && [[x cell] isKindOfClass:[OEControlsKeyHeadlineCell class]]){
+		if([x isKindOfClass:[NSTextField class]] && [[x cell] isKindOfClass:[OEControlsKeyHeadlineCell class]])
+        {
 			i --;
 			hasGroups = YES;
 			continue;
 		}
 		
-		if(x == [NSNull null] || rows == 4){
+		if(x == [NSNull null] || rows == 4)
+        {
 			if(x==[NSNull null]) i--;
 			rows = 1;
 			columns ++;
-		} else {
+		} 
+        else 
+        {
 			rows ++;
 		}
 	}
@@ -149,8 +162,9 @@ NSRect RoundNSRect(NSRect imageFrame){
 	
 	float groupXIndent = 10.0;
 	float groupYIndent = -10.0;
-
-	if(columns==2){	
+    
+	if(columns==2)
+    {	
 		horizontalItemSpacing = 120;
 		labelWidth = 112;
 	}
@@ -162,11 +176,11 @@ NSRect RoundNSRect(NSRect imageFrame){
 	int row = 0;
 	
 	BOOL inGroup = NO;
-	for(itemIndex=0; itemIndex < [buttonsAndLabels count]; itemIndex++){
-		
-		
+	for(itemIndex=0; itemIndex < [buttonsAndLabels count]; itemIndex++)
+    {
 		id item = [buttonsAndLabels objectAtIndex:itemIndex];
-		if(item == [NSNull null]){
+		if(item == [NSNull null])
+        {
 			column ++;
 			row = 0;
 			
@@ -174,15 +188,16 @@ NSRect RoundNSRect(NSRect imageFrame){
 			continue;
 		}
 		
-		if (row==4) {
+		if (row==4) 
+        {
 			column ++;
 			row = 0;
 			
 			inGroup = NO;
 		}
 		
-		
-		if([item isKindOfClass:[NSTextField class]] && [[item cell] isKindOfClass:[OEControlsKeyHeadlineCell class]]){
+        if([item isKindOfClass:[NSTextField class]] && [[item cell] isKindOfClass:[OEControlsKeyHeadlineCell class]])
+        {
 			inGroup = YES;
 			
 			float columnWidth = buttonWidth+labelWidth+labelButtonSpacing;
@@ -190,25 +205,37 @@ NSRect RoundNSRect(NSRect imageFrame){
 			NSRect headlineFrame = RoundNSRect(NSMakeRect(leftBorder+column*(buttonWidth+horizontalItemSpacing)-columnWidth, topBorder+3.5*(verticalItemSpacing+buttonHeight), columnWidth, labelHeight));
 			[item setFrame:headlineFrame];
 			[self addSubview:item];
-			 
-			 continue;
+            
+            continue;
 		}
-			 
+        
 		NSRect buttonRect = RoundNSRect(NSMakeRect(leftBorder+column*(buttonWidth+horizontalItemSpacing), topBorder+(3-row)*(verticalItemSpacing+buttonHeight), buttonWidth, buttonHeight));
 		
-		if(inGroup){
+		if(inGroup)
+        {
 			buttonRect.origin.x += groupXIndent;
 			buttonRect.size.width -= groupXIndent/2;
 		}
-		if(hasGroups){
+		if(hasGroups)
+        {
 			buttonRect.origin.y += groupYIndent;
 		}
 		
 		[item setFrame:buttonRect];
 		
 		NSRect labelRect = RoundNSRect(NSMakeRect(buttonRect.origin.x-labelWidth-labelButtonSpacing, buttonRect.origin.y-4, labelWidth, labelHeight));
+        
+        NSTextField* label = [buttonsAndLabels objectAtIndex:itemIndex+1];
+        
+        BOOL multiline = [label attributedStringValue].size.width >= labelRect.size.width;
+        if(multiline)
+        {
+            labelRect.size.height += 10;
+            labelRect.origin.y -= 3;
+        }
+        
 		if(inGroup) labelRect.size.width -= groupXIndent/2;
-		[[buttonsAndLabels objectAtIndex:itemIndex+1] setFrame:labelRect];
+		[label setFrame:labelRect];
 		
 		[self addSubview:item];
 		[self addSubview:[buttonsAndLabels objectAtIndex:itemIndex+1]];
@@ -218,12 +245,14 @@ NSRect RoundNSRect(NSRect imageFrame){
 	}
 }
 
-- (void)setFrame:(NSRect)frameRect{
+- (void)setFrame:(NSRect)frameRect
+{
 	[super setFrame:frameRect];
 	[self updateButtons];
 }
 #pragma mark -
-- (void)selectNextKeyButton:(id)currentButton{
+- (void)selectNextKeyButton:(id)currentButton
+{
 	if(!currentButton || !buttonsAndLabels) return;
 	
 	NSInteger index = [buttonsAndLabels indexOfObject:currentButton];
@@ -232,35 +261,41 @@ NSRect RoundNSRect(NSRect imageFrame){
 	
 	NSInteger i;
 	id nextButton = nil;
-	for(i=index+1; i < [buttonsAndLabels count]; i++){
+	for(i=index+1; i < [buttonsAndLabels count]; i++)
+    {
 		id potentialButton = [buttonsAndLabels objectAtIndex:i];
-		if([potentialButton isKindOfClass:[OEControlsKeyButton class]]){
+		if([potentialButton isKindOfClass:[OEControlsKeyButton class]])
+        {
 			nextButton = potentialButton;
 			break;
 		}
 	}
 	
 	/* // Remove comment if selection is supposed to move back to first button
-	if(nextButton==nil){
-		for(id potentialButton in buttonsAndLabels){
-			if([potentialButton isKindOfClass:[OEControlsKeyButton class]]){
-				nextButton = potentialButton;
-				break;
-			}
-		}	
-	}
+     if(nextButton==nil){
+     for(id potentialButton in buttonsAndLabels){
+     if([potentialButton isKindOfClass:[OEControlsKeyButton class]]){
+     nextButton = potentialButton;
+     break;
+     }
+     }	
+     }
 	 */
 	
-	if(nextButton && [nextButton target] && [nextButton action] && [[nextButton target] respondsToSelector:[nextButton action]]){
-			[nextButton setState:NSOnState];
-			[[nextButton target] performSelector:[nextButton action] withObject:nextButton];
+	if(nextButton && [nextButton target] && [nextButton action] && [[nextButton target] respondsToSelector:[nextButton action]])
+    {
+        [nextButton setState:NSOnState];
+        [[nextButton target] performSelector:[nextButton action] withObject:nextButton];
 	}
 }
 #pragma mark -
-- (BOOL)acceptsFirstResponder{
+- (BOOL)acceptsFirstResponder
+{
 	return YES;
 }
 
-- (void)keyUp:(NSEvent *)theEvent{}
-- (void)keyDown:(NSEvent *)theEvent{}
+- (void)keyUp:(NSEvent *)theEvent
+{}
+- (void)keyDown:(NSEvent *)theEvent
+{}
 @end
