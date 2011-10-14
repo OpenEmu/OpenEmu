@@ -10,12 +10,15 @@
 
 @class OEHUDWindowThemeView;
 @class OEImageButton;
-@interface OEHUDWindow : NSWindow <NSWindowDelegate>{
+@interface OEHUDWindow : NSWindow <NSWindowDelegate>
+{
 @private
 	NSWindow				* _borderWindow;
 }
 - (id)initWithContentRect:(NSRect)frame;
 @end
-@interface OEHUDWindowThemeView : NSView {
+@interface OEHUDWindowThemeView : NSView 
+{
 }
+
 @end

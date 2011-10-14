@@ -18,7 +18,9 @@
 @end
 @implementation OEHUDWindow
 
-+ (void)initialize{
++ (void)initialize
+{
+    if([NSImage imageNamed:@"hud_window_active"]) return;
 	NSImage* img = [NSImage imageNamed:@"hud_window"];
 	
 	[img setName:@"hud_window_active" forSubimageInRect:NSMakeRect(0, 0, img.size.width/2, img.size.height)];
@@ -36,24 +38,29 @@
 			backing:bufferingType
 			defer:deferCreation];
 	
-	if (self){
+	if (self)
+    {
 		[self _initialSetup];		
 	}
     return self;
 }
 
-- (id)initWithContentRect:(NSRect)frame {
+- (id)initWithContentRect:(NSRect)frame 
+{
     self = [self initWithContentRect:frame styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
-    if (self) {}
+    if (self) 
+    {}
     return self;
 }
 
-- (void)awakeFromNib{
+- (void)awakeFromNib
+{
 	[super awakeFromNib];
 	[self _initialSetup];
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
 	[_borderWindow release];
 	_borderWindow = nil;
 	
@@ -61,8 +68,10 @@
 }
 #pragma mark -
 #pragma mark Private
-- (void)_initialSetup{
-	[self setHasShadow:NO];
+- (void)_initialSetup
+{
+	[self setHasShadow
+     :NO];
 	[self setOpaque:NO];
 	[self setBackgroundColor:[NSColor clearColor]];
 	
@@ -74,27 +83,30 @@
 	// Register for notifications
 	NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
 	[nc addObserver:self selector:@selector(_layout) name:NSWindowDidResizeNotification object:self];
-
+    
 	[nc addObserver:self selector:@selector(_layout) name:NSWindowDidResignKeyNotification object:self];
 	[nc addObserver:self selector:@selector(_layout) name:NSWindowDidBecomeKeyNotification object:self];
-		
+    
 	_borderWindow = [[OEHUDBorderWindow alloc] init];
 	[self addChildWindow:_borderWindow ordered:NSWindowAbove];
 	[_borderWindow orderFront:self];
 }
 
-- (void)_layout{
+- (void)_layout
+{
 	[_borderWindow setFrame:self.frame display:YES];
 	[_borderWindow display];
 }
 
-- (id)contentView{
+- (id)contentView
+{
 	return [[[super contentView] subviews] lastObject];
 }
 
-- (void)setContentView:(NSView *)aView{
+- (void)setContentView:(NSView *)aView
+{
 	NSView* contentView = [[[super contentView] subviews] lastObject];
-
+    
 	if(contentView)[contentView removeFromSuperview];
 	
 	NSView* actualContentView = [super contentView];
@@ -113,18 +125,21 @@
 }
 #pragma mark -
 #pragma mark NSWindow Overrides
-- (BOOL)canBecomeKeyWindow{
+- (BOOL)canBecomeKeyWindow
+{
 	return YES;
 }
 
-- (BOOL)canBecomeMainWindow{
+- (BOOL)canBecomeMainWindow
+{
 	return YES;
 }
 
 @end
 
 @implementation OEHUDBorderWindow
-- (id)init{
+- (id)init
+{
 	self = [self initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
 	if(self){		
 		[self setHasShadow:NO];
@@ -135,81 +150,96 @@
 		
 		NSView* borderView = [[OEHUDWindowThemeView alloc] initWithFrame:NSZeroRect];
 		[super setContentView:borderView];
-//		[[self contentView] addSubview:borderView];
-// 		[borderView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        //		[[self contentView] addSubview:borderView];
+        // 		[borderView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 		[borderView release];
 	}
-
+    
 	return self;
 }
 
-- (void)setContentView:(NSView *)aView{}
+- (void)setContentView:(NSView *)aView
+{}
 
-- (void)display{
+- (void)display
+{
 	NSLog(@"displaay called on some part of the hud window");
 	[[self contentView] display];
 }
-- (void)setParentWindow:(NSWindow *)window{
+- (void)setParentWindow:(NSWindow *)window
+{
 	[super setParentWindow:window];
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 	
     [super dealloc];
 }
 
-- (BOOL)canBecomeKeyWindow{
+- (BOOL)canBecomeKeyWindow
+{
 	return NO;
 }
 
-- (BOOL)canBecomeMainWindow{
+- (BOOL)canBecomeMainWindow
+{
 	return NO;
 }
 @end
 
 @implementation OEHUDWindowThemeView
 
-- (id)init {
+- (id)init 
+{
     self = [super init];
-    if (self) {
+    if (self) 
+    {
     }
     return self;
 }
-- (id)initWithCoder:(NSCoder *)coder {
+- (id)initWithCoder:(NSCoder *)coder 
+{
     self = [super initWithCoder:coder];
-    if (self) {
+    if (self) 
+    {
     }
     return self;
 }
-- (id)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame 
+{
     self = [super initWithFrame:frame];
     if (self) {
     }
     return self;
 }
 #pragma mark -
-- (BOOL)isOpaque{
+- (BOOL)isOpaque
+{
 	return NO;
 }
 
-- (NSRect)resizeRect{
+- (NSRect)resizeRect
+{
 	// unused // const CGFloat resizeBoxSize = 11.0;
 	// unused // const CGFloat contentViewPadding = 2.0;
 	
 	return NSMakeRect([self bounds].size.width-11, 0, 11, 11);
 }
 
-- (NSRect)titleBarRect{
+- (NSRect)titleBarRect
+{
 	NSRect titleBarRect = [self bounds];
 	
 	titleBarRect.size.height = 22;
 	titleBarRect.origin.y = [self bounds].size.height-titleBarRect.size.height;
-		
+    
 	return titleBarRect;
 }
 
-- (void)drawRect:(NSRect)dirtyRect{
+- (void)drawRect:(NSRect)dirtyRect
+{
 	[[NSColor clearColor] setFill];
 	NSRectFill([self bounds]);
 	
@@ -247,61 +277,61 @@
 	[attributedWindowTitle release];
 }
 /*
-- (void)mouseDown:(NSEvent *)theEvent{
-	NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-	
-	lastMouseLocation = NSZeroPoint;
-	
-	isResizing = NO;
-	
-	if(!isResizing && !NSPointInRect(pointInView, [self titleBarRect])){
-		[[self nextResponder] mouseDown:theEvent];
-		return;
-	}
-	
-	NSWindow *window = [self window];
-	lastMouseLocation = [window convertBaseToScreen:[theEvent locationInWindow]];
-}
-
-- (void)mouseDragged:(NSEvent *)theEvent{
-	if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
-		[[self nextResponder] mouseDragged:theEvent];		
-		return;
-	}
-	
-	NSWindow *window = [self window];
-	NSPoint newMousePosition = [window convertBaseToScreen:[theEvent locationInWindow]];
-	
-	NSPoint delta = NSMakePoint(newMousePosition.x-lastMouseLocation.x, newMousePosition.y-lastMouseLocation.y);
-	
-	if(isResizing){
-		NSRect frame = [[self window] frame];
-		
-		frame.size.width += delta.x;
-		frame.size.height -= delta.y;
-		frame.origin.y += delta.y;
-		
-		[[self window] setFrame:frame display:TRUE];
-	} else {
-		NSPoint frameOrigin = [[self window] frame].origin;
-		
-		frameOrigin.x += delta.x;
-		frameOrigin.y += delta.y;
-	
-		[[self window] setFrameOrigin:frameOrigin];
-	}
-	
-	
-	lastMouseLocation = newMousePosition;
-}
-
-- (void)mouseUp:(NSEvent *)theEvent{	
-	if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
-		[[self nextResponder] mouseUp:theEvent];		
-		return;
-	}
-	
-	isResizing = NO;
-}
+ - (void)mouseDown:(NSEvent *)theEvent{
+ NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
+ 
+ lastMouseLocation = NSZeroPoint;
+ 
+ isResizing = NO;
+ 
+ if(!isResizing && !NSPointInRect(pointInView, [self titleBarRect])){
+ [[self nextResponder] mouseDown:theEvent];
+ return;
+ }
+ 
+ NSWindow *window = [self window];
+ lastMouseLocation = [window convertBaseToScreen:[theEvent locationInWindow]];
+ }
+ 
+ - (void)mouseDragged:(NSEvent *)theEvent{
+ if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
+ [[self nextResponder] mouseDragged:theEvent];		
+ return;
+ }
+ 
+ NSWindow *window = [self window];
+ NSPoint newMousePosition = [window convertBaseToScreen:[theEvent locationInWindow]];
+ 
+ NSPoint delta = NSMakePoint(newMousePosition.x-lastMouseLocation.x, newMousePosition.y-lastMouseLocation.y);
+ 
+ if(isResizing){
+ NSRect frame = [[self window] frame];
+ 
+ frame.size.width += delta.x;
+ frame.size.height -= delta.y;
+ frame.origin.y += delta.y;
+ 
+ [[self window] setFrame:frame display:TRUE];
+ } else {
+ NSPoint frameOrigin = [[self window] frame].origin;
+ 
+ frameOrigin.x += delta.x;
+ frameOrigin.y += delta.y;
+ 
+ [[self window] setFrameOrigin:frameOrigin];
+ }
+ 
+ 
+ lastMouseLocation = newMousePosition;
+ }
+ 
+ - (void)mouseUp:(NSEvent *)theEvent{	
+ if(NSEqualPoints(lastMouseLocation, NSZeroPoint)){
+ [[self nextResponder] mouseUp:theEvent];		
+ return;
+ }
+ 
+ isResizing = NO;
+ }
  */
 @end

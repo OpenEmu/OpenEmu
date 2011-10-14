@@ -25,6 +25,8 @@
 #import "OECorePlugin.h"
 #import "OESystemPlugin.h"
 #import "OECompositionPlugin.h"
+
+#import "OEAlert.h"
 @interface OELibraryController (Private)
 - (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 - (void)_launchGameDoc:(id)gameDoc;
@@ -84,7 +86,8 @@
 
 - (void)windowDidLoad
 {
-    [super windowDidLoad];    
+    [super windowDidLoad];  
+    
     // load database
     OELibraryDatabase* db = [OELibraryDatabase defaultDatabase];
     if(!db)
@@ -141,8 +144,11 @@
 	
 	// OEROMImporter* importer = [[OEROMImporter alloc] initWithDatabase:self.database];
 	// [importer importROMsAtPath:@"~/Documents" inBackground:YES error:nil];
+    
+    OEAlert* alert = [OEAlert alertWithMessageText:@"This is a Test for our new OEAlert" defaultButton:@"OK" alternateButton:@"Cancel"];
+    [alert showSuppressionButtonForUDKey:@"TestKey"];  
+    [alert runModal];
 }
-
 #pragma mark -
 #pragma mark Toolbar Actions
 - (IBAction)toggleSidebar:(id)sender
