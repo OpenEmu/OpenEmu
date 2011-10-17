@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 #import "OEUIDrawingUtils.h"
-@interface OEImageButton : NSButton {
+@interface OEImageButton : NSButton 
+{
 @private
 }
 @end
 
-@interface OEImageButtonCell : NSButtonCell {
+@interface OEImageButtonCell : NSButtonCell 
+{
 @private
     NSImage* image;
 }
@@ -23,28 +25,33 @@
 @end
 
 // displays normal, inactive, disabled, pressed
-@interface OEToolbarButtonPushCell : OEImageButtonCell {
+@interface OEToolbarButtonPushCell : OEImageButtonCell 
+{
 @private
 }
 @end
 // displays normal, inactive, disabled, pressed for Selected / Unselected
-@interface OEToolbarButtonSelectableCell : OEImageButtonCell {
+@interface OEToolbarButtonSelectableCell : OEImageButtonCell 
+{
 @private
 }
 @end
 
 // Displays normal, hover and pressed
-@interface OEImageButtonHoverPressed : OEImageButtonCell {
+@interface OEImageButtonHoverPressed : OEImageButtonCell 
+{
 @private
 }
 @end
 
 // Displays normal, hover and pressed for Selected / Unselected
-@interface OEImageButtonHoverSelectable : OEImageButtonCell{
+@interface OEImageButtonHoverSelectable : OEImageButtonCell
+{
 }
 @end
 
 // Displays normal, pressed
-@interface OEImageButtonPressed : OEImageButtonCell{
+@interface OEImageButtonPressed : OEImageButtonCell
+{
 }
 @end
