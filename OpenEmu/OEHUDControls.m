@@ -28,15 +28,15 @@
     {
         [self setMovableByWindowBackground:YES];
         
-		self.gameDocument = doc;
+        self.gameDocument = doc;
         
-		[self setOpaque:NO];
-		[self setBackgroundColor:[NSColor clearColor]];
+        [self setOpaque:NO];
+        [self setBackgroundColor:[NSColor clearColor]];
         
-		OEHUDControlsView* controlsView = [[OEHUDControlsView alloc] initWithFrame:NSMakeRect(0, 0, 431+(hideOptions?0:50), 45)];
-		[[self contentView] addSubview:controlsView];
-		[controlsView setupControls];
-		[controlsView release];
+        OEHUDControlsView* controlsView = [[OEHUDControlsView alloc] initWithFrame:NSMakeRect(0, 0, 431+(hideOptions?0:50), 45)];
+        [[self contentView] addSubview:controlsView];
+        [controlsView setupControls];
+        [controlsView release];
         
         [self setAlphaValue:0.0];
         
@@ -46,7 +46,7 @@
                                 [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:incomingEvent waitUntilDone:NO];
                         }];
         [eventMonitor retain];
-	}
+    }
     return self;
 }
 - (void)dealloc
@@ -151,42 +151,42 @@
 
 - (void)resetAction:(id)sender
 {
-	[self.gameDocument resetGame];
+    [self.gameDocument resetGame];
 }
 
 - (void)playPauseAction:(id)sender
 {
-	[self.gameDocument setPauseEmulation:![self.gameDocument isEmulationPaused]];
+    [self.gameDocument setPauseEmulation:![self.gameDocument isEmulationPaused]];
 }
 
 - (void)stopAction:(id)sender
 {
-	[self.gameDocument terminateEmulation];
+    [self.gameDocument terminateEmulation];
 }
 
 - (void)fullscreenAction:(id)sender
 {
-	[[self parentWindow] toggleFullScreen:nil];
+    [[self parentWindow] toggleFullScreen:nil];
 }
 
 - (void)volumeAction:(id)sender
 {
-	[self.gameDocument setVolume:[sender floatValue]];
+    [self.gameDocument setVolume:[sender floatValue]];
 }
 
 - (void)optionsAction:(id)sender{
     NSMenu* menu = [[NSMenu alloc] init];
-	
-	NSMenuItem* item;
-	item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls", @"") action:@selector(optionsActionEditControls:) keyEquivalent:@""];
-	[item setTarget:self];
-	[menu addItem:item];
-	[item release];
+    
+    NSMenuItem* item;
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Game Controls", @"") action:@selector(optionsActionEditControls:) keyEquivalent:@""];
+    [item setTarget:self];
+    [menu addItem:item];
+    [item release];
     
     NSMenu* filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
     // Setup plugins menu
-	NSArray *filterPlugins = [[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    NSArray *filterPlugins = [[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     // These filters are loaded and run by GL, and do not rely on QTZs
     NSArray* filterNames = [filterPlugins arrayByAddingObjectsFromArray:
                             [NSArray arrayWithObjects:
@@ -207,7 +207,7 @@
         }        
         [filterMenu addItem:filterItem];
         [filterItem release];
-	}
+    }
     
     
     item = [[NSMenuItem alloc] init];
@@ -218,17 +218,17 @@
     [filterMenu release];
     
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Core Settings", @"") action:@selector(optionsActionCorePreferences:) keyEquivalent:@""];
-	[item setTarget:self];
+    [item setTarget:self];
     [menu addItem:item];
-	[item release];
+    [item release];
     
-	OEMenu* oemenu = [menu convertToOEMenu];
+    OEMenu* oemenu = [menu convertToOEMenu];
     oemenu.itemsAboveScroller = 2;
     oemenu.maxSize = NSMakeSize(192, 256);
-	NSRect buttonRect = [sender frame];
-	NSPoint menuPoint = NSMakePoint(NSMaxX(buttonRect)+self.frame.origin.x, NSMinY(buttonRect)+self.frame.origin.y);
-	[oemenu openAtPoint:menuPoint ofWindow:self];
-	[menu release];
+    NSRect buttonRect = [sender frame];
+    NSPoint menuPoint = NSMakePoint(NSMaxX(buttonRect)+self.frame.origin.x, NSMinY(buttonRect)+self.frame.origin.y);
+    [oemenu openAtPoint:menuPoint ofWindow:self];
+    [menu release];
 }
 - (void)optionsActionEditControls:(id)sender{}
 - (void)optionsActionSelectFilter:(id)sender{
@@ -239,26 +239,26 @@
 #pragma mark Save States
 - (void)saveAction:(id)sender
 {
-	NSMenu* menu = [[NSMenu alloc] init];
-	
-	NSMenuItem* item;
-	item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game", @"") action:@selector(doSaveState:) keyEquivalent:@""];
-	[item setTarget:self];
-	[menu addItem:item];
-	[item release];
-	
-	NSArray* saveStates;
-	if(self.gameDocument.rom && (saveStates=[self.gameDocument.rom saveStatesByTimestampAscending:YES]) && [saveStates count])
+    NSMenu* menu = [[NSMenu alloc] init];
+    
+    NSMenuItem* item;
+    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Save Current Game", @"") action:@selector(doSaveState:) keyEquivalent:@""];
+    [item setTarget:self];
+    [menu addItem:item];
+    [item release];
+    
+    NSArray* saveStates;
+    if(self.gameDocument.rom && (saveStates=[self.gameDocument.rom saveStatesByTimestampAscending:YES]) && [saveStates count])
     {
-		[menu addItem:[NSMenuItem separatorItem]];
-		for(id saveState in saveStates)
+        [menu addItem:[NSMenuItem separatorItem]];
+        for(id saveState in saveStates)
         {
-			NSString* itemTitle = [saveState valueForKey:@"userDescription"];
-			if(!itemTitle || [itemTitle isEqualToString:@""])
+            NSString* itemTitle = [saveState valueForKey:@"userDescription"];
+            if(!itemTitle || [itemTitle isEqualToString:@""])
             {
-				itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timestamp"]];
-			}
-			if([[NSUserDefaults standardUserDefaults] boolForKey:OEHUDCanDeleteStateKey])
+                itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timestamp"]];
+            }
+            if([[NSUserDefaults standardUserDefaults] boolForKey:OEHUDCanDeleteStateKey])
             {
                 OEMenuItem* oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
                 [oeitem setTarget:self];
@@ -279,20 +279,22 @@
                 [menu addItem:item];
                 [item release];                
             }
-		}
-	}
-	
-	OEMenu* oemenu = [menu convertToOEMenu];
+        }
+    }
+    
+    OEMenu* oemenu = [menu convertToOEMenu];
     oemenu.itemsAboveScroller = 2;
     oemenu.maxSize = NSMakeSize(192, 256);
-	NSRect buttonRect = [sender frame];
-	NSPoint menuPoint = NSMakePoint(NSMaxX(buttonRect)+self.frame.origin.x, NSMinY(buttonRect)+self.frame.origin.y);
-	[oemenu openAtPoint:menuPoint ofWindow:self];
-	[menu release];
+    NSRect buttonRect = [sender frame];
+    NSPoint menuPoint = NSMakePoint(NSMaxX(buttonRect)+self.frame.origin.x, NSMinY(buttonRect)+self.frame.origin.y);
+    [oemenu openAtPoint:menuPoint ofWindow:self];
+    [menu release];
 }
 - (void)doLoadState:(id)stateItem
 {
     [self.gameDocument loadState:[stateItem representedObject]];
+    
+    [self hide];
 }
 
 - (void)doDeleteState:(id)stateItem
@@ -302,24 +304,24 @@
 
 - (void)doSaveState:(id)sender
 {
-	[self.gameDocument saveStateAskingUser:nil];
+    [self.gameDocument saveStateAskingUser:nil];
 }
 
 - (void)stateNameAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {
-	NSTextField *input = (NSTextField *)[alert accessoryView];
-	
-	if (returnCode == NSAlertDefaultReturn) 
+    NSTextField *input = (NSTextField *)[alert accessoryView];
+    
+    if (returnCode == NSAlertDefaultReturn) 
     {
-		[input validateEditing];
-		[self.gameDocument saveState:[input stringValue]];
-	} 
+        [input validateEditing];
+        [self.gameDocument saveState:[input stringValue]];
+    } 
     else if (returnCode == NSAlertAlternateReturn) 
     {
-	} 
+    } 
     else 
     {
-	}
+    }
 }
 #pragma mark -
 @synthesize gameDocument;
@@ -330,22 +332,22 @@
 
 + (void)initialize
 {
-	NSImage* spriteSheet = [NSImage imageNamed:@"hud_glyphs"];
+    NSImage* spriteSheet = [NSImage imageNamed:@"hud_glyphs"];
     
     float itemHeight = (spriteSheet.size.height/5);
-	[spriteSheet setName:@"hud_playpause" forSubimageInRect:NSMakeRect(0, 3*itemHeight, spriteSheet.size.width, itemHeight*2)];
+    [spriteSheet setName:@"hud_playpause" forSubimageInRect:NSMakeRect(0, 3*itemHeight, spriteSheet.size.width, itemHeight*2)];
     
-	[spriteSheet setName:@"hud_restart" forSubimageInRect:NSMakeRect(0, 2*itemHeight, spriteSheet.size.width, itemHeight)];
-	[spriteSheet setName:@"hud_save" forSubimageInRect:NSMakeRect(0, 1*itemHeight, spriteSheet.size.width, itemHeight)];
-	[spriteSheet setName:@"hud_options" forSubimageInRect:NSMakeRect(0, 0, spriteSheet.size.width, itemHeight)];
-	
-	NSImage* fsImage = [NSImage imageNamed:@"hud_fullscreen_glyph"];
-	[fsImage setName:@"hud_fullscreen_glyph_normal" forSubimageInRect:NSMakeRect(fsImage.size.width/2, 0, fsImage.size.width/2, fsImage.size.height)];
-	[fsImage setName:@"hud_fullscreen_glyph_pressed" forSubimageInRect:NSMakeRect(0, 0, fsImage.size.width/2, fsImage.size.height)];
-	
-	NSImage* volume = [NSImage imageNamed:@"hud_volume"];
-	[volume setName:@"hud_volume_down" forSubimageInRect:NSMakeRect(0, 0, 13, volume.size.height)];
-	[volume setName:@"hud_volume_up" forSubimageInRect:NSMakeRect(13, 0, 15, volume.size.height)];
+    [spriteSheet setName:@"hud_restart" forSubimageInRect:NSMakeRect(0, 2*itemHeight, spriteSheet.size.width, itemHeight)];
+    [spriteSheet setName:@"hud_save" forSubimageInRect:NSMakeRect(0, 1*itemHeight, spriteSheet.size.width, itemHeight)];
+    [spriteSheet setName:@"hud_options" forSubimageInRect:NSMakeRect(0, 0, spriteSheet.size.width, itemHeight)];
+    
+    NSImage* fsImage = [NSImage imageNamed:@"hud_fullscreen_glyph"];
+    [fsImage setName:@"hud_fullscreen_glyph_normal" forSubimageInRect:NSMakeRect(fsImage.size.width/2, 0, fsImage.size.width/2, fsImage.size.height)];
+    [fsImage setName:@"hud_fullscreen_glyph_pressed" forSubimageInRect:NSMakeRect(0, 0, fsImage.size.width/2, fsImage.size.height)];
+    
+    NSImage* volume = [NSImage imageNamed:@"hud_volume"];
+    [volume setName:@"hud_volume_down" forSubimageInRect:NSMakeRect(0, 0, 13, volume.size.height)];
+    [volume setName:@"hud_volume_up" forSubimageInRect:NSMakeRect(13, 0, 15, volume.size.height)];
     
     
     NSImage* power = [NSImage imageNamed:@"hud_power_glyph"];
@@ -358,8 +360,8 @@
     self = [super initWithFrame:frame];
     if (self) 
     {
-		[self setWantsLayer:TRUE];
-	}
+        [self setWantsLayer:TRUE];
+    }
     return self;
 }
 
@@ -374,70 +376,70 @@
 
 - (BOOL)isOpaque
 {
-	return NO;
+    return NO;
 }
 
 #pragma mark -
 - (void)drawRect:(NSRect)dirtyRect
 {
-	NSImage* barBackground = [NSImage imageNamed:@"hud_bar"];
-	[barBackground drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:TRUE hints:nil leftBorder:15 rightBorder:15 topBorder:0 bottomBorder:0];
+    NSImage* barBackground = [NSImage imageNamed:@"hud_bar"];
+    [barBackground drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:TRUE hints:nil leftBorder:15 rightBorder:15 topBorder:0 bottomBorder:0];
 }
 
 - (void)setupControls
 {
     NSButton* stopButton = [[NSButton alloc] init];
-	OEHUDButtonCell* pcell = [[OEHUDButtonCell alloc] init];
-	pcell.buttonColor = OEHUDButtonColorRed;
-	[stopButton setCell:pcell];
+    OEHUDButtonCell* pcell = [[OEHUDButtonCell alloc] init];
+    pcell.buttonColor = OEHUDButtonColorRed;
+    [stopButton setCell:pcell];
     [stopButton setImage:[NSImage imageNamed:@"hud_power_glyph_normal"]];
     [stopButton setAlternateImage:[NSImage imageNamed:@"hud_power_glyph_pressed"]];
-	[pcell release];
+    [pcell release];
     [stopButton setTarget:[self window]];
-	[stopButton setAction:@selector(stopAction:)];
-	[stopButton setFrame:NSMakeRect(10, 13, 51, 23)];	
-	[stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-	[self addSubview:stopButton];
-	[stopButton release];
+    [stopButton setAction:@selector(stopAction:)];
+    [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
+    [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
+    [self addSubview:stopButton];
+    [stopButton release];
     
     
     OEImageButton* pauseButton = [[OEImageButton alloc] init];
-	OEImageButtonHoverSelectable* cell = [[OEImageButtonHoverSelectable alloc] init];
-	[pauseButton setCell:cell];
-	[cell setImage:[NSImage imageNamed:@"hud_playpause"]];
-	[cell release];
-	[pauseButton setTarget:[self window]];
-	[pauseButton setAction:@selector(playPauseAction:)];
-	[pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];	
-	[pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-	[self addSubview:pauseButton];
-	[pauseButton release];
+    OEImageButtonHoverSelectable* cell = [[OEImageButtonHoverSelectable alloc] init];
+    [pauseButton setCell:cell];
+    [cell setImage:[NSImage imageNamed:@"hud_playpause"]];
+    [cell release];
+    [pauseButton setTarget:[self window]];
+    [pauseButton setAction:@selector(playPauseAction:)];
+    [pauseButton setFrame:NSMakeRect(82, 9, 32, 32)];
+    [pauseButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
+    [self addSubview:pauseButton];
+    [pauseButton release];
     
     
-	OEImageButton* restartButton = [[OEImageButton alloc] init];
-	OEImageButtonHoverPressed* hcell = [[OEImageButtonHoverPressed alloc] init];
-	[restartButton setCell:hcell];
-	[hcell setImage:[NSImage imageNamed:@"hud_restart"]];
-	[hcell release];
-	[restartButton setTarget:[self window]];
-	[restartButton setAction:@selector(resetAction:)];
-	[restartButton setFrame:NSMakeRect(111, 9, 32, 32)];	
-	[restartButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-	[self addSubview:restartButton];
-	[restartButton release];
-	
+    OEImageButton* restartButton = [[OEImageButton alloc] init];
+    OEImageButtonHoverPressed* hcell = [[OEImageButtonHoverPressed alloc] init];
+    [restartButton setCell:hcell];
+    [hcell setImage:[NSImage imageNamed:@"hud_restart"]];
+    [hcell release];
+    [restartButton setTarget:[self window]];
+    [restartButton setAction:@selector(resetAction:)];
+    [restartButton setFrame:NSMakeRect(111, 9, 32, 32)];
+    [restartButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
+    [self addSubview:restartButton];
+    [restartButton release];
+    
     OEImageButton* saveButton = [[OEImageButton alloc] init];
-	hcell = [[OEImageButtonHoverPressed alloc] init];
-	[saveButton setCell:hcell];
-	[hcell setImage:[NSImage imageNamed:@"hud_save"]];
-	[hcell release];
-	[saveButton setTarget:[self window]];
-	[saveButton setAction:@selector(saveAction:)];
-	[saveButton setFrame:NSMakeRect(162, 6, 32, 32)];	
-	[saveButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-	[self addSubview:saveButton];
-	[saveButton release];
-	
+    hcell = [[OEImageButtonHoverPressed alloc] init];
+    [saveButton setCell:hcell];
+    [hcell setImage:[NSImage imageNamed:@"hud_save"]];
+    [hcell release];
+    [saveButton setTarget:[self window]];
+    [saveButton setAction:@selector(saveAction:)];
+    [saveButton setFrame:NSMakeRect(162, 6, 32, 32)];
+    [saveButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
+    [self addSubview:saveButton];
+    [saveButton release];
+    
     BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:UDHUDHideOptionsKey];
     if(!hideOptions)
     {       
@@ -448,61 +450,61 @@
         [hcell release];
         [optionsButton setTarget:[self window]];
         [optionsButton setAction:@selector(optionsAction:)];
-        [optionsButton setFrame:NSMakeRect(212, 6, 32, 32)];	
+        [optionsButton setFrame:NSMakeRect(212, 6, 32, 32)];
         [optionsButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
         [self addSubview:optionsButton];
         [optionsButton release];
     }    
-	
+    
     NSButton* volumeDownView = [[NSButton alloc] initWithFrame:NSMakeRect(223+(hideOptions?0:50), 17, 13, 14)];
     [volumeDownView setBordered:NO];
     [[volumeDownView cell] setHighlightsBy:NSNoCellMask];
-	[volumeDownView setImage:[NSImage imageNamed:@"hud_volume_down"]];
+    [volumeDownView setImage:[NSImage imageNamed:@"hud_volume_down"]];
     [volumeDownView setTarget:[self window]];
     [volumeDownView setAction:@selector(muteAction:)];    
-	[self addSubview:volumeDownView];
-	[volumeDownView release];
-	
-	NSButton* volumeUpView = [[NSButton alloc] initWithFrame:NSMakeRect(320+(hideOptions?0:50), 17, 15, 14)];
+    [self addSubview:volumeDownView];
+    [volumeDownView release];
+    
+    NSButton* volumeUpView = [[NSButton alloc] initWithFrame:NSMakeRect(320+(hideOptions?0:50), 17, 15, 14)];
     [volumeUpView setBordered:NO];
     [[volumeUpView cell] setHighlightsBy:NSNoCellMask];
-	[volumeUpView setImage:[NSImage imageNamed:@"hud_volume_up"]];
+    [volumeUpView setImage:[NSImage imageNamed:@"hud_volume_up"]];
     [volumeUpView setTarget:[self window]];
     [volumeUpView setAction:@selector(unmuteAction:)];
-	[self addSubview:volumeUpView];
-	[volumeUpView release];
-	
-	slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(240+(hideOptions?0:50), 13, 80, 23)];
-	
-	OEHUDSliderCell* sliderCell = [[OEHUDSliderCell alloc] init];
-	[slider setCell:sliderCell];
-	[sliderCell release];
-	[slider setContinuous:YES];
-	[slider setMaxValue:1.0];
-	[slider setMinValue:0.0];
-	[slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey]];
-	[slider setTarget:[self window]];
-	[slider setAction:@selector(volumeAction:)];
+    [self addSubview:volumeUpView];
+    [volumeUpView release];
     
-	[self addSubview:slider];
-	[slider release];
+    slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(240+(hideOptions?0:50), 13, 80, 23)];
+    
+    OEHUDSliderCell* sliderCell = [[OEHUDSliderCell alloc] init];
+    [slider setCell:sliderCell];
+    [sliderCell release];
+    [slider setContinuous:YES];
+    [slider setMaxValue:1.0];
+    [slider setMinValue:0.0];
+    [slider setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey]];
+    [slider setTarget:[self window]];
+    [slider setAction:@selector(volumeAction:)];
+    
+    [self addSubview:slider];
+    [slider release];
     
     
-	NSButton* fsButton = [[NSButton alloc] init];
-	pcell = [[OEHUDButtonCell alloc] init];
-	[fsButton setCell:pcell];
-	[pcell release];
-	
-	[fsButton setImage:[NSImage imageNamed:@"hud_fullscreen_glyph_normal"]];
-	[fsButton setAlternateImage:[NSImage imageNamed:@"hud_fullscreen_glyph_pressed"]];
+    NSButton* fsButton = [[NSButton alloc] init];
+    pcell = [[OEHUDButtonCell alloc] init];
+    [fsButton setCell:pcell];
+    [pcell release];
     
-	[fsButton setTarget:[self window]];
-	[fsButton setAction:@selector(fullscreenAction:)];
+    [fsButton setImage:[NSImage imageNamed:@"hud_fullscreen_glyph_normal"]];
+    [fsButton setAlternateImage:[NSImage imageNamed:@"hud_fullscreen_glyph_pressed"]];
     
-	[fsButton setFrame:NSMakeRect(370+(hideOptions?0:50), 13, 51, 23)];	
-	[fsButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-	[self addSubview:fsButton];
-	[fsButton release];
-	[fsButton setTitle:@""];
+    [fsButton setTarget:[self window]];
+    [fsButton setAction:@selector(fullscreenAction:)];
+    
+    [fsButton setFrame:NSMakeRect(370+(hideOptions?0:50), 13, 51, 23)];
+    [fsButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
+    [self addSubview:fsButton];
+    [fsButton release];
+    [fsButton setTitle:@""];
 }
 @end
