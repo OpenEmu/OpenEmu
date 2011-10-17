@@ -13,33 +13,35 @@
  Lays out sublayers in a grid style formation
  */
 
-struct IKSGridLayoutState {
-	NSInteger firstVisibleRow;
-	NSUInteger rows;
-	NSUInteger columns;
+struct IKSGridLayoutState 
+{
+    NSInteger firstVisibleRow;
+    NSUInteger rows;
+    NSUInteger columns;
 };
 typedef struct IKSGridLayoutState IKSGridLayoutState;
 
 
 @protocol IKSGridLayoutManagerDelegate;
 @class IKSGridView;
-@interface IKSGridLayoutManager : NSObject {
-	NSSize minimumSpacing;
-	NSSize sublayerSize;
-	id<IKSGridLayoutManagerDelegate> delegate;
-	IKSGridView* gridView;
-	
-	CGRect visibleRect;
-	BOOL reset;
-	/**
-	 The GCD queue that is used to render all the layers
-	 */
-	dispatch_queue_t renderQueue;
-
-	
-	IKSGridLayoutState currentGridState;
-	
-	NSMutableArray* itemLayers;
+@interface IKSGridLayoutManager : NSObject 
+{
+    NSSize minimumSpacing;
+    NSSize sublayerSize;
+    id<IKSGridLayoutManagerDelegate> delegate;
+    IKSGridView* gridView;
+    
+    CGRect visibleRect;
+    BOOL reset;
+    /**
+     The GCD queue that is used to render all the layers
+     */
+    dispatch_queue_t renderQueue;
+    
+    
+    IKSGridLayoutState currentGridState;
+    
+    NSMutableArray* itemLayers;
 }
 
 @property (nonatomic, retain) NSMutableArray* itemLayers;
@@ -49,7 +51,7 @@ typedef struct IKSGridLayoutState IKSGridLayoutState;
 /**
  Minimum vertical and horizontap spacing between layers
  Default: {10.0, 10.0}
-*/
+ */
 @property (nonatomic, assign) NSSize minimumSpacing;
 /**
  Size of each item

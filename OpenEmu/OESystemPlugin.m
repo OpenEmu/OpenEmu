@@ -52,8 +52,16 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
 {
     [pluginsBySystemIdentifiers setObject:plugin forKey:gameSystemIdentifier];
 
-	OELibraryDatabase* db = [OELibraryDatabase defaultDatabase];
-	[OEDBSystem createSystemFromPlugin:plugin inDatabase:db];
+OELibraryDatabase* db = [OELibraryDatabase defaultDatabase];
+    if(!db)
+    {
+        NSLog(@"system plugins not registered in database, because the db does not exist yet!");
+    
+    } 
+    else 
+    {
+        [OEDBSystem createSystemFromPlugin:plugin inDatabase:db];
+    }
 }
 
 @synthesize responderClass, icon, gameSystemName, systemName, systemIdentifier;
@@ -68,9 +76,9 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
     if((self = [super initWithBundle:aBundle]))
     {
         gameSystemName = [[self infoDictionary] objectForKey:OESystemPluginName];
-		systemIdentifier = [[self infoDictionary] objectForKey:OESystemIdentifier];
+systemIdentifier = [[self infoDictionary] objectForKey:OESystemIdentifier];
         responderClass = [[self controller] responderClass];
-		
+
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         
         icon = [[NSImage alloc] initWithContentsOfFile:iconPath];
@@ -95,7 +103,7 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
 }
 
 - (NSString*)systemName{
-	return [(OESystemController*)[self controller] systemName];
+return [(OESystemController*)[self controller] systemName];
 }
 
 @end

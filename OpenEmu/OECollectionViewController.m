@@ -40,7 +40,7 @@
     [image setName:@"list_indicators_playing_selected" forSubimageInRect:NSMakeRect(12, 24, 12, 12)];
     [image setName:@"list_indicators_missing_selected" forSubimageInRect:NSMakeRect(12, 12, 12, 12)];
     [image setName:@"list_indicators_unplayed_selected" forSubimageInRect:NSMakeRect(12, 0, 12, 12)];
-	
+    
     // toolbar view buttons
     image = [NSImage imageNamed:@"toolbar_view_buttons"];
     [image setName:@"toolbar_view_button_grid" forSubimageInRect:NSMakeRect(0, 0, 27, 115)];
@@ -66,7 +66,7 @@
 #pragma mark View Controller Stuff
 - (void)awakeFromNib
 {
-	[gamesController setUsesLazyFetching:YES];
+    [gamesController setUsesLazyFetching:YES];
 }
 
 - (NSString*)nibName
@@ -76,22 +76,22 @@
 
 - (void)finishSetup
 {
-	if(gamesController!=nil) return;
-	
+    if(gamesController!=nil) return;
+    
     // Set up games controller
     gamesController = [[NSArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
-	[gamesController setAutomaticallyPreparesContent:YES];
-	
-	NSManagedObjectContext* context = [self.database managedObjectContext];
-	//	[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
-	
-	[gamesController setManagedObjectContext:context];
-	[gamesController setEntityName:@"Game"];
-	[gamesController setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
-	[gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
+    [gamesController setAutomaticallyPreparesContent:YES];
+    
+    NSManagedObjectContext* context = [self.database managedObjectContext];
+    //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
+    
+    [gamesController setManagedObjectContext:context];
+    [gamesController setEntityName:@"Game"];
+    [gamesController setSortDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES]]];
+    [gamesController setFetchPredicate:[NSPredicate predicateWithValue:NO]];
     [gamesController prepareContent];
-	
+    
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     
@@ -112,10 +112,10 @@
     [gridView addForegroundLayer:foregroundLayer];
     
     //set initial zoom value
-	// TODO: Restore last slider value!
+    // TODO: Restore last slider value!
     [sizeSlider setContinuous:YES];
     [self changeGridSize:sizeSlider];
-	
+    
     // set up flow view
     [coverFlowView setDelegate:self];
     [coverFlowView setDataSource:self];
@@ -123,18 +123,21 @@
     [coverFlowView setCellBorderColor:[NSColor blueColor]];
     
     // Set up list view
-    [listView setDelegate:self];	
+    [listView setDelegate:self];
     [listView setDataSource:self];
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-	
-	[self selectGridView:self];
-	
-	[self _reloadData];
+    
+    [self selectGridView:self];
+    
+    [self _reloadData];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameAddedToLibrary:) name:@"OEDBGameAdded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameAddedToLibrary:) name:@"OEDBStatusChanged" object:nil];
 }
 #pragma mark -
 - (NSArray*)selectedGames
 {
-	return [gamesController selectedObjects];
+    return [gamesController selectedObjects];
 }
 
 #pragma mark -
@@ -165,41 +168,41 @@
     float splitterPosition =-1;
     switch (view) 
     {
-		case 0: ;// Grid View
-			[gridViewBtn setState: NSOnState];
-			nextView = gridViewContainer;
-			[sizeSlider setEnabled:YES];
-			break;
-		case 1: ;// CoverFlow View
-			[flowViewBtn setState: NSOnState];
-			nextView = flowlistViewContainer;
-			[sizeSlider setEnabled:NO];
-			
-			// Set Splitter Position
-			splitterPosition = 500;		
-			break;
-		case 2: ;// List View
-			[listViewBtn setState: NSOnState];
-			nextView = flowlistViewContainer;
-			[sizeSlider setEnabled:NO];
-			
-			// Set Splitter position
-			splitterPosition = 0;		
-			
-			break;
-		default: return;
+        case 0: ;// Grid View
+            [gridViewBtn setState: NSOnState];
+            nextView = gridViewContainer;
+            [sizeSlider setEnabled:YES];
+            break;
+        case 1: ;// CoverFlow View
+            [flowViewBtn setState: NSOnState];
+            nextView = flowlistViewContainer;
+            [sizeSlider setEnabled:NO];
+            
+            // Set Splitter Position
+            splitterPosition = 500;
+            break;
+        case 2: ;// List View
+            [listViewBtn setState: NSOnState];
+            nextView = flowlistViewContainer;
+            [sizeSlider setEnabled:NO];
+            
+            // Set Splitter position
+            splitterPosition = 0;
+            
+            break;
+        default: return;
     }
     
     
     if(splitterPosition!=-1) [flowlistViewContainer setSplitterPosition:splitterPosition animated:NO];
     
     if(!nextView || [nextView superview]!=nil)
-		return;
+        return;
     
     while([[[self view] subviews] count]!=0)
     {
-		NSView* currentSubview = [[[self view] subviews] objectAtIndex:0];
-		[currentSubview removeFromSuperview];
+        NSView* currentSubview = [[[self view] subviews] objectAtIndex:0];
+        [currentSubview removeFromSuperview];
     }
     
     
@@ -207,14 +210,14 @@
     [nextView setFrame:[[self view] bounds]];
 }
 #pragma mark -
-#pragma mark "Notifications" (not really)
+#pragma mark Notifications
 - (void)willHide
 {
     [searchField setEnabled:NO];
     
     [sizeSlider setEnabled:NO];
     [gridViewBtn setEnabled:NO];
-    [flowViewBtn	setEnabled:NO];
+    [flowViewBtn setEnabled:NO];
     
     [listViewBtn setEnabled:NO];
     [listView setEnabled:NO];
@@ -225,10 +228,22 @@
     
     [sizeSlider setEnabled:YES];
     [gridViewBtn setEnabled:YES];
-    [flowViewBtn	setEnabled:YES];
+    [flowViewBtn setEnabled:YES];
     
     [listViewBtn setEnabled:YES];
     [listView setEnabled:YES];
+}
+
+- (void)gameAddedToLibrary:(NSNotification*)notification
+{
+    if(![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(gameAddedToLibrary:) withObject:notification waitUntilDone:NO];
+        return;
+    }
+    
+    NSLog(@"gameAddedToLibrary:");
+    [self setNeedsReload];
 }
 
 #pragma mark -
@@ -239,7 +254,7 @@
     [gamesController setFilterPredicate:pred];
     
     [listView reloadData];
-	[coverFlowView reloadData];
+    [coverFlowView reloadData];
     [gridView reloadData];
 }
 - (IBAction)changeGridSize:(id)sender
@@ -273,7 +288,7 @@
 #pragma mark GridView Delegate
 - (void)gridView:(IKSGridView*)aGridView selectionChanged:(NSArray*)selectedItems
 {
-	[gamesController setSelectionIndexes:[aGridView selectedIndexes]];
+    [gamesController setSelectionIndexes:[aGridView selectedIndexes]];
 }
 
 - (void)gridView:(IKSGridView*)gridView itemsMagnifiedToSize:(NSSize)newSize
@@ -287,58 +302,58 @@
 }
 
 - (id)gridView:(IKSGridView*)aView objectValueOfItemAtIndex:(NSUInteger)index
-{
-	NSManagedObjectID* objid = [(NSManagedObject*)[[gamesController arrangedObjects] objectAtIndex:index] objectID];
+{    NSManagedObjectID* objid = [(NSManagedObject*)[[gamesController arrangedObjects] objectAtIndex:index] objectID];
     return [[[self database] managedObjectContext] objectWithID:objid];
 }
 
-- (void)gridView:(IKSGridView *)aView setObject:(id)obj forKey:(NSString*)key atIndex:(NSUInteger)index
-{
-    id <OECoverGridDataSourceItem> object = [self gridView:aView objectValueOfItemAtIndex:index];
+- (void)gridView:(IKSGridView *)aView setObject:(id)val forKey:(NSString*)key withRepresentedObject:(id)obj
+{      
+     NSManagedObjectID* objId = (NSManagedObjectID*)obj;
+    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[self.database.managedObjectContext objectWithID:objId];
     
     if([key isEqualTo:@"rating"])
     {
-        [object setGridRating:[obj unsignedIntegerValue]];
-    } else if([key isEqualTo:@"title"])
-    {
-        [object setGridTitle:obj];
-    }
-    
-}
-- (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString *)key atIndex:(NSUInteger)index
-{
-	if(index==-1)
-    {
-		return nil;
-	}
-	
-    id <OECoverGridDataSourceItem> object = [self gridView:aView objectValueOfItemAtIndex:index];
-	if([key isEqualTo:@"status"])
-    {
-		return [NSNumber numberWithInt:[object gridStatus]];
-	}
-    else if([key isEqualTo:@"image"])
-    {
-		return [object gridImageWithSize:[gridView itemSize]];
-	} 
+        [object setGridRating:[val unsignedIntegerValue]];
+    } 
     else if([key isEqualTo:@"title"])
     {
-		return [object gridTitle];
-	} 
+        [object setGridTitle:val];
+    }
+    
+    [self.database.managedObjectContext save:nil];
+}
+
+- (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString*)key withRepresentedObject:(id)obj
+{
+    NSManagedObjectID* objId = (NSManagedObjectID*)obj;
+    
+    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[self.database.managedObjectContext objectWithID:objId];
+    if([key isEqualTo:@"status"])
+    {
+        return [NSNumber numberWithInt:[object gridStatus]];
+    }
+    else if([key isEqualTo:@"image"])
+    {
+        return [object gridImageWithSize:[gridView itemSize]];
+    } 
+    else if([key isEqualTo:@"title"])
+    {
+        return [object gridTitle];
+    } 
     else if([key isEqualTo:@"rating"])
     {
-		return [NSNumber numberWithInt:[object gridRating]];		
-	}
-	
-	return nil;
+        return [NSNumber numberWithInt:[object gridRating]];
+    }
+    
+    return nil;
 }
 #pragma mark -
 #pragma mark NSTableView DataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-    
-    if( aTableView == listView){
-		return [[gamesController arrangedObjects] count];
+    if( aTableView == listView)
+    {
+        return [[gamesController arrangedObjects] count];
     }
     
     return 0;
@@ -349,42 +364,42 @@
     
     if( aTableView == listView)
     {
-        /*	NSManagedObject* manobj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
+        /*NSManagedObject* manobj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
          NSManagedObjectID* objID = [manobj objectID];
          
          NSManagedObjectContext* context = [[NSManagedObjectContext alloc] init];
          [context setPersistentStoreCoordinator:[[manobj managedObjectContext] persistentStoreCoordinator]];
          */
-		id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
+        id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
         
-		NSString* colIdent = [aTableColumn identifier];			
-		id result = nil;
-		if([colIdent isEqualToString:@"romStatus"])
+        NSString* colIdent = [aTableColumn identifier];
+        id result = nil;
+        if([colIdent isEqualToString:@"romStatus"])
         {
-			result = [obj listViewStatus:([aTableView selectedRow]==rowIndex)];
-		} 
+            result = [obj listViewStatus:([aTableView selectedRow]==rowIndex)];
+        } 
         else if([colIdent isEqualToString:@"romName"])
         {
-			result = [obj listViewTitle];
-		} 
+            result = [obj listViewTitle];
+        } 
         else if([colIdent isEqualToString:@"romRating"])
         {
-			result = [obj listViewRating];
-		} 
+            result = [obj listViewRating];
+        } 
         else if([colIdent isEqualToString:@"romLastPlayed"])
         {
-			result = [obj listViewLastPlayed];			
-		}
+            result = [obj listViewLastPlayed];
+        }
         else if([colIdent isEqualToString:@"romConsole"])
         {
-			result = [obj listViewConsoleName];
-		}
-		
-		//[context release];
-		return result;
+            result = [obj listViewConsoleName];
+        }
+        
+        //[context release];
+        return result;
     }
-	
-	return nil;
+    
+    return nil;
 }
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
@@ -392,11 +407,12 @@
     
     if( aTableView == listView)
     {
-		id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
-		if([[aTableColumn identifier] isEqualTo:@"romRating"]){
-			[obj setListViewRating:anObject];
-		}		
-		return;
+        id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
+        if([[aTableColumn identifier] isEqualTo:@"romRating"])
+        {
+            [obj setListViewRating:anObject];
+        }
+        return;
     }
     
     
@@ -415,7 +431,7 @@
 {
     
     if( aTableView == listView && operation==NSTableViewDropAbove)
-		return YES;
+        return YES;
     
     return NO;
 }
@@ -424,7 +440,7 @@
 {
     
     if( aTableView == listView && operation==NSTableViewDropAbove)
-		return NSDragOperationGeneric;
+        return NSDragOperationGeneric;
     
     return NSDragOperationNone;
     
@@ -436,13 +452,13 @@
     
     if( aTableView == listView )
     {
-		[rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) 
+        [rowIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) 
          {
              id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:idx];
-             [pboard writeObjects:[NSArray arrayWithObject:obj]];			
+             [pboard writeObjects:[NSArray arrayWithObject:obj]];
          }];
-		
-		return YES;
+        
+        return YES;
     }
     
     return NO;
@@ -454,26 +470,26 @@
 {
     if(aTableView == listView)
     {
-		if([aCell isKindOfClass:[NSTextFieldCell class]])
+        if([aCell isKindOfClass:[NSTextFieldCell class]])
         {
-			NSDictionary* attr;
-			
-			if([[aTableView selectedRowIndexes] containsIndex:rowIndex])
+            NSDictionary* attr;
+            
+            if([[aTableView selectedRowIndexes] containsIndex:rowIndex])
             {
-				attr = [NSDictionary dictionaryWithObjectsAndKeys:
-						[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:9 size:11.0], NSFontAttributeName, 
-						[NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];		
-			} else {
-				attr = [NSDictionary dictionaryWithObjectsAndKeys:
-						[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:7 size:11.0], NSFontAttributeName, 
-						[NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];			
-			}
-			
-			[aCell setAttributedStringValue:[[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr] autorelease]];
-		}
-		
-		if(![aCell isKindOfClass:[OERatingCell class]])
-			[aCell setHighlighted:NO];
+                attr = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:9 size:11.0], NSFontAttributeName, 
+                        [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
+            } else {
+                attr = [NSDictionary dictionaryWithObjectsAndKeys:
+                        [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:7 size:11.0], NSFontAttributeName, 
+                        [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
+            }
+            
+            [aCell setAttributedStringValue:[[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr] autorelease]];
+        }
+        
+        if(![aCell isKindOfClass:[OERatingCell class]])
+            [aCell setHighlighted:NO];
     }
     
 }
@@ -482,12 +498,12 @@
 {
     if( aTableView == listView )
     {
-		if([[aTableColumn identifier] isEqualTo:@"romRating"]) return NO;
-		
-		return YES;
+        if([[aTableColumn identifier] isEqualTo:@"romRating"]) return NO;
+        
+        return YES;
     }
     
-    return NO;	
+    return NO;
 }
 
 - (BOOL)selectionShouldChangeInTableView:(NSTableView *)aTableView
@@ -495,7 +511,7 @@
     
     if( aTableView == listView )
     {
-		return YES;
+        return YES;
     }
     
     
@@ -506,7 +522,7 @@
 {
     if( aTableView == listView )
     {
-		return 17.0;
+        return 17.0;
     }
     
     return 0.0;
@@ -515,7 +531,7 @@
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
 {
     if( aTableView == listView ){
-		return YES;
+        return YES;
     }
     
     return YES;
@@ -527,15 +543,15 @@
     
     if( aTableView == listView )
     {
-		NSIndexSet* selectedIndexes = [listView selectedRowIndexes];
-		
+        NSIndexSet* selectedIndexes = [listView selectedRowIndexes];
+        
         [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
-		
-		[selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-			[listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
-		}];
-		
-		return;
+        
+        [selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+            [listView setNeedsDisplayInRect:[listView rectOfRow:idx]];
+        }];
+        
+        return;
     }
 }
 
@@ -543,7 +559,7 @@
 {
     if( tableView == listView && [[tableColumn identifier] isEqualTo:@"romRating"] )
     {
-		return YES;
+        return YES;
     }
     return NO;
 }
@@ -577,20 +593,33 @@
 
 #pragma mark -
 #pragma mark Private
+#define reloadDelay 1.0
+- (void)setNeedsReload{
+    if(reloadTimer) return;
+    
+    reloadTimer = [NSTimer scheduledTimerWithTimeInterval:reloadDelay target:self selector:@selector(_reloadData) userInfo:nil repeats:NO];                 
+    [reloadTimer retain];
+}
 - (void)_reloadData
 {
-	NSPredicate* pred = self.collectionItem?[self.collectionItem predicate]:[NSPredicate predicateWithValue:NO];
-	[gamesController setFetchPredicate:pred];
-	
-	NSError *error = nil;
-	BOOL ok = [gamesController fetchWithRequest:nil merge:NO error:&error];
-	if(!ok)
+    if(reloadTimer){
+        [reloadTimer invalidate];
+        [reloadTimer release];
+        reloadTimer = nil;       
+    }
+    
+    NSPredicate* pred = self.collectionItem?[self.collectionItem predicate]:[NSPredicate predicateWithValue:NO];
+    [gamesController setFetchPredicate:pred];
+    
+    NSError *error = nil;
+    BOOL ok = [gamesController fetchWithRequest:nil merge:NO error:&error];
+    if(!ok)
     {
-		NSLog(@"Error while fetching: %@", error);
-		return;
-	}
-	
-	
+        NSLog(@"Error while fetching: %@", error);
+        return;
+    }
+    
+    
     [gridView reloadData];
     [listView reloadData];
     [coverFlowView reloadData];

@@ -50,7 +50,7 @@
         [OEPlugin registerPluginClass:[OESystemPlugin class]];
         [OEPlugin registerPluginClass:[OECompositionPlugin class]];
     }
-	
+
     // toolbar sidebar button
     NSImage* image = [NSImage imageNamed:@"toolbar_sidebar_button"];
     [image setName:@"toolbar_sidebar_button_close" forSubimageInRect:NSMakeRect(0, 23, 84, 23)];
@@ -59,11 +59,11 @@
 
 - (void)dealloc
 {
-	if(gameDocument)
+if(gameDocument)
     {
-		[gameDocument terminateEmulation];
-		[gameDocument release], gameDocument = nil;
-	}
+[gameDocument terminateEmulation];
+[gameDocument release], gameDocument = nil;
+}
     [database release], database = nil;
     
     [super dealloc];
@@ -80,8 +80,6 @@
 {
     // load the window
     [self window];
-    
-    self.cancelImport = NO;
 }
 
 - (void)windowDidLoad
@@ -92,31 +90,32 @@
     OELibraryDatabase* db = [OELibraryDatabase defaultDatabase];
     if(!db)
     {
-		[NSApp terminate:self];
-		return;
+[NSApp terminate:self];
+return;
     }
     [self setDatabase:db];
-	
+    self.romImporter = [[OEROMImporter alloc] initWithDatabase:db];
+    
     // Set up window
     [[self window] setOpaque:NO];
     [[self window] setBackgroundColor:[NSColor clearColor]];
-    [[self window] setExcludedFromWindowsMenu:TRUE];
+    [[self window] setExcludedFromWindowsMenu:YES];
     [[self window] setShowsResizeIndicator:NO];
     [[self window] setDelegate:self];
     [(OEBackgroundColorView*)[[self window] contentView] setBackgroundColor:[NSColor clearColor]];
     
     NSMenu* menu = [editSmartCollectionMenuItem menu];
-    [menu setAutoenablesItems:FALSE];
-    [editSmartCollectionMenuItem setEnabled:FALSE];
+    [menu setAutoenablesItems:NO];
+    [editSmartCollectionMenuItem setEnabled:NO];
     
     menu = [gridViewMenuItem menu];
-    [menu setAutoenablesItems:FALSE];
+    [menu setAutoenablesItems:NO];
     
-    [gridViewMenuItem setEnabled:TRUE];
-    [listViewMenuItem setEnabled:TRUE];
-    [flowViewBtn setEnabled:TRUE];    
+    [gridViewMenuItem setEnabled:YES];
+    [listViewMenuItem setEnabled:YES];
+    [flowViewBtn setEnabled:YES];    
     
-	[self setSidebarChangesWindowSize:YES];
+[self setSidebarChangesWindowSize:YES];
     
     // setup sidebar controller
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:@"SidebarSelectionChanged" object:sidebarController];
@@ -126,12 +125,12 @@
     
     // Select first view
     // to do: restore the last used view!
-	// to do: restore last selected collection item
+// to do: restore last selected collection item
     [collectionViewController setDatabase:self.database];
     [collectionViewController selectGridView:nil];
     [collectionViewController setCollectionItem:nil];
     [collectionViewController finishSetup];
-	
+
     // add collection controller's view to splitview
     NSView* rightContentView = [mainSplitView rightContentView];
     [rightContentView addSubview:[collectionViewController view]];
@@ -140,11 +139,7 @@
     [mainSplitView adjustSubviews];
     
     [[self window] makeKeyAndOrderFront:self];
-	
-	
-	// OEROMImporter* importer = [[OEROMImporter alloc] initWithDatabase:self.database];
-	// [importer importROMsAtPath:@"~/Documents" inBackground:YES error:nil];
-    
+
     OEAlert* alert = [OEAlert alertWithMessageText:@"This is a Test for our new OEAlert" defaultButton:@"OK" alternateButton:@"Cancel"];
     [alert showSuppressionButtonForUDKey:@"TestKey"];  
     [alert runModal];
@@ -153,75 +148,75 @@
 #pragma mark Toolbar Actions
 - (IBAction)toggleSidebar:(id)sender
 {
-	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
     
-	BOOL opening = [mainSplitView splitterPosition]==0;
-	float widthCorrection = 0;
-	if(opening)
+BOOL opening = [mainSplitView splitterPosition]==0;
+float widthCorrection = 0;
+if(opening)
     {
-		widthCorrection = [standardDefaults floatForKey:UDSidebarWidthKey];
-		if(widthCorrection==0)
-			widthCorrection = 168;
-	}
+widthCorrection = [standardDefaults floatForKey:UDSidebarWidthKey];
+if(widthCorrection==0)
+widthCorrection = 168;
+}
     else 
     {
-		NSView* sidebar = [[mainSplitView subviews] objectAtIndex:0];
-		float lastWidth = [sidebar frame].size.width;
-		[standardDefaults setFloat:lastWidth forKey:UDSidebarWidthKey];		
-		
-		widthCorrection = -1*lastWidth;
-	}
+NSView* sidebar = [[mainSplitView subviews] objectAtIndex:0];
+float lastWidth = [sidebar frame].size.width;
+[standardDefaults setFloat:lastWidth forKey:UDSidebarWidthKey];
+
+widthCorrection = -1*lastWidth;
+}
     
-	if(self.sidebarChangesWindowSize)
+if(self.sidebarChangesWindowSize)
     {
-		NSWindow* window = [self window];
-		NSRect frameRect = [window frame];
+NSWindow* window = [self window];
+NSRect frameRect = [window frame];
         
-		frameRect.origin.x -= widthCorrection;
-		frameRect.size.width += widthCorrection;
-		
-		NSRect splitViewRect = [mainSplitView frame];
-		splitViewRect.size.width += widthCorrection;
-		
-		[mainSplitView setResizesLeftView:YES];
-		[window setFrame:frameRect display:YES animate:YES];
-		[mainSplitView setResizesLeftView:NO];
-	}
+frameRect.origin.x -= widthCorrection;
+frameRect.size.width += widthCorrection;
+
+NSRect splitViewRect = [mainSplitView frame];
+splitViewRect.size.width += widthCorrection;
+
+[mainSplitView setResizesLeftView:YES];
+[window setFrame:frameRect display:YES animate:YES];
+[mainSplitView setResizesLeftView:NO];
+}
     else 
     {
-		widthCorrection = widthCorrection < 0 ? 0 : widthCorrection; 
-		[mainSplitView setSplitterPosition:widthCorrection animated:YES];
-	}
-	
-	NSImage* image;
-	if(self.sidebarChangesWindowSize)
+widthCorrection = widthCorrection < 0 ? 0 : widthCorrection; 
+[mainSplitView setSplitterPosition:widthCorrection animated:YES];
+}
+
+NSImage* image;
+if(self.sidebarChangesWindowSize)
     {
-		image = !opening? [NSImage imageNamed:@"toolbar_sidebar_button_open"]:[NSImage imageNamed:@"toolbar_sidebar_button_close"];
-	} 
+image = !opening? [NSImage imageNamed:@"toolbar_sidebar_button_open"]:[NSImage imageNamed:@"toolbar_sidebar_button_close"];
+} 
     else 
     {
-		image = !opening? [NSImage imageNamed:@"toolbar_sidebar_button_close"]:[NSImage imageNamed:@"toolbar_sidebar_button_open"];
-	}
+image = !opening? [NSImage imageNamed:@"toolbar_sidebar_button_close"]:[NSImage imageNamed:@"toolbar_sidebar_button_open"];
+}
     [sidebarBtn setImage:image];
-	
-	[standardDefaults setBool:opening forKey:UDSidebarVisibleKey];
+
+[standardDefaults setBool:opening forKey:UDSidebarVisibleKey];
 }
 
 #pragma mark -
 #pragma mark Menu Item Actions
 - (IBAction)toggleWindow:(id)sender
 {
-	// TODO: this needs some fixing
+// TODO: this needs some fixing
     if([(NSMenuItem*)sender state])
     {
-		[[self window] orderOut:self];
+[[self window] orderOut:self];
     }
     else 
     {
-		[self showWindow:self];
+[self showWindow:self];
     }
     
-    [sender setState:![(NSMenuItem*)sender state]];	
+    [sender setState:![(NSMenuItem*)sender state]];
 }
 
 #pragma mark FileMenu Actions
@@ -231,20 +226,20 @@
     [panel setCanChooseFiles:YES];
     [panel setCanChooseDirectories:NO];
     [panel setAllowsMultipleSelection:NO];
-	
+
     NSInteger result = [panel runModal];
     if(result != NSOKButton) return;
     
-	NSURL* fileURL = [panel URL];
-	NSError* error = nil;
-	OENewGameDocument* gameDoc = [OENewGameDocument newDocumentWithRomAtURL:fileURL error:&error];
-	if(!gameDoc)
+NSURL* fileURL = [panel URL];
+NSError* error = nil;
+OENewGameDocument* gameDoc = [OENewGameDocument newDocumentWithRomAtURL:fileURL error:&error];
+if(!gameDoc)
     {
-		[NSApp presentError:error];		
-		return;
-	}
-	[self _launchGameDoc:gameDoc];
-	[gameDoc release];
+[NSApp presentError:error];
+return;
+}
+[self _launchGameDoc:gameDoc];
+[gameDoc release];
 }
 
 - (IBAction)filemenu_newCollection:(id)sender
@@ -302,13 +297,16 @@
         if(result == NSFileHandlingPanelOKButton)
         {
             // exit our initial open panels completion handler
-            [self performSelector:@selector(startImportSheet:) withObject:[openPanel URLs] afterDelay:0.0];
+            //[self performSelector:@selector(startImportSheet:) withObject:[openPanel URLs] afterDelay:0.0];
+            romImporter.errorBehaviour = OEImportErrorAskUser;
+            [romImporter importROMsAtURLs:[openPanel URLs] inBackground:YES error:nil];
         }
     }];
 }
 
 - (void) startImportSheet:(NSArray*)URLs
 {    
+    /*
     [importProgress setMaxValue:[URLs count]];
     
     [NSApp beginSheet:importSheet
@@ -338,52 +336,52 @@
         }
         
         [NSApp endSheet:importSheet];
-    });    
+    });    */
 }
 
 - (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
 {    
-    [importSheet close];
+  //  [importSheet close];
 }
 
 - (IBAction) cancelImport:(id)sender
 {
-    self.cancelImport = YES;
+   // self.cancelImport = YES;
 }
 
 #pragma mark -
 
 - (IBAction)controlsmenu_startGame:(id)sender
 {
-	NSArray* selection = [collectionViewController selectedGames];
-	if(!selection) return;
-	
-	// TODO: if multiple games are selected we could just start them all... if we want to
-	OEDBGame* selectedGame = [selection lastObject];
-	if(selectedGame)
+NSArray* selection = [collectionViewController selectedGames];
+if(!selection) return;
+
+// TODO: if multiple games are selected we could just start them all... if we want to
+OEDBGame* selectedGame = [selection lastObject];
+if(selectedGame)
     {
-		NSSet* roms = [selectedGame valueForKey:@"roms"];
-		id romToStart = nil;
-		if([roms count] > 1)
+NSSet* roms = [selectedGame valueForKey:@"roms"];
+id romToStart = nil;
+if([roms count] > 1)
         {
-			// TODO: find out which rom to start	
+// TODO: find out which rom to start
             romToStart = [roms anyObject];
-		}
+}
         else 
         {
-			romToStart = [roms anyObject];	
-		}
+romToStart = [roms anyObject];
+}
         
-		NSError* error = nil;
-		OENewGameDocument* gameDoc = [OENewGameDocument newDocumentWithROM:romToStart error:&error];
-		if(!gameDoc)
+NSError* error = nil;
+OENewGameDocument* gameDoc = [OENewGameDocument newDocumentWithROM:romToStart error:&error];
+if(!gameDoc)
         {
-			[NSApp presentError:error];
-			return;
-		}
-		[self _launchGameDoc:gameDoc];
-		[gameDoc release];
-	}
+[NSApp presentError:error];
+return;
+}
+[self _launchGameDoc:gameDoc];
+[gameDoc release];
+}
 }
 #pragma mark -
 #pragma mark Sidebar Helpers
@@ -403,7 +401,7 @@
 #pragma mark NSWindow Delegates
 - (NSSize)window:(NSWindow *)window willUseFullScreenContentSize:(NSSize)proposedSize 
 {
-	return proposedSize;
+return proposedSize;
 }
 - (void)window:(NSWindow *)window willEncodeRestorableState:(NSCoder *)state
 {
@@ -414,21 +412,21 @@
 
 - (void)windowWillEnterFullScreen:(NSNotification *)notification
 {
-	[self _showFullscreen:YES animated:YES];
+[self _showFullscreen:YES animated:YES];
 }
 
 - (void)windowWillExitFullScreen:(NSNotification *)notification
 {
-	[self _showFullscreen:NO animated:YES];
+[self _showFullscreen:NO animated:YES];
 }
 
 - (void)windowDidFailToExitFullScreen:(NSWindow *)window
 {
-	[self _showFullscreen:YES animated:NO];
+[self _showFullscreen:YES animated:NO];
 }
 - (void)windowDidFailToEnterFullScreen:(NSWindow *)window
 {
-	[self _showFullscreen:NO animated:NO];
+[self _showFullscreen:NO animated:NO];
 }
 
 #pragma mark -
@@ -441,9 +439,9 @@
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-    [gridViewMenuItem setEnabled:FALSE];
-    [listViewMenuItem setEnabled:FALSE];
-    [flowViewMenuItem setEnabled:FALSE];
+    [gridViewMenuItem setEnabled:NO];
+    [listViewMenuItem setEnabled:NO];
+    [flowViewMenuItem setEnabled:NO];
 }
 
 
@@ -453,7 +451,7 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-	[self _removeGameView];
+[self _removeGameView];
 }
 #pragma mark -
 #pragma mark Properties
@@ -465,97 +463,97 @@
     database = newDatabase;
     [sidebarController setDatabase:database];
     
-    [sidebarController reloadData];	
+    [sidebarController reloadData];
 }
 
 - (void)setSidebarChangesWindowSize:(BOOL)flag
 {
-	sidebarChangesWindowSize = flag;
-	
-	NSImage* image;
-	if(flag)
+sidebarChangesWindowSize = flag;
+
+NSImage* image;
+if(flag)
     {
-		image = [mainSplitView splitterPosition]==0? [NSImage imageNamed:@"toolbar_sidebar_button_open"]:[NSImage imageNamed:@"toolbar_sidebar_button_close"];
-	} 
+image = [mainSplitView splitterPosition]==0? [NSImage imageNamed:@"toolbar_sidebar_button_open"]:[NSImage imageNamed:@"toolbar_sidebar_button_close"];
+} 
     else 
     {
-		image = [mainSplitView splitterPosition]==0? [NSImage imageNamed:@"toolbar_sidebar_button_close"]:[NSImage imageNamed:@"toolbar_sidebar_button_open"];
-	}
+image = [mainSplitView splitterPosition]==0? [NSImage imageNamed:@"toolbar_sidebar_button_close"]:[NSImage imageNamed:@"toolbar_sidebar_button_open"];
+}
     
     [sidebarBtn setImage:image];
 }
 
 - (BOOL)sidebarChangesWindowSize
 {
-	return sidebarChangesWindowSize;
+return sidebarChangesWindowSize;
 }
 
 #pragma mark -
 #pragma mark Private
 - (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
 {
-	[[self window] setMovable:!fsFlag];
-	[self setSidebarChangesWindowSize:!fsFlag];
-	mainSplitView.drawsWindowResizer = !fsFlag;
-	
-	if(fsFlag)
+[[self window] setMovable:!fsFlag];
+[self setSidebarChangesWindowSize:!fsFlag];
+mainSplitView.drawsWindowResizer = !fsFlag;
+
+if(fsFlag)
     {
 #ifdef NSApplicationPresentationAutoHideToolbar
-		[NSApp setPresentationOptions:NSApplicationPresentationAutoHideDock|NSApplicationPresentationAutoHideToolbar];
+[NSApp setPresentationOptions:NSApplicationPresentationAutoHideDock|NSApplicationPresentationAutoHideToolbar];
 #else
-		
+
 #endif
-	} 
+} 
     else 
     {
 #ifdef NSApplicationPresentationAutoHideToolbar
-		[NSApp setPresentationOptions:NSApplicationPresentationDefault];	
-#else	
-		
+[NSApp setPresentationOptions:NSApplicationPresentationDefault];
+#else
+
 #endif
-	}
+}
 }
 
 - (void)_removeGameView
 {
-	[collectionViewController willShow];
-	[[collectionViewController view] setHidden:NO];
-	
-	[sidebarController willShow];
-	[[sidebarController view] setHidden:NO];
-	[gridViewBtn setEnabled:YES];
-	[flowViewBtn setEnabled:YES];
-	[listViewBtn setEnabled:YES];
-	
-	[editSmartCollectionMenuItem setEnabled:YES];
-	[sidebarBtn setEnabled:YES];
-	
-	if(gameDocument)
+[collectionViewController willShow];
+[[collectionViewController view] setHidden:NO];
+
+[sidebarController willShow];
+[[sidebarController view] setHidden:NO];
+[gridViewBtn setEnabled:YES];
+[flowViewBtn setEnabled:YES];
+[listViewBtn setEnabled:YES];
+
+[editSmartCollectionMenuItem setEnabled:YES];
+[sidebarBtn setEnabled:YES];
+
+if(gameDocument)
     {
         if([gameDocument isEmulationPaused])
             [gameDocument terminateEmulation];
-		[[gameDocument gameView] removeFromSuperview];
-		[gameDocument release], gameDocument = nil;
+[[gameDocument gameView] removeFromSuperview];
+[gameDocument release], gameDocument = nil;
     }
 }
 
 - (void)_showGameView
 {
-	[collectionViewController willHide];
-	[[collectionViewController view] setHidden:YES];
-	
-	[sidebarController willHide];
-	[[sidebarController view] setHidden:YES];
-	[gridViewBtn setEnabled:NO];
-	[flowViewBtn setEnabled:NO];
-	[listViewBtn setEnabled:NO];
-	
-	[editSmartCollectionMenuItem setEnabled:NO];
-	[sidebarBtn setEnabled:NO];
-	
-	NSView* gameView = [gameDocument gameView];
-	[[mainSplitView superview] addSubview:gameView];
-	
+[collectionViewController willHide];
+[[collectionViewController view] setHidden:YES];
+
+[sidebarController willHide];
+[[sidebarController view] setHidden:YES];
+[gridViewBtn setEnabled:NO];
+[flowViewBtn setEnabled:NO];
+[listViewBtn setEnabled:NO];
+
+[editSmartCollectionMenuItem setEnabled:NO];
+[sidebarBtn setEnabled:NO];
+
+NSView* gameView = [gameDocument gameView];
+[[mainSplitView superview] addSubview:gameView];
+
     NSRect frame = [[mainSplitView superview] bounds];
     frame.origin.y += 45; // Toolbar Height+1px black line;
     frame.size.height -= 45;
@@ -565,23 +563,23 @@
 
 - (void)_launchGameDoc:(id)gameDoc
 {
-	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
-	BOOL allowsPopout = [sud boolForKey:UDAllowPopoutKey];
-	BOOL forcePopout = [sud boolForKey:UDForcePopoutKey];
-	
-	if (allowsPopout && (gameDocument || forcePopout)) 
+NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+BOOL allowsPopout = [sud boolForKey:UDAllowPopoutKey];
+BOOL forcePopout = [sud boolForKey:UDForcePopoutKey];
+
+if (allowsPopout && (gameDocument || forcePopout)) 
     {
-		NSRect rect = NSMakeRect(150, 150, 640, 480);
-		[gameDoc openWindow:rect];
-	} 
+NSRect rect = NSMakeRect(150, 150, 640, 480);
+[gameDoc openWindow:rect];
+} 
     else 
     {
-		[self _removeGameView];
-		
-		gameDocument = [gameDoc retain];
+[self _removeGameView];
+
+gameDocument = [gameDoc retain];
         gameDocument.delegate = self;
-		[self _showGameView];
-	}
+[self _showGameView];
+}
 }
 
 #pragma mark -
@@ -592,6 +590,6 @@
 }
 
 @synthesize mainSplitView, database;
-@synthesize cancelImport;
+@synthesize romImporter;
 
 @end

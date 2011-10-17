@@ -23,7 +23,7 @@
 
 - (int)gridStatus
 {
-	return 0;
+    return [[self valueForKey:@"status"] intValue];
 }
 
 - (void)setGridRating:(NSUInteger)newRating
@@ -41,21 +41,21 @@
     OEDBImage* boxImage = [self valueForKey:@"boxImage"];
     if(boxImage==nil) return nil;
     
-	return [boxImage image];
+    return [boxImage image];
 }
 
 - (NSImage*)gridImageWithSize:(NSSize)aSize
-{	
+{
     OEDBImage* boxImage = [self valueForKey:@"boxImage"];
     if(boxImage==nil) return nil;
     
-	return [boxImage imageForSize:aSize];
+    return [boxImage imageForSize:aSize];
 }
 
 
 - (void)setGridImage:(NSImage *)gridImage
 {
-	[self setBoxImageByImage:gridImage];
+    [self setBoxImageByImage:gridImage];
 }
 
 #pragma mark -
@@ -66,14 +66,14 @@
      return self.coverPath;
      */
     
-	// Create a new UUID
-	CFUUIDRef  uuidObj = CFUUIDCreate(nil);
-	
-	// Get the string representation of the UUID
-	NSString  *uuidString = (NSString *)CFUUIDCreateString(nil, uuidObj);
-	CFRelease(uuidObj);
-	
-	return [uuidString autorelease];
+    // Create a new UUID
+    CFUUIDRef  uuidObj = CFUUIDCreate(nil);
+    
+    // Get the string representation of the UUID
+    NSString  *uuidString = (NSString *)CFUUIDCreateString(nil, uuidObj);
+    CFRelease(uuidObj);
+    
+    return [uuidString autorelease];
 }
 
 - (NSString *) imageRepresentationType
@@ -83,8 +83,8 @@
 
 - (id)imageRepresentation
 {    
-	return [self gridImage];
-	
+    return [self gridImage];
+    
     NSManagedObject* boxImage = [self valueForKey:@"boxImage"];
     if(boxImage==nil) return nil;
     
@@ -92,7 +92,7 @@
     if([boxImage valueForKey:@"data"])
     {
         NSImage* cover = [[NSImage alloc] initWithData:[boxImage valueForKey:@"data"]];
-        return [cover autorelease];	  
+        return [cover autorelease];  
     }
     
     if([boxImage valueForKey:@"url"]) return nil;
@@ -123,7 +123,7 @@
 #pragma mark ListView DataSource Item
 - (NSImage*)listViewStatus:(BOOL)selected
 {
-	/*if(self.fileStatus==1 && !selected){
+    /*if(self.fileStatus==1 && !selected){
      NSImage* res = [NSImage imageNamed:@"list_indicators_missing"];
      return res;
      } 
@@ -141,8 +141,8 @@
      if([refDate isEqualToDate:self.romLastPlayed] && selected){
      return [NSImage imageNamed:@"list_indicators_unplayed_selected"];
      }*/
-	
-	return nil;
+    
+    return nil;
 }
 
 - (void)setListViewRating:(NSNumber*)number
@@ -156,22 +156,22 @@
 }
 - (NSString*)listViewTitle
 {
-	NSString* title = [self valueForKey:@"name"];
+    NSString* title = [self valueForKey:@"name"];
     return title;
 }
 - (NSString*)listViewLastPlayed
 {
-	// TODO: properly format date
-	NSDate* lastPlayedDate = self.lastPlayed;
-	NSString* lastPlayed;
-	if(!lastPlayedDate)
+    // TODO: properly format date
+    NSDate* lastPlayedDate = self.lastPlayed;
+    NSString* lastPlayed;
+    if(!lastPlayedDate)
     {
-		lastPlayed = @"";
-	} else {
-		lastPlayed = [NSString stringWithFormat:@"%@", self.lastPlayed];
-	}
-	
-	return lastPlayed;
+        lastPlayed = @"";
+    } else {
+        lastPlayed = [NSString stringWithFormat:@"%@", self.lastPlayed];
+    }
+    
+    return lastPlayed;
 }
 
 - (NSString*)listViewConsoleName
@@ -189,7 +189,7 @@
 @implementation OEDBSystem (DataSourceAdditions)
 - (NSImage*)sidebarIcon
 {
-	return self.icon;
+    return self.icon;
 }
 - (NSString*)sidebarName
 {
@@ -202,15 +202,15 @@
 
 - (BOOL)isSelectableInSdebar
 {
-	return YES;
+    return YES;
 }
 - (BOOL)isEditableInSdebar
 {
-	return NO;
+    return NO;
 }
 - (BOOL)isGroupHeaderInSdebar
 {
-	return NO;
+    return NO;
 }
 
 - (BOOL)hasSubCollections
@@ -220,7 +220,7 @@
 
 - (NSPredicate*)predicate
 {
-	return [NSPredicate predicateWithFormat:@"system == %@", self];
+    return [NSPredicate predicateWithFormat:@"system == %@", self];
 }
 
 @end
@@ -228,7 +228,7 @@
 @implementation OEDBCollection (DataSourceAdditions)
 - (NSImage*)sidebarIcon
 {
-	return [NSImage imageNamed:@"collections_simple"];
+    return [NSImage imageNamed:@"collections_simple"];
 }
 - (NSString*)sidebarName
 {
@@ -242,15 +242,15 @@
 
 - (BOOL)isSelectableInSdebar
 {
-	return YES;
+    return YES;
 }
 - (BOOL)isEditableInSdebar
 {
-	return YES;
+    return YES;
 }
 - (BOOL)isGroupHeaderInSdebar
 {
-	return NO;
+    return NO;
 }
 
 - (BOOL)hasSubCollections
@@ -263,7 +263,7 @@
 @implementation OEDBSmartCollection (DataSourceAdditions)
 - (NSImage*)sidebarIcon
 {
-	return [NSImage imageNamed:@"collections_smart"];
+    return [NSImage imageNamed:@"collections_smart"];
 }
 @end
 
@@ -298,7 +298,7 @@
 
 - (NSPredicate*)predicate
 {
-	return [NSPredicate predicateWithFormat:@"system == %@", self];
+    return [NSPredicate predicateWithFormat:@"system == %@", self];
 }
 
 @end
@@ -325,7 +325,7 @@
 
 - (NSPredicate*)predicate
 {
-	return [NSPredicate predicateWithFormat:@"ANY collections == %@", self];
+    return [NSPredicate predicateWithFormat:@"ANY collections == %@", self];
 }
 @end
 
@@ -348,7 +348,7 @@
 
 - (NSPredicate*)predicate
 {
-	return [NSPredicate predicateWithValue:NO];
+    return [NSPredicate predicateWithValue:NO];
 }
 @end
 @implementation OEDBSmartCollection (OECollectionViewItemAdditions)
@@ -367,7 +367,7 @@
 }
 - (NSPredicate*)predicate
 {
-	return [NSPredicate predicateWithValue:NO];
+    return [NSPredicate predicateWithValue:NO];
 }
 @end
 @implementation OEDBAllGamesCollection (OECollectionViewItemAdditions)
@@ -393,6 +393,6 @@
 
 - (NSPredicate*)predicate
 {
-	return [NSPredicate predicateWithValue:YES];
+    return [NSPredicate predicateWithValue:YES];
 }
 @end

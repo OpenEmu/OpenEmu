@@ -11,8 +11,8 @@
 
 // to do, define somewhere else
 #define IndicationTypeNone 0
-#define IndicationTypeFileMissing 1
-#define IndicationTypeProcessing 2
+#define IndicationTypeFileMissing 2
+#define IndicationTypeProcessing 1
 #define IndicationTypeDropOn 3
 
 #define Deg_to_Rad(X ) (X*M_PI/180.0)

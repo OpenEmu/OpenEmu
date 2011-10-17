@@ -18,32 +18,33 @@
 @interface OECollectionViewController : NSViewController <IKSGridViewDelegate, IKSGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource>
 {
 @private
-    OELibraryDatabase	* database;
-    NSArrayController	* gamesController;
+    OELibraryDatabase* database;
+    NSArrayController* gamesController;
     
     id <NSObject, OECollectionViewItemProtocol> collectionItem;
     
-    IBOutlet NSView			* gridViewContainer;	// gridview
-    IBOutlet IKSGridView		* gridView;			// scrollview for gridview
+    IBOutlet NSView* gridViewContainer;// gridview
+    IBOutlet IKSGridView* gridView;// scrollview for gridview
     
-    IBOutlet OEHorizontalSplitView	* flowlistViewContainer; // cover flow and simple list container
-    IBOutlet IKImageFlowView		* coverFlowView;
-    IBOutlet NSTableView			* listView;
+    IBOutlet OEHorizontalSplitView* flowlistViewContainer; // cover flow and simple list container
+    IBOutlet IKImageFlowView* coverFlowView;
+    IBOutlet NSTableView* listView;
     
-    IBOutlet NSButton	* gridViewBtn;	IBOutlet NSMenuItem* gridViewMenuItem;
-    IBOutlet NSButton	* flowViewBtn;	IBOutlet NSMenuItem* flowViewMenuItem;
-    IBOutlet NSButton	* listViewBtn;	IBOutlet NSMenuItem* listViewMenuItem;
+    IBOutlet NSButton* gridViewBtn;IBOutlet NSMenuItem* gridViewMenuItem;
+    IBOutlet NSButton* flowViewBtn;IBOutlet NSMenuItem* flowViewMenuItem;
+    IBOutlet NSButton* listViewBtn;IBOutlet NSMenuItem* listViewMenuItem;
     
-    IBOutlet NSSlider		* sizeSlider;
-    IBOutlet NSSearchField	* searchField;
+    IBOutlet NSSlider* sizeSlider;
+    IBOutlet NSSearchField* searchField;
     /*
      *
-     IBOutlet NSButton	*dbg_btn_colors;
+     IBOutlet NSButton*dbg_btn_colors;
      IBOutlet NSTextField* dbg_dnd_width;
      IBOutlet NSTextField* dbg_dnd_opstart, *dbg_dnd_opend, *dbg_dnd_delay;
      IBOutlet NSPopUpButton* dbg_layer_state;
      *
      */
+    NSTimer* reloadTimer;
 }
 
 - (void)finishSetup;
@@ -65,7 +66,9 @@
 #pragma mark "Notifications" (not really)
 - (void)willHide;
 - (void)willShow;
+
+- (void)setNeedsReload;
 #pragma mark -
-@property (retain, readwrite) OELibraryDatabase* database;
+
 @property (nonatomic, retain) id <NSObject, OECollectionViewItemProtocol> collectionItem;
 @end

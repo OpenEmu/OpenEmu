@@ -8,6 +8,16 @@
 
 #import <CoreData/CoreData.h>
 
+@class OELibraryDatabase;
 @interface OEDBRom : NSManagedObject
 - (NSArray*)saveStatesByTimestampAscending:(BOOL)ascFlag;
+#pragma mark -
+- (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db;
+- (BOOL)calculateChecksumInDatabase:(OELibraryDatabase*)db; // result specifies if game is still in database
+- (void)doArchiveSyncInDatabase:(OELibraryDatabase*)db;
+- (void)organizeInLibraryOfDatabase:(OELibraryDatabase*)db;
+#pragma mark -
+#pragma mark Core Data utilities
++ (NSString *)entityName;
++ (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 @end

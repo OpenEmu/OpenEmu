@@ -360,7 +360,7 @@
     self = [super initWithFrame:frame];
     if (self) 
     {
-        [self setWantsLayer:TRUE];
+        [self setWantsLayer:YES];
     }
     return self;
 }
@@ -383,7 +383,7 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     NSImage* barBackground = [NSImage imageNamed:@"hud_bar"];
-    [barBackground drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:TRUE hints:nil leftBorder:15 rightBorder:15 topBorder:0 bottomBorder:0];
+    [barBackground drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:15 rightBorder:15 topBorder:0 bottomBorder:0];
 }
 
 - (void)setupControls

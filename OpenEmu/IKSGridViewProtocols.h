@@ -31,10 +31,14 @@
 - (BOOL)gridItemBrowser:(id)browser shouldDragItem:(id)item;
 @end
 
-
+@class OELibraryDatabase;
 @protocol IKSGridViewDataSource <NSObject>
+@property (retain, readwrite) OELibraryDatabase* database;
 - (NSUInteger)numberOfItemsInGridView:(IKSGridView*)aView;
 - (id)gridView:(IKSGridView*)aView objectValueOfItemAtIndex:(NSUInteger)index;
 - (void)gridView:(IKSGridView *)aView setObject:(id)obj forKey:(NSString*)key atIndex:(NSUInteger)index;
 - (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString*)key atIndex:(NSUInteger)index;
+
+- (void)gridView:(IKSGridView *)aView setObject:(id)obj forKey:(NSString*)key withRepresentedObject:(id)obj;
+- (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString*)key withRepresentedObject:(id)obj;
 @end

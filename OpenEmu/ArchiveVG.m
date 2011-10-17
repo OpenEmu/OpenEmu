@@ -312,7 +312,7 @@ static __strong NSString* sharedEmailAddress = nil;
     if(sessionKey==nil)
     {
         NSLog(@"Error: addToUserCollection called prior to calling startSession");
-        return FALSE;
+        return NO;
     }
     NSError* error = nil;
     
@@ -323,14 +323,14 @@ static __strong NSString* sharedEmailAddress = nil;
     if(error!=nil)
     {
         NSLog(@"Archive Operation: %@ | Error: %@", [ArchiveVG _debug_nameOfOp:AVGAddToCollection], error);
-        return FALSE;
+        return NO;
     }
     
     NSArray* nodes = [xmlDocument nodesForXPath:@"/opensearchdescription/status/code" error:&error];
     if(error!=nil)
     {
         NSLog(@"Archive Operation: %@ | XML Error: %@", [ArchiveVG _debug_nameOfOp:AVGAddToCollection], error);
-        return FALSE;
+        return NO;
     }
     
     id result = [[nodes objectAtIndex:0] objectValue];
@@ -343,7 +343,7 @@ static __strong NSString* sharedEmailAddress = nil;
     if(sessionKey==nil)
     {
         NSLog(@"Error: addToUserCollection called prior to calling startSession");
-        return FALSE;
+        return NO;
     }
     
     NSError* error = nil;
@@ -354,14 +354,14 @@ static __strong NSString* sharedEmailAddress = nil;
     if(error!=nil)
     {
         NSLog(@"Archive Operation: %@ | Error: %@", [ArchiveVG _debug_nameOfOp:AVGRemoveFromCollection], error);
-        return FALSE;
+        return NO;
     }
     
     NSArray* nodes = [xmlDocument nodesForXPath:@"/opensearchdescription/status/code" error:&error];
     if(error!=nil)
     {
         NSLog(@"Archive Operation: %@ | XML Error: %@", [ArchiveVG _debug_nameOfOp:AVGRemoveFromCollection], error);
-        return FALSE;
+        return NO;
     }
     id result = [[nodes objectAtIndex:0] objectValue];
     

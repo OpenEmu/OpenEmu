@@ -17,7 +17,8 @@
 
 #import "OEDBAllGamesCollection.h"
 #import "OEDBSystem.h"
-#import	"OEDBGame.h"
+#import"OEDBGame.h"
+#import "OEDBRom.h"
 
 #import "OELocalizationHelper.h"
 
@@ -35,17 +36,18 @@
 - (BOOL)_isValidDatabase:(NSURL*)url error:(NSError**)error;
 - (BOOL)_chooseDatabase;
 
-//	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	**	//
+//******************************************//
 - (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError;
 @end
 static OELibraryDatabase* defaultDatabase = nil;
 @implementation OELibraryDatabase
-+ (void)initialize{
++ (void)initialize
+{
     NSImage* consoleIcons = [NSImage imageNamed:@"consoles"];
     
     // Bottom Left -> top right
     // first row (bottom)
-    [consoleIcons setName:@"Sega Genesis" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];	
+    [consoleIcons setName:@"Sega Genesis" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
     [consoleIcons setName:@"Sega 32x" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
     [consoleIcons setName:@"Sega CD" forSubimageInRect:NSMakeRect(32, 0, 16, 16)];
     [consoleIcons setName:@"Game Gear" forSubimageInRect:NSMakeRect(48, 0, 16, 16)];
@@ -57,84 +59,96 @@ static OELibraryDatabase* defaultDatabase = nil;
     [consoleIcons setName:@"Sega Master System" forSubimageInRect:NSMakeRect(48, 16, 16, 16)];
     
     // Third row:
-	if([[OELocalizationHelper sharedHelper] isRegionNA])
-		[consoleIcons setName:@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(16, 32, 16, 16)];
-	else
-		[consoleIcons setName:[[OELocalizationHelper sharedHelper] isRegionJAP]?@"Super Famicom":@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(0, 32, 16, 16)];
+    if([[OELocalizationHelper sharedHelper] isRegionNA])
+        [consoleIcons setName:@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(16, 32, 16, 16)];
+    else
+        [consoleIcons setName:[[OELocalizationHelper sharedHelper] isRegionJAP]?@"Super Famicom":@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(0, 32, 16, 16)];
     [consoleIcons setName:@"Nintendo 64" forSubimageInRect:NSMakeRect(32, 32, 16, 16)];
     [consoleIcons setName:@"Game Boy" forSubimageInRect:NSMakeRect(48, 32, 16, 16)];
     
     // Fourth row (top):
-    [consoleIcons setName:@"Arcade (MAME)" forSubimageInRect:NSMakeRect(0, 48, 16, 16)];	
-    [consoleIcons setName:@"Atari 2600" forSubimageInRect:NSMakeRect(16, 48, 16, 16)];	
+    [consoleIcons setName:@"Arcade (MAME)" forSubimageInRect:NSMakeRect(0, 48, 16, 16)];
+    [consoleIcons setName:@"Atari 2600" forSubimageInRect:NSMakeRect(16, 48, 16, 16)];
     [consoleIcons setName:@"Nintendo (NES)" forSubimageInRect:NSMakeRect(32, 48, 16, 16)]; // eu / us
     [consoleIcons setName:@"Famicom" forSubimageInRect:NSMakeRect(48, 48, 16, 16)]; // jap
 }
 
-- (void)_debug_logStats{
-	return;
-	NSLog(@"Holding %lu ManagedObjectContexts", [managedObjectContexts count]);
-	NSLog(@"%@", [managedObjectContexts allKeys]);
+- (void)_debug_logStats
+{
+    return;
+    NSLog(@"Holding %lu ManagedObjectContexts", [managedObjectContexts count]);
+    NSLog(@"%@", [managedObjectContexts allKeys]);
 }
 
-+ (OELibraryDatabase*)defaultDatabase{
-	return defaultDatabase ?: [[self new] autorelease];
++ (OELibraryDatabase*)defaultDatabase
+{
+    return defaultDatabase ?: [[self new] autorelease];
 }
 
-- (id)init{
-	NSLog(@"creating new LibraryDatabase");
+- (id)init
+{
+    NSLog(@"creating new LibraryDatabase");
     self = [super init];
     
-    if (self) {
-	  romsController = [[NSArrayController alloc] init];	
-		managedObjectContexts = [[NSMutableDictionary alloc] init];
-		if(![self _loadDatabase:NO]){		
-		self = nil;
-		return nil;
-	  }
-	  
-	  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
+    if (self) 
+    {
+        romsController = [[NSArrayController alloc] init];
+        managedObjectContexts = [[NSMutableDictionary alloc] init];
+        if(![self _loadDatabase:NO])
+        {
+            self = nil;
+            return nil;
+        }
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
     }
     
-	if(!defaultDatabase){
-		defaultDatabase = [self retain];
-	}
-	
+    if(!defaultDatabase)
+    {
+        defaultDatabase = [self retain];
+    }
+    
     return self;
 }
 
-- (void)dealloc{   
-	NSLog(@"destroying LibraryDatabase");
+- (void)dealloc
+{      
+    NSLog(@"destroying LibraryDatabase");
     [__managedObjectContext release];
     [__persistentStoreCoordinator release];
     [__managedObjectModel release];
     
-	[managedObjectContexts release];
-	
+    [managedObjectContexts release];
+    
     [__databaseURL release];
     
     [romsController release];
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super dealloc];
 }
 
-- (void)awakeFromNib{}
+- (void)awakeFromNib
+{}
 
-- (void)applicationWillTerminate:(id)sender{
+- (void)applicationWillTerminate:(id)sender
+{
     NSError* error = nil;
-    if(![self save:&error]){
-	  [NSApp presentError:error];
-	  return;
+    if(![self save:&error])
+    {
+        [NSApp presentError:error];
+        return;
     }
     NSLog(@"Did save Database");
 }
 
 #pragma mark -
 #pragma mark CoreData Stuff
-- (NSManagedObjectModel *)managedObjectModel {
-    if (__managedObjectModel) {
+- (NSManagedObjectModel *)managedObjectModel 
+{
+    if (__managedObjectModel) 
+    {
         return __managedObjectModel;
     }
     
@@ -143,298 +157,236 @@ static OELibraryDatabase* defaultDatabase = nil;
     return __managedObjectModel;
 }
 
-- (NSPersistentStoreCoordinator *) persistentStoreCoordinator {
-    if (__persistentStoreCoordinator) {
+- (NSPersistentStoreCoordinator *) persistentStoreCoordinator 
+{
+    if (__persistentStoreCoordinator) 
+    {
         return __persistentStoreCoordinator;
     }
     
     NSManagedObjectModel *mom = [self managedObjectModel];
-    if (!mom) {
+    if (!mom) 
+    {
         NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
         return nil;
     }
     
     
-    NSError *error = nil;	
+    NSError *error = nil;
     NSURL *url = [__databaseURL URLByAppendingPathComponent:OEDatabaseFileName];
     __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error]) {
-		// TODO: Try to migrate database to latest version
-		
-		[__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
+    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error])
+    {
+        // TODO: Try to migrate database to latest version
         
-		// [[NSApplication sharedApplication] presentError:error];
-		return nil;
+        [__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
+        
+        // [[NSApplication sharedApplication] presentError:error];
+        return nil;
     }
     
     return __persistentStoreCoordinator;
 }
 
-- (NSManagedObjectContext *) managedObjectContext {
-	
-    if ([NSThread isMainThread] && __managedObjectContext) {
+- (NSManagedObjectContext *) managedObjectContext 
+{
+    
+    if ([NSThread isMainThread] && __managedObjectContext) 
+    {
         return __managedObjectContext;
     }
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (!coordinator) {
+    if (!coordinator) 
+    {
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         [dict setValue:@"Failed to initialize the store" forKey:NSLocalizedDescriptionKey];
         [dict setValue:@"There was an error building up the data file." forKey:NSLocalizedFailureReasonErrorKey];
-		// TODO: adjust error domain
+        // TODO: adjust error domain
         NSError *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
         [[NSApplication sharedApplication] presentError:error];
         return nil;
     }
-	
-	if([NSThread isMainThread]){
-		__managedObjectContext = [[NSManagedObjectContext alloc] init];
-		if(!__managedObjectContext) return nil;
     
-		[__managedObjectContext setPersistentStoreCoordinator:coordinator];
-    
-		// remeber last loc as database path
-		NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
-		[standardDefaults setObject:[__databaseURL path] forKey:UDDatabasePathKey];
-		
-		
-		return __managedObjectContext;
-    } else {
-		[self _debug_logStats];
-		
-		NSThread* thread = [NSThread currentThread];
-		if(![thread name] || ![managedObjectContexts valueForKey:[thread name]]){
-			NSManagedObjectContext* context = [[NSManagedObjectContext alloc] init];
-			if(!context) return nil;
-			
-			if([[thread name] isEqualTo:@""]){
-				NSString* name = [NSString stringWithUUID];
-				[thread setName:name];
-			}
-
-			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillExit:) name:NSThreadWillExitNotification object:thread];
-			
-			[context setPersistentStoreCoordinator:coordinator];
-			[managedObjectContexts setValue:context forKey:[thread name]];
-			[context release];
-		}
-		[self _debug_logStats];
-		return [managedObjectContexts valueForKey:[thread name]];
-	
-	}
-	return nil;
+    if([NSThread isMainThread])
+    {
+        __managedObjectContext = [[NSManagedObjectContext alloc] init];   
+        NSMergePolicy* policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
+        [__managedObjectContext setMergePolicy:policy];
+        [policy release];
+        if(!__managedObjectContext) return nil;
+        
+        [__managedObjectContext setPersistentStoreCoordinator:coordinator];
+        
+        // remeber last loc as database path
+        NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+        [standardDefaults setObject:[__databaseURL path] forKey:UDDatabasePathKey];
+        
+        return __managedObjectContext;
+    }
+    else
+    {
+        [self _debug_logStats];
+        
+        NSThread* thread = [NSThread currentThread];
+        if(![thread name] || ![managedObjectContexts valueForKey:[thread name]])
+        {
+            NSManagedObjectContext* context = [[NSManagedObjectContext alloc] init];
+            if(!context) return nil;
+            
+            if([[thread name] isEqualTo:@""])
+            {
+                NSString* name = [NSString stringWithUUID];
+                [thread setName:name];
+            }
+            
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillExit:) name:NSThreadWillExitNotification object:thread];
+            
+            [context setPersistentStoreCoordinator:coordinator];
+            [managedObjectContexts setValue:context forKey:[thread name]];
+            NSMergePolicy* policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
+            [context setMergePolicy:policy];
+            
+            [context release];
+        }
+        [self _debug_logStats];
+        return [managedObjectContexts valueForKey:[thread name]];
+        
+    }
+    return nil;
 }
 
-- (void)threadWillExit:(NSNotification*)notification{
-	NSLog(@"Thread Will Exit");
-	[self _debug_logStats];
-	
-	NSThread* thread = [notification object];
-	NSLog(@"Thread: %@", thread);
-	
-	NSString* threadName = [thread name];
-	NSLog(@"Name: %@ | value: %@", threadName, [managedObjectContexts valueForKey:threadName]);
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
-	
-	[managedObjectContexts removeObjectForKey:threadName];
-	
-	NSLog(@"after thread will exit n stuff");
-	[self _debug_logStats];
+- (void)threadWillExit:(NSNotification*)notification
+{
+    [self _debug_logStats];
+    
+    NSThread* thread = [notification object];
+    NSString* threadName = [thread name];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
+    
+    
+    NSManagedObjectContext* ctx = [managedObjectContexts valueForKey:threadName];
+    if([ctx hasChanges])
+        [ctx save:nil];
+    [managedObjectContexts removeObjectForKey:threadName];
+    
+    [self _debug_logStats];
 }
 #pragma mark -
-- (BOOL)save:(NSError**)error{
-	NSError* backupError;
-    if(error==NULL) error=&backupError;	
+- (BOOL)save:(NSError**)error
+{
+    NSError* backupError;
+    if(error==NULL) error=&backupError;
     
-    if (![[self managedObjectContext] commitEditing]) {
+    if (![[self managedObjectContext] commitEditing]) 
+    {
         NSLog(@"%@:%@ unable to commit editing before saving", [self class], NSStringFromSelector(_cmd));
-	  return NO;
+        return NO;
     }
     
-    if (![[self managedObjectContext] hasChanges]) {
-	  NSLog(@"Database did not change. Skip Saving.");
+    if (![[self managedObjectContext] hasChanges]) 
+    {
+        NSLog(@"Database did not change. Skip Saving.");
         return YES;
     }
     
-    if (![[self managedObjectContext] save:error]) {
+    if (![[self managedObjectContext] save:error]) 
+    {
         [[NSApplication sharedApplication] presentError:*error];
-	  return NO;
+        return NO;
     }
     
     return YES;
 }
 
-- (NSUndoManager*)undoManager{
+- (NSUndoManager*)undoManager
+{
     return [[self managedObjectContext] undoManager];
 }
 #pragma mark -
 #pragma mark Database queries
-- (NSArray*)systems{
+- (NSArray*)systems
+{
     NSManagedObjectContext *context = [self managedObjectContext];
     
     NSEntityDescription* descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
     NSFetchRequest* req = [[NSFetchRequest alloc] init];
     [req setEntity:descr];
-	
+    
     NSError* error = nil;
-	
+    
     id result = [context executeFetchRequest:req error:&error];
     [req release];
-    if(!result){
-		NSLog(@"systems: Error: %@", error);
-		return nil;
+    if(!result)
+    {
+        NSLog(@"systems: Error: %@", error);
+        return nil;
     }
     return [result sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-		return [[obj1 name] compare:[obj2 name]];
-	}];
+        return [[obj1 name] compare:[obj2 name]];
+    }];
 }
-- (OEDBSystem*)systemWithIdentifier:(NSString*)identifier{
-	NSManagedObjectContext *context = [self managedObjectContext];
-	NSEntityDescription* descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
+- (OEDBSystem*)systemWithIdentifier:(NSString*)identifier
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    NSEntityDescription* descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
     NSFetchRequest* req = [[NSFetchRequest alloc] init];
-	[req setFetchLimit:1];
+    [req setFetchLimit:1];
     [req setEntity:descr];
-	
-	NSPredicate* pred = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", identifier];
-	[req setPredicate:pred];
-        
+    
+    NSPredicate* pred = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", identifier];
+    [req setPredicate:pred];
+    
     NSError* error = nil;
-	
+    
     id result = [context executeFetchRequest:req error:&error];
     [req release];
-    if(!result){
-		NSLog(@"systemWithIdentifier: Error: %@", error);
-		return nil;
+    if(!result)
+    {
+        NSLog(@"systemWithIdentifier: Error: %@", error);
+        return nil;
     }
     return [result lastObject];
 }
 
-- (OEDBSystem*)systemForFile:(NSString*)filePath{
-	NSString* systemIdentifier = nil;
-	for(OESystemPlugin* aPlugin in [OESystemPlugin allPlugins])
-		if([[aPlugin controller] canHandleFile:filePath]){ systemIdentifier = [aPlugin systemIdentifier]; break; }
-	
-	if(!systemIdentifier) return nil;
-	
-	NSManagedObjectContext* context = [self managedObjectContext];	
-	NSEntityDescription* description = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
-	
-	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init]; //[[NSFetchRequest alloc] initWithEntityName:@"System"];
-	[fetchRequest setFetchLimit:1];
-	[fetchRequest setEntity:description];
-	
-	NSPredicate* predicate = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", systemIdentifier];
-	[fetchRequest setPredicate:predicate];
-	
-	NSError* error = nil;
-	NSArray* fetchResult = [context executeFetchRequest:fetchRequest error:&error];
-	[fetchRequest release];
-	if(error!=nil){
-		NSLog(@"Could not get System!");
-		[NSApp presentError:error];
-		return nil;
-	}
-	
-	OEDBSystem* result = [fetchResult lastObject];
-	if(!result){
-		NSLog(@"%@", [filePath pathExtension]);
-	}
-	return result;
-	
-	/*
-	NSString* suffix = [[filePath pathExtension] lowercaseString];
-
-	NSInteger systemID = -1;
-	
-	if(FALSE){
-	} else if([suffix isEqualToString:@"jag"] || [suffix isEqualToString:@"j64"]){
-		// Atari Jaguar
-		systemID = 76;
-	}  else if([suffix isEqualToString:@"vb"]){
-		// Virtual Boy
-		systemID = 82;
-	} else if([suffix isEqualToString:@"nds"]){
-		// Nintendo DS
-	} else if([suffix isEqualToString:@"gb"]){
-		// Game Boy
-		systemID = 49;
-	} else if([suffix isEqualToString:@"gbc"]){
-		// Game Boy Color
-		systemID = 67;
-	} else if([suffix isEqualToString:@"gba"]){
-		// Game Boy Advance
-		systemID = 85;
-	} else if([suffix isEqualToString:@"n64"] || [suffix isEqualToString:@"v64"]
-		   || [suffix isEqualToString:@"z64"] || [suffix isEqualToString:@"u64"]){
-		// Nintendo 64
-		systemID = 66;
-	} else if([suffix isEqualToString:@"nes"]){
-		// Nintendo Entertainment System
-		systemID = 32;
-	} else if([suffix isEqualToString:@"fds"]){
-		// Famicom Disk System
-		systemID = 36;
-	} else if([suffix isEqualToString:@"gg"]){
-		// Sega Game Gear
-		systemID = 55;
-	} else if([suffix isEqualToString:@"sms"]){
-		// Sega Master System
-		systemID = 34;
-	} else if([suffix isEqualToString:@"smd"]){
-		// Sega Mega Drive / Sega Genesis
-		systemID = 48;
-	} else if([suffix isEqualToString:@"smc"] || [suffix isEqualToString:@"snes"]
-		   || [suffix isEqualToString:@"fig"] || [suffix isEqualToString:@"sfc"]){
-		// Super Nintendo Entertainment System
-		systemID = 47;
-	} else if([suffix isEqualToString:@"oce"]){
-		// TurboGrafx-16 / PC Engine
-		systemID = 64;
-	} else if([suffix isEqualToString:@"npc"]){
-		// Neo Geo Pocket
-		systemID = 94;
-	} else if([suffix isEqualToString:@"tzx"]){
-		// ZX Spectrum
-		systemID = 45;
-	} else if([suffix isEqualToString:@"t64"] || [suffix isEqualToString:@"d64"]
-		   || [suffix isEqualToString:@"crt"]){
-		// Commodore 64
-		systemID = 33;
-		// T64 magic 43363453207461706520696D6167652066696C65
-		// crt magic: 43363420434152545249444745
-	} else if([suffix isEqualToString:@"adf"] || [suffix isEqualToString:@"adz"]){
-		// Amiga
-		systemID = 53;
-	}
-
-	NSManagedObjectContext* context = [self managedObjectContext];	
-	NSEntityDescription* description = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
-	
-	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init]; //[[NSFetchRequest alloc] initWithEntityName:@"System"];
-	[fetchRequest setFetchLimit:1];
-	[fetchRequest setEntity:description];
-	
-	NSPredicate* predicate = [NSPredicate predicateWithFormat:@"archiveID == %ld", systemID];
-	[fetchRequest setPredicate:predicate];
-	
-	NSError* error = nil;
-	NSArray* fetchResult = [context executeFetchRequest:fetchRequest error:&error];
-	[fetchRequest release];
-	if(error!=nil){
-		NSLog(@"Could not get System!");
-		[NSApp presentError:error];
-		return nil;
-	}
-	
-	OEDBSystem* result = [fetchResult lastObject];
-	if(!result){
-		NSLog(@"%@", suffix);
-	}
-	return result;
-	 */
+- (OEDBSystem*)systemForFile:(NSString*)filePath
+{
+    NSString* systemIdentifier = nil;
+    for(OESystemPlugin* aPlugin in [OESystemPlugin allPlugins])
+        if([[aPlugin controller] canHandleFile:filePath]){ systemIdentifier = [aPlugin systemIdentifier]; break; }
+    
+    if(!systemIdentifier) return nil;
+    
+    NSManagedObjectContext* context = [self managedObjectContext];
+    NSEntityDescription* description = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
+    
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init]; //[[NSFetchRequest alloc] initWithEntityName:@"System"];
+    [fetchRequest setFetchLimit:1];
+    [fetchRequest setEntity:description];
+    
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", systemIdentifier];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError* error = nil;
+    NSArray* fetchResult = [context executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    if(error!=nil)
+    {
+        NSLog(@"Could not get System!");
+        [NSApp presentError:error];
+        return nil;
+    }
+    
+    OEDBSystem* result = [fetchResult lastObject];
+    if(!result)
+    {
+        NSLog(@"%@", [filePath pathExtension]);
+    }
+    return result;
 }
 
-- (NSInteger)systemsCount{
+- (NSInteger)systemsCount
+{
     NSManagedObjectContext *context = [self managedObjectContext];
     
     NSEntityDescription* descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
@@ -448,15 +400,17 @@ static OELibraryDatabase* defaultDatabase = nil;
     NSError* error = nil;
     NSUInteger count = [context countForFetchRequest:req error:&error];
     [req release];
-    if(count == NSNotFound){
-	  NSLog(@"systemsCount: Error: %@", error);
-	  return 0;
+    if(count == NSNotFound)
+    {
+        NSLog(@"systemsCount: Error: %@", error);
+        return 0;
     }
     
     return count;
 }
 
-- (NSUInteger)collectionsCount{
+- (NSUInteger)collectionsCount
+{
     NSUInteger count = 1;
     NSManagedObjectContext *context = [self managedObjectContext];
     
@@ -467,9 +421,10 @@ static OELibraryDatabase* defaultDatabase = nil;
     NSError* error = nil;
     NSUInteger ccount = [context countForFetchRequest:req error:&error];
     [req release];
-    if(count == NSNotFound){
-	  ccount = 0;
-	  NSLog(@"collectionsCount: Smart Collections Error: %@", error);
+    if(count == NSNotFound)
+    {
+        ccount = 0;
+        NSLog(@"collectionsCount: Smart Collections Error: %@", error);
     }
     count += ccount;
     
@@ -481,23 +436,25 @@ static OELibraryDatabase* defaultDatabase = nil;
     error = nil;
     ccount = [context countForFetchRequest:req error:&error];
     [req release];
-    if(count == NSNotFound){
-	  ccount = 0;
-	  NSLog(@"collectionsCount: Regular Collections Error: %@", error);
+    if(count == NSNotFound)
+    {
+        ccount = 0;
+        NSLog(@"collectionsCount: Regular Collections Error: %@", error);
     }
     count += ccount;
     
     return count;
 }
 
-- (NSArray*)collections{
+- (NSArray*)collections
+{
     NSManagedObjectContext *context = [self managedObjectContext];
     NSMutableArray* collectionsArray = [NSMutableArray array];
     
     // insert "all games" item here !
     OEDBAllGamesCollection* allGamesCollections = [[OEDBAllGamesCollection alloc] init];
     [collectionsArray addObject:allGamesCollections];
-    [allGamesCollections release];	
+    [allGamesCollections release];
     
     NSEntityDescription* descr = [NSEntityDescription entityForName:@"SmartCollection" inManagedObjectContext:context];
     NSFetchRequest* req = [[NSFetchRequest alloc] init];
@@ -509,12 +466,13 @@ static OELibraryDatabase* defaultDatabase = nil;
     [req setEntity:descr];
     
     NSError* error = nil;
-	
+    
     id result = [context executeFetchRequest:req error:&error];
-    if(!result){
-	  [req release];
-	  NSLog(@"collections: Smart Collections Error: %@", error);
-	  return [NSArray array];
+    if(!result)
+    {
+        [req release];
+        NSLog(@"collections: Smart Collections Error: %@", error);
+        return [NSArray array];
     }
     [collectionsArray addObjectsFromArray:result];
     
@@ -523,9 +481,10 @@ static OELibraryDatabase* defaultDatabase = nil;
     
     result = [context executeFetchRequest:req error:&error];
     [req release];
-    if(!result){
-	  NSLog(@"collections: Regular Collections Error: %@", error);
-	  return [NSArray array];
+    if(!result)
+    {
+        NSLog(@"collections: Regular Collections Error: %@", error);
+        return [NSArray array];
     }
     
     [collectionsArray addObjectsFromArray:result];
@@ -534,28 +493,30 @@ static OELibraryDatabase* defaultDatabase = nil;
 }
 #pragma mark -
 #pragma mark Collection Editing
-- (id)addNewCollection:(NSString*)name{
+- (id)addNewCollection:(NSString*)name
+{
     NSManagedObjectContext *context = [self managedObjectContext];
     
-    if(name==nil){
-	  name = NSLocalizedString(@"New Collection", @"");
-	  
-	  NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
-	  
-	  NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	  [request setEntity:entityDescription];
-	  [request setFetchLimit:1];
-	  
-	  NSString* uniqueName = name;
-	  NSError *error = nil;
-	  int numberSuffix = 0;
-	  while([context countForFetchRequest:request error:&error]!=0 && error==nil){
-		numberSuffix ++;
-		uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
-		[request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
-	  }
-	  
-	  name = uniqueName;	  
+    if(name==nil)
+    {
+        name = NSLocalizedString(@"New Collection", @"");
+        
+        NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+        [request setEntity:entityDescription];
+        [request setFetchLimit:1];
+        
+        NSString* uniqueName = name;
+        NSError *error = nil;
+        int numberSuffix = 0;
+        while([context countForFetchRequest:request error:&error]!=0 && error==nil){
+            numberSuffix ++;
+            uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
+            [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
+        }
+        
+        name = uniqueName;  
     }
     
     
@@ -565,28 +526,31 @@ static OELibraryDatabase* defaultDatabase = nil;
     return aCollection;
 }
 
-- (id)addNewSmartCollection:(NSString*)name{
+- (id)addNewSmartCollection:(NSString*)name
+{
     NSManagedObjectContext *context = [self managedObjectContext];
     
-    if(name==nil){
-	  name = NSLocalizedString(@"New Smart Collection", @"");
-	  
-	  NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
-	  
-	  NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	  [request setEntity:entityDescription];
-	  [request setFetchLimit:1];
-	  
-	  NSString* uniqueName = name;
-	  NSError *error = nil;
-	  int numberSuffix = 0;
-	  while([context countForFetchRequest:request error:&error]!=0 && error==nil){
-		numberSuffix ++;
-		uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
-		[request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
-	  }
-	  
-	  name = uniqueName;	  
+    if(name==nil)
+    {
+        name = NSLocalizedString(@"New Smart Collection", @"");
+        
+        NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+        [request setEntity:entityDescription];
+        [request setFetchLimit:1];
+        
+        NSString* uniqueName = name;
+        NSError *error = nil;
+        int numberSuffix = 0;
+        while([context countForFetchRequest:request error:&error]!=0 && error==nil)
+        {
+            numberSuffix ++;
+            uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
+            [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
+        }
+        
+        name = uniqueName;  
     }
     
     NSManagedObject *aCollection = [NSEntityDescription insertNewObjectForEntityForName:@"SmartCollection" inManagedObjectContext:context];
@@ -595,27 +559,30 @@ static OELibraryDatabase* defaultDatabase = nil;
     return aCollection;
 }
 
-- (id)addNewCollectionFolder:(NSString*)name{
+- (id)addNewCollectionFolder:(NSString*)name
+{
     NSManagedObjectContext *context = [self managedObjectContext];
     
-    if(name==nil){
-	  name = NSLocalizedString(@"New Folder", @"");
-	  
-	  NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
-	  
-	  NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-	  [request setEntity:entityDescription];
-	  [request setFetchLimit:1];
-	  
-	  NSString* uniqueName = name;
-	  NSError *error = nil;
-	  int numberSuffix = 0;
-	  while([context countForFetchRequest:request error:&error]!=0 && error==nil){
-		numberSuffix ++;
-		uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
-		[request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
-	  }
-		name = uniqueName;
+    if(name==nil)
+    {
+        name = NSLocalizedString(@"New Folder", @"");
+        
+        NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
+        
+        NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+        [request setEntity:entityDescription];
+        [request setFetchLimit:1];
+        
+        NSString* uniqueName = name;
+        NSError *error = nil;
+        int numberSuffix = 0;
+        while([context countForFetchRequest:request error:&error]!=0 && error==nil)
+        {
+            numberSuffix ++;
+            uniqueName = [NSString stringWithFormat:@"%@ %d", name, numberSuffix];
+            [request setPredicate:[NSPredicate predicateWithFormat:@"name == %@", uniqueName]];
+        }
+        name = uniqueName;
     }
     
     NSManagedObject *aCollection = [NSEntityDescription insertNewObjectForEntityForName:@"CollectionFolder" inManagedObjectContext:context];
@@ -625,420 +592,480 @@ static OELibraryDatabase* defaultDatabase = nil;
 }
 
 
-- (void)removeCollection:(NSManagedObject*)collection{
+- (void)removeCollection:(NSManagedObject*)collection
+{
     [[collection managedObjectContext] deleteObject:collection];
 }
 
 #pragma mark -
 #pragma mark Database Game editing
-- (BOOL)isFileInDatabaseWithPath:(NSString*)path error:(NSError**)error{	
-	NSManagedObjectContext *context = [self managedObjectContext];
+- (BOOL)isFileInDatabaseWithPath:(NSString*)path error:(NSError**)error
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
     NSFetchRequest* fetchReq;
-	NSEntityDescription* entityDesc;
-	NSPredicate* predicate;
-
-	// check if game is already in database
-	entityDesc = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
-	predicate = [NSPredicate predicateWithFormat:@"path == %@", path];
-
-	fetchReq = [[NSFetchRequest alloc] init];
-	[fetchReq setFetchLimit:1];
-	[fetchReq setEntity:entityDesc];
-	[fetchReq setPredicate:predicate];
-
-	NSUInteger count = [context countForFetchRequest:fetchReq error:error];
+    NSEntityDescription* entityDesc;
+    NSPredicate* predicate;
+    
+    // check if game is already in database
+    entityDesc = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+    predicate = [NSPredicate predicateWithFormat:@"path == %@", path];
+    
+    fetchReq = [[NSFetchRequest alloc] init];
+    [fetchReq setFetchLimit:1];
+    [fetchReq setEntity:entityDesc];
+    [fetchReq setPredicate:predicate];
+    
+    NSUInteger count = [context countForFetchRequest:fetchReq error:error];
     [fetchReq release];
-	if(*error != nil){
-		NSLog(@"Error while checking if file is included.");
-		[NSApp presentError:*error];
-		return FALSE;
-	}
-
-	return count!=0;
+    if(*error != nil)
+    {
+        NSLog(@"Error while checking if file is included.");
+        [NSApp presentError:*error];
+        return NO;
+    }
+    
+    return count!=0;
 }
 
-- (void)addGamesFromPath:(NSString*)path toCollection:(NSManagedObject*)collection searchSubfolders:(BOOL)subfolderFlag{
-// Note, quick import skips hash calculation to speed things up. This reduces duplicate checking to filename comparison and only makes sense if automatic archive sync is deactivated.
-
+- (void)addGamesFromPath:(NSString*)path toCollection:(NSManagedObject*)collection searchSubfolders:(BOOL)subfolderFlag
+{
+    NSLog(@"OELibraryDatabase::addGamesFromPath:toCollection:searchSubfolders: is depricated!");
+    
+    // Note, quick import skips hash calculation to speed things up. This reduces duplicate checking to filename comparison and only makes sense if automatic archive sync is deactivated.
+    
     NSString* originalPath = path;
     
-	NSError* err = nil;
-
-	// check files that have a "rom"-suffix
-	int fl = subfolderFlag ? 1 : 2;
-	NSArray* files = [self _romsBySuffixAtPath:path includeSubfolders:fl error:&err];
-	if(!files){
-		NSLog(@"Error Loading files.");
-		NSLog(@"%@", err);
-		return;
-	}
-
-	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
-	BOOL automaticallyGetInfo = [standardDefaults boolForKey:UDAutmaticallyGetInfoKey];
-	BOOL copyToDatabase = [standardDefaults boolForKey:UDCopyToLibraryKey];
-	BOOL quickImport = [standardDefaults boolForKey:UDUseQuickImportKey] && !automaticallyGetInfo;
-	BOOL organizeLibrary = [standardDefaults boolForKey:UDOrganizeLibraryKey];
+    NSError* err = nil;
+    
+    // check files that have a "rom"-suffix
+    int fl = subfolderFlag ? 1 : 2;
+    NSArray* files = [self _romsBySuffixAtPath:path includeSubfolders:fl error:&err];
+    if(!files)
+    {
+        NSLog(@"Error Loading files.");
+        NSLog(@"%@", err);
+        return;
+    }
+    
+    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL automaticallyGetInfo = [standardDefaults boolForKey:UDAutmaticallyGetInfoKey];
+    BOOL copyToDatabase = [standardDefaults boolForKey:UDCopyToLibraryKey];
+    BOOL quickImport = [standardDefaults boolForKey:UDUseQuickImportKey] && !automaticallyGetInfo;
+    BOOL organizeLibrary = [standardDefaults boolForKey:UDOrganizeLibraryKey];
     BOOL md5 = [standardDefaults boolForKey:UDUseMD5HashingKey];
-		
-	NSInteger completeSize = 0;
-	// Skip size calculation if quick import is requested
-	if(!quickImport){
-		// Calculate size of all files to display progress
-		for(NSDictionary* romInfo in files){
-			NSNumber* fileSize = [romInfo valueForKey:@"filesize"];
-			completeSize += [fileSize integerValue];
-		}
-		//NSLog(@"%ld Bytes, %f KB, %f MB, %f GB", completeSize, completeSize/1000.0, completeSize/1000.0/1000.0, completeSize/1000.0/1000.0/1000.0);
-	}
-
-	// TODO: Get threadsafe context
-	NSManagedObjectContext* context = [self managedObjectContext];
-
-	// Loop thorugh all files
-	NSInteger progress = 0;
-	for(NSDictionary* romInfo in files){
-		NSString* filePath = [romInfo valueForKey:@"filepath"];
-		NSManagedObject* rom = nil;
-		if(quickImport && NO){
-			// create new game
-			NSEntityDescription* gameDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
-			OEDBGame* game = [[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context];
-
-			// TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
-			NSString* gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
-			[game setValue:gameName forKey:@"name"];
-
-			// create new rom
-			NSEntityDescription* romDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
-			rom = [[NSManagedObject alloc] initWithEntity:romDescription insertIntoManagedObjectContext:context];
-			[rom setValue:game forKey:@"game"];
-
-			[game release];
-
-			// update progress
-			progress += 1;
-			// NSLog(@"progress: %f%%", (progress/(float)[files count])*100.0);
-		} else {			
-			NSInteger fileSize = [[romInfo valueForKey:@"filesize"] integerValue];
-			            
-			NSData* data = [[NSData alloc] initWithContentsOfFile:filePath options:NSDataReadingUncached error:nil];
-
-			NSString* hash;
-			
-			if(md5) hash = [data MD5HashString];
-			else hash = [data CRC32HashString];
-						
-			[data release];
-			
-			if(md5) rom = [self romForMD5Hash:hash];
-			else rom = [self romForCRC32Hash:hash];
-			BOOL hashInDatabase = rom!=nil;
-			if(hashInDatabase){
-				
+    
+    NSInteger completeSize = 0;
+    // Skip size calculation if quick import is requested
+    if(!quickImport)
+    {
+        // Calculate size of all files to display progress
+        for(NSDictionary* romInfo in files)
+        {
+            NSNumber* fileSize = [romInfo valueForKey:@"filesize"];
+            completeSize += [fileSize integerValue];
+        }
+        //NSLog(@"%ld Bytes, %f KB, %f MB, %f GB", completeSize, completeSize/1000.0, completeSize/1000.0/1000.0, completeSize/1000.0/1000.0/1000.0);
+    }
+    
+    // TODO: Get threadsafe context
+    NSManagedObjectContext* context = [self managedObjectContext];
+    
+    // Loop thorugh all files
+    NSInteger progress = 0;
+    for(NSDictionary* romInfo in files)
+    {
+        NSString* filePath = [romInfo valueForKey:@"filepath"];
+        NSManagedObject* rom = nil;
+        if(quickImport && NO)
+        {
+            // create new game
+            NSEntityDescription* gameDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+            OEDBGame* game = [[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context];
+            
+            // TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
+            NSString* gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
+            [game setValue:gameName forKey:@"name"];
+            
+            // create new rom
+            NSEntityDescription* romDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+            rom = [[NSManagedObject alloc] initWithEntity:romDescription insertIntoManagedObjectContext:context];
+            [rom setValue:game forKey:@"game"];
+            
+            [game release];
+            
+            // update progress
+            progress += 1;
+            // NSLog(@"progress: %f%%", (progress/(float)[files count])*100.0);
+        } 
+        else 
+        {
+            NSInteger fileSize = [[romInfo valueForKey:@"filesize"] integerValue];
+            
+            NSData* data = [[NSData alloc] initWithContentsOfFile:filePath options:NSDataReadingUncached error:nil];
+            
+            NSString* hash;
+            
+            if(md5) hash = [data MD5HashString];
+            else hash = [data CRC32HashString];
+            
+            [data release];
+            
+            if(md5) rom = [self romForMD5Hash:hash];
+            else rom = [self romForCRC32Hash:hash];
+            BOOL hashInDatabase = rom!=nil;
+            if(hashInDatabase)
+            {
                 NSLog(@"Game is already in Database");
-				
-				// update progress
-				progress += fileSize;
-				// NSLog(@"progress: %f%%", (progress/(float)completeSize)*100.0);
-
-				// skip import for this file
-				continue;
-			}
-
-			// create new rom
-			NSEntityDescription* romDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
-			rom = [[NSManagedObject alloc] initWithEntity:romDescription insertIntoManagedObjectContext:context];
-			[rom setValue:hash forKey:@"md5"];
-			
-			OEDBGame* game = nil;
-			if(automaticallyGetInfo){
-				NSDictionary* gameInfo;
-				if(md5) gameInfo = [ArchiveVG gameInfoByMD5:hash];
-				else gameInfo = [ArchiveVG gameInfoByCRC:hash];
-				
-				// get rom info
-				if([gameInfo valueForKey:@"AVGGameIDKey"]){
-					game = [OEDBGame gameWithArchiveDictionary:gameInfo inDatabase:self];
-				}
-				
-				if(game==nil){
-					NSEntityDescription* gameDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
-					game = [[[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context] autorelease];
-					
-					// TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
-					NSString* gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
-					[game setValue:gameName forKey:@"name"];
-				}
-				
-				[rom setValue:game forKey:@"game"];
-			}
-			
-			if(game==nil){
-				// create new game
-				NSEntityDescription* gameDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
-				game = [[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context];
-				
-				// TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
-				NSString* gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
-				[game setValue:gameName forKey:@"name"];
-				[rom setValue:game forKey:@"game"];
-				[game release];
-			}
-
-			// update progress
-			progress += fileSize;
-			// NSLog(@"progress: %f%%", (progress/(float)completeSize)*100.0);
-		}
-		
-		OEDBGame* game = [rom valueForKey:@"game"];
-		BOOL romHasSystem = [game valueForKey:@"system"]!=nil;
-		if(!romHasSystem){
-			// determine system based on file path + "magic"
-			OEDBSystem* system = [self systemForFile:filePath];
-			if(system){
-				[game setValue:system forKey:@"system"];
-				romHasSystem = YES;
-			}
-		}
-		
-		if(!romHasSystem){
-			// TODO: Decide if we want to bother the user with this
-			// throw error if necessary
-			NSLog(@"Could not determine System for '%@'", [[filePath lastPathComponent] stringByDeletingPathExtension]);
-						
-			// remove rom from database
-			if(game) [context deleteObject:game];
-			if(rom) [context deleteObject:rom];
-			
-			[rom release];
-			continue;
-		}
-		
-		
-		// TODO: Handle duplicate file names
+                
+                // update progress
+                progress += fileSize;
+                // NSLog(@"progress: %f%%", (progress/(float)completeSize)*100.0);
+                
+                // skip import for this file
+                continue;
+            }
+            
+            // create new rom
+            NSEntityDescription* romDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+            rom = [[NSManagedObject alloc] initWithEntity:romDescription insertIntoManagedObjectContext:context];
+            [rom setValue:hash forKey:@"md5"];
+            
+            OEDBGame* game = nil;
+            if(automaticallyGetInfo)
+            {
+                NSDictionary* gameInfo;
+                if(md5) gameInfo = [ArchiveVG gameInfoByMD5:hash];
+                else gameInfo = [ArchiveVG gameInfoByCRC:hash];
+                
+                // get rom info
+                if([gameInfo valueForKey:@"AVGGameIDKey"])
+                {
+                    game = [OEDBGame gameWithArchiveDictionary:gameInfo inDatabase:self];
+                }
+                
+                if(game==nil)
+                {
+                    NSEntityDescription* gameDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+                    game = [[[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context] autorelease];
+                    
+                    // TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
+                    NSString* gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
+                    [game setValue:gameName forKey:@"name"];
+                }
+                
+                [rom setValue:game forKey:@"game"];
+            }
+            
+            if(game==nil)
+            {
+                // create new game
+                NSEntityDescription* gameDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+                game = [[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context];
+                
+                // TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
+                NSString* gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
+                [game setValue:gameName forKey:@"name"];
+                [rom setValue:game forKey:@"game"];
+                [game release];
+            }
+            
+            // update progress
+            progress += fileSize;
+            // NSLog(@"progress: %f%%", (progress/(float)completeSize)*100.0);
+        }
+        
+        OEDBGame* game = [rom valueForKey:@"game"];
+        BOOL romHasSystem = [game valueForKey:@"system"]!=nil;
+        if(!romHasSystem)
+        {
+            // determine system based on file path + "magic"
+            OEDBSystem* system = [self systemForFile:filePath];
+            if(system)
+            {
+                [game setValue:system forKey:@"system"];
+                romHasSystem = YES;
+            }
+        }
+        
+        if(!romHasSystem)
+        {
+            // TODO: Decide if we want to bother the user with this
+            // throw error if necessary
+            NSLog(@"Could not determine System for '%@'", [[filePath lastPathComponent] stringByDeletingPathExtension]);
+            
+            // remove rom from database
+            if(game) [context deleteObject:game];
+            if(rom) [context deleteObject:rom];
+            
+            [rom release];
+            continue;
+        }
+        
+        
+        // TODO: Handle duplicate file names
         NSFileManager* defaultManager = [NSFileManager defaultManager];
-		NSString* databaseFolder = [standardDefaults valueForKey:UDDatabasePathKey];
-		NSString* path = filePath;
-		if(copyToDatabase){
-			// TODO: copy to DB/unsorted
-			// TODO: use ROM Release Name instead of game name!!!
-			NSString* name = [game valueForKey:@"name"];
-			
-			// determine path, based on system, maybe developer, genre, etc
-			NSString* subpath = [NSString stringWithFormat:@"%@/%@", databaseFolder, 
+        NSString* databaseFolder = [standardDefaults valueForKey:UDDatabasePathKey];
+        NSString* path = filePath;
+        if(copyToDatabase)
+        {
+            // TODO: copy to DB/unsorted
+            // TODO: use ROM Release Name instead of game name!!!
+            NSString* name = [game valueForKey:@"name"];
+            
+            // determine path, based on system, maybe developer, genre, etc
+            NSString* subpath = [NSString stringWithFormat:@"%@/%@", databaseFolder, 
                                  NSLocalizedString(@"unsorted", @"")];
-			
-			path = [NSString stringWithFormat:@"%@/%@", subpath, name];
-			// copy file to path
-			BOOL fileOpSuccessful = [defaultManager createDirectoryAtPath:subpath withIntermediateDirectories:YES attributes:nil error:&err];
-			if(!fileOpSuccessful){
-				NSLog(@"Error creating directory '%@'", subpath);
-				NSLog(@"%@", err);
-				
-				// TODO: implement cleanup / user notification or something
-				path = filePath;
-			}
-			
+            
+            path = [NSString stringWithFormat:@"%@/%@", subpath, name];
+            // copy file to path
+            BOOL fileOpSuccessful = [defaultManager createDirectoryAtPath:subpath withIntermediateDirectories:YES attributes:nil error:&err];
+            if(!fileOpSuccessful)
+            {
+                NSLog(@"Error creating directory '%@'", subpath);
+                NSLog(@"%@", err);
+                
+                // TODO: implement cleanup / user notification or something
+                path = filePath;
+            }
+            
             // Fix: need to ensure our original path extension is moved along with our file.
             path = [path stringByAppendingPathExtension:[originalPath pathExtension]];
             
-			fileOpSuccessful = [defaultManager copyItemAtPath:filePath toPath:path error:&err];
-			if(!fileOpSuccessful){
-				NSLog(@"Error copying rom file '%@'", path);
-				NSLog(@"%@", err);
-				
-				// TODO: implement cleanup or user notification or something
-				path = filePath;
-			}
-		}
-		
-//		if(organizeLibrary && [[path substringToIndex:[databaseFolder length]] isEqualTo:databaseFolder]){
-//            // TODO: move to sorted path within db folder 
-//		}
-		
-		// set rom path
-		[rom setValue:path forKey:@"path"];
-		
-		// add to collection
-		if(collection){
-			NSMutableSet* collections = [game mutableSetValueForKey:@"collections"];
-			[collections addObject:collection];
-		}
-		[rom release];
-	}
-
-	return;
+            fileOpSuccessful = [defaultManager copyItemAtPath:filePath toPath:path error:&err];
+            if(!fileOpSuccessful)
+            {
+                NSLog(@"Error copying rom file '%@'", path);
+                NSLog(@"%@", err);
+                
+                // TODO: implement cleanup or user notification or something
+                path = filePath;
+            }
+        }
+        
+        //if(organizeLibrary && [[path substringToIndex:[databaseFolder length]] isEqualTo:databaseFolder]){
+        //            // TODO: move to sorted path within db folder 
+        //}
+        
+        // set rom path
+        [rom setValue:path forKey:@"path"];
+        
+        // add to collection
+        if(collection)
+        {
+            NSMutableSet* collections = [game mutableSetValueForKey:@"collections"];
+            [collections addObject:collection];
+        }
+        [rom release];
+    }
+    
+    return;
 }
 
-#pragma mark -
-- (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID{
-	NSManagedObjectContext* context = [self managedObjectContext];
-	NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
-	
-	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
-	[fetchRequest setEntity:entityDescription];
-	[fetchRequest setFetchLimit:1];
-	[fetchRequest setIncludesPendingChanges:YES];
-	[fetchRequest setResultType:NSManagedObjectResultType];
-	
-	NSPredicate* predicate = [NSPredicate predicateWithFormat:@"archiveID == %@", archiveID];
-	[fetchRequest setPredicate:predicate];
-	
-	NSError* err = nil;
-	NSArray* result = [context executeFetchRequest:fetchRequest error:&err];
-	[fetchRequest release];
-	if(result==nil){
-		NSLog(@"Error executing fetch request to get game by archiveID");
-		NSLog(@"%@", err);
-		return nil;
-	}
-	
-	return [result lastObject];
+- (OEDBRom*)createROMandGameForFile:(NSString*)filePath error:(NSError**)outError
+{
+    NSEntityDescription* entityDescrption = [OEDBRom entityDescriptionInContext:self.managedObjectContext];
+    OEDBRom* rom = [[OEDBRom alloc] initWithEntity:entityDescrption insertIntoManagedObjectContext:self.managedObjectContext];
+    [rom setValue:filePath forKey:@"path"];
+    
+    entityDescrption = [OEDBGame entityDescriptionInContext:self.managedObjectContext];
+    OEDBGame* game = [[OEDBGame alloc] initWithEntity:entityDescrption insertIntoManagedObjectContext:self.managedObjectContext];
+    [[game mutableSetValueForKey:@"roms"] addObject:rom];
+    [game setValue:[[filePath lastPathComponent] stringByDeletingPathExtension] forKey:@"name"];
+    [game release];
+    
+    return [rom autorelease];
 }
 #pragma mark -
-- (NSManagedObject*)romForMD5Hash:(NSString*)hashString{
-	NSManagedObjectContext* context = [self managedObjectContext];
-	NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
-	
-	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
-	[fetchRequest setEntity:entityDescription];
-	[fetchRequest setFetchLimit:1];
-	[fetchRequest setIncludesPendingChanges:YES];
-	
-	NSPredicate* predicate = [NSPredicate predicateWithFormat:@"md5 == %@", hashString];
-	[fetchRequest setPredicate:predicate];
-	
-	NSError* err = nil;
-	NSArray* result = [context executeFetchRequest:fetchRequest error:&err];
-	[fetchRequest release];
-	if(result==nil){
-		NSLog(@"Error executing fetch request to get rom by md5");
-		NSLog(@"%@", err);
-		return nil;
-	}
-
-	return [result lastObject];	
+- (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID
+{
+    NSManagedObjectContext* context = [self managedObjectContext];
+    NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+    
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:entityDescription];
+    [fetchRequest setFetchLimit:1];
+    [fetchRequest setIncludesPendingChanges:YES];
+    [fetchRequest setResultType:NSManagedObjectResultType];
+    
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"archiveID == %@", archiveID];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError* err = nil;
+    NSArray* result = [context executeFetchRequest:fetchRequest error:&err];
+    [fetchRequest release];
+    if(result==nil)
+    {
+        NSLog(@"Error executing fetch request to get game by archiveID");
+        NSLog(@"%@", err);
+        return nil;
+    }
+    
+    return [result lastObject];
+}
+#pragma mark -
+- (OEDBRom*)romForMD5Hash:(NSString*)hashString
+{
+    NSManagedObjectContext* context = [self managedObjectContext];
+    NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+    
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:entityDescription];
+    [fetchRequest setFetchLimit:1];
+    [fetchRequest setIncludesPendingChanges:YES];
+    
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"md5 == %@", hashString];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError* err = nil;
+    NSArray* result = [context executeFetchRequest:fetchRequest error:&err];
+    [fetchRequest release];
+    if(result==nil)
+    {
+        NSLog(@"Error executing fetch request to get rom by md5");
+        NSLog(@"%@", err);
+        return nil;
+    }
+    
+    return [result lastObject];
 }
 
-- (NSManagedObject*)romForCRC32Hash:(NSString*)crc32String{
-	NSManagedObjectContext* context = [self managedObjectContext];
-	NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
-	
-	NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
-	[fetchRequest setEntity:entityDescription];
-	[fetchRequest setFetchLimit:1];
-	[fetchRequest setIncludesPendingChanges:YES];
-	
-	NSPredicate* predicate = [NSPredicate predicateWithFormat:@"crc32 == %@", crc32String];
-	[fetchRequest setPredicate:predicate];
-	
-	NSError* err = nil;
-	NSArray* result = [context executeFetchRequest:fetchRequest error:&err];
-	[fetchRequest release];	
-	if(result==nil){
-		NSLog(@"Error executing fetch request to get rom by crc");
-		NSLog(@"%@", err);
-		return nil;
-	}
-	
-	return [result lastObject];
+- (OEDBRom*)romForCRC32Hash:(NSString*)crc32String
+{
+    NSManagedObjectContext* context = [self managedObjectContext];
+    NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+    
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:entityDescription];
+    [fetchRequest setFetchLimit:1];
+    [fetchRequest setIncludesPendingChanges:YES];
+    
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"crc32 == %@", crc32String];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError* err = nil;
+    NSArray* result = [context executeFetchRequest:fetchRequest error:&err];
+    [fetchRequest release];
+    if(result==nil)
+    {
+        NSLog(@"Error executing fetch request to get rom by crc");
+        NSLog(@"%@", err);
+        return nil;
+    }
+    
+    return [result lastObject];
 }
 
-- (NSArray*)romsForPredicate:(NSPredicate*)predicate{
+- (NSArray*)romsForPredicate:(NSPredicate*)predicate
+{
     [romsController setFilterPredicate:predicate];
     
     return [romsController arrangedObjects];
 }
 
-- (NSArray*)romsInCollection:(id)collection{
-	// TODO: implement
+- (NSArray*)romsInCollection:(id)collection
+{
+    // TODO: implement
     NSLog(@"Roms in collection called, but not implemented");
     return [NSArray array];
 }
 #pragma mark -
 #pragma mark Private (importing)
-- (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError{
-	NSFileManager* fileManager = [NSFileManager defaultManager];
+- (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError
+{
+    NSFileManager* fileManager = [NSFileManager defaultManager];
     BOOL isDir = NO;
     BOOL exists = [fileManager fileExistsAtPath:path isDirectory:&isDir];
-	
-	if(!exists) return [NSArray array];
-	if(isDir && subfolderFlag==0) return [NSArray array];
-	if(subfolderFlag==2) subfolderFlag = 0;
-	
-    if(isDir){
-		NSURL* url = [NSURL fileURLWithPath:path];
-		NSArray* pathURLs = [fileManager contentsOfDirectoryAtURL:url includingPropertiesForKeys:[NSArray array] options:NSDirectoryEnumerationSkipsHiddenFiles error:outError];
-		if(outError!=NULL && *outError!=nil){
-			//NSLog(@"Error loading contents of '%@'", path);
-			*outError = nil;
-			// TODO: decide if we really want to bother the user with this
-			return [NSArray array];
-		}
-		
-		NSMutableArray* result = [NSMutableArray array];
-		for(NSURL* aUrl in pathURLs){
-			NSString* subPath = [aUrl path];
-			NSArray* subResult = [self _romsBySuffixAtPath:subPath includeSubfolders:subfolderFlag error:outError];
-			[result addObjectsFromArray:subResult];
-			if(outError!=NULL && *outError!=nil){
-			//	NSLog(@"error with subpath");
-				*outError = nil;
-				// return nil;
-			}
-		}
-		return result;
+    
+    if(!exists) return [NSArray array];
+    if(isDir && subfolderFlag==0) return [NSArray array];
+    if(subfolderFlag==2) subfolderFlag = 0;
+    
+    if(isDir)
+    {
+        NSURL* url = [NSURL fileURLWithPath:path];
+        NSArray* pathURLs = [fileManager contentsOfDirectoryAtURL:url includingPropertiesForKeys:[NSArray array] options:NSDirectoryEnumerationSkipsHiddenFiles error:outError];
+        if(outError!=NULL && *outError!=nil)
+        {
+            //NSLog(@"Error loading contents of '%@'", path);
+            *outError = nil;
+            // TODO: decide if we really want to bother the user with this
+            return [NSArray array];
+        }
+        
+        NSMutableArray* result = [NSMutableArray array];
+        for(NSURL* aUrl in pathURLs)
+        {
+            NSString* subPath = [aUrl path];
+            NSArray* subResult = [self _romsBySuffixAtPath:subPath includeSubfolders:subfolderFlag error:outError];
+            [result addObjectsFromArray:subResult];
+            if(outError!=NULL && *outError!=nil)
+            {
+                //NSLog(@"error with subpath");
+                *outError = nil;
+                // return nil;
+            }
+        }
+        return result;
     }
-
-	NSDictionary* fileInfo = [fileManager attributesOfItemAtPath:path error:outError];
-	if(!fileInfo){
-		NSLog(@"Error getting file info: %@", outError);
-		return [NSArray array];		
-	}
-	NSNumber* filesize = [fileInfo valueForKey:NSFileSize];
-	NSDictionary* res = [NSDictionary dictionaryWithObjectsAndKeys:filesize, @"filesize", path, @"filepath", nil];	
-	return [NSArray arrayWithObject:res];
+    
+    NSDictionary* fileInfo = [fileManager attributesOfItemAtPath:path error:outError];
+    if(!fileInfo)
+    {
+        NSLog(@"Error getting file info: %@", outError);
+        return [NSArray array];
+    }
+    NSNumber* filesize = [fileInfo valueForKey:NSFileSize];
+    NSDictionary* res = [NSDictionary dictionaryWithObjectsAndKeys:filesize, @"filesize", path, @"filepath", nil];
+    return [NSArray arrayWithObject:res];
 }
 #pragma mark -
 #pragma mark Private (Init phase)
-- (BOOL)_loadDatabase:(BOOL)forceChoosing{
-    
+- (BOOL)_loadDatabase:(BOOL)forceChoosing
+{
     // determine database path
-    if(!forceChoosing && ([NSEvent modifierFlags] & NSAlternateKeyMask)==0 ){	// check if alt is not down
-	  // "default start"
-	  NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
-	  NSString* databasePath = [standardDefaults objectForKey:UDDatabasePathKey];
-	  NSURL* databaseURL = [NSURL fileURLWithPath:databasePath];
-	  NSURL* defaultDatabasePath = [standardDefaults objectForKey:UDDefaultDatabasePathKey];
-	  
-	  // create new database if non exists and path is default
-	  if(![self _isValidDatabase:databaseURL error:nil] && [databasePath isEqualTo:defaultDatabasePath]){
-		if([self _createDatabaseAtURL:databaseURL error:nil]){
-		    __databaseURL = [databaseURL copy];
-		}
-	  } else {
-		__databaseURL = [databaseURL copy];
-	  }
+    if(!forceChoosing && ([NSEvent modifierFlags] & NSAlternateKeyMask)==0 )// check if alt is not down
+    {
+        // "default start"
+        NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+        NSString* databasePath = [standardDefaults objectForKey:UDDatabasePathKey];
+        NSURL* databaseURL = [NSURL fileURLWithPath:databasePath];
+        NSURL* defaultDatabasePath = [standardDefaults objectForKey:UDDefaultDatabasePathKey];
+        
+        // create new database if non exists and path is default
+        if(![self _isValidDatabase:databaseURL error:nil] && [databasePath isEqualTo:defaultDatabasePath])
+        {
+            if([self _createDatabaseAtURL:databaseURL error:nil])
+            {
+                __databaseURL = [databaseURL copy];
+            }
+        } 
+        else 
+        {
+            __databaseURL = [databaseURL copy];
+        }
     }
     
-    if(!__databaseURL && ![self _chooseDatabase]){ // User did not chose a database
-	  NSLog(@"cancel database load");
-	  return NO;
-    }		
-    
-	
-    if(![self managedObjectContext]){
-		NSLog(@"no managedObjectContext");
-		[__databaseURL release];
-		__databaseURL = nil;
-		
-		return [self _loadDatabase:YES];
+    if(!__databaseURL && ![self _chooseDatabase]) // User did not chose a database
+    {
+        NSLog(@"cancel database load");
+        return NO;
     }
-	
+    
+    
+    if(![self managedObjectContext])
+    {
+        NSLog(@"no managedObjectContext");
+        [__databaseURL release];
+        __databaseURL = nil;
+        
+        return [self _loadDatabase:YES];
+    }
+    
     
     return YES;
 }
-- (BOOL)_chooseDatabase{
+- (BOOL)_chooseDatabase
+{
     NSString* title = @"Choose OpenEmu Library";
     NSString* msg = [NSString stringWithFormat:@"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one"];
     
@@ -1051,52 +1078,62 @@ static OELibraryDatabase* defaultDatabase = nil;
     
     NSError* error = nil;
     NSInteger result;
-    do{
-	  result = [alert runModal];
-	  switch (result) {
-		case NSAlertDefaultReturn:;	// chooseButton				
-		    NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-		    [openPanel setCanChooseFiles:NO];
-		    [openPanel setCanChooseDirectories:YES];
-		    [openPanel setTitle:@"Open OpenEmu Library"];
-		    result = [openPanel runModal];
-		    BOOL validPath = YES;
-		    if(result == NSOKButton && (validPath=[self _isValidDatabase:[openPanel URL] error:&error]) ){
-			  if(__databaseURL) [__databaseURL release], __databaseURL=nil;
-			  __databaseURL = [[openPanel URL] copy];
-			  return YES;
-		    } else if(!validPath){
-			  [NSApp presentError:error];
-		    }
-		    break;
-		case NSAlertOtherReturn:;	// createButton
-		    NSSavePanel* savePanel = [NSSavePanel savePanel];
-		    [savePanel setTitle:@"New OpenEmu Library"];
-		    [savePanel setNameFieldStringValue:@"OpenEmu Library"];
-		    result = [savePanel runModal];
-		    
-		    if(result == NSFileHandlingPanelOKButton){
-			  BOOL dbCreated = [self _createDatabaseAtURL:[savePanel URL] error:&error];
-			  if(!dbCreated){
-				[NSApp presentError:error];
-			  } else {
-				return YES;
-			  }
-		    }
-		    break;
-		case NSAlertAlternateReturn:	// createButton
-		    return NO;
-		    break;
-	  }
-	  
+    do
+    {
+        result = [alert runModal];
+        switch (result) 
+        {
+            case NSAlertDefaultReturn:;// chooseButton
+                NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+                [openPanel setCanChooseFiles:NO];
+                [openPanel setCanChooseDirectories:YES];
+                [openPanel setTitle:@"Open OpenEmu Library"];
+                result = [openPanel runModal];
+                BOOL validPath = YES;
+                if(result == NSOKButton && (validPath=[self _isValidDatabase:[openPanel URL] error:&error]) )
+                {
+                    if(__databaseURL) [__databaseURL release], __databaseURL=nil;
+                    __databaseURL = [[openPanel URL] copy];
+                    return YES;
+                } 
+                else if(!validPath)
+                {
+                    [NSApp presentError:error];
+                }
+                break;
+            case NSAlertOtherReturn:;// createButton
+                NSSavePanel* savePanel = [NSSavePanel savePanel];
+                [savePanel setTitle:@"New OpenEmu Library"];
+                [savePanel setNameFieldStringValue:@"OpenEmu Library"];
+                result = [savePanel runModal];
+                
+                if(result == NSFileHandlingPanelOKButton)
+                {
+                    BOOL dbCreated = [self _createDatabaseAtURL:[savePanel URL] error:&error];
+                    if(!dbCreated)
+                    {
+                        [NSApp presentError:error];
+                    }
+                    else
+                    {
+                        return YES;
+                    }
+                }
+                break;
+            case NSAlertAlternateReturn:// createButton
+                return NO;
+                break;
+        }
+        
     } while (YES);
     
     
     return NO;
 }
 
-- (BOOL)_createDatabaseAtURL:(NSURL*)url error:(NSError**)error{
-	NSError* backupError;
+- (BOOL)_createDatabaseAtURL:(NSURL*)url error:(NSError**)error
+{
+    NSError* backupError;
     if(error==NULL) error=&backupError;
     
     NSError* _error;
@@ -1104,93 +1141,110 @@ static OELibraryDatabase* defaultDatabase = nil;
     // this is kind of redundant, very similiar to _isValidDatabase:error: and managedObjectContext
     NSFileManager* fileManager = [NSFileManager defaultManager];
     NSDictionary *properties = [url resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:&_error];
-    if(!properties){
-	  BOOL ok = NO;
-        if ([_error code] == NSFileReadNoSuchFileError) {
+    if(!properties)
+    {
+        BOOL ok = NO;
+        if ([_error code] == NSFileReadNoSuchFileError) 
+        {
             ok = [fileManager createDirectoryAtPath:[url path] withIntermediateDirectories:YES attributes:nil error:&_error];
         }
-	  
-        if (!ok) {
-		*error = [[_error copy] autorelease];
-		
-
+        
+        if (!ok) 
+        {
+            *error = [[_error copy] autorelease];
+            
+            
             return NO;
         }
-    } else if ([[properties objectForKey:NSURLIsDirectoryKey] boolValue] != YES) {
-	  NSString *failureDescription = [NSString stringWithFormat:@"Expected a folder to store application data, found a file (%@).", [url path]]; 
-	  
-	  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	  [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-	  _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:101 userInfo:dict];
-	  *error = [[_error copy] autorelease];
-
-		return NO;
     }
-    
-    NSManagedObjectModel *mom = [self managedObjectModel];
-    if (!mom) {
-        NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
-	  
-	  NSString *failureDescription = [NSString stringWithFormat:@"No model to generate a store from.", [url path]]; 
-	  
-	  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	  [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-	  _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:103 userInfo:dict];
-	  *error = [[_error copy] autorelease];
-	  
+    else if ([[properties objectForKey:NSURLIsDirectoryKey] boolValue] != YES)
+    {
+        NSString *failureDescription = [NSString stringWithFormat:@"Expected a folder to store application data, found a file (%@).", [url path]]; 
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
+        _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:101 userInfo:dict];
+        *error = [[_error copy] autorelease];
+        
         return NO;
     }
     
-    if(__databaseURL){ [__databaseURL relativePath], __databaseURL=nil; }
+    NSManagedObjectModel *mom = [self managedObjectModel];
+    if (!mom) 
+    {
+        NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
+        
+        NSString *failureDescription = [NSString stringWithFormat:@"No model to generate a store from.", [url path]]; 
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
+        _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:103 userInfo:dict];
+        *error = [[_error copy] autorelease];
+        
+        return NO;
+    }
+    
+    if(__databaseURL)
+    {
+        [__databaseURL relativePath], __databaseURL=nil; 
+    }
     __databaseURL = [url copy];
     
     NSManagedObjectContext* moc = [self managedObjectContext];
-    if(!moc){
-	  NSString *failureDescription = [NSString stringWithFormat:@"Database does not exist.", [url path]]; 
-	  
-	  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	  [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-	  _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:104 userInfo:dict];
-	  *error = [[_error copy] autorelease];
-	  	  
-	  return NO;
+    if(!moc)
+    {
+        NSString *failureDescription = [NSString stringWithFormat:@"Database does not exist.", [url path]]; 
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
+        _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:104 userInfo:dict];
+        *error = [[_error copy] autorelease];
+        
+        return NO;
     }
     
-        
+    
     return YES;
 }
 
-- (BOOL)_isValidDatabase:(NSURL*)url error:(NSError**)error{
-	NSError* backupError;
+- (BOOL)_isValidDatabase:(NSURL*)url error:(NSError**)error
+{
+    NSError* backupError;
     if(error==NULL) error=&backupError;
     
     NSDictionary *properties = [url resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:error];
-    if(!properties){
-	  return NO;
-    } else if ([[properties objectForKey:NSURLIsDirectoryKey] boolValue] != YES) {
-	  NSString *failureDescription = [NSString stringWithFormat:@"Expected a folder to store application data, found a file (%@).", [url path]]; 
-	  
-	  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	  [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-	  *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:101 userInfo:dict];
-	  
-	  return NO;
+    if(!properties)
+    {
+        return NO;
+    }
+    else if ([[properties objectForKey:NSURLIsDirectoryKey] boolValue] != YES) 
+    {
+        NSString *failureDescription = [NSString stringWithFormat:@"Expected a folder to store application data, found a file (%@).", [url path]]; 
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:101 userInfo:dict];
+        
+        return NO;
     }
     
     NSURL *databaseFileUrl = [url URLByAppendingPathComponent:OEDatabaseFileName];
     properties = [databaseFileUrl resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:error];
-    if(!properties){
-	  return YES;
-    } else if([[properties objectForKey:NSURLIsDirectoryKey] boolValue] == YES){
-	  NSString *failureDescription = [NSString stringWithFormat:@"Expected a file to store application data, found a folder (%@).", [url path]]; 
-	  
-	  NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-	  [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-	  *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:102 userInfo:dict];
-	  
-	  return NO;
+    if(!properties)
+    {
+        return YES;
+    }
+    else if([[properties objectForKey:NSURLIsDirectoryKey] boolValue] == YES)
+    {
+        NSString *failureDescription = [NSString stringWithFormat:@"Expected a file to store application data, found a folder (%@).", [url path]]; 
+        
+        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+        [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
+        *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:102 userInfo:dict];
+        
+        return NO;
     }
     
-	return YES;
+    return YES;
 }
 @end

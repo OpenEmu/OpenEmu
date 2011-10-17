@@ -819,9 +819,9 @@
 #pragma mark -
 
 - (id)_datasourceProxy_objectForKey:(NSString*)key{
-	return [self.gridView.dataSource gridView:self.gridView objectValueForKey:key atIndex:self.representedIndex];
+	return [self.gridView.dataSource gridView:self.gridView objectValueForKey:key withRepresentedObject:self.representedObject];
 }
 - (void)_datasourceProxy_setObject:(id)obj forKey:(NSString*)key{
-	[self.gridView.dataSource gridView:self.gridView setObject:obj forKey:key atIndex:self.representedIndex];
+	[self.gridView.dataSource gridView:self.gridView setObject:obj forKey:key withRepresentedObject:self.representedObject];
 }
 @end

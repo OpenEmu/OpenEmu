@@ -13,7 +13,7 @@
 @class OESidebarController;
 @class OECollectionViewController;
 @class OELibrarySplitView;
-
+@class OEROMImporter;
 @class FullscreenWindow;
 @class OENewGameDocument;
 #import "IKSGridView.h"
@@ -27,29 +27,25 @@
     OELibraryDatabase* database;
     OENewGameDocument* gameDocument;
     
+    OEROMImporter* romImporter;
+    
     IBOutlet NSWindow* libraryWindow;
     
-    IBOutlet OELibrarySplitView	* mainSplitView;
+    IBOutlet OELibrarySplitView* mainSplitView;
     
-    IBOutlet OESidebarController	* sidebarController;
+    IBOutlet OESidebarController* sidebarController;
     IBOutlet OECollectionViewController *collectionViewController;
     
     // Toolbar Items
-    IBOutlet NSButton	* sidebarBtn;
-	BOOL sidebarChangesWindowSize;
+    IBOutlet NSButton* sidebarBtn;
+    BOOL sidebarChangesWindowSize;
     
-    IBOutlet NSButton	* gridViewBtn;	IBOutlet NSMenuItem* gridViewMenuItem;
-    IBOutlet NSButton	* flowViewBtn;	IBOutlet NSMenuItem* flowViewMenuItem;
-    IBOutlet NSButton	* listViewBtn;	IBOutlet NSMenuItem* listViewMenuItem;
+    IBOutlet NSButton* gridViewBtn;IBOutlet NSMenuItem* gridViewMenuItem;
+    IBOutlet NSButton* flowViewBtn;IBOutlet NSMenuItem* flowViewMenuItem;
+    IBOutlet NSButton* listViewBtn;IBOutlet NSMenuItem* listViewMenuItem;
     
     // MenuItems
     IBOutlet NSMenuItem* editSmartCollectionMenuItem;
-    
-    // Import Sheet
-    IBOutlet NSWindow* importSheet;
-    IBOutlet NSProgressIndicator* importProgress;
-    IBOutlet NSTextField* importCurrentItem;
-    BOOL cancelImport;
 }
 
 #pragma mark -
@@ -88,5 +84,5 @@
 @property (assign, nonatomic) BOOL sidebarChangesWindowSize;
 @property (assign) IBOutlet OELibrarySplitView* mainSplitView;
 @property (retain, nonatomic) OELibraryDatabase* database;
-@property (readwrite, assign) BOOL cancelImport;
+@property (retain) OEROMImporter* romImporter;
 @end

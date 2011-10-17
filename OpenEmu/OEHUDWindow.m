@@ -261,7 +261,7 @@
 	
 	BOOL isFocused = [[self window].parentWindow isMainWindow] && [NSApp isActive];
 	NSImage* borderImage = isFocused ? [NSImage imageNamed:@"hud_window_active"] : [NSImage imageNamed:@"hud_window_inactive"];
-	[borderImage drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver/*NSCompositeSourceOver*/ fraction:1.0 respectFlipped:TRUE hints:nil leftBorder:14 rightBorder:14 topBorder:23 bottomBorder:23];
+	[borderImage drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver/*NSCompositeSourceOver*/ fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:23 bottomBorder:23];
 	NSLog(@"isFocused: %d", isFocused);
 	
 	NSMutableDictionary* titleAttribtues = [NSMutableDictionary dictionary];
@@ -327,7 +327,7 @@
  frame.size.height -= delta.y;
  frame.origin.y += delta.y;
  
- [[self window] setFrame:frame display:TRUE];
+ [[self window] setFrame:frame display:YES];
  } else {
  NSPoint frameOrigin = [[self window] frame].origin;
  

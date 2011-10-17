@@ -13,35 +13,35 @@
 
 + (id)groupItemWithName:(NSString*)name
 {
-	OESidebarGroupItem* newItem = [[self alloc] init];
-	newItem.name = name;
-	return [newItem autorelease];
+OESidebarGroupItem* newItem = [[self alloc] init];
+newItem.name = name;
+return [newItem autorelease];
 }
 
 - (NSImage*)sidebarIcon
 {
-	return nil;
+return nil;
 }
 - (NSString*)sidebarName
 {
-	return self.name;
+return self.name;
 }
 - (BOOL)isSelectableInSdebar
 {
-	return NO;
+return NO;
 }
 - (BOOL)isEditableInSdebar
 {
-	return NO;
+return NO;
 }
 - (BOOL)isGroupHeaderInSdebar
 {
-	return YES;
+return YES;
 }
 
 - (BOOL)hasSubCollections
 {
-    return FALSE;
+    return NO;
 }
 
 - (void)setSidebarName:(NSString *)newName
@@ -50,8 +50,8 @@
 
 - (void)dealloc 
 {
-	self.name = nil;
-	
+self.name = nil;
+
     [super dealloc];
 }
 
