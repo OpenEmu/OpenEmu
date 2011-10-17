@@ -290,7 +290,8 @@
 #pragma mark -
 #pragma mark Import
 
-- (IBAction)filemenu_addToLibrary:(id)sender{
+- (IBAction)filemenu_addToLibrary:(id)sender
+{
     NSOpenPanel* openPanel = [NSOpenPanel openPanel];
     [openPanel setAllowsMultipleSelection:YES];
     [openPanel setCanChooseFiles:YES];
@@ -366,7 +367,7 @@
 		if([roms count] > 1)
         {
 			// TODO: find out which rom to start	
-            romToStart = [roms lastObject];
+            romToStart = [roms anyObject];
 		}
         else 
         {

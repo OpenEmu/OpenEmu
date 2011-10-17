@@ -46,9 +46,9 @@
 - (id)init
 {
     self = [super init];
-    if (self) 
+    if (self)
     {
-        _window = [[OEHUDWindow alloc] init];
+        _window = [[OEHUDWindow alloc] initAlertWindowWithContentRect:NSZeroRect styleMask:0 backing:NSWindowBackingLocationDefault defer:NO];
         [_window setContentView:[[[OEBackgroundColorView alloc] init] autorelease]];
         [(OEBackgroundColorView*)_window.contentView setBackgroundColor:[NSColor colorWithDeviceWhite:0.15 alpha:.95]];
         
@@ -62,9 +62,7 @@
 }
 
 - (void)dealloc 
-{
-    NSLog(@"dealloc OEAlert");
-    
+{    
     [_window release];
     
     // Free texts

@@ -23,9 +23,24 @@ const NSString* AVGSystemID				= @"AVGSystemID";
 const NSString* AVGSystemName			= @"AVGSystemName";
 const NSString* AVGSystemShort			= @"AVGSystemShort";
 
+const NSString* AVGGameReleasesKey      = @"AVGGameReleasesKey";
+const NSString* AVGReleaseTitleKey      = @"AVGReleaseTitleKey";
+const NSString* AVGReleaseCompanyKey    = @"AVGReleaseCompanyKey";
+const NSString* AVGReleaseSerialKey     = @"AVGReleaseSerialKey";
+const NSString* AVGReleaseCountryKey    = @"AVGReleaseCountryKey";
+const NSString* AVGReleaseDateKey       = @"AVGReleaseDateKey";
+
+const NSString* AVGGameTOSECsKey        = @"AVGGameTOSECsKey";
+const NSString* AVGTOSECNameKey         = @"AVGTOSECNameKey";
+const NSString* AVGTOSECRomNameKey      = @"AVGTOSECRomNameKey";
+const NSString* AVGTOSECSizeKey         = @"AVGTOSECSizeKey";
+const NSString* AVGTOSECCRCKey          = @"AVGTOSECCRCKey";
+const NSString* AVGTOSECMD5Key          = @"AVGTOSECMD5Key";
+
 #define KCSessionServiceName @"Archive.vg SessionKey"
 
-typedef enum {
+typedef enum 
+{
     AVGSearch,          // requires search string
     AVGGetSystems,      // no options
     AVGGetGames,        // supply system short name
@@ -65,23 +80,28 @@ typedef enum {
 
 static __strong NSString* sharedSessionKey = nil;
 static __strong NSString* sharedEmailAddress = nil;
-+ (void)setGlobalSessionKey:(NSString*)key{
++ (void)setGlobalSessionKey:(NSString*)key
+{
     sharedSessionKey = key;
 }
 
-+ (NSString*)globalSessionKey{
++ (NSString*)globalSessionKey
+{
     return sharedSessionKey;
 }
 
-+ (void)setGlobalEmailAddress:(NSString*)email{
++ (void)setGlobalEmailAddress:(NSString*)email
+{
     sharedEmailAddress = email;
 }
-+ (NSString*)globalEmailAddress{
++ (NSString*)globalEmailAddress
+{
     return sharedEmailAddress;
 }
 #pragma mark -
 #pragma mark API Access for Class
-+ (NSArray*)searchResultsForString:(NSString*)searchString{
++ (NSArray*)searchResultsForString:(NSString*)searchString
+{
     if(!searchString)
         return nil;
     
@@ -93,7 +113,8 @@ static __strong NSString* sharedEmailAddress = nil;
     return result;
 }
 
-+ (NSArray*)systems{
++ (NSArray*)systems
+{
     _ArchiveVGOperation operation = AVGGetSystems;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:nil];
     
@@ -102,7 +123,8 @@ static __strong NSString* sharedEmailAddress = nil;
     return result;
 }
 
-+ (NSArray*)gamesForSystem:(NSString*)systemShortName{
++ (NSArray*)gamesForSystem:(NSString*)systemShortName
+{
     _ArchiveVGOperation operation = AVGGetGames;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:systemShortName]];
     
@@ -111,17 +133,19 @@ static __strong NSString* sharedEmailAddress = nil;
     return result;
 }
 
-+ (NSDictionary*)gameInfoByCRC:(NSString*)crc{
++ (NSDictionary*)gameInfoByCRC:(NSString*)crc
+{
     _ArchiveVGOperation operation = AVGGetInfoByCRC;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:crc]];
     
-   // NSLog(@"Archive URL:%@", url);
-
+    // NSLog(@"Archive URL:%@", url);
+    
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
     return result;
 }
-+ (NSDictionary*)gameInfoByMD5:(NSString*)md5{
++ (NSDictionary*)gameInfoByMD5:(NSString*)md5
+{
     _ArchiveVGOperation operation = AVGGetInfoByMD5;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:md5]];
     
@@ -131,19 +155,21 @@ static __strong NSString* sharedEmailAddress = nil;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
     return result;
 }
-+ (NSDictionary*)gameInfoByID:(NSInteger)gameID{
++ (NSDictionary*)gameInfoByID:(NSInteger)gameID
+{
     _ArchiveVGOperation operation = AVGGetInfoByID;
     NSNumber* gameIDObj = [NSNumber numberWithInteger:gameID]; 
     NSURL* url = [ArchiveVG urlForOperation:operation	withOptions:[NSArray arrayWithObject:gameIDObj]];
     
     NSLog(@"Archive URL:%@", url);
-
+    
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
     return result;
 }
 
-+ (BOOL)startSessionWithEmailAddress:(NSString*)emailAddress andPassword:(NSString*)password{ 
++ (BOOL)startSessionWithEmailAddress:(NSString*)emailAddress andPassword:(NSString*)password
+{
     NSString* sessionKey = [self _restoreSessionKeyForEmail:emailAddress error:nil];
     if(sessionKey)
         return YES;
@@ -155,7 +181,8 @@ static __strong NSString* sharedEmailAddress = nil;
     [ArchiveVG setGlobalSessionKey:newSessionKey];
     
     BOOL result = [self _storeSessionKey:sessionKey forEmail:emailAddress error:nil];
-    if(!result){
+    if(!result)
+    {
         NSLog(@"could not store sessionKey");
     }
     [self setGlobalEmailAddress:emailAddress];
@@ -164,36 +191,45 @@ static __strong NSString* sharedEmailAddress = nil;
     return sharedSessionKey!=nil;
 }
 
-+ (NSArray*)userCollection{
++ (NSArray*)userCollection
+{
     return [ArchiveVG _userCollectionWithSessionKey:sharedSessionKey];
 }
 
-+ (BOOL)addToUserCollection:(NSInteger)gameID{
++ (BOOL)addToUserCollection:(NSInteger)gameID
+{
     return [ArchiveVG _addToUserCollection:gameID withSessionKey:sharedSessionKey];
 }
 
-+ (BOOL)removeFromUserCollection:(NSInteger)gameID{
++ (BOOL)removeFromUserCollection:(NSInteger)gameID
+{
     return [ArchiveVG _removeFromUserCollection:gameID withSessionKey:sharedSessionKey];
 }
 #pragma mark -
 #pragma mark API Access for Class instances
-- (id)searchResultsForString:(NSString*)searchString{
+- (id)searchResultsForString:(NSString*)searchString
+{
     return [[self class] searchResultsForString:searchString];
 }
-- (NSArray*)systems{
+- (NSArray*)systems
+{
     return [[self class] systems];
 }
-- (NSArray*)gamesForSystem:(NSString*)systemShortName{
+- (NSArray*)gamesForSystem:(NSString*)systemShortName
+{
     return [[self class] gamesForSystem:systemShortName];
 }
 
-- (NSDictionary*)gameInfoByCRC:(NSString*)crc{
+- (NSDictionary*)gameInfoByCRC:(NSString*)crc
+{
     return [[self class] gameInfoByCRC:crc];
 }
-- (NSDictionary*)gameInfoByMD5:(NSString*)md5{
+- (NSDictionary*)gameInfoByMD5:(NSString*)md5
+{
     return [[self class] gameInfoByMD5:md5];
 }
-- (NSDictionary*)gameInfoByID:(NSInteger)gameID{
+- (NSDictionary*)gameInfoByID:(NSInteger)gameID
+{
     return [[self class] gameInfoByID:gameID];
 }
 
@@ -207,7 +243,8 @@ static __strong NSString* sharedEmailAddress = nil;
     
     NSString* newSessionKey = [ArchiveVG _sessionKeyWithURL:url];    
     BOOL result = [[self class] _storeSessionKey:sessionKey forEmail:newEmailAddress error:nil];
-    if(!result){
+    if(!result)
+    {
         NSLog(@"could not store sessionKey");
     }
     self.privateSessionKey = newSessionKey;
@@ -216,30 +253,36 @@ static __strong NSString* sharedEmailAddress = nil;
     return self.privateSessionKey!=nil;
 }
 
-- (NSArray*)userCollection{
+- (NSArray*)userCollection
+{
     return [ArchiveVG _userCollectionWithSessionKey:privateSessionKey];
 }
 
-- (BOOL)addToUserCollection:(NSInteger)gameID{
+- (BOOL)addToUserCollection:(NSInteger)gameID
+{
     return [ArchiveVG _addToUserCollection:gameID withSessionKey:privateSessionKey];
 }
 
-- (BOOL)removeFromUserCollection:(NSInteger)gameID{
+- (BOOL)removeFromUserCollection:(NSInteger)gameID
+{
     return [ArchiveVG _removeFromUserCollection:gameID withSessionKey:privateSessionKey];
 }
 #pragma mark -
 #pragma mark Private (Session required)
-+ (NSString*)_sessionKeyWithURL:(NSURL*)url{
++ (NSString*)_sessionKeyWithURL:(NSURL*)url
+{
     NSError* error = nil;
     
     NSXMLDocument* xmlDocument = [[[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:&error] autorelease];
-    if(error!=nil){
+    if(error!=nil)
+    {
         NSLog(@"Archive Operation: %@ | Error: %@", [ArchiveVG _debug_nameOfOp:AVGGetSession], error);
         return nil;
     }
     
     NSArray* nodes = [xmlDocument nodesForXPath:@"/opensearchdescription/session/username/session/text()" error:&error];
-    if(error!=nil){
+    if(error!=nil)
+    {
         NSLog(@"Archive Operation: %@ | XML Error: %@", [ArchiveVG _debug_nameOfOp:AVGGetSession], error);
         return nil;
     }
@@ -248,8 +291,10 @@ static __strong NSString* sharedEmailAddress = nil;
     return result;
 }
 
-+ (NSArray*)_userCollectionWithSessionKey:(NSString*)sessionKey{
-    if(sessionKey==nil){
++ (NSArray*)_userCollectionWithSessionKey:(NSString*)sessionKey
+{
+    if(sessionKey==nil)
+    {
         NSLog(@"Error: userCollection called prior to calling startSession");
         return nil;
     }
@@ -262,8 +307,10 @@ static __strong NSString* sharedEmailAddress = nil;
     return result;
 }
 
-+ (BOOL)_addToUserCollection:(NSInteger)gameID withSessionKey:(NSString*)sessionKey{
-    if(sessionKey==nil){
++ (BOOL)_addToUserCollection:(NSInteger)gameID withSessionKey:(NSString*)sessionKey
+{
+    if(sessionKey==nil)
+    {
         NSLog(@"Error: addToUserCollection called prior to calling startSession");
         return FALSE;
     }
@@ -273,13 +320,15 @@ static __strong NSString* sharedEmailAddress = nil;
     NSURL* url = [ArchiveVG urlForOperation:AVGAddToCollection withOptions:options];
     
     NSXMLDocument* xmlDocument = [[[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:&error] autorelease];
-    if(error!=nil){
+    if(error!=nil)
+    {
         NSLog(@"Archive Operation: %@ | Error: %@", [ArchiveVG _debug_nameOfOp:AVGAddToCollection], error);
         return FALSE;
     }
     
     NSArray* nodes = [xmlDocument nodesForXPath:@"/opensearchdescription/status/code" error:&error];
-    if(error!=nil){
+    if(error!=nil)
+    {
         NSLog(@"Archive Operation: %@ | XML Error: %@", [ArchiveVG _debug_nameOfOp:AVGAddToCollection], error);
         return FALSE;
     }
@@ -289,8 +338,10 @@ static __strong NSString* sharedEmailAddress = nil;
     return [result boolValue];
 }
 
-+ (BOOL)_removeFromUserCollection:(NSInteger)gameID withSessionKey:(NSString*)sessionKey{
-    if(sessionKey==nil){
++ (BOOL)_removeFromUserCollection:(NSInteger)gameID withSessionKey:(NSString*)sessionKey
+{
+    if(sessionKey==nil)
+    {
         NSLog(@"Error: addToUserCollection called prior to calling startSession");
         return FALSE;
     }
@@ -300,13 +351,15 @@ static __strong NSString* sharedEmailAddress = nil;
     NSArray* options = [NSArray arrayWithObjects:sessionKey, [NSNumber numberWithInteger:gameID], nil];
     NSURL* url = [ArchiveVG urlForOperation:AVGRemoveFromCollection withOptions:options];
     NSXMLDocument* xmlDocument = [[[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:&error] autorelease];
-    if(error!=nil){
+    if(error!=nil)
+    {
         NSLog(@"Archive Operation: %@ | Error: %@", [ArchiveVG _debug_nameOfOp:AVGRemoveFromCollection], error);
         return FALSE;
     }
     
     NSArray* nodes = [xmlDocument nodesForXPath:@"/opensearchdescription/status/code" error:&error];
-    if(error!=nil){
+    if(error!=nil)
+    {
         NSLog(@"Archive Operation: %@ | XML Error: %@", [ArchiveVG _debug_nameOfOp:AVGRemoveFromCollection], error);
         return FALSE;
     }
@@ -316,49 +369,60 @@ static __strong NSString* sharedEmailAddress = nil;
 }
 #pragma mark -
 #pragma mark Private (no session required)
-+ (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError**)outError{    
++ (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError**)outError
+{   
     NSXMLDocument* doc = [[[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:outError] autorelease];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"could not create XMLDocument");
         NSLog(@"Error: %@", *outError);
         return nil;
     }
-        
+    
     // Handle Search Result
-    if(op==AVGSearch || op==AVGGetGames || op==AVGGetCollection){        
+    if(op==AVGSearch || op==AVGGetGames || op==AVGGetCollection)
+    {
         NSArray* gameNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game" error:outError];
-        if(*outError!=nil){
+        if(*outError!=nil)
+        {
             NSLog(@"Could not find gameNodes");
             NSLog(@"Error: %@", *outError);
             return nil;
         }
         
-         NSMutableArray* __block gameDictionaries = [NSMutableArray arrayWithCapacity:[gameNodes count]];
-        [gameNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            NSError* anError = nil;
-            NSDictionary* gameDict = [self dictFromGameNode:obj error:&anError];
-            if(anError!=nil){             
-                NSLog(@"Error while enumerating gameNodes");
-                *stop = YES;
-            }
-            [gameDictionaries addObject: gameDict];
-        }];
+        NSMutableArray* __block gameDictionaries = [NSMutableArray arrayWithCapacity:[gameNodes count]];
+        [gameNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
+         {
+             NSError* anError = nil;
+             NSDictionary* gameDict = [self dictFromGameNode:obj error:&anError];
+             if(anError!=nil)
+             {             
+                 NSLog(@"Error while enumerating gameNodes");
+                 *stop = YES;
+             }
+             [gameDictionaries addObject: gameDict];
+         }];
         
         return gameDictionaries;        
-    } else if(op==AVGGetInfoByCRC || op==AVGGetInfoByID || op==AVGGetInfoByMD5){ // Handle getInfoByX requests
+    } 
+    else if(op==AVGGetInfoByCRC || op==AVGGetInfoByID || op==AVGGetInfoByMD5) // Handle getInfoByX requests
+    {
         NSArray* gameNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game[1]" error:outError];
-        if(*outError!=nil){
+        if(*outError!=nil)
+        {
             NSLog(@"Could not find gameNodes");
             NSLog(@"Error: %@", *outError);
             return nil;
         }
         
-        if([gameNodes count] == 0){
+        if([gameNodes count] == 0)
+        {
             // TODO: handle empty search result
             return nil;
         }
         
-        if([gameNodes count] > 1){
+        if([gameNodes count] > 1)
+        {
             NSLog(@"found more than 1 entry for hash");
             NSLog(@"Which one do we use");
             // TODO: handle more than 1 search result
@@ -366,32 +430,39 @@ static __strong NSString* sharedEmailAddress = nil;
         NSXMLNode* gameNode = [gameNodes lastObject];
         
         NSDictionary* result = [self dictFromGameNode:gameNode error:outError];
-        if(*outError!=nil){
+        if(*outError!=nil)
+        {
             NSLog(@"Error getting game dictionary");
             NSLog(@"Error: %@", *outError);
             return nil;
         }
         return result;
-    } else if(op==AVGGetSystems){    
+    } 
+    else if(op==AVGGetSystems)
+    {    
         NSArray* systemNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/systems[1]/system" error:outError];
-        if(*outError!=nil){
+        if(*outError!=nil)
+        {
             NSLog(@"Could not find systemNodes");
             NSLog(@"Error: %@", *outError);
             return nil;
         }
         
         NSMutableArray* __block systemDictionaries = [NSMutableArray arrayWithCapacity:[systemNodes count]];
-        [systemNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            NSError* anError = nil;
-            NSDictionary* systemDict = [self dictFromSystemNode:obj error:&anError];
-            if(anError!=nil){
-                NSLog(@"Error while enumerating systemNodes");
-                *stop = YES;
-            }
-            [systemDictionaries addObject: systemDict];
-        }];
+        [systemNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
+         {
+             NSError* anError = nil;
+             NSDictionary* systemDict = [self dictFromSystemNode:obj error:&anError];
+             if(anError!=nil){
+                 NSLog(@"Error while enumerating systemNodes");
+                 *stop = YES;
+             }
+             [systemDictionaries addObject: systemDict];
+         }];
         return systemDictionaries;        
-    } else {
+    }
+    else 
+    {
         NSLog(@"Operation %@ is not implemented yet.", [self _debug_nameOfOp:op]);
     }
     
@@ -400,10 +471,12 @@ static __strong NSString* sharedEmailAddress = nil;
 
 
 #pragma mark -
-+ (NSURL*)urlForOperation:(_ArchiveVGOperation)op withOptions:(NSArray*)options{    
++ (NSURL*)urlForOperation:(_ArchiveVGOperation)op withOptions:(NSArray*)options
+{    
     NSString* operationKey = nil;
     
-    switch (op) {
+    switch (op) 
+    {
         case AVGSearch:
             operationKey = @"Archive.search";
             break;
@@ -439,9 +512,10 @@ static __strong NSString* sharedEmailAddress = nil;
             operationKey = @"User.removeFromCollection";
             break;
     }
-        
+    
     NSMutableString* urlString = [[[NSMutableString alloc] initWithFormat:@"%@/%@/%@/%@", APIBase, APIVersion, operationKey, APIKey] autorelease];
-    for(id anOption in options){
+    for(id anOption in options)
+    {
         NSString* optionString = [NSString stringWithFormat:@"%@", anOption];
         // TODO: Format optionString to aproritate encoding
         [urlString appendFormat:@"/%@", [optionString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding]];
@@ -453,23 +527,27 @@ static __strong NSString* sharedEmailAddress = nil;
 
 #pragma mark -
 #pragma mark Private XMLNode handling
-+ (NSDictionary*)dictFromGameNode:(NSXMLNode*)gameNode error:(NSError**)outError{
++ (NSDictionary*)dictFromGameNode:(NSXMLNode*)gameNode error:(NSError**)outError
+{
     NSXMLNode* gameID = [[gameNode nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting gameID");
         NSLog(@"Error: %@", *outError);
         return nil;
     }
     
     NSXMLNode* gameTitle = [[gameNode nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting gameTitle");
         NSLog(@"Error: %@", *outError);
         return nil;
     }
     
     NSXMLNode* gameDescription = [[gameNode nodesForXPath:@"./description[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting gameDescription");
         NSLog(@"Error: %@", *outError);
         
@@ -477,35 +555,40 @@ static __strong NSString* sharedEmailAddress = nil;
     }
     
     NSXMLNode* gameGenre = [[gameNode nodesForXPath:@"./genre[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting gameGenre");
         NSLog(@"Error: %@", *outError);
         gameGenre = nil;
     }
     
     NSXMLNode* gameDeveloper = [[gameNode nodesForXPath:@"./developer[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting gameDeveloper");
         NSLog(@"Error: %@", *outError);
         gameDeveloper = nil;
     }
     
     NSXMLNode* gameEsrbRating = [[gameNode nodesForXPath:@"./desrb_rating[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting gameEsrbRating");
         NSLog(@"Error: %@", *outError);
         gameEsrbRating = nil;
     }
     
     NSXMLNode* gameSystemName = [[gameNode nodesForXPath:@"./system[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting gameSystemName");
         NSLog(@"Error: %@", *outError);
         gameSystemName = nil;
     }
     
     NSXMLNode* gameBoxFront = [[gameNode nodesForXPath:@"./box_front[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting gameBoxFront");
         NSLog(@"Error: %@", *outError);
         gameBoxFront = nil;
@@ -515,11 +598,14 @@ static __strong NSString* sharedEmailAddress = nil;
     // credits
     NSArray* creditNodes = [gameNode nodesForXPath:@"./credits/credit" error:outError];
     NSMutableArray* __block credits = nil;
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting gameBoxFront");
         NSLog(@"Error: %@", *outError);
-        gameBoxFront = nil;
-    } else {
+        creditNodes = nil;
+    } 
+    else
+    {
         credits = [NSMutableArray arrayWithCapacity:[creditNodes count]];
         [creditNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             NSString* name = [[[obj nodesForXPath:@"./name[1]/node()[1]" error:outError] lastObject] stringValue];
@@ -531,7 +617,68 @@ static __strong NSString* sharedEmailAddress = nil;
     }
     
     // releases
-    // tosecs ??
+    NSArray* releaseNodes = [gameNode nodesForXPath:@"./releases/release" error:outError];
+    NSMutableArray* __block releases = nil;
+    if(*outError!=nil)
+    {
+        NSLog(@"Error getting gameBoxFront");
+        NSLog(@"Error: %@", *outError);
+        releaseNodes = nil;
+    } 
+    else
+    {
+        releases = [NSMutableArray arrayWithCapacity:[releaseNodes count]];
+        [releaseNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
+         {
+             NSString* title = [[[obj nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject] stringValue];
+             NSString* company = [[[obj nodesForXPath:@"./company[1]/node()[1]" error:outError] lastObject] stringValue];
+             NSString* serial = [[[obj nodesForXPath:@"./serial[1]/node()[1]" error:outError] lastObject] stringValue];
+             NSString* date = [[[obj nodesForXPath:@"./date[1]/node()[1]" error:outError] lastObject] stringValue];
+             NSString* country = [[[obj nodesForXPath:@"./country[1]/node()[1]" error:outError] lastObject] stringValue];
+             
+             NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [self removeHTMLEncodingsFromString:title],      AVGReleaseTitleKey, 
+                                   [self removeHTMLEncodingsFromString:company],    AVGReleaseCompanyKey,
+                                   [self removeHTMLEncodingsFromString:serial],     AVGReleaseSerialKey,
+                                   [self removeHTMLEncodingsFromString:country],    AVGReleaseCountryKey,
+                                   date,                                            AVGReleaseDateKey,               
+                                   nil];
+             [releases addObject:dict];
+         }];
+    }
+    
+    // tosecs
+    NSArray* tosecNodes = [gameNode nodesForXPath:@"./tosecs/tosec" error:outError];
+    NSMutableArray* __block tosecs = nil;
+    if(*outError!=nil)
+    {
+        NSLog(@"Error getting gameBoxFront");
+        NSLog(@"Error: %@", *outError);
+        tosecNodes = nil;
+    } 
+    else
+    {
+        tosecs = [NSMutableArray arrayWithCapacity:[tosecNodes count]];
+        [tosecNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
+         {
+             NSString* tosecName = [[[obj nodesForXPath:@"./name[1]/node()[1]" error:outError] lastObject] stringValue];
+             NSString* tosecRomName = [[[obj nodesForXPath:@"./romname[1]/node()[1]" error:outError] lastObject] stringValue]; 
+             NSString* tosecMD5 = [[[obj nodesForXPath:@"./md5[1]/node()[1]" error:outError] lastObject] stringValue]; 
+             NSString* tosecCRC = [[[obj nodesForXPath:@"./crc[1]/node()[1]" error:outError] lastObject] stringValue];
+             NSString* tosecSize = [[[obj nodesForXPath:@"./size[1]/node()[1]" error:outError] lastObject] stringValue];
+             
+             
+             NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                   [self removeHTMLEncodingsFromString:tosecName],       AVGTOSECNameKey, 
+                                   [self removeHTMLEncodingsFromString:tosecRomName],    AVGTOSECRomNameKey,
+                                   [self removeHTMLEncodingsFromString:tosecMD5],        AVGTOSECMD5Key,
+                                   [self removeHTMLEncodingsFromString:tosecCRC],        AVGTOSECCRCKey,
+                                   [NSNumber numberWithInteger:[tosecSize integerValue]], AVGTOSECSizeKey,      
+                                   nil];
+             [tosecs addObject:dict];
+         }];
+    }
+    
     
     NSString* gameIDVal = gameID?[gameID stringValue]:nil;
     NSString* gameTitleVal = gameTitle?[gameTitle stringValue]:nil;
@@ -544,54 +691,75 @@ static __strong NSString* sharedEmailAddress = nil;
     
     
     NSMutableDictionary* result = [NSMutableDictionary dictionary];
-    if(gameIDVal){
+    if(gameIDVal)
+    {
 		NSString* idStr = [self removeHTMLEncodingsFromString:gameIDVal];
 		
         [result setObject:[NSNumber numberWithInteger:[idStr integerValue]] forKey:AVGGameIDKey];
     }
-    if(gameTitleVal){
+    if(gameTitleVal)
+    {
         [result setObject:[self removeHTMLEncodingsFromString:gameTitleVal] forKey:AVGGameTitleKey];
     }
-    if(gameDescriptionVal){
+    if(gameDescriptionVal)
+    {
         [result setObject:[self removeHTMLEncodingsFromString: gameDescriptionVal] forKey:AVGGameDescriptionKey];
     }
-    if(gameGenreVal){
+    if(gameGenreVal)
+    {
         [result setObject:[self removeHTMLEncodingsFromString: gameGenreVal] forKey:AVGGameGenreKey];
     }
-    if(gameDeveloperVal){
+    if(gameDeveloperVal)
+    {
         [result setObject:[self removeHTMLEncodingsFromString: gameDeveloperVal] forKey:AVGGameDeveloperKey];
     }
-    if(gameBoxFrontVal){
+    if(gameBoxFrontVal)
+    {
         [result setObject:[self removeHTMLEncodingsFromString: gameBoxFrontVal] forKey:AVGGameBoxURLKey];
     }
-    if(gameEsrbRatingVal){
+    if(gameEsrbRatingVal)
+    {
         [result setObject:[self removeHTMLEncodingsFromString: gameEsrbRatingVal] forKey:AVGGameESRBRatingKey];
     }
-    if(gameSystemNameVal){
+    if(gameSystemNameVal)
+    {
         [result setObject:[self removeHTMLEncodingsFromString: gameSystemNameVal] forKey:AVGGameSystemNameKey];
     }
-    if(credits){
+    if(credits)
+    {
         [result setObject:credits forKey:AVGGameCreditsKey];
+    }
+    if(releases)
+    {
+        [result setObject:releases forKey:AVGGameReleasesKey];
+    }
+    if(tosecs)
+    {
+        [result setObject:tosecs forKey:AVGGameTOSECsKey];
     }
     
     return result;
 }
-+ (NSDictionary*)dictFromSystemNode:(NSXMLNode*)systemNode error:(NSError**)outError{
++ (NSDictionary*)dictFromSystemNode:(NSXMLNode*)systemNode error:(NSError**)outError
+{
     
     NSXMLNode* systemID = [[systemNode nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting systemID");
         NSLog(@"Error: %@", *outError);
         return nil;
     }
     NSXMLNode* systemName = [[systemNode nodesForXPath:@"./title[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting systemName");
         NSLog(@"Error: %@", *outError);
         return nil;
     }
     NSXMLNode* systemShort = [[systemNode nodesForXPath:@"./short[1]/node()[1]" error:outError] lastObject];
-    if(*outError!=nil){
+    if(*outError!=nil)
+    {
         NSLog(@"Error getting systemShort");
         NSLog(@"Error: %@", *outError);
         return nil;
@@ -601,7 +769,8 @@ static __strong NSString* sharedEmailAddress = nil;
     return result;
 }
 
-+ (NSString*)removeHTMLEncodingsFromString:(NSString*)input{
++ (NSString*)removeHTMLEncodingsFromString:(NSString*)input
+{
     // TODO: Think of a proper way to decode html entities
     
     NSString* result = [input stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
@@ -616,9 +785,10 @@ static __strong NSString* sharedEmailAddress = nil;
 
 #pragma mark -
 #pragma mark Keychain Access
-+ (NSString*)_restoreSessionKeyForEmail:(NSString*)emailAddress error:(NSError**)outError{
++ (NSString*)_restoreSessionKeyForEmail:(NSString*)emailAddress error:(NSError**)outError
+{
     NSString* seviceName = KCSessionServiceName;
-        
+    
     UInt32 sessionKeyLength;
     char *sessionKey;
     OSStatus status= SecKeychainFindGenericPassword (NULL,
@@ -629,23 +799,27 @@ static __strong NSString* sharedEmailAddress = nil;
                                                      &sessionKeyLength,
                                                      (void **)&sessionKey,
                                                      NULL);    
-    if (status != noErr) {
+    if (status != noErr) 
+    {
         NSLog (@"status %d from SecKeychainFindGenericPassword\n", status);
     }
     
-    if(status == errSecItemNotFound){
+    if(status == errSecItemNotFound)
+    {
         return nil;
     }
     
-    if(sessionKeyLength==0){
+    if(sessionKeyLength==0)
+    {
         NSLog(@"SecKeychainFindGenericPassword did not return Data");
         return nil;
     }
     
     NSString* sessionKeyStr = [NSString stringWithCString:sessionKey encoding:NSUTF8StringEncoding];
- 
+    
     status = SecKeychainItemFreeContent (NULL, sessionKey);
-    if (status != noErr) {
+    if (status != noErr) 
+    {
         NSLog (@"status %d from SecKeychainItemFreeContent\n", status);
     }
     
@@ -653,25 +827,29 @@ static __strong NSString* sharedEmailAddress = nil;
 	return sessionKeyStr;
 }
 
-+ (BOOL)_storeSessionKey:(NSString*)sessionKey forEmail:(NSString*)emailAddress error:(NSError**)outError{
++ (BOOL)_storeSessionKey:(NSString*)sessionKey forEmail:(NSString*)emailAddress error:(NSError**)outError
+{
     NSString* serviceName = KCSessionServiceName;    
     OSStatus status = SecKeychainAddGenericPassword(NULL, 
                                                     (UInt32)[serviceName length], [serviceName cStringUsingEncoding:NSUTF8StringEncoding], 
                                                     (UInt32)[emailAddress length], [emailAddress cStringUsingEncoding:NSUTF8StringEncoding], 
                                                     (UInt32)[sessionKey length], [sessionKey cStringUsingEncoding:NSUTF8StringEncoding],
                                                     NULL);
-    if (status != noErr) {
+    if (status != noErr) 
+    {
         printf("Error in SecKeychainAddGenericPassword: %d\n", (int)status);
         return NO;
     }
-
+    
     return YES;
 }
 #pragma mark -
 #pragma mark Debug
-+ (NSString*)_debug_nameOfOp:(_ArchiveVGOperation)op{
++ (NSString*)_debug_nameOfOp:(_ArchiveVGOperation)op
+{
     NSString* opName;
-    switch (op) {
+    switch (op) 
+    {
         case AVGSearch:
             opName = @"Archive.search";
             break;

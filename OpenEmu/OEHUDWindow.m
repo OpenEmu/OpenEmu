@@ -27,6 +27,22 @@
 	[img setName:@"hud_window_inactive" forSubimageInRect:NSMakeRect(img.size.width/2, 0, img.size.width/2, img.size.height)];
 }
 #pragma mark -
+- (id)initAlertWindowWithContentRect:(NSRect)contentRect
+                           styleMask:(NSUInteger)windowStyle
+                             backing:(NSBackingStoreType)bufferingType
+                               defer:(BOOL)deferCreation{
+    self = [super
+			initWithContentRect:contentRect
+			styleMask:NSBorderlessWindowMask
+			backing:bufferingType
+			defer:deferCreation];
+	
+	if (self)
+    {
+		[self _initialSetup];		
+	}
+    return self;
+}
 - (id)initWithContentRect:(NSRect)contentRect
 				styleMask:(NSUInteger)windowStyle
 				  backing:(NSBackingStoreType)bufferingType
