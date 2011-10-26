@@ -71,20 +71,6 @@
 			remoteGlobalIDString = 1415540F1442B3B300A01683;
 			remoteInfo = N64;
 		};
-		1B98A3D9142912E600B8FA7B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = C646574813771F12002A4F70;
-			remoteInfo = "GameBoy Advance";
-		};
-		3746BCD61029454F007C78A6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3887A7F61024D1F9000FC4CF;
-			remoteInfo = OESaveStateQLPlugin;
-		};
 		8264151613EDB5B700591582 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
@@ -105,6 +91,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = CrabEmu;
+		};
+		8341C6B814580998001B3138 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA5E6E0F513F5E008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3887A7F61024D1F9000FC4CF;
+			remoteInfo = OESaveStateQLPlugin;
 		};
 		C62A256A116F07070003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -468,13 +461,13 @@
 				C62A256B116F07070003DEE4 /* OpenEmuHelperApp */,
 				C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */,
 				C64CBD241363DA8C00BEE4F3 /* OpenEmuSystem.framework */,
-				3746BCD71029454F007C78A6 /* OESaveStateQLPlugin.qlgenerator */,
+				8341C6B914580998001B3138 /* OESaveStateQLPlugin.qlgenerator */,
 				C64CBD261363DA8C00BEE4F3 /* SegaMasterSystem.oesystemplugin */,
 				C6480F42136489BD0094FA33 /* NES.oesystemplugin */,
 				C68A395B1364B67E006CEB34 /* SuperNES.oesystemplugin */,
 				C6B3E68D1365255700D34947 /* GameBoy.oesystemplugin */,
 				C6B3E68F1365255700D34947 /* Genesis.oesystemplugin */,
-				1B98A3DA142912E600B8FA7B /* GameBoy Advance.oesystemplugin */,
+				3746BCD71029454F007C78A6 /* GameBoy Advance.oesystemplugin */,
 				14F5844314436858002286BD /* N64.oesystemplugin */,
 			);
 			name = Products;
@@ -543,21 +536,18 @@
 			remoteRef = 14F5844214436858002286BD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		1B98A3DA142912E600B8FA7B /* GameBoy Advance.oesystemplugin */ = {
+		3746BCD71029454F007C78A6 /* GameBoy Advance.oesystemplugin */ = {
 			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "GameBoy Advance.oesystemplugin";
-			remoteRef = 1B98A3D9142912E600B8FA7B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		3746BCD71029454F007C78A6 /* OESaveStateQLPlugin.qlgenerator */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = OESaveStateQLPlugin.qlgenerator;
-			remoteRef = 3746BCD61029454F007C78A6 /* PBXContainerItemProxy */;
 			fileType = wrapper.cfbundle;
 			path = "GameBoy Advance.oesystemplugin";
 			remoteRef = 8264151613EDB5B700591582 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8341C6B914580998001B3138 /* OESaveStateQLPlugin.qlgenerator */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = OESaveStateQLPlugin.qlgenerator;
+			remoteRef = 8341C6B814580998001B3138 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A256B116F07070003DEE4 /* OpenEmuHelperApp */ = {

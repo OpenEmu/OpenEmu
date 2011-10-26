@@ -9,14 +9,16 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OECheckBox : NSButton {
+@interface OECheckBox : NSButton 
+{
 @private
     
 }
-
+- (void)setupCell;
 @end
 
-@interface OECheckBoxCell : NSButtonCell {
+@interface OECheckBoxCell : NSButtonCell 
+{
 @private
     
 }

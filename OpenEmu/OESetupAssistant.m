@@ -29,6 +29,8 @@
 
 #import "OECorePlugin.h"
 #import "OEMainWindowController.h"
+#import "OEGlossButton.h"
+#import "OESetupAssistantKeyMapView.h"
 @implementation OESetupAssistant
 
 @synthesize searchResults;
@@ -69,6 +71,19 @@
 
 - (void) awakeFromNib
 {    
+    [(OEGlossButton*)[self back] setButtonColor:OEGlossButtonColorBlue];
+    [(OEGlossButton*)[self next] setButtonColor:OEGlossButtonColorGreen];
+    
+    [[self keyMapView] setKey:OESetupAssistantKeyQuestionMark];
+}
+
+@synthesize back, skip, next;
+@synthesize keyMapView;
+#pragma mark -
+- (IBAction)toStep1:(id)sender
+{
+    [[back superview] removeFromSuperview];
+    
     self.searchResults = [[[NSMutableArray alloc] initWithCapacity:1] autorelease];
     [self.resultFinishedLabel setHidden:YES];
     
@@ -92,7 +107,6 @@
     
     [self.resultController setContent:self.searchResults];
 }
-
 - (IBAction) backToStep1:(id)sender
 {
     [self goBackToView:self.step1];

@@ -1,70 +1,48 @@
 //
-//  OECheckBox.m
-//  OEPreferencesMockup
+//  OEGlossCheckBox.m
+//  OpenEmu
 //
-//  Created by Christoph Leimbrock on 29.05.11.
-//  Copyright 2011 none. All rights reserved.
+//  Created by Carl Leimbrock on 26.10.11.
+//  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "OECheckBox.h"
+#import "OEGlossCheckBox.h"
 #import "NSImage+OEDrawingAdditions.h"
+@implementation OEGlossCheckBox
 
-@implementation OECheckBox
-
-- (id)init
-{
-    self = [super init];
-    if (self) 
-    {    
-		[self setupCell];
-	}
-    return self;
-}
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self) 
-    {    
-        [self setupCell];
-	}
-    return self;
-}
-- (id)initWithFrame:(NSRect)frameRect
-{
-	self = [super initWithFrame:frameRect];
-    if (self) {    
-		[self setupCell];
-	}
-    return self;
-}
-#pragma mark -
 - (void)setupCell
 {
-    
-    if(![[self cell] isKindOfClass:[OECheckBoxCell class]])
+    if(![[self cell] isKindOfClass:[OEGlossCheckBoxCell class]])
     {
-        OECheckBoxCell* cell = [[OECheckBoxCell alloc] init];
+        NSString* title = [self title];
+        OEGlossCheckBoxCell* cell = [[OEGlossCheckBoxCell alloc] init];
         [self setCell:cell];
         [cell release];
-        
-        
+        [self setTitle:title];
+    
         [self setBordered:NO];
         [self setButtonType:NSSwitchButton];
         [self setTransparent:NO];
     }
 }
+
 #pragma mark -
-- (void)dealloc
+- (void)viewDidMoveToWindow
 {
-    [super dealloc];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display) name:NSWindowDidResignMainNotification object:[self window]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display) name:NSWindowDidBecomeMainNotification object:[self window]];
 }
 
-- (void)awakeFromNib
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
+    if(newWindow == nil)
+    {
+        [[NSNotificationCenter defaultCenter] removeObserver:self];        
+    }
 }
 @end
 
-@implementation OECheckBoxCell
+@implementation OEGlossCheckBoxCell
 - (id)init 
 {
     self = [super init];
@@ -81,12 +59,14 @@
 
 + (void)initialize
 {	
-	NSImage* image = [NSImage imageNamed:@"dark_checkbox"];
+	NSImage* image = [NSImage imageNamed:@"gloss_checkbox"];
 	
-	[image setName:@"dark_checkbox_off" forSubimageInRect:NSMakeRect(0, 16, 16, 16)];
-	[image setName:@"dark_checkbox_off_pressed" forSubimageInRect:NSMakeRect(16, 16, 16, 16)];
-	[image setName:@"dark_checkbox_on" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
-	[image setName:@"dark_checkbox_on_pressed" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
+	[image setName:@"gloss_checkbox_off" forSubimageInRect:NSMakeRect(0, 32, 16, 16)];
+    [image setName:@"gloss_checkbox_off_unfocused" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
+	[image setName:@"gloss_checkbox_off_pressed" forSubimageInRect:NSMakeRect(16, 32, 16, 16)];
+	[image setName:@"gloss_checkbox_on" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
+	[image setName:@"gloss_checkbox_on_unfocused" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
+	[image setName:@"gloss_checkbox_on_pressed" forSubimageInRect:NSMakeRect(16, 16, 16, 16)];
 }
 
 - (NSAttributedString *)attributedTitle
@@ -127,18 +107,17 @@
 
 - (void)drawImage:(NSImage*)image withFrame:(NSRect)frame inView:(NSView*)controlView
 {
-	NSImage* checkboximage;	
-	if ([self isHighlighted] && [self state]==NSOnState)
-		checkboximage = [NSImage imageNamed:@"dark_checkbox_on_pressed"];
-	else if (![self isHighlighted] && [self state]==NSOnState)
-		checkboximage = [NSImage imageNamed:@"dark_checkbox_on"];
-	else if (![self isHighlighted] && [self state]==NSOffState)
-		checkboximage = [NSImage imageNamed:@"dark_checkbox_off"];
-	else 
-		checkboximage = [NSImage imageNamed:@"dark_checkbox_off_pressed"];
+    BOOL pressed = [self isHighlighted];
+    BOOL on = [self state]==NSOnState;
+    BOOL unfocused = ![[[self controlView] window] isMainWindow];
+    
+    NSString* stateName = on ? @"on" : @"off";
+    NSString* behaviourName = unfocused ? @"_unfocused" : pressed ? @"_pressed" : @"";
+    
+    NSString* imageName = [NSString stringWithFormat:@"gloss_checkbox_%@%@", stateName, behaviourName];
+	NSImage* checkboximage = [NSImage imageNamed:imageName];	
 	
 	CGFloat y = NSMaxY(frame) - (frame.size.height - checkboximage.size.height) / 2.0 - 15;
 	[checkboximage drawInRect:NSMakeRect(frame.origin.x, roundf(y), checkboximage.size.width, checkboximage.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 }
-
 @end

@@ -29,10 +29,17 @@
 #import <Quartz/Quartz.h>
 
 #import "OEMainWindowContentController.h"
+@class OESetupAssistantKeyMapView;
 @interface OESetupAssistant : OEMainWindowContentController
 {
 }
+@property (retain) IBOutlet NSButton* back;
+@property (retain) IBOutlet NSButton* skip;
+@property (retain) IBOutlet NSButton* next;
 
+@property (retain) IBOutlet OESetupAssistantKeyMapView* keyMapView;
+#pragma mark -
+#pragma mark Old Stuff
 @property (readwrite, retain) NSMutableArray* searchResults;
 @property (readwrite, retain) CATransition* transition;
 
@@ -49,10 +56,12 @@
 @property (readwrite, retain) IBOutlet NSTableView* resultTableView;
 @property (readwrite, retain) IBOutlet NSArrayController* resultController;
 
+
 - (void) goForwardToView:(NSView*)view;
 - (void) goBackToView:(NSView*)view;
 - (void) dissolveToView:(NSView*)view;
 
+- (IBAction)toStep1:(id)sender;
 - (IBAction) backToStep1:(id)sender;
 - (IBAction) toStep2:(id)sender;
 - (IBAction) backToStep2:(id)sender;
