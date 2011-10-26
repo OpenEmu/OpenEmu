@@ -7,21 +7,20 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class OENewGameDocument;
+@class OEGameViewController;
 @interface OEHUDControlsWindow : NSWindow
 {
-	OENewGameDocument* gameDocument;
     NSTimer* fadeTimer;
     id       eventMonitor;
     NSDate*  lastMouseMovement;
 }
 
-- (id)initWithGameDocument:(OENewGameDocument*)doc;
+- (id)initWithGameViewController:(OEGameViewController*)controller;
 
 - (void)show;
 - (void)hide;
-@property (assign) OENewGameDocument* gameDocument;
 @property (retain, nonatomic) NSDate* lastMouseMovement;
+@property (assign) OEGameViewController* gameViewController;
 @end
 @class OEHUDSlider;
 @interface OEHUDControlsView : NSView 

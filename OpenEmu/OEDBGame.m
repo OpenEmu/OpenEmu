@@ -107,9 +107,7 @@
 }
 
 - (NSDate*)lastPlayed
-{
-    NSLog(@"OEDBGameStatusOK: %d", OEDBGameStatusOK);
-    
+{   
     NSArray* roms = [self valueForKey:@"roms"];
     NSArray* sortedByLastPlayed = [roms sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         NSDate* d1 = [obj1 valueForKey:@"lastPlayed"], *d2=[obj2 valueForKey:@"lastPlayed"];
@@ -124,7 +122,7 @@
 - (void)mergeWithGameInfo:(NSDictionary*)archiveGameDict
 {  
     if([[archiveGameDict valueForKey:(NSString*)AVGGameIDKey] intValue]==0)
-    return;
+        return;
     
     [self setValue:[archiveGameDict valueForKey:(NSString*)AVGGameIDKey] forKey:@"archiveID"];
     [self setValue:[archiveGameDict valueForKey:(NSString*)AVGGameTitleKey] forKey:@"name"];

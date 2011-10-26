@@ -8,20 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "OEUIDrawingUtils.h"
-@interface OESlider : NSSlider {
-@private
-	IBOutlet NSImageView* minHint;
-	IBOutlet NSImageView* maxHint;
-}
+@interface OESlider : NSSlider 
 @property (assign) IBOutlet NSImageView* minHint;
 @property (assign) IBOutlet NSImageView* maxHint;
 @end
 
-@interface OESliderCell : NSSliderCell {
-@private
-    
-}
-
+@interface OESliderCell : NSSliderCell
 - (NSRect)trackImageRectForState:(OEUIState)state;
 - (NSRect)knobImageRectForState:(OEUIState)state;
 @end

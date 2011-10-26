@@ -7,11 +7,11 @@
 //
 
 #import "OEHUDWindow.h"
-@class OENewGameDocument;
+@class OEGameViewController;
 @interface OEHUDGameWindow : NSPanel
 {
-	OENewGameDocument* gameDocument;
+	OEGameViewController* _gameViewController;
 }
-- (id)initWithContentRect:(NSRect)contentRect andGameDocument:(OENewGameDocument*)gameDoc;
-@property (retain, nonatomic) OENewGameDocument* gameDocument;
+- (id)initWithContentRect:(NSRect)contentRect andGameViewController:(OEGameViewController*)gameViewCtrl;
+@property (retain, nonatomic) OEGameViewController* gameViewController;
 @end

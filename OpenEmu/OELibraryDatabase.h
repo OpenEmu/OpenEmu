@@ -9,21 +9,23 @@
 #import <Foundation/Foundation.h>
 
 @class OEDBSystem, OEDBGame, OEDBRom;
+
+#define OELibraryErrorCodeFolderNotFound 11789
+#define OELibraryErrorCodeFileInFolderNotFound 11790
+
+#define OEDatabaseFileName @"Library.storedata"
 @interface OELibraryDatabase : NSObject 
 {
 @private
     NSArrayController* romsController;
     
-    NSPersistentStoreCoordinator *__persistentStoreCoordinator;
     NSManagedObjectModel *__managedObjectModel;
-    NSManagedObjectContext *__managedObjectContext;
-    
-    NSURL* __databaseURL;
-    
-    
+    NSManagedObjectContext *__managedObjectContext;    
     NSMutableDictionary* managedObjectContexts;
 }
-
+#pragma mark -
++ (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError;
+#pragma mark -
 - (BOOL)save:(NSError**)error;
 - (NSManagedObjectContext*)managedObjectContext;
 
@@ -79,5 +81,7 @@
  - (void)addRule:(id)rule toCollection:(id)collection;
  - (void)removeRule:(id)rule fromCollection:(id)collection;
  */
-
+#pragma mark -
+@property (copy) NSURL* databaseURL;
+@property (retain) NSPersistentStoreCoordinator * persistentStoreCoordinator;
 @end

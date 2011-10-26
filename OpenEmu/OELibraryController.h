@@ -8,6 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 
+#import "IKSGridView.h"
+#import "OEUIDrawingUtils.h"
+
+#import "IKSGridViewProtocols.h"
+#import "OEMainWindowContentController.h"
 @class OELibraryDatabase;
 @class BackgroundColorView;
 @class OESidebarController;
@@ -15,47 +20,27 @@
 @class OELibrarySplitView;
 @class OEROMImporter;
 @class FullscreenWindow;
-@class OENewGameDocument;
-#import "IKSGridView.h"
-#import "OEUIDrawingUtils.h"
-
-#import "IKSGridViewProtocols.h"
-#import "OENewGameDocument.h"
-@interface OELibraryController : NSWindowController <NSWindowDelegate, NSSplitViewDelegate, OENewGameDocumentDelegateProtocol> 
+@interface OELibraryController : OEMainWindowContentController 
 {
 @private
-    OELibraryDatabase* database;
-    OENewGameDocument* gameDocument;
-    
     OEROMImporter* romImporter;
     
-    IBOutlet NSWindow* libraryWindow;
-    
-    IBOutlet OELibrarySplitView* mainSplitView;
-    
-    IBOutlet OESidebarController* sidebarController;
-    IBOutlet OECollectionViewController *collectionViewController;
-    
     // Toolbar Items
-    IBOutlet NSButton* sidebarBtn;
     BOOL sidebarChangesWindowSize;
-    
-    IBOutlet NSButton* gridViewBtn;IBOutlet NSMenuItem* gridViewMenuItem;
-    IBOutlet NSButton* flowViewBtn;IBOutlet NSMenuItem* flowViewMenuItem;
-    IBOutlet NSButton* listViewBtn;IBOutlet NSMenuItem* listViewMenuItem;
-    
-    // MenuItems
-    IBOutlet NSMenuItem* editSmartCollectionMenuItem;
 }
+- (void)layoutToolbarItems;
+- (id)initWithWindowController:(OEMainWindowController*)windowController andDatabase:(OELibraryDatabase*)database;
 
 #pragma mark -
 #pragma mark Toolbar Actions
 - (IBAction)toggleSidebar:(id)sender;
+- (IBAction)switchToGridView:(id)sender;
+- (IBAction)switchToListView:(id)sender;
+- (IBAction)switchToFlowView:(id)sender;
+- (IBAction)search:(id)sender;
 
 #pragma mark -
 #pragma mark Menu Item Actions
-- (IBAction)toggleWindow:(id)sender;
-
 - (IBAction)filemenu_launchGame:(id)sender;
 
 - (IBAction)filemenu_newCollection:(id)sender;
@@ -63,26 +48,19 @@
 - (IBAction)filemenu_newCollectionFolder:(id)sender;
 
 - (IBAction)filemenu_editSmartCollection:(id)sender;
-
 - (IBAction)filemenu_addToLibrary:(id)sender;
-- (void) startImportSheet:(NSArray*)URLs;
-- (IBAction) cancelImport:(id)sender;
-
 - (IBAction)controlsmenu_startGame:(id)sender;
-
-- (IBAction) switchToGridView:(id)sender;
-- (IBAction) switchToListView:(id)sender;
-- (IBAction) switchToFlowView:(id)sender;
-
-// import finished
-- (void) startImportSheet:(NSArray*)URLs;
-- (void)sheetDidEnd:(NSWindow *)sheet returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo;
-
-
+#pragma mark -
+#pragma mark Menu Items
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
+- (void)menuItemAction:(id)sender;
 #pragma mark -
 #pragma mark Properties
 @property (assign, nonatomic) BOOL sidebarChangesWindowSize;
-@property (assign) IBOutlet OELibrarySplitView* mainSplitView;
-@property (retain, nonatomic) OELibraryDatabase* database;
 @property (retain) OEROMImporter* romImporter;
+@property (retain) OELibraryDatabase* database;
+
+@property (retain) IBOutlet OESidebarController* sidebarController;
+@property (retain) IBOutlet OECollectionViewController *collectionViewController;
+@property (retain) IBOutlet OELibrarySplitView* mainSplitView;
 @end

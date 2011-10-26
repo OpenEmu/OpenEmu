@@ -13,12 +13,11 @@
 
 #import "OECollectionViewItemProtocol.h"
 
-@class OELibraryDatabase;
+@class OELibraryController;
 @class OEHorizontalSplitView;
 @interface OECollectionViewController : NSViewController <IKSGridViewDelegate, IKSGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource>
 {
 @private
-    OELibraryDatabase* database;
     NSArrayController* gamesController;
     
     id <NSObject, OECollectionViewItemProtocol> collectionItem;
@@ -30,20 +29,6 @@
     IBOutlet IKImageFlowView* coverFlowView;
     IBOutlet NSTableView* listView;
     
-    IBOutlet NSButton* gridViewBtn;IBOutlet NSMenuItem* gridViewMenuItem;
-    IBOutlet NSButton* flowViewBtn;IBOutlet NSMenuItem* flowViewMenuItem;
-    IBOutlet NSButton* listViewBtn;IBOutlet NSMenuItem* listViewMenuItem;
-    
-    IBOutlet NSSlider* sizeSlider;
-    IBOutlet NSSearchField* searchField;
-    /*
-     *
-     IBOutlet NSButton*dbg_btn_colors;
-     IBOutlet NSTextField* dbg_dnd_width;
-     IBOutlet NSTextField* dbg_dnd_opstart, *dbg_dnd_opend, *dbg_dnd_delay;
-     IBOutlet NSPopUpButton* dbg_layer_state;
-     *
-     */
     NSTimer* reloadTimer;
 }
 
@@ -63,12 +48,10 @@
 - (IBAction)changeGridSize:(id)sender;
 
 #pragma mark -
-#pragma mark "Notifications" (not really)
-- (void)willHide;
 - (void)willShow;
 
 - (void)setNeedsReload;
 #pragma mark -
-
+@property (assign) OELibraryController* libraryController;
 @property (nonatomic, retain) id <NSObject, OECollectionViewItemProtocol> collectionItem;
 @end

@@ -27,9 +27,9 @@
             }];
 }
 #pragma mark -
-- (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db{
+- (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db
+{
     NSString* filePath = [self valueForKey:@"path"];
-    NSLog(@"calculateChecksum: %@", filePath);
     
     BOOL useMD5 = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
     NSError* error = nil;
@@ -57,7 +57,8 @@
     [data release];
     
     
-    if(rom){
+    if(rom)
+    {
         NSSet* romsInGame = [self valueForKeyPath:@"game.roms"];
         if([romsInGame count]==1)
         {
@@ -73,7 +74,7 @@
     }
     
     [self setValue:hash forKey:useMD5?@"md5":@"crc32"];
-
+    
     NSDictionary* gameDictionary;
     if(useMD5)
     {
@@ -84,7 +85,7 @@
         gameDictionary = [ArchiveVG gameInfoByCRC:hash];
     }
     
-    OEDBGame* game = [db gameWithArchiveID:[gameDictionary valueForKey:AVGGameIDKey]];
+    OEDBGame* game = [db gameWithArchiveID:(NSNumber*)[gameDictionary valueForKey:(NSString*)AVGGameIDKey]];
     if(game)
     {
         NSLog(@"Game is aleady present");
@@ -92,7 +93,7 @@
         [[game mutableSetValueForKey:@"roms"] addObject:self];
     } 
     else
-    {       
+    {
         game = [self valueForKey:@"game"];
     }
     
@@ -112,7 +113,7 @@
             NSLog(@"%@", error);
             return;
         }
-
+        
         NSString* romName = [[self valueForKey:@"path"] lastPathComponent];
         
         // TODO: use tosec for new rom path if available
@@ -127,17 +128,6 @@
         [self setValue:newRomPath forKey:@"path"];
     }
     
-}
-- (BOOL)calculateChecksumInDatabase:(OELibraryDatabase*)db
-{
-}
-
-- (void)doArchiveSyncInDatabase:(OELibraryDatabase*)db
-{
-}
-
-- (void)organizeInLibraryOfDatabase:(OELibraryDatabase *)db
-{    
 }
 #pragma mark -
 #pragma mark Core Data utilities

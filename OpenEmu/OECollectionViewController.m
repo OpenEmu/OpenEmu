@@ -9,8 +9,7 @@
 #import "OECollectionViewController.h"
 #import "NSImage+OEDrawingAdditions.h"
 
-#import "OELibraryDatabase.h"
-
+#import "OELibraryController.h"
 #import "OECoverGridForegroundLayer.h"
 #import "OECoverGridItemLayer.h"
 
@@ -25,7 +24,7 @@
 @end
 
 @implementation OECollectionViewController
-@synthesize database;
+@synthesize libraryController;
 + (void)initialize
 {
     // Indicators for list view
@@ -41,16 +40,8 @@
     [image setName:@"list_indicators_missing_selected" forSubimageInRect:NSMakeRect(12, 12, 12, 12)];
     [image setName:@"list_indicators_unplayed_selected" forSubimageInRect:NSMakeRect(12, 0, 12, 12)];
     
-    // toolbar view buttons
-    image = [NSImage imageNamed:@"toolbar_view_buttons"];
-    [image setName:@"toolbar_view_button_grid" forSubimageInRect:NSMakeRect(0, 0, 27, 115)];
-    [image setName:@"toolbar_view_button_flow" forSubimageInRect:NSMakeRect(27, 0, 27, 115)];
-    [image setName:@"toolbar_view_button_list" forSubimageInRect:NSMakeRect(54, 0, 27, 115)];
-    
-    
-    // selection ring effects for grid view
+    // selection effects for grid view
     image = [NSImage imageNamed:@"selector_ring"];
-    
     [image setName:@"selector_ring_active" forSubimageInRect:NSMakeRect(0, 0, 29, 29)];
     [image setName:@"selector_ring_inactive" forSubimageInRect:NSMakeRect(29, 0, 29, 29)];
 }
@@ -78,12 +69,14 @@
 {
     if(gamesController!=nil) return;
     
+    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    
     // Set up games controller
     gamesController = [[NSArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
     [gamesController setAutomaticallyPreparesContent:YES];
     
-    NSManagedObjectContext* context = [self.database managedObjectContext];
+    NSManagedObjectContext* context = [[[self libraryController] database] managedObjectContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
     
     [gamesController setManagedObjectContext:context];
@@ -94,11 +87,6 @@
     
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    
-    // Setup Toolbar Buttons
-    [gridViewBtn setImage:[NSImage imageNamed:@"toolbar_view_button_grid"]];
-    [flowViewBtn setImage:[NSImage imageNamed:@"toolbar_view_button_flow"]];
-    [listViewBtn setImage:[NSImage imageNamed:@"toolbar_view_button_list"]];
     
     // Set up GridView
     [gridView setCellClass:[OECoverGridItemLayer class]];
@@ -112,7 +100,11 @@
     [gridView addForegroundLayer:foregroundLayer];
     
     //set initial zoom value
-    // TODO: Restore last slider value!
+    NSSlider* sizeSlider = [[[self libraryController] windowController] toolbarSlider];
+    if([userDefaults valueForKey:UDLastGridSizeKey])
+    {
+        [sizeSlider setFloatValue:[userDefaults floatForKey:UDLastGridSizeKey]];
+    }
     [sizeSlider setContinuous:YES];
     [self changeGridSize:sizeSlider];
     
@@ -127,7 +119,20 @@
     [listView setDataSource:self];
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
     
-    [self selectGridView:self];
+    switch ([userDefaults integerForKey:UDLastCollectionViewKey]) {
+        case 0:
+            [self selectGridView:self];
+            break;
+        case 1:
+            [self selectFlowView:self];
+            break;
+        case 2:
+            [self selectListView:self];
+            break;
+        default:
+            [self selectGridView:self];
+            break;
+    }
     
     [self _reloadData];
     
@@ -160,21 +165,31 @@
 
 - (void)_selectView:(int)view
 {
-    [gridViewBtn setState: NSOffState];
-    [flowViewBtn setState: NSOffState];
-    [listViewBtn setState: NSOffState];
+    NSSlider* sizeSlider = [[[self libraryController] windowController] toolbarSlider];
+    
+    NSMenu* mainMenu = [NSApp mainMenu];
+    NSMenu* viewMenu = [[mainMenu itemAtIndex:3] submenu];
+    
+    [[[[self libraryController] windowController] toolbarGridViewButton] setState: NSOffState];
+    [[viewMenu itemWithTag:MainMenu_View_GridViewTag] setState:NSOffState];
+    [[[[self libraryController] windowController] toolbarFlowViewButton] setState: NSOffState];
+    [[viewMenu itemWithTag:MainMenu_View_FlowViewTag] setState:NSOffState];
+    [[[[self libraryController] windowController] toolbarListViewButton] setState: NSOffState];
+    [[viewMenu itemWithTag:MainMenu_View_ListViewTag] setState:NSOffState];
     
     NSView* nextView = nil;
     float splitterPosition =-1;
-    switch (view) 
+    switch (view)
     {
         case 0: ;// Grid View
-            [gridViewBtn setState: NSOnState];
+            [[[[self libraryController] windowController] toolbarGridViewButton] setState: NSOnState];
+            [[viewMenu itemWithTag:MainMenu_View_GridViewTag] setState:NSOnState];
             nextView = gridViewContainer;
             [sizeSlider setEnabled:YES];
             break;
         case 1: ;// CoverFlow View
-            [flowViewBtn setState: NSOnState];
+            [[[[self libraryController] windowController] toolbarFlowViewButton] setState: NSOnState];
+            [[viewMenu itemWithTag:MainMenu_View_FlowViewTag] setState:NSOnState];
             nextView = flowlistViewContainer;
             [sizeSlider setEnabled:NO];
             
@@ -182,17 +197,18 @@
             splitterPosition = 500;
             break;
         case 2: ;// List View
-            [listViewBtn setState: NSOnState];
+            [[[[self libraryController] windowController] toolbarListViewButton] setState: NSOnState];
+            [[viewMenu itemWithTag:MainMenu_View_ListViewTag] setState:NSOnState];
             nextView = flowlistViewContainer;
             [sizeSlider setEnabled:NO];
             
             // Set Splitter position
             splitterPosition = 0;
-            
             break;
         default: return;
     }
     
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithInt:view] forKey:UDLastCollectionViewKey];
     
     if(splitterPosition!=-1) [flowlistViewContainer setSplitterPosition:splitterPosition animated:NO];
     
@@ -210,27 +226,8 @@
     [nextView setFrame:[[self view] bounds]];
 }
 #pragma mark -
-#pragma mark Notifications
-- (void)willHide
-{
-    [searchField setEnabled:NO];
-    
-    [sizeSlider setEnabled:NO];
-    [gridViewBtn setEnabled:NO];
-    [flowViewBtn setEnabled:NO];
-    
-    [listViewBtn setEnabled:NO];
-    [listView setEnabled:NO];
-}
 - (void)willShow
 {
-    [searchField setEnabled:YES];
-    
-    [sizeSlider setEnabled:YES];
-    [gridViewBtn setEnabled:YES];
-    [flowViewBtn setEnabled:YES];
-    
-    [listViewBtn setEnabled:YES];
     [listView setEnabled:YES];
 }
 
@@ -242,7 +239,6 @@
         return;
     }
     
-    NSLog(@"gameAddedToLibrary:");
     [self setNeedsReload];
 }
 
@@ -259,11 +255,11 @@
 }
 - (IBAction)changeGridSize:(id)sender
 {
-    
     float zoomValue = [sender floatValue];
     [gridView setItemSize:NSMakeSize(roundf(26+142*zoomValue), roundf(44+7+142*zoomValue))];
     [[[gridView enclosingScrollView] verticalScroller] setNeedsDisplayInRect:[[[gridView enclosingScrollView] verticalScroller] bounds]];
     
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:UDLastGridSizeKey];
 }
 
 #pragma mark -
@@ -303,13 +299,16 @@
 
 - (id)gridView:(IKSGridView*)aView objectValueOfItemAtIndex:(NSUInteger)index
 {    NSManagedObjectID* objid = [(NSManagedObject*)[[gamesController arrangedObjects] objectAtIndex:index] objectID];
-    return [[[self database] managedObjectContext] objectWithID:objid];
+    return [[[[self libraryController] database] managedObjectContext] objectWithID:objid];
 }
 
 - (void)gridView:(IKSGridView *)aView setObject:(id)val forKey:(NSString*)key withRepresentedObject:(id)obj
 {      
-     NSManagedObjectID* objId = (NSManagedObjectID*)obj;
-    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[self.database.managedObjectContext objectWithID:objId];
+    OELibraryDatabase* database = [[self libraryController] database];
+    NSManagedObjectContext* moc = [database managedObjectContext];
+    
+    NSManagedObjectID* objId = (NSManagedObjectID*)obj;
+    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[moc objectWithID:objId];
     
     if([key isEqualTo:@"rating"])
     {
@@ -320,14 +319,16 @@
         [object setGridTitle:val];
     }
     
-    [self.database.managedObjectContext save:nil];
+    [moc save:nil];
 }
 
 - (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString*)key withRepresentedObject:(id)obj
 {
+    OELibraryDatabase* database = [[self libraryController] database];
+    NSManagedObjectContext* moc = [database managedObjectContext];
     NSManagedObjectID* objId = (NSManagedObjectID*)obj;
-    
-    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[self.database.managedObjectContext objectWithID:objId];
+#warning What if objID is nil????
+    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[moc objectWithID:objId];
     if([key isEqualTo:@"status"])
     {
         return [NSNumber numberWithInt:[object gridStatus]];
@@ -593,7 +594,7 @@
 
 #pragma mark -
 #pragma mark Private
-#define reloadDelay 1.0
+#define reloadDelay 0.1
 - (void)setNeedsReload{
     if(reloadTimer) return;
     
@@ -606,7 +607,8 @@
         [reloadTimer invalidate];
         [reloadTimer release];
         reloadTimer = nil;       
-    }
+    }    
+    if(!gamesController) return;
     
     NSPredicate* pred = self.collectionItem?[self.collectionItem predicate]:[NSPredicate predicateWithValue:NO];
     [gamesController setFetchPredicate:pred];

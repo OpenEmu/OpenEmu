@@ -9,25 +9,28 @@
 #import <Foundation/Foundation.h>
 #import "OEUIDrawingUtils.h"
 
-@interface OESearchFieldCell : NSSearchFieldCell {
+@interface OESearchFieldCell : NSSearchFieldCell 
+{
 @private
     NSDictionary* active;
-	NSDictionary* inactive;
-	NSDictionary* disabled;
-	
-	NSDictionary* placeholder;
-	
-	NSDictionary* current;
+    NSDictionary* inactive;
+    NSDictionary* disabled;
+    
+    NSDictionary* placeholder;
+    
+    NSDictionary* current;
 }
 #pragma mark -
 - (NSRect)imageRectForState:(OEUIState)state;
 - (void)setStylesForState:(OEUIState)state;
 - (NSImage*)searchButtonImageForState:(OEUIState)state;
 - (NSImage*)alternateSearchButtonImageForState:(OEUIState)state;
+
+@property BOOL isInBackground;
 @end
 
-@interface OESearchField : NSSearchField {
+@interface OESearchField : NSSearchField 
+{
 @private
-	BOOL wasEnabled;
 }
 @end

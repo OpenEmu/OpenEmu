@@ -7,15 +7,15 @@
 //
 
 #import <Foundation/Foundation.h>
-// TODO: rewrite this whole splitview thingy, create an independent one for List-/FlowView
+// TODO: rewrite this whole splitview thingy
 
-@interface OELibrarySplitView : NSSplitView <NSSplitViewDelegate>{
+@class OELibraryController;
+@interface OELibrarySplitView : NSSplitView <NSSplitViewDelegate>
+{
     BOOL resizesLeftView;
-	BOOL _hidingLeftView;
-	
-	NSPoint lastMousePoint;
-	
-	BOOL drawsWindowResizer;
+    BOOL _hidingLeftView;
+    
+    BOOL drawsWindowResizer;
 }
 
 // returns view on the right/left that can be used wthout changeing toolbar background
@@ -29,4 +29,6 @@
 
 - (void)setSplitterPosition:(CGFloat)newPosition animated:(BOOL)animatedFlag;
 - (float)splitterPosition;
+
+@property (assign) IBOutlet OELibraryController* libConroller;
 @end

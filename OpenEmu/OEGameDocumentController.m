@@ -4,14 +4,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -19,10 +19,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OEGamePickerController.h"
@@ -67,29 +67,29 @@
 
 + (void)initialize
 {/*
-	NSLog(@"initialize OEGameDocumentController: ");
-    // This can get called many times, don't need to be blowing away the defaults
-    NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
-    NSDictionary *initialValues = [[[defaults initialValues] mutableCopy] autorelease];
-    if(initialValues == nil)
-        initialValues = [NSMutableDictionary dictionary];
-    
-    [initialValues setValue:@"Linear"                      forKey:@"filterName"];
-    [initialValues setValue:[NSNumber numberWithFloat:1.0] forKey:@"volume"];
-    [defaults setInitialValues:initialValues];
-    
-    if([OEGameDocumentController class] != self)
-    {
-        [OEPlugin registerPluginClass:[OECorePlugin class]];
-        [OEPlugin registerPluginClass:[OESystemPlugin class]];
-        [OEPlugin registerPluginClass:[OECompositionPlugin class]];
-    }*/
+  NSLog(@"initialize OEGameDocumentController: ");
+  // This can get called many times, don't need to be blowing away the defaults
+  NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
+  NSDictionary *initialValues = [[[defaults initialValues] mutableCopy] autorelease];
+  if(initialValues == nil)
+  initialValues = [NSMutableDictionary dictionary];
+  
+  [initialValues setValue:@"Linear"                      forKey:@"filterName"];
+  [initialValues setValue:[NSNumber numberWithFloat:1.0] forKey:@"volume"];
+  [defaults setInitialValues:initialValues];
+  
+  if([OEGameDocumentController class] != self)
+  {
+  [OEPlugin registerPluginClass:[OECorePlugin class]];
+  [OEPlugin registerPluginClass:[OESystemPlugin class]];
+  [OEPlugin registerPluginClass:[OECompositionPlugin class]];
+  }*/
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
-//    NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
-//    [QCPlugIn loadPlugInAtPath:pluginString];
+    //    NSString* pluginString = [[[NSBundle mainBundle] builtInPlugInsPath] stringByAppendingPathComponent:@"OpenEmuQC.plugin"];
+    //    [QCPlugIn loadPlugInAtPath:pluginString];
     
     // now load QC plugins/compositions
     [self updateFilterNames];
@@ -148,41 +148,41 @@
         
         [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
         
-         // set our initial value for our filters dictionary
-         [self setFilterDictionary:[[NSMutableDictionary new] autorelease]];
-         
-         // load up our QC Compositions that will replace our filters.
-         NSString* filtersLocation = @"/Library/Application Support/OpenEmu/Filters";
-         
-         NSDirectoryEnumerator * filterEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:filtersLocation];
-         NSString* compositionFile;
-         while (compositionFile = [filterEnumerator nextObject])
-         {
-         if([[compositionFile pathExtension] isEqualToString:@"qtz"])
-         {
-         NSLog(@"%@", compositionFile);
-         // init a QCComposition and read off its name from the attributes.
-         QCComposition* filterComposition = [QCComposition compositionWithFile:[filtersLocation stringByAppendingPathComponent:compositionFile]];
-         
-         // our key
-         NSString* nameKey;
-         
-         if([[filterComposition attributes] valueForKey:@"name"])
-         {
-         nameKey = [[filterComposition attributes] valueForKey:@"name"];
-         }
-         else
-         {
-         nameKey = [compositionFile stringByDeletingPathExtension];
-         }
-         
-         // add it to our composition dictionary...
-         [filterDictionary setObject:filterComposition forKey:nameKey];
-         }
-         }
-         
-         NSLog(@"found filters: %@", filterDictionary);
-         
+        // set our initial value for our filters dictionary
+        [self setFilterDictionary:[[NSMutableDictionary new] autorelease]];
+        
+        // load up our QC Compositions that will replace our filters.
+        NSString* filtersLocation = @"/Library/Application Support/OpenEmu/Filters";
+        
+        NSDirectoryEnumerator * filterEnumerator = [[NSFileManager defaultManager] enumeratorAtPath:filtersLocation];
+        NSString* compositionFile;
+        while (compositionFile = [filterEnumerator nextObject])
+        {
+            if([[compositionFile pathExtension] isEqualToString:@"qtz"])
+            {
+                NSLog(@"%@", compositionFile);
+                // init a QCComposition and read off its name from the attributes.
+                QCComposition* filterComposition = [QCComposition compositionWithFile:[filtersLocation stringByAppendingPathComponent:compositionFile]];
+                
+                // our key
+                NSString* nameKey;
+                
+                if([[filterComposition attributes] valueForKey:@"name"])
+                {
+                    nameKey = [[filterComposition attributes] valueForKey:@"name"];
+                }
+                else
+                {
+                    nameKey = [compositionFile stringByDeletingPathExtension];
+                }
+                
+                // add it to our composition dictionary...
+                [filterDictionary setObject:filterComposition forKey:nameKey];
+            }
+        }
+        
+        NSLog(@"found filters: %@", filterDictionary);
+        
         [self updateValidExtensions];
         
         [self setupHIDSupport];
@@ -198,8 +198,8 @@
 - (void)dealloc
 {
     [hidManager release]; hidManager = nil;
-	
-	[[OEPlugin class] removeObserver:self forKeyPath:@"allPlugins"];
+    
+    [[OEPlugin class] removeObserver:self forKeyPath:@"allPlugins"];
     
     [filterNames      release];
     [validExtensions  release];
@@ -467,22 +467,22 @@
 
 - (Class)documentClassForType:(NSString *)documentTypeName
 {
-	Class ret = NULL;
-	
-	if(isOpeningQuickLook)
+    Class ret = NULL;
+    
+    if(isOpeningQuickLook)
     {
-		ret = [OEGameQuickLookDocument class];
+        ret = [OEGameQuickLookDocument class];
         DLog(@"documentClassForType: Quick Look");
     }
-	else
+    else
     {
-		ret = [super documentClassForType:documentTypeName];
-		if(ret == nil)
+        ret = [super documentClassForType:documentTypeName];
+        if(ret == nil)
         {
-			ret = [OEGameDocument class];
+            ret = [OEGameDocument class];
             DLog(@"documentClassForType: Long path");
-		}
-	}
+        }
+    }
     return ret;
 }
 
@@ -505,12 +505,12 @@
     
     NSError *error = nil;
     BOOL isDirectory = YES;
-	
-	if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory] && isDirectory)
-		if(![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error])
-			NSLog(@"%@", error);
-		else
-			DLog(@"Deleted temp files");
+    
+    if([[NSFileManager defaultManager] fileExistsAtPath:filePath isDirectory:&isDirectory] && isDirectory)
+        if(![[NSFileManager defaultManager] removeItemAtPath:filePath error:&error])
+            NSLog(@"%@", error);
+        else
+            DLog(@"Deleted temp files");
 }
 
 - (BOOL)attemptRecoveryFromError:(NSError *)error optionIndex:(NSUInteger)recoveryOptionIndex
@@ -576,7 +576,7 @@
  */
 - (NSManagedObjectModel *)managedObjectModel
 {
-
+    
     return nil;
     if (managedObjectModel != nil) return managedObjectModel;
     
@@ -701,7 +701,7 @@
 
 - (BOOL)migrateOESaveStateAtPath:(NSString *)saveStatePath
 {
-	return YES;
+    return YES;
 }
 
 - (IBAction)loadState:(NSArray *)states
@@ -716,7 +716,7 @@
 
 - (BOOL)migrateSaveStatesWithError:(NSError **)err
 {
-	return YES;
+    return YES;
 }
 
 - (BOOL)removeFrameworkFromLibraryWithError:(NSError **)err
@@ -735,21 +735,7 @@
 
 - (void)setupHIDSupport
 {
-	NSArray *matchingTypes =
-    [NSArray arrayWithObjects:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
-      [NSNumber numberWithInteger:kHIDUsage_GD_Joystick], @ kIOHIDDeviceUsageKey, nil],
-     [NSDictionary dictionaryWithObjectsAndKeys:
-      [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
-      [NSNumber numberWithInteger:kHIDUsage_GD_GamePad], @ kIOHIDDeviceUsageKey, nil],
-	 [NSDictionary dictionaryWithObjectsAndKeys:
-      [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
-      [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
-     nil];
-	
-	hidManager = [[OEHIDManager alloc] init];
-	[hidManager registerDeviceTypes:matchingTypes];
+    
 }
 
 @end

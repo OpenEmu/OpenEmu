@@ -7,40 +7,40 @@
 //
 
 #import "OEHUDGameWindow.h"
-#import "OENewGameDocument.h"
+#import "OEGameViewController.h"
 @implementation OEHUDGameWindow
-@synthesize gameDocument;
-- (id)initWithContentRect:(NSRect)contentRect andGameDocument:(OENewGameDocument*)gameDoc {
+@synthesize gameViewController=_gameViewController;
+- (id)initWithContentRect:(NSRect)contentRect andGameViewController:(OEGameViewController*)gameViewCtrl
+{
     
     self = [super initWithContentRect:contentRect styleMask: (NSHUDWindowMask | NSNonactivatingPanelMask | NSTitledWindowMask | NSResizableWindowMask | NSUtilityWindowMask | NSClosableWindowMask)  backing:NSBackingStoreBuffered defer:NO];
     
     //self = [super initWithContentRect:contentRect];
-    if (self) {
+    if (self) 
+    {
 		[self setReleasedWhenClosed:YES];
-		self.gameDocument = gameDoc;
-        self.floatingPanel = NO;
-        self.movableByWindowBackground = NO;
-		self.collectionBehavior = NSWindowCollectionBehaviorFullScreenPrimary;
+		[self setGameViewController:gameViewCtrl];
+        [self setFloatingPanel:NO];
+        [self setMovableByWindowBackground:NO];
+        [self setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
     }
-        
+    
     return self;
 }
 
 - (void)dealloc{
-	if(gameDocument){
-		[gameDocument terminateEmulation];
+	if([self gameViewController]){
+		[[self gameViewController] terminateEmulation];
 	}
-	[gameDocument release], gameDocument = nil;
+	[self setGameViewController:nil];
 	
 	[super dealloc];
 }
 
-- (void)setGameDocument:(OENewGameDocument *)gameDoc{
-	if(gameDoc && [gameDoc url]){
-		NSURL* url = [gameDoc url];
-		self.title = [[url lastPathComponent] stringByDeletingPathExtension];
-	} else if(gameDoc && [gameDoc rom]){
-		id rom = [gameDoc rom];
+- (void)setGameViewController:(OEGameViewController *)gameViewController
+{
+    if(gameViewController && [gameViewController rom]){
+		id rom = [gameViewController rom];
 		NSString* path = [rom valueForKey:@"path"];
 		self.title = [[path lastPathComponent] stringByDeletingPathExtension];
 	}
@@ -49,16 +49,16 @@
 		[[[[self contentView] subviews] lastObject] removeFromSuperview]; 
 	}
 	
-	if(gameDocument){
-		[gameDocument terminateEmulation];
+	if(gameViewController){
+		[gameViewController terminateEmulation];
 	}
 	
-	[gameDoc retain];
-	[gameDocument release];
-	gameDocument = gameDoc;
+	[gameViewController retain];
+	[_gameViewController release];
+	_gameViewController = gameViewController;
 	
-	if(gameDocument){
-		NSView* gameView = (NSView*)[gameDocument gameView];
+	if(gameViewController){
+		NSView* gameView = (NSView*)[gameViewController view];
 		NSRect frame = [[self contentView] frame];
 		frame.origin = NSMakePoint(0, 0);
 		[gameView setFrame:frame];

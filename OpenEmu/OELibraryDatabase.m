@@ -24,23 +24,22 @@
 
 #import "ArchiveVG.h"
 
-#define OEDatabaseFileName @"Library.storedata"
 
 #define UDDatabasePathKey @"databasePath"
 #define UDDefaultDatabasePathKey @"defaultDatabasePath"
 
 @interface OELibraryDatabase (Private)
+- (BOOL)loadPersistantStoreWithError:(NSError**)outError;
+- (BOOL)loadManagedObjectContextWithError:(NSError**)outError;
 
-- (BOOL)_loadDatabase:(BOOL)forceChoosing;
-- (BOOL)_createDatabaseAtURL:(NSURL*)url error:(NSError**)error;
-- (BOOL)_isValidDatabase:(NSURL*)url error:(NSError**)error;
-- (BOOL)_chooseDatabase;
+- (NSManagedObjectModel*)managedObjectModel;
 
-//******************************************//
 - (NSArray*)_romsBySuffixAtPath:(NSString*)path includeSubfolders:(int)subfolderFlag error:(NSError**)outError;
 @end
 static OELibraryDatabase* defaultDatabase = nil;
 @implementation OELibraryDatabase
+@synthesize persistentStoreCoordinator=_persistentStoreCoordinator, databaseURL;
+
 + (void)initialize
 {
     NSImage* consoleIcons = [NSImage imageNamed:@"consoles"];
@@ -73,16 +72,82 @@ static OELibraryDatabase* defaultDatabase = nil;
     [consoleIcons setName:@"Famicom" forSubimageInRect:NSMakeRect(48, 48, 16, 16)]; // jap
 }
 
-- (void)_debug_logStats
-{
-    return;
-    NSLog(@"Holding %lu ManagedObjectContexts", [managedObjectContexts count]);
-    NSLog(@"%@", [managedObjectContexts allKeys]);
+#pragma mark -
++ (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError{
+    NSLog(@"OELibraryDatabase loadFromURL:%@", url);
+    
+    BOOL isDir = NO;
+    if(![[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDir] || !isDir)
+    {
+        if(outError!=NULL){
+            *outError = [NSError errorWithDomain:@"OELibraryDatabase" code:OELibraryErrorCodeFolderNotFound userInfo:nil];
+        }
+        return NO;
+    }
+    
+    defaultDatabase = [[OELibraryDatabase alloc] init];
+    [defaultDatabase setDatabaseURL:url];
+    
+    if(![defaultDatabase loadPersistantStoreWithError:outError])
+    {
+        [defaultDatabase release], defaultDatabase=nil;
+        return NO;
+    }
+    if(![defaultDatabase loadManagedObjectContextWithError:outError])
+    {
+        [defaultDatabase release], defaultDatabase=nil;
+        return NO;
+    }
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:UDDatabasePathKey];
+    
+    return YES;
 }
 
+
+- (BOOL)loadManagedObjectContextWithError:(NSError**)outError
+{
+    __managedObjectContext = [[NSManagedObjectContext alloc] init];   
+    
+    NSMergePolicy* policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
+    [__managedObjectContext setMergePolicy:policy];
+    [policy release];
+    
+    if(!__managedObjectContext) return NO;
+    
+    NSPersistentStoreCoordinator* coordinator = [self persistentStoreCoordinator];    
+    [__managedObjectContext setPersistentStoreCoordinator:coordinator];
+    
+    // remeber last loc as database path
+    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+    [standardDefaults setObject:[self.databaseURL path] forKey:UDDatabasePathKey];
+    
+    return YES;
+}
+
+- (BOOL)loadPersistantStoreWithError:(NSError**)outError
+{
+    NSManagedObjectModel *mom = [self managedObjectModel];
+    if (!mom)
+    {
+        NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
+        return NO;
+    }
+    
+    NSURL *url = [self.databaseURL URLByAppendingPathComponent:OEDatabaseFileName];
+    self.persistentStoreCoordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom] autorelease];
+    if (!self.persistentStoreCoordinator || ![self.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:outError]){ 
+        self.persistentStoreCoordinator = nil;
+        
+        return NO;
+    }    
+    return YES;
+}
+
+#pragma mark -
 + (OELibraryDatabase*)defaultDatabase
 {
-    return defaultDatabase ?: [[self new] autorelease];
+    return defaultDatabase;
 }
 
 - (id)init
@@ -94,18 +159,8 @@ static OELibraryDatabase* defaultDatabase = nil;
     {
         romsController = [[NSArrayController alloc] init];
         managedObjectContexts = [[NSMutableDictionary alloc] init];
-        if(![self _loadDatabase:NO])
-        {
-            self = nil;
-            return nil;
-        }
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:NSApp];
-    }
-    
-    if(!defaultDatabase)
-    {
-        defaultDatabase = [self retain];
     }
     
     return self;
@@ -115,13 +170,14 @@ static OELibraryDatabase* defaultDatabase = nil;
 {      
     NSLog(@"destroying LibraryDatabase");
     [__managedObjectContext release];
-    [__persistentStoreCoordinator release];
+    
+    self.persistentStoreCoordinator = nil;
+    
     [__managedObjectModel release];
     
     [managedObjectContexts release];
     
-    [__databaseURL release];
-    
+    self.databaseURL = nil;
     [romsController release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -142,6 +198,9 @@ static OELibraryDatabase* defaultDatabase = nil;
     }
     NSLog(@"Did save Database");
 }
+#pragma mark -
+#pragma mark Database Info
+
 
 #pragma mark -
 #pragma mark CoreData Stuff
@@ -157,37 +216,6 @@ static OELibraryDatabase* defaultDatabase = nil;
     return __managedObjectModel;
 }
 
-- (NSPersistentStoreCoordinator *) persistentStoreCoordinator 
-{
-    if (__persistentStoreCoordinator) 
-    {
-        return __persistentStoreCoordinator;
-    }
-    
-    NSManagedObjectModel *mom = [self managedObjectModel];
-    if (!mom) 
-    {
-        NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
-        return nil;
-    }
-    
-    
-    NSError *error = nil;
-    NSURL *url = [__databaseURL URLByAppendingPathComponent:OEDatabaseFileName];
-    __persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
-    if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:&error])
-    {
-        // TODO: Try to migrate database to latest version
-        
-        [__persistentStoreCoordinator release], __persistentStoreCoordinator = nil;
-        
-        // [[NSApplication sharedApplication] presentError:error];
-        return nil;
-    }
-    
-    return __persistentStoreCoordinator;
-}
-
 - (NSManagedObjectContext *) managedObjectContext 
 {
     
@@ -197,69 +225,34 @@ static OELibraryDatabase* defaultDatabase = nil;
     }
     
     NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (!coordinator) 
-    {
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setValue:@"Failed to initialize the store" forKey:NSLocalizedDescriptionKey];
-        [dict setValue:@"There was an error building up the data file." forKey:NSLocalizedFailureReasonErrorKey];
-        // TODO: adjust error domain
-        NSError *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
-        [[NSApplication sharedApplication] presentError:error];
-        return nil;
-    }
     
-    if([NSThread isMainThread])
+    NSThread* thread = [NSThread currentThread];
+    if(![thread name] || ![managedObjectContexts valueForKey:[thread name]])
     {
-        __managedObjectContext = [[NSManagedObjectContext alloc] init];   
-        NSMergePolicy* policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
-        [__managedObjectContext setMergePolicy:policy];
-        [policy release];
-        if(!__managedObjectContext) return nil;
+        NSManagedObjectContext* context = [[NSManagedObjectContext alloc] init];
+        if(!context) return nil;
         
-        [__managedObjectContext setPersistentStoreCoordinator:coordinator];
-        
-        // remeber last loc as database path
-        NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
-        [standardDefaults setObject:[__databaseURL path] forKey:UDDatabasePathKey];
-        
-        return __managedObjectContext;
-    }
-    else
-    {
-        [self _debug_logStats];
-        
-        NSThread* thread = [NSThread currentThread];
-        if(![thread name] || ![managedObjectContexts valueForKey:[thread name]])
+        if([[thread name] isEqualTo:@""])
         {
-            NSManagedObjectContext* context = [[NSManagedObjectContext alloc] init];
-            if(!context) return nil;
-            
-            if([[thread name] isEqualTo:@""])
-            {
-                NSString* name = [NSString stringWithUUID];
-                [thread setName:name];
-            }
-            
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillExit:) name:NSThreadWillExitNotification object:thread];
-            
-            [context setPersistentStoreCoordinator:coordinator];
-            [managedObjectContexts setValue:context forKey:[thread name]];
-            NSMergePolicy* policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
-            [context setMergePolicy:policy];
-            
-            [context release];
+            NSString* name = [NSString stringWithUUID];
+            [thread setName:name];
         }
-        [self _debug_logStats];
-        return [managedObjectContexts valueForKey:[thread name]];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillExit:) name:NSThreadWillExitNotification object:thread];
+        
+        [context setPersistentStoreCoordinator:coordinator];
+        [managedObjectContexts setValue:context forKey:[thread name]];
+        NSMergePolicy* policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
+        [context setMergePolicy:policy];
+        [policy release];
+        [context release];
     }
-    return nil;
+    return [managedObjectContexts valueForKey:[thread name]];
+    
 }
 
 - (void)threadWillExit:(NSNotification*)notification
-{
-    [self _debug_logStats];
-    
+{   
     NSThread* thread = [notification object];
     NSString* threadName = [thread name];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
@@ -269,8 +262,6 @@ static OELibraryDatabase* defaultDatabase = nil;
     if([ctx hasChanges])
         [ctx save:nil];
     [managedObjectContexts removeObjectForKey:threadName];
-    
-    [self _debug_logStats];
 }
 #pragma mark -
 - (BOOL)save:(NSError**)error
@@ -629,7 +620,7 @@ static OELibraryDatabase* defaultDatabase = nil;
 
 - (void)addGamesFromPath:(NSString*)path toCollection:(NSManagedObject*)collection searchSubfolders:(BOOL)subfolderFlag
 {
-    NSLog(@"OELibraryDatabase::addGamesFromPath:toCollection:searchSubfolders: is depricated!");
+    NSLog(@"OELibraryDatabase::addGamesFromPath:toCollection:searchSubfolders: is deprecated!");
     
     // Note, quick import skips hash calculation to speed things up. This reduces duplicate checking to filename comparison and only makes sense if automatic archive sync is deactivated.
     
@@ -651,7 +642,7 @@ static OELibraryDatabase* defaultDatabase = nil;
     BOOL automaticallyGetInfo = [standardDefaults boolForKey:UDAutmaticallyGetInfoKey];
     BOOL copyToDatabase = [standardDefaults boolForKey:UDCopyToLibraryKey];
     BOOL quickImport = [standardDefaults boolForKey:UDUseQuickImportKey] && !automaticallyGetInfo;
-    BOOL organizeLibrary = [standardDefaults boolForKey:UDOrganizeLibraryKey];
+    //   BOOL organizeLibrary = [standardDefaults boolForKey:UDOrganizeLibraryKey];
     BOOL md5 = [standardDefaults boolForKey:UDUseMD5HashingKey];
     
     NSInteger completeSize = 0;
@@ -1017,234 +1008,5 @@ static OELibraryDatabase* defaultDatabase = nil;
     NSNumber* filesize = [fileInfo valueForKey:NSFileSize];
     NSDictionary* res = [NSDictionary dictionaryWithObjectsAndKeys:filesize, @"filesize", path, @"filepath", nil];
     return [NSArray arrayWithObject:res];
-}
-#pragma mark -
-#pragma mark Private (Init phase)
-- (BOOL)_loadDatabase:(BOOL)forceChoosing
-{
-    // determine database path
-    if(!forceChoosing && ([NSEvent modifierFlags] & NSAlternateKeyMask)==0 )// check if alt is not down
-    {
-        // "default start"
-        NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
-        NSString* databasePath = [standardDefaults objectForKey:UDDatabasePathKey];
-        NSURL* databaseURL = [NSURL fileURLWithPath:databasePath];
-        NSURL* defaultDatabasePath = [standardDefaults objectForKey:UDDefaultDatabasePathKey];
-        
-        // create new database if non exists and path is default
-        if(![self _isValidDatabase:databaseURL error:nil] && [databasePath isEqualTo:defaultDatabasePath])
-        {
-            if([self _createDatabaseAtURL:databaseURL error:nil])
-            {
-                __databaseURL = [databaseURL copy];
-            }
-        } 
-        else 
-        {
-            __databaseURL = [databaseURL copy];
-        }
-    }
-    
-    if(!__databaseURL && ![self _chooseDatabase]) // User did not chose a database
-    {
-        NSLog(@"cancel database load");
-        return NO;
-    }
-    
-    
-    if(![self managedObjectContext])
-    {
-        NSLog(@"no managedObjectContext");
-        [__databaseURL release];
-        __databaseURL = nil;
-        
-        return [self _loadDatabase:YES];
-    }
-    
-    
-    return YES;
-}
-- (BOOL)_chooseDatabase
-{
-    NSString* title = @"Choose OpenEmu Library";
-    NSString* msg = [NSString stringWithFormat:@"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one"];
-    
-    NSString* chooseButton = @"Choose Library...";
-    NSString* createButton = @"Create Library...";
-    NSString* quitButton = @"Quit";
-    
-    NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:chooseButton alternateButton:quitButton otherButton:createButton informativeTextWithFormat:msg];
-    [alert setIcon:[NSApp applicationIconImage]];
-    
-    NSError* error = nil;
-    NSInteger result;
-    do
-    {
-        result = [alert runModal];
-        switch (result) 
-        {
-            case NSAlertDefaultReturn:;// chooseButton
-                NSOpenPanel* openPanel = [NSOpenPanel openPanel];
-                [openPanel setCanChooseFiles:NO];
-                [openPanel setCanChooseDirectories:YES];
-                [openPanel setTitle:@"Open OpenEmu Library"];
-                result = [openPanel runModal];
-                BOOL validPath = YES;
-                if(result == NSOKButton && (validPath=[self _isValidDatabase:[openPanel URL] error:&error]) )
-                {
-                    if(__databaseURL) [__databaseURL release], __databaseURL=nil;
-                    __databaseURL = [[openPanel URL] copy];
-                    return YES;
-                } 
-                else if(!validPath)
-                {
-                    [NSApp presentError:error];
-                }
-                break;
-            case NSAlertOtherReturn:;// createButton
-                NSSavePanel* savePanel = [NSSavePanel savePanel];
-                [savePanel setTitle:@"New OpenEmu Library"];
-                [savePanel setNameFieldStringValue:@"OpenEmu Library"];
-                result = [savePanel runModal];
-                
-                if(result == NSFileHandlingPanelOKButton)
-                {
-                    BOOL dbCreated = [self _createDatabaseAtURL:[savePanel URL] error:&error];
-                    if(!dbCreated)
-                    {
-                        [NSApp presentError:error];
-                    }
-                    else
-                    {
-                        return YES;
-                    }
-                }
-                break;
-            case NSAlertAlternateReturn:// createButton
-                return NO;
-                break;
-        }
-        
-    } while (YES);
-    
-    
-    return NO;
-}
-
-- (BOOL)_createDatabaseAtURL:(NSURL*)url error:(NSError**)error
-{
-    NSError* backupError;
-    if(error==NULL) error=&backupError;
-    
-    NSError* _error;
-    
-    // this is kind of redundant, very similiar to _isValidDatabase:error: and managedObjectContext
-    NSFileManager* fileManager = [NSFileManager defaultManager];
-    NSDictionary *properties = [url resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:&_error];
-    if(!properties)
-    {
-        BOOL ok = NO;
-        if ([_error code] == NSFileReadNoSuchFileError) 
-        {
-            ok = [fileManager createDirectoryAtPath:[url path] withIntermediateDirectories:YES attributes:nil error:&_error];
-        }
-        
-        if (!ok) 
-        {
-            *error = [[_error copy] autorelease];
-            
-            
-            return NO;
-        }
-    }
-    else if ([[properties objectForKey:NSURLIsDirectoryKey] boolValue] != YES)
-    {
-        NSString *failureDescription = [NSString stringWithFormat:@"Expected a folder to store application data, found a file (%@).", [url path]]; 
-        
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-        _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:101 userInfo:dict];
-        *error = [[_error copy] autorelease];
-        
-        return NO;
-    }
-    
-    NSManagedObjectModel *mom = [self managedObjectModel];
-    if (!mom) 
-    {
-        NSLog(@"%@:%@ No model to generate a store from", [self class], NSStringFromSelector(_cmd));
-        
-        NSString *failureDescription = [NSString stringWithFormat:@"No model to generate a store from.", [url path]]; 
-        
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-        _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:103 userInfo:dict];
-        *error = [[_error copy] autorelease];
-        
-        return NO;
-    }
-    
-    if(__databaseURL)
-    {
-        [__databaseURL relativePath], __databaseURL=nil; 
-    }
-    __databaseURL = [url copy];
-    
-    NSManagedObjectContext* moc = [self managedObjectContext];
-    if(!moc)
-    {
-        NSString *failureDescription = [NSString stringWithFormat:@"Database does not exist.", [url path]]; 
-        
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-        _error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:104 userInfo:dict];
-        *error = [[_error copy] autorelease];
-        
-        return NO;
-    }
-    
-    
-    return YES;
-}
-
-- (BOOL)_isValidDatabase:(NSURL*)url error:(NSError**)error
-{
-    NSError* backupError;
-    if(error==NULL) error=&backupError;
-    
-    NSDictionary *properties = [url resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:error];
-    if(!properties)
-    {
-        return NO;
-    }
-    else if ([[properties objectForKey:NSURLIsDirectoryKey] boolValue] != YES) 
-    {
-        NSString *failureDescription = [NSString stringWithFormat:@"Expected a folder to store application data, found a file (%@).", [url path]]; 
-        
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:101 userInfo:dict];
-        
-        return NO;
-    }
-    
-    NSURL *databaseFileUrl = [url URLByAppendingPathComponent:OEDatabaseFileName];
-    properties = [databaseFileUrl resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:error];
-    if(!properties)
-    {
-        return YES;
-    }
-    else if([[properties objectForKey:NSURLIsDirectoryKey] boolValue] == YES)
-    {
-        NSString *failureDescription = [NSString stringWithFormat:@"Expected a file to store application data, found a folder (%@).", [url path]]; 
-        
-        NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-        [dict setValue:failureDescription forKey:NSLocalizedDescriptionKey];
-        *error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:102 userInfo:dict];
-        
-        return NO;
-    }
-    
-    return YES;
 }
 @end

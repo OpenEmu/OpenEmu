@@ -11,15 +11,13 @@
 @class OELibraryDatabase, OESidebarOutlineView;
 @interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>
 {
-@private	
-	NSArray* groups;
-	OELibraryDatabase* database;
-	
-	NSArray* systems, *collections;
-@private	
-	id editingItem;
+@private
+    NSArray* groups;
+    OELibraryDatabase* database;
     
-    IBOutlet NSButton	* addCollectionBtn;
+    NSArray* systems, *collections;
+@private
+    id editingItem;
 }
 - (IBAction)addCollectionAction:(id)sender;
 

@@ -10,10 +10,11 @@
 #import "OESystemPlugin.h"
 #import "OELibraryDatabase.h"
 @implementation OEDBSystem
-+ (id)createSystemFromPlugin:(OESystemPlugin*)plugin inDatabase:(OELibraryDatabase*)database{
-	NSString* systemIdentifier = [plugin systemIdentifier];
++ (id)createSystemFromPlugin:(OESystemPlugin*)plugin inDatabase:(OELibraryDatabase*)database
+{
+    NSString* systemIdentifier = [plugin systemIdentifier];
 	OEDBSystem* system = [database systemWithIdentifier:systemIdentifier];
-	
+    
 	if(system) return system;
 	
 	NSManagedObjectContext* moc = [database managedObjectContext];
@@ -43,12 +44,12 @@
 - (NSImage*)icon{
     NSString* locName = [self name];
     NSImage* image = [NSImage imageNamed:locName];
-        
+    
     return image;
 }
 
 - (NSString*)name{
-   
+    
 	return [[self plugin] systemName];
 }
 

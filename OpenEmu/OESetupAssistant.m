@@ -28,8 +28,7 @@
 #import "OESetupAssistant.h"
 
 #import "OECorePlugin.h"
-
-
+#import "OEMainWindowController.h"
 @implementation OESetupAssistant
 
 @synthesize searchResults;
@@ -45,18 +44,27 @@
 @synthesize resultFinishedLabel;
 @synthesize resultController;
 @synthesize dontSearchCommonTypes;
-@synthesize libraryController;
 
 - (id)init
 {
     NSLog(@"Init Assistant");
     
-    self = [self initWithWindowNibName:@"OESetupAssistant"];
-    if (self) 
+    self = [self initWithNibName:[self nibName] bundle:[NSBundle mainBundle]];
+    if (self)
     {
     }
     
     return self;
+}
+
+- (void)dealloc {
+    NSLog(@"Dealloc Assistant");
+    
+    [super dealloc];
+}
+
+- (NSString*)nibName{
+    return @"OESetupAssistant";
 }
 
 - (void) awakeFromNib
@@ -69,12 +77,12 @@
     self.transition.subtype = kCATransitionFromRight;
     self.transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
     self.transition.duration = 1.0;
-
-	CGColorRef colorRef = CGColorCreateGenericGray(0.129, 1.0);
+    
+    CGColorRef colorRef = CGColorCreateGenericGray(0.129, 1.0);
     [[[self.replaceView superview] layer] setBackgroundColor:colorRef];
-	
+    
     [[self.replaceView layer] setBackgroundColor:colorRef];
-	CGColorRelease(colorRef);
+    CGColorRelease(colorRef);
     
     [self.replaceView setWantsLayer:YES];
     
@@ -83,9 +91,6 @@
     [[self.replaceView animator] addSubview:step1];
     
     [self.resultController setContent:self.searchResults];
-    
-    [[self window] center];
-    [[self window] makeKeyAndOrderFront:nil];
 }
 
 - (IBAction) backToStep1:(id)sender
@@ -162,7 +167,11 @@
 
 - (IBAction)discoverRoms:(id)sender
 {
-
+#warning OESetupAssistant actual importing is deactivated here 
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:UDSetupAssistantHasRun];
+    [[self windowController] setCurrentContentController:nil];
+    return;
+    
     NSMutableArray* supportedFileExtensions = [[OECorePlugin supportedTypeExtensions] mutableCopy];
     
     if([dontSearchCommonTypes state] == NSOnState)
@@ -173,7 +182,7 @@
     }
     
     NSLog(@"Supported search Extensions are: %@", supportedFileExtensions);
-
+    
     NSString* searchString = @"";
     for(NSString* extension in supportedFileExtensions)
     {
@@ -188,7 +197,7 @@
     NSLog(@"SearchString: %@", searchString);
     
     MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (CFStringRef)searchString, NULL, NULL);
-            
+    
     if(searchQuery)
     {
         NSLog(@"Valid search query ref");
@@ -209,9 +218,9 @@
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
                                                      name:(NSString*)kMDQueryDidUpdateNotification
                                                    object:(id)searchQuery];
-    
+        
         MDQuerySetSearchScope(searchQuery, (CFArrayRef) [NSArray arrayWithObject:(NSString*) kMDQueryScopeComputer], 0);
-                
+        
         if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
             NSLog(@"Searching for importable roms");
         
@@ -224,7 +233,7 @@
 - (void) updateSearchResults:(NSNotification*)notification
 {    
     MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
-
+    
     MDItemRef resultItem = NULL;
     NSString* resultPath = nil;
     
@@ -235,7 +244,7 @@
     {
         resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
         resultPath = (NSString*)MDItemCopyAttribute(resultItem, kMDItemPath);
-    
+        
         NSArray* dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
                                                         @"System",
                                                         @"Library",
@@ -260,14 +269,14 @@
             if(![[self.resultController content] containsObject:resultPath])
             {
                 NSMutableDictionary* resultDict = [NSMutableDictionary dictionary];
-
+                
                 [resultDict setValue:resultPath forKey:@"Path"];
                 [resultDict setValue:[[resultPath lastPathComponent] stringByDeletingPathExtension] forKey:@"Name"];
                 
                 [self.resultController addObject:resultDict];
             }
         }
-
+        
         [resultPath release];
         resultPath = nil;    
     } 
@@ -276,7 +285,7 @@
 - (void) finalizeSearchResults:(NSNotification*)notification
 {
     MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
-
+    
     NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
     
     [self.resultFinishedLabel setStringValue:[NSString stringWithFormat:@"Found %i Games", [[self.resultController content] count], nil]]; 
@@ -288,17 +297,16 @@
 
 - (IBAction) import:(id)sender;
 {
-    [[self window] close];
-    
     NSMutableArray* URLS = [NSMutableArray array];
     
     for(NSDictionary* searchResult in self.searchResults)
     {
         [URLS addObject:[NSURL fileURLWithPath:[searchResult objectForKey:@"Path"]]];
     }
-        
-    [libraryController startImportSheet:URLS];
+    
+    NSLog(@"OESetupAssistant import: need to used new import method");
+    NSWindow* win = [[self view] window];
+    OEMainWindowController* controller = (OEMainWindowController*)[win windowController];
+    [controller setCurrentContentController:self];
 }
-
-
 @end

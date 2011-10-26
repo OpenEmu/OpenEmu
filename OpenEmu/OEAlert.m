@@ -27,7 +27,6 @@
 
 + (id)alertWithError:(NSError*)error
 {
-#warning Implement!
     return nil;
 }
 + (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString*)defaultButtonLabel alternateButton:(NSString*)alternateButtonLabel
@@ -188,6 +187,7 @@
     
     [textView setString:_messageText];
     [darkBox addSubview:textView];
+    [textView release];
     
     // Setup suppression button
     if(self.showsSuppressionButton)

@@ -28,9 +28,8 @@
 #import <Cocoa/Cocoa.h>
 #import <Quartz/Quartz.h>
 
-#import "OELibraryController.h"
-
-@interface OESetupAssistant : NSWindowController
+#import "OEMainWindowContentController.h"
+@interface OESetupAssistant : OEMainWindowContentController
 {
 }
 
@@ -49,8 +48,6 @@
 @property (readwrite, retain) IBOutlet NSTextField* resultFinishedLabel;
 @property (readwrite, retain) IBOutlet NSTableView* resultTableView;
 @property (readwrite, retain) IBOutlet NSArrayController* resultController;
-
-@property (readwrite, retain) IBOutlet OELibraryController* libraryController;
 
 - (void) goForwardToView:(NSView*)view;
 - (void) goBackToView:(NSView*)view;

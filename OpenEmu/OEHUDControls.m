@@ -13,32 +13,31 @@
 #import "OEHUDButtonCell.h"
 #import "OEHUDSlider.h"
 
-#import "OENewGameDocument.h"
 #import "OEMenu.h"
 #import "OEDBRom.h"
 
 #import "OECompositionPlugin.h"
+#import "OEGameViewController.h"
 @implementation OEHUDControlsWindow
 @synthesize lastMouseMovement;
-- (id)initWithGameDocument:(OENewGameDocument*)doc
+@synthesize gameViewController;
+- (id)initWithGameViewController:(OEGameViewController*)controller
 {
     BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:UDHUDHideOptionsKey];
     self = [super initWithContentRect:NSMakeRect(0, 0, 431+(hideOptions?0:50), 45) styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:YES];
     if (self) 
     {
         [self setMovableByWindowBackground:YES];
-        
-        self.gameDocument = doc;
-        
         [self setOpaque:NO];
         [self setBackgroundColor:[NSColor clearColor]];
+        [self setAlphaValue:0.0];
+        
+        [self setGameViewController:controller];
         
         OEHUDControlsView* controlsView = [[OEHUDControlsView alloc] initWithFrame:NSMakeRect(0, 0, 431+(hideOptions?0:50), 45)];
         [[self contentView] addSubview:controlsView];
         [controlsView setupControls];
         [controlsView release];
-        
-        [self setAlphaValue:0.0];
         
         eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:^(NSEvent*incomingEvent)
                         {
@@ -49,6 +48,7 @@
     }
     return self;
 }
+
 - (void)dealloc
 {    
     [fadeTimer invalidate];
@@ -56,6 +56,8 @@
     fadeTimer = nil;
     
     [lastMouseMovement release];
+    
+    [self setGameViewController:nil];
     
     [NSEvent removeMonitor:eventMonitor];
     [eventMonitor release];
@@ -79,7 +81,7 @@
 {
     NSWindow *parentWindow = self.parentWindow;
     NSPoint mouseLoc = [NSEvent mouseLocation];
-    if(!NSPointInRect(mouseLoc, [parentWindow convertRectToScreen:[(NSView*)self.gameDocument.gameView frame]])) return;
+    if(!NSPointInRect(mouseLoc, [parentWindow convertRectToScreen:[(NSView*)[[self gameViewController] view] frame]])) return;
     
     if(self.alphaValue==0.0)
     {
@@ -140,38 +142,38 @@
 {
     id slider = [(OEHUDControlsView*)[self.contentView subviews].lastObject  slider];
     [slider setFloatValue:0.0];
-    [self.gameDocument setVolume:0.0];
+    [[self gameViewController] setVolume:0.0];
 }
 - (void)unmuteAction:(id)sender
 {
     id slider = [(OEHUDControlsView*)[self.contentView subviews].lastObject  slider];
     [slider setFloatValue:1.0];
-    [self.gameDocument setVolume:1.0];
+    [[self gameViewController] setVolume:1.0];
 }
 
 - (void)resetAction:(id)sender
 {
-    [self.gameDocument resetGame];
+    [[self gameViewController] resetGame];
 }
 
 - (void)playPauseAction:(id)sender
 {
-    [self.gameDocument setPauseEmulation:![self.gameDocument isEmulationPaused]];
+    [[self gameViewController] setPauseEmulation:![[self gameViewController] isEmulationPaused]];
 }
 
 - (void)stopAction:(id)sender
 {
-    [self.gameDocument terminateEmulation];
+    [[self gameViewController] terminateEmulation];
 }
 
 - (void)fullscreenAction:(id)sender
 {
-    [[self parentWindow] toggleFullScreen:nil];
+    [[self gameViewController] toggleFullScreen];
 }
 
 - (void)volumeAction:(id)sender
 {
-    [self.gameDocument setVolume:[sender floatValue]];
+    [[self gameViewController] setVolume:[sender floatValue]];
 }
 
 - (void)optionsAction:(id)sender{
@@ -248,7 +250,7 @@
     [item release];
     
     NSArray* saveStates;
-    if(self.gameDocument.rom && (saveStates=[self.gameDocument.rom saveStatesByTimestampAscending:YES]) && [saveStates count])
+    if([[self gameViewController] rom] && (saveStates=[[[self gameViewController] rom] saveStatesByTimestampAscending:YES]) && [saveStates count])
     {
         [menu addItem:[NSMenuItem separatorItem]];
         for(id saveState in saveStates)
@@ -292,19 +294,19 @@
 }
 - (void)doLoadState:(id)stateItem
 {
-    [self.gameDocument loadState:[stateItem representedObject]];
+    [[self gameViewController] loadState:[stateItem representedObject]];
     
     [self hide];
 }
 
 - (void)doDeleteState:(id)stateItem
 {
-    [self.gameDocument deleteState:[stateItem representedObject]];
+    [[self gameViewController] deleteState:[stateItem representedObject]];
 }
 
 - (void)doSaveState:(id)sender
 {
-    [self.gameDocument saveStateAskingUser:nil];
+    [[self gameViewController] saveStateAskingUserForName:nil];
 }
 
 - (void)stateNameAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
@@ -314,7 +316,7 @@
     if (returnCode == NSAlertDefaultReturn) 
     {
         [input validateEditing];
-        [self.gameDocument saveState:[input stringValue]];
+        [[self gameViewController] saveStateWithName:[input stringValue]];
     } 
     else if (returnCode == NSAlertAlternateReturn) 
     {
@@ -324,7 +326,6 @@
     }
 }
 #pragma mark -
-@synthesize gameDocument;
 @end
 
 @implementation OEHUDControlsView

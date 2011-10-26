@@ -1,141 +1,139 @@
 //
-//  OENewGameDocument.m
+//  OEGameViewController.m
 //  OpenEmu
 //
-//  Created by Carl Leimbrock on 05.09.11.
+//  Created by Carl Leimbrock on 25.10.11.
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
-#import "OENewGameDocument.h"
+#import "OEGameViewController.h"
+
+#import "OEDBRom.h"
+#import "OEDBGame.h"
+
+#import "OEGameView.h"
+#import "OEGameCoreHelper.h"
+#import "OEGameCoreManager.h"
+#import "OECorePickerController.h"
 
 #import "OESystemPlugin.h"
-#import "OECorePlugin.h"
-#import "OEGameLayer.h"
-#import "OEGameView.h"
-#import "OEGameCore.h"
-
-#import "NSApplication+OEHIDAdditions.h"
-#import "OEHIDEvent.h"
-#import "OEGameCoreController.h"
-#import "OEGameQTRecorder.h"
-#import "OECorePickerController.h"
-#import "OEGameCoreManager.h"
 #import "OESystemResponder.h"
 #import "OESystemController.h"
-
-#import "OEGameCoreHelper.h"
-
-#import "NSString+UUID.h"
-#import "OEHUDControls.h"
-#import "OEHUDGameWindow.h"
+#import "OECorePlugin.h"
 
 #import "OEDBSaveState.h"
-#import "OEDBRom.h"
-
+#import "OEHUDControls.h"
+@interface OEGameViewController (Private)
+- (BOOL)_setupGameDocument;
++ (OEDBRom*)_choseRomFromGame:(OEDBGame*)game;
+- (NSString *)_convertToValidFileName:(NSString *)fileName;
+- (BOOL)loadFromURL:(NSURL*)aurl error:(NSError**)outError;
+- (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError;
+@end
 #define OESaveStatePath (NSString*)^{\
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);\
 NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();\
 NSString* saveStateFolderName = [[NSUserDefaults standardUserDefaults] valueForKey:UDSaveStateFolderNameKey];\
 return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPathComponent:saveStateFolderName];\
 }()
+@implementation OEGameViewController
 
-@interface OENewGameDocument (Private)
-- (void)_setup;
-- (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError;
-- (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError;
-
-- (NSString *)_convertToValidFileName:(NSString *)fileName;
-- (void)_setURL:(NSURL*)aURL;
-- (void)_setROM:(id)aRom;
-@end
-@implementation OENewGameDocument
-@synthesize url, rom, delegate=_delegate;
-+ (id)newDocumentWithROM:(id)aRom error:(NSError**)error
+- (id)initWithWindowController:(OEMainWindowController*)aWindowController andRom:(OEDBRom*)rom
 {
-	id result = [[self alloc] init];
-	
-	[result _setROM:aRom];
-	
-	[aRom setValue:[NSDate date] forKey:@"lastPlayed"];
-	NSString* path = [aRom valueForKey:@"path"];
-	
-	if(!path){
-		[result release];
-		return nil;
-	}
-	
-	[result _setup];
-	NSURL* url = [NSURL fileURLWithPath:path];
-	if(![result loadFromURL:url error:error])
+    self = [super initWithWindowController:aWindowController];
+    if(self)
     {
-		[result release];
-		return nil;
-	}
-	
-	return result;
+        [self setRom:rom];
+        
+        [[self rom] setValue:[NSDate date] forKey:@"lastPlayed"];
+        NSString* path = [[self rom] valueForKey:@"path"];
+        
+        if(!path){
+            [self release];
+            self = nil;
+            return nil;
+        }
+        
+        
+        gameView = [[OEGameView alloc] initWithFrame:(NSRect){{0,0},{1,1}}];
+        controlsWindow = [[OEHUDControlsWindow alloc] initWithGameViewController:self];
+        
+        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self selector:@selector(viewDidMoveToWindow:) name:@"OEGameViewDidMoveToWindow" object:nil];
+        [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:gameView];
+        
+        NSURL* url = [NSURL fileURLWithPath:path];
+        NSError* error = nil;
+        if(![self loadFromURL:url error:&error])
+        {
+            [self release];
+            self = nil;
+            
+            [NSApp presentError:error];
+            return nil;
+        }
+        
+    }
+    return self;
 }
 
-+ (id)newDocumentWithRomAtURL:(NSURL*)aUrl error:(NSError**)error
+- (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)game
 {
-	id result = [[self alloc] init];
-	
-	[result _setURL:aUrl];
-	[result _setup];
-	if(![result loadFromURL:aUrl error:error])
-    {
-		[result release];
-		return nil;
-	}
-	
-	return result;
+    OEDBRom* rom = [OEGameViewController _choseRomFromGame:game];
+    [self setRom:rom];
+    return [self initWithWindowController:aWindowController andRom:rom];
 }
 
-- (void)dealloc
+- (BOOL)_setupGameDocument
 {
-	NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-	[nc removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
+    
+    return YES;
+}
+
+- (void)dealloc {
+    [self setRom:nil];
+    
+    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    [nc removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
     [nc removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
-	[nc removeObserver:self name:@"OEGameViewDidMoveToWindow" object:nil];
-	
-    [controlsWindow close];
-	[controlsWindow release], controlsWindow = nil;
-	[gameView release], gameView = nil;
-	
-	[rom release], rom = nil;
-	[url release], url = nil;
+    [nc removeObserver:self name:@"OEGameViewDidMoveToWindow" object:nil];
     
-	[super dealloc];
+    [controlsWindow close];
+    [controlsWindow release], controlsWindow = nil;
+    [gameView release], gameView = nil;
+    
+    
+    [super dealloc];
 }
 #pragma mark -
-#pragma mark Displaying
-- (void)openWindow:(NSRect)contentFrame
+- (void)contentWillShow
 {
-    self.delegate = self;
     
-	OEHUDGameWindow* gameWindow = [[OEHUDGameWindow alloc] initWithContentRect:contentFrame andGameDocument:self];
-	[gameWindow makeKeyAndOrderFront:self];
-    [gameWindow center];
-	// TODO: check if we default to fullscreen, then go fullscreen
+}
+- (void)contentWillHide
+{
+    [self terminateEmulation];
 }
 
-- (OEGameView*)gameView
+#pragma mark -
+- (NSView*)view
 {
-	return gameView;
+    return (NSView*)gameView;
 }
 #pragma mark -
-#pragma mark Emulation State
+#pragma mark Controlling Emulation
+#pragma mark -
 - (void)resetGame
 {
     [[rootProxy gameCore] resetEmulation];
-	// TODO: draw one frame to reflect reset
+    // TODO: draw one frame to reflect reset
 }
-
 - (void)terminateEmulation
-{    
+{
     if(!emulationRunning) return;
     
     emulationRunning = NO;
-	[gameView setRootProxy:nil];
+    [gameView setRootProxy:nil];
     [gameView setGameResponder:nil];
     
     [gameController removeSettingObserver:[rootProxy gameCore]];
@@ -157,41 +155,50 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     [gameController release];
     gameController = nil;
     
-    [emulatorName release];
-    emulatorName = nil;
-    
-    if(self.delegate && [self.delegate respondsToSelector:@selector(gameDocumentDidTerminateEmulation:)])
-        [self.delegate performSelector:@selector(gameDocumentDidTerminateEmulation:) withObject:self];
+    // if windowcontroller is set
+    if([self windowController])
+        // tell it to show its default controller
+        [[self windowController] setCurrentContentController:nil];
 }
 
 - (void)pauseGame
 {
-	[self setPauseEmulation:YES];
+    [self setPauseEmulation:YES];
 }
-
 - (void)playGame
 {
-	[self setPauseEmulation:NO];
+    [self setPauseEmulation:NO];
 }
-
 - (BOOL)isEmulationPaused
 {
-	return [rootProxy isEmulationPaused];
+    return [rootProxy isEmulationPaused];
 }
 
 - (void)setPauseEmulation:(BOOL)flag
 {
-	[rootProxy setPauseEmulation:flag];
-	// TODO: Update HUD Button state
+    [rootProxy setPauseEmulation:flag];
+    // TODO: Update HUD Button state
+    
 }
-
 - (void)setVolume:(float)volume
 {
-	[rootProxy setVolume:volume];
-	[[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:UDVolumeKey];
+    [rootProxy setVolume:volume];
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:UDVolumeKey];
+}
+- (void)toggleFullscreen
+{
+    if([self windowController])
+        [[[self windowController] window] toggleFullScreen:self];
+    else 
+        [[[self view] window] toggleFullScreen:self];
 }
 #pragma mark -
-#pragma mark Save States
+- (void)loadState:(id)state
+{
+    NSString* path = [state valueForKey:@"path"];
+    [self loadStateFromFile:path error:nil];
+}
+
 - (void)deleteState:(id)state
 {
     // TODO: use OEAlert once it's been written
@@ -221,14 +228,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         [moc save:nil];
     }
 }
-
-- (void)loadState:(id)state
-{
-    NSString* path = [state valueForKey:@"path"];
-    [self loadStateFromFile:path error:nil];
-}
-
-- (void)saveStateAskingUser:(NSString *)proposedName
+- (void)saveStateAskingUserForName:(NSString*)proposedName
 {
     [self pauseGame];
     
@@ -242,7 +242,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     
     NSString* name = nil;
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDNameStateByDateKey])
-    {	        
+    {        
         NSAlert* alert = [NSAlert alertWithMessageText:@"Save Satate" defaultButton:@"Save" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Enter a description for this save state"];
         
         NSTextField* field = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 240, 22)];
@@ -255,16 +255,14 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         [field release];
         
         [alert setShowsSuppressionButton:YES];
-        
-        [alert beginSheetModalForWindow:self.gameView.window modalDelegate:self didEndSelector:@selector(_stateNameSheetDidEnd:returnCode:) contextInfo:NULL];
+        [alert beginSheetModalForWindow:[[self view] window] modalDelegate:self didEndSelector:@selector(_stateNameSheetDidEnd:returnCode:) contextInfo:NULL];
     } 
     else 
     {
-        [self saveState:name];
+        [self saveStateWithName:name];
     }
 }
-
-- (void)saveState:(NSString*)stateName
+- (void)saveStateWithName:(NSString*)stateName
 {
     if(!self.rom)
     {
@@ -274,22 +272,22 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     }
     [self pauseGame];
     
-    NSString* systemIdentifier		= [[rootProxy gameCore] systemIdentifier];
-    NSURL* systemSaveDirectoryURL	= [NSURL fileURLWithPath:[OESaveStatePath stringByAppendingPathComponent:systemIdentifier]];
+    NSString* systemIdentifier= [[rootProxy gameCore] systemIdentifier];
+    NSURL* systemSaveDirectoryURL= [NSURL fileURLWithPath:[OESaveStatePath stringByAppendingPathComponent:systemIdentifier]];
     
     NSError* err = nil;
     BOOL success = [[NSFileManager defaultManager] createDirectoryAtURL:systemSaveDirectoryURL withIntermediateDirectories:YES attributes:nil error:&err];
     if(!success)
     {
         // TODO: inform user
-        NSLog(@"could not create save state directory");		
+        NSLog(@"could not create save state directory");
         NSLog(@"%@", err);
         [self playGame];
         return;
     }
     
     NSString* fileName = stateName;
-    if(!fileName) fileName = [NSString stringWithFormat:@"%@", [NSDate date]];	
+    if(!fileName) fileName = [NSString stringWithFormat:@"%@", [NSDate date]];
     fileName = [self _convertToValidFileName:fileName];
     
     NSURL* saveStateURL = [[systemSaveDirectoryURL URLByAppendingPathComponent:fileName] URLByAppendingPathExtension:@"oesavestate"];
@@ -306,7 +304,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     if(!success)
     {
         // TODO: inform user
-        NSLog(@"could not write file");		
+        NSLog(@"could not write file");
         NSLog(@"%@", err);
         [self playGame];
         return;
@@ -323,7 +321,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     
     [self captureScreenshotUsingBlock:^(NSImage *img) 
      {
-         NSData* imgData = [img TIFFRepresentation];		
+         NSData* imgData = [img TIFFRepresentation];
          [saveState setValue:imgData forKey:@"screenshot"];
      }];
     
@@ -332,6 +330,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 
 - (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error
 {
+    // TODO: implement if we want this
     return YES;
 }
 - (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error
@@ -339,42 +338,47 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     if(error!=NULL) *error = nil;
     return [[rootProxy gameCore] loadStateFromFileAtPath:fileName];;
 }
-
 #pragma mark -
-#pragma mark Recording
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage* img))block
 {
-    [self.gameView captureScreenshotUsingBlock:block];
+    [(OEGameView*)[self view] captureScreenshotUsingBlock:block];
 }
+
+#pragma mark -
+#pragma mark Menu Items
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+    NSInteger tag = [menuItem tag];
+    
+    return (tag >= MainMenu_Controls_VolumeUp && tag <= MainMenu_Controls_ResumeEmulation);
+}
+- (void)menuItemAction:(id)sender
+{
+    NSInteger tag = [sender tag];
+    switch (tag) 
+    {
+        case MainMenu_Controls_VolumeUp: break;
+        case MainMenu_Controls_VolumeDown: break;
+        case MainMenu_Controls_SaveState: break;
+        case MainMenu_Controls_LoadState: break;
+        case MainMenu_Controls_PauseEmulation: break;
+        case MainMenu_Controls_ResumeEmulation: break;
+        default:
+            break;
+    }
+}
+
+- (void)setupMenuItems
+{}
 
 #pragma mark -
 #pragma mark Private Methods
-#pragma mark -
-
-- (void)_setURL:(NSURL*)aURL
++ (OEDBRom*)_choseRomFromGame:(OEDBGame*)game
 {
-    url = [aURL retain];
+    NSSet* roms = [game valueForKey:@"roms"];
+    NSLog(@"%@", [roms className]);
+    return [roms anyObject];
 }
-- (void)_setROM:(id)aRom
-{
-    rom = [aRom retain];
-}
-
-- (void)_setup
-{
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-    [nc addObserver:self selector:@selector(applicationWillTerminate:)
-               name:NSApplicationWillTerminateNotification
-             object:NSApp];
-    
-    gameView = [[OEGameView alloc] initWithFrame:NSZeroRect];
-    
-    controlsWindow = [[OEHUDControlsWindow alloc] initWithGameDocument:self];
-    
-    [nc addObserver:self selector:@selector(viewDidMoveToWindow:) name:@"OEGameViewDidMoveToWindow" object:nil];
-    [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:gameView];
-}
-
 - (BOOL)loadFromURL:(NSURL*)aurl error:(NSError**)outError
 {
     NSString *romPath = [aurl path];
@@ -387,7 +391,6 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         if(plugin == nil) return NO;
         
         gameController = [[plugin controller] retain];
-        emulatorName = [[plugin displayName] retain];
         
         Class managerClass = ([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.gameCoreInBackgroundThread"] boolValue]
                               ? [OEGameCoreThreadManager  class]
@@ -396,7 +399,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         gameCoreManager = [[managerClass alloc] initWithROMAtPath:romPath corePlugin:plugin owner:gameController error:outError];
         
         if(gameCoreManager != nil)
-        {	
+        {
             rootProxy = [[gameCoreManager rootProxy] retain];
             
             [rootProxy setupEmulation];
@@ -440,11 +443,11 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 {
     NSPoint origin;
     
-    NSWindow *gameWindow = [[self gameView] window];
+    NSWindow *gameWindow = [[self view] window];
     if(!gameWindow) return;
     
     origin = [gameWindow convertBaseToScreen:[gameView frame].origin];
-    origin.x += (gameView.frame.size.width-controlsWindow.frame.size.width)/2;
+    origin.x += ([gameView frame].size.width-[controlsWindow frame].size.width)/2;
     origin.y += 19;
     
     [controlsWindow setFrameOrigin:origin];
@@ -474,11 +477,11 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     if([stateName isEqualToString:@""] || ([[inputField cell] placeholderString] && [[[inputField cell] placeholderString] isEqualToString:stateName]))
     {
         // we want to use the date as name (default behavior)
-        [self saveState:nil];
+        [self saveStateWithName:nil];
     }
     else 
     {
-        [self saveState:stateName];	
+        [self saveStateWithName:stateName];
     }
 }
 #pragma mark -
@@ -494,22 +497,18 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         [[controlsWindow parentWindow] removeChildWindow:controlsWindow];
     }
     
-    NSWindow* window = [gameView window];	
+    NSWindow* window = [gameView window];
     if(window==nil)
     {
         return;
     }
     
     [self _repositionControlsWindow];
-    [window addChildWindow:controlsWindow ordered:NSWindowAbove];
+    [window addChildWindow:(NSWindow*)controlsWindow ordered:NSWindowAbove];
     
     [controlsWindow orderFront:self];
 }
 
-- (void)applicationWillTerminate:(NSNotification*)notification
-{
-    [self terminateEmulation];
-}
 
 #pragma mark -
 #pragma mark Plugin discovery
@@ -540,21 +539,13 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
                       NSLocalizedRecoverySuggestionErrorKey,
                       nil]];
     }
-    
     return ret;
 }
-
-#pragma mark -
-#pragma mark OENewDocumentDelegateProtocol Implementation
-- (void)gameDocumentDidTerminateEmulation:(OENewGameDocument*)doc{
-    [[self.gameView window] close];    
-}
-
 #pragma mark -
 #pragma mark TaskWrapper delegate methods
 - (void)appendOutput:(NSString *)output fromProcess:(OETaskWrapper *)aTask
 {
-    printf("%s", [output UTF8String]);
+    // printf("%s", [output UTF8String]);
 }    
 
 - (void)processStarted:(OETaskWrapper *)aTask
@@ -564,4 +555,5 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 - (void)processFinished:(OETaskWrapper *)aTask withStatus:(NSInteger)statusCode
 {
 }
+@synthesize rom;
 @end

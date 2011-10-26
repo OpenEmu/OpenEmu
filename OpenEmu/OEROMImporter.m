@@ -63,7 +63,6 @@
     {
         // if we do not run on main thread it is very possible that bg and outError hold garbage!
         NSError* error = nil;
-        bg = NO;
         outError = &error;
     } 
     else if(bg)
@@ -289,7 +288,7 @@
             i++;
             newPath = [unsortedFolderPath stringByAppendingFormat:@"/%@ %d.%@", [fileName stringByDeletingPathExtension], i, [fileName pathExtension]];
         }
-                
+        
         if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:newPath error:&error])
         {
             NSLog(@"Error! Could not copy rom to database folder");
@@ -338,11 +337,11 @@
             [rom.managedObjectContext save:nil];
             
             [[NSNotificationCenter defaultCenter] postNotificationName:@"OEDBStatusChanged" object:self userInfo:[NSDictionary dictionaryWithObject:romID forKey:@"newRomID"]];
-           
+            
             
             self.queueCount--;
         });
-
+        
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"OEDBGameAdded" object:self userInfo:[NSDictionary dictionaryWithObject:romID forKey:@"newRomID"]];
     
