@@ -35,10 +35,7 @@
 
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
-    if(newWindow == nil)
-    {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];        
-    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];        
 }
 @end
 
@@ -54,7 +51,8 @@
     }
     return self;
 }
-- (void)awakeFromNib{
+- (void)awakeFromNib
+{
 }
 
 + (void)initialize

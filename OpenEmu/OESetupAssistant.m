@@ -77,6 +77,20 @@
     [[self keyMapView] setKey:OESetupAssistantKeyQuestionMark];
 }
 
+- (void)contentWillShow
+{
+    NSWindow* window = [[self windowController] window];
+    [window setMovableByWindowBackground:YES];
+    [[self windowController] setAllowWindowResizing:NO];
+}
+
+- (void)contentWillHide
+{
+    NSWindow* window = [[self windowController] window];
+    [window setMovableByWindowBackground:NO];
+    [[self windowController] setAllowWindowResizing:YES];
+}
+
 @synthesize back, skip, next;
 @synthesize keyMapView;
 #pragma mark -

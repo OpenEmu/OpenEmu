@@ -99,7 +99,10 @@
 - (void)startDownload:(id)sender
 {
     NSURLRequest  *request      = [NSURLRequest requestWithURL:[appcastItem fileURL]];
-    NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:(id <NSURLDownloadDelegate>)self] autorelease];
+    
+    id <NSURLDownloadDelegate> urlDLDelegate = self;
+    
+    NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:urlDLDelegate] autorelease];
     downloading = YES;
     
     [[self delegate] OEDownloadDidStart:self];

@@ -462,11 +462,10 @@
 - (void)layoutToolbarItems
 {
     OEMainWindowController* windowController = [self windowController];
-    NSWindow* window = [windowController window];
     NSView* toolbarItemContainer = [[windowController toolbarSearchField] superview]; 
     
     float splitterPosition =[[self mainSplitView] splitterPosition];
-    float width = [window frame].size.width-splitterPosition, height = 44.0;
+    float width = [[[self mainSplitView] rightContentView] frame].size.width, height = 44.0;
     
     NSRect toolbarFrame = (NSRect){{splitterPosition, 0},{width, height}};
     [toolbarItemContainer setFrame:toolbarFrame];

@@ -14,30 +14,38 @@
 static NSColor* cellEditingFillColor, *textColor, *cellSelectedTextColor, *strokeColor;
 static NSGradient* highlightGradient, *normalGradient;
 
-- (id)initWithCoder:(NSCoder *)aDecoder{
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
     self = [super initWithCoder:aDecoder];
-    if (self) {
-		if(!cellEditingFillColor){
+    if (self) 
+	{
+		if(!cellEditingFillColor)
+		{
 			cellEditingFillColor = [[NSColor greenColor] retain];
 		}
 		
-		if(!textColor){
+		if(!textColor)
+		{
 			textColor = [[NSColor whiteColor] retain];
 		}
 		
-		if(!cellSelectedTextColor){
+		if(!cellSelectedTextColor)
+		{
 			cellSelectedTextColor = [[NSColor whiteColor] retain];
 		}
 		
-		if(!highlightGradient){
+		if(!highlightGradient)
+		{
 			highlightGradient = [[NSGradient alloc] initWithStartingColor:[NSColor greenColor] endingColor:[NSColor magentaColor]];
 		}
 		
-		if(!strokeColor){
+		if(!strokeColor)
+		{
 			strokeColor = [[NSColor blackColor] retain];
 		}
 		
-		if(!normalGradient){
+		if(!normalGradient)
+		{
 			NSColor* c1 = [NSColor colorWithDeviceWhite:0.29 alpha:1.0];
 			NSColor* c2 = [NSColor colorWithDeviceWhite:0.18 alpha:1.0];
 			normalGradient = [[NSGradient alloc] initWithStartingColor:c1 endingColor:c2];
@@ -50,8 +58,9 @@ static NSGradient* highlightGradient, *normalGradient;
 		[self setFocusRingType:NSFocusRingTypeNone];
 		
 		[self setRowHeight:17];
-
-		for (NSTableColumn* aColumn in [self tableColumns]) {
+		
+		for (NSTableColumn* aColumn in [self tableColumns]) 
+		{
 			OETableHeaderCell *newHeader = [[OETableHeaderCell alloc] initTextCell:[[aColumn headerCell] stringValue]];
 			[newHeader setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11]];
 			[aColumn setHeaderCell: newHeader];
@@ -61,11 +70,13 @@ static NSGradient* highlightGradient, *normalGradient;
     
     return self;
 }
-- (void)awakeFromNib{
+- (void)awakeFromNib
+{
 	[self setCornerView:[[[OETableCornerView alloc] init] autorelease]];
 }
 
-- (void)drawBackgroundInClipRect:(NSRect)clipRect{
+- (void)drawBackgroundInClipRect:(NSRect)clipRect
+{
 	NSColor* rowBackground = [NSColor colorWithDeviceWhite:0.059 alpha:1.0];
 	NSColor* alternateRowBackground = [NSColor colorWithDeviceWhite:0.114 alpha:1.0];
 	
@@ -75,20 +86,25 @@ static NSGradient* highlightGradient, *normalGradient;
 	[alternateRowBackground setFill];
 	
 	NSRect rect = [self visibleRect];
-	for(float i=[self rowHeight]+[self intercellSpacing].height; i<rect.origin.y+rect.size.height; i+=2*([self rowHeight]+[self intercellSpacing].height)){
+	for(float i=[self rowHeight]+[self intercellSpacing].height; i<rect.origin.y+rect.size.height; i+=2*([self rowHeight]+[self intercellSpacing].height))
+	{
 		NSRect rowRect = NSMakeRect(rect.origin.x, i, rect.size.width, [self rowHeight]+[self intercellSpacing].height);
 		NSRectFill(rowRect);
-	}	
+	}
 }
-- (void)highlightSelectionInClipRect:(NSRect)theClipRect{
+- (void)highlightSelectionInClipRect:(NSRect)theClipRect
+{
 	BOOL isActive = [[self window] isMainWindow] && [[self window] firstResponder] == self;
 	
 	NSColor* fillColor;
 	NSColor* lineColor;
-	if(isActive){
+	if(isActive)
+	{
 		fillColor = self.selectionColor;
 		lineColor = [NSColor colorWithDeviceRed:0.114 green:0.188 blue:0.635 alpha:1.0];
-	} else {
+	} 
+	else 
+	{
 		fillColor = [NSColor colorWithDeviceWhite:0.55 alpha:1.0];
 		lineColor = [NSColor colorWithDeviceWhite:0.35 alpha:1.0];
 	}
@@ -99,13 +115,15 @@ static NSGradient* highlightGradient, *normalGradient;
 	
 	NSUInteger nextIndex = [selectedRows firstIndex];
 	NSUInteger currentIndex = [selectedRows firstIndex];
-	while(currentIndex!=NSNotFound){
+	while(currentIndex!=NSNotFound)
+	{
 		NSRect frame = [self rectOfRow:nextIndex];
 		NSRectFill(frame);
 		
 		nextIndex = [selectedRows indexGreaterThanIndex:currentIndex];
 		
-		if(nextIndex == currentIndex+1){
+		if(nextIndex == currentIndex+1)
+		{
 			[lineColor setFill];
 			frame.origin.y += frame.size.height-1;
 			frame.size.height = 1;
@@ -118,7 +136,8 @@ static NSGradient* highlightGradient, *normalGradient;
 	}
 }
 
-- (void)drawGridInClipRect:(NSRect)aRect{
+- (void)drawGridInClipRect:(NSRect)aRect
+{
 	NSSize gridSize = NSMakeSize(1, [self bounds].size.height);
 	
 	[[NSColor colorWithDeviceRed:0.255 green:0.251 blue:0.255 alpha:1.0] setFill];
@@ -128,7 +147,8 @@ static NSGradient* highlightGradient, *normalGradient;
 	fillRect.origin = aRect.origin;
 	
 	
-	for(NSUInteger i=0; i < [[self tableColumns] count]; i++){
+	for(NSUInteger i=0; i < [[self tableColumns] count]; i++)
+	{
 		NSRect colRect = [self rectOfColumn:i];
 		fillRect.origin.x = colRect.origin.x + colRect.size.width-1;
 		NSRectFill(fillRect);
@@ -138,11 +158,14 @@ static NSGradient* highlightGradient, *normalGradient;
 	NSColor* fillColor;
 	
 	BOOL isActive = [[self window] isMainWindow] && [[self window] firstResponder] == self;
-	if(isActive){
+	if(isActive)
+	{
 		fillColor = [NSColor colorWithDeviceRed:0.235 green:0.455 blue:0.769 alpha:1.0];
-	} else {
+	}
+	else 
+	{
 		fillColor = [NSColor colorWithDeviceWhite:0.33 alpha:1.0];
-	}	
+	}
 	
 	[fillColor setFill];
 	
@@ -150,7 +173,8 @@ static NSGradient* highlightGradient, *normalGradient;
 	
 	NSUInteger nextIndex;
 	NSUInteger currentIndex = [selectedRows firstIndex];
-	while(currentIndex!=NSNotFound){
+	while(currentIndex!=NSNotFound)
+	{
 		NSRect rowfillRect = [self rectOfRow:currentIndex];
 		rowfillRect.size.width = 1;
 		
@@ -159,18 +183,20 @@ static NSGradient* highlightGradient, *normalGradient;
 		if(nextIndex == currentIndex+1)
 			rowfillRect.size.height -= 1;
 		
-		for(NSUInteger i=0; i < [[self tableColumns] count]; i++){
+		for(NSUInteger i=0; i < [[self tableColumns] count]; i++)
+		{
 			NSRect colRect = [self rectOfColumn:i];
 			
 			rowfillRect.origin.x = colRect.origin.x + colRect.size.width-1;
-			NSRectFill(rowfillRect);			
+			NSRectFill(rowfillRect);
 		}
 		
 		currentIndex = nextIndex;
 	}
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
     [super dealloc];
 }
 

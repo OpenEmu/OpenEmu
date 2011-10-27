@@ -9,13 +9,14 @@
 #import <Cocoa/Cocoa.h>
 
 @class OEMainWindowContentController;
-@interface OEMainWindowController : NSWindowController
+@interface OEMainWindowController : NSWindowController <NSWindowDelegate>
 {
     OEMainWindowContentController* currentContentController;
 }
 #pragma mark -
 @property (retain, nonatomic) OEMainWindowContentController* currentContentController;
 @property (retain) OEMainWindowContentController* defaultContentController;
+@property BOOL allowWindowResizing;
 
 #pragma mark -
 #pragma mark Menu Items

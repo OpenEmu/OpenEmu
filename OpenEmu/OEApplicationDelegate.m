@@ -275,6 +275,12 @@
     return [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
 }
 #pragma mark -
+- (IBAction)launchGame:(id)sender
+{    
+    
+    
+}
+#pragma mark -
 #pragma mark Updating
 - (void)updateBundles:(id)sender
 {

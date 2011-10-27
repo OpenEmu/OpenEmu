@@ -32,7 +32,9 @@
     DLog(@"OEMainWindowController windowDidLoad"); 
     [super windowDidLoad];
     
+    [self setAllowWindowResizing:YES];
     [[self window] setWindowController:self];
+    [[self window] setDelegate:self];
     
     // toolbar sidebar button image
     NSImage* image = [NSImage imageNamed:@"toolbar_sidebar_button"];
@@ -90,7 +92,6 @@
     [[self toolbarSlider] setEnabled:NO];
     [[self toolbarSlider] setAction:NULL];
     
-    
     // TODO: tell current controller that it will hide
     [currentContentController contentWillHide];
     [controller contentWillShow];
@@ -106,6 +107,13 @@
     [[self currentContentController] setupMenuItems];
 }
 @synthesize defaultContentController;
+#pragma mark -
+#pragma mark NSWindow delegate
+@synthesize allowWindowResizing;
+- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize{
+    return [self allowWindowResizing] ? frameSize : [sender frame].size;
+}
+
 #pragma mark -
 #pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem

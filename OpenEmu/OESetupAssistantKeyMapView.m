@@ -56,6 +56,11 @@
     
     return self;
 }
+
+- (void)dealloc {
+    [self removeObserver:self forKeyPath:@"key"];
+    [super dealloc];
+}
 #pragma mark -
 - (void)setup
 {

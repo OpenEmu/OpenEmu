@@ -9,7 +9,8 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OETableView : NSTableView {
+@interface OETableView : NSTableView 
+{
 @private
 	NSColor *selectionColor;
 }

@@ -18,6 +18,8 @@
 - (IBAction)showPreferencesWindow:(id)sender;
 
 - (IBAction)updateBundles:(id)sender;
+
+- (IBAction)launchGame:(id)sender;
 @property (retain) IBOutlet NSWindow *aboutWindow;
 @property (retain) IBOutlet NSMenu  *startupMainMenu;
 @property (retain) IBOutlet NSMenu *mainMenu;

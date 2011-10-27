@@ -48,14 +48,6 @@
     self.drawsWindowResizer = YES;
     [self setDelegate:self];
     self.resizesLeftView = NO;
-    
-    [[self leftContentView] addObserver:self forKeyPath:@"frame" options:0 context:nil];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if(object)
-        [[self libConroller] layoutToolbarItems];
 }
 
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)dividerIndex
@@ -114,11 +106,20 @@
     
     [view0 setFrame:leftFrame];
     [view1 setFrame:rightFrame];
+    
+    [[self libConroller] layoutToolbarItems];
 }
+
+- (void)splitViewDidResizeSubviews:(NSNotification *)notification
+{
+    [[self libConroller] layoutToolbarItems];
+}
+
 - (NSRect)splitView:(NSSplitView *)splitView effectiveRect:(NSRect)proposedEffectiveRect forDrawnRect:(NSRect)drawnRect ofDividerAtIndex:(NSInteger)dividerIndex
 {   
     return proposedEffectiveRect;
 }
+
 - (CGFloat)dividerThickness
 {   
     return 0.0;
@@ -129,17 +130,6 @@
     return YES;
 }
 
-- (void)drawRect:(NSRect)dirtyRect
-{
-    /*
-     if(borderRad==0) return;
-     
-     if(!self.drawsWindowResizer) return;
-     // Draw custom resize indicator
-     NSImage* resizerImage = [NSImage imageNamed:@"resizer"];
-     NSRect resizerRect = NSMakeRect(viewRect.size.width-11-4, viewRect.origin.y+viewRect.size.height-11-4, 11, 11);
-     [resizerImage drawInRect:resizerRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1 respectFlipped:YES hints:nil];*/
-}
 
 - (void)drawDividerInRect:(NSRect)rect
 {
@@ -218,14 +208,5 @@
 - (void)replaceRightContentViewWithView:(NSView*)contentView animated:(BOOL)animationFlag
 {
     [self _replaceView:[self rightContentView] withView:contentView animated:animationFlag];
-}
-
-
-#pragma mark -
-#pragma mark Events
-- (void)mouseDown:(NSEvent *)theEvent
-{
-    [super mouseDown:theEvent];
-    return;
 }
 @end

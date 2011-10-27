@@ -15,7 +15,7 @@
     if(![[self cell] isKindOfClass:[OEGlossButtonCell class]])
     {
         NSString* title = [self title];
-        [self setCell:[[OEGlossButtonCell alloc] init]];
+        [self setCell:[[[OEGlossButtonCell alloc] init] autorelease]];
         [self setTitle:title];
     }
 }
@@ -56,10 +56,7 @@
 
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
-    if(newWindow == nil)
-    {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];        
-    }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 #pragma mark -
 - (OEGlossButtonColor)buttonColor
