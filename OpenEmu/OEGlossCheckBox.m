@@ -9,7 +9,11 @@
 #import "OEGlossCheckBox.h"
 #import "NSImage+OEDrawingAdditions.h"
 @implementation OEGlossCheckBox
+- (void)dealloc {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
+    [super dealloc];
+}
 - (void)setupCell
 {
     if(![[self cell] isKindOfClass:[OEGlossCheckBoxCell class]])
