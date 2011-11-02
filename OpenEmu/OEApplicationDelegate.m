@@ -39,6 +39,7 @@
 @dynamic appVersion, projectURL;
 @synthesize startupMainMenu, mainMenu;
 @synthesize coreUpdater;
+@synthesize validExtensions;
 - (id)init
 {
     self = [super init];
@@ -51,6 +52,10 @@
 
 - (void)dealloc 
 {
+    [[OEPlugin class] removeObserver:self forKeyPath:@"allPlugins"];
+    
+    [self setValidExtensions:nil];
+    
     [self setHidManager:nil];
     [self setAboutWindow:nil];
     
@@ -72,8 +77,7 @@
     // Load the plugins now
     [self loadPlugins];
     
-    // preload composition plugins
-    [OECompositionPlugin allPluginNames];
+    [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
     
     // Run Migration Manager
     [[OEVersionMigrationController defaultMigrationController] runMigrationIfNeeded];
@@ -93,6 +97,8 @@
     // TODO: Tell database to rebuild its "processing" queue
     // TODO: and lauch the queue in a while (5.0 seconds?)
     
+    // update extensions
+    [self updateValidExtensions];
     
     // Setup HID Support
     [self setupHIDSupport];
@@ -117,7 +123,6 @@
     else
     {
         [windowController setCurrentContentController:[windowController defaultContentController]];
-        
     }
     [self setMainWindowController:windowController];
     
@@ -237,6 +242,9 @@
     [OEPlugin registerPluginClass:[OECorePlugin class]];
     [OEPlugin registerPluginClass:[OESystemPlugin class]];
     [OEPlugin registerPluginClass:[OECompositionPlugin class]];
+    
+    // Preload composition plugins
+    [OECompositionPlugin allPlugins];
 }
 
 - (void)setupHIDSupport
@@ -311,6 +319,81 @@
 
 #pragma mark -
 #pragma mark App Info
+- (void)updateValidExtensions
+{
+    NSMutableSet *mutableExtensions = [[NSMutableSet alloc] init];
+    
+    // Go through the bundles Info.plist files to get the type extensions
+    [mutableExtensions addObjectsFromArray:[OECorePlugin supportedTypeExtensions]];
+    
+    NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
+    
+    for(NSDictionary* key in types)
+        [mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
+    
+    [self setValidExtensions:[mutableExtensions allObjects]];    
+    [self updateInfoPlist];
+}
+
+- (void)updateInfoPlist
+{
+    NSArray *corePlugins = [OECorePlugin allPlugins];
+    
+    NSMutableDictionary *allTypes = [NSMutableDictionary dictionaryWithCapacity:[corePlugins count]];
+    
+    for(OECorePlugin *plugin in corePlugins)
+        for(NSDictionary *type in [plugin typesPropertyList])
+        {
+            NSMutableDictionary *reType = [[type mutableCopy] autorelease];
+            
+            [reType setObject:@"GameDocument"                   forKey:@"NSDocumentClass"];
+            [reType setObject:@"Viewer"                         forKey:@"CFBundleTypeRole"];
+            [reType setObject:@"Owner"                          forKey:@"LSHandlerRank"];
+            [reType setObject:[NSArray arrayWithObject:@"????"] forKey:@"CFBundleTypeOSTypes"];
+            [reType removeObjectForKey:@"NSPersistentStoreTypeKey"];
+            
+            [allTypes setObject:reType forKey:[type objectForKey:@"CFBundleTypeName"]];
+        }
+    
+    NSString *error = nil;
+    NSPropertyListFormat format;
+    
+    NSString *infoPlistPath = [[[NSBundle mainBundle] bundlePath] stringByAppendingString:@"/Contents/Info.plist"];
+    NSData   *infoPlistXml  = [[NSFileManager defaultManager] contentsAtPath:infoPlistPath];
+    
+    NSMutableDictionary *infoPlist = [NSPropertyListSerialization propertyListFromData:infoPlistXml
+                                                                      mutabilityOption:NSPropertyListMutableContainers
+                                                                                format:&format
+                                                                      errorDescription:&error];
+    if(infoPlist == nil)
+    {
+        NSLog(@"%@", error);
+        [error release];
+    }
+    
+    NSArray *existingTypes = [infoPlist objectForKey:@"CFBundleDocumentTypes"];
+    
+    for(NSDictionary *type in existingTypes)
+        [allTypes setObject:type forKey:[type objectForKey:@"CFBundleTypeName"]];
+    
+    [infoPlist setObject:[allTypes allValues] forKey:@"CFBundleDocumentTypes"];
+    
+    NSData *updated = [NSPropertyListSerialization dataFromPropertyList:infoPlist
+                                                                 format:NSPropertyListXMLFormat_v1_0
+                                                       errorDescription:&error];
+    BOOL isUpdated = NO;
+    if(updated != nil)
+        isUpdated = [updated writeToFile:infoPlistPath atomically:YES];
+    else
+    {
+        NSLog(@"Error: %@", error);
+        [error release];
+    }
+    
+    NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));
+}
+
+
 - (NSString *)appVersion
 {
     return [[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"];
@@ -325,6 +408,16 @@
 @synthesize mainWindowController;
 @synthesize aboutWindow, aboutCreditsPath;
 @synthesize hidManager;
+#pragma mark -
+#pragma mark KVO
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if(object == [OECorePlugin class])
+    {
+        [self updateValidExtensions];
+    }
+}
+
 #pragma mark -
 #pragma mark Menu Handling
 - (void)_makeTargetForMenuItems:(NSMenu*)menu

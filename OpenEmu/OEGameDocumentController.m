@@ -393,6 +393,7 @@
 // popup saying "can't open files of type "Nestopia Cartridge" " or similar) if it's not.
 - (id)openDocumentWithContentsOfURL:(NSURL *)absoluteURL display:(BOOL)displayDocument error:(NSError **)outError
 {
+    DLog(@"%@", absoluteURL);
     return nil;
     // Add the file to the ROM database
     [OEROMFile fileWithPath:[absoluteURL path] createIfNecessary:YES inManagedObjectContext:self.managedObjectContext];

@@ -54,10 +54,12 @@
 
 @synthesize emulatorName, view, gameWindow, playPauseToolbarItem;
 + (id)newDocumentWithROM:(id)rom error:(NSError**)error{
+    DLog(@"%@", rom);
 	return nil;
 }
 
 + (id)newDocumentWithRomAtURL:(NSURL*)url error:(NSError**)error{
+     DLog(@"%@", url);
 	return nil;
 }
 #pragma mark -
@@ -130,6 +132,9 @@
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
+    DLog(@"%@", absoluteURL);
+    return NO;
+    
     NSString *romPath = [absoluteURL path];
     if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
     {

@@ -19,6 +19,9 @@
 
 - (IBAction)updateBundles:(id)sender;
 
+- (void)updateValidExtensions;
+- (void)updateInfoPlist;
+
 - (IBAction)launchGame:(id)sender;
 @property (retain) IBOutlet NSWindow *aboutWindow;
 @property (retain) IBOutlet NSMenu  *startupMainMenu;
@@ -29,6 +32,6 @@
 @property (readonly) NSString *aboutCreditsPath;
 @property (readonly) NSString *appVersion;
 @property (readonly) NSAttributedString *projectURL;
-
+@property (retain) NSArray* validExtensions;
 @property (retain) OECoreUpdater *coreUpdater;
 @end

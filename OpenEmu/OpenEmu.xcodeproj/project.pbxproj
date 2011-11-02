@@ -248,7 +248,6 @@
 		53439C4113B93920005C0CC8 /* track_horizontal_spacer.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BEF13B93920005C0CC8 /* track_horizontal_spacer.png */; };
 		53439C4213B93920005C0CC8 /* track_vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BF013B93920005C0CC8 /* track_vertical.png */; };
 		53439C4313B93920005C0CC8 /* track_vertical_spacer.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BF113B93920005C0CC8 /* track_vertical_spacer.png */; };
-		53439C4513B93A89005C0CC8 /* DefaultSystems.plist in Resources */ = {isa = PBXBuildFile; fileRef = 53439C4413B93A89005C0CC8 /* DefaultSystems.plist */; };
 		53439CB913B9503D005C0CC8 /* OEDatabase.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 53439CB713B9503D005C0CC8 /* OEDatabase.xcdatamodeld */; };
 		5380E82213B9595800E76DEF /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		5380E82413B9596500E76DEF /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5380E82313B9596500E76DEF /* IOKit.framework */; };
@@ -1035,7 +1034,6 @@
 		53439BEF13B93920005C0CC8 /* track_horizontal_spacer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = track_horizontal_spacer.png; sourceTree = "<group>"; };
 		53439BF013B93920005C0CC8 /* track_vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = track_vertical.png; sourceTree = "<group>"; };
 		53439BF113B93920005C0CC8 /* track_vertical_spacer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = track_vertical_spacer.png; sourceTree = "<group>"; };
-		53439C4413B93A89005C0CC8 /* DefaultSystems.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = DefaultSystems.plist; sourceTree = "<group>"; };
 		53439CB813B9503D005C0CC8 /* OEDatabase.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OEDatabase.xcdatamodel; sourceTree = "<group>"; };
 		5380E82313B9596500E76DEF /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
 		5380E83013B95C7C00E76DEF /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -1646,7 +1644,6 @@
 		1BEF34741168F8640090F72B /* PLists */ = {
 			isa = PBXGroup;
 			children = (
-				53439C4413B93A89005C0CC8 /* DefaultSystems.plist */,
 				82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */,
 				82444BA20F51256C007C171B /* OpenEmuBase-Info.plist */,
 				1BEF2CFF116854650090F72B /* OpenEmuDebugHelperAppApp-Info.plist */,
@@ -3247,7 +3244,6 @@
 				53439C4113B93920005C0CC8 /* track_horizontal_spacer.png in Resources */,
 				53439C4213B93920005C0CC8 /* track_vertical.png in Resources */,
 				53439C4313B93920005C0CC8 /* track_vertical_spacer.png in Resources */,
-				53439C4513B93A89005C0CC8 /* DefaultSystems.plist in Resources */,
 				8382D23113C5C5BB00906221 /* OEPrefCoresController.xib in Resources */,
 				8382D23213C5C5BB00906221 /* OEPrefGameplayController.xib in Resources */,
 				8382D23313C5C5BB00906221 /* OEPrefLibraryController.xib in Resources */,
