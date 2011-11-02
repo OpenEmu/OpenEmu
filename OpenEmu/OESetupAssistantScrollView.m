@@ -19,7 +19,8 @@
     
     OESetupAssistantScrollBorderView* borderView = [[OESetupAssistantScrollBorderView alloc] initWithFrame:(NSRect){{0,0},self.frame.size}];
     [containerView addSubview:borderView positioned:NSWindowAbove relativeTo:self];
-    
+    [borderView release];
+    [containerView release];
     [self setFrame:NSInsetRect(containerView.bounds, 2, 2)];    
 }
 @end
