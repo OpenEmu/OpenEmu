@@ -10,8 +10,8 @@
 #import "OEUIDrawingUtils.h"
 @interface OEImageButton : NSButton 
 {
-@private
 }
+@property BOOL isInHover;
 @end
 
 @interface OEImageButtonCell : NSButtonCell 
@@ -42,6 +42,8 @@
 {
 @private
 }
+
+@property BOOL splitVertically;
 @end
 
 // Displays normal, hover and pressed for Selected / Unselected

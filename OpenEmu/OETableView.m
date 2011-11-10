@@ -57,8 +57,6 @@ static NSGradient* highlightGradient, *normalGradient;
 		[self setBackgroundColor:[NSColor blackColor]];
 		[self setFocusRingType:NSFocusRingTypeNone];
 		
-		[self setRowHeight:17];
-		
 		for (NSTableColumn* aColumn in [self tableColumns]) 
 		{
 			OETableHeaderCell *newHeader = [[OETableHeaderCell alloc] initTextCell:[[aColumn headerCell] stringValue]];

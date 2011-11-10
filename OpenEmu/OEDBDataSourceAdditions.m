@@ -285,7 +285,7 @@
 @implementation OEDBSystem (OECollectionViewItemAdditions)
 - (NSString*)collectionViewName
 {
-    return [self valueForKey:@"name"];
+    return [self name];
 }
 - (BOOL)isCollectionEditable
 {
@@ -362,7 +362,7 @@
 }
 - (BOOL)removingGamesDeletesThem
 {
-    @throw @"bUb";
+    @throw @"blub";
     return NO;
 }
 - (NSPredicate*)predicate
@@ -373,7 +373,7 @@
 @implementation OEDBAllGamesCollection (OECollectionViewItemAdditions)
 - (NSString*)collectionViewName
 {
-    return [self valueForKey:@"name"];
+    return [self sidebarName];
 }
 
 - (BOOL)isCollectionEditable

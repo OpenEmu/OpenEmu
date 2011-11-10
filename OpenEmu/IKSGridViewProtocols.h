@@ -37,8 +37,8 @@
 
 - (void)gridView:(IKSGridView *)aView setObject:(id)obj forKey:(NSString*)key withRepresentedObject:(id)obj;
 - (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString*)key withRepresentedObject:(id)obj;
-
 @optional
+- (NSView*)gridViewNoItemsView:(IKSGridView*)gridView;
 - (id)gridView:(IKSGridView*)aView objectValueOfItemAtIndex:(NSUInteger)index;
 - (void)gridView:(IKSGridView *)aView setObject:(id)obj forKey:(NSString*)key atIndex:(NSUInteger)index;
 - (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString*)key atIndex:(NSUInteger)index;

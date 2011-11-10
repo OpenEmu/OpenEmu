@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ToolbarLabel</key>
-	<string>NES</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDocumentTypes</key>
@@ -44,6 +42,6 @@
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.nes</string>
 	<key>OEProjectURL</key>
-	<string>http://findout.com</string>
+	<string>http://nestopia.sourceforge.net/</string>
 </dict>
 </plist>

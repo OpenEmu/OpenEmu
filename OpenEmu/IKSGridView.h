@@ -74,8 +74,9 @@
 	
 	id<IKSGridViewDataSource> dataSource;
 	
-	
 	NSImage* draggedImage;
+    
+    BOOL noItems;
 }
 
 - (IBAction)copy:(id)sender;

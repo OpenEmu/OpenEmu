@@ -54,4 +54,7 @@
 #pragma mark -
 @property (assign) OELibraryController* libraryController;
 @property (nonatomic, retain) id <NSObject, OECollectionViewItemProtocol> collectionItem;
+
+@property (nonatomic, retain) IBOutlet NSView* emptyCollectionView;
+@property (nonatomic, retain) IBOutlet NSView* emptyConsoleView;
 @end

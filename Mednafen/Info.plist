@@ -16,14 +16,14 @@
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
+	<key>OEProjectURL</key>
+	<string>http://mednafen.sourceforge.net/</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>NSPrincipalClass</key>
 	<string>MednafenGameController</string>
-	<key>ToolbarLabel</key>
-	<string>Mednafen</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>

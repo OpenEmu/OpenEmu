@@ -12,6 +12,7 @@
 #import "IKSGridViewProtocols.h"
 
 #import "OEFieldEditor.h"
+#import "OEGridBlankSlateView.h"
 typedef enum 
 {
     IKSLayerPositionUp = 0,
@@ -36,7 +37,13 @@ typedef enum
 
 
 @implementation IKSGridView
-@synthesize delegate, trackingArea, eventLayer, gridLayer, selectionLayer, backgroundColor, sortDescriptors, selectable, allowsMultipleSelection, minimumItemSize, maximumItemSize, layoutEnabled, foregroundLayer, backgroundLayer, draggedImage, draggedLayer, dragIndicationLayer, selectedIndexes;
+@synthesize delegate, trackingArea, eventLayer, gridLayer;
+@synthesize selectionLayer, backgroundColor, sortDescriptors;
+@synthesize selectable, allowsMultipleSelection;
+@synthesize minimumItemSize, maximumItemSize, layoutEnabled;
+@synthesize foregroundLayer;
+@synthesize backgroundLayer, draggedImage, draggedLayer;
+@synthesize dragIndicationLayer, selectedIndexes;
 @synthesize autoscrollTimer, lastEvent, cellClass, dataSource;
 #pragma mark -
 #pragma mark Initialization
@@ -104,6 +111,7 @@ typedef enum
 }
 
 #pragma mark -
+#define OERoundNSPoint(p) (NSPoint){roundf(p.x), roundf(p.y)}
 - (void)reloadData
 {
     /*
@@ -131,7 +139,40 @@ typedef enum
      [self.gridLayer setSublayers:content];
      */
     [layoutManager reset];
-    [self.gridLayer setNeedsLayout];
+    [self.gridLayer layoutIfNeeded];
+    noItems = [[self dataSource] numberOfItemsInGridView:self]==0;
+    
+    if(![self dataSource]) return;
+    
+    NSArray* subviews = [NSArray arrayWithArray:[self subviews]];
+    [subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if(![obj isKindOfClass:[OEFieldEditor class]])
+        {
+            [obj removeFromSuperview];
+        }
+    }];
+    
+    if(noItems)
+    {
+        if([self dataSource] && [[self dataSource] respondsToSelector:@selector(gridViewNoItemsView:)])
+        {
+            NSView* view = [[self dataSource] gridViewNoItemsView:self];
+            if(!view) return;
+            [view setAutoresizingMask:NSViewMinXMargin|NSViewMaxXMargin | NSViewMinYMargin|NSViewMaxYMargin];
+            
+            NSPoint center = NSMakePoint((self.frame.size.width-view.frame.size.width)/2, (self.frame.size.height-view.frame.size.height)/2);
+            center = OERoundNSPoint(center);
+            [view setFrameOrigin:center];
+            [self addSubview:view];
+        }
+        self.selectionLayer.hidden = YES;
+    }
+    else
+    {
+        
+    }
+    
+    [self setNeedsDisplay:YES];    
 }
 #pragma mark -
 #pragma mark Decoration Views
@@ -149,6 +190,13 @@ typedef enum
     {
         self.foregroundLayer.frame = frame;
     }
+    
+    [[self subviews] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        if([obj isKindOfClass:[OEGridBlankSlateView class]])
+        {
+            [obj centerInSuperview];
+        }
+    }];
 }
 - (void)addBackgroundLayer:(CALayer*)newBackgroundLayer
 {
@@ -667,7 +715,11 @@ typedef enum
         selectionRect.origin.y = startPoint.y;
         selectionRect.size.height = distanceFromStart.y;
     }
-    self.selectionLayer.frame = selectionRect;
+    if(!noItems)
+    {
+        self.selectionLayer.hidden = NO;
+        self.selectionLayer.frame = selectionRect;
+    }
     
     // Check if any of the layers fall within the selection bounds
     CALayer *clickedLayer = [self _layerWithEvent:theEvent];

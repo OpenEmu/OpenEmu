@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface OECenteredTextFieldCell : NSTextFieldCell {
+#import "OEAttributedTextFieldCell.h"
+@interface OECenteredTextFieldCell : OEAttributedTextFieldCell {
 @private
     
 }

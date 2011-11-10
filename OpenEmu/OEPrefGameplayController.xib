@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
 		<string key="IBDocument.AppKitVersion">1138.23</string>
 		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">1938</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSPopUpButton</string>
@@ -28,7 +28,10 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
 				<string key="NSClassName">OEPrefGameplayController</string>
@@ -46,7 +49,7 @@
 					<object class="NSCustomView" id="491901795">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{0, 142}, {432, 2}}</string>
+						<string key="NSFrame">{{0, 175}, {432, 2}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="406681499"/>
@@ -55,7 +58,7 @@
 					<object class="NSButton" id="982783455">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{42, 76}, {223, 18}}</string>
+						<string key="NSFrame">{{42, 109}, {223, 18}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1021236093"/>
@@ -88,7 +91,7 @@
 					<object class="NSButton" id="307976280">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{236, 229}, {113, 18}}</string>
+						<string key="NSFrame">{{236, 262}, {113, 18}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="491901795"/>
@@ -112,7 +115,7 @@
 					<object class="NSButton" id="1021236093">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{42, 47}, {223, 18}}</string>
+						<string key="NSFrame">{{42, 80}, {223, 18}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1017937277"/>
@@ -136,17 +139,41 @@
 					<object class="NSButton" id="1017937277">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{42, 18}, {305, 18}}</string>
+						<string key="NSFrame">{{67, 51}, {338, 18}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="1051657740"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="465085204">
 							<int key="NSCellFlags">-2080244224</int>
 							<int key="NSCellFlags2">0</int>
-							<string key="NSContents">Always pause gameplay when in background</string>
+							<string key="NSContents">always use popout gameplay window</string>
 							<reference key="NSSupport" ref="975884823"/>
 							<reference key="NSControlView" ref="1017937277"/>
+							<int key="NSButtonFlags">1211912703</int>
+							<int key="NSButtonFlags2">2</int>
+							<reference key="NSNormalImage" ref="93587353"/>
+							<reference key="NSAlternateImage" ref="175154493"/>
+							<string key="NSAlternateContents"/>
+							<string key="NSKeyEquivalent"/>
+							<int key="NSPeriodicDelay">200</int>
+							<int key="NSPeriodicInterval">25</int>
+						</object>
+					</object>
+					<object class="NSButton" id="1051657740">
+						<reference key="NSNextResponder" ref="450679658"/>
+						<int key="NSvFlags">268</int>
+						<string key="NSFrame">{{42, 22}, {305, 18}}</string>
+						<reference key="NSSuperview" ref="450679658"/>
+						<reference key="NSWindow"/>
+						<reference key="NSNextKeyView"/>
+						<bool key="NSEnabled">YES</bool>
+						<object class="NSButtonCell" key="NSCell" id="255100288">
+							<int key="NSCellFlags">-2080244224</int>
+							<int key="NSCellFlags2">0</int>
+							<string key="NSContents">Always pause gameplay when in background</string>
+							<reference key="NSSupport" ref="975884823"/>
+							<reference key="NSControlView" ref="1051657740"/>
 							<int key="NSButtonFlags">1211912703</int>
 							<int key="NSButtonFlags2">2</int>
 							<reference key="NSNormalImage" ref="93587353"/>
@@ -160,7 +187,7 @@
 					<object class="NSTextField" id="406681499">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{41, 110}, {139, 14}}</string>
+						<string key="NSFrame">{{41, 143}, {139, 14}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="982783455"/>
@@ -198,7 +225,7 @@
 					<object class="NSTextField" id="131891071">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{41, 301}, {139, 14}}</string>
+						<string key="NSFrame">{{41, 334}, {139, 14}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="325105551"/>
@@ -224,7 +251,7 @@
 							<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 							<string>NeXT TIFF v4.0 pasteboard type</string>
 						</set>
-						<string key="NSFrame">{{41, 167}, {130, 115}}</string>
+						<string key="NSFrame">{{41, 200}, {130, 115}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="1044078460"/>
@@ -246,7 +273,7 @@
 					<object class="NSTextField" id="546566880">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{194, 261}, {41, 17}}</string>
+						<string key="NSFrame">{{194, 294}, {41, 17}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="139973920"/>
@@ -264,7 +291,7 @@
 					<object class="NSPopUpButton" id="139973920">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{237, 255}, {147, 26}}</string>
+						<string key="NSFrame">{{237, 288}, {147, 26}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="307976280"/>
@@ -305,7 +332,7 @@
 							<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 							<string>NeXT TIFF v4.0 pasteboard type</string>
 						</set>
-						<string key="NSFrame">{{41, 167}, {130, 115}}</string>
+						<string key="NSFrame">{{41, 200}, {130, 115}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="546566880"/>
@@ -325,7 +352,7 @@
 						<bool key="NSEditable">YES</bool>
 					</object>
 				</array>
-				<string key="NSFrameSize">{423, 335}</string>
+				<string key="NSFrameSize">{423, 368}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="131891071"/>
@@ -345,36 +372,28 @@
 					<int key="connectionID">27</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.vsync</string>
-						<reference key="source" ref="307976280"/>
-						<reference key="destination" ref="404735014"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="307976280"/>
-							<reference key="NSDestination" ref="404735014"/>
-							<string key="NSLabel">value: values.vsync</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.vsync</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">filterSelection</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="139973920"/>
 					</object>
-					<int key="connectionID">30</int>
+					<int key="connectionID">41</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: values.backgroundPause</string>
-						<reference key="source" ref="1017937277"/>
-						<reference key="destination" ref="404735014"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="1017937277"/>
-							<reference key="NSDestination" ref="404735014"/>
-							<string key="NSLabel">value: values.backgroundPause</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">values.backgroundPause</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">filterPreviewView</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="325105551"/>
 					</object>
-					<int key="connectionID">31</int>
+					<int key="connectionID">42</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">changeFilter:</string>
+						<reference key="source" ref="1001"/>
+						<reference key="destination" ref="139973920"/>
+					</object>
+					<int key="connectionID">47</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -409,28 +428,36 @@
 					<int key="connectionID">34</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">filterSelection</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="139973920"/>
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.forcePopout</string>
+						<reference key="source" ref="1017937277"/>
+						<reference key="destination" ref="404735014"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1017937277"/>
+							<reference key="NSDestination" ref="404735014"/>
+							<string key="NSLabel">value: values.forcePopout</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.forcePopout</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
 					</object>
-					<int key="connectionID">41</int>
+					<int key="connectionID">60</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">filterPreviewView</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="325105551"/>
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">enabled: values.allowPopout</string>
+						<reference key="source" ref="1017937277"/>
+						<reference key="destination" ref="404735014"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1017937277"/>
+							<reference key="NSDestination" ref="404735014"/>
+							<string key="NSLabel">enabled: values.allowPopout</string>
+							<string key="NSBinding">enabled</string>
+							<string key="NSKeyPath">values.allowPopout</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
 					</object>
-					<int key="connectionID">42</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">changeFilter:</string>
-						<reference key="source" ref="1001"/>
-						<reference key="destination" ref="139973920"/>
-					</object>
-					<int key="connectionID">47</int>
+					<int key="connectionID">62</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBBindingConnection" key="connection">
@@ -454,6 +481,38 @@
 						</object>
 					</object>
 					<int key="connectionID">55</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.vsync</string>
+						<reference key="source" ref="307976280"/>
+						<reference key="destination" ref="404735014"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="307976280"/>
+							<reference key="NSDestination" ref="404735014"/>
+							<string key="NSLabel">value: values.vsync</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.vsync</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">30</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBBindingConnection" key="connection">
+						<string key="label">value: values.backgroundPause</string>
+						<reference key="source" ref="1051657740"/>
+						<reference key="destination" ref="404735014"/>
+						<object class="NSNibBindingConnector" key="connector">
+							<reference key="NSSource" ref="1051657740"/>
+							<reference key="NSDestination" ref="404735014"/>
+							<string key="NSLabel">value: values.backgroundPause</string>
+							<string key="NSBinding">value</string>
+							<string key="NSKeyPath">values.backgroundPause</string>
+							<int key="NSNibBindingConnectorVersion">2</int>
+						</object>
+					</object>
+					<int key="connectionID">58</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -497,6 +556,7 @@
 							<reference ref="1021236093"/>
 							<reference ref="1017937277"/>
 							<reference ref="1044078460"/>
+							<reference ref="1051657740"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Gameplay</string>
@@ -651,6 +711,19 @@
 						<reference key="object" ref="876784234"/>
 						<reference key="parent" ref="1044078460"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">56</int>
+						<reference key="object" ref="1051657740"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="255100288"/>
+						</array>
+						<reference key="parent" ref="450679658"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">57</int>
+						<reference key="object" ref="255100288"/>
+						<reference key="parent" ref="1051657740"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -688,6 +761,10 @@
 				<string key="46.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="5.CustomClassName">OECheckBox</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="56.CustomClassName">OECheckBox</string>
+				<string key="56.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<string key="57.CustomClassName">OECheckBoxCell</string>
+				<string key="57.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="6.CustomClassName">OECheckBox</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="7.CustomClassName">OECheckBox</string>
@@ -699,7 +776,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">55</int>
+			<int key="maxID">62</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -799,10 +876,6 @@
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
-		</object>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="0.0" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>

@@ -33,8 +33,6 @@
 	<string>0.4.3.1</string>
 	<key>NSPrincipalClass</key>
 	<string>GBGameController</string>
-	<key>ToolbarLabel</key>
-	<string>Gameboy</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
@@ -44,6 +42,6 @@
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.gb</string>
 	<key>OEProjectURL</key>
-	<string>http://findout.com</string>
+	<string>http://gambatte.sourceforge.net/</string>
 </dict>
 </plist>

@@ -38,6 +38,7 @@ extern NSString *const OEControlsPreferenceKey;
 extern NSString *const OESystemPluginName;
 extern NSString *const OESystemName;
 extern NSString *const OESystemIdentifier;
+extern NSString *const OEProjectURLKey;
 extern NSString *const OEArchiveIDs;
 extern NSString *const OEFileTypes;
 

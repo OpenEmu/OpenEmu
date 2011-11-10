@@ -18,6 +18,10 @@
 #import "OEHorizontalSplitView.h"
 
 #import "OECoverGridDataSourceItem.h"
+#import "OEGridBlankSlateView.h"
+
+#import "OEDBSystem.h"
+#import "OESystemPlugin.h"
 @interface OECollectionViewController (Private)
 - (void)_reloadData;
 - (void)_selectView:(int)view;
@@ -25,6 +29,7 @@
 
 @implementation OECollectionViewController
 @synthesize libraryController;
+@synthesize emptyCollectionView, emptyConsoleView;
 + (void)initialize
 {
     // Indicators for list view
@@ -346,6 +351,19 @@
         return [NSNumber numberWithInt:[object gridRating]];
     }
     
+    return nil;
+}
+- (NSView*)gridViewNoItemsView:(IKSGridView*)gridView
+{
+    if([collectionItem isKindOfClass:[OEDBSystem class]])
+    {
+        return [[[OEGridBlankSlateView alloc] initWithSystemPlugin:[(OEDBSystem*)collectionItem plugin]] autorelease];
+    }
+    
+    if([collectionItem respondsToSelector:@selector(collectionViewName)])
+    {
+        return [[[OEGridBlankSlateView alloc] initWithCollectionName:[collectionItem collectionViewName]] autorelease];
+    }
     return nil;
 }
 #pragma mark -

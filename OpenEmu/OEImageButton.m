@@ -9,7 +9,7 @@
 #import "OEImageButton.h"
 #import "NSImage+OEDrawingAdditions.h"
 @implementation OEImageButton
-
+@synthesize isInHover;
 - (void)viewDidMoveToWindow
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidBecomeMainNotification object:[self window]];
@@ -30,6 +30,7 @@
     {
         [self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingActiveInActiveApp|NSTrackingMouseEnteredAndExited owner:self userInfo:nil] autorelease]];
     }
+    self.isInHover = NO;
 }
 
 - (void)windowChanged:(id)sender
@@ -46,10 +47,12 @@
 
 - (void)mouseEntered:(NSEvent *)theEvent
 {
+    self.isInHover = YES;
     [self setNeedsDisplay:YES];
 }
 - (void)mouseExited:(NSEvent *)theEvent
 {
+    self.isInHover = NO;
     [self setNeedsDisplay:YES];
 }
 
@@ -75,8 +78,15 @@
     BOOL isEnabled = [self isEnabled];
     BOOL isSelected = [self state]==NSOnState;
     
-    NSPoint p = [controlView convertPointFromBase:[[controlView window] convertScreenToBase:[NSEvent mouseLocation]]];
-    BOOL rollover = NSPointInRect(p, controlView.frame);
+    BOOL rollover;
+    if([controlView isKindOfClass:[OEImageButton class]])
+        rollover = [(OEImageButton*)controlView isInHover];
+    else 
+    {
+        NSPoint p = [controlView convertPointFromBase:[[controlView window] convertScreenToBase:[NSEvent mouseLocation]]];
+        rollover = NSPointInRect(p, controlView.frame);
+    }
+    
     OEButtonState buttonState;
     if(isSelected)
     {
@@ -214,26 +224,49 @@
 @end
 
 @implementation OEImageButtonHoverPressed
+@synthesize splitVertically;
 - (BOOL)displaysHover
 {
     return YES;
 }
 - (NSRect)imageRectForButtonState:(OEButtonState)state
 {
-    NSRect rect = NSMakeRect(0, 0, [self.image size].width/3, [self.image size].height);
-    switch (state) 
+    NSRect rect;
+    if(![self splitVertically])
     {
-        case OEButtonStateSelectedHover:
-        case OEButtonStateUnselectedHover:
-            rect.origin.x = [self.image size].width/3;
-            break;
-        case OEButtonStateSelectedPressed:
-        case OEButtonStateUnselectedPressed:
-            rect.origin.x += 2*rect.size.width;
-            break;
-        default:
-            rect.origin.x = 0;
-            break;
+        rect = NSMakeRect(0, 0, [self.image size].width/3, [self.image size].height);
+        switch (state) 
+        {
+            case OEButtonStateSelectedHover:
+            case OEButtonStateUnselectedHover:
+                rect.origin.x = [self.image size].width/3;
+                break;
+            case OEButtonStateSelectedPressed:
+            case OEButtonStateUnselectedPressed:
+                rect.origin.x += 2*rect.size.width;
+                break;
+            default:
+                rect.origin.x = 0;
+                break;
+        }
+    }
+    else
+    {
+        rect = NSMakeRect(0, 0, [self.image size].width, [self.image size].height/3);
+        switch (state) 
+        {
+            case OEButtonStateSelectedHover:
+            case OEButtonStateUnselectedHover:
+                rect.origin.y = [self.image size].height-2*rect.size.height;
+                break;
+            case OEButtonStateSelectedPressed:
+            case OEButtonStateUnselectedPressed:
+                rect.origin.y += [self.image size].height-3*rect.size.height;
+                break;
+            default:
+                rect.origin.y = [self.image size].height-1*rect.size.height;
+                break;
+        }
     }
     return rect;
 }

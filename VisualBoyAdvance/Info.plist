@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>ToolbarLabel</key>
-	<string>Gameboy Advance</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDocumentTypes</key>
@@ -45,6 +43,6 @@
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.gba</string>
 	<key>OEProjectURL</key>
-	<string>http://findout.com</string>
+	<string>http://vba.ngemu.com/</string>
 </dict>
 </plist>
