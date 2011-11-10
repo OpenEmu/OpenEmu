@@ -78,7 +78,7 @@
 
 - (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent 
 {
-	NSRect textFrame = [self titleRectForBounds:aRect];
+	NSRect textFrame = [self titleRectForBounds:NSInsetRect(aRect, 0, 1)];
 	textFrame.size.width -= (6.0);
 	
 	OESidebarFieldEditor* fieldEditor = [OESidebarFieldEditor fieldEditor];
@@ -92,8 +92,8 @@
 	NSRect textFrame = [self titleRectForBounds:aRect];
 	textFrame.size.width -= (6.0);
 	
-	textFrame.size.height += 4;
-	textFrame.origin.y -= 2;
+	textFrame.size.height += 2;
+	textFrame.origin.y -= 1;
 	
 	OESidebarFieldEditor* fieldEditor = [OESidebarFieldEditor fieldEditor];
 	[fieldEditor setFrame:[textObj frame]];

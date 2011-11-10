@@ -7,17 +7,17 @@
 //
 
 #import "OESidebarFieldEditor.h"
-
+#import "OEBackgroundColorView.h"
 @interface NSTextView (ApplePrivate)
 - (void)_drawRect:(NSRect)dirtyRect clip:(NSRect)aClipRect;
 @end
 
 @implementation OESidebarFieldEditor
-
+@synthesize container;
 - (id)init{
     self = [super init];
     if (self) {
-	
+        
 	}
     
     return self;
@@ -27,51 +27,84 @@
 	static OESidebarFieldEditor* fieldEditor = nil;
 	if (fieldEditor == nil){
 		fieldEditor = [[OESidebarFieldEditor alloc] initWithFrame:NSZeroRect];
-	
+        
 		[fieldEditor setFieldEditor:YES];
 		[fieldEditor setEditable:YES];
 		[fieldEditor setSelectable:YES];
 		
 		[fieldEditor setTextContainerInset:NSMakeSize(1, 2)];
-	}
+    }
 	return fieldEditor;	
 }
+- (NSRect)superFrame
+{
+    return [[self superview] frame];
+}
 
+- (void)viewWillMoveToSuperview:(NSView *)newSuperview
+{
+    if(newSuperview==nil && self.superview)
+    {
+        [self.superview removeObserver:self forKeyPath:@"frame"];
+    }
+    else if(newSuperview)
+    {
+        [newSuperview addObserver:self forKeyPath:@"frame" options:0xF context:nil];
+    }
+}
+- (void)updateContainerFrame
+{
+    if(self.superview && [self container]){
+        NSRect rect = NSInsetRect([[self superview] frame], -1, -1);
+        rect.size.width-=1;
+        [[self container] setFrame:rect];
+    }
+}
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    [self updateContainerFrame];
+}
 
-- (void)_drawRect:(NSRect)dirtyRect clip:(NSRect)aClipRect{
-	aClipRect.size.width = ceilf(aClipRect.size.width);
-	aClipRect.origin.x = floorf(aClipRect.origin.x);
-	
-	clipRect = aClipRect;
-	
-	aClipRect.size.height += 2;
-	aClipRect.origin.y -= 1;
-	
-	[super _drawRect:dirtyRect clip:aClipRect];
+- (void)viewDidMoveToWindow
+{
+    if(self.window && [self superview] &&[NSStringFromClass([[self superview] class]) isEqualToString:@"_NSKeyboardFocusClipView"])
+    {       
+        OEBackgroundColorView *_container = [[OEBackgroundColorView alloc] initWithFrame:NSInsetRect([self superFrame], -1, -1)];
+        _container.backgroundColor = [NSColor colorWithDeviceRed:0.09 green:0.153 blue:0.553 alpha:1.0];
+        [self setContainer:_container];
+        [_container release];
+        
+        [self updateContainerFrame];
+        
+        [[[self superview] superview] addSubview:[self container] positioned:NSWindowBelow relativeTo:[self superview]]; 
+    }
+    else if([self container])
+    {
+        [[self container] removeFromSuperview];
+        [self setContainer:nil];
+    }
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-	NSColor* strokeColor = [NSColor colorWithDeviceRed:0.09 green:0.153 blue:0.553 alpha:1.0];
-	NSColor* backgroundColor = [NSColor whiteColor];
-	
-	[strokeColor setFill];
-	NSRectFill([self bounds]);
-	
-	[backgroundColor setFill];
-	NSRectFill(NSInsetRect(clipRect, 1, 1));
-	
-	[NSGraphicsContext saveGraphicsState];
-	
-	NSBezierPath* path = [NSBezierPath bezierPathWithRect:NSInsetRect(clipRect, 1, 1)];
-	[path setWindingRule:NSEvenOddWindingRule];
-	[path addClip];
-	
-	[super drawRect:[self bounds]];
-	[NSGraphicsContext restoreGraphicsState];
+    [self setBackgroundColor:[NSColor whiteColor]];
+    [super drawRect:dirtyRect];    
 }
 
 - (void)dealloc {
+    if([self container])
+        [[self container] removeFromSuperview];
+    
+    [self setContainer:nil];
     [super dealloc];
 }
 
+@end
+
+
+@implementation OESidebarFieldEditorContainer
+- (void)drawRect:(NSRect)dirtyRect
+{
+    [[NSColor colorWithDeviceRed:0.09 green:0.153 blue:0.553 alpha:1.0] setFill];
+    NSRectFill(self.bounds);
+}
 @end

@@ -68,8 +68,9 @@
     {
         [enclosingScrollView setDrawsBackground:YES];
         [enclosingScrollView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
-        
-        [sidebarView setBackgroundColor:[NSColor clearColor]];
+        [sidebarView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
+
+       // [sidebarView setBackgroundColor:[NSColor clearColor]];
     }
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
@@ -252,8 +253,8 @@
 
 - (CGFloat)outlineView:(NSOutlineView *)outlineView heightOfRowByItem:(id)item
 {
-    if([item isGroupHeaderInSdebar]){
-        
+    if([item isGroupHeaderInSdebar])
+    {
         return 26.0;
     }
     return 20.0;

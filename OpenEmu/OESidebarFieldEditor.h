@@ -8,12 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface OESidebarFieldEditor : NSTextView {
-@private
-    NSRect clipRect;
-}
-
+@class OESidebarFieldEditorContainer;
+@class OEBackgroundColorView;
+@interface OESidebarFieldEditor : NSTextView
 + (id)fieldEditor;
+@property (retain) OEBackgroundColorView* container;
+@end
+
+@interface OESidebarFieldEditorContainer : NSView {
+}
 
 @end
