@@ -13,5 +13,5 @@
 @private
     
 }
-
+@property float widthInset;
 @end

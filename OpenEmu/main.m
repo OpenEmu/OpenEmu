@@ -31,6 +31,7 @@ int main(int argc, char *argv[])
 {	
     NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     
+    srand(time(NULL));
     NSString* path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
     
     

@@ -15,8 +15,16 @@
 {
     self = [super init];
     if (self) {
+        self.widthInset = 3;
     }
     
+    return self;
+}
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        self.widthInset = 3;
+    }
     return self;
 }
 
@@ -25,6 +33,12 @@
     [super dealloc];
 }
 
+- (id)copyWithZone:(NSZone *)zone
+{
+    OECenteredTextFieldCell* copy = [super copyWithZone:zone];
+    copy.widthInset = self.widthInset;
+    return copy;
+}
 #pragma mark -
 #pragma mark Drawing
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView{
@@ -33,7 +47,7 @@
     cellFrame.origin.y += (cellFrame.size.height - contentSize.height) / 2.0;
     cellFrame.size.height = contentSize.height;
 	
-	cellFrame = NSInsetRect(cellFrame, 3, 0);
+	cellFrame = NSInsetRect(cellFrame, self.widthInset, 0);
 	
 	NSAttributedString *drawString = [self attributedStringValue];
 	
@@ -41,4 +55,5 @@
 }
 
 #pragma mark -
+@synthesize widthInset;
 @end
