@@ -44,5 +44,7 @@
 	<string>dsa_pub.pem</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.snes</string>
+	<key>OEProjectURL</key>
+	<string>http://findout.com</string>
 </dict>
 </plist>

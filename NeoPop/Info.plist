@@ -35,5 +35,7 @@
 	<string>1.0</string>
 	<key>NSPrincipalClass</key>
 	<string>NGPGameEmu</string>
+	<key>OEProjectURL</key>
+	<string>http://findout.com</string>
 </dict>
 </plist>

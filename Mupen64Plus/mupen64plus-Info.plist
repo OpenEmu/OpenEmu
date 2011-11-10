@@ -18,5 +18,7 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>OEProjectURL</key>
+	<string>http://findout.com</string>
 </dict>
 </plist>

@@ -45,5 +45,7 @@
 	<string>1</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.sms</string>
+	<key>OEProjectURL</key>
+	<string>http://findout.com</string>
 </dict>
 </plist>
