@@ -3,12 +3,12 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
 		<string key="IBDocument.SystemVersion">11C74</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1617</string>
+		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
 		<string key="IBDocument.AppKitVersion">1138.23</string>
 		<string key="IBDocument.HIToolboxVersion">567.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">1617</string>
+			<string key="NS.object.0">1938</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>NSSplitView</string>
@@ -24,7 +24,10 @@
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
-		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
+		<object class="NSMutableDictionary" key="IBDocument.Metadata">
+			<string key="NS.key.0">PluginDependencyRecalculationVersion</string>
+			<integer value="1" key="NS.object.0"/>
+		</object>
 		<array class="NSMutableArray" key="IBDocument.RootObjects" id="1000">
 			<object class="NSCustomObject" id="1001">
 				<string key="NSClassName">OELibraryController</string>
@@ -294,14 +297,6 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">view</string>
-						<reference key="source" ref="331739331"/>
-						<reference key="destination" ref="247228052"/>
-					</object>
-					<int key="connectionID">580</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">view</string>
 						<reference key="source" ref="1001"/>
 						<reference key="destination" ref="677115977"/>
 					</object>
@@ -314,6 +309,14 @@
 						<reference key="destination" ref="1001"/>
 					</object>
 					<int key="connectionID">604</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">view</string>
+						<reference key="source" ref="331739331"/>
+						<reference key="destination" ref="247228052"/>
+					</object>
+					<int key="connectionID">580</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -537,6 +540,8 @@
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="outlets">
 						<string key="coverFlowView">IKImageFlowView</string>
+						<string key="emptyCollectionView">NSView</string>
+						<string key="emptyConsoleView">NSView</string>
 						<string key="flowlistViewContainer">OEHorizontalSplitView</string>
 						<string key="gridView">IKSGridView</string>
 						<string key="gridViewContainer">NSView</string>
@@ -546,6 +551,14 @@
 						<object class="IBToOneOutletInfo" key="coverFlowView">
 							<string key="name">coverFlowView</string>
 							<string key="candidateClassName">IKImageFlowView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="emptyCollectionView">
+							<string key="name">emptyCollectionView</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="emptyConsoleView">
+							<string key="name">emptyConsoleView</string>
+							<string key="candidateClassName">NSView</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="flowlistViewContainer">
 							<string key="name">flowlistViewContainer</string>
@@ -584,7 +597,6 @@
 						<string key="controlsmenu_startGame:">id</string>
 						<string key="filemenu_addToLibrary:">id</string>
 						<string key="filemenu_editSmartCollection:">id</string>
-						<string key="filemenu_launchGame:">id</string>
 						<string key="filemenu_newCollection:">id</string>
 						<string key="filemenu_newCollectionFolder:">id</string>
 						<string key="filemenu_newSmartCollection:">id</string>
@@ -605,10 +617,6 @@
 						</object>
 						<object class="IBActionInfo" key="filemenu_editSmartCollection:">
 							<string key="name">filemenu_editSmartCollection:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-						<object class="IBActionInfo" key="filemenu_launchGame:">
-							<string key="name">filemenu_launchGame:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="filemenu_newCollection:">
@@ -745,10 +753,6 @@
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
 			<real value="1060" key="NS.object.0"/>
-		</object>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencyDefaults">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="0.0" key="NS.object.0"/>
 		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>

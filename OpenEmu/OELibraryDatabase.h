@@ -44,6 +44,7 @@
 
 - (OEDBRom*)romForMD5Hash:(NSString*)hashString;
 - (OEDBRom*)romForCRC32Hash:(NSString*)crc32String;
+- (OEDBRom*)romForWithPath:(NSString*)path;
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate;
 - (NSArray*)romsInCollection:(id)collection;
 #pragma mark -

@@ -23,6 +23,9 @@
 
 #import "OEDBSaveState.h"
 #import "OEHUDControls.h"
+
+#import "OEGameCore.h"
+#import "OEGameDocument.h"
 @interface OEGameViewController (Private)
 - (BOOL)_setupGameDocument;
 + (OEDBRom*)_choseRomFromGame:(OEDBGame*)game;
@@ -40,6 +43,12 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 
 - (id)initWithWindowController:(OEMainWindowController*)aWindowController andRom:(OEDBRom*)rom
 {
+    return [self initWithWindowController:aWindowController andRom:rom error:nil];    return self;
+}
+
+- (id)initWithWindowController:(OEMainWindowController*)aWindowController andRom:(OEDBRom*)rom error:(NSError**)outError
+{
+    
     self = [super initWithWindowController:aWindowController];
     if(self)
     {
@@ -50,10 +59,12 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         
         if(!path){
             [self release];
+            if(outError != NULL)
+                // TODO: Implement proper error
+                *outError = [NSError errorWithDomain:@"OESomeErrorDomain" code:0 userInfo:[NSDictionary dictionary]];
             self = nil;
             return nil;
         }
-        
         
         gameView = [[OEGameView alloc] initWithFrame:(NSRect){{0,0},{1,1}}];
         controlsWindow = [[OEHUDControlsWindow alloc] initWithGameViewController:self];
@@ -69,7 +80,10 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
             [self release];
             self = nil;
             
-            [NSApp presentError:error];
+            if(outError != NULL)
+                *outError = error;
+            else 
+                [NSApp presentError:error];
             return nil;
         }
         
@@ -79,18 +93,23 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 
 - (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)game
 {
+    return [self initWithWindowController:aWindowController andGame:game error:nil];
+}
+
+- (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)game error:(NSError**)outError
+{
     OEDBRom* rom = [OEGameViewController _choseRomFromGame:game];
     [self setRom:rom];
-    return [self initWithWindowController:aWindowController andRom:rom];
+    return [self initWithWindowController:aWindowController andRom:rom error:outError];
 }
 
 - (BOOL)_setupGameDocument
 {
-    
     return YES;
 }
 
 - (void)dealloc {
+    NSLog(@"OEGameViewController dealloc start");
     [self setRom:nil];
     
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
@@ -102,6 +121,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     [controlsWindow release], controlsWindow = nil;
     [gameView release], gameView = nil;
     
+    NSLog(@"OEGameViewController dealloc end");
     
     [super dealloc];
 }
@@ -131,6 +151,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 - (void)terminateEmulation
 {
     if(!emulationRunning) return;
+    NSLog(@"terminateEmulation start");
     
     emulationRunning = NO;
     [gameView setRootProxy:nil];
@@ -159,6 +180,10 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     if([self windowController])
         // tell it to show its default controller
         [[self windowController] setCurrentContentController:nil];
+    
+    
+    NSDocumentController* sharedDocumentController = [NSDocumentController sharedDocumentController];
+    [sharedDocumentController removeDocument:[self document]];
 }
 
 - (void)pauseGame
@@ -212,7 +237,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     {
         [[NSUserDefaults standardUserDefaults] setBool:[[confirm suppressionButton] state] forKey:UDRemoveSaveStateWithoutConfirmation];
         
-        //TODO: does this also remove the screenshot from the database?
+        // TODO: does this also remove the screenshot from the database?
         NSString* path = [state valueForKey:@"path"];
         
         NSError *err = nil;
@@ -370,6 +395,16 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 
 - (void)setupMenuItems
 {}
+
+#pragma mark -
+#pragma mark Info
+- (NSSize)defaultScreenSize
+{
+    OEGameCore *gameCore = [rootProxy gameCore];
+    OEIntRect screenRect = [gameCore screenRect];
+    
+    return NSSizeFromOEIntSize(screenRect.size);
+}
 
 #pragma mark -
 #pragma mark Private Methods
@@ -555,5 +590,5 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 - (void)processFinished:(OETaskWrapper *)aTask withStatus:(NSInteger)statusCode
 {
 }
-@synthesize rom;
+@synthesize rom, document;
 @end

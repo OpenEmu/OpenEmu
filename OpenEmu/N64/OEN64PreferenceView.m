@@ -32,6 +32,8 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+
     OEGameControllerView *view = (OEGameControllerView *)[self view];
     
 	[view addColumnLabel:@"D-Pad"];
@@ -39,21 +41,26 @@
     [view addButtonWithName:@"OEN64ButtonDPadDown[@]" label:@"Down" target:self highlightPoint:NSZeroPoint];
     [view addButtonWithName:@"OEN64ButtonDPadLeft[@]" label:@"Left" target:self highlightPoint:NSZeroPoint];
     [view addButtonWithName:@"OEN64ButtonDPadRight[@]" label:@"Right" target:self highlightPoint:NSZeroPoint];
-
+    [view nextColumn];
+    
 	[view addColumnLabel:@"C-Pad"];
     [view addButtonWithName:@"OEN64ButtonCUp[@]" label:@"Up" target:self highlightPoint:NSZeroPoint];
     [view addButtonWithName:@"OEN64ButtonCDown[@]" label:@"Down" target:self highlightPoint:NSZeroPoint];
     [view addButtonWithName:@"OEN64ButtonCLeft[@]" label:@"Left" target:self highlightPoint:NSZeroPoint];
     [view addButtonWithName:@"OEN64ButtonCRight[@]" label:@"Right" target:self highlightPoint:NSZeroPoint];
+    [view nextColumn];
     
     [view addButtonWithName:@"OEN64ButtonL[@]" label:@"L" target:self highlightPoint:NSZeroPoint];
     [view addButtonWithName:@"OEN64ButtonR[@]" label:@"R" target:self highlightPoint:NSZeroPoint];
-
+    [view nextColumn];
+    
     [view addButtonWithName:@"OEN64ButtonA[@]" label:@"A" target:self highlightPoint:NSZeroPoint];
     [view addButtonWithName:@"OEN64ButtonB[@]" label:@"B" target:self highlightPoint:NSZeroPoint];
     [view addButtonWithName:@"OEN64ButtonStart[@]" label:@"Start" target:self highlightPoint:NSZeroPoint];
     [view addButtonWithName:@"OEN64ButtonZ[@]" label:@"Z" target:self highlightPoint:NSZeroPoint];
-	
+    
+    [view updateButtons];
+    
 	return;
 }
 

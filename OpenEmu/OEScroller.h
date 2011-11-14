@@ -18,7 +18,6 @@
 #define minKnobHeight 20
 @interface OEScroller : NSScroller {
 @private
-    BOOL isVertical;
 	NSScrollArrowPosition scrollArrowPos;
 }
 
@@ -33,4 +32,6 @@
 #pragma mark -
 - (NSRect)knobSubimageRectForState:(OEUIState)state;
 - (NSRect)arrowSubimageRectForState:(OEUIState)state;
+
+@property BOOL isVertical;
 @end

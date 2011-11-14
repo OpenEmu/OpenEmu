@@ -32,7 +32,7 @@ const NSString* AVGGameBoxURLKey;
 const NSString* AVGGameESRBRatingKey;
 const NSString* AVGGameCreditsKey;
 
-// Keys that appear in Dictionaries in Array of Credits of Game Info Dicts :D
+// Keys that appear in Dictionaries in Array of Credits of Game Info Dicts
 const NSString* AVGCreditsNameKey;
 const NSString* AVGCreditsPositionKey;
 

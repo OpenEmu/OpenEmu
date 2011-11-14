@@ -30,14 +30,17 @@
 @implementation OEGBPreferenceView
 
 - (void)awakeFromNib
-{
+{    
+    [super awakeFromNib];
+
     OEGameControllerView *view = (OEGameControllerView *)[self view];
     
 	[view addButtonWithName:@"OEGBButtonUp" label:@"Up:" target:self highlightPoint:NSMakePoint(58, 165)];
 	[view addButtonWithName:@"OEGBButtonDown" label:@"Down:" target:self highlightPoint:NSMakePoint(58, 127)];
 	[view addButtonWithName:@"OEGBButtonLeft" label:@"Left:" target:self highlightPoint:NSMakePoint(36, 146)];
 	[view addButtonWithName:@"OEGBButtonRight" label:@"Right:" target:self highlightPoint:NSMakePoint(77, 147)];
-	
+    [view nextColumn];
+
 	[view addButtonWithName:@"OEGBButtonStart" label:@"Start:" target:self highlightPoint:NSMakePoint(138, 87)];
 	[view addButtonWithName:@"OEGBButtonSelect" label:@"Select:" target:self highlightPoint:NSMakePoint(97, 87)];
 	[view nextColumn];

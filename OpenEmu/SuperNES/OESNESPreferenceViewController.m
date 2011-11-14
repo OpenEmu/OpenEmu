@@ -39,6 +39,7 @@
 	[view addButtonWithName:@"OESNESButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(98, 89)];
 	[view addButtonWithName:@"OESNESButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(76, 111)];
 	[view addButtonWithName:@"OESNESButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(121, 111)];
+	[view nextColumn];
 
 	[view addButtonWithName:@"OESNESButtonSelect[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(228, 96)];
 	[view addButtonWithName:@"OESNESButtonStart[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(181, 96)];
@@ -48,10 +49,11 @@
 	[view addButtonWithName:@"OESNESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(342, 74)];
 	[view addButtonWithName:@"OESNESButtonX[@]" label:@"X:" target:self highlightPoint:NSMakePoint(345, 143)];
 	[view addButtonWithName:@"OESNESButtonY[@]" label:@"Y:" target:self highlightPoint:NSMakePoint(302, 109)];
-	
+    [view nextColumn];
+    
 	[view addButtonWithName:@"OESNESButtonTriggerLeft[@]" label:@"Trigger Left:" target:self highlightPoint:NSMakePoint(95, 199)];
 	[view addButtonWithName:@"OESNESButtonTriggerRight[@]" label:@"Trigger Right:" target:self highlightPoint:NSMakePoint(352, 199)];	
-	
+    
 	[view updateButtons];
 }
 

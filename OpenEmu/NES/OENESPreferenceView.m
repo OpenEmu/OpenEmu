@@ -32,6 +32,7 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+    
     BOOL famicom = [[OELocalizationHelper sharedHelper] isRegionJAP];
 	
     OEGameControllerView *view = (OEGameControllerView *)[self view];
@@ -40,11 +41,11 @@
 	[view addButtonWithName:@"OENESButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(159, 66)];
 	[view addButtonWithName:@"OENESButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(135, 92)];
 	[view addButtonWithName:@"OENESButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(184, 92)];
+    [view nextColumn];
 	
 	[view addButtonWithName:@"OENESButtonStart[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(famicom?260:306, famicom?67:71)];
 	[view addButtonWithName:@"OENESButtonSelect[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(famicom?309:256, famicom?67:71)];	
 	[view nextColumn];	
-	
 	
 	[view addButtonWithName:@"OENESButtonA[@]" label:@"A:" target:self highlightPoint:NSMakePoint(famicom?449:441, 70)];
 	[view addButtonWithName:@"OENESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(famicom?391:384, 70)];

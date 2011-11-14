@@ -26,65 +26,11 @@
 
 
 #import <Cocoa/Cocoa.h>
-#import <QuartzCore/CoreAnimation.h>
-#import "OETaskWrapper.h"
-
-@class OEGameCoreController, OEGameCoreManager, OESystemResponder, OESystemController;
-@class OEGameView;
-@class OEGameQTRecorder;
-@protocol OEGameCoreHelper;
-
-@interface OEGameDocument : NSDocument <OETaskWrapperController>
-{
-    // IPC from our OEHelper
-    id<OEGameCoreHelper>  rootProxy;
-    
-    OEGameCoreManager    *gameCoreManager;
-    
-    // Standard game document stuff
-    NSTimer              *frameTimer;
-    OEGameQTRecorder     *recorder;
-    NSString             *emulatorName;
-    OEGameView           *view;
-    OESystemController   *gameSystemController;
-    OESystemResponder    *gameSystemResponder;
-    OEGameCoreController *gameController;
-    NSToolbarItem        *playPauseToolbarItem;
-    BOOL                  keyedOnce;
-}
-
-@property(retain) IBOutlet NSToolbarItem *playPauseToolbarItem;
-@property(retain) IBOutlet NSWindow      *gameWindow;
-@property(retain) IBOutlet OEGameView    *view;
-
-@property(getter=isEmulationPaused) BOOL pauseEmulation;
-@property(readonly) BOOL isFullScreen;
-@property(readonly) NSString *emulatorName;
-
-+ (id)newDocumentWithROM:(id)rom error:(NSError**)error;
-+ (id)newDocumentWithRomAtURL:(NSURL*)url error:(NSError**)error;
-
-// new task stuff
-- (void)terminateEmulation;
-
-- (void)scrambleBytesInRam:(NSUInteger)bytes;
-- (void)refresh DEPRECATED_ATTRIBUTE;
-- (void)saveStateToFile:(NSString *)fileName;
-- (void)loadStateFromFile:(NSString *)fileName;
-
-- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
-
-- (IBAction)loadState:(id)sender;
-- (IBAction)resetGame:(id)sender;
-- (IBAction)saveState:(id)sender;
-- (IBAction)scrambleRam:(id)sender;
-- (IBAction)toggleFullScreenMode:(id)sender;
-- (IBAction)playPauseGame:(id)sender;
-
-- (BOOL)backgroundPauses;
-- (BOOL)defaultsToFullScreenMode;
-
-- (NSImage *)screenShot DEPRECATED_ATTRIBUTE;
-- (void)applicationWillTerminate:(NSNotification *)aNotification;
-
+@class OEGameViewController;
+@class OEDBRom;
+@class OEDBGame;
+@interface OEGameDocument : NSDocument
+- (id)initWithRom:(OEDBRom*)rom;
+- (id)initWithGame:(OEDBGame*)game;
+@property (retain) OEGameViewController* gameViewController;
 @end

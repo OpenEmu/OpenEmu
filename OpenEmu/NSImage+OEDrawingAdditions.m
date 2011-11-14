@@ -164,10 +164,11 @@
 	return [newImage autorelease];
 }
 
-- (NSImage*)setName:(NSString*)name forSubimageInRect:(NSRect)aRect{
+- (void)setName:(NSString*)name forSubimageInRect:(NSRect)aRect{
+    // Analyzer warns about potential leak here.
+    // Should be correct as we don't want named images to be deallocated
 	NSImage* resultImage = [self subImageFromRect:aRect];
 	[resultImage setName:name];
-    
-	return [resultImage retain];
-}
+	[resultImage retain];
+} // Read comments above!!!!
 @end

@@ -48,17 +48,41 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+
     OEGameControllerView *view = (OEGameControllerView *)[self view];
-    
+
 	[view addButtonWithName:@"OESMSButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(113, 144)];
 	[view addButtonWithName:@"OESMSButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(113, 59)];
 	[view addButtonWithName:@"OESMSButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(75, 106)];
 	[view addButtonWithName:@"OESMSButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(152, 106)];
-	
+    [view nextColumn];
+    
 	[view addButtonWithName:@"OESMSButtonA[@]" label:@"Button 1 /Start:" target:self highlightPoint:NSMakePoint(301, 82)];
 	[view addButtonWithName:@"OESMSButtonB[@]" label:@"Button 2:" target:self highlightPoint:NSMakePoint(371, 82)];
+	[view addRowSeperator];
+
+	[view addButtonWithName:@"OESMSButtonStart" label:@"Console Start" target:self];
+    //	[view addButtonWithName:@"OESMSButtonReset" label:@"Console Reset" target:self];
+
+	[view nextPage];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"1:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"2:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"3:" target:self];
+	[view nextColumn];
+    
+	[view addButtonWithName:@"OESMSButtonReset" label:@"4:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"5:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"6:" target:self];
+	[view nextColumn];
+    
+	[view addButtonWithName:@"OESMSButtonReset" label:@"7:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"8:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"9:" target:self];
+    
+    [view updateButtons];
 	
-	return;
+    return;
 }
 
 - (NSImage*)controllerImage{

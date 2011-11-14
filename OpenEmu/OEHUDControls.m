@@ -51,6 +51,8 @@
 
 - (void)dealloc
 {    
+    NSLog(@"OEHUDControlsWindow dealloc start");
+    
     [fadeTimer invalidate];
     [fadeTimer release];
     fadeTimer = nil;
@@ -62,6 +64,7 @@
     [NSEvent removeMonitor:eventMonitor];
     [eventMonitor release];
     
+    NSLog(@"OEHUDControlsWindow dealloc stop");
     [super dealloc];
 }
 #pragma mark -
@@ -163,12 +166,13 @@
 
 - (void)stopAction:(id)sender
 {
+    NSLog(@"stopAction:");
     [[self gameViewController] terminateEmulation];
 }
 
 - (void)fullscreenAction:(id)sender
 {
-    [[self gameViewController] toggleFullScreen];
+    [[self gameViewController] toggleFullscreen];
 }
 
 - (void)volumeAction:(id)sender

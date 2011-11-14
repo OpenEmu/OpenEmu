@@ -52,7 +52,7 @@
 
 - (void)dealloc 
 {
-    [[OEPlugin class] removeObserver:self forKeyPath:@"allPlugins"];
+    [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
     
     [self setValidExtensions:nil];
     
@@ -283,12 +283,6 @@
     return [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
 }
 #pragma mark -
-- (IBAction)launchGame:(id)sender
-{    
-    
-    
-}
-#pragma mark -
 #pragma mark Updating
 - (void)updateBundles:(id)sender
 {
@@ -331,8 +325,10 @@
     for(NSDictionary* key in types)
         [mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
     
-    [self setValidExtensions:[mutableExtensions allObjects]];    
+    [self setValidExtensions:[mutableExtensions allObjects]];
     [self updateInfoPlist];
+    
+    [mutableExtensions release];
 }
 
 - (void)updateInfoPlist
@@ -344,15 +340,17 @@
     for(OECorePlugin *plugin in corePlugins)
         for(NSDictionary *type in [plugin typesPropertyList])
         {
-            NSMutableDictionary *reType = [[type mutableCopy] autorelease];
+            NSMutableDictionary *reType = [type mutableCopy];
             
-            [reType setObject:@"GameDocument"                   forKey:@"NSDocumentClass"];
+            [reType setObject:@"OEGameDocument"                 forKey:@"NSDocumentClass"];
             [reType setObject:@"Viewer"                         forKey:@"CFBundleTypeRole"];
             [reType setObject:@"Owner"                          forKey:@"LSHandlerRank"];
             [reType setObject:[NSArray arrayWithObject:@"????"] forKey:@"CFBundleTypeOSTypes"];
             [reType removeObjectForKey:@"NSPersistentStoreTypeKey"];
             
             [allTypes setObject:reType forKey:[type objectForKey:@"CFBundleTypeName"]];
+            
+            [reType release];
         }
     
     NSString *error = nil;

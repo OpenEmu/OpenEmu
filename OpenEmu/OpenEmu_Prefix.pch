@@ -83,7 +83,8 @@
 #define UDSaveStateFolderNameKey	@"saveStateFolder"			/*  name of save state folder		*/
 #define UDHUDFadeOutDelayKey        @"fadeoutdelay"             /*  time until hudcontrolsbar fades out after last mouse movement   */
 
-#define UDForcePopoutKey			@"forcePopOut"	
+#define UDForcePopoutKey			@"forcePopOut"
+#define UDPopoutHasScreenSizeKey    @"forceDefaultScreenSize"
 #define UDUseQuickImportKey			@"UseQuickImport"			/*	skips duplicate verification when importing games if automatic info grabbing is deactivated	*/
 #define UDUseMD5HashingKey			@"UseMD5"					/*	use md5 instead of crc32 for rom identification	 (default: YES)								*/
 #define UDBoxSizesKey				@"BoxSizes"					/*	Array of sizes used for Box Artwork thumbnails (defaults registered in main.m)				*/
@@ -92,16 +93,18 @@
 #define UDRemoveSaveStateWithoutConfirmation @"removeStatesWithoutConfirmation" /* Used to decide if doing the above requires confirmation                      */
 #define UDSidebarCollectionNotCollapsableKey   @"sidebarCollapsable"
 
+#define UDControlsButtonHighlightRollsOver @"ButtonHighlightRollsOver"  /*  affects Preferences -> Controls: After setting the last button (bottom right) of a console the selection automatically jumps back to the first button (top left), if value is true */
 // Keys remembering UI State
 #define UDSidebarVisibleKey			@"isSidebarVisible"			/*	sidebar in main window visible	*/
 #define UDSidebarWidthKey			@"lastSidebarWidth"			/*	width of main window sidebar	*/
 #define UDLastGridSizeKey           @"lastGridSize"
 #define UDLastCollectionViewKey     @"lastCollectionView"
+#define UDLastPopoutFrameKey        @"lastPopoutFrame"
 
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Tags identifying Main Menu items
 #pragma mark File Menu
-#define MainMenu_File_LaunchGame 101
+// #define MainMenu_File_LaunchGame 101
 #define MainMenu_File_NewCollection 102
 #define MainMenu_File_NewCollectionFolder 103
 #define MainMenu_File_NewSmartCollection 104

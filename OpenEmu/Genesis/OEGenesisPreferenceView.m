@@ -39,6 +39,7 @@
 	[view addButtonWithName:@"OEGenesisButtonDown[@]" label:@"Down:" target:self];
 	[view addButtonWithName:@"OEGenesisButtonLeft[@]" label:@"Left:" target:self];
 	[view addButtonWithName:@"OEGenesisButtonRight[@]" label:@"Right:" target:self];
+    [view nextColumn];
 	
 	[view addButtonWithName:@"OEGenesisButtonStart[@]" label:@"Start:" target:self];
 	[view addButtonWithName:@"OEGenesisButtonMode[@]" label:@"Mode:" target:self];
@@ -52,6 +53,8 @@
 	[view addButtonWithName:@"OEGenesisButtonX[@]" label:@"X:" target:self];
 	[view addButtonWithName:@"OEGenesisButtonY[@]" label:@"Y:" target:self];
 	[view addButtonWithName:@"OEGenesisButtonZ[@]" label:@"Z:" target:self];
+    
+    [view updateButtons];
 }
 
 - (NSImage*)controllerImage{

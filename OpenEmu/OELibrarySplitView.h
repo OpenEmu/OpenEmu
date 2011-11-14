@@ -8,9 +8,7 @@
 
 #import <Foundation/Foundation.h>
 // TODO: rewrite this whole splitview thingy
-
-@class OELibraryController;
-@interface OELibrarySplitView : NSSplitView <NSSplitViewDelegate>
+@class OELibraryController;@interface OELibrarySplitView : NSSplitView <NSSplitViewDelegate>
 {
     BOOL resizesLeftView;
     BOOL _hidingLeftView;

@@ -159,7 +159,9 @@ typedef enum
             NSView* view = [[self dataSource] gridViewNoItemsView:self];
             if(!view) return;
             [view setAutoresizingMask:NSViewMinXMargin|NSViewMaxXMargin | NSViewMinYMargin|NSViewMaxYMargin];
-            
+    
+            self.wantsLayer = NO;
+
             NSPoint center = NSMakePoint((self.frame.size.width-view.frame.size.width)/2, (self.frame.size.height-view.frame.size.height)/2);
             center = OERoundNSPoint(center);
             [view setFrameOrigin:center];
@@ -169,7 +171,7 @@ typedef enum
     }
     else
     {
-        
+        self.wantsLayer = YES;
     }
     
     [self setNeedsDisplay:YES];    
@@ -566,12 +568,13 @@ typedef enum
     {
         return;
     }
+
     CGFloat newHeight = [[self enclosingScrollView] contentSize].height;
     if (height > newHeight) 
     {
         newHeight = height;
     }
-    
+
     NSRect newFrame = [self frame];
     newFrame.size.height = newHeight;
     BOOL oldLayoutEnabled = self.layoutEnabled;

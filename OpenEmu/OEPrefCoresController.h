@@ -11,17 +11,12 @@
 
 @class OEBackgroundGradientView;
 @class OECenteredTextFieldCell;
-@interface OEPrefCoresController : NSViewController <OEPreferencePane, NSTableViewDataSource, NSTableViewDelegate> {
-@private
-    int __debug_testing__InstallIndex;
-    int __debug_testing__UpdateIndex;
-    int __debug_testing__ProgressIndex;
-    float __debug_testing__progress;
-}
+@interface OEPrefCoresController : NSViewController <OEPreferencePane, NSTableViewDataSource, NSTableViewDelegate>
 - (NSImage*)icon;
 - (NSString*)title;
 
 - (NSSize)viewSize;
 
 @property (nonatomic, retain) IBOutlet NSTableView *coresTableView;
+@property (retain) NSMutableArray* arrangedPlugins;
 @end

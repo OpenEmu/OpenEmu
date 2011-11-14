@@ -871,7 +871,7 @@ static OELibraryDatabase* defaultDatabase = nil;
 }
 
 - (OEDBRom*)createROMandGameForFile:(NSString*)filePath error:(NSError**)outError
-{
+{   
     NSEntityDescription* entityDescrption = [OEDBRom entityDescriptionInContext:self.managedObjectContext];
     OEDBRom* rom = [[OEDBRom alloc] initWithEntity:entityDescrption insertIntoManagedObjectContext:self.managedObjectContext];
     [rom setValue:filePath forKey:@"path"];
@@ -881,7 +881,7 @@ static OELibraryDatabase* defaultDatabase = nil;
     [[game mutableSetValueForKey:@"roms"] addObject:rom];
     [game setValue:[[filePath lastPathComponent] stringByDeletingPathExtension] forKey:@"name"];
     [game release];
-    
+        
     return [rom autorelease];
 }
 #pragma mark -
@@ -959,6 +959,35 @@ static OELibraryDatabase* defaultDatabase = nil;
         NSLog(@"Error executing fetch request to get rom by crc");
         NSLog(@"%@", err);
         return nil;
+    }
+    
+    return [result lastObject];
+}
+
+- (OEDBRom*)romForWithPath:(NSString*)path
+{
+    NSManagedObjectContext* context = [self managedObjectContext];
+    NSEntityDescription* entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
+    
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:entityDescription];
+    [fetchRequest setFetchLimit:1];
+    [fetchRequest setIncludesPendingChanges:YES];
+    
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"path == %@", path];
+    [fetchRequest setPredicate:predicate];
+    
+    NSError* err = nil;
+    NSArray* result = [context executeFetchRequest:fetchRequest error:&err];
+    [fetchRequest release];
+    if(result==nil)
+    {        NSLog(@"Error executing fetch request to get rom by path");
+        NSLog(@"%@", err);
+        return nil;
+    }
+    else
+    {
+        NSLog(@"Result: %@", result);
     }
     
     return [result lastObject];

@@ -26,7 +26,6 @@
  */
 
 #import "OEDownload.h"
-#import "OEGameDocumentController.h"
 #import <Sparkle/Sparkle.h>
 #import <XADMaster/XADArchive.h>
 
@@ -100,7 +99,7 @@
 {
     NSURLRequest  *request      = [NSURLRequest requestWithURL:[appcastItem fileURL]];
     
-    id <NSURLDownloadDelegate> urlDLDelegate = self;
+    id <NSURLDownloadDelegate> urlDLDelegate = (id <NSURLDownloadDelegate>)self;
     
     NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:urlDLDelegate] autorelease];
     downloading = YES;
@@ -155,7 +154,9 @@
 {
     XADArchive *archive = [XADArchive archiveForFile:downloadPath];
     
-    NSString *appsupportFolder = [[OEGameDocumentController sharedDocumentController] applicationSupportFolder];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
+    NSString *appsupportFolder = [basePath stringByAppendingPathComponent:@"OpenEmu"];
     appsupportFolder = [appsupportFolder stringByAppendingPathComponent:@"Cores"];
     
     fullPluginPath = [[appsupportFolder stringByAppendingPathComponent:[archive nameOfEntry:0]] retain];

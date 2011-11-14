@@ -14,7 +14,7 @@
 {
 	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0.0 size:11.0];
+	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSFontBoldTrait weight:9.0 size:11.0];
 	
 	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowBlurRadius:1.0];

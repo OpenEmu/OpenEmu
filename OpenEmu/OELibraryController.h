@@ -41,8 +41,6 @@
 
 #pragma mark -
 #pragma mark Menu Item Actions
-- (IBAction)filemenu_launchGame:(id)sender;
-
 - (IBAction)filemenu_newCollection:(id)sender;
 - (IBAction)filemenu_newSmartCollection:(id)sender;
 - (IBAction)filemenu_newCollectionFolder:(id)sender;

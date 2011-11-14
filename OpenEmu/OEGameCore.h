@@ -74,6 +74,10 @@ static inline OEIntRect OERectMake(int x, int y, int width, int height)
     return (OEIntRect){(OEIntPoint){x,y}, (OEIntSize){width, height}};
 }
 
+static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
+{
+    return NSMakeSize(size.width, size.height);
+}
 @class OEHIDEvent, OERingBuffer;
 
 #pragma mark -

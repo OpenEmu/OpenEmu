@@ -40,7 +40,6 @@
 - (BOOL)isFlipped{
 	return NO;
 }
-
 - (void)_setup{
 	CALayer* layer = [OEGridBackgroundLayer layer];
 	self.layer = layer;

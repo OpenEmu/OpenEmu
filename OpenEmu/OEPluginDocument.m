@@ -27,7 +27,6 @@
 
 #import "OEPluginDocument.h"
 #import "OEPlugin.h"
-#import "OEGameDocumentController.h"
 
 @implementation OEPluginDocument
 
@@ -72,7 +71,6 @@
                               [NSString stringWithFormat:@"Couldn't load %@ plugin", path], NSLocalizedDescriptionKey,
                               @"A version of this plugin is already loaded",                NSLocalizedFailureReasonErrorKey,
                               @"You need to restart the application to commit the change",  NSLocalizedRecoverySuggestionErrorKey,
-                              [OEGameDocumentController sharedDocumentController],          NSRecoveryAttempterErrorKey,
                               [NSArray arrayWithObjects:@"Restart now", @"Cancel", nil],    NSLocalizedRecoveryOptionsErrorKey,
                               nil]];
         }

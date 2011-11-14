@@ -26,10 +26,10 @@
  */
 
 #import <Cocoa/Cocoa.h>
-
 @interface OEGameControllerView : NSView
 {
-	NSMutableArray	* buttonsAndLabels;
+    float lastWidth;
+	NSMutableArray *elementPages;
 }
 
 - (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end DEPRECATED_ATTRIBUTE;
@@ -40,7 +40,9 @@
 
 - (void)updateButtons;
 - (void)addColumnLabel:(NSString*)label;
+- (void)addRowSeperator;
 - (void)nextColumn;
+- (void)nextPage;
 
 - (void)selectNextKeyButton:(id)currentButton;
 @end

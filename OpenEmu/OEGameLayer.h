@@ -35,7 +35,7 @@
 
 #import <Syphon/Syphon.h>
 
-@class OEGameCore, OEGameDocument, OEGameDocumentController;
+@class OEGameCore, OEGameDocument;
 
 @interface OEGameLayer : CAOpenGLLayer <OEGameCoreHelperDelegate>
 {

@@ -18,7 +18,7 @@
 @class OESystemResponder;
 
 @class OEHUDControlsWindow;
-
+@class OEGameDocument;
 @interface OEGameViewController : OEMainWindowContentController
 {
     OEHUDControlsWindow *controlsWindow;
@@ -40,7 +40,9 @@
     BOOL emulationRunning;
 }
 - (id)initWithWindowController:(OEMainWindowController*)aWindowController andRom:(OEDBRom*)rom;
+- (id)initWithWindowController:(OEMainWindowController*)aWindowController andRom:(OEDBRom*)rom error:(NSError**)outError;
 - (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)gam;
+- (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)gam error:(NSError**)outError;
 
 - (void)contentWillShow;
 - (void)contentWillHide;
@@ -70,6 +72,9 @@
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage* img))block;
 
 #pragma mark -
+#pragma mark Info
+- (NSSize)defaultScreenSize;
+#pragma mark -
 #pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 - (void)menuItemAction:(id)sender;
@@ -77,4 +82,5 @@
 
 #pragma mark -
 @property (retain) OEDBRom* rom;
+@property (assign) OEGameDocument* document;
 @end

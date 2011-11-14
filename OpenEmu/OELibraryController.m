@@ -28,7 +28,7 @@
 
 #import "NSControl+OEAdditions.h"
 
-#import "OEGameViewController.h"
+#import "OEGameDocument.h"
 @interface OELibraryController (Private)
 - (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
@@ -114,6 +114,12 @@
     [[self collectionViewController] willShow];
     
     [[self sidebarController] reloadData];
+    
+    OELibrarySplitView* splitView = (OELibrarySplitView*)[self view];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    float splitterPos = [standardUserDefaults floatForKey:UDSidebarWidthKey];
+    NSLog(@"%@ :: %f", splitView, splitterPos);
+    [splitView setSplitterPosition:splitterPos animated:NO];
 }
 
 - (void)contentWillHide
@@ -203,11 +209,6 @@
 }
 
 #pragma mark FileMenu Actions
-- (IBAction)filemenu_launchGame:(id)sender
-{
-    DLog(@"currently unsuported");
-}
-
 - (IBAction)filemenu_newCollection:(id)sender
 {
     OELibraryDatabase* database = [self database];
@@ -267,10 +268,6 @@
 - (void)menuItemAction:(id)sender
 {
     switch ([sender tag]) {
-            // File Menu
-        case MainMenu_File_LaunchGame:
-            [self filemenu_launchGame:sender];
-            break;
         case MainMenu_File_NewCollection:
             [self filemenu_newCollection:sender];
             break;
@@ -328,7 +325,6 @@
     [openPanel setCanCreateDirectories:NO];
     [openPanel setCanChooseDirectories:YES];
     
-    
     NSWindow* win = [[self view] window];
     [openPanel beginSheetModalForWindow:win completionHandler:^(NSInteger result){
         if(result == NSFileHandlingPanelOKButton)
@@ -350,15 +346,11 @@
         DLog(@"No game. This should not be possible from UI (item disabled)");
         return;
     }
-    
     OEDBGame* selectedGame = [selection lastObject];
-    OEMainWindowController* windowController = [self windowController];
-    OEGameViewController* gameViewController = [[OEGameViewController alloc] initWithWindowController:windowController andGame:selectedGame];
-    if(gameViewController)
-    {
-        [windowController setCurrentContentController:gameViewController];
-    }
-    [gameViewController release];
+    NSDocumentController* docController = [NSDocumentController sharedDocumentController];
+    OEGameDocument* document = [[OEGameDocument alloc] initWithGame:selectedGame];
+    [docController addDocument:document];
+    [document release];
 }
 #pragma mark -
 #pragma mark Sidebar Helpers
@@ -465,10 +457,12 @@
     NSView* toolbarItemContainer = [[windowController toolbarSearchField] superview]; 
     
     float splitterPosition =[[self mainSplitView] splitterPosition];
+    [[NSUserDefaults standardUserDefaults] setFloat:splitterPosition forKey:UDSidebarWidthKey];
     float width = [[[self mainSplitView] rightContentView] frame].size.width, height = 44.0;
     
     NSRect toolbarFrame = (NSRect){{splitterPosition, 0},{width, height}};
     [toolbarItemContainer setFrame:toolbarFrame];
+
 }
 
 - (void)windowFullscreenExit:(NSWindow*)window

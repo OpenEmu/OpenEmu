@@ -31,6 +31,8 @@
 {
     NSString* filePath = [self valueForKey:@"path"];
     
+    DLog(@"doInitialSetupWithDatabase: %@", filePath);
+    
     BOOL useMD5 = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
     NSError* error = nil;
     NSData* data = [[NSData alloc] initWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];

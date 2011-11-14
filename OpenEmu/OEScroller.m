@@ -17,6 +17,8 @@
 + (CGFloat)scrollerWidthForControlSize:(NSControlSize)controlSize;
 @end
 @implementation OEScroller
+@synthesize isVertical;
+
 - (BOOL)autohidesScrollers{
 	return YES;
 }
@@ -134,9 +136,7 @@
 }
 
 - (void)drawArrows{
-	
 	BOOL windowActive = [[self window] isMainWindow];
-	
 	
 	// check state for decrement arrow (up or left)
 	OEUIState state = OEUIStateInactive;
@@ -178,7 +178,6 @@
 	   [[self class] preferredScrollerStyle]==1){
 		return [super rectForPart:aPart];
 	}
-	
 	
 	switch (aPart){
 		case NSScrollerNoPart:

@@ -1769,7 +1769,8 @@ static void S9xDisplayPressedKeys ()
 						skip = true;
 					else
 					{
-						sprintf(string, !singlePlayer?"P%d:                    ":"                       ",id+1);
+						if(!singlePlayer) sprintf(string, "P%d:                    ",id+1);
+						else sprintf(string, "                       ");
 
 						for (int i=0; i < 15; i++)
 						{

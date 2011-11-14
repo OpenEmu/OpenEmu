@@ -363,7 +363,7 @@
 #pragma mark IKSGridItemLayerEventProtocol
 - (BOOL)mouseDown:(NSEvent*)theEvent{	
 	id obj = [self.gridView.dataSource gridView:self.gridView objectValueOfItemAtIndex:self.representedIndex];
-	NSString* val = [NSString stringWithFormat:@"%@\t\t|\t%@\n", [obj valueForKey:@"name"], [obj valueForKey:@"archiveID"]];
+	NSString* val = [NSString stringWithFormat:@"%@\t\t|\t%@\t|\t%@\n", [obj valueForKey:@"name"], [obj valueForKey:@"archiveID"], [[[obj valueForKey:@"roms"] anyObject] valueForKey:@"path"]];
 	printf("%s", [val cStringUsingEncoding:NSUTF8StringEncoding]);
     
     NSPoint p = [self.gridView convertPoint:[theEvent locationInWindow] fromView:nil];

@@ -56,6 +56,7 @@
     [[self toolbarAddToSidebarButton] setImage:[NSImage imageNamed:@"toolbar_add_button"]];
     
     // Setup Window behavior
+    [[self window] setRestorable:NO];
     [[self window] setExcludedFromWindowsMenu:YES];
 }
 

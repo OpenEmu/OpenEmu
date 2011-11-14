@@ -137,11 +137,25 @@
 	OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
     
 	NSView* preferenceView = [preferenceViewController view];
-	[preferenceView setFrame:[controlsContainer bounds]];
+    [preferenceView setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
+    NSRect rect = (NSRect){{0,0}, {controlsContainer.bounds.size.width, preferenceView.frame.size.height}};
+	[preferenceView setFrame:rect];
+    [controlsContainer setFrame:rect];
 	if([[controlsContainer subviews] count])
         [[controlsContainer animator] replaceSubview:[[controlsContainer subviews] objectAtIndex:0] with:preferenceView];
     else
         [[controlsContainer animator] addSubview:preferenceView];
+    
+    NSScrollView* scrollView = [controlsContainer enclosingScrollView];
+    [controlsContainer setFrameOrigin:(NSPoint){0,scrollView.frame.size.height-rect.size.height}];
+    if(controlsContainer.frame.size.height<=scrollView.frame.size.height)
+    {
+        [scrollView setVerticalScrollElasticity:NSScrollElasticityNone];
+    }
+    else
+    {
+        [scrollView setVerticalScrollElasticity:NSScrollElasticityAutomatic];
+    }
     
     [sud setObject:systemIdentifier forKey:UDControlsPluginIdentifierKey];
     
@@ -159,8 +173,7 @@
     controllerTransition.duration = 1.0;
     controllerTransition.subtype = (order == NSOrderedDescending ? kCATransitionFromLeft : kCATransitionFromRight);
     
-    [controllerView setAnimations:[NSDictionary dictionaryWithObject:controllerTransition 
-                                                              forKey:@"subviews"]];
+    [controllerView setAnimations:[NSDictionary dictionaryWithObject:controllerTransition forKey:@"subviews"]];
     
     if([[controllerView subviews] count])
     {

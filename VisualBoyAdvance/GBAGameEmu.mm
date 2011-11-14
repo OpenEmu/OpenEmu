@@ -39,14 +39,14 @@
 #include "Core/gba/Flash.h"
 #include "Core/common/Port.h"
 #include "Core/gba/RTC.h"
-#include "core/gba/Sound.h"
+#include "Core/gba/Sound.h"
 //#include "core/Text.h"
 //#include "core/unzip.h"
-#include "core/Util.h"
-#include "core/gb/GB.h"
-#include "core/gb/gbGlobals.h"
+#include "Core/Util.h"
+#include "Core/gb/gb.h"
+#include "Core/gb/gbGlobals.h"
 #include "CASoundDriver.h"
-#include "core/gba/Sound.h"
+#include "Core/gba/Sound.h"
 
 #define GBA_WIDTH   240
 #define GBA_HEIGHT  160

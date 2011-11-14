@@ -33,12 +33,18 @@
         processingQueue = dispatch_queue_create("org.openemu.processROMs", NULL);
         dispatch_queue_t priority = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
         dispatch_set_target_queue(processingQueue, priority);
+        
+        importedRoms = [[NSMutableArray alloc] init];
+        canceld = NO;
     }
     return self;
 }
 
 - (void)dealloc {
     dispatch_release(processingQueue);
+    
+    [importedRoms release];
+    importedRoms = nil;
     
     [super dealloc];
 }
@@ -51,6 +57,7 @@
 
 - (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError**)outError
 {
+    DLog(@"inPaths: %@", pathArray);
     if(!self.database)
     {
         // TODO: Create proper error
@@ -61,6 +68,7 @@
     
     if(![NSThread isMainThread])
     {
+        DLog(@"Not on main thread - trashin some values");
         // if we do not run on main thread it is very possible that bg and outError hold garbage!
         NSError* error = nil;
         outError = &error;
@@ -69,6 +77,7 @@
     {
         if(outError!=NULL) *outError = nil;
         
+        NSLog(@"–– – WILL RUN IN BACKGROUND");
         // this will pass random values as bg and outError
         [self performSelectorInBackground:@selector(importROMsAtPaths:inBackground:error:) withObject:pathArray];
         
@@ -81,6 +90,8 @@
      {
          [normalizedPaths insertObject:[obj stringByExpandingTildeInPath] atIndex:idx];
      }];
+    
+    DLog(@"normalizedPaths: %@", normalizedPaths);
     
     canceld = NO;
     return [self _performImportWithPaths:normalizedPaths error:outError];
@@ -108,6 +119,7 @@
 
 - (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString *)basePath error:(NSError **)outError
 {
+    DLog(@"canceld: %d", canceld);
     if (canceld)
         return YES;
     
@@ -174,6 +186,7 @@
 
 - (BOOL)_performImportWithPath:(NSString*)path error:(NSError**)outError
 {
+    DLog(@"%d", canceld);
     if (canceld)
         return YES;
     
@@ -220,12 +233,13 @@
 
 - (void)_performCancel:(BOOL)deleteChanges
 {
-    //TODO: IMPLEMENT!!!!!
+    // TODO: IMPLEMENT!!!!!
     canceld = YES;
 }
 
 - (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError**)outError
 {    
+    DLog(@"");
 #warning finish method implementation
     // check if path has readable suffix
     BOOL hasReadableSuffix = YES;
@@ -255,6 +269,7 @@
     
     if(isInDatabase)
     {
+        DLog("is In database");
         if(outError!=NULL) *outError = nil;
         return YES;
     }
@@ -286,6 +301,7 @@
         while ([[NSFileManager defaultManager] fileExistsAtPath:newPath])
         {
             i++;
+            NSLog(@"file exists at path: %@", newPath);
             newPath = [unsortedFolderPath stringByAppendingFormat:@"/%@ %d.%@", [fileName stringByDeletingPathExtension], i, [fileName pathExtension]];
         }
         
@@ -319,33 +335,36 @@
     [rom setValue:[NSNumber numberWithInt:status] forKeyPath:@"game.status"];
     if(![[rom managedObjectContext] save:&error])
     {
+        DLog(@"did not save context: %@", error);
         if (outError!=NULL) *outError = error;
         return NO;
     }
     
     NSManagedObjectID* romID = [rom objectID];
     // add rom id to imported fields
+    
     if(status){
         self.queueCount ++;
         dispatch_async(processingQueue, ^{
             OELibraryDatabase* db = self.database;
             OEDBRom* rom = (OEDBRom*)[[self.database managedObjectContext] objectWithID:romID];
             [rom doInitialSetupWithDatabase:db];
-            
             [rom setValue:[NSNumber numberWithInt:0] forKeyPath:@"game.status"];
-            
-            [rom.managedObjectContext save:nil];
-            
             [[NSNotificationCenter defaultCenter] postNotificationName:@"OEDBStatusChanged" object:self userInfo:[NSDictionary dictionaryWithObject:romID forKey:@"newRomID"]];
-            
             
             self.queueCount--;
         });
         
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"OEDBGameAdded" object:self userInfo:[NSDictionary dictionaryWithObject:romID forKey:@"newRomID"]];
+    [importedRoms addObject:rom];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"OEDBGameAdded" object:self userInfo:[NSDictionary dictionaryWithObject:romID forKey:@"newRomID"]];
     return YES;
+}
+
+- (NSArray*)importedRoms
+{
+    return importedRoms;
 }
 
 @end

@@ -323,7 +323,6 @@
     {
         [object setGridTitle:val];
     }
-    
     [moc save:nil];
 }
 

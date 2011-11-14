@@ -26,48 +26,30 @@
  */
 
 #import "OEGameDocument.h"
-#import "OECorePlugin.h"
-#import "OEGameDocumentController.h"
-#import "OEGameLayer.h"
-#import "OEGameView.h"
-#import "OEGameCore.h"
-#import "NSApplication+OEHIDAdditions.h"
-#import "OEHIDEvent.h"
-#import "OEGameCoreController.h"
-#import "OEGameQTRecorder.h"
-#import "OECorePickerController.h"
+#import "OELibraryDatabase.h"
+#import "OEDBRom.h"
+
+#import "OEApplicationDelegate.h"
+#import "OEGameViewController.h"
 #import "OEGameCoreManager.h"
-#import "OESystemPlugin.h"
-#import "OESystemController.h"
-#import "OESystemResponder.h"
 
-#import "OEGameCoreHelper.h"
-
-#import "NSString+UUID.h"
-
-@interface OEGameDocument ()
-- (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError;
+#import "NSData+HashingAdditions.h"
+#import "OEROMImporter.h"
+@interface OEGameDocument (Private)
+- (OEDBRom*)_romFromURL:(NSURL*)url;
+- (BOOL)loadRom:(OEDBRom*)rom withError:(NSError**)outError;
+- (BOOL)loadGame:(OEDBGame*)game withError:(NSError**)outError;
+- (BOOL)_setupGameViewController:(OEGameViewController*)aGameViewController;
 @end
-
-
 @implementation OEGameDocument
-
-@synthesize emulatorName, view, gameWindow, playPauseToolbarItem;
-+ (id)newDocumentWithROM:(id)rom error:(NSError**)error{
-    DLog(@"%@", rom);
-	return nil;
-}
-
-+ (id)newDocumentWithRomAtURL:(NSURL*)url error:(NSError**)error{
-     DLog(@"%@", url);
-	return nil;
-}
+@synthesize gameViewController;
 #pragma mark -
 - (id)init
 {
     self = [super init];
     if(self != nil)
     {
+        NSLog(@"OEGameDocument init");
         [[NSNotificationCenter defaultCenter] addObserver:self
                                                  selector:@selector(applicationWillTerminate:)
                                                      name:NSApplicationWillTerminateNotification
@@ -76,52 +58,116 @@
     return self;
 }
 
+- (id)initWithRom:(OEDBRom*)rom {
+    self = [self init];
+    if (self) {
+        if(![self loadRom:rom withError:nil])
+        {
+            [self close];
+            return nil;
+        }
+    }
+    return self;
+}
+- (id)initWithGame:(OEDBGame*)game
+{
+    self = [self init];
+    if (self) {
+        if(![self loadGame:game withError:nil])
+        {
+            [self close];
+            return nil;
+        }
+    }
+    return self;
+}
+
 - (void)dealloc
 {
-    [playPauseToolbarItem release];
-    [view release];
-    [gameWindow release];
-    
+    NSLog(@"OEGameDocument dealloc start");
+    self.gameViewController = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
+    
+    NSLog(@"OEGameDocument dealloc end");
     [super dealloc];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-    [self terminateEmulation];
+    
 }
-
-- (NSString *)windowNibName
+#pragma mark -
+- (BOOL)_setupGameViewController:(OEGameViewController*)aGameViewController
 {
-    // Override returning the nib file name of the document
-    // If you need to use a subclass of NSWindowController or if your document supports multiple NSWindowControllers, you should remove this method and override -makeWindowControllers instead.
-    return @"GameDocument";
+    [aGameViewController setDocument:self];
+    OEMainWindowController* winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
+    
+    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL allowPopout = [standardDefaults boolForKey:UDAllowPopoutKey];
+    BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
+    
+    BOOL usePopout = forcePopout || (allowPopout && ([winController currentContentController] != [winController defaultContentController]));
+    if(usePopout)
+    {
+        // Create a window, set gameviewcontroller.view as view, open it
+        NSLog(@"use popout");
+        BOOL useScreenSize = [standardDefaults boolForKey:UDPopoutHasScreenSizeKey] || ![standardDefaults valueForKey:UDLastPopoutFrameKey];
+        NSRect windowRect;
+        if(useScreenSize)
+        {
+            windowRect.size = [aGameViewController defaultScreenSize];
+            windowRect.origin = NSZeroPoint;
+        }
+        else
+        {
+            windowRect = NSRectFromString([standardDefaults stringForKey:UDLastPopoutFrameKey]);
+        }
+        
+        NSWindow* window = [[NSWindow alloc] initWithContentRect:windowRect styleMask:NSTitledWindowMask|NSClosableWindowMask|NSResizableWindowMask|NSMiniaturizableWindowMask backing:NSWindowBackingLocationDefault defer:NO];
+        [window setHasShadow:YES];
+        
+        [aGameViewController.view setFrame:[[window contentView] bounds]];
+        [aGameViewController.view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+        [[window contentView] addSubview:aGameViewController.view];
+        
+        if(useScreenSize)
+            [window center];
+        [window makeKeyAndOrderFront:self];
+        [window setReleasedWhenClosed:YES];
+    }
+    else
+    {
+        NSLog(@"do not use popout");
+        [winController setCurrentContentController:aGameViewController];
+    }
+    [self setGameViewController:aGameViewController];
+    
+    return YES;
+    
 }
-
-- (void)windowControllerDidLoadNib:(NSWindowController *)aController
+#pragma mark -
+- (BOOL)loadGame:(OEDBGame*)game withError:(NSError**)outError
 {
-    [view setRootProxy:rootProxy];
-    [view setGameResponder:gameSystemResponder];
-    [gameWindow setAcceptsMouseMovedEvents:YES];
+    OEMainWindowController* winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
+    OEGameViewController* aGameViewController = [[OEGameViewController alloc] initWithWindowController:winController andGame:game error:outError];
+    if(!aGameViewController) return NO;
     
-    OEIntSize maxScreenSize = rootProxy.screenSize;
-    NSSize aspect = NSMakeSize(maxScreenSize.width, maxScreenSize.height);
-    
-    NSLog(@"Aspect IS: %@", NSStringFromSize(aspect));
-    
-    CGFloat scaleFactor = [view preferredWindowScale];
-    [gameWindow setContentSize:NSMakeSize(aspect.width * scaleFactor, aspect.height * scaleFactor)];
-    [gameWindow setContentAspectRatio:aspect];
-    [gameWindow center];
-    //[gameWindow setContentResizeIncrements:aspect];
-    
-    //[recorder startRecording];
-    [gameWindow makeFirstResponder:view];
-    [gameWindow makeKeyAndOrderFront:self];
-    
-    if([self defaultsToFullScreenMode])
-        [self toggleFullScreenMode:self];
+    BOOL res = [self _setupGameViewController:aGameViewController];
+    [aGameViewController release];
+    return res;
 }
+- (BOOL)loadRom:(OEDBRom*)rom withError:(NSError**)outError
+{
+    OEMainWindowController* winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
+    OEGameViewController* aGameViewController = [[OEGameViewController alloc] initWithWindowController:winController andRom:rom error:outError];
+    if(!aGameViewController) return NO;
+    
+    BOOL res = [self _setupGameViewController:aGameViewController];
+    [aGameViewController release];
+    return res;
+}
+#pragma mark -
+#pragma mark NSDocument Stuff
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
@@ -132,292 +178,120 @@
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-    DLog(@"%@", absoluteURL);
-    return NO;
+    NSLog(@"readFromURL:ofType:error: %d", [NSThread isMainThread]);
     
     NSString *romPath = [absoluteURL path];
-    if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
+    if(![[NSFileManager defaultManager] fileExistsAtPath:romPath])
     {
-        DLog(@"%@", self);
-        
-        OECorePlugin *plugin = [self OE_pluginForFileExtension:[absoluteURL pathExtension] error:outError];
-        
-        if(plugin == nil) return NO;
-        
-        gameController = [[plugin controller]  retain];
-        emulatorName   = [[plugin displayName] retain];
-        
-        [gameSystemController registerGameSystemResponder:gameSystemResponder];
-        
-        Class managerClass = ([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.gameCoreInBackgroundThread"] boolValue]
-                              ? [OEGameCoreThreadManager  class]
-                              : [OEGameCoreProcessManager class]);
-        
-        NSLog(@"managerClass = %@", managerClass);
-        gameCoreManager = [[managerClass alloc] initWithROMAtPath:romPath corePlugin:plugin owner:gameController error:outError];
-        
-        if(gameCoreManager != nil)
+        if(outError != NULL)
         {
-            rootProxy = [[gameCoreManager rootProxy] retain];
-            
-            [rootProxy setupEmulation];
-            
-            OEGameCore *gameCore = [rootProxy gameCore];
-            
-            gameSystemController = [[[OESystemPlugin gameSystemPluginForIdentifier:[gameCore systemIdentifier]] controller] retain];
-            gameSystemResponder  = [gameSystemController newGameSystemResponder];
-            
-            [gameSystemResponder setClient:gameCore];
-            
-            return YES;
+            *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+                                            code:OEFileDoesNotExistError
+                                        userInfo:
+                         [NSDictionary dictionaryWithObjectsAndKeys:
+                          NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
+                          NSLocalizedFailureReasonErrorKey,
+                          NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
+                          NSLocalizedRecoverySuggestionErrorKey,
+                          nil]];
         }
-    }
-    else if(outError != NULL)
-    {
-        *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                        code:OEFileDoesNotExistError
-                                    userInfo:
-                     [NSDictionary dictionaryWithObjectsAndKeys:
-                      NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
-                      NSLocalizedFailureReasonErrorKey,
-                      NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
-                      NSLocalizedRecoverySuggestionErrorKey,
-                      nil]];
+        return NO;
     }
     
+    BOOL isArchive = [typeName isEqualToString:@"Archived Game"];
+    if(isArchive)
+    {
+        // TODO: Handle archived games
+        NSLog(@"Archived Games are not supported right now!");
+        return NO;
+    }
+    
+    // get rom by path
+    OEDBRom* rom = [self _romFromURL:absoluteURL];
+    if(rom == nil)
+    {
+        NSLog(@"Could not import file as new rom, should not happen!");
+        return NO;
+    }
+    return [self loadRom:rom withError:outError];
+    
+    /*
+     NSString *romPath = [absoluteURL path];
+     if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
+     {
+     DLog(@"%@", self);
+     
+     OECorePlugin *plugin = [self OE_pluginForFileExtension:[absoluteURL pathExtension] error:outError];
+     
+     if(plugin == nil) return NO;
+     
+     gameController = [[plugin controller]  retain];
+     emulatorName   = [[plugin displayName] retain];
+     
+     [gameSystemController registerGameSystemResponder:gameSystemResponder];
+     
+     Class managerClass = ([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.gameCoreInBackgroundThread"] boolValue]
+     ? [OEGameCoreThreadManager  class]
+     : [OEGameCoreProcessManager class]);
+     
+     NSLog(@"managerClass = %@", managerClass);
+     gameCoreManager = [[managerClass alloc] initWithROMAtPath:romPath corePlugin:plugin owner:gameController error:outError];
+     
+     if(gameCoreManager != nil)
+     {
+     rootProxy = [[gameCoreManager rootProxy] retain];
+     
+     [rootProxy setupEmulation];
+     
+     OEGameCore *gameCore = [rootProxy gameCore];
+     
+     gameSystemController = [[[OESystemPlugin gameSystemPluginForIdentifier:[gameCore systemIdentifier]] controller] retain];
+     gameSystemResponder  = [gameSystemController newGameSystemResponder];
+     
+     [gameSystemResponder setClient:gameCore];
+     
+     return YES;
+     }
+     }
+     else if(outError != NULL)
+     {
+     *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
+     code:OEFileDoesNotExistError
+     userInfo:
+     [NSDictionary dictionaryWithObjectsAndKeys:
+     NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
+     NSLocalizedFailureReasonErrorKey,
+     NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
+     NSLocalizedRecoverySuggestionErrorKey,
+     nil]];
+     }
+     */
     return NO;
-}
-
-#pragma mark -
-#pragma mark Plugin discovery
-- (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError
-{
-    OECorePlugin *ret = nil;
-    
-    NSArray *validPlugins = [OECorePlugin pluginsForFileExtension:ext];
-    
-    if([validPlugins count] <= 1) ret = [validPlugins lastObject];
-    else
-    {
-        OECorePickerController *c = [[[OECorePickerController alloc] initWithCoreList:validPlugins] autorelease];
-        
-        if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
-            ret = [c selectedCore];
-    }
-    
-    if(ret == nil && outError != NULL)
-    {
-        *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-                                        code:OEIncorrectFileError
-                                    userInfo:
-                     [NSDictionary dictionaryWithObjectsAndKeys:
-                      NSLocalizedString(@"The launched file isn't handled by OpenEmu", @"Incorrect file error reason."),
-                      NSLocalizedFailureReasonErrorKey,
-                      NSLocalizedString(@"Choose a file with a supported file format or download an appropriate OpenEmu plugin.", @"Incorrect file error recovery suggestion."),
-                      NSLocalizedRecoverySuggestionErrorKey,
-                      nil]];
-    }
-    
-    return ret;
-}
-
-#pragma mark -
-#pragma mark Background process construction and destruction
-
-- (void)terminateEmulation
-{
-    [view setRootProxy:nil];
-    [view setGameResponder:nil];
-    
-    [gameController removeSettingObserver:[rootProxy gameCore]];
-    [gameWindow makeFirstResponder:nil];
-    
-    [gameSystemController release];
-    gameSystemController = nil;
-    [gameSystemResponder release];
-    gameSystemResponder  = nil;
-    
-    // kill our background friend
-    [gameCoreManager stop];
-    [gameCoreManager release];
-    gameCoreManager = nil;
-    
-    [rootProxy release];
-    rootProxy = nil;
-    
-    [gameController release];
-    gameController = nil;
-    
-    [emulatorName release];
-    emulatorName = nil;
-}
-
-#pragma mark -
-#pragma mark Emulation utilities
-
-- (void)refresh
-{
-}
-
-- (BOOL)backgroundPauses
-{
-    return [[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.backgroundPause"] boolValue];
-}
-
-- (BOOL)defaultsToFullScreenMode
-{
-    return [[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.fullScreen"] boolValue];
-}
-
-- (BOOL)isEmulationPaused
-{
-    return [rootProxy isEmulationPaused];
-}
-
-- (void)setPauseEmulation:(BOOL)flag
-{
-    [rootProxy setPauseEmulation:flag];
-    
-    if (flag)
-    {
-        [playPauseToolbarItem setImage:[NSImage imageNamed:NSImageNameRightFacingTriangleTemplate]];
-        [playPauseToolbarItem setLabel:@"Play"];
-    }
-    else
-    {
-        [playPauseToolbarItem setImage:[NSImage imageNamed:NSImageNameStopProgressTemplate]];
-        [playPauseToolbarItem setLabel:@"Pause"];
-    }
-}
-
-- (BOOL)isFullScreen
-{
-    return [view isInFullScreenMode];
-}
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
-{
-    NSLog(@"Validate menu item: %@ %@", menuItem, NSStringFromSelector([menuItem action]));
-    return YES;
-}
-
-- (BOOL)validateUserInterfaceItem:(id<NSValidatedUserInterfaceItem>)anItem
-{
-    NSLog(@"Validate action with item: %@ %@", anItem, NSStringFromSelector([anItem action]));
-    return YES;
-}
-
-- (IBAction)toggleFullScreenMode:(id)sender
-{
-    [self setPauseEmulation:YES];
-    if(![view isInFullScreenMode])
-    {
-        [view enterFullScreenMode:[[view window] screen]
-                      withOptions:[NSDictionary dictionaryWithObjectsAndKeys:
-                                   [NSNumber numberWithBool:NO], NSFullScreenModeAllScreens, nil]];
-        [[view window] makeFirstResponder:view];
-        [NSCursor hide];
-    }
-    else
-    {
-        [view exitFullScreenModeWithOptions:nil];
-        [[view window] makeFirstResponder:view];
-        [NSCursor unhide];
-    }
-    [self setPauseEmulation:NO];
-}
-
-- (IBAction)saveState:(id)sender
-{
-    NSSavePanel *panel = [NSSavePanel savePanel];
-    
-    [panel beginSheetModalForWindow:gameWindow
-                  completionHandler:
-     ^(NSInteger result)
-     {
-         if(result == NSOKButton) [self saveStateToFile:[[panel URL] path]];
-     }];
-}
-
-- (IBAction)loadState:(id)sender
-{
-    NSOpenPanel *panel = [NSOpenPanel openPanel];
-    
-    [panel beginSheetModalForWindow:gameWindow
-                  completionHandler:
-     ^(NSInteger result)
-     {
-         if(result == NSOKButton) [self loadStateFromFile:[[panel URL] path]];
-     }];
-}
-
-// FIXME: Need to upgrade state method
-- (void)saveStateToFile:(NSString *)fileName
-{
-    [[rootProxy gameCore] saveStateToFileAtPath: fileName];
-}
-
-- (void)loadStateFromFile:(NSString *)fileName
-{
-    [[rootProxy gameCore] loadStateFromFileAtPath: fileName];
-}
-
-- (IBAction)scrambleRam:(id)sender
-{
-    [self scrambleBytesInRam:100];
-}
-
-- (void)scrambleBytesInRam:(NSUInteger)bytes
-{
-    //for(NSUInteger i = 0; i < bytes; i++)
-    //    [gameCore setRandomByte];
-}
-
-- (IBAction)resetGame:(id)sender
-{
-    [[rootProxy gameCore] resetEmulation];
-}
-
-- (IBAction)playPauseGame:(id)sender
-{
-    [self setPauseEmulation:![self isEmulationPaused]];
-}
-
-- (NSImage *)screenShot
-{
-    return nil;
-}
-
-- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block
-{
-    [view captureScreenshotUsingBlock:block];
 }
 
 #pragma mark -
 #pragma mark Window management utilities
-
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
-    [[OEGameDocumentController sharedDocumentController] setGameLoaded:YES];
-    if([self backgroundPauses]) [self setPauseEmulation:NO];
+    // if([self backgroundPauses]) [self setPauseEmulation:NO];
 }
 
 - (void)windowDidResignKey:(NSNotification *)notification
 {
-    if([self backgroundPauses])
-    {
-        if(![self isFullScreen])
-        {
-            @try
-            {
-                [self setPauseEmulation:YES];
-            }
-            @catch (NSException *e)
-            {
-                NSLog(@"Failed to pause");
-            }
-        }
-    }
+    /* if([self backgroundPauses])
+     {
+     if(![self isFullScreen])
+     {
+     @try
+     {
+     [self setPauseEmulation:YES];
+     }
+     @catch (NSException *e)
+     {
+     NSLog(@"Failed to pause");
+     }
+     }
+     }*/
 }
 
 - (void)windowDidResize:(NSNotification *)notification
@@ -427,31 +301,68 @@
 
 - (void)windowWillClose:(NSNotification *)notification
 {
-    if([view isInFullScreenMode]) [self toggleFullScreenMode:self];
-        [self terminateEmulation];
-    
-    //[recorder finishRecording];
-    [[OEGameDocumentController sharedDocumentController] setGameLoaded:NO];
+    /*if([view isInFullScreenMode]) [self toggleFullScreenMode:self];
+     [self terminateEmulation];
+     
+     //[recorder finishRecording];
+     */
 }
 
 - (void)performClose:(id)sender
 {
-    [gameWindow performClose:sender];
+    // [gameWindow performClose:sender];
 }
-
-#pragma mark TaskWrapper delegate methods
-
-- (void)appendOutput:(NSString *)output fromProcess:(OETaskWrapper *)aTask
+#pragma mark -
+#pragma mark Private
+- (OEDBRom*)_romFromURL:(NSURL*)url
 {
-    printf("%s", [output UTF8String]);
+    OEDBRom* rom = nil;
+    BOOL isMD5Hash = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];    
+    NSString* hash = nil;
+    
+    OELibraryDatabase* database = [OELibraryDatabase defaultDatabase];
+    
+    rom = [database romForWithPath:[url path]];
+    if(rom == nil)
+    {
+        NSData* file = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
+        if(!file) 
+        {
+            NSLog(@"can not load file into data");
+            return nil;
+        }
+        
+        if(isMD5Hash)
+        {
+            hash = [file MD5HashString];
+            rom = [database romForMD5Hash:hash];
+        }
+        else
+        {
+            hash = [file CRC32HashString];
+            rom = [database romForCRC32Hash:hash];
+        }
+    }
+    
+    if(rom == nil)
+    {
+        NSLog(@"no rom after hashing: %@ %@", isMD5Hash?@"MD5":@"CRC32", hash);
+        OEROMImporter* importer = [[OEROMImporter alloc] initWithDatabase:database];
+        [importer setErrorBehaviour:OEImportErrorAskUser]; // TODO: set proper error behaviour
+        BOOL success = [importer importROMsAtURL:url inBackground:NO error:nil];
+        if(!success)
+        {
+            [importer release];
+            NSLog(@"importing was not sucessfull");
+            return nil;
+        }
+        
+        rom = [[importer importedRoms] lastObject];
+        [importer release];
+        
+        NSLog(@"rom after hashing and import: %@", rom);
+    }
+    
+    return rom;
 }
-
-- (void)processStarted:(OETaskWrapper *)aTask
-{
-}
-
-- (void)processFinished:(OETaskWrapper *)aTask withStatus:(NSInteger)statusCode
-{
-}
-
 @end

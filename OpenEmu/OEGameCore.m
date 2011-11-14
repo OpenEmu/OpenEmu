@@ -28,7 +28,6 @@
 
 #import "OEGameCore.h"
 #import "OEGameDocument.h"
-#import "OEGameDocumentController.h"
 #import "OEGameCoreController.h"
 #import "OEAbstractAdditions.h"
 #import "OEHIDEvent.h"
