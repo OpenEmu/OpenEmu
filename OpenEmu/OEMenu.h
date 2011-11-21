@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <QuartzCore/QuartzCore.h>
 #import "OEMenuItem.h"
 @class OEControlsPopupButton;
 @protocol OEMenuDelegate;
@@ -15,18 +16,18 @@
 {
 @private
     NSMenu* menu;
-	NSMenuItem* highlightedItem;
+    NSMenuItem* highlightedItem;
     
     OEMenu* submenu;
-	OEMenu* supermenu;
-	
-	OEControlsPopupButton* popupButton;
-	
-	NSSize minSize, maxSize;
+    OEMenu* supermenu;
+    
+    OEControlsPopupButton* popupButton;
+    
+    NSSize minSize, maxSize;
     int itemsAboveScroller, itemsBelowScroller;
     
-	id _localMonitor;
-	BOOL visible;
+    id _localMonitor;
+    BOOL visible;
     BOOL closing;
     
     BOOL _alternate;
@@ -72,8 +73,9 @@
 @private
     BOOL imageIncluded;
 }
-- (void)updateView; // TODO: rename method
+- (void)update;
 #pragma mark -
+- (void)highlightItemAtPoint:(NSPoint)p;
 - (NSMenuItem*)itemAtPoint:(NSPoint)p;
 - (NSRect)rectOfItem:(NSMenuItem*)m;
 #pragma mark -

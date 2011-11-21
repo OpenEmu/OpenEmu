@@ -90,8 +90,11 @@
 #define UDBoxSizesKey				@"BoxSizes"					/*	Array of sizes used for Box Artwork thumbnails (defaults registered in main.m)				*/
 #define UDHUDHideOptionsKey         @"HUDBarWithoutOptions"     /*  Set to yes to disable the cog in the hudbar                                                 */
 #define OEHUDCanDeleteStateKey      @"HUDBarCanDeleteState"     /*  Enable to allow users to remove savestates by holding the alt button when clicking on a savestate  */
-#define UDRemoveSaveStateWithoutConfirmation @"removeStatesWithoutConfirmation" /* Used to decide if doing the above requires confirmation                      */
 #define UDSidebarCollectionNotCollapsableKey   @"sidebarCollapsable"
+
+#define UDSaveGameWhenQuitAlertSuppressionKey   @"autosaveOnStopWithoutConfirmation"   /* determines if user sees alert asking to save game on quitting */
+#define UDDelteGameAlertSuppressionKey          @"removeStatesWithoutConfirmation"     /* determines if user sees alert asking for confirmation before deleting a save game */
+#define UDSaveGameAlertSuppressionKey           @"saveGameWithoutConfirmation"          
 
 #define UDControlsButtonHighlightRollsOver @"ButtonHighlightRollsOver"  /*  affects Preferences -> Controls: After setting the last button (bottom right) of a console the selection automatically jumps back to the first button (top left), if value is true */
 // Keys remembering UI State

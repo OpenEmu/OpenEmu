@@ -61,7 +61,7 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
     } 
     else 
     {
-        [OEDBSystem createSystemFromPlugin:plugin inDatabase:db];
+        [OEDBSystem systemFromPlugin:plugin inDatabase:db];
     }
 }
 

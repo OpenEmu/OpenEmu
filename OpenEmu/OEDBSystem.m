@@ -10,19 +10,57 @@
 #import "OESystemPlugin.h"
 #import "OELibraryDatabase.h"
 @implementation OEDBSystem
-+ (id)createSystemFromPlugin:(OESystemPlugin*)plugin inDatabase:(OELibraryDatabase*)database
++ (id)systemFromPlugin:(OESystemPlugin*)plugin inDatabase:(OELibraryDatabase*)database
 {
     NSString* systemIdentifier = [plugin systemIdentifier];
-	OEDBSystem* system = [database systemWithIdentifier:systemIdentifier];
+    OEDBSystem* system = [database systemWithIdentifier:systemIdentifier];
     
-	if(system) return system;
-	
-	NSManagedObjectContext* moc = [database managedObjectContext];
-	
-	system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
-	// TODO: get archive id(s) from plugin
-	[system setValue:systemIdentifier forKey:@"systemIdentifier"];
-	return [system autorelease];		
+    if(system) return system;
+    
+    NSManagedObjectContext* moc = [database managedObjectContext];
+    
+    system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
+    // TODO: get archive id(s) from plugin
+    [system setValue:systemIdentifier forKey:@"systemIdentifier"];
+    return [system autorelease];
+}
+
++ (id)systemForArchiveID:(NSNumber*)archiveID
+{
+    return [self systemForArchiveID:archiveID inDatabase:[OELibraryDatabase defaultDatabase]];
+}
++ (id)systemForArchiveID:(NSNumber*)archiveID inDatabase:(OELibraryDatabase*)database
+{
+    OEDBSystem* system = [database systemWithArchiveID:archiveID];
+    return system;
+}
+
++ (id)systemForArchiveName:(NSString*)name
+{
+    return [self systemForArchiveName:name inDatabase:[OELibraryDatabase defaultDatabase]];
+}
++ (id)systemForArchiveName:(NSString*)name inDatabase:(OELibraryDatabase*)database
+{
+    OEDBSystem* system = [database systemWithArchiveName:name];
+    return system;
+}
++ (id)systemForArchiveShortName:(NSString*)shortName
+{
+    return [self systemForArchiveShortName:shortName inDatabase:[OELibraryDatabase defaultDatabase]];
+}
+
++ (id)systemForArchiveShortName:(NSString*)shortName inDatabase:(OELibraryDatabase*)database
+{
+    OEDBSystem* system = [database systemWithArchiveShortname:shortName];
+    return system;
+}
++ (id)systemForFile:(NSString*)filepath;
+{
+    return [self systemForFile:filepath inDatabase:[OELibraryDatabase defaultDatabase]];
+}
++ (id)systemForFile:(NSString*)filepath inDatabase:(OELibraryDatabase*)database
+{
+    return [database systemForFile:filepath];
 }
 #pragma mark -
 #pragma mark Core Data utilities
@@ -35,10 +73,10 @@
 }
 #pragma mark -
 - (OESystemPlugin*)plugin{
-	NSString* systemIdentifier = [self valueForKey:@"systemIdentifier"];
-	OESystemPlugin* plugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
-	
-	return plugin;
+    NSString* systemIdentifier = [self valueForKey:@"systemIdentifier"];
+    OESystemPlugin* plugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
+    
+    return plugin;
 }
 #pragma mark -
 - (NSImage*)icon{
@@ -50,7 +88,7 @@
 
 - (NSString*)name{
     
-	return [[self plugin] systemName];
+    return [[self plugin] systemName];
 }
 
 @end

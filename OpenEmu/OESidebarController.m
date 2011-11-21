@@ -14,6 +14,8 @@
 
 #import "OESidebarOutlineView.h"
 #import "NSImage+OEDrawingAdditions.h"
+
+#import "OEDBGame.h"
 @implementation OESidebarController
 @synthesize groups, database, editingItem;
 @synthesize systems, collections;
@@ -69,12 +71,14 @@
         [enclosingScrollView setDrawsBackground:YES];
         [enclosingScrollView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
         [sidebarView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
-
-       // [sidebarView setBackgroundColor:[NSColor clearColor]];
+        
+        // [sidebarView setBackgroundColor:[NSColor clearColor]];
     }
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])
         [sidebarView setAllowsEmptySelection:YES];
+    
+    [self _setupDrop];
 }
 
 #pragma mark -
@@ -140,6 +144,32 @@
     OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView expandItem:[self.groups objectAtIndex:1]];
 }
+#pragma mark -
+- (void)_setupDrop
+{
+    NSArray* acceptedTypes = [NSArray arrayWithObjects:NSFilenamesPboardType, OEPasteboardTypeGame, nil];
+    [self.view registerForDraggedTypes:acceptedTypes];
+    [(OESidebarOutlineView*)self.view setDragDelegate:self];
+}
+
+
+- (NSDragOperation)draggingEntered:(id < NSDraggingInfo >)sender{
+    NSPasteboard* pboard = [sender draggingPasteboard];
+    return [[pboard types] containsObject:OEPasteboardTypeGame] || NSFilenamesPboardType?NSDragOperationCopy:NSDragOperationNone;
+}
+- (NSDragOperation)draggingUpdated:(id < NSDraggingInfo >)sender{
+    return [self draggingEntered:sender];
+}
+- (void)draggingEnded:(id < NSDraggingInfo >)sender{}
+- (void)draggingExited:(id < NSDraggingInfo >)sender{}
+
+- (BOOL)prepareForDragOperation:(id < NSDraggingInfo >)sender{
+    return YES;
+}
+- (BOOL)performDragOperation:(id < NSDraggingInfo >)sender{
+    return NO;
+}
+- (void)concludeDragOperation:(id < NSDraggingInfo >)sender{}
 #pragma mark -
 #pragma mark NSOutlineView Delegate
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification

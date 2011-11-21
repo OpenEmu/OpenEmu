@@ -9,8 +9,6 @@
 
 @class OEHIDManager;
 @class OEMainWindowController;
-@class OECoreInstaller;
-@class OECoreUpdater;
 @interface OEApplicationDelegate : NSObject <NSApplicationDelegate>
 {
 }
@@ -32,5 +30,4 @@
 @property (readonly) NSString *appVersion;
 @property (readonly) NSAttributedString *projectURL;
 @property (retain) NSArray* validExtensions;
-@property (retain) OECoreUpdater *coreUpdater;
 @end

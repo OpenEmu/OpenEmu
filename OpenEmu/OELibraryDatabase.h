@@ -34,6 +34,10 @@
 #pragma mark Database queries
 - (NSArray*)systems;
 - (OEDBSystem*)systemWithIdentifier:(NSString*)identifier;
+- (OEDBSystem*)systemWithArchiveID:(NSNumber*)aID;
+- (OEDBSystem*)systemWithArchiveName:(NSString*)name;
+- (OEDBSystem*)systemWithArchiveShortname:(NSString*)shortname;
+
 - (OEDBSystem*)systemForFile:(NSString*)filePath;
 - (NSInteger)systemsCount;
 
@@ -61,6 +65,7 @@
 - (void)addGamesFromPath:(NSString*)path toCollection:(NSManagedObject*)collection searchSubfolders:(BOOL)subfolderFlag DEPRECATED_ATTRIBUTE;
 
 - (OEDBRom*)createROMandGameForFile:(NSString*)filePath error:(NSError**)outError;
+
 /*
  - (void)addRomsWithFiles:(NSArray*)files;
  - (void)addRomWithFile:(NSString*)file;
@@ -82,6 +87,9 @@
  - (void)addRule:(id)rule toCollection:(id)collection;
  - (void)removeRule:(id)rule fromCollection:(id)collection;
  */
+#pragma mark -
+@property (readonly) NSString* databaseFolderPath;
+@property (readonly) NSString* databaseUnsortedRomsPath;
 #pragma mark -
 @property (copy) NSURL* databaseURL;
 @property (retain) NSPersistentStoreCoordinator * persistentStoreCoordinator;

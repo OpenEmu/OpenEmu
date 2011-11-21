@@ -28,6 +28,7 @@
 #import "OEGameDocument.h"
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
+#import "OEDBGame.h"
 
 #import "OEApplicationDelegate.h"
 #import "OEGameViewController.h"
@@ -110,7 +111,7 @@
     if(usePopout)
     {
         // Create a window, set gameviewcontroller.view as view, open it
-        NSLog(@"use popout");
+        DLog(@"use popout");
         BOOL useScreenSize = [standardDefaults boolForKey:UDPopoutHasScreenSizeKey] || ![standardDefaults valueForKey:UDLastPopoutFrameKey];
         NSRect windowRect;
         if(useScreenSize)
@@ -137,7 +138,7 @@
     }
     else
     {
-        NSLog(@"do not use popout");
+        DLog(@"do not use popout");
         [winController setCurrentContentController:aGameViewController];
     }
     [self setGameViewController:aGameViewController];
@@ -178,7 +179,7 @@
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-    NSLog(@"readFromURL:ofType:error: %d", [NSThread isMainThread]);
+    DLog(@"MainThread: %d", [NSThread isMainThread]);
     
     NSString *romPath = [absoluteURL path];
     if(![[NSFileManager defaultManager] fileExistsAtPath:romPath])
@@ -202,18 +203,29 @@
     if(isArchive)
     {
         // TODO: Handle archived games
-        NSLog(@"Archived Games are not supported right now!");
+        DLog(@"Archived Games are not supported right now!");
         return NO;
     }
     
     // get rom by path
-    OEDBRom* rom = [self _romFromURL:absoluteURL];
-    if(rom == nil)
+    NSString* filePath = nil;
+    if(![absoluteURL isFileURL])
     {
-        NSLog(@"Could not import file as new rom, should not happen!");
-        return NO;
+        DLog(@"URLs that are not file urls are currently not supported!");
+        // TODO: Handle URLS, by downloading to temp folder
     }
-    return [self loadRom:rom withError:outError];
+    else
+    {
+        filePath = [absoluteURL path];
+    }
+    
+    
+    OEDBGame *game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES error:outError];
+    if(!game) return NO;
+    
+    
+    // TODO: Load rom that was just imported instead of the default one
+    return [self loadRom:[game defaultROM] withError:outError];
     
     /*
      NSString *romPath = [absoluteURL path];

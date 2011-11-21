@@ -17,11 +17,11 @@
 @class OESystemController;
 @class OESystemResponder;
 
-@class OEHUDControlsWindow;
+@class OEHUDControlsBarWindow;
 @class OEGameDocument;
 @interface OEGameViewController : OEMainWindowContentController
 {
-    OEHUDControlsWindow *controlsWindow;
+    OEHUDControlsBarWindow *controlsWindow;
     // IPC from our OEHelper
     id<OEGameCoreHelper>  rootProxy;
     OEGameCoreManager    *gameCoreManager;

@@ -18,5 +18,5 @@
 - (NSSize)viewSize;
 
 @property (nonatomic, retain) IBOutlet NSTableView *coresTableView;
-@property (retain) NSMutableArray* arrangedPlugins;
 @end
+

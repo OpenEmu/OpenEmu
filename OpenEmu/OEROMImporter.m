@@ -77,7 +77,7 @@
     {
         if(outError!=NULL) *outError = nil;
         
-        NSLog(@"–– – WILL RUN IN BACKGROUND");
+        DLog(@"WILL RUN IN BACKGROUND");
         // this will pass random values as bg and outError
         [self performSelectorInBackground:@selector(importROMsAtPaths:inBackground:error:) withObject:pathArray];
         
@@ -247,119 +247,31 @@
     
     NSError* error = nil;
     
-    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+    
+    OEDBGame* game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES inDatabase:self.database error:outError];
+    return game!=nil;
     
     /*
-     BOOL automaticallyGetInfo = [standardDefaults boolForKey:UDAutmaticallyGetInfoKey];
-     BOOL quickImport = [standardDefaults boolForKey:UDUseQuickImportKey] && !automaticallyGetInfo;
-     BOOL organizeLibrary = [standardDefaults boolForKey:UDOrganizeLibraryKey];
+     NSManagedObjectID* romID = [rom objectID];
+     // add rom id to imported fields
      
-     BOOL md5 = [standardDefaults boolForKey:UDUseMD5HashingKey];
+     if(status){
+     self.queueCount ++;
+     dispatch_async(processingQueue, ^{
+     OELibraryDatabase* db = self.database;
+     OEDBRom* rom = (OEDBRom*)[[self.database managedObjectContext] objectWithID:romID];
+     [rom doInitialSetupWithDatabase:db];
+     [rom setValue:[NSNumber numberWithInt:0] forKeyPath:@"game.status"];
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"OEDBStatusChanged" object:self userInfo:[NSDictionary dictionaryWithObject:romID forKey:@"newRomID"]];
+     
+     self.queueCount--;
+     });
+     
+     }
+     [importedRoms addObject:rom];    
+     [[NSNotificationCenter defaultCenter] postNotificationName:@"OEDBGameAdded" object:self userInfo:[NSDictionary dictionaryWithObject:romID forKey:@"newRomID"]];
+     return YES;
      */
-    
-    // get managed object
-    // check if path is in database
-    BOOL isInDatabase = [self.database isFileInDatabaseWithPath:filePath error:&error];
-    if(error!=nil)
-    {
-        NSLog(@"Error checking database");
-        if (outError!=NULL) *outError = error;
-        return NO;
-    }
-    
-    if(isInDatabase)
-    {
-        DLog("is In database");
-        if(outError!=NULL) *outError = nil;
-        return YES;
-    }
-    
-    OEDBSystem* system = [self.database systemForFile:filePath];
-    if(!system)
-    { 
-        NSLog(@"unkown system for file: %@, skipping without error", filePath);
-        return YES;
-    }
-    
-    NSString* libraryFolderPath;
-    BOOL copyToDatabase = [standardDefaults boolForKey:UDCopyToLibraryKey];
-    if(copyToDatabase && (libraryFolderPath=[standardDefaults stringForKey:UDDatabasePathKey]) && ![filePath hasPrefix:libraryFolderPath])
-    {
-        NSString* unsortedFolderPath = [libraryFolderPath stringByAppendingPathComponent:NSLocalizedString(@"unsorted", @"")];
-        if(![[NSFileManager defaultManager] createDirectoryAtPath:unsortedFolderPath withIntermediateDirectories:YES attributes:nil error:&error]){
-            NSLog(@"Error! Could not create 'unsorted' foder");
-            NSLog(@"%@", error);
-            if (outError!=NULL) *outError = error;
-            return NO;
-        }
-        
-        NSString* fileName = [filePath lastPathComponent];
-        
-        // determine new file path within databse folder
-        NSString* newPath = [unsortedFolderPath stringByAppendingPathComponent:fileName];
-        int i=0;
-        while ([[NSFileManager defaultManager] fileExistsAtPath:newPath])
-        {
-            i++;
-            NSLog(@"file exists at path: %@", newPath);
-            newPath = [unsortedFolderPath stringByAppendingFormat:@"/%@ %d.%@", [fileName stringByDeletingPathExtension], i, [fileName pathExtension]];
-        }
-        
-        if(![[NSFileManager defaultManager] copyItemAtPath:filePath toPath:newPath error:&error])
-        {
-            NSLog(@"Error! Could not copy rom to database folder");
-            NSLog(@"%@", error);
-            if (outError!=NULL) *outError = error;
-            return NO;
-        }
-        
-        filePath = newPath;
-    }
-    
-    // create rom
-    OEDBRom* rom = [self.database createROMandGameForFile:filePath error:&error];
-    if(!rom)
-    {
-        NSLog(@"Error! Could not create rom or game entity!");
-        NSLog(@"%@", error);
-        if (outError!=NULL) *outError = error;
-        return NO;
-    }
-    [rom setValue:system forKeyPath:@"game.system"];
-    
-    
-    BOOL automaticallyGetInfo = [standardDefaults boolForKey:UDAutmaticallyGetInfoKey];
-    BOOL organizeLibrary = [standardDefaults boolForKey:UDOrganizeLibraryKey];
-    BOOL status = automaticallyGetInfo || organizeLibrary;
-    
-    [rom setValue:[NSNumber numberWithInt:status] forKeyPath:@"game.status"];
-    if(![[rom managedObjectContext] save:&error])
-    {
-        DLog(@"did not save context: %@", error);
-        if (outError!=NULL) *outError = error;
-        return NO;
-    }
-    
-    NSManagedObjectID* romID = [rom objectID];
-    // add rom id to imported fields
-    
-    if(status){
-        self.queueCount ++;
-        dispatch_async(processingQueue, ^{
-            OELibraryDatabase* db = self.database;
-            OEDBRom* rom = (OEDBRom*)[[self.database managedObjectContext] objectWithID:romID];
-            [rom doInitialSetupWithDatabase:db];
-            [rom setValue:[NSNumber numberWithInt:0] forKeyPath:@"game.status"];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"OEDBStatusChanged" object:self userInfo:[NSDictionary dictionaryWithObject:romID forKey:@"newRomID"]];
-            
-            self.queueCount--;
-        });
-        
-    }
-    [importedRoms addObject:rom];
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"OEDBGameAdded" object:self userInfo:[NSDictionary dictionaryWithObject:romID forKey:@"newRomID"]];
-    return YES;
 }
 
 - (NSArray*)importedRoms

@@ -93,7 +93,6 @@
     [[self toolbarSlider] setEnabled:NO];
     [[self toolbarSlider] setAction:NULL];
     
-    // TODO: tell current controller that it will hide
     [currentContentController contentWillHide];
     [controller contentWillShow];
     

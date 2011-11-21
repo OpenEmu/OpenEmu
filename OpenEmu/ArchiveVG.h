@@ -21,25 +21,25 @@
  */
 
 // Keys that appear in Game Info Dicts
-const NSString* AVGGameTitleKey;
-const NSString* AVGGameIDKey;
+NSString * const AVGGameTitleKey;
+NSString * const AVGGameIDKey;
 // Keys that *can* appear in Game Info Dictionaries
-const NSString* AVGGameDeveloperKey;
-const NSString* AVGGameSystemNameKey;
-const NSString* AVGGameDescriptionKey;
-const NSString* AVGGameGenreKey;
-const NSString* AVGGameBoxURLKey;
-const NSString* AVGGameESRBRatingKey;
-const NSString* AVGGameCreditsKey;
+NSString * const AVGGameDeveloperKey;
+NSString * const AVGGameSystemNameKey;
+NSString * const AVGGameDescriptionKey;
+NSString * const AVGGameGenreKey;
+NSString * const AVGGameBoxURLKey;
+NSString * const AVGGameESRBRatingKey;
+NSString * const AVGGameCreditsKey;
 
 // Keys that appear in Dictionaries in Array of Credits of Game Info Dicts
-const NSString* AVGCreditsNameKey;
-const NSString* AVGCreditsPositionKey;
+NSString * const AVGCreditsNameKey;
+NSString * const AVGCreditsPositionKey;
 
 // Keys that appear in System Info Dicts
-const NSString* AVGSystemID;
-const NSString* AVGSystemName;
-const NSString* AVGSystemShort;
+NSString * const AVGSystemID;
+NSString * const AVGSystemName;
+NSString * const AVGSystemShort;
 
 @interface ArchiveVG : NSObject {
 @private

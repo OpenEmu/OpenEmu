@@ -10,9 +10,17 @@
 
 @class OESystemPlugin, OELibraryDatabase;
 @interface OEDBSystem : NSManagedObject {
-	NSImage* icon;
+    NSImage* icon;
 }
-+ (id)createSystemFromPlugin:(OESystemPlugin*)plugin inDatabase:(OELibraryDatabase*)database;
++ (id)systemFromPlugin:(OESystemPlugin*)plugin inDatabase:(OELibraryDatabase*)database;
++ (id)systemForArchiveID:(NSNumber*)number;
++ (id)systemForArchiveID:(NSNumber*)number inDatabase:(OELibraryDatabase*)database;
++ (id)systemForArchiveName:(NSString*)name;
++ (id)systemForArchiveName:(NSString*)name inDatabase:(OELibraryDatabase*)database;
++ (id)systemForArchiveShortName:(NSString*)shortName;
++ (id)systemForArchiveShortName:(NSString*)shortName inDatabase:(OELibraryDatabase*)database;
++ (id)systemForFile:(NSString*)filepath;
++ (id)systemForFile:(NSString*)filepath inDatabase:(OELibraryDatabase*)database;
 #pragma mark -
 #pragma mark Core Data utilities
 + (NSString *)entityName;

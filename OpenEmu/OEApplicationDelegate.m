@@ -13,6 +13,8 @@
 
 #import "OEPlugin.h"
 #import "OECorePlugin.h"
+#import "OECoreUpdater.h"
+
 #import "OESystemPlugin.h"
 #import "OECompositionPlugin.h"
 
@@ -24,9 +26,7 @@
 #import "OESetupAssistant.h"
 #import "OELibraryController.h"
 
-#import "OECoreUpdater.h"
-
-#import <Sparkle/Sparkle.h>
+#import "OEHUDAlert.h"
 @interface OEApplicationDelegate (Private)
 - (void)loadDatabase;
 - (void)performDatabaseSelection;
@@ -38,7 +38,6 @@
 @implementation OEApplicationDelegate
 @dynamic appVersion, projectURL;
 @synthesize startupMainMenu, mainMenu;
-@synthesize coreUpdater;
 @synthesize validExtensions;
 - (id)init
 {
@@ -132,6 +131,18 @@
     [[[self mainWindowController] window] makeKeyAndOrderFront:self];
     [[self mainWindowController] setupMenuItems];
     [windowController release];
+    
+    
+    
+    // TODO: remove after testing OEHUDAlert
+    
+     [[OECoreUpdater sharedUpdater] installCoreWithIdentifier:@"com.openemu.snes9x" coreName:@"Nestopia" systemName:@"Nintendo (NES)" withCompletionHandler:^{
+     NSLog(@"core was installed!");
+     }];
+    /* OEHUDAlert * alert = [OEHUDAlert saveGameAlertWithProposedName:@"Save-Game-1: 5 October, 4:45pm"];
+     NSInteger result = [alert runModal];
+     NSLog(@"result: %ld", result);;
+     */
 }
 #pragma mark -
 #pragma mark Loading The Database
@@ -286,29 +297,48 @@
 #pragma mark Updating
 - (void)updateBundles:(id)sender
 {
-    if([self coreUpdater] == nil) [self setCoreUpdater:[[[OECoreUpdater alloc] init] autorelease]];
+    OECoreUpdater* updater = [OECoreUpdater sharedUpdater];
+    [updater checkForUpdates];
     
-    [[self coreUpdater] showWindow:self];
-    
-    //see if QC plugins are installed
-    NSBundle *OEQCPlugin = [NSBundle bundleWithPath:@"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin"];
-    //if so, get the bundle
-    if(OEQCPlugin != nil)
+    BOOL hasUpdate = NO;
+    for(OECoreDownload* dl in [updater coreList])
     {
-        @try
+        if([dl hasUpdate])
         {
-            DLog(@"%@", [[SUUpdater updaterForBundle:OEQCPlugin] feedURL]);
-            if([[SUUpdater updaterForBundle:OEQCPlugin] feedURL])
-            {
-                [[SUUpdater updaterForBundle:OEQCPlugin] resetUpdateCycle];
-                [[SUUpdater updaterForBundle:OEQCPlugin] checkForUpdates:self];
-            }
-        }
-        @catch (NSException *e)
-        {
-            NSLog(@"Tried to update QC bundle without Sparkle");
-        }
+            hasUpdate = YES;
+            [dl startDownload:self];
+        }       
     }
+    
+    if(hasUpdate)
+    {
+        // TODO: Launch preferences with core tab
+    }
+    /*
+     if([self coreUpdater] == nil) [self setCoreUpdater:[[[OECoreUpdater alloc] init] autorelease]];
+     
+     [[self coreUpdater] showWindow:self];
+     
+     //see if QC plugins are installed
+     NSBundle *OEQCPlugin = [NSBundle bundleWithPath:@"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin"];
+     //if so, get the bundle
+     if(OEQCPlugin != nil)
+     {
+     @try
+     {
+     DLog(@"%@", [[SUUpdater updaterForBundle:OEQCPlugin] feedURL]);
+     if([[SUUpdater updaterForBundle:OEQCPlugin] feedURL])
+     {
+     [[SUUpdater updaterForBundle:OEQCPlugin] resetUpdateCycle];
+     [[SUUpdater updaterForBundle:OEQCPlugin] checkForUpdates:self];
+     }
+     }
+     @catch (NSException *e)
+     {
+     NSLog(@"Tried to update QC bundle without Sparkle");
+     }
+     }
+     */
 }
 
 #pragma mark -

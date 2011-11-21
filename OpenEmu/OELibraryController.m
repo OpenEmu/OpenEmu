@@ -29,6 +29,13 @@
 #import "NSControl+OEAdditions.h"
 
 #import "OEGameDocument.h"
+
+
+#ifndef NSWindowWillEnterFullScreenNotification
+NSString * const NSWindowWillEnterFullScreenNotification = @"OEWindowWillEnterFullScreenNotification";
+NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullScreenNotification";
+#endif
+
 @interface OELibraryController (Private)
 - (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
@@ -406,19 +413,13 @@
     
     if(fsFlag)
     {
-#ifdef NSApplicationPresentationAutoHideToolbar
         [NSApp setPresentationOptions:NSApplicationPresentationAutoHideDock|NSApplicationPresentationAutoHideToolbar];
-#else
         
-#endif
     } 
     else 
     {
-#ifdef NSApplicationPresentationAutoHideToolbar
         [NSApp setPresentationOptions:NSApplicationPresentationDefault];
-#else
         
-#endif
     }
 }
 #pragma mark -
@@ -462,7 +463,7 @@
     
     NSRect toolbarFrame = (NSRect){{splitterPosition, 0},{width, height}};
     [toolbarItemContainer setFrame:toolbarFrame];
-
+    
 }
 
 - (void)windowFullscreenExit:(NSWindow*)window

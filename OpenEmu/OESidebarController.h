@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
+#import "OESidebarOutlineView.h"
 @class OELibraryDatabase, OESidebarOutlineView;
-@interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource>
+@interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource, OEDraggingDestinationDelegate>
 {
 @private
     NSArray* groups;

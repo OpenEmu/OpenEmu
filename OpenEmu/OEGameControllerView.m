@@ -40,20 +40,20 @@
 NSRect RoundNSRect(NSRect imageFrame);
 NSRect RoundNSRect(NSRect imageFrame)
 {
-	imageFrame.origin.x = floorf(imageFrame.origin.x);
-	imageFrame.origin.y = floorf(imageFrame.origin.y);
-	imageFrame.size.width = ceilf(imageFrame.size.width);
-	imageFrame.size.height = ceilf(imageFrame.size.height);
-	
-	return imageFrame;
+    imageFrame.origin.x = floorf(imageFrame.origin.x);
+    imageFrame.origin.y = floorf(imageFrame.origin.y);
+    imageFrame.size.width = ceilf(imageFrame.size.width);
+    imageFrame.size.height = ceilf(imageFrame.size.height);
+    
+    return imageFrame;
 }
 
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
     if (self)
-    {		
-		elementPages = [[NSMutableArray alloc] initWithObjects:[NSMutableArray array], nil];
+    {
+        elementPages = [[NSMutableArray alloc] initWithObjects:[NSMutableArray array], nil];
         NSMutableArray* currentPage = [elementPages lastObject];
         [currentPage addObject:[NSMutableArray array]];
         
@@ -69,7 +69,7 @@ NSRect RoundNSRect(NSRect imageFrame)
 - (void)dealloc
 {
     [self removeObserver:self forKeyPath:@"frameSize"];
-	[elementPages release];
+    [elementPages release];
     [super dealloc];
 }
 
@@ -83,72 +83,72 @@ NSRect RoundNSRect(NSRect imageFrame)
 #pragma mark -
 - (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget
 {
-	[self addButtonWithName:aName label:label target:aTarget highlightPoint:NSZeroPoint];
+    [self addButtonWithName:aName label:label target:aTarget highlightPoint:NSZeroPoint];
 }
 
 - (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget highlightPoint:(NSPoint)p
 {
-	NSMutableArray* currentPage = [elementPages lastObject];
-	NSMutableArray* currentColumn = [currentPage lastObject];
-	
-	NSRect labelRect = NSMakeRect(0, 0, 0, 0);
-	NSRect buttonRect = NSMakeRect(0, 0, 0, 0);;
-	
-	OEControlsKeyButton* button = [[OEControlsKeyButton alloc] initWithFrame:buttonRect];
-	button.highlightPoint = p;
-	
-	[button setTarget:aTarget];
+    NSMutableArray* currentPage = [elementPages lastObject];
+    NSMutableArray* currentColumn = [currentPage lastObject];
+    
+    NSRect labelRect = NSMakeRect(0, 0, 0, 0);
+    NSRect buttonRect = NSMakeRect(0, 0, 0, 0);;
+    
+    OEControlsKeyButton* button = [[OEControlsKeyButton alloc] initWithFrame:buttonRect];
+    button.highlightPoint = p;
+    
+    [button setTarget:aTarget];
     [button setAction:@selector(selectInputControl:)];
     [button bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
-	[currentColumn addObject:button];
-	[button release];
-	
-	NSTextField* labelField = [[NSTextField alloc] initWithFrame:labelRect];
-	NSTextFieldCell* labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
-	[labelField setCell:labelFieldCell];
-	[labelField setStringValue:label];
-	[currentColumn addObject:labelField];
-	[labelFieldCell release];
-	[labelField release];
+    [currentColumn addObject:button];
+    [button release];
+    
+    NSTextField* labelField = [[NSTextField alloc] initWithFrame:labelRect];
+    NSTextFieldCell* labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
+    [labelField setCell:labelFieldCell];
+    [labelField setStringValue:label];
+    [currentColumn addObject:labelField];
+    [labelFieldCell release];
+    [labelField release];
 }
 
 - (void)nextColumn
 {
-	NSMutableArray* currentPage = [elementPages lastObject];
-	[currentPage addObject:[NSMutableArray array]];
+    NSMutableArray* currentPage = [elementPages lastObject];
+    [currentPage addObject:[NSMutableArray array]];
 }
 
 - (void)nextPage
 {
-	NSMutableArray* newPage = [[NSMutableArray alloc] init];
+    NSMutableArray* newPage = [[NSMutableArray alloc] init];
     [newPage addObject:[NSMutableArray array]];
-	[elementPages addObject:newPage];
-	[newPage release];
+    [elementPages addObject:newPage];
+    [newPage release];
 }
 
 - (void)addColumnLabel:(NSString*)label
 {
-	NSMutableArray* currentPage = [elementPages lastObject];
-	NSMutableArray* currentColumn = [currentPage lastObject];
+    NSMutableArray* currentPage = [elementPages lastObject];
+    NSMutableArray* currentColumn = [currentPage lastObject];
     
-	NSRect labelRect = NSMakeRect(0, 0, 0, 0);
-	NSTextField* labelField = [[NSTextField alloc] initWithFrame:labelRect];
-	NSTextFieldCell* labelFieldCell = [[OEControlsKeyHeadlineCell alloc] init];
-	[labelField setCell:labelFieldCell];
-	[labelField setStringValue:label];
-	[currentColumn addObject:labelField];
-	[labelFieldCell release];
-	[labelField release];
+    NSRect labelRect = NSMakeRect(0, 0, 0, 0);
+    NSTextField* labelField = [[NSTextField alloc] initWithFrame:labelRect];
+    NSTextFieldCell* labelFieldCell = [[OEControlsKeyHeadlineCell alloc] init];
+    [labelField setCell:labelFieldCell];
+    [labelField setStringValue:label];
+    [currentColumn addObject:labelField];
+    [labelFieldCell release];
+    [labelField release];
 }
 
 - (void)addRowSeperator
 {
-	NSMutableArray* currentPage = [elementPages lastObject];
-	NSMutableArray* currentColumn = [currentPage lastObject];
-	
-	OEControlsKeySeparatorView* view = [[OEControlsKeySeparatorView alloc] init];
-	[currentColumn addObject:view];
-	[view release];
+    NSMutableArray* currentPage = [elementPages lastObject];
+    NSMutableArray* currentColumn = [currentPage lastObject];
+    
+    OEControlsKeySeparatorView* view = [[OEControlsKeySeparatorView alloc] init];
+    [currentColumn addObject:view];
+    [view release];
 }
 
 - (void)updateButtons
@@ -173,22 +173,22 @@ NSRect RoundNSRect(NSRect imageFrame)
     }
     
     // remove all subviews if any
-	while([[self subviews] count])
-	{
-		[[[self subviews] lastObject] removeFromSuperview];
-	} 
+    while([[self subviews] count])
+    {
+        [[[self subviews] lastObject] removeFromSuperview];
+    } 
     
     // set up some sizes
     float topBorder   = 35.0;
     const float leftBorder  = 61.0;
     const float rightBorder = 21.0;
     
-    const float verticalItemSpacing	  = 10.0;		// item bottom to top
-    const float labelHeight			  = 24.0;
-    const float labelButtonSpacing	  = 8.0;
+    const float verticalItemSpacing  = 10.0;// item bottom to top
+    const float labelHeight  = 24.0;
+    const float labelButtonSpacing  = 8.0;
     
     const float groupXIndent = 10.0;
-    const float groupYIndent = -10.0;
+    //    const float groupYIndent = -10.0;
     
     __block float pageY=self.frame.size.height-topBorder;
     // iterate through pages
@@ -198,8 +198,8 @@ NSRect RoundNSRect(NSRect imageFrame)
         NSUInteger columns = [aPage count];
         __block float x = leftBorder;
         [aPage enumerateObjectsUsingBlock:^(id aColumn, NSUInteger idx, BOOL *stop) {
-            float horizontalItemSpacing       = columns==2?120:68.0;		// item right to item left
-            float labelWidth			      = columns==2?112:60.0;		// max value!!!
+            float horizontalItemSpacing       = columns==2?120:68.0;// item right to item left
+            float labelWidth      = columns==2?112:60.0;// max value!!!
             
             float buttonHeight = 24.0;
             float buttonWidth = (self.frame.size.width-leftBorder-rightBorder-((columns-1)*horizontalItemSpacing))/columns;            
@@ -230,14 +230,14 @@ NSRect RoundNSRect(NSRect imageFrame)
                     j--;
                     
                     float columnWidth = buttonWidth+labelWidth+labelButtonSpacing;
-                        
+                    
                     NSRect seperatorLineRect = (NSRect){{x-labelWidth+8.0, y-buttonHeight},{columnWidth-6.0, buttonHeight}};
                     [item setFrame:RoundNSRect(seperatorLineRect)];
                     [self addSubview:item];
                     
                     inGroup = NO;
                     y -= buttonHeight+verticalItemSpacing;
-
+                    
                     continue;
                 }
                 
@@ -281,23 +281,23 @@ NSRect RoundNSRect(NSRect imageFrame)
     __block BOOL _selectNext = NO;
     [elementPages enumerateObjectsUsingBlock:^(id page, NSUInteger idx, BOOL *stop) {
         [page enumerateObjectsUsingBlock:^(id column, NSUInteger idx, BOOL *stop) {
-           [column enumerateObjectsUsingBlock:^(id item, NSUInteger idx, BOOL *stop) {
-               if(item==currentButton)
-                   _selectNext = YES;
-               else if(_selectNext && [item isKindOfClass:[OEControlsKeyButton class]])
-               {
-                   if(item && [item target] && [item action] && [[item target] respondsToSelector:[item action]])
-                   {
-                       [item setState:NSOnState];
-                       [[item target] performSelector:[item action] withObject:item];
-                       *stop = YES;
-                       _selectNext = NO;
-                   }
-               }
-           }];
+            [column enumerateObjectsUsingBlock:^(id item, NSUInteger idx, BOOL *stop) {
+                if(item==currentButton)
+                    _selectNext = YES;
+                else if(_selectNext && [item isKindOfClass:[OEControlsKeyButton class]])
+                {
+                    if(item && [item target] && [item action] && [[item target] respondsToSelector:[item action]])
+                    {
+                        [item setState:NSOnState];
+                        [[item target] performSelector:[item action] withObject:item];
+                        *stop = YES;
+                        _selectNext = NO;
+                    }
+                }
+            }];
         }];
     }];
-  
+    
     if(_selectNext && [[NSUserDefaults standardUserDefaults] boolForKey:UDControlsButtonHighlightRollsOver])
     {
         NSMutableArray* firstPage = [elementPages objectAtIndex:0];
@@ -318,7 +318,7 @@ NSRect RoundNSRect(NSRect imageFrame)
 #pragma mark -
 - (BOOL)acceptsFirstResponder
 {
-	return YES;
+    return YES;
 }
 
 - (void)keyUp:(NSEvent *)theEvent

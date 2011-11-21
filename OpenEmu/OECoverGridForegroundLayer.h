@@ -8,8 +8,5 @@
 
 #import <Foundation/Foundation.h>
 #import <Quartz/Quartz.h>
-// TODO: check if class is even used somewhere
-@interface OECoverGridForegroundLayer : CALayer {
-	
-}
+@interface OECoverGridForegroundLayer : CALayer
 @end

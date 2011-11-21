@@ -350,7 +350,7 @@
         return [NSNumber numberWithInt:[object gridRating]];
     }
     
-    return nil;
+    return object;
 }
 - (NSView*)gridViewNoItemsView:(IKSGridView*)gridView
 {
@@ -601,7 +601,7 @@
 {}
 - (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
 {
-    // TODO: run game
+    // seems like this method is no longer called in lion
 }
 
 - (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index

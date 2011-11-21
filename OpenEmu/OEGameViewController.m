@@ -22,10 +22,12 @@
 #import "OECorePlugin.h"
 
 #import "OEDBSaveState.h"
-#import "OEHUDControls.h"
+#import "OEHUDControlsBar.h"
 
 #import "OEGameCore.h"
 #import "OEGameDocument.h"
+
+#import "OEHUDAlert.h"
 @interface OEGameViewController (Private)
 - (BOOL)_setupGameDocument;
 + (OEDBRom*)_choseRomFromGame:(OEDBGame*)game;
@@ -54,7 +56,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     {
         [self setRom:rom];
         
-        [[self rom] setValue:[NSDate date] forKey:@"lastPlayed"];
+        [[self rom] markAsPlayedNow];
         NSString* path = [[self rom] valueForKey:@"path"];
         
         if(!path){
@@ -67,7 +69,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         }
         
         gameView = [[OEGameView alloc] initWithFrame:(NSRect){{0,0},{1,1}}];
-        controlsWindow = [[OEHUDControlsWindow alloc] initWithGameViewController:self];
+        controlsWindow = [[OEHUDControlsBarWindow alloc] initWithGameViewController:self];
         
         NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
         [nc addObserver:self selector:@selector(viewDidMoveToWindow:) name:@"OEGameViewDidMoveToWindow" object:nil];
@@ -228,15 +230,14 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 {
     // TODO: use OEAlert once it's been written
     // TODO: localize and rephrase text
-    NSAlert* confirm = [NSAlert alertWithMessageText:@"Do you really want to delete the SaveState?" defaultButton:@"Yes" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"This will delete the save state permanently and can not be undone."];
     
-    confirm.showsSuppressionButton = YES;
-    [[confirm suppressionButton] setState:[[NSUserDefaults standardUserDefaults] boolForKey:UDRemoveSaveStateWithoutConfirmation]];
+    NSString* stateName = [state valueForKey:@"userDescription"];
+    OEHUDAlert* alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
     
-    if([[confirm suppressionButton] state] || [confirm runModal]==NSOKButton)
-    {
-        [[NSUserDefaults standardUserDefaults] setBool:[[confirm suppressionButton] state] forKey:UDRemoveSaveStateWithoutConfirmation];
-        
+    NSUInteger result = [alert runModal];
+    
+    if(result)
+    {        
         // TODO: does this also remove the screenshot from the database?
         NSString* path = [state valueForKey:@"path"];
         
@@ -410,9 +411,8 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 #pragma mark Private Methods
 + (OEDBRom*)_choseRomFromGame:(OEDBGame*)game
 {
-    NSSet* roms = [game valueForKey:@"roms"];
-    NSLog(@"%@", [roms className]);
-    return [roms anyObject];
+    // TODO: we could display a list of roms here if we wanted to, do we?
+    return [game defaultROM];
 }
 - (BOOL)loadFromURL:(NSURL*)aurl error:(NSError**)outError
 {

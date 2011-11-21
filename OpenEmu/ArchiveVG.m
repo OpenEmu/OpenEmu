@@ -8,34 +8,34 @@
 
 #import "ArchiveVG.h"
 #import <Security/Security.h>
-const NSString* AVGGameTitleKey         = @"AVGGameTitleKey";
-const NSString* AVGGameIDKey            = @"AVGGameIDKey";
-const NSString* AVGGameDeveloperKey     = @"AVGGameDeveloperKey";
-const NSString* AVGGameSystemNameKey    = @"AVGGameSystemNameKey";
-const NSString* AVGGameDescriptionKey   = @"AVGGameDescriptionKey";
-const NSString* AVGGameGenreKey         = @"AVGGameGenreKey";
-const NSString* AVGGameBoxURLKey        = @"AVGGameBoxURLKey";
-const NSString* AVGGameESRBRatingKey    = @"AVGGameESRBRatingKey";
-const NSString* AVGGameCreditsKey       = @"AVGGameCreditsKey";
-const NSString* AVGCreditsNameKey       = @"AVGCreditsNameKey";
-const NSString* AVGCreditsPositionKey   = @"AVGCreditsPositionKey";
-const NSString* AVGSystemID				= @"AVGSystemID";
-const NSString* AVGSystemName			= @"AVGSystemName";
-const NSString* AVGSystemShort			= @"AVGSystemShort";
+NSString * const AVGGameTitleKey         = @"AVGGameTitleKey";
+NSString * const AVGGameIDKey            = @"AVGGameIDKey";
+NSString * const AVGGameDeveloperKey     = @"AVGGameDeveloperKey";
+NSString * const AVGGameSystemNameKey    = @"AVGGameSystemNameKey";
+NSString * const AVGGameDescriptionKey   = @"AVGGameDescriptionKey";
+NSString * const AVGGameGenreKey         = @"AVGGameGenreKey";
+NSString * const AVGGameBoxURLKey        = @"AVGGameBoxURLKey";
+NSString * const AVGGameESRBRatingKey    = @"AVGGameESRBRatingKey";
+NSString * const AVGGameCreditsKey       = @"AVGGameCreditsKey";
+NSString * const AVGCreditsNameKey       = @"AVGCreditsNameKey";
+NSString * const AVGCreditsPositionKey   = @"AVGCreditsPositionKey";
+NSString * const AVGSystemID				= @"AVGSystemID";
+NSString * const AVGSystemName			= @"AVGSystemName";
+NSString * const AVGSystemShort			= @"AVGSystemShort";
 
-const NSString* AVGGameReleasesKey      = @"AVGGameReleasesKey";
-const NSString* AVGReleaseTitleKey      = @"AVGReleaseTitleKey";
-const NSString* AVGReleaseCompanyKey    = @"AVGReleaseCompanyKey";
-const NSString* AVGReleaseSerialKey     = @"AVGReleaseSerialKey";
-const NSString* AVGReleaseCountryKey    = @"AVGReleaseCountryKey";
-const NSString* AVGReleaseDateKey       = @"AVGReleaseDateKey";
+NSString * const AVGGameReleasesKey      = @"AVGGameReleasesKey";
+NSString * const AVGReleaseTitleKey      = @"AVGReleaseTitleKey";
+NSString * const AVGReleaseCompanyKey    = @"AVGReleaseCompanyKey";
+NSString * const AVGReleaseSerialKey     = @"AVGReleaseSerialKey";
+NSString * const AVGReleaseCountryKey    = @"AVGReleaseCountryKey";
+NSString * const AVGReleaseDateKey       = @"AVGReleaseDateKey";
 
-const NSString* AVGGameTOSECsKey        = @"AVGGameTOSECsKey";
-const NSString* AVGTOSECNameKey         = @"AVGTOSECNameKey";
-const NSString* AVGTOSECRomNameKey      = @"AVGTOSECRomNameKey";
-const NSString* AVGTOSECSizeKey         = @"AVGTOSECSizeKey";
-const NSString* AVGTOSECCRCKey          = @"AVGTOSECCRCKey";
-const NSString* AVGTOSECMD5Key          = @"AVGTOSECMD5Key";
+NSString * const AVGGameTOSECsKey        = @"AVGGameTOSECsKey";
+NSString * const AVGTOSECNameKey         = @"AVGTOSECNameKey";
+NSString * const AVGTOSECRomNameKey      = @"AVGTOSECRomNameKey";
+NSString * const AVGTOSECSizeKey         = @"AVGTOSECSizeKey";
+NSString * const AVGTOSECCRCKey          = @"AVGTOSECCRCKey";
+NSString * const AVGTOSECMD5Key          = @"AVGTOSECMD5Key";
 
 #define KCSessionServiceName @"Archive.vg SessionKey"
 
@@ -417,15 +417,13 @@ static __strong NSString* sharedEmailAddress = nil;
         
         if([gameNodes count] == 0)
         {
-            // TODO: handle empty search result
-            return nil;
+            return [NSDictionary dictionary];
         }
         
         if([gameNodes count] > 1)
         {
-            NSLog(@"found more than 1 entry for hash");
-            NSLog(@"Which one do we use");
-            // TODO: handle more than 1 search result
+            // Multiple game nodes -> we got several games for a crc, md5 or archive id
+            // this is very unlikely and if it happens we just use the last one
         }
         NSXMLNode* gameNode = [gameNodes lastObject];
         
@@ -771,16 +769,260 @@ static __strong NSString* sharedEmailAddress = nil;
 
 + (NSString*)removeHTMLEncodingsFromString:(NSString*)input
 {
-    // TODO: Think of a proper way to decode html entities
+    NSDictionary* const specialChars = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                  @"\"",@"quot",
+                                  @"&",	@"amp",
+                                  @"",	@"apos",
+                                  @"<",	@"lt",
+                                  @">",	@"gt",
+                                  @" ",	@"nbsp",
+                                  @"¡",	@"iexcl",
+                                  @"¢",	@"cent",
+                                  @"£",	@"pound",
+                                  @"¤",	@"curren",
+                                  @"¥",	@"yen",
+                                  @"¦",	@"brvbar",
+                                  @"§",	@"sect",
+                                  @"¨",	@"uml",
+                                  @"©",	@"copy",
+                                  @"ª",	@"ordf",
+                                  @"«",	@"laquo",
+                                  @"¬",	@"not",
+                                  @"®",	@"reg",
+                                  @"¯",	@"macr",
+                                  @"°",	@"deg",
+                                  @"±",	@"plusmn",
+                                  @"²",	@"sup2",
+                                  @"³",	@"sup3",
+                                  @"´",	@"acute",
+                                  @"µ",	@"micro",
+                                  @"¶",	@"para",
+                                  @"·",	@"middot",
+                                  @"¸",	@"cedil",
+                                  @"¹",	@"sup1",
+                                  @"º",	@"ordm",
+                                  @"»",	@"raquo",
+                                  @"¼",	@"frac14",
+                                  @"½",	@"frac12",
+                                  @"¾",	@"frac34",
+                                  @"¿",	@"iquest",
+                                  @"À",	@"Agrave",
+                                  @"Á",	@"Aacute",
+                                  @"Â",	@"Acirc",
+                                  @"Ã",	@"Atilde",
+                                  @"Ä",	@"Auml",
+                                  @"Å",	@"Aring",
+                                  @"Æ",	@"AElig",
+                                  @"Ç",	@"Ccedil",
+                                  @"È",	@"Egrave",
+                                  @"É",	@"Eacute",
+                                  @"Ê",	@"Ecirc",
+                                  @"Ë",	@"Euml",
+                                  @"Ì",	@"Igrave",
+                                  @"Í",	@"Iacute",
+                                  @"Î",	@"Icirc",
+                                  @"Ï",	@"Iuml",
+                                  @"Ð",	@"ETH",
+                                  @"Ñ",	@"Ntilde",
+                                  @"Ò",	@"Ograve",
+                                  @"Ó",	@"Oacute",
+                                  @"Ô",	@"Ocirc",
+                                  @"Õ",	@"Otilde",
+                                  @"Ö",	@"Ouml",
+                                  @"×",	@"times",
+                                  @"Ø",	@"Oslash",
+                                  @"Ù",	@"Ugrave",
+                                  @"Ú",	@"Uacute",
+                                  @"Û",	@"Ucirc",
+                                  @"Ü",	@"Uuml",
+                                  @"Ý",	@"Yacute",
+                                  @"Þ",	@"THORN",
+                                  @"ß",	@"szlig",
+                                  @"à",	@"agrave",
+                                  @"á",	@"aacute",
+                                  @"â",	@"acirc",
+                                  @"ã",	@"atilde",
+                                  @"ä",	@"auml",
+                                  @"å",	@"aring",
+                                  @"æ",	@"aelig",
+                                  @"ç",	@"ccedil",
+                                  @"è",	@"egrave",
+                                  @"é",	@"eacute",
+                                  @"ê",	@"ecirc",
+                                  @"ë",	@"euml",
+                                  @"ì",	@"igrave",
+                                  @"í",	@"iacute",
+                                  @"î",	@"icirc",
+                                  @"ï",	@"iuml",
+                                  @"ð",	@"eth",
+                                  @"ñ",	@"ntilde",
+                                  @"ò",	@"ograve",
+                                  @"ó",	@"oacute",
+                                  @"ô",	@"ocirc",
+                                  @"õ",	@"otilde",
+                                  @"ö",	@"ouml",
+                                  @"÷",	@"divide",
+                                  @"ø",	@"oslash",
+                                  @"ù",	@"ugrave",
+                                  @"ú",	@"uacute",
+                                  @"û",	@"ucirc",
+                                  @"ü",	@"uuml",
+                                  @"ý",	@"yacute",
+                                  @"þ",	@"thorn",
+                                  @"ÿ",	@"yuml",
+                                  @"Œ",	@"OElig",
+                                  @"œ",	@"oelig",
+                                  @"Š",	@"Scaron",
+                                  @"š",	@"scaron",
+                                  @"Ÿ",	@"Yuml",
+                                  @"ƒ",	@"fnof",
+                                  @"ˆ",	@"circ",
+                                  @"˜",	@"tilde",
+                                  @"Α",	@"Alpha",
+                                  @"Β",	@"Beta",
+                                  @"Γ",	@"Gamma",
+                                  @"Δ",	@"Delta",
+                                  @"Ε",	@"Epsilon",
+                                  @"Ζ",	@"Zeta",
+                                  @"Η",	@"Eta",
+                                  @"Θ",	@"Theta",
+                                  @"Ι",	@"Iota",
+                                  @"Κ",	@"Kappa",
+                                  @"Λ",	@"Lambda",
+                                  @"Μ",	@"Mu",
+                                  @"Ν",	@"Nu",
+                                  @"Ξ",	@"Xi",
+                                  @"Ο",	@"Omicron",
+                                  @"Π",	@"Pi",
+                                  @"Ρ",	@"Rho",
+                                  @"Σ",	@"Sigma",
+                                  @"Τ",	@"Tau",
+                                  @"Υ",	@"Upsilon",
+                                  @"Φ",	@"Phi",
+                                  @"Χ",	@"Chi",
+                                  @"Ψ",	@"Psi",
+                                  @"Ω",	@"Omega",
+                                  @"α",	@"alpha",
+                                  @"β",	@"beta",
+                                  @"γ",	@"gamma",
+                                  @"δ",	@"delta",
+                                  @"ε",	@"epsilon",
+                                  @"ζ",	@"zeta",
+                                  @"η",	@"eta",
+                                  @"θ",	@"theta",
+                                  @"ι",	@"iota",
+                                  @"κ",	@"kappa",
+                                  @"λ",	@"lambda",
+                                  @"μ",	@"mu",
+                                  @"ν",	@"nu",
+                                  @"ξ",	@"xi",
+                                  @"ο",	@"omicron",
+                                  @"π",	@"pi",
+                                  @"ρ",	@"rho",
+                                  @"ς",	@"sigmaf",
+                                  @"σ",	@"sigma",
+                                  @"τ",	@"tau",
+                                  @"υ",	@"upsilon",
+                                  @"φ",	@"phi",
+                                  @"χ",	@"chi",
+                                  @"ψ",	@"psi",
+                                  @"ω",	@"omega",
+                                  @"ϑ",	@"thetasym",
+                                  @"ϒ",	@"upsih",
+                                  @"ϖ",	@"piv",
+                                  @" ",	@"ensp",
+                                  @" ",	@"emsp",
+                                  @" ",	@"thinsp",
+                                  @"–",	@"ndash",
+                                  @"—",	@"mdash",
+                                  @"",	@"lsquo",
+                                  @"",	@"rsquo",
+                                  @"‚",	@"sbquo",
+                                  @"“",	@"ldquo",
+                                  @"”",	@"rdquo",
+                                  @"„",	@"bdquo",
+                                  @"†",	@"dagger",
+                                  @"‡",	@"Dagger",
+                                  @"•",	@"bull",
+                                  @"…",	@"hellip",
+                                  @"‰",	@"permil",
+                                  @"′",	@"prime",
+                                  @"″",	@"Prime",
+                                  @"‹",	@"lsaquo",
+                                  @"›",	@"rsaquo",
+                                  @"‾",	@"oline",
+                                  @"⁄",	@"frasl",
+                                  @"€",	@"euro",
+                                  @"ℑ",	@"image",
+                                  @"℘",	@"weierp",
+                                  @"ℜ",	@"real",
+                                  @"™",	@"trade",
+                                  @"ℵ",	@"alefsym",
+                                  @"←",	@"larr",
+                                  @"↑",	@"uarr",
+                                  @"→",	@"rarr",
+                                  @"↓",	@"darr",
+                                  @"↔",	@"harr",
+                                  @"↵",	@"crarr",
+                                  @"⇐",	@"lArr",
+                                  @"⇑",	@"uArr",
+                                  @"⇒",	@"rArr",
+                                  @"⇓",	@"dArr",
+                                  @"⇔",	@"hArr",
+                                  @"∀",	@"forall",
+                                  @"∂",	@"part",
+                                  @"∃",	@"exist",
+                                  @"∅",	@"empty",
+                                  @"∇",	@"nabla",
+                                  @"∈",	@"isin",
+                                  @"∉",	@"notin",
+                                  @"∋",	@"ni",
+                                  @"∏",	@"prod",
+                                  @"∑",	@"sum",
+                                  @"−",	@"minus",
+                                  @"∗",	@"lowast",
+                                  @"√",	@"radic",
+                                  @"∝",	@"prop",
+                                  @"∞",	@"infin",
+                                  @"∠",	@"ang",
+                                  @"∧",	@"and",
+                                  @"∨",	@"or",
+                                  @"∩",	@"cap",
+                                  @"∪",	@"cup",
+                                  @"∫",	@"int",
+                                  @"∴",	@"there4",
+                                  @"∼",	@"sim",
+                                  @"≅",	@"cong",
+                                  @"≈",	@"asymp",
+                                  @"≠",	@"ne",
+                                  @"≡",	@"equiv",
+                                  @"≤",	@"le",
+                                  @"≥",	@"ge",
+                                  @"⊂",	@"sub",
+                                  @"⊃",	@"sup",
+                                  @"⊄",	@"nsub",
+                                  @"⊆",	@"sube",
+                                  @"⊇",	@"supe",
+                                  @"⊕",	@"oplus",
+                                  @"⊗",	@"otimes",
+                                  @"⊥",	@"perp",
+                                  @"⋅",	@"sdot",
+                                  @"⌈",	@"lceil",
+                                  @"⌉",	@"rceil",
+                                  @"⌊",	@"lfloor",
+                                  @"⌋",	@"rfloor",
+                                  @"〈",	@"lang",
+                                  @"〉",	@"rang",
+                                  @"◊",	@"loz",
+                                  @"♠",	@"spades",
+                                  @"♣",	@"clubs",
+                                  @"♥",	@"hearts",
+                                  @"♦",	@"diams",
+                                  nil];
     
-    NSString* result = [input stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
-    result = [result stringByReplacingOccurrencesOfString:@"&quot;" withString:@"\""];
-    result = [result stringByReplacingOccurrencesOfString:@"&lt;" withString:@"<"];
-    result = [result stringByReplacingOccurrencesOfString:@"&gt;" withString:@">"];
-    result = [result stringByReplacingOccurrencesOfString:@"&nbsp;" withString:@" "];
-    result = [result stringByReplacingOccurrencesOfString:@"&trade;" withString:@""];
-    
-    return result;
+    CFStringRef str =  CFXMLCreateStringByUnescapingEntities(NULL, (CFStringRef)input, (CFDictionaryRef)specialChars);
+    [specialChars release];
+    return [(NSString*)str autorelease];
 }
 
 #pragma mark -

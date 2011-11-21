@@ -8,11 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol OEDraggingDestinationDelegate <NSObject>
+- (NSDragOperation)draggingEntered:(id < NSDraggingInfo >)sender;
+- (NSDragOperation)draggingUpdated:(id < NSDraggingInfo >)sender;
+- (void)draggingEnded:(id < NSDraggingInfo >)sender;
+- (void)draggingExited:(id < NSDraggingInfo >)sender;
 
-@interface OESidebarOutlineView : NSOutlineView 
-{
-@private
-    
-}
-
+- (BOOL)prepareForDragOperation:(id < NSDraggingInfo >)sender;
+- (BOOL)performDragOperation:(id < NSDraggingInfo >)sender;
+- (void)concludeDragOperation:(id < NSDraggingInfo >)sender;
+@end
+@interface OESidebarOutlineView : NSOutlineView <NSDraggingDestination>
+@property (assign) id <OEDraggingDestinationDelegate> dragDelegate;
 @end

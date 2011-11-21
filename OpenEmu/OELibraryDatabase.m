@@ -50,7 +50,7 @@ static OELibraryDatabase* defaultDatabase = nil;
     [consoleIcons setName:@"Atari 2600" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Nintendo (NES)" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)]; // eu / us
     [consoleIcons setName:@"Famicom" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)]; // jap
-
+    
     row = 1;
     if([[OELocalizationHelper sharedHelper] isRegionNA])
         [consoleIcons setName:@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
@@ -58,7 +58,7 @@ static OELibraryDatabase* defaultDatabase = nil;
         [consoleIcons setName:[[OELocalizationHelper sharedHelper] isRegionJAP]?@"Super Famicom":@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Nintendo 64" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Game Boy" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-   
+    
     row = 2;
     [consoleIcons setName:@"Virtual Boy" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Game Boy Advance" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
@@ -260,9 +260,11 @@ static OELibraryDatabase* defaultDatabase = nil;
         
         [context setPersistentStoreCoordinator:coordinator];
         [managedObjectContexts setValue:context forKey:[thread name]];
+        
         NSMergePolicy* policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
         [context setMergePolicy:policy];
         [policy release];
+        
         [context release];
     }
     return [managedObjectContexts valueForKey:[thread name]];
@@ -338,21 +340,85 @@ static OELibraryDatabase* defaultDatabase = nil;
 - (OEDBSystem*)systemWithIdentifier:(NSString*)identifier
 {
     NSManagedObjectContext *context = [self managedObjectContext];
-    NSEntityDescription* descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
-    NSFetchRequest* req = [[NSFetchRequest alloc] init];
-    [req setFetchLimit:1];
-    [req setEntity:descr];
-    
-    NSPredicate* pred = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", identifier];
-    [req setPredicate:pred];
+    NSEntityDescription* description = [OEDBSystem entityDescriptionInContext:context];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", identifier];
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setFetchLimit:1];
+    [fetchRequest setEntity:description];
     
     NSError* error = nil;
     
-    id result = [context executeFetchRequest:req error:&error];
-    [req release];
+    id result = [context executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
     if(!result)
     {
         NSLog(@"systemWithIdentifier: Error: %@", error);
+        return nil;
+    }
+    return [result lastObject];
+}
+
+- (OEDBSystem*)systemWithArchiveID:(NSNumber*)aID
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    NSEntityDescription* description = [OEDBSystem entityDescriptionInContext:context];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"archiveID == %ld", [aID integerValue]];
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setFetchLimit:1];
+    [fetchRequest setEntity:description];
+    
+    NSError* error = nil;
+    
+    id result = [context executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    if(!result)
+    {
+        NSLog(@"systemWithArchiveID: Error: %@", error);
+        return nil;
+    }
+    return [result lastObject];
+}
+- (OEDBSystem*)systemWithArchiveName:(NSString*)name
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    NSEntityDescription* description = [OEDBSystem entityDescriptionInContext:context];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"archiveName == %@", name];
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setFetchLimit:1];
+    [fetchRequest setEntity:description];
+    
+    NSError* error = nil;
+    
+    id result = [context executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    if(!result)
+    {
+        NSLog(@"systemWithArchiveName: Error: %@", error);
+        return nil;
+    }
+    return [result lastObject];
+}
+- (OEDBSystem*)systemWithArchiveShortname:(NSString*)shortname
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    
+    NSEntityDescription* description = [OEDBSystem entityDescriptionInContext:context];
+    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"archiveShortname == %@", shortname];
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setFetchLimit:1];
+    [fetchRequest setEntity:description];
+    
+    NSError* error = nil;
+    
+    id result = [context executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    if(!result)
+    {
+        NSLog(@"systemWithArchiveShortname: Error: %@", error);
         return nil;
     }
     return [result lastObject];
@@ -676,7 +742,6 @@ static OELibraryDatabase* defaultDatabase = nil;
         //NSLog(@"%ld Bytes, %f KB, %f MB, %f GB", completeSize, completeSize/1000.0, completeSize/1000.0/1000.0, completeSize/1000.0/1000.0/1000.0);
     }
     
-    // TODO: Get threadsafe context
     NSManagedObjectContext* context = [self managedObjectContext];
     
     // Loop thorugh all files
@@ -881,7 +946,7 @@ static OELibraryDatabase* defaultDatabase = nil;
     [[game mutableSetValueForKey:@"roms"] addObject:rom];
     [game setValue:[[filePath lastPathComponent] stringByDeletingPathExtension] forKey:@"name"];
     [game release];
-        
+    
     return [rom autorelease];
 }
 #pragma mark -
@@ -1005,6 +1070,22 @@ static OELibraryDatabase* defaultDatabase = nil;
     // TODO: implement
     NSLog(@"Roms in collection called, but not implemented");
     return [NSArray array];
+}
+#pragma mark -
+- (NSString*)databaseFolderPath
+{
+    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSString* libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
+    return libraryFolderPath;
+}
+- (NSString*)databaseUnsortedRomsPath
+{
+    NSString* libraryFolderPath = [self databaseFolderPath];
+    NSString* unsortedFolderPath = [libraryFolderPath stringByAppendingPathComponent:NSLocalizedString(@"unsorted", @"")];
+    if(![[NSFileManager defaultManager] createDirectoryAtPath:unsortedFolderPath withIntermediateDirectories:YES attributes:nil error:nil]){
+    }
+    
+    return unsortedFolderPath;
 }
 #pragma mark -
 #pragma mark Private (importing)

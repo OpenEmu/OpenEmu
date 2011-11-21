@@ -73,7 +73,7 @@
 										<string key="NSFrameSize">{735, 319}</string>
 										<reference key="NSSuperview" ref="311889962"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView" ref="247794307"/>
+										<reference key="NSNextKeyView" ref="1040507511"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSTableHeaderView" key="NSHeaderView" id="1012813773">
 											<reference key="NSNextResponder" ref="247794307"/>
@@ -306,7 +306,7 @@
 											<int key="NSColorSpace">2</int>
 											<bytes key="NSRGB">MC4yNTQ5MDE5NzU0IDAuMjUwOTgwNDA3IDAuMjU0OTAxOTc1NAA</bytes>
 										</object>
-										<double key="NSRowHeight">18</double>
+										<double key="NSRowHeight">17</double>
 										<int key="NSTvFlags">-90177536</int>
 										<reference key="NSDelegate"/>
 										<reference key="NSDataSource"/>
@@ -349,6 +349,7 @@
 								<string key="NSFrame">{{0, 320}, {720, 15}}</string>
 								<reference key="NSSuperview" ref="664306359"/>
 								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<int key="NSsFlags">1</int>
 								<reference key="NSTarget" ref="664306359"/>
 								<string key="NSAction">_doScroller:</string>
@@ -372,13 +373,13 @@
 						<string key="NSFrame">{{0, 333}, {735, 336}}</string>
 						<reference key="NSSuperview" ref="6079965"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView" ref="311889962"/>
+						<reference key="NSNextKeyView" ref="247794307"/>
 						<int key="NSsFlags">133680</int>
 						<reference key="NSVScroller" ref="1040507511"/>
 						<reference key="NSHScroller" ref="364856155"/>
 						<reference key="NSContentView" ref="311889962"/>
 						<reference key="NSHeaderClipView" ref="247794307"/>
-						<bytes key="NSScrollAmts">QSAAAEEgAABBoAAAQaAAAA</bytes>
+						<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 					</object>
 				</array>
 				<string key="NSFrameSize">{735, 669}</string>
@@ -388,7 +389,7 @@
 				<int key="NSDividerStyle">2</int>
 			</object>
 			<object class="NSScrollView" id="700958242">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSClipView" id="384876260">
@@ -400,7 +401,6 @@
 								<int key="NSvFlags">18</int>
 								<string key="NSFrameSize">{643, 510}</string>
 								<reference key="NSSuperview" ref="384876260"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="102222795"/>
 								<int key="NSViewLayerContentsRedrawPolicy">2</int>
 								<string key="NSClassName">IKSGridView</string>
@@ -408,7 +408,6 @@
 						</array>
 						<string key="NSFrameSize">{643, 510}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="705979620"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<reference key="NSDocView" ref="705979620"/>
@@ -423,7 +422,6 @@
 						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{628, 0}, {15, 495}}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<bool key="NSViewCanDrawConcurrently">YES</bool>
 						<reference key="NSTarget" ref="700958242"/>
@@ -437,7 +435,6 @@
 						<int key="NSvFlags">-2147483392</int>
 						<string key="NSFrame">{{-100, -100}, {628, 15}}</string>
 						<reference key="NSSuperview" ref="700958242"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="384876260"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<int key="NSsFlags">1</int>
@@ -448,8 +445,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{643, 510}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="384876260"/>
 				<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				<int key="NSsFlags">133680</int>
@@ -708,7 +703,7 @@
 				<string key="19.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="20.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="22.CustomClassName">OECenteredTextFieldCell</string>
+				<string key="22.CustomClassName">OECenteredTextFieldWithWeblinkCell</string>
 				<string key="22.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="23.CustomClassName">OERatingCell</string>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -790,6 +785,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OECenteredTextFieldCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OECenteredTextFieldWithWeblinkCell</string>
+					<string key="superclassName">OECenteredTextFieldCell</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OECenteredTextFieldWithWeblinkCell.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

@@ -7,19 +7,20 @@
 //
 
 #import "OEPrefCoresController.h"
-#import "OECorePlugin.h"
 
 #import "OETableView.h"
 #import "OECenteredTextFieldCell.h"
 #import "OECoreTableButtonCell.h"
 #import "OECoreTableProgressCell.h"
+
+#import "OECoreUpdater.h"
+#import "OECoreDownload.h"
 @interface OEPrefCoresController (Private)
-- (void)rearrangePlugins;
 - (void)updateOrInstallItemAtRow:(NSInteger)rowIndex;
+- (OECoreDownload*)coreDownloadAtRow:(NSInteger)row;
 @end
 @implementation OEPrefCoresController
 @synthesize coresTableView;
-@synthesize arrangedPlugins;
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -31,8 +32,7 @@
 
 - (void)dealloc
 {
-    [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
-    [self removeObserver:self forKeyPath:@"arrangedPlugins"];
+    [[OECoreUpdater sharedUpdater] removeObserver:self forKeyPath:@"coreList"];
     
     [self setCoresTableView:nil];
     [super dealloc];
@@ -40,12 +40,9 @@
 #pragma mark -
 #pragma mark ViewController Overrides
 - (void)awakeFromNib
-{    
-    [self rearrangePlugins];
+{        
+    [[OECoreUpdater sharedUpdater] addObserver:self forKeyPath:@"coreList" options:NSKeyValueChangeInsertion|NSKeyValueChangeRemoval|NSKeyValueChangeReplacement context:nil];
     
-    [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:NSKeyValueChangeInsertion|NSKeyValueChangeRemoval|NSKeyValueChangeReplacement context:nil];
-    [self addObserver:self forKeyPath:@"arrangedPlugins" options:NSKeyValueChangeSetting context:nil];
-
     [[[self coresTableView] tableColumns] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         OECenteredTextFieldCell* cell = [obj dataCell];
         [cell setWidthInset:8.0];
@@ -53,93 +50,62 @@
     
     [[self coresTableView] setDelegate:self];
     [[self coresTableView] setDataSource:self];
+    
+    [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForNewCores:) withObject:[NSNumber numberWithBool:NO]];
+    [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForUpdates) withObject:nil];
 }
 
 - (NSString*)nibName
 {
-	return @"OEPrefCoresController";
+    return @"OEPrefCoresController";
 }
 
 #pragma mark -
 #pragma mark Private Methods
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if([keyPath isEqualToString:@"arrangedPlugins"])
+    if([keyPath isEqualToString:@"coreList"])
     {
-        NSLog(@"reloading data");
         [[self coresTableView] reloadData];
     }
-    else if([keyPath isEqualToString:@"allPlugins"])
-    {
-        [self rearrangePlugins];
-    }
 }
 
-- (void)rearrangePlugins
-{
-    NSArray* installedCorePlugins = [OECorePlugin allPlugins];
-    NSArray* availableCorePlugins = [NSArray array];
-    NSMutableArray* _arrangedPlugins = [[NSMutableArray alloc] initWithCapacity:[installedCorePlugins count]+[availableCorePlugins count]];
-    [_arrangedPlugins addObjectsFromArray:installedCorePlugins];
-    for(id aPlugin in availableCorePlugins)
-    {
-        BOOL alreadyIncluded = NO;
-        if(!alreadyIncluded)
-        {
-            [_arrangedPlugins addObject:aPlugin];
-        }
-    }
-
-    [_arrangedPlugins sortUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        return [[obj1 valueForKey:@"displayName"] compare:[obj2 valueForKey:@"displayName"] options:NSCaseInsensitiveSearch];
-    }];
-    
-    [self setArrangedPlugins:_arrangedPlugins];
-    [_arrangedPlugins release];
-}
 - (void)updateOrInstallItemAtRow:(NSInteger)rowIndex
 {
-    id plugin = [self tableView:[self coresTableView] objectValueForTableColumn:nil row:rowIndex];
-    if([plugin isKindOfClass:[OECorePlugin class]])
-    {
-        // We have a real plugin --> launch update
-        OECorePlugin* realPlugin = (OECorePlugin*)plugin;
-    } 
-    else
-    {
-        // Plugin is only a dummy -> install real plugin
-        NSDictionary* pluginDummy = (NSDictionary*)plugin;
-    }
+    OECoreDownload* plugin = [self coreDownloadAtRow:rowIndex];
+    [plugin startDownload:self];
+}
+
+- (OECoreDownload*)coreDownloadAtRow:(NSInteger)row
+{
+    return [[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:row];
 }
 #pragma mark - 
 #pragma mark NSTableViewDatasource Implementaion
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    NSArray* corePlugins = [self arrangedPlugins];
-    return [corePlugins count];
+    return [[[OECoreUpdater sharedUpdater] coreList] count];
 }
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    NSArray* corePlugins = [self arrangedPlugins];
-    OECorePlugin* plugin = [corePlugins objectAtIndex:row];
+    OECoreDownload* plugin = [self coreDownloadAtRow:row];
     
     NSString* columnIdentifier = [tableColumn identifier];
     if([columnIdentifier isEqualToString:@"coreColumn"])
     {
-        return [plugin displayName];
+        return [plugin name];
     } 
     else if([columnIdentifier isEqualToString:@"systemColumn"])
     {
-        return nil;
+        return [plugin description];
     }
     else if([columnIdentifier isEqualToString:@"versionColumn"])
     {
-        BOOL hasProgress = NO;
-        if(hasProgress)
+        if([plugin isDownloading])
         {
-            float progress = 0.0;
-            return [NSNumber numberWithFloat:progress];
+            return [NSNumber numberWithFloat:[plugin progress]];
         }
+        
         return [plugin version];
     }
     return plugin;
@@ -153,17 +119,11 @@
         NSDictionary* attr;
         
         int weight = [[aTableColumn identifier] isEqualToString:@"coreColumn"]?15:0;
+        NSColor* color = [[self coreDownloadAtRow:rowIndex] canBeInstalled]?[NSColor darkGrayColor]:[NSColor whiteColor];
         
-        if([[aTableView selectedRowIndexes] containsIndex:rowIndex])
-        {
-            attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                    [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:weight+5 size:11.0], NSFontAttributeName, 
-                    [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
-        } else {
-            attr = [NSDictionary dictionaryWithObjectsAndKeys:
-                    [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:weight size:11.0], NSFontAttributeName, 
-                    [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
-        }
+        attr = [NSDictionary dictionaryWithObjectsAndKeys:
+                [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:weight size:11.0], NSFontAttributeName, 
+                color, NSForegroundColorAttributeName, nil];
         [aCell setAttributedStringValue:[[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr] autorelease]];
     }
 }
@@ -175,25 +135,24 @@
     if([[tableColumn identifier] isNotEqualTo:@"versionColumn"])
         return [tableColumn dataCellForRow:row];
     
-    BOOL progressAvailable = NO;  // progressAvailable(row)
-    if(progressAvailable)
+    OECoreDownload* plugin = [self tableView:tableView objectValueForTableColumn:nil row:row];
+    if([plugin isDownloading])
     {
         OECoreTableProgressCell* cell = [[OECoreTableProgressCell alloc] init];
         return [cell autorelease];
     }
-    BOOL installable = NO;  // installable(row)
-    BOOL updateAvailable = NO; // updateAvailable(row)
+    
     NSString* title = nil;
-    if(installable)
+    if([plugin canBeInstalled])
     {
         title = NSLocalizedString(@"Install", @"Install Core");
     }
-    else if(updateAvailable)
+    else if([plugin hasUpdate])
     {
         title = NSLocalizedString(@"Update", @"Update Core");
     }
     
-    if(!title) return [tableColumn dataCellForRow:row];
+    if(![plugin appcastItem] || !title) return [tableColumn dataCellForRow:row];
     
     OECoreTableButtonCell* buttonCell = [[OECoreTableButtonCell alloc] initTextCell:title];
     return [buttonCell autorelease];
@@ -215,24 +174,25 @@
 }
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-    if([[aTableView identifier] isEqualToString:@"versionColumn"])
+    NSString* columnIdentifier = [aTableColumn identifier];
+    if([columnIdentifier isEqualTo:@"versionColumn"])
         [self updateOrInstallItemAtRow:rowIndex];
 }
 
 #pragma mark OEPreferencePane Protocol
 - (NSImage*)icon
 {
-	return [NSImage imageNamed:@"cores_tab_icon"];
+    return [NSImage imageNamed:@"cores_tab_icon"];
 }
 
 - (NSString*)title
 {
-	return @"Cores";
+    return @"Cores";
 }
 
 - (NSSize)viewSize
 {
-	return NSMakeSize(423, 474);
+    return NSMakeSize(423, 474);
 }
 
 @end

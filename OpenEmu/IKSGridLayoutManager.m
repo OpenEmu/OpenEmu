@@ -58,7 +58,7 @@
 {
     if(![NSThread isMainThread])
     {
-        NSLog(@"not on main thread");   
+        NSLog(@"GridView - layoutSublayersOfLayer: is not on main thread");   
     }
     
     // check if manager is associated with a grid view, and the gridview has a datasource
