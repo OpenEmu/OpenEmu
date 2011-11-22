@@ -33,6 +33,8 @@
 #import "OEControlsKeyHeadlineCell.h"
 #import "OEControlsKeySeparatorView.h"
 
+#import "NSClipView+OEAnimatedScrolling.h"
+
 #ifndef UDControlsButtonHighlightRollsOver
 #define UDControlsButtonHighlightRollsOver @"ButtonHighlightRollsOver"
 #endif
@@ -274,20 +276,47 @@ NSRect RoundNSRect(NSRect imageFrame)
     }
 }
 #pragma mark -
+
+- (void)scrollToPage:(NSUInteger)p
+{
+    NSClipView* clipView = [[self enclosingScrollView] contentView];
+    float y = 0;
+    if(p==0)
+    {
+        y = self.frame.size.height;
+    }
+    else if(p == [elementPages count]-1)
+    {
+        y = 0;
+    } else
+    {
+        // TODO: i was lazy... calculate something here if we need that
+    }
+    [clipView scrollToPoint:(NSPoint){0,y} animated:YES];
+}
 - (void)selectNextKeyButton:(id)currentButton
 {
     if(!currentButton) return;
     
     __block BOOL _selectNext = NO;
-    [elementPages enumerateObjectsUsingBlock:^(id page, NSUInteger idx, BOOL *stop) {
+    __block BOOL _nextButtonIsOnDifferentPage = NO;
+    [elementPages enumerateObjectsUsingBlock:^(id page, NSUInteger pidx, BOOL *stop) {
         [page enumerateObjectsUsingBlock:^(id column, NSUInteger idx, BOOL *stop) {
             [column enumerateObjectsUsingBlock:^(id item, NSUInteger idx, BOOL *stop) {
                 if(item==currentButton)
+                {
+                    
+                    _nextButtonIsOnDifferentPage = NO;
                     _selectNext = YES;
+                }
                 else if(_selectNext && [item isKindOfClass:[OEControlsKeyButton class]])
                 {
                     if(item && [item target] && [item action] && [[item target] respondsToSelector:[item action]])
                     {
+                        if(_nextButtonIsOnDifferentPage)
+                        {
+                            [self scrollToPage:pidx];
+                        }
                         [item setState:NSOnState];
                         [[item target] performSelector:[item action] withObject:item];
                         *stop = YES;
@@ -295,6 +324,7 @@ NSRect RoundNSRect(NSRect imageFrame)
                     }
                 }
             }];
+            _nextButtonIsOnDifferentPage = YES;
         }];
     }];
     
@@ -307,8 +337,11 @@ NSRect RoundNSRect(NSRect imageFrame)
             {
                 if([aElement isKindOfClass:[OEControlsKeyButton class]] && [aElement target] && [aElement action] && [[aElement target] respondsToSelector:[aElement action]])
                 {
+                    [self scrollToPage:0];
+                    
                     [aElement setState:NSOnState];
                     [[aElement target] performSelector:[aElement action] withObject:aElement];
+                    
                     break;
                 }
             }
@@ -316,6 +349,10 @@ NSRect RoundNSRect(NSRect imageFrame)
     }
 }
 #pragma mark -
+- (void)scrollWheel:(NSEvent *)theEvent
+{
+    [[self superview] scrollWheel:theEvent];
+}
 - (BOOL)acceptsFirstResponder
 {
     return YES;

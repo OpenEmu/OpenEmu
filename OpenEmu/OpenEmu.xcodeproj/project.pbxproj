@@ -385,6 +385,7 @@
 		83BF5295146C2F4000B5F742 /* blank_slate_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5294146C2F4000B5F742 /* blank_slate_box.png */; };
 		83BF5298146C370A00B5F742 /* OEGridBlankSlateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BF5297146C370A00B5F742 /* OEGridBlankSlateView.m */; };
 		83C68ED114483579000F720A /* OEHUDAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 83C68ED014483579000F720A /* OEHUDAlert.m */; };
+		83CAD4D4147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */; };
 		83CD082D143DEF9A00B6A2E8 /* OEDBSaveState.m in Sources */ = {isa = PBXBuildFile; fileRef = 83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */; };
 		83D435EF147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D435EE147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.m */; };
 		83D435F214718891003FE856 /* closed_weblink_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83D435F114718890003FE856 /* closed_weblink_arrow.png */; };
@@ -1204,6 +1205,8 @@
 		83BF5297146C370A00B5F742 /* OEGridBlankSlateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridBlankSlateView.m; sourceTree = "<group>"; };
 		83C68ECF14483579000F720A /* OEHUDAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDAlert.h; sourceTree = "<group>"; };
 		83C68ED014483579000F720A /* OEHUDAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDAlert.m; sourceTree = "<group>"; };
+		83CAD4D2147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSClipView+OEAnimatedScrolling.h"; sourceTree = "<group>"; };
+		83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSClipView+OEAnimatedScrolling.m"; sourceTree = "<group>"; };
 		83CD082B143DEF9A00B6A2E8 /* OEDBSaveState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBSaveState.h; sourceTree = "<group>"; };
 		83CD082C143DEF9A00B6A2E8 /* OEDBSaveState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBSaveState.m; sourceTree = "<group>"; };
 		83D435ED147187AB003FE856 /* OECenteredTextFieldWithWeblinkCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECenteredTextFieldWithWeblinkCell.h; sourceTree = "<group>"; };
@@ -1718,6 +1721,8 @@
 				1BEF2A66116826BC0090F72B /* NSString+UUID.m */,
 				832FA87E1455526E00BBBD94 /* NSControl+OEAdditions.h */,
 				832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */,
+				83CAD4D2147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.h */,
+				83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */,
 			);
 			name = "Additions to standard classes";
 			sourceTree = "<group>";
@@ -3678,6 +3683,7 @@
 				8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */,
 				839310BC147802380020058E /* OECoreDownload.m in Sources */,
 				837777B9147A8E730091A896 /* OEHUDProgressbar.m in Sources */,
+				83CAD4D4147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

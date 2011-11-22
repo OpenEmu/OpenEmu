@@ -50,18 +50,19 @@
 
 - (IBAction)selectInputControl:(id)sender
 {
+    id lastControl = selectedControl;
     if(sender == nil || [sender respondsToSelector:@selector(state)])
     {
         NSInteger state = [sender state];
         
         [selectedControl setState:NSOffState];
-        [[sender window] makeFirstResponder:(state == NSOnState ? [self view] : nil)];
+        [[sender window] makeFirstResponder:(state == NSOnState ? [self view] : lastControl)];
         [[self view] setNextResponder:self];
         selectedControl = (state == NSOnState ? sender : nil);
     }
 	
 	if(!selectedControl || ![selectedControl state]){
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"OEControlsPreferencesSelectedButtonDidChange" object:nil];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"OEControlsPreferencesSelectedButtonDidChange" object:nil];
 	} else {
 		[[NSNotificationCenter defaultCenter] postNotificationName:@"OEControlsPreferencesSelectedButtonDidChange" object:selectedControl];
 	}
@@ -109,12 +110,6 @@
 	}   else
         return aKey;
 }
-
-- (IBAction)closeWindow:(id)sender
-{
-    [[[self view] window] close];
-}
-
 - (void)registerEvent:(id)anEvent
 {
     if(selectedControl != nil)
@@ -122,7 +117,9 @@
 		id button = selectedControl;
 		id gameControllerView = [selectedControl superview];
         [self setValue:anEvent forKey:[self selectedKey]];
+        
         [self selectInputControl:nil];
+        
 		
 		if([gameControllerView respondsToSelector:@selector(selectNextKeyButton:)]) [gameControllerView performSelector:@selector(selectNextKeyButton:) withObject:button];
     }
@@ -139,7 +136,6 @@
 - (NSInteger)selectedBindingType{
     return selectedBindingType;
 }
-
 
 - (void)keyDown:(NSEvent *)theEvent
 {
