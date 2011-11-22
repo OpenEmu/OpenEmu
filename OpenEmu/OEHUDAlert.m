@@ -18,6 +18,7 @@
 #import "OEHUDProgressbar.h"
 #import "OECenteredTextFieldCell.h"
 #import "NSColor+IKSAdditions.h"
+#import "NSControl+OEAdditions.h"
 @interface OEAlertWindow : NSWindow @end
 @interface OEHUDAlert (Private)
 - (void)performCallback;
@@ -79,6 +80,7 @@
     [alert setWidth:372.0];
     
     [alert showSuppressionButtonForUDKey:UDSaveGameAlertSuppressionKey];
+    [alert setSuppressionLabelText:NSLocalizedString(@"Don't ask again", @"")];
     
     return [alert autorelease];
 }
@@ -277,7 +279,7 @@
 }
 
 - (void)buttonAction:(id)sender{
-    if(sender == [self defaultButton])
+    if(sender == [self defaultButton] || sender == [self inputField])
     {
         result = NSAlertDefaultReturn;
         
@@ -409,6 +411,15 @@
     BOOL checked = [standardUserDefaults boolForKey:[self suppressionUDKey]];
     [[self suppressionButton] setState:checked];
 }
+
+- (void)setSuppressionLabelText:(NSString *)suppressionLabelText
+{
+    [[self suppressionButton] setTitle:suppressionLabelText];
+}
+- (NSString*)suppressionLabelText
+{
+    return [[self suppressionButton] title];
+}
 #pragma mark -
 #pragma mark Input Field
 - (void)setShowsInputField:(BOOL)showsInputField
@@ -451,9 +462,9 @@
     [cell setButtonColor:OEHUDButtonColorBlue];    
     [[self defaultButton] setCell:cell];
     [[self defaultButton] setAutoresizingMask:NSViewMinXMargin|NSViewMaxYMargin];
-    [[self defaultButton] setTarget:self];
-    [[self defaultButton] setAction:@selector(buttonAction:)];
+    [[self defaultButton] setTarget:self andAction:@selector(buttonAction:)];
     [[self defaultButton] setHidden:YES];
+    [[self defaultButton] setKeyEquivalent:@"\r"];
     [cell release];
     [[_window contentView] addSubview:[self defaultButton]];
     
@@ -461,9 +472,9 @@
     [cell setButtonColor:OEHUDButtonColorDefault];
     [[self alternateButton] setCell:cell];
     [[self alternateButton] setAutoresizingMask:NSViewMinXMargin|NSViewMaxYMargin];
-    [[self alternateButton] setTarget:self];
-    [[self alternateButton] setAction:@selector(buttonAction:)];
+    [[self alternateButton] setTarget:self andAction:@selector(buttonAction:)];
     [[self alternateButton] setHidden:YES];
+    [[self alternateButton] setKeyEquivalent:@"\E"];
     [cell release];
     [[_window contentView] addSubview:[self alternateButton]];
     
@@ -508,6 +519,7 @@
     [[self inputField] setHidden:YES];
     [[self inputField] setAutoresizingMask:NSViewWidthSizable|NSViewMaxYMargin];
     [[self inputField] setFocusRingType:NSFocusRingTypeNone];
+    [[self inputField] setTarget:self andAction:@selector(buttonAction:)];
     [self inputField].wantsLayer = YES;
     [[_window contentView] addSubview:[self inputField]];
     [shadow release];
