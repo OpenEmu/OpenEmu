@@ -68,11 +68,12 @@
     NSScrollView* enclosingScrollView = [sidebarView enclosingScrollView];
     if(enclosingScrollView)
     {
-        [enclosingScrollView setDrawsBackground:YES];
-        [enclosingScrollView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
+        [enclosingScrollView setDrawsBackground:NO];
+        [sidebarView setBackgroundColor:[NSColor clearColor]];
+    }
+    else
+    {
         [sidebarView setBackgroundColor:[NSColor colorWithDeviceWhite:0.19 alpha:1.0]];
-        
-        // [sidebarView setBackgroundColor:[NSColor clearColor]];
     }
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSidebarCollectionNotCollapsableKey])

@@ -82,6 +82,12 @@
     }
 }
 
+- (void)setFrameSize:(NSSize)size
+{
+    size.width = ceil(size.width);
+    [super setFrameSize:size];
+}
+
 - (void)drawRect:(NSRect)dirtyRect {
     [self setBackgroundColor:[NSColor whiteColor]];
     [super drawRect:dirtyRect];    

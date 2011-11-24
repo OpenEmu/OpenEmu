@@ -85,20 +85,6 @@
     return nil;
 }
 
-
-- (void)drawRect:(NSRect)dirtyRect
-{
-    [super drawRect:dirtyRect];
-    
-    [[NSColor blackColor] setFill];
-    NSRect blackBorderLine = [self bounds];
-    
-    blackBorderLine.origin.x += blackBorderLine.size.width-1;
-    blackBorderLine.size.width = 1;
-    
-    NSRectFill(blackBorderLine);
-}
-
 - (void)highlightSelectionInClipRect:(NSRect)theClipRect
 {
     NSWindow* win = [self window];
@@ -159,6 +145,12 @@
             [selectionGradient release];
         }
     }
+}
+- (NSRect)rectOfRow:(NSInteger)row 
+{
+    NSRect rect = [super rectOfRow:row];
+    rect.size.width -= 1;
+    return rect;
 }
 
 - (NSRect)frameOfOutlineCellAtRow:(NSInteger)row

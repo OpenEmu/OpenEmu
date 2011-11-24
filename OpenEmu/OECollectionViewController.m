@@ -67,7 +67,7 @@
 
 - (NSString*)nibName
 {
-    return @"CollectionViewController";
+    return @"CollectionView";
 }
 
 - (void)finishSetup

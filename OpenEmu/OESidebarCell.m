@@ -126,8 +126,6 @@
 	
 	if([textObj isKindOfClass:[NSTextView class]])
     {
-        //		[(NSTextView*)textObj setFont:font];
-        //		[(NSTextView*)textObj setTextColor:textColor];
 		[(NSTextView*)textObj setFocusRingType:NSFocusRingTypeNone];
 		[(NSTextView*)textObj setInsertionPointColor:textColor];
         
@@ -217,13 +215,6 @@
 		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
 		textColor = [NSColor whiteColor];
 		[shadow setShadowColor:[NSColor blackColor]];
-		
-		// Adjust cell frame
-		/*
-		 cellFrame.size.height -= 3;
-		 cellFrame.origin.y += 3;
-		 cellFrame.origin.x += 5;
-		 cellFrame.size.width -= 10;*/
 	}
     else if(isSelected)
     {  // selected inactive
@@ -233,12 +224,6 @@
 		[shadow setShadowColor:[NSColor colorWithDeviceRed:0.682 green:0.678 blue:0.678 alpha:1.0]];
 		
 		textColor = [NSColor colorWithDeviceRed:0.141 green:0.141 blue:0.141 alpha:1.0];
-		/*
-		 // Adjust cell frame
-		 cellFrame.size.height -= 3;
-		 cellFrame.origin.y += 3;
-		 cellFrame.origin.x += 5;
-		 cellFrame.size.width -= 10;*/
 	}
     else
     {
@@ -247,12 +232,6 @@
 		[shadow setShadowColor:[NSColor blackColor]];
 		[shadow setShadowBlurRadius:1];
 		[shadow setShadowOffset:NSMakeSize(0, -1)];
-		/*
-		 // Adjust cell frame
-		 cellFrame.size.height -= 3;
-		 cellFrame.origin.y += 3;
-		 cellFrame.origin.x += 5;
-		 cellFrame.size.width -= 10;*/
 	}
 	
 	
@@ -264,23 +243,6 @@
 								font, NSFontAttributeName,
 								nil];
     
-	
-	if(self.isEditing)
-    {
-		/*NSColor* strokeColor = [NSColor colorWithDeviceRed:0.09 green:0.153 blue:0.553 alpha:1.0];
-         NSColor* backgroundColor = [NSColor whiteColor];
-         
-         titleFrame.size.width -= 5;
-         
-         NSRect borderRect = NSInsetRect(titleFrame, 0, -2);
-         [backgroundColor setFill];
-         NSRectFill(borderRect);
-         
-         [strokeColor setStroke];
-         NSBezierPath* bezierPath = [NSBezierPath bezierPathWithRect:NSInsetRect(borderRect, 0.5, 0.5)];
-         [bezierPath stroke];	*/	
-	}
-	
 	NSAttributedString* strVal = [[NSAttributedString alloc] initWithString:[self stringValue] attributes:attributes];
 	[self setAttributedStringValue:strVal];
 	[strVal release];
