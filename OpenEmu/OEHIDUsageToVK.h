@@ -141,6 +141,9 @@ OE_HIDVKCode hidvk_codes[] = {
     {kHIDUsage_Keypad9, kVK_ANSI_Keypad9},
     {kHIDUsage_Keypad0, kVK_ANSI_Keypad0},
     {kHIDUsage_KeypadPeriod, kVK_ANSI_KeypadDecimal},
+    {kHIDUsage_KeypadNumLock, kVK_ANSI_KeypadClear},
+    {kHIDUsage_KeyboardPageUp, kVK_PageUp},
+    {kHIDUsage_KeyboardPageDown, kVK_PageDown},
 };
 
 typedef struct
@@ -212,4 +215,12 @@ OE_HIDString hidlabels[] = {
     {kHIDUsage_Keypad9, @"Num 9"},
     {kHIDUsage_Keypad0, @"Num 0"},
     {kHIDUsage_KeypadPeriod, @"Num ."},
+    
+    {kHIDUsage_KeyboardPageUp, @"Page Up"},
+    {kHIDUsage_KeyboardPageDown, @"Page Down"},
+    {kHIDUsage_KeypadNumLock, @"Num Lock"},
+    {kHIDUsage_KeyboardHome, @"Home"},
+    {kHIDUsage_KeyboardEnd, @"End"},
+    {kHIDUsage_KeyboardNonUSPound, @"#"},
+    {kHIDUsage_KeyboardNonUSBackslash, @"|"},
 };
