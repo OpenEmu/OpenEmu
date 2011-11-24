@@ -144,7 +144,6 @@
 		53439B3013B930A1005C0CC8 /* OEPrefCtrlLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2913B930A1005C0CC8 /* OEPrefCtrlLabelCell.m */; };
 		53439B3113B930A1005C0CC8 /* OEPrefHeadlineLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2B13B930A1005C0CC8 /* OEPrefHeadlineLabelCell.m */; };
 		53439B3213B930A1005C0CC8 /* OEPrefLabelCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B2D13B930A1005C0CC8 /* OEPrefLabelCell.m */; };
-		53439B3613B930D9005C0CC8 /* OECoreView.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B3513B930D9005C0CC8 /* OECoreView.m */; };
 		53439B3913B930E0005C0CC8 /* OEHorizontalLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B3813B930E0005C0CC8 /* OEHorizontalLine.m */; };
 		53439B4013B93119005C0CC8 /* OECheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B3D13B93119005C0CC8 /* OECheckBox.m */; };
 		53439B4113B93119005C0CC8 /* OEControlsPopupButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B3F13B93119005C0CC8 /* OEControlsPopupButton.m */; };
@@ -926,8 +925,6 @@
 		53439B2B13B930A1005C0CC8 /* OEPrefHeadlineLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefHeadlineLabelCell.m; sourceTree = "<group>"; };
 		53439B2C13B930A1005C0CC8 /* OEPrefLabelCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefLabelCell.h; sourceTree = "<group>"; };
 		53439B2D13B930A1005C0CC8 /* OEPrefLabelCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefLabelCell.m; sourceTree = "<group>"; };
-		53439B3413B930D9005C0CC8 /* OECoreView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreView.h; sourceTree = "<group>"; };
-		53439B3513B930D9005C0CC8 /* OECoreView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OECoreView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		53439B3713B930E0005C0CC8 /* OEHorizontalLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHorizontalLine.h; sourceTree = "<group>"; };
 		53439B3813B930E0005C0CC8 /* OEHorizontalLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHorizontalLine.m; sourceTree = "<group>"; };
 		53439B3C13B93119005C0CC8 /* OECheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECheckBox.h; sourceTree = "<group>"; };
@@ -1883,11 +1880,11 @@
 		53439A8713B92BEF005C0CC8 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				53439B2313B9307C005C0CC8 /* Label Cells */,
-				53439B3313B930A9005C0CC8 /* Controls */,
 				53439B6813B932C5005C0CC8 /* OEPreferencePane.h */,
 				53439B6913B932CE005C0CC8 /* OEPreferencesController.h */,
 				53439B6A13B932CE005C0CC8 /* OEPreferencesController.m */,
+				53439B2313B9307C005C0CC8 /* Label Cells */,
+				53439B3313B930A9005C0CC8 /* Controls */,
 				53439B6C13B932DB005C0CC8 /* OEPrefLibraryController.h */,
 				53439B6D13B932DB005C0CC8 /* OEPrefLibraryController.m */,
 				53439B6F13B932ED005C0CC8 /* OEPrefGameplayController.h */,
@@ -2139,8 +2136,6 @@
 		53439B3313B930A9005C0CC8 /* Controls */ = {
 			isa = PBXGroup;
 			children = (
-				53439B3413B930D9005C0CC8 /* OECoreView.h */,
-				53439B3513B930D9005C0CC8 /* OECoreView.m */,
 				53439B3713B930E0005C0CC8 /* OEHorizontalLine.h */,
 				53439B3813B930E0005C0CC8 /* OEHorizontalLine.m */,
 				53439B3A13B93106005C0CC8 /* Buttons */,
@@ -3640,7 +3635,6 @@
 				53439B3013B930A1005C0CC8 /* OEPrefCtrlLabelCell.m in Sources */,
 				53439B3113B930A1005C0CC8 /* OEPrefHeadlineLabelCell.m in Sources */,
 				53439B3213B930A1005C0CC8 /* OEPrefLabelCell.m in Sources */,
-				53439B3613B930D9005C0CC8 /* OECoreView.m in Sources */,
 				53439B3913B930E0005C0CC8 /* OEHorizontalLine.m in Sources */,
 				53439B4013B93119005C0CC8 /* OECheckBox.m in Sources */,
 				53439B4113B93119005C0CC8 /* OEControlsPopupButton.m in Sources */,

@@ -25,7 +25,14 @@
 @end
 
 @implementation OEPrefControlsController
+#pragma mark Properties
+@synthesize controllerView;
 
+@synthesize consolesPopupButton, playerPopupButton, inputPopupButton;
+
+@synthesize gradientOverlay;
+@synthesize controlsContainer;
+#pragma mark -
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -35,6 +42,15 @@
 }
 
 - (void)dealloc{
+    self.controllerView = nil;
+    
+    self.consolesPopupButton = nil;
+    self.playerPopupButton = nil;
+    self.inputPopupButton = nil;
+    
+    self.gradientOverlay = nil;
+    self.controlsContainer = nil;
+    
     [super dealloc];
 }
 #pragma mark -
@@ -52,42 +68,42 @@
     
     // restore previous state
     NSInteger binding = [sud integerForKey:UDControlsDeviceTypeKey];
-    [inputPopupButton selectItemWithTag:binding];
+    [[self inputPopupButton] selectItemWithTag:binding];
     [self changeInputDevice:self];
     
     NSString* pluginName = [sud stringForKey:UDControlsPluginIdentifierKey];
-    [consolesPopupButton selectItemAtIndex:0];
-    for(NSMenuItem* anItem in [consolesPopupButton itemArray])
+    [[self consolesPopupButton] selectItemAtIndex:0];
+    for(NSMenuItem* anItem in [[self consolesPopupButton] itemArray])
     {
         if([[anItem representedObject] isEqualTo:pluginName])
         {
-            [consolesPopupButton selectItem:anItem];
+            [[self consolesPopupButton] selectItem:anItem];
             break;
         }
     }
     
     [CATransaction setDisableActions:YES];
-    [self changeSystem:consolesPopupButton];
+    [self changeSystem:[self consolesPopupButton]];
     [CATransaction commit];
     
-    gradientOverlay.topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
-    gradientOverlay.bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
+    [self gradientOverlay].topColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.3];
+    [self gradientOverlay].bottomColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.0];
     
-    [controllerView setWantsLayer:YES];    
+    [[self controllerView] setWantsLayer:YES];    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindingTypeChanged:) name:@"OEControlsViewControllerChangedBindingType" object:nil];
 }
 
 - (void)animationDidStart:(CAAnimation *)theAnimation
 {
-    [controllerView.layer setValue:[NSNumber numberWithFloat:1.0] forKeyPath:@"filters.pixellate.inputScale"];
+    [[self controllerView].layer setValue:[NSNumber numberWithFloat:1.0] forKeyPath:@"filters.pixellate.inputScale"];
 }
 
 - (void)animationDidStop:(CAAnimation *)theAnimation finished:(BOOL)flag
 {
     if(flag)
     {          
-        [controllerView.layer setValue:[NSNumber numberWithInt:10.0] forKeyPath:@"filters.pixellate.inputScale"];
+        [[self controllerView].layer setValue:[NSNumber numberWithInt:10.0] forKeyPath:@"filters.pixellate.inputScale"];
     }
 }
 
@@ -102,7 +118,7 @@
 {
     NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
     
-    NSMenuItem* menuItem = [consolesPopupButton selectedItem];
+    NSMenuItem* menuItem = [[self consolesPopupButton] selectedItem];
     NSString* systemIdentifier = [menuItem representedObject];
     
     NSString *oldPluginName = [selectedPlugin systemName];
@@ -124,42 +140,43 @@
         [playerMenu addItem:playerItem];
         [playerItem release];
     }
-    [playerPopupButton setMenu:playerMenu];
+    [[self playerPopupButton] setMenu:playerMenu];
     [playerMenu release];
     
     // Hide player PopupButton if there is only one player
-    [playerPopupButton setHidden:(numberOfPlayers==1)];
-    [playerPopupButton selectItemWithTag:[sud integerForKey:UDControlsPlayerKey]];
+    [[self playerPopupButton] setHidden:(numberOfPlayers==1)];
+    [[self playerPopupButton] selectItemWithTag:[sud integerForKey:UDControlsPlayerKey]];
     
     OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
     
     NSView* preferenceView = [preferenceViewController view];
     [preferenceView setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
-    NSRect rect = (NSRect){{0,0}, {controlsContainer.bounds.size.width, preferenceView.frame.size.height}};
+    NSRect rect = (NSRect){{0,0}, {[self controlsContainer].bounds.size.width, preferenceView.frame.size.height}};
     [preferenceView setFrame:rect];
-    [controlsContainer setFrame:rect];
-    if([[controlsContainer subviews] count])
-        [[controlsContainer animator] replaceSubview:[[controlsContainer subviews] objectAtIndex:0] with:preferenceView];
+    [[self controlsContainer] setFrame:rect];
+    if([[[self controlsContainer] subviews] count])
+        [[[self controlsContainer] animator] replaceSubview:[[[self controlsContainer] subviews] objectAtIndex:0] with:preferenceView];
     else
-        [[controlsContainer animator] addSubview:preferenceView];
+        [[[self controlsContainer] animator] addSubview:preferenceView];
     
-    NSScrollView* scrollView = [controlsContainer enclosingScrollView];
-    [controlsContainer setFrameOrigin:(NSPoint){0,scrollView.frame.size.height-rect.size.height}];
-    if(controlsContainer.frame.size.height<=scrollView.frame.size.height)
+    NSScrollView* scrollView = [[self controlsContainer] enclosingScrollView];
+    [[self controlsContainer] setFrameOrigin:(NSPoint){0,scrollView.frame.size.height-rect.size.height}];
+    if([self controlsContainer].frame.size.height<=scrollView.frame.size.height)
     {
         [scrollView setVerticalScrollElasticity:NSScrollElasticityNone];
     }
     else
     {
         [scrollView setVerticalScrollElasticity:NSScrollElasticityAutomatic];
+        [scrollView flashScrollers];
     }
     
     [sud setObject:systemIdentifier forKey:UDControlsPluginIdentifierKey];
     
-    [self changePlayer:playerPopupButton];
-    [self changeInputDevice:inputPopupButton];
+    [self changePlayer:[self playerPopupButton]];
+    [self changeInputDevice:[self inputPopupButton]];
     
-    OEControllerImageView* newControllerView = [[OEControllerImageView alloc] initWithFrame:[controllerView bounds]];
+    OEControllerImageView* newControllerView = [[OEControllerImageView alloc] initWithFrame:[[self controllerView] bounds]];
     [newControllerView setImage:[preferenceViewController controllerImage]];
     
     // Animation for controller image swapping
@@ -170,18 +187,18 @@
     controllerTransition.duration = 1.0;
     controllerTransition.subtype = (order == NSOrderedDescending ? kCATransitionFromLeft : kCATransitionFromRight);
     
-    [controllerView setAnimations:[NSDictionary dictionaryWithObject:controllerTransition forKey:@"subviews"]];
+    [[self controllerView] setAnimations:[NSDictionary dictionaryWithObject:controllerTransition forKey:@"subviews"]];
     
-    if([[controllerView subviews] count])
+    if([[[self controllerView] subviews] count])
     {
-        [[controllerView animator] replaceSubview:[[controllerView subviews] objectAtIndex:0] with:newControllerView];
+        [[[self controllerView] animator] replaceSubview:[[[self controllerView] subviews] objectAtIndex:0] with:newControllerView];
     }
     else
-        [[controllerView animator] addSubview:newControllerView];
+        [[[self controllerView] animator] addSubview:newControllerView];
     
     [newControllerView release];
     
-    [controllerView setAnimations:[NSDictionary dictionary]];
+    [[self controllerView] setAnimations:[NSDictionary dictionary]];
 }
 
 - (IBAction)changePlayer:(id)sender
@@ -273,7 +290,7 @@
         [item release];
     }
     
-    [consolesPopupButton setMenu:consolesMenu];
+    [[self consolesPopupButton] setMenu:consolesMenu];
     [consolesMenu release];
 }
 
@@ -285,6 +302,6 @@
 - (void)bindingTypeChanged:(id)sender
 {
     id object = [sender object];
-    [inputPopupButton selectItemWithTag:[object selectedBindingType]];
+    [[self inputPopupButton] selectItemWithTag:[object selectedBindingType]];
 }
 @end

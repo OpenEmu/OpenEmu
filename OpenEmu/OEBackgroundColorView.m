@@ -10,22 +10,25 @@
 #import "NSColor+IKSAdditions.h"
 @implementation OEBackgroundColorView
 @synthesize backgroundColor;
-- (id)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame 
+{
     self = [super initWithFrame:frame];
-    if (self) {
-		self.wantsLayer = YES;
+    if (self) 
+    {
+        self.wantsLayer = YES;
         self.backgroundColor=[NSColor blackColor];
     }
     return self;
 }
 
-- (void)setBackgroundColor:(NSColor *)_backgroundColor{
-	[_backgroundColor retain];
-	[backgroundColor release];
-	
-	backgroundColor = _backgroundColor;
-	
-	self.layer.backgroundColor = [backgroundColor CGColor];
+- (void)setBackgroundColor:(NSColor *)_backgroundColor
+{
+    [_backgroundColor retain];
+    [backgroundColor release];
+    
+    backgroundColor = _backgroundColor;
+    
+    self.layer.backgroundColor = [backgroundColor CGColor];
 }
 
 @end

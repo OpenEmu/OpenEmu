@@ -10,7 +10,8 @@
 
 
 @implementation NSURL (NSURL_OELibraryAdditions)
-- (BOOL)hasImageSuffix{
+- (BOOL)hasImageSuffix
+{
 	NSArray* imageSuffixes = [NSArray arrayWithObjects:	
 							  @"png",												// Portable Network Graphics
 							  @"tif", @"tiff",										// Tagged Image File Format

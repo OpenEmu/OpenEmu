@@ -9,11 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface OEBackgroundGradientView : NSView {
-@private
-    NSColor* topColor;
-	NSColor* bottomColor;
-}
+@interface OEBackgroundGradientView : NSView
 @property (retain, readwrite) NSColor* topColor;
 @property (retain, readwrite) NSColor* bottomColor;
 @end

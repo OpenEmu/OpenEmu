@@ -10,16 +10,8 @@
 
 
 @interface OECheckBox : NSButton 
-{
-@private
-    
-}
 - (void)setupCell;
 @end
 
-@interface OECheckBoxCell : NSButtonCell 
-{
-@private
-    
-}
+@interface OECheckBoxCell : NSButtonCell
 @end

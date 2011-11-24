@@ -8,14 +8,15 @@
 
 #import <AppKit/AppKit.h>
 
-@interface OEControlsKeyButton : NSView{
-	NSString* title;
-	
-	id target;
-	SEL action;
-	
-	NSCellStateValue state;
-	NSPoint highlightPoint;
+@interface OEControlsKeyButton : NSView
+{
+    NSString* title;
+    
+    id target;
+    SEL action;
+    
+    NSCellStateValue state;
+    NSPoint highlightPoint;
 }
 
 @property (nonatomic) NSCellStateValue state;

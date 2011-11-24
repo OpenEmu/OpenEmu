@@ -103,7 +103,7 @@
 	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:3.0 size:11.0];
 	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowBlurRadius:1.0];
-	NSMutableParagraphStyle* ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	NSMutableParagraphStyle* ps = [[NSMutableParagraphStyle alloc] init];
 	[ps setAlignment:NSCenterTextAlignment];
 	
 	if([self isHighlighted])
@@ -123,6 +123,8 @@
 	[attributes setObject:font forKey:NSFontAttributeName];
 	[attributes setObject:shadow forKey:NSShadowAttributeName];
 	
+    [ps release];
+    
 	return [[[NSAttributedString alloc] initWithString:[self title] attributes:attributes] autorelease];
 }
 

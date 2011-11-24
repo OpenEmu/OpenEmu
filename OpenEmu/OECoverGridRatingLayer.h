@@ -9,11 +9,12 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OECoverGridRatingLayer : CALayer {
+@interface OECoverGridRatingLayer : CALayer 
+{
 @private
     int rating;		// holds rating value
-	BOOL pressed;	// remembers state
-	
+    BOOL pressed;	// remembers state
+    
 }
 
 - (void)setRating:(NSUInteger)rating pressed:(BOOL)pressed;

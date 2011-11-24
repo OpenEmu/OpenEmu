@@ -13,7 +13,8 @@
 @end
 @implementation OEControlsKeyButton
 
-+ (void)initialize{
++ (void)initialize
+{
     [self exposeBinding:@"title"];
     
     NSImage* image = [NSImage imageNamed:@"wood_textfield"];
@@ -22,33 +23,41 @@
     [image setName:@"wood_textfield_inactive" forSubimageInRect:NSMakeRect(0, 24, 5, 24)];
 }
 
-- (id)init {
+- (id)init 
+{
     self = [super init];
-    if (self) {
+    if (self) 
+    {
         [self _setup];
     }
     return self;
 }
 
-- (id)initWithCoder:(NSCoder *)coder {
+- (id)initWithCoder:(NSCoder *)coder 
+{
     self = [super initWithCoder:coder];
-    if (self) {
+    if (self) 
+    {
         [self _setup];
     }
     return self;
 }
 
-- (id)initWithFrame:(NSRect)frame {
+- (id)initWithFrame:(NSRect)frame 
+{
     self = [super initWithFrame:frame];
-    if (self) {
+    if (self) 
+    {
         [self _setup];
     }
     return self;
 }
-- (void)_setup{
+- (void)_setup
+{
     state = NSOffState;
 }
-- (void)dealloc {
+- (void)dealloc 
+{
     self.title = nil;
     self.target = nil;
     self.action = NULL;
@@ -56,7 +65,8 @@
     [super dealloc];
 }
 
-- (void)setTitle:(NSString *)_title{
+- (void)setTitle:(NSString *)_title
+{
     NSString* newTitle = [_title copy];
     [title release];
     title = newTitle;
@@ -65,7 +75,8 @@
 }
 #pragma mark -
 #pragma mark NSView Overrides
-- (void)drawRect:(NSRect)dirtyRect{
+- (void)drawRect:(NSRect)dirtyRect
+{
     // Draw Backgrounds
     NSImage* backgroundImage = self.state==NSOnState? [NSImage imageNamed:@"wood_textfield_active"] : [NSImage imageNamed:@"wood_textfield_inactive"];
     [backgroundImage drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:2 rightBorder:2 topBorder:5 bottomBorder:5];
@@ -91,26 +102,33 @@
     [attributes release];
 }
 
-- (BOOL)isOpaque{
+- (BOOL)isOpaque
+{
     return NO;
 }
-- (BOOL)isFlipped{
+- (BOOL)isFlipped
+{
     return YES;
 }
 
-- (void)mouseDown:(NSEvent *)theEvent{
+- (void)mouseDown:(NSEvent *)theEvent
+{
     if(self.state == NSOnState){
         self.state = NSOffState;
-    } else {
+    } 
+    else 
+    {
         self.state = NSOnState;
     }
     
-    if(self.target && self.action!=NULL && [self.target respondsToSelector:self.action]){
+    if(self.target && self.action!=NULL && [self.target respondsToSelector:self.action])
+    {
         [self.target performSelector:self.action withObject:self];
     }
 }
 
-- (void)setState:(NSCellStateValue)_state{
+- (void)setState:(NSCellStateValue)_state
+{
     state = _state;
     [self setNeedsDisplay:YES];
 }

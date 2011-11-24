@@ -8,14 +8,16 @@
 
 #import "OEBackgroundGradientView.h"
 
-
 @implementation OEBackgroundGradientView
 @synthesize topColor, bottomColor;
-- (void)drawRect:(NSRect)dirtyRect{
-	if(self.topColor && self.bottomColor){
-		NSGradient* grad = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor] autorelease];
-		NSBezierPath* bezPath = [NSBezierPath bezierPathWithRect:self.bounds];
-		[grad drawInBezierPath:bezPath angle:-90];		
-	}	
+- (void)drawRect:(NSRect)dirtyRect
+{
+    if([self topColor] && [self bottomColor])
+    {
+        NSGradient* grad = [[NSGradient alloc] initWithStartingColor:[self topColor] endingColor:[self bottomColor]];
+        NSBezierPath* bezPath = [NSBezierPath bezierPathWithRect:[self bounds]];
+        [grad drawInBezierPath:bezPath angle:-90];
+        [grad release];
+    }
 }
 @end

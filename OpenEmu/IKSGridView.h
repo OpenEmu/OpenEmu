@@ -27,54 +27,54 @@
 
 @class OEGridViewFieldEditor;
 @interface IKSGridView : NSView <IKSGridLayoutManagerDelegate> {
-	Class cellClass;
-	/**
-	 The layout manager used to layout the grid
-	 */
-	IKSGridLayoutManager *layoutManager;
-	/**
-	 Grid layer
-	 */
-	CALayer *gridLayer;
-	
-	// Decoration layers
-	CALayer *foregroundLayer;
-	CALayer *backgroundLayer;
-	
-	OEGridViewFieldEditor* fieldEditor;
-	/**
-	 Layer used to draw the selection rectangle 
-	 */
-	CALayer *selectionLayer;
-	
-	// Stuff for dragging
-	IKSGridItemLayer *draggedLayer;
-	CALayer* dragIndicationLayer;
-	
-	/**
-	 Keeps track of the point where the mouse first clicked (used for calculating the frame of the selection rectangle)
-	 */
-	NSPoint mouseDownPoint;
-	
-	NSTrackingArea *trackingArea;
-	IKSGridItemLayer *eventLayer;
-	NSColor *backgroundColor;
-	NSArray *sortDescriptors;
-	NSSize minimumItemSize;
-	NSSize maximumItemSize;
-	BOOL allowsMultipleSelection;
-	BOOL selectable;
-	BOOL layoutEnabled;
-	id<IKSGridViewDelegate> delegate;
-	
-	NSTimer* autoscrollTimer;
-	NSEvent* lastEvent;
-	
-	NSMutableIndexSet* selectedIndexes;
-	
-	id<IKSGridViewDataSource> dataSource;
-	
-	NSImage* draggedImage;
+    Class cellClass;
+    /**
+     The layout manager used to layout the grid
+     */
+    IKSGridLayoutManager *layoutManager;
+    /**
+     Grid layer
+     */
+    CALayer *gridLayer;
+    
+    // Decoration layers
+    CALayer *foregroundLayer;
+    CALayer *backgroundLayer;
+    
+    OEGridViewFieldEditor* fieldEditor;
+    /**
+     Layer used to draw the selection rectangle 
+     */
+    CALayer *selectionLayer;
+    
+    // Stuff for dragging
+    IKSGridItemLayer *draggedLayer;
+    CALayer* dragIndicationLayer;
+    
+    /**
+     Keeps track of the point where the mouse first clicked (used for calculating the frame of the selection rectangle)
+     */
+    NSPoint mouseDownPoint;
+    
+    NSTrackingArea *trackingArea;
+    IKSGridItemLayer *eventLayer;
+    NSColor *backgroundColor;
+    NSArray *sortDescriptors;
+    NSSize minimumItemSize;
+    NSSize maximumItemSize;
+    BOOL allowsMultipleSelection;
+    BOOL selectable;
+    BOOL layoutEnabled;
+    id<IKSGridViewDelegate> delegate;
+    
+    NSTimer* autoscrollTimer;
+    NSEvent* lastEvent;
+    
+    NSMutableIndexSet* selectedIndexes;
+    
+    id<IKSGridViewDataSource> dataSource;
+    
+    NSImage* draggedImage;
     
     BOOL noItems;
 }

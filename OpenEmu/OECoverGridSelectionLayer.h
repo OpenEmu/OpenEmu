@@ -9,10 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OECoverGridSelectionLayer : CALayer {
-@private
-	BOOL isInactive;
-}
+@interface OECoverGridSelectionLayer : CALayer 
 @property (readwrite, assign) BOOL isInactive;
-
 @end

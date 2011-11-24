@@ -10,10 +10,11 @@
 #import "NSImage+OEDrawingAdditions.h"
 @implementation OEBackgroundImageView
 @synthesize image, leftBorder,rightBorder, topBorder,bottomBorder;
-- (id)initWithFrame:(NSRect)frame{
+- (id)initWithFrame:(NSRect)frame
+{
     self = [super initWithFrame:frame];
     if (self) {}
-	return self;
+    return self;
 }
 
 - (void)dealloc{
@@ -24,11 +25,13 @@
 {
     return NO;
 }
-- (void)drawRect:(NSRect)dirtyRect{	
-    if(self.image){
-		NSRect imgRect = self.bounds;
-		[self.image drawInRect:imgRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:[self isFlipped] hints:nil leftBorder:[self leftBorder] rightBorder:[self rightBorder] topBorder:[self topBorder] bottomBorder:[self bottomBorder]];
-	}
+- (void)drawRect:(NSRect)dirtyRect
+{
+    if(self.image)
+    {
+        NSRect imgRect = [self bounds];
+        [self.image drawInRect:imgRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:[self isFlipped] hints:nil leftBorder:[self leftBorder] rightBorder:[self rightBorder] topBorder:[self topBorder] bottomBorder:[self bottomBorder]];
+    }
 }
 
 @end

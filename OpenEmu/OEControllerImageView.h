@@ -9,12 +9,7 @@
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-@interface OEControllerImageView : NSView {
-	NSImage* image;
-	
-	NSPoint ringPosition;
-	float overlayAlpha, ringAlpha;
-}
+@interface OEControllerImageView : NSView 
 @property (nonatomic) float overlayAlpha, ringAlpha;
 @property (nonatomic) NSPoint ringPosition;
 @property (nonatomic, retain) NSImage* image;

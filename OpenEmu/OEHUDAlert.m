@@ -20,7 +20,8 @@
 #import "OECenteredTextFieldCell.h"
 #import "NSColor+IKSAdditions.h"
 #import "NSControl+OEAdditions.h"
-@interface OEAlertWindow : NSWindow @end
+@interface OEAlertWindow : NSWindow
+@end
 @interface OEHUDAlert (Private)
 - (void)performCallback;
 - (void)layoutButtons;
@@ -462,7 +463,9 @@
 #pragma mark Private Methods
 - (void)_setupWindow
 {    
-    [_window setContentSize:(NSSize){421, 172}];
+    NSRect f = [_window frame];
+    f.size = (NSSize){421, 172};
+    [_window setFrame:f display:NO];
     
     // Setup Button
     OEHUDButtonCell* cell = [[OEHUDButtonCell alloc] init];

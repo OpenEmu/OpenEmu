@@ -9,9 +9,10 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OECoverGridIndicationLayer : CALayer {
+@interface OECoverGridIndicationLayer : CALayer 
+{
 @private
-	int type;
+    int type;
 }
 
 - (void)setType:(int)newType;

@@ -11,19 +11,19 @@
 
 @implementation NSImage (NSImage_OEHighlight)
 
-- (NSImage*)imageForHighlight{
-	NSImage* highlightImage = [[[NSImage alloc] initWithSize:self.size] autorelease];
-
-	[highlightImage lockFocus];
-	
-	[self drawInRect:NSMakeRect(0, 0, self.size.width, self.size.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-	
-	[[NSColor colorWithDeviceWhite:0.0 alpha:0.4] setFill];
-	NSRectFillUsingOperation(NSMakeRect(0, 0, self.size.width, self.size.height), NSCompositeSourceAtop);
-//	NSRectFill();NSCompositeSourceOut
-	
-	[highlightImage unlockFocus];
-	
-	return highlightImage;
+- (NSImage*)imageForHighlight
+{
+    NSImage* highlightImage = [[[NSImage alloc] initWithSize:self.size] autorelease];
+    
+    [highlightImage lockFocus];
+    
+    [self drawInRect:NSMakeRect(0, 0, self.size.width, self.size.height) fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+    
+    [[NSColor colorWithDeviceWhite:0.0 alpha:0.4] setFill];
+    NSRectFillUsingOperation(NSMakeRect(0, 0, self.size.width, self.size.height), NSCompositeSourceAtop);
+    
+    [highlightImage unlockFocus];
+    
+    return highlightImage;
 }
 @end
