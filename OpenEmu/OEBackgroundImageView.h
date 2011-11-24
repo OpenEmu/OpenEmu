@@ -9,11 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface OEBackgroundImageView : NSView {
-@private
-    NSImage* image;
-	NSColor* topLineColor;
-}
-@property (retain, readwrite) NSColor* topLineColor;
+@interface OEBackgroundImageView : NSView
 @property (retain, readwrite) NSImage* image;
+@property float leftBorder, rightBorder, topBorder, bottomBorder;
 @end

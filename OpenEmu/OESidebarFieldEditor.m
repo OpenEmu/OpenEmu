@@ -8,9 +8,6 @@
 
 #import "OESidebarFieldEditor.h"
 #import "OEBackgroundColorView.h"
-@interface NSTextView (ApplePrivate)
-- (void)_drawRect:(NSRect)dirtyRect clip:(NSRect)aClipRect;
-@end
 
 @implementation OESidebarFieldEditor
 @synthesize container;
@@ -18,23 +15,23 @@
     self = [super init];
     if (self) {
         
-	}
+    }
     
     return self;
 }
 
 + (id)fieldEditor{
-	static OESidebarFieldEditor* fieldEditor = nil;
-	if (fieldEditor == nil){
-		fieldEditor = [[OESidebarFieldEditor alloc] initWithFrame:NSZeroRect];
+    static OESidebarFieldEditor* fieldEditor = nil;
+    if (fieldEditor == nil){
+        fieldEditor = [[OESidebarFieldEditor alloc] initWithFrame:NSZeroRect];
         
-		[fieldEditor setFieldEditor:YES];
-		[fieldEditor setEditable:YES];
-		[fieldEditor setSelectable:YES];
-		
-		[fieldEditor setTextContainerInset:NSMakeSize(1, 2)];
+        [fieldEditor setFieldEditor:YES];
+        [fieldEditor setEditable:YES];
+        [fieldEditor setSelectable:YES];
+        
+        [fieldEditor setTextContainerInset:NSMakeSize(1, 2)];
     }
-	return fieldEditor;	
+    return fieldEditor;
 }
 - (NSRect)superFrame
 {
@@ -98,13 +95,4 @@
     [super dealloc];
 }
 
-@end
-
-
-@implementation OESidebarFieldEditorContainer
-- (void)drawRect:(NSRect)dirtyRect
-{
-    [[NSColor colorWithDeviceRed:0.09 green:0.153 blue:0.553 alpha:1.0] setFill];
-    NSRectFill(self.bounds);
-}
 @end

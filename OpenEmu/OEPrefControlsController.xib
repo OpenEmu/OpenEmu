@@ -41,7 +41,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSView" id="268028433">
-				<reference key="NSNextResponder"/>
+				<nil key="NSNextResponder"/>
 				<int key="NSvFlags">256</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSCustomView" id="243981024">
@@ -49,7 +49,6 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{0, 262}, {561, 274}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="347657162"/>
 						<string key="NSReuseIdentifierKey">_NS:499</string>
 						<string key="NSClassName">NSView</string>
@@ -59,10 +58,9 @@
 						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{24, 24}, {512, 189}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="138075039"/>
 						<string key="NSReuseIdentifierKey">_NS:1192</string>
-						<string key="NSClassName">OEPrefBoxControls</string>
+						<string key="NSClassName">OEPreferencesControlsBox</string>
 					</object>
 					<object class="NSScrollView" id="138075039">
 						<reference key="NSNextResponder" ref="268028433"/>
@@ -77,14 +75,12 @@
 										<int key="NSvFlags">274</int>
 										<string key="NSFrameSize">{510, 187}</string>
 										<reference key="NSSuperview" ref="607083126"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="153730345"/>
 										<string key="NSReuseIdentifierKey">_NS:404</string>
 									</object>
 								</array>
 								<string key="NSFrameSize">{510, 187}</string>
 								<reference key="NSSuperview" ref="138075039"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="837216714"/>
 								<string key="NSReuseIdentifierKey">_NS:402</string>
 								<reference key="NSDocView" ref="837216714"/>
@@ -104,8 +100,6 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{497, 0}, {15, 183}}</string>
 								<reference key="NSSuperview" ref="138075039"/>
-								<reference key="NSWindow"/>
-								<reference key="NSNextKeyView"/>
 								<string key="NSReuseIdentifierKey">_NS:408</string>
 								<reference key="NSTarget" ref="138075039"/>
 								<string key="NSAction">_doScroller:</string>
@@ -117,7 +111,6 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{0, 174}, {506, 15}}</string>
 								<reference key="NSSuperview" ref="138075039"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="714866421"/>
 								<string key="NSReuseIdentifierKey">_NS:412</string>
 								<int key="NSsFlags">1</int>
@@ -128,7 +121,6 @@
 						</array>
 						<string key="NSFrame">{{25, 25}, {510, 187}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="607083126"/>
 						<string key="NSReuseIdentifierKey">_NS:400</string>
 						<int key="NSsFlags">133680</int>
@@ -141,7 +133,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{392, 225}, {42, 17}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="214329737"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="750678677">
@@ -171,7 +162,6 @@
 						<int key="NSvFlags">300</int>
 						<string key="NSFrame">{{25, 219}, {206, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="687338305"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="122850583">
@@ -300,7 +290,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{297, 219}, {89, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="967997443"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="989294453">
@@ -378,7 +367,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{436, 219}, {98, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="26693448"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="665852651">
@@ -434,7 +422,6 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{0, 495}, {561, 41}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="433849363"/>
 						<bool key="NSViewIsLayerTreeHost">YES</bool>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -442,8 +429,6 @@
 					</object>
 				</array>
 				<string key="NSFrameSize">{561, 536}</string>
-				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="243981024"/>
 			</object>
 		</array>
@@ -890,14 +875,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OECtrlPopUpButtonCell.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OEPrefBoxControls</string>
-					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEPrefBoxControls.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

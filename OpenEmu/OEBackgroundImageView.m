@@ -7,10 +7,9 @@
 //
 
 #import "OEBackgroundImageView.h"
-
-
+#import "NSImage+OEDrawingAdditions.h"
 @implementation OEBackgroundImageView
-@synthesize image, topLineColor;
+@synthesize image, leftBorder,rightBorder, topBorder,bottomBorder;
 - (id)initWithFrame:(NSRect)frame{
     self = [super initWithFrame:frame];
     if (self) {}
@@ -21,10 +20,14 @@
     [super dealloc];
 }
 
+- (BOOL)isOpaque
+{
+    return NO;
+}
 - (void)drawRect:(NSRect)dirtyRect{	
     if(self.image){
 		NSRect imgRect = self.bounds;
-		[self.image drawInRect:imgRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
+		[self.image drawInRect:imgRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:[self isFlipped] hints:nil leftBorder:[self leftBorder] rightBorder:[self rightBorder] topBorder:[self topBorder] bottomBorder:[self bottomBorder]];
 	}
 }
 

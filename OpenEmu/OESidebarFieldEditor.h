@@ -14,8 +14,3 @@
 + (id)fieldEditor;
 @property (retain) OEBackgroundColorView* container;
 @end
-
-@interface OESidebarFieldEditorContainer : NSView {
-}
-
-@end

@@ -11,7 +11,7 @@
 #import "NSColor+IKSAdditions.h"
 #import "IKSGridViewProtocols.h"
 
-#import "OEFieldEditor.h"
+#import "OEGridViewFieldEditor.h"
 #import "OEGridBlankSlateView.h"
 typedef enum 
 {
@@ -146,7 +146,7 @@ typedef enum
     
     NSArray* subviews = [NSArray arrayWithArray:[self subviews]];
     [subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if(![obj isKindOfClass:[OEFieldEditor class]])
+        if(![obj isKindOfClass:[OEGridViewFieldEditor class]])
         {
             [obj removeFromSuperview];
         }
@@ -986,7 +986,7 @@ typedef enum
         fieldEditor = nil;
     }
     
-    fieldEditor = [[OEFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
+    fieldEditor = [[OEGridViewFieldEditor alloc] initWithFrame:NSMakeRect(50, 50, 50, 50)];
     
     [self addSubview:fieldEditor];
 }
@@ -1219,7 +1219,7 @@ typedef enum
     return [dragImage autorelease];
 }
 #pragma mark -
-- (OEFieldEditor*)fieldEditorForFrame:(NSRect)frame ofLayer:(CALayer*)layer
+- (OEGridViewFieldEditor*)fieldEditorForFrame:(NSRect)frame ofLayer:(CALayer*)layer
 {
     frame.origin.x += layer.frame.origin.x;
     frame.origin.y += layer.frame.origin.y;

@@ -46,9 +46,6 @@
     NSImage* controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
     [(OEBackgroundImageView*)[self view] setImage:controlsBackgroundImage];
     
-    NSColor* controlsTopLineColor = [NSColor colorWithDeviceWhite:0.32 alpha:1.0];
-    [(OEBackgroundImageView*)[self view] setTopLineColor:controlsTopLineColor];
-    
     /** ** ** ** ** ** ** ** **/
     // Setup controls popup console list
     [self _rebuildSystemsMenu];

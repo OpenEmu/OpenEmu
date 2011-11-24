@@ -70,6 +70,7 @@
     }
     return self;
 }
+
 - (id)initWithGame:(OEDBGame*)game
 {
     self = [self init];
@@ -95,7 +96,6 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
-    
 }
 #pragma mark -
 - (BOOL)_setupGameViewController:(OEGameViewController*)aGameViewController
@@ -157,6 +157,7 @@
     [aGameViewController release];
     return res;
 }
+
 - (BOOL)loadRom:(OEDBRom*)rom withError:(NSError**)outError
 {
     OEMainWindowController* winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
@@ -169,7 +170,6 @@
 }
 #pragma mark -
 #pragma mark NSDocument Stuff
-
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
     if(outError != NULL)

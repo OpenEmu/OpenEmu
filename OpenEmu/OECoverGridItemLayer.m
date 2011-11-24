@@ -16,7 +16,7 @@
 #import "NSColor+IKSAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
 
-#import "OEFieldEditor.h"
+#import "OEGridViewFieldEditor.h"
 
 #import "DelayedBlockExecution.h"
 #import <QuickLook/QuickLook.h>
@@ -35,7 +35,7 @@
 // called to display on drop animation
 - (void)_displayOnDrop:(id)sender;
 
-- (void)setUpFieldEditor:(OEFieldEditor*)fieldEditor;
+- (void)setUpFieldEditor:(OEGridViewFieldEditor*)fieldEditor;
 
 - (id)_datasourceProxy_objectForKey:(NSString*)key;
 - (void)_datasourceProxy_setObject:(id)obj forKey:(NSString*)key;
@@ -384,7 +384,7 @@
             
             fieldFrame.size.height += 1;
             
-            OEFieldEditor* fieldEditor = [self.gridView fieldEditorForFrame:fieldFrame ofLayer:self];
+            OEGridViewFieldEditor* fieldEditor = [self.gridView fieldEditorForFrame:fieldFrame ofLayer:self];
             [self setUpFieldEditor:fieldEditor];
             
             return YES;
@@ -762,7 +762,7 @@
 }
 
 #pragma mark -
-- (void)setUpFieldEditor:(OEFieldEditor*)fieldEditor{
+- (void)setUpFieldEditor:(OEGridViewFieldEditor*)fieldEditor{
     NSString* title = [self _datasourceProxy_objectForKey:@"title"];
     [fieldEditor setString:title];
     
@@ -795,7 +795,7 @@
 #pragma mark -
 - (void)controlTextDidEndEditing:(NSNotification *)aNotification{    
     NSTextField* field = [aNotification object];
-    OEFieldEditor* fieldEditor = (OEFieldEditor*)[field superview];
+    OEGridViewFieldEditor* fieldEditor = (OEGridViewFieldEditor*)[field superview];
     
     [fieldEditor setFrameSize:NSMakeSize(0, 0)];
     [fieldEditor setHidden:YES];

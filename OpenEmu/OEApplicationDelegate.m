@@ -135,14 +135,14 @@
     
     
     // TODO: remove after testing OEHUDAlert
-    
+    /*
      [[OECoreUpdater sharedUpdater] installCoreWithIdentifier:@"com.openemu.snes9x" coreName:@"Nestopia" systemName:@"Nintendo (NES)" withCompletionHandler:^{
      NSLog(@"core was installed!");
      }];
-    /* OEHUDAlert * alert = [OEHUDAlert saveGameAlertWithProposedName:@"Save-Game-1: 5 October, 4:45pm"];
+     */
+    OEHUDAlert * alert = [OEHUDAlert saveGameAlertWithProposedName:@"Save-Game-1: 5 October, 4:45pm"];
      NSInteger result = [alert runModal];
      NSLog(@"result: %ld", result);;
-     */
 }
 #pragma mark -
 #pragma mark Loading The Database

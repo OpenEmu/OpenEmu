@@ -25,7 +25,7 @@
 @protocol IKSGridViewDelegate;
 @protocol IKSGridViewDataSource;
 
-@class OEFieldEditor;
+@class OEGridViewFieldEditor;
 @interface IKSGridView : NSView <IKSGridLayoutManagerDelegate> {
 	Class cellClass;
 	/**
@@ -41,7 +41,7 @@
 	CALayer *foregroundLayer;
 	CALayer *backgroundLayer;
 	
-	OEFieldEditor* fieldEditor;
+	OEGridViewFieldEditor* fieldEditor;
 	/**
 	 Layer used to draw the selection rectangle 
 	 */
@@ -101,7 +101,7 @@
 @property (nonatomic, retain) NSTimer* autoscrollTimer;
 @property (nonatomic, retain) NSEvent* lastEvent;
 
-- (OEFieldEditor*)fieldEditorForFrame:(NSRect)frame ofLayer:(id)layer;
+- (OEGridViewFieldEditor*)fieldEditorForFrame:(NSRect)frame ofLayer:(id)layer;
 /**
  Delegate of the grid view (an object conforming to the IKSGridViewDelegateProtocol
  */

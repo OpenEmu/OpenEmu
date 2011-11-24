@@ -10,7 +10,8 @@
 
 #import "OECheckBox.h"
 #import "OEHUDButtonCell.h"
-#import "OEPrefBoxPlain.h"
+#import "OEHUDTextFieldCell.h"
+#import "OEPreferencesPlainBox.h"
 
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEHUDWindow.h"
@@ -123,7 +124,7 @@
         _inputField = [[NSTextField alloc] init];
         _inputLabelField = [[NSTextField alloc] init];
         
-        _boxView = [[OEPrefBoxPlain alloc] init];
+        _boxView = [[OEPreferencesPlainBox alloc] init];
         
         [self _setupWindow];
     }
@@ -302,15 +303,16 @@
 {
     BOOL showsDefaultButton = [[self defaultButtonTitle] length]!=0;
     BOOL showsAlternateButton = [[self alternateButtonTitle] length]!=0;
+    
+    NSRect defaultButtonRect = (NSRect){{304-3, 14-1},{103, 23}};
     if(showsDefaultButton)
     {
-        NSRect defaultButtonRect = (NSRect){{304, 14},{103, 23}};
         [[self defaultButton] setFrame:defaultButtonRect];
     }
     
     if(showsAlternateButton)
     {
-        NSRect alternateButtonRect = showsDefaultButton?(NSRect){{190, 14},{103, 23}}:(NSRect){{304, 14},{103, 23}};
+        NSRect alternateButtonRect = showsDefaultButton?(NSRect){{190-3, 14-1},{103, 23}}:defaultButtonRect;
         [[self alternateButton] setFrame:alternateButtonRect];
     }
     [[self defaultButton] setHidden:!showsDefaultButton];
@@ -415,6 +417,7 @@
 - (void)setSuppressionLabelText:(NSString *)suppressionLabelText
 {
     [[self suppressionButton] setTitle:suppressionLabelText];
+    [[self suppressionButton] sizeToFit];
 }
 - (NSString*)suppressionLabelText
 {
@@ -510,41 +513,35 @@
     [shadow setShadowBlurRadius:0];
     [shadow setShadowOffset:(NSSize){0,-1}];
     
-    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
-    [[self inputField] setFont:font];
-    [[self inputField] setBackgroundColor:[NSColor colorWithDeviceRed:0.2 green:0.2 blue:0.2 alpha:1.0]];
-    [[self inputField] setTextColor:[NSColor colorWithDeviceRed:0.86 green:0.86 blue:0.86 alpha:1.0]];
-    [[self inputField] setShadow:shadow];
-    [[self inputField] setFrame:(NSRect){{69,52},{421-16-69, 23}}];
+    
+    OEHUDTextFieldCell* inputCell = [[OEHUDTextFieldCell alloc] init];
+    [[self inputField] setCell:inputCell];
+    [inputCell release];
+    [[self inputField] setFrame:(NSRect){{68,51},{337, 23}}];
     [[self inputField] setHidden:YES];
     [[self inputField] setAutoresizingMask:NSViewWidthSizable|NSViewMaxYMargin];
     [[self inputField] setFocusRingType:NSFocusRingTypeNone];
     [[self inputField] setTarget:self andAction:@selector(buttonAction:)];
+    [[self inputField] setEditable:YES];
     [self inputField].wantsLayer = YES;
     [[_window contentView] addSubview:[self inputField]];
     [shadow release];
 
     
-    [[self inputLabelField] setFrame:(NSRect){{0,52},{61,23}}];
+    [[self inputLabelField] setFrame:(NSRect){{1,51},{61,23}}];
     [[self inputLabelField] setHidden:YES];
     OECenteredTextFieldCell* labelCell = [[OECenteredTextFieldCell alloc] init];
-    shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
-    [shadow setShadowBlurRadius:0];
-    [shadow setShadowOffset:(NSSize){0,-1}];
     
-    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.0];
+    font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
     
     NSMutableParagraphStyle* paraStyle = [[NSMutableParagraphStyle alloc] init];
     [paraStyle setAlignment:NSRightTextAlignment];
     [labelCell setTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                   [NSColor whiteColor]  , NSForegroundColorAttributeName,
                                   paraStyle             , NSParagraphStyleAttributeName,
-                                  shadow                , NSShadowAttributeName,
                                   font                  , NSFontAttributeName,
                                   nil]];
     [paraStyle release];
-    [shadow release];
     [[self inputLabelField] setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
     [[self inputLabelField] setCell:labelCell];
     [labelCell release];
