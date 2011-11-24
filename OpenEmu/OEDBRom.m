@@ -92,7 +92,7 @@
         while([defaultManager fileExistsAtPath:newFilePath])
         {
             i++;
-            newFilePath = [NSString stringWithFormat:@"@/%@ %d.%@", databaseUnsortedFolder, fileName, i, fileSuffix];            
+            newFilePath = [NSString stringWithFormat:@"%@/%@ %d.%@", databaseUnsortedFolder, fileName, i, fileSuffix];            
         }
         
         if(![defaultManager copyItemAtPath:filePath toPath:newFilePath error:outError])
