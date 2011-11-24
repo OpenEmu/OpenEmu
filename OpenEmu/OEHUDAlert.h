@@ -8,13 +8,14 @@
 
 #import <Foundation/Foundation.h>
 @class OEHUDAlert;
+@class OEAlertWindow;
 @class OECheckBox;
 @class OEHUDProgressbar;
 @class OEPreferencesPlainBox;
 typedef void (^OEAlertCompletionHandler)(OEHUDAlert* alert, NSUInteger result);
 @interface OEHUDAlert : NSObject
 {
-    NSWindow* _window;
+    OEAlertWindow* _window;
     NSUInteger result;
     
     OEAlertCompletionHandler callbackHandler;

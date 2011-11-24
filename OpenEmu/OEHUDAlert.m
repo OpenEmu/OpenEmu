@@ -38,6 +38,10 @@
 @synthesize inputField=_inputField, inputLabelField=_inputLabelField;
 @synthesize boxView=_boxView;
 #pragma mark -
+- (void)show{
+    [_window makeKeyAndOrderFront:self];
+    [_window center];
+}
 + (id)alertWithError:(NSError*)error
 {
     return nil;
@@ -107,9 +111,9 @@
     {
         NSLog(@"OEHUDAlert init");
         
-        _window = [[OEHUDWindow alloc] initAlertWindowWithContentRect:NSZeroRect styleMask:0 backing:NSWindowBackingLocationDefault defer:NO];
-        [_window setContentView:[[[OEBackgroundColorView alloc] init] autorelease]];
-        [(OEBackgroundColorView*)_window.contentView setBackgroundColor:[NSColor colorWithDeviceWhite:0.07 alpha:0.93]];
+        _window = [[OEAlertWindow alloc] init];
+        //        [_window setContentView:[[[OEBackgroundColorView alloc] init] autorelease]];
+        //        [(OEBackgroundColorView*)_window.contentView setBackgroundColor:[NSColor colorWithDeviceWhite:0.07 alpha:0.93]];
         
         _suppressionButton = [[OECheckBox alloc] init];
         
@@ -488,7 +492,7 @@
     
     // Setup Message Text View
     NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
-
+    
     [[self messageTextView] setEditable:NO];
     [[self messageTextView] setSelectable:NO];
     [[self messageTextView] setDrawsBackground:NO];
@@ -506,7 +510,7 @@
     [[self messageTextView] setHidden:YES];
     [[self boxView] addSubview:[self messageTextView]];
     [shadow release];
-
+    
     // Setup Input Field
     shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
@@ -526,7 +530,7 @@
     [self inputField].wantsLayer = YES;
     [[_window contentView] addSubview:[self inputField]];
     [shadow release];
-
+    
     
     [[self inputLabelField] setFrame:(NSRect){{1,51},{61,23}}];
     [[self inputLabelField] setHidden:YES];
@@ -591,15 +595,67 @@
 
 @end
 #pragma mark -
+@interface OEAlertThemeView : NSView @end
+
+
+@interface OEAlertWindow (Private)
+- (void)_performInitialSetup;
+@end
 @implementation OEAlertWindow
 
 + (void)initialize
 {
-    if([NSImage imageNamed:@"hud_window_active"]) return;
+    if([NSImage imageNamed:@"hud_alert_window_active"]) return;
     
-    NSImage* hudWindowBorder = [NSImage imageNamed:@"hud_window"];    
-    [hudWindowBorder setName:@"hud_window_active" forSubimageInRect:(NSRect){{0,0},{29,47}}];
-    [hudWindowBorder setName:@"hud_window_inactive" forSubimageInRect:(NSRect){{0,0},{29,47}}];
+    NSImage* hudWindowBorder = [NSImage imageNamed:@"hud_alert_window"];    
+    [hudWindowBorder setName:@"hud_alert_window_active" forSubimageInRect:(NSRect){{0,0},{29,47}}];
+    [hudWindowBorder setName:@"hud_alert_window_inactive" forSubimageInRect:(NSRect){{0,0},{29,47}}];
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        
+        [self _performInitialSetup];
+    }
+    return self;
+}
+
+#import <objc/objc-runtime.h>
+- (void)_performInitialSetup
+{
+	id class = [[[self contentView] superview] class];
+    
+	Method m0 = class_getInstanceMethod([OEAlertThemeView class], @selector(drawRect:));
+	class_addMethod(class, @selector(drawRectOriginal:), method_getImplementation(m0), method_getTypeEncoding(m0));
+	
+	Method m1 = class_getInstanceMethod(class, @selector(drawRect:));
+	Method m2 = class_getInstanceMethod(class, @selector(drawRectOriginal:));
+	
+    method_exchangeImplementations(m1, m2);
+    
+    [self setOpaque:NO];
+    [self setBackgroundColor:[NSColor greenColor]];
+}
+
+@end
+@interface OEAlertThemeView (Private)
+- (void)drawRectOriginal:(NSRect)dirtyRect;
+@end
+@implementation OEAlertThemeView
+- (BOOL)isOpaque{ return NO; }
+- (void)drawRect:(NSRect)dirtyRect
+{   
+    if(![[self window] isKindOfClass:[OEAlertWindow class]])
+    {
+        [self drawRectOriginal:dirtyRect];
+        return;
+    }
+    NSRect bounds = [self frame];
+    bounds.origin = (NSPoint){0,0};
+    
+    NSImage* image = [NSImage imageNamed:@"hud_alert_window"];
+    [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:24 bottomBorder:22];
 }
 
 @end

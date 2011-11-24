@@ -17,7 +17,6 @@
 @interface OEHUDBorderWindow : NSWindow
 @end
 @implementation OEHUDWindow
-
 + (void)initialize
 {
     if([NSImage imageNamed:@"hud_window_active"]) return;
@@ -27,22 +26,6 @@
     [img setName:@"hud_window_inactive" forSubimageInRect:NSMakeRect(img.size.width/2, 0, img.size.width/2, img.size.height)];
 }
 #pragma mark -
-- (id)initAlertWindowWithContentRect:(NSRect)contentRect
-                           styleMask:(NSUInteger)windowStyle
-                             backing:(NSBackingStoreType)bufferingType
-                               defer:(BOOL)deferCreation{
-    self = [super
-            initWithContentRect:contentRect
-            styleMask:NSBorderlessWindowMask
-            backing:bufferingType
-            defer:deferCreation];
-    
-    if (self)
-    {
-        [self _initialSetup];
-    }
-    return self;
-}
 - (id)initWithContentRect:(NSRect)contentRect
                 styleMask:(NSUInteger)windowStyle
                   backing:(NSBackingStoreType)bufferingType
@@ -178,7 +161,6 @@
 
 - (void)display
 {
-    NSLog(@"displaay called on some part of the hud window");
     [[self contentView] display];
 }
 - (void)setParentWindow:(NSWindow *)window
@@ -259,6 +241,8 @@
     NSRectFill([self bounds]);
     
     BOOL isFocused = [[self window].parentWindow isMainWindow] && [NSApp isActive];
+    
+    
     NSImage* borderImage = isFocused ? [NSImage imageNamed:@"hud_window_active"] : [NSImage imageNamed:@"hud_window_inactive"];
     [borderImage drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver/*NSCompositeSourceOver*/ fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:23 bottomBorder:23];
     

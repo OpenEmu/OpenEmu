@@ -346,6 +346,7 @@
 		838FE6831458277B00185117 /* OEGlossCheckBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 838FE6821458277B00185117 /* OEGlossCheckBox.m */; };
 		838FE6871458342600185117 /* OESetupAssistantKeyMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 838FE6861458342600185117 /* OESetupAssistantKeyMapView.m */; };
 		83920CDB147E5BA300D219EA /* OESidebarScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83920CDA147E5BA300D219EA /* OESidebarScrollView.m */; };
+		83920CDD147E675C00D219EA /* hud_alert_window.png in Resources */ = {isa = PBXBuildFile; fileRef = 83920CDC147E675C00D219EA /* hud_alert_window.png */; };
 		839310BC147802380020058E /* OECoreDownload.m in Sources */ = {isa = PBXBuildFile; fileRef = 839310BB147802380020058E /* OECoreDownload.m */; };
 		8396CC52140687EE0096F791 /* wood_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 8396CC51140687EE0096F791 /* wood_textfield.png */; };
 		83977F641408FE4700175858 /* controller_snes_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 83977F611408FE4700175858 /* controller_snes_eu.png */; };
@@ -1174,6 +1175,7 @@
 		838FE6861458342600185117 /* OESetupAssistantKeyMapView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantKeyMapView.m; sourceTree = "<group>"; };
 		83920CD9147E5BA300D219EA /* OESidebarScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarScrollView.h; sourceTree = "<group>"; };
 		83920CDA147E5BA300D219EA /* OESidebarScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarScrollView.m; sourceTree = "<group>"; };
+		83920CDC147E675C00D219EA /* hud_alert_window.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_alert_window.png; sourceTree = "<group>"; };
 		839310BA147802380020058E /* OECoreDownload.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreDownload.h; sourceTree = "<group>"; };
 		839310BB147802380020058E /* OECoreDownload.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreDownload.m; sourceTree = "<group>"; };
 		8396CC51140687EE0096F791 /* wood_textfield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_textfield.png; sourceTree = "<group>"; };
@@ -2246,7 +2248,7 @@
 				83BF5294146C2F4000B5F742 /* blank_slate_box.png */,
 				83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */,
 				83AAC32A1458172C005ADD16 /* Setup Assistant */,
-				53439BA913B93920005C0CC8 /* Game Window */,
+				53439BA913B93920005C0CC8 /* HUD */,
 				53439BC013B93920005C0CC8 /* Preferences */,
 				53439B9E13B93920005C0CC8 /* arrow_down.png */,
 				53439B9F13B93920005C0CC8 /* arrow_left.png */,
@@ -2292,9 +2294,10 @@
 			path = "../Interface Graphics";
 			sourceTree = "<group>";
 		};
-		53439BA913B93920005C0CC8 /* Game Window */ = {
+		53439BA913B93920005C0CC8 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
+				83920CDC147E675C00D219EA /* hud_alert_window.png */,
 				83E25057147BC6BF0074EE14 /* hud_textfield.png */,
 				837777BA147A8F6A0091A896 /* hud_progress_bar_track.png */,
 				837777BB147A8F6A0091A896 /* hud_progress_bar.png */,
@@ -2310,7 +2313,7 @@
 				53439BB213B93920005C0CC8 /* hud_volume.png */,
 				53439BB313B93920005C0CC8 /* hud_window.png */,
 			);
-			path = "Game Window";
+			path = HUD;
 			sourceTree = "<group>";
 		};
 		53439BC013B93920005C0CC8 /* Preferences */ = {
@@ -3385,6 +3388,7 @@
 				837777BC147A8F6A0091A896 /* hud_progress_bar_track.png in Resources */,
 				837777BD147A8F6A0091A896 /* hud_progress_bar.png in Resources */,
 				83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */,
+				83920CDD147E675C00D219EA /* hud_alert_window.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

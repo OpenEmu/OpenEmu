@@ -16,10 +16,6 @@
 	NSWindow				* _borderWindow;
 }
 - (id)initWithContentRect:(NSRect)frame;
-- (id)initAlertWindowWithContentRect:(NSRect)contentRect
-                           styleMask:(NSUInteger)windowStyle
-                             backing:(NSBackingStoreType)bufferingType
-                               defer:(BOOL)deferCreation;
 @end
 @interface OEHUDWindowThemeView : NSView 
 {
