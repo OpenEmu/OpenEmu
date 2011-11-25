@@ -68,8 +68,18 @@
 		
 	TISInputSourceRef currentKeyboard = TISCopyCurrentKeyboardInputSource();
 	CFDataRef uchr = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
-	const UCKeyboardLayout *keyboardLayout = (const UCKeyboardLayout*)CFDataGetBytePtr(uchr);
+	CFRelease(currentKeyboard);
 	
+    // For non-unicode layouts such as Chinese, Japanese, and Korean, get the ASCII capable layout
+    if(!uchr)
+    {
+        currentKeyboard = TISCopyCurrentASCIICapableKeyboardLayoutInputSource();
+        uchr = (CFDataRef)TISGetInputSourceProperty(currentKeyboard, kTISPropertyUnicodeKeyLayoutData);
+        CFRelease(currentKeyboard);
+    }
+    
+    const UCKeyboardLayout *keyboardLayout = (const UCKeyboardLayout*)CFDataGetBytePtr(uchr);
+    
 	if(keyboardLayout)
     {
 		UInt32 deadKeyState = 0;
@@ -78,7 +88,7 @@
 		UniChar unicodeString[maxStringLength];
 		
 		OSStatus status = UCKeyTranslate(keyboardLayout,
-										 keyCode, kUCKeyActionDown, 0,
+										 keyCode, kUCKeyActionDisplay, 0,
 										 LMGetKbdType(), 0,
 										 &deadKeyState,
 										 maxStringLength,
@@ -87,14 +97,14 @@
         if (actualStringLength == 0 && deadKeyState)
         {
             status = UCKeyTranslate(keyboardLayout,
-                                             kVK_Space, kUCKeyActionDown, 0,
+                                             kVK_Space, kUCKeyActionDisplay, 0,
                                              LMGetKbdType(), 0,
                                              &deadKeyState,
                                              maxStringLength,
                                              &actualStringLength, unicodeString);   
         }
 		if(actualStringLength > 0 && status == noErr)
-			return [[NSString stringWithCharacters:unicodeString length:(NSInteger)actualStringLength] uppercaseString];
+			return [[NSString stringWithCharacters:unicodeString length:(NSUInteger)actualStringLength] uppercaseString];
 	}
     
 	return nil;

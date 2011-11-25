@@ -194,10 +194,10 @@ OE_HIDString hidlabels[] = {
 	{kHIDUsage_KeyboardRightAlt, @"Right ⌥"},	/* Right Alt */
 	{kHIDUsage_KeyboardRightGUI, @"Right ⌘"},	/* Right GUI */
 
-	{kHIDUsage_KeyboardLeftArrow, @"←"},	/* Right GUI */
-	{kHIDUsage_KeyboardRightArrow, @"→"},	/* Right GUI */
-	{kHIDUsage_KeyboardUpArrow, @"↑"},	/* Right GUI */
-	{kHIDUsage_KeyboardDownArrow, @"↓"},	/* Right GUI */
+	{kHIDUsage_KeyboardLeftArrow, @"←"},	/* Left Arrow */
+	{kHIDUsage_KeyboardRightArrow, @"→"},	/* Right Arrow */
+	{kHIDUsage_KeyboardUpArrow, @"↑"},	/* Up Arrow */
+	{kHIDUsage_KeyboardDownArrow, @"↓"},	/* Down Arrow */
     
     {kHIDUsage_KeypadSlash, @"Num /"}, 
     {kHIDUsage_KeypadAsterisk, @"Num *"}, 
