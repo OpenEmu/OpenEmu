@@ -84,6 +84,15 @@
 										 maxStringLength,
 										 &actualStringLength, unicodeString);
 		
+        if (actualStringLength == 0 && deadKeyState)
+        {
+            status = UCKeyTranslate(keyboardLayout,
+                                             kVK_Space, kUCKeyActionDown, 0,
+                                             LMGetKbdType(), 0,
+                                             &deadKeyState,
+                                             maxStringLength,
+                                             &actualStringLength, unicodeString);   
+        }
 		if(actualStringLength > 0 && status == noErr)
 			return [[NSString stringWithCharacters:unicodeString length:(NSInteger)actualStringLength] uppercaseString];
 	}
