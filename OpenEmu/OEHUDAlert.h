@@ -7,15 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+
 @class OEHUDAlert;
-@class OEAlertWindow;
-@class OECheckBox;
 @class OEHUDProgressbar;
-@class OEPreferencesPlainBox;
+
 typedef void (^OEAlertCompletionHandler)(OEHUDAlert* alert, NSUInteger result);
 @interface OEHUDAlert : NSObject
 {
-    OEAlertWindow* _window;
+    NSWindow* _window;
     NSUInteger result;
     
     OEAlertCompletionHandler callbackHandler;
@@ -36,7 +35,7 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert* alert, NSUInteger result);
 #pragma mark Sizing
 @property float height, width;
 
-@property (readonly, retain) OEPreferencesPlainBox* boxView;
+@property (readonly, retain) NSView* boxView;
 #pragma mark -
 #pragma mark Buttons
 @property (readonly, retain) NSButton *defaultButton;

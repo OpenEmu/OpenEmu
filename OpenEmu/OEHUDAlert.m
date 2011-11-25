@@ -11,16 +11,16 @@
 #import "OECheckBox.h"
 #import "OEHUDButtonCell.h"
 #import "OEHUDTextFieldCell.h"
+#import "OECenteredTextFieldCell.h"
+
 #import "OEPreferencesPlainBox.h"
+#import "OEHUDProgressbar.h"
 
 #import "NSImage+OEDrawingAdditions.h"
-#import "OEHUDWindow.h"
-#import "OEBackgroundColorView.h"
-#import "OEHUDProgressbar.h"
-#import "OECenteredTextFieldCell.h"
-#import "NSColor+IKSAdditions.h"
 #import "NSControl+OEAdditions.h"
-@interface OEAlertWindow : NSWindow
+#import "NSWindow+OECustomWindow.h"
+
+@interface OEAlertWindow : NSWindow <OECustomWindow>
 @end
 @interface OEHUDAlert (Private)
 - (void)performCallback;
@@ -113,8 +113,7 @@
         NSLog(@"OEHUDAlert init");
         
         _window = [[OEAlertWindow alloc] init];
-        //        [_window setContentView:[[[OEBackgroundColorView alloc] init] autorelease]];
-        //        [(OEBackgroundColorView*)_window.contentView setBackgroundColor:[NSColor colorWithDeviceWhite:0.07 alpha:0.93]];
+        [_window setReleasedWhenClosed:NO];
         
         _suppressionButton = [[OECheckBox alloc] init];
         
@@ -195,7 +194,7 @@
         [[NSRunLoop mainRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
     }
     [NSApp endModalSession:session];
-    
+    [_window close];
     return  result;
 }
 
@@ -203,6 +202,7 @@
 {
     result = res;
     [NSApp stopModalWithCode:result];
+    [_window close];
 }
 #pragma mark -
 #pragma mark Window Configuration
@@ -567,7 +567,7 @@
     labelCell = [[OECenteredTextFieldCell alloc] init];
     
     shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
+    [shadow setShadowColor:[NSColor whiteColor]];
     [shadow setShadowBlurRadius:0];
     [shadow setShadowOffset:(NSSize){0,-1}];
     
@@ -598,14 +598,7 @@
 
 @end
 #pragma mark -
-@interface OEAlertThemeView : NSView @end
-
-
-@interface OEAlertWindow (Private)
-- (void)_performInitialSetup;
-@end
 @implementation OEAlertWindow
-
 + (void)initialize
 {
     if([NSImage imageNamed:@"hud_alert_window_active"]) return;
@@ -613,52 +606,30 @@
     NSImage* hudWindowBorder = [NSImage imageNamed:@"hud_alert_window"];    
     [hudWindowBorder setName:@"hud_alert_window_active" forSubimageInRect:(NSRect){{0,0},{29,47}}];
     [hudWindowBorder setName:@"hud_alert_window_inactive" forSubimageInRect:(NSRect){{0,0},{29,47}}];
+    
+    [NSWindow registerWindowClassForCustomThemeFrameDrawing:[OEAlertWindow class]];
 }
 
 - (id)init {
     self = [super init];
     if (self) {
-        
-        [self _performInitialSetup];
+        [self setOpaque:NO];
+        [self setBackgroundColor:[NSColor clearColor]];
     }
     return self;
 }
 
-#import <objc/objc-runtime.h>
-- (void)_performInitialSetup
+#pragma mark OECustomWindow implementation
+- (BOOL)drawsAboveDefaultThemeFrame
 {
-	id class = [[[self contentView] superview] class];
-    
-	Method m0 = class_getInstanceMethod([OEAlertThemeView class], @selector(drawRect:));
-	class_addMethod(class, @selector(drawRectOriginal:), method_getImplementation(m0), method_getTypeEncoding(m0));
-	
-	Method m1 = class_getInstanceMethod(class, @selector(drawRect:));
-	Method m2 = class_getInstanceMethod(class, @selector(drawRectOriginal:));
-	
-    method_exchangeImplementations(m1, m2);
-    
-    [self setOpaque:NO];
-    [self setBackgroundColor:[NSColor greenColor]];
+    return YES;
 }
-
-@end
-@interface OEAlertThemeView (Private)
-- (void)drawRectOriginal:(NSRect)dirtyRect;
-@end
-@implementation OEAlertThemeView
-- (BOOL)isOpaque{ return NO; }
-- (void)drawRect:(NSRect)dirtyRect
+- (void)drawThemeFrame:(NSValue *)dirtyRectValue
 {   
-    if(![[self window] isKindOfClass:[OEAlertWindow class]])
-    {
-        [self drawRectOriginal:dirtyRect];
-        return;
-    }
     NSRect bounds = [self frame];
     bounds.origin = (NSPoint){0,0};
     
     NSImage* image = [NSImage imageNamed:@"hud_alert_window"];
     [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:24 bottomBorder:22];
 }
-
 @end

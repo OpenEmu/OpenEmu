@@ -322,6 +322,7 @@
 		832D294F1451B20600BDF950 /* OEMainWindowContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D294D1451B20600BDF950 /* OEMainWindowContentController.m */; };
 		832FA8801455526E00BBBD94 /* NSControl+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
+		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
 		836CFD6614709D3C00397683 /* wood_arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6114709D3C00397683 /* wood_arrow_down.png */; };
 		836CFD6714709D3C00397683 /* wood_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6214709D3C00397683 /* wood_arrow_up.png */; };
 		836CFD6814709D3C00397683 /* wood_knob_vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6314709D3C00397683 /* wood_knob_vertical.png */; };
@@ -1142,6 +1143,8 @@
 		832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSControl+OEAdditions.m"; sourceTree = "<group>"; };
 		83507245142F6029005D9033 /* OEControllerImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControllerImageView.h; sourceTree = "<group>"; };
 		83507246142F6029005D9033 /* OEControllerImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControllerImageView.m; sourceTree = "<group>"; };
+		83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSWindow+OECustomWindow.h"; sourceTree = "<group>"; };
+		83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSWindow+OECustomWindow.m"; sourceTree = "<group>"; };
 		836CFD6114709D3C00397683 /* wood_arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_arrow_down.png; sourceTree = "<group>"; };
 		836CFD6214709D3C00397683 /* wood_arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_arrow_up.png; sourceTree = "<group>"; };
 		836CFD6314709D3C00397683 /* wood_knob_vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood_knob_vertical.png; sourceTree = "<group>"; };
@@ -1733,6 +1736,8 @@
 				832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */,
 				83CAD4D2147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.h */,
 				83CAD4D3147BB641004C0E9B /* NSClipView+OEAnimatedScrolling.m */,
+				83691815147FE3EF00F28231 /* NSWindow+OECustomWindow.h */,
+				83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */,
 			);
 			name = "Additions to standard classes";
 			sourceTree = "<group>";
@@ -3704,6 +3709,7 @@
 				831C9926147BBDAE00F422A5 /* OEHUDTextFieldCell.m in Sources */,
 				83D7F2F9147E3FEB004419A6 /* OEHUDTextFieldEditor.m in Sources */,
 				83920CDB147E5BA300D219EA /* OESidebarScrollView.m in Sources */,
+				83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
