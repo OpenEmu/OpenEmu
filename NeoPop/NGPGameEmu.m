@@ -44,7 +44,7 @@ enum {
 
 #define SAMPLERATE 44100
 #define SAMPLEFRAME 735
-#define SIZESOUNDBUFFER SAMPLEFRAME*4
+#define SIZESOUNDBUFFER SAMPLEFRAME*16
 
 _u8 system_frameskip_key;
 
@@ -57,6 +57,9 @@ BOOL system_rom_load(const char *filename);
 
 NSString **gPathToFile = NULL;
 int *gBlit = NULL;
+uint16_t *sndBuf;
+uint8_t inputState;
+static OERingBuffer *ringBuffer;
 
 - (void)didPushNGPButton:(OENGPButton)button;
 {
@@ -121,9 +124,14 @@ int *gBlit = NULL;
 - (void) executeFrame
 {
     [bufLock lock];
-    ram[JOYPORT_ADDR] = inputState;
-    while(!blit) emulate();
+    while(!blit)
+    {
+        emulate();
+        sound_update(sndBuf, SAMPLEFRAME * 2);
+        [ringBuffer write:(uint8_t*)sndBuf maxLength:SAMPLEFRAME * 4];
+    }
     blit = 0;
+    
     [bufLock unlock];
 }
 
@@ -138,11 +146,12 @@ int *gBlit = NULL;
     self = [super init];
     if(self != nil)
     {
-        sndBuf = calloc(SIZESOUNDBUFFER, sizeof(UInt16));
+        sndBuf = calloc(SAMPLEFRAME * 2, sizeof(uint16_t));
         soundLock = [[NSLock alloc] init];
         bufLock = [[NSLock alloc] init];
         gPathToFile = &pathToFile;
         gBlit = &blit;
+        ringBuffer = [self ringBufferAtIndex:0];
     }
     return self;
 }
@@ -158,7 +167,7 @@ int *gBlit = NULL;
 - (void)setupEmulation
 {
     reset();
-    
+    sound_init(SAMPLERATE);
     NSLog(@"Setup done for neopop");
 }
 
@@ -235,11 +244,6 @@ int *gBlit = NULL;
     return 2;
 }
 
-- (const void*)soundBuffer
-{
-    return sndBuf;
-}
-
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
     state_store([fileName UTF8String]);
@@ -303,14 +307,17 @@ BOOL system_rom_load(const char *filename)
 void system_VBL(void)
 {
     *gBlit = 1;
+    ram[JOYPORT_ADDR] = inputState;
 }
 
 void system_sound_chipreset(void)
 {
+    sound_init(SAMPLERATE);
 }
 
 void system_sound_silence(void)
 {
+    memset(sndBuf, 0, sizeof(uint16_t) * SAMPLEFRAME * 2);
 }
 
 BOOL system_comms_read(_u8* buffer)

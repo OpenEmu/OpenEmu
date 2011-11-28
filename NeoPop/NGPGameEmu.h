@@ -41,12 +41,10 @@
 @interface NGPGameEmu : OEGameCore
 {
     GameDocument *parent;
-    UInt16       *sndBuf;
     NSLock       *soundLock;
     NSLock       *bufLock;
     NSString     *pathToFile;
     int           blit;
-    uint8_t inputState;
 }
 
 @end
