@@ -49,7 +49,7 @@ NSString *OENGPButtonNameTable[] =
 
 - (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
 {
-    return OEMakeEmulatorKey(thePlayer, index);
+    return OEMakeEmulatorKey(0, index);
 }
 
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey
