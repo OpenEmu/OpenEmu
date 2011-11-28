@@ -14,7 +14,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "820EB7391483F9A2008EC398"
-               BuildableName = "NeoGeoPocket.oesystemplugin"
+               BuildableName = "NeoGeo Pocket.oesystemplugin"
                BlueprintName = "NeoGeoPocket"
                ReferencedContainer = "container:OpenEmu.xcodeproj">
             </BuildableReference>
