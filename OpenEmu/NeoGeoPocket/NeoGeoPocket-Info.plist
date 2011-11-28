@@ -27,9 +27,9 @@
 	<key>NSPrincipalClass</key>
 	<string>OENGPSystemController</string>
 	<key>OESystemPluginName</key>
-	<string>Neo Geo Pocket</string>
+	<string>NeoGeo Pocket</string>
 	<key>OESystemName</key>
-	<string>Neo Geo Pocket</string>
+	<string>NeoGeo Pocket</string>
 	<key>OESystemIdentifier</key>
 	<string>openemu.system.ngp</string>
 	<key>OEArchiveIDs</key>

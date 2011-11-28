@@ -28,8 +28,8 @@
 #import "NGPGameEmu.h"
 #include "neopop.h"
 #include <sys/stat.h>
-#include <OpenGL/gl.h>
-
+#import <OpenGL/gl.h>
+#import "OENGPSystemResponderClient.h"
 enum {
     NGPButtonUp     = 0x01,
     NGPButtonDown   = 0x02,
@@ -50,15 +50,78 @@ _u8 system_frameskip_key;
 
 BOOL system_rom_load(const char *filename);
 
+@interface NGPGameEmu () <OENGPSystemResponderClient>
+@end
 
 @implementation NGPGameEmu
 
 NSString **gPathToFile = NULL;
 int *gBlit = NULL;
 
+- (void)didPushNGPButton:(OENGPButton)button;
+{
+    switch (button)
+    {
+        case OENGPButtonUp:
+            inputState |= NGPButtonUp;
+            break;
+        case OENGPButtonDown:
+            inputState |= NGPButtonDown;
+            break;
+        case OENGPButtonLeft:
+            inputState |= NGPButtonLeft;
+            break;
+        case OENGPButtonRight:
+            inputState |= NGPButtonRight;
+            break;
+        case OENGPButtonA:
+            inputState |= NGPButtonA;
+            break;
+        case OENGPButtonB:
+            inputState |= NGPButtonB;
+            break;
+        case OENGPButtonOption:
+            inputState |= NGPButtonOption;
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)didReleaseNGPButton:(OENGPButton)button;
+{
+    switch (button)
+    {
+        case OENGPButtonUp:
+            inputState &= ~NGPButtonUp;
+            break;
+        case OENGPButtonDown:
+            inputState &= ~NGPButtonDown;
+            break;
+        case OENGPButtonLeft:
+            inputState &= ~NGPButtonLeft;
+            break;
+        case OENGPButtonRight:
+            inputState &= ~NGPButtonRight;
+            break;
+        case OENGPButtonA:
+            inputState &= ~NGPButtonA;
+            break;
+        case OENGPButtonB:
+            inputState &= ~NGPButtonB;
+            break;
+        case OENGPButtonOption:
+            inputState &= ~NGPButtonOption;
+            break;
+        default:
+            break;
+    }
+}
+
 - (void) executeFrame
 {
     [bufLock lock];
+    ram[JOYPORT_ADDR] = inputState;
     while(!blit) emulate();
     blit = 0;
     [bufLock unlock];

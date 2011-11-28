@@ -36,20 +36,13 @@ typedef enum _OENGPButton
     OENGPButtonRight,
     OENGPButtonA,
     OENGPButtonB,
-    OENGPButtonStart,
-    OENGPButtonReset,
+    OENGPButtonOption,
     OENGPButtonCount,
 } OENGPButton;
 
 @protocol OENGPSystemResponderClient <OESystemResponderClient, NSObject>
 
-- (void)didPushNGPButton:(OENGPButton)button forPlayer:(NSUInteger)player;
-- (void)didReleaseNGPButton:(OENGPButton)button forPlayer:(NSUInteger)player;
-
-- (void)didPushNGPStartButton;
-- (void)didReleaseNGPStartButton;
-
-- (void)didPushNGPResetButton;
-- (void)didReleaseNGPResetButton;
+- (void)didPushNGPButton:(OENGPButton)button;
+- (void)didReleaseNGPButton:(OENGPButton)button;
 
 @end

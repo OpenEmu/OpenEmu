@@ -52,33 +52,19 @@
 
     OEGameControllerView *view = (OEGameControllerView *)[self view];
 
-	[view addButtonWithName:@"OENGPButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(113, 144)];
-	[view addButtonWithName:@"OENGPButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(113, 59)];
-	[view addButtonWithName:@"OENGPButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(75, 106)];
-	[view addButtonWithName:@"OENGPButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(152, 106)];
+	[view addButtonWithName:@"OENGPButtonUp" label:@"Up:" target:self highlightPoint:NSMakePoint(113, 144)];
+	[view addButtonWithName:@"OENGPButtonDown" label:@"Down:" target:self highlightPoint:NSMakePoint(113, 59)];
+	[view addButtonWithName:@"OENGPButtonLeft" label:@"Left:" target:self highlightPoint:NSMakePoint(75, 106)];
+	[view addButtonWithName:@"OENGPButtonRight" label:@"Right:" target:self highlightPoint:NSMakePoint(152, 106)];
     [view nextColumn];
     
-	[view addButtonWithName:@"OENGPButtonA[@]" label:@"Button 1 /Start:" target:self highlightPoint:NSMakePoint(301, 82)];
-	[view addButtonWithName:@"OENGPButtonB[@]" label:@"Button 2:" target:self highlightPoint:NSMakePoint(371, 82)];
-	[view addRowSeperator];
+	[view addButtonWithName:@"OENGPButtonA" label:@"A:" target:self highlightPoint:NSMakePoint(301, 82)];
+	[view addButtonWithName:@"OENGPButtonB" label:@"B:" target:self highlightPoint:NSMakePoint(371, 82)];
 
-	[view addButtonWithName:@"OENGPButtonStart" label:@"Console Start" target:self];
+    [view nextColumn];
+
+	[view addButtonWithName:@"OENGPButtonReset" label:@"Reset" target:self];
     //	[view addButtonWithName:@"OENGPButtonReset" label:@"Console Reset" target:self];
-
-	[view nextPage];
-	[view addButtonWithName:@"OENGPButtonReset" label:@"1:" target:self];
-	[view addButtonWithName:@"OENGPButtonReset" label:@"2:" target:self];
-	[view addButtonWithName:@"OENGPButtonReset" label:@"3:" target:self];
-	[view nextColumn];
-    
-	[view addButtonWithName:@"OENGPButtonReset" label:@"4:" target:self];
-	[view addButtonWithName:@"OENGPButtonReset" label:@"5:" target:self];
-	[view addButtonWithName:@"OENGPButtonReset" label:@"6:" target:self];
-	[view nextColumn];
-    
-	[view addButtonWithName:@"OENGPButtonReset" label:@"7:" target:self];
-	[view addButtonWithName:@"OENGPButtonReset" label:@"8:" target:self];
-	[view addButtonWithName:@"OENGPButtonReset" label:@"9:" target:self];
     
     [view updateButtons];
 	
@@ -86,7 +72,7 @@
 }
 
 - (NSImage*)controllerImage{
-	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_NGP.png"];
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_sms.png"];
 	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 }
 @end

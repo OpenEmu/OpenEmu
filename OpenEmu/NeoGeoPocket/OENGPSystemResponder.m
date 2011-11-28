@@ -30,13 +30,12 @@
 
 NSString *OENGPButtonNameTable[] =
 {
-    @"OENGPButtonUp[@]",
-    @"OENGPButtonDown[@]",
-    @"OENGPButtonLeft[@]",
-    @"OENGPButtonRight[@]",
-    @"OENGPButtonA[@]",
-    @"OENGPButtonB[@]",
-    @"OENGPButtonStart",
+    @"OENGPButtonUp",
+    @"OENGPButtonDown",
+    @"OENGPButtonLeft",
+    @"OENGPButtonRight",
+    @"OENGPButtonA",
+    @"OENGPButtonB",
     @"OENGPButtonReset",
 };
 
@@ -55,30 +54,14 @@ NSString *OENGPButtonNameTable[] =
 
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey
 {
-    OENGPButton button = (OENGPButton)aKey.key;
-    
-    switch(button)
-    {
-        case OENGPButtonStart : [[self client] didPushNGPStartButton]; break;
-        case OENGPButtonReset : [[self client] didPushNGPResetButton]; break;
-        default :
-            [[self client] didPushNGPButton:button forPlayer:aKey.player];
-            break;
-    }
+    OENGPButton button = (OENGPButton)aKey.key;    
+    [[self client] didPushNGPButton:button];
 }
 
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey
 {
     OENGPButton button = (OENGPButton)aKey.key;
-    
-    switch(button)
-    {
-        case OENGPButtonStart : [[self client] didReleaseNGPStartButton]; break;
-        case OENGPButtonReset : [[self client] didReleaseNGPResetButton]; break;
-        default :
-            [[self client] didReleaseNGPButton:button forPlayer:aKey.player];
-            break;
-    }
+    [[self client] didReleaseNGPButton:button];
 }
 
 @end

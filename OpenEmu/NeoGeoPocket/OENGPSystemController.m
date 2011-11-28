@@ -34,7 +34,7 @@
 
 - (NSUInteger)numberOfPlayers;
 {
-    return 2;
+    return 1;
 }
 
 - (NSDictionary *)preferenceViewControllerClasses;
@@ -60,13 +60,12 @@
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OENGPButtonUp[1]"   ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OENGPButtonRight[1]",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OENGPButtonLeft[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OENGPButtonDown[1]" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OENGPButtonA[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OENGPButtonB[1]"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OENGPButtonStart"   ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OENGPButtonUp"   ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OENGPButtonRight",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OENGPButtonLeft" ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OENGPButtonDown" ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OENGPButtonA"    ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OENGPButtonB"    ,
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OENGPButtonReset"   ,
                               nil];
     return controls;
