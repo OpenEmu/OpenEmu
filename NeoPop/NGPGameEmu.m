@@ -28,6 +28,7 @@
 #import "NGPGameEmu.h"
 #include "neopop.h"
 #include <sys/stat.h>
+#include <OpenGL/gl.h>
 
 enum {
     NGPButtonUp     = 0x01,
@@ -171,7 +172,7 @@ int *gBlit = NULL;
     return 2;
 }
 
-- (void*)soundBuffer
+- (const void*)soundBuffer
 {
     return sndBuf;
 }

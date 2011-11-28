@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,27 +25,60 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if !defined(LSB_FIRST) && !defined(MSB_FIRST)
-#ifdef __BIG_ENDIAN__
-#define MSB_FIRST
-#else
-#define LSB_FIRST
-#endif
-#endif
+#import "OENGPSystemResponder.h"
+#import "OENGPSystemResponderClient.h"
 
-#import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
-
-@class GameDocument;
-
-@interface NGPGameEmu : OEGameCore
+NSString *OENGPButtonNameTable[] =
 {
-    GameDocument *parent;
-    UInt16       *sndBuf;
-    NSLock       *soundLock;
-    NSLock       *bufLock;
-    NSString     *pathToFile;
-    int           blit;
+    @"OENGPButtonUp[@]",
+    @"OENGPButtonDown[@]",
+    @"OENGPButtonLeft[@]",
+    @"OENGPButtonRight[@]",
+    @"OENGPButtonA[@]",
+    @"OENGPButtonB[@]",
+    @"OENGPButtonStart",
+    @"OENGPButtonReset",
+};
+
+@implementation OENGPSystemResponder
+@dynamic client;
+
++ (Protocol *)gameSystemResponderClientProtocol;
+{
+    return @protocol(OENGPSystemResponderClient);
+}
+
+- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+{
+    return OEMakeEmulatorKey(thePlayer, index);
+}
+
+- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+{
+    OENGPButton button = (OENGPButton)aKey.key;
+    
+    switch(button)
+    {
+        case OENGPButtonStart : [[self client] didPushNGPStartButton]; break;
+        case OENGPButtonReset : [[self client] didPushNGPResetButton]; break;
+        default :
+            [[self client] didPushNGPButton:button forPlayer:aKey.player];
+            break;
+    }
+}
+
+- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
+{
+    OENGPButton button = (OENGPButton)aKey.key;
+    
+    switch(button)
+    {
+        case OENGPButtonStart : [[self client] didReleaseNGPStartButton]; break;
+        case OENGPButtonReset : [[self client] didReleaseNGPResetButton]; break;
+        default :
+            [[self client] didReleaseNGPButton:button forPlayer:aKey.player];
+            break;
+    }
 }
 
 @end

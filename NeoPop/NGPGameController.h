@@ -25,27 +25,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if !defined(LSB_FIRST) && !defined(MSB_FIRST)
-#ifdef __BIG_ENDIAN__
-#define MSB_FIRST
-#else
-#define LSB_FIRST
-#endif
-#endif
-
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
+#import <OEGameCoreController.h>
 
-@class GameDocument;
-
-@interface NGPGameEmu : OEGameCore
-{
-    GameDocument *parent;
-    UInt16       *sndBuf;
-    NSLock       *soundLock;
-    NSLock       *bufLock;
-    NSString     *pathToFile;
-    int           blit;
-}
-
+@interface NGPGameController : OEGameCoreController
 @end
