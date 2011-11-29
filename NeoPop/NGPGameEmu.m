@@ -57,9 +57,11 @@ BOOL system_rom_load(const char *filename);
 
 NSString **gPathToFile = NULL;
 int *gBlit = NULL;
-uint16_t *sndBuf;
+uint16_t *chipBuf;
+uint8_t *dacBuf;
 uint8_t inputState;
-static OERingBuffer *ringBuffer;
+static OERingBuffer *chipBuffer;
+static OERingBuffer *dacBuffer;
 
 - (void)didPushNGPButton:(OENGPButton)button;
 {
@@ -127,8 +129,6 @@ static OERingBuffer *ringBuffer;
     while(!blit)
     {
         emulate();
-        sound_update(sndBuf, SAMPLEFRAME * 2);
-        [ringBuffer write:(uint8_t*)sndBuf maxLength:SAMPLEFRAME * 4];
     }
     blit = 0;
     
@@ -146,23 +146,27 @@ static OERingBuffer *ringBuffer;
     self = [super init];
     if(self != nil)
     {
-        sndBuf = calloc(SAMPLEFRAME * 2, sizeof(uint16_t));
+        chipBuf = calloc(SAMPLEFRAME, sizeof(uint16_t));
+        dacBuf = calloc(DAC_FREQUENCY / 60, sizeof(uint8_t));
         soundLock = [[NSLock alloc] init];
         bufLock = [[NSLock alloc] init];
         gPathToFile = &pathToFile;
         gBlit = &blit;
-        ringBuffer = [self ringBufferAtIndex:0];
+        chipBuffer = [self ringBufferAtIndex:0];
+        dacBuffer = [self ringBufferAtIndex:1];
     }
     return self;
 }
 
 - (void) dealloc
 {
-    free(sndBuf);
+    free(chipBuf);
+    free(dacBuf);
     [soundLock release];
     [bufLock release];
     [super dealloc];
 }
+
 
 - (void)setupEmulation
 {
@@ -203,7 +207,7 @@ static OERingBuffer *ringBuffer;
     return OESizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
-- (void*)videoBuffer
+- (const void*)videoBuffer
 {
     //NSLog(@"buffer: %x %x %x\n", cfb[540], cfb[541], cfb[542]);
     return cfb;
@@ -224,22 +228,47 @@ static OERingBuffer *ringBuffer;
     return GL_RGB4;
 }
 
-- (NSUInteger)soundBufferSize
+- (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer;
 {
     return SIZESOUNDBUFFER;
 }
 
-- (NSUInteger)frameSampleCount
+- (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer;
+{
+    return buffer == 0 ? SAMPLEFRAME : DAC_FREQUENCY / 60;
+}
+
+- (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer;
+{
+    return buffer == 0 ? SAMPLERATE : DAC_FREQUENCY;
+}
+
+- (NSUInteger)channelCountForBuffer:(NSUInteger)buffer;
+{
+    return 1;// buffer == 0 ? 2 : 1;
+}
+
+- (NSUInteger)soundBufferSize;
+{
+    return SIZESOUNDBUFFER;
+}
+
+- (NSUInteger)frameSampleCount;
 {
     return SAMPLEFRAME;
 }
 
-- (NSUInteger)frameSampleRate
+- (NSUInteger)frameSampleRate;
 {
     return SAMPLERATE;
 }
 
-- (NSUInteger)channelCount
+- (NSUInteger)channelCount;
+{
+    return 1;
+}
+
+- (NSUInteger)soundBufferCount;
 {
     return 2;
 }
@@ -307,6 +336,17 @@ BOOL system_rom_load(const char *filename)
 void system_VBL(void)
 {
     *gBlit = 1;
+    sound_update(chipBuf, SAMPLEFRAME * 2);
+    [chipBuffer write:(uint8_t*)chipBuf maxLength:SAMPLEFRAME * 2];
+
+    dac_update(dacBuf, DAC_FREQUENCY/60);
+    for (int i = 0; i < DAC_FREQUENCY/60; ++i)
+    {
+        float floatSample = ((float)dacBuf[i]) / UINT8_MAX;
+        chipBuf[i] = (int16_t)(floatSample * UINT16_MAX - INT16_MAX);
+    }
+    [dacBuffer write:(uint8_t*)chipBuf maxLength:(DAC_FREQUENCY/60) * 2];
+    
     ram[JOYPORT_ADDR] = inputState;
 }
 
@@ -317,7 +357,8 @@ void system_sound_chipreset(void)
 
 void system_sound_silence(void)
 {
-    memset(sndBuf, 0, sizeof(uint16_t) * SAMPLEFRAME * 2);
+    memset(chipBuf, 0, sizeof(uint16_t) * SAMPLEFRAME);
+    memset(dacBuf, 0, sizeof(uint8_t) * (DAC_FREQUENCY / 60));
 }
 
 BOOL system_comms_read(_u8* buffer)
