@@ -57,13 +57,14 @@
     id window = [(NSView*)self window];
     
     BOOL drawingCustomWindow = [window conformsToProtocol:@protocol(OECustomWindow)];
+    NSLog(@"draw theme frame: %@ | %d", window, drawingCustomWindow);
+
     if(!drawingCustomWindow || [window drawsAboveDefaultThemeFrame])
     {
         [self drawRectOriginal:dirtyRect];
     }
 
     if(!drawingCustomWindow) return;
-
     // create drawing selector based on window class
     NSString* winodwClassName = NSStringFromClass([window class]);
     NSString* selectorName = [NSString stringWithFormat:@"draw%@ThemeRect:", winodwClassName];

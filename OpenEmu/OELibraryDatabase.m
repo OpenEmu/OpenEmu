@@ -58,32 +58,32 @@ static OELibraryDatabase* defaultDatabase = nil;
         [consoleIcons setName:[[OELocalizationHelper sharedHelper] isRegionJAP]?@"Super Famicom":@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Nintendo 64" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Game Boy" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-    
+
     row = 2;
     [consoleIcons setName:@"Virtual Boy" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Game Boy Advance" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Sega SG-1000" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Sega Master System" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-    
+
     row = 3;
     [consoleIcons setName:@"Sega Genesis" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Sega 32x" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Sega CD" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Game Gear" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-    
+
     row = 4;
     [consoleIcons setName:@"Atari 8bit Series" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Atari 5200" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Atari Lynx" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"WonderSwan" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-    
-    row = 6;
+
+    row = 5;
     [consoleIcons setName:@"GameCube" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Nintendo Wii" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Nintendo DS" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"PC Engine" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-    
-    row = 7;
+
+    row = 6;
     [consoleIcons setName:@"TurboGrafx-16" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"SuperGrafx" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"PC-FX" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
@@ -116,7 +116,7 @@ static OELibraryDatabase* defaultDatabase = nil;
         [defaultDatabase release], defaultDatabase=nil;
         return NO;
     }
-    
+
     [[NSUserDefaults standardUserDefaults] setObject:[[defaultDatabase databaseURL] path] forKey:UDDatabasePathKey];
     
     return YES;

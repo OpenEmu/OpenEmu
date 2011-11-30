@@ -383,6 +383,7 @@
 @end
 #pragma mark -
 @implementation NSMenu (OEAdditions)
+
 - (OEMenu*)convertToOEMenu
 {
     OEMenu* menu = [[OEMenu alloc] init];
