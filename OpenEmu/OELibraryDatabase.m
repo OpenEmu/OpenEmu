@@ -77,18 +77,17 @@ static OELibraryDatabase* defaultDatabase = nil;
     [consoleIcons setName:@"Atari Lynx" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"WonderSwan" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
     
-    row = 6;
+    row = 5;
     [consoleIcons setName:@"GameCube" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Nintendo Wii" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"Nintendo DS" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"PC Engine" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
     
-    row = 7;
+    row = 6;
     [consoleIcons setName:@"TurboGrafx-16" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"SuperGrafx" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
     [consoleIcons setName:@"PC-FX" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
-    //    [consoleIcons setName:@"NeoGeo Pocket" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"NeoGeo Pocket" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
+    [consoleIcons setName:@"NeoGeo Pocket" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
 }
 
 #pragma mark -
