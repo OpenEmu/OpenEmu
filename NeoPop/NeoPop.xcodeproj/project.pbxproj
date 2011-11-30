@@ -22,6 +22,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		82C290AA148401E3007C0214 /* NGPGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C290A9148401E3007C0214 /* NGPGameController.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		B5DCE1180F2B5AE200517996 /* NGPGameEmu.m in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1170F2B5AE200517996 /* NGPGameEmu.m */; };
@@ -127,6 +128,13 @@
 			remoteGlobalIDString = C646574813771F12002A4F70;
 			remoteInfo = "GameBoy Advance";
 		};
+		82C290A5148401BD007C0214 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C66DFD460F51F1840080AA28 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 820EB74A1483F9A2008EC398;
+			remoteInfo = NeoGeoPocket;
+		};
 		B56F6FC50F38FC2D00DCE88B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
@@ -156,6 +164,9 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* NeoPop_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeoPop_Prefix.pch; sourceTree = "<group>"; };
+		82C29094148401BD007C0214 /* OENGPSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OENGPSystemResponderClient.h; path = ../OpenEmu/NeoGeoPocket/OENGPSystemResponderClient.h; sourceTree = "<group>"; };
+		82C290A8148401E3007C0214 /* NGPGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGPGameController.h; sourceTree = "<group>"; };
+		82C290A9148401E3007C0214 /* NGPGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGPGameController.m; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* NeoPop.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeoPop.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5DCE1160F2B5AE200517996 /* NGPGameEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGPGameEmu.h; sourceTree = "<group>"; };
@@ -278,8 +289,11 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				82C29094148401BD007C0214 /* OENGPSystemResponderClient.h */,
 				B5DCE1160F2B5AE200517996 /* NGPGameEmu.h */,
 				B5DCE1170F2B5AE200517996 /* NGPGameEmu.m */,
+				82C290A8148401E3007C0214 /* NGPGameController.h */,
+				82C290A9148401E3007C0214 /* NGPGameController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -432,6 +446,7 @@
 				826415E613EDC44D00591582 /* Genesis.oesystemplugin */,
 				826415E813EDC44D00591582 /* GameBoy Advance.oesystemplugin */,
 				3DFAAFE614464235005EF0C3 /* N64.oesystemplugin */,
+				82C290A6148401BD007C0214 /* NeoGeoPocket.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -560,6 +575,13 @@
 			remoteRef = 826415E713EDC44D00591582 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		82C290A6148401BD007C0214 /* NeoGeoPocket.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NeoGeoPocket.oesystemplugin;
+			remoteRef = 82C290A5148401BD007C0214 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C66DFD4F0F51F1840080AA28 /* OpenEmu.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -637,6 +659,7 @@
 				B5DCE1810F2B5BB300517996 /* dasm.c in Sources */,
 				B5DCE1820F2B5BB300517996 /* Z80.c in Sources */,
 				B5DCE1830F2B5BB300517996 /* Z80_interface.c in Sources */,
+				82C290AA148401E3007C0214 /* NGPGameController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

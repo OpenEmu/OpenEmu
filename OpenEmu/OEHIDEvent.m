@@ -94,8 +94,14 @@
 										 maxStringLength,
 										 &actualStringLength, unicodeString);
 		
+        
 		if(actualStringLength > 0 && status == noErr)
-			return [[NSString stringWithCharacters:unicodeString length:(NSUInteger)actualStringLength] uppercaseString];
+        {
+            NSString *lowercaseString = [NSString stringWithCharacters:unicodeString length:(NSUInteger)actualStringLength];
+            if (![lowercaseString isEqualToString:[[lowercaseString uppercaseString] lowercaseString]])
+                return lowercaseString;
+            return [lowercaseString uppercaseString];
+        }
 	}
     
 	return nil;

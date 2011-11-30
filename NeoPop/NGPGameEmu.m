@@ -28,7 +28,8 @@
 #import "NGPGameEmu.h"
 #include "neopop.h"
 #include <sys/stat.h>
-
+#import <OpenGL/gl.h>
+#import "OENGPSystemResponderClient.h"
 enum {
     NGPButtonUp     = 0x01,
     NGPButtonDown   = 0x02,
@@ -43,23 +44,94 @@ enum {
 
 #define SAMPLERATE 44100
 #define SAMPLEFRAME 735
-#define SIZESOUNDBUFFER SAMPLEFRAME*4
+#define SIZESOUNDBUFFER SAMPLEFRAME*16
 
 _u8 system_frameskip_key;
 
 BOOL system_rom_load(const char *filename);
 
+@interface NGPGameEmu () <OENGPSystemResponderClient>
+@end
 
 @implementation NGPGameEmu
 
 NSString **gPathToFile = NULL;
 int *gBlit = NULL;
+uint16_t *chipBuf;
+uint8_t *dacBuf;
+uint8_t inputState;
+static OERingBuffer *chipBuffer;
+static OERingBuffer *dacBuffer;
+
+- (void)didPushNGPButton:(OENGPButton)button;
+{
+    switch (button)
+    {
+        case OENGPButtonUp:
+            inputState |= NGPButtonUp;
+            break;
+        case OENGPButtonDown:
+            inputState |= NGPButtonDown;
+            break;
+        case OENGPButtonLeft:
+            inputState |= NGPButtonLeft;
+            break;
+        case OENGPButtonRight:
+            inputState |= NGPButtonRight;
+            break;
+        case OENGPButtonA:
+            inputState |= NGPButtonA;
+            break;
+        case OENGPButtonB:
+            inputState |= NGPButtonB;
+            break;
+        case OENGPButtonOption:
+            inputState |= NGPButtonOption;
+            break;
+        default:
+            break;
+    }
+}
+
+- (void)didReleaseNGPButton:(OENGPButton)button;
+{
+    switch (button)
+    {
+        case OENGPButtonUp:
+            inputState &= ~NGPButtonUp;
+            break;
+        case OENGPButtonDown:
+            inputState &= ~NGPButtonDown;
+            break;
+        case OENGPButtonLeft:
+            inputState &= ~NGPButtonLeft;
+            break;
+        case OENGPButtonRight:
+            inputState &= ~NGPButtonRight;
+            break;
+        case OENGPButtonA:
+            inputState &= ~NGPButtonA;
+            break;
+        case OENGPButtonB:
+            inputState &= ~NGPButtonB;
+            break;
+        case OENGPButtonOption:
+            inputState &= ~NGPButtonOption;
+            break;
+        default:
+            break;
+    }
+}
 
 - (void) executeFrame
 {
     [bufLock lock];
-    while(!blit) emulate();
+    while(!blit)
+    {
+        emulate();
+    }
     blit = 0;
+    
     [bufLock unlock];
 }
 
@@ -74,27 +146,32 @@ int *gBlit = NULL;
     self = [super init];
     if(self != nil)
     {
-        sndBuf = calloc(SIZESOUNDBUFFER, sizeof(UInt16));
+        chipBuf = calloc(SAMPLEFRAME * 2, sizeof(uint16_t));
+        dacBuf = calloc(DAC_FREQUENCY / 60, sizeof(uint8_t));
         soundLock = [[NSLock alloc] init];
         bufLock = [[NSLock alloc] init];
         gPathToFile = &pathToFile;
         gBlit = &blit;
+        chipBuffer = [self ringBufferAtIndex:0];
+        dacBuffer = [self ringBufferAtIndex:1];
     }
     return self;
 }
 
 - (void) dealloc
 {
-    free(sndBuf);
+    free(chipBuf);
+    free(dacBuf);
     [soundLock release];
     [bufLock release];
     [super dealloc];
 }
 
+
 - (void)setupEmulation
 {
     reset();
-    
+    sound_init(SAMPLERATE);
     NSLog(@"Setup done for neopop");
 }
 
@@ -130,7 +207,7 @@ int *gBlit = NULL;
     return OESizeMake(SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
-- (void*)videoBuffer
+- (const void*)videoBuffer
 {
     //NSLog(@"buffer: %x %x %x\n", cfb[540], cfb[541], cfb[542]);
     return cfb;
@@ -151,29 +228,29 @@ int *gBlit = NULL;
     return GL_RGB4;
 }
 
-- (NSUInteger)soundBufferSize
+- (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer;
 {
     return SIZESOUNDBUFFER;
 }
 
-- (NSUInteger)frameSampleCount
+- (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer;
 {
-    return SAMPLEFRAME;
+    return buffer == 0 ? SAMPLEFRAME : DAC_FREQUENCY / 60;
 }
 
-- (NSUInteger)frameSampleRate
+- (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer;
 {
-    return SAMPLERATE;
+    return buffer == 0 ? SAMPLERATE : DAC_FREQUENCY;
 }
 
-- (NSUInteger)channelCount
+- (NSUInteger)channelCountForBuffer:(NSUInteger)buffer;
+{
+    return buffer == 0 ? 2 : 1;
+}
+
+- (NSUInteger)soundBufferCount;
 {
     return 2;
-}
-
-- (void*)soundBuffer
-{
-    return sndBuf;
 }
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
@@ -239,14 +316,29 @@ BOOL system_rom_load(const char *filename)
 void system_VBL(void)
 {
     *gBlit = 1;
+    sound_update(chipBuf, SAMPLEFRAME * 4);
+    [chipBuffer write:(uint8_t*)chipBuf maxLength:SAMPLEFRAME * 4];
+
+    dac_update(dacBuf, DAC_FREQUENCY/60);
+    for (int i = 0; i < DAC_FREQUENCY/60; ++i)
+    {
+        float floatSample = ((float)dacBuf[i]) / UINT8_MAX;
+        chipBuf[i] = (int16_t)(floatSample * UINT16_MAX - INT16_MAX);
+    }
+    [dacBuffer write:(uint8_t*)chipBuf maxLength:(DAC_FREQUENCY/60) * 2];
+    
+    ram[JOYPORT_ADDR] = inputState;
 }
 
 void system_sound_chipreset(void)
 {
+    sound_init(SAMPLERATE);
 }
 
 void system_sound_silence(void)
 {
+    memset(chipBuf, 0, sizeof(uint16_t) * SAMPLEFRAME * 2);
+    memset(dacBuf, 0, sizeof(uint8_t) * (DAC_FREQUENCY / 60));
 }
 
 BOOL system_comms_read(_u8* buffer)

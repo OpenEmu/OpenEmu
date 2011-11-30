@@ -38,6 +38,7 @@
 				83F37152140BB197005A7353 /* CopyFiles */,
 			);
 			dependencies = (
+				820EB7631483FBEF008EC398 /* PBXTargetDependency */,
 				1415542B1442C4B700A01683 /* PBXTargetDependency */,
 				83F3714F140BB17B005A7353 /* PBXTargetDependency */,
 				83F37151140BB17C005A7353 /* PBXTargetDependency */,
@@ -265,6 +266,9 @@
 		53D32E4D13B95F6200A6ACE0 /* QTKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E4B13B95F5400A6ACE0 /* QTKit.framework */; };
 		53D32E4E13B95F9A00A6ACE0 /* AudioUnit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3113B95E2800A6ACE0 /* AudioUnit.framework */; };
 		53D32E4F13B95F9A00A6ACE0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */; };
+		820EB7411483F9A2008EC398 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		820EB7421483F9A2008EC398 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		820EB7641483FBFB008EC398 /* NeoGeo Pocket.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		826844C51022A0630019C7B0 /* smaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C31022A0630019C7B0 /* smaller.tif */; };
 		826844C61022A0630019C7B0 /* larger.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C41022A0630019C7B0 /* larger.tif */; };
@@ -279,6 +283,12 @@
 		829779340E743F2A00631240 /* OEGameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* OEGameAudio.m */; };
 		82AFA6690FDDC03500531EE3 /* OERingBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82AFA6670FDDC03500531EE3 /* OERingBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82AFA66A0FDDC03500531EE3 /* OERingBuffer.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AFA6680FDDC03500531EE3 /* OERingBuffer.m */; };
+		82C2908F14840024007C0214 /* OENGPPreferenceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 820EB7531483F9D3008EC398 /* OENGPPreferenceView.m */; };
+		82C2909014840024007C0214 /* OENGPSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 820EB7551483F9D3008EC398 /* OENGPSystemController.m */; };
+		82C2909114840024007C0214 /* OENGPSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 820EB7571483F9D3008EC398 /* OENGPSystemResponder.m */; };
+		82C2909214840028007C0214 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 820EB7501483F9D3008EC398 /* InfoPlist.strings */; };
+		82C290931484002F007C0214 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 820EB74E1483F9D3008EC398 /* controller_sms.png */; };
+		82C290B8148409EB007C0214 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82C290B7148409EB007C0214 /* ControlsPreference.xib */; };
 		82C42C8610CAFB480046D1A3 /* download_arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C42C8410CAFB480046D1A3 /* download_arrow_down.png */; };
 		82C42C8710CAFB480046D1A3 /* download_arrow_up.png in Resources */ = {isa = PBXBuildFile; fileRef = 82C42C8510CAFB480046D1A3 /* download_arrow_up.png */; };
 		82C434130EE393530037C54B /* icon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82C434120EE393530037C54B /* icon.icns */; };
@@ -578,6 +588,20 @@
 			remoteGlobalIDString = 82444BA00F51256C007C171B;
 			remoteInfo = OpenEmuBase;
 		};
+		820EB73B1483F9A2008EC398 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		820EB7621483FBEF008EC398 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 820EB7391483F9A2008EC398;
+			remoteInfo = NeoGeoPocket;
+		};
 		82C9C97D0F080C920071460B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -729,6 +753,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				820EB7641483FBFB008EC398 /* NeoGeo Pocket.oesystemplugin in CopyFiles */,
 				1415542C1442C52500A01683 /* N64.oesystemplugin in CopyFiles */,
 				83F37153140BB1A6005A7353 /* SegaMasterSystem.oesystemplugin in CopyFiles */,
 				83F37154140BB1A6005A7353 /* NES.oesystemplugin in CopyFiles */,
@@ -1067,6 +1092,18 @@
 		53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		53D32E4513B95F0800A6ACE0 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
 		53D32E4B13B95F5400A6ACE0 /* QTKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QTKit.framework; path = System/Library/Frameworks/QTKit.framework; sourceTree = SDKROOT; };
+		820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "NeoGeo Pocket.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		820EB74E1483F9D3008EC398 /* controller_sms.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms.png; sourceTree = "<group>"; };
+		820EB7511483F9D3008EC398 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		820EB7521483F9D3008EC398 /* OENGPPreferenceView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENGPPreferenceView.h; sourceTree = "<group>"; };
+		820EB7531483F9D3008EC398 /* OENGPPreferenceView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENGPPreferenceView.m; sourceTree = "<group>"; };
+		820EB7541483F9D3008EC398 /* OENGPSystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENGPSystemController.h; sourceTree = "<group>"; };
+		820EB7551483F9D3008EC398 /* OENGPSystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENGPSystemController.m; sourceTree = "<group>"; };
+		820EB7561483F9D3008EC398 /* OENGPSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENGPSystemResponder.h; sourceTree = "<group>"; };
+		820EB7571483F9D3008EC398 /* OENGPSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENGPSystemResponder.m; sourceTree = "<group>"; };
+		820EB7581483F9D3008EC398 /* OENGPSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENGPSystemResponderClient.h; sourceTree = "<group>"; };
+		820EB7591483F9D3008EC398 /* NeoGeoPocket-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "NeoGeoPocket-Info.plist"; sourceTree = "<group>"; };
+		820EB75A1483F9D3008EC398 /* NeoGeoPocket-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NeoGeoPocket-Prefix.pch"; sourceTree = "<group>"; };
 		82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Hyperlink.m"; sourceTree = "<group>"; };
 		82242DA10FF70B5900FBD432 /* NSAttributedString+Hyperlink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Hyperlink.h"; sourceTree = "<group>"; };
 		82444BA10F51256C007C171B /* OpenEmuBase.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenEmuBase.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1088,6 +1125,7 @@
 		82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMap.m; sourceTree = "<group>"; };
 		82AFA6670FDDC03500531EE3 /* OERingBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OERingBuffer.h; sourceTree = "<group>"; };
 		82AFA6680FDDC03500531EE3 /* OERingBuffer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OERingBuffer.m; sourceTree = "<group>"; };
+		82C290B7148409EB007C0214 /* ControlsPreference.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
 		82C42C8410CAFB480046D1A3 /* download_arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download_arrow_down.png; sourceTree = "<group>"; };
 		82C42C8510CAFB480046D1A3 /* download_arrow_up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = download_arrow_up.png; sourceTree = "<group>"; };
 		82C434120EE393530037C54B /* icon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = icon.icns; sourceTree = "<group>"; };
@@ -1418,6 +1456,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		820EB7401483F9A2008EC398 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				820EB7411483F9A2008EC398 /* OpenEmuSystem.framework in Frameworks */,
+				820EB7421483F9A2008EC398 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82444B9F0F51256C007C171B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1590,6 +1637,7 @@
 				C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */,
 				C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */,
 				1415540F1442B3B300A01683 /* N64.oesystemplugin */,
+				820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2358,6 +2406,25 @@
 			path = Preferences;
 			sourceTree = "<group>";
 		};
+		820EB74D1483F9D3008EC398 /* NeoGeoPocket */ = {
+			isa = PBXGroup;
+			children = (
+				820EB74E1483F9D3008EC398 /* controller_sms.png */,
+				820EB7501483F9D3008EC398 /* InfoPlist.strings */,
+				820EB7521483F9D3008EC398 /* OENGPPreferenceView.h */,
+				820EB7531483F9D3008EC398 /* OENGPPreferenceView.m */,
+				820EB7541483F9D3008EC398 /* OENGPSystemController.h */,
+				820EB7551483F9D3008EC398 /* OENGPSystemController.m */,
+				820EB7561483F9D3008EC398 /* OENGPSystemResponder.h */,
+				820EB7571483F9D3008EC398 /* OENGPSystemResponder.m */,
+				820EB7581483F9D3008EC398 /* OENGPSystemResponderClient.h */,
+				820EB7591483F9D3008EC398 /* NeoGeoPocket-Info.plist */,
+				820EB75A1483F9D3008EC398 /* NeoGeoPocket-Prefix.pch */,
+				82C290B7148409EB007C0214 /* ControlsPreference.xib */,
+			);
+			path = NeoGeoPocket;
+			sourceTree = "<group>";
+		};
 		8249C8E40E899CD30027EFDF /* Audio */ = {
 			isa = PBXGroup;
 			children = (
@@ -2790,6 +2857,7 @@
 		C67118201363687A0034379A /* System Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				820EB74D1483F9D3008EC398 /* NeoGeoPocket */,
 				141554111442B3B300A01683 /* N64 */,
 				C6711821136368A30034379A /* Sega Master System */,
 				C64BB08F136478E600C1AB23 /* NES */,
@@ -3013,6 +3081,24 @@
 			productReference = 3887A7F61024D1F9000FC4CF /* OESaveStateQLPlugin.qlgenerator */;
 			productType = "com.apple.product-type.bundle";
 		};
+		820EB7391483F9A2008EC398 /* NeoGeoPocket */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 820EB7471483F9A2008EC398 /* Build configuration list for PBXNativeTarget "NeoGeoPocket" */;
+			buildPhases = (
+				820EB73C1483F9A2008EC398 /* Sources */,
+				820EB7401483F9A2008EC398 /* Frameworks */,
+				820EB7431483F9A2008EC398 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				820EB73A1483F9A2008EC398 /* PBXTargetDependency */,
+			);
+			name = NeoGeoPocket;
+			productName = SegaMasterSystem;
+			productReference = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		82444BA00F51256C007C171B /* OpenEmuBase */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 82444BA50F51256D007C171B /* Build configuration list for PBXNativeTarget "OpenEmuBase" */;
@@ -3218,6 +3304,7 @@
 				C6B947E51365080B00A425F0 /* Genesis */,
 				C646574713771F12002A4F70 /* GameBoy Advance */,
 				1415540E1442B3B300A01683 /* N64 */,
+				820EB7391483F9A2008EC398 /* NeoGeoPocket */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -3240,6 +3327,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		820EB7431483F9A2008EC398 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82C2909214840028007C0214 /* InfoPlist.strings in Resources */,
+				82C290931484002F007C0214 /* controller_sms.png in Resources */,
+				82C290B8148409EB007C0214 /* ControlsPreference.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3544,6 +3641,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		820EB73C1483F9A2008EC398 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				82C2908F14840024007C0214 /* OENGPPreferenceView.m in Sources */,
+				82C2909014840024007C0214 /* OENGPSystemController.m in Sources */,
+				82C2909114840024007C0214 /* OENGPSystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		82444B9E0F51256C007C171B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3836,6 +3943,16 @@
 			target = 1BEF2A9311682A530090F72B /* OpenEmuHelperApp */;
 			targetProxy = 3DAA589914464890001C09A8 /* PBXContainerItemProxy */;
 		};
+		820EB73A1483F9A2008EC398 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 820EB73B1483F9A2008EC398 /* PBXContainerItemProxy */;
+		};
+		820EB7631483FBEF008EC398 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 820EB7391483F9A2008EC398 /* NeoGeoPocket */;
+			targetProxy = 820EB7621483FBEF008EC398 /* PBXContainerItemProxy */;
+		};
 		82C9C97E0F080C920071460B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
@@ -3936,6 +4053,14 @@
 				2A37F4BAFDCFA73011CA2CEA /* English */,
 			);
 			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		820EB7501483F9D3008EC398 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				820EB7511483F9D3008EC398 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		828ED4D80E7D98A10059F397 /* GameFilePicker.xib */ = {
@@ -4123,6 +4248,47 @@
 				INSTALL_PATH = /Library/QuickLook;
 				PRODUCT_NAME = OESaveStateQLPlugin;
 				WRAPPER_EXTENSION = qlgenerator;
+			};
+			name = Release;
+		};
+		820EB7481483F9A2008EC398 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NeoGeoPocket/NeoGeoPocket-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "NeoGeoPocket/NeoGeoPocket-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "NeoGeo Pocket";
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		820EB7491483F9A2008EC398 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NeoGeoPocket/NeoGeoPocket-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "NeoGeoPocket/NeoGeoPocket-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "NeoGeo Pocket";
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -4609,6 +4775,15 @@
 			buildConfigurations = (
 				3887A7F81024D1FA000FC4CF /* Debug */,
 				3887A7F91024D1FA000FC4CF /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		820EB7471483F9A2008EC398 /* Build configuration list for PBXNativeTarget "NeoGeoPocket" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				820EB7481483F9A2008EC398 /* Debug */,
+				820EB7491483F9A2008EC398 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

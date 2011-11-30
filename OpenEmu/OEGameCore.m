@@ -76,7 +76,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         NSUInteger count = [self soundBufferCount];
         ringBuffers = malloc(count * sizeof(OERingBuffer *));
         for(NSUInteger i = 0; i < count; i++)
-            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self soundBufferSize] * 16];
+            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:((count == 1) ? [self soundBufferSize] : [self soundBufferSizeForBuffer:i]) * 16];
         
         //keyMap = OEMapCreate(32);
     }
@@ -325,13 +325,10 @@ static NSTimeInterval currentTime()
 
 - (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index
 {
-    [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCount] * sizeof(UInt16)];
-}
-
-- (const void *)soundBuffer
-{
-    [self doesNotImplementSelector:_cmd];
-    return NULL;
+    if ([self soundBufferCount] == 1)
+        [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCount] * sizeof(UInt16)];
+    else
+        [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCountForBuffer:index] * sizeof(UInt16)];
 }
 
 - (NSUInteger)channelCount
@@ -357,6 +354,35 @@ static NSTimeInterval currentTime()
     [self doesNotImplementSelector:_cmd];
     return 0;
 }
+
+- (NSUInteger)channelCountForBuffer:(NSUInteger)buffer
+{
+    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
+    [self doesNotImplementSelector:_cmd];
+    return 0;
+}
+
+- (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer
+{
+    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
+    [self doesNotImplementSelector:_cmd];
+    return 0;
+}
+
+- (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer
+{
+    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
+    [self doesNotImplementSelector:_cmd];
+    return 0;
+}
+
+- (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer
+{
+    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
+    [self doesNotImplementSelector:_cmd];
+    return 0;
+}
+
 
 #pragma mark Input
 

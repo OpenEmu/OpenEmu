@@ -28,12 +28,20 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleSignature</key>
-	<string>????</string>
+	<string>OpEm</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>NSPrincipalClass</key>
-	<string>NGPGameEmu</string>
+	<string>NGPGameController</string>
 	<key>OEProjectURL</key>
-	<string>http://findout.com</string>
+	<string>http://neopop.emuxhaven.net/</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.ngp</string>
+	<key>SUEnableAutomaticChecks</key>
+	<string>1</string>
+	<key>SUFeedURL</key>
+	<string>http://openemu.org/update/neopop_appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 </dict>
 </plist>

@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,26 +25,13 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if !defined(LSB_FIRST) && !defined(MSB_FIRST)
-#ifdef __BIG_ENDIAN__
-#define MSB_FIRST
-#else
-#define LSB_FIRST
-#endif
-#endif
-
 #import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
-@class GameDocument;
-
-@interface NGPGameEmu : OEGameCore
+@interface OENGPSystemController : OESystemController
 {
-    GameDocument *parent;
-    NSLock       *soundLock;
-    NSLock       *bufLock;
-    NSString     *pathToFile;
-    int           blit;
+@private
+    
 }
 
 @end

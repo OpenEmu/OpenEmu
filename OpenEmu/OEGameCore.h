@@ -178,11 +178,18 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
 #pragma mark -
 #pragma mark Audio
 @property(readonly) NSUInteger  soundBufferCount; // overriding it is optional, should be constant
-@property(readonly) const void *soundBuffer;
+
+// used when soundBufferCount == 1
 @property(readonly) NSUInteger  channelCount;
 @property(readonly) NSUInteger  frameSampleCount;
 @property(readonly) NSUInteger  soundBufferSize;
 @property(readonly) NSUInteger  frameSampleRate;
+
+// used when more than 1 buffer
+- (NSUInteger)channelCountForBuffer:(NSUInteger)buffer;
+- (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer;
+- (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer;
+- (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer;
 
 #pragma mark -
 #pragma mark Lightgun/Pointer Support
