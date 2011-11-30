@@ -146,6 +146,13 @@
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = SNES9x;
 		};
+		8397463514868B4E0051A359 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 820EB74A1483F9A2008EC398;
+			remoteInfo = NeoGeoPocket;
+		};
 		C62A2626116F08B60003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
@@ -497,6 +504,7 @@
 				C6B948331365187100A425F0 /* Genesis.oesystemplugin */,
 				C64657801377290C002A4F70 /* GameBoy Advance.oesystemplugin */,
 				14F584971443C9FD002286BD /* N64.oesystemplugin */,
+				8397463614868B4E0051A359 /* NeoGeo Pocket.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -738,6 +746,13 @@
 			fileType = wrapper.framework;
 			path = OpenEmuBase.framework;
 			remoteRef = 82444DB60F51335E007C171B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8397463614868B4E0051A359 /* NeoGeo Pocket.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "NeoGeo Pocket.oesystemplugin";
+			remoteRef = 8397463514868B4E0051A359 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A2627116F08B60003DEE4 /* OpenEmuHelperApp */ = {

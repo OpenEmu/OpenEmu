@@ -57,8 +57,6 @@
     id window = [(NSView*)self window];
     
     BOOL drawingCustomWindow = [window conformsToProtocol:@protocol(OECustomWindow)];
-    NSLog(@"draw theme frame: %@ | %d", window, drawingCustomWindow);
-
     if(!drawingCustomWindow || [window drawsAboveDefaultThemeFrame])
     {
         [self drawRectOriginal:dirtyRect];

@@ -222,17 +222,6 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     }
     
     game.database = database;
-    
-    // TODO: Implement proper syncing
-    NSError* error = nil;
-    BOOL success = [game performSyncWithArchiveVG:&error];
-    if(!success)
-    {
-        NSLog(@"error: %@", error);        
-    } else 
-    {
-        NSLog(@"syncing successfull");
-    }
 
     return [game autorelease];
 }
