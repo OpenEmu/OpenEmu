@@ -146,7 +146,7 @@ static OERingBuffer *dacBuffer;
     self = [super init];
     if(self != nil)
     {
-        chipBuf = calloc(SAMPLEFRAME, sizeof(uint16_t));
+        chipBuf = calloc(SAMPLEFRAME * 2, sizeof(uint16_t));
         dacBuf = calloc(DAC_FREQUENCY / 60, sizeof(uint8_t));
         soundLock = [[NSLock alloc] init];
         bufLock = [[NSLock alloc] init];
@@ -245,27 +245,7 @@ static OERingBuffer *dacBuffer;
 
 - (NSUInteger)channelCountForBuffer:(NSUInteger)buffer;
 {
-    return 1;// buffer == 0 ? 2 : 1;
-}
-
-- (NSUInteger)soundBufferSize;
-{
-    return SIZESOUNDBUFFER;
-}
-
-- (NSUInteger)frameSampleCount;
-{
-    return SAMPLEFRAME;
-}
-
-- (NSUInteger)frameSampleRate;
-{
-    return SAMPLERATE;
-}
-
-- (NSUInteger)channelCount;
-{
-    return 1;
+    return buffer == 0 ? 2 : 1;
 }
 
 - (NSUInteger)soundBufferCount;
@@ -336,8 +316,8 @@ BOOL system_rom_load(const char *filename)
 void system_VBL(void)
 {
     *gBlit = 1;
-    sound_update(chipBuf, SAMPLEFRAME * 2);
-    [chipBuffer write:(uint8_t*)chipBuf maxLength:SAMPLEFRAME * 2];
+    sound_update(chipBuf, SAMPLEFRAME * 4);
+    [chipBuffer write:(uint8_t*)chipBuf maxLength:SAMPLEFRAME * 4];
 
     dac_update(dacBuf, DAC_FREQUENCY/60);
     for (int i = 0; i < DAC_FREQUENCY/60; ++i)
@@ -357,7 +337,7 @@ void system_sound_chipreset(void)
 
 void system_sound_silence(void)
 {
-    memset(chipBuf, 0, sizeof(uint16_t) * SAMPLEFRAME);
+    memset(chipBuf, 0, sizeof(uint16_t) * SAMPLEFRAME * 2);
     memset(dacBuf, 0, sizeof(uint8_t) * (DAC_FREQUENCY / 60));
 }
 
