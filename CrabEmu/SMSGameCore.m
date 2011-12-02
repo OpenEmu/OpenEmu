@@ -183,15 +183,6 @@ static OERingBuffer *ringBuffer;
     return 2;
 }
 
-static const NSUInteger buttonDirections[2][5] = {
-    { 0, SMS_PAD1_UP, SMS_PAD1_DOWN, SMS_PAD1_LEFT, SMS_PAD1_RIGHT },
-    { 0, SMS_PAD2_UP, SMS_PAD2_DOWN, SMS_PAD2_LEFT, SMS_PAD2_RIGHT }
-};
-static const NSUInteger buttonActions[2][2] = {
-    { SMS_PAD1_A, SMS_PAD1_B },
-    { SMS_PAD2_A, SMS_PAD2_B }
-};
-
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
     return sms_save_state([fileName UTF8String]) == 0;

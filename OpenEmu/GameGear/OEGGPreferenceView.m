@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,39 +25,52 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
-
-typedef enum SMSButtons {
-    SMSPad1Up      = 0,
-    SMSPad1Down    = 1,
-    SMSPad1Left    = 2,
-    SMSPad1Right   = 3,
-    SMSPad1A       = 4,
-    SMSPad1B       = 5,
-    SMSPad2Up      = 6,
-    SMSPad2Down    = 7,
-    SMSPad2Left    = 8,
-    SMSPad2Right   = 9,
-    SMSPad2A       = 10,
-    SMSPad2B       = 11,
-    SMSReset       = 12,
-    GGStart        = 13,
-    SMSButtonCount = 14
-} SMSButtons;
+#import "OEGGPreferenceView.h"
 
 
-@class OERingBuffer;
+@implementation OEGGPreferenceView
 
-@interface SMSGameCore : OEGameCore
+- (id)init
 {
-    unsigned char *tempBuffer;
-    NSLock        *soundLock;
-    NSLock        *bufLock;
-    UInt16        *sndBuf;
-    int            oldrun;
-    int            position;
-    BOOL           paused;
+    self = [super init];
+    if (self) {
+        // Initialization code here.
+    }
+    
+    return self;
 }
 
+- (void)dealloc
+{
+    [super dealloc];
+}
+
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+
+    OEGameControllerView *view = (OEGameControllerView *)[self view];
+
+	[view addButtonWithName:@"OEGGButtonUp" label:@"Up:" target:self highlightPoint:NSMakePoint(113, 144)];
+	[view addButtonWithName:@"OEGGButtonDown" label:@"Down:" target:self highlightPoint:NSMakePoint(113, 59)];
+	[view addButtonWithName:@"OEGGButtonLeft" label:@"Left:" target:self highlightPoint:NSMakePoint(75, 106)];
+	[view addButtonWithName:@"OEGGButtonRight" label:@"Right:" target:self highlightPoint:NSMakePoint(152, 106)];
+    [view nextColumn];
+    
+	[view addButtonWithName:@"OEGGButtonA" label:@"Button 1:" target:self highlightPoint:NSMakePoint(301, 82)];
+	[view addButtonWithName:@"OEGGButtonB" label:@"Button 2:" target:self highlightPoint:NSMakePoint(371, 82)];
+	[view addRowSeperator];
+
+	[view addButtonWithName:@"OEGGButtonStart" label:@"Start" target:self];
+
+    [view updateButtons];
+	
+    return;
+}
+
+- (NSImage*)controllerImage{
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_sms.png"];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
 @end

@@ -25,22 +25,20 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2011 OpenEmu Team. All rights reserved.</string>
 	<key>NSPrincipalClass</key>
-	<string>OENGPSystemController</string>
+	<string>OEGGSystemController</string>
 	<key>OESystemPluginName</key>
-	<string>NeoGeo Pocket</string>
+	<string>Game Gear</string>
 	<key>OESystemName</key>
-	<string>NeoGeo Pocket</string>
+	<string>Game Gear</string>
 	<key>OESystemIdentifier</key>
-	<string>openemu.system.ngp</string>
+	<string>openemu.system.gg</string>
 	<key>OEArchiveIDs</key>
 	<array>
-		<integer>94</integer>
+		<integer>55</integer>
 	</array>
 	<key>OEFileSuffixes</key>
 	<array>
-		<string>ngp</string>
-		<string>ngc</string>
-		<string>npc</string>
+		<string>gg</string>
 	</array>
 </dict>
 </plist>
