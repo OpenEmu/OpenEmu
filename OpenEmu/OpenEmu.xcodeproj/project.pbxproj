@@ -35,16 +35,16 @@
 			isa = PBXAggregateTarget;
 			buildConfigurationList = 83F37144140BB166005A7353 /* Build configuration list for PBXAggregateTarget "Build SystemPlugins" */;
 			buildPhases = (
-				83F37152140BB197005A7353 /* CopyFiles */,
+				83F37152140BB197005A7353 /* Copy Files */,
 			);
 			dependencies = (
+				8291C4E0148958F500A72540 /* PBXTargetDependency */,
 				8227756F14894A2100B19E27 /* PBXTargetDependency */,
 				820EB7631483FBEF008EC398 /* PBXTargetDependency */,
 				1415542B1442C4B700A01683 /* PBXTargetDependency */,
 				83F3714F140BB17B005A7353 /* PBXTargetDependency */,
 				83F37151140BB17C005A7353 /* PBXTargetDependency */,
 				83F37149140BB177005A7353 /* PBXTargetDependency */,
-				83F37147140BB176005A7353 /* PBXTargetDependency */,
 				83F3714D140BB17A005A7353 /* PBXTargetDependency */,
 				83F3714B140BB179005A7353 /* PBXTargetDependency */,
 			);
@@ -61,7 +61,7 @@
 		141554251442BA1E00A01683 /* OEN64PreferenceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 141554241442BA1E00A01683 /* OEN64PreferenceView.m */; };
 		141554271442BB2300A01683 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = 141554261442BB2200A01683 /* ControlsPreference.xib */; };
 		141554291442C12200A01683 /* controller_n64.png in Resources */ = {isa = PBXBuildFile; fileRef = 141554281442C12200A01683 /* controller_n64.png */; };
-		1415542C1442C52500A01683 /* N64.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1415540F1442B3B300A01683 /* N64.oesystemplugin */; };
+		1415542C1442C52500A01683 /* N64.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = 1415540F1442B3B300A01683 /* N64.oesystemplugin */; };
 		1415542D1442C84B00A01683 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
 		1B42C66D1429510A004691D7 /* Syphon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B42C66C1429510A004691D7 /* Syphon.framework */; };
@@ -269,27 +269,17 @@
 		53D32E4F13B95F9A00A6ACE0 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D32E3B13B95EAB00A6ACE0 /* AudioToolbox.framework */; };
 		820EB7411483F9A2008EC398 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		820EB7421483F9A2008EC398 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
-		820EB7641483FBFB008EC398 /* NeoGeo Pocket.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
+		820EB7641483FBFB008EC398 /* NeoGeo Pocket.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
-		82277542148946DF00B19E27 /* OESMSSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = C6711823136369020034379A /* OESMSSystemController.m */; };
-		82277543148946DF00B19E27 /* OESMSPreferenceView.m in Sources */ = {isa = PBXBuildFile; fileRef = C64CBD511363E2D100BEE4F3 /* OESMSPreferenceView.m */; };
-		82277544148946DF00B19E27 /* OESMSSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6711826136369DE0034379A /* OESMSSystemResponder.m */; };
 		82277546148946DF00B19E27 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		82277547148946DF00B19E27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
-		822775601489471A00B19E27 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 822775531489471A00B19E27 /* controller_sms.png */; };
 		822775611489471A00B19E27 /* controller_sms.png in Resources */ = {isa = PBXBuildFile; fileRef = 822775531489471A00B19E27 /* controller_sms.png */; };
-		822775621489471A00B19E27 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = 822775541489471A00B19E27 /* ControlsPreference.xib */; };
 		822775631489471A00B19E27 /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = 822775541489471A00B19E27 /* ControlsPreference.xib */; };
-		822775641489471A00B19E27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 822775551489471A00B19E27 /* InfoPlist.strings */; };
 		822775651489471A00B19E27 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 822775551489471A00B19E27 /* InfoPlist.strings */; };
-		822775661489471A00B19E27 /* OEGGPreferenceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 822775581489471A00B19E27 /* OEGGPreferenceView.m */; };
 		822775671489471A00B19E27 /* OEGGPreferenceView.m in Sources */ = {isa = PBXBuildFile; fileRef = 822775581489471A00B19E27 /* OEGGPreferenceView.m */; };
-		822775681489471A00B19E27 /* OEGGSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755A1489471A00B19E27 /* OEGGSystemController.m */; };
 		822775691489471A00B19E27 /* OEGGSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755A1489471A00B19E27 /* OEGGSystemController.m */; };
-		8227756A1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
 		8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
-		8227756C1489471A00B19E27 /* GameGear-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8227755E1489471A00B19E27 /* GameGear-Info.plist */; };
-		8227757014894A3300B19E27 /* GameGear.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
+		8227757014894A3300B19E27 /* GameGear.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
 		826844C51022A0630019C7B0 /* smaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C31022A0630019C7B0 /* smaller.tif */; };
 		826844C61022A0630019C7B0 /* larger.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C41022A0630019C7B0 /* larger.tif */; };
 		828CF1850FD1D7C80041311B /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
@@ -298,6 +288,7 @@
 		828ED4D70E7D98940059F397 /* OEGamePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828ED4D60E7D98940059F397 /* OEGamePickerController.m */; };
 		828ED4DA0E7D98A10059F397 /* GameFilePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 828ED4D80E7D98A10059F397 /* GameFilePicker.xib */; };
 		829022AA0F47F90D00BB7AB7 /* OEGameQTRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 829022A90F47F90D00BB7AB7 /* OEGameQTRecorder.m */; };
+		8291C4E1148958FC00A72540 /* SegaMasterSystem.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
 		82965F851041DC3200F30B74 /* OECorePicker.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82965F841041DC3200F30B74 /* OECorePicker.xib */; };
 		82965F881041DC4600F30B74 /* OECorePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82965F871041DC4600F30B74 /* OECorePickerController.m */; };
 		829779340E743F2A00631240 /* OEGameAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 829779330E743F2A00631240 /* OEGameAudio.m */; };
@@ -439,12 +430,11 @@
 		83F1F83B14448F9800819F98 /* dark_menu_scroll_arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F1F83A14448F9800819F98 /* dark_menu_scroll_arrows.png */; };
 		83F298861458B66F00ECB4F4 /* installer_scrollview_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */; };
 		83F2988A1458B6DC00ECB4F4 /* OESetupAssistantScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F298891458B6DC00ECB4F4 /* OESetupAssistantScrollView.m */; };
-		83F37153140BB1A6005A7353 /* SegaMasterSystem.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C671180F136368330034379A /* SegaMasterSystem.oesystemplugin */; };
-		83F37154140BB1A6005A7353 /* NES.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
-		83F37155140BB1A6005A7353 /* SuperNES.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
-		83F37156140BB1A6005A7353 /* GameBoy.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6B947AF1364ECA600A425F0 /* GameBoy.oesystemplugin */; };
-		83F37157140BB1A6005A7353 /* Genesis.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */; };
-		83F37158140BB1A6005A7353 /* GameBoy Advance.oesystemplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */; };
+		83F37154140BB1A6005A7353 /* NES.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C64BB08D136478E600C1AB23 /* NES.oesystemplugin */; };
+		83F37155140BB1A6005A7353 /* SuperNES.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C6480FC113648F670094FA33 /* SuperNES.oesystemplugin */; };
+		83F37156140BB1A6005A7353 /* GameBoy.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C6B947AF1364ECA600A425F0 /* GameBoy.oesystemplugin */; };
+		83F37157140BB1A6005A7353 /* Genesis.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */; };
+		83F37158140BB1A6005A7353 /* GameBoy Advance.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */; };
 		83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F688BF13C6433600AA0F83 /* OEGridScrollView.m */; };
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
 		83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
@@ -636,19 +626,19 @@
 			remoteGlobalIDString = 8227753E148946DF00B19E27;
 			remoteInfo = GameGear;
 		};
+		8291C4DF148958F500A72540 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C671180E136368330034379A;
+			remoteInfo = SegaMasterSystem;
+		};
 		82C9C97D0F080C920071460B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = OpenEmu;
-		};
-		83F37146140BB176005A7353 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = C671180E136368330034379A;
-			remoteInfo = SegaMasterSystem;
 		};
 		83F37148140BB177005A7353 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -781,22 +771,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		83F37152140BB197005A7353 /* CopyFiles */ = {
+		83F37152140BB197005A7353 /* Copy Files */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
-				8227757014894A3300B19E27 /* GameGear.oesystemplugin in CopyFiles */,
-				820EB7641483FBFB008EC398 /* NeoGeo Pocket.oesystemplugin in CopyFiles */,
-				1415542C1442C52500A01683 /* N64.oesystemplugin in CopyFiles */,
-				83F37153140BB1A6005A7353 /* SegaMasterSystem.oesystemplugin in CopyFiles */,
-				83F37154140BB1A6005A7353 /* NES.oesystemplugin in CopyFiles */,
-				83F37155140BB1A6005A7353 /* SuperNES.oesystemplugin in CopyFiles */,
-				83F37156140BB1A6005A7353 /* GameBoy.oesystemplugin in CopyFiles */,
-				83F37157140BB1A6005A7353 /* Genesis.oesystemplugin in CopyFiles */,
-				83F37158140BB1A6005A7353 /* GameBoy Advance.oesystemplugin in CopyFiles */,
+				8291C4E1148958FC00A72540 /* SegaMasterSystem.oesystemplugin in Copy Files */,
+				8227757014894A3300B19E27 /* GameGear.oesystemplugin in Copy Files */,
+				820EB7641483FBFB008EC398 /* NeoGeo Pocket.oesystemplugin in Copy Files */,
+				1415542C1442C52500A01683 /* N64.oesystemplugin in Copy Files */,
+				83F37154140BB1A6005A7353 /* NES.oesystemplugin in Copy Files */,
+				83F37155140BB1A6005A7353 /* SuperNES.oesystemplugin in Copy Files */,
+				83F37156140BB1A6005A7353 /* GameBoy.oesystemplugin in Copy Files */,
+				83F37157140BB1A6005A7353 /* Genesis.oesystemplugin in Copy Files */,
+				83F37158140BB1A6005A7353 /* GameBoy Advance.oesystemplugin in Copy Files */,
 			);
+			name = "Copy Files";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -3598,10 +3589,6 @@
 				837777BD147A8F6A0091A896 /* hud_progress_bar.png in Resources */,
 				83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */,
 				83920CDD147E675C00D219EA /* hud_alert_window.png in Resources */,
-				822775601489471A00B19E27 /* controller_sms.png in Resources */,
-				822775621489471A00B19E27 /* ControlsPreference.xib in Resources */,
-				822775641489471A00B19E27 /* InfoPlist.strings in Resources */,
-				8227756C1489471A00B19E27 /* GameGear-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3766,9 +3753,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82277542148946DF00B19E27 /* OESMSSystemController.m in Sources */,
-				82277543148946DF00B19E27 /* OESMSPreferenceView.m in Sources */,
-				82277544148946DF00B19E27 /* OESMSSystemResponder.m in Sources */,
 				822775671489471A00B19E27 /* OEGGPreferenceView.m in Sources */,
 				822775691489471A00B19E27 /* OEGGSystemController.m in Sources */,
 				8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */,
@@ -3947,9 +3931,6 @@
 				83920CDB147E5BA300D219EA /* OESidebarScrollView.m in Sources */,
 				83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */,
 				83D52ADC1483AECF00750458 /* OENewMenu.m in Sources */,
-				822775661489471A00B19E27 /* OEGGPreferenceView.m in Sources */,
-				822775681489471A00B19E27 /* OEGGSystemController.m in Sources */,
-				8227756A1489471A00B19E27 /* OEGGSystemResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4090,15 +4071,15 @@
 			target = 8227753E148946DF00B19E27 /* GameGear */;
 			targetProxy = 8227756E14894A2100B19E27 /* PBXContainerItemProxy */;
 		};
+		8291C4E0148958F500A72540 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C671180E136368330034379A /* SegaMasterSystem */;
+			targetProxy = 8291C4DF148958F500A72540 /* PBXContainerItemProxy */;
+		};
 		82C9C97E0F080C920071460B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* OpenEmu */;
 			targetProxy = 82C9C97D0F080C920071460B /* PBXContainerItemProxy */;
-		};
-		83F37147140BB176005A7353 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = C671180E136368330034379A /* SegaMasterSystem */;
-			targetProxy = 83F37146140BB176005A7353 /* PBXContainerItemProxy */;
 		};
 		83F37149140BB177005A7353 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
