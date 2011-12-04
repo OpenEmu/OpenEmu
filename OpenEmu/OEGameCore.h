@@ -115,7 +115,6 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
 @property(assign)   OEGameCoreController *owner;
 @property(readonly) NSString             *pluginName;
 @property(readonly) NSString             *gameSystemName DEPRECATED_ATTRIBUTE;
-@property(readonly) NSString             *systemIdentifier;
 
 @property(readonly) NSString             *supportDirectoryPath;
 @property(readonly) NSString             *batterySavesDirectoryPath;

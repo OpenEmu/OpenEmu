@@ -617,7 +617,7 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     {
         NSManagedObjectContext* context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
         NSLog(@"propertyList: %@", propertyList);
-        return [[context objectWithID:propertyList] retain];
+        return (OEDBGame*)[[context objectWithID:propertyList] retain];
     }    
     return nil;
 }

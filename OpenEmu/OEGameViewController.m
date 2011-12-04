@@ -298,7 +298,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     }
     [self pauseGame];
     
-    NSString* systemIdentifier= [[rootProxy gameCore] systemIdentifier];
+    NSString* systemIdentifier= [gameSystemController systemIdentifier];
     NSURL* systemSaveDirectoryURL= [NSURL fileURLWithPath:[OESaveStatePath stringByAppendingPathComponent:systemIdentifier]];
     
     NSError* err = nil;
@@ -443,7 +443,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
             [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey]];
             
             OEGameCore *gameCore = [rootProxy gameCore];
-            gameSystemController = [[[OESystemPlugin gameSystemPluginForIdentifier:[gameCore systemIdentifier]] controller] retain];
+            gameSystemController = [[[OESystemPlugin gameSystemPluginForTypeExtension:[aurl pathExtension]] controller] retain];
             gameSystemResponder  = [gameSystemController newGameSystemResponder];
             [gameSystemResponder setClient:gameCore];
             
@@ -550,8 +550,8 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 - (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError
 {
     OECorePlugin *ret = nil;
-    
-    NSArray *validPlugins = [OECorePlugin pluginsForFileExtension:ext];
+    OESystemPlugin *system = [OESystemPlugin gameSystemPluginForTypeExtension:ext];
+    NSArray *validPlugins = [OECorePlugin corePluginsForSystemIdentifier:[system systemIdentifier]];
     
     if([validPlugins count] <= 1) ret = [validPlugins lastObject];
     else

@@ -48,6 +48,18 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
     return [pluginsBySystemIdentifiers objectForKey:gameSystemIdentifier];
 }
 
++ (OESystemPlugin *)gameSystemPluginForTypeExtension:(NSString *)ext;
+{
+#warning Should put tie breaking here if multple systems support the same extensions?
+    NSArray *systems = [OEPlugin pluginsForType:self];
+    for (OESystemPlugin *plugin in systems)
+    {
+        if ([[plugin supportedTypeExtensions] containsObject:ext])
+            return plugin;
+    }
+    return nil;
+}
+
 + (void)registerGameSystemPlugin:(OESystemPlugin *)plugin forIdentifier:(NSString *)gameSystemIdentifier;
 {
     [pluginsBySystemIdentifiers setObject:plugin forKey:gameSystemIdentifier];
@@ -66,6 +78,16 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
 }
 
 @synthesize responderClass, icon, gameSystemName, systemName, systemIdentifier;
+
++ (NSArray*)supportedTypeExtensions;
+{
+    NSMutableSet *extensions = [NSMutableSet set];
+    for (OESystemPlugin *plugin in [OEPlugin pluginsForType:self])
+    {
+        [extensions addObjectsFromArray:[plugin supportedTypeExtensions]];
+    }
+    return [extensions allObjects];
+}
 
 + (OESystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;
 {
@@ -105,6 +127,11 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
 
 - (NSString*)systemName{
     return [(OESystemController*)[self controller] systemName];
+}
+
+- (NSArray *)supportedTypeExtensions;
+{
+    return [(OESystemController*)[self controller] fileTypes];
 }
 
 @end

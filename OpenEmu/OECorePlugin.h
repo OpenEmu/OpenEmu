@@ -31,33 +31,15 @@
 @class OEGameCoreController;
 
 @interface OECorePlugin : OEPlugin
-{
-    NSImage      *icon;
-    NSDictionary *supportedTypes;
-    NSArray      *supportedTypeExtensions;
-    NSString     *typeName;
-    Class         gameCoreClass;
-}
 
 @property(readonly) OEGameCoreController<OEPluginController> *controller;
 
-@property(readonly) NSString     *typeName;
 @property(readonly) NSImage      *icon;
-@property(readonly) NSDictionary *supportedTypes;
-@property(readonly) NSArray      *supportedTypeNames;
-@property(readonly) NSArray      *supportedTypeExtensions;
 @property(readonly) Class         gameCoreClass;
 
 - (NSString*)bundleIdentifier;
-+ (NSArray *)supportedTypeExtensions;
-+ (NSArray *)pluginsForFileExtension:(NSString *)anExtension;
+
 + (OECorePlugin *)corePluginWithBundleAtPath:(NSString *)bundlePath;
-
-- (NSArray *)extensionsForTypeName:(NSString *)aTypeName;
-- (NSString *)typeForExtension:(NSString *)extension;
-- (BOOL)supportsFileExtension:(NSString *)extension;
-- (BOOL)supportsFileType:(NSString *)aTypeName;
-
-- (NSArray *)typesPropertyList;
++ (NSArray *)corePluginsForSystemIdentifier:(NSString *)systemIdentifier;
 
 @end

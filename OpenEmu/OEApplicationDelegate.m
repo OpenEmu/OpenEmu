@@ -346,7 +346,7 @@
     NSMutableSet *mutableExtensions = [[NSMutableSet alloc] init];
     
     // Go through the bundles Info.plist files to get the type extensions
-    [mutableExtensions addObjectsFromArray:[OECorePlugin supportedTypeExtensions]];
+    [mutableExtensions addObjectsFromArray:[OESystemPlugin supportedTypeExtensions]];
     
     NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
     
@@ -361,25 +361,24 @@
 
 - (void)updateInfoPlist
 {
-    NSArray *corePlugins = [OECorePlugin allPlugins];
+    NSArray *systemPlugins = [OESystemPlugin allPlugins];
     
-    NSMutableDictionary *allTypes = [NSMutableDictionary dictionaryWithCapacity:[corePlugins count]];
+    NSMutableDictionary *allTypes = [NSMutableDictionary dictionaryWithCapacity:[systemPlugins count]];
     
-    for(OECorePlugin *plugin in corePlugins)
-        for(NSDictionary *type in [plugin typesPropertyList])
-        {
-            NSMutableDictionary *reType = [type mutableCopy];
-            
-            [reType setObject:@"OEGameDocument"                 forKey:@"NSDocumentClass"];
-            [reType setObject:@"Viewer"                         forKey:@"CFBundleTypeRole"];
-            [reType setObject:@"Owner"                          forKey:@"LSHandlerRank"];
-            [reType setObject:[NSArray arrayWithObject:@"????"] forKey:@"CFBundleTypeOSTypes"];
-            [reType removeObjectForKey:@"NSPersistentStoreTypeKey"];
-            
-            [allTypes setObject:reType forKey:[type objectForKey:@"CFBundleTypeName"]];
-            
-            [reType release];
+    for(OESystemPlugin *plugin in systemPlugins)
+    {
+        NSMutableDictionary *systemDocument = [NSMutableDictionary dictionary];
+        
+        for(NSString *type in [plugin supportedTypeExtensions])
+        {            
+            [systemDocument setObject:@"OEGameDocument"                 forKey:@"NSDocumentClass"];
+            [systemDocument setObject:@"Viewer"                         forKey:@"CFBundleTypeRole"];
+            [systemDocument setObject:@"Owner"                          forKey:@"LSHandlerRank"];
+            [systemDocument setObject:[NSArray arrayWithObject:@"????"] forKey:@"CFBundleTypeOSTypes"];
         }
+        [systemDocument setObject:[plugin supportedTypeExtensions] forKey:@"CFBundleTypeExtensions"];
+        [allTypes setObject:systemPlugins forKey:[NSString stringWithFormat:@"%@ Game", [plugin systemName]]];
+    }
     
     NSString *error = nil;
     NSPropertyListFormat format;

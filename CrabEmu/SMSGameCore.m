@@ -55,18 +55,6 @@
 extern int sms_initialized;
 extern int sms_console;
 
-- (NSString *)systemIdentifier;
-{
-    switch (sms_console) 
-    {
-        case CONSOLE_GG:
-            return @"openemu.system.gg";
-        case CONSOLE_SMS:
-            return @"openemu.system.sms";
-    }
-    return [super systemIdentifier];
-}
-
 // Global variables because the callbacks need to access them...
 static OERingBuffer *ringBuffer;
 /*

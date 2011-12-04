@@ -33,11 +33,23 @@
 
 @implementation OECorePlugin
 @dynamic controller;
-@synthesize icon, supportedTypes, supportedTypeExtensions, gameCoreClass, typeName;
+@synthesize icon, gameCoreClass;
 
 + (OECorePlugin *)corePluginWithBundleAtPath:(NSString *)bundlePath
 {
     return [self pluginWithBundleAtPath:bundlePath type:self];
+}
+
++ (NSArray *)corePluginsForSystemIdentifier:(NSString *)systemIdentifier;
+{
+    NSArray *cores = [OEPlugin pluginsForType:self];
+    NSMutableArray *validCores = [NSMutableArray array];
+    for (OECorePlugin *plugin in cores)
+    {
+        if ([[[plugin controller] systemIdentifiers] containsObject:systemIdentifier])
+            [validCores addObject:plugin];
+    }
+    return validCores;
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle
@@ -48,25 +60,6 @@
         
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         icon = [[NSImage alloc] initWithContentsOfFile:iconPath];
-        
-        NSMutableDictionary *tempTypes = [[NSMutableDictionary alloc] init];
-        NSMutableArray *tempExts = [[NSMutableArray alloc] init];
-        NSArray *types = [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-        for(NSDictionary *type in types)
-        {
-            NSArray *exts = [type objectForKey:@"CFBundleTypeExtensions"];
-            NSMutableArray *reExts = [[NSMutableArray alloc] initWithCapacity:[exts count]];
-            for(NSString *ext in exts) [reExts addObject:[ext lowercaseString]];
-            [tempTypes setObject:reExts forKey:[type objectForKey:@"CFBundleTypeName"]];
-            [tempExts addObjectsFromArray:reExts];
-            [reExts release];
-        }
-        
-        supportedTypes = [tempTypes copy];
-        supportedTypeExtensions = [tempExts copy];
-        
-        [tempExts release];
-        [tempTypes release];
     }
     return self;
 }
@@ -74,8 +67,6 @@
 - (void)dealloc
 {
     [icon release];
-    [supportedTypes release];
-    [supportedTypeExtensions release];
     [super dealloc];
 }
 
@@ -86,67 +77,6 @@
     return [super newPluginControllerWithClass:bundleClass];
 }
 
-- (BOOL)supportsFileExtension:(NSString *)extension
-{
-    NSString *ext = [extension lowercaseString];
-    return [supportedTypeExtensions containsObject:ext];
-}
-
-- (BOOL)supportsFileType:(NSString *)aTypeName
-{
-    BOOL supported = [supportedTypes objectForKey:aTypeName] != nil;
-    if(!supported)
-        supported = [self supportsFileExtension:aTypeName];
-    return supported;
-}
-
-+ (NSArray *)supportedTypeExtensions
-{
-    NSMutableArray *ret = [NSMutableArray array];
-    for(OECorePlugin *plugin in [self allPlugins])
-        [ret addObjectsFromArray:[plugin supportedTypeExtensions]];
-    
-    return [[ret copy] autorelease];
-}
-
-+ (NSArray *)pluginsForFileExtension:(NSString *)anExtension
-{
-    NSMutableArray *ret = [NSMutableArray array];
-    
-    for(OECorePlugin *plugin in [self allPlugins])
-        if([plugin supportsFileExtension:anExtension])
-            [ret addObject:plugin];
-    
-    return ret;
-}
-
-- (NSArray *)supportedTypeNames
-{
-    return [supportedTypes allKeys];
-}
-
-- (NSArray *)extensionsForTypeName:(NSString *)aTypeName
-{
-    return [supportedTypes objectForKey:aTypeName];
-}
-
-- (NSString *)typeForExtension:(NSString *)extension
-{
-    for(NSString *type in supportedTypes)
-        if([[supportedTypes objectForKey:type] containsObject:extension])
-            return type;
-    return nil;
-}
-
-- (NSArray *)typesPropertyList
-{
-    return [[self infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-}
-
-- (NSString *)description
-{
-    return [[super description] stringByAppendingFormat:@", supported types: %@", supportedTypes];
-}
 - (NSString*)bundleIdentifier
 {
     return [[self infoDictionary] objectForKey:@"CFBundleIdentifier"];
