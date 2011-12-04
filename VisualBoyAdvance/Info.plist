@@ -4,20 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>gba</string>
-				<string>elf</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>Gameboy Advance Game</string>
-			<key>LSTypeIsPackage</key>
-			<false/>
-		</dict>
-	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
@@ -40,8 +26,10 @@
 	<string>http://openemu.org/update/vba_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.gba</string>
+	<key>OESystemIdentifiers</key>
+	<array>
+		<string>openemu.system.gba</string>
+	</array>
 	<key>OEProjectURL</key>
 	<string>http://vba.ngemu.com/</string>
 </dict>
