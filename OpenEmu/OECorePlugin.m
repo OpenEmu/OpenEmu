@@ -81,4 +81,9 @@
 {
     return [[self infoDictionary] objectForKey:@"CFBundleIdentifier"];
 }
+
+- (NSArray *)systemIdentifiers;
+{
+    return [[self controller] systemIdentifiers];
+}
 @end

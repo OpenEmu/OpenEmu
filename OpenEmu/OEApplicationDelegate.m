@@ -38,7 +38,7 @@
 @implementation OEApplicationDelegate
 @dynamic appVersion, projectURL;
 @synthesize startupMainMenu, mainMenu;
-@synthesize validExtensions;
+
 - (id)init
 {
     self = [super init];
@@ -52,8 +52,6 @@
 - (void)dealloc 
 {
     [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
-    
-    [self setValidExtensions:nil];
     
     [self setHidManager:nil];
     [self setAboutWindow:nil];
@@ -97,7 +95,7 @@
     // TODO: and lauch the queue in a while (5.0 seconds?)
     
     // update extensions
-    [self updateValidExtensions];
+    [self updateInfoPlist];
     
     // Setup HID Support
     [self setupHIDSupport];
@@ -341,23 +339,6 @@
 
 #pragma mark -
 #pragma mark App Info
-- (void)updateValidExtensions
-{
-    NSMutableSet *mutableExtensions = [[NSMutableSet alloc] init];
-    
-    // Go through the bundles Info.plist files to get the type extensions
-    [mutableExtensions addObjectsFromArray:[OESystemPlugin supportedTypeExtensions]];
-    
-    NSArray* types = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDocumentTypes"];
-    
-    for(NSDictionary* key in types)
-        [mutableExtensions addObjectsFromArray:[key objectForKey:@"CFBundleTypeExtensions"]];
-    
-    [self setValidExtensions:[mutableExtensions allObjects]];
-    [self updateInfoPlist];
-    
-    [mutableExtensions release];
-}
 
 - (void)updateInfoPlist
 {
@@ -377,7 +358,9 @@
             [systemDocument setObject:[NSArray arrayWithObject:@"????"] forKey:@"CFBundleTypeOSTypes"];
         }
         [systemDocument setObject:[plugin supportedTypeExtensions] forKey:@"CFBundleTypeExtensions"];
-        [allTypes setObject:systemPlugins forKey:[NSString stringWithFormat:@"%@ Game", [plugin systemName]]];
+        NSString *typeName = [NSString stringWithFormat:@"%@ Game", [plugin systemName]];
+        [systemDocument setObject:typeName forKey:@"CFBundleTypeName"];
+        [allTypes setObject:systemDocument forKey:typeName];
     }
     
     NSString *error = nil;
@@ -439,7 +422,7 @@
 {
     if(object == [OECorePlugin class])
     {
-        [self updateValidExtensions];
+        [self updateInfoPlist];
     }
 }
 

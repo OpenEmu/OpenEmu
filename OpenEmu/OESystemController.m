@@ -49,7 +49,7 @@ NSString *const OEHIDEventValueKey      = @"OEHIDEventValueKey";
 NSString *const OEKeyboardEventValueKey = @"OEKeyboardEventValueKey";
 NSString *const OEControlsPreferenceKey = @"OEControlsPreferenceKey";
 NSString *const OESystemPluginName      = @"OESystemPluginName";
-NSString *const OESystemIdentifiers      = @"OESystemIdentifier";
+NSString *const OESystemIdentifier      = @"OESystemIdentifier";
 NSString *const OEProjectURLKey         = @"OEProjectURL";
 NSString *const OESystemName= @"OESystemName";
 

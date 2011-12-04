@@ -75,7 +75,6 @@ enum _OEHelperAppErrorCodes
     
     // OE stuff
     NSArray          *plugins;
-    NSArray          *validExtensions;
     OEGameCore       *gameCore;
     OEGameAudio      *gameAudio;
     

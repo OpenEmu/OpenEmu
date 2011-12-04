@@ -38,7 +38,7 @@
 @property(readonly) Class         gameCoreClass;
 
 - (NSString*)bundleIdentifier;
-
+- (NSArray*)systemIdentifiers;
 + (OECorePlugin *)corePluginWithBundleAtPath:(NSString *)bundlePath;
 + (NSArray *)corePluginsForSystemIdentifier:(NSString *)systemIdentifier;
 
