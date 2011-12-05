@@ -25,12 +25,12 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OENGPSystemController.h"
-#import "OENGPSystemResponder.h"
-#import "OENGPPreferenceView.h"
-#import "OENGPSystemResponderClient.h"
+#import "OEGGSystemController.h"
+#import "OEGGSystemResponder.h"
+#import "OEGGPreferenceView.h"
+#import "OEGGSystemResponderClient.h"
 
-@implementation OENGPSystemController
+@implementation OEGGSystemController
 
 - (NSUInteger)numberOfPlayers;
 {
@@ -39,12 +39,12 @@
 
 - (NSDictionary *)preferenceViewControllerClasses;
 {
-    return [NSDictionary dictionaryWithObject:[OENGPPreferenceView class] forKey:OEControlsPreferenceKey];
+    return [NSDictionary dictionaryWithObject:[OEGGPreferenceView class] forKey:OEControlsPreferenceKey];
 }
 
 - (Class)responderClass;
 {
-    return [OENGPSystemResponder class];
+    return [OEGGSystemResponder class];
 }
 
 - (NSArray *)genericSettingNames;
@@ -54,19 +54,19 @@
 
 - (NSArray *)genericControlNames;
 {
-    return [NSArray arrayWithObjects:OENGPButtonNameTable count:OENGPButtonCount];
+    return [NSArray arrayWithObjects:OEGGButtonNameTable count:OEGGButtonCount];
 }
 
 - (NSDictionary *)defaultControls
 {
     NSDictionary *controls = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OENGPButtonUp"   ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OENGPButtonRight",
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OENGPButtonLeft" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OENGPButtonDown" ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OENGPButtonA"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OENGPButtonB"    ,
-                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OENGPButtonReset"   ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardUpArrow]   , @"OEGGButtonUp"   ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardRightArrow], @"OEGGButtonRight",
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardLeftArrow] , @"OEGGButtonLeft" ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardDownArrow] , @"OEGGButtonDown" ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardA]         , @"OEGGButtonA"    ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardS]         , @"OEGGButtonB"    ,
+                              [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardSpacebar]  , @"OEGGButtonStart",
                               nil];
     return controls;
 }
@@ -76,5 +76,4 @@
 	
 	return 1;
 }
-
 @end

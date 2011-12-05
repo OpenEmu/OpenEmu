@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,39 +25,43 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
+#import "OEGGSystemResponder.h"
+#import "OEGGSystemResponderClient.h"
 
-typedef enum SMSButtons {
-    SMSPad1Up      = 0,
-    SMSPad1Down    = 1,
-    SMSPad1Left    = 2,
-    SMSPad1Right   = 3,
-    SMSPad1A       = 4,
-    SMSPad1B       = 5,
-    SMSPad2Up      = 6,
-    SMSPad2Down    = 7,
-    SMSPad2Left    = 8,
-    SMSPad2Right   = 9,
-    SMSPad2A       = 10,
-    SMSPad2B       = 11,
-    SMSReset       = 12,
-    GGStart        = 13,
-    SMSButtonCount = 14
-} SMSButtons;
-
-
-@class OERingBuffer;
-
-@interface SMSGameCore : OEGameCore
+NSString *OEGGButtonNameTable[] =
 {
-    unsigned char *tempBuffer;
-    NSLock        *soundLock;
-    NSLock        *bufLock;
-    UInt16        *sndBuf;
-    int            oldrun;
-    int            position;
-    BOOL           paused;
+    @"OEGGButtonUp",
+    @"OEGGButtonDown",
+    @"OEGGButtonLeft",
+    @"OEGGButtonRight",
+    @"OEGGButtonA",
+    @"OEGGButtonB",
+    @"OEGGButtonStart",
+};
+
+@implementation OEGGSystemResponder
+@dynamic client;
+
++ (Protocol *)gameSystemResponderClientProtocol;
+{
+    return @protocol(OEGGSystemResponderClient);
+}
+
+- (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer
+{
+    return OEMakeEmulatorKey(0, index);
+}
+
+- (void)pressEmulatorKey:(OEEmulatorKey)aKey
+{
+    OEGGButton button = (OEGGButton)aKey.key;
+    [[self client] didPushGGButton:button];
+}
+
+- (void)releaseEmulatorKey:(OEEmulatorKey)aKey
+{
+    OEGGButton button = (OEGGButton)aKey.key;
+    [[self client] didReleaseGGButton:button];
 }
 
 @end

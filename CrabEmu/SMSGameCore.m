@@ -31,6 +31,7 @@
 #import <OERingBuffer.h>
 #import <OpenGL/gl.h>
 #import "OESMSSystemResponderClient.h"
+#import "OEGGSystemResponderClient.h"
 
 #define _UINT32
 
@@ -45,7 +46,7 @@
 #define SAMPLEFRAME 735
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
 
-@interface SMSGameCore () <OESMSSystemResponderClient>
+@interface SMSGameCore () <OESMSSystemResponderClient, OEGGSystemResponderClient>
 - (int)crabButtonForButton:(OESMSButton)button player:(NSUInteger)player;
 @end
 
@@ -53,6 +54,18 @@
 
 extern int sms_initialized;
 extern int sms_console;
+
+- (NSString *)systemIdentifier;
+{
+    switch (sms_console) 
+    {
+        case CONSOLE_GG:
+            return @"openemu.system.gg";
+        case CONSOLE_SMS:
+            return @"openemu.system.sms";
+    }
+    return [super systemIdentifier];
+}
 
 // Global variables because the callbacks need to access them...
 static OERingBuffer *ringBuffer;
@@ -183,15 +196,6 @@ static OERingBuffer *ringBuffer;
     return 2;
 }
 
-static const NSUInteger buttonDirections[2][5] = {
-    { 0, SMS_PAD1_UP, SMS_PAD1_DOWN, SMS_PAD1_LEFT, SMS_PAD1_RIGHT },
-    { 0, SMS_PAD2_UP, SMS_PAD2_DOWN, SMS_PAD2_LEFT, SMS_PAD2_RIGHT }
-};
-static const NSUInteger buttonActions[2][2] = {
-    { SMS_PAD1_A, SMS_PAD1_B },
-    { SMS_PAD2_A, SMS_PAD2_B }
-};
-
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
     return sms_save_state([fileName UTF8String]) == 0;
@@ -258,6 +262,36 @@ void gui_set_title(const char *str)
     }
     
     return btn;
+}
+
+- (int)crabButtonForButton:(OEGGButton)button;
+{
+    int btn = 0;
+    switch(button)
+    {
+        case OEGGButtonUp:    btn = SMS_PAD1_UP;     break;
+        case OEGGButtonDown:  btn = SMS_PAD1_DOWN;   break;
+        case OEGGButtonLeft:  btn = SMS_PAD1_LEFT;   break;
+        case OEGGButtonRight: btn = SMS_PAD1_RIGHT;  break;
+        case OEGGButtonA:     btn = SMS_PAD1_A;      break;
+        case OEGGButtonB:     btn = SMS_PAD1_B;      break;
+        case OEGGButtonStart: btn = GG_START;        break;
+        default : break;
+    }
+    
+    return btn;
+}
+
+- (void)didPushGGButton:(OEGGButton)button;
+{
+    int btn = [self crabButtonForButton:button];
+    if(btn > 0) sms_button_pressed(btn);
+}
+
+- (void)didReleaseGGButton:(OEGGButton)button;
+{
+    int btn = [self crabButtonForButton:button];
+    if(btn > 0) sms_button_released(btn);
 }
 
 - (void)didPushSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;

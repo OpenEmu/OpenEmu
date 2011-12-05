@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "OEMenu.h"
-
 @interface OEControlsPopupButton : NSPopUpButton <OEMenuDelegate>
 {
 @private

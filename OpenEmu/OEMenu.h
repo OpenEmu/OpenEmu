@@ -28,8 +28,7 @@
     
     id _localMonitor;
     BOOL visible;
-    BOOL closing;
-    
+    BOOL closing;    
     BOOL _alternate;
     id <OEMenuDelegate> delegate;
 }

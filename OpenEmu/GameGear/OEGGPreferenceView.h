@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
+ Copyright (c) 2011, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -25,39 +25,11 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
-
-typedef enum SMSButtons {
-    SMSPad1Up      = 0,
-    SMSPad1Down    = 1,
-    SMSPad1Left    = 2,
-    SMSPad1Right   = 3,
-    SMSPad1A       = 4,
-    SMSPad1B       = 5,
-    SMSPad2Up      = 6,
-    SMSPad2Down    = 7,
-    SMSPad2Left    = 8,
-    SMSPad2Right   = 9,
-    SMSPad2A       = 10,
-    SMSPad2B       = 11,
-    SMSReset       = 12,
-    GGStart        = 13,
-    SMSButtonCount = 14
-} SMSButtons;
+#import <OpenEmuSystem/OpenEmuSystem.h>
 
 
-@class OERingBuffer;
-
-@interface SMSGameCore : OEGameCore
-{
-    unsigned char *tempBuffer;
-    NSLock        *soundLock;
-    NSLock        *bufLock;
-    UInt16        *sndBuf;
-    int            oldrun;
-    int            position;
-    BOOL           paused;
+@interface OEGGPreferenceView : OEControlsViewController {
+@private
+    
 }
-
 @end

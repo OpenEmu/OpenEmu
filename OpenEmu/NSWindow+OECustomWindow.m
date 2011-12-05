@@ -63,7 +63,6 @@
     }
 
     if(!drawingCustomWindow) return;
-
     // create drawing selector based on window class
     NSString* winodwClassName = NSStringFromClass([window class]);
     NSString* selectorName = [NSString stringWithFormat:@"draw%@ThemeRect:", winodwClassName];

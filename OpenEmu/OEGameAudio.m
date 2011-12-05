@@ -28,7 +28,30 @@
 #import "OEGameAudio.h"
 #import "OEGameCore.h"
 
+@interface OEGameAudioContext : NSObject
+@property (retain) OEGameCore *core;
+@property (assign) NSUInteger buffer;
++ (id)contextWithCore:(OEGameCore*)aCore bufferIndex:(NSUInteger)aBuffer;
+@end
 
+@implementation OEGameAudioContext
+@synthesize core, buffer;
+
++ (id)contextWithCore:(OEGameCore*)aCore bufferIndex:(NSUInteger)aBuffer;
+{
+    OEGameAudioContext *context = [[self alloc] init];
+    context.core = aCore;
+    context.buffer = aBuffer;
+    return [context autorelease];
+}
+
+- (void)dealloc;
+{
+    self.core = nil;
+    [super dealloc];
+}
+
+@end
 ExtAudioFileRef recordingFile;
 
 OSStatus RenderCallback(void                       *in,
@@ -45,14 +68,19 @@ OSStatus RenderCallback(void                       *in,
                         UInt32                      inNumberFrames,
                         AudioBufferList            *ioData)
 {
-    [((OEGameCore *)in) getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:0];
+    OEGameAudioContext *context = (OEGameAudioContext*)in;
+    [[context core] getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:[context buffer]];
     //ExtAudioFileWriteAsync( recordingFile, inNumberFrames, ioData );
     
     return 0;
 }
 
+@interface OEGameAudio ()
+@property (retain) NSMutableArray *contexts;
+@end
 
 @implementation OEGameAudio
+@synthesize contexts;
 
 // No default version for this class
 - (id)init
@@ -69,6 +97,7 @@ OSStatus RenderCallback(void                       *in,
     {
         gameCore = core;
         [self createGraph];
+        self.contexts = [NSMutableArray array];
     }
     
     return self;
@@ -79,6 +108,7 @@ OSStatus RenderCallback(void                       *in,
     AUGraphUninitialize(mGraph);
     //FIXME: added this line tonight.  do we need it?  Fuckety fuck fucking shitty Core Audio documentation... :X
     DisposeAUGraph(mGraph);
+    self.contexts = nil;
     [super dealloc];
 }
 
@@ -148,44 +178,52 @@ OSStatus RenderCallback(void                       *in,
     desc.componentSubType = kAudioUnitSubType_AUConverter;
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
     
-    //Create the converter node
-    err = AUGraphAddNode(mGraph, (const AudioComponentDescription *)&desc, &mConverterNode);
-    if(err)  NSLog(@"couldn't create node for converter");
+    NSUInteger bufferCount = [gameCore soundBufferCount];
     
-    err = AUGraphNodeInfo(mGraph, mConverterNode, NULL, &mConverterUnit);
-    if(err) NSLog(@"couldn't get player unit from converter");
-    
-    
-    AURenderCallbackStruct renderStruct;
-    renderStruct.inputProc = RenderCallback;
-    renderStruct.inputProcRefCon = gameCore;
-    
-    err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_SetRenderCallback,
-                               kAudioUnitScope_Input, 0, &renderStruct, sizeof(AURenderCallbackStruct));
-    if(err) DLog(@"Couldn't set the render callback");
-    else DLog(@"Set the render callback");
-    
-    AudioStreamBasicDescription mDataFormat;
-    
-    mDataFormat.mSampleRate       = [gameCore frameSampleRate];
-    mDataFormat.mFormatID         = kAudioFormatLinearPCM;
-    mDataFormat.mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
-    mDataFormat.mBytesPerPacket   = 2 * [gameCore channelCount];
-    mDataFormat.mFramesPerPacket  = 1; // this means each packet in the AQ has two samples, one for each channel -> 4 bytes/frame/packet
-    mDataFormat.mBytesPerFrame    = 2 * [gameCore channelCount];
-    mDataFormat.mChannelsPerFrame = [gameCore channelCount];
-    mDataFormat.mBitsPerChannel   = 16;
-    
-    err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));
-    if(err) NSLog(@"couldn't set player's input stream format");
-    
+    for (int i = 0; i < bufferCount; ++i)
+    {
+        OEGameAudioContext *context = [OEGameAudioContext contextWithCore:gameCore bufferIndex:i];
+        [self.contexts addObject:context];
+        
+        //Create the converter node
+        err = AUGraphAddNode(mGraph, (const AudioComponentDescription *)&desc, &mConverterNode);
+        if(err)  NSLog(@"couldn't create node for converter");
+        
+        err = AUGraphNodeInfo(mGraph, mConverterNode, NULL, &mConverterUnit);
+        if(err) NSLog(@"couldn't get player unit from converter");
+        
+        
+        AURenderCallbackStruct renderStruct;
+        renderStruct.inputProc = RenderCallback;
+        renderStruct.inputProcRefCon = context;
+        
+        err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_SetRenderCallback,
+                                   kAudioUnitScope_Input, 0, &renderStruct, sizeof(AURenderCallbackStruct));
+        if(err) DLog(@"Couldn't set the render callback");
+        else DLog(@"Set the render callback");
+        
+        AudioStreamBasicDescription mDataFormat;
+        NSUInteger channelCount = ((bufferCount == 1) ? [gameCore channelCount] : [gameCore channelCountForBuffer:i]);
+        mDataFormat.mSampleRate       = (bufferCount == 1) ? [gameCore frameSampleRate] : [gameCore frameSampleRateForBuffer:i];
+        mDataFormat.mFormatID         = kAudioFormatLinearPCM;
+        mDataFormat.mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
+        mDataFormat.mBytesPerPacket   = 2 * channelCount;
+        mDataFormat.mFramesPerPacket  = 1; // this means each packet in the AQ has two samples, one for each channel -> 4 bytes/frame/packet
+        mDataFormat.mBytesPerFrame    = 2 * channelCount;
+        mDataFormat.mChannelsPerFrame = channelCount;
+        mDataFormat.mBitsPerChannel   = 16;
+        
+        err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &mDataFormat, sizeof(AudioStreamBasicDescription));
+        if(err) NSLog(@"couldn't set player's input stream format");
+        
+        err = AUGraphConnectNodeInput(mGraph, mConverterNode, 0, mMixerNode, i);
+        if(err) NSLog(@"Couldn't connect the converter to the mixer");
+    }
     // connect the player to the output unit (stream format will propagate)
-     
+         
     err = AUGraphConnectNodeInput(mGraph, mMixerNode, 0, mOutputNode, 0);
     if(err) NSLog(@"Could not connect the input of the output");
     
-    err = AUGraphConnectNodeInput(mGraph, mConverterNode, 0, mMixerNode, 0);
-    if(err) NSLog(@"Couldn't connect the converter to the mixer");
     
     //AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, [[[GameDocumentController sharedDocumentController] preferenceController] volume] ,0);
     AudioUnitSetParameter(mOutputUnit, kAudioUnitParameterUnit_LinearGain, kAudioUnitScope_Global, 0, 1.0 ,0);
@@ -196,6 +234,9 @@ OSStatus RenderCallback(void                       *in,
     err = AUGraphStart(mGraph);
     if(err) NSLog(@"couldn't start graph");
 	
+    
+    NSLog(@"****Hello****");
+    //    CFShow(mGraph);
     [self setVolume:[self volume]];
 }
 

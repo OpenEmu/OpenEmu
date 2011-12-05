@@ -27,7 +27,7 @@
 - (void)mouseDown:(NSEvent *)theEvent{
     BOOL outside = !NSPointInRect([theEvent locationInWindow], self.frame);
     if(outside || self.oemenu.isVisible){
-        [ self.oemenu closeMenuWithoutChanges:self];
+        [self.oemenu closeMenuWithoutChanges:self];
         [[self window] makeFirstResponder:nil];
     } else {
         NSWindow* win = [self window];

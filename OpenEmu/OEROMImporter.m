@@ -140,6 +140,8 @@
             OEImportErrorBehavior beh = errorBehaviour;
             if(errorBehaviour==OEImportErrorAskUser)
             {
+                DLog(@"ERROR");  
+
                 NSAlert* alert = [NSAlert alertWithMessageText:@"An error occured" defaultButton:@"Continue" alternateButton:@"Stop" otherButton:@"Stop (keep changes)" informativeTextWithFormat:@"%@", [error localizedDescription]];
                 [alert setShowsSuppressionButton:YES];
                 
@@ -218,6 +220,7 @@
     NSArray* paths = [defaultManager contentsOfDirectoryAtPath:path error:outError];
     if(!paths)
     {
+        NSLog(@"no paths – contentsOfDirectoryAtPath:error");
         return NO;
     }
     
