@@ -83,7 +83,7 @@
 #define UDSaveStateFolderNameKey	@"saveStateFolder"			/*  name of save state folder		*/
 #define UDHUDFadeOutDelayKey        @"fadeoutdelay"             /*  time until hudcontrolsbar fades out after last mouse movement   */
 
-#define UDForcePopoutKey			@"forcePopOut"
+#define UDForcePopoutKey			@"forcePopout"
 #define UDPopoutHasScreenSizeKey    @"forceDefaultScreenSize"
 #define UDUseQuickImportKey			@"UseQuickImport"			/*	skips duplicate verification when importing games if automatic info grabbing is deactivated	*/
 #define UDUseMD5HashingKey			@"UseMD5"					/*	use md5 instead of crc32 for rom identification	 (default: YES)								*/

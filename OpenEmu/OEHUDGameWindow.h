@@ -9,9 +9,6 @@
 #import "OEHUDWindow.h"
 @class OEGameViewController;
 @interface OEHUDGameWindow : NSPanel
-{
-	OEGameViewController* _gameViewController;
-}
 - (id)initWithContentRect:(NSRect)contentRect andGameViewController:(OEGameViewController*)gameViewCtrl;
 @property (retain, nonatomic) OEGameViewController* gameViewController;
 @end

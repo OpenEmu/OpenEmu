@@ -12,15 +12,16 @@
 @synthesize gameViewController=_gameViewController;
 - (id)initWithContentRect:(NSRect)contentRect andGameViewController:(OEGameViewController*)gameViewCtrl
 {
+    NSLog(@"OEHUDGameWindow init");
+    NSUInteger styleMask = (NSHUDWindowMask | NSNonactivatingPanelMask | NSTitledWindowMask | NSResizableWindowMask | NSUtilityWindowMask | NSClosableWindowMask);
+    self = [super initWithContentRect:contentRect styleMask:styleMask  backing:NSBackingStoreBuffered defer:NO];
     
-    self = [super initWithContentRect:contentRect styleMask: (NSHUDWindowMask | NSNonactivatingPanelMask | NSTitledWindowMask | NSResizableWindowMask | NSUtilityWindowMask | NSClosableWindowMask)  backing:NSBackingStoreBuffered defer:NO];
-    
-    //self = [super initWithContentRect:contentRect];
     if (self) 
     {
 		[self setReleasedWhenClosed:YES];
 		[self setGameViewController:gameViewCtrl];
         [self setFloatingPanel:NO];
+        [self setReleasedWhenClosed:YES];
         [self setMovableByWindowBackground:NO];
         [self setCollectionBehavior:NSWindowCollectionBehaviorFullScreenPrimary];
     }
@@ -29,10 +30,11 @@
 }
 
 - (void)dealloc{
+    NSLog(@"OEHUDGameWindow dealloc");
 	if([self gameViewController]){
 		[[self gameViewController] terminateEmulation];
 	}
-	[self setGameViewController:nil];
+    [self setGameViewController:nil];
 	
 	[super dealloc];
 }
@@ -49,8 +51,8 @@
 		[[[[self contentView] subviews] lastObject] removeFromSuperview]; 
 	}
 	
-	if(gameViewController){
-		[gameViewController terminateEmulation];
+	if([self gameViewController]){
+		[[self gameViewController] terminateEmulation];
 	}
 	
 	[gameViewController retain];
@@ -59,8 +61,8 @@
 	
 	if(gameViewController){
 		NSView* gameView = (NSView*)[gameViewController view];
-		NSRect frame = [[self contentView] frame];
-		frame.origin = NSMakePoint(0, 0);
+		NSRect frame = [[self contentView] bounds];
+        [gameView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 		[gameView setFrame:frame];
 		[[self contentView] addSubview:gameView];
 	}

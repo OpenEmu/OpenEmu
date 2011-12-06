@@ -117,7 +117,6 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
 
 - (void)contentWillShow
 {
-    NSLog(@"OELibraryController contentWillShow");
     OEMainWindowController* windowController = [self windowController];
     NSView* toolbarItemContainer = [[windowController toolbarSearchField] superview]; 
     [toolbarItemContainer setAutoresizingMask:0];

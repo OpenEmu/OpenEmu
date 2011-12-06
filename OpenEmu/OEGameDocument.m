@@ -36,8 +36,8 @@
 
 #import "NSData+HashingAdditions.h"
 #import "OEROMImporter.h"
+#import "OEHUDGameWindow.h"
 @interface OEGameDocument (Private)
-- (OEDBRom*)_romFromURL:(NSURL*)url;
 - (BOOL)loadRom:(OEDBRom*)rom withError:(NSError**)outError;
 - (BOOL)loadGame:(OEDBGame*)game withError:(NSError**)outError;
 - (BOOL)_setupGameViewController:(OEGameViewController*)aGameViewController;
@@ -86,11 +86,10 @@
 
 - (void)dealloc
 {
-    NSLog(@"OEGameDocument dealloc start");
-    self.gameViewController = nil;
+    NSLog(@"OEGameDocument dealloc");
+    [self setGameViewController:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
     
-    NSLog(@"OEGameDocument dealloc end");
     [super dealloc];
 }
 
@@ -124,17 +123,13 @@
             windowRect = NSRectFromString([standardDefaults stringForKey:UDLastPopoutFrameKey]);
         }
         
-        NSWindow* window = [[NSWindow alloc] initWithContentRect:windowRect styleMask:NSTitledWindowMask|NSClosableWindowMask|NSResizableWindowMask|NSMiniaturizableWindowMask backing:NSWindowBackingLocationDefault defer:NO];
-        [window setHasShadow:YES];
-        
-        [aGameViewController.view setFrame:[[window contentView] bounds]];
-        [aGameViewController.view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-        [[window contentView] addSubview:aGameViewController.view];
+        OEHUDGameWindow* window = [[OEHUDGameWindow alloc] initWithContentRect:windowRect andGameViewController:aGameViewController];
         
         if(useScreenSize)
             [window center];
         [window makeKeyAndOrderFront:self];
-        [window setReleasedWhenClosed:YES];
+        
+        [aGameViewController setWindowController:nil];
     }
     else
     {
@@ -226,59 +221,6 @@
     
     // TODO: Load rom that was just imported instead of the default one
     return [self loadRom:[game defaultROM] withError:outError];
-    
-    /*
-     NSString *romPath = [absoluteURL path];
-     if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
-     {
-     DLog(@"%@", self);
-     
-     OECorePlugin *plugin = [self OE_pluginForFileExtension:[absoluteURL pathExtension] error:outError];
-     
-     if(plugin == nil) return NO;
-     
-     gameController = [[plugin controller]  retain];
-     emulatorName   = [[plugin displayName] retain];
-     
-     [gameSystemController registerGameSystemResponder:gameSystemResponder];
-     
-     Class managerClass = ([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.gameCoreInBackgroundThread"] boolValue]
-     ? [OEGameCoreThreadManager  class]
-     : [OEGameCoreProcessManager class]);
-     
-     NSLog(@"managerClass = %@", managerClass);
-     gameCoreManager = [[managerClass alloc] initWithROMAtPath:romPath corePlugin:plugin owner:gameController error:outError];
-     
-     if(gameCoreManager != nil)
-     {
-     rootProxy = [[gameCoreManager rootProxy] retain];
-     
-     [rootProxy setupEmulation];
-     
-     OEGameCore *gameCore = [rootProxy gameCore];
-     
-     gameSystemController = [[[OESystemPlugin gameSystemPluginForIdentifier:[gameCore systemIdentifier]] controller] retain];
-     gameSystemResponder  = [gameSystemController newGameSystemResponder];
-     
-     [gameSystemResponder setClient:gameCore];
-     
-     return YES;
-     }
-     }
-     else if(outError != NULL)
-     {
-     *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
-     code:OEFileDoesNotExistError
-     userInfo:
-     [NSDictionary dictionaryWithObjectsAndKeys:
-     NSLocalizedString(@"The file you selected doesn't exist", @"Inexistent file error reason."),
-     NSLocalizedFailureReasonErrorKey,
-     NSLocalizedString(@"Choose a valid file.", @"Inexistent file error recovery suggestion."),
-     NSLocalizedRecoverySuggestionErrorKey,
-     nil]];
-     }
-     */
-    return NO;
 }
 
 #pragma mark -
@@ -323,58 +265,5 @@
 - (void)performClose:(id)sender
 {
     // [gameWindow performClose:sender];
-}
-#pragma mark -
-#pragma mark Private
-- (OEDBRom*)_romFromURL:(NSURL*)url
-{
-    OEDBRom* rom = nil;
-    BOOL isMD5Hash = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];    
-    NSString* hash = nil;
-    
-    OELibraryDatabase* database = [OELibraryDatabase defaultDatabase];
-    
-    rom = [database romForWithPath:[url path]];
-    if(rom == nil)
-    {
-        NSData* file = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:nil];
-        if(!file) 
-        {
-            NSLog(@"can not load file into data");
-            return nil;
-        }
-        
-        if(isMD5Hash)
-        {
-            hash = [file MD5HashString];
-            rom = [database romForMD5Hash:hash];
-        }
-        else
-        {
-            hash = [file CRC32HashString];
-            rom = [database romForCRC32Hash:hash];
-        }
-    }
-    
-    if(rom == nil)
-    {
-        NSLog(@"no rom after hashing: %@ %@", isMD5Hash?@"MD5":@"CRC32", hash);
-        OEROMImporter* importer = [[OEROMImporter alloc] initWithDatabase:database];
-        [importer setErrorBehaviour:OEImportErrorAskUser]; // TODO: set proper error behaviour
-        BOOL success = [importer importROMsAtURL:url inBackground:NO error:nil];
-        if(!success)
-        {
-            [importer release];
-            NSLog(@"importing was not sucessfull");
-            return nil;
-        }
-        
-        rom = [[importer importedRoms] lastObject];
-        [importer release];
-        
-        NSLog(@"rom after hashing and import: %@", rom);
-    }
-    
-    return rom;
 }
 @end

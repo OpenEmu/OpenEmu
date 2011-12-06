@@ -82,9 +82,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
           [CAConstraint constraintWithAttribute:kCAConstraintWidth  relativeTo:@"superlayer" attribute:kCAConstraintWidth],
           [CAConstraint constraintWithAttribute:kCAConstraintHeight relativeTo:@"superlayer" attribute:kCAConstraintHeight],
           nil]];
-        
-        NSLog(@"initing game view");
-        
+                
         [rootLayer addSublayer:gameLayer];
         
         self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
@@ -92,12 +90,16 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
         color = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 1.0);
         [self.layer setBackgroundColor:color];
         CGColorRelease(color);
+        
+        NSLog(@"OEGameView init");
     }
     return self;
 }
 
 - (void)dealloc
 {
+    NSLog(@"OEGameView dealloc");
+    
     [gameLayer unbind:@"filterName"];
     [gameLayer unbind:@"vSyncEnabled"];
     [super dealloc];

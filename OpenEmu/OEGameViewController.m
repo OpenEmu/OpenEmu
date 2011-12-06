@@ -29,7 +29,6 @@
 
 #import "OEHUDAlert.h"
 @interface OEGameViewController (Private)
-- (BOOL)_setupGameDocument;
 + (OEDBRom*)_choseRomFromGame:(OEDBGame*)game;
 - (NSString *)_convertToValidFileName:(NSString *)fileName;
 - (BOOL)loadFromURL:(NSURL*)aurl error:(NSError**)outError;
@@ -50,7 +49,6 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 
 - (id)initWithWindowController:(OEMainWindowController*)aWindowController andRom:(OEDBRom*)rom error:(NSError**)outError
 {
-    
     self = [super initWithWindowController:aWindowController];
     if(self)
     {
@@ -70,10 +68,11 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         
         gameView = [[OEGameView alloc] initWithFrame:(NSRect){{0,0},{1,1}}];
         controlsWindow = [[OEHUDControlsBarWindow alloc] initWithGameViewController:self];
+        [controlsWindow setReleasedWhenClosed:YES];
         
         NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
-        [nc addObserver:self selector:@selector(viewDidMoveToWindow:) name:@"OEGameViewDidMoveToWindow" object:nil];
-        [nc addObserver:self selector:@selector(viewDidChangeFrame:) name:NSViewFrameDidChangeNotification object:gameView];
+        [nc addObserver:self selector:@selector(viewDidMoveToWindow:) name:@"OEGameViewDidMoveToWindow"     object:nil];
+        [nc addObserver:self selector:@selector(viewDidChangeFrame:)  name:NSViewFrameDidChangeNotification object:gameView];
         
         NSURL* url = [NSURL fileURLWithPath:path];
         NSError* error = nil;
@@ -90,6 +89,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         }
         
     }
+    NSLog(@"OEGameViewController init");
     return self;
 }
 
@@ -105,13 +105,8 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     return [self initWithWindowController:aWindowController andRom:rom error:outError];
 }
 
-- (BOOL)_setupGameDocument
-{
-    return YES;
-}
-
 - (void)dealloc {
-    NSLog(@"OEGameViewController dealloc start");
+    NSLog(@"OEGameViewController dealloc");
     [self setRom:nil];
     
     NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
@@ -122,9 +117,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     [controlsWindow close];
     [controlsWindow release], controlsWindow = nil;
     [gameView release], gameView = nil;
-    
-    NSLog(@"OEGameViewController dealloc end");
-    
+        
     [super dealloc];
 }
 #pragma mark -
@@ -153,7 +146,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 - (void)terminateEmulation
 {
     if(!emulationRunning) return;
-    NSLog(@"terminateEmulation start");
+    NSLog(@"terminateEmulation");
     
     emulationRunning = NO;
     [gameView setRootProxy:nil];
@@ -182,7 +175,8 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     if([self windowController])
         // tell it to show its default controller
         [[self windowController] setCurrentContentController:nil];
-    
+   else
+       [[[self view] window] close];
     
     NSDocumentController* sharedDocumentController = [NSDocumentController sharedDocumentController];
     [sharedDocumentController removeDocument:[self document]];
@@ -447,13 +441,11 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
             gameSystemResponder  = [gameSystemController newGameSystemResponder];
             [gameSystemResponder setClient:gameCore];
             
-            
             if(gameView)
             {
                 [gameView setRootProxy:rootProxy];
                 [gameView setGameResponder:gameSystemResponder];
             }
-            
             
             return YES;
         }
@@ -494,6 +486,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
     return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
 }
+
 - (void)_stateNameSheetDidEnd:(NSAlert*)alert returnCode:(NSInteger) aReturnCode
 {
     if(aReturnCode == NSCancelButton)
@@ -537,10 +530,10 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     {
         return;
     }
-    
-    [self _repositionControlsWindow];
     [window addChildWindow:(NSWindow*)controlsWindow ordered:NSWindowAbove];
-    
+
+    [self _repositionControlsWindow];
+
     [controlsWindow orderFront:self];
 }
 
