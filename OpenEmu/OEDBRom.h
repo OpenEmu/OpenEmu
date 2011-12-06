@@ -40,9 +40,11 @@
 // returns crc hash for rom if one was calculated before
 - (NSString*)crcHashIfAvailable;
 
-// returbs save states ordered by timestamp
+// returns save states ordered by timestamp
 - (NSArray*)saveStatesByTimestampAscending:(BOOL)ascFlag;
 
+// returns count of save states
+- (NSInteger)saveStateCount;
 #pragma mark -
 #pragma mark Mainpulating a rom
 // sets roms "lastPlayed" to now

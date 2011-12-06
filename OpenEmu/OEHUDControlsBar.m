@@ -324,23 +324,6 @@
 {
     [[self gameViewController] saveStateAskingUserForName:nil];
 }
-
-- (void)stateNameAlertDidEnd:(NSAlert *)alert returnCode:(NSInteger)returnCode contextInfo:(void *)contextInfo
-{
-    NSTextField *input = (NSTextField *)[alert accessoryView];
-    
-    if (returnCode == NSAlertDefaultReturn) 
-    {
-        [input validateEditing];
-        [[self gameViewController] saveStateWithName:[input stringValue]];
-    } 
-    else if (returnCode == NSAlertAlternateReturn) 
-    {
-    } 
-    else 
-    {
-    }
-}
 #pragma mark -
 #pragma mark OEMenuDelegate Implementation
 - (void)menuDidShow:(OEMenu *)men

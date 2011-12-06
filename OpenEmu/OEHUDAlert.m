@@ -38,6 +38,8 @@
 @synthesize suppressionButton=_suppressionButton;
 @synthesize inputField=_inputField, inputLabelField=_inputLabelField;
 @synthesize boxView=_boxView;
+
+@synthesize window;
 #pragma mark -
 - (void)show{
     [_window makeKeyAndOrderFront:self];
@@ -176,6 +178,8 @@
     // Remove suppression button stuff
     self.suppressionUDKey = nil;
     
+    self.window = nil;
+    
     [super dealloc];
 }
 #pragma mark -
@@ -195,6 +199,9 @@
     }
     [NSApp endModalSession:session];
     [_window close];
+    
+    [[self window] makeKeyAndOrderFront:self];
+    
     return  result;
 }
 
@@ -382,10 +389,7 @@
 }
 
 - (void)performCallback
-{
-    if(![self callback])
-        return;
-    
+{   
     if([self target] && [self callback] != NULL && [[self target] respondsToSelector:[self callback]])
         [[self target] performSelectorOnMainThread:[self callback] withObject:self waitUntilDone:NO];
     

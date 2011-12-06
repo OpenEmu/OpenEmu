@@ -285,12 +285,15 @@
             }];
 }
 
+- (NSInteger)saveStateCount
+{
+    return [[self valueForKey:@"saveStates"] count];
+}
 #pragma mark -
 #pragma mark Mainpulating a rom
 - (void)markAsPlayedNow
 {
     [self setValue:[NSDate date] forKey:@"lastPlayed"];
-    
 }
 #pragma mark -
 #pragma mark Core Data utilities

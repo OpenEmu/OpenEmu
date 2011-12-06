@@ -117,7 +117,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     [controlsWindow close];
     [controlsWindow release], controlsWindow = nil;
     [gameView release], gameView = nil;
-        
+    
     [super dealloc];
 }
 #pragma mark -
@@ -175,8 +175,8 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     if([self windowController])
         // tell it to show its default controller
         [[self windowController] setCurrentContentController:nil];
-   else
-       [[[self view] window] close];
+    else
+        [[[self view] window] close];
     
     NSDocumentController* sharedDocumentController = [NSDocumentController sharedDocumentController];
     [sharedDocumentController removeDocument:[self document]];
@@ -252,36 +252,30 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 {
     [self pauseGame];
     
-    BOOL dateAsName = NO;
     if(!proposedName)
     {
         // TODO: properly format date
-        proposedName = [NSString stringWithFormat:@"%@", [NSDate date]];
-        dateAsName = YES;
+        NSInteger saveGameNo = [[self rom] saveStateCount]+1;
+        proposedName = [NSString stringWithFormat:@"%@%ld %@", NSLocalizedString(@"Save-Game-", @""), saveGameNo, [NSDate date]];
     }
     
-    NSString* name = nil;
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDNameStateByDateKey])
-    {        
-        NSAlert* alert = [NSAlert alertWithMessageText:@"Save Satate" defaultButton:@"Save" alternateButton:@"Cancel" otherButton:nil informativeTextWithFormat:@"Enter a description for this save state"];
-        
-        NSTextField* field = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 240, 22)];
-        if(dateAsName)
-            [[field cell] setPlaceholderString:proposedName];
-        
-        [field setAutoresizingMask:NSViewWidthSizable];
-        [alert setAccessoryView:field];
-        [field setStringValue:proposedName];
-        [field release];
-        
-        [alert setShowsSuppressionButton:YES];
-        [alert beginSheetModalForWindow:[[self view] window] modalDelegate:self didEndSelector:@selector(_stateNameSheetDidEnd:returnCode:) contextInfo:NULL];
-    } 
-    else 
-    {
-        [self saveStateWithName:name];
-    }
+    OEHUDAlert * alert = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
+    [alert setWindow:self.view.window];
+    [alert setCallbackHandler:^(OEHUDAlert* alert, NSUInteger result){
+        if(result == NSCancelButton)
+        {
+            [self playGame];
+        }
+        else 
+        {
+            NSString* stateName = [alert stringValue];
+            [self saveStateWithName:stateName];
+        }
+    }];
+    
+    [alert runModal];
 }
+
 - (void)saveStateWithName:(NSString*)stateName
 {
     if(!self.rom)
@@ -486,32 +480,6 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
     return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
 }
-
-- (void)_stateNameSheetDidEnd:(NSAlert*)alert returnCode:(NSInteger) aReturnCode
-{
-    if(aReturnCode == NSCancelButton)
-    {
-        
-        [self playGame];
-        return;
-    }
-    
-    [[NSUserDefaults standardUserDefaults] setBool:[[alert suppressionButton] state] forKey:UDNameStateByDateKey];
-    
-    NSTextField* inputField = (NSTextField*)[alert accessoryView];
-    NSString* stateName = [inputField stringValue];
-    
-    // if either statename is nil or the same date as placeholder string (not changed)
-    if([stateName isEqualToString:@""] || ([[inputField cell] placeholderString] && [[[inputField cell] placeholderString] isEqualToString:stateName]))
-    {
-        // we want to use the date as name (default behavior)
-        [self saveStateWithName:nil];
-    }
-    else 
-    {
-        [self saveStateWithName:stateName];
-    }
-}
 #pragma mark -
 #pragma mark Notifications
 - (void)viewDidChangeFrame:(NSNotification*)notification
@@ -531,9 +499,9 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         return;
     }
     [window addChildWindow:(NSWindow*)controlsWindow ordered:NSWindowAbove];
-
+    
     [self _repositionControlsWindow];
-
+    
     [controlsWindow orderFront:self];
 }
 

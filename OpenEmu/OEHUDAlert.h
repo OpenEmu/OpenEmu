@@ -31,6 +31,7 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert* alert, NSUInteger result);
 - (void)closeWithResult:(NSInteger)res;
 @property (readonly) NSUInteger result;
 
+@property (retain) NSWindow* window;
 #pragma mark -
 #pragma mark Sizing
 @property float height, width;
