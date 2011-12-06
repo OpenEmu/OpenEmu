@@ -333,7 +333,6 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
             
             if(gameInfo && [gameInfo valueForKey:AVGGameIDKey] && [[gameInfo valueForKey:AVGGameIDKey] integerValue]!=0)
             {
-                [gameInfo retain];
                 *stop = YES;
             }
         }];
@@ -341,10 +340,8 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(gameInfo!=nil)
         [self setArchiveVGInfo:gameInfo];
-    
-    [gameInfo release];
-    
-    return gameInfo!=nil;    
+        
+    return gameInfo!=nil;
 }
 
 - (id)mergeInfoFromGame:(OEDBGame*)game

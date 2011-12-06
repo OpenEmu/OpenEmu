@@ -41,17 +41,20 @@
         
         eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:^(NSEvent*incomingEvent)
                         {
-                            if([NSApp isActive] && [self.parentWindow isMainWindow])
+                            if([NSApp isActive] && [[self parentWindow] isKeyWindow])
                                 [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:incomingEvent waitUntilDone:NO];
                         }];
         [eventMonitor retain];
+        
+        openMenus = 0;
     }
+    NSLog(@"OEHUDControlsBarWindow init");
     return self;
 }
 
 - (void)dealloc
 {    
-    NSLog(@"OEHUDControlsWindow dealloc start");
+    NSLog(@"OEHUDControlsBarWindow dealloc");
     
     [fadeTimer invalidate];
     [fadeTimer release];
@@ -64,7 +67,6 @@
     [NSEvent removeMonitor:eventMonitor];
     [eventMonitor release];
     
-    NSLog(@"OEHUDControlsWindow dealloc stop");
     [super dealloc];
 }
 #pragma mark -
@@ -82,7 +84,7 @@
 
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-    NSWindow *parentWindow = self.parentWindow;
+    NSWindow *parentWindow = [self parentWindow];
     NSPoint mouseLoc = [NSEvent mouseLocation];
     if(!NSPointInRect(mouseLoc, [parentWindow convertRectToScreen:[(NSView*)[[self gameViewController] view] frame]])) return;
     
@@ -117,8 +119,7 @@
     
     if(([NSDate timeIntervalSinceReferenceDate]-[hideDate timeIntervalSinceReferenceDate]) >= 0.0)
     {
-        NSPoint mouseLoc = [NSEvent mouseLocation];
-        if(!NSPointInRect(mouseLoc, [self convertRectToBacking:self.frame]))
+        if([self canFadeOut])
         {
             [fadeTimer invalidate];
             [fadeTimer release];
@@ -138,18 +139,26 @@
         [fadeTimer setFireDate:hideDate];
     }
 }
-
+- (NSRect)bounds
+{
+    NSRect bounds = [self frame];
+    bounds.origin = NSMakePoint(0, 0);
+    return bounds;
+}
+- (BOOL)canFadeOut
+{
+    return openMenus==0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);    
+}
 #pragma mark -
-
 - (void)muteAction:(id)sender
 {
-    id slider = [(OEHUDControlsBarView*)[self.contentView subviews].lastObject  slider];
+    id slider = [(OEHUDControlsBarView*)[[[self contentView] subviews] lastObject] slider];
     [slider setFloatValue:0.0];
     [[self gameViewController] setVolume:0.0];
 }
 - (void)unmuteAction:(id)sender
 {
-    id slider = [(OEHUDControlsBarView*)[self.contentView subviews].lastObject  slider];
+    id slider = [(OEHUDControlsBarView*)[[[self contentView] subviews] lastObject] slider];
     [slider setFloatValue:1.0];
     [[self gameViewController] setVolume:1.0];
 }
@@ -166,8 +175,8 @@
 
 - (void)stopAction:(id)sender
 {
-    NSLog(@"stopAction:");
-    [[self gameViewController] terminateEmulation];
+    if([self gameViewController])
+        [[self gameViewController] terminateEmulation];
 }
 
 - (void)fullscreenAction:(id)sender
@@ -229,10 +238,11 @@
     [item release];
     
     OEMenu* oemenu = [menu convertToOEMenu];
+    [oemenu setDelegate:self];
     oemenu.itemsAboveScroller = 2;
     oemenu.maxSize = NSMakeSize(192, 256);
     NSRect buttonRect = [sender frame];
-    NSPoint menuPoint = NSMakePoint(NSMaxX(buttonRect)+self.frame.origin.x, NSMinY(buttonRect)+self.frame.origin.y);
+    NSPoint menuPoint = NSMakePoint(NSMaxX(buttonRect)+[self frame].origin.x, NSMinY(buttonRect)+[self frame].origin.y);
     [oemenu openAtPoint:menuPoint ofWindow:self];
     [menu release];
 }
@@ -242,6 +252,7 @@
     [[NSUserDefaults standardUserDefaults] setObject:selectedFilter forKey:UDVideoFilterKey];
 }
 - (void)optionsActionCorePreferences:(id)sender{}
+#pragma mark -
 #pragma mark Save States
 - (void)saveAction:(id)sender
 {
@@ -289,10 +300,11 @@
     }
     
     OEMenu* oemenu = [menu convertToOEMenu];
+    [oemenu setDelegate:self];
     oemenu.itemsAboveScroller = 2;
     oemenu.maxSize = NSMakeSize(192, 256);
     NSRect buttonRect = [sender frame];
-    NSPoint menuPoint = NSMakePoint(NSMaxX(buttonRect)+self.frame.origin.x, NSMinY(buttonRect)+self.frame.origin.y);
+    NSPoint menuPoint = NSMakePoint(NSMaxX(buttonRect)+[self frame].origin.x, NSMinY(buttonRect)+[self frame].origin.y);
     [oemenu openAtPoint:menuPoint ofWindow:self];
     [menu release];
 }
@@ -330,6 +342,15 @@
     }
 }
 #pragma mark -
+#pragma mark OEMenuDelegate Implementation
+- (void)menuDidShow:(OEMenu *)men
+{
+    openMenus ++;
+}
+- (void)menuDidHide:(OEMenu *)men
+{
+    openMenus --;
+}
 @end
 
 @implementation OEHUDControlsBarView
