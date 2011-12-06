@@ -13,7 +13,8 @@
 @end
 @implementation OELibrarySplitView
 @synthesize resizesLeftView, drawsWindowResizer;
-@synthesize libConroller;
+@synthesize minWidth, sidebarMaxWidth, mainViewMinWidth;
+@synthesize libraryConroller;
 
 - (id)init 
 {
@@ -43,21 +44,29 @@
     }
     return self;
 }
+
 - (void)_setup
 {
-    self.drawsWindowResizer = YES;
+    [self setDrawsWindowResizer:YES];
+    [self setResizesLeftView:NO];
     [self setDelegate:self];
-    self.resizesLeftView = NO;
 }
 
+- (void)dealloc {
+    [self setLibraryConroller:nil];
+    
+    [super dealloc];
+}
+
+#pragma mark -
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMinCoordinate:(CGFloat)proposedMin ofSubviewAt:(NSInteger)dividerIndex
 {
-    return 105;
+    return [self minWidth];
 }
 
 - (CGFloat)splitView:(NSSplitView *)splitView constrainMaxCoordinate:(CGFloat)proposedMaximumPosition ofSubviewAt:(NSInteger)dividerIndex
 {   
-    return ([self frame].size.width-495)>230?230:([self frame].size.width-495);
+    return  ([self frame].size.width-[self mainViewMinWidth])>[self sidebarMaxWidth]?[self sidebarMaxWidth]:([self frame].size.width-[self mainViewMinWidth]);
 }
 
 - (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview
@@ -85,7 +94,7 @@
     NSRect leftFrame = [view0 frame];
     NSRect rightFrame = [view1 frame];
     
-    if(self.resizesLeftView)
+    if([self resizesLeftView])
     {
         leftFrame.size = newSize;
         rightFrame.size.height = newSize.height;
@@ -107,12 +116,12 @@
     [view0 setFrame:leftFrame];
     [view1 setFrame:rightFrame];
     
-    [[self libConroller] layoutToolbarItems];
+    [[self libraryConroller] layoutToolbarItems];
 }
 
 - (void)splitViewDidResizeSubviews:(NSNotification *)notification
 {
-    [[self libConroller] layoutToolbarItems];
+    [[self libraryConroller] layoutToolbarItems];
 }
 
 - (NSRect)splitView:(NSSplitView *)splitView effectiveRect:(NSRect)proposedEffectiveRect forDrawnRect:(NSRect)drawnRect ofDividerAtIndex:(NSInteger)dividerIndex
