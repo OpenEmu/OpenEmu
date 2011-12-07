@@ -16,6 +16,11 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 #import "OEDBGame.h"
+
+@interface OESidebarController ()
+- (void)_setupDrop;
+@end
+
 @implementation OESidebarController
 @synthesize groups, database, editingItem;
 @synthesize systems, collections;

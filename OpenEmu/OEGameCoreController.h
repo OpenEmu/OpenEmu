@@ -77,7 +77,7 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 
 @property(readonly) NSString   *pluginName;
 @property(readonly) NSString   *gameSystemName DEPRECATED_ATTRIBUTE;
-@property(readonly) NSString   *systemIdentifier;
+@property(readonly) NSArray    *systemIdentifiers;
 
 @property(readonly) NSString   *supportDirectoryPath;
 @property(readonly) NSArray    *usedSettingNames;

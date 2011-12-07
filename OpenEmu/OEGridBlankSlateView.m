@@ -231,7 +231,7 @@
         NSArray* allPlugins = [OECorePlugin allPlugins];
         for(OECorePlugin* obj in allPlugins)
         {
-            if([[[obj infoDictionary] valueForKey:@"OESystemIdentifier"] isNotEqualTo:[plugin systemIdentifier]])
+            if(![[obj systemIdentifiers] containsObject:[plugin systemIdentifier]])
             {
                 continue;
             }

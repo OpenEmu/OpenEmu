@@ -112,12 +112,6 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     return [[self owner] gameSystemName];
 }
 
-- (NSString *)systemIdentifier;
-{
-    return [[self owner] systemIdentifier];
-}
-
-
 - (NSString *)supportDirectoryPath
 {
     return [[self owner] supportDirectoryPath];

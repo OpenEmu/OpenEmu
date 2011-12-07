@@ -87,8 +87,9 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     return [[[self bundle] infoDictionary] objectForKey:@"OESystemPluginName"];
 }
 
-- (NSString*)systemIdentifier{	
-	return [[[self bundle] infoDictionary] objectForKey:@"OESystemIdentifier"];
+- (NSArray*)systemIdentifiers
+{	
+	return [[[self bundle] infoDictionary] objectForKey:@"OESystemIdentifiers"];
 }
 
 - (NSDictionary *)defaultControls

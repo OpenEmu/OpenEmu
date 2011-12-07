@@ -7,7 +7,7 @@
 //
 
 #import "OESetupAssistantTableView.h"
-@interface OESetupAssistantTableView (Private)
+@interface OESetupAssistantTableView (Private) <NSTableViewDataSource>
 - (void)_setup;
 @end
 @implementation OESetupAssistantTableView

@@ -8,19 +8,6 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
 	<string></string>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeName</key>
-			<string>NeoGeo Pocket Game</string>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>ngc</string>
-				<string>ngp</string>
-				<string>npc</string>
-			</array>
-		</dict>
-	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.openemu.${PRODUCT_NAME:identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -35,8 +22,10 @@
 	<string>NGPGameController</string>
 	<key>OEProjectURL</key>
 	<string>http://neopop.emuxhaven.net/</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.ngp</string>
+	<key>OESystemIdentifiers</key>
+	<array>
+		<string>openemu.system.ngp</string>
+	</array>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
 	<key>SUFeedURL</key>
