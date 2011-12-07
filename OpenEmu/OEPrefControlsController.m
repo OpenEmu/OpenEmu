@@ -14,6 +14,7 @@
 #import "OELibraryDatabase.h"
 
 #import "OEPlugin.h"
+#import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 #import "OESystemController.h"
 
@@ -50,6 +51,8 @@
     
     self.gradientOverlay = nil;
     self.controlsContainer = nil;
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super dealloc];
 }
@@ -92,6 +95,7 @@
     [[self controllerView] setWantsLayer:YES];    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindingTypeChanged:) name:@"OEControlsViewControllerChangedBindingType" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
 }
 
 - (void)animationDidStart:(CAAnimation *)theAnimation
@@ -112,6 +116,28 @@
     return @"OEPrefControlsController";
 }
 
+- (void)systemsChanged
+{
+    NSLog(@"OEDBSystemsChangedNotificationName");
+    NSMenuItem* menuItem = [[self consolesPopupButton] selectedItem];
+    NSString* selectedSystemIdentifier = [menuItem representedObject];
+
+    [self _rebuildSystemsMenu];
+    
+    [[self consolesPopupButton] selectItemAtIndex:0];
+    for(NSMenuItem* anItem in [[self consolesPopupButton] itemArray])
+    {
+        if([[anItem representedObject] isEqualTo:selectedSystemIdentifier])
+        {
+            [[self consolesPopupButton] selectItem:anItem];
+            break;
+        }
+    }
+    
+    [CATransaction setDisableActions:YES];
+    [self changeSystem:[self consolesPopupButton]];
+    [CATransaction commit];
+}
 #pragma mark -
 #pragma mark UI Methods
 - (IBAction)changeSystem:(id)sender
@@ -272,14 +298,13 @@
 - (void)_rebuildSystemsMenu
 {
     NSMenu* consolesMenu = [[NSMenu alloc] init];
-    NSArray* plugins = [OEPlugin pluginsForType:[OESystemPlugin class]];
-    NSArray* sortedPlugins = [plugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) 
-                              {
-                                  return [[obj1 systemName] compare:[obj2 systemName]];
-                              }];
     
-    for(OESystemPlugin* plugin in sortedPlugins)
+    NSArray* enabledSystems = [[OELibraryDatabase defaultDatabase] enabledSystems]; 
+
+    for(OEDBSystem* system in enabledSystems)
     {
+        OESystemPlugin* plugin = [system plugin];
+        
         NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:[plugin systemName] action:@selector(changeSystem:) keyEquivalent:@""];
         [item setTarget:self];
         [item setRepresentedObject:[plugin systemIdentifier]];

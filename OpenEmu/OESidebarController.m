@@ -35,6 +35,8 @@
 }
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
     [super dealloc];
 }
 
@@ -53,7 +55,7 @@
     // setup sidebar outline view
     [sidebarView setHeaderView:nil];
     
-    OESidebarCell* cell = [[[OESidebarCell alloc] init] autorelease];
+    OESidebarCell* cell = [[OESidebarCell alloc] init];
     [cell setEditable:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controlTextDidEndEditing:) name:NSControlTextDidEndEditingNotification object:cell];
@@ -66,7 +68,7 @@
     [sidebarView registerForDraggedTypes:[NSArray arrayWithObjects:@"org.openEmu.rom", NSFilenamesPboardType, nil]];
     sidebarView.delegate = self;
     sidebarView.dataSource = self;
-    
+    [cell release];
     [sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:1] byExtendingSelection:NO];
     [sidebarView expandItem:[sidebarView itemAtRow:0]];
     
@@ -85,6 +87,8 @@
         [sidebarView setAllowsEmptySelection:YES];
     
     [self _setupDrop];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
 }
 
 #pragma mark -
@@ -117,7 +121,7 @@
 
 - (void)reloadData
 {
-    self.systems = self.database ? [self.database systems] : [NSArray array];
+    self.systems = self.database ? [self.database enabledSystems] : [NSArray array];
     self.collections = self.database ? [self.database collections] : [NSArray array];
     
     OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
@@ -151,6 +155,14 @@
     [sidebarView expandItem:[self.groups objectAtIndex:1]];
 }
 #pragma mark -
+#pragma mark Notifications
+- (void)systemsChanged
+{
+    [self reloadData];
+    [self outlineViewSelectionDidChange:nil];
+}
+#pragma mark -
+#pragma mark Drag and Drop
 - (void)_setupDrop
 {
     NSArray* acceptedTypes = [NSArray arrayWithObjects:NSFilenamesPboardType, OEPasteboardTypeGame, nil];

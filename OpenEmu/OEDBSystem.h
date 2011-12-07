@@ -13,6 +13,7 @@
     NSImage* icon;
 }
 + (id)systemFromPlugin:(OESystemPlugin*)plugin inDatabase:(OELibraryDatabase*)database;
++ (id)systemForPluginIdentifier:(NSString*)identifier inDatabase:(OELibraryDatabase*)database;
 + (id)systemForArchiveID:(NSNumber*)number;
 + (id)systemForArchiveID:(NSNumber*)number inDatabase:(OELibraryDatabase*)database;
 + (id)systemForArchiveName:(NSString*)name;

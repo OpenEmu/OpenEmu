@@ -25,10 +25,16 @@
     return [system autorelease];
 }
 
++ (id)systemForPluginIdentifier:(NSString*)identifier inDatabase:(OELibraryDatabase*)database
+{
+    return [database systemWithIdentifier:identifier];
+}
+
 + (id)systemForArchiveID:(NSNumber*)archiveID
 {
     return [self systemForArchiveID:archiveID inDatabase:[OELibraryDatabase defaultDatabase]];
 }
+
 + (id)systemForArchiveID:(NSNumber*)archiveID inDatabase:(OELibraryDatabase*)database
 {
     OEDBSystem* system = [database systemWithArchiveID:archiveID];
@@ -39,11 +45,13 @@
 {
     return [self systemForArchiveName:name inDatabase:[OELibraryDatabase defaultDatabase]];
 }
+
 + (id)systemForArchiveName:(NSString*)name inDatabase:(OELibraryDatabase*)database
 {
     OEDBSystem* system = [database systemWithArchiveName:name];
     return system;
 }
+
 + (id)systemForArchiveShortName:(NSString*)shortName
 {
     return [self systemForArchiveShortName:shortName inDatabase:[OELibraryDatabase defaultDatabase]];
@@ -54,10 +62,12 @@
     OEDBSystem* system = [database systemWithArchiveShortname:shortName];
     return system;
 }
+
 + (id)systemForFile:(NSString*)filepath;
 {
     return [self systemForFile:filepath inDatabase:[OELibraryDatabase defaultDatabase]];
 }
+
 + (id)systemForFile:(NSString*)filepath inDatabase:(OELibraryDatabase*)database
 {
     return [database systemForFile:filepath];

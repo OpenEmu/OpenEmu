@@ -65,7 +65,7 @@
 							<string key="NSFrame">{{14, 10}, {28, 23}}</string>
 							<reference key="NSSuperview" ref="71309473"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="571807102"/>
+							<reference key="NSNextKeyView"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="503245926">
@@ -107,9 +107,9 @@
 										<reference key="NSSupport" ref="1047069691"/>
 										<reference key="NSControlView" ref="192489839"/>
 										<int key="NSButtonFlags">-2038152961</int>
-										<int key="NSButtonFlags2">2</int>
+										<int key="NSButtonFlags2">402653186</int>
 										<string key="NSAlternateContents"/>
-										<string key="NSKeyEquivalent"/>
+										<string key="NSKeyEquivalent">s</string>
 										<int key="NSPeriodicDelay">400</int>
 										<int key="NSPeriodicInterval">75</int>
 									</object>
@@ -155,6 +155,7 @@
 									<string key="NSFrame">{{802, 14}, {15, 15}}</string>
 									<reference key="NSSuperview" ref="571807102"/>
 									<reference key="NSWindow"/>
+									<reference key="NSNextKeyView" ref="115078705"/>
 									<bool key="NSEnabled">YES</bool>
 									<object class="NSImageCell" key="NSCell" id="280385379">
 										<int key="NSCellFlags">130560</int>
@@ -358,7 +359,7 @@
 					<string key="NSFrameSize">{830, 555}</string>
 					<reference key="NSSuperview"/>
 					<reference key="NSWindow"/>
-					<reference key="NSNextKeyView" ref="115078705"/>
+					<reference key="NSNextKeyView" ref="571807102"/>
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>

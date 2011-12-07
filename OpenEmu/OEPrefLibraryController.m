@@ -7,8 +7,14 @@
 //
 
 #import "OEPrefLibraryController.h"
-#import "OESystemPlugin.h"
 #import "OECheckBox.h"
+
+#import "OELibraryDatabase.h"
+#import "OEDBSystem.h"
+#import "OESystemPlugin.h"
+#import "OECorePlugin.h"
+
+#import "OEHUDAlert.h"
 @interface OEPrefLibraryController ()
 - (void)_rebuildAvailableLibraries;
 - (void)_calculateHeight;
@@ -71,7 +77,25 @@
 
 - (IBAction)toggleLibrary:(id)sender
 {
-    NSLog(@"sender: %@", sender);
+    NSString* systemIdentifier = [[sender cell] representedObject];
+
+    OEDBSystem* system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[OELibraryDatabase defaultDatabase]];
+    
+    BOOL disabled = ![sender state];
+    if(disabled && [[[OELibraryDatabase defaultDatabase] enabledSystems] count]==1)
+    {
+        NSString* message = NSLocalizedString(@"At least one System must be enabled", @"");
+        NSString* button = NSLocalizedString(@"OK", @"");
+        OEHUDAlert* alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
+        [alert runModal];
+        
+        [sender setState:NSOnState];
+        
+        return;
+    }
+
+    [system setValue:[NSNumber numberWithBool:!disabled] forKey:@"enabled"];
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsChangedNotificationName object:system userInfo:nil];
 }
 
 #pragma mark -
@@ -87,15 +111,11 @@
         [[[librariesView subviews] lastObject] removeFromSuperview];
     }
     
-    // get all system plugins, order them by name
-	NSArray* systemPlugins = [OESystemPlugin allPlugins];
-    systemPlugins = [systemPlugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) 
-                     {
-                         return [[obj1 systemName] compare:[obj2 systemName]];
-                     }];
-    
+    // get all system plugins, ordered them by name
+    NSArray* systems = [[OELibraryDatabase defaultDatabase] systems];
+                        
     // calculate number of rows (using 2 columns)
-    int rows = ceil([systemPlugins count]/2.0);
+    int rows = ceil([systems count]/2.0);
     
     // set some spaces and dimensions
     float hSpace = 16, vSpace = 10;
@@ -113,10 +133,11 @@
     __block float y =  librariesView.frame.size.height-iHeight;
     
     // enumerate plugins and add buttons for them
-    [systemPlugins enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
+    [systems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
      {
+         OEDBSystem* system = (OEDBSystem*)obj;
          // if we're still in the first column an we should be in the second
-         if(x==0 && idx>[systemPlugins count]/2){
+         if(x==0 && idx>[systems count]/2){
              // we reset x and y
              x += iWidth+hSpace;
              y = librariesView.frame.size.height-iHeight;
@@ -126,13 +147,32 @@
          NSRect rect = (NSRect){{x, y}, {iWidth, iHeight}};
          OECheckBox* button = [[OECheckBox alloc] initWithFrame:rect];
          
+         NSString* systemIdentifier = [system valueForKey:@"systemIdentifier"];
          [button setTarget:self];
          [button setAction:@selector(toggleLibrary:)];
-         [button setTitle:[obj systemName]];
-         
+         [button setTitle:[system name]];
+         [button setState:[[system valueForKey:@"enabled"] intValue]];
+         [[button cell] setRepresentedObject:systemIdentifier];
          [librariesView addSubview:button];
          [button release];
          
+        
+         BOOL foundCore = NO;
+         NSArray* allPlugins = [OECorePlugin allPlugins];
+         for(OECorePlugin* obj in allPlugins)
+         {
+             
+             if([[obj systemIdentifiers] containsObject:systemIdentifier])
+             {
+                 foundCore = YES;
+                 break;
+             }
+         }
+         
+         if(!foundCore){
+
+         }
+                  
          // decreasing y
          y -= iHeight+vSpace;
      }];

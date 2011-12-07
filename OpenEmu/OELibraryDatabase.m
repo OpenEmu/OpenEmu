@@ -337,6 +337,30 @@ static OELibraryDatabase* defaultDatabase = nil;
         return [[obj1 name] compare:[obj2 name]];
     }];
 }
+
+- (NSArray*)enabledSystems
+{
+    NSManagedObjectContext *context = [self managedObjectContext];
+    
+    NSEntityDescription* descr = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
+    NSFetchRequest* req = [[NSFetchRequest alloc] init];
+    [req setEntity:descr];
+    [req setPredicate:[NSPredicate predicateWithFormat:@"enabled = YES"]];
+    NSError* error = nil;
+    
+    id result = [context executeFetchRequest:req error:&error];
+    [req release];
+    if(!result)
+    {
+        NSLog(@"systems: Error: %@", error);
+        return nil;
+    }
+    return [result sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        return [[obj1 name] compare:[obj2 name]];
+    }];
+
+}
+
 - (OEDBSystem*)systemWithIdentifier:(NSString*)identifier
 {
     NSManagedObjectContext *context = [self managedObjectContext];

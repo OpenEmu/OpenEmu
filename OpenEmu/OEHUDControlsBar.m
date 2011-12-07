@@ -41,7 +41,7 @@
         
         eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:^(NSEvent*incomingEvent)
                         {
-                            if([NSApp isActive] && [[self parentWindow] isKeyWindow])
+                            if([NSApp isActive] && [[self parentWindow] isMainWindow])
                                 [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:incomingEvent waitUntilDone:NO];
                         }];
         [eventMonitor retain];

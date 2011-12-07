@@ -42,6 +42,8 @@
 #endif
 
 
+#define OEDBSystemsChangedNotificationName @"OEDBSystemsChanged"
+
 // Archive.vg Support
 #define APIBase		@"http://api.archive.vg"
 #define APIVersion	@"1.0"

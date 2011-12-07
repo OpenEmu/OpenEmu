@@ -33,6 +33,7 @@
 #pragma mark -
 #pragma mark Database queries
 - (NSArray*)systems;
+- (NSArray*)enabledSystems;
 - (OEDBSystem*)systemWithIdentifier:(NSString*)identifier;
 - (OEDBSystem*)systemWithArchiveID:(NSNumber*)aID;
 - (OEDBSystem*)systemWithArchiveName:(NSString*)name;
