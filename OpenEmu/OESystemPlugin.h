@@ -44,6 +44,9 @@ extern NSString *const OEArchiveIDs;
 @property(readonly) NSImage  *icon;
 @property(readonly) Class     responderClass;
 
++ (NSArray*)supportedTypeExtensions;
+- (NSArray*)supportedTypeExtensions;
++ (OESystemPlugin *)gameSystemPluginForTypeExtension:(NSString *)ext;
 + (OESystemPlugin *)gameSystemPluginForIdentifier:(NSString *)gameSystemIdentifier; 
 + (void)registerGameSystemPlugin:(OESystemPlugin *)plugin forIdentifier:(NSString *)gameSystemIdentifier;
 + (OESystemPlugin *)systemPluginWithBundleAtPath:(NSString *)bundlePath;

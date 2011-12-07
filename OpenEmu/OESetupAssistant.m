@@ -27,7 +27,7 @@
 
 #import "OESetupAssistant.h"
 
-#import "OECorePlugin.h"
+#import "OESystemPlugin.h"
 #import "OEMainWindowController.h"
 #import "OEGlossButton.h"
 #import "OESetupAssistantKeyMapView.h"
@@ -200,7 +200,7 @@
     [[self windowController] setCurrentContentController:nil];
     return;
     
-    NSMutableArray* supportedFileExtensions = [[OECorePlugin supportedTypeExtensions] mutableCopy];
+    NSMutableArray* supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
     
     if([dontSearchCommonTypes state] == NSOnState)
     {

@@ -17,7 +17,6 @@
 
 - (IBAction)updateBundles:(id)sender;
 
-- (void)updateValidExtensions;
 - (void)updateInfoPlist;
 
 @property (retain) IBOutlet NSWindow *aboutWindow;
@@ -29,5 +28,4 @@
 @property (readonly) NSString *aboutCreditsPath;
 @property (readonly) NSString *appVersion;
 @property (readonly) NSAttributedString *projectURL;
-@property (retain) NSArray* validExtensions;
 @end

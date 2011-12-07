@@ -146,6 +146,13 @@
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = Mupen64Plus;
 		};
+		82E97AA3148FDB7800B2D80C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8227754F148946DF00B19E27;
+			remoteInfo = GameGear;
+		};
 		82EBB6291485FD1800D7FF7C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */;
@@ -573,6 +580,7 @@
 				C66AD7F713779C4000CDAA6A /* GameBoy Advance.oesystemplugin */,
 				14F584D11443CB17002286BD /* N64.oesystemplugin */,
 				82EBB62A1485FD1800D7FF7C /* NeoGeo Pocket.oesystemplugin */,
+				82E97AA4148FDB7800B2D80C /* GameGear.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1100,6 +1108,13 @@
 			fileType = wrapper.cfbundle;
 			path = OESaveStateQLPlugin.qlgenerator;
 			remoteRef = 3D208B961182427D00BEAA42 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		82E97AA4148FDB7800B2D80C /* GameGear.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GameGear.oesystemplugin;
+			remoteRef = 82E97AA3148FDB7800B2D80C /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		82EBB62A1485FD1800D7FF7C /* NeoGeo Pocket.oesystemplugin */ = {

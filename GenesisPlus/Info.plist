@@ -28,21 +28,10 @@
 	<string>1.1.1.1</string>
 	<key>NSPrincipalClass</key>
 	<string>GenPlusGameController</string>
-	<key>CFBundleDocumentTypes</key>
+	<key>OESystemIdentifiers</key>
 	<array>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>smd</string>
-				<string>bin</string>
-				<string>gen</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>Genesis Game</string>
-		</dict>
+		<string>openemu.system.sg</string>
 	</array>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.sg</string>
 	<key>OEProjectURL</key>
 	<string>http://cgfm2.emuviews.com/genplus.php</string>
 </dict>
