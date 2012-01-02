@@ -192,6 +192,19 @@
     }
     
     NSModalSession session = [NSApp beginModalSessionForWindow:_window];
+    if([self window])
+    {
+        NSPoint p = (NSPoint){
+            [[self window] frame].origin.x + ([[self window] frame].size.width-[_window frame].size.width)/2,
+            [[self window] frame].origin.y + ([[self window] frame].size.height-[_window frame].size.height)/2
+        };
+        [_window setFrameOrigin:p];
+    }
+    else 
+    {
+        [_window center];
+    }
+    
     for (;;) {
         if ([NSApp runModalSession:session] != NSRunContinuesResponse)
             break;

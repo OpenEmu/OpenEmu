@@ -398,6 +398,7 @@
 		83AAC3301458172C005ADD16 /* gloss_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AAC32C1458172C005ADD16 /* gloss_checkbox.png */; };
 		83AAC3311458172C005ADD16 /* installer_dark_inset_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AAC32D1458172C005ADD16 /* installer_dark_inset_box.png */; };
 		83AAC3321458172C005ADD16 /* installer_gamepad_graphics.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AAC32E1458172C005ADD16 /* installer_gamepad_graphics.png */; };
+		83AE9F0D14B2725300E91BD8 /* controller_genesis.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AE9F0A14B271E200E91BD8 /* controller_genesis.png */; };
 		83AEF939140B78B6007803D7 /* filter_effect_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AEF937140B78B6007803D7 /* filter_effect_frame.png */; };
 		83AF90871414CBC500B74C5B /* OEHUDGameWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AF90861414CBC500B74C5B /* OEHUDGameWindow.m */; };
 		83B6E441143E136F00BCDB7A /* OELocalizationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B6E43D143E090800BCDB7A /* OELocalizationHelper.h */; };
@@ -1281,6 +1282,7 @@
 		83AAC32C1458172C005ADD16 /* gloss_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gloss_checkbox.png; sourceTree = "<group>"; };
 		83AAC32D1458172C005ADD16 /* installer_dark_inset_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_dark_inset_box.png; sourceTree = "<group>"; };
 		83AAC32E1458172C005ADD16 /* installer_gamepad_graphics.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_gamepad_graphics.png; sourceTree = "<group>"; };
+		83AE9F0A14B271E200E91BD8 /* controller_genesis.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis.png; sourceTree = "<group>"; };
 		83AEF937140B78B6007803D7 /* filter_effect_frame.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filter_effect_frame.png; sourceTree = "<group>"; };
 		83AF90851414CBC500B74C5B /* OEHUDGameWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDGameWindow.h; sourceTree = "<group>"; };
 		83AF90861414CBC500B74C5B /* OEHUDGameWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDGameWindow.m; sourceTree = "<group>"; };
@@ -3021,6 +3023,7 @@
 		C6B947E91365080B00A425F0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83AE9F0A14B271E200E91BD8 /* controller_genesis.png */,
 				C6B947EA1365080B00A425F0 /* Genesis-Info.plist */,
 				C6B947EB1365080B00A425F0 /* InfoPlist.strings */,
 				C6B947EE1365080B00A425F0 /* Genesis-Prefix.pch */,
@@ -3661,6 +3664,7 @@
 			files = (
 				C6B947ED1365080B00A425F0 /* InfoPlist.strings in Resources */,
 				C6B948181365154600A425F0 /* ControlsPreference.xib in Resources */,
+				83AE9F0D14B2725300E91BD8 /* controller_genesis.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

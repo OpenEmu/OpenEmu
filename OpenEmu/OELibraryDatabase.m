@@ -98,7 +98,10 @@ static OELibraryDatabase* defaultDatabase = nil;
     if(![[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDir] || !isDir)
     {
         if(outError!=NULL){
-            *outError = [NSError errorWithDomain:@"OELibraryDatabase" code:OELibraryErrorCodeFolderNotFound userInfo:nil];
+			NSString* description = NSLocalizedString(@"The OpenEmu Library could not be found.", @"");
+			NSDictionary* dict = [NSDictionary dictionaryWithObject:description forKey:NSLocalizedDescriptionKey];
+			
+            *outError = [NSError errorWithDomain:@"OELibraryDatabase" code:OELibraryErrorCodeFolderNotFound userInfo:dict];
         }
         return NO;
     }

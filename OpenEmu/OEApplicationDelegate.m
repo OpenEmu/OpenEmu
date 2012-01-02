@@ -100,7 +100,6 @@
     // Setup HID Support
     [self setupHIDSupport];
     
-    
     [NSApp setMainMenu:[self mainMenu]];
     
     // Load MainWindow
@@ -130,7 +129,8 @@
     [[self mainWindowController] setupMenuItems];
     [windowController release];
     
-    
+    // Preload Composition plugins so HUDControls Bar and Gameplay Preferneces load faster
+    [OECompositionPlugin allPluginNames];
     
     // TODO: remove after testing OEHUDAlert
     [[OECoreUpdater sharedUpdater] installCoreWithIdentifier:@"com.openemu.snes9x" coreName:@"Nestopia" systemName:@"Nintendo (NES)" withCompletionHandler:^{

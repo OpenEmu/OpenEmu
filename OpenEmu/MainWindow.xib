@@ -53,7 +53,7 @@
 				<string key="NSWindowClass">OEMainWindow</string>
 				<nil key="NSViewClass"/>
 				<nil key="NSUserInterfaceItemIdentifier"/>
-				<string key="NSWindowContentMinSize">{680, 230}</string>
+				<string key="NSWindowContentMinSize">{600, 491}</string>
 				<object class="NSView" key="NSWindowView" id="71309473">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">258</int>
@@ -363,7 +363,7 @@
 					<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1920, 1178}}</string>
-				<string key="NSMinSize">{680, 252}</string>
+				<string key="NSMinSize">{600, 513}</string>
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">LibraryWindow</string>
 				<int key="NSWindowCollectionBehavior">128</int>

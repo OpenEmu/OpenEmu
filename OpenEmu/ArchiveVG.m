@@ -17,25 +17,29 @@ NSString * const AVGGameGenreKey         = @"AVGGameGenreKey";
 NSString * const AVGGameBoxURLKey        = @"AVGGameBoxURLKey";
 NSString * const AVGGameESRBRatingKey    = @"AVGGameESRBRatingKey";
 NSString * const AVGGameCreditsKey       = @"AVGGameCreditsKey";
+NSString * const AVGGameReleasesKey      = @"AVGGameReleasesKey";
+NSString * const AVGGameTosecsKey        = @"AVGGameTosecsKey";
+
 NSString * const AVGCreditsNameKey       = @"AVGCreditsNameKey";
 NSString * const AVGCreditsPositionKey   = @"AVGCreditsPositionKey";
-NSString * const AVGSystemID				= @"AVGSystemID";
-NSString * const AVGSystemName			= @"AVGSystemName";
-NSString * const AVGSystemShort			= @"AVGSystemShort";
 
-NSString * const AVGGameReleasesKey      = @"AVGGameReleasesKey";
-NSString * const AVGReleaseTitleKey      = @"AVGReleaseTitleKey";
-NSString * const AVGReleaseCompanyKey    = @"AVGReleaseCompanyKey";
-NSString * const AVGReleaseSerialKey     = @"AVGReleaseSerialKey";
-NSString * const AVGReleaseCountryKey    = @"AVGReleaseCountryKey";
-NSString * const AVGReleaseDateKey       = @"AVGReleaseDateKey";
+NSString * const AVGSystemIDKey			 = @"AVGSystemIDKey";
+NSString * const AVGSystemNameKey	     = @"AVGSystemNameKey";
+NSString * const AVGSystemShortKey		 = @"AVGSystemShortKey";
 
-NSString * const AVGGameTOSECsKey        = @"AVGGameTOSECsKey";
-NSString * const AVGTOSECNameKey         = @"AVGTOSECNameKey";
-NSString * const AVGTOSECRomNameKey      = @"AVGTOSECRomNameKey";
-NSString * const AVGTOSECSizeKey         = @"AVGTOSECSizeKey";
-NSString * const AVGTOSECCRCKey          = @"AVGTOSECCRCKey";
-NSString * const AVGTOSECMD5Key          = @"AVGTOSECMD5Key";
+// Keys that appear in Release Dictionaries
+NSString * const AVGReleaseTitleKey		 = @"AVGReleaseTitleKey";
+NSString * const AVGReleaseCompanyKey	 = @"AVGReleaseCompanyKey";
+NSString * const AVGReleaseSerialKey	 = @"AVGReleaseSerialKey";
+NSString * const AVGReleaseDateKey		 = @"AVGReleaseDateKey";
+NSString * const AVGReleaseCountryKey	 = @"AVGReleaseCountryKey";
+
+// Keys that appear in Tosec Dictionaries
+NSString * const AVGTosecTitleKey		= @"AVGTosecTitleKey";
+NSString * const AVGTosecRomNameKey		= @"AVGTosecRomNameKey";
+NSString * const AVGTosecSizeKey		= @"AVGTosecSizeKey";
+NSString * const AVGTosecCRCKey			= @"AVGTosecCRCKey";
+NSString * const AVGTosecMD5Key			= @"AVGTosecMD5Key";
 
 #define KCSessionServiceName @"Archive.vg SessionKey"
 
@@ -48,19 +52,9 @@ typedef enum
     AVGGetInfoByID,     // requires archive.vg game id
     AVGGetInfoByCRC,	// requires rom crc
     AVGGetInfoByMD5,	// requires rom md5
-    
-    AVGGetSession,          // needs email and password
-    AVGGetCollection,		// no options, start session before using this
-    AVGAddToCollection,		// supply game id, start session before using this
-    AVGRemoveFromCollection	// supply game id, start session before using this
 } _ArchiveVGOperation;
 
 @interface ArchiveVG (Private)
-+ (NSString*)_sessionKeyWithURL:(NSURL*)url;
-+ (NSArray*)_userCollectionWithSessionKey:(NSString*)sessionKey;
-+ (BOOL)_addToUserCollection:(NSInteger)gameID withSessionKey:(NSString*)sessionKey;
-+ (BOOL)_removeFromUserCollection:(NSInteger)gameID withSessionKey:(NSString*)sessionKey;
-
 + (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError**)outError;
 + (NSURL*)urlForOperation:(_ArchiveVGOperation)op withOptions:(NSArray*)options;
 + (NSString*)removeHTMLEncodingsFromString:(NSString*)input;
@@ -76,28 +70,6 @@ typedef enum
 @end
 #pragma mark -
 @implementation ArchiveVG
-@synthesize privateSessionKey, emailAddress;
-
-static __strong NSString* sharedSessionKey = nil;
-static __strong NSString* sharedEmailAddress = nil;
-+ (void)setGlobalSessionKey:(NSString*)key
-{
-    sharedSessionKey = key;
-}
-
-+ (NSString*)globalSessionKey
-{
-    return sharedSessionKey;
-}
-
-+ (void)setGlobalEmailAddress:(NSString*)email
-{
-    sharedEmailAddress = email;
-}
-+ (NSString*)globalEmailAddress
-{
-    return sharedEmailAddress;
-}
 #pragma mark -
 #pragma mark API Access for Class
 + (NSArray*)searchResultsForString:(NSString*)searchString
@@ -138,7 +110,7 @@ static __strong NSString* sharedEmailAddress = nil;
     _ArchiveVGOperation operation = AVGGetInfoByCRC;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:crc]];
     
-    // NSLog(@"Archive URL:%@", url);
+    NSLog(@"Archive URL:%@", url);
     
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
@@ -149,7 +121,7 @@ static __strong NSString* sharedEmailAddress = nil;
     _ArchiveVGOperation operation = AVGGetInfoByMD5;
     NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:md5]];
     
-    //NSLog(@"Archive URL:%@", url);
+    NSLog(@"Archive URL:%@", url);
     
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
@@ -166,44 +138,6 @@ static __strong NSString* sharedEmailAddress = nil;
     NSError* error;
     id result = [self _resultFromURL:url forOperation:operation error:&error];
     return result;
-}
-
-+ (BOOL)startSessionWithEmailAddress:(NSString*)emailAddress andPassword:(NSString*)password
-{
-    NSString* sessionKey = [self _restoreSessionKeyForEmail:emailAddress error:nil];
-    if(sessionKey)
-        return YES;
-    
-    NSArray* options = [NSArray arrayWithObjects:emailAddress, password, nil];
-    NSURL* url = [ArchiveVG urlForOperation:AVGGetSession withOptions:options];
-    
-    NSString* newSessionKey = [ArchiveVG _sessionKeyWithURL:url];
-    [ArchiveVG setGlobalSessionKey:newSessionKey];
-    
-    BOOL result = [self _storeSessionKey:sessionKey forEmail:emailAddress error:nil];
-    if(!result)
-    {
-        NSLog(@"could not store sessionKey");
-    }
-    [self setGlobalEmailAddress:emailAddress];
-    [self setGlobalSessionKey:newSessionKey];
-    
-    return sharedSessionKey!=nil;
-}
-
-+ (NSArray*)userCollection
-{
-    return [ArchiveVG _userCollectionWithSessionKey:sharedSessionKey];
-}
-
-+ (BOOL)addToUserCollection:(NSInteger)gameID
-{
-    return [ArchiveVG _addToUserCollection:gameID withSessionKey:sharedSessionKey];
-}
-
-+ (BOOL)removeFromUserCollection:(NSInteger)gameID
-{
-    return [ArchiveVG _removeFromUserCollection:gameID withSessionKey:sharedSessionKey];
 }
 #pragma mark -
 #pragma mark API Access for Class instances
@@ -232,141 +166,6 @@ static __strong NSString* sharedEmailAddress = nil;
 {
     return [[self class] gameInfoByID:gameID];
 }
-
-- (BOOL)startSessionWithEmailAddress:(NSString*)newEmailAddress andPassword:(NSString*)password{
-    NSString* sessionKey = [[self class] _restoreSessionKeyForEmail:newEmailAddress error:nil];
-    if(sessionKey)
-        return YES;
-    
-    NSArray* options = [NSArray arrayWithObjects:newEmailAddress, password, nil];
-    NSURL* url = [ArchiveVG urlForOperation:AVGGetSession withOptions:options];
-    
-    NSString* newSessionKey = [ArchiveVG _sessionKeyWithURL:url];    
-    BOOL result = [[self class] _storeSessionKey:sessionKey forEmail:newEmailAddress error:nil];
-    if(!result)
-    {
-        NSLog(@"could not store sessionKey");
-    }
-    self.privateSessionKey = newSessionKey;
-    self.emailAddress = newEmailAddress;
-    
-    return self.privateSessionKey!=nil;
-}
-
-- (NSArray*)userCollection
-{
-    return [ArchiveVG _userCollectionWithSessionKey:privateSessionKey];
-}
-
-- (BOOL)addToUserCollection:(NSInteger)gameID
-{
-    return [ArchiveVG _addToUserCollection:gameID withSessionKey:privateSessionKey];
-}
-
-- (BOOL)removeFromUserCollection:(NSInteger)gameID
-{
-    return [ArchiveVG _removeFromUserCollection:gameID withSessionKey:privateSessionKey];
-}
-#pragma mark -
-#pragma mark Private (Session required)
-+ (NSString*)_sessionKeyWithURL:(NSURL*)url
-{
-    NSError* error = nil;
-    
-    NSXMLDocument* xmlDocument = [[[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:&error] autorelease];
-    if(error!=nil)
-    {
-        NSLog(@"Archive Operation: %@ | Error: %@", [ArchiveVG _debug_nameOfOp:AVGGetSession], error);
-        return nil;
-    }
-    
-    NSArray* nodes = [xmlDocument nodesForXPath:@"/opensearchdescription/session/username/session/text()" error:&error];
-    if(error!=nil)
-    {
-        NSLog(@"Archive Operation: %@ | XML Error: %@", [ArchiveVG _debug_nameOfOp:AVGGetSession], error);
-        return nil;
-    }
-    
-    id result = [[nodes objectAtIndex:0] objectValue];
-    return result;
-}
-
-+ (NSArray*)_userCollectionWithSessionKey:(NSString*)sessionKey
-{
-    if(sessionKey==nil)
-    {
-        NSLog(@"Error: userCollection called prior to calling startSession");
-        return nil;
-    }
-    
-    _ArchiveVGOperation operation = AVGGetCollection;
-    NSURL* url = [ArchiveVG urlForOperation:operation withOptions:[NSArray arrayWithObject:sessionKey]];
-    
-    NSError* error;
-    id result = [self _resultFromURL:url forOperation:operation error:&error];
-    return result;
-}
-
-+ (BOOL)_addToUserCollection:(NSInteger)gameID withSessionKey:(NSString*)sessionKey
-{
-    if(sessionKey==nil)
-    {
-        NSLog(@"Error: addToUserCollection called prior to calling startSession");
-        return NO;
-    }
-    NSError* error = nil;
-    
-    NSArray* options = [NSArray arrayWithObjects:sessionKey, [NSNumber numberWithInteger:gameID], nil];
-    NSURL* url = [ArchiveVG urlForOperation:AVGAddToCollection withOptions:options];
-    
-    NSXMLDocument* xmlDocument = [[[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:&error] autorelease];
-    if(error!=nil)
-    {
-        NSLog(@"Archive Operation: %@ | Error: %@", [ArchiveVG _debug_nameOfOp:AVGAddToCollection], error);
-        return NO;
-    }
-    
-    NSArray* nodes = [xmlDocument nodesForXPath:@"/opensearchdescription/status/code" error:&error];
-    if(error!=nil)
-    {
-        NSLog(@"Archive Operation: %@ | XML Error: %@", [ArchiveVG _debug_nameOfOp:AVGAddToCollection], error);
-        return NO;
-    }
-    
-    id result = [[nodes objectAtIndex:0] objectValue];
-    
-    return [result boolValue];
-}
-
-+ (BOOL)_removeFromUserCollection:(NSInteger)gameID withSessionKey:(NSString*)sessionKey
-{
-    if(sessionKey==nil)
-    {
-        NSLog(@"Error: addToUserCollection called prior to calling startSession");
-        return NO;
-    }
-    
-    NSError* error = nil;
-    
-    NSArray* options = [NSArray arrayWithObjects:sessionKey, [NSNumber numberWithInteger:gameID], nil];
-    NSURL* url = [ArchiveVG urlForOperation:AVGRemoveFromCollection withOptions:options];
-    NSXMLDocument* xmlDocument = [[[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:&error] autorelease];
-    if(error!=nil)
-    {
-        NSLog(@"Archive Operation: %@ | Error: %@", [ArchiveVG _debug_nameOfOp:AVGRemoveFromCollection], error);
-        return NO;
-    }
-    
-    NSArray* nodes = [xmlDocument nodesForXPath:@"/opensearchdescription/status/code" error:&error];
-    if(error!=nil)
-    {
-        NSLog(@"Archive Operation: %@ | XML Error: %@", [ArchiveVG _debug_nameOfOp:AVGRemoveFromCollection], error);
-        return NO;
-    }
-    id result = [[nodes objectAtIndex:0] objectValue];
-    
-    return [result boolValue];
-}
 #pragma mark -
 #pragma mark Private (no session required)
 + (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError**)outError
@@ -379,8 +178,10 @@ static __strong NSString* sharedEmailAddress = nil;
         return nil;
     }
     
+    [[doc XMLData] writeToFile:[[NSString stringWithFormat:@"~/RAW Response %f.plist", rand()] stringByExpandingTildeInPath] atomically:YES];
+    
     // Handle Search Result
-    if(op==AVGSearch || op==AVGGetGames || op==AVGGetCollection)
+    if(op==AVGSearch || op==AVGGetGames)
     {
         NSArray* gameNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game" error:outError];
         if(*outError!=nil)
@@ -495,21 +296,7 @@ static __strong NSString* sharedEmailAddress = nil;
         case AVGGetInfoByMD5:
             operationKey = @"Game.getInfoByMD5";
             break;
-            
-            
-        case AVGGetSession:
-            operationKey = @"User.getSession";
-            break;			
-        case AVGGetCollection:
-            operationKey = @"User.getCollection";
-            break;
-        case AVGAddToCollection:
-            operationKey = @"User.addToCollection";
-            break;
-        case AVGRemoveFromCollection:
-            operationKey = @"User.removeFromCollection";
-            break;
-    }
+	}
     
     NSMutableString* urlString = [[[NSMutableString alloc] initWithFormat:@"%@/%@/%@/%@", APIBase, APIVersion, operationKey, APIKey] autorelease];
     for(id anOption in options)
@@ -667,11 +454,11 @@ static __strong NSString* sharedEmailAddress = nil;
              
              
              NSDictionary* dict = [NSDictionary dictionaryWithObjectsAndKeys:
-                                   [self removeHTMLEncodingsFromString:tosecName],       AVGTOSECNameKey, 
-                                   [self removeHTMLEncodingsFromString:tosecRomName],    AVGTOSECRomNameKey,
-                                   [self removeHTMLEncodingsFromString:tosecMD5],        AVGTOSECMD5Key,
-                                   [self removeHTMLEncodingsFromString:tosecCRC],        AVGTOSECCRCKey,
-                                   [NSNumber numberWithInteger:[tosecSize integerValue]], AVGTOSECSizeKey,      
+                                   [self removeHTMLEncodingsFromString:tosecName],        AVGTosecTitleKey, 
+                                   [self removeHTMLEncodingsFromString:tosecRomName],     AVGTosecRomNameKey,
+                                   [self removeHTMLEncodingsFromString:tosecMD5],         AVGTosecMD5Key,
+                                   [self removeHTMLEncodingsFromString:tosecCRC],         AVGTosecCRCKey,
+                                   [NSNumber numberWithInteger:[tosecSize integerValue]], AVGTosecSizeKey,      
                                    nil];
              [tosecs addObject:dict];
          }];
@@ -692,7 +479,6 @@ static __strong NSString* sharedEmailAddress = nil;
     if(gameIDVal)
     {
 		NSString* idStr = [self removeHTMLEncodingsFromString:gameIDVal];
-		
         [result setObject:[NSNumber numberWithInteger:[idStr integerValue]] forKey:AVGGameIDKey];
     }
     if(gameTitleVal)
@@ -733,14 +519,14 @@ static __strong NSString* sharedEmailAddress = nil;
     }
     if(tosecs)
     {
-        [result setObject:tosecs forKey:AVGGameTOSECsKey];
+        [result setObject:tosecs forKey:AVGGameTosecsKey];
     }
     
     return result;
 }
+
 + (NSDictionary*)dictFromSystemNode:(NSXMLNode*)systemNode error:(NSError**)outError
 {
-    
     NSXMLNode* systemID = [[systemNode nodesForXPath:@"./id[1]/node()[1]" error:outError] lastObject];
     if(*outError!=nil)
     {
@@ -763,7 +549,7 @@ static __strong NSString* sharedEmailAddress = nil;
         return nil;
     }
     
-    NSMutableDictionary* result = [NSMutableDictionary dictionaryWithObjectsAndKeys:systemID, AVGSystemID, systemName, AVGSystemName, systemShort, AVGSystemShort, nil];
+    NSMutableDictionary* result = [NSMutableDictionary dictionaryWithObjectsAndKeys:systemID, AVGSystemIDKey, systemName, AVGSystemNameKey, systemShort, AVGSystemShortKey, nil];
     return result;
 }
 
@@ -1112,21 +898,7 @@ static __strong NSString* sharedEmailAddress = nil;
         case AVGGetInfoByMD5:
             opName = @"Game.getInfoByMD5";
             break;
-            
-            
-        case AVGGetSession:
-            opName = @"User.getSession";
-            break;			
-        case AVGGetCollection:
-            opName = @"User.getCollection";
-            break;
-        case AVGAddToCollection:
-            opName = @"User.addToCollection";
-            break;
-        case AVGRemoveFromCollection:
-            opName = @"User.removeFromCollection";
-            break;
-    }
+	}
     
     return opName;
 }

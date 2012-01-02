@@ -153,6 +153,13 @@
 			remoteGlobalIDString = 820EB74A1483F9A2008EC398;
 			remoteInfo = NeoGeoPocket;
 		};
+		83C31C0A14939EDE00253432 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8227754F148946DF00B19E27;
+			remoteInfo = GameGear;
+		};
 		C62A2626116F08B60003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
@@ -208,13 +215,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = C6B947E61365080B00A425F0;
 			remoteInfo = Genesis;
-		};
-		C6B9E3E3148419AC00836111 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 820EB74A1483F9A2008EC398;
-			remoteInfo = NeoGeoPocket;
 		};
 		C6E916620FD34B8000AC2CCC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -512,6 +512,7 @@
 				C64657801377290C002A4F70 /* GameBoy Advance.oesystemplugin */,
 				14F584971443C9FD002286BD /* N64.oesystemplugin */,
 				8397463614868B4E0051A359 /* NeoGeo Pocket.oesystemplugin */,
+				83C31C0B14939EDE00253432 /* GameGear.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -762,6 +763,13 @@
 			remoteRef = 8397463514868B4E0051A359 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		83C31C0B14939EDE00253432 /* GameGear.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GameGear.oesystemplugin;
+			remoteRef = 83C31C0A14939EDE00253432 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		C62A2627116F08B60003DEE4 /* OpenEmuHelperApp */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
@@ -816,13 +824,6 @@
 			fileType = wrapper.cfbundle;
 			path = Genesis.oesystemplugin;
 			remoteRef = C6B948321365187100A425F0 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		C6B9E3E4148419AC00836111 /* NeoGeo Pocket.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "NeoGeo Pocket.oesystemplugin";
-			remoteRef = C6B9E3E3148419AC00836111 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */

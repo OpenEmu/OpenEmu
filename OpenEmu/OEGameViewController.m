@@ -260,7 +260,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     }
     
     OEHUDAlert * alert = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
-    [alert setWindow:self.view.window];
+    [alert setWindow:[[self view] window]];
     [alert setCallbackHandler:^(OEHUDAlert* alert, NSUInteger result){
         if(result == NSCancelButton)
         {

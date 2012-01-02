@@ -26,7 +26,7 @@
 }
 
 - (void)awakeFromNib
-{
+{   
     // Setup plugins menu
 	NSArray *filterPlugins = [[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     // These filters are loaded and run by GL, and do not rely on QTZs

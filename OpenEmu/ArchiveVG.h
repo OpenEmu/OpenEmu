@@ -31,28 +31,33 @@ NSString * const AVGGameGenreKey;
 NSString * const AVGGameBoxURLKey;
 NSString * const AVGGameESRBRatingKey;
 NSString * const AVGGameCreditsKey;
+NSString * const AVGGameReleasesKey;
+NSString * const AVGGameTosecsKey;
 
-// Keys that appear in Dictionaries in Array of Credits of Game Info Dicts
+// Keys that appear in Credits Dictionaries
 NSString * const AVGCreditsNameKey;
 NSString * const AVGCreditsPositionKey;
 
+// Keys that appear in Release Dictionaries
+NSString * const AVGReleaseTitleKey;
+NSString * const AVGReleaseCompanyKey;
+NSString * const AVGReleaseSerialKey;
+NSString * const AVGReleaseDateKey;
+NSString * const AVGReleaseCountryKey;
+
+// Keys that appear in Tosec Dictionaries
+NSString * const AVGTosecTitleKey;
+NSString * const AVGTosecRomNameKey;
+NSString * const AVGTosecSizeKey;
+NSString * const AVGTosecCRCKey;
+NSString * const AVGTosecMD5Key;
+
 // Keys that appear in System Info Dicts
-NSString * const AVGSystemID;
-NSString * const AVGSystemName;
-NSString * const AVGSystemShort;
+NSString * const AVGSystemIDKey;
+NSString * const AVGSystemNameKey;
+NSString * const AVGSystemShortKey;
 
-@interface ArchiveVG : NSObject {
-@private
-    NSString* privateSessionKey;
-    NSString* emailAddress;
-}
-@property (retain, readwrite) NSString* emailAddress;
-@property (retain, readwrite) NSString* privateSessionKey;
-+ (void)setGlobalSessionKey:(NSString*)key;
-+ (NSString*)globalSessionKey;
-+ (void)setGlobalEmailAddress:(NSString*)email;
-+ (NSString*)globalEmailAddress;
-
+@interface ArchiveVG : NSObject
 #pragma mark -
 #pragma mark API Access for Class
 + (NSArray*)searchResultsForString:(NSString*)searchString; // returns an array of NSDictionaries (Game Info) or nil if an error occured
@@ -62,12 +67,6 @@ NSString * const AVGSystemShort;
 + (NSDictionary*)gameInfoByCRC:(NSString*)crc; // returns NSDictionary (Game Info) or nil if not found / error occured
 + (NSDictionary*)gameInfoByMD5:(NSString*)md5; // returns NSDictionary (Game Info) or nil if not found / error occured
 + (NSDictionary*)gameInfoByID:(NSInteger)gameID; // returns NSDictionary (Game Info) or nil if not found / error occured
-
-+ (BOOL)startSessionWithEmailAddress:(NSString*)emailAddress andPassword:(NSString*)password;
-+ (NSArray*)userCollection;
-+ (BOOL)addToUserCollection:(NSInteger)gameID;
-+ (BOOL)removeFromUserCollection:(NSInteger)gameID;
-
 #pragma mark -
 #pragma mark API Access for Class instances
 // For description, see API Access for Class
@@ -78,10 +77,5 @@ NSString * const AVGSystemShort;
 - (NSDictionary*)gameInfoByCRC:(NSString*)crc;
 - (NSDictionary*)gameInfoByMD5:(NSString*)md5;
 - (NSDictionary*)gameInfoByID:(NSInteger)gameID;
-
-- (BOOL)startSessionWithEmailAddress:(NSString*)emailAddress andPassword:(NSString*)password;
-- (NSArray*)userCollection;
-- (BOOL)addToUserCollection:(NSInteger)gameID;
-- (BOOL)removeFromUserCollection:(NSInteger)gameID;
 @end
 

@@ -137,7 +137,7 @@
         success = [self _performImportWithPath:aPath error:&error];
         if(!success)
         {
-            OEImportErrorBehavior beh = errorBehaviour;
+            OEImportErrorBehavior behavior = errorBehaviour;
             if(errorBehaviour==OEImportErrorAskUser)
             {
                 DLog(@"ERROR");  
@@ -150,13 +150,13 @@
                 
                 switch (result) {
                     case NSAlertDefaultReturn:
-                        beh = OEImportErrorIgnore;
+                        behavior = OEImportErrorIgnore;
                         break;
                     case NSAlertAlternateReturn:
-                        beh = OEImportErrorCancelDeleteChanges;
+                        behavior = OEImportErrorCancelDeleteChanges;
                         break;
                     case NSAlertOtherReturn:
-                        beh = OEImportErrorCancelKeepChanges;
+                        behavior = OEImportErrorCancelKeepChanges;
                         break;
                     default:
                         break;
@@ -164,7 +164,7 @@
                 
                 // TODO: decide if suppression is forever
                 if([[alert suppressionButton] state] == NSOnState)
-                    errorBehaviour = beh;
+                    errorBehaviour = behavior;
             }
             
             if(outError!=NULL)
@@ -172,9 +172,9 @@
                 *outError = error;
             }
             
-            if(beh != OEImportErrorIgnore)
+            if(behavior != OEImportErrorIgnore)
             {
-                [self _performCancel:beh==OEImportErrorCancelDeleteChanges];
+                [self _performCancel:behavior==OEImportErrorCancelDeleteChanges];
                 // returning YES because error was handled
                 return YES;
             }
@@ -225,11 +225,7 @@
     }
     
     BOOL success = [self _performImportWithPaths:paths relativeTo:path error:outError];
-    if(success)
-    {
-        // TODO: initiate archive sync if required
-        // TODO: initiate lib organization if requested
-    }
+
     
     return success;
 }
@@ -242,39 +238,28 @@
 
 - (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError**)outError
 {    
-    DLog(@"");
-#warning finish method implementation
-    // check if path has readable suffix
+    // TODO: check if path has readable suffix
     BOOL hasReadableSuffix = YES;
     if(!hasReadableSuffix) return YES;
     
-    NSError* error = nil;
-    
-    
     OEDBGame* game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES inDatabase:self.database error:outError];
+    if(game)
+    {
+        BOOL lookupGameInfo = [[NSUserDefaults standardUserDefaults] boolForKey:UDAutmaticallyGetInfoKey];
+        if(lookupGameInfo)
+        {
+            [game performSyncWithArchiveVG:outError];
+             // TODO: decide if we are interesed in success of sync operation
+        }
+        
+        BOOL organizeLibrary = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
+        if(organizeLibrary)
+        {
+            NSLog(@"organize library");
+            // TODO: initiate lib organization if requested
+        }
+    }
     return game!=nil;
-    
-    /*
-     NSManagedObjectID* romID = [rom objectID];
-     // add rom id to imported fields
-     
-     if(status){
-     self.queueCount ++;
-     dispatch_async(processingQueue, ^{
-     OELibraryDatabase* db = self.database;
-     OEDBRom* rom = (OEDBRom*)[[self.database managedObjectContext] objectWithID:romID];
-     [rom doInitialSetupWithDatabase:db];
-     [rom setValue:[NSNumber numberWithInt:0] forKeyPath:@"game.status"];
-     [[NSNotificationCenter defaultCenter] postNotificationName:@"OEDBStatusChanged" object:self userInfo:[NSDictionary dictionaryWithObject:romID forKey:@"newRomID"]];
-     
-     self.queueCount--;
-     });
-     
-     }
-     [importedRoms addObject:rom];    
-     [[NSNotificationCenter defaultCenter] postNotificationName:@"OEDBGameAdded" object:self userInfo:[NSDictionary dictionaryWithObject:romID forKey:@"newRomID"]];
-     return YES;
-     */
 }
 
 - (NSArray*)importedRoms

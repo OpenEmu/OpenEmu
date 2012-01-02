@@ -33,8 +33,7 @@ int main(int argc, char *argv[])
     
     srand(time(NULL));
     NSString* path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
-    
-    
+
 	NSDictionary* defaults = [[NSDictionary alloc] initWithObjectsAndKeys:
                               // default thumbnail sizes for game box images
                               [NSArray arrayWithObjects:@"{75,75}",
@@ -58,14 +57,14 @@ int main(int argc, char *argv[])
                               [NSNumber numberWithFloat:186.0], UDSidebarWidthKey,
                               [NSNumber numberWithBool:YES],    UDSidebarVisibleKey,
 							  nil];
-    
+
 	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
 	[standardDefaults registerDefaults:defaults];
     [defaults release];
     defaults = nil;
-    
+
 	[pool drain];
-    
+
 	return NSApplicationMain(argc, (const char **) argv);
 }
 

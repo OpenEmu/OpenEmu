@@ -35,29 +35,30 @@
 
     OEGameControllerView *view = (OEGameControllerView *)[self view];
 	
-	[view addButtonWithName:@"OEGenesisButtonUp[@]" label:@"Up:" target:self];
-	[view addButtonWithName:@"OEGenesisButtonDown[@]" label:@"Down:" target:self];
-	[view addButtonWithName:@"OEGenesisButtonLeft[@]" label:@"Left:" target:self];
-	[view addButtonWithName:@"OEGenesisButtonRight[@]" label:@"Right:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonUp[@]" label:@"Up:" target:self highlightPoint:(NSPoint){120, 172}];
+	[view addButtonWithName:@"OEGenesisButtonDown[@]" label:@"Down:" target:self highlightPoint:(NSPoint){120, 122}];
+	[view addButtonWithName:@"OEGenesisButtonLeft[@]" label:@"Left:" target:self highlightPoint:(NSPoint){91, 146}];
+	[view addButtonWithName:@"OEGenesisButtonRight[@]" label:@"Right:" target:self highlightPoint:(NSPoint){148, 146}];
     [view nextColumn];
 	
-	[view addButtonWithName:@"OEGenesisButtonStart[@]" label:@"Start:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonStart[@]" label:@"Start:" target:self highlightPoint:(NSPoint){221, 147}];
 	[view addButtonWithName:@"OEGenesisButtonMode[@]" label:@"Mode:" target:self];
 	[view nextColumn];
 	
-	[view addButtonWithName:@"OEGenesisButtonA[@]" label:@"A:" target:self];
-	[view addButtonWithName:@"OEGenesisButtonB[@]" label:@"B:" target:self];
-	[view addButtonWithName:@"OEGenesisButtonC[@]" label:@"C:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonA[@]" label:@"A:" target:self highlightPoint:(NSPoint){298, 107}];
+	[view addButtonWithName:@"OEGenesisButtonB[@]" label:@"B:" target:self highlightPoint:(NSPoint){342, 126}];
+	[view addButtonWithName:@"OEGenesisButtonC[@]" label:@"C:" target:self highlightPoint:(NSPoint){385, 139}];
 	[view nextColumn];
 	
-	[view addButtonWithName:@"OEGenesisButtonX[@]" label:@"X:" target:self];
-	[view addButtonWithName:@"OEGenesisButtonY[@]" label:@"Y:" target:self];
-	[view addButtonWithName:@"OEGenesisButtonZ[@]" label:@"Z:" target:self];
+	[view addButtonWithName:@"OEGenesisButtonX[@]" label:@"X:" target:self highlightPoint:(NSPoint){284, 150}];
+	[view addButtonWithName:@"OEGenesisButtonY[@]" label:@"Y:" target:self highlightPoint:(NSPoint){320, 167}];
+	[view addButtonWithName:@"OEGenesisButtonZ[@]" label:@"Z:" target:self highlightPoint:(NSPoint){357, 179}];
     
     [view updateButtons];
 }
 
 - (NSImage*)controllerImage{
-	return nil;
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_genesis.png"];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 }
 @end

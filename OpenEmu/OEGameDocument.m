@@ -157,9 +157,13 @@
 {
     OEMainWindowController* winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
     OEGameViewController* aGameViewController = [[OEGameViewController alloc] initWithWindowController:winController andRom:rom error:outError];
-    if(!aGameViewController) return NO;
-    
+    if(!aGameViewController)
+    {
+        DLog(@"no game view controller");
+        return NO;
+    }
     BOOL res = [self _setupGameViewController:aGameViewController];
+    if(!res) DLog(@"_setupGameViewController failed");
     [aGameViewController release];
     return res;
 }
@@ -167,6 +171,8 @@
 #pragma mark NSDocument Stuff
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
+    DLog(@"%@", typeName);
+    
     if(outError != NULL)
         *outError = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
     return nil;
@@ -174,7 +180,7 @@
 
 - (BOOL)readFromURL:(NSURL *)absoluteURL ofType:(NSString *)typeName error:(NSError **)outError
 {
-    DLog(@"MainThread: %d", [NSThread isMainThread]);
+    DLog(@"%@", absoluteURL);    
     
     NSString *romPath = [absoluteURL path];
     if(![[NSFileManager defaultManager] fileExistsAtPath:romPath])
@@ -191,6 +197,8 @@
                           NSLocalizedRecoverySuggestionErrorKey,
                           nil]];
         }
+        DLog(@"File does not exist");    
+
         return NO;
     }
     
@@ -216,8 +224,11 @@
     
     
     OEDBGame *game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES error:outError];
-    if(!game) return NO;
-    
+    if(!game) 
+    {
+        DLog(@"game could not be created");
+        return NO;
+    }
     
     // TODO: Load rom that was just imported instead of the default one
     return [self loadRom:[game defaultROM] withError:outError];

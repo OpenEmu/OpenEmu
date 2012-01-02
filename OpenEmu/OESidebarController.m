@@ -98,19 +98,23 @@
     OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView setEnabled:enabled];
 }
+
 - (IBAction)addCollectionAction:(id)sender
 {
     [self addCollection:([NSEvent modifierFlags] & NSAlternateKeyMask)==0];
 }
+
 - (void)addCollection:(BOOL)isSmart
 {
     id item;
     
     if(isSmart)
     {
-        item = [self.database addNewCollection:nil];
-    } else {
-        item = [self.database addNewSmartCollection:nil];
+        item = [[self database] addNewCollection:nil];
+    } 
+    else 
+    {
+        item = [[self database] addNewSmartCollection:nil];
     }
     
     [self reloadData];    
@@ -121,8 +125,8 @@
 
 - (void)reloadData
 {
-    self.systems = self.database ? [self.database enabledSystems] : [NSArray array];
-    self.collections = self.database ? [self.database collections] : [NSArray array];
+    self.systems = [self database] ? [[self database] enabledSystems] : [NSArray array];
+    self.collections = [self database] ? [[self database] collections] : [NSArray array];
     
     OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView reloadData];
@@ -147,7 +151,9 @@
     NSInteger index = [sidebarView rowForItem:item];
     if(index == -1) return;
     
-    [sidebarView editColumn:0 row:index withEvent:[[[NSEvent alloc] init] autorelease]  select:YES];
+    NSEvent* event = [[NSEvent alloc] init];
+    [sidebarView editColumn:0 row:index withEvent:event select:YES];
+    [event release];
 }
 - (void)expandCollections:(id)sender
 {
@@ -166,8 +172,8 @@
 - (void)_setupDrop
 {
     NSArray* acceptedTypes = [NSArray arrayWithObjects:NSFilenamesPboardType, OEPasteboardTypeGame, nil];
-    [self.view registerForDraggedTypes:acceptedTypes];
-    [(OESidebarOutlineView*)self.view setDragDelegate:self];
+    [[self view] registerForDraggedTypes:acceptedTypes];
+    [(OESidebarOutlineView*)[self view] setDragDelegate:self];
 }
 
 
@@ -247,7 +253,7 @@
         return [self.groups count];
     }
     
-    if(!self.database)
+    if(![self database])
         return 0;
     
     if( item == [self.groups objectAtIndex:0] )
@@ -364,7 +370,7 @@
     
     if(removeItem)
     {
-        [self.database removeCollection:item];
+        [[self database] removeCollection:item];
         
         // keep selection on last object if the one we removed was last
         if(index == [outlineView numberOfRows]-1)
