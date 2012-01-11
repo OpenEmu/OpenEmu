@@ -510,20 +510,20 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 #pragma mark Plugin discovery
 - (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError
 {
-    OECorePlugin *ret = nil;
+    OECorePlugin *chosenCore = nil;
     OESystemPlugin *system = [OESystemPlugin gameSystemPluginForTypeExtension:ext];
     NSArray *validPlugins = [OECorePlugin corePluginsForSystemIdentifier:[system systemIdentifier]];
     
-    if([validPlugins count] <= 1) ret = [validPlugins lastObject];
+    if([validPlugins count] <= 1) chosenCore = [validPlugins lastObject];
     else
     {
         OECorePickerController *c = [[[OECorePickerController alloc] initWithCoreList:validPlugins] autorelease];
         
         if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
-            ret = [c selectedCore];
+            chosenCore = [c selectedCore];
     }
     
-    if(ret == nil && outError != NULL)
+    if(chosenCore == nil && outError != NULL)
     {
         *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
                                         code:OEIncorrectFileError
@@ -535,7 +535,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
                       NSLocalizedRecoverySuggestionErrorKey,
                       nil]];
     }
-    return ret;
+    return chosenCore;
 }
 #pragma mark -
 #pragma mark TaskWrapper delegate methods

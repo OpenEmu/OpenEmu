@@ -21,12 +21,15 @@
     }
     return self;
 }
-- (void)dealloc {
+
+- (void)dealloc 
+{
     [currentContentController release]; currentContentController = nil;
     [self setDefaultContentController:nil];
     
     [super dealloc];
 }
+
 - (void)windowDidLoad
 {
     DLog(@"OEMainWindowController windowDidLoad"); 
@@ -110,7 +113,8 @@
 #pragma mark -
 #pragma mark NSWindow delegate
 @synthesize allowWindowResizing;
-- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize{
+- (NSSize)windowWillResize:(NSWindow *)sender toSize:(NSSize)frameSize
+{
     return [self allowWindowResizing] ? frameSize : [sender frame].size;
 }
 
@@ -125,6 +129,7 @@
     }
     return [[self currentContentController] validateMenuItem:menuItem]/* || ([self currentContentController]!=[self defaultContentController] && [[self currentContentController] validateMenuItem:menuItem])*/; 
 }
+
 - (void)menuItemAction:(id)sender
 {
     if([sender tag] == MainMenu_Window_OpenEmuTag)

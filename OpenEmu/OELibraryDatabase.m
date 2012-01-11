@@ -454,36 +454,15 @@ static OELibraryDatabase* defaultDatabase = nil;
 - (OEDBSystem*)systemForFile:(NSString*)filePath
 {
     NSString* systemIdentifier = nil;
-    for(OESystemPlugin* aPlugin in [OESystemPlugin allPlugins])
-        if([[aPlugin controller] canHandleFile:filePath]){ systemIdentifier = [aPlugin systemIdentifier]; break; }
-    
+    for(OESystemPlugin* aSystemPlugin in [OESystemPlugin allPlugins])
+    {
+        if([[aSystemPlugin controller] canHandleFile:filePath]){ 
+            systemIdentifier = [aSystemPlugin systemIdentifier]; 
+            break;
+        }
+    }
     if(!systemIdentifier) return nil;
-    
-    NSManagedObjectContext* context = [self managedObjectContext];
-    NSEntityDescription* description = [NSEntityDescription entityForName:@"System" inManagedObjectContext:context];
-    
-    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] init]; //[[NSFetchRequest alloc] initWithEntityName:@"System"];
-    [fetchRequest setFetchLimit:1];
-    [fetchRequest setEntity:description];
-    
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"systemIdentifier == %@", systemIdentifier];
-    [fetchRequest setPredicate:predicate];
-    
-    NSError* error = nil;
-    NSArray* fetchResult = [context executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
-    if(error!=nil)
-    {
-        NSLog(@"Could not get System!");
-        [NSApp presentError:error];
-        return nil;
-    }
-    
-    OEDBSystem* result = [fetchResult lastObject];
-    if(!result)
-    {
-        NSLog(@"%@", [filePath pathExtension]);
-    }
+    OEDBSystem* result = [self systemWithIdentifier:systemIdentifier];
     return result;
 }
 

@@ -249,6 +249,8 @@
     
     // Preload composition plugins
     [OECompositionPlugin allPlugins];
+    
+    [[OELibraryDatabase defaultDatabase] save:nil];
 }
 
 - (void)setupHIDSupport
@@ -264,7 +266,7 @@
                                [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
                                [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
                               nil];
-    
+
     [self setHidManager:[[[OEHIDManager alloc] init] autorelease]];
     [[self hidManager] registerDeviceTypes:matchingTypes];
 }

@@ -68,8 +68,12 @@
 
 + (id)_createRomWithoutChecksWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError; 
 {
-    if(filePath == nil) return nil;
-    
+    if(filePath == nil)
+    {
+        if(outError!=NULL)
+        *outError = [NSError errorWithDomain:@"OEErrorDomain" code:0 userInfo:[NSDictionary dictionaryWithObject:@"_createRomWithoutChecksWithFilePath called without filepath" forKey:NSLocalizedDescriptionKey]];
+        return nil;   
+    }    
     NSManagedObjectContext* context = [database managedObjectContext];
     NSEntityDescription* description = [self entityDescriptionInContext:context];
     OEDBRom* rom = [[OEDBRom alloc] initWithEntity:description insertIntoManagedObjectContext:context];
@@ -99,6 +103,8 @@
         {
             [context deleteObject:rom];
             [rom release];
+            if(outError!=NULL)
+            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:1 userInfo:[NSDictionary dictionaryWithObject:@"Copying ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
             return nil;
         }
     }
@@ -118,6 +124,8 @@
             
             [context deleteObject:rom];
             [rom release];
+            if(outError!=NULL)
+                *outError = [NSError errorWithDomain:@"OEErrorDomain" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Calculating Hash for ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
             return nil;
         }
         
