@@ -177,9 +177,7 @@ typedef enum
         NSLog(@"Error: %@", *outError);
         return nil;
     }
-    
-    [[doc XMLData] writeToFile:[[NSString stringWithFormat:@"~/RAW Response %f.plist", rand()] stringByExpandingTildeInPath] atomically:YES];
-    
+        
     // Handle Search Result
     if(op==AVGSearch || op==AVGGetGames)
     {

@@ -56,7 +56,7 @@
 - (NSComparisonResult)OE_compare:(OECompositionPlugin *)value
 {
     return [[self name] caseInsensitiveCompare:[value name]];
-}
+} 
 
 static NSMutableDictionary *plugins = nil;
 
