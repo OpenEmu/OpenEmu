@@ -351,7 +351,7 @@
         NSMutableDictionary *systemDocument = [NSMutableDictionary dictionary];
         
         for(NSString *type in [plugin supportedTypeExtensions])
-        {            
+        {
             [systemDocument setObject:@"OEGameDocument"                 forKey:@"NSDocumentClass"];
             [systemDocument setObject:@"Viewer"                         forKey:@"CFBundleTypeRole"];
             [systemDocument setObject:@"Owner"                          forKey:@"LSHandlerRank"];
