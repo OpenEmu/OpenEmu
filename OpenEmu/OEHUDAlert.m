@@ -373,6 +373,8 @@
 {
     if(messageText==nil) messageText = @"";
     [[self messageTextView] setString:messageText];
+    NSRect textViewFrame = NSInsetRect((NSRect){{0,0}, [self boxView].frame.size}, 46, 23);
+    [[self messageTextView] setFrame:textViewFrame];
     [[self messageTextView] setHidden:[messageText length]==0];
 }
 
@@ -518,15 +520,20 @@
     [[self messageTextView] setDrawsBackground:NO];
     [[self messageTextView] setAutoresizingMask:NSViewMinYMargin|NSViewWidthSizable];
     [[self messageTextView] setFont:font];
-    
     [[self messageTextView] setTextColor:[NSColor whiteColor]];
+
+    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc] init];
+    [style setAlignment:NSCenterTextAlignment];
+    [[self messageTextView] setDefaultParagraphStyle:style];
+    [style release];
     
     NSShadow* shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
     [shadow setShadowBlurRadius:0];
     [shadow setShadowOffset:(NSSize){0,-1}];
     [[self messageTextView] setShadow:shadow];
-    [[self messageTextView] setFrame:NSInsetRect((NSRect){{0,0}, [self boxView].frame.size}, 46, 29)];
+    NSRect textViewFrame = NSInsetRect((NSRect){{0,0}, [self boxView].frame.size}, 46, 23);
+    [[self messageTextView] setFrame:textViewFrame];
     [[self messageTextView] setHidden:YES];
     [[self boxView] addSubview:[self messageTextView]];
     [shadow release];
@@ -584,7 +591,7 @@
     labelCell = [[OECenteredTextFieldCell alloc] init];
     
     shadow = [[NSShadow alloc] init];
-    [shadow setShadowColor:[NSColor whiteColor]];
+    [shadow setShadowColor:[NSColor blackColor]];
     [shadow setShadowBlurRadius:0];
     [shadow setShadowOffset:(NSSize){0,-1}];
     
