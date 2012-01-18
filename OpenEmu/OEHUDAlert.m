@@ -524,6 +524,7 @@
 
     NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc] init];
     [style setAlignment:NSCenterTextAlignment];
+    [style setLineSpacing:7];
     [[self messageTextView] setDefaultParagraphStyle:style];
     [style release];
     

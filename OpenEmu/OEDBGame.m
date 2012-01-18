@@ -199,7 +199,8 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     OEDBSystem* system = [OEDBSystem systemForFile:path inDatabase:database];
     if(!system)
     {
-        *outError = [NSError errorWithDomain:@"OEErrorDomain" code:3 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Could not get system for file at path: %@!", path] forKey:NSLocalizedDescriptionKey]];
+        if(outError != NULL)
+            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:3 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Could not get system for file at path: %@!", path] forKey:NSLocalizedDescriptionKey]];
         
         [context deleteObject:game];
         [context deleteObject:rom];
@@ -316,7 +317,7 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     NSNumber* archiveID;
     if([self valueForKey:@"archiveID"] && (archiveID = [self valueForKey:@"archiveID"]) && [archiveID integerValue]!=0)
     {
-        gameInfo = [ArchiveVG gameInfoByID:[archiveID integerValue]];
+        gameInfo = [[ArchiveVG gameInfoByID:[archiveID integerValue]] retain];
     } 
     else
     {

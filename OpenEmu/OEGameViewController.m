@@ -58,11 +58,10 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         NSString* path = [[self rom] valueForKey:@"path"];
         
         if(!path){
-            [self release];
             if(outError != NULL)
                 // TODO: Implement proper error
                 *outError = [NSError errorWithDomain:@"OESomeErrorDomain" code:0 userInfo:[NSDictionary dictionary]];
-            self = nil;
+            [self release];
             return nil;
         }
         
@@ -78,13 +77,12 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         NSError* error = nil;
         if(![self loadFromURL:url error:&error])
         {
-            [self release];
-            self = nil;
-            
             if(outError != NULL)
                 *outError = error;
             else 
                 [NSApp presentError:error];
+            
+            [self release];
             return nil;
         }
         
