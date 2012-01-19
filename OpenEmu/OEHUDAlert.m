@@ -545,7 +545,6 @@
     [shadow setShadowBlurRadius:0];
     [shadow setShadowOffset:(NSSize){0,-1}];
     
-    
     OEHUDTextFieldCell* inputCell = [[OEHUDTextFieldCell alloc] init];
     [[self inputField] setCell:inputCell];
     [inputCell release];

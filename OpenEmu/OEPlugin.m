@@ -240,7 +240,6 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
             NSString *openEmuSearchPath = [@"OpenEmu" stringByAppendingPathComponent:folder];
             
             NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
-            
             NSFileManager *manager = [NSFileManager defaultManager];
             
             for(NSString *path in paths)

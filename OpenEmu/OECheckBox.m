@@ -63,6 +63,14 @@
 - (void)awakeFromNib
 {
 }
+
+
+- (NSPoint)badgePosition
+{
+    float y = [self frame].origin.y -1;
+    float x = [self frame].origin.x + [[[self cell] attributedTitle] size].width + 24 + 3;
+    return (NSPoint){x, y};
+}
 @end
 
 @implementation OECheckBoxCell

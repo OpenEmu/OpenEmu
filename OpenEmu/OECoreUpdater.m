@@ -194,12 +194,12 @@ static OECoreUpdater* sharedController = nil;
     self.alert.messageText = nil;
     
     [self.alert setAlternateButtonAction:@selector(cancelInstall) andTarget:self];
-    
-    OECoreDownload* pluginDL = [self.coresDict valueForKey:self.coreIdentifier];
+    NSLog(@"%@", [self coresDict]);
+    OECoreDownload* pluginDL = [[self coresDict] valueForKey:self.coreIdentifier];
     if(!pluginDL)
     {
         [self checkForNewCores:[NSNumber numberWithBool:YES]];
-        pluginDL = [self.coresDict valueForKey:self.coreIdentifier];
+        pluginDL = [[self coresDict] valueForKey:self.coreIdentifier];
     }
     
     if(!pluginDL)

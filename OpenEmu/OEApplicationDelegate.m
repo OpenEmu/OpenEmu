@@ -251,6 +251,7 @@
     [OECompositionPlugin allPlugins];
     
     [[OELibraryDatabase defaultDatabase] save:nil];
+    [[OELibraryDatabase defaultDatabase] disableSystemsWithoutPlugin];
 }
 
 - (void)setupHIDSupport

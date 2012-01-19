@@ -22,6 +22,8 @@
     system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
     // TODO: get archive id(s) from plugin
     [system setValue:systemIdentifier forKey:@"systemIdentifier"];
+    [system setValue:[system name] forKey:@"lastLocalizedName"];
+    
     return [system autorelease];
 }
 
@@ -97,8 +99,8 @@
 }
 
 - (NSString*)name{
-    
-    return [[self plugin] systemName];
+    if([self plugin])   return [[self plugin] systemName];
+    else                return [self valueForKey:@"lastLocalizedName"];
 }
 
 @end

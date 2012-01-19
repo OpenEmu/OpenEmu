@@ -220,6 +220,19 @@ static OELibraryDatabase* defaultDatabase = nil;
     NSLog(@"Did save Database");
 }
 #pragma mark -
+#pragma mark Administration
+- (void)disableSystemsWithoutPlugin
+{
+    NSArray* allSystems = [self systems];
+    for(OEDBSystem* aSystem in allSystems)
+    {
+        if([aSystem plugin]) continue;
+
+        [aSystem setValue:[NSNumber numberWithBool:FALSE] forKey:@"enabled"];
+    }
+}
+
+#pragma mark -
 #pragma mark Database Info
 
 

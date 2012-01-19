@@ -31,6 +31,9 @@
 
 + (OELibraryDatabase*)defaultDatabase;
 #pragma mark -
+#pragma mark Administration
+- (void)disableSystemsWithoutPlugin;
+#pragma mark -
 #pragma mark Database queries
 - (NSArray*)systems;
 - (NSArray*)enabledSystems;
