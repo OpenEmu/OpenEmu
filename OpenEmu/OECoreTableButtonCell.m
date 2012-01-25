@@ -11,6 +11,10 @@
 @implementation OECoreTableButtonCell
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OECoreTableButtonCell class])
+        return;
+
     NSImage* image = [NSImage imageNamed:@"slim_dark_pill_button"];
     [image setName:@"slim_dark_pill_button_normal" forSubimageInRect:(NSRect){{0,image.size.height/2},{image.size.width, image.size.height/2}}];
     [image setName:@"slim_dark_pill_button_pressed" forSubimageInRect:(NSRect){{0,0},{image.size.width, image.size.height/2}}];

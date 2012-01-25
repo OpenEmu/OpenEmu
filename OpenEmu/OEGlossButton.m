@@ -83,6 +83,10 @@
 
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEGlossButtonCell class])
+        return;
+
 	NSImage* image = [NSImage imageNamed:@"gloss_button"];
     
     float buttonHeight = 23.0;

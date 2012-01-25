@@ -32,6 +32,10 @@
 @synthesize emptyCollectionView, emptyConsoleView;
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OECollectionViewController class])
+        return;
+
     // Indicators for list view
     NSImage* image = [NSImage imageNamed:@"list_indicators"];
     

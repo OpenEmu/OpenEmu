@@ -25,6 +25,10 @@
 }
 
 + (void)initialize{
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OECoreSliderCell class])
+        return;
+
     NSImage* image = [NSImage imageNamed:@"mark_slider_track"];
     
     [image setName:@"mark_slider_track_normal" forSubimageInRect:NSMakeRect(0, 0, 8, 6)];

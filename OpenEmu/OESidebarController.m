@@ -27,6 +27,10 @@
 
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OESidebarController class])
+        return;
+
     // Collection Icons for sidebar
     NSImage* image = [NSImage imageNamed:@"collections"];
     

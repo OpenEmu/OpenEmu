@@ -42,6 +42,10 @@ static OELibraryDatabase* defaultDatabase = nil;
 #define consoleImagesY consoleIcons.size.height-16*(row+1)
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OELibraryDatabase class])
+        return;
+
     NSImage* consoleIcons = [NSImage imageNamed:@"consoles"];
     
     // top Left -> bottom right
