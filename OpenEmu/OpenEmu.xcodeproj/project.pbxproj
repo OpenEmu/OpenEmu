@@ -517,7 +517,6 @@
 		EF2FDBF214D00AB3002A64F2 /* NSApplication+OEHIDAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C6B7AB740FB5AF94004385F5 /* NSApplication+OEHIDAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EF2FDBF314D00AB9002A64F2 /* NSApplication+OEHIDAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6B7AB750FB5AF94004385F5 /* NSApplication+OEHIDAdditions.m */; };
 		EF2FDBF614D00B8D002A64F2 /* OEGameControllerView.m in Sources */ = {isa = PBXBuildFile; fileRef = C6AFE0D50FED6FDF00AC0CCF /* OEGameControllerView.m */; };
-		EF2FDBF714D00B9D002A64F2 /* OEUIDrawingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B0913B92EF2005C0CC8 /* OEUIDrawingUtils.m */; };
 		EF2FDBF814D00BB6002A64F2 /* OESystemResponderClient.h in Headers */ = {isa = PBXBuildFile; fileRef = C63E7C11136298F4001CC78B /* OESystemResponderClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EF2FDBF914D00C1C002A64F2 /* OELocalizationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B6E43E143E090800BCDB7A /* OELocalizationHelper.m */; };
 		EF2FDBFA14D00C22002A64F2 /* OELocalizationHelper.h in Headers */ = {isa = PBXBuildFile; fileRef = 83B6E43D143E090800BCDB7A /* OELocalizationHelper.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -922,7 +921,6 @@
 		53439B0513B92EEC005C0CC8 /* OEGridViewFieldEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridViewFieldEditor.h; sourceTree = "<group>"; };
 		53439B0613B92EEC005C0CC8 /* OEGridViewFieldEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridViewFieldEditor.m; sourceTree = "<group>"; };
 		53439B0813B92EF2005C0CC8 /* OEUIDrawingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEUIDrawingUtils.h; sourceTree = "<group>"; };
-		53439B0913B92EF2005C0CC8 /* OEUIDrawingUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEUIDrawingUtils.m; sourceTree = "<group>"; };
 		53439B0C13B92FFA005C0CC8 /* OESidebarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarCell.h; sourceTree = "<group>"; };
 		53439B0D13B92FFA005C0CC8 /* OESidebarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESidebarCell.m; sourceTree = "<group>"; };
 		53439B0E13B92FFA005C0CC8 /* OESidebarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESidebarController.h; sourceTree = "<group>"; };
@@ -2166,7 +2164,6 @@
 			isa = PBXGroup;
 			children = (
 				53439B0813B92EF2005C0CC8 /* OEUIDrawingUtils.h */,
-				53439B0913B92EF2005C0CC8 /* OEUIDrawingUtils.m */,
 			);
 			name = Utilities;
 			sourceTree = "<group>";
@@ -3874,7 +3871,6 @@
 				EF2FDBEC14CFFE11002A64F2 /* OEControlsKeyLabelCell.m in Sources */,
 				EF2FDBED14CFFE1B002A64F2 /* OEControlsKeySeparatorView.m in Sources */,
 				EF2FDBF614D00B8D002A64F2 /* OEGameControllerView.m in Sources */,
-				EF2FDBF714D00B9D002A64F2 /* OEUIDrawingUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

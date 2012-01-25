@@ -194,7 +194,7 @@
     // calculate rect for title layer
     titleRect = CGRectMake(self.bounds.origin.x, (self.bounds.size.height-titleHeight-titleImageSpacing-subtitleHeight+titleImageSpacing), self.bounds.size.width, titleHeight);
     // calculate rect for rating layer
-    ratingRect = RoundCGRect(CGRectMake(self.bounds.origin.x+(self.bounds.size.width-subtitleWidth)/2, titleRect.origin.y+titleRect.size.height, subtitleWidth, subtitleHeight));
+    ratingRect = CGRectIntegral(CGRectMake(self.bounds.origin.x+(self.bounds.size.width-subtitleWidth)/2, titleRect.origin.y+titleRect.size.height, subtitleWidth, subtitleHeight));
     // make sure it has correct size to prevent sub pixel stuff
     ratingRect.size = CGSizeMake(55, 11);
     
@@ -283,7 +283,7 @@
     }
     
     // Determine actual frame for image
-    CGRect coverImageRect = RoundCGRect(CGRectMake(imageContainerRect.origin.x+(imageContainerRect.size.width-width)/2, imageContainerRect.origin.y+imageContainerRect.size.height-height, width, height));
+    CGRect coverImageRect = CGRectIntegral(CGRectMake(imageContainerRect.origin.x+(imageContainerRect.size.width-width)/2, imageContainerRect.origin.y+imageContainerRect.size.height-height, width, height));
     
     self.glossLayer.frame = coverImageRect;
     self.imageLayer.frame = coverImageRect;
@@ -555,7 +555,7 @@
     
     [self insertSublayer:newImageLayer above:self.imageLayer];
     
-    CGRect newCoverImageRect = RoundCGRect(CGRectMake(imageContainerRect.origin.x+(imageContainerRect.size.width-width)/2, imageContainerRect.origin.y+imageContainerRect.size.height-height, width, height));
+    CGRect newCoverImageRect = CGRectIntegral(CGRectMake(imageContainerRect.origin.x+(imageContainerRect.size.width-width)/2, imageContainerRect.origin.y+imageContainerRect.size.height-height, width, height));
     
     [self resizeLayer:self.imageLayer to:newCoverImageRect.size];
     [self resizeLayer:self.glossLayer to:newCoverImageRect.size];
@@ -595,7 +595,7 @@
     
     // Space between left layer border and left side of image
     float imageBorderLeft = 13;
-    CGRect newCoverImageRect = RoundCGRect(CGRectMake(imageBorderLeft+(imageContainerRect.size.width-width)/2, imageContainerRect.origin.y+imageContainerRect.size.height-height, width, height));
+    CGRect newCoverImageRect = CGRectIntegral(CGRectMake(imageBorderLeft+(imageContainerRect.size.width-width)/2, imageContainerRect.origin.y+imageContainerRect.size.height-height, width, height));
     
     NSUInteger index = [[self sublayers] indexOfObjectIdenticalTo:self.imageLayer]+1;
     CALayer* newImageLayer = [[self sublayers] objectAtIndex:index];

@@ -211,7 +211,7 @@
                     
                     float columnWidth = buttonWidth+labelWidth+labelButtonSpacing;
                     NSRect headlineFrame = (NSRect){{x-columnWidth,y},{columnWidth, labelHeight}};
-                    [item setFrame:RoundNSRect(headlineFrame)];
+                    [item setFrame:NSIntegralRect(headlineFrame)];
                     [self addSubview:item];
                     
                     continue;
@@ -225,7 +225,7 @@
                     float columnWidth = buttonWidth+labelWidth+labelButtonSpacing;
                     
                     NSRect seperatorLineRect = (NSRect){{x-labelWidth+8.0, y-buttonHeight},{columnWidth-6.0, buttonHeight}};
-                    [item setFrame:RoundNSRect(seperatorLineRect)];
+                    [item setFrame:NSIntegralRect(seperatorLineRect)];
                     [self addSubview:item];
                     
                     inGroup = NO;
@@ -241,10 +241,10 @@
                     buttonRect.origin.x += groupXIndent;
                     buttonRect.size.width -= groupXIndent/2;
                 }
-                [item setFrame:RoundNSRect(buttonRect)];
+                [item setFrame:NSIntegralRect(buttonRect)];
                 
                 NSTextField* label = [aColumn objectAtIndex:j+1];
-                NSRect labelRect = RoundNSRect(NSMakeRect(buttonRect.origin.x-labelWidth-labelButtonSpacing, buttonRect.origin.y-4, labelWidth, labelHeight));
+                NSRect labelRect = NSIntegralRect(NSMakeRect(buttonRect.origin.x-labelWidth-labelButtonSpacing, buttonRect.origin.y-4, labelWidth, labelHeight));
                 BOOL multiline = [label attributedStringValue].size.width >= labelRect.size.width;
                 if(multiline)
                 {
