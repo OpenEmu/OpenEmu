@@ -35,21 +35,12 @@
 
 #import "NSClipView+OEAnimatedScrolling.h"
 
+#import "OEUIDrawingUtils.h"
+
 #ifndef UDControlsButtonHighlightRollsOver
 #define UDControlsButtonHighlightRollsOver @"ButtonHighlightRollsOver"
 #endif
 @implementation OEGameControllerView
-NSRect RoundNSRect(NSRect imageFrame);
-NSRect RoundNSRect(NSRect imageFrame)
-{
-    imageFrame.origin.x = floorf(imageFrame.origin.x);
-    imageFrame.origin.y = floorf(imageFrame.origin.y);
-    imageFrame.size.width = ceilf(imageFrame.size.width);
-    imageFrame.size.height = ceilf(imageFrame.size.height);
-    
-    return imageFrame;
-}
-
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
