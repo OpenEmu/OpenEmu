@@ -1058,11 +1058,12 @@ typedef enum
 - (void)_setupDragIndicationLayer
 {
     CALayer* diLayer = [CALayer layer];
-    diLayer.borderColor = [[NSColor colorWithDeviceRed:0.082 green:0.325 blue:0.67 alpha:1] CGColor];
-    diLayer.borderWidth = 1;
+    diLayer.borderColor = [[NSColor colorWithDeviceRed:0.03f green:0.41f blue:0.85f alpha:1.0f] CGColor];
+    diLayer.borderWidth = 2.0f;
+    diLayer.cornerRadius = 8.0f;
     diLayer.hidden = YES;
     diLayer.delegate = self;
-    
+
     [self.layer addSublayer:diLayer];
     self.dragIndicationLayer = diLayer;
 }
