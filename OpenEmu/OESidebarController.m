@@ -16,6 +16,7 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 #import "OEDBGame.h"
+#import "OECollectionViewItemProtocol.h"
 
 @interface OESidebarController ()
 - (void)_setupDrop;
@@ -203,10 +204,16 @@
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
     OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
-    id selectedCollection = [sidebarView itemAtRow:[sidebarView selectedRow]];
+    id<OECollectionViewItemProtocol> selectedCollection = [sidebarView itemAtRow:[sidebarView selectedRow]];
     
+    // Selected item is not valid...header maybe?
+    if (![selectedCollection conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
+        return;
+
     NSDictionary* userInfo = selectedCollection?[NSDictionary dictionaryWithObject:selectedCollection forKey:@"selectedCollection"]:nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SidebarSelectionChanged" object:self userInfo:userInfo];
+
+    [[NSUserDefaults standardUserDefaults] setValue:[selectedCollection collectionViewName] forKey:UDLastCollectionSelectedKey];
 }
 
 - (void)outlineViewSelectionIsChanging:(NSNotification *)notification

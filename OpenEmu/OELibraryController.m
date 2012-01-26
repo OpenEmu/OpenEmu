@@ -93,9 +93,7 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     [collectionViewController view];
     
     // Select first view
-    // to do: restore last selected collection item
     [collectionViewController setLibraryController:self];
-    [collectionViewController setCollectionItem:nil];
     [collectionViewController finishSetup];
     
     // setup splitview
@@ -129,7 +127,27 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     
     [[self sidebarController] reloadData];
     
+    // Restore last selected collection item
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    id collectionViewName = [standardUserDefaults valueForKey:UDLastCollectionSelectedKey];
+    id collectionItem = nil;
+
+    // Look for the collection item
+    if (collectionViewName && [collectionViewName isKindOfClass:[NSString class]])
+    {
+        NSPredicate *filterCollectionViewNamePredicate = [NSPredicate predicateWithFormat:@"collectionViewName == %@", collectionViewName];
+
+        collectionItem = [[[[self sidebarController] systems] filteredArrayUsingPredicate:filterCollectionViewNamePredicate] lastObject];
+        if (!collectionItem)
+            collectionItem = [[[[self sidebarController] collections] filteredArrayUsingPredicate:filterCollectionViewNamePredicate] lastObject];
+    }
+
+    // Select the found collection item, or select the first item by default
+    if (collectionItem)
+        [[self sidebarController] selectItem:collectionItem];
+    [[self sidebarController] outlineViewSelectionDidChange:nil];
+
+
     float splitterPos = 0;
     if([standardUserDefaults boolForKey:UDSidebarVisibleKey])
     {
