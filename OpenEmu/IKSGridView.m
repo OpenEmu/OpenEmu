@@ -235,7 +235,7 @@ typedef enum
     self.foregroundLayer.delegate = self;
     
     CALayer *rootLayer = [self layer];
-    [rootLayer insertSublayer:self.foregroundLayer atIndex:[[rootLayer sublayers] count]-1];
+    [rootLayer insertSublayer:self.foregroundLayer atIndex:[[rootLayer sublayers] count]-2];
     
     [self layoutDecorationViews];
 }
