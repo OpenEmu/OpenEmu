@@ -821,6 +821,7 @@ typedef enum
     
     NSPoint location = [self convertPoint:[sender draggingLocation] fromView:nil];
     CALayer <IKSGridItemLayerDragProtocol> * dragLayer = (CALayer <IKSGridItemLayerDragProtocol> *) [self _layerAtPoint:location];
+    NSDragOperation layerOp = NSDragOperationNone;
     
     if([dragLayer isKindOfClass:[IKSGridItemLayer class]] &&
        NSPointInRect(location, [(IKSGridItemLayer*)dragLayer hitRect]))
@@ -834,9 +835,12 @@ typedef enum
             return layerOp;
         }
     }
-    
-    self.dragIndicationLayer.hidden = NO;
-    return NSDragOperationCopy;
+
+    if([delegate respondsToSelector:@selector(gridView:validateDrop:)])
+        layerOp = [delegate gridView:self validateDrop:sender];
+
+    self.dragIndicationLayer.hidden = (layerOp == NSDragOperationNone);
+    return layerOp;
 }
 
 - (void)draggingExited:(id<NSDraggingInfo>)sender
@@ -855,11 +859,13 @@ typedef enum
 {
     
     NSPoint location = [self convertPoint:[sender draggingLocation] fromView:nil];
+    NSDragOperation layerOp = NSDragOperationNone;
+
     if(self.draggedLayer)
     {
         if(NSPointInRect(location, [self.draggedLayer frame]))
         {
-            NSDragOperation layerOp = [(CALayer <IKSGridItemLayerDragProtocol> *)self.draggedLayer draggingUpdated:sender];
+            layerOp = [(CALayer <IKSGridItemLayerDragProtocol> *)self.draggedLayer draggingUpdated:sender];
             if(layerOp!=NSDragOperationNone)
             {
                 self.dragIndicationLayer.hidden = YES;
@@ -885,21 +891,25 @@ typedef enum
     
     
     // determine if grid view can handle drop
-    
+    if([delegate respondsToSelector:@selector(gridView:validateDrop:)]) {
+        layerOp = [delegate gridView:self validateDrop:sender];
+        if(layerOp != NSDragOperationNone && [delegate respondsToSelector:@selector(gridView:updateDraggingItemsForDrag:)])
+            [delegate gridView:self updateDraggingItemsForDrag:sender];
+    }
     
     // indicate whatever we decided
-    self.dragIndicationLayer.hidden = NO;
-    
-    
-    return NSDragOperationCopy;
+    self.dragIndicationLayer.hidden = (layerOp == NSDragOperationNone);
+    return layerOp;
 }
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
-    if(self.draggedLayer) return [(CALayer <IKSGridItemLayerDragProtocol> *)self.draggedLayer performDragOperation:sender];
-    
     self.dragIndicationLayer.hidden = YES;
-    
+
+    if(self.draggedLayer)
+        return [(CALayer <IKSGridItemLayerDragProtocol> *)self.draggedLayer performDragOperation:sender];
+    else if([delegate respondsToSelector:@selector(gridView:acceptDrop:)])
+        return [delegate gridView:self acceptDrop:sender];
     return NO;
 }
 #pragma mark -
