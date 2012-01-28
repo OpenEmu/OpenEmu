@@ -19,6 +19,10 @@
 @implementation OEHUDWindow
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEHUDWindow class])
+        return;
+
     if([NSImage imageNamed:@"hud_window_active"]) return;
     NSImage* img = [NSImage imageNamed:@"hud_window"];
     

@@ -17,6 +17,10 @@
 @synthesize key;
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OESetupAssistantKeyMapView class])
+        return;
+
     NSSize itemSize = NSMakeSize(100, 101);
     NSImage* spritesheet = [NSImage imageNamed:@"installer_gamepad_graphics"];
     [spritesheet setName:@"installer_gamepad_up" forSubimageInRect:   (NSRect){{0*itemSize.width, 1*itemSize.height},itemSize}];

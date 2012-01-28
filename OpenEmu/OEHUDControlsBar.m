@@ -341,6 +341,10 @@
 
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEHUDControlsBarView class])
+        return;
+
     NSImage* spriteSheet = [NSImage imageNamed:@"hud_glyphs"];
     
     float itemHeight = (spriteSheet.size.height/5);

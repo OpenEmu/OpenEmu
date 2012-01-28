@@ -28,6 +28,10 @@
 
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEPopUpButtonCell class])
+        return;
+
 	NSImage* image = [NSImage imageNamed:@"dark_popup_button"];
 	
 	[image setName:@"dark_popup_button_normal" forSubimageInRect:NSMakeRect(0, image.size.height/2, image.size.width, image.size.height/2)];

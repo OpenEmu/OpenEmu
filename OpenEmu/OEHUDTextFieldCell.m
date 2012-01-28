@@ -18,6 +18,10 @@
 @synthesize isEditing;
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEHUDTextFieldCell class])
+        return;
+
     NSImage* image = [NSImage imageNamed:@"hud_textfield"];
     [image setName:@"hud_textfield_unfocused" forSubimageInRect:(NSRect){{0, 2*(image.size.height/3)},{image.size.width, image.size.height/3}}];
     [image setName:@"hud_textfield_inactive" forSubimageInRect:(NSRect){{0, 1*(image.size.height/3)},{image.size.width, image.size.height/3}}];

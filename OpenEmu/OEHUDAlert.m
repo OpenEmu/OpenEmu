@@ -627,6 +627,10 @@
 @implementation OEAlertWindow
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEAlertWindow class])
+        return;
+
     if([NSImage imageNamed:@"hud_alert_window_active"]) return;
     
     NSImage* hudWindowBorder = [NSImage imageNamed:@"hud_alert_window"];    

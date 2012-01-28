@@ -29,6 +29,10 @@
 
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEPrefButtonCell class])
+        return;
+
 	NSImage* image = [NSImage imageNamed:@"dark_button"];
 	
 	[image setName:@"dark_button_normal" forSubimageInRect:NSMakeRect(0, image.size.height/2, image.size.width, image.size.height/2)];
