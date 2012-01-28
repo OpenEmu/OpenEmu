@@ -12,8 +12,7 @@
 @class OEHUDProgressbar;
 
 typedef void (^OEAlertCompletionHandler)(OEHUDAlert* alert, NSUInteger result);
-@interface OEHUDAlert : NSObject
-{
+@interface OEHUDAlert : NSObject{
     NSWindow* _window;
     NSUInteger result;
     

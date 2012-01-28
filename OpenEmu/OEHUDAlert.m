@@ -11,6 +11,7 @@
 #import "OECheckBox.h"
 #import "OEHUDButtonCell.h"
 #import "OEHUDTextFieldCell.h"
+#import "OEHUDTextFieldEditor.h"
 #import "OECenteredTextFieldCell.h"
 
 #import "OEPreferencesPlainBox.h"
@@ -478,6 +479,7 @@
 {
     return [[self inputLabelField] stringValue];
 }
+
 #pragma mark -
 #pragma mark Private Methods
 - (void)_setupWindow
@@ -643,6 +645,14 @@
     return self;
 }
 
+- (NSText*)fieldEditor:(BOOL)createFlag forObject:(id)anObject
+{
+    if(anObject && [anObject respondsToSelector:@selector(cell)] && [[[anObject cell] className] isEqualToString:@"OEHUDTextFieldCell"])
+    {
+        return [OEHUDTextFieldEditor fieldEditor];
+    }
+    return [super fieldEditor:createFlag forObject:anObject];
+}
 #pragma mark OECustomWindow implementation
 - (BOOL)drawsAboveDefaultThemeFrame
 {
@@ -656,4 +666,5 @@
     NSImage* image = [NSImage imageNamed:@"hud_alert_window"];
     [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:24 bottomBorder:22];
 }
+
 @end
