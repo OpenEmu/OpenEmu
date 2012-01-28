@@ -19,20 +19,20 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.52.2</string>
+	<string>1.53</string>
 	<key>NSPrincipalClass</key>
 	<string>SNESGameController</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
-	<key>SUFeedURL</key>
-	<string>http://openemu.org/update/snes9x_appcast.xml</string>
-	<key>SUEnableAutomaticChecks</key>
-	<string>1</string>
+	<key>OEProjectURL</key>
+	<string>http://www.snes9x.com/</string>
 	<key>OESystemIdentifiers</key>
 	<array>
 		<string>openemu.system.snes</string>
 	</array>
-	<key>OEProjectURL</key>
-	<string>http://www.snes9x.com/</string>
+	<key>SUEnableAutomaticChecks</key>
+	<string>1</string>
+	<key>SUFeedURL</key>
+	<string>http://openemu.org/update/snes9x_appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 </dict>
 </plist>

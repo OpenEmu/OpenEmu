@@ -34,7 +34,6 @@
 #include "gfx.h"
 #include "display.h"
 #include "ppu.h"
-#include "soundux.h"
 #include "apu.h"
 #include "controls.h"
 #include "snes9x.h"
@@ -43,6 +42,9 @@
 #include "screenshot.h"
 #import "OESNESSystemResponderClient.h"
 
+#import <AudioToolbox/AudioToolbox.h>
+#import <AudioUnit/AudioUnit.h>
+#include <pthread.h>
 
 #define SAMPLERATE      48000
 #define SAMPLEFRAME     800
@@ -102,33 +104,24 @@ NSString *SNESEmulatorKeys[] = { @"A", @"B", @"X", @"Y", @"Up", @"Down", @"Left"
     Settings.ForceHeader         = false;
     Settings.ForceNoHeader       = false;
     
-    Settings.ForceSuperFX = Settings.ForceNoSuperFX = false;
-    Settings.ForceDSP1    = Settings.ForceNoDSP1    = false;
-    Settings.ForceSA1     = Settings.ForceNoSA1     = false;
-    Settings.ForceC4      = Settings.ForceNoC4      = false;
-    Settings.ForceSDD1    = Settings.ForceNoSDD1    = false;
-    
     Settings.MouseMaster = true;
     Settings.SuperScopeMaster = true;
     Settings.MultiPlayer5Master = true;
     Settings.JustifierMaster = true;
-    Settings.ShutdownMaster = false;
     Settings.BlockInvalidVRAMAccess = true;
     Settings.HDMATimingHack = 100;
-    Settings.APUEnabled = true;
-    Settings.NextAPUEnabled = true;
     Settings.SoundPlaybackRate = 48000;
     Settings.Stereo = true;
     Settings.SixteenBitSound = true;
-    Settings.SoundEnvelopeHeightReading = true;
-    Settings.DisableSampleCaching = false;
-    Settings.DisableSoundEcho = false;
-    Settings.InterpolatedSound = true;
     Settings.Transparency = true;
     Settings.SupportHiRes = true;
-    Settings.SDD1Pack = true;
-    GFX.InfoString = nil;
+    GFX.InfoString = NULL;
     GFX.InfoStringTimeout = 0;
+    //Settings.OpenGLEnable = true; -enable this and use (BOOL)rendersToOpenGL
+    Settings.SoundInputRate = 32000;
+    //Settings.DumpStreamsMaxFrames = -1;
+    //Settings.AutoDisplayMessages = true;
+    //Settings.FrameTimeNTSC = 16667;
     
     if(videoBuffer) 
         free(videoBuffer);
@@ -150,6 +143,12 @@ NSString *SNESEmulatorKeys[] = { @"A", @"B", @"X", @"Y", @"Up", @"Down", @"Left"
     if(!Memory.Init() || !S9xInitAPU() || !S9xGraphicsInit())
         NSLog(@"Couldn't init");
     NSLog(@"loading %@", path);
+
+    /* buffer_ms : buffer size given in millisecond
+     lag_ms    : allowable time-lag given in millisecond
+     S9xInitSound(macSoundBuffer_ms, macSoundLagEnable ? macSoundBuffer_ms / 2 : 0); */
+    if(!S9xInitSound(SIZESOUNDBUFFER, 0))
+        NSLog(@"Couldn't init sound");
     
     Settings.NoPatch = true;
     if(Memory.LoadROM([path UTF8String]))
@@ -168,29 +167,15 @@ NSString *SNESEmulatorKeys[] = { @"A", @"B", @"X", @"Y", @"Up", @"Down", @"Left"
         
             Memory.LoadSRAM([filePath UTF8String]);
         }
-        
-        S9xInitSound(1, Settings.Stereo, SIZESOUNDBUFFER);
     }
     return YES;
 }
 
-bool8 S9xOpenSoundDevice (int mode, bool8 stereo, int buffer_size)
+bool8 S9xOpenSoundDevice (void)
 {
-    NSLog(@"Open sound");
-    so.buffer_size = buffer_size;
-    
-    so.playback_rate = Settings.SoundPlaybackRate;
-    so.stereo        = Settings.Stereo;
-    so.sixteen_bit   = Settings.SixteenBitSound;
-    so.encoded       = false;
-    
-    so.samples_mixed_so_far = 0;
-    
-    S9xSetPlaybackRate(so.playback_rate);
-    
-    so.mute_sound = false;
-    return true;
+	return (true);
 }
+
 
 #pragma mark Video
 - (const void *)videoBuffer

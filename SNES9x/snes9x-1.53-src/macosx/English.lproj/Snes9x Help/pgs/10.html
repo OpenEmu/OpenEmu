@@ -1,0 +1,84 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en-US">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta http-equiv="content-style-type" content="text/css">
+		<meta name="description" content="Miscellaneous">
+		<link href="../sty/style.css" rel="stylesheet">
+		<style type="text/css">
+			<!-- ul { list-style-type:none } -->
+		</style>
+		<title>Miscellaneous</title>
+	</head>
+	<body>
+		<h2>Miscellaneous</h2>
+		<h3>Where the Files are Stored</h3>
+		<p>
+			You can choose where Snes9x will look for BIOS images, patches (.ips), cheats (.cht), SRAM files (.srm), RTC files (.rtc) and freeze files (.frz) in 'File' tab in 'Preferences' dialog.
+		</p>
+		<dl>
+			<dt>Snes9x Folder</dt>
+			<dd>the subdirectories will be searched in the same folder as Snes9x.</dd>
+			<dt>ROM Folder</dt>
+			<dd>the files will all be in the same folder as the ROM image being used.</dd>
+			<dt>Application Support Folder (default)</dt>
+			<dd>the subdirectories will be created and searched in /Users/yourname/Library/Application Support/Snes9x.</dd>
+			<dt>Other...</dt>
+			<dd>the subdirectories will be created and searched in any folder you choose.</dd>
+		</dl>
+		<h3>Which Display is Used in Full Screen Mode</h3>
+		<p>
+			If you use two or more displays, in full screen mode Snes9x uses the display where the game window is shown.
+		</p>
+		<h3>Handling the Game Window</h3>
+		<p>
+			The zoom button changes the window size as follows: 1x, 1x(wide), 2x, 2x(wide), 3x, 3x(wide), 4x, 4x(wide). 'wide' is mainly for the NTSC filters.<br>
+			Dragging the resize control changes the window size manually. Dragging with pressing shift key keeps the aspect ratio of the window.
+		</p>
+		<p>
+			The toolbar control appears when 'Keep Overscanned Height' in 'Preferences' dialog is off. It toggles the behavior when the SNES screen resolution changes: keeping the aspect ratio of the pixels with two black bars on the top and bottom of the window / always filling the window with the SNES screen without considering the aspect ratio of the pixels.
+		</p>
+		<h3>Using IPS or UPS Patch</h3>
+		<p>
+			Snes9x automatically patches without overwriting the ROM image.
+		</p>
+		<ul style="list-style-type:disc">
+			<li>Put the IPS or UPS file into the proper directory. 'Patches' folder by default.</li>
+			<li>Rename the name to the same as the ROM image (except extension, it is '.ips' or '.ups').</li>
+			<li>(IPS only) If you want to use multiple IPS files at a time, set their extensions to '.000.ips', '.001.ips', ...</li>
+			<li>Make sure 'Use IPS / UPS Patch' is checked in 'Others' tab in 'Preferences' dialog.</li>
+			<li>Open and load the ROM image.</li>
+		</ul>
+		<h3>SPC File Dumping</h3>
+		<p>
+			SPC file (.spc) is the freeze state of only sound part, so it is known as SNES music data file. Dump the SPC file by Snes9x and play the file by SPC players like Audio Overload and PSFPlay.<br>
+			Assign your gamepad button or keyboard to 'SPC' button in 'Configure Controllers' or 'Configure Keyboard' dialog. To dump a SPC file, press 'SPC' button while playing a game, or choose 'Save SPC File at Next Note-on' in 'Option' menu and resume the game.<br>
+			Note that the actual dumping occurs at the next note-on event so that you can dump the BGM from just the beginning.
+		</p>
+		<h3>Music Box</h3>
+		<p>
+			Music Box is to play the game music without playing the game. Pause the game and enter Music Box by 'Music Box...' in 'Option' menu, and you can enjoy the music with doing other things like surfing Internet.<br>
+			There are two modes for playing music. Select in 'Others' tab in 'Preferences' dialog.
+		</p>
+		<dl>
+			<dt>Sound Emulation Only</dt>
+			<dd>in a shooting game, you may listen BGM endlessly.</dd>
+			<dt>Whole Emulation</dt>
+			<dd>in a shooting game, you may hear explosion sound and game over music.</dd>
+		</dl>
+		<p>
+			Each mode stores the emulated state before entering Music Box, and restores after closing Music Box. 'Whole Emulation' makes a temporal freeze file.
+		</p>
+		<h3>Sound Effect</h3>
+		<p>
+			You can use Apple's Matrix Reverb and/or Graphic Equalizer to enhance the game sounds. Call 'Sound Effect' dialog from 'Preferences' or 'Music Box' dialog.
+		</p>
+		<h3>Core Image Filters</h3>
+		<p>
+			In Mac OS X 10.4 or later, some of the Core Image filters can be applied to the game screen. Turn on 'Use Core Image' in 'Preferences' dialog and choose 'Core Image Filter...' menu while playing a game.
+		</p>
+		<div style="text-align:center; margin-top:3em"><p>	
+			&lt;<a href="09.html">Prev</a>&nbsp;&nbsp;<a href="../index.html">Top</a>&nbsp;&nbsp;<a href="11.html">Next</a>&gt;
+		</p></div>
+	</body>
+</html>
