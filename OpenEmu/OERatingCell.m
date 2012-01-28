@@ -20,7 +20,7 @@
 		
 	NSRect sourceRect = [self imageRectForValue:[[self objectValue] intValue] andState:state];
 	NSRect targetRect = NSMakeRect(cellFrame.origin.x+(cellFrame.size.width-sourceRect.size.width)/2, cellFrame.origin.y+(cellFrame.size.height-sourceRect.size.height)/2, sourceRect.size.width, sourceRect.size.height);
-	[image drawInRect:RoundNSRect(targetRect) fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:0 rightBorder:0 topBorder:0 bottomBorder:0];
+	[image drawInRect:NSIntegralRect(targetRect) fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:0 rightBorder:0 topBorder:0 bottomBorder:0];
 }
 
 - (NSRect)imageRectForValue:(int)rating andState:(OEUIState)state{

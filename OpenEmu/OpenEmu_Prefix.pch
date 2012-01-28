@@ -110,6 +110,7 @@
 #define UDLastGridSizeKey           @"lastGridSize"
 #define UDLastCollectionViewKey     @"lastCollectionView"
 #define UDLastPopoutFrameKey        @"lastPopoutFrame"
+#define UDLastCollectionSelectedKey @"lastCollectionSelected"
 
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Tags identifying Main Menu items

@@ -90,6 +90,10 @@
 
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OECheckBoxCell class])
+        return;
+
     NSImage* image = [NSImage imageNamed:@"dark_checkbox"];
     
     [image setName:@"dark_checkbox_off" forSubimageInRect:NSMakeRect(0, 16, 16, 16)];

@@ -181,8 +181,9 @@ typedef enum
 - (void)layoutDecorationViews
 {
     CGRect frame = layoutManager.visibleRect;
-    frame.origin.y = self.frame.size.height-layoutManager.visibleRect.origin.y - layoutManager.visibleRect.size.height;
-    
+    frame.origin.y = self.frame.size.height - layoutManager.visibleRect.origin.y - layoutManager.visibleRect.size.height;
+    frame.size.width--;
+    frame.size.height--;
     if(self.backgroundLayer)
     {
         self.backgroundLayer.frame = frame;
@@ -192,6 +193,7 @@ typedef enum
     {
         self.foregroundLayer.frame = frame;
     }
+    self.dragIndicationLayer.frame = CGRectInset(frame, 1.0f, 1.0f);
     
     [[self subviews] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         if([obj isKindOfClass:[OEGridBlankSlateView class]])
@@ -233,7 +235,7 @@ typedef enum
     self.foregroundLayer.delegate = self;
     
     CALayer *rootLayer = [self layer];
-    [rootLayer insertSublayer:self.foregroundLayer atIndex:[[rootLayer sublayers] count]-1];
+    [rootLayer insertSublayer:self.foregroundLayer atIndex:[[rootLayer sublayers] count]-2];
     
     [self layoutDecorationViews];
 }
@@ -413,12 +415,6 @@ typedef enum
     [CATransaction begin];
     [CATransaction setValue:(id)kCFBooleanTrue
                      forKey:kCATransactionDisableActions];
-    
-    CGRect frame = layoutManager.visibleRect;
-    frame.origin.y = self.frame.size.height-layoutManager.visibleRect.origin.y - layoutManager.visibleRect.size.height;
-    self.dragIndicationLayer.frame = frame;
-    
-    
     [self layoutDecorationViews];
     [CATransaction commit];
 }
@@ -1062,11 +1058,12 @@ typedef enum
 - (void)_setupDragIndicationLayer
 {
     CALayer* diLayer = [CALayer layer];
-    diLayer.borderColor = [[NSColor colorWithDeviceRed:0.082 green:0.325 blue:0.67 alpha:1] CGColor];
-    diLayer.borderWidth = 1;
+    diLayer.borderColor = [[NSColor colorWithDeviceRed:0.03f green:0.41f blue:0.85f alpha:1.0f] CGColor];
+    diLayer.borderWidth = 2.0f;
+    diLayer.cornerRadius = 8.0f;
     diLayer.hidden = YES;
     diLayer.delegate = self;
-    
+
     [self.layer addSublayer:diLayer];
     self.dragIndicationLayer = diLayer;
 }

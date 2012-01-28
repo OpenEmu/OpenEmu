@@ -35,21 +35,12 @@
 
 #import "NSClipView+OEAnimatedScrolling.h"
 
+#import "OEUIDrawingUtils.h"
+
 #ifndef UDControlsButtonHighlightRollsOver
 #define UDControlsButtonHighlightRollsOver @"ButtonHighlightRollsOver"
 #endif
 @implementation OEGameControllerView
-NSRect RoundNSRect(NSRect imageFrame);
-NSRect RoundNSRect(NSRect imageFrame)
-{
-    imageFrame.origin.x = floorf(imageFrame.origin.x);
-    imageFrame.origin.y = floorf(imageFrame.origin.y);
-    imageFrame.size.width = ceilf(imageFrame.size.width);
-    imageFrame.size.height = ceilf(imageFrame.size.height);
-    
-    return imageFrame;
-}
-
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
@@ -220,7 +211,7 @@ NSRect RoundNSRect(NSRect imageFrame)
                     
                     float columnWidth = buttonWidth+labelWidth+labelButtonSpacing;
                     NSRect headlineFrame = (NSRect){{x-columnWidth,y},{columnWidth, labelHeight}};
-                    [item setFrame:RoundNSRect(headlineFrame)];
+                    [item setFrame:NSIntegralRect(headlineFrame)];
                     [self addSubview:item];
                     
                     continue;
@@ -234,7 +225,7 @@ NSRect RoundNSRect(NSRect imageFrame)
                     float columnWidth = buttonWidth+labelWidth+labelButtonSpacing;
                     
                     NSRect seperatorLineRect = (NSRect){{x-labelWidth+8.0, y-buttonHeight},{columnWidth-6.0, buttonHeight}};
-                    [item setFrame:RoundNSRect(seperatorLineRect)];
+                    [item setFrame:NSIntegralRect(seperatorLineRect)];
                     [self addSubview:item];
                     
                     inGroup = NO;
@@ -250,10 +241,10 @@ NSRect RoundNSRect(NSRect imageFrame)
                     buttonRect.origin.x += groupXIndent;
                     buttonRect.size.width -= groupXIndent/2;
                 }
-                [item setFrame:RoundNSRect(buttonRect)];
+                [item setFrame:NSIntegralRect(buttonRect)];
                 
                 NSTextField* label = [aColumn objectAtIndex:j+1];
-                NSRect labelRect = RoundNSRect(NSMakeRect(buttonRect.origin.x-labelWidth-labelButtonSpacing, buttonRect.origin.y-4, labelWidth, labelHeight));
+                NSRect labelRect = NSIntegralRect(NSMakeRect(buttonRect.origin.x-labelWidth-labelButtonSpacing, buttonRect.origin.y-4, labelWidth, labelHeight));
                 BOOL multiline = [label attributedStringValue].size.width >= labelRect.size.width;
                 if(multiline)
                 {

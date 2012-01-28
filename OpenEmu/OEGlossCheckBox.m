@@ -61,6 +61,10 @@
 
 + (void)initialize
 {	
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEGlossCheckBoxCell class])
+        return;
+
 	NSImage* image = [NSImage imageNamed:@"gloss_checkbox"];
 	
 	[image setName:@"gloss_checkbox_off" forSubimageInRect:NSMakeRect(0, 32, 16, 16)];

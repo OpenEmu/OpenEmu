@@ -17,6 +17,10 @@
 {
     [self exposeBinding:@"title"];
     
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEControlsKeyButton class])
+        return;
+
     NSImage* image = [NSImage imageNamed:@"wood_textfield"];
     
     [image setName:@"wood_textfield_active" forSubimageInRect:NSMakeRect(0, 0, 5, 24)];

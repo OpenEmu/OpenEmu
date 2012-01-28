@@ -38,7 +38,3 @@ typedef enum {
 	OEButtonStateSelectedNormal,
 	OEButtonStateUnselectedNormal
 } OEButtonState;
-
-// rounds a rect to avoid sub pixels
-CGRect RoundCGRect(CGRect imageFrame);
-NSRect RoundNSRect(NSRect imageFrame);

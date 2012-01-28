@@ -12,6 +12,10 @@
 @implementation OESlider
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OESlider class])
+        return;
+
     NSImage* image = [NSImage imageNamed:@"grid_slider_large"];
     [image setName:@"grid_slider_large_enabled" forSubimageInRect:NSMakeRect(0, 0, 10, 10)];
     [image setName:@"grid_slider_large_disabled" forSubimageInRect:NSMakeRect(10, 0, 10, 10)];
