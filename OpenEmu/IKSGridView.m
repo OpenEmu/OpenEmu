@@ -181,8 +181,9 @@ typedef enum
 - (void)layoutDecorationViews
 {
     CGRect frame = layoutManager.visibleRect;
-    frame.origin.y = self.frame.size.height-layoutManager.visibleRect.origin.y - layoutManager.visibleRect.size.height;
-    
+    frame.origin.y = self.frame.size.height - layoutManager.visibleRect.origin.y - layoutManager.visibleRect.size.height;
+    frame.size.width--;
+    frame.size.height--;
     if(self.backgroundLayer)
     {
         self.backgroundLayer.frame = frame;
@@ -192,6 +193,7 @@ typedef enum
     {
         self.foregroundLayer.frame = frame;
     }
+    self.dragIndicationLayer.frame = CGRectInset(frame, 1.0f, 1.0f);
     
     [[self subviews] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         if([obj isKindOfClass:[OEGridBlankSlateView class]])
@@ -413,12 +415,6 @@ typedef enum
     [CATransaction begin];
     [CATransaction setValue:(id)kCFBooleanTrue
                      forKey:kCATransactionDisableActions];
-    
-    CGRect frame = layoutManager.visibleRect;
-    frame.origin.y = self.frame.size.height-layoutManager.visibleRect.origin.y - layoutManager.visibleRect.size.height;
-    self.dragIndicationLayer.frame = frame;
-    
-    
     [self layoutDecorationViews];
     [CATransaction commit];
 }
