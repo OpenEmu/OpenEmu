@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en-US">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta http-equiv="content-style-type" content="text/css">
+		<meta name="description" content="Netplay Support">
+		<link href="../sty/style.css" rel="stylesheet">
+		<style type="text/css">
+			<!-- ul { list-style-type:none } -->
+		</style>
+		<title>Netplay Support</title>
+	</head>
+	<body>
+		<h2>Netplay Support</h2>
+		<p>
+			Netplay support allows up to five players to sit in front of different computers and simultaneously play the same game, or just watch someone else play a game. All the computers have to be connected to a network that allows TCP/IP traffic to flow between them; this includes a local Ethernet-style network, a direct-cable connection, or, if you're lucky and have short ping times, the Internet.
+		</p>
+		<p>
+			Snes9x netplay inevitably synchronizes all the computers at the sacrifice of the speed of input response. Note that netplay is not compatible between platforms - You can't play via network with Windows users.
+		</p>
+		<h3>How to Netplay</h3>
+		<p>
+			The player with the fastest Mac should act as the server. The others are clients. Server should open the port 6096/TCP.<br>
+			Here is the workflow to netplay with up to five players.
+		</p>
+		<ul>
+			<li><table summary="netplay howto">
+				<tbody>
+					<tr valign="top">
+						<td style="width:9em">Server</td>
+						<td>If you guys want to play with Multi Player 5, choose 'Multi Tap' in 'Input Device' in 'Emulation' menu. (Clients don't need to select it.)</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Server</td>
+						<td>Open the ROM image. Pause the game and exit from the emulation loop.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Server</td>
+						<td>Choose 'Server...' in 'Netplay' menu. The clients list appears. The first client is yourself.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Client</td>
+						<td>Choose 'Client...' in 'Netplay' menu.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Client</td>
+						<td>Input server's IP address and your name. Press 'Connect' button.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Server</td>
+						<td>The clients appear in the clients list with 'Connecting' status.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Client</td>
+						<td>A ROM load dialog appears. Open the same ROM image as server's.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Server</td>
+						<td>Wait until all clients become 'Ready'. Press 'Play' button.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Client</td>
+						<td>The players list dialog appears. Press 'OK' button.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Client</td>
+						<td>Netplay starts.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Server</td>
+						<td>The game is reset and netplay starts.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Server</td>
+						<td>Adjust the timing by '2P-L' and '2P-R' button. If 'Show Onscreen Information' is active in 'Preferences' dialog, a value appears in both the server's and client's game screen. Increasing this value will smooth the frame rate, but also delay the input response.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Server, Client</td>
+						<td>All functions (screenshot, etc.) are unusable.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Client</td>
+						<td>Clients cannot stop netplay by themselves.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Server</td>
+						<td>Netplay stops when server pauses the game and exits from the emulation loop.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Server</td>
+						<td>SRAM file may be overwritten by this play.</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:9em">Client</td>
+						<td>SRAM file won't be overwritten by this play.</td>
+					</tr>
+				</tbody>
+			</table></li>
+		</ul>
+		<div style="text-align:center; margin-top:3em"><p>	
+			&lt;<a href="08.html">Prev</a>&nbsp;&nbsp;<a href="../index.html">Top</a>&nbsp;&nbsp;<a href="10.html">Next</a>&gt;
+		</p></div>
+	</body>
+</html>

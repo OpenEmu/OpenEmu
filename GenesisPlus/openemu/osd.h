@@ -25,6 +25,8 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#ifndef _OSD_H_
+#define _OSD_H_
 
 #define MAX_INPUTS 8
 #define MAX_KEYS 8
@@ -34,3 +36,19 @@
 #include <stdint.h>
 #include "types.h"
 #include "config.h"
+#include "shared.h"
+#include "fileio.h"
+
+#define strnicmp strncasecmp
+
+//TO DO: define these later
+#define DEFAULT_PATH  "/genplus"
+#define GG_ROM        "/genplus/ggenie.bin"
+#define AR_ROM        "/genplus/areplay.bin"
+#define OS_ROM        "/genplus/bios.bin"
+#define SK_ROM        "/genplus/sk.bin"
+#define SK_UPMEM      "/genplus/sk2chip.bin"
+
+#define osd_input_Update() openemu_input_UpdateEmu()
+
+#endif /* _VDP_H_ */

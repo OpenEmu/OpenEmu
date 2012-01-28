@@ -29,7 +29,7 @@
 #include "gfx.h"
 #include "display.h"
 #include "ppu.h"
-#include "soundux.h"
+#include "conffile.h"
 #include "apu.h"
 #include "controls.h"
 #include "snes9x.h"
@@ -38,9 +38,10 @@
 
 const char *S9xBasename (const char *filename)
 {
-    NSLog(@"basename");
+    //NSLog(@"basename %s",filename);
     return NULL;
 }
+
 void _splitpath(const char *path, char *drive, char *dir, char *fname, char *ext)
 {
     short    x;
@@ -220,7 +221,8 @@ bool8 S9xOpenSnapshotFile (const char *base, bool8 read_only, STREAM *file)
 
 void S9xCloseSnapshotFile (STREAM file)
 {
-    fclose(file);
+    //fclose(file);
+    CLOSE_STREAM(file);
 }
 
 bool S9xPollButton(uint32 id, bool *pressed)
@@ -251,3 +253,17 @@ const char *S9xChooseMovieFilename(bool8 read_only)
     return NULL;
 }
 
+void S9xExtraUsage()
+{
+    NSLog(@"Extra usage");
+}
+
+void S9xParseArg(char**, int&, int)
+{
+    
+}
+
+void S9xParsePortConfig(ConfigFile&, int)
+{
+    
+}
