@@ -63,7 +63,7 @@
         controllerImageName = @"controller_snes_jap.png";
     } else if([[OELocalizationHelper sharedHelper] isRegionNA]){
         controllerImageName = @"controller_snes_usa.png";
-    } else if([[OELocalizationHelper sharedHelper] isRegionEU]){
+    } else {
         controllerImageName = @"controller_snes_eu.png";
     }
     
