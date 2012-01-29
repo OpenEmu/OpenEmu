@@ -1,5 +1,5 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2009, OpenEmu Team
  
  
  Redistribution and use in source and binary forms, with or without
@@ -26,19 +26,23 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h>
-#import <IOKit/hid/IOHIDLib.h>
-#import <IOKit/hid/IOHIDUsageTables.h>
-#import <ForceFeedback/ForceFeedback.h>
+@interface OEControlsSetupView : NSView
+{
+    float lastWidth;
+	NSMutableArray *elementPages;
+}
 
-#import <OpenEmuSystem/OEMap.h>
-#import <OpenEmuSystem/OESystemController.h>
-#import <OpenEmuSystem/OEControlsSetupView.h>
-#import <OpenEmuSystem/OESystemResponder.h>
-#import <OpenEmuSystem/OEBasicSystemResponder.h>
-#import <OpenEmuSystem/OESystemResponderClient.h>
-#import <OpenEmuSystem/OEControlsViewController.h>
-#import <OpenEmuSystem/OEHIDEvent.h>
-#import <OpenEmuSystem/OEHIDManager.h>
-#import <OpenEmuSystem/OEHIDDeviceHandler.h>
-#import <OpenEmuSystem/NSApplication+OEHIDAdditions.h>
+- (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end DEPRECATED_ATTRIBUTE;
+- (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end DEPRECATED_ATTRIBUTE;
+#pragma mark -
+- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget;
+- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget highlightPoint:(NSPoint)p;
+
+- (void)updateButtons;
+- (void)addColumnLabel:(NSString*)label;
+- (void)addRowSeperator;
+- (void)nextColumn;
+- (void)nextPage;
+
+- (void)selectNextKeyButton:(id)currentButton;
+@end

@@ -33,7 +33,7 @@
 {    
     [super awakeFromNib];
 
-    OEGameControllerView *view = (OEGameControllerView *)[self view];
+    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
     
 	[view addButtonWithName:@"OEGBButtonUp" label:@"Up:" target:self highlightPoint:NSMakePoint(58, 165)];
 	[view addButtonWithName:@"OEGBButtonDown" label:@"Down:" target:self highlightPoint:NSMakePoint(58, 127)];

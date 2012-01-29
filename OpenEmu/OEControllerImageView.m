@@ -7,9 +7,10 @@
 //
 
 #import "OEControllerImageView.h"
-
+#import "OEControlsViewController.h"
 #define OverlayAlphaON  0.5
 #define OverlayAlphaOFF 0.0
+#define RingRadius 37.0
 @protocol OEControlsButtonHighlightProtocol  <NSObject>
 - (NSPoint)highlightPoint;
 @end
@@ -18,6 +19,7 @@
 @end
 @implementation OEControllerImageView
 @synthesize image, overlayAlpha, ringAlpha, ringPosition;
+@synthesize controlsViewController;
 
 - (void)_setup
 {
@@ -25,13 +27,12 @@
     
     self.wantsLayer = YES;
     self.overlayAlpha = OverlayAlphaOFF;
-    self.ringPosition = NSZeroPoint;
-    self.ringAlpha = 0.0;
+    [self setRingPosition:NSZeroPoint];
+    [self setRingAlpha:0.0];
     
-    CABasicAnimation* anim = [CABasicAnimation animation];
-    CABasicAnimation* ringAnimation = [CABasicAnimation animation];
+    CABasicAnimation *anim = [CABasicAnimation animation];
+    CABasicAnimation *ringAnimation = [CABasicAnimation animation];
     ringAnimation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-    
     ringAnimation.delegate = self;
     
     [self setWantsLayer:YES];
@@ -69,7 +70,8 @@
 }
 - (void)dealloc 
 {
-    self.image = nil;
+    [self setImage:nil];;
+    [self setControlsViewController:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [super dealloc];
@@ -77,41 +79,41 @@
 #pragma mark -
 - (void)drawRect:(NSRect)dirtyRect
 {
-    if(!self.image) return;
+    if(![self image]) return;
     
     NSRect targetRect;
-    targetRect.size = self.image.size;
+    targetRect.size = [self image].size;
     targetRect.origin = NSMakePoint((self.frame.size.width-image.size.width)/2, 0);
     
     [self.image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:NSImageInterpolationNone] forKey:NSImageHintInterpolation]];
     
-    if(self.overlayAlpha != OverlayAlphaOFF)
+    if([self overlayAlpha] != OverlayAlphaOFF)
     {
         [NSGraphicsContext saveGraphicsState];
         NSRect rect = NSMakeRect(targetRect.origin.x+ringPosition.x-33, targetRect.origin.y+ringPosition.y-33, 66.0, 66.0);
         
-        NSBezierPath* path = [NSBezierPath bezierPathWithRect:self.bounds];
+        NSBezierPath *path = [NSBezierPath bezierPathWithRect:[self bounds]];
         [path setWindingRule:NSEvenOddWindingRule];
         [path appendBezierPathWithOvalInRect:rect];
         [path setClip];
         
-        [[NSColor colorWithDeviceWhite:0.0 alpha:self.overlayAlpha] setFill];
-        NSRectFillUsingOperation(self.bounds, NSCompositeSourceAtop);
+        [[NSColor colorWithDeviceWhite:0.0 alpha:[self overlayAlpha]] setFill];
+        NSRectFillUsingOperation([self bounds], NSCompositeSourceAtop);
         [NSGraphicsContext restoreGraphicsState];
     }
     
-    if(self.ringAlpha != 0.0)
+    if([self ringAlpha] != 0.0)
     {
         NSPoint highlightP = NSMakePoint(targetRect.origin.x+ringPosition.x-38, targetRect.origin.y+ringPosition.y-45);
         NSImage* highlightImage = [NSImage imageNamed:@"controls_highlight"]; 
-        [highlightImage drawAtPoint:highlightP fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:self.ringAlpha];
+        [highlightImage drawAtPoint:highlightP fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:[self ringAlpha]];
     }
     
 }
 - (void)setImage:(NSImage*)img
 {
-    self.ringPosition = NSZeroPoint;
-    self.ringAlpha = 0.0;
+    [self setRingPosition:NSZeroPoint];
+    [self setRingAlpha:0.0];
     
     [img retain];
     [image release];
@@ -138,8 +140,8 @@
     if(NSEqualPoints(newHighlightPoint, NSZeroPoint)){
         [[self animator] setRingAlpha:0.0];
         [[self animator] setOverlayAlpha:OverlayAlphaOFF];
-    } else if(NSEqualPoints(self.ringPosition, NSZeroPoint)){
-        self.ringPosition = newHighlightPoint;
+    } else if(NSEqualPoints([self ringPosition], NSZeroPoint)){
+        [self setRingPosition:newHighlightPoint];
         [[self animator] setRingAlpha:1.0];
         [[self animator] setOverlayAlpha:OverlayAlphaON];
     } else {
@@ -167,11 +169,39 @@
     ringPosition = _highlightedButtonPoint;
     [self setNeedsDisplay:YES];
 }
-
+#pragma mark -
+#pragma mark Interaction
+#define NSDistanceBetweenPoints(p1, p2) sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p2.y-p1.y)*(p2.y-p1.y))
+#define NSAddPoints(p1, p2) (NSPoint){p1.x+p2.x, p1.y+p2.y}
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    NSPoint event_location = [theEvent locationInWindow];
+    NSPoint local_point = [self convertPoint:event_location fromView:nil];
+    NSPoint ringLocation = [self ringPositionInView];
+    if(NSEqualPoints(ringLocation, NSZeroPoint)) return;
+    
+    float distance = NSDistanceBetweenPoints(local_point, ringLocation);
+    NSRect targetRect;
+    targetRect.size = self.image.size;
+    targetRect.origin = NSMakePoint((self.frame.size.width-image.size.width)/2, 0);
+    if(distance > RingRadius && [[self image] hitTestRect:(NSRect){local_point, {1,1}} withImageDestinationRect:targetRect context:nil hints:nil flipped:NO])
+    {
+        [[self controlsViewController] selectInputControl:nil];
+    }
+}
+- (NSPoint)ringPositionInView{
+    NSPoint ringLocation = [self ringPosition];
+    if(NSEqualPoints(ringLocation, NSZeroPoint) || NSEqualPoints(ringLocation, (NSPoint){0,0}))
+        return NSZeroPoint;
+    
+    NSPoint offset = (NSPoint){(self.frame.size.width-image.size.width)/2, 0};
+    return NSAddPoints(offset, ringLocation);
+    
+}
 #pragma mark -
 - (void)animationDidStart:(CAAnimation *)anim{}
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-    if(self.ringAlpha == 0.0) self.ringPosition=NSZeroPoint;
+    if([self ringAlpha] == 0.0) [self setRingPosition:NSZeroPoint];
 }
 @end

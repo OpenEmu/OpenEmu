@@ -144,24 +144,24 @@
 {
     NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
     
-    NSMenuItem* menuItem = [[self consolesPopupButton] selectedItem];
-    NSString* systemIdentifier = [menuItem representedObject];
+    NSMenuItem *menuItem = [[self consolesPopupButton] selectedItem];
+    NSString *systemIdentifier = [menuItem representedObject];
     
     NSString *oldPluginName = [selectedPlugin systemName];
     
-    OESystemPlugin* nextPlugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
+    OESystemPlugin *nextPlugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
     if(selectedPlugin!=nil && nextPlugin==selectedPlugin) return;
     selectedPlugin = nextPlugin;
     
-    OESystemController* systemController = [selectedPlugin controller];
+    OESystemController *systemController = [selectedPlugin controller];
     
     // Rebuild player menu
     NSUInteger numberOfPlayers = [systemController numberOfPlayers];
-    NSMenu* playerMenu = [[NSMenu alloc] init];
+    NSMenu *playerMenu = [[NSMenu alloc] init];
     for(NSUInteger player=0; player<numberOfPlayers; player++)
     {
-        NSString* playerTitle = [NSString stringWithFormat:NSLocalizedString(@"Player %ld", @""), player+1];
-        NSMenuItem* playerItem = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
+        NSString *playerTitle = [NSString stringWithFormat:NSLocalizedString(@"Player %ld", @""), player+1];
+        NSMenuItem *playerItem = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
         [playerItem setTag:player+1];
         [playerMenu addItem:playerItem];
         [playerItem release];
@@ -204,6 +204,7 @@
     
     OEControllerImageView* newControllerView = [[OEControllerImageView alloc] initWithFrame:[[self controllerView] bounds]];
     [newControllerView setImage:[preferenceViewController controllerImage]];
+    [newControllerView setControlsViewController:preferenceViewController];
     
     // Animation for controller image swapping
     NSComparisonResult order = [oldPluginName compare:[selectedPlugin systemName]];
