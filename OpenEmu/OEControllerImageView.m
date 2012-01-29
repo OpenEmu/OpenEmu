@@ -8,6 +8,7 @@
 
 #import "OEControllerImageView.h"
 #import "OEControlsViewController.h"
+#import "OEControlsSetupView.h"
 #define OverlayAlphaON  0.5
 #define OverlayAlphaOFF 0.0
 #define RingRadius 37.0
@@ -173,22 +174,54 @@
 #pragma mark Interaction
 #define NSDistanceBetweenPoints(p1, p2) sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p2.y-p1.y)*(p2.y-p1.y))
 #define NSAddPoints(p1, p2) (NSPoint){p1.x+p2.x, p1.y+p2.y}
+#define NSSubtractPoints(p1 ,p2) (NSPoint){p1.x-p2.x, p1.y-p2.y}
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    NSPoint event_location = [theEvent locationInWindow];
-    NSPoint local_point = [self convertPoint:event_location fromView:nil];
-    NSPoint ringLocation = [self ringPositionInView];
-    if(NSEqualPoints(ringLocation, NSZeroPoint)) return;
+    NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL allowDeactivationByMouse = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
+    BOOL allowSwitchingByMouse = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
     
-    float distance = NSDistanceBetweenPoints(local_point, ringLocation);
+    if(!allowDeactivationByMouse && !allowSwitchingByMouse) return;    
+    id controlToSelect = [[self controlsViewController] selectedControl];
+    
+    NSPoint event_location = [theEvent locationInWindow];
+    NSPoint local_event_location = [self convertPoint:event_location fromView:nil];
+    NSPoint ringLocation = [self ringPositionInView];
+    
     NSRect targetRect;
     targetRect.size = self.image.size;
     targetRect.origin = NSMakePoint((self.frame.size.width-image.size.width)/2, 0);
-    if(distance > RingRadius && [[self image] hitTestRect:(NSRect){local_point, {1,1}} withImageDestinationRect:targetRect context:nil hints:nil flipped:NO])
+    
+    
+    if(allowSwitchingByMouse && [[self controlsViewController] respondsToSelector:@selector(controllerImageMask)])
     {
-        [[self controlsViewController] selectInputControl:nil];
+        NSImage *maskImage = [[self controlsViewController] controllerImageMask];
+        BOOL selectAButton = [maskImage hitTestRect:(NSRect){local_event_location, {0,0}} withImageDestinationRect:targetRect context:nil hints:nil flipped:NO];
+        if(selectAButton)
+        {
+            OEControlsSetupView* controlsSetupView = (OEControlsSetupView*)[[self controlsViewController] view];
+            NSPoint locationOnController = NSSubtractPoints(local_event_location, targetRect.origin);
+            controlToSelect = [controlsSetupView controllerButtonClosestTo:locationOnController];
+        } 
+        else
+            controlToSelect = [[self controlsViewController] selectedControl];
+    
+    }
+    if(controlToSelect == [[self controlsViewController] selectedControl] && !NSEqualPoints(ringLocation, NSZeroPoint))
+    {
+        float distance = NSDistanceBetweenPoints(local_event_location, ringLocation);
+        if(distance > RingRadius && [[self image] hitTestRect:(NSRect){local_event_location, {0,0}} withImageDestinationRect:targetRect context:nil hints:nil flipped:NO])
+            controlToSelect = nil;
+    }
+    
+    NSLog(@"%@", controlToSelect);
+    if(controlToSelect != [[self controlsViewController] selectedControl])
+    {
+        [controlToSelect setState:NSOnState];
+       [[self controlsViewController] selectInputControl:controlToSelect];
     }
 }
+       
 - (NSPoint)ringPositionInView{
     NSPoint ringLocation = [self ringPosition];
     if(NSEqualPoints(ringLocation, NSZeroPoint) || NSEqualPoints(ringLocation, (NSPoint){0,0}))

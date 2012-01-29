@@ -353,4 +353,28 @@
 {}
 - (void)keyDown:(NSEvent *)theEvent
 {}
+#pragma mark -
+#ifndef NSDistanceBetweenPoints
+#define NSDistanceBetweenPoints(p1, p2) sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p2.y-p1.y)*(p2.y-p1.y))
+#endif
+- (id)controllerButtonClosestTo:(NSPoint)point{
+    id item = nil;
+    float distance = 0;
+    for(NSView *aSubview in [self subviews])
+    {
+        if([aSubview respondsToSelector:@selector(highlightPoint)])
+        {
+            NSPoint highlightPoint = [(OEControlsKeyButton*)aSubview highlightPoint];
+            float currentDistance = NSDistanceBetweenPoints(point, highlightPoint);
+            if(item == nil || currentDistance < distance)
+            {
+                item = aSubview;
+                distance = currentDistance;
+            }
+            
+        }
+    }
+    
+    return item;
+}
 @end
