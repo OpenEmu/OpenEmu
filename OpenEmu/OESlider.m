@@ -28,6 +28,8 @@
 {
     BOOL enabled = [self isEnabled];
     BOOL active = [[self window] isMainWindow];
+    if(hintImagesShowActive == (enabled && active)) return;
+    
     if(enabled && active)
     {
         if([self maxHint])[[self maxHint] setImage:[NSImage imageNamed:@"grid_slider_large_enabled"]];
@@ -38,6 +40,7 @@
         if([self maxHint])[[self maxHint] setImage:[NSImage imageNamed:@"grid_slider_large_disabled"]];
         if([self minHint])[[self minHint] setImage:[NSImage imageNamed:@"grid_slider_small_disabled"]];
     }
+    hintImagesShowActive = (enabled && active);
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -46,8 +49,6 @@
     if (self) 
     {
         [self setContinuous:YES];
-        
-        [self setHintImages];
     }
     return self;
 }
@@ -64,13 +65,18 @@
 
 - (void)awakeFromNib
 {
-    [self setHintImages];
+    if([self maxHint])[[self maxHint] setImage:[NSImage imageNamed:@"grid_slider_large_disabled"]];
+    if([self minHint])[[self minHint] setImage:[NSImage imageNamed:@"grid_slider_small_disabled"]];
+    
+    [[self maxHint] setImageAlignment:NSImageAlignTopLeft];
+    
+    hintImagesShowActive = NO;
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
     [super drawRect:dirtyRect];
-    [self setHintImages];
+    [self performSelectorInBackground:@selector(setHintImages) withObject:nil];
 }
 
 - (void)dealloc 

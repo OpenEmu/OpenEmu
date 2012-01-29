@@ -152,7 +152,7 @@
 											<string>NeXT TIFF v4.0 pasteboard type</string>
 										</object>
 									</object>
-									<string key="NSFrame">{{802, 14}, {15, 15}}</string>
+									<string key="NSFrame">{{806, 17}, {10, 10}}</string>
 									<reference key="NSSuperview" ref="571807102"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="115078705"/>
@@ -160,7 +160,7 @@
 									<object class="NSImageCell" key="NSCell" id="280385379">
 										<int key="NSCellFlags">130560</int>
 										<int key="NSCellFlags2">33554432</int>
-										<int key="NSAlign">0</int>
+										<int key="NSAlign">2</int>
 										<int key="NSScale">2</int>
 										<int key="NSStyle">0</int>
 										<bool key="NSAnimates">NO</bool>
@@ -286,7 +286,7 @@
 											<string>NeXT TIFF v4.0 pasteboard type</string>
 										</object>
 									</object>
-									<string key="NSFrame">{{678, 14}, {15, 15}}</string>
+									<string key="NSFrame">{{683, 18}, {7, 7}}</string>
 									<reference key="NSSuperview" ref="571807102"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="1010661742"/>
@@ -294,7 +294,7 @@
 									<object class="NSImageCell" key="NSCell" id="519410334">
 										<int key="NSCellFlags">130560</int>
 										<int key="NSCellFlags2">33554432</int>
-										<int key="NSAlign">0</int>
+										<int key="NSAlign">3</int>
 										<int key="NSScale">2</int>
 										<int key="NSStyle">0</int>
 										<bool key="NSAnimates">NO</bool>
