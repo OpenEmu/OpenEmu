@@ -64,6 +64,8 @@ static NSGradient* highlightGradient, *normalGradient;
 			[aColumn setHeaderCell: newHeader];
 			[newHeader release];
 		}
+        
+        [self setHeaderClickable:YES];
 	}
     
     return self;
@@ -191,6 +193,14 @@ static NSGradient* highlightGradient, *normalGradient;
 		
 		currentIndex = nextIndex;
 	}
+}
+
+- (void)setHeaderClickable:(BOOL)flag{
+    for (NSTableColumn* aColumn in [self tableColumns]) 
+    {
+        OETableHeaderCell* cell = [aColumn headerCell];
+        [cell setClickable:flag];
+    }    
 }
 
 - (void)dealloc

@@ -14,6 +14,6 @@
 @private
 	NSColor *selectionColor;
 }
-
+- (void)setHeaderClickable:(BOOL)flag;
 @property (retain, readwrite) NSColor *selectionColor;
 @end

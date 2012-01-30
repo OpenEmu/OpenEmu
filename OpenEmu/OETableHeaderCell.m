@@ -10,16 +10,13 @@
 
 #import "OEUIDrawingUtils.h"
 #import "NSImage+OEDrawingAdditions.h"
-@interface OETableHeaderCell (Private)
-- (void)_loadImages;
-@end
 #pragma mark -
 @implementation OETableHeaderCell
+@synthesize clickable;
 
 - (id)init {
     self = [super init];
     if (self) {
-		[self _loadImages];
     }
     return self;
 }
@@ -28,7 +25,6 @@
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-		[self _loadImages];
     }
     return self;
 }
@@ -36,30 +32,30 @@
 - (id)initTextCell:(NSString *)aString{
 	self = [super initTextCell:aString];
     if (self) {
-		[self _loadImages];
     }
     return self;
 }
 
-#pragma mark -
-#pragma mark Priavte
-- (void)_loadImages{
-	if(![NSImage imageNamed:@"table_header_background_active"]){
-		NSImage* sourceImage = [NSImage imageNamed:@"table_header"];
-		[sourceImage setName:@"table_header_background_active" forSubimageInRect:NSMakeRect(0, 17, 16, 17)];
-		[sourceImage setName:@"table_header_background_pressed" forSubimageInRect:NSMakeRect(0, 0, 16, 17)];
-		
-		sourceImage = [NSImage imageNamed:@"sort_arrow"];
-		[sourceImage setName:@"sort_arrow_inactive" forSubimageInRect:NSMakeRect(0, 0, 15, 14)];
-		[sourceImage setName:@"sort_arrow_pressed" forSubimageInRect:NSMakeRect(15, 0, 15, 14)];
-		[sourceImage setName:@"sort_arrow_rollover" forSubimageInRect:NSMakeRect(30, 0, 15, 14)];
-	}
++ (void)initialize
+{
+    if(self != [OETableHeaderCell class])
+        return;
+    
+    NSImage *sourceImage = [NSImage imageNamed:@"table_header"];
+    [sourceImage setName:@"table_header_background_active" forSubimageInRect:NSMakeRect(0, 17, 16, 17)];
+    [sourceImage setName:@"table_header_background_pressed" forSubimageInRect:NSMakeRect(0, 0, 16, 17)];
+    
+    sourceImage = [NSImage imageNamed:@"sort_arrow"];
+    [sourceImage setName:@"sort_arrow_inactive" forSubimageInRect:NSMakeRect(0, 0, 15, 14)];
+    [sourceImage setName:@"sort_arrow_pressed" forSubimageInRect:NSMakeRect(15, 0, 15, 14)];
+    [sourceImage setName:@"sort_arrow_rollover" forSubimageInRect:NSMakeRect(30, 0, 15, 14)];
 }
+
 #pragma mark -
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView{
 	NSTableView* tableView = [(NSTableHeaderView*)controlView tableView];
 
-	BOOL isPressed = [self state];
+	BOOL isPressed = [self state] && [self isClickable];
 	BOOL isFirst = [(NSTableHeaderView*)controlView columnAtPoint:cellFrame.origin] == 0;
 
 	BOOL hideDarkBorderOnRight = !isFirst && ([(NSTableHeaderView*)controlView columnAtPoint:cellFrame.origin] >= [[tableView tableColumns] count]-1);

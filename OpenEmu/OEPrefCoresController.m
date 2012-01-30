@@ -50,6 +50,7 @@
     
     [[self coresTableView] setDelegate:self];
     [[self coresTableView] setDataSource:self];
+    [(OETableView*)[self coresTableView] setHeaderClickable:NO];
     
     [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForNewCores:) withObject:[NSNumber numberWithBool:NO]];
     [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForUpdates) withObject:nil];
