@@ -39,7 +39,7 @@
 				<string key="NSClassName">NSApplication</string>
 			</object>
 			<object class="NSSplitView" id="677115977">
-				<nil key="NSNextResponder"/>
+				<reference key="NSNextResponder"/>
 				<int key="NSvFlags">274</int>
 				<array class="NSMutableArray" key="NSSubviews">
 					<object class="NSCustomView" id="214891354">
@@ -59,13 +59,15 @@
 												<int key="NSvFlags">4352</int>
 												<string key="NSFrameSize">{186, 539}</string>
 												<reference key="NSSuperview" ref="411773151"/>
-												<reference key="NSNextKeyView" ref="948426263"/>
+												<reference key="NSWindow"/>
+												<reference key="NSNextKeyView" ref="993169309"/>
 												<bool key="NSEnabled">YES</bool>
 												<object class="NSTableHeaderView" key="NSHeaderView" id="832801688">
 													<reference key="NSNextResponder" ref="61671220"/>
 													<int key="NSvFlags">256</int>
 													<string key="NSFrameSize">{186, 17}</string>
 													<reference key="NSSuperview" ref="61671220"/>
+													<reference key="NSWindow"/>
 													<reference key="NSNextKeyView" ref="411773151"/>
 													<reference key="NSTableView" ref="247228052"/>
 												</object>
@@ -165,6 +167,7 @@
 										</array>
 										<string key="NSFrame">{{0, 17}, {186, 539}}</string>
 										<reference key="NSSuperview" ref="667435729"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="247228052"/>
 										<reference key="NSDocView" ref="247228052"/>
 										<reference key="NSBGColor" ref="395994190"/>
@@ -175,6 +178,7 @@
 										<int key="NSvFlags">-2147483392</int>
 										<string key="NSFrame">{{171, 17}, {15, 494}}</string>
 										<reference key="NSSuperview" ref="667435729"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="200629737"/>
 										<reference key="NSTarget" ref="667435729"/>
 										<string key="NSAction">_doScroller:</string>
@@ -185,6 +189,7 @@
 										<int key="NSvFlags">-2147483392</int>
 										<string key="NSFrame">{{-100, -100}, {171, 15}}</string>
 										<reference key="NSSuperview" ref="667435729"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="61671220"/>
 										<int key="NSsFlags">1</int>
 										<reference key="NSTarget" ref="667435729"/>
@@ -199,6 +204,7 @@
 										</array>
 										<string key="NSFrameSize">{186, 17}</string>
 										<reference key="NSSuperview" ref="667435729"/>
+										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="832801688"/>
 										<reference key="NSDocView" ref="832801688"/>
 										<reference key="NSBGColor" ref="395994190"/>
@@ -207,7 +213,8 @@
 								</array>
 								<string key="NSFrameSize">{186, 556}</string>
 								<reference key="NSSuperview" ref="214891354"/>
-								<reference key="NSNextKeyView" ref="411773151"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView" ref="948426263"/>
 								<int key="NSsFlags">133648</int>
 								<reference key="NSVScroller" ref="993169309"/>
 								<reference key="NSHScroller" ref="948426263"/>
@@ -218,6 +225,7 @@
 						</array>
 						<string key="NSFrameSize">{186, 555}</string>
 						<reference key="NSSuperview" ref="677115977"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="667435729"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<string key="NSClassName">NSView</string>
@@ -231,17 +239,22 @@
 								<int key="NSvFlags">274</int>
 								<string key="NSFrameSize">{643, 556}</string>
 								<reference key="NSSuperview" ref="200629737"/>
+								<reference key="NSWindow"/>
+								<reference key="NSNextKeyView"/>
 								<string key="NSClassName">NSView</string>
 							</object>
 						</array>
 						<string key="NSFrame">{{187, 0}, {643, 555}}</string>
 						<reference key="NSSuperview" ref="677115977"/>
+						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="266503384"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<string key="NSClassName">NSView</string>
 					</object>
 				</array>
 				<string key="NSFrameSize">{830, 555}</string>
+				<reference key="NSSuperview"/>
+				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="214891354"/>
 				<int key="NSViewLayerContentsRedrawPolicy">2</int>
 				<bool key="NSIsVertical">YES</bool>
@@ -667,13 +680,13 @@
 					<string key="className">OELibrarySplitView</string>
 					<string key="superclassName">NSSplitView</string>
 					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">libConroller</string>
+						<string key="NS.key.0">libraryConroller</string>
 						<string key="NS.object.0">OELibraryController</string>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">libConroller</string>
+						<string key="NS.key.0">libraryConroller</string>
 						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">libConroller</string>
+							<string key="name">libraryConroller</string>
 							<string key="candidateClassName">OELibraryController</string>
 						</object>
 					</object>

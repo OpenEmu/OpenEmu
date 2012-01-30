@@ -10,16 +10,48 @@
 
 #import "OESidebarFieldEditor.h"
 #import "OESidebarController.h"
+
+#import <objc/runtime.h>
+#import "OESidebarOutlineButtonCell.h"
+@interface OESidebarOutlineView (OEPrivate)
+- (void)setupOutlineCell;
+@end
 @implementation OESidebarOutlineView
 
 - (id)init
 {
     self = [super init];
     if (self) 
+        [self setupOutlineCell];
     {
+    }
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{    
+    self = [super initWithCoder:aDecoder];
+    if (self) 
+    {
+        [self setupOutlineCell];
+    }
+    return self;
+}
+- (id)initWithFrame:(NSRect)frameRect
+{
+    self = [super initWithFrame:frameRect];
+    if (self) 
+    {
+        [self setupOutlineCell];
     }
     
     return self;
+}
+- (void)setupOutlineCell{
+    OESidebarOutlineButtonCell* sidebarOutlineCell = [[OESidebarOutlineButtonCell alloc] init];
+    
+    object_setInstanceVariable(self, "_outlineCell", sidebarOutlineCell);
+    object_setInstanceVariable(self, "_trackingOutlineCell", sidebarOutlineCell);
 }
 
 - (void)dealloc
