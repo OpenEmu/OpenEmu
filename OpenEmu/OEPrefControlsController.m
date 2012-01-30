@@ -287,7 +287,7 @@
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(561, 536);
+    return NSMakeSize(561, 534);
 }
 
 - (NSColor*)toolbarSeparationColor
