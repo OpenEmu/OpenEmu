@@ -173,13 +173,19 @@
         NSRect rect = (NSRect){{0,0},{[self frame].size.width/12*7, bottomTextViewHeight}};
         NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
         NSString *text = [NSString stringWithFormat:NSLocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @""), [plugin systemName]];
-        [textView setString:text];
         [textView setDrawsBackground:NO];
         [textView setEditable:NO];
         [textView setSelectable:NO];
         [textView setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0]];
         [textView setTextColor:[NSColor colorWithDeviceWhite:0.86 alpha:1.0]];
         [textView setTextContainerInset:NSMakeSize(0, 0)];
+
+        NSMutableParagraphStyle* paraStyle = [[NSMutableParagraphStyle alloc] init];
+        [paraStyle setLineSpacing:2];
+        [textView setDefaultParagraphStyle:paraStyle];
+        [paraStyle release];
+        
+        [textView setString:text];
         NSShadow *shadow = [[NSShadow alloc] init];
         [shadow setShadowColor:[NSColor blackColor]];
         [shadow setShadowBlurRadius:0];
@@ -209,7 +215,7 @@
         [cell setTextAttributes:dictionary];
         [dictionary release];
         
-        NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:(NSRect){{rightColumnX, bottomTextViewHeight-13},{[self frame].size.width-rightColumnX, 17}}];
+        NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:(NSRect){{rightColumnX, bottomTextViewHeight-16},{[self frame].size.width-rightColumnX, 17}}];
         [coreSuppliedByLabel setCell:cell];
         [cell release];
         [coreSuppliedByLabel setEditable:NO];
@@ -282,7 +288,7 @@
             NSString *projectURL = [[obj infoDictionary] valueForKey:@"OEProjectURL"];
             NSString *name = [obj displayName];
             
-            float y = bottomTextViewHeight-2*17 -17*idx;
+            float y = bottomTextViewHeight-2*17 -17*idx+1;
             OEImageButton *imageButton = [[OEImageButton alloc] initWithFrame:(NSRect){{rightColumnX-3, y},{[self frame].size.width-rightColumnX, 21}}];
             OEImageButtonHoverPressedText *cell = [[OEImageButtonHoverPressedText alloc] initTextCell:name];
             [cell setNormalAttributes:normalDictionary];
