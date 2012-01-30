@@ -146,7 +146,7 @@
         [textView setEditable:NO];
         [textView setSelectable:NO];
         [textView setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0]];
-        [textView setTextColor:[NSColor colorWithDeviceWhite:0.85 alpha:1.0]];
+        [textView setTextColor:[NSColor colorWithDeviceWhite:0.86 alpha:1.0]];
         [textView setTextContainerInset:NSMakeSize(0, 0)];
         NSShadow *shadow = [[NSShadow alloc] init];
         [shadow setShadowColor:[NSColor blackColor]];
@@ -178,7 +178,7 @@
         [textView setEditable:NO];
         [textView setSelectable:NO];
         [textView setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0]];
-        [textView setTextColor:[NSColor colorWithDeviceWhite:0.85 alpha:1.0]];
+        [textView setTextColor:[NSColor colorWithDeviceWhite:0.86 alpha:1.0]];
         [textView setTextContainerInset:NSMakeSize(0, 0)];
         NSShadow *shadow = [[NSShadow alloc] init];
         [shadow setShadowColor:[NSColor blackColor]];
@@ -223,7 +223,7 @@
         dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                       [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0], NSFontAttributeName,
                       shadow, NSShadowAttributeName,
-                      [NSColor colorWithDeviceWhite:0.85 alpha:1.0], NSForegroundColorAttributeName,
+                      [NSColor colorWithDeviceWhite:0.86 alpha:1.0], NSForegroundColorAttributeName,
                       nil];
         [cell setTextAttributes:dictionary];
         [shadow release];
