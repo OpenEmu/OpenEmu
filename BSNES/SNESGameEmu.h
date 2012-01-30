@@ -27,8 +27,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OEGameCore.h>
-#include <base.hpp>
-#include "BSNESInterface.h"
 
 #define MAC_MAX_PLAYERS 8
 #define SNES_CONTROL_COUNT 12
@@ -39,11 +37,15 @@ extern NSString *BSNESEmulatorNames[];
 
 @interface BSNESGameEmu : OEGameCore
 {
+    @public
     uint32    controlPad[MAC_MAX_PLAYERS];
-    UInt16 *soundBuffer;
-    unsigned char *videoBuffer;
-    BSNESInterface *interface;
-    //SNES::System *system;
+    uint16_t *soundBuffer;
+    uint16_t *videoBuffer;
+    int videoWidth, videoHeight;
+    int16_t pad[2][12];
+    unsigned serial_size;
+    uint8_t *serial_data;
+    NSString *romName;
 }
 
 @end

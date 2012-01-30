@@ -6,33 +6,33 @@
 	<string>English</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleName</key>
-	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleIconFile</key>
 	<string>bsnes</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.openemu.${PRODUCT_NAME:identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.057.1</string>
+	<string>0.085</string>
 	<key>NSPrincipalClass</key>
 	<string>BSNESGameController</string>
-	<key>SUFeedURL</key>
-	<string>http://openemu.org/update/bsnes_appcast.xml</string>
-	<key>SUEnableAutomaticChecks</key>
-	<string>1</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
+	<key>OEProjectURL</key>
+	<string>http://byuu.org/bsnes/</string>
 	<key>OESystemIdentifiers</key>
 	<array>
 		<string>openemu.system.snes</string>
 	</array>
-	<key>OEProjectURL</key>
-	<string>http://byuu.org/bsnes/</string>
+	<key>SUEnableAutomaticChecks</key>
+	<string>1</string>
+	<key>SUFeedURL</key>
+	<string>http://openemu.org/update/bsnes_appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 </dict>
 </plist>

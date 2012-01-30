@@ -10,6 +10,7 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 #import "OELibraryController.h"
+#import "OEROMImporter.h"
 #import "OECoverGridForegroundLayer.h"
 #import "OECoverGridItemLayer.h"
 
@@ -22,6 +23,7 @@
 
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
+
 @interface OECollectionViewController (Private)
 - (void)_reloadData;
 - (void)_selectView:(int)view;
@@ -303,6 +305,32 @@
 - (void)gridView:(IKSGridView*)gridView itemsMagnifiedToSize:(NSSize)newSize
 {}
 
+- (NSDragOperation)gridView:(IKSGridView*)gridView validateDrop:(id<NSDraggingInfo>)draggingInfo
+{
+    if (![[[draggingInfo draggingPasteboard] types] containsObject:NSFilenamesPboardType])
+        return NSDragOperationNone;
+    return NSDragOperationCopy;
+}
+
+- (BOOL)gridView:(IKSGridView*)gridView acceptDrop:(id<NSDraggingInfo>)draggingInfo
+{
+    NSPasteboard *pboard = [draggingInfo draggingPasteboard];
+    if (![[pboard types] containsObject:NSFilenamesPboardType])
+        return NO;
+
+    NSArray *files = [pboard propertyListForType:NSFilenamesPboardType];
+    OEROMImporter *romImporter = [[self libraryController] romImporter];
+    romImporter.errorBehaviour = OEImportErrorAskUser;
+    [romImporter importROMsAtPaths:files inBackground:YES error:nil];
+
+    return YES;
+}
+
+//- (void)gridView:(IKSGridView *)gridView updateDraggingItemsForDrag:(id<NSDraggingInfo>)draggingInfo
+//{
+//
+//}
+
 #pragma mark -
 #pragma mark Grid View DataSource
 - (NSUInteger)numberOfItemsInGridView:(IKSGridView*)aView
@@ -373,6 +401,7 @@
     }
     return nil;
 }
+
 #pragma mark -
 #pragma mark GridView Interaction
 - (void)gridViewWasDoubleClicked:(id)sender{

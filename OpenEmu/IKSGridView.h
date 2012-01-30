@@ -183,4 +183,9 @@
  */
 - (void)gridView:(IKSGridView*)gridView selectionChanged:(NSArray*)selectedItems;
 - (void)gridView:(IKSGridView*)gridView itemsMagnifiedToSize:(NSSize)newSize;
+
+@optional
+- (NSDragOperation)gridView:(IKSGridView*)gridView validateDrop:(id<NSDraggingInfo>)draggingInfo;
+- (BOOL)gridView:(IKSGridView*)gridView acceptDrop:(id<NSDraggingInfo>)draggingInfo;
+- (void)gridView:(IKSGridView *)gridView updateDraggingItemsForDrag:(id<NSDraggingInfo>)draggingInfo;
 @end
