@@ -62,7 +62,7 @@
 	[view addButtonWithName:@"OESMSButtonB[@]" label:@"Button 2:" target:self highlightPoint:NSMakePoint(371, 82)];
 	[view addRowSeperator];
 
-	[view addButtonWithName:@"OESMSButtonStart" label:@"Console Start" target:self];
+	[view addButtonWithName:@"OESMSButtonStart" label:@"Console Pause" target:self];
     //	[view addButtonWithName:@"OESMSButtonReset" label:@"Console Reset" target:self];
 
 	[view nextPage];
