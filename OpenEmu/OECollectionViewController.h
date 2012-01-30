@@ -18,18 +18,18 @@
 @interface OECollectionViewController : NSViewController <IKSGridViewDelegate, IKSGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource>
 {
 @private
-    NSArrayController* gamesController;
+    NSArrayController *gamesController;
     
     id <NSObject, OECollectionViewItemProtocol> collectionItem;
     
-    IBOutlet NSView* gridViewContainer;// gridview
-    IBOutlet IKSGridView* gridView;// scrollview for gridview
+    IBOutlet NSView *gridViewContainer;// gridview
+    IBOutlet IKSGridView *gridView;// scrollview for gridview
     
-    IBOutlet OEHorizontalSplitView* flowlistViewContainer; // cover flow and simple list container
-    IBOutlet IKImageFlowView* coverFlowView;
-    IBOutlet NSTableView* listView;
+    IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
+    IBOutlet IKImageFlowView *coverFlowView;
+    IBOutlet NSTableView *listView;
     
-    NSTimer* reloadTimer;
+    NSTimer *reloadTimer;
 }
 
 - (void)finishSetup;

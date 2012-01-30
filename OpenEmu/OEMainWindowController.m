@@ -22,6 +22,23 @@
     return self;
 }
 
++ (void)initialize
+{
+    if (self != [OEMainWindowController class])
+        return;
+    // toolbar sidebar button image
+    NSImage* image = [NSImage imageNamed:@"toolbar_sidebar_button"];
+    [image setName:@"toolbar_sidebar_button_close" forSubimageInRect:NSMakeRect(0, 23, 84, 23)];
+    [image setName:@"toolbar_sidebar_button_open" forSubimageInRect:NSMakeRect(0, 0, 84, 23)];
+    
+    // toolbar view button images
+    image = [NSImage imageNamed:@"toolbar_view_buttons"];
+    [image setName:@"toolbar_view_button_grid" forSubimageInRect:NSMakeRect(0, 0, 27, 115)];
+    [image setName:@"toolbar_view_button_flow" forSubimageInRect:NSMakeRect(27, 0, 27, 115)];
+    [image setName:@"toolbar_view_button_list" forSubimageInRect:NSMakeRect(54, 0, 27, 115)];
+
+}
+
 - (void)dealloc 
 {
     [currentContentController release]; currentContentController = nil;
@@ -39,19 +56,10 @@
     [[self window] setWindowController:self];
     [[self window] setDelegate:self];
     
-    // toolbar sidebar button image
-    NSImage* image = [NSImage imageNamed:@"toolbar_sidebar_button"];
-    [image setName:@"toolbar_sidebar_button_close" forSubimageInRect:NSMakeRect(0, 23, 84, 23)];
-    [image setName:@"toolbar_sidebar_button_open" forSubimageInRect:NSMakeRect(0, 0, 84, 23)];
+    
     [[self toolbarSidebarButton] setImage:[NSImage imageNamed:@"toolbar_sidebar_button_close"]];
     
-    // toolbar view button images
-    image = [NSImage imageNamed:@"toolbar_view_buttons"];
-    [image setName:@"toolbar_view_button_grid" forSubimageInRect:NSMakeRect(0, 0, 27, 115)];
-    [image setName:@"toolbar_view_button_flow" forSubimageInRect:NSMakeRect(27, 0, 27, 115)];
-    [image setName:@"toolbar_view_button_list" forSubimageInRect:NSMakeRect(54, 0, 27, 115)];
-    
-    // Setup Toolbar Buttons
+     // Setup Toolbar Buttons
     [[self toolbarGridViewButton] setImage:[NSImage imageNamed:@"toolbar_view_button_grid"]];
     [[self toolbarFlowViewButton] setImage:[NSImage imageNamed:@"toolbar_view_button_flow"]];
     [[self toolbarListViewButton] setImage:[NSImage imageNamed:@"toolbar_view_button_list"]];

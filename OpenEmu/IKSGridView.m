@@ -45,6 +45,7 @@ typedef enum
 @synthesize backgroundLayer, draggedImage, draggedLayer;
 @synthesize dragIndicationLayer, selectedIndexes;
 @synthesize autoscrollTimer, lastEvent, cellClass, dataSource;
+@synthesize target, doubleAction;
 #pragma mark -
 #pragma mark Initialization
 - (IBAction)copy:(id)sender
@@ -592,11 +593,11 @@ typedef enum
 // Checks whether the command key is being pressed, and if it is, it will select the layer without deselecting the others
 //
 - (void)mouseDown:(NSEvent *)theEvent
-{
+{    
     self.eventLayer = nil;
     self.draggedLayer = nil;
     self.draggedImage = nil;
-    
+        
     NSPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     CALayer* clickedLayer = [self _layerAtPoint:location];
     
@@ -616,6 +617,9 @@ typedef enum
         
         self.draggedLayer = (IKSGridItemLayer*)clickedLayer;
         self.draggedImage = [self _generateDraggedImage];
+        
+        if([theEvent clickCount]>=2 && [self target] && [self doubleAction]!=NULL && [[self target] respondsToSelector:[self doubleAction]])
+            [[self target] performSelector:[self doubleAction] withObject:self];
         
         return;
     }

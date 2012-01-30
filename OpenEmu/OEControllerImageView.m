@@ -177,6 +177,7 @@
 #define NSSubtractPoints(p1 ,p2) (NSPoint){p1.x-p2.x, p1.y-p2.y}
 - (void)mouseDown:(NSEvent *)theEvent
 {
+    NSLog(@"%fx%f", self.frame.size.width, self.frame.size.height);
     NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
     BOOL allowDeactivationByMouse = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
     BOOL allowSwitchingByMouse = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];

@@ -104,6 +104,8 @@
     [gridView setDelegate:self];
     [gridView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, NSPasteboardTypePNG, NSPasteboardTypeTIFF, nil]];
     [gridView setDataSource:self];
+    [gridView setTarget:self];
+    [gridView setDoubleAction:@selector(gridViewWasDoubleClicked:)];
     
     OECoverGridForegroundLayer *foregroundLayer = [OECoverGridForegroundLayer layer];
     [gridView addForegroundLayer:foregroundLayer];
@@ -124,8 +126,10 @@
     [coverFlowView setCellBorderColor:[NSColor blueColor]];
     
     // Set up list view
+    [listView setTarget:self];
     [listView setDelegate:self];
     [listView setDataSource:self];
+    [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
     
     switch ([userDefaults integerForKey:UDLastCollectionViewKey]) {
@@ -370,6 +374,12 @@
     return nil;
 }
 #pragma mark -
+#pragma mark GridView Interaction
+- (void)gridViewWasDoubleClicked:(id)sender{
+    if([[self selectedGames] count]!=0)
+        [[self libraryController] controlsmenu_startGame:sender];
+}
+#pragma mark -
 #pragma mark NSTableView DataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
@@ -415,6 +425,8 @@
         else if([colIdent isEqualToString:@"romConsole"])
         {
             result = [obj listViewConsoleName];
+        } else if(colIdent == nil){
+            result = obj;
         }
         
         //[context release];
@@ -586,6 +598,20 @@
     return NO;
 }
 #pragma mark -
+#pragma mark NSTableView Interaction
+- (void)tableViewWasDoubleClicked:(id)sender{
+    
+    NSInteger selectedRow = [sender selectedRow];
+    if(selectedRow == -1)
+        return;
+    
+    id game = [self tableView:sender objectValueForTableColumn:nil row:selectedRow];
+    if(game){
+        [[self libraryController] controlsmenu_startGame:nil];
+    }    
+}
+
+#pragma mark -
 #pragma mark ImageFlow Data Source
 - (NSUInteger)numberOfItemsInImageFlow:(IKImageFlowView *)aBrowser
 {
@@ -605,7 +631,6 @@
 {}
 - (void)imageFlow:(IKImageFlowView *)sender cellWasDoubleClickedAtIndex:(NSInteger)index
 {
-    // seems like this method is no longer called in lion
 }
 
 - (void)imageFlow:(IKImageFlowView *)sender didSelectItemAtIndex:(NSInteger)index

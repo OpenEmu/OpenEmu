@@ -92,7 +92,8 @@
 #pragma mark -
 - (BOOL)isItemSelectedAtIndex:(NSInteger)index;
 #pragma mark -
-
+@property (readwrite, assign) id target;
+@property (readwrite) SEL doubleAction;
 @property (readwrite, assign) Class cellClass;
 
 
