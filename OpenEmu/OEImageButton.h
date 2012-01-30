@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "OEUIDrawingUtils.h"
+@class OECenteredTextFieldCell;
 @interface OEImageButton : NSButton 
 {
 }
@@ -56,4 +57,13 @@
 @interface OEImageButtonPressed : OEImageButtonCell
 {
 }
+@end
+
+@interface OEImageButtonHoverPressedText : OEImageButtonHoverPressed {
+    OECenteredTextFieldCell* textFieldCell;
+}
+@property (copy)   NSString     *text;
+@property (retain) NSDictionary *normalAttributes;
+@property (retain) NSDictionary *hoverAttributes;
+@property (retain) NSDictionary *clickAttributes;
 @end

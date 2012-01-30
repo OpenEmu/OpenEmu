@@ -209,7 +209,7 @@
         [cell setTextAttributes:dictionary];
         [dictionary release];
         
-        NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:(NSRect){{rightColumnX, bottomTextViewHeight-17},{[self frame].size.width-rightColumnX, 17}}];
+        NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:(NSRect){{rightColumnX, bottomTextViewHeight-13},{[self frame].size.width-rightColumnX, 17}}];
         [coreSuppliedByLabel setCell:cell];
         [cell release];
         [coreSuppliedByLabel setEditable:NO];
@@ -229,6 +229,47 @@
         [shadow release];
         [dictionary release];
         
+        NSFont* font;
+        NSColor* textColor;
+        
+        font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
+        textColor = [NSColor colorWithDeviceWhite:0.80 alpha:1.0];
+        shadow = [[NSShadow alloc] init];
+        [shadow setShadowColor:[NSColor blackColor]];
+        [shadow setShadowOffset:NSMakeSize(0, -1)];
+        
+        NSDictionary* normalDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                          font, NSFontAttributeName,
+                                          shadow, NSShadowAttributeName,
+                                          textColor, NSForegroundColorAttributeName,                                          
+                                          nil];
+        [shadow release];
+        
+        font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
+        textColor = [NSColor colorWithDeviceWhite:1.0 alpha:1.0];
+        shadow = [[NSShadow alloc] init];
+        
+        [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.4]];
+        [shadow setShadowOffset:NSMakeSize(0, 0)];
+        [shadow setShadowBlurRadius:5];
+        NSDictionary* clickDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                         font, NSFontAttributeName,
+                                         shadow, NSShadowAttributeName,
+                                         textColor, NSForegroundColorAttributeName,                                          
+                                         nil];
+        [shadow release];
+        
+        font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
+        textColor = [NSColor colorWithDeviceWhite:1.0 alpha:1.0];
+        shadow = [[NSShadow alloc] init];
+        [shadow setShadowColor:[NSColor blackColor]];
+        [shadow setShadowOffset:NSMakeSize(0, -1)];
+        NSDictionary* hoverDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                         font, NSFontAttributeName,
+                                         shadow, NSShadowAttributeName,
+                                         textColor, NSForegroundColorAttributeName,                                          
+                                         nil];
+        [shadow release];
         int idx = 0;
         NSArray *allPlugins = [OECorePlugin allPlugins];
         for(OECorePlugin *obj in allPlugins)
@@ -241,45 +282,27 @@
             NSString *projectURL = [[obj infoDictionary] valueForKey:@"OEProjectURL"];
             NSString *name = [obj displayName];
             
-            
-            OECenteredTextFieldCell *cell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
-            [cell setTextAttributes:dictionary];
             float y = bottomTextViewHeight-2*17 -17*idx;
-            NSTextField *aField = [[NSTextField alloc] initWithFrame:(NSRect){{rightColumnX, y},{[self frame].size.width-rightColumnX, 17}}];
-            [aField setCell:cell];
-            [aField setStringValue:name];
-            [aField setEditable:NO];
-            [aField setSelectable:NO];
-            [aField setDrawsBackground:NO];
-            [aField setBezeled:NO];
-            [self addSubview:aField];
-            [aField release];
+            OEImageButton *imageButton = [[OEImageButton alloc] initWithFrame:(NSRect){{rightColumnX-3, y},{[self frame].size.width-rightColumnX, 21}}];
+            OEImageButtonHoverPressedText *cell = [[OEImageButtonHoverPressedText alloc] initTextCell:name];
+            [cell setNormalAttributes:normalDictionary];
+            [cell setHoverAttributes:hoverDictionary];
+            [cell setClickAttributes:clickDictionary];
+            [cell setSplitVertically:YES];
+            [cell setImage:[NSImage imageNamed:@"open_weblink_arrow"]];
+            [imageButton setTarget:self];
+            [imageButton setAction:@selector(gotoProjectURL:)];
+            [imageButton setObjectValue:projectURL];
+            [cell setText:name];
+            [imageButton setCell:cell];
+            [self addSubview:imageButton];
             [cell release];
             
-            NSAttributedString *str = [[NSAttributedString alloc] initWithString:name attributes:dictionary];
-            float textWidth = [str size].width+2;
-            [str release];
-            
-            if(projectURL)
-            {
-                OEImageButton *imageButton = [[OEImageButton alloc] initWithFrame:(NSRect){{rightColumnX+textWidth, y-1},{20,20}}];
-                OEImageButtonHoverPressed *buttonCell = [[OEImageButtonHoverPressed alloc] init];
-                [buttonCell setSplitVertically:YES];
-                [buttonCell setImage:[NSImage imageNamed:@"open_weblink_arrow"]];
-                [imageButton setCell:buttonCell];
-                [buttonCell release];
-                
-                [imageButton setTarget:self];
-                [imageButton setAction:@selector(gotoProjectURL:)];
-                [imageButton setObjectValue:projectURL];
-                [imageButton setTitle:projectURL];
-                
-                [self addSubview:imageButton];
-                [imageButton release];
-            };
             idx++;
         }
-        
+        [normalDictionary release];
+        [clickDictionary release];
+        [hoverDictionary release];        
     }
     return self;   
 }
