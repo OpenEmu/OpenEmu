@@ -36,7 +36,7 @@
 
 - (void)awakeFromNib
 {
-    height = 480-110;
+    height = 473-110;
     [self _rebuildAvailableLibraries];
     
 	NSString* path = [[NSUserDefaults standardUserDefaults] objectForKey:UDDatabasePathKey];
