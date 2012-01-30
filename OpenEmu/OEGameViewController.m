@@ -176,8 +176,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     else
         [[[self view] window] close];
     
-    NSDocumentController* sharedDocumentController = [NSDocumentController sharedDocumentController];
-    [sharedDocumentController removeDocument:[self document]];
+    [[self document] close];
 }
 
 - (void)pauseGame
