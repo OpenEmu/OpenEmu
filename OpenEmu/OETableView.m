@@ -147,7 +147,7 @@ static NSGradient* highlightGradient, *normalGradient;
 	fillRect.origin = aRect.origin;
 	
 	
-	for(NSUInteger i=0; i < [[self tableColumns] count]; i++)
+	for(NSUInteger i=0; i < [[self tableColumns] count]-1; i++)
 	{
 		NSRect colRect = [self rectOfColumn:i];
 		fillRect.origin.x = colRect.origin.x + colRect.size.width-1;
