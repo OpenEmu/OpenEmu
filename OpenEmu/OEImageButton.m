@@ -422,7 +422,7 @@
         float width = [attributedString size].width+2;
         [attributedString release];
         
-        cellFrame.origin.x += width+5;
+        cellFrame.origin.x += width+7;
         cellFrame.size.width = 20;
         textFrame.origin.y -= cellFrame.size.height-20;
         cellFrame.size.height = 20;
