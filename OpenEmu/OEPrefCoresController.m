@@ -119,8 +119,17 @@
     {
         NSDictionary* attr;
         
-        int weight = [[aTableColumn identifier] isEqualToString:@"coreColumn"]?15:0;
-        NSColor* color = [[self coreDownloadAtRow:rowIndex] canBeInstalled]?[NSColor darkGrayColor]:[NSColor whiteColor];
+        int weight = 0;
+        NSColor* color;
+        if([[aTableColumn identifier] isEqualToString:@"coreColumn"])
+        {
+            weight = 15.0;
+            color = [[self coreDownloadAtRow:rowIndex] canBeInstalled]?[NSColor colorWithDeviceWhite:0.44 alpha:1.0]:[NSColor colorWithDeviceWhite:0.89 alpha:1.0];
+        }
+        else
+        {
+            color = [[self coreDownloadAtRow:rowIndex] canBeInstalled]?[NSColor colorWithDeviceWhite:0.44 alpha:1.0]:[NSColor colorWithDeviceWhite:0.86 alpha:1.0];
+        }
         
         attr = [NSDictionary dictionaryWithObjectsAndKeys:
                 [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:weight size:11.0], NSFontAttributeName, 
