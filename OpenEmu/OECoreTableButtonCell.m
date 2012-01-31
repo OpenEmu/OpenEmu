@@ -75,11 +75,33 @@
     
     NSMutableParagraphStyle* paraStyle = [[NSMutableParagraphStyle alloc] init];
     [paraStyle setAlignment:NSCenterTextAlignment];
-    NSDictionary* textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+    NSDictionary* textAttributes;
+    
+    NSShadow* shadow = [[NSShadow alloc] init];
+    [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.4]];
+    [shadow setShadowOffset:NSMakeSize(0, -1)];
+    
+    if([self isHighlighted])
+    {
+        textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0.0 size:9.0], NSFontAttributeName,
                                     [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName,
                                     paraStyle, NSParagraphStyleAttributeName,
+                                    shadow, NSShadowAttributeName,
                                     nil];
+    }
+    else
+    {
+        textAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+                          [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0.0 size:9.0], NSFontAttributeName,
+                          [NSColor colorWithDeviceWhite:0.89 alpha:1.0], NSForegroundColorAttributeName,
+                          paraStyle, NSParagraphStyleAttributeName,
+                          shadow, NSShadowAttributeName,
+                          nil];
+   
+    }
+    [shadow release];
+    
     [paraStyle release];
     [label drawInRect:cellFrame withAttributes:textAttributes];
 }
