@@ -48,7 +48,7 @@
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.4]];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];
 	
-    if([((OEControlsPopupButton*)self.controlView).oemenu isVisible])
+    if([self isHighlighted])
     {
         [attributes setObject:[NSColor colorWithDeviceRed:0.741 green:0.737 blue:0.737 alpha:1.0] forKey:NSForegroundColorAttributeName];
     } 
@@ -79,7 +79,7 @@
 {
 	cellFrame.size.height = 23;
 	
-	NSImage* img = [((OEControlsPopupButton*)controlView).oemenu isVisible] ? [NSImage imageNamed:@"dark_popup_button_pressed"] : [NSImage imageNamed:@"dark_popup_button_normal"];
+	NSImage* img = [self isHighlighted] ? [NSImage imageNamed:@"dark_popup_button_pressed"] : [NSImage imageNamed:@"dark_popup_button_normal"];
 	[img drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:9 rightBorder:21 topBorder:0 bottomBorder:0];
 }
 @end

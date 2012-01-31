@@ -61,7 +61,7 @@
 - (void)drawBorderAndBackgroundWithFrame:(NSRect)cellFrame inView:(NSView *)controlView{
 	cellFrame.size.height = 23;
 	
-	NSImage* img = [((OEControlsPopupButton*)controlView).oemenu isVisible] ? [NSImage imageNamed:@"wood_popup_button_pressed"] : [NSImage imageNamed:@"wood_popup_button_normal"];
+	NSImage* img = [self isHighlighted] ? [NSImage imageNamed:@"wood_popup_button_pressed"] : [NSImage imageNamed:@"wood_popup_button_normal"];
 	[img drawInRect:cellFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:11 rightBorder:17 topBorder:0 bottomBorder:0];
 }
 #pragma mark -
@@ -70,7 +70,7 @@
 	
 	NSFont* font;
 	
-	if(![((OEControlsPopupButton*)[self controlView]).oemenu isVisible]){
+	if(![self isHighlighted]){
 		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9.0 size:11.0];
 	} else {
 		font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:4.0 size:11.0];

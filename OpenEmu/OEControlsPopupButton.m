@@ -37,6 +37,11 @@
         location.x += self.frame.size.width/2;
         [self.oemenu openAtPoint:location ofWindow:win];
     }
+    [[self cell] setHighlighted:YES];
+}
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    [[self cell] setHighlighted:NO]; 
 }
 #pragma mark -
 - (void)setMenu:(NSMenu *)menu{
