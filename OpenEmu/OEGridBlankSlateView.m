@@ -289,7 +289,7 @@
             NSString *name = [obj displayName];
             
             float y = bottomTextViewHeight-2*17 -17*idx+1;
-            OEImageButton *imageButton = [[OEImageButton alloc] initWithFrame:(NSRect){{rightColumnX-3, y},{[self frame].size.width-rightColumnX, 21}}];
+            OEImageButton *imageButton = [[OEImageButton alloc] initWithFrame:(NSRect){{rightColumnX-3, y},{[self frame].size.width-rightColumnX+10, 21}}];
             OEImageButtonHoverPressedText *cell = [[OEImageButtonHoverPressedText alloc] initTextCell:name];
             [cell setNormalAttributes:normalDictionary];
             [cell setHoverAttributes:hoverDictionary];
