@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 #import "OEMenuItem.h"
-@class OEControlsPopupButton;
+@class OEPopupButton;
 @protocol OEMenuDelegate;
 @class OEMenuView;
 @interface OEMenu : NSWindow 
@@ -21,7 +21,7 @@
     OEMenu* submenu;
     OEMenu* supermenu;
     
-    OEControlsPopupButton* popupButton;
+    OEPopupButton* popupButton;
     
     NSSize minSize, maxSize;
     int itemsAboveScroller, itemsBelowScroller;
@@ -43,7 +43,7 @@
 @property (readonly) BOOL alternate;;
 
 @property (readwrite) NSSize minSize, maxSize;
-@property (retain) OEControlsPopupButton* popupButton;
+@property (retain) OEPopupButton* popupButton;
 @property (nonatomic, retain) OEMenu* submenu;
 @property (nonatomic, retain) OEMenu* supermenu;
 

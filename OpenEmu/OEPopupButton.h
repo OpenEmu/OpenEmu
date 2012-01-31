@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "OEMenu.h"
-@interface OEControlsPopupButton : NSPopUpButton <OEMenuDelegate>
+@interface OEPopupButton : NSPopUpButton <OEMenuDelegate>
 {
 @private
     OEMenu* oemenu;
     NSMenuItem* selectedItem;
 }
-@property (retain) OEMenu* oemenu;
+@property BOOL dontOpenMenuOnNextMouseUp;
+@property (retain, setter = setOEMenu:) OEMenu* oemenu;
 @end

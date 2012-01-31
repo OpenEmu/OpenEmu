@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OEPopUpButtonCell : NSPopUpButtonCell {
+@interface OEPopupButtonCell : NSPopUpButtonCell {
 @private
     
 }

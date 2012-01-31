@@ -8,7 +8,7 @@
 
 #import "OEControlsPopupButtonCell.h"
 #import "NSImage+OEDrawingAdditions.h"
-#import "OEControlsPopupButton.h"
+#import "OEPopupButton.h"
 @implementation OEControlsPopupButtonCell
 
 - (id)init

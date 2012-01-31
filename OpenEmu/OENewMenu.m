@@ -7,7 +7,7 @@
 //
 
 #import "OENewMenu.h"
-#import "OEControlsPopupButton.h"
+#import "OEPopupButton.h"
 #import "NSImage+OEDrawingAdditions.h"
 @interface OENewMenu (Private)
 - (void)layoutAndReload;

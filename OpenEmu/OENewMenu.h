@@ -8,7 +8,7 @@
 
 #import <AppKit/AppKit.h>
 #import "NSWindow+OECustomWindow.h"
-@class OEControlsPopupButton;
+@class OEPopupButton;
 @class OENewMenu;
 @protocol OENewMenuDelegate <NSObject>
 @optional
@@ -42,7 +42,7 @@
 @property (retain) NSMenu* menu;
 @property (retain) OENewMenu* supermenu;
 @property (retain) OENewMenu* activeSubmenu;
-@property (retain) OEControlsPopupButton* popupButton;
+@property (retain) OEPopupButton* popupButton;
 @property (retain) NSMenuItem* highlightedItem;
 
 @property (assign) id <OENewMenuDelegate> delegate;

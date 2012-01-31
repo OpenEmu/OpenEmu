@@ -6,10 +6,10 @@
 //  Copyright 2011 none. All rights reserved.
 //
 
-#import "OEPopUpButtonCell.h"
+#import "OEPopupButtonCell.h"
 #import "NSImage+OEDrawingAdditions.h"
-#import "OEControlsPopupButton.h"
-@implementation OEPopUpButtonCell
+#import "OEPopupButton.h"
+@implementation OEPopupButtonCell
 
 - (id)init
 {
@@ -29,7 +29,7 @@
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
-    if (self != [OEPopUpButtonCell class])
+    if (self != [OEPopupButtonCell class])
         return;
 
 	NSImage* image = [NSImage imageNamed:@"dark_popup_button"];

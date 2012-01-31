@@ -8,7 +8,7 @@
 
 #import "OEMenu.h"
 #import "NSImage+OEDrawingAdditions.h"
-
+#import "OEPopupButton.h"
 @interface OEMenu (Private)
 - (BOOL)_isClosing;
 - (OEMenuView*)menuView;
@@ -105,7 +105,15 @@
     _alternate = NO;
     self.alphaValue = 1.0;
     
-    NSAssert(_localMonitor == nil, @"_localMonitor still exists somehow");
+    if(_localMonitor != nil)
+    {
+        
+        [NSEvent removeMonitor:_localMonitor];
+        [_localMonitor release];
+        
+        _localMonitor = nil;
+        
+    }
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask handler:^(NSEvent *incomingEvent) 
                      {
                          OEMenuView* view = [[[self contentView] subviews] lastObject];
@@ -126,8 +134,10 @@
                          { 
                              return incomingEvent;
                          } 
-                         else 
-                         {
+                         else if([self popupButton] && NSPointInRect([[self popupButton] convertPoint:[incomingEvent locationInWindow] fromView:nil], [[self popupButton] bounds])){
+                             [(OEPopupButton*)[self popupButton] setDontOpenMenuOnNextMouseUp:YES];
+                             [self closeMenuWithoutChanges:nil];
+                         } else {
                              // event is outside of window, close menu without changes and remove event
                              [self closeMenuWithoutChanges:nil];
                          }
