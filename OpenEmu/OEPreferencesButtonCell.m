@@ -6,10 +6,10 @@
 //  Copyright 2011 none. All rights reserved.
 //
 
-#import "OEPrefButtonCell.h"
+#import "OEPreferencesButtonCell.h"
 #import "NSImage+OEDrawingAdditions.h"
 
-@implementation OEPrefButtonCell
+@implementation OEPreferencesButtonCell
 
 - (id)init
 {
@@ -30,7 +30,7 @@
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
-    if (self != [OEPrefButtonCell class])
+    if (self != [OEPreferencesButtonCell class])
         return;
 
 	NSImage* image = [NSImage imageNamed:@"dark_button"];

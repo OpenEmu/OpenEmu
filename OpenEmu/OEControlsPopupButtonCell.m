@@ -6,10 +6,10 @@
 //  Copyright 2011 none. All rights reserved.
 //
 
-#import "OECtrlPopUpButtonCell.h"
+#import "OEControlsPopupButtonCell.h"
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEControlsPopupButton.h"
-@implementation OECtrlPopUpButtonCell
+@implementation OEControlsPopupButtonCell
 
 - (id)init
 {
@@ -28,7 +28,7 @@
 
 + (void)initialize{
     // Make sure not to reinitialize for subclassed objects
-    if (self != [OECtrlPopUpButtonCell class])
+    if (self != [OEControlsPopupButtonCell class])
         return;
 
 	NSImage* image = [NSImage imageNamed:@"wood_popup_button"];

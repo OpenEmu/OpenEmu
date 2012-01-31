@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface OEPrefButtonCell : NSButtonCell {
+@interface OEPreferencesButtonCell : NSButtonCell {
 @private
     
 }
