@@ -51,6 +51,9 @@
     // Analyzer warns about leaking object here, that is not the case.
     // We release the current instance variable and replace the pointer
     // so NSOutlineView should release our cell twice in its dealloc
+    
+    // This probably breaks with ARC!
+    
     OESidebarOutlineButtonCell* sidebarOutlineCell = [[OESidebarOutlineButtonCell alloc] init];
     [sidebarOutlineCell retain];
     
