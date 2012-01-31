@@ -24,6 +24,7 @@
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 
+#import "OECenteredTextFieldCell.h"
 @interface OECollectionViewController (Private)
 - (void)_reloadData;
 - (void)_selectView:(int)view;
@@ -133,6 +134,11 @@
     [listView setDataSource:self];
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
+    for (NSTableColumn* aColumn in [listView tableColumns]) {
+        if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]]){
+            [[aColumn dataCell] setWidthInset:9];
+        }
+    }
     
     switch ([userDefaults integerForKey:UDLastCollectionViewKey]) {
         case 0:
