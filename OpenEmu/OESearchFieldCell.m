@@ -26,8 +26,8 @@
         NSParagraphStyle* paraStyle = [[NSParagraphStyle new] autorelease];
         
         [shadow setShadowBlurRadius:1];
-        [shadow setShadowOffset:NSMakeSize(1, 1)];
-        [shadow setShadowColor:[NSColor colorWithDeviceWhite:0 alpha:0.4]];
+        [shadow setShadowOffset:NSMakeSize(0, -1)];
+        [shadow setShadowColor:[NSColor colorWithDeviceWhite:0 alpha:0.5]];
         
         placeholder = [[NSDictionary dictionaryWithObjectsAndKeys:
                         placeholderColor ,NSForegroundColorAttributeName,
