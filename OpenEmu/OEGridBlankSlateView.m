@@ -302,6 +302,7 @@
             [cell setText:name];
             [imageButton setCell:cell];
             [self addSubview:imageButton];
+            [imageButton release];
             [cell release];
             
             idx++;
