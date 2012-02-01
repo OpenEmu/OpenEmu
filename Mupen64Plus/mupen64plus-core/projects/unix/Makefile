@@ -30,11 +30,18 @@ endif
 ifeq ("$(UNAME)","linux")
   OS = LINUX
 endif
+ifneq ("$(filter GNU hurd,$(UNAME))","")
+  OS = LINUX
+endif
 ifeq ("$(UNAME)","Darwin")
   OS = OSX
 endif
 ifeq ("$(UNAME)","FreeBSD")
   OS = FREEBSD
+endif
+ifeq ("$(UNAME)","OpenBSD")
+  OS = FREEBSD
+  $(warning OS type "$(UNAME)" not officially supported.')
 endif
 ifneq ("$(filter GNU/kFreeBSD kfreebsd,$(UNAME))","")
   OS = LINUX
@@ -50,46 +57,64 @@ ifneq ("$(filter x86_64 amd64,$(HOST_CPU))","")
   CPU := X86
   ifeq ("$(BITS)", "32")
     ARCH_DETECTED := 64BITS_32
+    PIC ?= 0
   else
     ARCH_DETECTED := 64BITS
+    PIC ?= 1
   endif
 endif
 ifneq ("$(filter pentium i%86,$(HOST_CPU))","")
   CPU := X86
   ARCH_DETECTED := 32BITS
+  PIC ?= 0
 endif
-# PPC doesn't work yet
-#ifneq ("$(filter ppc powerpc,$(HOST_CPU))","")
-#  CPU := PPC
-#  ARCH_DETECTED := 32BITS
-#  NO_ASM := 1
-#endif
-#ifneq ("$(filter ppc64 powerpc64,$(HOST_CPU))","")
-#  CPU := PPC
-#  ARCH_DETECTED := 64BITS
-#  NO_ASM := 1
-#endif
+ifneq ("$(filter ppc powerpc,$(HOST_CPU))","")
+  CPU := PPC
+  ARCH_DETECTED := 32BITS
+  BIG_ENDIAN := 1
+  PIC ?= 1
+  NO_ASM := 1
+  $(warning Architecture "$(HOST_CPU)" not officially supported.')
+endif
+ifneq ("$(filter ppc64 powerpc64,$(HOST_CPU))","")
+  CPU := PPC
+  ARCH_DETECTED := 64BITS
+  BIG_ENDIAN := 1
+  PIC ?= 1
+  NO_ASM := 1
+  $(warning Architecture "$(HOST_CPU)" not officially supported.')
+endif
 ifeq ("$(CPU)","NONE")
   $(error CPU type "$(HOST_CPU)" not supported.  Please file bug report at 'http://code.google.com/p/mupen64plus/issues')
 endif
 
-# base CFLAGS, LIBS, and LDFLAGS
-CFLAGS += -Wall -ffast-math -funroll-loops -fexpensive-optimizations -fno-strict-aliasing -fvisibility=hidden -I../../src
+# base CFLAGS, LDLIBS, and LDFLAGS
+OPTFLAGS ?= -O3
+CFLAGS += $(OPTFLAGS) -Wall -ffast-math -fno-strict-aliasing -fvisibility=hidden -I../../src
 CXXFLAGS += -fvisibility-inlines-hidden
-LIBS += -ldl -lpng -lz -lm -lfreetype
+LDLIBS +=  -lm
 
-# Since we are building a shared library, we must compile with -fPIC for x86_64 CPUs.
-# On 32-bit systems we do not want to use -fPIC because we don't have to and it has a big performance penalty on this arch
-ifeq ($(ARCH_DETECTED), 64BITS)
-  CFLAGS += -fPIC -DPIC
+# Since we are building a shared library, we must compile with -fPIC on some architectures
+# On 32-bit x86 systems we do not want to use -fPIC because we don't have to and it has a big performance penalty on this arch
+ifeq ($(PIC), 1)
+  CFLAGS += -fPIC
+  LDFLAGS += -fPIC
+else
+  CFLAGS += -fno-PIC
+  LDFLAGS += -fno-PIC
 endif
+
+ifeq ($(BIG_ENDIAN), 1)
+  CFLAGS += -DM64P_BIG_ENDIAN
+endif
+
 # tweak flags for 32-bit build on 64-bit system
 ifeq ($(ARCH_DETECTED), 64BITS_32)
   ifeq ($(OS), FREEBSD)
     $(error Do not use the BITS=32 option with FreeBSD, use -m32 and -m elf_i386)
   endif
   CFLAGS += -m32
-  LDFLAGS += -m32 -m elf_i386
+  LDFLAGS += -m32 -Wl,-m,elf_i386
 endif
 
 # set special flags per-system
@@ -97,36 +122,27 @@ ifeq ($(OS), FREEBSD)
   TARGET = libmupen64plus.so.2.0.0
   SONAME = libmupen64plus.so.2
   LDFLAGS += -Wl,-Bsymbolic -shared -Wl,-export-dynamic -Wl,-soname,$(SONAME)
-  LIBS += -L${LOCALBASE}/lib -lGL -lGLU
+  LDLIBS += -L${LOCALBASE}/lib -lc
 endif
 ifeq ($(OS), LINUX)
   TARGET = libmupen64plus.so.2.0.0
   SONAME = libmupen64plus.so.2
   LDFLAGS += -Wl,-Bsymbolic -shared -Wl,-export-dynamic -Wl,-soname,$(SONAME)
-  LIBS += -L/usr/X11R6/lib -lGL -lGLU
+  LDLIBS += -ldl
   # only export api symbols
   LDFLAGS += -Wl,-version-script,$(SRCDIR)/api/api_export.ver
-  ifeq ($(CPU), X86)
-    ifeq ($(ARCH_DETECTED), 64BITS)
-      CFLAGS += -pipe -O3 -march=athlon64
-    else
-      CFLAGS += -pipe -O3 -mmmx -msse -march=i686 -mtune=pentium-m
-      ifneq ($(PROFILE), 1)
-        CFLAGS += -fomit-frame-pointer
-      endif
-    endif
-  endif
 endif
 ifeq ($(OS), OSX)
+  CFLAGS += -DUSE_FILE32API
   TARGET = libmupen64plus.dylib
   LDFLAGS += -bundle -read_only_relocs suppress
-  LIBS += -framework OpenGL
+  LDLIBS += -ldl -framework OpenGL
   ifeq ($(CPU), X86)
     ifeq ($(ARCH_DETECTED), 64BITS)
-      CFLAGS += -pipe -O3 -arch x86_64 -mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk
+      CFLAGS += -pipe -arch x86_64 -mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk
       LDFLAGS += -arch x86_64
     else
-      CFLAGS += -pipe -O3 -mmmx -msse -arch i686 -mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk
+      CFLAGS += -pipe -mmmx -msse -arch i686 -mmacosx-version-min=10.5 -isysroot /Developer/SDKs/MacOSX10.5.sdk
       LDFLAGS += -arch i686
       ifneq ($(PROFILE), 1)
         CFLAGS += -fomit-frame-pointer
@@ -134,42 +150,67 @@ ifeq ($(OS), OSX)
     endif
   endif
 endif
-ifeq ($(CPU), PPC)
-  CFLAGS += -mcpu=powerpc
-endif
 ifeq ($(CPU_ENDIANNESS), BIG)
-  CFLAGS += -D_BIG_ENDIAN
+  CFLAGS += -DM64P_BIG_ENDIAN
 endif
+
+# disable verbose output
+ifneq ($(findstring $(MAKEFLAGS),s),s)
+ifndef V
+	Q_CC  = @echo '    CC  '$@;
+	Q_CXX = @echo '    CXX '$@;
+	Q_LD  = @echo '    LD  '$@;
+endif
+endif
+
+# test for essential build dependencies
+ifeq ($(shell which pkg-config 2>/dev/null),)
+  $(error pkg-config not found)
+endif
+ifeq ($(shell pkg-config --modversion libpng 2>/dev/null),)
+  $(error No libpng development libraries found!)
+endif
+ifeq ($(shell pkg-config --modversion zlib 2>/dev/null),)
+  $(error No zlib development libraries found!)
+endif
+ifeq ($(shell pkg-config --modversion freetype2 2>/dev/null),)
+  $(error No FreeType 2 development libraries found!)
+endif
+ifeq ($(shell pkg-config --modversion gl 2>/dev/null),)
+  $(error No OpenGL development libraries found!)
+endif
+ifeq ($(shell pkg-config --modversion glu 2>/dev/null),)
+  $(error No OpenGL utility development libraries found!)
+endif
+CFLAGS += $(shell pkg-config --cflags libpng zlib freetype2 gl glu)
+LDLIBS +=  $(shell pkg-config --libs libpng zlib freetype2 gl glu)
 
 # test for presence of SDL
 ifeq ($(shell which sdl-config 2>/dev/null),)
   $(error No SDL development libraries found!)
 endif
-ifeq ($(OS),FREEBSD)
-    CFLAGS	+= `${SDL_CONFIG} --cflags`
-    LIBS	+= `${SDL_CONFIG} --libs`
-else
-    CFLAGS	+= $(shell sdl-config --cflags)
-    LIBS	+= $(shell sdl-config --libs)
-endif
-
-# test for presence of FreeType
-ifeq ($(shell which freetype-config 2>/dev/null),)
-   $(error freetype-config not installed!)
-endif
-LIBS	+= $(shell freetype-config --libs)
-CFLAGS	+= $(shell freetype-config --cflags)
+CFLAGS	+= $(shell sdl-config --cflags)
+LDLIBS	+= $(shell sdl-config --libs)
 
 # set base program pointers and flags
 CC       ?= gcc
 CXX      ?= g++
-RM       ?= rm
+RM       ?= rm -f
 INSTALL  ?= install
-LDCONFIG ?= ldconfig
+MKDIR ?= mkdir -p
+COMPILE.c = $(Q_CC)$(CC) $(CFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+COMPILE.cc = $(Q_CXX)$(CXX) $(CXXFLAGS) $(CPPFLAGS) $(TARGET_ARCH) -c
+LINK.o = $(Q_LD)$(CXX) $(LDFLAGS) $(TARGET_ARCH)
+
 ifeq ($(OS),OSX)
-  STRIP	?= strip -x 
+  LDCONFIG ?= true  # no 'ldconfig' under OSX
 else
-  STRIP	?= strip -s
+  ifeq ($(OS),LINUX)
+    LDCONFIG ?= PATH="$$PATH:/sbin" ldconfig -n
+  endif
+  ifeq ($(OS),FREEBSD)
+    LDCONFIG ?= PATH="$$PATH:/sbin" ldconfig -m
+  endif
 endif
 
 # compiler/linker flags for various compile-time options.
@@ -181,11 +222,13 @@ endif
 ifeq ($(PROFILE), 1)
   CFLAGS += -pg -g
   LDFLAGS += -pg
-  STRIP = true
+  INSTALL_STRIP_FLAG ?= 
 else
   ifeq ($(DEBUG), 1)
     CFLAGS += -g
-    STRIP = true
+    INSTALL_STRIP_FLAG ?= 
+  else
+    INSTALL_STRIP_FLAG ?= -s
   endif
 endif
 # 3. other options given to the makefile on the command line
@@ -246,12 +289,10 @@ SOURCE = \
 	$(SRCDIR)/main/ini_reader.c \
 	$(SRCDIR)/main/savestates.c \
 	$(SRCDIR)/main/adler32.c \
-	$(SRCDIR)/main/zip/ioapi.c \
-	$(SRCDIR)/main/zip/zip.c \
-	$(SRCDIR)/main/zip/unzip.c \
 	$(SRCDIR)/memory/dma.c \
 	$(SRCDIR)/memory/flashram.c \
 	$(SRCDIR)/memory/memory.c \
+	$(SRCDIR)/memory/n64_cic_nus_6105.c \
 	$(SRCDIR)/memory/pif.c \
 	$(SRCDIR)/memory/tlb.c \
 	$(SRCDIR)/osal/dynamiclib_unix.c \
@@ -314,8 +355,19 @@ endif
 
 ifeq ($(LIRC), 1)
   SOURCE += $(SRCDIR)/main/lirc.c
-  LIBS += -llirc_client
+  LDLIBS += -llirc_client
 endif
+
+ifeq ($(shell pkg-config --modversion minizip 2>/dev/null),)
+  SOURCE += \
+	$(SRCDIR)/main/zip/ioapi.c \
+	$(SRCDIR)/main/zip/zip.c \
+	$(SRCDIR)/main/zip/unzip.c
+else
+  CFLAGS += $(shell pkg-config --cflags minizip) -DLIBMINIZIP
+  LDLIBS +=  $(shell pkg-config --libs minizip)
+endif
+
 
 ifeq ($(DEBUGGER), 1)
   SOURCE += \
@@ -323,14 +375,14 @@ ifeq ($(DEBUGGER), 1)
 	$(SRCDIR)/debugger/dbg_decoder.c \
 	$(SRCDIR)/debugger/dbg_memory.c \
 	$(SRCDIR)/debugger/dbg_breakpoints.c
-  LIBS += -lopcodes -lbfd
+  LDLIBS += -lopcodes -lbfd
 endif
 
 # generate a list of object files to build, make a temporary directory for them
 OBJECTS := $(patsubst $(SRCDIR)/%.c,   $(OBJDIR)/%.o, $(filter %.c,   $(SOURCE)))
 OBJECTS += $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(filter %.cpp, $(SOURCE)))
 OBJDIRS = $(dir $(OBJECTS))
-$(shell mkdir -p $(OBJDIRS))
+$(shell $(MKDIR) $(OBJDIRS))
 
 # build targets
 targets:
@@ -345,6 +397,8 @@ targets:
 	@echo "    LIRC=1        == enable LIRC support"
 	@echo "    NO_ASM=1      == build without assembly (no dynamic recompiler or MMX/SSE code)"
 	@echo "    SHAREDIR=path == extra path to search for shared data files"
+	@echo "    OPTFLAGS=flag == compiler optimization (default: -O3)"
+	@echo "    PIC=(1|0)     == Force enable/disable of position independent code"
 	@echo "  Install Options:"
 	@echo "    PREFIX=path   == install/uninstall prefix (default: /usr/local/)"
 	@echo "    SHAREDIR=path == path to install shared data files (default: PREFIX/share/mupen64plus)"
@@ -359,28 +413,31 @@ targets:
 	@echo "    DBG_COUNT=1   == print R4300 instruction count totals (64-bit dynarec only)"
 	@echo "    DBG_COMPARE=1 == enable core-synchronized r4300 debugging"
 	@echo "    DBG_PROFILE=1 == dump profiling data for r4300 dynarec to data file"
+	@echo "    V=1           == show verbose compiler output"
 
 all: $(TARGET)
 
 install: $(TARGET)
-	$(INSTALL) -d -v "$(DESTDIR)$(LIBDIR)"
-	$(INSTALL) -m 0644 $(TARGET) "$(DESTDIR)$(LIBDIR)"
-	$(INSTALL) -d -v "$(DESTDIR)$(SHAREDIR)"
+	$(INSTALL) -d "$(DESTDIR)$(LIBDIR)"
+	$(INSTALL) -m 0644 $(INSTALL_STRIP_FLAG) $(TARGET) "$(DESTDIR)$(LIBDIR)"
+	$(INSTALL) -d "$(DESTDIR)$(SHAREDIR)"
 	$(INSTALL) -m 0644 ../../data/* "$(DESTDIR)$(SHAREDIR)"
-	$(INSTALL) -d -v "$(DESTDIR)$(INCDIR)"
+	$(INSTALL) -d "$(DESTDIR)$(INCDIR)"
 	$(INSTALL) -m 0644 ../../src/api/m64p_*.h "$(DESTDIR)$(INCDIR)"
-	if [ `id -u` -eq 0 ]; then $(LDCONFIG); fi
+	-$(LDCONFIG) "$(DESTDIR)$(LIBDIR)"
+	if [ ! -e "$(DESTDIR)$(LIBDIR)/$(SONAME)" ]; then ln -sf "$(TARGET)" "$(DESTDIR)$(LIBDIR)/$(SONAME)"; fi
 
 uninstall:
-	$(RM) -f "$(DESTDIR)$(LIBDIR)/$(TARGET)"
-	if [ "$(SONAME)" != "" ]; then $(RM) -f "$(DESTDIR)$(LIBDIR)/$(SONAME)"; fi
-	$(RM) -f $(DESTDIR)$(INCDIR)/m64p_*.h
-	$(RM) -f "$(DESTDIR)$(SHAREDIR)/mupen64plus.cht"
-	$(RM) -f "$(DESTDIR)$(SHAREDIR)/mupen64plus.ini"
-	$(RM) -f "$(DESTDIR)$(SHAREDIR)/font.ttf"
+	$(RM) "$(DESTDIR)$(LIBDIR)/$(TARGET)"
+	if [ "$(SONAME)" != "" ]; then $(RM) "$(DESTDIR)$(LIBDIR)/$(SONAME)"; fi
+	$(RM) $(DESTDIR)$(INCDIR)/m64p_*.h
+	$(RM) "$(DESTDIR)$(SHAREDIR)/mupen64plus.cht"
+	$(RM) "$(DESTDIR)$(SHAREDIR)/mupen64plus.ini"
+	$(RM) "$(DESTDIR)$(SHAREDIR)/font.ttf"
+	$(RM) "$(DESTDIR)$(SHAREDIR)/mupencheat.txt"
 
 clean:
-	$(RM) -rf $(TARGET) $(SONAME) ./_obj
+	$(RM) -r $(TARGET) $(SONAME) ./_obj
 
 # build dependency files
 CFLAGS += -MD
@@ -388,23 +445,15 @@ CFLAGS += -MD
 
 CXXFLAGS += $(CFLAGS)
 
-# reduced compile output when running make without V=1
-ifneq ($(findstring $(MAKEFLAGS),s),s)
-ifndef V
-	Q_CC  = @echo '    CC  '$@;
-	Q_CXX = @echo '    CXX '$@;
-	Q_LD  = @echo '    LD  '$@;
-endif
-endif
-
-# build rules
-$(TARGET): $(OBJECTS)
-	$(Q_LD)$(CXX) $(LDFLAGS) $^ $(LIBS) -o $@
-	$(STRIP) $@
-	if [ "$(SONAME)" != "" ]; then ln -sf $@ $(SONAME); fi
+# standard build rules
+$(OBJDIR)/%.o: $(SRCDIR)/%.c
+	$(COMPILE.c) -o $@ $<
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp
-	$(Q_CXX)$(CXX) -o $@ $(CXXFLAGS) -c $<
+	$(COMPILE.cc) -o $@ $<
 
-$(OBJDIR)/%.o: $(SRCDIR)/%.c
-	$(Q_CC)$(CC) -o $@ $(CFLAGS) -c $<
+$(TARGET): $(OBJECTS)
+	$(LINK.o) $^ $(LOADLIBES) $(LDLIBS) -o $@
+	if [ "$(SONAME)" != "" ]; then ln -sf $@ $(SONAME); fi
+
+.PHONY: all clean install uninstall targets

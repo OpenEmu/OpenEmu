@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 # *   Mupen64plus - build_modules_src.sh                                    *
 # *   Mupen64Plus homepage: http://code.google.com/p/mupen64plus/           *
@@ -32,13 +32,13 @@ modules='mupen64plus-core mupen64plus-ui-console mupen64plus-audio-sdl mupen64pl
 for modname in ${modules}; do
   OUTPUTDIR="${modname}-$2"
   echo "************************************ Downloading and packaging module source code: ${modname}"
-  rm -rf "${OUTPUTDIR}"
-  hg clone -r $1 "http://bitbucket.org/richard42/$modname" "${OUTPUTDIR}"
-  rm -rf "${OUTPUTDIR}"/.hg*
-  if [ $# -eq 3 -a "$3" == "-norom" -a "$modname" == "mupen64plus-core" ]; then
-    rm -rf "${OUTPUTDIR}"/roms
+  rm -rf "tmp"
+  hg clone --noupdate "http://bitbucket.org/richard42/$modname" "tmp"
+  EXCLUDE="--exclude tmp/.hgtags --exclude tmp/.hg_archival.txt tmp/.hgignore"
+  if [ $# -eq 3 -a "$3" = "-norom" -a "$modname" = "mupen64plus-core" ]; then
+    EXCLUDE="${EXCLUDE} --exclude tmp/roms"
   fi
-  tar c "${OUTPUTDIR}" | gzip > "${OUTPUTDIR}.tar.gz"
-  rm -rf "${OUTPUTDIR}"
+  hg --repository tmp archive --no-decode --type tar --prefix "${OUTPUTDIR}/" ${EXCLUDE} -r $1 "${OUTPUTDIR}.tar"
+  gzip -n -f "${OUTPUTDIR}.tar"
+  rm -rf "tmp"
 done
-

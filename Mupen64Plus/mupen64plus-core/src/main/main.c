@@ -32,9 +32,11 @@
 
 #include <SDL.h>
 
+#define M64P_CORE_PROTOTYPES 1
 #include "api/m64p_types.h"
 #include "api/callbacks.h"
 #include "api/config.h"
+#include "api/m64p_config.h"
 #include "api/debugger.h"
 #include "api/vidext.h"
 
@@ -73,6 +75,7 @@ int         g_TakeScreenshot = 0;       // Tell OSD Rendering callback to take a
 static int   l_CurrentFrame = 0;         // frame counter
 static int   l_SpeedFactor = 100;        // percentage of nominal game speed at which emulator is running
 static int   l_FrameAdvance = 0;         // variable to check if we pause on next frame
+static int   l_MainSpeedLimit = 1;       // insert delay during vi_interrupt to keep speed at real-time
 
 static osd_message_t *l_msgVol = NULL;
 static osd_message_t *l_msgFF = NULL;
@@ -81,16 +84,28 @@ static osd_message_t *l_msgPause = NULL;
 /*********************************************************************************************************
 * helper functions
 */
-char *get_savespath()
+const char *get_savespath(void)
 {
     static char path[1024];
+    const char *savestatepath = NULL;
+    m64p_handle CoreHandle = NULL;
 
-    snprintf(path, 1024, "%ssave%c", ConfigGetUserDataPath(), OSAL_DIR_SEPARATOR);
-    path[1023] = 0;
+    /* try to get the SaveStatePath string variable in the Core configuration section */
+    if (ConfigOpenSection("Core", &CoreHandle) == M64ERR_SUCCESS)
+    {
+        savestatepath = ConfigGetParamString(CoreHandle, "SaveStatePath");
+    }
 
-    /* make sure the directory exists */
-    if (osal_mkdirp(path, 0700) != 0)
-        return NULL;
+    if (!savestatepath || (strlen(savestatepath) == 0)) {
+        snprintf(path, 1024, "%ssave%c", ConfigGetUserDataPath(), OSAL_DIR_SEPARATOR);
+        path[1023] = 0;
+    } else {
+        snprintf(path, 1024, "%s%c", savestatepath, OSAL_DIR_SEPARATOR);
+        path[1023] = 0;
+    }
+
+    /* create directory if it doesn't exist */
+    osal_mkdirp(path, 0700);
 
     return path;
 }
@@ -106,9 +121,9 @@ void main_message(m64p_msg_level level, unsigned int corner, const char *format,
 
     /* send message to on-screen-display if enabled */
     if (ConfigGetParamBool(g_CoreConfig, "OnScreenDisplay"))
-        osd_new_message((enum osd_corner) corner, buffer);
+        osd_new_message((enum osd_corner) corner, "%s", buffer);
     /* send message to front-end */
-    DebugMessage(level, buffer);
+    DebugMessage(level, "%s", buffer);
 }
 
 
@@ -196,6 +211,22 @@ void main_speedup(int percent)
     }
 }
 
+void main_speedset(int percent)
+{
+    if (percent < 1 || percent > 1000)
+    {
+        DebugMessage(M64MSG_WARNING, "Invalid speed setting %i percent", percent);
+        return;
+    }
+    // disable fast-forward if it's enabled
+    main_set_fastforward(0);
+    // set speed
+    l_SpeedFactor = percent;
+    main_message(M64MSG_STATUS, OSD_BOTTOM_LEFT, "%s %d%%", "Playback speed:", l_SpeedFactor);
+    setSpeedFactor(l_SpeedFactor);  // call to audio plugin
+    StateChanged(M64CORE_SPEED_FACTOR, l_SpeedFactor);
+}
+
 void main_set_fastforward(int enable)
 {
     static int ff_state = 0;
@@ -211,6 +242,7 @@ void main_set_fastforward(int enable)
         // set fast-forward indicator
         l_msgFF = osd_new_message(OSD_TOP_RIGHT, "Fast Forward");
         osd_message_set_static(l_msgFF);
+        osd_message_set_user_managed(l_msgFF);
     }
     else if (!enable && ff_state)
     {
@@ -223,6 +255,19 @@ void main_set_fastforward(int enable)
         l_msgFF = NULL;
     }
 
+}
+
+void main_set_speedlimiter(int enable)
+{
+    if (enable)
+        l_MainSpeedLimit = 1;
+    else
+        l_MainSpeedLimit = 0;
+}
+
+int main_get_speedlimiter(void)
+{
+    return l_MainSpeedLimit ? 1 : 0;
 }
 
 int main_is_paused(void)
@@ -253,6 +298,7 @@ void main_toggle_pause(void)
         DebugMessage(M64MSG_STATUS, "Emulation paused.");
         l_msgPause = osd_new_message(OSD_MIDDLE_CENTER, "Paused");
         osd_message_set_static(l_msgPause);
+	osd_message_set_user_managed(l_msgPause);
         StateChanged(M64CORE_EMU_STATE, M64EMU_PAUSED);
     }
 
@@ -272,10 +318,6 @@ void main_draw_volume_osd(void)
     char msgString[64];
     const char *volString;
 
-    // if we had a volume message, make sure that it's still in the OSD list, or set it to NULL
-    if (l_msgVol != NULL && !osd_message_valid(l_msgVol))
-        l_msgVol = NULL;
-
     // this calls into the audio plugin
     volString = volumeGetString();
     if (volString == NULL)
@@ -285,15 +327,15 @@ void main_draw_volume_osd(void)
     else
     {
         sprintf(msgString, "%s: %s", "Volume", volString);
-        if (msgString[strlen(msgString) - 1] == '%')
-            strcat(msgString, "%");
     }
 
     // create a new message or update an existing one
     if (l_msgVol != NULL)
-        osd_update_message(l_msgVol, msgString);
-    else
-        l_msgVol = osd_new_message(OSD_MIDDLE_CENTER, msgString);
+        osd_update_message(l_msgVol, "%s", msgString);
+    else {
+        l_msgVol = osd_new_message(OSD_MIDDLE_CENTER, "%s", msgString);
+	osd_message_set_user_managed(l_msgVol);
+    }
 }
 
 /* this function could be called as a result of a keypress, joystick/button movement,
@@ -312,6 +354,7 @@ void main_state_set_slot(int slot)
     }
 
     savestates_select_slot(slot);
+    StateChanged(M64CORE_SAVESTATE_SLOT, slot);
 }
 
 void main_state_inc_slot(void)
@@ -378,6 +421,9 @@ m64p_error main_core_state_query(m64p_core_param param, int *rval)
         case M64CORE_SPEED_FACTOR:
             *rval = l_SpeedFactor;
             break;
+        case M64CORE_SPEED_LIMITER:
+            *rval = l_MainSpeedLimit;
+            break;
         default:
             return M64ERR_INPUT_INVALID;
     }
@@ -389,7 +435,7 @@ m64p_error main_core_state_query(m64p_core_param param, int *rval)
 * global functions, callbacks from the r4300 core or from other plugins
 */
 
-void video_plugin_render_callback(void)
+static void video_plugin_render_callback(void)
 {
     // if the flag is set to take a screenshot, then grab it now
     if (g_TakeScreenshot != 0)
@@ -453,8 +499,9 @@ void new_vi(void)
     {
         CalculatedTime = (unsigned int) (CounterTime + AdjustedLimit * VI_Counter);
         time = (int)(CalculatedTime - CurrentFPSTime);
-        if (time > 0)
+        if (time > 0 && l_MainSpeedLimit)
         {
+            DebugMessage(M64MSG_VERBOSE, "    new_vi(): Waiting %ims", time);
             SDL_Delay(time);
         }
         CurrentFPSTime = CurrentFPSTime + time;
@@ -470,7 +517,6 @@ void new_vi(void)
     end_section(IDLE_SECTION);
 }
 #endif
-
 /*********************************************************************************************************
 * emulation thread - runs the core
 */
@@ -487,9 +533,6 @@ m64p_error main_run(void)
     savestates_select_slot(ConfigGetParamInt(g_CoreConfig, "CurrentStateSlot"));
     no_compiled_jump = ConfigGetParamBool(g_CoreConfig, "NoCompiledJump");
 
-    /* set up the SDL key repeat and event filter to catch keyboard/joystick commands for the core */
-    event_initialize();
-
     // initialize memory, and do byte-swapping if it's not been done yet
     if (g_MemHasBeenBSwapped == 0)
     {
@@ -504,17 +547,21 @@ m64p_error main_run(void)
     // Attach rom to plugins
     if (!romOpen_gfx())
     {
-        free_memory(); SDL_Quit(); return M64ERR_PLUGIN_FAIL;
+        free_memory(); return M64ERR_PLUGIN_FAIL;
     }
     if (!romOpen_audio())
     {
-        romClosed_gfx(); free_memory(); SDL_Quit(); return M64ERR_PLUGIN_FAIL;
+        romClosed_gfx(); free_memory(); return M64ERR_PLUGIN_FAIL;
     }
     if (!romOpen_input())
     {
-        romClosed_audio(); romClosed_gfx(); free_memory(); SDL_Quit(); return M64ERR_PLUGIN_FAIL;
+        romClosed_audio(); romClosed_gfx(); free_memory(); return M64ERR_PLUGIN_FAIL;
     }
 
+    /* set up the SDL key repeat and event filter to catch keyboard/joystick commands for the core */
+    event_initialize();
+
+    /* initialize the on-screen display */
     if (ConfigGetParamBool(g_CoreConfig, "OnScreenDisplay"))
     {
         // init on-screen display
@@ -546,6 +593,7 @@ m64p_error main_run(void)
     r4300_reset_soft();
     r4300_execute();
 
+    /* now begin to shut down */
 #ifdef WITH_LIRC
     lircStop();
 #endif // WITH_LIRC
@@ -570,8 +618,6 @@ m64p_error main_run(void)
     g_EmulatorRunning = 0;
     StateChanged(M64CORE_EMU_STATE, M64EMU_STOPPED);
 
-    SDL_Quit();
-
     return M64ERR_SUCCESS;
 }
 
@@ -592,6 +638,11 @@ void main_stop(void)
     {
         osd_delete_message(l_msgFF);
         l_msgFF = NULL;
+    }
+    if(l_msgVol)
+    {
+        osd_delete_message(l_msgVol);
+        l_msgVol = NULL;
     }
     if (rompause)
     {

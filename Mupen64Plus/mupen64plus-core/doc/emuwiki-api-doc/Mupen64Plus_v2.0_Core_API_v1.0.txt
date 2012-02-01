@@ -1,7 +1,9 @@
-[http://mupen64plus.emuwiki.com Project page]
+[http://mupen64plus.retrouprising.com Project page]
 
-Please note: as of October 2009, this API is a work in progress.<br />
-The first draft of this API is complete, and development work on the Mupen64Plus software is ongoing.
+Please note: as of January 2011, this API is a work in progress.<br />
+The core Mupen64Plus v2.0 modules are complete, but work on GUI front-end applications is ongoing.
+
+To view the design proposal which preceded this API definition, go to [[Mupen64Plus v2.0 Design Proposal 3|Design Proposal 3]].
 
 == New Architecture ==
 
@@ -31,7 +33,7 @@ The expected sequence of operations which will be taken by the front-end applica
 == Core API ==
 === [[Mupen64Plus v2.0 Core Basic|Basic Core Functions]] ===
 
-These two functions (<tt>CoreGetVersion</tt> and <tt>CoreErrorMessage</tt>) are utility functions and may be called at any time (even before core startup).  These functions are used by both the front-end and the plugins.
+These two functions (<tt>PluginGetVersion</tt> and <tt>CoreErrorMessage</tt>) are utility functions and may be called at any time (even before core startup).  These functions are used by both the front-end and the plugins.
 
 === [[Mupen64Plus v2.0 Core Front-End|Front-End Functions]] ===
 

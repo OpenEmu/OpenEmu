@@ -50,19 +50,9 @@ namespace OGLFT
         R, G, B, A
     };
 
-    class Library 
-    {
-        public:
-            static FT_Library& instance ( void );
-
-        protected:
-            Library ( void );
-            ~Library( void );
-
-        private:
-            static Library library;
-            static FT_Library library_;
-    };
+    // global library functions
+    bool Init_FT(void);
+    bool Uninit_FT(void);
 
     struct Advance 
     {

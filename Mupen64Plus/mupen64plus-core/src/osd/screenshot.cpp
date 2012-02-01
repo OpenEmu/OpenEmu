@@ -31,8 +31,10 @@
 #include "osd.h"
 
 extern "C" {
+#define M64P_CORE_PROTOTYPES 1
 #include "api/m64p_types.h"
 #include "api/callbacks.h"
+#include "api/m64p_config.h"
 #include "api/config.h"
 #include "main/main.h"
 #include "main/util.h"
@@ -60,7 +62,7 @@ static void user_write_data(png_structp png_write, png_bytep data, png_size_t le
 {
     FILE *fPtr = (FILE *) png_get_io_ptr(png_write);
     if (fwrite(data, 1, length, fPtr) != length)
-        DebugMessage(M64MSG_ERROR, "Failed to write %i bytes to screenshot file.", length);
+        DebugMessage(M64MSG_ERROR, "Failed to write %zi bytes to screenshot file.", length);
 }
 
 static void user_flush_data(png_structp png_write)

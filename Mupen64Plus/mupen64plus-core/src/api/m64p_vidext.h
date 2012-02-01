@@ -28,6 +28,10 @@
 
 #include "m64p_types.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* VidExt_Init()
  *
  * This function should be called from within the InitiateGFX() video plugin
@@ -36,6 +40,9 @@
  * switch video modes. 
  */
 typedef m64p_error (*ptr_VidExt_Init)(void);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL VidExt_Init(void);
+#endif
 
 /* VidExt_Quit()
  *
@@ -45,6 +52,9 @@ typedef m64p_error (*ptr_VidExt_Init)(void);
  * within the RomClose() video plugin function. 
  */
 typedef m64p_error (*ptr_VidExt_Quit)(void);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL VidExt_Quit(void);
+#endif
 
 /* VidExt_ListFullscreenModes()
  *
@@ -53,6 +63,9 @@ typedef m64p_error (*ptr_VidExt_Quit)(void);
  * then filled with resolution sizes.
  */
 typedef m64p_error (*ptr_VidExt_ListFullscreenModes)(m64p_2d_size *, int *);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL VidExt_ListFullscreenModes(m64p_2d_size *, int *);
+#endif
 
 /* VidExt_SetVideoMode()
  *
@@ -61,18 +74,27 @@ typedef m64p_error (*ptr_VidExt_ListFullscreenModes)(m64p_2d_size *, int *);
  * this function.
  */
 typedef m64p_error (*ptr_VidExt_SetVideoMode)(int, int, int, m64p_video_mode);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL VidExt_SetVideoMode(int, int, int, m64p_video_mode);
+#endif
 
 /* VidExt_SetCaption()
  *
  * This function sets the caption text of the emulator rendering window.
  */
 typedef m64p_error (*ptr_VidExt_SetCaption)(const char *);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL VidExt_SetCaption(const char *);
+#endif
 
 /* VidExt_ToggleFullScreen()
  *
  * This function toggles between fullscreen and windowed rendering modes.
  */
 typedef m64p_error (*ptr_VidExt_ToggleFullScreen)(void);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL VidExt_ToggleFullScreen(void);
+#endif
 
 /* VidExt_GL_GetProcAddress()
  *
@@ -81,6 +103,9 @@ typedef m64p_error (*ptr_VidExt_ToggleFullScreen)(void);
  * shipped with Windows only supports OpenGL version 1.1. 
  */
 typedef void * (*ptr_VidExt_GL_GetProcAddress)(const char *);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT void * CALL VidExt_GL_GetProcAddress(const char *);
+#endif
 
 /* VidExt_GL_SetAttribute()
  *
@@ -88,6 +113,19 @@ typedef void * (*ptr_VidExt_GL_GetProcAddress)(const char *);
  * specified before creating the rendering window with VidExt_SetVideoMode.
  */
 typedef m64p_error (*ptr_VidExt_GL_SetAttribute)(m64p_GLattr, int);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL VidExt_GL_SetAttribute(m64p_GLattr, int);
+#endif
+
+/* VidExt_GL_GetAttribute()
+ *
+ * This function is used to get the value of OpenGL attributes.  These values may 
+ * be changed when calling VidExt_SetVideoMode.
+ */
+typedef m64p_error (*ptr_VidExt_GL_GetAttribute)(m64p_GLattr, int *);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL VidExt_GL_GetAttribute(m64p_GLattr, int *);
+#endif
 
 /* VidExt_GL_SwapBuffers()
  *
@@ -95,6 +133,13 @@ typedef m64p_error (*ptr_VidExt_GL_SetAttribute)(m64p_GLattr, int);
  * output video frame.
  */
 typedef m64p_error (*ptr_VidExt_GL_SwapBuffers)(void);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL VidExt_GL_SwapBuffers(void);
+#endif
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* #define M64P_VIDEXT_H */
 

@@ -72,7 +72,7 @@ unsigned char *PIF_RAMb = (unsigned char *)(PIF_RAM);
 // address : address of the read/write operation being done
 unsigned int address = 0;
 // *address_low = the lower 16 bit of the address :
-#ifdef _BIG_ENDIAN
+#ifdef M64P_BIG_ENDIAN
 static unsigned short *address_low = (unsigned short *)(&address)+1; 
 #else
 static unsigned short *address_low = (unsigned short *)(&address);

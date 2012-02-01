@@ -24,8 +24,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define M64P_CORE_PROTOTYPES 1
 #include "api/m64p_types.h"
 #include "api/callbacks.h"
+#include "api/m64p_config.h"
 #include "api/config.h"
 
 #include "savestates.h"
@@ -41,12 +43,17 @@
 #include "osal/preproc.h"
 #include "osd/osd.h"
 
-#include "main/zip/unzip.h"
-#include "main/zip/zip.h"
+#ifdef LIBMINIZIP
+    #include <unzip.h>
+    #include <zip.h>
+#else
+    #include "main/zip/unzip.h"
+    #include "main/zip/zip.h"
+#endif
 
-const char* savestate_magic = "M64+SAVE";
-const int savestate_version = 0x00010000;  /* 1.0 */
-const int pj64_magic = 0x23D8A6C8;
+static const char* savestate_magic = "M64+SAVE";
+static const int savestate_version = 0x00010000;  /* 1.0 */
+static const int pj64_magic = 0x23D8A6C8;
 
 extern unsigned int interp_addr;
 
@@ -58,7 +65,7 @@ static char fname[1024] = {0};
 
 void savestates_select_slot(unsigned int s)
 {
-    if(s<0||s>9||s==slot)
+    if(s>9||s==slot)
         return;
     slot = s;
     ConfigSetParameter(g_CoreConfig, "CurrentSaveSlot", M64TYPE_INT, &s);
@@ -101,12 +108,12 @@ void savestates_inc_slot(void)
 
 void savestates_select_filename(const char* fn)
 {
-   if(strlen((char*)fn)>=1024)
+   if(strlen(fn) >= sizeof(fname))
        return;
    strcpy(fname, fn);
 }
 
-char* savestates_get_filename()
+char* savestates_get_filename(void)
 {
     size_t length = strlen(ROM_SETTINGS.goodname)+4+1;
     char* filename = (char*)malloc(length);
@@ -114,7 +121,7 @@ char* savestates_get_filename()
     return filename;
 }
 
-char* savestates_get_pj64_filename()
+char* savestates_get_pj64_filename(void)
 {
     size_t length = strlen((char*)ROM_HEADER->nom)+8+1;
     char* filename = (char*)malloc(length);
@@ -122,7 +129,7 @@ char* savestates_get_pj64_filename()
     return filename;
 }
 
-void savestates_save()
+void savestates_save(void)
 {
     char *filename, *file, buffer[1024];
     unsigned char outbuf[4];
@@ -154,6 +161,13 @@ void savestates_save()
 
     f = gzopen(file, "wb");
     free(file);
+
+    if (f==NULL)
+    {
+        main_message(M64MSG_STATUS, OSD_BOTTOM_LEFT, "Could not open state file: %s", filename);
+        free(filename);
+        return;
+    }
 
     /* Write magic number. */
     gzwrite(f, savestate_magic, 8);
@@ -226,7 +240,7 @@ void savestates_save()
     free(filename);
 }
 
-void savestates_load()
+void savestates_load(void)
 {
     char *filename, *file, buffer[1024];
     unsigned char inbuf[4];
@@ -256,11 +270,11 @@ void savestates_load()
     free(file);
 
     if(f==NULL)
-        {
+    {
         main_message(M64MSG_STATUS, OSD_BOTTOM_LEFT, "Could not open state file: %s", filename);
         free(filename);
         return;
-        }
+    }
 
     /* Read and check Mupen64Plus magic number. */
     gzread(f, buffer, 8);
@@ -371,7 +385,7 @@ void savestates_load()
     fname[0] = 0;
 }
 
-int savestates_save_pj64()
+int savestates_save_pj64(void)
 {
     char *file, *filename;
     unsigned int i, vi_timer, addr;
@@ -506,7 +520,7 @@ int savestates_save_pj64()
     return 1;
 }
 
-void savestates_load_pj64()
+void savestates_load_pj64(void)
 {
     char *file, *filename, buffer[1024], RomHeader[64], szFileName[256], szExtraField[256], szComment[256];
     unsigned int magic, value, vi_timer, SaveRDRAMSize;

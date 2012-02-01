@@ -19,6 +19,19 @@
 			name = "Build & Install Mupen64Plus";
 			productName = "Build & Install";
 		};
+		9449518214D8F95F00FC80E7 /* Distribution */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = 9449518614D8F95F00FC80E7 /* Build configuration list for PBXAggregateTarget "Distribution" */;
+			buildPhases = (
+				9449518914D8F99800FC80E7 /* CopyFiles */,
+				9449518514D8F95F00FC80E7 /* ShellScript */,
+			);
+			dependencies = (
+				9449518314D8F95F00FC80E7 /* PBXTargetDependency */,
+			);
+			name = Distribution;
+			productName = "Build & Install";
+		};
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
@@ -101,6 +114,8 @@
 		3D8B35D812260F9D00C4C844 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8B35D712260F9D00C4C844 /* main.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
+		9449518B14D8F9B400FC80E7 /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9449518A14D8F9B400FC80E7 /* config.yaml */; };
+		944951E414D912BE00FC80E7 /* n64_cic_nus_6105.c in Sources */ = {isa = PBXBuildFile; fileRef = 944951E214D912BE00FC80E7 /* n64_cic_nus_6105.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,6 +175,20 @@
 			remoteGlobalIDString = 820EB74A1483F9A2008EC398;
 			remoteInfo = NeoGeoPocket;
 		};
+		9449518414D8F95F00FC80E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 089C1669FE841209C02AAC07 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
+			remoteInfo = Mupen64Plus;
+		};
+		9449518C14D8FC3300FC80E7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 82444BA00F51256C007C171B;
+			remoteInfo = OpenEmuBase;
+		};
 		C66AD7F613779C4000CDAA6A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 3D208B7F1182427D00BEAA42 /* OpenEmu.xcodeproj */;
@@ -210,6 +239,19 @@
 			remoteInfo = Genesis;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		9449518914D8F99800FC80E7 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+				9449518B14D8F9B400FC80E7 /* config.yaml in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		089C1672FE841209C02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -346,7 +388,6 @@
 		3D208D4D11824C2200BEAA42 /* memory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = memory.h; sourceTree = "<group>"; };
 		3D208D4E11824C2200BEAA42 /* pif.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = pif.c; sourceTree = "<group>"; };
 		3D208D4F11824C2200BEAA42 /* pif.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pif.h; sourceTree = "<group>"; };
-		3D208D5011824C2200BEAA42 /* pif2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pif2.h; sourceTree = "<group>"; };
 		3D208D5111824C2200BEAA42 /* tlb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tlb.c; sourceTree = "<group>"; };
 		3D208D5211824C2200BEAA42 /* tlb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tlb.h; sourceTree = "<group>"; };
 		3D208D5411824C2200BEAA42 /* dynamiclib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = dynamiclib.h; sourceTree = "<group>"; };
@@ -453,6 +494,11 @@
 		3D8B35D712260F9D00C4C844 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* Mupen64Plus.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Mupen64Plus.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9449518A14D8F9B400FC80E7 /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
+		9449518E14D8FE6100FC80E7 /* OEN64SystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEN64SystemResponderClient.h; path = ../OpenEmu/N64/OEN64SystemResponderClient.h; sourceTree = "<group>"; };
+		944951E214D912BE00FC80E7 /* n64_cic_nus_6105.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = n64_cic_nus_6105.c; sourceTree = "<group>"; };
+		944951E314D912BE00FC80E7 /* n64_cic_nus_6105.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = n64_cic_nus_6105.h; sourceTree = "<group>"; };
+		944951E514D912E500FC80E7 /* fpu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fpu.h; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -506,6 +552,7 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				9449518E14D8FE6100FC80E7 /* OEN64SystemResponderClient.h */,
 				3D208F301182A6ED00BEAA42 /* MupenGameController.h */,
 				3D208F311182A6ED00BEAA42 /* MupenGameController.m */,
 				3D208F801182B00300BEAA42 /* MupenGameCore.h */,
@@ -545,6 +592,7 @@
 		32C88E010371C26100C91783 /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				9449518A14D8F9B400FC80E7 /* config.yaml */,
 				3D2090581182D92800BEAA42 /* Compatibility */,
 				3D208CC611824C2200BEAA42 /* mupen64plus-core */,
 				32DBCF630370AF2F00C91783 /* Mupen64Plus_Prefix.pch */,
@@ -841,6 +889,8 @@
 		3D208D4711824C2200BEAA42 /* memory */ = {
 			isa = PBXGroup;
 			children = (
+				944951E214D912BE00FC80E7 /* n64_cic_nus_6105.c */,
+				944951E314D912BE00FC80E7 /* n64_cic_nus_6105.h */,
 				3D208D4811824C2200BEAA42 /* dma.c */,
 				3D208D4911824C2200BEAA42 /* dma.h */,
 				3D208D4A11824C2200BEAA42 /* flashram.c */,
@@ -849,7 +899,6 @@
 				3D208D4D11824C2200BEAA42 /* memory.h */,
 				3D208D4E11824C2200BEAA42 /* pif.c */,
 				3D208D4F11824C2200BEAA42 /* pif.h */,
-				3D208D5011824C2200BEAA42 /* pif2.h */,
 				3D208D5111824C2200BEAA42 /* tlb.c */,
 				3D208D5211824C2200BEAA42 /* tlb.h */,
 			);
@@ -903,6 +952,7 @@
 		3D208D6D11824C2200BEAA42 /* r4300 */ = {
 			isa = PBXGroup;
 			children = (
+				944951E514D912E500FC80E7 /* fpu.h */,
 				3D208D6E11824C2200BEAA42 /* bc.c */,
 				3D208D6F11824C2200BEAA42 /* cop0.c */,
 				3D208D7011824C2200BEAA42 /* cop1.c */,
@@ -1035,6 +1085,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				9449518D14D8FC3300FC80E7 /* PBXTargetDependency */,
 			);
 			name = Mupen64Plus;
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -1070,6 +1121,7 @@
 			targets = (
 				8D5B49AC048680CD000E48DA /* Mupen64Plus */,
 				3D2091111183B8E900BEAA42 /* Build & Install Mupen64Plus */,
+				9449518214D8F95F00FC80E7 /* Distribution */,
 			);
 		};
 /* End PBXProject section */
@@ -1205,7 +1257,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"{,.dSYM}\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"";
+		};
+		9449518514D8F95F00FC80E7 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = /usr/bin/openemu_rb_automation.rb;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1281,6 +1346,7 @@
 				3D00F0811183E52F002995A1 /* SDLStubs.m in Sources */,
 				3D00F0C01183E6FA002995A1 /* vidext.m in Sources */,
 				3D8B35D812260F9D00C4C844 /* main.m in Sources */,
+				944951E414D912BE00FC80E7 /* n64_cic_nus_6105.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1291,6 +1357,16 @@
 			isa = PBXTargetDependency;
 			target = 8D5B49AC048680CD000E48DA /* Mupen64Plus */;
 			targetProxy = 3D2091141183B8F000BEAA42 /* PBXContainerItemProxy */;
+		};
+		9449518314D8F95F00FC80E7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8D5B49AC048680CD000E48DA /* Mupen64Plus */;
+			targetProxy = 9449518414D8F95F00FC80E7 /* PBXContainerItemProxy */;
+		};
+		9449518D14D8FC3300FC80E7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = OpenEmuBase;
+			targetProxy = 9449518C14D8FC3300FC80E7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1431,6 +1507,28 @@
 			};
 			name = Release;
 		};
+		9449518714D8F95F00FC80E7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = Distribution;
+				VALID_ARCHS = x86_64;
+			};
+			name = Debug;
+		};
+		9449518814D8F95F00FC80E7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = Distribution;
+				VALID_ARCHS = x86_64;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1457,6 +1555,15 @@
 			buildConfigurations = (
 				3D2091121183B8E900BEAA42 /* Debug */,
 				3D2091131183B8E900BEAA42 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9449518614D8F95F00FC80E7 /* Build configuration list for PBXAggregateTarget "Distribution" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9449518714D8F95F00FC80E7 /* Debug */,
+				9449518814D8F95F00FC80E7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

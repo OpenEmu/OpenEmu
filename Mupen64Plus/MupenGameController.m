@@ -23,44 +23,21 @@
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 #import "MupenGameCore.h"
 #import "MupenGameController.h"
-#import "MupenPreferenceViewController.h"
-
-const NSString *MupenControlNames[] = {
-    @"N64_DPadR", @"N64_DPadL", @"N64_DPadD", @"N64_DPadU",
-    @"N64_Start", @"N64_Z", @"N64_B", @"N64_A", @"N64_CR",
-    @"N64_CL", @"N64_CD", @"N64_CU", @"N64_R", @"N64_L"
-};
-// FIXME: missing: joypad X, joypad Y, mempak switch, rumble switch
-
-const int kMupenControlNamesCount = sizeof(MupenControlNames) / sizeof(MupenControlNames[0]);
-
-static NSArray *MupenControlNamesArray;
 
 @implementation MupenGameController
 
 + (void)initialize
 {
-    [super initialize];
-    
-    [self registerPreferenceViewControllerClasses:
-     [NSDictionary dictionaryWithObject:[MupenPreferenceViewController class]
-                                 forKey:OEControlsPreferenceKey]];
-    
-    MupenControlNamesArray = [[NSArray alloc] initWithObjects:MupenControlNames
-                                                        count:kMupenControlNamesCount];
-}
-
-- (NSArray *)genericControlNames
-{
-    return MupenControlNamesArray;
+    if(self == [MupenGameController class])
+    {
+    }
 }
 
 - (NSUInteger)playerCount
 {
-    return 4;
+    return MAC_MAX_PLAYERS;
 }
 
 - (Class)gameCoreClass

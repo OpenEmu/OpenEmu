@@ -25,7 +25,9 @@
 
 #include <stdlib.h>
 
+#define M64P_CORE_PROTOTYPES 1
 #include "m64p_types.h"
+#include "m64p_common.h"
 #include "../main/version.h"
 
 EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *PluginVersion, int *APIVersion, const char **PluginNamePtr, int *Capabilities)
@@ -38,7 +40,7 @@ EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *Plugi
         *PluginVersion = MUPEN_CORE_VERSION;
 
     if (APIVersion != NULL)
-        *APIVersion = MUPEN_API_VERSION;
+        *APIVersion = FRONTEND_API_VERSION;
     
     if (PluginNamePtr != NULL)
         *PluginNamePtr = MUPEN_CORE_NAME;
@@ -60,6 +62,24 @@ EXPORT m64p_error CALL PluginGetVersion(m64p_plugin_type *PluginType, int *Plugi
     return M64ERR_SUCCESS;
 }
 
+EXPORT m64p_error CALL CoreGetAPIVersions(int *ConfigVersion, int *DebugVersion, int *VidextVersion, int *ExtraVersion)
+{
+    /* set version info */
+    if (ConfigVersion != NULL)
+        *ConfigVersion = CONFIG_API_VERSION;
+
+    if (DebugVersion != NULL)
+        *DebugVersion = DEBUG_API_VERSION;
+
+    if (VidextVersion != NULL)
+        *VidextVersion = VIDEXT_API_VERSION;
+
+    if (ExtraVersion != NULL)
+        *ExtraVersion = 0;
+
+    return M64ERR_SUCCESS;
+}
+
 static const char *ErrorMessages[] = {
                    "SUCCESS: No error",
                    "NOT_INIT: A function was called before it's associated module was initialized",
@@ -73,7 +93,9 @@ static const char *ErrorMessages[] = {
                    "INTERNAL: logical inconsistency in program code.  Probably a bug.",
                    "INVALID_STATE: An operation was requested which is not allowed in the current state",
                    "PLUGIN_FAIL: A plugin function returned a fatal error",
-                   "SYSTEM_FAIL: A system function call, such as an SDL or file operation, failed"};
+                   "SYSTEM_FAIL: A system function call, such as an SDL or file operation, failed",
+                   "UNSUPPORTED: Function call is not supported (ie, core not built with debugger)",
+                   "WRONG_TYPE: A given input type parameter cannot be used for desired operation" };
 
 EXPORT const char * CALL CoreErrorMessage(m64p_error ReturnCode)
 {

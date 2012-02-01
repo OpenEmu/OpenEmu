@@ -81,7 +81,8 @@ typedef enum {
   M64ERR_INVALID_STATE,   /* Current program state does not allow operation */
   M64ERR_PLUGIN_FAIL,     /* A plugin function returned a fatal error */
   M64ERR_SYSTEM_FAIL,     /* A system function call, such as an SDL or file operation, failed */
-  M64ERR_UNSUPPORTED      /* Function call is not supported (ie, core not built with debugger) */
+  M64ERR_UNSUPPORTED,     /* Function call is not supported (ie, core not built with debugger) */
+  M64ERR_WRONG_TYPE       /* A given input type parameter cannot be used for desired operation */
 } m64p_error;
 
 typedef enum {
@@ -115,7 +116,8 @@ typedef enum {
   M64CORE_EMU_STATE = 1,
   M64CORE_VIDEO_MODE,
   M64CORE_SAVESTATE_SLOT,
-  M64CORE_SPEED_FACTOR
+  M64CORE_SPEED_FACTOR,
+  M64CORE_SPEED_LIMITER
 } m64p_core_param;
 
 typedef enum {
@@ -135,7 +137,8 @@ typedef enum {
   M64CMD_SEND_SDL_KEYDOWN,
   M64CMD_SEND_SDL_KEYUP,
   M64CMD_SET_FRAME_CALLBACK,
-  M64CMD_TAKE_NEXT_SCREENSHOT
+  M64CMD_TAKE_NEXT_SCREENSHOT,
+  M64CMD_CORE_STATE_SET
 } m64p_command;
 
 typedef struct {
@@ -169,8 +172,11 @@ typedef struct
 typedef struct
 {
    char goodname[256];
-   int eeprom_16kb;
    char MD5[33];
+   unsigned char savetype;
+   unsigned char status;  /* Rom status on a scale from 0-5. */
+   unsigned char players; /* Local players 0-4, 2/3/4 way Netplay indicated by 5/6/7. */
+   unsigned char rumble;  /* 0 - No, 1 - Yes boolean for rumble support. */
 } m64p_rom_settings;
 
 /* ----------------------------------------- */
@@ -257,6 +263,7 @@ typedef struct {
   m64p_error (*VidExtFuncSetMode)(int, int, int, int);
   void *     (*VidExtFuncGLGetProc)(const char*);
   m64p_error (*VidExtFuncGLSetAttr)(m64p_GLattr, int);
+  m64p_error (*VidExtFuncGLGetAttr)(m64p_GLattr, int *);
   m64p_error (*VidExtFuncGLSwapBuf)(void);
   m64p_error (*VidExtFuncSetCaption)(const char *);
   m64p_error (*VidExtFuncToggleFS)(void);

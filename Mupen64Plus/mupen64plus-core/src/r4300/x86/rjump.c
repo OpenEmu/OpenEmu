@@ -92,55 +92,39 @@ void dyna_start(void (*code)(void))
      mov edi, save_edi
    }
 #elif defined(__GNUC__) && defined(__i386__)
-  #if defined(PIC)
+  #if defined(__PIC__)
     /* for -fPIC (shared libraries) */
-    asm volatile
-      (" movl %%ebp,  save_ebp@GOTOFF(%%ebx)\n"
-       " movl %%esp,  save_esp@GOTOFF(%%ebx)\n"
-       " movl %%esi,  save_esi@GOTOFF(%%ebx)\n"
-       " movl %%edi,  save_edi@GOTOFF(%%ebx)\n"
-       " call    1f                         \n"
-       " jmp     2f                         \n"
-       "1:                                  \n"
-       " popl %%eax                         \n"
-       " movl %%eax,  save_eip@GOTOFF(%%ebx)\n"
-       " call *%[codeptr]                   \n"
-       "2:                                  \n"
-       " call  __i686.get_pc_thunk.bx       \n"
-       " addl $_GLOBAL_OFFSET_TABLE_, %%ebx \n"
-       " movl save_ebp@GOTOFF(%%ebx), %%ebp \n"
-       " movl save_esp@GOTOFF(%%ebx), %%esp \n"
-       " movl save_esi@GOTOFF(%%ebx), %%esi \n"
-       " movl save_edi@GOTOFF(%%ebx), %%edi \n"
-       :
-       : [codeptr]"r"(code)
-       : "eax", "ecx", "edx", "memory"
-       );
+    #define STORE_EBX
+    #define LOAD_EBX "call  __i686.get_pc_thunk.bx       \n" \
+                     "addl $_GLOBAL_OFFSET_TABLE_, %%ebx \n"
   #else
     /* for non-PIC binaries */
-    asm volatile 
-      (" movl %%ebp, save_ebp \n"
-       " movl %%esp, save_esp \n"
-       " movl %%ebx, save_ebx \n"
-       " movl %%esi, save_esi \n"
-       " movl %%edi, save_edi \n"
-       " call 1f              \n"
-       " jmp 2f               \n"
-       "1:                    \n"
-       " popl %%eax           \n"
-       " movl %%eax, save_eip \n"
-       " call *%[codeptr]     \n"
-       "2:                    \n"
-       " movl save_ebp, %%ebp \n"
-       " movl save_esp, %%esp \n"
-       " movl save_ebx, %%ebx \n"
-       " movl save_esi, %%esi \n"
-       " movl save_edi, %%edi \n"
-       :
-       : [codeptr]"r"(code)
-       : "eax", "ecx", "edx", "memory"
-       );
+    #define STORE_EBX "movl %%ebx, %[save_ebx] \n"
+    #define LOAD_EBX  "movl %[save_ebx], %%ebx \n"
   #endif
+
+  asm volatile
+    (STORE_EBX
+     " movl %%ebp, %[save_ebp] \n"
+     " movl %%esp, %[save_esp] \n"
+     " movl %%esi, %[save_esi] \n"
+     " movl %%edi, %[save_edi] \n"
+     " call    1f              \n"
+     " jmp     2f              \n"
+     "1:                       \n"
+     " popl %%eax              \n"
+     " movl %%eax, %[save_eip] \n"
+     " call *%[codeptr]        \n"
+     "2:                       \n"
+     LOAD_EBX
+     " movl %[save_ebp], %%ebp \n"
+     " movl %[save_esp], %%esp \n"
+     " movl %[save_esi], %%esi \n"
+     " movl %[save_edi], %%edi \n"
+     : [save_ebp]"=m"(save_ebp), [save_esp]"=m"(save_esp), [save_ebx]"=m"(save_ebx), [save_esi]"=m"(save_esi), [save_edi]"=m"(save_edi), [save_eip]"=m"(save_eip)
+     : [codeptr]"r"(code)
+     : "eax", "ecx", "edx", "memory"
+     );
 #endif
 
     /* clear flag; stack is back to normal */
