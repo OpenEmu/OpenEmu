@@ -45,20 +45,30 @@
     {
 		[filterMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
 	}
-	[filterSelection setMenu:filterMenu];
+	[[self filterSelection] setMenu:filterMenu];
 	[filterMenu release];	
 	
 	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
 	NSString* selectedFilterName = [sud objectForKey:UDVideoFilterKey];
-	if(selectedFilterName && [filterSelection itemWithTitle:selectedFilterName])
+	if(selectedFilterName && [[self filterSelection] itemWithTitle:selectedFilterName])
     {
-		[filterSelection selectItemWithTitle:selectedFilterName];
+		[[self filterSelection] selectItemWithTitle:selectedFilterName];
 	} 
     else 
     {
-		[filterSelection selectItemAtIndex:0];
+		[[self filterSelection] selectItemAtIndex:0];
 	}
-	[self changeFilter:filterSelection];
+	[self changeFilter:[self filterSelection]];
+    
+    
+    [[self filterPreviewContainer] setWantsLayer:YES];  
+    CATransition *awesomeCrossFade = [CATransition animation];
+    awesomeCrossFade.type = kCATransitionFade;
+    awesomeCrossFade.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    awesomeCrossFade.duration = 1.0;
+    
+    [[self filterPreviewContainer] setAnimations:[NSDictionary dictionaryWithObject:awesomeCrossFade forKey:@"subviews"]];
+
 }
 #pragma mark ViewController Overrides
 - (NSString*)nibName
@@ -85,7 +95,7 @@
 #pragma mark UI Actions
 - (IBAction)changeFilter:(id)sender
 {
-	NSString* filterName =  [[filterSelection selectedItem] title];
+	NSString* filterName =  [[[self filterSelection] selectedItem] title];
     
     OECompositionPlugin* plugin = [OECompositionPlugin compositionPluginWithName:filterName];
     NSImage* filterPreviewImage;
@@ -93,9 +103,26 @@
         filterPreviewImage = [plugin previewImage];
     else
         filterPreviewImage = [[NSBundle mainBundle] imageForResource:[NSString stringWithFormat:@"%@.png", filterName]];
-    [filterPreviewView setImage:filterPreviewImage];
-	
+
+	NSImageView* newPreviewView = [[NSImageView alloc] initWithFrame:(NSRect){{0,0}, [[self filterPreviewContainer] frame].size}];
+    [newPreviewView setImage:filterPreviewImage];
+    [newPreviewView setImageAlignment:NSImageAlignCenter];
+    [newPreviewView setImageFrameStyle:NSImageFrameNone];
+    [newPreviewView setImageScaling:NSImageScaleNone];
+    NSView *currentImageView = [[[self filterPreviewContainer] subviews] lastObject];
+    if(currentImageView)
+    {  
+        [[[self filterPreviewContainer] animator] replaceSubview:currentImageView with:newPreviewView];
+
+    }
+    else
+    {
+        [[self filterPreviewContainer] addSubview:newPreviewView];
+    }
+    [newPreviewView release];
+    
 	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
 	[sud setObject:filterName forKey:UDVideoFilterKey];
 }
+@synthesize filterPreviewContainer, filterSelection;
 @end
