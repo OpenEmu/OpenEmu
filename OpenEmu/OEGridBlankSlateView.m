@@ -180,7 +180,7 @@
         [textView setTextColor:[NSColor colorWithDeviceWhite:0.86 alpha:1.0]];
         [textView setTextContainerInset:NSMakeSize(0, 0)];
 
-        NSMutableParagraphStyle* paraStyle = [[NSMutableParagraphStyle alloc] init];
+        NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
         [paraStyle setLineSpacing:2];
         [textView setDefaultParagraphStyle:paraStyle];
         [paraStyle release];
@@ -235,8 +235,8 @@
         [shadow release];
         [dictionary release];
         
-        NSFont* font;
-        NSColor* textColor;
+        NSFont *font;
+        NSColor *textColor;
         
         font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
         textColor = [NSColor colorWithDeviceWhite:0.80 alpha:1.0];
@@ -244,7 +244,7 @@
         [shadow setShadowColor:[NSColor blackColor]];
         [shadow setShadowOffset:NSMakeSize(0, -1)];
         
-        NSDictionary* normalDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+        NSDictionary *normalDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                                           font, NSFontAttributeName,
                                           shadow, NSShadowAttributeName,
                                           textColor, NSForegroundColorAttributeName,                                          
@@ -258,7 +258,7 @@
         [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.4]];
         [shadow setShadowOffset:NSMakeSize(0, 0)];
         [shadow setShadowBlurRadius:5];
-        NSDictionary* clickDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+        NSDictionary *clickDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                                          font, NSFontAttributeName,
                                          shadow, NSShadowAttributeName,
                                          textColor, NSForegroundColorAttributeName,                                          
@@ -270,7 +270,7 @@
         shadow = [[NSShadow alloc] init];
         [shadow setShadowColor:[NSColor blackColor]];
         [shadow setShadowOffset:NSMakeSize(0, -1)];
-        NSDictionary* hoverDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
+        NSDictionary *hoverDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                                          font, NSFontAttributeName,
                                          shadow, NSShadowAttributeName,
                                          textColor, NSForegroundColorAttributeName,                                          

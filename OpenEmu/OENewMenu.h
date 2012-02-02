@@ -19,9 +19,9 @@
 @end
 @interface OENewMenu : NSWindow <OECustomWindow, NSTableViewDelegate, NSTableViewDataSource>
 {
-    NSTableView* upperTableView;
-    NSTableView* mainTableView;
-    NSTableView* lowerTableView;
+    NSTableView *upperTableView;
+    NSTableView *mainTableView;
+    NSTableView *lowerTableView;
     
     id _localMonitor;
     BOOL visible;
@@ -39,11 +39,11 @@
 @property int itemsAboveScroller, itemsBelowScroller;
 @property (getter=isAlernate) BOOL alernate;
 
-@property (retain) NSMenu* menu;
-@property (retain) OENewMenu* supermenu;
-@property (retain) OENewMenu* activeSubmenu;
-@property (retain) OEPopupButton* popupButton;
-@property (retain) NSMenuItem* highlightedItem;
+@property (retain) NSMenu *menu;
+@property (retain) OENewMenu *supermenu;
+@property (retain) OENewMenu *activeSubmenu;
+@property (retain) OEPopupButton *popupButton;
+@property (retain) NSMenuItem *highlightedItem;
 
 @property (assign) id <OENewMenuDelegate> delegate;
 @end

@@ -11,9 +11,9 @@
 @class OEHUDAlert;
 @class OEHUDProgressbar;
 
-typedef void (^OEAlertCompletionHandler)(OEHUDAlert* alert, NSUInteger result);
+typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 @interface OEHUDAlert : NSObject{
-    NSWindow* _window;
+    NSWindow *_window;
     NSUInteger result;
     
     OEAlertCompletionHandler callbackHandler;
@@ -30,26 +30,26 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert* alert, NSUInteger result);
 - (void)closeWithResult:(NSInteger)res;
 @property (readonly) NSUInteger result;
 
-@property (retain) NSWindow* window;
+@property (retain) NSWindow *window;
 #pragma mark -
 #pragma mark Sizing
 @property float height, width;
 
-@property (readonly, retain) NSView* boxView;
+@property (readonly, retain) NSView *boxView;
 #pragma mark -
 #pragma mark Buttons
 @property (readonly, retain) NSButton *defaultButton;
 @property (readonly, retain) NSButton *alternateButton;
 
-@property (readonly, retain) NSTextView* messageTextView;
-@property (readonly, retain) NSTextField* headlineLabelField;
+@property (readonly, retain) NSTextView *messageTextView;
+@property (readonly, retain) NSTextField *headlineLabelField;
 
-@property (assign) NSString* stringValue, *inputLabelText;
+@property (assign) NSString *stringValue, *inputLabelText;
 @property (assign) NSString *defaultButtonTitle, *alternateButtonTitle, *title, *messageText, *headlineLabelText;
 
 #pragma mark -
 #pragma mark Input Field
-@property (readonly, retain) NSTextField *inputField, * inputLabelField;
+@property (readonly, retain) NSTextField *inputField,  *inputLabelField;
 @property BOOL showsInputField;
 
 #pragma mark -
@@ -74,9 +74,9 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert* alert, NSUInteger result);
 #pragma mark Suppression Button
 - (void)showSuppressionButtonForUDKey:(NSString*)key;
 @property BOOL showsSuppressionButton;
-@property (readonly) NSButton* suppressionButton;
-@property (copy) NSString* suppressionUDKey;
-@property (copy) NSString* suppressionLabelText; // default is "Do not ask me again", can be changed (e.g. if alert is too small)
+@property (readonly) NSButton *suppressionButton;
+@property (copy) NSString *suppressionUDKey;
+@property (copy) NSString *suppressionLabelText; // default is "Do not ask me again", can be changed (e.g. if alert is too small)
 @end
 
 

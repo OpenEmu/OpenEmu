@@ -47,7 +47,7 @@
     [self setSelectionColor:[[NSColor blueColor] colorWithAlphaComponent:0.8]];
     [self setRowHeight:23.0];
     
-    for(NSTableColumn* column in [self tableColumns])
+    for(NSTableColumn *column in [self tableColumns])
     {
         [column setEditable:NO];
     }
@@ -69,7 +69,7 @@
 {
 	BOOL isActive = [[self window] isMainWindow] && [[self window] firstResponder] == self;
 	
-	NSColor* fillColor;
+	NSColor *fillColor;
 	if(isActive)
 	{
 		fillColor = [NSColor colorWithDeviceRed:27/255.0 green:49/255.0 blue:139/255.0 alpha:0.5];
@@ -81,7 +81,7 @@
 	
 	[fillColor setFill];
 	
-	NSIndexSet* selectedRows = [self selectedRowIndexes];
+	NSIndexSet *selectedRows = [self selectedRowIndexes];
 	[selectedRows enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
 		NSRect frame = [self rectOfRow:idx];
 		NSRectFill(frame);
@@ -90,8 +90,8 @@
 
 - (void)drawBackgroundInClipRect:(NSRect)clipRect
 {
-	NSColor* rowBackground = [NSColor colorWithDeviceWhite:0.0 alpha:0.1];
-	NSColor* alternateRowBackground = [NSColor colorWithDeviceWhite:1.0 alpha:0.01];
+	NSColor *rowBackground = [NSColor colorWithDeviceWhite:0.0 alpha:0.1];
+	NSColor *alternateRowBackground = [NSColor colorWithDeviceWhite:1.0 alpha:0.01];
 	
 	[rowBackground setFill];    
 	NSRect rect = [self visibleRect];
@@ -119,7 +119,7 @@
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-    NSString* identifier = [aTableColumn identifier];
+    NSString *identifier = [aTableColumn identifier];
     if([identifier isEqualTo:@"enabled"])
     {
         return [NSNumber numberWithBool:YES];
@@ -184,7 +184,7 @@
 	cellFrame = NSInsetRect(cellFrame, 3, 0);
 	cellFrame.origin.y += 2;
     
-	NSString* val = [self stringValue];
+	NSString *val = [self stringValue];
 	NSAttributedString *drawString = [[NSAttributedString alloc] initWithString:val attributes:[self attributes]];
     
 	[drawString drawInRect:cellFrame];
@@ -196,9 +196,9 @@
 {
 	NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.5];
+	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.5];
 	
-	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];
 	
@@ -206,7 +206,7 @@
 	[attributes setObject:font forKey:NSFontAttributeName];
 	[attributes setObject:shadow forKey:NSShadowAttributeName];
 	
-	NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc] init];
+	NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
 	[style setAlignment:NSLeftTextAlignment];
 	[attributes setObject:style forKey:NSParagraphStyleAttributeName];
 	[style release];
@@ -227,7 +227,7 @@
 	cellFrame = NSInsetRect(cellFrame, 3, 0);
 	cellFrame.origin.y += 2;
 	
-	NSString* val = [self stringValue];
+	NSString *val = [self stringValue];
 	NSAttributedString *drawString = [[NSAttributedString alloc] initWithString:val attributes:[self attributes]];
     
 	[drawString drawInRect:cellFrame];
@@ -239,9 +239,9 @@
 {
     NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
+	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
 	
-	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];
 	
@@ -249,7 +249,7 @@
 	[attributes setObject:font forKey:NSFontAttributeName];
 	[attributes setObject:shadow forKey:NSShadowAttributeName];
 	
-	NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc] init];
+	NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
 	[style setAlignment:NSLeftTextAlignment];
 	[attributes setObject:style forKey:NSParagraphStyleAttributeName];
 	[style release];

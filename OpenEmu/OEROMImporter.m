@@ -51,7 +51,7 @@
 
 - (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError**)outError
 {
-    NSArray* pathArray = [NSArray arrayWithObject:path];
+    NSArray *pathArray = [NSArray arrayWithObject:path];
     return [self importROMsAtPaths:pathArray inBackground:bg error:outError];
 }
 
@@ -70,7 +70,7 @@
     {
         DLog(@"Not on main thread - trashin some values");
         // if we do not run on main thread it is very possible that bg and outError hold garbage!
-        NSError* error = nil;
+        NSError *error = nil;
         outError = &error;
     } 
     else if(bg)
@@ -85,7 +85,7 @@
     }
     
     // remove tildes
-    NSMutableArray* normalizedPaths = [NSMutableArray arrayWithCapacity:[pathArray count]];
+    NSMutableArray *normalizedPaths = [NSMutableArray arrayWithCapacity:[pathArray count]];
     [pathArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
      {
          [normalizedPaths insertObject:[obj stringByExpandingTildeInPath] atIndex:idx];
@@ -101,7 +101,7 @@
     return [self importROMsAtPath:[url path] inBackground:bg error:outError];
 }
 - (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError**)outError{
-    __block NSMutableArray* paths = [[NSMutableArray alloc] initWithCapacity:[urlArray count]];
+    __block NSMutableArray *paths = [[NSMutableArray alloc] initWithCapacity:[urlArray count]];
     [urlArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [paths addObject:[obj path]];
     }];
@@ -123,10 +123,10 @@
     if (canceld)
         return YES;
     
-    NSError* error = nil;
+    NSError *error = nil;
     
     BOOL success = YES;
-    for (NSString* aPath in paths) 
+    for (NSString *aPath in paths) 
     {
         if(canceld) return YES;
         
@@ -142,7 +142,7 @@
             {
                 DLog(@"ERROR");  
 
-                NSAlert* alert = [NSAlert alertWithMessageText:@"An error occured" defaultButton:@"Continue" alternateButton:@"Stop" otherButton:@"Stop (keep changes)" informativeTextWithFormat:@"%@", [error localizedDescription]];
+                NSAlert *alert = [NSAlert alertWithMessageText:@"An error occured" defaultButton:@"Continue" alternateButton:@"Stop" otherButton:@"Stop (keep changes)" informativeTextWithFormat:@"%@", [error localizedDescription]];
                 [alert setShowsSuppressionButton:YES];
                 
                 // TODO: run alert on main thread
@@ -200,7 +200,7 @@
         return YES;
     }
     
-    NSFileManager* defaultManager = [NSFileManager defaultManager];
+    NSFileManager *defaultManager = [NSFileManager defaultManager];
     
     BOOL isDir = NO;
     
@@ -217,7 +217,7 @@
         return [self _performImportWithFile:path error:outError];
     }
     
-    NSArray* paths = [defaultManager contentsOfDirectoryAtPath:path error:outError];
+    NSArray *paths = [defaultManager contentsOfDirectoryAtPath:path error:outError];
     if(!paths)
     {
         NSLog(@"no paths – contentsOfDirectoryAtPath:error");
@@ -242,7 +242,7 @@
     BOOL hasReadableSuffix = YES;
     if(!hasReadableSuffix) return YES;
     
-    OEDBGame* game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES inDatabase:self.database error:outError];
+    OEDBGame *game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES inDatabase:self.database error:outError];
     if(game)
     {
         BOOL lookupGameInfo = [[NSUserDefaults standardUserDefaults] boolForKey:UDAutmaticallyGetInfoKey];

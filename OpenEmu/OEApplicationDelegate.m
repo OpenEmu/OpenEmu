@@ -103,15 +103,15 @@
     [NSApp setMainMenu:[self mainMenu]];
     
     // Load MainWindow
-    OEMainWindowController* windowController = [[OEMainWindowController alloc] init];
+    OEMainWindowController *windowController = [[OEMainWindowController alloc] init];
     [windowController window];
     
-    OELibraryController* libraryController = [[OELibraryController alloc] initWithWindowController:windowController andDatabase:[OELibraryDatabase defaultDatabase]];
+    OELibraryController *libraryController = [[OELibraryController alloc] initWithWindowController:windowController andDatabase:[OELibraryDatabase defaultDatabase]];
     [windowController setDefaultContentController:libraryController];
     [libraryController release];
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSetupAssistantHasRun])
     {
-        OESetupAssistant* setupAssistant = [[OESetupAssistant alloc] init];
+        OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
         [setupAssistant setWindowController:windowController];
         [windowController setCurrentContentController:setupAssistant];
         [setupAssistant release];
@@ -141,9 +141,9 @@
 #pragma mark Loading The Database
 - (void)loadDatabase
 {
-    NSError* error = nil;
+    NSError *error = nil;
     
-    NSString* databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey];
+    NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey];
     if(!databasePath)
         databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDefaultDatabasePathKey];
     
@@ -151,7 +151,7 @@
         [[NSFileManager defaultManager] createDirectoryAtPath:databasePath withIntermediateDirectories:YES attributes:nil error:nil];
     
     BOOL userDBSelectionRequest = ([NSEvent modifierFlags] & NSAlternateKeyMask)!=0;
-    NSURL* databaseURL = [NSURL fileURLWithPath:databasePath];    
+    NSURL *databaseURL = [NSURL fileURLWithPath:databasePath];    
     // if user holds down alt-key or the database can not be loaded because no file was found 
     if(userDBSelectionRequest || ![OELibraryDatabase loadFromURL:databaseURL error:&error])
     {
@@ -174,24 +174,24 @@
 - (void)performDatabaseSelection
 {
     // setup alert, with options "Quit", "Select", "Create"
-    NSString* title = @"Choose OpenEmu Library";
-    NSString* msg = [NSString stringWithFormat:@"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one"];
+    NSString *title = @"Choose OpenEmu Library";
+    NSString *msg = [NSString stringWithFormat:@"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one"];
     
-    NSString* chooseButton = @"Choose Library...";
-    NSString* createButton = @"Create Library...";
-    NSString* quitButton = @"Quit";
+    NSString *chooseButton = @"Choose Library...";
+    NSString *createButton = @"Create Library...";
+    NSString *quitButton = @"Quit";
     
-    NSAlert* alert = [NSAlert alertWithMessageText:title defaultButton:chooseButton alternateButton:quitButton otherButton:createButton informativeTextWithFormat:msg];
+    NSAlert *alert = [NSAlert alertWithMessageText:title defaultButton:chooseButton alternateButton:quitButton otherButton:createButton informativeTextWithFormat:msg];
     [alert setIcon:[NSApp applicationIconImage]];
     
-    NSURL* databaseURL = nil;
+    NSURL *databaseURL = nil;
     NSUInteger result = [alert runModal];
     switch (result) {
         case NSAlertAlternateReturn:
             return;
             break;
         case NSAlertDefaultReturn:;
-            NSOpenPanel* openPanel = [NSOpenPanel openPanel];
+            NSOpenPanel *openPanel = [NSOpenPanel openPanel];
             [openPanel setCanChooseFiles:NO];
             [openPanel setCanChooseDirectories:YES];
             [openPanel setAllowsMultipleSelection:NO];
@@ -202,7 +202,7 @@
                 databaseURL = [openPanel URL];
                 if(![[NSFileManager defaultManager] fileExistsAtPath:[[databaseURL URLByAppendingPathComponent:OEDatabaseFileName] path]])
                 {
-                    NSError* error = [[NSError alloc] initWithDomain:@"blub" code:120 userInfo:nil];
+                    NSError *error = [[NSError alloc] initWithDomain:@"blub" code:120 userInfo:nil];
                     [[NSAlert alertWithError:error] runModal];
                     [error release];
                     [self performDatabaseSelection];
@@ -211,7 +211,7 @@
             }
             break;
         case NSAlertOtherReturn:;
-            NSSavePanel* savePanel = [NSSavePanel savePanel];
+            NSSavePanel *savePanel = [NSSavePanel savePanel];
             
             result = [savePanel runModal];
             if(result==NSOKButton)
@@ -222,7 +222,7 @@
             break;
     }
     
-    NSError* error = nil;
+    NSError *error = nil;
     // if the user selected (or created) a new database, try to load it
     if(databaseURL!=nil && ![OELibraryDatabase loadFromURL:databaseURL error:&error])
     {
@@ -293,11 +293,11 @@
 #pragma mark Updating
 - (void)updateBundles:(id)sender
 {
-    OECoreUpdater* updater = [OECoreUpdater sharedUpdater];
+    OECoreUpdater *updater = [OECoreUpdater sharedUpdater];
     [updater checkForUpdates];
     
     BOOL hasUpdate = NO;
-    for(OECoreDownload* dl in [updater coreList])
+    for(OECoreDownload *dl in [updater coreList])
     {
         if([dl hasUpdate])
         {

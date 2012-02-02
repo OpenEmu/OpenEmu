@@ -11,5 +11,5 @@
 @interface OECenteredTextFieldWithWeblinkCell : OECenteredTextFieldCell
 @property SEL buttonAction;
 @property (assign) id buttonTarget;
-@property (retain) OEImageButtonHoverPressed* buttonCell;
+@property (retain) OEImageButtonHoverPressed *buttonCell;
 @end

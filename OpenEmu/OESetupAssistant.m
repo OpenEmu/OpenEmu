@@ -79,14 +79,14 @@
 
 - (void)contentWillShow
 {
-    NSWindow* window = [[self windowController] window];
+    NSWindow *window = [[self windowController] window];
     [window setMovableByWindowBackground:YES];
     [[self windowController] setAllowWindowResizing:NO];
 }
 
 - (void)contentWillHide
 {
-    NSWindow* window = [[self windowController] window];
+    NSWindow *window = [[self windowController] window];
     [window setMovableByWindowBackground:NO];
     [[self windowController] setAllowWindowResizing:YES];
 }
@@ -166,7 +166,7 @@
     self.transition.type = kCATransitionPush;
     self.transition.subtype = kCATransitionFromLeft;
     
-    NSView* subview  = [[replaceView subviews] objectAtIndex:0];
+    NSView *subview  = [[replaceView subviews] objectAtIndex:0];
     
     [[self.replaceView animator] replaceSubview:subview with:view];
 }
@@ -176,7 +176,7 @@
     self.transition.type = kCATransitionPush;
     self.transition.subtype = kCATransitionFromRight;
     
-    NSView* subview  = [[self.replaceView subviews] objectAtIndex:0];
+    NSView *subview  = [[self.replaceView subviews] objectAtIndex:0];
     
     [[self.replaceView animator] replaceSubview:subview with:view];
 }
@@ -185,7 +185,7 @@
 {
     self.transition.type = kCATransitionFade;
     
-    NSView* subview  = [[replaceView subviews] objectAtIndex:0];
+    NSView *subview  = [[replaceView subviews] objectAtIndex:0];
     
     [[self.replaceView animator] replaceSubview:subview with:view];
 }
@@ -200,19 +200,19 @@
     [[self windowController] setCurrentContentController:nil];
     return;
     
-    NSMutableArray* supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
+    NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
     
     if([dontSearchCommonTypes state] == NSOnState)
     {
-        NSArray* commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
+        NSArray *commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
         
         [supportedFileExtensions removeObjectsInArray:commonTypes];
     }
     
     NSLog(@"Supported search Extensions are: %@", supportedFileExtensions);
     
-    NSString* searchString = @"";
-    for(NSString* extension in supportedFileExtensions)
+    NSString *searchString = @"";
+    for(NSString *extension in supportedFileExtensions)
     {
         searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension, nil];
         searchString = [searchString stringByAppendingString:@" || "];
@@ -263,7 +263,7 @@
     MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
     
     MDItemRef resultItem = NULL;
-    NSString* resultPath = nil;
+    NSString *resultPath = nil;
     
     // assume the latest result is the last index?
     CFIndex index = 0;
@@ -273,7 +273,7 @@
         resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
         resultPath = (NSString*)MDItemCopyAttribute(resultItem, kMDItemPath);
         
-        NSArray* dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
+        NSArray *dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
                                                         @"System",
                                                         @"Library",
                                                         @"Developer",
@@ -296,7 +296,7 @@
         {                
             if(![[self.resultController content] containsObject:resultPath])
             {
-                NSMutableDictionary* resultDict = [NSMutableDictionary dictionary];
+                NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
                 
                 [resultDict setValue:resultPath forKey:@"Path"];
                 [resultDict setValue:[[resultPath lastPathComponent] stringByDeletingPathExtension] forKey:@"Name"];
@@ -325,16 +325,16 @@
 
 - (IBAction) import:(id)sender;
 {
-    NSMutableArray* URLS = [NSMutableArray array];
+    NSMutableArray *URLS = [NSMutableArray array];
     
-    for(NSDictionary* searchResult in self.searchResults)
+    for(NSDictionary *searchResult in self.searchResults)
     {
         [URLS addObject:[NSURL fileURLWithPath:[searchResult objectForKey:@"Path"]]];
     }
     
     NSLog(@"OESetupAssistant import: need to used new import method");
-    NSWindow* win = [[self view] window];
-    OEMainWindowController* controller = (OEMainWindowController*)[win windowController];
+    NSWindow *win = [[self view] window];
+    OEMainWindowController *controller = (OEMainWindowController*)[win windowController];
     [controller setCurrentContentController:self];
 }
 @end

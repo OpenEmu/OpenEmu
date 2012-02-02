@@ -51,7 +51,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    OECenteredTextFieldCell* copy = [super copyWithZone:zone];
+    OECenteredTextFieldCell *copy = [super copyWithZone:zone];
     copy.widthInset = self.widthInset;
     return copy;
 }

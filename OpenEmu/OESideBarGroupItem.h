@@ -13,8 +13,8 @@
 @interface OESidebarGroupItem : NSObject <OESidebarDataSourceItem> 
 {
 @private
-    NSString* name;
+    NSString *name;
 }
 + (id)groupItemWithName:(NSString*)name;
-@property (readwrite, copy) NSString* name;
+@property (readwrite, copy) NSString *name;
 @end

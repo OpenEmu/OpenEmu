@@ -50,10 +50,11 @@ typedef enum
 #pragma mark Initialization
 - (IBAction)copy:(id)sender
 {
-    NSPasteboard* pBoard = [NSPasteboard generalPasteboard];
+    NSPasteboard *pBoard = [NSPasteboard generalPasteboard];
     [pBoard clearContents];
     
-    [self.selectedLayers enumerateObjectsUsingBlock:^(id layer, NSUInteger index, BOOL *stop){
+    [self.selectedLayers enumerateObjectsUsingBlock:^(id layer, NSUInteger index, BOOL *stop)
+    {
 #warning reimplement
         //[pBoard writeObjects:[NSArray arrayWithObject:((IKSGridItemLayer*)layer).representedObject]];
     }];
@@ -145,7 +146,7 @@ typedef enum
     
     if(![self dataSource]) return;
     
-    NSArray* subviews = [NSArray arrayWithArray:[self subviews]];
+    NSArray *subviews = [NSArray arrayWithArray:[self subviews]];
     [subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         if(![obj isKindOfClass:[OEGridViewFieldEditor class]])
         {
@@ -157,13 +158,13 @@ typedef enum
     {
         if([self dataSource] && [[self dataSource] respondsToSelector:@selector(gridViewNoItemsView:)])
         {
-            NSView* view = [[self dataSource] gridViewNoItemsView:self];
+            NSView *view = [[self dataSource] gridViewNoItemsView:self];
             if(!view) return;
             [view setAutoresizingMask:NSViewMinXMargin|NSViewMaxXMargin | NSViewMinYMargin|NSViewMaxYMargin];
             
-            self.wantsLayer = NO;
+            [self setWantsLayer:NO];
             
-            NSPoint center = NSMakePoint((self.frame.size.width-view.frame.size.width)/2, (self.frame.size.height-view.frame.size.height)/2);
+            NSPoint center = NSMakePoint(([self frame].size.width-view.frame.size.width)/2, ([self frame].size.height-view.frame.size.height)/2);
             center = OERoundNSPoint(center);
             [view setFrameOrigin:center];
             [self addSubview:view];
@@ -172,7 +173,7 @@ typedef enum
     }
     else
     {
-        self.wantsLayer = YES;
+        [self setWantsLayer:YES];
     }
     
     [self setNeedsDisplay:YES];    
@@ -182,7 +183,7 @@ typedef enum
 - (void)layoutDecorationViews
 {
     CGRect frame = layoutManager.visibleRect;
-    frame.origin.y = self.frame.size.height - layoutManager.visibleRect.origin.y - layoutManager.visibleRect.size.height;
+    frame.origin.y = [self frame].size.height - layoutManager.visibleRect.origin.y - layoutManager.visibleRect.size.height;
     frame.size.width--;
     frame.size.height--;
     if(self.backgroundLayer)
@@ -501,7 +502,7 @@ typedef enum
     @throw @"embed in layer calles!!";
     
     
-    NSMutableArray* layers = [[items mutableCopy] autorelease];
+    NSMutableArray *layers = [[items mutableCopy] autorelease];
     
     NSUInteger i;
     for(i=0; i<[items count]; i++)
@@ -509,7 +510,7 @@ typedef enum
         id anObj = [items objectAtIndex:i];
         if([[anObj className] isNotEqualTo:[self.cellClass className]])
         {
-            IKSGridItemLayer* layer = [self.cellClass layer];
+            IKSGridItemLayer *layer = [self.cellClass layer];
             //layer.representedObject = anObj;
             [layers replaceObjectAtIndex:i withObject:layer];
         }
@@ -561,7 +562,7 @@ typedef enum
 //
 - (void)layoutManager:(IKSGridLayoutManager*)manager contentHeightChanged:(CGFloat)height;
 {
-    if (![self enclosingScrollView] || height==self.frame.size.height) 
+    if (![self enclosingScrollView] || height==[self frame].size.height) 
     {
         return;
     }
@@ -599,7 +600,7 @@ typedef enum
     self.draggedImage = nil;
         
     NSPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    CALayer* clickedLayer = [self _layerAtPoint:location];
+    CALayer *clickedLayer = [self _layerAtPoint:location];
     
     if([clickedLayer isKindOfClass:[IKSGridItemLayer class]] &&
        [(id <IKSGridItemLayerEventProtocol>)clickedLayer mouseDown:theEvent])
@@ -647,9 +648,10 @@ typedef enum
         float offsetX = mouseDownPoint.x-(mouseDownPoint.x-[(IKSGridItemLayer*)self.draggedLayer hitRect].origin.x);
         float offsetY = mouseDownPoint.y-(mouseDownPoint.y-[(IKSGridItemLayer*)self.draggedLayer hitRect].origin.y)+[(IKSGridItemLayer*)self.draggedLayer hitRect].size.height;
         
-        NSPasteboard* pBoard = [NSPasteboard pasteboardWithName:NSDragPboard];
+        NSPasteboard *pBoard = [NSPasteboard pasteboardWithName:NSDragPboard];
         [pBoard clearContents];
-        [self.selectedLayers enumerateObjectsUsingBlock:^(id layer, NSUInteger index, BOOL *stop){
+        [self.selectedLayers enumerateObjectsUsingBlock:^(id layer, NSUInteger index, BOOL *stop)
+        {
             id obj = [[self dataSource] gridView:self objectValueForKey:nil withRepresentedObject:((IKSGridItemLayer*)layer).representedObject];           
             [pBoard writeObjects:[NSArray arrayWithObject:obj]];
         }];
@@ -677,7 +679,7 @@ typedef enum
     {
         self.lastEvent = theEvent;
         self.autoscrollTimer = [[[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:0.05] interval:0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:NO] autorelease];
-        NSRunLoop* loop = [NSRunLoop currentRunLoop];
+        NSRunLoop *loop = [NSRunLoop currentRunLoop];
         [loop addTimer:self.autoscrollTimer forMode:NSDefaultRunLoopMode];
     }
     // If allows multiple selection isn't enabled, the method won't proceed
@@ -691,8 +693,8 @@ typedef enum
     NSPoint location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
     
     // either visibleHeight or frame height....
-    startPoint.y = self.frame.size.height-startPoint.y;
-    location.y = self.frame.size.height-location.y;
+    startPoint.y = [self frame].size.height-startPoint.y;
+    location.y = [self frame].size.height-location.y;
     
     NSPoint distanceFromStart = NSMakePoint(location.x - startPoint.x, location.y-startPoint.y);
     
@@ -732,7 +734,7 @@ typedef enum
     for (IKSGridItemLayer *layer in layers) 
     {
         NSRect frameToCheck = [layer isKindOfClass:[IKSGridItemLayer class]] ? layer.hitRect : layer.frame;
-        frameToCheck.origin.y = self.frame.size.height-frameToCheck.origin.y-frameToCheck.size.height; //layoutManager.visibleRect.origin.y - layoutManager.visibleRect.size.height;
+        frameToCheck.origin.y = [self frame].size.height-frameToCheck.origin.y-frameToCheck.size.height; //layoutManager.visibleRect.origin.y - layoutManager.visibleRect.size.height;
         
         
         if (CGRectIntersectsRect(frameToCheck, selectionRect))
@@ -824,7 +826,7 @@ typedef enum
     self.draggedLayer = nil;
     
     NSPoint location = [self convertPoint:[sender draggingLocation] fromView:nil];
-    CALayer <IKSGridItemLayerDragProtocol> * dragLayer = (CALayer <IKSGridItemLayerDragProtocol> *) [self _layerAtPoint:location];
+    CALayer <IKSGridItemLayerDragProtocol> *dragLayer = (CALayer <IKSGridItemLayerDragProtocol> *) [self _layerAtPoint:location];
     NSDragOperation layerOp = NSDragOperationNone;
     
     if([dragLayer isKindOfClass:[IKSGridItemLayer class]] &&
@@ -879,14 +881,15 @@ typedef enum
         [(CALayer <IKSGridItemLayerDragProtocol> *)self.draggedLayer draggingExited:sender];
     }
     
-    CALayer* dragLayer = [self _layerAtPoint:location];
+    CALayer *dragLayer = [self _layerAtPoint:location];
     if(self.draggedLayer!=dragLayer && [dragLayer isKindOfClass:[IKSGridItemLayer class]] &&
        NSPointInRect(location, [(IKSGridItemLayer*)dragLayer hitRect]))
     {
         self.draggedLayer = (IKSGridItemLayer*)dragLayer;
         
         NSDragOperation layerOp = [(CALayer <IKSGridItemLayerDragProtocol> *)dragLayer draggingEntered:sender];
-        if(layerOp!=NSDragOperationNone){
+        if(layerOp!=NSDragOperationNone)
+        {
             self.dragIndicationLayer.hidden = YES;
             return layerOp;
         }
@@ -936,7 +939,7 @@ typedef enum
         [self _deselectLayers:self.selectedLayers];
     }
     
-    for(IKSGridItemLayer* aLayer in layers)
+    for(IKSGridItemLayer *aLayer in layers)
     {
         [selectedIndexes addIndex:aLayer.representedIndex];
     }
@@ -1071,7 +1074,7 @@ typedef enum
 }
 - (void)_setupDragIndicationLayer
 {
-    CALayer* diLayer = [CALayer layer];
+    CALayer *diLayer = [CALayer layer];
     diLayer.borderColor = [[NSColor colorWithDeviceRed:0.03f green:0.41f blue:0.85f alpha:1.0f] CGColor];
     diLayer.borderWidth = 2.0f;
     diLayer.cornerRadius = 8.0f;
@@ -1108,7 +1111,7 @@ typedef enum
     NSPoint location = [self convertPoint:[event locationInWindow] fromView:nil];
     location.y = [self bounds].size.height - location.y;
     
-    CALayer* layer = [self.gridLayer hitTest:CGPointMake(location.x, location.y)];
+    CALayer *layer = [self.gridLayer hitTest:CGPointMake(location.x, location.y)];
     layer = layer && [layer isKindOfClass:[IKSGridItemLayer class]] && NSPointInRect(location, [(IKSGridItemLayer*)layer hitRect]) ? layer : nil;
     
     if(layer.superlayer && ![layer isKindOfClass:[IKSGridItemLayer class]]) layer = layer.superlayer;
@@ -1124,7 +1127,7 @@ typedef enum
 {
     point.y = [self bounds].size.height - point.y;
     
-    CALayer* layer = [self.gridLayer hitTest:point];
+    CALayer *layer = [self.gridLayer hitTest:point];
     
     if(layer.superlayer && ![layer isKindOfClass:[IKSGridItemLayer class]]) layer = layer.superlayer;
     if(layer.superlayer && [layer.superlayer isKindOfClass:[IKSGridItemLayer class]]) layer = layer.superlayer;
@@ -1190,32 +1193,32 @@ typedef enum
 
 - (NSImage*)_generateDraggedImage
 {
-    NSImage* proposedImage = [(IKSGridItemLayer*)self.draggedLayer dragImage];
+    NSImage *proposedImage = [(IKSGridItemLayer*)self.draggedLayer dragImage];
     
     
-    NSImage* dragImage = [[NSImage alloc] initWithSize:proposedImage.size];
+    NSImage *dragImage = [[NSImage alloc] initWithSize:proposedImage.size];
     
     [dragImage lockFocus];
     [proposedImage drawAtPoint:NSZeroPoint fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:0.5];
     
     if([self.selectedLayers count]>1)
     {
-        NSString* countStr = [NSString stringWithFormat:@"%d", [self.selectedIndexes count]];
+        NSString *countStr = [NSString stringWithFormat:@"%d", [self.selectedIndexes count]];
         
-        NSString* badgeImageName = [NSString stringWithFormat:@"badge_%d", [countStr length]<4?[countStr length]:3];
-        NSImage* badgeImage = [NSImage imageNamed:badgeImageName];
+        NSString *badgeImageName = [NSString stringWithFormat:@"badge_%d", [countStr length]<4?[countStr length]:3];
+        NSImage *badgeImage = [NSImage imageNamed:badgeImageName];
         
         NSPoint badgeLoc = NSMakePoint(proposedImage.size.width-5-badgeImage.size.width, 5);
         [badgeImage drawAtPoint:badgeLoc fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
         
         
-        NSFont* font = [NSFont systemFontOfSize:13.0];
-        NSDictionary* attr = [NSDictionary dictionaryWithObjectsAndKeys:
+        NSFont *font = [NSFont systemFontOfSize:13.0];
+        NSDictionary *attr = [NSDictionary dictionaryWithObjectsAndKeys:
                               font, NSFontAttributeName,
                               [NSColor whiteColor], NSForegroundColorAttributeName,
                               nil];
         
-        NSAttributedString* attributedCountString = [[NSAttributedString alloc] initWithString:countStr attributes:attr];
+        NSAttributedString *attributedCountString = [[NSAttributedString alloc] initWithString:countStr attributes:attr];
         
         badgeLoc.x += (badgeImage.size.width-[attributedCountString size].width)/2;
         badgeLoc.y += (badgeImage.size.height-[attributedCountString size].height)/2;

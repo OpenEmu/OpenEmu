@@ -15,7 +15,7 @@
     self = [super initWithFrame:frame];
     if (self) 
     {
-        self.wantsLayer = YES;
+        [self setWantsLayer:YES];
         self.backgroundColor=[NSColor blackColor];
     }
     return self;

@@ -13,7 +13,7 @@
 
 + (id)groupItemWithName:(NSString*)name
 {
-OESidebarGroupItem* newItem = [[self alloc] init];
+OESidebarGroupItem *newItem = [[self alloc] init];
 newItem.name = name;
 return [newItem autorelease];
 }

@@ -52,7 +52,7 @@
 }
 + (id)alertWithMessageText:(NSString *)msgText defaultButton:(NSString*)defaultButtonLabel alternateButton:(NSString*)alternateButtonLabel
 {
-    OEHUDAlert* alert = [[OEHUDAlert alloc] init];
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     
     alert.defaultButtonTitle = defaultButtonLabel;
     alert.alternateButtonTitle = alternateButtonLabel;
@@ -63,7 +63,7 @@
 
 + (id)autoSaveGameAlert
 {
-    OEHUDAlert* alert = [[OEHUDAlert alloc] init];
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     
     alert.messageText = NSLocalizedString(@"OpenEmu includes a save game feature that allows you to continue playing exactly where you left off.", @"");
     alert.defaultButtonTitle = NSLocalizedString(@"Save Game", @"");
@@ -78,7 +78,7 @@
 
 + (id)saveGameAlertWithProposedName:(NSString*)name
 {
-    OEHUDAlert* alert = [[OEHUDAlert alloc] init];
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
     
     [alert setInputLabelText:@"Save As:"];
     [alert setDefaultButtonTitle:NSLocalizedString(@"Save Game", @"")];
@@ -96,8 +96,8 @@
 
 + (id)deleteGameAlertWithStateName:(NSString*)stateName
 {
-    OEHUDAlert* alert = [[OEHUDAlert alloc] init];
-    NSString* messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete the save game called '%@' from your OpenEmu library?", @""), stateName];
+    OEHUDAlert *alert = [[OEHUDAlert alloc] init];
+    NSString *messageText = [NSString stringWithFormat:NSLocalizedString(@"Are you sure you want to delete the save game called '%@' from your OpenEmu library?", @""), stateName];
     [alert setMessageText:messageText];
     [alert setDefaultButtonTitle:NSLocalizedString(@"Delete Game", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
@@ -312,7 +312,7 @@
         
         if([self showsSuppressionButton] && [self suppressionUDKey])
         {
-            NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
+            NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
             [standardUserDefaults setBool:[self suppressionButton].state==NSOnState forKey:[self suppressionUDKey]];            
         }
     }
@@ -434,7 +434,7 @@
     [self setShowsSuppressionButton:YES];
     [self setSuppressionUDKey:key];
     
-    NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     BOOL checked = [standardUserDefaults boolForKey:[self suppressionUDKey]];
     [[self suppressionButton] setState:checked];
 }
@@ -489,7 +489,7 @@
     [_window setFrame:f display:NO];
     
     // Setup Button
-    OEHUDButtonCell* cell = [[OEHUDButtonCell alloc] init];
+    OEHUDButtonCell *cell = [[OEHUDButtonCell alloc] init];
     [cell setButtonColor:OEHUDButtonColorBlue];    
     [[self defaultButton] setCell:cell];
     [[self defaultButton] setAutoresizingMask:NSViewMinXMargin|NSViewMaxYMargin];
@@ -515,7 +515,7 @@
     [[_window contentView] addSubview:[self boxView]];
     
     // Setup Message Text View
-    NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
+    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
     
     [[self messageTextView] setEditable:NO];
     [[self messageTextView] setSelectable:NO];
@@ -524,13 +524,13 @@
     [[self messageTextView] setFont:font];
     [[self messageTextView] setTextColor:[NSColor whiteColor]];
 
-    NSMutableParagraphStyle* style = [[NSMutableParagraphStyle alloc] init];
+    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
     [style setAlignment:NSCenterTextAlignment];
     [style setLineSpacing:7];
     [[self messageTextView] setDefaultParagraphStyle:style];
     [style release];
     
-    NSShadow* shadow = [[NSShadow alloc] init];
+    NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
     [shadow setShadowBlurRadius:0];
     [shadow setShadowOffset:(NSSize){0,-1}];
@@ -547,7 +547,7 @@
     [shadow setShadowBlurRadius:0];
     [shadow setShadowOffset:(NSSize){0,-1}];
     
-    OEHUDTextFieldCell* inputCell = [[OEHUDTextFieldCell alloc] init];
+    OEHUDTextFieldCell *inputCell = [[OEHUDTextFieldCell alloc] init];
     [[self inputField] setCell:inputCell];
     [inputCell release];
     [[self inputField] setFrame:(NSRect){{68,51},{337, 23}}];
@@ -563,11 +563,11 @@
     
     [[self inputLabelField] setFrame:(NSRect){{1,51},{61,23}}];
     [[self inputLabelField] setHidden:YES];
-    OECenteredTextFieldCell* labelCell = [[OECenteredTextFieldCell alloc] init];
+    OECenteredTextFieldCell *labelCell = [[OECenteredTextFieldCell alloc] init];
     
     font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
     
-    NSMutableParagraphStyle* paraStyle = [[NSMutableParagraphStyle alloc] init];
+    NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
     [paraStyle setAlignment:NSRightTextAlignment];
     [labelCell setTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                   [NSColor whiteColor]  , NSForegroundColorAttributeName,
@@ -633,7 +633,7 @@
 
     if([NSImage imageNamed:@"hud_alert_window_active"]) return;
     
-    NSImage* hudWindowBorder = [NSImage imageNamed:@"hud_alert_window"];    
+    NSImage *hudWindowBorder = [NSImage imageNamed:@"hud_alert_window"];    
     [hudWindowBorder setName:@"hud_alert_window_active" forSubimageInRect:(NSRect){{0,0},{29,47}}];
     [hudWindowBorder setName:@"hud_alert_window_inactive" forSubimageInRect:(NSRect){{0,0},{29,47}}];
     
@@ -667,7 +667,7 @@
     NSRect bounds = [self frame];
     bounds.origin = (NSPoint){0,0};
     
-    NSImage* image = [NSImage imageNamed:@"hud_alert_window"];
+    NSImage *image = [NSImage imageNamed:@"hud_alert_window"];
     [image drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:24 bottomBorder:22];
 }
 

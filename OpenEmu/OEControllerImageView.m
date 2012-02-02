@@ -26,7 +26,7 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedButtonChanged:) name:@"OEControlsPreferencesSelectedButtonDidChange" object:nil];
     
-    self.wantsLayer = YES;
+    [self setWantsLayer:YES];
     self.overlayAlpha = OverlayAlphaOFF;
     [self setRingPosition:NSZeroPoint];
     [self setRingAlpha:0.0];
@@ -71,7 +71,7 @@
 }
 - (void)dealloc 
 {
-    [self setImage:nil];;
+    [self setImage:nil];
     [self setControlsViewController:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -84,7 +84,7 @@
     
     NSRect targetRect;
     targetRect.size = [self image].size;
-    targetRect.origin = NSMakePoint((self.frame.size.width-image.size.width)/2, 0);
+    targetRect.origin = NSMakePoint(([self frame].size.width-image.size.width)/2, 0);
     
     [self.image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:NSImageInterpolationNone] forKey:NSImageHintInterpolation]];
     
@@ -106,7 +106,7 @@
     if([self ringAlpha] != 0.0)
     {
         NSPoint highlightP = NSMakePoint(targetRect.origin.x+ringPosition.x-38, targetRect.origin.y+ringPosition.y-45);
-        NSImage* highlightImage = [NSImage imageNamed:@"controls_highlight"]; 
+        NSImage *highlightImage = [NSImage imageNamed:@"controls_highlight"]; 
         [highlightImage drawAtPoint:highlightP fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:[self ringAlpha]];
     }
     
@@ -138,14 +138,19 @@
     }
     
     [NSAnimationContext beginGrouping];
-    if(NSEqualPoints(newHighlightPoint, NSZeroPoint)){
+    if(NSEqualPoints(newHighlightPoint, NSZeroPoint))
+    {
         [[self animator] setRingAlpha:0.0];
         [[self animator] setOverlayAlpha:OverlayAlphaOFF];
-    } else if(NSEqualPoints([self ringPosition], NSZeroPoint)){
+    } 
+    else if(NSEqualPoints([self ringPosition], NSZeroPoint))
+    {
         [self setRingPosition:newHighlightPoint];
         [[self animator] setRingAlpha:1.0];
         [[self animator] setOverlayAlpha:OverlayAlphaON];
-    } else {
+    } 
+    else 
+    {
         [[self animator] setRingPosition:newHighlightPoint];
         [[self animator] setRingAlpha:1.0];
         [[self animator] setOverlayAlpha:OverlayAlphaON];
@@ -177,8 +182,7 @@
 #define NSSubtractPoints(p1 ,p2) (NSPoint){p1.x-p2.x, p1.y-p2.y}
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    NSLog(@"%fx%f", self.frame.size.width, self.frame.size.height);
-    NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     BOOL allowDeactivationByMouse = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
     BOOL allowSwitchingByMouse = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
     
@@ -191,7 +195,7 @@
     
     NSRect targetRect;
     targetRect.size = self.image.size;
-    targetRect.origin = NSMakePoint((self.frame.size.width-image.size.width)/2, 0);
+    targetRect.origin = NSMakePoint(([self frame].size.width-image.size.width)/2, 0);
     
     
     if(allowSwitchingByMouse && [[self controlsViewController] respondsToSelector:@selector(controllerImageMask)])
@@ -200,7 +204,7 @@
         BOOL selectAButton = [maskImage hitTestRect:(NSRect){local_event_location, {0,0}} withImageDestinationRect:targetRect context:nil hints:nil flipped:NO];
         if(selectAButton)
         {
-            OEControlsSetupView* controlsSetupView = (OEControlsSetupView*)[[self controlsViewController] view];
+            OEControlsSetupView *controlsSetupView = (OEControlsSetupView*)[[self controlsViewController] view];
             NSPoint locationOnController = NSSubtractPoints(local_event_location, targetRect.origin);
             controlToSelect = [controlsSetupView controllerButtonClosestTo:locationOnController];
         } 
@@ -228,7 +232,7 @@
     if(NSEqualPoints(ringLocation, NSZeroPoint) || NSEqualPoints(ringLocation, (NSPoint){0,0}))
         return NSZeroPoint;
     
-    NSPoint offset = (NSPoint){(self.frame.size.width-image.size.width)/2, 0};
+    NSPoint offset = (NSPoint){([self frame].size.width-image.size.width)/2, 0};
     return NSAddPoints(offset, ringLocation);
     
 }

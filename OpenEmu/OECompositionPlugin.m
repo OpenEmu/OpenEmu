@@ -86,8 +86,10 @@ static NSMutableDictionary *plugins = nil;
         {
             NSString *subpath = [path stringByAppendingPathComponent:openEmuSearchPath];
             NSArray  *subpaths = [manager contentsOfDirectoryAtPath:subpath error:nil];
-            for(NSString *bundlePath in subpaths){
-                if([extension isEqualToString:[bundlePath pathExtension]]){
+            for(NSString *bundlePath in subpaths)
+            {
+                if([extension isEqualToString:[bundlePath pathExtension]])
+                {
                     [self OE_addPluginWithPath:[subpath stringByAppendingPathComponent:bundlePath]];
                 }
             }
@@ -189,7 +191,7 @@ static NSMutableDictionary *plugins = nil;
     NSOpenGLPixelFormatAttribute	attributes[] = {
         (NSOpenGLPixelFormatAttribute) 0
     };
-    NSOpenGLPixelFormat* format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
+    NSOpenGLPixelFormat *format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
     
     openGLContext = [[NSOpenGLContext alloc] initWithFormat:format shareContext:nil];
     if(openGLContext == nil) {
@@ -208,7 +210,7 @@ static NSMutableDictionary *plugins = nil;
         return nil;
     }
     
-    NSImage* previewImage = [renderer valueForOutputKey:@"OEPreviewImage" ofType:@"NSImage"];
+    NSImage *previewImage = [renderer valueForOutputKey:@"OEPreviewImage" ofType:@"NSImage"];
     if(!previewImage)
     {
         [format release];

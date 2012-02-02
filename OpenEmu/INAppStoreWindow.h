@@ -24,7 +24,7 @@
     NSView *_titleBarView;
     int _trafficLightAlignment;
     
-    NSString* _titleBarString;
+    NSString *_titleBarString;
 }
 
 /** The height of the title bar. By default, this is set to the standard title bar height. **/
@@ -33,7 +33,7 @@
 @property (nonatomic, retain) NSView *titleBarView;
 
 /**TitlebarString aka Window title ;) **/
-@property (nonatomic, copy) NSString* titleBarString;
+@property (nonatomic, copy) NSString *titleBarString;
 
 /** Position of traffic lights (0=top, 1=middle, 2=bottom) **/
 @property (nonatomic, assign) int trafficLightAlignment;

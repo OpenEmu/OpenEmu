@@ -11,8 +11,8 @@
 @implementation OEDBSaveState
 
 + (id)newSaveStateInContext:(NSManagedObjectContext*)context{
-	NSEntityDescription* description = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
-	OEDBSaveState* result = [[OEDBSaveState alloc] initWithEntity:description insertIntoManagedObjectContext:context];
+	NSEntityDescription *description = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
+	OEDBSaveState *result = [[OEDBSaveState alloc] initWithEntity:description insertIntoManagedObjectContext:context];
 	
 	[result setValue:[NSDate date] forKey:@"timestamp"];
 	

@@ -87,7 +87,7 @@
 	[super drawRect:dirtyRect];
 	
 	if(self.contentseparatorColor){
-		NSRect lineRect = self.bounds;
+		NSRect lineRect = [self bounds];
 		lineRect.size.height = 1;
 		
 		[self.contentseparatorColor setFill];
@@ -99,27 +99,27 @@
 	float imageSideLength = 36;
 	float imageTitleSpacing = 4;
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4.0 size:11.0];
-	NSColor* textColor = [NSColor blackColor];
-	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4.0 size:11.0];
+	NSColor *textColor = [NSColor blackColor];
+	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.45]];
 	[shadow setShadowBlurRadius:1];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];
 	
-	NSMutableParagraphStyle* ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
 	[ps setAlignment:NSCenterTextAlignment];
 	
-	NSMutableDictionary* textAttributes = [NSMutableDictionary dictionary];
+	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionary];
 	[textAttributes setObject:font forKey:NSFontAttributeName];
 	[textAttributes setObject:shadow forKey:NSShadowAttributeName];
 	[textAttributes setObject:textColor forKey:NSForegroundColorAttributeName];
 	[textAttributes setObject:ps forKey:NSParagraphStyleAttributeName];
 	
 	float x = itemSpacing;
-	for(OEToolbarItem* anItem in self.items){
+	for(OEToolbarItem *anItem in self.items){
 		x += titlePadding;
 		
-		NSAttributedString* title = [[[NSAttributedString alloc] initWithString:anItem.title attributes:textAttributes] autorelease];
+		NSAttributedString *title = [[[NSAttributedString alloc] initWithString:anItem.title attributes:textAttributes] autorelease];
 		NSRect titleRect = NSMakeRect(x, 6, title.size.width, title.size.height);
 		NSRect imageRect = NSMakeRect(x+(title.size.width-imageSideLength)/2, titleRect.origin.y+titleRect.size.height+imageTitleSpacing-3, imageSideLength, imageSideLength);
 		
@@ -128,11 +128,11 @@
 		}
 		
 		if(anItem == selectedItem){
-			NSImage* selectionHighlight = [NSImage imageNamed:@"tab_selector"];
+			NSImage *selectionHighlight = [NSImage imageNamed:@"tab_selector"];
 			[selectionHighlight drawInRect:anItem.itemRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:12 rightBorder:12 topBorder:0 bottomBorder:0];		
 		}
 		
-		NSImage* icon = anItem.icon;
+		NSImage *icon = anItem.icon;
 		
 		
 		
@@ -153,7 +153,7 @@
 	NSPoint loc = [self convertPointFromBase:[theEvent locationInWindow]];
 
 	highlightedItem = nil;
-	for(OEToolbarItem* anItem in self.items){
+	for(OEToolbarItem *anItem in self.items){
 		if(NSPointInRect(loc, anItem.itemRect)){
 			highlightedItem = anItem;
 			break;

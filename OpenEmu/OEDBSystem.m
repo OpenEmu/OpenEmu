@@ -12,12 +12,12 @@
 @implementation OEDBSystem
 + (id)systemFromPlugin:(OESystemPlugin*)plugin inDatabase:(OELibraryDatabase*)database
 {
-    NSString* systemIdentifier = [plugin systemIdentifier];
-    OEDBSystem* system = [database systemWithIdentifier:systemIdentifier];
+    NSString *systemIdentifier = [plugin systemIdentifier];
+    OEDBSystem *system = [database systemWithIdentifier:systemIdentifier];
     
     if(system) return system;
     
-    NSManagedObjectContext* moc = [database managedObjectContext];
+    NSManagedObjectContext *moc = [database managedObjectContext];
     
     system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
     // TODO: get archive id(s) from plugin
@@ -39,7 +39,7 @@
 
 + (id)systemForArchiveID:(NSNumber*)archiveID inDatabase:(OELibraryDatabase*)database
 {
-    OEDBSystem* system = [database systemWithArchiveID:archiveID];
+    OEDBSystem *system = [database systemWithArchiveID:archiveID];
     return system;
 }
 
@@ -50,7 +50,7 @@
 
 + (id)systemForArchiveName:(NSString*)name inDatabase:(OELibraryDatabase*)database
 {
-    OEDBSystem* system = [database systemWithArchiveName:name];
+    OEDBSystem *system = [database systemWithArchiveName:name];
     return system;
 }
 
@@ -61,7 +61,7 @@
 
 + (id)systemForArchiveShortName:(NSString*)shortName inDatabase:(OELibraryDatabase*)database
 {
-    OEDBSystem* system = [database systemWithArchiveShortname:shortName];
+    OEDBSystem *system = [database systemWithArchiveShortname:shortName];
     return system;
 }
 
@@ -85,15 +85,15 @@
 }
 #pragma mark -
 - (OESystemPlugin*)plugin{
-    NSString* systemIdentifier = [self valueForKey:@"systemIdentifier"];
-    OESystemPlugin* plugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
+    NSString *systemIdentifier = [self valueForKey:@"systemIdentifier"];
+    OESystemPlugin *plugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
     
     return plugin;
 }
 #pragma mark -
 - (NSImage*)icon{
-    NSString* locName = [self name];
-    NSImage* image = [NSImage imageNamed:locName];
+    NSString *locName = [self name];
+    NSImage *image = [NSImage imageNamed:locName];
     
     return image;
 }

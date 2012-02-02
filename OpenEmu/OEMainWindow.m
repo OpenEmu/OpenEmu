@@ -19,11 +19,11 @@
     NSRect windowBorderFrame = [windowBorderView frame];
     
     NSRect titlebarRect = NSMakeRect(0, windowBorderFrame.size.height-22, windowBorderFrame.size.width, 22);
-    OEMainWindowTitleBarView* titlebarView = [[[OEMainWindowTitleBarView alloc] initWithFrame:titlebarRect] autorelease];
+    OEMainWindowTitleBarView *titlebarView = [[[OEMainWindowTitleBarView alloc] initWithFrame:titlebarRect] autorelease];
     [titlebarView setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
     [windowBorderView addSubview:titlebarView positioned:NSWindowAbove relativeTo:[[windowBorderView subviews] objectAtIndex:0]];
     
-    NSView* newContainerView = [[NSView alloc] initWithFrame:(NSRect){{0,45},{contentView.frame.size.width, contentView.frame.size.height-45}}];
+    NSView *newContainerView = [[NSView alloc] initWithFrame:(NSRect){{0,45},{contentView.frame.size.width, contentView.frame.size.height-45}}];
     [newContainerView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [contentView addSubview:newContainerView];
     mainContentView = newContainerView;
@@ -42,7 +42,7 @@
 
 - (void)setMainContentView:(NSView*)view
 {
-    NSView* contentView = [self contentView];
+    NSView *contentView = [self contentView];
     [view setFrame:[mainContentView frame]];
     [view setAutoresizingMask:[mainContentView autoresizingMask]];
     [[contentView animator] replaceSubview:mainContentView with:view];   
@@ -79,7 +79,7 @@
     float maxY = NSMaxY(dirtyRect);
     if(maxY > NSMaxY([self frame]) - titleBarHeight)
     {
-        float newHeight = self.frame.origin.y + self.frame.size.height-dirtyRect.origin.y - titleBarHeight;
+        float newHeight = [self frame].origin.y + [self frame].size.height-dirtyRect.origin.y - titleBarHeight;
         if(newHeight <= 0.0)
         {
             return;
@@ -115,9 +115,9 @@
     viewRect.origin.y = NSMinY(viewRect);
     viewRect.size.height = 44.0;
     
-    NSColor* topLineColor = [NSColor colorWithDeviceWhite:0.32 alpha:1];
-    NSColor* gradientTop = [NSColor colorWithDeviceWhite:0.2 alpha:1];
-    NSColor* gradientBottom = [NSColor colorWithDeviceWhite:0.15 alpha:1];
+    NSColor *topLineColor = [NSColor colorWithDeviceWhite:0.32 alpha:1];
+    NSColor *gradientTop = [NSColor colorWithDeviceWhite:0.2 alpha:1];
+    NSColor *gradientBottom = [NSColor colorWithDeviceWhite:0.15 alpha:1];
     
     // Draw top line
     NSRect lineRect = NSMakeRect(0, 43, viewRect.size.width, 1);
@@ -127,7 +127,7 @@
     // Draw Gradient
     viewRect.origin.y = 0;
     viewRect.size.height -= 1;
-    NSGradient* backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
+    NSGradient *backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
     [backgroundGradient drawInRect:viewRect angle:-90];
     [backgroundGradient release];
 }

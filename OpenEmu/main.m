@@ -29,12 +29,12 @@
 
 int main(int argc, char *argv[])
 {	
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     
     srand(time(NULL));
-    NSString* path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
+    NSString *path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
 
-	NSDictionary* defaults = [[NSDictionary alloc] initWithObjectsAndKeys:
+	NSDictionary *defaults = [[NSDictionary alloc] initWithObjectsAndKeys:
                               // default thumbnail sizes for game box images
                               [NSArray arrayWithObjects:@"{75,75}",
                                                         @"{150,150}",
@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
                               [NSNumber numberWithBool:YES],    UDSidebarVisibleKey,
 							  nil];
 
-	NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
 	[standardDefaults registerDefaults:defaults];
     [defaults release];
     defaults = nil;

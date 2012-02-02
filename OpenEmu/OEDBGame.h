@@ -54,11 +54,11 @@ extern const NSString *OEPasteboardTypeGame;
 - (id)mergeInfoFromGame:(OEDBGame*)game;
 #pragma mark -
 #pragma mark Accessors
-@property (readonly) OEDBRom* defaultROM;
-@property (readonly) NSDate* lastPlayed;
+@property (readonly) OEDBRom *defaultROM;
+@property (readonly) NSDate *lastPlayed;
 
 #pragma mark -
-@property (assign) OELibraryDatabase* database;
+@property (assign) OELibraryDatabase *database;
 #pragma mark -
 #pragma mark -
 #pragma mark -

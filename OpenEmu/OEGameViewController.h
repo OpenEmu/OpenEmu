@@ -69,7 +69,7 @@
 - (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error;
 
 #pragma mark -
-- (void)captureScreenshotUsingBlock:(void(^)(NSImage* img))block;
+- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;
 
 #pragma mark -
 #pragma mark Info
@@ -81,6 +81,6 @@
 - (void)setupMenuItems;
 
 #pragma mark -
-@property (retain) OEDBRom* rom;
-@property (assign) OEGameDocument* document;
+@property (retain) OEDBRom *rom;
+@property (assign) OEGameDocument *document;
 @end

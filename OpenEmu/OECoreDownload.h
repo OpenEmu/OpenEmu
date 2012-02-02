@@ -32,9 +32,9 @@
 
 @property (assign) id <OECoreDownloadDelegate> delegate;
 
-@property (copy) NSString* name;
-@property (copy) NSString* description;
-@property (copy) NSString* version;
+@property (copy) NSString *name;
+@property (copy) NSString *description;
+@property (copy) NSString *version;
 
 @property BOOL hasUpdate;
 @property BOOL canBeInstalled;

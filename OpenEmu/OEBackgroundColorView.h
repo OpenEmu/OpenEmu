@@ -11,8 +11,8 @@
 
 @interface OEBackgroundColorView : NSView {
 @private
-    NSColor* backgroundColor;
+    NSColor *backgroundColor;
 }
-@property (retain, nonatomic) NSColor* backgroundColor;
+@property (retain, nonatomic) NSColor *backgroundColor;
 
 @end

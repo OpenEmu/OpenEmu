@@ -14,8 +14,8 @@
 {
     if([self topColor] && [self bottomColor])
     {
-        NSGradient* grad = [[NSGradient alloc] initWithStartingColor:[self topColor] endingColor:[self bottomColor]];
-        NSBezierPath* bezPath = [NSBezierPath bezierPathWithRect:[self bounds]];
+        NSGradient *grad = [[NSGradient alloc] initWithStartingColor:[self topColor] endingColor:[self bottomColor]];
+        NSBezierPath *bezPath = [NSBezierPath bezierPathWithRect:[self bounds]];
         [grad drawInBezierPath:bezPath angle:-90];
         [grad release];
     }

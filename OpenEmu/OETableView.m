@@ -11,8 +11,8 @@
 #import "OETableCornerView.h"
 #import "OETableHeaderCell.h"
 @implementation OETableView
-static NSColor* cellEditingFillColor, *textColor, *cellSelectedTextColor, *strokeColor;
-static NSGradient* highlightGradient, *normalGradient;
+static NSColor *cellEditingFillColor, *textColor, *cellSelectedTextColor, *strokeColor;
+static NSGradient *highlightGradient, *normalGradient;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
@@ -46,8 +46,8 @@ static NSGradient* highlightGradient, *normalGradient;
 		
 		if(!normalGradient)
 		{
-			NSColor* c1 = [NSColor colorWithDeviceWhite:0.29 alpha:1.0];
-			NSColor* c2 = [NSColor colorWithDeviceWhite:0.18 alpha:1.0];
+			NSColor *c1 = [NSColor colorWithDeviceWhite:0.29 alpha:1.0];
+			NSColor *c2 = [NSColor colorWithDeviceWhite:0.18 alpha:1.0];
 			normalGradient = [[NSGradient alloc] initWithStartingColor:c1 endingColor:c2];
 		}
 		
@@ -57,7 +57,7 @@ static NSGradient* highlightGradient, *normalGradient;
 		[self setBackgroundColor:[NSColor blackColor]];
 		[self setFocusRingType:NSFocusRingTypeNone];
 		
-		for (NSTableColumn* aColumn in [self tableColumns]) 
+		for (NSTableColumn *aColumn in [self tableColumns]) 
 		{
 			OETableHeaderCell *newHeader = [[OETableHeaderCell alloc] initTextCell:[[aColumn headerCell] stringValue]];
 			[newHeader setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11]];
@@ -77,8 +77,8 @@ static NSGradient* highlightGradient, *normalGradient;
 
 - (void)drawBackgroundInClipRect:(NSRect)clipRect
 {
-	NSColor* rowBackground = [NSColor colorWithDeviceWhite:0.059 alpha:1.0];
-	NSColor* alternateRowBackground = [NSColor colorWithDeviceWhite:0.114 alpha:1.0];
+	NSColor *rowBackground = [NSColor colorWithDeviceWhite:0.059 alpha:1.0];
+	NSColor *alternateRowBackground = [NSColor colorWithDeviceWhite:0.114 alpha:1.0];
 	
 	[rowBackground setFill];
 	NSRectFill(clipRect);
@@ -96,8 +96,8 @@ static NSGradient* highlightGradient, *normalGradient;
 {
 	BOOL isActive = [[self window] isMainWindow] && [[self window] firstResponder] == self;
 	
-	NSColor* fillColor;
-	NSColor* lineColor;
+	NSColor *fillColor;
+	NSColor *lineColor;
 	if(isActive)
 	{
 		fillColor = self.selectionColor;
@@ -111,7 +111,7 @@ static NSGradient* highlightGradient, *normalGradient;
 	
 	[fillColor setFill];
 	
-	NSIndexSet* selectedRows = [self selectedRowIndexes];
+	NSIndexSet *selectedRows = [self selectedRowIndexes];
 	
 	NSUInteger nextIndex = [selectedRows firstIndex];
 	NSUInteger currentIndex = [selectedRows firstIndex];
@@ -155,7 +155,7 @@ static NSGradient* highlightGradient, *normalGradient;
 	}
 	
 	
-	NSColor* fillColor;
+	NSColor *fillColor;
 	
 	BOOL isActive = [[self window] isMainWindow] && [[self window] firstResponder] == self;
 	if(isActive)
@@ -169,7 +169,7 @@ static NSGradient* highlightGradient, *normalGradient;
 	
 	[fillColor setFill];
 	
-	NSIndexSet* selectedRows = [self selectedRowIndexes];
+	NSIndexSet *selectedRows = [self selectedRowIndexes];
 	
 	NSUInteger nextIndex;
 	NSUInteger currentIndex = [selectedRows firstIndex];
@@ -196,9 +196,9 @@ static NSGradient* highlightGradient, *normalGradient;
 }
 
 - (void)setHeaderClickable:(BOOL)flag{
-    for (NSTableColumn* aColumn in [self tableColumns]) 
+    for (NSTableColumn *aColumn in [self tableColumns]) 
     {
-        OETableHeaderCell* cell = [aColumn headerCell];
+        OETableHeaderCell *cell = [aColumn headerCell];
         [cell setClickable:flag];
     }    
 }

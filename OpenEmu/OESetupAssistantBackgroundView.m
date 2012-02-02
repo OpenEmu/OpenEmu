@@ -12,7 +12,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    NSImage* backgroundImage = [NSImage imageNamed:@"installer_backgroundSample"];
+    NSImage *backgroundImage = [NSImage imageNamed:@"installer_backgroundSample"];
     [backgroundImage drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
 }
 

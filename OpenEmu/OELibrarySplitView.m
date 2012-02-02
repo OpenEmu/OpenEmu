@@ -199,7 +199,7 @@
     if(!flag)
     {
         NSRect frame = [aView frame];
-        NSView* superView = [aView superview];
+        NSView *superView = [aView superview];
         
         [superView replaceSubview:aView with:anotherView]; 
         [anotherView setFrame:frame];

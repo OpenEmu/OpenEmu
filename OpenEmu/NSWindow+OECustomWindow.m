@@ -32,7 +32,7 @@
         IMP customDrawingImplementation = method_getImplementation(customDrawingMethod);
         
         Method originalDrawingMethod = class_getInstanceMethod(NSThemeFrameClass, @selector(drawRect:));
-        const char* typeEncoding = method_getTypeEncoding(originalDrawingMethod);
+        const char *typeEncoding = method_getTypeEncoding(originalDrawingMethod);
         
         // make original implementation of drawRect: available as drawRectOriginal:
         class_addMethod(NSThemeFrameClass, @selector(drawRectOriginal:), customDrawingImplementation, typeEncoding);
@@ -41,13 +41,13 @@
     }
     
     // add instance method drawRect: of themeViewClass to instances of NSThemeFrameClass
-    NSString* winodwClassName = NSStringFromClass(windowClass);
-    NSString* selectorName = [NSString stringWithFormat:@"draw%@ThemeRect:", winodwClassName];
+    NSString *winodwClassName = NSStringFromClass(windowClass);
+    NSString *selectorName = [NSString stringWithFormat:@"draw%@ThemeRect:", winodwClassName];
     SEL newDrawingSelector = NSSelectorFromString(selectorName);
     
     Method themeDrawingMethod = class_getInstanceMethod(windowClass, @selector(drawThemeFrame:));
     IMP themeDrawingImplementation = method_getImplementation(themeDrawingMethod);
-    const char* typeEncoding = method_getTypeEncoding(themeDrawingMethod);
+    const char *typeEncoding = method_getTypeEncoding(themeDrawingMethod);
 
     class_addMethod(NSThemeFrameClass, newDrawingSelector, themeDrawingImplementation, typeEncoding);
 }
@@ -64,8 +64,8 @@
 
     if(!drawingCustomWindow) return;
     // create drawing selector based on window class
-    NSString* winodwClassName = NSStringFromClass([window class]);
-    NSString* selectorName = [NSString stringWithFormat:@"draw%@ThemeRect:", winodwClassName];
+    NSString *winodwClassName = NSStringFromClass([window class]);
+    NSString *selectorName = [NSString stringWithFormat:@"draw%@ThemeRect:", winodwClassName];
     SEL customDrawingSelector = NSSelectorFromString(selectorName);
 
     // finally draw the custom theme frame

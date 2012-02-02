@@ -47,7 +47,7 @@
     if (self)
     {
         elementPages = [[NSMutableArray alloc] initWithObjects:[NSMutableArray array], nil];
-        NSMutableArray* currentPage = [elementPages lastObject];
+        NSMutableArray *currentPage = [elementPages lastObject];
         [currentPage addObject:[NSMutableArray array]];
         
         [self addObserver:self forKeyPath:@"frameSize" options:0 context:nil];
@@ -81,13 +81,13 @@
 
 - (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget highlightPoint:(NSPoint)p
 {
-    NSMutableArray* currentPage = [elementPages lastObject];
-    NSMutableArray* currentColumn = [currentPage lastObject];
+    NSMutableArray *currentPage = [elementPages lastObject];
+    NSMutableArray *currentColumn = [currentPage lastObject];
     
     NSRect labelRect = NSMakeRect(0, 0, 0, 0);
-    NSRect buttonRect = NSMakeRect(0, 0, 0, 0);;
+    NSRect buttonRect = NSMakeRect(0, 0, 0, 0);
     
-    OEControlsKeyButton* button = [[OEControlsKeyButton alloc] initWithFrame:buttonRect];
+    OEControlsKeyButton *button = [[OEControlsKeyButton alloc] initWithFrame:buttonRect];
     button.highlightPoint = p;
     
     [button setTarget:aTarget];
@@ -96,8 +96,8 @@
     [currentColumn addObject:button];
     [button release];
     
-    NSTextField* labelField = [[NSTextField alloc] initWithFrame:labelRect];
-    NSTextFieldCell* labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
+    NSTextField *labelField = [[NSTextField alloc] initWithFrame:labelRect];
+    NSTextFieldCell *labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
     [labelField setCell:labelFieldCell];
     [labelField setStringValue:label];
     [currentColumn addObject:labelField];
@@ -107,13 +107,13 @@
 
 - (void)nextColumn
 {
-    NSMutableArray* currentPage = [elementPages lastObject];
+    NSMutableArray *currentPage = [elementPages lastObject];
     [currentPage addObject:[NSMutableArray array]];
 }
 
 - (void)nextPage
 {
-    NSMutableArray* newPage = [[NSMutableArray alloc] init];
+    NSMutableArray *newPage = [[NSMutableArray alloc] init];
     [newPage addObject:[NSMutableArray array]];
     [elementPages addObject:newPage];
     [newPage release];
@@ -121,12 +121,12 @@
 
 - (void)addColumnLabel:(NSString*)label
 {
-    NSMutableArray* currentPage = [elementPages lastObject];
-    NSMutableArray* currentColumn = [currentPage lastObject];
+    NSMutableArray *currentPage = [elementPages lastObject];
+    NSMutableArray *currentColumn = [currentPage lastObject];
     
     NSRect labelRect = NSMakeRect(0, 0, 0, 0);
-    NSTextField* labelField = [[NSTextField alloc] initWithFrame:labelRect];
-    NSTextFieldCell* labelFieldCell = [[OEControlsKeyHeadlineCell alloc] init];
+    NSTextField *labelField = [[NSTextField alloc] initWithFrame:labelRect];
+    NSTextFieldCell *labelFieldCell = [[OEControlsKeyHeadlineCell alloc] init];
     [labelField setCell:labelFieldCell];
     [labelField setStringValue:label];
     [currentColumn addObject:labelField];
@@ -136,28 +136,28 @@
 
 - (void)addRowSeperator
 {
-    NSMutableArray* currentPage = [elementPages lastObject];
-    NSMutableArray* currentColumn = [currentPage lastObject];
+    NSMutableArray *currentPage = [elementPages lastObject];
+    NSMutableArray *currentColumn = [currentPage lastObject];
     
-    OEControlsKeySeparatorView* view = [[OEControlsKeySeparatorView alloc] init];
+    OEControlsKeySeparatorView *view = [[OEControlsKeySeparatorView alloc] init];
     [currentColumn addObject:view];
     [view release];
 }
 
 - (void)updateButtons
 {
-    if(lastWidth == self.frame.size.width)
+    if(lastWidth == [self frame].size.width)
         return;
-    lastWidth = self.frame.size.width;
+    lastWidth = [self frame].size.width;
     
     float pageSpacing = 28.0;
     
     // determine required height
     float viewHeight = [elementPages count]*119.0+([elementPages count]-1)*pageSpacing+34.0;  
     viewHeight = viewHeight<187.0?187.0:viewHeight;
-    if(self.frame.size.height != viewHeight)
+    if([self frame].size.height != viewHeight)
     {
-        NSRect frame = self.frame;
+        NSRect frame = [self frame];
         frame.size.height = viewHeight;
         [self setFrame:frame];
         
@@ -183,9 +183,10 @@
     const float groupXIndent = 10.0;
     //    const float groupYIndent = -10.0;
     
-    __block float pageY=self.frame.size.height-topBorder;
+    __block float pageY=[self frame].size.height-topBorder;
     // iterate through pages
-    for(NSMutableArray* aPage in elementPages){
+    for(NSMutableArray *aPage in elementPages)
+    {
         
         // iterate through columns
         NSUInteger columns = [aPage count];
@@ -195,7 +196,7 @@
             float labelWidth      = columns==2?112:60.0;// max value!!!
             
             float buttonHeight = 24.0;
-            float buttonWidth = (self.frame.size.width-leftBorder-rightBorder-((columns-1)*horizontalItemSpacing))/columns;            
+            float buttonWidth = ([self frame].size.width-leftBorder-rightBorder-((columns-1)*horizontalItemSpacing))/columns;            
             
             
             BOOL inGroup = NO;
@@ -243,7 +244,7 @@
                 }
                 [item setFrame:NSIntegralRect(buttonRect)];
                 
-                NSTextField* label = [aColumn objectAtIndex:j+1];
+                NSTextField *label = [aColumn objectAtIndex:j+1];
                 NSRect labelRect = NSIntegralRect(NSMakeRect(buttonRect.origin.x-labelWidth-labelButtonSpacing, buttonRect.origin.y-4, labelWidth, labelHeight));
                 BOOL multiline = [label attributedStringValue].size.width >= labelRect.size.width;
                 if(multiline)
@@ -262,7 +263,7 @@
             x += horizontalItemSpacing+buttonWidth;
         }];      
         
-        NSView* lastObj = [[self subviews] lastObject];
+        NSView *lastObj = [[self subviews] lastObject];
         pageY -= lastObj.frame.origin.y + lastObj.frame.size.height -13.0;
     }
 }
@@ -270,11 +271,11 @@
 
 - (void)scrollToPage:(NSUInteger)p
 {
-    NSClipView* clipView = [[self enclosingScrollView] contentView];
+    NSClipView *clipView = [[self enclosingScrollView] contentView];
     float y = 0;
     if(p==0)
     {
-        y = self.frame.size.height;
+        y = [self frame].size.height;
     }
     else if(p == [elementPages count]-1)
     {
@@ -321,9 +322,10 @@
     
     if(_selectNext && [[NSUserDefaults standardUserDefaults] boolForKey:UDControlsButtonHighlightRollsOver])
     {
-        NSMutableArray* firstPage = [elementPages objectAtIndex:0];
-        if([firstPage count]){
-            NSMutableArray* firstColumn = [firstPage objectAtIndex:0];
+        NSMutableArray *firstPage = [elementPages objectAtIndex:0];
+        if([firstPage count])
+        {
+            NSMutableArray *firstColumn = [firstPage objectAtIndex:0];
             for(id aElement in firstColumn)
             {
                 if([aElement isKindOfClass:[OEControlsKeyButton class]] && [aElement target] && [aElement action] && [[aElement target] respondsToSelector:[aElement action]])

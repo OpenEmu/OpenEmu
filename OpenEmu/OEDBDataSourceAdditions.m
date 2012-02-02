@@ -38,7 +38,7 @@
 
 - (NSImage*)gridImage
 {
-    OEDBImage* boxImage = [self valueForKey:@"boxImage"];
+    OEDBImage *boxImage = [self valueForKey:@"boxImage"];
     if(boxImage==nil) return nil;
     
     return [boxImage image];
@@ -46,7 +46,7 @@
 
 - (NSImage*)gridImageWithSize:(NSSize)aSize
 {
-    OEDBImage* boxImage = [self valueForKey:@"boxImage"];
+    OEDBImage *boxImage = [self valueForKey:@"boxImage"];
     if(boxImage==nil) return nil;
     
     return [boxImage imageForSize:aSize];
@@ -85,13 +85,13 @@
 {    
     return [self gridImage];
     
-    NSManagedObject* boxImage = [self valueForKey:@"boxImage"];
+    NSManagedObject *boxImage = [self valueForKey:@"boxImage"];
     if(boxImage==nil) return nil;
     
     
     if([boxImage valueForKey:@"data"])
     {
-        NSImage* cover = [[NSImage alloc] initWithData:[boxImage valueForKey:@"data"]];
+        NSImage *cover = [[NSImage alloc] initWithData:[boxImage valueForKey:@"data"]];
         return [cover autorelease];  
     }
     
@@ -123,25 +123,6 @@
 #pragma mark ListView DataSource Item
 - (NSImage*)listViewStatus:(BOOL)selected
 {
-    /*if(self.fileStatus==1 && !selected){
-     NSImage* res = [NSImage imageNamed:@"list_indicators_missing"];
-     return res;
-     } 
-     
-     if(self.fileStatus==1 && selected){
-     NSImage* res = [NSImage imageNamed:@"list_indicators_missing_selected"];
-     return res;
-     } 
-     
-     NSDate* refDate = [NSDate dateWithTimeIntervalSince1970:0];
-     if([refDate isEqualToDate:self.romLastPlayed] &&  !selected){
-     return [NSImage imageNamed:@"list_indicators_unplayed"];
-     }
-     
-     if([refDate isEqualToDate:self.romLastPlayed] && selected){
-     return [NSImage imageNamed:@"list_indicators_unplayed_selected"];
-     }*/
-    
     return nil;
 }
 
@@ -156,14 +137,14 @@
 }
 - (NSString*)listViewTitle
 {
-    NSString* title = [self valueForKey:@"name"];
+    NSString *title = [self valueForKey:@"name"];
     return title;
 }
 - (NSString*)listViewLastPlayed
 {
     // TODO: properly format date
-    NSDate* lastPlayedDate = self.lastPlayed;
-    NSString* lastPlayed;
+    NSDate *lastPlayedDate = self.lastPlayed;
+    NSString *lastPlayed;
     if(!lastPlayedDate)
     {
         lastPlayed = @"";

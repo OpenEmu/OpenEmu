@@ -387,14 +387,14 @@ static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
         
         if(screenshotHandler != nil)
         {
-            NSImage * img = nil;
+            NSImage *img = nil;
             // TODO: Drawing the content of the image
             
             NSRect extent = NSRectFromCGRect([[self gameCIImage] extent]);
             int width = extent.size.width; 
             int height = extent.size.height;  
             
-            NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCIImage:self.gameCIImage];
+            NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithCIImage:self.gameCIImage];
             
             img = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
             [img addRepresentation:rep];

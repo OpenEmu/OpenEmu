@@ -21,7 +21,7 @@
 }
 
 + (id)fieldEditor{
-    static OESidebarFieldEditor* fieldEditor = nil;
+    static OESidebarFieldEditor *fieldEditor = nil;
     if (fieldEditor == nil){
         fieldEditor = [[OESidebarFieldEditor alloc] initWithFrame:NSZeroRect];
         

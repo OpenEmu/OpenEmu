@@ -27,7 +27,7 @@
         [self setWantsLayer:YES];
         
         [self addSubview:textView];
-        [self setFrame:self.frame];
+        [self setFrame:[self frame]];
     }
     
     return self;
@@ -46,7 +46,7 @@
     
     [self.borderColor setStroke];
     
-    NSBezierPath* borderPath = [NSBezierPath bezierPathWithRect:NSInsetRect([self bounds], 0.5, 0.5)];
+    NSBezierPath *borderPath = [NSBezierPath bezierPathWithRect:NSInsetRect([self bounds], 0.5, 0.5)];
     [borderPath stroke];
     
     [[NSColor whiteColor] setStroke];

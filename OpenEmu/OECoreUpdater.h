@@ -21,11 +21,11 @@ typedef void (^Block)();
 - (void)checkForNewCores:(NSNumber*)fromModal;
 
 - (void)installCoreWithIdentifier:(NSString*)coreIdentifier coreName:(NSString*)coreName systemName:(NSString*)systemName withCompletionHandler:(Block)handle;
-@property (readonly) NSMutableDictionary* coresDict;
-@property (readonly) NSArray* coreList;
+@property (readonly) NSMutableDictionary *coresDict;
+@property (readonly) NSArray *coreList;
 
 @property (copy)    Block completionHandler;
-@property (retain)  NSString* coreIdentifier;
-@property (retain)  OEHUDAlert* alert;
-@property (retain)  OECoreDownload* coreDownload;
+@property (retain)  NSString *coreIdentifier;
+@property (retain)  OEHUDAlert *alert;
+@property (retain)  OECoreDownload *coreDownload;
 @end

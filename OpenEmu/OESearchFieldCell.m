@@ -15,15 +15,15 @@
     self = [super initWithCoder:coder];
     if (self) 
     {
-        NSColor* activeColor = [NSColor colorWithDeviceWhite:0.89 alpha:1.0];
-        NSColor* disabledColor = [NSColor colorWithDeviceWhite:0.33 alpha:1.0];
-        NSColor* placeholderColor = [NSColor colorWithDeviceWhite:0.52 alpha:1.0];
+        NSColor *activeColor = [NSColor colorWithDeviceWhite:0.89 alpha:1.0];
+        NSColor *disabledColor = [NSColor colorWithDeviceWhite:0.33 alpha:1.0];
+        NSColor *placeholderColor = [NSColor colorWithDeviceWhite:0.52 alpha:1.0];
         
         [self setAllowsEditingTextAttributes:NO];
         
         
-        NSShadow* shadow = [[NSShadow new] autorelease];
-        NSParagraphStyle* paraStyle = [[NSParagraphStyle new] autorelease];
+        NSShadow *shadow = [[NSShadow new] autorelease];
+        NSParagraphStyle *paraStyle = [[NSParagraphStyle new] autorelease];
         
         [shadow setShadowBlurRadius:1];
         [shadow setShadowOffset:NSMakeSize(0, -1)];
@@ -36,7 +36,7 @@
                         paraStyle, NSParagraphStyleAttributeName,
                         nil] retain];
         
-        NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0];
+        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0];
         inactive = [[NSDictionary dictionaryWithObjectsAndKeys:
                      activeColor ,NSForegroundColorAttributeName,
                      font, NSFontAttributeName,
@@ -57,7 +57,7 @@
         if(![NSImage imageNamed:@"search_cancel_active"])
         {
             // Load and split cnacel button
-            NSImage* image = [NSImage imageNamed:@"search_cancel"];
+            NSImage *image = [NSImage imageNamed:@"search_cancel"];
             [image setName:@"search_cancel_active" forSubimageInRect:NSMakeRect(0, 0, 20, 20)];
             [image setName:@"search_cancel_pressed" forSubimageInRect:NSMakeRect(20, 0, 20, 20)];
             
@@ -111,14 +111,14 @@
     textObj = [super setUpFieldEditorAttributes:textObj];
     if([textObj isKindOfClass:[NSTextView class]]) 
     {
-        NSShadow* shadow = [[NSShadow new] autorelease];
-        NSParagraphStyle* paraStyle = [[NSParagraphStyle new] autorelease];
+        NSShadow *shadow = [[NSShadow new] autorelease];
+        NSParagraphStyle *paraStyle = [[NSParagraphStyle new] autorelease];
         
         [shadow setShadowBlurRadius:1];
         [shadow setShadowOffset:NSMakeSize(1, 1)];
         [shadow setShadowColor:[NSColor colorWithDeviceWhite:0 alpha:0.4]];
         
-        NSDictionary* selectionDict = [NSDictionary dictionaryWithObjectsAndKeys:
+        NSDictionary *selectionDict = [NSDictionary dictionaryWithObjectsAndKeys:
                                        [NSColor blackColor], NSForegroundColorAttributeName,
                                        [NSColor colorWithDeviceWhite:0.54 alpha:1.0], NSBackgroundColorAttributeName,
                                        
@@ -132,7 +132,7 @@
         [(NSTextView *)textObj setSelectedTextAttributes:selectionDict];
         [(NSTextView *)textObj setTypingAttributes:current];
         
-        NSColor* color = [NSColor colorWithDeviceWhite:0.72 alpha:1.0];
+        NSColor *color = [NSColor colorWithDeviceWhite:0.72 alpha:1.0];
         [(NSTextView *)textObj setInsertionPointColor:color];
     }
     return textObj;
@@ -166,7 +166,7 @@
     NSRect targetRect = cellFrame;
     targetRect.size.height = 21;
     
-    NSImage* image = [NSImage imageNamed:@"search_field"];
+    NSImage *image = [NSImage imageNamed:@"search_field"];
     [image drawInRect:targetRect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:12 rightBorder:12 topBorder:0 bottomBorder:0];
     
     [self setStylesForState:state];

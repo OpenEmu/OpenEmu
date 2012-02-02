@@ -16,7 +16,7 @@
 	OEUIState state = OEUIStateInactive;
 	if([self isHighlighted]) state = OEUIStateActive;
 	
-	NSImage* image = [NSImage imageNamed:@"list_rating"];
+	NSImage *image = [NSImage imageNamed:@"list_rating"];
 		
 	NSRect sourceRect = [self imageRectForValue:[[self objectValue] intValue] andState:state];
 	NSRect targetRect = NSMakeRect(cellFrame.origin.x+(cellFrame.size.width-sourceRect.size.width)/2, cellFrame.origin.y+(cellFrame.size.height-sourceRect.size.height)/2, sourceRect.size.width, sourceRect.size.height);
@@ -47,7 +47,7 @@
 - (void)determineRatingForPos:(NSPoint)pos inTableView:(NSTableView*)view{
 	NSUInteger row = [view rowAtPoint:pos];
 	NSUInteger col = [view columnAtPoint:pos];
-	NSTableColumn* column = [[view tableColumns] objectAtIndex:col];
+	NSTableColumn *column = [[view tableColumns] objectAtIndex:col];
 	
 	NSRect frame = [view frameOfCellAtColumn:col row:row];
 	
@@ -62,7 +62,7 @@
 	else if(posX>=55-stepWidth){ rating = 5; }
 	else rating = ((posX/stepWidth)+1);
 	
-	NSNumber* objValue = [NSNumber numberWithInt:rating];
+	NSNumber *objValue = [NSNumber numberWithInt:rating];
 	[[view dataSource] tableView:view setObjectValue:objValue forTableColumn:column row:row];
 	[self setObjectValue:objValue];
 }

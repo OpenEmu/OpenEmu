@@ -11,26 +11,26 @@
 @class OEToolbarItem;
 @interface OEToolbarView : INTitlebarView {
 @private
-    NSMutableArray* items;
+    NSMutableArray *items;
 	
-	OEToolbarItem* highlightedItem;
-	OEToolbarItem* selectedItem;
+	OEToolbarItem *highlightedItem;
+	OEToolbarItem *selectedItem;
 	
-	NSColor* _contentseparatorColor;
+	NSColor *_contentseparatorColor;
 }
 
 - (void)addItem:(OEToolbarItem*)item;
 - (OEToolbarItem*)selectedItem;
 - (void)markItemAsSelected:(OEToolbarItem*)tbItem; // basically selects a toolbar item without invoking its actions
 
-@property (retain, readwrite) NSMutableArray* items;
-@property (nonatomic, retain) NSColor* contentseparatorColor;
+@property (retain, readwrite) NSMutableArray *items;
+@property (nonatomic, retain) NSColor *contentseparatorColor;
 @end
 
 @interface OEToolbarItem : NSObject {
 @private
-	NSString* title;
-	NSImage* icon;
+	NSString *title;
+	NSImage *icon;
 	
 	id target;
 	SEL action;
@@ -39,8 +39,8 @@
 }
 @property (readwrite) NSRect itemRect;
 
-@property (copy, readwrite) NSString* title;
-@property (copy, readwrite) NSImage* icon;
+@property (copy, readwrite) NSString *title;
+@property (copy, readwrite) NSImage *icon;
 @property (assign, readwrite) id target;
 @property (readwrite) SEL action;
 @end

@@ -44,7 +44,7 @@
     
     if(![[self cell] isKindOfClass:[OECheckBoxCell class]])
     {
-        OECheckBoxCell* cell = [[OECheckBoxCell alloc] init];
+        OECheckBoxCell *cell = [[OECheckBoxCell alloc] init];
         [self setCell:cell];
         [cell release];
         
@@ -94,7 +94,7 @@
     if (self != [OECheckBoxCell class])
         return;
 
-    NSImage* image = [NSImage imageNamed:@"dark_checkbox"];
+    NSImage *image = [NSImage imageNamed:@"dark_checkbox"];
     
     [image setName:@"dark_checkbox_off" forSubimageInRect:NSMakeRect(0, 16, 16, 16)];
     [image setName:@"dark_checkbox_off_pressed" forSubimageInRect:NSMakeRect(16, 16, 16, 16)];
@@ -106,8 +106,8 @@
 {
     NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
     
-    NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0.0 size:11.0];
-    NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0.0 size:11.0];
+    NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
     [shadow setShadowBlurRadius:1.0];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.4]];
     [shadow setShadowOffset:NSMakeSize(0, -1)];
@@ -140,7 +140,7 @@
 
 - (void)drawImage:(NSImage*)image withFrame:(NSRect)frame inView:(NSView*)controlView
 {
-    NSImage* checkboximage;
+    NSImage *checkboximage;
     if ([self isHighlighted] && [self state]==NSOnState)
         checkboximage = [NSImage imageNamed:@"dark_checkbox_on_pressed"];
     else if (![self isHighlighted] && [self state]==NSOnState)

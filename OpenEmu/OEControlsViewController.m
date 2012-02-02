@@ -61,9 +61,12 @@
         selectedControl = (state == NSOnState ? sender : nil);
     }
     
-    if(!selectedControl || ![selectedControl state]){
+    if(!selectedControl || ![selectedControl state])
+    {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"OEControlsPreferencesSelectedButtonDidChange" object:nil];
-    } else {
+    } 
+    else 
+    {
         [[NSNotificationCenter defaultCenter] postNotificationName:@"OEControlsPreferencesSelectedButtonDidChange" object:selectedControl];
     }
 }
@@ -96,7 +99,8 @@
 {
     return selectedPlayer;
 }
-- (void)selectPlayer:(NSUInteger)_player{
+- (void)selectPlayer:(NSUInteger)_player
+{
     selectedPlayer = _player;
     [self resetKeyBindings];
 }
@@ -104,10 +108,12 @@
 - (NSString *)keyPathForKey:(NSString *)aKey
 {
     NSUInteger player = [self selectedPlayer];
-    if(player != NSNotFound){
-        NSString* keyPathForKey = [[self delegate] controlsViewController:self playerKeyForKey:aKey player:player];
+    if(player != NSNotFound)
+    {
+        NSString *keyPathForKey = [[self delegate] controlsViewController:self playerKeyForKey:aKey player:player];
         return keyPathForKey;
-    }   else
+    }  
+    else
         return aKey;
 }
 - (void)registerEvent:(id)anEvent
@@ -125,15 +131,18 @@
     }
 }
 
-- (void)selectBindingType:(NSInteger)newType{
-    if(selectedBindingType != newType){
+- (void)selectBindingType:(NSInteger)newType
+{
+    if(selectedBindingType != newType)
+    {
         selectedBindingType = newType;
         [self resetKeyBindings];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"OEControlsViewControllerChangedBindingType" object:self];
     }
 }
 
-- (NSInteger)selectedBindingType{
+- (NSInteger)selectedBindingType
+{
     return selectedBindingType;
 }
 
@@ -205,7 +214,8 @@
 }
 
 
-- (NSImage*)controllerImage{
+- (NSImage*)controllerImage
+{
     return nil;
 }
 

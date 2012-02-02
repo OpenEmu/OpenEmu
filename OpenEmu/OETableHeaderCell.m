@@ -53,7 +53,7 @@
 
 #pragma mark -
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView{
-	NSTableView* tableView = [(NSTableHeaderView*)controlView tableView];
+	NSTableView *tableView = [(NSTableHeaderView*)controlView tableView];
 
 	BOOL isPressed = [self state] && [self isClickable];
 	BOOL isFirst = [(NSTableHeaderView*)controlView columnAtPoint:cellFrame.origin] == 0;
@@ -62,7 +62,7 @@
 	BOOL hideHighlight = hideDarkBorderOnRight && ([(NSTableHeaderView*)controlView columnAtPoint:cellFrame.origin] >= [[tableView tableColumns] count]);
 	
 	NSRect sourceRect = NSZeroRect;
-	NSImage* backgroundImage = [NSImage imageNamed:@"table_header_background_active"];
+	NSImage *backgroundImage = [NSImage imageNamed:@"table_header_background_active"];
 	if(hideDarkBorderOnRight) sourceRect = NSMakeRect(0, 0, backgroundImage.size.width-1, backgroundImage.size.height);
 	
 	if(isPressed){
@@ -112,20 +112,20 @@
 	NSRectFill(borderLineRect); 
 	 */
 	
-	NSFont* titleFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4 size:11];
-	NSMutableParagraphStyle* paraStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	NSFont *titleFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4 size:11];
+	NSMutableParagraphStyle *paraStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
 	[paraStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 	
-	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowColor:[NSColor blackColor]];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];
 	[shadow setShadowBlurRadius:0];
 		
-	NSDictionary* attributes;
-	NSAttributedString* header;
+	NSDictionary *attributes;
+	NSAttributedString *header;
 	NSRect headerRect;
 
-	NSColor* textColor = [NSColor colorWithDeviceWhite:.85 alpha:1];
+	NSColor *textColor = [NSColor colorWithDeviceWhite:.85 alpha:1];
 	
 	// Draw glow if header is pressed
 	if(isPressed){
@@ -134,7 +134,7 @@
 		headerRect = NSInsetRect(cellFrame, 8, 0);
 		headerRect.origin.y += 1;
 		
-		NSShadow* glow = [[[NSShadow alloc] init] autorelease];
+		NSShadow *glow = [[[NSShadow alloc] init] autorelease];
 		
 		[glow setShadowColor:[NSColor whiteColor]];
 		[glow setShadowOffset:NSMakeSize(0, 0)];
@@ -169,13 +169,13 @@
 	int columnIndex = [(NSTableHeaderView*)controlView columnAtPoint:cellFrame.origin];
 	if(columnIndex < 0) return;
 	
-	NSTableColumn* column = [[tableView tableColumns] objectAtIndex:columnIndex];
+	NSTableColumn *column = [[tableView tableColumns] objectAtIndex:columnIndex];
 	
 	if([[tableView sortDescriptors] count]==0)
 		return;
 	
 	
-	NSSortDescriptor* sortDesc = [[tableView sortDescriptors] objectAtIndex:0];
+	NSSortDescriptor *sortDesc = [[tableView sortDescriptors] objectAtIndex:0];
 	
     NSInteger priority = [[sortDesc key] isEqualTo:[column identifier]];
 	BOOL ascending = [sortDesc ascending];
@@ -188,7 +188,7 @@
 - (void)drawSortIndicatorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView ascending:(BOOL)ascending priority:(NSInteger)priority{
 	if(priority != 1) return;
 	
-	NSImage* sortindicatorImage = [NSImage imageNamed:@"sort_arrow_inactive"];
+	NSImage *sortindicatorImage = [NSImage imageNamed:@"sort_arrow_inactive"];
 	BOOL isPressed = [self state];
 	if(isPressed)
 		sortindicatorImage = [NSImage imageNamed:@"sort_arrow_pressed"];

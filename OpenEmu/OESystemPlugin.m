@@ -64,7 +64,7 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
 {
     [pluginsBySystemIdentifiers setObject:plugin forKey:gameSystemIdentifier];
     
-    OELibraryDatabase* db = [OELibraryDatabase defaultDatabase];
+    OELibraryDatabase *db = [OELibraryDatabase defaultDatabase];
     
     if(!db)
     {

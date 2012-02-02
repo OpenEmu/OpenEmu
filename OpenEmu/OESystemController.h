@@ -49,16 +49,16 @@ extern NSString *const OEFileTypes;
     NSMutableArray      *_gameSystemResponders;
     NSMutableDictionary *_preferenceViewControllers;
     
-    NSString* _systemName;
+    NSString *_systemName;
 }
 
 /*
- * The method search for a class associated with aKey and instantiate the controller
- * with the default Nib name provided by the key.
- * 
- * For example: if the passed-in key is @"OEControlsPreferenceKey" the default nib name will be
- * @"ControlsPreference" (the two-letter prefix "OE" and three-letter suffix "Key" are removed from
- * the name).
+  *The method search for a class associated with aKey and instantiate the controller
+  *with the default Nib name provided by the key.
+  *
+  *For example: if the passed-in key is @"OEControlsPreferenceKey" the default nib name will be
+  *@"ControlsPreference" (the two-letter prefix "OE" and three-letter suffix "Key" are removed from
+  *the name).
  */
 - (id)newPreferenceViewControllerForKey:(NSString *)aKey;
 

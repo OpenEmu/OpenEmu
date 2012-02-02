@@ -13,10 +13,9 @@
 @interface OEPreferencesController : NSWindowController 
 {
 @private
-	NSArray* preferencePanes;
-	OEToolbarView* toolbar;	
+	OEToolbarView *toolbar;	
 	
-	IBOutlet OEBackgroundGradientView* coreGradientOverlayView;
+	IBOutlet OEBackgroundGradientView *coreGradientOverlayView;
 	
 	NSView *nextView;
 }
@@ -24,5 +23,5 @@
 - (void)switchView:(id)sender;
 - (void)switchView:(id)sender animate:(BOOL)animateFlag;
 
-@property (retain, readwrite) NSArray* preferencePanes;
+@property (retain, readwrite) NSArray *preferencePanes;
 @end

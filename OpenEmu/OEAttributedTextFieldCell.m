@@ -41,7 +41,8 @@
     return self;
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
     self.textAttributes = nil;
     [super dealloc];
 }
@@ -51,15 +52,18 @@
     return [self retain];
 }
 
-- (void)setStringValue:(NSString *)aString{
+- (void)setStringValue:(NSString *)aString
+{
     [super setAttributedStringValue:[[[NSAttributedString alloc] initWithString:aString attributes:self.textAttributes] autorelease]];
 }
-- (void)setupAttributes{    
-    NSAttributedString* stringVal = [self attributedStringValue];
+- (void)setupAttributes
+{   
+    NSAttributedString *stringVal = [self attributedStringValue];
     if(!stringVal || ![stringVal length]) return;
     
-    NSMutableDictionary* attributes = [NSMutableDictionary dictionaryWithDictionary:[stringVal attributesAtIndex:0 effectiveRange:NULL]];
-    for(NSString* aKey in [self.textAttributes allKeys]){
+    NSMutableDictionary *attributes = [NSMutableDictionary dictionaryWithDictionary:[stringVal attributesAtIndex:0 effectiveRange:NULL]];
+    for(NSString *aKey in [self.textAttributes allKeys])
+    {
         [attributes setValue:[self.textAttributes valueForKey:aKey] forKey:aKey];
     }
     self.textAttributes = attributes;

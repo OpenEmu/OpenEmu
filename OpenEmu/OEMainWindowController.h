@@ -11,11 +11,11 @@
 @class OEMainWindowContentController;
 @interface OEMainWindowController : NSWindowController <NSWindowDelegate>
 {
-    OEMainWindowContentController* currentContentController;
+    OEMainWindowContentController *currentContentController;
 }
 #pragma mark -
-@property (retain, nonatomic) OEMainWindowContentController* currentContentController;
-@property (retain) OEMainWindowContentController* defaultContentController;
+@property (retain, nonatomic) OEMainWindowContentController *currentContentController;
+@property (retain) OEMainWindowContentController *defaultContentController;
 @property BOOL allowWindowResizing;
 
 #pragma mark -
@@ -26,12 +26,12 @@
 
 #pragma mark -
 #pragma mark Toolbar Elements
-@property (retain) IBOutlet NSButton* toolbarSidebarButton;
-@property (retain) IBOutlet NSButton* toolbarGridViewButton;
-@property (retain) IBOutlet NSButton* toolbarFlowViewButton;
-@property (retain) IBOutlet NSButton* toolbarListViewButton;
+@property (retain) IBOutlet NSButton *toolbarSidebarButton;
+@property (retain) IBOutlet NSButton *toolbarGridViewButton;
+@property (retain) IBOutlet NSButton *toolbarFlowViewButton;
+@property (retain) IBOutlet NSButton *toolbarListViewButton;
 
-@property (retain) IBOutlet NSButton* toolbarAddToSidebarButton;
-@property (retain) IBOutlet NSSearchField* toolbarSearchField;
-@property (retain) IBOutlet NSSlider* toolbarSlider;
+@property (retain) IBOutlet NSButton *toolbarAddToSidebarButton;
+@property (retain) IBOutlet NSSearchField *toolbarSearchField;
+@property (retain) IBOutlet NSSlider *toolbarSlider;
 @end

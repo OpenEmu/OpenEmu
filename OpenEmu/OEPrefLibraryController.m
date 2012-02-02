@@ -39,7 +39,7 @@
     height = 473-110;
     [self _rebuildAvailableLibraries];
     
-	NSString* path = [[NSUserDefaults standardUserDefaults] objectForKey:UDDatabasePathKey];
+	NSString *path = [[NSUserDefaults standardUserDefaults] objectForKey:UDDatabasePathKey];
 	[pathField setStringValue:[path stringByAbbreviatingWithTildeInPath]];
 }
 #pragma mark ViewController Overrides
@@ -77,18 +77,18 @@
 
 - (IBAction)toggleLibrary:(id)sender
 {
-    NSString* systemIdentifier = [[sender cell] representedObject];
+    NSString *systemIdentifier = [[sender cell] representedObject];
     
-    OEDBSystem* system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[OELibraryDatabase defaultDatabase]];
+    OEDBSystem *system = [OEDBSystem systemForPluginIdentifier:systemIdentifier inDatabase:[OELibraryDatabase defaultDatabase]];
     
     BOOL disabled = ![sender state];
     // Make sure that at least one system is enabled.
     // Otherwise the mainwindow sidebar would be messed up
     if(disabled && [[[OELibraryDatabase defaultDatabase] enabledSystems] count]==1)
     {
-        NSString* message = NSLocalizedString(@"At least one System must be enabled", @"");
-        NSString* button = NSLocalizedString(@"OK", @"");
-        OEHUDAlert* alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
+        NSString *message = NSLocalizedString(@"At least one System must be enabled", @"");
+        NSString *button = NSLocalizedString(@"OK", @"");
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
         [alert runModal];
         
         [sender setState:NSOnState];
@@ -100,9 +100,9 @@
     // Is also ensured by disabling ui element (checkbox)
     if(![system plugin])
     {
-        NSString* message = [NSString stringWithFormat:NSLocalizedString(@"%@ could not be enabled because it's plugin was not found.", @""), [system name]];
-        NSString* button = NSLocalizedString(@"OK", @"");
-        OEHUDAlert* alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"%@ could not be enabled because it's plugin was not found.", @""), [system name]];
+        NSString *button = NSLocalizedString(@"OK", @"");
+        OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:message defaultButton:button alternateButton:nil];
         [alert runModal];
         
         [sender setState:NSOffState];
@@ -128,7 +128,7 @@
     }
     
     // get all system plugins, ordered them by name
-    NSArray* systems = [[OELibraryDatabase defaultDatabase] systems];
+    NSArray *systems = [[OELibraryDatabase defaultDatabase] systems];
     
     // calculate number of rows (using 2 columns)
     int rows = ceil([systems count]/2.0);
@@ -151,7 +151,7 @@
     // enumerate plugins and add buttons for them
     [systems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
      {
-         OEDBSystem* system = (OEDBSystem*)obj;
+         OEDBSystem *system = (OEDBSystem*)obj;
          // if we're still in the first column an we should be in the second
          if(x==0 && idx>[systems count]/2){
              // we reset x and y
@@ -161,9 +161,9 @@
          
          // creating the button
          NSRect rect = (NSRect){{x, y}, {iWidth, iHeight}};
-         OECheckBox* button = [[OECheckBox alloc] initWithFrame:rect];
+         OECheckBox *button = [[OECheckBox alloc] initWithFrame:rect];
          
-         NSString* systemIdentifier = [system valueForKey:@"systemIdentifier"];
+         NSString *systemIdentifier = [system valueForKey:@"systemIdentifier"];
          [button setTarget:self];
          [button setAction:@selector(toggleLibrary:)];
          [button setTitle:[system name]];
@@ -173,8 +173,8 @@
          
          // Check if a core is installed that is capable of running this system
          BOOL foundCore = NO;
-         NSArray* allPlugins = [OECorePlugin allPlugins];
-         for(OECorePlugin* obj in allPlugins)
+         NSArray *allPlugins = [OECorePlugin allPlugins];
+         for(OECorePlugin *obj in allPlugins)
          {
              
              if([[obj systemIdentifiers] containsObject:systemIdentifier])
@@ -187,13 +187,13 @@
          // TODO: warnings should also give advice on how to solve them
          // e.g. Go to Cores preferences and download Core x
          // or we could add a "Fix This" button that automatically launches the "No core for system ... " - Dialog
-         NSMutableArray* warnings = [NSMutableArray arrayWithCapacity:2];
+         NSMutableArray *warnings = [NSMutableArray arrayWithCapacity:2];
          if(![system plugin])
          {
              [warnings addObject:NSLocalizedString(@"The System plugin could not be found!", @"")];
              
              // disabling ui element here so no system without a plugin can be enabled
-             [button setEnabled:FALSE];
+             [button setEnabled:NO];
          }
          
          if(!foundCore)
@@ -207,7 +207,7 @@
              // this is currently misusing the beta_icon image
              
              NSPoint badgePosition = [button badgePosition];
-             NSImageView* imageView = [[NSImageView alloc] initWithFrame:(NSRect){badgePosition, { 16, 17} }];
+             NSImageView *imageView = [[NSImageView alloc] initWithFrame:(NSRect){badgePosition, { 16, 17} }];
              [imageView setImage:[NSImage imageNamed:@"beta_icon"]];
              
              // TODO: Use a custom tooltip that fits our style better

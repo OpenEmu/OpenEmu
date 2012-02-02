@@ -31,7 +31,7 @@
     // Setup plugins menu
 	NSArray *filterPlugins = [[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     // These filters are loaded and run by GL, and do not rely on QTZs
-    NSArray* filterNames = [filterPlugins arrayByAddingObjectsFromArray:
+    NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:
                             [NSArray arrayWithObjects:
                              @"Linear",
                              @"Nearest Neighbor",
@@ -40,16 +40,16 @@
                              @"Scale4x",
                              @"Scale4xHQ",
                              nil]];
-	NSMenu* filterMenu = [[NSMenu alloc] init];
-    for(NSString* aName in filterNames)
+	NSMenu *filterMenu = [[NSMenu alloc] init];
+    for(NSString *aName in filterNames)
     {
 		[filterMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
 	}
 	[[self filterSelection] setMenu:filterMenu];
 	[filterMenu release];	
 	
-	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
-	NSString* selectedFilterName = [sud objectForKey:UDVideoFilterKey];
+	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
+	NSString *selectedFilterName = [sud objectForKey:UDVideoFilterKey];
 	if(selectedFilterName && [[self filterSelection] itemWithTitle:selectedFilterName])
     {
 		[[self filterSelection] selectItemWithTitle:selectedFilterName];
@@ -95,16 +95,16 @@
 #pragma mark UI Actions
 - (IBAction)changeFilter:(id)sender
 {
-	NSString* filterName =  [[[self filterSelection] selectedItem] title];
+	NSString *filterName =  [[[self filterSelection] selectedItem] title];
     
-    OECompositionPlugin* plugin = [OECompositionPlugin compositionPluginWithName:filterName];
-    NSImage* filterPreviewImage;
+    OECompositionPlugin *plugin = [OECompositionPlugin compositionPluginWithName:filterName];
+    NSImage *filterPreviewImage;
     if(plugin && ![plugin isBuiltIn])
         filterPreviewImage = [plugin previewImage];
     else
         filterPreviewImage = [[NSBundle mainBundle] imageForResource:[NSString stringWithFormat:@"%@.png", filterName]];
 
-	NSImageView* newPreviewView = [[NSImageView alloc] initWithFrame:(NSRect){{0,0}, [[self filterPreviewContainer] frame].size}];
+	NSImageView *newPreviewView = [[NSImageView alloc] initWithFrame:(NSRect){{0,0}, [[self filterPreviewContainer] frame].size}];
     [newPreviewView setImage:filterPreviewImage];
     [newPreviewView setImageAlignment:NSImageAlignCenter];
     [newPreviewView setImageFrameStyle:NSImageFrameNone];
@@ -121,7 +121,7 @@
     }
     [newPreviewView release];
     
-	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
 	[sud setObject:filterName forKey:UDVideoFilterKey];
 }
 @synthesize filterPreviewContainer, filterSelection;

@@ -44,7 +44,10 @@
 
 + (void)initialize
 {
-	NSImage* image = [NSImage imageNamed:@"hud_button"];
+    if(self != [OEHUDButtonCell class])
+       return;
+       
+	NSImage *image = [NSImage imageNamed:@"hud_button"];
     
 	[image setName:@"hud_button_pressed" forSubimageInRect:NSMakeRect(0, 2*image.size.height/4, image.size.width, image.size.height/4)];
 	[image setName:@"hud_button_blue" forSubimageInRect:NSMakeRect(0, 1*image.size.height/4, image.size.width, image.size.height/4)];
@@ -57,7 +60,7 @@
 	NSRect cellFrame = frame;
 	cellFrame.size.height = 23;
 	
-	NSImage* img;
+	NSImage *img;
 	if([self isHighlighted])
     {
 		img = [NSImage imageNamed:@"hud_button_pressed"];
@@ -100,10 +103,10 @@
 {
 	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:3.0 size:11.0];
-	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:3.0 size:11.0];
+	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowBlurRadius:1.0];
-	NSMutableParagraphStyle* ps = [[NSMutableParagraphStyle alloc] init];
+	NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
 	[ps setAlignment:NSCenterTextAlignment];
 	
 	if([self isHighlighted])

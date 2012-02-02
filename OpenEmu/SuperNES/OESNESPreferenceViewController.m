@@ -58,7 +58,7 @@
 }
 
 - (NSImage*)controllerImage{
-    NSString* controllerImageName = nil;
+    NSString *controllerImageName = nil;
     if([[OELocalizationHelper sharedHelper] isRegionJAP]){
         controllerImageName = @"controller_snes_jap.png";
     } else if([[OELocalizationHelper sharedHelper] isRegionNA]){

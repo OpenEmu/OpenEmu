@@ -51,7 +51,7 @@
     if(self.value == 0.0) return;
     
     NSImage* barImage = [NSImage imageNamed:@"hud_progress_bar"];
-    NSRect barRect = (NSRect){{0,0},{(roundf(self.bounds.size.width)*(self.value-self.minValue)/(self.maxValue-self.minValue)),self.bounds.size.height}};
+    NSRect barRect = (NSRect){{0,0},{(roundf([self bounds].size.width)*(self.value-self.minValue)/(self.maxValue-self.minValue)),[self bounds].size.height}};
     [barImage drawInRect:barRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:7 rightBorder:7 topBorder:1 bottomBorder:1];
 }
 

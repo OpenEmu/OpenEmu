@@ -100,9 +100,9 @@
 - (BOOL)_setupGameViewController:(OEGameViewController*)aGameViewController
 {
     [aGameViewController setDocument:self];
-    OEMainWindowController* winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
+    OEMainWindowController *winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
     
-    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     BOOL allowPopout = [standardDefaults boolForKey:UDAllowPopoutKey];
     BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
     
@@ -123,7 +123,7 @@
             windowRect = NSRectFromString([standardDefaults stringForKey:UDLastPopoutFrameKey]);
         }
         
-        OEHUDGameWindow* window = [[OEHUDGameWindow alloc] initWithContentRect:windowRect andGameViewController:aGameViewController];
+        OEHUDGameWindow *window = [[OEHUDGameWindow alloc] initWithContentRect:windowRect andGameViewController:aGameViewController];
         
         if(useScreenSize)
             [window center];
@@ -144,8 +144,8 @@
 #pragma mark -
 - (BOOL)loadGame:(OEDBGame*)game withError:(NSError**)outError
 {
-    OEMainWindowController* winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
-    OEGameViewController* aGameViewController = [[OEGameViewController alloc] initWithWindowController:winController andGame:game error:outError];
+    OEMainWindowController *winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
+    OEGameViewController *aGameViewController = [[OEGameViewController alloc] initWithWindowController:winController andGame:game error:outError];
     if(!aGameViewController) return NO;
     
     BOOL res = [self _setupGameViewController:aGameViewController];
@@ -155,8 +155,8 @@
 
 - (BOOL)loadRom:(OEDBRom*)rom withError:(NSError**)outError
 {
-    OEMainWindowController* winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
-    OEGameViewController* aGameViewController = [[OEGameViewController alloc] initWithWindowController:winController andRom:rom error:outError];
+    OEMainWindowController *winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
+    OEGameViewController *aGameViewController = [[OEGameViewController alloc] initWithWindowController:winController andRom:rom error:outError];
     if(!aGameViewController)
     {
         DLog(@"no game view controller");
@@ -211,7 +211,7 @@
     }
     
     // get rom by path
-    NSString* filePath = nil;
+    NSString *filePath = nil;
     if(![absoluteURL isFileURL])
     {
         DLog(@"URLs that are not file urls are currently not supported!");

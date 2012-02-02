@@ -27,7 +27,7 @@
     if (self != [OEMainWindowController class])
         return;
     // toolbar sidebar button image
-    NSImage* image = [NSImage imageNamed:@"toolbar_sidebar_button"];
+    NSImage *image = [NSImage imageNamed:@"toolbar_sidebar_button"];
     [image setName:@"toolbar_sidebar_button_close" forSubimageInRect:NSMakeRect(0, 23, 84, 23)];
     [image setName:@"toolbar_sidebar_button_open" forSubimageInRect:NSMakeRect(0, 0, 84, 23)];
     
@@ -107,7 +107,7 @@
     [currentContentController contentWillHide];
     [controller contentWillShow];
     
-    OEMainWindow* win = (OEMainWindow*)[self window];
+    OEMainWindow *win = (OEMainWindow*)[self window];
     [win setMainContentView:[controller view]];
     [win makeFirstResponder:[controller view]];
     
@@ -135,7 +135,7 @@
         NSLog(@"Item: %@, %ld enabled from OEMainWindowController", [menuItem title], [menuItem tag]);
         return YES;
     }
-    return [[self currentContentController] validateMenuItem:menuItem]/* || ([self currentContentController]!=[self defaultContentController] && [[self currentContentController] validateMenuItem:menuItem])*/; 
+    return [[self currentContentController] validateMenuItem:menuItem]/*|| ([self currentContentController]!=[self defaultContentController] && [[self currentContentController] validateMenuItem:menuItem])*/; 
 }
 
 - (void)menuItemAction:(id)sender
@@ -154,11 +154,11 @@
 
 - (void)setupMenuItems
 {
-    NSMenu* mainMenu = [[NSApp delegate] mainMenu];
+    NSMenu *mainMenu = [[NSApp delegate] mainMenu];
     
     // Window Menu
-    NSMenu* windowMenu = [[mainMenu itemAtIndex:5] submenu];
-    NSMenuItem* item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
+    NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];
+    NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
     [item bind:@"state" toObject:[self window] withKeyPath:@"visible" options:nil];
     
     [[self currentContentController] setupMenuItems];

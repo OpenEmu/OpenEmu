@@ -14,7 +14,7 @@
     if(self != [OESidebarOutlineButtonCell class])
         return;
     
-    NSImage* image = [NSImage imageNamed:@"sidebar_triangle"];
+    NSImage *image = [NSImage imageNamed:@"sidebar_triangle"];
     [image setName:@"sidebar_triangle_closed" forSubimageInRect:NSMakeRect(0, 0, 9, 9)];
     [image setName:@"sidebar_triangle_open" forSubimageInRect:NSMakeRect(9, 0, 9, 9)];
 }
@@ -30,7 +30,7 @@
     [([self isHighlighted]?[NSColor colorWithDeviceWhite:0.4 alpha:1.0]:[NSColor colorWithDeviceWhite:0.6 alpha:1.0]) setFill];
     
     NSRect triangleRect = (NSRect){{cellFrame.origin.x+round((cellFrame.size.width-9)/2),cellFrame.origin.y+round((cellFrame.size.height-9)/2)},{9,9}};
-    NSImage* triangleImage = [self state]==NSOnState?[NSImage imageNamed:@"sidebar_triangle_open"]:[NSImage imageNamed:@"sidebar_triangle_closed"];
+    NSImage *triangleImage = [self state]==NSOnState?[NSImage imageNamed:@"sidebar_triangle_open"]:[NSImage imageNamed:@"sidebar_triangle_closed"];
     
     
     NSRectFill(triangleRect);

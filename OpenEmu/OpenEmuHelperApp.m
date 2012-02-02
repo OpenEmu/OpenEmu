@@ -181,7 +181,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 - (void)setupIOSurface
 {
     // init our texture and IOSurface
-    NSMutableDictionary* surfaceAttributes = [[NSMutableDictionary alloc] init];
+    NSMutableDictionary *surfaceAttributes = [[NSMutableDictionary alloc] init];
     OEIntSize surfaceSize = gameCore.bufferSize;
     [surfaceAttributes setObject:[NSNumber numberWithBool:YES] forKey:(NSString*)kIOSurfaceIsGlobal];
     [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)surfaceSize.width] forKey:(NSString*)kIOSurfaceWidth];

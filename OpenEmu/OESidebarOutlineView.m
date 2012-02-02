@@ -54,10 +54,10 @@
     
     // This probably breaks with ARC!
     
-    OESidebarOutlineButtonCell* sidebarOutlineCell = [[OESidebarOutlineButtonCell alloc] init];
+    OESidebarOutlineButtonCell *sidebarOutlineCell = [[OESidebarOutlineButtonCell alloc] init];
     [sidebarOutlineCell retain];
     
-    void* currentCell;
+    void *currentCell;
     object_getInstanceVariable(self, "_outlineCell", &currentCell);
     [(id)currentCell release];
     object_getInstanceVariable(self, "_trackingOutlineCell", &currentCell);
@@ -134,14 +134,14 @@
 
 - (void)highlightSelectionInClipRect:(NSRect)theClipRect
 {
-    NSWindow* win = [self window];
+    NSWindow *win = [self window];
     BOOL isActive = ([win isMainWindow] && [win firstResponder]==self) || [win firstResponder]==[OESidebarFieldEditor fieldEditor];
     
-    NSColor* bottomLineColor;
-    NSColor* topLineColor;
+    NSColor *bottomLineColor;
+    NSColor *topLineColor;
     
-    NSColor* gradientTop;
-    NSColor* gradientBottom;
+    NSColor *gradientTop;
+    NSColor *gradientBottom;
     
     if(isActive)
     { // Active
@@ -187,7 +187,7 @@
             gradientRect.size.height -= 3;
             gradientRect.origin.y += 2;
             
-            NSGradient* selectionGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
+            NSGradient *selectionGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
             [selectionGradient drawInRect:gradientRect angle:90];
             [selectionGradient release];
         }

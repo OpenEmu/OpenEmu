@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "OEMainWindowController.h"
 @interface OEMainWindowContentController : NSViewController
-@property (assign) OEMainWindowController* windowController;
+@property (assign) OEMainWindowController *windowController;
 - (id)initWithWindowController:(OEMainWindowController*) aWindowController;
 
 - (void)contentWillShow;

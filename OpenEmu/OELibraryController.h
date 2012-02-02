@@ -23,7 +23,7 @@
 @interface OELibraryController : OEMainWindowContentController 
 {
 @private
-    OEROMImporter* romImporter;
+    OEROMImporter *romImporter;
     
     // Toolbar Items
     BOOL sidebarChangesWindowSize;
@@ -55,10 +55,10 @@
 #pragma mark -
 #pragma mark Properties
 @property (assign, nonatomic) BOOL sidebarChangesWindowSize;
-@property (retain) OEROMImporter* romImporter;
-@property (retain) OELibraryDatabase* database;
+@property (retain) OEROMImporter *romImporter;
+@property (retain) OELibraryDatabase *database;
 
-@property (retain) IBOutlet OESidebarController* sidebarController;
+@property (retain) IBOutlet OESidebarController *sidebarController;
 @property (retain) IBOutlet OECollectionViewController *collectionViewController;
-@property (retain) IBOutlet OELibrarySplitView* mainSplitView;
+@property (retain) IBOutlet OELibrarySplitView *mainSplitView;
 @end

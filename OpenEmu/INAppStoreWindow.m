@@ -58,21 +58,22 @@
     NSRectFill(bottomRect);
     
     
-    INAppStoreWindow* win = (INAppStoreWindow*)[self window];
-    if(win.titleBarString){
+    INAppStoreWindow *win = (INAppStoreWindow*)[self window];
+    if(win.titleBarString)
+    {
         NSRect rect = NSMakeRect(0, [self frame].size.height-24, [self frame].size.width, 20);
         
-        NSColor* textColor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.157 alpha:1.0];
-        NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+        NSColor *textColor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.157 alpha:1.0];
+        NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
         [shadow setShadowBlurRadius:1.0];
         [shadow setShadowOffset:NSMakeSize(0, -1)];
         [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.6]];
         
-        NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4.0 size:13.0];
-        NSMutableParagraphStyle* ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4.0 size:13.0];
+        NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
         [ps setAlignment:NSCenterTextAlignment];
         
-        NSMutableDictionary* attr = [NSMutableDictionary dictionary];
+        NSMutableDictionary *attr = [NSMutableDictionary dictionary];
         [attr setObject:ps forKey:NSParagraphStyleAttributeName];
         [attr setObject:textColor forKey:NSForegroundColorAttributeName];
         [attr setObject:shadow forKey:NSShadowAttributeName];
@@ -101,12 +102,14 @@
 }
 #pragma mark -
 #pragma Moouse Events
-- (void)mouseDown:(NSEvent *)theEvent{
+- (void)mouseDown:(NSEvent *)theEvent
+{
     // start dragging window
-    NSWindow* win = [self window];
+    NSWindow *win = [self window];
     NSPoint startPos = [win convertBaseToScreen:[theEvent locationInWindow]];
     NSPoint origin = win.frame.origin;
-    while ((theEvent=[win nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)]) && theEvent && [theEvent type]!=NSLeftMouseUp){
+    while ((theEvent=[win nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)]) && theEvent && [theEvent type]!=NSLeftMouseUp)
+    {
         NSPoint newPos = [win convertBaseToScreen:[theEvent locationInWindow]];
         [win setFrameOrigin:NSMakePoint(origin.x + newPos.x-startPos.x, origin.y + newPos.y-startPos.y)];
     }
@@ -183,7 +186,8 @@
     return rect;
 }
 
-- (NSRect)frameRectForContentRect:(NSRect)contentRect{
+- (NSRect)frameRectForContentRect:(NSRect)contentRect
+{
     NSRect rect = [super frameRectForContentRect:contentRect];
     
     float adjustment = self.titleBarHeight - 22;
@@ -192,9 +196,11 @@
     return rect;
 }
 
-- (void)setFrame:(NSRect)frameRect display:(BOOL)flag{
-    if(!NSEqualSizes(frameRect.size, self.frame.size)){
-        float topPos = self.frame.origin.y + self.frame.size.height;
+- (void)setFrame:(NSRect)frameRect display:(BOOL)flag
+{
+    if(!NSEqualSizes(frameRect.size, [self frame].size))
+    {
+        float topPos = [self frame].origin.y + [self frame].size.height;
         frameRect.origin.y = topPos-frameRect.size.height;
     }
     

@@ -25,10 +25,10 @@
         [self removeTrackingArea:[[self trackingAreas] lastObject]];
     }
     
-    NSCell* cell = [self cell];
+    NSCell *cell = [self cell];
     if(cell && [cell isKindOfClass:[OEImageButtonCell class]] && [(OEImageButtonCell*)cell displaysHover])
     {
-        [self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingActiveInActiveApp|NSTrackingMouseEnteredAndExited owner:self userInfo:nil] autorelease]];
+        [self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingActiveInActiveApp|NSTrackingMouseEnteredAndExited owner:self userInfo:nil] autorelease]];
     }
     self.isInHover = NO;
 }
@@ -407,10 +407,10 @@
         rollover = NSPointInRect(p, controlView.frame);
     }
     if([self text]){
-        NSDictionary* selectedDictionary = rollover ? [self hoverAttributes] : [self normalAttributes];
+        NSDictionary *selectedDictionary = rollover ? [self hoverAttributes] : [self normalAttributes];
         selectedDictionary = isPressed?[self clickAttributes]:selectedDictionary;
         
-        NSAttributedString* attributedString = [[NSAttributedString alloc] initWithString:[self text] attributes:selectedDictionary];
+        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:[self text] attributes:selectedDictionary];
         
         NSRect textFrame;
         textFrame.size = [attributedString size];

@@ -40,7 +40,7 @@
         return;
 
     // Indicators for list view
-    NSImage* image = [NSImage imageNamed:@"list_indicators"];
+    NSImage *image = [NSImage imageNamed:@"list_indicators"];
     
     // unselected states
     [image setName:@"list_indicators_playing" forSubimageInRect:NSMakeRect(0, 24, 12, 12)];
@@ -81,14 +81,14 @@
 {
     if(gamesController!=nil) return;
     
-    NSUserDefaults* userDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     // Set up games controller
     gamesController = [[NSArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
     [gamesController setAutomaticallyPreparesContent:YES];
     
-    NSManagedObjectContext* context = [[[self libraryController] database] managedObjectContext];
+    NSManagedObjectContext *context = [[[self libraryController] database] managedObjectContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
     
     [gamesController setManagedObjectContext:context];
@@ -114,7 +114,7 @@
     [gridView addForegroundLayer:foregroundLayer];
     
     //set initial zoom value
-    NSSlider* sizeSlider = [[[self libraryController] windowController] toolbarSlider];
+    NSSlider *sizeSlider = [[[self libraryController] windowController] toolbarSlider];
     if([userDefaults valueForKey:UDLastGridSizeKey])
     {
         [sizeSlider setFloatValue:[userDefaults floatForKey:UDLastGridSizeKey]];
@@ -134,8 +134,9 @@
     [listView setDataSource:self];
     [listView setDoubleAction:@selector(tableViewWasDoubleClicked:)];
     [listView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, nil]];
-    for (NSTableColumn* aColumn in [listView tableColumns]) {
-        if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]]){
+    for (NSTableColumn *aColumn in [listView tableColumns]) {
+        if([[aColumn dataCell] isKindOfClass:[OECenteredTextFieldCell class]])
+        {
             [[aColumn dataCell] setWidthInset:9];
         }
     }
@@ -186,10 +187,10 @@
 
 - (void)_selectView:(int)view
 {
-    NSSlider* sizeSlider = [[[self libraryController] windowController] toolbarSlider];
+    NSSlider *sizeSlider = [[[self libraryController] windowController] toolbarSlider];
     
-    NSMenu* mainMenu = [NSApp mainMenu];
-    NSMenu* viewMenu = [[mainMenu itemAtIndex:3] submenu];
+    NSMenu *mainMenu = [NSApp mainMenu];
+    NSMenu *viewMenu = [[mainMenu itemAtIndex:3] submenu];
     
     [[[[self libraryController] windowController] toolbarGridViewButton] setState: NSOffState];
     [[viewMenu itemWithTag:MainMenu_View_GridViewTag] setState:NSOffState];
@@ -198,7 +199,7 @@
     [[[[self libraryController] windowController] toolbarListViewButton] setState: NSOffState];
     [[viewMenu itemWithTag:MainMenu_View_ListViewTag] setState:NSOffState];
     
-    NSView* nextView = nil;
+    NSView *nextView = nil;
     float splitterPosition =-1;
     switch (view)
     {
@@ -238,7 +239,7 @@
     
     while([[[self view] subviews] count]!=0)
     {
-        NSView* currentSubview = [[[self view] subviews] objectAtIndex:0];
+        NSView *currentSubview = [[[self view] subviews] objectAtIndex:0];
         [currentSubview removeFromSuperview];
     }
     
@@ -267,7 +268,7 @@
 #pragma mark Toolbar Actions
 - (IBAction)search:(id)sender
 {
-    NSPredicate* pred = [[sender stringValue] isEqualToString:@""]?nil:[NSPredicate predicateWithFormat:@"name contains[cd] %@", [sender stringValue]];
+    NSPredicate *pred = [[sender stringValue] isEqualToString:@""]?nil:[NSPredicate predicateWithFormat:@"name contains[cd] %@", [sender stringValue]];
     [gamesController setFilterPredicate:pred];
     
     [listView reloadData];
@@ -345,16 +346,16 @@
 }
 
 - (id)gridView:(IKSGridView*)aView objectValueOfItemAtIndex:(NSUInteger)index
-{    NSManagedObjectID* objid = [(NSManagedObject*)[[gamesController arrangedObjects] objectAtIndex:index] objectID];
+{    NSManagedObjectID *objid = [(NSManagedObject*)[[gamesController arrangedObjects] objectAtIndex:index] objectID];
     return [[[[self libraryController] database] managedObjectContext] objectWithID:objid];
 }
 
 - (void)gridView:(IKSGridView *)aView setObject:(id)val forKey:(NSString*)key withRepresentedObject:(id)obj
 {      
-    OELibraryDatabase* database = [[self libraryController] database];
-    NSManagedObjectContext* moc = [database managedObjectContext];
+    OELibraryDatabase *database = [[self libraryController] database];
+    NSManagedObjectContext *moc = [database managedObjectContext];
     
-    NSManagedObjectID* objId = (NSManagedObjectID*)obj;
+    NSManagedObjectID *objId = (NSManagedObjectID*)obj;
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[moc objectWithID:objId];
     
     if([key isEqualTo:@"rating"])
@@ -370,9 +371,9 @@
 
 - (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString*)key withRepresentedObject:(id)obj
 {
-    OELibraryDatabase* database = [[self libraryController] database];
-    NSManagedObjectContext* moc = [database managedObjectContext];
-    NSManagedObjectID* objId = (NSManagedObjectID*)obj;
+    OELibraryDatabase *database = [[self libraryController] database];
+    NSManagedObjectContext *moc = [database managedObjectContext];
+    NSManagedObjectID *objId = (NSManagedObjectID*)obj;
 #warning What if objID is nil????
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[moc objectWithID:objId];
     if([key isEqualTo:@"status"])
@@ -439,7 +440,7 @@
          */
         id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
         
-        NSString* colIdent = [aTableColumn identifier];
+        NSString *colIdent = [aTableColumn identifier];
         id result = nil;
         if([colIdent isEqualToString:@"romStatus"])
         {
@@ -460,7 +461,9 @@
         else if([colIdent isEqualToString:@"romConsole"])
         {
             result = [obj listViewConsoleName];
-        } else if(colIdent == nil){
+        } 
+        else if(colIdent == nil)
+        {
             result = obj;
         }
         
@@ -541,7 +544,7 @@
     {
         if([aCell isKindOfClass:[NSTextFieldCell class]])
         {
-            NSDictionary* attr;
+            NSDictionary *attr;
             
             if([[aTableView selectedRowIndexes] containsIndex:rowIndex])
             {
@@ -599,7 +602,8 @@
 
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex
 {
-    if( aTableView == listView ){
+    if( aTableView == listView )
+    {
         return YES;
     }
     
@@ -608,11 +612,11 @@
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification
 {
-    NSTableView* aTableView = [aNotification object];
+    NSTableView *aTableView = [aNotification object];
     
     if( aTableView == listView )
     {
-        NSIndexSet* selectedIndexes = [listView selectedRowIndexes];
+        NSIndexSet *selectedIndexes = [listView selectedRowIndexes];
         
         [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
         
@@ -641,7 +645,8 @@
         return;
     
     id game = [self tableView:sender objectValueForTableColumn:nil row:selectedRow];
-    if(game){
+    if(game)
+    {
         [[self libraryController] controlsmenu_startGame:nil];
     }    
 }
@@ -684,14 +689,15 @@
 }
 - (void)_reloadData
 {
-    if(reloadTimer){
+    if(reloadTimer)
+    {
         [reloadTimer invalidate];
         [reloadTimer release];
         reloadTimer = nil;       
     }    
     if(!gamesController) return;
     
-    NSPredicate* pred = self.collectionItem?[self.collectionItem predicate]:[NSPredicate predicateWithValue:NO];
+    NSPredicate *pred = self.collectionItem?[self.collectionItem predicate]:[NSPredicate predicateWithValue:NO];
     [gamesController setFetchPredicate:pred];
     
     NSError *error = nil;
@@ -708,70 +714,4 @@
     [coverFlowView reloadData];
 }
 
-#pragma mark -
-#pragma mark Debug Actions
-/*
- - (void)setupDebug{
- NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
- [standardUserDefaults registerDefaults:[NSDictionary dictionaryWithObjectsAndKeys:
- [NSNumber numberWithFloat:0.15], @"debug_drop_animation_delay",
- [NSNumber numberWithFloat:0.0], @"debug_startWidthFac",
- [NSNumber numberWithFloat:0.0], @"debug_opacityStart",
- [NSNumber numberWithFloat:1.0], @"debug_opacityEnd",
- nil]];
- 
- [dbg_btn_colors setState:[standardUserDefaults boolForKey:@"debug_showGridFrameBorder"]];
- 
- [dbg_dnd_delay setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:@"debug_drop_animation_delay"]];
- [dbg_dnd_width setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:@"debug_startWidthFac"]];
- [dbg_dnd_opend setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:@"debug_opacityEnd"]];
- [dbg_dnd_opstart setFloatValue:[[NSUserDefaults standardUserDefaults] floatForKey:@"debug_opacityStart"]];
- }
- 
- - (IBAction)debug_toggleGridFrame:(id)sender{
- [[NSUserDefaults standardUserDefaults] setBool:[(NSButton*)sender state]==NSOnState forKey:@"debug_showGridFrameBorder"];
- }
- 
- - (IBAction)debug_setArrowsPosition:(id)sender{
- switch ([sender selectedTag]) {
- case 0: 
- [[NSUserDefaults standardUserDefaults] setInteger:NSScrollerArrowsNone forKey:@"debug_scrollbarArrowsPosition"];
- break;
- case 1:
- [[NSUserDefaults standardUserDefaults] setInteger:NSScrollerArrowsMaxEnd forKey:@"debug_scrollbarArrowsPosition"];
- break;
- case 2:
- [[NSUserDefaults standardUserDefaults] setInteger:3 forKey:@"debug_scrollbarArrowsPosition"];
- break;
- default:
- break;
- }
- 
- }
- 
- - (IBAction)debug_applyValues:(id)sender{
- [[NSUserDefaults standardUserDefaults] setFloat:[dbg_dnd_width floatValue] forKey:@"debug_startWidthFac"];
- [[NSUserDefaults standardUserDefaults] setFloat:[dbg_dnd_opstart floatValue] forKey:@"debug_opacityStart"];
- [[NSUserDefaults standardUserDefaults] setFloat:[dbg_dnd_opend floatValue] forKey:@"debug_opacityEnd"];
- [[NSUserDefaults standardUserDefaults] setFloat:[dbg_dnd_delay floatValue] forKey:@"debug_drop_animation_delay"];
- }
- 
- - (IBAction)debug_layerState:(id)sender{
- int state = [sender selectedTag];
- 
- NSIndexSet* selection = [self.gridView selectedIndexes];
- [selection enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
- OEDBRom* obj = [self gridView:self.gridView objectValueOfItemAtIndex:idx];
- 
- if(state == 10){
- obj.coverArt = nil;
- obj.coverPath = nil;
- } else {
- obj.fileStatus = state;
- }
- 
- [gridView reloadData];
- }];
- }
- */
 @end

@@ -45,15 +45,15 @@
 {
     if(path==nil) return nil;
     
-    OEDBRom* rom = nil;
-    NSManagedObjectContext* context = [database managedObjectContext];
+    OEDBRom *rom = nil;
+    NSManagedObjectContext *context = [database managedObjectContext];
     
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"path == %@", path];    
-    NSFetchRequest* fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"path == %@", path];    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     [fetchRequest setFetchLimit:1];
-    NSArray* roms = [context executeFetchRequest:fetchRequest error:outError];
+    NSArray *roms = [context executeFetchRequest:fetchRequest error:outError];
     if(roms)
     {
         rom = [roms lastObject];
@@ -74,23 +74,23 @@
         *outError = [NSError errorWithDomain:@"OEErrorDomain" code:0 userInfo:[NSDictionary dictionaryWithObject:@"_createRomWithoutChecksWithFilePath called without filepath" forKey:NSLocalizedDescriptionKey]];
         return nil;   
     }    
-    NSManagedObjectContext* context = [database managedObjectContext];
-    NSEntityDescription* description = [self entityDescriptionInContext:context];
-    OEDBRom* rom = [[OEDBRom alloc] initWithEntity:description insertIntoManagedObjectContext:context];
+    NSManagedObjectContext *context = [database managedObjectContext];
+    NSEntityDescription *description = [self entityDescriptionInContext:context];
+    OEDBRom *rom = [[OEDBRom alloc] initWithEntity:description insertIntoManagedObjectContext:context];
     
-    NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     BOOL copyToDatabase = [standardUserDefaults boolForKey:UDCopyToLibraryKey];
     BOOL useMD5 = [standardUserDefaults boolForKey:UDUseMD5HashingKey];
     
-    NSString* newFilePath = [[filePath copy] autorelease];
+    NSString *newFilePath = [[filePath copy] autorelease];
     if(copyToDatabase && ![newFilePath hasPrefix:[database databaseFolderPath]])
     {
-        NSString* databaseUnsortedFolder = [database databaseUnsortedRomsPath];
-        NSFileManager* defaultManager = [NSFileManager defaultManager];
+        NSString *databaseUnsortedFolder = [database databaseUnsortedRomsPath];
+        NSFileManager *defaultManager = [NSFileManager defaultManager];
         
         NSInteger i = 0;
-        NSString* fileName = [[newFilePath lastPathComponent] stringByDeletingPathExtension];
-        NSString* fileSuffix = [newFilePath pathExtension];
+        NSString *fileName = [[newFilePath lastPathComponent] stringByDeletingPathExtension];
+        NSString *fileSuffix = [newFilePath pathExtension];
         
         newFilePath = [databaseUnsortedFolder stringByAppendingPathComponent:[newFilePath lastPathComponent]];
         while([defaultManager fileExistsAtPath:newFilePath])
@@ -117,7 +117,7 @@
     BOOL calculateHash = (useMD5 && md5==nil) || (!useMD5 && crc==nil);
     if(calculateHash)
     {
-        NSData* data = [NSData dataWithContentsOfFile:newFilePath options:NSDataReadingUncached error:outError];
+        NSData *data = [NSData dataWithContentsOfFile:newFilePath options:NSDataReadingUncached error:outError];
         if(!data)
         {
             [[NSFileManager defaultManager] removeItemAtPath:newFilePath error:nil];
@@ -131,12 +131,12 @@
         
         if(useMD5)
         {
-            NSString* hash = [data MD5HashString];
+            NSString *hash = [data MD5HashString];
             [rom setValue:hash forKey:@"md5"];
         }
         else
         {
-            NSString* hash = [data CRC32HashString];
+            NSString *hash = [data CRC32HashString];
             [rom setValue:hash forKey:@"crc32"];        
         }
     }
@@ -152,15 +152,15 @@
 {
     if(filename==nil) return nil;
     
-    NSManagedObjectContext* context = [database managedObjectContext];
+    NSManagedObjectContext *context = [database managedObjectContext];
     
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"path ENDSWITH %@", filename];    
-    NSFetchRequest* fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"path ENDSWITH %@", filename];    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     [fetchRequest setFetchLimit:1];
     
-    NSArray* roms = [context executeFetchRequest:fetchRequest error:outError];
+    NSArray *roms = [context executeFetchRequest:fetchRequest error:outError];
     if(!roms)
     {
         return nil;
@@ -176,14 +176,14 @@
 {
     if(crcHash==nil) return nil;
     
-    NSManagedObjectContext* context = [database managedObjectContext];
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"crc32 == %@", crcHash];    
-    NSFetchRequest* fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
+    NSManagedObjectContext *context = [database managedObjectContext];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"crc32 == %@", crcHash];    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     [fetchRequest setFetchLimit:1];
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     
-    NSArray* roms = [context executeFetchRequest:fetchRequest error:outError];
+    NSArray *roms = [context executeFetchRequest:fetchRequest error:outError];
     if(!roms)
     {
         return nil;
@@ -199,14 +199,14 @@
 {
     if(md5Hash==nil) return nil;
     
-    NSManagedObjectContext* context = [database managedObjectContext];
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"md5 == %@", md5Hash];    
-    NSFetchRequest* fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
+    NSManagedObjectContext *context = [database managedObjectContext];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"md5 == %@", md5Hash];    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     [fetchRequest setFetchLimit:1];
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     
-    NSArray* roms = [context executeFetchRequest:fetchRequest error:outError];
+    NSArray *roms = [context executeFetchRequest:fetchRequest error:outError];
     if(!roms)
     {
         return nil;
@@ -224,18 +224,18 @@
 
 - (NSString*)md5Hash
 {
-    NSString* hash = [self valueForKey:@"md5"];
+    NSString *hash = [self valueForKey:@"md5"];
     if(!hash)
     {
-        NSError* error = nil;
-        NSString* filePath = [self valueForKey:@"path"];
+        NSError *error = nil;
+        NSString *filePath = [self valueForKey:@"path"];
         if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])
         {
             // TODO: mark self as file missing
             return nil;
         }
         
-        NSData* fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];
+        NSData *fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];
         if(!fileData)
         {
             // TODO: mark self as file missing
@@ -253,18 +253,18 @@
 
 - (NSString*)crcHash
 {
-    NSString* hash = [self valueForKey:@"crc32"];
+    NSString *hash = [self valueForKey:@"crc32"];
     if(!hash)
     {
-        NSError* error = nil;
-        NSString* filePath = [self valueForKey:@"path"];
+        NSError *error = nil;
+        NSString *filePath = [self valueForKey:@"path"];
         if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])
         {
             // TODO: mark self as file missing
             return nil;
         }
         
-        NSData* fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];
+        NSData *fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];
         if(!fileData)
         {
             // TODO: mark self as file missing
@@ -283,10 +283,10 @@
 
 - (NSArray*)saveStatesByTimestampAscending:(BOOL)ascFlag
 {
-    NSSet* set = [self valueForKey:@"saveStates"];
+    NSSet *set = [self valueForKey:@"saveStates"];
     return [[set allObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) 
             {
-                NSDate* d1 = [obj1 valueForKey:@"timestamp"], *d2=[obj2 valueForKey:@"timestamp"];
+                NSDate *d1 = [obj1 valueForKey:@"timestamp"], *d2=[obj2 valueForKey:@"timestamp"];
                 if(ascFlag)
                     return [d2 compare:d1];
                 return [d1 compare:d2];
@@ -342,13 +342,13 @@
 #pragma mark -
 - (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db
 {
-    NSString* filePath = [self valueForKey:@"path"];
+    NSString *filePath = [self valueForKey:@"path"];
     
     DLog(@"doInitialSetupWithDatabase: %@", filePath);
     
     BOOL useMD5 = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
-    NSError* error = nil;
-    NSData* data = [[NSData alloc] initWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];
+    NSError *error = nil;
+    NSData *data = [[NSData alloc] initWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];
     if(!data)
     {
         NSLog(@"ROM cannot calculate checksum");
@@ -357,8 +357,8 @@
         return;    
     }
     
-    NSString* hash;
-    OEDBRom* rom;
+    NSString *hash;
+    OEDBRom *rom;
     if(useMD5)
     {
         hash = [data MD5HashString];
@@ -374,10 +374,10 @@
     
     if(rom)
     {
-        NSSet* romsInGame = [self valueForKeyPath:@"game.roms"];
+        NSSet *romsInGame = [self valueForKeyPath:@"game.roms"];
         if([romsInGame count]==1)
         {
-            NSString* path = [self valueForKey:@"path"];
+            NSString *path = [self valueForKey:@"path"];
             if([path hasPrefix:[[NSUserDefaults standardUserDefaults] stringForKey:UDDatabasePathKey]])
             {
                 [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
@@ -390,7 +390,7 @@
     
     [self setValue:hash forKey:useMD5?@"md5":@"crc32"];
     
-    NSDictionary* gameDictionary;
+    NSDictionary *gameDictionary;
     if(useMD5)
     {
         gameDictionary = [ArchiveVG gameInfoByMD5:hash];
@@ -400,7 +400,7 @@
         gameDictionary = [ArchiveVG gameInfoByCRC:hash];
     }
     
-    OEDBGame* game = [db gameWithArchiveID:(NSNumber*)[gameDictionary valueForKey:(NSString*)AVGGameIDKey]];
+    OEDBGame *game = [db gameWithArchiveID:(NSNumber*)[gameDictionary valueForKey:(NSString*)AVGGameIDKey]];
     if(game)
     {
         NSLog(@"Game is aleady present");
@@ -415,12 +415,12 @@
     [game mergeWithGameInfo:gameDictionary];
     
     BOOL organize = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
-    NSString* path = [self valueForKey:@"path"];
-    NSString* libraryPath = [[NSUserDefaults standardUserDefaults] stringForKey:UDDatabasePathKey];
+    NSString *path = [self valueForKey:@"path"];
+    NSString *libraryPath = [[NSUserDefaults standardUserDefaults] stringForKey:UDDatabasePathKey];
     if(organize && [path hasPrefix:libraryPath])
     {
-        NSString* systemName = [self valueForKeyPath:@"game.system.systemIdentifier"];
-        NSString* folderPath = [libraryPath stringByAppendingPathComponent:systemName];
+        NSString *systemName = [self valueForKeyPath:@"game.system.systemIdentifier"];
+        NSString *folderPath = [libraryPath stringByAppendingPathComponent:systemName];
         
         if(![[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:YES attributes:nil error:&error])
         {
@@ -429,10 +429,10 @@
             return;
         }
         
-        NSString* romName = [[self valueForKey:@"path"] lastPathComponent];
+        NSString *romName = [[self valueForKey:@"path"] lastPathComponent];
         
         // TODO: use tosec for new rom path if available
-        NSString* newRomPath = [folderPath stringByAppendingPathComponent:romName];
+        NSString *newRomPath = [folderPath stringByAppendingPathComponent:romName];
         if(![[NSFileManager defaultManager] moveItemAtPath:path toPath:newRomPath error:&error])
         {
             NSLog(@"could not move rom to new path");

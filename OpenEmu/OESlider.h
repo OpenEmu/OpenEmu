@@ -12,8 +12,8 @@
 {
     BOOL hintImagesShowActive;
 }
-@property (assign) IBOutlet NSImageView* minHint;
-@property (assign) IBOutlet NSImageView* maxHint;
+@property (assign) IBOutlet NSImageView *minHint;
+@property (assign) IBOutlet NSImageView *maxHint;
 @end
 
 @interface OESliderCell : NSSliderCell

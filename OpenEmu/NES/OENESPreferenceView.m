@@ -54,7 +54,7 @@
 }
 
 - (NSImage*)controllerImage{
-	NSString* controllerImageName = [[OELocalizationHelper sharedHelper] isRegionJAP]?@"controller_fc.png":@"controller_nes.png";
+	NSString *controllerImageName = [[OELocalizationHelper sharedHelper] isRegionJAP]?@"controller_fc.png":@"controller_nes.png";
 	
 	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:controllerImageName];
 	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];

@@ -33,28 +33,28 @@
 @interface OESetupAssistant : OEMainWindowContentController
 {
 }
-@property (retain) IBOutlet NSButton* back;
-@property (retain) IBOutlet NSButton* skip;
-@property (retain) IBOutlet NSButton* next;
+@property (retain) IBOutlet NSButton *back;
+@property (retain) IBOutlet NSButton *skip;
+@property (retain) IBOutlet NSButton *next;
 
-@property (retain) IBOutlet OESetupAssistantKeyMapView* keyMapView;
+@property (retain) IBOutlet OESetupAssistantKeyMapView *keyMapView;
 #pragma mark -
 #pragma mark Old Stuff
-@property (readwrite, retain) NSMutableArray* searchResults;
-@property (readwrite, retain) CATransition* transition;
+@property (readwrite, retain) NSMutableArray *searchResults;
+@property (readwrite, retain) CATransition *transition;
 
-@property (readwrite, retain) IBOutlet NSView* replaceView;
-@property (readwrite, retain) IBOutlet NSView* step1;
-@property (readwrite, retain) IBOutlet NSView* step2;
-@property (readwrite, retain) IBOutlet NSView* step3;
-@property (readwrite, retain) IBOutlet NSView* step4;
-@property (readwrite, retain) IBOutlet NSView* step5;
+@property (readwrite, retain) IBOutlet NSView *replaceView;
+@property (readwrite, retain) IBOutlet NSView *step1;
+@property (readwrite, retain) IBOutlet NSView *step2;
+@property (readwrite, retain) IBOutlet NSView *step3;
+@property (readwrite, retain) IBOutlet NSView *step4;
+@property (readwrite, retain) IBOutlet NSView *step5;
 
-@property (readwrite, retain) IBOutlet NSButton* dontSearchCommonTypes;
-@property (readwrite, retain) IBOutlet NSProgressIndicator* resultProgress;
-@property (readwrite, retain) IBOutlet NSTextField* resultFinishedLabel;
-@property (readwrite, retain) IBOutlet NSTableView* resultTableView;
-@property (readwrite, retain) IBOutlet NSArrayController* resultController;
+@property (readwrite, retain) IBOutlet NSButton *dontSearchCommonTypes;
+@property (readwrite, retain) IBOutlet NSProgressIndicator *resultProgress;
+@property (readwrite, retain) IBOutlet NSTextField *resultFinishedLabel;
+@property (readwrite, retain) IBOutlet NSTableView *resultTableView;
+@property (readwrite, retain) IBOutlet NSArrayController *resultController;
 
 
 - (void) goForwardToView:(NSView*)view;

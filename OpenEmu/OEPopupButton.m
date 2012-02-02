@@ -42,7 +42,7 @@
     
     BOOL outside = !NSPointInRect([theEvent locationInWindow], [self frame]);
     if(!outside && ![[self oemenu] isVisible]){
-        NSWindow* win = [self window];
+        NSWindow *win = [self window];
         NSPoint location = [win convertBaseToScreen:[self frame].origin];
         
         location.y += ([self frame].size.height-[self oemenu].frame.size.height)/2;

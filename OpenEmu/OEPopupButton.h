@@ -11,9 +11,9 @@
 @interface OEPopupButton : NSPopUpButton <OEMenuDelegate>
 {
 @private
-    OEMenu* oemenu;
-    NSMenuItem* selectedItem;
+    OEMenu *oemenu;
+    NSMenuItem *selectedItem;
 }
 @property BOOL dontOpenMenuOnNextMouseUp;
-@property (retain, setter = setOEMenu:) OEMenu* oemenu;
+@property (retain, setter = setOEMenu:) OEMenu *oemenu;
 @end

@@ -29,20 +29,20 @@
 	CALayer *glossLayer;						// Effect overlay for artwork image 
 	OECoverGridIndicationLayer *indicationLayer;	// Displays status of rom (missing, accepting artwork, ....)
 	CALayer *imageLayer;						// Draws artwork and black stroke around it
-	CATextLayer* titleLayer;
-	OECoverGridRatingLayer* ratingLayer;			// Displays star rating (interaction is done on item layer)
+	CATextLayer *titleLayer;
+	OECoverGridRatingLayer *ratingLayer;			// Displays star rating (interaction is done on item layer)
 	
 	BOOL acceptingOnDrop; // keeps track of "on drop" state
-	NSTimer* dropAnimationDelayTimer;
+	NSTimer *dropAnimationDelayTimer;
 	
 	BOOL isEditingRating;
 	
-	NSImage* image;
+	NSImage *image;
 	BOOL reloadImage;
 }
 
 @property BOOL isReloading;
-@property (readwrite, retain, nonatomic) NSImage* image;
+@property (readwrite, retain, nonatomic) NSImage *image;
 @property float imageRatio;
 
 @property (readwrite, retain) OECoverGridSelectionLayer *selectionLayer;

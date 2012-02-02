@@ -29,7 +29,7 @@ typedef struct IKSGridLayoutState IKSGridLayoutState;
     NSSize minimumSpacing;
     NSSize sublayerSize;
     id<IKSGridLayoutManagerDelegate> delegate;
-    IKSGridView* gridView;
+    IKSGridView *gridView;
     
     CGRect visibleRect;
     BOOL reset;
@@ -41,12 +41,12 @@ typedef struct IKSGridLayoutState IKSGridLayoutState;
     
     IKSGridLayoutState currentGridState;
     
-    NSMutableArray* itemLayers;
+    NSMutableArray *itemLayers;
 }
 
-@property (nonatomic, retain) NSMutableArray* itemLayers;
+@property (nonatomic, retain) NSMutableArray *itemLayers;
 
-@property (nonatomic, assign) IKSGridView* gridView;
+@property (nonatomic, assign) IKSGridView *gridView;
 @property (nonatomic, assign) id<IKSGridLayoutManagerDelegate> delegate;
 /**
  Minimum vertical and horizontap spacing between layers

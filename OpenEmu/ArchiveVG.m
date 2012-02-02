@@ -250,7 +250,8 @@ typedef enum
          {
              NSError* anError = nil;
              NSDictionary* systemDict = [self dictFromSystemNode:obj error:&anError];
-             if(anError!=nil){
+             if(anError!=nil)
+             {
                  NSLog(@"Error while enumerating systemNodes");
                  *stop = YES;
              }

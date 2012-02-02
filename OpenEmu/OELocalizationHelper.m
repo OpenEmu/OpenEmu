@@ -19,7 +19,7 @@
 
 
 @implementation OELocalizationHelper
-static OELocalizationHelper* sharedHelper;
+static OELocalizationHelper *sharedHelper;
 
 + (OELocalizationHelper*)sharedHelper
 {
@@ -64,13 +64,13 @@ static OELocalizationHelper* sharedHelper;
 #pragma mark -
 #pragma mark Private Methods
 - (void)_updateRegion{
-	NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
+	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
 	if([standardUserDefaults valueForKey:UDRegionKey]){
 		region = [[standardUserDefaults valueForKey:UDRegionKey] intValue];
 	} else {
-		NSLocale* locale = [NSLocale currentLocale];
+		NSLocale *locale = [NSLocale currentLocale];
 		
-		NSString* countryCode = [locale objectForKey:NSLocaleCountryCode];
+		NSString *countryCode = [locale objectForKey:NSLocaleCountryCode];
 		if([OERegionCodesEurope containsObject:countryCode]){
 			region = OERegionEU;
 		} else if([OERegionCodesNorthAmerica containsObject:countryCode]){

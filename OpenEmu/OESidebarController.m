@@ -33,7 +33,7 @@
         return;
 
     // Collection Icons for sidebar
-    NSImage* image = [NSImage imageNamed:@"collections"];
+    NSImage *image = [NSImage imageNamed:@"collections"];
     
     [image setName:@"collections_simple" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
     [image setName:@"collections_smart" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
@@ -55,12 +55,12 @@
     
     // Setup toolbar button
     
-    OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     
     // setup sidebar outline view
     [sidebarView setHeaderView:nil];
     
-    OESidebarCell* cell = [[OESidebarCell alloc] init];
+    OESidebarCell *cell = [[OESidebarCell alloc] init];
     [cell setEditable:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(controlTextDidEndEditing:) name:NSControlTextDidEndEditingNotification object:cell];
@@ -77,7 +77,7 @@
     [sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:1] byExtendingSelection:NO];
     [sidebarView expandItem:[sidebarView itemAtRow:0]];
     
-    NSScrollView* enclosingScrollView = [sidebarView enclosingScrollView];
+    NSScrollView *enclosingScrollView = [sidebarView enclosingScrollView];
     if(enclosingScrollView)
     {
         [enclosingScrollView setDrawsBackground:NO];
@@ -100,7 +100,7 @@
 #pragma mark Public
 - (void)setEnabled:(BOOL)enabled
 {
-    OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView setEnabled:enabled];
 }
 
@@ -133,13 +133,13 @@
     self.systems = [self database] ? [[self database] enabledSystems] : [NSArray array];
     self.collections = [self database] ? [[self database] collections] : [NSArray array];
     
-    OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView reloadData];
 }
 
 - (void)selectItem:(id)item
 {
-    OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     
     if(![item isSelectableInSdebar]) return;
     NSInteger index = [sidebarView rowForItem:item];
@@ -150,19 +150,19 @@
 
 - (void)startEditingItem:(id)item
 {
-    OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     if(![item isEditableInSdebar]) return;
     
     NSInteger index = [sidebarView rowForItem:item];
     if(index == -1) return;
     
-    NSEvent* event = [[NSEvent alloc] init];
+    NSEvent *event = [[NSEvent alloc] init];
     [sidebarView editColumn:0 row:index withEvent:event select:YES];
     [event release];
 }
 - (void)expandCollections:(id)sender
 {
-    OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView expandItem:[self.groups objectAtIndex:1]];
 }
 #pragma mark -
@@ -176,14 +176,14 @@
 #pragma mark Drag and Drop
 - (void)_setupDrop
 {
-    NSArray* acceptedTypes = [NSArray arrayWithObjects:NSFilenamesPboardType, OEPasteboardTypeGame, nil];
+    NSArray *acceptedTypes = [NSArray arrayWithObjects:NSFilenamesPboardType, OEPasteboardTypeGame, nil];
     [[self view] registerForDraggedTypes:acceptedTypes];
     [(OESidebarOutlineView*)[self view] setDragDelegate:self];
 }
 
 
 - (NSDragOperation)draggingEntered:(id < NSDraggingInfo >)sender{
-    NSPasteboard* pboard = [sender draggingPasteboard];
+    NSPasteboard *pboard = [sender draggingPasteboard];
     return [[pboard types] containsObject:OEPasteboardTypeGame] || NSFilenamesPboardType?NSDragOperationCopy:NSDragOperationNone;
 }
 - (NSDragOperation)draggingUpdated:(id < NSDraggingInfo >)sender{
@@ -203,14 +203,14 @@
 #pragma mark NSOutlineView Delegate
 - (void)outlineViewSelectionDidChange:(NSNotification *)notification
 {
-    OESidebarOutlineView* sidebarView = (OESidebarOutlineView*)[self view];
+    OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     id<OECollectionViewItemProtocol> selectedCollection = [sidebarView itemAtRow:[sidebarView selectedRow]];
     
     // Selected item is not valid...header maybe?
     if (![selectedCollection conformsToProtocol:@protocol(OECollectionViewItemProtocol)])
         return;
 
-    NSDictionary* userInfo = selectedCollection?[NSDictionary dictionaryWithObject:selectedCollection forKey:@"selectedCollection"]:nil;
+    NSDictionary *userInfo = selectedCollection?[NSDictionary dictionaryWithObject:selectedCollection forKey:@"selectedCollection"]:nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:@"SidebarSelectionChanged" object:self userInfo:userInfo];
 
     [[NSUserDefaults standardUserDefaults] setValue:[selectedCollection collectionViewName] forKey:UDLastCollectionSelectedKey];
@@ -349,7 +349,7 @@
 
 - (void)removeSelectedItemsOfOutlineView:(NSOutlineView*)outlineView
 {
-    NSIndexSet* indexes = [outlineView selectedRowIndexes];
+    NSIndexSet *indexes = [outlineView selectedRowIndexes];
     NSUInteger index = [indexes firstIndex];
     
     id item = [outlineView itemAtRow:index];
@@ -359,12 +359,12 @@
         BOOL alertSuppressed = [[NSUserDefaults standardUserDefaults] boolForKey:UDRemoveCollectionSuppresedKey];
         if(!alertSuppressed)
         {
-            NSString* msg = NSLocalizedString(@"Errorrororo", @"");
-            NSString* info = NSLocalizedString(@"Blubbbi die blub blub", @"");
-            NSString* confirm = NSLocalizedString(@"Remove", @"");
-            NSString* cancel = NSLocalizedString(@"Cancel", @"");
+            NSString *msg = NSLocalizedString(@"Errorrororo", @"");
+            NSString *info = NSLocalizedString(@"Blubbbi die blub blub", @"");
+            NSString *confirm = NSLocalizedString(@"Remove", @"");
+            NSString *cancel = NSLocalizedString(@"Cancel", @"");
             
-            NSAlert* alert = [NSAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel otherButton:nil informativeTextWithFormat:info];
+            NSAlert *alert = [NSAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel otherButton:nil informativeTextWithFormat:info];
             [alert setShowsSuppressionButton:YES];
             
             removeItem = [alert runModal]==NSOKButton;
@@ -389,7 +389,7 @@
             index --;
         }
         
-        NSIndexSet* selIn = [[NSIndexSet alloc] initWithIndex:index];
+        NSIndexSet *selIn = [[NSIndexSet alloc] initWithIndex:index];
         [outlineView selectRowIndexes:selIn byExtendingSelection:NO];
         [selIn release];
         [self reloadData];

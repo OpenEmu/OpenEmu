@@ -18,11 +18,11 @@
 @interface OEImageButtonCell : NSButtonCell 
 {
 @private
-    NSImage* image;
+    NSImage *image;
 }
 - (BOOL)displaysHover;
 - (NSRect)imageRectForButtonState:(OEButtonState)state;
-@property (retain, readwrite) NSImage* image;
+@property (retain, readwrite) NSImage *image;
 @end
 
 // displays normal, inactive, disabled, pressed
@@ -60,7 +60,7 @@
 @end
 
 @interface OEImageButtonHoverPressedText : OEImageButtonHoverPressed {
-    OECenteredTextFieldCell* textFieldCell;
+    OECenteredTextFieldCell *textFieldCell;
 }
 @property (copy)   NSString     *text;
 @property (retain) NSDictionary *normalAttributes;

@@ -34,17 +34,17 @@
     if (self != [OENewMenu class])
         return;
 
-    NSImage* menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
+    NSImage *menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
     [menuArrows setName:@"dark_menu_popover_arrow_normal" forSubimageInRect:NSMakeRect(0, menuArrows.size.height/2, menuArrows.size.width, menuArrows.size.height/2)];
     [menuArrows setName:@"dark_menu_popover_arrow_selected" forSubimageInRect:NSMakeRect(0, 0, menuArrows.size.width, menuArrows.size.height/2)];
     
-    NSImage* scrollArrows = [NSImage imageNamed:@"dark_menu_scroll_arrows"];
+    NSImage *scrollArrows = [NSImage imageNamed:@"dark_menu_scroll_arrows"];
     [scrollArrows setName:@"dark_menu_scroll_up" forSubimageInRect:NSMakeRect(0, 0, 9, 15)];
     [scrollArrows setName:@"dark_menu_scroll_down" forSubimageInRect:NSMakeRect(0, 15, 9, 15)];
     
     if(![NSImage imageNamed:@"hud_window_active"])
     {
-        NSImage* hudWindow = [NSImage imageNamed:@"hud_window"];
+        NSImage *hudWindow = [NSImage imageNamed:@"hud_window"];
         
         [hudWindow setName:@"hud_window_active" forSubimageInRect:NSMakeRect(0, 0, hudWindow.size.width/2, hudWindow.size.height)];
         [hudWindow setName:@"hud_window_inactive" forSubimageInRect:NSMakeRect(hudWindow.size.width/2, 0, hudWindow.size.width/2, hudWindow.size.height)];
@@ -101,7 +101,7 @@
     NSAssert(_localMonitor == nil, @"_localMonitor still exists somehow");
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask handler:^(NSEvent *incomingEvent) 
                      {
-                         OEMenuView* view = [[[self contentView] subviews] lastObject];
+                         OEMenuView *view = [[[self contentView] subviews] lastObject];
                          
                          if([incomingEvent type] == NSFlagsChanged){
                              [self setAlernate:([incomingEvent modifierFlags] & NSAlternateKeyMask) != 0];
@@ -160,7 +160,7 @@
 {   
     closing = YES;
     
-    OENewMenu* superMen = self;
+    OENewMenu *superMen = self;
     while([self supermenu])
     {
         superMen = superMen.supermenu;
@@ -172,20 +172,20 @@
         return;
     }
     
-    OENewMenu* subMen = self;
+    OENewMenu *subMen = self;
     while([subMen activeSubmenu])
     {
         subMen = [subMen activeSubmenu];
     }
     
-    NSMenuItem* selectedItem = subMen.highlightedItem;
+    NSMenuItem *selectedItem = subMen.highlightedItem;
     [self _closeByClickingItem:selectedItem];
 }
 
 #pragma mark -
 - (void)highlightItemAtPoint:(NSPoint)p
 {
-    NSMenuItem* highlighItem = [self itemAtPoint:p];
+    NSMenuItem *highlighItem = [self itemAtPoint:p];
     
     if(highlighItem != [self highlightedItem])
     {
@@ -201,7 +201,7 @@
 - (id)itemAtPoint:(NSPoint)p
 {
     NSInteger row = -1;
-    NSTableView* tableView = nil;
+    NSTableView *tableView = nil;
     
     if(row != -1) 
     {
@@ -263,7 +263,7 @@
     if(size.width < mainRect.size.width) size.width = mainRect.size.width;
     
     NSRect rect;
-    rect.origin = self.frame.origin;
+    rect.origin = [self frame].origin;
     rect.size = size;
     
     rect = NSInsetRect(rect, 5, 5);
@@ -325,7 +325,7 @@
 #pragma mark Private Methods
 - (void)_performCloseMenu
 {
-    CAAnimation* anim = [self alphaValueAnimation];
+    CAAnimation *anim = [self alphaValueAnimation];
     anim.delegate = self;
     [self setAplhaValueAnimation:anim];
     
@@ -347,7 +347,7 @@
 {
     [self setStyleMask:NSBorderlessWindowMask];
     
-    NSTableColumn* column;
+    NSTableColumn *column;
     
     upperTableView = [[NSTableView alloc] init];
     [upperTableView setDelegate:self];
@@ -376,7 +376,7 @@
     [column release];
     [[self contentView] addSubview:lowerTableView];
     
-    CAAnimation* anim = [self alphaValueAnimation];
+    CAAnimation *anim = [self alphaValueAnimation];
     [anim setDuration:0.075];
     [self setAplhaValueAnimation:anim];
     
@@ -387,7 +387,7 @@
 }
 - (void)_closeTimer:(NSTimer*)timer
 {
-    NSMenuItem* selectedItem = [timer userInfo];
+    NSMenuItem *selectedItem = [timer userInfo];
     [timer invalidate];
     if(![self _isClosing]) return;
     
@@ -419,16 +419,16 @@
     [[NSColor clearColor] setFill];
     NSRectFill(bounds);
     
-    NSColor* startColor = [NSColor colorWithDeviceWhite:0.91 alpha:0.10];
-    NSColor* endColor = [startColor colorWithAlphaComponent:0.0];
-    NSGradient* backgroundGradient = [[NSGradient alloc] initWithStartingColor:startColor endingColor:endColor];
+    NSColor *startColor = [NSColor colorWithDeviceWhite:0.91 alpha:0.10];
+    NSColor *endColor = [startColor colorWithAlphaComponent:0.0];
+    NSGradient *backgroundGradient = [[NSGradient alloc] initWithStartingColor:startColor endingColor:endColor];
     
     NSRect backgroundRect = NSInsetRect(bounds, 4, 4);
-    NSBezierPath* path = [NSBezierPath bezierPathWithRoundedRect:backgroundRect xRadius:3 yRadius:3];
+    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:backgroundRect xRadius:3 yRadius:3];
     
     // Draw Background color
-    NSColor* backgroundColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.8];
-    NSGradient* grad = [[NSGradient alloc] initWithStartingColor:backgroundColor endingColor:backgroundColor];
+    NSColor *backgroundColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.8];
+    NSGradient *grad = [[NSGradient alloc] initWithStartingColor:backgroundColor endingColor:backgroundColor];
     [grad drawInBezierPath:path angle:90];
     [grad release];
     
@@ -437,7 +437,7 @@
     [backgroundGradient release];
     
     // draw background border
-    NSImage* img = [self.menu supermenu]==nil ? [NSImage imageNamed:@"dark_menu_body"] : [NSImage imageNamed:@"dark_submenu_body"];
+    NSImage *img = [self.menu supermenu]==nil ? [NSImage imageNamed:@"dark_menu_body"] : [NSImage imageNamed:@"dark_submenu_body"];
     [img drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:17 rightBorder:17 topBorder:19 bottomBorder:19];
 }
 
@@ -450,7 +450,7 @@
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row
 {
-    OEMenuItem* item = [self tableView:tableView objectValueForTableColumn:nil row:row];
+    OEMenuItem *item = [self tableView:tableView objectValueForTableColumn:nil row:row];
     if([item isSeparatorItem])
         return menuItemSeparatorHeight;
     if([item image]!=nil)
@@ -483,7 +483,7 @@
     NSLog(@"Reload for %@ | %@ | %ld", tableView==lowerTableView?@"lowerTableView":(tableView==upperTableView?@"upperTableView":@"mainTableView"), tableView, [self numberOfRowsInTableView:tableView]);
     
     BOOL returnTitle = (tableColumn != nil);
-    OEMenuItem* item = nil;
+    OEMenuItem *item = nil;
     if(tableView==lowerTableView)
         item = [[self itemArray] objectAtIndex:row];
     else if(tableView == mainTableView)
@@ -497,7 +497,7 @@
 @implementation NSMenu (OEOENewMenuAdditions)
 - (OENewMenu*)convertToOENewMenu
 {
-    OENewMenu* menu = [[OENewMenu alloc] init];
+    OENewMenu *menu = [[OENewMenu alloc] init];
     menu.menu = self;
     return [menu autorelease];
 }

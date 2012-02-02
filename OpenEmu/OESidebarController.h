@@ -13,10 +13,10 @@
 @interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource, OEDraggingDestinationDelegate>
 {
 @private
-    NSArray* groups;
-    OELibraryDatabase* database;
+    NSArray *groups;
+    OELibraryDatabase *database;
     
-    NSArray* systems, *collections;
+    NSArray *systems, *collections;
 @private
     id editingItem;
 }
@@ -34,9 +34,9 @@
 
 - (void)willHide;
 - (void)willShow;
-@property (assign) OELibraryDatabase* database;
-@property (retain, readwrite) NSArray* groups;
-@property (retain, readwrite) NSArray* systems, *collections;
+@property (assign) OELibraryDatabase *database;
+@property (retain, readwrite) NSArray *groups;
+@property (retain, readwrite) NSArray *systems, *collections;
 
 @property (nonatomic, retain, readwrite) id editingItem;
 @end
