@@ -9,6 +9,7 @@
 #import "OEPrefGameplayController.h"
 #import "OEPlugin.h"
 #import "OECompositionPlugin.h"
+
 @implementation OEPrefGameplayController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -85,9 +86,13 @@
 - (IBAction)changeFilter:(id)sender
 {
 	NSString* filterName =  [[filterSelection selectedItem] title];
-    // TODO: check if filter is loaded externaly -> use an image from there
-	// else ...
-	NSImage* filterPreviewImage = [[NSBundle mainBundle] imageForResource:[NSString stringWithFormat:@"%@.png", filterName]];
+    
+    OECompositionPlugin* plugin = [OECompositionPlugin compositionPluginWithName:filterName];
+    NSImage* filterPreviewImage;
+    if(plugin && ![plugin isBuiltIn])
+        filterPreviewImage = [plugin previewImage];
+    else
+        filterPreviewImage = [[NSBundle mainBundle] imageForResource:[NSString stringWithFormat:@"%@.png", filterName]];
     [filterPreviewView setImage:filterPreviewImage];
 	
 	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];

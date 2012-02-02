@@ -952,13 +952,13 @@
 		53439B3813B930E0005C0CC8 /* OEHorizontalLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHorizontalLine.m; sourceTree = "<group>"; };
 		53439B3C13B93119005C0CC8 /* OECheckBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECheckBox.h; sourceTree = "<group>"; };
 		53439B3D13B93119005C0CC8 /* OECheckBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECheckBox.m; sourceTree = "<group>"; };
-		53439B3E13B93119005C0CC8 /* OEPopupButton.h */ = {isa = PBXFileReference; fileEncoding = 4; path = OEPopupButton.h; sourceTree = "<group>"; };
+		53439B3E13B93119005C0CC8 /* OEPopupButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPopupButton.h; sourceTree = "<group>"; };
 		53439B3F13B93119005C0CC8 /* OEPopupButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPopupButton.m; sourceTree = "<group>"; };
 		53439B4213B93138005C0CC8 /* OECoreSliderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreSliderCell.h; sourceTree = "<group>"; };
 		53439B4313B93138005C0CC8 /* OECoreSliderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreSliderCell.m; sourceTree = "<group>"; };
 		53439B4413B93138005C0CC8 /* OEControlsPopupButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEControlsPopupButtonCell.h; sourceTree = "<group>"; };
 		53439B4513B93138005C0CC8 /* OEControlsPopupButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEControlsPopupButtonCell.m; sourceTree = "<group>"; };
-		53439B4613B93138005C0CC8 /* OEPopupButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; path = OEPopupButtonCell.h; sourceTree = "<group>"; };
+		53439B4613B93138005C0CC8 /* OEPopupButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPopupButtonCell.h; sourceTree = "<group>"; };
 		53439B4713B93138005C0CC8 /* OEPopupButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPopupButtonCell.m; sourceTree = "<group>"; };
 		53439B4813B93138005C0CC8 /* OEPreferencesButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPreferencesButtonCell.h; sourceTree = "<group>"; };
 		53439B4913B93138005C0CC8 /* OEPreferencesButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPreferencesButtonCell.m; sourceTree = "<group>"; };

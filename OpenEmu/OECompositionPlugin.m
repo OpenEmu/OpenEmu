@@ -27,6 +27,7 @@
 
 #import "OECompositionPlugin.h"
 
+#define OEPreviewImageOutputKey @"OEPreviewImage"
 
 @interface OECompositionPlugin ()
 + (void)OE_addPluginWithPath:(NSString *)aPath;
@@ -175,6 +176,54 @@ static NSMutableDictionary *plugins = nil;
 - (NSString *)category
 {
     return [[composition attributes] objectForKey:QCCompositionAttributeCategoryKey];
+}
+
+- (NSImage*)previewImage
+{
+    if(![[[self composition] outputKeys] containsObject:OEPreviewImageOutputKey])
+        return nil;
+    
+    NSOpenGLContext*			openGLContext;
+    QCRenderer*					renderer;
+    
+    NSOpenGLPixelFormatAttribute	attributes[] = {
+        (NSOpenGLPixelFormatAttribute) 0
+    };
+    NSOpenGLPixelFormat* format = [[NSOpenGLPixelFormat alloc] initWithAttributes:attributes];
+    
+    openGLContext = [[NSOpenGLContext alloc] initWithFormat:format shareContext:nil];
+    if(openGLContext == nil) {
+        DLog(@"Cannot create OpenGL context");
+        [format release];
+        return nil;
+    }
+    
+    //Create the QuartzComposer Renderer with that OpenGL context and the specified composition file
+    renderer = [[QCRenderer alloc] initWithOpenGLContext:openGLContext pixelFormat:format file:[self path]];
+    if(renderer == nil) {
+        DLog(@"Cannot create QCRenderer");
+        [format release];
+        [openGLContext release];
+
+        return nil;
+    }
+    
+    NSImage* previewImage = [renderer valueForOutputKey:@"OEPreviewImage" ofType:@"NSImage"];
+    if(!previewImage)
+    {
+        [format release];
+        [openGLContext release];
+        [renderer release];
+        
+        DLog(@"Did not get a preview image");
+        return nil;
+    }
+    
+    [format release];
+    [openGLContext release];
+    [renderer release];
+    
+    return previewImage;
 }
 
 @end
