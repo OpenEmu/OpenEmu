@@ -8,9 +8,8 @@
 
 #import "OEMainWindow.h"
 #import <Quartz/Quartz.h>
-
+#define titleBarHeight 21.0
 @implementation OEMainWindow
-
 - (void)awakeFromNib
 {
     [super awakeFromNib];
@@ -27,7 +26,6 @@
     NSView* newContainerView = [[NSView alloc] initWithFrame:(NSRect){{0,45},{contentView.frame.size.width, contentView.frame.size.height-45}}];
     [newContainerView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     [contentView addSubview:newContainerView];
-    
     mainContentView = newContainerView;
     
     [contentView setWantsLayer:YES];
@@ -37,6 +35,9 @@
     cvTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
     cvTransition.duration = 0.8;
     [contentView setAnimations:[NSDictionary dictionaryWithObject:cvTransition forKey:@"subviews"]];
+
+    [self setOpaque:NO];
+    [self setBackgroundColor:[NSColor clearColor]]; 
 }
 
 - (void)setMainContentView:(NSView*)view
@@ -55,9 +56,42 @@
 {
     return mainContentView;
 }
+#pragma mark -
+#pragma mark Custom Theme Drawing
 
++ (void)initialize
+{
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEMainWindow class])
+        return;
+    
+    [NSWindow registerWindowClassForCustomThemeFrameDrawing:[OEMainWindow class]];
+}
+
+- (BOOL)drawsAboveDefaultThemeFrame
+{
+    return YES;
+}
+
+- (void)drawThemeFrame:(NSValue*)dirtyRectValue
+{
+    NSRect dirtyRect = [dirtyRectValue rectValue];
+    float maxY = NSMaxY(dirtyRect);
+    if(maxY > NSMaxY([self frame]) - titleBarHeight)
+    {
+        float newHeight = self.frame.origin.y + self.frame.size.height-dirtyRect.origin.y - titleBarHeight;
+        if(newHeight <= 0.0)
+        {
+            return;
+        }
+        dirtyRect.size.height = newHeight;
+    }
+    
+    [NSColor blackColor];
+    NSRectFill(dirtyRect);
+    
+}
 @end
-
 @implementation OEMainWindowTitleBarView
 - (void)drawRect:(NSRect)dirtyRect
 {
@@ -96,6 +130,10 @@
     NSGradient* backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
     [backgroundGradient drawInRect:viewRect angle:-90];
     [backgroundGradient release];
+}
+- (BOOL)isOpaque
+{
+    return NO;
 }
 
 @end
