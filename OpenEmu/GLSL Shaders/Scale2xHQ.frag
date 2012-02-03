@@ -2,7 +2,7 @@
 // by guest(r) (guest.r@gmail.com)
 // License: GNU-GPL
 
-uniform sampler2DRect OGL2Texture;
+uniform sampler2DRect OETexture;
 
 const float mx = 0.325;      // start smoothing wt.
 const float k = -0.250;      // wt. decrease factor
@@ -12,15 +12,15 @@ const float lum_add = 0.25;  // effects smoothing
 
 void main()
 {
-	vec3 c00 = texture2DRect(OGL2Texture, gl_TexCoord[1].xy).xyz; 
-	vec3 c10 = texture2DRect(OGL2Texture, gl_TexCoord[1].zw).xyz; 
-	vec3 c20 = texture2DRect(OGL2Texture, gl_TexCoord[2].xy).xyz; 
-	vec3 c01 = texture2DRect(OGL2Texture, gl_TexCoord[4].zw).xyz; 
-	vec3 c11 = texture2DRect(OGL2Texture, gl_TexCoord[0].xy).xyz; 
-	vec3 c21 = texture2DRect(OGL2Texture, gl_TexCoord[2].zw).xyz; 
-	vec3 c02 = texture2DRect(OGL2Texture, gl_TexCoord[4].xy).xyz; 
-	vec3 c12 = texture2DRect(OGL2Texture, gl_TexCoord[3].zw).xyz; 
-	vec3 c22 = texture2DRect(OGL2Texture, gl_TexCoord[3].xy).xyz; 
+	vec3 c00 = texture2DRect(OETexture, gl_TexCoord[1].xy).xyz; 
+	vec3 c10 = texture2DRect(OETexture, gl_TexCoord[1].zw).xyz; 
+	vec3 c20 = texture2DRect(OETexture, gl_TexCoord[2].xy).xyz; 
+	vec3 c01 = texture2DRect(OETexture, gl_TexCoord[4].zw).xyz; 
+	vec3 c11 = texture2DRect(OETexture, gl_TexCoord[0].xy).xyz; 
+	vec3 c21 = texture2DRect(OETexture, gl_TexCoord[2].zw).xyz; 
+	vec3 c02 = texture2DRect(OETexture, gl_TexCoord[4].xy).xyz; 
+	vec3 c12 = texture2DRect(OETexture, gl_TexCoord[3].zw).xyz; 
+	vec3 c22 = texture2DRect(OETexture, gl_TexCoord[3].xy).xyz; 
 	vec3 dt = vec3(1.0,1.0,1.0);
 
 	float md1=dot(abs(c00-c22),dt);

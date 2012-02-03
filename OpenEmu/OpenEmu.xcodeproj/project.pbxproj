@@ -64,6 +64,10 @@
 		1415542C1442C52500A01683 /* N64.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = 1415540F1442B3B300A01683 /* N64.oesystemplugin */; };
 		1415542D1442C84B00A01683 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		1B224085100BD77800F42067 /* OpenEmuBase.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BA10F51256C007C171B /* OpenEmuBase.framework */; };
+		1B2B6D7414DB6363000D0BF7 /* Scale4xBR.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B6D7314DB6363000D0BF7 /* Scale4xBR.frag */; };
+		1B2B6D7614DB6375000D0BF7 /* Scale4xBR.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1B2B6D7514DB6375000D0BF7 /* Scale4xBR.vert */; };
+		1B2B6D7714DB659F000D0BF7 /* Scale4xBR.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1B2B6D7314DB6363000D0BF7 /* Scale4xBR.frag */; };
+		1B2B6D7814DB659F000D0BF7 /* Scale4xBR.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1B2B6D7514DB6375000D0BF7 /* Scale4xBR.vert */; };
 		1B42C66D1429510A004691D7 /* Syphon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B42C66C1429510A004691D7 /* Syphon.framework */; };
 		1B42C66F14295130004691D7 /* Syphon.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 1B42C66C1429510A004691D7 /* Syphon.framework */; };
 		1B47F105142F01E700EBC55B /* OESetupAssistant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1B47F104142F01E700EBC55B /* OESetupAssistant.m */; };
@@ -793,6 +797,8 @@
 		1B2242EC100D9C7900F42067 /* CRTScanlines.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTScanlines.frag; sourceTree = "<group>"; };
 		1B2242ED100D9C7900F42067 /* CRTScanlines.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CRTScanlines.vert; sourceTree = "<group>"; };
 		1B2243AE100E92E700F42067 /* CRTMaskShadow.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = CRTMaskShadow.tiff; sourceTree = "<group>"; };
+		1B2B6D7314DB6363000D0BF7 /* Scale4xBR.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4xBR.frag; sourceTree = "<group>"; };
+		1B2B6D7514DB6375000D0BF7 /* Scale4xBR.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale4xBR.vert; sourceTree = "<group>"; };
 		1B42C66C1429510A004691D7 /* Syphon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Syphon.framework; sourceTree = "<group>"; };
 		1B47F103142F01E700EBC55B /* OESetupAssistant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistant.h; sourceTree = "<group>"; };
 		1B47F104142F01E700EBC55B /* OESetupAssistant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistant.m; sourceTree = "<group>"; };
@@ -1722,6 +1728,8 @@
 				1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */,
 				1B885E080F085EA500770B6D /* Scale2xPlus.frag */,
 				1B885E090F085EA500770B6D /* Scale2xPlus.vert */,
+				1B2B6D7314DB6363000D0BF7 /* Scale4xBR.frag */,
+				1B2B6D7514DB6375000D0BF7 /* Scale4xBR.vert */,
 			);
 			path = "GLSL Shaders";
 			sourceTree = "<group>";
@@ -3412,6 +3420,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1B2B6D7714DB659F000D0BF7 /* Scale4xBR.frag in Resources */,
+				1B2B6D7814DB659F000D0BF7 /* Scale4xBR.vert in Resources */,
 				1B4D77EE117A60ED0001F629 /* Scale4x.frag in Resources */,
 				1B4D77EF117A60ED0001F629 /* Scale4x.vert in Resources */,
 				1B4D77F0117A60ED0001F629 /* Scale4xHQ.frag in Resources */,
@@ -3889,6 +3899,8 @@
 				EF2FDBED14CFFE1B002A64F2 /* OEControlsKeySeparatorView.m in Sources */,
 				EF2FDBF614D00B8D002A64F2 /* OEControlsSetupView.m in Sources */,
 				83C0B37114D6EF02007CAC00 /* OESidebarOutlineButtonCell.m in Sources */,
+				1B2B6D7414DB6363000D0BF7 /* Scale4xBR.frag in Sources */,
+				1B2B6D7614DB6375000D0BF7 /* Scale4xBR.vert in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

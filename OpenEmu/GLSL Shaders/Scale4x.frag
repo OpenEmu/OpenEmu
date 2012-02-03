@@ -19,19 +19,19 @@
 
 */
 
-uniform sampler2DRect OGL2Texture;
+uniform sampler2DRect OETexture;
 
 void main()
 {
-	vec3 c  = texture2DRect(OGL2Texture, gl_TexCoord[0].xy).xyz;
-	vec3 i1 = texture2DRect(OGL2Texture, gl_TexCoord[1].xy).xyz; 
-	vec3 i2 = texture2DRect(OGL2Texture, gl_TexCoord[2].xy).xyz; 
-	vec3 i3 = texture2DRect(OGL2Texture, gl_TexCoord[3].xy).xyz; 
-	vec3 i4 = texture2DRect(OGL2Texture, gl_TexCoord[4].xy).xyz; 
-	vec3 o1 = texture2DRect(OGL2Texture, gl_TexCoord[5].xy).xyz; 
-	vec3 o3 = texture2DRect(OGL2Texture, gl_TexCoord[6].xy).xyz; 
-	vec3 o2 = texture2DRect(OGL2Texture, gl_TexCoord[5].zw).xyz;
-	vec3 o4 = texture2DRect(OGL2Texture, gl_TexCoord[6].zw).xyz; 
+	vec3 c  = texture2DRect(OETexture, gl_TexCoord[0].xy).xyz;
+	vec3 i1 = texture2DRect(OETexture, gl_TexCoord[1].xy).xyz; 
+	vec3 i2 = texture2DRect(OETexture, gl_TexCoord[2].xy).xyz; 
+	vec3 i3 = texture2DRect(OETexture, gl_TexCoord[3].xy).xyz; 
+	vec3 i4 = texture2DRect(OETexture, gl_TexCoord[4].xy).xyz; 
+	vec3 o1 = texture2DRect(OETexture, gl_TexCoord[5].xy).xyz; 
+	vec3 o3 = texture2DRect(OETexture, gl_TexCoord[6].xy).xyz; 
+	vec3 o2 = texture2DRect(OETexture, gl_TexCoord[5].zw).xyz;
+	vec3 o4 = texture2DRect(OETexture, gl_TexCoord[6].zw).xyz; 
 	vec3 dt = vec3(1.0,1.0,1.0);
 
 	float ko1=dot(abs(o1-c),dt);

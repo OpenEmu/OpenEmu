@@ -42,6 +42,7 @@ static NSString *const _OEScale4xHQFilterName       = @"Scale4xHQ";
 static NSString *const _OEScale2xPlusFilterName     = @"Scale2xPlus";
 static NSString *const _OEScale2xHQFilterName       = @"Scale2xHQ";
 static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
+static NSString *const _OEScale4xBRFilterName = @"Scale4xBR";
 
 #define dfl(a,b) [NSNumber numberWithFloat:a],@b
 
@@ -148,13 +149,16 @@ static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
     OEGameShader *scale4XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xHQFilterName   forContext:context] autorelease];
     OEGameShader *scale2XPlusShader     = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xPlusFilterName forContext:context] autorelease];
     OEGameShader *scale2XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xHQFilterName   forContext:context] autorelease];
-    
+
+    OEGameShader *scale4xBRShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xBRFilterName   forContext:context] autorelease];
+
     // TODO: fix this shader
     OEGameShader *scale2XSALSmartShader = nil;//[[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2XSALSmartFilterName forContext:context] autorelease];
     
     return [NSDictionary dictionaryWithObjectsAndKeys:
             _OELinearFilterName         , _OELinearFilterName         ,
             _OENearestNeighborFilterName, _OENearestNeighborFilterName,
+            scale4xBRShader             , _OEScale4xBRFilterName      ,
             scale4XShader               , _OEScale4xFilterName        ,
             scale4XHQShader             , _OEScale4xHQFilterName      ,
             scale2XPlusShader           , _OEScale2xPlusFilterName    ,
@@ -296,7 +300,7 @@ static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
             glUseProgramObjectARB([shader programObject]);
             
             // set up shader uniforms
-            glUniform1iARB([shader uniformLocationWithName:"OGL2Texture"], 0);
+            glUniform1iARB([shader uniformLocationWithName:"OETexture"], 0);
         }
     }
     

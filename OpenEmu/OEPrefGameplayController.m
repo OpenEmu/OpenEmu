@@ -31,15 +31,8 @@
     // Setup plugins menu
 	NSArray *filterPlugins = [[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     // These filters are loaded and run by GL, and do not rely on QTZs
-    NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:
-                            [NSArray arrayWithObjects:
-                             @"Linear",
-                             @"Nearest Neighbor",
-                             @"Scale2xHQ",
-                             @"Scale2xPlus",
-                             @"Scale4x",
-                             @"Scale4xHQ",
-                             nil]];
+    NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:OEOpenGLFilterNameArray];
+    
 	NSMenu *filterMenu = [[NSMenu alloc] init];
     for(NSString *aName in filterNames)
     {
