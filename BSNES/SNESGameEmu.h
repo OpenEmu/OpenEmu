@@ -43,8 +43,6 @@ extern NSString *BSNESEmulatorNames[];
     uint16_t *videoBuffer;
     int videoWidth, videoHeight;
     int16_t pad[2][12];
-    unsigned serial_size;
-    uint8_t *serial_data;
     NSString *romName;
 }
 

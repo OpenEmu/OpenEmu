@@ -150,7 +150,6 @@ static void writeSaveFile(const char* path, int type)
         if ( file != NULL )
         {
             NSLog(@"Saving state %s. Size: %d bytes.", path, (int)size);
-            snes_serialize(data, size);
             if ( fwrite(data, sizeof(uint8_t), size, file) != size )
                 NSLog(@"Did not save state properly.");
             fclose(file);
@@ -242,9 +241,6 @@ static void writeSaveFile(const char* path, int type)
         snes_set_controller_port_device(SNES_PORT_2, SNES_DEVICE_JOYPAD);
         
         snes_get_region();
-        
-        serial_size = snes_serialize_size();
-        serial_data = (uint8_t *) malloc(sizeof(uint8_t)*serial_size);
             
         snes_run();
     }
@@ -304,7 +300,6 @@ static void writeSaveFile(const char* path, int type)
     NSLog(@"snes term");
     //snes_unload_cartridge();
     snes_term();
-    free(serial_data);
     [super stopEmulation];
 }
 
@@ -357,10 +352,15 @@ static void writeSaveFile(const char* path, int type)
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {   
+    int serial_size = snes_serialize_size();
+    uint8_t *serial_data = (uint8_t *) malloc(serial_size);
+    
     snes_serialize(serial_data, serial_size);
 
-    FILE *state_file = fopen([fileName UTF8String], "w+b");
+    FILE *state_file = fopen([fileName UTF8String], "wb");
     long bytes_written = fwrite(serial_data, sizeof(uint8_t), serial_size, state_file);
+    
+    free(serial_data);
     
     if( bytes_written != serial_size )
     {
@@ -380,6 +380,9 @@ static void writeSaveFile(const char* path, int type)
         return NO;
     }
     
+    int serial_size = snes_serialize_size();
+    uint8_t *serial_data = (uint8_t *) malloc(serial_size);
+    
     if(!fread(serial_data, sizeof(uint8_t), serial_size, state_file))
     {
         NSLog(@"Couldn't read file");
@@ -392,6 +395,9 @@ static void writeSaveFile(const char* path, int type)
         NSLog(@"Couldn't unpack state");
         return NO;
     }
+    
+    free(serial_data);
+
     return YES;
 }
 
