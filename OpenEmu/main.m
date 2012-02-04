@@ -34,7 +34,6 @@
 int main(int argc, char *argv[])
 {	
     srand(time(NULL));
-<<<<<<< HEAD
     
     @autoreleasepool {
         
@@ -75,42 +74,6 @@ int main(int argc, char *argv[])
     }
     
     
-=======
-    NSString *path = [[[[[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask] lastObject] URLByAppendingPathComponent:@"OpenEmu/Game Library"] path];
-
-	NSDictionary *defaults = [[NSDictionary alloc] initWithObjectsAndKeys:
-                              // default thumbnail sizes for game box images
-                              [NSArray arrayWithObjects:@"{75,75}",
-                                                        @"{150,150}",
-                                                        @"{300,300}",
-                                                        @"{450,450}", nil],     UDBoxSizesKey,
-
-                              @"Save States",                   UDSaveStateFolderNameKey,	// Default name of Save States folder
-                              @"Linear",                        UDVideoFilterKey,
-							  [NSNumber numberWithBool:YES],    UDUseMD5HashingKey      ,	// Default Hashing algorithm
-							  [NSNumber numberWithFloat:0.5],   UDVolumeKey,                // Default Volume
-                              [NSNumber numberWithDouble:1.5],  UDHUDFadeOutDelayKey,       // Time until hud controls bar fades out
-                              [NSNumber numberWithBool:YES],    OEHUDCanDeleteStateKey,
-                              path,                             UDDefaultDatabasePathKey,
-                              path,                             UDDatabasePathKey,
-                              
-                              [NSNumber numberWithFloat:105.0], UDSidebarMinWidth,
-                              [NSNumber numberWithFloat:450.0], UDSidebarMaxWidth,
-                              [NSNumber numberWithFloat:495.0], UDMainViewMinWidth,
-                              
-                              [NSNumber numberWithFloat:186.0], UDSidebarWidthKey,
-                              [NSNumber numberWithBool:YES],    UDSidebarVisibleKey,
-							  nil];
-
-	NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-	[standardDefaults registerDefaults:defaults];
-    [defaults release];
-    
-    defaults = nil;
-
-	[pool drain];
-
->>>>>>> This is a shit version of Scale2xBR (3.5a) for clobber to try.
 	return NSApplicationMain(argc, (const char **) argv);
 }
 
