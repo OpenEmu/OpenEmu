@@ -67,7 +67,7 @@
 		94ED8B2414CF933800FF8901 /* loadrom.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A2A14CF933700FF8901 /* loadrom.c */; };
 		94ED8B2514CF933800FF8901 /* m68kcpu.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A2F14CF933700FF8901 /* m68kcpu.c */; };
 		94ED8B2614CF933800FF8901 /* m68kops.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A3214CF933700FF8901 /* m68kops.c */; };
-		94ED8B2714CF933800FF8901 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 94ED8A3414CF933700FF8901 /* readme.txt */; };
+		94ED8B2714CF933800FF8901 /* m68k_readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 94ED8A3414CF933700FF8901 /* m68k_readme.txt */; };
 		94ED8B2814CF933800FF8901 /* mem68k.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A3614CF933700FF8901 /* mem68k.c */; };
 		94ED8B2914CF933800FF8901 /* membnk.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A3814CF933700FF8901 /* membnk.c */; };
 		94ED8B2A14CF933800FF8901 /* memz80.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A3A14CF933700FF8901 /* memz80.c */; };
@@ -296,7 +296,7 @@
 		94ED8A3114CF933700FF8901 /* m68kCycleAccurate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kCycleAccurate.h; sourceTree = "<group>"; };
 		94ED8A3214CF933700FF8901 /* m68kops.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = m68kops.c; sourceTree = "<group>"; };
 		94ED8A3314CF933700FF8901 /* m68kops.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kops.h; sourceTree = "<group>"; };
-		94ED8A3414CF933700FF8901 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
+		94ED8A3414CF933700FF8901 /* m68k_readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = m68k_readme.txt; sourceTree = "<group>"; };
 		94ED8A3514CF933700FF8901 /* macros.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = macros.h; sourceTree = "<group>"; };
 		94ED8A3614CF933700FF8901 /* mem68k.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mem68k.c; sourceTree = "<group>"; };
 		94ED8A3714CF933700FF8901 /* mem68k.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mem68k.h; sourceTree = "<group>"; };
@@ -577,7 +577,7 @@
 				94ED8A3114CF933700FF8901 /* m68kCycleAccurate.h */,
 				94ED8A3214CF933700FF8901 /* m68kops.c */,
 				94ED8A3314CF933700FF8901 /* m68kops.h */,
-				94ED8A3414CF933700FF8901 /* readme.txt */,
+				94ED8A3414CF933700FF8901 /* m68k_readme.txt */,
 			);
 			path = m68k;
 			sourceTree = "<group>";
@@ -811,7 +811,7 @@
 				8230C81910AFCCB700412F24 /* dsa_pub.pem in Resources */,
 				94ED8A9814CF933700FF8901 /* imageformat.txt in Resources */,
 				94ED8A9B14CF933700FF8901 /* svpdoc.txt in Resources */,
-				94ED8B2714CF933800FF8901 /* readme.txt in Resources */,
+				94ED8B2714CF933800FF8901 /* m68k_readme.txt in Resources */,
 				94ED8B2B14CF933800FF8901 /* changes.txt in Resources */,
 				94ED8B2C14CF933800FF8901 /* license.txt in Resources */,
 				94ED8B2E14CF933800FF8901 /* readme.txt in Resources */,

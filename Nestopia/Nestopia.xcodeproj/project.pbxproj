@@ -36,7 +36,6 @@
 
 /* Begin PBXBuildFile section */
 		3DFAB00C144644A5005EF0C3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFAB00A144643AA005EF0C3 /* OpenEmuBase.framework */; };
-		82444C050F51279C007C171B /* GameBoy Advance.oesystemplugin in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BD10F512685007C171B /* GameBoy Advance.oesystemplugin */; settings = {ATTRIBUTES = (Required, ); }; };
 		8249C9A60E89BA140027EFDF /* Menu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8249C9A50E89BA140027EFDF /* Menu.xib */; };
 		827899CA0E70CFD100C01C82 /* NstApiBarcodeReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8278976E0E70CFC900C01C82 /* NstApiBarcodeReader.cpp */; };
 		827899CB0E70CFD100C01C82 /* NstApiCartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 827897700E70CFC900C01C82 /* NstApiCartridge.cpp */; };
@@ -1168,7 +1167,6 @@
 			files = (
 				3DFAB00C144644A5005EF0C3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				82444C050F51279C007C171B /* GameBoy Advance.oesystemplugin in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
