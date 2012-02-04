@@ -82,6 +82,10 @@
 		1B6A24FF143072B0009F1CE1 /* TV.qtz in Copy Filters Folder To App Resources */ = {isa = PBXBuildFile; fileRef = 1B224176100C049E00F42067 /* TV.qtz */; };
 		1B7505140FEEB72700B0D0AF /* About.png in Resources */ = {isa = PBXBuildFile; fileRef = 1B7505100FEEB4F600B0D0AF /* About.png */; };
 		1B98144E142F02FA00114A30 /* OESetupAssistant.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1B98144D142F02FA00114A30 /* OESetupAssistant.xib */; };
+		1BE3AB9B14DBAA4000D2F508 /* Scale2xBR.vert in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3AB9A14DBAA4000D2F508 /* Scale2xBR.vert */; };
+		1BE3AB9E14DBAA5600D2F508 /* Scale2xBR.frag in Sources */ = {isa = PBXBuildFile; fileRef = 1BE3AB9D14DBAA5600D2F508 /* Scale2xBR.frag */; };
+		1BE3AB9F14DBB43D00D2F508 /* Scale2xBR.vert in Resources */ = {isa = PBXBuildFile; fileRef = 1BE3AB9A14DBAA4000D2F508 /* Scale2xBR.vert */; };
+		1BE3ABA014DBB43D00D2F508 /* Scale2xBR.frag in Resources */ = {isa = PBXBuildFile; fileRef = 1BE3AB9D14DBAA5600D2F508 /* Scale2xBR.frag */; };
 		1BEF2A67116826BC0090F72B /* NSString+UUID.h in Headers */ = {isa = PBXBuildFile; fileRef = 1BEF2A65116826BC0090F72B /* NSString+UUID.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1BEF2A68116826BC0090F72B /* NSString+UUID.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A66116826BC0090F72B /* NSString+UUID.m */; };
 		1BEF2A9C11682A5E0090F72B /* OpenEmuHelperApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BEF2A7411682A330090F72B /* OpenEmuHelperApp.m */; };
@@ -821,6 +825,8 @@
 		1B98144D142F02FA00114A30 /* OESetupAssistant.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OESetupAssistant.xib; sourceTree = "<group>"; };
 		1BA788FD0FF9C95A007CE5DB /* OEGameShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameShader.h; sourceTree = "<group>"; };
 		1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameShader.m; sourceTree = "<group>"; };
+		1BE3AB9A14DBAA4000D2F508 /* Scale2xBR.vert */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xBR.vert; sourceTree = "<group>"; };
+		1BE3AB9D14DBAA5600D2F508 /* Scale2xBR.frag */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = Scale2xBR.frag; sourceTree = "<group>"; };
 		1BEF2A65116826BC0090F72B /* NSString+UUID.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+UUID.h"; sourceTree = "<group>"; };
 		1BEF2A66116826BC0090F72B /* NSString+UUID.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+UUID.m"; sourceTree = "<group>"; };
 		1BEF2A7311682A330090F72B /* OpenEmuHelperApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuHelperApp.h; sourceTree = "<group>"; };
@@ -1728,8 +1734,10 @@
 				1B885E3B0F089A4400770B6D /* Scale2xHQ.vert */,
 				1B885E080F085EA500770B6D /* Scale2xPlus.frag */,
 				1B885E090F085EA500770B6D /* Scale2xPlus.vert */,
-				1B2B6D7314DB6363000D0BF7 /* Scale4xBR.frag */,
 				1B2B6D7514DB6375000D0BF7 /* Scale4xBR.vert */,
+				1B2B6D7314DB6363000D0BF7 /* Scale4xBR.frag */,
+				1BE3AB9A14DBAA4000D2F508 /* Scale2xBR.vert */,
+				1BE3AB9D14DBAA5600D2F508 /* Scale2xBR.frag */,
 			);
 			path = "GLSL Shaders";
 			sourceTree = "<group>";
@@ -3420,6 +3428,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1BE3AB9F14DBB43D00D2F508 /* Scale2xBR.vert in Resources */,
+				1BE3ABA014DBB43D00D2F508 /* Scale2xBR.frag in Resources */,
 				1B2B6D7714DB659F000D0BF7 /* Scale4xBR.frag in Resources */,
 				1B2B6D7814DB659F000D0BF7 /* Scale4xBR.vert in Resources */,
 				1B4D77EE117A60ED0001F629 /* Scale4x.frag in Resources */,
@@ -3901,6 +3911,8 @@
 				83C0B37114D6EF02007CAC00 /* OESidebarOutlineButtonCell.m in Sources */,
 				1B2B6D7414DB6363000D0BF7 /* Scale4xBR.frag in Sources */,
 				1B2B6D7614DB6375000D0BF7 /* Scale4xBR.vert in Sources */,
+				1BE3AB9B14DBAA4000D2F508 /* Scale2xBR.vert in Sources */,
+				1BE3AB9E14DBAA5600D2F508 /* Scale2xBR.frag in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

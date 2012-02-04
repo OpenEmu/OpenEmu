@@ -43,6 +43,7 @@ static NSString *const _OEScale2xPlusFilterName     = @"Scale2xPlus";
 static NSString *const _OEScale2xHQFilterName       = @"Scale2xHQ";
 static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
 static NSString *const _OEScale4xBRFilterName = @"Scale4xBR";
+static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 #define dfl(a,b) [NSNumber numberWithFloat:a],@b
 
@@ -151,6 +152,7 @@ static NSString *const _OEScale4xBRFilterName = @"Scale4xBR";
     OEGameShader *scale2XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xHQFilterName   forContext:context] autorelease];
 
     OEGameShader *scale4xBRShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xBRFilterName   forContext:context] autorelease];
+    OEGameShader *scale2xBRShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xBRFilterName   forContext:context] autorelease];
 
     // TODO: fix this shader
     OEGameShader *scale2XSALSmartShader = nil;//[[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2XSALSmartFilterName forContext:context] autorelease];
@@ -159,6 +161,7 @@ static NSString *const _OEScale4xBRFilterName = @"Scale4xBR";
             _OELinearFilterName         , _OELinearFilterName         ,
             _OENearestNeighborFilterName, _OENearestNeighborFilterName,
             scale4xBRShader             , _OEScale4xBRFilterName      ,
+            scale2xBRShader             , _OEScale2xBRFilterName      ,
             scale4XShader               , _OEScale4xFilterName        ,
             scale4XHQShader             , _OEScale4xHQFilterName      ,
             scale2XPlusShader           , _OEScale2xPlusFilterName    ,
