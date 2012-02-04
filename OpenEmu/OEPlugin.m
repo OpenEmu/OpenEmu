@@ -194,7 +194,7 @@ static NSString *OE_pluginPathForNameType(NSString *aName, Class aType)
                                     [aName stringByAppendingPathExtension:extension]]];
     
     NSString *ret = nil;
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     
     NSFileManager *manager = [NSFileManager defaultManager];
     for(NSString *path in paths)
@@ -239,7 +239,7 @@ NSInteger OE_compare(OEPlugin *obj1, OEPlugin *obj2, void *ctx)
             
             NSString *openEmuSearchPath = [@"OpenEmu" stringByAppendingPathComponent:folder];
             
-            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
+            NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
             NSFileManager *manager = [NSFileManager defaultManager];
             
             for(NSString *path in paths)

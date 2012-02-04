@@ -78,7 +78,7 @@ static NSMutableDictionary *plugins = nil;
         
         NSString *openEmuSearchPath = [@"OpenEmu" stringByAppendingPathComponent:folder];
         
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
         
         NSFileManager *manager = [NSFileManager defaultManager];
         

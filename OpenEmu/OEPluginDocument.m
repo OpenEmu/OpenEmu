@@ -40,7 +40,7 @@
     BOOL      worked = YES;
     NSString *path   = [absoluteURL path];
     Class     type   = [OEPlugin typeForExtension:[path pathExtension]];
-    NSArray  *paths  = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSAllDomainsMask, YES);
+    NSArray  *paths  = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
     
     if([paths count] > 0)
     {
