@@ -403,6 +403,7 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     OEDBGame *selectedGame = [selection lastObject];
     NSDocumentController *docController = [NSDocumentController sharedDocumentController];
     OEGameDocument *document = [[OEGameDocument alloc] initWithGame:selectedGame];
+    if (!document) return;
     [docController addDocument:document];
     [document release];
 }
