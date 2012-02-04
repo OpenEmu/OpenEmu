@@ -47,12 +47,18 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
 {
     self = [super initWithWindowController:windowController];
     if (self) {
-        NSLog(@"Init OELibraryController");
         [self setDatabase:database];
-        [self view];
     }
     return self;
 }
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+    }
+    return self;   
+}
+
 - (void)dealloc
 {
     NSLog(@"Dealloc OELibraryController");
@@ -74,9 +80,14 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     return @"Library";
 }
 
-- (void) awakeFromNib
+- (void)loadView
 {
-    [super awakeFromNib];
+    [super loadView];
+    
+    if(![self database])
+        [self setDatabase:[OELibraryDatabase defaultDatabase]];
+    
+   [[self sidebarController] view];
     
     self.romImporter = [[[OEROMImporter alloc] initWithDatabase:[self database]] autorelease];
     
@@ -85,7 +96,10 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     // setup sidebar controller
     OESidebarController *sidebarController = [self sidebarController];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:@"SidebarSelectionChanged" object:sidebarController];
-    [sidebarController setDatabase:[self database]];
+
+    if(![self database])
+        [self setDatabase:[OELibraryDatabase defaultDatabase]];
+    [sidebarController setDatabase:[self database]];   
     [self setSidebarChangesWindowSize:YES];
     
     // make sure view has been loaded already
@@ -94,7 +108,6 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     
     // Select first view
     [collectionViewController setLibraryController:self];
-    [collectionViewController finishSetup];
     
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
@@ -108,7 +121,10 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     [[collectionViewController view] setFrame:[rightContentView bounds]];
     
     [splitView adjustSubviews];
-    
+}
+
+- (void)awakeFromNib
+{
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowFullscreenEnter:) name:NSWindowWillEnterFullScreenNotification object:[[self windowController] window]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowFullscreenExit:) name:NSWindowWillExitFullScreenNotification object:[[self windowController] window]];
 }

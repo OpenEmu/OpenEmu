@@ -57,6 +57,12 @@
     return @"Preferences";
 }
 
+- (void)awakeFromNib
+{
+    // Prelaod window to prevent flickering when it's first shown
+    [self window];
+}
+
 - (void)windowDidLoad
 {
     [super windowDidLoad];

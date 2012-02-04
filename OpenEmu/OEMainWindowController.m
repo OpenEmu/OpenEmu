@@ -11,16 +11,9 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 #import "OEMainWindow.h"
-@implementation OEMainWindowController
+#import "OESetupAssistant.h"
 
-- (id)initWithWindow:(NSWindow *)window
-{
-    self = [super initWithWindow:window];
-    if (self)
-    {
-    }
-    return self;
-}
+@implementation OEMainWindowController
 
 + (void)initialize
 {
@@ -36,7 +29,24 @@
     [image setName:@"toolbar_view_button_grid" forSubimageInRect:NSMakeRect(0, 0, 27, 115)];
     [image setName:@"toolbar_view_button_flow" forSubimageInRect:NSMakeRect(27, 0, 27, 115)];
     [image setName:@"toolbar_view_button_list" forSubimageInRect:NSMakeRect(54, 0, 27, 115)];
+    
+}
 
+- (id)initWithWindow:(NSWindow *)window
+{
+    self = [super initWithWindow:window];
+    if (self)
+   {
+   }
+    return self;
+}
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if(self)
+    {
+    }
+    return self;
 }
 
 - (void)dealloc 
@@ -47,15 +57,19 @@
     [super dealloc];
 }
 
+- (void)awakeFromNib
+{
+    // Load Window
+    [self window];
+}
+
 - (void)windowDidLoad
 {
-    DLog(@"OEMainWindowController windowDidLoad"); 
     [super windowDidLoad];
     
     [self setAllowWindowResizing:YES];
     [[self window] setWindowController:self];
     [[self window] setDelegate:self];
-    
     
     [[self toolbarSidebarButton] setImage:[NSImage imageNamed:@"toolbar_sidebar_button_close"]];
     
@@ -69,6 +83,21 @@
     // Setup Window behavior
     [[self window] setRestorable:NO];
     [[self window] setExcludedFromWindowsMenu:YES];
+    
+    [[self defaultContentController] setWindowController:self];
+    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSetupAssistantHasRun])
+    {
+        OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
+        [setupAssistant setWindowController:self];
+        [self setCurrentContentController:setupAssistant];
+        [setupAssistant release];
+    }
+    else
+    {
+        [self setCurrentContentController:[self defaultContentController]];
+    }
+    
+    [self setupMenuItems];
 }
 
 - (NSString*)windowNibName
@@ -103,6 +132,9 @@
     
     [[self toolbarSlider] setEnabled:NO];
     [[self toolbarSlider] setAction:NULL];
+    
+    // Make sure the view is loaded from nib
+    [controller view];
     
     [currentContentController contentWillHide];
     [controller contentWillShow];
@@ -142,7 +174,7 @@
 {
     if([sender tag] == MainMenu_Window_OpenEmuTag)
     {
-        if([sender state])
+        if([(NSMenuItem*)sender state])
             [[self window] orderOut:self];
         else
             [[self window] makeKeyAndOrderFront:self];
@@ -154,7 +186,7 @@
 
 - (void)setupMenuItems
 {
-    NSMenu *mainMenu = [[NSApp delegate] mainMenu];
+    NSMenu *mainMenu = [NSApp mainMenu];
     
     // Window Menu
     NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];

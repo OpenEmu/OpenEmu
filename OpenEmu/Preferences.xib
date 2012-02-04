@@ -113,7 +113,7 @@
 				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="36.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="36.IBWindowTemplateEditedContentRect">{{632, 185}, {423, 480}}</string>
-				<boolean value="YES" key="36.NSWindowTemplate.visibleAtLaunch"/>
+				<boolean value="NO" key="36.NSWindowTemplate.visibleAtLaunch"/>
 				<string key="37.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>

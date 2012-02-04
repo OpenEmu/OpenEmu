@@ -33,17 +33,28 @@
 
 - (void)loadPlugins;
 - (void)setupHIDSupport;
-- (void)_makeTargetForMenuItems:(NSMenu*)menu;
+- (void)_setTargetForMenuItems:(NSMenu*)menu;
 @end
 @implementation OEApplicationDelegate
 @dynamic appVersion, projectURL;
-@synthesize startupMainMenu, mainMenu;
 
 - (id)init
 {
     self = [super init];
     if (self) 
     {
+        // Load Database
+        [self loadDatabase];
+        
+        // if no database was loaded open emu quits
+        if(![OELibraryDatabase defaultDatabase])
+        {
+            [NSApp terminate:self];
+            [self release];
+            return nil;
+        }
+        
+        [self loadPlugins];
     }
     
     return self;
@@ -59,37 +70,15 @@
     [super dealloc];
 }
 #pragma mark -
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification
 {
-    // Load Database
-    [self loadDatabase];
-    
-    // if no database was loaded open emu quits
-    if(![OELibraryDatabase defaultDatabase])
-    {
-        [NSApp terminate:self];
-        return;
-    }
-    
-    // Load the plugins now
-    [self loadPlugins];
-    
-    [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
-    
+}
+
+- (void)applicationDidFinishLaunching:(NSNotification *)aNotification
+{    
     // Run Migration Manager
     [[OEVersionMigrationController defaultMigrationController] runMigrationIfNeeded];
-    
-    // Setup some defaults
-    NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
-    NSDictionary *initialValues = [[[defaults initialValues] mutableCopy] autorelease];
-    if(initialValues == nil)
-        initialValues = [NSMutableDictionary dictionary];
-    
-    [initialValues setValue:@"Linear"                      forKey:@"filterName"];
-    [initialValues setValue:[NSNumber numberWithFloat:1.0] forKey:@"volume"];
-    [defaults setInitialValues:initialValues];
-    
-    // load images for toolbar sidebar button
     
     // TODO: Tell database to rebuild its "processing" queue
     // TODO: and lauch the queue in a while (5.0 seconds?)
@@ -99,38 +88,11 @@
     
     // Setup HID Support
     [self setupHIDSupport];
-    
-    [NSApp setMainMenu:[self mainMenu]];
-    
-    // Load MainWindow
-    OEMainWindowController *windowController = [[OEMainWindowController alloc] init];
-    [windowController window];
-    
-    OELibraryController *libraryController = [[OELibraryController alloc] initWithWindowController:windowController andDatabase:[OELibraryDatabase defaultDatabase]];
-    [windowController setDefaultContentController:libraryController];
-    [libraryController release];
-    if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSetupAssistantHasRun])
-    {
-        OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
-        [setupAssistant setWindowController:windowController];
-        [windowController setCurrentContentController:setupAssistant];
-        [setupAssistant release];
-    }
-    else
-    {
-        [windowController setCurrentContentController:[windowController defaultContentController]];
-    }
-    [self setMainWindowController:windowController];
-    
-    // Setup MainMenu
-    [self _makeTargetForMenuItems:[self mainMenu]];
-    
-    [[[self mainWindowController] window] makeKeyAndOrderFront:self];
-    [[self mainWindowController] setupMenuItems];
-    [windowController release];
-    
+  
     // Preload Composition plugins so HUDControls Bar and Gameplay Preferneces load faster
     [OECompositionPlugin allPluginNames];
+
+    [self _setTargetForMenuItems:[NSApp mainMenu]];
     
     // TODO: remove after testing OEHUDAlert
    /* [[OECoreUpdater sharedUpdater] installCoreWithIdentifier:@"com.openemu.snes9x" coreName:@"Nestopia" systemName:@"Nintendo (NES)" withCompletionHandler:^{
@@ -252,6 +214,8 @@
     
     [[OELibraryDatabase defaultDatabase] save:nil];
     [[OELibraryDatabase defaultDatabase] disableSystemsWithoutPlugin];
+    
+    [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
 }
 
 - (void)setupHIDSupport
@@ -339,9 +303,10 @@
 
 #pragma mark -
 #pragma mark App Info
-
 - (void)updateInfoPlist
 {
+    // TODO: Think of a way to register for document types without manipulating the plist
+    // as it's generally bad to modify the bundle's contents and we may not have write access
     NSArray *systemPlugins = [OESystemPlugin allPlugins];
     
     NSMutableDictionary *allTypes = [NSMutableDictionary dictionaryWithCapacity:[systemPlugins count]];
@@ -428,13 +393,13 @@
 
 #pragma mark -
 #pragma mark Menu Handling
-- (void)_makeTargetForMenuItems:(NSMenu*)menu
+- (void)_setTargetForMenuItems:(NSMenu*)menu
 {
     [menu setAutoenablesItems:YES];
     [[menu itemArray] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
      {
          if([obj hasSubmenu])
-             [self _makeTargetForMenuItems:[obj submenu]];
+             [self _setTargetForMenuItems:[obj submenu]];
          else if([obj action] == NULL)
          {
              [obj setAction:@selector(menuItemAction:)];

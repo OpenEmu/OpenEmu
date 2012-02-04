@@ -113,6 +113,8 @@
 {
     return YES;
 }
+
+
 #pragma mark -
 - (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped 
 {

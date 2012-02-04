@@ -4553,6 +4553,7 @@
 				LLVM_LTO = NO;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = NO;
+				"OTHER_CFLAGS[arch=*]" = "-fno-nil-receivers";
 				SDKROOT = macosx;
 			};
 			name = Debug;

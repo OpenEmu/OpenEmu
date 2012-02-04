@@ -66,13 +66,9 @@ static NSGradient *highlightGradient, *normalGradient;
 		}
         
         [self setHeaderClickable:YES];
+        [self setCornerView:[[[OETableCornerView alloc] init] autorelease]];
 	}
-    
     return self;
-}
-- (void)awakeFromNib
-{
-	[self setCornerView:[[[OETableCornerView alloc] init] autorelease]];
 }
 
 - (void)drawBackgroundInClipRect:(NSRect)clipRect

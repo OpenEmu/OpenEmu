@@ -15,7 +15,7 @@
 }
 #pragma mark -
 @property (retain, nonatomic) OEMainWindowContentController *currentContentController;
-@property (retain) OEMainWindowContentController *defaultContentController;
+@property (retain) IBOutlet OEMainWindowContentController *defaultContentController;
 @property BOOL allowWindowResizing;
 
 #pragma mark -

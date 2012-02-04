@@ -23,11 +23,6 @@
     [titlebarView setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
     [windowBorderView addSubview:titlebarView positioned:NSWindowAbove relativeTo:[[windowBorderView subviews] objectAtIndex:0]];
     
-    NSView *newContainerView = [[NSView alloc] initWithFrame:(NSRect){{0,45},{contentView.frame.size.width, contentView.frame.size.height-45}}];
-    [newContainerView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    [contentView addSubview:newContainerView];
-    mainContentView = newContainerView;
-    
     [contentView setWantsLayer:YES];
     
     CATransition *cvTransition = [CATransition animation];
@@ -43,9 +38,18 @@
 - (void)setMainContentView:(NSView*)view
 {
     NSView *contentView = [self contentView];
-    [view setFrame:[mainContentView frame]];
-    [view setAutoresizingMask:[mainContentView autoresizingMask]];
-    [[contentView animator] replaceSubview:mainContentView with:view];   
+    if(mainContentView)
+    {
+        [view setFrame:[mainContentView frame]];
+        [view setAutoresizingMask:[mainContentView autoresizingMask]];
+        [[contentView animator] replaceSubview:mainContentView with:view];   
+    }
+    else 
+    {
+        [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+        [view setFrame:(NSRect){{0,45},{contentView.frame.size.width, contentView.frame.size.height-45}}];
+        [contentView addSubview:view];       
+    }
     
     [view retain];
     [mainContentView release];

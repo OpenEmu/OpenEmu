@@ -25,6 +25,7 @@
 #import "OESystemPlugin.h"
 
 #import "OECenteredTextFieldCell.h"
+#import "OELibraryDatabase.h"
 @interface OECollectionViewController (Private)
 - (void)_reloadData;
 - (void)_selectView:(int)view;
@@ -65,21 +66,14 @@
     
     [super dealloc];
 }
+
 #pragma mark -
 #pragma mark View Controller Stuff
-- (void)awakeFromNib
+- (void)loadView
 {
+    [super loadView];
+    
     [gamesController setUsesLazyFetching:YES];
-}
-
-- (NSString*)nibName
-{
-    return @"CollectionView";
-}
-
-- (void)finishSetup
-{
-    if(gamesController!=nil) return;
     
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
@@ -88,7 +82,7 @@
     [gamesController setAutomaticallyRearrangesObjects:YES];
     [gamesController setAutomaticallyPreparesContent:YES];
     
-    NSManagedObjectContext *context = [[[self libraryController] database] managedObjectContext];
+    NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
     
     [gamesController setManagedObjectContext:context];
@@ -161,6 +155,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameAddedToLibrary:) name:@"OEDBGameAdded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameAddedToLibrary:) name:@"OEDBStatusChanged" object:nil];
 }
+
+- (NSString*)nibName
+{
+    return @"CollectionView";
+}
+
 #pragma mark -
 - (NSArray*)selectedGames
 {
@@ -242,7 +242,6 @@
         NSView *currentSubview = [[[self view] subviews] objectAtIndex:0];
         [currentSubview removeFromSuperview];
     }
-    
     
     [[self view] addSubview:nextView];
     [nextView setFrame:[[self view] bounds]];
@@ -694,7 +693,8 @@
         [reloadTimer invalidate];
         [reloadTimer release];
         reloadTimer = nil;       
-    }    
+    }
+    
     if(!gamesController) return;
     
     NSPredicate *pred = self.collectionItem?[self.collectionItem predicate]:[NSPredicate predicateWithValue:NO];

@@ -267,7 +267,6 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
         return;
     
     [self setValue:archiveID forKey:@"archiveID"];
-    [gameInfoDictionary writeToFile:[[NSString stringWithFormat:@"~/Archive Response %@.plist", [gameInfoDictionary valueForKey:AVGGameIDKey]] stringByExpandingTildeInPath] atomically:YES];
     
     NSString *gameTitle = [gameInfoDictionary valueForKey:AVGGameTitleKey];
     [self setValue:gameTitle forKey:@"name"];

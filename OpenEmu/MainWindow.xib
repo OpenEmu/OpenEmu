@@ -64,6 +64,7 @@
 							<int key="NSvFlags">292</int>
 							<string key="NSFrame">{{14, 10}, {28, 23}}</string>
 							<reference key="NSSuperview" ref="71309473"/>
+							<reference key="NSNextKeyView"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="503245926">
@@ -712,7 +713,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{322, 400}, {830, 555}}</string>
-					<boolean value="NO"/>
+					<boolean value="YES"/>
 					<string>OEMainWindowContentView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>OEImageButton</string>
@@ -738,7 +739,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">46</int>
+			<int key="maxID">47</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes"/>
 		<int key="IBDocument.localizationMode">0</int>

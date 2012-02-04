@@ -38,16 +38,14 @@
     [image setName:@"collections_simple" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
     [image setName:@"collections_smart" forSubimageInRect:NSMakeRect(16, 0, 16, 16)];
 }
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    [super dealloc];
-}
-
 - (void)awakeFromNib
 {
-    NSLog(@"OESidebarController awakeFromNib");
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
+}
+- (void)setView:(NSView *)view
+{
+    [super setView:view];
+
     self.groups = [NSArray arrayWithObjects:
                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"CONSOLES", @"")],
                    [OESidebarGroupItem groupItemWithName:NSLocalizedString(@"COLLECTIONS", @"")],
@@ -56,7 +54,6 @@
     // Setup toolbar button
     
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
-    
     // setup sidebar outline view
     [sidebarView setHeaderView:nil];
     
@@ -92,8 +89,13 @@
         [sidebarView setAllowsEmptySelection:YES];
     
     [self _setupDrop];
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
+    [super dealloc];
 }
 
 #pragma mark -

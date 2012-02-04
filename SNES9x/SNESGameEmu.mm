@@ -47,8 +47,7 @@
 #include <pthread.h>
 
 #define SAMPLERATE      48000
-#define SAMPLEFRAME     800
-#define SIZESOUNDBUFFER SAMPLEFRAME * 4
+#define SIZESOUNDBUFFER SAMPLERATE / 60 * 4
 
 @implementation SNESGameEmu
 
@@ -92,8 +91,8 @@ NSString *SNESEmulatorKeys[] = { @"A", @"B", @"X", @"Y", @"Up", @"Down", @"Left"
     IPPU.RenderThisFrame = !skip;
     S9xMainLoop();
     
-    S9xMixSamples((unsigned char*)soundBuffer, SAMPLEFRAME * [self channelCount]);
-    [[self ringBufferAtIndex:0] write:soundBuffer maxLength:sizeof(UInt16) * [self channelCount] * SAMPLEFRAME];
+    S9xMixSamples((unsigned char*)soundBuffer, (SAMPLERATE / [self frameInterval]) * [self channelCount]);
+    [[self ringBufferAtIndex:0] write:soundBuffer maxLength:sizeof(UInt16) * [self channelCount] * (SAMPLERATE / [self frameInterval])];
 }
 
 - (BOOL)loadFileAtPath: (NSString*) path
@@ -257,7 +256,7 @@ bool8 S9xOpenSoundDevice (void)
 
 - (NSUInteger)frameSampleCount
 {
-    return SAMPLEFRAME;
+    return SAMPLERATE/[self frameInterval];
 }
 
 - (NSUInteger)frameSampleRate

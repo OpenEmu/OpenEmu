@@ -20,11 +20,9 @@
 - (void)updateInfoPlist;
 
 @property (retain) IBOutlet NSWindow *aboutWindow;
-@property (retain) IBOutlet NSMenu  *startupMainMenu;
-@property (retain) IBOutlet NSMenu *mainMenu;
 
 @property (retain) OEHIDManager *hidManager;
-@property (retain) OEMainWindowController *mainWindowController;
+@property (retain) IBOutlet OEMainWindowController *mainWindowController;
 @property (readonly) NSString *aboutCreditsPath;
 @property (readonly) NSString *appVersion;
 @property (readonly) NSAttributedString *projectURL;

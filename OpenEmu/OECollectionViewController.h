@@ -32,8 +32,6 @@
     NSTimer *reloadTimer;
 }
 
-- (void)finishSetup;
-
 #pragma mark -
 - (NSArray*)selectedGames;
 #pragma mark -
@@ -52,7 +50,7 @@
 
 - (void)setNeedsReload;
 #pragma mark -
-@property (assign) OELibraryController *libraryController;
+@property (retain) IBOutlet OELibraryController *libraryController;
 @property (nonatomic, retain) id <NSObject, OECollectionViewItemProtocol> collectionItem;
 
 @property (nonatomic, retain) IBOutlet NSView *emptyCollectionView;
