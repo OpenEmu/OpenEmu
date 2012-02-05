@@ -1,0 +1,94 @@
+{\rtf1\ansi\ansicpg932\cocoartf1038\cocoasubrtf350
+{\fonttbl\f0\fnil\fcharset0 LucidaGrande;}
+{\colortbl;\red255\green255\blue255;\red153\green102\blue51;\red0\green0\blue255;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11500\viewh12340\viewkind0
+\pard\tx285\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+
+\f0\fs24 \cf0 \
+
+\b\fs28 FAQ for Mac port
+\b0\fs24 \
+\
+\
+\pard\tx285\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+
+\b\fs26 \cf2 Differences and similarities among the Mac port and other ports
+\b0\fs24 \cf0 \
+\
+\pard\tx285\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+\cf3 Key mapping\cf0 \
+	The default settings of key mapping are different. For example, the A-button is the command key on Mac, while it's the D key in Windows.\
+\
+\cf3 User interface\cf0 \
+	All of the menus and dialogs are different.\
+\
+\cf3 AVI or QuickTime export\cf0 \
+	Mac port supports QuickTime export instead of AVI export in Windows port.\
+\
+\cf3 Sound effect and Core Image filter\cf0 \
+	These features are for Mac only because they use Mac OS X's own technologies.\
+\
+\cf3 Netplay\cf0 \
+	Snes9x's netplay is incompatible between ports.\
+\
+\cf3 Command-line options\cf0 \
+	Mac port doesn't support command-line options.\
+\
+\cf3 Preferences file\cf0 \
+	Mac port doesn't support 'snes9x.conf' file.\
+\
+\
+\pard\tx285\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+
+\b\fs26 \cf2 Emulator Specific Questions
+\b0\fs24 \cf0 \
+\
+\pard\tx285\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+\cf3 Everything is fine when I play the game, but the next time I play, my save data is not there. Why?\cf0 \
+	Saving files into a locked volume and folders where you don't have permission to write will fail. Make sure where you are saving files in 'Preferences' dialog. The most common case for Mac beginners is launching Snes9x directly from the disk image with choosing 'Snes9x folder' for saving destination.\
+\
+\cf3 Why can't I press many buttons at once? Especially in Chrono Trigger.\cf0 \
+	Some keyboards can only output two pressed keys at a time, except for modifier keys (shift, command, option and control). Set modifier keys to some of the necessary buttons.\
+\
+\cf3 How can I enter the Game Genie / PAR code in 'Cheat Entry' dialog?\cf0 \
+	Simply enter the code directly into the address column. Snes9x automatically translates it to the general format.\
+\
+\cf3 I recently purchased a gamepad controller. Will it work on Snes9x?\
+\pard\tx285\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+\cf0 	If your gamepad is conformable to USB Device Class Definition for Human Interface Devices, it may work. Note that most gamepads don't officially support Mac OS X even if they work without problems.\cf3 \
+\
+I connected my gamepad but it doesn't work.\cf0 \
+	Gamepads cannot be used until you configure its settings in 'Configure Controllers' dialog.\
+\
+\pard\tx285\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+\cf3 I think my options in Snes9x got screwed up, how do I reset them?\cf0 \
+	Quit Snes9x and trash the preferences file 'com.snes9x.macos.snes9x.plist' in ~/Library/Preferences.\
+\
+\cf3 I had a bad checksummed game that didn't work so I adjusted the header, but it still doesn't work :( Why?\cf0 \
+	It should be noted that while it is possible to plop a ROM into Snestool, or several other programs, and adjust the header size to be the same as a proper 'good checksum' ROM, this merely mimics the appearance of a good ROM. Any problems still found within its evil will remain. One could compare it to covering up a circumorbital haematoma with a paper bag.\
+\
+\cf3 Why doesn't game X work?\cf0 \
+	There are four possible answers to this question, depending on the scenario. Answer one is that it does work, but your ROM dump is incorrect (this MAY be fixed by reattaching your cartridge to your copier and redumping). Answer two is that we have found a solution or a hack to the problem, but have not yet implemented a fix. Answer three, a subsidiary of answer two, is that we do NOT know what is wrong with it, and as such have not yet implemented a fix. Answer four is that Snes9x CANNOT emulate the game correctly due to its poor implementation around timings between emulated units.\
+\
+\cf3 When is the next version of Snes9x coming out?\cf0 \
+	Chances are it will be coming out when enough changes have been made to suitably make a release. You can generally guesstimate the release date by paying attention to the Developers forum at snes9x.com. But don't ask them when the next release will be.\
+\
+\
+\pard\tx285\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+
+\b\fs26 \cf2 Miscellaneous Questions
+\b0\fs24 \cf0 \
+\
+\pard\tx285\tx1133\tx1700\tx2266\tx2832\tx3401\tx3967\tx4535\tx5102\tx5669\tx6235\tx6802\ql\qnatural
+\cf3 Is it legal?\cf0 \
+	This has been asked time and again, and the answer is yes. Developing, downloading, or using the emulator, Snes9x, is completely legal. Downloading games, called ROMS, however is not. If you own the original cartridge of a game, you are still not entitled to download the ROM image of that game. You may create a single backup image of your own cartridge via proper hardware, but it must be YOUR cartridge and is only usable in place of the original... so only one may be active at any time. Many sites claim that you may legally download ROMs for up to 24 hours before they must be deleted. This is also wrong; you can't legally download these for "trial" purposes. You can't download ROMs for educational purposes either. If you wish to use Super Nintendo Entertainment System games for educational purposes, contact your closest Nintendo Outlet and discuss educational programming with them. Finally, a small number of ROMs are labeled "(PD)". This means public domain, and these games are not under copyright. As such they are legal to download at your hearts content. These include programs created by internet users such as yourself for use in Super Nintendo emulators. As of this time there are no commercial videogames in the public domain.\
+\
+\cf3 My friend, Tibby, says that you are wrong and that game companies don't care if you download games!\cf0 \
+	Whilst not actually a question, and more of a statement, I am afraid Tibby is incorrect.  Feel free to peruse the various legal documentation sprawled throughout the World Wide Web or your local constituency. As for the blatant generalization that companies do not care; At least one does, and truthfully many more do as well, as such the statement is obviously a fallacy. For those who think it is not fair, or shouldn't be the way it is... perhaps not, though as holders of a copyright it is up to Nintendo to decide how and when their products are distributed. \
+\
+\cf3 I just purchased your fine program off eBay for $19.89, but my friend says I can download it for free. Can you guys give me my money back?\cf0 \
+	Okay, this question hasn't actually been asked, however our free downloadable program does seem to get sold on eBay more often than it should, which is to say at all. We cannot reimburse anyone who was unlucky enough to be scammed into purchasing Snes9x, just as McDonalds cannot reimburse you if you purchased 100 Happy Meals from a random stranger and he gave you a frozen fish. If you find yourself in this situation... Purchasing Snes9x, not frozen fish... Please take the time to inform eBay via their heavily disguised investigations department, and leave any negative feedback that you wish. It would also be appreciated by the Snes9x team if you could mention where and when this happened so that we can take measures to stop it from happening again. While the fact we aren't making money from the program in no way bothers us (It is freeware after all), that some grubby bastards are does.\
+\
+\cf3 So err, where exactly do I contact y'all, eh?\cf0 \
+	The most convenient way to contact us would be via www.snes9x.com. There is a forum that is checked at least 12 times a day by regulars, and at least a few of us can actually give some advice. E-mail is also a possibility, though it is much slower, and you'll hafta find the e-mail addresses on your own. Be sure to read the FAQ and Read me before posting, as things already answered many a time will probably result in random insults or heavy sarcasm.\
+}

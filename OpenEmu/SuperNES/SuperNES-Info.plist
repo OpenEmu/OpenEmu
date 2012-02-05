@@ -27,6 +27,19 @@
 	<key>NSPrincipalClass</key>
 	<string>OESNESSystemController</string>
 	<key>OESystemPluginName</key>
-	<string>SuperNES</string>
+	<string>Super Nintendo (SNES)</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.snes</string>
+	<key>OEArchiveIDs</key>
+	<array>
+		<integer>47</integer>
+	</array>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>smc</string>
+		<string>snes</string>
+		<string>fig</string>
+		<string>sfc</string>
+	</array>
 </dict>
 </plist>

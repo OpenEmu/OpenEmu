@@ -27,7 +27,14 @@
 #import "MupenGameCore.h"
 #import "OEMupenSupport.h"
 #import "api/config.h"
+#import "api/m64p_config.h"
 #import "version.h"
+
+#import <OEGameDocument.h>
+#import <OERingBuffer.h>
+#import <OEHIDEvent.h>
+#import <OpenGL/gl.h>
+#import "OEN64SystemResponderClient.h"
 
 pthread_mutex_t gEmuVIMutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_cond_t  gEmuVICond  = PTHREAD_COND_INITIALIZER;
@@ -42,6 +49,12 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
     NSLog(@"Mupen: param %d -> %d", ParamChanged, NewValue);
 }
 
+NSString *MupenControlNames[] = {
+    @"N64_DPadR", @"N64_DPadL", @"N64_DPadD", @"N64_DPadU",
+    @"N64_Start", @"N64_Z", @"N64_B", @"N64_A", @"N64_CR",
+    @"N64_CL", @"N64_CD", @"N64_CU", @"N64_R", @"N64_L"
+}; // FIXME: missing: joypad X, joypad Y, mempak switch, rumble switch
+
 @implementation MupenGameCore
 
 - (BOOL)loadFileAtPath:(NSString*) path
@@ -53,7 +66,8 @@ static void MupenStateCallback(void *Context, m64p_core_param ParamChanged, int 
     dataPath   = [[coreBundle resourcePath] UTF8String]; // FIXME: should be path to bundle
     
     // open core here
-    CoreStartup(MUPEN_API_VERSION, configPath, dataPath, self, MupenDebugCallback, self, MupenStateCallback);
+    //CoreStartup(MUPEN_API_VERSION, configPath, dataPath, self, MupenDebugCallback, self, MupenStateCallback);
+    CoreStartup(CONFIG_API_VERSION, configPath, dataPath, self, MupenDebugCallback, self, MupenStateCallback);
     
     // plugins + config
     m64p_handle section;

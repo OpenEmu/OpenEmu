@@ -241,7 +241,7 @@ extern DPS_register dps_register;
 
 extern unsigned char *rdramb;
 
-#ifndef _BIG_ENDIAN
+#ifndef M64P_BIG_ENDIAN
 #define sl(mot) \
 ( \
 ((mot & 0x000000FF) << 24) | \

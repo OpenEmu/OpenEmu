@@ -5,7 +5,7 @@
 Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which is an enumerated type defined in [[Mupen64Plus v2.0 headers#core.h|core.h]].  Front-end code should check the return value of each call to a libmupen64plus function.
 
 == Selector Functions ==
-These functions are used by the front-end to discover the sections in the configuration file, open a section, and discover parameters within a section.
+These functions are used by the front-end to discover the sections in the configuration file, open a section, discover parameters within a section, and write the config file to disk.
 
 {| border="1"
 |Prototype
@@ -65,6 +65,21 @@ These functions are used by the front-end to discover the sections in the config
 |-
 |Usage
 |This function saves the Mupen64Plus configuration file to disk.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error ConfigSaveSection(const char *SectionName)</tt>'''
+|-
+|Input Parameters
+|'''<tt>SectionName</tt>''' Name of the Mupen64Plus configuration section to save.  This name is case-insensitive.
+|-
+|Requirements
+|The Mupen64Plus library must already be initialized before calling this function.  The named section must exist in the current configuration.<br />
+This function was added in the Config API version 2.1.0.
+|-
+|Usage
+|This function saves one section of the current Mupen64Plus configuration to disk, while leaving the other sections unmodified.
 |}
 
 == Modifier Functions ==

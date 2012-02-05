@@ -4,14 +4,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -19,16 +19,15 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 
 #import "OEGameCore.h"
 #import "OEGameDocument.h"
-#import "OEGameDocumentController.h"
 #import "OEGameCoreController.h"
 #import "OEAbstractAdditions.h"
 #import "OEHIDEvent.h"
@@ -43,6 +42,7 @@
 
 @implementation OEGameCore
 
+@synthesize renderDelegate;
 @synthesize frameInterval, owner, frameFinished;
 @synthesize mousePosition;
 
@@ -76,7 +76,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         NSUInteger count = [self soundBufferCount];
         ringBuffers = malloc(count * sizeof(OERingBuffer *));
         for(NSUInteger i = 0; i < count; i++)
-            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self soundBufferSize] * 16];
+            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:((count == 1) ? [self soundBufferSize] : [self soundBufferSizeForBuffer:i]) * 16];
         
         //keyMap = OEMapCreate(32);
     }
@@ -166,10 +166,18 @@ static NSTimeInterval currentTime()
     autoFrameSkipLastTime = time;
 }
 
+// GameCores that render direct to OpenGL rather than a buffer should override this and return YES
+// If the GameCore subclass returns YES, the renderDelegate will set the appropriate GL Context
+// So the GameCore subclass can just draw to OpenGL
+- (BOOL)rendersToOpenGL
+{
+    return NO;
+}
+
 - (void)setPauseEmulation:(BOOL)flag
 {
-    if(flag) [self stopEmulation];
-    else     [self startEmulation];
+    if(flag) isRunning = NO;
+    else     isRunning = YES;
 }
 
 - (void)setupEmulation
@@ -198,8 +206,14 @@ static NSTimeInterval currentTime()
         
         willSkipFrame = (frameCounter != frameSkip);
         
-        [self executeFrameSkippingFrame:willSkipFrame];
-        
+        if (isRunning)
+        {
+            [renderDelegate willExecute];
+            
+            [self executeFrameSkippingFrame:willSkipFrame];
+            
+            [renderDelegate didExecute];
+        }
         if(frameCounter >= frameSkip) frameCounter = 0;
         else                          frameCounter++;
         
@@ -230,7 +244,7 @@ static NSTimeInterval currentTime()
             isRunning  = YES;
             shouldStop = NO;
             
-            // The selector is performed after a delay to let the application loop to finish,
+            // The selector is performed after a delay to let the application loop finish,
             // afterwards, the GameCore's runloop takes over and only stops when the whole helper stops.
             [self performSelector:@selector(frameRefreshThread:) withObject:nil afterDelay:0.0];
             
@@ -306,13 +320,10 @@ static NSTimeInterval currentTime()
 
 - (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index
 {
-    [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCount] * sizeof(UInt16)];
-}
-
-- (const void *)soundBuffer
-{
-    [self doesNotImplementSelector:_cmd];
-    return NULL;
+    if ([self soundBufferCount] == 1)
+        [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCount] * sizeof(UInt16)];
+    else
+        [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCountForBuffer:index] * sizeof(UInt16)];
 }
 
 - (NSUInteger)channelCount
@@ -338,6 +349,35 @@ static NSTimeInterval currentTime()
     [self doesNotImplementSelector:_cmd];
     return 0;
 }
+
+- (NSUInteger)channelCountForBuffer:(NSUInteger)buffer
+{
+    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
+    [self doesNotImplementSelector:_cmd];
+    return 0;
+}
+
+- (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer
+{
+    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
+    [self doesNotImplementSelector:_cmd];
+    return 0;
+}
+
+- (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer
+{
+    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
+    [self doesNotImplementSelector:_cmd];
+    return 0;
+}
+
+- (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer
+{
+    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
+    [self doesNotImplementSelector:_cmd];
+    return 0;
+}
+
 
 #pragma mark Input
 

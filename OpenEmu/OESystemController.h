@@ -26,7 +26,7 @@
  */
 
 #import <Foundation/Foundation.h>
-#import "OEPluginController.h"
+#import <OpenEmuBase/OEPluginController.h>
 #import <OpenEmuSystem/OEControlsViewController.h>
 
 @class OESystemResponder;
@@ -36,6 +36,11 @@ extern NSString *const OEHIDEventValueKey;
 extern NSString *const OEKeyboardEventValueKey;
 extern NSString *const OEControlsPreferenceKey;
 extern NSString *const OESystemPluginName;
+extern NSString *const OESystemName;
+extern NSString *const OESystemIdentifier;
+extern NSString *const OEProjectURLKey;
+extern NSString *const OEArchiveIDs;
+extern NSString *const OEFileTypes;
 
 @interface OESystemController : NSObject <OEPluginController, OEControlsViewControllerDelegate>
 {
@@ -43,15 +48,17 @@ extern NSString *const OESystemPluginName;
     NSBundle            *_bundle;
     NSMutableArray      *_gameSystemResponders;
     NSMutableDictionary *_preferenceViewControllers;
+    
+    NSString *_systemName;
 }
 
 /*
- * The method search for a class associated with aKey and instantiate the controller
- * with the default Nib name provided by the key.
- * 
- * For example: if the passed-in key is @"OEControlsPreferenceKey" the default nib name will be
- * @"ControlsPreference" (the two-letter prefix "OE" and three-letter suffix "Key" are removed from
- * the name).
+  *The method search for a class associated with aKey and instantiate the controller
+  *with the default Nib name provided by the key.
+  *
+  *For example: if the passed-in key is @"OEControlsPreferenceKey" the default nib name will be
+  *@"ControlsPreference" (the two-letter prefix "OE" and three-letter suffix "Key" are removed from
+  *the name).
  */
 - (id)newPreferenceViewControllerForKey:(NSString *)aKey;
 
@@ -60,6 +67,7 @@ extern NSString *const OESystemPluginName;
 - (NSDictionary *)preferenceViewControllerClasses;
 
 
+@property(readonly) NSString   *systemIdentifier;
 @property(readonly) NSString   *systemName;
 
 @property(readonly) NSUInteger  numberOfPlayers;
@@ -96,4 +104,10 @@ extern NSString *const OESystemPluginName;
 - (void)registerGameSystemResponder:(OESystemResponder *)responder;
 - (void)unregisterGameSystemResponder:(OESystemResponder *)responder;
 
+#pragma mark -
+#pragma mark ROM Handling
+@property(readonly) NSArray *fileTypes;
+@property(readonly) NSArray *archiveIDs;
+
+- (BOOL)canHandleFile:(NSString*)path;
 @end

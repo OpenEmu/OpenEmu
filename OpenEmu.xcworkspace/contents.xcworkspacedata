@@ -5,6 +5,9 @@
       location = "group:OpenEmu/OpenEmu.xcodeproj">
    </FileRef>
    <FileRef
+      location = "group:iPhoneRemote/iPhoneRemote.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:NeoPop/NeoPop.xcodeproj">
    </FileRef>
    <FileRef
@@ -18,9 +21,6 @@
    </FileRef>
    <FileRef
       location = "group:GenesisPlus/GenesisPlus.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:iPhoneRemote/iPhoneRemote.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Mednafen/Mednafen.xcodeproj">

@@ -42,8 +42,13 @@ extern NSString *GenesisButtonNameTable[];
     int            oldrun;
     int            position;
     BOOL           paused;
+    NSString      *romPath;
 }
 
+@property(copy) NSString *romPath;
+
 - (BOOL)shouldPauseForButton:(NSInteger)button;
+- (void)saveSram;
+- (void)loadSram;
 
 @end

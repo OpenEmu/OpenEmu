@@ -25,7 +25,9 @@
    
 #include <stdlib.h>
 
+#define M64P_CORE_PROTOTYPES 1
 #include "m64p_types.h"
+#include "m64p_debugger.h"
 #include "callbacks.h"
 #include "debugger.h"
 

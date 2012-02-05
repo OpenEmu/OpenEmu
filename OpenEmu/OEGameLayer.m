@@ -42,58 +42,10 @@ static NSString *const _OEScale4xHQFilterName       = @"Scale4xHQ";
 static NSString *const _OEScale2xPlusFilterName     = @"Scale2xPlus";
 static NSString *const _OEScale2xHQFilterName       = @"Scale2xHQ";
 static NSString *const _OEScale2XSALSmartFilterName = @"Scale2XSALSmart";
+static NSString *const _OEScale4xBRFilterName = @"Scale4xBR";
+static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 #define dfl(a,b) [NSNumber numberWithFloat:a],@b
-
-static CMProfileRef CreateNTSCProfile()
-{
-    CMProfileRef newNTSCProf = NULL;
-    
-    CMNewProfile(&newNTSCProf,NULL);
-    CMMakeProfile(newNTSCProf,(CFDictionaryRef)[NSDictionary dictionaryWithObjectsAndKeys:@"displayRGB",@"profileType",
-                                                [NSNumber numberWithInt:6500],@"targetWhite",
-                                                dfl(1/.45,"gammaR"),
-                                                dfl(1/.45,"gammaG"),
-                                                dfl(1/.45,"gammaB"),
-                                                dfl(.63,"phosphorRx"), dfl(.34,"phosphorRy"),
-                                                dfl(.31,"phosphorGx"), dfl(.595,"phosphorGy"),
-                                                dfl(.155,"phosphorBx"), dfl(.07,"phosphorBy"),
-                                                dfl(.312713,"whitePointx"), dfl(.329016,"whitePointy"),nil,nil
-                                                ]);
-    
-    return newNTSCProf;
-}
-
-static CGColorSpaceRef CreateNTSCColorSpace()
-{
-    CGColorSpaceRef ntscColorSpace = NULL;
-    
-    CMProfileRef ntscProfile = CreateNTSCProfile();
-    
-    ntscColorSpace = CGColorSpaceCreateWithPlatformColorSpace(ntscProfile);
-    
-    CMCloseProfile(ntscProfile);
-    
-    return ntscColorSpace;
-}
-
-static CGColorSpaceRef CreateSystemColorSpace() 
-{
-    CMProfileRef sysprof = NULL;
-    CGColorSpaceRef dispColorSpace = NULL;
-    
-    // Get the Systems Profile for the main display
-    if (CMGetSystemProfile(&sysprof) == noErr)
-    {
-        // Create a colorspace with the systems profile
-        dispColorSpace = CGColorSpaceCreateWithPlatformColorSpace(sysprof);
-        
-        // Close the profile
-        CMCloseProfile(sysprof);
-    }
-    
-    return dispColorSpace;
-}
 
 @interface OEGameLayer ()
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context;
@@ -155,12 +107,15 @@ static CGColorSpaceRef CreateSystemColorSpace()
 {
     // If we have a context (ie we are active) lets make a new QCRenderer...
     // but only if its appropriate
+
+    DLog(@"releasing old filterRenderer");
+    
+    [filterRenderer release];
+    filterRenderer = nil;
+
+    
     if([filters objectForKey:filterName] == nil && layerContext != NULL)
     {
-        DLog(@"releasing old filterRenderer");
-        
-        [filterRenderer release];
-        filterRenderer = nil;
         
         DLog(@"making new filter renderer");
         
@@ -170,7 +125,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
         if(compo != nil)
             filterRenderer = [[QCRenderer alloc] initWithCGLContext:layerContext 
                                                         pixelFormat:CGLGetPixelFormat(layerContext)
-                                                         colorSpace:[[[ownerView window] colorSpace] CGColorSpace]
+                                                         colorSpace:rgbColorSpace
                                                         composition:compo];
         
         if (filterRenderer == nil)
@@ -195,13 +150,18 @@ static CGColorSpaceRef CreateSystemColorSpace()
     OEGameShader *scale4XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xHQFilterName   forContext:context] autorelease];
     OEGameShader *scale2XPlusShader     = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xPlusFilterName forContext:context] autorelease];
     OEGameShader *scale2XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xHQFilterName   forContext:context] autorelease];
-    
+
+    OEGameShader *scale4xBRShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xBRFilterName   forContext:context] autorelease];
+    OEGameShader *scale2xBRShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xBRFilterName   forContext:context] autorelease];
+
     // TODO: fix this shader
     OEGameShader *scale2XSALSmartShader = nil;//[[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2XSALSmartFilterName forContext:context] autorelease];
     
     return [NSDictionary dictionaryWithObjectsAndKeys:
             _OELinearFilterName         , _OELinearFilterName         ,
             _OENearestNeighborFilterName, _OENearestNeighborFilterName,
+            scale4xBRShader             , _OEScale4xBRFilterName      ,
+            scale2xBRShader             , _OEScale2xBRFilterName      ,
             scale4XShader               , _OEScale4xFilterName        ,
             scale4XHQShader             , _OEScale4xHQFilterName      ,
             scale2XPlusShader           , _OEScale2xPlusFilterName    ,
@@ -231,7 +191,6 @@ static CGColorSpaceRef CreateSystemColorSpace()
     [self setFilterName:filterName];
     
     // our texture is in NTSC colorspace from the cores
-    ntscColorSpace = CreateNTSCColorSpace();
     rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
     
     surfaceID  = rootProxy.surfaceID;
@@ -344,7 +303,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
             glUseProgramObjectARB([shader programObject]);
             
             // set up shader uniforms
-            glUniform1iARB([shader uniformLocationWithName:"OGL2Texture"], 0);
+            glUniform1iARB([shader uniformLocationWithName:"OETexture"], 0);
         }
     }
     
@@ -383,7 +342,7 @@ static CGColorSpaceRef CreateSystemColorSpace()
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
     {
-        NSDictionary *options = [NSDictionary dictionaryWithObject:(id)ntscColorSpace forKey:kCIImageColorSpace];
+        NSDictionary *options = [NSDictionary dictionaryWithObject:(id)rgbColorSpace forKey:kCIImageColorSpace];
         CGRect textureRect = CGRectMake(0, 0, screenSize.width, screenSize.height);
         [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
         
@@ -435,14 +394,14 @@ static CGColorSpaceRef CreateSystemColorSpace()
         
         if(screenshotHandler != nil)
         {
-            NSImage * img = nil;
+            NSImage *img = nil;
             // TODO: Drawing the content of the image
             
             NSRect extent = NSRectFromCGRect([[self gameCIImage] extent]);
             int width = extent.size.width; 
             int height = extent.size.height;  
             
-            NSBitmapImageRep* rep = [[NSBitmapImageRep alloc] initWithCIImage:self.gameCIImage];
+            NSBitmapImageRep *rep = [[NSBitmapImageRep alloc] initWithCIImage:self.gameCIImage];
             
             img = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
             [img addRepresentation:rep];
@@ -477,13 +436,13 @@ static CGColorSpaceRef CreateSystemColorSpace()
     [self unbind:@"vSyncEnabled"];
     
     CGLContextObj cgl_ctx = layerContext;
-    glDeleteTextures(1, &gameTexture);
+    if(gameTexture)
+        glDeleteTextures(1, &gameTexture);
     
     [filterRenderer release];
     
     [self setRootProxy:nil];
     
-    CGColorSpaceRelease(ntscColorSpace);
     CGColorSpaceRelease(rgbColorSpace);
     
     CGLReleaseContext(layerContext);

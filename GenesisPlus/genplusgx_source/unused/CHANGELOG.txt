@@ -1,0 +1,401 @@
+--------------------
+Genesis Plus History
+--------------------
+
+All recent changes were backported from the GX version (Gamecube/Wii port), maintained by Eke-Eke.
+Please look at http://code.google.com/p/genplus-gx/ for more infos.
+
+
+
+---------------------------------------------------------------------------------------------------------
+[04/12/2010] version 1.4.1 (Eke-Eke)
+---------------------------------------------------------------------------------------------------------
+
+[Core/Sound]
+---------------
+* implemented Blargg's blip buffer in SN76489 core (all channels are now lineary interpolated)
+
+[Core/VDP]
+---------------
+* improved 2-cell vscroll emulation accuracy, as verified on real hardware (Gynoug, Cutie Suzuki no Ringside Angel, Formula One, Kawasaki Superbike Challenge)
+* improved VBLANK flag accuracy, as observed on real hardware.
+* improved DMA operations accuracy, writes are now performed on a scanline basis: fixes Gaiares (flickering title screen).
+* improved DMA Fill timing accuracy.
+* fixed DMA with bad code values: fixes Williams Arcade Classics (corrupted gfx after soft reset).
+* fixed horizontal resolution changes during HBLANK: fixes Bugs Bunny in Double Trouble (2nd stage).
+* fixed Vertical Counter in interlace mode 1, as observed on real hardware.
+* fixed horizontal border width, as observed on real hardware.
+* various code improvments & optimizations.
+
+[Core/CPU]
+---------------
+* fixed state of Z80 registers on reset (sound issues with Defender & Defender 2 in Williams Arcade Classics)
+* implemented 68k undocumented flags behavior for DIVU/DIVS instructions (Bloodshot / Battle Frenzy)
+
+[Core/Extra]
+---------------
+* improved emulation of copy-protection hardware found in some unlicensed cartridges (Mulan, Pocket Monsters II).
+* enabled simultaneous use of multitap & J-CART (Super Skidmarks 6-player mode)
+* improved savestate format: added DMA, SVP, cartridge mapping & internal registers state informations
+* improved unlicensed ROM mappers emulation
+* added Chinese Fighters III mapper support
+* added Top Fighter mapper support
+* fixed Barver Battle Saga mapper support
+* fixed cartridge hardware soft-reset (Game Genie, SVP, ...)
+* fixed Game Genie registers byte reads
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+[06/30/10] version 1.4.0 (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+[Core/Sound]
+
+* completely rewrote sound processing/mixing: sound chips are now clocked with exact output framerate
+to ensure 100% smooth video & audio playback, with no lag or skipping, while rendering an accurate number
+of samples per frame and keeping PSG & FM chips in sync.
+* improved PSG & FM chips synchronization with CPU execution (fixed point precision).
+* improved YM2612 core general accuracy (SSG-EG, CSM mode,...) (based upon Nemesis recent tests on real hardware)
+* improved YM2612 LFO emulation accuracy: fixes "Spider-Man & Venom : Separation Anxiety" (intro)
+* fixed YM2612 bug with Timer B: fixes "Langrisser Hikari II"/"Der Langrisser II" (Sega logo)
+* fixed YM2612 context saving/loading.
+* fixed YM2612 state on reset.
+* removed outdated & less accurate Gens YM2612 core
+* added configurable YM2612 DAC resolution emulation.
+* added configurable & faster FIR resampler (thanks to Blargg & AamirM), removed libsamplerate support.
+* added configurable Low-Pass filtering
+* added configurable 3-Band Equalizer (thanks to Neil C).
+* added an option to boost SN76489 Noise Channel.
+* adjusted SN76489 cut-off frequency.
+
+
+[Core/VDP]
+
+* added support for CRAM writes during horizontal blanking (Striker, Zero the Kamikaze Squirrel,...)
+* added support for 2-Cell vertical scrolling in Interlaced 2 mode
+* added support for some undocumented mode register bits
+* added proper emulation of HV Counter latch: fixes Sunset Riders intro
+* added pixel-accurate emulation of mid-line display on/off (Nigel Mansell World Championship PAL, Ren & Stimpy's Invention PAL,...)
+* improved FIFO timings accuracy: fixes Sol Deace intro
+* improved sprite masking accuracy (thanks to Nemesis for his test program)
+* improved sprites processing accuracy: fixes (un)masked sprites in Mickey Mania (3D level), Sonic 2 (VS mode).
+* improved HBLANK flag timing accuracy: fixes Mega Turrican (Sky level)
+* improved horizontal blanking & HINT/VINT occurence timing accuracy, as measured on real hardware.
+* improved HCounter accuracy in 40-cell mode, as measured on real hardware.
+* improved color accuracy in VDP highlight mode to match results observed on real hardware
+
+
+[Core/CPU]
+
+* updated Z80 core to last version (fixes interrupt Mode 0 timing and some BIT instructions).
+* fixed some Z80 instructions timing.
+* improved Z80 interrupt accuracy
+* improved 68k accuracy (initial Reset timing + auto-vectored interrupts handling).
+* improved 68k timing accuracy for DIVU/DVIS (thanks to Jorge Cwik) & MULU/MULS instructions.
+* improved Z80 & 68k cpu execution/synchronization accuracy by using Master Clock as common reference (now run exactly 3420 M-Cycles per line).
+* modified Z80 & 68k cores to directly use external cycle count instead of intermediate counters.
+
+
+[Core/Extra]
+
+* added Game Genie hardware emulation (Game Genie ROM is now fully supported).
+* added Action Replay hardware emulation (Action replay ROM is now fully supported).
+* added S&K "Lock-On" hardware emulation (you can "lock" any games to Sonic & Knuckles).
+* added Cartridge "hot swap" feature.
+* added missing EEPROM support in some games.
+* added accurate TMSS emulation (VDP lock-out)
+* fixed Realtec mapper emulation: fixes missing sound in Balloon Boy / Funny World.
+* fixed lightgun auto-detection: fixes default cursor position in Lethal Enforcers II.
+* lots of code cleanup, bugfixes & optimization.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [12/14/08] version 1.3.0 (Eke-Eke) 
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* YM2612 bugfixes (MAME core):
+  .fixed EG Decay->Substain transition when SL & DR are minimals: fix tracks #3 and #9 in "Mega Turrican"
+  .fixed a bug in SSG-EG emulation code: fix Level 1 music in "Alisia Dragoon"
+  .modified SSG-EG Decay End Level: fix some sound effects (ChainSaw, Zap...) in "Beavis & Butthead"
+  .improved Detune overflow accuracy: fix very high frequency sounds in many games
+  .fixed registers 0x20-0x26 Reset state: fix intro music in "B.O.B"
+  .reverted incorrect fix with KEY ON: fix "Flamethrower" sound effect in "Alien 3" and many others
+* adjusted HCounter values: fixes line flickering in "Sonic 3D" bonus stage
+* adjusted VINT timing: fixes hang-up in "V.R Troopers"
+* improved HBLANK flag accuracy: fixes line flickering in "Gouketsuji Ichizoku"
+* fixed broken Z80 access to WRAM: fixes hang-up in "Mamono Hunter Youko"
+* modified JCART emulation: fixes corrupted tracks logo in "Micro Machines 2"
+* added Blargg's NTSC Filters support (NTSC video artifacts emulation)
+* optimized VDP rendering core, rewrote 68k interface (memory handlers, cycle execution, interrupts): greatly improved emulation speed
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [08/26/08] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* YM2612(MAME): fixed LFO phase update for CH3 special mode: fix sound effects in Warlock & Aladdin (thanks to AamirM)
+* YM2612(MAME): fixed EG attenuation level on "KEY ON": fix Ecco 2's splash sound
+* YM2612(MAME): fixed SSG-EG emulation: fix Bubba'n Stix (Track 5) and many others
+* YM2612(MAME): replaced sample interpolation with libsamplerate support, High Quality mode is now more accurate
+* implemented cycle-accurate HINT timings: every timing sensitive games/demos are now *finally* working fine
+* fixed a bug affecting CRAM/VSRAM DMA timings
+* fixed Sprite Attribute Table address mask for VRAM writes 
+* improved accuracy of 68k access to Z80: fix music in Pacman 2 when entering PAUSE menu
+* disabled "Address Error" emulation when UMK3 hack is loaded: fix game crashing after a round ends up
+* added support for some more unlicensed games: Pocket Monster, King of Fighter 98, Soul Blade (credits to Haze)
+* improved Menacer emulation: fix lightgun support in Body Count & T2: The Arcade Game
+* added Konami Justifier emulation: fix lightgun support in Lethal Enforcers 1 & 2
+* added Sega Mouse emulation (Populous 2, Body Count, Shangai 2, Fun'n Games, ...)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [07/16/08] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* adjusted (again) HINT timings: fix Double Dragon 2 (game freezed), hopefully does not break anything else
+* fixed broken EEPROM support for Codemaster games
+* modified input update timings: fix Dungeons & Dragons * Warriors of the Eternal Sun (thanks to Notaz)
+* added support for "Ultimate Mortal Kombat Trilogy" hack (max. size supported is 10MBytes)
+* added (VERY) preliminar support for PICO roms (credits to Notaz for his documentation)
+* improved YM2612 emulation (credits to Nemesis for his tests on real hardware):
+  .implemented phase overflow emulation: improved fix for special music instrument used in Comix Zone, Flashback, Ariel, Shaq Fu...
+  .improved SSG-EG emulation in MAME core (also based on additional code from Alone Coder)
+  .improved Timers emulation accuracy
+  .improved Enveloppe Generator accuracy
+  .fixed Channel 3 CSM mode emulation
+  .implemented sample interpolation in MAME core to emulate the chip at original frequency (HQ YM2612 mode, from gens)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [06/01/08] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* improved HCounter accuracy: fix graphic glitches in "Striker (Europe)"
+* improved HINT timing accuracy: fix flickering in "Zero The Kamikaze Squirrel (USA)"
+* improved rendering accuracy when backdrop color is modified during HBLANK (Road Rash I/II/III)
+* fixed broken Game Genie support
+ 
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [04/19/08] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* modified VINT timings a little bit: fix lockup during Desert Strike's intro
+* corrected 68k interrupts handling: fix graphic glitches in Darius II/Sagaia
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [04/06/08] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* updated SVP core: fix some perspective issues in Virtua Racing (thanks to Notaz)
+* added internal SAT update during VRAM Fill: fix unmasked sprites during Battletech's intro
+* fixed m68k core issues with gcc 4.2.3: fix Xperts, Lemmings 2, M1 Abrams Battle Tank
+* forced YM2612 Enveloppe update: fix intro music in Batman&Robin (thanks to Aamir)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [03/01/08] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* added SVP emulation: Virtua Racing is now emulated (big thanks to Notaz and TascoDeluxe)
+* fixed VDP registers behaviour when VDP Mode 4 is enabled: fix Bass Masters Classic Pro, Captain Planet & The Planeeters
+* corrected a bug in DMA Fill operation: fix James Pond 3, Rockman World/Megaman Willy Wars (corrupted VRAM)
+* corrected typo errors in CPU cycle counters update: fix optiom screen music in "College Slam" and probably others games.
+* added preliminary support of undocumented YM2612 bug: fixes soundtracks of Shaq Fu, Spiderman, Comix Zone, Ariel and some others
+* added support for mappers & copy protection devices used in many unlicensed/pirate cartridges (see cart_hw.c for details)
+* rewrote memory handlers for better modularity and some (little) speedup
+* reduced Savestate size
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [01/07/08] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* fixed interleaved rom detection: roms with .smd extension should now work fine
+* fixed a recently introduced bug in VDP registers writes: fixes bad colors in Toy Story (intro)
+* updated list of games using EEPROM: added Sports Talk Baseball (internal memory check fixed) and Brian Lara Cricket
+* fixed VINT flag update when VINT is disabled: fixes NCAA College Football
+* adjusted DMA timings in H32 mode: fixes flickering in Out of this World, Kawasaki Superbike Challenge & Formula One
+* adjusted line rendering and HBLANK timings: fixes flickering in Nigel Mansell's World Championship Racing, Deadly Moves/Power Athlete
+* fixed unmapped ROM reads through Z80 Bank: fixes Zombie High (Proto)
+* added support for custom ROM/RAM mapping used by Game no Kanzume Otokuyou
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [12/28/07] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* many sourcecode cleanup and optimization
+* completely rewrote EEPROM emulation: now support all known EEPROM types (24C01-24C65) and mappers (Sega, Acclaim, EA, Codemasters)
+used in a few games (now use internal game database) as external RAM. This should at least fix save support in the following games:
+  . NBA Jam (alternate Acclaim mapper)
+  . College Slam, Frank Thomas Big Hurt Baseball (24C65 type)
+  . NHLPA Hockey 93, Rings of Power (EA mapper)
+  . Micro Machines serie, Brian Lara Cricket 96/Shane Warne Cricket (Codemasters mapper)
+* external RAM is now initialized to 0xFF by default: fix Micromachines 2, Dino Dini Soccer 
+* fixed SRAM 16-bits memory handlers: fix some Sega Sports and EA Sports games (NFL95, NBA Action 95, NHL97, NHL98,...)
+* modified WRITE_xxx & READ_xxx macros for better portability and faster memory access on BIG ENDIAN platform 
+* completely rewrote BIG ENDIAN support in render.c and vdp.c: rendering should be a little faster
+* rewrote ROM bankswitch emulation (Super Street Fighter II): ROM access are faster, using memory pointers instead of reading ROM copy from ARAM 
+* fixed leftmost Window/PlaneA column render and implemented Window bug (as described by Charles Mc Donald)
+* improved "Sprite Limit" and "Sprite Collision" detection accuracy
+* modified RGB565 Color Palette to use the full available color range (0-31;0-63)
+* implemented "cycle accurate" HV Interrupt timings: fix Sesame's Street Counting Cafe, Legend of Galahad (intro)
+* improved VDP access timings accuracy (added FIFO emulation): fix Double Clutch
+* improved DMA timings accuracy: fix Winter Olympics (E), Arch Rivals and probably more
+* fixed HCounter again: Road Rash serie (I,II,III) don't need timing hacks anymore
+* fixed VCounter in Interlaced 2 mode: fix Combat Cars "VS-Mode"
+* improved Interlaced 2 mode (double resolution) rendering: Sonic 2, Combat Cars ("VS-Modes") look far better
+* added TMSS BIOS support (optional)
+* rewrote part of the YM2162 MAME's core: fixed internal FM timers handling, removed non-YM2612 emulation code and unused multiple cpu support
+* implemented "cycle accurate" FM timers & sound samples rendering
+* improved Z80 Interrupt timing accuracy: fix Sonic 3 music slowdowns
+* updated Z80 & 68000 cores to last MAME versions
+* improved Soft Reset emulation: X-Men 2 and Eternal Champions (random character selection) now work more like on real hardware.
+* added full overscan emulation (vertical & horizontal borders) for "pixel perfect" aspect ratio (tested against a real genesis)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [07/20/07] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* corrected TeamPlayer support: fix multiplayer in Gauntlet 4 (Sept. version), Pengo and a lot of others
+* added J-Cart support: enable multiplayer in Codemasters games (Pete Sampras, Micromachines games, Super Skidmarks)
+* added serial EEPROM autodetection: fix games with bad SRAM informations in header (NBA Jam TE)
+* added SVP faking: display 2D graphics in Virtua Racing (the game is however still unplayable)
+* added support for more internal IO registers: fixe some unlicensed games (Wisdom Tree games...)
+* added preliminary support for unmapped protection device: fix some unlicensed games with special built-in hardware (Squirell King, Lion King 2...)
+* added "Soft Reset" combo (in game, use L+Z triggers): this should be like pressing the RESET button on a real Genesis and this is required
+  in some games to enable special features or even complete the game (ex: X-Men).
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [06/21/07] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* added Multitap support (EA 4-Way Play and Sega Teamplayer): allowed up to four players in games supporting those peripherals
+* added partial Sega Menacer lightgun support (use Analog Stick): automatically set when detecting the 6-in-1 Menacer game
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [05/18/07] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* you can now switch between FM cores without reseting the game. FM registers  value are automatically restored when switching.
+* removed the previous VINT timings modification because it brokes some games (Rocket Knight, Thunderforce III,...)
+* added automatic Timing configuration (VDP latency, VINT timing & alternate Line Timing) at game loading, based upon specific romname detection.
+This means you can still modify some of these options afterwards but they are now automatically set/unset when loading a game which need
+special timing fixes. These fixes are also automatically desactivated when the current game doesn't need them.
+For information, games that are actually detected and need special timings to run properly are:
+ .Legend of Galahad & Road Rash series (single line not rendered properly)
+ .Sesame Street Counting Cafe (don't boot)
+ .Chaos Engine/Soldiers of Fortune (graphic glitches on scrolling)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [05/08/07] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* VINT timings are now a little more accurate: fixes Sesame's Street Counting Cafe
+* SN76496 MAX_OUTPUT back to normal
+* modified FB_WNOISE value in SN76496 core according to John Kortink's last informations 
+* added support for Maxim's PSG core, same as used in SMSPLUS (it becomes the default PSG core)
+* updated FM core to the latest MAME version
+* corrected DAC output level (fixes voices and some special FX being too low)
+* added support for Gens YM2612 (FM) core (MAME's one still remains default FM core)
+* added configurable preamplification for each sound cores (see Emulator Options)
+* added some other configurable sound options (boost overall volume, FM improvment for Gens YM2612)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [04/11/07] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* corrected MAX_OUTPUT value in SN76496 core: fix PSG sound (SFX) volume
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [03/17/07] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+ * added an option to enable alternate line rendering timing (fix single line error in Road Rash series and Legend of Galahad's Intro)
+ * Color RAM update now always reset color 0 to border color (fix color glitches in Mortal Kombat,...) (thanks to Noop's for the idea)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [03/09/07] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* modified HV counter tables (fix graphic glitches in Skitchin's sky, Lotus 2 Recs, Panorama Cotton, Dashin Desperados & maybe more)
+* completely rewrote DMA timings emulation so that it works for all games (no more cpu freezing)
+* added all DMA tranfer rates handling for each three DMA modes and added dma busy flag emulation
+* modified interrupts handling on VDP register #0 and #1 writes (fix Lemmings status bar)
+* added VDP RAM write latency  (fix Chaos Engine/Soldier of Fortune gfx glitches)
+* modified FM timers handling a bit (fix Vectorman2 music)
+* corrected Sprite Limit rendering (fix Sonic 1 & Micromachines 2 title screens)
+* corrected IO Registers writes (fix Decap' Attack controls, no more need for alternate input)
+* corrected 6 Buttons Pad emulation (fix 6buttons detection in Mortal Kombat 3, Comix Zone and other 6-buttons compatible games)
+* modified sound mixing a bit according to Generator sourcecode (FM and PSG ratios seems more correct)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [02/07/07] (Eke-Eke)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+* fixed fm timers (fix missing music in Castle of Illusion, Quackshot, Undead Line, Wonderboy in Monster Lair, Cal 50, Turbo Outrun, Thundeforce 4 and maybe more)
+* added complete EEPROM emulation (save support now works fine in Wonderboy5, Megaman Willy Wars, NBA Jam...)  (credits to Notaz, adapted from Picodrive code)
+* added preliminar dma timing emulation (fix bottom screen in Legend of Galahad) (credits to Notaz, adapted from Picodrive code)
+* hack: clear Vint pending after Hint (INT level 4) acknowledge (fix Fatal Rewind)
+* hack: modify read_bus16 to return a random value (fake fetch) (fix Time Killers)
+* modified cpu execution timings, with more correct hblank and interrupts timing  (fix ISS Deluxe, Double Dragon 2 and certainly more) (Based on Gens code)
+* modified busreq mechanism: better synchro between z80 & 68k (no need to dejitter anymore) (Based on Gens code)
+* added sprite collision detection (fix Strider 2)
+* modified dma fill operation for big endian platform (fix Contra Hardcorps gfx garbage)
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [05/25/03] (Charles MacDonald)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+ * Fixed a typo that made Z80 banked access to the VDP registers always fail.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [05/17/03] (Charles MacDonald)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+ * Modified the rendering code to handle unaligned longword access to memory.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [04/20/03] (Charles MacDonald)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+ * Modified 68000 emulator to prevent 'tas.b $mem' from writing data back
+   after a read (fixes Gargoyles).
+ * Fixed bug in 68000 emulator to swap order of words written for address
+   register indirect pre-decremented writes (fixes Jim Power graphics).
+ * Added support for 240-line displays (for Super Skidmarks).
+ * Rewrote part of the interrupt handling (fixes some raster effects).
+ * Removed sprite collision detection code (never really worked).
+ * Optimized sprite rendering inner loop.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [04/13/03] (Charles MacDonald)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ * Finished up memory map for VDP DMA V-bus reads.
+ * Fixed handling of 68000 writes to I/O chip at even addresses.
+ * Fixed bit 7 handling of control register in I/O chip.
+ * Finished up Z80 memory map.
+ * Added code to handle Genesis hardware lock-ups.
+ * Removed some faulty code from the 68000 memory map handlers.
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------------
+ [03/22/03] (Charles MacDonald)
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+ * Completed implementation of Z80 banked memory handlers.
+

@@ -97,94 +97,24 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B56F6FC20F38FC1600DCE88B"
+               BuildableName = "Build &amp; Install NeoPop"
+               BlueprintName = "Build &amp; Install NeoPop"
+               ReferencedContainer = "container:NeoPop/NeoPop.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "82D815AB0F1D882B00EF8CF5"
                BuildableName = "Build &amp; Install VisualBoyAdvance"
                BlueprintName = "Build &amp; Install VisualBoyAdvance"
                ReferencedContainer = "container:VisualBoyAdvance/VisualBoyAdvance.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8264159913EDC0A600591582"
-               BuildableName = "Build &amp; Copy SegaMasterSystem Plugin"
-               BlueprintName = "Build &amp; Copy SegaMasterSystem Plugin"
-               ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "826415BD13EDC30700591582"
-               BuildableName = "Build &amp; Copy GameBoy Advance Plugin"
-               BlueprintName = "Build &amp; Copy GameBoy Advance Plugin"
-               ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "826415AF13EDC2B100591582"
-               BuildableName = "Build &amp; Copy Gameboy Plugin"
-               BlueprintName = "Build &amp; Copy Gameboy Plugin"
-               ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "826415B613EDC2DC00591582"
-               BuildableName = "Build &amp; Copy Genesis Plugin"
-               BlueprintName = "Build &amp; Copy Genesis Plugin"
-               ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "826415A113EDC24600591582"
-               BuildableName = "Build &amp; Copy NES Plugin"
-               BlueprintName = "Build &amp; Copy NES Plugin"
-               ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
-            </BuildableReference>
-         </BuildActionEntry>
-         <BuildActionEntry
-            buildForTesting = "YES"
-            buildForRunning = "YES"
-            buildForProfiling = "YES"
-            buildForArchiving = "YES"
-            buildForAnalyzing = "YES">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "826415A813EDC28900591582"
-               BuildableName = "Build &amp; Copy SuperNES Plugin"
-               BlueprintName = "Build &amp; Copy SuperNES Plugin"
-               ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -225,7 +155,7 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       debugDocumentVersioning = "YES"
       allowLocationSimulation = "YES">
       <BuildableProductRunnable>
@@ -238,17 +168,31 @@
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
+         <AdditionalOption
+            key = "NSZombieEnabled"
+            value = "YES"
+            isEnabled = "YES">
+         </AdditionalOption>
       </AdditionalOptions>
    </LaunchAction>
    <ProfileAction
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      buildConfiguration = "Release"
+      buildConfiguration = "Debug"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "8D15AC270486D014006FF6A4"
+            BuildableName = "OpenEmu.app"
+            BlueprintName = "OpenEmu"
+            ReferencedContainer = "container:OpenEmu/OpenEmu.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "Release">
    </AnalyzeAction>
    <ArchiveAction
       buildConfiguration = "Release"

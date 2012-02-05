@@ -18,7 +18,7 @@ All of these functions should only be called from within the video plugin; they 
 |This function should be called before any other Video Extension functions.
 |-
 |Usage
-|This function should be called from within the InitiateGFX() video plugin function call.  The default SDL implementation of this function simply calls SDL_InitSubSystem(SDL_INIT_VIDEO).  It does not open a rendering window or switch video modes.
+|This function should be called from within the RomOpen() video plugin function call.  The default SDL implementation of this function simply calls SDL_InitSubSystem(SDL_INIT_VIDEO).  It does not open a rendering window or switch video modes.
 |}
 <br />
 {| border="1"
@@ -29,7 +29,7 @@ All of these functions should only be called from within the video plugin; they 
 |N/A
 |-
 |Usage
-|This function closes any open rendering window and shuts down the video system.  The default SDL implementation of this function calls SDL_QuitSubSystem(SDL_INIT_VIDEO).  This function should be called from within the RomClose() video plugin function.
+|This function closes any open rendering window and shuts down the video system.  The default SDL implementation of this function calls SDL_QuitSubSystem(SDL_INIT_VIDEO).  This function should be called from within the RomClosed() video plugin function.
 |}
 <br />
 
@@ -123,6 +123,21 @@ All of these functions should only be called from within the video plugin; they 
 |-
 |Usage
 |This function is used to set certain OpenGL attributes which must be specified before creating the rendering window with '''<tt>VidExt_SetVideoMode</tt>'''.
+|}
+<br />
+{| border="1"
+|Prototype
+|'''<tt>m64p_error VidExt_GL_GetAttribute(m64p_GLattr Attr, int *pValue)</tt>'''
+|-
+|Input Parameters
+|'''<tt>Attr</tt>''' Enumerated type (defined in [[Mupen64Plus v2.0 headers#vidext.h|vidext.h]]) specifying OpenGL attribute of which to get value<br />
+'''<tt>pValue</tt>''' Pointer to integer Value which will be set to attribute's value
+|-
+|Requirements
+|The video extension must be initialized before calling this function.
+|-
+|Usage
+|This function may be used to check that OpenGL attributes where successfully set to the rendering window after the '''<tt>VidExt_SetVideoMode</tt>''' function call.
 |}
 <br />
 {| border="1"

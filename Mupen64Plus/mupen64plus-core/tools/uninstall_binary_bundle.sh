@@ -32,7 +32,7 @@ printf "usage: $(basename $0) [PREFIX] [SHAREDIR] [BINDIR] [LIBDIR] [PLUGINDIR] 
 \tBINDIR    - path to Mupen64Plus binary program files (default: \$PREFIX/bin)
 \tLIBDIR    - path to Mupen64Plus core library (default: \$PREFIX/lib)
 \tPLUGINDIR - path to Mupen64Plus plugin libraries (default: \$PREFIX/lib/mupen64plus)
-\tMANDIR    - path to manual files (default: \$PREFIX/man/man6)
+\tMANDIR    - path to manual files (default: \$PREFIX/man)
 "
 }
 
@@ -46,7 +46,7 @@ SHAREDIR="${2:-${PREFIX}/share/mupen64plus}"
 BINDIR="${3:-${PREFIX}/bin}"
 LIBDIR="${4:-${PREFIX}/lib}"
 PLUGINDIR="${5:-${PREFIX}/lib/mupen64plus}"
-MANDIR="${6:-${PREFIX}/man/man6}"
+MANDIR="${6:-${PREFIX}/share/man}"
 
 printf "Uninstalling Mupen64Plus Binary Bundle from ${PREFIX}\n"
 # Mupen64Plus-Core
@@ -59,7 +59,7 @@ rm -f "${SHAREDIR}/m64p_test_rom.v64"
 rm -f "${SHAREDIR}"/doc/*
 # Mupen64Plus-UI-Console
 rm -f "${BINDIR}/mupen64plus"
-rm -f "${MANDIR}/mupen64plus.6.gz"
+rm -f "${MANDIR}/man6/mupen64plus.6.gz"
 # Plugins
 rm -f "${PLUGINDIR}/mupen64plus-audio-sdl.so"
 rm -f "${PLUGINDIR}/mupen64plus-input-sdl.so"
@@ -73,6 +73,7 @@ rmdir --ignore-fail-on-non-empty "${SHAREDIR}"
 rmdir --ignore-fail-on-non-empty "${BINDIR}"
 rmdir --ignore-fail-on-non-empty "${LIBDIR}"
 rmdir --ignore-fail-on-non-empty "${PLUGINDIR}"
+rmdir --ignore-fail-on-non-empty "${MANDIR}/man6"
 rmdir --ignore-fail-on-non-empty "${MANDIR}"
 
 printf "Done.\n"

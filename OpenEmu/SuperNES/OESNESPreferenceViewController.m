@@ -4,14 +4,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -19,39 +19,60 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OESNESPreferenceViewController.h"
-
+#import "OELocalizationHelper.h"
 @implementation OESNESPreferenceViewController
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
     
-    OEGameControllerView *view = (OEGameControllerView *)[self view];
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"snes_pad.png"];
-    [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
-    [view setControlZone:NSMakeRect(0, 0, 600, 230)];
+    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
     
-    [view addButtonWithName:@"OESNESButtonTriggerLeft[@]"  toolTip:@"Left Trigger"  target:self startPosition:NSMakePoint(50, 180)  endPosition:NSMakePoint(217, 178)];
-    [view addButtonWithName:@"OESNESButtonUp[@]"           toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50, 148)  endPosition:NSMakePoint(220, 121)];
-    [view addButtonWithName:@"OESNESButtonLeft[@]"         toolTip:@"D-Pad Left"    target:self startPosition:NSMakePoint(50, 116)  endPosition:NSMakePoint(202, 107)];
-    [view addButtonWithName:@"OESNESButtonRight[@]"        toolTip:@"D-Pad Right"   target:self startPosition:NSMakePoint(50, 84)   endPosition:NSMakePoint(234, 106)];
-    [view addButtonWithName:@"OESNESButtonDown[@]"         toolTip:@"D-Pad Down"    target:self startPosition:NSMakePoint(50, 52)   endPosition:NSMakePoint(218, 91)];
+    [view addButtonWithName:@"OESNESButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(98, 133)];
+    [view addButtonWithName:@"OESNESButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(98, 89)];
+    [view addButtonWithName:@"OESNESButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(76, 111)];
+    [view addButtonWithName:@"OESNESButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(121, 111)];
+    [view nextColumn];
     
-    [view addButtonWithName:@"OESNESButtonSelect[@]"       toolTip:@"Select Button" target:self startPosition:NSMakePoint(252, 25)  endPosition:NSMakePoint(276, 98)];
-    [view addButtonWithName:@"OESNESButtonStart[@]"        toolTip:@"Start Button"  target:self startPosition:NSMakePoint(348, 25)  endPosition:NSMakePoint(308, 98)];
+    [view addButtonWithName:@"OESNESButtonSelect[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(181, 96)];
+    [view addButtonWithName:@"OESNESButtonStart[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(228, 96)];
+    [view nextColumn];
     
-    [view addButtonWithName:@"OESNESButtonTriggerRight[@]" toolTip:@"Right Trigger" target:self startPosition:NSMakePoint(550, 180) endPosition:NSMakePoint(389, 177)];
-    [view addButtonWithName:@"OESNESButtonX[@]"            toolTip:@"X Button"      target:self startPosition:NSMakePoint(550, 148) endPosition:NSMakePoint(389, 128)];
-    [view addButtonWithName:@"OESNESButtonA[@]"            toolTip:@"A Button"      target:self startPosition:NSMakePoint(550, 116) endPosition:NSMakePoint(415, 107)];
-    [view addButtonWithName:@"OESNESButtonY[@]"            toolTip:@"Y Button"      target:self startPosition:NSMakePoint(550, 84)  endPosition:NSMakePoint(361, 108)];
-    [view addButtonWithName:@"OESNESButtonB[@]"            toolTip:@"B Button"      target:self startPosition:NSMakePoint(550, 52)  endPosition:NSMakePoint(386, 86)];
+    [view addButtonWithName:@"OESNESButtonA[@]" label:@"A:" target:self highlightPoint:NSMakePoint(385, 109)];
+    [view addButtonWithName:@"OESNESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(342, 74)];
+    [view addButtonWithName:@"OESNESButtonX[@]" label:@"X:" target:self highlightPoint:NSMakePoint(345, 143)];
+    [view addButtonWithName:@"OESNESButtonY[@]" label:@"Y:" target:self highlightPoint:NSMakePoint(302, 109)];
+    [view nextColumn];
+    
+    [view addButtonWithName:@"OESNESButtonTriggerLeft[@]" label:@"Trigger Left:" target:self highlightPoint:NSMakePoint(95, 199)];
+    [view addButtonWithName:@"OESNESButtonTriggerRight[@]" label:@"Trigger Right:" target:self highlightPoint:NSMakePoint(352, 199)];
+    
+    [view updateButtons];
 }
 
+- (NSImage*)controllerImage{
+    NSString *controllerImageName = nil;
+    if([[OELocalizationHelper sharedHelper] isRegionJAP]){
+        controllerImageName = @"controller_snes_jap.png";
+    } else if([[OELocalizationHelper sharedHelper] isRegionNA]){
+        controllerImageName = @"controller_snes_usa.png";
+    } else {
+        controllerImageName = @"controller_snes_eu.png";
+    }
+    
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:controllerImageName];
+    return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
+
+- (NSImage*)controllerImageMask{
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_snes_mask.png"];
+    return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
 @end

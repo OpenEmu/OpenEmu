@@ -30,6 +30,7 @@
 #import "OENESPreferenceView.h"
 #import "OENESSystemResponderClient.h"
 
+#import "OELocalizationHelper.h"
 @implementation OENESSystemController
 
 - (NSDictionary *)preferenceViewControllerClasses;
@@ -72,4 +73,10 @@
     return controls;
 }
 
+- (NSString*)systemName{
+	if([[OELocalizationHelper sharedHelper] isRegionJAP])
+		return @"Famicom";
+	else 
+		return @"Nintendo (NES)";
+}
 @end

@@ -131,6 +131,11 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |'''<tt>ParamInt</tt>''' An <tt>m64p_core_param</tt> enumerated type specifying the desired state variable'''<br /><tt>ParamPtr</tt>''' Pointer to an integer to receive the value of the requested state variable.
 |None
 |-
+|M64CMD_CORE_STATE_SET
+|This command will set the value of a state parameter in the emulator core
+|'''<tt>ParamInt</tt>''' An <tt>m64p_core_param</tt> enumerated type specifying the desired state variable'''<br /><tt>ParamPtr</tt>''' Pointer to an integer to containing the value of the requested state variable.
+|The initial requirements vary depending upon the variable being set.  Setting some variables requires the emulator to be running.
+|-
 |M64CMD_STATE_LOAD
 |This command will attempt to load a saved state file.  If '''<tt>ParamPtr</tt>''' is not NULL, this function will load a state file from a full pathname specified by this pointer.  Otherwise ('''<tt>ParamPtr</tt>''' is NULL), it will load from the current slot.
 |'''<tt>ParamInt</tt>''' Ignored'''<br /><tt>ParamPtr</tt>''' Pointer to string containing state file path and name, or NULL
@@ -166,6 +171,25 @@ Most libmupen64plus functions return an <tt>m64p_error</tt> return code, which i
 |N/A
 |The emulator must be currently running or paused.  This command will execute asynchronously.
 |}
+<br />
+
+{| border="1"
+|Prototype
+|'''<tt>m64p_error CoreGetRomSettings(m64p_rom_settings *RomSettings, int RomSettingsLength, int Crc1, int Crc2)</tt>'''
+|-
+|Input Parameters
+|'''<tt>RomSettings</tt>''' Pointer to <tt>m64p_rom_settings</tt> object to be filled in with data.<br />
+'''<tt>RomSettingsLength</tt>''' Size of the object pointed to by '''<tt>RomSettings</tt>''' in bytes.<br />
+'''<tt>Crc1</tt>''' A 32-bit integer value containing the first CRC (taken from the ROM header) to identify the ROM.<br />
+'''<tt>Crc2</tt>''' A 32-bit integer value containing the second CRC (taken from the ROM header) to identify the ROM.
+|-
+|Requirements
+|The core library must already be initialized with the <tt>CoreStartup()</tt> function.  The '''<tt>RomSettings</tt>''' pointer must not be NULL.  The '''<tt>RomSettingsLength</tt>''' value must be greater than or equal to the size of the <tt>m64p_rom_settings</tt> structure.  This function does not require any ROM image to be currently open.
+|-
+|Usage
+|This function searches through the data in the <tt>Mupen64Plus.ini</tt> file to find an entry which matches the given '''<tt>Crc1</tt>''' and '''<tt>Crc2</tt>''' hashes, and if found, fills in the '''<tt>RomSettings</tt>''' structure with the data from the <tt>Mupen64Plus.ini</tt> file.
+|}
+<br />
 
 == Video Extension Functions ==
 {| border="1"

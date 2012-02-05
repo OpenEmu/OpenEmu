@@ -29,7 +29,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
-#include <limits.h>
 
 #include "files.h"
 #include "api/m64p_types.h"
@@ -42,9 +41,6 @@
 // dynamic data path detection onmac
 bool macSetBundlePath(char* buffer)
 {
-#if 1
-    return false;
-#else
     // the following code will enable mupen to find its data when placed in an app bundle on mac OS X.
     // returns true if path is set, returns false if path was not set
     char path[1024];
@@ -67,7 +63,6 @@ bool macSetBundlePath(char* buffer)
         DebugMessage(M64MSG_VERBOSE, "checking whether we are using an app bundle: no");
         return false;
     }
-#endif
 }
 #endif
 

@@ -4,14 +4,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -19,10 +19,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OESystemController.h"
@@ -40,31 +40,46 @@
 
 @end
 
+@interface OESystemController (PrivateRomStuff) 
+- (void)_initROMHandling;
+- (void)_deallocROMHandling;
+@end
 NSString *const OESettingValueKey       = @"OESettingValueKey";
 NSString *const OEHIDEventValueKey      = @"OEHIDEventValueKey";
 NSString *const OEKeyboardEventValueKey = @"OEKeyboardEventValueKey";
 NSString *const OEControlsPreferenceKey = @"OEControlsPreferenceKey";
 NSString *const OESystemPluginName      = @"OESystemPluginName";
+NSString *const OESystemIdentifier      = @"OESystemIdentifier";
+NSString *const OEProjectURLKey         = @"OEProjectURL";
+NSString *const OESystemName= @"OESystemName";
+
+NSString *const OEArchiveIDs= @"OEArchiveIDs";
+NSString *const OEFileTypes= @"OEFileSuffixes";
 
 static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey);
 
 @implementation OESystemController
-@synthesize playerString, controlNames, systemName;
+@synthesize playerString, controlNames, systemIdentifier;
 
 - (id)init
 {
     if((self = [super init]))
     {
         _bundle    = [NSBundle bundleForClass:[self class]];
-        systemName = [[[_bundle infoDictionary] objectForKey:OESystemPluginName] retain];
-        if(systemName == nil) systemName = [[_bundle infoDictionary] objectForKey:@"CFBundleName"];
+        systemIdentifier = [[[_bundle infoDictionary] objectForKey:OESystemIdentifier] retain];
+        if(systemIdentifier == nil) systemIdentifier = [[[_bundle infoDictionary] objectForKey:OESystemPluginName] copy];
+        if(systemIdentifier == nil) systemIdentifier = [[[_bundle infoDictionary] objectForKey:@"CFBundleName"] copy];
         
         _gameSystemResponders      = [[NSMutableArray alloc] init];
         _preferenceViewControllers = [[NSMutableDictionary alloc] init];
         
+        _systemName = [[[_bundle infoDictionary] objectForKey:OESystemName] copy];
+        
         [self OE_setupControlNames];
         
         [self registerDefaultControls];
+        
+        [self _initROMHandling];
     }
     
     return self;
@@ -72,6 +87,10 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (void)dealloc
 {
+    [self _deallocROMHandling];
+    
+    [_systemName release];
+    
     [_preferenceViewControllers release];
     [_gameSystemResponders release];
     [playerString release];
@@ -90,7 +109,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     
     NSUInteger atLen = 0;
     NSUInteger play  = playerCount;
-    
     while(play != 0)
     {
         atLen++;
@@ -133,7 +151,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 - (id)newGameSystemResponder;
 {
     OESystemResponder *responder = [[[self responderClass] alloc] initWithController:self];
-    
     [self registerGameSystemResponder:responder];
     
     return responder;
@@ -167,6 +184,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     {
         ctrl = [self newPreferenceViewControllerForKey:aKey];
         [_preferenceViewControllers setObject:ctrl forKey:aKey];
+        [ctrl autorelease];
     }
     
     return ctrl;
@@ -211,6 +229,9 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     return NSNotFound;
 }
 
+- (NSString*)systemName{
+    return _systemName;
+}
 #pragma mark -
 #pragma mark Helper methods
 
@@ -240,7 +261,8 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 - (NSString *)keyPathForKey:(NSString *)keyName withValueType:(NSString *)aType
 {
     NSString *type = (OESettingValueKey == aType ? @"" : [NSString stringWithFormat:@".%@", aType]);
-    return [NSString stringWithFormat:@"values.%@%@.%@", [self systemName], type, keyName];
+    
+    return [NSString stringWithFormat:@"values.%@%@.%@", [self systemIdentifier], type, keyName];
 }
 
 #pragma mark -
@@ -249,7 +271,8 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 - (void)registerDefaultControls;
 {
     NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
-    NSMutableDictionary *dict = [[[defaults initialValues] mutableCopy] autorelease];
+    NSDictionary *initialValues = [defaults initialValues];
+    NSMutableDictionary *dict = initialValues?[[[defaults initialValues] mutableCopy] autorelease]:[NSMutableDictionary dictionary];
     
     [[self defaultControls] enumerateKeysAndObjectsUsingBlock:
      ^(id key, id obj, BOOL *stop) 
@@ -289,7 +312,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     for(NSString *name in controlNames)
     {
         NSString *keyPath = [self keyPathForKey:name withValueType:aType];
-        
         if([[udc valueForKeyPath:keyPath] isEqual:theEvent])
         {
             [self registerValue:nil forKeyPath:keyPath];
@@ -329,7 +351,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (void)OE_enumerateSettingKeysUsingBlock:(void(^)(NSString *keyPath, NSString *keyName, NSString *keyType))block
 {
-    NSString *baseName = [NSString stringWithFormat:@"values.%@.", [self systemName]];
+    NSString *baseName = [NSString stringWithFormat:@"values.%@.", [self systemIdentifier]];
     
     // register gamecore custom settings
     NSArray *settingNames = [self genericSettingNames];
@@ -393,21 +415,22 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (void)controlsViewController:(OEControlsViewController *)sender registerEvent:(id)theEvent forKey:(NSString *)keyName;
 {
-    BOOL isKeyBoard = [theEvent isKindOfClass:[OEHIDEvent class]] && [(OEHIDEvent *)theEvent type] == OEHIDKeypress;
+    
+    BOOL isKeyBoard = ([theEvent isKindOfClass:[OEHIDEvent class]] || [[theEvent className] isEqualTo:@"OEHIDEvent"]) && [(OEHIDEvent *)theEvent type] == OEHIDKeypress;
     
     NSString *valueType = (isKeyBoard ? OEKeyboardEventValueKey : OEHIDEventValueKey);
     
     NSString *keyPath = [self keyPathForKey:keyName withValueType:valueType];
-    
     id value = [self registarableValueWithObject:theEvent];
     [self removeBindingsToEvent:value withValueType:valueType];
     [self registerValue:value forKeyPath:keyPath];
     
-    for(OESystemResponder *observer in _gameSystemResponders)
+    for(OESystemResponder *observer in _gameSystemResponders){
         if(isKeyBoard)
             [observer keyboardEventWasSet:theEvent forKey:keyName];
         else
             [observer HIDEventWasSet:theEvent forKey:keyName];
+    }
 }
 
 static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey)
@@ -430,6 +453,22 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     
     NSUInteger ret = [[playerKey substringWithRange:atRange] integerValue];
     return (ret != 0 ? ret : NSNotFound);
+}
+
+#pragma mark -
+#pragma mark Rom Handling
+@synthesize fileTypes, archiveIDs;
+- (void)_initROMHandling{
+    archiveIDs = [[[_bundle infoDictionary] objectForKey:OEArchiveIDs] retain];
+    fileTypes  = [[[_bundle infoDictionary] objectForKey:OEFileTypes] retain];
+}
+- (void)_deallocROMHandling{
+    [archiveIDs release];
+    [fileTypes release];
+}
+
+- (BOOL)canHandleFile:(NSString *)path{
+    return [fileTypes containsObject:[path pathExtension]];
 }
 
 @end

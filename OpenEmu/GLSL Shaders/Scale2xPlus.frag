@@ -22,18 +22,18 @@
 
 //uniform vec4 OGL2Param;
 //uniform vec4 OGL2Size;
-uniform sampler2DRect OGL2Texture;
+uniform sampler2DRect OETexture;
 
 void main()
 {
  vec4 colD,colF,colB,colH,col,tmp;
  vec2 sel;
 
- col  = texture2DRectProj(OGL2Texture, gl_TexCoord[0]);	// central (can be E0-E3)
- colD = texture2DRectProj(OGL2Texture, gl_TexCoord[1]);	// D (left)
- colF = texture2DRectProj(OGL2Texture, gl_TexCoord[2]);	// F (right)
- colB = texture2DRectProj(OGL2Texture, gl_TexCoord[3]);	// B (top)
- colH = texture2DRectProj(OGL2Texture, gl_TexCoord[4]);	// H (bottom)
+ col  = texture2DRectProj(OETexture, gl_TexCoord[0]);	// central (can be E0-E3)
+ colD = texture2DRectProj(OETexture, gl_TexCoord[1]);	// D (left)
+ colF = texture2DRectProj(OETexture, gl_TexCoord[2]);	// F (right)
+ colB = texture2DRectProj(OETexture, gl_TexCoord[3]);	// B (top)
+ colH = texture2DRectProj(OETexture, gl_TexCoord[4]);	// H (bottom)
 
 // sel=fract(gl_TexCoord[0].xy * OGL2Size.xy);		// where are we (E0-E3)? 
  sel=fract(gl_TexCoord[0].xy);						// where are we (E0-E3)? 

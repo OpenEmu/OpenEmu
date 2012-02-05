@@ -32,21 +32,23 @@
 #import <OpenGL/gl.h>
 #import "OEGenesisSystemResponderClient.h"
 
-//#include "shared.h"
-#include "system.h"
-#include "genesis.h"
-#include "loadrom.h"
-#include "gen_input.h"
-#include "state.h"
+#include "shared.h"
 
-
-#define SAMPLERATE 44100
-#define SAMPLEFRAME 735
+#define SAMPLERATE 48000
+#define SAMPLEFRAME 800
+//#define SAMPLERATE 44100
+//#define SAMPLEFRAME 735
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
 
 extern void set_config_defaults(void);
 
+void openemu_input_UpdateEmu(void)
+{
+}
+
 @implementation GenPlusGameCore
+
+@synthesize romPath;
 
 /*
  OpenEmu Core internal functions
@@ -63,18 +65,18 @@ extern void set_config_defaults(void);
         position = 0;
         sndBuf = malloc(SIZESOUNDBUFFER * sizeof(UInt16));
         memset(sndBuf, 0, SIZESOUNDBUFFER * sizeof(UInt16));
-        //ringBuffer = [self ringBufferAtIndex:0];
     }
     return self;
 }
 
 - (void) dealloc
 {
-    DLog(@"releasing/deallocating CrabEmu memory");
+    DLog(@"releasing/deallocating memory");
     free(sndBuf);
     [soundLock release];
     [bufLock release];
     free(videoBuffer);
+    [romPath release];
     
     [super dealloc];
 }
@@ -82,8 +84,8 @@ extern void set_config_defaults(void);
 - (void)executeFrame
 {
     system_frame(0);
-    audio_update(snd.buffer_size);
-    for(int i = 0 ; i < snd.buffer_size; i++)
+    int size = audio_update();
+    for(int i = 0 ; i < size; i++)
     {
         [[self ringBufferAtIndex:0] write:&snd.buffer[0][i] maxLength:2];
         [[self ringBufferAtIndex:0] write:&snd.buffer[1][i] maxLength:2];
@@ -105,7 +107,12 @@ void update_input()
     
     set_config_defaults();
     
-    cart_rom = malloc(MAXROMSIZE);
+    /* allocate cart.rom here (10 MBytes) */
+    cart.rom = malloc(MAXROMSIZE);
+    
+    if (!cart.rom)
+        DLog(@"error allocating");
+    
     if( load_rom((char*)[path UTF8String]) )
     {
         /* allocate global work bitmap */
@@ -115,23 +122,33 @@ void update_input()
         bitmap.depth  = 16;
         bitmap.granularity = 2;
         bitmap.pitch = bitmap.width * bitmap.granularity;
-        bitmap.viewport.w = 256;
-        bitmap.viewport.h = 224;
-        bitmap.viewport.x = 0;
-        bitmap.viewport.y = 0;
-        bitmap.data =videoBuffer;
+        //bitmap.viewport.w = 256;
+        //bitmap.viewport.h = 224;
+        //bitmap.viewport.x = 0;
+        //bitmap.viewport.y = 0;
+        bitmap.data = videoBuffer;
         
         /* default system */
-        input.system[0] = SYSTEM_GAMEPAD;
-        input.system[1] = SYSTEM_GAMEPAD;
+        input.system[0] = SYSTEM_MD_GAMEPAD;
+        input.system[1] = SYSTEM_MD_GAMEPAD;
         
+        float framerate = vdp_pal ? 50.0 : 60.0;
+		audio_init(SAMPLERATE, framerate);
         system_init();
-        audio_init(SAMPLERATE);
         system_reset();
+        
+        [self setRomPath:path];
+		[self loadSram];
     }
     
     return YES;
 }
+
+- (NSTimeInterval)frameInterval
+{
+	return vdp_pal ? 50 : 60;
+}
+
 - (void)resetEmulation
 {
     system_reset();
@@ -139,6 +156,7 @@ void update_input()
 
 - (void)stopEmulation
 {
+    [self saveSram];
     [super stopEmulation];
 }
 
@@ -239,6 +257,46 @@ NSUInteger GenesisControlValues[] = { INPUT_A, INPUT_B, INPUT_C, INPUT_X, INPUT_
         return YES;
     }
     return NO;
+}
+
+- (void)saveSram
+{
+	if (sram.on)
+	{
+		NSString *path = self->romPath;
+		
+		NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
+		NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+		[[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+		
+		NSData* theData;
+		NSString* filePath;
+		
+		filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+		theData = [NSData dataWithBytes:sram.sram length:0x10000];
+		[theData writeToFile:filePath atomically:YES];
+	}
+}
+
+- (void)loadSram
+{
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    NSString *extensionlessFilename = [[self->romPath lastPathComponent] stringByDeletingPathExtension];
+    NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+    [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+    
+    NSData* theData;
+    NSString* filePath;
+	
+	filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+	if([fileManager fileExistsAtPath:filePath])
+	{
+		NSLog(@"SRAM found");
+		theData = [NSData dataWithContentsOfFile:filePath];
+		memcpy(sram.sram, [theData bytes], 0x10000);
+		sram.crc = crc32(0, sram.sram, 0x10000);
+	}
 }
 
 @end

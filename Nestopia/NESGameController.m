@@ -68,4 +68,9 @@ NSArray *NESUsedSettingNames = nil;
     return [NESGameEmu class];
 }
 
+
+- (NSString *)gameSystemName;
+{
+	return @"Nintendo (NES)";
+}
 @end

@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en-US">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta http-equiv="content-style-type" content="text/css">
+		<meta name="description" content="Peripherals Support">
+		<link href="../sty/style.css" rel="stylesheet">
+		<title>Peripherals Support</title>
+	</head>
+	<body>
+		<h2>Peripherals Support</h2>
+		<h3>Satellaview</h3>
+		<p>
+			Snes9x partially emulates Satellaview system, so-called BS-X. To play BS games or read BS magazines with the BS-X base cartridge, do the following.
+		</p>
+		<ul>
+			<li>If you have .srm files of BS games which were created by Snes9x 1.43 or earlier, trash them first.</li>
+			<li>Prepare the BS-X ROM image. Make sure the file is uncompressed and doesn't have a header.</li>
+			<li>Rename the BS-X ROM image to 'BS-X.bin'.</li>
+			<li>Put BS-X.bin in the proper directory. 'BIOSes' folder by default.</li>
+			<li>Launch BS-X.bin as you usually play SNES games.</li>
+			<li>Set your name and gender.</li>
+			<li>Launch a BS game. The game is launched for the first time and its .srm doesn't exist, so BS-X.srm is loaded instead.</li>
+			<li>Once you launched the game, its .srm is created and loaded from the next time.</li>
+		</ul>
+		<p>
+			If you launch a BS game for the first time without BS-X.srm, maybe the game doesn't work properly.<br>
+			To boot up BS games from BS-X town, turn on 'Boot Up BS Games from BS-X' option in 'Preferences' dialog.
+		</p>
+		<h3>Sufami Turbo</h3>
+		<p>
+			To play Sufami Turbo games, do the following.
+		</p>
+		<ul>
+			<li>Prepare the Sufami Turbo base cartridge ROM image. Make sure the file is uncompressed and doesn't have a header.</li>
+			<li>Rename the base cartridge ROM image to 'STBIOS.bin'.</li>
+			<li>Put STBIOS.bin in the proper directory. 'BIOSes' folder by default.</li>
+			<li>Choose 'Open Multiple ROM Images...' from 'File' menu.</li>
+			<li>Set game(s) into each slot with 'Choose...', 'Clear' and 'Swap' buttons. You can also drag and drop the ROM image onto each slot.</li>
+			<li>Press 'OK' button and the Sufami Turbo system will run.</li>
+		</ul>
+		<p>
+			Note that the base cartridge can initialize SRAM for only the game in slot A, so you have to set every game in slot A and launch at least once.<br>
+			If no games are set in the slots, only the base cartridge runs.<br>
+			If you have a combined ROM image, split it to each games and the base cartridge. NSRT will help you.
+		</p>
+		<h3>Other Multiple Cartridge Games</h3>
+		<p>
+			In 'Open Multiple ROM Images' dialog, put the main cartridge in slot A and the add-on cartridge in slot B.<br>
+			Currently supported: Same Game
+		</p>
+		<div style="text-align:center; margin-top:3em"><p>	
+			&lt;<a href="04.html">Prev</a>&nbsp;&nbsp;<a href="../index.html">Top</a>&nbsp;&nbsp;<a href="06.html">Next</a>&gt;
+		</p></div>
+	</body>
+</html>

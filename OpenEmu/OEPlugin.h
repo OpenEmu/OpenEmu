@@ -29,9 +29,12 @@
 
 #import "OEPluginController.h"
 
+
+
 @interface NSObject (OEPlugin)
 + (BOOL)isPluginClass;
 @end
+
 
 
 @interface OEPlugin : NSObject <NSCopying>
@@ -62,6 +65,7 @@
 + (id)pluginWithBundleName:(NSString *)aName type:(Class)pluginType;
 + (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType;
 + (id)pluginWithBundleAtPath:(NSString *)bundlePath type:(Class)aType forceReload:(BOOL)reload;
++ (id)pluginWithBundle:(NSBundle *)aBundle type:(Class)aType forceReload:(BOOL)reload;
 + (NSArray *)pluginsForType:(Class)aType;
 + (NSArray *)allPlugins;
 

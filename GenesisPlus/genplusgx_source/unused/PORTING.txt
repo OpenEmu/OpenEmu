@@ -1,0 +1,89 @@
+
+ Introduction
+
+ Genesis Plus has reasonable speed, and very fast rendering. Here are some
+ details about porting it to another platform
+
+ Porting rules
+
+ - This program is released under the GPL, so please release the source
+   code for your derivative ports. Let me know if you need an alternative
+   to this.
+
+ - Do not change the name of the emulator. Something like 'Genesis Plus / MacOS'
+   is fine as it keeps the original name.
+
+ - Configure the CPU emulators for little or big-endian CPUs, and use the
+   ALIGN_LONG option to handle unaligned memory accesses if needed. E.g. if
+   the emulator crashes when a game scrolls horizontally, you need to enable
+   it.
+
+ Requirements
+
+ - At this time the 16-bit rendering code has been well tested and should
+   be used. There is code to support 8 through 32-bit displays, but I
+   haven't checked if it still works.
+
+ - Audio output, if enabled, uses stereo 16-bit samples.
+
+ Functions to use:
+
+ int load_rom(char *filename);
+
+ Loads a game which can be in BIN, SMD or ZIP formats. It returns zero if
+ an error has occured.
+
+ void system_init(void);
+
+ Initializes the virtual Genesis console. Call this once during startup.
+
+ void audio_init(int rate);
+
+ Initialize the sound emulation part of the emulator. Pass zero or don't
+ call the function to disable sound. Call this after running system_init().
+
+ void system_reset(void);
+
+ Resets the virtual Genesis console. Call this once during setup, and later
+ as needed.
+
+ int system_frame(int skip);
+
+ Updates the emulation for a frame. Pass 1 to prevent rendering (which can
+ be used for frame skipping) and 0 to render the current display.
+
+ This function returns 0 if the virtual Genesis console has locked up.
+ You can do what you'd like with this information, such as notify the user,
+ reset the machine, etc.
+
+ If audio is enabled, the snd.buffer[] array will hold the current audio
+ data for this frame.
+
+ void system_shutdown(void);
+
+ Shuts down the emulator.
+
+ Variables:
+
+ The 'bitmap' structure needs to be filled out prior to calling system_init().
+ This provides the rendering code with information about the type of bitmap
+ it is rendering to. I would advise sticking with a 1024x512 16-bit bitmap:
+
+    memset(&bitmap, 0, sizeof(t_bitmap));
+    bitmap.width  = 1024;
+    bitmap.height = 512;
+    bitmap.depth  = 16;
+    bitmap.granularity = 2; /* Bytes per pixel */
+    bitmap.pitch = (bitmap.width * bitmap.granularity);
+    bitmap.data   = (unsigned char *)bmp->pixels; /* Pointer to your bitmap */
+    bitmap.viewport.w = 256; /* Initial size of display on power-up (do not change) */
+    bitmap.viewport.h = 224;
+    bitmap.viewport.x = 0x20; /* Offset used for rendering (do not change) */
+    bitmap.viewport.y = 0x00;
+    bitmap.remap = 1;
+
+ The variable 'input.pad[0]' holds the button states for the first player
+ gamepad. Update this prior to calling system_frame(), and use the bitmasks
+ defined in system.h such as 'INPUT_UP', etc.
+
+ See the Windows/SDL and DOS drivers for examples.

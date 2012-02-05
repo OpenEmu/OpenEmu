@@ -34,7 +34,7 @@
 
 - (NSUInteger)numberOfPlayers;
 {
-    return 8;
+    return 1;
 }
 
 - (NSDictionary *)preferenceViewControllerClasses;
@@ -70,6 +70,12 @@
                               [NSNumber numberWithUnsignedInt:kHIDUsage_KeyboardEscape]    , @"OEGBButtonSelect",
                               nil];
     return controls;
+}
+
+- (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx{
+	if(idx!=NULL) *idx = [[self genericControlNames] indexOfObject:keyName];
+	
+	return 1;
 }
 
 @end

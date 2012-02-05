@@ -79,16 +79,16 @@ void CTC1(void)
    switch((FCR31 & 3))
      {
       case 0:
-    rounding_mode = 0x33F;
+    rounding_mode = 0x33F; // Round to nearest, or to even if equidistant
     break;
       case 1:
-    rounding_mode = 0xF3F;
+    rounding_mode = 0xF3F; // Truncate (toward 0)
     break;
       case 2:
-    rounding_mode = 0xB3F;
+    rounding_mode = 0xB3F; // Round up (toward +infinity) 
     break;
       case 3:
-    rounding_mode = 0x73F;
+    rounding_mode = 0x73F; // Round down (toward -infinity) 
     break;
      }
    PC++;

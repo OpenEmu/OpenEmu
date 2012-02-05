@@ -79,10 +79,17 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     [_preferenceViewControllerClasses setObject:[[viewControllerClasses copy] autorelease] forKey:self];
 }
 
+
+
 - (NSString *)gameSystemName;
 {
     // FIXME: This is pretty weak
     return [[[self bundle] infoDictionary] objectForKey:@"OESystemPluginName"];
+}
+
+- (NSArray*)systemIdentifiers
+{	
+	return [[[self bundle] infoDictionary] objectForKey:@"OESystemIdentifiers"];
 }
 
 - (NSDictionary *)defaultControls
@@ -176,7 +183,6 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
         ctrl = [[self newPreferenceViewControllerForKey:aKey] autorelease];
         [preferenceViewControllers setObject:ctrl forKey:aKey];
     }
-    
     return ctrl;
 }
 

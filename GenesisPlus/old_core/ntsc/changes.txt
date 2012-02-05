@@ -1,0 +1,96 @@
+sms_ntsc Change Log
+-------------------
+
+sms_ntsc 0.2.3
+--------------
+- Moved configuration options to sms_ntsc_config.h, making it easier to
+manage
+
+- Greatly clarified and improved demo to read any uncompressed BMP image
+and write filtered image when done
+
+- Improved gamma to be properly applied to each RGB channel, and changed
+default to compensate for difference between PC monitor and TV gamma
+
+- Improved contrast to be properly applied to each RGB channel rather
+than just luma
+
+- Improved floating point calculations in library to be more stable and
+not need double precision, which was causing problems with the sharpness
+control on Windows when the DirectX libraries changed the FPU to single
+precision mode
+
+- Added extern "C" to header, allowing use in C++ without having to
+rename the source file
+
+- Made internal changes to factor out code common from all my NTSC
+filter libraries, greatly simplifying things for me
+
+
+sms_ntsc 0.2.2
+--------------
+- Changed sms_ntsc_blit() again, this time to always take a pixel count
+for input pitch (since the type is known) and a byte count for the
+output pitch (since it can output at multiple depths now). I think I've
+got the right interface this time. :)
+
+- Improved default blitter to have selectable input and output pixel
+formats
+
+- Added parameters for resolution, color bleed, and artifacts
+
+- Added presets for composite video, S-video, RGB, and monochrome
+
+- Added SMS_NTSC_OUT_WIDTH() and SMS_NTSC_IN_WIDTH() for calculating
+input/output widths
+
+- Improved demo with more controls and interpolation and darkening of
+scanlines rather than duplicating them
+
+- Improved documentation
+
+- Interface changes: sms_ntsc_blit() takes output pitch in bytes again.
+Sorry for the multiple changes; I think I got it right this time. :)
+
+- Removed: SMS_NTSC_CALC_WIDTH (use SMS_NTSC_OUT_WIDTH)
+
+
+sms_ntsc 0.2.1
+--------------
+- Added parameters for color fringing and edge artifacts
+
+
+sms_ntsc 0.2.0
+--------------
+- Changed sms_ntsc_blit() to take pixel counts instead of byte counts
+for in_pitch and out_pitch, making it simpler to use. This requires that
+current code be updated.
+
+- Significantly improved NTSC signal processing to give clearer image
+and better sharpness control
+
+- Reduced scrolling shimmer and color artifacts to be closer to what
+console generates
+
+- Added gamma curve parameter to allow better matching of darker colors
+on a TV
+
+- Added ability to generate matching RGB palette for use in a normal
+blitter
+
+
+sms_ntsc 0.1.1
+--------------
+- Changed sms_ntsc_blit() to accept 12-bit BGR pixels instead of palette
+indicies and a separate palette.
+
+- Improved sms_ntsc_blit() to accept any input width, allowing all the
+different screen widths to be handled without complication. Use
+SMS_NTSC_CALC_WIDTH() to find the output width for a given input width.
+
+- Added toggling of left 8 column display to demo
+
+
+sms_ntsc 0.1.0
+--------------
+- First version

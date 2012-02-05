@@ -1,6 +1,5 @@
 /*
- Copyright (c) 2009, OpenEmu Team
- 
+ Copyright (c) 2011, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -25,8 +24,26 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import "OECoreDownloader.h"
+#import <Foundation/Foundation.h>
+#import "OECoreDownload.h"
 
-@interface OECoreUpdater : OECoreDownloader
+typedef void (^Block)();
+@class OEHUDAlert;
+@interface OECoreUpdater : NSObject <OECoreDownloadDelegate>
+{
+    BOOL isCheckingForAlertDownload;
+}
++ (id)sharedUpdater;
+
+- (void)checkForUpdates;
+- (void)checkForNewCores:(NSNumber*)fromModal;
+
+- (void)installCoreWithIdentifier:(NSString*)coreIdentifier coreName:(NSString*)coreName systemName:(NSString*)systemName withCompletionHandler:(Block)handle;
+@property (readonly) NSMutableDictionary *coresDict;
+@property (readonly) NSArray *coreList;
+
+@property (copy)    Block completionHandler;
+@property (retain)  NSString *coreIdentifier;
+@property (retain)  OEHUDAlert *alert;
+@property (retain)  OECoreDownload *coreDownload;
 @end

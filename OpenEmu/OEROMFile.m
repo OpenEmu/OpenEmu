@@ -97,7 +97,7 @@
 {
     [self setPrimitiveValue:path forKey:@"path"];
     NSError *err = nil;
-    NSData* bookmarkData = [[NSURL fileURLWithPath:path] bookmarkDataWithOptions:NSURLBookmarkCreationPreferFileIDResolution
+    NSData *bookmarkData = [[NSURL fileURLWithPath:path] bookmarkDataWithOptions:NSURLBookmarkCreationPreferFileIDResolution
                                                   includingResourceValuesForKeys:nil
                                                                    relativeToURL:nil
                                                                            error:&err];
@@ -118,33 +118,6 @@
         retVal = [self primitiveValueForKey:@"path"];
 
     return retVal;
-}
-
-- (NSString *)systemName
-{
-    NSString *path = [self path];
-    NSString *extension = [[path pathExtension] lowercaseString];
-    NSArray *corePlugins = [OECorePlugin allPlugins];
-    for(OECorePlugin *plugin in corePlugins)
-    {
-        if([[plugin supportedTypeExtensions] containsObject:extension])
-        {
-            NSArray *systemTypeNames = [[plugin supportedTypes] allKeys];
-            
-            for(NSString *systemTypeName in systemTypeNames)
-            {
-                NSArray *extensions = [[plugin supportedTypes] objectForKey:systemTypeName];
-                
-                if([extensions containsObject:extension])
-                {
-                    // Assume name is in the form of "<<Console>> Game"
-                    NSString *consoleName = [systemTypeName stringByReplacingOccurrencesOfString:@" Game" withString:@""];
-                    return consoleName;
-                }
-            }
-        }
-    }
-    return NSLocalizedString(@"Unknown", @"");
 }
 
 @end

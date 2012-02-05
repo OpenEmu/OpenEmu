@@ -52,7 +52,7 @@ enum _OEHelperAppErrorCodes
     OEHelperIncorrectFileError           = -2,
 };
 
-@interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper>
+@interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper, OERenderDelegate>
 {
     NSRunningApplication *parentApplication; // the process id of the parent app (Open Emu or our debug helper)
     
@@ -65,11 +65,7 @@ enum _OEHelperAppErrorCodes
     GLuint            gameTexture;      // this is the texture that is defined by the gameCores pixelFormat and type
     GLuint            gameFBO;          // this FBO uses the IOSurfaceTexture as an attachment and renders the gameTexture to 'square pixels'
     GLuint            ioSurfaceTexture; // square pixel, bufferSize texture sent off to our Parent App for display. Yay.
-    
-    // rendering
-    NSTimer          *timer;
-    CVDisplayLinkRef  displayLink;
-    
+        
     // poll parent ID, KVO does not seem to be working with NSRunningApplication
     NSTimer          *pollingTimer;
     
@@ -79,7 +75,6 @@ enum _OEHelperAppErrorCodes
     
     // OE stuff
     NSArray          *plugins;
-    NSArray          *validExtensions;
     OEGameCore       *gameCore;
     OEGameAudio      *gameAudio;
     
@@ -107,14 +102,14 @@ enum _OEHelperAppErrorCodes
 - (void)setupIOSurface;
 - (void)setupFBO;
 - (void)setupGameTexture;
-- (void)setupRenderTimer;
-- (void)initDisplayLink;
-- (CVReturn)displayLinkRenderCallback:(const CVTimeStamp *)timeStamp;
-- (void)render;
 - (void)pollParentProcess;
 - (void)setupGameCore;
 - (void)updateGameTexture;
-- (void)drawIntoIOSurface;
+
+//- (void)drawIntoIOSurface;
+- (void)beginDrawToIOSurface;
+- (void)drawGameTexture;
+- (void)endDrawToIOSurface;
 - (void)destroySurface;
 - (void)updateScreenSize;
 - (void)stopEmulation;
@@ -123,4 +118,9 @@ enum _OEHelperAppErrorCodes
 #pragma mark OE DO protocol delegate methods
 - (void)setVolume:(float)volume;
 - (void)setPauseEmulation:(BOOL)paused;
+
+#pragma mark -
+#pragma mark OE Render Delegate protocol methods
+- (void)willExecute;
+- (void)didExecute;
 @end

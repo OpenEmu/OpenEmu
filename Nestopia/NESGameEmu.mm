@@ -165,9 +165,9 @@ void NST_CALLBACK doFileIO(void *userData, Nes::Api::User::File& file)
         case Nes::Api::User::File::LOAD_BATTERY: // load in battery data from a file
         case Nes::Api::User::File::LOAD_EEPROM: // used by some Bandai games, can be treated the same as battery files
         {
-            DLog(@"Trying to load EEPROM");
+            NSLog(@"Trying to load EEPROM");
             filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
-            DLog(@"%@",filePath);
+            NSLog(@"File path: %@", filePath);
             if(![fileManager fileExistsAtPath:filePath])
             {
                 NSLog(@"Couldn't find save");
@@ -181,7 +181,7 @@ void NST_CALLBACK doFileIO(void *userData, Nes::Api::User::File& file)
         case Nes::Api::User::File::SAVE_EEPROM: // can be treated the same as battery files
         {
             
-            DLog(@"Trying to save EEPROM");
+            NSLog(@"Trying to save EEPROM");
             const void* savedata;
             unsigned long savedatasize;
             file.GetContent( savedata, savedatasize );
@@ -620,6 +620,12 @@ static int Heights[2] =
     [self setupAudio:emu];
     
     DLog(@"Setup");
+}
+
+- (void)stopEmulation
+{
+    Nes::Api::Machine machine(*emu);
+    machine.Power(false);
 }
 
 # pragma mark -

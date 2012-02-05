@@ -27,6 +27,20 @@
 	<key>NSPrincipalClass</key>
 	<string>OEGBSystemController</string>
 	<key>OESystemPluginName</key>
-	<string>GameBoy</string>
+	<string>Game Boy SystemPluginName</string>
+	<key>OESystemName</key>
+	<string>Game Boy</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.gb</string>
+	<key>OEArchiveIDs</key>
+	<array>
+		<integer>49</integer>
+		<integer>67</integer>
+	</array>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>gb</string>
+		<string>gbc</string>
+	</array>
 </dict>
 </plist>

@@ -48,19 +48,45 @@
 
 - (void)awakeFromNib
 {
-    OEGameControllerView *view = (OEGameControllerView *)[self view];
+    [super awakeFromNib];
+
+    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
+
+	[view addButtonWithName:@"OESMSButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(113, 144)];
+	[view addButtonWithName:@"OESMSButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(113, 59)];
+	[view addButtonWithName:@"OESMSButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(75, 106)];
+	[view addButtonWithName:@"OESMSButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(152, 106)];
+    [view nextColumn];
     
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"smscont.png"];
-    [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
-    [view setControlZone:NSMakeRect(0, 0, 600, 230)];
+	[view addButtonWithName:@"OESMSButtonA[@]" label:@"Button 1 /Start:" target:self highlightPoint:NSMakePoint(301, 82)];
+	[view addButtonWithName:@"OESMSButtonB[@]" label:@"Button 2:" target:self highlightPoint:NSMakePoint(371, 82)];
+	[view addRowSeperator];
+
+	[view addButtonWithName:@"OESMSButtonStart" label:@"Console Pause" target:self];
+    //	[view addButtonWithName:@"OESMSButtonReset" label:@"Console Reset" target:self];
+
+	[view nextPage];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"1:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"2:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"3:" target:self];
+	[view nextColumn];
     
-    [view addButtonWithName:@"OESMSButtonUp[@]"    toolTip:@"D-Pad Up"    target:self startPosition:NSMakePoint(67, 163)  endPosition:NSMakePoint(230, 136)];
-    [view addButtonWithName:@"OESMSButtonLeft[@]"  toolTip:@"D-Pad Left"  target:self startPosition:NSMakePoint(67, 131)  endPosition:NSMakePoint(204, 117)];
-    [view addButtonWithName:@"OESMSButtonRight[@]" toolTip:@"D-Pad Right" target:self startPosition:NSMakePoint(67, 99)   endPosition:NSMakePoint(257, 117)];
-    [view addButtonWithName:@"OESMSButtonDown[@]"  toolTip:@"D-Pad Down"  target:self startPosition:NSMakePoint(67, 67)   endPosition:NSMakePoint(230, 90)];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"4:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"5:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"6:" target:self];
+	[view nextColumn];
     
-    [view addButtonWithName:@"OESMSButtonA[@]"     toolTip:@"A Button"    target:self startPosition:NSMakePoint(552, 131) endPosition:NSMakePoint(358, 100)];
-    [view addButtonWithName:@"OESMSButtonB[@]"     toolTip:@"B Button"    target:self startPosition:NSMakePoint(552, 99)  endPosition:NSMakePoint(407, 100)];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"7:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"8:" target:self];
+	[view addButtonWithName:@"OESMSButtonReset" label:@"9:" target:self];
+    
+    [view updateButtons];
+	
+    return;
 }
 
+- (NSImage*)controllerImage{
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_sms.png"];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
 @end

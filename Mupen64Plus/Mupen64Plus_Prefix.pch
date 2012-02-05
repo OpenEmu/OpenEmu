@@ -34,3 +34,9 @@
 #ifdef __OBJC__
 #import <Cocoa/Cocoa.h>
 #endif
+
+#ifdef __APPLE__
+#define fopen64 fopen
+#define ftello64 ftello
+#define fseeko64 fseeko
+#endif

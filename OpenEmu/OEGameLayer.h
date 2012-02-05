@@ -35,7 +35,7 @@
 
 #import <Syphon/Syphon.h>
 
-@class OEGameCore, OEGameDocument, OEGameDocumentController;
+@class OEGameCore, OEGameDocument;
 
 @interface OEGameLayer : CAOpenGLLayer <OEGameCoreHelperDelegate>
 {
@@ -59,7 +59,6 @@
     
     QCRenderer           *filterRenderer;
     
-    CGColorSpaceRef       ntscColorSpace;
     CGColorSpaceRef       rgbColorSpace;
     
     // for QCRenderer
@@ -78,7 +77,7 @@
     IOSurfaceID surfaceID;
     OEIntSize screenSize;
     
-    SyphonServer* gameServer;
+    SyphonServer *gameServer;
 }
 
 @property(copy) void (^screenshotHandler)(NSImage *img);

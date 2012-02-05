@@ -46,7 +46,6 @@ typedef enum SMSButtons {
     SMSButtonCount = 14
 } SMSButtons;
 
-extern NSString *SMSButtonNameTable[];
 
 @class OERingBuffer;
 

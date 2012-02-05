@@ -4,19 +4,6 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>zip</string>
-				<string>gb</string>
-				<string>gbc</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>Gameboy Game</string>
-		</dict>
-	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
@@ -33,15 +20,17 @@
 	<string>0.4.3.1</string>
 	<key>NSPrincipalClass</key>
 	<string>GBGameController</string>
-	<key>ToolbarLabel</key>
-	<string>Gameboy</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
 	<string>http://openemu.org/update/gambatte_appcast.xml</string>
 	<key>SUEnableAutomaticChecks</key>
 	<string>1</string>
-	<key>OESystemPluginName</key>
-	<string>GameBoy</string>
+	<key>OESystemIdentifiers</key>
+	<array>
+		<string>openemu.system.gb</string>
+	</array>
+	<key>OEProjectURL</key>
+	<string>http://gambatte.sourceforge.net/</string>
 </dict>
 </plist>

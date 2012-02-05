@@ -389,6 +389,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\memory\n64_cic_nus_6105.c"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\osd\OGLFT.cpp"
 				>
 			</File>
@@ -541,11 +545,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\api\debugger.h"
+				RelativePath="..\..\src\debugger\debugger.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\src\debugger\debugger.h"
+				RelativePath="..\..\src\api\debugger.h"
 				>
 			</File>
 			<File
@@ -653,6 +657,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\src\memory\n64_cic_nus_6105.h"
+				>
+			</File>
+			<File
 				RelativePath="..\..\src\osd\OGLFT.h"
 				>
 			</File>
@@ -666,10 +674,6 @@
 			</File>
 			<File
 				RelativePath="..\..\src\memory\pif.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\src\memory\pif2.h"
 				>
 			</File>
 			<File

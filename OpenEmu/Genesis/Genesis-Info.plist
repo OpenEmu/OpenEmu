@@ -27,6 +27,20 @@
 	<key>NSPrincipalClass</key>
 	<string>OEGenesisSystemController</string>
 	<key>OESystemPluginName</key>
-	<string>Genesis</string>
+	<string>Sega Genesis</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.sg</string>
+	<key>OESystemName</key>
+	<string>Sega Genesis</string>
+	<key>OEArchiveIDs</key>
+	<array>
+		<integer>48</integer>
+	</array>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>smd</string>
+		<string>md</string>
+		<string>gen</string>
+	</array>
 </dict>
 </plist>

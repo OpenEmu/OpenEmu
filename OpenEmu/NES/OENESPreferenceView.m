@@ -26,27 +26,37 @@
  */
 
 #import "OENESPreferenceView.h"
-
+#import "OELocalizationHelper.h"
 @implementation OENESPreferenceView
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
     
-    OEGameControllerView *view = (OEGameControllerView *)[self view];
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"nespad.png"];
-    [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
+    BOOL famicom = [[OELocalizationHelper sharedHelper] isRegionJAP];
+	
+    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
     
-    [view addButtonWithName:@"OENESButtonUp[@]"     toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  166) endPosition:NSMakePoint(219, 145)];
-    [view addButtonWithName:@"OENESButtonLeft[@]"   toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  134) endPosition:NSMakePoint(197, 132)];
-    [view addButtonWithName:@"OENESButtonRight[@]"  toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,  102) endPosition:NSMakePoint(231, 131)];
-    [view addButtonWithName:@"OENESButtonDown[@]"   toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50,   70) endPosition:NSMakePoint(207, 118)];
-    
-    [view addButtonWithName:@"OENESButtonA[@]"      toolTip:@"A Button"      target:self startPosition:NSMakePoint(600, 150) endPosition:NSMakePoint(409, 118)];
-    [view addButtonWithName:@"OENESButtonB[@]"      toolTip:@"B Button"      target:self startPosition:NSMakePoint(600,  86) endPosition:NSMakePoint(369, 118)];
-    
-    [view addButtonWithName:@"OENESButtonStart[@]"  toolTip:@"Start Button"  target:self startPosition:NSMakePoint(368,  10) endPosition:NSMakePoint(316, 117)];
-    [view addButtonWithName:@"OENESButtonSelect[@]" toolTip:@"Select Button" target:self startPosition:NSMakePoint(272,  10) endPosition:NSMakePoint(276, 117)];
+	[view addButtonWithName:@"OENESButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(159, 116)];
+	[view addButtonWithName:@"OENESButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(159, 66)];
+	[view addButtonWithName:@"OENESButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(135, 92)];
+	[view addButtonWithName:@"OENESButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(184, 92)];
+    [view nextColumn];
+	
+	[view addButtonWithName:@"OENESButtonStart[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(famicom?260:306, famicom?67:71)];
+	[view addButtonWithName:@"OENESButtonSelect[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(famicom?309:256, famicom?67:71)];	
+	[view nextColumn];	
+	
+	[view addButtonWithName:@"OENESButtonA[@]" label:@"A:" target:self highlightPoint:NSMakePoint(famicom?449:441, 70)];
+	[view addButtonWithName:@"OENESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(famicom?391:384, 70)];
+	
+	[view updateButtons];
 }
 
+- (NSImage*)controllerImage{
+	NSString *controllerImageName = [[OELocalizationHelper sharedHelper] isRegionJAP]?@"controller_fc.png":@"controller_nes.png";
+	
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:controllerImageName];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
 @end

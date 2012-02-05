@@ -4,14 +4,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -19,10 +19,10 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "OEGameView.h"
@@ -34,7 +34,7 @@
 static void OE_bindGameLayer(OEGameLayer *gameLayer)
 {
     NSUserDefaultsController *ctrl = [NSUserDefaultsController sharedUserDefaultsController];
-    [gameLayer bind:@"filterName"   toObject:ctrl withKeyPath:@"values.filterName" options:nil];
+    [gameLayer bind:@"filterName"   toObject:ctrl withKeyPath:@"values.videoFilter" options:nil];
     [gameLayer bind:@"vSyncEnabled" toObject:ctrl withKeyPath:@"values.vsync"      options:nil];
 }
 
@@ -49,6 +49,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     {
         frame.origin = NSZeroPoint;
         gameView = [[[NSView alloc] initWithFrame:frame] autorelease];
+        gameView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         
         [self addSubview:gameView];
         
@@ -72,7 +73,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
         
         // fix to make sure gameLayer resizes its texture attachment and reports the right bounds to QC
         [gameLayer setNeedsDisplayOnBoundsChange:YES];
-
+        
         [gameLayer setName:@"gameLayer"];
         [gameLayer setConstraints:
          [NSArray arrayWithObjects:
@@ -81,14 +82,24 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
           [CAConstraint constraintWithAttribute:kCAConstraintWidth  relativeTo:@"superlayer" attribute:kCAConstraintWidth],
           [CAConstraint constraintWithAttribute:kCAConstraintHeight relativeTo:@"superlayer" attribute:kCAConstraintHeight],
           nil]];
-        
+                
         [rootLayer addSublayer:gameLayer];
+        
+        self.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+        [self setWantsLayer:YES];
+        color = CGColorCreateGenericRGB(0.0, 0.0, 0.0, 1.0);
+        [self.layer setBackgroundColor:color];
+        CGColorRelease(color);
+        
+        NSLog(@"OEGameView init");
     }
     return self;
 }
 
 - (void)dealloc
 {
+    NSLog(@"OEGameView dealloc");
+    
     [gameLayer unbind:@"filterName"];
     [gameLayer unbind:@"vSyncEnabled"];
     [super dealloc];
@@ -105,8 +116,16 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     NSRectFill([self bounds]);
 }
 
+- (void)viewDidMoveToWindow{
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"OEGameViewDidMoveToWindow" object:self];
+}
+
 - (BOOL)acceptsFirstResponder
 {
+    return YES;
+}
+
+- (BOOL)becomeFirstResponder{
     return YES;
 }
 
@@ -160,13 +179,13 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     else
     {
         CGFloat scale = MIN(NSWidth(bounds) / NSWidth(frame), NSHeight(bounds) / NSHeight(frame));
+        if(scale==INFINITY) scale = 0.0;
         
         frame.size.width  *= scale;
         frame.size.height *= scale;
         frame.origin.x = NSMidX(bounds) - NSWidth(frame)  / 2.0;
         frame.origin.y = NSMidY(bounds) - NSHeight(frame) / 2.0;
     }
-    
     [gameView setFrame:frame];
 }
 

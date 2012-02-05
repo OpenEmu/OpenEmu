@@ -35,7 +35,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		82444C050F51279C007C171B /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444BD10F512685007C171B /* OpenEmuBase.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		3DFAB00C144644A5005EF0C3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DFAB00A144643AA005EF0C3 /* OpenEmuBase.framework */; };
 		8249C9A60E89BA140027EFDF /* Menu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8249C9A50E89BA140027EFDF /* Menu.xib */; };
 		827899CA0E70CFD100C01C82 /* NstApiBarcodeReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8278976E0E70CFC900C01C82 /* NstApiBarcodeReader.cpp */; };
 		827899CB0E70CFD100C01C82 /* NstApiCartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 827897700E70CFC900C01C82 /* NstApiCartridge.cpp */; };
@@ -362,6 +362,13 @@
 			remoteGlobalIDString = 3887A7F61024D1F9000FC4CF;
 			remoteInfo = OESaveStateQLPlugin;
 		};
+		3DFAB009144643AA005EF0C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 82444BA10F51256C007C171B;
+			remoteInfo = OpenEmuBase;
+		};
 		82444BCC0F512685007C171B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
@@ -370,13 +377,6 @@
 			remoteInfo = OpenEmu;
 		};
 		82444BD00F512685007C171B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 82444BA10F51256C007C171B;
-			remoteInfo = OpenEmuBase;
-		};
-		8264167913EDC4A800591582 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
 			proxyType = 2;
@@ -396,6 +396,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = Nestopia;
+		};
+		83DB70AE1442F01200850CD8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1415540F1442B3B300A01683;
+			remoteInfo = N64;
+		};
+		83DD882D149BF2000055E009 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 820EB74A1483F9A2008EC398;
+			remoteInfo = NeoGeoPocket;
+		};
+		83DD882F149BF2000055E009 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82444BC40F512685007C171B /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8227754F148946DF00B19E27;
+			remoteInfo = GameGear;
 		};
 		C62A2603116F08760003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1144,8 +1165,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3DFAB00C144644A5005EF0C3 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
-				82444C050F51279C007C171B /* OpenEmuBase.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1244,15 +1265,18 @@
 			children = (
 				82444BCD0F512685007C171B /* OpenEmu.app */,
 				C62A2604116F08760003DEE4 /* OpenEmuHelperApp */,
-				82444BD10F512685007C171B /* OpenEmuBase.framework */,
-				37372B14102511E2006ADD56 /* OESaveStateQLPlugin.qlgenerator */,
+				3DFAB00A144643AA005EF0C3 /* OpenEmuBase.framework */,
 				C64BB0B21364837C00C1AB23 /* OpenEmuSystem.framework */,
+				37372B14102511E2006ADD56 /* OESaveStateQLPlugin.qlgenerator */,
 				C64BB0B41364837C00C1AB23 /* SegaMasterSystem.oesystemplugin */,
 				C64BB0B61364837C00C1AB23 /* NES.oesystemplugin */,
 				C6480FE21364A4BB0094FA33 /* SuperNES.oesystemplugin */,
 				C6B3E6A3136525EB00D34947 /* GameBoy.oesystemplugin */,
 				C6B3E6A5136525EB00D34947 /* Genesis.oesystemplugin */,
-				8264167A13EDC4A800591582 /* GameBoy Advance.oesystemplugin */,
+				82444BD10F512685007C171B /* GameBoy Advance.oesystemplugin */,
+				83DB70AF1442F01200850CD8 /* N64.oesystemplugin */,
+				83DD882E149BF2000055E009 /* NeoGeo Pocket.oesystemplugin */,
+				83DD8830149BF2000055E009 /* GameGear.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2036,6 +2060,13 @@
 			remoteRef = 37372B13102511E2006ADD56 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		3DFAB00A144643AA005EF0C3 /* OpenEmuBase.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OpenEmuBase.framework;
+			remoteRef = 3DFAB009144643AA005EF0C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		82444BCD0F512685007C171B /* OpenEmu.app */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.application;
@@ -2043,18 +2074,32 @@
 			remoteRef = 82444BCC0F512685007C171B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		82444BD10F512685007C171B /* OpenEmuBase.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = OpenEmuBase.framework;
-			remoteRef = 82444BD00F512685007C171B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8264167A13EDC4A800591582 /* GameBoy Advance.oesystemplugin */ = {
+		82444BD10F512685007C171B /* GameBoy Advance.oesystemplugin */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "GameBoy Advance.oesystemplugin";
-			remoteRef = 8264167913EDC4A800591582 /* PBXContainerItemProxy */;
+			remoteRef = 82444BD00F512685007C171B /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		83DB70AF1442F01200850CD8 /* N64.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = N64.oesystemplugin;
+			remoteRef = 83DB70AE1442F01200850CD8 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		83DD882E149BF2000055E009 /* NeoGeo Pocket.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "NeoGeo Pocket.oesystemplugin";
+			remoteRef = 83DD882D149BF2000055E009 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		83DD8830149BF2000055E009 /* GameGear.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = GameGear.oesystemplugin;
+			remoteRef = 83DD882F149BF2000055E009 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A2604116F08760003DEE4 /* OpenEmuHelperApp */ = {
@@ -2159,7 +2204,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"{,.dSYM}\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
+			shellScript = "mkdir -p \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores\"\nrm -rf \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/$PROJECT_NAME.oecoreplugin\"\ncp -rf \"$BUILT_PRODUCTS_DIR/$PROJECT_NAME.oecoreplugin\"{,.dSYM} \"$USER_LIBRARY_DIR/Application Support/OpenEmu/Cores/\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2504,9 +2549,10 @@
 		1DEB913B08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
+				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Nestopia_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Application Support/OpenEmu/Cores";
 				LD_RUNPATH_SEARCH_PATHS = "\"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" /Library/Frameworks ~/Library/Frameworks @loader_path/../Frameworks";
@@ -2520,9 +2566,10 @@
 		1DEB913C08733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				EXPORTED_SYMBOLS_FILE = ../OpenEmu/objc_only.exports;
+				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Nestopia_Prefix.pch;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Application Support/OpenEmu/Cores";
 				LD_RUNPATH_SEARCH_PATHS = "\"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" /Library/Frameworks ~/Library/Frameworks @loader_path/../Frameworks";
@@ -2553,6 +2600,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
@@ -2576,13 +2624,16 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				SDKROOT = macosx;
+				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};
 		82C9CA630F0846D40071460B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = x86_64;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Distribution;
 			};
 			name = Debug;
@@ -2590,10 +2641,8 @@
 		82C9CA640F0846D40071460B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					x86_64,
-					i386,
-				);
+				ARCHS = x86_64;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = Distribution;
 			};
 			name = Release;
@@ -2601,6 +2650,7 @@
 		82D814E60F1D81BF00EF8CF5 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Debug;
@@ -2608,6 +2658,7 @@
 		82D814E70F1D81BF00EF8CF5 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				PRODUCT_NAME = "Build & Install";
 			};
 			name = Release;

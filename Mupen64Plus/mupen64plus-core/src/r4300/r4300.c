@@ -64,7 +64,6 @@ char invalid_code[0x100000];
 precomp_block *blocks[0x100000], *actual;
 int rounding_mode = 0x33F, trunc_mode = 0xF3F, round_mode = 0x33F,
     ceil_mode = 0xB3F, floor_mode = 0x73F;
-static void (*code)(void);
 
 /*#define check_memory() \
    if (!invalid_code[address>>12]) \
@@ -1497,7 +1496,7 @@ void jump_to_func(void)
 */
 void shuffle_fpr_data(int oldStatus, int newStatus)
 {
-#if defined(_BIG_ENDIAN)
+#if defined(M64P_BIG_ENDIAN)
     const int isBigEndian = 1;
 #else
     const int isBigEndian = 0;
@@ -1550,7 +1549,7 @@ void shuffle_fpr_data(int oldStatus, int newStatus)
 void set_fpr_pointers(int newStatus)
 {
     int i;
-#if defined(_BIG_ENDIAN)
+#if defined(M64P_BIG_ENDIAN)
     const int isBigEndian = 1;
 #else
     const int isBigEndian = 0;
@@ -1889,9 +1888,15 @@ void r4300_execute(void)
 #if defined(DYNAREC)
     else if (r4300emu >= 2)
     {
+        void (*code)(void);
         DebugMessage(M64MSG_INFO, "Starting R4300 emulator: Dynamic Recompiler");
         r4300emu = CORE_DYNAREC;
         init_blocks();
+
+        /* Prevent segfault on failed init_blocks */
+        if (!actual->block || !actual->code)
+            return;
+
         code = (void *)(actual->code+(actual->block[0x40/4].local_addr));
         dyna_start(code);
         PC++;
@@ -1919,6 +1924,11 @@ void r4300_execute(void)
         DebugMessage(M64MSG_INFO, "Starting R4300 emulator: Cached Interpreter");
         r4300emu = CORE_INTERPRETER;
         init_blocks();
+
+        /* Prevent segfault on failed init_blocks */
+        if (!actual->block)
+            return;
+
         last_addr = PC->addr;
         while (!stop)
         {
@@ -1940,10 +1950,7 @@ void r4300_execute(void)
     {
         if (blocks[i])
         {
-            if (blocks[i]->block) { free_exec(blocks[i]->block); blocks[i]->block = NULL; }
-            if (blocks[i]->code) { free_exec(blocks[i]->code); blocks[i]->code = NULL; }
-            if (blocks[i]->jumps_table) { free(blocks[i]->jumps_table); blocks[i]->jumps_table = NULL; }
-            if (blocks[i]->riprel_table) { free(blocks[i]->riprel_table); blocks[i]->riprel_table = NULL; }
+            free_block(blocks[i]);
             free(blocks[i]);
             blocks[i] = NULL;
         }

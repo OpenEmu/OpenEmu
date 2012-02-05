@@ -28,6 +28,10 @@
 
 #include "m64p_types.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* DebugSetCallbacks()
  *
  * This function is called by the front-end to supply debugger callback
@@ -36,6 +40,9 @@
  * callbacks. 
  */
 typedef m64p_error (*ptr_DebugSetCallbacks)(void (*)(void), void (*)(unsigned int), void (*)(void));
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL DebugSetCallbacks(void (*)(void), void (*)(unsigned int), void (*)(void));
+#endif
 
 /* DebugSetCoreCompare()
  *
@@ -43,12 +50,18 @@ typedef m64p_error (*ptr_DebugSetCallbacks)(void (*)(void), void (*)(unsigned in
  * for the Core Comparison feature.
  */
 typedef m64p_error (*ptr_DebugSetCoreCompare)(void (*)(unsigned int), void (*)(int, void *));
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL DebugSetCoreCompare(void (*)(unsigned int), void (*)(int, void *));
+#endif
 
 /* DebugSetRunState()
  *
  * This function sets the run state of the R4300 CPU emulator.
  */
 typedef m64p_error (*ptr_DebugSetRunState)(int);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL DebugSetRunState(int);
+#endif
 
 /* DebugGetState()
  *
@@ -56,6 +69,9 @@ typedef m64p_error (*ptr_DebugSetRunState)(int);
  * enumerated in m64p_types.h. 
  */
 typedef int (*ptr_DebugGetState)(m64p_dbg_state);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT int CALL DebugGetState(m64p_dbg_state);
+#endif
 
 /* DebugStep()
  *
@@ -63,6 +79,9 @@ typedef int (*ptr_DebugGetState)(m64p_dbg_state);
  * stepping mode.
  */
 typedef m64p_error (*ptr_DebugStep)(void);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL DebugStep(void);
+#endif
 
 /* DebugDecodeOp()
  *
@@ -72,6 +91,9 @@ typedef m64p_error (*ptr_DebugStep)(void);
  * to be used to display disassembled code. 
  */
 typedef void (*ptr_DebugDecodeOp)(unsigned int, char *, char *, int);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT void CALL DebugDecodeOp(unsigned int, char *, char *, int);
+#endif
 
 /* DebugMemGetRecompInfo()
  *
@@ -81,6 +103,9 @@ typedef void (*ptr_DebugDecodeOp)(unsigned int, char *, char *, int);
  * then be used to retrieve the disassembled code of the 10 x86 instructions.
  */
 typedef void * (*ptr_DebugMemGetRecompInfo)(m64p_dbg_mem_info, unsigned int, int);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT void * CALL DebugMemGetRecompInfo(m64p_dbg_mem_info, unsigned int, int);
+#endif
 
 /* DebugMemGetMemInfo()
  *
@@ -89,6 +114,9 @@ typedef void * (*ptr_DebugMemGetRecompInfo)(m64p_dbg_mem_info, unsigned int, int
  * enumerated in m64p_types.h.
  */
 typedef int (*ptr_DebugMemGetMemInfo)(m64p_dbg_mem_info, unsigned int);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT int CALL DebugMemGetMemInfo(m64p_dbg_mem_info, unsigned int);
+#endif
 
 /* DebugMemGetPointer()
  *
@@ -97,6 +125,9 @@ typedef int (*ptr_DebugMemGetMemInfo)(m64p_dbg_mem_info, unsigned int);
  * block (such as the serial, video, or audio registers) or the RDRAM.
  */
 typedef void * (*ptr_DebugMemGetPointer)(m64p_dbg_memptr_type);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT void * CALL DebugMemGetPointer(m64p_dbg_memptr_type);
+#endif
 
 /* DebugMemRead**()
  *
@@ -107,6 +138,12 @@ typedef unsigned long long (*ptr_DebugMemRead64)(unsigned int);
 typedef unsigned int 	   (*ptr_DebugMemRead32)(unsigned int);
 typedef unsigned short 	   (*ptr_DebugMemRead16)(unsigned int);
 typedef unsigned char 	   (*ptr_DebugMemRead8)(unsigned int);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT unsigned long long  CALL DebugMemRead64(unsigned int);
+EXPORT unsigned int 	   CALL DebugMemRead32(unsigned int);
+EXPORT unsigned short 	   CALL DebugMemRead16(unsigned int);
+EXPORT unsigned char 	   CALL DebugMemRead8(unsigned int);
+#endif
 
 /* DebugMemWrite**()
  *
@@ -117,6 +154,12 @@ typedef void (*ptr_DebugMemWrite64)(unsigned int, unsigned long long);
 typedef void (*ptr_DebugMemWrite32)(unsigned int, unsigned int);
 typedef void (*ptr_DebugMemWrite16)(unsigned int, unsigned short);
 typedef void (*ptr_DebugMemWrite8)(unsigned int, unsigned char);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT void CALL DebugMemWrite64(unsigned int, unsigned long long);
+EXPORT void CALL DebugMemWrite32(unsigned int, unsigned int);
+EXPORT void CALL DebugMemWrite16(unsigned int, unsigned short);
+EXPORT void CALL DebugMemWrite8(unsigned int, unsigned char);
+#endif
 
 /* DebugGetCPUDataPtr()
  *
@@ -124,6 +167,9 @@ typedef void (*ptr_DebugMemWrite8)(unsigned int, unsigned char);
  * register in the emulated R4300 CPU.
  */
 typedef void * (*ptr_DebugGetCPUDataPtr)(m64p_dbg_cpu_data);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT void * CALL DebugGetCPUDataPtr(m64p_dbg_cpu_data);
+#endif
 
 /* DebugBreakpointLookup()
  *
@@ -133,6 +179,9 @@ typedef void * (*ptr_DebugGetCPUDataPtr)(m64p_dbg_cpu_data);
  * returned. 
  */
 typedef int (*ptr_DebugBreakpointLookup)(unsigned int, unsigned int, unsigned int);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT int CALL DebugBreakpointLookup(unsigned int, unsigned int, unsigned int);
+#endif
 
 /* DebugBreakpointCommand()
  *
@@ -141,6 +190,13 @@ typedef int (*ptr_DebugBreakpointLookup)(unsigned int, unsigned int, unsigned in
  * input parameters vary by command.
  */
 typedef int (*ptr_DebugBreakpointCommand)(m64p_dbg_bkp_command, unsigned int, void *);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT int CALL DebugBreakpointCommand(m64p_dbg_bkp_command, unsigned int, void *);
+#endif
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* #define M64P_DEBUGGER_H */
 

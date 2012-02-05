@@ -51,5 +51,6 @@
 @property(readonly) BOOL           isTimeDependent;
 @property(readonly) BOOL           hasConsumers;
 @property(readonly) NSString      *category;
+@property(readonly) NSImage       *previewImage;
 
 @end

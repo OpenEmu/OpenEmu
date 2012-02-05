@@ -34,3 +34,13 @@ int VidExt_VideoRunning(void)
     //FIXME: move this to the video code
     return 0;
 }
+
+int VidExt_GL_SwapBuffers(void)
+{
+    return 0;
+}
+
+int OverrideVideoFunctions(void)
+{
+    return 0;
+}

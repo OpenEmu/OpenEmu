@@ -28,12 +28,28 @@
 
 #include "m64p_types.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
+/* pointer types to the callback functions in the front-end application */
+typedef void (*ptr_DebugCallback)(void *Context, int level, const char *message);
+typedef void (*ptr_StateCallback)(void *Context, m64p_core_param param_type, int new_value);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT void CALL DebugCallback(void *Context, int level, const char *message);
+EXPORT void CALL StateCallback(void *Context, m64p_core_param param_type, int new_value);
+#endif
+
 /* CoreStartup()
  *
  * This function initializes libmupen64plus for use by allocating memory,
  * creating data structures, and loading the configuration file.
  */
-typedef m64p_error (*ptr_CoreStartup)(int, const char *, const char *, void *, void (*)(void *, int, const char *), void *, void (*)(void *, m64p_core_param, int));
+typedef m64p_error (*ptr_CoreStartup)(int, const char *, const char *, void *, ptr_DebugCallback, void *, ptr_StateCallback);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL CoreStartup(int, const char *, const char *, void *, ptr_DebugCallback, void *, ptr_StateCallback);
+#endif
 
 /* CoreShutdown()
  *
@@ -41,6 +57,9 @@ typedef m64p_error (*ptr_CoreStartup)(int, const char *, const char *, void *, v
  * and releases memory allocated by the core library.
  */
 typedef m64p_error (*ptr_CoreShutdown)(void);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL CoreShutdown(void);
+#endif
 
 /* CoreAttachPlugin()
  *
@@ -48,6 +67,9 @@ typedef m64p_error (*ptr_CoreShutdown)(void);
  * be one plugin of each type attached to the core at any given time. 
  */
 typedef m64p_error (*ptr_CoreAttachPlugin)(m64p_plugin_type, m64p_dynlib_handle);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL CoreAttachPlugin(m64p_plugin_type, m64p_dynlib_handle);
+#endif
 
 /* CoreDetachPlugin()
  *
@@ -55,12 +77,18 @@ typedef m64p_error (*ptr_CoreAttachPlugin)(m64p_plugin_type, m64p_dynlib_handle)
  * the 'dummy' plugin functions. 
  */
 typedef m64p_error (*ptr_CoreDetachPlugin)(m64p_plugin_type);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL CoreDetachPlugin(m64p_plugin_type);
+#endif
 
 /* CoreDoCommand()
  *
  * This function sends a command to the emulator core.
  */
 typedef m64p_error (*ptr_CoreDoCommand)(m64p_command, int, void *);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL CoreDoCommand(m64p_command, int, void *);
+#endif
 
 /* CoreOverrideVidExt()
  *
@@ -71,6 +99,9 @@ typedef m64p_error (*ptr_CoreDoCommand)(m64p_command, int, void *);
  * and the core's internal SDL functions will be used.
  */
 typedef m64p_error (*ptr_CoreOverrideVidExt)(m64p_video_extension_functions *);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL CoreOverrideVidExt(m64p_video_extension_functions *);
+#endif
 
 /* CoreAddCheat()
  *
@@ -78,6 +109,9 @@ typedef m64p_error (*ptr_CoreOverrideVidExt)(m64p_video_extension_functions *);
  * which are applied to the open ROM.
  */
 typedef m64p_error (*ptr_CoreAddCheat)(const char *, m64p_cheat_code *, int);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL CoreAddCheat(const char *, m64p_cheat_code *, int);
+#endif
 
 /* CoreCheatEnabled()
  *
@@ -85,6 +119,23 @@ typedef m64p_error (*ptr_CoreAddCheat)(const char *, m64p_cheat_code *, int);
  * currently active cheats.
  */
 typedef m64p_error (*ptr_CoreCheatEnabled)(const char *, int);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL CoreCheatEnabled(const char *, int);
+#endif
+
+/* CoreGetRomSettings()
+ *
+ * This function will retrieve the ROM settings from the mupen64plus INI file for
+ * the ROM image corresponding to the given CRC values.
+ */
+typedef m64p_error (*ptr_CoreGetRomSettings)(m64p_rom_settings *, int, int, int);
+#if defined(M64P_CORE_PROTOTYPES)
+EXPORT m64p_error CALL CoreGetRomSettings(m64p_rom_settings *, int, int, int);
+#endif
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* #define M64P_FRONTEND_H */
 

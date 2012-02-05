@@ -124,8 +124,27 @@ OE_HIDVKCode hidvk_codes[] = {
 	{kHIDUsage_KeyboardLeftArrow,kVK_LeftArrow},
 	{kHIDUsage_KeyboardRightArrow,kVK_RightArrow},
 	{kHIDUsage_KeyboardDownArrow,kVK_DownArrow},
-	{kHIDUsage_KeyboardUpArrow,kVK_UpArrow}
-	
+	{kHIDUsage_KeyboardUpArrow,kVK_UpArrow},
+    {kHIDUsage_KeypadSlash, kVK_ANSI_KeypadDivide}, 
+    {kHIDUsage_KeypadAsterisk, kVK_ANSI_KeypadMultiply},
+    {kHIDUsage_KeypadHyphen, kVK_ANSI_KeypadMinus},
+    {kHIDUsage_KeypadPlus, kVK_ANSI_KeypadPlus},
+    {kHIDUsage_KeypadEnter, kVK_ANSI_KeypadEnter},
+    {kHIDUsage_KeypadEqualSign, kVK_ANSI_KeypadEquals},
+    {kHIDUsage_Keypad1, kVK_ANSI_Keypad1},
+    {kHIDUsage_Keypad2, kVK_ANSI_Keypad2},
+    {kHIDUsage_Keypad3, kVK_ANSI_Keypad3},
+    {kHIDUsage_Keypad4, kVK_ANSI_Keypad4},
+    {kHIDUsage_Keypad5, kVK_ANSI_Keypad5},
+    {kHIDUsage_Keypad6, kVK_ANSI_Keypad6},
+    {kHIDUsage_Keypad7, kVK_ANSI_Keypad7},
+    {kHIDUsage_Keypad8, kVK_ANSI_Keypad8},
+    {kHIDUsage_Keypad9, kVK_ANSI_Keypad9},
+    {kHIDUsage_Keypad0, kVK_ANSI_Keypad0},
+    {kHIDUsage_KeypadPeriod, kVK_ANSI_KeypadDecimal},
+    {kHIDUsage_KeypadNumLock, kVK_ANSI_KeypadClear},
+    {kHIDUsage_KeyboardPageUp, kVK_PageUp},
+    {kHIDUsage_KeyboardPageDown, kVK_PageDown},
 };
 
 typedef struct
@@ -176,8 +195,34 @@ OE_HIDString hidlabels[] = {
 	{kHIDUsage_KeyboardRightAlt, @"Right ⌥"},	/* Right Alt */
 	{kHIDUsage_KeyboardRightGUI, @"Right ⌘"},	/* Right GUI */
 
-	{kHIDUsage_KeyboardLeftArrow, @"←"},	/* Right GUI */
-	{kHIDUsage_KeyboardRightArrow, @"→"},	/* Right GUI */
-	{kHIDUsage_KeyboardUpArrow, @"↑"},	/* Right GUI */
-	{kHIDUsage_KeyboardDownArrow, @"↓"},	/* Right GUI */
+	{kHIDUsage_KeyboardLeftArrow, @"←"},	/* Left Arrow */
+	{kHIDUsage_KeyboardRightArrow, @"→"},	/* Right Arrow */
+	{kHIDUsage_KeyboardUpArrow, @"↑"},	/* Up Arrow */
+	{kHIDUsage_KeyboardDownArrow, @"↓"},	/* Down Arrow */
+    
+    {kHIDUsage_KeypadSlash, @"Num /"}, 
+    {kHIDUsage_KeypadAsterisk, @"Num *"}, 
+    {kHIDUsage_KeypadHyphen, @"Num -"},
+    {kHIDUsage_KeypadPlus, @"Num +"},
+    {kHIDUsage_KeypadEnter, @"Num Enter"},
+    {kHIDUsage_KeypadEqualSign, @"Num ="},
+    {kHIDUsage_Keypad1, @"Num 1"},
+    {kHIDUsage_Keypad2, @"Num 2"},
+    {kHIDUsage_Keypad3, @"Num 3"},
+    {kHIDUsage_Keypad4, @"Num 4"},
+    {kHIDUsage_Keypad5, @"Num 5"},
+    {kHIDUsage_Keypad6, @"Num 6"},
+    {kHIDUsage_Keypad7, @"Num 7"},
+    {kHIDUsage_Keypad8, @"Num 8"},
+    {kHIDUsage_Keypad9, @"Num 9"},
+    {kHIDUsage_Keypad0, @"Num 0"},
+    {kHIDUsage_KeypadPeriod, @"Num ."},
+    
+    {kHIDUsage_KeyboardPageUp, @"Page Up"},
+    {kHIDUsage_KeyboardPageDown, @"Page Down"},
+    {kHIDUsage_KeypadNumLock, @"Num Lock"},
+    {kHIDUsage_KeyboardHome, @"Home"},
+    {kHIDUsage_KeyboardEnd, @"End"},
+    {kHIDUsage_KeyboardNonUSPound, @"#"},
+    {kHIDUsage_KeyboardNonUSBackslash, @"|"},
 };

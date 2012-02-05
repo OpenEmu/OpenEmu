@@ -167,6 +167,14 @@ These are standard parameters which are used by the Mupen64Plus plugins.  The be
 |M64TYPE_BOOL
 |Display On-screen FPS
 |-
+|FogMethod
+|M64TYPE_INT
+|Enable, Disable or Force fog generation (0=Disable, 1=Enable n64 choose, 2=Force Fog)
+|-
+|Mipmapping
+|M64TYPE_INT
+|Use Mipmapping? 0=no, 1=nearest, 2=bilinear, 3=trilinear
+|-
 |MultiSampling
 |M64TYPE_INT
 |Enable/Disable MultiSampling (0=off, 2,4,8,16=quality)
@@ -181,7 +189,7 @@ These are standard parameters which are used by the Mupen64Plus plugins.  The be
 |-
 |ForceTextureFilter
 |M64TYPE_INT
-|Texture filter to use (0=default, 1=nearest neighbor, 2=linear, 3=bilinear)
+|Force to use texture filtering or not (0=auto: n64 choose, 1=force no filtering, 2=force filtering)
 |-
 |TextureQuality
 |M64TYPE_INT
@@ -199,6 +207,9 @@ These are standard parameters which are used by the Mupen64Plus plugins.  The be
 |M64TYPE_INT
 |OpenGL rendering level to support (0=auto, 1=OGL_1.1, 2=OGL_1.2, 3=OGL_1.3, 4=OGL_1.4, 5=OGL_1.4_V2, 6=OGL_TNT2, 7=NVIDIA_OGL, 8=OGL_FRAGMENT_PROGRAM)
 |-
+|AnisotropicFiltering
+|M64TYPE_INT
+|Enable/Disable Anisotropic Filtering for Mipmapping (0=no filtering, 2-16=quality). This is uneffective if EnableMipmapping is false. If the given value is to high to be supported by your graphic card, the value will be the highest value your graphic card can support. Better result with Trilinear filtering
 |}
 
 === Input-SDL ===

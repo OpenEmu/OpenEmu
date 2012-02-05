@@ -9,7 +9,7 @@
 
 
 
-uniform sampler2D OGL2Texture;
+uniform sampler2D OETexture;
 
 const vec3 dt = vec3(1.4,1.4,1.4);
 
@@ -33,15 +33,15 @@ void main()
 
     // Reading the texels
 
-    vec3 C0 = texture2D(OGL2Texture,pC4-g1).xyz; 
-    vec3 C1 = texture2D(OGL2Texture,pC4-dy).xyz;
-    vec3 C2 = texture2D(OGL2Texture,pC4-g2).xyz;
-    vec3 C3 = texture2D(OGL2Texture,pC4-dx).xyz;
-    vec3 C4 = texture2D(OGL2Texture,pC4   ).xyz;
-    vec3 C5 = texture2D(OGL2Texture,pC4+dx).xyz;
-    vec3 C6 = texture2D(OGL2Texture,pC4+g2).xyz;
-    vec3 C7 = texture2D(OGL2Texture,pC4+dy).xyz;
-    vec3 C8 = texture2D(OGL2Texture,pC4+g1).xyz;
+    vec3 C0 = texture2D(OETexture,pC4-g1).xyz; 
+    vec3 C1 = texture2D(OETexture,pC4-dy).xyz;
+    vec3 C2 = texture2D(OETexture,pC4-g2).xyz;
+    vec3 C3 = texture2D(OETexture,pC4-dx).xyz;
+    vec3 C4 = texture2D(OETexture,pC4   ).xyz;
+    vec3 C5 = texture2D(OETexture,pC4+dx).xyz;
+    vec3 C6 = texture2D(OETexture,pC4+g2).xyz;
+    vec3 C7 = texture2D(OETexture,pC4+dy).xyz;
+    vec3 C8 = texture2D(OETexture,pC4+g1).xyz;
 
     vec3 ul,ur,dl,dr; float m1,m2;
 

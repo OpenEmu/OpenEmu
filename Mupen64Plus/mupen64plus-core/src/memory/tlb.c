@@ -35,7 +35,7 @@ unsigned int tlb_LUT_w[0x100000];
 extern unsigned int interp_addr;
 unsigned int virtual_to_physical_address(unsigned int addresse, int w)
 {
-   if (addresse >= 0x7f000000 && addresse < 0x80000000 && strncmp((char *) ROM_HEADER->nom, "GOLDENEYE",9) == 0)
+   if (addresse >= 0x7f000000 && addresse < 0x80000000 && isGoldeneyeRom)
    {
        /**************************************************
         GoldenEye 007 hack allows for use of TLB.

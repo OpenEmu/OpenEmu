@@ -27,6 +27,18 @@
 	<key>NSPrincipalClass</key>
 	<string>OENESSystemController</string>
 	<key>OESystemPluginName</key>
-	<string>NES</string>
+	<string>Nintendo (NES)</string>
+	<key>OESystemIdentifier</key>
+	<string>openemu.system.nes</string>
+	<key>OEArchiveIDs</key>
+	<array>
+		<integer>32</integer>
+		<integer>36</integer>
+	</array>
+	<key>OEFileSuffixes</key>
+	<array>
+		<string>fds</string>
+		<string>nes</string>
+	</array>
 </dict>
 </plist>

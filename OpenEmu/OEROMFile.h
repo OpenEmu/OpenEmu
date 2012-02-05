@@ -53,7 +53,6 @@ insertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 @property(nonatomic, retain) NSSet    *saveStates;
 @property(nonatomic, retain) NSString *name;
 
-- (NSString *)systemName;
 - (NSURL *)pathURL;
 
 @end

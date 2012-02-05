@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en-US">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta http-equiv="content-style-type" content="text/css">
+		<meta name="description" content="Game Saving">
+		<link href="../sty/style.css" rel="stylesheet">
+		<title>Game Saving</title>
+	</head>
+	<body>
+		<h2>Game Saving</h2>
+		<p>
+			Many SNES games take a very long time to complete from start to finish, so they allowed your progress to be saved at the predefined places chosen by the game designers. The game cartridge contains a battery-backed RAM, known as SRAM, and your save data remain in this SRAM until the battery shutoff.
+		</p>
+		<p>
+			Snes9x has two methods for saving games. One is the same as of the real SNES shown above; emulating SRAM. The SRAM contents are saved into a file (.srm) so you don't need to be worried about the battery shutoff. The other is more convenient way than the real SNES; 'freezing' or 'snapshotting' the game. It means saving the whole game state anywhere you want, beyond the game designers' intent - ideal for saving your game just before a tricky bit!
+		</p>
+		<h3>Using the SRAM File</h3>
+		<p>
+			It's easy enough, just save the game as you do with the real SNES. Snes9x outputs the contents of the emulated SRAM into a file (.srm) when you load a new game, pause the emulation loop or quit Snes9x. This file is automatically loaded the next time you play the game.
+		</p>
+		<p>
+			To avoid losing your progress if Snes9x or your system crashes before the .srm file is saved, Snes9x provides auto-saving .srm option - the .srm file is always updated when the SRAM contents are modified. See into 'File' tab in 'Preferences' dialog to turn on this option. You can also update .srm file manually by choosing 'Save SRAM File Now' in 'Option' menu.
+		</p>
+		<h3>Freezing and Defrosting the Game State</h3>
+		<p>
+			Snes9x provides 12 slots for freezing the whole of your game state. During the game, press 'Freeze' key and you can see the slots numbered from 0 to C in the game screen. Press 0-C key (or move the yellow square cursor by the joypad and press start button) to save the game state to each slot. To load it, press 'Defrost' key and choose the slot in the same way. The most recent freeze file (.frz) is automatically pointed by the yellow cursor when you entered the freeze/defrost screen. Thumbnails and time stamps will be your help. If you mistakenly entered the freeze/defrost screen, press esc key and exit.<br>
+			Additionally, you can manually save/load the freeze file by using 'Freeze State to...' and 'Defrost State from...' in 'Option' menu.
+		</p>
+		<h3>Real-Time Clock Emulation</h3>
+		<p>
+			Some games have a battery-backed real-time clock (RTC) in their cartridge to bring a real-time event in the game. Snes9x saves the state of RTC into a file (.rtc) and also into a freeze file.<br>
+			Note that because it's a 'real-time' clock, when these files are loaded, the emulated clock is automatically advanced in reference to your Mac's time and date.
+		</p>
+		<h3>Fool-Proof System</h3>
+		<p>
+			If you quit the game by error without saving your long-time progress, try to find '.oops' file in the same folder as freeze files. If it exists, rename its extension to '.frz' and try to load it. It's a freeze file automatically generated if you don't save anything for a long time.
+		</p>
+		<div style="text-align:center; margin-top:3em"><p>	
+			&lt;<a href="05.html">Prev</a>&nbsp;&nbsp;<a href="../index.html">Top</a>&nbsp;&nbsp;<a href="07.html">Next</a>&gt;
+		</p></div>
+	</body>
+</html>

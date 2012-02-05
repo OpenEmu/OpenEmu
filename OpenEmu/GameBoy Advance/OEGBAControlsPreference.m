@@ -33,22 +33,32 @@
 {
     [super awakeFromNib];
     
-    OEGameControllerView *view = (OEGameControllerView *)[self view];
-    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"gba.png"];
-    [view setGameController:[[[NSImage alloc] initWithContentsOfFile:path] autorelease]];
+    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
     
-    [view addButtonWithName:@"OEGBAButtonL[@]"      toolTip:@"Left Trigger"  target:self startPosition:NSMakePoint(50, 220)  endPosition:NSMakePoint(203, 208)];
-    [view addButtonWithName:@"OEGBAButtonUp[@]"     toolTip:@"D-Pad Up"      target:self startPosition:NSMakePoint(50, 188)  endPosition:NSMakePoint(210, 172)];
-    [view addButtonWithName:@"OEGBAButtonLeft[@]"   toolTip:@"D-Pad Left"    target:self startPosition:NSMakePoint(50, 156)  endPosition:NSMakePoint(199, 161)];
-    [view addButtonWithName:@"OEGBAButtonRight[@]"  toolTip:@"D-Pad Right"   target:self startPosition:NSMakePoint(50, 124)  endPosition:NSMakePoint(221, 163)];
-    [view addButtonWithName:@"OEGBAButtonDown[@]"   toolTip:@"D-Pad Down"    target:self startPosition:NSMakePoint(50, 92)   endPosition:NSMakePoint(210, 151)];
-    
-    [view addButtonWithName:@"OEGBAButtonStart[@]"  toolTip:@"Start Button"  target:self startPosition:NSMakePoint(348, 20)  endPosition:NSMakePoint(227, 127)];
-    [view addButtonWithName:@"OEGBAButtonSelect[@]" toolTip:@"Select Button" target:self startPosition:NSMakePoint(252, 20)  endPosition:NSMakePoint(227, 114)];
-    
-    [view addButtonWithName:@"OEGBAButtonR[@]"      toolTip:@"Right Trigger" target:self startPosition:NSMakePoint(550, 220) endPosition:NSMakePoint(393, 210)];
-    [view addButtonWithName:@"OEGBAButtonA[@]"      toolTip:@"A Button"      target:self startPosition:NSMakePoint(550, 124) endPosition:NSMakePoint(403, 167)];
-    [view addButtonWithName:@"OEGBAButtonB[@]"      toolTip:@"B Button"      target:self startPosition:NSMakePoint(550, 92)  endPosition:NSMakePoint(379, 159)];
-}
+	[view addButtonWithName:@"OEGBAButtonUp[@]" label:@"Up:" target:self highlightPoint:(NSPoint){146, 173}];
+	[view addButtonWithName:@"OEGBAButtonDown[@]" label:@"Down:" target:self highlightPoint:(NSPoint){146, 138}];
+	[view addButtonWithName:@"OEGBAButtonLeft[@]" label:@"Left:" target:self highlightPoint:(NSPoint){128, 155}];
+	[view addButtonWithName:@"OEGBAButtonRight[@]" label:@"Right:" target:self highlightPoint:(NSPoint){168, 155}];
+    [view nextColumn];
+	
+	[view addButtonWithName:@"OEGBAButtonStart[@]" label:@"Start:" target:self highlightPoint:(NSPoint){173,97}];
+	[view addButtonWithName:@"OEGBAButtonSelect[@]" label:@"Select:" target:self highlightPoint:(NSPoint){173, 73}];	
+	[view nextColumn];
+	
+	[view addButtonWithName:@"OEGBAButtonA[@]" label:@"A:" target:self highlightPoint:(NSPoint){471, 161}];
+	[view addButtonWithName:@"OEGBAButtonB[@]" label:@"B:" target:self highlightPoint:(NSPoint){437, 148}];
+	
+	[view addButtonWithName:@"OEGBAButtonL[@]" label:@"Left Trigger:" target:self highlightPoint:(NSPoint){131, 237}];
+	[view addButtonWithName:@"OEGBAButtonR[@]" label:@"Right Trigger:" target:self highlightPoint:(NSPoint){469, 237}];
 
+	[view updateButtons];
+}
+- (NSImage*)controllerImage{
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_gba.png"];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
+- (NSImage*)controllerImageMask{
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_gba_mask.png"];
+    return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
 @end
