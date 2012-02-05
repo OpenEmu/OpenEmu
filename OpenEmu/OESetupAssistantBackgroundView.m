@@ -7,13 +7,44 @@
 //
 
 #import "OESetupAssistantBackgroundView.h"
+#import "OESetupAssistantQCOpenGLLayer.h"
 
 @implementation OESetupAssistantBackgroundView
 
-- (void)drawRect:(NSRect)dirtyRect
+- (id)initWithFrame:(NSRect)frameRect
 {
-    NSImage *backgroundImage = [NSImage imageNamed:@"installer_backgroundSample"];
-    [backgroundImage drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
+    self = [super initWithFrame:frameRect];
+    if(self)
+    {
+        [self fuckYouLoadTheGoddamnedQCCompositionYouFuckingTwat];
+    }
+    
+    return self;
+}
+
+- (void) dealloc
+{
+    self.layer = nil;
+    [super dealloc];
+}
+
+- (void) awakeFromNib
+{
+    [self fuckYouLoadTheGoddamnedQCCompositionYouFuckingTwat];
+}
+
+- (void) fuckYouLoadTheGoddamnedQCCompositionYouFuckingTwat
+{
+    [self setWantsLayer:YES];
+    
+    OESetupAssistantQCOpenGLLayer* _backgroundAnimation = [OESetupAssistantQCOpenGLLayer layer];
+    
+    [_backgroundAnimation setFrame:self.frame];
+    [_backgroundAnimation setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [_backgroundAnimation setAsynchronous:YES];
+    [_backgroundAnimation setContinaingWindow:self.window];
+    
+    self.layer = _backgroundAnimation;
 }
 
 @end

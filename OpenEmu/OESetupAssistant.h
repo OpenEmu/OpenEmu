@@ -29,17 +29,13 @@
 #import <Quartz/Quartz.h>
 
 #import "OEMainWindowContentController.h"
+
 @class OESetupAssistantKeyMapView;
 @interface OESetupAssistant : OEMainWindowContentController
 {
 }
-@property (retain) IBOutlet NSButton *back;
-@property (retain) IBOutlet NSButton *skip;
-@property (retain) IBOutlet NSButton *next;
+@property (retain) IBOutlet NSButton *goButton;
 
-@property (retain) IBOutlet OESetupAssistantKeyMapView *keyMapView;
-#pragma mark -
-#pragma mark Old Stuff
 @property (readwrite, retain) NSMutableArray *searchResults;
 @property (readwrite, retain) CATransition *transition;
 
@@ -47,15 +43,36 @@
 @property (readwrite, retain) IBOutlet NSView *step1;
 @property (readwrite, retain) IBOutlet NSView *step2;
 @property (readwrite, retain) IBOutlet NSView *step3;
+@property (readwrite, retain) IBOutlet NSView *step3a;
 @property (readwrite, retain) IBOutlet NSView *step4;
 @property (readwrite, retain) IBOutlet NSView *step5;
+@property (readwrite, retain) IBOutlet NSView *step6;
+@property (readwrite, retain) IBOutlet NSView *step7;
+@property (readwrite, retain) IBOutlet NSView *step8;
+@property (readwrite, retain) IBOutlet NSView *step9;
+@property (readwrite, retain) IBOutlet NSView *step10;
 
+@property (readwrite, retain) IBOutlet NSView *lastStep;
+
+
+// decision tree
+@property (readwrite, retain) IBOutlet NSButton* allowScanForGames;
+
+// key map views
+@property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* upKeyMapView;
+@property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* downKeyMapView;
+@property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* leftKeyMapView;
+@property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* rightKeyMapView;
+@property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* runKeyMapView;
+@property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* jumpKeyMapView;
+
+/*
 @property (readwrite, retain) IBOutlet NSButton *dontSearchCommonTypes;
 @property (readwrite, retain) IBOutlet NSProgressIndicator *resultProgress;
 @property (readwrite, retain) IBOutlet NSTextField *resultFinishedLabel;
 @property (readwrite, retain) IBOutlet NSTableView *resultTableView;
 @property (readwrite, retain) IBOutlet NSArrayController *resultController;
-
+*/
 
 - (void) goForwardToView:(NSView*)view;
 - (void) goBackToView:(NSView*)view;
@@ -67,16 +84,31 @@
 - (IBAction) backToStep2:(id)sender;
 - (IBAction) toStep3:(id)sender;
 - (IBAction) backToStep3:(id)sender;
+- (IBAction) toStep3aOr4:(id)sender;
 - (IBAction) toStep4:(id)sender;
 - (IBAction) backToStep4:(id)sender;
 - (IBAction) toStep5:(id)sender;
+- (IBAction) backToStep5:(id)sender;
+- (IBAction) toStep6:(id)sender;
+- (IBAction) backToStep6:(id)sender;
+- (IBAction) toStep7:(id)sender;
+- (IBAction) backToStep7:(id)sender;
+- (IBAction) toStep8:(id)sender;
+- (IBAction) backToStep8:(id)sender;
+- (IBAction) toStep9:(id)sender;
+- (IBAction) backToStep9:(id)sender;
+- (IBAction) toStep10:(id)sender;
+- (IBAction) backToStep10:(id)sender;
+
+- (IBAction) toLastStep:(id)sender;
+- (IBAction) finishAndRevealLibrary:(id)sender;
 
 - (IBAction) import:(id)sender;
 
 // Rom Discovery
+/*
 - (IBAction) discoverRoms:(id)sender;
-
 - (void) updateSearchResults:(NSNotification*)notification;
 - (void) finalizeSearchResults:(NSNotification*)notification;
-
+*/
 @end

@@ -7,7 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <Quartz/Quartz.h>
 
 @interface OESetupAssistantBackgroundView : NSView
+{
+}
+
+- (void) fuckYouLoadTheGoddamnedQCCompositionYouFuckingTwat;
 
 @end
