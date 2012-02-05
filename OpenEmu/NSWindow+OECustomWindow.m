@@ -20,7 +20,6 @@
 + (void)registerWindowClassForCustomThemeFrameDrawing:(Class)windowClass
 {
     static BOOL customDrawingWasSetup = NO;
-    DLog(@"customDrawingWasSetup before: %d", customDrawingWasSetup);
     Class NSThemeFrameClass = NSClassFromString(@"NSThemeFrame");
     
     if(customDrawingWasSetup == NO)

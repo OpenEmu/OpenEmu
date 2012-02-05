@@ -7,7 +7,7 @@
 //
 
 #import "OECoverGridRatingLayer.h"
-
+#import "NSImage+OEDrawingAdditions.h"
 @implementation OECoverGridRatingLayer
 - (id)init {
     self = [super init];
@@ -43,8 +43,7 @@
     NSRect ratingImageSourceRect = NSMakeRect(0,66-11*(rating+1), 55, 11);
     NSRect targetRect = NSMakeRect(0,0, 55, 11);
     
-    NSDictionary *interpolationDisabled = [NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:NSImageInterpolationNone] forKey:NSImageHintInterpolation];
-    [[self ratingImage] drawInRect:targetRect fromRect:ratingImageSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:interpolationDisabled];
+    [[self ratingImage] drawInRect:targetRect fromRect:ratingImageSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
     
     [NSGraphicsContext restoreGraphicsState];
 }

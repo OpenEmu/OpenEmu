@@ -21,7 +21,7 @@
     
     NSDictionary *drawingHints = hints;
     if(!drawingHints)
-        drawingHints = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:NSImageInterpolationNone] forKey:NSImageHintInterpolation];
+        drawingHints = NoInterpol;
     
     // Bottom Left
     if(sourceFlipped)

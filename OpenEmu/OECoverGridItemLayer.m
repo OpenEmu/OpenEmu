@@ -254,6 +254,8 @@
     newImageLayer.contentsGravity = kCAGravityResize;
     newImageLayer.delegate = self;
     
+#warning fix grid view crash
+    // weired issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
     @try 
     {
         [self.imageLayer.superlayer replaceSublayer:self.imageLayer with:newImageLayer];
