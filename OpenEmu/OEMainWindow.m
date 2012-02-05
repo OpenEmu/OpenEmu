@@ -39,9 +39,9 @@
     [contentView setAnimations:[NSDictionary dictionaryWithObject:cvTransition forKey:@"subviews"]];
 }
 
-- (void)setMainContentView:(NSView*)view
+- (void)setMainContentView:(NSView *)view
 {
-    NSView* contentView = [self contentView];
+    NSView *contentView = [self contentView];
     [view setFrame:[mainContentView frame]];
     [view setAutoresizingMask:[mainContentView autoresizingMask]];
     [[contentView animator] replaceSubview:mainContentView with:view];   
@@ -51,7 +51,7 @@
     mainContentView = view;
 }
 
-- (NSView*)mainContentView
+- (NSView *)mainContentView
 {
     return mainContentView;
 }
@@ -61,7 +61,7 @@
 @implementation OEMainWindowTitleBarView
 - (void)drawRect:(NSRect)dirtyRect
 {
-    if(dirtyRect.origin.y!=0) return;
+    if(dirtyRect.origin.y != 0) return;
     
     dirtyRect.size.height = 1;
     [[NSColor blackColor] setFill];
@@ -70,6 +70,7 @@
 @end
 
 @implementation OEMainWindowContentView
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     [[NSColor blackColor] setFill];

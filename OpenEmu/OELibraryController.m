@@ -36,23 +36,29 @@ NSString * const NSWindowWillEnterFullScreenNotification = @"OEWindowWillEnterFu
 NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullScreenNotification";
 #endif
 
-@interface OELibraryController (Private)
-- (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
+@interface OELibraryController ()
+- (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
-- (void)_setupMenu;
-- (void)_setupToolbarItems;
+- (void)OE_setupMenu;
+- (void)OE_setupToolbarItems;
 @end
+
 @implementation OELibraryController
+@synthesize romImporter;
+@synthesize database;
+@synthesize sidebarController, collectionViewController, mainSplitView;
+
 - (id)initWithWindowController:(OEMainWindowController*)windowController andDatabase:(OELibraryDatabase*)database
 {
-    self = [super initWithWindowController:windowController];
-    if (self) {
+    if((self = [super initWithWindowController:windowController]))
+    {
         NSLog(@"Init OELibraryController");
+        
         [self setDatabase:database];
-        [self view];
     }
     return self;
 }
+
 - (void)dealloc
 {
     NSLog(@"Dealloc OELibraryController");
@@ -74,7 +80,7 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     return @"Library";
 }
 
-- (void) awakeFromNib
+- (void)awakeFromNib
 {
     [super awakeFromNib];
     
@@ -121,8 +127,8 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     NSView* toolbarItemContainer = [[windowController toolbarSearchField] superview]; 
     [toolbarItemContainer setAutoresizingMask:0];
     
-    [self _setupMenu];
-    [self _setupToolbarItems];
+    [self OE_setupMenu];
+    [self OE_setupToolbarItems];
     [self layoutToolbarItems];
     
     [[self collectionViewController] willShow];
@@ -419,7 +425,8 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
 
 #pragma mark -
 #pragma mark Private
-- (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
+
+- (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
 {
     [self setSidebarChangesWindowSize:!fsFlag];
     [self mainSplitView].drawsWindowResizer = !fsFlag;
@@ -427,19 +434,19 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     if(fsFlag)
     {
         [NSApp setPresentationOptions:NSApplicationPresentationAutoHideDock|NSApplicationPresentationAutoHideToolbar];
-        
-    } 
+    }
     else 
     {
         [NSApp setPresentationOptions:NSApplicationPresentationDefault];
-        
     }
 }
-#pragma mark -
-- (void)_setupMenu
-{}
 
-- (void)_setupToolbarItems
+#pragma mark -
+- (void)OE_setupMenu
+{
+}
+
+- (void)OE_setupToolbarItems
 {
     OEMainWindowController* windowController = [self windowController];
     
@@ -489,7 +496,5 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
 {
     [self setSidebarChangesWindowSize:NO];
 }
-@synthesize romImporter;
-@synthesize database;
-@synthesize sidebarController, collectionViewController, mainSplitView;
+
 @end

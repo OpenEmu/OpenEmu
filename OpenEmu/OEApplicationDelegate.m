@@ -1,10 +1,28 @@
-//
-//  OEApplicationDelegate.m
-//  OpenEmu
-//
-//  Created by Carl Leimbrock on 19.10.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/*
+ Copyright (c) 2011, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "OEApplicationDelegate.h"
 
@@ -27,26 +45,37 @@
 #import "OELibraryController.h"
 
 #import "OEHUDAlert.h"
-@interface OEApplicationDelegate (Private)
-- (void)loadDatabase;
-- (void)performDatabaseSelection;
 
-- (void)loadPlugins;
-- (void)setupHIDSupport;
-- (void)_makeTargetForMenuItems:(NSMenu*)menu;
+@interface OEApplicationDelegate ()
+- (void)OE_loadDatabase;
+- (void)OE_performDatabaseSelection;
+
+- (void)OE_loadPlugins;
+- (void)OE_setupHIDSupport;
+- (void)OE_makeTargetForMenuItems:(NSMenu *)menu;
 @end
-@implementation OEApplicationDelegate
-@dynamic appVersion, projectURL;
-@synthesize startupMainMenu, mainMenu;
 
-- (id)init
+@implementation OEApplicationDelegate
+@synthesize startupMainMenu, mainMenu;
+@dynamic appVersion, projectURL;
+
++ (void)initialize
 {
-    self = [super init];
-    if (self) 
+    if(self == [OEApplicationDelegate class])
     {
+        // Setup some defaults
+        NSUserDefaultsController *defaults      = [NSUserDefaultsController sharedUserDefaultsController];
+        NSDictionary             *initialValues = [[defaults initialValues] mutableCopy];
+        
+        if(initialValues == nil) initialValues = [[NSMutableDictionary alloc] initWithCapacity:2];
+        
+        [initialValues setValue:@"Linear"                      forKey:@"filterName"];
+        [initialValues setValue:[NSNumber numberWithFloat:1.0] forKey:@"volume"];
+        
+        [defaults setInitialValues:initialValues];
+        
+        [initialValues release];
     }
-    
-    return self;
 }
 
 - (void)dealloc 
@@ -58,11 +87,12 @@
     
     [super dealloc];
 }
+
 #pragma mark -
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Load Database
-    [self loadDatabase];
+    [self OE_loadDatabase];
     
     // if no database was loaded open emu quits
     if(![OELibraryDatabase defaultDatabase])
@@ -72,22 +102,12 @@
     }
     
     // Load the plugins now
-    [self loadPlugins];
+    [self OE_loadPlugins];
     
     [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
     
     // Run Migration Manager
     [[OEVersionMigrationController defaultMigrationController] runMigrationIfNeeded];
-    
-    // Setup some defaults
-    NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
-    NSDictionary *initialValues = [[[defaults initialValues] mutableCopy] autorelease];
-    if(initialValues == nil)
-        initialValues = [NSMutableDictionary dictionary];
-    
-    [initialValues setValue:@"Linear"                      forKey:@"filterName"];
-    [initialValues setValue:[NSNumber numberWithFloat:1.0] forKey:@"volume"];
-    [defaults setInitialValues:initialValues];
     
     // load images for toolbar sidebar button
     
@@ -98,17 +118,18 @@
     [self updateInfoPlist];
     
     // Setup HID Support
-    [self setupHIDSupport];
+    [self OE_setupHIDSupport];
     
     [NSApp setMainMenu:[self mainMenu]];
     
     // Load MainWindow
-    OEMainWindowController* windowController = [[OEMainWindowController alloc] init];
+    OEMainWindowController *windowController = [[OEMainWindowController alloc] init];
     [windowController window];
     
-    OELibraryController* libraryController = [[OELibraryController alloc] initWithWindowController:windowController andDatabase:[OELibraryDatabase defaultDatabase]];
+    OELibraryController *libraryController = [[OELibraryController alloc] initWithWindowController:windowController andDatabase:[OELibraryDatabase defaultDatabase]];
     [windowController setDefaultContentController:libraryController];
     [libraryController release];
+    
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSetupAssistantHasRun])
     {
         OESetupAssistant* setupAssistant = [[OESetupAssistant alloc] init];
@@ -123,7 +144,7 @@
     [self setMainWindowController:windowController];
     
     // Setup MainMenu
-    [self _makeTargetForMenuItems:[self mainMenu]];
+    [self OE_makeTargetForMenuItems:[self mainMenu]];
     
     [[[self mainWindowController] window] makeKeyAndOrderFront:self];
     [[self mainWindowController] setupMenuItems];
@@ -139,7 +160,7 @@
 }
 #pragma mark -
 #pragma mark Loading The Database
-- (void)loadDatabase
+- (void)OE_loadDatabase
 {
     NSError* error = nil;
     
@@ -159,7 +180,7 @@
             [NSApp presentError:error];
         
         // we ask the user to either select/create one, or quit open emu
-        [self performDatabaseSelection];
+        [self OE_performDatabaseSelection];
     }
     else if(error!=nil) // if the database could not be loaded because it has the wrong version
     {
@@ -168,10 +189,10 @@
         
         // and try to load it again, if that fails, the user must select one
         if(![OELibraryDatabase loadFromURL:databaseURL error:&error])
-            [self performDatabaseSelection];
+            [self OE_performDatabaseSelection];
     }
 }
-- (void)performDatabaseSelection
+- (void)OE_performDatabaseSelection
 {
     // setup alert, with options "Quit", "Select", "Create"
     NSString* title = @"Choose OpenEmu Library";
@@ -205,7 +226,7 @@
                     NSError* error = [[NSError alloc] initWithDomain:@"blub" code:120 userInfo:nil];
                     [[NSAlert alertWithError:error] runModal];
                     [error release];
-                    [self performDatabaseSelection];
+                    [self OE_performDatabaseSelection];
                     return;
                 }
             }
@@ -237,11 +258,11 @@
         }
         
         // otherwise performDatabaseSelection starts over
-        [self performDatabaseSelection];
+        [self OE_performDatabaseSelection];
     }
 }
 #pragma mark -
-- (void)loadPlugins
+- (void)OE_loadPlugins
 {
     [OEPlugin registerPluginClass:[OECorePlugin class]];
     [OEPlugin registerPluginClass:[OESystemPlugin class]];
@@ -253,7 +274,7 @@
     [[OELibraryDatabase defaultDatabase] save:nil];
 }
 
-- (void)setupHIDSupport
+- (void)OE_setupHIDSupport
 {
     NSArray *matchingTypes = [NSArray arrayWithObjects:
                               [NSDictionary dictionaryWithObjectsAndKeys:
@@ -427,13 +448,13 @@
 
 #pragma mark -
 #pragma mark Menu Handling
-- (void)_makeTargetForMenuItems:(NSMenu*)menu
+- (void)OE_makeTargetForMenuItems:(NSMenu*)menu
 {
     [menu setAutoenablesItems:YES];
     [[menu itemArray] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
      {
          if([obj hasSubmenu])
-             [self _makeTargetForMenuItems:[obj submenu]];
+             [self OE_makeTargetForMenuItems:[obj submenu]];
          else if([obj action] == NULL)
          {
              [obj setAction:@selector(menuItemAction:)];
