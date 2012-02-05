@@ -185,7 +185,6 @@
 		53439B9313B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B9213B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m */; };
 		53439B9613B937F5005C0CC8 /* NSURL+OELibraryAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B9513B937F5005C0CC8 /* NSURL+OELibraryAdditions.m */; };
 		53439B9913B937FD005C0CC8 /* NSColor+IKSAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B9813B937FD005C0CC8 /* NSColor+IKSAdditions.m */; };
-		53439B9C13B9380D005C0CC8 /* DelayedBlockExecution.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439B9B13B9380D005C0CC8 /* DelayedBlockExecution.m */; };
 		53439BF213B93920005C0CC8 /* arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439B9E13B93920005C0CC8 /* arrow_down.png */; };
 		53439BF313B93920005C0CC8 /* arrow_left.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439B9F13B93920005C0CC8 /* arrow_left.png */; };
 		53439BF413B93920005C0CC8 /* arrow_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BA013B93920005C0CC8 /* arrow_right.png */; };
@@ -1026,8 +1025,6 @@
 		53439B9513B937F5005C0CC8 /* NSURL+OELibraryAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+OELibraryAdditions.m"; sourceTree = "<group>"; };
 		53439B9713B937FD005C0CC8 /* NSColor+IKSAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+IKSAdditions.h"; sourceTree = "<group>"; };
 		53439B9813B937FD005C0CC8 /* NSColor+IKSAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+IKSAdditions.m"; sourceTree = "<group>"; };
-		53439B9A13B9380C005C0CC8 /* DelayedBlockExecution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelayedBlockExecution.h; sourceTree = "<group>"; };
-		53439B9B13B9380D005C0CC8 /* DelayedBlockExecution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DelayedBlockExecution.m; sourceTree = "<group>"; };
 		53439B9E13B93920005C0CC8 /* arrow_down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_down.png; sourceTree = "<group>"; };
 		53439B9F13B93920005C0CC8 /* arrow_left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_left.png; sourceTree = "<group>"; };
 		53439BA013B93920005C0CC8 /* arrow_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_right.png; sourceTree = "<group>"; };
@@ -1914,8 +1911,6 @@
 				C66DFA600F51C9550080AA28 /* GameCore framework */,
 				828E64D00E84656900B1860B /* OpenEmuCore */,
 				1BEF34751168F88A0090F72B /* Additions to standard classes */,
-				53439B9A13B9380C005C0CC8 /* DelayedBlockExecution.h */,
-				53439B9B13B9380D005C0CC8 /* DelayedBlockExecution.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -3882,7 +3877,6 @@
 				53439B9313B937EA005C0CC8 /* NSImage+OEDrawingAdditions.m in Sources */,
 				53439B9613B937F5005C0CC8 /* NSURL+OELibraryAdditions.m in Sources */,
 				53439B9913B937FD005C0CC8 /* NSColor+IKSAdditions.m in Sources */,
-				53439B9C13B9380D005C0CC8 /* DelayedBlockExecution.m in Sources */,
 				C6289C32135B215B00EEE97C /* OESystemPlugin.m in Sources */,
 				53439CB913B9503D005C0CC8 /* OEDatabase.xcdatamodeld in Sources */,
 				8310447113BE419000B283B0 /* OEHorizontalSplitView.m in Sources */,

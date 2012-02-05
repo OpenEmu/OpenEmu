@@ -27,7 +27,7 @@
 #import <Cocoa/Cocoa.h>
 #import "OEMainWindowController.h"
 @interface OEMainWindowContentController : NSViewController
-@property (assign) OEMainWindowController *windowController;
+@property(assign) OEMainWindowController *windowController DEPRECATED_ATTRIBUTE;
 - (id)initWithWindowController:(OEMainWindowController*) aWindowController;
 
 - (void)contentWillShow;

@@ -65,7 +65,6 @@
 							<string key="NSFrame">{{14, 10}, {28, 23}}</string>
 							<reference key="NSSuperview" ref="71309473"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="503245926">

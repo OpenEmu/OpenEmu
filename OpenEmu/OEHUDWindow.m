@@ -1,54 +1,69 @@
-//
-//  OEGameWindow.m
-//  popoutwindow
-//
-//  Created by Christoph Leimbrock on 07.06.11.
-//  Copyright 2011 none. All rights reserved.
-//
+/*
+ Copyright (c) 2011, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "OEHUDWindow.h"
 #import "NSImage+OEDrawingAdditions.h"
 
 #import "OEImageButton.h"
 #import "NSColor+IKSAdditions.h"
-@interface OEHUDWindow (Private)
+
+@interface OEHUDWindow ()
 - (void)_initialSetup;
 @end
+
 @interface OEHUDBorderWindow : NSWindow
 @end
+
 @implementation OEHUDWindow
+
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
-    if (self != [OEHUDWindow class])
+    if(self != [OEHUDWindow class])
         return;
-
+    
     if([NSImage imageNamed:@"hud_window_active"]) return;
     NSImage *img = [NSImage imageNamed:@"hud_window"];
     
     [img setName:@"hud_window_active" forSubimageInRect:NSMakeRect(0, 0, img.size.width/2, img.size.height)];
     [img setName:@"hud_window_inactive" forSubimageInRect:NSMakeRect(img.size.width/2, 0, img.size.width/2, img.size.height)];
 }
+
 #pragma mark -
-- (id)initWithContentRect:(NSRect)contentRect
-                styleMask:(NSUInteger)windowStyle
-                  backing:(NSBackingStoreType)bufferingType
-                    defer:(BOOL)deferCreation
+
+- (id)initWithContentRect:(NSRect)contentRect styleMask:(NSUInteger)windowStyle backing:(NSBackingStoreType)bufferingType defer:(BOOL)deferCreation
 {
-    self = [super
-            initWithContentRect:contentRect
-            styleMask:NSBorderlessWindowMask|NSResizableWindowMask
-            backing:bufferingType
-            defer:deferCreation];
-    
-    if (self)
+    if((self = [super initWithContentRect:contentRect styleMask:NSBorderlessWindowMask | NSResizableWindowMask backing:bufferingType defer:deferCreation]))
     {
         [self _initialSetup];
     }
     return self;
 }
 
-- (id)initWithContentRect:(NSRect)frame 
+- (id)initWithContentRect:(NSRect)frame
 {
     self = [self initWithContentRect:frame styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     if (self) 
@@ -69,8 +84,10 @@
     
     [super dealloc];
 }
+
 #pragma mark -
 #pragma mark Private
+
 - (void)_initialSetup
 {
     [self setHasShadow:NO];
@@ -125,8 +142,10 @@
     [aView setFrame:contentRect];
     [aView setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
 }
+
 #pragma mark -
 #pragma mark NSWindow Overrides
+
 - (BOOL)canBecomeKeyWindow
 {
     return YES;
@@ -140,10 +159,11 @@
 @end
 
 @implementation OEHUDBorderWindow
+
 - (id)init
 {
-    self = [self initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
-    if(self){
+    if((self = [self initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO]))
+    {
         [self setHasShadow:NO];
         [self setMovableByWindowBackground:NO];
         
@@ -161,18 +181,20 @@
 }
 
 - (void)setContentView:(NSView *)aView
-{}
+{
+}
 
 - (void)display
 {
     [[self contentView] display];
 }
+
 - (void)setParentWindow:(NSWindow *)window
 {
     [super setParentWindow:window];
 }
 
-- (void)dealloc 
+- (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -188,34 +210,13 @@
 {
     return NO;
 }
+
 @end
 
 @implementation OEHUDWindowThemeView
 
-- (id)init 
-{
-    self = [super init];
-    if (self) 
-    {
-    }
-    return self;
-}
-- (id)initWithCoder:(NSCoder *)coder 
-{
-    self = [super initWithCoder:coder];
-    if (self) 
-    {
-    }
-    return self;
-}
-- (id)initWithFrame:(NSRect)frame 
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-    }
-    return self;
-}
 #pragma mark -
+
 - (BOOL)isOpaque
 {
     return NO;
@@ -245,7 +246,6 @@
     NSRectFill([self bounds]);
     
     BOOL isFocused = [[self window].parentWindow isMainWindow] && [NSApp isActive];
-    
     
     NSImage *borderImage = isFocused ? [NSImage imageNamed:@"hud_window_active"] : [NSImage imageNamed:@"hud_window_inactive"];
     [borderImage drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver/*NSCompositeSourceOver*/ fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:23 bottomBorder:23];
@@ -278,6 +278,7 @@
     [attributedWindowTitle drawInRect:titleBarRect];
     [attributedWindowTitle release];
 }
+
 /*
  - (void)mouseDown:(NSEvent *)theEvent{
  NSPoint pointInView = [self convertPoint:[theEvent locationInWindow] fromView:nil];
@@ -336,4 +337,5 @@
  isResizing = NO;
  }
  */
+
 @end
