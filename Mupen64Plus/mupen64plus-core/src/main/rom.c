@@ -24,9 +24,11 @@
 #include <string.h>
 #include <ctype.h>
 
+#define M64P_CORE_PROTOTYPES 1
 #include "api/m64p_types.h"
 #include "api/callbacks.h"
 #include "api/config.h"
+#include "api/m64p_config.h"
 
 #include "md5.h"
 #include "rom.h"
@@ -41,7 +43,7 @@
 
 #define CHUNKSIZE 1024*128 /* Read files 128KB at a time. */
 
-_romdatabase g_romdatabase;
+static _romdatabase g_romdatabase;
 romdatabase_entry empty_entry;
 
 /* Global loaded rom memory space. */
@@ -49,8 +51,10 @@ unsigned char* rom = NULL;
 /* Global loaded rom size. */
 int rom_size = 0;
 
-rom_header* ROM_HEADER;
-rom_settings ROM_SETTINGS;
+unsigned char isGoldeneyeRom = 0;
+
+rom_header*       ROM_HEADER;
+m64p_rom_settings ROM_SETTINGS;
 
 /* Tests if a file is a valid N64 rom by checking the first 4 bytes. */
 static int is_valid_rom(const unsigned char *buffer)
@@ -95,7 +99,7 @@ static void swap_rom(unsigned char* localrom, unsigned char* imagetype, int load
         for (i = 0; i < loadlength; i+=4)
             {
             temp=localrom[i];
-            localrom[i]=localrom[1+3];
+            localrom[i]=localrom[i+3];
             localrom[i+3]=temp;
             temp=localrom[i+1];
             localrom[i+1]=localrom[i+2];
@@ -141,7 +145,7 @@ m64p_error open_rom(const unsigned char* romimage, unsigned int size)
     md5_init(&state);
     md5_append(&state, (const md5_byte_t*)rom, rom_size);
     md5_finish(&state, digest);
-    for ( i = 0; i < 16; ++i ) 
+    for ( i = 0; i < 16; ++i )
         sprintf(buffer+i*2, "%02X", digest[i]);
     buffer[32] = '\0';
     strcpy(ROM_SETTINGS.MD5, buffer);
@@ -163,16 +167,19 @@ m64p_error open_rom(const unsigned char* romimage, unsigned int size)
     {
         strncpy(ROM_SETTINGS.goodname, entry->goodname, 255);
         ROM_SETTINGS.goodname[255] = '\0';
-        if (entry->savetype==EEPROM_16KB)
-            ROM_SETTINGS.eeprom_16kb = 1;
-        else
-            ROM_SETTINGS.eeprom_16kb = 0;
+        ROM_SETTINGS.savetype = entry->savetype;
+        ROM_SETTINGS.status = entry->status;
+        ROM_SETTINGS.players = entry->players;
+        ROM_SETTINGS.rumble = entry->rumble;
     }
     else
     {
         strcpy(ROM_SETTINGS.goodname, (char*)ROM_HEADER->nom);
         strcat(ROM_SETTINGS.goodname, " (unknown rom)");
-        ROM_SETTINGS.eeprom_16kb = 0;
+        ROM_SETTINGS.savetype = NONE;
+        ROM_SETTINGS.status = 0;
+        ROM_SETTINGS.players = 0;
+        ROM_SETTINGS.rumble = 0;
     }
 
     /* print out a bunch of info about the ROM */
@@ -193,7 +200,12 @@ m64p_error open_rom(const unsigned char* romimage, unsigned int size)
     countrycodestring(ROM_HEADER->Country_code, buffer);
     DebugMessage(M64MSG_INFO, "Country: %s", buffer);
     DebugMessage(M64MSG_VERBOSE, "PC = %x", sl((unsigned int)ROM_HEADER->PC));
-    DebugMessage(M64MSG_VERBOSE, "EEPROM type: %d", ROM_SETTINGS.eeprom_16kb);
+    DebugMessage(M64MSG_VERBOSE, "Save type: %d", ROM_SETTINGS.savetype);
+
+    //Prepare Hack for GOLDENEYE
+    isGoldeneyeRom = 0;
+    if(strncmp((char *) ROM_HEADER->nom, "GOLDENEYE",9) == 0)
+       isGoldeneyeRom = 1;
 
     return M64ERR_SUCCESS;
 }

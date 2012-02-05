@@ -10,6 +10,6 @@
 
 
 @interface OEBackgroundGradientView : NSView
-@property (retain, readwrite) NSColor* topColor;
-@property (retain, readwrite) NSColor* bottomColor;
+@property (retain, readwrite) NSColor *topColor;
+@property (retain, readwrite) NSColor *bottomColor;
 @end

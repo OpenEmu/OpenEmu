@@ -65,7 +65,7 @@ static const unsigned long crc32table[] =
 
 - (NSString*)MD5HashString
 {
-    unsigned char* digest = MD5([self bytes], (unsigned int)[self length], NULL);
+    unsigned char *digest = MD5([self bytes], (unsigned int)[self length], NULL);
     return [NSString stringWithFormat: @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
             digest[0], digest[1], 
             digest[2], digest[3],
@@ -93,9 +93,10 @@ static const unsigned long crc32table[] =
     
     unsigned int crc32 = crcval ^ 0xffffffff;
     
-    NSString* res = [NSString stringWithFormat:@"%0x", crc32];
+    NSString *res = [NSString stringWithFormat:@"%0x", crc32];
     
-    while([res length]<8){
+    while([res length]<8)
+    {
         res = [@"0" stringByAppendingString:res];
     }
     

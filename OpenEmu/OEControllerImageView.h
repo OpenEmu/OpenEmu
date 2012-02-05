@@ -26,9 +26,11 @@
 
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
-
+@class OEControlsViewController;
 @interface OEControllerImageView : NSView 
 @property (nonatomic) float overlayAlpha, ringAlpha;
 @property (nonatomic) NSPoint ringPosition;
-@property (nonatomic, retain) NSImage* image;
+@property (nonatomic, retain) NSImage *image;
+@property (nonatomic, retain) OEControlsViewController *controlsViewController;
+- (NSPoint)ringPositionInView;
 @end

@@ -46,7 +46,7 @@
 	cellFrame.size.width -= 1;
 	cellFrame.origin.x += 1;
 	
-	NSImage* backgroundImage = [NSImage imageNamed:@"table_header_background_active"];
+	NSImage *backgroundImage = [NSImage imageNamed:@"table_header_background_active"];
 	[backgroundImage drawInRect:cellFrame fromRect:NSMakeRect(0, 0, 15, 17) operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:7 rightBorder:7 topBorder:0 bottomBorder:0];
 
 	NSRect leftHighlightRect = cellFrame;

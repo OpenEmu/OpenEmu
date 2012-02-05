@@ -33,7 +33,7 @@
 {
     [super awakeFromNib];
     
-    OEGameControllerView *view = (OEGameControllerView *)[self view];
+    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
     
 	[view addButtonWithName:@"OEGBAButtonUp[@]" label:@"Up:" target:self highlightPoint:(NSPoint){146, 173}];
 	[view addButtonWithName:@"OEGBAButtonDown[@]" label:@"Down:" target:self highlightPoint:(NSPoint){146, 138}];
@@ -56,5 +56,9 @@
 - (NSImage*)controllerImage{
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_gba.png"];
 	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
+- (NSImage*)controllerImageMask{
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_gba_mask.png"];
+    return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 }
 @end

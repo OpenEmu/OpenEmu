@@ -10,6 +10,6 @@
 
 
 @interface OEBackgroundImageView : NSView
-@property (retain, readwrite) NSImage* image;
+@property (retain, readwrite) NSImage *image;
 @property float leftBorder, rightBorder, topBorder, bottomBorder;
 @end

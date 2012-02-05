@@ -11,8 +11,8 @@
 
 @interface OEAttributedTextFieldCell : NSTextFieldCell {
 @private
-    NSDictionary* textAttributes;
+    NSDictionary *textAttributes;
 }
 - (void)setupAttributes;
-@property (retain, readwrite) NSDictionary* textAttributes;
+@property (retain, readwrite) NSDictionary *textAttributes;
 @end

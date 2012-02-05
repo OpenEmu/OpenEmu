@@ -453,7 +453,7 @@
 				826415E613EDC44D00591582 /* Genesis.oesystemplugin */,
 				826415E813EDC44D00591582 /* GameBoy Advance.oesystemplugin */,
 				3DFAAFE614464235005EF0C3 /* N64.oesystemplugin */,
-				82C290A6148401BD007C0214 /* NeoGeoPocket.oesystemplugin */,
+				82C290A6148401BD007C0214 /* NeoGeo Pocket.oesystemplugin */,
 				838E222E148D38D10030E93D /* GameGear.oesystemplugin */,
 			);
 			name = Products;
@@ -583,7 +583,7 @@
 			remoteRef = 826415E713EDC44D00591582 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		82C290A6148401BD007C0214 /* NeoGeoPocket.oesystemplugin */ = {
+		82C290A6148401BD007C0214 /* NeoGeo Pocket.oesystemplugin */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
 			path = "NeoGeo Pocket.oesystemplugin";

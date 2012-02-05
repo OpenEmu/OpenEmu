@@ -13,7 +13,7 @@
 @interface OEHUDWindow : NSWindow <NSWindowDelegate>
 {
 @private
-	NSWindow				* _borderWindow;
+	NSWindow				*_borderWindow;
 }
 - (id)initWithContentRect:(NSRect)frame;
 @end

@@ -97,7 +97,7 @@
 {
     [self setPrimitiveValue:path forKey:@"path"];
     NSError *err = nil;
-    NSData* bookmarkData = [[NSURL fileURLWithPath:path] bookmarkDataWithOptions:NSURLBookmarkCreationPreferFileIDResolution
+    NSData *bookmarkData = [[NSURL fileURLWithPath:path] bookmarkDataWithOptions:NSURLBookmarkCreationPreferFileIDResolution
                                                   includingResourceValuesForKeys:nil
                                                                    relativeToURL:nil
                                                                            error:&err];

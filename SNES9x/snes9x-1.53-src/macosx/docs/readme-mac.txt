@@ -1,0 +1,1 @@
+The manual is in 'Help' menu - 'Snes9x Help'.

@@ -25,9 +25,14 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
+#include <SDL.h>
 
+#define M64P_CORE_PROTOTYPES 1
 #include "m64p_types.h"
 #include "callbacks.h"
+#include "m64p_config.h"
+#include "m64p_frontend.h"
 #include "config.h"
 #include "vidext.h"
 
@@ -57,10 +62,10 @@ EXPORT m64p_error CALL CoreStartup(int APIVersion, const char *ConfigPath, const
     SetStateCallback(StateCallback, Context2);
 
     /* check front-end's API version */
-    if (APIVersion < MINIMUM_FRONTEND_API_VERSION)
+    if ((APIVersion & 0xffff0000) != (FRONTEND_API_VERSION & 0xffff0000))
     {
-        DebugMessage(M64MSG_ERROR, "CoreStartup(): Front-end API version %i.%i.%i is below minimum supported %i.%i.%i",
-                     VERSION_PRINTF_SPLIT(APIVersion), VERSION_PRINTF_SPLIT(MINIMUM_FRONTEND_API_VERSION));
+        DebugMessage(M64MSG_ERROR, "CoreStartup(): Front-end (API version %i.%i.%i) is incompatible with this core (API %i.%i.%i)",
+                     VERSION_PRINTF_SPLIT(APIVersion), VERSION_PRINTF_SPLIT(FRONTEND_API_VERSION));
         return M64ERR_INCOMPATIBLE;
     }
 
@@ -87,9 +92,10 @@ EXPORT m64p_error CALL CoreShutdown(void)
 
     /* close down some core sub-systems */
     romdatabase_close();
-
-    /* lastly, shut down the configuration code */
     ConfigShutdown();
+
+    /* tell SDL to shut down */
+    SDL_Quit();
 
     l_CoreInit = 0;
     return M64ERR_SUCCESS;
@@ -128,7 +134,7 @@ EXPORT m64p_error CALL CoreDetachPlugin(m64p_plugin_type PluginType)
 EXPORT m64p_error CALL CoreDoCommand(m64p_command Command, int ParamInt, void *ParamPtr)
 {
     m64p_error rval;
-    int keysym, keymod;
+    int keysym, keymod, iVal;
 
     if (!l_CoreInit)
         return M64ERR_NOT_INIT;
@@ -171,8 +177,8 @@ EXPORT m64p_error CALL CoreDoCommand(m64p_command Command, int ParamInt, void *P
                 return M64ERR_INVALID_STATE;
             if (ParamPtr == NULL)
                 return M64ERR_INPUT_ASSERT;
-            if (sizeof(rom_settings) < ParamInt)
-                ParamInt = sizeof(rom_settings);
+            if (sizeof(m64p_rom_settings) < ParamInt)
+                ParamInt = sizeof(m64p_rom_settings);
             memcpy(ParamPtr, &ROM_SETTINGS, ParamInt);
             return M64ERR_SUCCESS;
         case M64CMD_EXECUTE:
@@ -203,6 +209,49 @@ EXPORT m64p_error CALL CoreDoCommand(m64p_command Command, int ParamInt, void *P
             return M64ERR_SUCCESS;
         case M64CMD_CORE_STATE_QUERY:
             return main_core_state_query((m64p_core_param) ParamInt, (int *) ParamPtr);
+        case M64CMD_CORE_STATE_SET:
+            if (ParamPtr == NULL)
+                return M64ERR_INPUT_ASSERT;
+            iVal = *((int *) ParamPtr);
+            switch (ParamInt)
+            {
+                case M64CORE_EMU_STATE:  // recursively call myself to handle this
+                    if (iVal == M64EMU_STOPPED)
+                        return CoreDoCommand(M64CMD_STOP, 0, NULL);
+                    else if (iVal == M64EMU_RUNNING)
+                        return CoreDoCommand(M64CMD_RESUME, 0, NULL);
+                    else if (iVal == M64EMU_PAUSED)
+                        return CoreDoCommand(M64CMD_PAUSE, 0, NULL);
+                    return M64ERR_INPUT_INVALID;
+                case M64CORE_VIDEO_MODE:  // handle this command directly
+                    if (!g_EmulatorRunning)
+                        return M64ERR_INVALID_STATE;
+                    if (iVal == M64VIDEO_WINDOWED)
+                    {
+                        if (VidExt_InFullscreenMode())
+                            changeWindow(); // in video plugin
+                        return M64ERR_SUCCESS;
+                    }
+                    else if (iVal == M64VIDEO_FULLSCREEN)
+                    {
+                        if (!VidExt_InFullscreenMode())
+                            changeWindow(); // in video plugin
+                        return M64ERR_SUCCESS;
+                    }
+                    return M64ERR_INPUT_INVALID;
+                case M64CORE_SAVESTATE_SLOT:  // recursively call myself to handle this
+                    return CoreDoCommand(M64CMD_STATE_SET_SLOT, iVal, NULL);
+                case M64CORE_SPEED_FACTOR:  // handle this command directly
+                    if (!g_EmulatorRunning)
+                        return M64ERR_INVALID_STATE;
+                    main_speedset(iVal);
+                    return M64ERR_SUCCESS;
+                case M64CORE_SPEED_LIMITER:
+                    main_set_speedlimiter(iVal);
+                    return M64ERR_SUCCESS;
+                default:
+                    return M64ERR_INPUT_INVALID;
+            }
         case M64CMD_STATE_LOAD:
             if (!g_EmulatorRunning)
                 return M64ERR_INVALID_STATE;
@@ -288,5 +337,34 @@ EXPORT m64p_error CALL CoreCheatEnabled(const char *CheatName, int Enabled)
     return M64ERR_INPUT_INVALID;
 }
 
+EXPORT m64p_error CALL CoreGetRomSettings(m64p_rom_settings *RomSettings, int RomSettingsLength, int Crc1, int Crc2)
+{
+    romdatabase_entry* entry;
+    int i;
+
+    if (!l_CoreInit)
+        return M64ERR_NOT_INIT;
+    if (RomSettings == NULL)
+        return M64ERR_INPUT_ASSERT;
+    if (RomSettingsLength < sizeof(m64p_rom_settings))
+        return M64ERR_INPUT_INVALID;
+
+    /* Look up this ROM in the .ini file and fill in goodname, etc */
+    entry = ini_search_by_crc(Crc1, Crc2);
+    if (entry == &empty_entry)
+        return M64ERR_INPUT_NOT_FOUND;
+
+    strncpy(RomSettings->goodname, entry->goodname, 255);
+    RomSettings->goodname[255] = '\0';
+    for (i = 0; i < 16; i++)
+        sprintf(RomSettings->MD5 + i*2, "%02X", entry->md5[i]);
+    RomSettings->MD5[32] = '\0';
+    RomSettings->savetype = entry->savetype;
+    RomSettings->status = entry->status;
+    RomSettings->players = entry->players;
+    RomSettings->rumble = entry->rumble;
+
+    return M64ERR_SUCCESS;
+}
 
 

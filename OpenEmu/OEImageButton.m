@@ -25,10 +25,10 @@
         [self removeTrackingArea:[[self trackingAreas] lastObject]];
     }
     
-    NSCell* cell = [self cell];
+    NSCell *cell = [self cell];
     if(cell && [cell isKindOfClass:[OEImageButtonCell class]] && [(OEImageButtonCell*)cell displaysHover])
     {
-        [self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingActiveInActiveApp|NSTrackingMouseEnteredAndExited owner:self userInfo:nil] autorelease]];
+        [self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingActiveInActiveApp|NSTrackingMouseEnteredAndExited owner:self userInfo:nil] autorelease]];
     }
     self.isInHover = NO;
 }
@@ -351,4 +351,85 @@
     return rect;
 }
 
+@end
+
+
+@interface OEImageButtonHoverPressedText (Private)
+- (void)_setupCell;
+@end
+@implementation OEImageButtonHoverPressedText
+- (id)init {
+    self = [super init];
+    if (self) {
+        [self _setupCell];
+    }
+    return self;
+}
+- (id)initWithCoder:(NSCoder *)coder
+{
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self _setupCell];
+    }
+    return self;
+}
+- (id)initTextCell:(NSString *)aString
+{
+    self = [super initTextCell:aString];
+    if (self) {
+        [self _setupCell];
+    }
+    return self;
+    
+}
+- (id)initImageCell:(NSImage *)image
+{
+    self = [super initImageCell:image];
+    if (self) {
+        [self _setupCell];
+    }
+    return self;
+}
+#pragma mark -
+- (void)_setupCell{
+}
+#pragma mark -
+- (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
+{    
+    BOOL isPressed = [self isHighlighted];
+    
+    BOOL rollover;
+    if([controlView isKindOfClass:[OEImageButton class]])
+        rollover = [(OEImageButton*)controlView isInHover];
+    else 
+    {
+        NSPoint p = [controlView convertPointFromBase:[[controlView window] convertScreenToBase:[NSEvent mouseLocation]]];
+        rollover = NSPointInRect(p, controlView.frame);
+    }
+    if([self text]){
+        NSDictionary *selectedDictionary = rollover ? [self hoverAttributes] : [self normalAttributes];
+        selectedDictionary = isPressed?[self clickAttributes]:selectedDictionary;
+        
+        NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:[self text] attributes:selectedDictionary];
+        
+        NSRect textFrame;
+        textFrame.size = [attributedString size];
+        textFrame.origin = cellFrame.origin;
+        textFrame.origin.y += 3;
+        textFrame.origin.x += 5;
+        [attributedString drawInRect:textFrame];
+        
+        float width = [attributedString size].width+2;
+        [attributedString release];
+        
+        cellFrame.origin.x += width+7;
+        cellFrame.size.width = 20;
+        textFrame.origin.y -= cellFrame.size.height-20;
+        cellFrame.size.height = 20;
+    }
+    [super drawWithFrame:cellFrame inView:controlView];
+    
+}
+#pragma mark -
+@synthesize normalAttributes, hoverAttributes, clickAttributes, text;
 @end

@@ -12,18 +12,18 @@
 @class OEBackgroundGradientView;
 @class OESystemPlugin;
 @interface OEPrefControlsController : NSViewController <OEPreferencePane> {
-	OESystemPlugin* selectedPlugin;
+	OESystemPlugin *selectedPlugin;
 }
 
 #pragma mark -
-@property (retain) IBOutlet NSView	* controllerView;
+@property (retain) IBOutlet NSView	 *controllerView;
 
-@property (retain) IBOutlet NSPopUpButton	* consolesPopupButton;
-@property (retain) IBOutlet NSPopUpButton	* playerPopupButton;
-@property (retain) IBOutlet NSPopUpButton	* inputPopupButton;
+@property (retain) IBOutlet NSPopUpButton	 *consolesPopupButton;
+@property (retain) IBOutlet NSPopUpButton	 *playerPopupButton;
+@property (retain) IBOutlet NSPopUpButton	 *inputPopupButton;
 
-@property (retain) IBOutlet OEBackgroundGradientView* gradientOverlay;
-@property (retain) IBOutlet NSView* controlsContainer;
+@property (retain) IBOutlet OEBackgroundGradientView *gradientOverlay;
+@property (retain) IBOutlet NSView *controlsContainer;
 #pragma mark -
 #pragma UI Methods
 - (IBAction)changeSystem:(id)sender;

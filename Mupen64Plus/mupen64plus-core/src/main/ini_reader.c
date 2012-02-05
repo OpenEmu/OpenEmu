@@ -191,6 +191,6 @@ void ini_file_free(ini_file **ini)
         }
     }
     free(*ini);
-    *ini = 0;
+    *ini = NULL;
 }
 

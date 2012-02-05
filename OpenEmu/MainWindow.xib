@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1070</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.SystemVersion">11D50</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
+		<string key="IBDocument.AppKitVersion">1138.32</string>
+		<string key="IBDocument.HIToolboxVersion">568.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">1938</string>
@@ -65,6 +65,7 @@
 							<string key="NSFrame">{{14, 10}, {28, 23}}</string>
 							<reference key="NSSuperview" ref="71309473"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<int key="NSViewLayerContentsRedrawPolicy">2</int>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="503245926">
@@ -151,7 +152,7 @@
 											<string>NeXT TIFF v4.0 pasteboard type</string>
 										</object>
 									</object>
-									<string key="NSFrame">{{802, 14}, {15, 15}}</string>
+									<string key="NSFrame">{{806, 17}, {10, 10}}</string>
 									<reference key="NSSuperview" ref="571807102"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="115078705"/>
@@ -159,7 +160,7 @@
 									<object class="NSImageCell" key="NSCell" id="280385379">
 										<int key="NSCellFlags">130560</int>
 										<int key="NSCellFlags2">33554432</int>
-										<int key="NSAlign">0</int>
+										<int key="NSAlign">2</int>
 										<int key="NSScale">2</int>
 										<int key="NSStyle">0</int>
 										<bool key="NSAnimates">NO</bool>
@@ -285,7 +286,7 @@
 											<string>NeXT TIFF v4.0 pasteboard type</string>
 										</object>
 									</object>
-									<string key="NSFrame">{{678, 14}, {15, 15}}</string>
+									<string key="NSFrame">{{683, 18}, {7, 7}}</string>
 									<reference key="NSSuperview" ref="571807102"/>
 									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="1010661742"/>
@@ -293,7 +294,7 @@
 									<object class="NSImageCell" key="NSCell" id="519410334">
 										<int key="NSCellFlags">130560</int>
 										<int key="NSCellFlags2">33554432</int>
-										<int key="NSAlign">0</int>
+										<int key="NSAlign">3</int>
 										<int key="NSScale">2</int>
 										<int key="NSStyle">0</int>
 										<bool key="NSAnimates">NO</bool>
@@ -366,7 +367,7 @@
 				<string key="NSMaxSize">{10000000000000, 10000000000000}</string>
 				<string key="NSFrameAutosaveName">LibraryWindow</string>
 				<int key="NSWindowCollectionBehavior">128</int>
-				<bool key="NSWindowIsRestorable">YES</bool>
+				<bool key="NSWindowIsRestorable">NO</bool>
 			</object>
 		</object>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -723,7 +724,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>{{322, 400}, {830, 555}}</string>
-					<boolean value="NO"/>
+					<boolean value="YES"/>
 					<string>OEMainWindowContentView</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>OEImageButton</string>
@@ -749,7 +750,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">46</int>
+			<int key="maxID">47</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

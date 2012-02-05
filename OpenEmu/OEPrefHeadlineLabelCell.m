@@ -14,8 +14,8 @@
 - (void)setupAttributes{
 	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:11.0];
-	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:11.0];
+	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowBlurRadius:1.0];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.4]];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];

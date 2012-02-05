@@ -12,13 +12,13 @@
 @interface OESearchFieldCell : NSSearchFieldCell 
 {
 @private
-    NSDictionary* active;
-    NSDictionary* inactive;
-    NSDictionary* disabled;
+    NSDictionary *active;
+    NSDictionary *inactive;
+    NSDictionary *disabled;
     
-    NSDictionary* placeholder;
+    NSDictionary *placeholder;
     
-    NSDictionary* current;
+    NSDictionary *current;
 }
 #pragma mark -
 - (NSRect)imageRectForState:(OEUIState)state;

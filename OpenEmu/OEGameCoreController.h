@@ -46,7 +46,6 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
     NSString            *pluginName;
     NSString            *supportDirectoryPath;
     NSString            *playerString DEPRECATED_ATTRIBUTE;
-    NSArray             *controlNames DEPRECATED_ATTRIBUTE;
     NSMutableArray      *gameDocuments;
     NSMutableArray      *settingObservers;
     NSMutableDictionary *preferenceViewControllers;

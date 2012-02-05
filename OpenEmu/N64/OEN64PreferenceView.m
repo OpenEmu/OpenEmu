@@ -34,7 +34,7 @@
 {
     [super awakeFromNib];
 
-    OEGameControllerView *view = (OEGameControllerView *)[self view];
+    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
     
 	[view addColumnLabel:@"D-Pad"];
     [view addButtonWithName:@"OEN64ButtonDPadUp[@]" label:@"Up" target:self highlightPoint:NSZeroPoint];

@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "NSWindow+OECustomWindow.h"
 
 // OELibraryWindow is a window object that replaces the gray line at the lower edge of a window's title bar with a black one
 @class OEMainWindowTitleBarView;
-@interface OEMainWindow : NSWindow
+@interface OEMainWindow : NSWindow <OECustomWindow>
 {
     NSView* mainContentView;
 }

@@ -35,8 +35,12 @@
 @synthesize key;
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OESetupAssistantKeyMapView class])
+        return;
+
     NSSize itemSize = NSMakeSize(100, 101);
-    NSImage* spritesheet = [NSImage imageNamed:@"installer_gamepad_graphics"];
+    NSImage *spritesheet = [NSImage imageNamed:@"installer_gamepad_graphics"];
     [spritesheet setName:@"installer_gamepad_up" forSubimageInRect:   (NSRect){{0*itemSize.width, 1*itemSize.height},itemSize}];
     [spritesheet setName:@"installer_gamepad_down" forSubimageInRect: (NSRect){{1*itemSize.width, 1*itemSize.height},itemSize}];
     [spritesheet setName:@"installer_gamepad_left" forSubimageInRect: (NSRect){{2*itemSize.width, 1*itemSize.height},itemSize}];
@@ -95,8 +99,8 @@
 
 - (void)_updateKeyView
 {
-    NSImageView* imageView = [[NSImageView alloc] initWithFrame:(NSRect){{0,0},{100,101}}];
-    NSImage* image = [self imageForKey:[self key]];
+    NSImageView *imageView = [[NSImageView alloc] initWithFrame:(NSRect){{0,0},{100,101}}];
+    NSImage *image = [self imageForKey:[self key]];
     [imageView setImage:image];
     
     [self addSubview:imageView];

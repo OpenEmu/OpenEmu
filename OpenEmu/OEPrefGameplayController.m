@@ -9,6 +9,7 @@
 #import "OEPrefGameplayController.h"
 #import "OEPlugin.h"
 #import "OECompositionPlugin.h"
+
 @implementation OEPrefGameplayController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -30,34 +31,37 @@
     // Setup plugins menu
 	NSArray *filterPlugins = [[OECompositionPlugin allPluginNames] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
     // These filters are loaded and run by GL, and do not rely on QTZs
-    NSArray* filterNames = [filterPlugins arrayByAddingObjectsFromArray:
-                            [NSArray arrayWithObjects:
-                             @"Linear",
-                             @"Nearest Neighbor",
-                             @"Scale2xHQ",
-                             @"Scale2xPlus",
-                             @"Scale4x",
-                             @"Scale4xHQ",
-                             nil]];
-	NSMenu* filterMenu = [[NSMenu alloc] init];
-    for(NSString* aName in filterNames)
+    NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:OEOpenGLFilterNameArray];
+    
+	NSMenu *filterMenu = [[NSMenu alloc] init];
+    for(NSString *aName in filterNames)
     {
 		[filterMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
 	}
-	[filterSelection setMenu:filterMenu];
+	[[self filterSelection] setMenu:filterMenu];
 	[filterMenu release];	
 	
-	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
-	NSString* selectedFilterName = [sud objectForKey:UDVideoFilterKey];
-	if(selectedFilterName && [filterSelection itemWithTitle:selectedFilterName])
+	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
+	NSString *selectedFilterName = [sud objectForKey:UDVideoFilterKey];
+	if(selectedFilterName && [[self filterSelection] itemWithTitle:selectedFilterName])
     {
-		[filterSelection selectItemWithTitle:selectedFilterName];
+		[[self filterSelection] selectItemWithTitle:selectedFilterName];
 	} 
     else 
     {
-		[filterSelection selectItemAtIndex:0];
+		[[self filterSelection] selectItemAtIndex:0];
 	}
-	[self changeFilter:filterSelection];
+	[self changeFilter:[self filterSelection]];
+    
+    
+    [[self filterPreviewContainer] setWantsLayer:YES];  
+    CATransition *awesomeCrossFade = [CATransition animation];
+    awesomeCrossFade.type = kCATransitionFade;
+    awesomeCrossFade.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
+    awesomeCrossFade.duration = 1.0;
+    
+    [[self filterPreviewContainer] setAnimations:[NSDictionary dictionaryWithObject:awesomeCrossFade forKey:@"subviews"]];
+
 }
 #pragma mark ViewController Overrides
 - (NSString*)nibName
@@ -78,19 +82,40 @@
 
 - (NSSize)viewSize
 {
-	return NSMakeSize(423, 368);
+	return NSMakeSize(423, 364);
 }
 #pragma mark -
 #pragma mark UI Actions
 - (IBAction)changeFilter:(id)sender
 {
-	NSString* filterName =  [[filterSelection selectedItem] title];
-    // TODO: check if filter is loaded externaly -> use an image from there
-	// else ...
-	NSImage* filterPreviewImage = [[NSBundle mainBundle] imageForResource:[NSString stringWithFormat:@"%@.png", filterName]];
-    [filterPreviewView setImage:filterPreviewImage];
-	
-	NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+	NSString *filterName =  [[[self filterSelection] selectedItem] title];
+    
+    OECompositionPlugin *plugin = [OECompositionPlugin compositionPluginWithName:filterName];
+    NSImage *filterPreviewImage;
+    if(plugin && ![plugin isBuiltIn])
+        filterPreviewImage = [plugin previewImage];
+    else
+        filterPreviewImage = [[NSBundle mainBundle] imageForResource:[NSString stringWithFormat:@"%@.png", filterName]];
+
+	NSImageView *newPreviewView = [[NSImageView alloc] initWithFrame:(NSRect){{0,0}, [[self filterPreviewContainer] frame].size}];
+    [newPreviewView setImage:filterPreviewImage];
+    [newPreviewView setImageAlignment:NSImageAlignCenter];
+    [newPreviewView setImageFrameStyle:NSImageFrameNone];
+    [newPreviewView setImageScaling:NSImageScaleNone];
+    NSView *currentImageView = [[[self filterPreviewContainer] subviews] lastObject];
+    if(currentImageView)
+    {  
+        [[[self filterPreviewContainer] animator] replaceSubview:currentImageView with:newPreviewView];
+
+    }
+    else
+    {
+        [[self filterPreviewContainer] addSubview:newPreviewView];
+    }
+    [newPreviewView release];
+    
+	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
 	[sud setObject:filterName forKey:UDVideoFilterKey];
 }
+@synthesize filterPreviewContainer, filterSelection;
 @end

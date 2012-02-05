@@ -33,7 +33,7 @@
 {
     [super awakeFromNib];
     
-    OEGameControllerView *view = (OEGameControllerView *)[self view];
+    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
     
     [view addButtonWithName:@"OESNESButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(98, 133)];
     [view addButtonWithName:@"OESNESButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(98, 89)];
@@ -41,8 +41,8 @@
     [view addButtonWithName:@"OESNESButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(121, 111)];
     [view nextColumn];
     
-    [view addButtonWithName:@"OESNESButtonSelect[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(228, 96)];
-    [view addButtonWithName:@"OESNESButtonStart[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(181, 96)];
+    [view addButtonWithName:@"OESNESButtonSelect[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(181, 96)];
+    [view addButtonWithName:@"OESNESButtonStart[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(228, 96)];
     [view nextColumn];
     
     [view addButtonWithName:@"OESNESButtonA[@]" label:@"A:" target:self highlightPoint:NSMakePoint(385, 109)];
@@ -58,16 +58,21 @@
 }
 
 - (NSImage*)controllerImage{
-    NSString* controllerImageName = nil;
+    NSString *controllerImageName = nil;
     if([[OELocalizationHelper sharedHelper] isRegionJAP]){
         controllerImageName = @"controller_snes_jap.png";
     } else if([[OELocalizationHelper sharedHelper] isRegionNA]){
         controllerImageName = @"controller_snes_usa.png";
-    } else if([[OELocalizationHelper sharedHelper] isRegionEU]){
+    } else {
         controllerImageName = @"controller_snes_eu.png";
     }
     
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:controllerImageName];
+    return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
+
+- (NSImage*)controllerImageMask{
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_snes_mask.png"];
     return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 }
 @end

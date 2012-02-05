@@ -55,7 +55,7 @@
 #define OESaveStatePath (NSString*)^{\
 NSArray *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);\
 NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();\
-NSString* saveStateFolderName = [[NSUserDefaults standardUserDefaults] valueForKey:UDSaveStateFolderNameKey];\
+NSString *saveStateFolderName = [[NSUserDefaults standardUserDefaults] valueForKey:UDSaveStateFolderNameKey];\
 return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPathComponent:saveStateFolderName];\
 }()
 @implementation OEGameViewController
@@ -73,14 +73,13 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         [self setRom:rom];
         
         [[self rom] markAsPlayedNow];
-        NSString* path = [[self rom] valueForKey:@"path"];
+        NSString *path = [[self rom] valueForKey:@"path"];
         
         if(!path){
-            [self release];
             if(outError != NULL)
                 // TODO: Implement proper error
                 *outError = [NSError errorWithDomain:@"OESomeErrorDomain" code:0 userInfo:[NSDictionary dictionary]];
-            self = nil;
+            [self release];
             return nil;
         }
         
@@ -88,21 +87,20 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         controlsWindow = [[OEHUDControlsBarWindow alloc] initWithGameViewController:self];
         [controlsWindow setReleasedWhenClosed:YES];
         
-        NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
         [nc addObserver:self selector:@selector(viewDidMoveToWindow:) name:@"OEGameViewDidMoveToWindow"     object:nil];
         [nc addObserver:self selector:@selector(viewDidChangeFrame:)  name:NSViewFrameDidChangeNotification object:gameView];
         
-        NSURL* url = [NSURL fileURLWithPath:path];
-        NSError* error = nil;
+        NSURL *url = [NSURL fileURLWithPath:path];
+        NSError *error = nil;
         if(![self loadFromURL:url error:&error])
         {
-            [self release];
-            self = nil;
-            
             if(outError != NULL)
                 *outError = error;
             else 
                 [NSApp presentError:error];
+            
+            [self release];
             return nil;
         }
         
@@ -118,7 +116,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 
 - (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)game error:(NSError**)outError
 {
-    OEDBRom* rom = [OEGameViewController _choseRomFromGame:game];
+    OEDBRom *rom = [OEGameViewController _choseRomFromGame:game];
     [self setRom:rom];
     return [self initWithWindowController:aWindowController andRom:rom error:outError];
 }
@@ -127,7 +125,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     NSLog(@"OEGameViewController dealloc");
     [self setRom:nil];
     
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
     [nc removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
     [nc removeObserver:self name:@"OEGameViewDidMoveToWindow" object:nil];
@@ -196,8 +194,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     else
         [[[self view] window] close];
     
-    NSDocumentController* sharedDocumentController = [NSDocumentController sharedDocumentController];
-    [sharedDocumentController removeDocument:[self document]];
+    [[self document] close];
 }
 
 - (void)pauseGame
@@ -234,7 +231,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 #pragma mark -
 - (void)loadState:(id)state
 {
-    NSString* path = [state valueForKey:@"path"];
+    NSString *path = [state valueForKey:@"path"];
     [self loadStateFromFile:path error:nil];
 }
 
@@ -243,15 +240,15 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     // TODO: use OEAlert once it's been written
     // TODO: localize and rephrase text
     
-    NSString* stateName = [state valueForKey:@"userDescription"];
-    OEHUDAlert* alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
+    NSString *stateName = [state valueForKey:@"userDescription"];
+    OEHUDAlert *alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
     
     NSUInteger result = [alert runModal];
     
     if(result)
     {        
         // TODO: does this also remove the screenshot from the database?
-        NSString* path = [state valueForKey:@"path"];
+        NSString *path = [state valueForKey:@"path"];
         
         NSError *err = nil;
         if(![[NSFileManager defaultManager] removeItemAtPath:path error:&err])
@@ -261,7 +258,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
             return;
         }
         
-        NSManagedObjectContext* moc = [state managedObjectContext];
+        NSManagedObjectContext *moc = [state managedObjectContext];
         [moc deleteObject:state];
         [moc save:nil];
     }
@@ -277,16 +274,16 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         proposedName = [NSString stringWithFormat:@"%@%ld %@", NSLocalizedString(@"Save-Game-", @""), saveGameNo, [NSDate date]];
     }
     
-    OEHUDAlert * alert = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
+    OEHUDAlert  *alert = [OEHUDAlert saveGameAlertWithProposedName:proposedName];
     [alert setWindow:[[self view] window]];
-    [alert setCallbackHandler:^(OEHUDAlert* alert, NSUInteger result){
+    [alert setCallbackHandler:^(OEHUDAlert *alert, NSUInteger result){
         if(result == NSCancelButton)
         {
             [self playGame];
         }
         else 
         {
-            NSString* stateName = [alert stringValue];
+            NSString *stateName = [alert stringValue];
             [self saveStateWithName:stateName];
         }
     }];
@@ -304,10 +301,10 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     }
     [self pauseGame];
     
-    NSString* systemIdentifier= [gameSystemController systemIdentifier];
-    NSURL* systemSaveDirectoryURL= [NSURL fileURLWithPath:[OESaveStatePath stringByAppendingPathComponent:systemIdentifier]];
+    NSString *systemIdentifier= [gameSystemController systemIdentifier];
+    NSURL *systemSaveDirectoryURL= [NSURL fileURLWithPath:[OESaveStatePath stringByAppendingPathComponent:systemIdentifier]];
     
-    NSError* err = nil;
+    NSError *err = nil;
     BOOL success = [[NSFileManager defaultManager] createDirectoryAtURL:systemSaveDirectoryURL withIntermediateDirectories:YES attributes:nil error:&err];
     if(!success)
     {
@@ -318,17 +315,17 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         return;
     }
     
-    NSString* fileName = stateName;
+    NSString *fileName = stateName;
     if(!fileName) fileName = [NSString stringWithFormat:@"%@", [NSDate date]];
     fileName = [self _convertToValidFileName:fileName];
     
-    NSURL* saveStateURL = [[systemSaveDirectoryURL URLByAppendingPathComponent:fileName] URLByAppendingPathExtension:@"oesavestate"];
+    NSURL *saveStateURL = [[systemSaveDirectoryURL URLByAppendingPathComponent:fileName] URLByAppendingPathExtension:@"oesavestate"];
     int count = 0;
     while([[NSFileManager defaultManager] fileExistsAtPath:[saveStateURL path] isDirectory:NULL])
     {
         count ++;
         
-        NSString* countedFileName = [NSString stringWithFormat:@"%@ %d.oesavestate", fileName, count];
+        NSString *countedFileName = [NSString stringWithFormat:@"%@ %d.oesavestate", fileName, count];
         saveStateURL = [systemSaveDirectoryURL URLByAppendingPathComponent:countedFileName];
     }
     
@@ -343,7 +340,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     }
     
     // we need to make sure that we are on the same thread where self.rom was created!!
-    OEDBSaveState* saveState = [OEDBSaveState newSaveStateInContext:[self.rom managedObjectContext]];
+    OEDBSaveState *saveState = [OEDBSaveState newSaveStateInContext:[self.rom managedObjectContext]];
     [saveState setValue:[saveStateURL path] forKey:@"path"];
     [saveState setValue:[NSDate date] forKey:@"timestamp"];
     [saveState setValue:[[rootProxy gameCore] pluginName] forKey:@"emulatorID"];
@@ -353,7 +350,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
     
     [self captureScreenshotUsingBlock:^(NSImage *img) 
      {
-         NSData* imgData = [img TIFFRepresentation];
+         NSData *imgData = [img TIFFRepresentation];
          [saveState setValue:imgData forKey:@"screenshot"];
      }];
     
@@ -368,10 +365,10 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 - (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error
 {
     if(error!=NULL) *error = nil;
-    return [[rootProxy gameCore] loadStateFromFileAtPath:fileName];;
+    return [[rootProxy gameCore] loadStateFromFileAtPath:fileName];
 }
 #pragma mark -
-- (void)captureScreenshotUsingBlock:(void(^)(NSImage* img))block
+- (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block
 {
     [(OEGameView*)[self view] captureScreenshotUsingBlock:block];
 }
@@ -495,7 +492,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 
 - (NSString *)_convertToValidFileName:(NSString *)fileName
 {
-    NSCharacterSet* illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
+    NSCharacterSet *illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
     return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
 }
 #pragma mark -
@@ -511,7 +508,7 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         [[controlsWindow parentWindow] removeChildWindow:controlsWindow];
     }
     
-    NSWindow* window = [gameView window];
+    NSWindow *window = [gameView window];
     if(window==nil)
     {
         return;

@@ -77,7 +77,7 @@
     IOSurfaceID surfaceID;
     OEIntSize screenSize;
     
-    SyphonServer* gameServer;
+    SyphonServer *gameServer;
 }
 
 @property(copy) void (^screenshotHandler)(NSImage *img);

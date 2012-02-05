@@ -245,14 +245,11 @@ void list_delete(list_t *list)
  */
 void list_node_move_front(list_t *list, list_node_t *node)
 {
-    list_node_t *tmp;
-
     if(node == NULL ||
        *list == NULL ||
        node == *list)
         return;
 
-    tmp = *list;
     node->prev->next = node->next;
     if(node->next != NULL)
         node->next->prev = node->prev;

@@ -18,21 +18,19 @@
 @interface OECollectionViewController : NSViewController <IKSGridViewDelegate, IKSGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource>
 {
 @private
-    NSArrayController* gamesController;
+    NSArrayController *gamesController;
     
     id <NSObject, OECollectionViewItemProtocol> collectionItem;
     
-    IBOutlet NSView* gridViewContainer;// gridview
-    IBOutlet IKSGridView* gridView;// scrollview for gridview
+    IBOutlet NSView *gridViewContainer;// gridview
+    IBOutlet IKSGridView *gridView;// scrollview for gridview
     
-    IBOutlet OEHorizontalSplitView* flowlistViewContainer; // cover flow and simple list container
-    IBOutlet IKImageFlowView* coverFlowView;
-    IBOutlet NSTableView* listView;
+    IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
+    IBOutlet IKImageFlowView *coverFlowView;
+    IBOutlet NSTableView *listView;
     
-    NSTimer* reloadTimer;
+    NSTimer *reloadTimer;
 }
-
-- (void)finishSetup;
 
 #pragma mark -
 - (NSArray*)selectedGames;
@@ -52,9 +50,9 @@
 
 - (void)setNeedsReload;
 #pragma mark -
-@property (assign) OELibraryController* libraryController;
+@property (retain) IBOutlet OELibraryController *libraryController;
 @property (nonatomic, retain) id <NSObject, OECollectionViewItemProtocol> collectionItem;
 
-@property (nonatomic, retain) IBOutlet NSView* emptyCollectionView;
-@property (nonatomic, retain) IBOutlet NSView* emptyConsoleView;
+@property (nonatomic, retain) IBOutlet NSView *emptyCollectionView;
+@property (nonatomic, retain) IBOutlet NSView *emptyConsoleView;
 @end

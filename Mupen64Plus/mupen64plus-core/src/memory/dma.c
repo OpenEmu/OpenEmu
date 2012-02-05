@@ -35,6 +35,8 @@
 #include "r4300/macros.h"
 #include "r4300/ops.h"
 
+#define M64P_CORE_PROTOTYPES 1
+#include "api/m64p_config.h"
 #include "api/config.h"
 #include "api/callbacks.h"
 #include "main/main.h"
@@ -53,8 +55,7 @@ void dma_pi_read(void)
         {
             char *filename;
             FILE *f;
-            filename = (char *) malloc(strlen(get_savespath())+
-            strlen(ROM_SETTINGS.goodname)+4+1);
+            filename = (char *) malloc(strlen(get_savespath()) + strlen(ROM_SETTINGS.goodname) + 4 + 1);
             strcpy(filename, get_savespath());
             strcat(filename, ROM_SETTINGS.goodname);
             strcat(filename, ".sra");
@@ -123,8 +124,7 @@ void dma_pi_write(void)
                 FILE *f;
                 int i;
                 
-                filename = (char *) malloc(strlen(get_savespath())+
-                strlen(ROM_SETTINGS.goodname)+4+1);
+                filename = (char *) malloc(strlen(get_savespath()) + strlen(ROM_SETTINGS.goodname) + 4 + 1);
                 strcpy(filename, get_savespath());
                 strcat(filename, ROM_SETTINGS.goodname);
                 strcat(filename, ".sra");

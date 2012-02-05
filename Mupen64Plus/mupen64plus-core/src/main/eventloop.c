@@ -23,10 +23,12 @@
 #include <stdlib.h>
 #include <SDL.h>
 
+#define M64P_CORE_PROTOTYPES 1
 #include "main.h"
 #include "eventloop.h"
 #include "util.h"
 #include "api/config.h"
+#include "api/m64p_config.h"
 #include "plugin/plugin.h"
 #include "r4300/interupt.h"
 
@@ -65,20 +67,20 @@ typedef enum {joyFullscreen,
               joyGameshark
 } eJoyCommand;
 
-const char *JoyCmdName[] = { "Joy Mapping Fullscreen",
-                             "Joy Mapping Stop",
-                             "Joy Mapping Pause",
-                             "Joy Mapping Save State",
-                             "Joy Mapping Load State",
-                             "Joy Mapping Increment Slot",
-                             "Joy Mapping Screenshot",
-                             "Joy Mapping Mute",
-                             "Joy Mapping Increase Volume",
-                             "Joy Mapping Decrease Volume",
-                             "Joy Mapping Fast Forward",
-                             "Joy Mapping Gameshark"};
+static const char *JoyCmdName[] = { "Joy Mapping Fullscreen",
+                                    "Joy Mapping Stop",
+                                    "Joy Mapping Pause",
+                                    "Joy Mapping Save State",
+                                    "Joy Mapping Load State",
+                                    "Joy Mapping Increment Slot",
+                                    "Joy Mapping Screenshot",
+                                    "Joy Mapping Mute",
+                                    "Joy Mapping Increase Volume",
+                                    "Joy Mapping Decrease Volume",
+                                    "Joy Mapping Fast Forward",
+                                    "Joy Mapping Gameshark"};
 
-const int NumJoyCommands = sizeof(JoyCmdName) / sizeof(const char *);
+static const int NumJoyCommands = sizeof(JoyCmdName) / sizeof(const char *);
 
 static int JoyCmdActive[16];  /* if extra joystick commands are added above, make sure there is enough room in this array */
 

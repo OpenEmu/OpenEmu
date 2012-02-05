@@ -33,7 +33,7 @@
 
 #import <OpenEmuSystem/OEMap.h>
 #import <OpenEmuSystem/OESystemController.h>
-#import <OpenEmuSystem/OEGameControllerView.h>
+#import <OpenEmuSystem/OEControlsSetupView.h>
 #import <OpenEmuSystem/OESystemResponder.h>
 #import <OpenEmuSystem/OEBasicSystemResponder.h>
 #import <OpenEmuSystem/OESystemResponderClient.h>

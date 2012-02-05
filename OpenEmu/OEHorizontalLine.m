@@ -28,10 +28,10 @@
 #pragma mark -
 - (void)drawRect:(NSRect)dirtyRect
 {
-	NSColor* lowerColor = [NSColor colorWithDeviceWhite:0.0 alpha:1.0];
-	NSColor* upperColor = [NSColor colorWithDeviceWhite:0.22 alpha:1.0];
+	NSColor *lowerColor = [NSColor colorWithDeviceWhite:0.0 alpha:1.0];
+	NSColor *upperColor = [NSColor colorWithDeviceWhite:0.22 alpha:1.0];
 
-	NSRect lineRect = self.bounds;
+	NSRect lineRect = [self bounds];
 
 	[upperColor setFill];
 	lineRect.size.height = 1;

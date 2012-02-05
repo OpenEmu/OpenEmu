@@ -10,11 +10,6 @@
 #import "OEPreferencePane.h"
 
 @interface OEPrefGameplayController : NSViewController <OEPreferencePane> 
-{
-@private
-    IBOutlet NSImageView    * filterPreviewView;
-    IBOutlet NSPopUpButton  * filterSelection;
-}
 - (NSImage*)icon;
 - (NSString*)title;
 
@@ -22,4 +17,7 @@
 #pragma mark -
 #pragma mark UI Actions
 - (IBAction)changeFilter:(id)sender;
+
+@property (readonly) IBOutlet NSPopUpButton   *filterSelection;
+@property (readonly) IBOutlet NSView          *filterPreviewContainer;
 @end

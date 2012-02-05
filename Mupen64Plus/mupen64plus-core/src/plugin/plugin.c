@@ -208,7 +208,7 @@ static m64p_error plugin_connect_rsp(m64p_dynlib_handle plugin_handle)
         }
         /* check the version info */
         (*getVersion)(&PluginType, &PluginVersion, &APIVersion, NULL, NULL);
-        if (PluginType != M64PLUGIN_RSP || APIVersion < MINIMUM_RSP_API_VERSION)
+        if (PluginType != M64PLUGIN_RSP || (APIVersion & 0xffff0000) != RSP_API_MAJOR_VERSION)
         {
             DebugMessage(M64MSG_ERROR, "incompatible RSP plugin");
             return M64ERR_INCOMPATIBLE;
@@ -259,7 +259,7 @@ static m64p_error plugin_connect_input(m64p_dynlib_handle plugin_handle)
         }
         /* check the version info */
         (*getVersion)(&PluginType, &PluginVersion, &APIVersion, NULL, NULL);
-        if (PluginType != M64PLUGIN_INPUT || APIVersion < MINIMUM_INPUT_API_VERSION)
+        if (PluginType != M64PLUGIN_INPUT || (APIVersion & 0xffff0000) != INPUT_API_MAJOR_VERSION)
         {
             DebugMessage(M64MSG_ERROR, "incompatible Input plugin");
             return M64ERR_INCOMPATIBLE;
@@ -321,7 +321,7 @@ static m64p_error plugin_connect_audio(m64p_dynlib_handle plugin_handle)
         }
         /* check the version info */
         (*getVersion)(&PluginType, &PluginVersion, &APIVersion, NULL, NULL);
-        if (PluginType != M64PLUGIN_AUDIO || APIVersion < MINIMUM_AUDIO_API_VERSION)
+        if (PluginType != M64PLUGIN_AUDIO || (APIVersion & 0xffff0000) != AUDIO_API_MAJOR_VERSION)
         {
             DebugMessage(M64MSG_ERROR, "incompatible Audio plugin");
             return M64ERR_INCOMPATIBLE;
@@ -390,7 +390,7 @@ static m64p_error plugin_connect_gfx(m64p_dynlib_handle plugin_handle)
         }
         /* check the version info */
         (*getVersion)(&PluginType, &PluginVersion, &APIVersion, NULL, NULL);
-        if (PluginType != M64PLUGIN_GFX || APIVersion < MINIMUM_GFX_API_VERSION)
+        if (PluginType != M64PLUGIN_GFX || (APIVersion & 0xffff0000) != GFX_API_MAJOR_VERSION)
         {
             DebugMessage(M64MSG_ERROR, "incompatible Video plugin");
             return M64ERR_INCOMPATIBLE;

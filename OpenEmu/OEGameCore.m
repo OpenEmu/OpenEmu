@@ -174,11 +174,10 @@ static NSTimeInterval currentTime()
     return NO;
 }
 
-
 - (void)setPauseEmulation:(BOOL)flag
 {
-    if(flag) [self stopEmulation];
-    else     [self startEmulation];
+    if(flag) isRunning = NO;
+    else     isRunning = YES;
 }
 
 - (void)setupEmulation
@@ -207,12 +206,14 @@ static NSTimeInterval currentTime()
         
         willSkipFrame = (frameCounter != frameSkip);
         
-        [renderDelegate willExecute];
-        
-        [self executeFrameSkippingFrame:willSkipFrame];
-        
-        [renderDelegate didExecute];
-        
+        if (isRunning)
+        {
+            [renderDelegate willExecute];
+            
+            [self executeFrameSkippingFrame:willSkipFrame];
+            
+            [renderDelegate didExecute];
+        }
         if(frameCounter >= frameSkip) frameCounter = 0;
         else                          frameCounter++;
         

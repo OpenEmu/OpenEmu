@@ -25,7 +25,7 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <Quartz/Quartz.h>
 
 @interface OESetupAssistantBackgroundView : NSView
-
 @end

@@ -12,7 +12,11 @@
 @implementation OESlider
 + (void)initialize
 {
-    NSImage* image = [NSImage imageNamed:@"grid_slider_large"];
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OESlider class])
+        return;
+
+    NSImage *image = [NSImage imageNamed:@"grid_slider_large"];
     [image setName:@"grid_slider_large_enabled" forSubimageInRect:NSMakeRect(0, 0, 10, 10)];
     [image setName:@"grid_slider_large_disabled" forSubimageInRect:NSMakeRect(10, 0, 10, 10)];
     
@@ -24,6 +28,8 @@
 {
     BOOL enabled = [self isEnabled];
     BOOL active = [[self window] isMainWindow];
+    if(hintImagesShowActive == (enabled && active)) return;
+    
     if(enabled && active)
     {
         if([self maxHint])[[self maxHint] setImage:[NSImage imageNamed:@"grid_slider_large_enabled"]];
@@ -34,6 +40,7 @@
         if([self maxHint])[[self maxHint] setImage:[NSImage imageNamed:@"grid_slider_large_disabled"]];
         if([self minHint])[[self minHint] setImage:[NSImage imageNamed:@"grid_slider_small_disabled"]];
     }
+    hintImagesShowActive = (enabled && active);
 }
 
 - (id)initWithCoder:(NSCoder *)coder
@@ -42,8 +49,6 @@
     if (self) 
     {
         [self setContinuous:YES];
-        
-        [self setHintImages];
     }
     return self;
 }
@@ -60,13 +65,18 @@
 
 - (void)awakeFromNib
 {
-    [self setHintImages];
+    if([self maxHint])[[self maxHint] setImage:[NSImage imageNamed:@"grid_slider_large_disabled"]];
+    if([self minHint])[[self minHint] setImage:[NSImage imageNamed:@"grid_slider_small_disabled"]];
+    
+    [[self maxHint] setImageAlignment:NSImageAlignTopLeft];
+    
+    hintImagesShowActive = NO;
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
     [super drawRect:dirtyRect];
-    [self setHintImages];
+    [self performSelectorInBackground:@selector(setHintImages) withObject:nil];
 }
 
 - (void)dealloc 
@@ -103,6 +113,8 @@
 {
     return YES;
 }
+
+
 #pragma mark -
 - (void)drawBarInside:(NSRect)aRect flipped:(BOOL)flipped 
 {
@@ -110,7 +122,7 @@
     
     if([self sliderType]==NSLinearSlider && ![self isVertical]) 
     {
-        NSImage* track = [NSImage imageNamed:@"grid_slider_track"];
+        NSImage *track = [NSImage imageNamed:@"grid_slider_track"];
         
         OEUIState state = ([self isEnabled] && windowActive)?OEUIStateActive:OEUIStateInactive;
         NSRect sourceRect = [self trackImageRectForState:state];
@@ -140,7 +152,7 @@
     
     if([self sliderType]==NSLinearSlider && ![self isVertical]) 
     {
-        NSImage* track = [NSImage imageNamed:@"grid_slider_thumb"];
+        NSImage *track = [NSImage imageNamed:@"grid_slider_thumb"];
         
         OEUIState state = ([self isEnabled] && windowActive)?OEUIStateActive:OEUIStateInactive;
         NSRect sourceRect = [self knobImageRectForState:state];

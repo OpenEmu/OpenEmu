@@ -1,6 +1,17 @@
 Mupen64Plus-Core Emulator Library RELEASE
 -----------------------------------------
 
+Mupen64Plus v1.99.4 - February 22, 2010
+---------------------------------------
+ - Added some type checking to ConfigGetParameter() function, and a new error type
+ - Bugfix: avoid segfault in the video extension code if SDL initialization fails (because video plugin fails)
+ - Added new CoreGetRomSettings() function for front-ends
+ - Allow to run dynarec in hardware DEP protected windows
+ - Allow core .cfg parser to accept strings without quotes around them
+ - API change: use new ReadScreen2() video plugin function
+ - New re-entrant R4300 disassembler, from tty68k/zzt32, a man who loves MIPS processors
+ - makefile fixes and improvements, code cleanups
+
 Mupen64Plus v1.99.3 - February 13, 2010
 ---------------------------------------
  - New feature: configuration function ConfigGetParameterType()

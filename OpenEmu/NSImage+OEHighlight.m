@@ -13,7 +13,7 @@
 
 - (NSImage*)imageForHighlight
 {
-    NSImage* highlightImage = [[[NSImage alloc] initWithSize:self.size] autorelease];
+    NSImage *highlightImage = [[[NSImage alloc] initWithSize:self.size] autorelease];
     
     [highlightImage lockFocus];
     

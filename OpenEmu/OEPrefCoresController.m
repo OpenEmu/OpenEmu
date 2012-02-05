@@ -44,12 +44,13 @@
     [[OECoreUpdater sharedUpdater] addObserver:self forKeyPath:@"coreList" options:NSKeyValueChangeInsertion|NSKeyValueChangeRemoval|NSKeyValueChangeReplacement context:nil];
     
     [[[self coresTableView] tableColumns] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        OECenteredTextFieldCell* cell = [obj dataCell];
+        OECenteredTextFieldCell *cell = [obj dataCell];
         [cell setWidthInset:8.0];
     }];
     
     [[self coresTableView] setDelegate:self];
     [[self coresTableView] setDataSource:self];
+    [(OETableView*)[self coresTableView] setHeaderClickable:NO];
     
     [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForNewCores:) withObject:[NSNumber numberWithBool:NO]];
     [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForUpdates) withObject:nil];
@@ -72,7 +73,7 @@
 
 - (void)updateOrInstallItemAtRow:(NSInteger)rowIndex
 {
-    OECoreDownload* plugin = [self coreDownloadAtRow:rowIndex];
+    OECoreDownload *plugin = [self coreDownloadAtRow:rowIndex];
     [plugin startDownload:self];
 }
 
@@ -88,9 +89,9 @@
 }
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    OECoreDownload* plugin = [self coreDownloadAtRow:row];
+    OECoreDownload *plugin = [self coreDownloadAtRow:row];
     
-    NSString* columnIdentifier = [tableColumn identifier];
+    NSString *columnIdentifier = [tableColumn identifier];
     if([columnIdentifier isEqualToString:@"coreColumn"])
     {
         return [plugin name];
@@ -116,10 +117,19 @@
 {
     if([aCell isKindOfClass:[NSTextFieldCell class]])
     {
-        NSDictionary* attr;
+        NSDictionary *attr;
         
-        int weight = [[aTableColumn identifier] isEqualToString:@"coreColumn"]?15:0;
-        NSColor* color = [[self coreDownloadAtRow:rowIndex] canBeInstalled]?[NSColor darkGrayColor]:[NSColor whiteColor];
+        int weight = 0;
+        NSColor *color;
+        if([[aTableColumn identifier] isEqualToString:@"coreColumn"])
+        {
+            weight = 15.0;
+            color = [[self coreDownloadAtRow:rowIndex] canBeInstalled]?[NSColor colorWithDeviceWhite:0.44 alpha:1.0]:[NSColor colorWithDeviceWhite:0.89 alpha:1.0];
+        }
+        else
+        {
+            color = [[self coreDownloadAtRow:rowIndex] canBeInstalled]?[NSColor colorWithDeviceWhite:0.44 alpha:1.0]:[NSColor colorWithDeviceWhite:0.86 alpha:1.0];
+        }
         
         attr = [NSDictionary dictionaryWithObjectsAndKeys:
                 [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:weight size:11.0], NSFontAttributeName, 
@@ -135,14 +145,14 @@
     if([[tableColumn identifier] isNotEqualTo:@"versionColumn"])
         return [tableColumn dataCellForRow:row];
     
-    OECoreDownload* plugin = [self tableView:tableView objectValueForTableColumn:nil row:row];
+    OECoreDownload *plugin = [self tableView:tableView objectValueForTableColumn:nil row:row];
     if([plugin isDownloading])
     {
-        OECoreTableProgressCell* cell = [[OECoreTableProgressCell alloc] init];
+        OECoreTableProgressCell *cell = [[OECoreTableProgressCell alloc] init];
         return [cell autorelease];
     }
     
-    NSString* title = nil;
+    NSString *title = nil;
     if([plugin canBeInstalled])
     {
         title = NSLocalizedString(@"Install", @"Install Core");
@@ -154,7 +164,7 @@
     
     if(![plugin appcastItem] || !title) return [tableColumn dataCellForRow:row];
     
-    OECoreTableButtonCell* buttonCell = [[OECoreTableButtonCell alloc] initTextCell:title];
+    OECoreTableButtonCell *buttonCell = [[OECoreTableButtonCell alloc] initTextCell:title];
     return [buttonCell autorelease];
 }
 
@@ -174,7 +184,7 @@
 }
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
-    NSString* columnIdentifier = [aTableColumn identifier];
+    NSString *columnIdentifier = [aTableColumn identifier];
     if([columnIdentifier isEqualTo:@"versionColumn"])
         [self updateOrInstallItemAtRow:rowIndex];
 }

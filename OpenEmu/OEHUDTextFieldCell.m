@@ -36,6 +36,10 @@
 @synthesize isEditing;
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEHUDTextFieldCell class])
+        return;
+
     NSImage* image = [NSImage imageNamed:@"hud_textfield"];
     [image setName:@"hud_textfield_unfocused" forSubimageInRect:(NSRect){{0, 2*(image.size.height/3)},{image.size.width, image.size.height/3}}];
     [image setName:@"hud_textfield_inactive" forSubimageInRect:(NSRect){{0, 1*(image.size.height/3)},{image.size.width, image.size.height/3}}];
@@ -75,22 +79,26 @@
 
 - (void)editWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject event:(NSEvent *)theEvent
 {
-	NSRect textFrame = [self titleRectForBounds:NSInsetRect(aRect, 2, 0)];
+    if(![textObj isKindOfClass:[OEHUDTextFieldEditor class]])
+    {        
+        textObj = [OEHUDTextFieldEditor fieldEditor];
+        [textObj setFrame:[textObj frame]];
+    }
 	
-	OEHUDTextFieldEditor* fieldEditor = [OEHUDTextFieldEditor fieldEditor];
-	[fieldEditor setFrame:[textObj frame]];
-    
-    [super editWithFrame:textFrame inView:controlView editor:fieldEditor delegate:anObject event: theEvent];
+    NSRect textFrame = [self titleRectForBounds:NSInsetRect(aRect, 2, 0)];
+    [super editWithFrame:textFrame inView:controlView editor:textObj delegate:anObject event: theEvent];
 }
 
 - (void)selectWithFrame:(NSRect)aRect inView:(NSView *)controlView editor:(NSText *)textObj delegate:(id)anObject start:(NSInteger)selStart length:(NSInteger)selLength
 {
-	NSRect textFrame = [self titleRectForBounds:NSInsetRect(aRect, 2, 0)];
-
-	OEHUDTextFieldEditor* fieldEditor = [OEHUDTextFieldEditor fieldEditor];
-	[fieldEditor setFrame:[textObj frame]];
+    if(![textObj isKindOfClass:[OEHUDTextFieldEditor class]])
+    {        
+        textObj = [OEHUDTextFieldEditor fieldEditor];
+        [textObj setFrame:[textObj frame]];
+    }
 	
-    [super selectWithFrame:textFrame inView:controlView editor:fieldEditor delegate:anObject start:selStart length:selLength];
+    NSRect textFrame = [self titleRectForBounds:NSInsetRect(aRect, 2, 0)];
+    [super selectWithFrame:textFrame inView:controlView editor:textObj delegate:anObject start:selStart length:selLength];
 }
 
 - (NSText *)setUpFieldEditorAttributes:(NSText *)textObj
@@ -230,5 +238,11 @@
 	
     // At this point, the cellFrame has been modified to exclude the portion for the image. Let the superclass handle the hit testing at this point.
     return [super hitTestForEvent:event inRect:cellFrame ofView:controlView];    
+}
+
+- (void)endEditing:(NSText *)textObj{
+    
+    NSLog(@"end editing %@", [textObj string]);
+    [super endEditing:textObj];
 }
 @end

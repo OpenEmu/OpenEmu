@@ -117,15 +117,15 @@
                 NSInteger affectedItems = rowMovement*columns;
                 if(rowMovement > 0 && affectedItems < [self.itemLayers count])
                 {
-                    NSIndexSet* indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, affectedItems)];
-                    NSArray* recylcedLayers = [self.itemLayers objectsAtIndexes:indexSet];
+                    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, affectedItems)];
+                    NSArray *recylcedLayers = [self.itemLayers objectsAtIndexes:indexSet];
                     [self.itemLayers removeObjectsAtIndexes:indexSet];
                     [self.itemLayers addObjectsFromArray:recylcedLayers];
                 } 
                 else if(rowMovement < 0 && affectedItems > -1*[self.itemLayers count])
                 {
-                    NSIndexSet* indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange([self.itemLayers count]+affectedItems, -affectedItems)];
-                    NSArray* recylcedLayers = [self.itemLayers objectsAtIndexes:indexSet];
+                    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange([self.itemLayers count]+affectedItems, -affectedItems)];
+                    NSArray *recylcedLayers = [self.itemLayers objectsAtIndexes:indexSet];
                     [self.itemLayers removeObjectsAtIndexes:indexSet];
                     indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, -affectedItems)];
                     [self.itemLayers insertObjects:recylcedLayers atIndexes:indexSet];
@@ -142,7 +142,7 @@
         }
         while(requiredLayers > [self.itemLayers count])
         {
-            IKSGridItemLayer* itemLayer = [self.gridView.cellClass layer];
+            IKSGridItemLayer *itemLayer = [self.gridView.cellClass layer];
             itemLayer.gridView = self.gridView;
             itemLayer.representedIndex = -1;
             [self.itemLayers addObject:itemLayer];
@@ -169,9 +169,8 @@
         {
             // self.itemLayers can change during this method, if layoutSublayersOfLayer: is called again before it's finishes
             // if that case occures, we cancel
-            if(currentLayerIndex >= [self.itemLayers count]){ 
+            if(currentLayerIndex >= [self.itemLayers count])
                 return;
-            }
             
             // get the layer we want to update
             currentLayer = [self.itemLayers objectAtIndex:currentLayerIndex];

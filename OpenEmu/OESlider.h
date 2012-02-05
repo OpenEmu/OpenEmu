@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "OEUIDrawingUtils.h"
 @interface OESlider : NSSlider 
-@property (assign) IBOutlet NSImageView* minHint;
-@property (assign) IBOutlet NSImageView* maxHint;
+{
+    BOOL hintImagesShowActive;
+}
+@property (assign) IBOutlet NSImageView *minHint;
+@property (assign) IBOutlet NSImageView *maxHint;
 @end
 
 @interface OESliderCell : NSSliderCell

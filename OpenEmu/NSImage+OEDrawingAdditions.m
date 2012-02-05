@@ -19,7 +19,7 @@
     BOOL sourceFlipped = [self isFlipped];
     BOOL targetFlipped = [[NSGraphicsContext currentContext] isFlipped];
     
-    NSDictionary* drawingHints = hints;
+    NSDictionary *drawingHints = hints;
     if(!drawingHints)
         drawingHints = [NSDictionary dictionaryWithObject:[NSNumber numberWithInt:NSImageInterpolationNone] forKey:NSImageHintInterpolation];
     
@@ -43,7 +43,8 @@
     [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
     
     // Bottom Center
-    if(sourceFlipped){
+    if(sourceFlipped)
+    {
         workingSourceRect = NSMakeRect(sourceRect.origin.x+leftBorder, sourceRect.origin.y+sourceRect.size.height-bottomBorder, sourceRect.size.width-leftBorder-rightBorder, bottomBorder);
     } 
     else 
@@ -51,7 +52,8 @@
         workingSourceRect = NSMakeRect(sourceRect.origin.x+leftBorder, sourceRect.origin.y, sourceRect.size.width-leftBorder-rightBorder, bottomBorder);
     }
     
-    if(targetFlipped){
+    if(targetFlipped)
+    {
         workingTargetRect = NSMakeRect(targetRect.origin.x+leftBorder, targetRect.origin.y+targetRect.size.height-bottomBorder, targetRect.size.width-leftBorder-rightBorder, bottomBorder);
     } 
     else 
@@ -61,7 +63,8 @@
     [self drawInRect:workingTargetRect fromRect:workingSourceRect operation:op fraction:frac respectFlipped:flipped hints:drawingHints];
     
     // Bottom Right
-    if(sourceFlipped){
+    if(sourceFlipped)
+    {
         workingSourceRect = NSMakeRect(sourceRect.origin.x+sourceRect.size.width-rightBorder, sourceRect.origin.y+sourceRect.size.height-bottomBorder, rightBorder, bottomBorder);
     } 
     else 
@@ -206,7 +209,7 @@
 
 - (NSImage*)subImageFromRect:(NSRect)rect
 {
-    NSImage* newImage = [[NSImage alloc] initWithSize:rect.size];
+    NSImage *newImage = [[NSImage alloc] initWithSize:rect.size];
     
     [newImage lockFocus];
     [self drawInRect:NSMakeRect(0, 0, newImage.size.width, newImage.size.height) fromRect:rect operation:NSCompositeCopy fraction:1.0];
@@ -218,8 +221,8 @@
 - (void)setName:(NSString*)name forSubimageInRect:(NSRect)aRect
 {
     // Analyzer warns about potential leak here.
-    // Should be correct as we don't want named images to be deallocated
-    NSImage* resultImage = [self subImageFromRect:aRect];
+    // Should be correct though as we don't want named images to be deallocated
+    NSImage *resultImage = [self subImageFromRect:aRect];
     [resultImage setName:name];
     [resultImage retain];
 } // Read comments above!!!!

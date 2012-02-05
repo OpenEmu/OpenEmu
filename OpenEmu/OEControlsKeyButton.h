@@ -28,7 +28,7 @@
 
 @interface OEControlsKeyButton : NSView
 {
-    NSString* title;
+    NSString *title;
     
     id target;
     SEL action;
@@ -38,7 +38,7 @@
 }
 
 @property (nonatomic) NSCellStateValue state;
-@property (nonatomic, copy) NSString* title;
+@property (nonatomic, copy) NSString *title;
 @property (assign) id target;
 @property SEL action;
 

@@ -35,6 +35,11 @@
   #define OSAL_DIR_SEPARATOR           '/'
   #include <limits.h>  // for PATH_MAX
   #include <unistd.h>  // for unlink()
+
+  /* PATH_MAX only may be defined by limits.h */
+  #ifndef PATH_MAX
+    #define PATH_MAX 4096
+  #endif
 #endif
 
 extern int osal_mkdirp(const char *dirpath, int mode);

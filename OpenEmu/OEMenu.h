@@ -9,19 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <QuartzCore/QuartzCore.h>
 #import "OEMenuItem.h"
-@class OEControlsPopupButton;
+@class OEPopupButton;
 @protocol OEMenuDelegate;
 @class OEMenuView;
 @interface OEMenu : NSWindow 
 {
 @private
-    NSMenu* menu;
-    NSMenuItem* highlightedItem;
+    NSMenu *menu;
+    NSMenuItem *highlightedItem;
     
-    OEMenu* submenu;
-    OEMenu* supermenu;
+    OEMenu *submenu;
+    OEMenu *supermenu;
     
-    OEControlsPopupButton* popupButton;
+    OEPopupButton *popupButton;
     
     NSSize minSize, maxSize;
     int itemsAboveScroller, itemsBelowScroller;
@@ -40,15 +40,15 @@
 #pragma mark NSMenu wrapping
 - (NSArray *)itemArray;
 
-@property (readonly) BOOL alternate;;
+@property (readonly) BOOL alternate;
 
 @property (readwrite) NSSize minSize, maxSize;
-@property (retain) OEControlsPopupButton* popupButton;
-@property (nonatomic, retain) OEMenu* submenu;
-@property (nonatomic, retain) OEMenu* supermenu;
+@property (retain) OEPopupButton *popupButton;
+@property (nonatomic, retain) OEMenu *submenu;
+@property (nonatomic, retain) OEMenu *supermenu;
 
-@property (nonatomic, retain) NSMenu* menu;
-@property (retain) NSMenuItem* highlightedItem;
+@property (nonatomic, retain) NSMenu *menu;
+@property (retain) NSMenuItem *highlightedItem;
 @property (readonly, getter = isVisible) BOOL visible;
 
 @property int itemsAboveScroller, itemsBelowScroller;
@@ -83,5 +83,5 @@
 - (NSDictionary*)selectedItemTextAttributes;
 - (NSDictionary*)selectedItemAlternateTextAttributes;
 - (NSDictionary*)disabledItemTextAttributes;
-@property (nonatomic, readonly) OEMenu* menu;
+@property (nonatomic, readonly) OEMenu *menu;
 @end

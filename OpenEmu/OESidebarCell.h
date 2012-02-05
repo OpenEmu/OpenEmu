@@ -13,7 +13,6 @@
 {
 @private
 	BOOL isGroup, isEditing;
-	NSImage* image;
 }
 @property (readwrite) BOOL isGroup;
 @property (readwrite) BOOL isEditing;

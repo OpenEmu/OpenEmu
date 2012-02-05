@@ -81,7 +81,7 @@
 	NSRect textFrame = [self titleRectForBounds:NSInsetRect(aRect, 0, 1)];
 	textFrame.size.width -= (6.0);
 	
-	OESidebarFieldEditor* fieldEditor = [OESidebarFieldEditor fieldEditor];
+	OESidebarFieldEditor *fieldEditor = [OESidebarFieldEditor fieldEditor];
 	[fieldEditor setFrame:[textObj frame]];
     
     [super editWithFrame:textFrame inView:controlView editor:fieldEditor delegate:anObject event: theEvent];
@@ -95,7 +95,7 @@
 	textFrame.size.height += 2;
 	textFrame.origin.y -= 1;
 	
-	OESidebarFieldEditor* fieldEditor = [OESidebarFieldEditor fieldEditor];
+	OESidebarFieldEditor *fieldEditor = [OESidebarFieldEditor fieldEditor];
 	[fieldEditor setFrame:[textObj frame]];
 	
     [super selectWithFrame:textFrame inView:controlView editor:fieldEditor delegate:anObject start:selStart length:selLength];
@@ -105,19 +105,19 @@
 {	
 	textObj = [super setUpFieldEditorAttributes:textObj];
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
-	NSColor* textColor = [NSColor blackColor];
+	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
+	NSColor *textColor = [NSColor blackColor];
 	
 	NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-	NSDictionary* typeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *typeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     textColor, NSForegroundColorAttributeName,
                                     paragraphStyle, NSParagraphStyleAttributeName,
                                     font, NSFontAttributeName,
                                     nil];
 	
-	NSColor* backgroundColor = [NSColor colorWithDeviceRed:0.788 green:0.871 blue:0.992 alpha:1.0];
-	NSDictionary* selectAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSColor *backgroundColor = [NSColor colorWithDeviceRed:0.788 green:0.871 blue:0.992 alpha:1.0];
+	NSDictionary *selectAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
 									  textColor, NSForegroundColorAttributeName,
 									  paragraphStyle, NSParagraphStyleAttributeName,
 									  font, NSFontAttributeName,
@@ -133,7 +133,7 @@
 		[(NSTextView*)textObj setSelectedTextAttributes:selectAttributes];
 	}
 	
-	NSColor* color = [NSColor colorWithDeviceWhite:0.72 alpha:1.0];
+	NSColor *color = [NSColor colorWithDeviceWhite:0.72 alpha:1.0];
 	[(NSTextView *)textObj setInsertionPointColor:color];
     
 	self.isEditing = YES;
@@ -143,11 +143,11 @@
 
 - (NSDictionary *)_textAttributes
 {
-	NSDictionary* typeAttributes = [super _textAttributes];
+	NSDictionary *typeAttributes = [super _textAttributes];
 	
 	if(self.isEditing){
-        NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
-        NSColor* textColor = [NSColor blackColor];
+        NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
+        NSColor *textColor = [NSColor blackColor];
         NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
         [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
         typeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -164,26 +164,26 @@
 {
 	
 	NSRect imageFrame = [self imageRectForBounds:cellFrame];
-    if (image != nil)
+    if ([self image] != nil)
     {
         if ([self drawsBackground]) 
         {
             [[self backgroundColor] set];
             NSRectFill(imageFrame);
         }
-		[image drawInRect:imageFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+		[[self image] drawInRect:imageFrame fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 	
 	NSRect titleFrame = [self titleRectForBounds:cellFrame];
 	
-	NSFont* font;
-	NSColor* textColor;
-	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+	NSFont *font;
+	NSColor *textColor;
+	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 	NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 	
 	
-	NSWindow* win = [controlView window];
+	NSWindow *win = [controlView window];
 	NSInteger row = [(NSTableView*)controlView rowAtPoint:cellFrame.origin]; 
 	BOOL isSelected = [self isHighlighted];
 	BOOL isActive = [win isMainWindow] && [win firstResponder]==controlView;
@@ -236,14 +236,14 @@
 	
 	
 	
-	NSDictionary* attributes = [NSDictionary dictionaryWithObjectsAndKeys:
+	NSDictionary *attributes = [NSDictionary dictionaryWithObjectsAndKeys:
 								textColor, NSForegroundColorAttributeName,
 								paragraphStyle, NSParagraphStyleAttributeName,
 								shadow, NSShadowAttributeName,
 								font, NSFontAttributeName,
 								nil];
     
-	NSAttributedString* strVal = [[NSAttributedString alloc] initWithString:[self stringValue] attributes:attributes];
+	NSAttributedString *strVal = [[NSAttributedString alloc] initWithString:[self stringValue] attributes:attributes];
 	[self setAttributedStringValue:strVal];
 	[strVal release];
     

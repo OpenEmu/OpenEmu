@@ -31,6 +31,7 @@
 #import "OEMainWindowController.h"
 #import "OEGlossButton.h"
 #import "OESetupAssistantKeyMapView.h"
+
 @implementation OESetupAssistant
 
 @synthesize searchResults;
@@ -39,13 +40,37 @@
 @synthesize step1;
 @synthesize step2;
 @synthesize step3;
+@synthesize step3a;
 @synthesize step4;
 @synthesize step5;
+@synthesize step6;
+@synthesize step7;
+@synthesize step8;
+@synthesize step9;
+@synthesize step10;
+@synthesize lastStep;
+
+// decision tree
+@synthesize allowScanForGames;
+
+// key map views
+@synthesize upKeyMapView;
+@synthesize downKeyMapView;
+@synthesize leftKeyMapView;
+@synthesize rightKeyMapView;
+@synthesize runKeyMapView;
+@synthesize jumpKeyMapView;
+
+// Special buttons
+@synthesize goButton;
+
+/*
 @synthesize resultTableView;
 @synthesize resultProgress;
 @synthesize resultFinishedLabel;
 @synthesize resultController;
 @synthesize dontSearchCommonTypes;
+*/
 
 - (id)init
 {
@@ -59,68 +84,59 @@
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
     NSLog(@"Dealloc Assistant");
     
     [super dealloc];
 }
 
-- (NSString*)nibName{
+- (NSString*)nibName
+{
     return @"OESetupAssistant";
 }
 
 - (void) awakeFromNib
 {    
-    [(OEGlossButton*)[self back] setButtonColor:OEGlossButtonColorBlue];
-    [(OEGlossButton*)[self next] setButtonColor:OEGlossButtonColorGreen];
-    
-    [[self keyMapView] setKey:OESetupAssistantKeyQuestionMark];
-}
+    [(OEGlossButton*)[self goButton] setButtonColor:OEGlossButtonColorGreen];
 
-- (void)contentWillShow
-{
-    NSWindow* window = [[self windowController] window];
-    [window setMovableByWindowBackground:YES];
-    [[self windowController] setAllowWindowResizing:NO];
-}
-
-- (void)contentWillHide
-{
-    NSWindow* window = [[self windowController] window];
-    [window setMovableByWindowBackground:NO];
-    [[self windowController] setAllowWindowResizing:YES];
-}
-
-@synthesize back, skip, next;
-@synthesize keyMapView;
-#pragma mark -
-- (IBAction)toStep1:(id)sender
-{
-    [[back superview] removeFromSuperview];
+    [self.replaceView setWantsLayer:YES];
     
-    self.searchResults = [[[NSMutableArray alloc] initWithCapacity:1] autorelease];
-    [self.resultFinishedLabel setHidden:YES];
-    
+    // set up key map views
+    self.upKeyMapView.key = OESetupAssistantKeyUp;
+    self.downKeyMapView.key = OESetupAssistantKeyDown;
+    self.leftKeyMapView.key = OESetupAssistantKeyLeft;
+    self.rightKeyMapView.key = OESetupAssistantKeyRight;
+    self.runKeyMapView.key = OESetupAssistantKeyQuestionMark;
+    self.jumpKeyMapView.key = OESetupAssistantKeyQuestionMark;
+
+    // Search results for importing
+    //searchResults = [[[NSMutableArray alloc] initWithCapacity:1] autorelease];
+    //[self.resultController setContent:self.searchResults];
+
+    // setup default transition proerties
     self.transition = [CATransition animation];
     self.transition.type = kCATransitionFade;
     self.transition.subtype = kCATransitionFromRight;
     self.transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
     self.transition.duration = 1.0;
-    
-    CGColorRef colorRef = CGColorCreateGenericGray(0.129, 1.0);
-    [[[self.replaceView superview] layer] setBackgroundColor:colorRef];
-    
-    [[self.replaceView layer] setBackgroundColor:colorRef];
-    CGColorRelease(colorRef);
-    
-    [self.replaceView setWantsLayer:YES];
-    
     [self.replaceView setAnimations: [NSDictionary dictionaryWithObject:self.transition forKey:@"subviews"]];
     
-    [[self.replaceView animator] addSubview:step1];
-    
-    [self.resultController setContent:self.searchResults];
+    // Time bringing in our first view to conincide with our animation
+    [self performSelector:@selector(toStep1:) withObject:nil afterDelay:10.0];
 }
+
+#pragma mark -
+
+- (IBAction)toStep1:(id)sender
+{     
+    self.transition.type = kCATransitionFade;
+
+    [step1 setFrame:[self.replaceView frame]];
+  
+    [[self.replaceView animator] addSubview:step1];
+}
+
 - (IBAction) backToStep1:(id)sender
 {
     [self goBackToView:self.step1];
@@ -146,6 +162,14 @@
     [self goBackToView:self.step3];
 }
 
+- (IBAction) toStep3aOr4:(id)sender
+{
+    if([self.allowScanForGames state] == NSOnState)
+        [self goForwardToView:self.step3a];
+    else
+        [self goForwardToView:self.step4];
+}
+
 - (IBAction) toStep4:(id)sender;
 {
     [self goForwardToView:self.step4];
@@ -161,58 +185,139 @@
     [self goForwardToView:self.step5];
 }
 
+- (IBAction) backToStep5:(id)sender
+{
+    [self goBackToView:self.step5];
+}
+
+- (IBAction) toStep6:(id)sender
+{
+    [self goForwardToView:self.step6];
+}
+
+- (IBAction) backToStep6:(id)sender
+{
+    [self goBackToView:self.step6];
+}
+
+- (IBAction) toStep7:(id)sender
+{
+    [self goForwardToView:self.step7];
+}
+
+- (IBAction) backToStep7:(id)sender
+{
+    [self goBackToView:self.step7];
+}
+
+- (IBAction) toStep8:(id)sender
+{
+    [self goForwardToView:self.step8];
+}
+
+- (IBAction) backToStep8:(id)sender
+{
+    [self goBackToView:self.step8];
+}
+
+- (IBAction) toStep9:(id)sender
+{
+    [self goForwardToView:self.step9];
+}
+
+- (IBAction) backToStep9:(id)sender
+{
+    [self goBackToView:self.step9];
+}
+
+- (IBAction) toStep10:(id)sender
+{
+    [self goForwardToView:self.step10];
+}
+
+- (IBAction) backToStep10:(id)sender
+{
+    [self goBackToView:self.step10];
+}
+
+- (IBAction) toLastStep:(id)sender
+{
+    [self goForwardToView:self.lastStep];
+}
+
+- (IBAction) finishAndRevealLibrary:(id)sender
+{
+    NSWindow *win = [[self view] window];
+    OEMainWindowController *controller = (OEMainWindowController*)[win windowController];
+    [controller setCurrentContentController:[controller defaultContentController]];
+
+    // mark setup done.
+    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:UDSetupAssistantHasRun];
+}
+
+#pragma mark -
+#pragma mark View Switching Helpers
+
 - (void) goBackToView:(NSView*)view
 {
+    [view setFrame:[self.replaceView frame]];
+
     self.transition.type = kCATransitionPush;
     self.transition.subtype = kCATransitionFromLeft;
     
-    NSView* subview  = [[replaceView subviews] objectAtIndex:0];
+    NSView *subview  = [[replaceView subviews] objectAtIndex:0];
     
     [[self.replaceView animator] replaceSubview:subview with:view];
 }
 
 - (void) goForwardToView:(NSView*)view
 {
+    [view setFrame:[self.replaceView frame]];
+
     self.transition.type = kCATransitionPush;
     self.transition.subtype = kCATransitionFromRight;
     
-    NSView* subview  = [[self.replaceView subviews] objectAtIndex:0];
+    NSView *subview  = [[self.replaceView subviews] objectAtIndex:0];
     
     [[self.replaceView animator] replaceSubview:subview with:view];
 }
 
 - (void) dissolveToView:(NSView*)view
 {
+    [view setFrame:[self.replaceView frame]];
+
     self.transition.type = kCATransitionFade;
     
-    NSView* subview  = [[replaceView subviews] objectAtIndex:0];
+    NSView *subview  = [[replaceView subviews] objectAtIndex:0];
     
     [[self.replaceView animator] replaceSubview:subview with:view];
 }
 
 #pragma mark -
-#pragma Import Rom Discovery
-
+#pragma mark Import Rom Discovery
+/*
 - (IBAction)discoverRoms:(id)sender
 {
+
 #warning OESetupAssistant actual importing is deactivated here 
+    
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:UDSetupAssistantHasRun];
     [[self windowController] setCurrentContentController:nil];
     return;
     
-    NSMutableArray* supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
+    NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
     
     if([dontSearchCommonTypes state] == NSOnState)
     {
-        NSArray* commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
+        NSArray *commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
         
         [supportedFileExtensions removeObjectsInArray:commonTypes];
     }
     
     NSLog(@"Supported search Extensions are: %@", supportedFileExtensions);
     
-    NSString* searchString = @"";
-    for(NSString* extension in supportedFileExtensions)
+    NSString *searchString = @"";
+    for(NSString *extension in supportedFileExtensions)
     {
         searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension, nil];
         searchString = [searchString stringByAppendingString:@" || "];
@@ -263,7 +368,7 @@
     MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
     
     MDItemRef resultItem = NULL;
-    NSString* resultPath = nil;
+    NSString *resultPath = nil;
     
     // assume the latest result is the last index?
     CFIndex index = 0;
@@ -273,7 +378,7 @@
         resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
         resultPath = (NSString*)MDItemCopyAttribute(resultItem, kMDItemPath);
         
-        NSArray* dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
+        NSArray *dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
                                                         @"System",
                                                         @"Library",
                                                         @"Developer",
@@ -296,7 +401,7 @@
         {                
             if(![[self.resultController content] containsObject:resultPath])
             {
-                NSMutableDictionary* resultDict = [NSMutableDictionary dictionary];
+                NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
                 
                 [resultDict setValue:resultPath forKey:@"Path"];
                 [resultDict setValue:[[resultPath lastPathComponent] stringByDeletingPathExtension] forKey:@"Name"];
@@ -325,16 +430,17 @@
 
 - (IBAction) import:(id)sender;
 {
-    NSMutableArray* URLS = [NSMutableArray array];
+    NSMutableArray *URLS = [NSMutableArray array];
     
-    for(NSDictionary* searchResult in self.searchResults)
+    for(NSDictionary *searchResult in self.searchResults)
     {
         [URLS addObject:[NSURL fileURLWithPath:[searchResult objectForKey:@"Path"]]];
     }
     
     NSLog(@"OESetupAssistant import: need to used new import method");
-    NSWindow* win = [[self view] window];
-    OEMainWindowController* controller = (OEMainWindowController*)[win windowController];
+    NSWindow *win = [[self view] window];
+    OEMainWindowController *controller = (OEMainWindowController*)[win windowController];
     [controller setCurrentContentController:self];
 }
+*/
 @end

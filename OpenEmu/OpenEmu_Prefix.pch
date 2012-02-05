@@ -41,7 +41,6 @@
 #define DLog(format, ...) do {} while (0)
 #endif
 
-
 #define OEDBSystemsChangedNotificationName @"OEDBSystemsChanged"
 
 // Archive.vg Support
@@ -93,6 +92,8 @@
 #define UDHUDHideOptionsKey         @"HUDBarWithoutOptions"     /*  Set to yes to disable the cog in the hudbar                                                 */
 #define OEHUDCanDeleteStateKey      @"HUDBarCanDeleteState"     /*  Enable to allow users to remove savestates by holding the alt button when clicking on a savestate  */
 
+#define UDControlsDisableMouseSelection @"controlsDisableMouseSelection"        /* if set (to YES) selecting controller buttons by clicking on the image is disabled in Controls Preferences */
+#define UDControlsDisableMouseDeactivation @"controlsDisableMouseDeactivation"  /* if set (to YES) deselecting the current button by clicking outside the blue selector ring is disabled in Controls Preferences */
 // Sidebar Constraints
 #define UDSidebarCollectionNotCollapsableKey    @"sidebarCollapsable"
 #define UDSidebarMinWidth                       @"sidebarMinWidth"
@@ -110,6 +111,15 @@
 #define UDLastGridSizeKey           @"lastGridSize"
 #define UDLastCollectionViewKey     @"lastCollectionView"
 #define UDLastPopoutFrameKey        @"lastPopoutFrame"
+#define UDLastCollectionSelectedKey @"lastCollectionSelected"
+
+//  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
+//  Default installed, non QTZ based filters names, used to identify filters 
+//  (see OEHudControlsBar.m, OEPrefGameplayController.m and OEGameLayer.m)
+//  Please note that the stated string must match a shader defined and created in OEGameLayer.m 
+
+#define OEOpenGLFilterNameArray [NSArray arrayWithObjects:@"Linear", @"Nearest Neighbor", @"Scale2xHQ", @"Scale2xPlus", @"Scale4x", @"Scale4xHQ", @"Scale2xBR", @"Scale4xBR", nil]
+
 
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Tags identifying Main Menu items

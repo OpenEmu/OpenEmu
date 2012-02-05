@@ -13,4 +13,5 @@
 @private
 	
 }
+@property (getter=isClickable) BOOL clickable;
 @end

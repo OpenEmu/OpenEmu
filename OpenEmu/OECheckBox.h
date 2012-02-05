@@ -11,6 +11,7 @@
 
 @interface OECheckBox : NSButton 
 - (void)setupCell;
+- (NSPoint)badgePosition;
 @end
 
 @interface OECheckBoxCell : NSButtonCell

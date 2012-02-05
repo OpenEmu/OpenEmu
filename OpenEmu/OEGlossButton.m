@@ -32,7 +32,7 @@
 {
     if(![[self cell] isKindOfClass:[OEGlossButtonCell class]])
     {
-        NSString* title = [self title];
+        NSString *title = [self title];
         [self setCell:[[[OEGlossButtonCell alloc] init] autorelease]];
         [self setTitle:title];
     }
@@ -101,7 +101,11 @@
 
 + (void)initialize
 {
-	NSImage* image = [NSImage imageNamed:@"gloss_button"];
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEGlossButtonCell class])
+        return;
+
+	NSImage *image = [NSImage imageNamed:@"gloss_button"];
     
     float buttonHeight = 23.0;
     float step =(image.size.height);
@@ -165,7 +169,7 @@
 	NSRect cellFrame = frame;
 	cellFrame.size.height = 23;
 	
-	NSImage* img;
+	NSImage *img;
     
     if([self isHighlighted])
     {
@@ -182,7 +186,7 @@
 
 - (NSImage*)_imageForButtonColor:(OEGlossButtonColor)color unfocused:(BOOL)unfocused
 {
-    NSString* imgName = @"gloss_button_default";
+    NSString *imgName = @"gloss_button_default";
     switch (color) 
     {
         case OEGlossButtonColorBlue:
@@ -215,10 +219,10 @@
 {
 	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:3.0 size:11.0];
-	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:3.0 size:11.0];
+	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowBlurRadius:1.0];
-	NSMutableParagraphStyle* ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
 	[ps setAlignment:NSCenterTextAlignment];
 	
 	if([self isHighlighted])

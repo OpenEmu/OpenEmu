@@ -38,7 +38,7 @@
 }
 
 + (id)fieldEditor{
-    static OEHUDTextFieldEditor* fieldEditor = nil;
+    static OEHUDTextFieldEditor *fieldEditor = nil;
     if (fieldEditor == nil){
         fieldEditor = [[OEHUDTextFieldEditor alloc] initWithFrame:NSZeroRect];
         

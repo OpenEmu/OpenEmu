@@ -38,12 +38,12 @@ typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
     BOOL canceld;
     
     OEImportErrorBehavior errorBehaviour;    
-    OELibraryDatabase* database;
+    OELibraryDatabase *database;
     
     dispatch_queue_t processingQueue;
     __block int queueCount;
     
-    NSMutableArray* importedRoms;
+    NSMutableArray *importedRoms;
 }
 - (id)initWithDatabase:(OELibraryDatabase*)_database;
 
@@ -53,8 +53,8 @@ typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
 - (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError**)outError;
 - (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError**)outError;
 @property OEImportErrorBehavior errorBehaviour;
-@property (assign) OELibraryDatabase* database;
+@property (assign) OELibraryDatabase *database;
 @property __block int queueCount;
 
-@property (readonly) NSArray* importedRoms;
+@property (readonly) NSArray *importedRoms;
 @end

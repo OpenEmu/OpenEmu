@@ -35,7 +35,7 @@
     
     BOOL famicom = [[OELocalizationHelper sharedHelper] isRegionJAP];
 	
-    OEGameControllerView *view = (OEGameControllerView *)[self view];
+    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
     
 	[view addButtonWithName:@"OENESButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(159, 116)];
 	[view addButtonWithName:@"OENESButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(159, 66)];
@@ -54,7 +54,7 @@
 }
 
 - (NSImage*)controllerImage{
-	NSString* controllerImageName = [[OELocalizationHelper sharedHelper] isRegionJAP]?@"controller_fc.png":@"controller_nes.png";
+	NSString *controllerImageName = [[OELocalizationHelper sharedHelper] isRegionJAP]?@"controller_fc.png":@"controller_nes.png";
 	
 	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:controllerImageName];
 	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];

@@ -22,20 +22,18 @@
 #include "r4300.h"
 #include "ops.h"
 #include "macros.h"
+#include "fpu.h"
 
 void CVT_S_W(void)
 {  
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *reg_cop1_simple[cffd] = (float) *((int*)reg_cop1_simple[cffs]);
+   cvt_s_w((int*)reg_cop1_simple[cffs], reg_cop1_simple[cffd]);
    PC++;
 }
 
 void CVT_D_W(void)
 {
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *reg_cop1_double[cffd] = *((int*)reg_cop1_simple[cffs]);
+   cvt_d_w((int*)reg_cop1_simple[cffs], reg_cop1_double[cffd]);
    PC++;
 }
-

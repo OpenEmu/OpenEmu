@@ -19,11 +19,13 @@
 
 @implementation OECoverGridIndicationLayer
 
-- (id)init {
+- (id)init 
+{
     self = [super init];
-    if (self) {
+    if (self) 
+    {
 		self.needsDisplayOnBoundsChange = NO;
-		CALayer* sublayer = [CALayer layer];
+		CALayer *sublayer = [CALayer layer];
 		sublayer.delegate = self;
 		
 		[self addSublayer:sublayer];
@@ -31,12 +33,14 @@
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
     [super dealloc];
 }
 
-- (void)setType:(int)newType{
-	CALayer* sublayer = [self.sublayers objectAtIndex:0];
+- (void)setType:(int)newType
+{
+	CALayer *sublayer = [self.sublayers objectAtIndex:0];
 	
 	switch (newType) {
 		case IndicationTypeNone:{
@@ -48,12 +52,12 @@
 		case IndicationTypeFileMissing:{
 			self.backgroundColor = [[NSColor colorWithDeviceRed:0.992 green:0.0 blue:0.0 alpha:0.4] CGColor];
 			
-			NSImage* fileMissingIndicator = [self fileMissingImage];
-			float width = self.bounds.size.width * 0.45;
+			NSImage *fileMissingIndicator = [self fileMissingImage];
+			float width = [self bounds].size.width * 0.45;
 			float height = width*0.9;
 			
 			
-			CGRect fileMissingIndicatorRect = CGRectMake(self.bounds.origin.x+(self.bounds.size.width-width)/2, self.bounds.origin.y+(self.bounds.size.height-height)/2, width, height);
+			CGRect fileMissingIndicatorRect = CGRectMake([self bounds].origin.x+([self bounds].size.width-width)/2, [self bounds].origin.y+([self bounds].size.height-height)/2, width, height);
 			sublayer.contents = fileMissingIndicator;
 			sublayer.shadowOffset = CGSizeMake(0, -1);
 			sublayer.shadowOpacity = 1.0;
@@ -63,12 +67,14 @@
 			[sublayer removeAllAnimations];
 		};
 			break;
-		case IndicationTypeProcessing:{
+		case IndicationTypeProcessing:
+        {
 			self.backgroundColor = [[NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.0 alpha:0.7] CGColor];
 			
-			NSImage* spinnerImage = [NSImage imageNamed:@"spinner"];
+			NSImage *spinnerImage = [NSImage imageNamed:@"spinner"];
 			
-			if(type!=IndicationTypeProcessing){
+			if(type!=IndicationTypeProcessing)
+            {
 				sublayer.contents = spinnerImage;
 				sublayer.shadowOffset = CGSizeMake(0, -1);
 				sublayer.shadowOpacity = 1.0;
@@ -78,7 +84,7 @@
 				sublayer.anchorPointZ = 0.0;
 
 				
-				CAKeyframeAnimation * animation; 
+				CAKeyframeAnimation *animation; 
 				animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"]; 
 				animation.calculationMode = kCAAnimationDiscrete;
 				
@@ -88,7 +94,8 @@
 				
 				float angle = 0;
 				NSMutableArray *values = [NSMutableArray array];
-				while(angle<360){
+				while(angle<360)
+                {
 					[values addObject:[NSNumber numberWithFloat:Deg_to_Rad(-angle)]];
 					angle += 30;
 				}
@@ -98,7 +105,7 @@
 				[sublayer addAnimation:animation forKey:nil];			
 			} 			
 			
-			sublayer.frame = CGRectMake((self.frame.size.width-spinnerImage.size.width)/2, (self.frame.size.height-spinnerImage.size.height)/2, spinnerImage.size.width, spinnerImage.size.height);
+			sublayer.frame = CGRectMake(([self frame].size.width-spinnerImage.size.width)/2, ([self frame].size.height-spinnerImage.size.height)/2, spinnerImage.size.width, spinnerImage.size.height);
 		};
 			break;
 		case IndicationTypeDropOn:{
@@ -116,13 +123,16 @@
 }
 #pragma mark -
 #pragma mark Helper
-- (id < CAAction >)actionForLayer:(CALayer *)layer forKey:(NSString *)key{
+- (id < CAAction >)actionForLayer:(CALayer *)layer forKey:(NSString *)key
+{
 	return (id < CAAction >)[NSNull null];
 }
 
-- (NSImage*)fileMissingImage{
-	static NSImage* missingromimage = nil;
-	if(missingromimage == nil){
+- (NSImage*)fileMissingImage
+{
+	static NSImage *missingromimage = nil;
+	if(missingromimage == nil)
+    {
 		missingromimage = [NSImage imageNamed:@"missing_rom"];
 	}	
 	return missingromimage;

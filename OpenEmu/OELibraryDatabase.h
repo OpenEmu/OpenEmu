@@ -35,11 +35,11 @@
 @interface OELibraryDatabase : NSObject 
 {
 @private
-    NSArrayController* romsController;
+    NSArrayController *romsController;
     
     NSManagedObjectModel *__managedObjectModel;
     NSManagedObjectContext *__managedObjectContext;    
-    NSMutableDictionary* managedObjectContexts;
+    NSMutableDictionary *managedObjectContexts;
 }
 #pragma mark -
 + (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError;
@@ -48,6 +48,9 @@
 - (NSManagedObjectContext*)managedObjectContext;
 
 + (OELibraryDatabase*)defaultDatabase;
+#pragma mark -
+#pragma mark Administration
+- (void)disableSystemsWithoutPlugin;
 #pragma mark -
 #pragma mark Database queries
 - (NSArray*)systems;
@@ -107,9 +110,9 @@
  - (void)removeRule:(id)rule fromCollection:(id)collection;
  */
 #pragma mark -
-@property (readonly) NSString* databaseFolderPath;
-@property (readonly) NSString* databaseUnsortedRomsPath;
+@property (readonly) NSString *databaseFolderPath;
+@property (readonly) NSString *databaseUnsortedRomsPath;
 #pragma mark -
-@property (copy) NSURL* databaseURL;
-@property (retain) NSPersistentStoreCoordinator * persistentStoreCoordinator;
+@property (copy) NSURL *databaseURL;
+@property (retain) NSPersistentStoreCoordinator  *persistentStoreCoordinator;
 @end

@@ -68,11 +68,12 @@ OSStatus RenderCallback(void                       *in,
                         UInt32                      inNumberFrames,
                         AudioBufferList            *ioData)
 {
+    @autoreleasepool {
     OEGameAudioContext *context = (OEGameAudioContext*)in;
     [[context core] getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:[context buffer]];
     //ExtAudioFileWriteAsync( recordingFile, inNumberFrames, ioData );
-    
     return 0;
+    }
 }
 
 @interface OEGameAudio ()

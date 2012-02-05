@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en-US">
+	<head>
+		<meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+		<meta http-equiv="content-style-type" content="text/css">
+		<meta name="description" content="Problems">
+		<link href="../sty/style.css" rel="stylesheet">
+		<style type="text/css">
+			<!-- ul { list-style-type:none } -->
+		</style>
+		<title>Problems</title>
+	</head>
+	<body>
+		<h2>Problems</h2>
+		<h3>Problems with ROMs</h3>
+		<p>
+			If Snes9x just displays a black screen for over 10 seconds after you've loaded a ROM image, then one of the following could be true:
+		</p>
+		<ul style="list-style-type:disc">
+			<li>You just loaded some random ROM image and it isn't even a SNES game or you only have part of the image. Snes9x only emulates games designed for the Super NES, not NES, or Master System, or Game Boy, or &lt;insert your favorite old games system here&gt;.</li>
+			<li>Someone has edited the Nintendo ROM information area inside the ROM image and Snes9x can't work out what format the ROM image is in. Try playing around with the ROM format options on the ROM load dialog.</li>
+			<li>The ROM image is corrupt. If you're loading from CD, I know it might sound silly, but is the CD dirty? Clean, unhacked ROM images will display [checksum ok] when first loaded, corrupt or hacked ROMs display [bad checksum].</li>
+			<li>The original SNES ROM cartridge had additional hardware inside that is not emulated yet and might never be.</li>
+			<li>You might be using a file that is compressed in a way Snes9x does not understand.</li>
+		</ul>
+		<p>
+			The following ROMs are known to currently not to work with any version of Snes9x:
+		</p>
+		<ul>
+			<li><table summary="not emulated chips">
+				<tbody>
+					<tr valign="top">
+						<td style="width:18em">SD Gundam GX</td>
+						<td>DSP-3</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:18em">Hayazashi Nidan Morita Shougi</td>
+						<td>Seta-11</td>
+					</tr>
+					<tr valign="top">
+						<td style="width:18em">Hayazashi Nidan Morita Shougi 2</td>
+						<td>Seta-18</td>
+					</tr>
+				</tbody>
+			</table></li>
+		</ul>
+		<h3>Problems with Sounds</h3>
+		<p>
+			If you hear crackling noise during the game, try the following to eliminate the noise:
+		</p>
+		<ul style="list-style-type:disc">
+			<li>Set 'Frame Skip' to 'Auto'.</li>
+			<li>Set 'Mix Buffer Length' to a larger value.</li>
+			<li>Turn on 'Allow Lag'.</li>
+			<li>Set 'Output Interval' to a larger value. Make sure it's smaller than 'Mix Buffer Length'.</li>
+			<li>Slightly adjust 'Input Rate' to a smaller value.</li>
+		</ul>
+		<div style="text-align:center; margin-top:3em"><p>	
+			&lt;<a href="11.html">Prev</a>&nbsp;&nbsp;<a href="../index.html">Top</a>&nbsp;&nbsp;<a href="13.html">Next</a>&gt;
+		</p></div>
+	</body>
+</html>

@@ -41,9 +41,9 @@
 	return NO;
 }
 - (void)_setup{
-	CALayer* layer = [OEGridBackgroundLayer layer];
+	CALayer *layer = [OEGridBackgroundLayer layer];
 	self.layer = layer;
-	self.wantsLayer = YES;
+	[self setWantsLayer:YES];
 	layer.needsDisplayOnBoundsChange = YES;
 }
 

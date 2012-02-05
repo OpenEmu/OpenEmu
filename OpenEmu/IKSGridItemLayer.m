@@ -13,7 +13,7 @@
 
 - (NSRect)hitRect
 {
-    return self.frame;
+    return [self frame];
 }
 
 - (void)setSelected:(BOOL)newSelected

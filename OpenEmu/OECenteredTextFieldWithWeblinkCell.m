@@ -43,7 +43,7 @@
         
         if(!self.buttonCell)
         {
-            OEImageButtonHoverPressed* btnCell = [[OEImageButtonHoverPressed alloc] initTextCell:@""];
+            OEImageButtonHoverPressed *btnCell = [[OEImageButtonHoverPressed alloc] initTextCell:@""];
             btnCell.splitVertically = YES;
             [btnCell setImage:[NSImage imageNamed:@"closed_weblink_arrow"]];
             btnCell.backgroundColor = nil;

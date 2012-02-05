@@ -36,8 +36,8 @@
 {
     if(![[self cell] isKindOfClass:[OEGlossCheckBoxCell class]])
     {
-        NSString* title = [self title];
-        OEGlossCheckBoxCell* cell = [[OEGlossCheckBoxCell alloc] init];
+        NSString *title = [self title];
+        OEGlossCheckBoxCell *cell = [[OEGlossCheckBoxCell alloc] init];
         [self setCell:cell];
         [cell release];
         [self setTitle:title];
@@ -79,7 +79,11 @@
 
 + (void)initialize
 {	
-	NSImage* image = [NSImage imageNamed:@"gloss_checkbox"];
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEGlossCheckBoxCell class])
+        return;
+
+	NSImage *image = [NSImage imageNamed:@"gloss_checkbox"];
 	
 	[image setName:@"gloss_checkbox_off" forSubimageInRect:NSMakeRect(0, 32, 16, 16)];
     [image setName:@"gloss_checkbox_off_unfocused" forSubimageInRect:NSMakeRect(0, 0, 16, 16)];
@@ -93,8 +97,8 @@
 {
 	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
 	
-	NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0.0 size:11.0];
-	NSShadow* shadow = [[[NSShadow alloc] init] autorelease];
+	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0.0 size:11.0];
+	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
 	[shadow setShadowBlurRadius:1.0];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.4]];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];
@@ -131,11 +135,11 @@
     BOOL on = [self state]==NSOnState;
     BOOL unfocused = ![[[self controlView] window] isMainWindow];
     
-    NSString* stateName = on ? @"on" : @"off";
-    NSString* behaviourName = unfocused ? @"_unfocused" : pressed ? @"_pressed" : @"";
+    NSString *stateName = on ? @"on" : @"off";
+    NSString *behaviourName = unfocused ? @"_unfocused" : pressed ? @"_pressed" : @"";
     
-    NSString* imageName = [NSString stringWithFormat:@"gloss_checkbox_%@%@", stateName, behaviourName];
-	NSImage* checkboximage = [NSImage imageNamed:imageName];	
+    NSString *imageName = [NSString stringWithFormat:@"gloss_checkbox_%@%@", stateName, behaviourName];
+	NSImage *checkboximage = [NSImage imageNamed:imageName];	
 	
 	CGFloat y = NSMaxY(frame) - (frame.size.height - checkboximage.size.height) / 2.0 - 15;
 	[checkboximage drawInRect:NSMakeRect(frame.origin.x, roundf(y), checkboximage.size.width, checkboximage.size.height) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];

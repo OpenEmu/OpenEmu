@@ -34,7 +34,11 @@
 @implementation OEControlsScroller
 + (void)initialize
 {
-    NSImage* image = [NSImage imageNamed:@"wood_arrow_up"];
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEControlsScroller class])
+        return;
+
+    NSImage *image = [NSImage imageNamed:@"wood_arrow_up"];
     [image setName:@"wood_arrow_up_normal" forSubimageInRect:(NSRect){{0,0},{image.size.width/2,image.size.height}}];
     [image setName:@"wood_arrow_up_highlighted" forSubimageInRect:(NSRect){{image.size.width/2,0},{image.size.width/2,image.size.height}}];
     

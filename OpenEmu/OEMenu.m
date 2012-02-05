@@ -8,7 +8,7 @@
 
 #import "OEMenu.h"
 #import "NSImage+OEDrawingAdditions.h"
-
+#import "OEPopupButton.h"
 @interface OEMenu (Private)
 - (BOOL)_isClosing;
 - (OEMenuView*)menuView;
@@ -26,12 +26,16 @@
 @synthesize alternate=_alternate;
 + (void)initialize
 {
-    NSImage* menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEMenu class])
+        return;
+
+    NSImage *menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
     [menuArrows setName:@"dark_menu_popover_arrow_normal" forSubimageInRect:NSMakeRect(0, menuArrows.size.height/2, menuArrows.size.width, menuArrows.size.height/2)];
     [menuArrows setName:@"dark_menu_popover_arrow_selected" forSubimageInRect:NSMakeRect(0, 0, menuArrows.size.width, menuArrows.size.height/2)];
     
     
-    NSImage* scrollArrows = [NSImage imageNamed:@"dark_menu_scroll_arrows"];
+    NSImage *scrollArrows = [NSImage imageNamed:@"dark_menu_scroll_arrows"];
     [scrollArrows setName:@"dark_menu_scroll_up" forSubimageInRect:NSMakeRect(0, 0, 9, 15)];
     [scrollArrows setName:@"dark_menu_scroll_down" forSubimageInRect:NSMakeRect(0, 15, 9, 15)];
 }
@@ -47,7 +51,7 @@
         self.itemsAboveScroller = 0;
         self.itemsBelowScroller = 0;
         
-        OEMenuView* view = [[OEMenuView alloc] initWithFrame:NSZeroRect];
+        OEMenuView *view = [[OEMenuView alloc] initWithFrame:NSZeroRect];
         [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
         [[self contentView] addSubview:view];
         [view release];
@@ -57,7 +61,7 @@
         [self setHasShadow:NO];
         [self setOpaque:NO];
         
-        CAAnimation* anim = [self alphaValueAnimation];
+        CAAnimation *anim = [self alphaValueAnimation];
         [anim setDuration:0.075];
         [self setAplhaValueAnimation:anim];
         
@@ -101,10 +105,18 @@
     _alternate = NO;
     self.alphaValue = 1.0;
     
-    NSAssert(_localMonitor == nil, @"_localMonitor still exists somehow");
+    if(_localMonitor != nil)
+    {
+        
+        [NSEvent removeMonitor:_localMonitor];
+        [_localMonitor release];
+        
+        _localMonitor = nil;
+        
+    }
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask handler:^(NSEvent *incomingEvent) 
                      {
-                         OEMenuView* view = [[[self contentView] subviews] lastObject];
+                         OEMenuView *view = [[[self contentView] subviews] lastObject];
                          
                          if([incomingEvent type] == NSFlagsChanged){
                              [self setIsAlternate:([incomingEvent modifierFlags] & NSAlternateKeyMask) != 0];
@@ -122,8 +134,10 @@
                          { 
                              return incomingEvent;
                          } 
-                         else 
-                         {
+                         else if([self popupButton] && NSPointInRect([[self popupButton] convertPoint:[incomingEvent locationInWindow] fromView:nil], [[self popupButton] bounds])){
+                             [(OEPopupButton*)[self popupButton] setDontOpenMenuOnNextMouseUp:YES];
+                             [self closeMenuWithoutChanges:nil];
+                         } else {
                              // event is outside of window, close menu without changes and remove event
                              [self closeMenuWithoutChanges:nil];
                          }
@@ -162,7 +176,7 @@
 {   
     closing = YES;
     
-    OEMenu* superMen = self;
+    OEMenu *superMen = self;
     while(superMen.supermenu)
     {
         superMen = superMen.supermenu;
@@ -174,13 +188,13 @@
         return;
     }
     
-    OEMenu* subMen = self;
+    OEMenu *subMen = self;
     while(subMen.submenu)
     {
         subMen = subMen.submenu;
     }
     
-    NSMenuItem* selectedItem = subMen.highlightedItem;
+    NSMenuItem *selectedItem = subMen.highlightedItem;
     [self _closeByClickingItem:selectedItem];
 }
 
@@ -265,13 +279,13 @@
         [[self menuView] update];
         
         NSRect selectedItemRect = [[self menuView] rectOfItem:self.highlightedItem];
-        NSPoint submenuSpawnPoint = self.frame.origin;
+        NSPoint submenuSpawnPoint = [self frame].origin;
         
-        submenuSpawnPoint.x += self.frame.size.width;
+        submenuSpawnPoint.x += [self frame].size.width;
         submenuSpawnPoint.x -= 9;
         
         
-        submenuSpawnPoint.y = 8 - selectedItemRect.origin.y + self.frame.origin.y -_submenu.frame.size.height + self.frame.size.height;
+        submenuSpawnPoint.y = 8 - selectedItemRect.origin.y + [self frame].origin.y -_submenu.frame.size.height + [self frame].size.height;
         
         _submenu.popupButton = self.popupButton;
         _submenu.supermenu = self;
@@ -310,7 +324,7 @@
 
 - (void)_performcloseMenu
 {
-    CAAnimation* anim = [self alphaValueAnimation];
+    CAAnimation *anim = [self alphaValueAnimation];
     anim.delegate = self;
     [self setAplhaValueAnimation:anim];
     
@@ -330,7 +344,7 @@
 
 - (void)_closeTimer:(NSTimer*)timer
 {
-    NSMenuItem* selectedItem = [timer userInfo];
+    NSMenuItem *selectedItem = [timer userInfo];
     [timer invalidate];
     if(![self _isClosing]) return;
     
@@ -342,7 +356,7 @@
 
 - (void)_finalClosing:(NSTimer*)timer
 {
-    NSMenuItem* selectedItem = [timer userInfo];
+    NSMenuItem *selectedItem = [timer userInfo];
     [timer invalidate];
     if(![self _isClosing]) return;
     
@@ -386,7 +400,7 @@
 
 - (OEMenu*)convertToOEMenu
 {
-    OEMenu* menu = [[OEMenu alloc] init];
+    OEMenu *menu = [[OEMenu alloc] init];
     menu.menu = self;
     return [menu autorelease];
 }
@@ -419,7 +433,7 @@
     self = [super initWithFrame:frame];
     if (self) 
     {
-        NSTrackingArea* area = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
+        NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
         [self addTrackingArea:area];
         [area release];
     }
@@ -440,11 +454,11 @@
 #pragma mark TextAttributes
 - (NSDictionary*)itemTextAttributes
 {
-    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
-    NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
-    NSColor* textColor = [NSColor whiteColor];
-    NSMutableParagraphStyle* ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
+    NSColor *textColor = [NSColor whiteColor];
+    NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
     [ps setLineBreakMode:NSLineBreakByTruncatingTail];
     
     [dict setObject:font forKey:NSFontAttributeName];
@@ -456,11 +470,11 @@
 
 - (NSDictionary*)selectedItemTextAttributes
 {
-    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
-    NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
-    NSColor* textColor = [NSColor blackColor];
-    NSMutableParagraphStyle* ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
+    NSColor *textColor = [NSColor blackColor];
+    NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
     [ps setLineBreakMode:NSLineBreakByTruncatingTail];
     
     [dict setObject:font forKey:NSFontAttributeName];
@@ -471,11 +485,11 @@
 }
 - (NSDictionary*)selectedItemAlternateTextAttributes
 {
-    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
-    NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
-    NSColor* textColor = [NSColor whiteColor];
-    NSMutableParagraphStyle* ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
+    NSColor *textColor = [NSColor whiteColor];
+    NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
     [ps setLineBreakMode:NSLineBreakByTruncatingTail];
     
     [dict setObject:font forKey:NSFontAttributeName];
@@ -486,11 +500,11 @@
 }
 - (NSDictionary*)disabledItemTextAttributes
 {
-    NSMutableDictionary* dict = [NSMutableDictionary dictionary];
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
-    NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
-    NSColor* textColor = [NSColor colorWithDeviceRed:0.49 green:0.49 blue:0.49 alpha:1.0];
-    NSMutableParagraphStyle* ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
+    NSColor *textColor = [NSColor colorWithDeviceRed:0.49 green:0.49 blue:0.49 alpha:1.0];
+    NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
     [ps setLineBreakMode:NSLineBreakByTruncatingTail];
     
     [dict setObject:font forKey:NSFontAttributeName];
@@ -503,7 +517,7 @@
 #pragma mark Drawing
 - (void)update
 {
-    NSArray* items = [self.menu itemArray];
+    NSArray *items = [self.menu itemArray];
     
     float width = 0;
     
@@ -511,15 +525,15 @@
     
     int normalItems = 0;
     int separatorItems = 0;
-    NSDictionary* attributes = [self itemTextAttributes];
-    for(NSMenuItem* menuItem in items)
+    NSDictionary *attributes = [self itemTextAttributes];
+    for(NSMenuItem *menuItem in items)
     {
         if([menuItem isSeparatorItem])
         { 
             separatorItems++; continue;
         }
         
-        NSAttributedString* attributedTitle = [[NSAttributedString alloc] initWithString:menuItem.title attributes:attributes];
+        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:menuItem.title attributes:attributes];
         width = width < attributedTitle.size.width ? attributedTitle.size.width : width;
         [attributedTitle release];
         
@@ -551,32 +565,32 @@
 - (void)drawRect:(NSRect)dirtyRect
 {
     
-    NSColor* startColor = [NSColor colorWithDeviceWhite:0.91 alpha:0.10];
-    NSColor* endColor = [startColor colorWithAlphaComponent:0.0];
-    NSGradient* grad = [[[NSGradient alloc] initWithStartingColor:startColor endingColor:endColor] autorelease];
+    NSColor *startColor = [NSColor colorWithDeviceWhite:0.91 alpha:0.10];
+    NSColor *endColor = [startColor colorWithAlphaComponent:0.0];
+    NSGradient *grad = [[[NSGradient alloc] initWithStartingColor:startColor endingColor:endColor] autorelease];
     
-    NSRect backgroundRect = NSInsetRect(self.bounds, 4, 4);
-    NSBezierPath* path = [NSBezierPath bezierPathWithRoundedRect:backgroundRect xRadius:3 yRadius:3];
+    NSRect backgroundRect = NSInsetRect([self bounds], 4, 4);
+    NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:backgroundRect xRadius:3 yRadius:3];
     
     // Draw Background color
-    NSColor* backgroundColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.8];
+    NSColor *backgroundColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.8];
     [[[[NSGradient alloc] initWithStartingColor:backgroundColor endingColor:backgroundColor] autorelease] drawInBezierPath:path angle:90];
     
     // draw gradient above
     [grad drawInBezierPath:path angle:90];
     
     // draw background border
-    NSImage* img = [self.menu supermenu]==nil ? [NSImage imageNamed:@"dark_menu_body"] : [NSImage imageNamed:@"dark_submenu_body"];
-    [img drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:17 rightBorder:17 topBorder:19 bottomBorder:19];
+    NSImage *img = [self.menu supermenu]==nil ? [NSImage imageNamed:@"dark_menu_body"] : [NSImage imageNamed:@"dark_submenu_body"];
+    [img drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:17 rightBorder:17 topBorder:19 bottomBorder:19];
     
     
-    NSArray* items = [self.menu itemArray];
+    NSArray *items = [self.menu itemArray];
     float y = menuItemSpacingTop;
-    for(NSMenuItem* menuItem in items)
+    for(NSMenuItem *menuItem in items)
     {
         if([menuItem isSeparatorItem])
         {
-            NSRect lineRect = NSMakeRect(0, y, self.frame.size.width, 1);
+            NSRect lineRect = NSMakeRect(0, y, [self frame].size.width, 1);
             lineRect = NSInsetRect(lineRect, 5, 0);
             
             lineRect.origin.y += 2;
@@ -590,8 +604,8 @@
             y += menuItemSeparatorHeight;
             continue;
         }
-        NSRect itemRect = NSMakeRect(menuItemSpacingLeft, y, self.frame.size.width-menuItemSpacingLeft-menuItemSpacingRight, menuItemHeight);
-        NSRect menuItemFrame = NSMakeRect(5, y, self.frame.size.width-5-5, menuItemHeight);
+        NSRect itemRect = NSMakeRect(menuItemSpacingLeft, y, [self frame].size.width-menuItemSpacingLeft-menuItemSpacingRight, menuItemHeight);
+        NSRect menuItemFrame = NSMakeRect(5, y, [self frame].size.width-5-5, menuItemHeight);
         
         BOOL isSelected = self.menu.highlightedItem==menuItem;
         BOOL isDisabled = ![menuItem isEnabled];
@@ -614,7 +628,7 @@
                 cBottom = [NSColor colorWithDeviceWhite:0.71 alpha:1.0];
             }
             
-            NSGradient* selectionGrad = [[NSGradient alloc] initWithStartingColor:cTop endingColor:cBottom];
+            NSGradient *selectionGrad = [[NSGradient alloc] initWithStartingColor:cTop endingColor:cBottom];
             [selectionGrad drawInRect:menuItemFrame angle:90];
             [selectionGrad release];
         }
@@ -636,7 +650,7 @@
         // Draw submenu arrow
         if(hasSubmenu)
         {
-            NSImage* arrow = isSelected ? [NSImage imageNamed:@"dark_menu_popover_arrow_selected"] : [NSImage imageNamed:@"dark_menu_popover_arrow_normal"];
+            NSImage *arrow = isSelected ? [NSImage imageNamed:@"dark_menu_popover_arrow_selected"] : [NSImage imageNamed:@"dark_menu_popover_arrow_normal"];
             NSRect arrowRect = NSMakeRect(0, 0, 0, 0);
             arrowRect.size = arrow.size;
             arrowRect.origin.x = menuItemFrame.origin.x + menuItemFrame.size.width - 11;
@@ -645,10 +659,10 @@
         }
         
         // Draw Item Title
-        NSDictionary* textAttributes = isSelected ? drawAlternate ? [self selectedItemAlternateTextAttributes]:[self selectedItemTextAttributes] : [self itemTextAttributes];
+        NSDictionary *textAttributes = isSelected ? drawAlternate ? [self selectedItemAlternateTextAttributes]:[self selectedItemTextAttributes] : [self itemTextAttributes];
         textAttributes = isDisabled ? [self disabledItemTextAttributes] : textAttributes;
         
-        NSAttributedString* attrStr = [[NSAttributedString alloc] initWithString:menuItem.title attributes:textAttributes];
+        NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:menuItem.title attributes:textAttributes];
         itemRect.origin.y += (menuItemHeight-attrStr.size.height)/2.0;
         [attrStr drawInRect:itemRect];
         [attrStr release];
@@ -660,9 +674,9 @@
 #pragma mark Interaction
 - (void)updateTrackingAreas
 {
-    NSTrackingArea* area = [[self trackingAreas] objectAtIndex:0];
+    NSTrackingArea *area = [[self trackingAreas] objectAtIndex:0];
     [self removeTrackingArea:area];
-    area = [[NSTrackingArea alloc] initWithRect:self.bounds options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveAlways owner:self userInfo:nil];
+    area = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveAlways owner:self userInfo:nil];
     [self addTrackingArea:area];
     [area release];
 }
@@ -712,7 +726,7 @@
 {
     if([self.menu _isClosing]) return;
     
-    NSMenuItem* currentItem = self.menu.highlightedItem;
+    NSMenuItem *currentItem = self.menu.highlightedItem;
     switch (theEvent.keyCode) 
     {
         case 126: // UP
@@ -774,7 +788,7 @@
 #pragma mark -
 - (void)highlightItemAtPoint:(NSPoint)p
 {
-    NSMenuItem* highlighItem = [self itemAtPoint:p];
+    NSMenuItem *highlighItem = [self itemAtPoint:p];
     
     if(highlighItem != self.menu.highlightedItem)
     {
@@ -791,18 +805,18 @@
 
 - (NSMenuItem*)itemAtPoint:(NSPoint)p
 {
-    if(p.x <= 5 || p.x >= self.bounds.size.width)
+    if(p.x <= 5 || p.x >= [self bounds].size.width)
     {
         return nil;
     }
-    if(p.y <= menuItemSpacingTop || p.y >= self.bounds.size.height-menuItemSpacingBottom)
+    if(p.y <= menuItemSpacingTop || p.y >= [self bounds].size.height-menuItemSpacingBottom)
     {
         return nil;
     }
     
     
     float y=menuItemSpacingTop;
-    for(NSMenuItem* item in [self.menu itemArray])
+    for(NSMenuItem *item in [self.menu itemArray])
     {
         if([item isSeparatorItem])
         {
@@ -818,11 +832,11 @@
 
 - (NSRect)rectOfItem:(NSMenuItem*)m
 {
-    NSArray* itemArray = [self.menu itemArray];
+    NSArray *itemArray = [self.menu itemArray];
     NSUInteger pos = [itemArray indexOfObject:m];
     
     float y = menuItemHeight*pos +menuItemSpacingTop;
-    NSRect menuItemFrame = NSMakeRect(5, y, self.frame.size.width-5-5, menuItemHeight);
+    NSRect menuItemFrame = NSMakeRect(5, y, [self frame].size.width-5-5, menuItemHeight);
     return menuItemFrame;
 }
 #pragma mark -

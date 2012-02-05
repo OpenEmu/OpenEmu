@@ -35,7 +35,7 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 
 + (id)gameWithID:(NSManagedObjectID*)objID inDatabase:(OELibraryDatabase*)database
 {    
-    NSManagedObjectContext* moc = [database managedObjectContext];
+    NSManagedObjectContext *moc = [database managedObjectContext];
     return [moc objectWithID:objID];
 }
 
@@ -46,7 +46,7 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 }
 + (id)gameWithURIURL:(NSURL*)objIDUrl inDatabase:(OELibraryDatabase*)database
 {
-    NSPersistentStoreCoordinator* storeCoordinator = [database persistentStoreCoordinator];
+    NSPersistentStoreCoordinator *storeCoordinator = [database persistentStoreCoordinator];
     NSManagedObjectID __block *objID = nil;
     [[storeCoordinator persistentStores] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         objID = [obj managedObjectIDForURIRepresentation:objIDUrl];
@@ -63,7 +63,7 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 
 + (id)gameWithURIString:(NSString*)objIDString inDatabase:(OELibraryDatabase*)database
 {
-    NSURL* url = [NSURL URLWithString:objIDString];
+    NSURL *url = [NSURL URLWithString:objIDString];
     return [self gameWithURIURL:url inDatabase:database];
 }
 
@@ -84,15 +84,15 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     BOOL checkFilename = YES;
     BOOL checkFullpath = YES;
     
-    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     BOOL checkCRC = ![standardDefaults boolForKey:UDUseMD5HashingKey];
     BOOL checkMD5 = [standardDefaults boolForKey:UDUseMD5HashingKey];
     
-    OEDBGame* game = nil;
+    OEDBGame *game = nil;
     if(game==nil && checkFullpath)
     {
         DLog(@"checking fullpath: %@", filePath);
-        OEDBRom* rom = [OEDBRom romWithFilePath:filePath createIfNecessary:NO inDatabase:database error:outError];
+        OEDBRom *rom = [OEDBRom romWithFilePath:filePath createIfNecessary:NO inDatabase:database error:outError];
         if(rom!=nil)
         {
             game = [rom valueForKey:@"game"];
@@ -105,10 +105,10 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(game==nil && checkFilename)
     {
-        NSString* filenameWithSuffix = [filePath lastPathComponent];
+        NSString *filenameWithSuffix = [filePath lastPathComponent];
         DLog(@"checking filename: %@", filenameWithSuffix);
         
-        OEDBRom* rom = [OEDBRom romWithFileName:filenameWithSuffix inDatabase:database error:outError];
+        OEDBRom *rom = [OEDBRom romWithFileName:filenameWithSuffix inDatabase:database error:outError];
         if(rom!=nil)
         {
             game = [rom valueForKey:@"game"];
@@ -119,17 +119,17 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
         }
     }
     
-    NSString* md5=nil, *crc=nil;
+    NSString *md5=nil, *crc=nil;
     if(game==nil && checkCRC)
     {
-        NSData* fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:outError];
+        NSData *fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:outError];
         if(!fileData)
             return nil;
         
         crc = [fileData CRC32HashString];
         DLog(@"checking crc32: %@", crc);
         
-        OEDBRom* rom = [OEDBRom romWithCRC32HashString:crc inDatabase:database error:outError];
+        OEDBRom *rom = [OEDBRom romWithCRC32HashString:crc inDatabase:database error:outError];
         if(rom!=nil)
         {
             game = [rom valueForKey:@"game"];
@@ -142,14 +142,14 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(game==nil && checkMD5)
     {
-        NSData* fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:outError];
+        NSData *fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:outError];
         if(!fileData)
             return nil;
         
         md5 = [fileData MD5HashString];
         DLog(@"checking md5: %@", md5);
         
-        OEDBRom* rom = [OEDBRom romWithMD5HashString:md5 inDatabase:database error:outError];
+        OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inDatabase:database error:outError];
         if(rom!=nil)
         {
             game = [rom valueForKey:@"game"];
@@ -172,11 +172,11 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 + (id)_createGameWithoutChecksWithFilePath:(NSString*)filePath inDatabase:(OELibraryDatabase*)database error:(NSError**)outError md5:(NSString*)md5 crc:(NSString*)crc
 {
     DLog(@"creating new for path: %@", filePath);
-    NSManagedObjectContext* context = [database managedObjectContext];
-    NSEntityDescription* description = [self entityDescriptionInContext:context];
+    NSManagedObjectContext *context = [database managedObjectContext];
+    NSEntityDescription *description = [self entityDescriptionInContext:context];
     
-    OEDBGame* game = [[OEDBGame alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-    OEDBRom* rom = [OEDBRom createRomWithFilePath:filePath md5:md5 crc:crc inDatabase:database error:outError];
+    OEDBGame *game = [[OEDBGame alloc] initWithEntity:description insertIntoManagedObjectContext:context];
+    OEDBRom *rom = [OEDBRom createRomWithFilePath:filePath md5:md5 crc:crc inDatabase:database error:outError];
     if(!rom)
     {
         [context deleteObject:game];
@@ -184,10 +184,10 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
         return nil;
     }
     
-    NSMutableSet* romSet = [game mutableSetValueForKey:@"roms"];
+    NSMutableSet *romSet = [game mutableSetValueForKey:@"roms"];
     if(!romSet)
     {
-        NSSet* set = [NSSet setWithObject:rom];
+        NSSet *set = [NSSet setWithObject:rom];
         [game setValue:set forKey:@"roms"];
     }
     else
@@ -195,11 +195,12 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
         [romSet addObject:rom];
     }
     
-    NSString* path = [rom valueForKey:@"path"];
-    OEDBSystem* system = [OEDBSystem systemForFile:path inDatabase:database];
+    NSString *path = [rom valueForKey:@"path"];
+    OEDBSystem *system = [OEDBSystem systemForFile:path inDatabase:database];
     if(!system)
     {
-        *outError = [NSError errorWithDomain:@"OEErrorDomain" code:3 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Could not get system for file at path: %@!", path] forKey:NSLocalizedDescriptionKey]];
+        if(outError != NULL)
+            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:3 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Could not get system for file at path: %@!", path] forKey:NSLocalizedDescriptionKey]];
         
         [context deleteObject:game];
         [context deleteObject:rom];
@@ -210,8 +211,8 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     [game setValue:system forKey:@"system"];
     [game setValue:[NSDate date] forKey:@"importDate"];
     
-    NSString* gameTitleWithSuffix = [filePath lastPathComponent];
-    NSString* gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];
+    NSString *gameTitleWithSuffix = [filePath lastPathComponent];
+    NSString *gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];
     [game setValue:gameTitleWithoutSuffix forKey:@"name"];
     
     if(![context save:outError])
@@ -238,20 +239,20 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     if(archiveID == nil)
         return nil;
     
-    NSManagedObjectContext* context = [database managedObjectContext];
-    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
-    NSPredicate* predicate = [NSPredicate predicateWithFormat:@"archiveID = %ld", [archiveID integerValue]];
+    NSManagedObjectContext *context = [database managedObjectContext];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"archiveID = %ld", [archiveID integerValue]];
     [fetchRequest setFetchLimit:1];
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
     
-    NSArray* result = [context executeFetchRequest:fetchRequest error:outError];
+    NSArray *result = [context executeFetchRequest:fetchRequest error:outError];
     [fetchRequest release];
     if(!result)
     {
         return nil;
     }
-    OEDBGame* game = [result lastObject];
+    OEDBGame *game = [result lastObject];
     if(game) game.database = database;
     return game;
 }
@@ -261,18 +262,17 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 {
     DLog(@"setArchiveVGInfo:");
     // The following values have to be included in a valid archiveVG info dictionary
-    NSNumber* archiveID = [gameInfoDictionary valueForKey:AVGGameIDKey];
+    NSNumber *archiveID = [gameInfoDictionary valueForKey:AVGGameIDKey];
     if(!archiveID || [archiveID integerValue] == 0)
         return;
     
     [self setValue:archiveID forKey:@"archiveID"];
-    [gameInfoDictionary writeToFile:[[NSString stringWithFormat:@"~/Archive Response %@.plist", [gameInfoDictionary valueForKey:AVGGameIDKey]] stringByExpandingTildeInPath] atomically:YES];
     
-    NSString* gameTitle = [gameInfoDictionary valueForKey:AVGGameTitleKey];
+    NSString *gameTitle = [gameInfoDictionary valueForKey:AVGGameTitleKey];
     [self setValue:gameTitle forKey:@"name"];
     
     // These values might not exist
-    NSString* stringValue = nil;
+    NSString *stringValue = nil;
     
     // Get + Set game developer
     stringValue = [gameInfoDictionary valueForKey:AVGGameDeveloperKey];
@@ -286,7 +286,7 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     if(![self valueForKey:@"system"])
     {
         id systemRepresentation = [gameInfoDictionary valueForKey:AVGGameSystemNameKey];
-        OEDBSystem* system = [OEDBSystem systemForArchiveName:systemRepresentation];
+        OEDBSystem *system = [OEDBSystem systemForArchiveName:systemRepresentation];
         DLog(@"Game has no System, try using archive.vg system: %@", system);
         [self setValue:system forKey:@"system"];
     }
@@ -312,26 +312,26 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 - (BOOL)performSyncWithArchiveVG:(NSError**)outError
 {
     DLog(@"performSyncWithArchiveVG:");
-    __block NSDictionary* gameInfo = nil;
-    NSNumber* archiveID;
+    __block NSDictionary *gameInfo = nil;
+    NSNumber *archiveID;
     if([self valueForKey:@"archiveID"] && (archiveID = [self valueForKey:@"archiveID"]) && [archiveID integerValue]!=0)
     {
-        gameInfo = [ArchiveVG gameInfoByID:[archiveID integerValue]];
+        gameInfo = [[ArchiveVG gameInfoByID:[archiveID integerValue]] retain];
     } 
     else
     {
         BOOL useMD5 = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
-        NSSet* roms = [self valueForKey:@"roms"];
+        NSSet *roms = [self valueForKey:@"roms"];
         [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-            OEDBRom* aRom = (OEDBRom*)obj;
+            OEDBRom *aRom = (OEDBRom*)obj;
             if(useMD5)
             {
-                NSString* md5 = [aRom md5Hash];
+                NSString *md5 = [aRom md5Hash];
                 gameInfo = [[ArchiveVG gameInfoByMD5:md5] retain];
             }
             else
             {
-                NSString* crc = [aRom crcHash];
+                NSString *crc = [aRom crcHash];
                 gameInfo = [[ArchiveVG gameInfoByCRC:crc] retain];
             }
             
@@ -395,20 +395,20 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
         [self setValue:[game valueForKey:@"boxImage"] forKey:@"boxImage"];
     }
     
-    NSMutableSet* ownCollections = [self mutableSetValueForKey:@"collections"];
-    NSSet* gameCollections = [game valueForKey:@"collections"];
+    NSMutableSet *ownCollections = [self mutableSetValueForKey:@"collections"];
+    NSSet *gameCollections = [game valueForKey:@"collections"];
     [ownCollections addObjectsFromArray:[gameCollections allObjects]];
     
-    NSMutableSet* ownCredits = [self mutableSetValueForKey:@"credits"];
-    NSSet* gameCredits = [game valueForKey:@"credits"];
+    NSMutableSet *ownCredits = [self mutableSetValueForKey:@"credits"];
+    NSSet *gameCredits = [game valueForKey:@"credits"];
     [ownCredits addObjectsFromArray:[gameCredits allObjects]];
     
-    NSMutableSet* ownRoms = [self mutableSetValueForKey:@"roms"];
-    NSSet* gameRoms = [game valueForKey:@"roms"];
+    NSMutableSet *ownRoms = [self mutableSetValueForKey:@"roms"];
+    NSSet *gameRoms = [game valueForKey:@"roms"];
     [ownRoms addObjectsFromArray:[gameRoms allObjects]];
     
-    NSMutableSet* ownGenres = [self mutableSetValueForKey:@"genres"];
-    NSSet* gameGenres = [game valueForKey:@"genres"];
+    NSMutableSet *ownGenres = [self mutableSetValueForKey:@"genres"];
+    NSSet *gameGenres = [game valueForKey:@"genres"];
     [ownGenres addObjectsFromArray:[gameGenres allObjects]];
     
     return self;
@@ -417,9 +417,9 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 #pragma mark Accessors
 - (NSDate*)lastPlayed
 {   
-    NSArray* roms = [self valueForKey:@"roms"];
-    NSArray* sortedByLastPlayed = [roms sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
-        NSDate* d1 = [obj1 valueForKey:@"lastPlayed"], *d2=[obj2 valueForKey:@"lastPlayed"];
+    NSArray *roms = [self valueForKey:@"roms"];
+    NSArray *sortedByLastPlayed = [roms sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSDate *d1 = [obj1 valueForKey:@"lastPlayed"], *d2=[obj2 valueForKey:@"lastPlayed"];
         return [d1 compare:d2];
     }];
     if(![sortedByLastPlayed count])
@@ -430,7 +430,7 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 
 - (OEDBRom*)defaultROM
 {
-    NSSet* roms = [self valueForKey:@"roms"];
+    NSSet *roms = [self valueForKey:@"roms"];
     // TODO: if multiple roms are available we should select one based on version/revision and language
     
     return [roms anyObject];
@@ -468,11 +468,11 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     
     DLog(@"Deprecated: Use OEDGBGame +gameWithFilePath:createIfNecessary:error: and OEDGBGame -setArchiveVGInfo: instead");
     
-    NSManagedObjectContext* context = [database managedObjectContext];
-    NSEntityDescription* description = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
+    NSManagedObjectContext *context = [database managedObjectContext];
+    NSEntityDescription *description = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
     
-    NSNumber* archiveID = [gameInfo valueForKey:(NSString*)AVGGameIDKey];
-    OEDBGame* resultGame = [database gameWithArchiveID:archiveID];
+    NSNumber *archiveID = [gameInfo valueForKey:(NSString*)AVGGameIDKey];
+    OEDBGame *resultGame = [database gameWithArchiveID:archiveID];
     if(resultGame)
     {
         // TODO: Merge gameInfo and game
@@ -492,14 +492,14 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     [resultGame setValue:[NSDate date] forKey:@"lastArchiveSync"];
     [resultGame setValue:[NSDate date] forKey:@"importDate"];
     
-    NSString* boxURLString = [gameInfo valueForKey:(NSString*)AVGGameBoxURLKey];
+    NSString *boxURLString = [gameInfo valueForKey:(NSString*)AVGGameBoxURLKey];
     if(boxURLString)
     {
-        NSURL* url = [NSURL URLWithString:boxURLString];
+        NSURL *url = [NSURL URLWithString:boxURLString];
         [resultGame setBoxImageByURL:url];
     }
     
-    NSString* gameDescription = [gameInfo valueForKey:(NSString*)AVGGameDescriptionKey];
+    NSString *gameDescription = [gameInfo valueForKey:(NSString*)AVGGameDescriptionKey];
     if(gameDescription)
     {
         [resultGame setValue:gameDescription forKey:@"gameDescription"];
@@ -511,19 +511,19 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 - (void)setBoxImageByImage:(NSImage*)img
 {
     // TODO: clean and move up
-    OEDBImage* boxImage = [self valueForKey:@"boxImage"];
+    OEDBImage *boxImage = [self valueForKey:@"boxImage"];
     if(boxImage!=nil)
     {
         [[boxImage managedObjectContext] deleteObject:boxImage];
     }
     
-    NSManagedObjectContext* context = [self managedObjectContext];
+    NSManagedObjectContext *context = [self managedObjectContext];
     boxImage = [OEDBImage newFromImage:img inContext:context];
     
-    NSUserDefaults* standardDefaults = [NSUserDefaults standardUserDefaults];
-    NSArray* sizes = [standardDefaults objectForKey:UDBoxSizesKey];
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSArray *sizes = [standardDefaults objectForKey:UDBoxSizesKey];
     // For each thumbnail size...
-    for(NSString* aSizeString in sizes)
+    for(NSString *aSizeString in sizes)
     {
         NSSize size = NSSizeFromString(aSizeString);
         // ...generate thumbnail ;)
@@ -535,7 +535,7 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 }
 - (void)setBoxImageByURL:(NSURL*)url
 {
-    NSImage* img = [[NSImage alloc] initWithContentsOfURL:url];
+    NSImage *img = [[NSImage alloc] initWithContentsOfURL:url];
     [self setBoxImageByImage:img];
     [img release];
 }
@@ -554,14 +554,14 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
     [self setValue:[NSDate date] forKey:@"lastArchiveSync"];
     [self setValue:[NSDate date] forKey:@"importDate"];
     
-    NSString* boxURLString = [archiveGameDict valueForKey:(NSString*)AVGGameBoxURLKey];
+    NSString *boxURLString = [archiveGameDict valueForKey:(NSString*)AVGGameBoxURLKey];
     if(boxURLString)
     {
-        NSURL* url = [NSURL URLWithString:boxURLString];
+        NSURL *url = [NSURL URLWithString:boxURLString];
         [self setBoxImageByURL:url];
     }
     
-    NSString* gameDescription = [archiveGameDict valueForKey:(NSString*)AVGGameDescriptionKey];
+    NSString *gameDescription = [archiveGameDict valueForKey:(NSString*)AVGGameDescriptionKey];
     if(gameDescription)
     {
         [self setValue:gameDescription forKey:@"gameDescription"];
@@ -591,20 +591,20 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 {
     if(type == (NSString*)kPasteboardTypeFileURLPromise)
     {
-        NSSet* roms = [self valueForKey:@"roms"];
-        NSMutableArray* paths = [NSMutableArray arrayWithCapacity:[roms count]];
-        for(OEDBRom* aRom in roms)
+        NSSet *roms = [self valueForKey:@"roms"];
+        NSMutableArray *paths = [NSMutableArray arrayWithCapacity:[roms count]];
+        for(OEDBRom *aRom in roms)
         {
-            NSString* path = [aRom valueForKey:@"path"];
-            NSURL* url = [NSURL fileURLWithPath:path];
-            NSString* urlString = [url absoluteString];
+            NSString *path = [aRom valueForKey:@"path"];
+            NSURL *url = [NSURL fileURLWithPath:path];
+            NSString *urlString = [url absoluteString];
             [paths addObject:urlString];
         }
         return paths;
     } 
     else if(type == OEPasteboardTypeGame)
     {
-        NSManagedObjectID* objID = [self objectID];
+        NSManagedObjectID *objID = [self objectID];
         return [[objID URIRepresentation] absoluteString];
     }
     
@@ -619,7 +619,7 @@ const NSString *OEPasteboardTypeGame = @"org.openEmu.game";
 {
     if(type == OEPasteboardTypeGame)
     {
-        NSManagedObjectContext* context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
+        NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
         NSLog(@"propertyList: %@", propertyList);
         return (OEDBGame*)[[context objectWithID:propertyList] retain];
     }    

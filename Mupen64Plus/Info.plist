@@ -4,29 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>n64</string>
-				<string>v64</string>
-				<string>z64</string>
-			</array>
-			<key>CFBundleTypeName</key>
-			<string>Nintendo 64 Game</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSPersistentStoreTypeKey</key>
-			<string>XML</string>
-		</dict>
-	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFile</key>
-	<string></string>
+	<string>mupen64plus</string>
 	<key>CFBundleIdentifier</key>
 	<string>com.openemu.${PRODUCT_NAME:identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -35,15 +16,23 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
-	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.99.3.1</string>
+	<string>2.0 hg</string>
 	<key>NSPrincipalClass</key>
 	<string>MupenGameController</string>
-	<key>OESystemIdentifier</key>
-	<string>openemu.system.n64</string>
+	<key>OEProjectURL</key>
+	<string>http://bitbucket.org/richard42/</string>
+	<key>OESystemIdentifiers</key>
+	<array>
+		<string>openemu.system.n64</string>
+	</array>
+	<key>SUEnableAutomaticChecks</key>
+	<string>1</string>
+	<key>SUFeedURL</key>
+	<string>http://openemu.org/update/mupen64plus_appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 </dict>
 </plist>

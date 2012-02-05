@@ -75,6 +75,7 @@ typedef struct {
     unsigned int timeout[OSD_NUM_STATES]; // timeouts for each display state
 #define OSD_INFINITE_TIMEOUT 0xffffffff
     unsigned int frames; // number of frames in this state
+    int user_managed; // structure managed by caller and not to be freed by us
 } osd_message_t;
 
 enum { R, G, B }; // for referencing color array
@@ -91,7 +92,7 @@ void osd_update_message(osd_message_t *, const char *, ...);
 void osd_delete_message(osd_message_t *);
 void osd_message_set_corner(osd_message_t *, enum osd_corner);
 void osd_message_set_static(osd_message_t *);
-osd_message_t * osd_message_valid(osd_message_t *);
+void osd_message_set_user_managed(osd_message_t *);
 
 #ifdef __cplusplus
 }

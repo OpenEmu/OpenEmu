@@ -11,9 +11,9 @@
 @class OEGameViewController;
 @interface OEHUDControlsBarWindow : NSWindow <OEMenuDelegate>
 {
-    NSTimer* fadeTimer;
+    NSTimer *fadeTimer;
     id       eventMonitor;
-    NSDate*  lastMouseMovement;
+    NSDate  *lastMouseMovement;
     
     int openMenus;
 }
@@ -24,16 +24,16 @@
 - (void)hide;
 
 - (BOOL)canFadeOut;
-@property (retain, nonatomic) NSDate* lastMouseMovement;
-@property (assign) OEGameViewController* gameViewController;
+@property (retain, nonatomic) NSDate *lastMouseMovement;
+@property (assign) OEGameViewController *gameViewController;
 @end
 @class OEHUDSlider;
 @interface OEHUDControlsBarView : NSView 
 {
-    OEHUDSlider* slider;
+    OEHUDSlider *slider;
 }
 
-@property (readonly) OEHUDSlider* slider;
+@property (readonly) OEHUDSlider *slider;
 
 - (void)setupControls;
 @end

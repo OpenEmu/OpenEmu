@@ -41,7 +41,7 @@
     CALayer *foregroundLayer;
     CALayer *backgroundLayer;
     
-    OEGridViewFieldEditor* fieldEditor;
+    OEGridViewFieldEditor *fieldEditor;
     /**
      Layer used to draw the selection rectangle 
      */
@@ -49,7 +49,7 @@
     
     // Stuff for dragging
     IKSGridItemLayer *draggedLayer;
-    CALayer* dragIndicationLayer;
+    CALayer *dragIndicationLayer;
     
     /**
      Keeps track of the point where the mouse first clicked (used for calculating the frame of the selection rectangle)
@@ -67,14 +67,14 @@
     BOOL layoutEnabled;
     id<IKSGridViewDelegate> delegate;
     
-    NSTimer* autoscrollTimer;
-    NSEvent* lastEvent;
+    NSTimer *autoscrollTimer;
+    NSEvent *lastEvent;
     
-    NSMutableIndexSet* selectedIndexes;
+    NSMutableIndexSet *selectedIndexes;
     
     id<IKSGridViewDataSource> dataSource;
     
-    NSImage* draggedImage;
+    NSImage *draggedImage;
     
     BOOL noItems;
 }
@@ -92,14 +92,15 @@
 #pragma mark -
 - (BOOL)isItemSelectedAtIndex:(NSInteger)index;
 #pragma mark -
-
+@property (readwrite, assign) id target;
+@property (readwrite) SEL doubleAction;
 @property (readwrite, assign) Class cellClass;
 
 
-@property (readwrite, retain) NSImage* draggedImage;
+@property (readwrite, retain) NSImage *draggedImage;
 
-@property (nonatomic, retain) NSTimer* autoscrollTimer;
-@property (nonatomic, retain) NSEvent* lastEvent;
+@property (nonatomic, retain) NSTimer *autoscrollTimer;
+@property (nonatomic, retain) NSEvent *lastEvent;
 
 - (OEGridViewFieldEditor*)fieldEditorForFrame:(NSRect)frame ofLayer:(id)layer;
 /**
@@ -113,7 +114,7 @@
 /**
  Layer that the mouse is currently hovering over
  */
-@property (nonatomic, retain) CALayer* dragIndicationLayer;
+@property (nonatomic, retain) CALayer *dragIndicationLayer;
 @property (nonatomic, retain) IKSGridItemLayer *eventLayer;
 @property (nonatomic, retain) IKSGridItemLayer *draggedLayer;
 /** 
@@ -182,4 +183,9 @@
  */
 - (void)gridView:(IKSGridView*)gridView selectionChanged:(NSArray*)selectedItems;
 - (void)gridView:(IKSGridView*)gridView itemsMagnifiedToSize:(NSSize)newSize;
+
+@optional
+- (NSDragOperation)gridView:(IKSGridView*)gridView validateDrop:(id<NSDraggingInfo>)draggingInfo;
+- (BOOL)gridView:(IKSGridView*)gridView acceptDrop:(id<NSDraggingInfo>)draggingInfo;
+- (void)gridView:(IKSGridView *)gridView updateDraggingItemsForDrag:(id<NSDraggingInfo>)draggingInfo;
 @end

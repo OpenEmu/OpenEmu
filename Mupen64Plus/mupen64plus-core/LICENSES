@@ -16,7 +16,7 @@ The authors of Mupen64Plus are:
   * HyperHacker
   * and others.
 
-The Mupen64Plus API documentation (located in doc/emuwiki-api-doc/*) is Copyright(C) 2009-2010
+The Mupen64Plus API documentation (located in doc/emuwiki-api-doc/*) is Copyright(C) 2009-2011
 by Richard Goedeken and is licensed under the GNU General Public License version 2.
 
 Mupen64Plus is based on GPL-licensed source code from Mupen64 v0.5, originally written by:
@@ -27,7 +27,7 @@ Mupen64Plus is based on GPL-licensed source code from Mupen64 v0.5, originally w
   * Juha Luotio (JttL)
   * and others.
 
-Mupen64Plus-Core includes a GPL-license demo rom (in mupen64plus.v64.gz) written by:
+Mupen64Plus-Core includes a GPL-license demo rom (in m64p_test_rom.v64.gz) written by:
   *  Marshallh
 
 The OGLFT library used for the On-Screen Display is based on GPL/LGPL-licensed code Copyright 2002 lignum Computing. Please see the included doc/lgpl-license file for the terms and conditions of the GNU Lesser General Public License. More information about this library is available at the following websites:
@@ -38,6 +38,7 @@ Additionally, mupen includes a number of components licensed under other OSI app
 
 The BSD license:
    * minizip by Gilles Vollant and others, ftp://ftp.info-zip.org/pub/infozip/license.html
+   * src/memory/n64_cic_nus_6105.c/.h, by X-Scale
 
 The zlib/libpng license:
    * Adler-32 by Mark Adler

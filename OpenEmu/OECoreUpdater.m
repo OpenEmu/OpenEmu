@@ -52,7 +52,7 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
 
 @synthesize coreList, coresDict;
 
-static OECoreUpdater* sharedController = nil;
+static OECoreUpdater *sharedController = nil;
 
 // TODO: remove when feed holds correct ids
 - (NSString*)lowerCaseID:(NSString*)mixedCaseID
@@ -77,8 +77,8 @@ static OECoreUpdater* sharedController = nil;
         coreList = [[NSMutableArray alloc] init];
         coresDict = [[NSMutableDictionary alloc] init];
         [[OECorePlugin allPlugins] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            OECoreDownload* aDownload = [[OECoreDownload alloc] initWithPlugin:obj];
-            NSString* bundleID = [self lowerCaseID:[obj bundleIdentifier]];
+            OECoreDownload *aDownload = [[OECoreDownload alloc] initWithPlugin:obj];
+            NSString *bundleID = [self lowerCaseID:[obj bundleIdentifier]];
             [coresDict setObject:aDownload forKey:bundleID];
             [aDownload release];
         }];
@@ -92,7 +92,8 @@ static OECoreUpdater* sharedController = nil;
     [self willChangeValueForKey:@"coreList"];
     [coreList release];
     
-    coreList = [[[self coresDict] allValues] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2){
+    coreList = [[[self coresDict] allValues] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
+    {
         return [[obj1 name] compare:[obj2 name]];
     }];
     [coreList retain];
@@ -168,7 +169,7 @@ static OECoreUpdater* sharedController = nil;
 
 - (void)installCoreWithIdentifier:(NSString*)aCoreIdentifier coreName:(NSString*)coreName systemName:(NSString*)systemName withCompletionHandler:(void (^)())handle
 {
-    OEHUDAlert* aAlert = [[OEHUDAlert alloc] init];
+    OEHUDAlert *aAlert = [[OEHUDAlert alloc] init];
     aAlert.defaultButtonTitle = NSLocalizedString(@"Install", @"");
     aAlert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
     
@@ -212,12 +213,12 @@ static OECoreUpdater* sharedController = nil;
     self.alert.messageText = nil;
     
     [self.alert setAlternateButtonAction:@selector(cancelInstall) andTarget:self];
-    
-    OECoreDownload* pluginDL = [self.coresDict valueForKey:self.coreIdentifier];
+    NSLog(@"%@", [self coresDict]);
+    OECoreDownload *pluginDL = [[self coresDict] valueForKey:self.coreIdentifier];
     if(!pluginDL)
     {
         [self checkForNewCores:[NSNumber numberWithBool:YES]];
-        pluginDL = [self.coresDict valueForKey:self.coreIdentifier];
+        pluginDL = [[self coresDict] valueForKey:self.coreIdentifier];
     }
     
     if(!pluginDL)
@@ -287,8 +288,8 @@ static OECoreUpdater* sharedController = nil;
     {
         if(updater == [SUUpdater updaterForBundle:plugin.bundle])
         {
-            NSString* coreID = [self lowerCaseID:[plugin bundleIdentifier]];
-            OECoreDownload* download = [coresDict objectForKey:coreID];
+            NSString *coreID = [self lowerCaseID:[plugin bundleIdentifier]];
+            OECoreDownload *download = [coresDict objectForKey:coreID];
             [download setHasUpdate:YES];
             [download setAppcastItem:update];
             [download setDelegate:self];

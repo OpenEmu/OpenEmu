@@ -1,22 +1,30 @@
 /* crypt.h -- base code for crypt/uncrypt ZIPfile
 
+
    Version 1.01e, February 12th, 2005
 
    Copyright (C) 1998-2005 Gilles Vollant
 
-   Permission is granted to anyone to use this software for any purpose,
-   including commercial applications, and to alter it and redistribute it
-   freely, subject to the following restrictions:
-
-   1. The origin of this software must not be misrepresented; you must not
-      claim that you wrote the original software. If you use this software
-      in a product, an acknowledgment in the product documentation would be
-      appreciated but is not required.
-   2. Altered source versions must be plainly marked as such, and must not be
-      misrepresented as being the original software.
-   3. This notice may not be removed or altered from any source distribution.
-
    This code is a modified version of crypting code in Infozip distribution
+
+   The encryption/decryption parts of this source code (as opposed to the
+   non-echoing password parts) were originally written in Europe.  The
+   whole source package can be freely distributed, including from the USA.
+   (Prior to January 2000, re-export from the US was a violation of US law.)
+
+   This encryption code is a direct transcription of the algorithm from
+   Roger Schlafly, described by Phil Katz in the file appnote.txt.  This
+   file (appnote.txt) is distributed with the PKZIP program (even in the
+   version without encryption capabilities).
+
+   If you don't need crypting in your application, just define symbols
+   NOCRYPT and NOUNCRYPT.
+
+   This code support the "Traditional PKWARE Encryption".
+
+   The new AES encryption added on Zip format by Winzip (see the page
+   http://www.winzip.com/aes_info.htm ) and PKWare PKZip 5.x Strong
+   Encryption is not supported.
 */
 
 #define CRC32(c, b) ((*(pcrc_32_tab+(((int)(c) ^ (b)) & 0xff))) ^ ((c) >> 8))
@@ -79,13 +87,12 @@ static void init_keys(const char* passwd,unsigned long* pkeys,const unsigned lon
 #    define ZCR_SEED2 3141592654UL     /* use PI as default pattern */
 #  endif
 
-static int crypthead(passwd, buf, bufSize, pkeys, pcrc_32_tab, crcForCrypting)
-    const char *passwd;         /* password string */
-    unsigned char *buf;         /* where to write header */
-    int bufSize;
-    unsigned long* pkeys;
-    const unsigned long* pcrc_32_tab;
-    unsigned long crcForCrypting;
+static int crypthead(const char* passwd,      /* password string */
+                     unsigned char* buf,      /* where to write header */
+                     int bufSize,
+                     unsigned long* pkeys,
+                     const unsigned long* pcrc_32_tab,
+                     unsigned long crcForCrypting)
 {
     int n;                       /* index in random header */
     int t;                       /* temporary */
@@ -116,10 +123,9 @@ static int crypthead(passwd, buf, bufSize, pkeys, pcrc_32_tab, crcForCrypting)
     {
         buf[n] = (unsigned char)zencode(pkeys, pcrc_32_tab, header[n], t);
     }
-    buf[n++] = zencode(pkeys, pcrc_32_tab, (int)(crcForCrypting >> 16) & 0xff, t);
-    buf[n++] = zencode(pkeys, pcrc_32_tab, (int)(crcForCrypting >> 24) & 0xff, t);
+    buf[n++] = (unsigned char)zencode(pkeys, pcrc_32_tab, (int)(crcForCrypting >> 16) & 0xff, t);
+    buf[n++] = (unsigned char)zencode(pkeys, pcrc_32_tab, (int)(crcForCrypting >> 24) & 0xff, t);
     return n;
 }
 
 #endif
-

@@ -19,8 +19,12 @@
 @implementation OEHUDWindow
 + (void)initialize
 {
+    // Make sure not to reinitialize for subclassed objects
+    if (self != [OEHUDWindow class])
+        return;
+
     if([NSImage imageNamed:@"hud_window_active"]) return;
-    NSImage* img = [NSImage imageNamed:@"hud_window"];
+    NSImage *img = [NSImage imageNamed:@"hud_window"];
     
     [img setName:@"hud_window_active" forSubimageInRect:NSMakeRect(0, 0, img.size.width/2, img.size.height)];
     [img setName:@"hud_window_inactive" forSubimageInRect:NSMakeRect(img.size.width/2, 0, img.size.width/2, img.size.height)];
@@ -74,12 +78,12 @@
     [self setBackgroundColor:[NSColor clearColor]];
     
     NSRect frame;
-    frame.size = self.frame.size;
+    frame.size = [self frame].size;
     frame.origin = NSMakePoint(0, 0);
     [super setContentView:[[[NSView alloc] initWithFrame:NSZeroRect] autorelease]];
     [self setContentView:[[[NSView alloc] initWithFrame:NSZeroRect] autorelease]];
     // Register for notifications
-    NSNotificationCenter* nc = [NSNotificationCenter defaultCenter];
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(_layout) name:NSWindowDidResizeNotification object:self];
     
     [nc addObserver:self selector:@selector(_layout) name:NSWindowDidResignKeyNotification object:self];
@@ -92,7 +96,7 @@
 
 - (void)_layout
 {
-    [_borderWindow setFrame:self.frame display:YES];
+    [_borderWindow setFrame:[self frame] display:YES];
     [_borderWindow display];
 }
 
@@ -103,17 +107,17 @@
 
 - (void)setContentView:(NSView *)aView
 {
-    NSView* contentView = [[[super contentView] subviews] lastObject];
+    NSView *contentView = [[[super contentView] subviews] lastObject];
     
     if(contentView)[contentView removeFromSuperview];
     
-    NSView* actualContentView = [super contentView];
+    NSView *actualContentView = [super contentView];
     [actualContentView addSubview:aView];
     
     
     NSRect contentRect;
     contentRect.origin = NSMakePoint(0, 0);
-    contentRect.size = self.frame.size;
+    contentRect.size = [self frame].size;
     
     contentRect = NSInsetRect(contentRect, 1, 1);
     contentRect.size.height -= 21;
@@ -146,7 +150,7 @@
         [self setOpaque:NO];
         [self setBackgroundColor:[NSColor clearColor]];
         
-        NSView* borderView = [[OEHUDWindowThemeView alloc] initWithFrame:NSZeroRect];
+        NSView *borderView = [[OEHUDWindowThemeView alloc] initWithFrame:NSZeroRect];
         [super setContentView:borderView];
         //[[self contentView] addSubview:borderView];
         // [borderView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -243,20 +247,20 @@
     BOOL isFocused = [[self window].parentWindow isMainWindow] && [NSApp isActive];
     
     
-    NSImage* borderImage = isFocused ? [NSImage imageNamed:@"hud_window_active"] : [NSImage imageNamed:@"hud_window_inactive"];
-    [borderImage drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver/*NSCompositeSourceOver*/ fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:23 bottomBorder:23];
+    NSImage *borderImage = isFocused ? [NSImage imageNamed:@"hud_window_active"] : [NSImage imageNamed:@"hud_window_inactive"];
+    [borderImage drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver/*NSCompositeSourceOver*/ fraction:1.0 respectFlipped:YES hints:nil leftBorder:14 rightBorder:14 topBorder:23 bottomBorder:23];
     
-    NSMutableDictionary* titleAttribtues = [NSMutableDictionary dictionary];
+    NSMutableDictionary *titleAttribtues = [NSMutableDictionary dictionary];
     
-    NSMutableParagraphStyle* ps = [[NSMutableParagraphStyle alloc] init];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     [ps setLineBreakMode:NSLineBreakByTruncatingMiddle];
     [ps setAlignment:NSCenterTextAlignment];
     [titleAttribtues setObject:ps forKey:NSParagraphStyleAttributeName];
     [ps release];
     
-    NSColor* textColor = isFocused ? [NSColor colorWithDeviceWhite:0.86 alpha:1.0] : [NSColor colorWithDeviceWhite:0.61 alpha:1.0];
-    NSFont* font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:2.0 size:13.0];
-    NSShadow* shadow = [[NSShadow alloc] init];
+    NSColor *textColor = isFocused ? [NSColor colorWithDeviceWhite:0.86 alpha:1.0] : [NSColor colorWithDeviceWhite:0.61 alpha:1.0];
+    NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:2.0 size:13.0];
+    NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor colorWithDeviceRed:0.129 green:0.129 blue:0.129 alpha:1.0]];
     [shadow setShadowBlurRadius:1.0];
     [shadow setShadowOffset:NSMakeSize(0, 1)];
@@ -269,8 +273,8 @@
     NSRect titleBarRect = NSInsetRect([self titleBarRect], 10, 0);
     titleBarRect.origin.y -= 2;
     
-    NSString* windowTitle = [[self window].parentWindow title];
-    NSAttributedString* attributedWindowTitle = [[NSAttributedString alloc] initWithString:windowTitle attributes:titleAttribtues];
+    NSString *windowTitle = [[self window].parentWindow title];
+    NSAttributedString *attributedWindowTitle = [[NSAttributedString alloc] initWithString:windowTitle attributes:titleAttribtues];
     [attributedWindowTitle drawInRect:titleBarRect];
     [attributedWindowTitle release];
 }

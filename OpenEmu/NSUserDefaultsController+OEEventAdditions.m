@@ -40,7 +40,7 @@
         {
             ret = [NSKeyedUnarchiver unarchiveObjectWithData:ret];
         }
-        @catch (NSException * e)
+        @catch (NSException *e)
         {
             /* Do nothing, we keep the NSData we retrieved. */
         }

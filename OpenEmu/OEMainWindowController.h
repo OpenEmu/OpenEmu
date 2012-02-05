@@ -33,7 +33,7 @@
 
 @property(retain, nonatomic) OEMainWindowContentController *currentContentController;
 @property(retain)            OEMainWindowContentController *defaultContentController;
-@property BOOL allowWindowResizing;
+@property                    BOOL                           allowWindowResizing;
 
 #pragma mark -
 #pragma mark Menu Items

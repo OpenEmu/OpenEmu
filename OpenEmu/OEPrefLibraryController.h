@@ -12,10 +12,10 @@
 @interface OEPrefLibraryController : NSViewController <OEPreferencePane> 
 {
 @private
-    IBOutlet NSTextField* pathField;
+    IBOutlet NSTextField *pathField;
     
     float height;
-    IBOutlet NSView* librariesView;
+    IBOutlet NSView *librariesView;
 }
 - (NSImage*)icon;
 - (NSString*)title;

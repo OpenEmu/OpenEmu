@@ -271,7 +271,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 - (void)registerDefaultControls;
 {
     NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
-    NSDictionary* initialValues = [defaults initialValues];
+    NSDictionary *initialValues = [defaults initialValues];
     NSMutableDictionary *dict = initialValues?[[[defaults initialValues] mutableCopy] autorelease]:[NSMutableDictionary dictionary];
     
     [[self defaultControls] enumerateKeysAndObjectsUsingBlock:

@@ -10,7 +10,7 @@
 
 @interface OEGridViewFieldEditor : NSView {
 @private
-    NSTextField* textView;
+    NSTextField *textView;
 }
 // value
 - (void)setString:(NSString*)newString;
@@ -25,5 +25,5 @@
 #pragma mark -
 - (void)setDelegate:(id)delegate;
 - (id)delegate;
-@property (retain, readwrite) NSColor* borderColor;
+@property (retain, readwrite) NSColor *borderColor;
 @end

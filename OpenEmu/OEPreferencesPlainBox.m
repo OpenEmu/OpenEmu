@@ -12,8 +12,8 @@
 @implementation OEPreferencesPlainBox
 
 - (void)drawRect:(NSRect)dirtyRect{
-	NSImage* image = [NSImage imageNamed:@"dark_box"];
-	[image drawInRect:self.bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:16 rightBorder:16 topBorder:16 bottomBorder:16];
+	NSImage *image = [NSImage imageNamed:@"dark_box"];
+	[image drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:16 rightBorder:16 topBorder:16 bottomBorder:16];
 }
 
 - (BOOL)isFlipped{

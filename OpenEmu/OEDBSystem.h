@@ -10,7 +10,7 @@
 
 @class OESystemPlugin, OELibraryDatabase;
 @interface OEDBSystem : NSManagedObject {
-    NSImage* icon;
+    NSImage *icon;
 }
 + (id)systemFromPlugin:(OESystemPlugin*)plugin inDatabase:(OELibraryDatabase*)database;
 + (id)systemForPluginIdentifier:(NSString*)identifier inDatabase:(OELibraryDatabase*)database;
@@ -31,5 +31,5 @@
 
 - (NSImage*)icon;
 
-@property (readonly) NSString* name;
+@property (readonly) NSString *name;
 @end

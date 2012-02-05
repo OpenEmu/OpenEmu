@@ -26,8 +26,11 @@
 #include "osd.h"
 
 extern "C" {
+    #define M64P_CORE_PROTOTYPES 1
+    #include "api/m64p_config.h"
     #include "api/config.h"
     #include "api/callbacks.h"
+    #include "api/m64p_vidext.h"
     #include "api/vidext.h"
     #include "main/main.h"
     #include "main/util.h"
@@ -50,6 +53,8 @@ static float l_fLineHeight = -1.0;
 
 static void animation_none(osd_message_t *);
 static void animation_fade(osd_message_t *);
+static void osd_remove_message(osd_message_t *msg);
+static osd_message_t * osd_message_valid(osd_message_t *testmsg);
 
 static float fCornerScroll[OSD_NUM_CORNERS]; 
 
@@ -211,6 +216,12 @@ void osd_init(int width, int height)
 {
     const char *fontpath;
 
+    if (!OGLFT::Init_FT())
+    {
+        DebugMessage(M64MSG_ERROR, "Could not initialize freetype library.");
+        return;
+    }
+
     fontpath = ConfigGetSharedDataFilepath(FONT_FILENAME);
 
     l_font = new OGLFT::Monochrome(fontpath, (float) height / 35.0f);  // make font size proportional to screen height
@@ -264,6 +275,9 @@ void osd_exit(void)
         free(msg);
     }
     list_delete(&l_messageQueue);
+
+    // shut down the Freetype library
+    OGLFT::Uninit_FT();
 
     // reset initialized flag
     l_OsdInitialized = 0;
@@ -350,7 +364,10 @@ void osd_render()
         // if previous message was marked for deletion, delete it
         if(msg_to_delete)
         {
-            osd_delete_message(msg_to_delete);
+            if (msg_to_delete->user_managed)
+                osd_remove_message(msg_to_delete);
+            else
+                osd_delete_message(msg_to_delete);
             msg_to_delete = NULL;
         }
 
@@ -394,7 +411,13 @@ void osd_render()
 
     // if last message was marked for deletion, delete it
     if(msg_to_delete)
-        osd_delete_message(msg_to_delete);
+    {
+        if (msg_to_delete->user_managed)
+            osd_remove_message(msg_to_delete);
+        else
+            osd_delete_message(msg_to_delete);
+        msg_to_delete = NULL;
+    }
 
     // restore the matrices
     glMatrixMode(GL_MODELVIEW);
@@ -448,6 +471,7 @@ osd_message_t * osd_new_message(enum osd_corner eCorner, const char *fmt, ...)
     // set default values
     memset(msg, 0, sizeof(osd_message_t));
     msg->text = strdup(buf);
+    msg->user_managed = 0;
     // default to white
     msg->color[R] = 1.;
     msg->color[G] = 1.;
@@ -516,23 +540,36 @@ void osd_update_message(osd_message_t *msg, const char *fmt, ...)
         msg->state = OSD_DISPLAY;
         msg->frames = 0;
     }
+    
+    if (!osd_message_valid(msg))
+        list_prepend(&l_messageQueue, msg);
 
 }
 
 // remove message from message queue
-extern "C"
-void osd_delete_message(osd_message_t *msg)
+static void osd_remove_message(osd_message_t *msg)
 {
     list_node_t *node;
 
     if (!l_OsdInitialized || !msg) return;
 
-    if (msg->text)
+    if (msg->text) {
         free(msg->text);
+	msg->text = NULL;
+    }
 
     node = list_find_node(l_messageQueue, msg);
-    free(msg);
     list_node_delete(&l_messageQueue, node);
+}
+
+// remove message from message queue and free it
+extern "C"
+void osd_delete_message(osd_message_t *msg)
+{
+    if (!l_OsdInitialized || !msg) return;
+
+    osd_remove_message(msg);
+    free(msg);
 }
 
 // set "corner" of the screen that message appears in.
@@ -555,9 +592,17 @@ void osd_message_set_static(osd_message_t *msg)
     msg->frames = 0;
 }
 
-// return message pointer if valid (in the OSD list), otherwise return NULL
+// set message so it doesn't automatically get freed when finished transition.
 extern "C"
-osd_message_t * osd_message_valid(osd_message_t *testmsg)
+void osd_message_set_user_managed(osd_message_t *msg)
+{
+    if (!l_OsdInitialized || !msg) return;
+
+    msg->user_managed = 1;
+}
+
+// return message pointer if valid (in the OSD list), otherwise return NULL
+static osd_message_t * osd_message_valid(osd_message_t *testmsg)
 {
     if (!l_OsdInitialized || !testmsg) return NULL;
 

@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">11C74</string>
+		<string key="IBDocument.SystemVersion">11D50</string>
 		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1138.23</string>
-		<string key="IBDocument.HIToolboxVersion">567.00</string>
+		<string key="IBDocument.AppKitVersion">1138.32</string>
+		<string key="IBDocument.HIToolboxVersion">568.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">1938</string>
@@ -45,7 +45,7 @@
 					<object class="NSCustomView" id="245748282">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{42, 382}, {339, 40}}</string>
+						<string key="NSFrame">{{42, 381}, {339, 40}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="564645779"/>
@@ -54,7 +54,7 @@
 					<object class="NSCustomView" id="946194237">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{0, 174}, {423, 2}}</string>
+						<string key="NSFrame">{{0, 179}, {423, 2}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="458868926"/>
@@ -63,7 +63,7 @@
 					<object class="NSCustomView" id="525206165">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{0, 320}, {423, 2}}</string>
+						<string key="NSFrame">{{0, 321}, {423, 2}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="696764023"/>
@@ -72,7 +72,7 @@
 					<object class="NSTextField" id="458868926">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{41, 139}, {124, 17}}</string>
+						<string key="NSFrame">{{41, 145}, {124, 17}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="39468810"/>
@@ -110,7 +110,7 @@
 					<object class="NSTextField" id="696764023">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{41, 285}, {144, 17}}</string>
+						<string key="NSFrame">{{41, 287}, {144, 17}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="723895576"/>
@@ -128,7 +128,7 @@
 					<object class="NSTextField" id="564645779">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{63, 394}, {297, 17}}</string>
+						<string key="NSFrame">{{63, 393}, {297, 17}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="54998610"/>
@@ -146,7 +146,7 @@
 					<object class="NSMatrix" id="723895576">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{42, 199}, {377, 74}}</string>
+						<string key="NSFrame">{{42, 201}, {377, 74}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="946194237"/>
@@ -273,7 +273,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="NSTextField" id="457362967">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{41, 440}, {193, 17}}</string>
+						<string key="NSFrame">{{41, 439}, {193, 17}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="245748282"/>
@@ -291,7 +291,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="NSButton" id="54998610">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{214, 344}, {78, 25}}</string>
+						<string key="NSFrame">{{214, 343}, {78, 25}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="399148658"/>
@@ -313,7 +313,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="NSButton" id="399148658">
 						<reference key="NSNextResponder" ref="260910718"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{302, 344}, {78, 25}}</string>
+						<string key="NSFrame">{{302, 343}, {78, 25}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="525206165"/>
@@ -334,16 +334,15 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 					<object class="NSCustomView" id="39468810">
 						<reference key="NSNextResponder" ref="260910718"/>
-						<int key="NSvFlags">272</int>
-						<string key="NSFrame">{{42, 20}, {344, 106}}</string>
+						<int key="NSvFlags">256</int>
+						<string key="NSFrame">{{42, 22}, {344, 110}}</string>
 						<reference key="NSSuperview" ref="260910718"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:498</string>
 						<string key="NSClassName">NSView</string>
 					</object>
 				</array>
-				<string key="NSFrameSize">{423, 474}</string>
+				<string key="NSFrameSize">{423, 473}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="457362967"/>
@@ -634,9 +633,9 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="15.CustomClassName">OEPrefButtonCell</string>
+				<string key="15.CustomClassName">OEPreferencesButtonCell</string>
 				<string key="15.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="16.CustomClassName">OEPrefButtonCell</string>
+				<string key="16.CustomClassName">OEPreferencesButtonCell</string>
 				<string key="16.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="17.CustomClassName">OEPrefLabelCell</string>
 				<string key="17.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -695,14 +694,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">OEPrefButtonCell</string>
-					<string key="superclassName">NSButtonCell</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEPrefButtonCell.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">OEPrefHeadlineLabelCell</string>
 					<string key="superclassName">OEAttributedTextFieldCell</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -752,6 +743,14 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OEPrefLibraryController.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEPreferencesButtonCell</string>
+					<string key="superclassName">NSButtonCell</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEPreferencesButtonCell.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

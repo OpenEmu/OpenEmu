@@ -12,7 +12,7 @@
 @implementation NSURL (NSURL_OELibraryAdditions)
 - (BOOL)hasImageSuffix
 {
-	NSArray* imageSuffixes = [NSArray arrayWithObjects:	
+	NSArray *imageSuffixes = [NSArray arrayWithObjects:	
 							  @"png",												// Portable Network Graphics
 							  @"tif", @"tiff",										// Tagged Image File Format
 							  @"jpg", @"jpeg", @"jpe", @"jif", @"jfif", @"jfi",		// JPG
@@ -27,7 +27,7 @@
 							  @"tga", @"tpic",										// YESvision TGA
 							  nil];
 	
-	NSString* urlSuffix = [[self pathExtension] lowercaseString];
+	NSString *urlSuffix = [[self pathExtension] lowercaseString];
 	return [imageSuffixes containsObject:urlSuffix];
 }
 @end

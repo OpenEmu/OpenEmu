@@ -28,236 +28,194 @@
 #include "r4300.h"
 #include "ops.h"
 #include "macros.h"
+#include "fpu.h"
 
 void ADD_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *reg_cop1_simple[cffd] = *reg_cop1_simple[cffs] +
-     *reg_cop1_simple[cfft];
+   add_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft], reg_cop1_simple[cffd]);
    PC++;
 }
 
 void SUB_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *reg_cop1_simple[cffd] = *reg_cop1_simple[cffs] -
-     *reg_cop1_simple[cfft];
+   sub_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft], reg_cop1_simple[cffd]);
    PC++;
 }
 
 void MUL_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *reg_cop1_simple[cffd] = *reg_cop1_simple[cffs] *
-     *reg_cop1_simple[cfft];
+   mul_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft], reg_cop1_simple[cffd]);
    PC++;
 }
 
 void DIV_S(void)
 {  
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *reg_cop1_simple[cffd] = *reg_cop1_simple[cffs] /
-     *reg_cop1_simple[cfft];
+   div_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft], reg_cop1_simple[cffd]);
    PC++;
 }
 
 void SQRT_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *reg_cop1_simple[cffd] = (float) sqrt(*reg_cop1_simple[cffs]);
+   sqrt_s(reg_cop1_simple[cffs], reg_cop1_simple[cffd]);
    PC++;
 }
 
 void ABS_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *reg_cop1_simple[cffd] = (float) fabs(*reg_cop1_simple[cffs]);
+   abs_s(reg_cop1_simple[cffs], reg_cop1_simple[cffd]);
    PC++;
 }
 
 void MOV_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *reg_cop1_simple[cffd] = *reg_cop1_simple[cffs];
+   mov_s(reg_cop1_simple[cffs], reg_cop1_simple[cffd]);
    PC++;
 }
 
 void NEG_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *reg_cop1_simple[cffd] = -(*reg_cop1_simple[cffs]);
+   neg_s(reg_cop1_simple[cffs], reg_cop1_simple[cffd]);
    PC++;
 }
 
 void ROUND_L_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_round();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_simple[cffs];
+   round_l_s(reg_cop1_simple[cffs], (long long*)(reg_cop1_double[cffd]));
    PC++;
 }
 
 void TRUNC_L_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_trunc();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_simple[cffs];
+   trunc_l_s(reg_cop1_simple[cffs], (long long*)(reg_cop1_double[cffd]));
    PC++;
 }
 
 void CEIL_L_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_ceil();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_simple[cffs];
+   ceil_l_s(reg_cop1_simple[cffs], (long long*)(reg_cop1_double[cffd]));
    PC++;
 }
 
 void FLOOR_L_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_floor();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_simple[cffs];
+   floor_l_s(reg_cop1_simple[cffs], (long long*)(reg_cop1_double[cffd]));
    PC++;
 }
 
 void ROUND_W_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_round();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_simple[cffs];
+   round_w_s(reg_cop1_simple[cffs], (int*)reg_cop1_simple[cffd]);
    PC++;
 }
 
 void TRUNC_W_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_trunc();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_simple[cffs];
+   trunc_w_s(reg_cop1_simple[cffs], (int*)reg_cop1_simple[cffd]);
    PC++;
 }
 
 void CEIL_W_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_ceil();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_simple[cffs];
+   ceil_w_s(reg_cop1_simple[cffs], (int*)reg_cop1_simple[cffd]);
    PC++;
 }
 
 void FLOOR_W_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_floor();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_simple[cffs];
+   floor_w_s(reg_cop1_simple[cffs], (int*)reg_cop1_simple[cffd]);
    PC++;
 }
 
 void CVT_D_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *reg_cop1_double[cffd] = *reg_cop1_simple[cffs];
+   cvt_d_s(reg_cop1_simple[cffs], reg_cop1_double[cffd]);
    PC++;
 }
 
 void CVT_W_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_simple[cffs];
+   cvt_w_s(reg_cop1_simple[cffs], (int*)reg_cop1_simple[cffd]);
    PC++;
 }
 
 void CVT_L_S(void)
 {
    if (check_cop1_unusable()) return;
-   set_rounding();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_simple[cffs];
+   cvt_l_s(reg_cop1_simple[cffs], (long long*)(reg_cop1_double[cffd]));
    PC++;
 }
 
 void C_F_S(void)
 {
    if (check_cop1_unusable()) return;
-   FCR31 &= ~0x800000;
+   c_f_s();
    PC++;
 }
 
 void C_UN_S(void)
 {
    if (check_cop1_unusable()) return;
-   if (isnan(*reg_cop1_simple[cffs]) || isnan(*reg_cop1_simple[cfft]))
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_un_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
 void C_EQ_S(void)
 {
    if (check_cop1_unusable()) return;
-   if (!isnan(*reg_cop1_simple[cffs]) && !isnan(*reg_cop1_simple[cfft]) &&
-       *reg_cop1_simple[cffs] == *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_eq_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
 void C_UEQ_S(void)
 {
    if (check_cop1_unusable()) return;
-   if (isnan(*reg_cop1_simple[cffs]) || isnan(*reg_cop1_simple[cfft]) ||
-       *reg_cop1_simple[cffs] == *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ueq_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
 void C_OLT_S(void)
 {
    if (check_cop1_unusable()) return;
-   if (!isnan(*reg_cop1_simple[cffs]) && !isnan(*reg_cop1_simple[cfft]) &&
-       *reg_cop1_simple[cffs] < *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_olt_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
 void C_ULT_S(void)
 {
    if (check_cop1_unusable()) return;
-   if (isnan(*reg_cop1_simple[cffs]) || isnan(*reg_cop1_simple[cfft]) ||
-       *reg_cop1_simple[cffs] < *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ult_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
 void C_OLE_S(void)
 {
    if (check_cop1_unusable()) return;
-   if (!isnan(*reg_cop1_simple[cffs]) && !isnan(*reg_cop1_simple[cfft]) &&
-       *reg_cop1_simple[cffs] <= *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ole_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
 void C_ULE_S(void)
 {
    if (check_cop1_unusable()) return;
-   if (isnan(*reg_cop1_simple[cffs]) || isnan(*reg_cop1_simple[cfft]) ||
-       *reg_cop1_simple[cffs] <= *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ule_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
@@ -269,7 +227,7 @@ void C_SF_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   FCR31 &= ~0x800000;
+   c_sf_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
@@ -281,7 +239,7 @@ void C_NGLE_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   FCR31 &= ~0x800000;
+   c_ngle_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
@@ -293,9 +251,7 @@ void C_SEQ_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] == *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_seq_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
@@ -307,9 +263,7 @@ void C_NGL_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] == *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ngl_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
@@ -321,9 +275,7 @@ void C_LT_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] < *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_lt_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
@@ -335,9 +287,7 @@ void C_NGE_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] < *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_nge_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
@@ -349,9 +299,7 @@ void C_LE_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] <= *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_le_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 
@@ -363,9 +311,7 @@ void C_NGT_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] <= *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ngt_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    PC++;
 }
 

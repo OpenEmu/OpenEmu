@@ -56,7 +56,7 @@
 					<object class="NSCustomView" id="26693448">
 						<reference key="NSNextResponder" ref="268028433"/>
 						<int key="NSvFlags">290</int>
-						<string key="NSFrame">{{24, 24}, {512, 189}}</string>
+						<string key="NSFrame">{{24, 22}, {512, 191}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSNextKeyView" ref="138075039"/>
 						<string key="NSReuseIdentifierKey">_NS:1192</string>
@@ -119,7 +119,7 @@
 								<double key="NSPercent">0.50602412223815918</double>
 							</object>
 						</array>
-						<string key="NSFrame">{{25, 25}, {510, 187}}</string>
+						<string key="NSFrame">{{25, 24}, {510, 187}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
 						<reference key="NSNextKeyView" ref="607083126"/>
 						<string key="NSReuseIdentifierKey">_NS:400</string>
@@ -734,6 +734,12 @@
 						<reference key="parent" ref="690346615"/>
 					</object>
 					<object class="IBObjectRecord">
+						<int key="objectID">116</int>
+						<reference key="object" ref="26693448"/>
+						<array class="NSMutableArray" key="children"/>
+						<reference key="parent" ref="268028433"/>
+					</object>
+					<object class="IBObjectRecord">
 						<int key="objectID">111</int>
 						<reference key="object" ref="138075039"/>
 						<array class="NSMutableArray" key="children">
@@ -744,8 +750,8 @@
 						<reference key="parent" ref="268028433"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">112</int>
-						<reference key="object" ref="837216714"/>
+						<int key="objectID">114</int>
+						<reference key="object" ref="714866421"/>
 						<reference key="parent" ref="138075039"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -754,14 +760,9 @@
 						<reference key="parent" ref="138075039"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">114</int>
-						<reference key="object" ref="714866421"/>
+						<int key="objectID">112</int>
+						<reference key="object" ref="837216714"/>
 						<reference key="parent" ref="138075039"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">116</int>
-						<reference key="object" ref="26693448"/>
-						<reference key="parent" ref="268028433"/>
 					</object>
 				</array>
 			</object>
@@ -780,12 +781,12 @@
 				<string key="113.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="114.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="116.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="12.CustomClassName">OECtrlPopUpButtonCell</string>
+				<string key="12.CustomClassName">OEControlsPopupButtonCell</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="15.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="16.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="24.CustomClassName">OECtrlPopUpButtonCell</string>
+				<string key="24.CustomClassName">OEControlsPopupButtonCell</string>
 				<string key="24.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="25.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="26.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -794,7 +795,7 @@
 				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="3.CustomClassName">OEBackgroundImageView</string>
 				<string key="3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="30.CustomClassName">OECtrlPopUpButtonCell</string>
+				<string key="30.CustomClassName">OEControlsPopupButtonCell</string>
 				<string key="30.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="32.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -806,11 +807,11 @@
 				<string key="38.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="39.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="7.CustomClassName">OEControlsPopupButton</string>
+				<string key="7.CustomClassName">OEPopupButton</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="8.CustomClassName">OEControlsPopupButton</string>
+				<string key="8.CustomClassName">OEPopupButton</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="9.CustomClassName">OEControlsPopupButton</string>
+				<string key="9.CustomClassName">OEPopupButton</string>
 				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
@@ -846,14 +847,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">OEControlsPopupButton</string>
-					<string key="superclassName">NSPopUpButton</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OEControlsPopupButton.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">OEControlsScrollView</string>
 					<string key="superclassName">NSScrollView</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -867,14 +860,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OEControlsScroller.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">OECtrlPopUpButtonCell</string>
-					<string key="superclassName">NSPopUpButtonCell</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">./Classes/OECtrlPopUpButtonCell.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -944,6 +929,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">./Classes/OEPrefCtrlLabelCell.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">OEPreferencesControlsBox</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">./Classes/OEPreferencesControlsBox.h</string>
 					</object>
 				</object>
 			</array>

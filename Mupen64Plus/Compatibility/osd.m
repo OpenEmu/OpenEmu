@@ -64,3 +64,7 @@ osd_message_t * osd_new_message(enum osd_corner c, const char *f, ...)
 void osd_delete_message(osd_message_t *m)
 {
 }
+
+void osd_message_set_user_managed(osd_message_t *msg)
+{
+}

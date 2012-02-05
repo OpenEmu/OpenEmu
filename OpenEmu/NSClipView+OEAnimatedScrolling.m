@@ -31,8 +31,8 @@
 {
     [NSAnimationContext beginGrouping];
     
-    p.x -= self.frame.size.width;
-    p.y -= self.frame.size.height;
+    p.x -= [self frame].size.width;
+    p.y -= [self frame].size.height;
     
     [[self animator] setBoundsOrigin:p];
     

@@ -33,6 +33,7 @@
 #include "exception.h"
 #include "macros.h"
 #include "interupt.h"
+#include "fpu.h"
 
 #ifdef DBG
 #include "debugger/dbg_types.h"
@@ -1274,25 +1275,19 @@ static void (*interp_cop1_bc[4])(void) =
 
 static void ADD_S(void)
 {
-   set_rounding();
-   *reg_cop1_simple[cffd] = *reg_cop1_simple[cffs] +
-     *reg_cop1_simple[cfft];
+   add_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft], reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void SUB_S(void)
 {
-   set_rounding();
-   *reg_cop1_simple[cffd] = *reg_cop1_simple[cffs] -
-     *reg_cop1_simple[cfft];
+   sub_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft], reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void MUL_S(void)
 {
-   set_rounding();
-   *reg_cop1_simple[cffd] = *reg_cop1_simple[cffs] *
-     *reg_cop1_simple[cfft];
+   mul_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft], reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
@@ -1302,182 +1297,145 @@ static void DIV_S(void)
    {
      DebugMessage(M64MSG_ERROR, "DIV_S by 0");
    }
-   set_rounding();
-   *reg_cop1_simple[cffd] = *reg_cop1_simple[cffs] /
-     *reg_cop1_simple[cfft];
+   div_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft], reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void SQRT_S(void)
 {
-   set_rounding();
-   *reg_cop1_simple[cffd] = (float) sqrt(*reg_cop1_simple[cffs]);
+   sqrt_s(reg_cop1_simple[cffs], reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void ABS_S(void)
 {
-   set_rounding();
-   *reg_cop1_simple[cffd] = (float) fabs(*reg_cop1_simple[cffs]);
+   abs_s(reg_cop1_simple[cffs], reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void MOV_S(void)
 {
-   set_rounding();
-   *reg_cop1_simple[cffd] = *reg_cop1_simple[cffs];
+   mov_s(reg_cop1_simple[cffs], reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void NEG_S(void)
 {
-   set_rounding();
-   *reg_cop1_simple[cffd] = -(*reg_cop1_simple[cffs]);
+   neg_s(reg_cop1_simple[cffs], reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void ROUND_L_S(void)
 {
-   set_round();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_simple[cffs];
+   round_l_s(reg_cop1_simple[cffs], (long long*)(reg_cop1_double[cffd]));
    interp_addr+=4;
 }
 
 static void TRUNC_L_S(void)
 {
-   set_trunc();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_simple[cffs];
+   trunc_l_s(reg_cop1_simple[cffs], (long long*)(reg_cop1_double[cffd]));
    interp_addr+=4;
 }
 
 static void CEIL_L_S(void)
 {
-   set_ceil();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_simple[cffs];
+   ceil_l_s(reg_cop1_simple[cffs], (long long*)(reg_cop1_double[cffd]));
    interp_addr+=4;
 }
 
 static void FLOOR_L_S(void)
 {
-   set_floor();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_simple[cffs];
+   floor_l_s(reg_cop1_simple[cffs], (long long*)(reg_cop1_double[cffd]));
    interp_addr+=4;
 }
 
 static void ROUND_W_S(void)
 {
-   set_round();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_simple[cffs];
+   round_w_s(reg_cop1_simple[cffs], (int*)reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void TRUNC_W_S(void)
 {
-   set_trunc();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_simple[cffs];
+   trunc_w_s(reg_cop1_simple[cffs], (int*)reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void CEIL_W_S(void)
 {
-   set_ceil();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_simple[cffs];
+   ceil_w_s(reg_cop1_simple[cffs], (int*)reg_cop1_simple[cffd]); 
    interp_addr+=4;
 }
 
 static void FLOOR_W_S(void)
 {
-   set_floor();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_simple[cffs];
+   floor_w_s(reg_cop1_simple[cffs], (int*)reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void CVT_D_S(void)
 {
-   set_rounding();
-   *reg_cop1_double[cffd] = *reg_cop1_simple[cffs];
+   cvt_d_s(reg_cop1_simple[cffs], reg_cop1_double[cffd]);
    interp_addr+=4;
 }
 
 static void CVT_W_S(void)
 {
-   set_rounding();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_simple[cffs];
+   cvt_w_s(reg_cop1_simple[cffs], (int*)reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void CVT_L_S(void)
 {
-   set_rounding();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_simple[cffs];
+   cvt_l_s(reg_cop1_simple[cffs], (long long*)(reg_cop1_double[cffd]));
    interp_addr+=4;
 }
 
 static void C_F_S(void)
 {
-   FCR31 &= ~0x800000;
+   c_f_s();
    interp_addr+=4;
 }
 
 static void C_UN_S(void)
 {
-   if (isnan(*reg_cop1_simple[cffs]) || isnan(*reg_cop1_simple[cfft]))
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_un_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
 static void C_EQ_S(void)
 {
-   if (!isnan(*reg_cop1_simple[cffs]) && !isnan(*reg_cop1_simple[cfft]) &&
-       *reg_cop1_simple[cffs] == *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_eq_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
 static void C_UEQ_S(void)
 {
-   if (isnan(*reg_cop1_simple[cffs]) || isnan(*reg_cop1_simple[cfft]) ||
-       *reg_cop1_simple[cffs] == *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ueq_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
 static void C_OLT_S(void)
 {
-   if (!isnan(*reg_cop1_simple[cffs]) && !isnan(*reg_cop1_simple[cfft]) &&
-       *reg_cop1_simple[cffs] < *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_olt_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
 static void C_ULT_S(void)
 {
-   if (isnan(*reg_cop1_simple[cffs]) || isnan(*reg_cop1_simple[cfft]) ||
-       *reg_cop1_simple[cffs] < *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ult_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
 static void C_OLE_S(void)
 {
-   if (!isnan(*reg_cop1_simple[cffs]) && !isnan(*reg_cop1_simple[cfft]) &&
-       *reg_cop1_simple[cffs] <= *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ole_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
 static void C_ULE_S(void)
 {
-   if (isnan(*reg_cop1_simple[cffs]) || isnan(*reg_cop1_simple[cfft]) ||
-       *reg_cop1_simple[cffs] <= *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ule_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
@@ -1488,7 +1446,7 @@ static void C_SF_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   FCR31 &= ~0x800000;
+   c_sf_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
@@ -1499,7 +1457,7 @@ static void C_NGLE_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   FCR31 &= ~0x800000;
+   c_ngle_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
@@ -1510,9 +1468,7 @@ static void C_SEQ_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] == *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_seq_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
@@ -1523,9 +1479,7 @@ static void C_NGL_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] == *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ngl_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
@@ -1536,9 +1490,7 @@ static void C_LT_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] < *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_lt_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
@@ -1549,9 +1501,7 @@ static void C_NGE_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] < *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_nge_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
@@ -1562,9 +1512,7 @@ static void C_LE_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] <= *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_le_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
@@ -1575,9 +1523,7 @@ static void C_NGT_S(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_simple[cffs] <= *reg_cop1_simple[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ngt_s(reg_cop1_simple[cffs], reg_cop1_simple[cfft]);
    interp_addr+=4;
 }
 
@@ -1595,25 +1541,19 @@ C_SF_S   ,C_NGLE_S ,C_SEQ_S ,C_NGL_S  ,C_LT_S   ,C_NGE_S  ,C_LE_S  ,C_NGT_S
 
 static void ADD_D(void)
 {
-   set_rounding();
-   *reg_cop1_double[cffd] = *reg_cop1_double[cffs] +
-     *reg_cop1_double[cfft];
+   add_d(reg_cop1_double[cffs], reg_cop1_double[cfft], reg_cop1_double[cffd]);
    interp_addr+=4;
 }
 
 static void SUB_D(void)
 {
-   set_rounding();
-   *reg_cop1_double[cffd] = *reg_cop1_double[cffs] -
-     *reg_cop1_double[cfft];
+   sub_d(reg_cop1_double[cffs], reg_cop1_double[cfft], reg_cop1_double[cffd]);
    interp_addr+=4;
 }
 
 static void MUL_D(void)
 {
-   set_rounding();
-   *reg_cop1_double[cffd] = *reg_cop1_double[cffs] *
-     *reg_cop1_double[cfft];
+   mul_d(reg_cop1_double[cffs], reg_cop1_double[cfft], reg_cop1_double[cffd]);
    interp_addr+=4;
 }
 
@@ -1628,182 +1568,145 @@ static void DIV_D(void)
     DebugMessage(M64MSG_ERROR, "DIV_D by 0");
     //return;
      }
-   set_rounding();
-   *reg_cop1_double[cffd] = *reg_cop1_double[cffs] /
-     *reg_cop1_double[cfft];
+   div_d(reg_cop1_double[cffs], reg_cop1_double[cfft], reg_cop1_double[cffd]);
    interp_addr+=4;
 }
 
 static void SQRT_D(void)
 {
-   set_rounding();
-   *reg_cop1_double[cffd] = sqrt(*reg_cop1_double[cffs]);
+   sqrt_d(reg_cop1_double[cffs], reg_cop1_double[cffd]);
    interp_addr+=4;
 }
 
 static void ABS_D(void)
 {
-   set_rounding();
-   *reg_cop1_double[cffd] = fabs(*reg_cop1_double[cffs]);
+   abs_d(reg_cop1_double[cffs], reg_cop1_double[cffd]);
    interp_addr+=4;
 }
 
 static void MOV_D(void)
 {
-   set_rounding();
-   *reg_cop1_double[cffd] = *reg_cop1_double[cffs];
+   mov_d(reg_cop1_double[cffs], reg_cop1_double[cffd]);
    interp_addr+=4;
 }
 
 static void NEG_D(void)
 {
-   set_rounding();
-   *reg_cop1_double[cffd] = -(*reg_cop1_double[cffs]);
+   neg_d(reg_cop1_double[cffs], reg_cop1_double[cffd]);
    interp_addr+=4;
 }
 
 static void ROUND_L_D(void)
 {
-   set_round();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_double[cffs];
+   round_l_d(reg_cop1_double[cffs], (long long*)(reg_cop1_double[cffd]));
    interp_addr+=4;
 }
 
 static void TRUNC_L_D(void)
 {
-   set_trunc();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_double[cffs];
+   trunc_l_d(reg_cop1_double[cffs], (long long*)(reg_cop1_double[cffd]));
    interp_addr+=4;
 }
 
 static void CEIL_L_D(void)
 {
-   set_ceil();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_double[cffs];
+   ceil_l_d(reg_cop1_double[cffs], (long long*)(reg_cop1_double[cffd]));
    interp_addr+=4;
 }
 
 static void FLOOR_L_D(void)
 {
-   set_floor();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_double[cffs];
+   floor_l_d(reg_cop1_double[cffs], (long long*)(reg_cop1_double[cffd]));
    interp_addr+=4;
 }
 
 static void ROUND_W_D(void)
 {
-   set_round();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_double[cffs];
+   round_w_d(reg_cop1_double[cffs], (int*)reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void TRUNC_W_D(void)
 {
-   set_trunc();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_double[cffs];
+   trunc_w_d(reg_cop1_double[cffs], (int*)reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void CEIL_W_D(void)
 {
-   set_ceil();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_double[cffs];
+   ceil_w_d(reg_cop1_double[cffs], (int*)reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void FLOOR_W_D(void)
 {
-   set_floor();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_double[cffs];
+   floor_w_d(reg_cop1_double[cffs], ((int*)reg_cop1_simple[cffd]));
    interp_addr+=4;
 }
 
 static void CVT_S_D(void)
 {
-   set_rounding();
-   *reg_cop1_simple[cffd] = (float) *reg_cop1_double[cffs];
+   cvt_s_d(reg_cop1_double[cffs], reg_cop1_simple[cffd]); 
    interp_addr+=4;
 }
 
 static void CVT_W_D(void)
 {
-   set_rounding();
-   *((int*)reg_cop1_simple[cffd]) = (int) *reg_cop1_double[cffs];
+   cvt_w_d(reg_cop1_double[cffs], (int*)reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void CVT_L_D(void)
 {
-   set_rounding();
-   *((long long*)(reg_cop1_double[cffd])) = (long long) *reg_cop1_double[cffs];
+   cvt_l_d(reg_cop1_double[cffs], (long long*)(reg_cop1_double[cffd]));
    interp_addr+=4;
 }
 
 static void C_F_D(void)
 {
-   FCR31 &= ~0x800000;
+   c_f_d();
    interp_addr+=4;
 }
 
 static void C_UN_D(void)
 {
-   if (isnan(*reg_cop1_double[cffs]) || isnan(*reg_cop1_double[cfft]))
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_un_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
 static void C_EQ_D(void)
 {
-   if (!isnan(*reg_cop1_double[cffs]) && !isnan(*reg_cop1_double[cfft]) &&
-       *reg_cop1_double[cffs] == *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_eq_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
 static void C_UEQ_D(void)
 {
-   if (isnan(*reg_cop1_double[cffs]) || isnan(*reg_cop1_double[cfft]) ||
-       *reg_cop1_double[cffs] == *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ueq_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
 static void C_OLT_D(void)
 {
-   if (!isnan(*reg_cop1_double[cffs]) && !isnan(*reg_cop1_double[cfft]) &&
-       *reg_cop1_double[cffs] < *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_olt_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
 static void C_ULT_D(void)
 {
-   if (isnan(*reg_cop1_double[cffs]) || isnan(*reg_cop1_double[cfft]) ||
-       *reg_cop1_double[cffs] < *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ult_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
 static void C_OLE_D(void)
 {
-   if (!isnan(*reg_cop1_double[cffs]) && !isnan(*reg_cop1_double[cfft]) &&
-       *reg_cop1_double[cffs] <= *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ole_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
 static void C_ULE_D(void)
 {
-   if (isnan(*reg_cop1_double[cffs]) || isnan(*reg_cop1_double[cfft]) ||
-       *reg_cop1_double[cffs] <= *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ule_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
@@ -1814,7 +1717,7 @@ static void C_SF_D(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
       stop=1;
    }
-   FCR31 &= ~0x800000;
+   c_sf_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
@@ -1825,7 +1728,7 @@ static void C_NGLE_D(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   FCR31 &= ~0x800000;
+   c_ngle_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
@@ -1836,9 +1739,7 @@ static void C_SEQ_D(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_double[cffs] == *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_seq_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
@@ -1849,9 +1750,7 @@ static void C_NGL_D(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_double[cffs] == *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ngl_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
@@ -1862,9 +1761,7 @@ static void C_LT_D(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_double[cffs] < *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_lt_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
@@ -1875,9 +1772,7 @@ static void C_NGE_D(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_double[cffs] < *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_nge_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
@@ -1888,9 +1783,7 @@ static void C_LE_D(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_double[cffs] <= *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_le_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
@@ -1901,9 +1794,7 @@ static void C_NGT_D(void)
      DebugMessage(M64MSG_ERROR, "Invalid operation exception in C opcode");
      stop=1;
    }
-   if (*reg_cop1_double[cffs] <= *reg_cop1_double[cfft])
-     FCR31 |= 0x800000;
-   else FCR31 &= ~0x800000;
+   c_ngt_d(reg_cop1_double[cffs], reg_cop1_double[cfft]);
    interp_addr+=4;
 }
 
@@ -1921,15 +1812,13 @@ C_SF_D   ,C_NGLE_D ,C_SEQ_D ,C_NGL_D  ,C_LT_D   ,C_NGE_D  ,C_LE_D  ,C_NGT_D
 
 static void CVT_S_W(void)
 {
-   set_rounding();
-   *reg_cop1_simple[cffd] = (float) *((int*)reg_cop1_simple[cffs]);
+   cvt_s_w(((int*)reg_cop1_simple[cffs]), reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void CVT_D_W(void)
 {
-   set_rounding();
-   *reg_cop1_double[cffd] = *((int*)reg_cop1_simple[cffs]);
+   cvt_d_w(((int*)reg_cop1_simple[cffs]), reg_cop1_double[cffd]);
    interp_addr+=4;
 }
 
@@ -1947,15 +1836,13 @@ static void (*interp_cop1_w[64])(void) =
 
 static void CVT_S_L(void)
 {
-   set_rounding();
-   *reg_cop1_simple[cffd] = (float) *((long long*)(reg_cop1_double[cffs]));
+   cvt_s_l((long long*)(reg_cop1_double[cffs]), reg_cop1_simple[cffd]);
    interp_addr+=4;
 }
 
 static void CVT_D_L(void)
 {
-   set_rounding();
-   *reg_cop1_double[cffd] = (double) *((long long*)(reg_cop1_double[cffs]));
+   cvt_d_l((long long*)(reg_cop1_double[cffs]), reg_cop1_double[cffd]);
    interp_addr+=4;
 }
 
@@ -2021,16 +1908,16 @@ static void CTC1(void)
    switch((FCR31 & 3))
      {
       case 0:
-    rounding_mode = 0x33F;
+    rounding_mode = 0x33F; // Round to nearest, or to even if equidistant
     break;
       case 1:
-    rounding_mode = 0xF3F;
+    rounding_mode = 0xF3F; // Truncate (toward 0)
     break;
       case 2:
-    rounding_mode = 0xB3F;
+    rounding_mode = 0xB3F; // Round up (toward +infinity) 
     break;
       case 3:
-    rounding_mode = 0x73F;
+    rounding_mode = 0x73F; // Round down (toward -infinity) 
     break;
      }
    //if ((FCR31 >> 7) & 0x1F) printf("FPU Exception enabled : %x\n",

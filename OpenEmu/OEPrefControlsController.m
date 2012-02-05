@@ -60,9 +60,9 @@
 #pragma mark ViewController Overrides
 - (void)awakeFromNib
 {
-    NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
     
-    NSImage* controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
+    NSImage *controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
     [(OEBackgroundImageView*)[self view] setImage:controlsBackgroundImage];
     
     /** ** ** ** ** ** ** ** **/
@@ -74,9 +74,9 @@
     [[self inputPopupButton] selectItemWithTag:binding];
     [self changeInputDevice:self];
     
-    NSString* pluginName = [sud stringForKey:UDControlsPluginIdentifierKey];
+    NSString *pluginName = [sud stringForKey:UDControlsPluginIdentifierKey];
     [[self consolesPopupButton] selectItemAtIndex:0];
-    for(NSMenuItem* anItem in [[self consolesPopupButton] itemArray])
+    for(NSMenuItem *anItem in [[self consolesPopupButton] itemArray])
     {
         if([[anItem representedObject] isEqualTo:pluginName])
         {
@@ -119,13 +119,13 @@
 - (void)systemsChanged
 {
     NSLog(@"OEDBSystemsChangedNotificationName");
-    NSMenuItem* menuItem = [[self consolesPopupButton] selectedItem];
-    NSString* selectedSystemIdentifier = [menuItem representedObject];
+    NSMenuItem *menuItem = [[self consolesPopupButton] selectedItem];
+    NSString *selectedSystemIdentifier = [menuItem representedObject];
 
     [self _rebuildSystemsMenu];
     
     [[self consolesPopupButton] selectItemAtIndex:0];
-    for(NSMenuItem* anItem in [[self consolesPopupButton] itemArray])
+    for(NSMenuItem *anItem in [[self consolesPopupButton] itemArray])
     {
         if([[anItem representedObject] isEqualTo:selectedSystemIdentifier])
         {
@@ -142,26 +142,26 @@
 #pragma mark UI Methods
 - (IBAction)changeSystem:(id)sender
 {
-    NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
     
-    NSMenuItem* menuItem = [[self consolesPopupButton] selectedItem];
-    NSString* systemIdentifier = [menuItem representedObject];
+    NSMenuItem *menuItem = [[self consolesPopupButton] selectedItem];
+    NSString *systemIdentifier = [menuItem representedObject];
     
     NSString *oldPluginName = [selectedPlugin systemName];
     
-    OESystemPlugin* nextPlugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
+    OESystemPlugin *nextPlugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
     if(selectedPlugin!=nil && nextPlugin==selectedPlugin) return;
     selectedPlugin = nextPlugin;
     
-    OESystemController* systemController = [selectedPlugin controller];
+    OESystemController *systemController = [selectedPlugin controller];
     
     // Rebuild player menu
     NSUInteger numberOfPlayers = [systemController numberOfPlayers];
-    NSMenu* playerMenu = [[NSMenu alloc] init];
+    NSMenu *playerMenu = [[NSMenu alloc] init];
     for(NSUInteger player=0; player<numberOfPlayers; player++)
     {
-        NSString* playerTitle = [NSString stringWithFormat:NSLocalizedString(@"Player %ld", @""), player+1];
-        NSMenuItem* playerItem = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
+        NSString *playerTitle = [NSString stringWithFormat:NSLocalizedString(@"Player %ld", @""), player+1];
+        NSMenuItem *playerItem = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
         [playerItem setTag:player+1];
         [playerMenu addItem:playerItem];
         [playerItem release];
@@ -173,9 +173,9 @@
     [[self playerPopupButton] setHidden:(numberOfPlayers==1)];
     [[self playerPopupButton] selectItemWithTag:[sud integerForKey:UDControlsPlayerKey]];
     
-    OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
+    OEControlsViewController *preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
     
-    NSView* preferenceView = [preferenceViewController view];
+    NSView *preferenceView = [preferenceViewController view];
     [preferenceView setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
     NSRect rect = (NSRect){{0,0}, {[self controlsContainer].bounds.size.width, preferenceView.frame.size.height}};
     [preferenceView setFrame:rect];
@@ -185,7 +185,7 @@
     else
         [[[self controlsContainer] animator] addSubview:preferenceView];
     
-    NSScrollView* scrollView = [[self controlsContainer] enclosingScrollView];
+    NSScrollView *scrollView = [[self controlsContainer] enclosingScrollView];
     [[self controlsContainer] setFrameOrigin:(NSPoint){0,scrollView.frame.size.height-rect.size.height}];
     if([self controlsContainer].frame.size.height<=scrollView.frame.size.height)
     {
@@ -202,8 +202,9 @@
     [self changePlayer:[self playerPopupButton]];
     [self changeInputDevice:[self inputPopupButton]];
     
-    OEControllerImageView* newControllerView = [[OEControllerImageView alloc] initWithFrame:[[self controllerView] bounds]];
+    OEControllerImageView *newControllerView = [[OEControllerImageView alloc] initWithFrame:[[self controllerView] bounds]];
     [newControllerView setImage:[preferenceViewController controllerImage]];
+    [newControllerView setControlsViewController:preferenceViewController];
     
     // Animation for controller image swapping
     NSComparisonResult order = [oldPluginName compare:[selectedPlugin systemName]];
@@ -241,12 +242,12 @@
     
     if(selectedPlugin)
     {
-        OESystemController* systemController = [selectedPlugin controller];
-        OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
+        OESystemController *systemController = [selectedPlugin controller];
+        OEControlsViewController *preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
         [preferenceViewController selectPlayer:player];
     }
     
-    NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
     [sud setInteger:player forKey:UDControlsPlayerKey];
 }
 
@@ -264,11 +265,11 @@
     
     if(selectedPlugin)
     {
-        OESystemController* systemController = [selectedPlugin controller];
-        OEControlsViewController* preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
+        OESystemController *systemController = [selectedPlugin controller];
+        OEControlsViewController *preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
         [preferenceViewController selectBindingType:bindingType];
     }
-    NSUserDefaults* sud = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
     [sud setInteger:bindingType forKey:UDControlsDeviceTypeKey];
 }
 
@@ -286,7 +287,7 @@
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(561, 536);
+    return NSMakeSize(561, 534);
 }
 
 - (NSColor*)toolbarSeparationColor
@@ -297,15 +298,15 @@
 #pragma mark -
 - (void)_rebuildSystemsMenu
 {
-    NSMenu* consolesMenu = [[NSMenu alloc] init];
+    NSMenu *consolesMenu = [[NSMenu alloc] init];
     
-    NSArray* enabledSystems = [[OELibraryDatabase defaultDatabase] enabledSystems]; 
+    NSArray *enabledSystems = [[OELibraryDatabase defaultDatabase] enabledSystems]; 
 
-    for(OEDBSystem* system in enabledSystems)
+    for(OEDBSystem *system in enabledSystems)
     {
-        OESystemPlugin* plugin = [system plugin];
+        OESystemPlugin *plugin = [system plugin];
         
-        NSMenuItem* item = [[NSMenuItem alloc] initWithTitle:[plugin systemName] action:@selector(changeSystem:) keyEquivalent:@""];
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin systemName] action:@selector(changeSystem:) keyEquivalent:@""];
         [item setTarget:self];
         [item setRepresentedObject:[plugin systemIdentifier]];
         

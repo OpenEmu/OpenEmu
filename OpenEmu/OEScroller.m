@@ -28,7 +28,7 @@
     if (self) {
         [self detectOrientation];
         
-        NSString* key = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleScrollBarVariant"];
+        NSString *key = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleScrollBarVariant"];
         if([key isEqualTo:@"DoubleMax"])scrollArrowPos = NSScrollerArrowsMaxEnd;
         else if([key isEqualTo:@"DoubleMin"])scrollArrowPos = NSScrollerArrowsMinEnd;
         else if([key isEqualTo:@"Single"])scrollArrowPos = NSScrollerArrowsSingle;
@@ -74,7 +74,7 @@
     [[NSColor blackColor] set];
     NSRectFill([self bounds]);
     
-    NSImage* fillImage = isVertical?[NSImage imageNamed:@"track_vertical_spacer"]:[NSImage imageNamed:@"track_horizontal_spacer"];
+    NSImage *fillImage = isVertical?[NSImage imageNamed:@"track_vertical_spacer"]:[NSImage imageNamed:@"track_horizontal_spacer"];
     if(!([self arrowsPosition]==NSScrollerArrowsSingle))
         [fillImage drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeCopy fraction:1 respectFlipped:YES hints:nil];
     
@@ -98,7 +98,7 @@
     NSRect imageRect = NSZeroRect;
     NSRect targetRect = [self rectForPart:NSScrollerKnobSlot];
     
-    NSImage* image = isVertical ? [NSImage imageNamed:@"track_vertical"] : [NSImage imageNamed:@"track_horizontal"];
+    NSImage *image = isVertical ? [NSImage imageNamed:@"track_vertical"] : [NSImage imageNamed:@"track_horizontal"];
     
     [image drawInRect:targetRect fromRect:imageRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:isVertical?0:9 rightBorder:isVertical?0:9 topBorder:!isVertical?0:9 bottomBorder:!isVertical?0:9];
 }
@@ -125,7 +125,7 @@
     NSRect imageRect = [self knobSubimageRectForState:state];
     NSRect targetRect = [self rectForPart:NSScrollerKnob];
     
-    NSImage* image = isVertical ? [NSImage imageNamed:@"knob_vertical"] : [NSImage imageNamed:@"knob_horizontal"];
+    NSImage *image = isVertical ? [NSImage imageNamed:@"knob_vertical"] : [NSImage imageNamed:@"knob_horizontal"];
     [image drawInRect:targetRect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:isVertical?0:7 rightBorder:isVertical?0:7 topBorder:!isVertical?0:7 bottomBorder:!isVertical?0:7];
 }
 
@@ -146,7 +146,7 @@
     NSRect imageRect = [self arrowSubimageRectForState:state];
     NSRect targetRect = [self rectForPart:NSScrollerDecrementLine];
     
-    NSImage* image = isVertical ? [NSImage imageNamed:@"arrow_up"] : [NSImage imageNamed:@"arrow_left"];
+    NSImage *image = isVertical ? [NSImage imageNamed:@"arrow_up"] : [NSImage imageNamed:@"arrow_left"];
     [image drawInRect:targetRect fromRect:imageRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
     
     
@@ -182,12 +182,12 @@
             if (isVertical){
                 knobRect = NSInsetRect(knobRect, 0, 1);
                 
-                float knobHeight = roundf(knobRect.size.height * [self knobProportion]);
+                float knobHeight = roundf(knobRect.size.height  *[self knobProportion]);
                 knobHeight = knobHeight < minKnobHeight ? minKnobHeight : knobHeight;
                 
                 knobRect.size.width -= 2;
                 
-                float knobY = knobRect.origin.y + roundf((knobRect.size.height - knobHeight) * [self floatValue]);
+                float knobY = knobRect.origin.y + roundf((knobRect.size.height - knobHeight)  *[self floatValue]);
                 knobRect = NSMakeRect(0, knobY, knobRect.size.width, knobHeight);
                 knobRect.origin.x += 1;
                 
@@ -195,10 +195,10 @@
             } else {
                 knobRect = NSInsetRect(knobRect, 1, 0);
                 
-                float knobWidth = roundf(knobRect.size.width * [self knobProportion]);
+                float knobWidth = roundf(knobRect.size.width  *[self knobProportion]);
                 knobRect.size.height -= 2;
                 
-                float knobX = knobRect.origin.x + roundf((knobRect.size.width-knobWidth) * [self floatValue]);
+                float knobX = knobRect.origin.x + roundf((knobRect.size.width-knobWidth)  *[self floatValue]);
                 knobRect = NSMakeRect(knobX, 0, knobWidth, knobRect.size.height);
                 
                 knobRect.origin.y += 1;
@@ -324,7 +324,7 @@
 }
 
 - (NSRect)arrowSubimageRectForState:(OEUIState)state{
-    NSRect arrowRect = NSMakeRect(0, 0, 15, 15);;
+    NSRect arrowRect = NSMakeRect(0, 0, 15, 15);
     
     if(!isVertical){
         switch (state) {

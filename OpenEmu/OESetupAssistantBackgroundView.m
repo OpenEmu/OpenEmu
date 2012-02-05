@@ -25,13 +25,53 @@
  */
 
 #import "OESetupAssistantBackgroundView.h"
+#import "OESetupAssistantQCOpenGLLayer.h"
 
+@interface OESetupAssistantBackgroundView (Private)
+- (void)setupLayer;
+@end
 @implementation OESetupAssistantBackgroundView
-
-- (void)drawRect:(NSRect)dirtyRect
+- (void)setupLayer
 {
-    NSImage* backgroundImage = [NSImage imageNamed:@"installer_backgroundSample"];
-    [backgroundImage drawInRect:dirtyRect fromRect:dirtyRect operation:NSCompositeCopy fraction:1.0];
+    [self setWantsLayer:YES];
+    
+    OESetupAssistantQCOpenGLLayer* _backgroundAnimation = [OESetupAssistantQCOpenGLLayer layer];
+    
+    [_backgroundAnimation setFrame:self.frame];
+    [_backgroundAnimation setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [_backgroundAnimation setAsynchronous:YES];
+    
+    self.layer = _backgroundAnimation;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if(self)
+    {
+        [self setupLayer];
+    }
+    return self;
+}
+- (id)initWithFrame:(NSRect)frameRect
+{
+    self = [super initWithFrame:frameRect];
+    if(self)
+    {
+        [self setupLayer];
+    }
+    
+    return self;
+}
+
+- (void) dealloc
+{
+    self.layer = nil;
+    [super dealloc];
+}
+
+- (void)viewDidMoveToWindow
+{
+    [((OESetupAssistantQCOpenGLLayer*)self.layer) setContinaingWindow:[self window]];
+}
 @end

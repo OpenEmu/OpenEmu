@@ -98,7 +98,7 @@ static NSTimeInterval currentTime()
 #if 0
     NSTimeInterval time = currentTime();
     
-    OEFrameEncodeOperation* op = [[OEFrameEncodeOperation alloc] initWithImage:[(GameDocument*)[gameCore document] screenShot] forMovie:movie withDuration:time-lastTime ];
+    OEFrameEncodeOperation *op = [[OEFrameEncodeOperation alloc] initWithImage:[(GameDocument*)[gameCore document] screenShot] forMovie:movie withDuration:time-lastTime ];
     [encodingQueue addOperation:op];
     [op release];
     lastTime = time;
@@ -120,7 +120,7 @@ static NSTimeInterval currentTime()
     
     [encodingQueue waitUntilAllOperationsAreFinished];
     
-    QTMovie* audioTrackMovie = [QTMovie movieWithFile:@"/Users/jweinberg/temp.caf" error:nil];
+    QTMovie *audioTrackMovie = [QTMovie movieWithFile:@"/Users/jweinberg/temp.caf" error:nil];
     [audioTrackMovie setAttribute:[NSNumber numberWithBool:YES] forKey:QTMovieEditableAttribute];
     NSArray *videoTracks = [movie tracks];//:QTMediaTypeVideo];
     QTTrack *videoTrack = nil;

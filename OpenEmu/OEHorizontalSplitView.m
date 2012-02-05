@@ -129,9 +129,9 @@
     float borderRad = 5;
     NSRect viewRect = NSMakeRect(0, [self bounds].size.height-44, [self bounds].size.width, 44);
     
-    NSColor* topLineColor = [NSColor colorWithDeviceWhite:0.32 alpha:1];
-    NSColor* gradientTop = [NSColor colorWithDeviceWhite:0.2 alpha:1];
-    NSColor* gradientBottom = [NSColor colorWithDeviceWhite:0.15 alpha:1];
+    NSColor *topLineColor = [NSColor colorWithDeviceWhite:0.32 alpha:1];
+    NSColor *gradientTop = [NSColor colorWithDeviceWhite:0.2 alpha:1];
+    NSColor *gradientBottom = [NSColor colorWithDeviceWhite:0.15 alpha:1];
     
     // Draw top line
     NSRect lineRect = NSMakeRect(0, viewRect.origin.y, viewRect.size.width, 1);
@@ -140,15 +140,15 @@
     
     // Draw Gradient
     NSRect gradientRect = NSMakeRect(0, viewRect.origin.y+1, viewRect.size.width, viewRect.size.height-1);
-    NSGradient* backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
-    NSBezierPath* gradientPath = [NSBezierPath bezierPathWithRoundedRect:gradientRect xRadius:borderRad yRadius:borderRad];
+    NSGradient *backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
+    NSBezierPath *gradientPath = [NSBezierPath bezierPathWithRoundedRect:gradientRect xRadius:borderRad yRadius:borderRad];
     [gradientPath appendBezierPathWithRect:NSMakeRect(0, viewRect.origin.y+1, viewRect.size.width, borderRad)];
     [backgroundGradient drawInBezierPath:gradientPath angle:90];
     [backgroundGradient release];
     
     if(borderRad==0) return;
     // Draw custom resize indicator
-    NSImage* resizerImage = [NSImage imageNamed:@"resizer"];
+    NSImage *resizerImage = [NSImage imageNamed:@"resizer"];
     NSRect resizerRect = NSMakeRect(viewRect.size.width-11-4, viewRect.origin.y+viewRect.size.height-11-4, 11, 11);
     [resizerImage drawInRect:resizerRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1 respectFlipped:YES hints:nil];
 }
