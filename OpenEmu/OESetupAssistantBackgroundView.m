@@ -72,6 +72,6 @@
 
 - (void)viewDidMoveToWindow
 {
-    [((OESetupAssistantQCOpenGLLayer*)self.layer) setContinaingWindow:[self window]];
+    [((OESetupAssistantQCOpenGLLayer*)self.layer) setContainingWindow:[self window]];
 }
 @end
