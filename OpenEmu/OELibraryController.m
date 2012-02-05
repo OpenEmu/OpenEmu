@@ -1,10 +1,29 @@
-//
-//  LibraryController.m
-//  OpenEmu
-//
-//  Created by Christoph Leimbrock on 30.03.11.
-//  Copyright 2011 Christoph Leimbrock. All rights reserved.
-//
+/*
+ Copyright (c) 2011, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
 #import "OELibraryController.h"
 #import "OELibraryDatabase.h"
 #import "OEDBSmartCollection.h"
@@ -32,31 +51,30 @@
 
 
 #ifndef NSWindowWillEnterFullScreenNotification
-NSString * const NSWindowWillEnterFullScreenNotification = @"OEWindowWillEnterFullScreenNotification";
-NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullScreenNotification";
+NSString *const NSWindowWillEnterFullScreenNotification = @"OEWindowWillEnterFullScreenNotification";
+NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullScreenNotification";
 #endif
 
-@interface OELibraryController (Private)
+@interface OELibraryController ()
 - (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
 - (void)_setupMenu;
 - (void)_setupToolbarItems;
 @end
+
 @implementation OELibraryController
-- (id)initWithWindowController:(OEMainWindowController*)windowController andDatabase:(OELibraryDatabase*)database
+@synthesize romImporter, sidebarChangesWindowSize;
+@synthesize database;
+@synthesize sidebarController, collectionViewController, mainSplitView;
+
+- (id)initWithWindowController:(OEMainWindowController*)windowController andDatabase:(OELibraryDatabase*)aDatabase
 {
-    self = [super initWithWindowController:windowController];
-    if (self) {
-        [self setDatabase:database];
+    if((self = [super initWithWindowController:windowController]))
+    {
+        [self setDatabase:aDatabase];
     }
+    
     return self;
-}
-- (id)initWithCoder:(NSCoder *)aDecoder
-{
-    self = [super initWithCoder:aDecoder];
-    if (self) {
-    }
-    return self;   
 }
 
 - (void)dealloc
@@ -76,7 +94,9 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
 
 #pragma mark -
 #pragma mark NSViewController stuff
-- (NSString*)nibName{
+
+- (NSString *)nibName
+{
     return @"Library";
 }
 
@@ -84,30 +104,27 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
 {
     [super loadView];
     
-    if(![self database])
-        [self setDatabase:[OELibraryDatabase defaultDatabase]];
+    if([self database] == nil) [self setDatabase:[OELibraryDatabase defaultDatabase]];
     
-   [[self sidebarController] view];
+    [[self sidebarController] view];
     
     self.romImporter = [[[OEROMImporter alloc] initWithDatabase:[self database]] autorelease];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     // setup sidebar controller
-    OESidebarController *sidebarController = [self sidebarController];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:@"SidebarSelectionChanged" object:sidebarController];
-
-    if(![self database])
-        [self setDatabase:[OELibraryDatabase defaultDatabase]];
-    [sidebarController setDatabase:[self database]];   
+    OESidebarController *sidebarCtrl = [self sidebarController];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sidebarSelectionDidChange:) name:@"SidebarSelectionChanged" object:sidebarCtrl];
+    
+    [sidebarCtrl setDatabase:[self database]];
     [self setSidebarChangesWindowSize:YES];
     
     // make sure view has been loaded already
-    OECollectionViewController *collectionViewController = [self collectionViewController];
-    [collectionViewController view];
+    OECollectionViewController *collectionVC = [self collectionViewController];
+    [collectionVC view];
     
     // Select first view
-    [collectionViewController setLibraryController:self];
+    [collectionVC setLibraryController:self];
     
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
@@ -117,8 +134,8 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     
     // add collection controller's view to splitview
     NSView *rightContentView = [splitView rightContentView];
-    [rightContentView addSubview:[collectionViewController view]];
-    [[collectionViewController view] setFrame:[rightContentView bounds]];
+    [rightContentView addSubview:[collectionVC view]];
+    [[collectionVC view] setFrame:[rightContentView bounds]];
     
     [splitView adjustSubviews];
 }
@@ -147,28 +164,25 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     id collectionViewName = [standardUserDefaults valueForKey:UDLastCollectionSelectedKey];
     id collectionItem = nil;
-
+    
     // Look for the collection item
-    if (collectionViewName && [collectionViewName isKindOfClass:[NSString class]])
+    if(collectionViewName && [collectionViewName isKindOfClass:[NSString class]])
     {
         NSPredicate *filterCollectionViewNamePredicate = [NSPredicate predicateWithFormat:@"collectionViewName == %@", collectionViewName];
-
-        collectionItem = [[[[self sidebarController] systems] filteredArrayUsingPredicate:filterCollectionViewNamePredicate] lastObject];
-        if (!collectionItem)
-            collectionItem = [[[[self sidebarController] collections] filteredArrayUsingPredicate:filterCollectionViewNamePredicate] lastObject];
+        
+        collectionItem = ([[[[self sidebarController] systems] filteredArrayUsingPredicate:filterCollectionViewNamePredicate] lastObject]
+                          ? : [[[[self sidebarController] collections] filteredArrayUsingPredicate:filterCollectionViewNamePredicate] lastObject]);
     }
-
+    
     // Select the found collection item, or select the first item by default
-    if (collectionItem)
-        [[self sidebarController] selectItem:collectionItem];
+    if(collectionItem != nil) [[self sidebarController] selectItem:collectionItem];
+    
     [[self sidebarController] outlineViewSelectionDidChange:nil];
-
-
+    
     float splitterPos = 0;
     if([standardUserDefaults boolForKey:UDSidebarVisibleKey])
-    {
         splitterPos = [standardUserDefaults floatForKey:UDSidebarWidthKey];
-    }
+    
     OELibrarySplitView *splitView = [self mainSplitView];
     [splitView setResizesLeftView:YES];
     [splitView setSplitterPosition:splitterPos animated:NO];
@@ -178,25 +192,28 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
 - (void)contentWillHide
 {
     OEMainWindowController *windowController = [self windowController];
-    NSView *toolbarItemContainer = [[windowController toolbarSearchField] superview]; 
+    NSView *toolbarItemContainer = [[windowController toolbarSearchField] superview];
+    
     [toolbarItemContainer setAutoresizingMask:NSViewWidthSizable];
 }
+
 #pragma mark -
 #pragma mark Toolbar Actions
+
 - (IBAction)toggleSidebar:(id)sender
-{    
+{
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    OELibrarySplitView *mainSplitView = [self mainSplitView];
+    OELibrarySplitView *mainSplit = [self mainSplitView];
     
-    BOOL opening = [mainSplitView splitterPosition]==0;
+    BOOL opening = [mainSplit splitterPosition] == 0;
     float widthCorrection = 0;
     if(opening)
     {
         widthCorrection = [standardDefaults floatForKey:UDSidebarWidthKey];
     }
-    else 
+    else
     {
-        float lastWidth = [mainSplitView splitterPosition];
+        float lastWidth = [mainSplit splitterPosition];
         [standardDefaults setFloat:lastWidth forKey:UDSidebarWidthKey];
         widthCorrection = -1*lastWidth;
     }
@@ -208,55 +225,51 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
         
         frameRect.origin.x -= widthCorrection;
         frameRect.size.width += widthCorrection;
-        NSRect splitViewRect = [mainSplitView frame];
+        NSRect splitViewRect = [mainSplit frame];
         splitViewRect.size.width += widthCorrection;
         
-        [mainSplitView setResizesLeftView:YES];
+        [mainSplit setResizesLeftView:YES];
         [window setFrame:frameRect display:YES animate:YES];
-        [mainSplitView setResizesLeftView:NO];
+        [mainSplit setResizesLeftView:NO];
     }
-    else 
+    else
     {
         widthCorrection = widthCorrection < 0 ? 0 : widthCorrection; 
-        [mainSplitView setSplitterPosition:widthCorrection animated:YES];
+        [mainSplit setSplitterPosition:widthCorrection animated:YES];
     }
     
-    if(!opening)
-    {
-        [standardDefaults setFloat:abs(widthCorrection) forKey:UDSidebarWidthKey];
-    }
+    if(!opening) [standardDefaults setFloat:abs(widthCorrection) forKey:UDSidebarWidthKey];
     
-    NSImage *image;
-    if(self.sidebarChangesWindowSize)
-    {
-        image = !opening? [NSImage imageNamed:@"toolbar_sidebar_button_open"]:[NSImage imageNamed:@"toolbar_sidebar_button_close"];
-    } 
-    else 
-    {
-        image = !opening? [NSImage imageNamed:@"toolbar_sidebar_button_close"]:[NSImage imageNamed:@"toolbar_sidebar_button_open"];
-    }
+    NSImage *image = [NSImage imageNamed:
+                      ([self sidebarChangesWindowSize] == opening
+                       ? @"toolbar_sidebar_button_close"
+                       : @"toolbar_sidebar_button_open")];
+    
     [[[self windowController] toolbarSidebarButton] setImage:image];
     
     [standardDefaults setBool:opening forKey:UDSidebarVisibleKey];
 }
-- (IBAction) switchToGridView:(id)sender
+
+- (IBAction)switchToGridView:(id)sender
 {
-    [[self collectionViewController] selectGridView:sender]; 
+    [[self collectionViewController] selectGridView:sender];
 }
 
-- (IBAction) switchToListView:(id)sender
+- (IBAction)switchToListView:(id)sender
 {
-    [[self collectionViewController] selectListView:sender]; 
+    [[self collectionViewController] selectListView:sender];
 }
 
-- (IBAction) switchToFlowView:(id)sender
+- (IBAction)switchToFlowView:(id)sender
 {
     [[self collectionViewController] selectFlowView:sender];
 }
+
 - (IBAction)search:(id)sender
 {
     [[self collectionViewController] search:sender];
 }
+
 - (IBAction)changeGridSize:(id)sender
 {
     [[self collectionViewController] changeGridSize:sender];
@@ -265,24 +278,21 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
 #pragma mark FileMenu Actions
 - (IBAction)filemenu_newCollection:(id)sender
 {
-    OELibraryDatabase *database = [self database];
-    [database addNewCollection:nil];
+    [[self database] addNewCollection:nil];
     
     [[self sidebarController] reloadData];
 }
 
 - (IBAction)filemenu_newSmartCollection:(id)sender
 {
-    OELibraryDatabase *database = [self database];
-    [database addNewSmartCollection:nil];
+    [[self database] addNewSmartCollection:nil];
     
     [[self sidebarController] reloadData];
 }
 
 - (IBAction)filemenu_newCollectionFolder:(id)sender
 {
-    OELibraryDatabase *database = [self database];
-    [database addNewCollectionFolder:nil];
+    [[self database] addNewCollectionFolder:nil];
     
     [[self sidebarController] reloadData];
 }
@@ -291,81 +301,79 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
 {
     NSLog(@"Edit smart collection: ");
 }
+
 #pragma mark -
 #pragma mark Menu Items
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-    if([[self windowController] currentContentController]!=self)
+    if([[self windowController] currentContentController] != self)
         return NO;
     
     NSUInteger tag = [menuItem tag];
     
     if(tag > 100 && tag < 200) // File Menu
     {
-        if((tag == MainMenu_File_NewCollection)
-           //|| (tag == MainMenu_File_NewCollectionFolder)
-           || (tag == MainMenu_File_NewSmartCollection)
-           || (tag == MainMenu_File_AddToLibrary))
-            return YES;
-        return NO;
+        return (tag == MainMenu_File_NewCollection ||
+                //tag == MainMenu_File_NewCollectionFolder ||
+                tag == MainMenu_File_NewSmartCollection ||
+                tag == MainMenu_File_AddToLibrary);
     }
     
     if(tag == MainMenu_Controls_StartGame) // Controls Menu
-        return (BOOL)[[[self collectionViewController] selectedGames] count];
+        return [[[self collectionViewController] selectedGames] count] != 0;
     
-    if(tag > 300 && tag < 400) // View Menu
-    {
-        return YES;
-    }
-    return NO;
+    return (tag > 300 && tag < 400); // View Menu
 }
+
 - (void)menuItemAction:(id)sender
 {
-    switch ([sender tag]) {
-        case MainMenu_File_NewCollection:
+    switch([sender tag])
+    {
+        case MainMenu_File_NewCollection :
             [self filemenu_newCollection:sender];
             break;
-        case MainMenu_File_NewCollectionFolder:
+        case MainMenu_File_NewCollectionFolder :
             [self filemenu_newCollectionFolder:sender];
             break;
-        case MainMenu_File_NewSmartCollection:
+        case MainMenu_File_NewSmartCollection :
             [self filemenu_newSmartCollection:sender];
             break;
-        case MainMenu_File_EditSmartCollection:
+        case MainMenu_File_EditSmartCollection :
             [self filemenu_editSmartCollection:sender];
             break;
-        case MainMenu_File_AddToLibrary:
+        case MainMenu_File_AddToLibrary :
             [self filemenu_addToLibrary:sender];
             break;
-        case MainMenu_File_GetInfo:
+        case MainMenu_File_GetInfo :
             break;
-        case MainMenu_File_Rating:
+        case MainMenu_File_Rating :
             break;
-        case MainMenu_File_ShowInFinder:
+        case MainMenu_File_ShowInFinder :
             break;
-        case MainMenu_File_DisplayDuplicates:
+        case MainMenu_File_DisplayDuplicates :
             break;
             
             // Controls Menu
-        case MainMenu_Controls_StartGame:
+        case MainMenu_Controls_StartGame :
             [self controlsmenu_startGame:sender];
             break;
             
             // View Menu
-        case MainMenu_View_GridViewTag:
+        case MainMenu_View_GridViewTag :
             [self switchToGridView:sender];
             break;
             
-        case MainMenu_View_FlowViewTag:            
+        case MainMenu_View_FlowViewTag :
             [self switchToFlowView:sender];
             break;
             
-        case MainMenu_View_ListViewTag:
-            [self switchToListView:sender];            
+        case MainMenu_View_ListViewTag :
+            [self switchToListView:sender];
             break;
-        default:
+        default :
             break;
-    }    
+    }
 }
 
 #pragma mark -
@@ -380,7 +388,10 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     [openPanel setCanChooseDirectories:YES];
     
     NSWindow *win = [[self view] window];
-    [openPanel beginSheetModalForWindow:win completionHandler:^(NSInteger result){
+    
+    [openPanel beginSheetModalForWindow:win completionHandler:
+     ^(NSInteger result)
+     {
         if(result == NSFileHandlingPanelOKButton)
         {
             // exit our initial open panels completion handler
@@ -407,12 +418,14 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
     [docController addDocument:document];
     [document release];
 }
+
 #pragma mark -
 #pragma mark Sidebar Helpers
+
 - (void)sidebarSelectionDidChange:(NSNotification*)notification
 {
     NSDictionary *userInfo = [notification userInfo];
-    if(userInfo)
+    if(userInfo != nil)
     {
         id collection = [userInfo objectForKey:@"selectedCollection"];
         
@@ -421,30 +434,32 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
         NSMenuItem *item = [fileMenu itemWithTag:MainMenu_File_EditSmartCollection];
         [item setEnabled:[collection isKindOfClass:[OEDBSmartCollection class]]];
         [[self collectionViewController] setCollectionItem:collection];
-    } 
-    else 
+    }
+    else
     {
         [[self collectionViewController] setCollectionItem:nil];
     }
 }
+
 #pragma mark -
 #pragma mark Properties
+
 - (void)setSidebarChangesWindowSize:(BOOL)flag
 {
-    sidebarChangesWindowSize = flag;
+    flag = !!flag;
     
-    NSImage *image;
-    if(flag)
+    if(sidebarChangesWindowSize != flag)
     {
-        image = [[self mainSplitView] splitterPosition]==0? [NSImage imageNamed:@"toolbar_sidebar_button_open"]:[NSImage imageNamed:@"toolbar_sidebar_button_close"];
-    } 
-    else 
-    {
-        image = [[self mainSplitView] splitterPosition]==0? [NSImage imageNamed:@"toolbar_sidebar_button_close"]:[NSImage imageNamed:@"toolbar_sidebar_button_open"];
+        sidebarChangesWindowSize = flag;
+        
+        NSImage *image = [NSImage imageNamed:
+                          (flag == ([[self mainSplitView] splitterPosition] == 0)
+                           ? @"toolbar_sidebar_button_open"
+                           : @"toolbar_sidebar_button_close")];
+        
+        [[[self windowController] toolbarSidebarButton] setImage:image];
+        [[[self windowController] toolbarSidebarButton] display];
     }
-    
-    [[[self windowController] toolbarSidebarButton] setImage:image];
-    [[[self windowController] toolbarSidebarButton] display];
 }
 
 - (BOOL)sidebarChangesWindowSize
@@ -457,22 +472,15 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
 - (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
 {
     [self setSidebarChangesWindowSize:!fsFlag];
-    [self mainSplitView].drawsWindowResizer = !fsFlag;
+    [[self mainSplitView] setDrawsWindowResizer:!fsFlag];
     
-    if(fsFlag)
-    {
-        [NSApp setPresentationOptions:NSApplicationPresentationAutoHideDock|NSApplicationPresentationAutoHideToolbar];
-        
-    } 
-    else 
-    {
-        [NSApp setPresentationOptions:NSApplicationPresentationDefault];
-        
-    }
+    [NSApp setPresentationOptions:(fsFlag ? NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideToolbar : NSApplicationPresentationDefault)];
 }
 #pragma mark -
+
 - (void)_setupMenu
-{}
+{
+}
 
 - (void)_setupToolbarItems
 {
@@ -504,27 +512,23 @@ NSString * const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFull
 {
     OEMainWindowController *windowController = [self windowController];
     OELibrarySplitView *splitView = [self mainSplitView];
-    NSView *toolbarItemContainer = [[windowController toolbarSearchField] superview]; 
+    NSView *toolbarItemContainer = [[windowController toolbarSearchField] superview];
     
     float splitterPosition = [splitView splitterPosition];
-    if(splitterPosition!=0)
-        [[NSUserDefaults standardUserDefaults] setFloat:splitterPosition forKey:UDSidebarWidthKey];
-    float width = [[splitView rightContentView] frame].size.width, height = 44.0;
     
-    NSRect toolbarFrame = (NSRect){{splitterPosition, 0},{width, height}};
-    [toolbarItemContainer setFrame:toolbarFrame];
+    if(splitterPosition != 0) [[NSUserDefaults standardUserDefaults] setFloat:splitterPosition forKey:UDSidebarWidthKey];
+    
+    [toolbarItemContainer setFrame:NSMakeRect(splitterPosition, 0.0, NSWidth([[splitView rightContentView] frame]), 44.0)];
 }
 
-- (void)windowFullscreenExit:(NSWindow*)window
+- (void)windowFullscreenExit:(NSWindow *)window
 {
     [self setSidebarChangesWindowSize:YES];
 }
 
-- (void)windowFullscreenEnter:(NSWindow*)window
+- (void)windowFullscreenEnter:(NSWindow *)window
 {
     [self setSidebarChangesWindowSize:NO];
 }
-@synthesize romImporter;
-@synthesize database;
-@synthesize sidebarController, collectionViewController, mainSplitView;
+
 @end

@@ -1,10 +1,28 @@
-//
-//  OEApplicationDelegate.m
-//  OpenEmu
-//
-//  Created by Carl Leimbrock on 19.10.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/*
+ Copyright (c) 2011, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "OEApplicationDelegate.h"
 
@@ -27,24 +45,30 @@
 #import "OELibraryController.h"
 
 #import "OEHUDAlert.h"
-@interface OEApplicationDelegate (Private)
-- (void)loadDatabase;
-- (void)performDatabaseSelection;
 
-- (void)loadPlugins;
-- (void)setupHIDSupport;
-- (void)_setTargetForMenuItems:(NSMenu*)menu;
+static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
+
+@interface OEApplicationDelegate ()
+- (void)OE_loadDatabase;
+- (void)OE_performDatabaseSelection;
+
+- (void)OE_loadPlugins;
+- (void)OE_setupHIDSupport;
+- (void)OE_setTargetForMenuItems:(NSMenu *)menu;
+- (void)OE_createDatabaseAtURL:(NSURL *)aURL;
 @end
+
 @implementation OEApplicationDelegate
-@dynamic appVersion, projectURL;
+@synthesize mainWindowController;
+@synthesize aboutWindow, aboutCreditsPath;
+@synthesize hidManager;
 
 - (id)init
 {
-    self = [super init];
-    if (self) 
+    if((self = [super init]))
     {
         // Load Database
-        [self loadDatabase];
+        [self OE_loadDatabase];
         
         // if no database was loaded open emu quits
         if(![OELibraryDatabase defaultDatabase])
@@ -54,7 +78,7 @@
             return nil;
         }
         
-        [self loadPlugins];
+        [self OE_loadPlugins];
     }
     
     return self;
@@ -69,6 +93,7 @@
     
     [super dealloc];
 }
+
 #pragma mark -
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification
@@ -87,109 +112,120 @@
     [self updateInfoPlist];
     
     // Setup HID Support
-    [self setupHIDSupport];
-  
+    [self OE_setupHIDSupport];
+    
     // Preload Composition plugins so HUDControls Bar and Gameplay Preferneces load faster
     [OECompositionPlugin allPluginNames];
-
-    [self _setTargetForMenuItems:[NSApp mainMenu]];
+    
+    [self OE_setTargetForMenuItems:[NSApp mainMenu]];
     
     // TODO: remove after testing OEHUDAlert
-   /* [[OECoreUpdater sharedUpdater] installCoreWithIdentifier:@"com.openemu.snes9x" coreName:@"Nestopia" systemName:@"Nintendo (NES)" withCompletionHandler:^{
+    /* [[OECoreUpdater sharedUpdater] installCoreWithIdentifier:@"com.openemu.snes9x" coreName:@"Nestopia" systemName:@"Nintendo (NES)" withCompletionHandler:^{
      NSLog(@"core was installed!");
      }];*/
 }
 #pragma mark -
 #pragma mark Loading The Database
-- (void)loadDatabase
+- (void)OE_loadDatabase
 {
     NSError *error = nil;
     
     NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey];
-    if(!databasePath)
-        databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDefaultDatabasePathKey];
+    if(databasePath != nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDefaultDatabasePathKey];
     
-    if(![[NSFileManager defaultManager] fileExistsAtPath:databasePath isDirectory:NULL] && [databasePath isEqualTo:[[NSUserDefaults standardUserDefaults] objectForKey:UDDefaultDatabasePathKey]])
+    if(![[NSFileManager defaultManager] fileExistsAtPath:databasePath isDirectory:NULL] &&
+       [databasePath isEqual:[[NSUserDefaults standardUserDefaults] objectForKey:UDDefaultDatabasePathKey]])
         [[NSFileManager defaultManager] createDirectoryAtPath:databasePath withIntermediateDirectories:YES attributes:nil error:nil];
     
-    BOOL userDBSelectionRequest = ([NSEvent modifierFlags] & NSAlternateKeyMask)!=0;
-    NSURL *databaseURL = [NSURL fileURLWithPath:databasePath];    
+    BOOL userDBSelectionRequest = ([NSEvent modifierFlags] & NSAlternateKeyMask) != 0;
+    NSURL *databaseURL = [NSURL fileURLWithPath:databasePath];
     // if user holds down alt-key or the database can not be loaded because no file was found 
     if(userDBSelectionRequest || ![OELibraryDatabase loadFromURL:databaseURL error:&error])
     {
-        if(error)
-            [NSApp presentError:error];
+        if(error != nil) [NSApp presentError:error];
         
         // we ask the user to either select/create one, or quit open emu
-        [self performDatabaseSelection];
+        [self OE_performDatabaseSelection];
     }
-    else if(error!=nil) // if the database could not be loaded because it has the wrong version
+    else if(error != nil) // if the database could not be loaded because it has the wrong version
     {
         // we try to migrate the databse to the new version
         [[OEVersionMigrationController defaultMigrationController] runDatabaseMigration];
         
         // and try to load it again, if that fails, the user must select one
         if(![OELibraryDatabase loadFromURL:databaseURL error:&error])
-            [self performDatabaseSelection];
+            [self OE_performDatabaseSelection];
     }
 }
-- (void)performDatabaseSelection
+
+- (void)OE_performDatabaseSelection
 {
     // setup alert, with options "Quit", "Select", "Create"
     NSString *title = @"Choose OpenEmu Library";
-    NSString *msg = [NSString stringWithFormat:@"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one"];
+    NSString *msg   = @"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
     
-    NSString *chooseButton = @"Choose Library...";
-    NSString *createButton = @"Create Library...";
-    NSString *quitButton = @"Quit";
+    NSString *chooseButton = @"Choose Library…";
+    NSString *createButton = @"Create Library…";
+    NSString *quitButton   = @"Quit";
     
     NSAlert *alert = [NSAlert alertWithMessageText:title defaultButton:chooseButton alternateButton:quitButton otherButton:createButton informativeTextWithFormat:msg];
     [alert setIcon:[NSApp applicationIconImage]];
     
-    NSURL *databaseURL = nil;
-    NSUInteger result = [alert runModal];
-    switch (result) {
-        case NSAlertAlternateReturn:
-            return;
-            break;
-        case NSAlertDefaultReturn:;
+    switch([alert runModal])
+    {
+        case NSAlertAlternateReturn : return;
+        case NSAlertDefaultReturn :
+        {
             NSOpenPanel *openPanel = [NSOpenPanel openPanel];
             [openPanel setCanChooseFiles:NO];
             [openPanel setCanChooseDirectories:YES];
             [openPanel setAllowsMultipleSelection:NO];
             
-            result = [openPanel runModal];
-            if(result==NSOKButton)
-            {
-                databaseURL = [openPanel URL];
-                if(![[NSFileManager defaultManager] fileExistsAtPath:[[databaseURL URLByAppendingPathComponent:OEDatabaseFileName] path]])
-                {
-                    NSError *error = [[NSError alloc] initWithDomain:@"blub" code:120 userInfo:nil];
-                    [[NSAlert alertWithError:error] runModal];
-                    [error release];
-                    [self performDatabaseSelection];
-                    return;
-                }
-            }
+            [openPanel beginWithCompletionHandler:
+             ^(NSInteger result)
+             {
+                 if(result == NSOKButton)
+                 {
+                     NSURL *databaseURL = [openPanel URL];
+                     if(![[NSFileManager defaultManager] fileExistsAtPath:[[databaseURL URLByAppendingPathComponent:OEDatabaseFileName] path]])
+                     {
+                         NSError *error = [[NSError alloc] initWithDomain:@"blub" code:120 userInfo:nil];
+                         [[NSAlert alertWithError:error] runModal];
+                         [error release];
+                         [self OE_performDatabaseSelection];
+                     }
+                     else [self OE_createDatabaseAtURL:databaseURL];
+                 }
+             }];
+        }
             break;
-        case NSAlertOtherReturn:;
+        case NSAlertOtherReturn:
+        {
             NSSavePanel *savePanel = [NSSavePanel savePanel];
             
-            result = [savePanel runModal];
-            if(result==NSOKButton)
-            {
-                databaseURL = [savePanel URL];
-                [[NSFileManager defaultManager] createDirectoryAtURL:databaseURL withIntermediateDirectories:YES attributes:nil error:nil];
-            }
+            [savePanel beginWithCompletionHandler:
+             ^(NSInteger result)
+             {
+                 if(result == NSOKButton)
+                 {
+                     NSURL *databaseURL = [savePanel URL];
+                     [[NSFileManager defaultManager] createDirectoryAtURL:databaseURL withIntermediateDirectories:YES attributes:nil error:nil];
+                     [self OE_createDatabaseAtURL:databaseURL];
+                 }
+             }];
+        }
             break;
     }
-    
+}
+
+- (void)OE_createDatabaseAtURL:(NSURL *)databaseURL;
+{
     NSError *error = nil;
     // if the user selected (or created) a new database, try to load it
-    if(databaseURL!=nil && ![OELibraryDatabase loadFromURL:databaseURL error:&error])
+    if(databaseURL != nil && ![OELibraryDatabase loadFromURL:databaseURL error:&error])
     {
         // if it could not be loaded because of a wrong model
-        if(error/* && [error code]==OELibraryHasWrongVersionErrorCode*/)
+        if(error != nil /*&& [error code] == OELibraryHasWrongVersionErrorCode*/)
         {
             // version controller tries to migrate
             [[OEVersionMigrationController defaultMigrationController] runDatabaseMigration];
@@ -199,11 +235,12 @@
         }
         
         // otherwise performDatabaseSelection starts over
-        [self performDatabaseSelection];
+        [self OE_performDatabaseSelection];
     }
 }
+
 #pragma mark -
-- (void)loadPlugins
+- (void)OE_loadPlugins
 {
     [OEPlugin registerPluginClass:[OECorePlugin class]];
     [OEPlugin registerPluginClass:[OESystemPlugin class]];
@@ -215,10 +252,10 @@
     [[OELibraryDatabase defaultDatabase] save:nil];
     [[OELibraryDatabase defaultDatabase] disableSystemsWithoutPlugin];
     
-    [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:nil];
+    [[OECorePlugin class] addObserver:self forKeyPath:@"allPlugins" options:0xF context:_OEApplicationDelegateAllPluginsContext];
 }
 
-- (void)setupHIDSupport
+- (void)OE_setupHIDSupport
 {
     NSArray *matchingTypes = [NSArray arrayWithObjects:
                               [NSDictionary dictionaryWithObjectsAndKeys:
@@ -231,30 +268,36 @@
                                [NSNumber numberWithInteger:kHIDPage_GenericDesktop], @ kIOHIDDeviceUsagePageKey,
                                [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
                               nil];
-
+    
     [self setHidManager:[[[OEHIDManager alloc] init] autorelease]];
     [[self hidManager] registerDeviceTypes:matchingTypes];
 }
+
 #pragma mark -
 #pragma mark Preferences Window
+
 - (IBAction)showPreferencesWindow:(id)sender
 {
     
 }
+
 #pragma mark -
 #pragma mark About Window
+
 - (void)showAboutWindow:(id)sender
 {
-    [self.aboutWindow center];
-    [self.aboutWindow makeKeyAndOrderFront:self];
+    [[self aboutWindow] center];
+    [[self aboutWindow] makeKeyAndOrderFront:self];
 }
 
-- (NSString*)aboutCreditsPath
+- (NSString *)aboutCreditsPath
 {
     return [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
 }
+
 #pragma mark -
 #pragma mark Updating
+
 - (void)updateBundles:(id)sender
 {
     OECoreUpdater *updater = [OECoreUpdater sharedUpdater];
@@ -267,7 +310,7 @@
         {
             hasUpdate = YES;
             [dl startDownload:self];
-        }       
+        }
     }
     
     if(hasUpdate)
@@ -303,6 +346,7 @@
 
 #pragma mark -
 #pragma mark App Info
+
 - (void)updateInfoPlist
 {
     // TODO: Think of a way to register for document types without manipulating the plist
@@ -316,7 +360,7 @@
         NSMutableDictionary *systemDocument = [NSMutableDictionary dictionary];
         
         for(NSString *type in [plugin supportedTypeExtensions])
-        {            
+        {
             [systemDocument setObject:@"OEGameDocument"                 forKey:@"NSDocumentClass"];
             [systemDocument setObject:@"Viewer"                         forKey:@"CFBundleTypeRole"];
             [systemDocument setObject:@"Owner"                          forKey:@"LSHandlerRank"];
@@ -378,28 +422,28 @@
 }
 
 #pragma mark -
-@synthesize mainWindowController;
-@synthesize aboutWindow, aboutCreditsPath;
-@synthesize hidManager;
-#pragma mark -
 #pragma mark KVO
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if(object == [OECorePlugin class])
-    {
+    if(context == _OEApplicationDelegateAllPluginsContext)
         [self updateInfoPlist];
-    }
+    else
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 #pragma mark -
 #pragma mark Menu Handling
-- (void)_setTargetForMenuItems:(NSMenu*)menu
+
+- (void)OE_setTargetForMenuItems:(NSMenu*)menu
 {
     [menu setAutoenablesItems:YES];
-    [[menu itemArray] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
+    
+    [[menu itemArray] enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop)
      {
          if([obj hasSubmenu])
-             [self _setTargetForMenuItems:[obj submenu]];
+             [self OE_setTargetForMenuItems:[obj submenu]];
          else if([obj action] == NULL)
          {
              [obj setAction:@selector(menuItemAction:)];
@@ -410,7 +454,7 @@
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-    return [menuItem action]!=@selector(menuItemAction:) || [[self mainWindowController] validateMenuItem:menuItem];
+    return [menuItem action] != @selector(menuItemAction:) || [[self mainWindowController] validateMenuItem:menuItem];
 }
 
 - (void)menuItemAction:(id)sender

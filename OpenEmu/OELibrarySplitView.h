@@ -8,14 +8,16 @@
 
 #import <Foundation/Foundation.h>
 // TODO: rewrite this whole splitview thingy
-@class OELibraryController;@interface OELibrarySplitView : NSSplitView <NSSplitViewDelegate>
+@class OELibraryController;
+
+@interface OELibrarySplitView : NSSplitView <NSSplitViewDelegate>
 {
     BOOL _hidingLeftView;
 }
 
 // returns view on the right/left that can be used wthout changeing toolbar background
-- (NSView*)rightContentView;
-- (NSView*)leftContentView;
+- (NSView *)rightContentView;
+- (NSView *)leftContentView;
 
 - (void)replaceLeftContentViewWithView:(NSView*)contentView animated:(BOOL)animationFlag;
 - (void)replaceRightContentViewWithView:(NSView*)contentView animated:(BOOL)animationFlag;
