@@ -11,7 +11,7 @@
 @implementation OESetupAssistantQCOpenGLLayer
 
 @synthesize runningTime;
-@synthesize continaingWindow;
+@synthesize containingWindow;
 @synthesize renderer;
 
 - (CGLPixelFormatObj)copyCGLPixelFormatForDisplayMask:(uint32_t)mask
@@ -68,7 +68,7 @@
 - (void)releaseCGLContext:(CGLContextObj)glContext
 {
     self.renderer = nil;
-    self.continaingWindow = nil;
+    self.containingWindow = nil;
     
     [super releaseCGLContext:glContext];
 }
@@ -93,11 +93,11 @@
 
     NSMutableDictionary* arguments = nil;
 
-    if(self.continaingWindow)
+    if(self.containingWindow)
     {
-        NSPoint mouseLocation = [self.continaingWindow mouseLocationOutsideOfEventStream];
-        mouseLocation.x /= self.continaingWindow.frame.size.width;
-        mouseLocation.y /= self.continaingWindow.frame.size.height;
+        NSPoint mouseLocation = [self.containingWindow mouseLocationOutsideOfEventStream];
+        mouseLocation.x /= self.containingWindow.frame.size.width;
+        mouseLocation.y /= self.containingWindow.frame.size.height;
         arguments = [NSMutableDictionary dictionaryWithObject:[NSValue valueWithPoint:mouseLocation] forKey:QCRendererMouseLocationKey];
     }
     

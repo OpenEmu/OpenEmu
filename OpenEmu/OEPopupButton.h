@@ -32,6 +32,5 @@
     OEMenu *oemenu;
     NSMenuItem *selectedItem;
 }
-@property BOOL dontOpenMenuOnNextMouseUp;
 @property (retain, setter = setOEMenu:) OEMenu *oemenu;
 @end

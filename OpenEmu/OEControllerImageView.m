@@ -27,6 +27,7 @@
 #import "OEControllerImageView.h"
 #import "OEControlsViewController.h"
 #import "OEControlsSetupView.h"
+#import "NSImage+OEDrawingAdditions.h"
 #define OverlayAlphaON  0.5
 #define OverlayAlphaOFF 0.0
 #define RingRadius 37.0
@@ -104,7 +105,7 @@
     targetRect.size = [self image].size;
     targetRect.origin = NSMakePoint(([self frame].size.width-image.size.width)/2, 0);
     
-    [self.image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:[NSDictionary dictionaryWithObject:[NSNumber numberWithInt:NSImageInterpolationNone] forKey:NSImageHintInterpolation]];
+    [self.image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:NoInterpol];
     
     if([self overlayAlpha] != OverlayAlphaOFF)
     {
@@ -237,7 +238,6 @@
             controlToSelect = nil;
     }
     
-    NSLog(@"%@", controlToSelect);
     if(controlToSelect != [[self controlsViewController] selectedControl])
     {
         [controlToSelect setState:NSOnState];

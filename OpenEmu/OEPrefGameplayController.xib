@@ -91,7 +91,7 @@
 					<object class="NSButton" id="307976280">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{236, 258}, {113, 18}}</string>
+						<string key="NSFrame">{{236, 275}, {113, 18}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="491901795"/>
@@ -225,10 +225,10 @@
 					<object class="NSTextField" id="131891071">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{41, 330}, {139, 14}}</string>
+						<string key="NSFrame">{{41, 347}, {139, 14}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
+						<reference key="NSNextKeyView" ref="1044078460"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="946475770">
 							<int key="NSCellFlags">68288064</int>
@@ -243,7 +243,7 @@
 					<object class="NSCustomView" id="162244038">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{41, 196}, {130, 115}}</string>
+						<string key="NSFrame">{{43, 200}, {128, 128}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="546566880"/>
@@ -253,7 +253,7 @@
 					<object class="NSTextField" id="546566880">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">268</int>
-						<string key="NSFrame">{{194, 290}, {41, 17}}</string>
+						<string key="NSFrame">{{194, 307}, {41, 17}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="139973920"/>
@@ -271,7 +271,7 @@
 					<object class="NSPopUpButton" id="139973920">
 						<reference key="NSNextResponder" ref="450679658"/>
 						<int key="NSvFlags">266</int>
-						<string key="NSFrame">{{237, 284}, {147, 26}}</string>
+						<string key="NSFrame">{{237, 301}, {147, 26}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="307976280"/>
@@ -312,7 +312,7 @@
 							<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 							<string>NeXT TIFF v4.0 pasteboard type</string>
 						</set>
-						<string key="NSFrame">{{41, 196}, {130, 115}}</string>
+						<string key="NSFrame">{{41, 196}, {132, 132}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="162244038"/>
@@ -332,7 +332,7 @@
 						<bool key="NSEditable">YES</bool>
 					</object>
 				</array>
-				<string key="NSFrameSize">{423, 364}</string>
+				<string key="NSFrameSize">{423, 381}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="131891071"/>
@@ -856,7 +856,7 @@
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
 			<string key="NSSwitch">{15, 15}</string>
-			<string key="filter_effect_frame">{130, 115}</string>
+			<string key="filter_effect_frame">{132, 132}</string>
 		</dictionary>
 	</data>
 </archive>

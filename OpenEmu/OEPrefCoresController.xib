@@ -52,7 +52,7 @@
 									<object class="NSTableView" id="556550247">
 										<reference key="NSNextResponder" ref="112603746"/>
 										<int key="NSvFlags">4370</int>
-										<string key="NSFrameSize">{425, 442}</string>
+										<string key="NSFrameSize">{425, 457}</string>
 										<reference key="NSSuperview" ref="112603746"/>
 										<reference key="NSNextKeyView" ref="661869682"/>
 										<bool key="NSEnabled">YES</bool>
@@ -64,11 +64,10 @@
 											<reference key="NSNextKeyView" ref="112603746"/>
 											<reference key="NSTableView" ref="556550247"/>
 										</object>
-										<object class="_NSCornerView" key="NSCornerView" id="530874604">
-											<reference key="NSNextResponder" ref="439318123"/>
+										<object class="_NSCornerView" key="NSCornerView">
+											<nil key="NSNextResponder"/>
 											<int key="NSvFlags">-2147483392</int>
 											<string key="NSFrame">{{720, 0}, {16, 17}}</string>
-											<reference key="NSSuperview" ref="439318123"/>
 										</object>
 										<array class="NSMutableArray" key="NSTableColumns">
 											<object class="NSTableColumn" id="1019076318">
@@ -213,7 +212,7 @@
 										<int key="NSTableViewGroupRowStyle">1</int>
 									</object>
 								</array>
-								<string key="NSFrame">{{0, 17}, {423, 442}}</string>
+								<string key="NSFrame">{{0, 17}, {423, 457}}</string>
 								<reference key="NSSuperview" ref="439318123"/>
 								<reference key="NSNextKeyView" ref="556550247"/>
 								<reference key="NSDocView" ref="556550247"/>
@@ -258,7 +257,6 @@
 								<reference key="NSBGColor" ref="853367790"/>
 								<int key="NScvFlags">4</int>
 							</object>
-							<reference ref="530874604"/>
 						</array>
 						<string key="NSFrameSize">{423, 474}</string>
 						<reference key="NSSuperview" ref="753923070"/>
@@ -268,7 +266,6 @@
 						<reference key="NSHScroller" ref="477983578"/>
 						<reference key="NSContentView" ref="112603746"/>
 						<reference key="NSHeaderClipView" ref="787288137"/>
-						<reference key="NSCornerView" ref="530874604"/>
 						<bytes key="NSScrollAmts">QSAAAEEgAABByAAAQcgAAA</bytes>
 					</object>
 				</array>

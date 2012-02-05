@@ -58,13 +58,17 @@
     NSImage *scrollArrows = [NSImage imageNamed:@"dark_menu_scroll_arrows"];
     [scrollArrows setName:@"dark_menu_scroll_up" forSubimageInRect:NSMakeRect(0, 0, 9, 15)];
     [scrollArrows setName:@"dark_menu_scroll_down" forSubimageInRect:NSMakeRect(0, 15, 9, 15)];
+    
+    NSImage* tickMark = [NSImage imageNamed:@"tick_mark"];
+    [tickMark setName:@"tick_mark_normal" forSubimageInRect:(NSRect){{0,0},{7,12}}];
+    [tickMark setName:@"tick_mark_selected" forSubimageInRect:(NSRect){{7,0},{7,12}}];
 }
 
 - (id)init
 {
     if((self = [super initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO]))
     {
-        self.maxSize = NSMakeSize(192, 500);
+        self.maxSize = NSMakeSize(500, 500);
         self.minSize = NSMakeSize(82, 19*2);
         
         self.itemsAboveScroller = 0;
@@ -156,11 +160,6 @@
                          {
                              return incomingEvent;
                          }
-                         else if([self popupButton] && NSPointInRect([[self popupButton] convertPoint:[incomingEvent locationInWindow] fromView:nil], [[self popupButton] bounds]))
-                         {
-                             [(OEPopupButton*)[self popupButton] setDontOpenMenuOnNextMouseUp:YES];
-                             [self closeMenuWithoutChanges:nil];
-                         }
                          else
                          {
                              // event is outside of window, close menu without changes and remove event
@@ -174,10 +173,21 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges:) name:NSApplicationWillResignActiveNotification object:NSApp];
     
+    [[self menuView] update];
+    
+    // make sure menu is fully on screen
+    if(p.y<0)
+    {
+        p.y = 0;
+    }
+    else if(p.y + NSHeight([self frame]) > NSMaxY([[win screen] visibleFrame]))
+    {
+        p.y = NSMaxY([[win screen] visibleFrame])-NSHeight([self frame]);
+    }
+    
     [self setFrameOrigin:p];
     [win addChildWindow:self ordered:NSWindowAbove];
-    
-    [[self menuView] update];
+
     
     NSPoint windowP = [self convertScreenToBase:[NSEvent mouseLocation]];
     [[self menuView] highlightItemAtPoint:windowP];
@@ -447,9 +457,17 @@
 
 #pragma mark -
 #pragma mark Menu Item Sizes + Spacing
+#define MenuShadowLeft 5
+#define MenuShadowRight 5
+#define MenuTickmarkSpace 19
+#define MenuImageWidth 15
+#define MenuImageTitleSpacing 6
+
+#pragma mark -
+#pragma mark Menu Item Sizes + Spacing
 #define menuItemSpacingTop 8 + (imageIncluded ? 1 : 0)
 #define menuItemSpacingBottom 9 + (imageIncluded ? 1 : 0)
-#define menuItemSpacingLeft 13 + (imageIncluded ? 13 : 0)
+#define menuItemSpacingLeft 0 + (imageIncluded ? 13 : 0)
 #define menuItemImageWidth 16
 #define menuItemImageTitleSpacing 6
 #define menuItemSpacingRight 17 - (imageIncluded ? 1 : 0)
@@ -589,7 +607,7 @@
     
     float height = menuItemHeight*normalItems + menuItemSeparatorHeight*separatorItems + menuItemSpacingTop+menuItemSpacingBottom;
     
-    width += menuItemSpacingLeft + menuItemSpacingRight;
+    width = MenuShadowLeft + MenuTickmarkSpace + width + MenuShadowRight;
     width += imageIncluded ? menuItemImageWidth+menuItemImageTitleSpacing : 0 ;
     
     width = width < self.menu.minSize.width ? self.menu.minSize.width : width;
@@ -646,16 +664,16 @@
             y += menuItemSeparatorHeight;
             continue;
         }
-        NSRect itemRect = NSMakeRect(menuItemSpacingLeft, y, [self frame].size.width-menuItemSpacingLeft-menuItemSpacingRight, menuItemHeight);
-        NSRect menuItemFrame = NSMakeRect(5, y, [self frame].size.width-5-5, menuItemHeight);
+        NSRect itemRect = NSMakeRect(MenuShadowLeft+MenuTickmarkSpace, y, [self frame].size.width-MenuShadowLeft-menuItemSpacingRight-MenuShadowRight-MenuTickmarkSpace, menuItemHeight);
+        NSRect menuItemFrame = NSMakeRect(MenuShadowLeft, y, [self frame].size.width-MenuShadowLeft-MenuShadowRight, menuItemHeight);
         
-        BOOL isSelected = self.menu.highlightedItem==menuItem;
+        BOOL isHighlighted = self.menu.highlightedItem==menuItem;
         BOOL isDisabled = ![menuItem isEnabled];
         BOOL hasImage = [menuItem image]!=nil;
         BOOL hasSubmenu = [menuItem hasSubmenu];
         
-        BOOL drawAlternate = !isDisabled && isSelected && [menuItem isKindOfClass:[OEMenuItem class]] && [(OEMenuItem*)menuItem hasAlternate] && self.menu.alternate;
-        if(!isDisabled && isSelected)
+        BOOL drawAlternate = !isDisabled && isHighlighted && [menuItem isKindOfClass:[OEMenuItem class]] && [(OEMenuItem*)menuItem hasAlternate] && self.menu.alternate;
+        if(!isDisabled && isHighlighted)
         {
             NSColor *cTop, *cBottom;
             
@@ -692,16 +710,30 @@
         // Draw submenu arrow
         if(hasSubmenu)
         {
-            NSImage *arrow = isSelected ? [NSImage imageNamed:@"dark_menu_popover_arrow_selected"] : [NSImage imageNamed:@"dark_menu_popover_arrow_normal"];
+            NSImage *arrow = isHighlighted ? [NSImage imageNamed:@"dark_menu_popover_arrow_selected"] : [NSImage imageNamed:@"dark_menu_popover_arrow_normal"];
             NSRect arrowRect = NSMakeRect(0, 0, 0, 0);
             arrowRect.size = arrow.size;
             arrowRect.origin.x = menuItemFrame.origin.x + menuItemFrame.size.width - 11;
             arrowRect.origin.y = menuItemFrame.origin.y + (menuItemHeight - arrow.size.height)/2;
             [arrow drawInRect:arrowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+            
+            itemRect.size.width -= 11;
+        }
+        
+        // Draw tickmark
+        if([[self menu] popupButton] && [[[self menu] popupButton] selectedItem]==menuItem)
+        {
+            NSImage *tickMarkImage = isHighlighted ? [NSImage imageNamed:@"tick_mark_selected"] : [NSImage imageNamed:@"tick_mark_normal"];
+            NSRect tickMarkRect = menuItemFrame;
+            tickMarkRect.origin.x += 6;
+            tickMarkRect.origin.y += roundf((menuItemFrame.size.height-12)/2)-1;
+            tickMarkRect.size = (NSSize){7, 12};
+            
+            [tickMarkImage drawInRect:tickMarkRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
         }
         
         // Draw Item Title
-        NSDictionary *textAttributes = isSelected ? drawAlternate ? [self selectedItemAlternateTextAttributes]:[self selectedItemTextAttributes] : [self itemTextAttributes];
+        NSDictionary *textAttributes = isHighlighted ? drawAlternate ? [self selectedItemAlternateTextAttributes]:[self selectedItemTextAttributes] : [self itemTextAttributes];
         textAttributes = isDisabled ? [self disabledItemTextAttributes] : textAttributes;
         
         NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:menuItem.title attributes:textAttributes];
@@ -845,7 +877,8 @@
 
 - (NSMenuItem *)itemAtPoint:(NSPoint)p
 {
-    if(p.x <= 5 || p.x >= [self bounds].size.width)
+    if(p.x <= MenuShadowLeft || p.x >= [self bounds].size.width-MenuShadowRight)
+    {
         return nil;
     if(p.y <= menuItemSpacingTop || p.y >= [self bounds].size.height-menuItemSpacingBottom)
         return nil;
@@ -873,8 +906,8 @@
     NSArray *itemArray = [self.menu itemArray];
     NSUInteger pos = [itemArray indexOfObject:m];
     
-    float y = menuItemHeight * pos + menuItemSpacingTop;
-    NSRect menuItemFrame = NSMakeRect(5, y, [self frame].size.width-5-5, menuItemHeight);
+    float y = menuItemHeight*pos +menuItemSpacingTop;
+    NSRect menuItemFrame = NSMakeRect(MenuShadowLeft, y, [self frame].size.width-MenuShadowLeft-MenuShadowRight, menuItemHeight);
     return menuItemFrame;
 }
 

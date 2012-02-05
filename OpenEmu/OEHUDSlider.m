@@ -26,7 +26,6 @@
 
 #import "OEHUDSlider.h"
 #import "NSImage+OEDrawingAdditions.h"
-#define NoInterpol [NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:NSImageInterpolationNone] forKey:NSImageHintInterpolation]
 
 @implementation OEHUDSlider
 

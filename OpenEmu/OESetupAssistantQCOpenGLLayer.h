@@ -13,7 +13,7 @@
 @interface OESetupAssistantQCOpenGLLayer : CAOpenGLLayer
 
 @property (readwrite, assign) NSTimeInterval runningTime;
-@property (readwrite, retain) NSWindow* continaingWindow;
+@property (readwrite, retain) NSWindow* containingWindow;
 @property (readwrite, retain) QCRenderer* renderer;
 
 @end

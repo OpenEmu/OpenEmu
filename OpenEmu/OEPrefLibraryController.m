@@ -68,11 +68,33 @@
 #pragma mark UI Actions
 - (IBAction)resetLibraryFolder:(id)sender
 {
-	
+    NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDefaultDatabasePathKey];
+    
+    [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:UDDatabasePathKey];
+    [pathField setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
 }
 
 - (IBAction)changeLibraryFolder:(id)sender
 {
+    NSOpenPanel *openDlg = [NSOpenPanel openPanel];
+    
+    openDlg.canChooseFiles = NO;
+    openDlg.canChooseDirectories = YES;
+    openDlg.canCreateDirectories = YES;
+    
+    [openDlg beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result)
+    {
+        if (NSFileHandlingPanelOKButton == result)
+        {
+            NSString *databasePath = [[openDlg URL] path];
+            
+            if (databasePath && ![databasePath isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey]])
+            {
+                [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:UDDatabasePathKey];
+                [pathField setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
+            }
+        }
+    }];
 }
 
 - (IBAction)toggleLibrary:(id)sender
