@@ -9,14 +9,38 @@
 #import "OESetupAssistantBackgroundView.h"
 #import "OESetupAssistantQCOpenGLLayer.h"
 
+@interface OESetupAssistantBackgroundView (Private)
+- (void)setupLayer;
+@end
 @implementation OESetupAssistantBackgroundView
+- (void)setupLayer
+{
+    [self setWantsLayer:YES];
+    
+    OESetupAssistantQCOpenGLLayer* _backgroundAnimation = [OESetupAssistantQCOpenGLLayer layer];
+    
+    [_backgroundAnimation setFrame:self.frame];
+    [_backgroundAnimation setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [_backgroundAnimation setAsynchronous:YES];
+    
+    self.layer = _backgroundAnimation;
+}
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if(self)
+    {
+        [self setupLayer];
+    }
+    return self;
+}
 - (id)initWithFrame:(NSRect)frameRect
 {
     self = [super initWithFrame:frameRect];
     if(self)
     {
-        [self fuckYouLoadTheGoddamnedQCCompositionYouFuckingTwat];
+        [self setupLayer];
     }
     
     return self;
@@ -28,23 +52,8 @@
     [super dealloc];
 }
 
-- (void) awakeFromNib
+- (void)viewDidMoveToWindow
 {
-    [self fuckYouLoadTheGoddamnedQCCompositionYouFuckingTwat];
+    [((OESetupAssistantQCOpenGLLayer*)self.layer) setContinaingWindow:[self window]];
 }
-
-- (void) fuckYouLoadTheGoddamnedQCCompositionYouFuckingTwat
-{
-    [self setWantsLayer:YES];
-    
-    OESetupAssistantQCOpenGLLayer* _backgroundAnimation = [OESetupAssistantQCOpenGLLayer layer];
-    
-    [_backgroundAnimation setFrame:self.frame];
-    [_backgroundAnimation setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
-    [_backgroundAnimation setAsynchronous:YES];
-    [_backgroundAnimation setContinaingWindow:self.window];
-    
-    self.layer = _backgroundAnimation;
-}
-
 @end
