@@ -102,6 +102,15 @@
     [self.window.contentView setAnimations:[NSDictionary dictionaryWithObject:paneTransition  forKey:@"subviews"]];
 }
 #pragma mark -
+#pragma mark NSWindow Delegte
+- (NSRect)window:(NSWindow *)window willPositionSheet:(NSWindow *)sheet usingRect:(NSRect)rect
+{
+    if([window isKindOfClass:[INAppStoreWindow class]])
+        rect.origin.y -= [(INAppStoreWindow*)window titleBarHeight]-22.0;
+    
+    return rect;
+}
+#pragma mark -
 - (void)_reloadPreferencePanes
 {
     NSMutableArray *array = [NSMutableArray array];

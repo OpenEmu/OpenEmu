@@ -256,19 +256,16 @@
     
 #warning fix grid view crash
     // weired issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
-    @try 
+    if(![self.imageLayer.superlayer.sublayers containsObject:self.imageLayer])
     {
-        [self.imageLayer.superlayer replaceSublayer:self.imageLayer with:newImageLayer];
-        self.imageLayer = newImageLayer;
-    }
-    @catch (NSException *exception) 
-    {
-        NSLog(@"%@", exception);
         [CATransaction commit];
         [self release];
         return;
     }
-    
+    // weired issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
+        [self.imageLayer.superlayer replaceSublayer:self.imageLayer with:newImageLayer];
+        self.imageLayer = newImageLayer;
+      
     // Height of title string
     float titleHeight = 16;
     
