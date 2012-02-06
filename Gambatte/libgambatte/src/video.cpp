@@ -19,11 +19,15 @@
 #include "video.h"
 #include "videoblitter.h"
 #include "video/filters/filter.h"
+
+#if 0
 #include "video/filters/catrom2x.h"
 #include "video/filters/catrom3x.h"
 #include "video/filters/kreed2xsai.h"
 #include "video/filters/maxsthq2x.h"
 #include "video/filters/maxsthq3x.h"
+#endif
+
 #include "filterinfo.h"
 #include "savestate.h"
 #include "video/basic_add_event.h"
@@ -128,12 +132,14 @@ LCD::LCD(const unsigned char *const oamram, const unsigned char *const vram_in) 
 	}
 
 	filters.push_back(NULL);
+#if 0
 	filters.push_back(new Catrom2x);
 	filters.push_back(new Catrom3x);
 	filters.push_back(new Kreed_2xSaI);
 	filters.push_back(new MaxSt_Hq2x);
 	filters.push_back(new MaxSt_Hq3x);
-
+#endif
+    
 	reset(oamram, false);
 	setDoubleSpeed(false);
 

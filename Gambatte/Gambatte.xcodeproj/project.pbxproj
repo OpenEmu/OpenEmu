@@ -73,11 +73,6 @@
 		B5A2D07A0F23786B009EA0FD /* statesaver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D02F0F23786B009EA0FD /* statesaver.cpp */; };
 		B5A2D07B0F23786B009EA0FD /* basic_add_event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0320F23786B009EA0FD /* basic_add_event.cpp */; };
 		B5A2D07C0F23786B009EA0FD /* break_event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0340F23786B009EA0FD /* break_event.cpp */; };
-		B5A2D07D0F23786B009EA0FD /* catrom2x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0370F23786B009EA0FD /* catrom2x.cpp */; };
-		B5A2D07E0F23786B009EA0FD /* catrom3x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0390F23786B009EA0FD /* catrom3x.cpp */; };
-		B5A2D07F0F23786B009EA0FD /* kreed2xsai.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D03C0F23786B009EA0FD /* kreed2xsai.cpp */; };
-		B5A2D0800F23786B009EA0FD /* maxsthq2x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D03E0F23786B009EA0FD /* maxsthq2x.cpp */; };
-		B5A2D0810F23786B009EA0FD /* maxsthq3x.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0400F23786B009EA0FD /* maxsthq3x.cpp */; };
 		B5A2D0820F23786B009EA0FD /* irq_event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0420F23786B009EA0FD /* irq_event.cpp */; };
 		B5A2D0830F23786B009EA0FD /* ly_counter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0440F23786B009EA0FD /* ly_counter.cpp */; };
 		B5A2D0840F23786B009EA0FD /* lyc_irq.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0460F23786B009EA0FD /* lyc_irq.cpp */; };
@@ -328,17 +323,6 @@
 		B5A2D0330F23786B009EA0FD /* basic_add_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = basic_add_event.h; sourceTree = "<group>"; };
 		B5A2D0340F23786B009EA0FD /* break_event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = break_event.cpp; sourceTree = "<group>"; };
 		B5A2D0350F23786B009EA0FD /* break_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = break_event.h; sourceTree = "<group>"; };
-		B5A2D0370F23786B009EA0FD /* catrom2x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = catrom2x.cpp; sourceTree = "<group>"; };
-		B5A2D0380F23786B009EA0FD /* catrom2x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = catrom2x.h; sourceTree = "<group>"; };
-		B5A2D0390F23786B009EA0FD /* catrom3x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = catrom3x.cpp; sourceTree = "<group>"; };
-		B5A2D03A0F23786B009EA0FD /* catrom3x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = catrom3x.h; sourceTree = "<group>"; };
-		B5A2D03B0F23786B009EA0FD /* filter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filter.h; sourceTree = "<group>"; };
-		B5A2D03C0F23786B009EA0FD /* kreed2xsai.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = kreed2xsai.cpp; sourceTree = "<group>"; };
-		B5A2D03D0F23786B009EA0FD /* kreed2xsai.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kreed2xsai.h; sourceTree = "<group>"; };
-		B5A2D03E0F23786B009EA0FD /* maxsthq2x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = maxsthq2x.cpp; sourceTree = "<group>"; };
-		B5A2D03F0F23786B009EA0FD /* maxsthq2x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = maxsthq2x.h; sourceTree = "<group>"; };
-		B5A2D0400F23786B009EA0FD /* maxsthq3x.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = maxsthq3x.cpp; sourceTree = "<group>"; };
-		B5A2D0410F23786B009EA0FD /* maxsthq3x.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = maxsthq3x.h; sourceTree = "<group>"; };
 		B5A2D0420F23786B009EA0FD /* irq_event.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = irq_event.cpp; sourceTree = "<group>"; };
 		B5A2D0430F23786B009EA0FD /* irq_event.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = irq_event.h; sourceTree = "<group>"; };
 		B5A2D0440F23786B009EA0FD /* ly_counter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ly_counter.cpp; sourceTree = "<group>"; };
@@ -571,7 +555,6 @@
 				B5A2D0330F23786B009EA0FD /* basic_add_event.h */,
 				B5A2D0340F23786B009EA0FD /* break_event.cpp */,
 				B5A2D0350F23786B009EA0FD /* break_event.h */,
-				B5A2D0360F23786B009EA0FD /* filters */,
 				B5A2D0420F23786B009EA0FD /* irq_event.cpp */,
 				B5A2D0430F23786B009EA0FD /* irq_event.h */,
 				B5A2D0440F23786B009EA0FD /* ly_counter.cpp */,
@@ -608,24 +591,6 @@
 			);
 			name = video;
 			path = libgambatte/src/video;
-			sourceTree = "<group>";
-		};
-		B5A2D0360F23786B009EA0FD /* filters */ = {
-			isa = PBXGroup;
-			children = (
-				B5A2D0370F23786B009EA0FD /* catrom2x.cpp */,
-				B5A2D0380F23786B009EA0FD /* catrom2x.h */,
-				B5A2D0390F23786B009EA0FD /* catrom3x.cpp */,
-				B5A2D03A0F23786B009EA0FD /* catrom3x.h */,
-				B5A2D03B0F23786B009EA0FD /* filter.h */,
-				B5A2D03C0F23786B009EA0FD /* kreed2xsai.cpp */,
-				B5A2D03D0F23786B009EA0FD /* kreed2xsai.h */,
-				B5A2D03E0F23786B009EA0FD /* maxsthq2x.cpp */,
-				B5A2D03F0F23786B009EA0FD /* maxsthq2x.h */,
-				B5A2D0400F23786B009EA0FD /* maxsthq3x.cpp */,
-				B5A2D0410F23786B009EA0FD /* maxsthq3x.h */,
-			);
-			path = filters;
 			sourceTree = "<group>";
 		};
 		B5A6D9310E617C4900622CCF /* Core */ = {
@@ -911,11 +876,6 @@
 				B5A2D07A0F23786B009EA0FD /* statesaver.cpp in Sources */,
 				B5A2D07B0F23786B009EA0FD /* basic_add_event.cpp in Sources */,
 				B5A2D07C0F23786B009EA0FD /* break_event.cpp in Sources */,
-				B5A2D07D0F23786B009EA0FD /* catrom2x.cpp in Sources */,
-				B5A2D07E0F23786B009EA0FD /* catrom3x.cpp in Sources */,
-				B5A2D07F0F23786B009EA0FD /* kreed2xsai.cpp in Sources */,
-				B5A2D0800F23786B009EA0FD /* maxsthq2x.cpp in Sources */,
-				B5A2D0810F23786B009EA0FD /* maxsthq3x.cpp in Sources */,
 				B5A2D0820F23786B009EA0FD /* irq_event.cpp in Sources */,
 				B5A2D0830F23786B009EA0FD /* ly_counter.cpp in Sources */,
 				B5A2D0840F23786B009EA0FD /* lyc_irq.cpp in Sources */,
