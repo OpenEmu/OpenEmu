@@ -1,22 +1,43 @@
-//
-//  OEDBRom  (DataSourceAdditions).m
-//  OpenEmuMockup
-//
-//  Created by Christoph Leimbrock on 10.04.11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
-//
+/*
+ Copyright (c) 2011, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "OEDBDataSourceAdditions.h"
 #import "OEDBImage.h"
+
 @implementation OEDBGame (DataSourceAdditions)
 
 #pragma mark -
 #pragma mark CoverGridDataSourceItem
-- (NSString*)gridTitle
+
+- (NSString *)gridTitle
 {
     return [self valueForKey:@"name"];
 }
-- (void)setGridTitle:(NSString*)str
+
+- (void)setGridTitle:(NSString *)str
 {
     [self setValue:str forKey:@"name"];
 }
@@ -36,22 +57,15 @@
     return [[self valueForKey:@"rating"] unsignedIntegerValue];
 }
 
-- (NSImage*)gridImage
+- (NSImage *)gridImage
 {
-    OEDBImage *boxImage = [self valueForKey:@"boxImage"];
-    if(boxImage==nil) return nil;
-    
-    return [boxImage image];
+    return [[self valueForKey:@"boxImage"] image];
 }
 
-- (NSImage*)gridImageWithSize:(NSSize)aSize
+- (NSImage *)gridImageWithSize:(NSSize)aSize
 {
-    OEDBImage *boxImage = [self valueForKey:@"boxImage"];
-    if(boxImage==nil) return nil;
-    
-    return [boxImage imageForSize:aSize];
+    return [[self valueForKey:@"boxImage"] imageForSize:aSize];
 }
-
 
 - (void)setGridImage:(NSImage *)gridImage
 {
@@ -60,14 +74,11 @@
 
 #pragma mark -
 #pragma mark CoverFlowDataSourceItem
+
 - (NSString *)imageUID
 {
-    /*if(self.coverPath)
-     return self.coverPath;
-     */
-    
     // Create a new UUID
-    CFUUIDRef  uuidObj = CFUUIDCreate(nil);
+    CFUUIDRef  uuidObj    = CFUUIDCreate(nil);
     
     // Get the string representation of the UUID
     NSString  *uuidString = (NSString *)CFUUIDCreateString(nil, uuidObj);
@@ -82,20 +93,17 @@
 }
 
 - (id)imageRepresentation
-{    
+{
     return [self gridImage];
     
     NSManagedObject *boxImage = [self valueForKey:@"boxImage"];
-    if(boxImage==nil) return nil;
+    if(boxImage == nil) return nil;
     
+    NSData *data = [boxImage valueForKey:@"data"];
     
-    if([boxImage valueForKey:@"data"])
-    {
-        NSImage *cover = [[NSImage alloc] initWithData:[boxImage valueForKey:@"data"]];
-        return [cover autorelease];  
-    }
+    if(data != nil) return [[[NSImage alloc] initWithData:data] autorelease];
     
-    if([boxImage valueForKey:@"url"]) return nil;
+    //if([boxImage valueForKey:@"url"]) return nil;
     
     return nil;
 }
@@ -115,69 +123,65 @@
     return [[self valueForKey:@"rating"] unsignedIntegerValue];
 }
 
-- (void)setImage:(NSImage*)img
+- (void)setImage:(NSImage *)img
 {
-    
 }
+
 #pragma mark -
 #pragma mark ListView DataSource Item
-- (NSImage*)listViewStatus:(BOOL)selected
+
+- (NSImage *)listViewStatus:(BOOL)selected
 {
     return nil;
 }
 
-- (void)setListViewRating:(NSNumber*)number
+- (void)setListViewRating:(NSNumber *)number
 {
     [self setValue:number forKey:@"rating"];
 }
 
-- (NSNumber*)listViewRating
+- (NSNumber *)listViewRating
 {
     return [self valueForKey:@"rating"];
 }
-- (NSString*)listViewTitle
+
+- (NSString *)listViewTitle
 {
-    NSString *title = [self valueForKey:@"name"];
-    return title;
-}
-- (NSString*)listViewLastPlayed
-{
-    // TODO: properly format date
-    NSDate *lastPlayedDate = self.lastPlayed;
-    NSString *lastPlayed;
-    if(!lastPlayedDate)
-    {
-        lastPlayed = @"";
-    } else {
-        lastPlayed = [NSString stringWithFormat:@"%@", self.lastPlayed];
-    }
-    
-    return lastPlayed;
+    return [self valueForKey:@"name"];
 }
 
-- (NSString*)listViewConsoleName
+- (NSString *)listViewLastPlayed
+{
+    // TODO: properly format date
+    return [[self lastPlayed] description] ? : @"";
+}
+
+- (NSString *)listViewConsoleName
 {
     return NSLocalizedString([[self valueForKey:@"system"] valueForKey:@"name"], @"");
 }
 
-- (void)setGridViewRating:(NSNumber*)number
+- (void)setGridViewRating:(NSNumber *)number
 {
     [self setValue:number forKey:@"rating"];
 }
+
 @end
 #pragma mark -
 
 @implementation OEDBSystem (DataSourceAdditions)
-- (NSImage*)sidebarIcon
+
+- (NSImage *)sidebarIcon
 {
-    return self.icon;
+    return [self icon];
 }
-- (NSString*)sidebarName
+
+- (NSString *)sidebarName
 {
     return [self name];
 }
 
-- (void)setSidebarName:(NSString*)newName
+- (void)setSidebarName:(NSString *)newName
 {
 }
 
@@ -185,10 +189,12 @@
 {
     return YES;
 }
+
 - (BOOL)isEditableInSdebar
 {
     return NO;
 }
+
 - (BOOL)isGroupHeaderInSdebar
 {
     return NO;
@@ -199,24 +205,27 @@
     return NO;
 }
 
-- (NSPredicate*)predicate
+- (NSPredicate *)predicate
 {
     return [NSPredicate predicateWithFormat:@"system == %@", self];
 }
 
 @end
+
 #pragma mark -
+
 @implementation OEDBCollection (DataSourceAdditions)
-- (NSImage*)sidebarIcon
+- (NSImage *)sidebarIcon
 {
     return [NSImage imageNamed:@"collections_simple"];
 }
-- (NSString*)sidebarName
+
+- (NSString *)sidebarName
 {
     return [self valueForKey:@"name"];
 }
 
-- (void)setSidebarName:(NSString*)newName
+- (void)setSidebarName:(NSString *)newName
 {
     [self setValue:newName forKey:@"name"];
 }
@@ -225,10 +234,12 @@
 {
     return YES;
 }
+
 - (BOOL)isEditableInSdebar
 {
     return YES;
 }
+
 - (BOOL)isGroupHeaderInSdebar
 {
     return NO;
@@ -240,44 +251,54 @@
 }
 
 @end
+
 #pragma mark -
 @implementation OEDBSmartCollection (DataSourceAdditions)
-- (NSImage*)sidebarIcon
+
+- (NSImage *)sidebarIcon
 {
     return [NSImage imageNamed:@"collections_smart"];
 }
+
 @end
 
 #pragma mark -
 @implementation OEDBCollectionFolder (DataSourceAdditions)
-- (NSImage*)sidebarIcon
+
+- (NSImage *)sidebarIcon
 {
     return [NSImage imageNamed:@"collections_folder"];
 }
+
 - (BOOL)hasSubCollections
 {
     return YES;
 }
+
 @end
 
 
 #pragma mark -
 #pragma mark Implementation of items that can be presented by CollectionView
+
 @implementation OEDBSystem (OECollectionViewItemAdditions)
-- (NSString*)collectionViewName
+
+- (NSString *)collectionViewName
 {
     return [self name];
 }
+
 - (BOOL)isCollectionEditable
 {
     return YES;
 }
+
 - (BOOL)removingGamesDeletesThem
 {
     return YES;
 }
 
-- (NSPredicate*)predicate
+- (NSPredicate *)predicate
 {
     return [NSPredicate predicateWithFormat:@"system == %@", self];
 }
@@ -285,10 +306,12 @@
 @end
 
 @implementation OEDBCollection (OECollectionViewItemAdditions)
-- (NSString*)collectionViewName
+
+- (NSString *)collectionViewName
 {
     return [self valueForKey:@"name"];
 }
+
 - (BOOL)isCollectionEditable
 {
     return YES;
@@ -299,20 +322,22 @@
     return YES;
 }
 
-- (NSArray*)items
+- (NSArray *)items
 {
     return nil;
 }
 
-- (NSPredicate*)predicate
+- (NSPredicate *)predicate
 {
     return [NSPredicate predicateWithFormat:@"ANY collections == %@", self];
 }
+
 @end
 
 // TODO: check how itunes treats folders
 @implementation OEDBCollectionFolder (OECollectionViewItemAdditions)
-- (NSString*)collectionViewName
+
+- (NSString *)collectionViewName
 {
     return [self valueForKey:@"name"];
 }
@@ -327,32 +352,42 @@
     return NO;
 }
 
-- (NSPredicate*)predicate
+- (NSPredicate *)predicate
 {
     return [NSPredicate predicateWithValue:NO];
 }
+
 @end
+
 @implementation OEDBSmartCollection (OECollectionViewItemAdditions)
-- (NSString*)collectionViewName
+
+- (NSString *)collectionViewName
 {
     return [self valueForKey:@"name"];
 }
+
 - (BOOL)isCollectionEditable
 {
     return NO;
 }
+
 - (BOOL)removingGamesDeletesThem
 {
-    @throw @"blub";
+    @throw [NSException exceptionWithName:NSInternalInconsistencyException reason:@"-[OEDBSmartCollection removingGamesDeletesThem] not yet implemented." userInfo:nil];
+    
     return NO;
 }
-- (NSPredicate*)predicate
+
+- (NSPredicate *)predicate
 {
     return [NSPredicate predicateWithValue:NO];
 }
+
 @end
+
 @implementation OEDBAllGamesCollection (OECollectionViewItemAdditions)
-- (NSString*)collectionViewName
+
+- (NSString *)collectionViewName
 {
     return [self sidebarName];
 }
@@ -367,13 +402,14 @@
     return YES;
 }
 
-- (NSArray*)items
+- (NSArray *)items
 {
     return nil;
 }
 
-- (NSPredicate*)predicate
+- (NSPredicate *)predicate
 {
     return [NSPredicate predicateWithValue:YES];
 }
+
 @end

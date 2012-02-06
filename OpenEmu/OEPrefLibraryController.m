@@ -171,9 +171,9 @@
     __block float y =  librariesView.frame.size.height-iHeight;
     
     // enumerate plugins and add buttons for them
-    [systems enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
+    [systems enumerateObjectsUsingBlock:
+     ^(OEDBSystem *system, NSUInteger idx, BOOL *stop)
      {
-         OEDBSystem *system = (OEDBSystem*)obj;
          // if we're still in the first column an we should be in the second
          if(x==0 && idx>[systems count]/2){
              // we reset x and y

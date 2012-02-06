@@ -1,10 +1,28 @@
-//
-//  CoverGridItemself.m
-//  OpenEmuMockup
-//
-//  Created by Christoph Leimbrock on 02.05.11.
-//  Copyright 2011 none. All rights reserved.
-//
+/*
+ Copyright (c) 2011, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "OECoverGridItemLayer.h"
 #import "IKSGridItemLayer.h"
@@ -18,9 +36,9 @@
 
 #import "OEGridViewFieldEditor.h"
 
-#import "DelayedBlockExecution.h"
 #import <QuickLook/QuickLook.h>
-@interface OECoverGridItemLayer (privates)
+
+@interface OECoverGridItemLayer ()
 // Sets rating by click point
 - (void)setRatingWithPoint:(NSPoint)p pressed:(BOOL)pressed;
 
@@ -43,7 +61,9 @@
 - (void)_layoutStaticElements;
 - (void)_layoutImageAndSelection;
 @end
+
 #pragma mark -
+
 @implementation OECoverGridItemLayer
 @synthesize imageRatio;
 @synthesize selectionLayer, glossLayer, indicationLayer, imageLayer, titleLayer, ratingLayer;
@@ -121,7 +141,8 @@
 }
 
 
-- (void)dealloc{
+- (void)dealloc
+{
     self.selectionLayer = nil;
     self.glossLayer = nil;
     self.indicationLayer = nil;
@@ -133,7 +154,8 @@
 }
 
 #pragma mark -
-- (NSRect)hitRect{
+- (NSRect)hitRect
+{
     NSRect rect = [self frame];
     
     rect.origin.x += self.imageLayer.frame.origin.x;
@@ -144,7 +166,8 @@
 }
 
 #pragma mark -
-- (void)reloadImage{
+- (void)reloadImage
+{
     reloadImage = NO;
     self.image = [self _datasourceProxy_objectForKey:@"image"];
     [self _layoutImageAndSelection];
@@ -308,8 +331,8 @@
     
     // determine states that affect selection display
     BOOL selectionInactive = (![win isMainWindow] && [win firstResponder] == self.gridView);
-    BOOL selectionHidden = !self.selected;
-    self.selectionLayer.isInactive = selectionInactive;
+    BOOL selectionHidden = ![self isSelected];
+    [[self selectionLayer] setInactive:selectionInactive];
     
     CGRect selectionRect = CGRectInset(coverImageRect, -6, -6);
     if((self.selected && !CGRectEqualToRect(self.selectionLayer.frame, selectionRect)) ||
@@ -652,19 +675,20 @@
     
     // Space between left layer border and left side of image
     float imageBorderLeft = 13;
-    CGRect newCoverImageRect = CGRectIntegral(CGRectMake(imageBorderLeft+(imageContainerRect.size.width-width)/2, imageContainerRect.origin.y+imageContainerRect.size.height-height, width, height));
+    CGRect newCoverImageRect = CGRectIntegral(CGRectMake(imageBorderLeft + (imageContainerRect.size.width - width) / 2,
+                                                         imageContainerRect.origin.y + imageContainerRect.size.height - height,
+                                                         width, height));
     
-    NSUInteger index = [[self sublayers] indexOfObjectIdenticalTo:self.imageLayer]+1;
+    NSUInteger index = [[self sublayers] indexOfObjectIdenticalTo:[self imageLayer]] + 1;
     CALayer *newImageLayer = [[self sublayers] objectAtIndex:index];
     if([newImageLayer isKindOfClass:[CALayer class]])
     {
+        CGRect bounds = [self bounds];
+        
         [self resizeLayer:newImageLayer to:CGSizeMake(0, 0)];
-        [self moveLayer:newImageLayer to:CGPointMake([self frame].size.width/2, [self frame].size.height/2) centered:YES];
+        [self moveLayer:newImageLayer to:CGPointMake(NSMidX(bounds), NSMidY(bounds)) centered:YES];
         
-        [self performAfterDelay:0.2f block:^{
-            [newImageLayer removeFromSuperlayer];
-        }];
-        
+        [newImageLayer performSelector:@selector(removeFromSuperlayer) withObject:nil afterDelay:0.2];
     }
     
     //[self moveLayer:self.imageLayer to:newCoverImageRect.origin];
@@ -686,14 +710,14 @@
     acceptingOnDrop = NO;
 }
 
-- (NSDragOperation)draggingUpdated:(id < NSDraggingInfo >)sender
+- (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender
 {
     if(acceptingOnDrop) return NSDragOperationGeneric;
     
     return NSDragOperationNone;
 }
 
-- (BOOL)performDragOperation:(id < NSDraggingInfo >)sender
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
     NSNumber *val = [self _datasourceProxy_objectForKey:@"status"];
     self.indicationLayer.type = [val intValue];
@@ -738,8 +762,8 @@
     
     NSWindow *win = [self.gridView window];
     BOOL selectionInactive = (![win isMainWindow] && [win firstResponder] == self.gridView);
-    redraw |= (self.selectionLayer.isInactive != selectionInactive);
-    self.selectionLayer.isInactive = selectionInactive;
+    redraw |= ([[self selectionLayer] isInactive] != selectionInactive);
+    [[self selectionLayer] setInactive:selectionInactive];
     
     if(redraw)
     {
@@ -902,4 +926,5 @@
 {
     [self.gridView.dataSource gridView:self.gridView setObject:obj forKey:key withRepresentedObject:self.representedObject];
 }
+
 @end

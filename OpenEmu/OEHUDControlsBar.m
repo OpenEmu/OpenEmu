@@ -1,10 +1,28 @@
-//
-//  OEOSDControls.m
-//  OpenEmu
-//
-//  Created by Christoph Leimbrock on 12.06.11.
-//  Copyright 2011 none. All rights reserved.
-//
+/*
+ Copyright (c) 2011, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "OEHUDControlsBar.h"
 #import "NSImage+OEDrawingAdditions.h"
@@ -18,14 +36,17 @@
 
 #import "OECompositionPlugin.h"
 #import "OEGameViewController.h"
+
 @implementation OEHUDControlsBarWindow
 @synthesize lastMouseMovement;
 @synthesize gameViewController;
-- (id)initWithGameViewController:(OEGameViewController*)controller
+
+- (id)initWithGameViewController:(OEGameViewController *)controller
 {
     BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:UDHUDHideOptionsKey];
-    self = [super initWithContentRect:NSMakeRect(0, 0, 431+(hideOptions?0:50), 45) styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:YES];
-    if (self) 
+    
+    self = [super initWithContentRect:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45) styleMask:NSBorderlessWindowMask backing:NSWindowBackingLocationDefault defer:YES];
+    if(self != nil)
     {
         [self setMovableByWindowBackground:YES];
         [self setOpaque:NO];
@@ -34,17 +55,17 @@
         
         [self setGameViewController:controller];
         
-        OEHUDControlsBarView *controlsView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431+(hideOptions?0:50), 45)];
+        OEHUDControlsBarView *controlsView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
         [[self contentView] addSubview:controlsView];
         [controlsView setupControls];
         [controlsView release];
         
-        eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:^(NSEvent*incomingEvent)
+        eventMonitor = [[NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:
+                        ^(NSEvent *incomingEvent)
                         {
                             if([NSApp isActive] && [[self parentWindow] isMainWindow])
                                 [self performSelectorOnMainThread:@selector(mouseMoved:) withObject:incomingEvent waitUntilDone:NO];
-                        }];
-        [eventMonitor retain];
+                        }] retain];
         
         openMenus = 0;
     }
@@ -53,7 +74,7 @@
 }
 
 - (void)dealloc
-{    
+{
     NSLog(@"OEHUDControlsBarWindow dealloc");
     
     [fadeTimer invalidate];
@@ -69,11 +90,14 @@
     
     [super dealloc];
 }
+
 #pragma mark -
+
 - (void)show
 {
     [[self animator] setAlphaValue:1.0];
 }
+
 - (void)hide
 {
     [[self animator] setAlphaValue:0.0];
@@ -86,12 +110,13 @@
 {
     NSWindow *parentWindow = [self parentWindow];
     NSPoint mouseLoc = [NSEvent mouseLocation];
-    if(!NSPointInRect(mouseLoc, [parentWindow convertRectToScreen:[(NSView*)[[self gameViewController] view] frame]])) return;
     
-    if(self.alphaValue==0.0)
+    if(!NSPointInRect(mouseLoc, [parentWindow convertRectToScreen:[[[self gameViewController] view] frame]])) return;
+    
+    if([self alphaValue] == 0.0)
     {
         [lastMouseMovement release];
-        lastMouseMovement = [[NSDate date] retain];       
+        lastMouseMovement = [[NSDate date] retain];
         [self show];
     }
     
@@ -109,15 +134,15 @@
     [lastMouseMovementDate retain];
     [lastMouseMovement release];
     
-    lastMouseMovement = lastMouseMovementDate;    
+    lastMouseMovement = lastMouseMovementDate;
 }
 
-- (void)timerDidFire:(NSTimer*)timer
+- (void)timerDidFire:(NSTimer *)timer
 {
     NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:UDHUDFadeOutDelayKey];
     NSDate *hideDate = [lastMouseMovement dateByAddingTimeInterval:interval];
     
-    if(([NSDate timeIntervalSinceReferenceDate]-[hideDate timeIntervalSinceReferenceDate]) >= 0.0)
+    if([hideDate timeIntervalSinceNow] <= 0.0)
     {
         if([self canFadeOut])
         {
@@ -126,39 +151,42 @@
             fadeTimer = nil;
             
             [self hide];
-        } 
-        else 
+        }
+        else
         {
             NSTimeInterval interval = [[NSUserDefaults standardUserDefaults] doubleForKey:UDHUDFadeOutDelayKey];
             NSDate *nextTime = [NSDate dateWithTimeIntervalSinceNow:interval];
             
             [fadeTimer setFireDate:nextTime];
-        }       
-    } 
-    else {
-        [fadeTimer setFireDate:hideDate];
+        }
     }
+    else [fadeTimer setFireDate:hideDate];
 }
+
 - (NSRect)bounds
 {
     NSRect bounds = [self frame];
     bounds.origin = NSMakePoint(0, 0);
     return bounds;
 }
+
 - (BOOL)canFadeOut
 {
-    return openMenus==0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);    
+    return openMenus==0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
 }
+
 #pragma mark -
+
 - (void)muteAction:(id)sender
 {
-    id slider = [(OEHUDControlsBarView*)[[[self contentView] subviews] lastObject] slider];
+    id slider = [(OEHUDControlsBarView *)[[[self contentView] subviews] lastObject] slider];
     [slider setFloatValue:0.0];
     [[self gameViewController] setVolume:0.0];
 }
+
 - (void)unmuteAction:(id)sender
 {
-    id slider = [(OEHUDControlsBarView*)[[[self contentView] subviews] lastObject] slider];
+    id slider = [(OEHUDControlsBarView *)[[[self contentView] subviews] lastObject] slider];
     [slider setFloatValue:1.0];
     [[self gameViewController] setVolume:1.0];
 }
@@ -175,8 +203,7 @@
 
 - (void)stopAction:(id)sender
 {
-    if([self gameViewController])
-        [[self gameViewController] terminateEmulation];
+    [[self gameViewController] terminateEmulation];
 }
 
 - (void)fullscreenAction:(id)sender
@@ -189,7 +216,8 @@
     [[self gameViewController] setVolume:[sender floatValue]];
 }
 
-- (void)optionsAction:(id)sender{
+- (void)optionsAction:(id)sender
+{
     NSMenu *menu = [[NSMenu alloc] init];
     
     NSMenuItem *item;
@@ -205,24 +233,23 @@
     // These filters are loaded and run by GL, and do not rely on QTZs
     NSArray *filterNames = [filterPlugins arrayByAddingObjectsFromArray:OEOpenGLFilterNameArray];
     
-                               
     NSString *selectedFilter = [[NSUserDefaults standardUserDefaults] objectForKey:UDVideoFilterKey];
-    for(NSString *aName in filterNames){
+    for(NSString *aName in filterNames)
+    {
         NSMenuItem *filterItem = [[NSMenuItem alloc] initWithTitle:aName action:@selector(optionsActionSelectFilter:) keyEquivalent:@""];
         [filterItem setTarget:self];
-        if([aName isEqualToString:selectedFilter]){
-            [filterItem setState:NSOnState];
-        }        
+        
+        if([aName isEqualToString:selectedFilter]) [filterItem setState:NSOnState];
+        
         [filterMenu addItem:filterItem];
         [filterItem release];
     }
-    
     
     item = [[NSMenuItem alloc] init];
     item.title = NSLocalizedString(@"Select Filter", @"");
     [menu addItem:item];
     [item setSubmenu:filterMenu];
-    [item release];    
+    [item release];
     [filterMenu release];
     
     item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Core Settings", @"") action:@selector(optionsActionCorePreferences:) keyEquivalent:@""];
@@ -239,14 +266,20 @@
     [oemenu openOnEdge:NSMinYEdge atPoint:menuPoint ofWindow:self];
     [menu release];
 }
+
 - (void)optionsActionEditControls:(id)sender{}
-- (void)optionsActionSelectFilter:(id)sender{
+
+- (void)optionsActionSelectFilter:(id)sender
+{
     NSString *selectedFilter = [sender title];
     [[NSUserDefaults standardUserDefaults] setObject:selectedFilter forKey:UDVideoFilterKey];
 }
-- (void)optionsActionCorePreferences:(id)sender{}
+
+- (void)optionsActionCorePreferences:(id)sender {}
+
 #pragma mark -
 #pragma mark Save States
+
 - (void)saveAction:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
@@ -257,17 +290,16 @@
     [menu addItem:item];
     [item release];
     
-    NSArray *saveStates;
-    if([[self gameViewController] rom] && (saveStates=[[[self gameViewController] rom] saveStatesByTimestampAscending:YES]) && [saveStates count])
+    NSArray *saveStates = nil;
+    if([[self gameViewController] rom] != nil && (saveStates = [[[self gameViewController] rom] saveStatesByTimestampAscending:YES]) && [saveStates count] != 0)
     {
         [menu addItem:[NSMenuItem separatorItem]];
         for(id saveState in saveStates)
         {
             NSString *itemTitle = [saveState valueForKey:@"userDescription"];
             if(!itemTitle || [itemTitle isEqualToString:@""])
-            {
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timestamp"]];
-            }
+            
             if([[NSUserDefaults standardUserDefaults] boolForKey:OEHUDCanDeleteStateKey])
             {
                 OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
@@ -281,13 +313,13 @@
                 [menu addItem:oeitem];
                 [oeitem release];
             }
-            else 
+            else
             {
                 item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
                 [item setTarget:self];
                 [item setRepresentedObject:saveState];
                 [menu addItem:item];
-                [item release];                
+                [item release];
             }
         }
     }
@@ -302,6 +334,7 @@
 
     [menu release];
 }
+
 - (void)doLoadState:(id)stateItem
 {
     [[self gameViewController] loadState:[stateItem representedObject]];
@@ -318,16 +351,20 @@
 {
     [[self gameViewController] saveStateAskingUserForName:nil];
 }
+
 #pragma mark -
 #pragma mark OEMenuDelegate Implementation
+
 - (void)menuDidShow:(OEMenu *)men
 {
-    openMenus ++;
+    openMenus++;
 }
+
 - (void)menuDidHide:(OEMenu *)men
 {
-    openMenus --;
+    openMenus--;
 }
+
 @end
 
 @implementation OEHUDControlsBarView
@@ -336,7 +373,7 @@
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
-    if (self != [OEHUDControlsBarView class])
+    if(self != [OEHUDControlsBarView class])
         return;
 
     NSImage *spriteSheet = [NSImage imageNamed:@"hud_glyphs"];
@@ -356,7 +393,6 @@
     [volume setName:@"hud_volume_down" forSubimageInRect:NSMakeRect(0, 0, 13, volume.size.height)];
     [volume setName:@"hud_volume_up" forSubimageInRect:NSMakeRect(13, 0, 15, volume.size.height)];
     
-    
     NSImage *power = [NSImage imageNamed:@"hud_power_glyph"];
     [power setName:@"hud_power_glyph_normal" forSubimageInRect:(NSRect){{power.size.width/2,0}, {power.size.width/2, power.size.height}}];
     [power setName:@"hud_power_glyph_pressed" forSubimageInRect:(NSRect){{0,0}, {power.size.width/2, power.size.height}}];
@@ -364,17 +400,12 @@
 
 - (id)initWithFrame:(NSRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self) 
+    if((self = [super initWithFrame:frame]))
     {
         [self setWantsLayer:YES];
     }
+    
     return self;
-}
-
-- (void)dealloc
-{    
-    [super dealloc];
 }
 
 - (void)awakeFromNib
@@ -408,7 +439,6 @@
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:stopButton];
     [stopButton release];
-    
     
     OEImageButton *pauseButton = [[OEImageButton alloc] init];
     OEImageButtonHoverSelectable *cell = [[OEImageButtonHoverSelectable alloc] init];
@@ -449,7 +479,7 @@
     
     BOOL hideOptions = [[NSUserDefaults standardUserDefaults] boolForKey:UDHUDHideOptionsKey];
     if(!hideOptions)
-    {       
+    {
         OEImageButton *optionsButton = [[OEImageButton alloc] init];
         hcell = [[OEImageButtonHoverPressed alloc] init];
         [optionsButton setCell:hcell];
@@ -461,7 +491,7 @@
         [optionsButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
         [self addSubview:optionsButton];
         [optionsButton release];
-    }    
+    }
     
     NSButton *volumeDownView = [[NSButton alloc] initWithFrame:NSMakeRect(223+(hideOptions?0:50), 17, 13, 14)];
     [volumeDownView setBordered:NO];
@@ -514,4 +544,5 @@
     [fsButton release];
     [fsButton setTitle:@""];
 }
+
 @end
