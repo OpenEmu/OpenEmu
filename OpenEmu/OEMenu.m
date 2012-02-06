@@ -770,6 +770,7 @@
         [grad drawInRect:backgroundRect angle:90];
         
         [lightMenuBodyImage drawInRect:edgeTargetRect fromRect:edgeSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        [[NSGraphicsContext currentContext] setCompositingOperation:NSCompositeCopy];
 
         
         // top left
