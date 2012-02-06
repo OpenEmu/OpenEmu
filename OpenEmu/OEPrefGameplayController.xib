@@ -166,7 +166,6 @@
 						<string key="NSFrame">{{42, 22}, {305, 18}}</string>
 						<reference key="NSSuperview" ref="450679658"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="255100288">
 							<int key="NSCellFlags">-2080244224</int>
@@ -233,7 +232,7 @@
 						<object class="NSTextFieldCell" key="NSCell" id="946475770">
 							<int key="NSCellFlags">68288064</int>
 							<int key="NSCellFlags2">272630784</int>
-							<string key="NSContents">Visual Effects</string>
+							<string key="NSContents">Display Mode</string>
 							<reference key="NSSupport" ref="496331748"/>
 							<reference key="NSControlView" ref="131891071"/>
 							<reference key="NSBackgroundColor" ref="142873849"/>
