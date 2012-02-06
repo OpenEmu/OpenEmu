@@ -35,18 +35,18 @@
 
     OEControlsSetupView *view = (OEControlsSetupView *)[self view];
     
-	[view addButtonWithName:@"OEGBButtonUp" label:@"Up:" target:self highlightPoint:NSMakePoint(58, 165)];
-	[view addButtonWithName:@"OEGBButtonDown" label:@"Down:" target:self highlightPoint:NSMakePoint(58, 127)];
-	[view addButtonWithName:@"OEGBButtonLeft" label:@"Left:" target:self highlightPoint:NSMakePoint(36, 146)];
-	[view addButtonWithName:@"OEGBButtonRight" label:@"Right:" target:self highlightPoint:NSMakePoint(77, 147)];
+	[view addButtonWithName:@"OEGBButtonUp" label:@"Up:" target:self highlightPoint:NSMakePoint(58+170, 165+7)];
+	[view addButtonWithName:@"OEGBButtonDown" label:@"Down:" target:self highlightPoint:NSMakePoint(58+170, 127+7)];
+	[view addButtonWithName:@"OEGBButtonLeft" label:@"Left:" target:self highlightPoint:NSMakePoint(36+170, 146+7)];
+	[view addButtonWithName:@"OEGBButtonRight" label:@"Right:" target:self highlightPoint:NSMakePoint(77+170, 147+7)];
     [view nextColumn];
 
-	[view addButtonWithName:@"OEGBButtonStart" label:@"Start:" target:self highlightPoint:NSMakePoint(138, 87)];
-	[view addButtonWithName:@"OEGBButtonSelect" label:@"Select:" target:self highlightPoint:NSMakePoint(97, 87)];
+	[view addButtonWithName:@"OEGBButtonStart" label:@"Start:" target:self highlightPoint:NSMakePoint(138+170, 87+7)];
+	[view addButtonWithName:@"OEGBButtonSelect" label:@"Select:" target:self highlightPoint:NSMakePoint(97+170, 87+7)];
 	[view nextColumn];
 	
-	[view addButtonWithName:@"OEGBButtonA" label:@"A:" target:self highlightPoint:NSMakePoint(220, 159)];
-	[view addButtonWithName:@"OEGBButtonB" label:@"B:" target:self highlightPoint:NSMakePoint(180, 142)];
+	[view addButtonWithName:@"OEGBButtonA" label:@"A:" target:self highlightPoint:NSMakePoint(220+170, 159+7)];
+	[view addButtonWithName:@"OEGBButtonB" label:@"B:" target:self highlightPoint:NSMakePoint(180+170, 142+7)];
 	
 	[view updateButtons];
 }
