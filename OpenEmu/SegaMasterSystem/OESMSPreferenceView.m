@@ -51,15 +51,15 @@
     [super awakeFromNib];
 
     OEControlsSetupView *view = (OEControlsSetupView *)[self view];
-
-	[view addButtonWithName:@"OESMSButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(113, 144)];
-	[view addButtonWithName:@"OESMSButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(113, 59)];
-	[view addButtonWithName:@"OESMSButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(75, 106)];
-	[view addButtonWithName:@"OESMSButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(152, 106)];
+    
+	[view addButtonWithName:@"OESMSButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(195, 176)];
+	[view addButtonWithName:@"OESMSButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(195, 93)];
+	[view addButtonWithName:@"OESMSButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(157, 138)];
+	[view addButtonWithName:@"OESMSButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(234, 138)];
     [view nextColumn];
     
-	[view addButtonWithName:@"OESMSButtonA[@]" label:@"Button 1 /Start:" target:self highlightPoint:NSMakePoint(301, 82)];
-	[view addButtonWithName:@"OESMSButtonB[@]" label:@"Button 2:" target:self highlightPoint:NSMakePoint(371, 82)];
+	[view addButtonWithName:@"OESMSButtonA[@]" label:@"Button 1 /Start:" target:self highlightPoint:NSMakePoint(383, 114)];
+	[view addButtonWithName:@"OESMSButtonB[@]" label:@"Button 2:" target:self highlightPoint:NSMakePoint(453, 114)];
 	[view addRowSeperator];
 
 	[view addButtonWithName:@"OESMSButtonStart" label:@"Console Pause" target:self];
@@ -85,8 +85,16 @@
     return;
 }
 
-- (NSImage*)controllerImage{
+- (NSImage*)controllerImage
+{
 	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_sms.png"];
 	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
+
+- (NSImage*)controllerImageMask
+{
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_sms_mask.png"];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+    
 }
 @end
