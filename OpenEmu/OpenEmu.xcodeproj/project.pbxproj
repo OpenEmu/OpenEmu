@@ -429,6 +429,8 @@
 		83F4DE1D14E00C9800A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */; };
 		83F4DE1F14E00ED100A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */; };
 		83F4DE2014E00EE600A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */; };
+		83F4DE2214E00F8800A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */; };
+		83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */; };
 		83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F688BF13C6433600AA0F83 /* OEGridScrollView.m */; };
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
 		83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
@@ -1320,6 +1322,7 @@
 		83F4DE1814E0096500A82E36 /* controller_nes_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nes_mask.png; sourceTree = "<group>"; };
 		83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
 		83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
+		83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
 		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
 		83F688BF13C6433600AA0F83 /* OEGridScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridScrollView.m; sourceTree = "<group>"; };
 		83FA054D13B9DF940055A520 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = SOURCE_ROOT; };
@@ -2482,6 +2485,7 @@
 		820EB74D1483F9D3008EC398 /* NeoGeoPocket */ = {
 			isa = PBXGroup;
 			children = (
+				83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */,
 				820EB74E1483F9D3008EC398 /* controller_sms.png */,
 				820EB7501483F9D3008EC398 /* InfoPlist.strings */,
 				820EB7521483F9D3008EC398 /* OENGPPreferenceView.h */,
@@ -3435,6 +3439,7 @@
 			files = (
 				82C2909214840028007C0214 /* InfoPlist.strings in Resources */,
 				82C290931484002F007C0214 /* controller_sms.png in Resources */,
+				83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */,
 				82C290B8148409EB007C0214 /* ControlsPreference.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3615,6 +3620,7 @@
 				83F4DE1914E0096500A82E36 /* controller_nes_mask.png in Resources */,
 				83F4DE1C14E00C8600A82E36 /* controller_sms_mask.png in Resources */,
 				83F4DE1F14E00ED100A82E36 /* controller_sms_mask.png in Resources */,
+				83F4DE2214E00F8800A82E36 /* controller_sms_mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

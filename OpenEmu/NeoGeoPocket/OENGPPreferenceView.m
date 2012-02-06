@@ -52,17 +52,17 @@
 
     OEControlsSetupView *view = (OEControlsSetupView *)[self view];
 
-	[view addButtonWithName:@"OENGPButtonUp" label:@"Up:" target:self highlightPoint:NSMakePoint(113, 144)];
-	[view addButtonWithName:@"OENGPButtonDown" label:@"Down:" target:self highlightPoint:NSMakePoint(113, 59)];
-	[view addButtonWithName:@"OENGPButtonLeft" label:@"Left:" target:self highlightPoint:NSMakePoint(75, 106)];
-	[view addButtonWithName:@"OENGPButtonRight" label:@"Right:" target:self highlightPoint:NSMakePoint(152, 106)];
+	[view addButtonWithName:@"OENGPButtonUp" label:@"Up:" target:self highlightPoint:NSMakePoint(195, 176)];
+	[view addButtonWithName:@"OENGPButtonDown" label:@"Down:" target:self highlightPoint:NSMakePoint(195, 93)];
+	[view addButtonWithName:@"OENGPButtonLeft" label:@"Left:" target:self highlightPoint:NSMakePoint(157, 138)];
+	[view addButtonWithName:@"OENGPButtonRight" label:@"Right:" target:self highlightPoint:NSMakePoint(234, 138)];
     [view nextColumn];
     
-	[view addButtonWithName:@"OENGPButtonA" label:@"A:" target:self highlightPoint:NSMakePoint(301, 82)];
-	[view addButtonWithName:@"OENGPButtonB" label:@"B:" target:self highlightPoint:NSMakePoint(371, 82)];
+	[view addButtonWithName:@"OENGPButtonA" label:@"A:" target:self highlightPoint:NSMakePoint(383, 114)];
+	[view addButtonWithName:@"OENGPButtonB" label:@"B:" target:self highlightPoint:NSMakePoint(453, 114)];
 
     [view nextColumn];
-
+    
 	[view addButtonWithName:@"OENGPButtonReset" label:@"Reset" target:self];
     //	[view addButtonWithName:@"OENGPButtonReset" label:@"Console Reset" target:self];
     
@@ -71,8 +71,15 @@
     return;
 }
 
-- (NSImage*)controllerImage{
+- (NSImage*)controllerImage
+{
 	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_sms.png"];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
+
+- (NSImage*)controllerImageMask
+{
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_sms_mask.png"];
 	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 }
 @end
