@@ -39,6 +39,8 @@
 #import "NSControl+OEAdditions.h"
 #import "NSWindow+OECustomWindow.h"
 
+#import "OEInputLimitFormatter.h"
+
 @interface OEAlertWindow : NSWindow <OECustomWindow>
 @end
 @interface OEHUDAlert (Private)
@@ -56,8 +58,8 @@
 @synthesize messageTextView=_messageTextView, headlineLabelField=_headlineLabelField;
 @synthesize suppressionButton=_suppressionButton;
 @synthesize inputField=_inputField, inputLabelField=_inputLabelField;
+@dynamic inputLimit;
 @synthesize boxView=_boxView;
-
 @synthesize window;
 #pragma mark -
 - (void)show{
@@ -87,10 +89,9 @@
     alert.defaultButtonTitle = NSLocalizedString(@"Save Game", @"");
     alert.alternateButtonTitle = NSLocalizedString(@"Do Not Save", @"");
     alert.headlineLabelText = NSLocalizedString(@"Would you like to save your game before you quit?", @"");
-    [alert setHeight:200.0];
-    
+
     [alert showSuppressionButtonForUDKey:UDSaveGameWhenQuitAlertSuppressionKey];
-    
+
     return [alert autorelease];
 }
 
@@ -102,9 +103,17 @@
     [alert setDefaultButtonTitle:NSLocalizedString(@"Save Game", @"")];
     [alert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     [alert setShowsInputField:YES];
+    
+    
+    NSInteger maxiumumSaveGameLength = [[NSUserDefaults standardUserDefaults] integerForKey:UDMaxSaveGameNameLengthKey];
+    if([name length]>maxiumumSaveGameLength)
+    {
+        name = [name substringToIndex:maxiumumSaveGameLength];
+    }
     [alert setStringValue:name];
     [alert setHeight:112.0];    
     [alert setWidth:372.0];
+    [alert setInputLimit:40];
     
     [alert showSuppressionButtonForUDKey:UDSaveGameAlertSuppressionKey];
     [alert setSuppressionLabelText:NSLocalizedString(@"Don't ask again", @"")];
@@ -498,6 +507,32 @@
     return [[self inputLabelField] stringValue];
 }
 
+- (int)inputLimit
+{
+    if([[self inputField] formatter] && [[[self inputField] formatter] isKindOfClass:[OEInputLimitFormatter class]])
+    {
+        return [[[self inputField] formatter] limit];
+    }
+    return 0;
+}
+- (void)setInputLimit:(int)inputLimit
+{
+    BOOL limitFormatterSet = ([[self inputField] formatter] && [[[self inputField] formatter] isKindOfClass:[OEInputLimitFormatter class]]);
+    if(inputLimit == 0 && limitFormatterSet)
+    {
+        [[self inputField] setFormatter:nil];
+    }
+    else if(limitFormatterSet)
+    {
+        [[[self inputField] formatter] setLimit:inputLimit];
+    }
+    else 
+    {
+        OEInputLimitFormatter* formatter = [[OEInputLimitFormatter alloc] initWithLimit:inputLimit];
+        [[self inputField] setFormatter:formatter];
+        [formatter release];
+    }
+}
 #pragma mark -
 #pragma mark Private Methods
 - (void)_setupWindow

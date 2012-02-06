@@ -69,6 +69,7 @@ typedef void (^OEAlertCompletionHandler)(OEHUDAlert *alert, NSUInteger result);
 #pragma mark Input Field
 @property (readonly, retain) NSTextField *inputField,  *inputLabelField;
 @property BOOL showsInputField;
+@property int inputLimit;
 
 #pragma mark -
 #pragma mark Progress Bar
