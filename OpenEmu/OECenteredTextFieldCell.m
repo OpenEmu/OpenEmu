@@ -41,8 +41,7 @@
 
 - (id)initImageCell:(NSImage *)image
 {
-    self = [super initImageCell:image];
-    if((self = [super initImageCell:image]))
+    if(self = [super initImageCell:image])
     {
         [self setWidthInset:3];
     }
