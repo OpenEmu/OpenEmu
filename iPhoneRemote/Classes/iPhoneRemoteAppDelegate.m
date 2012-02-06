@@ -83,12 +83,6 @@
 }
 
 
-- (void)dealloc {
-	[bonjourBrowser release];
-    [navController release];
-    [window release];
-    [super dealloc];
-}
 
 - (void) browserViewController:(BrowserViewController *)bvc didResolveInstance:(NSNetService *)ref
 {
@@ -109,7 +103,6 @@
 	
 	iPhoneRemoteViewController *vc = [[iPhoneRemoteViewController alloc] initWithAddress:ipString port:port];
 	[navController pushViewController:vc animated:YES];
-	[vc release];
 }
 
 @end

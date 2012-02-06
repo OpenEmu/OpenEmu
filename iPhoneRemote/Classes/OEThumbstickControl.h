@@ -40,9 +40,9 @@ enum OEThumbstickEvents
 	NSInteger lrDir;
 	NSInteger udDir;
 	
-	id <OEThumbstickControlDelegate> delegate;
+	id <OEThumbstickControlDelegate> __unsafe_unretained delegate;
 	CALayer * nub;
 }
 
-@property (nonatomic, assign) id delegate;
+@property (nonatomic, unsafe_unretained) id delegate;
 @end
