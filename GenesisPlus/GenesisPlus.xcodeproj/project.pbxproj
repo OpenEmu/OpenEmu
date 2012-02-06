@@ -286,7 +286,7 @@
 		94ED8A2714CF933700FF8901 /* xe_a1p.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = xe_a1p.h; sourceTree = "<group>"; };
 		94ED8A2814CF933700FF8901 /* io_ctrl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = io_ctrl.c; sourceTree = "<group>"; };
 		94ED8A2914CF933700FF8901 /* io_ctrl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = io_ctrl.h; sourceTree = "<group>"; };
-		94ED8A2A14CF933700FF8901 /* loadrom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = loadrom.c; sourceTree = "<group>"; };
+		94ED8A2A14CF933700FF8901 /* loadrom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; lineEnding = 2; path = loadrom.c; sourceTree = "<group>"; };
 		94ED8A2B14CF933700FF8901 /* loadrom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = loadrom.h; sourceTree = "<group>"; };
 		94ED8A2D14CF933700FF8901 /* m68k.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68k.h; sourceTree = "<group>"; };
 		94ED8A2E14CF933700FF8901 /* m68kconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = m68kconf.h; sourceTree = "<group>"; };

@@ -49,6 +49,8 @@
 #define SK_ROM        "/genplus/sk.bin"
 #define SK_UPMEM      "/genplus/sk2chip.bin"
 
+void openemu_input_UpdateEmu();
+
 #define osd_input_Update() openemu_input_UpdateEmu()
 
 #endif /* _VDP_H_ */

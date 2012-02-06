@@ -22,6 +22,7 @@
  ****************************************************************************************/
 
 #include <ctype.h>
+#include <strings.h>
 #include "shared.h"
 
 /*** ROM Information ***/
