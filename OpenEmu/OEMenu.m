@@ -36,7 +36,7 @@
 
 - (void)setIsAlternate:(BOOL)flag;
 - (CAAnimation*)alphaValueAnimation;
-- (void)setAplhaValueAnimation:(CAAnimation *)anim;
+- (void)setAlphaValueAnimation:(CAAnimation *)anim;
 @end
 
 @implementation OEMenu
@@ -90,7 +90,7 @@
         
         CAAnimation *anim = [self alphaValueAnimation];
         [anim setDuration:0.075];
-        [self setAplhaValueAnimation:anim];
+        [self setAlphaValueAnimation:anim];
     }
     
     return self;
@@ -286,7 +286,7 @@
     return [[self animator] animationForKey:@"alphaValue"];
 }
 
-- (void)setAplhaValueAnimation:(CAAnimation*)anim
+- (void)setAlphaValueAnimation:(CAAnimation*)anim
 {
     [[self animator] setAnimations:[NSDictionary dictionaryWithObject:anim forKey:@"alphaValue"]];
 }
@@ -342,10 +342,9 @@
     }
 }
 
-- (OEMenu *)submenu { return submenu; }
-- (void)setSubmenu:(OEMenu *)value
+- (void)setSubmenu:(OEMenu *)_submenu
 {
-    if(submenu != value)
+    if(submenu)
     {
         [submenu closeMenuWithoutChanges:nil];
     }
@@ -354,27 +353,25 @@
     {
         [[self menuView] updateAndDisplay:NO];
         
-        if(value != nil)
-        {
-            [[self menuView] update];
-            
-            NSRect selectedItemRect = [[self menuView] rectOfItem:self.highlightedItem];
-            NSPoint submenuSpawnPoint = [self frame].origin;
-            
-            submenuSpawnPoint.x += [self frame].size.width;
-            submenuSpawnPoint.x -= 9;
-            
-            
-            submenuSpawnPoint.y = 8 - selectedItemRect.origin.y + [self frame].origin.y -value.frame.size.height + [self frame].size.height;
-            
-            value.popupButton = self.popupButton;
-            value.supermenu = self;
-            [value openAtPoint:submenuSpawnPoint ofWindow:self];
-        }
+        NSRect selectedItemRect = [[self menuView] rectOfItem:self.highlightedItem];
+        NSPoint submenuSpawnPoint = [self frame].origin;
         
-        [submenu release];
-        submenu = [value retain];
+        submenuSpawnPoint.x += [self frame].size.width;
+        submenuSpawnPoint.x -= 9;
+        
+        if(![self supermenu] && [self style]==OEMenuStyleLight)
+            submenuSpawnPoint.x -= 8;
+        
+        submenuSpawnPoint.y = 8 - selectedItemRect.origin.y + [self frame].origin.y -_submenu.frame.size.height + [self frame].size.height;
+        
+        _submenu.popupButton = self.popupButton;
+        _submenu.supermenu = self;
+        [_submenu openAtPoint:submenuSpawnPoint ofWindow:self];
     }
+    
+    [_submenu retain];
+    [submenu release];
+    submenu = _submenu;
 }
 
 - (OEMenu*)submenu
@@ -419,7 +416,7 @@
 {
     CAAnimation *anim = [self alphaValueAnimation];
     anim.delegate = self;
-    [self setAplhaValueAnimation:anim];
+    [self setAlphaValueAnimation:anim];
     
     // fade menu window out 
     [[self animator] setAlphaValue:0.0];
@@ -1101,7 +1098,6 @@
 - (NSMenuItem *)itemAtPoint:(NSPoint)p
 {
     if(p.x <= MenuShadowLeft || p.x >= [self bounds].size.width-MenuShadowRight)
-    {
         return nil;
     if(p.y <= menuItemSpacingTop || p.y >= [self bounds].size.height-menuItemSpacingBottom)
         return nil;
