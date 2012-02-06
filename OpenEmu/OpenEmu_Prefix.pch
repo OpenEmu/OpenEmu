@@ -113,6 +113,9 @@
 #define UDLastPopoutFrameKey        @"lastPopoutFrame"
 #define UDLastCollectionSelectedKey @"lastCollectionSelected"
 
+// Debug Preferences
+#define UDDebugDrawControllerMaskKey @"drawControllerMask"
+
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Default installed, non QTZ based filters names, used to identify filters 
 //  (see OEHudControlsBar.m, OEPrefGameplayController.m and OEGameLayer.m)

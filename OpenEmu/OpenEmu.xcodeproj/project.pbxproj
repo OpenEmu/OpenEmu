@@ -421,6 +421,10 @@
 		83F37157140BB1A6005A7353 /* Genesis.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */; };
 		83F37158140BB1A6005A7353 /* GameBoy Advance.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */; };
 		83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */; };
+		83F4DE1614E004ED00A82E36 /* controller_fc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */; };
+		83F4DE1714E005DB00A82E36 /* controller_fc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */; };
+		83F4DE1914E0096500A82E36 /* controller_nes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1814E0096500A82E36 /* controller_nes_mask.png */; };
+		83F4DE1A14E0096F00A82E36 /* controller_nes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1814E0096500A82E36 /* controller_nes_mask.png */; };
 		83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F688BF13C6433600AA0F83 /* OEGridScrollView.m */; };
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
 		83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
@@ -1308,6 +1312,8 @@
 		83F298891458B6DC00ECB4F4 /* OESetupAssistantScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantScrollView.m; sourceTree = "<group>"; };
 		83F4DE1114DFF9C200A82E36 /* OEInputLimitFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEInputLimitFormatter.h; sourceTree = "<group>"; };
 		83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEInputLimitFormatter.m; sourceTree = "<group>"; };
+		83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc_mask.png; sourceTree = "<group>"; };
+		83F4DE1814E0096500A82E36 /* controller_nes_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nes_mask.png; sourceTree = "<group>"; };
 		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
 		83F688BF13C6433600AA0F83 /* OEGridScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridScrollView.m; sourceTree = "<group>"; };
 		83FA054D13B9DF940055A520 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = SOURCE_ROOT; };
@@ -2877,7 +2883,9 @@
 			isa = PBXGroup;
 			children = (
 				83977F691408FE8E00175858 /* controller_fc.png */,
+				83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */,
 				83977F6A1408FE8E00175858 /* controller_nes.png */,
+				83F4DE1814E0096500A82E36 /* controller_nes_mask.png */,
 				C64BB091136478E600C1AB23 /* NES-Info.plist */,
 				C64BB092136478E600C1AB23 /* InfoPlist.strings */,
 				C64BB095136478E600C1AB23 /* NES-Prefix.pch */,
@@ -3594,6 +3602,8 @@
 				83B5FF4F14DF065300017A71 /* tick_mark.png in Resources */,
 				83B5FF5814DF38B000017A71 /* light_arrows_menu_body.png in Resources */,
 				83B5FF5A14DF5E0B00017A71 /* light_arrows_menu_body_mask.png in Resources */,
+				83F4DE1614E004ED00A82E36 /* controller_fc_mask.png in Resources */,
+				83F4DE1914E0096500A82E36 /* controller_nes_mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3629,6 +3639,8 @@
 				C64BB0B8136483A700C1AB23 /* ControlsPreference.xib in Resources */,
 				83977F6B1408FE8E00175858 /* controller_fc.png in Resources */,
 				83977F6C1408FE8E00175858 /* controller_nes.png in Resources */,
+				83F4DE1714E005DB00A82E36 /* controller_fc_mask.png in Resources */,
+				83F4DE1A14E0096F00A82E36 /* controller_nes_mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -281,14 +281,10 @@
 #pragma mark Interaction
 - (void)menuMouseDragged:(NSEvent *)theEvent
 {
-    NSLog(@"menu mouseDragged");
-
     [[self menuView] mouseDragged:theEvent];
 }
 - (void)menuMouseUp:(NSEvent*)theEvent
 {
-    NSLog(@"menu mouseUp");
-
     [[self menuView] mouseUp:theEvent];
 }
 
