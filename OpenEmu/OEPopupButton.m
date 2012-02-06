@@ -60,9 +60,18 @@
         location.x -= GapBetweenOpenMenuAndPopupButton+MenuContentBorder;
         
         [[self oemenu] openAtPoint:location ofWindow:win];
+        [[self window] makeFirstResponder:nil];
     }
 }
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+    [[self oemenu] menuMouseDragged:theEvent];
+}
 
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    [[self oemenu] menuMouseUp:theEvent];
+}
 #pragma mark -
 - (void)setMenu:(NSMenu *)menu{
     [super setMenu:menu];

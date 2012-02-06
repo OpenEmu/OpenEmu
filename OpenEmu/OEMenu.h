@@ -64,7 +64,8 @@ typedef enum _OEMenuStyle {
 - (void)closeMenuWithoutChanges:(id)sender;
 - (void)closeMenu;
 
-- (BOOL)menuKeyDown:(NSEvent *)theEvent;
+- (void)menuMouseDragged:(NSEvent *)theEvent;
+- (void)menuMouseUp:(NSEvent*)theEvent;
 #pragma mark - NSMenu wrapping
 - (NSArray *)itemArray;
 
@@ -111,6 +112,7 @@ typedef enum _OEMenuStyle {
 - (NSMenuItem *)itemAtPoint:(NSPoint)p;
 - (NSRect)rectOfItem:(NSMenuItem *)m;
 
+- (BOOL)menuKeyDown:(NSEvent *)theEvent;
 #pragma mark -
 #pragma mark TextAttributes
 - (NSDictionary *)itemTextAttributes;

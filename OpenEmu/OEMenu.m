@@ -277,6 +277,20 @@
     
     [[self menuView] updateAndDisplay:NO];
 }
+#pragma mark -
+#pragma mark Interaction
+- (void)menuMouseDragged:(NSEvent *)theEvent
+{
+    NSLog(@"menu mouseDragged");
+
+    [[self menuView] mouseDragged:theEvent];
+}
+- (void)menuMouseUp:(NSEvent*)theEvent
+{
+    NSLog(@"menu mouseUp");
+
+    [[self menuView] mouseUp:theEvent];
+}
 
 #pragma mark -
 #pragma mark Animation Stuff
@@ -993,7 +1007,7 @@
 {
     if([[self menu] _isClosing]) return;
     
-    NSPoint loc = [theEvent locationInWindow];
+    NSPoint loc = [theEvent window]==[self window]?[theEvent locationInWindow]:[[self window] convertScreenToBase:[[theEvent window] convertBaseToScreen:[theEvent locationInWindow]]];
     [self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
@@ -1001,7 +1015,7 @@
 {
     if([[self menu] _isClosing]) return;
     
-    NSPoint loc = [theEvent locationInWindow];
+    NSPoint loc = [theEvent window]==[self window]?[theEvent locationInWindow]:[[self window] convertScreenToBase:[[theEvent window] convertBaseToScreen:[theEvent locationInWindow]]];
     [self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
