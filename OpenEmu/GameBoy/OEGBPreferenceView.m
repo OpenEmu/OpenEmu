@@ -51,8 +51,15 @@
 	[view updateButtons];
 }
 
-- (NSImage*)controllerImage{
+- (NSImage*)controllerImage
+{
 	 NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_gb.png"];
+	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+}
+
+- (NSImage*)controllerImageMask
+{
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_gb_mask.png"];
 	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
 }
 @end
