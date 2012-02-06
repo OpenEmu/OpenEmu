@@ -327,20 +327,6 @@
 		82789B020E70D06700C01C82 /* nes_ntsc.inl in Resources */ = {isa = PBXBuildFile; fileRef = 82789AF40E70D06700C01C82 /* nes_ntsc.inl */; };
 		82789B030E70D06700C01C82 /* nes_ntsc.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82789AF50E70D06700C01C82 /* nes_ntsc.txt */; };
 		82789B040E70D06700C01C82 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82789AF80E70D06700C01C82 /* readme.txt */; };
-		82789B260E70D0B300C01C82 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B0D0E70D0B200C01C82 /* adler32.c */; };
-		82789B270E70D0B300C01C82 /* algorithm.txt in Resources */ = {isa = PBXBuildFile; fileRef = 82789B0E0E70D0B300C01C82 /* algorithm.txt */; };
-		82789B280E70D0B300C01C82 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B0F0E70D0B300C01C82 /* compress.c */; };
-		82789B290E70D0B300C01C82 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B100E70D0B300C01C82 /* crc32.c */; };
-		82789B2A0E70D0B300C01C82 /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B120E70D0B300C01C82 /* deflate.c */; };
-		82789B2B0E70D0B300C01C82 /* gzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B140E70D0B300C01C82 /* gzio.c */; };
-		82789B2C0E70D0B300C01C82 /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B150E70D0B300C01C82 /* infback.c */; };
-		82789B2D0E70D0B300C01C82 /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B160E70D0B300C01C82 /* inffast.c */; };
-		82789B2E0E70D0B300C01C82 /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B190E70D0B300C01C82 /* inflate.c */; };
-		82789B2F0E70D0B300C01C82 /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B1B0E70D0B300C01C82 /* inftrees.c */; };
-		82789B300E70D0B300C01C82 /* minigzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B1D0E70D0B300C01C82 /* minigzip.c */; };
-		82789B310E70D0B300C01C82 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B1E0E70D0B300C01C82 /* trees.c */; };
-		82789B320E70D0B300C01C82 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B200E70D0B300C01C82 /* uncompr.c */; };
-		82789B330E70D0B300C01C82 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 82789B240E70D0B300C01C82 /* zutil.c */; };
 		82789B710E70D27D00C01C82 /* NESGameEmu.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82789B700E70D27D00C01C82 /* NESGameEmu.mm */; };
 		82798BE60E85CC65001DCA93 /* OpenNestopia.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82798BE50E85CC65001DCA93 /* OpenNestopia.icns */; };
 		82C5EDE70F0C4CE70019E2DC /* NstApiRam.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 82C5EDE60F0C4CE70019E2DC /* NstApiRam.cpp */; };
@@ -504,6 +490,7 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* Nestopia_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Nestopia_Prefix.pch; sourceTree = "<group>"; };
+		3D6030E914DF715100E9AF58 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		82444BC40F512685007C171B /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
 		8249C9A50E89BA140027EFDF /* Menu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Menu.xib; sourceTree = "<group>"; };
 		8278976D0E70CFC900C01C82 /* NstApi.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = NstApi.hpp; sourceTree = "<group>"; };
@@ -1115,31 +1102,6 @@
 		82789AF60E70D06700C01C82 /* nes_ntsc_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nes_ntsc_config.h; sourceTree = "<group>"; };
 		82789AF70E70D06700C01C82 /* nes_ntsc_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nes_ntsc_impl.h; sourceTree = "<group>"; };
 		82789AF80E70D06700C01C82 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		82789B0D0E70D0B200C01C82 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
-		82789B0E0E70D0B300C01C82 /* algorithm.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = algorithm.txt; sourceTree = "<group>"; };
-		82789B0F0E70D0B300C01C82 /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = compress.c; sourceTree = "<group>"; };
-		82789B100E70D0B300C01C82 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
-		82789B110E70D0B300C01C82 /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc32.h; sourceTree = "<group>"; };
-		82789B120E70D0B300C01C82 /* deflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = deflate.c; sourceTree = "<group>"; };
-		82789B130E70D0B300C01C82 /* deflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = deflate.h; sourceTree = "<group>"; };
-		82789B140E70D0B300C01C82 /* gzio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzio.c; sourceTree = "<group>"; };
-		82789B150E70D0B300C01C82 /* infback.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = infback.c; sourceTree = "<group>"; };
-		82789B160E70D0B300C01C82 /* inffast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inffast.c; sourceTree = "<group>"; };
-		82789B170E70D0B300C01C82 /* inffast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffast.h; sourceTree = "<group>"; };
-		82789B180E70D0B300C01C82 /* inffixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffixed.h; sourceTree = "<group>"; };
-		82789B190E70D0B300C01C82 /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inflate.c; sourceTree = "<group>"; };
-		82789B1A0E70D0B300C01C82 /* inflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inflate.h; sourceTree = "<group>"; };
-		82789B1B0E70D0B300C01C82 /* inftrees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inftrees.c; sourceTree = "<group>"; };
-		82789B1C0E70D0B300C01C82 /* inftrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inftrees.h; sourceTree = "<group>"; };
-		82789B1D0E70D0B300C01C82 /* minigzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = minigzip.c; sourceTree = "<group>"; };
-		82789B1E0E70D0B300C01C82 /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trees.c; sourceTree = "<group>"; };
-		82789B1F0E70D0B300C01C82 /* trees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trees.h; sourceTree = "<group>"; };
-		82789B200E70D0B300C01C82 /* uncompr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uncompr.c; sourceTree = "<group>"; };
-		82789B210E70D0B300C01C82 /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zconf.h; sourceTree = "<group>"; };
-		82789B220E70D0B300C01C82 /* zconf.in.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zconf.in.h; sourceTree = "<group>"; };
-		82789B230E70D0B300C01C82 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
-		82789B240E70D0B300C01C82 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
-		82789B250E70D0B300C01C82 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
 		82789B6F0E70D27D00C01C82 /* NESGameEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NESGameEmu.h; sourceTree = "<group>"; };
 		82789B700E70D27D00C01C82 /* NESGameEmu.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NESGameEmu.mm; sourceTree = "<group>"; };
 		82798BE50E85CC65001DCA93 /* OpenNestopia.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OpenNestopia.icns; sourceTree = "<group>"; };
@@ -1190,6 +1152,7 @@
 		089C1671FE841209C02AAC07 /* Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				3D6030E914DF715100E9AF58 /* libz.dylib */,
 				1058C7ACFEA557BF11CA2CBB /* Linked Frameworks */,
 				1058C7AEFEA557BF11CA2CBB /* Other Frameworks */,
 			);
@@ -1951,42 +1914,9 @@
 			path = nes_ntsc;
 			sourceTree = "<group>";
 		};
-		82789B0C0E70D0B200C01C82 /* zlib */ = {
-			isa = PBXGroup;
-			children = (
-				82789B0D0E70D0B200C01C82 /* adler32.c */,
-				82789B0E0E70D0B300C01C82 /* algorithm.txt */,
-				82789B0F0E70D0B300C01C82 /* compress.c */,
-				82789B100E70D0B300C01C82 /* crc32.c */,
-				82789B110E70D0B300C01C82 /* crc32.h */,
-				82789B120E70D0B300C01C82 /* deflate.c */,
-				82789B130E70D0B300C01C82 /* deflate.h */,
-				82789B140E70D0B300C01C82 /* gzio.c */,
-				82789B150E70D0B300C01C82 /* infback.c */,
-				82789B160E70D0B300C01C82 /* inffast.c */,
-				82789B170E70D0B300C01C82 /* inffast.h */,
-				82789B180E70D0B300C01C82 /* inffixed.h */,
-				82789B190E70D0B300C01C82 /* inflate.c */,
-				82789B1A0E70D0B300C01C82 /* inflate.h */,
-				82789B1B0E70D0B300C01C82 /* inftrees.c */,
-				82789B1C0E70D0B300C01C82 /* inftrees.h */,
-				82789B1D0E70D0B300C01C82 /* minigzip.c */,
-				82789B1E0E70D0B300C01C82 /* trees.c */,
-				82789B1F0E70D0B300C01C82 /* trees.h */,
-				82789B200E70D0B300C01C82 /* uncompr.c */,
-				82789B210E70D0B300C01C82 /* zconf.h */,
-				82789B220E70D0B300C01C82 /* zconf.in.h */,
-				82789B230E70D0B300C01C82 /* zlib.h */,
-				82789B240E70D0B300C01C82 /* zutil.c */,
-				82789B250E70D0B300C01C82 /* zutil.h */,
-			);
-			path = zlib;
-			sourceTree = "<group>";
-		};
 		82789B400E70D10700C01C82 /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				82789B0C0E70D0B200C01C82 /* zlib */,
 				82789AED0E70D06600C01C82 /* nes_ntsc */,
 				827897680E70CFAF00C01C82 /* Core */,
 			);
@@ -2169,7 +2099,6 @@
 				82789B020E70D06700C01C82 /* nes_ntsc.inl in Resources */,
 				82789B030E70D06700C01C82 /* nes_ntsc.txt in Resources */,
 				82789B040E70D06700C01C82 /* readme.txt in Resources */,
-				82789B270E70D0B300C01C82 /* algorithm.txt in Resources */,
 				82798BE60E85CC65001DCA93 /* OpenNestopia.icns in Resources */,
 				8249C9A60E89BA140027EFDF /* Menu.xib in Resources */,
 				82C9CA720F0847310071460B /* dsa_pub.pem in Resources */,
@@ -2493,19 +2422,6 @@
 				82789AE40E70CFD100C01C82 /* NstVsSuperXevious.cpp in Sources */,
 				82789AE50E70CFD100C01C82 /* NstVsSystem.cpp in Sources */,
 				82789AE60E70CFD100C01C82 /* NstVsTkoBoxing.cpp in Sources */,
-				82789B260E70D0B300C01C82 /* adler32.c in Sources */,
-				82789B280E70D0B300C01C82 /* compress.c in Sources */,
-				82789B290E70D0B300C01C82 /* crc32.c in Sources */,
-				82789B2A0E70D0B300C01C82 /* deflate.c in Sources */,
-				82789B2B0E70D0B300C01C82 /* gzio.c in Sources */,
-				82789B2C0E70D0B300C01C82 /* infback.c in Sources */,
-				82789B2D0E70D0B300C01C82 /* inffast.c in Sources */,
-				82789B2E0E70D0B300C01C82 /* inflate.c in Sources */,
-				82789B2F0E70D0B300C01C82 /* inftrees.c in Sources */,
-				82789B300E70D0B300C01C82 /* minigzip.c in Sources */,
-				82789B310E70D0B300C01C82 /* trees.c in Sources */,
-				82789B320E70D0B300C01C82 /* uncompr.c in Sources */,
-				82789B330E70D0B300C01C82 /* zutil.c in Sources */,
 				82789B710E70D27D00C01C82 /* NESGameEmu.mm in Sources */,
 				82C5EDE70F0C4CE70019E2DC /* NstApiRam.cpp in Sources */,
 				82F3642F0F51FB4A001495F6 /* NESGameEmu+NESFeatures.mm in Sources */,
@@ -2552,6 +2468,7 @@
 				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Nestopia_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = NST_NO_ZLIB;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Application Support/OpenEmu/Cores";
@@ -2569,6 +2486,7 @@
 				EXPORTED_SYMBOLS_FILE = "";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Nestopia_Prefix.pch;
+				GCC_PREPROCESSOR_DEFINITIONS = NST_NO_ZLIB;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Application Support/OpenEmu/Cores";
