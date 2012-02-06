@@ -55,10 +55,10 @@
 }
 - (NSImage*)controllerImage{
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_gba.png"];
-	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+	return [[NSImage alloc] initWithContentsOfFile:path];
 }
 - (NSImage*)controllerImageMask{
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_gba_mask.png"];
-    return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+    return [[NSImage alloc] initWithContentsOfFile:path];
 }
 @end

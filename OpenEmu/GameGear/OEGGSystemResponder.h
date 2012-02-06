@@ -34,6 +34,6 @@ extern NSString *OEGGButtonNameTable[];
 
 @interface OEGGSystemResponder : OEBasicSystemResponder
 
-@property(nonatomic, assign) id<OEGGSystemResponderClient> client;
+@property(nonatomic, weak) id<OEGGSystemResponderClient> client;
 
 @end

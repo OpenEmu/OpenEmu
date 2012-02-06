@@ -2497,7 +2497,7 @@
 					"\"$(SRCROOT)/../OpenEmu\"/**",
 					"core/**",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
@@ -2522,7 +2522,7 @@
 					"\"$(SRCROOT)/../OpenEmu\"/**",
 					"core/**",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
 				VALID_ARCHS = x86_64;
 			};

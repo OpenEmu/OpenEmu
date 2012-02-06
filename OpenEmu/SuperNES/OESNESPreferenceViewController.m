@@ -68,11 +68,11 @@
     }
     
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:controllerImageName];
-    return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+    return [[NSImage alloc] initWithContentsOfFile:path];
 }
 
 - (NSImage*)controllerImageMask{
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_snes_mask.png"];
-    return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+    return [[NSImage alloc] initWithContentsOfFile:path];
 }
 @end
