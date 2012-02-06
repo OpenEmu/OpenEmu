@@ -148,7 +148,6 @@
 
 - (id)init
 {
-    [self release];
     return nil;
 }
 
@@ -165,7 +164,7 @@
 
 + (id)axisEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp axis:(OEHIDEventAxis)axis scaledValue:(CGFloat)value
 {
-    OEHIDEvent *ret = [[[self alloc] initWithPadNumber:padNumber timestamp:timestamp] autorelease];
+    OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
     ret->_type = OEHIDAxis;
     ret->_data.axis.axis = axis;
     
@@ -182,7 +181,7 @@
 
 + (id)buttonEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp buttonNumber:(NSUInteger)number state:(NSUInteger)state cookie:(NSUInteger)cookie
 {
-    OEHIDEvent *ret = [[[self alloc] initWithPadNumber:padNumber timestamp:timestamp] autorelease];
+    OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
     
     ret->_type = OEHIDButton;
     ret->_cookie = cookie;
@@ -194,7 +193,7 @@
 
 + (id)hatSwitchEventWithPadNumber:(NSUInteger)padNumber timestamp:(NSTimeInterval)timestamp position:(NSUInteger)position positionCount:(NSUInteger)count cookie:(NSUInteger)cookie
 {
-    OEHIDEvent *ret = [[[self alloc] initWithPadNumber:padNumber timestamp:timestamp] autorelease];
+    OEHIDEvent *ret = [[self alloc] initWithPadNumber:padNumber timestamp:timestamp];
     
     ret->_type = OEHIDHatSwitch;
     ret->_cookie = cookie;
@@ -206,7 +205,7 @@
 
 + (id)keyEventWithTimestamp:(NSTimeInterval)timestamp keyCode:(NSUInteger)keyCode state:(NSUInteger)state cookie:(NSUInteger)cookie
 {
-    OEHIDEvent *ret = [[[self alloc] initWithPadNumber:0 timestamp:timestamp] autorelease];
+    OEHIDEvent *ret = [[self alloc] initWithPadNumber:0 timestamp:timestamp];
     
     ret->_type = OEHIDKeypress;
     ret->_cookie = cookie;
@@ -218,7 +217,7 @@
 
 + (id)eventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue
 {
-    return [[[self alloc] initWithDeviceHandler:aDeviceHandler value:aValue] autorelease];
+    return [[self alloc] initWithDeviceHandler:aDeviceHandler value:aValue];
 }
 
 - (id)initWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue
@@ -228,7 +227,6 @@
     {
         if(![self OE_setupEventWithDeviceHandler:aDeviceHandler value:aValue])
         {
-            [self release];
             return nil;
         }
     }

@@ -41,25 +41,21 @@ static OELocalizationHelper *sharedHelper;
 
 + (OELocalizationHelper*)sharedHelper
 {
-	return sharedHelper ?: [[self new] autorelease];
+	return sharedHelper ?: [self new];
 }
 
 - (id)init
 {
 	if(sharedHelper)
 	{
-		[self release];
 	}
-	else if((self = sharedHelper = [[super init] retain]))
+	else if((self = sharedHelper = [super init]))
 	{
 		[self _updateRegion];
 	}
 	return sharedHelper;
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 #pragma mark -
 - (BOOL)isRegionNA{

@@ -33,7 +33,7 @@
 
 @interface OESystemController ()
 
-@property(readonly) NSArray *controlNames;
+@property(strong, readonly) NSArray *controlNames;
 
 - (void)OE_setupControlNames;
 - (void)OE_enumerateSettingKeysUsingBlock:(void(^)(NSString *keyPath, NSString *keyName, NSString *keyType))block;
@@ -66,7 +66,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     if((self = [super init]))
     {
         _bundle    = [NSBundle bundleForClass:[self class]];
-        systemIdentifier = [[[_bundle infoDictionary] objectForKey:OESystemIdentifier] retain];
+        systemIdentifier = [[_bundle infoDictionary] objectForKey:OESystemIdentifier];
         if(systemIdentifier == nil) systemIdentifier = [[[_bundle infoDictionary] objectForKey:OESystemPluginName] copy];
         if(systemIdentifier == nil) systemIdentifier = [[[_bundle infoDictionary] objectForKey:@"CFBundleName"] copy];
         
@@ -89,14 +89,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 {
     [self _deallocROMHandling];
     
-    [_systemName release];
     
-    [_preferenceViewControllers release];
-    [_gameSystemResponders release];
-    [playerString release];
-    [controlNames release];
-    [_bundle release];
-    [super dealloc];
 }
 
 - (void)OE_setupControlNames;
@@ -184,7 +177,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     {
         ctrl = [self newPreferenceViewControllerForKey:aKey];
         [_preferenceViewControllers setObject:ctrl forKey:aKey];
-        [ctrl autorelease];
     }
     
     return ctrl;
@@ -272,7 +264,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 {
     NSUserDefaultsController *defaults = [NSUserDefaultsController sharedUserDefaultsController];
     NSDictionary *initialValues = [defaults initialValues];
-    NSMutableDictionary *dict = initialValues?[[[defaults initialValues] mutableCopy] autorelease]:[NSMutableDictionary dictionary];
+    NSMutableDictionary *dict = initialValues?[[defaults initialValues] mutableCopy]:[NSMutableDictionary dictionary];
     
     [[self defaultControls] enumerateKeysAndObjectsUsingBlock:
      ^(id key, id obj, BOOL *stop) 
@@ -459,12 +451,10 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 #pragma mark Rom Handling
 @synthesize fileTypes, archiveIDs;
 - (void)_initROMHandling{
-    archiveIDs = [[[_bundle infoDictionary] objectForKey:OEArchiveIDs] retain];
-    fileTypes  = [[[_bundle infoDictionary] objectForKey:OEFileTypes] retain];
+    archiveIDs = [[_bundle infoDictionary] objectForKey:OEArchiveIDs];
+    fileTypes  = [[_bundle infoDictionary] objectForKey:OEFileTypes];
 }
 - (void)_deallocROMHandling{
-    [archiveIDs release];
-    [fileTypes release];
 }
 
 - (BOOL)canHandleFile:(NSString *)path{

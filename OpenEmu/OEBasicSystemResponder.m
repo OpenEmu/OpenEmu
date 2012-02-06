@@ -45,7 +45,6 @@
 - (void)dealloc
 {
     OEMapRelease(keyMap);
-    [super dealloc];
 }
 
 - (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer

@@ -40,7 +40,7 @@
 
 + (id)deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice
 {
-    return [[[self alloc] initWithDevice:aDevice] autorelease];
+    return [[self alloc] initWithDevice:aDevice];
 }
 
 - (id)init
@@ -65,12 +65,11 @@ static NSUInteger lastDeviceNumber = 0;
                 device = NULL;
                 deviceNumber = 0;
                 deadZone = 0.0;
-                nilHandler = [self retain];
+                nilHandler = self;
             }
             else
             {
-                [self release];
-                return [nilHandler retain];
+                return nilHandler;
             }
         }
         else
@@ -86,9 +85,7 @@ static NSUInteger lastDeviceNumber = 0;
 - (void)dealloc
 {
 	if(ffDevice) FFReleaseDevice(ffDevice);
-    [mapTable release];
     
-	[super dealloc];
 }
 
 - (BOOL)isEqual:(id)anObject
@@ -96,46 +93,48 @@ static NSUInteger lastDeviceNumber = 0;
     if(self == anObject)
         return YES;
     if([anObject isKindOfClass:[self class]])
-        return [(id)device isEqual:(id)[anObject device]];
+        return [(__bridge id)device isEqual:(id)[anObject device]];
     return [super isEqual:anObject];
 }
 
 - (NSUInteger)hash
 {
-    return [(id)device hash];
+    return [(__bridge id)device hash];
 }
 
 - (NSString *)manufacturer
 {
-    return (NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey));
+    return (__bridge NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDManufacturerKey));
 }
 
 - (NSString *)product
 {
-    return (NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
+    return (__bridge NSString *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductKey));
 }
 
 - (NSNumber *)productID
 {
-    return (NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey));
+    return (__bridge NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDProductIDKey));
 }
 
 - (NSNumber *)locationID
 {
-    return (NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey));
+    return (__bridge NSNumber *)IOHIDDeviceGetProperty(device, CFSTR(kIOHIDLocationIDKey));
 }
 
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue
 {
     IOHIDElementRef elem   = IOHIDValueGetElement(aValue);
-    NSUInteger      cookie = (uint32_t)IOHIDElementGetCookie(elem);
+    uint32_t      cookie = (uint32_t)IOHIDElementGetCookie(elem);
+    NSNumber        *nscookie = [NSNumber numberWithUnsignedInt:cookie];
     
-    OEHIDEvent *event = [mapTable objectForKey:(id)cookie];
+    
+    OEHIDEvent *event = [mapTable objectForKey:nscookie];
     
     if(event == nil)
     {
         event = [OEHIDEvent eventWithDeviceHandler:self value:aValue];
-        [mapTable setObject:event forKey:(id)cookie];
+        [mapTable setObject:event forKey:nscookie];
     }
     else NSAssert1([event OE_setupEventWithDeviceHandler:self value:aValue], @"The event setup went wrong for event: %@", event);
     

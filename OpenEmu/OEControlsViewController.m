@@ -31,10 +31,6 @@
 @implementation OEControlsViewController
 @synthesize selectedControl, delegate;
 
-- (void)dealloc
-{    
-    [super dealloc];
-}
 
 - (void)awakeFromNib
 {
