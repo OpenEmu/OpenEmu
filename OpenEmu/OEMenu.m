@@ -359,7 +359,7 @@
         submenuSpawnPoint.x -= 9;
         
         if(![self supermenu] && [self style]==OEMenuStyleLight)
-            submenuSpawnPoint.x -= 8;
+            submenuSpawnPoint.x -= 9;
         
         submenuSpawnPoint.y = 8 - selectedItemRect.origin.y + [self frame].origin.y -_submenu.frame.size.height + [self frame].size.height;
         
