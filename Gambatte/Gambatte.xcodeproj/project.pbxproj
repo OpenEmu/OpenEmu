@@ -35,6 +35,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		3D6030EB14DF742200E9AF58 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0040F23786B009EA0FD /* file.cpp */; };
 		828387900E6CDB5400A96E2C /* CocoaBlitter.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5350B830E62EC6100A0903A /* CocoaBlitter.mm */; };
 		828387990E6CDB5400A96E2C /* GBGameEmu.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5EC4D420E6312DF0046BD93 /* GBGameEmu.mm */; };
 		828387BA0E6CDB6500A96E2C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = B5F6D8AC0E66921B001CA5D3 /* Credits.rtf */; };
@@ -55,9 +56,6 @@
 		B5A2D0650F23786B009EA0FD /* bitmap_font.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2CFFC0F23786B009EA0FD /* bitmap_font.cpp */; };
 		B5A2D0660F23786B009EA0FD /* colorconversion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2CFFE0F23786B009EA0FD /* colorconversion.cpp */; };
 		B5A2D0670F23786B009EA0FD /* cpu.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0000F23786B009EA0FD /* cpu.cpp */; };
-		B5A2D0690F23786B009EA0FD /* file_zip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0060F23786B009EA0FD /* file_zip.cpp */; };
-		B5A2D06A0F23786B009EA0FD /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0090F23786B009EA0FD /* ioapi.c */; };
-		B5A2D06B0F23786B009EA0FD /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D00B0F23786B009EA0FD /* unzip.c */; };
 		B5A2D06C0F23786B009EA0FD /* gambatte.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D00D0F23786B009EA0FD /* gambatte.cpp */; };
 		B5A2D06D0F23786B009EA0FD /* initstate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D00E0F23786B009EA0FD /* initstate.cpp */; };
 		B5A2D06E0F23786B009EA0FD /* interrupter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0110F23786B009EA0FD /* interrupter.cpp */; };
@@ -291,12 +289,6 @@
 		B5A2D0020F23786B009EA0FD /* event_queue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = event_queue.h; path = libgambatte/src/event_queue.h; sourceTree = "<group>"; };
 		B5A2D0040F23786B009EA0FD /* file.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = file.cpp; sourceTree = "<group>"; };
 		B5A2D0050F23786B009EA0FD /* file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file.h; sourceTree = "<group>"; };
-		B5A2D0060F23786B009EA0FD /* file_zip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = file_zip.cpp; sourceTree = "<group>"; };
-		B5A2D0080F23786B009EA0FD /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
-		B5A2D0090F23786B009EA0FD /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
-		B5A2D00A0F23786B009EA0FD /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
-		B5A2D00B0F23786B009EA0FD /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
-		B5A2D00C0F23786B009EA0FD /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
 		B5A2D00D0F23786B009EA0FD /* gambatte.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gambatte.cpp; path = libgambatte/src/gambatte.cpp; sourceTree = "<group>"; };
 		B5A2D00E0F23786B009EA0FD /* initstate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = initstate.cpp; path = libgambatte/src/initstate.cpp; sourceTree = "<group>"; };
 		B5A2D00F0F23786B009EA0FD /* initstate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = initstate.h; path = libgambatte/src/initstate.h; sourceTree = "<group>"; };
@@ -542,23 +534,9 @@
 			children = (
 				B5A2D0040F23786B009EA0FD /* file.cpp */,
 				B5A2D0050F23786B009EA0FD /* file.h */,
-				B5A2D0060F23786B009EA0FD /* file_zip.cpp */,
-				B5A2D0070F23786B009EA0FD /* unzip */,
 			);
 			name = file;
 			path = libgambatte/src/file;
-			sourceTree = "<group>";
-		};
-		B5A2D0070F23786B009EA0FD /* unzip */ = {
-			isa = PBXGroup;
-			children = (
-				B5A2D0080F23786B009EA0FD /* crypt.h */,
-				B5A2D0090F23786B009EA0FD /* ioapi.c */,
-				B5A2D00A0F23786B009EA0FD /* ioapi.h */,
-				B5A2D00B0F23786B009EA0FD /* unzip.c */,
-				B5A2D00C0F23786B009EA0FD /* unzip.h */,
-			);
-			path = unzip;
 			sourceTree = "<group>";
 		};
 		B5A2D0190F23786B009EA0FD /* sound */ = {
@@ -916,9 +894,6 @@
 				B5A2D0650F23786B009EA0FD /* bitmap_font.cpp in Sources */,
 				B5A2D0660F23786B009EA0FD /* colorconversion.cpp in Sources */,
 				B5A2D0670F23786B009EA0FD /* cpu.cpp in Sources */,
-				B5A2D0690F23786B009EA0FD /* file_zip.cpp in Sources */,
-				B5A2D06A0F23786B009EA0FD /* ioapi.c in Sources */,
-				B5A2D06B0F23786B009EA0FD /* unzip.c in Sources */,
 				B5A2D06C0F23786B009EA0FD /* gambatte.cpp in Sources */,
 				B5A2D06D0F23786B009EA0FD /* initstate.cpp in Sources */,
 				B5A2D06E0F23786B009EA0FD /* interrupter.cpp in Sources */,
@@ -958,6 +933,7 @@
 				B5A2D0900F23786B009EA0FD /* wy.cpp in Sources */,
 				B5A2D0910F23786B009EA0FD /* video.cpp in Sources */,
 				82EC327B0FD77CC60017FC19 /* GBGameController.m in Sources */,
+				3D6030EB14DF742200E9AF58 /* file.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

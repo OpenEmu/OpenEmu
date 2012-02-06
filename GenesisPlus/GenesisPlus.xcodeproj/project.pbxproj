@@ -91,7 +91,6 @@
 		94ED8B5014CF933800FF8901 /* config.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8914CF933700FF8901 /* config.c */; };
 		94ED8B5114CF933800FF8901 /* error.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8B14CF933700FF8901 /* error.c */; };
 		94ED8B5214CF933800FF8901 /* fileio.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A8D14CF933700FF8901 /* fileio.c */; };
-		94ED8B5314CF933800FF8901 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 94ED8A9014CF933700FF8901 /* unzip.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -348,8 +347,6 @@
 		94ED8A8D14CF933700FF8901 /* fileio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fileio.c; sourceTree = "<group>"; };
 		94ED8A8E14CF933700FF8901 /* fileio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileio.h; sourceTree = "<group>"; };
 		94ED8A8F14CF933700FF8901 /* osd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = osd.h; sourceTree = "<group>"; };
-		94ED8A9014CF933700FF8901 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
-		94ED8A9114CF933700FF8901 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
 		C6B948191365164700A425F0 /* OEGenesisSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEGenesisSystemResponderClient.h; path = ../OpenEmu/Genesis/OEGenesisSystemResponderClient.h; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
@@ -640,8 +637,6 @@
 				94ED8A8D14CF933700FF8901 /* fileio.c */,
 				94ED8A8E14CF933700FF8901 /* fileio.h */,
 				94ED8A8F14CF933700FF8901 /* osd.h */,
-				94ED8A9014CF933700FF8901 /* unzip.c */,
-				94ED8A9114CF933700FF8901 /* unzip.h */,
 			);
 			path = openemu;
 			sourceTree = "<group>";
@@ -860,7 +855,6 @@
 				94ED8B5014CF933800FF8901 /* config.c in Sources */,
 				94ED8B5114CF933800FF8901 /* error.c in Sources */,
 				94ED8B5214CF933800FF8901 /* fileio.c in Sources */,
-				94ED8B5314CF933800FF8901 /* unzip.c in Sources */,
 				94ED8A9214CF933700FF8901 /* areplay.c in Sources */,
 				94ED8A9314CF933700FF8901 /* eeprom.c in Sources */,
 				94ED8A9414CF933700FF8901 /* ggenie.c in Sources */,

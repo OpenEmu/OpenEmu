@@ -554,6 +554,8 @@ typedef enum
 
 + (NSString*)removeHTMLEncodingsFromString:(NSString*)input
 {
+    if (!input) return @"";
+    
     NSDictionary* const specialChars = [[NSDictionary alloc] initWithObjectsAndKeys:
                                   @"\"",@"quot",
                                   @"&",	@"amp",

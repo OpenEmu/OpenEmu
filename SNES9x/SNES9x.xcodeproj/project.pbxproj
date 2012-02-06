@@ -74,17 +74,6 @@
 		94790D9614C0C46900B30798 /* fxinst.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D1514C0C46900B30798 /* fxinst.cpp */; };
 		94790D9714C0C46900B30798 /* gfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D1814C0C46900B30798 /* gfx.cpp */; };
 		94790D9814C0C46900B30798 /* globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D1A14C0C46900B30798 /* globals.cpp */; };
-		94790D9914C0C46900B30798 /* 7zlzma.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D1D14C0C46900B30798 /* 7zlzma.cpp */; };
-		94790D9A14C0C46900B30798 /* crc32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D2214C0C46900B30798 /* crc32.cpp */; };
-		94790D9B14C0C46900B30798 /* iiostrm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D2414C0C46900B30798 /* iiostrm.cpp */; };
-		94790D9C14C0C46900B30798 /* inbyte.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D2614C0C46900B30798 /* inbyte.cpp */; };
-		94790D9D14C0C46900B30798 /* jma.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D2814C0C46900B30798 /* jma.cpp */; };
-		94790D9E14C0C46900B30798 /* jma_license.txt in Resources */ = {isa = PBXBuildFile; fileRef = 94790D2B14C0C46900B30798 /* jma_license.txt */; };
-		94790D9F14C0C46900B30798 /* lzma.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D2D14C0C46900B30798 /* lzma.cpp */; };
-		94790DA014C0C46900B30798 /* lzmadec.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D2F14C0C46900B30798 /* lzmadec.cpp */; };
-		94790DA114C0C46900B30798 /* s9x-jma.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D3414C0C46900B30798 /* s9x-jma.cpp */; };
-		94790DA214C0C46900B30798 /* winout.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D3614C0C46900B30798 /* winout.cpp */; };
-		94790DA314C0C46900B30798 /* loadzip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D3914C0C46900B30798 /* loadzip.cpp */; };
 		94790DA414C0C46900B30798 /* logger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D3A14C0C46900B30798 /* logger.cpp */; };
 		94790DA514C0C46900B30798 /* memmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D3C14C0C46900B30798 /* memmap.cpp */; };
 		94790DA614C0C46900B30798 /* movie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D4014C0C46900B30798 /* movie.cpp */; };
@@ -106,10 +95,6 @@
 		94790DB714C0C46900B30798 /* spc7110.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D6014C0C46900B30798 /* spc7110.cpp */; };
 		94790DBA14C0C46900B30798 /* srtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D6614C0C46900B30798 /* srtc.cpp */; };
 		94790DBC14C0C46900B30798 /* tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D6A14C0C46900B30798 /* tile.cpp */; };
-		94790DBD14C0C46900B30798 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 94790D6E14C0C46900B30798 /* ioapi.c */; };
-		94790DC114C0C46900B30798 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = 94790D7414C0C46900B30798 /* mztools.c */; };
-		94790DC214C0C46900B30798 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 94790D7614C0C46900B30798 /* unzip.c */; };
-		94790DC314C0C46900B30798 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = 94790D7814C0C46900B30798 /* zip.c */; };
 		C650C7320FD21B1C009AD8F2 /* SNESGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C650C7310FD21B1C009AD8F2 /* SNESGameController.m */; };
 		C67F02030FC200A6009C6CD6 /* SNESOESupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82AD85B50F41646E00DF0AE1 /* SNESOESupport.mm */; };
 /* End PBXBuildFile section */
@@ -340,36 +325,7 @@
 		94790D1814C0C46900B30798 /* gfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gfx.cpp; path = "snes9x-1.53-src/gfx.cpp"; sourceTree = "<group>"; };
 		94790D1914C0C46900B30798 /* gfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gfx.h; path = "snes9x-1.53-src/gfx.h"; sourceTree = "<group>"; };
 		94790D1A14C0C46900B30798 /* globals.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = globals.cpp; path = "snes9x-1.53-src/globals.cpp"; sourceTree = "<group>"; };
-		94790D1C14C0C46900B30798 /* 7z.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = 7z.h; sourceTree = "<group>"; };
-		94790D1D14C0C46900B30798 /* 7zlzma.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = 7zlzma.cpp; sourceTree = "<group>"; };
-		94790D1E14C0C46900B30798 /* aribitcd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = aribitcd.h; sourceTree = "<group>"; };
-		94790D1F14C0C46900B30798 /* ariconst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ariconst.h; sourceTree = "<group>"; };
-		94790D2014C0C46900B30798 /* ariprice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ariprice.h; sourceTree = "<group>"; };
-		94790D2114C0C46900B30798 /* btreecd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = btreecd.h; sourceTree = "<group>"; };
-		94790D2214C0C46900B30798 /* crc32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = crc32.cpp; sourceTree = "<group>"; };
-		94790D2314C0C46900B30798 /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc32.h; sourceTree = "<group>"; };
-		94790D2414C0C46900B30798 /* iiostrm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iiostrm.cpp; sourceTree = "<group>"; };
-		94790D2514C0C46900B30798 /* iiostrm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iiostrm.h; sourceTree = "<group>"; };
-		94790D2614C0C46900B30798 /* inbyte.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = inbyte.cpp; sourceTree = "<group>"; };
-		94790D2714C0C46900B30798 /* inbyte.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inbyte.h; sourceTree = "<group>"; };
-		94790D2814C0C46900B30798 /* jma.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = jma.cpp; sourceTree = "<group>"; };
-		94790D2914C0C46900B30798 /* jma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = jma.h; sourceTree = "<group>"; };
-		94790D2A14C0C46900B30798 /* lencoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lencoder.h; sourceTree = "<group>"; };
-		94790D2B14C0C46900B30798 /* jma_license.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = jma_license.txt; sourceTree = "<group>"; };
-		94790D2C14C0C46900B30798 /* litcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = litcoder.h; sourceTree = "<group>"; };
-		94790D2D14C0C46900B30798 /* lzma.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lzma.cpp; sourceTree = "<group>"; };
-		94790D2E14C0C46900B30798 /* lzma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzma.h; sourceTree = "<group>"; };
-		94790D2F14C0C46900B30798 /* lzmadec.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = lzmadec.cpp; sourceTree = "<group>"; };
-		94790D3014C0C46900B30798 /* lzmadec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzmadec.h; sourceTree = "<group>"; };
-		94790D3114C0C46900B30798 /* portable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = portable.h; sourceTree = "<group>"; };
-		94790D3214C0C46900B30798 /* rcdefs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rcdefs.h; sourceTree = "<group>"; };
-		94790D3314C0C46900B30798 /* rngcoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rngcoder.h; sourceTree = "<group>"; };
-		94790D3414C0C46900B30798 /* s9x-jma.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = "s9x-jma.cpp"; sourceTree = "<group>"; };
-		94790D3514C0C46900B30798 /* s9x-jma.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "s9x-jma.h"; sourceTree = "<group>"; };
-		94790D3614C0C46900B30798 /* winout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = winout.cpp; sourceTree = "<group>"; };
-		94790D3714C0C46900B30798 /* winout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = winout.h; sourceTree = "<group>"; };
 		94790D3814C0C46900B30798 /* language.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = language.h; path = "snes9x-1.53-src/language.h"; sourceTree = "<group>"; };
-		94790D3914C0C46900B30798 /* loadzip.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = loadzip.cpp; path = "snes9x-1.53-src/loadzip.cpp"; sourceTree = "<group>"; };
 		94790D3A14C0C46900B30798 /* logger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = logger.cpp; path = "snes9x-1.53-src/logger.cpp"; sourceTree = "<group>"; };
 		94790D3B14C0C46900B30798 /* logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = logger.h; path = "snes9x-1.53-src/logger.h"; sourceTree = "<group>"; };
 		94790D3C14C0C46900B30798 /* memmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = memmap.cpp; path = "snes9x-1.53-src/memmap.cpp"; sourceTree = "<group>"; };
@@ -420,19 +376,6 @@
 		94790D6914C0C46900B30798 /* srtcemu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = srtcemu.h; path = "snes9x-1.53-src/srtcemu.h"; sourceTree = "<group>"; };
 		94790D6A14C0C46900B30798 /* tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tile.cpp; path = "snes9x-1.53-src/tile.cpp"; sourceTree = "<group>"; };
 		94790D6B14C0C46900B30798 /* tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tile.h; path = "snes9x-1.53-src/tile.h"; sourceTree = "<group>"; };
-		94790D6D14C0C46900B30798 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crypt.h; sourceTree = "<group>"; };
-		94790D6E14C0C46900B30798 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ioapi.c; sourceTree = "<group>"; };
-		94790D6F14C0C46900B30798 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ioapi.h; sourceTree = "<group>"; };
-		94790D7014C0C46900B30798 /* iowin32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = iowin32.c; sourceTree = "<group>"; };
-		94790D7114C0C46900B30798 /* iowin32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iowin32.h; sourceTree = "<group>"; };
-		94790D7214C0C46900B30798 /* miniunz.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = miniunz.c; sourceTree = "<group>"; };
-		94790D7314C0C46900B30798 /* minizip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = minizip.c; sourceTree = "<group>"; };
-		94790D7414C0C46900B30798 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mztools.c; sourceTree = "<group>"; };
-		94790D7514C0C46900B30798 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mztools.h; sourceTree = "<group>"; };
-		94790D7614C0C46900B30798 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
-		94790D7714C0C46900B30798 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
-		94790D7814C0C46900B30798 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
-		94790D7914C0C46900B30798 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zip.h; sourceTree = "<group>"; };
 		C6480FFA1364B1CF0094FA33 /* OESNESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OESNESSystemResponderClient.h; path = ../OpenEmu/SuperNES/OESNESSystemResponderClient.h; sourceTree = "<group>"; };
 		C650C7300FD21B1C009AD8F2 /* SNESGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNESGameController.h; sourceTree = "<group>"; };
 		C650C7310FD21B1C009AD8F2 /* SNESGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNESGameController.m; sourceTree = "<group>"; };
@@ -607,9 +550,7 @@
 				94790D1814C0C46900B30798 /* gfx.cpp */,
 				94790D1914C0C46900B30798 /* gfx.h */,
 				94790D1A14C0C46900B30798 /* globals.cpp */,
-				94790D1B14C0C46900B30798 /* jma */,
 				94790D3814C0C46900B30798 /* language.h */,
-				94790D3914C0C46900B30798 /* loadzip.cpp */,
 				94790D3A14C0C46900B30798 /* logger.cpp */,
 				94790D3B14C0C46900B30798 /* logger.h */,
 				94790D3C14C0C46900B30798 /* memmap.cpp */,
@@ -660,7 +601,6 @@
 				94790D6914C0C46900B30798 /* srtcemu.h */,
 				94790D6A14C0C46900B30798 /* tile.cpp */,
 				94790D6B14C0C46900B30798 /* tile.h */,
-				94790D6C14C0C46900B30798 /* unzip */,
 			);
 			name = core;
 			sourceTree = "<group>";
@@ -691,63 +631,6 @@
 			);
 			name = apu;
 			path = "snes9x-1.53-src/apu";
-			sourceTree = "<group>";
-		};
-		94790D1B14C0C46900B30798 /* jma */ = {
-			isa = PBXGroup;
-			children = (
-				94790D1C14C0C46900B30798 /* 7z.h */,
-				94790D1D14C0C46900B30798 /* 7zlzma.cpp */,
-				94790D1E14C0C46900B30798 /* aribitcd.h */,
-				94790D1F14C0C46900B30798 /* ariconst.h */,
-				94790D2014C0C46900B30798 /* ariprice.h */,
-				94790D2114C0C46900B30798 /* btreecd.h */,
-				94790D2214C0C46900B30798 /* crc32.cpp */,
-				94790D2314C0C46900B30798 /* crc32.h */,
-				94790D2414C0C46900B30798 /* iiostrm.cpp */,
-				94790D2514C0C46900B30798 /* iiostrm.h */,
-				94790D2614C0C46900B30798 /* inbyte.cpp */,
-				94790D2714C0C46900B30798 /* inbyte.h */,
-				94790D2814C0C46900B30798 /* jma.cpp */,
-				94790D2914C0C46900B30798 /* jma.h */,
-				94790D2A14C0C46900B30798 /* lencoder.h */,
-				94790D2B14C0C46900B30798 /* jma_license.txt */,
-				94790D2C14C0C46900B30798 /* litcoder.h */,
-				94790D2D14C0C46900B30798 /* lzma.cpp */,
-				94790D2E14C0C46900B30798 /* lzma.h */,
-				94790D2F14C0C46900B30798 /* lzmadec.cpp */,
-				94790D3014C0C46900B30798 /* lzmadec.h */,
-				94790D3114C0C46900B30798 /* portable.h */,
-				94790D3214C0C46900B30798 /* rcdefs.h */,
-				94790D3314C0C46900B30798 /* rngcoder.h */,
-				94790D3414C0C46900B30798 /* s9x-jma.cpp */,
-				94790D3514C0C46900B30798 /* s9x-jma.h */,
-				94790D3614C0C46900B30798 /* winout.cpp */,
-				94790D3714C0C46900B30798 /* winout.h */,
-			);
-			name = jma;
-			path = "snes9x-1.53-src/jma";
-			sourceTree = "<group>";
-		};
-		94790D6C14C0C46900B30798 /* unzip */ = {
-			isa = PBXGroup;
-			children = (
-				94790D6D14C0C46900B30798 /* crypt.h */,
-				94790D6E14C0C46900B30798 /* ioapi.c */,
-				94790D6F14C0C46900B30798 /* ioapi.h */,
-				94790D7014C0C46900B30798 /* iowin32.c */,
-				94790D7114C0C46900B30798 /* iowin32.h */,
-				94790D7214C0C46900B30798 /* miniunz.c */,
-				94790D7314C0C46900B30798 /* minizip.c */,
-				94790D7414C0C46900B30798 /* mztools.c */,
-				94790D7514C0C46900B30798 /* mztools.h */,
-				94790D7614C0C46900B30798 /* unzip.c */,
-				94790D7714C0C46900B30798 /* unzip.h */,
-				94790D7814C0C46900B30798 /* zip.c */,
-				94790D7914C0C46900B30798 /* zip.h */,
-			);
-			name = unzip;
-			path = "snes9x-1.53-src/unzip";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -916,7 +799,6 @@
 				828F16CB0F43A10000FD7321 /* APPL.icns in Resources */,
 				82CAFD440FEDD66800CCDC7E /* dsa_pub.pem in Resources */,
 				94790D7B14C0C46900B30798 /* license.txt in Resources */,
-				94790D9E14C0C46900B30798 /* jma_license.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -989,16 +871,6 @@
 				94790D9614C0C46900B30798 /* fxinst.cpp in Sources */,
 				94790D9714C0C46900B30798 /* gfx.cpp in Sources */,
 				94790D9814C0C46900B30798 /* globals.cpp in Sources */,
-				94790D9914C0C46900B30798 /* 7zlzma.cpp in Sources */,
-				94790D9A14C0C46900B30798 /* crc32.cpp in Sources */,
-				94790D9B14C0C46900B30798 /* iiostrm.cpp in Sources */,
-				94790D9C14C0C46900B30798 /* inbyte.cpp in Sources */,
-				94790D9D14C0C46900B30798 /* jma.cpp in Sources */,
-				94790D9F14C0C46900B30798 /* lzma.cpp in Sources */,
-				94790DA014C0C46900B30798 /* lzmadec.cpp in Sources */,
-				94790DA114C0C46900B30798 /* s9x-jma.cpp in Sources */,
-				94790DA214C0C46900B30798 /* winout.cpp in Sources */,
-				94790DA314C0C46900B30798 /* loadzip.cpp in Sources */,
 				94790DA414C0C46900B30798 /* logger.cpp in Sources */,
 				94790DA514C0C46900B30798 /* memmap.cpp in Sources */,
 				94790DA614C0C46900B30798 /* movie.cpp in Sources */,
@@ -1020,10 +892,6 @@
 				94790DB714C0C46900B30798 /* spc7110.cpp in Sources */,
 				94790DBA14C0C46900B30798 /* srtc.cpp in Sources */,
 				94790DBC14C0C46900B30798 /* tile.cpp in Sources */,
-				94790DBD14C0C46900B30798 /* ioapi.c in Sources */,
-				94790DC114C0C46900B30798 /* mztools.c in Sources */,
-				94790DC214C0C46900B30798 /* unzip.c in Sources */,
-				94790DC314C0C46900B30798 /* zip.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1074,9 +942,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				OTHER_CFLAGS = (
-					"-DUNZIP_SUPPORT",
 					"-D__MACOSX__",
-					"-DJMA_SUPPORT",
 					"-Wno-write-strings",
 					"-Dunix",
 				);
@@ -1102,9 +968,7 @@
 					"\"$(SRCROOT)\"",
 				);
 				OTHER_CFLAGS = (
-					"-DUNZIP_SUPPORT",
 					"-D__MACOSX__",
-					"-DJMA_SUPPORT",
 					"-Wno-write-strings",
 					"-Dunix",
 				);

@@ -1,7 +1,0 @@
-Some of the code in this directory is under the LGPL v2.
-
-Other bits of the code is under GPL v2.
-The authors of the GPL portions have granted an exception to Snes9x (but not to Snes9x derivitives)
-to use their code.
-
-s9x-jma.h and s9x-jma.cpp are under Snes9x license.
