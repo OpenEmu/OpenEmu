@@ -59,12 +59,12 @@ typedef enum _OEMenuStyle {
 }
 
 #pragma mark -
-
 - (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
 - (void)openOnEdge:(NSRectEdge)edge atPoint:(NSPoint)p ofWindow:(NSWindow*)win;
 - (void)closeMenuWithoutChanges:(id)sender;
 - (void)closeMenu;
 
+- (BOOL)menuKeyDown:(NSEvent *)theEvent;
 #pragma mark - NSMenu wrapping
 - (NSArray *)itemArray;
 

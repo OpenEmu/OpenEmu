@@ -156,8 +156,9 @@
                          
                          if([incomingEvent type] == NSKeyDown)
                          {
-                             [view keyDown:incomingEvent];
-                             return nil;
+                             if([view menuKeyDown:incomingEvent])
+                                 return nil;
+                             return incomingEvent;
                          }
                          
                          if([[incomingEvent window] isKindOfClass:[self class]])// mouse down in window, will be handle by content view
@@ -1021,9 +1022,11 @@
 
 #pragma mark -
 
-- (void)keyDown:(NSEvent *)theEvent
+- (BOOL)menuKeyDown:(NSEvent *)theEvent
 {
-    if([[self menu] _isClosing]) return;
+    BOOL accepted = NO;
+
+    if([[self menu] _isClosing]) return accepted;
     
     NSMenuItem *currentItem = [[self menu] highlightedItem];
     
@@ -1037,6 +1040,8 @@
                     [[self menu] setHighlightedItem:[[[self menu] itemArray] objectAtIndex:index - 1]];
             }
             else [[self menu] setHighlightedItem:[[[self menu] itemArray] lastObject]];
+            
+            accepted = YES;
             break;
             
         case 125 : // DOWN
@@ -1047,6 +1052,8 @@
                     [[self menu] setHighlightedItem:[[[self menu] itemArray] objectAtIndex:index + 1]];
             }
             else [[self menu] setHighlightedItem:[[[self menu] itemArray] objectAtIndex:0]];
+            
+            accepted = YES;
             break;
         case 123 : // LEFT (exit submenu if any)
             break;
@@ -1054,11 +1061,12 @@
             break;
         case 53 : // ESC (close without changes)
             [[self menu] closeMenuWithoutChanges:self];
+            accepted = YES;
             break;
         case 49 : // SPACE ("click" selected item)
         case 36 : // ENTER (same as space)
             [[self menu] closeMenu];
-            break;
+            accepted = YES;
         default:
             break;
     }
@@ -1070,12 +1078,16 @@
     // this ensures that a valid item will be selected after a key was pressed
     if(([theEvent keyCode] == 126 || [theEvent keyCode] == 125) && [[self menu] highlightedItem] != currentItem && [[[self menu ] highlightedItem] isSeparatorItem])
     {
-        [self keyDown:theEvent];
+        [self menuKeyDown:theEvent];
         if([[[self menu] highlightedItem] isSeparatorItem])
             [[self menu] setHighlightedItem:currentItem];
+        
+        accepted = YES;
     }
     
-    [self setNeedsDisplay:YES];
+    if(accepted)
+        [self setNeedsDisplay:YES];
+    return accepted;
 }
 
 #pragma mark -
