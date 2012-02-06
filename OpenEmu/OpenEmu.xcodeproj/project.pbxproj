@@ -1747,6 +1747,15 @@
 			name = "Setup Assistant Animation Resources";
 			sourceTree = "<group>";
 		};
+		1B71CAB714DF77CE00513A46 /* Helper Classes */ = {
+			isa = PBXGroup;
+			children = (
+				1B6DA4A714DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.h */,
+				1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */,
+			);
+			name = "Helper Classes";
+			sourceTree = "<group>";
+		};
 		1B885E070F085EA500770B6D /* GLSL Shaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -2641,6 +2650,7 @@
 		832D29461451B0F200BDF950 /* MainWindow: Setup Assistant */ = {
 			isa = PBXGroup;
 			children = (
+				1B71CAB714DF77CE00513A46 /* Helper Classes */,
 				83AAC32514581469005ADD16 /* Controls */,
 				1B47F103142F01E700EBC55B /* OESetupAssistant.h */,
 				1B47F104142F01E700EBC55B /* OESetupAssistant.m */,
@@ -2705,8 +2715,6 @@
 				83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */,
 				83F298881458B6DC00ECB4F4 /* OESetupAssistantScrollView.h */,
 				83F298891458B6DC00ECB4F4 /* OESetupAssistantScrollView.m */,
-				1B6DA4A714DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.h */,
-				1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
