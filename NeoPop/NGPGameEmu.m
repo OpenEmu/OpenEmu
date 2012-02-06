@@ -30,6 +30,8 @@
 #include <sys/stat.h>
 #import <OpenGL/gl.h>
 #import "OENGPSystemResponderClient.h"
+#import <OERingBuffer.h>
+
 enum {
     NGPButtonUp     = 0x01,
     NGPButtonDown   = 0x02,
@@ -55,7 +57,7 @@ BOOL system_rom_load(const char *filename);
 
 @implementation NGPGameEmu
 
-NSString **gPathToFile = NULL;
+static NSString *gPathToFile = NULL;
 int *gBlit = NULL;
 uint16_t *chipBuf;
 uint8_t *dacBuf;
@@ -150,7 +152,7 @@ static OERingBuffer *dacBuffer;
         dacBuf = calloc(DAC_FREQUENCY / 60, sizeof(uint8_t));
         soundLock = [[NSLock alloc] init];
         bufLock = [[NSLock alloc] init];
-        gPathToFile = &pathToFile;
+        gPathToFile = pathToFile;
         gBlit = &blit;
         chipBuffer = [self ringBufferAtIndex:0];
         dacBuffer = [self ringBufferAtIndex:1];
@@ -162,9 +164,6 @@ static OERingBuffer *dacBuffer;
 {
     free(chipBuf);
     free(dacBuf);
-    [soundLock release];
-    [bufLock release];
-    [super dealloc];
 }
 
 
@@ -178,7 +177,6 @@ static OERingBuffer *dacBuffer;
 - (BOOL)loadFileAtPath:(NSString*)path
 {
     pathToFile = [path stringByDeletingLastPathComponent];
-    [pathToFile retain];
     
     /* auto-select colour mode */
     system_colour = COLOURMODE_AUTO;
@@ -456,7 +454,7 @@ BOOL system_io_flash_read(_u8* buffer, _u32 len)
     char *fn;
     int ret;
     
-    if ((fn = system_make_file_name([*gPathToFile UTF8String], ".ngf", NO)) == NULL)
+    if ((fn = system_make_file_name([gPathToFile UTF8String], ".ngf", NO)) == NULL)
         return NO;
     ret = read_file_to_buffer(fn, buffer, len);
     free(fn);
@@ -469,7 +467,7 @@ BOOL system_io_flash_write(_u8* buffer, _u32 len)
     char *fn;
     int ret;
     
-    if ((fn = system_make_file_name([*gPathToFile UTF8String], ".ngf", YES)) == NULL)
+    if ((fn = system_make_file_name([gPathToFile UTF8String], ".ngf", YES)) == NULL)
         return NO;
     ret = write_file_from_buffer(fn, buffer, len);
     free(fn);

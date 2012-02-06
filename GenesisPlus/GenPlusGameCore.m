@@ -73,12 +73,8 @@ void openemu_input_UpdateEmu(void)
 {
     DLog(@"releasing/deallocating memory");
     free(sndBuf);
-    [soundLock release];
-    [bufLock release];
     free(videoBuffer);
-    [romPath release];
     
-    [super dealloc];
 }
 
 - (void)executeFrame

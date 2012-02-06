@@ -81,12 +81,9 @@ static OERingBuffer *ringBuffer;
 {
     DLog(@"releasing/deallocating CrabEmu memory");
     free(sndBuf);
-    [soundLock release];
-    [bufLock release];
     free(tempBuffer);
     
     sms_initialized = 0;
-    [super dealloc];
 }
 
 - (void)executeFrame

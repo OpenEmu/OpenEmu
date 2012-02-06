@@ -184,7 +184,6 @@ OERingBuffer *ringBuffer = nil;
     free(tempBuffer);
     [soundLock lock];
     [bufLock lock];
-    [super dealloc];
 }
 
 

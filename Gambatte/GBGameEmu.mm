@@ -235,6 +235,5 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
 - (void) dealloc
 {
     free(sndBuf);
-    [super dealloc];
 }
 @end

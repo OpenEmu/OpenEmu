@@ -89,7 +89,7 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
     NSThread              *emulationThread;
     NSTimeInterval         frameInterval;
     OEGameCoreController  *owner;
-    OERingBuffer         **ringBuffers;
+    __strong OERingBuffer         **ringBuffers;
     //OEMapRef               keyMap;
     NSUInteger             frameSkip;
     NSUInteger             frameCounter;

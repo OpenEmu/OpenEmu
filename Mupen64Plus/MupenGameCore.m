@@ -67,7 +67,7 @@ NSString *MupenControlNames[] = {
     
     // open core here
     //CoreStartup(MUPEN_API_VERSION, configPath, dataPath, self, MupenDebugCallback, self, MupenStateCallback);
-    CoreStartup(CONFIG_API_VERSION, configPath, dataPath, self, MupenDebugCallback, self, MupenStateCallback);
+    CoreStartup(CONFIG_API_VERSION, configPath, dataPath, (__bridge void *)(self), MupenDebugCallback, (__bridge void *)(self), MupenStateCallback);
     
     // plugins + config
     m64p_handle section;
@@ -76,7 +76,6 @@ NSString *MupenControlNames[] = {
     ConfigSetParameter(section, "R4300Emulator", M64TYPE_INT, &ival);
     
     // load rom here
-    if (romData) [romData release];
     romData = [NSData dataWithContentsOfMappedFile:path];
     
     CoreDoCommand(M64CMD_ROM_OPEN, [romData length], (void*)[romData bytes]);
@@ -101,11 +100,11 @@ NSString *MupenControlNames[] = {
 
 - (void)mupenEmuThread
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
     
-    CoreDoCommand(M64CMD_EXECUTE, 0, NULL);
+        CoreDoCommand(M64CMD_EXECUTE, 0, NULL);
     
-    [pool drain];
+    }
 }
 
 - (void)executeFrameSkippingFrame: (BOOL) skip
