@@ -267,15 +267,14 @@
     [self _closeByClickingItem:selectedItem];
 }
 
-- (void)setMenu:(NSMenu *)value
+- (void)setMenu:(NSMenu *)nmenu
 {
-    if(menu != value)
-    {
-        [menu release];
-        menu = [value retain];
-        
-        [[self menuView] update];
-    }
+    [nmenu retain];
+    [menu release];
+    
+    menu = nmenu;
+    
+    [[self menuView] updateAndDisplay:NO];
 }
 
 #pragma mark -
