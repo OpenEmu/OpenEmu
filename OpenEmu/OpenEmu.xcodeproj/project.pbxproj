@@ -313,7 +313,6 @@
 		82CAFBBE0FEDAA4200CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFBB70FEDAA3D00CCDC7E /* config.yaml */; };
 		82DD29DB12369F1100B58A8F /* KeyboardUsages.plist in Resources */ = {isa = PBXBuildFile; fileRef = 82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */; };
 		82DD2B1E1236CF0200B58A8F /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DD2B1D1236CF0200B58A8F /* Carbon.framework */; };
-		82DE49F010263FF3007184EB /* CoreDownloader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82DE49EF10263FF3007184EB /* CoreDownloader.xib */; };
 		82DE4B62102655D5007184EB /* XADMaster.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
 		82DE4B63102655DA007184EB /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEE1026533E007184EB /* UniversalDetector.framework */; };
 		82DE4B7F102655FC007184EB /* XADMaster.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 82DE4AEF1026533E007184EB /* XADMaster.framework */; };
@@ -322,7 +321,6 @@
 		82EE73E11443C1F700080CCB /* OEGameCore.h in Headers */ = {isa = PBXBuildFile; fileRef = 828389A80E6CF3A500A96E2C /* OEGameCore.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82F3629F0F51CC63001495F6 /* OEAbstractAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFA3D0F51C1640080AA28 /* OEAbstractAdditions.m */; };
 		82F362A00F51CC66001495F6 /* OEAbstractAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C66DFA3C0F51C1640080AA28 /* OEAbstractAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		82F7F7AA101FECFE00533B55 /* SaveStateManager.xib in Resources */ = {isa = PBXBuildFile; fileRef = 82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */; };
 		82FC495D102123D100408B4F /* OEFrameEncodeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 82FC495C102123D100408B4F /* OEFrameEncodeOperation.m */; };
 		8301557B1456BF7A0093D681 /* OEGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8301557A1456BF7A0093D681 /* OEGameViewController.m */; };
 		83025E60146BDD5E00A06EF9 /* OECoreTableButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83025E5F146BDD5E00A06EF9 /* OECoreTableButtonCell.m */; };
@@ -395,6 +393,8 @@
 		83AEF939140B78B6007803D7 /* filter_effect_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AEF937140B78B6007803D7 /* filter_effect_frame.png */; };
 		83AF90871414CBC500B74C5B /* OEHUDGameWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83AF90861414CBC500B74C5B /* OEHUDGameWindow.m */; };
 		83B5FF4F14DF065300017A71 /* tick_mark.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B5FF4E14DF065300017A71 /* tick_mark.png */; };
+		83B5FF5814DF38B000017A71 /* light_arrows_menu_body.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B5FF5714DF38B000017A71 /* light_arrows_menu_body.png */; };
+		83B5FF5A14DF5E0B00017A71 /* light_arrows_menu_body_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B5FF5914DF5E0B00017A71 /* light_arrows_menu_body_mask.png */; };
 		83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */; };
 		83BF5292146C2F0A00B5F742 /* blank_slate_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */; };
 		83BF5295146C2F4000B5F742 /* blank_slate_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5294146C2F4000B5F742 /* blank_slate_box.png */; };
@@ -1166,11 +1166,9 @@
 		82DD2B1D1236CF0200B58A8F /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		82DD2B8C1236D0C400B58A8F /* OEHIDUsageToVK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDUsageToVK.h; sourceTree = "<group>"; };
 		82DE446510252F2F007184EB /* IKImageFlowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKImageFlowView.h; sourceTree = "<group>"; };
-		82DE49EF10263FF3007184EB /* CoreDownloader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CoreDownloader.xib; sourceTree = "<group>"; };
 		82DE4AEE1026533E007184EB /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = "<group>"; };
 		82DE4AEF1026533E007184EB /* XADMaster.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XADMaster.framework; sourceTree = "<group>"; };
 		82E741890E7209C400AE60C4 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GameDocument.xib; sourceTree = "<group>"; };
-		82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SaveStateManager.xib; sourceTree = "<group>"; };
 		82FC495B102123D100408B4F /* OEFrameEncodeOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFrameEncodeOperation.h; sourceTree = "<group>"; };
 		82FC495C102123D100408B4F /* OEFrameEncodeOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFrameEncodeOperation.m; sourceTree = "<group>"; };
 		830155791456BF7A0093D681 /* OEGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameViewController.h; sourceTree = "<group>"; };
@@ -1275,6 +1273,8 @@
 		83AF90851414CBC500B74C5B /* OEHUDGameWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDGameWindow.h; sourceTree = "<group>"; };
 		83AF90861414CBC500B74C5B /* OEHUDGameWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHUDGameWindow.m; sourceTree = "<group>"; };
 		83B5FF4E14DF065300017A71 /* tick_mark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tick_mark.png; sourceTree = "<group>"; };
+		83B5FF5714DF38B000017A71 /* light_arrows_menu_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_arrows_menu_body.png; sourceTree = "<group>"; };
+		83B5FF5914DF5E0B00017A71 /* light_arrows_menu_body_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = light_arrows_menu_body_mask.png; sourceTree = "<group>"; };
 		83B6E43D143E090800BCDB7A /* OELocalizationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELocalizationHelper.h; sourceTree = "<group>"; };
 		83B6E43E143E090800BCDB7A /* OELocalizationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELocalizationHelper.m; sourceTree = "<group>"; };
 		83BABBEC1458978B0097F6B2 /* OESetupAssistantTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantTableView.h; sourceTree = "<group>"; };
@@ -1785,8 +1785,6 @@
 				82965F841041DC3200F30B74 /* OECorePicker.xib */,
 				828ED4D80E7D98A10059F397 /* GameFilePicker.xib */,
 				82E741880E7209C400AE60C4 /* GameDocument.xib */,
-				82F7F7A9101FECFE00533B55 /* SaveStateManager.xib */,
-				82DE49EF10263FF3007184EB /* CoreDownloader.xib */,
 				832D29421451ACF200BDF950 /* MainWindow.xib */,
 			);
 			name = XIBs;
@@ -2407,6 +2405,8 @@
 		53439BA913B93920005C0CC8 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
+				83B5FF5914DF5E0B00017A71 /* light_arrows_menu_body_mask.png */,
+				83B5FF5714DF38B000017A71 /* light_arrows_menu_body.png */,
 				83920CDC147E675C00D219EA /* hud_alert_window.png */,
 				83E25057147BC6BF0074EE14 /* hud_textfield.png */,
 				837777BA147A8F6A0091A896 /* hud_progress_bar_track.png */,
@@ -3470,10 +3470,8 @@
 				C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */,
 				C67A36AA0FE7F1F500A665E2 /* OECorePluginIcon.icns in Resources */,
 				C69DCCED0FE99415009AE5A6 /* OEFilterPluginIcon.icns in Resources */,
-				82F7F7AA101FECFE00533B55 /* SaveStateManager.xib in Resources */,
 				826844C51022A0630019C7B0 /* smaller.tif in Resources */,
 				826844C61022A0630019C7B0 /* larger.tif in Resources */,
-				82DE49F010263FF3007184EB /* CoreDownloader.xib in Resources */,
 				82965F851041DC3200F30B74 /* OECorePicker.xib in Resources */,
 				82C42C8610CAFB480046D1A3 /* download_arrow_down.png in Resources */,
 				82C42C8710CAFB480046D1A3 /* download_arrow_up.png in Resources */,
@@ -3594,6 +3592,8 @@
 				83CE3DC314C84EC10036DB28 /* beta_icon.png in Resources */,
 				83C0B37414D6FC58007CAC00 /* sidebar_triangle.png in Resources */,
 				83B5FF4F14DF065300017A71 /* tick_mark.png in Resources */,
+				83B5FF5814DF38B000017A71 /* light_arrows_menu_body.png in Resources */,
+				83B5FF5A14DF5E0B00017A71 /* light_arrows_menu_body_mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

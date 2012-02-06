@@ -21,6 +21,8 @@
 @end
 
 @implementation OEMenu
+@synthesize edge=_edge;
+@dynamic style;
 @synthesize menu, supermenu, visible, popupButton, delegate;
 @synthesize minSize, maxSize, itemsAboveScroller, itemsBelowScroller;
 @synthesize alternate=_alternate;
@@ -29,7 +31,7 @@
     // Make sure not to reinitialize for subclassed objects
     if (self != [OEMenu class])
         return;
-
+    
     NSImage *menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
     [menuArrows setName:@"dark_menu_popover_arrow_normal" forSubimageInRect:NSMakeRect(0, menuArrows.size.height/2, menuArrows.size.width, menuArrows.size.height/2)];
     [menuArrows setName:@"dark_menu_popover_arrow_selected" forSubimageInRect:NSMakeRect(0, 0, menuArrows.size.width, menuArrows.size.height/2)];
@@ -49,11 +51,13 @@
     self = [super initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
     if (self) 
     {
-        self.maxSize = NSMakeSize(500, 500);
-        self.minSize = NSMakeSize(82, 19*2);
+        [self setStyle:OEMenuStyleDark];
         
-        self.itemsAboveScroller = 0;
-        self.itemsBelowScroller = 0;
+        [self setMaxSize:(NSSize){5000,500}];
+        [self setMinSize:(NSSize){82,19*2}];
+        
+        [self setItemsAboveScroller:0];
+        [self setItemsBelowScroller:0];
         
         OEMenuView *view = [[OEMenuView alloc] initWithFrame:NSZeroRect];
         [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
@@ -149,25 +153,54 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges:) name:NSApplicationWillResignActiveNotification object:NSApp];
     
-    [[self menuView] update];
+    [[self menuView] updateAndDisplay:YES];
     
-    // make sure menu is fully on screen
-    if(p.y<0)
+    
+    NSPoint origin = p;
+    if(![self supermenu] && style == OEMenuStyleLight)
+        switch ([self edge]) {
+            case NSMaxYEdge:
+                origin.x -= self.frame.size.width / 2;
+                origin.y -= self.frame.size.height;
+                break;
+            case NSMinYEdge:
+                origin.x -= self.frame.size.width / 2;
+                break;
+            case NSMinXEdge:
+                origin.y -= self.frame.size.height / 2;
+                break;
+            case NSMaxXEdge:
+                origin.y -= self.frame.size.height / 2;
+                origin.x -= self.frame.size.width;
+                break;
+            default:
+                NSLog(@"This edge is not supported yet");
+                break;
+        }
+    else 
     {
-        p.y = 0;
-    }
-    else if(p.y + NSHeight([self frame]) > NSMaxY([[win screen] visibleFrame]))
-    {
-        p.y = NSMaxY([[win screen] visibleFrame])-NSHeight([self frame]);
+        if(origin.y<0)
+            origin.y = 0;
+        else if(origin.y + NSHeight([self frame]) > NSMaxY([[win screen] visibleFrame]))
+            origin.y = NSMaxY([[win screen] visibleFrame])-NSHeight([self frame]);
     }
     
-    [self setFrameOrigin:p];
+    [self setFrameOrigin:origin];
     [win addChildWindow:self ordered:NSWindowAbove];
-
+    
     
     NSPoint windowP = [self convertScreenToBase:[NSEvent mouseLocation]];
     [[self menuView] highlightItemAtPoint:windowP];
-    if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidShow:)]) [self.delegate performSelector:@selector(menuDidShow:) withObject:self];}
+    if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidShow:)]) [self.delegate performSelector:@selector(menuDidShow:) withObject:self];
+}
+
+
+- (void)openOnEdge:(NSRectEdge)edge atPoint:(NSPoint)p ofWindow:(NSWindow*)win
+{
+    _edge = edge;
+    [self setStyle:OEMenuStyleLight];
+    [self openAtPoint:p ofWindow:win];
+}
 
 - (void)closeMenuWithoutChanges:(id)sender
 {
@@ -218,7 +251,7 @@
     
     menu = nmenu;
     
-    [[self menuView] update];
+    [[self menuView] updateAndDisplay:NO];
 }
 
 #pragma mark -
@@ -289,7 +322,7 @@
     
     if(_submenu)
     {
-        [[self menuView] update];
+        [[self menuView] updateAndDisplay:NO];
         
         NSRect selectedItemRect = [[self menuView] rectOfItem:self.highlightedItem];
         NSPoint submenuSpawnPoint = [self frame].origin;
@@ -297,6 +330,8 @@
         submenuSpawnPoint.x += [self frame].size.width;
         submenuSpawnPoint.x -= 9;
         
+        if(![self supermenu] && [self style]==OEMenuStyleLight)
+            submenuSpawnPoint.x -= 8;
         
         submenuSpawnPoint.y = 8 - selectedItemRect.origin.y + [self frame].origin.y -_submenu.frame.size.height + [self frame].size.height;
         
@@ -314,12 +349,23 @@
 {
     return submenu;
 }
-
+#pragma mark -
+- (void)setStyle:(OEMenuStyle)aStyle
+{
+    style = aStyle;
+}
+- (OEMenuStyle)style
+{
+    if([self supermenu])
+        return [[self supermenu] style];
+    
+    return style;
+}
 #pragma mark -
 #pragma mark NSMenu wrapping
 - (NSArray *)itemArray
 {
-    return [self.menu itemArray];
+    return [[self menu] itemArray];
 }
 #pragma mark -
 #pragma mark Private Methods
@@ -420,13 +466,31 @@
 @end
 
 #pragma mark -
-#pragma mark Menu Item Sizes + Spacing
+#pragma mark Dark Style Sizes
 #define MenuShadowLeft 5
 #define MenuShadowRight 5
 #define MenuTickmarkSpace 19
 #define MenuImageWidth 15
 #define MenuImageTitleSpacing 6
+#pragma mark -
+#pragma mark Light Style Sizes
+#define LightStyleImageTop 21
+#define LightStyleImageLeft 20
+#define LightStyleImageRight 20
+#define LightStyleImageBottom 21
 
+#define LightStyleContentBottom 16
+#define LightStyleContentTop 16
+#define LightStyleContentLeft 14
+#define LightStyleContentRight 14
+#pragma mark -
+#pragma mark General Sizing
+#define menuItemHeight (imageIncluded ? menuItemHeightImage : menuItemHeightNoImage)
+#define menuItemSeparatorHeight 7
+#define menuItemHeightNoImage 17
+#define menuItemHeightImage 20
+
+#pragma mark -
 #pragma mark -
 #pragma mark Menu Item Sizes + Spacing
 #define menuItemSpacingTop 8 + (imageIncluded ? 1 : 0)
@@ -434,14 +498,9 @@
 #define menuItemSpacingLeft 0 + (imageIncluded ? 13 : 0)
 #define menuItemImageWidth 16
 #define menuItemImageTitleSpacing 6
-#define menuItemSpacingRight 17 - (imageIncluded ? 1 : 0)
+#define menuItemSpacingRight 14 - (imageIncluded ? 1 : 0)
 
-#define menuItemHeightNoImage 17
-#define menuItemHeightImage 20
-#define menuItemSeparatorHeight 7
-#define menuItemHeight (imageIncluded ? menuItemHeightImage : menuItemHeightNoImage)
 
-#define menuItemScrollerHeight 15
 #pragma mark -
 #pragma mark OEMenuView
 @interface OEMenuView (Private)
@@ -478,7 +537,7 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
-    NSColor *textColor = [NSColor whiteColor];
+    NSColor *textColor = [[self menu] style]==OEMenuStyleDark?[NSColor whiteColor]:[NSColor blackColor];
     NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
     [ps setLineBreakMode:NSLineBreakByTruncatingTail];
     
@@ -494,7 +553,7 @@
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
-    NSColor *textColor = [NSColor blackColor];
+    NSColor *textColor = [[self menu] style]==OEMenuStyleDark?[NSColor blackColor]:[NSColor whiteColor];
     NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
     [ps setLineBreakMode:NSLineBreakByTruncatingTail];
     
@@ -536,9 +595,9 @@
 }
 #pragma mark -
 #pragma mark Drawing
-- (void)update
+- (void)updateAndDisplay:(BOOL)displayFlag
 {
-    NSArray *items = [self.menu itemArray];
+    NSArray *items = [[self menu] itemArray];
     
     float width = 0;
     
@@ -565,75 +624,236 @@
         normalItems ++;
     }
     
-    float height = menuItemHeight*normalItems + menuItemSeparatorHeight*separatorItems + menuItemSpacingTop+menuItemSpacingBottom;
+    float height;
     
-    width = MenuShadowLeft + MenuTickmarkSpace + width + MenuShadowRight;
-    width += imageIncluded ? menuItemImageWidth+menuItemImageTitleSpacing : 0 ;
+    if([[self menu] style] == OEMenuStyleDark || [[self menu] supermenu])
+    {
+        height = menuItemHeight*normalItems + menuItemSeparatorHeight*separatorItems + menuItemSpacingTop+menuItemSpacingBottom;
+        
+        width = MenuShadowLeft + MenuTickmarkSpace + width + MenuShadowRight;
+        width += imageIncluded ? menuItemImageWidth+menuItemImageTitleSpacing : 0 ;
+    }
+    else
+    {
+        height = LightStyleContentTop+ menuItemHeight*normalItems + menuItemSeparatorHeight*separatorItems + LightStyleContentBottom;
+        
+        width = LightStyleContentLeft + MenuTickmarkSpace + width + LightStyleContentRight;
+        width += imageIncluded ? menuItemImageWidth+menuItemImageTitleSpacing : 0 ;
+    }
     
-    width = width < self.menu.minSize.width ? self.menu.minSize.width : width;
-    width = width > self.menu.maxSize.width ? self.menu.maxSize.width : width;
+    width = width < [self menu].minSize.width ? [self menu].minSize.width : width;
+    width = width > [self menu].maxSize.width ? [self menu].maxSize.width : width;
     
-    height = height < self.menu.minSize.height ? self.menu.minSize.height : height;
-    height = height > self.menu.maxSize.height ? self.menu.maxSize.height : height;
+    height = height < [self menu].minSize.height ? [self menu].minSize.height : height;
+    height = height > [self menu].maxSize.height ? [self menu].maxSize.height : height;
     
-    NSRect winFrame = self.menu.frame;
+    NSRect winFrame = [self menu].frame;
     winFrame.size = NSMakeSize(width, height);
     
-    [self.menu setFrame:winFrame display:YES];
-    [self setNeedsDisplay:YES];
+    [[self menu] setFrame:winFrame display:displayFlag];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
+    OEMenuStyle style = [[self menu] style];
     
-    NSColor *startColor = [NSColor colorWithDeviceWhite:0.91 alpha:0.10];
-    NSColor *endColor = [startColor colorWithAlphaComponent:0.0];
+    NSColor *startColor = style==OEMenuStyleDark?[NSColor colorWithDeviceWhite:0.91 alpha:0.10]:[NSColor colorWithDeviceWhite:0.85 alpha:0.90];
+    NSColor *endColor = style==OEMenuStyleDark?[startColor colorWithAlphaComponent:0.0]:[NSColor colorWithDeviceWhite:0.75 alpha:0.90];
     NSGradient *grad = [[[NSGradient alloc] initWithStartingColor:startColor endingColor:endColor] autorelease];
     
-    NSRect backgroundRect = NSInsetRect([self bounds], 4, 4);
+    NSRect backgroundRect;
+    if(style == OEMenuStyleDark || [[self menu] supermenu])
+    {
+        backgroundRect = NSInsetRect([self bounds], 4, 4);
+    }
+    else
+    {
+        backgroundRect = NSInsetRect([self bounds], 14, 14);
+    }
+    
     NSBezierPath *path = [NSBezierPath bezierPathWithRoundedRect:backgroundRect xRadius:3 yRadius:3];
-    
-    // Draw Background color
-    NSColor *backgroundColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.8];
-    [[[[NSGradient alloc] initWithStartingColor:backgroundColor endingColor:backgroundColor] autorelease] drawInBezierPath:path angle:90];
-    
-    // draw gradient above
-    [grad drawInBezierPath:path angle:90];
+    if(style == OEMenuStyleDark)    // Draw Background color
+    {
+        NSColor *backgroundColor = [NSColor colorWithDeviceWhite:0.0 alpha:0.8];
+        [[[[NSGradient alloc] initWithStartingColor:backgroundColor endingColor:backgroundColor] autorelease] drawInBezierPath:path angle:90];
+        // draw gradient above
+        [grad drawInBezierPath:path angle:90];
+    } 
+    else if([self superview])
+        [grad drawInBezierPath:path angle:90];
     
     // draw background border
-    NSImage *img = [self.menu supermenu]==nil ? [NSImage imageNamed:@"dark_menu_body"] : [NSImage imageNamed:@"dark_submenu_body"];
-    [img drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:17 rightBorder:17 topBorder:19 bottomBorder:19];
+    if(style == OEMenuStyleDark || [[self menu] supermenu])
+    {
+        NSImage *img = [[self menu] supermenu]==nil ? [NSImage imageNamed:@"dark_menu_body"] : [NSImage imageNamed:@"dark_submenu_body"];
+        [img drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:17 rightBorder:17 topBorder:19 bottomBorder:19];
+    }
+    else if(![[self menu] supermenu])
+    {
+        NSSize cornerSize = (NSSize){20, 21};
+        
+        // draw open edge
+        NSRect edgeSourceRect, edgeTargetRect;
+        NSRectEdge edge = [[self menu] edge];
+        switch (edge) {
+            case NSMinXEdge:
+                edgeSourceRect = (NSRect){{0,21},{20, 15}};
+                edgeTargetRect = (NSRect){{0, roundf((self.frame.size.height-edgeSourceRect.size.height)/2)},edgeSourceRect.size};
+                backgroundRect.size.width += edgeSourceRect.size.width;
+                backgroundRect.origin.x -= edgeSourceRect.size.width;                
+                break;
+            case NSMaxXEdge:
+                edgeSourceRect = (NSRect){{34,21},{20, 15}};
+                edgeTargetRect = (NSRect){{self.frame.size.width-edgeSourceRect.size.width, roundf((self.frame.size.height-edgeSourceRect.size.height)/2)},edgeSourceRect.size};
+                backgroundRect.size.width += edgeSourceRect.size.width;
+                break;
+            case NSMinYEdge:
+                edgeSourceRect = (NSRect){{20,0},{14, 21}};
+                edgeTargetRect = (NSRect){{roundf((self.frame.size.width-edgeSourceRect.size.width)/2), self.frame.size.height-edgeSourceRect.size.height},edgeSourceRect.size};
+                backgroundRect.size.height += edgeSourceRect.size.height;
+                break;
+            case NSMaxYEdge:
+                edgeSourceRect = (NSRect){{20,36},{14, 21}};
+                edgeTargetRect = (NSRect){{roundf((self.frame.size.width-edgeSourceRect.size.width)/2), 0},edgeSourceRect.size};
+                backgroundRect.size.height += edgeSourceRect.size.height;
+                backgroundRect.origin.y -= edgeSourceRect.size.height;
+                break;
+            default:
+                break;
+        }
+        NSImage* lightMenuBodyImage = [NSImage imageNamed:@"light_arrows_menu_body"];
+        NSImage* lightMenuBodyMaskImage = [NSImage imageNamed:@"light_arrows_menu_body_mask"];
+        [[NSColor blackColor] setFill];
+        [path fill];
+        [lightMenuBodyMaskImage drawInRect:edgeTargetRect fromRect:edgeSourceRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        
+        [[NSGraphicsContext currentContext] setCompositingOperation:NSCompositeSourceIn];
+        
+        [grad drawInRect:backgroundRect angle:90];
+        
+        [lightMenuBodyImage drawInRect:edgeTargetRect fromRect:edgeSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+
+        
+        // top left
+        [lightMenuBodyImage drawInRect:(NSRect){{0,0}, cornerSize} fromRect:(NSRect){{0,lightMenuBodyImage.size.height-cornerSize.height}, cornerSize} operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        // top right
+        [lightMenuBodyImage drawInRect:(NSRect){{self.frame.size.width-cornerSize.width,0}, cornerSize} fromRect:(NSRect){{[lightMenuBodyImage size].width-cornerSize.width,lightMenuBodyImage.size.height-cornerSize.height}, cornerSize} operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        // bottom left
+        [lightMenuBodyImage drawInRect:(NSRect){{0,self.frame.size.height-cornerSize.height}, cornerSize} fromRect:(NSRect){{0,0}, cornerSize} operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        // bottom right
+        [lightMenuBodyImage drawInRect:(NSRect){{self.frame.size.width-cornerSize.width,self.frame.size.height-cornerSize.height}, cornerSize} fromRect:(NSRect){{[lightMenuBodyImage size].width-cornerSize.width,0}, cornerSize} operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        
+        
+        // draw rest of the frame        
+        NSRect leftTargetRect = (NSRect){{0, LightStyleImageTop},{LightStyleImageLeft, self.bounds.size.height-LightStyleImageBottom-LightStyleImageTop}};
+        NSRect leftSourceRect = (NSRect){{0,LightStyleImageTop-1}, {LightStyleImageLeft,1}};
+        if(edge != NSMinXEdge)
+            [lightMenuBodyImage drawInRect:leftTargetRect fromRect:leftSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        else
+        {
+            float edgeY = roundf((self.frame.size.height-edgeSourceRect.size.height)/2);
+            leftTargetRect.origin.y = LightStyleImageTop;
+            leftTargetRect.size.height = edgeY-LightStyleImageTop;
+            [lightMenuBodyImage drawInRect:leftTargetRect fromRect:leftSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+            
+            leftTargetRect.origin.y += leftTargetRect.size.height+edgeSourceRect.size.height;
+            [lightMenuBodyImage drawInRect:leftTargetRect fromRect:leftSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        }
+        
+        NSRect rightTargetRect = (NSRect){{self.frame.size.width-LightStyleImageRight, LightStyleImageTop},{LightStyleImageRight, self.bounds.size.height-LightStyleImageBottom-LightStyleImageTop}};
+        NSRect rightSourceRect = (NSRect){{lightMenuBodyImage.size.width-LightStyleImageRight,LightStyleImageTop-1},{LightStyleImageRight, 1}};
+        if(edge != NSMaxXEdge)
+            [lightMenuBodyImage drawInRect:rightTargetRect fromRect:rightSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        else
+        {
+            float edgeY = roundf((self.frame.size.height-edgeSourceRect.size.height)/2);
+            rightTargetRect.origin.y = LightStyleImageTop;
+            rightTargetRect.size.height = edgeY-LightStyleImageTop;
+            [lightMenuBodyImage drawInRect:rightTargetRect fromRect:rightSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+            
+            rightTargetRect.origin.y += rightTargetRect.size.height+edgeSourceRect.size.height;
+            [lightMenuBodyImage drawInRect:rightTargetRect fromRect:rightSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        }
+        
+        NSRect topTargetRect = (NSRect){{LightStyleImageLeft, 0}, {self.frame.size.width-LightStyleImageLeft-LightStyleImageRight, LightStyleImageTop}};
+        NSRect topSourceRect = (NSRect){{LightStyleImageLeft-1, lightMenuBodyImage.size.height-LightStyleImageTop},{1, LightStyleImageTop}};
+        if(edge != NSMaxYEdge)
+            [lightMenuBodyImage drawInRect:topTargetRect fromRect:topSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        else
+        {
+            float edgeX = roundf((self.frame.size.width-edgeSourceRect.size.width)/2);
+            topTargetRect.origin.x = LightStyleImageLeft;
+            topTargetRect.size.width = edgeX - LightStyleImageLeft;
+            [lightMenuBodyImage drawInRect:topTargetRect fromRect:topSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+
+            topTargetRect.origin.x += topTargetRect.size.width + edgeSourceRect.size.width;
+            [lightMenuBodyImage drawInRect:topTargetRect fromRect:topSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        }
+        NSRect bottomTargetRect = (NSRect){{LightStyleImageLeft, self.frame.size.height-LightStyleImageBottom}, {self.frame.size.width-LightStyleImageLeft-LightStyleImageRight, LightStyleImageBottom}};
+        NSRect bottomSourceRect = (NSRect){{lightMenuBodyImage.size.width-LightStyleImageRight, 0},{1, LightStyleImageBottom}};
+        
+        if(edge != NSMinYEdge)
+            [lightMenuBodyImage drawInRect:bottomTargetRect fromRect:bottomSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        else
+        {
+            float edgeX = roundf((self.frame.size.width-edgeSourceRect.size.width)/2);
+            bottomTargetRect.origin.x = LightStyleImageLeft;
+            bottomTargetRect.size.width = edgeX - LightStyleImageLeft;
+            [lightMenuBodyImage drawInRect:bottomTargetRect fromRect:bottomSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+            
+            bottomTargetRect.origin.x += bottomTargetRect.size.width + edgeSourceRect.size.width;
+            [lightMenuBodyImage drawInRect:bottomTargetRect fromRect:bottomSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        }
+    }
     
+    NSArray *items = [[self menu] itemArray];
+    BOOL darkStyle = style == OEMenuStyleDark  || [[self menu] supermenu];
     
-    NSArray *items = [self.menu itemArray];
-    float y = menuItemSpacingTop;
+    float y = darkStyle?menuItemSpacingTop:LightStyleContentTop;
     for(NSMenuItem *menuItem in items)
     {
         if([menuItem isSeparatorItem])
         {
-            NSRect lineRect = NSMakeRect(0, y, [self frame].size.width, 1);
-            lineRect = NSInsetRect(lineRect, 5, 0);
+            NSRect lineRect;
+            if(darkStyle)
+            {
+                lineRect = (NSRect){{MenuShadowLeft, y}, {[self frame].size.width-MenuShadowLeft-MenuShadowRight, 1}};
+                lineRect = NSInsetRect(lineRect, 5, 0);
+                
+            }
+            else
+            {
+                lineRect = (NSRect){{LightStyleContentLeft, y}, {[self frame].size.width-LightStyleContentLeft-LightStyleContentRight, 1}};
+            }
             
             lineRect.origin.y += 2;
-            [[NSColor blackColor] setFill];
+            [[NSColor colorWithDeviceWhite:0.19 alpha:1.0] setFill];
             NSRectFill(lineRect);
             
             lineRect.origin.y += 1;
-            [[NSColor colorWithDeviceWhite:1.0 alpha:0.12] setFill];
+            [[NSColor colorWithDeviceWhite:1.0 alpha:0.5] setFill];
             NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
             
             y += menuItemSeparatorHeight;
             continue;
         }
-        NSRect itemRect = NSMakeRect(MenuShadowLeft+MenuTickmarkSpace, y, [self frame].size.width-MenuShadowLeft-menuItemSpacingRight-MenuShadowRight-MenuTickmarkSpace, menuItemHeight);
-        NSRect menuItemFrame = NSMakeRect(MenuShadowLeft, y, [self frame].size.width-MenuShadowLeft-MenuShadowRight, menuItemHeight);
-        
-        BOOL isHighlighted = self.menu.highlightedItem==menuItem;
+        NSRect itemRect, menuItemFrame;
+        if(darkStyle)
+        {
+            itemRect = NSMakeRect(MenuShadowLeft+MenuTickmarkSpace, y, [self frame].size.width-MenuShadowLeft-menuItemSpacingRight-MenuShadowRight-MenuTickmarkSpace, menuItemHeight);
+            menuItemFrame = NSMakeRect(MenuShadowLeft, y, [self frame].size.width-MenuShadowLeft-MenuShadowRight, menuItemHeight);
+        }
+        else
+        {
+            itemRect = NSMakeRect(LightStyleContentLeft+MenuTickmarkSpace, y, [self frame].size.width-LightStyleContentLeft-LightStyleContentRight-MenuTickmarkSpace-menuItemSpacingRight, menuItemHeight);
+            menuItemFrame = NSMakeRect(LightStyleContentLeft, y, [self frame].size.width-LightStyleContentLeft-LightStyleContentRight, menuItemHeight);
+        }
+        BOOL isHighlighted = [self menu].highlightedItem==menuItem;
         BOOL isDisabled = ![menuItem isEnabled];
         BOOL hasImage = [menuItem image]!=nil;
         BOOL hasSubmenu = [menuItem hasSubmenu];
         
-        BOOL drawAlternate = !isDisabled && isHighlighted && [menuItem isKindOfClass:[OEMenuItem class]] && [(OEMenuItem*)menuItem hasAlternate] && self.menu.alternate;
+        BOOL drawAlternate = !isDisabled && isHighlighted && [menuItem isKindOfClass:[OEMenuItem class]] && [(OEMenuItem*)menuItem hasAlternate] && [self menu].alternate;
         if(!isDisabled && isHighlighted)
         {
             NSColor *cTop, *cBottom;
@@ -645,8 +865,8 @@
             }
             else
             {
-                cTop = [NSColor colorWithDeviceWhite:0.91 alpha:1.0];
-                cBottom = [NSColor colorWithDeviceWhite:0.71 alpha:1.0];
+                cTop = style==OEMenuStyleDark?[NSColor colorWithDeviceWhite:0.91 alpha:1.0]:[NSColor colorWithDeviceWhite:0.19 alpha:1.0];
+                cBottom = style==OEMenuStyleDark?[NSColor colorWithDeviceWhite:0.71 alpha:1.0]:[NSColor colorWithDeviceWhite:0.10 alpha:1.0];
             }
             
             NSGradient *selectionGrad = [[NSGradient alloc] initWithStartingColor:cTop endingColor:cBottom];
@@ -671,7 +891,7 @@
         // Draw submenu arrow
         if(hasSubmenu)
         {
-            NSImage *arrow = isHighlighted ? [NSImage imageNamed:@"dark_menu_popover_arrow_selected"] : [NSImage imageNamed:@"dark_menu_popover_arrow_normal"];
+            NSImage *arrow = isHighlighted ^ (style==OEMenuStyleLight)? [NSImage imageNamed:@"dark_menu_popover_arrow_selected"] : [NSImage imageNamed:@"dark_menu_popover_arrow_normal"];
             NSRect arrowRect = NSMakeRect(0, 0, 0, 0);
             arrowRect.size = arrow.size;
             arrowRect.origin.x = menuItemFrame.origin.x + menuItemFrame.size.width - 11;
@@ -719,39 +939,39 @@
 
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    if([self.menu _isClosing]) return;
+    if([[self menu] _isClosing]) return;
     // check if on selected item && selected item not disabled
     // perform action, update selected item
     
-    if(![[self.menu highlightedItem] hasSubmenu])
+    if(![[[self menu] highlightedItem] hasSubmenu])
     {
-        [self.menu closeMenu];
+        [[self menu] closeMenu];
     }
 }
 - (void)mouseMoved:(NSEvent *)theEvent
 {
-    if([self.menu _isClosing]) return;
+    if([[self menu] _isClosing]) return;
     NSPoint loc = [theEvent locationInWindow];
     [self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
-    if([self.menu _isClosing]) return;
+    if([[self menu] _isClosing]) return;
     NSPoint loc = [theEvent locationInWindow];
     [self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent
 {
-    if([self.menu _isClosing]) return;
+    if([[self menu] _isClosing]) return;
     NSPoint loc = [theEvent locationInWindow];
     [self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent
 {
-    if([self.menu _isClosing]) return;
+    if([[self menu] _isClosing]) return;
     // if not mouse on subwindow
     NSPoint loc = [theEvent locationInWindow];
     [self highlightItemAtPoint:[self convertPointFromBase:loc]];
@@ -759,37 +979,37 @@
 #pragma mark -
 - (void)keyDown:(NSEvent *)theEvent
 {
-    if([self.menu _isClosing]) return;
+    if([[self menu] _isClosing]) return;
     
-    NSMenuItem *currentItem = self.menu.highlightedItem;
+    NSMenuItem *currentItem = [self menu].highlightedItem;
     switch (theEvent.keyCode) 
     {
         case 126: // UP
-            if(self.menu.highlightedItem)
+            if([self menu].highlightedItem)
             {
-                NSInteger index = [self.menu.itemArray indexOfObject:self.menu.highlightedItem];
+                NSInteger index = [[self menu].itemArray indexOfObject:[self menu].highlightedItem];
                 if(index!=NSNotFound && index>0)
                 {
-                    self.menu.highlightedItem = [self.menu.itemArray objectAtIndex:index-1];
+                    [self menu].highlightedItem = [[self menu].itemArray objectAtIndex:index-1];
                 }
             }
             else 
             {
-                self.menu.highlightedItem = self.menu.itemArray.lastObject;
+                [self menu].highlightedItem = [self menu].itemArray.lastObject;
             }
             break;
         case 125: // DOWN
-            if(self.menu.highlightedItem)
+            if([self menu].highlightedItem)
             {
-                NSInteger index = [self.menu.itemArray indexOfObject:self.menu.highlightedItem];
-                if(index!=NSNotFound && index < self.menu.itemArray.count-1)
+                NSInteger index = [[self menu].itemArray indexOfObject:[self menu].highlightedItem];
+                if(index!=NSNotFound && index < [self menu].itemArray.count-1)
                 {
-                    self.menu.highlightedItem = [self.menu.itemArray objectAtIndex:index+1];
+                    [self menu].highlightedItem = [[self menu].itemArray objectAtIndex:index+1];
                 }
             } 
             else 
             {
-                self.menu.highlightedItem = [self.menu.itemArray objectAtIndex:0];
+                [self menu].highlightedItem = [[self menu].itemArray objectAtIndex:0];
             }
             break;
         case 123: // LEFT (exit submenu if any)
@@ -797,11 +1017,11 @@
         case 124: // RIGHT (enter submenu if any)
             break;
         case 53: // ESC (close without changes)
-            [self.menu closeMenuWithoutChanges:self];
+            [[self menu] closeMenuWithoutChanges:self];
             break;
         case 49: // SPACE ("click" selected item)
         case 36: // ENTER (same as space)
-            [self.menu closeMenu];
+            [[self menu] closeMenu];
             break;
         default:
             break;
@@ -812,11 +1032,11 @@
     // this will continue until either a normal item was selected or the last (or first depending on direction) item is reached
     // we then check if the selected item is still a separator and if so we select the item we started with
     // this ensures that a valid item will be selected after a key was pressed
-    if((theEvent.keyCode == 126 || theEvent.keyCode==125) && self.menu.highlightedItem!=currentItem && [self.menu.highlightedItem isSeparatorItem])
+    if((theEvent.keyCode == 126 || theEvent.keyCode==125) && [self menu].highlightedItem!=currentItem && [[self menu].highlightedItem isSeparatorItem])
     {
         [self keyDown:theEvent];
-        if([self.menu.highlightedItem isSeparatorItem])
-            self.menu.highlightedItem = currentItem;
+        if([[self menu].highlightedItem isSeparatorItem])
+            [self menu].highlightedItem = currentItem;
     }
     [self setNeedsDisplay:YES];    
 }
@@ -825,14 +1045,14 @@
 {
     NSMenuItem *highlighItem = [self itemAtPoint:p];
     
-    if(highlighItem != self.menu.highlightedItem)
+    if(highlighItem != [self menu].highlightedItem)
     {
         if([highlighItem isSeparatorItem])
         {
             highlighItem = nil;
         }
         
-        self.menu.highlightedItem = highlighItem;
+        [self menu].highlightedItem = highlighItem;
         
         [self setNeedsDisplay:YES];
     }
@@ -851,7 +1071,7 @@
     
     
     float y=menuItemSpacingTop;
-    for(NSMenuItem *item in [self.menu itemArray])
+    for(NSMenuItem *item in [[self menu] itemArray])
     {
         if([item isSeparatorItem])
         {
@@ -867,7 +1087,7 @@
 
 - (NSRect)rectOfItem:(NSMenuItem*)m
 {
-    NSArray *itemArray = [self.menu itemArray];
+    NSArray *itemArray = [[self menu] itemArray];
     NSUInteger pos = [itemArray indexOfObject:m];
     
     float y = menuItemHeight*pos +menuItemSpacingTop;

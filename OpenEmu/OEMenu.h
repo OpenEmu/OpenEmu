@@ -12,6 +12,11 @@
 @class OEPopupButton;
 @protocol OEMenuDelegate;
 @class OEMenuView;
+
+typedef enum _OEMenuStyle {
+    OEMenuStyleDark,
+    OEMenuStyleLight
+} OEMenuStyle;
 @interface OEMenu : NSWindow 
 {
 @private
@@ -31,9 +36,12 @@
     BOOL closing;    
     BOOL _alternate;
     id <OEMenuDelegate> delegate;
+    
+    OEMenuStyle style;
 }
 #pragma mark -
 - (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
+- (void)openOnEdge:(NSRectEdge)edge atPoint:(NSPoint)p ofWindow:(NSWindow*)win;
 - (void)closeMenuWithoutChanges:(id)sender;
 - (void)closeMenu;
 #pragma mark -
@@ -46,6 +54,9 @@
 @property (retain) OEPopupButton *popupButton;
 @property (nonatomic, retain) OEMenu *submenu;
 @property (nonatomic, retain) OEMenu *supermenu;
+
+@property OEMenuStyle style;
+@property (readonly) NSRectEdge edge;
 
 @property (nonatomic, retain) NSMenu *menu;
 @property (retain) NSMenuItem *highlightedItem;
@@ -72,7 +83,7 @@
 @private
     BOOL imageIncluded;
 }
-- (void)update;
+- (void)updateAndDisplay:(BOOL)displayFlag;
 #pragma mark -
 - (void)highlightItemAtPoint:(NSPoint)p;
 - (NSMenuItem*)itemAtPoint:(NSPoint)p;

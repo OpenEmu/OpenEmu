@@ -68,7 +68,7 @@
 											<string key="NSFrameSize">{415, 108}</string>
 											<reference key="NSSuperview" ref="292471929"/>
 											<reference key="NSWindow"/>
-											<reference key="NSNextKeyView" ref="878259473"/>
+											<reference key="NSNextKeyView" ref="919732069"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="_NSCornerView" key="NSCornerView">
 												<nil key="NSNextResponder"/>
@@ -199,7 +199,7 @@
 							<string key="NSFrame">{{-1, 60}, {375, 110}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView" ref="292471929"/>
+							<reference key="NSNextKeyView" ref="878259473"/>
 							<int key="NSsFlags">133778</int>
 							<reference key="NSVScroller" ref="919732069"/>
 							<reference key="NSHScroller" ref="878259473"/>
@@ -234,6 +234,7 @@
 							<string key="NSFrame">{{136, 12}, {94, 32}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
+							<reference key="NSNextKeyView"/>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="715882362">
 								<int key="NSCellFlags">67239424</int>
@@ -510,7 +511,6 @@
 				<string key="1.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="1.IBWindowTemplateEditedContentRect">{{415, 534}, {367, 215}}</string>
 				<integer value="1" key="1.NSWindowTemplate.visibleAtLaunch"/>
-				<string key="11.CustomClassName">OEPluginDescriptionCell</string>
 				<string key="11.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="12.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="13.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
