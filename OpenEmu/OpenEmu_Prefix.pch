@@ -83,7 +83,7 @@
 #define UDRegionKey					@"region"					/*	release region (force a region)	*/
 #define UDSaveStateFolderNameKey	@"saveStateFolder"			/*  name of save state folder		*/
 #define UDHUDFadeOutDelayKey        @"fadeoutdelay"             /*  time until hudcontrolsbar fades out after last mouse movement   */
-
+#define UDMaxSaveGameNameLengthKey  @"MaxSaveGameNameLength"    /*  maximum length of a valid save game name */
 #define UDForcePopoutKey			@"forcePopout"
 #define UDPopoutHasScreenSizeKey    @"forceDefaultScreenSize"
 #define UDUseQuickImportKey			@"UseQuickImport"			/*	skips duplicate verification when importing games if automatic info grabbing is deactivated	*/
@@ -112,6 +112,9 @@
 #define UDLastCollectionViewKey     @"lastCollectionView"
 #define UDLastPopoutFrameKey        @"lastPopoutFrame"
 #define UDLastCollectionSelectedKey @"lastCollectionSelected"
+
+// Debug Preferences
+#define UDDebugDrawControllerMaskKey @"drawControllerMask"
 
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Default installed, non QTZ based filters names, used to identify filters 

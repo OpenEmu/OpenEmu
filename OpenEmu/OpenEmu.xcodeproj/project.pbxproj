@@ -409,7 +409,6 @@
 		83D7F2BA147E399B004419A6 /* OEDBRom.m in Sources */ = {isa = PBXBuildFile; fileRef = 838AC27F14434EED00AC74C3 /* OEDBRom.m */; };
 		83D7F2F9147E3FEB004419A6 /* OEHUDTextFieldEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 83D7F2F8147E3FEB004419A6 /* OEHUDTextFieldEditor.m */; };
 		83DB70E01442F40B00850CD8 /* OEControlsKeyHeadlineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 83DB70DF1442F40B00850CD8 /* OEControlsKeyHeadlineCell.m */; };
-		83DC1FCB1470857900F3D77A /* controller_gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DC1FCA1470857900F3D77A /* controller_gba.png */; };
 		83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */ = {isa = PBXBuildFile; fileRef = 83DC1FCA1470857900F3D77A /* controller_gba.png */; };
 		83E25058147BC6BF0074EE14 /* hud_textfield.png in Resources */ = {isa = PBXBuildFile; fileRef = 83E25057147BC6BF0074EE14 /* hud_textfield.png */; };
 		83F1F83B14448F9800819F98 /* dark_menu_scroll_arrows.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F1F83A14448F9800819F98 /* dark_menu_scroll_arrows.png */; };
@@ -420,6 +419,14 @@
 		83F37156140BB1A6005A7353 /* GameBoy.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C6B947AF1364ECA600A425F0 /* GameBoy.oesystemplugin */; };
 		83F37157140BB1A6005A7353 /* Genesis.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C6B947E61365080B00A425F0 /* Genesis.oesystemplugin */; };
 		83F37158140BB1A6005A7353 /* GameBoy Advance.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = C646574813771F12002A4F70 /* GameBoy Advance.oesystemplugin */; };
+		83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */; };
+		83F4DE1714E005DB00A82E36 /* controller_fc_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */; };
+		83F4DE1A14E0096F00A82E36 /* controller_nes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1814E0096500A82E36 /* controller_nes_mask.png */; };
+		83F4DE1D14E00C9800A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */; };
+		83F4DE2014E00EE600A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */; };
+		83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */; };
+		83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */; };
+		83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */; };
 		83F688C013C6433600AA0F83 /* OEGridScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83F688BF13C6433600AA0F83 /* OEGridScrollView.m */; };
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
 		83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
@@ -1305,6 +1312,15 @@
 		83F298851458B66F00ECB4F4 /* installer_scrollview_box.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_scrollview_box.png; sourceTree = "<group>"; };
 		83F298881458B6DC00ECB4F4 /* OESetupAssistantScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantScrollView.h; sourceTree = "<group>"; };
 		83F298891458B6DC00ECB4F4 /* OESetupAssistantScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantScrollView.m; sourceTree = "<group>"; };
+		83F4DE1114DFF9C200A82E36 /* OEInputLimitFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEInputLimitFormatter.h; sourceTree = "<group>"; };
+		83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEInputLimitFormatter.m; sourceTree = "<group>"; };
+		83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_fc_mask.png; sourceTree = "<group>"; };
+		83F4DE1814E0096500A82E36 /* controller_nes_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_nes_mask.png; sourceTree = "<group>"; };
+		83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
+		83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
+		83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_sms_mask.png; sourceTree = "<group>"; };
+		83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_gb_mask.png; sourceTree = "<group>"; };
+		83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_genesis_mask.png; sourceTree = "<group>"; };
 		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
 		83F688BF13C6433600AA0F83 /* OEGridScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridScrollView.m; sourceTree = "<group>"; };
 		83FA054D13B9DF940055A520 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = SOURCE_ROOT; };
@@ -1729,6 +1745,15 @@
 				1B32151314DDD06500C5B50A /* OpenEmuText.dae */,
 			);
 			name = "Setup Assistant Animation Resources";
+			sourceTree = "<group>";
+		};
+		1B71CAB714DF77CE00513A46 /* Helper Classes */ = {
+			isa = PBXGroup;
+			children = (
+				1B6DA4A714DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.h */,
+				1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */,
+			);
+			name = "Helper Classes";
 			sourceTree = "<group>";
 		};
 		1B885E070F085EA500770B6D /* GLSL Shaders */ = {
@@ -2324,6 +2349,8 @@
 				837777B8147A8E730091A896 /* OEHUDProgressbar.m */,
 				53439B7C13B933D0005C0CC8 /* OEHUDSlider.h */,
 				53439B7D13B933D0005C0CC8 /* OEHUDSlider.m */,
+				83F4DE1114DFF9C200A82E36 /* OEInputLimitFormatter.h */,
+				83F4DE1214DFF9C200A82E36 /* OEInputLimitFormatter.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -2465,6 +2492,7 @@
 		820EB74D1483F9D3008EC398 /* NeoGeoPocket */ = {
 			isa = PBXGroup;
 			children = (
+				83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */,
 				820EB74E1483F9D3008EC398 /* controller_sms.png */,
 				820EB7501483F9D3008EC398 /* InfoPlist.strings */,
 				820EB7521483F9D3008EC398 /* OENGPPreferenceView.h */,
@@ -2484,6 +2512,7 @@
 		822775521489471A00B19E27 /* GameGear */ = {
 			isa = PBXGroup;
 			children = (
+				83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */,
 				822775531489471A00B19E27 /* controller_sms.png */,
 				822775541489471A00B19E27 /* ControlsPreference.xib */,
 				822775551489471A00B19E27 /* InfoPlist.strings */,
@@ -2621,6 +2650,7 @@
 		832D29461451B0F200BDF950 /* MainWindow: Setup Assistant */ = {
 			isa = PBXGroup;
 			children = (
+				1B71CAB714DF77CE00513A46 /* Helper Classes */,
 				83AAC32514581469005ADD16 /* Controls */,
 				1B47F103142F01E700EBC55B /* OESetupAssistant.h */,
 				1B47F104142F01E700EBC55B /* OESetupAssistant.m */,
@@ -2685,8 +2715,6 @@
 				83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */,
 				83F298881458B6DC00ECB4F4 /* OESetupAssistantScrollView.h */,
 				83F298891458B6DC00ECB4F4 /* OESetupAssistantScrollView.m */,
-				1B6DA4A714DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.h */,
-				1B6DA4A814DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m */,
 			);
 			name = Controls;
 			sourceTree = "<group>";
@@ -2872,7 +2900,9 @@
 			isa = PBXGroup;
 			children = (
 				83977F691408FE8E00175858 /* controller_fc.png */,
+				83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */,
 				83977F6A1408FE8E00175858 /* controller_nes.png */,
+				83F4DE1814E0096500A82E36 /* controller_nes_mask.png */,
 				C64BB091136478E600C1AB23 /* NES-Info.plist */,
 				C64BB092136478E600C1AB23 /* InfoPlist.strings */,
 				C64BB095136478E600C1AB23 /* NES-Prefix.pch */,
@@ -2921,6 +2951,7 @@
 		C6711817136368330034379A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */,
 				83977F6D1408FEA800175858 /* controller_sms.png */,
 				C6711818136368330034379A /* SegaMasterSystem-Info.plist */,
 				C6711819136368330034379A /* InfoPlist.strings */,
@@ -2998,6 +3029,7 @@
 		C6B947B21364ECA700A425F0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */,
 				83977F671408FE6700175858 /* controller_gb.png */,
 				C6B947DA1364FC8800A425F0 /* ControlsPreference.xib */,
 				C6B947B31364ECA700A425F0 /* GameBoy-Info.plist */,
@@ -3026,6 +3058,7 @@
 		C6B947E91365080B00A425F0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */,
 				83AE9F0A14B271E200E91BD8 /* controller_genesis.png */,
 				C6B947EA1365080B00A425F0 /* Genesis-Info.plist */,
 				C6B947EB1365080B00A425F0 /* InfoPlist.strings */,
@@ -3414,6 +3447,7 @@
 			files = (
 				82C2909214840028007C0214 /* InfoPlist.strings in Resources */,
 				82C290931484002F007C0214 /* controller_sms.png in Resources */,
+				83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */,
 				82C290B8148409EB007C0214 /* ControlsPreference.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3422,9 +3456,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				822775611489471A00B19E27 /* controller_sms.png in Resources */,
 				822775631489471A00B19E27 /* ControlsPreference.xib in Resources */,
 				822775651489471A00B19E27 /* InfoPlist.strings in Resources */,
+				822775611489471A00B19E27 /* controller_sms.png in Resources */,
+				83F4DE2014E00EE600A82E36 /* controller_sms_mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3573,7 +3608,6 @@
 				83BF5295146C2F4000B5F742 /* blank_slate_box.png in Resources */,
 				830EF6CC146C590D00B0C8B0 /* blank_slate_core_icon.png in Resources */,
 				830EF6CF146C5D5D00B0C8B0 /* open_weblink_arrow.png in Resources */,
-				83DC1FCB1470857900F3D77A /* controller_gba.png in Resources */,
 				836CFD6614709D3C00397683 /* wood_arrow_down.png in Resources */,
 				836CFD6714709D3C00397683 /* wood_arrow_up.png in Resources */,
 				836CFD6814709D3C00397683 /* wood_knob_vertical.png in Resources */,
@@ -3624,6 +3658,8 @@
 				C64BB0B8136483A700C1AB23 /* ControlsPreference.xib in Resources */,
 				83977F6B1408FE8E00175858 /* controller_fc.png in Resources */,
 				83977F6C1408FE8E00175858 /* controller_nes.png in Resources */,
+				83F4DE1714E005DB00A82E36 /* controller_fc_mask.png in Resources */,
+				83F4DE1A14E0096F00A82E36 /* controller_nes_mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3642,6 +3678,7 @@
 				C671181B136368330034379A /* InfoPlist.strings in Resources */,
 				C64CBD571363E64B00BEE4F3 /* ControlsPreference.xib in Resources */,
 				83977F6E1408FEA800175858 /* controller_sms.png in Resources */,
+				83F4DE1D14E00C9800A82E36 /* controller_sms_mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3652,6 +3689,7 @@
 				C6B947B61364ECA700A425F0 /* InfoPlist.strings in Resources */,
 				C6B947DB1364FC8800A425F0 /* ControlsPreference.xib in Resources */,
 				83977F681408FE6700175858 /* controller_gb.png in Resources */,
+				83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3662,6 +3700,7 @@
 				C6B947ED1365080B00A425F0 /* InfoPlist.strings in Resources */,
 				C6B948181365154600A425F0 /* ControlsPreference.xib in Resources */,
 				83AE9F0D14B2725300E91BD8 /* controller_genesis.png in Resources */,
+				83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3923,6 +3962,7 @@
 				EF2FDBF614D00B8D002A64F2 /* OEControlsSetupView.m in Sources */,
 				83C0B37114D6EF02007CAC00 /* OESidebarOutlineButtonCell.m in Sources */,
 				1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */,
+				83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

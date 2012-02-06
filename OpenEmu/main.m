@@ -57,6 +57,8 @@ int main(int argc, char *argv[])
                                   path,                             UDDefaultDatabasePathKey,
                                   path,                             UDDatabasePathKey,
                                   
+                                  [NSNumber numberWithInt:40],      UDMaxSaveGameNameLengthKey,
+                                  
                                   [NSNumber numberWithFloat:105.0], UDSidebarMinWidth,
                                   [NSNumber numberWithFloat:450.0], UDSidebarMaxWidth,
                                   [NSNumber numberWithFloat:495.0], UDMainViewMinWidth,

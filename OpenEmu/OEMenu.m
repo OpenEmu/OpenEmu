@@ -156,8 +156,9 @@
                          
                          if([incomingEvent type] == NSKeyDown)
                          {
-                             [view keyDown:incomingEvent];
-                             return nil;
+                             if([view menuKeyDown:incomingEvent])
+                                 return nil;
+                             return incomingEvent;
                          }
                          
                          if([[incomingEvent window] isKindOfClass:[self class]])// mouse down in window, will be handle by content view
@@ -276,6 +277,16 @@
     
     [[self menuView] updateAndDisplay:NO];
 }
+#pragma mark -
+#pragma mark Interaction
+- (void)menuMouseDragged:(NSEvent *)theEvent
+{
+    [[self menuView] mouseDragged:theEvent];
+}
+- (void)menuMouseUp:(NSEvent*)theEvent
+{
+    [[self menuView] mouseUp:theEvent];
+}
 
 #pragma mark -
 #pragma mark Animation Stuff
@@ -359,7 +370,7 @@
         submenuSpawnPoint.x -= 9;
         
         if(![self supermenu] && [self style]==OEMenuStyleLight)
-            submenuSpawnPoint.x -= 8;
+            submenuSpawnPoint.x -= 9;
         
         submenuSpawnPoint.y = 8 - selectedItemRect.origin.y + [self frame].origin.y -_submenu.frame.size.height + [self frame].size.height;
         
@@ -675,7 +686,7 @@
     {
         height = LightStyleContentTop+ menuItemHeight*normalItems + menuItemSeparatorHeight*separatorItems + LightStyleContentBottom;
         
-        width = LightStyleContentLeft + MenuTickmarkSpace + width + LightStyleContentRight;
+        width = LightStyleContentLeft + MenuTickmarkSpace + width + LightStyleContentRight+menuItemSpacingRight;
         width += imageIncluded ? menuItemImageWidth+menuItemImageTitleSpacing : 0 ;
     }
     
@@ -770,6 +781,7 @@
         [grad drawInRect:backgroundRect angle:90];
         
         [lightMenuBodyImage drawInRect:edgeTargetRect fromRect:edgeSourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
+        [[NSGraphicsContext currentContext] setCompositingOperation:NSCompositeCopy];
 
         
         // top left
@@ -991,7 +1003,7 @@
 {
     if([[self menu] _isClosing]) return;
     
-    NSPoint loc = [theEvent locationInWindow];
+    NSPoint loc = [theEvent window]==[self window]?[theEvent locationInWindow]:[[self window] convertScreenToBase:[[theEvent window] convertBaseToScreen:[theEvent locationInWindow]]];
     [self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
@@ -999,7 +1011,7 @@
 {
     if([[self menu] _isClosing]) return;
     
-    NSPoint loc = [theEvent locationInWindow];
+    NSPoint loc = [theEvent window]==[self window]?[theEvent locationInWindow]:[[self window] convertScreenToBase:[[theEvent window] convertBaseToScreen:[theEvent locationInWindow]]];
     [self highlightItemAtPoint:[self convertPointFromBase:loc]];
 }
 
@@ -1020,9 +1032,11 @@
 
 #pragma mark -
 
-- (void)keyDown:(NSEvent *)theEvent
+- (BOOL)menuKeyDown:(NSEvent *)theEvent
 {
-    if([[self menu] _isClosing]) return;
+    BOOL accepted = NO;
+
+    if([[self menu] _isClosing]) return accepted;
     
     NSMenuItem *currentItem = [[self menu] highlightedItem];
     
@@ -1036,6 +1050,8 @@
                     [[self menu] setHighlightedItem:[[[self menu] itemArray] objectAtIndex:index - 1]];
             }
             else [[self menu] setHighlightedItem:[[[self menu] itemArray] lastObject]];
+            
+            accepted = YES;
             break;
             
         case 125 : // DOWN
@@ -1046,6 +1062,8 @@
                     [[self menu] setHighlightedItem:[[[self menu] itemArray] objectAtIndex:index + 1]];
             }
             else [[self menu] setHighlightedItem:[[[self menu] itemArray] objectAtIndex:0]];
+            
+            accepted = YES;
             break;
         case 123 : // LEFT (exit submenu if any)
             break;
@@ -1053,11 +1071,12 @@
             break;
         case 53 : // ESC (close without changes)
             [[self menu] closeMenuWithoutChanges:self];
+            accepted = YES;
             break;
         case 49 : // SPACE ("click" selected item)
         case 36 : // ENTER (same as space)
             [[self menu] closeMenu];
-            break;
+            accepted = YES;
         default:
             break;
     }
@@ -1069,12 +1088,16 @@
     // this ensures that a valid item will be selected after a key was pressed
     if(([theEvent keyCode] == 126 || [theEvent keyCode] == 125) && [[self menu] highlightedItem] != currentItem && [[[self menu ] highlightedItem] isSeparatorItem])
     {
-        [self keyDown:theEvent];
+        [self menuKeyDown:theEvent];
         if([[[self menu] highlightedItem] isSeparatorItem])
             [[self menu] setHighlightedItem:currentItem];
+        
+        accepted = YES;
     }
     
-    [self setNeedsDisplay:YES];
+    if(accepted)
+        [self setNeedsDisplay:YES];
+    return accepted;
 }
 
 #pragma mark -

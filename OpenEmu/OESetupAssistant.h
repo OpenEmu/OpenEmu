@@ -102,10 +102,10 @@
 - (IBAction) toLastStep:(id)sender;
 - (IBAction) finishAndRevealLibrary:(id)sender;
 
-- (IBAction) import:(id)sender;
 
 // Rom Discovery
 /*
+- (IBAction) import:(id)sender;
 - (IBAction) discoverRoms:(id)sender;
 - (void) updateSearchResults:(NSNotification*)notification;
 - (void) finalizeSearchResults:(NSNotification*)notification;

@@ -107,6 +107,10 @@
     
     [self.image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:NoInterpol];
     
+    if([[NSUserDefaults standardUserDefaults] boolForKey:UDDebugDrawControllerMaskKey])
+        [[[self controlsViewController] controllerImageMask] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:NoInterpol];
+
+    
     if([self overlayAlpha] != OverlayAlphaOFF)
     {
         [NSGraphicsContext saveGraphicsState];
@@ -217,7 +221,7 @@
     targetRect.origin = NSMakePoint(([self frame].size.width-image.size.width)/2, 0);
     
     
-    if(allowSwitchingByMouse && [[self controlsViewController] respondsToSelector:@selector(controllerImageMask)])
+    if(allowSwitchingByMouse)
     {
         NSImage *maskImage = [[self controlsViewController] controllerImageMask];
         BOOL selectAButton = [maskImage hitTestRect:(NSRect){local_event_location, {0,0}} withImageDestinationRect:targetRect context:nil hints:nil flipped:NO];

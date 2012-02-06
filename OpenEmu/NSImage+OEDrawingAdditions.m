@@ -27,6 +27,8 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 @implementation NSImage (NSImage_OEDrawingAdditions)
+static NSMutableArray* interfaceImages;
+
 - (void)drawInRect:(NSRect)targetRect fromRect:(NSRect)sourceRect operation:(NSCompositingOperation)op fraction:(CGFloat)frac respectFlipped:(BOOL)flipped hints:(NSDictionary *)hints leftBorder:(float)leftBorder rightBorder:(float)rightBorder topBorder:(float)topBorder bottomBorder:(float)bottomBorder{
     
     if(NSEqualRects(sourceRect, NSZeroRect)) sourceRect=NSMakeRect(0, 0, [self size].width, [self size].height);
@@ -238,10 +240,12 @@
 
 - (void)setName:(NSString*)name forSubimageInRect:(NSRect)aRect
 {
-    // Analyzer warns about potential leak here.
-    // Should be correct though as we don't want named images to be deallocated
+    if(!interfaceImages)
+        interfaceImages = [[NSMutableArray alloc] init];
+    
     NSImage *resultImage = [self subImageFromRect:aRect];
     [resultImage setName:name];
-    [resultImage retain];
-} // Read comments above!!!!
+    
+    [interfaceImages addObject:resultImage];
+}
 @end

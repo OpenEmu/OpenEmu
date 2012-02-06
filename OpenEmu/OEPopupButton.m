@@ -30,6 +30,7 @@
 #define MenuContentBorder 4
 @implementation OEPopupButton
 @synthesize oemenu;
+@synthesize menuOpenDate;
 - (id)init{
     self = [super init];
     if (self) {}
@@ -60,9 +61,21 @@
         location.x -= GapBetweenOpenMenuAndPopupButton+MenuContentBorder;
         
         [[self oemenu] openAtPoint:location ofWindow:win];
+        [[self window] makeFirstResponder:nil];
+        
+        [self setMenuOpenDate:[NSDate date]];
     }
 }
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+    [[self oemenu] menuMouseDragged:theEvent];
+}
 
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    if([[self menuOpenDate] timeIntervalSinceNow] < -0.1) 
+        [[self oemenu] menuMouseUp:theEvent];
+}
 #pragma mark -
 - (void)setMenu:(NSMenu *)menu{
     [super setMenu:menu];

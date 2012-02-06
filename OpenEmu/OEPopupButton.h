@@ -35,4 +35,6 @@
     NSMenuItem *selectedItem;
 }
 @property (retain, setter = setOEMenu:) OEMenu *oemenu;
+
+@property (retain) NSDate* menuOpenDate;
 @end

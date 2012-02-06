@@ -37,24 +37,33 @@
 	
     OEControlsSetupView *view = (OEControlsSetupView *)[self view];
     
-	[view addButtonWithName:@"OENESButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(159, 116)];
-	[view addButtonWithName:@"OENESButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(159, 66)];
-	[view addButtonWithName:@"OENESButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(135, 92)];
-	[view addButtonWithName:@"OENESButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(184, 92)];
+	[view addButtonWithName:@"OENESButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(159, famicom?137:147)];
+	[view addButtonWithName:@"OENESButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(159, famicom?90:100)];
+	[view addButtonWithName:@"OENESButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(136, famicom?113:123)];
+	[view addButtonWithName:@"OENESButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(183, famicom?113:123)];
     [view nextColumn];
 	
-	[view addButtonWithName:@"OENESButtonStart[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(famicom?260:306, famicom?67:71)];
-	[view addButtonWithName:@"OENESButtonSelect[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(famicom?309:256, famicom?67:71)];	
+	[view addButtonWithName:@"OENESButtonStart[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(famicom?260:306, famicom?92:71+30)];
+	[view addButtonWithName:@"OENESButtonSelect[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(famicom?309:256, famicom?92:71+30)];	
 	[view nextColumn];	
 	
-	[view addButtonWithName:@"OENESButtonA[@]" label:@"A:" target:self highlightPoint:NSMakePoint(famicom?449:441, 70)];
-	[view addButtonWithName:@"OENESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(famicom?391:384, 70)];
+	[view addButtonWithName:@"OENESButtonA[@]" label:@"A:" target:self highlightPoint:NSMakePoint(famicom?449:441, famicom?95:100)];
+	[view addButtonWithName:@"OENESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(famicom?391:384, famicom?95:100)];
 	
 	[view updateButtons];
 }
 
-- (NSImage*)controllerImage{
+- (NSImage*)controllerImage
+{
 	NSString *controllerImageName = [[OELocalizationHelper sharedHelper] isRegionJAP]?@"controller_fc.png":@"controller_nes.png";
+	
+	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:controllerImageName];
+	return [[NSImage alloc] initWithContentsOfFile:path];
+}
+
+- (NSImage*)controllerImageMask
+{
+    NSString *controllerImageName = [[OELocalizationHelper sharedHelper] isRegionJAP]?@"controller_fc_mask.png":@"controller_nes_mask.png";
 	
 	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:controllerImageName];
 	return [[NSImage alloc] initWithContentsOfFile:path];
