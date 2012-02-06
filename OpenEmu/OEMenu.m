@@ -675,7 +675,7 @@
     {
         height = LightStyleContentTop+ menuItemHeight*normalItems + menuItemSeparatorHeight*separatorItems + LightStyleContentBottom;
         
-        width = LightStyleContentLeft + MenuTickmarkSpace + width + LightStyleContentRight;
+        width = LightStyleContentLeft + MenuTickmarkSpace + width + LightStyleContentRight+menuItemSpacingRight;
         width += imageIncluded ? menuItemImageWidth+menuItemImageTitleSpacing : 0 ;
     }
     
