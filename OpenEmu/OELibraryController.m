@@ -67,6 +67,8 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 @synthesize database;
 @synthesize sidebarController, collectionViewController, mainSplitView;
 
+@synthesize searchResults;
+
 - (id)initWithWindowController:(OEMainWindowController*)windowController andDatabase:(OELibraryDatabase*)aDatabase
 {
     if((self = [super initWithWindowController:windowController]))
@@ -109,6 +111,8 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     [[self sidebarController] view];
     
     self.romImporter = [[[OEROMImporter alloc] initWithDatabase:[self database]] autorelease];
+    
+    self.searchResults = [[[NSMutableArray alloc] initWithCapacity:1] autorelease];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
@@ -418,6 +422,159 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     [docController addDocument:document];
     [document release];
 }
+
+#pragma mark -
+#pragma mark Spotlight Importing
+
+- (void) discoverRoms
+{
+    NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
+    
+    // We skip common types by default.
+    NSArray *commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
+    
+    [supportedFileExtensions removeObjectsInArray:commonTypes];
+    
+    //NSLog(@"Supported search Extensions are: %@", supportedFileExtensions);
+    
+    NSString *searchString = [NSString string];
+    for(NSString *extension in supportedFileExtensions)
+    {
+        searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension, nil];
+        searchString = [searchString stringByAppendingString:@" || "];
+    }
+    
+    [supportedFileExtensions release];
+    
+    searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
+    
+    NSLog(@"SearchString: %@", searchString);
+    
+    MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (CFStringRef)searchString, NULL, NULL);
+    
+    if(searchQuery)
+    {
+        NSLog(@"Valid search query ref");
+        
+        [self.searchResults removeAllObjects];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finalizeSearchResults:)
+                                                     name:(NSString*)kMDQueryDidFinishNotification
+                                                   object:(id)searchQuery];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
+                                                     name:(NSString*)kMDQueryProgressNotification
+                                                   object:(id)searchQuery];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
+                                                     name:(NSString*)kMDQueryDidUpdateNotification
+                                                   object:(id)searchQuery];
+        
+        MDQuerySetSearchScope(searchQuery, (CFArrayRef) [NSArray arrayWithObject:(NSString*) kMDQueryScopeComputer /*kMDQueryScopeComputer */], 0);
+        
+        if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
+            NSLog(@"Searching for importable roms");
+        else
+        {
+            CFRelease(searchQuery);
+            searchQuery = nil;
+            // leave this log message in...
+            NSLog(@"MDQuery failed to start.");
+        }
+        
+    }
+    else
+        NSLog(@"Invalid Search Query");
+}
+
+- (void) updateSearchResults:(NSNotification*)notification
+{    
+    NSLog(@"updateSearchResults:");
+    
+    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
+    
+    MDItemRef resultItem = NULL;
+    NSString *resultPath = nil;
+    
+    // assume the latest result is the last index?
+    CFIndex index = 0;
+    
+    for(index = 0; index < MDQueryGetResultCount(searchQuery); index++)
+    {
+        resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
+        resultPath = (NSString*)MDItemCopyAttribute(resultItem, kMDItemPath);
+        
+        NSArray *dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
+                                                        @"System",
+                                                        @"Library",
+                                                        @"Developer",
+                                                        @"Volumes",
+                                                        @"Applications",
+                                                        @"bin",
+                                                        @"cores",
+                                                        @"dev",
+                                                        @"etc",
+                                                        @"home",
+                                                        @"net",
+                                                        @"sbin",
+                                                        @"private",
+                                                        @"tmp",
+                                                        @"usr",
+                                                        @"var",
+                                                        nil];
+        // Nothing in common
+        if(![[resultPath pathComponents] firstObjectCommonWithArray:dontTouchThisDunDunDunDunHammerTime])
+        {                
+            if(![self.searchResults containsObject:resultPath])
+            {
+                NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
+                
+                [resultDict setValue:resultPath forKey:@"Path"];
+                [resultDict setValue:[[resultPath lastPathComponent] stringByDeletingPathExtension] forKey:@"Name"];
+                
+                [self.searchResults addObject:resultDict];
+                
+                NSLog(@"Result Path: %@", resultPath);
+            }
+        }
+        
+        [resultPath release];
+        resultPath = nil;    
+    } 
+}
+
+- (void) finalizeSearchResults:(NSNotification*)notification
+{
+    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
+    
+    NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
+    
+    if(MDQueryGetResultCount(searchQuery))
+    {
+        [self importInBackground];        
+
+//        MDQueryStop(searchQuery);
+//        CFRelease(MDQueryStop);        
+    }
+    
+//    CFRelease(MDQueryStop);
+//    CFRelease(searchQuery);
+}
+
+- (void) importInBackground;
+{
+    NSLog(@"importInBackground");
+    
+    NSMutableArray *paths = [[NSMutableArray alloc] init];
+    
+    for(NSDictionary *searchResult in self.searchResults)
+    {
+        [paths addObject:[searchResult objectForKey:@"Path"]];
+    }
+        
+    [self.romImporter importROMsAtPaths:paths inBackground:YES error:nil];;
+}
+
 
 #pragma mark -
 #pragma mark Sidebar Helpers

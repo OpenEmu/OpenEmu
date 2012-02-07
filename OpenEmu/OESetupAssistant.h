@@ -41,7 +41,6 @@
 
 @property (retain) IBOutlet NSButton *goButton;
 
-@property (readwrite, retain) NSMutableArray *searchResults;
 @property (readwrite, retain) CATransition *transition;
 
 // main views for setup steps.
@@ -143,11 +142,4 @@
 // Preference saving
 - (void) archiveEventForKey:(NSString*)key;
 
-// Rom Discovery
-/*
-- (IBAction) import:(id)sender;
-- (IBAction) discoverRoms:(id)sender;
-- (void) updateSearchResults:(NSNotification*)notification;
-- (void) finalizeSearchResults:(NSNotification*)notification;
-*/
 @end
