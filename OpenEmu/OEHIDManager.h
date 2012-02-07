@@ -38,6 +38,8 @@
     NSMutableArray  *deviceHandlers;
 }
 
+@property (readonly) NSArray* deviceHandlers;
+
 - (void)registerDeviceTypes:(NSArray*)matchingTypes;
 - (OEHIDDeviceHandler *)deviceHandlerForDevice:(IOHIDDeviceRef)aDevice;
 - (void)addDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice;

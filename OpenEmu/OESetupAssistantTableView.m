@@ -69,9 +69,6 @@
     {
         [column setEditable:NO];
     }
-    
-#warning Only for testing:
-    [self setDataSource:self];
 }
 
 - (void)dealloc 
@@ -128,64 +125,7 @@
 	}
 }
 
-#pragma mark -
-#pragma mark Dummy Data Source Implementation
-- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
-{
-    return 6;
-}
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
-{
-    NSString *identifier = [aTableColumn identifier];
-    if([identifier isEqualTo:@"enabled"])
-    {
-        return [NSNumber numberWithBool:YES];
-    }
-    else if([identifier isEqualToString:@"emulatorName"])
-    {
-        switch (rowIndex) 
-        {
-            case 0:
-                return @"BSNES";
-                break;
-            case 1:
-                return @"Genesis Plus";
-            case 2:
-                return @"Nestopia";
-            case 3:
-                return @"Snes9X";
-            case 4:
-                return @"Mupen64";
-            case 5:
-                return @"VisualBoyAdvance";
-            default:
-                break;
-        }
-    }
-    else if([identifier isEqualToString:@"emulatorSystem"])
-    {
-        switch (rowIndex) 
-        {
-            case 0:
-                return @"Super Nintendo (SNES) Emulator";
-                break;
-            case 1:
-                return @"Sega Genesis Emulator";
-            case 2:
-                return @"Nintendo (NES) Emulator";
-            case 3:
-                return @"Super Nintendo (SNES) Emulator";
-            case 4:
-                return @"Nintendo 64 Emulator";
-            case 5:
-                return @"GameBoy Advance Emulator";
-            default:
-                break;
-        }
-    }
-    return nil;
-}
 #pragma mark -
 @synthesize selectionColor;
 @end

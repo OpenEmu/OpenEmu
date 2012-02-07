@@ -27,17 +27,24 @@
 #import <Cocoa/Cocoa.h>
 #import <Quartz/Quartz.h>
 
+#import "OEHIDEvent.h"
 #import "OEMainWindowContentController.h"
+#import "OEHIDManager.h"
+#import "OECoreUpdater.h"
+#import "OESetupAssistantTableView.h"
 
 @class OESetupAssistantKeyMapView;
-@interface OESetupAssistant : OEMainWindowContentController
-{
+
+@interface OESetupAssistant : OEMainWindowContentController <NSTableViewDelegate, NSTableViewDataSource>
+{    
 }
+
 @property (retain) IBOutlet NSButton *goButton;
 
 @property (readwrite, retain) NSMutableArray *searchResults;
 @property (readwrite, retain) CATransition *transition;
 
+// main views for setup steps.
 @property (readwrite, retain) IBOutlet NSView *replaceView;
 @property (readwrite, retain) IBOutlet NSView *step1;
 @property (readwrite, retain) IBOutlet NSView *step2;
@@ -50,20 +57,38 @@
 @property (readwrite, retain) IBOutlet NSView *step8;
 @property (readwrite, retain) IBOutlet NSView *step9;
 @property (readwrite, retain) IBOutlet NSView *step10;
-
 @property (readwrite, retain) IBOutlet NSView *lastStep;
 
-
-// decision tree
+// decision tree variables
 @property (readwrite, retain) IBOutlet NSButton* allowScanForGames;
 
-// key map views
+// table views for selection
+@property (readwrite, retain) IBOutlet OESetupAssistantTableView* installCoreTableView;
+@property (readwrite, retain) IBOutlet OESetupAssistantTableView* mountedVolumes;
+@property (readwrite, retain) IBOutlet OESetupAssistantTableView* gamePadTableView;
+
+// only enable these if input or selection is done
+@property (readwrite, retain) IBOutlet NSButton* gamePadSelectionNextButton;
+@property (readwrite, retain) IBOutlet NSButton* gamePadUpNextButton;
+@property (readwrite, retain) IBOutlet NSButton* gamePadDownNextButton;
+@property (readwrite, retain) IBOutlet NSButton* gamePadLeftNextButton;
+@property (readwrite, retain) IBOutlet NSButton* gamePadRightNextButton;
+@property (readwrite, retain) IBOutlet NSButton* gamePadRunNextButton;
+@property (readwrite, retain) IBOutlet NSButton* gamePadJumpNextButton;
+
+@property (readwrite, assign) NSUInteger selectedGamePadDeviceNum;
+@property (readwrite, assign) BOOL gotNewEvent;
+
+// gamepad key map views
 @property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* upKeyMapView;
 @property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* downKeyMapView;
 @property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* leftKeyMapView;
 @property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* rightKeyMapView;
 @property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* runKeyMapView;
 @property (readwrite, retain) IBOutlet OESetupAssistantKeyMapView* jumpKeyMapView;
+
+@property (readwrite, retain) OESetupAssistantKeyMapView* currentKeyMapView;
+@property (readwrite, retain) IBOutlet NSButton* currentNextButton;
 
 /*
 @property (readwrite, retain) IBOutlet NSButton *dontSearchCommonTypes;
@@ -77,7 +102,11 @@
 - (void) goBackToView:(NSView*)view;
 - (void) dissolveToView:(NSView*)view;
 
-- (IBAction)toStep1:(id)sender;
+- (void) reload;
+- (void) resetKeyViews;
+- (void) gotEvent;
+
+- (IBAction) toStep1:(id)sender;
 - (IBAction) backToStep1:(id)sender;
 - (IBAction) toStep2:(id)sender;
 - (IBAction) backToStep2:(id)sender;
@@ -102,6 +131,13 @@
 - (IBAction) toLastStep:(id)sender;
 - (IBAction) finishAndRevealLibrary:(id)sender;
 
+// HID event handling.
+- (void)axisMoved:(OEHIDEvent *)anEvent;
+- (void)buttonDown:(OEHIDEvent *)anEvent;
+- (void)buttonUp:(OEHIDEvent *)anEvent;
+- (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
+- (void)HIDKeyDown:(OEHIDEvent *)anEvent;
+- (void)HIDKeyUp:(OEHIDEvent *)anEvent;
 
 // Rom Discovery
 /*

@@ -31,6 +31,12 @@
 #import "OEGlossButton.h"
 #import "OESetupAssistantKeyMapView.h"
 
+#import "OEApplicationDelegate.h"
+#import "NSApplication+OEHIDAdditions.h"
+
+#import "OECoreDownload.h"
+#import "OEHIDDeviceHandler.h"
+
 @implementation OESetupAssistant
 
 @synthesize searchResults;
@@ -52,6 +58,24 @@
 // decision tree
 @synthesize allowScanForGames;
 
+// Tables
+@synthesize installCoreTableView;
+@synthesize mountedVolumes;
+@synthesize gamePadTableView;
+
+
+// Buttons
+@synthesize gamePadSelectionNextButton;
+@synthesize gamePadUpNextButton;
+@synthesize gamePadDownNextButton;
+@synthesize gamePadLeftNextButton;
+@synthesize gamePadRightNextButton;
+@synthesize gamePadRunNextButton;
+@synthesize gamePadJumpNextButton;
+
+@synthesize selectedGamePadDeviceNum;
+@synthesize gotNewEvent;
+
 // key map views
 @synthesize upKeyMapView;
 @synthesize downKeyMapView;
@@ -59,6 +83,9 @@
 @synthesize rightKeyMapView;
 @synthesize runKeyMapView;
 @synthesize jumpKeyMapView;
+
+@synthesize currentKeyMapView;
+@synthesize currentNextButton;
 
 // Special buttons
 @synthesize goButton;
@@ -78,6 +105,14 @@
     self = [self initWithNibName:[self nibName] bundle:[NSBundle mainBundle]];
     if (self)
     {
+        // TODO: need to fail gracefully if we have no internet connection.
+        [[OECoreUpdater sharedUpdater] checkForUpdates];
+        
+        self.selectedGamePadDeviceNum = 0;
+        self.gotNewEvent = 0;
+
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidMountNotification object:nil];
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidUnmountNotification object:nil];
     }
     
     return self;
@@ -87,6 +122,8 @@
 {
     NSLog(@"Dealloc Assistant");
     
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+
     [super dealloc];
 }
 
@@ -95,19 +132,39 @@
     return @"OESetupAssistant";
 }
 
+- (BOOL) acceptsFirstResponder
+{
+    return YES;
+}
+
 - (void) awakeFromNib
 {    
+    self.currentKeyMapView = self.upKeyMapView;
+
+    // setup table views;
+    [self.installCoreTableView setDelegate:self];
+    [self.installCoreTableView setDataSource:self];
+        
+    [self.gamePadTableView setDelegate:self];
+    [self.gamePadTableView setDataSource:self];
+
+    [self.mountedVolumes setDelegate:self];
+    [self.mountedVolumes setDataSource:self];
+
+    // setup buttons
+    [self.gamePadSelectionNextButton setEnabled:NO];
+    [self.gamePadUpNextButton setEnabled:NO];
+    [self.gamePadDownNextButton setEnabled:NO];
+    [self.gamePadLeftNextButton setEnabled:NO];
+    [self.gamePadRightNextButton setEnabled:NO];
+    [self.gamePadRunNextButton setEnabled:NO];
+    [self.gamePadJumpNextButton setEnabled:NO];
+    
     [(OEGlossButton*)[self goButton] setButtonColor:OEGlossButtonColorGreen];
 
     [self.replaceView setWantsLayer:YES];
     
-    // set up key map views
-    self.upKeyMapView.key = OESetupAssistantKeyUp;
-    self.downKeyMapView.key = OESetupAssistantKeyDown;
-    self.leftKeyMapView.key = OESetupAssistantKeyLeft;
-    self.rightKeyMapView.key = OESetupAssistantKeyRight;
-    self.runKeyMapView.key = OESetupAssistantKeyQuestionMark;
-    self.jumpKeyMapView.key = OESetupAssistantKeyQuestionMark;
+    [self resetKeyViews];
 
     // Search results for importing
     //searchResults = [[[NSMutableArray alloc] initWithCapacity:1] autorelease];
@@ -126,6 +183,17 @@
 }
 
 #pragma mark -
+
+- (void) resetKeyViews;
+{
+    // set up key map views
+    self.upKeyMapView.key = OESetupAssistantKeyUp;
+    self.downKeyMapView.key = OESetupAssistantKeyDown;
+    self.leftKeyMapView.key = OESetupAssistantKeyLeft;
+    self.rightKeyMapView.key = OESetupAssistantKeyRight;
+    self.runKeyMapView.key = OESetupAssistantKeyQuestionMark;
+    self.jumpKeyMapView.key = OESetupAssistantKeyQuestionMark;
+}
 
 - (IBAction)toStep1:(id)sender
 {     
@@ -181,61 +249,87 @@
 
 - (IBAction) toStep5:(id)sender;
 {
+    // monitor Gamepad inputs from now on, since we selected a game pad.
+    [[[self view] window] makeFirstResponder:self];
+    self.currentKeyMapView = self.upKeyMapView;
+    self.currentNextButton = self.gamePadUpNextButton;
     [self goForwardToView:self.step5];
 }
 
 - (IBAction) backToStep5:(id)sender
 {
+    self.currentKeyMapView = self.upKeyMapView;
+    self.currentNextButton = self.gamePadUpNextButton;
     [self goBackToView:self.step5];
 }
 
 - (IBAction) toStep6:(id)sender
 {
+    self.currentKeyMapView = self.downKeyMapView;
+    self.currentNextButton = self.gamePadDownNextButton;
     [self goForwardToView:self.step6];
 }
 
 - (IBAction) backToStep6:(id)sender
 {
+    self.currentKeyMapView = self.downKeyMapView;
+    self.currentNextButton = self.gamePadDownNextButton;
     [self goBackToView:self.step6];
 }
 
 - (IBAction) toStep7:(id)sender
 {
+    self.currentKeyMapView = self.leftKeyMapView;
+    self.currentNextButton = self.gamePadLeftNextButton;
     [self goForwardToView:self.step7];
 }
 
 - (IBAction) backToStep7:(id)sender
 {
+    self.currentKeyMapView = self.leftKeyMapView;
+    self.currentNextButton = self.gamePadLeftNextButton;
     [self goBackToView:self.step7];
 }
 
 - (IBAction) toStep8:(id)sender
 {
+    self.currentKeyMapView = self.rightKeyMapView;
+    self.currentNextButton = self.gamePadRightNextButton;
     [self goForwardToView:self.step8];
 }
 
 - (IBAction) backToStep8:(id)sender
 {
-    [self goBackToView:self.step8];
+    self.currentKeyMapView = self.rightKeyMapView;
+    self.currentNextButton = self.gamePadRightNextButton;
+   [self goBackToView:self.step8];
 }
 
 - (IBAction) toStep9:(id)sender
 {
+    self.currentKeyMapView = self.runKeyMapView;
+    self.currentNextButton = self.gamePadRunNextButton;
     [self goForwardToView:self.step9];
 }
 
 - (IBAction) backToStep9:(id)sender
 {
+    self.currentKeyMapView = self.runKeyMapView;
+    self.currentNextButton = self.gamePadRunNextButton;
     [self goBackToView:self.step9];
 }
 
 - (IBAction) toStep10:(id)sender
 {
+    self.currentKeyMapView = self.jumpKeyMapView;
+    self.currentNextButton = self.gamePadJumpNextButton;
     [self goForwardToView:self.step10];
 }
 
 - (IBAction) backToStep10:(id)sender
 {
+    self.currentKeyMapView = self.jumpKeyMapView;
+    self.currentNextButton = self.gamePadJumpNextButton;
     [self goBackToView:self.step10];
 }
 
@@ -252,6 +346,10 @@
 
     // mark setup done.
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:UDSetupAssistantHasRun];
+    
+    // clean up
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+    
 }
 
 #pragma mark -
@@ -259,6 +357,9 @@
 
 - (void) goBackToView:(NSView*)view
 {
+    self.gotNewEvent = NO;
+    [self resetKeyViews];
+
     [view setFrame:[self.replaceView frame]];
 
     self.transition.type = kCATransitionPush;
@@ -271,6 +372,8 @@
 
 - (void) goForwardToView:(NSView*)view
 {
+    self.gotNewEvent = NO;
+    
     [view setFrame:[self.replaceView frame]];
 
     self.transition.type = kCATransitionPush;
@@ -283,6 +386,8 @@
 
 - (void) dissolveToView:(NSView*)view
 {
+    self.gotNewEvent = NO;
+
     [view setFrame:[self.replaceView frame]];
 
     self.transition.type = kCATransitionFade;
@@ -290,6 +395,150 @@
     NSView *subview  = [[replaceView subviews] objectAtIndex:0];
     
     [[self.replaceView animator] replaceSubview:subview with:view];
+}
+
+#pragma mark -
+#pragma mark Table View Data Protocol
+
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+    if(aTableView == self.installCoreTableView)
+    {
+        return [[[OECoreUpdater sharedUpdater] coreList] count];
+    }
+    
+    if(aTableView == self.mountedVolumes)
+    {
+        NSArray* keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
+        return [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] count];  
+    }
+    if(aTableView == self.gamePadTableView)
+    {
+       return [[[(OEApplicationDelegate*)[[NSApplication sharedApplication] delegate] hidManager] deviceHandlers] count];
+    }
+    
+    else return 0;
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    if(aTableView == self.installCoreTableView)
+    {
+        NSString *identifier = [aTableColumn identifier];
+        if([identifier isEqualTo:@"enabled"])
+        {
+            return [NSNumber numberWithBool:YES];
+        }
+        else if([identifier isEqualToString:@"emulatorName"])
+        {
+            return[(OECoreDownload*)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] name];
+        }
+        else if([identifier isEqualToString:@"emulatorSystem"])
+        {            
+            return [(OECoreDownload*)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] description];
+        }
+    }
+    
+    if(aTableView == self.mountedVolumes)
+    {
+        NSString *identifier = [aTableColumn identifier];
+        if([identifier isEqualTo:@"enabled"])
+        {
+            return [NSNumber numberWithBool:YES];
+        }
+        else if([identifier isEqualToString:@"mountName"])
+        {
+            NSArray* keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
+            NSURL* mountUrl = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] objectAtIndex:rowIndex];
+            
+            NSString* volumeName = @"";
+            if([mountUrl getResourceValue:&volumeName forKey:NSURLVolumeLocalizedNameKey error:nil])
+                return volumeName;
+            else 
+                return @"Unnamed Volume";
+        }
+    }
+    
+    if(aTableView == self.gamePadTableView)
+    {
+        OEHIDDeviceHandler* handler = [[[(OEApplicationDelegate*)[[NSApplication sharedApplication] delegate] hidManager] deviceHandlers] objectAtIndex:rowIndex];
+
+        NSString *identifier = [aTableColumn identifier];
+        if([identifier isEqualTo:@"usbPort"])
+        {
+            return [NSString stringWithFormat:@"Device %i", handler.deviceNumber, nil];
+        }
+        if([identifier isEqualTo:@"gamePadName"])
+        {
+            return handler.product;
+        }
+    }
+
+    return nil;
+}
+
+#pragma mark -
+#pragma mark Table View Delegate Protocol
+
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+{
+    if([aNotification object] == self.gamePadTableView)
+    {
+        [self.gamePadSelectionNextButton setEnabled:(BOOL)[self.gamePadTableView numberOfSelectedRows]];
+        
+        self.selectedGamePadDeviceNum = [self.gamePadTableView selectedRow] + 1;
+    }    
+}
+
+- (void) reload
+{
+    [self.mountedVolumes reloadData];
+}
+
+#pragma mark -
+#pragma mark HID event handling
+
+- (void) gotEvent
+{
+    self.gotNewEvent = YES;
+    self.currentKeyMapView.key = OESetupAssistantKeySucess;
+    self.currentNextButton.enabled = YES;
+}
+
+- (void)axisMoved:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent];
+}
+
+- (void)buttonDown:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent];
+}
+
+- (void)buttonUp:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent];
+}
+
+- (void)hatSwitchChanged:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent];
+}
+
+- (void)HIDKeyDown:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent];
+}
+
+- (void)HIDKeyUp:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent];
 }
 
 #pragma mark -
