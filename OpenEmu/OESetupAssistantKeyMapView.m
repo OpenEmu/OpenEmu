@@ -103,6 +103,9 @@
     NSImage *image = [self imageForKey:[self key]];
     [imageView setImage:image];
     
+    for(NSView* subview in self.subviews)
+        [subview removeFromSuperview];
+    
     [self addSubview:imageView];
     [imageView release];
 }
@@ -135,6 +138,9 @@
             break;
         case OESetupAssistantKeyRight:
             return [NSImage imageNamed:@"installer_gamepad_right"];
+            break;
+        case OESetupAssistantKeySucess:
+            return [NSImage imageNamed:@"installer_gamepad_success"];
             break;
         default:
             return [NSImage imageNamed:@"installer_gamepad_questionMark"];

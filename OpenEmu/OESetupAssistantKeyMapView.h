@@ -33,7 +33,9 @@ enum _OESetupAssistantKeys
     OESetupAssistantKeyLeft,
     OESetupAssistantKeyRight,
     
-    OESetupAssistantKeyQuestionMark
+    OESetupAssistantKeyQuestionMark,
+    
+    OESetupAssistantKeySucess
 }
 typedef OESetupAssistantKey;
 @interface OESetupAssistantKeyMapView : NSView
