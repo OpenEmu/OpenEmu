@@ -89,6 +89,7 @@
 
 @property (readwrite, retain) OESetupAssistantKeyMapView* currentKeyMapView;
 @property (readwrite, retain) IBOutlet NSButton* currentNextButton;
+@property (readwrite, retain) OEHIDEvent* currentEventToArchive;
 
 /*
 @property (readwrite, retain) IBOutlet NSButton *dontSearchCommonTypes;
@@ -104,7 +105,7 @@
 
 - (void) reload;
 - (void) resetKeyViews;
-- (void) gotEvent;
+- (void) gotEvent:(OEHIDEvent*)event;
 
 - (IBAction) toStep1:(id)sender;
 - (IBAction) backToStep1:(id)sender;
@@ -138,6 +139,9 @@
 - (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
 - (void)HIDKeyDown:(OEHIDEvent *)anEvent;
 - (void)HIDKeyUp:(OEHIDEvent *)anEvent;
+
+// Preference saving
+- (void) archiveEventForKey:(NSString*)key;
 
 // Rom Discovery
 /*

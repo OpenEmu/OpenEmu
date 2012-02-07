@@ -28,7 +28,7 @@
 #import "OEMainWindowController.h"
 @interface OEMainWindowContentController : NSViewController
 
-#warning windowController Deprecated (was DEPRECATED ATTRIBUTE but it seemed to cause issues everywhere)
+#warning windowController should no longer be used
 @property(assign) OEMainWindowController *windowController;
 - (id)initWithWindowController:(OEMainWindowController*) aWindowController;
 

@@ -86,6 +86,7 @@
 
 @synthesize currentKeyMapView;
 @synthesize currentNextButton;
+@synthesize currentEventToArchive;
 
 // Special buttons
 @synthesize goButton;
@@ -265,6 +266,8 @@
 
 - (IBAction) toStep6:(id)sender
 {
+    [self archiveEventForKey:@"userDefaultUp"];
+
     self.currentKeyMapView = self.downKeyMapView;
     self.currentNextButton = self.gamePadDownNextButton;
     [self goForwardToView:self.step6];
@@ -278,7 +281,8 @@
 }
 
 - (IBAction) toStep7:(id)sender
-{
+{    
+    [self archiveEventForKey:@"userDefaultDown"];
     self.currentKeyMapView = self.leftKeyMapView;
     self.currentNextButton = self.gamePadLeftNextButton;
     [self goForwardToView:self.step7];
@@ -293,7 +297,8 @@
 
 - (IBAction) toStep8:(id)sender
 {
-    self.currentKeyMapView = self.rightKeyMapView;
+    [self archiveEventForKey:@"userDefaultLeft"];
+   self.currentKeyMapView = self.rightKeyMapView;
     self.currentNextButton = self.gamePadRightNextButton;
     [self goForwardToView:self.step8];
 }
@@ -307,7 +312,8 @@
 
 - (IBAction) toStep9:(id)sender
 {
-    self.currentKeyMapView = self.runKeyMapView;
+    [self archiveEventForKey:@"userDefaultRight"];
+   self.currentKeyMapView = self.runKeyMapView;
     self.currentNextButton = self.gamePadRunNextButton;
     [self goForwardToView:self.step9];
 }
@@ -321,6 +327,8 @@
 
 - (IBAction) toStep10:(id)sender
 {
+    [self archiveEventForKey:@"userDefaultPrimary"];
+
     self.currentKeyMapView = self.jumpKeyMapView;
     self.currentNextButton = self.gamePadJumpNextButton;
     [self goForwardToView:self.step10];
@@ -335,6 +343,8 @@
 
 - (IBAction) toLastStep:(id)sender
 {
+    [self archiveEventForKey:@"userDefaultSecondary"];
+
     [self goForwardToView:self.lastStep];
 }
 
@@ -498,8 +508,9 @@
 #pragma mark -
 #pragma mark HID event handling
 
-- (void) gotEvent
+- (void) gotEvent:(OEHIDEvent*)event
 {
+    self.currentEventToArchive = event;
     self.gotNewEvent = YES;
     self.currentKeyMapView.key = OESetupAssistantKeySucess;
     self.currentNextButton.enabled = YES;
@@ -508,38 +519,47 @@
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
     if(self.selectedGamePadDeviceNum == [anEvent padNumber])
-        [self gotEvent];
+        [self gotEvent:anEvent];
 }
 
 - (void)buttonDown:(OEHIDEvent *)anEvent
 {
     if(self.selectedGamePadDeviceNum == [anEvent padNumber])
-        [self gotEvent];
+        [self gotEvent:anEvent];
 }
 
 - (void)buttonUp:(OEHIDEvent *)anEvent
 {
     if(self.selectedGamePadDeviceNum == [anEvent padNumber])
-        [self gotEvent];
+        [self gotEvent:anEvent];
 }
 
 - (void)hatSwitchChanged:(OEHIDEvent *)anEvent
 {
     if(self.selectedGamePadDeviceNum == [anEvent padNumber])
-        [self gotEvent];
+        [self gotEvent:anEvent];
 }
 
 - (void)HIDKeyDown:(OEHIDEvent *)anEvent
 {
     if(self.selectedGamePadDeviceNum == [anEvent padNumber])
-        [self gotEvent];
+        [self gotEvent:anEvent];
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)anEvent
 {
     if(self.selectedGamePadDeviceNum == [anEvent padNumber])
-        [self gotEvent];
+        [self gotEvent:anEvent];
 }
+
+#pragma mark -
+#pragma mark Preference Saving
+
+- (void) archiveEventForKey:(NSString*)key
+{
+    [[NSUserDefaults standardUserDefaults] setValue:[NSKeyedArchiver archivedDataWithRootObject:self.currentEventToArchive] forKey:key];
+}
+
 
 #pragma mark -
 #pragma mark Import Rom Discovery
