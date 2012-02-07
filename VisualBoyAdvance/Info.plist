@@ -17,20 +17,20 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.9.1.1</string>
+	<string>1.8.0-vbanext</string>
 	<key>NSPrincipalClass</key>
 	<string>GBAGameController</string>
-	<key>SUPublicDSAKeyFile</key>
-	<string>dsa_pub.pem</string>
-	<key>SUFeedURL</key>
-	<string>http://openemu.org/update/vba_appcast.xml</string>
-	<key>SUEnableAutomaticChecks</key>
-	<string>1</string>
+	<key>OEProjectURL</key>
+	<string>http://vba-m.com/</string>
 	<key>OESystemIdentifiers</key>
 	<array>
 		<string>openemu.system.gba</string>
 	</array>
-	<key>OEProjectURL</key>
-	<string>http://vba.ngemu.com/</string>
+	<key>SUEnableAutomaticChecks</key>
+	<string>1</string>
+	<key>SUFeedURL</key>
+	<string>http://openemu.org/update/vba_appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
 </dict>
 </plist>
