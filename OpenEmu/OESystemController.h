@@ -68,12 +68,12 @@ extern NSString *const OEFileTypes;
 
 
 @property(strong, readonly) NSString   *systemIdentifier;
-@property(weak, readonly) NSString   *systemName;
+@property(readonly) NSString   *systemName;
 
 @property(readonly) NSUInteger  numberOfPlayers;
-@property(unsafe_unretained, readonly) Class       responderClass;
-@property(weak, readonly) NSArray    *genericSettingNames;
-@property(weak, readonly) NSArray    *genericControlNames;
+@property(weak, readonly) Class       responderClass;
+@property(readonly) NSArray    *genericSettingNames;
+@property(readonly) NSArray    *genericControlNames;
 @property(strong, readonly) NSString   *playerString;
 
 - (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx;
@@ -82,7 +82,7 @@ extern NSString *const OEFileTypes;
 #pragma mark Bindings settings
 
 // Dictionary containing the default values to register for the system
-@property(weak, readonly) NSDictionary *defaultControls;
+@property(readonly) NSDictionary *defaultControls;
 - (void)registerDefaultControls;
 
 // Converts anObject, usually representing an event, into a value registerable into the defaults
@@ -106,8 +106,8 @@ extern NSString *const OEFileTypes;
 
 #pragma mark -
 #pragma mark ROM Handling
-@property(weak, readonly) NSArray *fileTypes;
-@property(weak, readonly) NSArray *archiveIDs;
+@property(strong, readonly) NSArray *fileTypes;
+@property(strong, readonly) NSArray *archiveIDs;
 
 - (BOOL)canHandleFile:(NSString*)path;
 @end

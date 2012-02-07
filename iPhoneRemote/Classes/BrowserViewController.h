@@ -67,7 +67,7 @@
 {
 
 @private
-	id<BrowserViewControllerDelegate> __unsafe_unretained _delegate;
+	id<BrowserViewControllerDelegate> __weak _delegate;
 	NSString *_searchingForServicesString;
 	NSString *_ownName;
 	NSNetService *_ownEntry;
@@ -80,7 +80,7 @@
 	BOOL _initialWaitOver;
 }
 
-@property (nonatomic, unsafe_unretained) id<BrowserViewControllerDelegate> delegate;
+@property (nonatomic, weak) id<BrowserViewControllerDelegate> delegate;
 @property (nonatomic, copy) NSString *searchingForServicesString;
 @property (nonatomic, copy) NSString *ownName;
 

@@ -35,25 +35,26 @@
 
 #define OERegionNALocales [NSArray arrayWithObjects:@"", nil]
 
-
 @implementation OELocalizationHelper
 static OELocalizationHelper *sharedHelper;
 
 + (OELocalizationHelper*)sharedHelper
-{
-	return sharedHelper ?: [self new];
+{    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedHelper = [self new];
+    });
+    
+	return sharedHelper;
 }
 
 - (id)init
 {
-	if(sharedHelper)
-	{
-	}
-	else if((self = sharedHelper = [super init]))
+    if(self = [super init])
 	{
 		[self _updateRegion];
 	}
-	return sharedHelper;
+	return self;
 }
 
 

@@ -35,9 +35,8 @@
 @private
 }
 
-@property(unsafe_unretained) id<OEControlsViewControllerDelegate> delegate;
-
-@property(unsafe_unretained) id selectedControl;
+@property(weak) id<OEControlsViewControllerDelegate> delegate;
+@property(weak) id selectedControl;
 
 - (NSString *)selectedKey;
 - (NSUInteger)selectedPlayer;

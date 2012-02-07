@@ -48,10 +48,10 @@
 @property(readonly) NSUInteger     deviceNumber;
 @property           CGFloat        deadZone;
 
-@property(weak, readonly) NSString *manufacturer;
-@property(weak, readonly) NSString *product;
-@property(weak, readonly) NSNumber *productID;
-@property(weak, readonly) NSNumber *locationID;
+@property(readonly) NSString *manufacturer;
+@property(readonly) NSString *product;
+@property(readonly) NSNumber *productID;
+@property(readonly) NSNumber *locationID;
 
 + (id)deviceHandlerWithDevice:(IOHIDDeviceRef)aDevice;
 
