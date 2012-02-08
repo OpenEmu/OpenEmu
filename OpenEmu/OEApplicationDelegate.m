@@ -45,7 +45,7 @@
 #import "OELibraryController.h"
 
 #import "OEHUDAlert.h"
-
+#import "OEMenuTestController.h"
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -123,6 +123,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     /* [[OECoreUpdater sharedUpdater] installCoreWithIdentifier:@"com.openemu.snes9x" coreName:@"Nestopia" systemName:@"Nintendo (NES)" withCompletionHandler:^{
      NSLog(@"core was installed!");
      }];*/
+    /*
+    OEMenuTestController *menuTest = [[OEMenuTestController alloc] initWithWindowNibName:@"OEMenuTest"];
+    [menuTest showWindow:self];
+     */
 }
 #pragma mark -
 #pragma mark Loading The Database

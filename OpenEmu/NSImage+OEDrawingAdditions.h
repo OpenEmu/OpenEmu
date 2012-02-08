@@ -29,6 +29,11 @@
 #ifndef NoInterpol
 #define NoInterpol [NSDictionary dictionaryWithObject:[NSNumber numberWithInteger:NSImageInterpolationNone] forKey:NSImageHintInterpolation]
 #endif
+
+#define NSPointAdd(P1, P2) (NSPoint){P1.x+P2.x,+P1.y+P2.y}
+#define NSPointSub(P1, P2) (NSPoint){P1.x-P2.x,+P1.y-P2.y}
+#define NSSizeAdd(S1, S2) (NSSize){S1.width+S2.width,+S1.height+S2.height}
+#define NSSizeSub(S1, S2) (NSSize){S1.width-S2.width,+S1.height-S2.height}
 @interface NSImage (NSImage_OEDrawingAdditions)
 - (void)drawInRect:(NSRect)targetRect fromRect:(NSRect)sourceRect operation:(NSCompositingOperation)op fraction:(CGFloat)requestedAlpha respectFlipped:(BOOL)respectContextIsFlipped hints:(NSDictionary *)hints leftBorder:(float)leftBorder rightBorder:(float)rightBorder topBorder:(float)topBorder bottomBorder:(float)bottomBorder;
 - (NSImage*)subImageFromRect:(NSRect)rect;
