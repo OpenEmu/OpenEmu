@@ -565,7 +565,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 {
     NSLog(@"importInBackground");
     
-    NSMutableArray *paths = [[NSMutableArray alloc] init];
+    NSMutableArray *paths = [NSMutableArray array];
     
     for(NSDictionary *searchResult in self.searchResults)
     {
