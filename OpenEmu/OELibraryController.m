@@ -280,28 +280,28 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 }
 
 #pragma mark FileMenu Actions
-- (IBAction)filemenu_newCollection:(id)sender
+- (IBAction)newCollection:(id)sender
 {
     [[self database] addNewCollection:nil];
     
     [[self sidebarController] reloadData];
 }
 
-- (IBAction)filemenu_newSmartCollection:(id)sender
+- (IBAction)newSmartCollection:(id)sender
 {
     [[self database] addNewSmartCollection:nil];
     
     [[self sidebarController] reloadData];
 }
 
-- (IBAction)filemenu_newCollectionFolder:(id)sender
+- (IBAction)newCollectionFolder:(id)sender
 {
     [[self database] addNewCollectionFolder:nil];
     
     [[self sidebarController] reloadData];
 }
 
-- (IBAction)filemenu_editSmartCollection:(id)sender
+- (IBAction)editSmartCollection:(id)sender
 {
     NSLog(@"Edit smart collection: ");
 }
@@ -314,76 +314,25 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     if([[self windowController] currentContentController] != self)
         return NO;
     
-    NSUInteger tag = [menuItem tag];
+    if([menuItem action] == @selector(newCollectionFolder:)) return NO;
     
-    if(tag > 100 && tag < 200) // File Menu
-    {
-        return (tag == MainMenu_File_NewCollection ||
-                //tag == MainMenu_File_NewCollectionFolder ||
-                tag == MainMenu_File_NewSmartCollection ||
-                tag == MainMenu_File_AddToLibrary);
-    }
+    if([menuItem action] == @selector(editSmartCollection:))
+        return [[[self sidebarController] selectedCollection] isKindOfClass:[OEDBSmartCollection class]];
     
-    if(tag == MainMenu_Controls_StartGame) // Controls Menu
+    if([menuItem action] == @selector(startGame:))
         return [[[self collectionViewController] selectedGames] count] != 0;
     
-    return (tag > 300 && tag < 400); // View Menu
+    return YES;
 }
 
 - (void)menuItemAction:(id)sender
 {
-    switch([sender tag])
-    {
-        case MainMenu_File_NewCollection :
-            [self filemenu_newCollection:sender];
-            break;
-        case MainMenu_File_NewCollectionFolder :
-            [self filemenu_newCollectionFolder:sender];
-            break;
-        case MainMenu_File_NewSmartCollection :
-            [self filemenu_newSmartCollection:sender];
-            break;
-        case MainMenu_File_EditSmartCollection :
-            [self filemenu_editSmartCollection:sender];
-            break;
-        case MainMenu_File_AddToLibrary :
-            [self filemenu_addToLibrary:sender];
-            break;
-        case MainMenu_File_GetInfo :
-            break;
-        case MainMenu_File_Rating :
-            break;
-        case MainMenu_File_ShowInFinder :
-            break;
-        case MainMenu_File_DisplayDuplicates :
-            break;
-            
-            // Controls Menu
-        case MainMenu_Controls_StartGame :
-            [self controlsmenu_startGame:sender];
-            break;
-            
-            // View Menu
-        case MainMenu_View_GridViewTag :
-            [self switchToGridView:sender];
-            break;
-            
-        case MainMenu_View_FlowViewTag :
-            [self switchToFlowView:sender];
-            break;
-            
-        case MainMenu_View_ListViewTag :
-            [self switchToListView:sender];
-            break;
-        default :
-            break;
-    }
 }
 
 #pragma mark -
 #pragma mark Import
 
-- (IBAction)filemenu_addToLibrary:(id)sender
+- (IBAction)addToLibrary:(id)sender
 {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setAllowsMultipleSelection:YES];
@@ -407,7 +356,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 }
 #pragma mark -
 
-- (IBAction)controlsmenu_startGame:(id)sender
+- (IBAction)startGame:(id)sender
 {
     NSArray *selection = [[self collectionViewController] selectedGames];
     if(!selection)
@@ -581,6 +530,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 
 - (void)sidebarSelectionDidChange:(NSNotification*)notification
 {
+    /*
     NSDictionary *userInfo = [notification userInfo];
     if(userInfo != nil)
     {
@@ -596,6 +546,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     {
         [[self collectionViewController] setCollectionItem:nil];
     }
+     */
 }
 
 #pragma mark -

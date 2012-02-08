@@ -177,7 +177,7 @@
 	
 	NSSortDescriptor *sortDesc = [[tableView sortDescriptors] objectAtIndex:0];
 	
-    NSInteger priority = [[sortDesc key] isEqualTo:[column identifier]];
+    NSInteger priority = [[sortDesc key] isEqualToString:[column identifier]];
 	BOOL ascending = [sortDesc ascending];
 	
 	

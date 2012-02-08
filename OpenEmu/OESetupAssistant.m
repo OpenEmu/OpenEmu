@@ -445,7 +445,7 @@
     if(aTableView == self.installCoreTableView)
     {
         NSString *identifier = [aTableColumn identifier];
-        if([identifier isEqualTo:@"enabled"])
+        if([identifier isEqualToString:@"enabled"])
         {
             return [NSNumber numberWithBool:YES];
         }
@@ -462,7 +462,7 @@
     if(aTableView == self.mountedVolumes)
     {
         NSString *identifier = [aTableColumn identifier];
-        if([identifier isEqualTo:@"enabled"])
+        if([identifier isEqualToString:@"enabled"])
         {
             return [NSNumber numberWithBool:YES];
         }
@@ -484,11 +484,11 @@
         OEHIDDeviceHandler* handler = [[[(OEApplicationDelegate*)[[NSApplication sharedApplication] delegate] hidManager] deviceHandlers] objectAtIndex:rowIndex];
 
         NSString *identifier = [aTableColumn identifier];
-        if([identifier isEqualTo:@"usbPort"])
+        if([identifier isEqualToString:@"usbPort"])
         {
             return [NSString stringWithFormat:@"Device %i", handler.deviceNumber, nil];
         }
-        if([identifier isEqualTo:@"gamePadName"])
+        if([identifier isEqualToString:@"gamePadName"])
         {
             return handler.product;
         }

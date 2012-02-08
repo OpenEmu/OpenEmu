@@ -91,7 +91,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if([keyPath isEqualTo:@"key"])
+    if([keyPath isEqualToString:@"key"])
     {
         [self _updateKeyView];
     }

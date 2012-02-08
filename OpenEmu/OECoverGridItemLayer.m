@@ -847,7 +847,7 @@
 - (id < CAAction >)actionForLayer:(CALayer *)layer forKey:(NSString *)key
 {
     if(layer == self.ratingLayer)
-        if(isEditingRating && layer == self.ratingLayer && [key isEqualTo:@"contents"])
+        if(isEditingRating && layer == self.ratingLayer && [key isEqualToString:@"contents"])
             return nil;
     
     return (id < CAAction >)[NSNull null];

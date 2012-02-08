@@ -57,13 +57,13 @@
 #pragma mark -
 #pragma mark Menu Item Actions
 
-- (IBAction)filemenu_newCollection:(id)sender;
-- (IBAction)filemenu_newSmartCollection:(id)sender;
-- (IBAction)filemenu_newCollectionFolder:(id)sender;
+- (IBAction)newCollection:(id)sender;
+- (IBAction)newSmartCollection:(id)sender;
+- (IBAction)newCollectionFolder:(id)sender;
 
-- (IBAction)filemenu_editSmartCollection:(id)sender;
-- (IBAction)filemenu_addToLibrary:(id)sender;
-- (IBAction)controlsmenu_startGame:(id)sender;
+- (IBAction)editSmartCollection:(id)sender;
+- (IBAction)addToLibrary:(id)sender;
+- (IBAction)startGame:(id)sender;
 
 #pragma mark -
 #pragma mark Menu Items

@@ -1,4 +1,4 @@
-/*
+             /*
  Copyright (c) 2011, OpenEmu Team
  
  Redistribution and use in source and binary forms, with or without
@@ -178,18 +178,29 @@
 #pragma mark -
 #pragma mark Menu Items
 
+- (IBAction)showOpenEmuWindow:(id)sender;
+{
+    [self close];
+}
+
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
+#if 0
     if([menuItem tag] == MainMenu_Window_OpenEmuTag)
     {
         NSLog(@"Item: %@, %ld enabled from OEMainWindowController", [menuItem title], [menuItem tag]);
         return YES;
     }
+    
     return [[self currentContentController] validateMenuItem:menuItem]/*|| ([self currentContentController]!=[self defaultContentController] && [[self currentContentController] validateMenuItem:menuItem])*/; 
+#endif
+    return YES;
 }
 
 - (void)menuItemAction:(NSMenuItem *)sender
 {
+#if 0
     if([sender tag] == MainMenu_Window_OpenEmuTag)
     {
         if([(NSMenuItem*)sender state])
@@ -200,6 +211,7 @@
     }
     
     [[self currentContentController] menuItemAction:sender];
+#endif
 }
 
 - (void)setupMenuItems

@@ -25,6 +25,7 @@
 @implementation OESidebarController
 @synthesize groups, database, editingItem;
 @synthesize systems, collections;
+@dynamic view;
 
 + (void)initialize
 {
@@ -167,6 +168,12 @@
     OESidebarOutlineView *sidebarView = (OESidebarOutlineView*)[self view];
     [sidebarView expandItem:[self.groups objectAtIndex:1]];
 }
+
+- (id<OECollectionViewItemProtocol>)selectedCollection;
+{
+    return [[self view] itemAtRow:[[self view] selectedRow]];
+}
+
 #pragma mark -
 #pragma mark Notifications
 - (void)systemsChanged

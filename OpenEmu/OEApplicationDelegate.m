@@ -295,6 +295,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     return [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
 }
 
+- (IBAction)showOpenEmuWindow:(id)sender;
+{
+    [[self mainWindowController] showWindow:sender];
+}
+
 #pragma mark -
 #pragma mark Updating
 
@@ -438,7 +443,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 - (void)OE_setTargetForMenuItems:(NSMenu*)menu
 {
     [menu setAutoenablesItems:YES];
-    
+    /*
     [[menu itemArray] enumerateObjectsUsingBlock:
      ^(id obj, NSUInteger idx, BOOL *stop)
      {
@@ -450,8 +455,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
              [obj setTarget:self];
          }
      }];
+     */
 }
 
+/*
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     return [menuItem action] != @selector(menuItemAction:) || [[self mainWindowController] validateMenuItem:menuItem];
@@ -461,5 +468,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     [[self mainWindowController] menuItemAction:sender];
 }
+ */
 
 @end

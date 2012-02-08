@@ -516,6 +516,7 @@
 		C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6BFB29E0F7CC8E700040FFA /* Localizable.strings */; };
 		C6D268D6135BCE4900154550 /* NSString+OEAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C6D268D4135BCE4900154550 /* NSString+OEAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6D268D7135BCE4900154550 /* NSString+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D268D5135BCE4900154550 /* NSString+OEAdditions.m */; };
+		C6D6FA7E14E2264C0083C75D /* NSViewController+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */; };
 		C6E542C31363D96F0075BA8C /* OEBasicSystemResponder.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E542C01363D2D90075BA8C /* OEBasicSystemResponder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6E542C41363D9760075BA8C /* OEBasicSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6E542C11363D2D90075BA8C /* OEBasicSystemResponder.m */; };
 		C6E542C51363D9BD0075BA8C /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
@@ -1461,6 +1462,8 @@
 		C6D268D5135BCE4900154550 /* NSString+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+OEAdditions.m"; sourceTree = "<group>"; };
 		C6D268D8135BD95A00154550 /* NSUserDefaultsController+OEEventAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaultsController+OEEventAdditions.h"; sourceTree = "<group>"; };
 		C6D268D9135BD95A00154550 /* NSUserDefaultsController+OEEventAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaultsController+OEEventAdditions.m"; sourceTree = "<group>"; };
+		C6D6FA7C14E2264C0083C75D /* NSViewController+OEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSViewController+OEAdditions.h"; sourceTree = "<group>"; };
+		C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSViewController+OEAdditions.m"; sourceTree = "<group>"; };
 		C6E542C01363D2D90075BA8C /* OEBasicSystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEBasicSystemResponder.h; sourceTree = "<group>"; };
 		C6E542C11363D2D90075BA8C /* OEBasicSystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEBasicSystemResponder.m; sourceTree = "<group>"; };
 		C6EB73FD136DF5FC00B39A6F /* OpenEmuBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenEmuBase.h; sourceTree = "<group>"; };
@@ -2033,6 +2036,8 @@
 			children = (
 				832D293E1451A68700BDF950 /* OEMainWindowController.h */,
 				832D293F1451A68700BDF950 /* OEMainWindowController.m */,
+				C6D6FA7C14E2264C0083C75D /* NSViewController+OEAdditions.h */,
+				C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */,
 				832D294C1451B20600BDF950 /* OEMainWindowContentController.h */,
 				832D294D1451B20600BDF950 /* OEMainWindowContentController.m */,
 				832D29441451B0CA00BDF950 /* MainWindow: Library */,
@@ -3963,6 +3968,7 @@
 				83C0B37114D6EF02007CAC00 /* OESidebarOutlineButtonCell.m in Sources */,
 				1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */,
 				83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */,
+				C6D6FA7E14E2264C0083C75D /* NSViewController+OEAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
