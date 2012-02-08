@@ -69,7 +69,6 @@
         OEBackgroundColorView *_container = [[OEBackgroundColorView alloc] initWithFrame:NSInsetRect([self superFrame], -1, -1)];
         _container.backgroundColor = [NSColor colorWithDeviceRed:0.09 green:0.153 blue:0.553 alpha:1.0];
         [self setContainer:_container];
-        [_container release];
         
         [self updateContainerFrame];
         
@@ -97,8 +96,6 @@
     if([self container])
         [[self container] removeFromSuperview];
     
-    [self setContainer:nil];
-    [super dealloc];
 }
 
 @end

@@ -44,7 +44,6 @@
         _buffer     = calloc(_bufferSize, sizeof(char));
         if(_buffer == NULL)
         {
-            [self release];
             return nil;
         }
     }
@@ -156,8 +155,6 @@
 - (void)dealloc
 {
     if(_buffer != NULL) free(_buffer);
-    [_bufferLock release];
-    [super dealloc];
 }
 
 @end

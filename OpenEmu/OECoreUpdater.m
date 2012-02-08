@@ -80,7 +80,6 @@ static OECoreUpdater *sharedController = nil;
             OECoreDownload *aDownload = [[OECoreDownload alloc] initWithPlugin:obj];
             NSString *bundleID = [self lowerCaseID:[obj bundleIdentifier]];
             [coresDict setObject:aDownload forKey:bundleID];
-            [aDownload release];
         }];
         [self updateCoreList];
     }
@@ -90,22 +89,14 @@ static OECoreUpdater *sharedController = nil;
 - (void)updateCoreList
 {
     [self willChangeValueForKey:@"coreList"];
-    [coreList release];
     
     coreList = [[[self coresDict] allValues] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
     {
         return [[obj1 name] compare:[obj2 name]];
     }];
-    [coreList retain];
     [self didChangeValueForKey:@"coreList"];
 }
 
-- (void)dealloc {
-    [coreList release];
-    [coresDict release];
-    
-    [super dealloc];
-}
 
 - (void)checkForUpdates{
     if(![NSThread isMainThread])
@@ -131,7 +122,7 @@ static OECoreUpdater *sharedController = nil;
 }
 - (void)checkForNewCores:(NSNumber*)fromModal{
     NSURL         *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
-    NSXMLDocument *coreListDoc = [[[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL] autorelease];
+    NSXMLDocument *coreListDoc = [[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL];
     NSArray       *coreNodes   = nil;
     
     if(coreListDoc != nil) coreNodes = [coreListDoc nodesForXPath:@"/cores/core" error:NULL];
@@ -149,7 +140,7 @@ static OECoreUpdater *sharedController = nil;
             [download setCanBeInstalled:YES];
             
             NSURL *appcastURL = [NSURL URLWithString:[[coreNode attributeForName:@"appcastURL"] stringValue]];
-            download.appcast = [[[SUAppcast alloc] init] autorelease];
+            download.appcast = [[SUAppcast alloc] init];
             [download.appcast setDelegate:self];
             
             if([fromModal boolValue])
@@ -158,7 +149,6 @@ static OECoreUpdater *sharedController = nil;
                 [download.appcast performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO];
                 
             [[self coresDict] setObject:download forKey:coreId];
-            [download release];
         }
     }
     [self updateCoreList];
@@ -191,7 +181,6 @@ static OECoreUpdater *sharedController = nil;
     
     self.alert = nil;
     
-    [aAlert release];
 }
 
 - (void)cancelInstall

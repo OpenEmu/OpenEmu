@@ -41,10 +41,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 #pragma mark -
 - (void)addItem:(OEToolbarItem*)item{
@@ -54,8 +50,6 @@
 }
 #pragma mark -
 - (void)setContentseparatorColor:(NSColor *)contentseparatorColor{
-	[contentseparatorColor retain];
-	[_contentseparatorColor release];
 	
 	_contentseparatorColor = contentseparatorColor;
 	[self setNeedsDisplay:YES];
@@ -101,12 +95,12 @@
 	
 	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4.0 size:11.0];
 	NSColor *textColor = [NSColor blackColor];
-	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow *shadow = [[NSShadow alloc] init];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.45]];
 	[shadow setShadowBlurRadius:1];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];
 	
-	NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
 	[ps setAlignment:NSCenterTextAlignment];
 	
 	NSMutableDictionary *textAttributes = [NSMutableDictionary dictionary];
@@ -119,7 +113,7 @@
 	for(OEToolbarItem *anItem in self.items){
 		x += titlePadding;
 		
-		NSAttributedString *title = [[[NSAttributedString alloc] initWithString:anItem.title attributes:textAttributes] autorelease];
+		NSAttributedString *title = [[NSAttributedString alloc] initWithString:anItem.title attributes:textAttributes];
 		NSRect titleRect = NSMakeRect(x, 6, title.size.width, title.size.height);
 		NSRect imageRect = NSMakeRect(x+(title.size.width-imageSideLength)/2, titleRect.origin.y+titleRect.size.height+imageTitleSpacing-3, imageSideLength, imageSideLength);
 		
@@ -195,7 +189,7 @@
 }
 
 - (void)_setup{
-	self.items = [[[NSMutableArray alloc] init] autorelease];
+	self.items = [[NSMutableArray alloc] init];
 }
 @end
 

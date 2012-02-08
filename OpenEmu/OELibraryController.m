@@ -85,13 +85,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     
     [[NSNotificationCenter defaultCenter] removeObject:self];
     
-    [self setCollectionViewController:nil];
-    [self setMainSplitView:nil];
-    [self setSidebarController:nil];
-    [self setDatabase:nil];
-    [self setRomImporter:nil];
     
-    [super dealloc];
 }
 
 #pragma mark -
@@ -110,9 +104,9 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     
     [[self sidebarController] view];
     
-    self.romImporter = [[[OEROMImporter alloc] initWithDatabase:[self database]] autorelease];
+    self.romImporter = [[OEROMImporter alloc] initWithDatabase:[self database]];
     
-    self.searchResults = [[[NSMutableArray alloc] initWithCapacity:1] autorelease];
+    self.searchResults = [[NSMutableArray alloc] initWithCapacity:1];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
@@ -420,7 +414,6 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     OEGameDocument *document = [[OEGameDocument alloc] initWithGame:selectedGame];
     if (!document) return;
     [docController addDocument:document];
-    [document release];
 }
 
 #pragma mark -
@@ -444,7 +437,6 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
         searchString = [searchString stringByAppendingString:@" || "];
     }
     
-    [supportedFileExtensions release];
     
     searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
     
@@ -470,7 +462,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
                                                      name:(NSString*)kMDQueryDidUpdateNotification
                                                    object:(__bridge id)searchQuery];
         
-        MDQuerySetSearchScope(searchQuery, (CFArrayRef) [NSArray arrayWithObject:(NSString*) kMDQueryScopeComputer /*kMDQueryScopeComputer */], 0);
+        MDQuerySetSearchScope(searchQuery, (__bridge CFArrayRef) [NSArray arrayWithObject:(NSString*) kMDQueryScopeComputer /*kMDQueryScopeComputer */], 0);
         
         if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
             NSLog(@"Searching for importable roms");
@@ -491,7 +483,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 {    
     NSLog(@"updateSearchResults:");
     
-    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
+    MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object]; 
     
     MDItemRef resultItem = NULL;
     NSString *resultPath = nil;
@@ -502,7 +494,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     for(index = 0; index < MDQueryGetResultCount(searchQuery); index++)
     {
         resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
-        resultPath = (NSString*)MDItemCopyAttribute(resultItem, kMDItemPath);
+        resultPath = (__bridge_transfer NSString*)MDItemCopyAttribute(resultItem, kMDItemPath);
         
         NSArray *dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
                                                         @"System",
@@ -538,14 +530,13 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
             }
         }
         
-        [resultPath release];
         resultPath = nil;    
     } 
 }
 
 - (void) finalizeSearchResults:(NSNotification*)notification
 {
-    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
+    MDQueryRef searchQuery = (__bridge MDQueryRef)[notification object]; 
     
     NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
     

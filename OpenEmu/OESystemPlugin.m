@@ -111,12 +111,6 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
     return self;
 }
 
-- (void)dealloc
-{
-    [gameSystemName release];
-    [icon           release];
-    [super          dealloc];
-}
 
 - (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
 {

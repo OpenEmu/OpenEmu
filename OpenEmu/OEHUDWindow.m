@@ -79,10 +79,8 @@
 
 - (void)dealloc 
 {
-    [_borderWindow release];
     _borderWindow = nil;
     
-    [super dealloc];
 }
 
 #pragma mark -
@@ -97,8 +95,8 @@
     NSRect frame;
     frame.size = [self frame].size;
     frame.origin = NSMakePoint(0, 0);
-    [super setContentView:[[[NSView alloc] initWithFrame:NSZeroRect] autorelease]];
-    [self setContentView:[[[NSView alloc] initWithFrame:NSZeroRect] autorelease]];
+    [super setContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
+    [self setContentView:[[NSView alloc] initWithFrame:NSZeroRect]];
     // Register for notifications
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc addObserver:self selector:@selector(_layout) name:NSWindowDidResizeNotification object:self];
@@ -174,7 +172,6 @@
         [super setContentView:borderView];
         //[[self contentView] addSubview:borderView];
         // [borderView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [borderView release];
     }
     
     return self;
@@ -198,7 +195,6 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [super dealloc];
 }
 
 - (BOOL)canBecomeKeyWindow
@@ -256,7 +252,6 @@
     [ps setLineBreakMode:NSLineBreakByTruncatingMiddle];
     [ps setAlignment:NSCenterTextAlignment];
     [titleAttribtues setObject:ps forKey:NSParagraphStyleAttributeName];
-    [ps release];
     
     NSColor *textColor = isFocused ? [NSColor colorWithDeviceWhite:0.86 alpha:1.0] : [NSColor colorWithDeviceWhite:0.61 alpha:1.0];
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:2.0 size:13.0];
@@ -268,7 +263,6 @@
     [titleAttribtues setObject:textColor forKey:NSForegroundColorAttributeName];
     [titleAttribtues setObject:font forKey:NSFontAttributeName];
     [titleAttribtues setObject:shadow forKey:NSShadowAttributeName];
-    [shadow release];
     
     NSRect titleBarRect = NSInsetRect([self titleBarRect], 10, 0);
     titleBarRect.origin.y -= 2;
@@ -276,7 +270,6 @@
     NSString *windowTitle = [[self window].parentWindow title];
     NSAttributedString *attributedWindowTitle = [[NSAttributedString alloc] initWithString:windowTitle attributes:titleAttribtues];
     [attributedWindowTitle drawInRect:titleBarRect];
-    [attributedWindowTitle release];
 }
 
 /*

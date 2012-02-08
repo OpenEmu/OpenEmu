@@ -70,7 +70,7 @@ static NSTimeInterval currentTime()
     [movie setAttribute:[NSNumber numberWithBool:YES]
                  forKey:QTMovieEditableAttribute];
     
-    timer = [[NSTimer timerWithTimeInterval:1.0/30.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true] retain];
+    timer = [NSTimer timerWithTimeInterval:1.0/30.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true];
     [[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];
     
     lastTime = currentTime();
@@ -81,15 +81,15 @@ static NSTimeInterval currentTime()
 
 - (void)timerCallInstallLoop
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
     //[NSThread setThreadPriority:1.0];
     //add NTSC/PAL timer
     
-    timer = [[NSTimer timerWithTimeInterval:1.0f/10.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true] retain];
-    [[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];
-    
-    [[NSRunLoop currentRunLoop] run];
-    [pool release];
+        timer = [NSTimer timerWithTimeInterval:1.0f/10.0f target:self selector:@selector(addFrame) userInfo:nil repeats:true];
+        [[NSRunLoop currentRunLoop] addTimer: timer forMode: NSRunLoopCommonModes];
+        
+        [[NSRunLoop currentRunLoop] run];
+    }
 }
 
 - (void)addFrame
@@ -150,7 +150,6 @@ static NSTimeInterval currentTime()
     }
     
     //[self writeMovieToFile:@"/Users/jweinberg/test.mov" withComponent:[[self availableComponents] objectAtIndex:9] withExportSettings:[self getExportSettings]];
-    [movie release];
 }
 
 #if 0

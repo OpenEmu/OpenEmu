@@ -16,14 +16,14 @@
 }
 
 #pragma mark -
-@property (retain) IBOutlet NSView	 *controllerView;
+@property (strong) IBOutlet NSView	 *controllerView;
 
-@property (retain) IBOutlet NSPopUpButton	 *consolesPopupButton;
-@property (retain) IBOutlet NSPopUpButton	 *playerPopupButton;
-@property (retain) IBOutlet NSPopUpButton	 *inputPopupButton;
+@property (strong) IBOutlet NSPopUpButton	 *consolesPopupButton;
+@property (strong) IBOutlet NSPopUpButton	 *playerPopupButton;
+@property (strong) IBOutlet NSPopUpButton	 *inputPopupButton;
 
-@property (retain) IBOutlet OEBackgroundGradientView *gradientOverlay;
-@property (retain) IBOutlet NSView *controlsContainer;
+@property (strong) IBOutlet OEBackgroundGradientView *gradientOverlay;
+@property (strong) IBOutlet NSView *controlsContainer;
 #pragma mark -
 #pragma UI Methods
 - (IBAction)changeSystem:(id)sender;

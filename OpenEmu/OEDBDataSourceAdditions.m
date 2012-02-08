@@ -81,10 +81,10 @@
     CFUUIDRef  uuidObj    = CFUUIDCreate(nil);
     
     // Get the string representation of the UUID
-    NSString  *uuidString = (NSString *)CFUUIDCreateString(nil, uuidObj);
+    NSString  *uuidString = (__bridge_transfer NSString *)CFUUIDCreateString(nil, uuidObj);
     CFRelease(uuidObj);
     
-    return [uuidString autorelease];
+    return uuidString;
 }
 
 - (NSString *) imageRepresentationType
@@ -101,7 +101,7 @@
     
     NSData *data = [boxImage valueForKey:@"data"];
     
-    if(data != nil) return [[[NSImage alloc] initWithData:data] autorelease];
+    if(data != nil) return [[NSImage alloc] initWithData:data];
     
     //if([boxImage valueForKey:@"url"]) return nil;
     

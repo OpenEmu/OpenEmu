@@ -83,12 +83,9 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
 #pragma mark -
 
 @interface OEGameCore : NSResponder <OESystemResponderClient, OESettingObserver>
-{
-    id<OERenderDelegate> renderDelegate;
-    
+{    
     NSThread              *emulationThread;
     NSTimeInterval         frameInterval;
-    OEGameCoreController  *owner;
     __strong OERingBuffer         **ringBuffers;
     //OEMapRef               keyMap;
     NSUInteger             frameSkip;
@@ -110,9 +107,9 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
 + (NSTimeInterval)defaultTimeInterval;
 + (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval;
 
-@property (readwrite, retain) id<OERenderDelegate> renderDelegate;
+@property(readwrite, weak) id<OERenderDelegate> renderDelegate;
 
-@property(assign)   OEGameCoreController *owner;
+@property(weak)   OEGameCoreController *owner;
 @property(readonly) NSString             *pluginName;
 @property(readonly) NSString             *gameSystemName DEPRECATED_ATTRIBUTE;
 

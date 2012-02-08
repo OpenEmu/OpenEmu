@@ -22,33 +22,33 @@
         [self setAllowsEditingTextAttributes:NO];
         
         
-        NSShadow *shadow = [[NSShadow new] autorelease];
-        NSParagraphStyle *paraStyle = [[NSParagraphStyle new] autorelease];
+        NSShadow *shadow = [NSShadow new];
+        NSParagraphStyle *paraStyle = [NSParagraphStyle new];
         
         [shadow setShadowBlurRadius:1];
         [shadow setShadowOffset:NSMakeSize(0, -1)];
         [shadow setShadowColor:[NSColor colorWithDeviceWhite:0 alpha:0.5]];
         
-        placeholder = [[NSDictionary dictionaryWithObjectsAndKeys:
+        placeholder = [NSDictionary dictionaryWithObjectsAndKeys:
                         placeholderColor ,NSForegroundColorAttributeName,
                         [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0], NSFontAttributeName,
                         shadow, NSShadowAttributeName,
                         paraStyle, NSParagraphStyleAttributeName,
-                        nil] retain];
+                        nil];
         
         NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:5 size:11.0];
-        inactive = [[NSDictionary dictionaryWithObjectsAndKeys:
+        inactive = [NSDictionary dictionaryWithObjectsAndKeys:
                      activeColor ,NSForegroundColorAttributeName,
                      font, NSFontAttributeName,
                      shadow, NSShadowAttributeName,
                      paraStyle, NSParagraphStyleAttributeName,
-                     nil] retain];
-        disabled = [[NSDictionary dictionaryWithObjectsAndKeys:
+                     nil];
+        disabled = [NSDictionary dictionaryWithObjectsAndKeys:
                      disabledColor ,NSForegroundColorAttributeName,
                      font, NSFontAttributeName,
                      shadow, NSShadowAttributeName,
                      paraStyle, NSParagraphStyleAttributeName,
-                     nil] retain];
+                     nil];
         
         current = [self isEnabled]?inactive:disabled;
         
@@ -70,7 +70,7 @@
         
         if(![self placeholderAttributedString] && [self placeholderString]) 
         {
-            [self setPlaceholderAttributedString:[[[NSAttributedString alloc] initWithString:[self placeholderString] attributes:placeholder] autorelease]];
+            [self setPlaceholderAttributedString:[[NSAttributedString alloc] initWithString:[self placeholderString] attributes:placeholder]];
         }
         [[self searchButtonCell] setImageDimsWhenDisabled:NO];
         [[self searchButtonCell] setImageScaling:NSScaleNone];
@@ -81,13 +81,6 @@
     return self;
 }
 
-- (void)dealloc{
-    [active release];
-    [inactive release];
-    [disabled release];
-    
-    [super dealloc];
-}
 
 - (NSDictionary *)_textAttributes
 {
@@ -111,8 +104,8 @@
     textObj = [super setUpFieldEditorAttributes:textObj];
     if([textObj isKindOfClass:[NSTextView class]]) 
     {
-        NSShadow *shadow = [[NSShadow new] autorelease];
-        NSParagraphStyle *paraStyle = [[NSParagraphStyle new] autorelease];
+        NSShadow *shadow = [NSShadow new];
+        NSParagraphStyle *paraStyle = [NSParagraphStyle new];
         
         [shadow setShadowBlurRadius:1];
         [shadow setShadowOffset:NSMakeSize(1, 1)];
@@ -336,7 +329,6 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeMainNotification object:[self window]];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignMainNotification object:[self window]];
     
-    [super dealloc];
 }
 
 

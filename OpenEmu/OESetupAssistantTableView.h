@@ -27,7 +27,7 @@
 #import <AppKit/AppKit.h>
 #import "OEAttributedTextFieldCell.h"
 @interface OESetupAssistantTableView : NSTableView
-@property (retain) NSColor *selectionColor;
+@property (strong) NSColor *selectionColor;
 @end
 
 @interface OESetupAssistantMajorTextCell : NSTextFieldCell

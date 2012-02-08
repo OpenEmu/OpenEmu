@@ -26,28 +26,19 @@ typedef struct IKSGridLayoutState IKSGridLayoutState;
 @class IKSGridView;
 @interface IKSGridLayoutManager : NSObject 
 {
-    NSSize minimumSpacing;
-    NSSize sublayerSize;
-    id<IKSGridLayoutManagerDelegate> delegate;
-    IKSGridView *gridView;
-    
-    CGRect visibleRect;
     BOOL reset;
     /**
      The GCD queue that is used to render all the layers
      */
     dispatch_queue_t renderQueue;
     
-    
     IKSGridLayoutState currentGridState;
-    
-    NSMutableArray *itemLayers;
 }
 
-@property (nonatomic, retain) NSMutableArray *itemLayers;
+@property (nonatomic, strong) NSMutableArray *itemLayers;
 
-@property (nonatomic, assign) IKSGridView *gridView;
-@property (nonatomic, assign) id<IKSGridLayoutManagerDelegate> delegate;
+@property (nonatomic, weak) IKSGridView *gridView;
+@property (nonatomic, weak) id<IKSGridLayoutManagerDelegate> delegate;
 /**
  Minimum vertical and horizontap spacing between layers
  Default: {10.0, 10.0}

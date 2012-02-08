@@ -48,7 +48,7 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     if(self != nil)
     {
         frame.origin = NSZeroPoint;
-        gameView = [[[NSView alloc] initWithFrame:frame] autorelease];
+        gameView = [[NSView alloc] initWithFrame:frame];
         gameView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
         
         [self addSubview:gameView];
@@ -102,7 +102,6 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     
     [gameLayer unbind:@"filterName"];
     [gameLayer unbind:@"vSyncEnabled"];
-    [super dealloc];
 }
 
 - (id<CAAction>)actionForLayer:(CALayer *)layer forKey:(NSString *)event

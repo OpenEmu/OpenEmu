@@ -12,5 +12,5 @@
 @class OEBackgroundColorView;
 @interface OESidebarFieldEditor : NSTextView
 + (id)fieldEditor;
-@property (retain) OEBackgroundColorView *container;
+@property (strong) OEBackgroundColorView *container;
 @end

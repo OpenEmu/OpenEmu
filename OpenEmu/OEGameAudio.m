@@ -29,7 +29,7 @@
 #import "OEGameCore.h"
 
 @interface OEGameAudioContext : NSObject
-@property (retain) OEGameCore *core;
+@property (strong) OEGameCore *core;
 @property (assign) NSUInteger buffer;
 + (id)contextWithCore:(OEGameCore*)aCore bufferIndex:(NSUInteger)aBuffer;
 @end
@@ -42,14 +42,9 @@
     OEGameAudioContext *context = [[self alloc] init];
     context.core = aCore;
     context.buffer = aBuffer;
-    return [context autorelease];
+    return context;
 }
 
-- (void)dealloc;
-{
-    self.core = nil;
-    [super dealloc];
-}
 
 @end
 ExtAudioFileRef recordingFile;
@@ -77,7 +72,7 @@ OSStatus RenderCallback(void                       *in,
 }
 
 @interface OEGameAudio ()
-@property (retain) NSMutableArray *contexts;
+@property (strong) NSMutableArray *contexts;
 @end
 
 @implementation OEGameAudio
@@ -86,7 +81,6 @@ OSStatus RenderCallback(void                       *in,
 // No default version for this class
 - (id)init
 {
-    [self release];
     return nil;
 }
 
@@ -109,8 +103,6 @@ OSStatus RenderCallback(void                       *in,
     AUGraphUninitialize(mGraph);
     //FIXME: added this line tonight.  do we need it?  Fuckety fuck fucking shitty Core Audio documentation... :X
     DisposeAUGraph(mGraph);
-    self.contexts = nil;
-    [super dealloc];
 }
 
 - (void)pauseAudio

@@ -35,7 +35,7 @@
     NSView *mainContentView;
 }
 
-@property(retain, nonatomic) NSView *mainContentView;
+@property(strong, nonatomic) NSView *mainContentView;
 @end
 
 @interface OEMainWindowTitleBarView : NSView

@@ -27,15 +27,8 @@
 #import <AppKit/AppKit.h>
 
 @interface OEMenuItem : NSMenuItem
-{
-    BOOL hasAlternate;
-    id alternateTarget;
-    SEL alternateAction;
-    
-    BOOL isAlternate;
-}
 
-@property(assign) id  alternateTarget;
+@property(weak) id  alternateTarget;
 @property         SEL alternateAction;
 
 @property BOOL isAlternate;

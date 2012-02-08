@@ -71,8 +71,6 @@
     
     [[imageObject mutableSetValueForKey:@"versions"] addObject:original];
     
-    [thumbnailDataObj release];
-    [original release];
     
     return imageObject;
 }
@@ -102,9 +100,6 @@
     
     [[imageObject mutableSetValueForKey:@"versions"] addObject:original];
     
-    [thumbnailDataObj release];
-    [image release];
-    [original release];
     
     return imageObject;
 }
@@ -135,9 +130,6 @@
     
     [[imageObject mutableSetValueForKey:@"versions"] addObject:original];
     
-    [thumbnailDataObj release];
-    [image release];
-    [original release];
     
     return imageObject;
 }
@@ -166,9 +158,6 @@
     
     [[imageObject mutableSetValueForKey:@"versions"] addObject:original];
     
-    [thumbnailDataObj release];
-    [image release];
-    [original release];
     
     return imageObject;
 }
@@ -200,13 +189,13 @@
         if([[obj valueForKey:@"width"] floatValue] >= size.width ||
            [[obj valueForKey:@"height"] floatValue] >= size.height)
         {
-            usableThumbnail = [obj retain];
+            usableThumbnail = obj;
             break;
         }
     }
     
     if(usableThumbnail == nil)
-        usableThumbnail = [[thumbnails lastObject] retain];
+        usableThumbnail = [thumbnails lastObject];
     
     NSImage *image = nil;
     
@@ -221,7 +210,6 @@
         NSLog(@"%@", exception);
     }
     
-    [usableThumbnail release];
     
     return image;
 }
@@ -280,9 +268,6 @@
     
     [thumbnailsSet addObject:newThumbnailObject];
     
-    [thumbnailDataObj release];
-    [newThumbnailImage release];
-    [newThumbnailObject release];
     
     [self _putThumbnailsInOrder];
 }
@@ -301,7 +286,7 @@
 
 + (NSImage *)_convertDataToImage:(NSData *)data
 {
-    return [[[NSImage alloc] initWithData:data] autorelease];
+    return [[NSImage alloc] initWithData:data];
 }
 
 - (NSImage *)_convertDataToImage:(NSData *)data

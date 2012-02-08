@@ -15,7 +15,7 @@
 {
 OESidebarGroupItem *newItem = [[self alloc] init];
 newItem.name = name;
-return [newItem autorelease];
+return newItem;
 }
 
 - (NSImage*)sidebarIcon
@@ -48,12 +48,6 @@ return YES;
 {}
 
 
-- (void)dealloc 
-{
-self.name = nil;
-
-    [super dealloc];
-}
 
 @synthesize name;
 @end

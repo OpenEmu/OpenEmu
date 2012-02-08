@@ -110,9 +110,9 @@
  - (void)removeRule:(id)rule fromCollection:(id)collection;
  */
 #pragma mark -
-@property (readonly) NSString *databaseFolderPath;
-@property (readonly) NSString *databaseUnsortedRomsPath;
+@property (strong, readonly) NSString *databaseFolderPath;
+@property (strong, readonly) NSString *databaseUnsortedRomsPath;
 #pragma mark -
 @property (copy) NSURL *databaseURL;
-@property (retain) NSPersistentStoreCoordinator  *persistentStoreCoordinator;
+@property (strong) NSPersistentStoreCoordinator  *persistentStoreCoordinator;
 @end

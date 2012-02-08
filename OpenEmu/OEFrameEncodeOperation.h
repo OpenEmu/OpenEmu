@@ -35,8 +35,8 @@
     NSTimeInterval  frameDuration;
 }
 
-@property(retain) NSImage *imageToEncode;
-@property(retain) QTMovie *movie;
+@property(strong) NSImage *imageToEncode;
+@property(strong) QTMovie *movie;
 - (id)initWithImage:(NSImage *)image forMovie:(QTMovie *)movie withDuration:(NSTimeInterval)interval;
 
 @end

@@ -34,9 +34,9 @@
 
 - (void)willHide;
 - (void)willShow;
-@property (assign) OELibraryDatabase *database;
-@property (retain, readwrite) NSArray *groups;
-@property (retain, readwrite) NSArray *systems, *collections;
+@property (strong) OELibraryDatabase *database;
+@property (strong, readwrite) NSArray *groups;
+@property (strong, readwrite) NSArray *systems, *collections;
 
-@property (nonatomic, retain, readwrite) id editingItem;
+@property (nonatomic, strong, readwrite) id editingItem;
 @end

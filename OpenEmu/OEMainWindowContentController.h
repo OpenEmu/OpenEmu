@@ -29,7 +29,7 @@
 @interface OEMainWindowContentController : NSViewController
 
 #warning windowController should no longer be used
-@property(assign) OEMainWindowController *windowController;
+@property(unsafe_unretained) OEMainWindowController *windowController;
 - (id)initWithWindowController:(OEMainWindowController*) aWindowController;
 
 - (void)contentWillShow;

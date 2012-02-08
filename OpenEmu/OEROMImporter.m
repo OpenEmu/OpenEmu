@@ -61,10 +61,8 @@
 - (void)dealloc {
     dispatch_release(processingQueue);
     
-    [importedRoms release];
     importedRoms = nil;
     
-    [super dealloc];
 }
 
 - (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError**)outError
@@ -119,13 +117,12 @@
     return [self importROMsAtPath:[url path] inBackground:bg error:outError];
 }
 - (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError**)outError{
-    __block NSMutableArray *paths = [[NSMutableArray alloc] initWithCapacity:[urlArray count]];
+    NSMutableArray *paths = [[NSMutableArray alloc] initWithCapacity:[urlArray count]];
     [urlArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [paths addObject:[obj path]];
     }];
     
     BOOL success = [self importROMsAtPaths:paths inBackground:bg error:outError];
-    [paths release];
     
     return success;
 }
@@ -144,7 +141,7 @@
     NSError *error = nil;
     
     BOOL success = YES;
-    for (NSString *aPath in paths) 
+    for (__strong NSString *aPath in paths) 
     {
         if(canceld) return YES;
         

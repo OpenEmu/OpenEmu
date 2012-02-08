@@ -37,9 +37,6 @@ typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
 @interface OEROMImporter : NSObject{
     BOOL canceld;
     
-    OEImportErrorBehavior errorBehaviour;    
-    OELibraryDatabase *database;
-    
     dispatch_queue_t processingQueue;
     __block int queueCount;
     
@@ -53,8 +50,8 @@ typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
 - (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError**)outError;
 - (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError**)outError;
 @property OEImportErrorBehavior errorBehaviour;
-@property (assign) OELibraryDatabase *database;
+@property (strong) OELibraryDatabase *database;
 @property __block int queueCount;
 
-@property (readonly) NSArray *importedRoms;
+@property (weak, readonly) NSArray *importedRoms;
 @end

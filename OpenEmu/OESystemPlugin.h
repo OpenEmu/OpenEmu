@@ -35,14 +35,14 @@ extern NSString *const OEArchiveIDs;
 
 @interface OESystemPlugin : OEPlugin
 
-@property(readonly) OESystemController<OEPluginController> *controller;
+@property(weak, readonly) OESystemController<OEPluginController> *controller;
 
-@property(readonly) NSString *gameSystemName DEPRECATED_ATTRIBUTE;
-@property(readonly) NSString *systemIdentifier;
-@property(readonly) NSString *systemName;
+@property(strong, readonly) NSString *gameSystemName DEPRECATED_ATTRIBUTE;
+@property(strong, readonly) NSString *systemIdentifier;
+@property(strong, readonly) NSString *systemName;
 
-@property(readonly) NSImage  *icon;
-@property(readonly) Class     responderClass;
+@property(strong, readonly) NSImage  *icon;
+@property(strong, readonly) Class     responderClass;
 
 + (NSArray*)supportedTypeExtensions;
 - (NSArray*)supportedTypeExtensions;

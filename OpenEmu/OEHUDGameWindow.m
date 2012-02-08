@@ -54,7 +54,6 @@
 	}
     [self setGameViewController:nil];
 	
-	[super dealloc];
 }
 
 - (void)setGameViewController:(OEGameViewController *)gameViewController
@@ -73,8 +72,6 @@
 		[[self gameViewController] terminateEmulation];
 	}
 	
-	[gameViewController retain];
-	[_gameViewController release];
 	_gameViewController = gameViewController;
 	
 	if(gameViewController){

@@ -31,8 +31,8 @@
 
 #pragma mark -
 
-@property(retain, nonatomic) OEMainWindowContentController *currentContentController;
-@property(retain)            OEMainWindowContentController *defaultContentController;
+@property(strong, nonatomic) OEMainWindowContentController *currentContentController;
+@property(strong)            OEMainWindowContentController *defaultContentController;
 @property                    BOOL                           allowWindowResizing;
 
 #pragma mark -
@@ -45,13 +45,13 @@
 #pragma mark -
 #pragma mark Toolbar Elements
 
-@property(retain) IBOutlet NSButton      *toolbarSidebarButton;
-@property(retain) IBOutlet NSButton      *toolbarGridViewButton;
-@property(retain) IBOutlet NSButton      *toolbarFlowViewButton;
-@property(retain) IBOutlet NSButton      *toolbarListViewButton;
+@property(strong) IBOutlet NSButton      *toolbarSidebarButton;
+@property(strong) IBOutlet NSButton      *toolbarGridViewButton;
+@property(strong) IBOutlet NSButton      *toolbarFlowViewButton;
+@property(strong) IBOutlet NSButton      *toolbarListViewButton;
 
-@property(retain) IBOutlet NSButton      *toolbarAddToSidebarButton;
-@property(retain) IBOutlet NSSearchField *toolbarSearchField;
-@property(retain) IBOutlet NSSlider      *toolbarSlider;
+@property(strong) IBOutlet NSButton      *toolbarAddToSidebarButton;
+@property(strong) IBOutlet NSSearchField *toolbarSearchField;
+@property(strong) IBOutlet NSSlider      *toolbarSlider;
 
 @end

@@ -73,7 +73,7 @@
     
     CGColorSpaceRef cspace = CGColorSpaceCreateWithName(kCGColorSpaceGenericRGB);
     
-    self.renderer = [[[QCRenderer alloc] initWithCGLContext:cgl_ctx pixelFormat:pixelFormat colorSpace:cspace composition:comp] autorelease];
+    self.renderer = [[QCRenderer alloc] initWithCGLContext:cgl_ctx pixelFormat:pixelFormat colorSpace:cspace composition:comp];
     
     CGColorSpaceRelease(cspace);
     

@@ -65,7 +65,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     gameFBO = 0;
     gameTexture = 0;
     
-    parentApplication = [[NSRunningApplication runningApplicationWithProcessIdentifier:getppid()] retain];
+    parentApplication = [NSRunningApplication runningApplicationWithProcessIdentifier:getppid()];
     NSLog(@"parent application is: %@", [parentApplication localizedName]);
         
     if([self launchConnectionWithIdentifierSuffix:doUUID error:NULL])
@@ -93,14 +93,6 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     return ret;
 }
 
-- (void)dealloc
-{
-    [theConnection release];
-    [gameCore  release];
-    [gameAudio release];
-    [delegate release];
-    [super dealloc];
-}
 
 - (void)setupGameCore
 {
@@ -190,7 +182,6 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     
     // TODO: do we need to ensure openGL Compatibility and CALayer compatibility?
     surfaceRef = IOSurfaceCreate((__bridge CFDictionaryRef) surfaceAttributes);
-    [surfaceAttributes release];
         
     // make a new texture.
     CGLContextObj cgl_ctx = glContext;
@@ -536,7 +527,6 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         else
         {
             NSLog(@"ROM did not load.");
-            [gameCore release];
             gameCore = nil;
         }
     }
@@ -572,8 +562,8 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     [gameCore stopEmulation];
     [gameAudio stopAudio];
     [gameCore setRenderDelegate:nil];
-    [gameCore release],  gameCore = nil;
-    [gameAudio release], gameAudio = nil;
+    gameCore = nil;
+    gameAudio = nil;
     
     [self setRunning:NO];
 }

@@ -83,14 +83,14 @@
 #pragma mark Properties
 
 @property(nonatomic) BOOL sidebarChangesWindowSize;
-@property(retain)    OEROMImporter     *romImporter;
-@property(retain)    OELibraryDatabase *database;
+@property(strong)    OEROMImporter     *romImporter;
+@property(strong)    OELibraryDatabase *database;
 
-@property(retain) IBOutlet OESidebarController        *sidebarController;
-@property(retain) IBOutlet OECollectionViewController *collectionViewController;
-@property(retain) IBOutlet OELibrarySplitView         *mainSplitView;
+@property(strong) IBOutlet OESidebarController        *sidebarController;
+@property(strong) IBOutlet OECollectionViewController *collectionViewController;
+@property(strong) IBOutlet OELibrarySplitView         *mainSplitView;
 
 // spotlight search results.
-@property (readwrite, retain) NSMutableArray *searchResults;
+@property (readwrite, strong) NSMutableArray *searchResults;
 
 @end

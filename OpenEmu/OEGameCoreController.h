@@ -41,7 +41,7 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 @interface OEGameCoreController : NSResponder <OEPluginController>
 {
 @private
-    id                   currentPreferenceViewController DEPRECATED_ATTRIBUTE;
+    //id                   __unsafe_unretained currentPreferenceViewController DEPRECATED_ATTRIBUTE;
     NSBundle            *bundle;
     NSString            *pluginName;
     NSString            *supportDirectoryPath;
@@ -52,8 +52,8 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 }
 
 @property(readonly) NSBundle *bundle;
-@property(readonly) Class     gameCoreClass;
-@property(readonly) id        currentPreferenceViewController;
+@property(weak, readonly) Class     gameCoreClass;
+@property(weak, readonly) id        currentPreferenceViewController;
 @property(readonly) NSString *playerString;
 
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;

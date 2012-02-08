@@ -27,10 +27,6 @@
     return self;
 }
 
-- (void)dealloc 
-{
-    [super dealloc];
-}
 
 - (id)copyWithZone:(NSZone *)zone 
 {
@@ -108,7 +104,7 @@
 	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
 	NSColor *textColor = [NSColor blackColor];
 	
-	NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 	NSDictionary *typeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                                     textColor, NSForegroundColorAttributeName,
@@ -148,7 +144,7 @@
 	if(self.isEditing){
         NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11.0];
         NSColor *textColor = [NSColor blackColor];
-        NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
         typeAttributes = [NSDictionary dictionaryWithObjectsAndKeys:
                           textColor, NSForegroundColorAttributeName,
@@ -178,8 +174,8 @@
 	
 	NSFont *font;
 	NSColor *textColor;
-	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
-	NSMutableParagraphStyle *paragraphStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	NSShadow *shadow = [[NSShadow alloc] init];
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 	
 	
@@ -245,7 +241,6 @@
     
 	NSAttributedString *strVal = [[NSAttributedString alloc] initWithString:[self stringValue] attributes:attributes];
 	[self setAttributedStringValue:strVal];
-	[strVal release];
     
 	[super drawWithFrame:titleFrame inView:controlView];
 }

@@ -28,6 +28,6 @@
 #import "OEImageButton.h"
 @interface OECenteredTextFieldWithWeblinkCell : OECenteredTextFieldCell
 @property SEL buttonAction;
-@property (assign) id buttonTarget;
-@property (retain) OEImageButtonHoverPressed *buttonCell;
+@property (weak) id buttonTarget;
+@property (strong) OEImageButtonHoverPressed *buttonCell;
 @end

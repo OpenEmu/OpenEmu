@@ -100,7 +100,7 @@
     BOOL copyToDatabase = [standardUserDefaults boolForKey:UDCopyToLibraryKey];
     BOOL useMD5 = [standardUserDefaults boolForKey:UDUseMD5HashingKey];
     
-    NSString *newFilePath = [[filePath copy] autorelease];
+    NSString *newFilePath = [filePath copy];
     if(copyToDatabase && ![newFilePath hasPrefix:[database databaseFolderPath]])
     {
         NSString *databaseUnsortedFolder = [database databaseUnsortedRomsPath];
@@ -120,7 +120,6 @@
         if(![defaultManager copyItemAtPath:filePath toPath:newFilePath error:outError])
         {
             [context deleteObject:rom];
-            [rom release];
             if(outError!=NULL)
             *outError = [NSError errorWithDomain:@"OEErrorDomain" code:1 userInfo:[NSDictionary dictionaryWithObject:@"Copying ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
             return nil;
@@ -141,7 +140,6 @@
             [[NSFileManager defaultManager] removeItemAtPath:newFilePath error:nil];
             
             [context deleteObject:rom];
-            [rom release];
             if(outError!=NULL)
                 *outError = [NSError errorWithDomain:@"OEErrorDomain" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Calculating Hash for ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
             return nil;
@@ -159,7 +157,7 @@
         }
     }
     
-    return [rom autorelease];
+    return rom;
 }
 
 + (id)romWithFileName:(NSString*)filename error:(NSError**)outError
@@ -371,7 +369,6 @@
     {
         NSLog(@"ROM cannot calculate checksum");
         NSLog(@"%@", error);
-        [data release];
         return;    
     }
     
@@ -387,7 +384,6 @@
         hash = [data CRC32HashString];
         rom = [db romForCRC32Hash:hash];
     }
-    [data release];
     
     
     if(rom)

@@ -46,10 +46,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 #pragma mark -
 #pragma mark Drag and Drop
 @synthesize dragDelegate;
@@ -166,7 +162,6 @@
             
             NSGradient *selectionGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
             [selectionGradient drawInRect:gradientRect angle:90];
-            [selectionGradient release];
         }
     }
 }

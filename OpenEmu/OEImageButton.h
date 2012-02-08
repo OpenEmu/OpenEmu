@@ -40,7 +40,7 @@
 
 - (BOOL)displaysHover;
 - (NSRect)imageRectForButtonState:(OEButtonState)state;
-@property(retain, readwrite) NSImage *image;
+@property(strong, readwrite) NSImage *image;
 @end
 
 // displays normal, inactive, disabled, pressed

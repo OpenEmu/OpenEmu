@@ -74,8 +74,8 @@
     if((self = [super init]))
     {
         controller = cont;
-        arguments  = [args retain];
-        userInfo   = [someInfo retain];
+        arguments  = args;
+        userInfo   = someInfo;
     }
     
     return self;
@@ -86,11 +86,7 @@
 {
     [self stopProcess];
     
-    [userInfo release];
-    [arguments release];
-    [task release];
     
-    [super dealloc];
 }
 
 #define USE_EXTERNAL_FILE 0
@@ -207,7 +203,7 @@
         // Send the data on to the controller; we can't just use +stringWithUTF8String: here
         // because -[data bytes] is not necessarily a properly terminated string.
         // -initWithData:encoding: on the other hand checks -[data length]
-        [controller appendOutput: [[[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding] autorelease]
+        [controller appendOutput: [[NSString alloc] initWithData: data encoding: NSUTF8StringEncoding]
                      fromProcess: self];
     } else {
         // We're finished here

@@ -73,10 +73,10 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
         
         [future addEntriesFromDictionary:viewControllerClasses];
         
-        viewControllerClasses = [future autorelease];
+        viewControllerClasses = future;
     }
     
-    [_preferenceViewControllerClasses setObject:[[viewControllerClasses copy] autorelease] forKey:self];
+    [_preferenceViewControllerClasses setObject:[viewControllerClasses copy] forKey:self];
 }
 
 
@@ -124,14 +124,14 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     if(self != nil)
     {
         bundle               = [NSBundle bundleForClass:[self class]];
-        pluginName           = [[[bundle infoDictionary] objectForKey:@"CFBundleExecutable"] retain];
+        pluginName           = [[bundle infoDictionary] objectForKey:@"CFBundleExecutable"];
         if(pluginName == nil) pluginName = [[bundle infoDictionary] objectForKey:@"CFBundleName"];
         
         NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
         NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
         
         NSString *supportFolder = [basePath stringByAppendingPathComponent:@"OpenEmu"];
-        supportDirectoryPath    = [[supportFolder stringByAppendingPathComponent:pluginName] retain];
+        supportDirectoryPath    = [supportFolder stringByAppendingPathComponent:pluginName];
         
         gameDocuments    = [[NSMutableArray alloc] init];
         settingObservers = [[NSMutableArray alloc] init];
@@ -145,11 +145,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 {
     [gameDocuments makeObjectsPerformSelector:@selector(close)];
     
-    [pluginName release];
-    [supportDirectoryPath release];
     
-    [gameDocuments release];
-    [super dealloc];
 }
 
 
@@ -180,7 +176,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     
     if(ctrl == nil)
     {
-        ctrl = [[self newPreferenceViewControllerForKey:aKey] autorelease];
+        ctrl = [self newPreferenceViewControllerForKey:aKey];
         [preferenceViewControllers setObject:ctrl forKey:aKey];
     }
     return ctrl;

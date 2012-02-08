@@ -69,20 +69,15 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [self setTextAttributes:nil];
-    [super dealloc];
-}
 
 - (id)copyWithZone:(NSZone *)zone
 {
-    return [self retain];
+    return self;
 }
 
 - (void)setStringValue:(NSString *)aString
 {
-    [super setAttributedStringValue:[[[NSAttributedString alloc] initWithString:aString attributes:[self textAttributes]] autorelease]];
+    [super setAttributedStringValue:[[NSAttributedString alloc] initWithString:aString attributes:[self textAttributes]]];
 }
 
 - (void)setupAttributes
@@ -97,6 +92,5 @@
     [self setTextAttributes:attributes];
     [self setStringValue:[self stringValue]];
     
-    [attributes release];
 }
 @end

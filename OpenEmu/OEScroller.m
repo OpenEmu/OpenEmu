@@ -55,9 +55,6 @@
     return self;
 }
 
-- (void)dealloc{
-    [super dealloc];
-}
 + (BOOL)isCompatibleWithOverlayScrollers {
     return YES;
 }

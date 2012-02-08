@@ -63,11 +63,9 @@
 
 - (void)dealloc 
 {
-    [mainContentView release], mainContentView = nil;
-    [currentContentController release], currentContentController = nil;
-    [self setDefaultContentController:nil];
+    mainContentView = nil;
+    currentContentController = nil;
     
-    [super dealloc];
 }
 
 - (void)awakeFromNib
@@ -105,7 +103,6 @@
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
         [setupAssistant setWindowController:self];
         [self setCurrentContentController:setupAssistant];
-        [setupAssistant release];
     }
     else
     {
@@ -160,8 +157,6 @@
     [win setMainContentView:[controller view]];
     [win makeFirstResponder:[controller view]];
     
-    [controller retain];
-    [currentContentController release];
     currentContentController = controller;
     
     [[self currentContentController] setupMenuItems];

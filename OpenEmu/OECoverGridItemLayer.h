@@ -58,16 +58,18 @@
     
     NSImage *image;
     BOOL reloadImage;
+    
+    NSInteger representedIndex;
 }
 
 @property BOOL isReloading;
-@property(readwrite, retain, nonatomic) NSImage *image;
+@property(readwrite, strong, nonatomic) NSImage *image;
 @property float imageRatio;
 
-@property(readwrite, retain) OECoverGridSelectionLayer *selectionLayer;
-@property(readwrite, retain) CALayer *glossLayer;
-@property(readwrite, retain) OECoverGridIndicationLayer *indicationLayer;
-@property(readwrite, retain) CALayer *imageLayer;
-@property(readwrite, retain) CATextLayer *titleLayer;
-@property(readwrite, retain) OECoverGridRatingLayer *ratingLayer;
+@property(readwrite, strong) OECoverGridSelectionLayer *selectionLayer;
+@property(readwrite, strong) CALayer *glossLayer;
+@property(readwrite, strong) OECoverGridIndicationLayer *indicationLayer;
+@property(readwrite, strong) CALayer *imageLayer;
+@property(readwrite, strong) CATextLayer *titleLayer;
+@property(readwrite, strong) OECoverGridRatingLayer *ratingLayer;
 @end

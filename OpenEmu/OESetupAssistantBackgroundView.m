@@ -67,7 +67,6 @@
 - (void) dealloc
 {
     self.layer = nil;
-    [super dealloc];
 }
 
 - (void)viewDidMoveToWindow

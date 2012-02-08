@@ -29,11 +29,9 @@
 @implementation OECenteredTextFieldWithWeblinkCell
 
 - (void)dealloc {
-    self.buttonCell = nil;
     self.buttonAction = NULL;
     self.buttonTarget = nil;
     
-    [super dealloc];
 }
 - (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView
 {
@@ -49,7 +47,6 @@
             btnCell.backgroundColor = nil;
             
             [self setButtonCell:btnCell];
-            [btnCell release];            
         }
         
         NSRect buttonCellRect = NSMakeRect(cellFrame.size.width-0.0, cellFrame.origin.y-2, 20, 20);

@@ -34,8 +34,8 @@
 
 @property(readonly) OEGameCoreController<OEPluginController> *controller;
 
-@property(readonly) NSImage      *icon;
-@property(readonly) Class         gameCoreClass;
+@property(strong, readonly) NSImage      *icon;
+@property(weak, readonly) Class         gameCoreClass;
 
 - (NSString*)bundleIdentifier;
 - (NSArray*)systemIdentifiers;

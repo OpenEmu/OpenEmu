@@ -170,7 +170,7 @@ typedef enum
 #pragma mark Private (no session required)
 + (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError**)outError
 {   
-    NSXMLDocument* doc = [[[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:outError] autorelease];
+    NSXMLDocument* doc = [[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:outError];
     if(*outError!=nil)
     {
         NSLog(@"could not create XMLDocument");
@@ -189,7 +189,7 @@ typedef enum
             return nil;
         }
         
-        NSMutableArray* __block gameDictionaries = [NSMutableArray arrayWithCapacity:[gameNodes count]];
+        NSMutableArray* gameDictionaries = [NSMutableArray arrayWithCapacity:[gameNodes count]];
         [gameNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
          {
              NSError* anError = nil;
@@ -245,7 +245,7 @@ typedef enum
             return nil;
         }
         
-        NSMutableArray* __block systemDictionaries = [NSMutableArray arrayWithCapacity:[systemNodes count]];
+        NSMutableArray* systemDictionaries = [NSMutableArray arrayWithCapacity:[systemNodes count]];
         [systemNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
          {
              NSError* anError = nil;
@@ -297,7 +297,7 @@ typedef enum
             break;
 	}
     
-    NSMutableString* urlString = [[[NSMutableString alloc] initWithFormat:@"%@/%@/%@/%@", APIBase, APIVersion, operationKey, APIKey] autorelease];
+    NSMutableString* urlString = [[NSMutableString alloc] initWithFormat:@"%@/%@/%@/%@", APIBase, APIVersion, operationKey, APIKey];
     for(id anOption in options)
     {
         NSString* optionString = [NSString stringWithFormat:@"%@", anOption];
@@ -381,7 +381,7 @@ typedef enum
     
     // credits
     NSArray* creditNodes = [gameNode nodesForXPath:@"./credits/credit" error:outError];
-    NSMutableArray* __block credits = nil;
+    NSMutableArray* credits = nil;
     if(*outError!=nil)
     {
         NSLog(@"Error getting gameBoxFront");
@@ -402,7 +402,7 @@ typedef enum
     
     // releases
     NSArray* releaseNodes = [gameNode nodesForXPath:@"./releases/release" error:outError];
-    NSMutableArray* __block releases = nil;
+    NSMutableArray* releases = nil;
     if(*outError!=nil)
     {
         NSLog(@"Error getting gameBoxFront");
@@ -433,7 +433,7 @@ typedef enum
     
     // tosecs
     NSArray* tosecNodes = [gameNode nodesForXPath:@"./tosecs/tosec" error:outError];
-    NSMutableArray* __block tosecs = nil;
+    NSMutableArray* tosecs = nil;
     if(*outError!=nil)
     {
         NSLog(@"Error getting gameBoxFront");
@@ -813,7 +813,7 @@ typedef enum
 
     CFStringRef str = CFXMLCreateStringByUnescapingEntities(NULL, (__bridge CFStringRef)input, (__bridge CFDictionaryRef)specialChars);
 
-    return [(__bridge_transfer NSString*)str autorelease];
+    return (__bridge NSString*)str;
 }
 
 #pragma mark -

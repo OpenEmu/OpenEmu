@@ -78,7 +78,7 @@
     alert.alternateButtonTitle = alternateButtonLabel;
     [alert setMessageText:msgText];
     
-    return [alert autorelease];
+    return alert;
 }
 
 + (id)autoSaveGameAlert
@@ -92,7 +92,7 @@
 
     [alert showSuppressionButtonForUDKey:UDSaveGameWhenQuitAlertSuppressionKey];
 
-    return [alert autorelease];
+    return alert;
 }
 
 + (id)saveGameAlertWithProposedName:(NSString*)name
@@ -118,7 +118,7 @@
     [alert showSuppressionButtonForUDKey:UDSaveGameAlertSuppressionKey];
     [alert setSuppressionLabelText:NSLocalizedString(@"Don't ask again", @"")];
     
-    return [alert autorelease];
+    return alert;
 }
 
 + (id)deleteGameAlertWithStateName:(NSString*)stateName
@@ -131,7 +131,7 @@
     [alert setHeadlineLabelText:nil];
     [alert showSuppressionButtonForUDKey:UDDelteGameAlertSuppressionKey];
     
-    return [alert autorelease];
+    return alert;
 }
 #pragma mark -
 #pragma mark Memory Management
@@ -170,45 +170,25 @@
 {    
     NSLog(@"OEHUDAlert dealloc");
     
-    [_window release];
     
-    [_defaultButton release];
-    _defaultButton = nil;
     
-    [_alternateButton release];
-    _alternateButton = nil;
     
-    [_progressbar release];
     _progressbar = nil;
     
-    [_messageTextView release];
-    _messageTextView = nil;
     
-    [_headlineLabelField release];
-    _headlineLabelField = nil;
     
-    [_suppressionButton release];
     _suppressionButton = nil;
     
-    [_inputLabelField release];
-    _inputLabelField = nil;
     
-    [_inputLabelField release];
-    _inputLabelField = nil;
     
-    [_boxView release];
-    _boxView = nil;
     
     // Remove Callbacks
     self.target = nil;
     self.callbackHandler = nil;
     
     // Remove suppression button stuff
-    self.suppressionUDKey = nil;
     
-    self.window = nil;
     
-    [super dealloc];
 }
 #pragma mark -
 - (NSUInteger)runModal
@@ -416,9 +396,6 @@
 @synthesize target, callback;
 - (void)setCallbackHandler:(OEAlertCompletionHandler)handler
 {
-    if([self callbackHandler]!=nil)
-        [callbackHandler release];
-    
     callbackHandler = [handler copy];
     
     [[self alternateButton] setTarget:self];
@@ -439,7 +416,7 @@
     if([self callbackHandler]!=nil)
     {
         callbackHandler(self, [self result]);
-        [[self callbackHandler] release];
+        [self callbackHandler];
         callbackHandler = nil;
     }
 }
@@ -530,7 +507,6 @@
     {
         OEInputLimitFormatter* formatter = [[OEInputLimitFormatter alloc] initWithLimit:inputLimit];
         [[self inputField] setFormatter:formatter];
-        [formatter release];
     }
 }
 #pragma mark -
@@ -549,7 +525,6 @@
     [[self defaultButton] setTarget:self andAction:@selector(buttonAction:)];
     [[self defaultButton] setHidden:YES];
     [[self defaultButton] setKeyEquivalent:@"\r"];
-    [cell release];
     [[_window contentView] addSubview:[self defaultButton]];
     
     cell = [[OEHUDButtonCell alloc] init];
@@ -559,7 +534,6 @@
     [[self alternateButton] setTarget:self andAction:@selector(buttonAction:)];
     [[self alternateButton] setHidden:YES];
     [[self alternateButton] setKeyEquivalent:@"\E"];
-    [cell release];
     [[_window contentView] addSubview:[self alternateButton]];
     
     // Setup Box
@@ -581,7 +555,6 @@
     [style setAlignment:NSCenterTextAlignment];
     [style setLineSpacing:7];
     [[self messageTextView] setDefaultParagraphStyle:style];
-    [style release];
     
     NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
@@ -592,7 +565,6 @@
     [[self messageTextView] setFrame:textViewFrame];
     [[self messageTextView] setHidden:YES];
     [[self boxView] addSubview:[self messageTextView]];
-    [shadow release];
     
     // Setup Input Field
     shadow = [[NSShadow alloc] init];
@@ -602,7 +574,6 @@
     
     OEHUDTextFieldCell *inputCell = [[OEHUDTextFieldCell alloc] init];
     [[self inputField] setCell:inputCell];
-    [inputCell release];
     [[self inputField] setFrame:(NSRect){{68,51},{337, 23}}];
     [[self inputField] setHidden:YES];
     [[self inputField] setAutoresizingMask:NSViewWidthSizable|NSViewMaxYMargin];
@@ -611,7 +582,6 @@
     [[self inputField] setEditable:YES];
     [self inputField].wantsLayer = YES;
     [[_window contentView] addSubview:[self inputField]];
-    [shadow release];
     
     
     [[self inputLabelField] setFrame:(NSRect){{1,51},{61,23}}];
@@ -627,10 +597,8 @@
                                   paraStyle             , NSParagraphStyleAttributeName,
                                   font                  , NSFontAttributeName,
                                   nil]];
-    [paraStyle release];
     [[self inputLabelField] setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
     [[self inputLabelField] setCell:labelCell];
-    [labelCell release];
     [[_window contentView] addSubview:[self inputLabelField]];
     
     // setup progressbar
@@ -661,10 +629,7 @@
                                   font                 , NSFontAttributeName,
                                   nil]];
     [labelCell setupAttributes];
-    [paraStyle release];
-    [shadow release];
     [[self headlineLabelField] setCell:labelCell];
-    [labelCell release];
     [[self boxView] addSubview:[self headlineLabelField]];
     
     // Setup Suppression Button

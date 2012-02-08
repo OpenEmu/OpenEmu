@@ -72,19 +72,19 @@ typedef enum _OEMenuStyle {
 @property(readonly) BOOL alternate;
 
 @property(readwrite) NSSize minSize, maxSize;
-@property(retain) OEPopupButton *popupButton;
-@property(nonatomic, retain) OEMenu *submenu;
-@property(nonatomic, retain) OEMenu *supermenu;
+@property(strong) OEPopupButton *popupButton;
+@property(nonatomic, strong) OEMenu *submenu;
+@property(nonatomic, strong) OEMenu *supermenu;
 
 @property OEMenuStyle style;
 @property (readonly) NSRectEdge edge;
 
-@property (nonatomic, retain) NSMenu *menu;
-@property (retain) NSMenuItem *highlightedItem;
+@property (nonatomic, strong) NSMenu *menu;
+@property (strong) NSMenuItem *highlightedItem;
 @property (readonly, getter = isVisible) BOOL visible;
 
 @property int itemsAboveScroller, itemsBelowScroller;
-@property(nonatomic, retain) id <OEMenuDelegate> delegate;
+@property(nonatomic, strong) id <OEMenuDelegate> delegate;
 @end
 
 @interface NSMenu (OEAdditions)
@@ -119,6 +119,6 @@ typedef enum _OEMenuStyle {
 - (NSDictionary *)selectedItemTextAttributes;
 - (NSDictionary *)selectedItemAlternateTextAttributes;
 - (NSDictionary *)disabledItemTextAttributes;
-@property(nonatomic, readonly) OEMenu *menu;
+@property(unsafe_unretained, nonatomic, readonly) OEMenu *menu;
 
 @end

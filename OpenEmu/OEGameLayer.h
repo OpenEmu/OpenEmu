@@ -43,7 +43,7 @@
     id<OEGameCoreHelper> rootProxy;
     
     NSString             *filterName;
-    NSView               *ownerView;
+    NSView               *__weak ownerView;
     
     // for rendering
     CGLContextObj         layerContext;
@@ -82,12 +82,12 @@
 
 @property(copy) void (^screenshotHandler)(NSImage *img);
 
-@property(nonatomic,assign) id<OEGameCoreHelper> rootProxy;
+@property(nonatomic, strong) id<OEGameCoreHelper> rootProxy;
 
 @property         BOOL          vSyncEnabled;
-@property(assign) NSView       *ownerView;
-@property(retain) NSString     *filterName;
-@property(retain) CIImage      *gameCIImage;
+@property(weak) NSView       *ownerView;
+@property(strong) NSString     *filterName;
+@property(strong) CIImage      *gameCIImage;
 
 - (CGFloat)preferredWindowScale;
 

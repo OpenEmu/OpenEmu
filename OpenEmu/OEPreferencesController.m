@@ -44,12 +44,9 @@
 
 - (void)dealloc
 {
-    [toolbar release];
     toolbar = nil;
     
-    [self setPreferencePanes:nil];
     
-    [super dealloc];
 }
 
 - (NSString*)windowNibName
@@ -117,16 +114,16 @@
     
     NSViewController <OEPreferencePane>  *controller;
     
-    controller = [[[OEPrefLibraryController alloc] init] autorelease];
+    controller = [[OEPrefLibraryController alloc] init];
     [array addObject:controller];
     
-    controller = [[[OEPrefGameplayController alloc] init] autorelease];
+    controller = [[OEPrefGameplayController alloc] init];
     [array addObject:controller];
     
-    controller = [[[OEPrefControlsController alloc] init] autorelease];
+    controller = [[OEPrefControlsController alloc] init];
     [array addObject:controller];
     
-    controller = [[[OEPrefCoresController alloc] init] autorelease];
+    controller = [[OEPrefCoresController alloc] init];
     [array addObject:controller];
     
     [self setPreferencePanes:array];    
@@ -138,7 +135,6 @@
     if(toolbar)
     {
         [toolbar removeFromSuperview];
-        [toolbar release];
         toolbar = nil;
     }
     
@@ -147,7 +143,7 @@
     
     for(id <OEPreferencePane> aPreferencePane in self.preferencePanes)
     {
-        OEToolbarItem *toolbarItem = [[[OEToolbarItem alloc] init] autorelease];
+        OEToolbarItem *toolbarItem = [[OEToolbarItem alloc] init];
         [toolbarItem setTitle:[aPreferencePane title]];
         [toolbarItem setIcon:[aPreferencePane icon]];
         [toolbarItem setTarget:self];

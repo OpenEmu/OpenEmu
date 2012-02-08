@@ -39,7 +39,7 @@
     NSRect  windowBorderFrame = [windowBorderView frame];
     
     NSRect titlebarRect = NSMakeRect(0, windowBorderFrame.size.height - 22.0, windowBorderFrame.size.width, 22.0);
-    OEMainWindowTitleBarView *titlebarView = [[[OEMainWindowTitleBarView alloc] initWithFrame:titlebarRect] autorelease];
+    OEMainWindowTitleBarView *titlebarView = [[OEMainWindowTitleBarView alloc] initWithFrame:titlebarRect];
     [titlebarView setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
     [windowBorderView addSubview:titlebarView positioned:NSWindowAbove relativeTo:[[windowBorderView subviews] objectAtIndex:0]];
     
@@ -74,8 +74,7 @@
             [contentView addSubview:value];
         }
         
-        [mainContentView release];
-        mainContentView = [value retain];
+        mainContentView = value;
     }
 }
 
@@ -162,7 +161,6 @@
     viewRect.size.height -= 1;
     NSGradient *backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
     [backgroundGradient drawInRect:viewRect angle:-90.0];
-    [backgroundGradient release];
 }
 
 - (BOOL)isOpaque

@@ -21,10 +21,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 - (void)awakeFromNib
 {   
@@ -39,7 +35,6 @@
 		[filterMenu addItemWithTitle:aName action:NULL keyEquivalent:@""];
 	}
 	[[self filterSelection] setMenu:filterMenu];
-	[filterMenu release];	
 	
 	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
 	NSString *selectedFilterName = [sud objectForKey:UDVideoFilterKey];
@@ -112,7 +107,6 @@
     {
         [[self filterPreviewContainer] addSubview:newPreviewView];
     }
-    [newPreviewView release];
     
 	NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
 	[sud setObject:filterName forKey:UDVideoFilterKey];

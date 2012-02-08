@@ -28,5 +28,5 @@
 @class OEGameViewController;
 @interface OEHUDGameWindow : NSPanel
 - (id)initWithContentRect:(NSRect)contentRect andGameViewController:(OEGameViewController*)gameViewCtrl;
-@property (retain, nonatomic) OEGameViewController* gameViewController;
+@property (strong, nonatomic) OEGameViewController* gameViewController;
 @end

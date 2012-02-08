@@ -45,7 +45,7 @@
 #pragma mark -
 - (NSImage*)dragImage
 {
-    return [[[NSImage alloc] init] autorelease];
+    return [[NSImage alloc] init];
 }
 #pragma mark -
 - (void)beginValueChange

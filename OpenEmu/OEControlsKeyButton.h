@@ -27,19 +27,9 @@
 #import <AppKit/AppKit.h>
 
 @interface OEControlsKeyButton : NSView
-{
-    NSString *title;
-    
-    id target;
-    SEL action;
-    
-    NSCellStateValue state;
-    NSPoint highlightPoint;
-}
-
-@property (nonatomic) NSCellStateValue state;
+@property (nonatomic, assign) NSCellStateValue state;
 @property (nonatomic, copy) NSString *title;
-@property (assign) id target;
+@property (unsafe_unretained) id target;
 @property SEL action;
 
 @property NSPoint highlightPoint;

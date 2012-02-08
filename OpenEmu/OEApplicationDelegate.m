@@ -74,8 +74,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
         if(![OELibraryDatabase defaultDatabase])
         {
             [NSApp terminate:self];
-            [self release];
-            return nil;
+            return self = nil;
         }
         
         [self OE_loadPlugins];
@@ -88,10 +87,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
     
-    [self setHidManager:nil];
-    [self setAboutWindow:nil];
     
-    [super dealloc];
 }
 
 #pragma mark -
@@ -191,7 +187,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                      {
                          NSError *error = [[NSError alloc] initWithDomain:@"blub" code:120 userInfo:nil];
                          [[NSAlert alertWithError:error] runModal];
-                         [error release];
                          [self OE_performDatabaseSelection];
                      }
                      else [self OE_createDatabaseAtURL:databaseURL];
@@ -269,7 +264,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
                               nil];
     
-    [self setHidManager:[[[OEHIDManager alloc] init] autorelease]];
+    [self setHidManager:[[OEHIDManager alloc] init]];
     [[self hidManager] registerDeviceTypes:matchingTypes];
 }
 
@@ -385,7 +380,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     if(infoPlist == nil)
     {
         NSLog(@"%@", error);
-        [error release];
     }
     
     NSArray *existingTypes = [infoPlist objectForKey:@"CFBundleDocumentTypes"];
@@ -404,7 +398,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     else
     {
         NSLog(@"Error: %@", error);
-        [error release];
     }
     
     NSLog(@"Info.plist is %@updated", (isUpdated ? @"" : @"NOT "));

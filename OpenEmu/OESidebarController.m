@@ -70,7 +70,6 @@
     [sidebarView registerForDraggedTypes:[NSArray arrayWithObjects:@"org.openEmu.rom", NSFilenamesPboardType, nil]];
     sidebarView.delegate = self;
     sidebarView.dataSource = self;
-    [cell release];
     [sidebarView selectRowIndexes:[NSIndexSet indexSetWithIndex:1] byExtendingSelection:NO];
     [sidebarView expandItem:[sidebarView itemAtRow:0]];
     
@@ -95,7 +94,6 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [super dealloc];
 }
 
 #pragma mark -
@@ -160,7 +158,6 @@
     
     NSEvent *event = [[NSEvent alloc] init];
     [sidebarView editColumn:0 row:index withEvent:event select:YES];
-    [event release];
 }
 - (void)expandCollections:(id)sender
 {
@@ -342,8 +339,6 @@
 
 - (void)setEditingItem:(id)newEdItem
 {
-    [newEdItem retain];
-    [editingItem release];
     
     editingItem = newEdItem;
 }
@@ -393,7 +388,6 @@
         
         NSIndexSet *selIn = [[NSIndexSet alloc] initWithIndex:index];
         [outlineView selectRowIndexes:selIn byExtendingSelection:NO];
-        [selIn release];
         [self reloadData];
     }
 }

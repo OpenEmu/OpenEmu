@@ -141,17 +141,6 @@
 }
 
 
-- (void)dealloc
-{
-    self.selectionLayer = nil;
-    self.glossLayer = nil;
-    self.indicationLayer = nil;
-    self.imageLayer = nil;
-    self.titleLayer = nil;
-    self.ratingLayer = nil;
-    
-    [super dealloc];
-}
 
 #pragma mark -
 - (NSRect)hitRect
@@ -249,7 +238,6 @@
 {
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
-    [self retain];
     
     imageRatio = 1.0;
     CALayer *newImageLayer;
@@ -282,7 +270,6 @@
     if(![self.imageLayer.superlayer.sublayers containsObject:self.imageLayer])
     {
         [CATransaction commit];
-        [self release];
         return;
     }
     // weired issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
@@ -347,7 +334,6 @@
     
     [CATransaction commit];
     
-    [self release];
 }
 #pragma mark -
 - (void)display
@@ -371,8 +357,6 @@
 
 - (void)setImage:(NSImage *)_image
 {
-    [_image retain];
-    [image release];
     
     image = _image;
     [self _layoutImageAndSelection];
@@ -517,9 +501,8 @@
     [dragImage setFlipped:YES];
     
     
-    [dragImageRep release];
     
-    return [dragImage autorelease];
+    return dragImage;
 }
 
 
@@ -563,7 +546,7 @@
     
     // wait a while to prevent animation when dragging is just dragging by
     float dropAnimatioTimernDelay = [[NSUserDefaults standardUserDefaults] floatForKey:@"debug_drop_animation_delay"];
-    dropAnimationDelayTimer = [[NSTimer scheduledTimerWithTimeInterval:dropAnimatioTimernDelay target:self selector:@selector(_displayOnDrop:) userInfo:proposedImageRepresentation repeats:NO] retain];
+    dropAnimationDelayTimer = [NSTimer scheduledTimerWithTimeInterval:dropAnimatioTimernDelay target:self selector:@selector(_displayOnDrop:) userInfo:proposedImageRepresentation repeats:NO];
     
     return NSDragOperationGeneric;
 }
@@ -581,7 +564,7 @@
     {
         QLThumbnailRef thumbnailRef = QLThumbnailCreate(NULL, (__bridge CFURLRef)userInfo, [self frame].size, NULL);
         CGImageRef thumbnailImageRef = QLThumbnailCopyImage(thumbnailRef);
-        proposedCoverImage = [[[NSImage alloc] initWithCGImage:thumbnailImageRef size:NSMakeSize(CGImageGetWidth(thumbnailImageRef), CGImageGetHeight(thumbnailImageRef))] autorelease];
+        proposedCoverImage = [[NSImage alloc] initWithCGImage:thumbnailImageRef size:NSMakeSize(CGImageGetWidth(thumbnailImageRef), CGImageGetHeight(thumbnailImageRef))];
         CGImageRelease(thumbnailImageRef);        
     } 
     else 
@@ -645,7 +628,6 @@
     [self moveLayer:self.indicationLayer to:CGRectInset(newCoverImageRect, 1, 1).origin centered:NO];
     
     [dropAnimationDelayTimer invalidate];
-    [dropAnimationDelayTimer release];
     dropAnimationDelayTimer = nil;
 }
 - (void)draggingExited:(id < NSDraggingInfo >)sender
@@ -655,7 +637,6 @@
     if(dropAnimationDelayTimer)
     {
         [dropAnimationDelayTimer invalidate]; 
-        [dropAnimationDelayTimer release]; 
         dropAnimationDelayTimer = nil; 
     }
     

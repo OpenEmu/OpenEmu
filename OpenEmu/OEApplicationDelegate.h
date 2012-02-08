@@ -35,11 +35,11 @@
 
 - (void)updateInfoPlist;
 
-@property(retain) IBOutlet NSWindow               *aboutWindow;
-@property(retain) IBOutlet OEMainWindowController *mainWindowController;
+@property(strong) IBOutlet NSWindow               *aboutWindow;
+@property(strong) IBOutlet OEMainWindowController *mainWindowController;
 
-@property(retain)   OEHIDManager       *hidManager;
-@property(readonly) NSString           *aboutCreditsPath;
-@property(readonly) NSString           *appVersion;
-@property(readonly) NSAttributedString *projectURL;
+@property(strong)   OEHIDManager       *hidManager;
+@property(strong, readonly) NSString           *aboutCreditsPath;
+@property(strong, readonly) NSString           *appVersion;
+@property(strong, readonly) NSAttributedString *projectURL;
 @end

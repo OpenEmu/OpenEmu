@@ -29,6 +29,6 @@
 @interface OEAttributedTextFieldCell : NSTextFieldCell
 
 - (void)setupAttributes;
-@property(retain, readwrite) NSDictionary *textAttributes;
+@property(strong, readwrite) NSDictionary *textAttributes;
 
 @end

@@ -78,10 +78,6 @@
     [self performSelectorInBackground:@selector(setHintImages) withObject:nil];
 }
 
-- (void)dealloc 
-{
-    [super dealloc];
-}
 @synthesize maxHint;
 @synthesize minHint;
 @end
@@ -103,10 +99,6 @@
         [self setContinuous:YES];
     }
     return self;
-}
-- (void)dealloc 
-{
-    [super dealloc];
 }
 - (BOOL)_usesCustomTrackImage
 {
@@ -145,7 +137,7 @@
 {
     BOOL windowActive = [[[self controlView] window] isMainWindow];
     
-    NSBezierPath *clipPath = [[NSBezierPath new] autorelease];
+    NSBezierPath *clipPath = [NSBezierPath new];
     [clipPath appendBezierPathWithRect:knobRect];
     [clipPath addClip];
     

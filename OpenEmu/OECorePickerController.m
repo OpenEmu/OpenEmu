@@ -36,17 +36,11 @@
     self = [self initWithWindowNibName:@"OECorePicker"];
     if(self != nil)
     {
-        coreList = [cores retain];
+        coreList = cores;
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [coreArrayController release];
-    [coreList release];
-    [super dealloc];
-}
 
 - (void)awakeFromNib
 {

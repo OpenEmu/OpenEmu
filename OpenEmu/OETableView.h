@@ -15,5 +15,5 @@
 	NSColor *selectionColor;
 }
 - (void)setHeaderClickable:(BOOL)flag;
-@property (retain, readwrite) NSColor *selectionColor;
+@property (strong, readwrite) NSColor *selectionColor;
 @end

@@ -238,7 +238,7 @@ static void OE_linkProgram(GLhandleARB programObject,
 {
     if((self = [super init]))
     {
-        bundleToLoadFrom = [bundle retain];
+        bundleToLoadFrom = bundle;
         shaderContext = context;
 
         BOOL  loadedShaders = NO;
@@ -284,10 +284,8 @@ static void OE_linkProgram(GLhandleARB programObject,
         programObject = NULL;
     } // if
     
-    [bundleToLoadFrom release];
     
     //Dealloc the superclass
-    [super dealloc];
 } // dealloc
 
 

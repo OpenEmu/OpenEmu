@@ -61,8 +61,6 @@
                                 [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName,
                                 nil];
     [cell setTextAttributes:dictionary];
-    [shadow release];
-    [dictionary release];
     
     NSTextField *headlineField = [[NSTextField alloc] initWithFrame:(NSRect){{-2, [self frame].size.height-21-bottomHeadlineTopToViewTop},{[self frame].size.width, 21}}];
     [headlineField setCell:cell];
@@ -71,10 +69,8 @@
     [headlineField setSelectable:NO];
     [headlineField setDrawsBackground:NO];
     [headlineField setBezeled:NO];
-    [cell release];
     
     [self addSubview:headlineField];
-    [headlineField release];
     
 }
 - (void)_setupBox
@@ -82,12 +78,10 @@
     NSImageView *boxImageView = [[NSImageView alloc] initWithFrame:(NSRect){{0,[self frame].size.height-boxHeight},{[self frame].size.width,boxHeight}}];
     [boxImageView setImage:[NSImage imageNamed:@"blank_slate_box"]];
     [self addSubview:boxImageView];
-    [boxImageView release];
     
     NSImageView *arrowImageView = [[NSImageView alloc] initWithFrame:(NSRect){{(roundf([self frame].size.width-100)/2), [self frame].size.height-124-arrowTopToViewTop},{100, 124}}];
     [arrowImageView setImage:[NSImage imageNamed:@"blank_slate_arrow"]];
     [self addSubview:arrowImageView];
-    [arrowImageView release];
     
     OECenteredTextFieldCell *defaultCell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
     NSShadow *shadow = [[NSShadow alloc] init];
@@ -104,8 +98,6 @@
                                 [NSColor colorWithDeviceWhite:0.11 alpha:1.0], NSForegroundColorAttributeName,
                                 nil];
     [defaultCell setTextAttributes:dictionary];
-    [dictionary release];
-    [shadow release];
     
     
     OECenteredTextFieldCell *glowCell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
@@ -120,10 +112,7 @@
                   shadow, NSShadowAttributeName,
                   [NSColor colorWithDeviceWhite:0.11 alpha:0.0], NSForegroundColorAttributeName,
                   nil];
-    [shadow release];
     [glowCell setTextAttributes:dictionary];
-    [style release];
-    [dictionary release];
     
     NSTextField *dragAndDropHereOuterGlowField = [[NSTextField alloc] initWithFrame:(NSRect){{0, [self frame].size.height-25-dndTextTopToViewTop},{[self frame].size.width, 25}}];
     [dragAndDropHereOuterGlowField setCell:glowCell];
@@ -132,7 +121,6 @@
     [dragAndDropHereOuterGlowField setSelectable:NO];
     [dragAndDropHereOuterGlowField setDrawsBackground:NO];
     [dragAndDropHereOuterGlowField setBezeled:NO];
-    [glowCell release];
     
     NSTextField *dragAndDropHereField = [[NSTextField alloc] initWithFrame:(NSRect){{0, [self frame].size.height-25-dndTextTopToViewTop},{[self frame].size.width, 25}}];
     [dragAndDropHereField setCell:defaultCell];
@@ -141,11 +129,8 @@
     [dragAndDropHereField setSelectable:NO];
     [dragAndDropHereField setDrawsBackground:NO];
     [dragAndDropHereField setBezeled:NO];
-    [defaultCell release];
     [self addSubview:dragAndDropHereField];
     [self addSubview:dragAndDropHereOuterGlowField];
-    [dragAndDropHereField release];
-    [dragAndDropHereOuterGlowField release];
 }
 
 - (id)initWithCollectionName:(NSString*)collectionName 
@@ -171,10 +156,8 @@
         [shadow setShadowBlurRadius:0];
         [shadow setShadowOffset:(NSSize){0,-1}];
         [textView setShadow:shadow];
-        [shadow release];
         
         [self addSubview:textView];
-        [textView release];
     }
     return self;
 }
@@ -201,7 +184,6 @@
         NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
         [paraStyle setLineSpacing:2];
         [textView setDefaultParagraphStyle:paraStyle];
-        [paraStyle release];
         
         [textView setString:text];
         NSShadow *shadow = [[NSShadow alloc] init];
@@ -209,15 +191,12 @@
         [shadow setShadowBlurRadius:0];
         [shadow setShadowOffset:(NSSize){0,-1}];
         [textView setShadow:shadow];
-        [shadow release];
         
         [self addSubview:textView];
-        [textView release];
         
         NSImageView *coreIconView = [[NSImageView alloc] initWithFrame:(NSRect){{coreIconX, [self frame].size.height-40-coreIconTopToViewTop},{40, 40}}];
         [coreIconView setImage:[NSImage imageNamed:@"blank_slate_core_icon"]];
         [self addSubview:coreIconView];
-        [coreIconView release];
         
         OECenteredTextFieldCell *cell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
         shadow = [[NSShadow alloc] init];
@@ -231,18 +210,15 @@
                                     [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName,
                                     nil];
         [cell setTextAttributes:dictionary];
-        [dictionary release];
         
         NSTextField *coreSuppliedByLabel = [[NSTextField alloc] initWithFrame:(NSRect){{rightColumnX, bottomTextViewHeight-16},{[self frame].size.width-rightColumnX, 17}}];
         [coreSuppliedByLabel setCell:cell];
-        [cell release];
         [coreSuppliedByLabel setEditable:NO];
         [coreSuppliedByLabel setSelectable:NO];
         [coreSuppliedByLabel setDrawsBackground:NO];
         [coreSuppliedByLabel setBezeled:NO];
         [coreSuppliedByLabel setStringValue:NSLocalizedString(@"Core Provided By...", @"")];
         [self addSubview:coreSuppliedByLabel];
-        [coreSuppliedByLabel release];
         
         dictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                       [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0], NSFontAttributeName,
@@ -250,8 +226,6 @@
                       [NSColor colorWithDeviceWhite:0.86 alpha:1.0], NSForegroundColorAttributeName,
                       nil];
         [cell setTextAttributes:dictionary];
-        [shadow release];
-        [dictionary release];
         
         NSFont *font;
         NSColor *textColor;
@@ -267,7 +241,6 @@
                                           shadow, NSShadowAttributeName,
                                           textColor, NSForegroundColorAttributeName,                                          
                                           nil];
-        [shadow release];
         
         font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
         textColor = [NSColor colorWithDeviceWhite:1.0 alpha:1.0];
@@ -281,7 +254,6 @@
                                          shadow, NSShadowAttributeName,
                                          textColor, NSForegroundColorAttributeName,                                          
                                          nil];
-        [shadow release];
         
         font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
         textColor = [NSColor colorWithDeviceWhite:1.0 alpha:1.0];
@@ -293,7 +265,6 @@
                                          shadow, NSShadowAttributeName,
                                          textColor, NSForegroundColorAttributeName,                                          
                                          nil];
-        [shadow release];
         int idx = 0;
         NSArray *allPlugins = [OECorePlugin allPlugins];
         for(OECorePlugin *obj in allPlugins)
@@ -320,14 +291,9 @@
             [cell setText:name];
             [imageButton setCell:cell];
             [self addSubview:imageButton];
-            [imageButton release];
-            [cell release];
             
             idx++;
         }
-        [normalDictionary release];
-        [clickDictionary release];
-        [hoverDictionary release];        
     }
     return self;   
 }

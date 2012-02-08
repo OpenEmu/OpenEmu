@@ -88,7 +88,7 @@ enum _OEHelperAppErrorCodes
     BOOL      running;
 }
 
-@property(retain) NSString *doUUID;
+@property(strong) NSString *doUUID;
 @property(assign) BOOL      loadedRom;
 @property(readonly, assign, getter=isRunning) BOOL running;
 

@@ -62,8 +62,6 @@
 - (void)dealloc
 {
     [self removeObserver:self forKeyPath:@"frameSize"];
-    [elementPages release];
-    [super dealloc];
 }
 
 - (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end
@@ -94,15 +92,12 @@
     [button setAction:@selector(selectInputControl:)];
     [button bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
     [currentColumn addObject:button];
-    [button release];
     
     NSTextField *labelField = [[NSTextField alloc] initWithFrame:labelRect];
     NSTextFieldCell *labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
     [labelField setCell:labelFieldCell];
     [labelField setStringValue:label];
     [currentColumn addObject:labelField];
-    [labelFieldCell release];
-    [labelField release];
 }
 
 - (void)nextColumn
@@ -116,7 +111,6 @@
     NSMutableArray *newPage = [[NSMutableArray alloc] init];
     [newPage addObject:[NSMutableArray array]];
     [elementPages addObject:newPage];
-    [newPage release];
 }
 
 - (void)addColumnLabel:(NSString*)label
@@ -130,8 +124,6 @@
     [labelField setCell:labelFieldCell];
     [labelField setStringValue:label];
     [currentColumn addObject:labelField];
-    [labelFieldCell release];
-    [labelField release];
 }
 
 - (void)addRowSeperator
@@ -141,7 +133,6 @@
     
     OEControlsKeySeparatorView *view = [[OEControlsKeySeparatorView alloc] init];
     [currentColumn addObject:view];
-    [view release];
 }
 
 - (void)updateButtons

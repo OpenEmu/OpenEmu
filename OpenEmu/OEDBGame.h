@@ -81,7 +81,7 @@ extern NSString *const OEPasteboardTypeGame;
 @property(readonly) NSDate *lastPlayed;
 
 #pragma mark -
-@property(assign) OELibraryDatabase *database;
+@property(strong) OELibraryDatabase *database;
 
 #pragma mark -
 

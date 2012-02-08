@@ -133,7 +133,6 @@
     
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
 
-    [super dealloc];
 }
 
 - (NSString*)nibName

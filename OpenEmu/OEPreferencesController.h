@@ -23,5 +23,5 @@
 - (void)switchView:(id)sender;
 - (void)switchView:(id)sender animate:(BOOL)animateFlag;
 
-@property (retain, readwrite) NSArray *preferencePanes;
+@property (strong, readwrite) NSArray *preferencePanes;
 @end

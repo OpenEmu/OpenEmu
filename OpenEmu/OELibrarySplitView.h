@@ -45,7 +45,7 @@
 - (void)setSplitterPosition:(CGFloat)newPosition animated:(BOOL)animatedFlag;
 - (float)splitterPosition;
 
-@property(retain) IBOutlet OELibraryController *libraryConroller;
+@property(strong) IBOutlet OELibraryController *libraryConroller;
 @property float minWidth;
 @property float sidebarMaxWidth;
 @property float mainViewMinWidth;

@@ -30,11 +30,11 @@
 @implementation NSAttributedString (Hyperlink)
 + (id)hyperlinkFromString:(NSString *)inString withURL:(NSURL *)aURL
 {
-    return [[[NSAttributedString alloc] initWithString:inString
+    return [[NSAttributedString alloc] initWithString:inString
                                             attributes:[NSDictionary dictionaryWithObjectsAndKeys:
                                                         [aURL absoluteString], NSLinkAttributeName,
                                                         [NSColor blueColor], NSForegroundColorAttributeName,
                                                         [NSNumber numberWithInt:NSSingleUnderlineStyle], NSUnderlineStyleAttributeName,
-                                                        nil]] autorelease];
+                                                        nil]];
 }
 @end
