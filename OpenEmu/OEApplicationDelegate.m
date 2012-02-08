@@ -123,10 +123,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     /* [[OECoreUpdater sharedUpdater] installCoreWithIdentifier:@"com.openemu.snes9x" coreName:@"Nestopia" systemName:@"Nintendo (NES)" withCompletionHandler:^{
      NSLog(@"core was installed!");
      }];*/
-    /*
+
     OEMenuTestController *menuTest = [[OEMenuTestController alloc] initWithWindowNibName:@"OEMenuTest"];
     [menuTest showWindow:self];
-     */
+    [[[self mainWindowController] window] close];
 }
 #pragma mark -
 #pragma mark Loading The Database

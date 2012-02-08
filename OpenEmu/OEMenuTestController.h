@@ -11,16 +11,16 @@
 #import "OEPopupButton.h"
 
 @interface OEMenuTestController : NSWindowController
-@property (retain) IBOutlet NSButton* centerButton;
-@property (retain) IBOutlet NSButton* topButton;
-@property (retain) IBOutlet NSButton* leftButton;
-@property (retain) IBOutlet NSButton* rightButton;
-@property (retain) IBOutlet NSButton* bottomButton;
+@property (retain) IBOutlet NSButton *centerButton;
+@property (retain) IBOutlet NSButton *topButton;
+@property (retain) IBOutlet NSButton *leftButton;
+@property (retain) IBOutlet NSButton *rightButton;
+@property (retain) IBOutlet NSButton *bottomButton;
 
-@property (retain) IBOutlet NSMatrix* styleSelection;
-@property (retain) IBOutlet NSMenu* testMenu;
+@property (retain) IBOutlet NSMatrix *styleSelection;
+@property (retain) IBOutlet NSMenu *testMenu;
 
-@property (retain) IBOutlet OEPopupButton* filterSelection;
+@property (retain) IBOutlet OEPopupButton *filterSelection, *consolesPopupButton;
 
 - (IBAction)toggleWindowBackground:(id)sender;
 - (IBAction)buttonAction:(id)sender;

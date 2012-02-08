@@ -314,9 +314,8 @@
 - (void)openOnEdge:(OERectEdge)anEdge ofRect:(NSRect)rect ofWindow:(NSWindow*)win
 {
     [self setOpenEdge:anEdge];
-    
     [self updateSize];
-    
+
     NSPoint point;
     switch (anEdge) {
         case OENoEdge:
@@ -491,19 +490,15 @@
     if(_submenu)
     {        
         NSRect selectedItemRect = [[self menuView] rectOfItem:self.highlightedItem];
-        NSPoint submenuSpawnPoint = [self frame].origin;
-        
-        submenuSpawnPoint.x += [self frame].size.width;
-        submenuSpawnPoint.x -= 9;
-        
-        if(![self supermenu] && [self style]==OEMenuStyleLight)
-            submenuSpawnPoint.x -= 9;
-        
-        submenuSpawnPoint.y = 8 - selectedItemRect.origin.y + [self frame].origin.y -_submenu.frame.size.height + [self frame].size.height;
-        
+
         _submenu.popupButton = self.popupButton;
         _submenu.supermenu = self;
+        
         [_submenu updateSize];
+        
+        NSPoint submenuSpawnPoint = (NSPoint){NSMaxX(selectedItemRect), NSHeight([self frame])-NSHeight([_submenu frame])-NSMinY(selectedItemRect)};
+        submenuSpawnPoint = NSPointSub(submenuSpawnPoint, ((NSPoint){SubmenuBorderLeft-1, -SubmenuBorderTop}));
+        submenuSpawnPoint = NSPointAdd(submenuSpawnPoint, [self frame].origin);
         [_submenu openAtPoint:submenuSpawnPoint ofWindow:self];
     }
     
@@ -609,7 +604,10 @@
     
     NSSize contentSize;
     contentSize.width = ItemTickMarkSpace + (menuContainsImage? ItemImageSpace : 0 ) + maxTitleWidth + ItemSubmenuSpace;
-    contentSize.height = normalItemCount * (menuContainsImage? ItemHeightWithImage : ItemHeightWithoutImage) + separatorItemCount * ItemSeperatorHeight;    
+    contentSize.height = normalItemCount * (menuContainsImage? ItemHeightWithImage : ItemHeightWithoutImage) + separatorItemCount * ItemSeperatorHeight; 
+    
+    contentSize.width = contentSize.width < self.minSize.width ? self.minSize.width : contentSize.width;
+    contentSize.height = contentSize.height < self.minSize.height ? self.minSize.height : contentSize.height;
     
     NSSize frameSize = [self menuSizeForContentSize:contentSize];
     [self setFrame:(NSRect){[self frame].origin, frameSize} display:NO];

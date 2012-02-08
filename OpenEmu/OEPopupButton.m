@@ -54,15 +54,10 @@
     }
     else
     {
-        NSWindow *win = [self window];
-        NSPoint location = [win convertBaseToScreen:[self frame].origin];
-        
-        location.y += ([self frame].size.height-[self oemenu].frame.size.height)/2;
-        location.x -= GapBetweenOpenMenuAndPopupButton+MenuContentBorder;
-        
-        [[self oemenu] openAtPoint:location ofWindow:win];
+        [[self oemenu] setMinSize:[self frame].size];
+        [[self oemenu] openOnEdge:OENoEdge ofRect:[self frame] ofWindow:[self window]];
         [[self window] makeFirstResponder:nil];
-        
+
         [self setMenuOpenDate:[NSDate date]];
     }
 }

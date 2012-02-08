@@ -8,6 +8,10 @@
 
 #import "OEMenuTestController.h"
 #import "OECompositionPlugin.h"
+
+#import "OELibraryDatabase.h"
+#import "OEDBSystem.h"
+#import "OESystemPlugin.h"
 @implementation OEMenuTestController
 
 - (id)initWithWindow:(NSWindow *)window
@@ -57,6 +61,27 @@
     
     [[self window] setOpaque:NO];
     [[self window] setHasShadow:NO];
+    
+    NSMenu *consolesMenu = [[NSMenu alloc] init];
+    
+    NSArray *enabledSystems = [[OELibraryDatabase defaultDatabase] enabledSystems]; 
+    
+    for(OEDBSystem *system in enabledSystems)
+    {
+        OESystemPlugin *plugin = [system plugin];
+        
+        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin systemName] action:@selector(changeSystem:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setRepresentedObject:[plugin systemIdentifier]];
+        
+        [item setImage:[NSImage imageNamed:[item title]]];
+        
+        [consolesMenu addItem:item];
+        [item release];
+    }
+    
+    [[self consolesPopupButton] setMenu:consolesMenu];
+    [consolesMenu release];
 }
 
 - (IBAction)buttonAction:(id)sender
@@ -76,7 +101,8 @@
     OEMenu* menu = [[self testMenu] convertToOEMenu];
     [menu setStyle:[[self styleSelection] selectedTag]==1?OEMenuStyleDark:OEMenuStyleLight];
     
-    [menu openOnEdge:rectEdge ofRect:[[self centerButton] frame] ofWindow:[self window]];
+    NSRect rect = [[[self window] contentView] convertRect:[[self centerButton] bounds] fromView:[self centerButton]];
+    [menu openOnEdge:rectEdge ofRect:rect ofWindow:[self window]];
 }
 - (IBAction)styleAction:(id)sender
 {
@@ -93,5 +119,5 @@
 @synthesize centerButton, topButton, leftButton, rightButton, bottomButton;
 @synthesize styleSelection;
 @synthesize testMenu;
-@synthesize filterSelection;
+@synthesize filterSelection, consolesPopupButton;
 @end
