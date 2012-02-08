@@ -258,12 +258,13 @@
     [item release];
     
     OEMenu *oemenu = [menu convertToOEMenu];
+    [oemenu setStyle:OEMenuStyleLight];
     [oemenu setDelegate:self];
     oemenu.itemsAboveScroller = 2;
     oemenu.maxSize = NSMakeSize(500, 256);
-    NSRect buttonRect = [sender frame];
-    NSPoint menuPoint = NSMakePoint(NSMidX(buttonRect)+[self frame].origin.x-4, NSMaxY(buttonRect)+[self frame].origin.y-7);
-    [oemenu openOnEdge:NSMinYEdge atPoint:menuPoint ofWindow:self];
+    NSRect targetRect = (NSRect){{[sender frame].origin.x,0},{[sender frame].size.width -6, NSHeight([self frame])}};
+    targetRect = NSInsetRect(targetRect, 0, 17);
+    [oemenu openOnEdge:OEMaxYEdge ofRect:targetRect ofWindow:self];
     [menu release];
 }
 
@@ -279,7 +280,6 @@
 
 #pragma mark -
 #pragma mark Save States
-
 - (void)saveAction:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
@@ -326,12 +326,12 @@
     
     OEMenu *oemenu = [menu convertToOEMenu];
     [oemenu setDelegate:self];
+    [oemenu setStyle:OEMenuStyleLight];
     oemenu.itemsAboveScroller = 2;
     oemenu.maxSize = NSMakeSize(5000, 256);
-    NSRect buttonRect = [sender frame];
-    NSPoint menuPoint = NSMakePoint(NSMidX(buttonRect)+[self frame].origin.x-4, NSMaxY(buttonRect)+[self frame].origin.y-7);
-    [oemenu openOnEdge:NSMinYEdge atPoint:menuPoint ofWindow:self];
-
+    NSRect targetRect = (NSRect){{[sender frame].origin.x,0},{[sender frame].size.width -6, NSHeight([self frame])}};
+    targetRect = NSInsetRect(targetRect, 0, 17);
+    [oemenu openOnEdge:OEMaxYEdge ofRect:targetRect ofWindow:self];
     [menu release];
 }
 

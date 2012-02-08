@@ -89,10 +89,10 @@
 
 #pragma mark -
 #pragma mark Edge Sizes
-#define BGEdgeSizeLeft (NSSize){9.0, 15.0}
-#define BGEdgeSizeRight (NSSize){9.0, 15.0}
-#define BGEdgeSizeTop (NSSize) {15.0, 9.0}
-#define BGEdgeSizeBottom (NSSize) {15.0, 9.0}
+#define BGEdgeSizeLeft (NSSize){8.0, 14.0}
+#define BGEdgeSizeRight (NSSize){8.0, 14.0}
+#define BGEdgeSizeTop (NSSize) {14.0, 8.0}
+#define BGEdgeSizeBottom (NSSize) {14.0, 8.0}
 
 #pragma mark -
 #pragma mark Background Image Sizes
@@ -157,9 +157,8 @@
     if((self = [super initWithContentRect:NSZeroRect styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO]))
     {
         [self setStyle:OEMenuStyleDark];
-        
+        [self setMinSize:NSZeroSize];
         [self setMaxSize:(NSSize){5000,500}];
-        [self setMinSize:(NSSize){82,19*2}];
         
         [self setItemsAboveScroller:0];
         [self setItemsBelowScroller:0];
@@ -203,11 +202,6 @@
     }
     
     [super dealloc];
-}
-
-- (BOOL)isVisible
-{
-    return visible && [super isVisible] && !closing;
 }
 
 #pragma mark -
@@ -263,7 +257,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges:) name:NSApplicationWillResignActiveNotification object:NSApp];
     
-
     [self setFrameOrigin:p];
     [win addChildWindow:self ordered:NSWindowAbove];
     
@@ -370,6 +363,12 @@
     
     menu = nmenu;
 }
+
+- (BOOL)isVisible
+{
+    return visible && [super isVisible] && !closing;
+}
+
 #pragma mark -
 #pragma mark Interaction
 - (void)menuMouseDragged:(NSEvent *)theEvent
@@ -571,8 +570,8 @@
     contentSize.width = ItemTickMarkSpace + (menuContainsImage? ItemImageSpace : 0 ) + maxTitleWidth + ItemSubmenuSpace;
     contentSize.height = normalItemCount  *(menuContainsImage? ItemHeightWithImage : ItemHeightWithoutImage) + separatorItemCount  *ItemSeparatorHeight; 
     
-    contentSize.width = contentSize.width < self.minSize.width ? self.minSize.width : contentSize.width;
-    contentSize.height = contentSize.height < self.minSize.height ? self.minSize.height : contentSize.height;
+    contentSize.width = contentSize.width < [self minSize].width ? [self minSize].width : contentSize.width;
+    contentSize.height = contentSize.height < [self minSize].height ? [self minSize].height : contentSize.height;
     
     NSSize frameSize = [self menuSizeForContentSize:contentSize];
     [self setFrame:(NSRect){[self frame].origin, frameSize} display:NO];
@@ -813,7 +812,7 @@
     }
     else 
     {
-        rect = NSInsetRect([self bounds], -1, -1);
+        rect = NSInsetRect([self bounds], 0, -1);
         path = [NSBezierPath bezierPath];
         
         switch (openEdge) {
@@ -854,7 +853,7 @@
                 rect.size.height -= BGInsetTopEdge + BGInsetBottomNoEdge;
 
                 [path moveToPoint:(NSPoint){ NSMidX(rect) - BGEdgeSizeTop.width/2, NSMinY(rect) }];
-                [path lineToPoint:(NSPoint){ NSMidX(rect), NSMinY(rect) - BGEdgeSizeTop.height }];
+                [path lineToPoint:(NSPoint){ NSMidX(rect), NSMinY(rect) - BGEdgeSizeTop.height}];
                 [path lineToPoint:(NSPoint){ NSMidX(rect) + BGEdgeSizeTop.width/2, NSMinY(rect) }];
                 [path lineToPoint:(NSPoint){ NSMidX(rect) - BGEdgeSizeTop.width/2, NSMinY(rect)}];
                 break;
@@ -1019,11 +1018,11 @@
         }
         else
         {
-            NSRect arrowsTargetRect = (NSRect){{0.0, roundf((NSHeight([self bounds])-NSHeight(LeftArrowSource))/2)}, LeftArrowSource.size};
+            NSRect arrowsTargetRect = (NSRect){{0.0, (NSHeight([self bounds])-NSHeight(LeftArrowSource))/2}, LeftArrowSource.size};
             [arrowsImage drawInRect:arrowsTargetRect fromRect:LeftArrowSource operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
             
             targetRect.origin = (NSPoint){BGImageCornerEdgeInset, BGImageCornerHeight};
-            targetRect.size = (NSSize){BGImageCornerWidth, arrowsTargetRect.origin.y-roundf(NSHeight(LeftArrowSource)/2)+1};
+            targetRect.size = (NSSize){BGImageCornerWidth, arrowsTargetRect.origin.y-NSHeight(LeftArrowSource)/2+1};
             [backgroundImage drawInRect:targetRect fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
             
             targetRect.origin.y += targetRect.size.height + NSHeight(LeftArrowSource);
@@ -1042,11 +1041,11 @@
         }
         else
         {
-            NSRect arrowsTargetRect = (NSRect){{NSMaxX([self bounds])-NSWidth(RightArrowSource), roundf((NSHeight([self bounds])-NSHeight(RightArrowSource))/2)}, RightArrowSource.size};
+            NSRect arrowsTargetRect = (NSRect){{NSMaxX([self bounds])-NSWidth(RightArrowSource), (NSHeight([self bounds])-NSHeight(RightArrowSource))/2}, RightArrowSource.size};
             [arrowsImage drawInRect:arrowsTargetRect fromRect:RightArrowSource operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
             
             targetRect.origin = (NSPoint){NSMaxX([self bounds])-BGImageCornerWidth-BGImageCornerEdgeInset, BGImageCornerHeight};
-            targetRect.size = (NSSize){BGImageCornerWidth, arrowsTargetRect.origin.y-roundf(NSHeight(RightArrowSource)/2)+1};
+            targetRect.size = (NSSize){BGImageCornerWidth, arrowsTargetRect.origin.y-NSHeight(RightArrowSource)/2+1};
             [backgroundImage drawInRect:targetRect fromRect:sourceRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
             
             targetRect.origin.y += targetRect.size.height + NSHeight(RightArrowSource);
@@ -1088,7 +1087,7 @@
         }
         else
         {
-            NSRect arrowsTargetRect = (NSRect){{roundf((NSWidth([self bounds])-NSWidth(BottomArrowSource))/2), NSMaxY([self bounds])-NSHeight(BottomArrowSource)}, BottomArrowSource.size};
+            NSRect arrowsTargetRect = (NSRect){{(NSWidth([self bounds])-NSWidth(BottomArrowSource))/2, NSMaxY([self bounds])-NSHeight(BottomArrowSource)}, BottomArrowSource.size};
             [arrowsImage drawInRect:arrowsTargetRect fromRect:BottomArrowSource operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
             
             targetRect.origin = (NSPoint){ BGImageCornerWidth, NSMaxY([self bounds])-BGImageCornerHeight-BGImageCornerEdgeInset };
@@ -1149,7 +1148,7 @@
             tickMarkRect.size = [tickMarkImage size];
 
             tickMarkRect.origin.x += (ItemTickMarkSpace-NSWidth(tickMarkRect))/2;
-            tickMarkRect.origin.y += floor((NSHeight(menuItemFrame)-NSHeight(tickMarkRect))/2);
+            tickMarkRect.origin.y += (NSHeight(menuItemFrame)-NSHeight(tickMarkRect))/2;
             
             [tickMarkImage drawInRect:tickMarkRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
         }

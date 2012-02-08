@@ -56,7 +56,6 @@ typedef enum _OERectEdge
     
     OEPopupButton *popupButton;
     
-    NSSize minSize, maxSize;
     int itemsAboveScroller, itemsBelowScroller;
     
     id _localMonitor;
@@ -64,7 +63,7 @@ typedef enum _OERectEdge
     BOOL closing;
     BOOL _alternate;
     id <OEMenuDelegate> delegate;
-    
+
     OEMenuStyle style;
 }
 
