@@ -79,7 +79,6 @@
         [consolesMenu addItem:item];
         [item release];
     }
-    
     [[self consolesPopupButton] setMenu:consolesMenu];
     [consolesMenu release];
 }

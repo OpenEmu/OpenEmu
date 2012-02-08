@@ -48,7 +48,7 @@
 
 #define ItemHeightWithImage 20.0
 #define ItemHeightWithoutImage 17.0
-#define ItemSeperatorHeight 7.0
+#define ItemSeparatorHeight 7.0
 
 #define ItemImageWidth 16.0
 #define ItemImageHeight 16.0
@@ -604,7 +604,7 @@
     
     NSSize contentSize;
     contentSize.width = ItemTickMarkSpace + (menuContainsImage? ItemImageSpace : 0 ) + maxTitleWidth + ItemSubmenuSpace;
-    contentSize.height = normalItemCount * (menuContainsImage? ItemHeightWithImage : ItemHeightWithoutImage) + separatorItemCount * ItemSeperatorHeight; 
+    contentSize.height = normalItemCount * (menuContainsImage? ItemHeightWithImage : ItemHeightWithoutImage) + separatorItemCount * ItemSeparatorHeight; 
     
     contentSize.width = contentSize.width < self.minSize.width ? self.minSize.width : contentSize.width;
     contentSize.height = contentSize.height < self.minSize.height ? self.minSize.height : contentSize.height;
@@ -1005,6 +1005,18 @@
     OEMenuStyle style = [[self menu] style];
     return (highlighted ^ (style==OEMenuStyleLight)) ? [NSImage imageNamed:@"dark_menu_popover_arrow_selected"] : [NSImage imageNamed:@"dark_menu_popover_arrow_normal"];
 }
+
+- (NSColor*)upperSeparatorColor
+{
+    OEMenuStyle style = [[self menu] style];
+    return style==OEMenuStyleDark ? [NSColor blackColor] : [NSColor colorWithDeviceWhite:0.19 alpha:1.0];
+}
+- (NSColor*)lowerSeparatorColor
+{
+    OEMenuStyle style = [[self menu] style];
+    return style==OEMenuStyleDark ? [NSColor colorWithDeviceWhite:1.0 alpha:0.12] : [NSColor colorWithDeviceWhite:1.0 alpha:0.5];
+}
+
 #pragma mark -
 #pragma mark Drawing
 - (void)drawRect:(NSRect)dirtyRect
@@ -1175,14 +1187,14 @@
             NSRect lineRect = (NSRect){{baseX, y}, {itemWidth, 1}};
        
             lineRect.origin.y += 2;
-            [[NSColor colorWithDeviceWhite:0.19 alpha:1.0] setFill];
+            [[self upperSeparatorColor] setFill];
             NSRectFill(lineRect);
             
             lineRect.origin.y += 1;
-            [[NSColor colorWithDeviceWhite:1.0 alpha:0.5] setFill];
+            [[self lowerSeparatorColor] setFill];
             NSRectFillUsingOperation(lineRect, NSCompositeSourceOver);
             
-            y += ItemSeperatorHeight;
+            y += ItemSeparatorHeight;
             continue;
         }
         
@@ -1459,7 +1471,7 @@
     {
         if([item isSeparatorItem])
         {
-            y += ItemSeperatorHeight;
+            y += ItemSeparatorHeight;
             continue;
         }
         
@@ -1525,12 +1537,12 @@
     {
         if(item == m)
         {
-            return (NSRect){{leftBorder, y}, { NSWidth([self bounds])-leftBorder-rightBorder ,[item isSeparatorItem]?ItemSeperatorHeight:itemHeight}};
+            return (NSRect){{leftBorder, y}, { NSWidth([self bounds])-leftBorder-rightBorder ,[item isSeparatorItem]?ItemSeparatorHeight:itemHeight}};
         }
 
         if([item isSeparatorItem])
         {
-            y += ItemSeperatorHeight;
+            y += ItemSeparatorHeight;
             continue;
         }
         
