@@ -344,6 +344,7 @@
 		832D29431451ACF200BDF950 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 832D29421451ACF200BDF950 /* MainWindow.xib */; };
 		832D294F1451B20600BDF950 /* OEMainWindowContentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 832D294D1451B20600BDF950 /* OEMainWindowContentController.m */; };
 		832FA8801455526E00BBBD94 /* NSControl+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 832FA87F1455526E00BBBD94 /* NSControl+OEAdditions.m */; };
+		8331BE9614E2FD5300649705 /* dark_arrows_menu_body.png in Resources */ = {isa = PBXBuildFile; fileRef = 837237FD14E2CC3700CCF57A /* dark_arrows_menu_body.png */; };
 		83507247142F6029005D9033 /* OEControllerImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83507246142F6029005D9033 /* OEControllerImageView.m */; };
 		83691817147FE3EF00F28231 /* NSWindow+OECustomWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83691816147FE3EF00F28231 /* NSWindow+OECustomWindow.m */; };
 		836CFD6614709D3C00397683 /* wood_arrow_down.png in Resources */ = {isa = PBXBuildFile; fileRef = 836CFD6114709D3C00397683 /* wood_arrow_down.png */; };
@@ -433,6 +434,8 @@
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
 		83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
 		83FA055013B9E01B0055A520 /* Sparkle.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
+		83FE2BCB14E2FB8800CE06E4 /* OEMenuTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8370FF3D14E0A7910031916C /* OEMenuTestController.m */; };
+		83FE2BCD14E2FBB700CE06E4 /* OEMenuTest.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8370FF3B14E0A7910031916C /* OEMenuTest.xib */; };
 		83FFC069145819070077EC27 /* installer_backgroundSample.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FFC068145819070077EC27 /* installer_backgroundSample.png */; };
 		83FFC06D1458194E0077EC27 /* OESetupAssistantBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FFC06C1458194E0077EC27 /* OESetupAssistantBox.m */; };
 		83FFC078145823B00077EC27 /* OEGlossButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FFC077145823B00077EC27 /* OEGlossButton.m */; };
@@ -3494,6 +3497,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1B32151414DDD49E00C5B50A /* OE Startup.qtz in Resources */,
+				8331BE9614E2FD5300649705 /* dark_arrows_menu_body.png in Resources */,
 				1B32151514DDD49E00C5B50A /* OpenEmu.dae in Resources */,
 				1B32151614DDD49E00C5B50A /* OpenEmuText.dae in Resources */,
 				1BE3AB9F14DBB43D00D2F508 /* Scale2xBR.vert in Resources */,
@@ -3642,10 +3646,9 @@
 				83B5FF4F14DF065300017A71 /* tick_mark.png in Resources */,
 				83B5FF5814DF38B000017A71 /* light_arrows_menu_body.png in Resources */,
 				83B5FF5A14DF5E0B00017A71 /* light_arrows_menu_body_mask.png in Resources */,
-				8370FF3E14E0A7910031916C /* OEMenuTest.xib in Resources */,
 				83A1A9D114E1AA47007A2015 /* light_menu_body.png in Resources */,
 				83A1A9D214E1AA47007A2015 /* light_submenu_body.png in Resources */,
-				837237FE14E2CC3700CCF57A /* dark_arrows_menu_body.png in Resources */,
+				83FE2BCD14E2FBB700CE06E4 /* OEMenuTest.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3986,8 +3989,8 @@
 				83C0B37114D6EF02007CAC00 /* OESidebarOutlineButtonCell.m in Sources */,
 				1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */,
 				83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */,
-				8370FF3F14E0A7910031916C /* OEMenuTestController.m in Sources */,
 				C6D6FA7E14E2264C0083C75D /* NSViewController+OEAdditions.m in Sources */,
+				83FE2BCB14E2FB8800CE06E4 /* OEMenuTestController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
