@@ -78,7 +78,7 @@
     [[self consolesPopupButton] selectItemAtIndex:0];
     for(NSMenuItem *anItem in [[self consolesPopupButton] itemArray])
     {
-        if([[anItem representedObject] isEqualTo:pluginName])
+        if([[anItem representedObject] isEqual:pluginName])
         {
             [[self consolesPopupButton] selectItem:anItem];
             break;
@@ -127,7 +127,7 @@
     [[self consolesPopupButton] selectItemAtIndex:0];
     for(NSMenuItem *anItem in [[self consolesPopupButton] itemArray])
     {
-        if([[anItem representedObject] isEqualTo:selectedSystemIdentifier])
+        if([[anItem representedObject] isEqual:selectedSystemIdentifier])
         {
             [[self consolesPopupButton] selectItem:anItem];
             break;

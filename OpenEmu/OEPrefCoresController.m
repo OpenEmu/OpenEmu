@@ -185,7 +185,7 @@
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     NSString *columnIdentifier = [aTableColumn identifier];
-    if([columnIdentifier isEqualTo:@"versionColumn"])
+    if([columnIdentifier isEqualToString:@"versionColumn"])
         [self updateOrInstallItemAtRow:rowIndex];
 }
 

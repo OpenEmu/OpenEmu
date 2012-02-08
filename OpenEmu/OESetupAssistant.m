@@ -27,13 +27,22 @@
 #import "OESetupAssistant.h"
 
 #import "OESystemPlugin.h"
-#import "OEMainWindowController.h"
+
+#import "OELibraryController.h"
+#import "OELibraryDatabase.h"
+
 #import "OEGlossButton.h"
 #import "OESetupAssistantKeyMapView.h"
 
+#import "OEApplicationDelegate.h"
+#import "NSApplication+OEHIDAdditions.h"
+
+#import "OEROMImporter.h"
+#import "OECoreDownload.h"
+#import "OEHIDDeviceHandler.h"
+
 @implementation OESetupAssistant
 
-@synthesize searchResults;
 @synthesize transition;
 @synthesize replaceView;
 @synthesize step1;
@@ -52,6 +61,24 @@
 // decision tree
 @synthesize allowScanForGames;
 
+// Tables
+@synthesize installCoreTableView;
+@synthesize mountedVolumes;
+@synthesize gamePadTableView;
+
+
+// Buttons
+@synthesize gamePadSelectionNextButton;
+@synthesize gamePadUpNextButton;
+@synthesize gamePadDownNextButton;
+@synthesize gamePadLeftNextButton;
+@synthesize gamePadRightNextButton;
+@synthesize gamePadRunNextButton;
+@synthesize gamePadJumpNextButton;
+
+@synthesize selectedGamePadDeviceNum;
+@synthesize gotNewEvent;
+
 // key map views
 @synthesize upKeyMapView;
 @synthesize downKeyMapView;
@@ -59,6 +86,10 @@
 @synthesize rightKeyMapView;
 @synthesize runKeyMapView;
 @synthesize jumpKeyMapView;
+
+@synthesize currentKeyMapView;
+@synthesize currentNextButton;
+@synthesize currentEventToArchive;
 
 // Special buttons
 @synthesize goButton;
@@ -78,6 +109,19 @@
     self = [self initWithNibName:[self nibName] bundle:[NSBundle mainBundle]];
     if (self)
     {
+        // TODO: need to fail gracefully if we have no internet connection.
+        [[OECoreUpdater sharedUpdater] checkForUpdates];
+        
+        self.selectedGamePadDeviceNum = 0;
+        self.gotNewEvent = 0;
+
+        // set default prefs
+        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"organizeLibrary"];
+        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"copyToLibrary"];
+        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"automaticallyGetInfo"];
+                
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidMountNotification object:nil];
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidUnmountNotification object:nil];
     }
     
     return self;
@@ -87,6 +131,8 @@
 {
     NSLog(@"Dealloc Assistant");
     
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+
     [super dealloc];
 }
 
@@ -95,24 +141,40 @@
     return @"OESetupAssistant";
 }
 
+- (BOOL) acceptsFirstResponder
+{
+    return YES;
+}
+
 - (void) awakeFromNib
 {    
+    self.currentKeyMapView = self.upKeyMapView;
+
+    // setup table views;
+    [self.installCoreTableView setDelegate:self];
+    [self.installCoreTableView setDataSource:self];
+        
+    [self.gamePadTableView setDelegate:self];
+    [self.gamePadTableView setDataSource:self];
+
+    [self.mountedVolumes setDelegate:self];
+    [self.mountedVolumes setDataSource:self];
+
+    // setup buttons
+    [self.gamePadSelectionNextButton setEnabled:NO];
+    [self.gamePadUpNextButton setEnabled:NO];
+    [self.gamePadDownNextButton setEnabled:NO];
+    [self.gamePadLeftNextButton setEnabled:NO];
+    [self.gamePadRightNextButton setEnabled:NO];
+    [self.gamePadRunNextButton setEnabled:NO];
+    [self.gamePadJumpNextButton setEnabled:NO];
+    
     [(OEGlossButton*)[self goButton] setButtonColor:OEGlossButtonColorGreen];
 
     [self.replaceView setWantsLayer:YES];
     
-    // set up key map views
-    self.upKeyMapView.key = OESetupAssistantKeyUp;
-    self.downKeyMapView.key = OESetupAssistantKeyDown;
-    self.leftKeyMapView.key = OESetupAssistantKeyLeft;
-    self.rightKeyMapView.key = OESetupAssistantKeyRight;
-    self.runKeyMapView.key = OESetupAssistantKeyQuestionMark;
-    self.jumpKeyMapView.key = OESetupAssistantKeyQuestionMark;
-
-    // Search results for importing
-    //searchResults = [[[NSMutableArray alloc] initWithCapacity:1] autorelease];
-    //[self.resultController setContent:self.searchResults];
-
+    [self resetKeyViews];
+    
     // setup default transition proerties
     self.transition = [CATransition animation];
     self.transition.type = kCATransitionFade;
@@ -126,6 +188,17 @@
 }
 
 #pragma mark -
+
+- (void) resetKeyViews;
+{
+    // set up key map views
+    self.upKeyMapView.key = OESetupAssistantKeyUp;
+    self.downKeyMapView.key = OESetupAssistantKeyDown;
+    self.leftKeyMapView.key = OESetupAssistantKeyLeft;
+    self.rightKeyMapView.key = OESetupAssistantKeyRight;
+    self.runKeyMapView.key = OESetupAssistantKeyQuestionMark;
+    self.jumpKeyMapView.key = OESetupAssistantKeyQuestionMark;
+}
 
 - (IBAction)toStep1:(id)sender
 {     
@@ -181,77 +254,121 @@
 
 - (IBAction) toStep5:(id)sender;
 {
+    // monitor Gamepad inputs from now on, since we selected a game pad.
+    [[[self view] window] makeFirstResponder:self];
+    self.currentKeyMapView = self.upKeyMapView;
+    self.currentNextButton = self.gamePadUpNextButton;
     [self goForwardToView:self.step5];
 }
 
 - (IBAction) backToStep5:(id)sender
 {
+    self.currentKeyMapView = self.upKeyMapView;
+    self.currentNextButton = self.gamePadUpNextButton;
     [self goBackToView:self.step5];
 }
 
 - (IBAction) toStep6:(id)sender
 {
+    [self archiveEventForKey:@"userDefaultUp"];
+
+    self.currentKeyMapView = self.downKeyMapView;
+    self.currentNextButton = self.gamePadDownNextButton;
     [self goForwardToView:self.step6];
 }
 
 - (IBAction) backToStep6:(id)sender
 {
+    self.currentKeyMapView = self.downKeyMapView;
+    self.currentNextButton = self.gamePadDownNextButton;
     [self goBackToView:self.step6];
 }
 
 - (IBAction) toStep7:(id)sender
-{
+{    
+    [self archiveEventForKey:@"userDefaultDown"];
+    self.currentKeyMapView = self.leftKeyMapView;
+    self.currentNextButton = self.gamePadLeftNextButton;
     [self goForwardToView:self.step7];
 }
 
 - (IBAction) backToStep7:(id)sender
 {
+    self.currentKeyMapView = self.leftKeyMapView;
+    self.currentNextButton = self.gamePadLeftNextButton;
     [self goBackToView:self.step7];
 }
 
 - (IBAction) toStep8:(id)sender
 {
+    [self archiveEventForKey:@"userDefaultLeft"];
+   self.currentKeyMapView = self.rightKeyMapView;
+    self.currentNextButton = self.gamePadRightNextButton;
     [self goForwardToView:self.step8];
 }
 
 - (IBAction) backToStep8:(id)sender
 {
-    [self goBackToView:self.step8];
+    self.currentKeyMapView = self.rightKeyMapView;
+    self.currentNextButton = self.gamePadRightNextButton;
+   [self goBackToView:self.step8];
 }
 
 - (IBAction) toStep9:(id)sender
 {
+    [self archiveEventForKey:@"userDefaultRight"];
+   self.currentKeyMapView = self.runKeyMapView;
+    self.currentNextButton = self.gamePadRunNextButton;
     [self goForwardToView:self.step9];
 }
 
 - (IBAction) backToStep9:(id)sender
 {
+    self.currentKeyMapView = self.runKeyMapView;
+    self.currentNextButton = self.gamePadRunNextButton;
     [self goBackToView:self.step9];
 }
 
 - (IBAction) toStep10:(id)sender
 {
+    [self archiveEventForKey:@"userDefaultPrimary"];
+
+    self.currentKeyMapView = self.jumpKeyMapView;
+    self.currentNextButton = self.gamePadJumpNextButton;
     [self goForwardToView:self.step10];
 }
 
 - (IBAction) backToStep10:(id)sender
 {
+    self.currentKeyMapView = self.jumpKeyMapView;
+    self.currentNextButton = self.gamePadJumpNextButton;
     [self goBackToView:self.step10];
 }
 
 - (IBAction) toLastStep:(id)sender
 {
+    [self archiveEventForKey:@"userDefaultSecondary"];
+
     [self goForwardToView:self.lastStep];
 }
 
 - (IBAction) finishAndRevealLibrary:(id)sender
-{
-    NSWindow *win = [[self view] window];
-    OEMainWindowController *controller = (OEMainWindowController*)[win windowController];
-    [controller setCurrentContentController:[controller defaultContentController]];
+{    
+    OELibraryController *controller = (OELibraryController*)[[[NSApp delegate] mainWindowController] defaultContentController];
+    
+    if([self.allowScanForGames state] == NSOnState)
+    {
+        [controller discoverRoms];   
+    }
 
     // mark setup done.
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:UDSetupAssistantHasRun];
+    
+    // clean up
+    [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
+
+    // switch up main content.
+    [[[NSApp delegate] mainWindowController] setCurrentContentController:[[[NSApp delegate] mainWindowController] defaultContentController]];
 }
 
 #pragma mark -
@@ -259,6 +376,9 @@
 
 - (void) goBackToView:(NSView*)view
 {
+    self.gotNewEvent = NO;
+    [self resetKeyViews];
+
     [view setFrame:[self.replaceView frame]];
 
     self.transition.type = kCATransitionPush;
@@ -271,6 +391,8 @@
 
 - (void) goForwardToView:(NSView*)view
 {
+    self.gotNewEvent = NO;
+    
     [view setFrame:[self.replaceView frame]];
 
     self.transition.type = kCATransitionPush;
@@ -283,6 +405,8 @@
 
 - (void) dissolveToView:(NSView*)view
 {
+    self.gotNewEvent = NO;
+
     [view setFrame:[self.replaceView frame]];
 
     self.transition.type = kCATransitionFade;
@@ -293,153 +417,157 @@
 }
 
 #pragma mark -
-#pragma mark Import Rom Discovery
-/*
-- (IBAction)discoverRoms:(id)sender
-{
+#pragma mark Table View Data Protocol
 
-#warning OESetupAssistant actual importing is deactivated here 
-    
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:UDSetupAssistantHasRun];
-    [[self windowController] setCurrentContentController:nil];
-    return;
-    
-    NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
-    
-    if([dontSearchCommonTypes state] == NSOnState)
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
+{
+    if(aTableView == self.installCoreTableView)
     {
-        NSArray *commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
-        
-        [supportedFileExtensions removeObjectsInArray:commonTypes];
+        return [[[OECoreUpdater sharedUpdater] coreList] count];
     }
     
-    NSLog(@"Supported search Extensions are: %@", supportedFileExtensions);
-    
-    NSString *searchString = @"";
-    for(NSString *extension in supportedFileExtensions)
+    if(aTableView == self.mountedVolumes)
     {
-        searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension, nil];
-        searchString = [searchString stringByAppendingString:@" || "];
+        NSArray* keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
+        return [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] count];  
     }
     
-    [supportedFileExtensions release];
-    
-    searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
-    
-    NSLog(@"SearchString: %@", searchString);
-    
-    MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (CFStringRef)searchString, NULL, NULL);
-    
-    if(searchQuery)
+    if(aTableView == self.gamePadTableView)
     {
-        NSLog(@"Valid search query ref");
-        
-        [self.searchResults removeAllObjects];
-        [self.resultProgress startAnimation:nil];
-        [self.resultProgress setHidden:NO];
-        [self.resultFinishedLabel setHidden:YES];    
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finalizeSearchResults:)
-                                                     name:(NSString*)kMDQueryDidFinishNotification
-                                                   object:(id)searchQuery];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
-                                                     name:(NSString*)kMDQueryProgressNotification
-                                                   object:(id)searchQuery];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
-                                                     name:(NSString*)kMDQueryDidUpdateNotification
-                                                   object:(id)searchQuery];
-        
-        MDQuerySetSearchScope(searchQuery, (CFArrayRef) [NSArray arrayWithObject:(NSString*) kMDQueryScopeComputer], 0);
-        
-        if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
-            NSLog(@"Searching for importable roms");
-        
-        [self.resultProgress startAnimation:nil];
-        
-        [self dissolveToView:self.step5];
+       return [[[(OEApplicationDelegate*)[[NSApplication sharedApplication] delegate] hidManager] deviceHandlers] count];
     }
+    
+    return 0;
 }
 
-- (void) updateSearchResults:(NSNotification*)notification
-{    
-    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
-    
-    MDItemRef resultItem = NULL;
-    NSString *resultPath = nil;
-    
-    // assume the latest result is the last index?
-    CFIndex index = 0;
-    
-    for(index = 0; index < MDQueryGetResultCount(searchQuery); index++)
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
+{
+    if(aTableView == self.installCoreTableView)
     {
-        resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
-        resultPath = (NSString*)MDItemCopyAttribute(resultItem, kMDItemPath);
-        
-        NSArray *dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
-                                                        @"System",
-                                                        @"Library",
-                                                        @"Developer",
-                                                        @"Volumes",
-                                                        @"Applications",
-                                                        @"bin",
-                                                        @"cores",
-                                                        @"dev",
-                                                        @"etc",
-                                                        @"home",
-                                                        @"net",
-                                                        @"sbin",
-                                                        @"private",
-                                                        @"tmp",
-                                                        @"usr",
-                                                        @"var",
-                                                        nil];
-        // Nothing in common
-        if(![[resultPath pathComponents] firstObjectCommonWithArray:dontTouchThisDunDunDunDunHammerTime])
-        {                
-            if(![[self.resultController content] containsObject:resultPath])
-            {
-                NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
-                
-                [resultDict setValue:resultPath forKey:@"Path"];
-                [resultDict setValue:[[resultPath lastPathComponent] stringByDeletingPathExtension] forKey:@"Name"];
-                
-                [self.resultController addObject:resultDict];
-            }
+        NSString *identifier = [aTableColumn identifier];
+        if([identifier isEqualToString:@"enabled"])
+        {
+            return [NSNumber numberWithBool:YES];
         }
-        
-        [resultPath release];
-        resultPath = nil;    
-    } 
-}
-
-- (void) finalizeSearchResults:(NSNotification*)notification
-{
-    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
-    
-    NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
-    
-    [self.resultFinishedLabel setStringValue:[NSString stringWithFormat:@"Found %i Games", [[self.resultController content] count], nil]]; 
-    
-    [self.resultProgress stopAnimation:nil];
-    [self.resultProgress setHidden:YES];
-    [self.resultFinishedLabel setHidden:NO];    
-}
-
-- (IBAction) import:(id)sender;
-{
-    NSMutableArray *URLS = [NSMutableArray array];
-    
-    for(NSDictionary *searchResult in self.searchResults)
-    {
-        [URLS addObject:[NSURL fileURLWithPath:[searchResult objectForKey:@"Path"]]];
+        else if([identifier isEqualToString:@"emulatorName"])
+        {
+            return[(OECoreDownload*)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] name];
+        }
+        else if([identifier isEqualToString:@"emulatorSystem"])
+        {            
+            return [(OECoreDownload*)[[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:rowIndex] description];
+        }
     }
     
-    NSLog(@"OESetupAssistant import: need to used new import method");
-    NSWindow *win = [[self view] window];
-    OEMainWindowController *controller = (OEMainWindowController*)[win windowController];
-    [controller setCurrentContentController:self];
+    if(aTableView == self.mountedVolumes)
+    {
+        NSString *identifier = [aTableColumn identifier];
+        if([identifier isEqualToString:@"enabled"])
+        {
+            return [NSNumber numberWithBool:YES];
+        }
+        else if([identifier isEqualToString:@"mountName"])
+        {
+            NSArray* keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
+            NSURL* mountUrl = [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] objectAtIndex:rowIndex];
+            
+            NSString* volumeName = @"";
+            if([mountUrl getResourceValue:&volumeName forKey:NSURLVolumeLocalizedNameKey error:nil])
+                return volumeName;
+            else 
+                return @"Unnamed Volume";
+        }
+    }
+    
+    if(aTableView == self.gamePadTableView)
+    {
+        OEHIDDeviceHandler* handler = [[[(OEApplicationDelegate*)[[NSApplication sharedApplication] delegate] hidManager] deviceHandlers] objectAtIndex:rowIndex];
+
+        NSString *identifier = [aTableColumn identifier];
+        if([identifier isEqualToString:@"usbPort"])
+        {
+            return [NSString stringWithFormat:@"Device %i", handler.deviceNumber, nil];
+        }
+        if([identifier isEqualToString:@"gamePadName"])
+        {
+            return handler.product;
+        }
+    }
+
+    return nil;
 }
-*/
+
+#pragma mark -
+#pragma mark Table View Delegate Protocol
+
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+{
+    if([aNotification object] == self.gamePadTableView)
+    {
+        [self.gamePadSelectionNextButton setEnabled:(BOOL)[self.gamePadTableView numberOfSelectedRows]];
+        
+        self.selectedGamePadDeviceNum = [self.gamePadTableView selectedRow] + 1;
+    }    
+}
+
+- (void) reload
+{
+    [self.mountedVolumes reloadData];
+}
+
+#pragma mark -
+#pragma mark HID event handling
+
+- (void) gotEvent:(OEHIDEvent*)event
+{
+    self.currentEventToArchive = event;
+    self.gotNewEvent = YES;
+    self.currentKeyMapView.key = OESetupAssistantKeySucess;
+    self.currentNextButton.enabled = YES;
+}
+
+- (void)axisMoved:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent:anEvent];
+}
+
+- (void)buttonDown:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent:anEvent];
+}
+
+- (void)buttonUp:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent:anEvent];
+}
+
+- (void)hatSwitchChanged:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent:anEvent];
+}
+
+- (void)HIDKeyDown:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent:anEvent];
+}
+
+- (void)HIDKeyUp:(OEHIDEvent *)anEvent
+{
+    if(self.selectedGamePadDeviceNum == [anEvent padNumber])
+        [self gotEvent:anEvent];
+}
+
+#pragma mark -
+#pragma mark Preference Saving
+
+- (void) archiveEventForKey:(NSString*)key
+{
+    [[NSUserDefaults standardUserDefaults] setValue:[NSKeyedArchiver archivedDataWithRootObject:self.currentEventToArchive] forKey:key];
+}
+
 @end

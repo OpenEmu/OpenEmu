@@ -31,6 +31,8 @@
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showPreferencesWindow:(id)sender;
 
+- (IBAction)showOpenEmuWindow:(id)sender;
+
 - (IBAction)updateBundles:(id)sender;
 
 - (void)updateInfoPlist;

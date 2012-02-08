@@ -57,19 +57,27 @@
 #pragma mark -
 #pragma mark Menu Item Actions
 
-- (IBAction)filemenu_newCollection:(id)sender;
-- (IBAction)filemenu_newSmartCollection:(id)sender;
-- (IBAction)filemenu_newCollectionFolder:(id)sender;
+- (IBAction)newCollection:(id)sender;
+- (IBAction)newSmartCollection:(id)sender;
+- (IBAction)newCollectionFolder:(id)sender;
 
-- (IBAction)filemenu_editSmartCollection:(id)sender;
-- (IBAction)filemenu_addToLibrary:(id)sender;
-- (IBAction)controlsmenu_startGame:(id)sender;
+- (IBAction)editSmartCollection:(id)sender;
+- (IBAction)addToLibrary:(id)sender;
+- (IBAction)startGame:(id)sender;
 
 #pragma mark -
 #pragma mark Menu Items
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 - (void)menuItemAction:(id)sender;
+
+#pragma mark -
+#pragma Handle Spotlight importing
+
+- (void) discoverRoms;
+- (void) updateSearchResults:(NSNotification*)notification;
+- (void) finalizeSearchResults:(NSNotification*)notification;
+- (void) importInBackground;
 
 #pragma mark -
 #pragma mark Properties
@@ -81,5 +89,8 @@
 @property(retain) IBOutlet OESidebarController        *sidebarController;
 @property(retain) IBOutlet OECollectionViewController *collectionViewController;
 @property(retain) IBOutlet OELibrarySplitView         *mainSplitView;
+
+// spotlight search results.
+@property (readwrite, retain) NSMutableArray *searchResults;
 
 @end

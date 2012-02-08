@@ -127,30 +127,32 @@
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Tags identifying Main Menu items
 #pragma mark File Menu
-// #define MainMenu_File_LaunchGame 101
-#define MainMenu_File_NewCollection 102
-#define MainMenu_File_NewCollectionFolder 103
-#define MainMenu_File_NewSmartCollection 104
-#define MainMenu_File_EditSmartCollection 105
-#define MainMenu_File_AddToLibrary 106
-#define MainMenu_File_GetInfo 107
-#define MainMenu_File_Rating 108
-#define MainMenu_File_ShowInFinder 109
-#define MainMenu_File_DisplayDuplicates 110
+enum {
+    MainMenu_File_LaunchGame          = 101,
+    MainMenu_File_NewCollection       = 102,
+    MainMenu_File_NewCollectionFolder = 103,
+    MainMenu_File_NewSmartCollection  = 104,
+    MainMenu_File_EditSmartCollection = 105,
+    MainMenu_File_AddToLibrary        = 106,
+    MainMenu_File_GetInfo             = 107,
+    MainMenu_File_Rating              = 108,
+    MainMenu_File_ShowInFinder        = 109,
+    MainMenu_File_DisplayDuplicates   = 110,
 #pragma mark -
 #pragma mark Controls Menu
-#define MainMenu_Controls_StartGame 201
-#define MainMenu_Controls_VolumeUp 202
-#define MainMenu_Controls_VolumeDown 203
-#define MainMenu_Controls_SaveState 204
-#define MainMenu_Controls_LoadState 205
-#define MainMenu_Controls_PauseEmulation 206
-#define MainMenu_Controls_ResumeEmulation 207
+    MainMenu_Controls_StartGame       = 201,
+    MainMenu_Controls_VolumeUp        = 202,
+    MainMenu_Controls_VolumeDown      = 203,
+    MainMenu_Controls_SaveState       = 204,
+    MainMenu_Controls_LoadState       = 205,
+    MainMenu_Controls_PauseEmulation  = 206,
+    MainMenu_Controls_ResumeEmulation = 207,
 #pragma mark -
 #pragma mark View Menu
-#define MainMenu_View_GridViewTag 301
-#define MainMenu_View_FlowViewTag 302
-#define MainMenu_View_ListViewTag 303
+    MainMenu_View_GridViewTag         = 301,
+    MainMenu_View_FlowViewTag         = 302,
+    MainMenu_View_ListViewTag         = 303,
 #pragma mark -
 #pragma mark Window Menu
-#define MainMenu_Window_OpenEmuTag 501
+    MainMenu_Window_OpenEmuTag        = 501,
+};

@@ -337,14 +337,14 @@
 
 - (void)doLoadState:(id)stateItem
 {
-    [[self gameViewController] loadState:[stateItem representedObject]];
+    [[self gameViewController] loadSaveState:[stateItem representedObject]];
     
     [self hide];
 }
 
 - (void)doDeleteState:(id)stateItem
 {
-    [[self gameViewController] deleteState:[stateItem representedObject]];
+    [[self gameViewController] deleteSaveState:[stateItem representedObject]];
 }
 
 - (void)doSaveState:(id)sender

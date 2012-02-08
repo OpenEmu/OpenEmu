@@ -37,6 +37,8 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 
 @implementation OEHIDManager
 
+@synthesize deviceHandlers;
+
 - (id)init
 {
 	if( (self = [super init]) )
@@ -98,6 +100,8 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 {
 	OEHIDDeviceHandler *handler = [self deviceHandlerForDevice:inDevice];
 	
+    [self willChangeValueForKey:@"deviceHandlers"];
+    
 	if(!handler)
 	{
 		handler = [OEHIDDeviceHandler deviceHandlerWithDevice:inDevice];
@@ -114,6 +118,8 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 		//attach to the runloop
 		IOHIDDeviceScheduleWithRunLoop(inDevice, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
 	}
+
+    [self didChangeValueForKey:@"deviceHandlers"];
 }
 
 - (void)removeDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice
@@ -122,7 +128,11 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 	IOHIDDeviceUnscheduleFromRunLoop(inDevice, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
 	
 	//remove from array
+    [self willChangeValueForKey:@"deviceHandlers"];
+
 	[deviceHandlers removeObject:[self deviceHandlerForDevice:inDevice]];
+    
+    [self didChangeValueForKey:@"deviceHandlers"];    
 }
 
 @end

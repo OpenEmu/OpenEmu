@@ -288,7 +288,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         NSManagedObjectContext *context = [[NSManagedObjectContext alloc] init];
         if(!context) return nil;
         
-        if([[thread name] isEqualTo:@""])
+        if([[thread name] isEqualToString:@""])
         {
             NSString *name = [NSString stringWithUUID];
             [thread setName:name];
@@ -957,7 +957,7 @@ static OELibraryDatabase *defaultDatabase = nil;
             }
         }
         
-        //if(organizeLibrary && [[path substringToIndex:[databaseFolder length]] isEqualTo:databaseFolder]){
+        //if(organizeLibrary && [[path substringToIndex:[databaseFolder length]] isEqualToString:databaseFolder]){
         //            // TODO: move to sorted path within db folder 
         //}
         

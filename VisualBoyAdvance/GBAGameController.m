@@ -37,9 +37,14 @@
     }
 }
 
+- (NSArray *)genericControlNames
+{
+    return nil;
+}
+
 - (NSUInteger)playerCount
 {
-    return 8;
+    return MAC_MAX_PLAYERS;
 }
 
 - (Class)gameCoreClass

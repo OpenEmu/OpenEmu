@@ -37,6 +37,8 @@
 
 @class OEHUDControlsBarWindow;
 @class OEGameDocument;
+@class OEDBSaveState;
+
 @interface OEGameViewController : OEMainWindowContentController
 {
     OEHUDControlsBarWindow *controlsWindow;
@@ -64,9 +66,18 @@
 
 - (void)contentWillShow;
 - (void)contentWillHide;
+
+#pragma mark - Menu Items
+- (IBAction)volumeUp:(id)sender;
+- (IBAction)volumeDown:(id)sender;
+- (IBAction)saveState:(id)sender;
+- (IBAction)loadState:(id)sender;
+- (IBAction)pauseEmulation:(id)sender;
+- (IBAction)resumeEmulation:(id)sender;
+
 #pragma mark -
 #pragma mark Controlling Emulation
-#pragma mark -
+
 - (void)resetGame;
 - (void)terminateEmulation;
 
@@ -78,8 +89,8 @@
 
 - (void)toggleFullscreen;
 #pragma mark -
-- (void)loadState:(id)state;
-- (void)deleteState:(id)state;
+- (void)loadSaveState:(OEDBSaveState *)state;
+- (void)deleteSaveState:(OEDBSaveState *)state;
 - (void)saveStateAskingUserForName:(NSString*)proposedName;
 - (void)saveStateWithName:(NSString*)stateName;
 

@@ -91,7 +91,7 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if([keyPath isEqualTo:@"key"])
+    if([keyPath isEqualToString:@"key"])
     {
         [self _updateKeyView];
     }
@@ -102,6 +102,9 @@
     NSImageView *imageView = [[NSImageView alloc] initWithFrame:(NSRect){{0,0},{100,101}}];
     NSImage *image = [self imageForKey:[self key]];
     [imageView setImage:image];
+    
+    for(NSView* subview in self.subviews)
+        [subview removeFromSuperview];
     
     [self addSubview:imageView];
     [imageView release];
@@ -135,6 +138,9 @@
             break;
         case OESetupAssistantKeyRight:
             return [NSImage imageNamed:@"installer_gamepad_right"];
+            break;
+        case OESetupAssistantKeySucess:
+            return [NSImage imageNamed:@"installer_gamepad_success"];
             break;
         default:
             return [NSImage imageNamed:@"installer_gamepad_questionMark"];

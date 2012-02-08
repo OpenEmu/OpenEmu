@@ -229,13 +229,13 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
         [[[self view] window] toggleFullScreen:self];
 }
 #pragma mark -
-- (void)loadState:(id)state
+- (void)loadSaveState:(OEDBSaveState *)state
 {
     NSString *path = [state valueForKey:@"path"];
     [self loadStateFromFile:path error:nil];
 }
 
-- (void)deleteState:(id)state
+- (void)deleteSaveState:(id)state
 {
     // TODO: use OEAlert once it's been written
     // TODO: localize and rephrase text
@@ -375,26 +375,48 @@ return [[basePath stringByAppendingPathComponent:@"OpenEmu"] stringByAppendingPa
 
 #pragma mark -
 #pragma mark Menu Items
+
+- (IBAction)volumeUp:(id)sender;
+{
+    
+}
+
+- (IBAction)volumeDown:(id)sender;
+{
+    
+}
+
+- (IBAction)saveState:(id)sender;
+{
+    
+}
+
+- (IBAction)loadState:(id)sender;
+{
+    
+}
+
+- (IBAction)pauseEmulation:(id)sender;
+{
+    
+}
+
+- (IBAction)resumeEmulation:(id)sender;
+{
+    
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
+    return YES;
+    /*
     NSInteger tag = [menuItem tag];
     
     return (tag >= MainMenu_Controls_VolumeUp && tag <= MainMenu_Controls_ResumeEmulation);
+     */
 }
 - (void)menuItemAction:(id)sender
 {
-    NSInteger tag = [sender tag];
-    switch (tag) 
-    {
-        case MainMenu_Controls_VolumeUp: break;
-        case MainMenu_Controls_VolumeDown: break;
-        case MainMenu_Controls_SaveState: break;
-        case MainMenu_Controls_LoadState: break;
-        case MainMenu_Controls_PauseEmulation: break;
-        case MainMenu_Controls_ResumeEmulation: break;
-        default:
-            break;
-    }
 }
 
 - (void)setupMenuItems

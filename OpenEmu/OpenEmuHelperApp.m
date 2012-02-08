@@ -412,7 +412,6 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     // get the updated surfaceID to pass to STDOut...
     surfaceID = IOSurfaceGetID(surfaceRef);
-
 }
 
 - (void) drawGameTexture

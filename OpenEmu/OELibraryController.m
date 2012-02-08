@@ -67,6 +67,8 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 @synthesize database;
 @synthesize sidebarController, collectionViewController, mainSplitView;
 
+@synthesize searchResults;
+
 - (id)initWithWindowController:(OEMainWindowController*)windowController andDatabase:(OELibraryDatabase*)aDatabase
 {
     if((self = [super initWithWindowController:windowController]))
@@ -109,6 +111,8 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     [[self sidebarController] view];
     
     self.romImporter = [[[OEROMImporter alloc] initWithDatabase:[self database]] autorelease];
+    
+    self.searchResults = [[[NSMutableArray alloc] initWithCapacity:1] autorelease];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
@@ -276,28 +280,28 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 }
 
 #pragma mark FileMenu Actions
-- (IBAction)filemenu_newCollection:(id)sender
+- (IBAction)newCollection:(id)sender
 {
     [[self database] addNewCollection:nil];
     
     [[self sidebarController] reloadData];
 }
 
-- (IBAction)filemenu_newSmartCollection:(id)sender
+- (IBAction)newSmartCollection:(id)sender
 {
     [[self database] addNewSmartCollection:nil];
     
     [[self sidebarController] reloadData];
 }
 
-- (IBAction)filemenu_newCollectionFolder:(id)sender
+- (IBAction)newCollectionFolder:(id)sender
 {
     [[self database] addNewCollectionFolder:nil];
     
     [[self sidebarController] reloadData];
 }
 
-- (IBAction)filemenu_editSmartCollection:(id)sender
+- (IBAction)editSmartCollection:(id)sender
 {
     NSLog(@"Edit smart collection: ");
 }
@@ -310,76 +314,25 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     if([[self windowController] currentContentController] != self)
         return NO;
     
-    NSUInteger tag = [menuItem tag];
+    if([menuItem action] == @selector(newCollectionFolder:)) return NO;
     
-    if(tag > 100 && tag < 200) // File Menu
-    {
-        return (tag == MainMenu_File_NewCollection ||
-                //tag == MainMenu_File_NewCollectionFolder ||
-                tag == MainMenu_File_NewSmartCollection ||
-                tag == MainMenu_File_AddToLibrary);
-    }
+    if([menuItem action] == @selector(editSmartCollection:))
+        return [[[self sidebarController] selectedCollection] isKindOfClass:[OEDBSmartCollection class]];
     
-    if(tag == MainMenu_Controls_StartGame) // Controls Menu
+    if([menuItem action] == @selector(startGame:))
         return [[[self collectionViewController] selectedGames] count] != 0;
     
-    return (tag > 300 && tag < 400); // View Menu
+    return YES;
 }
 
 - (void)menuItemAction:(id)sender
 {
-    switch([sender tag])
-    {
-        case MainMenu_File_NewCollection :
-            [self filemenu_newCollection:sender];
-            break;
-        case MainMenu_File_NewCollectionFolder :
-            [self filemenu_newCollectionFolder:sender];
-            break;
-        case MainMenu_File_NewSmartCollection :
-            [self filemenu_newSmartCollection:sender];
-            break;
-        case MainMenu_File_EditSmartCollection :
-            [self filemenu_editSmartCollection:sender];
-            break;
-        case MainMenu_File_AddToLibrary :
-            [self filemenu_addToLibrary:sender];
-            break;
-        case MainMenu_File_GetInfo :
-            break;
-        case MainMenu_File_Rating :
-            break;
-        case MainMenu_File_ShowInFinder :
-            break;
-        case MainMenu_File_DisplayDuplicates :
-            break;
-            
-            // Controls Menu
-        case MainMenu_Controls_StartGame :
-            [self controlsmenu_startGame:sender];
-            break;
-            
-            // View Menu
-        case MainMenu_View_GridViewTag :
-            [self switchToGridView:sender];
-            break;
-            
-        case MainMenu_View_FlowViewTag :
-            [self switchToFlowView:sender];
-            break;
-            
-        case MainMenu_View_ListViewTag :
-            [self switchToListView:sender];
-            break;
-        default :
-            break;
-    }
 }
 
 #pragma mark -
 #pragma mark Import
 
-- (IBAction)filemenu_addToLibrary:(id)sender
+- (IBAction)addToLibrary:(id)sender
 {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     [openPanel setAllowsMultipleSelection:YES];
@@ -403,7 +356,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 }
 #pragma mark -
 
-- (IBAction)controlsmenu_startGame:(id)sender
+- (IBAction)startGame:(id)sender
 {
     NSArray *selection = [[self collectionViewController] selectedGames];
     if(!selection)
@@ -420,6 +373,159 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 }
 
 #pragma mark -
+#pragma mark Spotlight Importing
+
+- (void) discoverRoms
+{
+    NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
+    
+    // We skip common types by default.
+    NSArray *commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
+    
+    [supportedFileExtensions removeObjectsInArray:commonTypes];
+    
+    //NSLog(@"Supported search Extensions are: %@", supportedFileExtensions);
+    
+    NSString *searchString = [NSString string];
+    for(NSString *extension in supportedFileExtensions)
+    {
+        searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension, nil];
+        searchString = [searchString stringByAppendingString:@" || "];
+    }
+    
+    [supportedFileExtensions release];
+    
+    searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
+    
+    NSLog(@"SearchString: %@", searchString);
+    
+    MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (CFStringRef)searchString, NULL, NULL);
+    
+    if(searchQuery)
+    {
+        NSLog(@"Valid search query ref");
+        
+        [self.searchResults removeAllObjects];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finalizeSearchResults:)
+                                                     name:(NSString*)kMDQueryDidFinishNotification
+                                                   object:(id)searchQuery];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
+                                                     name:(NSString*)kMDQueryProgressNotification
+                                                   object:(id)searchQuery];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
+                                                     name:(NSString*)kMDQueryDidUpdateNotification
+                                                   object:(id)searchQuery];
+        
+        MDQuerySetSearchScope(searchQuery, (CFArrayRef) [NSArray arrayWithObject:(NSString*) kMDQueryScopeComputer /*kMDQueryScopeComputer */], 0);
+        
+        if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
+            NSLog(@"Searching for importable roms");
+        else
+        {
+            CFRelease(searchQuery);
+            searchQuery = nil;
+            // leave this log message in...
+            NSLog(@"MDQuery failed to start.");
+        }
+        
+    }
+    else
+        NSLog(@"Invalid Search Query");
+}
+
+- (void) updateSearchResults:(NSNotification*)notification
+{    
+    NSLog(@"updateSearchResults:");
+    
+    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
+    
+    MDItemRef resultItem = NULL;
+    NSString *resultPath = nil;
+    
+    // assume the latest result is the last index?
+    CFIndex index = 0;
+    
+    for(index = 0; index < MDQueryGetResultCount(searchQuery); index++)
+    {
+        resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
+        resultPath = (NSString*)MDItemCopyAttribute(resultItem, kMDItemPath);
+        
+        NSArray *dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
+                                                        @"System",
+                                                        @"Library",
+                                                        @"Developer",
+                                                        @"Volumes",
+                                                        @"Applications",
+                                                        @"bin",
+                                                        @"cores",
+                                                        @"dev",
+                                                        @"etc",
+                                                        @"home",
+                                                        @"net",
+                                                        @"sbin",
+                                                        @"private",
+                                                        @"tmp",
+                                                        @"usr",
+                                                        @"var",
+                                                        nil];
+        // Nothing in common
+        if(![[resultPath pathComponents] firstObjectCommonWithArray:dontTouchThisDunDunDunDunHammerTime])
+        {                
+            if(![self.searchResults containsObject:resultPath])
+            {
+                NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
+                
+                [resultDict setValue:resultPath forKey:@"Path"];
+                [resultDict setValue:[[resultPath lastPathComponent] stringByDeletingPathExtension] forKey:@"Name"];
+                
+                [self.searchResults addObject:resultDict];
+                
+                NSLog(@"Result Path: %@", resultPath);
+            }
+        }
+        
+        [resultPath release];
+        resultPath = nil;    
+    } 
+}
+
+- (void) finalizeSearchResults:(NSNotification*)notification
+{
+    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
+    
+    NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
+    
+    if(MDQueryGetResultCount(searchQuery))
+    {
+        [self importInBackground];        
+
+//        MDQueryStop(searchQuery);
+//        CFRelease(MDQueryStop);        
+    }
+    
+//    CFRelease(MDQueryStop);
+//    CFRelease(searchQuery);
+}
+
+- (void) importInBackground;
+{
+    NSLog(@"importInBackground");
+    
+    NSMutableArray *paths = [NSMutableArray array];
+    
+    for(NSDictionary *searchResult in self.searchResults)
+    {
+        [paths addObject:[searchResult objectForKey:@"Path"]];
+    }
+        
+    [self.romImporter importROMsAtPaths:paths inBackground:YES error:nil];;
+}
+
+
+#pragma mark -
 #pragma mark Sidebar Helpers
 
 - (void)sidebarSelectionDidChange:(NSNotification*)notification
@@ -429,10 +535,12 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     {
         id collection = [userInfo objectForKey:@"selectedCollection"];
         
+        /*
         NSMenu *mainMenu = [NSApp mainMenu];
         NSMenu *fileMenu = [[mainMenu itemAtIndex:1] menu];
         NSMenuItem *item = [fileMenu itemWithTag:MainMenu_File_EditSmartCollection];
         [item setEnabled:[collection isKindOfClass:[OEDBSmartCollection class]]];
+         */
         [[self collectionViewController] setCollectionItem:collection];
     }
     else

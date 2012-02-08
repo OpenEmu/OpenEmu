@@ -29,10 +29,10 @@
         [self detectOrientation];
         
         NSString *key = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleScrollBarVariant"];
-        if([key isEqualTo:@"DoubleMax"])scrollArrowPos = NSScrollerArrowsMaxEnd;
-        else if([key isEqualTo:@"DoubleMin"])scrollArrowPos = NSScrollerArrowsMinEnd;
-        else if([key isEqualTo:@"Single"])scrollArrowPos = NSScrollerArrowsSingle;
-        else if([key isEqualTo:@"DoubleBoth"])scrollArrowPos = NSScrollerArrowsDoubleBoth;
+        if([key isEqualToString:@"DoubleMax"])scrollArrowPos = NSScrollerArrowsMaxEnd;
+        else if([key isEqualToString:@"DoubleMin"])scrollArrowPos = NSScrollerArrowsMinEnd;
+        else if([key isEqualToString:@"Single"])scrollArrowPos = NSScrollerArrowsSingle;
+        else if([key isEqualToString:@"DoubleBoth"])scrollArrowPos = NSScrollerArrowsDoubleBoth;
         
         else scrollArrowPos = NSScrollerArrowsNone;
         
