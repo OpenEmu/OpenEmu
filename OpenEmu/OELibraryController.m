@@ -530,23 +530,23 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 
 - (void)sidebarSelectionDidChange:(NSNotification*)notification
 {
-    /*
     NSDictionary *userInfo = [notification userInfo];
     if(userInfo != nil)
     {
         id collection = [userInfo objectForKey:@"selectedCollection"];
         
+        /*
         NSMenu *mainMenu = [NSApp mainMenu];
         NSMenu *fileMenu = [[mainMenu itemAtIndex:1] menu];
         NSMenuItem *item = [fileMenu itemWithTag:MainMenu_File_EditSmartCollection];
         [item setEnabled:[collection isKindOfClass:[OEDBSmartCollection class]]];
+         */
         [[self collectionViewController] setCollectionItem:collection];
     }
     else
     {
         [[self collectionViewController] setCollectionItem:nil];
     }
-     */
 }
 
 #pragma mark -
