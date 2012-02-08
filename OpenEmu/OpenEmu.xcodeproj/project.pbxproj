@@ -876,7 +876,7 @@
 		53439A8A13B92C4A005C0CC8 /* OELibraryDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryDatabase.h; sourceTree = "<group>"; };
 		53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryDatabase.m; sourceTree = "<group>"; };
 		53439A8E13B92C68005C0CC8 /* OEDBDataSourceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBDataSourceAdditions.h; sourceTree = "<group>"; };
-		53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBDataSourceAdditions.m; sourceTree = "<group>"; };
+		53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OEDBDataSourceAdditions.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		53439A9213B92C97005C0CC8 /* OEDBAllGamesCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBAllGamesCollection.h; sourceTree = "<group>"; };
 		53439A9313B92C97005C0CC8 /* OEDBAllGamesCollection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEDBAllGamesCollection.m; sourceTree = "<group>"; };
 		53439A9413B92C97005C0CC8 /* OEDBCollection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBCollection.h; sourceTree = "<group>"; };
@@ -892,8 +892,8 @@
 		53439AA413B92CC7005C0CC8 /* OELibraryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryController.h; sourceTree = "<group>"; };
 		53439AA513B92CC7005C0CC8 /* OELibraryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryController.m; sourceTree = "<group>"; };
 		53439AA813B92CE5005C0CC8 /* OECollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECollectionViewController.h; sourceTree = "<group>"; };
-		53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECollectionViewController.m; sourceTree = "<group>"; };
-		53439AAA13B92CE5005C0CC8 /* OECollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECollectionViewItemProtocol.h; sourceTree = "<group>"; };
+		53439AA913B92CE5005C0CC8 /* OECollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = OECollectionViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		53439AAA13B92CE5005C0CC8 /* OECollectionViewItemProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OECollectionViewItemProtocol.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		53439AAF13B92D1A005C0CC8 /* OECoverFlowDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverFlowDataSourceItem.h; sourceTree = "<group>"; };
 		53439AB013B92D2D005C0CC8 /* IKSGridViewProtocols.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IKSGridViewProtocols.h; sourceTree = "<group>"; };
 		53439AB113B92DA3005C0CC8 /* OECoverGridDataSourceItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoverGridDataSourceItem.h; sourceTree = "<group>"; };

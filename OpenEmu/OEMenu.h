@@ -112,10 +112,6 @@ typedef enum _OERectEdge
 @end
 
 @interface OEMenuView : NSView
-{
-@private
-    BOOL imageIncluded;
-}
 #pragma mark -
 - (void)highlightItemAtPoint:(NSPoint)p;
 - (NSMenuItem *)itemAtPoint:(NSPoint)p;

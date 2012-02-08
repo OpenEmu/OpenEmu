@@ -45,7 +45,6 @@
 
 - (id)initWithCoder:(NSCoder *)coder
 {
-    self = [super initWithCoder:coder];
     if((self = [super initWithCoder:coder]))
     {
         [self setContinuous:YES];

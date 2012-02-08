@@ -493,7 +493,7 @@
     BOOL isSubmenu = [self supermenu]!=nil;
     OERectEdge openEdge = [self openEdge];
     
-    NSSize borderSize;
+    NSSize borderSize = NSZeroSize;
     if(isSubmenu)
     {
         borderSize.width = SubmenuBorderLeft + SubmenuBorderRight;
@@ -1175,7 +1175,7 @@
         if(itemHasSubmenu)
         {
             NSImage *arrowImage = [self submenuImageWithHighlightedState:itemIsHighlighted];
-            NSRect arrowRect;
+            NSRect arrowRect = NSZeroRect;
             
             arrowRect.size = [arrowImage size];
             arrowRect.origin.x = NSMaxX(menuItemFrame) - ItemSubmenuSpace;
@@ -1416,44 +1416,38 @@
     OERectEdge openEdge = [[self menu] openEdge];
 
     float leftBorder, rightBorder;
-    float topBorder, bottomBorder;
+    float topBorder;
     if(isSubmenu)
     {
         leftBorder = SubmenuBorderLeft;
         rightBorder = SubmenuBorderRight;
         topBorder = SubmenuBorderTop;
-        bottomBorder = SubmenuBorderBottom;
     }
     else switch (openEdge) {
         case OENoEdge:
             leftBorder = NoEdgeContentBorderLeft;
             rightBorder = NoEdgeContentBorderRight;
             topBorder = NoEdgeContentBorderTop;
-            bottomBorder = NoEdgeContentBorderBottom;
             break;
         case OEMinXEdge:
             leftBorder = MinXEdgeContentBorderLeft;
             rightBorder = MinXEdgeContentBorderRight;
             topBorder = MinXEdgeContentBorderTop;
-            bottomBorder = MinXEdgeContentBorderBottom;
             break;
         case OEMaxXEdge:
             leftBorder = MaxXEdgeContentBorderLeft;
             rightBorder = MaxXEdgeContentBorderRight;
             topBorder = MaxXEdgeContentBorderTop;
-            bottomBorder = MaxXEdgeContentBorderBottom;
             break;
         case OEMinYEdge:
             leftBorder = MinYEdgeContentBorderLeft;
             rightBorder = MinYEdgeContentBorderRight;
             topBorder = MinYEdgeContentBorderTop;
-            bottomBorder = MinYEdgeContentBorderBottom;
             break;
         case OEMaxYEdge:
             leftBorder = MaxYEdgeContentBorderLeft;
             rightBorder = MaxYEdgeContentBorderRight;
             topBorder = MaxYEdgeContentBorderTop;
-            bottomBorder = MaxYEdgeContentBorderBottom;
             break;
     }
         
