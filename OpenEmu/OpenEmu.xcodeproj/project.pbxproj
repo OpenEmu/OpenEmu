@@ -434,8 +434,6 @@
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
 		83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
 		83FA055013B9E01B0055A520 /* Sparkle.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
-		83FE2BCB14E2FB8800CE06E4 /* OEMenuTestController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8370FF3D14E0A7910031916C /* OEMenuTestController.m */; };
-		83FE2BCD14E2FBB700CE06E4 /* OEMenuTest.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8370FF3B14E0A7910031916C /* OEMenuTest.xib */; };
 		83FFC069145819070077EC27 /* installer_backgroundSample.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FFC068145819070077EC27 /* installer_backgroundSample.png */; };
 		83FFC06D1458194E0077EC27 /* OESetupAssistantBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FFC06C1458194E0077EC27 /* OESetupAssistantBox.m */; };
 		83FFC078145823B00077EC27 /* OEGlossButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FFC077145823B00077EC27 /* OEGlossButton.m */; };
@@ -1232,9 +1230,6 @@
 		83703B40140E4F9100EC27A7 /* Scale2xPlus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale2xPlus.png; sourceTree = "<group>"; };
 		83703B41140E4F9100EC27A7 /* Scale4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale4x.png; sourceTree = "<group>"; };
 		83703B42140E4F9100EC27A7 /* Scale4xHQ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale4xHQ.png; sourceTree = "<group>"; };
-		8370FF3B14E0A7910031916C /* OEMenuTest.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEMenuTest.xib; sourceTree = "<group>"; };
-		8370FF3C14E0A7910031916C /* OEMenuTestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMenuTestController.h; sourceTree = "<group>"; };
-		8370FF3D14E0A7910031916C /* OEMenuTestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEMenuTestController.m; sourceTree = "<group>"; };
 		837237FD14E2CC3700CCF57A /* dark_arrows_menu_body.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dark_arrows_menu_body.png; sourceTree = "<group>"; };
 		8375E14D1477FC0D0018DA1F /* OECoreUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreUpdater.h; sourceTree = "<group>"; };
 		8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreUpdater.m; sourceTree = "<group>"; };
@@ -1938,9 +1933,6 @@
 		2A37F4ABFDCFA73011CA2CEA /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8370FF3B14E0A7910031916C /* OEMenuTest.xib */,
-				8370FF3C14E0A7910031916C /* OEMenuTestController.h */,
-				8370FF3D14E0A7910031916C /* OEMenuTestController.m */,
 				8305267013FBC934006179C6 /* ArchiveVG.h */,
 				8305267113FBC934006179C6 /* ArchiveVG.m */,
 				1BEF2A621168265D0090F72B /* Helper App (IOSurface helper) */,
@@ -3648,7 +3640,6 @@
 				83B5FF5A14DF5E0B00017A71 /* light_arrows_menu_body_mask.png in Resources */,
 				83A1A9D114E1AA47007A2015 /* light_menu_body.png in Resources */,
 				83A1A9D214E1AA47007A2015 /* light_submenu_body.png in Resources */,
-				83FE2BCD14E2FBB700CE06E4 /* OEMenuTest.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3990,7 +3981,6 @@
 				1B6DA4A914DDE6A40067F7F6 /* OESetupAssistantQCOpenGLLayer.m in Sources */,
 				83F4DE1314DFF9C200A82E36 /* OEInputLimitFormatter.m in Sources */,
 				C6D6FA7E14E2264C0083C75D /* NSViewController+OEAdditions.m in Sources */,
-				83FE2BCB14E2FB8800CE06E4 /* OEMenuTestController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

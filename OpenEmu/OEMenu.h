@@ -44,6 +44,7 @@ typedef enum _OERectEdge
     OEMinXEdge,
     OEMaxXEdge
 } OERectEdge;
+
 @interface OEMenu : NSWindow 
 {
 @private
@@ -67,9 +68,6 @@ typedef enum _OERectEdge
     OEMenuStyle style;
 }
 
-#pragma mark -
-- (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
-- (void)openOnEdge:(NSRectEdge)edge atPoint:(NSPoint)p ofWindow:(NSWindow*)win;
 - (void)openOnEdge:(OERectEdge)anedge ofRect:(NSRect)rect ofWindow:(NSWindow*)win;
 
 - (void)closeMenuWithoutChanges:(id)sender;

@@ -3,12 +3,12 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
- * Redistributions of source code must retain the above copyright
+  *Redistributions of source code must retain the above copyright
  notice, this list of conditions and the following disclaimer.
- * Redistributions in binary form must reproduce the above copyright
+  *Redistributions in binary form must reproduce the above copyright
  notice, this list of conditions and the following disclaimer in the
  documentation and/or other materials provided with the distribution.
- * Neither the name of the OpenEmu Team nor the
+  *Neither the name of the OpenEmu Team nor the
  names of its contributors may be used to endorse or promote products
  derived from this software without specific prior written permission.
  
@@ -28,18 +28,6 @@
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEPopupButton.h"
 
-@interface OEMenu ()
-- (BOOL)_isClosing;
-- (OEMenuView *)menuView;
-- (void)_performcloseMenu;
-- (void)_closeByClickingItem:(NSMenuItem *)selectedItem;
-
-- (void)setIsAlternate:(BOOL)flag;
-- (CAAnimation*)alphaValueAnimation;
-- (void)setAlphaValueAnimation:(CAAnimation *)anim;
-
-- (NSSize)menuSizeForContentSize:(NSSize)contentSize;
-@end
 #pragma mark -
 #pragma mark Item Spaces
 #define ItemTickMarkSpace 19.0
@@ -119,6 +107,23 @@
 #define BottomArrowSource (NSRect){{18.0, 0.0},{18.0, 14.0}}
 #define TopArrowSource (NSRect){{18.0, 42.0},{19.0, 15.0}}
 
+#pragma mark -
+#pragma mark Animation
+#define flickerDelay 0.09
+
+@interface OEMenu ()
+- (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
+
+- (BOOL)_isClosing;
+- (OEMenuView *)menuView;
+- (void)_performcloseMenu;
+- (void)_closeByClickingItem:(NSMenuItem *)selectedItem;
+- (void)setIsAlternate:(BOOL)flag;
+- (CAAnimation*)alphaValueAnimation;
+- (void)setAlphaValueAnimation:(CAAnimation *)anim;
+- (NSSize)menuSizeForContentSize:(NSSize)contentSize;
+@end
+
 @implementation OEMenu
 @synthesize openEdge=_edge;
 @dynamic style;
@@ -142,7 +147,7 @@
     [scrollArrows setName:@"dark_menu_scroll_up" forSubimageInRect:NSMakeRect(0, 0, 9, 15)];
     [scrollArrows setName:@"dark_menu_scroll_down" forSubimageInRect:NSMakeRect(0, 15, 9, 15)];
     
-    NSImage* tickMark = [NSImage imageNamed:@"tick_mark"];
+    NSImage *tickMark = [NSImage imageNamed:@"tick_mark"];
     [tickMark setName:@"tick_mark_normal" forSubimageInRect:(NSRect){{0,0},{7,12}}];
     [tickMark setName:@"tick_mark_selected" forSubimageInRect:(NSRect){{7,0},{7,12}}];
 }
@@ -207,7 +212,6 @@
 
 #pragma mark -
 #pragma mark Opening / Closing the menu
-
 - (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow *)win
 {
     visible = YES;
@@ -225,7 +229,7 @@
     }
     
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask handler:
-                     ^ NSEvent * (NSEvent *incomingEvent)
+                     ^ NSEvent  *(NSEvent *incomingEvent)
                      {
                          OEMenuView *view = [[[self contentView] subviews] lastObject];
                          
@@ -259,38 +263,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges:) name:NSApplicationWillResignActiveNotification object:NSApp];
     
-    /*
-    
-    NSPoint origin = p;
-    if(![self supermenu] && style == OEMenuStyleLight)
-        switch ([self openEdge]) {
-            case NSMaxYEdge:
-                origin.x -= self.frame.size.width / 2;
-                origin.y -= self.frame.size.height;
-                break;
-            case NSMinYEdge:
-                origin.x -= self.frame.size.width / 2;
-                break;
-            case NSMinXEdge:
-                origin.y -= self.frame.size.height / 2;
-                break;
-            case NSMaxXEdge:
-                origin.y -= self.frame.size.height / 2;
-                origin.x -= self.frame.size.width;
-                break;
-            default:
-                NSLog(@"This edge is not supported yet");
-                break;
-        }
-    else 
-    {
-        if(origin.y<0)
-            origin.y = 0;
-        else if(origin.y + NSHeight([self frame]) > NSMaxY([[win screen] visibleFrame]))
-            origin.y = NSMaxY([[win screen] visibleFrame])-NSHeight([self frame]);
-    }
-    */
-    
+
     [self setFrameOrigin:p];
     [win addChildWindow:self ordered:NSWindowAbove];
     
@@ -303,14 +276,6 @@
     [self display];
 }
 
-
-- (void)openOnEdge:(NSRectEdge)edge atPoint:(NSPoint)p ofWindow:(NSWindow*)win
-{
-    _edge = edge;
-    [self setStyle:OEMenuStyleLight];
-    [self openAtPoint:p ofWindow:win];
-}
-
 - (void)openOnEdge:(OERectEdge)anEdge ofRect:(NSRect)rect ofWindow:(NSWindow*)win
 {
     [self setOpenEdge:anEdge];
@@ -320,18 +285,18 @@
     switch (anEdge) {
         case OENoEdge:
             point = (NSPoint){NSMidX(rect), NSMidY(rect)};
-            point = NSPointSub(point, ((NSPoint){self.frame.size.width/2, self.frame.size.height/2}));
+            point = NSPointSub(point, ((NSPoint){[self frame].size.width/2, [self frame].size.height/2}));
             break;
         case OEMaxXEdge:
             point = (NSPoint){NSMaxX(rect), NSMidY(rect)};
             break;
         case OEMinXEdge:
             point = (NSPoint){NSMinX(rect), NSMidY(rect)};
-            point.x -= self.frame.size.width;
+            point.x -= [self frame].size.width;
             break;
         case OEMinYEdge:
             point = (NSPoint){NSMidX(rect), NSMinY(rect)};
-            point.y -= self.frame.size.height;
+            point.y -= [self frame].size.height;
             break;
         case OEMaxYEdge:
             point = (NSPoint){NSMidX(rect), NSMaxY(rect)};
@@ -568,7 +533,7 @@
 {
     NSArray *menuItems = [[self menu] itemArray];
     
-    NSDictionary* titleAttributes = [[self menuView] itemTextAttributes];
+    NSDictionary *titleAttributes = [[self menuView] itemTextAttributes];
     
     float __block maxTitleWidth = 0;
     BOOL __block menuContainsImage = NO;
@@ -583,9 +548,9 @@
          }
          else
          {
-             NSString* title = [menuItem title];
-             NSImage* image = [menuItem image];
-             NSAttributedString* attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:titleAttributes];
+             NSString *title = [menuItem title];
+             NSImage *image = [menuItem image];
+             NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:titleAttributes];
              NSSize titleSize = [attributedTitle size];
              
              if(maxTitleWidth < titleSize.width)
@@ -604,7 +569,7 @@
     
     NSSize contentSize;
     contentSize.width = ItemTickMarkSpace + (menuContainsImage? ItemImageSpace : 0 ) + maxTitleWidth + ItemSubmenuSpace;
-    contentSize.height = normalItemCount * (menuContainsImage? ItemHeightWithImage : ItemHeightWithoutImage) + separatorItemCount * ItemSeparatorHeight; 
+    contentSize.height = normalItemCount  *(menuContainsImage? ItemHeightWithImage : ItemHeightWithoutImage) + separatorItemCount  *ItemSeparatorHeight; 
     
     contentSize.width = contentSize.width < self.minSize.width ? self.minSize.width : contentSize.width;
     contentSize.height = contentSize.height < self.minSize.height ? self.minSize.height : contentSize.height;
@@ -623,8 +588,6 @@
 
 #pragma mark -
 #pragma mark Private Methods
-#define flickerDelay 0.09
-
 - (BOOL)_isClosing
 {
     return closing;
@@ -723,41 +686,6 @@
 }
 
 @end
-
-#pragma mark -
-#pragma mark Dark Style Sizes
-#define MenuShadowLeft 5
-#define MenuShadowRight 5
-#define MenuTickmarkSpace 19
-#define MenuImageWidth 15
-#define MenuImageTitleSpacing 6
-#pragma mark -
-#pragma mark Light Style Sizes
-#define LightStyleImageTop 21
-#define LightStyleImageLeft 20
-#define LightStyleImageRight 20
-#define LightStyleImageBottom 21
-
-#define LightStyleContentBottom 16
-#define LightStyleContentTop 16
-#define LightStyleContentLeft 14
-#define LightStyleContentRight 14
-#pragma mark -
-#pragma mark General Sizing
-#define menuItemHeight (imageIncluded ? menuItemHeightImage : menuItemHeightNoImage)
-#define menuItemSeparatorHeight 7
-#define menuItemHeightNoImage 17
-#define menuItemHeightImage 20
-
-#pragma mark -
-#pragma mark -
-#pragma mark Menu Item Sizes + Spacing
-#define menuItemSpacingTop 8 + (imageIncluded ? 1 : 0)
-#define menuItemSpacingBottom 9 + (imageIncluded ? 1 : 0)
-#define menuItemSpacingLeft 0 + (imageIncluded ? 13 : 0)
-#define menuItemImageWidth 16
-#define menuItemImageTitleSpacing 6
-#define menuItemSpacingRight 14 - (imageIncluded ? 1 : 0)
 
 
 #pragma mark -
@@ -876,7 +804,7 @@
     OERectEdge openEdge = [[self menu] openEdge];
     BOOL isSubmenu = [[self menu] supermenu]!=nil;
     
-    NSBezierPath* path;
+    NSBezierPath *path;
     NSRect rect;
     if(isSubmenu || openEdge==OENoEdge)
     {
@@ -1043,7 +971,7 @@
     }
     else
     {
-        NSImage* arrowsImage = [self arrowsImage];
+        NSImage *arrowsImage = [self arrowsImage];
         
         // bottom left
         NSRect sourceRect, targetRect;
@@ -1247,12 +1175,12 @@
         // Draw Submenu Arrow
         if(itemHasSubmenu)
         {
-            NSImage* arrowImage = [self submenuImageWithHighlightedState:itemIsHighlighted];
+            NSImage *arrowImage = [self submenuImageWithHighlightedState:itemIsHighlighted];
             NSRect arrowRect;
             
             arrowRect.size = [arrowImage size];
             arrowRect.origin.x = NSMaxX(menuItemFrame) - ItemSubmenuSpace;
-            arrowRect.origin.y = menuItemFrame.origin.y + round((menuItemHeight - NSHeight(arrowRect))/2);
+            arrowRect.origin.y = menuItemFrame.origin.y + round((NSHeight(menuItemFrame) - NSHeight(arrowRect))/2);
             
             [arrowImage drawInRect:arrowRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:NoInterpol];
         }
@@ -1263,7 +1191,7 @@
         textAttributes = itemIsDisabled ? [self disabledItemTextAttributes] : textAttributes;
 
         NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:menuItem.title attributes:textAttributes];
-        menuItemFrame.origin.y += (menuItemHeight-attrStr.size.height)/2.0;
+        menuItemFrame.origin.y += (NSHeight(menuItemFrame)-attrStr.size.height)/2.0;
         [attrStr drawInRect:menuItemFrame];
         [attrStr release];
         
@@ -1466,7 +1394,7 @@
     
     float y = topBorder;
     float itemHeight = menuContainsImage?ItemHeightWithImage:ItemHeightWithoutImage;
-    NSArray* items = [[self menu] itemArray];
+    NSArray *items = [[self menu] itemArray];
     for(NSMenuItem *item in items)
     {
         if([item isSeparatorItem])
@@ -1476,7 +1404,7 @@
         }
         
         y += itemHeight;
-        if(p.y < y && p.y > y - menuItemHeight)
+        if(p.y < y && p.y > y - itemHeight)
             return item;
     }
     return nil;
@@ -1532,7 +1460,7 @@
         
     float y = topBorder;
     float itemHeight = menuContainsImage?ItemHeightWithImage:ItemHeightWithoutImage;
-    NSArray* items = [[self menu] itemArray];
+    NSArray *items = [[self menu] itemArray];
     for(NSMenuItem *item in items)
     {
         if(item == m)

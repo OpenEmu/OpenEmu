@@ -391,7 +391,7 @@
     OELibraryDatabase *database = [[self libraryController] database];
     NSManagedObjectContext *moc = [database managedObjectContext];
     NSManagedObjectID *objId = (NSManagedObjectID*)obj;
-#warning What if objID is nil????
+
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[moc objectWithID:objId];
     if([key isEqualToString:@"status"])
     {
