@@ -554,9 +554,12 @@ typedef enum
 
 + (NSString*)removeHTMLEncodingsFromString:(NSString*)input
 {
-    if (!input) return @"";
+    if (!input) return nil;
     
-    NSDictionary* const specialChars = [[NSDictionary alloc] initWithObjectsAndKeys:
+    static NSDictionary* specialChars;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+     specialChars = [[NSDictionary alloc] initWithObjectsAndKeys:
                                   @"\"",@"quot",
                                   @"&",	@"amp",
                                   @"",	@"apos",
@@ -806,10 +809,11 @@ typedef enum
                                   @"♥",	@"hearts",
                                   @"♦",	@"diams",
                                   nil];
-    
-    CFStringRef str =  CFXMLCreateStringByUnescapingEntities(NULL, (CFStringRef)input, (CFDictionaryRef)specialChars);
-    [specialChars release];
-    return [(NSString*)str autorelease];
+    });
+
+    CFStringRef str = CFXMLCreateStringByUnescapingEntities(NULL, (__bridge CFStringRef)input, (__bridge CFDictionaryRef)specialChars);
+
+    return [(__bridge_transfer NSString*)str autorelease];
 }
 
 #pragma mark -

@@ -69,7 +69,7 @@ OSStatus RenderCallback(void                       *in,
                         AudioBufferList            *ioData)
 {
     @autoreleasepool {
-    OEGameAudioContext *context = (OEGameAudioContext*)in;
+    OEGameAudioContext *context = (__bridge OEGameAudioContext*)in;
     [[context core] getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:[context buffer]];
     //ExtAudioFileWriteAsync( recordingFile, inNumberFrames, ioData );
     return 0;
@@ -196,7 +196,7 @@ OSStatus RenderCallback(void                       *in,
         
         AURenderCallbackStruct renderStruct;
         renderStruct.inputProc = RenderCallback;
-        renderStruct.inputProcRefCon = context;
+        renderStruct.inputProcRefCon = (__bridge void*)context;
         
         err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_SetRenderCallback,
                                    kAudioUnitScope_Input, 0, &renderStruct, sizeof(AURenderCallbackStruct));

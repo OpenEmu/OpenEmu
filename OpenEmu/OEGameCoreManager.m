@@ -250,10 +250,13 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     
     helperObject = [[[OpenEmuHelperApp alloc] init] autorelease];
     
-    if([helperObject launchConnectionWithIdentifierSuffix:taskUUIDForDOServer error:&error])
+    NSError *localError;
+    
+    if([helperObject launchConnectionWithIdentifierSuffix:taskUUIDForDOServer error:&localError])
         CFRunLoopRun();
-    else
-        [error retain];
+    else {
+        [error release]; error = [localError retain];
+    }
     
     [pool drain];
 }

@@ -74,7 +74,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         frameInterval = [[self class] defaultTimeInterval];
         tenFrameCounter = 10;
         NSUInteger count = [self soundBufferCount];
-        ringBuffers = malloc(count * sizeof(OERingBuffer *));
+        ringBuffers = (__strong OERingBuffer**)calloc(count, sizeof(OERingBuffer*));
         for(NSUInteger i = 0; i < count; i++)
             ringBuffers[i] = [[OERingBuffer alloc] initWithLength:((count == 1) ? [self soundBufferSize] : [self soundBufferSizeForBuffer:i]) * 16];
         
@@ -90,8 +90,10 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     
     [emulationThread release];
     
-    for(NSUInteger i = 0, count = [self soundBufferCount]; i < count; i++)
+    for(NSUInteger i = 0, count = [self soundBufferCount]; i < count; i++) {
         [ringBuffers[i] release];
+        ringBuffers[i] = nil;
+    }
     
     [super dealloc];
 }

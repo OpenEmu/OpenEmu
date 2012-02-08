@@ -342,7 +342,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
     {
-        NSDictionary *options = [NSDictionary dictionaryWithObject:(id)rgbColorSpace forKey:kCIImageColorSpace];
+        NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
         CGRect textureRect = CGRectMake(0, 0, screenSize.width, screenSize.height);
         [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
         
@@ -406,9 +406,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             img = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
             [img addRepresentation:rep];
             [rep release];
-            [img autorelease];
             
-            screenshotHandler(img);
+            screenshotHandler([img autorelease]);
             [self setScreenshotHandler:nil];
         }
         

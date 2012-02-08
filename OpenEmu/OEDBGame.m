@@ -105,7 +105,8 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         return nil;
     }
     
-    if(outError == NULL) outError = &(NSError *){ nil };
+    NSError __autoreleasing *nilerr;
+    if(outError == NULL) outError = &nilerr;
     
     BOOL checkFilename = YES;
     BOOL checkFullpath = YES;

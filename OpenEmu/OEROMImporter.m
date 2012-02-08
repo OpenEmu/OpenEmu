@@ -88,7 +88,7 @@
     {
         DLog(@"Not on main thread - trashin some values");
         // if we do not run on main thread it is very possible that bg and outError hold garbage!
-        NSError *error = nil;
+        NSError __autoreleasing *error = nil;
         outError = &error;
     } 
     else if(bg)

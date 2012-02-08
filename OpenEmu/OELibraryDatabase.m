@@ -325,7 +325,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (BOOL)save:(NSError**)error
 {
     NSError *backupError;
-    if(error==NULL) error=&backupError;
     
     if (![[self managedObjectContext] commitEditing]) 
     {
@@ -339,9 +338,9 @@ static OELibraryDatabase *defaultDatabase = nil;
         return YES;
     }
     
-    if (![[self managedObjectContext] save:error]) 
+    if (![[self managedObjectContext] save:error ? error : &backupError]) 
     {
-        [[NSApplication sharedApplication] presentError:*error];
+        [[NSApplication sharedApplication] presentError:error ? *error : backupError];
         return NO;
     }
     

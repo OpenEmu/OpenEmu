@@ -113,7 +113,7 @@
         tLayer.delegate = self;
         
         NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
-        tLayer.font=font;
+        tLayer.font=(__bridge CFTypeRef)font;
         tLayer.fontSize=12;
         tLayer.foregroundColor=[[NSColor whiteColor] CGColor];
         tLayer.truncationMode = kCATruncationEnd;
@@ -579,12 +579,10 @@
     // check if we need to load image from url
     if([userInfo isKindOfClass:[NSURL class]])
     {
-        QLThumbnailRef thumbnailRef = QLThumbnailCreate(NULL, (CFURLRef)userInfo, [self frame].size, NULL);
+        QLThumbnailRef thumbnailRef = QLThumbnailCreate(NULL, (__bridge CFURLRef)userInfo, [self frame].size, NULL);
         CGImageRef thumbnailImageRef = QLThumbnailCopyImage(thumbnailRef);
-        proposedCoverImage = [[NSImage alloc] initWithCGImage:thumbnailImageRef size:NSMakeSize(CGImageGetWidth(thumbnailImageRef), CGImageGetHeight(thumbnailImageRef))];
-        CGImageRelease(thumbnailImageRef);
-        
-        [proposedCoverImage autorelease];
+        proposedCoverImage = [[[NSImage alloc] initWithCGImage:thumbnailImageRef size:NSMakeSize(CGImageGetWidth(thumbnailImageRef), CGImageGetHeight(thumbnailImageRef))] autorelease];
+        CGImageRelease(thumbnailImageRef);        
     } 
     else 
     {

@@ -189,7 +189,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
     [surfaceAttributes setObject:[NSNumber numberWithUnsignedInteger:(NSUInteger)4] forKey:(NSString*)kIOSurfaceBytesPerElement];
     
     // TODO: do we need to ensure openGL Compatibility and CALayer compatibility?
-    surfaceRef = IOSurfaceCreate((CFDictionaryRef) surfaceAttributes);
+    surfaceRef = IOSurfaceCreate((__bridge CFDictionaryRef) surfaceAttributes);
     [surfaceAttributes release];
         
     // make a new texture.

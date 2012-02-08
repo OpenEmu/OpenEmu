@@ -450,7 +450,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     
     NSLog(@"SearchString: %@", searchString);
     
-    MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (CFStringRef)searchString, NULL, NULL);
+    MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (__bridge CFStringRef)searchString, NULL, NULL);
     
     if(searchQuery)
     {
@@ -460,15 +460,15 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finalizeSearchResults:)
                                                      name:(NSString*)kMDQueryDidFinishNotification
-                                                   object:(id)searchQuery];
+                                                   object:(__bridge id)searchQuery];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
                                                      name:(NSString*)kMDQueryProgressNotification
-                                                   object:(id)searchQuery];
+                                                   object:(__bridge id)searchQuery];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
                                                      name:(NSString*)kMDQueryDidUpdateNotification
-                                                   object:(id)searchQuery];
+                                                   object:(__bridge id)searchQuery];
         
         MDQuerySetSearchScope(searchQuery, (CFArrayRef) [NSArray arrayWithObject:(NSString*) kMDQueryScopeComputer /*kMDQueryScopeComputer */], 0);
         
