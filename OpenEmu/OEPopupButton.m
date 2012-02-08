@@ -54,8 +54,14 @@
     }
     else
     {
-        [[self oemenu] setMinSize:[self frame].size];
-        [[self oemenu] openOnEdge:OENoEdge ofRect:[self frame] ofWindow:[self window]];
+        NSSize minSize = [self frame].size;
+        minSize.width = [self frame].size.width+2*(GapBetweenOpenMenuAndPopupButton);
+        [[self oemenu] setMinSize:minSize];
+
+        NSRect rect = [self frame];
+        rect.origin.y += 2;
+        
+        [[self oemenu] openOnEdge:OENoEdge ofRect:rect ofWindow:[self window]];
         [[self window] makeFirstResponder:nil];
 
         [self setMenuOpenDate:[NSDate date]];
@@ -77,10 +83,6 @@
     [self setOEMenu:[[self menu] convertToOEMenu]];
     [[self oemenu] setPopupButton:self];
     [[self oemenu] setDelegate:self];
-
-    NSSize minSize = [[self oemenu] minSize];
-    minSize.width = [self frame].size.width+2*(GapBetweenOpenMenuAndPopupButton+MenuContentBorder);
-    [[self oemenu] setMinSize:minSize];
 }
 
 - (NSString*)stringValue{
