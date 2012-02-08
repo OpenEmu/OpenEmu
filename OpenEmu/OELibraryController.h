@@ -72,6 +72,14 @@
 - (void)menuItemAction:(id)sender;
 
 #pragma mark -
+#pragma Handle Spotlight importing
+
+- (void) discoverRoms;
+- (void) updateSearchResults:(NSNotification*)notification;
+- (void) finalizeSearchResults:(NSNotification*)notification;
+- (void) importInBackground;
+
+#pragma mark -
 #pragma mark Properties
 
 @property(nonatomic) BOOL sidebarChangesWindowSize;
@@ -81,5 +89,8 @@
 @property(retain) IBOutlet OESidebarController        *sidebarController;
 @property(retain) IBOutlet OECollectionViewController *collectionViewController;
 @property(retain) IBOutlet OELibrarySplitView         *mainSplitView;
+
+// spotlight search results.
+@property (readwrite, retain) NSMutableArray *searchResults;
 
 @end

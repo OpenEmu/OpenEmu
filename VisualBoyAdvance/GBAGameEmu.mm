@@ -4,14 +4,14 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
  
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -19,255 +19,329 @@
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
 #import "GBAGameEmu.h"
-#include <sys/time.h>
-#import <OEGameDocument.h>
 #import <OERingBuffer.h>
-#import <OEHIDEvent.h>
-#import <OpenGL/gl.h>
-#import "GBAGameController.h"
 #import "OEGBASystemResponderClient.h"
+#import <OpenGL/gl.h>
 
-#include "Core/gba/GBA.h"
-#include "Core/gba/agbprint.h"
-#include "Core/gba/Flash.h"
-#include "Core/common/Port.h"
-#include "Core/gba/RTC.h"
-#include "Core/gba/Sound.h"
-//#include "core/Text.h"
-//#include "core/unzip.h"
-#include "Core/Util.h"
-#include "Core/gb/gb.h"
-#include "Core/gb/gbGlobals.h"
-#include "CASoundDriver.h"
-#include "Core/gba/Sound.h"
+#include "libsnes.hpp"
+#include "Sound.h"
 
-#define GBA_WIDTH   240
-#define GBA_HEIGHT  160
-#define SAMPLERATE 44100
-#define SAMPLEFRAME (SAMPLERATE/60)
+#define SAMPLERATE 48000
+#define SAMPLEFRAME 800
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
 
-int systemFrameSkip = 0;
+@interface GBAGameEmu () <OEGBASystemResponderClient>
+@end
 
+NSUInteger GBAEmulatorValues[] = { SNES_DEVICE_ID_JOYPAD_A, SNES_DEVICE_ID_JOYPAD_B, SNES_DEVICE_ID_JOYPAD_SELECT, SNES_DEVICE_ID_JOYPAD_START, SNES_DEVICE_ID_JOYPAD_RIGHT, SNES_DEVICE_ID_JOYPAD_LEFT, SNES_DEVICE_ID_JOYPAD_UP, SNES_DEVICE_ID_JOYPAD_DOWN, SNES_DEVICE_ID_JOYPAD_R, SNES_DEVICE_ID_JOYPAD_L };
+NSString *GBAEmulatorKeys[] = { @"Joypad@ A", @"Joypad@ B", @"Joypad@ Select", @"Joypad@ Start", @"Joypad@ Right", @"Joypad@ Left", @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ R", @"Joypad@ L"};
+
+GBAGameEmu *current;
 @implementation GBAGameEmu
 
-char filename[2048];
-char ipsname[2048];
-char biosFileName[2048];
-
-/*
- Visual Boy Advance properties 
- */
-
-bool systemSoundOn;
-u16 systemColorMap16[0x10000];
-u32 systemColorMap32[0x10000];
-u16 systemGbPalette[24];
-int systemRedShift = 0;
-int systemBlueShift = 0;
-int systemGreenShift = 0;
-int systemColorDepth = 0;
-int systemDebug = 0;
-int systemVerbose = 0;
-
-int systemSaveUpdateCounter = SYSTEM_SAVE_NOT_UPDATED;
-int emulating = 0;
-int RGB_LOW_BITS_MASK = 0x010101;
-u32 autoFrameSkipLastTime = 0;
-
-struct EmulatedSystem emulator = {
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    false,
-    0
-};
-
-static NSUInteger _GBAButtons[4] = { 0 };
-static CASoundDriver *driver;
-enum {
-    KEY_BUTTON_A       = 0x001,
-    KEY_BUTTON_B       = 0x002,
-    KEY_BUTTON_SELECT  = 0x004,
-    KEY_BUTTON_START   = 0x008,
-    KEY_RIGHT          = 0x010,
-    KEY_LEFT           = 0x020,
-    KEY_UP             = 0x040,
-    KEY_DOWN           = 0x080,
-    KEY_BUTTON_R       = 0x100,
-    KEY_BUTTON_L       = 0x200,
-    KEY_BUTTON_SPEED   = 0x400, // randomly given
-    KEY_BUTTON_CAPTURE = 0x800  // randomly given
-};
-
-NSString *GBAControlNames[] = { @"KEY@_BUTTON_A", @"KEY@_BUTTON_B", @"KEY@_BUTTON_SELECT", @"KEY@_BUTTON_START", @"KEY@_RIGHT", @"KEY@_LEFT", @"KEY@_UP", @"KEY@_DOWN", @"KEY@_BUTTON_R", @"KEY@_BUTTON_L" };
-NSUInteger GBAControlValues[] = { KEY_BUTTON_A, KEY_BUTTON_B, KEY_BUTTON_SELECT, KEY_BUTTON_START, KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN, KEY_BUTTON_R, KEY_BUTTON_L };
-
-void readBattery();
-void writeBattery();
-
-/*
- GameCore functions 
- */
-
-- (const void *)videoBuffer
+static uint16_t conv555Rto565(uint16_t p)
 {
-    //get rid of the first line and the last row
-    for (int i = 0; i < GBA_HEIGHT; i++)
-        memcpy(tempBuffer + i* GBA_WIDTH * 4* sizeof(unsigned char), pix + (i+1)*(GBA_WIDTH+1) * 4* sizeof(unsigned char), GBA_WIDTH * 4 * sizeof(unsigned char));
+    unsigned r, g, b;
     
-    return tempBuffer;
+    b = (p >> 10);
+    g = (p >> 5) & 0x1f;
+    r = p & 0x1f;
+    
+    // 5 to 6 bit
+    g = (g << 1) + (g >> 4);
+    
+    return r | (g << 5) | (b << 11);
 }
 
-- (GLenum)pixelFormat
+static void video_callback(const uint16_t *data, unsigned width, unsigned height)
 {
-    return GL_BGRA;
+    // Normally our pitch is 2048 bytes.
+    int stride = 256;
+    // If we have an interlaced mode, pitch is 1024 bytes.
+    if ( height == 240 || height == 478 )
+        stride = 240;
+    
+    current->videoWidth  = width;
+    current->videoHeight = height;
+    
+    dispatch_queue_t the_queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    
+    // TODO opencl CPU device?
+    dispatch_apply(height, the_queue, ^(size_t y){
+        const uint16_t *src = data + y * stride;
+        uint16_t *dst = current->videoBuffer + y * 240;
+        
+        for (int x = 0; x < width; x++) {
+            dst[x] = conv555Rto565(src[x]);
+        }
+    });
 }
 
-- (GLenum)pixelType
+// TODO implement systemDrawScreen here
+
+void systemOnWriteDataToSoundBuffer(int16_t *finalWave, int length)
 {
-    return GL_UNSIGNED_INT_8_8_8_8_REV;
+    [[current ringBufferAtIndex:0] write:finalWave maxLength:2*length];
 }
 
-- (GLenum)internalPixelFormat
+static void input_poll_callback(void)
 {
-    return GL_RGB8;
+	//NSLog(@"poll callback");
 }
 
-- (void)resetEmulation
+static int16_t input_state_callback(bool port, unsigned device, unsigned index, unsigned devid)
 {
-    CPUReset();
+    //NSLog(@"polled input: port: %d device: %d id: %d", port, device, devid);
+    
+	if (port == SNES_PORT_1 & device == SNES_DEVICE_JOYPAD) {
+        return current->pad[0][devid];
+    }
+    else if(port == SNES_PORT_2 & device == SNES_DEVICE_JOYPAD) {
+        return current->pad[1][devid];
+    }
+    
+    return 0;
 }
 
-- (void)stopEmulation
+static bool environment_callback(unsigned cmd, void *data)
 {
-    writeBattery();
-    [super stopEmulation];
+    switch (cmd)
+    {
+        case SNES_ENVIRONMENT_GET_FULLPATH:
+            //*(const char**)data = (const char*)current->romName;
+            *(const char**)data = [current->romName cStringUsingEncoding:NSUTF8StringEncoding];
+            NSLog(@"Environ FULLPATH: \"%@\"\n", current->romName);
+            break;
+            
+        default:
+            NSLog(@"Environ UNSUPPORTED (#%u)!\n", cmd);
+            return false;
+    }
+    
+    return true;
 }
 
-OERingBuffer *ringBuffer = nil;
+static void loadSaveFile(const char* path, int type)
+{
+    FILE *file;
+    
+    file = fopen(path, "rb");
+    if ( !file )
+    {
+        return;
+    }
+    
+    size_t size = snes_get_memory_size(type);
+    uint8_t *data = snes_get_memory_data(type);
+    
+    if (size == 0 || !data)
+    {
+        fclose(file);
+        return;
+    }
+    
+    int rc = fread(data, sizeof(uint8_t), size, file);
+    if ( rc != size )
+    {
+        NSLog(@"Couldn't load save file.");
+    }
+    
+    NSLog(@"Loaded save file: %s", path);
+    
+    fclose(file);
+}
+
+static void writeSaveFile(const char* path, int type)
+{
+    size_t size = snes_get_memory_size(type);
+    uint8_t *data = snes_get_memory_data(type);
+    
+    if ( data && size > 0 )
+    {
+        FILE *file = fopen(path, "wb");
+        if ( file != NULL )
+        {
+            NSLog(@"Saving state %s. Size: %d bytes.", path, (int)size);
+            if ( fwrite(data, sizeof(uint8_t), size, file) != size )
+                NSLog(@"Did not save state properly.");
+            fclose(file);
+        }
+    }
+}
+
+- (void)didPushGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
+{
+    pad[player-1][GBAEmulatorValues[button]] = 1;
+}
+
+- (void)didReleaseGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
+{
+    pad[player-1][GBAEmulatorValues[button]] = 0;
+}
 
 - (id)init
 {
-    self = [super init];
+	self = [super init];
     if(self != nil)
     {
-        soundLock = [[NSLock alloc] init];
-        bufLock = [[NSLock alloc] init];
-        sndBuf = new UInt16[SIZESOUNDBUFFER];
-        ringBuffer = [self ringBufferAtIndex:0];
-        memset(sndBuf, 0, SIZESOUNDBUFFER * 2);
-        tempBuffer = (unsigned char*) malloc(240 * 160 * 4 * sizeof(unsigned char));
+        if(videoBuffer) 
+            free(videoBuffer);
+        videoBuffer = (uint16_t*)malloc(240 * 160 * 2);
     }
-    return self;
+	
+	current = self;
+    
+	return self;
 }
 
-- (void)dealloc
-{
-    delete[] sndBuf;
-    free(tempBuffer);
-    [soundLock lock];
-    [bufLock lock];
-}
-
+#pragma mark Exectuion
 
 - (void)executeFrame
 {
-    //    [bufLock lock];
-    // 54 cycles per frame
-    emulator.emuMain(emulator.emuCount);
-    //    [bufLock unlock];
+    [self executeFrameSkippingFrame:NO];
 }
 
-- (void)setupEmulation
+- (void)executeFrameSkippingFrame: (BOOL) skip
 {
-    emulator = GBASystem;
-    
-    NSString *appSupportPath = [[[[NSHomeDirectory() stringByAppendingPathComponent:@"Library"] 
-                                  stringByAppendingPathComponent:@"Application Support"] 
-                                 stringByAppendingPathComponent:@"OpenEmu"]
-                                stringByAppendingPathComponent:@"BIOS"];
-    
-    strcpy(biosFileName, [[appSupportPath stringByAppendingPathComponent:@"GBA.BIOS"] UTF8String]);
-    
-    //no bios by default for the moment, add support later
-    CPUInit(biosFileName, YES);
-    
-    
-    
-    int size = 0x2000000;
-    //    utilApplyIPS(ipsname, &rom, &size);
-    if(size != 0x2000000) {
-        CPUReset();
-    }
-    
-    readBattery();
-    
-    //soundFiltering = 0.0f;
-    //soundInterpolation = false;
-    
-    flashSetSize(0x20000);
-    //soundSampleRate = SAMPLERATE;
-    systemColorDepth = 32;
-    systemRedShift = 19;
-    systemGreenShift = 11;
-    systemBlueShift = 3;
-    
-    for(int i = 0; i < 0x10000; i++) {
-        systemColorMap32[i] = ((i & 0x1f) << systemRedShift) |
-        (((i & 0x3e0) >> 5) << systemGreenShift) |
-        (((i & 0x7c00) >> 10) << systemBlueShift);
-    }
-    
-    if(!soundInit())
-        NSLog(@"Couldn't init sound");
-    
-    CPUReset();
-    //systemFrameSkip = 2;
-    //autoFrameSkipLastTime = systemGetClock();
+    snes_run();
 }
 
-- (BOOL)loadFileAtPath:(NSString*)path
+- (BOOL)loadFileAtPath: (NSString*) path
 {
-    if (utilIsGBAImage([path UTF8String]))
+	memset(pad, 0, sizeof(int16_t) * 10);
+    
+    uint8_t *data;
+    unsigned size;
+    romName = [path copy];
+    
+    //load cart, read bytes, get length
+    NSData* dataObj = [NSData dataWithContentsOfFile:[romName stringByStandardizingPath]];
+    if(dataObj == nil) return false;
+    size = [dataObj length];
+    data = (uint8_t*)[dataObj bytes];
+    
+    //remove copier header, if it exists
+    //ssif((size & 0x7fff) == 512) memmove(data, data + 512, size -= 512);
+    
+    //memory.copy(data, size);
+    snes_set_environment(environment_callback);
+	snes_init();
+	
+    snes_set_video_refresh(video_callback);
+    snes_set_input_poll(input_poll_callback);
+    snes_set_input_state(input_state_callback);
+	
+    if(snes_load_cartridge_normal(NULL, data, size))
     {
-        int size = CPULoadRom([path UTF8String]);
-        if (size != 0)
+        NSString *path = romName;
+        NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
+        
+        NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+        
+        //        if((batterySavesDirectory != nil) && ![batterySavesDirectory isEqualToString:@""])
+        if([batterySavesDirectory length] != 0)
         {
-            strcpy(filename, [path UTF8String]);
-            //utilGetBaseName([path UTF8String], filename);
-            //sprintf(ipsname, "%s.ips", filename);
-            emulating = true;
-            return YES;
+            [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+            
+            NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+            
+            loadSaveFile([filePath UTF8String], SNES_MEMORY_CARTRIDGE_RAM);
         }
+        
+        snes_set_controller_port_device(SNES_PORT_1, SNES_DEVICE_JOYPAD);
+        //snes_set_controller_port_device(SNES_PORT_2, SNES_DEVICE_NONE);
+        
+        //snes_get_region();
+        
+        soundSetSampleRate(SAMPLERATE);
+        
+        snes_run();
     }
-    return NO;
+    
+    return YES;
+}
+
+#pragma mark Video
+- (const void *)videoBuffer
+{
+    return videoBuffer;
+}
+
+- (OEIntRect)screenRect
+{
+    // hope this handles hires :/
+    return OERectMake(0, 0, videoWidth, videoHeight);
 }
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(GBA_WIDTH, GBA_HEIGHT);
+    return OESizeMake(240, 160);
 }
 
-- (NSUInteger)channelCount
+- (void)setupEmulation
 {
-    return 2;
+    if(soundBuffer)
+        free(soundBuffer);
+    soundBuffer = (UInt16*)malloc(SIZESOUNDBUFFER* sizeof(UInt16));
+    memset(soundBuffer, 0, SIZESOUNDBUFFER*sizeof(UInt16));
+}
+
+- (void)resetEmulation
+{
+    snes_reset();
+}
+
+- (void)stopEmulation
+{
+    NSString *path = romName;
+    NSString *extensionlessFilename = [[path lastPathComponent] stringByDeletingPathExtension];
+    
+    NSString *batterySavesDirectory = [self batterySavesDirectoryPath];
+    
+    if([batterySavesDirectory length] != 0)
+    {
+        
+        [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
+        
+        NSLog(@"Trying to save SRAM");
+        
+        NSString *filePath = [batterySavesDirectory stringByAppendingPathComponent:[extensionlessFilename stringByAppendingPathExtension:@"sav"]];
+        
+        writeSaveFile([filePath UTF8String], SNES_MEMORY_CARTRIDGE_RAM);
+    }
+    
+    NSLog(@"snes term");
+    //snes_unload_cartridge();
+    snes_term();
+    [super stopEmulation];
+}
+
+- (void)dealloc
+{
+    free(videoBuffer);
+    free(soundBuffer);
+}
+
+- (GLenum)pixelFormat
+{
+    return GL_RGB;
+}
+
+- (GLenum)pixelType
+{
+    return GL_UNSIGNED_SHORT_5_6_5;
+}
+
+- (GLenum)internalPixelFormat
+{
+    return GL_RGB5;
 }
 
 - (NSUInteger)soundBufferSize
@@ -285,276 +359,65 @@ OERingBuffer *ringBuffer = nil;
     return SAMPLERATE;
 }
 
-- (void)didPushGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
+- (NSTimeInterval)frameInterval
 {
-    _GBAButtons[player - 1] |=  (1 << button);
+    return (snes_get_region() == SNES_REGION_NTSC) ? 60 : 50;
 }
 
-- (void)didReleaseGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
+- (NSUInteger)channelCount
 {
-    _GBAButtons[player - 1] &= ~(1 << button);
+    return 2;
 }
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
-{
-    if(emulator.emuWriteState)
+{   
+    int serial_size = snes_serialize_size();
+    uint8_t *serial_data = (uint8_t *) malloc(serial_size);
+    
+    snes_serialize(serial_data, serial_size);
+    
+    FILE *state_file = fopen([fileName UTF8String], "wb");
+    long bytes_written = fwrite(serial_data, sizeof(uint8_t), serial_size, state_file);
+    
+    free(serial_data);
+    
+    if( bytes_written != serial_size )
     {
-        emulator.emuWriteState([fileName UTF8String]);
-        systemScreenMessage("Wrote state");
-        return YES;
+        NSLog(@"Couldn't write state");
+        return NO;
     }
-    return NO;
+    fclose( state_file );
+    return YES;
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
-    if(emulator.emuReadState)
+    FILE *state_file = fopen([fileName UTF8String], "rb");
+    if( !state_file )
     {
-        emulator.emuReadState([fileName UTF8String]);
-        systemScreenMessage("Loaded state");
-        return YES;
-    }
-    return NO;
-}
-
-/*
- Battery functions
- */
-
-void writeBattery()
-{
-    char buffer[1048];
-    
-    sprintf(buffer, "%s.sav", filename);
-    emulator.emuWriteBattery(buffer);
-    NSLog(@"wrote to %s\n", buffer);
-    
-    systemScreenMessage("Wrote battery");
-}
-
-void readBattery()
-{
-    char buffer[1048];
-    
-    sprintf(buffer, "%s.sav", filename);
-    
-    if(emulator.emuReadBattery(buffer))
-        systemScreenMessage("Loaded battery");
-}
-
-/*
- Visual Boy Advance callbacks
- */
-
-void winlog(const char *,...)
-{
-    
-}
-
-void log(const char * str,...)
-{
-    va_list args;
-    va_start (args, str);
-    vprintf (str, args);
-    va_end (args);
-}
-
-bool systemPauseOnFrame()
-{
-    return NO;
-}
-
-void systemGbPrint(u8 *,int,int,int,int)
-{
-    
-}
-
-void systemScreenCapture(int)
-{
-    
-}
-
-void systemDrawScreen()
-{
-}
-
-bool systemReadJoypads()
-{
-    return true;
-}
-
-u32 systemReadJoypad(int which)
-{
-    u32 res = 0;
-    
-    which %= 4;
-    if(which == -1) 
-        which = 0;
-    res = _GBAButtons[which];
-    
-    // disallow L+R or U+D of being pressed at the same time
-    if((res & (KEY_RIGHT | KEY_LEFT)) == (KEY_RIGHT | KEY_LEFT)) res &= ~ KEY_RIGHT;
-    if((res & (KEY_UP    | KEY_DOWN)) == (KEY_UP    | KEY_DOWN)) res &= ~ KEY_UP;
-    
-    /*
-     if(autoFire) {
-     res &= (~autoFire);
-     if(autoFireToggle)
-     res |= autoFire;
-     autoFireToggle = !autoFireToggle;
-     }
-     */
-    
-    return res;
-}
-
-u32 systemGetClock()
-{
-    struct timeval tv;
-    
-    gettimeofday(&tv, NULL); 
-    return tv.tv_sec*1000;
-}
-
-void systemMessage(int, const char * message, ...)
-{
-    va_list args;
-    va_start(args, message);
-    NSLogv([@"message: " stringByAppendingString:[NSString stringWithUTF8String:message]], args);
-    va_end(args);
-}
-
-void systemSetTitle(const char * title)
-{
-    NSLog(@"title: %s", title);
-}
-
-void systemSoundShutdown()
-{
-    
-}
-
-void systemSoundPause()
-{
-    
-}
-
-void systemSoundResume()
-{
-    
-}
-
-void systemSoundReset()
-{
-    
-}
-
-void systemOnWriteDataToSoundBuffer(const u16 * finalWave, int length)
-{
-    [ringBuffer write:(const uint8_t*)finalWave maxLength:length];
-}
-
-SoundDriver* systemSoundInit()
-{
-    driver = new CASoundDriver();
-    return driver;
-}
-
-void systemScreenMessage(const char * message)
-{
-    NSLog(@"message: %s", message);
-}
-
-void systemUpdateMotionSensor()
-{
-    
-}
-
-int  systemGetSensorX()
-{
-    return 0;
-}
-
-int  systemGetSensorY()
-{
-    return 0;
-}
-
-bool systemCanChangeSoundQuality()
-{
-    return false;
-}
-
-void systemShowSpeed(int speedInt)
-{
-    NSLog(@"speed: %d %%", speedInt);
-}
-
-
-int frameskipadjust = 0;
-void system10Frames(int rate)
-{
-    u32 time = systemGetClock();
-    if( NO ) {
-        u32 diff = time - autoFrameSkipLastTime;
-        int speed = 100;
-        
-        if(diff)
-            speed = (1000000/rate)/diff;
-        
-        if(speed >= 98) {
-            frameskipadjust++;
-            
-            if(frameskipadjust >= 3) {
-                frameskipadjust=0;
-                if(systemFrameSkip > 0)
-                    systemFrameSkip--;
-            }
-        } else {
-            if(speed  < 80)
-                frameskipadjust -= (90 - speed)/5;
-            else if(systemFrameSkip < 9)
-                frameskipadjust--;
-            
-            if(frameskipadjust <= -2) {
-                frameskipadjust += 2;
-                if(systemFrameSkip < 9)
-                    systemFrameSkip++;
-            }
-        }
+        NSLog(@"Could not open state file");
+        return NO;
     }
     
+    int serial_size = snes_serialize_size();
+    uint8_t *serial_data = (uint8_t *) malloc(serial_size);
     
-    if(systemSaveUpdateCounter) {
-        if(--systemSaveUpdateCounter <= SYSTEM_SAVE_NOT_UPDATED) {
-            writeBattery();
-            systemSaveUpdateCounter = SYSTEM_SAVE_NOT_UPDATED;
-        }
+    if(!fread(serial_data, sizeof(uint8_t), serial_size, state_file))
+    {
+        NSLog(@"Couldn't read file");
+        return NO;
+    }
+    fclose(state_file);
+    
+    if(!snes_unserialize(serial_data, serial_size))
+    {
+        NSLog(@"Couldn't unpack state");
+        return NO;
     }
     
-    autoFrameSkipLastTime = time;
-}
-
-void systemFrame()
-{
+    free(serial_data);
     
+    return YES;
 }
-
-void systemGbBorderOn()
-{
-    
-}
-
-void systemOnSoundShutdown()
-{
-    
-}
-
-void debuggerOutput(const char * stringDebug, u32)
-{
-    NSLog(@"Debug: %s", stringDebug);
-}
-
-void (*dbgOutput)(const char *, u32) = debuggerOutput;
 
 @end

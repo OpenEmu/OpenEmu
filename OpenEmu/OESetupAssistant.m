@@ -27,19 +27,22 @@
 #import "OESetupAssistant.h"
 
 #import "OESystemPlugin.h"
-#import "OEMainWindowController.h"
+
+#import "OELibraryController.h"
+#import "OELibraryDatabase.h"
+
 #import "OEGlossButton.h"
 #import "OESetupAssistantKeyMapView.h"
 
 #import "OEApplicationDelegate.h"
 #import "NSApplication+OEHIDAdditions.h"
 
+#import "OEROMImporter.h"
 #import "OECoreDownload.h"
 #import "OEHIDDeviceHandler.h"
 
 @implementation OESetupAssistant
 
-@synthesize searchResults;
 @synthesize transition;
 @synthesize replaceView;
 @synthesize step1;
@@ -112,6 +115,11 @@
         self.selectedGamePadDeviceNum = 0;
         self.gotNewEvent = 0;
 
+        // set default prefs
+        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"organizeLibrary"];
+        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"copyToLibrary"];
+        [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:@"automaticallyGetInfo"];
+                
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidMountNotification object:nil];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(reload) name:NSWorkspaceDidUnmountNotification object:nil];
     }
@@ -166,11 +174,7 @@
     [self.replaceView setWantsLayer:YES];
     
     [self resetKeyViews];
-
-    // Search results for importing
-    //searchResults = [[[NSMutableArray alloc] initWithCapacity:1] autorelease];
-    //[self.resultController setContent:self.searchResults];
-
+    
     // setup default transition proerties
     self.transition = [CATransition animation];
     self.transition.type = kCATransitionFade;
@@ -349,17 +353,22 @@
 }
 
 - (IBAction) finishAndRevealLibrary:(id)sender
-{
-    NSWindow *win = [[self view] window];
-    OEMainWindowController *controller = (OEMainWindowController*)[win windowController];
-    [controller setCurrentContentController:[controller defaultContentController]];
+{    
+    OELibraryController *controller = (OELibraryController*)[[[NSApp delegate] mainWindowController] defaultContentController];
+    
+    if([self.allowScanForGames state] == NSOnState)
+    {
+        [controller discoverRoms];   
+    }
 
     // mark setup done.
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:UDSetupAssistantHasRun];
     
     // clean up
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
-    
+
+    // switch up main content.
+    [[[NSApp delegate] mainWindowController] setCurrentContentController:[[[NSApp delegate] mainWindowController] defaultContentController]];
 }
 
 #pragma mark -
@@ -422,12 +431,13 @@
         NSArray* keys = [NSArray arrayWithObject:NSURLLocalizedNameKey];
         return [[[NSFileManager defaultManager] mountedVolumeURLsIncludingResourceValuesForKeys:keys options:NSVolumeEnumerationSkipHiddenVolumes] count];  
     }
+    
     if(aTableView == self.gamePadTableView)
     {
        return [[[(OEApplicationDelegate*)[[NSApplication sharedApplication] delegate] hidManager] deviceHandlers] count];
     }
     
-    else return 0;
+    return 0;
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
@@ -560,155 +570,4 @@
     [[NSUserDefaults standardUserDefaults] setValue:[NSKeyedArchiver archivedDataWithRootObject:self.currentEventToArchive] forKey:key];
 }
 
-
-#pragma mark -
-#pragma mark Import Rom Discovery
-/*
-- (IBAction)discoverRoms:(id)sender
-{
-
-#warning OESetupAssistant actual importing is deactivated here 
-    
-    [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithBool:YES] forKey:UDSetupAssistantHasRun];
-    [[self windowController] setCurrentContentController:nil];
-    return;
-    
-    NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
-    
-    if([dontSearchCommonTypes state] == NSOnState)
-    {
-        NSArray *commonTypes = [NSArray arrayWithObjects:@"bin", @"zip", @"elf", nil];
-        
-        [supportedFileExtensions removeObjectsInArray:commonTypes];
-    }
-    
-    NSLog(@"Supported search Extensions are: %@", supportedFileExtensions);
-    
-    NSString *searchString = @"";
-    for(NSString *extension in supportedFileExtensions)
-    {
-        searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension, nil];
-        searchString = [searchString stringByAppendingString:@" || "];
-    }
-    
-    [supportedFileExtensions release];
-    
-    searchString = [searchString substringWithRange:NSMakeRange(0, [searchString length] - 4)];
-    
-    NSLog(@"SearchString: %@", searchString);
-    
-    MDQueryRef searchQuery = MDQueryCreate(kCFAllocatorDefault, (CFStringRef)searchString, NULL, NULL);
-    
-    if(searchQuery)
-    {
-        NSLog(@"Valid search query ref");
-        
-        [self.searchResults removeAllObjects];
-        [self.resultProgress startAnimation:nil];
-        [self.resultProgress setHidden:NO];
-        [self.resultFinishedLabel setHidden:YES];    
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finalizeSearchResults:)
-                                                     name:(NSString*)kMDQueryDidFinishNotification
-                                                   object:(id)searchQuery];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
-                                                     name:(NSString*)kMDQueryProgressNotification
-                                                   object:(id)searchQuery];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
-                                                     name:(NSString*)kMDQueryDidUpdateNotification
-                                                   object:(id)searchQuery];
-        
-        MDQuerySetSearchScope(searchQuery, (CFArrayRef) [NSArray arrayWithObject:(NSString*) kMDQueryScopeComputer], 0);
-        
-        if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
-            NSLog(@"Searching for importable roms");
-        
-        [self.resultProgress startAnimation:nil];
-        
-        [self dissolveToView:self.step5];
-    }
-}
-
-- (void) updateSearchResults:(NSNotification*)notification
-{    
-    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
-    
-    MDItemRef resultItem = NULL;
-    NSString *resultPath = nil;
-    
-    // assume the latest result is the last index?
-    CFIndex index = 0;
-    
-    for(index = 0; index < MDQueryGetResultCount(searchQuery); index++)
-    {
-        resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
-        resultPath = (NSString*)MDItemCopyAttribute(resultItem, kMDItemPath);
-        
-        NSArray *dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
-                                                        @"System",
-                                                        @"Library",
-                                                        @"Developer",
-                                                        @"Volumes",
-                                                        @"Applications",
-                                                        @"bin",
-                                                        @"cores",
-                                                        @"dev",
-                                                        @"etc",
-                                                        @"home",
-                                                        @"net",
-                                                        @"sbin",
-                                                        @"private",
-                                                        @"tmp",
-                                                        @"usr",
-                                                        @"var",
-                                                        nil];
-        // Nothing in common
-        if(![[resultPath pathComponents] firstObjectCommonWithArray:dontTouchThisDunDunDunDunHammerTime])
-        {                
-            if(![[self.resultController content] containsObject:resultPath])
-            {
-                NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
-                
-                [resultDict setValue:resultPath forKey:@"Path"];
-                [resultDict setValue:[[resultPath lastPathComponent] stringByDeletingPathExtension] forKey:@"Name"];
-                
-                [self.resultController addObject:resultDict];
-            }
-        }
-        
-        [resultPath release];
-        resultPath = nil;    
-    } 
-}
-
-- (void) finalizeSearchResults:(NSNotification*)notification
-{
-    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
-    
-    NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
-    
-    [self.resultFinishedLabel setStringValue:[NSString stringWithFormat:@"Found %i Games", [[self.resultController content] count], nil]]; 
-    
-    [self.resultProgress stopAnimation:nil];
-    [self.resultProgress setHidden:YES];
-    [self.resultFinishedLabel setHidden:NO];    
-}
-
-- (IBAction) import:(id)sender;
-{
-    NSMutableArray *URLS = [NSMutableArray array];
-    
-    for(NSDictionary *searchResult in self.searchResults)
-    {
-        [URLS addObject:[NSURL fileURLWithPath:[searchResult objectForKey:@"Path"]]];
-    }
-    
-    NSLog(@"OESetupAssistant import: need to used new import method");
-    NSWindow *win = [[self view] window];
-    OEMainWindowController *controller = (OEMainWindowController*)[win windowController];
-    [controller setCurrentContentController:self];
-}
-*/
 @end

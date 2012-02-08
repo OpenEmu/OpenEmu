@@ -46,16 +46,21 @@ int main(int argc, char *argv[])
                                   [NSArray arrayWithObjects:@"{75,75}",
                                    @"{150,150}",
                                    @"{300,300}",
-                                   @"{450,450}", nil],     UDBoxSizesKey,
+                                   @"{450,450}", nil],              UDBoxSizesKey,
                                   
+                                  // Library Tab
+                                  path,                             UDDefaultDatabasePathKey,
+                                  path,                             UDDatabasePathKey,
+                                  [NSNumber numberWithBool:YES],    UDAutmaticallyGetInfoKey,
+
+                                  
+                                  // others
                                   @"Save States",                   UDSaveStateFolderNameKey,	// Default name of Save States folder
                                   @"Linear",                        UDVideoFilterKey,
                                   [NSNumber numberWithBool:YES],    UDUseMD5HashingKey      ,	// Default Hashing algorithm
                                   [NSNumber numberWithFloat:0.5],   UDVolumeKey,                // Default Volume
                                   [NSNumber numberWithDouble:1.5],  UDHUDFadeOutDelayKey,       // Time until hud controls bar fades out
                                   [NSNumber numberWithBool:YES],    OEHUDCanDeleteStateKey,
-                                  path,                             UDDefaultDatabasePathKey,
-                                  path,                             UDDatabasePathKey,
                                   
                                   [NSNumber numberWithInt:40],      UDMaxSaveGameNameLengthKey,
                                   

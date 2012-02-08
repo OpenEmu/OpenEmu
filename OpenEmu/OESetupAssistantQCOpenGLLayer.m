@@ -127,6 +127,7 @@
     
     [self.renderer renderAtTime:time arguments:arguments];
 
+    [super drawInCGLContext:glContext pixelFormat:pixelFormat forLayerTime:timeInterval displayTime:timeStamp];
 }
 
 @end
