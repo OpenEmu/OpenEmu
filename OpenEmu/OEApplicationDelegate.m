@@ -48,7 +48,6 @@
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
-- (void)OE_loadDatabase;
 - (void)OE_performDatabaseSelection;
 
 - (void)OE_loadPlugins;
@@ -130,7 +129,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     NSError *error = nil;
     
     NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey];
-    if(databasePath != nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDefaultDatabasePathKey];
+    if(databasePath == nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDefaultDatabasePathKey];
     
     if(![[NSFileManager defaultManager] fileExistsAtPath:databasePath isDirectory:NULL] &&
        [databasePath isEqual:[[NSUserDefaults standardUserDefaults] objectForKey:UDDefaultDatabasePathKey]])
