@@ -56,7 +56,6 @@
         
         [selectedControl setState:NSOffState];
         [[sender window] makeFirstResponder:(state == NSOnState ? [self view] : lastControl)];
-        [[self view] setNextResponder:self];
         selectedControl = (state == NSOnState ? sender : nil);
     }
     

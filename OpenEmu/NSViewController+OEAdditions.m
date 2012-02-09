@@ -105,6 +105,8 @@ static const void *const _OE_NSView__viewDelegateKey = &_OE_NSView__viewDelegate
 {
     NSViewController *del = [self OE_viewDelegate];
     
+    if(aResponder == del) return;
+    
     if(del != nil) [del   setNextResponder:aResponder];
     else           [super setNextResponder:aResponder];
 }
