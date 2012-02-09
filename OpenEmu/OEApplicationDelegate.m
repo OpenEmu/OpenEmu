@@ -118,6 +118,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     [self OE_setTargetForMenuItems:[NSApp mainMenu]];
     
+    [mainWindowController showWindow:self];
+    
     // TODO: remove after testing OEHUDAlert
     /* [[OECoreUpdater sharedUpdater] installCoreWithIdentifier:@"com.openemu.snes9x" coreName:@"Nestopia" systemName:@"Nintendo (NES)" withCompletionHandler:^{
      NSLog(@"core was installed!");

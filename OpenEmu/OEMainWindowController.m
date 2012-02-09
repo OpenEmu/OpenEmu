@@ -70,13 +70,6 @@
     [super dealloc];
 }
 
-- (void)awakeFromNib
-{
-#warning This is truly awful
-    // Load Window
-    [self window];
-}
-
 - (void)windowDidLoad
 {
     [super windowDidLoad];

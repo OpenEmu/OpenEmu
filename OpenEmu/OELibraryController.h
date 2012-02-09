@@ -90,7 +90,4 @@
 @property(retain) IBOutlet OECollectionViewController *collectionViewController;
 @property(retain) IBOutlet OELibrarySplitView         *mainSplitView;
 
-// spotlight search results.
-@property (readwrite, retain) NSMutableArray *searchResults;
-
 @end

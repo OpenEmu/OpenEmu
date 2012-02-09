@@ -56,6 +56,9 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 #endif
 
 @interface OELibraryController ()
+// spotlight search results.
+@property(readwrite, retain) NSMutableArray *searchResults;
+
 - (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
 - (void)_setupMenu;
@@ -110,9 +113,9 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     
     [[self sidebarController] view];
     
-    self.romImporter = [[[OEROMImporter alloc] initWithDatabase:[self database]] autorelease];
+    [self setRomImporter:[[[OEROMImporter alloc] initWithDatabase:[self database]] autorelease]];
     
-    self.searchResults = [[[NSMutableArray alloc] initWithCapacity:1] autorelease];
+    [self setSearchResults:[[[NSMutableArray alloc] initWithCapacity:1] autorelease]];
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
@@ -153,7 +156,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 - (void)contentWillShow
 {
     OEMainWindowController *windowController = [self windowController];
-    NSView *toolbarItemContainer = [[windowController toolbarSearchField] superview]; 
+    NSView *toolbarItemContainer = [[windowController toolbarSearchField] superview];
     [toolbarItemContainer setAutoresizingMask:0];
     
     [self _setupMenu];
@@ -170,7 +173,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     id collectionItem = nil;
     
     // Look for the collection item
-    if(collectionViewName && [collectionViewName isKindOfClass:[NSString class]])
+    if(collectionViewName != nil && [collectionViewName isKindOfClass:[NSString class]])
     {
         NSPredicate *filterCollectionViewNamePredicate = [NSPredicate predicateWithFormat:@"collectionViewName == %@", collectionViewName];
         
@@ -219,7 +222,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     {
         float lastWidth = [mainSplit splitterPosition];
         [standardDefaults setFloat:lastWidth forKey:UDSidebarWidthKey];
-        widthCorrection = -1*lastWidth;
+        widthCorrection = -1 * lastWidth;
     }
     
     if([self sidebarChangesWindowSize])
@@ -238,7 +241,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     }
     else
     {
-        widthCorrection = widthCorrection < 0 ? 0 : widthCorrection; 
+        widthCorrection = MAX(widthCorrection, 0);
         [mainSplit setSplitterPosition:widthCorrection animated:YES];
     }
     
@@ -345,29 +348,31 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     [openPanel beginSheetModalForWindow:win completionHandler:
      ^(NSInteger result)
      {
-        if(result == NSFileHandlingPanelOKButton)
-        {
-            // exit our initial open panels completion handler
-            //[self performSelector:@selector(startImportSheet:) withObject:[openPanel URLs] afterDelay:0.0];
-            romImporter.errorBehaviour = OEImportErrorAskUser;
-            [romImporter importROMsAtURLs:[openPanel URLs] inBackground:YES error:nil];
-        }
-    }];
+         if(result == NSFileHandlingPanelOKButton)
+         {
+             // exit our initial open panels completion handler
+             //[self performSelector:@selector(startImportSheet:) withObject:[openPanel URLs] afterDelay:0.0];
+             [romImporter setErrorBehaviour:OEImportErrorAskUser];
+             [romImporter importROMsAtURLs:[openPanel URLs] inBackground:YES error:nil];
+         }
+     }];
 }
 #pragma mark -
 
 - (IBAction)startGame:(id)sender
 {
     NSArray *selection = [[self collectionViewController] selectedGames];
-    if(!selection)
+    if(selection == nil)
     {
         DLog(@"No game. This should not be possible from UI (item disabled)");
         return;
     }
-    OEDBGame *selectedGame = [selection lastObject];
+    
+    OEDBGame             *selectedGame  = [selection lastObject];
     NSDocumentController *docController = [NSDocumentController sharedDocumentController];
-    OEGameDocument *document = [[OEGameDocument alloc] initWithGame:selectedGame];
-    if (!document) return;
+    OEGameDocument       *document      = [[OEGameDocument alloc] initWithGame:selectedGame];
+    
+    if(document == nil) return;
     [docController addDocument:document];
     [document release];
 }
@@ -375,7 +380,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 #pragma mark -
 #pragma mark Spotlight Importing
 
-- (void) discoverRoms
+- (void)discoverRoms
 {
     NSMutableArray *supportedFileExtensions = [[OESystemPlugin supportedTypeExtensions] mutableCopy];
     
@@ -386,7 +391,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     
     //NSLog(@"Supported search Extensions are: %@", supportedFileExtensions);
     
-    NSString *searchString = [NSString string];
+    NSString *searchString = @"";
     for(NSString *extension in supportedFileExtensions)
     {
         searchString = [searchString stringByAppendingFormat:@"(kMDItemDisplayName == *.%@)", extension, nil];
@@ -405,21 +410,21 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     {
         NSLog(@"Valid search query ref");
         
-        [self.searchResults removeAllObjects];
+        [[self searchResults] removeAllObjects];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(finalizeSearchResults:)
-                                                     name:(NSString*)kMDQueryDidFinishNotification
+                                                     name:(NSString *)kMDQueryDidFinishNotification
                                                    object:(id)searchQuery];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
-                                                     name:(NSString*)kMDQueryProgressNotification
+                                                     name:(NSString *)kMDQueryProgressNotification
                                                    object:(id)searchQuery];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateSearchResults:)
-                                                     name:(NSString*)kMDQueryDidUpdateNotification
+                                                     name:(NSString *)kMDQueryDidUpdateNotification
                                                    object:(id)searchQuery];
         
-        MDQuerySetSearchScope(searchQuery, (CFArrayRef) [NSArray arrayWithObject:(NSString*) kMDQueryScopeComputer /*kMDQueryScopeComputer */], 0);
+        MDQuerySetSearchScope(searchQuery, (CFArrayRef) [NSArray arrayWithObject:(NSString *) kMDQueryScopeComputer /*kMDQueryScopeComputer */], 0);
         
         if(MDQueryExecute(searchQuery, kMDQueryWantsUpdates))
             NSLog(@"Searching for importable roms");
@@ -436,117 +441,93 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
         NSLog(@"Invalid Search Query");
 }
 
-- (void) updateSearchResults:(NSNotification*)notification
-{    
+- (void)updateSearchResults:(NSNotification *)notification
+{
     NSLog(@"updateSearchResults:");
     
-    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
+    MDQueryRef searchQuery = (MDQueryRef)[notification object];
     
-    MDItemRef resultItem = NULL;
-    NSString *resultPath = nil;
+    // If you're going to have the same array for every iteration,
+    // don't allocate it inside the loop !
+    NSArray *excludedPaths = [NSArray arrayWithObjects:
+                              @"System",
+                              @"Library",
+                              @"Developer",
+                              @"Volumes",
+                              @"Applications",
+                              @"bin",
+                              @"cores",
+                              @"dev",
+                              @"etc",
+                              @"home",
+                              @"net",
+                              @"sbin",
+                              @"private",
+                              @"tmp",
+                              @"usr",
+                              @"var",
+                              nil];
     
     // assume the latest result is the last index?
-    CFIndex index = 0;
-    
-    for(index = 0; index < MDQueryGetResultCount(searchQuery); index++)
+    for(CFIndex index = 0, limit = MDQueryGetResultCount(searchQuery); index < limit; index++)
     {
-        resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
-        resultPath = (NSString*)MDItemCopyAttribute(resultItem, kMDItemPath);
+        MDItemRef resultItem = (MDItemRef)MDQueryGetResultAtIndex(searchQuery, index);
+        NSString *resultPath = (NSString *)MDItemCopyAttribute(resultItem, kMDItemPath);
         
-        NSArray *dontTouchThisDunDunDunDunHammerTime = [NSArray arrayWithObjects:
-                                                        @"System",
-                                                        @"Library",
-                                                        @"Developer",
-                                                        @"Volumes",
-                                                        @"Applications",
-                                                        @"bin",
-                                                        @"cores",
-                                                        @"dev",
-                                                        @"etc",
-                                                        @"home",
-                                                        @"net",
-                                                        @"sbin",
-                                                        @"private",
-                                                        @"tmp",
-                                                        @"usr",
-                                                        @"var",
-                                                        nil];
         // Nothing in common
-        if(![[resultPath pathComponents] firstObjectCommonWithArray:dontTouchThisDunDunDunDunHammerTime])
-        {                
-            if(![self.searchResults containsObject:resultPath])
+        if([[resultPath pathComponents] firstObjectCommonWithArray:excludedPaths] == nil)
+        {
+            NSDictionary *resultDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                        resultPath, @"Path",
+                                        [[resultPath lastPathComponent] stringByDeletingPathExtension], @"Name",
+                                        nil];
+            
+            if(![[self searchResults] containsObject:resultDict])
             {
-                NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
-                
-                [resultDict setValue:resultPath forKey:@"Path"];
-                [resultDict setValue:[[resultPath lastPathComponent] stringByDeletingPathExtension] forKey:@"Name"];
-                
-                [self.searchResults addObject:resultDict];
+                [[self searchResults] addObject:resultDict];
                 
                 NSLog(@"Result Path: %@", resultPath);
             }
+            
+            [resultDict release];
         }
         
         [resultPath release];
-        resultPath = nil;    
-    } 
+    }
 }
 
-- (void) finalizeSearchResults:(NSNotification*)notification
+- (void)finalizeSearchResults:(NSNotification *)notification
 {
-    MDQueryRef searchQuery = (MDQueryRef)[notification object]; 
+    MDQueryRef searchQuery = (MDQueryRef)[notification object];
     
     NSLog(@"Finished searching, found: %lu items", MDQueryGetResultCount(searchQuery));
     
     if(MDQueryGetResultCount(searchQuery))
     {
-        [self importInBackground];        
-
-//        MDQueryStop(searchQuery);
-//        CFRelease(MDQueryStop);        
+        [self importInBackground];
+        
+        //MDQueryStop(searchQuery);
+        //CFRelease(MDQueryStop);
     }
     
-//    CFRelease(MDQueryStop);
-//    CFRelease(searchQuery);
+    //CFRelease(MDQueryStop);
+    //CFRelease(searchQuery);
 }
 
-- (void) importInBackground;
+- (void)importInBackground;
 {
     NSLog(@"importInBackground");
     
-    NSMutableArray *paths = [NSMutableArray array];
-    
-    for(NSDictionary *searchResult in self.searchResults)
-    {
-        [paths addObject:[searchResult objectForKey:@"Path"]];
-    }
-        
-    [self.romImporter importROMsAtPaths:paths inBackground:YES error:nil];;
+    [[self romImporter] importROMsAtPaths:[[self searchResults] valueForKey:@"Path"] inBackground:YES error:nil];;
 }
 
 
 #pragma mark -
 #pragma mark Sidebar Helpers
 
-- (void)sidebarSelectionDidChange:(NSNotification*)notification
+- (void)sidebarSelectionDidChange:(NSNotification *)notification
 {
-    NSDictionary *userInfo = [notification userInfo];
-    if(userInfo != nil)
-    {
-        id collection = [userInfo objectForKey:@"selectedCollection"];
-        
-        /*
-        NSMenu *mainMenu = [NSApp mainMenu];
-        NSMenu *fileMenu = [[mainMenu itemAtIndex:1] menu];
-        NSMenuItem *item = [fileMenu itemWithTag:MainMenu_File_EditSmartCollection];
-        [item setEnabled:[collection isKindOfClass:[OEDBSmartCollection class]]];
-         */
-        [[self collectionViewController] setCollectionItem:collection];
-    }
-    else
-    {
-        [[self collectionViewController] setCollectionItem:nil];
-    }
+    [[self collectionViewController] setCollectionItem:[[notification userInfo] objectForKey:@"selectedCollection"]];
 }
 
 #pragma mark -
