@@ -54,15 +54,16 @@
     }
     else
     {
-        NSWindow *win = [self window];
-        NSPoint location = [win convertBaseToScreen:[self frame].origin];
+        NSSize minSize = [self frame].size;
+        minSize.width = [self frame].size.width+2*(GapBetweenOpenMenuAndPopupButton);
+        [[self oemenu] setMinSize:minSize];
+
+        NSRect rect = [self frame];
+        rect.origin.y += 2;
         
-        location.y += ([self frame].size.height-[self oemenu].frame.size.height)/2;
-        location.x -= GapBetweenOpenMenuAndPopupButton+MenuContentBorder;
-        
-        [[self oemenu] openAtPoint:location ofWindow:win];
+        [[self oemenu] openOnEdge:OENoEdge ofRect:rect ofWindow:[self window]];
         [[self window] makeFirstResponder:nil];
-        
+
         [self setMenuOpenDate:[NSDate date]];
     }
 }
@@ -82,10 +83,6 @@
     [self setOEMenu:[[self menu] convertToOEMenu]];
     [[self oemenu] setPopupButton:self];
     [[self oemenu] setDelegate:self];
-
-    NSSize minSize = [[self oemenu] minSize];
-    minSize.width = [self frame].size.width+2*(GapBetweenOpenMenuAndPopupButton+MenuContentBorder);
-    [[self oemenu] setMinSize:minSize];
 }
 
 - (NSString*)stringValue{

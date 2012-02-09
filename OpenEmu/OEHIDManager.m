@@ -37,7 +37,7 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 
 @implementation OEHIDManager
 
-@dynamic deviceHandlers;
+@synthesize deviceHandlers;
 
 - (id)init
 {
@@ -74,12 +74,6 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
     }
 	
 	[super dealloc];
-}
-
-- (NSArray*) deviceHandlers
-{
-    // non mutable read only copy
-    return [[deviceHandlers copy] autorelease];
 }
 
 - (void)registerDeviceTypes:(NSArray*)matchingTypes

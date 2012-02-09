@@ -193,7 +193,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // our texture is in NTSC colorspace from the cores
     rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
     
-    surfaceID  = rootProxy.surfaceID;
     screenSize = rootProxy.screenSize;
     
     gameServer = [[SyphonServer alloc] initWithName:@"Game Name" context:layerContext options:nil];
@@ -337,7 +336,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         time -= startTime;
 
     // IOSurfaceLookup performs a lock *AND A RETAIN* - 
-    IOSurfaceRef surfaceRef = IOSurfaceLookup(surfaceID); 
+    IOSurfaceRef surfaceRef = IOSurfaceLookup(rootProxy.surfaceID); 
     
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
@@ -420,6 +419,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         
         CFRelease(surfaceRef);
     }
+    else
+        NSLog(@"Surface is null");
 }
 
 - (void)dealloc

@@ -45,7 +45,6 @@
 #import "OELibraryController.h"
 
 #import "OEHUDAlert.h"
-
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()

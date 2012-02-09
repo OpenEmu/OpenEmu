@@ -74,7 +74,6 @@
     CIImage *gameCIImage;
     CGSize cachedTextureSize;
     
-    IOSurfaceID surfaceID;
     OEIntSize screenSize;
     
     SyphonServer *gameServer;

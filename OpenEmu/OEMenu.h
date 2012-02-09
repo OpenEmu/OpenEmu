@@ -35,6 +35,16 @@ typedef enum _OEMenuStyle {
     OEMenuStyleDark,
     OEMenuStyleLight
 } OEMenuStyle;
+
+typedef enum _OERectEdge
+{
+    OENoEdge,
+    OEMinYEdge,
+    OEMaxYEdge,
+    OEMinXEdge,
+    OEMaxXEdge
+} OERectEdge;
+
 @interface OEMenu : NSWindow 
 {
 @private
@@ -46,7 +56,6 @@ typedef enum _OEMenuStyle {
     
     OEPopupButton *popupButton;
     
-    NSSize minSize, maxSize;
     int itemsAboveScroller, itemsBelowScroller;
     
     id _localMonitor;
@@ -54,18 +63,19 @@ typedef enum _OEMenuStyle {
     BOOL closing;
     BOOL _alternate;
     id <OEMenuDelegate> delegate;
-    
+
     OEMenuStyle style;
 }
 
-#pragma mark -
-- (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
-- (void)openOnEdge:(NSRectEdge)edge atPoint:(NSPoint)p ofWindow:(NSWindow*)win;
+- (void)openOnEdge:(OERectEdge)anedge ofRect:(NSRect)rect ofWindow:(NSWindow*)win;
+
 - (void)closeMenuWithoutChanges:(id)sender;
 - (void)closeMenu;
 
 - (void)menuMouseDragged:(NSEvent *)theEvent;
 - (void)menuMouseUp:(NSEvent*)theEvent;
+
+- (void)updateSize;
 #pragma mark - NSMenu wrapping
 - (NSArray *)itemArray;
 
@@ -77,20 +87,20 @@ typedef enum _OEMenuStyle {
 @property(nonatomic, retain) OEMenu *supermenu;
 
 @property OEMenuStyle style;
-@property (readonly) NSRectEdge edge;
+@property OERectEdge openEdge;
 
 @property (nonatomic, retain) NSMenu *menu;
 @property (retain) NSMenuItem *highlightedItem;
 @property (readonly, getter = isVisible) BOOL visible;
 
 @property int itemsAboveScroller, itemsBelowScroller;
-@property(nonatomic, retain) id <OEMenuDelegate> delegate;
+@property (nonatomic, retain) id <OEMenuDelegate> delegate;
+
+@property BOOL containsItemWithImage;
 @end
 
 @interface NSMenu (OEAdditions)
-
 - (OEMenu*)convertToOEMenu;
-
 @end
 
 @protocol OEMenuDelegate <NSObject>
@@ -102,11 +112,6 @@ typedef enum _OEMenuStyle {
 @end
 
 @interface OEMenuView : NSView
-{
-@private
-    BOOL imageIncluded;
-}
-- (void)updateAndDisplay:(BOOL)displayFlag;
 #pragma mark -
 - (void)highlightItemAtPoint:(NSPoint)p;
 - (NSMenuItem *)itemAtPoint:(NSPoint)p;
@@ -120,5 +125,4 @@ typedef enum _OEMenuStyle {
 - (NSDictionary *)selectedItemAlternateTextAttributes;
 - (NSDictionary *)disabledItemTextAttributes;
 @property(nonatomic, readonly) OEMenu *menu;
-
 @end

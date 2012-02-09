@@ -28,6 +28,15 @@
 #import "NSColor+IKSAdditions.h"
 
 @implementation OECoverGridGlossLayer
+- (id)init {
+    if((self = [super init])) {
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [super dealloc];
+}
 
 #pragma mark -
 #pragma mark Drawing

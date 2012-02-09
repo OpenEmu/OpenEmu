@@ -57,7 +57,7 @@
     if(type != newType)
     {
         CALayer *sublayer = [self.sublayers objectAtIndex:0];
-        
+        CGRect bounds = [self bounds];
         switch(newType)
         {
             case IndicationTypeNone :
@@ -68,7 +68,6 @@
             case IndicationTypeFileMissing :
                 [self setBackgroundColor:[[NSColor colorWithDeviceRed:0.992 green:0.0 blue:0.0 alpha:0.4] CGColor]];
                 
-                CGRect bounds = [self bounds];
                 NSImage *fileMissingIndicator = [self fileMissingImage];
                 float width  = CGRectGetWidth(bounds) * 0.45;
                 float height = width * 0.9;

@@ -279,15 +279,38 @@
     
 #warning fix grid view crash
     // weired issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
-    if(![self.imageLayer.superlayer.sublayers containsObject:self.imageLayer])
+    CALayer* superlayer = self.imageLayer.superlayer;
+    if(!superlayer)
     {
         [CATransaction commit];
         [self release];
         return;
     }
-    // weired issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
-        [self.imageLayer.superlayer replaceSublayer:self.imageLayer with:newImageLayer];
-        self.imageLayer = newImageLayer;
+    
+    NSInteger index = [superlayer.sublayers indexOfObject:self.imageLayer];
+    if(index == NSNotFound)
+    {
+        [CATransaction commit];
+        [self release];
+        return;
+    }
+
+    [self.imageLayer removeFromSuperlayer];
+    @try {
+        [superlayer insertSublayer:newImageLayer atIndex:index];
+
+    }
+    @catch (NSException *exception) {
+        [CATransaction commit];
+        [self release];
+        return;
+    }
+    @finally {
+    }
+    // weird issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
+    
+    
+    self.imageLayer = newImageLayer;
       
     // Height of title string
     float titleHeight = 16;
@@ -371,6 +394,9 @@
 
 - (void)setImage:(NSImage *)_image
 {
+    if(image == _image)
+        return;
+    
     [_image retain];
     [image release];
     
