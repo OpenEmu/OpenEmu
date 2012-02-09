@@ -55,35 +55,6 @@
     [self setBackgroundColor:[NSColor clearColor]];
 }
 
-- (void)setMainContentView:(NSView *)value
-{
-    if(mainContentView != value)
-    {
-        NSView *contentView = [self contentView];
-        
-        if(mainContentView)
-        {
-            [value setFrame:[mainContentView frame]];
-            [value setAutoresizingMask:[mainContentView autoresizingMask]];
-            [[contentView animator] replaceSubview:mainContentView with:value];
-        }
-        else
-        {
-            [value setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-            [value setFrame:(NSRect){ { 0.0, 45.0 }, {contentView.frame.size.width, contentView.frame.size.height - 45.0 } }];
-            [contentView addSubview:value];
-        }
-        
-        [mainContentView release];
-        mainContentView = [value retain];
-    }
-}
-
-- (NSView *)mainContentView
-{
-    return mainContentView;
-}
-
 #pragma mark -
 #pragma mark Custom Theme Drawing
 

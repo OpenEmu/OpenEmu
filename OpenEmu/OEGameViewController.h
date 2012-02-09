@@ -64,9 +64,6 @@
 - (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)gam;
 - (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)gam error:(NSError**)outError;
 
-- (void)contentWillShow;
-- (void)contentWillHide;
-
 #pragma mark - Menu Items
 - (IBAction)volumeUp:(id)sender;
 - (IBAction)volumeDown:(id)sender;

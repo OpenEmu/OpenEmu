@@ -28,24 +28,23 @@
 #import "OEUIDrawingUtils.h"
 
 @class OECenteredTextFieldCell;
+
 @interface OEImageButton : NSButton
 @property BOOL isInHover;
 @end
 
 @interface OEImageButtonCell : NSButtonCell
-{
-@private
-    NSImage *image;
-}
 
 - (BOOL)displaysHover;
 - (NSRect)imageRectForButtonState:(OEButtonState)state;
 @property(retain, readwrite) NSImage *image;
+
 @end
 
 // displays normal, inactive, disabled, pressed
 @interface OEToolbarButtonPushCell : OEImageButtonCell
 @end
+
 // displays normal, inactive, disabled, pressed for Selected / Unselected
 @interface OEToolbarButtonSelectableCell : OEImageButtonCell
 @end

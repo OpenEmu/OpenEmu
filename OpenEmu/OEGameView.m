@@ -116,7 +116,10 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     NSRectFill([self bounds]);
 }
 
-- (void)viewDidMoveToWindow{
+- (void)viewDidMoveToWindow
+{
+    [super viewDidMoveToWindow];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"OEGameViewDidMoveToWindow" object:self];
 }
 

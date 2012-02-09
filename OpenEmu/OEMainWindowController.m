@@ -29,12 +29,10 @@
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEMainWindow.h"
 #import "OESetupAssistant.h"
+#import "OELibraryController.h"
+#import "NSViewController+OEAdditions.h"
 
 @interface OEMainWindowController ()
-{
-    NSView *mainContentView;
-}
-
 @end
 
 @implementation OEMainWindowController
@@ -43,6 +41,8 @@
 @synthesize toolbarSearchField, toolbarSidebarButton, toolbarAddToSidebarButton, toolbarSlider;
 @synthesize defaultContentController;
 @synthesize allowWindowResizing;
+@synthesize libraryController;
+@synthesize placeholderView;
 
 + (void)initialize
 {
@@ -63,9 +63,11 @@
 
 - (void)dealloc 
 {
-    [mainContentView release], mainContentView = nil;
     [currentContentController release], currentContentController = nil;
+    
     [self setDefaultContentController:nil];
+    [self setLibraryController:nil];
+    [self setPlaceholderView:nil];
     
     [super dealloc];
 }
@@ -91,18 +93,24 @@
     [[self window] setRestorable:NO];
     [[self window] setExcludedFromWindowsMenu:YES];
     
-    [[self defaultContentController] setWindowController:self];
+    [[self libraryController] setWindowController:self];
     
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSetupAssistantHasRun])
     {
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
-        [setupAssistant setWindowController:self];
+        [setupAssistant setCompletionBlock:
+         ^(BOOL discoverRoms)
+         {
+             if(discoverRoms) [[self libraryController] discoverRoms];
+             [self setCurrentContentController:[self libraryController]];
+         }];
+        
         [self setCurrentContentController:setupAssistant];
         [setupAssistant release];
     }
     else
     {
-        [self setCurrentContentController:[self defaultContentController]];
+        [self setCurrentContentController:[self libraryController]];
     }
     
     [self setupMenuItems];
@@ -115,6 +123,16 @@
 
 #pragma mark -
 
+- (void)addViewControllerToWindow:(NSViewController *)controller;
+{
+    NSView *contentView = [self placeholderView];
+    NSView *view        = [controller view];
+    
+    [view setFrame:[contentView bounds]];
+    [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    [contentView addSubview:view];
+}
+
 - (void)setCurrentContentController:(OEMainWindowContentController *)controller
 {
     if(controller == nil) controller = [self defaultContentController];
@@ -122,13 +140,13 @@
     if(controller == [self currentContentController]) return;
     
     [[self toolbarFlowViewButton] setEnabled:NO];
-    [[self toolbarFlowViewButton] setAction:NULL];
+    [[self toolbarFlowViewButton] setAction:@selector(switchToFlowView:)];
     
     [[self toolbarGridViewButton] setEnabled:NO];
-    [[self toolbarGridViewButton] setAction:NULL];
+    [[self toolbarGridViewButton] setAction:@selector(switchToGridView:)];
     
     [[self toolbarListViewButton] setEnabled:NO];
-    [[self toolbarListViewButton] setAction:NULL];
+    [[self toolbarListViewButton] setAction:@selector(switchToListView:)];
     
     [[self toolbarSearchField] setEnabled:NO];
     [[self toolbarSearchField] setAction:NULL];
@@ -142,16 +160,18 @@
     [[self toolbarSlider] setEnabled:NO];
     [[self toolbarSlider] setAction:NULL];
     
-    // Make sure the view is loaded from nib
-    [controller view];
+    [controller setWindowController:self];
     
-    [currentContentController contentWillHide];
-    [controller contentWillShow];
+    [currentContentController viewWillDisappear];
+    [controller               viewWillAppear];
     
-    OEMainWindow *win = (OEMainWindow *)[self window];
+    [[currentContentController view] removeFromSuperview];
+    [self addViewControllerToWindow:controller];
     
-    [win setMainContentView:[controller view]];
-    [win makeFirstResponder:[controller view]];
+    [[self window] makeFirstResponder:[controller view]];
+    
+    [currentContentController viewDidDisappear];
+    [controller               viewDidAppear];
     
     [controller retain];
     [currentContentController release];

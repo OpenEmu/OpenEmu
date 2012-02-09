@@ -25,6 +25,7 @@
  */
 
 #import "OELibraryController.h"
+#import "NSViewController+OEAdditions.h"
 #import "OELibraryDatabase.h"
 #import "OEDBSmartCollection.h"
 
@@ -59,10 +60,10 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 // spotlight search results.
 @property(readwrite, retain) NSMutableArray *searchResults;
 
-- (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
+- (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag;
 
-- (void)_setupMenu;
-- (void)_setupToolbarItems;
+- (void)OE_setupMenu;
+- (void)OE_setupToolbarItems;
 @end
 
 @implementation OELibraryController
@@ -135,9 +136,9 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     
     // setup splitview
     OELibrarySplitView *splitView = [self mainSplitView];
-    [splitView setMinWidth:[defaults floatForKey:UDSidebarMinWidth]];
-    [splitView setMainViewMinWidth:[defaults floatForKey:UDMainViewMinWidth]];
-    [splitView setSidebarMaxWidth:[defaults floatForKey:UDSidebarMaxWidth]];
+    [splitView setMinWidth:[defaults doubleForKey:UDSidebarMinWidth]];
+    [splitView setMainViewMinWidth:[defaults doubleForKey:UDMainViewMinWidth]];
+    [splitView setSidebarMaxWidth:[defaults doubleForKey:UDSidebarMaxWidth]];
     
     // add collection controller's view to splitview
     NSView *rightContentView = [splitView rightContentView];
@@ -153,14 +154,16 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowFullscreenExit:) name:NSWindowWillExitFullScreenNotification object:[[self windowController] window]];
 }
 
-- (void)contentWillShow
+- (void)viewDidAppear
 {
+    [super viewDidAppear];
+    
     OEMainWindowController *windowController = [self windowController];
     NSView *toolbarItemContainer = [[windowController toolbarSearchField] superview];
     [toolbarItemContainer setAutoresizingMask:0];
     
-    [self _setupMenu];
-    [self _setupToolbarItems];
+    [self OE_setupMenu];
+    [self OE_setupToolbarItems];
     [self layoutToolbarItems];
     
     [[self collectionViewController] willShow];
@@ -186,9 +189,9 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     
     [[self sidebarController] outlineViewSelectionDidChange:nil];
     
-    float splitterPos = 0;
+    CGFloat splitterPos = 0;
     if([standardUserDefaults boolForKey:UDSidebarVisibleKey])
-        splitterPos = [standardUserDefaults floatForKey:UDSidebarWidthKey];
+        splitterPos = [standardUserDefaults doubleForKey:UDSidebarWidthKey];
     
     OELibrarySplitView *splitView = [self mainSplitView];
     [splitView setResizesLeftView:YES];
@@ -196,8 +199,10 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     [splitView setResizesLeftView:NO];
 }
 
-- (void)contentWillHide
+- (void)viewWillDisappear
 {
+    [super viewWillDisappear];
+    
     OEMainWindowController *windowController = [self windowController];
     NSView *toolbarItemContainer = [[windowController toolbarSearchField] superview];
     
@@ -213,15 +218,15 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     OELibrarySplitView *mainSplit = [self mainSplitView];
     
     BOOL opening = [mainSplit splitterPosition] == 0;
-    float widthCorrection = 0;
+    CGFloat widthCorrection = 0;
     if(opening)
     {
-        widthCorrection = [standardDefaults floatForKey:UDSidebarWidthKey];
+        widthCorrection = [standardDefaults doubleForKey:UDSidebarWidthKey];
     }
     else
     {
-        float lastWidth = [mainSplit splitterPosition];
-        [standardDefaults setFloat:lastWidth forKey:UDSidebarWidthKey];
+        CGFloat lastWidth = [mainSplit splitterPosition];
+        [standardDefaults setDouble:lastWidth forKey:UDSidebarWidthKey];
         widthCorrection = -1 * lastWidth;
     }
     
@@ -245,7 +250,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
         [mainSplit setSplitterPosition:widthCorrection animated:YES];
     }
     
-    if(!opening) [standardDefaults setFloat:abs(widthCorrection) forKey:UDSidebarWidthKey];
+    if(!opening) [standardDefaults setDouble:abs(widthCorrection) forKey:UDSidebarWidthKey];
     
     NSImage *image = [NSImage imageNamed:
                       ([self sidebarChangesWindowSize] == opening
@@ -314,9 +319,6 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-    if([[self windowController] currentContentController] != self)
-        return NO;
-    
     if([menuItem action] == @selector(newCollectionFolder:)) return NO;
     
     if([menuItem action] == @selector(editSmartCollection:))
@@ -558,20 +560,22 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 
 #pragma mark -
 #pragma mark Private
-- (void)_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
+
+- (void)OE_showFullscreen:(BOOL)fsFlag animated:(BOOL)animatedFlag
 {
     [self setSidebarChangesWindowSize:!fsFlag];
     [[self mainSplitView] setDrawsWindowResizer:!fsFlag];
     
     [NSApp setPresentationOptions:(fsFlag ? NSApplicationPresentationAutoHideDock | NSApplicationPresentationAutoHideToolbar : NSApplicationPresentationDefault)];
 }
+
 #pragma mark -
 
-- (void)_setupMenu
+- (void)OE_setupMenu
 {
 }
 
-- (void)_setupToolbarItems
+- (void)OE_setupToolbarItems
 {
     OEMainWindowController *windowController = [self windowController];
     
@@ -603,9 +607,9 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     OELibrarySplitView *splitView = [self mainSplitView];
     NSView *toolbarItemContainer = [[windowController toolbarSearchField] superview];
     
-    float splitterPosition = [splitView splitterPosition];
+    CGFloat splitterPosition = [splitView splitterPosition];
     
-    if(splitterPosition != 0) [[NSUserDefaults standardUserDefaults] setFloat:splitterPosition forKey:UDSidebarWidthKey];
+    if(splitterPosition != 0) [[NSUserDefaults standardUserDefaults] setDouble:splitterPosition forKey:UDSidebarWidthKey];
     
     [toolbarItemContainer setFrame:NSMakeRect(splitterPosition, 0.0, NSWidth([[splitView rightContentView] frame]), 44.0)];
 }

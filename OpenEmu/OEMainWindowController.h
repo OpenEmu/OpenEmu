@@ -27,9 +27,14 @@
 #import <Cocoa/Cocoa.h>
 
 @class OEMainWindowContentController;
+
+@class OELibraryController;
+
 @interface OEMainWindowController : NSWindowController <NSWindowDelegate>
 
 #pragma mark -
+
+@property(retain) IBOutlet OELibraryController *libraryController;
 
 @property(retain, nonatomic) OEMainWindowContentController *currentContentController;
 @property(retain)            OEMainWindowContentController *defaultContentController;
@@ -41,6 +46,8 @@
 - (void)setupMenuItems;
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 - (void)menuItemAction:(id)sender;
+
+@property(retain) IBOutlet NSView *placeholderView;
 
 #pragma mark -
 #pragma mark Toolbar Elements

@@ -27,51 +27,51 @@
 #import "OESetupAssistantBackgroundView.h"
 #import "OESetupAssistantQCOpenGLLayer.h"
 
-@interface OESetupAssistantBackgroundView (Private)
-- (void)setupLayer;
+@interface OESetupAssistantBackgroundView ()
+- (void)OE_commonSetupAssistantBackgroundViewInit;
+@property(retain) OESetupAssistantQCOpenGLLayer *layer;
 @end
+
 @implementation OESetupAssistantBackgroundView
-- (void)setupLayer
-{
-    [self setWantsLayer:YES];
-    
-    OESetupAssistantQCOpenGLLayer* _backgroundAnimation = [OESetupAssistantQCOpenGLLayer layer];
-    
-    [_backgroundAnimation setFrame:self.frame];
-    [_backgroundAnimation setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
-    [_backgroundAnimation setAsynchronous:YES];
-    
-    self.layer = _backgroundAnimation;
-}
+@dynamic layer;
 
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
-    self = [super initWithCoder:aDecoder];
-    if(self)
+    if((self = [super initWithCoder:aDecoder]))
     {
-        [self setupLayer];
+        [self OE_commonSetupAssistantBackgroundViewInit];
     }
     return self;
 }
+
 - (id)initWithFrame:(NSRect)frameRect
 {
-    self = [super initWithFrame:frameRect];
-    if(self)
+    if((self = [super initWithFrame:frameRect]))
     {
-        [self setupLayer];
+        [self OE_commonSetupAssistantBackgroundViewInit];
     }
     
     return self;
 }
 
-- (void) dealloc
+- (void)OE_commonSetupAssistantBackgroundViewInit
 {
-    self.layer = nil;
-    [super dealloc];
+    OESetupAssistantQCOpenGLLayer *backgroundAnimation = [OESetupAssistantQCOpenGLLayer layer];
+    
+    [backgroundAnimation setFrame:[self bounds]];
+    [backgroundAnimation setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [backgroundAnimation setAsynchronous:YES];
+    
+    [self setLayer:backgroundAnimation];
+    
+    [self setWantsLayer:YES];
 }
 
 - (void)viewDidMoveToWindow
 {
-    [((OESetupAssistantQCOpenGLLayer*)self.layer) setContainingWindow:[self window]];
+    [super viewDidMoveToWindow];
+    
+    [[self layer] setContainingWindow:[self window]];
 }
+
 @end
