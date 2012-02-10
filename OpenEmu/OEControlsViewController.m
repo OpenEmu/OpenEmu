@@ -29,6 +29,10 @@
 #import "OEGameCoreController.h"
 
 @implementation OEControlsViewController
+{
+    OEHIDEventAxis readingAxis;
+}
+
 @synthesize selectedControl, delegate;
 
 - (void)dealloc
@@ -114,6 +118,7 @@
     else
         return aKey;
 }
+
 - (void)registerEvent:(id)anEvent
 {
     if(selectedControl != nil)
@@ -156,11 +161,18 @@
 
 - (void)axisMoved:(OEHIDEvent *)anEvent
 {
-    if([anEvent direction] != OEHIDDirectionNull)
+    OEHIDEventAxis axis = [anEvent axis];
+    OEHIDDirection dir  = [anEvent direction];
+    
+    if(readingAxis == OEHIDAxisNone && axis != OEHIDAxisNone && dir != OEHIDDirectionNull)
     {
+        readingAxis = axis;
+        
         [self registerEvent:anEvent];
         [self selectBindingType:1];
     }
+    else if(readingAxis == axis && dir == OEHIDDirectionNull)
+        readingAxis = OEHIDAxisNone;
 }
 
 - (void)buttonDown:(OEHIDEvent *)anEvent

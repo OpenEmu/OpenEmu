@@ -63,7 +63,7 @@
     NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
     
     NSImage *controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
-    [(OEBackgroundImageView*)[self view] setImage:controlsBackgroundImage];
+    [(OEBackgroundImageView *)[self view] setImage:controlsBackgroundImage];
     
     /** ** ** ** ** ** ** ** **/
     // Setup controls popup console list
@@ -140,6 +140,7 @@
 }
 #pragma mark -
 #pragma mark UI Methods
+
 - (IBAction)changeSystem:(id)sender
 {
     NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
@@ -275,12 +276,13 @@
 
 #pragma mark -
 #pragma mark OEPreferencePane Protocol
-- (NSImage*)icon
+
+- (NSImage *)icon
 {
     return [NSImage imageNamed:@"controls_tab_icon"];
 }
 
-- (NSString*)title
+- (NSString *)title
 {
     return @"Controls";
 }
@@ -290,7 +292,7 @@
     return NSMakeSize(561, 534);
 }
 
-- (NSColor*)toolbarSeparationColor
+- (NSColor *)toolbarSeparationColor
 {
     return [NSColor colorWithDeviceWhite:0.32 alpha:1.0];
 }

@@ -187,13 +187,14 @@
     // iterate through pages
     for(NSMutableArray *aPage in elementPages)
     {
-        
         // iterate through columns
         NSUInteger columns = [aPage count];
         __block float x = leftBorder;
-        [aPage enumerateObjectsUsingBlock:^(id aColumn, NSUInteger idx, BOOL *stop) {
-            float horizontalItemSpacing       = columns==2?120:68.0;// item right to item left
-            float labelWidth      = columns==2?112:60.0;// max value!!!
+        [aPage enumerateObjectsUsingBlock:
+         ^(id aColumn, NSUInteger idx, BOOL *stop)
+         {
+            float horizontalItemSpacing = columns == 2 ? 120 : 68.0;// item right to item left
+            float labelWidth            = columns == 2 ? 112 : 60.0;// max value!!!
             
             float buttonHeight = 24.0;
             float buttonWidth = ([self frame].size.width-leftBorder-rightBorder-((columns-1)*horizontalItemSpacing))/columns;            
@@ -273,52 +274,60 @@
 {
     NSClipView *clipView = [[self enclosingScrollView] contentView];
     float y = 0;
-    if(p==0)
+    if(p == 0)
     {
         y = [self frame].size.height;
     }
-    else if(p == [elementPages count]-1)
+    else if(p == [elementPages count] - 1)
     {
         y = 0;
-    } else
+    }
+    else
     {
         // TODO: i was lazy... calculate something here if we need that
     }
     [clipView scrollToPoint:(NSPoint){0,y} animated:YES];
 }
+
 - (void)selectNextKeyButton:(id)currentButton
 {
     if(!currentButton) return;
     
     __block BOOL _selectNext = NO;
     __block BOOL _nextButtonIsOnDifferentPage = NO;
-    [elementPages enumerateObjectsUsingBlock:^(id page, NSUInteger pidx, BOOL *stop) {
-        [page enumerateObjectsUsingBlock:^(id column, NSUInteger idx, BOOL *stop) {
-            [column enumerateObjectsUsingBlock:^(id item, NSUInteger idx, BOOL *stop) {
-                if(item==currentButton)
-                {
-                    
-                    _nextButtonIsOnDifferentPage = NO;
-                    _selectNext = YES;
-                }
-                else if(_selectNext && [item isKindOfClass:[OEControlsKeyButton class]])
-                {
-                    if(item && [item target] && [item action] && [[item target] respondsToSelector:[item action]])
-                    {
-                        if(_nextButtonIsOnDifferentPage)
-                        {
-                            [self scrollToPage:pidx];
-                        }
-                        [item setState:NSOnState];
-                        [[item target] performSelector:[item action] withObject:item];
-                        *stop = YES;
-                        _selectNext = NO;
-                    }
-                }
-            }];
-            _nextButtonIsOnDifferentPage = YES;
-        }];
-    }];
+    [elementPages enumerateObjectsUsingBlock:
+     ^(id page, NSUInteger pidx, BOOL *stop)
+     {
+         [page enumerateObjectsUsingBlock:
+          ^(id column, NSUInteger idx, BOOL *stop)
+          {
+              [column enumerateObjectsUsingBlock:
+               ^(id item, NSUInteger idx, BOOL *stop)
+               {
+                   if(item == currentButton)
+                   {
+                       
+                       _nextButtonIsOnDifferentPage = NO;
+                       _selectNext = YES;
+                   }
+                   else if(_selectNext && [item isKindOfClass:[OEControlsKeyButton class]])
+                   {
+                       if(item && [item target] && [item action] && [[item target] respondsToSelector:[item action]])
+                       {
+                           if(_nextButtonIsOnDifferentPage)
+                           {
+                               [self scrollToPage:pidx];
+                           }
+                           [item setState:NSOnState];
+                           [[item target] performSelector:[item action] withObject:item];
+                           *stop = YES;
+                           _selectNext = NO;
+                       }
+                   }
+               }];
+              _nextButtonIsOnDifferentPage = YES;
+          }];
+     }];
     
     if(_selectNext && [[NSUserDefaults standardUserDefaults] boolForKey:UDControlsButtonHighlightRollsOver])
     {
@@ -341,32 +350,42 @@
         }
     }
 }
+
 #pragma mark -
+
 - (void)scrollWheel:(NSEvent *)theEvent
 {
     [[self superview] scrollWheel:theEvent];
 }
+
 - (BOOL)acceptsFirstResponder
 {
     return YES;
 }
 
 - (void)keyUp:(NSEvent *)theEvent
-{}
+{
+}
+
 - (void)keyDown:(NSEvent *)theEvent
-{}
+{
+}
+
 #pragma mark -
 #ifndef NSDistanceBetweenPoints
 #define NSDistanceBetweenPoints(p1, p2) sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p2.y-p1.y)*(p2.y-p1.y))
 #endif
-- (id)controllerButtonClosestTo:(NSPoint)point{
+
+- (id)controllerButtonClosestTo:(NSPoint)point
+{
     id item = nil;
     float distance = 0;
+    
     for(NSView *aSubview in [self subviews])
     {
         if([aSubview respondsToSelector:@selector(highlightPoint)])
         {
-            NSPoint highlightPoint = [(OEControlsKeyButton*)aSubview highlightPoint];
+            NSPoint highlightPoint = [(OEControlsKeyButton *)aSubview highlightPoint];
             float currentDistance = NSDistanceBetweenPoints(point, highlightPoint);
             if(item == nil || currentDistance < distance)
             {
