@@ -236,12 +236,44 @@
     return self;
 }
 
+static void _OELogValue(IOHIDElementRef value)
+{
+    static NSMutableSet *types = nil;
+    
+    if(types == nil) types = [[NSMutableSet alloc] initWithCapacity:7];
+    
+    IOHIDElementType type = IOHIDElementGetType(value);
+    NSNumber *v = [NSNumber numberWithInt:type];
+    
+    if(![types containsObject:v])
+    {
+        [types addObject:v];
+        
+        switch(type)
+        {
+            case kIOHIDElementTypeInput_Misc : NSLog(@"kIOHIDElementTypeInput_Misc"); break;
+            case kIOHIDElementTypeInput_Button : NSLog(@"kIOHIDElementTypeInput_Button"); break;
+            case kIOHIDElementTypeInput_Axis : NSLog(@"kIOHIDElementTypeInput_Axis"); break;
+            case kIOHIDElementTypeInput_ScanCodes : NSLog(@"kIOHIDElementTypeInput_ScanCodes"); break;
+            case kIOHIDElementTypeOutput : NSLog(@"kIOHIDElementTypeOutput"); break;
+            case kIOHIDElementTypeFeature : NSLog(@"kIOHIDElementTypeFeature"); break;
+            case kIOHIDElementTypeCollection : NSLog(@"kIOHIDElementTypeCollection"); break;
+                
+            default :
+                NSLog(@"Unknown: %d", type);
+                break;
+        }
+    }
+}
+
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 {
     IOHIDElementRef elem   = IOHIDValueGetElement(aValue);
     const uint32_t  page   = IOHIDElementGetUsagePage(elem);
     const uint32_t  usage  = IOHIDElementGetUsage(elem);
     NSUInteger      cookie = (uint32_t)IOHIDElementGetCookie(elem);
+    
+    _OELogValue(elem);
     
     _hasPreviousState = _type != 0;
     
