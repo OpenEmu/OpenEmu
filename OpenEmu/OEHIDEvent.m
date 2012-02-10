@@ -236,61 +236,6 @@
     return self;
 }
 
-static void _OELogValue(IOHIDElementRef elem)
-{
-    static NSMutableSet *types  = nil;
-    static NSMutableSet *pages  = nil;
-    static NSMutableSet *usages = nil;
-    
-    if(types == nil)
-    {
-        types  = [[NSMutableSet alloc] initWithCapacity:7];
-        pages  = [[NSMutableSet alloc] initWithCapacity:7];
-        usages = [[NSMutableSet alloc] initWithCapacity:7];
-    }
-    
-    IOHIDElementType type = IOHIDElementGetType(elem);
-    NSNumber *v = [NSNumber numberWithInt:type];
-    
-    if(![types containsObject:v])
-    {
-        [types addObject:v];
-        
-        switch(type)
-        {
-            case kIOHIDElementTypeInput_Misc : NSLog(@"kIOHIDElementTypeInput_Misc"); break;
-            case kIOHIDElementTypeInput_Button : NSLog(@"kIOHIDElementTypeInput_Button"); break;
-            case kIOHIDElementTypeInput_Axis : NSLog(@"kIOHIDElementTypeInput_Axis"); break;
-            case kIOHIDElementTypeInput_ScanCodes : NSLog(@"kIOHIDElementTypeInput_ScanCodes"); break;
-            case kIOHIDElementTypeOutput : NSLog(@"kIOHIDElementTypeOutput"); break;
-            case kIOHIDElementTypeFeature : NSLog(@"kIOHIDElementTypeFeature"); break;
-            case kIOHIDElementTypeCollection : NSLog(@"kIOHIDElementTypeCollection"); break;
-                
-            default :
-                NSLog(@"Unknown: %d", type);
-                break;
-        }
-    }
-    
-    const uint32_t  page   = IOHIDElementGetUsagePage(elem);
-    v = [NSNumber numberWithInt:page];
-    if(![pages containsObject:v])
-    {
-        [pages addObject:v];
-        
-        NSLog(@"Page: %d", page);
-    }
-    
-    const uint32_t  usage  = IOHIDElementGetUsage(elem);
-    v = [NSNumber numberWithInt:usage];
-    if(![usages containsObject:v])
-    {
-        [usages addObject:v];
-        
-        NSLog(@"Usage: %d", usage);
-    }
-}
-
 - (BOOL)OE_setupEventWithDeviceHandler:(OEHIDDeviceHandler *)aDeviceHandler value:(IOHIDValueRef)aValue;
 {
     IOHIDElementRef elem   = IOHIDValueGetElement(aValue);
@@ -298,14 +243,14 @@ static void _OELogValue(IOHIDElementRef elem)
     const uint32_t  usage  = IOHIDElementGetUsage(elem);
     NSUInteger      cookie = (uint32_t)IOHIDElementGetCookie(elem);
     
-    _OELogValue(elem);
-    
     _hasPreviousState = _type != 0;
     
     if(!_hasPreviousState) _cookie = cookie;
     else if(_cookie != cookie) return NO;
     
-    if(IOHIDValueGetLength(aValue) != 1) return NO;
+    if(IOHIDValueGetLength(aValue) == 0 ||
+       IOHIDValueGetLength(aValue) >  8)
+        return NO;
     
     _previousTimestamp   = _timestamp;
     _timestamp           = IOHIDValueGetTimeStamp(aValue) / 1e9;
