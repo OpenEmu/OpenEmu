@@ -89,7 +89,7 @@
         
         gameView = [[OEGameView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];
         [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [view addSubview:view];
+        [view addSubview:gameView];
         
         [self setView:view];
         [view release];
