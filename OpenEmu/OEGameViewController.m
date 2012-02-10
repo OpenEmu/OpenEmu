@@ -47,6 +47,7 @@
 #import "OEGameDocument.h"
 
 #import "OEHUDAlert.h"
+
 @interface OEGameViewController ()
 
 + (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game;
@@ -84,7 +85,15 @@
             return nil;
         }
         
-        gameView = [[OEGameView alloc] initWithFrame:(NSRect){{0,0},{1,1}}];
+        NSView *view = [[NSView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];
+        
+        gameView = [[OEGameView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];
+        [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [view addSubview:view];
+        
+        [self setView:view];
+        [view release];
+        
         controlsWindow = [[OEHUDControlsBarWindow alloc] initWithGameViewController:self];
         [controlsWindow setReleasedWhenClosed:YES];
         
@@ -172,18 +181,14 @@
 }
 
 #pragma mark -
-- (NSView *)view
-{
-    return (NSView*)gameView;
-}
-#pragma mark -
 #pragma mark Controlling Emulation
-#pragma mark -
+
 - (void)resetGame
 {
     [[rootProxy gameCore] resetEmulation];
     // TODO: draw one frame to reflect reset
 }
+
 - (void)terminateEmulation
 {
     if(!emulationRunning) return;
@@ -387,10 +392,12 @@
     if(error!=NULL) *error = nil;
     return [[rootProxy gameCore] loadStateFromFileAtPath:fileName];
 }
+
 #pragma mark -
+
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block
 {
-    [(OEGameView*)[self view] captureScreenshotUsingBlock:block];
+    [gameView captureScreenshotUsingBlock:block];
 }
 
 #pragma mark -
@@ -494,7 +501,7 @@
             gameSystemResponder  = [gameSystemController newGameSystemResponder];
             [gameSystemResponder setClient:gameCore];
             
-            if(gameView)
+            if(gameView != nil)
             {
                 [gameView setRootProxy:rootProxy];
                 [gameView setGameResponder:gameSystemResponder];
