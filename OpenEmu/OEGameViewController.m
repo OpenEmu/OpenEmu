@@ -171,6 +171,8 @@
     [self OE_repositionControlsWindow];
     
     [controlsWindow orderFront:self];
+    
+    [window makeFirstResponder:gameView];
 }
 
 - (void)viewWillDisappear
