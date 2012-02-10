@@ -135,7 +135,7 @@
 
 - (void)setCurrentContentController:(OEMainWindowContentController *)controller
 {
-    if(controller == nil) controller = [self defaultContentController];
+    if(controller == nil) controller = [self libraryController];
     
     if(controller == [self currentContentController]) return;
     
