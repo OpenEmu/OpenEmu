@@ -236,13 +236,20 @@
     return self;
 }
 
-static void _OELogValue(IOHIDElementRef value)
+static void _OELogValue(IOHIDElementRef elem)
 {
-    static NSMutableSet *types = nil;
+    static NSMutableSet *types  = nil;
+    static NSMutableSet *pages  = nil;
+    static NSMutableSet *usages = nil;
     
-    if(types == nil) types = [[NSMutableSet alloc] initWithCapacity:7];
+    if(types == nil)
+    {
+        types  = [[NSMutableSet alloc] initWithCapacity:7];
+        pages  = [[NSMutableSet alloc] initWithCapacity:7];
+        usages = [[NSMutableSet alloc] initWithCapacity:7];
+    }
     
-    IOHIDElementType type = IOHIDElementGetType(value);
+    IOHIDElementType type = IOHIDElementGetType(elem);
     NSNumber *v = [NSNumber numberWithInt:type];
     
     if(![types containsObject:v])
@@ -263,6 +270,24 @@ static void _OELogValue(IOHIDElementRef value)
                 NSLog(@"Unknown: %d", type);
                 break;
         }
+    }
+    
+    const uint32_t  page   = IOHIDElementGetUsagePage(elem);
+    v = [NSNumber numberWithInt:page];
+    if(![pages containsObject:v])
+    {
+        [pages addObject:v];
+        
+        NSLog(@"Page: %d", page);
+    }
+    
+    const uint32_t  usage  = IOHIDElementGetUsage(elem);
+    v = [NSNumber numberWithInt:usage];
+    if(![usages containsObject:v])
+    {
+        [usages addObject:v];
+        
+        NSLog(@"Usage: %d", usage);
     }
 }
 
