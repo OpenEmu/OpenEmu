@@ -25,7 +25,7 @@
  */
 
 #import "OEBackgroundColorView.h"
-#import "NSColor+IKSAdditions.h"
+#import "NSColor+OEAdditions.h"
 @implementation OEBackgroundColorView
 @synthesize backgroundColor;
 

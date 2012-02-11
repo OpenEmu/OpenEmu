@@ -25,15 +25,14 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import "IKSGridView.h"
-#import "IKSGridViewProtocols.h"
+#import "OEGridView.h"
 #import "IKImageFlowView.h"
 
 #import "OECollectionViewItemProtocol.h"
 
 @class OELibraryController;
 @class OEHorizontalSplitView;
-@interface OECollectionViewController : NSViewController <IKSGridViewDelegate, IKSGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource>
+@interface OECollectionViewController : NSViewController <OEGridViewDelegate, OEGridViewDataSource, NSTableViewDelegate, NSTableViewDataSource>
 {
 @private
     NSArrayController *gamesController;
@@ -41,7 +40,7 @@
     id<OECollectionViewItemProtocol> collectionItem;
     
     IBOutlet NSView *gridViewContainer;// gridview
-    IBOutlet IKSGridView *gridView;// scrollview for gridview
+    IBOutlet OEGridView *gridView;// scrollview for gridview
     
     IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView *coverFlowView;
