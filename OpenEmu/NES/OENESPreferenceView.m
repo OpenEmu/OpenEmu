@@ -33,6 +33,8 @@
 {
     [super awakeFromNib];
     
+    // TODO: Add the localization the plist
+    /*
     BOOL famicom = [[OELocalizationHelper sharedHelper] isRegionJAP];
 	
     OEControlsSetupView *view = (OEControlsSetupView *)[self view];
@@ -51,6 +53,7 @@
 	[view addButtonWithName:@"OENESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(famicom?391:384, famicom?95:100)];
 	
 	[view updateButtons];
+     */
 }
 
 - (NSImage*)controllerImage
