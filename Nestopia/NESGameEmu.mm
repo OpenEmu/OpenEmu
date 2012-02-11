@@ -40,6 +40,7 @@
 #include <NstApiRewinder.hpp>
 #include <NstApiRam.h>
 #include <NstApiMovie.hpp>
+#include <NstMachine.hpp>
 #include <iostream>
 #include <fstream>
 #include <map>
@@ -706,6 +707,8 @@ static int Heights[2] =
     
     if (stateFile.is_open())
         result = machine.SaveState(stateFile, Nes::Api::Machine::NO_COMPRESSION );
+    else
+        return NO;
     
     if(NES_FAILED(result)) {
         NSString *errorDescription = nil;
@@ -739,6 +742,8 @@ static int Heights[2] =
     
     if (stateFile.is_open())
         result = machine.LoadState(stateFile);
+    else
+        return NO;
     
     if(NES_FAILED(result)) {
         NSString *errorDescription = nil;
