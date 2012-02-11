@@ -31,11 +31,6 @@
 @class OEMainWindowTitleBarView;
 
 @interface OEMainWindow : NSWindow <OECustomWindow>
-{
-    NSView *mainContentView;
-}
-
-@property(strong, nonatomic) NSView *mainContentView;
 @end
 
 @interface OEMainWindowTitleBarView : NSView

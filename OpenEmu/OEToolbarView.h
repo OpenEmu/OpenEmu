@@ -23,15 +23,15 @@
 - (OEToolbarItem*)selectedItem;
 - (void)markItemAsSelected:(OEToolbarItem*)tbItem; // basically selects a toolbar item without invoking its actions
 
-@property (strong, readwrite) NSMutableArray *items;
+@property (strong) NSMutableArray *items;
 @property (nonatomic, strong) NSColor *contentseparatorColor;
 @end
 
 @interface OEToolbarItem : NSObject
-@property (readwrite) NSRect itemRect;
+@property NSRect itemRect;
 
-@property (copy, readwrite) NSString *title;
-@property (copy, readwrite) NSImage *icon;
-@property (unsafe_unretained, readwrite) id target;
-@property (readwrite) SEL action;
+@property (copy) NSString *title;
+@property (copy) NSImage *icon;
+@property (unsafe_unretained) id target;
+@property SEL action;
 @end

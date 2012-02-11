@@ -51,7 +51,7 @@
 
 @property(readwrite) BOOL drawSquarePixels;
 @property(readonly) IOSurfaceID surfaceID;
-@property(retain) id <OEGameCoreHelperDelegate> delegate;
+@property(weak) id <OEGameCoreHelperDelegate> delegate;
 
 - (byref OEGameCore *)gameCore;
 

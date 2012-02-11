@@ -407,8 +407,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (void)controlsViewController:(OEControlsViewController *)sender registerEvent:(id)theEvent forKey:(NSString *)keyName;
 {
-    
-    BOOL isKeyBoard = ([theEvent isKindOfClass:[OEHIDEvent class]] || [[theEvent className] isEqualTo:@"OEHIDEvent"]) && [(OEHIDEvent *)theEvent type] == OEHIDKeypress;
+    BOOL isKeyBoard = [theEvent isKindOfClass:[OEHIDEvent class]] && [(OEHIDEvent *)theEvent type] == OEHIDKeypress;
     
     NSString *valueType = (isKeyBoard ? OEKeyboardEventValueKey : OEHIDEventValueKey);
     

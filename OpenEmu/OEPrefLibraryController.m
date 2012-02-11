@@ -9,6 +9,7 @@
 #import "OEPrefLibraryController.h"
 #import "OECheckBox.h"
 
+#import "OEApplicationDelegate.h"
 #import "OELibraryDatabase.h"
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
@@ -88,6 +89,7 @@
             if (databasePath && ![databasePath isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey]])
             {
                 [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:UDDatabasePathKey];
+                [(OEApplicationDelegate *) [NSApplication sharedApplication].delegate OE_loadDatabase];
                 [pathField setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
             }
         }

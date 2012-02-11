@@ -31,12 +31,16 @@
 - (IBAction)showAboutWindow:(id)sender;
 - (IBAction)showPreferencesWindow:(id)sender;
 
+- (IBAction)showOpenEmuWindow:(id)sender;
+
 - (IBAction)updateBundles:(id)sender;
 
 - (void)updateInfoPlist;
 
-@property(strong) IBOutlet NSWindow               *aboutWindow;
-@property(strong) IBOutlet OEMainWindowController *mainWindowController;
+- (void)OE_loadDatabase;
+
+@property(unsafe_unretained) IBOutlet NSWindow               *aboutWindow;
+@property(unsafe_unretained) IBOutlet OEMainWindowController *mainWindowController;
 
 @property(strong)   OEHIDManager       *hidManager;
 @property(strong, readonly) NSString           *aboutCreditsPath;

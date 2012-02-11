@@ -28,7 +28,6 @@
 #import "NSColor+IKSAdditions.h"
 
 @implementation OECoverGridGlossLayer
-
 #pragma mark -
 #pragma mark Drawing
 

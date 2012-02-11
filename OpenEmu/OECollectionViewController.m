@@ -372,11 +372,11 @@
     NSManagedObjectID *objId = (NSManagedObjectID*)obj;
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[moc objectWithID:objId];
     
-    if([key isEqualTo:@"rating"])
+    if([key isEqualToString:@"rating"])
     {
         [object setGridRating:[val unsignedIntegerValue]];
     } 
-    else if([key isEqualTo:@"title"])
+    else if([key isEqualToString:@"title"])
     {
         [object setGridTitle:val];
     }
@@ -388,21 +388,21 @@
     OELibraryDatabase *database = [[self libraryController] database];
     NSManagedObjectContext *moc = [database managedObjectContext];
     NSManagedObjectID *objId = (NSManagedObjectID*)obj;
-#warning What if objID is nil????
+
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[moc objectWithID:objId];
-    if([key isEqualTo:@"status"])
+    if([key isEqualToString:@"status"])
     {
         return [NSNumber numberWithInt:[object gridStatus]];
     }
-    else if([key isEqualTo:@"image"])
+    else if([key isEqualToString:@"image"])
     {
         return [object gridImageWithSize:[gridView itemSize]];
     } 
-    else if([key isEqualTo:@"title"])
+    else if([key isEqualToString:@"title"])
     {
         return [object gridTitle];
     } 
-    else if([key isEqualTo:@"rating"])
+    else if([key isEqualToString:@"rating"])
     {
         return [NSNumber numberWithInt:[object gridRating]];
     }
@@ -427,7 +427,7 @@
 #pragma mark GridView Interaction
 - (void)gridViewWasDoubleClicked:(id)sender{
     if([[self selectedGames] count]!=0)
-        [[self libraryController] controlsmenu_startGame:sender];
+        [[self libraryController] startGame:sender];
 }
 #pragma mark -
 #pragma mark NSTableView DataSource
@@ -494,7 +494,7 @@
     if( aTableView == listView)
     {
         id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
-        if([[aTableColumn identifier] isEqualTo:@"romRating"])
+        if([[aTableColumn identifier] isEqualToString:@"romRating"])
         {
             [obj setListViewRating:anObject];
         }
@@ -584,7 +584,7 @@
 {
     if( aTableView == listView )
     {
-        if([[aTableColumn identifier] isEqualTo:@"romRating"]) return NO;
+        if([[aTableColumn identifier] isEqualToString:@"romRating"]) return NO;
         
         return YES;
     }
@@ -644,7 +644,7 @@
 
 - (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    if( tableView == listView && [[tableColumn identifier] isEqualTo:@"romRating"] )
+    if( tableView == listView && [[tableColumn identifier] isEqualToString:@"romRating"] )
     {
         return YES;
     }
@@ -661,7 +661,7 @@
     id game = [self tableView:sender objectValueForTableColumn:nil row:selectedRow];
     if(game)
     {
-        [[self libraryController] controlsmenu_startGame:nil];
+        [[self libraryController] startGame:nil];
     }    
 }
 

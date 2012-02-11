@@ -38,13 +38,7 @@
 @class OEGameCore, OEGameDocument;
 
 @interface OEGameLayer : CAOpenGLLayer <OEGameCoreHelperDelegate>
-{
-    // from our gameDocument - where we get our IOSurface refs from:
-    id<OEGameCoreHelper> rootProxy;
-    
-    NSString             *filterName;
-    NSView               *__weak ownerView;
-    
+{     
     // for rendering
     CGLContextObj         layerContext;
     CGLContextObj         sharedLayerContext;
@@ -55,7 +49,6 @@
     NSDictionary         *filters;
     
     BOOL                  usesShader;
-    BOOL                  vSyncEnabled;
     
     QCRenderer           *filterRenderer;
     
@@ -71,10 +64,8 @@
     
     void (^screenshotHandler)(NSImage *img);
     
-    CIImage *gameCIImage;
     CGSize cachedTextureSize;
     
-    IOSurfaceID surfaceID;
     OEIntSize screenSize;
     
     SyphonServer *gameServer;
@@ -84,9 +75,9 @@
 
 @property(nonatomic, strong) id<OEGameCoreHelper> rootProxy;
 
-@property         BOOL          vSyncEnabled;
+@property(nonatomic)         BOOL          vSyncEnabled;
 @property(weak) NSView       *ownerView;
-@property(strong) NSString     *filterName;
+@property(nonatomic, strong) NSString     *filterName;
 @property(strong) CIImage      *gameCIImage;
 
 - (CGFloat)preferredWindowScale;

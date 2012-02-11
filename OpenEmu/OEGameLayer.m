@@ -56,14 +56,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 @synthesize ownerView, gameCIImage, screenshotHandler;
 @synthesize rootProxy;
-
-- (BOOL)vSyncEnabled
-{
-    return vSyncEnabled;
-}
+@synthesize vSyncEnabled, filterName;
 
 - (void)setVSyncEnabled:(BOOL)value
 {
+    if (vSyncEnabled == value) return;
     vSyncEnabled = value;
     if(layerContext != nil)
     {
@@ -77,7 +74,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     return [[OECompositionPlugin compositionPluginWithName:filterName] composition];
 }
 
-- (NSString *)filterName { return filterName; }
 - (void)setFilterName:(NSString *)value
 {
     if(filterName != value)
@@ -190,7 +186,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // our texture is in NTSC colorspace from the cores
     rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
     
-    surfaceID  = rootProxy.surfaceID;
     screenSize = rootProxy.screenSize;
     
     gameServer = [[SyphonServer alloc] initWithName:@"Game Name" context:layerContext options:nil];
@@ -334,7 +329,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         time -= startTime;
 
     // IOSurfaceLookup performs a lock *AND A RETAIN* - 
-    IOSurfaceRef surfaceRef = IOSurfaceLookup(surfaceID); 
+    IOSurfaceRef surfaceRef = IOSurfaceLookup(rootProxy.surfaceID); 
     
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
@@ -415,6 +410,8 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         
         CFRelease(surfaceRef);
     }
+    else
+        NSLog(@"Surface is null");
 }
 
 - (void)dealloc

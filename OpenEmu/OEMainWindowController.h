@@ -27,13 +27,18 @@
 #import <Cocoa/Cocoa.h>
 
 @class OEMainWindowContentController;
+
+@class OELibraryController;
+
 @interface OEMainWindowController : NSWindowController <NSWindowDelegate>
 
 #pragma mark -
 
-@property(strong, nonatomic) OEMainWindowContentController *currentContentController;
-@property(strong)            OEMainWindowContentController *defaultContentController;
-@property                    BOOL                           allowWindowResizing;
+@property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
+
+@property(nonatomic, unsafe_unretained) OEMainWindowContentController *currentContentController;
+@property(nonatomic, unsafe_unretained) OEMainWindowContentController *defaultContentController;
+@property                               BOOL                           allowWindowResizing;
 
 #pragma mark -
 #pragma mark Menu Items
@@ -42,16 +47,18 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 - (void)menuItemAction:(id)sender;
 
+@property(weak) IBOutlet NSView *placeholderView;
+
 #pragma mark -
 #pragma mark Toolbar Elements
 
-@property(strong) IBOutlet NSButton      *toolbarSidebarButton;
-@property(strong) IBOutlet NSButton      *toolbarGridViewButton;
-@property(strong) IBOutlet NSButton      *toolbarFlowViewButton;
-@property(strong) IBOutlet NSButton      *toolbarListViewButton;
+@property(weak) IBOutlet NSButton      *toolbarSidebarButton;
+@property(weak) IBOutlet NSButton      *toolbarGridViewButton;
+@property(weak) IBOutlet NSButton      *toolbarFlowViewButton;
+@property(weak) IBOutlet NSButton      *toolbarListViewButton;
 
-@property(strong) IBOutlet NSButton      *toolbarAddToSidebarButton;
-@property(strong) IBOutlet NSSearchField *toolbarSearchField;
-@property(strong) IBOutlet NSSlider      *toolbarSlider;
+@property(weak) IBOutlet NSButton      *toolbarAddToSidebarButton;
+@property(weak) IBOutlet NSSearchField *toolbarSearchField;
+@property(weak) IBOutlet NSSlider      *toolbarSlider;
 
 @end

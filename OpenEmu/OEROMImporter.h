@@ -53,5 +53,5 @@ typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
 @property (strong) OELibraryDatabase *database;
 @property __block int queueCount;
 
-@property (weak, readonly) NSArray *importedRoms;
+@property (readonly) NSArray *importedRoms;
 @end

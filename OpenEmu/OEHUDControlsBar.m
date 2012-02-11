@@ -243,12 +243,13 @@
     [menu addItem:item];
     
     OEMenu *oemenu = [menu convertToOEMenu];
+    [oemenu setStyle:OEMenuStyleLight];
     [oemenu setDelegate:self];
     oemenu.itemsAboveScroller = 2;
     oemenu.maxSize = NSMakeSize(500, 256);
-    NSRect buttonRect = [sender frame];
-    NSPoint menuPoint = NSMakePoint(NSMidX(buttonRect)+[self frame].origin.x-4, NSMaxY(buttonRect)+[self frame].origin.y-7);
-    [oemenu openOnEdge:NSMinYEdge atPoint:menuPoint ofWindow:self];
+    NSRect targetRect = (NSRect){{[sender frame].origin.x,0},{[sender frame].size.width -6, NSHeight([self frame])}};
+    targetRect = NSInsetRect(targetRect, 0, 17);
+    [oemenu openOnEdge:OEMaxYEdge ofRect:targetRect ofWindow:self];
 }
 
 - (void)optionsActionEditControls:(id)sender{}
@@ -263,7 +264,6 @@
 
 #pragma mark -
 #pragma mark Save States
-
 - (void)saveAction:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
@@ -307,24 +307,25 @@
     
     OEMenu *oemenu = [menu convertToOEMenu];
     [oemenu setDelegate:self];
+    [oemenu setStyle:OEMenuStyleLight];
     oemenu.itemsAboveScroller = 2;
     oemenu.maxSize = NSMakeSize(5000, 256);
-    NSRect buttonRect = [sender frame];
-    NSPoint menuPoint = NSMakePoint(NSMidX(buttonRect)+[self frame].origin.x-4, NSMaxY(buttonRect)+[self frame].origin.y-7);
-    [oemenu openOnEdge:NSMinYEdge atPoint:menuPoint ofWindow:self];
 
+    NSRect targetRect = (NSRect){{[sender frame].origin.x,0},{[sender frame].size.width -6, NSHeight([self frame])}};
+    targetRect = NSInsetRect(targetRect, 0, 17);
+    [oemenu openOnEdge:OEMaxYEdge ofRect:targetRect ofWindow:self];
 }
 
 - (void)doLoadState:(id)stateItem
 {
-    [[self gameViewController] loadState:[stateItem representedObject]];
+    [[self gameViewController] loadSaveState:[stateItem representedObject]];
     
     [self hide];
 }
 
 - (void)doDeleteState:(id)stateItem
 {
-    [[self gameViewController] deleteState:[stateItem representedObject]];
+    [[self gameViewController] deleteSaveState:[stateItem representedObject]];
 }
 
 - (void)doSaveState:(id)sender

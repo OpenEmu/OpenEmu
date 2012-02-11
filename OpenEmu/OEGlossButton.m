@@ -70,14 +70,19 @@
 
 }
 #pragma mark -
+
 - (void)viewDidMoveToWindow
 {
+    [super viewDidMoveToWindow];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display) name:NSWindowDidResignMainNotification object:[self window]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(display) name:NSWindowDidBecomeMainNotification object:[self window]];
 }
 
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow
 {
+    [super viewWillMoveToWindow:newWindow];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 #pragma mark -

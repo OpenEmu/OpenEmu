@@ -11,18 +11,13 @@
 
 @implementation OESidebarFieldEditor
 @synthesize container;
-- (id)init{
-    self = [super init];
-    if (self) {
-        
-    }
-    
-    return self;
-}
 
-+ (id)fieldEditor{
++ (id)fieldEditor
+{
     static OESidebarFieldEditor *fieldEditor = nil;
-    if (fieldEditor == nil){
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         fieldEditor = [[OESidebarFieldEditor alloc] initWithFrame:NSZeroRect];
         
         [fieldEditor setFieldEditor:YES];
@@ -30,9 +25,11 @@
         [fieldEditor setSelectable:YES];
         
         [fieldEditor setTextContainerInset:NSMakeSize(1, 2)];
-    }
+    });
+    
     return fieldEditor;
 }
+
 - (NSRect)superFrame
 {
     return [[self superview] frame];
@@ -40,23 +37,27 @@
 
 - (void)viewWillMoveToSuperview:(NSView *)newSuperview
 {
-    if(newSuperview==nil && self.superview)
+    if(newSuperview == nil && [self superview] != nil)
     {
-        [self.superview removeObserver:self forKeyPath:@"frame"];
+        [[self superview] removeObserver:self forKeyPath:@"frame"];
     }
-    else if(newSuperview)
+    else if(newSuperview != nil)
     {
         [newSuperview addObserver:self forKeyPath:@"frame" options:0xF context:nil];
     }
 }
 - (void)updateContainerFrame
 {
-    if(self.superview && [self container]){
+    if([self superview] != nil && [self container] != nil)
+    {
         NSRect rect = NSInsetRect([[self superview] frame], -1, -1);
-        rect.size.width-=1;
+        
+        rect.size.width -= 1;
+        
         [[self container] setFrame:rect];
     }
 }
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     [self updateContainerFrame];
@@ -64,17 +65,21 @@
 
 - (void)viewDidMoveToWindow
 {
-    if(self.window && [self superview] &&[NSStringFromClass([[self superview] class]) isEqualToString:@"_NSKeyboardFocusClipView"])
-    {       
-        OEBackgroundColorView *_container = [[OEBackgroundColorView alloc] initWithFrame:NSInsetRect([self superFrame], -1, -1)];
-        _container.backgroundColor = [NSColor colorWithDeviceRed:0.09 green:0.153 blue:0.553 alpha:1.0];
-        [self setContainer:_container];
+    [super viewDidMoveToWindow];
+    
+    if([self window]    != nil &&
+       [self superview] != nil &&
+       [NSStringFromClass([[self superview] class]) isEqualToString:@"_NSKeyboardFocusClipView"])
+    {
+        OEBackgroundColorView *cont = [[OEBackgroundColorView alloc] initWithFrame:NSInsetRect([self superFrame], -1, -1)];
+        cont.backgroundColor = [NSColor colorWithDeviceRed:0.09 green:0.153 blue:0.553 alpha:1.0];
+        [self setContainer:cont];
         
         [self updateContainerFrame];
         
-        [[[self superview] superview] addSubview:[self container] positioned:NSWindowBelow relativeTo:[self superview]]; 
+        [[[self superview] superview] addSubview:[self container] positioned:NSWindowBelow relativeTo:[self superview]];
     }
-    else if([self container])
+    else if([self container] != nil)
     {
         [[self container] removeFromSuperview];
         [self setContainer:nil];
@@ -84,18 +89,21 @@
 - (void)setFrameSize:(NSSize)size
 {
     size.width = ceil(size.width);
+    
     [super setFrameSize:size];
 }
 
-- (void)drawRect:(NSRect)dirtyRect {
+- (void)drawRect:(NSRect)dirtyRect
+{
     [self setBackgroundColor:[NSColor whiteColor]];
-    [super drawRect:dirtyRect];    
+    
+    [super drawRect:dirtyRect];
 }
 
-- (void)dealloc {
-    if([self container])
-        [[self container] removeFromSuperview];
-    
+- (void)dealloc
+{
+    [[self container] removeFromSuperview];
+    [self setContainer:nil];    
 }
 
 @end

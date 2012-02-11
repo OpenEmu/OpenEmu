@@ -45,11 +45,9 @@
 #import "OELibraryController.h"
 
 #import "OEHUDAlert.h"
-
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
-- (void)OE_loadDatabase;
 - (void)OE_performDatabaseSelection;
 
 - (void)OE_loadPlugins;
@@ -115,6 +113,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     [self OE_setTargetForMenuItems:[NSApp mainMenu]];
     
+    [mainWindowController showWindow:self];
+    
     // TODO: remove after testing OEHUDAlert
     /* [[OECoreUpdater sharedUpdater] installCoreWithIdentifier:@"com.openemu.snes9x" coreName:@"Nestopia" systemName:@"Nintendo (NES)" withCompletionHandler:^{
      NSLog(@"core was installed!");
@@ -127,7 +127,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     NSError *error = nil;
     
     NSString *databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey];
-    if(databasePath != nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDefaultDatabasePathKey];
+    if(databasePath == nil) databasePath = [[NSUserDefaults standardUserDefaults] valueForKey:UDDefaultDatabasePathKey];
     
     if(![[NSFileManager defaultManager] fileExistsAtPath:databasePath isDirectory:NULL] &&
        [databasePath isEqual:[[NSUserDefaults standardUserDefaults] objectForKey:UDDefaultDatabasePathKey]])
@@ -290,6 +290,11 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     return [[NSBundle mainBundle] pathForResource:@"Credits" ofType:@"rtf"];
 }
 
+- (IBAction)showOpenEmuWindow:(id)sender;
+{
+    [[self mainWindowController] showWindow:sender];
+}
+
 #pragma mark -
 #pragma mark Updating
 
@@ -431,7 +436,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 - (void)OE_setTargetForMenuItems:(NSMenu*)menu
 {
     [menu setAutoenablesItems:YES];
-    
+    /*
     [[menu itemArray] enumerateObjectsUsingBlock:
      ^(id obj, NSUInteger idx, BOOL *stop)
      {
@@ -443,8 +448,10 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
              [obj setTarget:self];
          }
      }];
+     */
 }
 
+/*
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     return [menuItem action] != @selector(menuItemAction:) || [[self mainWindowController] validateMenuItem:menuItem];
@@ -454,5 +461,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 {
     [[self mainWindowController] menuItemAction:sender];
 }
+ */
 
 @end

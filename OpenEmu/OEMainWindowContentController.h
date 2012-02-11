@@ -26,17 +26,22 @@
 
 #import <Cocoa/Cocoa.h>
 #import "OEMainWindowController.h"
+
 @interface OEMainWindowContentController : NSViewController
 
 #warning windowController should no longer be used
 @property(unsafe_unretained) OEMainWindowController *windowController;
-- (id)initWithWindowController:(OEMainWindowController*) aWindowController;
+
+- (id)initWithWindowController:(OEMainWindowController *) aWindowController;
 
 - (void)contentWillShow;
 - (void)contentWillHide;
+
 #pragma mark -
 #pragma mark Menu Items
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 - (void)menuItemAction:(id)sender;
 - (void)setupMenuItems;
+
 @end

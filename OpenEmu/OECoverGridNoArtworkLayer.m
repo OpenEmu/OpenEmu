@@ -28,7 +28,6 @@
 
 
 @implementation OECoverGridNoArtworkLayer
-
 - (void)drawInContext:(CGContextRef)ctx
 {
     NSGraphicsContext *graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:YES];

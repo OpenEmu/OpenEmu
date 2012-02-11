@@ -71,9 +71,7 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 		IOHIDManagerUnscheduleFromRunLoop(hidManager, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
 		CFRelease(hidManager);
     }
-	
 }
-
 - (void)registerDeviceTypes:(NSArray*)matchingTypes
 {
     IOHIDManagerSetDeviceMatchingMultiple(hidManager, (__bridge CFArrayRef)matchingTypes);

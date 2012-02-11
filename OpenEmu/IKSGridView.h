@@ -91,7 +91,7 @@
 @property (nonatomic, assign) NSSize minimumSpacing;
 
 
-@property (nonatomic, strong) id<IKSGridViewDataSource> dataSource;
+@property (nonatomic, unsafe_unretained) id<IKSGridViewDataSource> dataSource;
 /** 
  Size of each item
  Default: {100.0, 100.0} 

@@ -6,6 +6,7 @@
 #import "OESidebarOutlineView.h"
 #import "OESidebarOutlineButtonCell.h"
 #import <objc/runtime.h>
+#import "NSViewController+OEAdditions.h"
 
 @implementation OESidebarOutlineView (OEPrivate)
 
@@ -24,3 +25,22 @@
 }
 
 @end
+
+NSView *(*_old_NSViewController_view)(NSViewController *self, SEL _cmd);
+
+NSView *OE_NSViewController_view(NSViewController *self, SEL _cmd);
+NSView *OE_NSViewController_view(NSViewController *self, SEL _cmd)
+{
+    NSView *ret = nil;
+    object_getInstanceVariable(self, "view", (void **)&ret);
+    
+    BOOL willLoad = ret == nil;
+    
+    if(willLoad) [self viewWillLoad];
+    
+    ret = _old_NSViewController_view(self, _cmd);
+    
+    if(willLoad) [self viewDidLoad];
+    
+    return ret;
+}

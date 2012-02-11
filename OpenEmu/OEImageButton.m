@@ -26,15 +26,24 @@
 
 #import "OEImageButton.h"
 #import "NSImage+OEDrawingAdditions.h"
+
 @implementation OEImageButton
 @synthesize isInHover;
 
 - (void)viewDidMoveToWindow
 {
+    [super viewDidMoveToWindow];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidBecomeMainNotification object:[self window]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowChanged:) name:NSWindowDidResignMainNotification object:[self window]];
     
     [self updateTrackingAreas];
+}
+
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeMainNotification object:[self window]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignMainNotification object:[self window]];
 }
 
 - (void)updateTrackingAreas
@@ -42,8 +51,9 @@
     while([[self trackingAreas] count] > 0)
         [self removeTrackingArea:[[self trackingAreas] lastObject]];
     
-    NSCell *cell = [self cell];
-    if(cell != nil && [cell isKindOfClass:[OEImageButtonCell class]] && [(OEImageButtonCell*)cell displaysHover])
+    OEImageButtonCell *cell = [self cell];
+    
+    if([cell isKindOfClass:[OEImageButtonCell class]] && [cell displaysHover])
         [self addTrackingArea:[[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingActiveInActiveApp|NSTrackingMouseEnteredAndExited owner:self userInfo:nil]];
     
     [self setIsInHover:NO];

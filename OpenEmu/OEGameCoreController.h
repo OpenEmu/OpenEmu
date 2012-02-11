@@ -52,7 +52,7 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 }
 
 @property(readonly) NSBundle *bundle;
-@property(weak, readonly) Class     gameCoreClass;
+@property(readonly) Class     gameCoreClass;
 @property(weak, readonly) id        currentPreferenceViewController;
 @property(readonly) NSString *playerString;
 

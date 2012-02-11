@@ -118,7 +118,7 @@
         tLayer.foregroundColor=[[NSColor whiteColor] CGColor];
         tLayer.truncationMode = kCATruncationEnd;
         tLayer.alignmentMode = kCAAlignmentCenter;
-        
+
         tLayer.shadowColor = [[NSColor blackColor] CGColor];
         tLayer.shadowOffset = CGSizeMake(0, -1);
         tLayer.shadowRadius = 1.0;
@@ -266,15 +266,16 @@
     newImageLayer.delegate = self;
     
 #warning fix grid view crash
-    // weired issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
-    if(![self.imageLayer.superlayer.sublayers containsObject:self.imageLayer])
-    {
-        [CATransaction commit];
-        return;
-    }
-    // weired issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
-        [self.imageLayer.superlayer replaceSublayer:self.imageLayer with:newImageLayer];
-        self.imageLayer = newImageLayer;
+    // weird issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
+    CALayer* superlayer = self.imageLayer.superlayer;
+    NSAssert(superlayer, @"no superlayer");
+    
+    NSInteger index = [superlayer.sublayers indexOfObject:self.imageLayer];
+    NSAssert(index != NSNotFound, @"not a sublayer of superlayer");
+    [self.imageLayer removeFromSuperlayer];
+    [superlayer insertSublayer:newImageLayer atIndex:index];
+    // weird issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
+    self.imageLayer = newImageLayer;
       
     // Height of title string
     float titleHeight = 16;
@@ -357,6 +358,8 @@
 
 - (void)setImage:(NSImage *)_image
 {
+    if(image == _image)
+        return;
     
     image = _image;
     [self _layoutImageAndSelection];
@@ -826,7 +829,7 @@
 - (id < CAAction >)actionForLayer:(CALayer *)layer forKey:(NSString *)key
 {
     if(layer == self.ratingLayer)
-        if(isEditingRating && layer == self.ratingLayer && [key isEqualTo:@"contents"])
+        if(isEditingRating && layer == self.ratingLayer && [key isEqualToString:@"contents"])
             return nil;
     
     return (id < CAAction >)[NSNull null];

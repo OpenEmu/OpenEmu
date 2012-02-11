@@ -10,6 +10,7 @@
 
 #import "OESidebarOutlineView.h"
 @class OELibraryDatabase, OESidebarOutlineView;
+@protocol OECollectionViewItemProtocol;
 @interface OESidebarController : NSViewController <NSOutlineViewDelegate, NSOutlineViewDataSource, OEDraggingDestinationDelegate>
 {
 @private
@@ -34,9 +35,12 @@
 
 - (void)willHide;
 - (void)willShow;
-@property (strong) OELibraryDatabase *database;
-@property (strong, readwrite) NSArray *groups;
-@property (strong, readwrite) NSArray *systems, *collections;
 
+- (id<OECollectionViewItemProtocol>)selectedCollection;
+
+@property (retain, nonatomic) OESidebarOutlineView *view;
+@property (strong) OELibraryDatabase *database;
+@property (retain, readwrite) NSArray *groups;
+@property (retain, readwrite) NSArray *systems, *collections;
 @property (nonatomic, strong, readwrite) id editingItem;
 @end

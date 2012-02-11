@@ -246,7 +246,9 @@
     if(!_hasPreviousState) _cookie = cookie;
     else if(_cookie != cookie) return NO;
     
-    if(IOHIDValueGetLength(aValue) != 1) return NO;
+    if(IOHIDValueGetLength(aValue) == 0 ||
+       IOHIDValueGetLength(aValue) >  8)
+        return NO;
     
     _previousTimestamp   = _timestamp;
     _timestamp           = IOHIDValueGetTimeStamp(aValue) / 1e9;

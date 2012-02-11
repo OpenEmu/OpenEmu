@@ -56,7 +56,7 @@
     NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
     
     NSImage *controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
-    [(OEBackgroundImageView*)[self view] setImage:controlsBackgroundImage];
+    [(OEBackgroundImageView *)[self view] setImage:controlsBackgroundImage];
     
     /** ** ** ** ** ** ** ** **/
     // Setup controls popup console list
@@ -71,7 +71,7 @@
     [[self consolesPopupButton] selectItemAtIndex:0];
     for(NSMenuItem *anItem in [[self consolesPopupButton] itemArray])
     {
-        if([[anItem representedObject] isEqualTo:pluginName])
+        if([[anItem representedObject] isEqual:pluginName])
         {
             [[self consolesPopupButton] selectItem:anItem];
             break;
@@ -120,7 +120,7 @@
     [[self consolesPopupButton] selectItemAtIndex:0];
     for(NSMenuItem *anItem in [[self consolesPopupButton] itemArray])
     {
-        if([[anItem representedObject] isEqualTo:selectedSystemIdentifier])
+        if([[anItem representedObject] isEqual:selectedSystemIdentifier])
         {
             [[self consolesPopupButton] selectItem:anItem];
             break;
@@ -133,6 +133,7 @@
 }
 #pragma mark -
 #pragma mark UI Methods
+
 - (IBAction)changeSystem:(id)sender
 {
     NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
@@ -265,12 +266,13 @@
 
 #pragma mark -
 #pragma mark OEPreferencePane Protocol
-- (NSImage*)icon
+
+- (NSImage *)icon
 {
     return [NSImage imageNamed:@"controls_tab_icon"];
 }
 
-- (NSString*)title
+- (NSString *)title
 {
     return @"Controls";
 }
@@ -280,7 +282,7 @@
     return NSMakeSize(561, 534);
 }
 
-- (NSColor*)toolbarSeparationColor
+- (NSColor *)toolbarSeparationColor
 {
     return [NSColor colorWithDeviceWhite:0.32 alpha:1.0];
 }

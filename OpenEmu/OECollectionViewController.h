@@ -51,7 +51,7 @@
 }
 
 #pragma mark -
-- (NSArray*)selectedGames;
+- (NSArray *)selectedGames;
 #pragma mark -
 #pragma mark View Selection
 - (IBAction)selectGridView:(id)sender;
@@ -68,7 +68,7 @@
 
 - (void)setNeedsReload;
 #pragma mark -
-@property(strong) IBOutlet OELibraryController *libraryController;
+@property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
 @property(nonatomic, strong) id <OECollectionViewItemProtocol> collectionItem;
 
 @property(nonatomic, strong) IBOutlet NSView *emptyCollectionView;

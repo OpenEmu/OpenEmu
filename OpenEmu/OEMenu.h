@@ -35,6 +35,16 @@ typedef enum _OEMenuStyle {
     OEMenuStyleDark,
     OEMenuStyleLight
 } OEMenuStyle;
+
+typedef enum _OERectEdge
+{
+    OENoEdge,
+    OEMinYEdge,
+    OEMaxYEdge,
+    OEMinXEdge,
+    OEMaxXEdge
+} OERectEdge;
+
 @interface OEMenu : NSWindow 
 {
 @private
@@ -42,30 +52,28 @@ typedef enum _OEMenuStyle {
     NSMenuItem *highlightedItem;
     
     OEMenu *submenu;
-    OEMenu *supermenu;
     
     OEPopupButton *popupButton;
     
-    NSSize minSize, maxSize;
     int itemsAboveScroller, itemsBelowScroller;
     
     id _localMonitor;
     BOOL visible;
     BOOL closing;
     BOOL _alternate;
-    id <OEMenuDelegate> delegate;
-    
+
     OEMenuStyle style;
 }
 
-#pragma mark -
-- (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
-- (void)openOnEdge:(NSRectEdge)edge atPoint:(NSPoint)p ofWindow:(NSWindow*)win;
+- (void)openOnEdge:(OERectEdge)anedge ofRect:(NSRect)rect ofWindow:(NSWindow*)win;
+
 - (void)closeMenuWithoutChanges:(id)sender;
 - (void)closeMenu;
 
 - (void)menuMouseDragged:(NSEvent *)theEvent;
 - (void)menuMouseUp:(NSEvent*)theEvent;
+
+- (void)updateSize;
 #pragma mark - NSMenu wrapping
 - (NSArray *)itemArray;
 
@@ -74,23 +82,23 @@ typedef enum _OEMenuStyle {
 @property(readwrite) NSSize minSize, maxSize;
 @property(strong) OEPopupButton *popupButton;
 @property(nonatomic, strong) OEMenu *submenu;
-@property(nonatomic, strong) OEMenu *supermenu;
+@property(nonatomic, unsafe_unretained) OEMenu *supermenu;
 
 @property OEMenuStyle style;
-@property (readonly) NSRectEdge edge;
+@property OERectEdge openEdge;
 
 @property (nonatomic, strong) NSMenu *menu;
 @property (strong) NSMenuItem *highlightedItem;
 @property (readonly, getter = isVisible) BOOL visible;
 
 @property int itemsAboveScroller, itemsBelowScroller;
-@property(nonatomic, strong) id <OEMenuDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id <OEMenuDelegate> delegate;
+
+@property BOOL containsItemWithImage;
 @end
 
 @interface NSMenu (OEAdditions)
-
 - (OEMenu*)convertToOEMenu;
-
 @end
 
 @protocol OEMenuDelegate <NSObject>
@@ -102,11 +110,6 @@ typedef enum _OEMenuStyle {
 @end
 
 @interface OEMenuView : NSView
-{
-@private
-    BOOL imageIncluded;
-}
-- (void)updateAndDisplay:(BOOL)displayFlag;
 #pragma mark -
 - (void)highlightItemAtPoint:(NSPoint)p;
 - (NSMenuItem *)itemAtPoint:(NSPoint)p;
@@ -119,6 +122,5 @@ typedef enum _OEMenuStyle {
 - (NSDictionary *)selectedItemTextAttributes;
 - (NSDictionary *)selectedItemAlternateTextAttributes;
 - (NSDictionary *)disabledItemTextAttributes;
-@property(unsafe_unretained, nonatomic, readonly) OEMenu *menu;
-
+@property(nonatomic, readonly) OEMenu *menu;
 @end
