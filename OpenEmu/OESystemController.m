@@ -44,17 +44,23 @@
 - (void)_initROMHandling;
 - (void)_deallocROMHandling;
 @end
-NSString *const OESettingValueKey       = @"OESettingValueKey";
-NSString *const OEHIDEventValueKey      = @"OEHIDEventValueKey";
-NSString *const OEKeyboardEventValueKey = @"OEKeyboardEventValueKey";
-NSString *const OEControlsPreferenceKey = @"OEControlsPreferenceKey";
-NSString *const OESystemPluginName      = @"OESystemPluginName";
-NSString *const OESystemIdentifier      = @"OESystemIdentifier";
-NSString *const OEProjectURLKey         = @"OEProjectURL";
-NSString *const OESystemName= @"OESystemName";
+NSString *const OESettingValueKey           = @"OESettingValueKey";
+NSString *const OEHIDEventValueKey          = @"OEHIDEventValueKey";
+NSString *const OEKeyboardEventValueKey     = @"OEKeyboardEventValueKey";
+NSString *const OEControlsPreferenceKey     = @"OEControlsPreferenceKey";
+NSString *const OESystemPluginName          = @"OESystemPluginName";
+NSString *const OESystemIdentifier          = @"OESystemIdentifier";
+NSString *const OEProjectURLKey             = @"OEProjectURL";
+NSString *const OESystemName                = @"OESystemName";
 
-NSString *const OEArchiveIDs= @"OEArchiveIDs";
-NSString *const OEFileTypes= @"OEFileSuffixes";
+NSString *const OEArchiveIDs                = @"OEArchiveIDs";
+NSString *const OEFileTypes                 = @"OEFileSuffixes";
+
+NSString *const OEControlListKey            = @"OEControlListKey";
+NSString *const OEControlListKeyNameKey     = @"OEControlListKeyNameKey";
+NSString *const OEControlListKeyLabelKey    = @"OEControlListKeyLabelKey";
+NSString *const OEControlListKeyPositionKey = @"OEControlListKeyPositionKey";
+NSString *const OEControlListSeparatorKey   = @"OEControlListSeparatorKey";
 
 static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey);
 
@@ -363,6 +369,11 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 #pragma mark -
 #pragma mark OEControlsViewControllerDelegate protocol conformance
+
+- (NSArray *)controlPageListInControlsViewController:(OEControlsViewController *)sender;
+{
+    return [[_bundle infoDictionary] objectForKey:OEControlListKey];
+}
 
 - (NSArray *)genericSettingNamesInControlsViewController:(OEControlsViewController *)sender;
 {

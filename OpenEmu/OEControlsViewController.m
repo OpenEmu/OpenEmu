@@ -27,6 +27,8 @@
 #import "OEControlsViewController.h"
 #import "OEHIDEvent.h"
 #import "OEGameCoreController.h"
+#import "OEControlsSetupView.h"
+#import "OESystemController.h"
 
 @implementation OEControlsViewController
 {
@@ -38,8 +40,46 @@
 
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
     selectedPlayer = 1;
     selectedBindingType = 0;
+    
+    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
+    
+    NSArray *pages = [[self delegate] controlPageListInControlsViewController:self];
+    
+    BOOL isFirstPage = YES;
+    for(NSArray *page in pages)
+    {
+        if(isFirstPage) isFirstPage = NO;
+        else            [view nextPage];
+        
+        BOOL isFirstColumn = YES;
+        for(NSArray *column in page)
+        {
+            if(isFirstColumn) isFirstColumn = NO;
+            else              [view nextColumn];
+            
+            for(id obj in column)
+            {
+                if([obj isKindOfClass:[NSString class]])
+                {
+                    if([obj isEqualToString:@"-"])
+                        [view addRowSeperator];
+                    else
+                        [view addColumnLabel:obj];
+                }
+                else if([obj isKindOfClass:[NSDictionary class]])
+                    [view addButtonWithName:[obj objectForKey:OEControlListKeyNameKey]
+                                      label:[[obj objectForKey:OEControlListKeyLabelKey] stringByAppendingString:@":"]
+                                     target:self
+                             highlightPoint:NSPointFromString([obj objectForKey:OEControlListKeyPositionKey] ? : @"{0, 0}")];
+            }
+        }
+    }
+    
+    [view updateButtons];
 }
 
 - (BOOL)acceptsFirstResponder

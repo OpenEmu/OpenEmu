@@ -30,9 +30,9 @@
 
 @interface OEControlsViewController : NSViewController
 {
+@private
     NSUInteger selectedPlayer;
     NSInteger selectedBindingType;
-@private
 }
 
 @property(weak) id<OEControlsViewControllerDelegate> delegate;
@@ -60,6 +60,8 @@
 @end
 
 @protocol OEControlsViewControllerDelegate <NSObject>
+
+- (NSArray *)controlPageListInControlsViewController:(OEControlsViewController *)sender;
 
 - (NSArray *)genericSettingNamesInControlsViewController:(OEControlsViewController *)sender;
 - (NSArray *)genericControlNamesInControlsViewController:(OEControlsViewController *)sender;
