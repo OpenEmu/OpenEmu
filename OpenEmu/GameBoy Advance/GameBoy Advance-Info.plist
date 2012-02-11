@@ -40,5 +40,96 @@
 	<array>
 		<string>gba</string>
 	</array>
+	<key>OEControlListKey</key>
+	<array>
+		<array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Up</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBAButtonUp[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{146, 173}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Down</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBAButtonDown[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{146, 138}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Left</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBAButtonLeft[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{128, 155}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Right</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBAButtonRight[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{168, 155}</string>
+				</dict>
+			</array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Start</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBAButtonStart[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{173, 97}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Select</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBAButtonSelect[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{173, 73}</string>
+				</dict>
+			</array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>A</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBAButtonA[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{471, 161}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>B</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBAButtonB[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{437, 148}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Left Trigger</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBAButtonL[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{131, 237}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Right Trigger</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBAButtonR[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{469, 237}</string>
+				</dict>
+			</array>
+		</array>
+	</array>
 </dict>
 </plist>

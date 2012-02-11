@@ -42,5 +42,114 @@
 		<string>md</string>
 		<string>gen</string>
 	</array>
+	<key>OEControlListKey</key>
+	<array>
+		<array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Up</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonUp[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{190, 180}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Down</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonDown[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{190, 130}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Left</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonLeft[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{161, 154}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Right</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonRight[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{218, 154}</string>
+				</dict>
+			</array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Start</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonStart[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{291, 155}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Mode</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonMode[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{0, 0}</string>
+				</dict>
+			</array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>A</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonA[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{368, 115}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>B</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonB[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{412, 134}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>C</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonC[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{455, 147}</string>
+				</dict>
+			</array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>X</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonX[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{354, 158}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Y</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonY[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{390, 175}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Z</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGenesisButtonZ[@]</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{427, 187}</string>
+				</dict>
+			</array>
+		</array>
+	</array>
 </dict>
 </plist>

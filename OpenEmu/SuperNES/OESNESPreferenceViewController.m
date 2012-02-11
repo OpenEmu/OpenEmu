@@ -29,34 +29,6 @@
 #import "OELocalizationHelper.h"
 @implementation OESNESPreferenceViewController
 
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-    
-    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
-
-    [view addButtonWithName:@"OESNESButtonUp[@]" label:@"Up:" target:self highlightPoint:NSMakePoint(169, 154)];
-    [view addButtonWithName:@"OESNESButtonDown[@]" label:@"Down:" target:self highlightPoint:NSMakePoint(169, 110)];
-    [view addButtonWithName:@"OESNESButtonLeft[@]" label:@"Left:" target:self highlightPoint:NSMakePoint(147, 132)];
-    [view addButtonWithName:@"OESNESButtonRight[@]" label:@"Right:" target:self highlightPoint:NSMakePoint(192, 132)];
-    [view nextColumn];
-    
-    [view addButtonWithName:@"OESNESButtonSelect[@]" label:@"Select:" target:self highlightPoint:NSMakePoint(252, 117)];
-    [view addButtonWithName:@"OESNESButtonStart[@]" label:@"Start:" target:self highlightPoint:NSMakePoint(299, 117)];
-    [view nextColumn];
-    
-    [view addButtonWithName:@"OESNESButtonA[@]" label:@"A:" target:self highlightPoint:NSMakePoint(456, 130)];
-    [view addButtonWithName:@"OESNESButtonB[@]" label:@"B:" target:self highlightPoint:NSMakePoint(413, 95)];
-    [view addButtonWithName:@"OESNESButtonX[@]" label:@"X:" target:self highlightPoint:NSMakePoint(416, 164)];
-    [view addButtonWithName:@"OESNESButtonY[@]" label:@"Y:" target:self highlightPoint:NSMakePoint(373, 130)];
-    [view nextColumn];
-    
-    [view addButtonWithName:@"OESNESButtonTriggerLeft[@]" label:@"Trigger Left:" target:self highlightPoint:NSMakePoint(166, 220)];
-    [view addButtonWithName:@"OESNESButtonTriggerRight[@]" label:@"Trigger Right:" target:self highlightPoint:NSMakePoint(423, 220)];
-    
-    [view updateButtons];
-}
-
 - (NSImage*)controllerImage
 {
     NSString *controllerImageName = nil;

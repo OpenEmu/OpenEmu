@@ -42,5 +42,80 @@
 		<string>gb</string>
 		<string>gbc</string>
 	</array>
+	<key>OEControlListKey</key>
+	<array>
+		<array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Up</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBButtonUp</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{228, 172}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Down</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBButtonDown</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{228, 134}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Left</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBButtonLeft</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{206, 153}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Right</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBButtonRight</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{247, 154}</string>
+				</dict>
+			</array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Start</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBButtonStart</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{308, 94}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>Select</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBButtonSelect</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{267, 94}</string>
+				</dict>
+			</array>
+			<array>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>A</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBButtonA</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{390, 166}</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
+					<string>B</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEGBButtonB</string>
+					<key>OEControlListKeyPositionKey</key>
+					<string>{350, 149}</string>
+				</dict>
+			</array>
+		</array>
+	</array>
 </dict>
 </plist>

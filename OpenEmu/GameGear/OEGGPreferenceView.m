@@ -30,41 +30,6 @@
 
 @implementation OEGGPreferenceView
 
-- (id)init
-{
-    self = [super init];
-    if (self) {
-        // Initialization code here.
-    }
-    
-    return self;
-}
-
-
-
-- (void)awakeFromNib
-{
-    [super awakeFromNib];
-
-    OEControlsSetupView *view = (OEControlsSetupView *)[self view];
-
-	[view addButtonWithName:@"OEGGButtonUp" label:@"Up:" target:self highlightPoint:NSMakePoint(195, 176)];
-	[view addButtonWithName:@"OEGGButtonDown" label:@"Down:" target:self highlightPoint:NSMakePoint(195, 93)];
-	[view addButtonWithName:@"OEGGButtonLeft" label:@"Left:" target:self highlightPoint:NSMakePoint(157, 138)];
-	[view addButtonWithName:@"OEGGButtonRight" label:@"Right:" target:self highlightPoint:NSMakePoint(234, 138)];
-    [view nextColumn];
-    
-	[view addButtonWithName:@"OEGGButtonA" label:@"Button 1:" target:self highlightPoint:NSMakePoint(383, 114)];
-	[view addButtonWithName:@"OEGGButtonB" label:@"Button 2:" target:self highlightPoint:NSMakePoint(453, 114)];
-	[view addRowSeperator];
-
-	[view addButtonWithName:@"OEGGButtonStart" label:@"Start" target:self];
-
-    [view updateButtons];
-	
-    return;
-}
-
 - (NSImage*)controllerImage{
 	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_sms.png"];
 	return [[NSImage alloc] initWithContentsOfFile:path];
