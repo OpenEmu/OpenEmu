@@ -28,8 +28,8 @@
 
 @interface OEMenuItem : NSMenuItem
 
-@property(weak) id  alternateTarget;
-@property         SEL alternateAction;
+@property(unsafe_unretained) id  alternateTarget;
+@property                    SEL alternateAction;
 
 @property BOOL isAlternate;
 @property BOOL hasAlternate;
