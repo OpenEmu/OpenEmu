@@ -34,11 +34,11 @@
 
 #pragma mark -
 
-@property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
+@property(strong) IBOutlet OELibraryController *libraryController;
 
-@property(nonatomic, unsafe_unretained) OEMainWindowContentController *currentContentController;
-@property(nonatomic, unsafe_unretained) OEMainWindowContentController *defaultContentController;
-@property                               BOOL                           allowWindowResizing;
+@property(nonatomic, strong) OEMainWindowContentController *currentContentController;
+@property(nonatomic, strong) OEMainWindowContentController *defaultContentController;
+@property                    BOOL                           allowWindowResizing;
 
 #pragma mark -
 #pragma mark Menu Items
