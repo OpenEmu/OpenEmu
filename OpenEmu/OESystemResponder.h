@@ -38,8 +38,8 @@
 // Designated initializer
 - (id)initWithController:(OESystemController *)controller;
 
-@property(nonatomic, readonly) OESystemController *controller;
-@property(nonatomic, assign) id<OESystemResponderClient> client;
+@property(strong, readonly) OESystemController *controller;
+@property(weak, nonatomic) id<OESystemResponderClient> client;
 
 @end
 

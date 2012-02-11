@@ -114,5 +114,5 @@
 @property (readonly) NSString *databaseUnsortedRomsPath;
 #pragma mark -
 @property (copy) NSURL *databaseURL;
-@property (retain) NSPersistentStoreCoordinator  *persistentStoreCoordinator;
+@property (strong) NSPersistentStoreCoordinator  *persistentStoreCoordinator;
 @end

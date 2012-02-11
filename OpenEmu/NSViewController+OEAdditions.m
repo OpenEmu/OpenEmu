@@ -15,29 +15,15 @@
 
 @implementation NSViewController (OEAdditions)
 
-static NSView *(*_old_NSViewController_view)(NSViewController *self, SEL _cmd);
-static NSView *_NSViewController_view(NSViewController *self, SEL _cmd)
-{
-    NSView *ret = nil;
-    object_getInstanceVariable(self, "view", (void **)&ret);
-    
-    BOOL willLoad = ret == nil;
-    
-    if(willLoad) [self viewWillLoad];
-    
-    ret = _old_NSViewController_view(self, _cmd);
-    
-    if(willLoad) [self viewDidLoad];
-    
-    return ret;
-}
+extern NSView *(*_old_NSViewController_view)(NSViewController *self, SEL _cmd);
+extern NSView *OE_NSViewController_view(NSViewController *self, SEL _cmd);
 
 + (void)load
 {
     Method m = class_getInstanceMethod(self, @selector(view));
     
     _old_NSViewController_view = (NSView *(*)(NSViewController *, SEL))method_getImplementation(m);
-    class_replaceMethod(self, @selector(view), (IMP)_NSViewController_view, method_getTypeEncoding(m));
+    class_replaceMethod(self, @selector(view), (IMP)OE_NSViewController_view, method_getTypeEncoding(m));
 }
 
 - (void)viewWillLoad;

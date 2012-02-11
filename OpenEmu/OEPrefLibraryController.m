@@ -31,9 +31,6 @@
     return self;
 }
 
-- (void)dealloc{
-    [super dealloc];
-}
 
 - (void)awakeFromNib
 {
@@ -237,11 +234,9 @@
              // TODO: Use a custom tooltip that fits our style better
              [imageView setToolTip:[warnings componentsJoinedByString:@"\n"]];
              [librariesView addSubview:imageView];
-             [imageView release];
          }
          
          [librariesView addSubview:button];
-         [button release];
          
          // decreasing y
          y -= iHeight+vSpace;

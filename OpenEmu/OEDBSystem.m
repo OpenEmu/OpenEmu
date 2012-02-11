@@ -44,7 +44,7 @@
     [system setValue:systemIdentifier forKey:@"systemIdentifier"];
     [system setValue:[system name] forKey:@"lastLocalizedName"];
     
-    return [system autorelease];
+    return system;
 }
 
 + (id)systemForPluginIdentifier:(NSString *)identifier inDatabase:(OELibraryDatabase *)database

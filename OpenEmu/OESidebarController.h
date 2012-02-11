@@ -39,9 +39,8 @@
 - (id<OECollectionViewItemProtocol>)selectedCollection;
 
 @property (retain, nonatomic) OESidebarOutlineView *view;
-@property (assign) OELibraryDatabase *database;
+@property (strong) OELibraryDatabase *database;
 @property (retain, readwrite) NSArray *groups;
 @property (retain, readwrite) NSArray *systems, *collections;
-
-@property (nonatomic, retain, readwrite) id editingItem;
+@property (nonatomic, strong, readwrite) id editingItem;
 @end

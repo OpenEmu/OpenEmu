@@ -35,13 +35,12 @@
 {
     NSString                *lastVersion;
     NSMutableDictionary     *migrators;
-    id<SUVersionComparison>  versionComparator;
     
     BOOL                     isFirstRun;
     BOOL                     isRunning;
 }
 
-@property(assign) id<SUVersionComparison> versionComparator;
+@property(weak) id<SUVersionComparison> versionComparator;
 
 + (id)defaultMigrationController;
 

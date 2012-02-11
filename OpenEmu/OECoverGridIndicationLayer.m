@@ -58,6 +58,7 @@
     {
         CALayer *sublayer = [self.sublayers objectAtIndex:0];
         CGRect bounds = [self bounds];
+
         switch(newType)
         {
             case IndicationTypeNone :
@@ -66,6 +67,7 @@
                 [sublayer removeAllAnimations];
                 break;
             case IndicationTypeFileMissing :
+            {
                 [self setBackgroundColor:[[NSColor colorWithDeviceRed:0.992 green:0.0 blue:0.0 alpha:0.4] CGColor]];
                 
                 NSImage *fileMissingIndicator = [self fileMissingImage];
@@ -84,6 +86,7 @@
                 sublayer.frame = fileMissingIndicatorRect;
                 [sublayer removeAllAnimations];
                 break;
+            }
             case IndicationTypeProcessing:
             {
                 [self setBackgroundColor:[[NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.0 alpha:0.7] CGColor]];

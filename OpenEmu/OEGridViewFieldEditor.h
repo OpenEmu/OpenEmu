@@ -29,9 +29,9 @@
 @interface OEGridViewFieldEditor : NSView
 
 @property(nonatomic)         NSTextAlignment  alignment;
-@property(retain, nonatomic) id               delegate;
-@property(retain, nonatomic) NSString        *string;
-@property(retain, nonatomic) NSFont          *font;
-@property(retain, nonatomic) NSColor         *borderColor;
+@property(weak, nonatomic) id               delegate;
+@property(strong, nonatomic) NSString        *string;
+@property(strong, nonatomic) NSFont          *font;
+@property(strong, nonatomic) NSColor         *borderColor;
 
 @end

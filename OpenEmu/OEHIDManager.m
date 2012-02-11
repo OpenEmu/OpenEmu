@@ -49,7 +49,7 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 		
 		IOHIDManagerRegisterDeviceMatchingCallback(hidManager,
 												   OEHandle_DeviceMatchingCallback,
-												   self);
+												   (__bridge void *)(self));
 		
 		IOHIDManagerScheduleWithRunLoop(hidManager,
 										CFRunLoopGetMain(),
@@ -65,20 +65,16 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 	{
 		[self removeDeviceHandlerForDevice:[handler device]];
 	}
-	[deviceHandlers release];
 	
     if(hidManager != NULL) 
 	{
 		IOHIDManagerUnscheduleFromRunLoop(hidManager, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
 		CFRelease(hidManager);
     }
-	
-	[super dealloc];
 }
-
 - (void)registerDeviceTypes:(NSArray*)matchingTypes
 {
-    IOHIDManagerSetDeviceMatchingMultiple(hidManager, (CFArrayRef)matchingTypes);
+    IOHIDManagerSetDeviceMatchingMultiple(hidManager, (__bridge CFArrayRef)matchingTypes);
 }
 
 - (OEHIDDeviceHandler *)deviceHandlerForDevice:(IOHIDDeviceRef)aDevice
@@ -110,10 +106,10 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 		[deviceHandlers addObject:handler];
 		
 		//Register for removal
-		IOHIDDeviceRegisterRemovalCallback(inDevice, OEHandle_DeviceRemovalCallback, self);
+		IOHIDDeviceRegisterRemovalCallback(inDevice, OEHandle_DeviceRemovalCallback, (__bridge void *)(self));
 		
 		//Register for input
-		IOHIDDeviceRegisterInputValueCallback(inDevice, OEHandle_InputValueCallback, handler);
+		IOHIDDeviceRegisterInputValueCallback(inDevice, OEHandle_InputValueCallback, (__bridge void*)handler);
 		
 		//attach to the runloop
 		IOHIDDeviceScheduleWithRunLoop(inDevice, CFRunLoopGetMain(), kCFRunLoopDefaultMode);
@@ -146,7 +142,7 @@ static void OEHandle_InputValueCallback(void *inContext,
                                         void *inSender,
                                         IOHIDValueRef inIOHIDValueRef)
 {
-    [(OEHIDDeviceHandler *)inContext dispatchEventWithHIDValue:inIOHIDValueRef];
+    [(__bridge OEHIDDeviceHandler *)inContext dispatchEventWithHIDValue:inIOHIDValueRef];
 }
 
 static void OEHandle_DeviceMatchingCallback(void* inContext,
@@ -163,19 +159,15 @@ static void OEHandle_DeviceMatchingCallback(void* inContext,
     }
     
     NSLog(@"%@", IOHIDDeviceGetProperty(inIOHIDDeviceRef, CFSTR(kIOHIDProductKey)));
-    
-    OEHIDManager *self = inContext;
-    
+        
 	//add a OEHIDDeviceHandler for our HID device
-	[self addDeviceHandlerForDevice:inIOHIDDeviceRef];
-	
+	[(__bridge OEHIDManager*)inContext addDeviceHandlerForDevice:inIOHIDDeviceRef];
 }
 
 static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, void *inSender)
 {
-	OEHIDManager *self = inContext;
 	IOHIDDeviceRef hidDevice = (IOHIDDeviceRef)inSender;
 	
-	[self removeDeviceHandlerForDevice:hidDevice];
+	[(__bridge OEHIDManager*)inContext removeDeviceHandlerForDevice:hidDevice];
 }
 

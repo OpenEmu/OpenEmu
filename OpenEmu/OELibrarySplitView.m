@@ -74,11 +74,6 @@
     [self setDelegate:self];
 }
 
-- (void)dealloc
-{
-    [self setLibraryConroller:nil];
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark NSSplitViewDelegate protocol methods

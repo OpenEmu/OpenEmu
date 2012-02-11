@@ -28,16 +28,6 @@
 
 
 @implementation OECoverGridNoArtworkLayer
-- (id)init {
-    if((self = [super init])) {
-    }
-    return self;
-}
-
-- (void)dealloc {
-    [super dealloc];
-}
-
 - (void)drawInContext:(CGContextRef)ctx
 {
     NSGraphicsContext *graphicsContext = [NSGraphicsContext graphicsContextWithGraphicsPort:ctx flipped:YES];

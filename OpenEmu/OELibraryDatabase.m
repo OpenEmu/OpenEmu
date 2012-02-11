@@ -133,12 +133,12 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     if(![defaultDatabase loadPersistantStoreWithError:outError])
     {
-        [defaultDatabase release], defaultDatabase=nil;
+        defaultDatabase=nil;
         return NO;
     }
     if(![defaultDatabase loadManagedObjectContextWithError:outError])
     {
-        [defaultDatabase release], defaultDatabase=nil;
+        defaultDatabase=nil;
         return NO;
     }
 
@@ -154,7 +154,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
     [__managedObjectContext setMergePolicy:policy];
-    [policy release];
     
     if(!__managedObjectContext) return NO;
     
@@ -178,7 +177,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
     
     NSURL *url = [self.databaseURL URLByAppendingPathComponent:OEDatabaseFileName];
-    self.persistentStoreCoordinator = [[[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom] autorelease];
+    self.persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:mom];
     if (!self.persistentStoreCoordinator || ![self.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:url options:nil error:outError]){ 
         self.persistentStoreCoordinator = nil;
         
@@ -212,20 +211,13 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (void)dealloc
 {      
     NSLog(@"destroying LibraryDatabase");
-    [__managedObjectContext release];
     
-    self.persistentStoreCoordinator = nil;
     
-    [__managedObjectModel release];
     
-    [managedObjectContexts release];
     
-    self.databaseURL = nil;
-    [romsController release];
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [super dealloc];
 }
 
 - (void)awakeFromNib
@@ -301,9 +293,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         NSMergePolicy *policy = [[NSMergePolicy alloc] initWithMergeType:NSMergeByPropertyObjectTrumpMergePolicyType];
         [context setMergePolicy:policy];
-        [policy release];
         
-        [context release];
     }
     return [managedObjectContexts valueForKey:[thread name]];
     
@@ -325,7 +315,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 - (BOOL)save:(NSError**)error
 {
     NSError *backupError;
-    if(error==NULL) error=&backupError;
     
     if (![[self managedObjectContext] commitEditing]) 
     {
@@ -339,9 +328,9 @@ static OELibraryDatabase *defaultDatabase = nil;
         return YES;
     }
     
-    if (![[self managedObjectContext] save:error]) 
+    if (![[self managedObjectContext] save:error ? error : &backupError]) 
     {
-        [[NSApplication sharedApplication] presentError:*error];
+        [[NSApplication sharedApplication] presentError:error ? *error : backupError];
         return NO;
     }
     
@@ -365,7 +354,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSError *error = nil;
     
     id result = [context executeFetchRequest:req error:&error];
-    [req release];
     if(!result)
     {
         NSLog(@"systems: Error: %@", error);
@@ -387,7 +375,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSError *error = nil;
     
     id result = [context executeFetchRequest:req error:&error];
-    [req release];
     if(!result)
     {
         NSLog(@"systems: Error: %@", error);
@@ -412,7 +399,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSError *error = nil;
     
     id result = [context executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
     if(!result)
     {
         NSLog(@"systemWithIdentifier: Error: %@", error);
@@ -434,7 +420,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSError *error = nil;
     
     id result = [context executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
     if(!result)
     {
         NSLog(@"systemWithArchiveID: Error: %@", error);
@@ -455,7 +440,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSError *error = nil;
     
     id result = [context executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
     if(!result)
     {
         NSLog(@"systemWithArchiveName: Error: %@", error);
@@ -477,7 +461,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     NSError *error = nil;
     
     id result = [context executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
     if(!result)
     {
         NSLog(@"systemWithArchiveShortname: Error: %@", error);
@@ -511,11 +494,9 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
     [req setSortDescriptors:[NSArray arrayWithObject:sort]];
-    [sort release];
     
     NSError *error = nil;
     NSUInteger count = [context countForFetchRequest:req error:&error];
-    [req release];
     if(count == NSNotFound)
     {
         NSLog(@"systemsCount: Error: %@", error);
@@ -536,7 +517,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSError *error = nil;
     NSUInteger ccount = [context countForFetchRequest:req error:&error];
-    [req release];
     if(count == NSNotFound)
     {
         ccount = 0;
@@ -551,7 +531,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     error = nil;
     ccount = [context countForFetchRequest:req error:&error];
-    [req release];
     if(count == NSNotFound)
     {
         ccount = 0;
@@ -570,14 +549,12 @@ static OELibraryDatabase *defaultDatabase = nil;
     // insert "all games" item here !
     OEDBAllGamesCollection *allGamesCollections = [[OEDBAllGamesCollection alloc] init];
     [collectionsArray addObject:allGamesCollections];
-    [allGamesCollections release];
     
     NSEntityDescription *descr = [NSEntityDescription entityForName:@"SmartCollection" inManagedObjectContext:context];
     NSFetchRequest *req = [[NSFetchRequest alloc] init];
     
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(localizedStandardCompare:)];
     [req setSortDescriptors:[NSArray arrayWithObject:sort]];
-    [sort release];
     
     [req setEntity:descr];
     
@@ -586,7 +563,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     id result = [context executeFetchRequest:req error:&error];
     if(!result)
     {
-        [req release];
         NSLog(@"collections: Smart Collections Error: %@", error);
         return [NSArray array];
     }
@@ -596,7 +572,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     [req setEntity:descr];
     
     result = [context executeFetchRequest:req error:&error];
-    [req release];
     if(!result)
     {
         NSLog(@"collections: Regular Collections Error: %@", error);
@@ -619,7 +594,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
         
-        NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:entityDescription];
         [request setFetchLimit:1];
         
@@ -652,7 +627,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
         
-        NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:entityDescription];
         [request setFetchLimit:1];
         
@@ -685,7 +660,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"AbstractCollection" inManagedObjectContext:context];
         
-        NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+        NSFetchRequest *request = [[NSFetchRequest alloc] init];
         [request setEntity:entityDescription];
         [request setFetchLimit:1];
         
@@ -732,7 +707,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     [fetchReq setPredicate:predicate];
     
     NSUInteger count = [context countForFetchRequest:fetchReq error:error];
-    [fetchReq release];
     if(*error != nil)
     {
         NSLog(@"Error while checking if file is included.");
@@ -806,7 +780,6 @@ static OELibraryDatabase *defaultDatabase = nil;
             rom = [[NSManagedObject alloc] initWithEntity:romDescription insertIntoManagedObjectContext:context];
             [rom setValue:game forKey:@"game"];
             
-            [game release];
             
             // update progress
             progress += 1;
@@ -823,7 +796,6 @@ static OELibraryDatabase *defaultDatabase = nil;
             if(md5) hash = [data MD5HashString];
             else hash = [data CRC32HashString];
             
-            [data release];
             
             if(md5) rom = [self romForMD5Hash:hash];
             else rom = [self romForCRC32Hash:hash];
@@ -861,7 +833,7 @@ static OELibraryDatabase *defaultDatabase = nil;
                 if(game==nil)
                 {
                     NSEntityDescription *gameDescription = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
-                    game = [[[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context] autorelease];
+                    game = [[OEDBGame alloc] initWithEntity:gameDescription insertIntoManagedObjectContext:context];
                     
                     // TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
                     NSString *gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
@@ -881,7 +853,6 @@ static OELibraryDatabase *defaultDatabase = nil;
                 NSString *gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
                 [game setValue:gameName forKey:@"name"];
                 [rom setValue:game forKey:@"game"];
-                [game release];
             }
             
             // update progress
@@ -912,7 +883,6 @@ static OELibraryDatabase *defaultDatabase = nil;
             if(game) [context deleteObject:game];
             if(rom) [context deleteObject:rom];
             
-            [rom release];
             continue;
         }
         
@@ -970,7 +940,6 @@ static OELibraryDatabase *defaultDatabase = nil;
             NSMutableSet *collections = [game mutableSetValueForKey:@"collections"];
             [collections addObject:collection];
         }
-        [rom release];
     }
     
     return;
@@ -986,9 +955,8 @@ static OELibraryDatabase *defaultDatabase = nil;
     OEDBGame *game = [[OEDBGame alloc] initWithEntity:entityDescrption insertIntoManagedObjectContext:self.managedObjectContext];
     [[game mutableSetValueForKey:@"roms"] addObject:rom];
     [game setValue:[[filePath lastPathComponent] stringByDeletingPathExtension] forKey:@"name"];
-    [game release];
     
-    return [rom autorelease];
+    return rom;
 }
 #pragma mark -
 - (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID
@@ -1007,7 +975,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSError *err = nil;
     NSArray *result = [context executeFetchRequest:fetchRequest error:&err];
-    [fetchRequest release];
     if(result==nil)
     {
         NSLog(@"Error executing fetch request to get game by archiveID");
@@ -1033,7 +1000,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSError *err = nil;
     NSArray *result = [context executeFetchRequest:fetchRequest error:&err];
-    [fetchRequest release];
     if(result==nil)
     {
         NSLog(@"Error executing fetch request to get rom by md5");
@@ -1059,7 +1025,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSError *err = nil;
     NSArray *result = [context executeFetchRequest:fetchRequest error:&err];
-    [fetchRequest release];
     if(result==nil)
     {
         NSLog(@"Error executing fetch request to get rom by crc");
@@ -1085,7 +1050,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSError *err = nil;
     NSArray *result = [context executeFetchRequest:fetchRequest error:&err];
-    [fetchRequest release];
     if(result==nil)
     {        NSLog(@"Error executing fetch request to get rom by path");
         NSLog(@"%@", err);

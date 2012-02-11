@@ -235,7 +235,7 @@ static NSMutableArray* interfaceImages;
     [self drawInRect:NSMakeRect(0, 0, newImage.size.width, newImage.size.height) fromRect:rect operation:NSCompositeCopy fraction:1.0];
     [newImage unlockFocus];
     
-    return [newImage autorelease];
+    return newImage;
 }
 
 - (void)setName:(NSString*)name forSubimageInRect:(NSRect)aRect

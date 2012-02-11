@@ -76,7 +76,7 @@
 #pragma mark -
 - (NSAttributedString *)attributedTitle
 {
-    NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     
     NSFont *font;
     
@@ -88,12 +88,12 @@
     {
         font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:4.0 size:11.0];
     }
-    NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+    NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowBlurRadius:1.0];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.25]];
     [shadow setShadowOffset:NSMakeSize(0, -1)];
     
-    NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     [ps setLineBreakMode:NSLineBreakByTruncatingMiddle];
     
     [attributes setObject:[NSColor colorWithDeviceWhite:0.0 alpha:1.0] forKey:NSForegroundColorAttributeName];
@@ -101,7 +101,7 @@
     [attributes setObject:shadow forKey:NSShadowAttributeName];
     [attributes setObject:ps forKey:NSParagraphStyleAttributeName];
     
-    return [[[NSAttributedString alloc] initWithString:[self title] attributes:attributes] autorelease];
+    return [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
 }
 
 @end

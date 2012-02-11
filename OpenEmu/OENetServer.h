@@ -38,7 +38,6 @@
 
 @interface OENetServer : NSObject <NSNetServiceDelegate>
 {
-    id<OENetServerDelegate>  delegate;
     AsyncUdpSocket          *asyncSocket;
     NSNetService            *netService;
     uint16_t                 port;
@@ -52,5 +51,5 @@
 - (void)disableBonjour;
 + (NSString*)bonjourTypeFromIdentifier:(NSString*)identifier;
 
-@property(assign) id<OENetServerDelegate> delegate;
+@property(weak) id<OENetServerDelegate> delegate;
 @end

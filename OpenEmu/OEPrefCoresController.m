@@ -34,8 +34,6 @@
 {
     [[OECoreUpdater sharedUpdater] removeObserver:self forKeyPath:@"coreList"];
     
-    [self setCoresTableView:nil];
-    [super dealloc];
 }
 #pragma mark -
 #pragma mark ViewController Overrides
@@ -134,7 +132,7 @@
         attr = [NSDictionary dictionaryWithObjectsAndKeys:
                 [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:weight size:11.0], NSFontAttributeName, 
                 color, NSForegroundColorAttributeName, nil];
-        [aCell setAttributedStringValue:[[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr] autorelease]];
+        [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
     }
 }
 
@@ -149,7 +147,7 @@
     if([plugin isDownloading])
     {
         OECoreTableProgressCell *cell = [[OECoreTableProgressCell alloc] init];
-        return [cell autorelease];
+        return cell;
     }
     
     NSString *title = nil;
@@ -165,7 +163,7 @@
     if(![plugin appcastItem] || !title) return [tableColumn dataCellForRow:row];
     
     OECoreTableButtonCell *buttonCell = [[OECoreTableButtonCell alloc] initTextCell:title];
-    return [buttonCell autorelease];
+    return buttonCell;
 }
 
 - (BOOL)tableView:(NSTableView *)tableView shouldTrackCell:(NSCell *)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row

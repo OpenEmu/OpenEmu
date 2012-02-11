@@ -58,8 +58,5 @@
     [super setFrameSize:newSize];
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 @end

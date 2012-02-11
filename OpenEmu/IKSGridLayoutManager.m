@@ -17,7 +17,7 @@
 
 + (IKSGridLayoutManager*)layoutManager
 {
-    return [[[self alloc] init] autorelease];
+    return [[self alloc] init];
 }
 
 - (id)init
@@ -46,10 +46,8 @@
 - (void)dealloc
 {
     self.gridView = nil;
-    self.itemLayers = nil;
     
     dispatch_release(renderQueue);
-    [super dealloc];
 }
 
 #pragma mark -

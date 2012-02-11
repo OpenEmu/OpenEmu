@@ -44,14 +44,14 @@
 
 - (BOOL)canFadeOut;
 
-@property(retain, nonatomic) NSDate *lastMouseMovement;
-@property(assign) OEGameViewController *gameViewController;
+@property(strong, nonatomic) NSDate *lastMouseMovement;
+@property(unsafe_unretained) OEGameViewController *gameViewController;
 @end
 
 @class OEHUDSlider;
 @interface OEHUDControlsBarView : NSView
 
-@property(readonly) OEHUDSlider *slider;
+@property(strong, readonly) OEHUDSlider *slider;
 
 - (void)setupControls;
 @end

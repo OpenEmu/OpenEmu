@@ -35,31 +35,28 @@
 
 #define OERegionNALocales [NSArray arrayWithObjects:@"", nil]
 
-
 @implementation OELocalizationHelper
 static OELocalizationHelper *sharedHelper;
 
 + (OELocalizationHelper*)sharedHelper
-{
-	return sharedHelper ?: [[self new] autorelease];
+{    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedHelper = [self new];
+    });
+    
+	return sharedHelper;
 }
 
 - (id)init
 {
-	if(sharedHelper)
-	{
-		[self release];
-	}
-	else if((self = sharedHelper = [[super init] retain]))
+    if(self = [super init])
 	{
 		[self _updateRegion];
 	}
-	return sharedHelper;
+	return self;
 }
 
-- (void)dealloc {
-    [super dealloc];
-}
 
 #pragma mark -
 - (BOOL)isRegionNA{

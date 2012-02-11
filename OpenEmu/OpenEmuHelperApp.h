@@ -81,14 +81,14 @@ enum _OEHelperAppErrorCodes
     BOOL              loadedRom;
     
     // screen subrect stuff
-    id <OEGameCoreHelperDelegate> delegate;
+    id <OEGameCoreHelperDelegate> __weak delegate;
     OEIntSize previousScreenSize, correctedSize;
     float     gameAspectRatio;
     BOOL      drawSquarePixels;
     BOOL      running;
 }
 
-@property(retain) NSString *doUUID;
+@property(strong) NSString *doUUID;
 @property(assign) BOOL      loadedRom;
 @property(readonly, assign, getter=isRunning) BOOL running;
 

@@ -18,6 +18,11 @@
 - (BOOL)performDragOperation:(id < NSDraggingInfo >)sender;
 - (void)concludeDragOperation:(id < NSDraggingInfo >)sender;
 @end
+
 @interface OESidebarOutlineView : NSOutlineView <NSDraggingDestination>
-@property (assign) id <OEDraggingDestinationDelegate> dragDelegate;
+@property (unsafe_unretained) id <OEDraggingDestinationDelegate> dragDelegate;
+@end
+
+@interface OESidebarOutlineView (OEPrivate)
+- (void)setupOutlineCell;
 @end

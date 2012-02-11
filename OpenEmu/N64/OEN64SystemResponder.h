@@ -34,6 +34,6 @@ extern NSString *OEN64ButtonNameTable[];
 
 @interface OEN64SystemResponder : OEBasicSystemResponder
 
-@property(nonatomic, assign) id<OEN64SystemResponderClient> client;
+@property(nonatomic, weak) id<OEN64SystemResponderClient> client;
 
 @end

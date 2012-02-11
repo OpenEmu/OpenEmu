@@ -71,12 +71,6 @@
     }
 }
 
-- (void)dealloc 
-{
-    [self setSelectionColor:nil];
-    
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark Drawing
@@ -147,7 +141,6 @@
     
 	[drawString drawInRect:cellFrame];
     
-    [drawString release];
 }
 
 - (NSDictionary*)attributes
@@ -156,7 +149,7 @@
 	
 	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0 size:11.5];
 	
-	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow *shadow = [[NSShadow alloc] init];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];
 	
@@ -167,9 +160,8 @@
 	NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
 	[style setAlignment:NSLeftTextAlignment];
 	[attributes setObject:style forKey:NSParagraphStyleAttributeName];
-	[style release];
     
-    return [attributes autorelease];
+    return attributes;
 }
 
 @end
@@ -190,7 +182,6 @@
     
 	[drawString drawInRect:cellFrame];
     
-    [drawString release];
 }
 
 - (NSDictionary*)attributes
@@ -199,7 +190,7 @@
 	
 	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
 	
-	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow *shadow = [[NSShadow alloc] init];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:1.0]];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];
 	
@@ -210,9 +201,8 @@
 	NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
 	[style setAlignment:NSLeftTextAlignment];
 	[attributes setObject:style forKey:NSParagraphStyleAttributeName];
-	[style release];
     
-    return [attributes autorelease];
+    return attributes;
 }
 
 @end

@@ -43,12 +43,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [self setImageToEncode:nil];
-    [self setMovie: nil];
-    [super dealloc];
-}
 
 - (void)main 
 {

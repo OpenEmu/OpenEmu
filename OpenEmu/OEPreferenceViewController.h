@@ -30,7 +30,7 @@
 
 @interface OEPreferenceViewController : NSViewController
 
-@property(readonly) OEGameCoreController *controller;
+@property(weak, readonly) OEGameCoreController *controller;
 
 - (void)resetBindingsWithKeys:(NSArray *)keys;
 - (void)resetSettingBindings;

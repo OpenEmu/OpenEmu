@@ -40,10 +40,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 
 - (void)awakeFromNib
@@ -74,12 +70,12 @@
 - (NSImage*)controllerImage
 {
 	NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_sms.png"];
-	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+	return [[NSImage alloc] initWithContentsOfFile:path];
 }
 
 - (NSImage*)controllerImageMask
 {
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForImageResource:@"controller_sms_mask.png"];
-	return [[[NSImage alloc] initWithContentsOfFile:path] autorelease];
+	return [[NSImage alloc] initWithContentsOfFile:path];
 }
 @end

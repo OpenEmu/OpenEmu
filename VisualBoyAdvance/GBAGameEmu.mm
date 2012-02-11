@@ -327,7 +327,6 @@ static void writeSaveFile(const char* path, int type)
 {
     free(videoBuffer);
     free(soundBuffer);
-    [super dealloc];
 }
 
 - (GLenum)pixelFormat

@@ -74,7 +74,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         frameInterval = [[self class] defaultTimeInterval];
         tenFrameCounter = 10;
         NSUInteger count = [self soundBufferCount];
-        ringBuffers = malloc(count * sizeof(OERingBuffer *));
+        ringBuffers = (__strong OERingBuffer**)calloc(count, sizeof(OERingBuffer*));
         for(NSUInteger i = 0; i < count; i++)
             ringBuffers[i] = [[OERingBuffer alloc] initWithLength:((count == 1) ? [self soundBufferSize] : [self soundBufferSizeForBuffer:i]) * 16];
         
@@ -88,12 +88,11 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     DLog(@"%s", __FUNCTION__);
     //if(keyMap != NULL) OEMapRelease(keyMap);
     
-    [emulationThread release];
     
-    for(NSUInteger i = 0, count = [self soundBufferCount]; i < count; i++)
-        [ringBuffers[i] release];
+    for(NSUInteger i = 0, count = [self soundBufferCount]; i < count; i++) {
+        ringBuffers[i] = nil;
+    }
     
-    [super dealloc];
 }
 
 - (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index
@@ -186,40 +185,40 @@ static NSTimeInterval currentTime()
 
 - (void)frameRefreshThread:(id)anArgument;
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
     
-    NSTimeInterval date = currentTime();
-    
-    frameFinished = YES;
-    willSkipFrame = NO;
-    frameSkip = 1;
-    
-    NSLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
-    
-    while(!shouldStop)
-    {
-        NSAutoreleasePool *inner = [[NSAutoreleasePool alloc] init];
+        NSTimeInterval date = currentTime();
         
-        date += 1.0 / [self frameInterval];
+        frameFinished = YES;
+        willSkipFrame = NO;
+        frameSkip = 1;
         
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, fmax(0.0, date - currentTime()), NO);
+        NSLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
         
-        willSkipFrame = (frameCounter != frameSkip);
-        
-        if (isRunning)
+        while(!shouldStop)
         {
-            [renderDelegate willExecute];
+            @autoreleasepool {
             
-            [self executeFrameSkippingFrame:willSkipFrame];
+                date += 1.0 / [self frameInterval];
+                
+                CFRunLoopRunInMode(kCFRunLoopDefaultMode, fmax(0.0, date - currentTime()), NO);
+                
+                willSkipFrame = (frameCounter != frameSkip);
+                
+                if (isRunning)
+                {
+                    [renderDelegate willExecute];
+                    
+                    [self executeFrameSkippingFrame:willSkipFrame];
+                    
+                    [renderDelegate didExecute];
+                }
+                if(frameCounter >= frameSkip) frameCounter = 0;
+                else                          frameCounter++;
             
-            [renderDelegate didExecute];
+            }
         }
-        if(frameCounter >= frameSkip) frameCounter = 0;
-        else                          frameCounter++;
-        
-        [inner drain];
     }
-    [pool drain];
 }
 
 - (BOOL)isEmulationPaused

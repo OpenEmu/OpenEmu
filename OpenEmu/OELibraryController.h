@@ -3,7 +3,7 @@
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
+     * Redistributions of source code must strong the above copyright
        notice, this list of conditions and the following disclaimer.
      * Redistributions in binary form must reproduce the above copyright
        notice, this list of conditions and the following disclaimer in the
@@ -89,21 +89,21 @@
 
 @property(nonatomic, getter=isSidebarVisible) BOOL sidebarVisible;
 @property(nonatomic) BOOL sidebarChangesWindowSize;
-@property(retain)    OEROMImporter     *romImporter;
-@property(retain)    OELibraryDatabase *database;
+@property(strong)    OEROMImporter     *romImporter;
+@property(strong)    OELibraryDatabase *database;
 
-@property(retain) IBOutlet OESidebarController        *sidebarController;
-@property(retain) IBOutlet OECollectionViewController *collectionViewController;
-@property(retain) IBOutlet OELibrarySplitView         *mainSplitView;
-@property(retain) IBOutlet NSView                     *mainContentPlaceholderView;
+@property(strong) IBOutlet OESidebarController        *sidebarController;
+@property(strong) IBOutlet OECollectionViewController *collectionViewController;
+@property(strong) IBOutlet OELibrarySplitView         *mainSplitView;
+@property(strong) IBOutlet NSView                     *mainContentPlaceholderView;
 
-@property(retain) IBOutlet NSButton      *toolbarSidebarButton;
-@property(retain) IBOutlet NSButton      *toolbarGridViewButton;
-@property(retain) IBOutlet NSButton      *toolbarFlowViewButton;
-@property(retain) IBOutlet NSButton      *toolbarListViewButton;
+@property(strong) IBOutlet NSButton      *toolbarSidebarButton;
+@property(strong) IBOutlet NSButton      *toolbarGridViewButton;
+@property(strong) IBOutlet NSButton      *toolbarFlowViewButton;
+@property(strong) IBOutlet NSButton      *toolbarListViewButton;
 
-@property(retain) IBOutlet NSButton      *toolbarAddToSidebarButton;
-@property(retain) IBOutlet NSSearchField *toolbarSearchField;
-@property(retain) IBOutlet NSSlider      *toolbarSlider;
+@property(strong) IBOutlet NSButton      *toolbarAddToSidebarButton;
+@property(strong) IBOutlet NSSearchField *toolbarSearchField;
+@property(strong) IBOutlet NSSlider      *toolbarSlider;
 
 @end

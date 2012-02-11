@@ -16,5 +16,5 @@
 }
 @property (readwrite) BOOL isGroup;
 @property (readwrite) BOOL isEditing;
-@property (assign) NSImage* image;
+@property (strong) NSImage* image;
 @end

@@ -29,21 +29,19 @@
 
 int main(int argc, const char * argv[])
 {
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    @autoreleasepool {
     
-    NSLog(@"Helper tool UUID is: %s", argv[1]);
-    
-    NSApplication *app = [NSApplication sharedApplication];
-    OpenEmuHelperApp *helper = [[OpenEmuHelperApp alloc] init];
-    
-    [app setDelegate:helper];
-    [helper setDoUUID:[NSString stringWithUTF8String:argv[1]]];
-    
-    [app run];
-    
-    [app release];
-    [helper release];
-    [pool release];
+        NSLog(@"Helper tool UUID is: %s", argv[1]);
+        
+        NSApplication *app = [NSApplication sharedApplication];
+        OpenEmuHelperApp *helper = [[OpenEmuHelperApp alloc] init];
+        
+        [app setDelegate:helper];
+        [helper setDoUUID:[NSString stringWithUTF8String:argv[1]]];
+        
+        [app run];
+        
+    }
     
     return 0;
 }

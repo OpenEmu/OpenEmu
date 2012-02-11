@@ -131,8 +131,6 @@
     
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
     [self setCompletionBlock:nil];
-    
-    [super dealloc];
 }
 
 - (BOOL)acceptsFirstResponder
@@ -347,10 +345,7 @@
     [[[NSWorkspace sharedWorkspace] notificationCenter] removeObserver:self];
     
     // switch up main content.
-    
-    [self retain];
     if(completionBlock != nil) completionBlock([[self allowScanForGames] state] == NSOnState);
-    [self autorelease];
 }
 
 #pragma mark -

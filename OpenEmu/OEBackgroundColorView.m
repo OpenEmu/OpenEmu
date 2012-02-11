@@ -44,17 +44,11 @@
 {
     if(backgroundColor != value)
     {
-        [backgroundColor release];
         backgroundColor = [value copy];
         
         [[self layer] setBackgroundColor:[backgroundColor CGColor]];
     }
 }
 
-- (void)dealloc
-{
-    [backgroundColor release];
-    [super dealloc];
-}
 
 @end

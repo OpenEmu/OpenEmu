@@ -17,6 +17,6 @@
 
 - (NSSize)viewSize;
 
-@property (nonatomic, retain) IBOutlet NSTableView *coresTableView;
+@property (nonatomic, weak) IBOutlet NSTableView *coresTableView;
 @end
 

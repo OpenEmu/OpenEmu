@@ -12,10 +12,10 @@
 @implementation OEPrefCtrlLabelCell
 
 - (void)setupAttributes{	
-	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
+	NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
 	
 	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:11.0];
-	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow *shadow = [[NSShadow alloc] init];
 	[shadow setShadowBlurRadius:1.0];
 	[shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.25]];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];

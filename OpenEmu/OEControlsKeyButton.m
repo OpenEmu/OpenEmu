@@ -30,6 +30,11 @@
 - (void)_setup;
 @end
 @implementation OEControlsKeyButton
+@synthesize highlightPoint;
+@synthesize target;
+@synthesize action;
+@synthesize title;
+@synthesize state;
 
 + (void)initialize
 {
@@ -80,17 +85,14 @@
 }
 - (void)dealloc 
 {
-    self.title = nil;
     self.target = nil;
     self.action = NULL;
     
-    [super dealloc];
 }
 
 - (void)setTitle:(NSString *)_title
 {
     NSString *newTitle = [_title copy];
-    [title release];
     title = newTitle;
     
     [self setNeedsDisplay:YES];
@@ -115,11 +117,9 @@
     [attributes setObject:font forKey:NSFontAttributeName];
     [attributes setObject:shadow forKey:NSShadowAttributeName];
     
-    [shadow release];
     
     NSPoint p = NSMakePoint([self bounds].origin.x+4, [self bounds].origin.y+4);
     [self.title drawAtPoint:p withAttributes:attributes];
-    [attributes release];
 }
 
 - (BOOL)isOpaque
@@ -153,10 +153,5 @@
     state = _state;
     [self setNeedsDisplay:YES];
 }
-#pragma mark -
-@synthesize highlightPoint;
-@synthesize target;
-@synthesize action;
-@synthesize title;
-@synthesize state;
+
 @end

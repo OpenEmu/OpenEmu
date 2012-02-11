@@ -41,9 +41,6 @@
 {
     [table setDelegate:nil];
     [table setDataSource:nil];
-    [table release];
-    [fileName release];
-    [super dealloc];
 }
 
 - (void)awakeFromNib
@@ -56,13 +53,13 @@
 
 - (void)setArchive:(XADArchive *)archive
 {
-    fileName = [[archive filename] retain];
+    fileName = [archive filename];
     NSMutableArray *muteFiles = [NSMutableArray arrayWithCapacity:[archive numberOfEntries]];
     
     for(NSUInteger i = 0, count = [archive numberOfEntries]; i < count; i++)
         [muteFiles addObject:[archive nameOfEntry:i]];
     
-    files = [[NSArray arrayWithArray:muteFiles] retain];
+    files = [NSArray arrayWithArray:muteFiles];
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView

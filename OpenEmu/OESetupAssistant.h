@@ -39,57 +39,56 @@
 
 @property(copy) void (^completionBlock)(BOOL discoverROM);
 
-@property(retain) IBOutlet NSButton *goButton;
+@property(weak) IBOutlet NSButton *goButton;
 
 @property(retain) CATransition *transition;
 
 // main views for setup steps.
-@property(retain) IBOutlet NSView *replaceView;
-@property(retain) IBOutlet NSView *step1;
-@property(retain) IBOutlet NSView *step2;
-@property(retain) IBOutlet NSView *step3;
-@property(retain) IBOutlet NSView *step3a;
-@property(retain) IBOutlet NSView *step4;
-@property(retain) IBOutlet NSView *step5;
-@property(retain) IBOutlet NSView *step6;
-@property(retain) IBOutlet NSView *step7;
-@property(retain) IBOutlet NSView *step8;
-@property(retain) IBOutlet NSView *step9;
-@property(retain) IBOutlet NSView *step10;
-@property(retain) IBOutlet NSView *lastStep;
+@property (readwrite, weak) IBOutlet NSView *replaceView;
+@property (readwrite, weak) IBOutlet NSView *step1;
+@property (readwrite, weak) IBOutlet NSView *step2;
+@property (readwrite, weak) IBOutlet NSView *step3;
+@property (readwrite, weak) IBOutlet NSView *step3a;
+@property (readwrite, weak) IBOutlet NSView *step4;
+@property (readwrite, weak) IBOutlet NSView *step5;
+@property (readwrite, weak) IBOutlet NSView *step6;
+@property (readwrite, weak) IBOutlet NSView *step7;
+@property (readwrite, weak) IBOutlet NSView *step8;
+@property (readwrite, weak) IBOutlet NSView *step9;
+@property (readwrite, weak) IBOutlet NSView *step10;
+@property (readwrite, weak) IBOutlet NSView *lastStep;
 
 // decision tree variables
-@property(retain) IBOutlet NSButton *allowScanForGames;
+@property (readwrite, weak) IBOutlet NSButton* allowScanForGames;
 
 // table views for selection
-@property(retain) IBOutlet OESetupAssistantTableView *installCoreTableView;
-@property(retain) IBOutlet OESetupAssistantTableView *mountedVolumes;
-@property(retain) IBOutlet OESetupAssistantTableView *gamePadTableView;
+@property (readwrite, weak) IBOutlet OESetupAssistantTableView* installCoreTableView;
+@property (readwrite, weak) IBOutlet OESetupAssistantTableView* mountedVolumes;
+@property (readwrite, weak) IBOutlet OESetupAssistantTableView* gamePadTableView;
 
 // only enable these if input or selection is done
-@property(retain) IBOutlet NSButton *gamePadSelectionNextButton;
-@property(retain) IBOutlet NSButton *gamePadUpNextButton;
-@property(retain) IBOutlet NSButton *gamePadDownNextButton;
-@property(retain) IBOutlet NSButton *gamePadLeftNextButton;
-@property(retain) IBOutlet NSButton *gamePadRightNextButton;
-@property(retain) IBOutlet NSButton *gamePadRunNextButton;
-@property(retain) IBOutlet NSButton *gamePadJumpNextButton;
+@property (readwrite, weak) IBOutlet NSButton* gamePadSelectionNextButton;
+@property (readwrite, weak) IBOutlet NSButton* gamePadUpNextButton;
+@property (readwrite, weak) IBOutlet NSButton* gamePadDownNextButton;
+@property (readwrite, weak) IBOutlet NSButton* gamePadLeftNextButton;
+@property (readwrite, weak) IBOutlet NSButton* gamePadRightNextButton;
+@property (readwrite, weak) IBOutlet NSButton* gamePadRunNextButton;
+@property (readwrite, weak) IBOutlet NSButton* gamePadJumpNextButton;
 
 @property NSUInteger selectedGamePadDeviceNum;
 @property BOOL gotNewEvent;
 
 // gamepad key map views
-@property(retain) IBOutlet OESetupAssistantKeyMapView *upKeyMapView;
-@property(retain) IBOutlet OESetupAssistantKeyMapView *downKeyMapView;
-@property(retain) IBOutlet OESetupAssistantKeyMapView *leftKeyMapView;
-@property(retain) IBOutlet OESetupAssistantKeyMapView *rightKeyMapView;
-@property(retain) IBOutlet OESetupAssistantKeyMapView *runKeyMapView;
-@property(retain) IBOutlet OESetupAssistantKeyMapView *jumpKeyMapView;
+@property (readwrite, weak) IBOutlet OESetupAssistantKeyMapView* upKeyMapView;
+@property (readwrite, weak) IBOutlet OESetupAssistantKeyMapView* downKeyMapView;
+@property (readwrite, weak) IBOutlet OESetupAssistantKeyMapView* leftKeyMapView;
+@property (readwrite, weak) IBOutlet OESetupAssistantKeyMapView* rightKeyMapView;
+@property (readwrite, weak) IBOutlet OESetupAssistantKeyMapView* runKeyMapView;
+@property (readwrite, weak) IBOutlet OESetupAssistantKeyMapView* jumpKeyMapView;
 
-@property(retain) IBOutlet NSButton *currentNextButton;
-
-@property(retain) OESetupAssistantKeyMapView *currentKeyMapView;
-@property(retain) OEHIDEvent *currentEventToArchive;
+@property (readwrite, weak) OESetupAssistantKeyMapView* currentKeyMapView;
+@property (readwrite, weak) IBOutlet NSButton* currentNextButton;
+@property (readwrite, strong) OEHIDEvent* currentEventToArchive;
 
 /*
 @property(retain) IBOutlet NSButton            *dontSearchCommonTypes;

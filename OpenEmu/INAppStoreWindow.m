@@ -49,7 +49,6 @@
     [clipPath addClip];
     NSGradient *gradient = [[NSGradient alloc] initWithStartingColor:startColor endingColor:endColor];
     [gradient drawInRect:drawingRect angle:90];
-    [gradient release];
     [NSGraphicsContext restoreGraphicsState];
     
     NSColor *bottomColor = key ? COLOR_KEY_BOTTOM : COLOR_NOTKEY_BOTTOM;
@@ -64,13 +63,13 @@
         NSRect rect = NSMakeRect(0, [self frame].size.height-24, [self frame].size.width, 20);
         
         NSColor *textColor = [NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.157 alpha:1.0];
-        NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+        NSShadow *shadow = [[NSShadow alloc] init];
         [shadow setShadowBlurRadius:1.0];
         [shadow setShadowOffset:NSMakeSize(0, -1)];
         [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.6]];
         
         NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4.0 size:13.0];
-        NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+        NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
         [ps setAlignment:NSCenterTextAlignment];
         
         NSMutableDictionary *attr = [NSMutableDictionary dictionary];
@@ -138,11 +137,6 @@
 #pragma mark -
 #pragma mark Memory Management
 
-- (void)dealloc
-{
-    [_titleBarView release];
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark NSWindow Overrides
@@ -212,8 +206,7 @@
 - (void)setTitleBarView:(NSView *)newTitleBarView{
     if ((_titleBarView != newTitleBarView) && newTitleBarView) {
         [_titleBarView removeFromSuperview];
-        [_titleBarView release];
-        _titleBarView = [newTitleBarView retain];
+        _titleBarView = newTitleBarView;
         
         // Configure the view properties and add it as a subview of the theme frame
         NSView *contentView = [self contentView];
@@ -262,11 +255,8 @@
 }
 
 - (void)setTitleBarString:(NSString *)titleBarString{
-    [titleBarString retain];
-    [_titleBarString release];
     
     _titleBarString = [titleBarString copy];
-    [titleBarString release];
     
     [self display];
 }
@@ -351,7 +341,7 @@
 - (void)_createTitlebarView
 {
     // Create the title bar view
-    self.titleBarView = [[[INTitlebarView alloc] initWithFrame:NSZeroRect] autorelease];
+    self.titleBarView = [[INTitlebarView alloc] initWithFrame:NSZeroRect];
 }
 
 // Solution for tracking area issue thanks to @Perspx (Alex Rozanski) <https://gist.github.com/972958>
@@ -369,7 +359,6 @@
     NSTrackingArea *newTrackingArea = [[NSTrackingArea alloc] initWithRect:trackingRect options:[trackingArea options] owner:[trackingArea owner] userInfo:[NSDictionary dictionary]];
     [themeFrame removeTrackingArea:trackingArea];
     [themeFrame addTrackingArea:newTrackingArea];
-    [newTrackingArea release];
 }
 
 - (void)_recalculateFrameForTitleBarView

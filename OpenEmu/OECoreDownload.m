@@ -68,17 +68,10 @@
     return self;
 }
 - (void)dealloc {
-    [downloadPath release];
     
-    [name release];
-    [description release];
-    [version release];
     
-    [self setAppcastItem:nil];
-    [self setAppcast:nil];
     self.delegate = nil;
     
-    [super dealloc];
 }
 
 #pragma mark Core Download
@@ -89,7 +82,7 @@
     NSURLRequest  *request      = [NSURLRequest requestWithURL:url];
     
     id <NSURLDownloadDelegate> urlDLDelegate = (id <NSURLDownloadDelegate>)self;
-    NSURLDownload *fileDownload = [[[NSURLDownload alloc] initWithRequest:request delegate:urlDLDelegate] autorelease];
+    NSURLDownload *fileDownload = [[NSURLDownload alloc] initWithRequest:request delegate:urlDLDelegate];
     downloading = YES;
     
     [[self delegate] OEDownloadDidStart:self];
@@ -100,7 +93,7 @@
 
 - (void)download:(NSURLDownload *)download decideDestinationWithSuggestedFilename:(NSString *)filename
 {    
-    downloadPath = [[NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"OEDownload.%@", [NSString stringWithUUID]]] retain];    
+    downloadPath = [NSTemporaryDirectory() stringByAppendingPathComponent:[NSString stringWithFormat:@"OEDownload.%@", [NSString stringWithUUID]]];    
     [download setDestination:downloadPath allowOverwrite:NO];
 }
 
@@ -142,7 +135,7 @@
     NSString *appsupportFolder = [basePath stringByAppendingPathComponent:@"OpenEmu"];
     appsupportFolder = [appsupportFolder stringByAppendingPathComponent:@"Cores"];
     
-    fullPluginPath = [[appsupportFolder stringByAppendingPathComponent:[archive nameOfEntry:0]] retain];
+    fullPluginPath = [appsupportFolder stringByAppendingPathComponent:[archive nameOfEntry:0]];
     DLog(@"%@", fullPluginPath);
     [archive extractTo:appsupportFolder];
     

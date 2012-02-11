@@ -34,12 +34,12 @@
 {
 @private
     NSView      *gameView;
-    OEGameLayer *gameLayer;
+    OEGameLayer * gameLayer;
 }
 
 @property(readonly) OEGameLayer          *gameLayer;
-@property(assign)   OESystemResponder    *gameResponder;
-@property(assign)   id<OEGameCoreHelper>  rootProxy;
+@property(strong)   OESystemResponder    *gameResponder;
+@property(strong)   id<OEGameCoreHelper>  rootProxy;
 @property(readonly) CGFloat               preferredWindowScale;
 
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;

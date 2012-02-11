@@ -113,12 +113,12 @@
         tLayer.delegate = self;
         
         NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
-        tLayer.font=font;
+        tLayer.font=(__bridge CFTypeRef)font;
         tLayer.fontSize=12;
         tLayer.foregroundColor=[[NSColor whiteColor] CGColor];
         tLayer.truncationMode = kCATruncationEnd;
         tLayer.alignmentMode = kCAAlignmentCenter;
-        
+
         tLayer.shadowColor = [[NSColor blackColor] CGColor];
         tLayer.shadowOffset = CGSizeMake(0, -1);
         tLayer.shadowRadius = 1.0;
@@ -141,17 +141,6 @@
 }
 
 
-- (void)dealloc
-{
-    self.selectionLayer = nil;
-    self.glossLayer = nil;
-    self.indicationLayer = nil;
-    self.imageLayer = nil;
-    self.titleLayer = nil;
-    self.ratingLayer = nil;
-    
-    [super dealloc];
-}
 
 #pragma mark -
 - (NSRect)hitRect
@@ -249,7 +238,6 @@
 {
     [CATransaction begin];
     [CATransaction setDisableActions:YES];
-    [self retain];
     
     imageRatio = 1.0;
     CALayer *newImageLayer;
@@ -278,38 +266,15 @@
     newImageLayer.delegate = self;
     
 #warning fix grid view crash
-    // weired issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
+    // weird issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
     CALayer* superlayer = self.imageLayer.superlayer;
-    if(!superlayer)
-    {
-        [CATransaction commit];
-        [self release];
-        return;
-    }
+    NSAssert(superlayer, @"no superlayer");
     
     NSInteger index = [superlayer.sublayers indexOfObject:self.imageLayer];
-    if(index == NSNotFound)
-    {
-        [CATransaction commit];
-        [self release];
-        return;
-    }
-
+    NSAssert(index != NSNotFound, @"not a sublayer of superlayer");
     [self.imageLayer removeFromSuperlayer];
-    @try {
-        [superlayer insertSublayer:newImageLayer atIndex:index];
-
-    }
-    @catch (NSException *exception) {
-        [CATransaction commit];
-        [self release];
-        return;
-    }
-    @finally {
-    }
+    [superlayer insertSublayer:newImageLayer atIndex:index];
     // weird issue: sometimes imageLayer is not a sublayer of imageLayer.superlayer
-    
-    
     self.imageLayer = newImageLayer;
       
     // Height of title string
@@ -370,7 +335,6 @@
     
     [CATransaction commit];
     
-    [self release];
 }
 #pragma mark -
 - (void)display
@@ -396,9 +360,6 @@
 {
     if(image == _image)
         return;
-    
-    [_image retain];
-    [image release];
     
     image = _image;
     [self _layoutImageAndSelection];
@@ -543,9 +504,8 @@
     [dragImage setFlipped:YES];
     
     
-    [dragImageRep release];
     
-    return [dragImage autorelease];
+    return dragImage;
 }
 
 
@@ -589,7 +549,7 @@
     
     // wait a while to prevent animation when dragging is just dragging by
     float dropAnimatioTimernDelay = [[NSUserDefaults standardUserDefaults] floatForKey:@"debug_drop_animation_delay"];
-    dropAnimationDelayTimer = [[NSTimer scheduledTimerWithTimeInterval:dropAnimatioTimernDelay target:self selector:@selector(_displayOnDrop:) userInfo:proposedImageRepresentation repeats:NO] retain];
+    dropAnimationDelayTimer = [NSTimer scheduledTimerWithTimeInterval:dropAnimatioTimernDelay target:self selector:@selector(_displayOnDrop:) userInfo:proposedImageRepresentation repeats:NO];
     
     return NSDragOperationGeneric;
 }
@@ -605,12 +565,10 @@
     // check if we need to load image from url
     if([userInfo isKindOfClass:[NSURL class]])
     {
-        QLThumbnailRef thumbnailRef = QLThumbnailCreate(NULL, (CFURLRef)userInfo, [self frame].size, NULL);
+        QLThumbnailRef thumbnailRef = QLThumbnailCreate(NULL, (__bridge CFURLRef)userInfo, [self frame].size, NULL);
         CGImageRef thumbnailImageRef = QLThumbnailCopyImage(thumbnailRef);
         proposedCoverImage = [[NSImage alloc] initWithCGImage:thumbnailImageRef size:NSMakeSize(CGImageGetWidth(thumbnailImageRef), CGImageGetHeight(thumbnailImageRef))];
-        CGImageRelease(thumbnailImageRef);
-        
-        [proposedCoverImage autorelease];
+        CGImageRelease(thumbnailImageRef);        
     } 
     else 
     {
@@ -673,7 +631,6 @@
     [self moveLayer:self.indicationLayer to:CGRectInset(newCoverImageRect, 1, 1).origin centered:NO];
     
     [dropAnimationDelayTimer invalidate];
-    [dropAnimationDelayTimer release];
     dropAnimationDelayTimer = nil;
 }
 - (void)draggingExited:(id < NSDraggingInfo >)sender
@@ -683,7 +640,6 @@
     if(dropAnimationDelayTimer)
     {
         [dropAnimationDelayTimer invalidate]; 
-        [dropAnimationDelayTimer release]; 
         dropAnimationDelayTimer = nil; 
     }
     

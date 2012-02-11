@@ -39,7 +39,7 @@
     NSRect  windowBorderFrame = [windowBorderView frame];
     
     NSRect titlebarRect = NSMakeRect(0, windowBorderFrame.size.height - 22.0, windowBorderFrame.size.width, 22.0);
-    OEMainWindowTitleBarView *titlebarView = [[[OEMainWindowTitleBarView alloc] initWithFrame:titlebarRect] autorelease];
+    OEMainWindowTitleBarView *titlebarView = [[OEMainWindowTitleBarView alloc] initWithFrame:titlebarRect];
     [titlebarView setAutoresizingMask:(NSViewMinYMargin | NSViewWidthSizable)];
     [windowBorderView addSubview:titlebarView positioned:NSWindowAbove relativeTo:[[windowBorderView subviews] objectAtIndex:0]];
     
@@ -99,6 +99,42 @@
     dirtyRect.size.height = 1;
     [[NSColor blackColor] setFill];
     NSRectFill(dirtyRect);
+}
+
+@end
+
+@implementation OEMainWindowContentView
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    [[NSColor blackColor] setFill];
+    NSRectFill(dirtyRect);
+    
+    if(NSMinY(dirtyRect) > 44) return;
+    
+    NSRect viewRect = [self bounds];
+    viewRect.origin.y = NSMinY(viewRect);
+    viewRect.size.height = 44.0;
+    
+    NSColor *topLineColor   = [NSColor colorWithDeviceWhite:0.32 alpha:1];
+    NSColor *gradientTop    = [NSColor colorWithDeviceWhite:0.20 alpha:1];
+    NSColor *gradientBottom = [NSColor colorWithDeviceWhite:0.15 alpha:1];
+    
+    // Draw top line
+    NSRect lineRect = NSMakeRect(0, 43, viewRect.size.width, 1);
+    [topLineColor setFill];
+    NSRectFill(lineRect);
+    
+    // Draw Gradient
+    viewRect.origin.y = 0;
+    viewRect.size.height -= 1;
+    NSGradient *backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
+    [backgroundGradient drawInRect:viewRect angle:-90.0];
+}
+
+- (BOOL)isOpaque
+{
+    return NO;
 }
 
 @end

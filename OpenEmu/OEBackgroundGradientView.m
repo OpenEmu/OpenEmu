@@ -36,7 +36,6 @@
         NSGradient   *grad    = [[NSGradient alloc] initWithStartingColor:[self topColor] endingColor:[self bottomColor]];
         NSBezierPath *bezPath = [NSBezierPath bezierPathWithRect:[self bounds]];
         [grad drawInBezierPath:bezPath angle:-90.0];
-        [grad release];
     }
 }
 

@@ -43,18 +43,11 @@
 }
 
 - (void)dealloc{
-    self.controllerView = nil;
     
-    self.consolesPopupButton = nil;
-    self.playerPopupButton = nil;
-    self.inputPopupButton = nil;
     
-    self.gradientOverlay = nil;
-    self.controlsContainer = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [super dealloc];
 }
 #pragma mark -
 #pragma mark ViewController Overrides
@@ -165,10 +158,8 @@
         NSMenuItem *playerItem = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
         [playerItem setTag:player+1];
         [playerMenu addItem:playerItem];
-        [playerItem release];
     }
     [[self playerPopupButton] setMenu:playerMenu];
-    [playerMenu release];
     
     // Hide player PopupButton if there is only one player
     [[self playerPopupButton] setHidden:(numberOfPlayers==1)];
@@ -224,7 +215,6 @@
     else
         [[[self controllerView] animator] addSubview:newControllerView];
     
-    [newControllerView release];
     
     [[self controllerView] setAnimations:[NSDictionary dictionary]];
 }
@@ -315,11 +305,9 @@
         [item setImage:[NSImage imageNamed:[item title]]];
         
         [consolesMenu addItem:item];
-        [item release];
     }
     
     [[self consolesPopupButton] setMenu:consolesMenu];
-    [consolesMenu release];
 }
 
 - (void)_rebuildInputMenu

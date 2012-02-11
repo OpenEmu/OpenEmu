@@ -54,7 +54,7 @@
     OEImageButtonCell *cell = [self cell];
     
     if([cell isKindOfClass:[OEImageButtonCell class]] && [cell displaysHover])
-        [self addTrackingArea:[[[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingActiveInActiveApp|NSTrackingMouseEnteredAndExited owner:self userInfo:nil] autorelease]];
+        [self addTrackingArea:[[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingActiveInActiveApp|NSTrackingMouseEnteredAndExited owner:self userInfo:nil]];
     
     [self setIsInHover:NO];
 }
@@ -68,7 +68,6 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [super dealloc];
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent
@@ -406,7 +405,6 @@
         [attributedString drawInRect:textFrame];
         
         float width = [attributedString size].width+2;
-        [attributedString release];
         
         cellFrame.origin.x += width+7;
         cellFrame.size.width = 20;

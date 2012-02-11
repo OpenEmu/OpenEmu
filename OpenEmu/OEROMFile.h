@@ -47,11 +47,11 @@ insertedIntoManagedObjectContext:(NSManagedObjectContext *)context;
 // Loading a ROM from a file
 + (NSString *)nameForPath:(NSString *)path;
 
-@property(nonatomic, retain) NSData   *pathAlias;
+@property(nonatomic, strong) NSData   *pathAlias;
 @property(nonatomic, copy)   NSString *path;
 @property(nonatomic, copy)   NSDate   *lastPlayedDate;
-@property(nonatomic, retain) NSSet    *saveStates;
-@property(nonatomic, retain) NSString *name;
+@property(nonatomic, strong) NSSet    *saveStates;
+@property(nonatomic, strong) NSString *name;
 
 - (NSURL *)pathURL;
 

@@ -63,7 +63,7 @@ static NSMutableDictionary *plugins = nil;
 
 + (void)OE_addPluginWithPath:(NSString *)aPath
 {
-    OECompositionPlugin *plugin = [[[self alloc] initWithCompositionAtPath:aPath] autorelease];
+    OECompositionPlugin *plugin = [[self alloc] initWithCompositionAtPath:aPath];
     if(plugin != nil) [plugins setObject:plugin forKey:[plugin name]];
 }
 
@@ -118,27 +118,19 @@ static NSMutableDictionary *plugins = nil;
     {
         if(![[aPath pathExtension] isEqualToString:@"qtz"])
         {
-            [self release];
             return nil;
         }
         path = [aPath copy];
-        composition = [[QCComposition compositionWithFile:path] retain];
-        name = [[[composition attributes] objectForKey:QCCompositionAttributeNameKey] retain];
+        composition = [QCComposition compositionWithFile:path];
+        name = [[composition attributes] objectForKey:QCCompositionAttributeNameKey];
         if(name == nil)
-            name = [[[composition attributes] objectForKey:@"name"] retain];
+            name = [[composition attributes] objectForKey:@"name"];
         if(name == nil)
-            name = [[[path lastPathComponent] stringByDeletingPathExtension] retain];
+            name = [[path lastPathComponent] stringByDeletingPathExtension];
     }
     return self;
 }
 
-- (void) dealloc
-{
-    [path release];
-    [name release];
-    [composition release];
-    [super dealloc];
-}
 
 - (BOOL)isEqual:(id)object
 {
@@ -196,7 +188,6 @@ static NSMutableDictionary *plugins = nil;
     openGLContext = [[NSOpenGLContext alloc] initWithFormat:format shareContext:nil];
     if(openGLContext == nil) {
         DLog(@"Cannot create OpenGL context");
-        [format release];
         return nil;
     }
     
@@ -204,8 +195,6 @@ static NSMutableDictionary *plugins = nil;
     renderer = [[QCRenderer alloc] initWithOpenGLContext:openGLContext pixelFormat:format file:[self path]];
     if(renderer == nil) {
         DLog(@"Cannot create QCRenderer");
-        [format release];
-        [openGLContext release];
 
         return nil;
     }
@@ -213,17 +202,11 @@ static NSMutableDictionary *plugins = nil;
     NSImage *previewImage = [renderer valueForOutputKey:@"OEPreviewImage" ofType:@"NSImage"];
     if(!previewImage)
     {
-        [format release];
-        [openGLContext release];
-        [renderer release];
         
         DLog(@"Did not get a preview image");
         return nil;
     }
     
-    [format release];
-    [openGLContext release];
-    [renderer release];
     
     return previewImage;
 }

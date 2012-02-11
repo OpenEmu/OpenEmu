@@ -105,7 +105,8 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         return nil;
     }
     
-    if(outError == NULL) outError = &(NSError *){ nil };
+    NSError __autoreleasing *nilerr;
+    if(outError == NULL) outError = &nilerr;
     
     BOOL checkFilename = YES;
     BOOL checkFullpath = YES;
@@ -195,7 +196,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(rom == nil)
     {
         [context deleteObject:game];
-        [game release];
         return nil;
     }
     
@@ -216,7 +216,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         [context deleteObject:game];
         [context deleteObject:rom];
         
-        [game release];
         return nil;
     }
     
@@ -232,14 +231,13 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     {
         [context deleteObject:rom];
         [context deleteObject:game];
-        [game release];
         
         return nil;
     }
     
     [game setDatabase:database];
 
-    return [game autorelease];
+    return game;
 }
 
 + (id)gameWithArchiveID:(id)archiveID error:(NSError **)outError
@@ -259,7 +257,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     [fetchRequest setPredicate:predicate];
     
     NSArray *result = [context executeFetchRequest:fetchRequest error:outError];
-    [fetchRequest release];
     
     if(result == nil) return nil;
     
@@ -329,7 +326,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     NSNumber *archiveID = [self valueForKey:@"archiveID"];
     if([archiveID integerValue] != 0)
-        gameInfo = [[ArchiveVG gameInfoByID:[archiveID integerValue]] retain];
+        gameInfo = [ArchiveVG gameInfoByID:[archiveID integerValue]];
     else
     {
         BOOL useMD5 = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
@@ -338,9 +335,9 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
          ^(OEDBRom *aRom, BOOL *stop)
          {
             if(useMD5)
-                gameInfo = [[ArchiveVG gameInfoByMD5:[aRom md5Hash]] retain];
+                gameInfo = [ArchiveVG gameInfoByMD5:[aRom md5Hash]];
             else
-                gameInfo = [[ArchiveVG gameInfoByCRC:[aRom crcHash]] retain];
+                gameInfo = [ArchiveVG gameInfoByCRC:[aRom crcHash]];
             
             if([gameInfo valueForKey:AVGGameIDKey] != nil &&
                [[gameInfo valueForKey:AVGGameIDKey] integerValue] != 0)
@@ -351,7 +348,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(gameInfo != nil)
     {
         [self setArchiveVGInfo:gameInfo];
-        [gameInfo release];
     }
         
     return gameInfo != nil;
@@ -486,7 +482,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(gameDescription != nil)
         [resultGame setValue:gameDescription forKey:@"gameDescription"];
     
-    return [resultGame autorelease];
+    return resultGame;
 }
 
 #pragma mark -
@@ -511,14 +507,12 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     }
     
     [self setValue:boxImage forKey:@"boxImage"];
-    [boxImage release];
 }
 
 - (void)setBoxImageByURL:(NSURL*)url
 {
     NSImage *img = [[NSImage alloc] initWithContentsOfURL:url];
     [self setBoxImageByImage:img];
-    [img release];
 }
 
 
@@ -596,7 +590,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     {
         NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
         NSLog(@"propertyList: %@", propertyList);
-        return (OEDBGame *)[[context objectWithID:propertyList] retain];
+        return (OEDBGame *)[context objectWithID:propertyList];
     }
     
     return nil;

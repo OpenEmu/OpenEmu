@@ -31,8 +31,6 @@
 @interface OECorePickerController : NSWindowController
 {
     NSArray           *coreList;
-    NSArrayController *coreArrayController;
-    NSTableView       *coreTableView;
     BOOL               safeExit;
 }
 
@@ -41,7 +39,7 @@
 - (OECorePlugin *)selectedCore;
 
 @property(readonly) NSArray                    *coreList;
-@property(retain)   IBOutlet NSArrayController *coreArrayController;
-@property(assign)   IBOutlet NSTableView       *coreTableView;
+@property(weak)   IBOutlet NSArrayController *coreArrayController;
+@property(weak)   IBOutlet NSTableView       *coreTableView;
 
 @end

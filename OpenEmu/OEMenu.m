@@ -166,7 +166,6 @@
         OEMenuView *view = [[OEMenuView alloc] initWithFrame:NSZeroRect];
         [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
         [[self contentView] addSubview:view];
-        [view release];
         
         [self setLevel:NSTornOffMenuWindowLevel];
         [self setBackgroundColor:[NSColor clearColor]];
@@ -185,23 +184,17 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    self.popupButton = nil;
     self.highlightedItem = nil;
     
-    self.menu = nil;
     self.submenu = nil;
-    self.supermenu = nil;
     
-    self.delegate = nil;
     
     if(_localMonitor != nil)
     {
         [NSEvent removeMonitor:_localMonitor];
-        [_localMonitor release];
         _localMonitor = nil;
     }
     
-    [super dealloc];
 }
 
 #pragma mark -
@@ -216,7 +209,6 @@
     if(_localMonitor != nil)
     {
         [NSEvent removeMonitor:_localMonitor];
-        [_localMonitor release];
         
         _localMonitor = nil;
         
@@ -253,7 +245,6 @@
                          return nil;
                      }];
     
-    [_localMonitor retain];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges:) name:NSApplicationWillResignActiveNotification object:NSApp];
     
@@ -321,7 +312,6 @@
 {
     closing = YES;
     // make sure the menu does not vanish while being closed
-    [self retain];
     
     if([self submenu] != nil) [self.submenu closeMenuWithoutChanges:sender];
     
@@ -331,7 +321,6 @@
         [[self delegate] menuDidCancel:self];
     
     // now we are ready to be deallocated if needed
-    [self release];
 }
 
 - (void)closeMenu
@@ -358,8 +347,6 @@
 
 - (void)setMenu:(NSMenu *)nmenu
 {
-    [nmenu retain];
-    [menu release];
     
     menu = nmenu;
 }
@@ -405,7 +392,6 @@
         if(_localMonitor != nil)
         {
             [NSEvent removeMonitor:_localMonitor];
-            [_localMonitor release];
             _localMonitor = nil;
         }
         
@@ -437,8 +423,7 @@
 {
     if(highlightedItem != value)
     {
-        [highlightedItem release];
-        highlightedItem = [value retain];
+        highlightedItem = value;
         
         self.submenu = [[highlightedItem submenu] convertToOEMenu];
     }
@@ -466,8 +451,6 @@
         [_submenu openAtPoint:submenuSpawnPoint ofWindow:self];
     }
     
-    [_submenu retain];
-    [submenu release];
     submenu = _submenu;
 }
 
@@ -554,8 +537,6 @@
              
              if(maxTitleWidth < titleSize.width)
                  maxTitleWidth = titleSize.width;
-             
-             [attributedTitle release];
              
              if(image)
                  menuContainsImage = YES;
@@ -681,7 +662,7 @@
 {
     OEMenu *menu = [[OEMenu alloc] init];
     menu.menu = self;
-    return [menu autorelease];
+    return menu;
 }
 
 @end
@@ -702,7 +683,6 @@
     {
         NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
         [self addTrackingArea:area];
-        [area release];
     }
     return self;
 }
@@ -712,7 +692,6 @@
     while([[self trackingAreas] count] != 0)
         [self removeTrackingArea:[[self trackingAreas] lastObject]];
     
-    [super dealloc];
 }
 
 #pragma mark -
@@ -723,7 +702,7 @@
     
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
     NSColor *textColor = [[self menu] style]==OEMenuStyleDark?[NSColor whiteColor]:[NSColor blackColor];
-    NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     [ps setLineBreakMode:NSLineBreakByTruncatingTail];
     
     [dict setObject:font forKey:NSFontAttributeName];
@@ -739,7 +718,7 @@
     
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
     NSColor *textColor = [[self menu] style]==OEMenuStyleDark?[NSColor blackColor]:[NSColor whiteColor];
-    NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     [ps setLineBreakMode:NSLineBreakByTruncatingTail];
     
     [dict setObject:font forKey:NSFontAttributeName];
@@ -755,7 +734,7 @@
     
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
     NSColor *textColor = [NSColor whiteColor];
-    NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     [ps setLineBreakMode:NSLineBreakByTruncatingTail];
     
     [dict setObject:font forKey:NSFontAttributeName];
@@ -771,7 +750,7 @@
     
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:8.0 size:10.0];
     NSColor *textColor = [NSColor colorWithDeviceRed:0.49 green:0.49 blue:0.49 alpha:1.0];
-    NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+    NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     [ps setLineBreakMode:NSLineBreakByTruncatingTail];
     
     [dict setObject:font forKey:NSFontAttributeName];
@@ -789,7 +768,7 @@
     NSColor *endColor = style==OEMenuStyleDark?[startColor colorWithAlphaComponent:0.0]:[NSColor colorWithDeviceWhite:0.75 alpha:0.90];
     NSGradient *grad = [[NSGradient alloc] initWithStartingColor:startColor endingColor:endColor];
     
-    return [grad autorelease];
+    return grad;
 }
 
 - (NSColor*)backgroundColor
@@ -924,7 +903,7 @@
     else return nil;
     
     NSGradient *selectionGradient = [[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor];
-    return [selectionGradient autorelease];
+    return selectionGradient;
 }
 
 - (NSImage*)submenuImageWithHighlightedState:(BOOL)highlighted
@@ -1191,11 +1170,9 @@
 
         NSAttributedString *attrStr = [[NSAttributedString alloc] initWithString:menuItem.title attributes:textAttributes];
         menuItemFrame.origin.y += (NSHeight(menuItemFrame)-attrStr.size.height)/2.0;
-        [attrStr drawInRect:menuItemFrame];
-        [attrStr release];
+        [attrStr drawInRect:menuItemFrame];        
         
-        
-         y += menuItemFrame.size.height;
+        y += menuItemFrame.size.height;
     }
 }
 
@@ -1207,7 +1184,6 @@
     [self removeTrackingArea:area];
     area = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveAlways owner:self userInfo:nil];
     [self addTrackingArea:area];
-    [area release];
 }
 
 

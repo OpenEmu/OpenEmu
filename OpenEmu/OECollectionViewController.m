@@ -79,10 +79,9 @@
 
 - (void)dealloc
 {
-    [collectionItem release], collectionItem = nil;
-    [gamesController release], gamesController = nil;
+    collectionItem = nil;
+    gamesController = nil;
     
-    [super dealloc];
 }
 
 #pragma mark -
@@ -305,8 +304,6 @@
 #pragma mark Property Getters / Setters
 - (void)setCollectionItem:(id <NSObject, OECollectionViewItemProtocol>)_collectionItem
 {
-    [_collectionItem retain];
-    [collectionItem release];
     
     collectionItem = _collectionItem;
     
@@ -416,12 +413,12 @@
 {
     if([collectionItem isKindOfClass:[OEDBSystem class]])
     {
-        return [[[OEGridBlankSlateView alloc] initWithSystemPlugin:[(OEDBSystem*)collectionItem plugin]] autorelease];
+        return [[OEGridBlankSlateView alloc] initWithSystemPlugin:[(OEDBSystem*)collectionItem plugin]];
     }
     
     if([collectionItem respondsToSelector:@selector(collectionViewName)])
     {
-        return [[[OEGridBlankSlateView alloc] initWithCollectionName:[collectionItem collectionViewName]] autorelease];
+        return [[OEGridBlankSlateView alloc] initWithCollectionName:[collectionItem collectionViewName]];
     }
     return nil;
 }
@@ -574,7 +571,7 @@
                         [NSColor colorWithDeviceWhite:1.0 alpha:1.0], NSForegroundColorAttributeName, nil];
             }
             
-            [aCell setAttributedStringValue:[[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr] autorelease]];
+            [aCell setAttributedStringValue:[[NSAttributedString alloc] initWithString:[aCell stringValue] attributes:attr]];
         }
         
         if(![aCell isKindOfClass:[OERatingCell class]])
@@ -702,14 +699,12 @@
     if(reloadTimer) return;
     
     reloadTimer = [NSTimer scheduledTimerWithTimeInterval:reloadDelay target:self selector:@selector(_reloadData) userInfo:nil repeats:NO];                 
-    [reloadTimer retain];
 }
 - (void)_reloadData
 {
     if(reloadTimer)
     {
         [reloadTimer invalidate];
-        [reloadTimer release];
         reloadTimer = nil;       
     }
     

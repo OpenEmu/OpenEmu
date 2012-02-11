@@ -123,9 +123,7 @@
                           nil];
    
     }
-    [shadow release];
     
-    [paraStyle release];
     [label drawInRect:cellFrame withAttributes:textAttributes];
 }
 

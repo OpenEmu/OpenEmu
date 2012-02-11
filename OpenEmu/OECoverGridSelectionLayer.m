@@ -58,7 +58,7 @@
     [path setWindingRule:NSEvenOddWindingRule];
     [path addClip];
     
-    NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+    NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowColor:[NSColor blackColor]];
     [shadow setShadowOffset:NSMakeSize(0, 2)];
     [shadow setShadowBlurRadius:3];
@@ -90,7 +90,7 @@
         bottomColor = [NSColor colorWithDeviceWhite:0.44 alpha:1.0];
     }
     
-    NSGradient *grad = [[[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor] autorelease];
+    NSGradient *grad = [[NSGradient alloc] initWithStartingColor:topColor endingColor:bottomColor];
     [grad drawInBezierPath:path angle:90];
     [NSGraphicsContext restoreGraphicsState];
     

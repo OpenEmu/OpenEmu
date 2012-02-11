@@ -54,7 +54,7 @@
           createIfNecessary:(BOOL)create
      inManagedObjectContext:(NSManagedObjectContext *)context
 {
-    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:[self entityDescriptionInContext:context]];
     [request setPredicate:[NSPredicate predicateWithFormat:@"path == %@",path]];
     [request setFetchLimit:1];
@@ -74,8 +74,8 @@
 
 + (OEROMFile *)createFileWithPath:(NSString *)path insertedIntoManagedObjectContext:(NSManagedObjectContext *)context
 {
-    OEROMFile *romFile = [[[self alloc] initWithEntity:[self entityDescriptionInContext:context]
-                        insertIntoManagedObjectContext:context] autorelease];
+    OEROMFile *romFile = [[self alloc] initWithEntity:[self entityDescriptionInContext:context]
+                        insertIntoManagedObjectContext:context];
     
     [romFile setPath:path];
     [romFile setValue:[self nameForPath:path] forKey:@"name"];

@@ -107,6 +107,6 @@
 - (void)setupMenuItems;
 
 #pragma mark -
-@property (retain) OEDBRom *rom;
-@property (assign) OEGameDocument *document;
+@property (strong) OEDBRom *rom;
+@property (weak) OEGameDocument *document;
 @end

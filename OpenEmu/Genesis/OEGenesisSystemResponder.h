@@ -34,6 +34,6 @@ extern NSString *OEGenesisButtonNameTable[];
 
 @interface OEGenesisSystemResponder : OEBasicSystemResponder
 
-@property(nonatomic, assign) id<OEGenesisSystemResponderClient> client;
+@property(nonatomic, weak) id<OEGenesisSystemResponderClient> client;
 
 @end

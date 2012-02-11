@@ -33,7 +33,7 @@
     if(![[self cell] isKindOfClass:[OEGlossButtonCell class]])
     {
         NSString *title = [self title];
-        [self setCell:[[[OEGlossButtonCell alloc] init] autorelease]];
+        [self setCell:[[OEGlossButtonCell alloc] init]];
         [self setTitle:title];
     }
 }
@@ -68,7 +68,6 @@
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 
-    [super dealloc];
 }
 #pragma mark -
 
@@ -158,10 +157,6 @@
     }
     return self;
 }
-- (void)dealloc
-{
-    [super dealloc];
-}
 #pragma mark -
 - (BOOL)isOpaque
 {
@@ -222,12 +217,12 @@
 
 - (NSAttributedString*)attributedTitle
 {
-	NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
+	NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
 	
 	NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:3.0 size:11.0];
-	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow *shadow = [[NSShadow alloc] init];
 	[shadow setShadowBlurRadius:1.0];
-	NSMutableParagraphStyle *ps = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
 	[ps setAlignment:NSCenterTextAlignment];
 	
 	if([self isHighlighted])
@@ -247,6 +242,6 @@
 	[attributes setObject:font forKey:NSFontAttributeName];
 	[attributes setObject:shadow forKey:NSShadowAttributeName];
 	
-	return [[[NSAttributedString alloc] initWithString:[self title] attributes:attributes] autorelease];
+	return [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
 }
 @end

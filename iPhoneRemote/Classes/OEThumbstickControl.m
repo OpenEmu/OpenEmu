@@ -16,7 +16,7 @@
 {
     if ((self = [super initWithCoder:aDecoder])) {
         // Initialization code
-		nub = [[CALayer layer] retain];
+		nub = [CALayer layer];
 		[nub setBackgroundColor:[[UIColor redColor] CGColor]];
 		[nub setCornerRadius:25];
 		nub.frame = CGRectMake(0, 0, 50, 50);
@@ -158,10 +158,6 @@
 	[self setCurrentPoint:CGPointMake(b.size.width / 2.0f, b.size.height/2.0f)];
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 
 @end

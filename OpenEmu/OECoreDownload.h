@@ -34,9 +34,7 @@
 - (void)OEDownloadDidFinish:(OECoreDownload *)download;
 @end
 @interface OECoreDownload : NSObject
-{
-    id<OECoreDownloadDelegate>  delegate;
-    
+{    
     NSString               *downloadPath;
     NSString               *fullPluginPath;
     
@@ -48,7 +46,7 @@
 - (id)initWithPlugin:(OECorePlugin*)plugin;
 - (void)startDownload:(id)sender;
 
-@property (assign) id <OECoreDownloadDelegate> delegate;
+@property (weak) id <OECoreDownloadDelegate> delegate;
 
 @property (copy) NSString *name;
 @property (copy) NSString *description;
@@ -60,7 +58,7 @@
 @property (readonly, getter = isDownloading) BOOL downloading;
 
 @property (readonly) float progress;
-@property (retain)   SUAppcast*appcast;
-@property (retain)   SUAppcastItem          *appcastItem;
+@property (strong)   SUAppcast*appcast;
+@property (strong)   SUAppcastItem          *appcastItem;
 
 @end

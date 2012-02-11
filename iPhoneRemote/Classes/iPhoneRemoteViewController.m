@@ -106,10 +106,6 @@
 }
 
 
-- (void)dealloc {
-	[socket release];
-    [super dealloc];
-}
 
 - (void)pressButton:(NSUInteger)button
 {

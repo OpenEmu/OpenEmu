@@ -231,7 +231,6 @@ bool8 S9xOpenSoundDevice (void)
 {
     free(videoBuffer);
     free(soundBuffer);
-    [super dealloc];
 }
 
 - (GLenum)pixelFormat

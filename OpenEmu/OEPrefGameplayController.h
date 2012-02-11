@@ -18,6 +18,6 @@
 #pragma mark UI Actions
 - (IBAction)changeFilter:(id)sender;
 
-@property (readonly) IBOutlet NSPopUpButton   *filterSelection;
-@property (readonly) IBOutlet NSView          *filterPreviewContainer;
+@property (weak, readonly) IBOutlet NSPopUpButton   *filterSelection;
+@property (weak, readonly) IBOutlet NSView          *filterPreviewContainer;
 @end

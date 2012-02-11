@@ -39,6 +39,7 @@
 #include <NstApiRewinder.hpp>
 #include <NstApiRam.h>
 #include <NstApiMovie.hpp>
+#include <NstMachine.hpp>
 #include <iostream>
 #include <fstream>
 

@@ -48,17 +48,12 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 + (Protocol *)gameSystemResponderClientProtocol;
 {
     return @protocol(OESystemResponderClient);
 }
 
-- (id<OESystemResponderClient>)client { return client; }
 - (void)setClient:(id<OESystemResponderClient>)value;
 {
     if(client != value)

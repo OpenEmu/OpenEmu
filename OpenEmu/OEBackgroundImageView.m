@@ -29,11 +29,6 @@
 @implementation OEBackgroundImageView
 @synthesize image, leftBorder,rightBorder, topBorder,bottomBorder;
 
-- (void)dealloc
-{
-    [image release];
-    [super dealloc];
-}
 
 - (BOOL)isOpaque
 {

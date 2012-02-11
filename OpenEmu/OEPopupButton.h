@@ -34,7 +34,7 @@
     OEMenu *oemenu;
     NSMenuItem *selectedItem;
 }
-@property (retain, setter = setOEMenu:) OEMenu *oemenu;
+@property (strong, setter = setOEMenu:) OEMenu *oemenu;
 
-@property (retain) NSDate* menuOpenDate;
+@property (strong) NSDate* menuOpenDate;
 @end

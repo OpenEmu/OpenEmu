@@ -120,10 +120,10 @@
 
 - (NSAttributedString *)attributedTitle
 {
-    NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:0.0 size:11.0];
-    NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+    NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowBlurRadius:1.0];
     [shadow setShadowColor:[NSColor colorWithDeviceWhite:0.0 alpha:0.4]];
     [shadow setShadowOffset:NSMakeSize(0, -1)];
@@ -132,7 +132,7 @@
     [attributes setObject:font forKey:NSFontAttributeName];
     [attributes setObject:shadow forKey:NSShadowAttributeName];
     
-    return [[[NSAttributedString alloc] initWithString:[self title] attributes:attributes] autorelease];
+    return [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
 }
 
 - (NSRect)drawTitle:(NSAttributedString *)title withFrame:(NSRect)frame inView:(NSView *)controlView

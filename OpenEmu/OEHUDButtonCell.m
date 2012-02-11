@@ -104,10 +104,10 @@
 
 - (NSAttributedString *)attributedTitle
 {
-    NSMutableDictionary *attributes = [[[NSMutableDictionary alloc] init] autorelease];
+    NSMutableDictionary *attributes = [[NSMutableDictionary alloc] init];
     
     NSFont *font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:3.0 size:11.0];
-    NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+    NSShadow *shadow = [[NSShadow alloc] init];
     [shadow setShadowBlurRadius:1.0];
     NSMutableParagraphStyle *ps = [[NSMutableParagraphStyle alloc] init];
     [ps setAlignment:NSCenterTextAlignment];
@@ -129,9 +129,8 @@
     [attributes setObject:font forKey:NSFontAttributeName];
     [attributes setObject:shadow forKey:NSShadowAttributeName];
     
-    [ps release];
     
-    return [[[NSAttributedString alloc] initWithString:[self title] attributes:attributes] autorelease];
+    return [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
 }
 
 - (NSImage *)OE_imageForHudButtonColor:(OEHUDButtonColor)color

@@ -34,7 +34,7 @@ typedef struct
 	CGKeyCode vkCode;
 } OE_HIDVKCode;
 
-OE_HIDVKCode hidvk_codes[] = {
+static const OE_HIDVKCode hidvk_codes[] = {
 	{kHIDUsage_Keyboard0, kVK_ANSI_0},
 	{kHIDUsage_Keyboard1, kVK_ANSI_1},
 	{kHIDUsage_Keyboard2, kVK_ANSI_2},
@@ -150,10 +150,10 @@ OE_HIDVKCode hidvk_codes[] = {
 typedef struct
 {
 	NSUInteger  hidCode;
-	NSString   *string;
+    __unsafe_unretained NSString* string;
 } OE_HIDString;
 
-OE_HIDString hidlabels[] = {
+static const OE_HIDString hidlabels[] = {
 
 	{kHIDUsage_KeyboardReturnOrEnter, @"↩"}, /* Return (Enter) */
 	{kHIDUsage_KeyboardEscape, @"⎋"},/* Escape */

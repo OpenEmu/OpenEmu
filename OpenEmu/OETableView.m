@@ -21,17 +21,17 @@ static NSGradient *highlightGradient, *normalGradient;
 	{
 		if(!cellEditingFillColor)
 		{
-			cellEditingFillColor = [[NSColor greenColor] retain];
+			cellEditingFillColor = [NSColor greenColor];
 		}
 		
 		if(!textColor)
 		{
-			textColor = [[NSColor whiteColor] retain];
+			textColor = [NSColor whiteColor];
 		}
 		
 		if(!cellSelectedTextColor)
 		{
-			cellSelectedTextColor = [[NSColor whiteColor] retain];
+			cellSelectedTextColor = [NSColor whiteColor];
 		}
 		
 		if(!highlightGradient)
@@ -41,7 +41,7 @@ static NSGradient *highlightGradient, *normalGradient;
 		
 		if(!strokeColor)
 		{
-			strokeColor = [[NSColor blackColor] retain];
+			strokeColor = [NSColor blackColor];
 		}
 		
 		if(!normalGradient)
@@ -62,11 +62,10 @@ static NSGradient *highlightGradient, *normalGradient;
 			OETableHeaderCell *newHeader = [[OETableHeaderCell alloc] initTextCell:[[aColumn headerCell] stringValue]];
 			[newHeader setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:11]];
 			[aColumn setHeaderCell: newHeader];
-			[newHeader release];
 		}
         
         [self setHeaderClickable:YES];
-        [self setCornerView:[[[OETableCornerView alloc] init] autorelease]];
+        [self setCornerView:[[OETableCornerView alloc] init]];
 	}
     return self;
 }
@@ -199,10 +198,6 @@ static NSGradient *highlightGradient, *normalGradient;
     }    
 }
 
-- (void)dealloc
-{
-    [super dealloc];
-}
 
 @synthesize selectionColor;
 @end

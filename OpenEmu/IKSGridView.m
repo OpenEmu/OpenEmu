@@ -263,7 +263,7 @@ typedef enum
 {
     // Setup a new tracking area when the view is added to the window.
     NSTrackingAreaOptions options = (NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow);
-    self.trackingArea = [[[NSTrackingArea alloc] initWithRect:[self bounds] options:options owner:self userInfo:nil] autorelease];
+    self.trackingArea = [[NSTrackingArea alloc] initWithRect:[self bounds] options:options owner:self userInfo:nil];
     [self addTrackingArea:self.trackingArea];
 }
 
@@ -275,7 +275,7 @@ typedef enum
         [self removeTrackingArea:self.trackingArea];
     }
     NSTrackingAreaOptions options = (NSTrackingMouseMoved | NSTrackingMouseEnteredAndExited | NSTrackingActiveInKeyWindow);
-    self.trackingArea = [[[NSTrackingArea alloc] initWithRect:[self bounds] options:options owner:self userInfo:nil] autorelease];
+    self.trackingArea = [[NSTrackingArea alloc] initWithRect:[self bounds] options:options owner:self userInfo:nil];
     [self addTrackingArea:self.trackingArea];
 }
 
@@ -427,17 +427,8 @@ typedef enum
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [trackingArea release];
-    [eventLayer release];
-    [gridLayer release];
-    [selectionLayer release];
     
-    [selectedIndexes release];
     
-    [sortDescriptors release];
-    [layoutManager release];
-    [backgroundColor release];
-    [super dealloc];
 }
 
 #pragma mark -
@@ -456,8 +447,7 @@ typedef enum
 {
     if (backgroundColor != newColor) 
     {
-        [backgroundColor release];
-        backgroundColor = [newColor retain];
+        backgroundColor = newColor;
         CGColorRef aColor = backgroundColor.CGColor;
         self.layer.backgroundColor = aColor;
         self.gridLayer.backgroundColor = newColor.CGColor;
@@ -502,7 +492,7 @@ typedef enum
     @throw @"embed in layer calles!!";
     
     
-    NSMutableArray *layers = [[items mutableCopy] autorelease];
+    NSMutableArray *layers = [items mutableCopy];
     
     NSUInteger i;
     for(i=0; i<[items count]; i++)
@@ -678,7 +668,7 @@ typedef enum
     if([self autoscroll:theEvent])
     {
         self.lastEvent = theEvent;
-        self.autoscrollTimer = [[[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:0.05] interval:0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:NO] autorelease];
+        self.autoscrollTimer = [[NSTimer alloc] initWithFireDate:[NSDate dateWithTimeIntervalSinceNow:0.05] interval:0 target:self selector:@selector(timerFireMethod:) userInfo:nil repeats:NO];
         NSRunLoop *loop = [NSRunLoop currentRunLoop];
         [loop addTimer:self.autoscrollTimer forMode:NSDefaultRunLoopMode];
     }
@@ -995,7 +985,6 @@ typedef enum
     {
         [fieldEditor removeFromSuperview];
         
-        [fieldEditor release];
         fieldEditor = nil;
     }
     
@@ -1225,12 +1214,11 @@ typedef enum
         badgeLoc.y += 1;
         
         [attributedCountString drawAtPoint:badgeLoc];
-        [attributedCountString release];
     }
     
     [dragImage unlockFocus];
     
-    return [dragImage autorelease];
+    return dragImage;
 }
 #pragma mark -
 - (OEGridViewFieldEditor*)fieldEditorForFrame:(NSRect)frame ofLayer:(CALayer*)layer

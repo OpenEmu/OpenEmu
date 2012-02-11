@@ -39,11 +39,6 @@
 - (void)awakeFromNib{
     self.menu = [self menu];
 }
-- (void)dealloc{
-    [self setOEMenu:nil];
-    
-    [super dealloc];
-}
 #pragma mark -
 - (void)mouseDown:(NSEvent *)theEvent{
     BOOL outside = !NSPointInRect([theEvent locationInWindow], [self frame]);

@@ -81,7 +81,6 @@
             if(outError != NULL)
                 // TODO: Implement proper error
                 *outError = [NSError errorWithDomain:@"OESomeErrorDomain" code:0 userInfo:[NSDictionary dictionary]];
-            [self release];
             return nil;
         }
         
@@ -92,7 +91,6 @@
         [view addSubview:gameView];
         
         [self setView:view];
-        [view release];
         
         controlsWindow = [[OEHUDControlsBarWindow alloc] initWithGameViewController:self];
         [controlsWindow setReleasedWhenClosed:YES];
@@ -109,7 +107,6 @@
             else 
                 [NSApp presentError:error];
             
-            [self release];
             return nil;
         }
         
@@ -133,17 +130,15 @@
 - (void)dealloc
 {
     NSLog(@"OEGameViewController dealloc");
-    [self setRom:nil];
     
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
     [nc removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
     
     [controlsWindow close];
-    [controlsWindow release], controlsWindow = nil;
-    [gameView release], gameView = nil;
+    controlsWindow = nil;
+    gameView = nil;
     
-    [super dealloc];
 }
 
 - (NSString *)OE_saveStatePath;
@@ -203,20 +198,15 @@
     [gameController removeSettingObserver:[rootProxy gameCore]];
     //    [gameWindow makeFirstResponder:nil];
     
-    [gameSystemController release];
     gameSystemController = nil;
-    [gameSystemResponder release];
     gameSystemResponder  = nil;
     
     // kill our background friend
     [gameCoreManager stop];
-    [gameCoreManager release];
     gameCoreManager = nil;
     
-    [rootProxy release];
     rootProxy = nil;
     
-    [gameController release];
     gameController = nil;
     
     // if windowcontroller is set
@@ -481,7 +471,7 @@
         
         if(plugin == nil) return NO;
         
-        gameController = [[plugin controller] retain];
+        gameController = [plugin controller];
         
         Class managerClass = ([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.gameCoreInBackgroundThread"] boolValue]
                               ? [OEGameCoreThreadManager  class]
@@ -491,7 +481,7 @@
         
         if(gameCoreManager != nil)
         {
-            rootProxy = [[gameCoreManager rootProxy] retain];
+            rootProxy = [gameCoreManager rootProxy];
             
             [rootProxy setupEmulation];
             
@@ -499,7 +489,7 @@
             [self setVolume:[[NSUserDefaults standardUserDefaults] floatForKey:UDVolumeKey]];
             
             OEGameCore *gameCore = [rootProxy gameCore];
-            gameSystemController = [[[OESystemPlugin gameSystemPluginForTypeExtension:[aurl pathExtension]] controller] retain];
+            gameSystemController = [[OESystemPlugin gameSystemPluginForTypeExtension:[aurl pathExtension]] controller];
             gameSystemResponder  = [gameSystemController newGameSystemResponder];
             [gameSystemResponder setClient:gameCore];
             
@@ -565,7 +555,7 @@
     if([validPlugins count] <= 1) chosenCore = [validPlugins lastObject];
     else
     {
-        OECorePickerController *c = [[[OECorePickerController alloc] initWithCoreList:validPlugins] autorelease];
+        OECorePickerController *c = [[OECorePickerController alloc] initWithCoreList:validPlugins];
         
         if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
             chosenCore = [c selectedCore];

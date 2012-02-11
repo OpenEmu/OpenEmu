@@ -14,10 +14,7 @@
  */
 
 @interface NSColor (IKSAdditions)
-/**
- Return CGColor representation of the NSColor in the RGB color space
- */
-@property (readonly) CGColorRef CGColor;
+- (CGColorRef) CGColor CF_RETURNS_RETAINED;
 /**
  Create new NSColor from a CGColorRef
  */

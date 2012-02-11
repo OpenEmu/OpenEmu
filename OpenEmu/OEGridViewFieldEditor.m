@@ -57,10 +57,8 @@
 
 - (void)dealloc
 {
-    [textView release];
     textView = nil;
     
-    [super dealloc];
 }
 
 #pragma mark -

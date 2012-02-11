@@ -87,10 +87,8 @@
 - (void)dealloc
 {
     NSLog(@"OEGameDocument dealloc");
-    [self setGameViewController:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
     
-    [super dealloc];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
@@ -149,7 +147,6 @@
     if(!aGameViewController) return NO;
     
     BOOL res = [self _setupGameViewController:aGameViewController];
-    [aGameViewController release];
     return res;
 }
 
@@ -164,7 +161,6 @@
     }
     BOOL res = [self _setupGameViewController:aGameViewController];
     if(!res) DLog(@"_setupGameViewController failed");
-    [aGameViewController release];
     return res;
 }
 #pragma mark -

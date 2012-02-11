@@ -32,5 +32,5 @@
 @interface OEGameDocument : NSDocument
 - (id)initWithRom:(OEDBRom*)rom;
 - (id)initWithGame:(OEDBGame*)game;
-@property (retain) OEGameViewController *gameViewController;
+@property (strong) OEGameViewController *gameViewController;
 @end

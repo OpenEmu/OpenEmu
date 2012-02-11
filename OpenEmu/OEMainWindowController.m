@@ -64,13 +64,10 @@
 
 - (void)dealloc 
 {
-    [currentContentController release], currentContentController = nil;
-    
+    currentContentController = nil;
     [self setDefaultContentController:nil];
     [self setLibraryController:nil];
-    [self setPlaceholderView:nil];
-    
-    [super dealloc];
+    [self setPlaceholderView:nil];    
 }
 
 - (void)windowDidLoad
@@ -98,7 +95,6 @@
          }];
         
         [self setCurrentContentController:setupAssistant];
-        [setupAssistant release];
     }
     else
     {
@@ -147,8 +143,6 @@
     [currentContentController viewDidDisappear];
     [controller               viewDidAppear];
     
-    [controller retain];
-    [currentContentController release];
     currentContentController = controller;
     
     [[self currentContentController] setupMenuItems];

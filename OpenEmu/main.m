@@ -76,7 +76,6 @@ int main(int argc, char *argv[])
         
         NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
         [standardDefaults registerDefaults:defaults];
-        [defaults release];
         defaults = nil;
     }
     

@@ -93,14 +93,14 @@ static CGPDFDocumentRef lightingImage = NULL;
 {
     if(self == [OEGridBackgroundLayer class])
     {
-        CGImageSourceRef imageSource = CGImageSourceCreateWithURL((CFURLRef)[[NSBundle mainBundle] URLForResource:@"noise" withExtension:@"png"], NULL);
+        CGImageSourceRef imageSource = CGImageSourceCreateWithURL((__bridge CFURLRef)[[NSBundle mainBundle] URLForResource:@"noise" withExtension:@"png"], NULL);
         if(imageSource != NULL)
         {
             noiseImage = CGImageSourceCreateImageAtIndex(imageSource, 0, NULL);
             CFRelease(imageSource);
         }
         
-        lightingImage = CGPDFDocumentCreateWithURL((CFURLRef)[[NSBundle mainBundle] URLForResource:@"background_lighting" withExtension:@"pdf"]);
+        lightingImage = CGPDFDocumentCreateWithURL((__bridge CFURLRef)[[NSBundle mainBundle] URLForResource:@"background_lighting" withExtension:@"pdf"]);
     }
 }
 

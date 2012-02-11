@@ -47,15 +47,15 @@ enum _OEGameDocumentErrorCodes
 @interface OEGameCoreManager : NSObject
 {
     NSString             *romPath;
-    OECorePlugin         *plugin;
-    OEGameCoreController *owner;
+    //OECorePlugin         *plugin;
+    //OEGameCoreController *__weak owner;
     
     id<OEGameCoreHelper>  rootProxy;
 }
 
 @property(readonly, copy)   NSString             *romPath;
-@property(readonly, assign) OECorePlugin         *plugin;
-@property(readonly, assign) OEGameCoreController *owner;
+@property(readonly, weak) OECorePlugin         *plugin;
+@property(readonly, weak) OEGameCoreController *owner;
 
 - (id)initWithROMAtPath:(NSString *)theRomPath corePlugin:(OECorePlugin *)thePlugin owner:(OEGameCoreController *)theOwner error:(NSError **)outError;
 
@@ -65,7 +65,7 @@ enum _OEGameDocumentErrorCodes
 
 #pragma mark -
 #pragma mark Abstract methods, must be overrode in subclasses
-@property(readonly, assign) id<OEGameCoreHelper>  rootProxy;
+@property(readonly) id<OEGameCoreHelper>  rootProxy;
 - (BOOL)startHelperProcessError:(NSError **)outError;
 - (void)endHelperProcess;
 
@@ -79,7 +79,7 @@ enum _OEGameDocumentErrorCodes
     NSConnection         *taskConnection;    
 }
 
-@property(readonly,assign) OETaskWrapper *helper;
+@property(readonly) OETaskWrapper *helper;
 
 @end
 

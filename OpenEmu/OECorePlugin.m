@@ -64,11 +64,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [icon release];
-    [super dealloc];
-}
 
 - (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
 {

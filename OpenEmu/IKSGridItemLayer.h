@@ -14,24 +14,16 @@
  Custom CALayer subclass. All grid layers should inherit from this class
  */
 
-@interface IKSGridItemLayer : CALayer <IKSGridItemLayerEventProtocol> {
-    BOOL selected;
-    BOOL firstResponder;
-    IKSGridView *gridView;
-    
-    id representedObject;
-    NSInteger representedIndex;
-}
+@interface IKSGridItemLayer : CALayer <IKSGridItemLayerEventProtocol>
 - (NSRect)hitRect;
 /**
  Automatically set by the grid view when the selection status of the layer changes. Whenever this value is changed, the layer will be redrawn 
  */
 @property (nonatomic, assign, getter=isSelected) BOOL selected;
 @property (nonatomic, assign, getter=isFirstResponder) BOOL firstResponder;
-@property (nonatomic, assign) IKSGridView *gridView;
+@property (nonatomic, weak) IKSGridView *gridView;
 @property (assign) NSInteger representedIndex;
-@property (assign) id representedObject;
-
+@property (strong) id representedObject;
 
 - (void)reloadData;
 - (void)beginValueChange;

@@ -180,7 +180,6 @@
     NSBezierPath *gradientPath = [NSBezierPath bezierPathWithRoundedRect:gradientRect xRadius:borderRad yRadius:borderRad];
     [gradientPath appendBezierPathWithRect:NSMakeRect(0, viewRect.origin.y+1, viewRect.size.width, borderRad)];
     [backgroundGradient drawInBezierPath:gradientPath angle:90];
-    [backgroundGradient release];
     
     if(borderRad == 0) return;
     // Draw custom resize indicator

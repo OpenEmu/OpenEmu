@@ -56,14 +56,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 @synthesize ownerView, gameCIImage, screenshotHandler;
 @synthesize rootProxy;
-
-- (BOOL)vSyncEnabled
-{
-    return vSyncEnabled;
-}
+@synthesize vSyncEnabled, filterName;
 
 - (void)setVSyncEnabled:(BOOL)value
 {
+    if (vSyncEnabled == value) return;
     vSyncEnabled = value;
     if(layerContext != nil)
     {
@@ -77,13 +74,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     return [[OECompositionPlugin compositionPluginWithName:filterName] composition];
 }
 
-- (NSString *)filterName { return filterName; }
 - (void)setFilterName:(NSString *)value
 {
     if(filterName != value)
     {
         DLog(@"setting filter name");
-        [filterName release];
         filterName = [value copy];
         
         [self OE_refreshFilterRenderer];
@@ -96,8 +91,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 - (void)setRootProxy:(id<OEGameCoreHelper>)value
 {
     if (value != rootProxy) {
-        [rootProxy release];
-        rootProxy = [value retain];
+        rootProxy = value;
         [rootProxy setDelegate:self];
         rootProxy.drawSquarePixels = [self composition] != nil;
     }
@@ -110,7 +104,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
     DLog(@"releasing old filterRenderer");
     
-    [filterRenderer release];
     filterRenderer = nil;
 
     
@@ -146,13 +139,13 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 
 - (NSDictionary *)OE_shadersForContext:(CGLContextObj)context
 {
-    OEGameShader *scale4XShader         = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xFilterName     forContext:context] autorelease];
-    OEGameShader *scale4XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xHQFilterName   forContext:context] autorelease];
-    OEGameShader *scale2XPlusShader     = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xPlusFilterName forContext:context] autorelease];
-    OEGameShader *scale2XHQShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xHQFilterName   forContext:context] autorelease];
+    OEGameShader *scale4XShader         = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xFilterName     forContext:context];
+    OEGameShader *scale4XHQShader       = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xHQFilterName   forContext:context];
+    OEGameShader *scale2XPlusShader     = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xPlusFilterName forContext:context];
+    OEGameShader *scale2XHQShader       = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xHQFilterName   forContext:context];
 
-    OEGameShader *scale4xBRShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xBRFilterName   forContext:context] autorelease];
-    OEGameShader *scale2xBRShader       = [[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xBRFilterName   forContext:context] autorelease];
+    OEGameShader *scale4xBRShader       = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale4xBRFilterName   forContext:context];
+    OEGameShader *scale2xBRShader       = [[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2xBRFilterName   forContext:context];
 
     // TODO: fix this shader
     OEGameShader *scale2XSALSmartShader = nil;//[[[OEGameShader alloc] initWithShadersInMainBundle:_OEScale2XSALSmartFilterName forContext:context] autorelease];
@@ -185,7 +178,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     CGLContextObj cgl_ctx = layerContext;
     glGenTextures(1, &gameTexture);
     
-    filters = [[self OE_shadersForContext:cgl_ctx] retain];
+    filters = [self OE_shadersForContext:cgl_ctx];
     
     // our QCRenderer 'filter'
     [self setFilterName:filterName];
@@ -341,7 +334,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
     {
-        NSDictionary *options = [NSDictionary dictionaryWithObject:(id)rgbColorSpace forKey:kCIImageColorSpace];
+        NSDictionary *options = [NSDictionary dictionaryWithObject:(__bridge id)rgbColorSpace forKey:kCIImageColorSpace];
         CGRect textureRect = CGRectMake(0, 0, screenSize.width, screenSize.height);
         [self setGameCIImage:[[CIImage imageWithIOSurface:surfaceRef options:options] imageByCroppingToRect:textureRect]];
         
@@ -404,8 +397,6 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
             
             img = [[NSImage alloc] initWithSize:NSMakeSize(width, height)];
             [img addRepresentation:rep];
-            [rep release];
-            [img autorelease];
             
             screenshotHandler(img);
             [self setScreenshotHandler:nil];
@@ -426,12 +417,9 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 - (void)dealloc
 {
     
-    [gameServer release];
     gameServer = nil;
     
-    [filters release];
     
-    [self setScreenshotHandler:nil];
     
     [self unbind:@"filterName"];
     [self unbind:@"vSyncEnabled"];
@@ -440,13 +428,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     if(gameTexture)
         glDeleteTextures(1, &gameTexture);
     
-    [filterRenderer release];
     
     [self setRootProxy:nil];
     
     CGColorSpaceRelease(rgbColorSpace);
     
     CGLReleaseContext(layerContext);
-    [super dealloc];
 }
 @end

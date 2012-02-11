@@ -27,7 +27,6 @@
 
 @class OEGridViewFieldEditor;
 @interface IKSGridView : NSView <IKSGridLayoutManagerDelegate> {
-    Class cellClass;
     /**
      The layout manager used to layout the grid
      */
@@ -37,44 +36,12 @@
      */
     CALayer *gridLayer;
     
-    // Decoration layers
-    CALayer *foregroundLayer;
-    CALayer *backgroundLayer;
-    
     OEGridViewFieldEditor *fieldEditor;
-    /**
-     Layer used to draw the selection rectangle 
-     */
-    CALayer *selectionLayer;
-    
-    // Stuff for dragging
-    IKSGridItemLayer *draggedLayer;
-    CALayer *dragIndicationLayer;
     
     /**
      Keeps track of the point where the mouse first clicked (used for calculating the frame of the selection rectangle)
      */
     NSPoint mouseDownPoint;
-    
-    NSTrackingArea *trackingArea;
-    IKSGridItemLayer *eventLayer;
-    NSColor *backgroundColor;
-    NSArray *sortDescriptors;
-    NSSize minimumItemSize;
-    NSSize maximumItemSize;
-    BOOL allowsMultipleSelection;
-    BOOL selectable;
-    BOOL layoutEnabled;
-    id<IKSGridViewDelegate> delegate;
-    
-    NSTimer *autoscrollTimer;
-    NSEvent *lastEvent;
-    
-    NSMutableIndexSet *selectedIndexes;
-    
-    id<IKSGridViewDataSource> dataSource;
-    
-    NSImage *draggedImage;
     
     BOOL noItems;
 }
@@ -92,31 +59,31 @@
 #pragma mark -
 - (BOOL)isItemSelectedAtIndex:(NSInteger)index;
 #pragma mark -
-@property (readwrite, assign) id target;
+@property (readwrite, unsafe_unretained) id target;
 @property (readwrite) SEL doubleAction;
-@property (readwrite, assign) Class cellClass;
+@property (readwrite, weak) Class cellClass;
 
 
-@property (readwrite, retain) NSImage *draggedImage;
+@property (readwrite, strong) NSImage *draggedImage;
 
-@property (nonatomic, retain) NSTimer *autoscrollTimer;
-@property (nonatomic, retain) NSEvent *lastEvent;
+@property (nonatomic, strong) NSTimer *autoscrollTimer;
+@property (nonatomic, strong) NSEvent *lastEvent;
 
 - (OEGridViewFieldEditor*)fieldEditorForFrame:(NSRect)frame ofLayer:(id)layer;
 /**
  Delegate of the grid view (an object conforming to the IKSGridViewDelegateProtocol
  */
-@property (nonatomic, assign) IBOutlet id<IKSGridViewDelegate> delegate;
+@property (nonatomic, unsafe_unretained) IBOutlet id<IKSGridViewDelegate> delegate;
 /**
  Tracking area for capturing mouseMoved events
  */
-@property (nonatomic, retain) NSTrackingArea *trackingArea;
+@property (nonatomic, strong) NSTrackingArea *trackingArea;
 /**
  Layer that the mouse is currently hovering over
  */
-@property (nonatomic, retain) CALayer *dragIndicationLayer;
-@property (nonatomic, retain) IKSGridItemLayer *eventLayer;
-@property (nonatomic, retain) IKSGridItemLayer *draggedLayer;
+@property (nonatomic, strong) CALayer *dragIndicationLayer;
+@property (nonatomic, strong) IKSGridItemLayer *eventLayer;
+@property (nonatomic, strong) IKSGridItemLayer *draggedLayer;
 /** 
  Minimum horizontal and vertical spacing between layers
  Default: {10.0, 10.0} 
@@ -124,7 +91,7 @@
 @property (nonatomic, assign) NSSize minimumSpacing;
 
 
-@property (nonatomic, retain) id<IKSGridViewDataSource> dataSource;
+@property (nonatomic, unsafe_unretained) id<IKSGridViewDataSource> dataSource;
 /** 
  Size of each item
  Default: {100.0, 100.0} 
@@ -133,12 +100,12 @@
 /**
  Background color of the view 
  */
-@property (nonatomic, retain) NSColor *backgroundColor;
+@property (nonatomic, strong) NSColor *backgroundColor;
 
 /**
  Sort descriptors used to sort the items
  */
-@property (nonatomic, retain) NSArray *sortDescriptors;
+@property (nonatomic, strong) NSArray *sortDescriptors;
 /**
  Whether the user is allowed to select items in the grid or not
  */
@@ -160,13 +127,16 @@
 /**
  Selected indexes
  **/
-@property (nonatomic, retain) NSMutableIndexSet *selectedIndexes;
+@property (nonatomic, strong) NSMutableIndexSet *selectedIndexes;
 
 /**
  Private properties
  */
-@property (nonatomic, retain) CALayer *foregroundLayer, *backgroundLayer;
-@property (nonatomic, retain) CALayer *gridLayer, *selectionLayer;
+@property (nonatomic, strong) CALayer *foregroundLayer, *backgroundLayer;
+/**
+ selectionLayer - layer used to draw the selection rectangle 
+ */
+@property (nonatomic, strong) CALayer *gridLayer, *selectionLayer;
 @property (readonly) NSMutableArray *selectedLayers;
 @end
 

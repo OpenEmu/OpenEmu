@@ -34,6 +34,6 @@ extern NSString *OESNESButtonNameTable[];
 
 @interface OESNESSystemResponder : OEBasicSystemResponder
 
-@property(nonatomic, assign) id<OESNESSystemResponderClient> client;
+@property(nonatomic, weak) id<OESNESSystemResponderClient> client;
 
 @end

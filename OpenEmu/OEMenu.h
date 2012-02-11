@@ -52,7 +52,6 @@ typedef enum _OERectEdge
     NSMenuItem *highlightedItem;
     
     OEMenu *submenu;
-    OEMenu *supermenu;
     
     OEPopupButton *popupButton;
     
@@ -62,7 +61,6 @@ typedef enum _OERectEdge
     BOOL visible;
     BOOL closing;
     BOOL _alternate;
-    id <OEMenuDelegate> delegate;
 
     OEMenuStyle style;
 }
@@ -82,19 +80,19 @@ typedef enum _OERectEdge
 @property(readonly) BOOL alternate;
 
 @property(readwrite) NSSize minSize, maxSize;
-@property(retain) OEPopupButton *popupButton;
-@property(nonatomic, retain) OEMenu *submenu;
-@property(nonatomic, retain) OEMenu *supermenu;
+@property(strong) OEPopupButton *popupButton;
+@property(nonatomic, strong) OEMenu *submenu;
+@property(nonatomic, unsafe_unretained) OEMenu *supermenu;
 
 @property OEMenuStyle style;
 @property OERectEdge openEdge;
 
-@property (nonatomic, retain) NSMenu *menu;
-@property (retain) NSMenuItem *highlightedItem;
+@property (nonatomic, strong) NSMenu *menu;
+@property (strong) NSMenuItem *highlightedItem;
 @property (readonly, getter = isVisible) BOOL visible;
 
 @property int itemsAboveScroller, itemsBelowScroller;
-@property (nonatomic, retain) id <OEMenuDelegate> delegate;
+@property (nonatomic, unsafe_unretained) id <OEMenuDelegate> delegate;
 
 @property BOOL containsItemWithImage;
 @end

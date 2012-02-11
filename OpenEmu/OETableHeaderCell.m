@@ -113,10 +113,10 @@
 	 */
 	
 	NSFont *titleFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:4 size:11];
-	NSMutableParagraphStyle *paraStyle = [[[NSMutableParagraphStyle alloc] init] autorelease];
+	NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
 	[paraStyle setLineBreakMode:NSLineBreakByTruncatingTail];
 	
-	NSShadow *shadow = [[[NSShadow alloc] init] autorelease];
+	NSShadow *shadow = [[NSShadow alloc] init];
 	[shadow setShadowColor:[NSColor blackColor]];
 	[shadow setShadowOffset:NSMakeSize(0, -1)];
 	[shadow setShadowBlurRadius:0];
@@ -134,7 +134,7 @@
 		headerRect = NSInsetRect(cellFrame, 8, 0);
 		headerRect.origin.y += 1;
 		
-		NSShadow *glow = [[[NSShadow alloc] init] autorelease];
+		NSShadow *glow = [[NSShadow alloc] init];
 		
 		[glow setShadowColor:[NSColor whiteColor]];
 		[glow setShadowOffset:NSMakeSize(0, 0)];
@@ -149,7 +149,6 @@
 		
 		header = [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
 		[header drawInRect:headerRect];
-		[header release];
 	}
 	
 	attributes = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -164,7 +163,6 @@
 	
 	header = [[NSAttributedString alloc] initWithString:[self title] attributes:attributes];
 	[header drawInRect:headerRect];
-	[header release];
 		
 	int columnIndex = [(NSTableHeaderView*)controlView columnAtPoint:cellFrame.origin];
 	if(columnIndex < 0) return;

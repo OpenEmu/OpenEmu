@@ -68,9 +68,9 @@
 
 - (void)setNeedsReload;
 #pragma mark -
-@property(retain) IBOutlet OELibraryController *libraryController;
-@property(nonatomic, retain) id <OECollectionViewItemProtocol> collectionItem;
+@property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
+@property(nonatomic, strong) id <OECollectionViewItemProtocol> collectionItem;
 
-@property(nonatomic, retain) IBOutlet NSView *emptyCollectionView;
-@property(nonatomic, retain) IBOutlet NSView *emptyConsoleView;
+@property(nonatomic, strong) IBOutlet NSView *emptyCollectionView;
+@property(nonatomic, strong) IBOutlet NSView *emptyConsoleView;
 @end

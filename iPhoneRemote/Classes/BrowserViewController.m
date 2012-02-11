@@ -68,12 +68,12 @@
 
 
 @interface BrowserViewController()
-@property (nonatomic, retain, readwrite) NSNetService *ownEntry;
+@property (nonatomic, strong, readwrite) NSNetService *ownEntry;
 @property (nonatomic, assign, readwrite) BOOL showDisclosureIndicators;
-@property (nonatomic, retain, readwrite) NSMutableArray *services;
-@property (nonatomic, retain, readwrite) NSNetServiceBrowser *netServiceBrowser;
-@property (nonatomic, retain, readwrite) NSNetService *currentResolve;
-@property (nonatomic, retain, readwrite) NSTimer *timer;
+@property (nonatomic, strong, readwrite) NSMutableArray *services;
+@property (nonatomic, strong, readwrite) NSNetServiceBrowser *netServiceBrowser;
+@property (nonatomic, strong, readwrite) NSNetService *currentResolve;
+@property (nonatomic, strong, readwrite) NSTimer *timer;
 @property (nonatomic, assign, readwrite) BOOL needsActivityIndicator;
 @property (nonatomic, assign, readwrite) BOOL initialWaitOver;
 
@@ -114,7 +114,6 @@
 // Holds the string that's displayed in the table view during service discovery.
 - (void)setSearchingForServicesString:(NSString *)searchingForServicesString {
 	if (_searchingForServicesString != searchingForServicesString) {
-		[_searchingForServicesString release];
 		_searchingForServicesString = [searchingForServicesString copy];
 
         // If there are no services, reload the table to ensure that searchingForServicesString appears.
@@ -167,7 +166,6 @@
 
 	aNetServiceBrowser.delegate = self;
 	self.netServiceBrowser = aNetServiceBrowser;
-	[aNetServiceBrowser release];
 	[self.netServiceBrowser searchForServicesOfType:type inDomain:domain];
 
 	[self.tableView reloadData];
@@ -181,8 +179,6 @@
 // When this is called, invalidate the existing timer before releasing it.
 - (void)setTimer:(NSTimer *)newTimer {
 	[_timer invalidate];
-	[newTimer retain];
-	[_timer release];
 	_timer = newTimer;
 }
 
@@ -204,7 +200,7 @@
 	static NSString *tableCellIdentifier = @"UITableViewCell";
 	UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:tableCellIdentifier];
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:tableCellIdentifier];
 	}
 	
 	NSUInteger count = [self.services count];
@@ -239,7 +235,6 @@
 										UIViewAutoresizingFlexibleTopMargin |
 										UIViewAutoresizingFlexibleBottomMargin);
 			cell.accessoryView = spinner;
-			[spinner release];
 		}
 	} else if (cell.accessoryView) {
 		cell.accessoryView = nil;
@@ -364,11 +359,9 @@
 - (void)netServiceDidResolveAddress:(NSNetService *)service {
 	assert(service == self.currentResolve);
 	
-	[service retain];
 	[self stopCurrentResolve];
 	
 	[self.delegate browserViewController:self didResolveInstance:service];
-	[service release];
 }
 
 - (void)cancelAction {
@@ -378,14 +371,8 @@
 - (void)dealloc {
 	// Cleanup any running resolve and free memory
 	[self stopCurrentResolve];
-	self.services = nil;
 	[self.netServiceBrowser stop];
-	self.netServiceBrowser = nil;
-	[_searchingForServicesString release];
-	[_ownName release];
-	[_ownEntry release];
 	
-	[super dealloc];
 }
 
 @end

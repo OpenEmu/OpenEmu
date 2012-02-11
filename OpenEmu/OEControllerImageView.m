@@ -90,11 +90,8 @@
 }
 - (void)dealloc 
 {
-    [self setImage:nil];
-    [self setControlsViewController:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [super dealloc];
 }
 #pragma mark -
 - (void)drawRect:(NSRect)dirtyRect
@@ -139,8 +136,6 @@
     [self setRingPosition:NSZeroPoint];
     [self setRingAlpha:0.0];
     
-    [img retain];
-    [image release];
     
     image = img;
     

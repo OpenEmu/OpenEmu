@@ -67,14 +67,14 @@ extern NSString *const OEFileTypes;
 - (NSDictionary *)preferenceViewControllerClasses;
 
 
-@property(readonly) NSString   *systemIdentifier;
+@property(readonly, strong) NSString   *systemIdentifier;
 @property(readonly) NSString   *systemName;
 
 @property(readonly) NSUInteger  numberOfPlayers;
 @property(readonly) Class       responderClass;
 @property(readonly) NSArray    *genericSettingNames;
 @property(readonly) NSArray    *genericControlNames;
-@property(readonly) NSString   *playerString;
+@property(readonly, strong) NSString   *playerString;
 
 - (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx;
 
@@ -106,8 +106,8 @@ extern NSString *const OEFileTypes;
 
 #pragma mark -
 #pragma mark ROM Handling
-@property(readonly) NSArray *fileTypes;
-@property(readonly) NSArray *archiveIDs;
+@property(readonly, strong) NSArray *fileTypes;
+@property(readonly, strong) NSArray *archiveIDs;
 
 - (BOOL)canHandleFile:(NSString*)path;
 @end

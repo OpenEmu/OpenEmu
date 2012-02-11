@@ -30,7 +30,7 @@
 @interface OEControllerImageView : NSView 
 @property (nonatomic) float overlayAlpha, ringAlpha;
 @property (nonatomic) NSPoint ringPosition;
-@property (nonatomic, retain) NSImage *image;
-@property (nonatomic, retain) OEControlsViewController *controlsViewController;
+@property (nonatomic, strong) NSImage *image;
+@property (nonatomic, strong) OEControlsViewController *controlsViewController;
 - (NSPoint)ringPositionInView;
 @end

@@ -34,11 +34,11 @@
 
 #pragma mark -
 
-@property(retain) IBOutlet OELibraryController *libraryController;
+@property(unsafe_unretained) IBOutlet OELibraryController *libraryController;
 
-@property(retain, nonatomic) OEMainWindowContentController *currentContentController;
-@property(retain)            OEMainWindowContentController *defaultContentController;
-@property                    BOOL                           allowWindowResizing;
+@property(nonatomic, unsafe_unretained) OEMainWindowContentController *currentContentController;
+@property(nonatomic, unsafe_unretained) OEMainWindowContentController *defaultContentController;
+@property                               BOOL                           allowWindowResizing;
 
 #pragma mark -
 #pragma mark Menu Items
@@ -47,18 +47,18 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 - (void)menuItemAction:(id)sender;
 
-@property(retain) IBOutlet NSView *placeholderView;
+@property(weak) IBOutlet NSView *placeholderView;
 
 #pragma mark -
 #pragma mark Toolbar Elements
 
-@property(retain) IBOutlet NSButton      *toolbarSidebarButton;
-@property(retain) IBOutlet NSButton      *toolbarGridViewButton;
-@property(retain) IBOutlet NSButton      *toolbarFlowViewButton;
-@property(retain) IBOutlet NSButton      *toolbarListViewButton;
+@property(weak) IBOutlet NSButton      *toolbarSidebarButton;
+@property(weak) IBOutlet NSButton      *toolbarGridViewButton;
+@property(weak) IBOutlet NSButton      *toolbarFlowViewButton;
+@property(weak) IBOutlet NSButton      *toolbarListViewButton;
 
-@property(retain) IBOutlet NSButton      *toolbarAddToSidebarButton;
-@property(retain) IBOutlet NSSearchField *toolbarSearchField;
-@property(retain) IBOutlet NSSlider      *toolbarSlider;
+@property(weak) IBOutlet NSButton      *toolbarAddToSidebarButton;
+@property(weak) IBOutlet NSSearchField *toolbarSearchField;
+@property(weak) IBOutlet NSSlider      *toolbarSlider;
 
 @end

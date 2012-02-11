@@ -48,7 +48,6 @@
     [self removeObserver:self forKeyPath:@"value"];
     [self removeObserver:self forKeyPath:@"maxValue"];
     
-    [super dealloc];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

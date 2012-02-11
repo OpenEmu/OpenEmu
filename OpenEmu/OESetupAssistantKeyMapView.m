@@ -81,7 +81,6 @@
 
 - (void)dealloc {
     [self removeObserver:self forKeyPath:@"key"];
-    [super dealloc];
 }
 #pragma mark -
 - (void)setup
@@ -107,7 +106,6 @@
         [subview removeFromSuperview];
     
     [self addSubview:imageView];
-    [imageView release];
 }
 #pragma mark -
 - (BOOL)acceptsFirstResponder
