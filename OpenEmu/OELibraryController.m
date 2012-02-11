@@ -637,7 +637,6 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     viewRect.size.height -= 1;
     NSGradient *backgroundGradient = [[NSGradient alloc] initWithStartingColor:gradientTop endingColor:gradientBottom];
     [backgroundGradient drawInRect:viewRect angle:-90.0];
-    [backgroundGradient release];
 }
 
 - (BOOL)isOpaque
