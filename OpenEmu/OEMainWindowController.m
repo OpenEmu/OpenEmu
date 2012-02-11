@@ -33,6 +33,7 @@
 #import "NSViewController+OEAdditions.h"
 
 @interface OEMainWindowController ()
+- (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end
 
 @implementation OEMainWindowController
@@ -80,15 +81,6 @@
     [[self window] setWindowController:self];
     [[self window] setDelegate:self];
     
-    [[self toolbarSidebarButton] setImage:[NSImage imageNamed:@"toolbar_sidebar_button_close"]];
-    
-     // Setup Toolbar Buttons
-    [[self toolbarGridViewButton] setImage:[NSImage imageNamed:@"toolbar_view_button_grid"]];
-    [[self toolbarFlowViewButton] setImage:[NSImage imageNamed:@"toolbar_view_button_flow"]];
-    [[self toolbarListViewButton] setImage:[NSImage imageNamed:@"toolbar_view_button_list"]];
-    
-    [[self toolbarAddToSidebarButton] setImage:[NSImage imageNamed:@"toolbar_add_button"]];
-    
     // Setup Window behavior
     [[self window] setRestorable:NO];
     [[self window] setExcludedFromWindowsMenu:YES];
@@ -123,14 +115,18 @@
 
 #pragma mark -
 
-- (void)addViewControllerToWindow:(NSViewController *)controller;
+- (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController
 {
     NSView *contentView = [self placeholderView];
-    NSView *view        = [controller view];
+    NSView *view        = [newController view];
     
     [view setFrame:[contentView bounds]];
-    [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
-    [contentView addSubview:view];
+    [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    
+    if(oldController != nil)
+        [[contentView animator] replaceSubview:[oldController view] with:view];
+    else
+        [[contentView animator] addSubview:view];
 }
 
 - (void)setCurrentContentController:(OEMainWindowContentController *)controller
@@ -139,34 +135,12 @@
     
     if(controller == [self currentContentController]) return;
     
-    [[self toolbarFlowViewButton] setEnabled:NO];
-    [[self toolbarFlowViewButton] setAction:@selector(switchToFlowView:)];
-    
-    [[self toolbarGridViewButton] setEnabled:NO];
-    [[self toolbarGridViewButton] setAction:@selector(switchToGridView:)];
-    
-    [[self toolbarListViewButton] setEnabled:NO];
-    [[self toolbarListViewButton] setAction:@selector(switchToListView:)];
-    
-    [[self toolbarSearchField] setEnabled:NO];
-    [[self toolbarSearchField] setAction:NULL];
-    
-    [[self toolbarSidebarButton] setEnabled:NO];
-    [[self toolbarSidebarButton] setAction:NULL];
-    
-    [[self toolbarAddToSidebarButton] setEnabled:NO];
-    [[self toolbarAddToSidebarButton] setAction:NULL];
-    
-    [[self toolbarSlider] setEnabled:NO];
-    [[self toolbarSlider] setAction:NULL];
-    
     [controller setWindowController:self];
     
     [currentContentController viewWillDisappear];
     [controller               viewWillAppear];
     
-    [[currentContentController view] removeFromSuperview];
-    [self addViewControllerToWindow:controller];
+    [self OE_replaceCurrentContentController:currentContentController withViewController:controller];
     
     [[self window] makeFirstResponder:[controller view]];
     

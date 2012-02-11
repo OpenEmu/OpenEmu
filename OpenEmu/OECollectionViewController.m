@@ -126,7 +126,7 @@
     [gridView addForegroundLayer:foregroundLayer];
     
     //set initial zoom value
-    NSSlider *sizeSlider = [[[self libraryController] windowController] toolbarSlider];
+    NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
     if([userDefaults valueForKey:UDLastGridSizeKey])
     {
         [sizeSlider setFloatValue:[userDefaults floatForKey:UDLastGridSizeKey]];
@@ -205,16 +205,16 @@
 
 - (void)_selectView:(int)view
 {
-    NSSlider *sizeSlider = [[[self libraryController] windowController] toolbarSlider];
+    NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
     
     NSMenu *mainMenu = [NSApp mainMenu];
     NSMenu *viewMenu = [[mainMenu itemAtIndex:3] submenu];
     
-    [[[[self libraryController] windowController] toolbarGridViewButton] setState: NSOffState];
+    [[[self libraryController] toolbarGridViewButton] setState: NSOffState];
     [[viewMenu itemWithTag:MainMenu_View_GridViewTag] setState:NSOffState];
-    [[[[self libraryController] windowController] toolbarFlowViewButton] setState: NSOffState];
+    [[[self libraryController] toolbarFlowViewButton] setState: NSOffState];
     [[viewMenu itemWithTag:MainMenu_View_FlowViewTag] setState:NSOffState];
-    [[[[self libraryController] windowController] toolbarListViewButton] setState: NSOffState];
+    [[[self libraryController] toolbarListViewButton] setState: NSOffState];
     [[viewMenu itemWithTag:MainMenu_View_ListViewTag] setState:NSOffState];
     
     NSView *nextView = nil;
@@ -222,13 +222,13 @@
     switch (view)
     {
         case 0: ;// Grid View
-            [[[[self libraryController] windowController] toolbarGridViewButton] setState: NSOnState];
+            [[[self libraryController] toolbarGridViewButton] setState:NSOnState];
             [[viewMenu itemWithTag:MainMenu_View_GridViewTag] setState:NSOnState];
             nextView = gridViewContainer;
             [sizeSlider setEnabled:YES];
             break;
         case 1: ;// CoverFlow View
-            [[[[self libraryController] windowController] toolbarFlowViewButton] setState: NSOnState];
+            [[[self libraryController] toolbarFlowViewButton] setState: NSOnState];
             [[viewMenu itemWithTag:MainMenu_View_FlowViewTag] setState:NSOnState];
             nextView = flowlistViewContainer;
             [sizeSlider setEnabled:NO];
@@ -237,7 +237,7 @@
             splitterPosition = 500;
             break;
         case 2: ;// List View
-            [[[[self libraryController] windowController] toolbarListViewButton] setState: NSOnState];
+            [[[self libraryController] toolbarListViewButton] setState: NSOnState];
             [[viewMenu itemWithTag:MainMenu_View_ListViewTag] setState:NSOnState];
             nextView = flowlistViewContainer;
             [sizeSlider setEnabled:NO];

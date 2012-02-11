@@ -109,7 +109,7 @@
 
 - (IBAction)addCollectionAction:(id)sender
 {
-    [self addCollection:([NSEvent modifierFlags] & NSAlternateKeyMask)==0];
+    [self addCollection:([NSEvent modifierFlags] & NSAlternateKeyMask) == 0];
 }
 
 - (void)addCollection:(BOOL)isSmart

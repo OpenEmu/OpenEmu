@@ -35,6 +35,3 @@
 
 @interface OEMainWindowTitleBarView : NSView
 @end
-
-@interface OEMainWindowContentView : NSView
-@end

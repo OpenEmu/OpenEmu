@@ -40,6 +40,9 @@
 @class OEROMImporter;
 @class FullscreenWindow;
 
+@interface OELibraryToolbarView : NSView
+@end
+
 @interface OELibraryController : OEMainWindowContentController
 
 - (void)layoutToolbarItems;
@@ -53,6 +56,8 @@
 - (IBAction)switchToListView:(id)sender;
 - (IBAction)switchToFlowView:(id)sender;
 - (IBAction)search:(id)sender;
+- (IBAction)changeGridSize:(id)sender;
+- (IBAction)addCollectionAction:(id)sender;
 
 #pragma mark -
 #pragma mark Menu Item Actions
@@ -74,14 +79,15 @@
 #pragma mark -
 #pragma Handle Spotlight importing
 
-- (void) discoverRoms;
-- (void) updateSearchResults:(NSNotification*)notification;
-- (void) finalizeSearchResults:(NSNotification*)notification;
-- (void) importInBackground;
+- (void)discoverRoms;
+- (void)updateSearchResults:(NSNotification*)notification;
+- (void)finalizeSearchResults:(NSNotification*)notification;
+- (void)importInBackground;
 
 #pragma mark -
 #pragma mark Properties
 
+@property(nonatomic, getter=isSidebarVisible) BOOL sidebarVisible;
 @property(nonatomic) BOOL sidebarChangesWindowSize;
 @property(retain)    OEROMImporter     *romImporter;
 @property(retain)    OELibraryDatabase *database;
@@ -89,5 +95,15 @@
 @property(retain) IBOutlet OESidebarController        *sidebarController;
 @property(retain) IBOutlet OECollectionViewController *collectionViewController;
 @property(retain) IBOutlet OELibrarySplitView         *mainSplitView;
+@property(retain) IBOutlet NSView                     *mainContentPlaceholderView;
+
+@property(retain) IBOutlet NSButton      *toolbarSidebarButton;
+@property(retain) IBOutlet NSButton      *toolbarGridViewButton;
+@property(retain) IBOutlet NSButton      *toolbarFlowViewButton;
+@property(retain) IBOutlet NSButton      *toolbarListViewButton;
+
+@property(retain) IBOutlet NSButton      *toolbarAddToSidebarButton;
+@property(retain) IBOutlet NSSearchField *toolbarSearchField;
+@property(retain) IBOutlet NSSlider      *toolbarSlider;
 
 @end

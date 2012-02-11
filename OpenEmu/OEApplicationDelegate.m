@@ -126,6 +126,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 }
 #pragma mark -
 #pragma mark Loading The Database
+
 - (void)OE_loadDatabase
 {
     NSError *error = nil;
