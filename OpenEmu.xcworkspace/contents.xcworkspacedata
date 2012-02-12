@@ -37,4 +37,7 @@
    <FileRef
       location = "group:VisualBoyAdvance/VisualBoyAdvance.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:FCEUX/FCEUX.xcodeproj">
+   </FileRef>
 </Workspace>

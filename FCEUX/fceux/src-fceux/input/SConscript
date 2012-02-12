@@ -1,0 +1,21 @@
+my_list =  Split("""
+arkanoid.cpp
+bworld.cpp
+cursor.cpp
+fkb.cpp
+ftrainer.cpp
+hypershot.cpp
+mahjong.cpp
+mouse.cpp
+oekakids.cpp
+powerpad.cpp
+quiz.cpp
+shadow.cpp
+suborkb.cpp
+toprider.cpp
+zapper.cpp
+""")
+
+for x in range(len(my_list)):
+  my_list[x] = 'input/' + my_list[x]
+Return('my_list')

@@ -1,0 +1,7 @@
+Import('file_list')
+my_list =  Split("""
+""")
+for x in range(len(my_list)):
+  my_list[x] = 'palettes/' + my_list[x]
+file_list = my_list + file_list
+Export('file_list')

@@ -1,0 +1,64 @@
+file_list = Split("""
+asm.cpp
+cart.cpp
+cheat.cpp
+conddebug.cpp
+config.cpp
+debug.cpp
+drawing.cpp
+emufile.cpp
+fceu.cpp
+fds.cpp
+file.cpp 
+filter.cpp 
+ines.cpp
+input.cpp
+nsf.cpp
+palette.cpp
+ppu.cpp
+sound.cpp
+state.cpp
+unif.cpp
+video.cpp
+vsuni.cpp
+wave.cpp
+x6502.cpp
+""")
+
+subdirs = Split("""
+boards
+drivers/common
+fir
+input
+utils
+mappers
+lua
+""")
+#palettes
+
+Import('env')
+Export('env')
+
+if env['LUA']:
+  file_list.append('lua-engine.cpp')
+
+if env['CREATE_AVI']:
+  subdirs.append('drivers/videolog')
+  
+
+
+for dir in subdirs:
+  subdir_files = SConscript('%s/SConscript' % dir)
+  file_list.append(subdir_files)
+if env['PLATFORM'] == 'win32':
+  platform_files = SConscript('drivers/win/SConscript')
+else:
+  platform_files = SConscript('drivers/sdl/SConscript')
+file_list.append(platform_files)
+
+print env['LINKFLAGS']
+
+if env['PLATFORM'] == 'win32':
+  env.Program('fceux.exe', file_list)
+else:
+  env.Program('fceux', file_list)

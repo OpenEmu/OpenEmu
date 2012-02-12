@@ -1,0 +1,12 @@
+my_list =   Split("""
+crc32.cpp
+endian.cpp
+general.cpp
+md5.cpp
+memory.cpp
+xstring.cpp
+""")
+
+for x in range(len(my_list)):
+  my_list[x] = 'utils/' + my_list[x]
+Return('my_list')

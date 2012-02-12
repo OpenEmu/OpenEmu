@@ -1,0 +1,6 @@
+my_list = Split("""
+""")
+
+for x in range(len(my_list)):
+  my_list[x] = 'fir/' + my_list[x]
+Return('my_list')
