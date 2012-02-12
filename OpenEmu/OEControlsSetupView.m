@@ -33,6 +33,8 @@
 #import "OEControlsKeyHeadlineCell.h"
 #import "OEControlsKeySeparatorView.h"
 
+#import "OESystemController.h"
+
 #import "NSClipView+OEAnimatedScrolling.h"
 
 #import "OEUIDrawingUtils.h"
@@ -40,7 +42,29 @@
 #ifndef UDControlsButtonHighlightRollsOver
 #define UDControlsButtonHighlightRollsOver @"ButtonHighlightRollsOver"
 #endif
+
+@interface _OEControlsSetupViewParser : NSObject
+- (id)initWithTarget:(OEControlsSetupView *)aTarget;
+- (void)parseControlList:(NSArray *)controlList;
+- (NSArray *)elementPages;
+- (NSDictionary *)keyToButtonMap;
+@end
+
+@interface OEControlsSetupView ()
+{
+	NSArray      *elementPages;
+    NSDictionary *keyToButtonMap;
+    CGFloat       lastWidth;
+}
+
+- (void)OE_layoutSubviews;
+
+@end
+
 @implementation OEControlsSetupView
+
+@synthesize selectedKey, action, target;
+
 - (id)initWithFrame:(NSRect)frame
 {
     self = [super initWithFrame:frame];
@@ -54,6 +78,7 @@
     }
     return self;
 }
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
     [self updateButtons];
@@ -64,88 +89,69 @@
     [self removeObserver:self forKeyPath:@"frameSize"];
 }
 
-- (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end
+- (void)setupWithControlList:(NSArray *)controlList;
 {
+    [[[self subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    
+    _OEControlsSetupViewParser *parser = [[_OEControlsSetupViewParser alloc] initWithTarget:self];
+    [parser parseControlList:controlList];
+    
+    elementPages   = [parser elementPages];
+    keyToButtonMap = [parser keyToButtonMap];
+    
+    [keyToButtonMap enumerateKeysAndObjectsUsingBlock:
+     ^(NSString *key, OEControlsKeyButton *obj, BOOL *stop)
+     {
+         [obj bind:@"title" toObject:self withKeyPath:[NSString stringWithFormat:@"target.%@", key] options:nil];
+     }];
+    
+    [self OE_layoutSubviews];
 }
 
-- (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end
+- (IBAction)OE_selectInputControl:(id)sender
 {
-}
-#pragma mark -
-- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget
-{
-    [self addButtonWithName:aName label:label target:aTarget highlightPoint:NSZeroPoint];
-}
-
-- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget highlightPoint:(NSPoint)p
-{
-    NSMutableArray *currentPage = [elementPages lastObject];
-    NSMutableArray *currentColumn = [currentPage lastObject];
+    // Only one object should be there
+    NSString *key = [[keyToButtonMap allKeysForObject:sender] lastObject];
     
-    NSRect labelRect = NSMakeRect(0, 0, 0, 0);
-    NSRect buttonRect = NSMakeRect(0, 0, 0, 0);
+    if(key == nil) return;
     
-    OEControlsKeyButton *button = [[OEControlsKeyButton alloc] initWithFrame:buttonRect];
-    button.highlightPoint = p;
+    [self setSelectedKey:key];
     
-    [button setTarget:aTarget];
-    [button setAction:@selector(selectInputControl:)];
-    [button bind:@"title" toObject:aTarget withKeyPath:aName options:nil];
-    [currentColumn addObject:button];
-    
-    NSTextField *labelField = [[NSTextField alloc] initWithFrame:labelRect];
-    NSTextFieldCell *labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
-    [labelField setCell:labelFieldCell];
-    [labelField setStringValue:label];
-    [currentColumn addObject:labelField];
+    if([self action] != NULL) [NSApp sendAction:[self action] to:[self target] from:self];
 }
 
-- (void)nextColumn
+- (void)setSelectedKey:(NSString *)value
 {
-    NSMutableArray *currentPage = [elementPages lastObject];
-    [currentPage addObject:[NSMutableArray array]];
-}
-
-- (void)nextPage
-{
-    NSMutableArray *newPage = [[NSMutableArray alloc] init];
-    [newPage addObject:[NSMutableArray array]];
-    [elementPages addObject:newPage];
-}
-
-- (void)addColumnLabel:(NSString*)label
-{
-    NSMutableArray *currentPage = [elementPages lastObject];
-    NSMutableArray *currentColumn = [currentPage lastObject];
+    OEControlsKeyButton *button = [keyToButtonMap objectForKey:value];
+    if(button == nil) value = nil;
     
-    NSRect labelRect = NSMakeRect(0, 0, 0, 0);
-    NSTextField *labelField = [[NSTextField alloc] initWithFrame:labelRect];
-    NSTextFieldCell *labelFieldCell = [[OEControlsKeyHeadlineCell alloc] init];
-    [labelField setCell:labelFieldCell];
-    [labelField setStringValue:label];
-    [currentColumn addObject:labelField];
-}
-
-- (void)addRowSeperator
-{
-    NSMutableArray *currentPage = [elementPages lastObject];
-    NSMutableArray *currentColumn = [currentPage lastObject];
-    
-    OEControlsKeySeparatorView *view = [[OEControlsKeySeparatorView alloc] init];
-    [currentColumn addObject:view];
+    if(selectedKey != value)
+    {
+        OEControlsKeyButton *previous = [keyToButtonMap objectForKey:selectedKey];
+        
+        selectedKey = [value copy];
+        
+        [previous setState:NSOffState];
+        [button   setState:NSOnState];
+    }
 }
 
 - (void)updateButtons
 {
     if(lastWidth == [self frame].size.width)
         return;
+    
+    [self OE_layoutSubviews];
+}
+
+- (void)OE_layoutSubviews;
+{
     lastWidth = [self frame].size.width;
     
-    float pageSpacing = 28.0;
+    CGFloat pageSpacing = 28.0;
     
     // determine required height
-    float viewHeight = [elementPages count]*119.0+([elementPages count]-1)*pageSpacing+34.0;  
-    viewHeight = viewHeight<187.0?187.0:viewHeight;
+    CGFloat viewHeight = MAX([elementPages count] * 119.0 + ([elementPages count] - 1) * pageSpacing + 34.0, 187.0);
     if([self frame].size.height != viewHeight)
     {
         NSRect frame = [self frame];
@@ -157,43 +163,42 @@
     }
     
     // remove all subviews if any
-    while([[self subviews] count])
-    {
-        [[[self subviews] lastObject] removeFromSuperview];
-    } 
+    [[[self subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     // set up some sizes
-    float topBorder   = 35.0;
-    const float leftBorder  = 61.0;
-    const float rightBorder = 21.0;
+    const CGFloat topBorder   = 35.0;
+    const CGFloat leftBorder  = 61.0;
+    const CGFloat rightBorder = 21.0;
     
-    const float verticalItemSpacing  = 10.0;// item bottom to top
-    const float labelHeight  = 24.0;
-    const float labelButtonSpacing  = 8.0;
+    const CGFloat verticalItemSpacing  = 10.0; // item bottom to top
+    const CGFloat labelHeight          = 24.0;
+    const CGFloat labelButtonSpacing   = 8.0;
     
-    const float groupXIndent = 10.0;
-    //    const float groupYIndent = -10.0;
+    const CGFloat groupXIndent = 10.0;
+    //const CGFloat groupYIndent = -10.0;
     
-    __block float pageY=[self frame].size.height-topBorder;
+    __block CGFloat pageY = [self frame].size.height - topBorder;
+    
     // iterate through pages
     for(NSMutableArray *aPage in elementPages)
     {
         // iterate through columns
         NSUInteger columns = [aPage count];
-        __block float x = leftBorder;
+        __block CGFloat x = leftBorder;
+        
         [aPage enumerateObjectsUsingBlock:
          ^(id aColumn, NSUInteger idx, BOOL *stop)
          {
-            float horizontalItemSpacing = columns == 2 ? 120 : 68.0;// item right to item left
-            float labelWidth            = columns == 2 ? 112 : 60.0;// max value!!!
+            CGFloat horizontalItemSpacing = columns == 2 ? 120 : 68.0; // item right to item left
+            CGFloat labelWidth            = columns == 2 ? 112 : 60.0; // max value!!!
             
-            float buttonHeight = 24.0;
-            float buttonWidth = ([self frame].size.width-leftBorder-rightBorder-((columns-1)*horizontalItemSpacing))/columns;            
-            
+            CGFloat buttonHeight = 24.0;
+            CGFloat buttonWidth  = ([self frame].size.width - leftBorder - rightBorder - ((columns - 1) * horizontalItemSpacing)) / columns;
             
             BOOL inGroup = NO;
-            float y = pageY;
-            for(NSUInteger j=0; j<[aColumn count]; j+=2) {
+            CGFloat y = pageY;
+            for(NSUInteger j = 0; j < [aColumn count]; j += 2)
+            {
                 id item = [aColumn objectAtIndex:j];
                 
                 // handle headline cell
@@ -202,8 +207,8 @@
                     j--;
                     inGroup = YES;
                     
-                    float columnWidth = buttonWidth+labelWidth+labelButtonSpacing;
-                    NSRect headlineFrame = (NSRect){{x-columnWidth,y},{columnWidth, labelHeight}};
+                    CGFloat columnWidth = buttonWidth + labelWidth + labelButtonSpacing;
+                    NSRect headlineFrame = (NSRect){{x - columnWidth, y }, { columnWidth, labelHeight }};
                     [item setFrame:NSIntegralRect(headlineFrame)];
                     [self addSubview:item];
                     
@@ -215,9 +220,9 @@
                 {
                     j--;
                     
-                    float columnWidth = buttonWidth+labelWidth+labelButtonSpacing;
+                    CGFloat columnWidth = buttonWidth+labelWidth+labelButtonSpacing;
                     
-                    NSRect seperatorLineRect = (NSRect){{x-labelWidth+8.0, y-buttonHeight},{columnWidth-6.0, buttonHeight}};
+                    NSRect seperatorLineRect = (NSRect){{ x - labelWidth + 8.0, y - buttonHeight }, { columnWidth - 6.0, buttonHeight }};
                     [item setFrame:NSIntegralRect(seperatorLineRect)];
                     [self addSubview:item];
                     
@@ -228,21 +233,22 @@
                 }
                 
                 // handle buttons + label
-                NSRect buttonRect = (NSRect){{x, y-buttonHeight},{buttonWidth, buttonHeight}};
+                NSRect buttonRect = (NSRect){{ x, y - buttonHeight },{ buttonWidth, buttonHeight }};
                 if(inGroup)
                 {
-                    buttonRect.origin.x += groupXIndent;
-                    buttonRect.size.width -= groupXIndent/2;
+                    buttonRect.origin.x   += groupXIndent;
+                    buttonRect.size.width -= groupXIndent / 2;
                 }
                 [item setFrame:NSIntegralRect(buttonRect)];
                 
-                NSTextField *label = [aColumn objectAtIndex:j+1];
-                NSRect labelRect = NSIntegralRect(NSMakeRect(buttonRect.origin.x-labelWidth-labelButtonSpacing, buttonRect.origin.y-4, labelWidth, labelHeight));
+                NSTextField *label = [aColumn objectAtIndex:j + 1];
+                NSRect labelRect = NSIntegralRect(NSMakeRect(buttonRect.origin.x - labelWidth - labelButtonSpacing, buttonRect.origin.y - 4, labelWidth, labelHeight));
+                
                 BOOL multiline = [label attributedStringValue].size.width >= labelRect.size.width;
                 if(multiline)
                 {
                     labelRect.size.height += 10;
-                    labelRect.origin.y -= 3;
+                    labelRect.origin.y    -= 3;
                 }
                 if(inGroup) labelRect.size.width -= groupXIndent/2;
                 [label setFrame:labelRect];
@@ -256,7 +262,7 @@
         }];      
         
         NSView *lastObj = [[self subviews] lastObject];
-        pageY -= lastObj.frame.origin.y + lastObj.frame.size.height -13.0;
+        pageY -= lastObj.frame.origin.y + lastObj.frame.size.height - 13.0;
     }
 }
 #pragma mark -
@@ -264,7 +270,7 @@
 - (void)scrollToPage:(NSUInteger)p
 {
     NSClipView *clipView = [[self enclosingScrollView] contentView];
-    float y = 0;
+    CGFloat y = 0;
     if(p == 0)
     {
         y = [self frame].size.height;
@@ -280,12 +286,16 @@
     [clipView scrollToPoint:(NSPoint){0,y} animated:YES];
 }
 
-- (void)selectNextKeyButton:(id)currentButton
+- (void)selectNextKeyButton;
 {
-    if(!currentButton) return;
+    OEControlsKeyButton *currentButton = [keyToButtonMap objectForKey:[self selectedKey]];
     
-    __block BOOL selectNext = NO;
-    __block BOOL nextButtonIsOnDifferentPage = NO;
+    __block OEControlsKeyButton *firstButton       = nil;
+    __block OEControlsKeyButton *nextButton        = nil;
+    __block BOOL                 selectNext        = NO;
+    __block NSInteger            currentButtonPage = 0;
+    __block NSInteger            nextButtonPage    = 0;
+    
     [elementPages enumerateObjectsUsingBlock:
      ^(NSArray *page, NSUInteger pageIdx, BOOL *stop)
      {
@@ -295,54 +305,32 @@
               [column enumerateObjectsUsingBlock:
                ^(OEControlsKeyButton *item, NSUInteger controlIdx, BOOL *stop)
                {
+                   if(firstButton == nil && [item isKindOfClass:[OEControlsKeyButton class]])
+                       firstButton = item;
+                   
                    if(item == currentButton)
                    {
-                       
-                       nextButtonIsOnDifferentPage = NO;
-                       selectNext = YES;
+                       currentButtonPage = pageIdx;
+                       selectNext        = YES;
                    }
                    else if(selectNext && [item isKindOfClass:[OEControlsKeyButton class]])
                    {
-                       // FIXME: You should not need to test whether a target is set
-                       if(item && [item target] && [item action] && [[item target] respondsToSelector:[item action]])
-                       {
-                           if(nextButtonIsOnDifferentPage)
-                               [self scrollToPage:pageIdx];
-                           
-                           [item setState:NSOnState];
-                           
-                           if([item action] != NULL) [NSApp sendAction:[item action] to:[item target] from:item];
-                           
-                           *stop = YES;
-                           selectNext = NO;
-                       }
+                       nextButton     = item;
+                       nextButtonPage = pageIdx;
+                       *stop          = YES;
                    }
                }];
-              nextButtonIsOnDifferentPage = YES;
+              
+              if(nextButton != nil) *stop = YES;
           }];
+         
+         if(nextButton != nil) *stop = YES;
      }];
     
-    if(selectNext && [[NSUserDefaults standardUserDefaults] boolForKey:UDControlsButtonHighlightRollsOver])
-    {
-        NSMutableArray *firstPage = [elementPages objectAtIndex:0];
-        if([firstPage count] > 0)
-        {
-            NSMutableArray *firstColumn = [firstPage objectAtIndex:0];
-            for(id anElement in firstColumn)
-            {
-                // FIXME: You should not need to test whether a target is set
-                if([anElement isKindOfClass:[OEControlsKeyButton class]] && [anElement target] != nil && [anElement action] != NULL && [[anElement target] respondsToSelector:[anElement action]])
-                {
-                    [self scrollToPage:0];
-                    
-                    [anElement setState:NSOnState];
-                    if([anElement action] != NULL) [NSApp sendAction:[anElement action] to:[anElement target] from:anElement];
-                    
-                    break;
-                }
-            }
-        }
-    }
+    if(nextButton == nil && [[NSUserDefaults standardUserDefaults] boolForKey:UDControlsButtonHighlightRollsOver])
+        nextButton = firstButton;
+    
+    [self setSelectedKey:[[keyToButtonMap allKeysForObject:nextButton] lastObject]];
 }
 
 #pragma mark -
@@ -365,31 +353,135 @@
 {
 }
 
-#pragma mark -
-#ifndef NSDistanceBetweenPoints
-#define NSDistanceBetweenPoints(p1, p2) sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p2.y-p1.y)*(p2.y-p1.y))
-#endif
+@end
 
-- (id)controllerButtonClosestTo:(NSPoint)point
+@interface _OEControlsSetupViewParser ()
 {
-    id item = nil;
-    float distance = 0;
+    OEControlsSetupView *target;
+    NSMutableArray      *elementPages;
+    NSMutableDictionary *keyToButtonMap;
     
-    for(OEControlsKeyButton *aSubview in [self subviews])
+    NSMutableArray      *currentPage;
+    NSMutableArray      *currentColumn;
+}
+
+- (void)OE_addButtonWithName:(NSString *)aName label:(NSString *)label;
+- (void)OE_addColumnLabel:(NSString*)label;
+- (void)OE_addRowSeperator;
+- (void)OE_addColumn;
+- (void)OE_addPage;
+
+@end
+
+@implementation _OEControlsSetupViewParser
+
+- (id)init
+{
+    return nil;
+}
+
+- (id)initWithTarget:(OEControlsSetupView *)aTarget;
+{
+    if((self = [super init]))
     {
-        if([aSubview respondsToSelector:@selector(highlightPoint)])
+        target = aTarget;
+    }
+    return self;
+}
+
+- (void)parseControlList:(NSArray *)controlList;
+{
+    keyToButtonMap = [[NSMutableDictionary alloc] init];
+    elementPages   = [[NSMutableArray      alloc] initWithObjects:[[NSMutableArray alloc] initWithObjects:[[NSMutableArray alloc] init], nil], nil];
+    currentPage    = [elementPages lastObject];
+    currentColumn  = [currentPage lastObject];
+    
+    BOOL isFirstPage = YES;
+    for(NSArray *page in controlList)
+    {
+        if(isFirstPage) isFirstPage = NO;
+        else            [self OE_addPage];
+        
+        BOOL isFirstColumn = YES;
+        for(NSArray *column in page)
         {
-            NSPoint highlightPoint = [aSubview highlightPoint];
-            float currentDistance = NSDistanceBetweenPoints(point, highlightPoint);
-            if(item == nil || currentDistance < distance)
-            {
-                item = aSubview;
-                distance = currentDistance;
-            }
+            if(isFirstColumn) isFirstColumn = NO;
+            else              [self OE_addColumn];
             
+            for(id obj in column)
+            {
+                if([obj isKindOfClass:[NSString class]])
+                {
+                    if([obj isEqualToString:@"-"])
+                        [self OE_addRowSeperator];
+                    else
+                        [self OE_addColumnLabel:obj];
+                }
+                else if([obj isKindOfClass:[NSDictionary class]])
+                    [self OE_addButtonWithName:[obj objectForKey:OEControlListKeyNameKey]
+                                         label:[[obj objectForKey:OEControlListKeyLabelKey] stringByAppendingString:@":"]];
+            }
         }
     }
-    
-    return item;
 }
+
+- (NSArray *)elementPages;
+{
+    return [elementPages copy];
+}
+
+- (NSArray *)keyToButtonMap;
+{
+    return [keyToButtonMap copy];
+}
+
+- (void)OE_addButtonWithName:(NSString *)aName label:(NSString *)aLabel;
+{
+    OEControlsKeyButton *button = [[OEControlsKeyButton alloc] initWithFrame:NSZeroRect];
+    
+    [button setTarget:target];
+    [button setAction:@selector(OE_selectInputControl:)];
+    
+    [keyToButtonMap setObject:button forKey:aName];
+    
+    [currentColumn addObject:button];
+    
+    NSTextField     *labelField     = [[NSTextField alloc] initWithFrame:NSZeroRect];
+    NSTextFieldCell *labelFieldCell = [[OEControlsKeyLabelCell alloc] init];
+    
+    [labelField setCell:labelFieldCell];
+    [labelField setStringValue:aLabel];
+    
+    [currentColumn addObject:labelField];
+}
+
+- (void)OE_addColumnLabel:(NSString *)label;
+{
+    NSTextField *labelField = [[NSTextField alloc] initWithFrame:NSZeroRect];
+    NSTextFieldCell *labelFieldCell = [[OEControlsKeyHeadlineCell alloc] init];
+    [labelField setCell:labelFieldCell];
+    [labelField setStringValue:label];
+    [currentColumn addObject:labelField];
+}
+
+- (void)OE_addRowSeperator;
+{
+    OEControlsKeySeparatorView *view = [[OEControlsKeySeparatorView alloc] init];
+    [currentColumn addObject:view];
+}
+
+- (void)OE_addColumn;
+{
+    currentColumn = [[NSMutableArray alloc] init];
+    [currentPage addObject:currentColumn];
+}
+
+- (void)OE_addPage;
+{
+    currentPage = [[NSMutableArray alloc] init];
+    [elementPages addObject:currentPage];
+    
+    [self OE_addColumn];
+}
+
 @end

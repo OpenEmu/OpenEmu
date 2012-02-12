@@ -27,24 +27,19 @@
 
 #import <Cocoa/Cocoa.h>
 @interface OEControlsSetupView : NSView
-{
-    float lastWidth;
-	NSMutableArray *elementPages;
-}
 
-- (void)addButtonWithName:(NSString *)aName toolTip:(NSString *)aToolTip target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end DEPRECATED_ATTRIBUTE;
-- (void)addButtonWithName:(NSString *)aName target:(id)aTarget startPosition:(NSPoint)start endPosition:(NSPoint)end DEPRECATED_ATTRIBUTE;
-#pragma mark -
-- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget;
-- (void)addButtonWithName:(NSString *)aName label:(NSString*)label target:(id)aTarget highlightPoint:(NSPoint)p;
+@property(unsafe_unretained) id  target;
+@property                    SEL action;
+
+@property(nonatomic, copy) NSString *selectedKey;
+
+
+// Content of the system's Info.plist's OEControlListKey object
+- (void)setupWithControlList:(NSArray *)controlList;
+
+// Does not trigger the action message
+- (void)selectNextKeyButton;
 
 - (void)updateButtons;
-- (void)addColumnLabel:(NSString*)label;
-- (void)addRowSeperator;
-- (void)nextColumn;
-- (void)nextPage;
 
-- (void)selectNextKeyButton:(id)currentButton;
-
-- (id)controllerButtonClosestTo:(NSPoint)point;
 @end

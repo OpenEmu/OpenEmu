@@ -27,7 +27,6 @@
 
 #import "OESMSSystemController.h"
 #import "OESMSSystemResponder.h"
-#import "OESMSPreferenceView.h"
 #import "OESMSSystemResponderClient.h"
 
 @implementation OESMSSystemController
@@ -35,11 +34,6 @@
 - (NSUInteger)numberOfPlayers;
 {
     return 2;
-}
-
-- (NSDictionary *)preferenceViewControllerClasses;
-{
-    return [NSDictionary dictionaryWithObject:[OESMSPreferenceView class] forKey:OEControlsPreferenceKey];
 }
 
 - (Class)responderClass;

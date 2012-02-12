@@ -10,29 +10,57 @@
 #import "OEPreferencePane.h"
 
 @class OEBackgroundGradientView;
+@class OEControlsSetupView;
 @class OESystemPlugin;
-@interface OEPrefControlsController : NSViewController <OEPreferencePane> {
-	OESystemPlugin *selectedPlugin;
+@class OESystemController;
+@class OEControllerImageView;
+
+@interface OEPrefControlsController : NSViewController <OEPreferencePane>
+{
+    OESystemPlugin *selectedPlugin;
 }
 
+@property(nonatomic, readonly) OESystemController *currentSystemController;
+
 #pragma mark -
-@property (weak) IBOutlet NSView	 *controllerView;
+@property(strong) OEControllerImageView *controllerView;
+@property(weak) IBOutlet NSView         *controllerContainerView;
 
-@property (weak) IBOutlet NSPopUpButton	 *consolesPopupButton;
-@property (weak) IBOutlet NSPopUpButton	 *playerPopupButton;
-@property (weak) IBOutlet NSPopUpButton	 *inputPopupButton;
+@property(weak) IBOutlet NSPopUpButton *consolesPopupButton;
+@property(weak) IBOutlet NSPopUpButton *playerPopupButton;
+@property(weak) IBOutlet NSPopUpButton *inputPopupButton;
 
-@property (weak) IBOutlet OEBackgroundGradientView *gradientOverlay;
-@property (weak) IBOutlet NSView *controlsContainer;
+@property(weak) IBOutlet OEBackgroundGradientView *gradientOverlay;
+@property(weak) IBOutlet NSView *controlsContainer;
+
+@property(weak) IBOutlet OEControlsSetupView *controlsSetupView;
+
 #pragma mark -
 #pragma UI Methods
+
+@property(copy)            NSArray    *keyBindings;
+@property(nonatomic, copy) NSString   *selectedKey;
+@property(nonatomic)       NSUInteger  selectedPlayer;
+@property(nonatomic)       NSInteger   selectedBindingType;
+
+- (NSString *)keyPathForKey:(NSString *)aKey;
+
+- (NSInteger)selectedBindingType;
+
+- (BOOL)isKeyboardEventSelected;
+- (void)registerEvent:(id)anEvent;
+
+- (void)resetKeyBindings;
+- (void)resetBindingsWithKeys:(NSArray *)keys;
+
 - (IBAction)changeSystem:(id)sender;
 - (IBAction)changePlayer:(id)sender;
 - (IBAction)changeInputDevice:(id)sender;
+- (IBAction)changeInputControl:(id)sender;
 
 #pragma mark -
-- (NSImage*)icon;
-- (NSString*)title;
+- (NSImage *)icon;
+- (NSString *)title;
 
 - (NSSize)viewSize;
 @end

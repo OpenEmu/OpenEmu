@@ -25,28 +25,33 @@
  */
 
 #import "OEControllerImageView.h"
-#import "OEControlsViewController.h"
 #import "OEControlsSetupView.h"
 #import "NSImage+OEDrawingAdditions.h"
+
 #define OverlayAlphaON  0.5
 #define OverlayAlphaOFF 0.0
 #define RingRadius 37.0
+
 @protocol OEControlsButtonHighlightProtocol  <NSObject>
 - (NSPoint)highlightPoint;
 @end
-@interface OEControllerImageView (Priavte)
-- (void)_setup;
+
+@interface OEControllerImageView ()
+- (void)OE_commonControllerImageViewInit;
+- (void)OE_setHighlightPoint:(NSPoint)value animated:(BOOL)animated;
+- (NSPoint)OE_highlightPointForKey:(NSString *)aKey;
+- (NSString *)OE_keyForHighlightPointClosestToPoint:(NSPoint)aPoint;
 @end
+
 @implementation OEControllerImageView
 @synthesize image, overlayAlpha, ringAlpha, ringPosition;
-@synthesize controlsViewController;
+@synthesize imageMask, keyPositions, selectedKey;
+@synthesize target, action;
 
-- (void)_setup
+- (void)OE_commonControllerImageViewInit
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(selectedButtonChanged:) name:@"OEControlsPreferencesSelectedButtonDidChange" object:nil];
-    
     [self setWantsLayer:YES];
-    self.overlayAlpha = OverlayAlphaOFF;
+    [self setOverlayAlpha:OverlayAlphaOFF];
     [self setRingPosition:NSZeroPoint];
     [self setRingAlpha:0.0];
     
@@ -56,44 +61,34 @@
     ringAnimation.delegate = self;
     
     [self setWantsLayer:YES];
-    [self setAnimations: [NSDictionary dictionaryWithObjectsAndKeys:ringAnimation, @"ringAlpha", ringAnimation, @"ringPosition", anim, @"overlayAlpha",  nil]];
-    
-}
-
-- (id)init
-{
-    self = [super init];
-    if (self) 
-    {
-        [self _setup];
-    }
-    return self;
+    [self setAnimations:[NSDictionary dictionaryWithObjectsAndKeys:ringAnimation, @"ringAlpha", ringAnimation, @"ringPosition", anim, @"overlayAlpha",  nil]];
 }
 
 - (id)initWithCoder:(NSCoder *)coder 
 {
-    self = [super initWithCoder:coder];
-    if (self) {
-        [self _setup];
+    if((self = [super initWithCoder:coder]))
+    {
+        [self OE_commonControllerImageViewInit];
     }
     return self;
 }
 
 - (id)initWithFrame:(NSRect)frame 
 {
-    self = [super initWithFrame:frame];
-    if (self) 
+    if((self = [super initWithFrame:frame]))
     {
-        [self _setup];
+        [self OE_commonControllerImageViewInit];
     }
     return self;
 }
+
 - (void)dealloc 
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
 }
+
 #pragma mark -
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     if(![self image]) return;
@@ -102,10 +97,10 @@
     targetRect.size = [self image].size;
     targetRect.origin = NSMakePoint(([self frame].size.width-image.size.width)/2, 0);
     
-    [self.image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:NoInterpol];
+    [[self image] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:NoInterpol];
     
     if([[NSUserDefaults standardUserDefaults] boolForKey:UDDebugDrawControllerMaskKey])
-        [[[self controlsViewController] controllerImageMask] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:NoInterpol];
+        [[self imageMask] drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:NO hints:NoInterpol];
 
     
     if([self overlayAlpha] != OverlayAlphaOFF)
@@ -131,132 +126,171 @@
     }
     
 }
-- (void)setImage:(NSImage*)img
+
+- (void)setImage:(NSImage *)img
 {
     [self setRingPosition:NSZeroPoint];
     [self setRingAlpha:0.0];
-    
     
     image = img;
     
     [self setNeedsDisplay:YES];
 }
 
-- (void)selectedButtonChanged:(NSNotification*)notification
+- (void)OE_setHighlightPoint:(CGPoint)value animated:(BOOL)animated;
 {
-    NSPoint newHighlightPoint;
-    id <OEControlsButtonHighlightProtocol> selectedButton = (id <OEControlsButtonHighlightProtocol>)[notification object];
-    if(!selectedButton || ![selectedButton respondsToSelector:@selector(highlightPoint)])
-    {
-        newHighlightPoint = NSZeroPoint;
-    } 
-    else 
-    {
-        newHighlightPoint = [selectedButton highlightPoint];
-    }
+    OEControllerImageView *animator = animated ? [self animator] : self;
     
-    [NSAnimationContext beginGrouping];
-    if(NSEqualPoints(newHighlightPoint, NSZeroPoint))
+    if(animated) [NSAnimationContext beginGrouping];
+    
+    if(NSEqualPoints(value, NSZeroPoint))
     {
-        [[self animator] setRingAlpha:0.0];
-        [[self animator] setOverlayAlpha:OverlayAlphaOFF];
+        [animator setRingAlpha:0.0];
+        [animator setOverlayAlpha:OverlayAlphaOFF];
     } 
     else if(NSEqualPoints([self ringPosition], NSZeroPoint))
     {
-        [self setRingPosition:newHighlightPoint];
-        [[self animator] setRingAlpha:1.0];
-        [[self animator] setOverlayAlpha:OverlayAlphaON];
+        [self setRingPosition:value];
+        [animator setRingAlpha:1.0];
+        [animator setOverlayAlpha:OverlayAlphaON];
     } 
     else 
     {
-        [[self animator] setRingPosition:newHighlightPoint];
-        [[self animator] setRingAlpha:1.0];
-        [[self animator] setOverlayAlpha:OverlayAlphaON];
+        [animator setRingPosition:value];
+        [animator setRingAlpha:1.0];
+        [animator setOverlayAlpha:OverlayAlphaON];
     }
-    [NSAnimationContext endGrouping];
+    
+    if(animated) [NSAnimationContext endGrouping];
 }
 
-- (void)setOverlayAlpha:(float)_overlayAlpha
+- (void)setOverlayAlpha:(CGFloat)value
 {
-    overlayAlpha = _overlayAlpha;
+    overlayAlpha = value;
     [self setNeedsDisplay:YES];
 }
 
-- (void)setRingAlpha:(float)_ringAlpha
+- (void)setRingAlpha:(CGFloat)value
 {
-    ringAlpha = _ringAlpha;
+    ringAlpha = value;
     [self setNeedsDisplay:YES];
 }
 
-- (void)setRingPosition:(NSPoint)_highlightedButtonPoint
+- (void)setRingPosition:(NSPoint)value
 {
-    ringPosition = _highlightedButtonPoint;
+    ringPosition = value;
     [self setNeedsDisplay:YES];
 }
-#pragma mark -
-#pragma mark Interaction
+
+- (void)setSelectedKey:(NSString *)value { [self setSelectedKey:value animated:NO]; }
+- (void)setSelectedKey:(NSString *)value animated:(BOOL)animated;
+{
+    if([keyPositions objectForKey:value] == nil)
+        value = nil;
+    
+    if(selectedKey != value)
+    {
+        selectedKey = [value copy];
+        
+        [self OE_setHighlightPoint:[self OE_highlightPointForKey:selectedKey] animated:animated];
+    }
+}
+
 #define NSDistanceBetweenPoints(p1, p2) sqrt((p1.x-p2.x)*(p1.x-p2.x)+(p2.y-p1.y)*(p2.y-p1.y))
 #define NSAddPoints(p1, p2) (NSPoint){p1.x+p2.x, p1.y+p2.y}
 #define NSSubtractPoints(p1 ,p2) (NSPoint){p1.x-p2.x, p1.y-p2.y}
+
+- (NSPoint)OE_highlightPointForKey:(NSString *)aKey;
+{
+    NSValue *value = [[self keyPositions] objectForKey:aKey];
+    
+    return value != nil ? [value pointValue] : NSZeroPoint;
+}
+
+- (NSString *)OE_keyForHighlightPointClosestToPoint:(NSPoint)aPoint;
+{
+    NSString *ret      = nil;
+    CGFloat   distance = CGFLOAT_MAX;
+    
+    for(NSString *key in keyPositions)
+    {
+        NSPoint compared = [[keyPositions objectForKey:key] pointValue];
+        
+        CGFloat current = NSDistanceBetweenPoints(aPoint, compared);
+        
+        if(current < distance)
+        {
+            distance = current;
+            ret      = key;
+        }
+    }
+    
+    return ret;
+}
+
+#pragma mark -
+#pragma mark Interaction
+
 - (void)mouseDown:(NSEvent *)theEvent
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL allowDeactivationByMouse = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
-    BOOL allowSwitchingByMouse = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
+    BOOL allowDeactivationByMouse        = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
+    BOOL allowSwitchingByMouse           = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
     
-    if(!allowDeactivationByMouse && !allowSwitchingByMouse) return;    
-    id controlToSelect = [[self controlsViewController] selectedControl];
+    if(!allowDeactivationByMouse && !allowSwitchingByMouse) return;
+    
+    NSString *selected = selectedKey;
     
     NSPoint event_location = [theEvent locationInWindow];
     NSPoint local_event_location = [self convertPoint:event_location fromView:nil];
     NSPoint ringLocation = [self ringPositionInView];
     
     NSRect targetRect;
-    targetRect.size = self.image.size;
-    targetRect.origin = NSMakePoint(([self frame].size.width-image.size.width)/2, 0);
-    
+    targetRect.size = [[self image] size];
+    targetRect.origin = NSMakePoint(([self bounds].size.width - image.size.width) / 2, 0);
     
     if(allowSwitchingByMouse)
     {
-        NSImage *maskImage = [[self controlsViewController] controllerImageMask];
+        NSImage *maskImage = [self imageMask];
         BOOL selectAButton = [maskImage hitTestRect:(NSRect){local_event_location, {0,0}} withImageDestinationRect:targetRect context:nil hints:nil flipped:NO];
+        
         if(selectAButton)
         {
-            OEControlsSetupView *controlsSetupView = (OEControlsSetupView*)[[self controlsViewController] view];
             NSPoint locationOnController = NSSubtractPoints(local_event_location, targetRect.origin);
-            controlToSelect = [controlsSetupView controllerButtonClosestTo:locationOnController];
-        } 
-        else
-            controlToSelect = [[self controlsViewController] selectedControl];
-    
-    }
-    if(controlToSelect == [[self controlsViewController] selectedControl] && !NSEqualPoints(ringLocation, NSZeroPoint))
-    {
-        float distance = NSDistanceBetweenPoints(local_event_location, ringLocation);
-        if(distance > RingRadius && [[self image] hitTestRect:(NSRect){local_event_location, {0,0}} withImageDestinationRect:targetRect context:nil hints:nil flipped:NO])
-            controlToSelect = nil;
+            
+            selected = [self OE_keyForHighlightPointClosestToPoint:locationOnController];
+        }
     }
     
-    if(controlToSelect != [[self controlsViewController] selectedControl])
+    if(selected == [self selectedKey] && !NSEqualPoints(ringLocation, NSZeroPoint))
     {
-        [controlToSelect setState:NSOnState];
-       [[self controlsViewController] selectInputControl:controlToSelect];
+        CGFloat distance = NSDistanceBetweenPoints(local_event_location, ringLocation);
+        if(distance > RingRadius && [[self image] hitTestRect:(NSRect){ .origin = local_event_location } withImageDestinationRect:targetRect context:nil hints:nil flipped:NO])
+            selected = nil;
+    }
+    
+    if(selected != selectedKey)
+    {
+        [self setSelectedKey:selected animated:YES];
+        if([self action] != nil) [NSApp sendAction:[self action] to:[self target] from:self];
     }
 }
        
-- (NSPoint)ringPositionInView{
+- (NSPoint)ringPositionInView
+{
     NSPoint ringLocation = [self ringPosition];
     if(NSEqualPoints(ringLocation, NSZeroPoint) || NSEqualPoints(ringLocation, (NSPoint){0,0}))
         return NSZeroPoint;
     
     NSPoint offset = (NSPoint){([self frame].size.width-image.size.width)/2, 0};
     return NSAddPoints(offset, ringLocation);
-    
 }
+
 #pragma mark -
-- (void)animationDidStart:(CAAnimation *)anim{}
+
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
     if([self ringAlpha] == 0.0) [self setRingPosition:NSZeroPoint];
 }
+
 @end

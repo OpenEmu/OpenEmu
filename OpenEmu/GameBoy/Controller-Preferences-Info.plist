@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>OEControllerImageKey</key>
+    <string>controller_gb.png</string>
+    <key>OEControllerImageMaskKey</key>
+    <string>controller_gb_mask.png</string>
+    <key>OEControllerKeyPositionKey</key>
+    <dict>
+        <key>OEGBButtonUp</key>
+        <string>{228, 172}</string>
+        <key>OEGBButtonDown</key>
+        <string>{228, 134}</string>
+        <key>OEGBButtonLeft</key>
+        <string>{206, 153}</string>
+        <key>OEGBButtonRight</key>
+        <string>{247, 154}</string>
+        <key>OEGBButtonStart</key>
+        <string>{308, 94}</string>
+        <key>OEGBButtonSelect</key>
+        <string>{267, 94}</string>
+        <key>OEGBButtonA</key>
+        <string>{390, 166}</string>
+        <key>OEGBButtonB</key>
+        <string>{350, 149}</string>
+    </dict>
+</dict>
+</plist>

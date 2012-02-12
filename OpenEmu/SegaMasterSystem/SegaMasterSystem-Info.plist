@@ -49,32 +49,24 @@
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESMSButtonUp[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{195, 176}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESMSButtonDown[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{195, 93}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESMSButtonLeft[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{157, 138}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESMSButtonRight[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{234, 138}</string>
 				</dict>
 			</array>
 			<array>
@@ -83,16 +75,12 @@
 					<string>Button 1/Start</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESMSButtonA[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{383, 114}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 2</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESMSButtonB[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{453, 114}</string>
 				</dict>
 				<string>-</string>
 				<dict>
@@ -100,88 +88,6 @@
 					<string>Console Pause</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESMSButtonStart</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
-				</dict>
-			</array>
-		</array>
-		<array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>1</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonReset</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>2</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonReset</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>3</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonReset</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>4</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonReset</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>5</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonReset</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>6</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonReset</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
-				</dict>
-			</array>
-			<array>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>7</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonReset</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>8</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonReset</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>9</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OESMSButtonReset</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
 				</dict>
 			</array>
 		</array>

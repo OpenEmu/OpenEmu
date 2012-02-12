@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>OEControllerImageKey</key>
+	<string>controller_n64.png</string>
+	<key>OEControllerImageMaskKey</key>
+	<string></string>
+	<key>OEControllerKeyPositionKey</key>
+	<dict>
+		<key>OEN64ButtonDPadUp[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonDPadDown[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonDPadLeft[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonDPadRight[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonCUp[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonCDown[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonCLeft[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonCRight[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonL[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonR[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonA[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonB[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonStart[@]</key>
+		<string>{0, 0}</string>
+		<key>OEN64ButtonZ[@]</key>
+		<string>{0, 0}</string>
+	</dict>
+</dict>
+</plist>

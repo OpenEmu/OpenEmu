@@ -27,7 +27,6 @@
 
 #import "OEN64SystemController.h"
 #import "OEN64SystemResponder.h"
-#import "OEN64PreferenceView.h"
 #import "OEN64SystemResponderClient.h"
 
 @implementation OEN64SystemController
@@ -35,11 +34,6 @@
 - (NSUInteger)numberOfPlayers;
 {
     return 4;
-}
-
-- (NSDictionary *)preferenceViewControllerClasses;
-{
-    return [NSDictionary dictionaryWithObject:[OEN64PreferenceView class] forKey:OEControlsPreferenceKey];
 }
 
 - (Class)responderClass;

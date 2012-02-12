@@ -27,7 +27,6 @@
 
 #import "OEGenesisSystemController.h"
 #import "OEGenesisSystemResponder.h"
-#import "OEGenesisPreferenceView.h"
 #import "OEGenesisSystemResponderClient.h"
 
 @implementation OEGenesisSystemController
@@ -35,11 +34,6 @@
 - (NSUInteger)numberOfPlayers;
 {
     return 2;
-}
-
-- (NSDictionary *)preferenceViewControllerClasses;
-{
-    return [NSDictionary dictionaryWithObject:[OEGenesisPreferenceView class] forKey:OEControlsPreferenceKey];
 }
 
 - (Class)responderClass;

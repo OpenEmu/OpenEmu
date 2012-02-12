@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>OEControllerImageKey</key>
+    <string>controller_sms.png</string>
+    <key>OEControllerImageMaskKey</key>
+    <string>controller_sms_mask.png</string>
+    <key>OEControllerKeyPositionKey</key>
+    <dict>
+        <key>OEGGButtonUp</key>
+        <string>{195, 176}</string>
+        <key>OEGGButtonDown</key>
+        <string>{195, 93}</string>
+        <key>OEGGButtonLeft</key>
+        <string>{157, 138}</string>
+        <key>OEGGButtonRight</key>
+        <string>{234, 138}</string>
+        <key>OEGGButtonA</key>
+        <string>{383, 114}</string>
+        <key>OEGGButtonB</key>
+        <string>{453, 114}</string>
+        <key>OEGGButtonStart</key>
+        <string>{0, 0}</string>
+    </dict>
+</dict>
+</plist>

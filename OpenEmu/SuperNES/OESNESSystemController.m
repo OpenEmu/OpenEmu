@@ -27,19 +27,14 @@
 
 #import "OESNESSystemController.h"
 #import "OESNESSystemResponder.h"
-#import "OESNESPreferenceViewController.h"
 #import "OESNESSystemResponderClient.h"
 #import "OELocalizationHelper.h"
+
 @implementation OESNESSystemController
 
 - (NSUInteger)numberOfPlayers;
 {
     return 8;
-}
-
-- (NSDictionary *)preferenceViewControllerClasses;
-{
-    return [NSDictionary dictionaryWithObject:[OESNESPreferenceViewController class] forKey:OEControlsPreferenceKey];
 }
 
 - (Class)responderClass;

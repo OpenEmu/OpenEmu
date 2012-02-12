@@ -66,7 +66,11 @@ extern NSString *const OEControlListKeyNameKey;
 extern NSString *const OEControlListKeyLabelKey;
 extern NSString *const OEControlListKeyPositionKey;
 
-@interface OESystemController : NSObject <OEPluginController, OEControlsViewControllerDelegate>
+extern NSString *const OEControllerImageKey;       // NSString - file name of the controller image
+extern NSString *const OEControllerImageMaskKey;   // NSString - file name of the controller image mask
+extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> NSPoint as NSString
+
+@interface OESystemController : NSObject <OEPluginController>
 {
 @private
     NSBundle            *_bundle;
@@ -91,14 +95,22 @@ extern NSString *const OEControlListKeyPositionKey;
 - (NSDictionary *)preferenceViewControllerClasses;
 
 
-@property(readonly, strong) NSString   *systemIdentifier;
-@property(readonly) NSString   *systemName;
+@property(readonly, copy) NSString     *systemIdentifier;
+@property(readonly)       NSString     *systemName;
 
-@property(readonly) NSUInteger  numberOfPlayers;
-@property(readonly) Class       responderClass;
-@property(readonly) NSArray    *genericSettingNames;
-@property(readonly) NSArray    *genericControlNames;
-@property(readonly, strong) NSString   *playerString;
+@property(readonly)       NSUInteger    numberOfPlayers;
+@property(readonly)       Class         responderClass;
+@property(readonly)       NSArray      *genericSettingNames;
+@property(readonly)       NSArray      *genericControlNames;
+@property(readonly, copy) NSString     *playerString;
+
+@property(readonly, copy) NSArray      *controlPageList;
+@property(readonly, copy) NSDictionary *controllerKeyPositions;
+@property(readonly, copy) NSString     *controllerImageName;
+@property(readonly, copy) NSString     *controllerImageMaskName;
+
+@property(readonly, copy) NSImage      *controllerImage;
+@property(readonly, copy) NSImage      *controllerImageMask;
 
 - (NSUInteger)playerNumberInKey:(NSString *)keyName getKeyIndex:(NSUInteger *)idx;
 
@@ -120,6 +132,13 @@ extern NSString *const OEControlListKeyPositionKey;
 - (void)registerValue:(id)aValue forKeyPath:(NSString *)keyPath;
 // Remove all bindings (usually there's only one) that could be associated to theEvent value
 - (void)removeBindingsToEvent:(id)theEvent withValueType:(NSString *)aType;
+
+- (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
+- (id)settingForKey:(NSString *)keyName;
+- (id)HIDEventForKey:(NSString *)keyName;
+- (id)keyboardEventForKey:(NSString *)keyName;
+- (void)registerSetting:(id)settingValue forKey:(NSString *)keyName;
+- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName;
 
 #pragma mark -
 #pragma mark Game System Responder objects

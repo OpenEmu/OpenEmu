@@ -27,16 +27,10 @@
 
 #import "OENESSystemController.h"
 #import "OENESSystemResponder.h"
-#import "OENESPreferenceView.h"
 #import "OENESSystemResponderClient.h"
-
 #import "OELocalizationHelper.h"
-@implementation OENESSystemController
 
-- (NSDictionary *)preferenceViewControllerClasses;
-{
-    return [NSDictionary dictionaryWithObject:[OENESPreferenceView class] forKey:OEControlsPreferenceKey];
-}
+@implementation OENESSystemController
 
 - (Class)responderClass;
 {
@@ -73,10 +67,12 @@
     return controls;
 }
 
-- (NSString*)systemName{
+- (NSString *)systemName
+{
 	if([[OELocalizationHelper sharedHelper] isRegionJAP])
 		return @"Famicom";
 	else 
 		return @"Nintendo (NES)";
 }
+
 @end

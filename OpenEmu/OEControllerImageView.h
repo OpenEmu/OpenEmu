@@ -26,11 +26,23 @@
 
 #import <AppKit/AppKit.h>
 #import <QuartzCore/QuartzCore.h>
+
 @class OEControlsViewController;
+
 @interface OEControllerImageView : NSView 
-@property (nonatomic) float overlayAlpha, ringAlpha;
-@property (nonatomic) NSPoint ringPosition;
-@property (nonatomic, strong) NSImage *image;
-@property (nonatomic, strong) OEControlsViewController *controlsViewController;
+
+@property(nonatomic) CGFloat overlayAlpha, ringAlpha;
+@property(nonatomic) NSPoint ringPosition;
+
+@property(nonatomic, strong) NSImage      *image;
+@property(nonatomic, strong) NSImage      *imageMask;
+@property(nonatomic, copy)   NSDictionary *keyPositions; // associates keys with NSPoint encapsulated in NSValue
+@property(nonatomic, copy)   NSString     *selectedKey;
+- (void)setSelectedKey:(NSString *)value animated:(BOOL)animated;
+
+@property(unsafe_unretained) id  target;
+@property                    SEL action;
+
 - (NSPoint)ringPositionInView;
+
 @end

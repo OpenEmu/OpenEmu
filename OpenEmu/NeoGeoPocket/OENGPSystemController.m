@@ -27,7 +27,6 @@
 
 #import "OENGPSystemController.h"
 #import "OENGPSystemResponder.h"
-#import "OENGPPreferenceView.h"
 #import "OENGPSystemResponderClient.h"
 
 @implementation OENGPSystemController
@@ -35,11 +34,6 @@
 - (NSUInteger)numberOfPlayers;
 {
     return 1;
-}
-
-- (NSDictionary *)preferenceViewControllerClasses;
-{
-    return [NSDictionary dictionaryWithObject:[OENGPPreferenceView class] forKey:OEControlsPreferenceKey];
 }
 
 - (Class)responderClass;

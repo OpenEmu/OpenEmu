@@ -609,8 +609,8 @@ typedef enum
         self.draggedLayer = (IKSGridItemLayer*)clickedLayer;
         self.draggedImage = [self _generateDraggedImage];
         
-        if([theEvent clickCount]>=2 && [self target] && [self doubleAction]!=NULL && [[self target] respondsToSelector:[self doubleAction]])
-            [[self target] performSelector:[self doubleAction] withObject:self];
+        if([theEvent clickCount] >= 2 && [self doubleAction] != NULL)
+            [NSApp sendAction:[self doubleAction] to:[self target] from:self];
         
         return;
     }

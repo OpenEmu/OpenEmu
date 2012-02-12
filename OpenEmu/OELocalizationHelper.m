@@ -29,13 +29,15 @@
 #ifndef UDRegionKey
 #define UDRegionKey @"region"		
 #endif
-@interface OELocalizationHelper (Private)
-- (void)_updateRegion;
+@interface OELocalizationHelper ()
+- (void)OE_updateRegion;
 @end
 
 #define OERegionNALocales [NSArray arrayWithObjects:@"", nil]
 
 @implementation OELocalizationHelper
+@synthesize region;
+
 static OELocalizationHelper *sharedHelper;
 
 + (OELocalizationHelper*)sharedHelper
@@ -52,22 +54,17 @@ static OELocalizationHelper *sharedHelper;
 {
     if(self = [super init])
 	{
-		[self _updateRegion];
+		[self OE_updateRegion];
 	}
 	return self;
 }
 
 
 #pragma mark -
-- (BOOL)isRegionNA{
-	return region == OERegionNA;
-}
-- (BOOL)isRegionEU{
-	return region == OERegionEU;
-}
-- (BOOL)isRegionJAP{
-	return region == OERegionJAP;
-}
+- (BOOL)isRegionNA  { return region == OERegionNA;  }
+- (BOOL)isRegionEU  { return region == OERegionEU;  }
+- (BOOL)isRegionJAP { return region == OERegionJAP; }
+
 #pragma mark -
 #define OERegionCodesAfrica [NSArray arrayWithObjects:@"AO",@"BF",@"BI",@"BJ",@"BW",@"CD",@"CF",@"CG",@"CI",@"CM",@"CV",@"DJ",@"DZ",@"EG",@"EH",@"ER",@"ET",@"GA",@"GH",@"GM",@"GN",@"GQ",@"GW",@"KE",@"KM",@"LR",@"LS",@"LY",@"MA",@"MG",@"ML",@"MR",@"MU",@"MW",@"MZ",@"NA",@"NE",@"NG",@"RE",@"RW",@"SC",@"SD",@"SH",@"SL",@"SN",@"SO",@"SS",@"ST",@"SZ",@"TD",@"TG",@"TN",@"TZ",@"UG",@"YT",@"ZA",@"ZM",@"ZW",nil]
 #define OERegionCodesAntarctica [NSArray arrayWithObjects:@"AQ",@"BV",@"GS",@"HM",@"TF",nil]
@@ -78,23 +75,27 @@ static OELocalizationHelper *sharedHelper;
 #define OERegionCodesOceania [NSArray arrayWithObjects:@"AS",@"AU",@"CK",@"FJ",@"FM",@"GU",@"KI",@"MH",@"MP",@"NC",@"NF",@"NR",@"NU",@"NZ",@"PF",@"PG",@"PN",@"PW",@"SB",@"TK",@"TO",@"TV",@"UM",@"VU",@"WF",@"WS",nil]
 #pragma mark -
 #pragma mark Private Methods
-- (void)_updateRegion{
+
+- (void)OE_updateRegion
+{
 	NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
-	if([standardUserDefaults valueForKey:UDRegionKey]){
+	if([standardUserDefaults valueForKey:UDRegionKey])
 		region = [[standardUserDefaults valueForKey:UDRegionKey] intValue];
-	} else {
+	else
+    {
 		NSLocale *locale = [NSLocale currentLocale];
 		
 		NSString *countryCode = [locale objectForKey:NSLocaleCountryCode];
-		if([OERegionCodesEurope containsObject:countryCode]){
+        
+		if([OERegionCodesEurope containsObject:countryCode])
 			region = OERegionEU;
-		} else if([OERegionCodesNorthAmerica containsObject:countryCode]){
+		else if([OERegionCodesNorthAmerica containsObject:countryCode])
 			region = OERegionNA;	
-		} else if([[NSArray arrayWithObjects:@"JP", @"HK", @"TW", nil] containsObject:countryCode]){
+		else if([[NSArray arrayWithObjects:@"JP", @"HK", @"TW", nil] containsObject:countryCode])
 			region = OERegionJAP;
-		} else {
+		else
 			region = OERegionOther;
-		}
 	}
 }
+
 @end

@@ -18,41 +18,50 @@
 #import "OESystemPlugin.h"
 #import "OESystemController.h"
 
-#import "OEControlsViewController.h"
 #import "OEControllerImageView.h"
-@interface OEPrefControlsController (Private)
-- (void)_rebuildSystemsMenu;
-- (void)_rebuildInputMenu;
+#import "OEControlsSetupView.h"
+
+#import "OEHIDEvent.h"
+
+@interface OEPrefControlsController ()
+{
+    OEHIDEventAxis readingAxis;
+}
+
+- (void)OE_rebuildSystemsMenu;
+- (void)OE_setupControllerImageViewWithTransition:(NSString *)transition;
+
 @end
 
 @implementation OEPrefControlsController
-#pragma mark Properties
-@synthesize controllerView;
 
-@synthesize consolesPopupButton, playerPopupButton, inputPopupButton;
+#pragma mark Properties
+@synthesize controllerView, controllerContainerView;
+
+@synthesize consolesPopupButton, playerPopupButton, inputPopupButton, keyBindings;
 
 @synthesize gradientOverlay;
 @synthesize controlsContainer;
-#pragma mark -
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+@synthesize controlsSetupView;
+@synthesize selectedPlayer;
+@synthesize selectedBindingType;
+@synthesize selectedKey;
+
+- (void)dealloc
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {}
-    
-    return self;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)dealloc{
-    
-    
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-}
 #pragma mark -
 #pragma mark ViewController Overrides
+
 - (void)awakeFromNib
 {
+    [super awakeFromNib];
+    
+    [[self controlsSetupView] setTarget:self];
+    [[self controlsSetupView] setAction:@selector(changeInputControl:)];
+    
     NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
     
     NSImage *controlsBackgroundImage = [NSImage imageNamed:@"controls_background"];
@@ -60,7 +69,7 @@
     
     /** ** ** ** ** ** ** ** **/
     // Setup controls popup console list
-    [self _rebuildSystemsMenu];
+    [self OE_rebuildSystemsMenu];
     
     // restore previous state
     NSInteger binding = [sud integerForKey:UDControlsDeviceTypeKey];
@@ -87,7 +96,6 @@
     
     [[self controllerView] setWantsLayer:YES];    
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(bindingTypeChanged:) name:@"OEControlsViewControllerChangedBindingType" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
 }
 
@@ -104,7 +112,7 @@
     }
 }
 
-- (NSString*)nibName
+- (NSString *)nibName
 {
     return @"OEPrefControlsController";
 }
@@ -115,7 +123,7 @@
     NSMenuItem *menuItem = [[self consolesPopupButton] selectedItem];
     NSString *selectedSystemIdentifier = [menuItem representedObject];
 
-    [self _rebuildSystemsMenu];
+    [self OE_rebuildSystemsMenu];
     
     [[self consolesPopupButton] selectItemAtIndex:0];
     for(NSMenuItem *anItem in [[self consolesPopupButton] itemArray])
@@ -131,8 +139,46 @@
     [self changeSystem:[self consolesPopupButton]];
     [CATransaction commit];
 }
+
+- (OESystemController *)currentSystemController;
+{
+    return [selectedPlugin controller];
+}
+
 #pragma mark -
 #pragma mark UI Methods
+
+- (void)OE_setupPlayerMenuForNumberOfPlayers:(NSUInteger)numberOfPlayers;
+{
+    NSMenu *playerMenu = [[NSMenu alloc] init];
+    for(NSUInteger player = 0; player < numberOfPlayers; player++)
+    {
+        NSString   *playerTitle = [NSString stringWithFormat:NSLocalizedString(@"Player %ld", @""), player + 1];
+        NSMenuItem *playerItem  = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
+        [playerItem setTag:player + 1];
+        [playerMenu addItem:playerItem];
+    }
+    
+    [[self playerPopupButton] setMenu:playerMenu];
+    
+    // Hide player PopupButton if there is only one player
+    [[self playerPopupButton] setHidden:(numberOfPlayers == 1)];
+    [[self playerPopupButton] selectItemWithTag:[[NSUserDefaults standardUserDefaults] integerForKey:UDControlsPlayerKey]];
+}
+
+- (NSMenu *)OE_playerMenuForPlayerCount:(NSUInteger)numberOfPlayers;
+{
+    NSMenu *playerMenu = [[NSMenu alloc] init];
+    for(NSUInteger player = 0; player < numberOfPlayers; player++)
+    {
+        NSString   *playerTitle = [NSString stringWithFormat:NSLocalizedString(@"Player %ld", @""), player + 1];
+        NSMenuItem *playerItem  = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
+        [playerItem setTag:player + 1];
+        [playerMenu addItem:playerItem];
+    }
+    
+    return playerMenu;
+}
 
 - (IBAction)changeSystem:(id)sender
 {
@@ -144,42 +190,27 @@
     NSString *oldPluginName = [selectedPlugin systemName];
     
     OESystemPlugin *nextPlugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
-    if(selectedPlugin!=nil && nextPlugin==selectedPlugin) return;
+    if(selectedPlugin != nil && nextPlugin == selectedPlugin) return;
     selectedPlugin = nextPlugin;
     
-    OESystemController *systemController = [selectedPlugin controller];
+    OESystemController *systemController = [self currentSystemController];
+    
+    [self setKeyBindings:[[systemController controllerKeyPositions] allKeys]];
     
     // Rebuild player menu
-    NSUInteger numberOfPlayers = [systemController numberOfPlayers];
-    NSMenu *playerMenu = [[NSMenu alloc] init];
-    for(NSUInteger player=0; player<numberOfPlayers; player++)
-    {
-        NSString *playerTitle = [NSString stringWithFormat:NSLocalizedString(@"Player %ld", @""), player+1];
-        NSMenuItem *playerItem = [[NSMenuItem alloc] initWithTitle:playerTitle action:NULL keyEquivalent:@""];
-        [playerItem setTag:player+1];
-        [playerMenu addItem:playerItem];
-    }
-    [[self playerPopupButton] setMenu:playerMenu];
+    [self OE_setupPlayerMenuForNumberOfPlayers:[systemController numberOfPlayers]];
     
-    // Hide player PopupButton if there is only one player
-    [[self playerPopupButton] setHidden:(numberOfPlayers==1)];
-    [[self playerPopupButton] selectItemWithTag:[sud integerForKey:UDControlsPlayerKey]];
+    OEControlsSetupView *preferenceView = [self controlsSetupView];
+    [preferenceView setupWithControlList:[systemController controlPageList]];
+    [preferenceView setAutoresizingMask:NSViewMaxXMargin | NSViewMaxYMargin];
     
-    OEControlsViewController *preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
-    
-    NSView *preferenceView = [preferenceViewController view];
-    [preferenceView setAutoresizingMask:NSViewMaxXMargin|NSViewMaxYMargin];
-    NSRect rect = (NSRect){{0,0}, {[self controlsContainer].bounds.size.width, preferenceView.frame.size.height}};
+    NSRect rect = (NSRect){ .size = { [self controlsSetupView].bounds.size.width, preferenceView.frame.size.height }};
     [preferenceView setFrame:rect];
-    [[self controlsContainer] setFrame:rect];
-    if([[[self controlsContainer] subviews] count])
-        [[[self controlsContainer] animator] replaceSubview:[[[self controlsContainer] subviews] objectAtIndex:0] with:preferenceView];
-    else
-        [[[self controlsContainer] animator] addSubview:preferenceView];
     
-    NSScrollView *scrollView = [[self controlsContainer] enclosingScrollView];
-    [[self controlsContainer] setFrameOrigin:(NSPoint){0,scrollView.frame.size.height-rect.size.height}];
-    if([self controlsContainer].frame.size.height<=scrollView.frame.size.height)
+    NSScrollView *scrollView = [[self controlsSetupView] enclosingScrollView];
+    [[self controlsSetupView] setFrameOrigin:(NSPoint){ 0, scrollView.frame.size.height - rect.size.height}];
+    
+    if([[self controlsSetupView] frame].size.height <= scrollView.frame.size.height)
     {
         [scrollView setVerticalScrollElasticity:NSScrollElasticityNone];
     }
@@ -194,29 +225,39 @@
     [self changePlayer:[self playerPopupButton]];
     [self changeInputDevice:[self inputPopupButton]];
     
-    OEControllerImageView *newControllerView = [[OEControllerImageView alloc] initWithFrame:[[self controllerView] bounds]];
-    [newControllerView setImage:[preferenceViewController controllerImage]];
-    [newControllerView setControlsViewController:preferenceViewController];
+    NSComparisonResult order = [oldPluginName compare:[selectedPlugin systemName]];
+    [self OE_setupControllerImageViewWithTransition:(order == NSOrderedDescending ? kCATransitionFromLeft : kCATransitionFromRight)];
+}
+
+- (void)OE_setupControllerImageViewWithTransition:(NSString *)transition;
+{
+    OESystemController *systemController = [self currentSystemController];
+    
+    OEControllerImageView *newControllerView = [[OEControllerImageView alloc] initWithFrame:[[self controllerContainerView] bounds]];
+    [newControllerView setImage:[systemController controllerImage]];
+    [newControllerView setImageMask:[systemController controllerImageMask]];
+    [newControllerView setKeyPositions:[systemController controllerKeyPositions]];
+    [newControllerView setTarget:self];
+    [newControllerView setAction:@selector(changeInputControl:)];
     
     // Animation for controller image swapping
-    NSComparisonResult order = [oldPluginName compare:[selectedPlugin systemName]];
     CATransition *controllerTransition = [CATransition animation];
-    controllerTransition.type = kCATransitionPush;
-    controllerTransition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault];
-    controllerTransition.duration = 1.0;
-    controllerTransition.subtype = (order == NSOrderedDescending ? kCATransitionFromLeft : kCATransitionFromRight);
+    [controllerTransition setType:kCATransitionPush];
+    [controllerTransition setTimingFunction:[CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionDefault]];
+    [controllerTransition setDuration:1.0];
+    [controllerTransition setSubtype:transition];
+    [controllerTransition setRemovedOnCompletion:YES];
     
-    [[self controllerView] setAnimations:[NSDictionary dictionaryWithObject:controllerTransition forKey:@"subviews"]];
+    [[self controllerContainerView] setAnimations:[NSDictionary dictionaryWithObject:controllerTransition forKey:@"subviews"]];
     
-    if([[[self controllerView] subviews] count])
-    {
-        [[[self controllerView] animator] replaceSubview:[[[self controllerView] subviews] objectAtIndex:0] with:newControllerView];
-    }
+    if(controllerView != nil)
+        [[[self controllerContainerView] animator] replaceSubview:controllerView with:newControllerView];
     else
-        [[[self controllerView] animator] addSubview:newControllerView];
+        [[[self controllerContainerView] animator] addSubview:newControllerView];
     
+    [[self controllerContainerView] setAnimations:[NSDictionary dictionary]];
     
-    [[self controllerView] setAnimations:[NSDictionary dictionary]];
+    [self setControllerView:newControllerView];
 }
 
 - (IBAction)changePlayer:(id)sender
@@ -231,37 +272,166 @@
         player = [sender tag];
     }
     
-    if(selectedPlugin)
-    {
-        OESystemController *systemController = [selectedPlugin controller];
-        OEControlsViewController *preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
-        [preferenceViewController selectPlayer:player];
-    }
-    
-    NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
-    [sud setInteger:player forKey:UDControlsPlayerKey];
+    [self setSelectedPlayer:player];
+    [self resetKeyBindings];
+    [[NSUserDefaults standardUserDefaults] setInteger:player forKey:UDControlsPlayerKey];
 }
 
 - (IBAction)changeInputDevice:(id)sender
 {
     NSInteger bindingType = 0;
     if(sender && [sender respondsToSelector:@selector(selectedTag)])
-    {
         bindingType = [sender selectedTag];
-    }
     else if(sender && [sender respondsToSelector:@selector(tag)])
-    {
         bindingType = [sender tag];
-    }
     
-    if(selectedPlugin)
+    [self setSelectedBindingType:bindingType];
+    [self resetKeyBindings];
+    [[NSUserDefaults standardUserDefaults] setInteger:bindingType forKey:UDControlsDeviceTypeKey];
+}
+
+- (IBAction)changeInputControl:(id)sender
+{
+    if(sender == [self controllerView] || sender == [self controlsSetupView])
+        [self setSelectedKey:[sender selectedKey]];
+}
+
+- (void)setSelectedKey:(NSString *)value
+{
+    if(selectedKey != value)
     {
-        OESystemController *systemController = [selectedPlugin controller];
-        OEControlsViewController *preferenceViewController = (OEControlsViewController*)[systemController preferenceViewControllerForKey:OEControlsPreferenceKey];
-        [preferenceViewController selectBindingType:bindingType];
+        selectedKey = [value copy];
+        
+        NSLog(@"Selected: %@", selectedKey);
+        
+        [[self controlsSetupView] setSelectedKey:selectedKey];
+        [[self controllerView]    setSelectedKey:selectedKey animated:YES];
+        
+        [[[self view] window] makeFirstResponder:selectedKey != nil ? [self view] : nil];
     }
-    NSUserDefaults *sud = [NSUserDefaults standardUserDefaults];
-    [sud setInteger:bindingType forKey:UDControlsDeviceTypeKey];
+}
+
+- (void)setSelectedBindingType:(NSInteger)value
+{
+    if(selectedBindingType != value)
+    {
+        selectedBindingType = value;
+        
+        [[self inputPopupButton] selectItemWithTag:selectedBindingType];
+    }
+}
+
+#pragma mark -
+#pragma mark Input and bindings management methods
+
+- (void)resetBindingsWithKeys:(NSArray *)keys
+{
+    for(NSString *key in keys)
+    {
+        [self willChangeValueForKey:key];
+        [self didChangeValueForKey:key];
+    }
+}
+
+- (void)resetKeyBindings
+{
+    [self resetBindingsWithKeys:[self keyBindings]];
+}
+
+- (BOOL)isKeyboardEventSelected
+{
+    return selectedBindingType == 0;
+}
+
+- (NSString *)keyPathForKey:(NSString *)aKey
+{
+    NSUInteger player = [self selectedPlayer];
+    
+    return player != NSNotFound ? [[self currentSystemController] playerKeyForKey:aKey player:player] : aKey;
+}
+
+- (void)registerEvent:(id)anEvent
+{
+    if([self selectedKey] != nil)
+    {
+        [self setValue:anEvent forKey:[self selectedKey]];
+        
+        //[[self controlsSetupView] selectNextKeyButton];
+        [[self controlsSetupView] selectNextKeyButton];
+        [self changeInputControl:[self controlsSetupView]];
+    }
+}
+
+- (void)keyDown:(NSEvent *)theEvent
+{
+}
+
+- (void)keyUp:(NSEvent *)theEvent
+{
+}
+
+- (void)axisMoved:(OEHIDEvent *)anEvent
+{
+    OEHIDEventAxis axis = [anEvent axis];
+    OEHIDDirection dir  = [anEvent direction];
+    
+    if(readingAxis == OEHIDAxisNone && axis != OEHIDAxisNone && dir != OEHIDDirectionNull)
+    {
+        readingAxis = axis;
+        
+        [self setSelectedBindingType:1];
+        [self registerEvent:anEvent];
+    }
+    else if(readingAxis == axis && dir == OEHIDDirectionNull)
+        readingAxis = OEHIDAxisNone;
+}
+
+- (void)buttonDown:(OEHIDEvent *)anEvent
+{
+    [self setSelectedBindingType:1];
+    [self registerEvent:anEvent];
+}
+
+- (void)hatSwitchChanged:(OEHIDEvent *)anEvent;
+{
+    if([anEvent position] != 0)
+    {
+        [self setSelectedBindingType:1];
+        [self registerEvent:anEvent];
+    }
+}
+
+- (void)HIDKeyDown:(OEHIDEvent *)anEvent
+{
+    [self setSelectedBindingType:0];
+    [self registerEvent:anEvent];
+}
+
+- (id)valueForKey:(NSString *)key
+{
+    if([[[self currentSystemController] genericControlNames] containsObject:key])
+    {
+        id anEvent = nil;
+        if([self isKeyboardEventSelected])
+            anEvent = [[self currentSystemController] keyboardEventForKey:[self keyPathForKey:key]];
+        else
+            anEvent = [[self currentSystemController] HIDEventForKey:[self keyPathForKey:key]];
+        
+        return (anEvent != nil ? [anEvent displayDescription] : @"<empty>");
+    }
+    return [super valueForKey:key];
+}
+
+- (void)setValue:(id)value forKey:(NSString *)key
+{
+    // should be mutually exclusive
+    if([[[self currentSystemController] genericControlNames] containsObject:key])
+    {
+        [self willChangeValueForKey:key];
+        [[self currentSystemController] registerEvent:value forKey:[self keyPathForKey:key]];
+        [self didChangeValueForKey:key];
+    }
+    else [super setValue:value forKey:key];
 }
 
 #pragma mark -
@@ -288,7 +458,8 @@
 }
 
 #pragma mark -
-- (void)_rebuildSystemsMenu
+
+- (void)OE_rebuildSystemsMenu
 {
     NSMenu *consolesMenu = [[NSMenu alloc] init];
     
@@ -310,14 +481,4 @@
     [[self consolesPopupButton] setMenu:consolesMenu];
 }
 
-- (void)_rebuildInputMenu
-{
-    
-}
-#pragma mark -
-- (void)bindingTypeChanged:(id)sender
-{
-    id object = [sender object];
-    [[self inputPopupButton] selectItemWithTag:[object selectedBindingType]];
-}
 @end

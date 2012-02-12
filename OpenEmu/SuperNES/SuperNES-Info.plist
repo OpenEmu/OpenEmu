@@ -50,32 +50,24 @@
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonUp[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{169, 154}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonDown[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{169, 110}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonLeft[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{147, 132}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonRight[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{192, 132}</string>
 				</dict>
 			</array>
 			<array>
@@ -84,16 +76,12 @@
 					<string>Select</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonSelect[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{252, 117}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonStart[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{299, 117}</string>
 				</dict>
 			</array>
 			<array>
@@ -102,32 +90,24 @@
 					<string>A</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonA[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{456, 130}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>B</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonB[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{413, 95}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>X</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonX[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{416, 164}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Y</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonY[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{373, 130}</string>
 				</dict>
 			</array>
 			<array>
@@ -136,16 +116,12 @@
 					<string>Trigger Left</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonTriggerLeft[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{166, 220}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Trigger Right</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OESNESButtonTriggerRight[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{423, 220}</string>
 				</dict>
 			</array>
 		</array>

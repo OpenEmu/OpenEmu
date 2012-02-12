@@ -27,7 +27,6 @@
 
 #import "OEGBSystemController.h"
 #import "OEGBSystemResponder.h"
-#import "OEGBPreferenceView.h"
 #import "OEGBSystemResponderClient.h"
 
 @implementation OEGBSystemController
@@ -35,11 +34,6 @@
 - (NSUInteger)numberOfPlayers;
 {
     return 1;
-}
-
-- (NSDictionary *)preferenceViewControllerClasses;
-{
-    return [NSDictionary dictionaryWithObject:[OEGBPreferenceView class] forKey:OEControlsPreferenceKey];
 }
 
 - (Class)responderClass;

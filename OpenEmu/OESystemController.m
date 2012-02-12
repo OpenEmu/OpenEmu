@@ -30,6 +30,7 @@
 #import "OEHIDEvent.h"
 #import "NSString+OEAdditions.h"
 #import "NSUserDefaultsController+OEEventAdditions.h"
+#import "OELocalizationHelper.h"
 
 @interface OESystemController ()
 
@@ -37,13 +38,12 @@
 
 - (void)OE_setupControlNames;
 - (void)OE_enumerateSettingKeysUsingBlock:(void(^)(NSString *keyPath, NSString *keyName, NSString *keyType))block;
+- (void)OE_setupControllerPreferencesKeys;
 
-@end
-
-@interface OESystemController (PrivateRomStuff) 
 - (void)_initROMHandling;
 - (void)_deallocROMHandling;
 @end
+
 NSString *const OESettingValueKey           = @"OESettingValueKey";
 NSString *const OEHIDEventValueKey          = @"OEHIDEventValueKey";
 NSString *const OEKeyboardEventValueKey     = @"OEKeyboardEventValueKey";
@@ -60,12 +60,16 @@ NSString *const OEControlListKey            = @"OEControlListKey";
 NSString *const OEControlListKeyNameKey     = @"OEControlListKeyNameKey";
 NSString *const OEControlListKeyLabelKey    = @"OEControlListKeyLabelKey";
 NSString *const OEControlListKeyPositionKey = @"OEControlListKeyPositionKey";
-NSString *const OEControlListSeparatorKey   = @"OEControlListSeparatorKey";
+
+NSString *const OEControllerImageKey        = @"OEControllerImageKey";
+NSString *const OEControllerImageMaskKey    = @"OEControllerImageMaskKey";
+NSString *const OEControllerKeyPositionKey  = @"OEControllerKeyPositionKey";
 
 static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSString *playerKey);
 
 @implementation OESystemController
 @synthesize playerString, controlNames, systemIdentifier;
+@synthesize controllerKeyPositions, controllerImageMaskName, controllerImageName, controllerImage, controllerImageMask;
 
 - (id)init
 {
@@ -83,6 +87,8 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
         
         [self OE_setupControlNames];
         
+        [self OE_setupControllerPreferencesKeys];
+        
         [self registerDefaultControls];
         
         [self _initROMHandling];
@@ -94,8 +100,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 - (void)dealloc
 {
     [self _deallocROMHandling];
-    
-    
 }
 
 - (void)OE_setupControlNames;
@@ -130,6 +134,53 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     }
     
     controlNames = [temp copy];
+}
+
+- (NSDictionary *)OE_defaultControllerPreferences;
+{
+    return [NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:[_bundle pathForResource:@"Controller-Preferences-Info" ofType:@"plist"]] mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:NULL];
+}
+
+- (NSDictionary *)OE_localizedControllerPreferences;
+{
+    NSString *fileName = nil;
+    
+    switch([[OELocalizationHelper sharedHelper] region])
+    {
+        case OERegionEU  : fileName = @"Controller-Preferences-Info-EU";  break;
+        case OERegionNA  : fileName = @"Controller-Preferences-Info-NA";  break;
+        case OERegionJAP : fileName = @"Controller-Preferences-Info-JAP"; break;
+        default : break;
+    }
+    
+    if(fileName != nil) fileName = [_bundle pathForResource:fileName ofType:@"plist"];
+    
+    return (fileName == nil ? nil : [NSPropertyListSerialization propertyListFromData:[NSData dataWithContentsOfFile:fileName] mutabilityOption:NSPropertyListImmutable format:NULL errorDescription:NULL]);
+}
+
+- (void)OE_setupControllerPreferencesKeys;
+{
+    // TODO: Support local setup with different plists
+    NSDictionary *plist          = [self OE_defaultControllerPreferences];
+    NSDictionary *localizedPlist = [self OE_localizedControllerPreferences];
+    
+    controllerImageName     = [localizedPlist objectForKey:OEControllerImageKey] ? : [plist objectForKey:OEControllerImageKey];
+    controllerImageMaskName = [localizedPlist objectForKey:OEControllerImageMaskKey] ? : [plist objectForKey:OEControllerImageMaskKey];
+    
+    NSDictionary *positions = [plist objectForKey:OEControllerKeyPositionKey];
+    NSDictionary *localPos  = [localizedPlist objectForKey:OEControllerKeyPositionKey];
+    
+    NSMutableDictionary *converted = [[NSMutableDictionary alloc] initWithCapacity:[positions count]];
+    
+    for(NSString *key in positions)
+    {
+        NSString *value = [localPos objectForKey:key] ? : [positions objectForKey:key];
+        
+        [converted setObject:[NSValue valueWithPoint:value != nil ? NSPointFromString(value) : NSZeroPoint
+                              ] forKey:key];
+    }
+    
+    controllerKeyPositions = [converted copy];
 }
 
 - (Class)responderClass
@@ -227,9 +278,32 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     return NSNotFound;
 }
 
-- (NSString*)systemName{
+- (NSString *)systemName
+{
     return _systemName;
 }
+
+- (NSArray *)controlPageList;
+{
+    return [[_bundle infoDictionary] objectForKey:OEControlListKey];
+}
+
+- (NSImage *)controllerImage;
+{
+    if(controllerImage == nil)
+        controllerImage = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForImageResource:[self controllerImageName]]];
+    
+	return controllerImage;
+}
+
+- (NSImage *)controllerImageMask;
+{
+    if(controllerImageMask == nil)
+        controllerImageMask = [[NSImage alloc] initWithContentsOfFile:[_bundle pathForImageResource:[self controllerImageMaskName]]];
+    
+    return controllerImageMask;
+}
+
 #pragma mark -
 #pragma mark Helper methods
 
@@ -367,46 +441,28 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
     }
 }
 
-#pragma mark -
-#pragma mark OEControlsViewControllerDelegate protocol conformance
-
-- (NSArray *)controlPageListInControlsViewController:(OEControlsViewController *)sender;
-{
-    return [[_bundle infoDictionary] objectForKey:OEControlListKey];
-}
-
-- (NSArray *)genericSettingNamesInControlsViewController:(OEControlsViewController *)sender;
-{
-    return [self genericSettingNames];
-}
-
-- (NSArray *)genericControlNamesInControlsViewController:(OEControlsViewController *)sender;
-{
-    return [self genericControlNames];
-}
-
-- (NSString *)controlsViewController:(OEControlsViewController *)sender playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
+- (NSString *)playerKeyForKey:(NSString *)aKey player:(NSUInteger)playerNumber;
 {
     return [aKey stringByReplacingOccurrencesOfString:playerString withString:
             [NSString stringWithFormat:@"%0*d", [playerString length], playerNumber]];
 }
 
-- (id)controlsViewController:(OEControlsViewController *)sender settingForKey:(NSString *)keyName;
+- (id)settingForKey:(NSString *)keyName;
 {
     return [[NSUserDefaultsController sharedUserDefaultsController] eventValueForKeyPath:[self keyPathForKey:keyName withValueType:OESettingValueKey]];
 }
 
-- (id)controlsViewController:(OEControlsViewController *)sender HIDEventForKey:(NSString *)keyName;
+- (id)HIDEventForKey:(NSString *)keyName;
 {
     return [[NSUserDefaultsController sharedUserDefaultsController] eventValueForKeyPath:[self keyPathForKey:keyName withValueType:OEHIDEventValueKey]];
 }
 
-- (id)controlsViewController:(OEControlsViewController *)sender keyboardEventForKey:(NSString *)keyName;
+- (id)keyboardEventForKey:(NSString *)keyName;
 {
     return [[NSUserDefaultsController sharedUserDefaultsController] eventValueForKeyPath:[self keyPathForKey:keyName withValueType:OEKeyboardEventValueKey]];
 }
 
-- (void)controlsViewController:(OEControlsViewController *)sender registerSetting:(id)settingValue forKey:(NSString *)keyName;
+- (void)registerSetting:(id)settingValue forKey:(NSString *)keyName;
 {
     NSString *keyPath = [self keyPathForKey:keyName withValueType:OESettingValueKey];
     
@@ -416,7 +472,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
         [observer settingWasSet:settingValue forKey:keyName];
 }
 
-- (void)controlsViewController:(OEControlsViewController *)sender registerEvent:(id)theEvent forKey:(NSString *)keyName;
+- (void)registerEvent:(id)theEvent forKey:(NSString *)keyName;
 {
     BOOL isKeyBoard = [theEvent isKindOfClass:[OEHIDEvent class]] && [(OEHIDEvent *)theEvent type] == OEHIDKeypress;
     
@@ -459,15 +515,21 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 #pragma mark -
 #pragma mark Rom Handling
+
 @synthesize fileTypes, archiveIDs;
-- (void)_initROMHandling{
+
+- (void)_initROMHandling
+{
     archiveIDs = [[_bundle infoDictionary] objectForKey:OEArchiveIDs];
     fileTypes  = [[_bundle infoDictionary] objectForKey:OEFileTypes];
 }
-- (void)_deallocROMHandling{
+
+- (void)_deallocROMHandling
+{
 }
 
-- (BOOL)canHandleFile:(NSString *)path{
+- (BOOL)canHandleFile:(NSString *)path
+{
     return [fileTypes containsObject:[path pathExtension]];
 }
 

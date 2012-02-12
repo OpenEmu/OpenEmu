@@ -26,19 +26,21 @@
 
 #import <Foundation/Foundation.h>
 
-enum _OERegion {
+typedef enum _OERegion
+{
 	OERegionNA,
 	OERegionJAP,
 	OERegionEU,
 	OERegionOther
-}typedef OERegion;
+} OERegion;
 
-@interface OELocalizationHelper : NSObject{
-	OERegion region;
-}
+@interface OELocalizationHelper : NSObject
 + (OELocalizationHelper*)sharedHelper;
+
+@property OERegion region;
 
 - (BOOL)isRegionNA;
 - (BOOL)isRegionEU;
 - (BOOL)isRegionJAP;
+
 @end

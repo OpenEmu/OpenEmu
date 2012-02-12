@@ -49,32 +49,24 @@
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENESButtonUp[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{159, 147}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENESButtonDown[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{159, 100}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENESButtonLeft[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{136, 123}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENESButtonRight[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{183, 123}</string>
 				</dict>
 			</array>
 			<array>
@@ -83,16 +75,12 @@
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENESButtonStart[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{306, 101}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Select</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENESButtonSelect[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{256, 101}</string>
 				</dict>
 			</array>
 			<array>
@@ -101,16 +89,12 @@
 					<string>A</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENESButtonA[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{441, 100}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>B</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENESButtonB[@]</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{384, 100}</string>
 				</dict>
 			</array>
 		</array>

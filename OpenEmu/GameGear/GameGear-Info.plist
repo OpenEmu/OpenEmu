@@ -49,32 +49,24 @@
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEGGButtonUp</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{195, 176}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEGGButtonDown</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{195, 93}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEGGButtonLeft</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{157, 138}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEGGButtonRight</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{234, 138}</string>
 				</dict>
 			</array>
 			<array>
@@ -83,16 +75,12 @@
 					<string>Button 1</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEGGButtonA</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{383, 114}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 2</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEGGButtonB</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{453, 114}</string>
 				</dict>
 				<string>-</string>
 				<dict>
@@ -100,8 +88,6 @@
 					<string>Start</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEGGButtonStart</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
 				</dict>
 			</array>
 		</array>

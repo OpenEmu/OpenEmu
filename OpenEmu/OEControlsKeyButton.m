@@ -90,13 +90,13 @@
     
 }
 
-- (void)setTitle:(NSString *)_title
+- (void)setTitle:(NSString *)value
 {
-    NSString *newTitle = [_title copy];
-    title = newTitle;
+    title = [value copy];
     
     [self setNeedsDisplay:YES];
 }
+
 #pragma mark -
 #pragma mark NSView Overrides
 - (void)drawRect:(NSRect)dirtyRect
@@ -133,19 +133,10 @@
 
 - (void)mouseDown:(NSEvent *)theEvent
 {
-    if(self.state == NSOnState)
-    {
-        self.state = NSOffState;
-    } 
-    else 
-    {
-        self.state = NSOnState;
-    }
+    [self setState:[self state] == NSOnState ? NSOffState : NSOnState];
     
-    if(self.target && self.action!=NULL && [self.target respondsToSelector:self.action])
-    {
-        [self.target performSelector:self.action withObject:self];
-    }
+    // FIXME: It's not great to have the action triggered on mouseDown:
+    if([self action] != NULL) [NSApp sendAction:[self action] to:[self target] from:self];
 }
 
 - (void)setState:(NSCellStateValue)_state

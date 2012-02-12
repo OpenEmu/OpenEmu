@@ -51,32 +51,24 @@
 					<string>Up</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENGPButtonUp</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{195, 176}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Down</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENGPButtonDown</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{195, 93}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Left</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENGPButtonLeft</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{157, 138}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Right</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENGPButtonRight</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{234, 138}</string>
 				</dict>
 			</array>
 			<array>
@@ -85,16 +77,12 @@
 					<string>A</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENGPButtonA</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{383, 114}</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>B</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENGPButtonB</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{453, 114}</string>
 				</dict>
 			</array>
 			<array>
@@ -103,8 +91,6 @@
 					<string>Reset</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OENGPButtonReset</string>
-					<key>OEControlListKeyPositionKey</key>
-					<string>{0, 0}</string>
 				</dict>
 			</array>
 		</array>
