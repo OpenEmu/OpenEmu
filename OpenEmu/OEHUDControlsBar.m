@@ -38,7 +38,7 @@
 #import "OEGameViewController.h"
 
 @interface OEHUDControlsBarWindow ()
-@property(weak) OEHUDControlsBarView *controlsView;
+@property(strong) OEHUDControlsBarView *controlsView;
 @end
 
 @implementation OEHUDControlsBarWindow
@@ -60,9 +60,9 @@
         
         [self setGameViewController:controller];
         
-        OEHUDControlsBarView *barView =[[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
+        OEHUDControlsBarView *barView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
         [[self contentView] addSubview:barView];
-        [controlsView setupControls];
+        [barView setupControls];
         
         eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:
                         ^(NSEvent *incomingEvent)
