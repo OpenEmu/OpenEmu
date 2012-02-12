@@ -61,32 +61,36 @@
 
 @end
 
-@implementation OEControlsSetupView
+static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSetupViewFrameSizeContext;
 
+@implementation OEControlsSetupView
 @synthesize selectedKey, action, target;
 
 - (id)initWithFrame:(NSRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self)
+    if((self = [super initWithFrame:frame]))
     {
         elementPages = [[NSMutableArray alloc] initWithObjects:[NSMutableArray array], nil];
         NSMutableArray *currentPage = [elementPages lastObject];
         [currentPage addObject:[NSMutableArray array]];
         
-        [self addObserver:self forKeyPath:@"frameSize" options:0 context:nil];
+        [self addObserver:self forKeyPath:@"frameSize" options:0 context:_OEControlsSetupViewFrameSizeContext];
     }
+    
     return self;
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    [self updateButtons];
+    if(context == _OEControlsSetupViewFrameSizeContext)
+        [self updateButtons];
+    else
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 - (void)dealloc
 {
-    [self removeObserver:self forKeyPath:@"frameSize"];
+    [self removeObserver:self forKeyPath:@"frameSize" context:_OEControlsSetupViewFrameSizeContext];
 }
 
 - (void)setupWithControlList:(NSArray *)controlList;

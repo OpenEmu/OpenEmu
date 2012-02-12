@@ -44,6 +44,9 @@
 
 - (BOOL)canFadeOut;
 
+- (void)parentWindowDidEnterFullScreen:(NSNotification *)notification;
+- (void)parentWindowWillExitFullScreen:(NSNotification *)notification;
+
 @property(strong, nonatomic) NSDate *lastMouseMovement;
 @property(unsafe_unretained) OEGameViewController *gameViewController;
 @end
@@ -52,6 +55,7 @@
 @interface OEHUDControlsBarView : NSView
 
 @property(strong, readonly) OEHUDSlider *slider;
+@property(strong, readonly) NSButton    *fullScreenButton;
 
 - (void)setupControls;
 @end

@@ -59,7 +59,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 @implementation OEApplicationDelegate
 @synthesize mainWindowController;
 @synthesize aboutWindow, aboutCreditsPath;
-@synthesize hidManager;
+@synthesize HIDManager;
 
 - (id)init
 {
@@ -83,9 +83,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)dealloc 
 {
-    [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins"];
-    
-    
+    [[OECorePlugin class] removeObserver:self forKeyPath:@"allPlugins" context:_OEApplicationDelegateAllPluginsContext];
 }
 
 #pragma mark -
@@ -112,6 +110,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [OECompositionPlugin allPluginNames];
     
     [self OE_setTargetForMenuItems:[NSApp mainMenu]];
+    
+    [mainWindowController setDeviceHandlers:[[self HIDManager] deviceHandlers]];
+    [mainWindowController setCoreList:[[OECoreUpdater sharedUpdater] coreList]];
     
     [mainWindowController showWindow:self];
     
@@ -265,8 +266,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
                                [NSNumber numberWithInteger:kHIDUsage_GD_Keyboard], @ kIOHIDDeviceUsageKey, nil],
                               nil];
     
-    [self setHidManager:[[OEHIDManager alloc] init]];
-    [[self hidManager] registerDeviceTypes:matchingTypes];
+    [self setHIDManager:[[OEHIDManager alloc] init]];
+    [[self HIDManager] registerDeviceTypes:matchingTypes];
 }
 
 #pragma mark -

@@ -42,7 +42,7 @@
 @property(unsafe_unretained) IBOutlet NSWindow               *aboutWindow;
 @property(unsafe_unretained) IBOutlet OEMainWindowController *mainWindowController;
 
-@property(strong)   OEHIDManager       *hidManager;
+@property(strong)           OEHIDManager       *HIDManager;
 @property(strong, readonly) NSString           *aboutCreditsPath;
 @property(strong, readonly) NSString           *appVersion;
 @property(strong, readonly) NSAttributedString *projectURL;

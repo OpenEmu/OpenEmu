@@ -25,25 +25,25 @@
  */
 
 #import "OEMainWindowController.h"
-#import "OEMainWindowContentController.h"
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEMainWindow.h"
 #import "OESetupAssistant.h"
 #import "OELibraryController.h"
+#import "OEGameViewController.h"
 #import "NSViewController+OEAdditions.h"
+#import "OEGameDocument.h"
 
-@interface OEMainWindowController ()
+@interface OEMainWindowController () <OELibraryControllerDelegate>
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController;
 @end
 
 @implementation OEMainWindowController
 @synthesize currentContentController;
-@synthesize toolbarFlowViewButton, toolbarGridViewButton, toolbarListViewButton;
-@synthesize toolbarSearchField, toolbarSidebarButton, toolbarAddToSidebarButton, toolbarSlider;
 @synthesize defaultContentController;
 @synthesize allowWindowResizing;
 @synthesize libraryController;
 @synthesize placeholderView;
+@synthesize deviceHandlers, coreList;
 
 + (void)initialize
 {
@@ -74,6 +74,9 @@
 {
     [super windowDidLoad];
     
+    [[self libraryController] setDelegate:self];
+    [[self libraryController] setSidebarChangesWindowSize:YES];
+    
     [self setAllowWindowResizing:YES];
     [[self window] setWindowController:self];
     [[self window] setDelegate:self];
@@ -82,11 +85,12 @@
     [[self window] setRestorable:NO];
     [[self window] setExcludedFromWindowsMenu:YES];
     
-    [[self libraryController] setWindowController:self];
-    
     if(![[NSUserDefaults standardUserDefaults] boolForKey:UDSetupAssistantHasRun])
     {
         OESetupAssistant *setupAssistant = [[OESetupAssistant alloc] init];
+        [setupAssistant setDeviceHandlers:[self deviceHandlers]];
+        [setupAssistant setCoreList:[self coreList]];
+        
         [setupAssistant setCompletionBlock:
          ^(BOOL discoverRoms)
          {
@@ -109,6 +113,45 @@
     return @"MainWindow";
 }
 
+- (void)openGameDocument:(OEGameDocument *)aDocument;
+{
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL allowPopout = [standardDefaults boolForKey:UDAllowPopoutKey];
+    BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
+    
+    BOOL usePopout = forcePopout || allowPopout;
+    
+    if(usePopout) [aDocument showInSeparateWindow:self];
+    else          [self setCurrentContentController:[aDocument gameViewController]];
+}
+
+- (IBAction)terminateEmulation:(id)sender;
+{
+    OEGameViewController *current = (OEGameViewController *)[self currentContentController];
+    
+    if(![current isKindOfClass:[OEGameViewController class]]) return;
+    
+    [self setCurrentContentController:[self libraryController]];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+    if([menuItem action] == @selector(terminateEmulation:))
+        return [[self currentContentController] isKindOfClass:[OEGameViewController class]];
+    
+    return YES;
+}
+
+- (void)windowWillEnterFullScreen:(NSNotification *)notification
+{
+    [[self libraryController] setSidebarChangesWindowSize:NO];
+}
+
+- (void)windowDidExitFullScreen:(NSNotification *)notification
+{
+    [[self libraryController] setSidebarChangesWindowSize:YES];
+}
+
 #pragma mark -
 
 - (void)OE_replaceCurrentContentController:(NSViewController *)oldController withViewController:(NSViewController *)newController
@@ -125,13 +168,11 @@
         [[contentView animator] addSubview:view];
 }
 
-- (void)setCurrentContentController:(OEMainWindowContentController *)controller
+- (void)setCurrentContentController:(NSViewController *)controller
 {
     if(controller == nil) controller = [self libraryController];
     
     if(controller == [self currentContentController]) return;
-    
-    [controller setWindowController:self];
     
     [currentContentController viewWillDisappear];
     [controller               viewWillAppear];
@@ -144,8 +185,24 @@
     [controller               viewDidAppear];
     
     currentContentController = controller;
+}
+
+#pragma mark -
+#pragma mark OELibraryControllerDelegate protocol conformance
+
+- (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)aGame
+{
+    NSError        *error = nil;
+    OEGameDocument *gameDocument = [[OEGameDocument alloc] initWithGame:aGame error:&error];
     
-    [[self currentContentController] setupMenuItems];
+    if(gameDocument == nil)
+    {
+        [NSApp presentError:error];
+        return;
+    }
+    
+    [[NSDocumentController sharedDocumentController] addDocument:gameDocument];
+    [self openGameDocument:gameDocument];
 }
 
 #pragma mark -
@@ -164,37 +221,6 @@
     [self close];
 }
 
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
-{
-#if 0
-    if([menuItem tag] == MainMenu_Window_OpenEmuTag)
-    {
-        NSLog(@"Item: %@, %ld enabled from OEMainWindowController", [menuItem title], [menuItem tag]);
-        return YES;
-    }
-    
-    return [[self currentContentController] validateMenuItem:menuItem]/*|| ([self currentContentController]!=[self defaultContentController] && [[self currentContentController] validateMenuItem:menuItem])*/; 
-#endif
-    return YES;
-}
-
-- (void)menuItemAction:(NSMenuItem *)sender
-{
-#if 0
-    if([sender tag] == MainMenu_Window_OpenEmuTag)
-    {
-        if([(NSMenuItem*)sender state])
-            [[self window] orderOut:self];
-        else
-            [[self window] makeKeyAndOrderFront:self];
-        return;
-    }
-    
-    [[self currentContentController] menuItemAction:sender];
-#endif
-}
-
 - (void)setupMenuItems
 {
     NSMenu *mainMenu = [NSApp mainMenu];
@@ -203,8 +229,6 @@
     NSMenu *windowMenu = [[mainMenu itemAtIndex:5] submenu];
     NSMenuItem *item = [windowMenu itemWithTag:MainMenu_Window_OpenEmuTag];
     [item bind:@"state" toObject:[self window] withKeyPath:@"visible" options:nil];
-    
-    [[self currentContentController] setupMenuItems];
 }
 
 @end

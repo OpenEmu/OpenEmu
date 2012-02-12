@@ -38,7 +38,6 @@
 
 #import "OEGameView.h"
 
-#import "OEHUDGameWindow.h"
 #import "OEROMImporter.h"
 
 #import "OEPlugin.h"
@@ -49,12 +48,6 @@
 #import "NSControl+OEAdditions.h"
 
 #import "OEGameDocument.h"
-
-
-#ifndef NSWindowWillEnterFullScreenNotification
-NSString *const NSWindowWillEnterFullScreenNotification = @"OEWindowWillEnterFullScreenNotification";
-NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullScreenNotification";
-#endif
 
 @interface OELibraryController ()
 
@@ -73,12 +66,13 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 @synthesize sidebarController, collectionViewController, mainSplitView, mainContentPlaceholderView;
 @synthesize toolbarFlowViewButton, toolbarGridViewButton, toolbarListViewButton;
 @synthesize toolbarSearchField, toolbarSidebarButton, toolbarAddToSidebarButton, toolbarSlider;
+@synthesize delegate;
 
 @synthesize searchResults;
 
-- (id)initWithWindowController:(OEMainWindowController*)windowController andDatabase:(OELibraryDatabase*)aDatabase
+- (id)initWithDatabase:(OELibraryDatabase *)aDatabase
 {
-    if((self = [super initWithWindowController:windowController]))
+    if((self = [super initWithNibName:@"Library" bundle:nil]))
     {
         [self setDatabase:aDatabase];
     }
@@ -91,8 +85,6 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     NSLog(@"Dealloc OELibraryController");
     
     [[NSNotificationCenter defaultCenter] removeObject:self];
-    
-    
 }
 
 #pragma mark -
@@ -156,17 +148,11 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
 
 - (void)awakeFromNib
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowFullscreenEnter:) name:NSWindowWillEnterFullScreenNotification object:[[self windowController] window]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowFullscreenExit:) name:NSWindowWillExitFullScreenNotification object:[[self windowController] window]];
 }
 
 - (void)viewDidAppear
 {
     [super viewDidAppear];
-    
-    OEMainWindowController *windowController = [self windowController];
-    NSView *toolbarItemContainer = [[windowController toolbarSearchField] superview];
-    [toolbarItemContainer setAutoresizingMask:0];
     
     [self OE_setupMenu];
     [self OE_setupToolbarItems];
@@ -237,7 +223,7 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     
     if([self sidebarChangesWindowSize])
     {
-        NSWindow *window = [[self windowController] window];
+        NSWindow *window = [[self view] window];
         NSRect frameRect = [window frame];
         
         frameRect.origin.x -= widthCorrection;
@@ -369,23 +355,25 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
          }
      }];
 }
+
 #pragma mark -
 
 - (IBAction)startGame:(id)sender
 {
-    NSArray *selection = [[self collectionViewController] selectedGames];
-    if(selection == nil)
-    {
-        DLog(@"No game. This should not be possible from UI (item disabled)");
-        return;
-    }
+    OEDBGame *selectedGame = [[[self collectionViewController] selectedGames] lastObject];
     
-    OEDBGame             *selectedGame  = [selection lastObject];
+    NSAssert(selectedGame != nil, @"Attempt to start a game while the selection is empty");
+    
+    if([[self delegate] respondsToSelector:@selector(libraryController:didSelectGame:)])
+        [[self delegate] libraryController:self didSelectGame:selectedGame];
+    
+    /*
     NSDocumentController *docController = [NSDocumentController sharedDocumentController];
     OEGameDocument       *document      = [[OEGameDocument alloc] initWithGame:selectedGame];
     
     if(document == nil) return;
     [docController addDocument:document];
+     */
 }
 
 #pragma mark -
@@ -596,16 +584,6 @@ NSString *const NSWindowWillExitFullScreenNotification = @"OEWindowWillExitFullS
     if(splitterPosition != 0) [[NSUserDefaults standardUserDefaults] setDouble:splitterPosition forKey:UDSidebarWidthKey];
     
     [toolbarItemContainer setFrame:NSMakeRect(splitterPosition, 0.0, NSWidth([[toolbarItemContainer superview] bounds]) - splitterPosition, 44.0)];
-}
-
-- (void)windowFullscreenExit:(NSWindow *)window
-{
-    [self setSidebarChangesWindowSize:YES];
-}
-
-- (void)windowFullscreenEnter:(NSWindow *)window
-{
-    [self setSidebarChangesWindowSize:NO];
 }
 
 @end

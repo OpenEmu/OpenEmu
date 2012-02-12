@@ -12,6 +12,8 @@
 @implementation OESidebarFieldEditor
 @synthesize container;
 
+static void *const _OESidebarFieldEditorContext = (void *)&_OESidebarFieldEditorContext;
+
 + (id)fieldEditor
 {
     static OESidebarFieldEditor *fieldEditor = nil;
@@ -39,13 +41,14 @@
 {
     if(newSuperview == nil && [self superview] != nil)
     {
-        [[self superview] removeObserver:self forKeyPath:@"frame"];
+        [[self superview] removeObserver:self forKeyPath:@"frame" context:_OESidebarFieldEditorContext];
     }
     else if(newSuperview != nil)
     {
-        [newSuperview addObserver:self forKeyPath:@"frame" options:0xF context:nil];
+        [newSuperview addObserver:self forKeyPath:@"frame" options:0xF context:_OESidebarFieldEditorContext];
     }
 }
+
 - (void)updateContainerFrame
 {
     if([self superview] != nil && [self container] != nil)
@@ -60,7 +63,10 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    [self updateContainerFrame];
+    if(context == _OESidebarFieldEditorContext)
+        [self updateContainerFrame];
+    else
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
 - (void)viewDidMoveToWindow

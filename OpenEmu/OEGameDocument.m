@@ -36,12 +36,13 @@
 
 #import "NSData+HashingAdditions.h"
 #import "OEROMImporter.h"
-#import "OEHUDGameWindow.h"
-@interface OEGameDocument (Private)
-- (BOOL)loadRom:(OEDBRom*)rom withError:(NSError**)outError;
-- (BOOL)loadGame:(OEDBGame*)game withError:(NSError**)outError;
-- (BOOL)_setupGameViewController:(OEGameViewController*)aGameViewController;
+#import "OEGameWindowController.h"
+
+@interface OEGameDocument ()
+- (BOOL)OE_loadRom:(OEDBRom *)rom withError:(NSError**)outError;
+- (BOOL)OE_loadGame:(OEDBGame *)game withError:(NSError**)outError;
 @end
+
 @implementation OEGameDocument
 @synthesize gameViewController;
 #pragma mark -
@@ -59,10 +60,11 @@
     return self;
 }
 
-- (id)initWithRom:(OEDBRom*)rom {
-    self = [self init];
-    if (self) {
-        if(![self loadRom:rom withError:nil])
+- (id)initWithRom:(OEDBRom *)rom error:(NSError **)error
+{
+    if((self = [self init]))
+    {
+        if(![self OE_loadRom:rom withError:error])
         {
             [self close];
             return nil;
@@ -71,16 +73,17 @@
     return self;
 }
 
-- (id)initWithGame:(OEDBGame*)game
+- (id)initWithGame:(OEDBGame *)game error:(NSError **)error
 {
-    self = [self init];
-    if (self) {
-        if(![self loadGame:game withError:nil])
+    if((self = [self init]))
+    {
+        if(![self OE_loadGame:game withError:error])
         {
             [self close];
             return nil;
         }
     }
+    
     return self;
 }
 
@@ -88,83 +91,66 @@
 {
     NSLog(@"OEGameDocument dealloc");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
-    
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
 }
-#pragma mark -
-- (BOOL)_setupGameViewController:(OEGameViewController*)aGameViewController
+
+- (void)showInSeparateWindow:(id)sender;
 {
-    [aGameViewController setDocument:self];
-    OEMainWindowController *winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
-    
+    // Create a window, set gameviewcontroller.view as view, open it
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL allowPopout = [standardDefaults boolForKey:UDAllowPopoutKey];
-    BOOL forcePopout = [standardDefaults boolForKey:UDForcePopoutKey];
     
-    BOOL usePopout = forcePopout || (allowPopout && ([winController currentContentController] != [winController defaultContentController]));
-    if(usePopout)
+    BOOL useScreenSize = [standardDefaults boolForKey:UDPopoutHasScreenSizeKey] || ![standardDefaults valueForKey:UDLastPopoutFrameKey];
+    NSRect windowRect;
+    if(useScreenSize)
     {
-        // Create a window, set gameviewcontroller.view as view, open it
-        DLog(@"use popout");
-        BOOL useScreenSize = [standardDefaults boolForKey:UDPopoutHasScreenSizeKey] || ![standardDefaults valueForKey:UDLastPopoutFrameKey];
-        NSRect windowRect;
-        if(useScreenSize)
-        {
-            windowRect.size = [aGameViewController defaultScreenSize];
-            windowRect.origin = NSZeroPoint;
-        }
-        else
-        {
-            windowRect = NSRectFromString([standardDefaults stringForKey:UDLastPopoutFrameKey]);
-        }
-        
-        OEHUDGameWindow *window = [[OEHUDGameWindow alloc] initWithContentRect:windowRect andGameViewController:aGameViewController];
-        
-        if(useScreenSize)
-            [window center];
-        [window makeKeyAndOrderFront:self];
-        
-        [aGameViewController setWindowController:nil];
+        windowRect.size = [[self gameViewController] defaultScreenSize];
+        windowRect.origin = NSZeroPoint;
     }
     else
     {
-        DLog(@"do not use popout");
-        [winController setCurrentContentController:aGameViewController];
+        windowRect = NSRectFromString([standardDefaults stringForKey:UDLastPopoutFrameKey]);
     }
-    [self setGameViewController:aGameViewController];
     
-    return YES;
+    OEGameWindowController *windowController = [[OEGameWindowController alloc] initWithGameViewController:gameViewController contentRect:windowRect];
     
-}
-#pragma mark -
-- (BOOL)loadGame:(OEDBGame*)game withError:(NSError**)outError
-{
-    OEMainWindowController *winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
-    OEGameViewController *aGameViewController = [[OEGameViewController alloc] initWithWindowController:winController andGame:game error:outError];
-    if(!aGameViewController) return NO;
+    [self addWindowController:windowController];
     
-    BOOL res = [self _setupGameViewController:aGameViewController];
-    return res;
+    [windowController showWindow:self];
+    [[windowController window] center];
 }
 
-- (BOOL)loadRom:(OEDBRom*)rom withError:(NSError**)outError
+#pragma mark -
+
+- (BOOL)OE_loadGame:(OEDBGame*)game withError:(NSError **)outError
 {
-    OEMainWindowController *winController = (OEMainWindowController*)[(OEApplicationDelegate*)[NSApp delegate] mainWindowController];
-    OEGameViewController *aGameViewController = [[OEGameViewController alloc] initWithWindowController:winController andRom:rom error:outError];
-    if(!aGameViewController)
+    gameViewController = [[OEGameViewController alloc] initWithGame:game error:outError];
+    if(gameViewController == nil) return NO;
+    
+    [gameViewController setDocument:self];
+    
+    return YES;
+}
+
+- (BOOL)OE_loadRom:(OEDBRom*)rom withError:(NSError **)outError
+{
+    gameViewController = [[OEGameViewController alloc] initWithRom:rom error:outError];
+    if(gameViewController == nil)
     {
         DLog(@"no game view controller");
         return NO;
     }
-    BOOL res = [self _setupGameViewController:aGameViewController];
-    if(!res) DLog(@"_setupGameViewController failed");
-    return res;
+    
+    [gameViewController setDocument:self];
+    
+    return YES;
 }
+
 #pragma mark -
 #pragma mark NSDocument Stuff
+
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
     DLog(@"%@", typeName);
@@ -227,11 +213,12 @@
     }
     
     // TODO: Load rom that was just imported instead of the default one
-    return [self loadRom:[game defaultROM] withError:outError];
+    return [self OE_loadRom:[game defaultROM] withError:outError];
 }
 
 #pragma mark -
 #pragma mark Window management utilities
+
 - (void)windowDidBecomeKey:(NSNotification *)notification
 {
     // if([self backgroundPauses]) [self setPauseEmulation:NO];

@@ -61,25 +61,27 @@
 @end
 
 @implementation OEGameViewController
+@synthesize delegate;
+@synthesize rom, document;
 
-- (id)initWithWindowController:(OEMainWindowController*)aWindowController andRom:(OEDBRom*)rom
+- (id)initWithRom:(OEDBRom *)aRom
 {
-    return [self initWithWindowController:aWindowController andRom:rom error:nil];    return self;
+    return [self initWithRom:aRom error:NULL];
 }
 
-- (id)initWithWindowController:(OEMainWindowController*)aWindowController andRom:(OEDBRom*)rom error:(NSError**)outError
+- (id)initWithRom:(OEDBRom *)aRom error:(NSError **)outError
 {
-    self = [super initWithWindowController:aWindowController];
-    if(self)
+    if((self = [super init]))
     {
-        [self setRom:rom];
+        [self setRom:aRom];
         
         [[self rom] markAsPlayedNow];
         NSString *path = [[self rom] valueForKey:@"path"];
         
-        if(!path){
+        if(path == nil)
+        {
+            // TODO: Implement proper error
             if(outError != NULL)
-                // TODO: Implement proper error
                 *outError = [NSError errorWithDomain:@"OESomeErrorDomain" code:0 userInfo:[NSDictionary dictionary]];
             return nil;
         }
@@ -100,6 +102,7 @@
         
         NSURL *url = [NSURL fileURLWithPath:path];
         NSError *error = nil;
+        
         if(![self OE_loadFromURL:url error:&error])
         {
             if(outError != NULL)
@@ -115,16 +118,14 @@
     return self;
 }
 
-- (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)game
+- (id)initWithGame:(OEDBGame *)game
 {
-    return [self initWithWindowController:aWindowController andGame:game error:nil];
+    return [self initWithGame:game error:NULL];
 }
 
-- (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)game error:(NSError**)outError
+- (id)initWithGame:(OEDBGame *)game error:(NSError **)outError
 {
-    OEDBRom *rom = [OEGameViewController OE_choseRomFromGame:game];
-    [self setRom:rom];
-    return [self initWithWindowController:aWindowController andRom:rom error:outError];
+    return [self initWithRom:[OEGameViewController OE_choseRomFromGame:game] error:outError];
 }
 
 - (void)dealloc
@@ -138,7 +139,6 @@
     [controlsWindow close];
     controlsWindow = nil;
     gameView = nil;
-    
 }
 
 - (NSString *)OE_saveStatePath;
@@ -196,7 +196,7 @@
     [gameView setGameResponder:nil];
     
     [gameController removeSettingObserver:[rootProxy gameCore]];
-    //    [gameWindow makeFirstResponder:nil];
+    //[gameWindow makeFirstResponder:nil];
     
     gameSystemController = nil;
     gameSystemResponder  = nil;
@@ -209,12 +209,8 @@
     
     gameController = nil;
     
-    // if windowcontroller is set
-    if([self windowController])
-        // tell it to show its default controller
-        [[self windowController] setCurrentContentController:nil];
-    else
-        [[[self view] window] close];
+    if([[self delegate] respondsToSelector:@selector(emulationDidFinishForGameViewController:)])
+        [[self delegate] emulationDidFinishForGameViewController:self];
     
     [[self document] close];
 }
@@ -223,10 +219,12 @@
 {
     [self setPauseEmulation:YES];
 }
+
 - (void)playGame
 {
     [self setPauseEmulation:NO];
 }
+
 - (BOOL)isEmulationPaused
 {
     return [rootProxy isEmulationPaused];
@@ -238,19 +236,19 @@
     // TODO: Update HUD Button state
     
 }
+
 - (void)setVolume:(float)volume
 {
     [rootProxy setVolume:volume];
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:volume] forKey:UDVolumeKey];
 }
+
 - (void)toggleFullscreen
 {
-    if([self windowController])
-        [[[self windowController] window] toggleFullScreen:self];
-    else 
-        [[[self view] window] toggleFullScreen:self];
 }
+
 #pragma mark -
+
 - (void)loadSaveState:(OEDBSaveState *)state
 {
     NSString *path = [state valueForKey:@"path"];
@@ -285,6 +283,7 @@
         [moc save:nil];
     }
 }
+
 - (void)saveStateAskingUserForName:(NSString*)proposedName
 {
     [self pauseGame];
@@ -379,9 +378,10 @@
     // TODO: implement if we want this
     return YES;
 }
+
 - (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error
 {
-    if(error!=NULL) *error = nil;
+    if(error != NULL) *error = nil;
     return [[rootProxy gameCore] loadStateFromFileAtPath:fileName];
 }
 
@@ -434,15 +434,18 @@
     return (tag >= MainMenu_Controls_VolumeUp && tag <= MainMenu_Controls_ResumeEmulation);
      */
 }
+
 - (void)menuItemAction:(id)sender
 {
 }
 
 - (void)setupMenuItems
-{}
+{
+}
 
 #pragma mark -
 #pragma mark Info
+
 - (NSSize)defaultScreenSize
 {
     OEGameCore *gameCore = [rootProxy gameCore];
@@ -530,12 +533,12 @@
     [controlsWindow setFrameOrigin:origin];
 }
 
-
 - (NSString *)OE_convertToValidFileName:(NSString *)fileName
 {
     NSCharacterSet *illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
     return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
 }
+
 #pragma mark -
 #pragma mark Notifications
 
@@ -546,6 +549,7 @@
 
 #pragma mark -
 #pragma mark Plugin discovery
+
 - (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError
 {
     OECorePlugin *chosenCore = nil;
@@ -575,8 +579,10 @@
     }
     return chosenCore;
 }
+
 #pragma mark -
 #pragma mark TaskWrapper delegate methods
+
 - (void)appendOutput:(NSString *)output fromProcess:(OETaskWrapper *)aTask
 {
     // printf("%s", [output UTF8String]);
@@ -589,5 +595,5 @@
 - (void)processFinished:(OETaskWrapper *)aTask withStatus:(NSInteger)statusCode
 {
 }
-@synthesize rom, document;
+
 @end

@@ -30,7 +30,6 @@
 #import "OEUIDrawingUtils.h"
 
 #import "IKSGridViewProtocols.h"
-#import "OEMainWindowContentController.h"
 
 @class OELibraryDatabase;
 @class BackgroundColorView;
@@ -39,14 +38,19 @@
 @class OELibrarySplitView;
 @class OEROMImporter;
 @class FullscreenWindow;
+@class OEDBGame, OEDBRom;
+
+@protocol OELibraryControllerDelegate;
 
 @interface OELibraryToolbarView : NSView
 @end
 
-@interface OELibraryController : OEMainWindowContentController
+@interface OELibraryController : NSViewController
 
 - (void)layoutToolbarItems;
-- (id)initWithWindowController:(OEMainWindowController*)windowController andDatabase:(OELibraryDatabase*)database;
+- (id)initWithDatabase:(OELibraryDatabase *)database;
+
+@property(unsafe_unretained) id<OELibraryControllerDelegate> delegate;
 
 #pragma mark -
 #pragma mark Toolbar Actions
@@ -106,4 +110,10 @@
 @property(strong) IBOutlet NSSearchField *toolbarSearchField;
 @property(strong) IBOutlet NSSlider      *toolbarSlider;
 
+@end
+
+@protocol OELibraryControllerDelegate <NSObject>
+@optional
+- (void)libraryController:(OELibraryController *)sender didSelectGame:(OEDBGame *)aGame;
+- (void)libraryController:(OELibraryController *)sender didSelectRom:(OEDBRom *)aGame;
 @end

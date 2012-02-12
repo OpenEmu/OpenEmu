@@ -27,7 +27,6 @@
 
 #import <Foundation/Foundation.h>
 #import <OpenEmuBase/OEPluginController.h>
-#import <OpenEmuSystem/OEControlsViewController.h>
 
 @class OESystemResponder;
 

@@ -37,9 +37,14 @@
 #import "OECompositionPlugin.h"
 #import "OEGameViewController.h"
 
+@interface OEHUDControlsBarWindow ()
+@property(weak) OEHUDControlsBarView *controlsView;
+@end
+
 @implementation OEHUDControlsBarWindow
 @synthesize lastMouseMovement;
 @synthesize gameViewController;
+@synthesize controlsView;
 
 - (id)initWithGameViewController:(OEGameViewController *)controller
 {
@@ -55,8 +60,8 @@
         
         [self setGameViewController:controller];
         
-        OEHUDControlsBarView *controlsView = [[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
-        [[self contentView] addSubview:controlsView];
+        OEHUDControlsBarView *barView =[[OEHUDControlsBarView alloc] initWithFrame:NSMakeRect(0, 0, 431 + (hideOptions ? 0 : 50), 45)];
+        [[self contentView] addSubview:barView];
         [controlsView setupControls];
         
         eventMonitor = [NSEvent addGlobalMonitorForEventsMatchingMask:NSMouseMovedMask handler:
@@ -67,7 +72,9 @@
                         }];
         
         openMenus = 0;
+        controlsView = barView;
     }
+    
     NSLog(@"OEHUDControlsBarWindow init");
     return self;
 }
@@ -79,11 +86,9 @@
     [fadeTimer invalidate];
     fadeTimer = nil;
     
-    
     [self setGameViewController:nil];
     
     [NSEvent removeMonitor:eventMonitor];
-    
 }
 
 #pragma mark -
@@ -162,13 +167,15 @@
 
 - (BOOL)canFadeOut
 {
-    return openMenus==0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
+    return openMenus == 0 && !NSPointInRect([self mouseLocationOutsideOfEventStream], [self bounds]);
 }
 
 #pragma mark -
 
 - (void)muteAction:(id)sender
 {
+    NSLog(@"%@ %@", self, [NSApp keyWindow]);
+    
     id slider = [(OEHUDControlsBarView *)[[[self contentView] subviews] lastObject] slider];
     [slider setFloatValue:0.0];
     [[self gameViewController] setVolume:0.0];
@@ -264,6 +271,7 @@
 
 #pragma mark -
 #pragma mark Save States
+
 - (void)saveAction:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];
@@ -346,10 +354,38 @@
     openMenus--;
 }
 
+- (void)parentWindowDidEnterFullScreen:(NSNotification *)notification;
+{
+}
+
+- (void)parentWindowWillExitFullScreen:(NSNotification *)notification;
+{
+    
+}
+
+- (void)setParentWindow:(NSWindow *)window
+{
+    NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+    
+    if([self parentWindow] != nil)
+    {
+        [nc removeObserver:self name:NSWindowDidEnterFullScreenNotification object:[self parentWindow]];
+        [nc removeObserver:self name:NSWindowWillExitFullScreenNotification object:[self parentWindow]];
+    }
+    
+    [super setParentWindow:window];
+    
+    if(window != nil)
+    {
+        [nc addObserver:self selector:@selector(parentWindowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:window];
+        [nc addObserver:self selector:@selector(parentWindowWillExitFullScreen:) name:NSWindowWillExitFullScreenNotification object:window];
+    }
+}
+
 @end
 
 @implementation OEHUDControlsBarView
-@synthesize slider;
+@synthesize slider, fullScreenButton;
 
 + (void)initialize
 {
@@ -399,6 +435,7 @@
 }
 
 #pragma mark -
+
 - (void)drawRect:(NSRect)dirtyRect
 {
     NSImage *barBackground = [NSImage imageNamed:@"hud_bar"];
@@ -413,8 +450,7 @@
     [stopButton setCell:pcell];
     [stopButton setImage:[NSImage imageNamed:@"hud_power_glyph_normal"]];
     [stopButton setAlternateImage:[NSImage imageNamed:@"hud_power_glyph_pressed"]];
-    [stopButton setTarget:[self window]];
-    [stopButton setAction:@selector(stopAction:)];
+    [stopButton setAction:@selector(terminateEmulation:)];
     [stopButton setFrame:NSMakeRect(10, 13, 51, 23)];
     [stopButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
     [self addSubview:stopButton];
@@ -464,7 +500,7 @@
         [self addSubview:optionsButton];
     }
     
-    NSButton *volumeDownView = [[NSButton alloc] initWithFrame:NSMakeRect(223+(hideOptions?0:50), 17, 13, 14)];
+    NSButton *volumeDownView = [[NSButton alloc] initWithFrame:NSMakeRect(223 + (hideOptions ? 0 : 50), 17, 13, 14)];
     [volumeDownView setBordered:NO];
     [[volumeDownView cell] setHighlightsBy:NSNoCellMask];
     [volumeDownView setImage:[NSImage imageNamed:@"hud_volume_down"]];
@@ -472,7 +508,7 @@
     [volumeDownView setAction:@selector(muteAction:)];    
     [self addSubview:volumeDownView];
     
-    NSButton *volumeUpView = [[NSButton alloc] initWithFrame:NSMakeRect(320+(hideOptions?0:50), 17, 15, 14)];
+    NSButton *volumeUpView = [[NSButton alloc] initWithFrame:NSMakeRect(320 + (hideOptions? 0 : 50), 17, 15, 14)];
     [volumeUpView setBordered:NO];
     [[volumeUpView cell] setHighlightsBy:NSNoCellMask];
     [volumeUpView setImage:[NSImage imageNamed:@"hud_volume_up"]];
@@ -480,7 +516,7 @@
     [volumeUpView setAction:@selector(unmuteAction:)];
     [self addSubview:volumeUpView];
     
-    slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(240+(hideOptions?0:50), 13, 80, 23)];
+    slider = [[OEHUDSlider alloc] initWithFrame:NSMakeRect(240 + (hideOptions ? 0 : 50), 13, 80, 23)];
     
     OEHUDSliderCell *sliderCell = [[OEHUDSliderCell alloc] init];
     [slider setCell:sliderCell];
@@ -494,20 +530,19 @@
     [self addSubview:slider];
     
     
-    NSButton *fsButton = [[NSButton alloc] init];
+    fullScreenButton = [[NSButton alloc] init];
     pcell = [[OEHUDButtonCell alloc] init];
-    [fsButton setCell:pcell];
+    [fullScreenButton setCell:pcell];
     
-    [fsButton setImage:[NSImage imageNamed:@"hud_fullscreen_glyph_normal"]];
-    [fsButton setAlternateImage:[NSImage imageNamed:@"hud_fullscreen_glyph_pressed"]];
+    [fullScreenButton setImage:[NSImage imageNamed:@"hud_fullscreen_glyph_normal"]];
+    [fullScreenButton setAlternateImage:[NSImage imageNamed:@"hud_fullscreen_glyph_pressed"]];
     
-    [fsButton setTarget:[self window]];
-    [fsButton setAction:@selector(fullscreenAction:)];
+    [fullScreenButton setAction:@selector(toggleFullScreen:)];
     
-    [fsButton setFrame:NSMakeRect(370+(hideOptions?0:50), 13, 51, 23)];
-    [fsButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
-    [self addSubview:fsButton];
-    [fsButton setTitle:@""];
+    [fullScreenButton setFrame:NSMakeRect(370 + (hideOptions ? 0 : 50), 13, 51, 23)];
+    [fullScreenButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
+    [self addSubview:fullScreenButton];
+    [fullScreenButton setTitle:@""];
 }
 
 @end

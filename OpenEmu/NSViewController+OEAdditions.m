@@ -15,8 +15,16 @@
 
 @implementation NSViewController (OEAdditions)
 
-extern NSView *(*_old_NSViewController_view)(NSViewController *self, SEL _cmd);
-extern NSView *OE_NSViewController_view(NSViewController *self, SEL _cmd);
+static NSView *(*_old_NSViewController_view)(NSViewController *self, SEL _cmd);
+static NSView *OE_NSViewController_view(NSViewController *self, SEL _cmd);
+
+static void (*_old_NSViewController_setView_)(NSViewController *self, SEL _cmd, NSView *value);
+static void OE_NSViewController_setView_(NSViewController *self, SEL _cmd, NSView *value);
+
+static NSView *_OENSViewControllerView(NSViewController *self)
+{
+    return object_getIvar(self, class_getInstanceVariable([NSView class], "view"));
+}
 
 + (void)load
 {
@@ -24,36 +32,59 @@ extern NSView *OE_NSViewController_view(NSViewController *self, SEL _cmd);
     
     _old_NSViewController_view = (NSView *(*)(NSViewController *, SEL))method_getImplementation(m);
     class_replaceMethod(self, @selector(view), (IMP)OE_NSViewController_view, method_getTypeEncoding(m));
+    
+    m = class_getInstanceMethod(self, @selector(setView:));
+    _old_NSViewController_setView_ = (void(*)(NSViewController *, SEL, NSView *))method_getImplementation(m);
+    class_replaceMethod(self, @selector(setView:), (IMP)OE_NSViewController_setView_, method_getTypeEncoding(m));
 }
 
 - (void)viewWillLoad;
 {
-    
 }
 
 - (void)viewDidLoad;
 {
-    [[self view] OE_setViewDelegate:self];
 }
 
 - (void)viewWillAppear;
 {
-    
 }
 
 - (void)viewDidAppear;
 {
-    
 }
 
 - (void)viewWillDisappear;
 {
-    
 }
 
 - (void)viewDidDisappear;
 {
+}
+
+static NSView *OE_NSViewController_view(NSViewController *self, SEL _cmd)
+{
+    NSView *ret = _OENSViewControllerView(self);
     
+    BOOL willLoad = ret == nil;
+    
+    if(willLoad) [self viewWillLoad];
+    
+    ret = _old_NSViewController_view(self, _cmd);
+    
+    if(willLoad) [self viewDidLoad];
+    
+    return ret;
+}
+
+static void OE_NSViewController_setView_(NSViewController *self, SEL _cmd, NSView *value)
+{
+    if([_OENSViewControllerView(self) OE_viewDelegate] == self)
+        [_OENSViewControllerView(self) OE_setViewDelegate:nil];
+    
+    _old_NSViewController_setView_(self, _cmd, value);
+    
+    [value OE_setViewDelegate:self];
 }
 
 @end

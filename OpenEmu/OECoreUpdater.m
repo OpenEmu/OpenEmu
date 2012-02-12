@@ -33,10 +33,19 @@
 
 #import "OEHUDAlert.h"
 #import "OEHUDButtonCell.h"
-@interface OECoreUpdater (Private)
-- (void)updateCoreList;
+
+@interface OECoreUpdater ()
+{
+    NSMutableDictionary *coresDict;
+    BOOL isCheckingForAlertDownload;
+}
+
+- (void)OE_updateCoreList;
+
 @end
+
 @implementation OECoreUpdater
+@synthesize coreList;
 
 static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
 {
@@ -50,55 +59,64 @@ static NSString *elementChildAsString(NSXMLElement *element, NSString *name)
     return value;
 }
 
-@synthesize coreList, coresDict;
-
-static OECoreUpdater *sharedController = nil;
-
 // TODO: remove when feed holds correct ids
-- (NSString*)lowerCaseID:(NSString*)mixedCaseID
+- (NSString *)lowerCaseID:(NSString*)mixedCaseID
 {
     return [mixedCaseID lowercaseString];
 }
+
 #pragma mark -
+
 + (id)sharedUpdater
 {
-    if(sharedController==nil)
-    {
+    static OECoreUpdater *sharedController = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
         sharedController = [[self alloc] init];
-    }
+    });
+    
     return sharedController;
 }
 
-- (id)init {
-    self = [super init];
-    if (self) {
+- (id)init
+{
+    if((self = [super init]))
+    {
         isCheckingForAlertDownload = NO;
         
-        coreList = [[NSMutableArray alloc] init];
         coresDict = [[NSMutableDictionary alloc] init];
-        [[OECorePlugin allPlugins] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            OECoreDownload *aDownload = [[OECoreDownload alloc] initWithPlugin:obj];
-            NSString *bundleID = [self lowerCaseID:[obj bundleIdentifier]];
-            [coresDict setObject:aDownload forKey:bundleID];
-        }];
-        [self updateCoreList];
+        
+        [[OECorePlugin allPlugins] enumerateObjectsUsingBlock:
+         ^(id obj, NSUInteger idx, BOOL *stop)
+         {
+             OECoreDownload *aDownload = [[OECoreDownload alloc] initWithPlugin:obj];
+             NSString *bundleID = [self lowerCaseID:[obj bundleIdentifier]];
+             [coresDict setObject:aDownload forKey:bundleID];
+         }];
+        
+        [self OE_updateCoreList];
     }
     return self;
 }
 
-- (void)updateCoreList
+- (void)OE_updateCoreList
 {
     [self willChangeValueForKey:@"coreList"];
     
-    coreList = [[[self coresDict] allValues] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2)
-    {
-        return [[obj1 name] compare:[obj2 name]];
-    }];
+    coreList =
+    [[coresDict allValues] sortedArrayUsingComparator:
+     ^ NSComparisonResult (id obj1, id obj2)
+     {
+         return [[obj1 name] compare:[obj2 name]];
+     }];
+    
     [self didChangeValueForKey:@"coreList"];
 }
 
 
-- (void)checkForUpdates{
+- (void)checkForUpdates
+{
     if(![NSThread isMainThread])
     {
         [self performSelectorOnMainThread:@selector(checkForUpdates) withObject:nil waitUntilDone:NO];
@@ -120,7 +138,8 @@ static OECoreUpdater *sharedController = nil;
     }
     
 }
-- (void)checkForNewCores:(NSNumber*)fromModal{
+- (void)checkForNewCores:(NSNumber *)fromModal
+{
     NSURL         *coreListURL = [NSURL URLWithString:[[[NSBundle mainBundle] infoDictionary] valueForKey:@"OECoreListURL"]];
     NSXMLDocument *coreListDoc = [[NSXMLDocument alloc] initWithContentsOfURL:coreListURL options:0 error:NULL];
     NSArray       *coreNodes   = nil;
@@ -132,7 +151,7 @@ static OECoreUpdater *sharedController = nil;
         for(NSXMLElement *coreNode in coreNodes)
         {
             NSString *coreId = [self lowerCaseID:[[coreNode attributeForName:@"id"] stringValue]];
-            if([[self coresDict] valueForKey:coreId] != nil) continue;
+            if([coresDict objectForKey:coreId] != nil) continue;
             
             OECoreDownload *download = [[OECoreDownload alloc] init];
             [download setName:[[coreNode attributeForName:@"name"] stringValue]];
@@ -144,132 +163,136 @@ static OECoreUpdater *sharedController = nil;
             [download.appcast setDelegate:self];
             
             if([fromModal boolValue])
-                [download.appcast performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO modes:[NSArray arrayWithObject:NSModalPanelRunLoopMode]];
+                [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO modes:[NSArray arrayWithObject:NSModalPanelRunLoopMode]];
             else
-                [download.appcast performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO];
+                [[download appcast] performSelectorOnMainThread:@selector(fetchAppcastFromURL:) withObject:appcastURL waitUntilDone:NO];
                 
-            [[self coresDict] setObject:download forKey:coreId];
+            [coresDict setObject:download forKey:coreId];
         }
     }
-    [self updateCoreList];
+    
+    [self OE_updateCoreList];
 }
 #pragma mark -
 #pragma mark Installing with OEHUDAlert
 @synthesize completionHandler, coreIdentifier, alert, coreDownload;
 
-- (void)installCoreWithIdentifier:(NSString*)aCoreIdentifier coreName:(NSString*)coreName systemName:(NSString*)systemName withCompletionHandler:(void (^)())handle
+- (void)installCoreWithIdentifier:(NSString *)aCoreIdentifier coreName:(NSString *)coreName systemName:(NSString *)systemName withCompletionHandler:(void (^)(void))handle
 {
     OEHUDAlert *aAlert = [[OEHUDAlert alloc] init];
-    aAlert.defaultButtonTitle = NSLocalizedString(@"Install", @"");
-    aAlert.alternateButtonTitle = NSLocalizedString(@"Cancel", @"");
+    [aAlert setDefaultButtonTitle:NSLocalizedString(@"Install", @"")];
+    [aAlert setAlternateButtonTitle:NSLocalizedString(@"Cancel", @"")];
     
-    aAlert.title = NSLocalizedString(@"Missing Core", @"");
-    aAlert.messageText = [NSString stringWithFormat:NSLocalizedString(@"Unfortunately, in order to play %@ games you will need to install the '%@' Core", @""), systemName, coreName];
+    [aAlert setTitle:NSLocalizedString(@"Missing Core", @"")];
+    [aAlert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Unfortunately, in order to play %@ games you will need to install the '%@' Core", @""), systemName, coreName]];
     
     [aAlert setDefaultButtonAction:@selector(startInstall) andTarget:self];
     
-    self.coreIdentifier = aCoreIdentifier;
-    self.completionHandler = handle;
+    [self setCoreIdentifier:aCoreIdentifier];
+    [self setCompletionHandler:handle];
     
-    self.alert = aAlert;
+    [self setAlert:aAlert];
     
-    [self.alert runModal];
+    [[self alert] runModal];
     
-    self.coreDownload = nil;
-    self.coreIdentifier = nil;
-    self.completionHandler = nil;
+    [self setCompletionHandler:nil];
+    [self setCoreDownload:nil];
+    [self setCoreIdentifier:nil];
     
-    self.alert = nil;
-    
+    [self setAlert:nil];
 }
 
 - (void)cancelInstall
 {
-    self.completionHandler = nil;
-    self.coreDownload = nil;
-    [self.alert closeWithResult:NSAlertAlternateReturn];
-    self.alert = nil;
-    self.coreIdentifier = nil;
+    [self setCompletionHandler:nil];
+    [self setCoreDownload:nil];
+    [[self alert] closeWithResult:NSAlertAlternateReturn];
+    [self setAlert:nil];
+    [self setCoreIdentifier:nil];
 }
 
 - (void)startInstall
 {
-    [self.alert setProgress:0.0];
-    self.alert.headlineLabelText = NSLocalizedString(@"Downloading and Installing Core...", @"");
-    self.alert.title = NSLocalizedString(@"Installing Core", @"");
-    self.alert.showsProgressbar = YES;
-    self.alert.defaultButtonTitle = nil;
-    self.alert.messageText = nil;
+    [[self alert] setProgress:0.0];
+    [[self alert] setHeadlineLabelText:NSLocalizedString(@"Downloading and Installing Core...", @"")];
+    [[self alert] setTitle:NSLocalizedString(@"Installing Core", @"")];
+    [[self alert] setShowsProgressbar:YES];
+    [[self alert] setDefaultButtonTitle:nil];
+    [[self alert] setMessageText:nil];
     
-    [self.alert setAlternateButtonAction:@selector(cancelInstall) andTarget:self];
-    OECoreDownload *pluginDL = [[self coresDict] valueForKey:self.coreIdentifier];
-    if(!pluginDL)
+    [[self alert] setAlternateButtonAction:@selector(cancelInstall) andTarget:self];
+    
+    OECoreDownload *pluginDL = [coresDict objectForKey:[self coreIdentifier]];
+    
+    if(pluginDL == nil)
     {
         [self checkForNewCores:[NSNumber numberWithBool:YES]];
-        pluginDL = [[self coresDict] valueForKey:self.coreIdentifier];
+        pluginDL = [coresDict objectForKey:[self coreIdentifier]];
     }
     
-    if(!pluginDL)
+    if(pluginDL == nil)
     {
-        self.alert.showsProgressbar = NO;
-        self.alert.headlineLabelText = nil;
-        self.alert.title = NSLocalizedString(@"Error!", @"");
+        [[self alert] setShowsProgressbar:NO];
+        [[self alert] setHeadlineLabelText:nil];
+        [[self alert] setTitle:NSLocalizedString(@"Error!", @"")];
         
-        self.alert.messageText = NSLocalizedString(@"The core could not be downloaded. Try installing it from the Cores preferences.", @"");
-        self.alert.defaultButtonTitle = NSLocalizedString(@"OK", @"");
-        self.alert.alternateButtonTitle = nil;
+        [[self alert] setMessageText:NSLocalizedString(@"The core could not be downloaded. Try installing it from the Cores preferences.", @"")];
+        [[self alert] setDefaultButtonTitle:NSLocalizedString(@"OK", @"")];
+        [[self alert] setAlternateButtonTitle:nil];
         
-        [[self.alert.defaultButton cell] setButtonColor:OEHUDButtonColorRed];
+        [[[[self alert] defaultButton] cell] setButtonColor:OEHUDButtonColorRed];
         
-        [self.alert setDefaultButtonAction:@selector(buttonAction:) andTarget:self.alert];
+        [[self alert] setDefaultButtonAction:@selector(buttonAction:) andTarget:[self alert]];
         return;
     }
     
-    self.coreDownload = pluginDL;
-    if(self.coreDownload.appcastItem)
+    [self setCoreDownload:pluginDL];
+    if([[self coreDownload] appcastItem] != nil)
     {
-        [self.coreDownload startDownload:self];
+        [[self coreDownload] startDownload:self];
     }
 }
 
 - (void)finishInstall
 {
-    [self.alert closeWithResult:NSAlertDefaultReturn];
+    [[self alert] closeWithResult:NSAlertDefaultReturn];
     
-    self.completionHandler();
+    if([self completionHandler] != nil) [self completionHandler]();
     
-    self.alert = nil;
-    self.coreIdentifier = nil;
-    self.completionHandler = nil;
+    [self setAlert:nil];
+    [self setCoreIdentifier:nil];
+    [self setCompletionHandler:nil];
 }
 #pragma mark -
 #pragma mark OEDownload delegate
+
+static void *const _OECoreDownloadProgressContext = (void *)&_OECoreDownloadProgressContext;
+
 - (void)OEDownloadDidStart:(OECoreDownload *)download
 {
-    [download addObserver:self forKeyPath:@"progress" options:0xF context:nil];
+    [download addObserver:self forKeyPath:@"progress" options:0xF context:_OECoreDownloadProgressContext];
 }
+
 - (void)OEDownloadDidFinish:(OECoreDownload *)download
 {
-    [download removeObserver:self forKeyPath:@"progress"];
-    if(download == self.coreDownload)
-    {
-        [self finishInstall];
-    }
+    [download removeObserver:self forKeyPath:@"progress" context:_OECoreDownloadProgressContext];
+    if(download == [self coreDownload]) [self finishInstall];
 }
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{    
-    if(object == self.coreDownload)
-    {
-        self.alert.progress = self.coreDownload.progress;    
-    }
-    else 
-    {
-        [self updateCoreList];
-    }
+{
+    if(context != _OECoreDownloadProgressContext)
+        return [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    
+    if(object == [self coreDownload])
+        [[self alert] setProgress:[[self coreDownload] progress]];
+    else
+        [self OE_updateCoreList];
 }
 
 #pragma mark -
 #pragma mark SUUpdater Delegate
+
 - (void)updater:(SUUpdater *)updater didFindValidUpdate:(SUAppcastItem *)update
 {
     for(OECorePlugin *plugin in [OECorePlugin allPlugins])
@@ -285,14 +308,17 @@ static OECoreUpdater *sharedController = nil;
             break;
         }
     }
-    [self updateCoreList];
+    
+    [self OE_updateCoreList];
 }
+
 #pragma mark -
 #pragma mark Appcast delegate
+
 - (void)appcastDidFinishLoading:(SUAppcast *)appcast
 {
-    [[[self coresDict] allValues] enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
+    [coresDict enumerateKeysAndObjectsUsingBlock:
+     ^(id key, id obj, BOOL *stop)
      {
          if([obj appcast] == appcast)
          {
@@ -303,20 +329,19 @@ static OECoreUpdater *sharedController = nil;
              [obj setDelegate:self];
              *stop = YES;
              
-             if(obj == self.coreDownload)
-             {
-                 [self.coreDownload startDownload:self];
-             }
+             if(obj == [self coreDownload])
+                 [[self coreDownload] startDownload:self];
          }
      }];
-    [self updateCoreList];
+    
+    [self OE_updateCoreList];
 }
 
 - (void)appcast:(SUAppcast *)appcast failedToLoadWithError:(NSError *)error
 {
     // Appcast couldn't load, remove it
-    [[[self coresDict] allValues] enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
+    [coresDict enumerateKeysAndObjectsUsingBlock:
+     ^(id key, id obj, BOOL *stop)
      {
          if([obj appcast] == appcast)
          {
@@ -324,6 +349,7 @@ static OECoreUpdater *sharedController = nil;
              *stop = YES;
          }
      }];
-    [self updateCoreList];
+    
+    [self OE_updateCoreList];
 }
 @end

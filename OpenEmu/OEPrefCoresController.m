@@ -15,79 +15,82 @@
 
 #import "OECoreUpdater.h"
 #import "OECoreDownload.h"
-@interface OEPrefCoresController (Private)
-- (void)updateOrInstallItemAtRow:(NSInteger)rowIndex;
-- (OECoreDownload*)coreDownloadAtRow:(NSInteger)row;
+
+@interface OEPrefCoresController ()
+- (void)OE_updateOrInstallItemAtRow:(NSInteger)rowIndex;
+- (OECoreDownload *)OE_coreDownloadAtRow:(NSInteger)row;
 @end
+
+static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListContext;
+
 @implementation OEPrefCoresController
 @synthesize coresTableView;
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-    }
-    
-    return self;
-}
 
 - (void)dealloc
 {
-    [[OECoreUpdater sharedUpdater] removeObserver:self forKeyPath:@"coreList"];
-    
+    [[OECoreUpdater sharedUpdater] removeObserver:self forKeyPath:@"coreList" context:_OEPrefCoresCoreListContext];
 }
+
 #pragma mark -
 #pragma mark ViewController Overrides
+
 - (void)awakeFromNib
 {        
-    [[OECoreUpdater sharedUpdater] addObserver:self forKeyPath:@"coreList" options:NSKeyValueChangeInsertion|NSKeyValueChangeRemoval|NSKeyValueChangeReplacement context:nil];
+    [[OECoreUpdater sharedUpdater] addObserver:self forKeyPath:@"coreList" options:NSKeyValueChangeInsertion | NSKeyValueChangeRemoval | NSKeyValueChangeReplacement context:_OEPrefCoresCoreListContext];
     
-    [[[self coresTableView] tableColumns] enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        OECenteredTextFieldCell *cell = [obj dataCell];
-        [cell setWidthInset:8.0];
-    }];
+    [[[self coresTableView] tableColumns] enumerateObjectsUsingBlock:
+     ^(id obj, NSUInteger idx, BOOL *stop)
+     {
+         OECenteredTextFieldCell *cell = [obj dataCell];
+         [cell setWidthInset:8.0];
+     }];
     
     [[self coresTableView] setDelegate:self];
     [[self coresTableView] setDataSource:self];
-    [(OETableView*)[self coresTableView] setHeaderClickable:NO];
+    [(OETableView *)[self coresTableView] setHeaderClickable:NO];
     
     [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForNewCores:) withObject:[NSNumber numberWithBool:NO]];
     [[OECoreUpdater sharedUpdater] performSelectorInBackground:@selector(checkForUpdates) withObject:nil];
 }
 
-- (NSString*)nibName
+- (NSString *)nibName
 {
     return @"OEPrefCoresController";
 }
 
 #pragma mark -
 #pragma mark Private Methods
+
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if([keyPath isEqualToString:@"coreList"])
-    {
+    if(context == _OEPrefCoresCoreListContext)
         [[self coresTableView] reloadData];
-    }
+    else
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
-- (void)updateOrInstallItemAtRow:(NSInteger)rowIndex
+- (void)OE_updateOrInstallItemAtRow:(NSInteger)rowIndex
 {
-    OECoreDownload *plugin = [self coreDownloadAtRow:rowIndex];
+    OECoreDownload *plugin = [self OE_coreDownloadAtRow:rowIndex];
     [plugin startDownload:self];
 }
 
-- (OECoreDownload*)coreDownloadAtRow:(NSInteger)row
+- (OECoreDownload*)OE_coreDownloadAtRow:(NSInteger)row
 {
     return [[[OECoreUpdater sharedUpdater] coreList] objectAtIndex:row];
 }
+
 #pragma mark - 
 #pragma mark NSTableViewDatasource Implementaion
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView
 {
     return [[[OECoreUpdater sharedUpdater] coreList] count];
 }
+
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    OECoreDownload *plugin = [self coreDownloadAtRow:row];
+    OECoreDownload *plugin = [self OE_coreDownloadAtRow:row];
     
     NSString *columnIdentifier = [tableColumn identifier];
     if([columnIdentifier isEqualToString:@"coreColumn"])
@@ -109,8 +112,10 @@
     }
     return plugin;
 }
+
 #pragma mark -
 #pragma mark NSTableViewDelegate Implementation
+
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     if([aCell isKindOfClass:[NSTextFieldCell class]])
@@ -122,11 +127,11 @@
         if([[aTableColumn identifier] isEqualToString:@"coreColumn"])
         {
             weight = 15.0;
-            color = [[self coreDownloadAtRow:rowIndex] canBeInstalled]?[NSColor colorWithDeviceWhite:0.44 alpha:1.0]:[NSColor colorWithDeviceWhite:0.89 alpha:1.0];
+            color = [NSColor colorWithDeviceWhite:[[self OE_coreDownloadAtRow:rowIndex] canBeInstalled] ? 0.44 : 0.89 alpha:1.0];
         }
         else
         {
-            color = [[self coreDownloadAtRow:rowIndex] canBeInstalled]?[NSColor colorWithDeviceWhite:0.44 alpha:1.0]:[NSColor colorWithDeviceWhite:0.86 alpha:1.0];
+            color = [NSColor colorWithDeviceWhite:[[self OE_coreDownloadAtRow:rowIndex] canBeInstalled] ? 0.44 : 0.86 alpha:1.0];
         }
         
         attr = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -136,9 +141,9 @@
     }
 }
 
-- (NSCell*)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
+- (NSCell *)tableView:(NSTableView *)tableView dataCellForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row
 {
-    if(!tableColumn) return nil;
+    if(tableColumn == nil) return nil;
     
     if([[tableColumn identifier] isNotEqualTo:@"versionColumn"])
         return [tableColumn dataCellForRow:row];
@@ -160,7 +165,7 @@
         title = NSLocalizedString(@"Update", @"Update Core");
     }
     
-    if(![plugin appcastItem] || !title) return [tableColumn dataCellForRow:row];
+    if([plugin appcastItem] != nil || title != nil) return [tableColumn dataCellForRow:row];
     
     OECoreTableButtonCell *buttonCell = [[OECoreTableButtonCell alloc] initTextCell:title];
     return buttonCell;
@@ -180,20 +185,22 @@
 {
     return [[self tableView:tableView dataCellForTableColumn:tableColumn row:row] isKindOfClass:[NSButtonCell class]];
 }
+
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     NSString *columnIdentifier = [aTableColumn identifier];
     if([columnIdentifier isEqualToString:@"versionColumn"])
-        [self updateOrInstallItemAtRow:rowIndex];
+        [self OE_updateOrInstallItemAtRow:rowIndex];
 }
 
 #pragma mark OEPreferencePane Protocol
-- (NSImage*)icon
+
+- (NSImage *)icon
 {
     return [NSImage imageNamed:@"cores_tab_icon"];
 }
 
-- (NSString*)title
+- (NSString *)title
 {
     return @"Cores";
 }

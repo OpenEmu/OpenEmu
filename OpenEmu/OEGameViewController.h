@@ -24,7 +24,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "OEMainWindowContentController.h"
+#import <Cocoa/Cocoa.h>
+
 @class OEDBRom;
 @class OEDBGame;
 
@@ -39,7 +40,9 @@
 @class OEGameDocument;
 @class OEDBSaveState;
 
-@interface OEGameViewController : OEMainWindowContentController
+@protocol OEGameViewControllerDelegate;
+
+@interface OEGameViewController : NSViewController
 {
     OEHUDControlsBarWindow *controlsWindow;
     // IPC from our OEHelper
@@ -59,10 +62,15 @@
     
     BOOL emulationRunning;
 }
-- (id)initWithWindowController:(OEMainWindowController*)aWindowController andRom:(OEDBRom*)rom;
-- (id)initWithWindowController:(OEMainWindowController*)aWindowController andRom:(OEDBRom*)rom error:(NSError**)outError;
-- (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)gam;
-- (id)initWithWindowController:(OEMainWindowController*)aWindowController andGame:(OEDBGame*)gam error:(NSError**)outError;
+- (id)initWithRom:(OEDBRom *)aRom;
+- (id)initWithRom:(OEDBRom *)aRom error:(NSError **)outError;
+- (id)initWithGame:(OEDBGame *)aGame;
+- (id)initWithGame:(OEDBGame *)aGame error:(NSError **)outError;
+
+@property(weak)   id<OEGameViewControllerDelegate> delegate;
+
+@property(strong) OEDBRom        *rom;
+@property(weak)   OEGameDocument *document;
 
 #pragma mark - Menu Items
 - (IBAction)volumeUp:(id)sender;
@@ -106,7 +114,12 @@
 - (void)menuItemAction:(id)sender;
 - (void)setupMenuItems;
 
-#pragma mark -
-@property (strong) OEDBRom *rom;
-@property (weak) OEGameDocument *document;
+@end
+
+@protocol OEGameViewControllerDelegate <NSObject>
+@optional
+
+- (void)emulationDidFinishForGameViewController:(OEGameViewController *)sender;
+- (BOOL)gameViewControllerShouldToggleFullScreenMode:(OEGameViewController *)sender;
+
 @end

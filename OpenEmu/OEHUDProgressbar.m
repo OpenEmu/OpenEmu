@@ -26,33 +26,52 @@
 
 #import "OEHUDProgressbar.h"
 #import "NSImage+OEDrawingAdditions.h"
+
 @implementation OEHUDProgressbar
+@synthesize minValue, value, maxValue;
 
-
-- (id)init {
-    self = [super init];
-    if (self) {
-        self.minValue = 0.0;
-        self.value = 0.5;
-        self.maxValue = 1.0;
-        
-        [self addObserver:self forKeyPath:@"minValue" options:0 context:nil];
-        [self addObserver:self forKeyPath:@"value" options:0 context:nil];
-        [self addObserver:self forKeyPath:@"maxValue" options:0 context:nil];
+- (id)init
+{
+    if((self = [super init]))
+    {
+        [self setMinValue:0.0];
+        [self setMaxValue:1.0];
+        [self setValue:0.5];
     }
     return self;
 }
 
-- (void)dealloc {
-    [self removeObserver:self forKeyPath:@"minValue"];
-    [self removeObserver:self forKeyPath:@"value"];
-    [self removeObserver:self forKeyPath:@"maxValue"];
+- (void)setValue:(CGFloat)aValue
+{
+    aValue = MAX(minValue, MIN(maxValue, aValue));
     
+    if(value != aValue)
+    {
+        value = aValue;
+        [self setNeedsDisplay:YES];
+    }
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+- (void)setMinValue:(CGFloat)aValue
 {
-    [self setNeedsDisplay:YES];
+    if(minValue != aValue)
+    {
+        minValue = aValue;
+        
+        [self setValue:MAX(minValue, aValue)];
+        [self setNeedsDisplay:YES];
+    }
+}
+
+- (void)setMaxValue:(CGFloat)aValue
+{
+    if(maxValue != aValue)
+    {
+        maxValue = aValue;
+        
+        [self setValue:MAX(maxValue, aValue)];
+        [self setNeedsDisplay:YES];
+    }
 }
 
 - (BOOL)isOpaque
@@ -62,30 +81,16 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    NSImage* trackImage = [NSImage imageNamed:@"hud_progress_bar_track"];
+    NSImage *trackImage = [NSImage imageNamed:@"hud_progress_bar_track"];
     [trackImage drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:7 rightBorder:7 topBorder:2 bottomBorder:2];
     
-    if(self.value == 0.0) return;
+    if([self value] == 0.0) return;
     
-    NSImage* barImage = [NSImage imageNamed:@"hud_progress_bar"];
-    NSRect barRect = (NSRect){{0,0},{(roundf([self bounds].size.width)*(self.value-self.minValue)/(self.maxValue-self.minValue)),[self bounds].size.height}};
-    [barImage drawInRect:barRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:7 rightBorder:7 topBorder:1 bottomBorder:1];
+    NSRect bounds = [self bounds];
+    bounds.size.width = round(NSWidth(bounds) * ([self value] - [self minValue]) / ([self maxValue] - [self minValue]));
+    
+    NSImage *barImage = [NSImage imageNamed:@"hud_progress_bar"];
+    [barImage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:7 rightBorder:7 topBorder:1 bottomBorder:1];
 }
 
-- (void)mouseDown:(NSEvent *)theEvent
-{
-    if(self.value>=self.maxValue)
-    {
-        self.value = self.maxValue;
-        return;
-    }
-    self.value = self.maxValue;
-    
-    if(self.value>self.maxValue)
-    {
-        self.value = self.minValue;
-        return;
-    }
-}
-@synthesize minValue,value,maxValue;
 @end

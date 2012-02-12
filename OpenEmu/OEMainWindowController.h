@@ -26,8 +26,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class OEMainWindowContentController;
-
+@class OEGameDocument;
 @class OELibraryController;
 
 @interface OEMainWindowController : NSWindowController <NSWindowDelegate>
@@ -36,29 +35,22 @@
 
 @property(strong) IBOutlet OELibraryController *libraryController;
 
-@property(nonatomic, strong) OEMainWindowContentController *currentContentController;
-@property(nonatomic, strong) OEMainWindowContentController *defaultContentController;
-@property                    BOOL                           allowWindowResizing;
+@property(nonatomic, strong) NSViewController  *currentContentController;
+@property(nonatomic, strong) NSViewController  *defaultContentController;
+@property                    BOOL               allowWindowResizing;
+
+@property(copy) NSArray *deviceHandlers;
+@property(copy) NSArray *coreList;
+
+- (void)openGameDocument:(OEGameDocument *)aDocument;
+
+- (IBAction)terminateEmulation:(id)sender;
 
 #pragma mark -
 #pragma mark Menu Items
 
 - (void)setupMenuItems;
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
-- (void)menuItemAction:(id)sender;
 
 @property(weak) IBOutlet NSView *placeholderView;
-
-#pragma mark -
-#pragma mark Toolbar Elements
-
-@property(weak) IBOutlet NSButton      *toolbarSidebarButton;
-@property(weak) IBOutlet NSButton      *toolbarGridViewButton;
-@property(weak) IBOutlet NSButton      *toolbarFlowViewButton;
-@property(weak) IBOutlet NSButton      *toolbarListViewButton;
-
-@property(weak) IBOutlet NSButton      *toolbarAddToSidebarButton;
-@property(weak) IBOutlet NSSearchField *toolbarSearchField;
-@property(weak) IBOutlet NSSlider      *toolbarSlider;
 
 @end

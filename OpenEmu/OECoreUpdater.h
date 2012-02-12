@@ -27,23 +27,21 @@
 #import <Foundation/Foundation.h>
 #import "OECoreDownload.h"
 
-typedef void (^Block)();
 @class OEHUDAlert;
+
 @interface OECoreUpdater : NSObject <OECoreDownloadDelegate>
-{
-    BOOL isCheckingForAlertDownload;
-}
+
 + (id)sharedUpdater;
 
 - (void)checkForUpdates;
-- (void)checkForNewCores:(NSNumber*)fromModal;
+- (void)checkForNewCores:(NSNumber *)fromModal;
 
-- (void)installCoreWithIdentifier:(NSString*)coreIdentifier coreName:(NSString*)coreName systemName:(NSString*)systemName withCompletionHandler:(Block)handle;
-@property (strong, readonly) NSMutableDictionary *coresDict;
-@property (strong, readonly) NSArray *coreList;
+- (void)installCoreWithIdentifier:(NSString *)coreIdentifier coreName:(NSString *)coreName systemName:(NSString *)systemName withCompletionHandler:(void(^)(void))handle;
 
-@property (copy)    Block completionHandler;
-@property (strong)  NSString *coreIdentifier;
-@property (strong)  OEHUDAlert *alert;
-@property (strong)  OECoreDownload *coreDownload;
+@property(strong, readonly) NSArray *coreList;
+
+@property(copy)    void(^completionHandler)(void);
+@property(strong)  NSString *coreIdentifier;
+@property(strong)  OEHUDAlert *alert;
+@property(strong)  OECoreDownload *coreDownload;
 @end

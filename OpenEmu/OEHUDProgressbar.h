@@ -27,5 +27,5 @@
 #import <Cocoa/Cocoa.h>
 
 @interface OEHUDProgressbar : NSView
-@property float minValue, value, maxValue;
+@property(nonatomic) CGFloat minValue, value, maxValue;
 @end

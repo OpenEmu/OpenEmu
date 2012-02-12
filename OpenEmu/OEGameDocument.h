@@ -29,8 +29,14 @@
 @class OEGameViewController;
 @class OEDBRom;
 @class OEDBGame;
+
 @interface OEGameDocument : NSDocument
-- (id)initWithRom:(OEDBRom*)rom;
-- (id)initWithGame:(OEDBGame*)game;
-@property (strong) OEGameViewController *gameViewController;
+
+- (id)initWithRom:(OEDBRom *)rom error:(NSError **)error;
+- (id)initWithGame:(OEDBGame *)game error:(NSError **)error;
+
+@property(readonly, strong) OEGameViewController *gameViewController;
+
+- (void)showInSeparateWindow:(id)sender;
+
 @end

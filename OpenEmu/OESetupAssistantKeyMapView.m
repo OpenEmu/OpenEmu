@@ -26,18 +26,24 @@
 
 #import "OESetupAssistantKeyMapView.h"
 #import "NSImage+OEDrawingAdditions.h"
+
 @interface OESetupAssistantKeyMapView (Private)
-- (NSImage*)imageForKey:(OESetupAssistantKey)key;
-- (void)setup;
-- (void)_updateKeyView;
+
+- (NSImage *)OE_imageForKey:(OESetupAssistantKey)key;
+- (void)OE_commonSetupAssistantKeyMapViewInit;
+- (void)OE_updateKeyView;
+
 @end
+
+static void *const _OESetupAssistantKeyMapViewContext = (void *)&_OESetupAssistantKeyMapViewContext;
+
 @implementation OESetupAssistantKeyMapView
 @synthesize key;
+
 + (void)initialize
 {
     // Make sure not to reinitialize for subclassed objects
-    if (self != [OESetupAssistantKeyMapView class])
-        return;
+    if(self != [OESetupAssistantKeyMapView class]) return;
 
     NSSize itemSize = NSMakeSize(100, 101);
     NSImage *spritesheet = [NSImage imageNamed:@"installer_gamepad_graphics"];
@@ -49,69 +55,66 @@
     [spritesheet setName:@"installer_gamepad_success"  forSubimageInRect:(NSRect){{2*itemSize.width, 0*itemSize.height},itemSize}];
     [spritesheet setName:@"installer_gamepad_questionMark" forSubimageInRect:(NSRect){{1*itemSize.width, 0*itemSize.height},itemSize}];
 }
+
 #pragma mark -
-- (id)init
-{
-    self = [super init];
-    if (self) 
-    {
-        [self setup];
-    }
-    return self;
-}
+
 - (id)initWithCoder:(NSCoder *)coder
 {
-    self = [super initWithCoder:coder];
-    if (self) 
+    if((self = [super initWithCoder:coder]))
     {
-        [self setup];
+        [self OE_commonSetupAssistantKeyMapViewInit];
     }
     return self;
 }
+
 - (id)initWithFrame:(NSRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self) 
+    if((self = [super initWithFrame:frame]))
     {
-        [self setup];
+        [self OE_commonSetupAssistantKeyMapViewInit];
     }
     
     return self;
 }
 
-- (void)dealloc {
-    [self removeObserver:self forKeyPath:@"key"];
-}
-#pragma mark -
-- (void)setup
+- (void)dealloc
 {
-    [self addObserver:self forKeyPath:@"key" options:0 context:nil];
+    [self removeObserver:self forKeyPath:@"key" context:_OESetupAssistantKeyMapViewContext];
+}
+
+#pragma mark -
+
+- (void)OE_commonSetupAssistantKeyMapViewInit
+{
+    [self addObserver:self forKeyPath:@"key" options:0 context:_OESetupAssistantKeyMapViewContext];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if([keyPath isEqualToString:@"key"])
-    {
-        [self _updateKeyView];
-    }
+    if(context == _OESetupAssistantKeyMapViewContext)
+        [self OE_updateKeyView];
+    else
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
 
-- (void)_updateKeyView
+- (void)OE_updateKeyView
 {
-    NSImageView *imageView = [[NSImageView alloc] initWithFrame:(NSRect){{0,0},{100,101}}];
-    NSImage *image = [self imageForKey:[self key]];
+    NSImageView *imageView = [[NSImageView alloc] initWithFrame:(NSRect){ .size = { 100, 101 } }];
+    NSImage *image = [self OE_imageForKey:[self key]];
     [imageView setImage:image];
     
-    for(NSView* subview in self.subviews)
-        [subview removeFromSuperview];
+    [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     
     [self addSubview:imageView];
 }
+
 #pragma mark -
+
 - (BOOL)acceptsFirstResponder
 {
     return YES;
 }
+
 - (BOOL)canBecomeKeyView
 {
     return YES;
@@ -122,9 +125,10 @@
     [self setNeedsDisplay:YES];
 }
 
-- (NSImage*)imageForKey:(OESetupAssistantKey)aKey
+- (NSImage *)OE_imageForKey:(OESetupAssistantKey)aKey
 {
-    switch (aKey) {
+    switch(aKey)
+    {
         case OESetupAssistantKeyUp:
             return [NSImage imageNamed:@"installer_gamepad_up"];
             break;

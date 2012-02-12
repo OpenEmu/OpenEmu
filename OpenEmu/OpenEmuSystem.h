@@ -33,11 +33,9 @@
 
 #import <OpenEmuSystem/OEMap.h>
 #import <OpenEmuSystem/OESystemController.h>
-#import <OpenEmuSystem/OEControlsSetupView.h>
 #import <OpenEmuSystem/OESystemResponder.h>
 #import <OpenEmuSystem/OEBasicSystemResponder.h>
 #import <OpenEmuSystem/OESystemResponderClient.h>
-#import <OpenEmuSystem/OEControlsViewController.h>
 #import <OpenEmuSystem/OEHIDEvent.h>
 #import <OpenEmuSystem/OEHIDManager.h>
 #import <OpenEmuSystem/OEHIDDeviceHandler.h>

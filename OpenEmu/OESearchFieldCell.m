@@ -8,8 +8,10 @@
 
 #import "OESearchFieldCell.h"
 #import "NSImage+OEDrawingAdditions.h"
+
 @implementation OESearchFieldCell
 @synthesize isInBackground;
+
 - (id)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];
