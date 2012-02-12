@@ -239,7 +239,7 @@ static void OE_linkProgram(GLhandleARB programObject,
     if((self = [super init]))
     {
         bundleToLoadFrom = bundle;
-        shaderContext = context;
+        shaderContext = CGLRetainContext(context);
 
         BOOL  loadedShaders = NO;
         
@@ -274,7 +274,6 @@ static void OE_linkProgram(GLhandleARB programObject,
 - (void)dealloc
 {
     // Delete OpenGL resources
-    // FIXME: Where is the deallocation ?!
     CGLContextObj cgl_ctx = shaderContext;
     
     if(programObject)
@@ -284,6 +283,7 @@ static void OE_linkProgram(GLhandleARB programObject,
         programObject = NULL;
     } // if
     
+    CGLReleaseContext(shaderContext);
     
     //Dealloc the superclass
 } // dealloc

@@ -33,12 +33,10 @@
 @synthesize renderer;
 
 - (CGLPixelFormatObj)copyCGLPixelFormatForDisplayMask:(uint32_t)mask
-{
-    NSLog(@"copyCGLPixelFormatForDisplayMask");
-    
+{    
 	CGLPixelFormatObj pixelFormatObj = NULL;
     GLint numPixelFormats = 0;
-
+    
 	CGLPixelFormatAttribute attributes[] =
     {
         kCGLPFADisplayMask, mask,
@@ -46,6 +44,7 @@
 		kCGLPFAColorSize, 24,
 		kCGLPFAAlphaSize, 8,
 		kCGLPFADepthSize, 16,
+        kCGLPFAAcceleratedCompute,
 		kCGLPFANoRecovery,
         kCGLPFAMultisample,
         //kCGLPFASupersample,
@@ -56,10 +55,46 @@
     };
     
     CGLError err = CGLChoosePixelFormat(attributes, &pixelFormatObj,  &numPixelFormats);
-        
-    if(pixelFormatObj == NULL)
-        NSLog(@"Could not create pixel format, %i", err);
     
+    if(pixelFormatObj == NULL)
+    {
+        NSLog(@"Could not create pixel format, %i, falling back", err);
+        
+        CGLPixelFormatAttribute attributes[] =
+        {
+            kCGLPFADisplayMask, mask,
+            kCGLPFAAccelerated,
+            kCGLPFAColorSize, 24,
+            kCGLPFAAlphaSize, 8,
+            kCGLPFADepthSize, 16,
+            kCGLPFAAcceleratedCompute,
+            kCGLPFANoRecovery,
+            0
+        };
+        
+        CGLError err = CGLChoosePixelFormat(attributes, &pixelFormatObj,  &numPixelFormats);
+        if(pixelFormatObj == NULL)
+        {
+            NSLog(@"failure to make pixel format with OpenCL:, %i", err);
+            
+            CGLPixelFormatAttribute attributes[] =
+            {
+                kCGLPFADisplayMask, mask,
+                kCGLPFAAccelerated,
+                kCGLPFAColorSize, 24,
+                kCGLPFAAlphaSize, 8,
+                kCGLPFADepthSize, 16,
+                kCGLPFANoRecovery,
+                0
+            };
+            
+            CGLError err = CGLChoosePixelFormat(attributes, &pixelFormatObj,  &numPixelFormats);
+            if(pixelFormatObj == NULL)
+            {
+                NSLog(@"failure to make pixel format:, %i", err);
+            }            
+        }
+    }
     return pixelFormatObj;
 }
 
