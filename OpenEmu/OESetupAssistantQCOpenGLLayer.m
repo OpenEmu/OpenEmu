@@ -44,6 +44,7 @@
 		kCGLPFAColorSize, 24,
 		kCGLPFAAlphaSize, 8,
 		kCGLPFADepthSize, 16,
+        kCGLPFAAcceleratedCompute,
 		kCGLPFANoRecovery,
         kCGLPFAMultisample,
         //kCGLPFASupersample,
@@ -66,6 +67,7 @@
             kCGLPFAColorSize, 24,
             kCGLPFAAlphaSize, 8,
             kCGLPFADepthSize, 16,
+            kCGLPFAAcceleratedCompute,
             kCGLPFANoRecovery,
             0
         };
@@ -73,7 +75,24 @@
         CGLError err = CGLChoosePixelFormat(attributes, &pixelFormatObj,  &numPixelFormats);
         if(pixelFormatObj == NULL)
         {
-            NSLog(@"failure to make pixel format:, %i", err);
+            NSLog(@"failure to make pixel format with OpenCL:, %i", err);
+            
+            CGLPixelFormatAttribute attributes[] =
+            {
+                kCGLPFADisplayMask, mask,
+                kCGLPFAAccelerated,
+                kCGLPFAColorSize, 24,
+                kCGLPFAAlphaSize, 8,
+                kCGLPFADepthSize, 16,
+                kCGLPFANoRecovery,
+                0
+            };
+            
+            CGLError err = CGLChoosePixelFormat(attributes, &pixelFormatObj,  &numPixelFormats);
+            if(pixelFormatObj == NULL)
+            {
+                NSLog(@"failure to make pixel format:, %i", err);
+            }            
         }
     }
     return pixelFormatObj;
