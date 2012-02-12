@@ -272,8 +272,8 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     int pixelBPP        = (pixelFormat == GL_RGB8) ? 4 : 2;
     glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, bufferWidth * bufferHeight * pixelBPP, videoBuffer);
 #endif
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
-    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+//    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
+//    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
     
     // proper tex params.
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -296,8 +296,8 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         gameTexture = 0;
     }
     
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
-    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
+//    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
+//    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
         
     DLog(@"Finished Setting up gameTexture");
 }
@@ -312,7 +312,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, gameTexture);
         
-    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+//    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, bufferSize.width, bufferSize.height, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
     
