@@ -1,0 +1,109 @@
+DEBUG = 0
+
+ifeq ($(platform),)
+platform = unix
+ifeq ($(shell uname -a),)
+   platform = win
+else ifneq ($(findstring MINGW,$(shell uname -a)),)
+   platform = win
+else ifneq ($(findstring Darwin,$(shell uname -a)),)
+   platform = osx
+else ifneq ($(findstring win,$(shell uname -a)),)
+   platform = win
+endif
+endif
+
+ifeq ($(platform), unix)
+   TARGET := libsnes.so
+   fpic := -fPIC
+   SHARED := -shared -Wl,--version-script=libsnes-fceumm/link.T
+   ENDIANNESS_DEFINES = -DLSB_FIRST -DLOCAL_LE=1
+else ifeq ($(platform), osx)
+   TARGET := libsnes.dylib
+   fpic := -fPIC
+   SHARED := -dynamiclib
+   ENDIANNESS_DEFINES = -DLSB_FIRST -DLOCAL_LE=1
+   CFLAGS += -DHAVE_ASPRINTF
+else ifeq ($(platform), ps3)
+   TARGET := libsnes.a
+   CC = ppu-lv2-gcc
+   AR = ppu-lv2-ar
+   PLATFORM_DEFINES := -D__CELLOS_LV2
+else ifeq ($(platform), snc-ps3)
+   TARGET := libsnes.a
+   CC = ps3ppusnc
+   AR = ps3snarl
+   PLATFORM_DEFINES := -D__CELLOS_LV2
+else ifeq ($(platform), xenon)
+   TARGET := libsnes.a
+   CC = xenon-gcc
+   AR = xenon-ar
+   PLATFORM_DEFINES := -D__LIBXENON__
+   CFLAGS += -DHAVE_ASPRINTF
+else ifeq ($(platform), wii)
+   TARGET := libsnes.a
+   CC = powerpc-eabi-gcc
+   AR = powerpc-eabi-ar
+   PLATFORM_DEFINES := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float
+   CFLAGS += -DHAVE_ASPRINTF
+else
+   TARGET := snes.dll
+   CC = gcc
+   SHARED := -shared -static-libgcc -static-libstdc++ -s -Wl,--version-script=libsnes-fceumm/link.T
+   ENDIANNESS_DEFINES = -DLSB_FIRST -DLOCAL_LE=1
+endif
+
+ifeq ($(DEBUG), 1)
+	CFLAGS += -O0 -g
+else
+	CFLAGS += -O3 -DNDEBUG
+endif
+
+LIBSNES_DIR := ./libsnes-fceumm
+FCEU_DIR := ./src-fceumm
+UTILS_DIR := ./utils
+
+FCEU_SRC_DIRS := $(LIBSNES_DIR) $(FCEU_DIR) $(FCEU_DIR)/boards $(FCEU_DIR)/input $(FCEU_DIR)/mappers $(FCEU_DIR)/utils $(UTILS_DIR)/zlib
+
+FCEU_CSRCS := $(foreach dir,$(FCEU_SRC_DIRS),$(wildcard $(dir)/*.c))
+FCEU_COBJ := $(FCEU_CSRCS:.c=.o)
+
+OBJS := $(FCEU_COBJ)
+
+FCEU_DEFINES := -D__LIBSNES__ -DSOUND_QUALITY=0 -DPATH_MAX=1024 -DINLINE=inline -DPSS_STYLE=1 $(PLATFORM_DEFINES)
+
+ifeq ($(platform), snc-ps3)
+CODE_DEFINES =
+WARNING_DEFINES =
+else
+CODE_DEFINES = -std=gnu99
+WARNING_DEFINES = -Wno-write-strings
+endif
+
+CFLAGS += $(CODE_DEFINES) $(fpic) $(WARNING_DEFINES) $(FCEU_DEFINES) $(ENDIANNESS_DEFINES)
+LDFLAGS += -lm
+
+INCDIRS := -I$(LIBSNES_DIR) -I$(FCEU_DIR) -I$(FCEU_DIR)/input -I$(FCEU_DIR)/boards -I$(FCEU_DIR)/mappers -I$(UTILS_DIR)/zlib 
+LIBS :=
+
+$(TARGET): $(OBJS)
+ifeq ($(platform), ps3)
+	$(AR) rcs $@ $(OBJS)
+else ifeq ($(platform), snc-ps3)
+	$(AR) rcs $@ $(OBJS)
+else ifeq ($(platform), xenon)
+	$(AR) rcs $@ $(OBJS)
+else ifeq ($(platform), wii)
+	$(AR) rcs $@ $(OBJS)
+else
+	$(CC) -o $@ $(SHARED) $(OBJS) $(LDFLAGS) $(LIBS)
+endif
+
+%.o: %.c
+	$(CC) -c -o $@ $< $(CFLAGS) $(INCDIRS)
+
+clean:
+	rm -f $(OBJS)
+	rm -f $(TARGET)
+
+.PHONY: clean
