@@ -33,8 +33,8 @@
 #include "libsnes.h"
 //#include "../src-fceumm/sound.h"
 
-#define SAMPLERATE 32040
-//#define SAMPLERATE 48000
+//#define SAMPLERATE 32040
+#define SAMPLERATE 48000
 #define SAMPLEFRAME 800
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
 

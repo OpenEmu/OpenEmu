@@ -80,7 +80,7 @@ void FCEUD_SetPalette(unsigned char index, unsigned char r, unsigned char g, uns
 bool FCEUD_ShouldDrawInputAids() { return 1; }
 void FCEUD_PrintError(const char *c) { }
 void FCEUD_Message(const char *text) { }
-void FCEUD_SoundToggle() { FCEUI_SetSoundVolume(100); }
+void FCEUD_SoundToggle() { FCEUI_SetSoundVolume(256); }
 void FCEUD_VideoChanged() {}
 
 #define MAX_PAH 1024
@@ -577,13 +577,15 @@ bool snes_load_cartridge_normal(const char* a, const uint8_t *rom_data, unsigned
    FCEUI_Initialize();
 
    FCEUI_SetSoundVolume(256);
-   FCEUI_Sound(32050);
+   //FCEUI_Sound(32050);
+   FCEUI_Sound(48000);
 
    FCEUGameInfo = FCEUI_LoadGame(full_path);
 
    fceu_init();
 
-   timing.sample_rate = 32050.0;
+   //timing.sample_rate = 32050.0;
+   timing.sample_rate = 48000;
    if (FSettings.PAL)
       timing.fps = 838977920.0/16777215.0;
    else
