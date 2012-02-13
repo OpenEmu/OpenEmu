@@ -57,8 +57,7 @@ static uint16_t palette[256];
 static int32 *sound = 0;
 static int32 ssize = 0;
 static uint8 *gfx = 0;
-static uint32 JSReturn = 0;
-void *InputDPR;
+static uint32 JSReturn[2];
 static uint32 current_palette = 0;
 
 /* extern forward decls.*/
@@ -410,9 +409,8 @@ void snes_init(void)
 
 static void emulator_set_input(void)
 {
-	InputDPR = &JSReturn;
-	FCEUI_SetInput(0, SI_GAMEPAD, InputDPR, 0);
-	FCEUI_SetInput(1, SI_GAMEPAD, InputDPR, 0);
+    FCEUI_SetInput(0, SI_GAMEPAD, &JSReturn[0], 0);
+    FCEUI_SetInput(1, SI_GAMEPAD, &JSReturn[1], 0);
 }
 
 static void emulator_set_custom_palette (void)
@@ -491,7 +489,8 @@ static void update_input(void)
 		pad[0] |= input_cb(SNES_PORT_1, SNES_DEVICE_JOYPAD, 0, bindmap[i].snes) ? bindmap[i].nes : 0;
 	for ( i = 0; i < 8; i++)
 		pad[1] |= input_cb(SNES_PORT_2, SNES_DEVICE_JOYPAD, 0, bindmap[i].snes) ? bindmap[i].nes : 0;
-	JSReturn = pad[0] | pad[1] << 8;
+    JSReturn[0] = pad[0];
+        JSReturn[1] = pad[1];
 }
 
 EXPORT void snes_run(void)

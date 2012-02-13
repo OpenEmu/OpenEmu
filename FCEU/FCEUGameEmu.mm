@@ -103,10 +103,9 @@ static int16_t input_state_callback(bool port, unsigned device, unsigned index, 
 	if (port == SNES_PORT_1 & device == SNES_DEVICE_JOYPAD) {
         return current->pad[0][devid];
     }
-    // issue with FCEU and 2 players
-    //else if(port == SNES_PORT_2 & device == SNES_DEVICE_JOYPAD) {
-    //    return current->pad[1][devid];
-    //}
+    else if(port == SNES_PORT_2 & device == SNES_DEVICE_JOYPAD) {
+        return current->pad[1][devid];
+    }
     
     return 0;
 }
