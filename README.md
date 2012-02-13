@@ -14,6 +14,7 @@ Currently Open Emu can load the following game engines as plugins:
 Open Emu also supports high quality scaling with Open GL, multi-threaded video and audio playback as well as individual features and preferences per game engine, such as NTSC video signal emulation for the Nestopia core.
 
 Minimum system requirements:
+
 * OS X 10.7
 * Core 2 Duo Processor
 * GMA X3100 Graphics
