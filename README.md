@@ -7,6 +7,7 @@ Currently Open Emu can load the following game engines as plugins:
 * Genesis Plus - adds support for Sega Genesis/Mega Drive
 * NeoPop - adds support for Neo Geo Pocket and Neo Geo Pocket Color
 * Nestopia - adds support for NES/Famicom
+* FCEU - adds support for NES/Famicom
 * SNES9x - adds support for SNES and Super Famicom
 * BSNES - adds support for SNES and Super Famicom
 * Visualboy Advance - adds support for Game Boy Advance
