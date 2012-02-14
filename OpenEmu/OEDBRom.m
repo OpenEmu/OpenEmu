@@ -27,10 +27,11 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 #import "OEDBSaveState.h"
-#import "NSData+HashingAdditions.h"
 
 #import "OELibraryDatabase.h"
 #import "ArchiveVG.h"
+
+#import "NSFileManager+OEHashingAdditions.h"
 @interface OEDBRom (Private)
 + (id)_createRomWithoutChecksWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError; 
 
@@ -129,7 +130,7 @@
     [rom setValue:newFilePath forKey:@"path"];
     
     if(md5!=nil) [rom setValue:md5 forKey:@"md5"];
-    if(crc!=nil) [rom setValue:md5 forKey:@"crc32"];
+    if(crc!=nil) [rom setValue:crc forKey:@"crc32"];
     
     BOOL calculateHash = (useMD5 && md5==nil) || (!useMD5 && crc==nil);
     if(calculateHash)
@@ -145,15 +146,21 @@
             return nil;
         }
         
+        NSFileManager* defaultFileManager = [NSFileManager defaultManager];
+        NSString* hash;
         if(useMD5)
         {
-            NSString *hash = [data MD5HashString];
+            hash = [defaultFileManager md5DigestForFileAtPath:filePath error:outError];
+            if(!hash)
+                return nil;
             [rom setValue:hash forKey:@"md5"];
         }
         else
         {
-            NSString *hash = [data CRC32HashString];
-            [rom setValue:hash forKey:@"crc32"];        
+            hash = [defaultFileManager crc32ForFileAtPath:filePath error:outError];
+            if(!hash)
+                return nil;
+            [rom setValue:hash forKey:@"crc32"];
         }
     }
     
@@ -251,12 +258,13 @@
             return nil;
         }
         
-        NSData *fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];
-        if(!fileData)
+        hash = [[NSFileManager defaultManager] md5DigestForFileAtPath:filePath error:&error];
+        if(!hash)
         {
+            DLog(@"%@", error);
             // TODO: mark self as file missing
+            return nil;
         }
-        hash = [fileData MD5HashString];
         [self setValue:hash forKey:@"md5"];
     }
     return hash;
@@ -280,12 +288,13 @@
             return nil;
         }
         
-        NSData *fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];
-        if(!fileData)
+        hash = [[NSFileManager defaultManager] crc32ForFileAtPath:filePath error:&error];
+        if(!hash)
         {
+            DLog(@"%@", error);
             // TODO: mark self as file missing
+            return nil;
         }
-        hash = [fileData CRC32HashString];
         [self setValue:hash forKey:@"crc32"];
     }
     return hash;    
@@ -321,8 +330,6 @@
 }
 #pragma mark -
 #pragma mark Core Data utilities
-#pragma mark -
-#pragma mark Core Data utilities
 + (NSString *)entityName
 {
     return @"ROM";
@@ -332,29 +339,6 @@
 {
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
-
-#pragma mark -
-#pragma mark -
-#pragma mark -
-#pragma mark -
-#pragma mark -
-#pragma mark -
-#pragma mark -
-#pragma mark -
-#pragma mark -
-#pragma mark -
-#pragma mark -
-#pragma mark -
-#pragma mark -
-
-
-
-
-
-
-
-
-
 #pragma mark -
 - (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db
 {
@@ -364,27 +348,19 @@
     
     BOOL useMD5 = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
     NSError *error = nil;
-    NSData *data = [[NSData alloc] initWithContentsOfFile:filePath options:NSDataReadingUncached error:&error];
-    if(!data)
-    {
-        NSLog(@"ROM cannot calculate checksum");
-        NSLog(@"%@", error);
-        return;    
-    }
     
     NSString *hash;
     OEDBRom *rom;
     if(useMD5)
     {
-        hash = [data MD5HashString];
+        hash = [[NSFileManager defaultManager] md5DigestForFileAtPath:filePath error:nil];
         rom = [db romForMD5Hash:hash];
     }
     else 
     {
-        hash = [data CRC32HashString];
+        hash = [[NSFileManager defaultManager] crc32ForFileAtPath:filePath error:nil];
         rom = [db romForCRC32Hash:hash];
     }
-    
     
     if(rom)
     {
