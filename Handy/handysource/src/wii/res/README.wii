@@ -1,0 +1,185 @@
+--------------------------------------------
+WiiHandy v0.4 release README
+--------------------------------------------
+
+Ported by raz0red 
+[http://www.twitchasylum.com]
+
+--------------------------------------------
+Overview
+--------------------------------------------
+
+Handy is dedicated to emulating the Atari Lynx hardware on a standard PC. 
+The software was originally developed by Keith Wilkins [http://handy.sf.net]
+and was released under the GPL on 14th April 2004.
+
+Additional changes developed by the SDLEmu team [http://sdlemu.ngemu.com].
+
+--------------------------------------------
+Installation
+--------------------------------------------
+
+To install WiiHandy, simply extract the zip file directly to your SD card
+or USB device (retain the hierarchical structure exactly).
+
+Cartridge images must be placed in the roms directory (/wiihandysdl/roms).
+
+For the emulator to function, you must provide the "Atari Lynx boot rom"
+(lynxboot.img). This file must be obtained and placed in the WiiHandy
+directory (/wiihandysdl).
+
+--------------------------------------------
+Cartridge Database 
+--------------------------------------------
+
+WiiHandy ships with a database that contains recommended settings for
+several cartridges. Specifically, it should contain the proper orientation
+(rotation) for any cartridges that don't use the typical horizontal 
+orientation. This eliminates the need to modify cartridge header information
+to have a game rotate properly.
+
+It should also be noted that if you look inside the database file, the hashes
+(MD5) being calculated do not include the 64-byte header for the purposes of 
+increased compatibility. If you want to view the hash for a particular
+cartridge enable the "Debug mode" option under "Advanced". The hash will be 
+displayed when the cartridge is playing. 
+
+To view/edit the settings applied for a particular cartridge perform the
+following steps:
+
+  * Load the cartridge (via the "Load cartridge" menu item)
+  * Return to the WiiHandy menu
+  * Select "Cartridge settings (current cartridge)" menu item
+  * Examine and modify settings for the cartridge 
+
+--------------------------------------------
+Cartridge/ROM Compatibility 
+--------------------------------------------
+
+It is worth noting that there are quite a number of bad Lynx ROM dumps
+floating around. In an attempt to reduce the incorrect reporting of
+incompatible games due to bad dumps, I have created the following page:
+
+[http://www.wiibrew.org/wiki/WiiHandy/Cartridge_Compatbility]
+
+This page lists each game that has been tested with WiiHandy along with its
+associated hash values (one for the full file, one that excludes the header
+information).
+
+Enable the "Debug mode" option within the "Advanced" menu to view the hash
+(excluding header information) when a catridge is playing.
+
+--------------------------------------------
+Controls
+--------------------------------------------
+
+    Wiimote:
+    
+        Move      : D-pad
+        A         : 2
+        B         : 1
+        Option 1  : Plus
+        Option 2  : Minus
+        Pause     : A
+        Exit      : Home
+        Power     : Power off
+        
+    Nunchuk:
+
+        Move      : Analog
+        A         : C
+        B         : Z
+
+    Classic controller/Pro:
+    
+        Move      : D-pad/Analog
+        A         : A
+        B         : B
+        Option 1  : Plus
+        Option 2  : Minus
+        Pause     : L/R
+        Exit      : Home
+                
+    Gamecube controller:
+    
+        Move      : D-pad/Analog
+        A         : A
+        B         : B
+        Option 1  : R Trigger
+        Option 2  : L Trigger
+        Pause     : Start
+        Exit      : Z Trigger
+
+--------------------------------------------
+WiiHandy crashes, code dumps, etc.
+--------------------------------------------
+
+If you are having issues with WiiHandy, please let me know about it via one
+of the following locations:
+
+[http://www.wiibrew.org/wiki/Talk:WiiHandy]
+[http://www.twitchasylum.com/forum/viewtopic.php?t=510]
+
+--------------------------------------------
+Special Thanks
+--------------------------------------------
+
+DJ Dynamite  : Testing 
+Murph74      : Testing
+yossi        : Testing
+Wilsoff      : Icon
+
+--------------------------------------------
+Change Log
+--------------------------------------------
+
+05/09/11 (0.4)
+--------------    
+  - Pretty close to a full "re-port" based on the original Handy 0.95 sources.
+  - Cartridge database for storing cart-specific settings (screen orientation,
+      maximum frame rate).
+  - Rewrite of display layer, GX based scaler
+    - Ability to adjust horizontal and vertical screens to any size/dimensions
+        via "Screen Size" options under "Display". If these are entered after
+        loading a cartridge, the last frame will be displayed to assist in 
+        sizing.
+  - Rewrite of sound layer
+    - Audio skipping has been fixed
+    - Audio plays at correct rate when the maximum frame rate is adjusted
+  - Rewrite of timing loop
+  - Support for Nunchuk and Classic Controller Pro
+  - Analog stick support (Classic/Pro, Nunchuk)
+  - USB support
+  - SDHC support
+  - Updated menu system
+  
+03/28/09 (0.3)
+--------------    
+  - Ability to enable/disable vertical sync (NTSC/PAL60 only)
+  - Ability to set the gamma level of the display
+  - Added option to load Lynx boot ROM from the root directory
+  - Gamecube controller support
+  - Fixed a couple of buffer overflow issues causing periodic crashes    
+  - Refactor of the source code     
+
+01/28/09 (0.2)
+--------------
+  - Save/restore game snapshots
+  - Resuming a game (after quitting with Home)
+  - Resetting a game (after quitting with Home)
+  - Fixed a bug causing homebrew games to crash on load (Lode Runner, etc.)
+  - Fixed a bug where games would freeze if left idle for about an hour   
+  - Fixed a bug where games would not load after file error
+  - Fixed minor glitches in frame rate (reworked game loop)
+  - Ability to rotate controls w/ game screen
+  - Ability to patch Lynx ROMs w/ rotation settings (not supported for .zip)
+  - Advanced menu allowing for enabling debug mode, frame rate adjustments
+  - Auto-chain detection
+  - Reset/power functions (via Wii and Wiimote)
+  - Ability to use a custom directory name for application files    
+
+01/18/09 (0.1)
+--------------
+  - Initial version
+  - Sound support
+  - Wiimote/Classic controller support

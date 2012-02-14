@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+ <app version="1">
+   <name>WiiHandy</name>
+   <coder>raz0red</coder>
+   <version>0.4</version>
+   <release_date>201105090000</release_date>
+   <short_description>Atari Lynx Emulator</short_description>
+   <long_description>WiiHandy is a port of the Handy 0.95 Atari Lynx emulator developed by Keith Wilkins. Additional changes by the SDLEmu team.
+
+Wii port by raz0red [http://www.twitchasylum.com].
+   </long_description>
+ </app>
