@@ -1,5 +1,6 @@
 /*
- Copyright (c) 2011, OpenEmu Team
+ Copyright (c) 2009, OpenEmu Team
+ 
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
@@ -24,9 +25,31 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Foundation/Foundation.h>
+#import "FCEUGameController.h"
+#import "FCEUGameEmu.h"
 
-@interface NSData (HashingAdditions)
-- (NSString*)MD5HashString;
-- (NSString*)CRC32HashString;
+@implementation FCEUGameController
+
++ (void)initialize
+{
+    if(self == [FCEUGameController class])
+    {
+    }
+}
+
+- (NSArray *)genericControlNames
+{
+    return nil;
+}
+
+- (NSUInteger)playerCount
+{
+    return MAC_MAX_PLAYERS;
+}
+
+- (Class)gameCoreClass
+{
+    return [FCEUGameEmu class];
+}
+
 @end

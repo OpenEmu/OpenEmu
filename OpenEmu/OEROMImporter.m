@@ -274,6 +274,7 @@
             // TODO: initiate lib organization if requested
         }
     }
+    
     return game!=nil;
 }
 
