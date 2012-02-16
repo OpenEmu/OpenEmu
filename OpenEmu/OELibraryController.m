@@ -366,14 +366,6 @@
     
     if([[self delegate] respondsToSelector:@selector(libraryController:didSelectGame:)])
         [[self delegate] libraryController:self didSelectGame:selectedGame];
-    
-    /*
-    NSDocumentController *docController = [NSDocumentController sharedDocumentController];
-    OEGameDocument       *document      = [[OEGameDocument alloc] initWithGame:selectedGame];
-    
-    if(document == nil) return;
-    [docController addDocument:document];
-     */
 }
 
 #pragma mark -
