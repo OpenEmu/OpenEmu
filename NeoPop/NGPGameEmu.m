@@ -176,7 +176,8 @@ static OERingBuffer *dacBuffer;
 
 - (BOOL)loadFileAtPath:(NSString*)path
 {
-    pathToFile = [path stringByDeletingLastPathComponent];
+    pathToFile = [[path stringByDeletingLastPathComponent] copy];
+    gPathToFile = pathToFile;
     
     /* auto-select colour mode */
     system_colour = COLOURMODE_AUTO;
