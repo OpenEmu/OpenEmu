@@ -34,7 +34,6 @@
 #import "OEGameViewController.h"
 #import "OEGameCoreManager.h"
 
-#import "NSData+HashingAdditions.h"
 #import "OEROMImporter.h"
 #import "OEGameWindowController.h"
 

@@ -33,7 +33,7 @@
 #import "OEDBSystem.h"
 #import "OEDBRom.h"
 
-#import "NSData+HashingAdditions.h"
+#import "NSFileManager+OEHashingAdditions.h"
 
 NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
@@ -144,14 +144,13 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     }
     
     NSString *md5 = nil, *crc = nil;
-    
+    NSFileManager* defaultFileManager = [NSFileManager defaultManager];
     if(game == nil && checkCRC)
     {
-        NSData *fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:outError];
-        if(fileData == nil) return nil;
-        
-        crc = [fileData CRC32HashString];
-        DLog(@"checking crc32: %@", crc);
+        DLog(@"checking crc32...");
+        crc = [defaultFileManager crc32ForFileAtPath:filePath error:outError];
+        if(!crc) return nil;
+        DLog(@"crc32: %@", crc);
         
         OEDBRom *rom = [OEDBRom romWithCRC32HashString:crc inDatabase:database error:outError];
         
@@ -163,12 +162,12 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(game == nil && checkMD5)
     {
-        NSData *fileData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingUncached error:outError];
-        if(fileData == nil) return nil;
-        
-        md5 = [fileData MD5HashString];
-        DLog(@"checking md5: %@", md5);
-        
+        DLog(@"checking");
+        md5 = [defaultFileManager md5DigestForFileAtPath:filePath error:outError];
+        if(!md5)
+            return nil;
+        DLog(@"md5: %@", md5);
+
         OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inDatabase:database error:outError];
         if(rom != nil)
             game = [rom valueForKey:@"game"];

@@ -30,7 +30,6 @@
 #import "OESystemController.h"
 
 #import "NSImage+OEDrawingAdditions.h"
-#import "NSData+HashingAdditions.h"
 #import "NSString+UUID.h"
 
 #import "OEDBAllGamesCollection.h"
@@ -41,10 +40,7 @@
 #import "OELocalizationHelper.h"
 
 #import "ArchiveVG.h"
-
-
-#define UDDatabasePathKey @"databasePath"
-#define UDDefaultDatabasePathKey @"defaultDatabasePath"
+#import "NSFileManager+OEHashingAdditions.h"
 
 @interface OELibraryDatabase (Private)
 - (BOOL)loadPersistantStoreWithError:(NSError**)outError;
@@ -787,14 +783,11 @@ static OELibraryDatabase *defaultDatabase = nil;
         } 
         else 
         {
-            NSInteger fileSize = [[romInfo valueForKey:@"filesize"] integerValue];
-            
-            NSData *data = [[NSData alloc] initWithContentsOfFile:filePath options:NSDataReadingUncached error:nil];
-            
+            NSInteger fileSize = [[romInfo valueForKey:@"filesize"] integerValue];            
             NSString *hash;
             
-            if(md5) hash = [data MD5HashString];
-            else hash = [data CRC32HashString];
+            if(md5) hash = [[NSFileManager defaultManager] md5DigestForFileAtPath:filePath error:nil];
+            else hash = [[NSFileManager defaultManager] crc32ForFileAtPath:filePath error:nil];
             
             
             if(md5) rom = [self romForMD5Hash:hash];
