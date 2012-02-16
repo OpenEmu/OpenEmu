@@ -32,7 +32,8 @@
 #import <OpenGL/gl.h>
 #import "OEGenesisSystemResponderClient.h"
 
-#include "shared.h"
+//#include "shared.h"
+#include "osd.h"
 
 //#define SAMPLERATE 48000
 //#define SAMPLEFRAME 800
@@ -144,7 +145,7 @@ void update_input()
         //input.system[1] = DEVICE_2BUTTON;
         
         //float framerate = vdp_pal ? 50.0 : 60.0;
-		audio_init(SAMPLERATE);
+		//audio_init(SAMPLERATE);
         system_init(SAMPLERATE);
         system_reset();
         
