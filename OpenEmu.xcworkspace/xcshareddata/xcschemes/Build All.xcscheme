@@ -153,6 +153,20 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "822C193F101EA4AF0034119F"
+               BuildableName = "Build &amp; Install TGEmu"
+               BlueprintName = "Build &amp; Install TGEmu"
+               ReferencedContainer = "container:TGEmu/TGEmu.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "8D15AC270486D014006FF6A4"
                BuildableName = "OpenEmu.app"
                BlueprintName = "OpenEmu"

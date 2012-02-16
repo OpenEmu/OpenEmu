@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string></string>
+	<key>CFBundleIdentifier</key>
+	<string>com.openemu.${PRODUCT_NAME:identifier}</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>${PRODUCT_NAME}</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>0.1</string>
+	<key>NSPrincipalClass</key>
+	<string>TGEmuGameController</string>
+	<key>OEProjectURL</key>
+	<string>http://cgfm2.emuviews.com/tgemu.php</string>
+	<key>OESystemIdentifiers</key>
+	<array>
+		<string>openemu.system.sg</string>
+	</array>
+	<key>SUEnableAutomaticChecks</key>
+	<string>1</string>
+	<key>SUFeedURL</key>
+	<string>http://openemu.org/update/tgemu_appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
+</dict>
+</plist>

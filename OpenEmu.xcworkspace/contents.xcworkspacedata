@@ -43,4 +43,7 @@
    <FileRef
       location = "group:Handy/Handy.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:TGEmu/TGEmu.xcodeproj">
+   </FileRef>
 </Workspace>

@@ -1,0 +1,105 @@
+
+ Here are some notes on porting.
+
+ Depandancies:
+
+ The code requires zlib for CRC checking and ZIP file decompression.
+
+ If you need to make changes to accomodate your file system, the
+ only file IO is done in fileio.c.
+
+ In fileio.c, there is a string called game_name[] that has the filename
+ of the loaded ROM image. If the file didn't come from a ZIP archive,
+ then I use Allegro to strip the directory information, preserving only
+ the filename. You may want to use a similar function to do this - I have
+ not included my own version since this is OS specific.
+
+ The game_name[] string is currently only used in the DOS driver for
+ snapshots, but will be used more extensively when/if features like
+ save states and unique battery back-up RAM files are implemented.
+
+ Processor issues:
+
+ Leave "LSB_FIRST" undefined for big-endian machines.
+
+ If the graphics are incorrect, take a peek at render.c, since this
+ is where a lot of 16-bit access to memory occurs.
+
+ Routines to use on your end:
+
+ system_init()     - Set up the virtual console emulation.
+ system_reset()    - Reset the virtual console emulation.
+ system_shutdown() - Shut down the virtual console emulation.
+ system_frame()    - Run the virtual console emulation for one frame.
+                     Set skip = 1 to not do any rendering.
+
+ Graphics:
+
+ You need to set up the bitmap structure like so:
+
+    width = 32+512+32;
+    height = 256;
+
+    memset(&bitmap, 0, sizeof(bitmap));
+    bitmap.data = malloc(width * height);
+    bitmap.width = width;
+    bitmap.height = height;
+    bitmap.depth = 8; 
+    bitmap.granularity = bitmap.depth >> 3;
+    bitmap.pitch = (bitmap.width * bitmap.granularity);
+    bitmap.viewport.x = 0x20;
+    bitmap.viewport.y = 0x00;
+
+ Setting bitmap.depth == 16 will force the rendering code to use 16-bit
+ color. The expected pixel format is RGB 5:6:5, this can be modified in
+ render_init() in render.c, where the pixel_lut[] table is being created.
+
+ The bitmap.viewport members give an offset into the bitmap of the
+ emulated display, and it's dimensions. The extra space in the bitmap
+ is used for sprite clipping, which is why it's larger than needed.
+
+ The width and height of the viewport are initially 0x0, and will be
+ set up by the video chip emulation on the fly. Games can modify
+ the resolution at any time, up to 512x256. However, most all games
+ I've seen use sizes between 256x200 and 352x240.
+
+ The bitmap.viewport.ow/oh members contain the previous size of the
+ viewport. This information can be used to erase the previously used
+ portions of the screen when switching from a larger to a smaller
+ resolution.
+
+ For 8-bit displays, the palette is static and needs to be set up where
+ each pixel has the following layout:
+
+    gggrrrbb : r=red component, g=green component, b=blue component
+
+ You can check the make_332_palette() function in dos.c for an example.
+
+ After calling system_frame(), the new graphics data will be ready
+ to be displayed.
+
+ Input:
+
+ You can ignore the input.dev[] array, just update input.pad[0] with
+ the 'INPUT_*' bitmasks from system.h. Other types of input devices
+ and multiple controller support haven't been finished yet, so a
+ standard 2-button pad in the player 1 port is all that works.
+
+ You should update the input structure before calling system_frame().
+
+ Sound:
+
+ The sound emulation is very incomplete. Pass 0 (disable sound) or a
+ sample rate between 8000 and 44100 to system_init(), which will
+ then set 'snd.enabled' if sound emulation has been enabled (otherwise
+ some kind of error occured, like an allocation failure)
+
+ After each call of system_frame(), the snd.buffer[] pointers will
+ be updated with 16-bit, stereo, signed audio data.
+
+ File loading:
+
+ You'll need to let the user control the 'split' and 'flip' parameters
+ to the load_rom() function when it is called within your code. These
+ options are only used for games not found in the internal database.
+ (though this behavior may change in the future, so settings can be forced)

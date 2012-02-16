@@ -1,0 +1,115 @@
+
+ Changes:
+
+ - Added config, blur, sealintf modules to DOS code.
+ - Fixed playfield height bug.
+   Corrects misplaced raster effects in many games.
+ - Added '-split', '-flip', '-usa' options to config.c and dos.c
+ - Implemented RB's changes to the PSG channel generation.
+ - Changed sound output to work based on the DOS sound enable
+   rather than the emulated sound enable, so sound can be generated
+   even if not output to the sound card. (for wave logging, etc)
+ - Added wave module to DOS code.
+ - Changed shared.h so types.h was read before osd.h, needed
+   by the typedefs used in wave.h
+ - Updated id.c and included game resource list for 416 images.
+   This provides auto flip and split options for loaded games.
+   Note that this fails for improperly named games, one example is
+   that Veigues Tactical Gladiator (J) is 384K, and the (U) version
+   is not flagged as having a 512K size.
+ - Added clipping to render_obj() for sprites out of the X range.
+   (Magical Chase)
+ - Simplified double-width sprite rendering.
+ - Removed 'offset' member from t_bitmap.
+ - Added 16-bit versions of the rendering routines.
+ - Modified center_x/y in dos.c to be updated when the viewport changes.
+ - Moved VRAM to VRAM transfer code out of vdc_w() and into it's own
+   function, as well as adding proper support for source and destination
+   overlapping and address inrement/decrement.
+   Added #define to log DMA transfers for debugging.
+ - Cleaned up some of the register handling (e.g. BYR) in vdc_w().
+ - Added help text printing option.
+ - Added wave filename parameter to -wave option and added default
+   filename use ("pce.wav") if no name is given.
+ - Added blur option and mapped it to key F9. For 16-bit color only.
+ - Fixed color #0 handling for 16-bit displays.
+ - Added message system, throttling, and FPS meter options to DOS code.
+ - The IRQ1 line is cleared when the VDC status flags are read.
+ - The vblank flag is set when a vblank interrupt occurs.
+   (so it monitors the interrupt and not the vblank period itself)
+ - The vblank interrupt now occurs on line 240 instead of 242.
+ - The sprite DMA transfer flag is only updated when an interrupt will occur.
+   (so it monitors the interrupt and not the DMA completion itself)
+ - Changed -wave argument checking as not to accept a NULL filename.
+
+ * Note: Sent code to porters.
+
+ - Added support to the T flag by extending the functionality of
+   the SET instruction; doesn't seem to work, though the Legendary Axe II
+   title screen now has somewhat improved sprite graphics on the sword icon.
+   (Doesn't fix Bravoman, may have made original Legendary Axe worse)
+ - Added sprite precalculation to take advantage of the single frame
+   sprite RAM updates. Simplified the sprite rendering code quite a bit.
+ - Ensured the Y offset was wrapped when BYR was updated.
+   (Didn't seem to fix bad wipe-in effect in PC Genjin 2)
+ - Added full support for 8 and 16-bit rendering.
+ - Modified t_sprite structure to have signed Y values - fixes incoming
+   sprites at top of display.
+ - Made endian fixes to VCE code.
+ - Removed 'line' structure from t_bitmap, added 'granularity'.
+ - Fixed scanlines code in dos.c.
+ - Fixed 16-bit line clearing in render.c
+ - Fixed all references to bitmap data in render.c and dos.c
+ - Removed unused stuff from cpuintrf.h
+ - Removed unused stuff from h6280.c
+ - Added check_zip to verify ZIP archives in a portable manner.
+ - Removed debug messages from h6280ops.c
+ - Commented out debug messages from pce.c, system.c, vdc.c
+ - Removed save_file() calls in pce.c
+ - Changed DOS code to not call PSG emulation when sound is disabled.
+ - Added CPU emulator to makefile.
+ - Added FAST_MEM switch for faster memory access.
+ - Added SuperGrafx RAM back in so Aldynes and others work.
+ - Rewrote pattern caching for speed.
+ - Fixed FAST_MEM routines to prevent ROM writes. (fixes Night Creatures)
+ - Modified background pattern caching to use pixel > bitplane lookup tables.
+ - Modified make_sprite_list() so only used sprites are looked at.
+ - Modified VCE code to respond to unique data writes only.
+ - Compiling with FAST_MEM replaces cpu_writeport16() with vdc_w().
+ - Moved prototypes for cpu_* functions into h6280.h
+
+ * Note: Sent code to porters.
+
+ - Modified cpu_writemem21_fast in h6280ops.h so it compiles correctly.
+ - Removed uncessary check from the object render functions.
+ - Added sprite list to render_obj_16, and removed a positioning hack.
+ - Changed make_332_palette() for more vibrant colors.
+ - Removed LSB_FIRST checks in render.c, except for when making the
+   bp_lut table data.
+ - Changed DVSSR trigger to be set when the MSB of reg. 0x13 is written.
+ - Sped-up BG pattern caching by indexing the bitplane lookup table
+   with two word-wide indexes instead of four byte-wide ones.
+ - Moved blitting into dos_update_video();
+ - Added vsync polling option.
+ - Added proper text color setup for 8 and 16-bit rendering.
+ - Added FPS meter, vsync, speed throttle toggle keys.
+ - Added BRAM save/load to pce.c
+ - Fixed frameskip option. (system_frame() really skips now)
+ - Cleaned up debugging code and error logging.
+ - Fixed screen snapshot code.
+ - Fixed DOS joystick polling and default state.
+ - BRAM is now saved if the unlock register ($1807) is written to.
+ - Added automatic resolution switching to dos.c and config.c
+
+ * Note: Sent code to porters.
+
+ - Changed system_init() call to enable sound if wave logging is enabled.
+ - Added Macintosh specific hack to render_reset() for depth changing.
+ - Changed bitmap structure to have the previous unique viewport size.
+ - Removed some old code from the screenshot creation routine.
+ - Added support for GZ compressed files in fileio.c
+ - Fixed frame skip configuring via the command line option.
+ - Rewrote the PSG sound emulation.
+ - Fixed snapshot code to ignore cases when the display is 0x0.
+ - Changed bitmap viewport init code to give initial size of 256x240.
+
