@@ -146,7 +146,7 @@ void update_input()
         input.dev[0] = DEVICE_2BUTTON;
         
         //float framerate = vdp_pal ? 50.0 : 60.0;
-		//audio_init(SAMPLERATE);
+		audio_init(SAMPLERATE);
         system_init(SAMPLERATE);
         system_reset();
         
