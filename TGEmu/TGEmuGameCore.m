@@ -61,7 +61,7 @@ extern void set_option_defaults(void);
     {
         soundLock = [[NSLock alloc] init];
         bufLock = [[NSLock alloc] init];
-        videoBuffer = malloc(320 * 240 * 2);
+        videoBuffer = malloc(1024 * 256 * 2);
         
         position = 0;
         sndBuf = malloc(SIZESOUNDBUFFER * sizeof(UInt16));
@@ -123,26 +123,27 @@ void update_input()
     size = [dataObj length];
     buf = (char*)[dataObj bytes];
     
-    if( load_file((char*)[path UTF8String], buf, size) )
+    //if( load_file((char*)[path UTF8String], buf, size) )
+    if( load_rom((char*)[path UTF8String], 0, 0) )
     {
         /* allocate global work bitmap */
         memset (&bitmap, 0, sizeof (bitmap));
-        bitmap.width  = 32+512+32;
+        bitmap.width  = 1024;
         bitmap.height = 256;
         bitmap.depth  = 16;
-        bitmap.granularity = bitmap.depth >> 3;
+        //bitmap.granularity = bitmap.depth >> 3;
+        bitmap.granularity = 3;
         bitmap.pitch = bitmap.width * bitmap.granularity;
-        bitmap.viewport.x = 0x20;
-        bitmap.viewport.y = 0x00;
+        //bitmap.viewport.x = 0x20;
+        //bitmap.viewport.y = 0x00;
         //bitmap.viewport.w = 256;
-        //bitmap.viewport.h = 224;
+        //bitmap.viewport.h = 240;
         //bitmap.viewport.x = 0;
         //bitmap.viewport.y = 0;
         bitmap.data = videoBuffer;
         
         /* default system */
-        //input.system[0] = DEVICE_2BUTTON;
-        //input.system[1] = DEVICE_2BUTTON;
+        input.dev[0] = DEVICE_2BUTTON;
         
         //float framerate = vdp_pal ? 50.0 : 60.0;
 		//audio_init(SAMPLERATE);
