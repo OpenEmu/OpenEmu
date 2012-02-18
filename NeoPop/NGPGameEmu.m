@@ -137,6 +137,11 @@ static OERingBuffer *dacBuffer;
     [bufLock unlock];
 }
 
+- (void)resetEmulation
+{
+    reset();
+}
+
 - (void)stopEmulation
 {
     rom_unload();
