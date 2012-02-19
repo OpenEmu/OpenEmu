@@ -22,7 +22,7 @@
 
 #include "shared.h"
 
-int state_load(unsigned char *buffer)
+int state_load(const unsigned char *buffer)
 {
   /* buffer size */
   int bufferptr = 0;

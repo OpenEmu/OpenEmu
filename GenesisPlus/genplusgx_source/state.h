@@ -35,7 +35,7 @@
   bufferptr+= size;
 
 /* Function prototypes */
-extern int state_load(unsigned char *buffer);
+extern int state_load(const unsigned char *buffer);
 extern int state_save(unsigned char *buffer);
 
 #endif

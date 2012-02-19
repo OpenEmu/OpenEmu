@@ -229,29 +229,23 @@ NSUInteger GenesisControlValues[] = { INPUT_A, INPUT_B, INPUT_C, INPUT_X, INPUT_
 
 - (BOOL)saveStateToFileAtPath:(NSString *)fileName
 {
-    FILE* f = fopen([fileName UTF8String],"w+b");
-    if (f)
-    {
-        unsigned char buffer[STATE_SIZE];
-        state_save(buffer);
-        fwrite(&buffer, STATE_SIZE, 1, f);
-        fclose(f);
-        return YES;
-    }
-    return NO;
+    NSMutableData *data = [[NSMutableData alloc] initWithLength:STATE_SIZE];
+    
+    state_save([data mutableBytes]);
+    
+    return [data writeToFile:fileName options:NSDataWritingAtomic error:NULL];
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
-    FILE *f = fopen([fileName UTF8String],"r+b");
-    if (f)
+    NSData *loaded = [[NSData alloc] initWithContentsOfFile:fileName];
+    
+    if(loaded != nil)
     {
-        unsigned char buffer[STATE_SIZE];
-        fread(&buffer, STATE_SIZE, 1, f);
-        state_load(buffer);
-        fclose(f);
+        state_load([loaded bytes]);
         return YES;
     }
+    
     return NO;
 }
 
