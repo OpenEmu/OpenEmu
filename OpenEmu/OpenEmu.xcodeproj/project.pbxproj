@@ -272,6 +272,7 @@
 		820EB7411483F9A2008EC398 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		820EB7421483F9A2008EC398 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		820EB7641483FBFB008EC398 /* NeoGeo Pocket.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = 820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */; };
+		8220233214F1C20E00902FB1 /* OESystemResponderClient.h in Headers */ = {isa = PBXBuildFile; fileRef = C63E7C11136298F4001CC78B /* OESystemResponderClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		82242D4F0FF7055000FBD432 /* NSAttributedString+Hyperlink.m in Sources */ = {isa = PBXBuildFile; fileRef = 82242D4E0FF7055000FBD432 /* NSAttributedString+Hyperlink.m */; };
 		82277546148946DF00B19E27 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
 		82277547148946DF00B19E27 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
@@ -3074,6 +3075,7 @@
 				C6D268D6135BCE4900154550 /* NSString+OEAdditions.h in Headers */,
 				82EE73E11443C1F700080CCB /* OEGameCore.h in Headers */,
 				EF2FDBEE14D0025D002A64F2 /* OEPreferenceViewController.h in Headers */,
+				8220233214F1C20E00902FB1 /* OESystemResponderClient.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
