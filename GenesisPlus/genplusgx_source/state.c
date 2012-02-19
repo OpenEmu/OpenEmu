@@ -22,7 +22,7 @@
 
 #include "shared.h"
 
-int state_load(const unsigned char *buffer)
+int state_load(const unsigned char *buffer, unsigned long size)
 {
   /* buffer size */
   int bufferptr = 0;
@@ -32,8 +32,8 @@ int state_load(const unsigned char *buffer)
   if (!state) return 0;
 
   /* uncompress savestate */
-  unsigned long inbytes, outbytes;
-  memcpy(&inbytes, buffer, 4);
+  unsigned long inbytes = size, outbytes;
+  //memcpy(&inbytes, buffer, 4);
   outbytes = STATE_SIZE;
   uncompress ((Bytef *)state, &outbytes, (Bytef *)(buffer + 4), inbytes);
 

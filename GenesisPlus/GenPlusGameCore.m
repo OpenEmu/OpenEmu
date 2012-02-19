@@ -231,22 +231,16 @@ NSUInteger GenesisControlValues[] = { INPUT_A, INPUT_B, INPUT_C, INPUT_X, INPUT_
 {
     NSMutableData *data = [[NSMutableData alloc] initWithLength:STATE_SIZE];
     
-    state_save([data mutableBytes]);
+    NSInteger bytesCount = state_save([data mutableBytes]);
     
-    return [data writeToFile:fileName options:NSDataWritingAtomic error:NULL];
+    return bytesCount > 0 && [[[NSData alloc] initWithBytesNoCopy:[data mutableBytes] length:bytesCount freeWhenDone:NO] writeToFile:fileName atomically:NO];
 }
 
 - (BOOL)loadStateFromFileAtPath:(NSString *)fileName
 {
     NSData *loaded = [[NSData alloc] initWithContentsOfFile:fileName];
     
-    if(loaded != nil)
-    {
-        state_load([loaded bytes]);
-        return YES;
-    }
-    
-    return NO;
+    return loaded != nil && state_load([loaded bytes], [loaded length]) == 1;
 }
 
 - (void)saveSram
