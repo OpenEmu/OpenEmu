@@ -21,7 +21,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.5.0</string>
 	<key>NSPrincipalClass</key>
-	<string>GenPlusGameController</string>
+	<string>OEGameCoreController</string>
 	<key>OEProjectURL</key>
 	<string>http://cgfm2.emuviews.com/genplus.php</string>
 	<key>OESystemIdentifiers</key>
@@ -34,5 +34,9 @@
 	<string>http://openemu.org/update/genesisplus_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>OEGameCoreClass</key>
+	<string>GenPlusGameCore</string>
+	<key>OEGameCorePlayerCount</key>
+	<string>2</string>
 </dict>
 </plist>

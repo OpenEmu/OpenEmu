@@ -194,7 +194,6 @@
 		53439BF913B93920005C0CC8 /* badge_3.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BA513B93920005C0CC8 /* badge_3.png */; };
 		53439BFA13B93920005C0CC8 /* box_gloss.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 53439BA613B93920005C0CC8 /* box_gloss.pdf */; };
 		53439BFB13B93920005C0CC8 /* collections.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BA713B93920005C0CC8 /* collections.png */; };
-		53439BFC13B93920005C0CC8 /* consoles.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BA813B93920005C0CC8 /* consoles.png */; };
 		53439BFD13B93920005C0CC8 /* hud_bar.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BAA13B93920005C0CC8 /* hud_bar.png */; };
 		53439BFE13B93920005C0CC8 /* hud_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BAB13B93920005C0CC8 /* hud_button.png */; };
 		53439BFF13B93920005C0CC8 /* hud_close_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 53439BAC13B93920005C0CC8 /* hud_close_button.png */; };
@@ -424,6 +423,17 @@
 		83FA054B13B9DEFD0055A520 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711813136368330034379A /* AppKit.framework */; };
 		83FA054E13B9DF940055A520 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
 		83FA055013B9E01B0055A520 /* Sparkle.framework in Copy Frameworks to App Frameworks */ = {isa = PBXBuildFile; fileRef = 83FA054D13B9DF940055A520 /* Sparkle.framework */; };
+		83FBA36F14F2C62F001F1299 /* gamegear_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA36E14F2C62F001F1299 /* gamegear_library.png */; };
+		83FBA37114F2C672001F1299 /* neogeopocket_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37014F2C672001F1299 /* neogeopocket_library.png */; };
+		83FBA37314F2C699001F1299 /* n64_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37214F2C699001F1299 /* n64_library.png */; };
+		83FBA37914F2C795001F1299 /* sms_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37814F2C795001F1299 /* sms_library.png */; };
+		83FBA37C14F2C7DB001F1299 /* snes_eujap_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37A14F2C7DB001F1299 /* snes_eujap_library.png */; };
+		83FBA37D14F2C7DB001F1299 /* snes_usa_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37B14F2C7DB001F1299 /* snes_usa_library.png */; };
+		83FBA37F14F2C81C001F1299 /* gameboy_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37E14F2C81C001F1299 /* gameboy_library.png */; };
+		83FBA38114F2C857001F1299 /* genesis_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA38014F2C857001F1299 /* genesis_library.png */; };
+		83FBA38314F2C870001F1299 /* gba_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA38214F2C870001F1299 /* gba_library.png */; };
+		83FBA38414F2C89F001F1299 /* nes_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37414F2C747001F1299 /* nes_library.png */; };
+		83FBA38514F2C8A8001F1299 /* famicom_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FBA37614F2C752001F1299 /* famicom_library.png */; };
 		83FFC069145819070077EC27 /* installer_backgroundSample.png in Resources */ = {isa = PBXBuildFile; fileRef = 83FFC068145819070077EC27 /* installer_backgroundSample.png */; };
 		83FFC06D1458194E0077EC27 /* OESetupAssistantBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FFC06C1458194E0077EC27 /* OESetupAssistantBox.m */; };
 		83FFC078145823B00077EC27 /* OEGlossButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 83FFC077145823B00077EC27 /* OEGlossButton.m */; };
@@ -1032,7 +1042,6 @@
 		53439BA513B93920005C0CC8 /* badge_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = badge_3.png; sourceTree = "<group>"; };
 		53439BA613B93920005C0CC8 /* box_gloss.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = box_gloss.pdf; sourceTree = "<group>"; };
 		53439BA713B93920005C0CC8 /* collections.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = collections.png; sourceTree = "<group>"; };
-		53439BA813B93920005C0CC8 /* consoles.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = consoles.png; sourceTree = "<group>"; };
 		53439BAA13B93920005C0CC8 /* hud_bar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_bar.png; sourceTree = "<group>"; };
 		53439BAB13B93920005C0CC8 /* hud_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_button.png; sourceTree = "<group>"; };
 		53439BAC13B93920005C0CC8 /* hud_close_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hud_close_button.png; sourceTree = "<group>"; };
@@ -1303,6 +1312,17 @@
 		83F688BE13C6433600AA0F83 /* OEGridScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGridScrollView.h; sourceTree = "<group>"; };
 		83F688BF13C6433600AA0F83 /* OEGridScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGridScrollView.m; sourceTree = "<group>"; };
 		83FA054D13B9DF940055A520 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = SOURCE_ROOT; };
+		83FBA36E14F2C62F001F1299 /* gamegear_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gamegear_library.png; sourceTree = "<group>"; };
+		83FBA37014F2C672001F1299 /* neogeopocket_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = neogeopocket_library.png; sourceTree = "<group>"; };
+		83FBA37214F2C699001F1299 /* n64_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = n64_library.png; sourceTree = "<group>"; };
+		83FBA37414F2C747001F1299 /* nes_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nes_library.png; sourceTree = "<group>"; };
+		83FBA37614F2C752001F1299 /* famicom_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = famicom_library.png; sourceTree = "<group>"; };
+		83FBA37814F2C795001F1299 /* sms_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sms_library.png; sourceTree = "<group>"; };
+		83FBA37A14F2C7DB001F1299 /* snes_eujap_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = snes_eujap_library.png; sourceTree = "<group>"; };
+		83FBA37B14F2C7DB001F1299 /* snes_usa_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = snes_usa_library.png; sourceTree = "<group>"; };
+		83FBA37E14F2C81C001F1299 /* gameboy_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gameboy_library.png; sourceTree = "<group>"; };
+		83FBA38014F2C857001F1299 /* genesis_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = genesis_library.png; sourceTree = "<group>"; };
+		83FBA38214F2C870001F1299 /* gba_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba_library.png; sourceTree = "<group>"; };
 		83FFC068145819070077EC27 /* installer_backgroundSample.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = installer_backgroundSample.png; sourceTree = "<group>"; };
 		83FFC06B1458194E0077EC27 /* OESetupAssistantBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantBox.h; sourceTree = "<group>"; };
 		83FFC06C1458194E0077EC27 /* OESetupAssistantBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantBox.m; sourceTree = "<group>"; };
@@ -1640,6 +1660,7 @@
 		141554121442B3B300A01683 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83FBA37214F2C699001F1299 /* n64_library.png */,
 				141554281442C12200A01683 /* controller_n64.png */,
 				141554131442B3B300A01683 /* N64-Info.plist */,
 				C6252DB114E7566600350A13 /* Controller-Preferences-Info.plist */,
@@ -2363,7 +2384,6 @@
 				53439BA513B93920005C0CC8 /* badge_3.png */,
 				53439BA613B93920005C0CC8 /* box_gloss.pdf */,
 				53439BA713B93920005C0CC8 /* collections.png */,
-				53439BA813B93920005C0CC8 /* consoles.png */,
 				53439BB413B93920005C0CC8 /* grid_rating.png */,
 				53439BB513B93920005C0CC8 /* grid_slider_large.png */,
 				53439BB613B93920005C0CC8 /* grid_slider_small.png */,
@@ -2756,6 +2776,7 @@
 		C6252DAF14E7562700350A13 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83FBA37014F2C672001F1299 /* neogeopocket_library.png */,
 				83F4DE2114E00F8800A82E36 /* controller_sms_mask.png */,
 				820EB74E1483F9D3008EC398 /* controller_sms.png */,
 				820EB7501483F9D3008EC398 /* InfoPlist.strings */,
@@ -2769,6 +2790,7 @@
 		C6252DB014E7564200350A13 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83FBA36E14F2C62F001F1299 /* gamegear_library.png */,
 				83F4DE1E14E00ED100A82E36 /* controller_sms_mask.png */,
 				822775531489471A00B19E27 /* controller_sms.png */,
 				822775551489471A00B19E27 /* InfoPlist.strings */,
@@ -2831,6 +2853,7 @@
 		C646574B13771F12002A4F70 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83FBA38214F2C870001F1299 /* gba_library.png */,
 				830BC86A14D5F1A5000826E2 /* controller_gba_mask.png */,
 				83DC1FCA1470857900F3D77A /* controller_gba.png */,
 				C646574C13771F12002A4F70 /* GameBoy Advance-Info.plist */,
@@ -2857,6 +2880,8 @@
 		C6480FC413648F670094FA33 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83FBA37A14F2C7DB001F1299 /* snes_eujap_library.png */,
+				83FBA37B14F2C7DB001F1299 /* snes_usa_library.png */,
 				830BC86714D5E1E6000826E2 /* controller_snes_mask.png */,
 				83977F611408FE4700175858 /* controller_snes_eu.png */,
 				83977F621408FE4700175858 /* controller_snes_jap.png */,
@@ -2887,6 +2912,8 @@
 		C64BB090136478E600C1AB23 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83FBA37614F2C752001F1299 /* famicom_library.png */,
+				83FBA37414F2C747001F1299 /* nes_library.png */,
 				C6252DA914E71D0500350A13 /* controller_fc.png */,
 				83F4DE1514E004ED00A82E36 /* controller_fc_mask.png */,
 				83977F6A1408FE8E00175858 /* controller_nes.png */,
@@ -2939,6 +2966,7 @@
 		C6711817136368330034379A /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83FBA37814F2C795001F1299 /* sms_library.png */,
 				83F4DE1B14E00C8600A82E36 /* controller_sms_mask.png */,
 				83977F6D1408FEA800175858 /* controller_sms.png */,
 				C6711818136368330034379A /* SegaMasterSystem-Info.plist */,
@@ -3013,6 +3041,7 @@
 		C6B947B21364ECA700A425F0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83FBA37E14F2C81C001F1299 /* gameboy_library.png */,
 				83F4DE2414E0130E00A82E36 /* controller_gb_mask.png */,
 				83977F671408FE6700175858 /* controller_gb.png */,
 				C6B947B31364ECA700A425F0 /* GameBoy-Info.plist */,
@@ -3039,6 +3068,7 @@
 		C6B947E91365080B00A425F0 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				83FBA38014F2C857001F1299 /* genesis_library.png */,
 				83F4DE2714E0167C00A82E36 /* controller_genesis_mask.png */,
 				83AE9F0A14B271E200E91BD8 /* controller_genesis.png */,
 				C6B947EA1365080B00A425F0 /* Genesis-Info.plist */,
@@ -3411,6 +3441,7 @@
 				141554161442B3B300A01683 /* InfoPlist.strings in Resources */,
 				141554291442C12200A01683 /* controller_n64.png in Resources */,
 				C6252DB214E7566600350A13 /* Controller-Preferences-Info.plist in Resources */,
+				83FBA37314F2C699001F1299 /* n64_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3429,6 +3460,7 @@
 				82C290931484002F007C0214 /* controller_sms.png in Resources */,
 				83F4DE2314E00FF100A82E36 /* controller_sms_mask.png in Resources */,
 				C6252DAE14E7556800350A13 /* Controller-Preferences-Info.plist in Resources */,
+				83FBA37114F2C672001F1299 /* neogeopocket_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3440,6 +3472,7 @@
 				822775611489471A00B19E27 /* controller_sms.png in Resources */,
 				83F4DE2014E00EE600A82E36 /* controller_sms_mask.png in Resources */,
 				C6252DAC14E752E300350A13 /* Controller-Preferences-Info.plist in Resources */,
+				83FBA36F14F2C62F001F1299 /* gamegear_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3498,7 +3531,6 @@
 				53439BF913B93920005C0CC8 /* badge_3.png in Resources */,
 				53439BFA13B93920005C0CC8 /* box_gloss.pdf in Resources */,
 				53439BFB13B93920005C0CC8 /* collections.png in Resources */,
-				53439BFC13B93920005C0CC8 /* consoles.png in Resources */,
 				53439BFD13B93920005C0CC8 /* hud_bar.png in Resources */,
 				53439BFE13B93920005C0CC8 /* hud_button.png in Resources */,
 				53439BFF13B93920005C0CC8 /* hud_close_button.png in Resources */,
@@ -3614,6 +3646,7 @@
 				83DC1FCD147085C800F3D77A /* controller_gba.png in Resources */,
 				830BC86C14D5F1DD000826E2 /* controller_gba_mask.png in Resources */,
 				C6252DBE14E75AE700350A13 /* Controller-Preferences-Info.plist in Resources */,
+				83FBA38314F2C870001F1299 /* gba_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3629,6 +3662,8 @@
 				C6252DB814E7590C00350A13 /* Controller-Preferences-Info.plist in Resources */,
 				C6252DC114E79EFB00350A13 /* Controller-Preferences-Info-JAP.plist in Resources */,
 				C6252DC214E79EFB00350A13 /* Controller-Preferences-Info-NA.plist in Resources */,
+				83FBA37C14F2C7DB001F1299 /* snes_eujap_library.png in Resources */,
+				83FBA37D14F2C7DB001F1299 /* snes_usa_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3636,6 +3671,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				83FBA38514F2C8A8001F1299 /* famicom_library.png in Resources */,
+				83FBA38414F2C89F001F1299 /* nes_library.png in Resources */,
 				C64BB094136478E600C1AB23 /* InfoPlist.strings in Resources */,
 				C6252DA814E71D0500350A13 /* controller_fc.png in Resources */,
 				83977F6C1408FE8E00175858 /* controller_nes.png in Resources */,
@@ -3662,6 +3699,7 @@
 				83977F6E1408FEA800175858 /* controller_sms.png in Resources */,
 				83F4DE1D14E00C9800A82E36 /* controller_sms_mask.png in Resources */,
 				C6252DB414E7572C00350A13 /* Controller-Preferences-Info.plist in Resources */,
+				83FBA37914F2C795001F1299 /* sms_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3673,6 +3711,7 @@
 				83977F681408FE6700175858 /* controller_gb.png in Resources */,
 				83F4DE2614E0131800A82E36 /* controller_gb_mask.png in Resources */,
 				C6252DBA14E759DB00350A13 /* Controller-Preferences-Info.plist in Resources */,
+				83FBA37F14F2C81C001F1299 /* gameboy_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3684,6 +3723,7 @@
 				83AE9F0D14B2725300E91BD8 /* controller_genesis.png in Resources */,
 				83F4DE2914E0169900A82E36 /* controller_genesis_mask.png in Resources */,
 				C6252DBC14E75A4800350A13 /* Controller-Preferences-Info.plist in Resources */,
+				83FBA38114F2C857001F1299 /* genesis_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

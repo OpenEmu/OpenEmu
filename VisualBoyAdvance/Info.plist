@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.8.0-vbanext</string>
 	<key>NSPrincipalClass</key>
-	<string>GBAGameController</string>
+	<string>OEGameCoreController</string>
 	<key>OEProjectURL</key>
 	<string>http://vba-m.com/</string>
 	<key>OESystemIdentifiers</key>
@@ -32,5 +32,9 @@
 	<string>http://openemu.org/update/vba_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>OEGameCoreClass</key>
+	<string>GBAGameCore</string>
+	<key>OEGameCorePlayerCount</key>
+	<string>1</string>
 </dict>
 </plist>

@@ -92,5 +92,7 @@
 			</array>
 		</array>
 	</array>
+	<key>OESystemIcon</key>
+	<string>sms_library</string>
 </dict>
 </plist>

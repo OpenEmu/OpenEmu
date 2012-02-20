@@ -53,6 +53,7 @@ NSString *const OESystemIdentifier          = @"OESystemIdentifier";
 NSString *const OEProjectURLKey             = @"OEProjectURL";
 NSString *const OESystemName                = @"OESystemName";
 
+NSString *const OESystemIconName            = @"OESystemIcon";
 NSString *const OEArchiveIDs                = @"OEArchiveIDs";
 NSString *const OEFileTypes                 = @"OEFileSuffixes";
 
@@ -84,7 +85,10 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
         _preferenceViewControllers = [[NSMutableDictionary alloc] init];
         
         _systemName = [[[_bundle infoDictionary] objectForKey:OESystemName] copy];
-        
+        NSString* iconFileName = [[_bundle infoDictionary] objectForKey:OESystemIconName];
+        NSString* iconFilePath = [_bundle pathForImageResource:iconFileName];
+        NSLog(@"%@", _bundle);
+        _systemIcon = [[NSImage alloc] initWithContentsOfFile:iconFilePath];
         [self OE_setupControlNames];
         
         [self OE_setupControllerPreferencesKeys];
@@ -281,6 +285,11 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 - (NSString *)systemName
 {
     return _systemName;
+}
+
+- (NSImage *)systemIcon
+{
+    return _systemIcon;
 }
 
 - (NSArray *)controlPageList;

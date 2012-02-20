@@ -95,5 +95,7 @@
 			</array>
 		</array>
 	</array>
+	<key>OESystemIcon</key>
+	<string>neogeopocket_library</string>
 </dict>
 </plist>

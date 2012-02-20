@@ -77,7 +77,7 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
     }
 }
 
-@synthesize responderClass, icon, gameSystemName, systemName, systemIdentifier;
+@synthesize responderClass, bundleIcon, gameSystemName, systemName, systemIcon, systemIdentifier;
 
 + (NSArray*)supportedTypeExtensions;
 {
@@ -104,7 +104,7 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
         
         NSString *iconPath = [[self bundle] pathForResource:[[self infoDictionary] objectForKey:@"CFIconName"] ofType:@"icns"];
         
-        icon = [[NSImage alloc] initWithContentsOfFile:iconPath];
+        bundleIcon = [[NSImage alloc] initWithContentsOfFile:iconPath];
         
         [[self class] registerGameSystemPlugin:self forIdentifier:systemIdentifier];
     }
@@ -121,6 +121,11 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
 
 - (NSString*)systemName{
     return [(OESystemController*)[self controller] systemName];
+}
+
+
+- (NSImage*)systemIcon{
+    return [(OESystemController*)[self controller] systemIcon];
 }
 
 - (NSArray *)supportedTypeExtensions;

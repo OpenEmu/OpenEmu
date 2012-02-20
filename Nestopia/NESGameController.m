@@ -27,7 +27,7 @@
 
 #import "NESGameController.h"
 #import "NESAdvancedPreference.h"
-#import "NESGameEmu.h"
+#import "NESGameCore.h"
 
 NSArray *NESRawControlNames = nil;
 NSArray *NESUsedControlNames = nil;
@@ -58,19 +58,9 @@ NSArray *NESUsedSettingNames = nil;
     return NESUsedSettingNames;
 }
 
-- (NSUInteger)playerCount
-{
-    return 4;
-}
-
-- (Class)gameCoreClass
-{
-    return [NESGameEmu class];
-}
-
-
 - (NSString *)gameSystemName;
 {
 	return @"Nintendo (NES)";
 }
+
 @end

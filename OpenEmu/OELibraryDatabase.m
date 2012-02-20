@@ -53,60 +53,6 @@
 static OELibraryDatabase *defaultDatabase = nil;
 @implementation OELibraryDatabase
 @synthesize persistentStoreCoordinator=_persistentStoreCoordinator, databaseURL;
-#define consoleImagesY consoleIcons.size.height-16*(row+1)
-+ (void)initialize
-{
-    // Make sure not to reinitialize for subclassed objects
-    if (self != [OELibraryDatabase class])
-        return;
-
-    NSImage *consoleIcons = [NSImage imageNamed:@"consoles"];
-    
-    // top Left -> bottom right
-    int row = 0;
-    [consoleIcons setName:@"Arcade (MAME)" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Atari 2600" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Nintendo (NES)" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)]; // eu / us
-    [consoleIcons setName:@"Famicom" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)]; // jap
-    
-    row = 1;
-    if([[OELocalizationHelper sharedHelper] isRegionNA])
-        [consoleIcons setName:@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
-    else
-        [consoleIcons setName:[[OELocalizationHelper sharedHelper] isRegionJAP]?@"Super Famicom":@"Super Nintendo (SNES)" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Nintendo 64" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Game Boy" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-
-    row = 2;
-    [consoleIcons setName:@"Virtual Boy" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Game Boy Advance" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Sega SG-1000" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Sega Master System" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-
-    row = 3;
-    [consoleIcons setName:@"Sega Genesis" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Sega 32x" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Sega CD" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Game Gear" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-
-    row = 4;
-    [consoleIcons setName:@"Atari 8bit Series" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Atari 5200" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Atari Lynx" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"WonderSwan" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-
-    row = 5;
-    [consoleIcons setName:@"GameCube" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Nintendo Wii" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"Nintendo DS" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"PC Engine" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-
-    row = 6;
-    [consoleIcons setName:@"TurboGrafx-16" forSubimageInRect:NSMakeRect(0, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"SuperGrafx" forSubimageInRect:NSMakeRect(16, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"PC-FX" forSubimageInRect:NSMakeRect(32, consoleImagesY, 16, 16)];
-    [consoleIcons setName:@"NeoGeo Pocket" forSubimageInRect:NSMakeRect(48, consoleImagesY, 16, 16)];
-}
 
 #pragma mark -
 + (BOOL)loadFromURL:(NSURL*)url error:(NSError**)outError{

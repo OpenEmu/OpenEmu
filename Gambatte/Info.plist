@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>0.4.3.1</string>
 	<key>NSPrincipalClass</key>
-	<string>GBGameController</string>
+	<string>OEGameCoreController</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
 	<key>SUFeedURL</key>
@@ -32,5 +32,9 @@
 	</array>
 	<key>OEProjectURL</key>
 	<string>http://gambatte.sourceforge.net/</string>
+	<key>OEGameCoreClass</key>
+	<string>GBGameCore</string>
+	<key>OEGameCorePlayerCount</key>
+	<string>1</string>
 </dict>
 </plist>

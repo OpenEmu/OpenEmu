@@ -75,4 +75,23 @@
 		return @"Nintendo (NES)";
 }
 
+- (NSImage*)systemIcon
+{
+    NSString* imageName;
+	if([[OELocalizationHelper sharedHelper] isRegionJAP])
+		imageName = @"famicom_library";
+	else 
+		imageName = @"nes_library"; 
+    
+    NSImage* image = [NSImage imageNamed:imageName];
+    if(!image)
+    {
+        NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+        NSString* path = [bundle pathForImageResource:imageName];
+        image = [[NSImage alloc] initWithContentsOfFile:path];
+        [image setName:imageName];
+    }
+    return image;
+}
+
 @end
