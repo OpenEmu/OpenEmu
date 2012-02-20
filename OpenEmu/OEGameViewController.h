@@ -108,6 +108,7 @@
 #pragma mark -
 #pragma mark Info
 - (NSSize)defaultScreenSize;
+- (NSString*)systemIdentifier;
 #pragma mark -
 #pragma mark Menu Items
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;

@@ -57,6 +57,11 @@
 	return @"Library";
 }
 
+- (NSString*)localizedTitle
+{
+    return NSLocalizedString([self title], "");
+}
+
 - (NSSize)viewSize
 {
 	// TODO: decide how to implement Available Libraries

@@ -245,10 +245,6 @@
     [menu addItem:item];
     [item setSubmenu:filterMenu];
     
-    item = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Edit Core Settings", @"") action:@selector(optionsActionCorePreferences:) keyEquivalent:@""];
-    [item setTarget:self];
-    [menu addItem:item];
-    
     OEMenu *oemenu = [menu convertToOEMenu];
     [oemenu setStyle:OEMenuStyleLight];
     [oemenu setDelegate:self];
@@ -259,15 +255,21 @@
     [oemenu openOnEdge:OEMaxYEdge ofRect:targetRect ofWindow:self];
 }
 
-- (void)optionsActionEditControls:(id)sender{}
+- (void)optionsActionEditControls:(id)sender{
+    NSString* systemIdentifier = [[self gameViewController] systemIdentifier];
+    NSDictionary* userInfo = [NSDictionary dictionaryWithObjectsAndKeys:
+                              @"Controls", OEPreferencesOpenPanelUserInfoPanelNameKey,
+                              systemIdentifier, OEPreferencesOpenPanelUserInfoSystemIdentifierKey,
+                              nil];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];
+}
 
 - (void)optionsActionSelectFilter:(id)sender
 {
     NSString *selectedFilter = [sender title];
     [[NSUserDefaults standardUserDefaults] setObject:selectedFilter forKey:UDVideoFilterKey];
 }
-
-- (void)optionsActionCorePreferences:(id)sender {}
 
 #pragma mark -
 #pragma mark Save States
