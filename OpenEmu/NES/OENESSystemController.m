@@ -79,9 +79,9 @@
 {
     NSString* imageName;
 	if([[OELocalizationHelper sharedHelper] isRegionJAP])
-		imageName = @"famicom";
+		imageName = @"famicom_library";
 	else 
-		imageName = @"nes"; 
+		imageName = @"nes_library"; 
     
     NSImage* image = [NSImage imageNamed:imageName];
     if(!image)

@@ -81,10 +81,10 @@
 - (NSImage*)systemIcon
 {
     NSString* imageName;
-	if([[OELocalizationHelper sharedHelper] isRegionJAP])
-		imageName = @"sf";
+	if([[OELocalizationHelper sharedHelper] isRegionNA])
+		imageName = @"snes_eujap_library";
 	else 
-		imageName = @"snes"; 
+		imageName = @"snes_usa_library"; 
     
     NSImage* image = [NSImage imageNamed:imageName];
     if(!image)

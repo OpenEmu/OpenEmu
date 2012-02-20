@@ -92,7 +92,7 @@
 			</array>
 		</array>
 	</array>
-	<key>OESystemIconName</key>
-	<string>gg</string>
+	<key>OESystemIcon</key>
+	<string>gamegear_library</string>
 </dict>
 </plist>

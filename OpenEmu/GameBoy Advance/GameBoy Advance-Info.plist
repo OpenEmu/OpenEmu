@@ -111,7 +111,7 @@
 			</array>
 		</array>
 	</array>
-	<key>OESystemIconName</key>
-	<string>gba</string>
+	<key>OESystemIcon</key>
+	<string>gba_library</string>
 </dict>
 </plist>

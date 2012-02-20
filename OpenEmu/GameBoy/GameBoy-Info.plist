@@ -101,7 +101,7 @@
 			</array>
 		</array>
 	</array>
-	<key>OESystemIconName</key>
-	<string>gb</string>
+	<key>OESystemIcon</key>
+	<string>gameboy_library</string>
 </dict>
 </plist>

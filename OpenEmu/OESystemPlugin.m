@@ -124,7 +124,7 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
 }
 
 
-- (NSString*)systemIcon{
+- (NSImage*)systemIcon{
     return [(OESystemController*)[self controller] systemIcon];
 }
 
