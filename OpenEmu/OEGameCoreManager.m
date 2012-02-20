@@ -49,9 +49,7 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
         romPath = [theRomPath copy];
         
         if(![self startHelperProcessError:outError])
-        {
             return nil;
-        }
         
         if(![self loadROMError:outError])
         {
@@ -91,8 +89,17 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 - (BOOL)loadROMError:(NSError **)outError
 {
-    DLog(@"[self rootProxy]: %@", [self rootProxy]);
-    BOOL ret = [[self rootProxy] loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:owner];
+    BOOL ret = NO;
+    
+    @try
+    {
+        DLog(@"[self rootProxy]: %@", [self rootProxy]);
+        ret = [[self rootProxy] loadRomAtPath:romPath withCorePluginAtPath:[[plugin bundle] bundlePath] owner:owner];
+    }
+    @catch(NSException *exception)
+    {
+        NSLog(@"%@", exception);
+    }
     
     if(!ret && outError != NULL) 
         *outError = [NSError errorWithDomain:@"OEHelperProcessErrorDomain"
@@ -171,16 +178,15 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
     {
         [self endHelperProcess];
         if(outError != NULL)
-        {
             *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
                                             code:OEInvalidHelperConnectionError
                                         userInfo:[NSDictionary dictionaryWithObject:NSLocalizedString(@"The background process connection couldn't be established", @"Invalid helper connection error reason.") forKey:NSLocalizedFailureReasonErrorKey]];
-        }
+        
         return NO;
     }
     
     // now that we have a valid connection...
-    rootProxy = (id <OEGameCoreHelper>)[taskConnection rootProxy];
+    rootProxy = (id<OEGameCoreHelper>)[taskConnection rootProxy];
     if(rootProxy == nil)
     {
         NSLog(@"nil root proxy object?");
@@ -234,8 +240,8 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 - (void)executionThread:(id)object
 {
-    @autoreleasepool {
-    
+    @autoreleasepool
+    {
         taskUUIDForDOServer = [NSString stringWithUUID];
         
         [[NSThread currentThread] setName:[OEHelperServerNamePrefix stringByAppendingString:taskUUIDForDOServer]];
@@ -246,10 +252,8 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
         
         if([helperObject launchConnectionWithIdentifierSuffix:taskUUIDForDOServer error:&localError])
             CFRunLoopRun();
-        else {
-             error = localError;
-        }
-    
+        else
+            error = localError;
     }
 }
 
