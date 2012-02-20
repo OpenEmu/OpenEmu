@@ -92,5 +92,7 @@
 			</array>
 		</array>
 	</array>
+	<key>OESystemIcon</key>
+	<string>gamegear_library</string>
 </dict>
 </plist>

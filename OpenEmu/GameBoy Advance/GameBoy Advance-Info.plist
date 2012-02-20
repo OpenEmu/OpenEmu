@@ -111,5 +111,7 @@
 			</array>
 		</array>
 	</array>
+	<key>OESystemIcon</key>
+	<string>gba_library</string>
 </dict>
 </plist>

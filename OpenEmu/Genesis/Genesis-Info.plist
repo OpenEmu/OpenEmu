@@ -127,5 +127,7 @@
 			</array>
 		</array>
 	</array>
+	<key>OESystemIcon</key>
+	<string>genesis_library</string>
 </dict>
 </plist>
