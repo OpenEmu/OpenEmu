@@ -56,7 +56,7 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
 
 
 @implementation OEGameCoreController
-@synthesize currentPreferenceViewController, bundle, pluginName, supportDirectoryPath, playerString;
+@synthesize currentPreferenceViewController, bundle, pluginName, supportDirectoryPath;
 
 static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 
