@@ -24,6 +24,10 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#import "OEGridViewCell.h"
+#import "OEGridView.h"
+#import "OEGridView+OEGridViewCell.h"
+
 @interface OEGridViewCell (Private)
 
 - (void)_reorderLayers;
