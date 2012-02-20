@@ -44,7 +44,9 @@
 
 @implementation OEGameDocument
 @synthesize gameViewController;
+
 #pragma mark -
+
 - (id)init
 {
     self = [super init];
@@ -123,7 +125,7 @@
 
 #pragma mark -
 
-- (BOOL)OE_loadGame:(OEDBGame*)game withError:(NSError **)outError
+- (BOOL)OE_loadGame:(OEDBGame *)game withError:(NSError **)outError
 {
     gameViewController = [[OEGameViewController alloc] initWithGame:game error:outError];
     if(gameViewController == nil) return NO;
@@ -133,7 +135,7 @@
     return YES;
 }
 
-- (BOOL)OE_loadRom:(OEDBRom*)rom withError:(NSError **)outError
+- (BOOL)OE_loadRom:(OEDBRom *)rom withError:(NSError **)outError
 {
     gameViewController = [[OEGameViewController alloc] initWithRom:rom error:outError];
     if(gameViewController == nil)

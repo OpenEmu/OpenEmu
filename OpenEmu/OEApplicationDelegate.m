@@ -45,6 +45,8 @@
 #import "OELibraryController.h"
 
 #import "OEHUDAlert.h"
+#import "OEGameDocument.h"
+
 static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplicationDelegateAllPluginsContext;
 
 @interface OEApplicationDelegate ()
@@ -121,6 +123,19 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
      NSLog(@"core was installed!");
      }];*/
 }
+
+- (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
+{
+    [super openDocumentWithContentsOfURL:url display:NO completionHandler:
+     ^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
+     {
+         if([document isKindOfClass:[OEGameDocument class]])
+             [mainWindowController openGameDocument:(OEGameDocument *)document];
+         
+         completionHandler(document, documentWasAlreadyOpen, error);
+     }];
+}
+
 #pragma mark -
 #pragma mark Loading The Database
 
