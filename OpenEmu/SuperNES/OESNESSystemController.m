@@ -82,9 +82,9 @@
 {
     NSString* imageName;
 	if([[OELocalizationHelper sharedHelper] isRegionNA])
-		imageName = @"snes_eujap_library";
+		imageName = @"snes_usa_library";
 	else 
-		imageName = @"snes_usa_library"; 
+		imageName = @"snes_eujap_library"; 
     
     NSImage* image = [NSImage imageNamed:imageName];
     if(!image)

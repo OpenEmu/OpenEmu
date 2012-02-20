@@ -498,7 +498,7 @@
         [item setTarget:self];
         [item setRepresentedObject:[plugin systemIdentifier]];
         
-        [item setImage:[NSImage imageNamed:[item title]]];
+        [item setImage:[plugin systemIcon]];
         
         [consolesMenu addItem:item];
     }
