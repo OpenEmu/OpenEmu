@@ -205,6 +205,11 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
     return @"Cores";
 }
 
+- (NSString*)localizedTitle
+{
+    return NSLocalizedString([self title], "");
+}
+
 - (NSSize)viewSize
 {
     return NSMakeSize(423, 474);

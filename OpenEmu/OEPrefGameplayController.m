@@ -75,6 +75,11 @@
 	return @"Gameplay";
 }
 
+- (NSString*)localizedTitle
+{
+    return NSLocalizedString([self title], "");
+}
+
 - (NSSize)viewSize
 {
 	return NSMakeSize(423, 381);

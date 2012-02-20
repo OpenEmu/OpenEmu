@@ -29,6 +29,7 @@
 - (void)_showView:(NSView*)view atSize:(NSSize)size animate:(BOOL)animateFlag;
 - (void)_reloadPreferencePanes;
 - (void)_rebuildToolbar;
+- (void)_openPreferencePane:(NSNotification*)notification;
 @end
 @implementation OEPreferencesController
 @synthesize preferencePanes;
@@ -37,6 +38,7 @@
     self = [super initWithWindow:window];
     if (self) 
     {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_openPreferencePane:) name:OEPreferencesOpenPaneNotificationName object:nil];
     }
     
     return self;
@@ -45,8 +47,8 @@
 - (void)dealloc
 {
     toolbar = nil;
-    
-    
+ 
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (NSString*)windowNibName
@@ -144,12 +146,29 @@
     for(id <OEPreferencePane> aPreferencePane in self.preferencePanes)
     {
         OEToolbarItem *toolbarItem = [[OEToolbarItem alloc] init];
-        [toolbarItem setTitle:[aPreferencePane title]];
+        [toolbarItem setTitle:[aPreferencePane localizedTitle]];
         [toolbarItem setIcon:[aPreferencePane icon]];
         [toolbarItem setTarget:self];
         [toolbarItem setAction:@selector(switchView:)];
         [toolbar addItem:toolbarItem];
     }
+}
+
+- (void)_openPreferencePane:(NSNotification*)notification
+{
+    NSDictionary* userInfo = [notification userInfo];
+    NSString* paneName = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
+    
+    NSInteger index = 0;
+    for(id <OEPreferencePane> aPreferencePane in self.preferencePanes)
+    {
+        if([[aPreferencePane title] isEqualToString:paneName])
+            break;
+        index++;
+    }
+
+    [self switchView:[NSNumber numberWithInteger:index] animate:[[self window] isVisible]];
+    [[self window] makeKeyAndOrderFront:self];
 }
 #pragma mark -
 - (void)switchView:(id)sender
@@ -159,7 +178,18 @@
 
 - (void)switchView:(id)sender animate:(BOOL)animateFlag
 {
-    NSInteger selectedTab = [[toolbar items] indexOfObject:sender];
+    NSInteger selectedTab;
+    if([sender isKindOfClass:[OEToolbarItem class]])
+    {
+        selectedTab = [[toolbar items] indexOfObject:sender];
+    }
+    else if([sender isKindOfClass:[NSNumber class]])
+    {
+        selectedTab = [sender integerValue];
+    } else {
+        return;
+    }
+    
     NSViewController <OEPreferencePane>  *pane = [self.preferencePanes objectAtIndex:selectedTab];
     
     NSSize viewSize = [pane viewSize];
