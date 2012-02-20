@@ -390,7 +390,12 @@
 - (void)gridView:(OEGridView *)view didEndEditingCellForItemAtIndex:(NSUInteger)index
 {
     OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
+    if(!item)
+        return;
+
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
+    if(!object)
+        return;
 
     [object setGridRating:[item rating]];
     [object setGridTitle:[item title]];
