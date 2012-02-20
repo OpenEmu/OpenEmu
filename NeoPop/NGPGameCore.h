@@ -25,31 +25,26 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "FCEUGameController.h"
-#import "FCEUGameEmu.h"
+#if !defined(LSB_FIRST) && !defined(MSB_FIRST)
+#ifdef __BIG_ENDIAN__
+#define MSB_FIRST
+#else
+#define LSB_FIRST
+#endif
+#endif
 
-@implementation FCEUGameController
+#import <Cocoa/Cocoa.h>
+#import <OEGameCore.h>
 
-+ (void)initialize
+@class GameDocument;
+
+@interface NGPGameCore : OEGameCore
 {
-    if(self == [FCEUGameController class])
-    {
-    }
-}
-
-- (NSArray *)genericControlNames
-{
-    return nil;
-}
-
-- (NSUInteger)playerCount
-{
-    return MAC_MAX_PLAYERS;
-}
-
-- (Class)gameCoreClass
-{
-    return [FCEUGameEmu class];
+    GameDocument *parent;
+    NSLock       *soundLock;
+    NSLock       *bufLock;
+    NSString     *pathToFile;
+    int           blit;
 }
 
 @end

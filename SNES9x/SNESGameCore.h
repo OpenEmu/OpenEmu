@@ -26,10 +26,20 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OpenEmuBase/OpenEmuBase.h>
+#import <OEGameCore.h>
 
-OE_EXTERN NSArray *MednafenRawControlNames;
-OE_EXTERN NSArray *MednafenUsedControlNames;
+#define MAC_MAX_PLAYERS 8
+#define SNES_CONTROL_COUNT 12
 
-@interface MednafenGameController : OEGameCoreController
+OE_EXTERN NSString *SNESEmulatorNames[];
+
+@class OERingBuffer;
+
+@interface SNESGameCore : OEGameCore
+{
+    uint32         controlPad[MAC_MAX_PLAYERS];
+    UInt16        *soundBuffer;
+    unsigned char *videoBuffer;
+}
+
 @end

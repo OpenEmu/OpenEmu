@@ -28,9 +28,11 @@
 #import <Cocoa/Cocoa.h>
 #import "OEPluginController.h"
 
-extern NSString *const OEControlsPreferenceKey DEPRECATED_ATTRIBUTE;
 extern NSString *const OEAdvancedPreferenceKey;
+extern NSString *const OEGameCoreClassKey;
+extern NSString *const OEGameCorePlayerCountKey;
 
+extern NSString *const OEControlsPreferenceKey DEPRECATED_ATTRIBUTE;
 extern NSString *const OESettingValueKey DEPRECATED_ATTRIBUTE;
 extern NSString *const OEHIDEventValueKey DEPRECATED_ATTRIBUTE;
 extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
@@ -41,20 +43,21 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
 @interface OEGameCoreController : NSResponder <OEPluginController>
 {
 @private
-    //id                   __unsafe_unretained currentPreferenceViewController DEPRECATED_ATTRIBUTE;
     NSBundle            *bundle;
     NSString            *pluginName;
     NSString            *supportDirectoryPath;
-    NSString            *playerString DEPRECATED_ATTRIBUTE;
     NSMutableArray      *gameDocuments;
     NSMutableArray      *settingObservers;
     NSMutableDictionary *preferenceViewControllers;
 }
 
+- (id)initWithBundle:(NSBundle *)aBundle;
+
 @property(readonly) NSBundle *bundle;
-@property(readonly) Class     gameCoreClass;
-@property(weak, readonly) id        currentPreferenceViewController;
 @property(readonly) NSString *playerString;
+@property(readonly) Class     gameCoreClass;
+
+@property(weak, readonly) id currentPreferenceViewController;
 
 + (void)registerPreferenceViewControllerClasses:(NSDictionary *)viewControllerClasses;
 

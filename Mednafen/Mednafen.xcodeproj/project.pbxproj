@@ -27,7 +27,6 @@
 		8240861B0FFDD64600F0FE7D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8240861A0FFDD64600F0FE7D /* libz.dylib */; };
 		824088360FFDDCF400F0FE7D /* MednafenGameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 824088350FFDDCF400F0FE7D /* MednafenGameCore.mm */; };
 		824088D30FFDE05900F0FE7D /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 824088D20FFDE05400F0FE7D /* OpenEmuBase.framework */; };
-		824089F00FFDEA6C00F0FE7D /* MednafenGameController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 824089EF0FFDEA6C00F0FE7D /* MednafenGameController.mm */; };
 		8296617D1042474500F30B74 /* libcdio.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8296617C1042474500F30B74 /* libcdio.a */; };
 		829661C410424C2000F30B74 /* libsndfile.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 829661C310424C1F00F30B74 /* libsndfile.a */; };
 		82CFBC520FFEF432002B6C7C /* Mednafen.icns in Resources */ = {isa = PBXBuildFile; fileRef = 82CFBC510FFEF432002B6C7C /* Mednafen.icns */; };
@@ -687,8 +686,6 @@
 		824088340FFDDCF400F0FE7D /* MednafenGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MednafenGameCore.h; sourceTree = "<group>"; };
 		824088350FFDDCF400F0FE7D /* MednafenGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MednafenGameCore.mm; sourceTree = "<group>"; };
 		824088C40FFDE05400F0FE7D /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
-		824089EE0FFDEA6C00F0FE7D /* MednafenGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MednafenGameController.h; sourceTree = "<group>"; };
-		824089EF0FFDEA6C00F0FE7D /* MednafenGameController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MednafenGameController.mm; sourceTree = "<group>"; };
 		8296617C1042474500F30B74 /* libcdio.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcdio.a; sourceTree = "<group>"; };
 		829661C310424C1F00F30B74 /* libsndfile.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libsndfile.a; sourceTree = "<group>"; };
 		82CFB39D0FFE4BA1002B6C7C /* input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = input.h; sourceTree = "<group>"; };
@@ -2018,8 +2015,6 @@
 				82407F340FFD99D700F0FE7D /* core */,
 				824088340FFDDCF400F0FE7D /* MednafenGameCore.h */,
 				824088350FFDDCF400F0FE7D /* MednafenGameCore.mm */,
-				824089EE0FFDEA6C00F0FE7D /* MednafenGameController.h */,
-				824089EF0FFDEA6C00F0FE7D /* MednafenGameController.mm */,
 				82CFB39D0FFE4BA1002B6C7C /* input.h */,
 			);
 			name = Classes;
@@ -4626,7 +4621,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				824088360FFDDCF400F0FE7D /* MednafenGameCore.mm in Sources */,
-				824089F00FFDEA6C00F0FE7D /* MednafenGameController.mm in Sources */,
 				C62954BF1369241300F94899 /* desa68.c in Sources */,
 				C62954C31369241300F94899 /* cdplay.cpp in Sources */,
 				C62954C41369241300F94899 /* audioreader.cpp in Sources */,

@@ -58,7 +58,6 @@
 		B5DA7D810F5B28280008F047 /* smsz80.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D6F0F5B28280008F047 /* smsz80.c */; };
 		B5DA7D820F5B28280008F047 /* terebi.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D710F5B28280008F047 /* terebi.c */; };
 		B5DA7D830F5B28280008F047 /* tms9918a.c in Sources */ = {isa = PBXBuildFile; fileRef = B5DA7D730F5B28280008F047 /* tms9918a.c */; };
-		C61C99CB0F58341D007F4242 /* SMSGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C61C99CA0F58341D007F4242 /* SMSGameController.m */; };
 		C66DFC1A0F51D82F0080AA28 /* SMSGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = C66DFC180F51D82F0080AA28 /* SMSGameCore.m */; };
 		C689A5390FE4621C00885BC3 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6E917D40FD356A500AC2CCC /* OpenEmuBase.framework */; };
 /* End PBXBuildFile section */
@@ -260,8 +259,6 @@
 		B5DA7D730F5B28280008F047 /* tms9918a.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tms9918a.c; sourceTree = "<group>"; };
 		B5DA7D740F5B28280008F047 /* tms9918a.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tms9918a.h; sourceTree = "<group>"; };
 		B5DA7D8C0F5B28940008F047 /* CrabEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrabEmu.h; sourceTree = "<group>"; };
-		C61C99C90F58341D007F4242 /* SMSGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSGameController.h; sourceTree = "<group>"; };
-		C61C99CA0F58341D007F4242 /* SMSGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSGameController.m; sourceTree = "<group>"; };
 		C66DFC180F51D82F0080AA28 /* SMSGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SMSGameCore.m; sourceTree = "<group>"; };
 		C66DFC190F51D82F0080AA28 /* SMSGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMSGameCore.h; sourceTree = "<group>"; };
 		C689A4DC0FE45C2A00885BC3 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -322,8 +319,6 @@
 			children = (
 				C66DFC190F51D82F0080AA28 /* SMSGameCore.h */,
 				C66DFC180F51D82F0080AA28 /* SMSGameCore.m */,
-				C61C99C90F58341D007F4242 /* SMSGameController.h */,
-				C61C99CA0F58341D007F4242 /* SMSGameController.m */,
 				C6B3E67C1365255700D34947 /* OESMSSystemResponderClient.h */,
 				8291C4E21489595000A72540 /* OEGGSystemResponderClient.h */,
 			);
@@ -696,7 +691,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				C66DFC1A0F51D82F0080AA28 /* SMSGameCore.m in Sources */,
-				C61C99CB0F58341D007F4242 /* SMSGameController.m in Sources */,
 				B5DA7D460F5B28040008F047 /* sn76489.c in Sources */,
 				B5DA7D550F5B281B0008F047 /* CrabZ80.c in Sources */,
 				B5DA7D560F5B281B0008F047 /* CrabZ80d.c in Sources */,

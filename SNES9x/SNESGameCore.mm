@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SNESGameEmu.h"
+#import "SNESGameCore.h"
 #import <OERingBuffer.h>
 #import <OpenGL/gl.h>
 
@@ -49,7 +49,7 @@
 #define SAMPLERATE      48000
 #define SIZESOUNDBUFFER SAMPLERATE / 60 * 4
 
-@implementation SNESGameEmu
+@implementation SNESGameCore
 
 NSString *SNESEmulatorKeys[] = { @"A", @"B", @"X", @"Y", @"Up", @"Down", @"Left", @"Right", @"Start", @"Select", @"L", @"R", nil };
 

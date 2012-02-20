@@ -25,26 +25,27 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GBAGameEmu.h"
+#import "FCEUGameCore.h"
 #import <OERingBuffer.h>
-#import "OEGBASystemResponderClient.h"
+#import "OENESSystemResponderClient.h"
 #import <OpenGL/gl.h>
 
-#include "libsnes.hpp"
-#include "Sound.h"
+#include "libsnes.h"
+//#include "../src-fceumm/sound.h"
 
+//#define SAMPLERATE 32040
 #define SAMPLERATE 48000
 #define SAMPLEFRAME 800
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
 
-@interface GBAGameEmu () <OEGBASystemResponderClient>
+@interface FCEUGameCore () <OENESSystemResponderClient>
 @end
 
-NSUInteger GBAEmulatorValues[] = { SNES_DEVICE_ID_JOYPAD_A, SNES_DEVICE_ID_JOYPAD_B, SNES_DEVICE_ID_JOYPAD_SELECT, SNES_DEVICE_ID_JOYPAD_START, SNES_DEVICE_ID_JOYPAD_RIGHT, SNES_DEVICE_ID_JOYPAD_LEFT, SNES_DEVICE_ID_JOYPAD_UP, SNES_DEVICE_ID_JOYPAD_DOWN, SNES_DEVICE_ID_JOYPAD_R, SNES_DEVICE_ID_JOYPAD_L };
-NSString *GBAEmulatorKeys[] = { @"Joypad@ A", @"Joypad@ B", @"Joypad@ Select", @"Joypad@ Start", @"Joypad@ Right", @"Joypad@ Left", @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ R", @"Joypad@ L"};
+NSUInteger FCEUEmulatorValues[] = { SNES_DEVICE_ID_JOYPAD_A, SNES_DEVICE_ID_JOYPAD_B, SNES_DEVICE_ID_JOYPAD_UP, SNES_DEVICE_ID_JOYPAD_DOWN, SNES_DEVICE_ID_JOYPAD_LEFT, SNES_DEVICE_ID_JOYPAD_RIGHT, SNES_DEVICE_ID_JOYPAD_START, SNES_DEVICE_ID_JOYPAD_SELECT };
+NSString *FCEUEmulatorKeys[] = { @"Joypad@ A", @"Joypad@ B", @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ Left", @"Joypad@ Right", @"Joypad@ Start", @"Joypad@ Select"};
 
-GBAGameEmu *current;
-@implementation GBAGameEmu
+FCEUGameCore *current;
+@implementation FCEUGameCore
 
 static uint16_t conv555Rto565(uint16_t p)
 {
@@ -60,13 +61,19 @@ static uint16_t conv555Rto565(uint16_t p)
     return r | (g << 5) | (b << 11);
 }
 
+static void audio_callback(uint16_t left, uint16_t right)
+{
+    [[current ringBufferAtIndex:0] write:&left maxLength:2];
+    [[current ringBufferAtIndex:0] write:&right maxLength:2];
+}
+
 static void video_callback(const uint16_t *data, unsigned width, unsigned height)
 {
     // Normally our pitch is 2048 bytes.
-    int stride = 256;
+    int stride = 1024;
     // If we have an interlaced mode, pitch is 1024 bytes.
-    if ( height == 240 || height == 478 )
-        stride = 240;
+    if ( height == 256 || height == 478 )
+        stride = 256;
     
     current->videoWidth  = width;
     current->videoHeight = height;
@@ -76,19 +83,12 @@ static void video_callback(const uint16_t *data, unsigned width, unsigned height
     // TODO opencl CPU device?
     dispatch_apply(height, the_queue, ^(size_t y){
         const uint16_t *src = data + y * stride;
-        uint16_t *dst = current->videoBuffer + y * 240;
+        uint16_t *dst = current->videoBuffer + y * 256;
         
         for (int x = 0; x < width; x++) {
             dst[x] = conv555Rto565(src[x]);
         }
     });
-}
-
-// TODO implement systemDrawScreen here
-
-void systemOnWriteDataToSoundBuffer(int16_t *finalWave, int length)
-{
-    [[current ringBufferAtIndex:0] write:finalWave maxLength:2*length];
 }
 
 static void input_poll_callback(void)
@@ -115,9 +115,12 @@ static bool environment_callback(unsigned cmd, void *data)
     switch (cmd)
     {
         case SNES_ENVIRONMENT_GET_FULLPATH:
-            //*(const char**)data = (const char*)current->romName;
             *(const char**)data = [current->romName cStringUsingEncoding:NSUTF8StringEncoding];
             NSLog(@"Environ FULLPATH: \"%@\"\n", current->romName);
+            break;
+            
+        case SNES_ENVIRONMENT_SET_TIMING:
+
             break;
             
         default:
@@ -176,14 +179,24 @@ static void writeSaveFile(const char* path, int type)
     }
 }
 
-- (void)didPushGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
+- (void)didPushNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
 {
-    pad[player-1][GBAEmulatorValues[button]] = 1;
+    pad[player-1][FCEUEmulatorValues[button]] = 0xFFFF;
+    //pad[player-1][FCEUEmulatorValues[button]] = 1;
 }
 
-- (void)didReleaseGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
+- (void)didReleaseNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
 {
-    pad[player-1][GBAEmulatorValues[button]] = 0;
+    pad[player-1][FCEUEmulatorValues[button]] = 0;
+}
+
+- (void)didPushFDSChangeSideButton;
+{
+
+}
+- (void)didReleaseFDSChangeSideButton;
+{
+
 }
 
 - (id)init
@@ -193,7 +206,7 @@ static void writeSaveFile(const char* path, int type)
     {
         if(videoBuffer) 
             free(videoBuffer);
-        videoBuffer = (uint16_t*)malloc(240 * 160 * 2);
+        videoBuffer = (uint16_t*)malloc(256 * 240 * 2);
     }
 	
 	current = self;
@@ -215,7 +228,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (BOOL)loadFileAtPath: (NSString*) path
 {
-	memset(pad, 0, sizeof(int16_t) * 10);
+	memset(pad, 0, sizeof(int16_t) * 16);
     
     uint8_t *data;
     unsigned size;
@@ -234,6 +247,7 @@ static void writeSaveFile(const char* path, int type)
     snes_set_environment(environment_callback);
 	snes_init();
 	
+    snes_set_audio_sample(audio_callback);
     snes_set_video_refresh(video_callback);
     snes_set_input_poll(input_poll_callback);
     snes_set_input_state(input_state_callback);
@@ -256,11 +270,9 @@ static void writeSaveFile(const char* path, int type)
         }
         
         snes_set_controller_port_device(SNES_PORT_1, SNES_DEVICE_JOYPAD);
-        //snes_set_controller_port_device(SNES_PORT_2, SNES_DEVICE_NONE);
+        snes_set_controller_port_device(SNES_PORT_2, SNES_DEVICE_JOYPAD);
         
-        //snes_get_region();
-        
-        soundSetSampleRate(SAMPLERATE);
+        snes_get_region();
         
         snes_run();
     }
@@ -276,13 +288,12 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntRect)screenRect
 {
-    // hope this handles hires :/
     return OERectMake(0, 0, videoWidth, videoHeight);
 }
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(240, 160);
+    return OESizeMake(256, 240);
 }
 
 - (void)setupEmulation
@@ -318,7 +329,7 @@ static void writeSaveFile(const char* path, int type)
     }
     
     NSLog(@"snes term");
-    //snes_unload_cartridge();
+    snes_unload_cartridge();
     snes_term();
     [super stopEmulation];
 }

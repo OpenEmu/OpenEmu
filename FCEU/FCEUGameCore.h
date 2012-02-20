@@ -26,7 +26,24 @@
  */
 
 #import <Cocoa/Cocoa.h>
-#import <OEGameCoreController.h>
+#import <OEGameCore.h>
 
-@interface GBAGameController : OEGameCoreController
+#define MAC_MAX_PLAYERS 2
+#define SNES_CONTROL_COUNT 8
+
+extern NSString *FCEUEmulatorNames[];
+
+@class OERingBuffer;
+
+@interface FCEUGameCore : OEGameCore
+{
+    @public
+    uint32    controlPad[MAC_MAX_PLAYERS];
+    uint16_t *soundBuffer;
+    uint16_t *videoBuffer;
+    int videoWidth, videoHeight;
+    int16_t pad[2][8];
+    NSString *romName;
+}
+
 @end

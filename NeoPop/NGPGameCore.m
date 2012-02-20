@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NGPGameEmu.h"
+#import "NGPGameCore.h"
 #include "neopop.h"
 #include <sys/stat.h>
 #import <OpenGL/gl.h>
@@ -52,10 +52,10 @@ _u8 system_frameskip_key;
 
 BOOL system_rom_load(const char *filename);
 
-@interface NGPGameEmu () <OENGPSystemResponderClient>
+@interface NGPGameCore () <OENGPSystemResponderClient>
 @end
 
-@implementation NGPGameEmu
+@implementation NGPGameCore
 
 static NSString *gPathToFile = NULL;
 int *gBlit = NULL;

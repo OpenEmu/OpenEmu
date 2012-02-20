@@ -47,7 +47,7 @@ OE_EXTERN NSString *const NESColorFringing ;
 OE_EXTERN NSString *const NESHue;
 OE_EXTERN NSString *const NESUnlimitedSprites;
 
-@interface NESGameEmu : OEGameCore
+@interface NESGameCore : OEGameCore
 {
     NSString             *romPath;
     NSLock               *soundLock;
@@ -79,7 +79,7 @@ OE_EXTERN NSString *const NESUnlimitedSprites;
 @end
 
 #pragma mark NES-specific features
-@interface NESGameEmu (NesAdditions)
+@interface NESGameCore (NesAdditions)
 
 - (BOOL)isUnlimitedSpritesEnabled;
 - (int)brightness;

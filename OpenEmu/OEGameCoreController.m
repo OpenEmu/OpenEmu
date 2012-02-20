@@ -38,18 +38,24 @@
 - (NSString *)applicationSupportFolder;
 @end
 
-NSString *const OEAdvancedPreferenceKey = @"OEAdvancedPreferenceKey";
+NSString *const OEAdvancedPreferenceKey  = @"OEAdvancedPreferenceKey";
+NSString *const OEGameCoreClassKey       = @"OEGameCoreClass";
+NSString *const OEGameCorePlayerCountKey = @"OEGameCorePlayerCount";
 
 NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardNamespace", @"OEHIDNamespace", @"OEMouseNamespace", @"OEOtherNamespace" };
 
 
 @interface OEGameCoreController () <OESettingObserver>
+{
+    Class     gameCoreClass;
+    NSInteger playerCount;
+}
+
 - (void)OE_enumerateSettingKeysUsingBlock:(void(^)(NSString *keyPath, NSString *keyName))block;
 @end
 
 
 @implementation OEGameCoreController
-
 @synthesize currentPreferenceViewController, bundle, pluginName, supportDirectoryPath, playerString;
 
 static NSMutableDictionary *_preferenceViewControllerClasses = nil;
@@ -79,7 +85,34 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     [_preferenceViewControllerClasses setObject:[viewControllerClasses copy] forKey:self];
 }
 
+- (id)init
+{
+    return [self initWithBundle:[NSBundle bundleForClass:[self class]]];
+}
 
+- (id)initWithBundle:(NSBundle *)aBundle;
+{
+    if((self = [super init]))
+    {
+        bundle        = aBundle;
+        pluginName    = ([[bundle infoDictionary] objectForKey:@"CFBundleExecutable"] ? :
+                         [[bundle infoDictionary] objectForKey:@"CFBundleName"]);
+        gameCoreClass = NSClassFromString([[bundle infoDictionary] objectForKey:OEGameCoreClassKey]);
+        playerCount   = [[[bundle infoDictionary] objectForKey:OEGameCorePlayerCountKey] integerValue];
+        
+        NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
+        NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
+        
+        NSString *supportFolder = [basePath stringByAppendingPathComponent:@"OpenEmu"];
+        supportDirectoryPath    = [supportFolder stringByAppendingPathComponent:pluginName];
+        
+        gameDocuments    = [[NSMutableArray alloc] init];
+        settingObservers = [[NSMutableArray alloc] init];
+        
+        preferenceViewControllers = [[NSMutableDictionary alloc] init];
+    }
+    return self;
+}
 
 - (NSString *)gameSystemName;
 {
@@ -87,7 +120,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     return [[[self bundle] infoDictionary] objectForKey:@"OESystemPluginName"];
 }
 
-- (NSArray*)systemIdentifiers
+- (NSArray *)systemIdentifiers
 {	
 	return [[[self bundle] infoDictionary] objectForKey:@"OESystemIdentifiers"];
 }
@@ -99,8 +132,7 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 
 - (NSUInteger)playerCount
 {
-    //[self doesNotImplementSelector:_cmd];
-    return 0;
+    return playerCount;
 }
 
 - (NSArray *)usedSettingNames
@@ -118,41 +150,14 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     return [self usedControlNames];
 }
 
-- (id)init
-{
-    self = [super init];
-    if(self != nil)
-    {
-        bundle               = [NSBundle bundleForClass:[self class]];
-        pluginName           = [[bundle infoDictionary] objectForKey:@"CFBundleExecutable"];
-        if(pluginName == nil) pluginName = [[bundle infoDictionary] objectForKey:@"CFBundleName"];
-        
-        NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
-        NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
-        
-        NSString *supportFolder = [basePath stringByAppendingPathComponent:@"OpenEmu"];
-        supportDirectoryPath    = [supportFolder stringByAppendingPathComponent:pluginName];
-        
-        gameDocuments    = [[NSMutableArray alloc] init];
-        settingObservers = [[NSMutableArray alloc] init];
-        
-        preferenceViewControllers = [[NSMutableDictionary alloc] init];
-    }
-    return self;
-}
-
 - (void)dealloc
 {
     [gameDocuments makeObjectsPerformSelector:@selector(close)];
-    
-    
 }
-
 
 - (Class)gameCoreClass
 {
-    [self doesNotRecognizeSelector:_cmd];
-    return Nil;
+    return gameCoreClass;
 }
 
 - (BOOL)acceptsFirstResponder
@@ -282,8 +287,10 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 @end
 
 @implementation NSViewController (OEGameCoreControllerAddition)
+
 + (NSString *)preferenceNibName
 {
     return nil;
 }
+
 @end

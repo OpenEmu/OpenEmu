@@ -31,7 +31,7 @@
 #include "videoblitter.h"
 #include <cstring>
 
-@class GBGameEmu;
+@class GBGameCore;
 
 class CocoaBlitter : public Gambatte::VideoBlitter
 {
@@ -39,7 +39,7 @@ class CocoaBlitter : public Gambatte::VideoBlitter
     int scale;
     bool yuv;
     int pitch;
-    GBGameEmu* core;
+    GBGameCore *core;
     
 public:
     CocoaBlitter(bool startFull = false, int scale = 1, bool yuv = false);
@@ -51,7 +51,7 @@ public:
     void setScale(const int scale) { this->scale = scale; }
     void setStartFull() {}
     void setYuv(const bool yuv) { this->yuv = yuv; }
-    void setCore(GBGameEmu* emuCore);
+    void setCore(GBGameCore *emuCore);
 };
 
 #endif
