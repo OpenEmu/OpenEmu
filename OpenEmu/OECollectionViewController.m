@@ -30,7 +30,7 @@
 #import "OELibraryController.h"
 #import "OEROMImporter.h"
 #import "OECoverGridForegroundLayer.h"
-#import "OECoverGridItemLayer.h"
+#import "OECoverGridViewCell.h"
 
 #import "OEListViewDataSourceItem.h"
 #import "OERatingCell.h"
@@ -112,18 +112,16 @@
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
     
     // Set up GridView
-    [gridView setCellClass:[OECoverGridItemLayer class]];
     [gridView setItemSize:NSMakeSize(168, 193)];
-    [gridView setMinimumSpacing:NSMakeSize(22, 29)];
+    [gridView setMinimumColumnSpacing:22.0];
+    [gridView setRowSpacing:29.0];
     [gridView setDelegate:self];
     [gridView registerForDraggedTypes:[NSArray arrayWithObjects:NSFilenamesPboardType, NSPasteboardTypePNG, NSPasteboardTypeTIFF, nil]];
     [gridView setDataSource:self];
-    [gridView setTarget:self];
-    [gridView setDoubleAction:@selector(gridViewWasDoubleClicked:)];
     
-    OECoverGridForegroundLayer *foregroundLayer = [OECoverGridForegroundLayer layer];
-    [gridView addForegroundLayer:foregroundLayer];
-    
+    OECoverGridForegroundLayer *foregroundLayer = [[OECoverGridForegroundLayer alloc] init];
+    [gridView setForegroundLayer:foregroundLayer];
+
     //set initial zoom value
     NSSlider *sizeSlider = [[self libraryController] toolbarSlider];
     if([userDefaults valueForKey:UDLastGridSizeKey])
@@ -295,7 +293,6 @@
 {
     float zoomValue = [sender floatValue];
     [gridView setItemSize:NSMakeSize(roundf(26+142*zoomValue), roundf(44+7+142*zoomValue))];
-    [[[gridView enclosingScrollView] verticalScroller] setNeedsDisplayInRect:[[[gridView enclosingScrollView] verticalScroller] bounds]];
     
     [[NSUserDefaults standardUserDefaults] setValue:[NSNumber numberWithFloat:zoomValue] forKey:UDLastGridSizeKey];
 }
@@ -318,22 +315,20 @@
 
 #pragma mark -
 #pragma mark GridView Delegate
-- (void)gridView:(IKSGridView*)aGridView selectionChanged:(NSArray*)selectedItems
+- (void)selectionChangedInGridView:(OEGridView *)view
 {
-    [gamesController setSelectionIndexes:[aGridView selectedIndexes]];
+    [gamesController setSelectionIndexes:[view selectionIndexes]];
 }
 
-- (void)gridView:(IKSGridView*)gridView itemsMagnifiedToSize:(NSSize)newSize
-{}
-
-- (NSDragOperation)gridView:(IKSGridView*)gridView validateDrop:(id<NSDraggingInfo>)draggingInfo
+- (NSDragOperation)gridView:(OEGridView *)gridView validateDrop:(id<NSDraggingInfo>)draggingInfo
 {
     if (![[[draggingInfo draggingPasteboard] types] containsObject:NSFilenamesPboardType])
         return NSDragOperationNone;
+
     return NSDragOperationCopy;
 }
 
-- (BOOL)gridView:(IKSGridView*)gridView acceptDrop:(id<NSDraggingInfo>)draggingInfo
+- (BOOL)gridView:(OEGridView*)gridView acceptDrop:(id<NSDraggingInfo>)draggingInfo
 {
     NSPasteboard *pboard = [draggingInfo draggingPasteboard];
     if (![[pboard types] containsObject:NSFilenamesPboardType])
@@ -347,88 +342,61 @@
     return YES;
 }
 
-//- (void)gridView:(IKSGridView *)gridView updateDraggingItemsForDrag:(id<NSDraggingInfo>)draggingInfo
-//{
-//
-//}
-
 #pragma mark -
 #pragma mark Grid View DataSource
-- (NSUInteger)numberOfItemsInGridView:(IKSGridView*)aView
+- (NSUInteger)numberOfItemsInGridView:(OEGridView *)view
 {
     return [[gamesController arrangedObjects] count];
 }
 
-- (id)gridView:(IKSGridView*)aView objectValueOfItemAtIndex:(NSUInteger)index
-{    NSManagedObjectID *objid = [(NSManagedObject*)[[gamesController arrangedObjects] objectAtIndex:index] objectID];
-    return [[[[self libraryController] database] managedObjectContext] objectWithID:objid];
-}
-
-- (void)gridView:(IKSGridView *)aView setObject:(id)val forKey:(NSString*)key withRepresentedObject:(id)obj
-{      
-    OELibraryDatabase *database = [[self libraryController] database];
-    NSManagedObjectContext *moc = [database managedObjectContext];
-    
-    NSManagedObjectID *objId = (NSManagedObjectID*)obj;
-    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[moc objectWithID:objId];
-    
-    if([key isEqualToString:@"rating"])
-    {
-        [object setGridRating:[val unsignedIntegerValue]];
-    } 
-    else if([key isEqualToString:@"title"])
-    {
-        [object setGridTitle:val];
-    }
-    [moc save:nil];
-}
-
-- (id)gridView:(IKSGridView *)aView objectValueForKey:(NSString*)key withRepresentedObject:(id)obj
+- (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
 {
-    OELibraryDatabase *database = [[self libraryController] database];
-    NSManagedObjectContext *moc = [database managedObjectContext];
-    NSManagedObjectID *objId = (NSManagedObjectID*)obj;
-
-    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[moc objectWithID:objId];
-    if([key isEqualToString:@"status"])
-    {
-        return [NSNumber numberWithInt:[object gridStatus]];
-    }
-    else if([key isEqualToString:@"image"])
-    {
-        return [object gridImageWithSize:[gridView itemSize]];
-    } 
-    else if([key isEqualToString:@"title"])
-    {
-        return [object gridTitle];
-    } 
-    else if([key isEqualToString:@"rating"])
-    {
-        return [NSNumber numberWithInt:[object gridRating]];
-    }
+    OECoverGridViewCell *item = (OECoverGridViewCell *)[view dequeueReusableCell];
+    if(!item)
+        item = [[OECoverGridViewCell alloc] init];
     
-    return object;
+    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
+    [item setTitle:[object gridTitle]];
+    [item setImage:[object gridImage]];
+    [item setRating:[object gridRating]];
+    [item setIndicationType:(OECoverGridViewCellIndicationType)[object gridStatus]];
+
+    return item;
 }
-- (NSView*)gridViewNoItemsView:(IKSGridView*)gridView
+
+- (NSView *)viewForNoItemsInGridView:(OEGridView *)view
 {
     if([collectionItem isKindOfClass:[OEDBSystem class]])
-    {
         return [[OEGridBlankSlateView alloc] initWithSystemPlugin:[(OEDBSystem*)collectionItem plugin]];
-    }
-    
+
     if([collectionItem respondsToSelector:@selector(collectionViewName)])
-    {
         return [[OEGridBlankSlateView alloc] initWithCollectionName:[collectionItem collectionViewName]];
-    }
+
     return nil;
+}
+
+- (id<NSPasteboardWriting>)gridView:(OEGridView *)gridView pasteboardWriterForIndex:(NSInteger)index
+{
+    return [[gamesController arrangedObjects] objectAtIndex:index];
 }
 
 #pragma mark -
 #pragma mark GridView Interaction
-- (void)gridViewWasDoubleClicked:(id)sender{
-    if([[self selectedGames] count]!=0)
-        [[self libraryController] startGame:sender];
+- (void)gridView:(OEGridView *)view doubleClickedCellForItemAtIndex:(NSUInteger)index
+{
+    [[self libraryController] startGame:self];
 }
+
+- (void)gridView:(OEGridView *)view didEndEditingCellForItemAtIndex:(NSUInteger)index
+{
+    OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
+    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
+
+    [object setGridRating:[item rating]];
+    [object setGridTitle:[item title]];
+    [object setGridImage:[item image]];
+}
+
 #pragma mark -
 #pragma mark NSTableView DataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView

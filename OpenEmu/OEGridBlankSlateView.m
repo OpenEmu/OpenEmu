@@ -78,10 +78,12 @@
     NSImageView *boxImageView = [[NSImageView alloc] initWithFrame:(NSRect){{0,[self frame].size.height-boxHeight},{[self frame].size.width,boxHeight}}];
     [boxImageView setImage:[NSImage imageNamed:@"blank_slate_box"]];
     [self addSubview:boxImageView];
+    [boxImageView unregisterDraggedTypes];
     
     NSImageView *arrowImageView = [[NSImageView alloc] initWithFrame:(NSRect){{(roundf([self frame].size.width-100)/2), [self frame].size.height-124-arrowTopToViewTop},{100, 124}}];
     [arrowImageView setImage:[NSImage imageNamed:@"blank_slate_arrow"]];
     [self addSubview:arrowImageView];
+    [arrowImageView unregisterDraggedTypes];
     
     OECenteredTextFieldCell *defaultCell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
     NSShadow *shadow = [[NSShadow alloc] init];
@@ -197,6 +199,7 @@
         NSImageView *coreIconView = [[NSImageView alloc] initWithFrame:(NSRect){{coreIconX, [self frame].size.height-40-coreIconTopToViewTop},{40, 40}}];
         [coreIconView setImage:[NSImage imageNamed:@"blank_slate_core_icon"]];
         [self addSubview:coreIconView];
+        [coreIconView unregisterDraggedTypes];
         
         OECenteredTextFieldCell *cell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
         shadow = [[NSShadow alloc] init];

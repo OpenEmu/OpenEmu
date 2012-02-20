@@ -28,7 +28,7 @@
 #import "NSImage+OEDrawingAdditions.h"
 
 #import "OEImageButton.h"
-#import "NSColor+IKSAdditions.h"
+#import "NSColor+OEAdditions.h"
 
 @interface OEHUDWindow ()
 - (void)_initialSetup;

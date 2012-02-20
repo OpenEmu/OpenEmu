@@ -26,10 +26,7 @@
 
 #import <Cocoa/Cocoa.h>
 
-#import "IKSGridView.h"
 #import "OEUIDrawingUtils.h"
-
-#import "IKSGridViewProtocols.h"
 
 @class OELibraryDatabase;
 @class BackgroundColorView;

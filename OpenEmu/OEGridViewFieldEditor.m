@@ -25,6 +25,7 @@
  */
 
 #import "OEGridViewFieldEditor.h"
+#import "NSColor+OEAdditions.h"
 
 #pragma mark -
 @implementation OEGridViewFieldEditor
@@ -38,18 +39,25 @@
 {
     if((self = [super initWithFrame:frame]))
     {
-        [self setBorderColor:[NSColor greenColor]];
-        [self setAutoresizesSubviews:NO];
-        
         textView = [[NSTextField alloc] initWithFrame:NSMakeRect(10, 10, 80, 80)];
         [textView setBezeled:NO];
         [textView setAllowsEditingTextAttributes:NO];
-        
+        [self addSubview:textView];
+
+        [self setAutoresizesSubviews:NO];
         [self setHidden:YES];
         [self setWantsLayer:YES];
+
+        NSFont *fieldEditorFont = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:NSBoldFontMask weight:9 size:12];
+        [self setAlignment:NSCenterTextAlignment];
+        [self setBorderColor:[NSColor blackColor]];
+        [self setFont:fieldEditorFont];
         
-        [self addSubview:textView];
-        [self setFrame:[self frame]];
+        CALayer *layer = [self layer];
+        [layer setShadowOpacity:0.45];
+        [layer setShadowColor:[[NSColor blackColor] CGColor]];
+        [layer setShadowOffset:CGSizeMake(0.0, -6.0)];
+        [layer setShadowRadius:5];
     }
     
     return self;
@@ -57,8 +65,8 @@
 
 - (void)dealloc
 {
+    [textView removeFromSuperview];
     textView = nil;
-    
 }
 
 #pragma mark -
@@ -103,4 +111,5 @@
 
 - (id)delegate                                  { return [textView delegate]; }
 - (void)setDelegate:(id)delegate                { [textView setDelegate:delegate]; }
+
 @end
