@@ -511,7 +511,7 @@
 		C6BFB29F0F7CC8E700040FFA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = C6BFB29E0F7CC8E700040FFA /* Localizable.strings */; };
 		C6D268D6135BCE4900154550 /* NSString+OEAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = C6D268D4135BCE4900154550 /* NSString+OEAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6D268D7135BCE4900154550 /* NSString+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D268D5135BCE4900154550 /* NSString+OEAdditions.m */; };
-		C6D6FA7E14E2264C0083C75D /* NSViewController+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */; };
+		C6D6FA7E14E2264C0083C75D /* NSViewController+OEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		C6E542C31363D96F0075BA8C /* OEBasicSystemResponder.h in Headers */ = {isa = PBXBuildFile; fileRef = C6E542C01363D2D90075BA8C /* OEBasicSystemResponder.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6E542C41363D9760075BA8C /* OEBasicSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = C6E542C11363D2D90075BA8C /* OEBasicSystemResponder.m */; };
 		C6E542C51363D9BD0075BA8C /* OEMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */; };
