@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>NSPrincipalClass</key>
-	<string>NGPGameController</string>
+	<string>OEGameCoreController</string>
 	<key>OEProjectURL</key>
 	<string>http://neopop.emuxhaven.net/</string>
 	<key>OESystemIdentifiers</key>
@@ -34,7 +34,7 @@
 	<string>dsa_pub.pem</string>
 	<key>OEGameCoreClass</key>
 	<string>NGPGameCore</string>
-	<key>OEGameCoreMaxPlayer</key>
+	<key>OEGameCorePlayerCount</key>
 	<string>2</string>
 </dict>
 </plist>

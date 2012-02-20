@@ -95,7 +95,6 @@
 		94790DB714C0C46900B30798 /* spc7110.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D6014C0C46900B30798 /* spc7110.cpp */; };
 		94790DBA14C0C46900B30798 /* srtc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D6614C0C46900B30798 /* srtc.cpp */; };
 		94790DBC14C0C46900B30798 /* tile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94790D6A14C0C46900B30798 /* tile.cpp */; };
-		C650C7320FD21B1C009AD8F2 /* SNESGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C650C7310FD21B1C009AD8F2 /* SNESGameController.m */; };
 		C67F02030FC200A6009C6CD6 /* SNESOESupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 82AD85B50F41646E00DF0AE1 /* SNESOESupport.mm */; };
 /* End PBXBuildFile section */
 
@@ -253,7 +252,7 @@
 		8233FF2814C1E1B100FC4547 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		8233FF2A14C1E1C100FC4547 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
-		826C1B1D0F420C2200FB9014 /* SNESGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; path = SNESGameCore.h; sourceTree = "<group>"; };
+		826C1B1D0F420C2200FB9014 /* SNESGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNESGameCore.h; sourceTree = "<group>"; };
 		826C1B1E0F420C2200FB9014 /* SNESGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SNESGameCore.mm; sourceTree = "<group>"; };
 		828F16CA0F43A10000FD7321 /* APPL.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = APPL.icns; sourceTree = "<group>"; };
 		82AD85B50F41646E00DF0AE1 /* SNESOESupport.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SNESOESupport.mm; sourceTree = "<group>"; };
@@ -377,8 +376,6 @@
 		94790D6A14C0C46900B30798 /* tile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = tile.cpp; path = "snes9x-1.53-src/tile.cpp"; sourceTree = "<group>"; };
 		94790D6B14C0C46900B30798 /* tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tile.h; path = "snes9x-1.53-src/tile.h"; sourceTree = "<group>"; };
 		C6480FFA1364B1CF0094FA33 /* OESNESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OESNESSystemResponderClient.h; path = ../OpenEmu/SuperNES/OESNESSystemResponderClient.h; sourceTree = "<group>"; };
-		C650C7300FD21B1C009AD8F2 /* SNESGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNESGameController.h; sourceTree = "<group>"; };
-		C650C7310FD21B1C009AD8F2 /* SNESGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SNESGameController.m; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -439,8 +436,6 @@
 				826C1B1D0F420C2200FB9014 /* SNESGameCore.h */,
 				826C1B1E0F420C2200FB9014 /* SNESGameCore.mm */,
 				82AD85B50F41646E00DF0AE1 /* SNESOESupport.mm */,
-				C650C7300FD21B1C009AD8F2 /* SNESGameController.h */,
-				C650C7310FD21B1C009AD8F2 /* SNESGameController.m */,
 				82AD83C60F4154DD00DF0AE1 /* core */,
 			);
 			name = Classes;
@@ -840,7 +835,6 @@
 			files = (
 				826C1B1F0F420C2200FB9014 /* SNESGameCore.mm in Sources */,
 				C67F02030FC200A6009C6CD6 /* SNESOESupport.mm in Sources */,
-				C650C7320FD21B1C009AD8F2 /* SNESGameController.m in Sources */,
 				94790D7A14C0C46900B30798 /* apu.cpp in Sources */,
 				94790D7C14C0C46900B30798 /* SNES_SPC.cpp in Sources */,
 				94790D7D14C0C46900B30798 /* SNES_SPC_misc.cpp in Sources */,

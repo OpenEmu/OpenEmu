@@ -37,7 +37,6 @@
 /* Begin PBXBuildFile section */
 		82287C09101E9C2C0072172D /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82287C08101E9C2C0072172D /* libz.dylib */; };
 		82287C39101E9DB40072172D /* GenPlusGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 82287C34101E9DB40072172D /* GenPlusGameCore.m */; };
-		82287C3A101E9DB40072172D /* GenPlusGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82287C36101E9DB40072172D /* GenPlusGameController.m */; };
 		82287C57101E9F090072172D /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82287C56101E9F060072172D /* OpenEmuBase.framework */; };
 		8230C7F110AFCBA200412F24 /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8230C7E510AFCB6200412F24 /* config.yaml */; };
 		8230C81910AFCCB700412F24 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 8230C81810AFCCB700412F24 /* dsa_pub.pem */; };
@@ -237,8 +236,6 @@
 		82287C08101E9C2C0072172D /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		82287C33101E9DB40072172D /* GenPlusGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenPlusGameCore.h; sourceTree = "<group>"; };
 		82287C34101E9DB40072172D /* GenPlusGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenPlusGameCore.m; sourceTree = "<group>"; };
-		82287C35101E9DB40072172D /* GenPlusGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenPlusGameController.h; sourceTree = "<group>"; };
-		82287C36101E9DB40072172D /* GenPlusGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenPlusGameController.m; sourceTree = "<group>"; };
 		82287C47101E9F060072172D /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
 		8230C7E510AFCB6200412F24 /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		8230C81810AFCCB700412F24 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
@@ -408,8 +405,6 @@
 				C6B948191365164700A425F0 /* OEGenesisSystemResponderClient.h */,
 				82287C33101E9DB40072172D /* GenPlusGameCore.h */,
 				82287C34101E9DB40072172D /* GenPlusGameCore.m */,
-				82287C35101E9DB40072172D /* GenPlusGameController.h */,
-				82287C36101E9DB40072172D /* GenPlusGameController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -851,7 +846,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				82287C39101E9DB40072172D /* GenPlusGameCore.m in Sources */,
-				82287C3A101E9DB40072172D /* GenPlusGameController.m in Sources */,
 				94ED8B5014CF933800FF8901 /* config.c in Sources */,
 				94ED8B5114CF933800FF8901 /* error.c in Sources */,
 				94ED8B5214CF933800FF8901 /* fileio.c in Sources */,

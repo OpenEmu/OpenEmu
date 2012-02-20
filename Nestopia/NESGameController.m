@@ -58,19 +58,9 @@ NSArray *NESUsedSettingNames = nil;
     return NESUsedSettingNames;
 }
 
-- (NSUInteger)playerCount
-{
-    return 4;
-}
-
-- (Class)gameCoreClass
-{
-    return [NESGameCore class];
-}
-
-
 - (NSString *)gameSystemName;
 {
 	return @"Nintendo (NES)";
 }
+
 @end

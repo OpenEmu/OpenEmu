@@ -21,7 +21,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.53</string>
 	<key>NSPrincipalClass</key>
-	<string>SNESGameController</string>
+	<string>OEGameCoreController</string>
 	<key>OEProjectURL</key>
 	<string>http://www.snes9x.com/</string>
 	<key>OESystemIdentifiers</key>
@@ -36,7 +36,7 @@
 	<string>dsa_pub.pem</string>
 	<key>OEGameCoreClass</key>
 	<string>SNESGameCore</string>
-	<key>OEGameCoreMaxPlayer</key>
+	<key>OEGameCorePlayerCount</key>
 	<string>8</string>
 </dict>
 </plist>

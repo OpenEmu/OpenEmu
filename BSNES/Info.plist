@@ -21,7 +21,7 @@
 	<key>CFBundleVersion</key>
 	<string>0.085</string>
 	<key>NSPrincipalClass</key>
-	<string>BSNESGameController</string>
+	<string>OEGameCoreController</string>
 	<key>OEProjectURL</key>
 	<string>http://byuu.org/bsnes/</string>
 	<key>OESystemIdentifiers</key>
@@ -36,7 +36,7 @@
 	<string>dsa_pub.pem</string>
 	<key>OEGameCoreClass</key>
 	<string>BSNESGameCore</string>
-	<key>OEGameCoreMaxPlayer</key>
+	<key>OEGameCorePlayerCount</key>
 	<string>8</string>
 </dict>
 </plist>

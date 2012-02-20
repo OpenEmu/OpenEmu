@@ -30,7 +30,7 @@
 
 extern NSString *const OEAdvancedPreferenceKey;
 extern NSString *const OEGameCoreClassKey;
-extern NSString *const OEGameCoreMaxPlayerKey;
+extern NSString *const OEGameCorePlayerCountKey;
 
 extern NSString *const OEControlsPreferenceKey DEPRECATED_ATTRIBUTE;
 extern NSString *const OESettingValueKey DEPRECATED_ATTRIBUTE;
@@ -50,6 +50,8 @@ extern NSString *const OEKeyboardEventValueKey DEPRECATED_ATTRIBUTE;
     NSMutableArray      *settingObservers;
     NSMutableDictionary *preferenceViewControllers;
 }
+
+- (id)initWithBundle:(NSBundle *)aBundle;
 
 @property(readonly) NSBundle *bundle;
 @property(readonly) NSString *playerString;

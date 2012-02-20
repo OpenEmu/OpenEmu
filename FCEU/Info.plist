@@ -19,7 +19,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.0-fceummnext</string>
 	<key>NSPrincipalClass</key>
-	<string>FCEUGameController</string>
+	<string>OEGameCoreController</string>
 	<key>OEProjectURL</key>
 	<string>http://sourceforge.net/projects/fceumm/</string>
 	<key>OESystemIdentifiers</key>
@@ -34,7 +34,7 @@
 	<string>dsa_pub.pem</string>
 	<key>OEGameCoreClass</key>
 	<string>FCEUGameCore</string>
-	<key>OEGameCoreMaxPlayer</key>
+	<key>OEGameCorePlayerCount</key>
 	<string>2</string>
 </dict>
 </plist>

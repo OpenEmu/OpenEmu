@@ -22,7 +22,6 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
-		82C290AA148401E3007C0214 /* NGPGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 82C290A9148401E3007C0214 /* NGPGameController.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
 		B5DCE1180F2B5AE200517996 /* NGPGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = B5DCE1170F2B5AE200517996 /* NGPGameCore.m */; };
@@ -172,11 +171,9 @@
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* NeoPop_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NeoPop_Prefix.pch; sourceTree = "<group>"; };
 		82C29094148401BD007C0214 /* OENGPSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OENGPSystemResponderClient.h; path = ../OpenEmu/NeoGeoPocket/OENGPSystemResponderClient.h; sourceTree = "<group>"; };
-		82C290A8148401E3007C0214 /* NGPGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGPGameController.h; sourceTree = "<group>"; };
-		82C290A9148401E3007C0214 /* NGPGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGPGameController.m; sourceTree = "<group>"; };
 		8D5B49B6048680CD000E48DA /* NeoPop.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeoPop.oecoreplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B5DCE1160F2B5AE200517996 /* NGPGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; path = NGPGameCore.h; sourceTree = "<group>"; };
+		B5DCE1160F2B5AE200517996 /* NGPGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NGPGameCore.h; sourceTree = "<group>"; };
 		B5DCE1170F2B5AE200517996 /* NGPGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NGPGameCore.m; sourceTree = "<group>"; };
 		B5DCE11C0F2B5BB300517996 /* bios.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bios.c; sourceTree = "<group>"; };
 		B5DCE11D0F2B5BB300517996 /* bios.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bios.h; sourceTree = "<group>"; };
@@ -299,8 +296,6 @@
 				82C29094148401BD007C0214 /* OENGPSystemResponderClient.h */,
 				B5DCE1160F2B5AE200517996 /* NGPGameCore.h */,
 				B5DCE1170F2B5AE200517996 /* NGPGameCore.m */,
-				82C290A8148401E3007C0214 /* NGPGameController.h */,
-				82C290A9148401E3007C0214 /* NGPGameController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -674,7 +669,6 @@
 				B5DCE1810F2B5BB300517996 /* dasm.c in Sources */,
 				B5DCE1820F2B5BB300517996 /* Z80.c in Sources */,
 				B5DCE1830F2B5BB300517996 /* Z80_interface.c in Sources */,
-				82C290AA148401E3007C0214 /* NGPGameController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,10 +23,10 @@
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>NSPrincipalClass</key>
-	<string>MednafenGameController</string>
+	<string>OEGameCoreController</string>
 	<key>OEGameCoreClass</key>
 	<string>MednafenGameCore</string>
-	<key>OEGameCoreMaxPlayer</key>
+	<key>OEGameCorePlayerCount</key>
 	<string>2</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>

@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>NSPrincipalClass</key>
-	<string>SMSGameController</string>
+	<string>OEGameCoreController</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
@@ -35,7 +35,7 @@
 	<string>http://crabemu.sourceforge.net/</string>
 	<key>OEGameCoreClass</key>
 	<string>SMSGameCore</string>
-	<key>OEGameCoreMaxPlayer</key>
+	<key>OEGameCorePlayerCount</key>
 	<string>2</string>
 </dict>
 </plist>

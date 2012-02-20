@@ -108,7 +108,6 @@
 		3D208E5D11824E2D00BEAA42 /* util.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D208D3C11824C2200BEAA42 /* util.c */; };
 		3D208E981182550400BEAA42 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D208E971182550400BEAA42 /* OpenGL.framework */; };
 		3D208E9E1182551500BEAA42 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D208E9D1182551500BEAA42 /* libz.dylib */; };
-		3D208F321182A6ED00BEAA42 /* MupenGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D208F311182A6ED00BEAA42 /* MupenGameController.m */; };
 		3D208F821182B00300BEAA42 /* MupenGameCore.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D208F811182B00300BEAA42 /* MupenGameCore.m */; };
 		3D2090231182D67E00BEAA42 /* OEMupenSupport.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3D2090221182D67E00BEAA42 /* OEMupenSupport.mm */; };
 		3D8B35D812260F9D00C4C844 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D8B35D712260F9D00C4C844 /* main.m */; };
@@ -485,8 +484,6 @@
 		3D208DB711824C2200BEAA42 /* uninstall_binary_bundle.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = uninstall_binary_bundle.sh; sourceTree = "<group>"; };
 		3D208E971182550400BEAA42 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		3D208E9D1182551500BEAA42 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		3D208F301182A6ED00BEAA42 /* MupenGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MupenGameController.h; sourceTree = "<group>"; };
-		3D208F311182A6ED00BEAA42 /* MupenGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MupenGameController.m; sourceTree = "<group>"; };
 		3D208F801182B00300BEAA42 /* MupenGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MupenGameCore.h; sourceTree = "<group>"; };
 		3D208F811182B00300BEAA42 /* MupenGameCore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MupenGameCore.m; sourceTree = "<group>"; };
 		3D2090211182D67E00BEAA42 /* OEMupenSupport.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEMupenSupport.h; sourceTree = "<group>"; };
@@ -555,8 +552,6 @@
 				9449518E14D8FE6100FC80E7 /* OEN64SystemResponderClient.h */,
 				3D208F801182B00300BEAA42 /* MupenGameCore.h */,
 				3D208F811182B00300BEAA42 /* MupenGameCore.m */,
-				3D208F301182A6ED00BEAA42 /* MupenGameController.h */,
-				3D208F311182A6ED00BEAA42 /* MupenGameController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -1337,7 +1332,6 @@
 				3D208E5B11824E2600BEAA42 /* cheat.c in Sources */,
 				3D208E5C11824E2B00BEAA42 /* main.c in Sources */,
 				3D208E5D11824E2D00BEAA42 /* util.c in Sources */,
-				3D208F321182A6ED00BEAA42 /* MupenGameController.m in Sources */,
 				3D208F821182B00300BEAA42 /* MupenGameCore.m in Sources */,
 				3D2090231182D67E00BEAA42 /* OEMupenSupport.mm in Sources */,
 				3D00F06D1183E4AA002995A1 /* eventloop.m in Sources */,

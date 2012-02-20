@@ -67,9 +67,10 @@
 
 - (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
 {
-    if(![bundleClass isSubclassOfClass:[OEGameCoreController class]]) return nil;
+    if([bundleClass isSubclassOfClass:[OEGameCoreController class]])
+        return [[bundleClass alloc] initWithBundle:[self bundle]];
     
-    return [super newPluginControllerWithClass:bundleClass];
+    return nil;
 }
 
 - (NSString *)bundleIdentifier
