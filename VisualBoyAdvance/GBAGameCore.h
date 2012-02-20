@@ -25,26 +25,25 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#if !defined(LSB_FIRST) && !defined(MSB_FIRST)
-#ifdef __BIG_ENDIAN__
-#define MSB_FIRST
-#else
-#define LSB_FIRST
-#endif
-#endif
-
 #import <Cocoa/Cocoa.h>
 #import <OEGameCore.h>
 
-@class GameDocument;
+#define MAC_MAX_PLAYERS 1
+#define SNES_CONTROL_COUNT 10
 
-@interface NGPGameEmu : OEGameCore
+extern NSString *GBAEmulatorNames[];
+
+@class OERingBuffer;
+
+@interface GBAGameCore : OEGameCore
 {
-    GameDocument *parent;
-    NSLock       *soundLock;
-    NSLock       *bufLock;
-    NSString     *pathToFile;
-    int           blit;
+    @public
+    uint32    controlPad[MAC_MAX_PLAYERS];
+    uint16_t *soundBuffer;
+    uint16_t *videoBuffer;
+    int videoWidth, videoHeight;
+    int16_t pad[1][10];
+    NSString *romName;
 }
 
 @end

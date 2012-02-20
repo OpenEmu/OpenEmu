@@ -32,5 +32,9 @@
 	</array>
 	<key>OEProjectURL</key>
 	<string>http://gambatte.sourceforge.net/</string>
+	<key>OEGameCoreClass</key>
+	<string>GBGameCore</string>
+	<key>OEGameCoreMaxPlayer</key>
+	<string>1</string>
 </dict>
 </plist>

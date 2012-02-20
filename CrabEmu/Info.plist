@@ -33,5 +33,9 @@
 	</array>
 	<key>OEProjectURL</key>
 	<string>http://crabemu.sourceforge.net/</string>
+	<key>OEGameCoreClass</key>
+	<string>SMSGameCore</string>
+	<key>OEGameCoreMaxPlayer</key>
+	<string>2</string>
 </dict>
 </plist>

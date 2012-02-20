@@ -33,7 +33,7 @@
 #import <OERingBuffer.h>
 #import <OpenGL/gl.h>
 #import "OEGBSystemResponderClient.h"
-#import "GBGameEmu.h"
+#import "GBGameCore.h"
 #include "gambatte.h"
 #include "CocoaBlitter.h"
 #include "InputGetter.h"
@@ -41,12 +41,12 @@
 #include "resamplerinfo.h"
 #include <sys/time.h>
 
-@interface GBGameEmu () <OEGBSystemResponderClient>
+@interface GBGameCore () <OEGBSystemResponderClient>
 - (void)GB_setInputForButton:(OEGBButton)gameButton isPressed:(BOOL)isPressed;
 @end
 
 
-@implementation GBGameEmu
+@implementation GBGameCore
 
 
 Gambatte::GB gambatte;

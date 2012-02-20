@@ -32,5 +32,9 @@
 	<string>http://openemu.org/update/vba_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>OEGameCoreClass</key>
+	<string>GBAGameCore</string>
+	<key>OEGameCoreMaxPlayer</key>
+	<string>1</string>
 </dict>
 </plist>

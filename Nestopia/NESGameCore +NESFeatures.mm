@@ -26,7 +26,7 @@
  */
 
 #import "OEGameCore.h"
-#import "NESGameEmu.h"
+#import "NESGameCore.h"
 
 #include <NstBase.hpp>
 #include <NstApiEmulator.hpp>
@@ -45,7 +45,7 @@
 
 
 #pragma mark --NES-specific features--
-@implementation NESGameEmu (NesAdditions)
+@implementation NESGameCore (NesAdditions)
 NSString * const NESNTSC = @"NESNTSC";
 NSString * const NESBrightness = @"NESBrightness";
 NSString * const NESSaturation = @"NESSaturation";

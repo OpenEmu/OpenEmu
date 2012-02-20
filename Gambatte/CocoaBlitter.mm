@@ -26,7 +26,7 @@
  */
 
 #import "CocoaBlitter.h"
-#import "GBGameEmu.h"
+#import "GBGameCore.h"
 
 using namespace Gambatte;
 
@@ -66,7 +66,7 @@ void CocoaBlitter::blit()
     //[core refresh];
 }
 
-void CocoaBlitter::setCore(GBGameEmu *emuCore)
+void CocoaBlitter::setCore(GBGameCore *emuCore)
 {
     core = emuCore;
 }

@@ -34,5 +34,9 @@
 	<string>http://openemu.org/update/mupen64plus_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>OEGameCoreClass</key>
+	<string>MupenGameCore</string>
+	<key>OEGameCoreMaxPlayer</key>
+	<string>8</string>
 </dict>
 </plist>

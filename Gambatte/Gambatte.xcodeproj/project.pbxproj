@@ -37,7 +37,7 @@
 /* Begin PBXBuildFile section */
 		3D6030EB14DF742200E9AF58 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B5A2D0040F23786B009EA0FD /* file.cpp */; };
 		828387900E6CDB5400A96E2C /* CocoaBlitter.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5350B830E62EC6100A0903A /* CocoaBlitter.mm */; };
-		828387990E6CDB5400A96E2C /* GBGameEmu.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5EC4D420E6312DF0046BD93 /* GBGameEmu.mm */; };
+		828387990E6CDB5400A96E2C /* GBGameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5EC4D420E6312DF0046BD93 /* GBGameCore.mm */; };
 		828387BA0E6CDB6500A96E2C /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = B5F6D8AC0E66921B001CA5D3 /* Credits.rtf */; };
 		828387BB0E6CDB6500A96E2C /* gameboy.icns in Resources */ = {isa = PBXBuildFile; fileRef = B5F6D8A80E66914F001CA5D3 /* gameboy.icns */; };
 		828387BD0E6CDB6500A96E2C /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
@@ -359,8 +359,8 @@
 		B5A2D0630F23786B009EA0FD /* video.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = video.cpp; path = libgambatte/src/video.cpp; sourceTree = "<group>"; };
 		B5A2D0640F23786B009EA0FD /* video.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = video.h; path = libgambatte/src/video.h; sourceTree = "<group>"; };
 		B5A6D9370E617C8900622CCF /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
-		B5EC4D410E6312DF0046BD93 /* GBGameEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBGameEmu.h; sourceTree = "<group>"; };
-		B5EC4D420E6312DF0046BD93 /* GBGameEmu.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBGameEmu.mm; sourceTree = "<group>"; };
+		B5EC4D410E6312DF0046BD93 /* GBGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; path = GBGameCore.h; sourceTree = "<group>"; };
+		B5EC4D420E6312DF0046BD93 /* GBGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBGameCore.mm; sourceTree = "<group>"; };
 		B5F6D8A80E66914F001CA5D3 /* gameboy.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = gameboy.icns; sourceTree = "<group>"; };
 		B5F6D8AD0E66921B001CA5D3 /* English */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = English; path = English.lproj/Credits.rtf; sourceTree = "<group>"; };
 		C6B947DE1364FD0C00A425F0 /* OEGBSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEGBSystemResponderClient.h; path = ../OpenEmu/GameBoy/OEGBSystemResponderClient.h; sourceTree = "<group>"; };
@@ -424,8 +424,8 @@
 			isa = PBXGroup;
 			children = (
 				C6B947DE1364FD0C00A425F0 /* OEGBSystemResponderClient.h */,
-				B5EC4D410E6312DF0046BD93 /* GBGameEmu.h */,
-				B5EC4D420E6312DF0046BD93 /* GBGameEmu.mm */,
+				B5EC4D410E6312DF0046BD93 /* GBGameCore.h */,
+				B5EC4D420E6312DF0046BD93 /* GBGameCore.mm */,
 				B59C363F0E64229D00FEDFBF /* InputGetter.h */,
 				B5350B820E62EC6100A0903A /* CocoaBlitter.h */,
 				B5350B830E62EC6100A0903A /* CocoaBlitter.mm */,
@@ -850,7 +850,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				828387900E6CDB5400A96E2C /* CocoaBlitter.mm in Sources */,
-				828387990E6CDB5400A96E2C /* GBGameEmu.mm in Sources */,
+				828387990E6CDB5400A96E2C /* GBGameCore.mm in Sources */,
 				B5A2CFF10F23784E009EA0FD /* adaptivesleep.cpp in Sources */,
 				B5A2CFF20F23784E009EA0FD /* rateest.cpp in Sources */,
 				B5A2CFF30F23784E009EA0FD /* chainresampler.cpp in Sources */,

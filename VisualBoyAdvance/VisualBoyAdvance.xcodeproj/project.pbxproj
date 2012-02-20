@@ -40,7 +40,7 @@
 		82CAFD1E0FEDD5B300CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFD030FEDD54800CCDC7E /* config.yaml */; };
 		82EA60570F514D8C008E18C5 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EA60550F514D80008E18C5 /* OpenEmuBase.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		82EC409F0FD9EC420017FC19 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EC409E0FD9EC420017FC19 /* libz.dylib */; };
-		82EC40A30FD9EC5A0017FC19 /* GBAGameEmu.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5008DAE0E8BFB3E005AECAF /* GBAGameEmu.mm */; };
+		82EC40A30FD9EC5A0017FC19 /* GBAGameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5008DAE0E8BFB3E005AECAF /* GBAGameCore.mm */; };
 		82EC40A40FD9EC5D0017FC19 /* GBAGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C63E6C7A0FCDA5D6009C8555 /* GBAGameController.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -325,8 +325,8 @@
 		94343B8414DF1091006671D6 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
 		94343BAC14DF13D2006671D6 /* blargg_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blargg_source.h; sourceTree = "<group>"; };
 		946E023914DFC5C300E1A311 /* OEGBASystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEGBASystemResponderClient.h; path = "../OpenEmu/GameBoy Advance/OEGBASystemResponderClient.h"; sourceTree = "<group>"; };
-		B5008DAD0E8BFB3E005AECAF /* GBAGameEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAGameEmu.h; sourceTree = "<group>"; };
-		B5008DAE0E8BFB3E005AECAF /* GBAGameEmu.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAGameEmu.mm; sourceTree = "<group>"; };
+		B5008DAD0E8BFB3E005AECAF /* GBAGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; path = GBAGameCore.h; sourceTree = "<group>"; };
+		B5008DAE0E8BFB3E005AECAF /* GBAGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = GBAGameCore.mm; sourceTree = "<group>"; };
 		C63E6C640FCDA565009C8555 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
 		C63E6C790FCDA5D6009C8555 /* GBAGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAGameController.h; sourceTree = "<group>"; };
 		C63E6C7A0FCDA5D6009C8555 /* GBAGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBAGameController.m; sourceTree = "<group>"; };
@@ -389,8 +389,8 @@
 			children = (
 				82EC3FED0FD9EAE90017FC19 /* Core */,
 				946E023914DFC5C300E1A311 /* OEGBASystemResponderClient.h */,
-				B5008DAD0E8BFB3E005AECAF /* GBAGameEmu.h */,
-				B5008DAE0E8BFB3E005AECAF /* GBAGameEmu.mm */,
+				B5008DAD0E8BFB3E005AECAF /* GBAGameCore.h */,
+				B5008DAE0E8BFB3E005AECAF /* GBAGameCore.mm */,
 				C63E6C790FCDA5D6009C8555 /* GBAGameController.h */,
 				C63E6C7A0FCDA5D6009C8555 /* GBAGameController.m */,
 			);
@@ -823,7 +823,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82EC40A30FD9EC5A0017FC19 /* GBAGameEmu.mm in Sources */,
+				82EC40A30FD9EC5A0017FC19 /* GBAGameCore.mm in Sources */,
 				82EC40A40FD9EC5D0017FC19 /* GBAGameController.m in Sources */,
 				94343B8514DF1091006671D6 /* gbaconv.c in Sources */,
 				94343B8614DF1091006671D6 /* libsnes.cpp in Sources */,

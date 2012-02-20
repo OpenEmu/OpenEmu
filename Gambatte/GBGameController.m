@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "GBGameEmu.h"
+#import "GBGameCore.h"
 #import "GBGameController.h"
 
 @implementation GBGameController
@@ -44,7 +44,7 @@
 
 - (Class)gameCoreClass
 {
-    return [GBGameEmu class];
+    return [GBGameCore class];
 }
 
 @end

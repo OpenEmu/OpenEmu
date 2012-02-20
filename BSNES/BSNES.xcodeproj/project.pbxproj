@@ -53,8 +53,8 @@
 		9483027314CCA6B1003DAED8 /* libco.c in Sources */ = {isa = PBXBuildFile; fileRef = 9490639714CAB244006C5630 /* libco.c */; };
 		949063A214CAB244006C5630 /* libco.h in Headers */ = {isa = PBXBuildFile; fileRef = 9490639814CAB244006C5630 /* libco.h */; };
 		94C0360A14D67FC2001249FA /* libsnes-performance.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94C0360914D67FC2001249FA /* libsnes-performance.a */; };
-		94D9257314CA9879008F697D /* SNESGameEmu.mm in Sources */ = {isa = PBXBuildFile; fileRef = 826FE0F41014D8930023A8E9 /* SNESGameEmu.mm */; };
-		94D9257414CA9879008F697D /* SNESGameController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 826FE0F61014D8930023A8E9 /* SNESGameController.mm */; };
+		94D9257314CA9879008F697D /* BSNESGameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 826FE0F41014D8930023A8E9 /* BSNESGameCore.mm */; };
+		94D9257414CA9879008F697D /* BSNESGameController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 826FE0F61014D8930023A8E9 /* BSNESGameController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -215,10 +215,10 @@
 		826FDD6C10142B230023A8E9 /* joypad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = joypad.png; sourceTree = "<group>"; };
 		826FDD6D10142B230023A8E9 /* license.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = license.html; sourceTree = "<group>"; };
 		826FDD6E10142B230023A8E9 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
-		826FE0F31014D8930023A8E9 /* SNESGameEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNESGameEmu.h; sourceTree = "<group>"; };
-		826FE0F41014D8930023A8E9 /* SNESGameEmu.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SNESGameEmu.mm; sourceTree = "<group>"; };
-		826FE0F51014D8930023A8E9 /* SNESGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNESGameController.h; sourceTree = "<group>"; };
-		826FE0F61014D8930023A8E9 /* SNESGameController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SNESGameController.mm; sourceTree = "<group>"; };
+		826FE0F31014D8930023A8E9 /* BSNESGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; path = BSNESGameCore.h; sourceTree = "<group>"; };
+		826FE0F41014D8930023A8E9 /* BSNESGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BSNESGameCore.mm; sourceTree = "<group>"; };
+		826FE0F51014D8930023A8E9 /* BSNESGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = BSNESGameController.h; sourceTree = "<group>"; };
+		826FE0F61014D8930023A8E9 /* BSNESGameController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BSNESGameController.mm; sourceTree = "<group>"; };
 		826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
 		82B9198710150FA9007BD6DB /* bsnes.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = bsnes.icns; sourceTree = "<group>"; };
 		82B91C841015267F007BD6DB /* libco.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libco.a; sourceTree = "<group>"; };
@@ -300,10 +300,10 @@
 			isa = PBXGroup;
 			children = (
 				C6480FFB1364B2E10094FA33 /* OESNESSystemResponderClient.h */,
-				826FE0F31014D8930023A8E9 /* SNESGameEmu.h */,
-				826FE0F41014D8930023A8E9 /* SNESGameEmu.mm */,
-				826FE0F51014D8930023A8E9 /* SNESGameController.h */,
-				826FE0F61014D8930023A8E9 /* SNESGameController.mm */,
+				826FE0F31014D8930023A8E9 /* BSNESGameCore.h */,
+				826FE0F41014D8930023A8E9 /* BSNESGameCore.mm */,
+				826FE0F51014D8930023A8E9 /* BSNESGameController.h */,
+				826FE0F61014D8930023A8E9 /* BSNESGameController.mm */,
 				949063A814CAB269006C5630 /* libsnes.hpp */,
 				9490639314CAB244006C5630 /* libco */,
 				826FDD6610142B230023A8E9 /* data */,
@@ -652,8 +652,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				94D9257314CA9879008F697D /* SNESGameEmu.mm in Sources */,
-				94D9257414CA9879008F697D /* SNESGameController.mm in Sources */,
+				94D9257314CA9879008F697D /* BSNESGameCore.mm in Sources */,
+				94D9257414CA9879008F697D /* BSNESGameController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

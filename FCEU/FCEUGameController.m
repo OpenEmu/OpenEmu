@@ -26,7 +26,7 @@
  */
 
 #import "FCEUGameController.h"
-#import "FCEUGameEmu.h"
+#import "FCEUGameCore.h"
 
 @implementation FCEUGameController
 
@@ -49,7 +49,7 @@
 
 - (Class)gameCoreClass
 {
-    return [FCEUGameEmu class];
+    return [FCEUGameCore class];
 }
 
 @end

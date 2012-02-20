@@ -34,5 +34,9 @@
 	</array>
 	<key>OEProjectURL</key>
 	<string>http://nestopia.sourceforge.net/</string>
+	<key>OEGameCoreClass</key>
+	<string>NESGameCore</string>
+	<key>OEGameCoreMaxPlayer</key>
+	<string>4</string>
 </dict>
 </plist>

@@ -1,49 +1,50 @@
 /*
  Copyright (c) 2009, OpenEmu Team
  
-
+ 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
-     * Redistributions of source code must retain the above copyright
-       notice, this list of conditions and the following disclaimer.
-     * Redistributions in binary form must reproduce the above copyright
-       notice, this list of conditions and the following disclaimer in the
-       documentation and/or other materials provided with the distribution.
-     * Neither the name of the OpenEmu Team nor the
-       names of its contributors may be used to endorse or promote products
-       derived from this software without specific prior written permission.
-
+ * Redistributions of source code must retain the above copyright
+ notice, this list of conditions and the following disclaimer.
+ * Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ * Neither the name of the OpenEmu Team nor the
+ names of its contributors may be used to endorse or promote products
+ derived from this software without specific prior written permission.
+ 
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
  DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "SNESGameEmu.h"
+#import "GBAGameCore.h"
 #import <OERingBuffer.h>
-#import "OESNESSystemResponderClient.h"
+#import "OEGBASystemResponderClient.h"
 #import <OpenGL/gl.h>
 
 #include "libsnes.hpp"
+#include "Sound.h"
 
-#define SAMPLERATE 32040
+#define SAMPLERATE 48000
 #define SAMPLEFRAME 800
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
 
-@interface BSNESGameEmu () <OESNESSystemResponderClient>
+@interface GBAGameCore () <OEGBASystemResponderClient>
 @end
 
-NSUInteger BSNESEmulatorValues[] = { SNES_DEVICE_ID_JOYPAD_A, SNES_DEVICE_ID_JOYPAD_B, SNES_DEVICE_ID_JOYPAD_X, SNES_DEVICE_ID_JOYPAD_Y, SNES_DEVICE_ID_JOYPAD_UP, SNES_DEVICE_ID_JOYPAD_DOWN, SNES_DEVICE_ID_JOYPAD_LEFT, SNES_DEVICE_ID_JOYPAD_RIGHT, SNES_DEVICE_ID_JOYPAD_START, SNES_DEVICE_ID_JOYPAD_SELECT, SNES_DEVICE_ID_JOYPAD_L, SNES_DEVICE_ID_JOYPAD_R };
-NSString *BSNESEmulatorKeys[] = { @"Joypad@ A", @"Joypad@ B", @"Joypad@ X", @"Joypad@ Y", @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ Left", @"Joypad@ Right", @"Joypad@ Start", @"Joypad@ Select", @"Joypad@ L", @"Joypad@ R"};
+NSUInteger GBAEmulatorValues[] = { SNES_DEVICE_ID_JOYPAD_A, SNES_DEVICE_ID_JOYPAD_B, SNES_DEVICE_ID_JOYPAD_SELECT, SNES_DEVICE_ID_JOYPAD_START, SNES_DEVICE_ID_JOYPAD_RIGHT, SNES_DEVICE_ID_JOYPAD_LEFT, SNES_DEVICE_ID_JOYPAD_UP, SNES_DEVICE_ID_JOYPAD_DOWN, SNES_DEVICE_ID_JOYPAD_R, SNES_DEVICE_ID_JOYPAD_L };
+NSString *GBAEmulatorKeys[] = { @"Joypad@ A", @"Joypad@ B", @"Joypad@ Select", @"Joypad@ Start", @"Joypad@ Right", @"Joypad@ Left", @"Joypad@ Up", @"Joypad@ Down", @"Joypad@ R", @"Joypad@ L"};
 
-BSNESGameEmu *current;
-@implementation BSNESGameEmu
+GBAGameCore *current;
+@implementation GBAGameCore
 
 static uint16_t conv555Rto565(uint16_t p)
 {
@@ -59,35 +60,35 @@ static uint16_t conv555Rto565(uint16_t p)
     return r | (g << 5) | (b << 11);
 }
 
-//BSNES callbacks
-static void audio_callback(uint16_t left, uint16_t right)
-{
-	[[current ringBufferAtIndex:0] write:&left maxLength:2];
-    [[current ringBufferAtIndex:0] write:&right maxLength:2];
-}
-
 static void video_callback(const uint16_t *data, unsigned width, unsigned height)
 {
     // Normally our pitch is 2048 bytes.
-    int stride = 1024;
+    int stride = 256;
     // If we have an interlaced mode, pitch is 1024 bytes.
-    if ( height == 448 || height == 478 )
-        stride = 512;
-
+    if ( height == 240 || height == 478 )
+        stride = 240;
+    
     current->videoWidth  = width;
     current->videoHeight = height;
     
     dispatch_queue_t the_queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-
+    
     // TODO opencl CPU device?
     dispatch_apply(height, the_queue, ^(size_t y){
         const uint16_t *src = data + y * stride;
-        uint16_t *dst = current->videoBuffer + y * 512;
-
+        uint16_t *dst = current->videoBuffer + y * 240;
+        
         for (int x = 0; x < width; x++) {
             dst[x] = conv555Rto565(src[x]);
         }
     });
+}
+
+// TODO implement systemDrawScreen here
+
+void systemOnWriteDataToSoundBuffer(int16_t *finalWave, int length)
+{
+    [[current ringBufferAtIndex:0] write:finalWave maxLength:2*length];
 }
 
 static void input_poll_callback(void)
@@ -95,18 +96,36 @@ static void input_poll_callback(void)
 	//NSLog(@"poll callback");
 }
 
-static int16_t input_state_callback(bool port, unsigned device, unsigned index, unsigned id)
+static int16_t input_state_callback(bool port, unsigned device, unsigned index, unsigned devid)
 {
-    //NSLog(@"polled input: port: %d device: %d id: %d", port, device, id);
+    //NSLog(@"polled input: port: %d device: %d id: %d", port, device, devid);
     
 	if (port == SNES_PORT_1 & device == SNES_DEVICE_JOYPAD) {
-        return current->pad[0][id];
+        return current->pad[0][devid];
     }
     else if(port == SNES_PORT_2 & device == SNES_DEVICE_JOYPAD) {
-        return current->pad[1][id];
+        return current->pad[1][devid];
     }
     
     return 0;
+}
+
+static bool environment_callback(unsigned cmd, void *data)
+{
+    switch (cmd)
+    {
+        case SNES_ENVIRONMENT_GET_FULLPATH:
+            //*(const char**)data = (const char*)current->romName;
+            *(const char**)data = [current->romName cStringUsingEncoding:NSUTF8StringEncoding];
+            NSLog(@"Environ FULLPATH: \"%@\"\n", current->romName);
+            break;
+            
+        default:
+            NSLog(@"Environ UNSUPPORTED (#%u)!\n", cmd);
+            return false;
+    }
+    
+    return true;
 }
 
 static void loadSaveFile(const char* path, int type)
@@ -157,14 +176,14 @@ static void writeSaveFile(const char* path, int type)
     }
 }
 
-- (void)didPushSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
+- (void)didPushGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
 {
-    pad[player-1][BSNESEmulatorValues[button]] = 0xFFFF;
+    pad[player-1][GBAEmulatorValues[button]] = 1;
 }
 
-- (void)didReleaseSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
+- (void)didReleaseGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
 {
-    pad[player-1][BSNESEmulatorValues[button]] = 0;
+    pad[player-1][GBAEmulatorValues[button]] = 0;
 }
 
 - (id)init
@@ -174,7 +193,7 @@ static void writeSaveFile(const char* path, int type)
     {
         if(videoBuffer) 
             free(videoBuffer);
-        videoBuffer = (uint16_t*)malloc(512 * 478 * 2);
+        videoBuffer = (uint16_t*)malloc(240 * 160 * 2);
     }
 	
 	current = self;
@@ -196,8 +215,8 @@ static void writeSaveFile(const char* path, int type)
 
 - (BOOL)loadFileAtPath: (NSString*) path
 {
-	memset(pad, 0, sizeof(int16_t) * 24);
-
+	memset(pad, 0, sizeof(int16_t) * 10);
+    
     uint8_t *data;
     unsigned size;
     romName = [path copy];
@@ -209,13 +228,12 @@ static void writeSaveFile(const char* path, int type)
     data = (uint8_t*)[dataObj bytes];
     
     //remove copier header, if it exists
-    if((size & 0x7fff) == 512) memmove(data, data + 512, size -= 512);
+    //ssif((size & 0x7fff) == 512) memmove(data, data + 512, size -= 512);
     
     //memory.copy(data, size);
-    
+    snes_set_environment(environment_callback);
 	snes_init();
 	
-    snes_set_audio_sample(audio_callback);
     snes_set_video_refresh(video_callback);
     snes_set_input_poll(input_poll_callback);
     snes_set_input_state(input_state_callback);
@@ -238,13 +256,15 @@ static void writeSaveFile(const char* path, int type)
         }
         
         snes_set_controller_port_device(SNES_PORT_1, SNES_DEVICE_JOYPAD);
-        snes_set_controller_port_device(SNES_PORT_2, SNES_DEVICE_JOYPAD);
+        //snes_set_controller_port_device(SNES_PORT_2, SNES_DEVICE_NONE);
         
-        snes_get_region();
-            
+        //snes_get_region();
+        
+        soundSetSampleRate(SAMPLERATE);
+        
         snes_run();
     }
-
+    
     return YES;
 }
 
@@ -262,7 +282,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntSize)bufferSize
 {
-    return OESizeMake(512, 478);
+    return OESizeMake(240, 160);
 }
 
 - (void)setupEmulation
@@ -355,7 +375,7 @@ static void writeSaveFile(const char* path, int type)
     uint8_t *serial_data = (uint8_t *) malloc(serial_size);
     
     snes_serialize(serial_data, serial_size);
-
+    
     FILE *state_file = fopen([fileName UTF8String], "wb");
     long bytes_written = fwrite(serial_data, sizeof(uint8_t), serial_size, state_file);
     
@@ -396,7 +416,7 @@ static void writeSaveFile(const char* path, int type)
     }
     
     free(serial_data);
-
+    
     return YES;
 }
 

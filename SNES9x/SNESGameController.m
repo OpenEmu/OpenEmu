@@ -26,7 +26,7 @@
  */
 
 #import "SNESGameController.h"
-#import "SNESGameEmu.h"
+#import "SNESGameCore.h"
 
 @implementation SNESGameController
 
@@ -44,7 +44,7 @@
 
 - (Class)gameCoreClass
 {
-    return [SNESGameEmu class];
+    return [SNESGameCore class];
 }
 
 @end

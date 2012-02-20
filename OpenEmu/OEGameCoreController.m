@@ -39,6 +39,8 @@
 @end
 
 NSString *const OEAdvancedPreferenceKey = @"OEAdvancedPreferenceKey";
+NSString *const OEGameCoreClassKey      = @"OEGameCoreClass";
+NSString *const OEGameCoreMaxPlayerKey  = @"OEGameCoreMaxPlayer";
 
 NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardNamespace", @"OEHIDNamespace", @"OEMouseNamespace", @"OEOtherNamespace" };
 
@@ -49,7 +51,6 @@ NSString *OEEventNamespaceKeys[] = { @"", @"OEGlobalNamespace", @"OEKeyboardName
 
 
 @implementation OEGameCoreController
-
 @synthesize currentPreferenceViewController, bundle, pluginName, supportDirectoryPath, playerString;
 
 static NSMutableDictionary *_preferenceViewControllerClasses = nil;
@@ -78,8 +79,6 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     
     [_preferenceViewControllerClasses setObject:[viewControllerClasses copy] forKey:self];
 }
-
-
 
 - (NSString *)gameSystemName;
 {
@@ -123,9 +122,9 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
     self = [super init];
     if(self != nil)
     {
-        bundle               = [NSBundle bundleForClass:[self class]];
-        pluginName           = [[bundle infoDictionary] objectForKey:@"CFBundleExecutable"];
-        if(pluginName == nil) pluginName = [[bundle infoDictionary] objectForKey:@"CFBundleName"];
+        bundle     = [NSBundle bundleForClass:[self class]];
+        pluginName = ([[bundle infoDictionary] objectForKey:@"CFBundleExecutable"] ? :
+                      [[bundle infoDictionary] objectForKey:@"CFBundleName"]);
         
         NSArray  *paths = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
         NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : NSTemporaryDirectory();
@@ -144,8 +143,6 @@ static NSMutableDictionary *_preferenceViewControllerClasses = nil;
 - (void)dealloc
 {
     [gameDocuments makeObjectsPerformSelector:@selector(close)];
-    
-    
 }
 
 

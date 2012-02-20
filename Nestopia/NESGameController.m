@@ -27,7 +27,7 @@
 
 #import "NESGameController.h"
 #import "NESAdvancedPreference.h"
-#import "NESGameEmu.h"
+#import "NESGameCore.h"
 
 NSArray *NESRawControlNames = nil;
 NSArray *NESUsedControlNames = nil;
@@ -65,7 +65,7 @@ NSArray *NESUsedSettingNames = nil;
 
 - (Class)gameCoreClass
 {
-    return [NESGameEmu class];
+    return [NESGameCore class];
 }
 
 

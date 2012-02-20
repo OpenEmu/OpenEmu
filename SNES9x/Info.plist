@@ -34,5 +34,9 @@
 	<string>http://openemu.org/update/snes9x_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>OEGameCoreClass</key>
+	<string>SNESGameCore</string>
+	<key>OEGameCoreMaxPlayer</key>
+	<string>8</string>
 </dict>
 </plist>

@@ -25,7 +25,7 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import "NESGameEmu.h"
+#import "NESGameCore.h"
 #import "NESGameController.h"
 #import <OERingBuffer.h>
 #include <sys/time.h>
@@ -52,7 +52,7 @@
 NSUInteger NESControlValues[] = { Nes::Api::Input::Controllers::Pad::A, Nes::Api::Input::Controllers::Pad::B, Nes::Api::Input::Controllers::Pad::UP, Nes::Api::Input::Controllers::Pad::DOWN, Nes::Api::Input::Controllers::Pad::LEFT, Nes::Api::Input::Controllers::Pad::RIGHT, Nes::Api::Input::Controllers::Pad::START, Nes::Api::Input::Controllers::Pad::SELECT
 };
 
-@implementation NESGameEmu
+@implementation NESGameCore
 
 @synthesize romPath;
 
@@ -61,22 +61,22 @@ UInt32 bufInPos, bufOutPos, bufUsed;
 static bool NST_CALLBACK VideoLock(void* userData, Nes::Api::Video::Output& video)
 {
     DLog(@"Locking: %@", userData);
-    return [(__bridge NESGameEmu*)userData lockVideo:&video];
+    return [(__bridge NESGameCore*)userData lockVideo:&video];
 }
 
 static void NST_CALLBACK VideoUnlock(void* userData, Nes::Api::Video::Output& video)
 {
-    [(__bridge NESGameEmu*)userData unlockVideo:&video];
+    [(__bridge NESGameCore*)userData unlockVideo:&video];
 }
 
 static bool NST_CALLBACK SoundLock(void* userData,Nes::Api::Sound::Output& sound)
 {
-    return [(__bridge NESGameEmu*)userData lockSound];
+    return [(__bridge NESGameCore*)userData lockSound];
 }
 
 static void NST_CALLBACK SoundUnlock(void* userData,Nes::Api::Sound::Output& sound)
 {
-    [(__bridge NESGameEmu *)userData unlockSound];
+    [(__bridge NESGameCore *)userData unlockSound];
 }
 
 - (id)init;
@@ -97,7 +97,7 @@ static void NST_CALLBACK SoundUnlock(void* userData,Nes::Api::Sound::Output& sou
 // for various file operations, usually called during image file load, power on/off and reset
 void NST_CALLBACK doFileIO(void *userData, Nes::Api::User::File& file)
 {
-    NESGameEmu *self = (__bridge NESGameEmu *)userData;
+    NESGameCore *self = (__bridge NESGameCore *)userData;
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     NSString *path = self->romPath;

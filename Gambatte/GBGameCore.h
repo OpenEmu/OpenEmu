@@ -44,7 +44,7 @@ extern NSString *GBButtonNameTable[];
 
 @class OERingBuffer;
 
-@interface GBGameEmu : OEGameCore
+@interface GBGameCore : OEGameCore
 {
     const void *videoBuffer;
     UInt16     *tmpBuf;

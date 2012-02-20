@@ -553,10 +553,10 @@
 			isa = PBXGroup;
 			children = (
 				9449518E14D8FE6100FC80E7 /* OEN64SystemResponderClient.h */,
-				3D208F301182A6ED00BEAA42 /* MupenGameController.h */,
-				3D208F311182A6ED00BEAA42 /* MupenGameController.m */,
 				3D208F801182B00300BEAA42 /* MupenGameCore.h */,
 				3D208F811182B00300BEAA42 /* MupenGameCore.m */,
+				3D208F301182A6ED00BEAA42 /* MupenGameController.h */,
+				3D208F311182A6ED00BEAA42 /* MupenGameController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

@@ -37,7 +37,7 @@
 /* Begin PBXBuildFile section */
 		3DA5C31814DCF0180029660B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DA5C31714DCF0180029660B /* libz.dylib */; };
 		82444DB80F513365007C171B /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82444DB70F51335E007C171B /* OpenEmuBase.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		826C1B1F0F420C2200FB9014 /* SNESGameEmu.mm in Sources */ = {isa = PBXBuildFile; fileRef = 826C1B1E0F420C2200FB9014 /* SNESGameEmu.mm */; };
+		826C1B1F0F420C2200FB9014 /* SNESGameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 826C1B1E0F420C2200FB9014 /* SNESGameCore.mm */; };
 		828F16CB0F43A10000FD7321 /* APPL.icns in Resources */ = {isa = PBXBuildFile; fileRef = 828F16CA0F43A10000FD7321 /* APPL.icns */; };
 		82CAFD440FEDD66800CCDC7E /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 82CAFD430FEDD66800CCDC7E /* dsa_pub.pem */; };
 		82CAFD540FEDD6C700CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFD350FEDD64800CCDC7E /* config.yaml */; };
@@ -253,8 +253,8 @@
 		8233FF2814C1E1B100FC4547 /* AudioUnit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioUnit.framework; path = System/Library/Frameworks/AudioUnit.framework; sourceTree = SDKROOT; };
 		8233FF2A14C1E1C100FC4547 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		82444DAA0F51335E007C171B /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
-		826C1B1D0F420C2200FB9014 /* SNESGameEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SNESGameEmu.h; sourceTree = "<group>"; };
-		826C1B1E0F420C2200FB9014 /* SNESGameEmu.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SNESGameEmu.mm; sourceTree = "<group>"; };
+		826C1B1D0F420C2200FB9014 /* SNESGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; path = SNESGameCore.h; sourceTree = "<group>"; };
+		826C1B1E0F420C2200FB9014 /* SNESGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SNESGameCore.mm; sourceTree = "<group>"; };
 		828F16CA0F43A10000FD7321 /* APPL.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = APPL.icns; sourceTree = "<group>"; };
 		82AD85B50F41646E00DF0AE1 /* SNESOESupport.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SNESOESupport.mm; sourceTree = "<group>"; };
 		82CAFD350FEDD64800CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
@@ -436,8 +436,8 @@
 			isa = PBXGroup;
 			children = (
 				C6480FFA1364B1CF0094FA33 /* OESNESSystemResponderClient.h */,
-				826C1B1D0F420C2200FB9014 /* SNESGameEmu.h */,
-				826C1B1E0F420C2200FB9014 /* SNESGameEmu.mm */,
+				826C1B1D0F420C2200FB9014 /* SNESGameCore.h */,
+				826C1B1E0F420C2200FB9014 /* SNESGameCore.mm */,
 				82AD85B50F41646E00DF0AE1 /* SNESOESupport.mm */,
 				C650C7300FD21B1C009AD8F2 /* SNESGameController.h */,
 				C650C7310FD21B1C009AD8F2 /* SNESGameController.m */,
@@ -838,7 +838,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				826C1B1F0F420C2200FB9014 /* SNESGameEmu.mm in Sources */,
+				826C1B1F0F420C2200FB9014 /* SNESGameCore.mm in Sources */,
 				C67F02030FC200A6009C6CD6 /* SNESOESupport.mm in Sources */,
 				C650C7320FD21B1C009AD8F2 /* SNESGameController.m in Sources */,
 				94790D7A14C0C46900B30798 /* apu.cpp in Sources */,

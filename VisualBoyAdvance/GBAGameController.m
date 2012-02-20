@@ -26,7 +26,7 @@
  */
 
 #import "GBAGameController.h"
-#import "GBAGameEmu.h"
+#import "GBAGameCore.h"
 
 @implementation GBAGameController
 
@@ -49,7 +49,7 @@
 
 - (Class)gameCoreClass
 {
-    return [GBAGameEmu class];
+    return [GBAGameCore class];
 }
 
 @end

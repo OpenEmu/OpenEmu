@@ -72,7 +72,7 @@
     return [super newPluginControllerWithClass:bundleClass];
 }
 
-- (NSString*)bundleIdentifier
+- (NSString *)bundleIdentifier
 {
     return [[self infoDictionary] objectForKey:@"CFBundleIdentifier"];
 }

@@ -34,5 +34,9 @@
 	<string>http://openemu.org/update/genesisplus_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>OEGameCoreClass</key>
+	<string>GenPlusGameCore</string>
+	<key>OEGameCoreMaxPlayer</key>
+	<string>2</string>
 </dict>
 </plist>

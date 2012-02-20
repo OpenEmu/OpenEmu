@@ -26,7 +26,7 @@
  */
 
 #import "NGPGameController.h"
-#import "NGPGameEmu.h"
+#import "NGPGameCore.h"
 
 @implementation NGPGameController
 
@@ -78,7 +78,7 @@
 
 - (Class)gameCoreClass
 {
-    return [NGPGameEmu class];
+    return [NGPGameCore class];
 }
 
 @end

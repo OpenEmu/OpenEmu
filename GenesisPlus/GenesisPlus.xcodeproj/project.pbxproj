@@ -406,10 +406,10 @@
 				94ED896814CF933600FF8901 /* genplusgx_source */,
 				94ED8A8814CF933700FF8901 /* openemu */,
 				C6B948191365164700A425F0 /* OEGenesisSystemResponderClient.h */,
-				82287C35101E9DB40072172D /* GenPlusGameController.h */,
-				82287C36101E9DB40072172D /* GenPlusGameController.m */,
 				82287C33101E9DB40072172D /* GenPlusGameCore.h */,
 				82287C34101E9DB40072172D /* GenPlusGameCore.m */,
+				82287C35101E9DB40072172D /* GenPlusGameController.h */,
+				82287C36101E9DB40072172D /* GenPlusGameController.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";

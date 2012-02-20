@@ -39,7 +39,7 @@
 		82CAFD1E0FEDD5B300CCDC7E /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 82CAFD030FEDD54800CCDC7E /* config.yaml */; };
 		82EA60570F514D8C008E18C5 /* OpenEmuBase.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EA60550F514D80008E18C5 /* OpenEmuBase.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		82EC409F0FD9EC420017FC19 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 82EC409E0FD9EC420017FC19 /* libz.dylib */; };
-		82EC40A30FD9EC5A0017FC19 /* FCEUGameEmu.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5008DAE0E8BFB3E005AECAF /* FCEUGameEmu.mm */; };
+		82EC40A30FD9EC5A0017FC19 /* FCEUGameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5008DAE0E8BFB3E005AECAF /* FCEUGameCore.mm */; };
 		82EC40A40FD9EC5D0017FC19 /* FCEUGameController.m in Sources */ = {isa = PBXBuildFile; fileRef = C63E6C7A0FCDA5D6009C8555 /* FCEUGameController.m */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
@@ -724,8 +724,8 @@
 		942D9B4314E8AFDF00772772 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
 		945942CE14E4EF180015D2AA /* OENESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OENESSystemResponderClient.h; path = ../OpenEmu/NES/OENESSystemResponderClient.h; sourceTree = "<group>"; };
 		945942CF14E4F2DC0015D2AA /* FCEUX.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = FCEUX.icns; sourceTree = "<group>"; };
-		B5008DAD0E8BFB3E005AECAF /* FCEUGameEmu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCEUGameEmu.h; sourceTree = "<group>"; };
-		B5008DAE0E8BFB3E005AECAF /* FCEUGameEmu.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FCEUGameEmu.mm; sourceTree = "<group>"; };
+		B5008DAD0E8BFB3E005AECAF /* FCEUGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; path = FCEUGameCore.h; sourceTree = "<group>"; };
+		B5008DAE0E8BFB3E005AECAF /* FCEUGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FCEUGameCore.mm; sourceTree = "<group>"; };
 		C63E6C640FCDA565009C8555 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
 		C63E6C790FCDA5D6009C8555 /* FCEUGameController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCEUGameController.h; sourceTree = "<group>"; };
 		C63E6C7A0FCDA5D6009C8555 /* FCEUGameController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FCEUGameController.m; sourceTree = "<group>"; };
@@ -786,8 +786,8 @@
 			children = (
 				82EC3FED0FD9EAE90017FC19 /* Core */,
 				945942CE14E4EF180015D2AA /* OENESSystemResponderClient.h */,
-				B5008DAD0E8BFB3E005AECAF /* FCEUGameEmu.h */,
-				B5008DAE0E8BFB3E005AECAF /* FCEUGameEmu.mm */,
+				B5008DAD0E8BFB3E005AECAF /* FCEUGameCore.h */,
+				B5008DAE0E8BFB3E005AECAF /* FCEUGameCore.mm */,
 				C63E6C790FCDA5D6009C8555 /* FCEUGameController.h */,
 				C63E6C7A0FCDA5D6009C8555 /* FCEUGameController.m */,
 			);
@@ -1433,7 +1433,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				82EC40A30FD9EC5A0017FC19 /* FCEUGameEmu.mm in Sources */,
+				82EC40A30FD9EC5A0017FC19 /* FCEUGameCore.mm in Sources */,
 				82EC40A40FD9EC5D0017FC19 /* FCEUGameController.m in Sources */,
 				942D9B4414E8AFDF00772772 /* libsnes.c in Sources */,
 				942D9B4514E8AFDF00772772 /* memstream.c in Sources */,

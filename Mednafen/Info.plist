@@ -24,6 +24,10 @@
 	<string>1.0</string>
 	<key>NSPrincipalClass</key>
 	<string>MednafenGameController</string>
+	<key>OEGameCoreClass</key>
+	<string>MednafenGameCore</string>
+	<key>OEGameCoreMaxPlayer</key>
+	<string>2</string>
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>

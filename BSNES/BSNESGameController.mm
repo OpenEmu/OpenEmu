@@ -1,7 +1,7 @@
 /*
  Copyright (c) 2009, OpenEmu Team
  
-
+ 
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions are met:
      * Redistributions of source code must retain the above copyright
@@ -12,7 +12,7 @@
      * Neither the name of the OpenEmu Team nor the
        names of its contributors may be used to endorse or promote products
        derived from this software without specific prior written permission.
-
+ 
  THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,25 +25,31 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#import <Cocoa/Cocoa.h>
-#import <OEGameCore.h>
+#import "BSNESGameController.h"
+#import "BSNESGameCore.h"
 
-#define MAC_MAX_PLAYERS 8
-#define SNES_CONTROL_COUNT 12
+@implementation BSNESGameController
 
-extern NSString *BSNESEmulatorNames[];
-
-@class OERingBuffer;
-
-@interface BSNESGameEmu : OEGameCore
++ (void)initialize
 {
-    @public
-    uint32    controlPad[MAC_MAX_PLAYERS];
-    uint16_t *soundBuffer;
-    uint16_t *videoBuffer;
-    int videoWidth, videoHeight;
-    int16_t pad[2][12];
-    NSString *romName;
+    if(self == [BSNESGameController class])
+    {
+    }
+}
+
+- (NSArray *)genericControlNames
+{
+    return nil;
+}
+
+- (NSUInteger)playerCount
+{
+    return MAC_MAX_PLAYERS;
+}
+
+- (Class)gameCoreClass
+{
+    return [BSNESGameCore class];
 }
 
 @end

@@ -32,5 +32,9 @@
 	<string>http://openemu.org/update/fceu_appcast.xml</string>
 	<key>SUPublicDSAKeyFile</key>
 	<string>dsa_pub.pem</string>
+	<key>OEGameCoreClass</key>
+	<string>FCEUGameCore</string>
+	<key>OEGameCoreMaxPlayer</key>
+	<string>2</string>
 </dict>
 </plist>
