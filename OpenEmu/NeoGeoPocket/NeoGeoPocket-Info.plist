@@ -95,5 +95,7 @@
 			</array>
 		</array>
 	</array>
+	<key>OESystemIconName</key>
+	<string>ngp</string>
 </dict>
 </plist>

@@ -101,5 +101,7 @@
 			</array>
 		</array>
 	</array>
+	<key>OESystemIconName</key>
+	<string>gb</string>
 </dict>
 </plist>

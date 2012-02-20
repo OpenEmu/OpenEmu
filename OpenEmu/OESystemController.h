@@ -37,6 +37,7 @@ extern NSString *const OEControlsPreferenceKey;
 extern NSString *const OESystemPluginName;
 extern NSString *const OESystemName;
 extern NSString *const OESystemIdentifier;
+extern NSString *const OESystemIconName;
 extern NSString *const OEProjectURLKey;
 extern NSString *const OEArchiveIDs;
 extern NSString *const OEFileTypes;
@@ -77,6 +78,7 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
     NSMutableDictionary *_preferenceViewControllers;
     
     NSString *_systemName;
+    NSImage  *_systemIcon;
 }
 
 /*
@@ -96,6 +98,7 @@ extern NSString *const OEControllerKeyPositionKey; // NSDictionary - KeyName -> 
 
 @property(readonly, copy) NSString     *systemIdentifier;
 @property(readonly)       NSString     *systemName;
+@property(readonly)       NSImage      *systemIcon;
 
 @property(readonly)       NSUInteger    numberOfPlayers;
 @property(readonly)       Class         responderClass;

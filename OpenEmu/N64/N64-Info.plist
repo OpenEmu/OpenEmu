@@ -142,5 +142,7 @@
 			</array>
 		</array>
 	</array>
+	<key>OESystemIconName</key>
+	<string>n64</string>
 </dict>
 </plist>

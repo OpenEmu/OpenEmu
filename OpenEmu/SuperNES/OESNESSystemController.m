@@ -78,4 +78,23 @@
 		return @"Super Nintendo (SNES)";
 }
 
+- (NSImage*)systemIcon
+{
+    NSString* imageName;
+	if([[OELocalizationHelper sharedHelper] isRegionJAP])
+		imageName = @"sf";
+	else 
+		imageName = @"snes"; 
+    
+    NSImage* image = [NSImage imageNamed:imageName];
+    if(!image)
+    {
+        NSBundle* bundle = [NSBundle bundleForClass:[self class]];
+        NSString* path = [bundle pathForImageResource:imageName];
+        image = [[NSImage alloc] initWithContentsOfFile:path];
+        [image setName:imageName];
+    }
+    return image;
+}
+
 @end

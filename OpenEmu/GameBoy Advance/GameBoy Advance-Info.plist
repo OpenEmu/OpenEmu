@@ -111,5 +111,7 @@
 			</array>
 		</array>
 	</array>
+	<key>OESystemIconName</key>
+	<string>gba</string>
 </dict>
 </plist>

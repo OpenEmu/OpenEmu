@@ -119,7 +119,7 @@
 
 - (NSImage *)icon
 {
-    return [NSImage imageNamed:[self name]];
+    return [[self plugin] systemIcon];
 }
 
 - (NSString *)name

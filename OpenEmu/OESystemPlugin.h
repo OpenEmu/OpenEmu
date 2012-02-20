@@ -40,8 +40,9 @@ extern NSString *const OEArchiveIDs;
 @property(strong, readonly) NSString *gameSystemName DEPRECATED_ATTRIBUTE;
 @property(strong, readonly) NSString *systemIdentifier;
 @property(strong, readonly) NSString *systemName;
+@property(strong, readonly) NSImage *systemIcon;
+@property(strong, readonly) NSImage  *bundleIcon;
 
-@property(strong, readonly) NSImage  *icon;
 @property(strong, readonly) Class     responderClass;
 
 + (NSArray*)supportedTypeExtensions;

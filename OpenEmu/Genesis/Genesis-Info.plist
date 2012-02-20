@@ -127,5 +127,7 @@
 			</array>
 		</array>
 	</array>
+	<key>OESystemIconName</key>
+	<string>sg</string>
 </dict>
 </plist>
