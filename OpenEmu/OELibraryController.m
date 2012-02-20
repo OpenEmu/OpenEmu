@@ -146,10 +146,6 @@
     [[self toolbarAddToSidebarButton] setImage:[NSImage imageNamed:@"toolbar_add_button"]];
 }
 
-- (void)awakeFromNib
-{
-}
-
 - (void)viewDidAppear
 {
     [super viewDidAppear];

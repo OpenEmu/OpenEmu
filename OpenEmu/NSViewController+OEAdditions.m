@@ -109,7 +109,7 @@ static void OE_NSViewController_setView_(NSViewController *self, SEL _cmd, NSVie
     
     _old_NSViewController_setView_(self, _cmd, value);
     
-    if(value != nil) [value addObserver:self forKeyPath:@"view" options:NSKeyValueObservingOptionInitial context:_OE_NSViewControllerViewContext];
+    if(value != nil) [value addObserver:self forKeyPath:@"nextResponder" options:NSKeyValueObservingOptionInitial context:_OE_NSViewControllerViewContext];
 }
 
 @end
