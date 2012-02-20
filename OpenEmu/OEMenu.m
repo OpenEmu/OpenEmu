@@ -1106,7 +1106,7 @@
         
         NSRect menuItemFrame = (NSRect){{baseX, y}, {itemWidth, menuContainsImage?ItemHeightWithImage:ItemHeightWithoutImage}};
         BOOL itemIsHighlighted = [self menu].highlightedItem==menuItem;
-        BOOL itemIsSelected = [[self menu] popupButton] && [[[self menu] popupButton] selectedItem]==menuItem;
+        BOOL itemIsSelected = [menuItem state]==NSOnState ;
         BOOL itemIsDisabled = ![menuItem isEnabled];
         BOOL itemHasImage = [menuItem image]!=nil;
         BOOL itemHasSubmenu = [menuItem hasSubmenu];
@@ -1121,7 +1121,7 @@
         // Draw Tickmark
         if(itemIsSelected)
         {
-            NSImage *tickMarkImage = itemIsHighlighted ? [NSImage imageNamed:@"tick_mark_selected"] : [NSImage imageNamed:@"tick_mark_normal"];
+            NSImage *tickMarkImage = itemIsHighlighted^([[self menu] style]==OEMenuStyleLight) ? [NSImage imageNamed:@"tick_mark_selected"] : [NSImage imageNamed:@"tick_mark_normal"];
             
             NSRect tickMarkRect = menuItemFrame;
             tickMarkRect.size = [tickMarkImage size];

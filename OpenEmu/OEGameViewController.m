@@ -454,6 +454,11 @@
     return NSSizeFromOEIntSize(screenRect.size);
 }
 
+- (NSString*)systemIdentifier
+{
+    return [gameSystemController systemIdentifier];
+}
+
 #pragma mark -
 #pragma mark Private Methods
 
@@ -476,7 +481,8 @@
         
         gameController = [plugin controller];
         
-        Class managerClass = ([[[NSUserDefaultsController sharedUserDefaultsController] valueForKeyPath:@"values.gameCoreInBackgroundThread"] boolValue]
+        
+        Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:UDRunCoresInBackgroundKey]
                               ? [OEGameCoreThreadManager  class]
                               : [OEGameCoreProcessManager class]);
         

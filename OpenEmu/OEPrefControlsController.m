@@ -30,7 +30,7 @@
 
 - (void)OE_rebuildSystemsMenu;
 - (void)OE_setupControllerImageViewWithTransition:(NSString *)transition;
-
+- (void)OE_openPaneWithNotification:(NSNotification*)notification;
 @end
 
 @implementation OEPrefControlsController
@@ -97,6 +97,7 @@
     [[self controllerView] setWantsLayer:YES];    
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(systemsChanged) name:OEDBSystemsChangedNotificationName object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(OE_openPaneWithNotification:) name:OEPreferencesOpenPaneNotificationName object:nil];
 }
 
 - (void)animationDidStart:(CAAnimation *)theAnimation
@@ -447,6 +448,11 @@
     return @"Controls";
 }
 
+- (NSString*)localizedTitle
+{
+    return NSLocalizedString([self title], "");
+}
+
 - (NSSize)viewSize
 {
     return NSMakeSize(561, 534);
@@ -458,11 +464,30 @@
 }
 
 #pragma mark -
+- (void)OE_openPaneWithNotification:(NSNotification*)notification
+{
+    NSDictionary* userInfo = [notification userInfo];
+    NSString* paneName = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
+    if([paneName isNotEqualTo:[self title]])
+        return;
+    
+    NSString* systemIdentifier = [userInfo valueForKey:OEPreferencesOpenPanelUserInfoSystemIdentifierKey];
+
+    int i;
+    for(i=0; i < [[[self consolesPopupButton] itemArray] count]-1; i++)
+    {
+        NSMenuItem* item = [[[self consolesPopupButton] itemArray] objectAtIndex:i];
+        if([[item representedObject] isEqualTo:systemIdentifier])
+            break;
+    }
+
+    [[self consolesPopupButton] selectItemAtIndex:i];
+    [self changeSystem:nil];
+}
 
 - (void)OE_rebuildSystemsMenu
 {
     NSMenu *consolesMenu = [[NSMenu alloc] init];
-    
     NSArray *enabledSystems = [[OELibraryDatabase defaultDatabase] enabledSystems]; 
 
     for(OEDBSystem *system in enabledSystems)

@@ -43,6 +43,10 @@
 
 #define OEDBSystemsChangedNotificationName @"OEDBSystemsChanged"
 
+#define OEPreferencesOpenPaneNotificationName @"OEPrefOpenPane"
+#define OEPreferencesOpenPanelUserInfoPanelNameKey @"panelName"
+#define OEPreferencesOpenPanelUserInfoSystemIdentifierKey @"systemIdentifier"
+
 // Archive.vg Support
 #define APIBase		@"http://api.archive.vg"
 #define APIVersion	@"2.0"
@@ -80,6 +84,7 @@
 #define UDControlsDeviceTypeKey         @"lastControlsDevice"
 
 // "Hidden" preferences
+#define UDRunCoresInBackgroundKey   @"gameCoreInBackgroundThread"
 #define UDRegionKey					@"region"					/*	release region (force a region)	*/
 #define UDSaveStateFolderNameKey	@"saveStateFolder"			/*  name of save state folder		*/
 #define UDHUDFadeOutDelayKey        @"fadeoutdelay"             /*  time until hudcontrolsbar fades out after last mouse movement   */

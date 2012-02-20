@@ -12,6 +12,7 @@
 @protocol OEPreferencePane <NSObject>
 - (NSImage*)icon;
 - (NSString*)title;
+- (NSString*)localizedTitle;
 
 - (NSSize)viewSize;
 
