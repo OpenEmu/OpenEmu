@@ -114,7 +114,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     _animationGroupStack = nil;
 
     _image = nil;
-    [_proposedImageLayer removeFromSuperlayer];
+    [[_proposedImageLayer superlayer] removeFromSuperlayer];
     _proposedImageLayer = nil;
     [_imageLayer removeFromSuperlayer];
     _imageLayer = nil;
@@ -168,7 +168,6 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
     // Setup image
     _imageLayer = [[OEGridLayer alloc] init];
-    [_imageLayer setMasksToBounds:YES];
     [self addSublayer:_imageLayer];
 
     _titleLayer = [[CATextLayer alloc] init];
@@ -371,7 +370,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
     [self setEditing:YES];
     [self setImage:[_proposedImageLayer contents]];
-    [_proposedImageLayer removeFromSuperlayer];
+    [[_proposedImageLayer superlayer] removeFromSuperlayer];
     _proposedImageLayer = nil;
     [self setEditing:NO];
 
@@ -784,12 +783,18 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
     const CGRect imageRect = [_imageLayer bounds];
 
+    OEGridLayer *imageInnerLayer = [[OEGridLayer alloc] init];
+    [imageInnerLayer setMasksToBounds:YES];
+    [imageInnerLayer setFrame:imageRect];
+    [imageInnerLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [_imageLayer addSublayer:imageInnerLayer];
+
     _proposedImageLayer = [[OEGridLayer alloc] initWithLayer:_imageLayer];
     [_proposedImageLayer setMasksToBounds:YES];
     [_proposedImageLayer setContentsGravity:kCAGravityResizeAspectFill];
     [_proposedImageLayer setContents:proposedCoverImage];
     [_proposedImageLayer setPosition:CGPointMake(CGRectGetMidX(imageRect), CGRectGetMidY(imageRect))];
-    [_imageLayer addSublayer:_proposedImageLayer];
+    [imageInnerLayer addSublayer:_proposedImageLayer];
 
     const CGFloat durationMultiplier    = 1.0;
     const CGFloat framesPerSecond       = 30.0;
@@ -914,7 +919,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
      {
          [bself->_statusIndicatorLayer setType:bself->_indicationType];
          [bself->_statusIndicatorLayer setOpacity:1.0];
-         [bself->_proposedImageLayer removeFromSuperlayer];
+         [[bself->_proposedImageLayer superlayer] removeFromSuperlayer];
          bself->_proposedImageLayer = nil;
      }];
 
