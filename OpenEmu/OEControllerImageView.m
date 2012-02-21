@@ -182,7 +182,11 @@
     [self setNeedsDisplay:YES];
 }
 
-- (void)setSelectedKey:(NSString *)value { [self setSelectedKey:value animated:NO]; }
+- (void)setSelectedKey:(NSString *)value 
+{ 
+    [self setSelectedKey:value animated:NO]; 
+}
+
 - (void)setSelectedKey:(NSString *)value animated:(BOOL)animated;
 {
     if([keyPositions objectForKey:value] == nil)
