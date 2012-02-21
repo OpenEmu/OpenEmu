@@ -25,10 +25,12 @@
  */
 
 #import <AppKit/AppKit.h>
-@class OESystemPlugin;
-@interface OEGridBlankSlateView : NSView
-- (id)initWithCollectionName:(NSString*)collectionName;
-- (id)initWithSystemPlugin:(OESystemPlugin*)plugin;
 
-- (void)centerInSuperview;
+@class OESystemPlugin;
+
+@interface OEGridBlankSlateView : NSView
+
+- (id)initWithCollectionName:(NSString *)collectionName;
+- (id)initWithSystemPlugin:(OESystemPlugin *)plugin;
+
 @end

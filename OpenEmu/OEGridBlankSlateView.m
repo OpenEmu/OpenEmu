@@ -47,6 +47,7 @@
 
 #define ViewWidth 427
 #define ViewHeight 366
+
 - (void)_addLeftHeadlineWithText:(NSString*)text
 {
     OECenteredTextFieldCell *cell = [[OECenteredTextFieldCell alloc] initTextCell:@""];
@@ -71,8 +72,8 @@
     [headlineField setBezeled:NO];
     
     [self addSubview:headlineField];
-    
 }
+
 - (void)_setupBox
 {
     NSImageView *boxImageView = [[NSImageView alloc] initWithFrame:(NSRect){{0,[self frame].size.height-boxHeight},{[self frame].size.width,boxHeight}}];
@@ -135,16 +136,16 @@
     [self addSubview:dragAndDropHereOuterGlowField];
 }
 
-- (id)initWithCollectionName:(NSString*)collectionName 
+- (id)initWithCollectionName:(NSString *)collectionName
 {
-    self = [super initWithFrame:(NSRect){{0,0},{ViewWidth,ViewHeight}}];
-    if (self) 
+    if((self = [super initWithFrame:(NSRect){ .size = { ViewWidth, ViewHeight }}]))
     {
         [self _setupBox];
         [self _addLeftHeadlineWithText:NSLocalizedString(@"Collections", @"")];
         
-        NSRect rect = (NSRect){{0,0},{[self frame].size.width, bottomTextViewHeight}};
-        NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect,-4, 0)];
+        NSRect rect = (NSRect){ .size = { [self frame].size.width, bottomTextViewHeight }};
+        
+        NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
         NSString *text = [NSString stringWithFormat:NSLocalizedString(@"Create a personal game selection. To add to a collection, select a game from your console library and drag it to ’%@’ on the left.", @""), collectionName];
         [textView setString:text];
         [textView setDrawsBackground:NO];
@@ -153,10 +154,11 @@
         [textView setFont:[[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0]];
         [textView setTextColor:[NSColor colorWithDeviceWhite:0.86 alpha:1.0]];
         [textView setTextContainerInset:NSMakeSize(0, 0)];
+        
         NSShadow *shadow = [[NSShadow alloc] init];
         [shadow setShadowColor:[NSColor blackColor]];
         [shadow setShadowBlurRadius:0];
-        [shadow setShadowOffset:(NSSize){0,-1}];
+        [shadow setShadowOffset:(NSSize){0, -1}];
         [textView setShadow:shadow];
         
         [self addSubview:textView];
@@ -164,18 +166,17 @@
     return self;
 }
 
-- (id)initWithSystemPlugin:(OESystemPlugin*)plugin
+- (id)initWithSystemPlugin:(OESystemPlugin *)plugin
 {
-    self = [super initWithFrame:(NSRect){{0,0},{ViewWidth,ViewHeight}}];
-    if (self)
+    if((self = [super initWithFrame:(NSRect){ .size = { ViewWidth, ViewHeight }}]))
     {
         [self _setupBox];
         
         [self _addLeftHeadlineWithText:plugin?[plugin systemName]:NSLocalizedString(@"System", @"")];
         
-        NSRect rect = (NSRect){{0,0},{[self frame].size.width/12*7, bottomTextViewHeight}};
+        NSRect rect = (NSRect){ .size = {[self frame].size.width/12*7, bottomTextViewHeight}};
         NSTextView *textView = [[NSTextView alloc] initWithFrame:NSInsetRect(rect, -4, 0)];
-        NSString *text = [NSString stringWithFormat:NSLocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @""), [plugin systemName]];
+        NSString   *text     = [NSString stringWithFormat:NSLocalizedString(@"%@ games you add to OpenEmu will appear in this Console Library", @""), [plugin systemName]];
         [textView setDrawsBackground:NO];
         [textView setEditable:NO];
         [textView setSelectable:NO];
@@ -186,8 +187,8 @@
         NSMutableParagraphStyle *paraStyle = [[NSMutableParagraphStyle alloc] init];
         [paraStyle setLineSpacing:2];
         [textView setDefaultParagraphStyle:paraStyle];
-        
         [textView setString:text];
+        
         NSShadow *shadow = [[NSShadow alloc] init];
         [shadow setShadowColor:[NSColor blackColor]];
         [shadow setShadowBlurRadius:0];
@@ -252,6 +253,7 @@
         [shadow setShadowColor:[NSColor colorWithDeviceWhite:1.0 alpha:0.4]];
         [shadow setShadowOffset:NSMakeSize(0, 0)];
         [shadow setShadowBlurRadius:5];
+        
         NSDictionary *clickDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                                          font, NSFontAttributeName,
                                          shadow, NSShadowAttributeName,
@@ -263,26 +265,30 @@
         shadow = [[NSShadow alloc] init];
         [shadow setShadowColor:[NSColor blackColor]];
         [shadow setShadowOffset:NSMakeSize(0, -1)];
+        
         NSDictionary *hoverDictionary = [[NSDictionary alloc] initWithObjectsAndKeys:
                                          font, NSFontAttributeName,
                                          shadow, NSShadowAttributeName,
                                          textColor, NSForegroundColorAttributeName,                                          
                                          nil];
+        
         int idx = 0;
+        
+        // FIXME: I don't think that's the proper place to have that kind of code (spaghetti code)
         NSArray *allPlugins = [OECorePlugin allPlugins];
         for(OECorePlugin *obj in allPlugins)
         {
             if(![[obj systemIdentifiers] containsObject:[plugin systemIdentifier]])
-            {
                 continue;
-            }
             
             NSString *projectURL = [[obj infoDictionary] valueForKey:@"OEProjectURL"];
             NSString *name = [obj displayName];
             
-            float y = bottomTextViewHeight-2*17 -17*idx+1;
-            OEImageButton *imageButton = [[OEImageButton alloc] initWithFrame:(NSRect){{rightColumnX-3, y},{[self frame].size.width-rightColumnX+10, 21}}];
+            float y = bottomTextViewHeight - 2 * 17 - 17 * idx + 1;
+            
+            OEImageButton *imageButton = [[OEImageButton alloc] initWithFrame:(NSRect){{ rightColumnX - 3, y}, { [self frame].size.width - rightColumnX + 10, 21 }}];
             OEImageButtonHoverPressedText *cell = [[OEImageButtonHoverPressedText alloc] initTextCell:name];
+            
             [cell setNormalAttributes:normalDictionary];
             [cell setHoverAttributes:hoverDictionary];
             [cell setClickAttributes:clickDictionary];
@@ -301,18 +307,13 @@
     return self;   
 }
 
-- (void)centerInSuperview
-{
-    [self setFrameOrigin:(NSPoint){round(([self superview].frame.size.width-[self frame].size.width)/2),
-        round(([self superview].frame.size.height-[self frame].size.height)/2),
-    }];
-}
-
 #pragma mark -
+
 - (void)gotoProjectURL:(id)sender
 {
     NSString *urlString = [sender title];
     NSURL *url = [NSURL URLWithString:urlString];
     [[NSWorkspace sharedWorkspace] openURL:url];
 }
+
 @end

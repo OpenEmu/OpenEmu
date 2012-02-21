@@ -486,27 +486,27 @@ typedef enum
     }
     if(gameDescriptionVal)
     {
-        [result setObject:[self removeHTMLEncodingsFromString: gameDescriptionVal] forKey:AVGGameDescriptionKey];
+        [result setObject:[self removeHTMLEncodingsFromString:gameDescriptionVal] forKey:AVGGameDescriptionKey];
     }
     if(gameGenreVal)
     {
-        [result setObject:[self removeHTMLEncodingsFromString: gameGenreVal] forKey:AVGGameGenreKey];
+        [result setObject:[self removeHTMLEncodingsFromString:gameGenreVal] forKey:AVGGameGenreKey];
     }
     if(gameDeveloperVal)
     {
-        [result setObject:[self removeHTMLEncodingsFromString: gameDeveloperVal] forKey:AVGGameDeveloperKey];
+        [result setObject:[self removeHTMLEncodingsFromString:gameDeveloperVal] forKey:AVGGameDeveloperKey];
     }
-    if(gameBoxFrontVal)
+    if(gameBoxFrontVal && [gameBoxFrontVal isNotEqualTo:@""])
     {
-        [result setObject:[self removeHTMLEncodingsFromString: gameBoxFrontVal] forKey:AVGGameBoxURLKey];
+        [result setObject:[self removeHTMLEncodingsFromString:gameBoxFrontVal] forKey:AVGGameBoxURLKey];
     }
     if(gameEsrbRatingVal)
     {
-        [result setObject:[self removeHTMLEncodingsFromString: gameEsrbRatingVal] forKey:AVGGameESRBRatingKey];
+        [result setObject:[self removeHTMLEncodingsFromString:gameEsrbRatingVal] forKey:AVGGameESRBRatingKey];
     }
     if(gameSystemNameVal)
     {
-        [result setObject:[self removeHTMLEncodingsFromString: gameSystemNameVal] forKey:AVGGameSystemNameKey];
+        [result setObject:[self removeHTMLEncodingsFromString:gameSystemNameVal] forKey:AVGGameSystemNameKey];
     }
     if(credits)
     {

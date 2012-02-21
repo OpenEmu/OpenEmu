@@ -32,8 +32,7 @@ static CGImageRef noiseImageRef = nil;
 
 + (void)initialize
 {
-    if([self class] != [OEGridScrollView class] || noiseImageRef != nil)
-        return;
+    if(self != [OEGridScrollView class]) return;
 
     // Save noiseImage as a CGImageRef, it makes it easier latter on, to draw it onto the actual layer
     NSImage *noiseImage = [NSImage imageNamed:@"noise"];
@@ -41,7 +40,7 @@ static CGImageRef noiseImageRef = nil;
     noiseImageRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
 }
 
--(void)drawRect:(NSRect)dirtyRect
+- (void)drawRect:(NSRect)dirtyRect
 {
     const CGRect bounds = [self bounds];
 

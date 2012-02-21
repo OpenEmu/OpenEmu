@@ -28,11 +28,6 @@
 #import "OEGridViewLayoutManager.h"
 
 @interface OEGridLayer : CALayer <OEGridViewLayoutManagerProtocol>
-{
-@public
-    BOOL _tracking;
-    BOOL _interactive;
-}
 
 - (void)mouseDownAtPointInLayer:(NSPoint)point withEvent:(NSEvent *)theEvent;
 - (void)mouseUpAtPointInLayer:(NSPoint)point withEvent:(NSEvent *)theEvent;
@@ -47,9 +42,9 @@
 - (void)didMoveToSuperlayer;
 
 #pragma mark - Properties
-@property (nonatomic, assign, getter = isTracking) BOOL tracking;
-@property (nonatomic, readonly) NSWindow *window;
-@property (nonatomic, readonly) NSView *view;
-@property (nonatomic, assign, getter = isInteractive) BOOL interactive;
+@property(nonatomic, assign, getter=isTracking) BOOL tracking;
+@property(nonatomic, readonly) NSWindow *window;
+@property(nonatomic, readonly) NSView *view;
+@property(nonatomic, assign, getter=isInteractive) BOOL interactive;
 
 @end

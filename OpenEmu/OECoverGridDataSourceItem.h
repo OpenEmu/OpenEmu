@@ -29,8 +29,8 @@
 // used for cover grid and cover flow
 @protocol OECoverGridDataSourceItem <NSObject>
 
-- (NSString*)gridTitle;
-- (void)setGridTitle:(NSString*)str;
+- (NSString *)gridTitle;
+- (void)setGridTitle:(NSString *)str;
 
 - (NSInteger)gridStatus;
 

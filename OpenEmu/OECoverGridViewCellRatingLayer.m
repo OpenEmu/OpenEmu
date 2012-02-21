@@ -98,6 +98,7 @@ const NSUInteger OECoverGridViewCellRatingViewNumberOfRatings = 6;
 }
 
 #pragma mark - Properties
+
 - (void)setRating:(NSUInteger)rating
 {
     NSUInteger newRating = MIN(rating, OECoverGridViewCellRatingViewNumberOfRatings - 1);

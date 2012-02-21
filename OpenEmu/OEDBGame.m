@@ -309,7 +309,8 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     // TODO: implement the following keys:
     //DLog(@"AVGGameGenreKey: %@", [gameInfoDictionary valueForKey:AVGGameGenreKey]);
-    [self setBoxImageByURL:[NSURL URLWithString:[gameInfoDictionary valueForKey:AVGGameBoxURLKey]]];
+    if([gameInfoDictionary valueForKey:AVGGameBoxURLKey])
+        [self setBoxImageByURL:[NSURL URLWithString:[gameInfoDictionary valueForKey:AVGGameBoxURLKey]]];
     //DLog(@"AVGGameBoxURLKey: %@", [gameInfoDictionary valueForKey:AVGGameBoxURLKey]);
     //DLog(@"AVGGameESRBRatingKey: %@", [gameInfoDictionary valueForKey:AVGGameESRBRatingKey]);
     //DLog(@"AVGGameCreditsKey: %@", [gameInfoDictionary valueForKey:AVGGameCreditsKey]);
@@ -487,10 +488,11 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 #pragma mark -
 - (void)setBoxImageByImage:(NSImage*)img
 {
-    // TODO: clean and move up
     OEDBImage *boxImage = [self valueForKey:@"boxImage"];
     if(boxImage != nil)
         [[boxImage managedObjectContext] deleteObject:boxImage];
+    
+    if(img == nil) return;
     
     NSManagedObjectContext *context = [self managedObjectContext];
     boxImage = [OEDBImage newFromImage:img inContext:context];

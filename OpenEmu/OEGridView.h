@@ -63,11 +63,11 @@
 {
 @private
     OEGridLayer *_rootLayer;                        // Root layer, where all other layers are inserted into
-    CALayer *_selectionLayer;                       // Selection box that appears when selecting multiple cells
-    CALayer *_dragIndicationLayer;                  // A visual indication that a file is being dragged onto the grid view
-    CALayer *_backgroundLayer;                      // A decorative background layer, the layer should return nil for -hitTest
-    CALayer *_foregroundLayer;                      // A decorative foreground layer, the layer should return nil for -hitTest
-    NSView *_noItemsView;                           // A decorative view when there are no items to show, e.g. blank slate
+    CALayer     *_selectionLayer;                   // Selection box that appears when selecting multiple cells
+    CALayer     *_dragIndicationLayer;              // A visual indication that a file is being dragged onto the grid view
+    CALayer     *_backgroundLayer;                  // A decorative background layer, the layer should return nil for -hitTest
+    CALayer     *_foregroundLayer;                  // A decorative foreground layer, the layer should return nil for -hitTest
+    NSView      *_noItemsView;                      // A decorative view when there are no items to show, e.g. blank slate
 
     NSSize _cellSize;                               // User defined cell size (defaults to 250 x 250)
     CGFloat _minimumColumnSpacing;                  // Minimum spacing between columns
@@ -77,12 +77,12 @@
     NSMutableIndexSet *_selectionIndexes;           // Index or indexes that are currently selected
     NSUInteger _indexOfKeyboardSelection;           // Last index of the selected cell using the keyboard
 
-    __unsafe_unretained id<OEGridViewDelegate> _delegate;
+    __unsafe_unretained id<OEGridViewDelegate>   _delegate;
     __unsafe_unretained id<OEGridViewDataSource> _dataSource;
 
-    NSMutableSet *_visibleCells;                    // Cached visible cells
+    NSMutableSet      *_visibleCells;               // Cached visible cells
     NSMutableIndexSet *_visibleCellsIndexes;        // Cached indexes of the visible cells
-    NSMutableSet *_reuseableCells;                  // Cached cells that are no longer in view
+    NSMutableSet      *_reuseableCells;             // Cached cells that are no longer in view
 
     NSDraggingSession *_draggingSession;            // Drag session used during a drag operation
     OEGridLayer *_previousDragDestinationLayer;
@@ -142,13 +142,13 @@
 - (NSRect)rectForCellAtIndex:(NSUInteger)index;
 
 #pragma mark - Properties
-@property (nonatomic, retain) CALayer *foregroundLayer;
-@property (nonatomic, retain) CALayer *backgroundLayer;
-@property (nonatomic, assign) CGFloat minimumColumnSpacing;
-@property (nonatomic, assign) CGFloat rowSpacing;
-@property (nonatomic, assign) CGSize itemSize;
-@property (nonatomic, assign) id<OEGridViewDataSource> dataSource;
-@property (nonatomic, assign) id<OEGridViewDelegate> delegate;
-@property (nonatomic, copy) NSIndexSet *selectionIndexes;
+@property(nonatomic, retain) CALayer *foregroundLayer;
+@property(nonatomic, retain) CALayer *backgroundLayer;
+@property(nonatomic, assign) CGFloat minimumColumnSpacing;
+@property(nonatomic, assign) CGFloat rowSpacing;
+@property(nonatomic, assign) CGSize itemSize;
+@property(nonatomic, assign) id<OEGridViewDataSource> dataSource;
+@property(nonatomic, assign) id<OEGridViewDelegate> delegate;
+@property(nonatomic, copy)   NSIndexSet *selectionIndexes;
 
 @end
