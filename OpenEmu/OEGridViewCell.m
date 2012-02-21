@@ -28,39 +28,42 @@
 #import "OEGridView.h"
 #import "OEGridView+OEGridViewCell.h"
 
-@interface OEGridViewCell (Private)
+@interface OEGridViewCell ()
 
-- (void)_reorderLayers;
+- (void)OE_reorderLayers;
 
 @end
 
 #pragma mark -
 @implementation OEGridViewCell
+@synthesize selected = _selected, editing = _editing;
 
 #pragma mark - NSObject
+
 - (id)init
 {
-    if(!(self = [super init]))
-        return nil;
-
-    [self setNeedsDisplayOnBoundsChange:YES];
-    [self setLayoutManager:[OEGridViewLayoutManager layoutManager]];
-    [self setInteractive:YES];
-
+    if((self = [super init]))
+    {
+        [self setNeedsDisplayOnBoundsChange:YES];
+        [self setLayoutManager:[OEGridViewLayoutManager layoutManager]];
+        [self setInteractive:YES];
+    }
+    
     return self;
 }
 
 #pragma mark - CALayer
+
 - (void)addSublayer:(CALayer *)layer
 {
     [super addSublayer:layer];
-    [self _reorderLayers];
+    [self OE_reorderLayers];
 }
 
 - (void)insertSublayer:(CALayer *)layer atIndex:(unsigned int)idx
 {
     [super insertSublayer:layer atIndex:idx];
-    [self _reorderLayers];
+    [self OE_reorderLayers];
 }
 
 - (void)layoutSublayers
@@ -80,6 +83,7 @@
 }
 
 #pragma mark - OEGridViewCell
+
 - (void)prepareForReuse
 {
     [self setTracking:NO];
@@ -107,6 +111,7 @@
 }
 
 #pragma mark - Properties
+
 - (id)draggingImage
 {
     const CGSize imageSize = [self bounds].size;
@@ -121,11 +126,11 @@
                                                                          colorSpaceName:NSCalibratedRGBColorSpace
                                                                             bytesPerRow:(NSInteger)imageSize.width * 4
                                                                            bitsPerPixel:32];
+    
     NSGraphicsContext *bitmapContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:dragImageRep];
     CGContextRef ctx = (CGContextRef)[bitmapContext graphicsPort];
 
-    if(![self superlayer])
-        CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, imageSize.height));
+    if([self superlayer] == nil) CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, imageSize.height));
 
     CGContextClearRect(ctx, CGRectMake(0.0, 0.0, imageSize.width, imageSize.height));
     CGContextSetAllowsAntialiasing(ctx, YES);
@@ -155,9 +160,9 @@
         return;
 
     if(editing)
-        [[self gridView] _willBeginEditingCell:self];
+        [[self gridView] OE_willBeginEditingCell:self];
     else
-        [[self gridView] _didEndEditingCell:self];
+        [[self gridView] OE_didEndEditingCell:self];
 
     _editing = editing;
 }
@@ -175,7 +180,7 @@
     [_foregroundLayer removeFromSuperlayer];
     _foregroundLayer = foregroundLayer;
 
-    [self _reorderLayers];
+    [self OE_reorderLayers];
 }
 
 - (CALayer *)foregroundLayer
@@ -197,11 +202,6 @@
     return NSRectFromCGRect([self frame]);
 }
 
-@end
-
-#pragma mark -
-@implementation OEGridViewCell (OEGridView)
-
 - (void)_setIndex:(NSUInteger)index
 {
     _index = index;
@@ -212,14 +212,9 @@
     return _index;
 }
 
-@end
-
-#pragma mark -
-@implementation OEGridViewCell (Private)
-
-- (void)_reorderLayers
+- (void)OE_reorderLayers
 {
-    [super insertSublayer:_foregroundLayer atIndex:(unsigned int)[[self sublayers] count]];
+    [super insertSublayer:_foregroundLayer atIndex:[[self sublayers] count]];
 }
 
 @end

@@ -27,29 +27,26 @@
 #import "OEGridLayer.h"
 
 @implementation OEGridLayer
+@synthesize tracking = _tracking, interactive = _interactive;
 
 - (id)init
 {
-    if(!(self = [super init]))
-        return nil;
-
-    [self setLayoutManager:[OEGridViewLayoutManager layoutManager]];
-    [self setNeedsDisplayOnBoundsChange:YES];
-
+    if((self = [super init]))
+    {
+        [self setLayoutManager:[OEGridViewLayoutManager layoutManager]];
+        [self setNeedsDisplayOnBoundsChange:YES];
+    }
+    
     return self;
 }
 
 - (CALayer *)hitTest:(CGPoint)p
 {
-    if(!_interactive)
-        return nil;
+    if(!_interactive) return nil;
 
     if(CGRectContainsPoint([self frame], p))
-    {
-        CALayer *result = [super hitTest:p];
-        return (result ?: self);
-    }
-
+        return [super hitTest:p] ? : self;
+    
     return nil;
 }
 
@@ -130,16 +127,17 @@
 - (void)removeFromSuperlayer
 {
     [self willMoveToSuperlayer:nil];
+    
     [super removeFromSuperlayer];
+    
     [self didMoveToSuperlayer];
 }
 
 #pragma mark - Properties
-@synthesize tracking = _tracking;
 
 - (NSWindow *)window
 {
-    return [[self view] window];;
+    return [[self view] window];
 }
 
 - (NSView *)view
@@ -148,14 +146,14 @@
     while(superlayer)
     {
         NSView *delegate = [superlayer delegate];
+        
         if([delegate isKindOfClass:[NSView class]])
             return delegate;
 
         superlayer = [superlayer superlayer];
     }
+    
     return nil;
 }
-
-@synthesize interactive = _interactive;
 
 @end

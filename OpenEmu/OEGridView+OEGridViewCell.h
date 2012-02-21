@@ -28,7 +28,7 @@
 
 @interface OEGridView (OEGridViewCell)
 
-- (void)_willBeginEditingCell:(OEGridViewCell *)cell;
-- (void)_didEndEditingCell:(OEGridViewCell *)cell;
+- (void)OE_willBeginEditingCell:(OEGridViewCell *)cell;
+- (void)OE_didEndEditingCell:(OEGridViewCell *)cell;
 
 @end

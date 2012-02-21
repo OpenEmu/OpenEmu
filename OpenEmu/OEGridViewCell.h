@@ -35,21 +35,19 @@
     NSUInteger _index;
 
     CALayer *_foregroundLayer;
-    BOOL _selected;
-    BOOL _editing;
 }
 
 - (void)prepareForReuse;
 - (void)didBecomeFocused;
 - (void)willResignFocus;
+
+@property(nonatomic, getter=isEditing) BOOL editing;
+@property(nonatomic, getter=isSelected) BOOL selected;
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated;
 
-#pragma mark -
-@property (nonatomic, readonly) id draggingImage;
-@property (nonatomic, assign, getter = isSelected) BOOL selected;
-@property (nonatomic, assign, getter = isEditing) BOOL editing;
-@property (nonatomic, retain) CALayer *foregroundLayer;
-@property (nonatomic, readonly) OEGridView *gridView;
-@property (nonatomic, readonly) NSRect hitRect;
+@property(nonatomic, retain)   CALayer    *foregroundLayer;
+@property(nonatomic, readonly) OEGridView *gridView;
+@property(nonatomic, readonly) NSRect      hitRect;
+@property(nonatomic, readonly) id          draggingImage;
 
 @end

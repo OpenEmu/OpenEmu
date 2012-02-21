@@ -27,12 +27,17 @@
 #import "OECoverGridViewCellIndicationLayer.h"
 #import "NSColor+OEAdditions.h"
 
-static inline CGFloat DegreesToRadians(CGFloat degrees) {return degrees * M_PI / 180;};
-static inline CGFloat RadiansToDegrees(CGFloat radians) {return radians * 180 / M_PI;};
+#define M_TAU (M_PI * 2.0)
+
+@interface OECoverGridViewCellIndicationLayer ()
++ (CAKeyframeAnimation *)OE_rotationAnimation;
+@end
 
 @implementation OECoverGridViewCellIndicationLayer
+@synthesize type = _type;
 
 #pragma mark - CALayer
+
 - (id<CAAction>)actionForKey:(NSString *)event
 {
     return nil;
@@ -72,6 +77,7 @@ static inline CGFloat RadiansToDegrees(CGFloat radians) {return radians * 180 / 
 }
 
 #pragma mark - Properties
+
 - (void)setType:(OECoverGridViewCellIndicationType)type
 {
     if(_type == type)
@@ -92,7 +98,7 @@ static inline CGFloat RadiansToDegrees(CGFloat radians) {return radians * 180 / 
     }
 
     CALayer *sublayer = [[self sublayers] lastObject];
-    if(!sublayer)
+    if(sublayer == nil)
     {
         sublayer = [CALayer layer];
         [sublayer setShadowOffset:CGSizeMake(0.0, -1.0)];
@@ -117,34 +123,35 @@ static inline CGFloat RadiansToDegrees(CGFloat radians) {return radians * 180 / 
         [sublayer setContents:[NSImage imageNamed:@"spinner"]];
         [sublayer setAnchorPoint:CGPointMake(0.5, 0.5)];
         [sublayer setAnchorPointZ:0.0];
-
-        CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
-        [animation setCalculationMode:kCAAnimationDiscrete];
-        [animation setDuration:1.0];
-        [animation setRepeatCount:CGFLOAT_MAX];
-        [animation setRemovedOnCompletion:NO];
-
-        static NSArray *spinnerValues = nil;
-        if(spinnerValues == nil)
-        {
-            const CGFloat angleStep = 30.0;
-            NSMutableArray *values = [NSMutableArray arrayWithCapacity:(NSUInteger)(360.0 / angleStep)];
-
-            for(CGFloat angle = 0.0; angle < 360.0; angle += angleStep)
-                [values addObject:[NSNumber numberWithFloat:DegreesToRadians(angle)]];
-            spinnerValues = [values copy];
-        }
-
-        [animation setValues:spinnerValues];
-        [sublayer addAnimation:animation forKey:nil];
+        
+        [sublayer addAnimation:[[self class] OE_rotationAnimation] forKey:nil];
     }
 
     [self setNeedsLayout];
 }
 
-- (OECoverGridViewCellIndicationType)type
++ (CAKeyframeAnimation *)OE_rotationAnimation;
 {
-    return _type;
+    static CAKeyframeAnimation *animation = nil;
+    
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        CAKeyframeAnimation *animation = [CAKeyframeAnimation animationWithKeyPath:@"transform.rotation.z"];
+        [animation setCalculationMode:kCAAnimationDiscrete];
+        [animation setDuration:1.0];
+        [animation setRepeatCount:CGFLOAT_MAX];
+        [animation setRemovedOnCompletion:NO];
+        
+        NSUInteger stepCount = 12;
+        NSMutableArray *spinnerValues = [[NSMutableArray alloc] initWithCapacity:stepCount];
+        
+        for(NSUInteger step = 0; step < stepCount; step++)
+            [spinnerValues addObject:[NSNumber numberWithDouble:M_TAU * step / 12.0]];
+        
+        [animation setValues:spinnerValues];
+    });
+    
+    return animation;
 }
 
 @end

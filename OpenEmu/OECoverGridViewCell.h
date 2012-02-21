@@ -57,9 +57,9 @@
 }
 
 #pragma mark - Properties
-@property (nonatomic, retain) NSImage *image;
-@property (nonatomic, assign) NSUInteger rating;
-@property (nonatomic, copy) NSString *title;
-@property (nonatomic, assign) OECoverGridViewCellIndicationType indicationType;
+@property(nonatomic, retain) NSImage *image;
+@property(nonatomic, copy)   NSString *title;
+@property(nonatomic, assign) NSUInteger rating;
+@property(nonatomic, assign) OECoverGridViewCellIndicationType indicationType;
 
 @end

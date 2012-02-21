@@ -83,7 +83,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 - (void)commit;
 
 #pragma mark -
-@property (nonatomic, copy) void (^completionBlock)(BOOL);
+@property(nonatomic, copy) void (^completionBlock)(BOOL);
 
 @end
 
@@ -909,7 +909,8 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [self _beginAnimationGroup];
 
     __block typeof(self) bself = self;
-    [self _setCompletionBlock:^(BOOL finished)
+    [self _setCompletionBlock:
+     ^(BOOL finished)
      {
          [bself->_statusIndicatorLayer setType:bself->_indicationType];
          [bself->_statusIndicatorLayer setOpacity:1.0];
@@ -961,28 +962,23 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
 #pragma mark -
 @implementation _OEAnimationDelegate
-
-- (void)dealloc
-{
-    _completionBlock = nil;
-    [_animationDefinitions removeAllObjects];
-    _animationDefinitions = nil;
-}
+@synthesize completionBlock = _completionBlock;
 
 #pragma mark - CAAnimation Delegate
+
 - (void)animationDidStop:(CAAnimation *)anim finished:(BOOL)flag
 {
-    if(!_animations)
-        return;
+    if(_animations == nil) return;
 
     NSString *animationValue = [anim valueForKey:[NSString stringWithFormat:@"0x%p", self]];
+    
     if(!animationValue || ![_animations containsObject:animationValue])
         return;
 
     _finished = _finished && flag;
     [_animations removeObject:animationValue];
 
-    if([_animations count] == 0 && _completionBlock)
+    if([_animations count] == 0 && _completionBlock != nil)
     {
         _completionBlock(_finished);
         _animations = nil;
@@ -990,24 +986,24 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 }
 
 #pragma mark - _OEAnimationDelegate
+
 - (void)addAnimation:(CAAnimation *)animation toLayer:(CALayer *)layer forKey:(NSString *)key
 {
-    if(!_animationDefinitions)
+    if(_animationDefinitions == nil)
         _animationDefinitions = [[NSMutableSet alloc] init];
 
     [_animationDefinitions addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                            animation, @"animation",
-                            layer, @"layer",
-                            (key ?: [NSNull null]), @"key",
-                            nil]];
+                                      animation, @"animation",
+                                      layer, @"layer",
+                                      (key ? : [NSNull null]), @"key",
+                                      nil]];
 }
 
 - (void)commit
 {
-    if(!_animationDefinitions || [_animationDefinitions count] == 0)
+    if([_animationDefinitions count] == 0)
     {
-        if(_completionBlock)
-            _completionBlock(YES);
+        if(_completionBlock != nil) _completionBlock(YES);
         return;
     }
 
@@ -1015,11 +1011,12 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     _finished = YES;
 
     NSString *animationKey = [NSString stringWithFormat:@"0x%p", self];
+    
     for(NSDictionary *obj in _animationDefinitions)
     {
-        CAAnimation *animation      = [obj valueForKey:@"animation"];
-        CALayer *layer              = [obj valueForKey:@"layer"];
-        id key                      = [obj valueForKey:@"key"];
+        CAAnimation *animation      = [obj objectForKey:@"animation"];
+        CALayer *layer              = [obj objectForKey:@"layer"];
+        id key                      = [obj objectForKey:@"key"];
         NSString *animationValue    = [NSString stringWithFormat:@"0x%p", animation];
 
         [animation setDelegate:self];
@@ -1027,11 +1024,9 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
         [layer addAnimation:animation forKey:(key == [NSNull null] ? nil : key)];
         [_animations addObject:animationValue];
     }
+    
     [_animationDefinitions removeAllObjects];
     _animationDefinitions = nil;
 }
-
-#pragma mark - Properties
-@synthesize completionBlock = _completionBlock;
 
 @end

@@ -28,6 +28,7 @@
 #import "NSColor+OEAdditions.h"
 
 #pragma mark -
+
 @implementation OEGridViewFieldEditor
 {
     NSTextField *textView;
@@ -61,12 +62,6 @@
     }
     
     return self;
-}
-
-- (void)dealloc
-{
-    [textView removeFromSuperview];
-    textView = nil;
 }
 
 #pragma mark -
