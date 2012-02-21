@@ -33,6 +33,4 @@
 - (id)initWithCollectionName:(NSString *)collectionName;
 - (id)initWithSystemPlugin:(OESystemPlugin *)plugin;
 
-- (void)centerInSuperview;
-
 @end

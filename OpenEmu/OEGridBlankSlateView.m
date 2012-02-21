@@ -307,17 +307,6 @@
     return self;   
 }
 
-- (void)centerInSuperview
-{
-    NSRect superbounds = [[self superview] bounds];
-    NSRect bounds      = [self bounds];
-    
-    [self setFrameOrigin:(NSPoint){
-        .x = round((NSWidth(superbounds)  - NSWidth(bounds))  / 2),
-        .y = round((NSHeight(superbounds) - NSHeight(bounds)) / 2),
-    }];
-}
-
 #pragma mark -
 
 - (void)gotoProjectURL:(id)sender
