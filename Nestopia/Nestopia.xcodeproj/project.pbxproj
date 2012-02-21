@@ -1088,7 +1088,7 @@
 		82789AF60E70D06700C01C82 /* nes_ntsc_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nes_ntsc_config.h; sourceTree = "<group>"; };
 		82789AF70E70D06700C01C82 /* nes_ntsc_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = nes_ntsc_impl.h; sourceTree = "<group>"; };
 		82789AF80E70D06700C01C82 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		82789B6F0E70D27D00C01C82 /* NESGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; path = NESGameCore.h; sourceTree = "<group>"; };
+		82789B6F0E70D27D00C01C82 /* NESGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NESGameCore.h; sourceTree = "<group>"; };
 		82789B700E70D27D00C01C82 /* NESGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NESGameCore.mm; sourceTree = "<group>"; };
 		82798BE50E85CC65001DCA93 /* OpenNestopia.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = OpenNestopia.icns; sourceTree = "<group>"; };
 		82C5EDE50F0C4CE70019E2DC /* NstApiRam.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NstApiRam.h; sourceTree = "<group>"; };
