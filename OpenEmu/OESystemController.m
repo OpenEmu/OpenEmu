@@ -539,7 +539,7 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 - (BOOL)canHandleFile:(NSString *)path
 {
-    return [fileTypes containsObject:[path pathExtension]];
+    return [fileTypes containsObject:[[path pathExtension] lowercaseString]];
 }
 
 @end
