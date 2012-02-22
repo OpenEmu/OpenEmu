@@ -47,6 +47,7 @@
 				83F37149140BB177005A7353 /* PBXTargetDependency */,
 				83F3714D140BB17A005A7353 /* PBXTargetDependency */,
 				83F3714B140BB179005A7353 /* PBXTargetDependency */,
+				94D22EF814F5732200AC2F05 /* PBXTargetDependency */,
 			);
 			name = "Build SystemPlugins";
 			productName = "Build SystemPlugins";
@@ -429,6 +430,18 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		94D22EC214F4E0D900AC2F05 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		94D22EC814F4E0DA00AC2F05 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D22EC614F4E0DA00AC2F05 /* InfoPlist.strings */; };
+		94D22ECF14F4EAC400AC2F05 /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94D22ED514F5630D00AC2F05 /* OEPCESystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D22ED114F5630D00AC2F05 /* OEPCESystemController.m */; };
+		94D22ED614F5630D00AC2F05 /* OEPCESystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D22ED314F5630D00AC2F05 /* OEPCESystemResponder.m */; };
+		94D22EDD14F5655C00AC2F05 /* controller_pce_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D22ED714F5655C00AC2F05 /* controller_pce_mask.png */; };
+		94D22EDE14F5655C00AC2F05 /* controller_pce.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D22ED814F5655C00AC2F05 /* controller_pce.png */; };
+		94D22EDF14F5655C00AC2F05 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94D22ED914F5655C00AC2F05 /* Controller-Preferences-Info.plist */; };
+		94D22EE014F5655C00AC2F05 /* pcengine_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D22EDA14F5655C00AC2F05 /* pcengine_library.png */; };
+		94D22EE114F5655C00AC2F05 /* supergrafx_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D22EDB14F5655C00AC2F05 /* supergrafx_library.png */; };
+		94D22EE214F5655C00AC2F05 /* tg16_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D22EDC14F5655C00AC2F05 /* tg16_library.png */; };
+		94D22EF914F5734C00AC2F05 /* PC Engine.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = 94D22EC114F4E0D900AC2F05 /* PC Engine.oesystemplugin */; };
 		C61C98C40F58308C007F4242 /* OEGameCoreController.h in Headers */ = {isa = PBXBuildFile; fileRef = C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6252DA814E71D0500350A13 /* controller_fc.png in Resources */ = {isa = PBXBuildFile; fileRef = C6252DA914E71D0500350A13 /* controller_fc.png */; };
 		C6252DAC14E752E300350A13 /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6252DAA14E752E300350A13 /* Controller-Preferences-Info.plist */; };
@@ -658,6 +671,20 @@
 			remoteGlobalIDString = C646574713771F12002A4F70;
 			remoteInfo = "GameBoy Advance";
 		};
+		94D22ECD14F4E9A100AC2F05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94D22EF714F5732200AC2F05 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 94D22EC014F4E0D900AC2F05;
+			remoteInfo = "PC Engine";
+		};
 		C60FC00013522D9A00B53F64 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -760,6 +787,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				94D22EF914F5734C00AC2F05 /* PC Engine.oesystemplugin in Copy Files */,
 				8291C4E1148958FC00A72540 /* SegaMasterSystem.oesystemplugin in Copy Files */,
 				8227757014894A3300B19E27 /* GameGear.oesystemplugin in Copy Files */,
 				820EB7641483FBFB008EC398 /* NeoGeo Pocket.oesystemplugin in Copy Files */,
@@ -1302,6 +1330,22 @@
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93B479F612BAB576008618A7 /* OEHIDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDManager.h; sourceTree = "<group>"; };
 		93B479F712BAB576008618A7 /* OEHIDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDManager.m; sourceTree = "<group>"; };
+		94D22E7B14F4DD4000AC2F05 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		94D22EC114F4E0D900AC2F05 /* PC Engine.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "PC Engine.oesystemplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
+		94D22EC514F4E0D900AC2F05 /* PC Engine-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PC Engine-Info.plist"; sourceTree = "<group>"; };
+		94D22EC714F4E0DA00AC2F05 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		94D22EC914F4E0DA00AC2F05 /* PC Engine-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "PC Engine-Prefix.pch"; sourceTree = "<group>"; };
+		94D22ED014F5630D00AC2F05 /* OEPCESystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCESystemController.h; sourceTree = "<group>"; };
+		94D22ED114F5630D00AC2F05 /* OEPCESystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCESystemController.m; sourceTree = "<group>"; };
+		94D22ED214F5630D00AC2F05 /* OEPCESystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCESystemResponder.h; sourceTree = "<group>"; };
+		94D22ED314F5630D00AC2F05 /* OEPCESystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPCESystemResponder.m; sourceTree = "<group>"; };
+		94D22ED414F5630D00AC2F05 /* OEPCESystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPCESystemResponderClient.h; sourceTree = "<group>"; };
+		94D22ED714F5655C00AC2F05 /* controller_pce_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pce_mask.png; sourceTree = "<group>"; };
+		94D22ED814F5655C00AC2F05 /* controller_pce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_pce.png; sourceTree = "<group>"; };
+		94D22ED914F5655C00AC2F05 /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
+		94D22EDA14F5655C00AC2F05 /* pcengine_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pcengine_library.png; sourceTree = "<group>"; };
+		94D22EDB14F5655C00AC2F05 /* supergrafx_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = supergrafx_library.png; sourceTree = "<group>"; };
+		94D22EDC14F5655C00AC2F05 /* tg16_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tg16_library.png; sourceTree = "<group>"; };
 		C60BF0350F5709FC000D94F6 /* OEGameCoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEGameCoreController.h; sourceTree = "<group>"; };
 		C60BF0360F5709FC000D94F6 /* OEGameCoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEGameCoreController.m; sourceTree = "<group>"; };
 		C60CDDD611780DF100EB472F /* OpenGL Format Table.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "OpenGL Format Table.txt"; sourceTree = "<group>"; };
@@ -1538,6 +1582,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94D22EBE14F4E0D900AC2F05 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94D22ECF14F4EAC400AC2F05 /* OpenEmuSystem.framework in Frameworks */,
+				94D22EC214F4E0D900AC2F05 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C646574513771F12002A4F70 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1674,6 +1727,7 @@
 				1415540F1442B3B300A01683 /* N64.oesystemplugin */,
 				820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */,
 				8227754F148946DF00B19E27 /* GameGear.oesystemplugin */,
+				94D22EC114F4E0D900AC2F05 /* PC Engine.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1948,6 +2002,7 @@
 			children = (
 				C6711810136368330034379A /* Cocoa.framework */,
 				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
+				94D22E7B14F4DD4000AC2F05 /* CoreFoundation.framework */,
 				C6711812136368330034379A /* Other Frameworks */,
 			);
 			name = Frameworks;
@@ -2738,6 +2793,35 @@
 			name = HID;
 			sourceTree = "<group>";
 		};
+		94D22EC314F4E0D900AC2F05 /* PC Engine */ = {
+			isa = PBXGroup;
+			children = (
+				94D22ED014F5630D00AC2F05 /* OEPCESystemController.h */,
+				94D22ED114F5630D00AC2F05 /* OEPCESystemController.m */,
+				94D22ED214F5630D00AC2F05 /* OEPCESystemResponder.h */,
+				94D22ED314F5630D00AC2F05 /* OEPCESystemResponder.m */,
+				94D22ED414F5630D00AC2F05 /* OEPCESystemResponderClient.h */,
+				94D22EC414F4E0D900AC2F05 /* Supporting Files */,
+			);
+			path = "PC Engine";
+			sourceTree = "<group>";
+		};
+		94D22EC414F4E0D900AC2F05 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94D22ED714F5655C00AC2F05 /* controller_pce_mask.png */,
+				94D22ED814F5655C00AC2F05 /* controller_pce.png */,
+				94D22EDA14F5655C00AC2F05 /* pcengine_library.png */,
+				94D22EDB14F5655C00AC2F05 /* supergrafx_library.png */,
+				94D22EDC14F5655C00AC2F05 /* tg16_library.png */,
+				94D22ED914F5655C00AC2F05 /* Controller-Preferences-Info.plist */,
+				94D22EC514F4E0D900AC2F05 /* PC Engine-Info.plist */,
+				94D22EC614F4E0DA00AC2F05 /* InfoPlist.strings */,
+				94D22EC914F4E0DA00AC2F05 /* PC Engine-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		C60CDDD511780DD100EB472F /* Documentation */ = {
 			isa = PBXGroup;
 			children = (
@@ -2962,6 +3046,7 @@
 				C6B947B11364ECA700A425F0 /* GameBoy */,
 				C6B947E81365080B00A425F0 /* Genesis */,
 				C646574A13771F12002A4F70 /* GameBoy Advance */,
+				94D22EC314F4E0D900AC2F05 /* PC Engine */,
 			);
 			name = "System Plugins";
 			sourceTree = "<group>";
@@ -3235,6 +3320,24 @@
 			productReference = 8D15AC370486D014006FF6A4 /* OpenEmu.app */;
 			productType = "com.apple.product-type.application";
 		};
+		94D22EC014F4E0D900AC2F05 /* PC Engine */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 94D22ECA14F4E0DA00AC2F05 /* Build configuration list for PBXNativeTarget "PC Engine" */;
+			buildPhases = (
+				94D22EBD14F4E0D900AC2F05 /* Sources */,
+				94D22EBE14F4E0D900AC2F05 /* Frameworks */,
+				94D22EBF14F4E0D900AC2F05 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94D22ECE14F4E9A100AC2F05 /* PBXTargetDependency */,
+			);
+			name = "PC Engine";
+			productName = "PC Engine";
+			productReference = 94D22EC114F4E0D900AC2F05 /* PC Engine.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		C646574713771F12002A4F70 /* GameBoy Advance */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C646575113771F12002A4F70 /* Build configuration list for PBXNativeTarget "GameBoy Advance" */;
@@ -3399,6 +3502,7 @@
 				1415540E1442B3B300A01683 /* N64 */,
 				820EB7391483F9A2008EC398 /* NeoGeoPocket */,
 				8227753E148946DF00B19E27 /* GameGear */,
+				94D22EC014F4E0D900AC2F05 /* PC Engine */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -3608,6 +3712,20 @@
 				8303BC0C14E318C200FCD701 /* light_menu_body.png in Resources */,
 				8303BC0D14E318C200FCD701 /* light_submenu_body.png in Resources */,
 				8303BC0E14E318C200FCD701 /* tick_mark.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		94D22EBF14F4E0D900AC2F05 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94D22EC814F4E0DA00AC2F05 /* InfoPlist.strings in Resources */,
+				94D22EDD14F5655C00AC2F05 /* controller_pce_mask.png in Resources */,
+				94D22EDE14F5655C00AC2F05 /* controller_pce.png in Resources */,
+				94D22EDF14F5655C00AC2F05 /* Controller-Preferences-Info.plist in Resources */,
+				94D22EE014F5655C00AC2F05 /* pcengine_library.png in Resources */,
+				94D22EE114F5655C00AC2F05 /* supergrafx_library.png in Resources */,
+				94D22EE214F5655C00AC2F05 /* tg16_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3957,6 +4075,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		94D22EBD14F4E0D900AC2F05 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94D22ED514F5630D00AC2F05 /* OEPCESystemController.m in Sources */,
+				94D22ED614F5630D00AC2F05 /* OEPCESystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C646574413771F12002A4F70 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4116,6 +4243,16 @@
 			target = C646574713771F12002A4F70 /* GameBoy Advance */;
 			targetProxy = 83F37150140BB17C005A7353 /* PBXContainerItemProxy */;
 		};
+		94D22ECE14F4E9A100AC2F05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94D22ECD14F4E9A100AC2F05 /* PBXContainerItemProxy */;
+		};
+		94D22EF814F5732200AC2F05 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 94D22EC014F4E0D900AC2F05 /* PC Engine */;
+			targetProxy = 94D22EF714F5732200AC2F05 /* PBXContainerItemProxy */;
+		};
 		C60FC00113522D9A00B53F64 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 82444BA00F51256C007C171B /* OpenEmuBase */;
@@ -4205,6 +4342,14 @@
 				828ED4D90E7D98A10059F397 /* English */,
 			);
 			name = GameFilePicker.xib;
+			sourceTree = "<group>";
+		};
+		94D22EC614F4E0DA00AC2F05 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				94D22EC714F4E0DA00AC2F05 /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		C646574D13771F12002A4F70 /* InfoPlist.strings */ = {
@@ -4532,6 +4677,48 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		94D22ECB14F4E0DA00AC2F05 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PC Engine/PC Engine-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "PC Engine/PC Engine-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		94D22ECC14F4E0DA00AC2F05 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "PC Engine/PC Engine-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "PC Engine/PC Engine-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				VALID_ARCHS = x86_64;
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -5016,6 +5203,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		94D22ECA14F4E0DA00AC2F05 /* Build configuration list for PBXNativeTarget "PC Engine" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				94D22ECB14F4E0DA00AC2F05 /* Debug */,
+				94D22ECC14F4E0DA00AC2F05 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */ = {
 			isa = XCConfigurationList;
