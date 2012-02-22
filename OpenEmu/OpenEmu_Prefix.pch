@@ -52,6 +52,8 @@
 #define APIVersion	@"2.0"
 #define APIKey		@"6CVC46HWMLJNU986TRM5A4XG927HA0K0"
 
+#define UDDebugModeKey @"debug"
+
 // Keys used for user defaults
 // Remember to change values in XIBs if you edit strings below!
 #define UDSetupAssistantHasRun      @"setupAssistantFinished"   /*  uses Sparkle key, to determine if oe was launched before */
@@ -76,7 +78,7 @@
 
 // OEHudControls
 #define UDVolumeKey					@"volume"					/*	GamePlay window -> hud bar -> volume slider start value					*/
-#define UDNameStateByDateKey		@"dateName"					/*  skips if true:	Gameplay window -> sheet -> state name					*/
+#define UDNameStateByDateKey		@"dateName"					/*  skips if true:	Gameplay window -> alert -> state name					*/
 
 // Preferences, Controls tab
 #define UDControlsPluginIdentifierKey   @"lastControlsPlugin"
@@ -133,16 +135,7 @@
 //  Tags identifying Main Menu items
 #pragma mark File Menu
 enum {
-    MainMenu_File_LaunchGame          = 101,
-    MainMenu_File_NewCollection       = 102,
-    MainMenu_File_NewCollectionFolder = 103,
-    MainMenu_File_NewSmartCollection  = 104,
-    MainMenu_File_EditSmartCollection = 105,
-    MainMenu_File_AddToLibrary        = 106,
-    MainMenu_File_GetInfo             = 107,
-    MainMenu_File_Rating              = 108,
-    MainMenu_File_ShowInFinder        = 109,
-    MainMenu_File_DisplayDuplicates   = 110,
+
 #pragma mark -
 #pragma mark Controls Menu
     MainMenu_Controls_StartGame       = 201,

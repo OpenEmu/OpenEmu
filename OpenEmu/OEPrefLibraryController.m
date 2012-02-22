@@ -26,6 +26,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         [self _calculateHeight];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_rebuildAvailableLibraries) name:OEDBSystemsChangedNotificationName object:nil];
     }
     
     return self;
@@ -64,7 +65,6 @@
 
 - (NSSize)viewSize
 {
-	// TODO: decide how to implement Available Libraries
 	return NSMakeSize(423, height);
 }
 #pragma mark -
@@ -94,7 +94,7 @@
             if (databasePath && ![databasePath isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey]])
             {
                 [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:UDDatabasePathKey];
-                [(OEApplicationDelegate *) [NSApplication sharedApplication].delegate OE_loadDatabase];
+                [(OEApplicationDelegate *) [NSApplication sharedApplication].delegate loadDatabase];
                 [pathField setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
             }
         }
@@ -147,11 +147,7 @@
 
 - (void)_rebuildAvailableLibraries
 {
-    // remove all subviews (if any)
-    while(librariesView && [[librariesView subviews] count])
-    {
-        [[[librariesView subviews] lastObject] removeFromSuperview];
-    }
+    [[[librariesView subviews] copy] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
     
     // get all system plugins, ordered them by name
     NSArray *systems = [[OELibraryDatabase defaultDatabase] systems];
@@ -202,7 +198,6 @@
          NSArray *allPlugins = [OECorePlugin allPlugins];
          for(OECorePlugin *obj in allPlugins)
          {
-             
              if([[obj systemIdentifiers] containsObject:systemIdentifier])
              {
                  foundCore = YES;

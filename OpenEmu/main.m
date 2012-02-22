@@ -47,13 +47,12 @@ int main(int argc, char *argv[])
                                    @"{150,150}",
                                    @"{300,300}",
                                    @"{450,450}", nil],              UDBoxSizesKey,
-                                  
+
                                   // Library Tab
                                   path,                             UDDefaultDatabasePathKey,
                                   path,                             UDDatabasePathKey,
                                   [NSNumber numberWithBool:YES],    UDAutmaticallyGetInfoKey,
 
-                                  
                                   // others
                                   @"Save States",                   UDSaveStateFolderNameKey,	// Default name of Save States folder
                                   @"Linear",                        UDVideoFilterKey,
@@ -72,6 +71,8 @@ int main(int argc, char *argv[])
                                   [NSNumber numberWithBool:YES],    UDSidebarVisibleKey,
                                   
                                   [NSNumber numberWithFloat:1.0],   UDLastGridSizeKey,
+                                  
+                                  [NSNumber numberWithBool:YES],    UDControlsButtonHighlightRollsOver,
                                   nil];
         
         NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];

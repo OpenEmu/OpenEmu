@@ -227,9 +227,7 @@ OSStatus RenderCallback(void                       *in,
     err = AUGraphStart(mGraph);
     if(err) NSLog(@"couldn't start graph");
 	
-    
-    NSLog(@"****Hello****");
-    //    CFShow(mGraph);
+        //    CFShow(mGraph);
     [self setVolume:[self volume]];
 }
 

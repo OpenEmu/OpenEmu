@@ -346,6 +346,8 @@
 		83703B46140E4F9100EC27A7 /* Scale2xPlus.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B40140E4F9100EC27A7 /* Scale2xPlus.png */; };
 		83703B47140E4F9100EC27A7 /* Scale4x.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B41140E4F9100EC27A7 /* Scale4x.png */; };
 		83703B48140E4F9100EC27A7 /* Scale4xHQ.png in Resources */ = {isa = PBXBuildFile; fileRef = 83703B42140E4F9100EC27A7 /* Scale4xHQ.png */; };
+		83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 83753F1614F537C400D708A7 /* OEPrefDebugController.m */; };
+		83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */; };
 		8375E14F1477FC0D0018DA1F /* OECoreUpdater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */; };
 		837777B9147A8E730091A896 /* OEHUDProgressbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 837777B8147A8E730091A896 /* OEHUDProgressbar.m */; };
 		837777BC147A8F6A0091A896 /* hud_progress_bar_track.png in Resources */ = {isa = PBXBuildFile; fileRef = 837777BA147A8F6A0091A896 /* hud_progress_bar_track.png */; };
@@ -1223,6 +1225,9 @@
 		83703B40140E4F9100EC27A7 /* Scale2xPlus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale2xPlus.png; sourceTree = "<group>"; };
 		83703B41140E4F9100EC27A7 /* Scale4x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale4x.png; sourceTree = "<group>"; };
 		83703B42140E4F9100EC27A7 /* Scale4xHQ.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Scale4xHQ.png; sourceTree = "<group>"; };
+		83753F1514F537C400D708A7 /* OEPrefDebugController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEPrefDebugController.h; sourceTree = "<group>"; };
+		83753F1614F537C400D708A7 /* OEPrefDebugController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEPrefDebugController.m; sourceTree = "<group>"; };
+		83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OEPrefDebugController.xib; sourceTree = "<group>"; };
 		8375E14D1477FC0D0018DA1F /* OECoreUpdater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OECoreUpdater.h; sourceTree = "<group>"; };
 		8375E14E1477FC0D0018DA1F /* OECoreUpdater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OECoreUpdater.m; sourceTree = "<group>"; };
 		837777B7147A8E730091A896 /* OEHUDProgressbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHUDProgressbar.h; sourceTree = "<group>"; };
@@ -1880,6 +1885,8 @@
 		1BEF34751168F88A0090F72B /* Additions to standard classes */ = {
 			isa = PBXGroup;
 			children = (
+				C6D6FA7C14E2264C0083C75D /* NSViewController+OEAdditions.h */,
+				C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */,
 				83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */,
 				83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */,
 				53439B8E13B937DB005C0CC8 /* NSImage+OEHighlight.h */,
@@ -2049,6 +2056,8 @@
 				53439B7313B932FA005C0CC8 /* OEPrefControlsController.m */,
 				53439B7513B93303005C0CC8 /* OEPrefCoresController.h */,
 				53439B7613B93303005C0CC8 /* OEPrefCoresController.m */,
+				83753F1514F537C400D708A7 /* OEPrefDebugController.h */,
+				83753F1614F537C400D708A7 /* OEPrefDebugController.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -2058,8 +2067,6 @@
 			children = (
 				832D293E1451A68700BDF950 /* OEMainWindowController.h */,
 				832D293F1451A68700BDF950 /* OEMainWindowController.m */,
-				C6D6FA7C14E2264C0083C75D /* NSViewController+OEAdditions.h */,
-				C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */,
 				832D29441451B0CA00BDF950 /* MainWindow: Library */,
 				832D29451451B0E700BDF950 /* MainWindow: GameView */,
 				832D29461451B0F200BDF950 /* MainWindow: Setup Assistant */,
@@ -2692,6 +2699,7 @@
 		8382D22C13C5C55200906221 /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				83753F1914F5383F00D708A7 /* OEPrefDebugController.xib */,
 				8382D23413C5C5E100906221 /* OEPrefControlsController.xib */,
 				8382D22E13C5C5BB00906221 /* OEPrefCoresController.xib */,
 				8382D22F13C5C5BB00906221 /* OEPrefGameplayController.xib */,
@@ -3712,6 +3720,7 @@
 				8303BC0C14E318C200FCD701 /* light_menu_body.png in Resources */,
 				8303BC0D14E318C200FCD701 /* light_submenu_body.png in Resources */,
 				8303BC0E14E318C200FCD701 /* tick_mark.png in Resources */,
+				83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4072,6 +4081,7 @@
 				EFBD5D8B14EFE29500FBD1E0 /* OECoverGridViewCell.m in Sources */,
 				EFBD5D8C14EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.m in Sources */,
 				EFBD5D8F14F1398400FBD1E0 /* OECoverGridViewCellIndicationLayer.m in Sources */,
+				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -60,7 +60,10 @@
 - (OEToolbarItem*)selectedItem{
     return selectedItem;
 }
-
+- (NSUInteger)selectedItemIndex
+{
+    return [self.items indexOfObject:selectedItem];
+}
 - (void)markItemAsSelected:(OEToolbarItem*)tbItem{
     NSUInteger index = [self.items indexOfObject:tbItem];
     if(index == NSNotFound){

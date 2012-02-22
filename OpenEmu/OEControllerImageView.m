@@ -239,7 +239,7 @@
 {
     NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
     BOOL allowDeactivationByMouse        = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
-    BOOL allowSwitchingByMouse           = ![standardUserDefaults boolForKey:UDControlsDisableMouseDeactivation];
+    BOOL allowSwitchingByMouse           = ![standardUserDefaults boolForKey:UDControlsDisableMouseSelection];
     
     if(!allowDeactivationByMouse && !allowSwitchingByMouse) return;
     
@@ -269,7 +269,7 @@
     if(selected == [self selectedKey] && !NSEqualPoints(ringLocation, NSZeroPoint))
     {
         CGFloat distance = NSDistanceBetweenPoints(local_event_location, ringLocation);
-        if(distance > RingRadius && [[self image] hitTestRect:(NSRect){ .origin = local_event_location } withImageDestinationRect:targetRect context:nil hints:nil flipped:NO])
+        if(allowDeactivationByMouse && distance > RingRadius && [[self image] hitTestRect:(NSRect){ .origin = local_event_location } withImageDestinationRect:targetRect context:nil hints:nil flipped:NO])
             selected = nil;
     }
     

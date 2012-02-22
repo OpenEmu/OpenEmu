@@ -303,12 +303,10 @@
     {
         selectedKey = [value copy];
         
-        NSLog(@"Selected: %@", selectedKey);
-        
         [[self controlsSetupView] setSelectedKey:selectedKey];
         [[self controllerView]    setSelectedKey:selectedKey animated:YES];
-        
-        [[[self view] window] makeFirstResponder:selectedKey != nil ? [self view] : nil];
+        NSWindow* window = [[self view] window];
+        [window makeFirstResponder:selectedKey != nil ? [self view] : nil];
     }
 }
 
@@ -493,7 +491,6 @@
     for(OEDBSystem *system in enabledSystems)
     {
         OESystemPlugin *plugin = [system plugin];
-        
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin systemName] action:@selector(changeSystem:) keyEquivalent:@""];
         [item setTarget:self];
         [item setRepresentedObject:[plugin systemIdentifier]];

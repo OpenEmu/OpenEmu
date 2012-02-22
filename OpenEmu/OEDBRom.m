@@ -205,13 +205,13 @@
     [fetchRequest setFetchLimit:1];
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
-    
+
     NSArray *roms = [context executeFetchRequest:fetchRequest error:outError];
     if(!roms)
     {
         return nil;
     }
-    
+
     return [roms lastObject];
 }
 + (id)romWithMD5HashString:(NSString*)md5Hash error:(NSError**)outError

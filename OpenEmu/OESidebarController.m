@@ -18,6 +18,7 @@
 #import "OEDBGame.h"
 #import "OECollectionViewItemProtocol.h"
 
+#import "OEHUDAlert.h"
 @interface OESidebarController ()
 - (void)_setupDrop;
 @end
@@ -175,6 +176,7 @@
 #pragma mark Notifications
 - (void)systemsChanged
 {
+    NSLog(@"systemsChanged");
     [self reloadData];
     [self outlineViewSelectionDidChange:nil];
 }
@@ -363,15 +365,14 @@
         BOOL alertSuppressed = [[NSUserDefaults standardUserDefaults] boolForKey:UDRemoveCollectionSuppresedKey];
         if(!alertSuppressed)
         {
-            NSString *msg = NSLocalizedString(@"Errorrororo", @"");
-            NSString *info = NSLocalizedString(@"Blubbbi die blub blub", @"");
+            NSString *msg = NSLocalizedString(@"Do you really want to remove this collection thingy", @"");
             NSString *confirm = NSLocalizedString(@"Remove", @"");
             NSString *cancel = NSLocalizedString(@"Cancel", @"");
             
-            NSAlert *alert = [NSAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel otherButton:nil informativeTextWithFormat:info];
+            OEHUDAlert* alert = [OEHUDAlert alertWithMessageText:msg defaultButton:confirm alternateButton:cancel];
             [alert setShowsSuppressionButton:YES];
             
-            removeItem = [alert runModal]==NSOKButton;
+            removeItem = [alert runModal]==NSAlertDefaultReturn;
             if(removeItem)
             {
                 [[NSUserDefaults standardUserDefaults] setBool:[[alert suppressionButton] state] forKey:UDRemoveCollectionSuppresedKey];    

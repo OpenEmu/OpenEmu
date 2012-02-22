@@ -14,10 +14,7 @@
 {
 @private
 	OEToolbarView *toolbar;	
-	
 	IBOutlet OEBackgroundGradientView *coreGradientOverlayView;
-	
-	NSView *nextView;
 }
 
 - (void)switchView:(id)sender;

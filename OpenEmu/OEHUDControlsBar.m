@@ -174,8 +174,6 @@
 
 - (void)muteAction:(id)sender
 {
-    NSLog(@"%@ %@", self, [NSApp keyWindow]);
-    
     id slider = [(OEHUDControlsBarView *)[[[self contentView] subviews] lastObject] slider];
     [slider setFloatValue:0.0];
     [[self gameViewController] setVolume:0.0];

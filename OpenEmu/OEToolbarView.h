@@ -22,6 +22,7 @@
 
 - (void)addItem:(OEToolbarItem*)item;
 - (OEToolbarItem*)selectedItem;
+- (NSUInteger)selectedItemIndex;
 - (void)markItemAsSelected:(OEToolbarItem*)tbItem; // basically selects a toolbar item without invoking its actions
 
 // FIXME: This is atrotious !

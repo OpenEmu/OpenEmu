@@ -193,6 +193,7 @@ static void *const _OEPrefCoresCoreListContext = (void *)&_OEPrefCoresCoreListCo
         [self OE_updateOrInstallItemAtRow:rowIndex];
 }
 
+#pragma mark -
 #pragma mark OEPreferencePane Protocol
 
 - (NSImage *)icon

@@ -286,7 +286,7 @@
     [gamesController setFilterPredicate:pred];
     
     [listView reloadData];
-    [coverFlowView reloadData];
+    [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     [gridView reloadData];
 }
 - (IBAction)changeGridSize:(id)sender
@@ -697,7 +697,7 @@
     
     [gridView reloadData];
     [listView reloadData];
-    [coverFlowView reloadData];
+    [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
 @end
