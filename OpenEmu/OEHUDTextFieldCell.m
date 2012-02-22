@@ -236,8 +236,6 @@
 }
 
 - (void)endEditing:(NSText *)textObj{
-    
-    NSLog(@"end editing %@", [textObj string]);
     [super endEditing:textObj];
 }
 @end

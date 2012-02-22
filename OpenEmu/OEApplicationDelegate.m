@@ -114,11 +114,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [mainWindowController setCoreList:[[OECoreUpdater sharedUpdater] coreList]];
     
     [mainWindowController showWindow:self];
-    
-    // TODO: remove after testing OEHUDAlert
-    /* [[OECoreUpdater sharedUpdater] installCoreWithIdentifier:@"com.openemu.snes9x" coreName:@"Nestopia" systemName:@"Nintendo (NES)" withCompletionHandler:^{
-     NSLog(@"core was installed!");
-     }];*/
 }
 
 - (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
@@ -283,12 +278,9 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 #pragma mark -
 #pragma mark Preferences Window
-
 - (IBAction)showPreferencesWindow:(id)sender
 {
-    
 }
-
 #pragma mark -
 #pragma mark About Window
 
@@ -328,7 +320,8 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     
     if(hasUpdate)
     {
-        // TODO: Launch preferences with core tab
+        NSDictionary* userInfo = [NSDictionary dictionaryWithObject:@"Cores" forKey:OEPreferencesOpenPanelUserInfoPanelNameKey];
+        [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];
     }
     /*
      if([self coreUpdater] == nil) [self setCoreUpdater:[[[OECoreUpdater alloc] init] autorelease]];

@@ -48,6 +48,7 @@ static NSView *_OENSViewControllerView(NSViewController *self)
 
 - (void)viewDidAppear;
 {
+    NSLog(@"viewDidAppear: %@", self);
     [self setNextResponder:[[self view] nextResponder]];
     [[self view] setNextResponder:self];
 }

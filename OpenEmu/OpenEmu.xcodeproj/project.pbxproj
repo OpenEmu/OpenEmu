@@ -1826,6 +1826,8 @@
 		1BEF34751168F88A0090F72B /* Additions to standard classes */ = {
 			isa = PBXGroup;
 			children = (
+				C6D6FA7C14E2264C0083C75D /* NSViewController+OEAdditions.h */,
+				C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */,
 				83096F0114E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.h */,
 				83096F0214E98FC000F7EBC2 /* NSFileManager+OEHashingAdditions.m */,
 				53439B8E13B937DB005C0CC8 /* NSImage+OEHighlight.h */,
@@ -2003,8 +2005,6 @@
 			children = (
 				832D293E1451A68700BDF950 /* OEMainWindowController.h */,
 				832D293F1451A68700BDF950 /* OEMainWindowController.m */,
-				C6D6FA7C14E2264C0083C75D /* NSViewController+OEAdditions.h */,
-				C6D6FA7D14E2264C0083C75D /* NSViewController+OEAdditions.m */,
 				832D29441451B0CA00BDF950 /* MainWindow: Library */,
 				832D29451451B0E700BDF950 /* MainWindow: GameView */,
 				832D29461451B0F200BDF950 /* MainWindow: Setup Assistant */,

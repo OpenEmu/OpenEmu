@@ -303,12 +303,10 @@
     {
         selectedKey = [value copy];
         
-        NSLog(@"Selected: %@", selectedKey);
-        
         [[self controlsSetupView] setSelectedKey:selectedKey];
         [[self controllerView]    setSelectedKey:selectedKey animated:YES];
-        
-        [[[self view] window] makeFirstResponder:selectedKey != nil ? [self view] : nil];
+        NSWindow* window = [[self view] window];
+        [window makeFirstResponder:selectedKey != nil ? [self view] : nil];
     }
 }
 

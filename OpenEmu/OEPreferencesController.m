@@ -16,6 +16,7 @@
 #import "INAppStoreWindow.h"
 
 #import "NSImage+OEDrawingAdditions.h"
+#import "NSViewController+OEAdditions.h"
 
 #import "OEPreferencePane.h"
 
@@ -190,17 +191,22 @@
         return;
     }
     
-    NSViewController <OEPreferencePane>  *pane = [self.preferencePanes objectAtIndex:selectedTab];
+    NSViewController <OEPreferencePane>  *currentPane = [self.preferencePanes objectAtIndex:[toolbar selectedItemIndex]];
+    NSViewController <OEPreferencePane>  *nextPane = [self.preferencePanes objectAtIndex:selectedTab];
+    [nextPane viewWillAppear];
+    [currentPane viewWillDisappear];
     
-    NSSize viewSize = [pane viewSize];
-    NSView *view = [pane view];
+    NSSize viewSize = [nextPane viewSize];
+    NSView *view = [nextPane view];
     
     toolbar.contentseparatorColor = [NSColor blackColor];
     
     [self _showView:view atSize:viewSize animate:animateFlag];
+    [nextPane viewDidAppear];
+    [currentPane viewDidDisappear];
     
-    BOOL viewHasCustomColor = [pane respondsToSelector:@selector(toolbarSeparationColor)];
-    if(viewHasCustomColor) toolbar.contentseparatorColor = [pane toolbarSeparationColor];
+    BOOL viewHasCustomColor = [nextPane respondsToSelector:@selector(toolbarSeparationColor)];
+    if(viewHasCustomColor) toolbar.contentseparatorColor = [nextPane toolbarSeparationColor];
     
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     [standardDefaults setInteger:selectedTab forKey:UDSelectedPreferencesTab];
@@ -217,7 +223,6 @@
     NSRect frameRect = [win frameRectForContentRect:contentRect];
     frameRect.origin.y += win.frame.size.height-frameRect.size.height;
     
-    nextView = view;
     [view setFrameSize:size];
     
     CAAnimation *anim = [win animationForKey:@"frame"];

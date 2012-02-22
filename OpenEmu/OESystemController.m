@@ -87,7 +87,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
         _systemName = [[[_bundle infoDictionary] objectForKey:OESystemName] copy];
         NSString* iconFileName = [[_bundle infoDictionary] objectForKey:OESystemIconName];
         NSString* iconFilePath = [_bundle pathForImageResource:iconFileName];
-        NSLog(@"%@", _bundle);
         _systemIcon = [[NSImage alloc] initWithContentsOfFile:iconFilePath];
         [self OE_setupControlNames];
         
