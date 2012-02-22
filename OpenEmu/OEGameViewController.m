@@ -428,11 +428,6 @@
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
     return YES;
-    /*
-    NSInteger tag = [menuItem tag];
-    
-    return (tag >= MainMenu_Controls_VolumeUp && tag <= MainMenu_Controls_ResumeEmulation);
-     */
 }
 
 - (void)menuItemAction:(id)sender

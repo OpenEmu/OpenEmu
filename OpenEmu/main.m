@@ -47,13 +47,12 @@ int main(int argc, char *argv[])
                                    @"{150,150}",
                                    @"{300,300}",
                                    @"{450,450}", nil],              UDBoxSizesKey,
-                                  
+
                                   // Library Tab
                                   path,                             UDDefaultDatabasePathKey,
                                   path,                             UDDatabasePathKey,
                                   [NSNumber numberWithBool:YES],    UDAutmaticallyGetInfoKey,
 
-                                  
                                   // others
                                   @"Save States",                   UDSaveStateFolderNameKey,	// Default name of Save States folder
                                   @"Linear",                        UDVideoFilterKey,

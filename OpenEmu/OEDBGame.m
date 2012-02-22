@@ -155,7 +155,9 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         OEDBRom *rom = [OEDBRom romWithCRC32HashString:crc inDatabase:database error:outError];
         
         if(rom != nil)
+        {   
             game = [rom valueForKey:@"game"];
+        }
         else if(*outError != nil)
             return nil;
     }
@@ -177,9 +179,9 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(game == nil && createFlag)
         return [self _createGameWithoutChecksWithFilePath:filePath inDatabase:database error:outError md5:md5 crc:crc];
-    
+
     [game setDatabase:database];
-    
+
     return game;
 }
 
