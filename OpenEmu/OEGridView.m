@@ -250,6 +250,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     return context == NSDraggingContextWithinApplication ? NSDragOperationCopy : NSDragOperationNone;
 }
 
+- (void)draggingSession:(NSDraggingSession *)session endedAtPoint:(NSPoint)screenPoint operation:(NSDragOperation)operation
+{
+    _draggingSession = nil;
+}
+
 #pragma mark - NSResponder
 - (BOOL)acceptsFirstResponder
 {
@@ -397,11 +402,12 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
              }];
             
             if([draggingItems count] > 0)
+            {
                 _draggingSession = [self beginDraggingSessionWithItems:draggingItems event:theEvent source:self];
-            _draggingSession = nil;
+                [_draggingSession setDraggingFormation:NSDraggingFormationStack];
+            }
         }
-        
-        [self mouseUp:theEvent];
+        _trackingLayer = nil;
         return;
     }
     else if(_trackingLayer != _rootLayer)
