@@ -28,6 +28,6 @@
 
 @interface OEGridViewCell (OEGridView)
 
-@property (nonatomic, assign, setter = _setIndex:) NSUInteger _index;
+@property(nonatomic, assign, setter = _setIndex:) NSUInteger _index;
 
 @end

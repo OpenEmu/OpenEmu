@@ -33,6 +33,6 @@
 }
 
 #pragma mark - Rating
-@property (nonatomic, readwrite, assign) NSUInteger rating;
+@property(nonatomic, readwrite, assign) NSUInteger rating;
 
 @end

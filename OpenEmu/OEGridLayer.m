@@ -40,26 +40,8 @@
     return self;
 }
 
-- (CALayer *)hitTest:(CGPoint)p
-{
-    if(!_interactive) return nil;
-
-    if(CGRectContainsPoint([self frame], p))
-        return [super hitTest:p] ? : self;
-    
-    return nil;
-}
-
-- (id<CAAction>)actionForKey:(NSString *)event
-{
-    return nil;
-}
-
-- (void)layoutSublayers
-{
-    if([[self delegate] respondsToSelector:@selector(layoutSublayers)])
-        [[self delegate] layoutSublayers];
-}
+#pragma mark -
+#pragma mark Mouse Handling Operations
 
 - (void)mouseDownAtPointInLayer:(NSPoint)point withEvent:(NSEvent *)theEvent
 {
@@ -72,6 +54,9 @@
 - (void)mouseMovedAtPointInLayer:(NSPoint)point withEvent:(NSEvent *)theEvent
 {
 }
+
+#pragma mark -
+#pragma mark Dragging Operations
 
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender
 {
@@ -90,6 +75,30 @@
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
     return NO;
+}
+
+#pragma mark -
+#pragma mark Layer Operations
+
+- (id<CAAction>)actionForKey:(NSString *)event
+{
+    return nil;
+}
+
+- (CALayer *)hitTest:(CGPoint)p
+{
+    if(!_interactive) return nil;
+
+    if(CGRectContainsPoint([self frame], p))
+        return [super hitTest:p] ? : self;
+
+    return nil;
+}
+
+- (void)layoutSublayers
+{
+    if([[self delegate] respondsToSelector:@selector(layoutSublayers)])
+        [[self delegate] layoutSublayers];
 }
 
 - (void)willMoveToSuperlayer:(OEGridLayer *)superlayer
@@ -133,7 +142,8 @@
     [self didMoveToSuperlayer];
 }
 
-#pragma mark - Properties
+#pragma mark -
+#pragma mark Properties
 
 - (NSWindow *)window
 {

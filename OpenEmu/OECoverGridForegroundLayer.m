@@ -30,10 +30,10 @@
 
 - (id)init
 {
-    if(!(self = [super init]))
-        return nil;
-
-    [self setNeedsDisplayOnBoundsChange:YES];
+    if((self = [super init]))
+    {
+        [self setNeedsDisplayOnBoundsChange:YES];
+    }
 
     return self;
 }

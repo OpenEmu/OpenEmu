@@ -27,21 +27,18 @@
 #import "OEGridViewLayoutManager.h"
 #import <QuartzCore/QuartzCore.h>
 
-static OEGridViewLayoutManager *theLayoutManager = nil;
-
 @implementation OEGridViewLayoutManager
-
-+ (void)initialize
-{
-    if(self == [OEGridViewLayoutManager class])
-    {
-        theLayoutManager = [[self alloc] init];
-    }
-}
 
 + (OEGridViewLayoutManager *)layoutManager
 {
-    return theLayoutManager;
+    static OEGridViewLayoutManager *layoutManager = nil;
+
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        layoutManager = [[self alloc] init];
+    });
+
+    return layoutManager;
 }
 
 - (void)layoutSublayersOfLayer:(CALayer *)theLayer
