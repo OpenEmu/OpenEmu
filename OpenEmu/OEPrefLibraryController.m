@@ -94,7 +94,7 @@
             if (databasePath && ![databasePath isEqualToString:[[NSUserDefaults standardUserDefaults] valueForKey:UDDatabasePathKey]])
             {
                 [[NSUserDefaults standardUserDefaults] setValue:databasePath forKey:UDDatabasePathKey];
-                [(OEApplicationDelegate *) [NSApplication sharedApplication].delegate OE_loadDatabase];
+                [(OEApplicationDelegate *) [NSApplication sharedApplication].delegate loadDatabase];
                 [pathField setStringValue:[databasePath stringByAbbreviatingWithTildeInPath]];
             }
         }

@@ -54,7 +54,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)OE_loadPlugins;
 - (void)OE_setupHIDSupport;
-- (void)OE_setTargetForMenuItems:(NSMenu *)menu;
 - (void)OE_createDatabaseAtURL:(NSURL *)aURL;
 @end
 
@@ -68,7 +67,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     if((self = [super init]))
     {
         // Load Database
-        [self OE_loadDatabase];
+        [self loadDatabase];
         
         // if no database was loaded open emu quits
         if(![OELibraryDatabase defaultDatabase])
@@ -111,8 +110,6 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     // Preload Composition plugins so HUDControls Bar and Gameplay Preferneces load faster
     [OECompositionPlugin allPluginNames];
     
-    [self OE_setTargetForMenuItems:[NSApp mainMenu]];
-    
     [mainWindowController setDeviceHandlers:[[self HIDManager] deviceHandlers]];
     [mainWindowController setCoreList:[[OECoreUpdater sharedUpdater] coreList]];
     
@@ -138,8 +135,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 #pragma mark -
 #pragma mark Loading The Database
-
-- (void)OE_loadDatabase
+- (void)loadDatabase
 {
     NSError *error = nil;
     
@@ -173,6 +169,12 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
 
 - (void)OE_performDatabaseSelection
 {
+    // NOTICE:
+    // this method MUST NOT use completion handlers or any async stuff for open/save panels
+    // because openemu will quit after calling loadDatabase if no database is available
+    // that is because oe can't run without a database
+    // please do not change this method, i'm tired of fixing stuff over and over again!!!!!
+    
     // setup alert, with options "Quit", "Select", "Create"
     NSString *title = @"Choose OpenEmu Library";
     NSString *msg   = @"OpenEmu needs a library to continue. You may choose an existing OpenEmu library or create a new one";
@@ -184,6 +186,7 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     NSAlert *alert = [NSAlert alertWithMessageText:title defaultButton:chooseButton alternateButton:quitButton otherButton:createButton informativeTextWithFormat:msg];
     [alert setIcon:[NSApp applicationIconImage]];
     
+    NSInteger result;
     switch([alert runModal])
     {
         case NSAlertAlternateReturn : return;
@@ -193,40 +196,33 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
             [openPanel setCanChooseFiles:NO];
             [openPanel setCanChooseDirectories:YES];
             [openPanel setAllowsMultipleSelection:NO];
-            
-            [openPanel beginWithCompletionHandler:
-             ^(NSInteger result)
-             {
-                 if(result == NSOKButton)
-                 {
-                     NSURL *databaseURL = [openPanel URL];
-                     if(![[NSFileManager defaultManager] fileExistsAtPath:[[databaseURL URLByAppendingPathComponent:OEDatabaseFileName] path]])
-                     {
-                         NSError *error = [[NSError alloc] initWithDomain:@"blub" code:120 userInfo:nil];
-                         [[NSAlert alertWithError:error] runModal];
-                         [self OE_performDatabaseSelection];
-                     }
-                     else [self OE_createDatabaseAtURL:databaseURL];
-                 }
-             }];
+            result = [openPanel runModal];
+            if(result == NSOKButton)
+            {
+                NSURL *databaseURL = [openPanel URL];
+                if(![[NSFileManager defaultManager] fileExistsAtPath:[[databaseURL URLByAppendingPathComponent:OEDatabaseFileName] path]])
+                {
+                    NSError *error = [[NSError alloc] initWithDomain:@"blub" code:120 userInfo:nil];
+                    [[NSAlert alertWithError:error] runModal];
+                    [self OE_performDatabaseSelection];
+                }
+                else [self OE_createDatabaseAtURL:databaseURL];
+            }
         }
             break;
         case NSAlertOtherReturn:
         {
             NSSavePanel *savePanel = [NSSavePanel savePanel];
+            result = [savePanel runModal];
+            if(result == NSOKButton)
+            {
+                NSURL *databaseURL = [savePanel URL];
+                [[NSFileManager defaultManager] createDirectoryAtURL:databaseURL withIntermediateDirectories:YES attributes:nil error:nil];
+                [self OE_createDatabaseAtURL:databaseURL];
+            }
             
-            [savePanel beginWithCompletionHandler:
-             ^(NSInteger result)
-             {
-                 if(result == NSOKButton)
-                 {
-                     NSURL *databaseURL = [savePanel URL];
-                     [[NSFileManager defaultManager] createDirectoryAtURL:databaseURL withIntermediateDirectories:YES attributes:nil error:nil];
-                     [self OE_createDatabaseAtURL:databaseURL];
-                 }
-             }];
-        }
             break;
+        }
     }
 }
 
@@ -446,38 +442,5 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     else
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
 }
-
-#pragma mark -
-#pragma mark Menu Handling
-
-- (void)OE_setTargetForMenuItems:(NSMenu*)menu
-{
-    [menu setAutoenablesItems:YES];
-    /*
-    [[menu itemArray] enumerateObjectsUsingBlock:
-     ^(id obj, NSUInteger idx, BOOL *stop)
-     {
-         if([obj hasSubmenu])
-             [self OE_setTargetForMenuItems:[obj submenu]];
-         else if([obj action] == NULL)
-         {
-             [obj setAction:@selector(menuItemAction:)];
-             [obj setTarget:self];
-         }
-     }];
-     */
-}
-
-/*
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
-{
-    return [menuItem action] != @selector(menuItemAction:) || [[self mainWindowController] validateMenuItem:menuItem];
-}
-
-- (void)menuItemAction:(id)sender
-{
-    [[self mainWindowController] menuItemAction:sender];
-}
- */
 
 @end

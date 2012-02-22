@@ -37,7 +37,7 @@
 
 - (void)updateInfoPlist;
 
-- (void)OE_loadDatabase;
+- (void)loadDatabase;
 
 @property(unsafe_unretained) IBOutlet NSWindow               *aboutWindow;
 @property(unsafe_unretained) IBOutlet OEMainWindowController *mainWindowController;
