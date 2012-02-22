@@ -24,6 +24,7 @@
 #import "OEPrefGameplayController.h"
 #import "OEPrefControlsController.h"
 #import "OEPrefCoresController.h"
+#import "OEPrefDebugController.h"
 
 #define AnimationDuration 0.3
 @interface OEPreferencesController (priavte)
@@ -128,6 +129,12 @@
     
     controller = [[OEPrefCoresController alloc] init];
     [array addObject:controller];
+    
+    if([[NSUserDefaults standardUserDefaults] boolForKey:UDDebugModeKey])
+    {
+        controller = [[OEPrefDebugController alloc] init];
+        [array addObject:controller];
+    }
     
     [self setPreferencePanes:array];    
     [self _rebuildToolbar];

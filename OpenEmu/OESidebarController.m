@@ -176,6 +176,7 @@
 #pragma mark Notifications
 - (void)systemsChanged
 {
+    NSLog(@"systemsChanged");
     [self reloadData];
     [self outlineViewSelectionDidChange:nil];
 }

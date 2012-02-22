@@ -144,7 +144,7 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
 {
     if(lastWidth == [self frame].size.width)
         return;
-    
+
     [self OE_layoutSubviews];
 }
 

@@ -491,7 +491,6 @@
     for(OEDBSystem *system in enabledSystems)
     {
         OESystemPlugin *plugin = [system plugin];
-        
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:[plugin systemName] action:@selector(changeSystem:) keyEquivalent:@""];
         [item setTarget:self];
         [item setRepresentedObject:[plugin systemIdentifier]];

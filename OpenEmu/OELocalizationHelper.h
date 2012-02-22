@@ -43,4 +43,5 @@ typedef enum _OERegion
 - (BOOL)isRegionEU;
 - (BOOL)isRegionJAP;
 
+- (NSString*)regionName;
 @end

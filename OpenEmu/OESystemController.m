@@ -314,7 +314,6 @@ static NSUInteger OE_playerNumberInKeyWithGenericKey(NSString *atString, NSStrin
 
 #pragma mark -
 #pragma mark Helper methods
-
 - (id)registarableValueWithObject:(id)anObject
 {
     // Recovers the event to save

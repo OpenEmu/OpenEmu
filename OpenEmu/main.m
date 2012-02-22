@@ -72,6 +72,8 @@ int main(int argc, char *argv[])
                                   [NSNumber numberWithBool:YES],    UDSidebarVisibleKey,
                                   
                                   [NSNumber numberWithFloat:1.0],   UDLastGridSizeKey,
+                                  
+                                  [NSNumber numberWithBool:YES],    UDControlsButtonHighlightRollsOver,
                                   nil];
         
         NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];

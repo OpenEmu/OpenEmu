@@ -55,16 +55,46 @@ static OELocalizationHelper *sharedHelper;
     if(self = [super init])
 	{
 		[self OE_updateRegion];
-	}
+
+        [[NSUserDefaults standardUserDefaults] addObserver:self forKeyPath:UDRegionKey options:0 context:nil];
+    }
 	return self;
 }
 
+- (void)dealloc
+{
+    [[NSUserDefaults standardUserDefaults] removeObserver:self forKeyPath:UDRegionKey];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    [self OE_updateRegion];
+}
 
 #pragma mark -
 - (BOOL)isRegionNA  { return region == OERegionNA;  }
 - (BOOL)isRegionEU  { return region == OERegionEU;  }
 - (BOOL)isRegionJAP { return region == OERegionJAP; }
 
+- (NSString*)regionName
+{
+    switch ([self region])
+    {
+        case OERegionEU:
+            return NSLocalizedString(@"Europe", "");
+            break;
+        case OERegionNA:
+            return NSLocalizedString(@"North America", "");
+            break;
+        case OERegionJAP:
+            return NSLocalizedString(@"Japan", "");
+            break;
+            
+        default:
+            break;
+    }
+    return NSLocalizedString(@"Other Region", "");
+}
 #pragma mark -
 #define OERegionCodesAfrica [NSArray arrayWithObjects:@"AO",@"BF",@"BI",@"BJ",@"BW",@"CD",@"CF",@"CG",@"CI",@"CM",@"CV",@"DJ",@"DZ",@"EG",@"EH",@"ER",@"ET",@"GA",@"GH",@"GM",@"GN",@"GQ",@"GW",@"KE",@"KM",@"LR",@"LS",@"LY",@"MA",@"MG",@"ML",@"MR",@"MU",@"MW",@"MZ",@"NA",@"NE",@"NG",@"RE",@"RW",@"SC",@"SD",@"SH",@"SL",@"SN",@"SO",@"SS",@"ST",@"SZ",@"TD",@"TG",@"TN",@"TZ",@"UG",@"YT",@"ZA",@"ZM",@"ZW",nil]
 #define OERegionCodesAntarctica [NSArray arrayWithObjects:@"AQ",@"BV",@"GS",@"HM",@"TF",nil]
@@ -97,5 +127,4 @@ static OELocalizationHelper *sharedHelper;
 			region = OERegionOther;
 	}
 }
-
 @end

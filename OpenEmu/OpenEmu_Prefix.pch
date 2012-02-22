@@ -52,6 +52,8 @@
 #define APIVersion	@"2.0"
 #define APIKey		@"6CVC46HWMLJNU986TRM5A4XG927HA0K0"
 
+#define UDDebugModeKey @"debug"
+
 // Keys used for user defaults
 // Remember to change values in XIBs if you edit strings below!
 #define UDSetupAssistantHasRun      @"setupAssistantFinished"   /*  uses Sparkle key, to determine if oe was launched before */
