@@ -57,7 +57,7 @@
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(320, 420);
+    return NSMakeSize(320, 445);
 }
 
 @end
