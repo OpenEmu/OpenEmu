@@ -27,4 +27,5 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface OECoverGridForegroundLayer : CALayer
+
 @end

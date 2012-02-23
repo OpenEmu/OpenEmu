@@ -29,22 +29,34 @@
 
 @interface OEGridLayer : CALayer <OEGridViewLayoutManagerProtocol>
 
+#pragma mark -
+#pragma mark Mouse Handling Operations
+
 - (void)mouseDownAtPointInLayer:(NSPoint)point withEvent:(NSEvent *)theEvent;
 - (void)mouseUpAtPointInLayer:(NSPoint)point withEvent:(NSEvent *)theEvent;
 - (void)mouseMovedAtPointInLayer:(NSPoint)point withEvent:(NSEvent *)theEvent;
+
+#pragma mark -
+#pragma mark Dragging Operations
 
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender;
 - (void)draggingExited:(id<NSDraggingInfo>)sender;
 - (NSDragOperation)draggingUpdated:(id<NSDraggingInfo>)sender;
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender;
 
+#pragma mark -
+#pragma mark Layer Operations
+
 - (void)willMoveToSuperlayer:(OEGridLayer *)superlayer;
 - (void)didMoveToSuperlayer;
 
-#pragma mark - Properties
+#pragma mark -
+#pragma mark Properties
+
 @property(nonatomic, assign, getter=isTracking) BOOL tracking;
-@property(nonatomic, readonly) NSWindow *window;
-@property(nonatomic, readonly) NSView *view;
 @property(nonatomic, assign, getter=isInteractive) BOOL interactive;
+
+@property(nonatomic, readonly) NSWindow *window;
+@property(nonatomic, readonly) NSView   *view;
 
 @end

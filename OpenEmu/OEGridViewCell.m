@@ -34,11 +34,7 @@
 
 @end
 
-#pragma mark -
 @implementation OEGridViewCell
-@synthesize selected = _selected, editing = _editing;
-
-#pragma mark - NSObject
 
 - (id)init
 {
@@ -51,8 +47,6 @@
     
     return self;
 }
-
-#pragma mark - CALayer
 
 - (void)addSublayer:(CALayer *)layer
 {
@@ -82,8 +76,6 @@
     return nil;
 }
 
-#pragma mark - OEGridViewCell
-
 - (void)prepareForReuse
 {
     [self setTracking:NO];
@@ -102,15 +94,8 @@
 {
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    if(_selected == selected)
-        return;
-
-    _selected = selected;
-}
-
-#pragma mark - Properties
+#pragma mark -
+#pragma mark Properties
 
 - (id)draggingImage
 {
@@ -128,16 +113,16 @@
                                                                            bitsPerPixel:32];
     
     NSGraphicsContext *bitmapContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:dragImageRep];
-    CGContextRef ctx = (CGContextRef)[bitmapContext graphicsPort];
+    CGContextRef       ctx           = (CGContextRef)[bitmapContext graphicsPort];
 
-    if([self superlayer] == nil) CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, imageSize.height));
+    if([self superlayer] == nil) CGContextConcatCTM(ctx, CGAffineTransformMake(1.0, 0.0, 0.0, -1.0, 0.0, imageSize.height));
 
     CGContextClearRect(ctx, CGRectMake(0.0, 0.0, imageSize.width, imageSize.height));
     CGContextSetAllowsAntialiasing(ctx, YES);
     [self renderInContext:ctx];
     CGContextFlush(ctx);
 
-    NSImage *dragImage = [[NSImage alloc] initWithSize:NSSizeFromCGSize(imageSize)];
+    NSImage *dragImage = [[NSImage alloc] initWithSize:imageSize];
     [dragImage addRepresentation:dragImageRep];
     [dragImage setFlipped:YES];
 
@@ -154,10 +139,17 @@
     return _selected;
 }
 
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated
+{
+    if(_selected == selected)
+        return;
+
+    _selected = selected;
+}
+
 - (void)setEditing:(BOOL)editing
 {
-    if(_editing == editing)
-        return;
+    if(_editing == editing) return;
 
     if(editing)
         [[self gridView] OE_willBeginEditingCell:self];
@@ -172,10 +164,14 @@
     return _editing;
 }
 
+- (void)OE_reorderLayers
+{
+    [super insertSublayer:_foregroundLayer atIndex:[[self sublayers] count]];
+}
+
 - (void)setForegroundLayer:(CALayer *)foregroundLayer
 {
-    if(_foregroundLayer == foregroundLayer)
-        return;
+    if(_foregroundLayer == foregroundLayer) return;
 
     [_foregroundLayer removeFromSuperlayer];
     _foregroundLayer = foregroundLayer;
@@ -191,15 +187,12 @@
 - (OEGridView *)gridView
 {
     id superlayerDelegate = [[self superlayer] delegate];
-    if([superlayerDelegate isKindOfClass:[OEGridView class]])
-        return (OEGridView *)superlayerDelegate;
-
-    return nil;
+    return ([superlayerDelegate isKindOfClass:[OEGridView class]] ? (OEGridView *)superlayerDelegate : nil);
 }
 
 - (NSRect)hitRect
 {
-    return NSRectFromCGRect([self frame]);
+    return [self frame];
 }
 
 - (void)_setIndex:(NSUInteger)index
@@ -210,11 +203,6 @@
 - (NSUInteger)_index
 {
     return _index;
-}
-
-- (void)OE_reorderLayers
-{
-    [super insertSublayer:_foregroundLayer atIndex:[[self sublayers] count]];
 }
 
 @end

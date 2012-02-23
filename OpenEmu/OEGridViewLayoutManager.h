@@ -32,8 +32,6 @@
 
 @end
 
-#pragma mark -
-
 @interface OEGridViewLayoutManager : NSObject
 
 + (OEGridViewLayoutManager *)layoutManager;
