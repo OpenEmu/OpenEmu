@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1060</int>
+		<int key="IBDocument.SystemTarget">1070</int>
 		<string key="IBDocument.SystemVersion">11D50</string>
 		<string key="IBDocument.InterfaceBuilderVersion">2177</string>
 		<string key="IBDocument.AppKitVersion">1138.32</string>
@@ -49,7 +49,6 @@
 						<int key="NSvFlags">274</int>
 						<string key="NSFrame">{{0, 262}, {561, 274}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="347657162"/>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
 						<string key="NSReuseIdentifierKey">_NS:499</string>
@@ -60,7 +59,6 @@
 						<int key="NSvFlags">290</int>
 						<string key="NSFrame">{{24, 22}, {512, 191}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="138075039"/>
 						<string key="NSReuseIdentifierKey">_NS:1192</string>
 						<string key="NSClassName">OEPreferencesControlsBox</string>
@@ -78,14 +76,12 @@
 										<int key="NSvFlags">268</int>
 										<string key="NSFrameSize">{510, 187}</string>
 										<reference key="NSSuperview" ref="607083126"/>
-										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView"/>
 										<string key="NSReuseIdentifierKey">_NS:404</string>
 									</object>
 								</array>
 								<string key="NSFrameSize">{510, 187}</string>
 								<reference key="NSSuperview" ref="138075039"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="837216714"/>
 								<string key="NSReuseIdentifierKey">_NS:402</string>
 								<reference key="NSDocView" ref="837216714"/>
@@ -104,7 +100,6 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{-100, -100}, {15, 183}}</string>
 								<reference key="NSSuperview" ref="138075039"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="153730345"/>
 								<string key="NSReuseIdentifierKey">_NS:408</string>
 								<reference key="NSTarget" ref="138075039"/>
@@ -117,7 +112,6 @@
 								<int key="NSvFlags">-2147483392</int>
 								<string key="NSFrame">{{-100, -100}, {506, 15}}</string>
 								<reference key="NSSuperview" ref="138075039"/>
-								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="607083126"/>
 								<string key="NSReuseIdentifierKey">_NS:412</string>
 								<int key="NSsFlags">1</int>
@@ -128,7 +122,6 @@
 						</array>
 						<string key="NSFrame">{{25, 24}, {510, 187}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="714866421"/>
 						<string key="NSReuseIdentifierKey">_NS:400</string>
 						<int key="NSsFlags">150032</int>
@@ -141,7 +134,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{392, 225}, {42, 17}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="214329737"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSTextFieldCell" key="NSCell" id="750678677">
@@ -171,7 +163,6 @@
 						<int key="NSvFlags">300</int>
 						<string key="NSFrame">{{25, 219}, {206, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="687338305"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="122850583">
@@ -300,7 +291,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{297, 219}, {89, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="967997443"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="989294453">
@@ -378,7 +368,6 @@
 						<int key="NSvFlags">297</int>
 						<string key="NSFrame">{{436, 219}, {98, 26}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="26693448"/>
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSPopUpButtonCell" key="NSCell" id="665852651">
@@ -434,7 +423,6 @@
 						<int key="NSvFlags">266</int>
 						<string key="NSFrame">{{0, 495}, {561, 41}}</string>
 						<reference key="NSSuperview" ref="268028433"/>
-						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="433849363"/>
 						<bool key="NSViewIsLayerTreeHost">YES</bool>
 						<int key="NSViewLayerContentsRedrawPolicy">2</int>
@@ -443,7 +431,6 @@
 				</array>
 				<string key="NSFrameSize">{561, 536}</string>
 				<reference key="NSSuperview"/>
-				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="243981024"/>
 			</object>
 		</array>
@@ -1009,10 +996,6 @@
 		</object>
 		<int key="IBDocument.localizationMode">0</int>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaFramework</string>
-		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDependencies">
-			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.macosx</string>
-			<real value="1060" key="NS.object.0"/>
-		</object>
 		<object class="NSMutableDictionary" key="IBDocument.PluginDeclaredDevelopmentDependencies">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin.InterfaceBuilder3</string>
 			<real value="4200" key="NS.object.0"/>

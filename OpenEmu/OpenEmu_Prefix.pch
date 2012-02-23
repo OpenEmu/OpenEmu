@@ -110,7 +110,7 @@
 #define UDSaveGameWhenQuitAlertSuppressionKey   @"autosaveOnStopWithoutConfirmation"   /* determines if user sees alert asking to save game on quitting */
 #define UDDelteGameAlertSuppressionKey          @"removeStatesWithoutConfirmation"     /* determines if user sees alert asking for confirmation before deleting a save game */
 #define UDSaveGameAlertSuppressionKey           @"saveGameWithoutConfirmation"          
-
+#define UDChangeCoreAlertSuppressionKey         @"changeCoreWithoutConfirmation"
 #define UDControlsButtonHighlightRollsOver      @"ButtonHighlightRollsOver"  /*  affects Preferences -> Controls: After setting the last button (bottom right) of a console the selection automatically jumps back to the first button (top left), if value is true */
 // Keys remembering UI State
 #define UDSidebarVisibleKey			@"isSidebarVisible"			/*	sidebar in main window visible	*/
@@ -120,9 +120,12 @@
 #define UDLastPopoutFrameKey        @"lastPopoutFrame"
 #define UDLastCollectionSelectedKey @"lastCollectionSelected"
 
+#define UDDefaultCoreMappingKeyPrefix @"defaultCore"
+#define UDSystemCoreMappingKeyForSystemIdentifier(_SYSTEM_IDENTIFIER_) [NSString stringWithFormat:@"%@.%@", UDDefaultCoreMappingKeyPrefix, _SYSTEM_IDENTIFIER_]
+
 // Debug Preferences
 #define UDDebugDrawControllerMaskKey @"drawControllerMask"
-
+#define UDForceCorePicker            @"forceCorePicker"
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Default installed, non QTZ based filters names, used to identify filters 
 //  (see OEHudControlsBar.m, OEPrefGameplayController.m and OEGameLayer.m)

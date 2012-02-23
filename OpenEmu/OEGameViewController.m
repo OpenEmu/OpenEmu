@@ -54,38 +54,44 @@
 
 - (NSString *)OE_saveStatePath;
 - (void)OE_repositionControlsWindow;
+- (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin*)core error:(NSError **)outError;
+- (OECorePlugin *)OE_coreForFileExtension:(NSString *)ext error:(NSError **)outError;
 - (NSString *)OE_convertToValidFileName:(NSString *)fileName;
-- (BOOL)OE_loadFromURL:(NSURL *)aURL error:(NSError **)outError;
-- (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError;
-
+- (void)OE_terminateEmulationWithoutNotification;
 @end
 
 @implementation OEGameViewController
 @synthesize delegate;
-@synthesize rom, document;
+@synthesize rom=_rom, document;
 
-- (id)initWithRom:(OEDBRom *)aRom
+- (id)initWithRom:(OEDBRom *)rom
 {
-    return [self initWithRom:aRom error:NULL];
+    return [self initWithRom:rom core:nil error:nil];
+}
+- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin*)core
+{
+    return [self initWithRom:rom core:core error:nil];
+}
+- (id)initWithRom:(OEDBRom *)rom error:(NSError **)outError
+{
+    return [self initWithRom:rom core:nil error:outError];
 }
 
-- (id)initWithRom:(OEDBRom *)aRom error:(NSError **)outError
+- (id)initWithRom:(OEDBRom *)aRom core:(OECorePlugin*)core error:(NSError **)outError
 {
     if((self = [super init]))
     {
-        [self setRom:aRom];
-        
-        [[self rom] markAsPlayedNow];
+        [self setRom:aRom];        
         NSString *path = [[self rom] valueForKey:@"path"];
         
-        if(path == nil)
+        if(!path)
         {
             // TODO: Implement proper error
             if(outError != NULL)
                 *outError = [NSError errorWithDomain:@"OESomeErrorDomain" code:0 userInfo:[NSDictionary dictionary]];
             return nil;
         }
-        
+
         NSView *view = [[NSView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];
         
         gameView = [[OEGameView alloc] initWithFrame:(NSRect){{ 0.0, 0.0 }, { 1.0, 1.0 }}];
@@ -93,17 +99,11 @@
         [view addSubview:gameView];
         
         [self setView:view];
-        
-        controlsWindow = [[OEHUDControlsBarWindow alloc] initWithGameViewController:self];
-        [controlsWindow setReleasedWhenClosed:YES];
-        
-        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-        [nc addObserver:self selector:@selector(viewDidChangeFrame:)  name:NSViewFrameDidChangeNotification object:gameView];
-        
+
         NSURL *url = [NSURL fileURLWithPath:path];
         NSError *error = nil;
         
-        if(![self OE_loadFromURL:url error:&error])
+        if(![self OE_loadFromURL:url core:core error:&error])
         {
             if(error!=nil)
             {
@@ -115,6 +115,13 @@
             return nil;
         }
         
+        controlsWindow = [[OEHUDControlsBarWindow alloc] initWithGameViewController:self];
+        [controlsWindow setReleasedWhenClosed:YES];
+
+        [[self rom] markAsPlayedNow];
+
+        NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+        [nc addObserver:self selector:@selector(viewDidChangeFrame:)  name:NSViewFrameDidChangeNotification object:gameView];
     }
     NSLog(@"OEGameViewController init");
     return self;
@@ -122,18 +129,26 @@
 
 - (id)initWithGame:(OEDBGame *)game
 {
-    return [self initWithGame:game error:NULL];
+    return [self initWithGame:game core:nil error:nil];
+}
+
+- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core
+{
+    return [self initWithGame:game core:core error:nil];
 }
 
 - (id)initWithGame:(OEDBGame *)game error:(NSError **)outError
 {
-    return [self initWithRom:[OEGameViewController OE_choseRomFromGame:game] error:outError];
+    return [self initWithGame:game core:nil error:outError];
+}
+
+- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError
+{
+    return [self initWithRom:[OEGameViewController OE_choseRomFromGame:game] core:core error:outError];
 }
 
 - (void)dealloc
 {
-    NSLog(@"OEGameViewController dealloc");
-    
     NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
     [nc removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
     [nc removeObserver:self name:NSViewFrameDidChangeNotification object:gameView];
@@ -142,7 +157,7 @@
     controlsWindow = nil;
     gameView = nil;
 }
-
+#pragma mark -
 - (NSString *)OE_saveStatePath;
 {
     NSArray  *paths               = NSSearchPathForDirectoriesInDomains(NSApplicationSupportDirectory, NSUserDomainMask, YES);
@@ -181,6 +196,34 @@
 
 #pragma mark -
 #pragma mark Controlling Emulation
+- (void)restartUsingCore:(OECorePlugin*)core
+{
+    if(core == [gameCoreManager plugin])
+    {
+        [self resetGame];
+    }
+    else
+    {
+        [self OE_terminateEmulationWithoutNotification];
+        
+        [gameView removeFromSuperview];
+        gameView = [[OEGameView alloc] initWithFrame:[[self view] bounds]];
+        [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+        [[self view] addSubview:gameView];
+        
+        NSString *path = [[self rom] valueForKey:@"path"];
+        NSError* error = nil;
+        if(![self OE_loadFromURL:[NSURL fileURLWithPath:path] core:core error:&error])
+        {
+            [NSApp presentError:error];
+
+            if([[self delegate] respondsToSelector:@selector(emulationDidFinishForGameViewController:)])
+                [[self delegate] emulationDidFinishForGameViewController:self];
+            
+            [[self document] close];   
+        }
+    }
+}
 
 - (void)resetGame
 {
@@ -193,6 +236,16 @@
     if(!emulationRunning) return;
     NSLog(@"terminateEmulation");
     
+    [self OE_terminateEmulationWithoutNotification];
+    
+    if([[self delegate] respondsToSelector:@selector(emulationDidFinishForGameViewController:)])
+        [[self delegate] emulationDidFinishForGameViewController:self];
+    
+    [[self document] close];
+}
+
+- (void)OE_terminateEmulationWithoutNotification
+{
     emulationRunning = NO;
     [gameView setRootProxy:nil];
     [gameView setGameResponder:nil];
@@ -210,11 +263,6 @@
     rootProxy = nil;
     
     gameController = nil;
-    
-    if([[self delegate] respondsToSelector:@selector(emulationDidFinishForGameViewController:)])
-        [[self delegate] emulationDidFinishForGameViewController:self];
-    
-    [[self document] close];
 }
 
 - (void)pauseGame
@@ -250,7 +298,6 @@
 }
 
 #pragma mark -
-
 - (void)loadSaveState:(OEDBSaveState *)state
 {
     NSString *path = [state valueForKey:@"path"];
@@ -456,6 +503,11 @@
     return [gameSystemController systemIdentifier];
 }
 
+- (NSString*)coreIdentifier
+{
+    return [[gameCoreManager plugin] bundleIdentifier];
+}
+
 #pragma mark -
 #pragma mark Private Methods
 
@@ -465,25 +517,26 @@
     return [game defaultROM];
 }
 
-- (BOOL)OE_loadFromURL:(NSURL *)aurl error:(NSError **)outError
+- (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin*)core error:(NSError **)outError
 {
     NSString *romPath = [aurl path];
     
     if([[NSFileManager defaultManager] fileExistsAtPath:romPath])
     {
         emulationRunning = YES;
-        OECorePlugin *plugin = [self OE_pluginForFileExtension:[aurl pathExtension] error:outError];
+        if(!core)
+            core = [self OE_coreForFileExtension:[aurl pathExtension] error:outError];
         
-        if(plugin == nil) return NO;
+        if(core == nil)
+            return NO;
         
-        gameController = [plugin controller];
-        
-        
+        gameController = [core controller];
+
         Class managerClass = ([[NSUserDefaults standardUserDefaults] boolForKey:UDRunCoresInBackgroundKey]
                               ? [OEGameCoreThreadManager  class]
                               : [OEGameCoreProcessManager class]);
         
-        gameCoreManager = [[managerClass alloc] initWithROMAtPath:romPath corePlugin:plugin owner:gameController error:outError];
+        gameCoreManager = [[managerClass alloc] initWithROMAtPath:romPath corePlugin:core owner:gameController error:outError];
         
         if(gameCoreManager != nil)
         {
@@ -552,7 +605,7 @@
 
 #pragma mark -
 #pragma mark Plugin discovery
-- (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError
+- (OECorePlugin *)OE_coreForFileExtension:(NSString *)ext error:(NSError **)outError
 {
     OECorePlugin *chosenCore = nil;
     OESystemPlugin *system = [OESystemPlugin gameSystemPluginForTypeExtension:ext];
@@ -570,14 +623,27 @@
                       NSLocalizedRecoverySuggestionErrorKey,
                       nil]];
         chosenCore = nil;
-    } else if([validPlugins count] == 1) 
+    } else if([validPlugins count] == 1) {
         chosenCore = [validPlugins lastObject];
-    else
-    {
-        OECorePickerController *c = [[OECorePickerController alloc] initWithCoreList:validPlugins];
-        
-        if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
-            chosenCore = [c selectedCore];
+    } else {
+        NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
+        BOOL forceCorePicker = [standardUserDefaults boolForKey:UDForceCorePicker];
+        NSString* coreIdentifier = [standardUserDefaults valueForKey:UDSystemCoreMappingKeyForSystemIdentifier([system systemIdentifier])];
+        chosenCore = [OECorePlugin corePluginWithBundleIdentifier:coreIdentifier];
+        if(!chosenCore && !forceCorePicker)
+        {
+            validPlugins = [validPlugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+                return [[obj1 displayName] compare:[obj2 displayName]];
+            }];
+            chosenCore = [validPlugins objectAtIndex:0];
+            [standardUserDefaults setValue:[chosenCore bundleIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier([system systemIdentifier])];
+        }
+        if(forceCorePicker)
+        {
+            OECorePickerController *c = [[OECorePickerController alloc] initWithCoreList:validPlugins];
+            if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
+                chosenCore = [c selectedCore];
+        }
     }
     
     return chosenCore;

@@ -40,6 +40,14 @@
     return [self pluginWithBundleAtPath:bundlePath type:self];
 }
 
++ (OECorePlugin *)corePluginWithBundleIdentifier:(NSString*)identifier
+{
+    NSArray* cores = [OECorePlugin pluginsForType:self];
+    for(OECorePlugin* aPlugin in cores)
+        if([[aPlugin bundleIdentifier] isEqualToString:identifier]) return aPlugin;
+    return nil;
+}
+
 + (NSArray *)corePluginsForSystemIdentifier:(NSString *)systemIdentifier;
 {
     NSArray *cores = [OEPlugin pluginsForType:self];
@@ -63,7 +71,6 @@
     }
     return self;
 }
-
 
 - (id<OEPluginController>)newPluginControllerWithClass:(Class)bundleClass
 {

@@ -418,9 +418,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
 {
     
     gameServer = nil;
-    
-    
-    
+        
     [self unbind:@"filterName"];
     [self unbind:@"vSyncEnabled"];
     
