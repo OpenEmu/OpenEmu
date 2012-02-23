@@ -973,28 +973,36 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     {
         if(_dataSourceHas.pasteboardWriterForIndex && [_selectionIndexes count] > 0)
         {
-            __block NSMutableArray *draggingItems = [NSMutableArray array];
-            [_selectionIndexes enumerateIndexesUsingBlock:
-             ^(NSUInteger idx, BOOL *stop)
-             {
-                 id<NSPasteboardWriting> item = [_dataSource gridView:self pasteboardWriterForIndex:idx];
-                 if(item != nil)
-                 {
-                     NSDraggingItem *dragItem = [[NSDraggingItem alloc] initWithPasteboardWriter:item];
-                     OEGridViewCell *cell = [self cellForItemAtIndex:idx makeIfNecessary:YES];
-                     [dragItem setDraggingFrame:NSOffsetRect([cell hitRect], NSMinX([cell frame]), NSMinY([cell frame])) contents:[cell draggingImage]];
-                     [draggingItems addObject:dragItem];
-                 }
-             }];
-
-            if([draggingItems count] > 0)
+            const NSPoint draggedDistance = NSMakePoint(ABS(pointInView.x - _initialPoint.x), ABS(pointInView.y - _initialPoint.y));
+            if(draggedDistance.x >= 5.0 || draggedDistance.y >= 5.0 ||
+               (draggedDistance.x * draggedDistance.x + draggedDistance.y * draggedDistance.y) >= 25)
             {
-                _draggingSession = [self beginDraggingSessionWithItems:draggingItems event:theEvent source:self];
-                [_draggingSession setDraggingFormation:NSDraggingFormationStack];
+                __block NSMutableArray *draggingItems = [NSMutableArray array];
+                [_selectionIndexes enumerateIndexesUsingBlock:
+                 ^(NSUInteger idx, BOOL *stop)
+                 {
+                     id<NSPasteboardWriting> item = [_dataSource gridView:self pasteboardWriterForIndex:idx];
+                     if(item != nil)
+                     {
+                         NSDraggingItem *dragItem = [[NSDraggingItem alloc] initWithPasteboardWriter:item];
+                         OEGridViewCell *cell = [self cellForItemAtIndex:idx makeIfNecessary:YES];
+                         [dragItem setDraggingFrame:NSOffsetRect([cell hitRect], NSMinX([cell frame]), NSMinY([cell frame])) contents:[cell draggingImage]];
+                         [draggingItems addObject:dragItem];
+                     }
+                 }];
+
+                if([draggingItems count] > 0)
+                {
+                    _draggingSession = [self beginDraggingSessionWithItems:draggingItems event:theEvent source:self];
+                    [_draggingSession setDraggingFormation:NSDraggingFormationStack];
+                }
+                _trackingLayer = nil;
             }
         }
-
-        _trackingLayer = nil;
+        else
+        {
+            _trackingLayer = nil;
+        }
     }
     else if(_trackingLayer != _rootLayer)
     {
