@@ -14,6 +14,8 @@
 @interface OEScroller ()
 - (void)OE_detectOrientation;
 
+- (NSImage*)OE_knobImage;
+- (NSImage*)OE_trackImage;
 - (NSRect)OE_knobSubimageRectForState:(OEUIState)state;
 - (NSRect)OE_arrowSubimageRectForState:(OEUIState)state;
 @end
@@ -47,6 +49,11 @@
     }
     return self;
 }
+- (void)setFrame:(NSRect)frameRect
+{
+    [super setFrame:frameRect];
+    [self OE_detectOrientation];
+}
 #pragma mark -
 #pragma mark Config
 + (BOOL)isCompatibleWithOverlayScrollers {
@@ -61,6 +68,19 @@
     return [super scrollerWidthForControlSize:controlSize scrollerStyle:scrollerStyle];
 }
 
+- (NSImage*)OE_knobImage
+{
+    return [self isVertical] ? [NSImage imageNamed:@"knob_vertical"] : [NSImage imageNamed:@"knob_horizontal"];
+
+}
+- (NSImage*)OE_trackImage
+{
+    if([self isVertical])
+        return [NSImage imageNamed:@"track_vertical"];
+    else
+        return [NSImage imageNamed:@"track_horizontal"];
+}
+
 #pragma mark -
 #pragma mark Scroller Drawing
 - (void)drawArrow:(NSScrollerArrow)arrow highlight:(BOOL)flag
@@ -73,8 +93,8 @@
     if([self scrollerStyle] == NSScrollerStyleOverlay)
         return [super drawKnobSlotInRect:slotRect highlight:flag];
 
-    NSImage *image = isVertical ? [NSImage imageNamed:@"track_vertical"] : [NSImage imageNamed:@"track_horizontal"];
-    [image drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:isVertical?0:9 rightBorder:isVertical?0:9 topBorder:!isVertical?0:9 bottomBorder:!isVertical?0:9];
+    NSImage *image = [self OE_trackImage];
+    [image drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:isVertical?0:9 rightBorder:isVertical?0:9 topBorder:!isVertical?0:9 bottomBorder:!isVertical?0:9];
 }
 
 - (void)drawKnob
@@ -97,8 +117,7 @@
     NSRect imageRect = [self OE_knobSubimageRectForState:OEUIStateEnabled];
     NSRect targetRect = [self rectForPart:NSScrollerKnob];
     
-    NSImage *image = isVertical ? [NSImage imageNamed:@"knob_vertical"] : [NSImage imageNamed:@"knob_horizontal"];
-    [image drawInRect:targetRect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:isVertical?0:7 rightBorder:isVertical?0:7 topBorder:!isVertical?0:7 bottomBorder:!isVertical?0:7];
+    [[self OE_knobImage] drawInRect:targetRect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:isVertical?0:7 rightBorder:isVertical?0:7 topBorder:!isVertical?0:7 bottomBorder:!isVertical?0:7];
 }
 
 - (NSRect)rectForPart:(NSScrollerPart)aPart{    

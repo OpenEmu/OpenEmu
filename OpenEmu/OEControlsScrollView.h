@@ -30,5 +30,5 @@
 @interface OEControlsScrollView : NSScrollView
 
 @end
-@interface OEControlsScroller : NSScroller
+@interface OEControlsScroller : OEScroller
 @end

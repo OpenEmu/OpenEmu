@@ -73,24 +73,24 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
         elementPages = [[NSMutableArray alloc] initWithObjects:[NSMutableArray array], nil];
         NSMutableArray *currentPage = [elementPages lastObject];
         [currentPage addObject:[NSMutableArray array]];
-        
-        [self addObserver:self forKeyPath:@"frameSize" options:0 context:_OEControlsSetupViewFrameSizeContext];
     }
     
     return self;
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if(context == _OEControlsSetupViewFrameSizeContext)
-        [self updateButtons];
-    else
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-}
-
 - (void)dealloc
 {
-    [self removeObserver:self forKeyPath:@"frameSize" context:_OEControlsSetupViewFrameSizeContext];
+}
+
+- (void)setFrame:(NSRect)frameRect
+{
+    NSScrollView* enclosingScrollView = [self enclosingScrollView];
+    if(enclosingScrollView && [enclosingScrollView hasVerticalScroller] && [enclosingScrollView scrollerStyle]==NSScrollerStyleLegacy)
+    {
+        frameRect.size.width = MIN(frameRect.size.width, [self visibleRect].size.width);
+    }
+    
+    [super setFrame:frameRect];
 }
 
 - (void)setupWithControlList:(NSArray *)controlList;
@@ -178,11 +178,6 @@ static void *const _OEControlsSetupViewFrameSizeContext = (void *)&_OEControlsSe
         NSRect frame = [self frame];
         frame.size.height = viewHeight;
         [self setFrame:frame];
-        
-        // return here. KVO will call updateButtons again
-        
-        // - Nope, it doesn't. That's why we don't return here:
-        // return;
     }
         
     __block CGFloat pageY = [self frame].size.height - topBorder;
