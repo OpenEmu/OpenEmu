@@ -81,7 +81,7 @@
     [self addSubview:boxImageView];
     [boxImageView unregisterDraggedTypes];
     
-    NSImageView *arrowImageView = [[NSImageView alloc] initWithFrame:(NSRect){{(roundf([self frame].size.width-100)/2), [self frame].size.height-124-arrowTopToViewTop},{100, 124}}];
+    NSImageView *arrowImageView = [[NSImageView alloc] initWithFrame:(NSRect){{(round([self frame].size.width-100)/2), [self frame].size.height-124-arrowTopToViewTop},{100, 124}}];
     [arrowImageView setImage:[NSImage imageNamed:@"blank_slate_arrow"]];
     [self addSubview:arrowImageView];
     [arrowImageView unregisterDraggedTypes];
