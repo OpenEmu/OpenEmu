@@ -98,6 +98,7 @@
         if(sublayer == nil)
         {
             sublayer = [CALayer layer];
+            [sublayer setShouldRasterize:YES];
             [sublayer setShadowOffset:CGSizeMake(0.0, -1.0)];
             [sublayer setShadowOpacity:1.0];
             [sublayer setShadowRadius:1.0];
