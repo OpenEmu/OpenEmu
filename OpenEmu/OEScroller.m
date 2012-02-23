@@ -6,15 +6,16 @@
 //  Copyright 2011 __MyCompanyName__. All rights reserved.
 //
 
+#define minKnobHeight 20
+
 #import "OEScroller.h"
 #import "NSImage+OEDrawingAdditions.h"
+#import "OEUIDrawingUtils.h"
 @interface OEScroller ()
-- (void)drawKnobSlot;
-- (void)detectOrientation;
-@end
-@interface NSScroller (OEScroller) 
-+ (CGFloat)scrollerWidth;
-+ (CGFloat)scrollerWidthForControlSize:(NSControlSize)controlSize;
+- (void)OE_detectOrientation;
+
+- (NSRect)OE_knobSubimageRectForState:(OEUIState)state;
+- (NSRect)OE_arrowSubimageRectForState:(OEUIState)state;
 @end
 @implementation OEScroller
 @synthesize isVertical;
@@ -26,15 +27,7 @@
 - (id)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        [self detectOrientation];
-        
-        NSString *key = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleScrollBarVariant"];
-        if([key isEqualToString:@"DoubleMax"])scrollArrowPos = NSScrollerArrowsMaxEnd;
-        else if([key isEqualToString:@"DoubleMin"])scrollArrowPos = NSScrollerArrowsMinEnd;
-        else if([key isEqualToString:@"Single"])scrollArrowPos = NSScrollerArrowsSingle;
-        else if([key isEqualToString:@"DoubleBoth"])scrollArrowPos = NSScrollerArrowsDoubleBoth;
-        
-        else scrollArrowPos = NSScrollerArrowsNone;
+        [self OE_detectOrientation];
         
         if([self respondsToSelector:@selector(setKnobStyle:)]){
             [self setKnobStyle:NSScrollerKnobStyleDefault];
@@ -46,7 +39,7 @@
 - (id)init{
     self = [super init];
     if (self) {
-        [self detectOrientation];
+        [self OE_detectOrientation];
         
         if([self respondsToSelector:@selector(setKnobStyle:)]){
             [self setKnobStyle:NSScrollerKnobStyleDefault];
@@ -54,61 +47,43 @@
     }
     return self;
 }
-
+#pragma mark -
+#pragma mark Config
 + (BOOL)isCompatibleWithOverlayScrollers {
     return YES;
 }
+
++ (CGFloat)scrollerWidthForControlSize:(NSControlSize)controlSize scrollerStyle:(NSScrollerStyle)scrollerStyle
+{
+    if(scrollerStyle == NSScrollerStyleLegacy) 
+        return 15.0;   
+    
+    return [super scrollerWidthForControlSize:controlSize scrollerStyle:scrollerStyle];
+}
+
 #pragma mark -
 #pragma mark Scroller Drawing
-
-- (void)drawRect:(NSRect)aRect{
-    if([[self class] respondsToSelector:@selector(preferredScrollerStyle)] &&
-       [[self class] preferredScrollerStyle]==1){
-        [super drawRect:aRect];
-        return;
-    }
-    
-    [[NSColor blackColor] set];
-    NSRectFill([self bounds]);
-    
-    NSImage *fillImage = isVertical?[NSImage imageNamed:@"track_vertical_spacer"]:[NSImage imageNamed:@"track_horizontal_spacer"];
-    if(!([self arrowsPosition]==NSScrollerArrowsSingle))
-        [fillImage drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeCopy fraction:1 respectFlipped:YES hints:nil];
-    
-    if([self arrowsPosition]==NSScrollerArrowsMaxEnd){
-        NSRect lineRect = [self rectForPart:NSScrollerIncrementLine];
-        if(isVertical){ lineRect.origin.y -= 1; lineRect.size.height = 1; }
-        else { lineRect.origin.x -= 1; lineRect.size.width = 1; }
-        
-        [[NSColor blackColor] setFill];
-        NSRectFill(lineRect);
-    }
-    
-    [self drawKnobSlot];
-    
-    [self drawKnob];
-    
-    [self drawArrows];
+- (void)drawArrow:(NSScrollerArrow)arrow highlight:(BOOL)flag
+{
+    return [super drawArrow:arrow highlight:flag];
 }
 
-- (void)drawKnobSlot{
-    NSRect imageRect = NSZeroRect;
-    NSRect targetRect = [self rectForPart:NSScrollerKnobSlot];
-    
+- (void)drawKnobSlotInRect:(NSRect)slotRect highlight:(BOOL)flag
+{
+    if([self scrollerStyle] == NSScrollerStyleOverlay)
+        return [super drawKnobSlotInRect:slotRect highlight:flag];
+
     NSImage *image = isVertical ? [NSImage imageNamed:@"track_vertical"] : [NSImage imageNamed:@"track_horizontal"];
-    
-    [image drawInRect:targetRect fromRect:imageRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:isVertical?0:9 rightBorder:isVertical?0:9 topBorder:!isVertical?0:9 bottomBorder:!isVertical?0:9];
+    [image drawInRect:[self bounds] fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil leftBorder:isVertical?0:9 rightBorder:isVertical?0:9 topBorder:!isVertical?0:9 bottomBorder:!isVertical?0:9];
 }
 
-- (void)drawKnob{
-    if([[self class] respondsToSelector:@selector(preferredScrollerStyle)] &&
-       [[self class] preferredScrollerStyle]==1){
-        [super drawKnob];
-        return;
-    }
+- (void)drawKnob
+{
+    if([self scrollerStyle] == NSScrollerStyleOverlay)
+        return [super drawKnob];
     
     BOOL windowActive = [[self window] isMainWindow];
-    
+
     OEUIState state = OEUIStateInactive;
     BOOL pressed = [self hitPart]==NSScrollerKnob;
     if([self isEnabled] && windowActive && pressed) {
@@ -119,62 +94,20 @@
         state = OEUIStateInactive;
     }
     
-    NSRect imageRect = [self knobSubimageRectForState:state];
+    NSRect imageRect = [self OE_knobSubimageRectForState:OEUIStateEnabled];
     NSRect targetRect = [self rectForPart:NSScrollerKnob];
     
     NSImage *image = isVertical ? [NSImage imageNamed:@"knob_vertical"] : [NSImage imageNamed:@"knob_horizontal"];
     [image drawInRect:targetRect fromRect:imageRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil leftBorder:isVertical?0:7 rightBorder:isVertical?0:7 topBorder:!isVertical?0:7 bottomBorder:!isVertical?0:7];
 }
 
-- (void)drawArrows{
-    BOOL windowActive = [[self window] isMainWindow];
-    
-    // check state for decrement arrow (up or left)
-    OEUIState state = OEUIStateInactive;
-    BOOL pressed = [self hitPart]==NSScrollerDecrementLine;
-    if([self isEnabled] && windowActive && pressed) {
-        state = OEUIStatePressed;
-    } else if([self isEnabled] && windowActive) {
-        state = OEUIStateEnabled;
-    } else {
-        state = OEUIStateInactive;
-    }
-    
-    NSRect imageRect = [self arrowSubimageRectForState:state];
-    NSRect targetRect = [self rectForPart:NSScrollerDecrementLine];
-    
-    NSImage *image = isVertical ? [NSImage imageNamed:@"arrow_up"] : [NSImage imageNamed:@"arrow_left"];
-    [image drawInRect:targetRect fromRect:imageRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
-    
-    
-    // check state for increment arrow (bottom or right)
-    pressed = [self hitPart]==NSScrollerIncrementLine;
-    if([self isEnabled] && windowActive && pressed) {
-        state = OEUIStatePressed;
-    } else if([self isEnabled] && windowActive) {
-        state = OEUIStateEnabled;
-    } else {
-        state = OEUIStateInactive;
-    }
-    
-    imageRect = [self arrowSubimageRectForState:state];
-    targetRect = [self rectForPart:NSScrollerIncrementLine];
-    
-    image = isVertical ? [NSImage imageNamed:@"arrow_down"] : [NSImage imageNamed:@"arrow_right"];
-    [image drawInRect:targetRect fromRect:imageRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
-}
-
-- (NSRect)rectForPart:(NSScrollerPart)aPart{
-    if([[self class] respondsToSelector:@selector(preferredScrollerStyle)] &&
-       [[self class] preferredScrollerStyle]==1){
+- (NSRect)rectForPart:(NSScrollerPart)aPart{    
+    if([self scrollerStyle] == NSScrollerStyleOverlay)
         return [super rectForPart:aPart];
-    }
     
-    switch (aPart){
-        case NSScrollerNoPart:
-            return [self bounds];
-            break;
-        case NSScrollerKnob:{
+    switch (aPart) {
+        case NSScrollerKnob:;
+            
             NSRect knobRect = [self rectForPart:NSScrollerKnobSlot];
             if (isVertical){
                 knobRect = NSInsetRect(knobRect, 0, 1);
@@ -202,87 +135,17 @@
                 
                 return knobRect;
             }
-            
-        }
             break;
-        case NSScrollerKnobSlot:{
-            NSUInteger arrowPos = [self myArrowsPosition];
             
-            if (isVertical){
-                if(arrowPos==NSScrollerArrowsNone) return NSInsetRect([self bounds], 0, BoundsArrowSpace);
-                if(arrowPos==NSScrollerArrowsMaxEnd) return NSMakeRect(0, BoundsArrowSpace, [self bounds].size.width, [self bounds].size.height-31-BoundsArrowSpace);
-                if(arrowPos==NSScrollerArrowsSingle) return NSInsetRect([self bounds], 0, 15+BoundsArrowNoSpace);
-            } else {
-                if(arrowPos==NSScrollerArrowsNone) return NSInsetRect([self bounds], BoundsArrowSpace, 0);
-                if(arrowPos==NSScrollerArrowsMaxEnd) return NSMakeRect(BoundsArrowSpace, 0, [self bounds].size.width-31-BoundsArrowSpace, [self bounds].size.height);
-                if(arrowPos==NSScrollerArrowsSingle) return NSInsetRect([self bounds], 15+BoundsArrowNoSpace, 0);
-            }
-            
-            return NSZeroRect;
-        } break;
-        case NSScrollerDecrementLine:{
-            NSUInteger arrowPos = [self myArrowsPosition];
-            if (isVertical){
-                if(arrowPos==NSScrollerArrowsNone) return NSZeroRect;
-                //if(arrowPos==NSScrollerArrowsMinEnd) return NSMakeRect(0, 0, 15, 15);
-                if(arrowPos==NSScrollerArrowsMaxEnd) return NSMakeRect(0, [self bounds].size.height-31, 15, 15);
-                if(arrowPos==NSScrollerArrowsSingle) return NSMakeRect(0, BoundsArrowNoSpace, 15, 15);
-            } else {
-                if(arrowPos==NSScrollerArrowsNone) return NSZeroRect;
-                //if(arrowPos==NSScrollerArrowsMinEnd) return NSMakeRect(0, 0, 15, 15);
-                if(arrowPos==NSScrollerArrowsMaxEnd) return NSMakeRect([self bounds].size.width-31, 0, 15, 15);
-                if(arrowPos==NSScrollerArrowsSingle) return NSMakeRect(BoundsArrowNoSpace, 0, 15, 15);
-            }
-            return NSZeroRect;
-        } break;
-        case NSScrollerIncrementLine:{
-            NSUInteger arrowPos = [self myArrowsPosition];
-            if (isVertical){
-                if(arrowPos==NSScrollerArrowsNone) return NSZeroRect;
-                //if(arrowPos==NSScrollerArrowsMinEnd) return NSMakeRect(0, 0, 15, 15);
-                if(arrowPos==NSScrollerArrowsMaxEnd) return NSMakeRect(0, [self bounds].size.height-15, 15, 15);
-                if(arrowPos==NSScrollerArrowsSingle) return NSMakeRect(0, [self bounds].size.height-15-BoundsArrowNoSpace, 15, 15);
-            } else {
-                if(arrowPos==NSScrollerArrowsNone) return NSZeroRect;
-                //if(arrowPos==NSScrollerArrowsMinEnd) return NSMakeRect(0, 0, 15, 15);
-                if(arrowPos==NSScrollerArrowsMaxEnd) return NSMakeRect([self bounds].size.width-15, 0, 15, 15);
-                if(arrowPos==NSScrollerArrowsSingle) return NSMakeRect([self bounds].size.width-15-BoundsArrowNoSpace, 0, 15, 15);
-            }
-            return NSZeroRect;
-        }
-        case NSScrollerIncrementPage:{
-            NSRect knobRect = [self rectForPart:NSScrollerKnob];
-            NSRect slotRect = [self rectForPart:NSScrollerKnobSlot];
-            
-            if (isVertical){
-                return NSMakeRect(knobRect.origin.x, slotRect.origin.y+knobRect.origin.y+knobRect.size.height, knobRect.size.width, slotRect.size.height-knobRect.origin.y-knobRect.size.height);
-            } else {
-                return NSMakeRect(knobRect.origin.x+knobRect.size.width, knobRect.origin.y, slotRect.size.width-knobRect.size.width-knobRect.origin.x, knobRect.size.height);
-            }
-            
-            return NSZeroRect;
-        }
-            break;
-        case NSScrollerDecrementPage:{
-            NSRect knobRect = [self rectForPart:NSScrollerKnob];
-            NSRect slotRect = [self rectForPart:NSScrollerKnobSlot];
-            if (isVertical)
-                return NSMakeRect(knobRect.origin.x, slotRect.origin.y, knobRect.size.width, knobRect.origin.y);
-            else
-                return NSMakeRect(slotRect.origin.x, slotRect.origin.y, knobRect.origin.x, knobRect.size.height);
-            
-            return NSZeroRect;
-        }
-            break;
         default:
             break;
     }
     
-    return NSZeroRect;
+    return [super rectForPart:aPart];
 }
 
 #pragma mark -
-- (NSRect)knobSubimageRectForState:(OEUIState)state{
+- (NSRect)OE_knobSubimageRectForState:(OEUIState)state{
     NSRect knobImageRect;
     
     if(!isVertical){ 
@@ -320,7 +183,7 @@
     return knobImageRect;
 }
 
-- (NSRect)arrowSubimageRectForState:(OEUIState)state{
+- (NSRect)OE_arrowSubimageRectForState:(OEUIState)state{
     NSRect arrowRect = NSMakeRect(0, 0, 15, 15);
     
     if(!isVertical){
@@ -356,30 +219,12 @@
     return arrowRect;
 }
 
-#pragma mark -
-#pragma mark Helper
-- (void)detectOrientation{
+- (void)OE_detectOrientation{
+    if([self bounds].size.height == 0) return;
+    
     if ([self bounds].size.width / [self bounds].size.height < 1)
         isVertical = YES;
     else
         isVertical = NO;
-}
-
-- (NSScrollArrowPosition)myArrowsPosition{
-    
-    if([[NSUserDefaults standardUserDefaults] objectForKey:@"debug_scrollbarArrowsPosition"])
-        return [[NSUserDefaults standardUserDefaults] integerForKey:@"debug_scrollbarArrowsPosition"];
-    
-    return scrollArrowPos;
-}
-
-@end
-
-@implementation NSScroller (OEScroller) 
-+ (CGFloat)scrollerWidth{
-    return 15.0;
-}
-+ (CGFloat)scrollerWidthForControlSize:(NSControlSize)controlSize{
-    return 15.0;
 }
 @end
