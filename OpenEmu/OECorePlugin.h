@@ -40,6 +40,7 @@
 - (NSString*)bundleIdentifier;
 - (NSArray*)systemIdentifiers;
 + (OECorePlugin *)corePluginWithBundleAtPath:(NSString *)bundlePath;
++ (OECorePlugin *)corePluginWithBundleIdentifier:(NSString*)identifier;
 + (NSArray *)corePluginsForSystemIdentifier:(NSString *)systemIdentifier;
 
 @end

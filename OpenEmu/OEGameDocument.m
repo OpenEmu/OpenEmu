@@ -38,8 +38,8 @@
 #import "OEGameWindowController.h"
 
 @interface OEGameDocument ()
-- (BOOL)OE_loadRom:(OEDBRom *)rom withError:(NSError**)outError;
-- (BOOL)OE_loadGame:(OEDBGame *)game withError:(NSError**)outError;
+- (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError**)outError;
+- (BOOL)OE_loadGame:(OEDBGame *)game core:(OECorePlugin*)core withError:(NSError**)outError;
 @end
 
 @implementation OEGameDocument
@@ -47,25 +47,39 @@
 
 #pragma mark -
 
+
 - (id)init
 {
     self = [super init];
     if(self != nil)
     {
         NSLog(@"OEGameDocument init");
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(applicationWillTerminate:)
+        [[NSNotificationCenter defaultCenter] addObserver:self 
+                                                 selector:@selector(applicationWillTerminate:) 
                                                      name:NSApplicationWillTerminateNotification
                                                    object:NSApp];
     }
     return self;
 }
 
-- (id)initWithRom:(OEDBRom *)rom error:(NSError **)error
+- (id)initWithRom:(OEDBRom *)rom
+{
+    return [self initWithRom:rom core:nil error:nil];
+}
+- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin*)core
+{
+    return [self initWithRom:rom core:core error:nil];
+}
+- (id)initWithRom:(OEDBRom *)rom error:(NSError **)outError
+{
+    return [self initWithRom:rom core:nil error:outError];
+}
+
+- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin*)core error:(NSError **)outError
 {
     if((self = [self init]))
     {
-        if(![self OE_loadRom:rom withError:error])
+        if(![self OE_loadRom:rom core:core withError:outError])
         {
             [self close];
             return nil;
@@ -73,27 +87,39 @@
     }
     return self;
 }
+- (id)initWithGame:(OEDBGame *)game
+{
+    return [self initWithGame:game core:nil error:nil];
+}
 
-- (id)initWithGame:(OEDBGame *)game error:(NSError **)error
+- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core
+{
+    return [self initWithGame:game core:core error:nil];
+}
+
+- (id)initWithGame:(OEDBGame *)game error:(NSError **)outError
+{
+    return [self initWithGame:game core:nil error:outError];
+}
+
+- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError
 {
     if((self = [self init]))
     {
-        if(![self OE_loadGame:game withError:error])
+        if(![self OE_loadGame:game core:core withError:outError])
         {
             [self close];
             return nil;
         }
     }
-    
     return self;
 }
 
 - (void)dealloc
 {
-    NSLog(@"OEGameDocument dealloc");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillTerminateNotification object:NSApp];
 }
-
+#pragma mark -
 - (void)applicationWillTerminate:(NSNotification *)aNotification
 {
 }
@@ -125,9 +151,9 @@
 
 #pragma mark -
 
-- (BOOL)OE_loadGame:(OEDBGame *)game withError:(NSError **)outError
+- (BOOL)OE_loadGame:(OEDBGame *)game core:(OECorePlugin*)core withError:(NSError **)outError
 {
-    gameViewController = [[OEGameViewController alloc] initWithGame:game error:outError];
+    gameViewController = [[OEGameViewController alloc] initWithGame:game core:core error:outError];
     if(gameViewController == nil) return NO;
     
     [gameViewController setDocument:self];
@@ -135,9 +161,9 @@
     return YES;
 }
 
-- (BOOL)OE_loadRom:(OEDBRom *)rom withError:(NSError **)outError
+- (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError **)outError
 {
-    gameViewController = [[OEGameViewController alloc] initWithRom:rom error:outError];
+    gameViewController = [[OEGameViewController alloc] initWithRom:rom core:core error:outError];
     if(gameViewController == nil)
     {
         DLog(@"no game view controller");
@@ -151,7 +177,6 @@
 
 #pragma mark -
 #pragma mark NSDocument Stuff
-
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
     DLog(@"%@", typeName);
@@ -214,7 +239,7 @@
     }
     
     // TODO: Load rom that was just imported instead of the default one
-    return [self OE_loadRom:[game defaultROM] withError:outError];
+    return [self OE_loadRom:[game defaultROM] core:nil withError:outError];
 }
 
 #pragma mark -

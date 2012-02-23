@@ -35,7 +35,10 @@
 #import "OEDBRom.h"
 
 #import "OECompositionPlugin.h"
+#import "OECorePlugin.h"
 #import "OEGameViewController.h"
+
+#import "OEHUDAlert.h"
 
 @interface OEHUDControlsBarWindow ()
 @property(strong) OEHUDControlsBarView *controlsView;
@@ -171,7 +174,6 @@
 }
 
 #pragma mark -
-
 - (void)muteAction:(id)sender
 {
     id slider = [(OEHUDControlsBarView *)[[[self contentView] subviews] lastObject] slider];
@@ -220,6 +222,37 @@
     [item setTarget:self];
     [menu addItem:item];
     
+    // Setup Core selection menu
+    NSMenu* coresMenu = [[NSMenu alloc] init];
+    [coresMenu setTitle:NSLocalizedString(@"Select Core", @"")];
+    
+    NSString* systemIdentifier = [[self gameViewController] systemIdentifier];
+    NSArray *corePlugins = [OECorePlugin corePluginsForSystemIdentifier:systemIdentifier];
+    if([corePlugins count] > 1)
+    {
+        corePlugins = [corePlugins sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            return [[obj1 displayName] compare:[obj2 displayName]];
+        }];
+        
+        for(OECorePlugin *aPlugin in corePlugins)
+        {
+            NSMenuItem *coreItem = [[NSMenuItem alloc] initWithTitle:[aPlugin displayName] action:@selector(optionsActionSelectCore:) keyEquivalent:@""];
+            [coreItem setTarget:self];
+            [coreItem setRepresentedObject:aPlugin];
+            
+            if([[aPlugin bundleIdentifier] isEqualTo:[[self gameViewController] coreIdentifier]]) [coreItem setState:NSOnState];
+            
+            [coresMenu addItem:coreItem];
+        }
+        
+        item = [[NSMenuItem alloc] init];
+        item.title = NSLocalizedString(@"Select Core", @"");
+        [item setSubmenu:coresMenu];
+        if([[coresMenu itemArray] count]>1)
+            [menu addItem:item];
+    }
+    
+    // Setup Video Filter Menu
     NSMenu *filterMenu = [[NSMenu alloc] init];
     [filterMenu setTitle:NSLocalizedString(@"Select Filter", @"")];
     // Setup plugins menu
@@ -242,7 +275,8 @@
     item.title = NSLocalizedString(@"Select Filter", @"");
     [menu addItem:item];
     [item setSubmenu:filterMenu];
-    
+
+    // Create OEMenu and display it
     OEMenu *oemenu = [menu convertToOEMenu];
     [oemenu setStyle:OEMenuStyleLight];
     [oemenu setDelegate:self];
@@ -259,7 +293,7 @@
                               @"Controls", OEPreferencesOpenPanelUserInfoPanelNameKey,
                               systemIdentifier, OEPreferencesOpenPanelUserInfoSystemIdentifierKey,
                               nil];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:OEPreferencesOpenPaneNotificationName object:nil userInfo:userInfo];
 }
 
@@ -269,9 +303,30 @@
     [[NSUserDefaults standardUserDefaults] setObject:selectedFilter forKey:UDVideoFilterKey];
 }
 
+- (void)optionsActionSelectCore:(id)sender
+{
+    OECorePlugin* plugin = [sender representedObject];
+    if([[plugin bundleIdentifier] isEqualTo:[gameViewController coreIdentifier]]) return;
+    
+    OEHUDAlert *alert = [OEHUDAlert alertWithMessageText:@"If you change the core you current progress will be lost and save states will not work anymore." defaultButton:@"Change Core" alternateButton:@"Cancel"];
+    [alert showSuppressionButtonForUDKey:UDChangeCoreAlertSuppressionKey];
+    [alert setCallbackHandler:^(OEHUDAlert *alert, NSUInteger result)
+     {         
+         if(result == NSAlertDefaultReturn)
+         {
+             NSUserDefaults* standardUserDefaults = [NSUserDefaults standardUserDefaults];
+             NSString* systemIdentifier = [[self gameViewController] systemIdentifier];
+             [standardUserDefaults setValue:[plugin bundleIdentifier] forKey:UDSystemCoreMappingKeyForSystemIdentifier(systemIdentifier)];
+             
+             [[self gameViewController] performSelectorInBackground:@selector(restartUsingCore:) withObject:plugin];
+         }
+     }];
+    
+    [alert runModal];
+}
+
 #pragma mark -
 #pragma mark Save States
-
 - (void)saveAction:(id)sender
 {
     NSMenu *menu = [[NSMenu alloc] init];

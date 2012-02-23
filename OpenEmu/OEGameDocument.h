@@ -29,11 +29,18 @@
 @class OEGameViewController;
 @class OEDBRom;
 @class OEDBGame;
+@class OECorePlugin;
 
 @interface OEGameDocument : NSDocument
 
-- (id)initWithRom:(OEDBRom *)rom error:(NSError **)error;
-- (id)initWithGame:(OEDBGame *)game error:(NSError **)error;
+- (id)initWithRom:(OEDBRom *)rom;
+- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin*)core;
+- (id)initWithRom:(OEDBRom *)rom error:(NSError **)outError;
+- (id)initWithRom:(OEDBRom *)rom core:(OECorePlugin*)core error:(NSError **)outError;
+- (id)initWithGame:(OEDBGame *)game;
+- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core;
+- (id)initWithGame:(OEDBGame *)game error:(NSError **)outError;
+- (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError;
 
 @property(readonly, strong) OEGameViewController *gameViewController;
 

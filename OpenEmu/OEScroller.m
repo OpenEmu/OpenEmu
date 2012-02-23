@@ -102,18 +102,6 @@
     if([self scrollerStyle] == NSScrollerStyleOverlay)
         return [super drawKnob];
     
-    BOOL windowActive = [[self window] isMainWindow];
-
-    OEUIState state = OEUIStateInactive;
-    BOOL pressed = [self hitPart]==NSScrollerKnob;
-    if([self isEnabled] && windowActive && pressed) {
-        state = OEUIStatePressed;
-    } else if([self isEnabled] && windowActive) {
-        state = OEUIStateEnabled;
-    } else {
-        state = OEUIStateInactive;
-    }
-    
     NSRect imageRect = [self OE_knobSubimageRectForState:OEUIStateEnabled];
     NSRect targetRect = [self rectForPart:NSScrollerKnob];
     
