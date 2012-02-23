@@ -376,6 +376,11 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [CATransaction setDisableActions:YES];
 
     [_imageLayer setFrame:_imageFrame];
+
+    CGPathRef shadowPath = CGPathCreateWithRect([_imageLayer bounds], NULL);
+    [_imageLayer setShadowPath:shadowPath];
+    CGPathRelease(shadowPath);
+
     [[self foregroundLayer] setFrame:CGRectInset(_imageFrame, -6.0, -6.0)];
     [_glossyOverlayLayer setFrame:CGRectInset([[self foregroundLayer] bounds], 6.0, 6.0)];
     [_statusIndicatorLayer setFrame:[_glossyOverlayLayer frame]];
@@ -414,6 +419,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 - (void)prepareForReuse
 {
     [super prepareForReuse];
+
     [self setTitle:@""];
     [self setRating:0];
     [self setImage:nil];
@@ -421,7 +427,9 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     // Prepare the _imageLayer
     [_imageLayer setHidden:NO];
     [_imageLayer setOpacity:1.0];
+    [_imageLayer setOpaque:YES];
 
+    [_imageLayer setShouldRasterize:YES];
     [_imageLayer setShadowColor:[[NSColor blackColor] CGColor]];
     [_imageLayer setShadowOffset:CGSizeMake(0.0, 3.0)];
     [_imageLayer setShadowOpacity:1.0];
@@ -435,6 +443,8 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [_titleLayer setForegroundColor:[[NSColor whiteColor] CGColor]];
     [_titleLayer setTruncationMode:kCATruncationEnd];
     [_titleLayer setAlignmentMode:kCAAlignmentCenter];
+
+    [_titleLayer setShouldRasterize:YES];
     [_titleLayer setShadowColor:[[NSColor blackColor] CGColor]];
     [_titleLayer setShadowOffset:CGSizeMake(0.0, 1.0)];
     [_titleLayer setShadowRadius:1.0];
