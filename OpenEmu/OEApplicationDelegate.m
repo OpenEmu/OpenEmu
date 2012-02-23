@@ -116,6 +116,12 @@ static void *const _OEApplicationDelegateAllPluginsContext = (void *)&_OEApplica
     [mainWindowController showWindow:self];
 }
 
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
+{
+    [mainWindowController showWindow:self];
+    return NO;
+}
+
 - (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
 {
     [super openDocumentWithContentsOfURL:url display:NO completionHandler:
