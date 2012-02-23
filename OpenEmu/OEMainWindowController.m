@@ -197,7 +197,8 @@
     
     if(gameDocument == nil)
     {
-        [NSApp presentError:error];
+        if(error!=nil)
+            [NSApp presentError:error];
         return;
     }
     

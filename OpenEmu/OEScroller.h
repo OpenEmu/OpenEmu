@@ -7,31 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "OEUIDrawingUtils.h"
-
-#define NSScrollerArrowsSingle 3
-#define NSScrollerArrowsDoubleBoth 4
-
-#define BoundsArrowSpace 5
-#define BoundsArrowNoSpace 0
-
-#define minKnobHeight 20
-@interface OEScroller : NSScroller {
-@private
-	NSScrollArrowPosition scrollArrowPos;
-}
-
-- (void)drawKnob;
-- (void)drawKnobSlot;
-- (void)drawArrows;
-
-- (NSScrollArrowPosition)myArrowsPosition;
-
-#pragma mark -
-- (BOOL)autohidesScrollers;
-#pragma mark -
-- (NSRect)knobSubimageRectForState:(OEUIState)state;
-- (NSRect)arrowSubimageRectForState:(OEUIState)state;
-
+@interface OEScroller : NSScroller
 @property BOOL isVertical;
 @end

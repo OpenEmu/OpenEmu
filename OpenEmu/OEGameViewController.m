@@ -105,11 +105,13 @@
         
         if(![self OE_loadFromURL:url error:&error])
         {
-            if(outError != NULL)
-                *outError = error;
-            else 
-                [NSApp presentError:error];
-            
+            if(error!=nil)
+            {
+                if(outError != NULL)
+                    *outError = error;
+                else 
+                    [NSApp presentError:error];
+            }
             return nil;
         }
         
@@ -550,23 +552,13 @@
 
 #pragma mark -
 #pragma mark Plugin discovery
-
 - (OECorePlugin *)OE_pluginForFileExtension:(NSString *)ext error:(NSError **)outError
 {
     OECorePlugin *chosenCore = nil;
     OESystemPlugin *system = [OESystemPlugin gameSystemPluginForTypeExtension:ext];
     NSArray *validPlugins = [OECorePlugin corePluginsForSystemIdentifier:[system systemIdentifier]];
     
-    if([validPlugins count] <= 1) chosenCore = [validPlugins lastObject];
-    else
-    {
-        OECorePickerController *c = [[OECorePickerController alloc] initWithCoreList:validPlugins];
-        
-        if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
-            chosenCore = [c selectedCore];
-    }
-    
-    if(chosenCore == nil && outError != NULL)
+    if([validPlugins count] == 0 && outError != nil)
     {
         *outError = [NSError errorWithDomain:OEGameDocumentErrorDomain
                                         code:OEIncorrectFileError
@@ -577,7 +569,17 @@
                       NSLocalizedString(@"Choose a file with a supported file format or download an appropriate OpenEmu plugin.", @"Incorrect file error recovery suggestion."),
                       NSLocalizedRecoverySuggestionErrorKey,
                       nil]];
+        chosenCore = nil;
+    } else if([validPlugins count] == 1) 
+        chosenCore = [validPlugins lastObject];
+    else
+    {
+        OECorePickerController *c = [[OECorePickerController alloc] initWithCoreList:validPlugins];
+        
+        if([[NSApplication sharedApplication] runModalForWindow:[c window]] == 1)
+            chosenCore = [c selectedCore];
     }
+    
     return chosenCore;
 }
 
