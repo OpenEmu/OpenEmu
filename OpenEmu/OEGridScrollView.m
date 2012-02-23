@@ -25,37 +25,86 @@
  */
 
 #import "OEGridScrollView.h"
+#import "NSColor+OEAdditions.h"
+
+// Following code inspired by: http://stackoverflow.com/questions/2520978/how-to-tile-the-contents-of-a-calayer
+// callback for CreateImagePattern.
+static void drawPatternImage(void *info, CGContextRef ctx)
+{
+    CGImageRef image = (CGImageRef)info;
+    CGContextDrawImage(ctx, CGRectMake(0.0, 0.0, CGImageGetWidth(image), CGImageGetHeight(image)), image);
+}
+
+// callback for CreateImagePattern.
+static void releasePatternImage(void *info)
+{
+    CGImageRef image = (CGImageRef)info;
+    CGImageRelease(image);
+}
 
 @implementation OEGridScrollView
 
-static CGImageRef noiseImageRef = nil;
-
-+ (void)initialize
+- (void)OE_commonInit
 {
-    if(self != [OEGridScrollView class]) return;
+    static CGImageRef      noiseImageRef = nil;
+    static CGColorRef      noiseColorRef = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        // Create a pattern from the noise image and apply as the background color
+        static const CGPatternCallbacks callbacks = {0, &drawPatternImage, &releasePatternImage};
 
-    // Save noiseImage as a CGImageRef, it makes it easier latter on, to draw it onto the actual layer
-    NSImage *noiseImage = [NSImage imageNamed:@"noise"];
-    CGImageSourceRef source = CGImageSourceCreateWithData((__bridge CFDataRef)[noiseImage TIFFRepresentation], NULL);
-    noiseImageRef =  CGImageSourceCreateImageAtIndex(source, 0, NULL);
+        NSURL            *noiseImageURL = [[NSBundle mainBundle] URLForImageResource:@"noise"];
+        CGImageSourceRef  source        = CGImageSourceCreateWithURL((__bridge CFURLRef)noiseImageURL, NULL);
+        noiseImageRef                   = CGImageSourceCreateImageAtIndex(source, 0, NULL);
+
+        CGFloat width  = CGImageGetWidth(noiseImageRef);
+        CGFloat height = CGImageGetHeight(noiseImageRef);
+
+        CGPatternRef    pattern       = CGPatternCreate(noiseImageRef, CGRectMake(0.0, 0.0, width, height), CGAffineTransformMake(1.0, 0.0, 0.0, 1.0, 0.0, 0.0), width, height, kCGPatternTilingConstantSpacing, YES, &callbacks);
+        CGColorSpaceRef space         = CGColorSpaceCreatePattern(NULL);
+        CGFloat         components[1] = {1.0};
+
+        noiseColorRef = CGColorCreateWithPattern(space, pattern, components);
+
+        CGColorSpaceRelease(space);
+        CGPatternRelease(pattern);
+        CFRelease(source);
+    });
+
+    [self setWantsLayer:YES];
+
+    CALayer *layer = [CALayer layer];
+    [self setLayer:layer];
+
+    // Set background lighting
+    [layer setContentsGravity:kCAGravityResize];
+    [layer setContents:[NSImage imageNamed:@"background_lighting"]];
+    [layer setFrame:[self bounds]];
+
+    CALayer *noiseLayer = [CALayer layer];
+    [noiseLayer setFrame:[self bounds]];
+    [noiseLayer setAutoresizingMask:kCALayerWidthSizable | kCALayerHeightSizable];
+    [noiseLayer setGeometryFlipped:YES];
+    [noiseLayer setBackgroundColor:noiseColorRef];
+    [layer addSublayer:noiseLayer];
 }
 
-- (void)drawRect:(NSRect)dirtyRect
+- (id)initWithFrame:(NSRect)frameRect
 {
-    const CGRect bounds = [self bounds];
+    if((self = [super initWithFrame:frameRect]))
+    {
+        [self OE_commonInit];
+    }
+    return self;
+}
 
-    CGContextRef ctx = [[NSGraphicsContext currentContext] graphicsPort];
-    CGContextSaveGState(ctx);
-
-    CGContextConcatCTM(ctx, CGAffineTransformMake(1, 0, 0, -1, 0, CGRectGetHeight(bounds)));
-
-    NSImage *backgroundLightingImage = [NSImage imageNamed:@"background_lighting"];
-    [backgroundLightingImage drawInRect:bounds fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
-
-    CGContextRestoreGState(ctx);
-
-    CGContextDrawTiledImage(ctx, CGRectMake(0.0, 0.0, CGImageGetWidth(noiseImageRef), CGImageGetHeight(noiseImageRef)), noiseImageRef);
-    [super drawRect:dirtyRect];
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if((self = [super initWithCoder:aDecoder]))
+    {
+        [self OE_commonInit];
+    }
+    return self;
 }
 
 @end

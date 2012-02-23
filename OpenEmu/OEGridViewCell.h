@@ -32,6 +32,8 @@
 @interface OEGridViewCell : OEGridLayer
 {
 @private
+    BOOL       _editing;
+    BOOL       _selected;
     NSUInteger _index;
 
     CALayer *_foregroundLayer;
@@ -41,7 +43,10 @@
 - (void)didBecomeFocused;
 - (void)willResignFocus;
 
-@property(nonatomic, getter=isEditing) BOOL editing;
+#pragma mark -
+#pragma mark Properties
+
+@property(nonatomic, getter=isEditing)  BOOL editing;
 @property(nonatomic, getter=isSelected) BOOL selected;
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated;
 

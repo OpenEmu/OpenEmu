@@ -30,20 +30,18 @@
 #define M_TAU (M_PI * 2.0)
 
 @interface OECoverGridViewCellIndicationLayer ()
+
 + (CAKeyframeAnimation *)OE_rotationAnimation;
+
 @end
 
 @implementation OECoverGridViewCellIndicationLayer
-@synthesize type = _type;
-
-#pragma mark - CALayer
 
 - (id<CAAction>)actionForKey:(NSString *)event
 {
     return nil;
 }
 
-#pragma mark - OEGridLayer
 - (void)layoutSublayers
 {
     CALayer *sublayer = [[self sublayers] lastObject];
@@ -76,12 +74,12 @@
     }
 }
 
-#pragma mark - Properties
+#pragma mark -
+#pragma mark Properties
 
 - (void)setType:(OECoverGridViewCellIndicationType)type
 {
-    if(_type == type)
-        return;
+    if(_type == type) return;
 
     _type = type;
 
@@ -89,45 +87,50 @@
     {
         [self setBackgroundColor:nil];
         [[self sublayers] makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
-        return;
     }
     else if(type == OECoverGridViewCellIndicationTypeDropOn)
     {
         [self setBackgroundColor:[[NSColor colorWithDeviceRed:0.4 green:0.361 blue:0.871 alpha:0.7] CGColor]];
-        return;
-    }
-
-    CALayer *sublayer = [[self sublayers] lastObject];
-    if(sublayer == nil)
-    {
-        sublayer = [CALayer layer];
-        [sublayer setShadowOffset:CGSizeMake(0.0, -1.0)];
-        [sublayer setShadowOpacity:1.0];
-        [sublayer setShadowRadius:1.0];
-        [sublayer setShadowColor:[[NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:6.0] CGColor]];
-
-        [self addSublayer:sublayer];
     }
     else
-        [sublayer removeAllAnimations];
-
-    if(_type == OECoverGridViewCellIndicationTypeFileMissing)
     {
-        [self setBackgroundColor:[[NSColor colorWithDeviceRed:0.992 green:0.0 blue:0.0 alpha:0.4] CGColor]];
-        [sublayer setContents:[NSImage imageNamed:@"missing_rom"]];
-    }
-    else if(_type == OECoverGridViewCellIndicationTypeProcessing)
-    {
-        [self setBackgroundColor:[[NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.0 alpha:0.7] CGColor]];
+        CALayer *sublayer = [[self sublayers] lastObject];
+        if(sublayer == nil)
+        {
+            sublayer = [CALayer layer];
+            [sublayer setShadowOffset:CGSizeMake(0.0, -1.0)];
+            [sublayer setShadowOpacity:1.0];
+            [sublayer setShadowRadius:1.0];
+            [sublayer setShadowColor:[[NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:6.0] CGColor]];
 
-        [sublayer setContents:[NSImage imageNamed:@"spinner"]];
-        [sublayer setAnchorPoint:CGPointMake(0.5, 0.5)];
-        [sublayer setAnchorPointZ:0.0];
+            [self addSublayer:sublayer];
+        }
+        else
+            [sublayer removeAllAnimations];
+
+        if(_type == OECoverGridViewCellIndicationTypeFileMissing)
+        {
+            [self setBackgroundColor:[[NSColor colorWithDeviceRed:0.992 green:0.0 blue:0.0 alpha:0.4] CGColor]];
+            [sublayer setContents:[NSImage imageNamed:@"missing_rom"]];
+        }
+        else if(_type == OECoverGridViewCellIndicationTypeProcessing)
+        {
+            [self setBackgroundColor:[[NSColor colorWithDeviceRed:0.0 green:0.0 blue:0.0 alpha:0.7] CGColor]];
+
+            [sublayer setContents:[NSImage imageNamed:@"spinner"]];
+            [sublayer setAnchorPoint:CGPointMake(0.5, 0.5)];
+            [sublayer setAnchorPointZ:0.0];
+
+            [sublayer addAnimation:[[self class] OE_rotationAnimation] forKey:nil];
+        }
         
-        [sublayer addAnimation:[[self class] OE_rotationAnimation] forKey:nil];
+        [self setNeedsLayout];
     }
+}
 
-    [self setNeedsLayout];
+- (OECoverGridViewCellIndicationType)type
+{
+    return _type;
 }
 
 + (CAKeyframeAnimation *)OE_rotationAnimation;
@@ -142,7 +145,7 @@
         [animation setRepeatCount:CGFLOAT_MAX];
         [animation setRemovedOnCompletion:NO];
         
-        NSUInteger stepCount = 12;
+        NSUInteger      stepCount     = 12;
         NSMutableArray *spinnerValues = [[NSMutableArray alloc] initWithCapacity:stepCount];
         
         for(NSUInteger step = 0; step < stepCount; step++)
