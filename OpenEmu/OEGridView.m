@@ -202,10 +202,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     // Figure out the first row and column, and the number of cells and rows within the rect.
     NSMutableIndexSet *result   = [NSMutableIndexSet indexSet];
-    const NSUInteger   firstCol = (NSUInteger)floorf(NSMinX(rect) / _cachedCellSize.width);
-    const NSUInteger   firstRow = (NSUInteger)floorf(NSMinY(rect) / _cachedCellSize.height);
-    const NSUInteger   numCols  = (NSUInteger)ceilf(NSMaxX(rect) / _cachedCellSize.width) - firstCol;
-    const NSUInteger   numRows  = (NSUInteger)ceilf(NSMaxY(rect) / _cachedCellSize.height) - firstRow;
+    const NSUInteger   firstCol = (NSUInteger)floor(NSMinX(rect) / _cachedCellSize.width);
+    const NSUInteger   firstRow = (NSUInteger)floor(NSMinY(rect) / _cachedCellSize.height);
+    const NSUInteger   numCols  = (NSUInteger)ceil(NSMaxX(rect) / _cachedCellSize.width) - firstCol;
+    const NSUInteger   numRows  = (NSUInteger)ceil(NSMaxY(rect) / _cachedCellSize.height) - firstRow;
 
     // Calculate the starting index
     NSUInteger startIndex       = firstCol + (firstRow * _cachedNumberOfVisibleColumns);
@@ -264,7 +264,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     const NSUInteger col = index % _cachedNumberOfVisibleColumns;
     const NSUInteger row = index / _cachedNumberOfVisibleColumns;
 
-    return NSMakeRect(floorf(col * _cachedCellSize.width + _cachedColumnSpacing), floorf(row * _cachedCellSize.height + _rowSpacing), _cellSize.width, _cellSize.height);
+    return NSMakeRect(floor(col * _cachedCellSize.width + _cachedColumnSpacing), floor(row * _cachedCellSize.height + _rowSpacing), _cellSize.width, _cellSize.height);
 }
 
 #pragma mark -
@@ -398,11 +398,11 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     {
         // Set the number of visible columns based on the view's width, there must be at least 1 visible column and no more than the total number
         // of items within the data source.  Just because a column is potentially visible doesn't mean that there is enough data to populate it.
-        numberOfVisibleColumns = MAX((NSUInteger)(floorf(viewSize.width / cellSize.width)), 1);
+        numberOfVisibleColumns = MAX((NSUInteger)(floor(viewSize.width / cellSize.width)), 1);
 
         // The cell's height include the original itemSize.height + rowSpacing. The cell's column spacing is based on the number of visible columns.
         // The cell will be at least itemSize.width + minimumColumnSpacing, it could grow as larg as the width of the view
-        cellSize = NSMakeSize(MAX(cellSize.width, roundf(viewSize.width / numberOfVisibleColumns)), cellSize.height);
+        cellSize = NSMakeSize(MAX(cellSize.width, round(viewSize.width / numberOfVisibleColumns)), cellSize.height);
 
         // Make sure that the scroll view's content width reflects the view's width. The scroll view's content height is be calculated later (if
         // needed).
@@ -416,7 +416,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
             cellSize.height != _cachedCellSize.height)
     {
         // TODO: only add 1 to the number of visible rows if the first row is partially visible
-        numberOfVisibleRows = ((NSUInteger)ceilf(viewSize.height / cellSize.height)) + 1;
+        numberOfVisibleRows = ((NSUInteger)ceil(viewSize.height / cellSize.height)) + 1;
     }
 
     // Check to see if the number of items, number of visible columns, or cached cell size has changed
@@ -432,8 +432,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
             contentSize.height = viewSize.height;
         else
         {
-            NSUInteger numberOfRows = ceilf(((CGFloat)numberOfItems / (CGFloat)numberOfVisibleColumns));
-            contentSize.height      = MAX(viewSize.height, ceilf(numberOfRows * cellSize.height) + _rowSpacing);
+            NSUInteger numberOfRows = ceil(((CGFloat)numberOfItems / (CGFloat)numberOfVisibleColumns));
+            contentSize.height      = MAX(viewSize.height, ceil(numberOfRows * cellSize.height) + _rowSpacing);
         }
         [super setFrameSize:contentSize];
 
@@ -459,7 +459,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     // Update the cached values
     _cachedViewSize               = viewSize;
     _cachedCellSize               = cellSize;
-    _cachedColumnSpacing          = roundf((cellSize.width - _cellSize.width) / 2.0);
+    _cachedColumnSpacing          = round((cellSize.width - _cellSize.width) / 2.0);
     _cachedNumberOfVisibleColumns = numberOfVisibleColumns;
     _cachedNumberOfVisibleRows    = numberOfVisibleRows;
     _cachedNumberOfItems          = numberOfItems;
@@ -481,7 +481,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     const NSSize     viewSize            = visibleRect.size;
     const CGFloat    maxContentOffset    = MAX(contentSize.height - viewSize.height, contentSize.height - _cachedCellSize.height);
     const CGFloat    contentOffsetY      = MAX(MIN(_cachedContentOffset.y, maxContentOffset), 0.0);
-    const NSUInteger row                 = (NSUInteger)floorf(contentOffsetY / _cachedCellSize.height);
+    const NSUInteger row                 = (NSUInteger)floor(contentOffsetY / _cachedCellSize.height);
     const NSUInteger firstVisibleIndex   = row * _cachedNumberOfVisibleColumns;
     const NSUInteger visibleIndexLength  = MIN(_cachedNumberOfVisibleColumns * _cachedNumberOfVisibleRows, _cachedNumberOfItems - firstVisibleIndex);
     const NSRange    visibleIndexRange   = NSMakeRange(firstVisibleIndex, visibleIndexLength);
@@ -742,8 +742,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     NSView       *enclosingScrollView = [self enclosingScrollView] ? : self;
     const NSRect  visibleRect         = [enclosingScrollView visibleRect];
     const NSSize  viewSize            = [_noItemsView frame].size;
-    const NSRect  viewFrame           = NSMakeRect(ceilf((NSWidth(visibleRect) - viewSize.width) / 2.0),
-                                                   ceilf((NSHeight(visibleRect) - viewSize.height) / 2.0),
+    const NSRect  viewFrame           = NSMakeRect(ceil((NSWidth(visibleRect) - viewSize.width) / 2.0),
+                                                   ceil((NSHeight(visibleRect) - viewSize.height) / 2.0),
                                                    viewSize.width, viewSize.height);
     [_noItemsView setFrame:viewFrame];
 }

@@ -70,18 +70,12 @@
     [image setName:@"list_indicators_playing_selected" forSubimageInRect:NSMakeRect(12, 24, 12, 12)];
     [image setName:@"list_indicators_missing_selected" forSubimageInRect:NSMakeRect(12, 12, 12, 12)];
     [image setName:@"list_indicators_unplayed_selected" forSubimageInRect:NSMakeRect(12, 0, 12, 12)];
-    
-    // selection effects for grid view
-    image = [NSImage imageNamed:@"selector_ring"];
-    [image setName:@"selector_ring_active" forSubimageInRect:NSMakeRect(0, 0, 29, 29)];
-    [image setName:@"selector_ring_inactive" forSubimageInRect:NSMakeRect(29, 0, 29, 29)];
 }
 
 - (void)dealloc
 {
     collectionItem = nil;
     gamesController = nil;
-    
 }
 
 #pragma mark -
@@ -90,15 +84,14 @@
 {
     [super loadView];
     
-    [gamesController setUsesLazyFetching:YES];
-    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     // Set up games controller
     gamesController = [[NSArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
     [gamesController setAutomaticallyPreparesContent:YES];
-    
+    [gamesController setUsesLazyFetching:YES];
+
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
     
@@ -357,7 +350,7 @@
     
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
     [item setTitle:[object gridTitle]];
-    [item setImage:[object gridImage]];
+    [item setImage:[object gridImageWithSize:[gridView itemSize]]];
     [item setRating:[object gridRating]];
     [item setIndicationType:(OECoverGridViewCellIndicationType)[object gridStatus]];
 

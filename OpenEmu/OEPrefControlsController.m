@@ -299,15 +299,16 @@
 
 - (void)setSelectedKey:(NSString *)value
 {
-    if(selectedKey != value)
-    {
-        selectedKey = [value copy];
-        
-        [[self controlsSetupView] setSelectedKey:selectedKey];
-        [[self controllerView]    setSelectedKey:selectedKey animated:YES];
-        NSWindow* window = [[self view] window];
-        [window makeFirstResponder:selectedKey != nil ? [self view] : nil];
-    }
+    if(selectedKey == value)
+        value = nil;
+    
+    selectedKey = [value copy];
+    
+   [[self controlsSetupView] setSelectedKey:selectedKey];
+   [[self controllerView]    setSelectedKey:selectedKey animated:YES];
+
+    NSWindow* window = [[self view] window];
+   [window makeFirstResponder:selectedKey != nil ? [self view] : nil];    
 }
 
 - (void)setSelectedBindingType:(NSInteger)value
@@ -315,7 +316,6 @@
     if(selectedBindingType != value)
     {
         selectedBindingType = value;
-        
         [[self inputPopupButton] selectItemWithTag:selectedBindingType];
     }
 }
@@ -354,8 +354,6 @@
     if([self selectedKey] != nil)
     {
         [self setValue:anEvent forKey:[self selectedKey]];
-        
-        //[[self controlsSetupView] selectNextKeyButton];
         [[self controlsSetupView] selectNextKeyButton];
         [self changeInputControl:[self controlsSetupView]];
     }
@@ -431,6 +429,12 @@
         [self didChangeValueForKey:key];
     }
     else [super setValue:value forKey:key];
+}
+
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    if([self selectedKey])
+        [self setSelectedKey:[self selectedKey]];
 }
 
 #pragma mark -

@@ -195,7 +195,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
     // Draw gloss image fit proportionally within the cell
     NSImage *boxGlossImage = [NSImage imageNamed:@"box_gloss"];
-    CGRect   boxGlossFrame = CGRectMake(0.0, 0.0, size.width, floorf(size.width * OECoverGridViewCellGlossWidthToHeightRatio));
+    CGRect   boxGlossFrame = CGRectMake(0.0, 0.0, size.width, floor(size.width * OECoverGridViewCellGlossWidthToHeightRatio));
     boxGlossFrame.origin.y = size.height - CGRectGetHeight(boxGlossFrame);
     [boxGlossImage drawInRect:boxGlossFrame fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
 
@@ -322,7 +322,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 {
     const CGRect bounds = [self bounds];
 
-    _ratingFrame = CGRectMake(ceilf((CGRectGetWidth(bounds) - OECoverGridViewCellSubtitleWidth) / 2.0), CGRectGetHeight(bounds) - OECoverGridViewCellSubtitleHeight,
+    _ratingFrame = CGRectMake(ceil((CGRectGetWidth(bounds) - OECoverGridViewCellSubtitleWidth) / 2.0), CGRectGetHeight(bounds) - OECoverGridViewCellSubtitleHeight,
                               OECoverGridViewCellSubtitleWidth, OECoverGridViewCellSubtitleHeight);
     _titleFrame  = CGRectMake(0.0, CGRectGetMinY(_ratingFrame) - OECoverGridViewCellTitleHeight - 2.0, CGRectGetWidth(bounds), OECoverGridViewCellTitleHeight);
 
@@ -358,17 +358,17 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     if(imageRatio < 1.0)
     {
         width = CGRectGetWidth(imageContainerRect);
-        height = ceilf(width * imageRatio);
+        height = ceil(width * imageRatio);
     }
     else
     {
         height = CGRectGetHeight(imageContainerRect);
-        width = ceilf(height / imageRatio);
+        width = ceil(height / imageRatio);
     }
 
     // Determine actual frame for image
-    _imageFrame = CGRectMake(ceilf(CGRectGetMinX(imageContainerRect) + ((CGRectGetWidth(imageContainerRect) - width) / 2.0)),
-                             ceilf(CGRectGetMinY(imageContainerRect) + ((CGRectGetHeight(imageContainerRect) - height) / 2.0)),
+    _imageFrame = CGRectMake(ceil(CGRectGetMinX(imageContainerRect) + ((CGRectGetWidth(imageContainerRect) - width) / 2.0)),
+                             ceil(CGRectGetMinY(imageContainerRect) + ((CGRectGetHeight(imageContainerRect) - height) / 2.0)),
                              width, height);
 
     // Sizes must be set before the image is set

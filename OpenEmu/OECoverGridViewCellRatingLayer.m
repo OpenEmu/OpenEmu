@@ -84,7 +84,7 @@ const NSUInteger OECoverGridViewCellRatingViewNumberOfRatings = 6;
     const CGSize   ratingImageSize = [ratingImage size];
     const CGFloat  starWidth       = ratingImageSize.width / (OECoverGridViewCellRatingViewNumberOfRatings - 1);
 
-    [self setRating:MAX(0, (NSInteger)floorf(point.x / starWidth) + 1)];
+    [self setRating:MAX(0, (NSInteger)floor(point.x / starWidth) + 1)];
 }
 
 - (void)mouseDownAtPointInLayer:(NSPoint)point withEvent:(NSEvent *)theEvent
