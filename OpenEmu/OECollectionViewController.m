@@ -81,7 +81,6 @@
 {
     collectionItem = nil;
     gamesController = nil;
-    
 }
 
 #pragma mark -
@@ -90,15 +89,14 @@
 {
     [super loadView];
     
-    [gamesController setUsesLazyFetching:YES];
-    
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     
     // Set up games controller
     gamesController = [[NSArrayController alloc] init];
     [gamesController setAutomaticallyRearrangesObjects:YES];
     [gamesController setAutomaticallyPreparesContent:YES];
-    
+    [gamesController setUsesLazyFetching:YES];
+
     NSManagedObjectContext *context = [[OELibraryDatabase defaultDatabase] managedObjectContext];
     //[gamesController bind:@"managedObjectContext" toObject:context withKeyPath:@"" options:nil];
     
@@ -357,7 +355,7 @@
     
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
     [item setTitle:[object gridTitle]];
-    [item setImage:[object gridImage]];
+    [item setImage:[object gridImageWithSize:[gridView itemSize]]];
     [item setRating:[object gridRating]];
     [item setIndicationType:(OECoverGridViewCellIndicationType)[object gridStatus]];
 
