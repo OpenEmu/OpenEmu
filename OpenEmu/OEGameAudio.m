@@ -27,26 +27,15 @@
 
 #import "OEGameAudio.h"
 #import "OEGameCore.h"
+#import "TPCircularBuffer.h"
+#import "OERingBuffer.h"
 
-@interface OEGameAudioContext : NSObject
-@property (strong) OEGameCore *core;
-@property (assign) NSUInteger buffer;
-+ (id)contextWithCore:(OEGameCore*)aCore bufferIndex:(NSUInteger)aBuffer;
-@end
-
-@implementation OEGameAudioContext
-@synthesize core, buffer;
-
-+ (id)contextWithCore:(OEGameCore*)aCore bufferIndex:(NSUInteger)aBuffer;
+typedef struct
 {
-    OEGameAudioContext *context = [[self alloc] init];
-    context.core = aCore;
-    context.buffer = aBuffer;
-    return context;
-}
+    TPCircularBuffer *buffer;
+    int channelCount;
+} OEGameAudioContext;
 
-
-@end
 ExtAudioFileRef recordingFile;
 
 OSStatus RenderCallback(void                       *in,
@@ -63,20 +52,22 @@ OSStatus RenderCallback(void                       *in,
                         UInt32                      inNumberFrames,
                         AudioBufferList            *ioData)
 {
-    @autoreleasepool {
-    OEGameAudioContext *context = (__bridge OEGameAudioContext*)in;
-    [[context core] getAudioBuffer:ioData->mBuffers[0].mData frameCount:inNumberFrames bufferIndex:[context buffer]];
-    //ExtAudioFileWriteAsync( recordingFile, inNumberFrames, ioData );
+    OEGameAudioContext *context = (OEGameAudioContext*)in;
+    int availableBytes = 0;
+    void *head = TPCircularBufferTail(context->buffer, &availableBytes);
+    availableBytes = MIN(context->buffer->fillCount, inNumberFrames * sizeof(UInt16) * context->channelCount);
+    memcpy(ioData->mBuffers[0].mData, head, availableBytes);
+    TPCircularBufferConsume(context->buffer, availableBytes);
     return 0;
-    }
 }
 
 @interface OEGameAudio ()
-@property (strong) NSMutableArray *contexts;
+{
+    OEGameAudioContext *_contexts;
+}
 @end
 
 @implementation OEGameAudio
-@synthesize contexts;
 
 // No default version for this class
 - (id)init
@@ -91,7 +82,6 @@ OSStatus RenderCallback(void                       *in,
     if(self != nil)
     {
         gameCore = core;
-        contexts = [NSMutableArray array];
         [self createGraph];
     }
     
@@ -100,6 +90,8 @@ OSStatus RenderCallback(void                       *in,
 
 - (void)dealloc
 {
+    if (_contexts)
+        free(_contexts);
     AUGraphUninitialize(mGraph);
     //FIXME: added this line tonight.  do we need it?  Fuckety fuck fucking shitty Core Audio documentation... :X
     DisposeAUGraph(mGraph);
@@ -172,11 +164,12 @@ OSStatus RenderCallback(void                       *in,
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
     
     NSUInteger bufferCount = [gameCore soundBufferCount];
-    
+    if (_contexts)
+        free(_contexts);
+    _contexts = malloc(sizeof(OEGameAudioContext) * bufferCount);
     for (int i = 0; i < bufferCount; ++i)
     {
-        OEGameAudioContext *context = [OEGameAudioContext contextWithCore:gameCore bufferIndex:i];
-        [self.contexts addObject:context];
+        _contexts[i] = (OEGameAudioContext){&([gameCore ringBufferAtIndex:i]->buffer), [gameCore channelCountForBuffer:i]};
         
         //Create the converter node
         err = AUGraphAddNode(mGraph, (const AudioComponentDescription *)&desc, &mConverterNode);
@@ -188,7 +181,7 @@ OSStatus RenderCallback(void                       *in,
         
         AURenderCallbackStruct renderStruct;
         renderStruct.inputProc = RenderCallback;
-        renderStruct.inputProcRefCon = (__bridge void*)context;
+        renderStruct.inputProcRefCon = (void*)&_contexts[i];
         
         err = AudioUnitSetProperty(mConverterUnit, kAudioUnitProperty_SetRenderCallback,
                                    kAudioUnitScope_Input, 0, &renderStruct, sizeof(AURenderCallbackStruct));

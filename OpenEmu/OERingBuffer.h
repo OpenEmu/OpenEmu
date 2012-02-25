@@ -26,19 +26,13 @@
  */
 
 #import <Foundation/Foundation.h>
-
+#import "TPCircularBuffer.h"
 
 @interface OERingBuffer : NSObject
 {
-@private
-    NSLock     *_bufferLock;
-    void       *_buffer;
-    NSUInteger  _bufferSize;
-    NSUInteger  _writePosition;
-    NSUInteger  _readPosition;
-    NSUInteger  _bufferUsed;
+@public
+    TPCircularBuffer buffer;
 }
-
 - (id)initWithLength:(NSUInteger)length;
 
 @property           NSUInteger length;

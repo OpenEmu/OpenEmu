@@ -269,6 +269,8 @@
 		822775691489471A00B19E27 /* OEGGSystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755A1489471A00B19E27 /* OEGGSystemController.m */; };
 		8227756B1489471A00B19E27 /* OEGGSystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8227755C1489471A00B19E27 /* OEGGSystemResponder.m */; };
 		8227757014894A3300B19E27 /* GameGear.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = 8227754F148946DF00B19E27 /* GameGear.oesystemplugin */; };
+		8245FD0814F763E600C64574 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 82C9B3FA14F75CB700D7E795 /* TPCircularBuffer.c */; };
+		8245FD0914F764D100C64574 /* TPCircularBuffer.h in Headers */ = {isa = PBXBuildFile; fileRef = 82C9B3FD14F75CD900D7E795 /* TPCircularBuffer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		826844C51022A0630019C7B0 /* smaller.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C31022A0630019C7B0 /* smaller.tif */; };
 		826844C61022A0630019C7B0 /* larger.tif in Resources */ = {isa = PBXBuildFile; fileRef = 826844C41022A0630019C7B0 /* larger.tif */; };
 		828ED4D70E7D98940059F397 /* OEGamePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 828ED4D60E7D98940059F397 /* OEGamePickerController.m */; };
@@ -1128,6 +1130,8 @@
 		82C5EFAC1237E76C001262F7 /* AsyncUdpSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncUdpSocket.m; sourceTree = "<group>"; };
 		82C5EFB11237E7E1001262F7 /* OENetServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OENetServer.h; sourceTree = "<group>"; };
 		82C5EFB21237E7E1001262F7 /* OENetServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENetServer.m; sourceTree = "<group>"; };
+		82C9B3FA14F75CB700D7E795 /* TPCircularBuffer.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.objc; fileEncoding = 4; path = TPCircularBuffer.c; sourceTree = "<group>"; };
+		82C9B3FD14F75CD900D7E795 /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TPCircularBuffer.h; sourceTree = "<group>"; };
 		82C9C96C0F080BD30071460B /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82CAFBB70FEDAA3D00CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		82DD29DA12369F1100B58A8F /* KeyboardUsages.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = KeyboardUsages.plist; sourceTree = "<group>"; };
@@ -2930,6 +2934,8 @@
 				82AD1B300FD1BD2A00B3A8A9 /* OEMap.m */,
 				82AFA6670FDDC03500531EE3 /* OERingBuffer.h */,
 				82AFA6680FDDC03500531EE3 /* OERingBuffer.m */,
+				82C9B3FA14F75CB700D7E795 /* TPCircularBuffer.c */,
+				82C9B3FD14F75CD900D7E795 /* TPCircularBuffer.h */,
 			);
 			name = "GameCore framework";
 			sourceTree = "<group>";
@@ -3084,6 +3090,7 @@
 				82EE73E11443C1F700080CCB /* OEGameCore.h in Headers */,
 				EF2FDBEE14D0025D002A64F2 /* OEPreferenceViewController.h in Headers */,
 				8220233214F1C20E00902FB1 /* OESystemResponderClient.h in Headers */,
+				8245FD0914F764D100C64574 /* TPCircularBuffer.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3813,6 +3820,7 @@
 				C6D268D7135BCE4900154550 /* NSString+OEAdditions.m in Sources */,
 				EF2FDBEA14CFFD39002A64F2 /* OEGameCoreController.m in Sources */,
 				EF2FDBEF14D00261002A64F2 /* OEPreferenceViewController.m in Sources */,
+				8245FD0814F763E600C64574 /* TPCircularBuffer.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

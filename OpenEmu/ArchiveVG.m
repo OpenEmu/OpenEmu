@@ -811,9 +811,9 @@ typedef enum
                                   nil];
     });
 
-    CFStringRef str = CFXMLCreateStringByUnescapingEntities(NULL, (__bridge CFStringRef)input, (__bridge CFDictionaryRef)specialChars);
+    NSString *str = (__bridge_transfer NSString*)CFXMLCreateStringByUnescapingEntities(NULL, (__bridge CFStringRef)input, (__bridge CFDictionaryRef)specialChars);
 
-    return (__bridge NSString*)str;
+    return str;
 }
 
 #pragma mark -
