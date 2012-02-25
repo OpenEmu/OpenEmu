@@ -88,11 +88,10 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     DLog(@"%s", __FUNCTION__);
     //if(keyMap != NULL) OEMapRelease(keyMap);
     
-    
     for(NSUInteger i = 0, count = [self soundBufferCount]; i < count; i++) {
         ringBuffers[i] = nil;
     }
-    
+    free(ringBuffers);
 }
 
 - (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index
@@ -351,6 +350,8 @@ static NSTimeInterval currentTime()
 
 - (NSUInteger)channelCountForBuffer:(NSUInteger)buffer
 {
+    if (buffer == 0)
+        return [self channelCount];
     NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
     [self doesNotImplementSelector:_cmd];
     return 0;
@@ -358,6 +359,8 @@ static NSTimeInterval currentTime()
 
 - (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer
 {
+    if (buffer == 0)
+        return [self frameSampleCount];
     NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
     [self doesNotImplementSelector:_cmd];
     return 0;
@@ -365,6 +368,8 @@ static NSTimeInterval currentTime()
 
 - (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer
 {
+    if (buffer == 0)
+        return [self soundBufferSize];
     NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
     [self doesNotImplementSelector:_cmd];
     return 0;
