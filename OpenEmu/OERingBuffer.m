@@ -69,7 +69,7 @@
 {
     int availableBytes = 0;
     void *head = TPCircularBufferTail(&buffer, &availableBytes);
-    availableBytes = MIN(buffer.fillCount, len);
+    availableBytes = MIN(availableBytes, len);
     memcpy(outBuffer, head, availableBytes);
     TPCircularBufferConsume(&buffer, availableBytes);
     return availableBytes;
@@ -84,7 +84,7 @@
 
 - (NSUInteger)usedBytes
 {
-    return buffer.fillCount;
+    return buffer.length - buffer.fillCount;
 }
 
 - (NSUInteger)bytesAvailable
