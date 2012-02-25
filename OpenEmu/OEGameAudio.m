@@ -91,8 +91,8 @@ OSStatus RenderCallback(void                       *in,
     if(self != nil)
     {
         gameCore = core;
+        contexts = [NSMutableArray array];
         [self createGraph];
-        self.contexts = [NSMutableArray array];
     }
     
     return self;
