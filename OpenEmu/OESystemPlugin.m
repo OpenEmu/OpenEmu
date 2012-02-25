@@ -54,7 +54,9 @@ static NSMutableDictionary *pluginsBySystemIdentifiers = nil;
     NSArray *systems = [OEPlugin pluginsForType:self];
     for (OESystemPlugin *plugin in systems)
     {
-        if ([[plugin supportedTypeExtensions] containsObject:ext])
+        if ([[plugin supportedTypeExtensions] indexOfObjectPassingTest:^BOOL(NSString *obj, NSUInteger idx, BOOL *stop) {
+            return ([obj caseInsensitiveCompare:ext] == NSOrderedSame);
+        }] != NSNotFound)
             return plugin;
     }
     return nil;
