@@ -104,7 +104,10 @@
     NSMutableArray *normalizedPaths = [NSMutableArray arrayWithCapacity:[pathArray count]];
     [pathArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
      {
-         [normalizedPaths insertObject:[obj stringByExpandingTildeInPath] atIndex:idx];
+         @autoreleasepool 
+         {
+             [normalizedPaths insertObject:[obj stringByExpandingTildeInPath] atIndex:idx];
+         }
      }];
     
     DLog(@"normalizedPaths: %@", normalizedPaths);
@@ -143,55 +146,58 @@
     BOOL success = YES;
     for (__strong NSString *aPath in paths) 
     {
-        if(canceld) return YES;
-        
-        if(basePath)
+        @autoreleasepool
         {
-            aPath = [basePath stringByAppendingPathComponent:aPath];
-        }
-        success = [self _performImportWithPath:aPath error:&error];
-        if(!success)
-        {
-            OEImportErrorBehavior behavior = errorBehaviour;
-            if(errorBehaviour==OEImportErrorAskUser)
+            if(canceld) return YES;
+            
+            if(basePath)
             {
-                DLog(@"ERROR");  
+                aPath = [basePath stringByAppendingPathComponent:aPath];
+            }
+            success = [self _performImportWithPath:aPath error:&error];
+            if(!success)
+            {
+                OEImportErrorBehavior behavior = errorBehaviour;
+                if(errorBehaviour==OEImportErrorAskUser)
+                {
+                    DLog(@"ERROR");  
 
-                NSAlert *alert = [NSAlert alertWithMessageText:@"An error occured" defaultButton:@"Continue" alternateButton:@"Stop" otherButton:@"Stop (keep changes)" informativeTextWithFormat:@"%@", [error localizedDescription]];
-                [alert setShowsSuppressionButton:YES];
-                
-                // TODO: run alert on main thread
-                NSUInteger result = [alert runModal];
-                
-                switch (result) {
-                    case NSAlertDefaultReturn:
-                        behavior = OEImportErrorIgnore;
-                        break;
-                    case NSAlertAlternateReturn:
-                        behavior = OEImportErrorCancelDeleteChanges;
-                        break;
-                    case NSAlertOtherReturn:
-                        behavior = OEImportErrorCancelKeepChanges;
-                        break;
-                    default:
-                        break;
+                    NSAlert *alert = [NSAlert alertWithMessageText:@"An error occured" defaultButton:@"Continue" alternateButton:@"Stop" otherButton:@"Stop (keep changes)" informativeTextWithFormat:@"%@", [error localizedDescription]];
+                    [alert setShowsSuppressionButton:YES];
+                    
+                    // TODO: run alert on main thread
+                    NSUInteger result = [alert runModal];
+                    
+                    switch (result) {
+                        case NSAlertDefaultReturn:
+                            behavior = OEImportErrorIgnore;
+                            break;
+                        case NSAlertAlternateReturn:
+                            behavior = OEImportErrorCancelDeleteChanges;
+                            break;
+                        case NSAlertOtherReturn:
+                            behavior = OEImportErrorCancelKeepChanges;
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    // TODO: decide if suppression is forever
+                    if([[alert suppressionButton] state] == NSOnState)
+                        errorBehaviour = behavior;
                 }
                 
-                // TODO: decide if suppression is forever
-                if([[alert suppressionButton] state] == NSOnState)
-                    errorBehaviour = behavior;
-            }
-            
-            if(outError!=NULL)
-            {
-                *outError = error;
-            }
-            
-            if(behavior != OEImportErrorIgnore)
-            {
-                [self _performCancel:behavior==OEImportErrorCancelDeleteChanges];
-                // returning YES because error was handled
-                return YES;
+                if(outError!=NULL)
+                {
+                    *outError = error;
+                }
+                
+                if(behavior != OEImportErrorIgnore)
+                {
+                    [self _performCancel:behavior==OEImportErrorCancelDeleteChanges];
+                    // returning YES because error was handled
+                    return YES;
+                }
             }
         }
         error = nil;
@@ -253,29 +259,32 @@
 
 - (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError**)outError
 {    
-    // TODO: check if path has readable suffix
-    BOOL hasReadableSuffix = YES;
-    if(!hasReadableSuffix) return YES;
-    
-    OEDBGame *game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES inDatabase:self.database error:outError];
-    if(game)
+    @autoreleasepool
     {
-        BOOL lookupGameInfo = [[NSUserDefaults standardUserDefaults] boolForKey:UDAutmaticallyGetInfoKey];
-        if(lookupGameInfo)
+        // TODO: check if path has readable suffix
+        BOOL hasReadableSuffix = YES;
+        if(!hasReadableSuffix) return YES;
+        
+        OEDBGame *game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES inDatabase:self.database error:outError];
+        if(game)
         {
-            [game performSyncWithArchiveVG:outError];
-             // TODO: decide if we are interesed in success of sync operation
+            BOOL lookupGameInfo = [[NSUserDefaults standardUserDefaults] boolForKey:UDAutmaticallyGetInfoKey];
+            if(lookupGameInfo)
+            {
+                [game performSyncWithArchiveVG:outError];
+                 // TODO: decide if we are interesed in success of sync operation
+            }
+            
+            BOOL organizeLibrary = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
+            if(organizeLibrary)
+            {
+                NSLog(@"organize library");
+                // TODO: initiate lib organization if requested
+            }
         }
         
-        BOOL organizeLibrary = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
-        if(organizeLibrary)
-        {
-            NSLog(@"organize library");
-            // TODO: initiate lib organization if requested
-        }
+        return game!=nil;
     }
-    
-    return game!=nil;
 }
 
 - (NSArray*)importedRoms
