@@ -81,11 +81,11 @@
 
     if(!drawingCustomWindow) return;
     // create drawing selector based on window class
-    NSString *winodwClassName = NSStringFromClass([window class]);
-    NSString *selectorName = [NSString stringWithFormat:@"draw%@ThemeRect:", winodwClassName];
+    NSString *windowClassName = NSStringFromClass([window class]);
+    NSString *selectorName = [NSString stringWithFormat:@"draw%@ThemeRect:", windowClassName];
     SEL customDrawingSelector = NSSelectorFromString(selectorName);
 
     // finally draw the custom theme frame
-    [self performSelector:customDrawingSelector withObject:[NSValue valueWithRect:dirtyRect]];    
+    ((void (*)(id, SEL, NSRect))objc_msgSend)(self, customDrawingSelector, dirtyRect);
 }
 @end

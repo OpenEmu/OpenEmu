@@ -680,7 +680,7 @@
 {
     return YES;
 }
-- (void)drawThemeFrame:(NSValue *)dirtyRectValue
+- (void)drawThemeFrame:(NSRect)dirtyRect
 {   
     NSRect bounds = [self frame];
     bounds.origin = (NSPoint){0,0};
