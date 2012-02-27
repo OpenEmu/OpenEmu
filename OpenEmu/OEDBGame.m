@@ -267,6 +267,24 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     return game;
 }
 
++ (NSArray*)allGames
+{
+    return [self allGamesWithError:nil];
+}
++ (NSArray*)allGamesWithError:(NSError*__autoreleasing*)error
+{
+    return [self allGamesInDatabase:[OELibraryDatabase defaultDatabase] error:error];
+}
++ (NSArray*)allGamesInDatabase:(OELibraryDatabase*)database
+{
+    return [self allGamesInDatabase:database error:nil];
+}
++ (NSArray*)allGamesInDatabase:(OELibraryDatabase*)database error:(NSError*__autoreleasing*)error;
+{
+    NSManagedObjectContext* context = [database managedObjectContext];    
+    NSFetchRequest* request = [[NSFetchRequest alloc] initWithEntityName:[self entityName]];
+    return [context executeFetchRequest:request error:error];
+}
 #pragma mark -
 #pragma mark Archive.VG Sync
 
