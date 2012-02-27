@@ -578,14 +578,14 @@ bool snes_load_cartridge_normal(const char* a, const uint8_t *rom_data, unsigned
 
    FCEUI_SetSoundVolume(256);
    //FCEUI_Sound(32050);
-   FCEUI_Sound(48000);
+   FCEUI_Sound(48200);
 
    FCEUGameInfo = FCEUI_LoadGame(full_path);
 
    fceu_init();
 
    //timing.sample_rate = 32050.0;
-   timing.sample_rate = 48000;
+   timing.sample_rate = 48200;
    if (FSettings.PAL)
       timing.fps = 838977920.0/16777215.0;
    else
