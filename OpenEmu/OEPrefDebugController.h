@@ -10,8 +10,10 @@
 #import "OEPreferencePane.h"
 
 @interface OEPrefDebugController : NSViewController <OEPreferencePane>
-@property (assign) IBOutlet NSPopUpButton* regionSelector;
+@property (retain) IBOutlet NSPopUpButton* regionSelector;
+@property (retain) IBOutlet NSPopUpButton* dbActionSelector;
 #pragma mark -
 #pragma mark UI Methods
 - (IBAction)changeRegion:(id)sender;
+- (IBAction)executeDatbaseAction:(id)sender;
 @end

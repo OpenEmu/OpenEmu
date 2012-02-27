@@ -26,6 +26,13 @@
 
 #import "NSColor+OEAdditions.h"
 
+// Note: this file is compiled under MRR. It cannot be ARC because there is no supported way
+// to return an autoreleased CF object under ARC.
+
+#if __has_feature(objc_arc)
+#error This file cannot be compiled with ARC
+#endif
+
 @implementation NSColor (OEAdditions)
 
 + (NSColor *)colorWithCGColor:(CGColorRef)color
@@ -33,6 +40,7 @@
     const CGFloat *components = CGColorGetComponents(color);
     NSColorSpace *colorSpace = [[NSColorSpace alloc] initWithCGColorSpace:CGColorGetColorSpace(color)];
     NSColor *result = [NSColor colorWithColorSpace:colorSpace components:components count:CGColorGetNumberOfComponents(color)];
+    [colorSpace release];
 
     return result;
 }
@@ -54,7 +62,7 @@
     CGColorRef theColor = CGColorCreate(theColorSpace, components);
     CGColorSpaceRelease(theColorSpace);
 
-    return (__bridge CGColorRef)CFBridgingRelease(theColor);
+    return (CGColorRef)[(id)theColor autorelease];
 }
 
 @end
