@@ -32,7 +32,7 @@
 #import "OEDBSmartCollection.h"
 #import "OEDBCollectionFolder.h"
 
-#import <ImageKit/ImageKit.h>
+#import <Quartz/Quartz.h> // for ImageKit
 
 #import "OECoverGridDataSourceItem.h"
 #import "OECoverFlowDataSourceItem.h"
