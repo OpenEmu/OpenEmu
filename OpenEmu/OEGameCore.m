@@ -205,10 +205,10 @@ static NSTimeInterval currentTime()
 #if 1
                 if (wasZero && fromZeroDate >= 1) {
                     NSUInteger audioBytesGenerated = ringBuffers[0].bytesWritten;
-                    NSUInteger expectedRate = [self frameSampleRateForBuffer:0];
+                    double expectedRate = [self frameSampleRateForBuffer:0];
                     NSUInteger audioSamplesGenerated = audioBytesGenerated/(2*[self channelCount]);
                     double realRate = audioSamplesGenerated/fromZeroDate;
-                    DLog(@"AUDIO STATS: sample rate %lu, real rate %f", expectedRate, realRate);
+                    DLog(@"AUDIO STATS: sample rate %f, real rate %f", expectedRate, realRate);
                     wasZero = 0;
                 }
 #endif
@@ -331,10 +331,7 @@ static NSTimeInterval currentTime()
 
 - (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index
 {
-    if ([self soundBufferCount] == 1)
-        [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCount] * sizeof(UInt16)];
-    else
-        [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCountForBuffer:index] * sizeof(UInt16)];
+    [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCountForBuffer:index] * sizeof(UInt16)];
 }
 
 - (NSUInteger)channelCount
@@ -343,7 +340,7 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
-- (NSUInteger)frameSampleRate
+- (double)frameSampleRate
 {
     [self doesNotImplementSelector:_cmd];
     return 0;
@@ -358,20 +355,14 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
-- (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer
-{
-    double sampleCount = [self frameSampleRateForBuffer:buffer] / [self frameInterval];
-    NSAssert1(sampleCount == ceil(sampleCount), @"Non-integer frameSampleCount %f", sampleCount);
-    return sampleCount;
-}
-
 - (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer
 {
     // 4 frames is a complete guess
-    return 4*[self frameSampleCountForBuffer:buffer];
+    double frameSampleCount = [self frameSampleRateForBuffer:buffer] / [self frameInterval];
+    return 4*frameSampleCount;
 }
 
-- (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer
+- (double)frameSampleRateForBuffer:(NSUInteger)buffer
 {
     if (buffer == 0)
         return [self frameSampleRate];

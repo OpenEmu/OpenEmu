@@ -231,7 +231,7 @@ static OERingBuffer *dacBuffer;
     return GL_RGB4;
 }
 
-- (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer;
+- (double)frameSampleRateForBuffer:(NSUInteger)buffer;
 {
     return buffer == 0 ? SAMPLERATE : DAC_FREQUENCY;
 }

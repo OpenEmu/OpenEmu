@@ -673,7 +673,7 @@ static int Heights[2] =
     controls->pad[player - 1].buttons &= ~NESControlValues[button];
 }
 
-- (NSUInteger)frameSampleRate
+- (double)frameSampleRate
 {
     return SAMPLERATE;
 }
