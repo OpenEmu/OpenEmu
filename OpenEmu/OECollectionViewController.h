@@ -45,8 +45,6 @@
     IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView *coverFlowView;
     IBOutlet NSTableView *listView;
-    
-    NSTimer *reloadTimer;
 }
 
 #pragma mark -

@@ -56,6 +56,7 @@
 
 #import "OESidebarController.h"
 @interface OECollectionViewController (Private)
+- (void)_managedObjectContextDidSave:(NSNotification *)notification;
 - (void)_reloadData;
 - (void)_selectView:(int)view;
 
@@ -175,8 +176,8 @@
     
     [self _reloadData];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameAddedToLibrary:) name:@"OEDBGameAdded" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameAddedToLibrary:) name:@"OEDBStatusChanged" object:nil];
+    // Watch the main thread's managed object context for changes
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(_managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:nil];
 }
 
 - (NSString*)nibName
@@ -273,17 +274,6 @@
 - (void)willShow
 {
     [listView setEnabled:YES];
-}
-
-- (void)gameAddedToLibrary:(NSNotification*)notification
-{
-    if(![NSThread isMainThread])
-    {
-        [self performSelectorOnMainThread:@selector(gameAddedToLibrary:) withObject:notification waitUntilDone:NO];
-        return;
-    }
-    
-    [self setNeedsReload];
 }
 
 #pragma mark -
@@ -957,19 +947,49 @@
 #pragma mark -
 #pragma mark Private
 #define reloadDelay 0.1
-- (void)setNeedsReload{
-    if(reloadTimer) return;
+- (void)_managedObjectContextDidSave:(NSNotification *)notification
+{
+    NSPredicate *predicateForGame = [NSPredicate predicateWithFormat:@"entity = %@", [NSEntityDescription entityForName:@"Game"
+                                                                                                 inManagedObjectContext:[notification object]]];
+    NSSet *insertedObjects  = [[[notification userInfo] objectForKey:NSInsertedObjectsKey] filteredSetUsingPredicate:predicateForGame];
+    NSSet *deletedObjects   = [[[notification userInfo] objectForKey:NSDeletedObjectsKey] filteredSetUsingPredicate:predicateForGame];
+    NSSet *updatedObjects   = [[[notification userInfo] objectForKey:NSUpdatedObjectsKey] filteredSetUsingPredicate:predicateForGame];
     
-    reloadTimer = [NSTimer scheduledTimerWithTimeInterval:reloadDelay target:self selector:@selector(_reloadData) userInfo:nil repeats:NO];                 
+    if((insertedObjects && [insertedObjects count]) || (deletedObjects && [deletedObjects count]))
+        [self performSelector:@selector(setNeedsReload) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+    else if(updatedObjects && [updatedObjects count])
+    {
+        // Nothing was removed or added, just updated so just update the visible items
+        [self performSelector:@selector(setNeedsReloadVisible) onThread:[NSThread mainThread] withObject:nil waitUntilDone:YES];
+    }
 }
+
+- (void)setNeedsReload
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadData) object:nil];
+    [self performSelector:@selector(_reloadData) withObject:nil afterDelay:reloadDelay];
+}
+
+- (void)setNeedsReloadVisible
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:nil];
+    [self performSelector:@selector(_reloadVisibleData) withObject:nil afterDelay:reloadDelay];
+}
+
+- (void)_reloadVisibleData
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:nil];
+    if(!gamesController) return;
+    [gamesController rearrangeObjects];
+    [gridView reloadCellsAtIndexes:[gridView indexesForVisibleCells]];
+    [listView reloadDataForRowIndexes:[NSIndexSet indexSetWithIndexesInRange:[listView rowsInRect:[listView visibleRect]]]
+                        columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
+    [coverFlowView reloadAllCellsData];
+}
+
 - (void)_reloadData
 {
-    if(reloadTimer)
-    {
-        [reloadTimer invalidate];
-        reloadTimer = nil;       
-    }
-    
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadData) object:nil];
     if(!gamesController) return;
     
     NSPredicate *pred = self.collectionItem?[self.collectionItem predicate]:[NSPredicate predicateWithValue:NO];
