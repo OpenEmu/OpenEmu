@@ -590,33 +590,35 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
          {
              OEGridViewCell *newCell = [_dataSource gridView:self cellForItemAtIndex:idx];
              OEGridViewCell *oldCell = [self cellForItemAtIndex:idx makeIfNecessary:NO];
-             if(oldCell) [newCell setFrame:[oldCell frame]];
-
-             // Prepare the new cell for insertion
-             if (newCell)
+             if(newCell != oldCell)
              {
-                 [newCell _setIndex:idx];
-                 [newCell setSelected:[_selectionIndexes containsIndex:idx] animated:NO];
+                 if(oldCell) [newCell setFrame:[oldCell frame]];
 
-                 // Replace the old cell with the new cell
-                 if(oldCell)
+                 // Prepare the new cell for insertion
+                 if (newCell)
                  {
-                     [oldCell removeFromSuperlayer];
-                     [self OE_enqueueCell:oldCell];
+                     [newCell _setIndex:idx];
+                     [newCell setSelected:[_selectionIndexes containsIndex:idx] animated:NO];
+
+                     // Replace the old cell with the new cell
+                     if(oldCell)
+                     {
+                         [oldCell removeFromSuperlayer];
+                         [self OE_enqueueCell:oldCell];
+                     }
+                     [newCell setOpacity:1.0];
+                     [newCell setHidden:NO];
+
+                     if(!oldCell) [newCell setFrame:[self rectForCellAtIndex:idx]];
+
+                     [_visibleCells addObject:newCell];
+                     [_rootLayer addSublayer:newCell];
                  }
-                 [newCell setOpacity:1.0];
-                 [newCell setHidden:NO];
 
-                 if(!oldCell) [newCell setFrame:[self rectForCellAtIndex:idx]];
-
-                 [_visibleCells addObject:newCell];
-                 [_rootLayer addSublayer:newCell];
+                 [self OE_setNeedsLayoutGridView];
              }
-
-             [self OE_setNeedsLayoutGridView];
          }
      }];
-
     [self OE_reorderSublayers];
 }
 

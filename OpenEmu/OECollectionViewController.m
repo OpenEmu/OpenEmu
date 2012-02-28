@@ -349,9 +349,10 @@
 
 - (OEGridViewCell *)gridView:(OEGridView *)view cellForItemAtIndex:(NSUInteger)index
 {
-    OECoverGridViewCell *item = (OECoverGridViewCell *)[view dequeueReusableCell];
-    if(!item)
-        item = [[OECoverGridViewCell alloc] init];
+    OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
+
+    if(item == nil) item = (OECoverGridViewCell *)[view dequeueReusableCell];
+    if(item == nil) item = [[OECoverGridViewCell alloc] init];
     
     id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
     [item setTitle:[object gridTitle]];
