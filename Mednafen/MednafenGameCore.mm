@@ -246,11 +246,6 @@ NSString *MednafenControlNames[] = {
     return GL_RGB8;
 }
 
-- (NSUInteger)soundBufferSize
-{
-    return 100000;
-}
-
 - (NSUInteger)frameSampleRate
 {
     return 0;//FSettings.SndRate;

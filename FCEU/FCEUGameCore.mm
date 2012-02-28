@@ -35,8 +35,6 @@
 
 //#define SAMPLERATE 32040
 #define SAMPLERATE 48000
-#define SAMPLEFRAME 800
-#define SIZESOUNDBUFFER SAMPLEFRAME*4
 
 @interface FCEUGameCore () <OENESSystemResponderClient>
 @end
@@ -298,10 +296,6 @@ static void writeSaveFile(const char* path, int type)
 
 - (void)setupEmulation
 {
-    if(soundBuffer)
-        free(soundBuffer);
-    soundBuffer = (UInt16*)malloc(SIZESOUNDBUFFER* sizeof(UInt16));
-    memset(soundBuffer, 0, SIZESOUNDBUFFER*sizeof(UInt16));
 }
 
 - (void)resetEmulation
@@ -318,7 +312,6 @@ static void writeSaveFile(const char* path, int type)
     
     if([batterySavesDirectory length] != 0)
     {
-        
         [[NSFileManager defaultManager] createDirectoryAtPath:batterySavesDirectory withIntermediateDirectories:YES attributes:nil error:NULL];
         
         NSLog(@"Trying to save SRAM");
@@ -337,7 +330,6 @@ static void writeSaveFile(const char* path, int type)
 - (void)dealloc
 {
     free(videoBuffer);
-    free(soundBuffer);
 }
 
 - (GLenum)pixelFormat
@@ -353,11 +345,6 @@ static void writeSaveFile(const char* path, int type)
 - (GLenum)internalPixelFormat
 {
     return GL_RGB5;
-}
-
-- (NSUInteger)soundBufferSize
-{
-    return SIZESOUNDBUFFER;
 }
 
 - (NSUInteger)frameSampleRate

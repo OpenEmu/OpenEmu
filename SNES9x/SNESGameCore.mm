@@ -47,7 +47,7 @@
 #include <pthread.h>
 
 #define SAMPLERATE      48000
-#define SIZESOUNDBUFFER SAMPLERATE / 60 * 4
+#define SIZESOUNDBUFFER SAMPLERATE / 50 * 4
 
 @implementation SNESGameCore
 
@@ -246,11 +246,6 @@ bool8 S9xOpenSoundDevice (void)
 - (GLenum)internalPixelFormat
 {
     return GL_RGB5;
-}
-
-- (NSUInteger)soundBufferSize
-{
-    return SIZESOUNDBUFFER;
 }
 
 - (NSUInteger)frameSampleRate

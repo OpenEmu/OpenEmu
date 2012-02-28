@@ -26,8 +26,6 @@
  */
 
 #define SAMPLERATE 48000
-#define SAMPLEFRAME (SAMPLERATE * 4389/262144)
-#define SIZESOUNDBUFFER SAMPLEFRAME*4
 #define NEWSIZESOUNDBUFFER 80000
 
 #import <OERingBuffer.h>
@@ -112,10 +110,13 @@ void usecsleep(const usec_t usecs) {
     static int samples = 0;
     [bufLock lock];
     [soundLock lock];
+    
+    // FIXME OE should be the one resampling
+    
     samples += gambatte.runFor(reinterpret_cast<Gambatte::uint_least32_t*>(static_cast<UInt16*>(&sndBuf[0])) + samples, 35112 - samples);
     samples -= 35112;
-    resampler->resample((short int*)tmpBuf, (short int*)sndBuf, 35112);
-    [[self ringBufferAtIndex:0] write:tmpBuf maxLength:SAMPLEFRAME * sizeof(UInt16) * 2];
+    int size = resampler->resample((short int*)tmpBuf, (short int*)sndBuf, 35112);
+    [[self ringBufferAtIndex:0] write:tmpBuf maxLength:size * sizeof(UInt16) * 2];
     //memmove(sndBuf, sndBuf + 35112 * 2, samples * sizeof(UInt16) * 2);
     [soundLock unlock];
     [bufLock unlock];
@@ -216,11 +217,6 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
 - (NSUInteger)channelCount
 {
     return 2;
-}
-
-- (NSUInteger)soundBufferSize
-{
-    return SIZESOUNDBUFFER;
 }
 
 - (NSUInteger)frameSampleRate

@@ -46,7 +46,6 @@ enum {
 
 #define SAMPLERATE 44100
 #define SAMPLEFRAME 735
-#define SIZESOUNDBUFFER SAMPLEFRAME*16
 
 _u8 system_frameskip_key;
 
@@ -230,11 +229,6 @@ static OERingBuffer *dacBuffer;
 - (GLenum)internalPixelFormat
 {
     return GL_RGB4;
-}
-
-- (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer;
-{
-    return SIZESOUNDBUFFER;
 }
 
 - (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer;

@@ -52,9 +52,7 @@ typedef enum SMSButtons {
 @interface SMSGameCore : OEGameCore
 {
     unsigned char *tempBuffer;
-    NSLock        *soundLock;
     NSLock        *bufLock;
-    UInt16        *sndBuf;
     int            oldrun;
     int            position;
     BOOL           paused;
