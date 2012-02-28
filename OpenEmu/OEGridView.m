@@ -1386,12 +1386,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         [_dragIndicationLayer setHidden:YES];
 }
 
-- (void)draggingEnded:(id <NSDraggingInfo>)sender
-{
-    [_dragIndicationLayer removeFromSuperlayer];
-    _dragIndicationLayer = nil;
-}
-
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender
 {
     [_dragIndicationLayer setHidden:YES];
