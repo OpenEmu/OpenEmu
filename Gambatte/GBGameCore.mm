@@ -219,7 +219,7 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
     return 2;
 }
 
-- (NSUInteger)frameSampleRate
+- (double)frameSampleRate
 {
     return SAMPLERATE;
 }

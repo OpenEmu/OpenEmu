@@ -154,7 +154,7 @@ static OERingBuffer *ringBuffer;
     return GL_RGB8;
 }
 
-- (NSUInteger)frameSampleRate
+- (double)frameSampleRate
 {
     return SAMPLERATE;
 }
