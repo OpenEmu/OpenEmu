@@ -37,8 +37,6 @@
 
 //#define SAMPLERATE 32040
 #define SAMPLERATE 31950
-#define SAMPLEFRAME 800
-#define SIZESOUNDBUFFER SAMPLEFRAME*4
 
 @interface BSNESGameCore () <OESNESSystemResponderClient>
 @end
