@@ -38,7 +38,7 @@ typedef struct
 
 ExtAudioFileRef recordingFile;
 
-static void StretchSamples(uint16_t *outBuf, const uint16_t *inBuf,
+static void StretchSamples(int16_t *outBuf, const int16_t *inBuf,
                            int outFrames, int inFrames, int channels)
 {
     int frame;
@@ -56,9 +56,9 @@ static void StretchSamples(uint16_t *outBuf, const uint16_t *inBuf,
             a = inBuf[(iFrameI+0)*channels+ch];
             b = inBuf[(iFrameI+1)*channels+ch];
             
-            c = a/* + lerp*(b-a)*/;
-            c = MAX(c, 0);
-            c = MIN(c, USHRT_MAX);
+            c = a + lerp*(b-a);
+            c = MAX(c, SHRT_MIN);
+            c = MIN(c, SHRT_MAX);
             
             outBuf[frame*channels+ch] = c;
         }
@@ -82,7 +82,7 @@ OSStatus RenderCallback(void                       *in,
     OEGameAudioContext *context = (OEGameAudioContext*)in;
     int availableBytes = 0;
     void *head = TPCircularBufferTail(context->buffer, &availableBytes);
-    int bytesRequested = inNumberFrames * sizeof(UInt16) * context->channelCount;
+    int bytesRequested = inNumberFrames * sizeof(SInt16) * context->channelCount;
     availableBytes = MIN(availableBytes, bytesRequested);
     int leftover = bytesRequested - availableBytes;
     char *outBuffer = ioData->mBuffers[0].mData;
@@ -91,8 +91,8 @@ OSStatus RenderCallback(void                       *in,
         // time stretch
         // FIXME this works a lot better with a larger buffer
         int framesRequested = inNumberFrames;
-        int framesAvailable = availableBytes / (sizeof(UInt16) * context->channelCount);
-        StretchSamples((uint16_t*)outBuffer, head, framesRequested, framesAvailable, context->channelCount);
+        int framesAvailable = availableBytes / (sizeof(SInt16) * context->channelCount);
+        StretchSamples((int16_t*)outBuffer, head, framesRequested, framesAvailable, context->channelCount);
     } else {
         memcpy(outBuffer, head, availableBytes);
     }
