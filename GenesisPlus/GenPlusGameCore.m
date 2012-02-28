@@ -35,10 +35,6 @@
 #include "shared.h"
 
 #define SAMPLERATE 48000
-#define SAMPLEFRAME 800
-//#define SAMPLERATE 44100
-//#define SAMPLEFRAME 735
-#define SIZESOUNDBUFFER SAMPLEFRAME*4
 
 extern void set_config_defaults(void);
 
@@ -58,13 +54,10 @@ void openemu_input_UpdateEmu(void)
     self = [super init];
     if(self != nil)
     {
-        soundLock = [[NSLock alloc] init];
         bufLock = [[NSLock alloc] init];
         videoBuffer = malloc(720 * 576 * 2);
         
         position = 0;
-        sndBuf = malloc(SIZESOUNDBUFFER * sizeof(UInt16));
-        memset(sndBuf, 0, SIZESOUNDBUFFER * sizeof(UInt16));
     }
     return self;
 }
@@ -72,9 +65,7 @@ void openemu_input_UpdateEmu(void)
 - (void) dealloc
 {
     DLog(@"releasing/deallocating memory");
-    free(sndBuf);
-    free(videoBuffer);
-    
+    free(videoBuffer);    
 }
 
 - (void)executeFrame
@@ -188,16 +179,6 @@ void update_input()
 - (GLenum)internalPixelFormat
 {
     return GL_RGB5;
-}
-
-- (NSUInteger)soundBufferSize
-{
-    return SIZESOUNDBUFFER;
-}
-
-- (NSUInteger)frameSampleCount
-{
-    return SAMPLEFRAME;
 }
 
 - (NSUInteger)frameSampleRate

@@ -35,9 +35,9 @@
 //#define SAMPLERATE 32040
 //#define SAMPLEFRAME 534
 
+//#define SAMPLERATE 32040
 #define SAMPLERATE 31950
-#define SAMPLEFRAME 532
-
+#define SAMPLEFRAME 800
 #define SIZESOUNDBUFFER SAMPLEFRAME*4
 
 @interface BSNESGameCore () <OESNESSystemResponderClient>
@@ -271,10 +271,6 @@ static void writeSaveFile(const char* path, int type)
 
 - (void)setupEmulation
 {
-    if(soundBuffer)
-        free(soundBuffer);
-    soundBuffer = (UInt16*)malloc(SIZESOUNDBUFFER* sizeof(UInt16));
-    memset(soundBuffer, 0, SIZESOUNDBUFFER*sizeof(UInt16));
 }
 
 - (void)resetEmulation
@@ -310,7 +306,6 @@ static void writeSaveFile(const char* path, int type)
 - (void)dealloc
 {
     free(videoBuffer);
-    free(soundBuffer);
 }
 
 - (GLenum)pixelFormat
@@ -326,16 +321,6 @@ static void writeSaveFile(const char* path, int type)
 - (GLenum)internalPixelFormat
 {
     return GL_RGB5;
-}
-
-- (NSUInteger)soundBufferSize
-{
-    return SIZESOUNDBUFFER;
-}
-
-- (NSUInteger)frameSampleCount
-{
-    return SAMPLEFRAME;
 }
 
 - (NSUInteger)frameSampleRate

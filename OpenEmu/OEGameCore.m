@@ -76,7 +76,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         NSUInteger count = [self soundBufferCount];
         ringBuffers = (__strong OERingBuffer**)calloc(count, sizeof(OERingBuffer*));
         for(NSUInteger i = 0; i < count; i++)
-            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:((count == 1) ? [self soundBufferSize] : [self soundBufferSizeForBuffer:i]) * 16];
+            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self soundBufferSizeForBuffer:i] * 16];
         
         //keyMap = OEMapCreate(32);
     }
@@ -124,6 +124,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 static NSTimeInterval currentTime()
 {
     struct timeval t;
+    // FIXME this is the wrong clock, use a monotonic active time clock
     gettimeofday(&t, NULL);
     return t.tv_sec + (t.tv_usec / 1000000.0);
 }
@@ -185,20 +186,32 @@ static NSTimeInterval currentTime()
 - (void)frameRefreshThread:(id)anArgument;
 {
     @autoreleasepool {
-    
-        NSTimeInterval date = currentTime();
+        NSTimeInterval date = currentTime(), fromZeroDate = 0;
         
         frameFinished = YES;
         willSkipFrame = NO;
         frameSkip = 1;
+        int wasZero=1;
         
         NSLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
         
         while(!shouldStop)
         {
             @autoreleasepool {
-            
-                date += 1.0 / [self frameInterval];
+                NSTimeInterval spf = 1.0 / [self frameInterval];
+                date += spf;
+                fromZeroDate += spf;
+
+#if 1
+                if (wasZero && fromZeroDate >= 1) {
+                    NSUInteger audioBytesGenerated = ringBuffers[0].bytesWritten;
+                    NSUInteger expectedRate = [self frameSampleRateForBuffer:0];
+                    NSUInteger audioSamplesGenerated = audioBytesGenerated/(2*[self channelCount]);
+                    double realRate = audioSamplesGenerated/fromZeroDate;
+                    DLog(@"AUDIO STATS: sample rate %lu, real rate %f", expectedRate, realRate);
+                    wasZero = 0;
+                }
+#endif
                 
                 CFRunLoopRunInMode(kCFRunLoopDefaultMode, fmax(0.0, date - currentTime()), NO);
                 
@@ -330,18 +343,6 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
-- (NSUInteger)frameSampleCount
-{
-    [self doesNotImplementSelector:_cmd];
-    return 0;
-}
-
-- (NSUInteger)soundBufferSize
-{
-    [self doesNotImplementSelector:_cmd];
-    return 0;
-}
-
 - (NSUInteger)frameSampleRate
 {
     [self doesNotImplementSelector:_cmd];
@@ -359,24 +360,21 @@ static NSTimeInterval currentTime()
 
 - (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer
 {
-    if (buffer == 0)
-        return [self frameSampleCount];
-    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
-    [self doesNotImplementSelector:_cmd];
-    return 0;
+    double sampleCount = [self frameSampleRateForBuffer:buffer] / [self frameInterval];
+    NSAssert1(sampleCount == ceil(sampleCount), @"Non-integer frameSampleCount %f", sampleCount);
+    return sampleCount;
 }
 
 - (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer
 {
-    if (buffer == 0)
-        return [self soundBufferSize];
-    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
-    [self doesNotImplementSelector:_cmd];
-    return 0;
+    // 4 frames is a complete guess
+    return 4*[self frameSampleCountForBuffer:buffer];
 }
 
 - (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer
 {
+    if (buffer == 0)
+        return [self frameSampleRate];
     NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
     [self doesNotImplementSelector:_cmd];
     return 0;

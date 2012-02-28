@@ -177,8 +177,6 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
 
 // used when soundBufferCount == 1
 @property(readonly) NSUInteger  channelCount;
-@property(readonly) NSUInteger  frameSampleCount;
-@property(readonly) NSUInteger  soundBufferSize;
 @property(readonly) NSUInteger  frameSampleRate;
 
 // used when more than 1 buffer

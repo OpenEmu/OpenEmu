@@ -38,6 +38,7 @@
 @property           NSUInteger length;
 @property(readonly) NSUInteger availableBytes;
 @property(readonly) NSUInteger usedBytes;
+@property(readonly) NSUInteger bytesWritten;
 
 - (NSUInteger)bytesAvailable DEPRECATED_ATTRIBUTE;
 - (NSUInteger)bytesUsed;

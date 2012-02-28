@@ -41,10 +41,7 @@
 #include "smsvdp.h"
 #include "smsz80.h"
 
-
 #define SAMPLERATE 44100
-#define SAMPLEFRAME 735
-#define SIZESOUNDBUFFER SAMPLEFRAME*4
 
 @interface SMSGameCore () <OESMSSystemResponderClient, OEGGSystemResponderClient>
 - (int)crabButtonForButton:(OESMSButton)button player:(NSUInteger)player;
@@ -65,13 +62,10 @@ static OERingBuffer *ringBuffer;
     self = [super init];
     if(self != nil)
     {
-        soundLock = [[NSLock alloc] init];
         bufLock = [[NSLock alloc] init];
         tempBuffer = malloc(256 * 256 * 4);
         
         position = 0;
-        sndBuf = malloc(SIZESOUNDBUFFER * sizeof(UInt16));
-        memset(sndBuf, 0, SIZESOUNDBUFFER * sizeof(UInt16));
         ringBuffer = [self ringBufferAtIndex:0];
     }
     return self;
@@ -80,7 +74,6 @@ static OERingBuffer *ringBuffer;
 - (void)dealloc
 {
     DLog(@"releasing/deallocating CrabEmu memory");
-    free(sndBuf);
     free(tempBuffer);
     
     sms_initialized = 0;
@@ -159,16 +152,6 @@ static OERingBuffer *ringBuffer;
 - (GLenum)internalPixelFormat
 {
     return GL_RGB8;
-}
-
-- (NSUInteger)soundBufferSize
-{
-    return SIZESOUNDBUFFER;
-}
-
-- (NSUInteger)frameSampleCount
-{
-    return SAMPLEFRAME;
 }
 
 - (NSUInteger)frameSampleRate
