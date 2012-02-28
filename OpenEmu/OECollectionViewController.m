@@ -44,6 +44,10 @@
 
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
+
+#import "OEMenu.h"
+#import "OEDBGame.h"
+#import "OEDBRom.h"
 @interface OECollectionViewController (Private)
 - (void)_reloadData;
 - (void)_selectView:(int)view;
@@ -372,7 +376,84 @@
 {
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
+- (OEMenu*)gridView:(OEGridView *)gridView menuForItemAtIndex:(NSInteger)index
+{
+    NSMenu* menu = [[NSMenu alloc] init];
+    [menu addItemWithTitle:@"Play Game" action:NULL keyEquivalent:@""];
+    
+    // Create Save Game Menu
+    NSMenu    *saveGamesMenu = [[NSMenu alloc] init];
+    OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
+    NSSet     *roms = [game valueForKey:@"roms"];
+    
+    [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        NSMenuItem  *item;
+        NSArray     *saveStates = [obj saveStatesByTimestampAscending:NO];
+        for(id saveState in saveStates)
+        {
+            NSString *itemTitle = [saveState valueForKey:@"userDescription"];
+            if(!itemTitle || [itemTitle isEqualToString:@""])
+                itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timestamp"]];
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:OEHUDCanDeleteStateKey])
+            {
+                OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
+                [oeitem setTarget:self];
+                
+                [oeitem setHasAlternate:YES];
+                [oeitem setAlternateTarget:self];
+                [oeitem setAlternateAction:@selector(doDeleteState:)];
+                
+                [oeitem setRepresentedObject:saveState];
+                [saveGamesMenu addItem:oeitem];
+            }
+            else
+            {
+                item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(doLoadState:) keyEquivalent:@""];
+                [item setTarget:self];
+                [item setRepresentedObject:saveState];
+                [saveGamesMenu addItem:item];
+            }
+        }
+    }];
+    NSMenuItem *saveGamesItem = [[NSMenuItem alloc] initWithTitle:@"Play Save Games" action:NULL keyEquivalent:@""];
+    [saveGamesItem setSubmenu:saveGamesMenu];
+    [menu addItem:saveGamesItem];
+    [menu addItem:[NSMenuItem separatorItem]];
+    // Create Rating Item
+    NSMenu   *ratingMenu = [[NSMenu alloc] init];
+    NSString *ratingLabel = @"★★★★★";
+    for (NSInteger i=5; i>=0; i--) {
+        NSMenuItem* ratingItem = [[NSMenuItem alloc] initWithTitle:[ratingLabel substringToIndex:i] action:NULL keyEquivalent:@""];
+        [ratingItem setRepresentedObject:[NSNumber numberWithInt:i]];
+        if([[game valueForKey:@"rating"] isEqualTo:[ratingItem representedObject]])
+        {
+            [ratingItem setState:NSOnState];
+        }
 
+        if(i==0)
+            [ratingItem setTitle:NSLocalizedString(@"None", "")];
+
+        [ratingMenu addItem:ratingItem];
+    }
+    NSMenuItem* ratingItem = [[NSMenuItem alloc] initWithTitle:@"Rating" action:NULL keyEquivalent:@""];
+    [ratingItem setSubmenu:ratingMenu];
+    [menu addItem:ratingItem];    
+    [menu addItemWithTitle:@"Show In Finder" action:NULL keyEquivalent:@""];
+    [menu addItem:[NSMenuItem separatorItem]];
+    [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:NULL keyEquivalent:@""];
+    [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:NULL keyEquivalent:@""];
+    [menu addItem:[NSMenuItem separatorItem]];
+    [menu addItemWithTitle:@"Add Cover Art From File..." action:NULL keyEquivalent:@""];
+    [menu addItemWithTitle:@"Add Save File To Game..." action:NULL keyEquivalent:@""];
+    [menu addItem:[NSMenuItem separatorItem]];
+    [menu addItemWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
+    [menu addItem:[NSMenuItem separatorItem]];
+    [menu addItemWithTitle:@"Rename Game" action:NULL keyEquivalent:@""];
+    [menu addItemWithTitle:@"Delete Game" action:NULL keyEquivalent:@""];
+
+    return [menu convertToOEMenu];
+}
 #pragma mark -
 #pragma mark GridView Interaction
 - (void)gridView:(OEGridView *)view doubleClickedCellForItemAtIndex:(NSUInteger)index
