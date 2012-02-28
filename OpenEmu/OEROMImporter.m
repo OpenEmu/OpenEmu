@@ -258,32 +258,38 @@
 }
 
 - (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError**)outError
-{    
-    @autoreleasepool
-    {
-        // TODO: check if path has readable suffix
-        BOOL hasReadableSuffix = YES;
-        if(!hasReadableSuffix) return YES;
-        
-        OEDBGame *game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES inDatabase:self.database error:outError];
-        if(game)
+{
+    NSError *strongError;
+    @try {
+        @autoreleasepool
         {
-            BOOL lookupGameInfo = [[NSUserDefaults standardUserDefaults] boolForKey:UDAutmaticallyGetInfoKey];
-            if(lookupGameInfo)
+            // TODO: check if path has readable suffix
+            BOOL hasReadableSuffix = YES;
+            if(!hasReadableSuffix) return YES;
+            
+            OEDBGame *game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES inDatabase:self.database error:&strongError];
+            if(game)
             {
-                [game performSyncWithArchiveVG:outError];
-                 // TODO: decide if we are interesed in success of sync operation
+                BOOL lookupGameInfo = [[NSUserDefaults standardUserDefaults] boolForKey:UDAutmaticallyGetInfoKey];
+                if(lookupGameInfo)
+                {
+                    [game performSyncWithArchiveVG:&strongError];
+                    // TODO: decide if we are interesed in success of sync operation
+                }
+                
+                BOOL organizeLibrary = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
+                if(organizeLibrary)
+                {
+                    NSLog(@"organize library");
+                    // TODO: initiate lib organization if requested
+                }
             }
             
-            BOOL organizeLibrary = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
-            if(organizeLibrary)
-            {
-                NSLog(@"organize library");
-                // TODO: initiate lib organization if requested
-            }
+            return game!=nil;
         }
-        
-        return game!=nil;
+    }
+    @finally {
+        if (outError) *outError = strongError;
     }
 }
 
