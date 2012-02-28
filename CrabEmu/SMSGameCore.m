@@ -166,11 +166,6 @@ static OERingBuffer *ringBuffer;
     return SIZESOUNDBUFFER;
 }
 
-- (NSUInteger)frameSampleCount
-{
-    return SAMPLEFRAME;
-}
-
 - (NSUInteger)frameSampleRate
 {
     return SAMPLERATE;

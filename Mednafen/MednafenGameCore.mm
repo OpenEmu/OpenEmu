@@ -251,11 +251,6 @@ NSString *MednafenControlNames[] = {
     return 100000;
 }
 
-- (NSUInteger)frameSampleCount
-{
-    return 735;
-}
-
 - (NSUInteger)frameSampleRate
 {
     return 0;//FSettings.SndRate;

@@ -678,11 +678,6 @@ static int Heights[2] =
     return bufFrameSize * 4;
 }
 
-- (NSUInteger)frameSampleCount
-{
-    return bufFrameSize;
-}
-
 - (NSUInteger)frameSampleRate
 {
     return SAMPLERATE;

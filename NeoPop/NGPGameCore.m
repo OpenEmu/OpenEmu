@@ -237,11 +237,6 @@ static OERingBuffer *dacBuffer;
     return SIZESOUNDBUFFER;
 }
 
-- (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer;
-{
-    return buffer == 0 ? SAMPLEFRAME : DAC_FREQUENCY / 60;
-}
-
 - (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer;
 {
     return buffer == 0 ? SAMPLERATE : DAC_FREQUENCY;

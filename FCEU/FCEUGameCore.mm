@@ -360,11 +360,6 @@ static void writeSaveFile(const char* path, int type)
     return SIZESOUNDBUFFER;
 }
 
-- (NSUInteger)frameSampleCount
-{
-    return SAMPLEFRAME;
-}
-
 - (NSUInteger)frameSampleRate
 {
     return SAMPLERATE;

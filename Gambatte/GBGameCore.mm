@@ -223,10 +223,6 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
     return SIZESOUNDBUFFER;
 }
 
-- (NSUInteger)frameSampleCount
-{
-    return SAMPLEFRAME;
-}
 - (NSUInteger)frameSampleRate
 {
     return SAMPLERATE;

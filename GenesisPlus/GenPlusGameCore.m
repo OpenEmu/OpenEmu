@@ -195,11 +195,6 @@ void update_input()
     return SIZESOUNDBUFFER;
 }
 
-- (NSUInteger)frameSampleCount
-{
-    return SAMPLEFRAME;
-}
-
 - (NSUInteger)frameSampleRate
 {
     return SAMPLERATE;

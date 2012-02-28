@@ -253,11 +253,6 @@ bool8 S9xOpenSoundDevice (void)
     return SIZESOUNDBUFFER;
 }
 
-- (NSUInteger)frameSampleCount
-{
-    return SAMPLERATE/[self frameInterval];
-}
-
 - (NSUInteger)frameSampleRate
 {
     return SAMPLERATE;

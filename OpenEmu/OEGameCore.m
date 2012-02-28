@@ -330,12 +330,6 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
-- (NSUInteger)frameSampleCount
-{
-    [self doesNotImplementSelector:_cmd];
-    return 0;
-}
-
 - (NSUInteger)soundBufferSize
 {
     [self doesNotImplementSelector:_cmd];
@@ -359,11 +353,9 @@ static NSTimeInterval currentTime()
 
 - (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer
 {
-    if (buffer == 0)
-        return [self frameSampleCount];
-    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
-    [self doesNotImplementSelector:_cmd];
-    return 0;
+    double sampleCount = [self frameSampleRateForBuffer:buffer] / [self frameInterval];
+    NSAssert1(sampleCount == ceil(sampleCount), @"Non-integer frameSampleCount %f", sampleCount);
+    return sampleCount;
 }
 
 - (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer
@@ -377,6 +369,8 @@ static NSTimeInterval currentTime()
 
 - (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer
 {
+    if (buffer == 0)
+        return [self frameSampleRate];
     NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
     [self doesNotImplementSelector:_cmd];
     return 0;
