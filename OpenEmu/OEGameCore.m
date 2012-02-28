@@ -124,6 +124,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 static NSTimeInterval currentTime()
 {
     struct timeval t;
+    // FIXME this is the wrong clock, use a monotonic active time clock
     gettimeofday(&t, NULL);
     return t.tv_sec + (t.tv_usec / 1000000.0);
 }
@@ -185,20 +186,32 @@ static NSTimeInterval currentTime()
 - (void)frameRefreshThread:(id)anArgument;
 {
     @autoreleasepool {
-    
-        NSTimeInterval date = currentTime();
+        NSTimeInterval date = currentTime(), fromZeroDate = 0;
         
         frameFinished = YES;
         willSkipFrame = NO;
         frameSkip = 1;
+        int wasZero=1;
         
         NSLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
         
         while(!shouldStop)
         {
             @autoreleasepool {
-            
-                date += 1.0 / [self frameInterval];
+                NSTimeInterval spf = 1.0 / [self frameInterval];
+                date += spf;
+                fromZeroDate += spf;
+
+#if 1
+                if (wasZero && fromZeroDate >= 1) {
+                    NSUInteger audioBytesGenerated = ringBuffers[0].bytesWritten;
+                    NSUInteger expectedRate = [self frameSampleRateForBuffer:0];
+                    NSUInteger audioSamplesGenerated = audioBytesGenerated/(2*[self channelCount]);
+                    double realRate = audioSamplesGenerated/fromZeroDate;
+                    DLog(@"AUDIO STATS: sample rate %lu, real rate %f", expectedRate, realRate);
+                    wasZero = 0;
+                }
+#endif
                 
                 CFRunLoopRunInMode(kCFRunLoopDefaultMode, fmax(0.0, date - currentTime()), NO);
                 

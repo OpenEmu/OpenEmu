@@ -29,6 +29,7 @@
 #import "TPCircularBuffer.h"
 
 @implementation OERingBuffer
+@synthesize bytesWritten;
 
 - (id)init
 {
@@ -62,6 +63,7 @@
 
 - (NSUInteger)write:(const void *)inBuffer maxLength:(NSUInteger)length
 {
+    bytesWritten += length;
     return TPCircularBufferProduceBytes(&buffer, inBuffer, length);
 }
 

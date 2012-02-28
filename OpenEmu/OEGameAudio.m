@@ -64,6 +64,9 @@ OSStatus RenderCallback(void                       *in,
     TPCircularBufferConsume(context->buffer, availableBytes);
     if (leftover)
     {
+#if 0
+        DLog(@"Underrun: %d bytes", leftover); // FIXME if samplerate is too _low_, we get OVERrun
+#endif
         outBuffer += availableBytes;
         memset(outBuffer, 0, leftover);
     }
