@@ -45,6 +45,7 @@
 @interface OELibraryDatabase (Private)
 - (BOOL)loadPersistantStoreWithError:(NSError**)outError;
 - (BOOL)loadManagedObjectContextWithError:(NSError**)outError;
+- (void)managedObjectContextDidSave:(NSNotification *)notification;
 
 - (NSManagedObjectModel*)managedObjectModel;
 
@@ -229,6 +230,9 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillExit:) name:NSThreadWillExitNotification object:thread];
         
+        // Watch all the thread's managed object contexts for changes...if a change occurs we should merge it with the main thread's version
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:context];
+
         [context setPersistentStoreCoordinator:coordinator];
         [managedObjectContexts setValue:context forKey:[thread name]];
         
@@ -240,14 +244,24 @@ static OELibraryDatabase *defaultDatabase = nil;
     
 }
 
+- (void)managedObjectContextDidSave:(NSNotification *)notification
+{
+    // This error checking is a bit redundant, but we want to make sure that we only merge in other thread's managed object contexts
+    if([notification object] != __managedObjectContext)
+    {
+        [__managedObjectContext performSelectorOnMainThread:@selector(mergeChangesFromContextDidSaveNotification:) withObject:notification waitUntilDone:YES];
+    }
+}
+
 - (void)threadWillExit:(NSNotification*)notification
 {   
     NSThread *thread = [notification object];
     NSString *threadName = [thread name];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
-    
-    
     NSManagedObjectContext *ctx = [managedObjectContexts valueForKey:threadName];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:ctx];
+    
     if([ctx hasChanges])
         [ctx save:nil];
     [managedObjectContexts removeObjectForKey:threadName];
