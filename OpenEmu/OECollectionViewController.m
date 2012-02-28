@@ -48,6 +48,7 @@
 #import "OEMenu.h"
 #import "OEDBGame.h"
 #import "OEDBRom.h"
+#import "OEDBCollection.h"
 @interface OECollectionViewController (Private)
 - (void)_reloadData;
 - (void)_selectView:(int)view;
@@ -420,6 +421,7 @@
     [saveGamesItem setSubmenu:saveGamesMenu];
     [menu addItem:saveGamesItem];
     [menu addItem:[NSMenuItem separatorItem]];
+    
     // Create Rating Item
     NSMenu   *ratingMenu = [[NSMenu alloc] init];
     NSString *ratingLabel = @"★★★★★";
@@ -447,7 +449,22 @@
     [menu addItemWithTitle:@"Add Cover Art From File..." action:NULL keyEquivalent:@""];
     [menu addItemWithTitle:@"Add Save File To Game..." action:NULL keyEquivalent:@""];
     [menu addItem:[NSMenuItem separatorItem]];
-    [menu addItemWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
+    // Create Add to collection menu
+    NSMenu* collectionMenu = [[NSMenu alloc] init];
+    NSArray* collections = [[[self libraryController] database] collections];
+    for(id collection in collections)
+    {
+        if([collection isMemberOfClass:[OEDBCollection class]])
+        {
+            NSMenuItem* collectionMenuItem = [[NSMenuItem alloc] initWithTitle:[collection valueForKey:@"name"] action:NULL keyEquivalent:@""];
+            // TODO: might want to use managedObjectID instead
+            [collectionMenuItem setRepresentedObject:collection];
+            [collectionMenu addItem:collectionMenuItem];
+        }
+    }
+    NSMenuItem* collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
+    [collectionMenuItem setSubmenu:collectionMenu];
+    [menu addItem:collectionMenuItem];
     [menu addItem:[NSMenuItem separatorItem]];
     [menu addItemWithTitle:@"Rename Game" action:NULL keyEquivalent:@""];
     [menu addItemWithTitle:@"Delete Game" action:NULL keyEquivalent:@""];
