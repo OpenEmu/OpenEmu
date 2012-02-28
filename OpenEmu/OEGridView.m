@@ -27,7 +27,7 @@
 #import "OEGridView.h"
 #import "OEGridViewCell+OEGridView.h"
 #import "NSColor+OEAdditions.h"
-
+#import "OEMenu.h"
 const NSTimeInterval OEInitialPeriodicDelay = 0.4;      // Initial delay of a periodic events
 const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval of periodic events
 
@@ -1200,6 +1200,27 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     [[self window] makeFirstResponder:self];
 }
 
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent
+{
+    NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+    NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+    
+    NSUInteger index = [self indexForCellAtPoint:mouseLocationInView];   
+    if(index != NSNotFound && _dataSourceHas.menuForItemAtIndex)
+    {
+        OEMenu *contextMenu = [[self dataSource] gridView:self menuForItemAtIndex:index];
+        NSRect itemRect = [self rectForCellAtIndex:index];
+        NSRect itemRectOnWindow = [self convertRect:itemRect toView:nil];
+        
+        [self setSelectionIndexes:[NSIndexSet indexSetWithIndex:index]];
+        [contextMenu setStyle:OEMenuStyleLight];
+        [contextMenu openOnEdge:OEMaxXEdge ofRect:itemRectOnWindow ofWindow:[self window]];
+
+        return nil;
+    }
+    
+    return [self menu];
+}
 #pragma mark -
 #pragma mark Keyboard Handling Operations
 
@@ -1493,7 +1514,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         _dataSourceHas.willBeginEditingCellForItemAtIndex = [_dataSource respondsToSelector:@selector(gridView:willBeginEditingCellForItemAtIndex:)];
         _dataSourceHas.didEndEditingCellForItemAtIndex    = [_dataSource respondsToSelector:@selector(gridView:didEndEditingCellForItemAtIndex:)];
         _dataSourceHas.pasteboardWriterForIndex           = [_dataSource respondsToSelector:@selector(gridView:pasteboardWriterForIndex:)];
-
+        _dataSourceHas.menuForItemAtIndex                 = [_dataSource respondsToSelector:@selector(gridView:menuForItemAtIndex:)];
         [self OE_setNeedsReloadData];
     }
 }

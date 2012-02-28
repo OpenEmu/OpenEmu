@@ -30,7 +30,7 @@
 #import "OEGridViewFieldEditor.h"
 
 @class OEGridView;
-
+@class OEMenu;
 @protocol OEGridViewDelegate <NSObject>
 
 @optional
@@ -54,7 +54,7 @@
 - (void)gridView:(OEGridView *)gridView willBeginEditingCellForItemAtIndex:(NSUInteger)index;
 - (void)gridView:(OEGridView *)gridView didEndEditingCellForItemAtIndex:(NSUInteger)index;
 - (id<NSPasteboardWriting>)gridView:(OEGridView *)gridView pasteboardWriterForIndex:(NSInteger)index;
-
+- (OEMenu*)gridView:(OEGridView *)gridView menuForItemAtIndex:(NSInteger)index;
 @end
 
 #pragma mark -
@@ -116,6 +116,7 @@
         unsigned int willBeginEditingCellForItemAtIndex : 1;
         unsigned int didEndEditingCellForItemAtIndex : 1;
         unsigned int pasteboardWriterForIndex : 1;
+        unsigned int menuForItemAtIndex : 1;
     } _dataSourceHas;                               // Cached methods that the dataSource implements
 }
 

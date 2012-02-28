@@ -28,7 +28,6 @@
 #import "NSImage+OEDrawingAdditions.h"
 #import "OEPopupButton.h"
 
-#pragma mark -
 #pragma mark Item Spaces
 #define ItemTickMarkSpace 19.0
 #define ItemImageSpace 22.0
