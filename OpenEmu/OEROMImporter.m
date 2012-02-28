@@ -162,11 +162,16 @@
                 {
                     DLog(@"ERROR");  
 
-                    NSAlert *alert = [NSAlert alertWithMessageText:@"An error occured" defaultButton:@"Continue" alternateButton:@"Stop" otherButton:@"Stop (keep changes)" informativeTextWithFormat:@"%@", [error localizedDescription]];
-                    [alert setShowsSuppressionButton:YES];
-                    
-                    // TODO: run alert on main thread
-                    NSUInteger result = [alert runModal];
+                    __block NSUInteger result;
+                    __block BOOL isSuppression = NO;
+                    dispatch_sync(dispatch_get_main_queue(), ^{
+                        NSAlert *alert = [NSAlert alertWithMessageText:@"An error occured" defaultButton:@"Continue" alternateButton:@"Stop" otherButton:@"Stop (keep changes)" informativeTextWithFormat:@"%@", [error localizedDescription]];
+                        [alert setShowsSuppressionButton:YES];
+                        
+                        result = [alert runModal];
+                        
+                        isSuppression = ([[alert suppressionButton] state] == NSOnState);
+                    });
                     
                     switch (result) {
                         case NSAlertDefaultReturn:
@@ -183,7 +188,7 @@
                     }
                     
                     // TODO: decide if suppression is forever
-                    if([[alert suppressionButton] state] == NSOnState)
+                    if(isSuppression)
                         errorBehaviour = behavior;
                 }
                 
