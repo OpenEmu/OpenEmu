@@ -119,8 +119,8 @@ void update_input()
         input.system[0] = SYSTEM_MD_GAMEPAD;
         input.system[1] = SYSTEM_MD_GAMEPAD;
         
-        float framerate = vdp_pal ? 50.0 : 60.0;
-		audio_init(SAMPLERATE, framerate);
+        frameInterval = vdp_pal ? 53203424./896040. : 53693175./896040.; // from sound_init()
+		audio_init(SAMPLERATE, frameInterval);
         system_init();
         system_reset();
         
@@ -133,7 +133,7 @@ void update_input()
 
 - (NSTimeInterval)frameInterval
 {
-	return vdp_pal ? 50 : 60;
+	return frameInterval ? frameInterval : 60;
 }
 
 - (void)resetEmulation
