@@ -85,18 +85,11 @@ OSStatus RenderCallback(void                       *in,
     int bytesRequested = inNumberFrames * sizeof(SInt16) * context->channelCount;
     availableBytes = MIN(availableBytes, bytesRequested);
     int leftover = bytesRequested - availableBytes;
+    if (leftover)
+        return -1;
+    
     char *outBuffer = ioData->mBuffers[0].mData;
-
-//    if (leftover > 0) {
-//        // time stretch
-//        // FIXME this works a lot better with a larger buffer
-//        int framesRequested = inNumberFrames;
-//        int framesAvailable = availableBytes / (sizeof(SInt16) * context->channelCount);
-//        StretchSamples((int16_t*)outBuffer, head, framesRequested, framesAvailable, context->channelCount);
-//    } else {
-        memcpy(outBuffer, head, availableBytes);
-    //    }
-    ioData->mBuffers[0].mDataByteSize = availableBytes;
+    memcpy(outBuffer, head, availableBytes);
     
     
     TPCircularBufferConsume(context->buffer, availableBytes);
