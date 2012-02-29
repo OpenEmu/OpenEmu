@@ -57,7 +57,6 @@ static uint16_t conv555Rto565(uint16_t p)
     return r | (g << 5) | (b << 11);
 }
 
-//BSNES callbacks
 static void audio_callback(uint16_t left, uint16_t right)
 {
 	[[current ringBufferAtIndex:0] write:&left maxLength:2];
@@ -66,13 +65,11 @@ static void audio_callback(uint16_t left, uint16_t right)
 
 static void video_callback(const uint16_t *data, unsigned width, unsigned height)
 {
-    memcpy(current->videoBuffer, data, width * height * 2);
-    /*
     // Normally our pitch is 2048 bytes.
-    int stride = 1024;
+    int stride = 240;
     // If we have an interlaced mode, pitch is 1024 bytes.
-    if ( height == 448 || height == 478 )
-        stride = 512;
+    if ( height == 240 || height == 478 )
+        stride = 240;
     
     current->videoWidth  = width;
     current->videoHeight = height;
@@ -82,12 +79,12 @@ static void video_callback(const uint16_t *data, unsigned width, unsigned height
     // TODO opencl CPU device?
     dispatch_apply(height, the_queue, ^(size_t y){
         const uint16_t *src = data + y * stride;
-        uint16_t *dst = current->videoBuffer + y * 512;
+        uint16_t *dst = current->videoBuffer + y * 240;
         
         for (int x = 0; x < width; x++) {
             dst[x] = conv555Rto565(src[x]);
         }
-    });*/
+    });
 }
 
 static void input_poll_callback(void)
@@ -261,7 +258,8 @@ static void writeSaveFile(const char* path, int type)
 
 - (OEIntRect)screenRect
 {
-    return OERectMake(0, 0, 240, 160);
+    return OERectMake(0, 0, videoWidth, videoHeight);
+    //return OERectMake(0, 0, 240, 160);
 }
 
 - (OEIntSize)bufferSize
