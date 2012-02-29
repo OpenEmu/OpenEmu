@@ -43,6 +43,7 @@ extern NSString *FCEUEmulatorNames[];
     int videoWidth, videoHeight;
     int16_t pad[2][8];
     NSString *romName;
+    double sampleRate;
 }
 
 @end
