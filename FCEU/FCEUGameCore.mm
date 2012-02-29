@@ -347,7 +347,7 @@ static void writeSaveFile(const char* path, int type)
     return GL_RGB5;
 }
 
-- (double)frameSampleRate
+- (double)audioSampleRate
 {
     return SAMPLERATE;
 }

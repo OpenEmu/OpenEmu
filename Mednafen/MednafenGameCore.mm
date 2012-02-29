@@ -246,7 +246,7 @@ NSString *MednafenControlNames[] = {
     return GL_RGB8;
 }
 
-- (double)frameSampleRate
+- (double)audioSampleRate
 {
     return 0;//FSettings.SndRate;
 }

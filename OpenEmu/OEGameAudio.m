@@ -204,7 +204,7 @@ OSStatus RenderCallback(void                       *in,
     desc.componentSubType = kAudioUnitSubType_AUConverter;
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
     
-    NSUInteger bufferCount = [gameCore soundBufferCount];
+    NSUInteger bufferCount = [gameCore audioBufferCount];
     if (_contexts)
         free(_contexts);
     _contexts = malloc(sizeof(OEGameAudioContext) * bufferCount);
@@ -231,7 +231,7 @@ OSStatus RenderCallback(void                       *in,
         
         AudioStreamBasicDescription mDataFormat;
         NSUInteger channelCount = _contexts[i].channelCount;
-        mDataFormat.mSampleRate       = [gameCore frameSampleRateForBuffer:i];
+        mDataFormat.mSampleRate       = [gameCore audioSampleRateForBuffer:i];
         mDataFormat.mFormatID         = kAudioFormatLinearPCM;
         mDataFormat.mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
         mDataFormat.mBytesPerPacket   = 2 * channelCount;

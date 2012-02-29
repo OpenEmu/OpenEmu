@@ -154,7 +154,7 @@ static OERingBuffer *ringBuffer;
     return GL_RGB8;
 }
 
-- (double)frameSampleRate
+- (double)audioSampleRate
 {
     return SAMPLERATE;
 }
