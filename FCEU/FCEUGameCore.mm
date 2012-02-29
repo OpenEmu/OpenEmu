@@ -33,8 +33,7 @@
 #include "libsnes.h"
 //#include "../src-fceumm/sound.h"
 
-//#define SAMPLERATE 32040
-#define SAMPLERATE 48000
+//#define SAMPLERATE 48000
 
 @interface FCEUGameCore () <OENESSystemResponderClient>
 @end
@@ -112,15 +111,19 @@ static bool environment_callback(unsigned cmd, void *data)
 {
     switch (cmd)
     {
+        case SNES_ENVIRONMENT_SET_TIMING:
+        {
+            snes_system_timing *t = (snes_system_timing*)data;
+            current->frameInterval = t->fps;
+            current->sampleRate    = t->sample_rate;
+            return true;
+        }
         case SNES_ENVIRONMENT_GET_FULLPATH:
+        {
             *(const char**)data = [current->romName cStringUsingEncoding:NSUTF8StringEncoding];
             NSLog(@"Environ FULLPATH: \"%@\"\n", current->romName);
             break;
-            
-        case SNES_ENVIRONMENT_SET_TIMING:
-
-            break;
-            
+        }   
         default:
             NSLog(@"Environ UNSUPPORTED (#%u)!\n", cmd);
             return false;
@@ -349,12 +352,12 @@ static void writeSaveFile(const char* path, int type)
 
 - (double)audioSampleRate
 {
-    return SAMPLERATE;
+    return sampleRate ? sampleRate : 48000;
 }
 
 - (NSTimeInterval)frameInterval
 {
-    return (snes_get_region() == SNES_REGION_NTSC) ? 60 : 50;
+    return frameInterval ? frameInterval : 60.099;
 }
 
 - (NSUInteger)channelCount
