@@ -85,11 +85,17 @@ OSStatus RenderCallback(void                       *in,
     int bytesRequested = inNumberFrames * sizeof(SInt16) * context->channelCount;
     availableBytes = MIN(availableBytes, bytesRequested);
     int leftover = bytesRequested - availableBytes;
-    if (leftover)
-        return -1;
-    
     char *outBuffer = ioData->mBuffers[0].mData;
-    memcpy(outBuffer, head, availableBytes);
+
+    if (leftover > 0) {
+        // time stretch
+        // FIXME this works a lot better with a larger buffer
+        int framesRequested = inNumberFrames;
+        int framesAvailable = availableBytes / (sizeof(SInt16) * context->channelCount);
+        StretchSamples((int16_t*)outBuffer, head, framesRequested, framesAvailable, context->channelCount);
+    } else {
+        memcpy(outBuffer, head, availableBytes);
+    }
     
     
     TPCircularBufferConsume(context->buffer, availableBytes);
@@ -198,7 +204,7 @@ OSStatus RenderCallback(void                       *in,
     desc.componentSubType = kAudioUnitSubType_AUConverter;
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
     
-    NSUInteger bufferCount = [gameCore soundBufferCount];
+    NSUInteger bufferCount = [gameCore audioBufferCount];
     if (_contexts)
         free(_contexts);
     _contexts = malloc(sizeof(OEGameAudioContext) * bufferCount);
@@ -225,7 +231,7 @@ OSStatus RenderCallback(void                       *in,
         
         AudioStreamBasicDescription mDataFormat;
         NSUInteger channelCount = _contexts[i].channelCount;
-        mDataFormat.mSampleRate       = [gameCore frameSampleRateForBuffer:i];
+        mDataFormat.mSampleRate       = [gameCore audioSampleRateForBuffer:i];
         mDataFormat.mFormatID         = kAudioFormatLinearPCM;
         mDataFormat.mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
         mDataFormat.mBytesPerPacket   = 2 * channelCount;

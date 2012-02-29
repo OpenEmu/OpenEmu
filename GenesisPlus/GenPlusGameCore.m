@@ -181,7 +181,7 @@ void update_input()
     return GL_RGB5;
 }
 
-- (double)frameSampleRate
+- (double)audioSampleRate
 {
     return SAMPLERATE;
 }

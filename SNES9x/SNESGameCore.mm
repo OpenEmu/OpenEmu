@@ -248,7 +248,7 @@ bool8 S9xOpenSoundDevice (void)
     return GL_RGB5;
 }
 
-- (double)frameSampleRate
+- (double)audioSampleRate
 {
     return SAMPLERATE;
 }

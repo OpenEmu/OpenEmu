@@ -110,9 +110,7 @@ void usecsleep(const usec_t usecs) {
     static int samples = 0;
     [bufLock lock];
     [soundLock lock];
-    
-    // FIXME OE should be the one resampling
-    
+        
     samples += gambatte.runFor(reinterpret_cast<Gambatte::uint_least32_t*>(static_cast<UInt16*>(&sndBuf[0])) + samples, 35112 - samples);
     samples -= 35112;
     int size = resampler->resample((short int*)tmpBuf, (short int*)sndBuf, 35112);
@@ -219,9 +217,14 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
     return 2;
 }
 
-- (double)frameSampleRate
+- (double)audioSampleRate
 {
     return SAMPLERATE;
+}
+
+- (NSTimeInterval)frameInterval
+{
+    return 2097152./35112.;
 }
 
 - (void) dealloc
