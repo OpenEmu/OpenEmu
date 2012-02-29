@@ -352,7 +352,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (NSTimeInterval)frameInterval
 {
-    return frameInterval ? frameInterval : 60;
+    return frameInterval ? frameInterval : 59.727;
 }
 
 - (NSUInteger)channelCount
