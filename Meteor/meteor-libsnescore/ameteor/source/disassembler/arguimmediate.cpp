@@ -1,0 +1,39 @@
+// Meteor - A Nintendo Gameboy Advance emulator
+// Copyright (C) 2009-2011 Philippe Daouadi
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+#include "ameteor/disassembler/arguimmediate.hpp"
+
+#include <sstream>
+#include <iomanip>
+
+namespace AMeteor
+{
+	namespace Disassembler
+	{
+		std::string ArgUImmediate::GetString () const
+		{
+			std::ostringstream ss;
+			ss << '#';
+			ss << std::hex << std::setw(8) << std::setfill('0') << m_imm << 'h';
+			return ss.str();
+		}
+
+		Argument* ArgUImmediate::Clone () const
+		{
+			return new ArgUImmediate(*this);
+		}
+	}
+}
