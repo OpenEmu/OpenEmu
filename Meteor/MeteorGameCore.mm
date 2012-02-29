@@ -32,7 +32,7 @@
 
 #include "libsnes.hpp"
 
-#define SAMPLERATE 44100
+//#define SAMPLERATE 44100
 
 @interface MeteorGameCore () <OEGBASystemResponderClient>
 @end
@@ -105,6 +105,26 @@ static int16_t input_state_callback(bool port, unsigned device, unsigned index, 
     
     return 0;
 }
+
+static bool environment_callback(unsigned cmd, void *data)
+{
+    switch (cmd)
+    {
+        case SNES_ENVIRONMENT_SET_TIMING:
+        {
+            snes_system_timing *t = (snes_system_timing*)data;
+            current->frameInterval = t->fps;
+            current->sampleRate    = t->sample_rate;
+            return true;
+        }
+        default:
+            NSLog(@"Environ UNSUPPORTED (#%u)!\n", cmd);
+            return false;
+    }
+    
+    return true;
+}
+
 
 static void loadSaveFile(const char* path, int type)
 {
@@ -215,7 +235,7 @@ static void writeSaveFile(const char* path, int type)
     //if((size & 0x7fff) == 512) memmove(data, data + 512, size -= 512);
     
     //memory.copy(data, size);
-    
+    snes_set_environment(environment_callback);
 	snes_init();
 	
     snes_set_audio_sample(audio_callback);
@@ -332,12 +352,12 @@ static void writeSaveFile(const char* path, int type)
 
 - (double)audioSampleRate
 {
-    return SAMPLERATE;
+    return sampleRate ? sampleRate : 44100;
 }
 
 - (NSTimeInterval)frameInterval
 {
-    return (snes_get_region() == SNES_REGION_NTSC) ? 60 : 50;
+    return frameInterval ? frameInterval : 59.727;
 }
 
 - (NSUInteger)channelCount
