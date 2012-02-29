@@ -43,6 +43,7 @@ extern NSString *GBAEmulatorNames[];
     int videoWidth, videoHeight;
     int16_t pad[1][10];
     NSString *romName;
+    double sampleRate;
 }
 
 @end
