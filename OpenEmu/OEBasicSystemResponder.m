@@ -31,6 +31,7 @@
 #import "OESystemController.h"
 
 @implementation OEBasicSystemResponder
+@synthesize neverUpKey;
 
 - (id)initWithController:(OESystemController *)controller;
 {
@@ -146,22 +147,41 @@
 {
     OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keycode], &key))
+    {
         [self pressEmulatorKey:key];
+    }
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)anEvent
 {
     OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keycode], &key))
+    {
         [self releaseEmulatorKey:key];
+    }
 }
 
 - (void)keyDown:(NSEvent *)theEvent
 {
+    OEEmulatorKey key;
+    if(OEMapGetValue(keyMap, KEYBOARD_MASK | [OEHIDEvent keyCodeForVK:theEvent.keyCode], &key))
+    {
+        if ((neverUpKey != key.key))
+        {
+            [self pressEmulatorKey:key];
+        }
+        neverUpKey = key.key;
+    }
 }
 
 - (void)keyUp:(NSEvent *)theEvent
 {
+    OEEmulatorKey key;
+    if(OEMapGetValue(keyMap, KEYBOARD_MASK | [OEHIDEvent keyCodeForVK:theEvent.keyCode], &key))
+    {
+        [self releaseEmulatorKey:key];
+        neverUpKey = -1;
+    }
 }
 
 - (void)axisMoved:(OEHIDEvent *)anEvent
