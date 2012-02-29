@@ -43,6 +43,7 @@ extern NSString *BSNESEmulatorNames[];
     int videoWidth, videoHeight;
     int16_t pad[2][12];
     NSString *romName;
+    double sampleRate;
 }
 
 @end

@@ -43,7 +43,7 @@
 @implementation OEGameCore
 
 @synthesize renderDelegate;
-@synthesize frameInterval, owner, frameFinished;
+@synthesize owner, frameFinished;
 @synthesize mousePosition;
 
 static Class GameCoreClass = Nil;
@@ -71,11 +71,10 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     self = [super init];
     if(self != nil)
     {
-        frameInterval = [[self class] defaultTimeInterval];
         tenFrameCounter = 10;
         NSUInteger count = [self audioBufferCount];
         ringBuffers = (__strong OERingBuffer**)calloc(count, sizeof(OERingBuffer*));
-        for(NSUInteger i = 0; i < count; i++)
+        for(NSUInteger i = 0; i < count; i++) // FIXME lazy init these
             ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self audioBufferSizeForBuffer:i] * 16];
         
         //keyMap = OEMapCreate(32);
@@ -323,6 +322,11 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
+- (NSTimeInterval)frameInterval
+{
+    return defaultTimeInterval;
+}
+
 #pragma mark Audio
 - (NSUInteger)audioBufferCount
 {
@@ -359,6 +363,7 @@ static NSTimeInterval currentTime()
 {
     // 4 frames is a complete guess
     double frameSampleCount = [self audioSampleRateForBuffer:buffer] / [self frameInterval];
+    NSAssert(frameSampleCount, @"frameSampleCount is 0");
     return 4*frameSampleCount;
 }
 

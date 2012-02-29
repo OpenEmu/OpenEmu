@@ -32,9 +32,6 @@
 
 #include "libsnes.hpp"
 
-//#define SAMPLERATE 32040
-#define SAMPLERATE 31950
-
 @interface BSNESGameCore () <OESNESSystemResponderClient>
 @end
 
@@ -87,6 +84,21 @@ static void video_callback(const uint16_t *data, unsigned width, unsigned height
             dst[x] = conv555Rto565(src[x]);
         }
     });
+}
+
+static bool environment_callback(unsigned env, void *data)
+{
+    switch (env) {
+        case SNES_ENVIRONMENT_SET_TIMING:
+        {
+            snes_system_timing *t = (snes_system_timing*)data;
+            current->frameInterval = t->fps;
+            current->sampleRate    = t->sample_rate;
+            return true;
+        }
+        default:
+            return false; // TODO implement the other stuff?
+    }
 }
 
 static void input_poll_callback(void)
@@ -218,7 +230,8 @@ static void writeSaveFile(const char* path, int type)
     snes_set_video_refresh(video_callback);
     snes_set_input_poll(input_poll_callback);
     snes_set_input_state(input_state_callback);
-	
+	snes_set_environment(environment_callback);
+    
     if(snes_load_cartridge_normal(NULL, data, size))
     {
         NSString *path = romName;
@@ -320,12 +333,12 @@ static void writeSaveFile(const char* path, int type)
 
 - (double)audioSampleRate
 {
-    return SAMPLERATE;
+    return sampleRate ? sampleRate : 32040.5;
 }
 
 - (NSTimeInterval)frameInterval
 {
-    return (snes_get_region() == SNES_REGION_NTSC) ? 60 : 50;
+    return frameInterval ? frameInterval : 60;
 }
 
 - (NSUInteger)channelCount

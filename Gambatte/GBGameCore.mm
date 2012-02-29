@@ -224,7 +224,7 @@ NSString *GBButtonNameTable[] = { @"GB_PAD_UP", @"GB_PAD_DOWN", @"GB_PAD_LEFT", 
 
 - (NSTimeInterval)frameInterval
 {
-    return 2097152./35112.;
+    return 2097152./35112.; // 59.7
 }
 
 - (void) dealloc

@@ -76,7 +76,7 @@ asm (
       "jmpq *%rax # Jump back to old saved PC.\n"
 );
 #else
-asm (
+__asm (
       ".text\n"
       ".globl co_swap\n"
       ".globl _co_swap\n"
