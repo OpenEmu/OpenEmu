@@ -35,6 +35,8 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		3D59DFFE14FE1A3A000B3245 /* libco.c in Sources */ = {isa = PBXBuildFile; fileRef = 3D59DFF414FE1A3A000B3245 /* libco.c */; };
+		3D59DFFF14FE1A3A000B3245 /* libco.h in Headers */ = {isa = PBXBuildFile; fileRef = 3D59DFF514FE1A3A000B3245 /* libco.h */; };
 		822837B1101A20B10031D125 /* libco.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 82BFB26E1015430A00AC34CF /* libco.a */; };
 		8230C69910AFBC3A00412F24 /* dsa_pub.pem in Resources */ = {isa = PBXBuildFile; fileRef = 8230C69810AFBC3A00412F24 /* dsa_pub.pem */; };
 		8230C6AE10AFBCE500412F24 /* config.yaml in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8230C6AA10AFBCC700412F24 /* config.yaml */; };
@@ -88,8 +90,6 @@
 		941153EF14F9E32900621C3E /* video_gb.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 941153C714F9E32900621C3E /* video_gb.cpp */; };
 		941153F014F9ED5C00621C3E /* core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9411517714F9DA8B00621C3E /* core.cpp */; };
 		941153F114F9ED5C00621C3E /* smp_core.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 941151DE14F9DA8B00621C3E /* smp_core.cpp */; };
-		9483027314CCA6B1003DAED8 /* libco.c in Sources */ = {isa = PBXBuildFile; fileRef = 9490639714CAB244006C5630 /* libco.c */; };
-		949063A214CAB244006C5630 /* libco.h in Headers */ = {isa = PBXBuildFile; fileRef = 9490639814CAB244006C5630 /* libco.h */; };
 		94D9257314CA9879008F697D /* BSNESGameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = 826FE0F41014D8930023A8E9 /* BSNESGameCore.mm */; };
 /* End PBXBuildFile section */
 
@@ -241,6 +241,9 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCF630370AF2F00C91783 /* BSNES_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSNES_Prefix.pch; sourceTree = "<group>"; };
+		3D59DFDE14FE197F000B3245 /* libsnes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = libsnes.hpp; sourceTree = "<group>"; };
+		3D59DFF414FE1A3A000B3245 /* libco.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = libco.c; sourceTree = "<group>"; };
+		3D59DFF514FE1A3A000B3245 /* libco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libco.h; sourceTree = "<group>"; };
 		8230C69810AFBC3A00412F24 /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		8230C6AA10AFBCC700412F24 /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		826FDD6710142B230023A8E9 /* bsnes.desktop */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bsnes.desktop; sourceTree = "<group>"; };
@@ -706,17 +709,6 @@
 		941153C414F9E32900621C3E /* system_gb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = system_gb.cpp; sourceTree = "<group>"; };
 		941153C614F9E32900621C3E /* video.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = video.hpp; sourceTree = "<group>"; };
 		941153C714F9E32900621C3E /* video_gb.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = video_gb.cpp; sourceTree = "<group>"; };
-		9490639414CAB244006C5630 /* amd64.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amd64.c; sourceTree = "<group>"; };
-		9490639514CAB244006C5630 /* amd64_msvc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = amd64_msvc.c; sourceTree = "<group>"; };
-		9490639614CAB244006C5630 /* fiber.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = fiber.c; sourceTree = "<group>"; };
-		9490639714CAB244006C5630 /* libco.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = libco.c; sourceTree = "<group>"; };
-		9490639814CAB244006C5630 /* libco.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libco.h; sourceTree = "<group>"; };
-		9490639914CAB244006C5630 /* ppc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ppc.c; sourceTree = "<group>"; };
-		9490639A14CAB244006C5630 /* sjlj.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = sjlj.c; sourceTree = "<group>"; };
-		9490639B14CAB244006C5630 /* ucontext.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ucontext.c; sourceTree = "<group>"; };
-		9490639C14CAB244006C5630 /* x86.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = x86.c; sourceTree = "<group>"; };
-		9490639D14CAB244006C5630 /* x86_msvc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = x86_msvc.c; sourceTree = "<group>"; };
-		949063A814CAB269006C5630 /* libsnes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = libsnes.hpp; path = libsnescore/libsnes.hpp; sourceTree = "<group>"; };
 		94C0360914D67FC2001249FA /* libsnes-performance.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libsnes-performance.a"; path = "libsnescore/libs/libsnes-performance.a"; sourceTree = "<group>"; };
 		C6480FFB1364B2E10094FA33 /* OESNESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OESNESSystemResponderClient.h; path = ../OpenEmu/SuperNES/OESNESSystemResponderClient.h; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
@@ -782,9 +774,7 @@
 				C6480FFB1364B2E10094FA33 /* OESNESSystemResponderClient.h */,
 				826FE0F31014D8930023A8E9 /* BSNESGameCore.h */,
 				826FE0F41014D8930023A8E9 /* BSNESGameCore.mm */,
-				949063A814CAB269006C5630 /* libsnes.hpp */,
 				94114FA914F9DA8A00621C3E /* libsnes */,
-				9490639314CAB244006C5630 /* libco */,
 				826FDD6610142B230023A8E9 /* data */,
 			);
 			name = Classes;
@@ -828,6 +818,16 @@
 			name = "Other Sources";
 			sourceTree = "<group>";
 		};
+		3D59DFF014FE1A3A000B3245 /* libco */ = {
+			isa = PBXGroup;
+			children = (
+				3D59DFF414FE1A3A000B3245 /* libco.c */,
+				3D59DFF514FE1A3A000B3245 /* libco.h */,
+			);
+			name = libco;
+			path = libsnes/libco;
+			sourceTree = SOURCE_ROOT;
+		};
 		826FDD6610142B230023A8E9 /* data */ = {
 			isa = PBXGroup;
 			children = (
@@ -867,6 +867,7 @@
 		94114FA914F9DA8A00621C3E /* libsnes */ = {
 			isa = PBXGroup;
 			children = (
+				3D59DFF014FE1A3A000B3245 /* libco */,
 				9411536714F9E32800621C3E /* gameboy */,
 				9411531114F9E2E000621C3E /* nall */,
 				9411507A14F9DA8A00621C3E /* snes */,
@@ -1703,6 +1704,7 @@
 		941151AA14F9DA8B00621C3E /* libsnes */ = {
 			isa = PBXGroup;
 			children = (
+				3D59DFDE14FE197F000B3245 /* libsnes.hpp */,
 				941151AB14F9DA8B00621C3E /* libsnes.cpp */,
 			);
 			path = libsnes;
@@ -2334,24 +2336,6 @@
 			path = video;
 			sourceTree = "<group>";
 		};
-		9490639314CAB244006C5630 /* libco */ = {
-			isa = PBXGroup;
-			children = (
-				9490639414CAB244006C5630 /* amd64.c */,
-				9490639514CAB244006C5630 /* amd64_msvc.c */,
-				9490639614CAB244006C5630 /* fiber.c */,
-				9490639714CAB244006C5630 /* libco.c */,
-				9490639814CAB244006C5630 /* libco.h */,
-				9490639914CAB244006C5630 /* ppc.c */,
-				9490639A14CAB244006C5630 /* sjlj.c */,
-				9490639B14CAB244006C5630 /* ucontext.c */,
-				9490639C14CAB244006C5630 /* x86.c */,
-				9490639D14CAB244006C5630 /* x86_msvc.c */,
-			);
-			name = libco;
-			path = libsnescore/libco;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -2359,7 +2343,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				949063A214CAB244006C5630 /* libco.h in Headers */,
+				3D59DFFF14FE1A3A000B3245 /* libco.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2593,7 +2577,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9483027314CCA6B1003DAED8 /* libco.c in Sources */,
+				3D59DFFE14FE1A3A000B3245 /* libco.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
