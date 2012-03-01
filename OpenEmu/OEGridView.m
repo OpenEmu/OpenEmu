@@ -1223,7 +1223,9 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
             [self setSelectionIndexes:[NSIndexSet indexSetWithIndex:index]];
         
         OEMenu *contextMenu = [[self dataSource] gridView:self menuForItemsAtIndexes:indexes];
-        [contextMenu setStyle:OEMenuStyleLight];
+        
+        if([[NSUserDefaults standardUserDefaults] boolForKey:UDLightStyleGridViewMenu])
+            [contextMenu setStyle:OEMenuStyleLight];
         
         OERectEdge edge = OEMaxXEdge;
         if( NSHeight(visibleItemRect) < 25.0 )
