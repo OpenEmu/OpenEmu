@@ -72,4 +72,6 @@
 
 @property(nonatomic, strong) IBOutlet NSView *emptyCollectionView;
 @property(nonatomic, strong) IBOutlet NSView *emptyConsoleView;
+
+@property(nonatomic, strong) IBOutlet NSTextField *statusbarLabel;
 @end

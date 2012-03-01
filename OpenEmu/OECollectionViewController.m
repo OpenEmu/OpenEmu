@@ -50,6 +50,7 @@
 @end
 
 @implementation OECollectionViewController
+@synthesize statusbarLabel;
 @synthesize libraryController;
 @synthesize emptyCollectionView, emptyConsoleView;
 + (void)initialize
@@ -103,6 +104,14 @@
     
     // Setup View
     [[self view] setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
+    
+    // Setup Statusbar
+    [self.statusbarLabel bind:@"displayPatternValue1"
+                     toObject:gamesController withKeyPath:@"arrangedObjects.@count"
+                      options:[NSDictionary dictionaryWithObjectsAndKeys:
+                               @"%{value1}@ games", NSDisplayPatternBindingOption,
+                               nil]];
+    [self.statusbarLabel setTextColor:[NSColor colorWithDeviceRed:0.882 green:0.878 blue:0.878 alpha:1.0]];
     
     // Set up GridView
     [gridView setItemSize:NSMakeSize(168, 193)];

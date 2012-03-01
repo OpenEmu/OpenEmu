@@ -54,6 +54,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		0AEB5B1814FF537E00AAAEE3 /* OEStatusbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0AEB5B1714FF537E00AAAEE3 /* OEStatusbarView.m */; };
 		141554101442B3B300A01683 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		141554161442B3B300A01683 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 141554141442B3B300A01683 /* InfoPlist.strings */; };
 		1415541E1442B61700A01683 /* OEN64SystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1415541D1442B61700A01683 /* OEN64SystemController.m */; };
@@ -781,6 +782,8 @@
 
 /* Begin PBXFileReference section */
 		089C1660FE840EACC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0AEB5B1614FF537E00AAAEE3 /* OEStatusbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; path = OEStatusbarView.h; sourceTree = "<group>"; };
+		0AEB5B1714FF537E00AAAEE3 /* OEStatusbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEStatusbarView.m; sourceTree = "<group>"; };
 		1415540F1442B3B300A01683 /* N64.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = N64.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		141554131442B3B300A01683 /* N64-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "N64-Info.plist"; sourceTree = "<group>"; };
 		141554151442B3B300A01683 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -2605,6 +2608,8 @@
 				53439AA713B92CD4005C0CC8 /* Collection View */,
 				53439B0413B92EDC005C0CC8 /* Utilities */,
 				53439B0B13B92F69005C0CC8 /* Sidebar */,
+				0AEB5B1614FF537E00AAAEE3 /* OEStatusbarView.h */,
+				0AEB5B1714FF537E00AAAEE3 /* OEStatusbarView.m */,
 			);
 			name = "MainWindow: Library";
 			sourceTree = "<group>";
@@ -3972,6 +3977,7 @@
 				EFBD5D8C14EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.m in Sources */,
 				EFBD5D8F14F1398400FBD1E0 /* OECoverGridViewCellIndicationLayer.m in Sources */,
 				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
+				0AEB5B1814FF537E00AAAEE3 /* OEStatusbarView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
