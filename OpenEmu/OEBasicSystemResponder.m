@@ -30,14 +30,22 @@
 #import "OEHIDEvent.h"
 #import "OESystemController.h"
 
+@interface OEBasicSystemResponder ()
+
+@property (strong) NSMutableArray * neverUpKeys;
+
+@end
+
+
 @implementation OEBasicSystemResponder
-@synthesize neverUpKey;
+@synthesize neverUpKeys;
 
 - (id)initWithController:(OESystemController *)controller;
 {
     if((self = [super initWithController:controller]))
     {
         keyMap = OEMapCreate([[controller genericControlNames] count]);
+        neverUpKeys = [NSMutableArray new];
     }
     
     return self;
@@ -147,30 +155,28 @@
 {
     OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keycode], &key))
-    {
         [self pressEmulatorKey:key];
-    }
 }
 
 - (void)HIDKeyUp:(OEHIDEvent *)anEvent
 {
     OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [anEvent keycode], &key))
-    {
         [self releaseEmulatorKey:key];
-    }
 }
+
+// TODO: KeyDown and HIDKeyUp are both executed if using keyboard-- Suggesting that Keyboard be removed as a IOHID devcie.
 
 - (void)keyDown:(NSEvent *)theEvent
 {
     OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [OEHIDEvent keyCodeForVK:theEvent.keyCode], &key))
     {
-        if ((neverUpKey != key.key))
+        if (![neverUpKeys containsObject:[NSNumber numberWithUnsignedLong:key.key]])
         {
+            [neverUpKeys addObject:[NSNumber numberWithUnsignedLong:key.key]];
             [self pressEmulatorKey:key];
         }
-        neverUpKey = key.key;
     }
 }
 
@@ -179,8 +185,8 @@
     OEEmulatorKey key;
     if(OEMapGetValue(keyMap, KEYBOARD_MASK | [OEHIDEvent keyCodeForVK:theEvent.keyCode], &key))
     {
+        [neverUpKeys removeObject:[NSNumber numberWithUnsignedLong:key.key]];
         [self releaseEmulatorKey:key];
-        neverUpKey = -1;
     }
 }
 

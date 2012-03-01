@@ -31,11 +31,9 @@
 
 @interface OEBasicSystemResponder : OESystemResponder
 {
-    @private
+@private
     OEMapRef keyMap;
 }
-
-@property (assign) NSInteger neverUpKey;
 
 - (OEEmulatorKey)emulatorKeyForKey:(NSString *)aKey index:(NSUInteger)index player:(NSUInteger)thePlayer;
 - (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
