@@ -1205,16 +1205,31 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
     
-    NSUInteger index = [self indexForCellAtPoint:mouseLocationInView];   
-    if(index != NSNotFound && _dataSourceHas.menuForItemAtIndex)
+    NSUInteger index = [self indexForCellAtPoint:mouseLocationInView];
+    if(index != NSNotFound && _dataSourceHas.menuForItemsAtIndexes)
     {
-        OEMenu *contextMenu = [[self dataSource] gridView:self menuForItemAtIndex:index];
-        NSRect itemRect = [self rectForCellAtIndex:index];
-        NSRect itemRectOnWindow = [self convertRect:itemRect toView:nil];
+        BOOL itemIsSelected = [[self selectionIndexes] containsIndex:index];
+        OEGridViewCell *itemCell = [self cellForItemAtIndex:index makeIfNecessary:YES];
         
-        [self setSelectionIndexes:[NSIndexSet indexSetWithIndex:index]];
+        NSIndexSet* indexes = itemIsSelected ? [self selectionIndexes] : [NSIndexSet indexSetWithIndex:index];
+        NSRect hitRect = [itemCell hitRect];
+        
+        NSRect hitRectOnWindow = [itemCell convertRect:hitRect toLayer:nil];
+        NSRect visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
+        
+        NSRect visibleItemRect = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
+        
+        if(!itemIsSelected)
+            [self setSelectionIndexes:[NSIndexSet indexSetWithIndex:index]];
+        
+        OEMenu *contextMenu = [[self dataSource] gridView:self menuForItemsAtIndexes:indexes];
         [contextMenu setStyle:OEMenuStyleLight];
-        [contextMenu openOnEdge:OEMaxXEdge ofRect:itemRectOnWindow ofWindow:[self window]];
+        
+        OERectEdge edge = OEMaxXEdge;
+        if( NSHeight(visibleItemRect) < 25.0 )
+            edge = NSMinY(visibleItemRect) == NSMinY(visibleRectOnWindow) ? OEMaxYEdge : OEMinYEdge;
+        
+        [contextMenu openOnEdge:edge ofRect:visibleItemRect ofWindow:[self window]];
 
         return nil;
     }
@@ -1514,7 +1529,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         _dataSourceHas.willBeginEditingCellForItemAtIndex = [_dataSource respondsToSelector:@selector(gridView:willBeginEditingCellForItemAtIndex:)];
         _dataSourceHas.didEndEditingCellForItemAtIndex    = [_dataSource respondsToSelector:@selector(gridView:didEndEditingCellForItemAtIndex:)];
         _dataSourceHas.pasteboardWriterForIndex           = [_dataSource respondsToSelector:@selector(gridView:pasteboardWriterForIndex:)];
-        _dataSourceHas.menuForItemAtIndex                 = [_dataSource respondsToSelector:@selector(gridView:menuForItemAtIndex:)];
+        _dataSourceHas.menuForItemsAtIndexes                 = [_dataSource respondsToSelector:@selector(gridView:menuForItemsAtIndexes:)];
         [self OE_setNeedsReloadData];
     }
 }

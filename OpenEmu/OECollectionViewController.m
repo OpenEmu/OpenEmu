@@ -52,6 +52,10 @@
 @interface OECollectionViewController (Private)
 - (void)_reloadData;
 - (void)_selectView:(int)view;
+
+- (NSMenu*)OE_saveStateMenuForGame:(OEDBGame*)game;
+- (NSMenu*)OE_ratingMenuForGames:(NSArray*)games;
+- (NSMenu*)OE_collectionsMenu;
 @end
 
 @implementation OECollectionViewController
@@ -377,14 +381,85 @@
 {
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
-- (OEMenu*)gridView:(OEGridView *)gridView menuForItemAtIndex:(NSInteger)index
+
+- (OEMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
     NSMenu* menu = [[NSMenu alloc] init];
-    [menu addItemWithTitle:@"Play Game" action:NULL keyEquivalent:@""];
+    NSMenuItem *menuItem;
+    NSArray *games = [self selectedGames];
     
-    // Create Save Game Menu
+    if([indexes count] == 1)
+    {
+        NSInteger index = [indexes lastIndex];
+        [menu addItemWithTitle:@"Play Game" action:@selector(startGame:) keyEquivalent:@""];
+        OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
+        
+        // Create Save Game Menu
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Play Save Games" action:NULL keyEquivalent:@""];
+        [menuItem setSubmenu:[self OE_saveStateMenuForGame:game]];
+        [menu addItem:menuItem];
+        
+        [menu addItem:[NSMenuItem separatorItem]];
+        
+        // Create Rating Item
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Rating" action:NULL keyEquivalent:@""];
+        [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
+        [menu addItem:menuItem];    
+        [menu addItemWithTitle:@"Show In Finder" action:NULL keyEquivalent:@""];
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:NULL keyEquivalent:@""];
+        [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:NULL keyEquivalent:@""];
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItemWithTitle:@"Add Cover Art From File..." action:NULL keyEquivalent:@""];
+        [menu addItemWithTitle:@"Add Save File To Game..." action:NULL keyEquivalent:@""];
+        [menu addItem:[NSMenuItem separatorItem]];
+        // Create Add to collection menu
+        NSMenuItem* collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
+        [collectionMenuItem setSubmenu:[self OE_collectionsMenu]];
+        [menu addItem:collectionMenuItem];
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItemWithTitle:@"Rename Game" action:NULL keyEquivalent:@""];
+        [menu addItemWithTitle:@"Delete Game" action:NULL keyEquivalent:@""];        
+    }
+    else
+    {
+        if([[NSUserDefaults standardUserDefaults] boolForKey:UDAllowPopoutKey])
+        {
+            [menu addItemWithTitle:@"Play Games (Caution)" action:@selector(startGame:) keyEquivalent:@""];
+        }
+        
+        // Create Rating Item
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Rating" action:NULL keyEquivalent:@""];
+        [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
+        [menu addItem:menuItem];    
+        [menu addItemWithTitle:@"Show In Finder" action:NULL keyEquivalent:@""];
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:NULL keyEquivalent:@""];
+        [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:NULL keyEquivalent:@""];
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItemWithTitle:@"Add Cover Art From File..." action:NULL keyEquivalent:@""];
+        [menu addItemWithTitle:@"Add Save File To Game..." action:NULL keyEquivalent:@""];
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItemWithTitle:@"Delete Games" action:NULL keyEquivalent:@""];        
+    }
+    
+    /*
+    // Create Add to collection menu
+    NSMenuItem* collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
+    [collectionMenuItem setSubmenu:[self OE_collectionsMenu]];
+    [menu addItem:collectionMenuItem];
+    [menu addItem:[NSMenuItem separatorItem]];
+    [menu addItemWithTitle:@"Rename Game" action:NULL keyEquivalent:@""];
+    [menu addItemWithTitle:@"Delete Game" action:NULL keyEquivalent:@""];
+    */
+
+    [menu setAutoenablesItems:YES];
+    return [menu convertToOEMenu];
+}
+
+- (NSMenu*)OE_saveStateMenuForGame:(OEDBGame*)game
+{
     NSMenu    *saveGamesMenu = [[NSMenu alloc] init];
-    OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
     NSSet     *roms = [game valueForKey:@"roms"];
     
     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
@@ -417,39 +492,58 @@
             }
         }
     }];
-    NSMenuItem *saveGamesItem = [[NSMenuItem alloc] initWithTitle:@"Play Save Games" action:NULL keyEquivalent:@""];
-    [saveGamesItem setSubmenu:saveGamesMenu];
-    [menu addItem:saveGamesItem];
-    [menu addItem:[NSMenuItem separatorItem]];
     
-    // Create Rating Item
+    if([[saveGamesMenu itemArray] count] == 0)
+    {
+        [saveGamesMenu addItemWithTitle:@"No Save States available" action:NULL keyEquivalent:@""];
+        [[[saveGamesMenu itemArray] lastObject] setEnabled:NO];
+    }
+    
+    return saveGamesMenu;
+}
+
+- (NSMenu*)OE_ratingMenuForGames:(NSArray*)games
+{
     NSMenu   *ratingMenu = [[NSMenu alloc] init];
     NSString *ratingLabel = @"★★★★★";
-    for (NSInteger i=5; i>=0; i--) {
-        NSMenuItem* ratingItem = [[NSMenuItem alloc] initWithTitle:[ratingLabel substringToIndex:i] action:NULL keyEquivalent:@""];
-        [ratingItem setRepresentedObject:[NSNumber numberWithInt:i]];
-        if([[game valueForKey:@"rating"] isEqualTo:[ratingItem representedObject]])
-        {
-            [ratingItem setState:NSOnState];
-        }
 
+    for (NSInteger i=0; i<=5; i++) {
+        NSMenuItem* ratingItem = [[NSMenuItem alloc] initWithTitle:[ratingLabel substringToIndex:i] action:@selector(setRatingForSelectedGames:) keyEquivalent:@""];
+        [ratingItem setRepresentedObject:[NSNumber numberWithInt:i]];
+        [ratingItem setTarget:self];
         if(i==0)
             [ratingItem setTitle:NSLocalizedString(@"None", "")];
-
         [ratingMenu addItem:ratingItem];
     }
-    NSMenuItem* ratingItem = [[NSMenuItem alloc] initWithTitle:@"Rating" action:NULL keyEquivalent:@""];
-    [ratingItem setSubmenu:ratingMenu];
-    [menu addItem:ratingItem];    
-    [menu addItemWithTitle:@"Show In Finder" action:NULL keyEquivalent:@""];
-    [menu addItem:[NSMenuItem separatorItem]];
-    [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:NULL keyEquivalent:@""];
-    [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:NULL keyEquivalent:@""];
-    [menu addItem:[NSMenuItem separatorItem]];
-    [menu addItemWithTitle:@"Add Cover Art From File..." action:NULL keyEquivalent:@""];
-    [menu addItemWithTitle:@"Add Save File To Game..." action:NULL keyEquivalent:@""];
-    [menu addItem:[NSMenuItem separatorItem]];
-    // Create Add to collection menu
+
+    BOOL valuesDiffer = NO;
+    for(NSInteger i=0; i<[games count]; i++)
+    {
+        NSNumber   *gameRating = [[games objectAtIndex:i] valueForKey:@"rating"];
+        NSInteger   itemIndex = [gameRating integerValue];
+        NSMenuItem *item = [ratingMenu itemAtIndex:itemIndex];
+
+        if(i==0)
+            [item setState:NSOnState];
+        else if([item state] != NSOnState)
+        {
+            valuesDiffer = YES;
+            [item setState:NSMixedState];
+        }
+    }
+    
+    if(valuesDiffer)
+    {
+        NSNumber   *gameRating = [[games objectAtIndex:0] valueForKey:@"rating"];
+        NSMenuItem *item = [ratingMenu itemAtIndex:5-[gameRating integerValue]];
+        [item setState:NSMixedState];
+    }
+
+    return ratingMenu;
+}
+
+- (NSMenu*)OE_collectionsMenu
+{
     NSMenu* collectionMenu = [[NSMenu alloc] init];
     NSArray* collections = [[[self libraryController] database] collections];
     for(id collection in collections)
@@ -457,19 +551,20 @@
         if([collection isMemberOfClass:[OEDBCollection class]])
         {
             NSMenuItem* collectionMenuItem = [[NSMenuItem alloc] initWithTitle:[collection valueForKey:@"name"] action:NULL keyEquivalent:@""];
+            
             // TODO: might want to use managedObjectID instead
             [collectionMenuItem setRepresentedObject:collection];
             [collectionMenu addItem:collectionMenuItem];
         }
     }
-    NSMenuItem* collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
-    [collectionMenuItem setSubmenu:collectionMenu];
-    [menu addItem:collectionMenuItem];
-    [menu addItem:[NSMenuItem separatorItem]];
-    [menu addItemWithTitle:@"Rename Game" action:NULL keyEquivalent:@""];
-    [menu addItemWithTitle:@"Delete Game" action:NULL keyEquivalent:@""];
 
-    return [menu convertToOEMenu];
+    if([[collectionMenu itemArray] count] == 0)
+    {
+        [collectionMenu addItemWithTitle:@"No Collections available" action:NULL keyEquivalent:@""];
+        [[[collectionMenu itemArray] lastObject] setEnabled:NO];
+    }
+
+    return collectionMenu;
 }
 #pragma mark -
 #pragma mark GridView Interaction
@@ -491,6 +586,17 @@
     [object setGridRating:[item rating]];
     [object setGridTitle:[item title]];
     [object setGridImage:[item image]];
+}
+
+#pragma mark -
+#pragma mark Context Menu Actions
+- (void)setRatingForSelectedGames:(id)sender
+{
+    NSArray* selectedGames = [self selectedGames];
+    for(OEDBGame* game in selectedGames)
+    {
+        [game setValue:[sender representedObject] forKey:@"rating"];
+    }
 }
 
 #pragma mark -
