@@ -218,7 +218,7 @@ static NSTimeInterval currentTime()
                 
                 if (isRunning)
                 {
-                    NSLog(@"%d", willSkipFrame);
+                    //NSLog(@"%d", willSkipFrame);
                     [renderDelegate willExecute];
                     
                     [self executeFrameSkippingFrame:willSkipFrame];
