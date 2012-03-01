@@ -189,7 +189,7 @@ static NSTimeInterval currentTime()
         
         frameFinished = YES;
         willSkipFrame = NO;
-        frameSkip = 1;
+        frameSkip = 0;
         int wasZero=1;
         
         NSLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
@@ -218,6 +218,7 @@ static NSTimeInterval currentTime()
                 
                 if (isRunning)
                 {
+                    NSLog(@"%d", willSkipFrame);
                     [renderDelegate willExecute];
                     
                     [self executeFrameSkippingFrame:willSkipFrame];
