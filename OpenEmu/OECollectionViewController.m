@@ -535,7 +535,7 @@
     if(valuesDiffer)
     {
         NSNumber   *gameRating = [[games objectAtIndex:0] valueForKey:@"rating"];
-        NSMenuItem *item = [ratingMenu itemAtIndex:5-[gameRating integerValue]];
+        NSMenuItem *item = [ratingMenu itemAtIndex:[gameRating integerValue]];
         [item setState:NSMixedState];
     }
 
