@@ -115,7 +115,7 @@
 
 - (BOOL)_isClosing;
 - (OEMenuView *)menuView;
-- (void)_performcloseMenu;
+- (void)_performCloseMenu;
 - (void)_closeByClickingItem:(NSMenuItem *)selectedItem;
 - (void)setIsAlternate:(BOOL)flag;
 - (CAAnimation*)alphaValueAnimation;
@@ -149,6 +149,10 @@
     NSImage *tickMark = [NSImage imageNamed:@"tick_mark"];
     [tickMark setName:@"tick_mark_normal" forSubimageInRect:(NSRect){{0,0},{7,12}}];
     [tickMark setName:@"tick_mark_selected" forSubimageInRect:(NSRect){{7,0},{7,12}}];
+    
+    NSImage *mixedState = [NSImage imageNamed:@"mixed_state"];
+    [mixedState setName:@"mixed_state_normal" forSubimageInRect:(NSRect){{0,0},{7,12}}];
+    [mixedState setName:@"mixed_state_selected" forSubimageInRect:(NSRect){{7,0},{7,12}}];
 }
 
 - (id)init
@@ -173,9 +177,9 @@
         
         CAAnimation *anim = [self alphaValueAnimation];
         [anim setDuration:0.075];
+        [anim setDelegate:self];
         [self setAlphaValueAnimation:anim];
     }
-    
     return self;
 }
 
@@ -183,17 +187,11 @@
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    self.highlightedItem = nil;
-    
-    self.submenu = nil;
-    
-    
     if(_localMonitor != nil)
     {
         [NSEvent removeMonitor:_localMonitor];
         _localMonitor = nil;
     }
-    
 }
 
 #pragma mark -
@@ -208,11 +206,9 @@
     if(_localMonitor != nil)
     {
         [NSEvent removeMonitor:_localMonitor];
-        
         _localMonitor = nil;
-        
     }
-    
+
     _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask handler:
                      ^ NSEvent  *(NSEvent *incomingEvent)
                      {
@@ -243,8 +239,6 @@
                          
                          return nil;
                      }];
-    
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges:) name:NSApplicationWillResignActiveNotification object:NSApp];
     
     [self setFrameOrigin:p];
@@ -310,16 +304,13 @@
 - (void)closeMenuWithoutChanges:(id)sender
 {
     closing = YES;
-    // make sure the menu does not vanish while being closed
+
+    if([self submenu]) [self.submenu closeMenuWithoutChanges:sender];
     
-    if([self submenu] != nil) [self.submenu closeMenuWithoutChanges:sender];
+    [self _performCloseMenu];
     
-    [self _performcloseMenu];
-    
-    if([[self delegate] respondsToSelector:@selector(menuDidCancel:)])
-        [[self delegate] menuDidCancel:self];
-    
-    // now we are ready to be deallocated if needed
+    if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidCancel:)]) [self.delegate performSelector:@selector(menuDidCancel:) withObject:self];
+
 }
 
 - (void)closeMenu
@@ -346,7 +337,6 @@
 
 - (void)setMenu:(NSMenu *)nmenu
 {
-    
     menu = nmenu;
 }
 
@@ -368,7 +358,6 @@
 
 #pragma mark -
 #pragma mark Animation Stuff
-
 - (CAAnimation*)alphaValueAnimation
 {
     return [[self animator] animationForKey:@"alphaValue"];
@@ -411,12 +400,14 @@
         [self display];
     }
     
+    if(!self.popupButton)
+        [self close];
+    
     [theAnimation setDelegate:nil];
 }
 
 #pragma mark -
 #pragma mark Setter / getter
-
 - (NSMenuItem *)highlightedItem { return highlightedItem; }
 - (void)setHighlightedItem:(NSMenuItem *)value
 {
@@ -462,6 +453,7 @@
 {
     style = aStyle;
 }
+
 - (OEMenuStyle)style
 {
     if([self supermenu])
@@ -556,10 +548,8 @@
     NSSize frameSize = [self menuSizeForContentSize:contentSize];
     [self setFrame:(NSRect){[self frame].origin, frameSize} display:NO];
 }
-
 #pragma mark -
 #pragma mark NSMenu wrapping
-
 - (NSArray *)itemArray
 {
     return [[self menu] itemArray];
@@ -577,7 +567,7 @@
     return [[[self contentView] subviews] lastObject];
 }
 
-- (void)_performcloseMenu
+- (void)_performCloseMenu
 {
     CAAnimation *anim = [self alphaValueAnimation];
     anim.delegate = self;
@@ -614,9 +604,7 @@
     NSMenuItem *selectedItem = [timer userInfo];
     [timer invalidate];
     if(![self _isClosing]) return;
-    
-    [self _performcloseMenu];
-    
+        
     BOOL doAlternateAction = selectedItem && [selectedItem isEnabled] && [selectedItem isKindOfClass:[OEMenuItem class]] && [(OEMenuItem*)selectedItem hasAlternate] && self.alternate;
     if(doAlternateAction){
         ((OEMenuItem*)selectedItem).isAlternate = YES;
@@ -630,17 +618,25 @@
     }
     
     // if an item is selected and has a targen + action we call it    
-    if(doAlternateAction && [(OEMenuItem*)selectedItem alternateTarget] && [(OEMenuItem*)selectedItem alternateAction]!=NULL && [[(OEMenuItem*)selectedItem alternateTarget] respondsToSelector:[(OEMenuItem*)selectedItem alternateAction]])
+    id target;
+    SEL action;
+    if(doAlternateAction && [selectedItem respondsToSelector:@selector(alternateAction)] && [(OEMenuItem*)selectedItem alternateAction]!=NULL)
     {
-        [[(OEMenuItem*)selectedItem alternateTarget] performSelectorOnMainThread:[(OEMenuItem*)selectedItem alternateAction] withObject:selectedItem waitUntilDone:NO];
+        target = [(OEMenuItem*)selectedItem alternateTarget];
+        action = [(OEMenuItem*)selectedItem alternateAction];
     }
-    else if(selectedItem && [selectedItem isEnabled] && [selectedItem target] && [selectedItem action]!=NULL && [[selectedItem target] respondsToSelector:[selectedItem action]])
+    else if([selectedItem isEnabled])
     {
-        [[selectedItem target] performSelectorOnMainThread:[selectedItem action] withObject:selectedItem waitUntilDone:NO];
+        target = [(OEMenuItem*)selectedItem target];
+        action = [(OEMenuItem*)selectedItem action];
     }
     
+    [NSApp sendAction:action to:target from:selectedItem];
+        
     // tell the delegate that the menu selected an item
     if(self.delegate && [self.delegate respondsToSelector:@selector(menuDidSelect:)]) [self.delegate performSelector:@selector(menuDidSelect:) withObject:self];
+    
+    [self _performCloseMenu];
 }
 
 - (void)setIsAlternate:(BOOL)flag
@@ -922,6 +918,12 @@
     return style==OEMenuStyleDark ? [NSColor colorWithDeviceWhite:1.0 alpha:0.12] : [NSColor colorWithDeviceWhite:1.0 alpha:0.5];
 }
 
+- (NSImage*)imageForState:(NSInteger)state withStyle:(BOOL)darkStyleFlag
+{
+    if(state == NSOnState)
+        return darkStyleFlag ? [NSImage imageNamed:@"tick_mark_selected"] : [NSImage imageNamed:@"tick_mark_normal"];
+    return darkStyleFlag ? [NSImage imageNamed:@"mixed_state_selected"] : [NSImage imageNamed:@"mixed_state_normal"];
+}
 #pragma mark -
 #pragma mark Drawing
 - (void)drawRect:(NSRect)dirtyRect
@@ -1105,7 +1107,7 @@
         
         NSRect menuItemFrame = (NSRect){{baseX, y}, {itemWidth, menuContainsImage?ItemHeightWithImage:ItemHeightWithoutImage}};
         BOOL itemIsHighlighted = [self menu].highlightedItem==menuItem;
-        BOOL itemIsSelected = [menuItem state]==NSOnState ;
+        NSInteger state = [menuItem state];
         BOOL itemIsDisabled = ![menuItem isEnabled];
         BOOL itemHasImage = [menuItem image]!=nil;
         BOOL itemHasSubmenu = [menuItem hasSubmenu];
@@ -1118,10 +1120,9 @@
         }
         
         // Draw Tickmark
-        if(itemIsSelected)
+        if(state != NSOffState)
         {
-            NSImage *tickMarkImage = itemIsHighlighted^([[self menu] style]==OEMenuStyleLight) ? [NSImage imageNamed:@"tick_mark_selected"] : [NSImage imageNamed:@"tick_mark_normal"];
-            
+            NSImage *tickMarkImage =  [self imageForState:state withStyle:itemIsHighlighted^([[self menu] style]==OEMenuStyleLight)];            
             NSRect tickMarkRect = menuItemFrame;
             tickMarkRect.size = [tickMarkImage size];
 
