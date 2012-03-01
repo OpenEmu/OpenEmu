@@ -126,6 +126,7 @@
 // Debug Preferences
 #define UDDebugDrawControllerMaskKey @"drawControllerMask"
 #define UDForceCorePicker            @"forceCorePicker"
+#define UDLightStyleGridViewMenu     @"lightStyleGridViewMenu"
 //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  //  /
 //  Default installed, non QTZ based filters names, used to identify filters 
 //  (see OEHudControlsBar.m, OEPrefGameplayController.m and OEGameLayer.m)
