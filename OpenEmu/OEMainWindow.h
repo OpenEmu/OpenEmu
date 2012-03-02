@@ -31,7 +31,14 @@
 @class OEMainWindowTitleBarView;
 
 @interface OEMainWindow : NSWindow <OECustomWindow>
+
+- (void)checkMouseIdleTime:(NSTimer*)aNotification;
+
+- (void)windowDidEnterFullScreen:(NSNotification*)aNotification;
+- (void)windowDidExitFullScreen:(NSNotification*)aNotification;
+
 @end
+
 
 @interface OEMainWindowTitleBarView : NSView
 @end
