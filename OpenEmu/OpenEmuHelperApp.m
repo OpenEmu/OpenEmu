@@ -540,15 +540,11 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     // audio!
     gameAudio = [[OEGameAudio alloc] initWithCore:gameCore];
-    DLog(@"initialized audio");
-    
+
     [self setupGameCore];
     
     // starts the threaded emulator timer
     [gameCore startEmulation];
-    
-    DLog(@"About to start audio");
-    [gameAudio startAudio];
     
     DLog(@"finished starting rom");
 }
@@ -557,7 +553,6 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 {
     [pollingTimer invalidate], pollingTimer = nil;
     
-
     [gameCore stopEmulation];
     [gameAudio stopAudio];
     [gameCore setRenderDelegate:nil];
@@ -618,5 +613,10 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 - (void)didExecute
 {    
     [self endDrawToIOSurface];
+    
+    if (!hasStartedAudio) {
+        [gameAudio startAudio];
+        hasStartedAudio = YES;
+    }
 }
 @end

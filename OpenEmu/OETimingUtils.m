@@ -47,6 +47,13 @@ NSTimeInterval OEMonotonicTime()
     return mach_absolute_time() * mach_to_sec;
 }
 
+void OEWaitUntil(NSTimeInterval time)
+{
+    init_mach_time();
+    
+    mach_wait_until(time / mach_to_sec);
+}
+
 @interface OEPerfMonitorObservation : NSObject
 @property (nonatomic) NSTimeInterval totalTime;
 @property (nonatomic) NSInteger numTimesRun;

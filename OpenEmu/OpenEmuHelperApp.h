@@ -86,6 +86,8 @@ enum _OEHelperAppErrorCodes
     float     gameAspectRatio;
     BOOL      drawSquarePixels;
     BOOL      running;
+    
+    BOOL      hasStartedAudio;
 }
 
 @property(strong) NSString *doUUID;
