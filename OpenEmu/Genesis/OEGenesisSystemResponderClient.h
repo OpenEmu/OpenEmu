@@ -48,7 +48,7 @@ typedef enum _OEGenesisButton
 
 @protocol OEGenesisSystemResponderClient <OESystemResponderClient, NSObject>
 
-- (void)didPushGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
-- (void)didReleaseGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseGenesisButton:(OEGenesisButton)button forPlayer:(NSUInteger)player;
 
 @end

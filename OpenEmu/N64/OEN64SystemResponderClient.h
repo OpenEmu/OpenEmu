@@ -57,7 +57,7 @@ typedef enum _OEN64Button
 
 @protocol OEN64SystemResponderClient <OESystemResponderClient, NSObject>
 
-- (void)didPushN64Button:(OEN64Button)button forPlayer:(NSUInteger)player;
-- (void)didReleaseN64Button:(OEN64Button)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushN64Button:(OEN64Button)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseN64Button:(OEN64Button)button forPlayer:(NSUInteger)player;
 
 @end
