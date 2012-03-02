@@ -64,9 +64,8 @@
     
     void (^screenshotHandler)(NSImage *img);
     
-    CGSize cachedTextureSize;
-    
     OEIntSize screenSize;
+    IOSurfaceID cachedSurfaceID;
     
     SyphonServer *gameServer;
 }
