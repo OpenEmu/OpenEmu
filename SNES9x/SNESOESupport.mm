@@ -25,6 +25,8 @@
   SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <Foundation/Foundation.h>
+
 #include "memmap.h"
 #include "gfx.h"
 #include "display.h"

@@ -65,23 +65,6 @@
 		94343B9814DF1091006671D6 /* Sound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94343B5E14DF1091006671D6 /* Sound.cpp */; };
 		94343B9914DF1091006671D6 /* Sram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94343B6014DF1091006671D6 /* Sram.cpp */; };
 		94343B9A14DF1091006671D6 /* Util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 94343B6414DF1091006671D6 /* Util.cpp */; };
-		94343B9B14DF1091006671D6 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B6914DF1091006671D6 /* adler32.c */; };
-		94343B9C14DF1091006671D6 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B6A14DF1091006671D6 /* compress.c */; };
-		94343B9D14DF1091006671D6 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B6B14DF1091006671D6 /* crc32.c */; };
-		94343B9E14DF1091006671D6 /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B6D14DF1091006671D6 /* deflate.c */; };
-		94343B9F14DF1091006671D6 /* gzclose.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B6F14DF1091006671D6 /* gzclose.c */; };
-		94343BA014DF1091006671D6 /* gzlib.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B7114DF1091006671D6 /* gzlib.c */; };
-		94343BA114DF1091006671D6 /* gzread.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B7214DF1091006671D6 /* gzread.c */; };
-		94343BA214DF1091006671D6 /* gzwrite.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B7314DF1091006671D6 /* gzwrite.c */; };
-		94343BA314DF1091006671D6 /* infback.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B7414DF1091006671D6 /* infback.c */; };
-		94343BA414DF1091006671D6 /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B7514DF1091006671D6 /* inffast.c */; };
-		94343BA514DF1091006671D6 /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B7814DF1091006671D6 /* inflate.c */; };
-		94343BA614DF1091006671D6 /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B7A14DF1091006671D6 /* inftrees.c */; };
-		94343BA714DF1091006671D6 /* readme.txt in Resources */ = {isa = PBXBuildFile; fileRef = 94343B7C14DF1091006671D6 /* readme.txt */; };
-		94343BA814DF1091006671D6 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B7D14DF1091006671D6 /* trees.c */; };
-		94343BA914DF1091006671D6 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B7F14DF1091006671D6 /* uncompr.c */; };
-		94343BAA14DF1091006671D6 /* zlib.txt in Resources */ = {isa = PBXBuildFile; fileRef = 94343B8214DF1091006671D6 /* zlib.txt */; };
-		94343BAB14DF1091006671D6 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 94343B8314DF1091006671D6 /* zutil.c */; };
 		C63E6CCE0FCDABEF009C8555 /* gba.png in Resources */ = {isa = PBXBuildFile; fileRef = C63E6CCD0FCDABEF009C8555 /* gba.png */; };
 		C6C71E4A0FCDE25F002FAC4D /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C63E6C640FCDA565009C8555 /* ControlsPreference.xib */; };
 /* End PBXBuildFile section */
@@ -226,7 +209,6 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		32DBCF630370AF2F00C91783 /* VisualBoyAdvance_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VisualBoyAdvance_Prefix.pch; sourceTree = "<group>"; };
 		3720DB590F19519D00744A9A /* VisualBoyAdvance.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = VisualBoyAdvance.icns; sourceTree = "<group>"; };
 		82CAFD010FEDD54000CCDC7E /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82CAFD030FEDD54800CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
@@ -294,34 +276,6 @@
 		94343B6414DF1091006671D6 /* Util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Util.cpp; sourceTree = "<group>"; };
 		94343B6514DF1091006671D6 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		94343B6614DF1091006671D6 /* VbaNext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VbaNext.h; sourceTree = "<group>"; };
-		94343B6914DF1091006671D6 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
-		94343B6A14DF1091006671D6 /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = compress.c; sourceTree = "<group>"; };
-		94343B6B14DF1091006671D6 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
-		94343B6C14DF1091006671D6 /* crc32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = crc32.h; sourceTree = "<group>"; };
-		94343B6D14DF1091006671D6 /* deflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = deflate.c; sourceTree = "<group>"; };
-		94343B6E14DF1091006671D6 /* deflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = deflate.h; sourceTree = "<group>"; };
-		94343B6F14DF1091006671D6 /* gzclose.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzclose.c; sourceTree = "<group>"; };
-		94343B7014DF1091006671D6 /* gzguts.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gzguts.h; sourceTree = "<group>"; };
-		94343B7114DF1091006671D6 /* gzlib.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzlib.c; sourceTree = "<group>"; };
-		94343B7214DF1091006671D6 /* gzread.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzread.c; sourceTree = "<group>"; };
-		94343B7314DF1091006671D6 /* gzwrite.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzwrite.c; sourceTree = "<group>"; };
-		94343B7414DF1091006671D6 /* infback.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = infback.c; sourceTree = "<group>"; };
-		94343B7514DF1091006671D6 /* inffast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inffast.c; sourceTree = "<group>"; };
-		94343B7614DF1091006671D6 /* inffast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffast.h; sourceTree = "<group>"; };
-		94343B7714DF1091006671D6 /* inffixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffixed.h; sourceTree = "<group>"; };
-		94343B7814DF1091006671D6 /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inflate.c; sourceTree = "<group>"; };
-		94343B7914DF1091006671D6 /* inflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inflate.h; sourceTree = "<group>"; };
-		94343B7A14DF1091006671D6 /* inftrees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inftrees.c; sourceTree = "<group>"; };
-		94343B7B14DF1091006671D6 /* inftrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inftrees.h; sourceTree = "<group>"; };
-		94343B7C14DF1091006671D6 /* readme.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = readme.txt; sourceTree = "<group>"; };
-		94343B7D14DF1091006671D6 /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trees.c; sourceTree = "<group>"; };
-		94343B7E14DF1091006671D6 /* trees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trees.h; sourceTree = "<group>"; };
-		94343B7F14DF1091006671D6 /* uncompr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uncompr.c; sourceTree = "<group>"; };
-		94343B8014DF1091006671D6 /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zconf.h; sourceTree = "<group>"; };
-		94343B8114DF1091006671D6 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
-		94343B8214DF1091006671D6 /* zlib.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zlib.txt; sourceTree = "<group>"; };
-		94343B8314DF1091006671D6 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
-		94343B8414DF1091006671D6 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
 		94343BAC14DF13D2006671D6 /* blargg_source.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = blargg_source.h; sourceTree = "<group>"; };
 		946E023914DFC5C300E1A311 /* OEGBASystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEGBASystemResponderClient.h; path = "../OpenEmu/GameBoy Advance/OEGBASystemResponderClient.h"; sourceTree = "<group>"; };
 		B5008DAD0E8BFB3E005AECAF /* GBAGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBAGameCore.h; sourceTree = "<group>"; };
@@ -422,7 +376,6 @@
 			isa = PBXGroup;
 			children = (
 				82CAFD030FEDD54800CCDC7E /* config.yaml */,
-				32DBCF630370AF2F00C91783 /* VisualBoyAdvance_Prefix.pch */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -570,46 +523,10 @@
 		94343B6714DF1091006671D6 /* utils */ = {
 			isa = PBXGroup;
 			children = (
-				94343B6814DF1091006671D6 /* zlib */,
 			);
 			name = utils;
 			path = vbanext/utils;
 			sourceTree = SOURCE_ROOT;
-		};
-		94343B6814DF1091006671D6 /* zlib */ = {
-			isa = PBXGroup;
-			children = (
-				94343B6914DF1091006671D6 /* adler32.c */,
-				94343B6A14DF1091006671D6 /* compress.c */,
-				94343B6B14DF1091006671D6 /* crc32.c */,
-				94343B6C14DF1091006671D6 /* crc32.h */,
-				94343B6D14DF1091006671D6 /* deflate.c */,
-				94343B6E14DF1091006671D6 /* deflate.h */,
-				94343B6F14DF1091006671D6 /* gzclose.c */,
-				94343B7014DF1091006671D6 /* gzguts.h */,
-				94343B7114DF1091006671D6 /* gzlib.c */,
-				94343B7214DF1091006671D6 /* gzread.c */,
-				94343B7314DF1091006671D6 /* gzwrite.c */,
-				94343B7414DF1091006671D6 /* infback.c */,
-				94343B7514DF1091006671D6 /* inffast.c */,
-				94343B7614DF1091006671D6 /* inffast.h */,
-				94343B7714DF1091006671D6 /* inffixed.h */,
-				94343B7814DF1091006671D6 /* inflate.c */,
-				94343B7914DF1091006671D6 /* inflate.h */,
-				94343B7A14DF1091006671D6 /* inftrees.c */,
-				94343B7B14DF1091006671D6 /* inftrees.h */,
-				94343B7C14DF1091006671D6 /* readme.txt */,
-				94343B7D14DF1091006671D6 /* trees.c */,
-				94343B7E14DF1091006671D6 /* trees.h */,
-				94343B7F14DF1091006671D6 /* uncompr.c */,
-				94343B8014DF1091006671D6 /* zconf.h */,
-				94343B8114DF1091006671D6 /* zlib.h */,
-				94343B8214DF1091006671D6 /* zlib.txt */,
-				94343B8314DF1091006671D6 /* zutil.c */,
-				94343B8414DF1091006671D6 /* zutil.h */,
-			);
-			path = zlib;
-			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -777,8 +694,6 @@
 				C63E6CCE0FCDABEF009C8555 /* gba.png in Resources */,
 				C6C71E4A0FCDE25F002FAC4D /* ControlsPreference.xib in Resources */,
 				82CAFD020FEDD54000CCDC7E /* dsa_pub.pem in Resources */,
-				94343BA714DF1091006671D6 /* readme.txt in Resources */,
-				94343BAA14DF1091006671D6 /* zlib.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -841,21 +756,6 @@
 				94343B9814DF1091006671D6 /* Sound.cpp in Sources */,
 				94343B9914DF1091006671D6 /* Sram.cpp in Sources */,
 				94343B9A14DF1091006671D6 /* Util.cpp in Sources */,
-				94343B9B14DF1091006671D6 /* adler32.c in Sources */,
-				94343B9C14DF1091006671D6 /* compress.c in Sources */,
-				94343B9D14DF1091006671D6 /* crc32.c in Sources */,
-				94343B9E14DF1091006671D6 /* deflate.c in Sources */,
-				94343B9F14DF1091006671D6 /* gzclose.c in Sources */,
-				94343BA014DF1091006671D6 /* gzlib.c in Sources */,
-				94343BA114DF1091006671D6 /* gzread.c in Sources */,
-				94343BA214DF1091006671D6 /* gzwrite.c in Sources */,
-				94343BA314DF1091006671D6 /* infback.c in Sources */,
-				94343BA414DF1091006671D6 /* inffast.c in Sources */,
-				94343BA514DF1091006671D6 /* inflate.c in Sources */,
-				94343BA614DF1091006671D6 /* inftrees.c in Sources */,
-				94343BA814DF1091006671D6 /* trees.c in Sources */,
-				94343BA914DF1091006671D6 /* uncompr.c in Sources */,
-				94343BAB14DF1091006671D6 /* zutil.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -897,14 +797,11 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				EXPORTED_SYMBOLS_FILE = "";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = VisualBoyAdvance_Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				OTHER_CFLAGS = (
-					"-fPIC",
 					"-D__LIBSNES__",
 					"-DLSB_FIRST",
 					"-DHAVE_STDINT_H",
@@ -915,7 +812,6 @@
 					"-I./src",
 				);
 				PRODUCT_NAME = VisualBoyAdvance;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Debug;
@@ -926,14 +822,11 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				EXPORTED_SYMBOLS_FILE = "";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = VisualBoyAdvance_Prefix.pch;
 				HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../OpenEmu\"/**";
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
 				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				OTHER_CFLAGS = (
-					"-fPIC",
 					"-D__LIBSNES__",
 					"-DLSB_FIRST",
 					"-DHAVE_STDINT_H",
@@ -944,7 +837,6 @@
 					"-I./src",
 				);
 				PRODUCT_NAME = VisualBoyAdvance;
-				VALID_ARCHS = x86_64;
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
 			name = Release;
@@ -952,8 +844,8 @@
 		1DEB913F08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
@@ -963,17 +855,15 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -985,7 +875,6 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};

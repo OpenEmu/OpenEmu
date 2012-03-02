@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'BSNES' target in the 'BSNES' project.
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif
