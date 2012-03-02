@@ -168,7 +168,8 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 - (void)frameRefreshThread:(id)anArgument
 {
-        NSTimeInterval gameInterval = 1./[self frameInterval];
+    NSTimeInterval gameInterval = 1./[self frameInterval];
+    NSTimeInterval gameTime = OEMonotonicTime();
         
         frameFinished = YES;
         willSkipFrame = NO;
@@ -183,7 +184,9 @@ static NSTimeInterval defaultTimeInterval = 60.0;
         
         OESetThreadRealtime(gameInterval, .007, .03); // guessed from bsnes
     
-        [NSTimer PSY_scheduledTimerWithTimeInterval:gameInterval repeats:YES usingBlock:^(NSTimer *timer){
+    //[NSTimer PSY_scheduledTimerWithTimeInterval:gameInterval repeats:YES usingBlock:^(NSTimer *timer){
+    while (!shouldStop) {
+        gameTime += gameInterval;
             @autoreleasepool {
                 //OEPerfMonitorSignpost(@"Frame Timer", gameInterval);
 #if 0
@@ -213,7 +216,10 @@ static NSTimeInterval defaultTimeInterval = 60.0;
                 if(frameCounter >= frameSkip) frameCounter = 0;
                 else                          frameCounter++;
             }
-        }];
+        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, 0);
+        OEWaitUntil(gameTime);
+    }
+    //}];
 }
 
 - (BOOL)isEmulationPaused

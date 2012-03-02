@@ -27,6 +27,7 @@
 #import <Foundation/Foundation.h>
 
 NSTimeInterval OEMonotonicTime();
+void OEWaitUntil(NSTimeInterval time);
 
 void OEPerfMonitorSignpost(NSString *name, NSTimeInterval maximumTime);
 void OEPerfMonitorObserve(NSString *name, NSTimeInterval maximumTime, void (^block)());
