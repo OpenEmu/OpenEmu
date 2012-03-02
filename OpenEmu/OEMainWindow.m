@@ -28,19 +28,7 @@
 #import <Quartz/Quartz.h>
 #define titleBarHeight 21.0
 
-@interface OEMainWindow ()
-
-@property (strong) NSTimer * mouseIdleTimer;
-
-- (void)checkMouseIdleTime:(NSTimer*)aNotification;
-
-- (void)windowDidEnterFullScreen:(NSNotification*)aNotification;
-- (void)windowDidExitFullScreen:(NSNotification*)aNotification;
-
-@end
-
 @implementation OEMainWindow
-@synthesize mouseIdleTimer;
 
 - (void)awakeFromNib
 {
@@ -65,30 +53,6 @@
     
     [self setOpaque:NO];
     [self setBackgroundColor:[NSColor blackColor]];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidExitFullScreen:) name:NSWindowDidExitFullScreenNotification object:nil];
-}
-
-- (void)windowDidEnterFullScreen:(NSNotification *)aNotification
-{
-    mouseIdleTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(checkMouseIdleTime:) userInfo:nil repeats:YES];
-    [mouseIdleTimer fire];
-}
-
-- (void)windowDidExitFullScreen:(NSNotification *)aNotification
-{
-    [mouseIdleTimer invalidate];
-    [NSCursor setHiddenUntilMouseMoves:NO];
-}
-
-- (void)checkMouseIdleTime:(NSTimer*)aNotification
-{
-    CFTimeInterval mouseIdleTime = CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGEventMouseMoved);
-    if (mouseIdleTime >= 3)
-    {
-        [NSCursor setHiddenUntilMouseMoves:YES];
-    }
 }
 
 #pragma mark -

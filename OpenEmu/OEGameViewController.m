@@ -63,6 +63,7 @@
 @implementation OEGameViewController
 @synthesize delegate;
 @synthesize rom=_rom, document;
+@synthesize controlsWindow;
 
 - (id)initWithRom:(OEDBRom *)rom
 {
