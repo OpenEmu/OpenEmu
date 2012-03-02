@@ -33,8 +33,9 @@
 #import "OEHIDEvent.h"
 #import "OEMap.h"
 #import "OERingBuffer.h"
+#import "PSYBlockTimer.h"
 
-#include <sys/time.h>
+#include <mach/mach_time.h>
 
 #ifndef BOOL_STR
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
@@ -122,10 +123,15 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 #pragma mark Execution
 static NSTimeInterval currentTime()
 {
-    struct timeval t;
-    // FIXME this is the wrong clock, use a monotonic active time clock
-    gettimeofday(&t, NULL);
-    return t.tv_sec + (t.tv_usec / 1000000.0);
+    static double mach_to_sec = 0;
+    
+    if (!mach_to_sec) {
+        struct mach_timebase_info base;
+        mach_timebase_info(&base);
+        mach_to_sec = 1e-9 * (base.numer / (double)base.denom);
+    }
+    
+    return mach_absolute_time() * mach_to_sec;
 }
 
 - (void)calculateFrameSkip:(NSUInteger)rate
@@ -185,34 +191,30 @@ static NSTimeInterval currentTime()
 - (void)frameRefreshThread:(id)anArgument;
 {
     @autoreleasepool {
-        NSTimeInterval date = currentTime(), fromZeroDate = 0;
+        __block NSTimeInterval gameTime = 0;
+        NSTimeInterval gameInterval = 1./[self frameInterval];
         
         frameFinished = YES;
         willSkipFrame = NO;
         frameSkip = 0;
-        int wasZero=1;
+        __block int wasZero=1;
         
+        NSLog(@"game fps: %f", 1./gameInterval);
         NSLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
         
-        while(!shouldStop)
-        {
+        [NSTimer PSY_scheduledTimerWithTimeInterval:gameInterval repeats:YES usingBlock:^(NSTimer *timer){
             @autoreleasepool {
-                NSTimeInterval spf = 1.0 / [self frameInterval];
-                date += spf;
-                fromZeroDate += spf;
-
 #if 1
-                if (wasZero && fromZeroDate >= 1) {
+                gameTime += gameInterval;
+                if (wasZero && gameInterval >= 1) {
                     NSUInteger audioBytesGenerated = ringBuffers[0].bytesWritten;
                     double expectedRate = [self audioSampleRateForBuffer:0];
                     NSUInteger audioSamplesGenerated = audioBytesGenerated/(2*[self channelCount]);
-                    double realRate = audioSamplesGenerated/fromZeroDate;
+                    double realRate = audioSamplesGenerated/gameInterval;
                     DLog(@"AUDIO STATS: sample rate %f, real rate %f", expectedRate, realRate);
                     wasZero = 0;
                 }
 #endif
-                
-                CFRunLoopRunInMode(kCFRunLoopDefaultMode, fmax(0.0, date - currentTime()), NO);
                 
                 willSkipFrame = (frameCounter != frameSkip);
                 
@@ -229,7 +231,7 @@ static NSTimeInterval currentTime()
                 else                          frameCounter++;
             
             }
-        }
+        }];
     }
 }
 
@@ -255,6 +257,7 @@ static NSTimeInterval currentTime()
             isRunning  = YES;
             shouldStop = NO;
             
+            //[self executeFrame];
             // The selector is performed after a delay to let the application loop finish,
             // afterwards, the GameCore's runloop takes over and only stops when the whole helper stops.
             [self performSelector:@selector(frameRefreshThread:) withObject:nil afterDelay:0.0];
