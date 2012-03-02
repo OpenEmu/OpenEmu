@@ -53,8 +53,7 @@ static NSUInteger lastDeviceNumber = 0;
  
 - (id)initWithDevice:(IOHIDDeviceRef)aDevice
 {
-    self = [super init];
-    if(self)
+    if((self = [super init]))
     {
         mapTable = [[NSMapTable alloc] initWithKeyOptions:NSPointerFunctionsOpaqueMemory | NSPointerFunctionsIntegerPersonality valueOptions:NSPointerFunctionsObjectPersonality capacity:10];
         
@@ -85,7 +84,6 @@ static NSUInteger lastDeviceNumber = 0;
 - (void)dealloc
 {
 	if(ffDevice) FFReleaseDevice(ffDevice);
-    
 }
 
 - (BOOL)isEqual:(id)anObject
@@ -124,8 +122,8 @@ static NSUInteger lastDeviceNumber = 0;
 
 - (OEHIDEvent *)eventWithHIDValue:(IOHIDValueRef)aValue
 {
-    IOHIDElementRef elem   = IOHIDValueGetElement(aValue);
-    uint32_t      cookie = (uint32_t)IOHIDElementGetCookie(elem);
+    IOHIDElementRef  elem     = IOHIDValueGetElement(aValue);
+    uint32_t         cookie   = (uint32_t)IOHIDElementGetCookie(elem);
     NSNumber        *nscookie = [NSNumber numberWithUnsignedInt:cookie];
     
     

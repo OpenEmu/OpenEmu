@@ -517,7 +517,7 @@
     return [game defaultROM];
 }
 
-- (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin*)core error:(NSError **)outError
+- (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin *)core error:(NSError **)outError
 {
     NSString *romPath = [aurl path];
     
