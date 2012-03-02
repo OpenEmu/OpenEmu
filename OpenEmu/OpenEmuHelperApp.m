@@ -51,6 +51,9 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 
 @implementation OpenEmuHelperApp
+{
+    BOOL isIntel;
+}
 
 @synthesize doUUID;
 @synthesize loadedRom, surfaceID;
@@ -168,6 +171,11 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
         [[NSApplication sharedApplication] terminate:nil];
     }
     CGLRetainContext(glContext);
+    
+    CGLContextObj cgl_ctx = glContext;
+
+    const GLubyte *vendor = glGetString(GL_VENDOR);
+    isIntel = strstr((const char*)vendor, "Intel") != NULL;
 }
 
 - (void)setupIOSurface
@@ -272,8 +280,10 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     int pixelBPP        = (pixelFormat == GL_RGB8) ? 4 : 2;
     glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, bufferWidth * bufferHeight * pixelBPP, videoBuffer);
 #endif
+    if (!isIntel) {
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
     glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+    }
     
     // proper tex params.
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -296,9 +306,11 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         gameTexture = 0;
     }
     
+    if (!isIntel) {
     glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_STORAGE_HINT_APPLE , GL_STORAGE_PRIVATE_APPLE);
     glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_FALSE);
-        
+    }
+
     DLog(@"Finished Setting up gameTexture");
 }
 
@@ -312,7 +324,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     glBindTexture(GL_TEXTURE_RECTANGLE_ARB, gameTexture);
         
-    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+    if (!isIntel) glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
     glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
     glTexSubImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, 0, 0, bufferSize.width, bufferSize.height, [gameCore pixelFormat], [gameCore pixelType], [gameCore videoBuffer]);
     

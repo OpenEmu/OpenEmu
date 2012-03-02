@@ -43,13 +43,13 @@ typedef enum _OESMSButton
 
 @protocol OESMSSystemResponderClient <OESystemResponderClient, NSObject>
 
-- (void)didPushSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
-- (void)didReleaseSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
 
-- (void)didPushSMSStartButton;
-- (void)didReleaseSMSStartButton;
+- (oneway void)didPushSMSStartButton;
+- (oneway void)didReleaseSMSStartButton;
 
-- (void)didPushSMSResetButton;
-- (void)didReleaseSMSResetButton;
+- (oneway void)didPushSMSResetButton;
+- (oneway void)didReleaseSMSResetButton;
 
 @end

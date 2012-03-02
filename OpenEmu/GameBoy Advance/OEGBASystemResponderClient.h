@@ -47,7 +47,7 @@ typedef enum _OEGBAButton
 
 @protocol OEGBASystemResponderClient <OESystemResponderClient, NSObject>
 
-- (void)didPushGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
-- (void)didReleaseGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
 
 @end
