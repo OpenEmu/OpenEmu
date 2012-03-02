@@ -34,8 +34,7 @@
 #import "OEMap.h"
 #import "OERingBuffer.h"
 #import "PSYBlockTimer.h"
-
-#include <mach/mach_time.h>
+#import "OETimingUtils.h"
 
 #ifndef BOOL_STR
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
@@ -49,15 +48,6 @@
 
 static Class GameCoreClass = Nil;
 static NSTimeInterval defaultTimeInterval = 60.0;
-
-+ (NSTimeInterval)defaultTimeInterval
-{
-    return defaultTimeInterval;
-}
-+ (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval
-{
-    defaultTimeInterval = aTimeInterval;
-}
 
 + (void)initialize
 {
@@ -121,22 +111,10 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 }
 
 #pragma mark Execution
-static NSTimeInterval currentTime()
-{
-    static double mach_to_sec = 0;
-    
-    if (!mach_to_sec) {
-        struct mach_timebase_info base;
-        mach_timebase_info(&base);
-        mach_to_sec = 1e-9 * (base.numer / (double)base.denom);
-    }
-    
-    return mach_absolute_time() * mach_to_sec;
-}
 
 - (void)calculateFrameSkip:(NSUInteger)rate
 {
-    NSUInteger time = currentTime() * 1000;
+    NSUInteger time = OEMonotonicTime() * 1000;
     NSUInteger diff = time - autoFrameSkipLastTime;
     int speed = 100;
     
@@ -188,30 +166,34 @@ static NSTimeInterval currentTime()
 {
 }
 
-- (void)frameRefreshThread:(id)anArgument;
+- (void)frameRefreshThread:(id)anArgument
 {
-    @autoreleasepool {
-        __block NSTimeInterval gameTime = 0;
         NSTimeInterval gameInterval = 1./[self frameInterval];
         
         frameFinished = YES;
         willSkipFrame = NO;
         frameSkip = 0;
+    
+#if 0
+        __block NSTimeInterval gameTime = 0;
         __block int wasZero=1;
-        
-        NSLog(@"game fps: %f", 1./gameInterval);
+#endif
+    
         NSLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
         
+        OESetThreadRealtime(gameInterval, .007, .03); // guessed from bsnes
+    
         [NSTimer PSY_scheduledTimerWithTimeInterval:gameInterval repeats:YES usingBlock:^(NSTimer *timer){
             @autoreleasepool {
-#if 1
+                //OEPerfMonitorSignpost(@"Frame Timer", gameInterval);
+#if 0
                 gameTime += gameInterval;
-                if (wasZero && gameInterval >= 1) {
+                if (wasZero && gameTime >= 1) {
                     NSUInteger audioBytesGenerated = ringBuffers[0].bytesWritten;
                     double expectedRate = [self audioSampleRateForBuffer:0];
                     NSUInteger audioSamplesGenerated = audioBytesGenerated/(2*[self channelCount]);
-                    double realRate = audioSamplesGenerated/gameInterval;
-                    DLog(@"AUDIO STATS: sample rate %f, real rate %f", expectedRate, realRate);
+                    double realRate = audioSamplesGenerated/gameTime;
+                    NSLog(@"AUDIO STATS: sample rate %f, real rate %f", expectedRate, realRate);
                     wasZero = 0;
                 }
 #endif
@@ -220,19 +202,18 @@ static NSTimeInterval currentTime()
                 
                 if (isRunning)
                 {
-                    //NSLog(@"%d", willSkipFrame);
+                    //OEPerfMonitorObserve(@"executeFrame", gameInterval, ^{
                     [renderDelegate willExecute];
                     
                     [self executeFrameSkippingFrame:willSkipFrame];
                     
                     [renderDelegate didExecute];
+                    //});
                 }
                 if(frameCounter >= frameSkip) frameCounter = 0;
                 else                          frameCounter++;
-            
             }
         }];
-    }
 }
 
 - (BOOL)isEmulationPaused
