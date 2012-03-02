@@ -116,7 +116,7 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
 @property(readonly) NSString             *supportDirectoryPath;
 @property(readonly) NSString             *batterySavesDirectoryPath;
 
-@property           NSTimeInterval        frameInterval;
+@property(readonly) NSTimeInterval        frameInterval;
 @property           BOOL                  frameFinished;
 
 - (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index;
