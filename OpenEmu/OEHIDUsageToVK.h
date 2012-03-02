@@ -87,7 +87,8 @@ static const OE_HIDVKCode hidvk_codes[] = {
 	{kHIDUsage_KeyboardTab,kVK_Tab},       
 	{kHIDUsage_KeyboardSpacebar,kVK_Space},     
 	{kHIDUsage_KeyboardDeleteOrBackspace,kVK_Delete},   
-	{kHIDUsage_KeyboardEscape,kVK_Escape}, 
+	{kHIDUsage_KeyboardEscape,kVK_Escape},
+	{kHIDUsage_KeyboardRightGUI,0x36}, // Weirdly enough this value is not explicitly given in the VK enum...
 	{kHIDUsage_KeyboardLeftGUI,kVK_Command},
 	{kHIDUsage_KeyboardLeftShift,kVK_Shift},
 	{kHIDUsage_KeyboardCapsLock,kVK_CapsLock},
