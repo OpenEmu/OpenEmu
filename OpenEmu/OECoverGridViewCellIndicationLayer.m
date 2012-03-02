@@ -102,7 +102,7 @@
             [sublayer setShadowOffset:CGSizeMake(0.0, -1.0)];
             [sublayer setShadowOpacity:1.0];
             [sublayer setShadowRadius:1.0];
-            [sublayer setShadowColor:[[NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:6.0] CGColor]];
+            [sublayer setShadowColor:[[NSColor colorWithDeviceRed:0.341 green:0.0 blue:0.012 alpha:0.6] CGColor]];
 
             [self addSublayer:sublayer];
         }

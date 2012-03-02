@@ -67,6 +67,11 @@ extern NSString *const OEPasteboardTypeGame;
 + (id)gameWithArchiveID:(id)archiveID error:(NSError**)outError;
 + (id)gameWithArchiveID:(id)archiveID inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
 
+// returns all games in specified databse
++ (NSArray*)allGames;
++ (NSArray*)allGamesWithError:(NSError**)error;
++ (NSArray*)allGamesInDatabase:(OELibraryDatabase*)database;
++ (NSArray*)allGamesInDatabase:(OELibraryDatabase*)database error:(NSError**)error;
 #pragma mark -
 #pragma mark Archive.VG Sync
 

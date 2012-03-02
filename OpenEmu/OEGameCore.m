@@ -33,8 +33,9 @@
 #import "OEHIDEvent.h"
 #import "OEMap.h"
 #import "OERingBuffer.h"
+#import "PSYBlockTimer.h"
 
-#include <sys/time.h>
+#include <mach/mach_time.h>
 
 #ifndef BOOL_STR
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
@@ -43,7 +44,7 @@
 @implementation OEGameCore
 
 @synthesize renderDelegate;
-@synthesize frameInterval, owner, frameFinished;
+@synthesize owner, frameFinished;
 @synthesize mousePosition;
 
 static Class GameCoreClass = Nil;
@@ -71,12 +72,11 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     self = [super init];
     if(self != nil)
     {
-        frameInterval = [[self class] defaultTimeInterval];
         tenFrameCounter = 10;
-        NSUInteger count = [self soundBufferCount];
+        NSUInteger count = [self audioBufferCount];
         ringBuffers = (__strong OERingBuffer**)calloc(count, sizeof(OERingBuffer*));
-        for(NSUInteger i = 0; i < count; i++)
-            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:((count == 1) ? [self soundBufferSize] : [self soundBufferSizeForBuffer:i]) * 16];
+        for(NSUInteger i = 0; i < count; i++) // FIXME lazy init these
+            ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self audioBufferSizeForBuffer:i] * 16];
         
         //keyMap = OEMapCreate(32);
     }
@@ -88,7 +88,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     DLog(@"%s", __FUNCTION__);
     //if(keyMap != NULL) OEMapRelease(keyMap);
     
-    for(NSUInteger i = 0, count = [self soundBufferCount]; i < count; i++) {
+    for(NSUInteger i = 0, count = [self audioBufferCount]; i < count; i++) {
         ringBuffers[i] = nil;
     }
     free(ringBuffers);
@@ -96,7 +96,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 
 - (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index
 {
-    NSAssert1(index < [self soundBufferCount], @"The index %lu is too high", index);
+    NSAssert1(index < [self audioBufferCount], @"The index %lu is too high", index);
     return ringBuffers[index];
 }
 
@@ -123,9 +123,15 @@ static NSTimeInterval defaultTimeInterval = 60.0;
 #pragma mark Execution
 static NSTimeInterval currentTime()
 {
-    struct timeval t;
-    gettimeofday(&t, NULL);
-    return t.tv_sec + (t.tv_usec / 1000000.0);
+    static double mach_to_sec = 0;
+    
+    if (!mach_to_sec) {
+        struct mach_timebase_info base;
+        mach_timebase_info(&base);
+        mach_to_sec = 1e-9 * (base.numer / (double)base.denom);
+    }
+    
+    return mach_absolute_time() * mach_to_sec;
 }
 
 - (void)calculateFrameSkip:(NSUInteger)rate
@@ -185,27 +191,36 @@ static NSTimeInterval currentTime()
 - (void)frameRefreshThread:(id)anArgument;
 {
     @autoreleasepool {
-    
-        NSTimeInterval date = currentTime();
+        __block NSTimeInterval gameTime = 0;
+        NSTimeInterval gameInterval = 1./[self frameInterval];
         
         frameFinished = YES;
         willSkipFrame = NO;
-        frameSkip = 1;
+        frameSkip = 0;
+        __block int wasZero=1;
         
+        NSLog(@"game fps: %f", 1./gameInterval);
         NSLog(@"main thread: %s", BOOL_STR([NSThread isMainThread]));
         
-        while(!shouldStop)
-        {
+        [NSTimer PSY_scheduledTimerWithTimeInterval:gameInterval repeats:YES usingBlock:^(NSTimer *timer){
             @autoreleasepool {
-            
-                date += 1.0 / [self frameInterval];
-                
-                CFRunLoopRunInMode(kCFRunLoopDefaultMode, fmax(0.0, date - currentTime()), NO);
+#if 1
+                gameTime += gameInterval;
+                if (wasZero && gameInterval >= 1) {
+                    NSUInteger audioBytesGenerated = ringBuffers[0].bytesWritten;
+                    double expectedRate = [self audioSampleRateForBuffer:0];
+                    NSUInteger audioSamplesGenerated = audioBytesGenerated/(2*[self channelCount]);
+                    double realRate = audioSamplesGenerated/gameInterval;
+                    DLog(@"AUDIO STATS: sample rate %f, real rate %f", expectedRate, realRate);
+                    wasZero = 0;
+                }
+#endif
                 
                 willSkipFrame = (frameCounter != frameSkip);
                 
                 if (isRunning)
                 {
+                    //NSLog(@"%d", willSkipFrame);
                     [renderDelegate willExecute];
                     
                     [self executeFrameSkippingFrame:willSkipFrame];
@@ -216,7 +231,7 @@ static NSTimeInterval currentTime()
                 else                          frameCounter++;
             
             }
-        }
+        }];
     }
 }
 
@@ -242,6 +257,7 @@ static NSTimeInterval currentTime()
             isRunning  = YES;
             shouldStop = NO;
             
+            //[self executeFrame];
             // The selector is performed after a delay to let the application loop finish,
             // afterwards, the GameCore's runloop takes over and only stops when the whole helper stops.
             [self performSelector:@selector(frameRefreshThread:) withObject:nil afterDelay:0.0];
@@ -310,18 +326,20 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
+- (NSTimeInterval)frameInterval
+{
+    return defaultTimeInterval;
+}
+
 #pragma mark Audio
-- (NSUInteger)soundBufferCount
+- (NSUInteger)audioBufferCount
 {
     return 1;
 }
 
 - (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index
 {
-    if ([self soundBufferCount] == 1)
-        [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCount] * sizeof(UInt16)];
-    else
-        [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCountForBuffer:index] * sizeof(UInt16)];
+    [[self ringBufferAtIndex:index] read:buffer maxLength:frameCount * [self channelCountForBuffer:index] * sizeof(UInt16)];
 }
 
 - (NSUInteger)channelCount
@@ -330,19 +348,7 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
-- (NSUInteger)frameSampleCount
-{
-    [self doesNotImplementSelector:_cmd];
-    return 0;
-}
-
-- (NSUInteger)soundBufferSize
-{
-    [self doesNotImplementSelector:_cmd];
-    return 0;
-}
-
-- (NSUInteger)frameSampleRate
+- (double)audioSampleRate
 {
     [self doesNotImplementSelector:_cmd];
     return 0;
@@ -357,26 +363,18 @@ static NSTimeInterval currentTime()
     return 0;
 }
 
-- (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer
+- (NSUInteger)audioBufferSizeForBuffer:(NSUInteger)buffer
 {
-    if (buffer == 0)
-        return [self frameSampleCount];
-    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
-    [self doesNotImplementSelector:_cmd];
-    return 0;
+    // 4 frames is a complete guess
+    double frameSampleCount = [self audioSampleRateForBuffer:buffer] / [self frameInterval];
+    NSAssert(frameSampleCount, @"frameSampleCount is 0");
+    return 4*frameSampleCount;
 }
 
-- (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer
+- (double)audioSampleRateForBuffer:(NSUInteger)buffer
 {
     if (buffer == 0)
-        return [self soundBufferSize];
-    NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
-    [self doesNotImplementSelector:_cmd];
-    return 0;
-}
-
-- (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer
-{
+        return [self audioSampleRate];
     NSLog(@"Buffer count is greater than 1, must implement %@", NSStringFromSelector(_cmd));
     [self doesNotImplementSelector:_cmd];
     return 0;

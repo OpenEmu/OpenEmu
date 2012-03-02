@@ -184,17 +184,7 @@ NSString *MupenControlNames[] = {
     return 0;
 }
 
-- (NSUInteger)frameSampleCount
-{
-    return 0;
-}
-
-- (NSUInteger)soundBufferSize
-{
-    return 0;
-}
-
-- (NSUInteger)frameSampleRate
+- (double)audioSampleRate
 {
     return 0;
 }

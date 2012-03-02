@@ -205,11 +205,6 @@
     return NO;
 }
 
-- (NSPredicate *)predicate
-{
-    return [NSPredicate predicateWithFormat:@"system == %@", self];
-}
-
 @end
 
 #pragma mark -

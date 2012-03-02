@@ -673,17 +673,7 @@ static int Heights[2] =
     controls->pad[player - 1].buttons &= ~NESControlValues[button];
 }
 
-- (NSUInteger)soundBufferSize
-{
-    return bufFrameSize * 4;
-}
-
-- (NSUInteger)frameSampleCount
-{
-    return bufFrameSize;
-}
-
-- (NSUInteger)frameSampleRate
+- (double)audioSampleRate
 {
     return SAMPLERATE;
 }

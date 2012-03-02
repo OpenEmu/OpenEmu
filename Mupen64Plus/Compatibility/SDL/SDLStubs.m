@@ -54,7 +54,7 @@ void SDL_DestroyMutex(SDL_mutex *m)
 }
 
 Uint32 SDL_GetTicks(void)
-{
+{   // FIXME use mach_absolute_time
     static struct timeval start = {};
     struct timeval now;
     

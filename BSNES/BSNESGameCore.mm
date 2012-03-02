@@ -32,10 +32,6 @@
 
 #include "libsnes.hpp"
 
-#define SAMPLERATE 32040
-#define SAMPLEFRAME 800
-#define SIZESOUNDBUFFER SAMPLEFRAME*4
-
 @interface BSNESGameCore () <OESNESSystemResponderClient>
 @end
 
@@ -88,6 +84,21 @@ static void video_callback(const uint16_t *data, unsigned width, unsigned height
             dst[x] = conv555Rto565(src[x]);
         }
     });
+}
+
+static bool environment_callback(unsigned env, void *data)
+{
+    switch (env) {
+        case SNES_ENVIRONMENT_SET_TIMING:
+        {
+            snes_system_timing *t = (snes_system_timing*)data;
+            current->frameInterval = t->fps;
+            current->sampleRate    = t->sample_rate;
+            return true;
+        }
+        default:
+            return false; // TODO implement the other stuff?
+    }
 }
 
 static void input_poll_callback(void)
@@ -219,7 +230,8 @@ static void writeSaveFile(const char* path, int type)
     snes_set_video_refresh(video_callback);
     snes_set_input_poll(input_poll_callback);
     snes_set_input_state(input_state_callback);
-	
+	snes_set_environment(environment_callback);
+    
     if(snes_load_cartridge_normal(NULL, data, size))
     {
         NSString *path = romName;
@@ -267,10 +279,6 @@ static void writeSaveFile(const char* path, int type)
 
 - (void)setupEmulation
 {
-    if(soundBuffer)
-        free(soundBuffer);
-    soundBuffer = (UInt16*)malloc(SIZESOUNDBUFFER* sizeof(UInt16));
-    memset(soundBuffer, 0, SIZESOUNDBUFFER*sizeof(UInt16));
 }
 
 - (void)resetEmulation
@@ -306,7 +314,6 @@ static void writeSaveFile(const char* path, int type)
 - (void)dealloc
 {
     free(videoBuffer);
-    free(soundBuffer);
 }
 
 - (GLenum)pixelFormat
@@ -324,24 +331,14 @@ static void writeSaveFile(const char* path, int type)
     return GL_RGB5;
 }
 
-- (NSUInteger)soundBufferSize
+- (double)audioSampleRate
 {
-    return SIZESOUNDBUFFER;
-}
-
-- (NSUInteger)frameSampleCount
-{
-    return SAMPLEFRAME;
-}
-
-- (NSUInteger)frameSampleRate
-{
-    return SAMPLERATE;
+    return sampleRate ? sampleRate : 32040.5;
 }
 
 - (NSTimeInterval)frameInterval
 {
-    return (snes_get_region() == SNES_REGION_NTSC) ? 60 : 50;
+    return frameInterval ? frameInterval : 60;
 }
 
 - (NSUInteger)channelCount

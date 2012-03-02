@@ -39,11 +39,11 @@ extern NSString *GBAEmulatorNames[];
 {
     @public
     uint32    controlPad[MAC_MAX_PLAYERS];
-    uint16_t *soundBuffer;
     uint16_t *videoBuffer;
     int videoWidth, videoHeight;
     int16_t pad[1][10];
     NSString *romName;
+    double sampleRate;
 }
 
 @end

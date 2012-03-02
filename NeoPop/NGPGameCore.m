@@ -46,7 +46,6 @@ enum {
 
 #define SAMPLERATE 44100
 #define SAMPLEFRAME 735
-#define SIZESOUNDBUFFER SAMPLEFRAME*16
 
 _u8 system_frameskip_key;
 
@@ -232,17 +231,7 @@ static OERingBuffer *dacBuffer;
     return GL_RGB4;
 }
 
-- (NSUInteger)soundBufferSizeForBuffer:(NSUInteger)buffer;
-{
-    return SIZESOUNDBUFFER;
-}
-
-- (NSUInteger)frameSampleCountForBuffer:(NSUInteger)buffer;
-{
-    return buffer == 0 ? SAMPLEFRAME : DAC_FREQUENCY / 60;
-}
-
-- (NSUInteger)frameSampleRateForBuffer:(NSUInteger)buffer;
+- (double)audioSampleRateForBuffer:(NSUInteger)buffer;
 {
     return buffer == 0 ? SAMPLERATE : DAC_FREQUENCY;
 }
@@ -252,7 +241,7 @@ static OERingBuffer *dacBuffer;
     return buffer == 0 ? 2 : 1;
 }
 
-- (NSUInteger)soundBufferCount;
+- (NSUInteger)audioBufferCount;
 {
     return 2;
 }

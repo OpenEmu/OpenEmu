@@ -35,10 +35,6 @@
 #include "shared.h"
 
 #define SAMPLERATE 48000
-#define SAMPLEFRAME 800
-//#define SAMPLERATE 44100
-//#define SAMPLEFRAME 735
-#define SIZESOUNDBUFFER SAMPLEFRAME*4
 
 extern void set_config_defaults(void);
 
@@ -58,13 +54,10 @@ void openemu_input_UpdateEmu(void)
     self = [super init];
     if(self != nil)
     {
-        soundLock = [[NSLock alloc] init];
         bufLock = [[NSLock alloc] init];
         videoBuffer = malloc(720 * 576 * 2);
         
         position = 0;
-        sndBuf = malloc(SIZESOUNDBUFFER * sizeof(UInt16));
-        memset(sndBuf, 0, SIZESOUNDBUFFER * sizeof(UInt16));
     }
     return self;
 }
@@ -72,9 +65,7 @@ void openemu_input_UpdateEmu(void)
 - (void) dealloc
 {
     DLog(@"releasing/deallocating memory");
-    free(sndBuf);
-    free(videoBuffer);
-    
+    free(videoBuffer);    
 }
 
 - (void)executeFrame
@@ -128,8 +119,8 @@ void update_input()
         input.system[0] = SYSTEM_MD_GAMEPAD;
         input.system[1] = SYSTEM_MD_GAMEPAD;
         
-        float framerate = vdp_pal ? 50.0 : 60.0;
-		audio_init(SAMPLERATE, framerate);
+        frameInterval = vdp_pal ? 53203424./896040. : 53693175./896040.; // from sound_init()
+		audio_init(SAMPLERATE, frameInterval);
         system_init();
         system_reset();
         
@@ -142,7 +133,7 @@ void update_input()
 
 - (NSTimeInterval)frameInterval
 {
-	return vdp_pal ? 50 : 60;
+	return frameInterval ? frameInterval : 60;
 }
 
 - (void)resetEmulation
@@ -190,17 +181,7 @@ void update_input()
     return GL_RGB5;
 }
 
-- (NSUInteger)soundBufferSize
-{
-    return SIZESOUNDBUFFER;
-}
-
-- (NSUInteger)frameSampleCount
-{
-    return SAMPLEFRAME;
-}
-
-- (NSUInteger)frameSampleRate
+- (double)audioSampleRate
 {
     return SAMPLERATE;
 }

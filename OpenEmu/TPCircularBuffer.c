@@ -36,7 +36,7 @@ static inline bool _checkResult(kern_return_t result, const char *operation, con
 }
 
 bool TPCircularBufferInit(TPCircularBuffer *buffer, int length) {
-    
+    assert(length);
     buffer->length = round_page(length);    // We need whole page sizes
     
     // Temporarily allocate twice the length, so we have the contiguous address space to

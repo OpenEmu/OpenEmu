@@ -72,9 +72,8 @@
     return YES;
 }
 
-- (void)drawThemeFrame:(NSValue*)dirtyRectValue
+- (void)drawThemeFrame:(NSRect)dirtyRect
 {
-    NSRect dirtyRect = [dirtyRectValue rectValue];
     float maxY = NSMaxY(dirtyRect);
     
     if(maxY > NSMaxY([self frame]) - titleBarHeight)

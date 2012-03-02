@@ -38,6 +38,33 @@ typedef struct
 
 ExtAudioFileRef recordingFile;
 
+static void StretchSamples(int16_t *outBuf, const int16_t *inBuf,
+                           int outFrames, int inFrames, int channels)
+{
+    int frame;
+    float ratio = outFrames / (float)inFrames;
+    
+    for (frame = 0; frame < outFrames; frame++) {
+        float iFrame = frame / ratio, iFrameF = floorf(iFrame);
+        float lerp = iFrame - iFrameF;
+        int iFrameI = iFrameF;
+        int ch;
+        
+        for (ch = 0; ch < channels; ch++) {
+            int a, b, c;
+            
+            a = inBuf[(iFrameI+0)*channels+ch];
+            b = inBuf[(iFrameI+1)*channels+ch];
+            
+            c = a + lerp*(b-a);
+            c = MAX(c, SHRT_MIN);
+            c = MIN(c, SHRT_MAX);
+            
+            outBuf[frame*channels+ch] = c;
+        }
+    }
+}
+
 OSStatus RenderCallback(void                       *in,
                         AudioUnitRenderActionFlags *ioActionFlags,
                         const AudioTimeStamp       *inTimeStamp,
@@ -55,19 +82,24 @@ OSStatus RenderCallback(void                       *in,
     OEGameAudioContext *context = (OEGameAudioContext*)in;
     int availableBytes = 0;
     void *head = TPCircularBufferTail(context->buffer, &availableBytes);
-    int bytesRequested = inNumberFrames * sizeof(UInt16) * context->channelCount;
+    int bytesRequested = inNumberFrames * sizeof(SInt16) * context->channelCount;
     availableBytes = MIN(availableBytes, bytesRequested);
     int leftover = bytesRequested - availableBytes;
-    
     char *outBuffer = ioData->mBuffers[0].mData;
-    memcpy(outBuffer, head, availableBytes);
-    TPCircularBufferConsume(context->buffer, availableBytes);
-    if (leftover)
-    {
-        outBuffer += availableBytes;
-        memset(outBuffer, 0, leftover);
+
+    if (leftover > 0) {
+        // time stretch
+        // FIXME this works a lot better with a larger buffer
+        int framesRequested = inNumberFrames;
+        int framesAvailable = availableBytes / (sizeof(SInt16) * context->channelCount);
+        StretchSamples((int16_t*)outBuffer, head, framesRequested, framesAvailable, context->channelCount);
+    } else {
+        memcpy(outBuffer, head, availableBytes);
     }
-    return 0;
+    
+    
+    TPCircularBufferConsume(context->buffer, availableBytes);
+    return noErr;
 }
 
 @interface OEGameAudio ()
@@ -172,7 +204,7 @@ OSStatus RenderCallback(void                       *in,
     desc.componentSubType = kAudioUnitSubType_AUConverter;
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
     
-    NSUInteger bufferCount = [gameCore soundBufferCount];
+    NSUInteger bufferCount = [gameCore audioBufferCount];
     if (_contexts)
         free(_contexts);
     _contexts = malloc(sizeof(OEGameAudioContext) * bufferCount);
@@ -198,8 +230,8 @@ OSStatus RenderCallback(void                       *in,
         else DLog(@"Set the render callback");
         
         AudioStreamBasicDescription mDataFormat;
-        NSUInteger channelCount = ((bufferCount == 1) ? [gameCore channelCount] : [gameCore channelCountForBuffer:i]);
-        mDataFormat.mSampleRate       = (bufferCount == 1) ? [gameCore frameSampleRate] : [gameCore frameSampleRateForBuffer:i];
+        NSUInteger channelCount = _contexts[i].channelCount;
+        mDataFormat.mSampleRate       = [gameCore audioSampleRateForBuffer:i];
         mDataFormat.mFormatID         = kAudioFormatLinearPCM;
         mDataFormat.mFormatFlags      = kLinearPCMFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian;
         mDataFormat.mBytesPerPacket   = 2 * channelCount;

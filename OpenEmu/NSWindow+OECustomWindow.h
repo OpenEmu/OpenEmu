@@ -28,7 +28,7 @@
 
 @protocol OECustomWindow <NSObject>
 - (BOOL)drawsAboveDefaultThemeFrame;
-- (void)drawThemeFrame:(NSValue*)dirtyRectValue;
+- (void)drawThemeFrame:(NSRect)dirtyRect;
 @end
 
 @interface NSWindow (OECustomWindow)
