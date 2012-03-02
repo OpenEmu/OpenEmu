@@ -26,6 +26,8 @@
 #include <mach/mach.h>
 #include <stdio.h>
 
+#pragma GCC visibility push(hidden)
+
 #define checkResult(result,operation) (_checkResult((result),(operation),strrchr(__FILE__, '/'),__LINE__))
 static inline bool _checkResult(kern_return_t result, const char *operation, const char* file, int line) {
     if ( result != ERR_SUCCESS ) {

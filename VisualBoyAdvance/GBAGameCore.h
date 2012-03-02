@@ -35,6 +35,7 @@ extern NSString *GBAEmulatorNames[];
 
 @class OERingBuffer;
 
+OE_EXPORTED_CLASS
 @interface GBAGameCore : OEGameCore
 {
     @public

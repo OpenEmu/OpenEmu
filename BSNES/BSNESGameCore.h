@@ -35,6 +35,7 @@ extern NSString *BSNESEmulatorNames[];
 
 @class OERingBuffer;
 
+OE_EXPORTED_CLASS
 @interface BSNESGameCore : OEGameCore
 {
     @public

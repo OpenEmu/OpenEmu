@@ -33,6 +33,7 @@ extern NSString *GenesisButtonNameTable[];
 
 @class OERingBuffer;
 
+OE_EXPORTED_CLASS
 @interface GenPlusGameCore : OEGameCore
 {
     unsigned char *videoBuffer;

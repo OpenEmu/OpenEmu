@@ -35,6 +35,7 @@ extern NSString *SNESEmulatorNames[];
 
 @class OERingBuffer;
 
+OE_EXPORTED_CLASS
 @interface SNESGameCore : OEGameCore
 {
     uint32         controlPad[MAC_MAX_PLAYERS];

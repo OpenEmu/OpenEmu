@@ -46,9 +46,9 @@ typedef enum SMSButtons {
     SMSButtonCount = 14
 } SMSButtons;
 
-
 @class OERingBuffer;
 
+OE_EXPORTED_CLASS
 @interface SMSGameCore : OEGameCore
 {
     unsigned char *tempBuffer;

@@ -47,6 +47,7 @@ extern NSString *const NESColorFringing ;
 extern NSString *const NESHue;
 extern NSString *const NESUnlimitedSprites;
 
+OE_EXPORTED_CLASS
 @interface NESGameCore : OEGameCore
 {
     NSString             *romPath;

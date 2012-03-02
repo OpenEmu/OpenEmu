@@ -26,10 +26,12 @@
  */
 
 #import <Cocoa/Cocoa.h>
+#import <OEGameCore.h>
 #import <OEGameCoreController.h>
 
 extern NSArray *NESRawControlNames;
 extern NSArray *NESUsedControlNames;
 
+OE_EXPORTED_CLASS
 @interface NESGameController : OEGameCoreController
 @end
