@@ -67,7 +67,7 @@
 
 - (void)windowDidEnterFullScreen:(NSNotification *)aNotification
 {
-    mouseIdleTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(checkMouseIdleTime:) userInfo:nil repeats:YES];
+    mouseIdleTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(checkMouseIdleTime:) userInfo:nil repeats:YES];
     [mouseIdleTimer fire];
 }
 
@@ -80,7 +80,7 @@
 - (void)checkMouseIdleTime:(NSTimer*)aNotification
 {
     CFTimeInterval mouseIdleTime = CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGEventMouseMoved);
-    if (mouseIdleTime >= 2)
+    if (mouseIdleTime >= 3)
     {
         [NSCursor setHiddenUntilMouseMoves:YES];
     }
