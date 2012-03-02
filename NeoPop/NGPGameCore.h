@@ -38,6 +38,7 @@
 
 @class GameDocument;
 
+OE_EXPORTED_CLASS
 @interface NGPGameCore : OEGameCore
 {
     GameDocument *parent;

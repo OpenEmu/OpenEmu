@@ -35,6 +35,7 @@ extern NSString *FCEUEmulatorNames[];
 
 @class OERingBuffer;
 
+OE_EXPORTED_CLASS
 @interface FCEUGameCore : OEGameCore
 {
     @public

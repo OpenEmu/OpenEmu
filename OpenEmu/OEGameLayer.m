@@ -187,6 +187,7 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
     rgbColorSpace = CGColorSpaceCreateWithName(kCGColorSpaceSRGB);
     
     screenSize = rootProxy.screenSize;
+    cachedSurfaceID = rootProxy.surfaceID;
     
     gameServer = [[SyphonServer alloc] initWithName:@"Game Name" context:layerContext options:nil];
     
@@ -329,7 +330,11 @@ static NSString *const _OEScale2xBRFilterName = @"Scale2xBR";
         time -= startTime;
 
     // IOSurfaceLookup performs a lock *AND A RETAIN* - 
-    IOSurfaceRef surfaceRef = IOSurfaceLookup(rootProxy.surfaceID); 
+    IOSurfaceRef surfaceRef = IOSurfaceLookup(cachedSurfaceID); 
+    if(!surfaceRef) {
+        cachedSurfaceID = rootProxy.surfaceID;
+        surfaceRef = IOSurfaceLookup(cachedSurfaceID);
+    }
     
     // get our IOSurfaceRef from our passed in IOSurfaceID from our background process.
     if(surfaceRef != NULL)
