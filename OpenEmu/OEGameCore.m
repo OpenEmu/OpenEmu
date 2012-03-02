@@ -188,7 +188,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     while (!shouldStop) {
         gameTime += gameInterval;
             @autoreleasepool {
-                //OEPerfMonitorSignpost(@"Frame Timer", gameInterval);
+                OEPerfMonitorSignpost(@"Frame Timer", gameInterval);
 #if 0
                 gameTime += gameInterval;
                 if (wasZero && gameTime >= 1) {
@@ -205,18 +205,18 @@ static NSTimeInterval defaultTimeInterval = 60.0;
                 
                 if (isRunning)
                 {
-                    //OEPerfMonitorObserve(@"executeFrame", gameInterval, ^{
+                    OEPerfMonitorObserve(@"executeFrame", gameInterval, ^{
                     [renderDelegate willExecute];
                     
                     [self executeFrameSkippingFrame:willSkipFrame];
                     
                     [renderDelegate didExecute];
-                    //});
+                    });
                 }
                 if(frameCounter >= frameSkip) frameCounter = 0;
                 else                          frameCounter++;
             }
-        CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, 0);
+        OEPerfMonitorObserve(@"CFRunLoop", gameInterval, ^{CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0, 0);});
         OEWaitUntil(gameTime);
     }
     //}];

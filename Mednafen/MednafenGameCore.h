@@ -33,7 +33,7 @@
 @class OERingBuffer;
 
 #define GBA_CONTROL_COUNT 17
-OE_EXTERN NSString *MednafenControlNames[];
+extern NSString *MednafenControlNames[];
 
 @interface MednafenGameCore : OEGameCore
 {

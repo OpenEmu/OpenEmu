@@ -5,10 +5,7 @@
 #include "config.h"
 
 #ifdef __cplusplus
-#define OE_EXTERN extern "C"
 #include "types.h"
-#else
-#define OE_EXTERN extern
 #endif
 
 #ifdef __OBJC__

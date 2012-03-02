@@ -35,17 +35,17 @@
 #define nesVideo ((Nes::Api::Video::Output *) _nesVideo)
 #define controls ((Nes::Api::Input::Controllers *)_controls)
 
-OE_EXTERN NSString *const NESNTSC;
-OE_EXTERN NSString *const NESBrightness;
-OE_EXTERN NSString *const NESSaturation;
-OE_EXTERN NSString *const NESContrast;
-OE_EXTERN NSString *const NESSharpness;
-OE_EXTERN NSString *const NESColorRes;
-OE_EXTERN NSString *const NESColorBleed;
-OE_EXTERN NSString *const NESColorArtifacts;
-OE_EXTERN NSString *const NESColorFringing ;
-OE_EXTERN NSString *const NESHue;
-OE_EXTERN NSString *const NESUnlimitedSprites;
+extern NSString *const NESNTSC;
+extern NSString *const NESBrightness;
+extern NSString *const NESSaturation;
+extern NSString *const NESContrast;
+extern NSString *const NESSharpness;
+extern NSString *const NESColorRes;
+extern NSString *const NESColorBleed;
+extern NSString *const NESColorArtifacts;
+extern NSString *const NESColorFringing ;
+extern NSString *const NESHue;
+extern NSString *const NESUnlimitedSprites;
 
 @interface NESGameCore : OEGameCore
 {

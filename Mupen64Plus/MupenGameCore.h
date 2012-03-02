@@ -31,7 +31,7 @@
 #define MAC_MAX_PLAYERS 8
 #define N64_CONTROL_COUNT 14
 
-OE_EXTERN NSString *MupenEmulatorNames[];
+extern NSString *MupenEmulatorNames[];
 
 extern pthread_mutex_t gEmuVIMutex;
 extern pthread_cond_t  gEmuVICond;

@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'N64' target in the 'N64' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif

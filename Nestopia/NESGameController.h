@@ -28,8 +28,8 @@
 #import <Cocoa/Cocoa.h>
 #import <OEGameCoreController.h>
 
-OE_EXTERN NSArray *NESRawControlNames;
-OE_EXTERN NSArray *NESUsedControlNames;
+extern NSArray *NESRawControlNames;
+extern NSArray *NESUsedControlNames;
 
 @interface NESGameController : OEGameCoreController
 @end

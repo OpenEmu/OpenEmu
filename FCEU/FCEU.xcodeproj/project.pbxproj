@@ -250,20 +250,6 @@
 		942D9C2214E8AFE000772772 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B2114E8AFDF00772772 /* unzip.c */; };
 		942D9C2314E8AFE000772772 /* vsuni.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B2314E8AFDF00772772 /* vsuni.c */; };
 		942D9C2414E8AFE000772772 /* x6502.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B2514E8AFDF00772772 /* x6502.c */; };
-		942D9C2514E8AFE000772772 /* adler32.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B2914E8AFDF00772772 /* adler32.c */; };
-		942D9C2614E8AFE000772772 /* compress.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B2A14E8AFDF00772772 /* compress.c */; };
-		942D9C2714E8AFE000772772 /* crc32.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B2B14E8AFDF00772772 /* crc32.c */; };
-		942D9C2814E8AFE000772772 /* deflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B2C14E8AFDF00772772 /* deflate.c */; };
-		942D9C2914E8AFE000772772 /* gzio.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B2E14E8AFDF00772772 /* gzio.c */; };
-		942D9C2A14E8AFE000772772 /* infblock.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B2F14E8AFDF00772772 /* infblock.c */; };
-		942D9C2B14E8AFE000772772 /* infcodes.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B3114E8AFDF00772772 /* infcodes.c */; };
-		942D9C2C14E8AFE000772772 /* inffast.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B3314E8AFDF00772772 /* inffast.c */; };
-		942D9C2D14E8AFE000772772 /* inflate.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B3614E8AFDF00772772 /* inflate.c */; };
-		942D9C2E14E8AFE000772772 /* inftrees.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B3714E8AFDF00772772 /* inftrees.c */; };
-		942D9C2F14E8AFE000772772 /* infutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B3914E8AFDF00772772 /* infutil.c */; };
-		942D9C3014E8AFE000772772 /* trees.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B3B14E8AFDF00772772 /* trees.c */; };
-		942D9C3114E8AFE000772772 /* uncompr.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B3D14E8AFDF00772772 /* uncompr.c */; };
-		942D9C3314E8AFE000772772 /* zutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 942D9B4214E8AFDF00772772 /* zutil.c */; };
 		945942D014E4F2DC0015D2AA /* FCEUX.icns in Resources */ = {isa = PBXBuildFile; fileRef = 945942CF14E4F2DC0015D2AA /* FCEUX.icns */; };
 		C6C71E4A0FCDE25F002FAC4D /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C63E6C640FCDA565009C8555 /* ControlsPreference.xib */; };
 /* End PBXBuildFile section */
@@ -408,7 +394,6 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		32DBCF630370AF2F00C91783 /* FCEU.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCEU.pch; sourceTree = "<group>"; };
 		82CAFD010FEDD54000CCDC7E /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82CAFD030FEDD54800CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -694,33 +679,6 @@
 		942D9B2514E8AFDF00772772 /* x6502.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = x6502.c; sourceTree = "<group>"; };
 		942D9B2614E8AFDF00772772 /* x6502.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x6502.h; sourceTree = "<group>"; };
 		942D9B2714E8AFDF00772772 /* x6502struct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = x6502struct.h; sourceTree = "<group>"; };
-		942D9B2914E8AFDF00772772 /* adler32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = adler32.c; sourceTree = "<group>"; };
-		942D9B2A14E8AFDF00772772 /* compress.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = compress.c; sourceTree = "<group>"; };
-		942D9B2B14E8AFDF00772772 /* crc32.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = crc32.c; sourceTree = "<group>"; };
-		942D9B2C14E8AFDF00772772 /* deflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = deflate.c; sourceTree = "<group>"; };
-		942D9B2D14E8AFDF00772772 /* deflate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = deflate.h; sourceTree = "<group>"; };
-		942D9B2E14E8AFDF00772772 /* gzio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gzio.c; sourceTree = "<group>"; };
-		942D9B2F14E8AFDF00772772 /* infblock.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = infblock.c; sourceTree = "<group>"; };
-		942D9B3014E8AFDF00772772 /* infblock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = infblock.h; sourceTree = "<group>"; };
-		942D9B3114E8AFDF00772772 /* infcodes.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = infcodes.c; sourceTree = "<group>"; };
-		942D9B3214E8AFDF00772772 /* infcodes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = infcodes.h; sourceTree = "<group>"; };
-		942D9B3314E8AFDF00772772 /* inffast.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inffast.c; sourceTree = "<group>"; };
-		942D9B3414E8AFDF00772772 /* inffast.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffast.h; sourceTree = "<group>"; };
-		942D9B3514E8AFDF00772772 /* inffixed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inffixed.h; sourceTree = "<group>"; };
-		942D9B3614E8AFDF00772772 /* inflate.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inflate.c; sourceTree = "<group>"; };
-		942D9B3714E8AFDF00772772 /* inftrees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = inftrees.c; sourceTree = "<group>"; };
-		942D9B3814E8AFDF00772772 /* inftrees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = inftrees.h; sourceTree = "<group>"; };
-		942D9B3914E8AFDF00772772 /* infutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = infutil.c; sourceTree = "<group>"; };
-		942D9B3A14E8AFDF00772772 /* infutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = infutil.h; sourceTree = "<group>"; };
-		942D9B3B14E8AFDF00772772 /* trees.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = trees.c; sourceTree = "<group>"; };
-		942D9B3C14E8AFDF00772772 /* trees.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = trees.h; sourceTree = "<group>"; };
-		942D9B3D14E8AFDF00772772 /* uncompr.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = uncompr.c; sourceTree = "<group>"; };
-		942D9B3E14E8AFDF00772772 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = unzip.c; sourceTree = "<group>"; };
-		942D9B3F14E8AFDF00772772 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = unzip.h; sourceTree = "<group>"; };
-		942D9B4014E8AFDF00772772 /* zconf.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zconf.h; sourceTree = "<group>"; };
-		942D9B4114E8AFDF00772772 /* zlib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zlib.h; sourceTree = "<group>"; };
-		942D9B4214E8AFDF00772772 /* zutil.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zutil.c; sourceTree = "<group>"; };
-		942D9B4314E8AFDF00772772 /* zutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zutil.h; sourceTree = "<group>"; };
 		945942CE14E4EF180015D2AA /* OENESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OENESSystemResponderClient.h; path = ../OpenEmu/NES/OENESSystemResponderClient.h; sourceTree = "<group>"; };
 		945942CF14E4F2DC0015D2AA /* FCEUX.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = FCEUX.icns; sourceTree = "<group>"; };
 		B5008DAD0E8BFB3E005AECAF /* FCEUGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FCEUGameCore.h; sourceTree = "<group>"; };
@@ -819,7 +777,6 @@
 			isa = PBXGroup;
 			children = (
 				82CAFD030FEDD54800CCDC7E /* config.yaml */,
-				32DBCF630370AF2F00C91783 /* FCEU.pch */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -926,7 +883,6 @@
 				942D9B2514E8AFDF00772772 /* x6502.c */,
 				942D9B2614E8AFDF00772772 /* x6502.h */,
 				942D9B2714E8AFDF00772772 /* x6502struct.h */,
-				942D9B2814E8AFDF00772772 /* zlib */,
 			);
 			name = "src-fceumm";
 			path = "fceumm/src-fceumm";
@@ -1188,40 +1144,6 @@
 				942D9B1314E8AFDF00772772 /* rp2c05004.h */,
 			);
 			path = palettes;
-			sourceTree = "<group>";
-		};
-		942D9B2814E8AFDF00772772 /* zlib */ = {
-			isa = PBXGroup;
-			children = (
-				942D9B2914E8AFDF00772772 /* adler32.c */,
-				942D9B2A14E8AFDF00772772 /* compress.c */,
-				942D9B2B14E8AFDF00772772 /* crc32.c */,
-				942D9B2C14E8AFDF00772772 /* deflate.c */,
-				942D9B2D14E8AFDF00772772 /* deflate.h */,
-				942D9B2E14E8AFDF00772772 /* gzio.c */,
-				942D9B2F14E8AFDF00772772 /* infblock.c */,
-				942D9B3014E8AFDF00772772 /* infblock.h */,
-				942D9B3114E8AFDF00772772 /* infcodes.c */,
-				942D9B3214E8AFDF00772772 /* infcodes.h */,
-				942D9B3314E8AFDF00772772 /* inffast.c */,
-				942D9B3414E8AFDF00772772 /* inffast.h */,
-				942D9B3514E8AFDF00772772 /* inffixed.h */,
-				942D9B3614E8AFDF00772772 /* inflate.c */,
-				942D9B3714E8AFDF00772772 /* inftrees.c */,
-				942D9B3814E8AFDF00772772 /* inftrees.h */,
-				942D9B3914E8AFDF00772772 /* infutil.c */,
-				942D9B3A14E8AFDF00772772 /* infutil.h */,
-				942D9B3B14E8AFDF00772772 /* trees.c */,
-				942D9B3C14E8AFDF00772772 /* trees.h */,
-				942D9B3D14E8AFDF00772772 /* uncompr.c */,
-				942D9B3E14E8AFDF00772772 /* unzip.c */,
-				942D9B3F14E8AFDF00772772 /* unzip.h */,
-				942D9B4014E8AFDF00772772 /* zconf.h */,
-				942D9B4114E8AFDF00772772 /* zlib.h */,
-				942D9B4214E8AFDF00772772 /* zutil.c */,
-				942D9B4314E8AFDF00772772 /* zutil.h */,
-			);
-			path = zlib;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1637,20 +1559,6 @@
 				942D9C2214E8AFE000772772 /* unzip.c in Sources */,
 				942D9C2314E8AFE000772772 /* vsuni.c in Sources */,
 				942D9C2414E8AFE000772772 /* x6502.c in Sources */,
-				942D9C2514E8AFE000772772 /* adler32.c in Sources */,
-				942D9C2614E8AFE000772772 /* compress.c in Sources */,
-				942D9C2714E8AFE000772772 /* crc32.c in Sources */,
-				942D9C2814E8AFE000772772 /* deflate.c in Sources */,
-				942D9C2914E8AFE000772772 /* gzio.c in Sources */,
-				942D9C2A14E8AFE000772772 /* infblock.c in Sources */,
-				942D9C2B14E8AFE000772772 /* infcodes.c in Sources */,
-				942D9C2C14E8AFE000772772 /* inffast.c in Sources */,
-				942D9C2D14E8AFE000772772 /* inflate.c in Sources */,
-				942D9C2E14E8AFE000772772 /* inftrees.c in Sources */,
-				942D9C2F14E8AFE000772772 /* infutil.c in Sources */,
-				942D9C3014E8AFE000772772 /* trees.c in Sources */,
-				942D9C3114E8AFE000772772 /* uncompr.c in Sources */,
-				942D9C3314E8AFE000772772 /* zutil.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1689,11 +1597,8 @@
 		1DEB913B08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				EXPORTED_SYMBOLS_FILE = "";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = FCEU.pch;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../OpenEmu\"/**",
 					"\"$(PROJECT_DIR)/core/src-fceumm\"",
@@ -1703,10 +1608,8 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/fceumm\"";
 				OTHER_CFLAGS = (
-					"-fPIC",
 					"-DHAVE_ASPRINTF",
 					"-DNDEBUG",
 					"-D__LIBSNES__",
@@ -1725,7 +1628,6 @@
 				);
 				PRODUCT_NAME = FCEU;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/core/\"";
-				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wno-write-strings";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
@@ -1734,11 +1636,8 @@
 		1DEB913C08733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				EXPORTED_SYMBOLS_FILE = "";
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = FCEU.pch;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../OpenEmu\"/**",
 					"\"$(PROJECT_DIR)/core/src-fceumm\"",
@@ -1748,10 +1647,8 @@
 				);
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "$(HOME)/Library/Bundles";
-				LD_RUNPATH_SEARCH_PATHS = "\"/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" \"~/Library/Graphics/Quartz Composer Plug-Ins/OpenEmuQC.plugin/Contents/Frameworks/\" ~/Library/Frameworks /Library/Frameworks @loader_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "\"$(SRCROOT)/fceumm\"";
 				OTHER_CFLAGS = (
-					"-fPIC",
 					"-DHAVE_ASPRINTF",
 					"-DNDEBUG",
 					"-D__LIBSNES__",
@@ -1770,7 +1667,6 @@
 				);
 				PRODUCT_NAME = FCEU;
 				USER_HEADER_SEARCH_PATHS = "\"$(PROJECT_DIR)/core/\"";
-				VALID_ARCHS = x86_64;
 				WARNING_CFLAGS = "-Wno-write-strings";
 				WRAPPER_EXTENSION = oecoreplugin;
 			};
@@ -1779,8 +1675,8 @@
 		1DEB913F08733D840010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
@@ -1790,17 +1686,15 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
 			};
 			name = Debug;
 		};
 		1DEB914008733D840010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
-				CLANG_ENABLE_OBJC_EXPERIMENTAL = YES;
 				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -1812,7 +1706,6 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/../OpenEmu";
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
-				VALID_ARCHS = x86_64;
 			};
 			name = Release;
 		};

@@ -31,7 +31,7 @@
 #define MAC_MAX_PLAYERS 8
 #define SNES_CONTROL_COUNT 12
 
-OE_EXTERN NSString *SNESEmulatorNames[];
+extern NSString *SNESEmulatorNames[];
 
 @class OERingBuffer;
 
