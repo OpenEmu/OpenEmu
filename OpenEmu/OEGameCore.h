@@ -104,9 +104,6 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
     BOOL                   shouldStop;
 }
 
-+ (NSTimeInterval)defaultTimeInterval;
-+ (void)setDefaultTimeInterval:(NSTimeInterval)aTimeInterval;
-
 @property(readwrite, weak) id<OERenderDelegate> renderDelegate;
 
 @property(weak)   OEGameCoreController *owner;

@@ -105,6 +105,8 @@
 		3887A8971024D796000FC4CF /* QuickLook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3887A8961024D796000FC4CF /* QuickLook.framework */; };
 		3D15428114E20E22009C3DEE /* OENonARCHacks.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D15428014E20E22009C3DEE /* OENonARCHacks.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		3D71183E1500650D0056E3BF /* PSYBlockTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D711839150064F50056E3BF /* PSYBlockTimer.m */; };
+		3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */; };
+		3DD90BA81500A6BF00FE5DFD /* OETimingUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DD90BA61500A6BF00FE5DFD /* OETimingUtils.m */; };
 		3DFAB00D144644D4005EF0C3 /* OEGameShader.m in Sources */ = {isa = PBXBuildFile; fileRef = 1BA788FE0FF9C95A007CE5DB /* OEGameShader.m */; };
 		53439A8C13B92C4A005C0CC8 /* OELibraryDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */; };
 		53439A9013B92C68005C0CC8 /* OEDBDataSourceAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 53439A8F13B92C68005C0CC8 /* OEDBDataSourceAdditions.m */; };
@@ -872,6 +874,8 @@
 		3D15428014E20E22009C3DEE /* OENonARCHacks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OENonARCHacks.m; sourceTree = "<group>"; };
 		3D711838150064F50056E3BF /* PSYBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PSYBlockTimer.h; sourceTree = "<group>"; };
 		3D711839150064F50056E3BF /* PSYBlockTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PSYBlockTimer.m; sourceTree = "<group>"; };
+		3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OETimingUtils.h; sourceTree = "<group>"; };
+		3DD90BA61500A6BF00FE5DFD /* OETimingUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OETimingUtils.m; sourceTree = "<group>"; };
 		53439A8A13B92C4A005C0CC8 /* OELibraryDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELibraryDatabase.h; sourceTree = "<group>"; };
 		53439A8B13B92C4A005C0CC8 /* OELibraryDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELibraryDatabase.m; sourceTree = "<group>"; };
 		53439A8E13B92C68005C0CC8 /* OEDBDataSourceAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEDBDataSourceAdditions.h; sourceTree = "<group>"; };
@@ -2943,6 +2947,8 @@
 				82AFA6680FDDC03500531EE3 /* OERingBuffer.m */,
 				82C9B3FA14F75CB700D7E795 /* TPCircularBuffer.c */,
 				82C9B3FD14F75CD900D7E795 /* TPCircularBuffer.h */,
+				3DD90BA51500A6BF00FE5DFD /* OETimingUtils.h */,
+				3DD90BA61500A6BF00FE5DFD /* OETimingUtils.m */,
 			);
 			name = "GameCore framework";
 			sourceTree = "<group>";
@@ -3098,6 +3104,7 @@
 				EF2FDBEE14D0025D002A64F2 /* OEPreferenceViewController.h in Headers */,
 				8220233214F1C20E00902FB1 /* OESystemResponderClient.h in Headers */,
 				8245FD0914F764D100C64574 /* TPCircularBuffer.h in Headers */,
+				3DD90BA71500A6BF00FE5DFD /* OETimingUtils.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3829,6 +3836,7 @@
 				EF2FDBEF14D00261002A64F2 /* OEPreferenceViewController.m in Sources */,
 				8245FD0814F763E600C64574 /* TPCircularBuffer.c in Sources */,
 				3D71183E1500650D0056E3BF /* PSYBlockTimer.m in Sources */,
+				3DD90BA81500A6BF00FE5DFD /* OETimingUtils.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
