@@ -209,9 +209,12 @@
         _localMonitor = nil;
     }
 
-    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask handler:
+    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask | NSScrollWheelMask handler:
                      ^ NSEvent  *(NSEvent *incomingEvent)
                      {
+                         if([incomingEvent type]==NSScrollWheel)
+                             return nil;
+                         
                          OEMenuView *view = [[[self contentView] subviews] lastObject];
                          
                          if([incomingEvent type] == NSFlagsChanged)
@@ -351,6 +354,7 @@
 {
     [[self menuView] mouseDragged:theEvent];
 }
+
 - (void)menuMouseUp:(NSEvent*)theEvent
 {
     [[self menuView] mouseUp:theEvent];
