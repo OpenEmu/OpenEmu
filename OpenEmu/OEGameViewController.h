@@ -45,7 +45,6 @@
 
 @interface OEGameViewController : NSViewController
 {
-    OEHUDControlsBarWindow *controlsWindow;
     // IPC from our OEHelper
     id<OEGameCoreHelper>  rootProxy;
     OEGameCoreManager    *gameCoreManager;
@@ -72,6 +71,8 @@
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core;
 - (id)initWithGame:(OEDBGame *)game error:(NSError **)outError;
 - (id)initWithGame:(OEDBGame *)game core:(OECorePlugin*)core error:(NSError **)outError;
+
+@property (strong) OEHUDControlsBarWindow *controlsWindow;
 
 @property(weak)   id<OEGameViewControllerDelegate> delegate;
 
