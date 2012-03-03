@@ -53,7 +53,7 @@ enum _OEGameDocumentErrorCodes
     id<OEGameCoreHelper>  rootProxy;
 }
 
-@property(readonly, copy)   NSString             *romPath;
+@property(readonly, copy) NSString             *romPath;
 @property(readonly, weak) OECorePlugin         *plugin;
 @property(readonly, weak) OEGameCoreController *owner;
 
