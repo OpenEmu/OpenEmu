@@ -180,13 +180,13 @@ static void writeSaveFile(const char* path, int type)
     }
 }
 
-- (void)didPushNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][FCEUEmulatorValues[button]] = 0xFFFF;
     //pad[player-1][FCEUEmulatorValues[button]] = 1;
 }
 
-- (void)didReleaseNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseNESButton:(OENESButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][FCEUEmulatorValues[button]] = 0;
 }

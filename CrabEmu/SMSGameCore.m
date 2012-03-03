@@ -250,33 +250,33 @@ void gui_set_title(const char *str)
     return btn;
 }
 
-- (void)didPushGGButton:(OEGGButton)button;
+- (oneway void)didPushGGButton:(OEGGButton)button;
 {
     int btn = [self crabButtonForButton:button];
     if(btn > 0) sms_button_pressed(btn);
 }
 
-- (void)didReleaseGGButton:(OEGGButton)button;
+- (oneway void)didReleaseGGButton:(OEGGButton)button;
 {
     int btn = [self crabButtonForButton:button];
     if(btn > 0) sms_button_released(btn);
 }
 
-- (void)didPushSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
 {
     int btn = [self crabButtonForButton:button player:player];
     
     if(btn > 0) sms_button_pressed(btn);
 }
 
-- (void)didReleaseSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseSMSButton:(OESMSButton)button forPlayer:(NSUInteger)player;
 {
     int btn = [self crabButtonForButton:button player:player];
     
     if(btn > 0) sms_button_released(btn);
 }
 
-- (void)didPushSMSStartButton;
+- (oneway void)didPushSMSStartButton;
 {
     if(sms_console != CONSOLE_GG)
         [self pauseEmulation:self];
@@ -284,17 +284,17 @@ void gui_set_title(const char *str)
         sms_button_pressed(GG_START);
 }
 
-- (void)didReleaseSMSStartButton;
+- (oneway void)didReleaseSMSStartButton;
 {
     
 }
 
-- (void)didPushSMSResetButton;
+- (oneway void)didPushSMSResetButton;
 {
     sms_button_pressed(SMS_RESET);
 }
 
-- (void)didReleaseSMSResetButton;
+- (oneway void)didReleaseSMSResetButton;
 {
     sms_button_released(SMS_RESET);
 }

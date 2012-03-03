@@ -168,12 +168,12 @@ static void writeSaveFile(const char* path, int type)
     }
 }
 
-- (void)didPushSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][BSNESEmulatorValues[button]] = 0xFFFF;
 }
 
-- (void)didReleaseSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseSNESButton:(OESNESButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][BSNESEmulatorValues[button]] = 0;
 }

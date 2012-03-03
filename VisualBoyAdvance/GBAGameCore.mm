@@ -182,12 +182,12 @@ static void writeSaveFile(const char* path, int type)
     }
 }
 
-- (void)didPushGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didPushGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][GBAEmulatorValues[button]] = 1;
 }
 
-- (void)didReleaseGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
+- (oneway void)didReleaseGBAButton:(OEGBAButton)button forPlayer:(NSUInteger)player;
 {
     pad[player-1][GBAEmulatorValues[button]] = 0;
 }
