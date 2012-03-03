@@ -64,7 +64,7 @@ uint8_t inputState;
 static OERingBuffer *chipBuffer;
 static OERingBuffer *dacBuffer;
 
-- (void)didPushNGPButton:(OENGPButton)button;
+- (oneway void)didPushNGPButton:(OENGPButton)button;
 {
     switch (button)
     {
@@ -94,7 +94,7 @@ static OERingBuffer *dacBuffer;
     }
 }
 
-- (void)didReleaseNGPButton:(OENGPButton)button;
+- (oneway void)didReleaseNGPButton:(OENGPButton)button;
 {
     switch (button)
     {
