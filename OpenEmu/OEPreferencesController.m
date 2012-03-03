@@ -13,7 +13,7 @@
 #import "OEBackgroundGradientView.h"
 
 #import "OEToolbarView.h"
-#import "INAppStoreWindow.h"
+#import "OEAppStoreWindow.h"
 
 #import "NSImage+OEDrawingAdditions.h"
 #import "NSViewController+OEAdditions.h"
@@ -75,11 +75,10 @@
     
     [self _reloadPreferencePanes];
     
-    win.titleBarString = @"Preferences";
-    win.titleBarHeight = 83;
-    win.titleBarView = toolbar;
-    win.trafficLightAlignment = 0;
-    
+    [win setTitleBarView:toolbar];
+    [win setCenterTrafficLightButtons:NO];
+    [win setTitleBarHeight:83.0];
+   
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger selectedTab = [standardDefaults integerForKey:UDSelectedPreferencesTab];
     
@@ -224,7 +223,7 @@
     NSWindow *win = [self window];
     
     if(view==[win contentView]) return;
-    
+
     NSRect contentRect = [win contentRectForFrameRect:[win frame]];
     contentRect.size = size;
     NSRect frameRect = [win frameRectForContentRect:contentRect];
