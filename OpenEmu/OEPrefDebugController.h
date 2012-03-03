@@ -12,6 +12,8 @@
 @interface OEPrefDebugController : NSViewController <OEPreferencePane>
 @property (retain) IBOutlet NSPopUpButton* regionSelector;
 @property (retain) IBOutlet NSPopUpButton* dbActionSelector;
+
+@property (retain) IBOutlet NSView* contentView;
 #pragma mark -
 #pragma mark UI Methods
 - (IBAction)changeRegion:(id)sender;
