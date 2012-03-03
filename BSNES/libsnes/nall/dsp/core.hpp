@@ -19,6 +19,7 @@ struct Resampler {
   virtual void clear() = 0;
   virtual void sample() = 0;
   Resampler(DSP &dsp) : dsp(dsp) {}
+  virtual ~Resampler() {}
 };
 
 struct DSP {
