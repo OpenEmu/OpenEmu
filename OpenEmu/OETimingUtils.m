@@ -88,17 +88,21 @@ static void OEPerfMonitorRecordEvent(OEPerfMonitorObservation *observation, NSTi
     
     if (observation->n == samplePeriod) {
         NSTimeInterval variance=0;
+        NSTimeInterval worst=DBL_MIN;
         int i = 0;
         
         for (i = 0; i < samplePeriod; i++) {
-            NSTimeInterval s = observation->sampledDiffs[i] - avg;
+            NSTimeInterval t,s;
+            t = observation->sampledDiffs[i];
+            s = t - avg;
             variance += s*s;
+            if (t > worst) worst = t;
         }
         
         NSTimeInterval stddev = sqrt(variance / observation.numTimesRun);
         
-        NSLog(@"%@: avg %fs (%f fps), std.dev %fs (%f fps) / over %ld/%ld = %f%%", observation->name,
-              avg, 1/avg, stddev, 1/stddev, observation.numTimesOver, observation.numTimesRun,
+        NSLog(@"%@: avg %fs (%f fps), std.dev %fs (%f fps), worst %fs / over %ld/%ld = %f%%", observation->name,
+              avg, 1/avg, stddev, 1/stddev, worst, observation.numTimesOver, observation.numTimesRun,
               100. * (observation.numTimesOver/(float)observation.numTimesRun));
         observation->n = 0;
     }
