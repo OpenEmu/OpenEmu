@@ -383,6 +383,7 @@
 		83AE9F0D14B2725300E91BD8 /* controller_genesis.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AE9F0A14B271E200E91BD8 /* controller_genesis.png */; };
 		83AEF939140B78B6007803D7 /* filter_effect_frame.png in Resources */ = {isa = PBXBuildFile; fileRef = 83AEF937140B78B6007803D7 /* filter_effect_frame.png */; };
 		83B1E1C914FE734E00AA652F /* mixed_state.png in Resources */ = {isa = PBXBuildFile; fileRef = 83B1E1C814FE734E00AA652F /* mixed_state.png */; };
+		83B72F5115024B1E0052BCA0 /* OEAppStoreWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 83B72F5015024B1E0052BCA0 /* OEAppStoreWindow.m */; };
 		83BABBEE1458978B0097F6B2 /* OESetupAssistantTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */; };
 		83BF5292146C2F0A00B5F742 /* blank_slate_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */; };
 		83BF5295146C2F4000B5F742 /* blank_slate_box.png in Resources */ = {isa = PBXBuildFile; fileRef = 83BF5294146C2F4000B5F742 /* blank_slate_box.png */; };
@@ -1258,6 +1259,8 @@
 		83B1E1C814FE734E00AA652F /* mixed_state.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mixed_state.png; sourceTree = "<group>"; };
 		83B6E43D143E090800BCDB7A /* OELocalizationHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OELocalizationHelper.h; sourceTree = "<group>"; };
 		83B6E43E143E090800BCDB7A /* OELocalizationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OELocalizationHelper.m; sourceTree = "<group>"; };
+		83B72F4F15024B1E0052BCA0 /* OEAppStoreWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEAppStoreWindow.h; sourceTree = "<group>"; };
+		83B72F5015024B1E0052BCA0 /* OEAppStoreWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEAppStoreWindow.m; sourceTree = "<group>"; };
 		83BABBEC1458978B0097F6B2 /* OESetupAssistantTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OESetupAssistantTableView.h; sourceTree = "<group>"; };
 		83BABBED1458978B0097F6B2 /* OESetupAssistantTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OESetupAssistantTableView.m; sourceTree = "<group>"; };
 		83BF5291146C2F0A00B5F742 /* blank_slate_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank_slate_arrow.png; sourceTree = "<group>"; };
@@ -2258,6 +2261,8 @@
 				53439B5913B93255005C0CC8 /* OEAttributedTextFieldCell.m */,
 				53439B5B13B9326D005C0CC8 /* INAppStoreWindow.h */,
 				53439B5C13B9326D005C0CC8 /* INAppStoreWindow.m */,
+				83B72F4F15024B1E0052BCA0 /* OEAppStoreWindow.h */,
+				83B72F5015024B1E0052BCA0 /* OEAppStoreWindow.m */,
 				53439B5E13B93276005C0CC8 /* Toolbar */,
 				53439B6213B932A1005C0CC8 /* OEBackgroundGradientView.h */,
 				53439B6313B932A1005C0CC8 /* OEBackgroundGradientView.m */,
@@ -3977,6 +3982,7 @@
 				EFBD5D8C14EFE29500FBD1E0 /* OECoverGridViewCellRatingLayer.m in Sources */,
 				EFBD5D8F14F1398400FBD1E0 /* OECoverGridViewCellIndicationLayer.m in Sources */,
 				83753F1714F537C400D708A7 /* OEPrefDebugController.m in Sources */,
+				83B72F5115024B1E0052BCA0 /* OEAppStoreWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
