@@ -32,10 +32,15 @@
 
 @class OEHIDDeviceHandler;
 
-@interface OEHIDManager : NSObject
-@property(copy) NSArray *deviceHandlers;
+@interface OEHIDManager : NSObject 
+{
+    IOHIDManagerRef  hidManager;
+    NSMutableArray  *deviceHandlers;
+}
 
-- (void)registerDeviceTypes:(NSArray *)matchingTypes;
+@property (copy) NSArray* deviceHandlers;
+
+- (void)registerDeviceTypes:(NSArray*)matchingTypes;
 - (OEHIDDeviceHandler *)deviceHandlerForDevice:(IOHIDDeviceRef)aDevice;
 - (void)addDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice;
 - (void)removeDeviceHandlerForDevice:(IOHIDDeviceRef)inDevice;

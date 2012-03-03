@@ -35,27 +35,16 @@ static void OEHandle_InputValueCallback(void *inContext, IOReturn inResult, void
 static void OEHandle_DeviceMatchingCallback(void* inContext, IOReturn inResult, void* inSender, IOHIDDeviceRef inIOHIDDeviceRef);
 static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, void *inSender);
 
-@interface OEHIDManager ()
-{
-    IOHIDManagerRef  hidManager;
-    NSMutableArray  *deviceHandlers;
-    id               keyEventMonitor;
-    id               modifierMaskMonitor;
-}
-
-- (void)OE_addKeyboardEventMonitor;
-
-@end
-
 @implementation OEHIDManager
+
 @synthesize deviceHandlers;
 
 - (id)init
 {
-	if((self = [super init]))
+	if( (self = [super init]) )
 	{
 		deviceHandlers = [[NSMutableArray alloc] init];
-		hidManager     = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+		hidManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
 		
 		
 		IOHIDManagerRegisterDeviceMatchingCallback(hidManager,
@@ -65,8 +54,6 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 		IOHIDManagerScheduleWithRunLoop(hidManager,
 										CFRunLoopGetMain(),
 										kCFRunLoopDefaultMode);
-        
-        [self OE_addKeyboardEventMonitor];
 	}
 	return self;
 }
@@ -85,64 +72,6 @@ static void OEHandle_DeviceRemovalCallback(void *inContext, IOReturn inResult, v
 		CFRelease(hidManager);
     }
 }
-
-- (void)OE_addKeyboardEventMonitor;
-{
-    keyEventMonitor =
-    [NSEvent addLocalMonitorForEventsMatchingMask:NSKeyDownMask | NSKeyUpMask
-                                          handler:
-     ^ NSEvent * (NSEvent *anEvent)
-     {
-         /* Events with a process ID of 0 comes from the system, that is from the physical keyboard.
-          * These events are already managed by their own device handler.
-          * The events managed through this monitor are events coming from different applications.
-          */
-         if(CGEventGetIntegerValueField([anEvent CGEvent], kCGEventSourceUnixProcessID) != 0)
-         {
-             OEHIDEvent *event = [OEHIDEvent keyEventWithTimestamp:[anEvent timestamp] keyCode:[OEHIDEvent keyCodeForVK:[anEvent keyCode]] state:[anEvent type] == NSKeyDown cookie:0];
-             
-             [NSApp postHIDEvent:event];
-         }
-         
-         return anEvent;
-     }];
-    
-    modifierMaskMonitor =
-    [NSEvent addLocalMonitorForEventsMatchingMask:NSFlagsChangedMask handler:
-     ^ NSEvent * (NSEvent *anEvent)
-     {
-         /* Events with a process ID of 0 comes from the system, that is from the physical keyboard.
-          * These events are already managed by their own device handler.
-          * The events managed through this monitor are events coming from different applications.
-          */
-         if(CGEventGetIntegerValueField([anEvent CGEvent], kCGEventSourceUnixProcessID) != 0)
-         {
-             NSUInteger keyCode = [OEHIDEvent keyCodeForVK:[anEvent keyCode]];
-             NSUInteger keyMask = 0;
-             
-             switch(keyCode)
-             {
-                 case kHIDUsage_KeyboardCapsLock     : keyMask = NSAlphaShiftKeyMask; break;
-                     
-                 case kHIDUsage_KeyboardLeftControl  : keyMask = 0x0001; break;
-                 case kHIDUsage_KeyboardLeftShift    : keyMask = 0x0002; break;
-                 case kHIDUsage_KeyboardRightShift   : keyMask = 0x0004; break;
-                 case kHIDUsage_KeyboardLeftGUI      : keyMask = 0x0008; break;
-                 case kHIDUsage_KeyboardRightGUI     : keyMask = 0x0010; break;
-                 case kHIDUsage_KeyboardLeftAlt      : keyMask = 0x0020; break;
-                 case kHIDUsage_KeyboardRightAlt     : keyMask = 0x0040; break;
-                 case kHIDUsage_KeyboardRightControl : keyMask = 0x2000; break;
-             }
-             
-             OEHIDEvent *event = [OEHIDEvent keyEventWithTimestamp:[anEvent timestamp] keyCode:keyCode state:!!([anEvent modifierFlags] & keyMask) cookie:0];
-             
-             [NSApp postHIDEvent:event];
-         }
-         
-         return anEvent;
-     }];
-}
-
 - (void)registerDeviceTypes:(NSArray*)matchingTypes
 {
     IOHIDManagerSetDeviceMatchingMultiple(hidManager, (__bridge CFArrayRef)matchingTypes);
