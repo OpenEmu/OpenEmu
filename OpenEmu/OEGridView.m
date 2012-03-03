@@ -1212,11 +1212,10 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         OEGridViewCell *itemCell = [self cellForItemAtIndex:index makeIfNecessary:YES];
         
         NSIndexSet* indexes = itemIsSelected ? [self selectionIndexes] : [NSIndexSet indexSetWithIndex:index];
-        NSRect hitRect = [itemCell hitRect];
         
+        NSRect hitRect = NSInsetRect([itemCell hitRect], 5, 5);
         NSRect hitRectOnWindow = [itemCell convertRect:hitRect toLayer:nil];
         NSRect visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
-        
         NSRect visibleItemRect = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
         
         if(!itemIsSelected)
@@ -1232,7 +1231,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
             edge = NSMinY(visibleItemRect) == NSMinY(visibleRectOnWindow) ? OEMaxYEdge : OEMinYEdge;
         
         [contextMenu openOnEdge:edge ofRect:visibleItemRect ofWindow:[self window]];
-
+        
         return nil;
     }
     

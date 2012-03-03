@@ -11,7 +11,7 @@
 
 #import "OEDBGame.h"
 @implementation OEPrefDebugController
-@synthesize regionSelector, dbActionSelector;
+@synthesize regionSelector, dbActionSelector, contentView;
 #pragma mark -
 - (void)awakeFromNib
 {    
@@ -20,6 +20,10 @@
         OERegion currentRegion = [[OELocalizationHelper sharedHelper] region];
         [[self regionSelector] selectItemWithTag:currentRegion];
     }
+        
+    NSScrollView *scrollView = (NSScrollView*)[self view];    
+    [scrollView setDocumentView:[self contentView]];
+    [[self contentView] setFrameOrigin:(NSPoint){0,-[[self contentView] frame].size.height+[scrollView frame].size.height}];
 }
 
 - (NSString *)nibName
@@ -129,7 +133,7 @@
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(320, 603);
+    return NSMakeSize(320, 400);
 }
 
 @end
