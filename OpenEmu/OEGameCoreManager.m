@@ -207,6 +207,8 @@ NSString *const OEGameDocumentErrorDomain = @"OEGameDocumentErrorDomain";
 
 - (void)endHelperProcess
 {
+    [rootProxy stopEmulation];
+    
     // kill our background friend
     [helper stopProcess];
     helper = nil;

@@ -57,4 +57,5 @@
 
 - (BOOL)loadRomAtPath:(bycopy NSString *)aPath withCorePluginAtPath:(bycopy NSString *)pluginPath owner:(byref OEGameCoreController *)owner;
 - (void)setupEmulation;
+- (void)stopEmulation;
 @end

@@ -108,15 +108,15 @@ static inline NSSize NSSizeFromOEIntSize(OEIntSize size)
 
 @property(weak)           id<OERenderDelegate>  renderDelegate;
 
-@property(nonatomic, weak) OEGameCoreController *owner;
-@property(readonly,  copy) NSString             *pluginName;
-@property(readonly,  copy) NSString             *gameSystemName DEPRECATED_ATTRIBUTE;
+@property(weak)     OEGameCoreController *owner;
+@property(readonly) NSString             *pluginName;
+@property(readonly) NSString             *gameSystemName DEPRECATED_ATTRIBUTE;
 
-@property(readonly,  copy) NSString             *supportDirectoryPath;
-@property(readonly,  copy) NSString             *batterySavesDirectoryPath;
+@property(readonly) NSString             *supportDirectoryPath;
+@property(readonly) NSString             *batterySavesDirectoryPath;
 
-@property(readonly)       NSTimeInterval        frameInterval;
-@property                 BOOL                  frameFinished;
+@property(readonly) NSTimeInterval        frameInterval;
+@property           BOOL                  frameFinished;
 
 - (void)getAudioBuffer:(void *)buffer frameCount:(NSUInteger)frameCount bufferIndex:(NSUInteger)index;
 - (OERingBuffer *)ringBufferAtIndex:(NSUInteger)index;
