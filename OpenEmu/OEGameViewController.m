@@ -259,10 +259,9 @@
     
     // kill our background friend
     [gameCoreManager stop];
+    
     gameCoreManager = nil;
-    
     rootProxy = nil;
-    
     gameController = nil;
 }
 

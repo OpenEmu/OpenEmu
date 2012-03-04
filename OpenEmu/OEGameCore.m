@@ -40,8 +40,14 @@
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
 
-@implementation OEGameCore
+@interface OEGameCore ()
+@property(readwrite, copy) NSString *pluginName;
+@property(readwrite, copy) NSString *supportDirectoryPath;
+@property(readwrite, copy) NSString *batterySavesDirectoryPath;
+@end
 
+@implementation OEGameCore
+@synthesize pluginName, supportDirectoryPath, batterySavesDirectoryPath;
 @synthesize renderDelegate;
 @synthesize owner, frameFinished;
 @synthesize mousePosition;
@@ -90,24 +96,21 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     return ringBuffers[index];
 }
 
-- (NSString *)pluginName
+- (void)setOwner:(OEGameCoreController *)value
 {
-    return [[self owner] pluginName];
+    if(owner != value)
+    {
+        owner = value;
+        
+        [self setPluginName:[value pluginName]];
+        [self setSupportDirectoryPath:[value supportDirectoryPath]];
+        [self setBatterySavesDirectoryPath:[[self supportDirectoryPath] stringByAppendingPathComponent:@"Battery Saves"]];
+    }
 }
 
 - (NSString *)gameSystemName;
 {
     return [[self owner] gameSystemName];
-}
-
-- (NSString *)supportDirectoryPath
-{
-    return [[self owner] supportDirectoryPath];
-}
-
-- (NSString *)batterySavesDirectoryPath
-{
-    return [[self supportDirectoryPath] stringByAppendingPathComponent:@"Battery Saves"];
 }
 
 #pragma mark Execution
