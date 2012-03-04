@@ -33,17 +33,27 @@
 #import "OEApplicationDelegate.h"
 #import "OEGameViewController.h"
 #import "OEGameCoreManager.h"
+#import "OEHUDControlsBar.h"
 
 #import "OEROMImporter.h"
 #import "OEGameWindowController.h"
 
 @interface OEGameDocument ()
+
+@property (strong) NSTimer * mouseIdleTimer;
+
 - (BOOL)OE_loadRom:(OEDBRom *)rom core:(OECorePlugin*)core withError:(NSError**)outError;
 - (BOOL)OE_loadGame:(OEDBGame *)game core:(OECorePlugin*)core withError:(NSError**)outError;
+
+- (void)checkMouseIdleTime:(NSTimer*)aNotification;
+
+- (void)windowDidEnterFullScreen:(NSNotification*)aNotification;
+- (void)windowDidExitFullScreen:(NSNotification*)aNotification;
+
 @end
 
 @implementation OEGameDocument
-@synthesize gameViewController;
+@synthesize gameViewController,mouseIdleTimer;
 
 #pragma mark -
 
@@ -58,9 +68,36 @@
                                                  selector:@selector(applicationWillTerminate:) 
                                                      name:NSApplicationWillTerminateNotification
                                                    object:NSApp];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidEnterFullScreen:) name:NSWindowDidEnterFullScreenNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowDidExitFullScreen:) name:NSWindowDidExitFullScreenNotification object:nil];
+        
     }
     return self;
 }
+
+- (void)windowDidEnterFullScreen:(NSNotification *)aNotification
+{
+    mouseIdleTimer = [NSTimer scheduledTimerWithTimeInterval:3 target:self selector:@selector(checkMouseIdleTime:) userInfo:nil repeats:YES];
+    [mouseIdleTimer fire];
+}
+
+- (void)windowDidExitFullScreen:(NSNotification *)aNotification
+{
+    [mouseIdleTimer invalidate];
+    [NSCursor setHiddenUntilMouseMoves:NO];
+}
+
+- (void)checkMouseIdleTime:(NSTimer*)aNotification
+{
+    CFTimeInterval mouseIdleTime = CGEventSourceSecondsSinceLastEventType(kCGEventSourceStateCombinedSessionState, kCGEventMouseMoved);
+    if (mouseIdleTime >= 3)
+    {
+        [[gameViewController controlsWindow] hide];
+        [NSCursor setHiddenUntilMouseMoves:YES];
+    }
+}
+
 
 - (id)initWithRom:(OEDBRom *)rom
 {
