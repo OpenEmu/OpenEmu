@@ -40,14 +40,7 @@
 #define BOOL_STR(b) ((b) ? "YES" : "NO")
 #endif
 
-@interface OEGameCore ()
-@property(readwrite, copy) NSString *pluginName;
-@property(readwrite, copy) NSString *supportDirectoryPath;
-@property(readwrite, copy) NSString *batterySavesDirectoryPath;
-@end
-
 @implementation OEGameCore
-@synthesize pluginName, supportDirectoryPath, batterySavesDirectoryPath;
 @synthesize renderDelegate;
 @synthesize owner, frameFinished;
 @synthesize mousePosition;
@@ -70,7 +63,7 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     {
         tenFrameCounter = 10;
         NSUInteger count = [self audioBufferCount];
-        ringBuffers = (__strong OERingBuffer**)calloc(count, sizeof(OERingBuffer*));
+        ringBuffers = (__strong OERingBuffer **)calloc(count, sizeof(OERingBuffer*));
         for(NSUInteger i = 0; i < count; i++) // FIXME lazy init these
             ringBuffers[i] = [[OERingBuffer alloc] initWithLength:[self audioBufferSizeForBuffer:i] * 16];
         
@@ -96,21 +89,24 @@ static NSTimeInterval defaultTimeInterval = 60.0;
     return ringBuffers[index];
 }
 
-- (void)setOwner:(OEGameCoreController *)value
+- (NSString *)pluginName
 {
-    if(owner != value)
-    {
-        owner = value;
-        
-        [self setPluginName:[value pluginName]];
-        [self setSupportDirectoryPath:[value supportDirectoryPath]];
-        [self setBatterySavesDirectoryPath:[[self supportDirectoryPath] stringByAppendingPathComponent:@"Battery Saves"]];
-    }
+    return [[self owner] pluginName];
 }
 
 - (NSString *)gameSystemName;
 {
     return [[self owner] gameSystemName];
+}
+
+- (NSString *)supportDirectoryPath
+{
+    return [[self owner] supportDirectoryPath];
+}
+
+- (NSString *)batterySavesDirectoryPath
+{
+    return [[self supportDirectoryPath] stringByAppendingPathComponent:@"Battery Saves"];
 }
 
 #pragma mark Execution
