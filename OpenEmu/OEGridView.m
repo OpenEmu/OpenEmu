@@ -869,7 +869,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
-{
+{    
     const NSPoint pointInView = [self OE_pointInViewFromEvent:theEvent];
     _trackingLayer            = [self OE_layerForPoint:pointInView];
 
@@ -1202,6 +1202,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
 - (NSMenu *)menuForEvent:(NSEvent *)theEvent
 {
+    [[self window] makeFirstResponder:self];
+    
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
     NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
     

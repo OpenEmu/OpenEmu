@@ -675,7 +675,6 @@
 @end
 
 @implementation OEMenuView
-
 - (id)initWithFrame:(NSRect)frame
 {
     if((self = [super initWithFrame:frame]))
@@ -1458,7 +1457,7 @@
 
 - (BOOL)acceptsFirstResponder
 {
-    return YES;
+    return NO;
 }
 
 - (BOOL)isFlipped

@@ -129,12 +129,15 @@
     [splitView setSidebarMaxWidth:[defaults doubleForKey:UDSidebarMaxWidth]];
     
     // add collection controller's view to splitview
+    [collectionVC viewWillAppear];
+    
     NSView *mainContentView = [self mainContentPlaceholderView];
     [mainContentView addSubview:[collectionVC view]];
     [[collectionVC view] setFrame:[mainContentView bounds]];
     
     [splitView adjustSubviews];
     
+    [collectionVC viewDidAppear];
     
     [[self toolbarSidebarButton] setImage:[NSImage imageNamed:@"toolbar_sidebar_button_close"]];
     
@@ -353,7 +356,6 @@
 }
 
 #pragma mark -
-
 - (IBAction)startGame:(id)sender
 {
     OEDBGame *selectedGame = [[[self collectionViewController] selectedGames] lastObject];
