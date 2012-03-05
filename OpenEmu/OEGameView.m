@@ -211,15 +211,15 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 
 - (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
 {
-    CGRect  bounds   = [self bounds];
+    CGRect  frame    = [gameView frame]; 
     CGPoint location = [anEvent locationInWindow];
-    location = [self convertPoint:location fromView:nil];
-    
+    location = [gameView convertPoint:location fromView:nil];
+    location.y = frame.size.height - location.y;
     OEIntRect rect = [[[self rootProxy] gameCore] screenRect];
     
     OEIntPoint point = {
-        .x = round(location.x * rect.size.width  / CGRectGetWidth(bounds)),
-        .y = round(location.y * rect.size.height / CGRectGetHeight(bounds))
+        .x = round(location.x * rect.size.width  / CGRectGetWidth(frame)),
+        .y = round(location.y * rect.size.height / CGRectGetHeight(frame))
     };
     
     return (id)[OEEvent eventWithMouseEvent:anEvent withLocationInGameView:point];
