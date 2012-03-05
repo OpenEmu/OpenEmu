@@ -30,6 +30,7 @@
 #import "OEGameLayer.h"
 #import "OEGameCoreHelper.h"
 #import "OESystemResponder.h"
+#import "OEEvent.h"
 
 static void OE_bindGameLayer(OEGameLayer *gameLayer)
 {
@@ -37,6 +38,10 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
     [gameLayer bind:@"filterName"   toObject:ctrl withKeyPath:@"values.videoFilter" options:nil];
     [gameLayer bind:@"vSyncEnabled" toObject:ctrl withKeyPath:@"values.vsync"      options:nil];
 }
+
+@interface OEGameView ()
+- (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
+@end
 
 @implementation OEGameView
 
@@ -200,5 +205,90 @@ static void OE_bindGameLayer(OEGameLayer *gameLayer)
 {
     [gameLayer setScreenshotHandler:block];
 }
+
+#pragma mark -
+#pragma mark Mouse events
+
+- (NSEvent *)OE_mouseEventWithEvent:(NSEvent *)anEvent;
+{
+    CGRect  bounds   = [self bounds];
+    CGPoint location = [anEvent locationInWindow];
+    location = [self convertPoint:location fromView:nil];
+    
+    OEIntRect rect = [[[self rootProxy] gameCore] screenRect];
+    
+    OEIntPoint point = {
+        .x = round(location.x * rect.size.width  / CGRectGetWidth(bounds)),
+        .y = round(location.y * rect.size.height / CGRectGetHeight(bounds))
+    };
+    
+    return (id)[OEEvent eventWithMouseEvent:anEvent withLocationInGameView:point];
+}
+
+- (void)mouseDown:(NSEvent *)theEvent;
+{
+    [[self gameResponder] mouseDown:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)rightMouseDown:(NSEvent *)theEvent;
+{
+    [[self gameResponder] rightMouseDown:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)otherMouseDown:(NSEvent *)theEvent;
+{
+    [[self gameResponder] otherMouseDown:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)mouseUp:(NSEvent *)theEvent;
+{
+    [[self gameResponder] mouseUp:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)rightMouseUp:(NSEvent *)theEvent;
+{
+    [[self gameResponder] rightMouseUp:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)otherMouseUp:(NSEvent *)theEvent;
+{
+    [[self gameResponder] otherMouseUp:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)mouseMoved:(NSEvent *)theEvent;
+{
+    [[self gameResponder] mouseMoved:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent;
+{
+    [[self gameResponder] mouseDragged:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)scrollWheel:(NSEvent *)theEvent;
+{
+    [[self gameResponder] scrollWheel:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)rightMouseDragged:(NSEvent *)theEvent;
+{
+    [[self gameResponder] rightMouseDragged:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)otherMouseDragged:(NSEvent *)theEvent;
+{
+    [[self gameResponder] otherMouseDragged:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)mouseEntered:(NSEvent *)theEvent;
+{
+    [[self gameResponder] mouseEntered:[self OE_mouseEventWithEvent:theEvent]];
+}
+
+- (void)mouseExited:(NSEvent *)theEvent;
+{
+    [[self gameResponder] mouseExited:[self OE_mouseEventWithEvent:theEvent]];
+}
+
 
 @end

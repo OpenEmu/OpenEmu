@@ -34,7 +34,7 @@
 {
 @private
     NSView      *gameView;
-    OEGameLayer * gameLayer;
+    OEGameLayer *gameLayer;
 }
 
 @property(readonly) OEGameLayer          *gameLayer;
