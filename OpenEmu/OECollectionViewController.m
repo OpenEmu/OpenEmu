@@ -405,7 +405,7 @@
         menuItem = [[NSMenuItem alloc] initWithTitle:@"Rating" action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
         [menu addItem:menuItem];    
-        [menu addItemWithTitle:@"Show In Finder" action:NULL keyEquivalent:@""];
+        [menu addItemWithTitle:@"Show In Finder" action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:NULL keyEquivalent:@""];
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:NULL keyEquivalent:@""];
@@ -432,7 +432,7 @@
         menuItem = [[NSMenuItem alloc] initWithTitle:@"Rating" action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
         [menu addItem:menuItem];    
-        [menu addItemWithTitle:@"Show In Finder" action:NULL keyEquivalent:@""];
+        [menu addItemWithTitle:@"Show In Finder" action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
         [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:NULL keyEquivalent:@""];
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:NULL keyEquivalent:@""];
@@ -599,11 +599,28 @@
     }
 }
 
+- (void)showSelectedGamesInFinder:(id)sender
+{
+    NSArray *selectedGames = [self selectedGames];
+    NSMutableArray *urls = [NSMutableArray array];
+    
+    [selectedGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSSet *roms = [obj valueForKey:@"roms"];
+        [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+            NSString *path = [obj valueForKey:@"path"];
+            NSURL *url = [NSURL fileURLWithPath:path];
+            [urls addObject:url];
+        }];    
+    }];
+    
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
+}
+
 #pragma mark -
 #pragma mark NSTableView DataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-    if( aTableView == listView)
+    if( aTableView == listView )
     {
         return [[gamesController arrangedObjects] count];
     }
@@ -614,7 +631,7 @@
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     
-    if( aTableView == listView)
+    if( aTableView == listView )
     {
         /*NSManagedObject* manobj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
          NSManagedObjectID* objID = [manobj objectID];

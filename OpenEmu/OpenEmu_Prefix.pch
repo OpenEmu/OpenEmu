@@ -41,6 +41,16 @@
 #define DLog(format, ...) do {} while (0)
 #endif
 
+#define LogResponderChain(__RESPONDER__) {                                                              \
+    NSResponder *responder = __RESPONDER__;                                                             \
+    NSMutableString* responderChain = [[NSMutableString alloc] initWithFormat:@"%@", responder];        \
+    while ((responder = [responder nextResponder])) {                                                   \
+            [responderChain appendString:@" -> "];                                                      \
+        [responderChain appendFormat:@"%@", responder];                                                 \
+    }                                                                                                   \
+    NSLog(@"%@", responderChain);                                                                       \
+}
+
 #define OEDBSystemsChangedNotificationName @"OEDBSystemsChanged"
 
 #define OEPreferencesOpenPaneNotificationName @"OEPrefOpenPane"
