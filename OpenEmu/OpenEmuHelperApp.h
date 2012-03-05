@@ -81,7 +81,7 @@ enum _OEHelperAppErrorCodes
     BOOL              loadedRom;
     
     // screen subrect stuff
-    id <OEGameCoreHelperDelegate> __weak delegate;
+    id<OEGameCoreHelperDelegate> __weak delegate;
     OEIntSize previousScreenSize, correctedSize;
     float     gameAspectRatio;
     BOOL      drawSquarePixels;
