@@ -42,6 +42,8 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 - (void)_performUpdate;
 + (void)_cpyValForKey:(NSString *)keyA of:(NSDictionary *)dictionary toKey:(NSString *)keyB ofGame:(OEDBGame *)game;
+
+- (BOOL)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel error:(NSError**)error;
 @end
 
 @implementation OEDBGame
@@ -339,9 +341,24 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     [[self database] save:nil];
 }
 
-- (BOOL)performSyncWithArchiveVG:(NSError **)outError
+- (BOOL)performFullSyncWithArchiveVG:(NSError **)outError
 {
-    DLog(@"performSyncWithArchiveVG:");
+    DLog(@"performFullSyncWithArchiveVG:");
+    return [self OE_performSyncWithArchiveVGByGrabbingInfo:0 error:outError];
+}
+// -performInfoSyncWithArchiveVG: only grabs info (text)
+- (BOOL)performInfoSyncWithArchiveVG:(NSError**)outError
+{
+    return [self OE_performSyncWithArchiveVGByGrabbingInfo:1 error:outError];
+}
+// -performInfoSyncWithArchiveVG: only grabs cover (image)
+- (BOOL)performCoverSyncWithArchiveVG:(NSError**)outError
+{
+    return [self OE_performSyncWithArchiveVGByGrabbingInfo:2 error:outError];
+}
+
+- (BOOL)OE_performSyncWithArchiveVGByGrabbingInfo:(int)detailLevel error:(NSError**)error
+{
     __block NSDictionary *gameInfo = nil;
     
     NSNumber *archiveID = [self valueForKey:@"archiveID"];
@@ -354,29 +371,45 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         [roms enumerateObjectsUsingBlock:
          ^(OEDBRom *aRom, BOOL *stop)
          {
-            if(useMD5)
-                gameInfo = [ArchiveVG gameInfoByMD5:[aRom md5Hash]];
+             if(useMD5)
+                 gameInfo = [ArchiveVG gameInfoByMD5:[aRom md5Hash]];
+             else
+                 gameInfo = [ArchiveVG gameInfoByCRC:[aRom crcHash]];
+             
+             if([gameInfo valueForKey:AVGGameIDKey] != nil &&
+                [[gameInfo valueForKey:AVGGameIDKey] integerValue] != 0)
+                 *stop = YES;
+         }];
+    }
+    
+    if(detailLevel != 0)
+    {
+        NSMutableDictionary *mutableGameInfo = [[NSMutableDictionary alloc] initWithDictionary:gameInfo];
+        
+        if(detailLevel == 1) // Info Only
+            [mutableGameInfo removeObjectForKey:AVGGameBoxURLKey];
+        else if(detailLevel == 2)
+        {
+            if([mutableGameInfo objectForKey:AVGGameBoxURLKey])
+                mutableGameInfo = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[mutableGameInfo objectForKey:AVGGameBoxURLKey], AVGGameBoxURLKey, nil];
             else
-                gameInfo = [ArchiveVG gameInfoByCRC:[aRom crcHash]];
-            
-            if([gameInfo valueForKey:AVGGameIDKey] != nil &&
-               [[gameInfo valueForKey:AVGGameIDKey] integerValue] != 0)
-                *stop = YES;
-        }];
+                mutableGameInfo = [[NSMutableDictionary alloc] init];
+        }
+        gameInfo = mutableGameInfo;
     }
     
     if(gameInfo != nil)
     {
         [self setArchiveVGInfo:gameInfo];
     }
-        
+    
     return gameInfo != nil;
 }
-
+#pragma mark -
 - (id)mergeInfoFromGame:(OEDBGame *)game
 {
     // TODO: (low priority): improve merging
-    // we could merge based on last archive sync for example
+    // we could merge with priority based on last archive sync for example
     if([self valueForKey:@"archiveID"] == nil)
         [self setValue:[game valueForKey:@"archiveID"] forKey:@"archiveID"];
     
@@ -630,7 +663,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 - (void)updateInfoInBackground
 {
-    DLog(@"Deprecated: Use OEDGBGame -performSyncWithArchiveVG: instead");
+    DLog(@"Deprecated: Use OEDGBGame -performFullSyncWithArchiveVG: instead");
     [self performSelectorInBackground:@selector(_performUpdate) withObject:nil];
 }
 
@@ -639,7 +672,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 - (void)_performUpdate
 {
-    DLog(@"Deprecated: Use OEDGBGame -performSyncWithArchiveVG: instead");
+    DLog(@"Deprecated: Use OEDGBGame -performFullSyncWithArchiveVG: instead");
     // TODO: get file checksum if none exists
     // TODO: contact archive, get infos
 }

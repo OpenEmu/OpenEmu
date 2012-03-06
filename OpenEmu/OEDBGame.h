@@ -72,11 +72,18 @@ extern NSString *const OEPasteboardTypeGame;
 + (NSArray*)allGamesWithError:(NSError**)error;
 + (NSArray*)allGamesInDatabase:(OELibraryDatabase*)database;
 + (NSArray*)allGamesInDatabase:(OELibraryDatabase*)database error:(NSError**)error;
+
 #pragma mark -
 #pragma mark Archive.VG Sync
 
 - (void)setArchiveVGInfo:(NSDictionary*)gameInfoDictionary;
-- (BOOL)performSyncWithArchiveVG:(NSError**)outError;
+// -performFullSyncWithArchiveVG: gets all info from archive.vg (cover and info)
+- (BOOL)performFullSyncWithArchiveVG:(NSError**)outError;
+// -performInfoSyncWithArchiveVG: only grabs info (text)
+- (BOOL)performInfoSyncWithArchiveVG:(NSError**)outError;
+// -performInfoSyncWithArchiveVG: only grabs cover (image)
+- (BOOL)performCoverSyncWithArchiveVG:(NSError**)outError;
+
 - (id)mergeInfoFromGame:(OEDBGame*)game;
 
 #pragma mark -
