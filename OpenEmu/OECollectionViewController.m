@@ -491,7 +491,7 @@
     if([[saveGamesMenu itemArray] count] == 0)
     {
         [saveGamesMenu addItemWithTitle:@"No Save States available" action:NULL keyEquivalent:@""];
-        [[[saveGamesMenu itemArray] lastObject] setEnabled:NO];
+        [(NSMenuItem*)[[saveGamesMenu itemArray] lastObject] setEnabled:NO];
     }
     
     return saveGamesMenu;
