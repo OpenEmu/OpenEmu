@@ -513,7 +513,7 @@
     BOOL valuesDiffer = NO;
     for(NSInteger i=0; i<[games count]; i++)
     {
-        NSNumber   *gameRating = [[games objectAtIndex:i] valueForKey:@"rating"];
+        NSNumber   *gameRating = [(OEDBGame*)[games objectAtIndex:i] rating];
         NSInteger   itemIndex = [gameRating integerValue];
         NSMenuItem *item = [ratingMenu itemAtIndex:itemIndex];
 
@@ -528,7 +528,7 @@
     
     if(valuesDiffer)
     {
-        NSNumber   *gameRating = [[games objectAtIndex:0] valueForKey:@"rating"];
+        NSNumber   *gameRating = [(OEDBGame*)[games objectAtIndex:0] rating];
         NSMenuItem *item = [ratingMenu itemAtIndex:[gameRating integerValue]];
         [item setState:NSMixedState];
     }
@@ -590,7 +590,7 @@
     NSArray *selectedGames = [self selectedGames];
     for(OEDBGame *game in selectedGames)
     {
-        [game setValue:[sender representedObject] forKey:@"rating"];
+        [game setRating:[sender representedObject]];
     }
 }
 
