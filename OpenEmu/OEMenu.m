@@ -121,6 +121,9 @@
 - (CAAnimation*)alphaValueAnimation;
 - (void)setAlphaValueAnimation:(CAAnimation *)anim;
 - (NSSize)menuSizeForContentSize:(NSSize)contentSize;
+
+- (void)OE_createEventMonitor;
+- (void)OE_removeEventMonitor;
 @end
 
 @implementation OEMenu
@@ -185,13 +188,7 @@
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    if(_localMonitor != nil)
-    {
-        [NSEvent removeMonitor:_localMonitor];
-        _localMonitor = nil;
-    }
+    [self OE_removeEventMonitor];
 }
 
 #pragma mark -
@@ -209,39 +206,7 @@
         _localMonitor = nil;
     }
 
-    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask | NSScrollWheelMask handler:
-                     ^ NSEvent  *(NSEvent *incomingEvent)
-                     {
-                         if([incomingEvent type]==NSScrollWheel)
-                             return nil;
-                         
-                         OEMenuView *view = [[[self contentView] subviews] lastObject];
-                         
-                         if([incomingEvent type] == NSFlagsChanged)
-                         {
-                             [self setIsAlternate:([incomingEvent modifierFlags] & NSAlternateKeyMask) != 0];
-                             return nil;
-                         }
-                         
-                         if([incomingEvent type] == NSKeyDown)
-                         {
-                             if([view menuKeyDown:incomingEvent])
-                                 return nil;
-                             return incomingEvent;
-                         }
-                         
-                         if([[incomingEvent window] isKindOfClass:[self class]])// mouse down in window, will be handle by content view
-                         {
-                             return incomingEvent;
-                         }
-                         else
-                         {
-                             // event is outside of window, close menu without changes and remove event
-                             [self closeMenuWithoutChanges:nil];
-                         }
-                         
-                         return nil;
-                     }];
+    [self OE_createEventMonitor];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges:) name:NSApplicationWillResignActiveNotification object:NSApp];
     
     [self setFrameOrigin:p];
@@ -452,6 +417,20 @@
 {
     return submenu;
 }
+
+- (void)setIsAlternate:(BOOL)flag
+{
+    if(closing || flag==_alternate) return;
+    
+    _alternate = flag;
+    if(self.highlightedItem) [self display];
+    if(self.submenu) [[self submenu] display];
+}
+
+- (BOOL)alternate
+{
+    return _alternate || [[self supermenu] alternate];
+}
 #pragma mark -
 - (void)setStyle:(OEMenuStyle)aStyle
 {
@@ -579,6 +558,8 @@
     
     // fade menu window out 
     [[self animator] setAlphaValue:0.0];
+    
+    [self OE_removeEventMonitor];
 }
 
 - (void)_closeByClickingItem:(NSMenuItem *)selectedItem
@@ -643,14 +624,53 @@
     [self _performCloseMenu];
 }
 
-- (void)setIsAlternate:(BOOL)flag
+#pragma mark -
+
+- (void)OE_createEventMonitor
 {
-    if(closing || flag==_alternate) return;
-    
-    _alternate = flag;
-    if(self.highlightedItem) [self display];
+    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask | NSScrollWheelMask handler:
+                     ^ NSEvent  *(NSEvent *incomingEvent)
+                     {
+                         if([incomingEvent type]==NSScrollWheel)
+                             return nil;
+                         
+                         OEMenuView *view = [[[self contentView] subviews] lastObject];
+                         
+                        if([incomingEvent type] == NSFlagsChanged)
+                         {
+                             [self setIsAlternate:([incomingEvent modifierFlags] & NSAlternateKeyMask) != 0];
+                             return nil;
+                         }
+                         
+                         if([incomingEvent type] == NSKeyDown)
+                         {
+                             if([view menuKeyDown:incomingEvent])
+                                 return nil;
+                             return incomingEvent;
+                         }
+                         
+                         if([[incomingEvent window] isKindOfClass:[self class]])// mouse down in window, will be handle by content view
+                         {
+                             return incomingEvent;
+                         }
+                         else
+                         {
+                             // event is outside of window, close menu without changes and remove event
+                             [self closeMenuWithoutChanges:nil];
+                         }
+                         
+                         return nil;
+                     }];
 }
 
+- (void)OE_removeEventMonitor
+{
+    if(_localMonitor != nil)
+    {
+        [NSEvent removeMonitor:_localMonitor];
+        _localMonitor = nil;
+    }
+}
 @end
 
 #pragma mark -
