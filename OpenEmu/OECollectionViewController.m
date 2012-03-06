@@ -643,20 +643,27 @@
 
 - (void)startSelectedGameWithSaveState:(id)stateItem
 {
+    NSLog(@"startSelectedGameWithSaveState: Not implemented yet.");
 }
 
 - (void)renameSelectedGame:(id)sender
 {
+    NSLog(@"renameSelectedGame: Not implemented yet.");
 }
 
 - (void)deleteSelectedGames:(id)sender
 {
+    NSLog(@"deleteSelectedGames: Not implemented yet.");
 }
 
 - (void)makeNewCollectionWithSelectedGames:(id)sender
 {
+    NSLog(@"makeNewCollectionWithSelectedGames: Not implemented yet.");
+
     NSArray *selectedGames = [self selectedGames];
     id collection = [[[self libraryController] sidebarController] addCollection:NO];
+    
+    NSLog(@"makeNewCollectionWithSelectedGames: only creates new collection");
 }
 
 - (void)getGameInfoFromArchive:(id)sender
@@ -676,10 +683,14 @@
 }
 
 - (void)addCoverArtFromFile:(id)sender
-{}
+{
+    NSLog(@"addCoverArtFromFile: Not implemented yet.");
+}
 
 - (void)addSaveStateFromFile:(id)sender
-{}
+{
+    NSLog(@"addCoverArtFromFile: Not implemented yet.");
+}
 #pragma mark -
 #pragma mark NSTableView DataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
