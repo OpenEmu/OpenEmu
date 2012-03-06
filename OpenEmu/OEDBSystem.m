@@ -41,8 +41,8 @@
     
     system = [[OEDBSystem alloc] initWithEntity:[self entityDescriptionInContext:moc] insertIntoManagedObjectContext:moc];
     // TODO: get archive id(s) from plugin
-    [system setValue:systemIdentifier forKey:@"systemIdentifier"];
-    [system setValue:[system name] forKey:@"lastLocalizedName"];
+    [system setSystemIdentifier:systemIdentifier];
+    [system setLastLocalizedName:[system name]];
     
     return system;
 }
@@ -106,16 +106,26 @@
 }
 
 #pragma mark -
+#pragma mark Data Model Properties
+@dynamic lastLocalizedName, shortname, systemIdentifier, archiveID, archiveName, archiveShortname, enabled;
+
+#pragma mark -
+#pragma mark Data Model Relationships
+@dynamic games;
+- (NSMutableSet*)mutableGames
+{
+    return [self mutableSetValueForKey:@"games"];
+}
+
+#pragma mark -
 
 - (OESystemPlugin *)plugin
 {
-    NSString *systemIdentifier = [self valueForKey:@"systemIdentifier"];
+    NSString *systemIdentifier = [self systemIdentifier];
     OESystemPlugin *plugin = [OESystemPlugin gameSystemPluginForIdentifier:systemIdentifier];
     
     return plugin;
 }
-
-#pragma mark -
 
 - (NSImage *)icon
 {
@@ -124,7 +134,7 @@
 
 - (NSString *)name
 {
-    return [[self plugin] systemName] ? : [self valueForKey:@"lastLocalizedName"];
+    return [[self plugin] systemName] ? : [self lastLocalizedName];
 }
 
 @end
