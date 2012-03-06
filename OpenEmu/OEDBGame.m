@@ -223,12 +223,12 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     }
     
     [game setValue:system forKey:@"system"];
-    [game setValue:[NSDate date] forKey:@"importDate"];
+    [game setImportDate:[NSDate date]];
     
     NSString *gameTitleWithSuffix = [filePath lastPathComponent];
     NSString *gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];
     
-    [game setValue:gameTitleWithoutSuffix forKey:@"name"];
+    [game setName:gameTitleWithoutSuffix];
     
     if(![context save:outError])
     {
@@ -297,10 +297,10 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     NSNumber *archiveID = [gameInfoDictionary valueForKey:AVGGameIDKey];
     if([archiveID integerValue] == 0) return;
     
-    [self setValue:archiveID forKey:@"archiveID"];
+    [self setArchiveID:archiveID];
     
     NSString *gameTitle = [gameInfoDictionary valueForKey:AVGGameTitleKey];
-    [self setValue:gameTitle forKey:@"name"];
+    [self setName:gameTitle];
     
     // These values might not exist
     NSString *stringValue = nil;
@@ -326,7 +326,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     stringValue = [gameInfoDictionary valueForKey:AVGGameDescriptionKey];
     if(stringValue != nil)
     {
-        [self setValue:stringValue forKey:@"gameDescription"];
+        [self setGameDescription:stringValue];
     }
     
     // TODO: implement the following keys:
@@ -361,7 +361,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 {
     __block NSDictionary *gameInfo = nil;
     
-    NSNumber *archiveID = [self valueForKey:@"archiveID"];
+    NSNumber *archiveID = [self archiveID];
     if([archiveID integerValue] != 0)
         gameInfo = [ArchiveVG gameInfoByID:[archiveID integerValue]];
     else
@@ -410,26 +410,23 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 {
     // TODO: (low priority): improve merging
     // we could merge with priority based on last archive sync for example
-    if([self valueForKey:@"archiveID"] == nil)
-        [self setValue:[game valueForKey:@"archiveID"] forKey:@"archiveID"];
+    if([self archiveID] == nil)
+        [self setArchiveID:[game archiveID]];
     
-    if([self valueForKey:@"name"] == nil)
-        [self setValue:[game valueForKey:@"name"] forKey:@"name"];
+    if([self name] == nil)
+        [self setName:[game name]];
+
+    if([self gameDescription] == nil)
+        [self setGameDescription:[game gameDescription]];
     
-    if([self valueForKey:@"gameDescription"] == nil)
-        [self setValue:[game valueForKey:@"gameDescription"] forKey:@"gameDescription"];
+    if([self lastArchiveSync] == nil)
+        [self setLastArchiveSync:[game lastArchiveSync]];
+
+    if([self importDate] == nil)
+        [self setImportDate:[game importDate]];
     
-    if([self valueForKey:@"lastArchiveSync"] == nil)
-        [self setValue:[game valueForKey:@"lastArchiveSync"] forKey:@"lastArchiveSync"];
-    
-    if([self valueForKey:@"lastArchiveSync"] == nil)
-        [self setValue:[game valueForKey:@"lastArchiveSync"] forKey:@"lastArchiveSync"];
-    
-    if([self valueForKey:@"importDate"] == nil)
-        [self setValue:[game valueForKey:@"importDate"] forKey:@"importDate"];
-    
-    if([self valueForKey:@"rating"] == nil)
-        [self setValue:[game valueForKey:@"rating"] forKey:@"rating"];
+    if([self rating] == nil)
+        [self setRating:[game rating]];
     
     if([self valueForKey:@"boxImage"] == nil)
         [self setValue:[game valueForKey:@"boxImage"] forKey:@"boxImage"];
@@ -522,10 +519,10 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     // TODO: Merge full info
     resultGame = [[OEDBGame alloc] initWithEntity:description insertIntoManagedObjectContext:context];
     
-    [resultGame setPrimitiveValue:[gameInfo valueForKey:AVGGameIDKey] forKey:@"archiveID"];
-    [resultGame setValue:[gameInfo valueForKey:AVGGameTitleKey] forKey:@"name"];
-    [resultGame setValue:[NSDate date] forKey:@"lastArchiveSync"];
-    [resultGame setValue:[NSDate date] forKey:@"importDate"];
+    [resultGame setArchiveID:[gameInfo valueForKey:AVGGameIDKey]];
+    [resultGame setName:[gameInfo valueForKey:AVGGameTitleKey]];
+    [resultGame setLastArchiveSync:[NSDate date]];
+    [resultGame setImportDate:[NSDate date]];
     
     NSString *boxURLString = [gameInfo valueForKey:AVGGameBoxURLKey];
     if(boxURLString != nil)
@@ -533,7 +530,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     NSString *gameDescription = [gameInfo valueForKey:AVGGameDescriptionKey];
     if(gameDescription != nil)
-        [resultGame setValue:gameDescription forKey:@"gameDescription"];
+        [resultGame setGameDescription:gameDescription];
     
     return resultGame;
 }
@@ -578,10 +575,10 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if([[archiveGameDict valueForKey:AVGGameIDKey] intValue] == 0) return;
     
-    [self setValue:[archiveGameDict valueForKey:AVGGameIDKey] forKey:@"archiveID"];
-    [self setValue:[archiveGameDict valueForKey:AVGGameTitleKey] forKey:@"name"];
-    [self setValue:[NSDate date] forKey:@"lastArchiveSync"];
-    [self setValue:[NSDate date] forKey:@"importDate"];
+    [self setArchiveID:[archiveGameDict valueForKey:AVGGameIDKey]];
+    [self setName:[archiveGameDict valueForKey:AVGGameTitleKey]];
+    [self setLastArchiveSync:[NSDate date]];
+    [self setImportDate:[NSDate date]];
     
     NSString *boxURLString = [archiveGameDict valueForKey:(NSString *)AVGGameBoxURLKey];
     if(boxURLString != nil)
@@ -589,7 +586,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     NSString *gameDescription = [archiveGameDict valueForKey:(NSString *)AVGGameDescriptionKey];
     if(gameDescription != nil)
-        [self setValue:gameDescription forKey:@"gameDescription"];
+        [self setGameDescription:gameDescription];
 }
 
 
@@ -685,4 +682,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         [game setValue:[dictionary valueForKey:keyA] forKey:keyB];
 }
 
+#pragma mark -
+#pragma mark Data Model Properties
+@dynamic name, rating, gameDescription, importDate, lastArchiveSync, archiveID, status;
 @end

@@ -715,7 +715,7 @@ static OELibraryDatabase *defaultDatabase = nil;
             
             // TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
             NSString *gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
-            [game setValue:gameName forKey:@"name"];
+            [game setName:gameName];
             
             // create new rom
             NSEntityDescription *romDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
@@ -776,7 +776,7 @@ static OELibraryDatabase *defaultDatabase = nil;
                     
                     // TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
                     NSString *gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
-                    [game setValue:gameName forKey:@"name"];
+                    [game setName:gameName];
                 }
                 
                 [rom setValue:game forKey:@"game"];
@@ -790,7 +790,7 @@ static OELibraryDatabase *defaultDatabase = nil;
                 
                 // TODO: Also remove usual rom appendix (eg. [b], [hack], (Rev A), ...)
                 NSString *gameName = [[filePath lastPathComponent] stringByDeletingPathExtension];
-                [game setValue:gameName forKey:@"name"];
+                [game setName:gameName];
                 [rom setValue:game forKey:@"game"];
             }
             
@@ -834,7 +834,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         {
             // TODO: copy to DB/unsorted
             // TODO: use ROM Release Name instead of game name!!!
-            NSString *name = [game valueForKey:@"name"];
+            NSString *name = [game name];
             
             // determine path, based on system, maybe developer, genre, etc
             NSString *subpath = [NSString stringWithFormat:@"%@/%@", databaseFolder, 
@@ -893,7 +893,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     entityDescrption = [OEDBGame entityDescriptionInContext:self.managedObjectContext];
     OEDBGame *game = [[OEDBGame alloc] initWithEntity:entityDescrption insertIntoManagedObjectContext:self.managedObjectContext];
     [[game mutableSetValueForKey:@"roms"] addObject:rom];
-    [game setValue:[[filePath lastPathComponent] stringByDeletingPathExtension] forKey:@"name"];
+    [game setName:[[filePath lastPathComponent] stringByDeletingPathExtension]];
     
     return rom;
 }

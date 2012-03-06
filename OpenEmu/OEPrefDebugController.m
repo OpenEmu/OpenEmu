@@ -61,7 +61,7 @@
         case 0:
             printf("\nLogging all games with archive ID\n\n");
             [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if([[obj valueForKey:@"archiveID"] integerValue]!=0)
+                if([[obj archiveID] integerValue]!=0)
                 {
                     NSSet* roms = [obj valueForKey:@"roms"];
                     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
@@ -75,7 +75,7 @@
         case 1:
             printf("\nLogging all games without archive ID\n\n");
             [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if([[obj valueForKey:@"archiveID"] integerValue]==0)
+                if([[obj archiveID] integerValue]==0)
                 {
                     NSSet* roms = [obj valueForKey:@"roms"];
                     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
@@ -89,10 +89,10 @@
         case 2:
             printf("\nRemoving All Metadata\n\n");
             [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [obj setValue:nil forKey:@"archiveID"];
-                [obj setValue:nil forKey:@"gameDescription"];
-                [obj setValue:nil forKey:@"lastArchiveSync"];
-                [obj setValue:[NSNumber numberWithInt:0] forKey:@"rating"];
+                [obj setArchiveID:nil];
+                [obj setGameDescription:nil];
+                [obj setLastArchiveSync:nil];
+                [obj setRating:[NSNumber numberWithInt:0]];
                 [obj setValue:nil forKey:@"boxImage"];
                 [obj setValue:nil forKey:@"credits"];
                 [obj setValue:nil forKey:@"genres"];

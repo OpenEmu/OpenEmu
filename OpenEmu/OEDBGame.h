@@ -109,8 +109,16 @@ extern NSString *const OEPasteboardTypeGame;
 
 #pragma mark -
 #pragma mark Core Data utilities
-
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
+#pragma mark -
+#pragma mark Data Model Properties
+@property (nonatomic, retain) NSString  *name;
+@property (nonatomic, retain) NSNumber  *rating;
+@property (nonatomic, retain) NSString  *gameDescription;
+@property (nonatomic, retain) NSDate    *importDate;
+@property (nonatomic, retain) NSDate    *lastArchiveSync;
+@property (nonatomic, retain) NSNumber  *archiveID;
+@property (nonatomic, retain) NSNumber  *status;
 @end

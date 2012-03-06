@@ -34,27 +34,27 @@
 
 - (NSString *)gridTitle
 {
-    return [self valueForKey:@"name"];
+    return [self name];
 }
 
 - (void)setGridTitle:(NSString *)str
 {
-    [self setValue:str forKey:@"name"];
+    [self setName:str];
 }
 
 - (int)gridStatus
 {
-    return [[self valueForKey:@"status"] intValue];
+    return [[self status] intValue];
 }
 
 - (void)setGridRating:(NSUInteger)newRating
 {
-    [self setValue:[NSNumber numberWithUnsignedInteger:newRating] forKey:@"rating"];
+    [self setRating:[NSNumber numberWithUnsignedInteger:newRating]];
 }
 
 - (NSUInteger)gridRating
 {
-    return [[self valueForKey:@"rating"] unsignedIntegerValue];
+    return [[self rating] unsignedIntegerValue];
 }
 
 - (NSImage *)gridImage
@@ -110,7 +110,7 @@
 
 - (NSString *)imageTitle
 {
-    return [self valueForKey:@"name"];
+    return [self name];
 }
 
 - (NSString *)imageSubtitle
@@ -120,7 +120,7 @@
 
 - (NSUInteger)gameRating
 {
-    return [[self valueForKey:@"rating"] unsignedIntegerValue];
+    return [[self rating] unsignedIntegerValue];
 }
 
 - (void)setImage:(NSImage *)img
@@ -137,17 +137,17 @@
 
 - (void)setListViewRating:(NSNumber *)number
 {
-    [self setValue:number forKey:@"rating"];
+    [self setRating:number];
 }
 
 - (NSNumber *)listViewRating
 {
-    return [self valueForKey:@"rating"];
+    return [self rating];
 }
 
 - (NSString *)listViewTitle
 {
-    return [self valueForKey:@"name"];
+    return [self name];
 }
 
 - (NSString *)listViewLastPlayed
@@ -163,7 +163,7 @@
 
 - (void)setGridViewRating:(NSNumber *)number
 {
-    [self setValue:number forKey:@"rating"];
+    [self setRating:number];
 }
 
 @end
