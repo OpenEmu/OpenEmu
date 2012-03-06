@@ -395,13 +395,11 @@
     {
         NSLog(@"Game is aleady present");
         [self.managedObjectContext deleteObject:[self valueForKey:@"game"]];
-        [[game mutableSetValueForKey:@"roms"] addObject:self];
+        [[game mutableRoms] addObject:self];
     } 
     else
-    {
         game = [self valueForKey:@"game"];
-    }
-    
+
     [game mergeWithGameInfo:gameDictionary];
     
     BOOL organize = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];

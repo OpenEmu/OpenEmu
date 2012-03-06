@@ -202,9 +202,9 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         return nil;
     }
     
-    NSMutableSet *romSet = [game mutableSetValueForKey:@"roms"];
+    NSMutableSet *romSet = [game mutableRoms];
     if(romSet == nil)
-        [game setValue:[NSSet setWithObject:rom] forKey:@"roms"];
+        [game setRoms:[NSSet setWithObject:rom]];
     else
         [romSet addObject:rom];
     
@@ -222,7 +222,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         return nil;
     }
     
-    [game setValue:system forKey:@"system"];
+    [game setSystem:system];
     [game setImportDate:[NSDate date]];
     
     NSString *gameTitleWithSuffix = [filePath lastPathComponent];
@@ -314,12 +314,12 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     // Get + Set system if none is set
     // it is very unlikely that this ever happens
-    if([self valueForKey:@"system"] == nil)
+    if([self system] == nil)
     {
         id systemRepresentation = [gameInfoDictionary valueForKey:AVGGameSystemNameKey];
         OEDBSystem *system = [OEDBSystem systemForArchiveName:systemRepresentation];
         DLog(@"Game has no System, try using archive.vg system: %@", system);
-        [self setValue:system forKey:@"system"];
+        [self setSystem:system];
     }
 
     // Get + Set game description
@@ -367,7 +367,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     else
     {
         BOOL useMD5 = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
-        NSSet *roms = [self valueForKey:@"roms"];
+        NSSet *roms = [self roms];
         [roms enumerateObjectsUsingBlock:
          ^(OEDBRom *aRom, BOOL *stop)
          {
@@ -428,23 +428,23 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if([self rating] == nil)
         [self setRating:[game rating]];
     
-    if([self valueForKey:@"boxImage"] == nil)
-        [self setValue:[game valueForKey:@"boxImage"] forKey:@"boxImage"];
+    if([self boxImage] == nil)
+        [self setBoxImage:[game boxImage]];
     
-    NSMutableSet *ownCollections = [self mutableSetValueForKey:@"collections"];
-    NSSet *gameCollections = [game valueForKey:@"collections"];
+    NSMutableSet *ownCollections = [self mutableCollections];
+    NSSet *gameCollections = [game collections];
     [ownCollections unionSet:gameCollections];
     
-    NSMutableSet *ownCredits = [self mutableSetValueForKey:@"credits"];
-    NSSet *gameCredits = [game valueForKey:@"credits"];
+    NSMutableSet *ownCredits = [self mutableCredits];
+    NSSet *gameCredits = [game credits];
     [ownCredits unionSet:gameCredits];
     
-    NSMutableSet *ownRoms = [self mutableSetValueForKey:@"roms"];
-    NSSet *gameRoms = [game valueForKey:@"roms"];
+    NSMutableSet *ownRoms = [self mutableRoms];
+    NSSet *gameRoms = [game roms];
     [ownRoms unionSet:gameRoms];
     
-    NSMutableSet *ownGenres = [self mutableSetValueForKey:@"genres"];
-    NSSet *gameGenres = [game valueForKey:@"genres"];
+    NSMutableSet *ownGenres = [self mutableGenres];
+    NSSet *gameGenres = [game genres];
     [ownGenres unionSet:gameGenres];
     
     return self;
@@ -455,7 +455,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 - (NSDate *)lastPlayed
 {
-    NSArray *roms = [self valueForKey:@"roms"];
+    NSArray *roms = [[self roms] allObjects];
     
     NSArray *sortedByLastPlayed =
     [roms sortedArrayUsingComparator:
@@ -469,7 +469,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 - (OEDBRom *)defaultROM
 {
-    NSSet *roms = [self valueForKey:@"roms"];
+    NSSet *roms = [self roms];
     // TODO: if multiple roms are available we should select one based on version/revision and language
     
     return [roms anyObject];
@@ -538,7 +538,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 #pragma mark -
 - (void)setBoxImageByImage:(NSImage*)img
 {
-    OEDBImage *boxImage = [self valueForKey:@"boxImage"];
+    OEDBImage *boxImage = [self boxImage];
     if(boxImage != nil)
         [[boxImage managedObjectContext] deleteObject:boxImage];
     
@@ -557,7 +557,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         [boxImage generateImageForSize:size];
     }
     
-    [self setValue:boxImage forKey:@"boxImage"];
+    [self setBoxImage:boxImage];
 }
 
 - (void)setBoxImageByURL:(NSURL*)url
@@ -565,7 +565,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     NSImage *img = [[NSImage alloc] initWithContentsOfURL:url];
     [self setBoxImageByImage:img];
 }
-
 
 #pragma mark -
 
@@ -611,7 +610,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 {
     if(type == (NSString *)kPasteboardTypeFileURLPromise)
     {
-        NSSet *roms = [self valueForKey:@"roms"];
+        NSSet *roms = [self roms];
         NSMutableArray *paths = [NSMutableArray arrayWithCapacity:[roms count]];
         for(OEDBRom *aRom in roms)
         {
@@ -685,4 +684,24 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 #pragma mark -
 #pragma mark Data Model Properties
 @dynamic name, rating, gameDescription, importDate, lastArchiveSync, archiveID, status;
+#pragma mark -
+#pragma mark Data Model Relationships
+@dynamic boxImage, system, roms, genres, collections, credits;
+- (NSMutableSet*)mutableRoms
+{
+    return [self mutableSetValueForKey:@"roms"];
+}
+
+- (NSMutableSet*)mutableGenres
+{
+    return [self mutableSetValueForKey:@"genres"];
+}
+- (NSMutableSet*)mutableCollections
+{
+    return [self mutableSetValueForKeyPath:@"collection"];
+}
+- (NSMutableSet*)mutableCredits
+{
+    return [self mutableSetValueForKeyPath:@"credits"];
+}
 @end

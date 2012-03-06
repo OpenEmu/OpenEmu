@@ -59,12 +59,12 @@
 
 - (NSImage *)gridImage
 {
-    return [[self valueForKey:@"boxImage"] image];
+    return [[self boxImage] image];
 }
 
 - (NSImage *)gridImageWithSize:(NSSize)aSize
 {
-    return [[self valueForKey:@"boxImage"] imageForSize:aSize];
+    return [[self boxImage] imageForSize:aSize];
 }
 
 - (void)setGridImage:(NSImage *)gridImage
@@ -96,7 +96,7 @@
 {
     return [self gridImage];
     
-    NSManagedObject *boxImage = [self valueForKey:@"boxImage"];
+    NSManagedObject *boxImage = [self boxImage];
     if(boxImage == nil) return nil;
     
     NSData *data = [boxImage valueForKey:@"data"];
@@ -158,7 +158,7 @@
 
 - (NSString *)listViewConsoleName
 {
-    return NSLocalizedString([[self valueForKey:@"system"] valueForKey:@"name"], @"");
+    return NSLocalizedString([[self system] valueForKey:@"name"], @"");
 }
 
 - (void)setGridViewRating:(NSNumber *)number

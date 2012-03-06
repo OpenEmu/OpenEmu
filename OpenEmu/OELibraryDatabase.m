@@ -800,14 +800,14 @@ static OELibraryDatabase *defaultDatabase = nil;
         }
         
         OEDBGame *game = [rom valueForKey:@"game"];
-        BOOL romHasSystem = [game valueForKey:@"system"]!=nil;
+        BOOL romHasSystem = [game system]!=nil;
         if(!romHasSystem)
         {
             // determine system based on file path + "magic"
             OEDBSystem *system = [self systemForFile:filePath];
             if(system)
             {
-                [game setValue:system forKey:@"system"];
+                [game setSystem:system];
                 romHasSystem = YES;
             }
         }
@@ -876,7 +876,7 @@ static OELibraryDatabase *defaultDatabase = nil;
         // add to collection
         if(collection)
         {
-            NSMutableSet *collections = [game mutableSetValueForKey:@"collections"];
+            NSMutableSet *collections = [game mutableCollections];
             [collections addObject:collection];
         }
     }
@@ -892,7 +892,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     entityDescrption = [OEDBGame entityDescriptionInContext:self.managedObjectContext];
     OEDBGame *game = [[OEDBGame alloc] initWithEntity:entityDescrption insertIntoManagedObjectContext:self.managedObjectContext];
-    [[game mutableSetValueForKey:@"roms"] addObject:rom];
+    [[game mutableRoms] addObject:rom];
     [game setName:[[filePath lastPathComponent] stringByDeletingPathExtension]];
     
     return rom;
