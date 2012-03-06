@@ -63,7 +63,7 @@
             [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 if([[obj archiveID] integerValue]!=0)
                 {
-                    NSSet* roms = [obj valueForKey:@"roms"];
+                    NSSet* roms = [obj roms];
                     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
                       printf("%s\n", [[obj valueForKey:@"path"] cStringUsingEncoding:NSUTF8StringEncoding]);
                     }];
@@ -77,7 +77,7 @@
             [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 if([[obj archiveID] integerValue]==0)
                 {
-                    NSSet* roms = [obj valueForKey:@"roms"];
+                    NSSet* roms = [obj roms];
                     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
                         printf("%s\n", [[obj valueForKey:@"path"] cStringUsingEncoding:NSUTF8StringEncoding]);
                     }];
@@ -93,9 +93,9 @@
                 [obj setGameDescription:nil];
                 [obj setLastArchiveSync:nil];
                 [obj setRating:[NSNumber numberWithInt:0]];
-                [obj setValue:nil forKey:@"boxImage"];
-                [obj setValue:nil forKey:@"credits"];
-                [obj setValue:nil forKey:@"genres"];
+                [obj setBoxImage:nil];
+                [obj setCredits:nil];
+                [obj setGenres:nil];
             }];
             printf("\nDone\n");
             break;

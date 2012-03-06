@@ -459,7 +459,7 @@
 - (NSMenu*)OE_saveStateMenuForGame:(OEDBGame*)game
 {
     NSMenu    *saveGamesMenu = [[NSMenu alloc] init];
-    NSSet     *roms = [game valueForKey:@"roms"];
+    NSSet     *roms = [game roms];
     
     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         NSMenuItem  *item;
@@ -600,7 +600,7 @@
     NSMutableArray *urls = [NSMutableArray array];
     
     [selectedGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        NSSet *roms = [obj valueForKey:@"roms"];
+        NSSet *roms = [obj roms];
         [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
             NSString *path = [obj valueForKey:@"path"];
             NSURL *url = [NSURL fileURLWithPath:path];

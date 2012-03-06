@@ -38,6 +38,8 @@ extern NSString *const OEPasteboardTypeGame;
 
 @class OELibraryDatabase;
 @class OEDBRom;
+@class OEDBImage;
+@class OEDBSystem;
 
 @interface OEDBGame : NSManagedObject <NSPasteboardWriting, NSPasteboardReading>
 #pragma mark -
@@ -121,4 +123,18 @@ extern NSString *const OEPasteboardTypeGame;
 @property (nonatomic, retain) NSDate    *lastArchiveSync;
 @property (nonatomic, retain) NSNumber  *archiveID;
 @property (nonatomic, retain) NSNumber  *status;
+
+#pragma mark -
+#pragma mark Data Model Relationships
+@property (nonatomic, retain) OEDBImage     *boxImage;
+@property (nonatomic, retain) OEDBSystem    *system;
+
+@property (nonatomic, retain)   NSSet         *roms;
+@property (nonatomic, readonly) NSMutableSet  *mutableRoms;
+@property (nonatomic, retain)   NSSet         *genres;
+@property (nonatomic, readonly) NSMutableSet  *mutableGenres;
+@property (nonatomic, retain)   NSSet         *collections;
+@property (nonatomic, readonly) NSMutableSet  *mutableCollections;
+@property (nonatomic, retain)   NSSet         *credits;
+@property (nonatomic, readonly) NSMutableSet  *mutableCredits;
 @end
