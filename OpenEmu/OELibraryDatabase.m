@@ -630,48 +630,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 
 #pragma mark -
-#pragma mark Database Game editing
-- (BOOL)isFileInDatabaseWithPath:(NSString*)path error:(NSError**)error
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSFetchRequest *fetchReq;
-    NSEntityDescription *entityDesc;
-    NSPredicate *predicate;
-    
-    // check if game is already in database
-    entityDesc = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
-    predicate = [NSPredicate predicateWithFormat:@"path == %@", path];
-    
-    fetchReq = [[NSFetchRequest alloc] init];
-    [fetchReq setFetchLimit:1];
-    [fetchReq setEntity:entityDesc];
-    [fetchReq setPredicate:predicate];
-    
-    NSUInteger count = [context countForFetchRequest:fetchReq error:error];
-    if(*error != nil)
-    {
-        NSLog(@"Error while checking if file is included.");
-        [NSApp presentError:*error];
-        return NO;
-    }
-    
-    return count!=0;
-}
-
-- (OEDBRom*)createROMandGameForFile:(NSString*)filePath error:(NSError**)outError
-{   
-    NSEntityDescription *entityDescrption = [OEDBRom entityDescriptionInContext:self.managedObjectContext];
-    OEDBRom *rom = [[OEDBRom alloc] initWithEntity:entityDescrption insertIntoManagedObjectContext:self.managedObjectContext];
-    [rom setPath:filePath];
-    
-    entityDescrption = [OEDBGame entityDescriptionInContext:self.managedObjectContext];
-    OEDBGame *game = [[OEDBGame alloc] initWithEntity:entityDescrption insertIntoManagedObjectContext:self.managedObjectContext];
-    [[game mutableRoms] addObject:rom];
-    [game setName:[[filePath lastPathComponent] stringByDeletingPathExtension]];
-    
-    return rom;
-}
-#pragma mark -
 - (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID
 {
     NSManagedObjectContext *context = [self managedObjectContext];
