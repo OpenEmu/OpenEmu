@@ -504,7 +504,6 @@
     [[self romImporter] importROMsAtPaths:[[self searchResults] valueForKey:@"Path"] inBackground:YES error:nil];;
 }
 
-
 #pragma mark -
 #pragma mark Sidebar Helpers
 

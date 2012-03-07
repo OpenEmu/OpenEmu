@@ -679,7 +679,23 @@
 
 - (void)addCoverArtFromFile:(id)sender
 {
-    NSLog(@"addCoverArtFromFile: Not implemented yet.");    
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    [openPanel setAllowsMultipleSelection:NO];
+    [openPanel setCanChooseDirectories:NO];
+    [openPanel setCanChooseFiles:YES];
+    NSArray *imageTypes = [NSImage imageFileTypes];
+    [openPanel setAllowedFileTypes:imageTypes];
+    
+    if([openPanel runModal] != NSFileHandlingPanelOKButton)
+        return;
+    
+    NSURL   *imageURL       = [openPanel URL];
+    NSArray *selectedGames  = [self selectedGames];
+    
+    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame* obj, NSUInteger idx, BOOL *stop) {
+        [obj setBoxImageByURL:imageURL];
+    }];
+    
     [gridView reloadCellsAtIndexes:[gridView selectionIndexes]];
 }
 
