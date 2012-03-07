@@ -83,7 +83,7 @@
     if((self = [super init]))
     {
         [self setRom:aRom];        
-        NSString *path = [[self rom] valueForKey:@"path"];
+        NSString *path = [[self rom] path];
         
         if(!path)
         {
@@ -212,9 +212,9 @@
         [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [[self view] addSubview:gameView];
         
-        NSString *path = [[self rom] valueForKey:@"path"];
-        NSError* error = nil;
-        if(![self OE_loadFromURL:[NSURL fileURLWithPath:path] core:core error:&error])
+        NSURL   *url   = [[self rom] url];
+        NSError *error = nil;
+        if(![self OE_loadFromURL:url core:core error:&error])
         {
             [NSApp presentError:error];
 

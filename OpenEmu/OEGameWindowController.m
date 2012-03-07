@@ -65,8 +65,8 @@
     if([gameViewController rom] != nil)
     {
 		id rom = [gameViewController rom];
-		NSString* path = [rom valueForKey:@"path"];
-		[[self window] setTitle:[[path lastPathComponent] stringByDeletingPathExtension]];
+		NSString* title = [[[[rom url] pathComponents] lastObject] stringByDeletingPathExtension];
+		[[self window] setTitle:title];
 	}
     
     [gameViewController viewWillAppear];

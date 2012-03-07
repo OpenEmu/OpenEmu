@@ -602,9 +602,7 @@
     [selectedGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         NSSet *roms = [obj roms];
         [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-            NSString *path = [obj valueForKey:@"path"];
-            NSURL *url = [NSURL fileURLWithPath:path];
-            [urls addObject:url];
+            [urls addObject:[obj url]];
         }];    
     }];
     
