@@ -38,6 +38,8 @@ extern NSString *const OEPasteboardTypeGame;
 
 @class OELibraryDatabase;
 @class OEDBRom;
+@class OEDBImage;
+@class OEDBSystem;
 
 @interface OEDBGame : NSManagedObject <NSPasteboardWriting, NSPasteboardReading>
 #pragma mark -
@@ -72,11 +74,18 @@ extern NSString *const OEPasteboardTypeGame;
 + (NSArray*)allGamesWithError:(NSError**)error;
 + (NSArray*)allGamesInDatabase:(OELibraryDatabase*)database;
 + (NSArray*)allGamesInDatabase:(OELibraryDatabase*)database error:(NSError**)error;
+
 #pragma mark -
 #pragma mark Archive.VG Sync
 
 - (void)setArchiveVGInfo:(NSDictionary*)gameInfoDictionary;
-- (BOOL)performSyncWithArchiveVG:(NSError**)outError;
+// -performFullSyncWithArchiveVG: gets all info from archive.vg (cover and info)
+- (BOOL)performFullSyncWithArchiveVG:(NSError**)outError;
+// -performInfoSyncWithArchiveVG: only grabs info (text)
+- (BOOL)performInfoSyncWithArchiveVG:(NSError**)outError;
+// -performInfoSyncWithArchiveVG: only grabs cover (image)
+- (BOOL)performCoverSyncWithArchiveVG:(NSError**)outError;
+
 - (id)mergeInfoFromGame:(OEDBGame*)game;
 
 #pragma mark -
@@ -102,8 +111,30 @@ extern NSString *const OEPasteboardTypeGame;
 
 #pragma mark -
 #pragma mark Core Data utilities
-
 + (NSString *)entityName;
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
+#pragma mark -
+#pragma mark Data Model Properties
+@property (nonatomic, retain) NSString  *name;
+@property (nonatomic, retain) NSNumber  *rating;
+@property (nonatomic, retain) NSString  *gameDescription;
+@property (nonatomic, retain) NSDate    *importDate;
+@property (nonatomic, retain) NSDate    *lastArchiveSync;
+@property (nonatomic, retain) NSNumber  *archiveID;
+@property (nonatomic, retain) NSNumber  *status;
+
+#pragma mark -
+#pragma mark Data Model Relationships
+@property (nonatomic, retain) OEDBImage     *boxImage;
+@property (nonatomic, retain) OEDBSystem    *system;
+
+@property (nonatomic, retain)   NSSet         *roms;
+@property (nonatomic, readonly) NSMutableSet  *mutableRoms;
+@property (nonatomic, retain)   NSSet         *genres;
+@property (nonatomic, readonly) NSMutableSet  *mutableGenres;
+@property (nonatomic, retain)   NSSet         *collections;
+@property (nonatomic, readonly) NSMutableSet  *mutableCollections;
+@property (nonatomic, retain)   NSSet         *credits;
+@property (nonatomic, readonly) NSMutableSet  *mutableCredits;
 @end

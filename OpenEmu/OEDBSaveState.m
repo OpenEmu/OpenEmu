@@ -32,9 +32,17 @@
 	NSEntityDescription *description = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
 	OEDBSaveState *result = [[OEDBSaveState alloc] initWithEntity:description insertIntoManagedObjectContext:context];
 	
-	[result setValue:[NSDate date] forKey:@"timestamp"];
+	[result setTimestamp:[NSDate date]];
 	
 	return result;
 }
+
+#pragma mark -
+#pragma mark Data Model Properties
+@dynamic emulatorID, path, screenshot, timestamp, userDescription;
+
+#pragma mark -
+#pragma mark Data Model Relationships
+@dynamic rom;
 
 @end

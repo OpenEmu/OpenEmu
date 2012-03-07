@@ -127,10 +127,10 @@
         }
     }
     
-    [rom setValue:newFilePath forKey:@"path"];
+    [rom setPath:newFilePath];
     
-    if(md5!=nil) [rom setValue:md5 forKey:@"md5"];
-    if(crc!=nil) [rom setValue:crc forKey:@"crc32"];
+    if(md5!=nil) [rom setMd5:md5];
+    if(crc!=nil) [rom setCrc32:crc];
     
     BOOL calculateHash = (useMD5 && md5==nil) || (!useMD5 && crc==nil);
     if(calculateHash)
@@ -153,14 +153,14 @@
             hash = [defaultFileManager md5DigestForFileAtPath:filePath error:outError];
             if(!hash)
                 return nil;
-            [rom setValue:hash forKey:@"md5"];
+            [rom setMd5:hash];
         }
         else
         {
             hash = [defaultFileManager crc32ForFileAtPath:filePath error:outError];
             if(!hash)
                 return nil;
-            [rom setValue:hash forKey:@"crc32"];
+            [rom setCrc32:hash];
         }
     }
     
@@ -242,16 +242,16 @@
 #pragma mark Accessors
 - (NSURL*)url
 {
-    return [NSURL fileURLWithPath:[self valueForKey:@"path"]];
+    return [NSURL fileURLWithPath:[self path]];
 }
 
 - (NSString*)md5Hash
 {
-    NSString *hash = [self valueForKey:@"md5"];
+    NSString *hash = [self md5];
     if(!hash)
     {
         NSError *error = nil;
-        NSString *filePath = [self valueForKey:@"path"];
+        NSString *filePath = [self path];
         if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])
         {
             // TODO: mark self as file missing
@@ -265,23 +265,23 @@
             // TODO: mark self as file missing
             return nil;
         }
-        [self setValue:hash forKey:@"md5"];
+        [self setMd5:hash];
     }
     return hash;
 }
 
 - (NSString*)md5HashIfAvailable
 {
-    return [self valueForKey:@"md5"];
+    return [self md5];
 }
 
 - (NSString*)crcHash
 {
-    NSString *hash = [self valueForKey:@"crc32"];
+    NSString *hash = [self crc32];
     if(!hash)
     {
         NSError *error = nil;
-        NSString *filePath = [self valueForKey:@"path"];
+        NSString *filePath = [self path];
         if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])
         {
             // TODO: mark self as file missing
@@ -295,23 +295,23 @@
             // TODO: mark self as file missing
             return nil;
         }
-        [self setValue:hash forKey:@"crc32"];
+        [self setCrc32:hash];
     }
     return hash;    
 }
 
 - (NSString*)crcHashIfAvailable
 {
-    return [self valueForKey:@"crc32"];
+    return [self crc32];
 }
 
 
 - (NSArray*)saveStatesByTimestampAscending:(BOOL)ascFlag
 {
-    NSSet *set = [self valueForKey:@"saveStates"];
-    return [[set allObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) 
+    NSSet *set = [self saveStates];
+    return [[set allObjects] sortedArrayUsingComparator:^NSComparisonResult(OEDBSaveState *obj1, OEDBSaveState *obj2) 
             {
-                NSDate *d1 = [obj1 valueForKey:@"timestamp"], *d2=[obj2 valueForKey:@"timestamp"];
+                NSDate *d1 = [obj1 timestamp], *d2=[obj2 timestamp];
                 if(ascFlag)
                     return [d2 compare:d1];
                 return [d1 compare:d2];
@@ -320,13 +320,13 @@
 
 - (NSInteger)saveStateCount
 {
-    return [[self valueForKey:@"saveStates"] count];
+    return [[self saveStates] count];
 }
 #pragma mark -
 #pragma mark Mainpulating a rom
 - (void)markAsPlayedNow
 {
-    [self setValue:[NSDate date] forKey:@"lastPlayed"];
+    [self setLastPlayed:[NSDate date]];
 }
 #pragma mark -
 #pragma mark Core Data utilities
@@ -342,7 +342,7 @@
 #pragma mark -
 - (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db
 {
-    NSString *filePath = [self valueForKey:@"path"];
+    NSString *filePath = [self path];
     
     DLog(@"doInitialSetupWithDatabase: %@", filePath);
     
@@ -367,18 +367,21 @@
         NSSet *romsInGame = [self valueForKeyPath:@"game.roms"];
         if([romsInGame count]==1)
         {
-            NSString *path = [self valueForKey:@"path"];
+            NSString *path = [self path];
             if([path hasPrefix:[[NSUserDefaults standardUserDefaults] stringForKey:UDDatabasePathKey]])
             {
                 [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
             }
             
-            [self.managedObjectContext deleteObject:[self valueForKey:@"game"]];
+            [self.managedObjectContext deleteObject:[self game]];
             [self.managedObjectContext deleteObject:self];
         }
     }
     
-    [self setValue:hash forKey:useMD5?@"md5":@"crc32"];
+    if(useMD5)
+        [self setMd5:hash];
+    else
+        [self setCrc32:hash];
     
     NSDictionary *gameDictionary;
     if(useMD5)
@@ -394,18 +397,16 @@
     if(game)
     {
         NSLog(@"Game is aleady present");
-        [self.managedObjectContext deleteObject:[self valueForKey:@"game"]];
-        [[game mutableSetValueForKey:@"roms"] addObject:self];
+        [self.managedObjectContext deleteObject:[self game]];
+        [[game mutableRoms] addObject:self];
     } 
     else
-    {
-        game = [self valueForKey:@"game"];
-    }
-    
+        game = [self game];
+
     [game mergeWithGameInfo:gameDictionary];
     
     BOOL organize = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
-    NSString *path = [self valueForKey:@"path"];
+    NSString *path = [self path];
     NSString *libraryPath = [[NSUserDefaults standardUserDefaults] stringForKey:UDDatabasePathKey];
     if(organize && [path hasPrefix:libraryPath])
     {
@@ -419,7 +420,7 @@
             return;
         }
         
-        NSString *romName = [[self valueForKey:@"path"] lastPathComponent];
+        NSString *romName = [[self path] lastPathComponent];
         
         // TODO: use tosec for new rom path if available
         NSString *newRomPath = [folderPath stringByAppendingPathComponent:romName];
@@ -430,9 +431,19 @@
             return;
         }
         
-        [self setValue:newRomPath forKey:@"path"];
+        [self setPath:newRomPath];
     }
     
 }
+#pragma mark -
+#pragma mark Data Model Properties
+@dynamic path, favorite, crc32, md5, lastPlayed;
 
+#pragma mark -
+#pragma mark Data Model Relationships
+@dynamic game, saveStates, tosec;
+- (NSMutableSet*)mutableSaveStates
+{
+    return [self mutableSetValueForKey:@"saveStates"];
+}
 @end

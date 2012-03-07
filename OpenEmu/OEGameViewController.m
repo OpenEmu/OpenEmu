@@ -83,7 +83,7 @@
     if((self = [super init]))
     {
         [self setRom:aRom];        
-        NSString *path = [[self rom] valueForKey:@"path"];
+        NSString *path = [[self rom] path];
         
         if(!path)
         {
@@ -212,9 +212,9 @@
         [gameView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [[self view] addSubview:gameView];
         
-        NSString *path = [[self rom] valueForKey:@"path"];
-        NSError* error = nil;
-        if(![self OE_loadFromURL:[NSURL fileURLWithPath:path] core:core error:&error])
+        NSURL   *url   = [[self rom] url];
+        NSError *error = nil;
+        if(![self OE_loadFromURL:url core:core error:&error])
         {
             [NSApp presentError:error];
 
@@ -300,8 +300,7 @@
 #pragma mark -
 - (void)loadSaveState:(OEDBSaveState *)state
 {
-    NSString *path = [state valueForKey:@"path"];
-    [self loadStateFromFile:path error:nil];
+    [self loadStateFromFile:[state path] error:nil];
 }
 
 - (void)deleteSaveState:(id)state
@@ -309,7 +308,7 @@
     // TODO: use OEAlert once it's been written
     // TODO: localize and rephrase text
     
-    NSString *stateName = [state valueForKey:@"userDescription"];
+    NSString *stateName = [state userDescription];
     OEHUDAlert *alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
     
     NSUInteger result = [alert runModal];
@@ -317,7 +316,7 @@
     if(result)
     {        
         // TODO: does this also remove the screenshot from the database?
-        NSString *path = [state valueForKey:@"path"];
+        NSString *path = [state path];
         
         NSError *err = nil;
         if(![[NSFileManager defaultManager] removeItemAtPath:path error:&err])
@@ -408,17 +407,17 @@
     // we need to make sure that we are on the same thread where self.rom was created!!
     OEDBSaveState *saveState = [OEDBSaveState newSaveStateInContext:[[self rom] managedObjectContext]];
     
-    [saveState setValue:[saveStateURL path] forKey:@"path"];
-    [saveState setValue:[NSDate date] forKey:@"timestamp"];
-    [saveState setValue:[[rootProxy gameCore] pluginName] forKey:@"emulatorID"];
-    [saveState setValue:[self rom] forKey:@"rom"];
+    [saveState setPath:[saveStateURL path]];
+    [saveState setTimestamp:[NSDate date]];
+    [saveState setEmulatorID:[[rootProxy gameCore] pluginName]];
+    [saveState setRom:[self rom]];
     
-    if(stateName != nil) [saveState setValue:stateName forKey:@"userDescription"];
+    if(stateName != nil) [saveState setUserDescription:stateName];
     
     [self captureScreenshotUsingBlock:
      ^(NSImage *img)
      {
-         [saveState setValue:[img TIFFRepresentation] forKey:@"screenshot"];
+         [saveState setScreenshot:[img TIFFRepresentation]];
      }];
 }
 

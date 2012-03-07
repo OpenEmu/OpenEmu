@@ -34,37 +34,37 @@
 
 - (NSString *)gridTitle
 {
-    return [self valueForKey:@"name"];
+    return [self name];
 }
 
 - (void)setGridTitle:(NSString *)str
 {
-    [self setValue:str forKey:@"name"];
+    [self setName:str];
 }
 
 - (int)gridStatus
 {
-    return [[self valueForKey:@"status"] intValue];
+    return [[self status] intValue];
 }
 
 - (void)setGridRating:(NSUInteger)newRating
 {
-    [self setValue:[NSNumber numberWithUnsignedInteger:newRating] forKey:@"rating"];
+    [self setRating:[NSNumber numberWithUnsignedInteger:newRating]];
 }
 
 - (NSUInteger)gridRating
 {
-    return [[self valueForKey:@"rating"] unsignedIntegerValue];
+    return [[self rating] unsignedIntegerValue];
 }
 
 - (NSImage *)gridImage
 {
-    return [[self valueForKey:@"boxImage"] image];
+    return [[self boxImage] image];
 }
 
 - (NSImage *)gridImageWithSize:(NSSize)aSize
 {
-    return [[self valueForKey:@"boxImage"] imageForSize:aSize];
+    return [[self boxImage] imageForSize:aSize];
 }
 
 - (void)setGridImage:(NSImage *)gridImage
@@ -96,7 +96,7 @@
 {
     return [self gridImage];
     
-    NSManagedObject *boxImage = [self valueForKey:@"boxImage"];
+    NSManagedObject *boxImage = [self boxImage];
     if(boxImage == nil) return nil;
     
     NSData *data = [boxImage valueForKey:@"data"];
@@ -110,7 +110,7 @@
 
 - (NSString *)imageTitle
 {
-    return [self valueForKey:@"name"];
+    return [self name];
 }
 
 - (NSString *)imageSubtitle
@@ -120,7 +120,7 @@
 
 - (NSUInteger)gameRating
 {
-    return [[self valueForKey:@"rating"] unsignedIntegerValue];
+    return [[self rating] unsignedIntegerValue];
 }
 
 - (void)setImage:(NSImage *)img
@@ -137,17 +137,17 @@
 
 - (void)setListViewRating:(NSNumber *)number
 {
-    [self setValue:number forKey:@"rating"];
+    [self setRating:number];
 }
 
 - (NSNumber *)listViewRating
 {
-    return [self valueForKey:@"rating"];
+    return [self rating];
 }
 
 - (NSString *)listViewTitle
 {
-    return [self valueForKey:@"name"];
+    return [self name];
 }
 
 - (NSString *)listViewLastPlayed
@@ -158,12 +158,12 @@
 
 - (NSString *)listViewConsoleName
 {
-    return NSLocalizedString([[self valueForKey:@"system"] valueForKey:@"name"], @"");
+    return NSLocalizedString([[self system] valueForKey:@"name"], @"");
 }
 
 - (void)setGridViewRating:(NSNumber *)number
 {
-    [self setValue:number forKey:@"rating"];
+    [self setRating:number];
 }
 
 @end

@@ -278,7 +278,7 @@
                 BOOL lookupGameInfo = [[NSUserDefaults standardUserDefaults] boolForKey:UDAutmaticallyGetInfoKey];
                 if(lookupGameInfo)
                 {
-                    [game performSyncWithArchiveVG:&strongError];
+                    [game performFullSyncWithArchiveVG:&strongError];
                     // TODO: decide if we are interesed in success of sync operation
                 }
                 

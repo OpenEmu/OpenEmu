@@ -136,7 +136,7 @@
         return;        
     }
     
-    [system setValue:[NSNumber numberWithBool:!disabled] forKey:@"enabled"];
+    [system setEnabled:[NSNumber numberWithBool:!disabled]];
     [[NSNotificationCenter defaultCenter] postNotificationName:OEDBSystemsChangedNotificationName object:system userInfo:nil];
 }
 
@@ -185,11 +185,11 @@
          NSRect rect = (NSRect){{x, y}, {iWidth, iHeight}};
          OECheckBox *button = [[OECheckBox alloc] initWithFrame:rect];
          
-         NSString *systemIdentifier = [system valueForKey:@"systemIdentifier"];
+         NSString *systemIdentifier = [system systemIdentifier];
          [button setTarget:self];
          [button setAction:@selector(toggleLibrary:)];
          [button setTitle:[system name]];
-         [button setState:[[system valueForKey:@"enabled"] intValue]];
+         [button setState:[[system enabled] intValue]];
          [[button cell] setRepresentedObject:systemIdentifier];
          
          

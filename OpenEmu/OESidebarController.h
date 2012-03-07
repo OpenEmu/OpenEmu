@@ -26,7 +26,7 @@
 - (void)setEnabled:(BOOL)enabled;
 
 - (void)reloadData;
-- (void)addCollection:(BOOL)isSmart;
+- (id)addCollection:(BOOL)isSmart;
 
 - (void)selectItem:(id)item;
 - (void)startEditingItem:(id)item;

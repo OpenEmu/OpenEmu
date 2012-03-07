@@ -60,8 +60,7 @@ typedef enum _OERectEdge
     id _localMonitor;
     BOOL visible;
     BOOL closing;
-    BOOL _alternate;
-
+    
     OEMenuStyle style;
 }
 

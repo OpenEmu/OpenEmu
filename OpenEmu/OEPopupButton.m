@@ -41,7 +41,8 @@
 }
 #pragma mark -
 - (void)mouseDown:(NSEvent *)theEvent{
-    BOOL outside = !NSPointInRect([theEvent locationInWindow], [self frame]);
+    NSRect boundsInWindowCoord = [self convertRect:[self bounds] toView:nil];
+    BOOL outside = !NSPointInRect([theEvent locationInWindow], boundsInWindowCoord);
     if(outside || [self oemenu].isVisible)
     {
         [[self oemenu] closeMenuWithoutChanges:self];
@@ -53,7 +54,7 @@
         minSize.width = [self frame].size.width+2*(GapBetweenOpenMenuAndPopupButton);
         [[self oemenu] setMinSize:minSize];
 
-        NSRect rect = [self frame];
+        NSRect rect = boundsInWindowCoord;
         rect.origin.y += 2;
         
         [[self oemenu] openOnEdge:OENoEdge ofRect:rect ofWindow:[self window]];

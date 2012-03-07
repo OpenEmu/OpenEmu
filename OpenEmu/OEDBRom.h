@@ -27,6 +27,7 @@
 #import <CoreData/CoreData.h>
 
 @class OELibraryDatabase;
+@class OEDBGame;
 @interface OEDBRom : NSManagedObject
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBRoms
@@ -74,9 +75,20 @@
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context;
 
 #pragma mark -
-#pragma mark -
-#pragma mark -
-#pragma mark -
+#pragma mark Data Model Properties
+@property (nonatomic, retain)                    NSString  *path;
+@property (nonatomic, retain, getter=isFavorite) NSNumber  *favorite;
+@property (nonatomic, retain)                    NSString  *crc32;
+@property (nonatomic, retain)                    NSString  *md5;
+@property (nonatomic, retain)                    NSDate    *lastPlayed;
 
+#pragma mark -
+#pragma mark Data Model Relationships
+@property (nonatomic, retain)   OEDBGame          *game;
+@property (nonatomic, retain)   NSSet             *saveStates;
+@property (nonatomic, readonly) NSMutableSet      *mutableSaveStates;
+@property (nonatomic, retain)   NSManagedObject   *tosec;
+
+#pragma mark -
 - (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db;
 @end

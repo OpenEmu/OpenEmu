@@ -42,11 +42,26 @@
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 
+#import "OEDBSaveState.h"
+
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
+
+#import "OEMenu.h"
+#import "OEDBGame.h"
+#import "OEDBRom.h"
+#import "OEDBCollection.h"
+
+#import "OEHUDAlert.h"
+
+#import "OESidebarController.h"
 @interface OECollectionViewController (Private)
 - (void)_reloadData;
 - (void)_selectView:(int)view;
+
+- (NSMenu*)OE_saveStateMenuForGame:(OEDBGame*)game;
+- (NSMenu*)OE_ratingMenuForGames:(NSArray*)games;
+- (NSMenu*)OE_collectionsMenu;
 @end
 
 @implementation OECollectionViewController
@@ -373,6 +388,181 @@
     return [[gamesController arrangedObjects] objectAtIndex:index];
 }
 
+- (OEMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
+{
+    NSMenu *menu = [[NSMenu alloc] init];
+    NSMenuItem *menuItem;
+    NSArray *games = [self selectedGames];
+    
+    if([indexes count] == 1)
+    {
+        NSInteger index = [indexes lastIndex];
+        [menu addItemWithTitle:@"Play Game" action:@selector(startGame:) keyEquivalent:@""];
+        OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
+        
+        // Create Save Game Menu
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Play Save Games" action:NULL keyEquivalent:@""];
+        [menuItem setSubmenu:[self OE_saveStateMenuForGame:game]];
+        [menu addItem:menuItem];
+        
+        [menu addItem:[NSMenuItem separatorItem]];
+        
+        // Create Rating Item
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Rating" action:NULL keyEquivalent:@""];
+        [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
+        [menu addItem:menuItem];    
+        [menu addItemWithTitle:@"Show In Finder" action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItemWithTitle:@"Add Cover Art From File..." action:@selector(addCoverArtFromFile:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Add Save File To Game..." action:@selector(addSaveStateFromFile:) keyEquivalent:@""];
+        [menu addItem:[NSMenuItem separatorItem]];
+        // Create Add to collection menu
+        NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
+        [collectionMenuItem setSubmenu:[self OE_collectionsMenu]];
+        [menu addItem:collectionMenuItem];
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItemWithTitle:@"Rename Game" action:@selector(renameSelectedGame:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Delete Game" action:@selector(deleteSelectedGames:) keyEquivalent:@""];        
+    }
+    else
+    {
+        if([[NSUserDefaults standardUserDefaults] boolForKey:UDAllowPopoutKey])
+        {
+            [menu addItemWithTitle:@"Play Games (Caution)" action:@selector(startGame:) keyEquivalent:@""];
+        }
+        
+        // Create Rating Item
+        menuItem = [[NSMenuItem alloc] initWithTitle:@"Rating" action:NULL keyEquivalent:@""];
+        [menuItem setSubmenu:[self OE_ratingMenuForGames:games]];
+        [menu addItem:menuItem];    
+        [menu addItemWithTitle:@"Show In Finder" action:@selector(showSelectedGamesInFinder:) keyEquivalent:@""];
+        
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
+        [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
+                
+        [menu addItem:[NSMenuItem separatorItem]];
+        // Create Add to collection menu
+        NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
+        [collectionMenuItem setSubmenu:[self OE_collectionsMenu]];
+        [menu addItem:collectionMenuItem];
+        
+        [menu addItem:[NSMenuItem separatorItem]];
+        [menu addItemWithTitle:@"Delete Games" action:@selector(deleteSelectedGames:) keyEquivalent:@""];        
+    }
+
+    [menu setAutoenablesItems:YES];
+    return [menu convertToOEMenu];
+}
+
+- (NSMenu*)OE_saveStateMenuForGame:(OEDBGame*)game
+{
+    NSMenu    *saveGamesMenu = [[NSMenu alloc] init];
+    NSSet     *roms = [game roms];
+    
+    [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        NSMenuItem  *item;
+        NSArray     *saveStates = [obj saveStatesByTimestampAscending:NO];
+        for(OEDBSaveState* saveState in saveStates)
+        {
+            NSString *itemTitle = [saveState userDescription];
+            if(!itemTitle || [itemTitle isEqualToString:@""])
+                itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
+            
+            if([[NSUserDefaults standardUserDefaults] boolForKey:OEHUDCanDeleteStateKey])
+            {
+                OEMenuItem *oeitem = [[OEMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];               
+                [oeitem setHasAlternate:YES];
+                [oeitem setAlternateAction:@selector(deleteSaveState:)];
+                
+                [oeitem setRepresentedObject:saveState];
+                [saveGamesMenu addItem:oeitem];
+            }
+            else
+            {
+                item = [[NSMenuItem alloc] initWithTitle:itemTitle action:@selector(startSelectedGameWithSaveState:) keyEquivalent:@""];
+                [item setRepresentedObject:saveState];
+                [saveGamesMenu addItem:item];
+            }
+        }
+    }];
+    
+    if([[saveGamesMenu itemArray] count] == 0)
+    {
+        [saveGamesMenu addItemWithTitle:@"No Save States available" action:NULL keyEquivalent:@""];
+        [(NSMenuItem*)[[saveGamesMenu itemArray] lastObject] setEnabled:NO];
+    }
+    
+    return saveGamesMenu;
+}
+
+- (NSMenu*)OE_ratingMenuForGames:(NSArray*)games
+{
+    NSMenu   *ratingMenu = [[NSMenu alloc] init];
+    NSString *ratingLabel = @"★★★★★";
+
+    for (NSInteger i=0; i<=5; i++) {
+        NSMenuItem *ratingItem = [[NSMenuItem alloc] initWithTitle:[ratingLabel substringToIndex:i] action:@selector(setRatingForSelectedGames:) keyEquivalent:@""];
+        [ratingItem setRepresentedObject:[NSNumber numberWithInt:i]];
+        if(i==0)
+            [ratingItem setTitle:NSLocalizedString(@"None", "")];
+        [ratingMenu addItem:ratingItem];
+    }
+
+    BOOL valuesDiffer = NO;
+    for(NSInteger i=0; i<[games count]; i++)
+    {
+        NSNumber   *gameRating = [(OEDBGame*)[games objectAtIndex:i] rating];
+        NSInteger   itemIndex = [gameRating integerValue];
+        NSMenuItem *item = [ratingMenu itemAtIndex:itemIndex];
+
+        if(i==0)
+            [item setState:NSOnState];
+        else if([item state] != NSOnState)
+        {
+            valuesDiffer = YES;
+            [item setState:NSMixedState];
+        }
+    }
+    
+    if(valuesDiffer)
+    {
+        NSNumber   *gameRating = [(OEDBGame*)[games objectAtIndex:0] rating];
+        NSMenuItem *item = [ratingMenu itemAtIndex:[gameRating integerValue]];
+        [item setState:NSMixedState];
+    }
+
+    return ratingMenu;
+}
+
+- (NSMenu*)OE_collectionsMenu
+{
+    NSMenu  *collectionMenu = [[NSMenu alloc] init];
+    NSArray *collections = [[[self libraryController] database] collections];
+    
+    [collectionMenu addItemWithTitle:@"New Collection from Selection" action:@selector(makeNewCollectionWithSelectedGames:) keyEquivalent:@""];
+
+    for(id collection in collections)
+    {
+        if([collection isMemberOfClass:[OEDBCollection class]])
+        {
+            NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:[collection valueForKey:@"name"] action:NULL keyEquivalent:@""];
+            
+            // TODO: might want to use managedObjectID instead
+            [collectionMenuItem setRepresentedObject:collection];
+            [collectionMenu addItem:collectionMenuItem];
+        }
+    }
+    
+    if([collections count]!=1)
+        [collectionMenu insertItem:[NSMenuItem separatorItem] atIndex:1];
+
+
+    return collectionMenu;
+}
 #pragma mark -
 #pragma mark GridView Interaction
 - (void)gridView:(OEGridView *)view doubleClickedCellForItemAtIndex:(NSUInteger)index
@@ -396,10 +586,116 @@
 }
 
 #pragma mark -
+#pragma mark Context Menu Actions
+- (void)setRatingForSelectedGames:(id)sender
+{
+    NSArray *selectedGames = [self selectedGames];
+    for(OEDBGame *game in selectedGames)
+    {
+        [game setRating:[sender representedObject]];
+    }
+}
+
+- (void)showSelectedGamesInFinder:(id)sender
+{
+    NSArray *selectedGames = [self selectedGames];
+    NSMutableArray *urls = [NSMutableArray array];
+    
+    [selectedGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSSet *roms = [obj roms];
+        [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+            [urls addObject:[obj url]];
+        }];    
+    }];
+    
+    [[NSWorkspace sharedWorkspace] activateFileViewerSelectingURLs:urls];
+}
+
+- (void)deleteSaveState:(id)stateItem
+{
+    // TODO: use OEAlert once it's been written
+    // TODO: localize and rephrase text
+    
+    id state = [stateItem representedObject];
+    NSString *stateName = [state userDescription];
+    OEHUDAlert *alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
+    
+    NSUInteger result = [alert runModal];
+    
+    if(result)
+    {        
+        // TODO: does this also remove the screenshot from the database?
+        NSString *path = [state path];
+        
+        NSError *err = nil;
+        if(![[NSFileManager defaultManager] removeItemAtPath:path error:&err])
+        {
+            NSLog(@"Error deleting save file!");
+            NSLog(@"%@", err);
+            return;
+        }
+        
+        NSManagedObjectContext *moc = [state managedObjectContext];
+        [moc deleteObject:state];
+        [moc save:nil];
+    }
+}
+
+- (void)startSelectedGameWithSaveState:(id)stateItem
+{
+    NSLog(@"startSelectedGameWithSaveState: Not implemented yet.");
+}
+
+- (void)renameSelectedGame:(id)sender
+{
+    NSLog(@"renameSelectedGame: Not implemented yet.");
+}
+
+- (void)deleteSelectedGames:(id)sender
+{
+    NSLog(@"deleteSelectedGames: Not implemented yet.");
+}
+
+- (void)makeNewCollectionWithSelectedGames:(id)sender
+{
+    NSLog(@"makeNewCollectionWithSelectedGames: Not implemented yet.");
+
+    NSArray *selectedGames = [self selectedGames];
+    id collection = [[[self libraryController] sidebarController] addCollection:NO];
+    
+    NSLog(@"makeNewCollectionWithSelectedGames: only creates new collection");
+}
+
+- (void)getGameInfoFromArchive:(id)sender
+{
+    NSArray* selectedGames = [self selectedGames];
+    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame* obj, NSUInteger idx, BOOL *stop) {
+        [obj performInfoSyncWithArchiveVG:nil];
+    }];
+}
+
+- (void)getCoverFromArchive:(id)sender
+{
+    NSArray* selectedGames = [self selectedGames];
+    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame* obj, NSUInteger idx, BOOL *stop) {
+        [obj performCoverSyncWithArchiveVG:nil];
+    }];
+}
+
+- (void)addCoverArtFromFile:(id)sender
+{
+    NSLog(@"addCoverArtFromFile: Not implemented yet.");
+}
+
+- (void)addSaveStateFromFile:(id)sender
+{
+    NSLog(@"addCoverArtFromFile: Not implemented yet.");
+}
+#pragma mark -
 #pragma mark NSTableView DataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView
 {
-    if( aTableView == listView)
+    if( aTableView == listView )
     {
         return [[gamesController arrangedObjects] count];
     }
@@ -410,7 +706,7 @@
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex
 {
     
-    if( aTableView == listView)
+    if( aTableView == listView )
     {
         /*NSManagedObject* manobj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
          NSManagedObjectID* objID = [manobj objectID];

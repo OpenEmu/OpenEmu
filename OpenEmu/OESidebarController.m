@@ -108,26 +108,24 @@
 
 - (IBAction)addCollectionAction:(id)sender
 {
-    [self addCollection:([NSEvent modifierFlags] & NSAlternateKeyMask) == 0];
+    [self addCollection:([NSEvent modifierFlags] & NSAlternateKeyMask) != 0];
 }
 
-- (void)addCollection:(BOOL)isSmart
+- (id)addCollection:(BOOL)isSmart
 {
     id item;
     
     if(isSmart)
-    {
-        item = [[self database] addNewCollection:nil];
-    } 
-    else 
-    {
         item = [[self database] addNewSmartCollection:nil];
-    }
+    else 
+        item = [[self database] addNewCollection:nil];
     
     [self reloadData];    
     [self expandCollections:self];
     [self selectItem:item];
     [self startEditingItem:item];
+    
+    return item;
 }
 
 - (void)reloadData

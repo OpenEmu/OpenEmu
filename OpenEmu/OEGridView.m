@@ -27,7 +27,7 @@
 #import "OEGridView.h"
 #import "OEGridViewCell+OEGridView.h"
 #import "NSColor+OEAdditions.h"
-
+#import "OEMenu.h"
 const NSTimeInterval OEInitialPeriodicDelay = 0.4;      // Initial delay of a periodic events
 const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval of periodic events
 
@@ -869,7 +869,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 }
 
 - (void)mouseDown:(NSEvent *)theEvent
-{
+{    
     const NSPoint pointInView = [self OE_pointInViewFromEvent:theEvent];
     _trackingLayer            = [self OE_layerForPoint:pointInView];
 
@@ -1200,6 +1200,45 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     [[self window] makeFirstResponder:self];
 }
 
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent
+{
+    [[self window] makeFirstResponder:self];
+    
+    NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+    NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+    
+    NSUInteger index = [self indexForCellAtPoint:mouseLocationInView];
+    if(index != NSNotFound && _dataSourceHas.menuForItemsAtIndexes)
+    {
+        BOOL itemIsSelected = [[self selectionIndexes] containsIndex:index];
+        OEGridViewCell *itemCell = [self cellForItemAtIndex:index makeIfNecessary:YES];
+        
+        NSIndexSet* indexes = itemIsSelected ? [self selectionIndexes] : [NSIndexSet indexSetWithIndex:index];
+        
+        NSRect hitRect = NSInsetRect([itemCell hitRect], 5, 5);
+        NSRect hitRectOnWindow = [itemCell convertRect:hitRect toLayer:nil];
+        NSRect visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
+        NSRect visibleItemRect = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
+        
+        if(!itemIsSelected)
+            [self setSelectionIndexes:[NSIndexSet indexSetWithIndex:index]];
+        
+        OEMenu *contextMenu = [[self dataSource] gridView:self menuForItemsAtIndexes:indexes];
+        
+        if([[NSUserDefaults standardUserDefaults] boolForKey:UDLightStyleGridViewMenu])
+            [contextMenu setStyle:OEMenuStyleLight];
+        
+        OERectEdge edge = OEMaxXEdge;
+        if( NSHeight(visibleItemRect) < 25.0 )
+            edge = NSMinY(visibleItemRect) == NSMinY(visibleRectOnWindow) ? OEMaxYEdge : OEMinYEdge;
+        
+        [contextMenu openOnEdge:edge ofRect:visibleItemRect ofWindow:[self window]];
+        
+        return nil;
+    }
+    
+    return [self menu];
+}
 #pragma mark -
 #pragma mark Keyboard Handling Operations
 
@@ -1493,7 +1532,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         _dataSourceHas.willBeginEditingCellForItemAtIndex = [_dataSource respondsToSelector:@selector(gridView:willBeginEditingCellForItemAtIndex:)];
         _dataSourceHas.didEndEditingCellForItemAtIndex    = [_dataSource respondsToSelector:@selector(gridView:didEndEditingCellForItemAtIndex:)];
         _dataSourceHas.pasteboardWriterForIndex           = [_dataSource respondsToSelector:@selector(gridView:pasteboardWriterForIndex:)];
-
+        _dataSourceHas.menuForItemsAtIndexes                 = [_dataSource respondsToSelector:@selector(gridView:menuForItemsAtIndexes:)];
         [self OE_setNeedsReloadData];
     }
 }

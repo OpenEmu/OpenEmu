@@ -11,7 +11,7 @@
 
 #import "OEDBGame.h"
 @implementation OEPrefDebugController
-@synthesize regionSelector, dbActionSelector;
+@synthesize regionSelector, dbActionSelector, contentView;
 #pragma mark -
 - (void)awakeFromNib
 {    
@@ -20,6 +20,10 @@
         OERegion currentRegion = [[OELocalizationHelper sharedHelper] region];
         [[self regionSelector] selectItemWithTag:currentRegion];
     }
+        
+    NSScrollView *scrollView = (NSScrollView*)[self view];    
+    [scrollView setDocumentView:[self contentView]];
+    [[self contentView] setFrameOrigin:(NSPoint){0,-[[self contentView] frame].size.height+[scrollView frame].size.height}];
 }
 
 - (NSString *)nibName
@@ -57,11 +61,11 @@
         case 0:
             printf("\nLogging all games with archive ID\n\n");
             [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if([[obj valueForKey:@"archiveID"] integerValue]!=0)
+                if([[obj archiveID] integerValue]!=0)
                 {
-                    NSSet* roms = [obj valueForKey:@"roms"];
+                    NSSet* roms = [obj roms];
                     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-                      printf("%s\n", [[obj valueForKey:@"path"] cStringUsingEncoding:NSUTF8StringEncoding]);
+                      printf("%s\n", [[obj path] cStringUsingEncoding:NSUTF8StringEncoding]);
                     }];
                     
                 }
@@ -71,11 +75,11 @@
         case 1:
             printf("\nLogging all games without archive ID\n\n");
             [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                if([[obj valueForKey:@"archiveID"] integerValue]==0)
+                if([[obj archiveID] integerValue]==0)
                 {
-                    NSSet* roms = [obj valueForKey:@"roms"];
+                    NSSet* roms = [obj roms];
                     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-                        printf("%s\n", [[obj valueForKey:@"path"] cStringUsingEncoding:NSUTF8StringEncoding]);
+                        printf("%s\n", [[obj path] cStringUsingEncoding:NSUTF8StringEncoding]);
                     }];
                     
                 }
@@ -85,13 +89,13 @@
         case 2:
             printf("\nRemoving All Metadata\n\n");
             [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-                [obj setValue:nil forKey:@"archiveID"];
-                [obj setValue:nil forKey:@"gameDescription"];
-                [obj setValue:nil forKey:@"lastArchiveSync"];
-                [obj setValue:[NSNumber numberWithInt:0] forKey:@"rating"];
-                [obj setValue:nil forKey:@"boxImage"];
-                [obj setValue:nil forKey:@"credits"];
-                [obj setValue:nil forKey:@"genres"];
+                [obj setArchiveID:nil];
+                [obj setGameDescription:nil];
+                [obj setLastArchiveSync:nil];
+                [obj setRating:[NSNumber numberWithInt:0]];
+                [obj setBoxImage:nil];
+                [obj setCredits:nil];
+                [obj setGenres:nil];
             }];
             printf("\nDone\n");
             break;
@@ -100,7 +104,7 @@
             printf("\nRunning archive sync on all games\n\n");
             [allGames enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
                 NSError* syncError = nil;
-                if(![(OEDBGame*)obj performSyncWithArchiveVG:&syncError])
+                if(![(OEDBGame*)obj performFullSyncWithArchiveVG:&syncError])
                 {
                     NSLog(@"Error with archive sync:");
                     NSLog(@"%@", [error localizedDescription]);
@@ -129,7 +133,7 @@
 
 - (NSSize)viewSize
 {
-    return NSMakeSize(320, 533);
+    return NSMakeSize(320, 400);
 }
 
 @end
