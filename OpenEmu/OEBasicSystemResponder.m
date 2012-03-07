@@ -29,6 +29,7 @@
 #import "OEAbstractAdditions.h"
 #import "OEHIDEvent.h"
 #import "OESystemController.h"
+#import "OEEvent.h"
 
 @implementation OEBasicSystemResponder
 
@@ -66,6 +67,16 @@
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey
 {
     [self doesNotImplementSelector:_cmd];
+}
+
+- (void)touchEmulatorPoint:(OEIntPoint)aPoint
+{
+    
+}
+
+- (void)releaseEmulatorPoint
+{
+    
 }
 
 #define OEHatSwitchMask     (0x39 << 16)
@@ -219,4 +230,20 @@
         [self pressEmulatorKey:key];
 }
 
+- (void)mouseDown:(NSEvent *)theEvent
+{
+    OEIntPoint point = [theEvent locationInGameView];
+    [self touchEmulatorPoint:point];
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent
+{
+    OEIntPoint point = [theEvent locationInGameView];
+    [self touchEmulatorPoint:point];
+}
+    
+- (void)mouseUp:(NSEvent *)theEvent
+{
+    [self releaseEmulatorPoint];
+}
 @end
