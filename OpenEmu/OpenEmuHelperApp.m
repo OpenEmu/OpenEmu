@@ -48,6 +48,7 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 @interface OEGameCoreProxy : NSObject
 - (id)initWithGameCore:(OEGameCore *)aGameCore;
 @property(weak) NSThread *gameThread;
+- (void)stopEmulation;
 @end
 
 
@@ -593,14 +594,14 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)stopEmulation
 {
-    [gameCoreProxy setGameThread:nil];
-    gameCoreProxy = nil;
     
     [pollingTimer invalidate], pollingTimer = nil;
     
-    [gameCore stopEmulation];
+    [gameCoreProxy stopEmulation];
     [gameAudio stopAudio];
     [gameCore setRenderDelegate:nil];
+    [gameCoreProxy setGameThread:nil];
+    gameCoreProxy = nil;
     gameCore      = nil;
     gameAudio     = nil;
     
@@ -698,6 +699,17 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     return self;
 }
 
+- (void)stopEmulation;
+{
+    NSThread   *thread = gameThread;
+    OEGameCore *core   = gameCore;
+    
+    gameCore   = nil;
+    gameThread = nil;
+    
+    [core performSelector:@selector(stopEmulation) onThread:thread withObject:nil waitUntilDone:YES];
+}
+
 - (void)forwardInvocationToGameCore:(NSInvocation *)anInvocation;
 {
     if(gameCore == nil || [self gameThread] == nil) return;
@@ -722,6 +734,8 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)forwardInvocation:(NSInvocation *)invocation
 {
+    if(gameThread == nil || gameCore == nil) return;
+    
     [self performSelector:@selector(forwardInvocationToGameCore:) onThread:[self gameThread] withObject:invocation waitUntilDone:YES];
 }
 
