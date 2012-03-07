@@ -73,18 +73,18 @@
 
 - (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError**)outError
 {
-    DLog(@"inPaths: %@", pathArray);
+    // DLog(@"inPaths: %@", pathArray);
     if(!self.database)
     {
         // TODO: Create proper error
-        NSLog(@"Import without Database!");
+        // DLog(@"Import without Database!");
         if(outError!=NULL) *outError = [NSError errorWithDomain:@"IMPORT WITHOUT DATABASE" code:0 userInfo:nil];
         return NO;
     }
     
     if(![NSThread isMainThread])
     {
-        DLog(@"Not on main thread - trashin some values");
+        // DLog(@"Not on main thread - trashin some values");
         // if we do not run on main thread it is very possible that bg and outError hold garbage!
         NSError __autoreleasing *error = nil;
         outError = &error;
@@ -93,7 +93,7 @@
     {
         if(outError!=NULL) *outError = nil;
         
-        DLog(@"WILL RUN IN BACKGROUND");
+        // DLog(@"WILL RUN IN BACKGROUND");
         // this will pass random values as bg and outError
         [self performSelectorInBackground:@selector(importROMsAtPaths:inBackground:error:) withObject:pathArray];
         
@@ -110,7 +110,7 @@
          }
      }];
     
-    DLog(@"normalizedPaths: %@", normalizedPaths);
+    // DLog(@"normalizedPaths: %@", normalizedPaths);
     
     canceld = NO;
     return [self _performImportWithPaths:normalizedPaths error:outError];
@@ -137,7 +137,7 @@
 
 - (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString *)basePath error:(NSError **)outError
 {
-    DLog(@"canceld: %d", canceld);
+    // DLog(@"canceld: %d", canceld);
     if (canceld)
         return YES;
     
@@ -160,7 +160,7 @@
                 OEImportErrorBehavior behavior = errorBehaviour;
                 if(errorBehaviour==OEImportErrorAskUser)
                 {
-                    DLog(@"ERROR");  
+                    // DLog(@"ERROR");  
 
                     __block NSUInteger result;
                     __block BOOL isSuppression = NO;
@@ -210,11 +210,9 @@
     return success;
 }
 
-
-
 - (BOOL)_performImportWithPath:(NSString*)path error:(NSError**)outError
 {
-    DLog(@"%d", canceld);
+    // DLog(@"%d", canceld);
     if (canceld)
         return YES;
     
@@ -232,7 +230,7 @@
     
     if(![defaultManager fileExistsAtPath:path])
     {
-        NSLog(@"file does not exist at path: %@", path);
+        // DLog(@"file does not exist at path: %@", path);
         // TODO: add proper error!
         if(outError!=NULL) *outError = [NSError errorWithDomain:@"ERRORDOMAIN" code:0 userInfo:nil];
         return NO;
@@ -246,7 +244,7 @@
     NSArray *paths = [defaultManager contentsOfDirectoryAtPath:path error:outError];
     if(!paths)
     {
-        NSLog(@"no paths – contentsOfDirectoryAtPath:error");
+        // DLog(@"no paths – contentsOfDirectoryAtPath:error");
         return NO;
     }
     
@@ -285,7 +283,7 @@
                 BOOL organizeLibrary = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
                 if(organizeLibrary)
                 {
-                    NSLog(@"organize library");
+                    // DLog(@"organize library");
                     // TODO: initiate lib organization if requested
                 }
             }

@@ -585,6 +585,8 @@
     {
         [game setRating:[sender representedObject]];
     }
+    
+    [gridView reloadCellsAtIndexes:[gridView selectionIndexes]];
 }
 
 - (void)showSelectedGamesInFinder:(id)sender
@@ -663,6 +665,7 @@
     [selectedGames enumerateObjectsUsingBlock:^(OEDBGame* obj, NSUInteger idx, BOOL *stop) {
         [obj performInfoSyncWithArchiveVG:nil];
     }];
+    [gridView reloadCellsAtIndexes:[gridView selectionIndexes]];
 }
 
 - (void)getCoverFromArchive:(id)sender
@@ -671,11 +674,13 @@
     [selectedGames enumerateObjectsUsingBlock:^(OEDBGame* obj, NSUInteger idx, BOOL *stop) {
         [obj performCoverSyncWithArchiveVG:nil];
     }];
+    [gridView reloadCellsAtIndexes:[gridView selectionIndexes]];
 }
 
 - (void)addCoverArtFromFile:(id)sender
 {
-    NSLog(@"addCoverArtFromFile: Not implemented yet.");
+    NSLog(@"addCoverArtFromFile: Not implemented yet.");    
+    [gridView reloadCellsAtIndexes:[gridView selectionIndexes]];
 }
 
 - (void)addSaveStateFromFile:(id)sender
