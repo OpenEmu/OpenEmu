@@ -593,13 +593,15 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)stopEmulation
 {
+    [gameCoreProxy setGameThread:nil];
+    gameCoreProxy = nil;
+    
     [pollingTimer invalidate], pollingTimer = nil;
     
     [gameCore stopEmulation];
     [gameAudio stopAudio];
     [gameCore setRenderDelegate:nil];
     gameCore      = nil;
-    gameCoreProxy = nil;
     gameAudio     = nil;
     
     if(gameCoreThread != nil)
@@ -691,15 +693,21 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     
     if((self = [super init]))
     {
-        
         gameCore = aGameCore;
     }
     return self;
 }
 
+- (void)forwardInvocationToGameCore:(NSInvocation *)anInvocation;
+{
+    if(gameCore == nil || [self gameThread] == nil) return;
+    
+    [anInvocation invokeWithTarget:gameCore];
+}
+
 - (id)forwardingTargetForSelector:(SEL)aSelector
 {
-    return (gameThread == nil || [NSThread currentThread] == gameThread) ? gameCore : nil;
+    return ([self gameThread] == nil || [NSThread currentThread] == [self gameThread]) ? gameCore : nil;
 }
 
 - (BOOL)respondsToSelector:(SEL)aSelector
@@ -714,7 +722,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)forwardInvocation:(NSInvocation *)invocation
 {
-    [invocation performSelector:@selector(invokeWithTarget:) onThread:[self gameThread] withObject:gameCore waitUntilDone:NO];
+    [self performSelector:@selector(forwardInvocationToGameCore:) onThread:[self gameThread] withObject:invocation waitUntilDone:YES];
 }
 
 @end
