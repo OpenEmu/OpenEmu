@@ -69,12 +69,12 @@
     [self doesNotImplementSelector:_cmd];
 }
 
-- (void)touchEmulatorPoint:(OEIntPoint)aPoint
+- (void)mouseDownAtPoint:(OEIntPoint)aPoint
 {
     
 }
 
-- (void)releaseEmulatorPoint
+- (void)mouseUpAtPoint
 {
     
 }
@@ -233,17 +233,17 @@
 - (void)mouseDown:(NSEvent *)theEvent
 {
     OEIntPoint point = [theEvent locationInGameView];
-    [self touchEmulatorPoint:point];
+    [self mouseDownAtPoint:point];
 }
 
 - (void)mouseDragged:(NSEvent *)theEvent
 {
     OEIntPoint point = [theEvent locationInGameView];
-    [self touchEmulatorPoint:point];
+    [self mouseDownAtPoint:point];
 }
     
 - (void)mouseUp:(NSEvent *)theEvent
 {
-    [self releaseEmulatorPoint];
+    [self mouseUpAtPoint];
 }
 @end

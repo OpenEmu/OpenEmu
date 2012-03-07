@@ -40,5 +40,5 @@
 - (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey;
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey;
-- (void)touchEmulatorPoint:(OEIntPoint)aPoint;
+- (void)mouseDownAtPoint:(OEIntPoint)aPoint;
 @end
