@@ -25,9 +25,21 @@
  */
 
 #import <CoreData/CoreData.h>
-
+@class OEDBRom;
 @interface OEDBSaveState : NSManagedObject{
 
 }
 + (id)newSaveStateInContext:(NSManagedObjectContext*)context;
+
+#pragma mark -
+#pragma mark Data Model Properties
+@property (nonatomic, retain) NSString *emulatorID;
+@property (nonatomic, retain) NSString *path;
+@property (nonatomic, retain) NSData   *screenshot;
+@property (nonatomic, retain) NSDate   *timestamp;
+@property (nonatomic, retain) NSString *userDescription;
+
+#pragma mark -
+#pragma mark Data Model Relationships
+@property (nonatomic, retain) OEDBRom *rom;
 @end

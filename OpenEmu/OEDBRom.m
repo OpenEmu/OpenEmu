@@ -309,9 +309,9 @@
 - (NSArray*)saveStatesByTimestampAscending:(BOOL)ascFlag
 {
     NSSet *set = [self saveStates];
-    return [[set allObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) 
+    return [[set allObjects] sortedArrayUsingComparator:^NSComparisonResult(OEDBSaveState *obj1, OEDBSaveState *obj2) 
             {
-                NSDate *d1 = [obj1 valueForKey:@"timestamp"], *d2=[obj2 valueForKey:@"timestamp"];
+                NSDate *d1 = [obj1 timestamp], *d2=[obj2 timestamp];
                 if(ascFlag)
                     return [d2 compare:d1];
                 return [d1 compare:d2];
