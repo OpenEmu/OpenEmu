@@ -28,6 +28,7 @@
 #import <Cocoa/Cocoa.h>
 #import <OpenEmuSystem/OESystemResponder.h>
 #import <OpenEmuSystem/OEMap.h>
+#import <OpenEmuBase/OEGameCore.h>
 
 @interface OEBasicSystemResponder : OESystemResponder
 {
@@ -39,5 +40,5 @@
 - (OEEmulatorKey)emulatorKeyForKeyIndex:(NSUInteger)index player:(NSUInteger)thePlayer;
 - (void)pressEmulatorKey:(OEEmulatorKey)aKey;
 - (void)releaseEmulatorKey:(OEEmulatorKey)aKey;
-
+- (void)mouseDownAtPoint:(OEIntPoint)aPoint;
 @end

@@ -41,6 +41,7 @@
 @class OEGameCore, OECorePlugin;
 @class OEGameCoreController;
 @class OEGameAudio;
+@class OEGameCoreProxy;
 
 extern NSString *const OEHelperServerNamePrefix;
 extern NSString *const OEHelperProcessErrorDomain;
@@ -55,6 +56,7 @@ enum _OEHelperAppErrorCodes
 @interface OpenEmuHelperApp : NSResponder <NSApplicationDelegate, OEGameCoreHelper, OERenderDelegate>
 {
     NSRunningApplication *parentApplication; // the process id of the parent app (Open Emu or our debug helper)
+    NSThread             *gameCoreThread;
     
     // IOSurface requirements
     IOSurfaceRef   surfaceRef;
@@ -75,6 +77,7 @@ enum _OEHelperAppErrorCodes
     
     // OE stuff
     NSArray          *plugins;
+    OEGameCoreProxy  *gameCoreProxy;
     OEGameCore       *gameCore;
     OEGameAudio      *gameAudio;
     
@@ -83,7 +86,7 @@ enum _OEHelperAppErrorCodes
     // screen subrect stuff
     id<OEGameCoreHelperDelegate> __weak delegate;
     OEIntSize previousScreenSize, correctedSize;
-    float     gameAspectRatio;
+    CGFloat   gameAspectRatio;
     BOOL      drawSquarePixels;
     BOOL      running;
     
@@ -91,8 +94,8 @@ enum _OEHelperAppErrorCodes
 }
 
 @property(strong) NSString *doUUID;
-@property(assign) BOOL      loadedRom;
-@property(readonly, assign, getter=isRunning) BOOL running;
+@property         BOOL      loadedRom;
+@property(readonly, getter=isRunning) BOOL running;
 
 - (BOOL)launchConnectionWithIdentifierSuffix:(NSString *)aSuffix error:(NSError **)anError;
 - (void)setupProcessPollingTimer;

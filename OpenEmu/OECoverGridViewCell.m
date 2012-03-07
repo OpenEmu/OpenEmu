@@ -661,7 +661,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
     _dropDelayedTimer = [NSTimer scheduledTimerWithTimeInterval:[debugDropAnimationDelay floatValue]
                                                          target:self
-                                                       selector:@selector(_displayOnDropEntered:)
+                                                       selector:@selector(OE_displayOnDropEntered:)
                                                        userInfo:imageRepresentation
                                                         repeats:NO];
 
@@ -760,7 +760,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
     _dropDelayedTimer = [NSTimer scheduledTimerWithTimeInterval:[debugDropAnimationDelay floatValue]
                                                          target:self
-                                                       selector:@selector(_displayOnDropExited:)
+                                                       selector:@selector(OE_displayOnDropExited:)
                                                        userInfo:nil
                                                         repeats:NO];
 }
