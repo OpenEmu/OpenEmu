@@ -40,6 +40,8 @@
 
 #import "OEHUDAlert.h"
 
+#import "OEDBSaveState.h"
+
 @interface OEHUDControlsBarWindow ()
 @property(strong) OEHUDControlsBarView *controlsView;
 @end
@@ -340,11 +342,11 @@
     if([[self gameViewController] rom] != nil && (saveStates = [[[self gameViewController] rom] saveStatesByTimestampAscending:YES]) && [saveStates count] != 0)
     {
         [menu addItem:[NSMenuItem separatorItem]];
-        for(id saveState in saveStates)
+        for(OEDBSaveState* saveState in saveStates)
         {
-            NSString *itemTitle = [saveState valueForKey:@"userDescription"];
+            NSString *itemTitle = [saveState userDescription];
             if(!itemTitle || [itemTitle isEqualToString:@""])
-                itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timestamp"]];
+                itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
             if([[NSUserDefaults standardUserDefaults] boolForKey:OEHUDCanDeleteStateKey])
             {

@@ -42,6 +42,8 @@
 #import "OEDBSystem.h"
 #import "OESystemPlugin.h"
 
+#import "OEDBSaveState.h"
+
 #import "OECenteredTextFieldCell.h"
 #import "OELibraryDatabase.h"
 
@@ -464,11 +466,11 @@
     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         NSMenuItem  *item;
         NSArray     *saveStates = [obj saveStatesByTimestampAscending:NO];
-        for(id saveState in saveStates)
+        for(OEDBSaveState* saveState in saveStates)
         {
-            NSString *itemTitle = [saveState valueForKey:@"userDescription"];
+            NSString *itemTitle = [saveState userDescription];
             if(!itemTitle || [itemTitle isEqualToString:@""])
-                itemTitle = [NSString stringWithFormat:@"%@", [saveState valueForKey:@"timestamp"]];
+                itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
             if([[NSUserDefaults standardUserDefaults] boolForKey:OEHUDCanDeleteStateKey])
             {
@@ -615,7 +617,7 @@
     // TODO: localize and rephrase text
     
     id state = [stateItem representedObject];
-    NSString *stateName = [state valueForKey:@"userDescription"];
+    NSString *stateName = [state userDescription];
     OEHUDAlert *alert = [OEHUDAlert deleteGameAlertWithStateName:stateName];
     
     NSUInteger result = [alert runModal];
@@ -623,7 +625,7 @@
     if(result)
     {        
         // TODO: does this also remove the screenshot from the database?
-        NSString *path = [state valueForKey:@"path"];
+        NSString *path = [state path];
         
         NSError *err = nil;
         if(![[NSFileManager defaultManager] removeItemAtPath:path error:&err])
