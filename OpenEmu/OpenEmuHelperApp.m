@@ -687,8 +687,11 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (id)initWithGameCore:(OEGameCore *)aGameCore;
 {
+    if(aGameCore == nil) return nil;
+    
     if((self = [super init]))
     {
+        
         gameCore = aGameCore;
     }
     return self;
