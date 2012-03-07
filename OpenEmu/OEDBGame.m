@@ -294,16 +294,19 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 {
     // DLog(@"setArchiveVGInfo:");
     // The following values have to be included in a valid archiveVG info dictionary
+    if([[gameInfoDictionary allKeys] count] == 0) return;
+    
     NSNumber *archiveID = [gameInfoDictionary valueForKey:AVGGameIDKey];
-    if([archiveID integerValue] == 0) return;
+    if([archiveID integerValue] != 0)
+        [self setArchiveID:archiveID];
     
-    [self setArchiveID:archiveID];
-    
-    NSString *gameTitle = [gameInfoDictionary valueForKey:AVGGameTitleKey];
-    [self setName:gameTitle];
-    
-    // These values might not exist
     NSString *stringValue = nil;
+    
+    stringValue = [gameInfoDictionary valueForKey:AVGGameTitleKey];
+    if(stringValue != nil)
+    {
+        [self setName:stringValue];
+    }
     
     // Get + Set game developer
     stringValue = [gameInfoDictionary valueForKey:AVGGameDeveloperKey];

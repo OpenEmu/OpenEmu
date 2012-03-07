@@ -150,6 +150,13 @@
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = BSNES;
 		};
+		832BD9BE15080F9300FF0DB6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 94D7E8C915073BA000FBDD85;
+			remoteInfo = NDS;
+		};
 		948DAE5B14C9FCCF00E09DC1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
@@ -858,6 +865,7 @@
 				3DFAAFF914464395005EF0C3 /* N64.oesystemplugin */,
 				948DAE5C14C9FCCF00E09DC1 /* NeoGeo Pocket.oesystemplugin */,
 				948DAE5E14C9FCCF00E09DC1 /* GameGear.oesystemplugin */,
+				832BD9BF15080F9300FF0DB6 /* NDS.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2446,6 +2454,13 @@
 			fileType = wrapper.framework;
 			path = OpenEmuBase.framework;
 			remoteRef = 826FE1201014D8CF0023A8E9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		832BD9BF15080F9300FF0DB6 /* NDS.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NDS.oesystemplugin;
+			remoteRef = 832BD9BE15080F9300FF0DB6 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		948DAE5C14C9FCCF00E09DC1 /* NeoGeo Pocket.oesystemplugin */ = {
