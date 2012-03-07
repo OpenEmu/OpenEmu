@@ -45,6 +45,12 @@
 NSString *const OEHelperServerNamePrefix   = @"com.openemu.OpenEmuHelper-";
 NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
+@interface OEGameCoreProxy : NSObject
+- (id)initWithGameCore:(OEGameCore *)aGameCore;
+@property(weak) NSThread *gameThread;
+@end
+
+
 @interface OpenEmuHelperApp ()
 @property(readwrite, assign, getter=isRunning) BOOL running;
 @end
@@ -138,11 +144,12 @@ NSString *const OEHelperProcessErrorDomain = @"OEHelperProcessErrorDomain";
 
 - (byref OEGameCore *)gameCore
 {
-    return gameCore;
+    return (id)gameCoreProxy;
 }
 
 #pragma mark -
 #pragma mark IOSurface and GL Render
+
 - (void)setupOpenGLOnScreen:(NSScreen *)screen
 {
     // init our fullscreen context.
@@ -255,10 +262,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     DLog(@"bound gameTexture");
     
     status = glGetError();
-    if(status)
-    {
-        NSLog(@"createNewTexture, after bindTex: OpenGL error %04X", status);
-    }
+    if(status != 0) NSLog(@"createNewTexture, after bindTex: OpenGL error %04X", status);
     
     // This seems to cause issues with SNES9X - we may want to look into the "Fence" extensions. Otherwise
     // we ignore texture range, etc
@@ -280,9 +284,11 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     int pixelBPP        = (pixelFormat == GL_RGB8) ? 4 : 2;
     glTextureRangeAPPLE(GL_TEXTURE_RECTANGLE_EXT, bufferWidth * bufferHeight * pixelBPP, videoBuffer);
 #endif
-    if (!isIntel) {
-    glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
-    glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
+    
+    if(!isIntel)
+    {
+        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT,GL_TEXTURE_STORAGE_HINT_APPLE, GL_STORAGE_CACHED_APPLE);
+        glPixelStorei(GL_UNPACK_CLIENT_STORAGE_APPLE, GL_TRUE);
     }
     
     // proper tex params.
@@ -396,7 +402,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 }
 
-- (void) endDrawToIOSurface
+- (void)endDrawToIOSurface
 {    
     CGLContextObj cgl_ctx = glContext;
 
@@ -417,7 +423,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     surfaceID = IOSurfaceGetID(surfaceRef);
 }
 
-- (void) drawGameTexture
+- (void)drawGameTexture
 {
     OEIntRect screenRect = gameCore.screenRect;
 
@@ -527,11 +533,13 @@ static int PixelFormatToBPP(GLenum pixelFormat)
         gameCore = [[[OECorePlugin corePluginWithBundleAtPath:pluginPath] controller] newGameCore];
         [gameCore setOwner:owner];
         [gameCore setRenderDelegate:self];
-
+        
         DLog(@"Loaded bundle. About to load rom...");
         
         if([gameCore loadFileAtPath:aPath])
         {
+            gameCoreProxy = [[OEGameCoreProxy alloc] initWithGameCore:gameCore];
+            
             DLog(@"Loaded new Rom: %@", aPath);
             return self.loadedRom = YES;
         }
@@ -546,8 +554,29 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     return NO;
 }
 
+- (void)OE_gameCoreThread:(id)anObject;
+{
+    NSLog(@"Begin separate thread");
+    
+    // starts the threaded emulator timer
+    [gameCore startEmulation];
+    
+    CFRunLoopRun();
+    
+    NSLog(@"Did finish separate thread");
+}
+
+- (void)OE_stopGameCoreThreadRunLoop:(id)anObject
+{
+    CFRunLoopStop(CFRunLoopGetCurrent());
+    
+    NSLog(@"Finishing separate thread");
+}
+
 - (void)setupEmulation
 {
+    NSLog(@"Setting up emulation");
+    
     [gameCore setupEmulation];
     
     // audio!
@@ -555,8 +584,9 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
     [self setupGameCore];
     
-    // starts the threaded emulator timer
-    [gameCore startEmulation];
+    gameCoreThread = [[NSThread alloc] initWithTarget:self selector:@selector(OE_gameCoreThread:) object:nil];
+    [gameCoreProxy setGameThread:gameCoreThread];
+    [gameCoreThread start];
     
     DLog(@"finished starting rom");
 }
@@ -568,8 +598,16 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     [gameCore stopEmulation];
     [gameAudio stopAudio];
     [gameCore setRenderDelegate:nil];
-    gameCore = nil;
-    gameAudio = nil;
+    gameCore      = nil;
+    gameCoreProxy = nil;
+    gameAudio     = nil;
+    
+    if(gameCoreThread != nil)
+    {
+        [self performSelector:@selector(OE_stopGameCoreThreadRunLoop:) onThread:gameCoreThread withObject:nil waitUntilDone:YES];
+        
+        gameCoreThread = nil;
+    }
     
     [self setRunning:NO];
 }
@@ -609,8 +647,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 
 - (void)willExecute
 {
-
-    if (![gameCore rendersToOpenGL]) 
+    if(![gameCore rendersToOpenGL]) 
     {
         [self updateGameTexture];
         
@@ -626,9 +663,55 @@ static int PixelFormatToBPP(GLenum pixelFormat)
 {    
     [self endDrawToIOSurface];
     
-    if (!hasStartedAudio) {
+    if(!hasStartedAudio)
+    {
         [gameAudio startAudio];
         hasStartedAudio = YES;
     }
 }
+
+@end
+
+
+@implementation OEGameCoreProxy
+{
+    __weak OEGameCore *gameCore;
+}
+
+@synthesize gameThread;
+
+- (id)init
+{
+    return nil;
+}
+
+- (id)initWithGameCore:(OEGameCore *)aGameCore;
+{
+    if((self = [super init]))
+    {
+        gameCore = aGameCore;
+    }
+    return self;
+}
+
+- (id)forwardingTargetForSelector:(SEL)aSelector
+{
+    return (gameThread == nil || [NSThread currentThread] == gameThread) ? gameCore : nil;
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+    return [gameCore respondsToSelector:aSelector];
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)sel
+{
+    return [gameCore methodSignatureForSelector:sel];
+}
+
+- (void)forwardInvocation:(NSInvocation *)invocation
+{
+    [invocation performSelector:@selector(invokeWithTarget:) onThread:[self gameThread] withObject:gameCore waitUntilDone:NO];
+}
+
 @end

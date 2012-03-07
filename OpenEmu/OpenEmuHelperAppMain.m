@@ -29,8 +29,8 @@
 
 int main(int argc, const char * argv[])
 {
-    @autoreleasepool {
-    
+    @autoreleasepool
+    {
         NSLog(@"Helper tool UUID is: %s", argv[1]);
         
         NSApplication *app = [NSApplication sharedApplication];
@@ -40,7 +40,6 @@ int main(int argc, const char * argv[])
         [helper setDoUUID:[NSString stringWithUTF8String:argv[1]]];
         
         [app run];
-        
     }
     
     return 0;
