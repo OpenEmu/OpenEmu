@@ -124,7 +124,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         OEDBRom *rom = [OEDBRom romWithFilePath:filePath createIfNecessary:NO inDatabase:database error:outError];
         if(rom!=nil)
         {
-            game = [rom valueForKey:@"game"];
+            game = [rom game];
         }
         else if(*outError != nil)
         {
@@ -140,7 +140,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         OEDBRom *rom = [OEDBRom romWithFileName:filenameWithSuffix inDatabase:database error:outError];
         
         if(rom != nil)
-            game = [rom valueForKey:@"game"];
+            game = [rom game];
         else if(*outError != nil)
             return nil;
     }
@@ -158,7 +158,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         
         if(rom != nil)
         {   
-            game = [rom valueForKey:@"game"];
+            game = [rom game];
         }
         else if(*outError != nil)
             return nil;
@@ -174,7 +174,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
         OEDBRom *rom = [OEDBRom romWithMD5HashString:md5 inDatabase:database error:outError];
         if(rom != nil)
-            game = [rom valueForKey:@"game"];
+            game = [rom game];
         else if(*outError!=nil)
             return nil;
     }
@@ -208,7 +208,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     else
         [romSet addObject:rom];
     
-    NSString *path = [rom valueForKey:@"path"];
+    NSString *path = [[rom url] path];
     OEDBSystem *system = [OEDBSystem systemForFile:path inDatabase:database];
     
     if(system == nil)
@@ -452,7 +452,6 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 #pragma mark -
 #pragma mark Accessors
-
 - (NSDate *)lastPlayed
 {
     NSArray *roms = [[self roms] allObjects];
@@ -461,10 +460,10 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     [roms sortedArrayUsingComparator:
      ^ NSComparisonResult (id obj1, id obj2)
      {
-         return [[obj1 valueForKey:@"lastPlayed"] compare:[obj2 valueForKey:@"lastPlayed"]];
+         return [[obj1 lastPlayed] compare:[obj2 lastPlayed]];
      }];
     
-    return [[sortedByLastPlayed lastObject] valueForKey:@"lastPlayed"];
+    return [[sortedByLastPlayed lastObject] lastPlayed];
 }
 
 - (OEDBRom *)defaultROM
@@ -614,9 +613,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
         NSMutableArray *paths = [NSMutableArray arrayWithCapacity:[roms count]];
         for(OEDBRom *aRom in roms)
         {
-            NSString *path = [aRom valueForKey:@"path"];
-            NSURL *url = [NSURL fileURLWithPath:path];
-            NSString *urlString = [url absoluteString];
+            NSString *urlString = [[aRom url] absoluteString];
             [paths addObject:urlString];
         }
         return paths;

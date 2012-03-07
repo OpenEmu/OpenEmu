@@ -65,7 +65,7 @@
                 {
                     NSSet* roms = [obj roms];
                     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-                      printf("%s\n", [[obj valueForKey:@"path"] cStringUsingEncoding:NSUTF8StringEncoding]);
+                      printf("%s\n", [[obj path] cStringUsingEncoding:NSUTF8StringEncoding]);
                     }];
                     
                 }
@@ -79,7 +79,7 @@
                 {
                     NSSet* roms = [obj roms];
                     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-                        printf("%s\n", [[obj valueForKey:@"path"] cStringUsingEncoding:NSUTF8StringEncoding]);
+                        printf("%s\n", [[obj path] cStringUsingEncoding:NSUTF8StringEncoding]);
                     }];
                     
                 }

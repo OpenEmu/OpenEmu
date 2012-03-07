@@ -84,8 +84,6 @@
 #pragma mark -
 #pragma mark Database Game editing
 - (BOOL)isFileInDatabaseWithPath:(NSString*)path error:(NSError**)error;
-- (void)addGamesFromPath:(NSString*)path toCollection:(NSManagedObject*)collection searchSubfolders:(BOOL)subfolderFlag DEPRECATED_ATTRIBUTE;
-
 - (OEDBRom*)createROMandGameForFile:(NSString*)filePath error:(NSError**)outError;
 
 /*
