@@ -191,6 +191,11 @@
     return [gamesController selectedObjects];
 }
 
+- (NSIndexSet *)selectedIndexes
+{
+    return [gamesController selectionIndexes];
+}
+
 #pragma mark -
 #pragma mark View Selection
 - (IBAction)selectGridView:(id)sender
@@ -586,7 +591,7 @@
         [game setRating:[sender representedObject]];
     }
     
-    [gridView reloadCellsAtIndexes:[gridView selectionIndexes]];
+    [self setNeedsReloadIndexes:[self selectedIndexes]];
 }
 
 - (void)showSelectedGamesInFinder:(id)sender
@@ -665,7 +670,8 @@
     [selectedGames enumerateObjectsUsingBlock:^(OEDBGame* obj, NSUInteger idx, BOOL *stop) {
         [obj performInfoSyncWithArchiveVG:nil];
     }];
-    [gridView reloadCellsAtIndexes:[gridView selectionIndexes]];
+    
+    [self setNeedsReloadIndexes:[self selectedIndexes]];
 }
 
 - (void)getCoverFromArchive:(id)sender
@@ -674,7 +680,8 @@
     [selectedGames enumerateObjectsUsingBlock:^(OEDBGame* obj, NSUInteger idx, BOOL *stop) {
         [obj performCoverSyncWithArchiveVG:nil];
     }];
-    [gridView reloadCellsAtIndexes:[gridView selectionIndexes]];
+    
+    [self setNeedsReloadIndexes:[self selectedIndexes]];
 }
 
 - (void)addCoverArtFromFile:(id)sender
@@ -696,7 +703,7 @@
         [obj setBoxImageByURL:imageURL];
     }];
     
-    [gridView reloadCellsAtIndexes:[gridView selectionIndexes]];
+    [self setNeedsReloadIndexes:[self selectedIndexes]];
 }
 
 - (void)addSaveStateFromFile:(id)sender
@@ -998,6 +1005,12 @@
     [self performSelector:@selector(_reloadVisibleData) withObject:nil afterDelay:reloadDelay];
 }
 
+- (void)setNeedsReloadIndexes:(NSIndexSet*)indexes
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:indexes];
+    [self performSelector:@selector(_reloadDataIndexes:) withObject:indexes afterDelay:reloadDelay];
+}
+
 - (void)_reloadVisibleData
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:nil];
@@ -1029,6 +1042,19 @@
     [gridView reloadData];
     [listView reloadData];
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
+}
+
+- (void)_reloadDataIndexes:(NSIndexSet*)indexSet
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadDataIndexes) object:nil];
+    if(!gamesController) return;
+    [gamesController rearrangeObjects];
+    [gridView reloadCellsAtIndexes:indexSet];
+    [listView reloadDataForRowIndexes:indexSet
+                        columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
+    [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        [coverFlowView reloadCellDataAtIndex:idx];
+    }];
 }
 
 @end
