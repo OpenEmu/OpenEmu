@@ -82,14 +82,14 @@
     return [database systemWithArchiveShortname:shortName];
 }
 
-+ (id)systemForFile:(NSString *)filepath;
++ (id)systemForURL:(NSURL *)url
 {
-    return [self systemForFile:filepath inDatabase:[OELibraryDatabase defaultDatabase]];
+    return [self systemForURL:url inDatabase:[OELibraryDatabase defaultDatabase]];
 }
 
-+ (id)systemForFile:(NSString *)filepath inDatabase:(OELibraryDatabase *)database
++ (id)systemForURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database DEPRECATED_ATTRIBUTE
 {
-    return [database systemForFile:filepath];
+    return [database systemForURL:url];
 }
 
 #pragma mark -

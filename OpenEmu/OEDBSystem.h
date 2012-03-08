@@ -37,8 +37,8 @@
 + (id)systemForArchiveName:(NSString *)name inDatabase:(OELibraryDatabase *)database;
 + (id)systemForArchiveShortName:(NSString *)shortName;
 + (id)systemForArchiveShortName:(NSString *)shortName inDatabase:(OELibraryDatabase *)database;
-+ (id)systemForFile:(NSString *)filepath;
-+ (id)systemForFile:(NSString *)filepath inDatabase:(OELibraryDatabase *)database;
++ (id)systemForURL:(NSURL *)url;
++ (id)systemForURL:(NSURL *)url  inDatabase:(OELibraryDatabase *)database;
 
 #pragma mark -
 #pragma mark Core Data utilities

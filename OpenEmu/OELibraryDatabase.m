@@ -424,12 +424,13 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [result lastObject];
 }
 
-- (OEDBSystem*)systemForFile:(NSString*)filePath
+- (OEDBSystem*)systemForURL:(NSURL *)url
 {
     NSString *systemIdentifier = nil;
+    NSString *path = [url absoluteString];
     for(OESystemPlugin *aSystemPlugin in [OESystemPlugin allPlugins])
     {
-        if([[aSystemPlugin controller] canHandleFile:filePath]){ 
+        if([[aSystemPlugin controller] canHandleFile:path]){ 
             systemIdentifier = [aSystemPlugin systemIdentifier]; 
             break;
         }

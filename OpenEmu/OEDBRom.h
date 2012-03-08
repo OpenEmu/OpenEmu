@@ -31,13 +31,6 @@
 @interface OEDBRom : NSManagedObject
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBRoms
-+ (id)createRomWithFilePath:(NSString*)filePath error:(NSError**)outError DEPRECATED_ATTRIBUTE;
-+ (id)createRomWithFilePath:(NSString*)filePath inDatabase:(OELibraryDatabase*)database error:(NSError**)outError DEPRECATED_ATTRIBUTE;
-+ (id)createRomWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc error:(NSError**)outError DEPRECATED_ATTRIBUTE;
-+ (id)createRomWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError DEPRECATED_ATTRIBUTE;
-+ (id)romWithFilePath:(NSString*)path createIfNecessary:(BOOL)createFlag error:(NSError**)outError DEPRECATED_ATTRIBUTE;
-+ (id)romWithFilePath:(NSString*)path createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError DEPRECATED_ATTRIBUTE;
-
 // Creating / Acquireing ROMs by filesystem representation
 + (id)createRomWithURL:(NSURL*)url error:(NSError**)outError;
 + (id)createRomWithURL:(NSURL*)url inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;

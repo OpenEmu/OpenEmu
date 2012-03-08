@@ -38,7 +38,7 @@
 NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 @interface OEDBGame ()
-+ (id)_createGameWithoutChecksWithFilePath:(NSString *)filePath inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc DEPRECATED_ATTRIBUTE;
++ (id)_createGameWithoutChecksWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc;
 
 - (void)_performUpdate;
 + (void)_cpyValForKey:(NSString *)keyA of:(NSDictionary *)dictionary toKey:(NSString *)keyB ofGame:(OEDBGame *)game;
@@ -93,22 +93,20 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     return [self gameWithURIURL:url inDatabase:database];
 }
 
-+ (id)gameWithFilePath:(NSString *)filePath createIfNecessary:(BOOL)createFlag error:(NSError **)outError
++ (id)gameWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag error:(NSError **)outError
 {
-    DLogDeprecated();
-    return [self gameWithFilePath:filePath createIfNecessary:(BOOL)createFlag inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
+    return [self gameWithURL:url createIfNecessary:(BOOL)createFlag inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
 
-+ (id)gameWithFilePath:(NSString *)filePath createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
++ (id)gameWithURL:(NSURL *)url createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
 {
-    DLogDeprecated();
-    if(filePath == nil)
+    if(url == nil || ![url checkResourceIsReachableAndReturnError:outError])
     {
         // TODO: Create error saying that filePath is nil
         // DLog(@"filePath is nil");
         return nil;
     }
-    
+
     NSError __autoreleasing *nilerr;
     if(outError == NULL) outError = &nilerr;
     
@@ -123,7 +121,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(game == nil && checkFullpath)
     {
         // DLog(@"checking fullpath: %@", filePath);
-        OEDBRom *rom = [OEDBRom romWithFilePath:filePath createIfNecessary:NO inDatabase:database error:outError];
+        OEDBRom *rom = [OEDBRom romWithURL:url createIfNecessary:NO error:outError];
         if(rom!=nil)
         {
             game = [rom game];
@@ -136,7 +134,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     
     if(game == nil && checkFilename)
     {
-        NSString *filenameWithSuffix = [filePath lastPathComponent];
+        NSString *filenameWithSuffix = [url lastPathComponent];
         // DLog(@"checking filename: %@", filenameWithSuffix);
         
         OEDBRom *rom = [OEDBRom romWithFileName:filenameWithSuffix inDatabase:database error:outError];
@@ -152,7 +150,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(game == nil && checkCRC)
     {
         // DLog(@"checking crc32...");
-        crc = [defaultFileManager crc32ForFileAtPath:filePath error:outError];
+        crc = [defaultFileManager crc32ForFileAtURL:url error:outError];
         if(!crc) return nil;
         // DLog(@"crc32: %@", crc);
         
@@ -169,7 +167,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(game == nil && checkMD5)
     {
         // DLog(@"checking");
-        md5 = [defaultFileManager md5DigestForFileAtPath:filePath error:outError];
+        md5 = [defaultFileManager md5DigestForFileAtURL:url error:outError];
         if(!md5)
             return nil;
         // DLog(@"md5: %@", md5);
@@ -182,22 +180,20 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     }
     
     if(game == nil && createFlag)
-        return [self _createGameWithoutChecksWithFilePath:filePath inDatabase:database error:outError md5:md5 crc:crc];
+        return [self _createGameWithoutChecksWithURL:url inDatabase:database error:outError md5:md5 crc:crc];
 
     [game setDatabase:database];
 
     return game;
 }
 
-+ (id)_createGameWithoutChecksWithFilePath:(NSString *)filePath inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc
++ (id)_createGameWithoutChecksWithURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc
 {
-    DLogDeprecated();
-    // DLog(@"creating new for path: %@", filePath);
     NSManagedObjectContext *context = [database managedObjectContext];
     NSEntityDescription *description = [self entityDescriptionInContext:context];
     
     OEDBGame *game = [[OEDBGame alloc] initWithEntity:description insertIntoManagedObjectContext:context];
-    OEDBRom *rom = [OEDBRom createRomWithFilePath:filePath md5:md5 crc:crc inDatabase:database error:outError];
+    OEDBRom *rom = [OEDBRom createRomWithURL:url md5:md5 crc:crc inDatabase:database error:outError];
     
     if(rom == nil)
     {
@@ -211,13 +207,12 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     else
         [romSet addObject:rom];
     
-    NSString *path = [[rom url] path];
-    OEDBSystem *system = [OEDBSystem systemForFile:path inDatabase:database];
+    OEDBSystem *system = [OEDBSystem systemForURL:url inDatabase:database];
     
     if(system == nil)
     {
         if(outError != NULL)
-            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:3 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Could not get system for file at path: %@!", path] forKey:NSLocalizedDescriptionKey]];
+            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:3 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Could not get system for file at path: %@!", url] forKey:NSLocalizedDescriptionKey]];
         
         [context deleteObject:game];
         [context deleteObject:rom];
@@ -228,7 +223,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     [game setSystem:system];
     [game setImportDate:[NSDate date]];
     
-    NSString *gameTitleWithSuffix = [filePath lastPathComponent];
+    NSString *gameTitleWithSuffix = [url lastPathComponent];
     NSString *gameTitleWithoutSuffix = [gameTitleWithSuffix stringByDeletingPathExtension];
     
     [game setName:gameTitleWithoutSuffix];

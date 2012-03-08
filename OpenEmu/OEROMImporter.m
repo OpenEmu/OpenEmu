@@ -34,7 +34,8 @@
 - (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString*)path error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE;
 - (void)_performCancel:(BOOL)deleteChanges;
 
-- (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE; // filePath must not point to directory
+// url must not point to a directory
+- (BOOL)_performImportWithFileURL:(NSURL*)url error:(NSError *__autoreleasing*)outError;
 
 - (void)_processImportQueue;
 @end
@@ -116,14 +117,13 @@
     return [self _performImportWithPaths:normalizedPaths error:outError];
 }
 
-- (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
+- (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
 {
-    DLogDeprecated();
-    return [self importROMsAtPath:[url path] inBackground:bg error:outError];
+    NSArray *urlArray = [NSArray arrayWithObject:url];
+    return [self importROMsAtURLs:urlArray inBackground:bg error:outError];
 }
-- (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
+- (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
 { 
-    DLogDeprecated();
     NSMutableArray *paths = [[NSMutableArray alloc] initWithCapacity:[urlArray count]];
     [urlArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [paths addObject:[obj path]];
@@ -245,7 +245,7 @@
     
     if([defaultManager fileExistsAtPath:path isDirectory:&isDir] && !isDir)
     {
-        return [self _performImportWithFile:path error:outError];
+        return [self _performImportWithFileURL:[NSURL fileURLWithPath:path] error:outError];
     }
     
     NSArray *paths = [defaultManager contentsOfDirectoryAtPath:path error:outError];
@@ -267,9 +267,8 @@
     canceld = YES;
 }
 
-- (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
+- (BOOL)_performImportWithFileURL:(NSURL*)url error:(NSError *__autoreleasing*)outError
 {
-    DLogDeprecated();
     NSError *strongError;
     @try {
         @autoreleasepool
@@ -278,7 +277,7 @@
             BOOL hasReadableSuffix = YES;
             if(!hasReadableSuffix) return YES;
             
-            OEDBGame *game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES inDatabase:self.database error:&strongError];
+            OEDBGame *game = [OEDBGame gameWithURL:url createIfNecessary:YES inDatabase:self.database error:&strongError];
             if(game)
             {
                 BOOL lookupGameInfo = [[NSUserDefaults standardUserDefaults] boolForKey:UDAutmaticallyGetInfoKey];

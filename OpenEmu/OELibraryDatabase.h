@@ -60,7 +60,7 @@
 - (OEDBSystem*)systemWithArchiveName:(NSString*)name;
 - (OEDBSystem*)systemWithArchiveShortname:(NSString*)shortname;
 
-- (OEDBSystem*)systemForFile:(NSString*)filePath DEPRECATED_ATTRIBUTE;
+- (OEDBSystem*)systemForURL:(NSURL *)url;
 - (NSInteger)systemsCount;
 
 - (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID;
