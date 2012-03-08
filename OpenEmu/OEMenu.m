@@ -227,40 +227,48 @@
     [self updateSize];
 
     NSPoint point;
-    switch (anEdge) {
-        case OENoEdge:
-            point = (NSPoint){NSMidX(rect), NSMidY(rect)};
-            point = NSPointSub(point, ((NSPoint){[self frame].size.width/2, [self frame].size.height/2}));
-            break;
-        case OEMaxXEdge:
-            point = (NSPoint){NSMaxX(rect), NSMidY(rect)};
-            break;
-        case OEMinXEdge:
-            point = (NSPoint){NSMinX(rect), NSMidY(rect)};
-            point.x -= [self frame].size.width;
-            break;
-        case OEMinYEdge:
-            point = (NSPoint){NSMidX(rect), NSMinY(rect)};
-            point.y -= [self frame].size.height;
-            break;
-        case OEMaxYEdge:
-            point = (NSPoint){NSMidX(rect), NSMaxY(rect)};
-            break;
-        default:
-            break;
+    if(!NSEqualSizes(rect.size, (NSSize){0,0}))
+    {
+        switch (anEdge) {
+            case OENoEdge:
+                point = (NSPoint){NSMidX(rect), NSMidY(rect)};
+                point = NSPointSub(point, ((NSPoint){[self frame].size.width/2, [self frame].size.height/2}));
+                break;
+            case OEMaxXEdge:
+                point = (NSPoint){NSMaxX(rect), NSMidY(rect)};
+                break;
+            case OEMinXEdge:
+                point = (NSPoint){NSMinX(rect), NSMidY(rect)};
+                point.x -= [self frame].size.width;
+                break;
+            case OEMinYEdge:
+                point = (NSPoint){NSMidX(rect), NSMinY(rect)};
+                point.y -= [self frame].size.height;
+                break;
+            case OEMaxYEdge:
+                point = (NSPoint){NSMidX(rect), NSMaxY(rect)};
+                break;
+            default:
+                break;
+        }
+        
+        switch (anEdge) {
+            case OEMaxXEdge:
+            case OEMinXEdge:
+                point.y -= [self frame].size.height/2;
+                break;
+            case OEMinYEdge:
+            case OEMaxYEdge:
+                point.x -= [self frame].size.width/2;
+                break;
+            default:
+                break;
+        }
     }
-    
-    switch (anEdge) {
-        case OEMaxXEdge:
-        case OEMinXEdge:
-            point.y -= [self frame].size.height/2;
-            break;
-        case OEMinYEdge:
-        case OEMaxYEdge:
-            point.x -= [self frame].size.width/2;
-            break;
-        default:
-            break;
+    else
+    {
+        point = rect.origin;
+        point.y -= [self frame].size.height;
     }
     
     point.x += [win frame].origin.x;

@@ -55,11 +55,14 @@
 #import "OEHUDAlert.h"
 
 #import "OESidebarController.h"
+
+#import "OETableView.h"
 @interface OECollectionViewController (Private)
 - (void)_managedObjectContextDidSave:(NSNotification *)notification;
 - (void)_reloadData;
 - (void)_selectView:(int)view;
 
+- (OEMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes;
 - (NSMenu*)OE_saveStateMenuForGame:(OEDBGame*)game;
 - (NSMenu*)OE_ratingMenuForGames:(NSArray*)games;
 - (NSMenu*)OE_collectionsMenu;
@@ -292,6 +295,7 @@
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
     [gridView reloadData];
 }
+
 - (IBAction)changeGridSize:(id)sender
 {
     float zoomValue = [sender floatValue];
@@ -304,9 +308,7 @@
 #pragma mark Property Getters / Setters
 - (void)setCollectionItem:(id <NSObject, OECollectionViewItemProtocol>)_collectionItem
 {
-    
-    collectionItem = _collectionItem;
-    
+    collectionItem = _collectionItem;    
     [self _reloadData];
 }
 
@@ -386,16 +388,46 @@
 
 - (OEMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes
 {
+    return [self menuForItemsAtIndexes:indexes];
+}
+#pragma mark -
+#pragma mark GridView Interaction
+- (void)gridView:(OEGridView *)view doubleClickedCellForItemAtIndex:(NSUInteger)index
+{
+    [[self libraryController] startGame:self];
+}
+
+- (void)gridView:(OEGridView *)view didEndEditingCellForItemAtIndex:(NSUInteger)index
+{
+    OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
+    if(!item)
+        return;
+
+    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
+    if(!object)
+        return;
+
+    [object setGridRating:[item rating]];
+    [object setGridTitle:[item title]];
+    [object setGridImage:[item image]];
+}
+
+#pragma mark -
+#pragma mark Context Menu
+- (OEMenu*)menuForItemsAtIndexes:(NSIndexSet*)indexes
+{
+    NSLog(@"indexes: %@", indexes);
+    NSLog(@"selected indexes: %@", [gamesController selectionIndexes]);
     NSMenu *menu = [[NSMenu alloc] init];
     NSMenuItem *menuItem;
-    NSArray *games = [self selectedGames];
+    NSArray *games = [[gamesController arrangedObjects] objectsAtIndexes:indexes];
     
     if([indexes count] == 1)
     {
         NSInteger index = [indexes lastIndex];
         [menu addItemWithTitle:@"Play Game" action:@selector(startGame:) keyEquivalent:@""];
         OEDBGame  *game = [[gamesController arrangedObjects] objectAtIndex:index];
-        
+      
         // Create Save Game Menu
         menuItem = [[NSMenuItem alloc] initWithTitle:@"Play Save Games" action:NULL keyEquivalent:@""];
         [menuItem setSubmenu:[self OE_saveStateMenuForGame:game]];
@@ -439,7 +471,7 @@
         [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:@"Get Game Info From Archive.vg" action:@selector(getGameInfoFromArchive:) keyEquivalent:@""];
         [menu addItemWithTitle:@"Get Cover Art From Archive.vg" action:@selector(getCoverFromArchive:) keyEquivalent:@""];
-                
+        
         [menu addItem:[NSMenuItem separatorItem]];
         // Create Add to collection menu
         NSMenuItem *collectionMenuItem = [[NSMenuItem alloc] initWithTitle:@"Add To Collection" action:NULL keyEquivalent:@""];
@@ -449,7 +481,7 @@
         [menu addItem:[NSMenuItem separatorItem]];
         [menu addItemWithTitle:@"Delete Games" action:@selector(deleteSelectedGames:) keyEquivalent:@""];        
     }
-
+    
     [menu setAutoenablesItems:YES];
     return [menu convertToOEMenu];
 }
@@ -462,7 +494,7 @@
     [roms enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
         NSMenuItem  *item;
         NSArray     *saveStates = [obj saveStatesByTimestampAscending:NO];
-        for(OEDBSaveState* saveState in saveStates)
+        for(OEDBSaveState *saveState in saveStates)
         {
             NSString *itemTitle = [saveState userDescription];
             if(!itemTitle || [itemTitle isEqualToString:@""])
@@ -499,7 +531,7 @@
 {
     NSMenu   *ratingMenu = [[NSMenu alloc] init];
     NSString *ratingLabel = @"★★★★★";
-
+    
     for (NSInteger i=0; i<=5; i++) {
         NSMenuItem *ratingItem = [[NSMenuItem alloc] initWithTitle:[ratingLabel substringToIndex:i] action:@selector(setRatingForSelectedGames:) keyEquivalent:@""];
         [ratingItem setRepresentedObject:[NSNumber numberWithInt:i]];
@@ -507,14 +539,14 @@
             [ratingItem setTitle:NSLocalizedString(@"None", "")];
         [ratingMenu addItem:ratingItem];
     }
-
+    
     BOOL valuesDiffer = NO;
     for(NSInteger i=0; i<[games count]; i++)
     {
         NSNumber   *gameRating = [(OEDBGame*)[games objectAtIndex:i] rating];
         NSInteger   itemIndex = [gameRating integerValue];
         NSMenuItem *item = [ratingMenu itemAtIndex:itemIndex];
-
+        
         if(i==0)
             [item setState:NSOnState];
         else if([item state] != NSOnState)
@@ -530,7 +562,7 @@
         NSMenuItem *item = [ratingMenu itemAtIndex:[gameRating integerValue]];
         [item setState:NSMixedState];
     }
-
+    
     return ratingMenu;
 }
 
@@ -540,7 +572,7 @@
     NSArray *collections = [[[self libraryController] database] collections];
     
     [collectionMenu addItemWithTitle:@"New Collection from Selection" action:@selector(makeNewCollectionWithSelectedGames:) keyEquivalent:@""];
-
+    
     for(id collection in collections)
     {
         if([collection isMemberOfClass:[OEDBCollection class]])
@@ -555,34 +587,11 @@
     
     if([collections count]!=1)
         [collectionMenu insertItem:[NSMenuItem separatorItem] atIndex:1];
-
-
+    
+    
     return collectionMenu;
 }
-#pragma mark -
-#pragma mark GridView Interaction
-- (void)gridView:(OEGridView *)view doubleClickedCellForItemAtIndex:(NSUInteger)index
-{
-    [[self libraryController] startGame:self];
-}
 
-- (void)gridView:(OEGridView *)view didEndEditingCellForItemAtIndex:(NSUInteger)index
-{
-    OECoverGridViewCell *item = (OECoverGridViewCell *)[view cellForItemAtIndex:index makeIfNecessary:NO];
-    if(!item)
-        return;
-
-    id <OECoverGridDataSourceItem> object = (id <OECoverGridDataSourceItem>)[[gamesController arrangedObjects] objectAtIndex:index];
-    if(!object)
-        return;
-
-    [object setGridRating:[item rating]];
-    [object setGridTitle:[item title]];
-    [object setGridImage:[item image]];
-}
-
-#pragma mark -
-#pragma mark Context Menu Actions
 - (void)setRatingForSelectedGames:(id)sender
 {
     NSArray *selectedGames = [self selectedGames];
@@ -591,7 +600,7 @@
         [game setRating:[sender representedObject]];
     }
     
-    [self setNeedsReloadIndexes:[self selectedIndexes]];
+    [self reloadDataIndexes:[self selectedIndexes]];
 }
 
 - (void)showSelectedGamesInFinder:(id)sender
@@ -666,22 +675,22 @@
 
 - (void)getGameInfoFromArchive:(id)sender
 {
-    NSArray* selectedGames = [self selectedGames];
-    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame* obj, NSUInteger idx, BOOL *stop) {
+    NSArray *selectedGames = [self selectedGames];
+    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
         [obj performInfoSyncWithArchiveVG:nil];
     }];
     
-    [self setNeedsReloadIndexes:[self selectedIndexes]];
+    [self reloadDataIndexes:[self selectedIndexes]];
 }
 
 - (void)getCoverFromArchive:(id)sender
 {
-    NSArray* selectedGames = [self selectedGames];
-    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame* obj, NSUInteger idx, BOOL *stop) {
+    NSArray *selectedGames = [self selectedGames];
+    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
         [obj performCoverSyncWithArchiveVG:nil];
     }];
     
-    [self setNeedsReloadIndexes:[self selectedIndexes]];
+    [self reloadDataIndexes:[self selectedIndexes]];
 }
 
 - (void)addCoverArtFromFile:(id)sender
@@ -699,11 +708,11 @@
     NSURL   *imageURL       = [openPanel URL];
     NSArray *selectedGames  = [self selectedGames];
     
-    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame* obj, NSUInteger idx, BOOL *stop) {
+    [selectedGames enumerateObjectsUsingBlock:^(OEDBGame *obj, NSUInteger idx, BOOL *stop) {
         [obj setBoxImageByURL:imageURL];
     }];
     
-    [self setNeedsReloadIndexes:[self selectedIndexes]];
+    [self reloadDataIndexes:[self selectedIndexes]];
 }
 
 - (void)addSaveStateFromFile:(id)sender
@@ -727,12 +736,6 @@
     
     if( aTableView == listView )
     {
-        /*NSManagedObject* manobj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];
-         NSManagedObjectID* objID = [manobj objectID];
-         
-         NSManagedObjectContext* context = [[NSManagedObjectContext alloc] init];
-         [context setPersistentStoreCoordinator:[[manobj managedObjectContext] persistentStoreCoordinator]];
-         */
         id <OEListViewDataSourceItem> obj = [[gamesController arrangedObjects] objectAtIndex:rowIndex];//(id <ListViewDataSourceItem>)[context objectWithID:objID];
         
         NSString *colIdent = [aTableColumn identifier];
@@ -911,8 +914,9 @@
     
     if( aTableView == listView )
     {
-        NSIndexSet *selectedIndexes = [listView selectedRowIndexes];
+        [gamesController setSelectionIndexes:[aTableView selectedRowIndexes]];
         
+        NSIndexSet *selectedIndexes = [listView selectedRowIndexes];
         [coverFlowView setSelectedIndex:[selectedIndexes firstIndex]];
         
         [selectedIndexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
@@ -944,6 +948,12 @@
     {
         [[self libraryController] startGame:nil];
     }    
+}
+#pragma mark -
+#pragma mark OETableView Menu
+- (OEMenu*)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes
+{
+    return [self menuForItemsAtIndexes:indexes];
 }
 
 #pragma mark -
@@ -1008,7 +1018,20 @@
 - (void)setNeedsReloadIndexes:(NSIndexSet*)indexes
 {
     [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadVisibleData) object:indexes];
-    [self performSelector:@selector(_reloadDataIndexes:) withObject:indexes afterDelay:reloadDelay];
+    [self performSelector:@selector(reloadDataIndexes:) withObject:indexes afterDelay:reloadDelay];
+}
+
+- (void)reloadDataIndexes:(NSIndexSet*)indexSet
+{
+    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(reloadDataIndexes:) object:nil];
+    if(!gamesController) return;
+    [gamesController rearrangeObjects];
+    [gridView reloadCellsAtIndexes:indexSet];
+    [listView reloadDataForRowIndexes:indexSet
+                        columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
+    [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
+        [coverFlowView reloadCellDataAtIndex:idx];
+    }];
 }
 
 - (void)_reloadVisibleData
@@ -1044,17 +1067,6 @@
     [coverFlowView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:NO];
 }
 
-- (void)_reloadDataIndexes:(NSIndexSet*)indexSet
-{
-    [NSObject cancelPreviousPerformRequestsWithTarget:self selector:@selector(_reloadDataIndexes) object:nil];
-    if(!gamesController) return;
-    [gamesController rearrangeObjects];
-    [gridView reloadCellsAtIndexes:indexSet];
-    [listView reloadDataForRowIndexes:indexSet
-                        columnIndexes:[listView columnIndexesInRect:[listView visibleRect]]];
-    [indexSet enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop) {
-        [coverFlowView reloadCellDataAtIndex:idx];
-    }];
-}
+
 
 @end

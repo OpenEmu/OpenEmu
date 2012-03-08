@@ -10,6 +10,8 @@
 
 #import "OETableCornerView.h"
 #import "OETableHeaderCell.h"
+
+#import "OEMenu.h"
 @implementation OETableView
 static NSColor *cellEditingFillColor, *textColor, *cellSelectedTextColor, *strokeColor;
 static NSGradient *highlightGradient, *normalGradient;
@@ -87,6 +89,7 @@ static NSGradient *highlightGradient, *normalGradient;
 		NSRectFill(rowRect);
 	}
 }
+
 - (void)highlightSelectionInClipRect:(NSRect)theClipRect
 {
 	BOOL isActive = [[self window] isMainWindow] && [[self window] firstResponder] == self;
@@ -140,8 +143,7 @@ static NSGradient *highlightGradient, *normalGradient;
 	NSRect fillRect;
 	fillRect.size = gridSize;
 	fillRect.origin = aRect.origin;
-	
-	
+		
 	for(NSUInteger i=0; i < [[self tableColumns] count]-1; i++)
 	{
 		NSRect colRect = [self rectOfColumn:i];
@@ -149,9 +151,7 @@ static NSGradient *highlightGradient, *normalGradient;
 		NSRectFill(fillRect);
 	}
 	
-	
 	NSColor *fillColor;
-	
 	BOOL isActive = [[self window] isMainWindow] && [[self window] firstResponder] == self;
 	if(isActive)
 	{
@@ -195,7 +195,39 @@ static NSGradient *highlightGradient, *normalGradient;
     {
         OETableHeaderCell *cell = [aColumn headerCell];
         [cell setClickable:flag];
-    }    
+    }
+}
+
+- (NSMenu *)menuForEvent:(NSEvent *)theEvent
+{
+    [[self window] makeFirstResponder:self];
+    
+    NSPoint mouseLocationInWindow = [theEvent locationInWindow];
+    NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+    
+    NSUInteger index = [self rowAtPoint:mouseLocationInView];
+    if(index != NSNotFound && [[self dataSource] respondsToSelector:@selector(tableView:menuForItemsAtIndexes:)])
+    {
+        NSRect rowRect = [self rectOfRow:index];
+        mouseLocationInView.y = rowRect.origin.y - rowRect.size.height/2;
+        
+        BOOL itemIsSelected = [[self selectedRowIndexes] containsIndex:index];
+        NSIndexSet *indexes = itemIsSelected ? [self selectedRowIndexes] : [NSIndexSet indexSetWithIndex:index];
+        if(!itemIsSelected)
+            [self selectRowIndexes:indexes byExtendingSelection:NO];
+        
+        OEMenu *contextMenu = [(id <OETableViewMenuSource>)[self dataSource] tableView:self menuForItemsAtIndexes:indexes];
+        
+        if([[NSUserDefaults standardUserDefaults] boolForKey:UDLightStyleGridViewMenu])
+            [contextMenu setStyle:OEMenuStyleLight];
+        
+        mouseLocationInWindow = [self convertPoint:mouseLocationInView toView:nil];
+        [contextMenu openOnEdge:OENoEdge ofRect:(NSRect){mouseLocationInWindow, {0,0}} ofWindow:[self window]];
+        
+        return nil;
+    }
+    
+    return [super menuForEvent:theEvent];
 }
 
 
