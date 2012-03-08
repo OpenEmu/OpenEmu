@@ -30,22 +30,24 @@
 @implementation NSURL (NSURL_OELibraryAdditions)
 - (BOOL)hasImageSuffix
 {
-	NSArray *imageSuffixes = [NSArray arrayWithObjects:	
-							  @"png",												// Portable Network Graphics
-							  @"tif", @"tiff",										// Tagged Image File Format
-							  @"jpg", @"jpeg", @"jpe", @"jif", @"jfif", @"jfi",		// JPG
-							  @"jpf",												// JPG 2000
-							  @"bmp", @"dib",										// Windows Bitmap / device-independent bitmap
-							  @"gif",												// Graphics Interchange Format
-							  @"ico",												
-							  @"pdf",												// Portable Document Format
-							  @"eps", @"epsf", @"epsi",								// Encapsulated PostScript
-							  @"pict", @"pct", @"pic",								// Apple Macintosh QuickDraw
-							  @"psd",												// Adobe Photoshop
-							  @"tga", @"tpic",										// YESvision TGA
-							  nil];
-	
+	NSArray *imageSuffixes = [NSImage imageTypes];
 	NSString *urlSuffix = [[self pathExtension] lowercaseString];
 	return [imageSuffixes containsObject:urlSuffix];
+}
+
+- (BOOL)isSubpathOfURL:(NSURL*)url
+{
+    NSArray *parentPathComponents = [url pathComponents];
+    NSArray *ownPathComponentes = [url pathComponents];
+    
+    for(NSUInteger i=0; i < [parentPathComponents count]; i++)
+    {
+    
+        NSLog(@"checking: %@", [parentPathComponents objectAtIndex:i]);
+        if([[parentPathComponents objectAtIndex:i] isNotEqualTo:[ownPathComponentes objectAtIndex:i]])
+            return NO;
+    }
+    
+    return YES;
 }
 @end

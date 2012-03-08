@@ -38,7 +38,7 @@
 NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 @interface OEDBGame ()
-+ (id)_createGameWithoutChecksWithFilePath:(NSString *)filePath inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc;
++ (id)_createGameWithoutChecksWithFilePath:(NSString *)filePath inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc DEPRECATED_ATTRIBUTE;
 
 - (void)_performUpdate;
 + (void)_cpyValForKey:(NSString *)keyA of:(NSDictionary *)dictionary toKey:(NSString *)keyB ofGame:(OEDBGame *)game;
@@ -95,11 +95,13 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 + (id)gameWithFilePath:(NSString *)filePath createIfNecessary:(BOOL)createFlag error:(NSError **)outError
 {
+    DLogDeprecated();
     return [self gameWithFilePath:filePath createIfNecessary:(BOOL)createFlag inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
 
 + (id)gameWithFilePath:(NSString *)filePath createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase *)database error:(NSError **)outError
 {
+    DLogDeprecated();
     if(filePath == nil)
     {
         // TODO: Create error saying that filePath is nil
@@ -189,6 +191,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 + (id)_createGameWithoutChecksWithFilePath:(NSString *)filePath inDatabase:(OELibraryDatabase *)database error:(NSError **)outError md5:(NSString *)md5 crc:(NSString *)crc
 {
+    DLogDeprecated();
     // DLog(@"creating new for path: %@", filePath);
     NSManagedObjectContext *context = [database managedObjectContext];
     NSEntityDescription *description = [self entityDescriptionInContext:context];

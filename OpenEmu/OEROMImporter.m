@@ -29,12 +29,12 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 @interface OEROMImporter (Private)
-- (BOOL)_performImportWithPath:(NSString*)path error:(NSError *__autoreleasing*)outError;// paths must not contain tilde, path must be absolute
-- (BOOL)_performImportWithPaths:(NSArray*)paths error:(NSError *__autoreleasing*)outError;// paths must be absolute
-- (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString*)path error:(NSError *__autoreleasing*)outError;
+- (BOOL)_performImportWithPath:(NSString*)path error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE;// paths must not contain tilde, path must be absolute
+- (BOOL)_performImportWithPaths:(NSArray*)paths error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE;// paths must be absolute
+- (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString*)path error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE;
 - (void)_performCancel:(BOOL)deleteChanges;
 
-- (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError *__autoreleasing*)outError; // filePath must not point to directory
+- (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE; // filePath must not point to directory
 
 - (void)_processImportQueue;
 @end
@@ -58,21 +58,24 @@
     return self;
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
     dispatch_release(processingQueue);
     
     importedRoms = nil;
     
 }
 
-- (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
+- (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     NSArray *pathArray = [NSArray arrayWithObject:path];
     return [self importROMsAtPaths:pathArray inBackground:bg error:outError];
 }
 
-- (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
+- (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     // DLog(@"inPaths: %@", pathArray);
     if(!self.database)
     {
@@ -113,10 +116,14 @@
     return [self _performImportWithPaths:normalizedPaths error:outError];
 }
 
-- (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError{
+- (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
+{
+    DLogDeprecated();
     return [self importROMsAtPath:[url path] inBackground:bg error:outError];
 }
-- (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError{
+- (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
+{ 
+    DLogDeprecated();
     NSMutableArray *paths = [[NSMutableArray alloc] initWithCapacity:[urlArray count]];
     [urlArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [paths addObject:[obj path]];
@@ -127,13 +134,15 @@
     return success;
 }
 
-- (BOOL)_performImportWithPaths:(NSArray*)paths error:(NSError *__autoreleasing*)outError
+- (BOOL)_performImportWithPaths:(NSArray*)paths error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     return [self _performImportWithPaths:paths relativeTo:nil error:outError];
 }
 
-- (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString *)basePath error:(NSError *__autoreleasing*)outError
+- (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString *)basePath error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     // DLog(@"canceld: %d", canceld);
     if (canceld)
         return YES;
@@ -207,8 +216,9 @@
     return success;
 }
 
-- (BOOL)_performImportWithPath:(NSString*)path error:(NSError *__autoreleasing*)outError
+- (BOOL)_performImportWithPath:(NSString*)path error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     // DLog(@"%d", canceld);
     if (canceld)
         return YES;
@@ -257,8 +267,9 @@
     canceld = YES;
 }
 
-- (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError *__autoreleasing*)outError
+- (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     NSError *strongError;
     @try {
         @autoreleasepool

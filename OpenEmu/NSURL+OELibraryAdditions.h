@@ -29,4 +29,5 @@
 
 @interface NSURL (NSURL_OELibraryAdditions)
 - (BOOL)hasImageSuffix;
+- (BOOL)isSubpathOfURL:(NSURL*)url;
 @end

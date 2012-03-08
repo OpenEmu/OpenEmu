@@ -60,10 +60,10 @@ extern NSString *const OEPasteboardTypeGame;
 + (id)gameWithURIString:(NSString*)objIDString inDatabase:(OELibraryDatabase*)database;
 
 // returns the game from the default database that represents the file at filePath
-+ (id)gameWithFilePath:(NSString*)filePath createIfNecessary:(BOOL)createFlag error:(NSError**)outError;
++ (id)gameWithFilePath:(NSString*)filePath createIfNecessary:(BOOL)createFlag error:(NSError**)outError DEPRECATED_ATTRIBUTE;
 
 // returns the game from the specified database that represents the file at filePath
-+ (id)gameWithFilePath:(NSString*)filePath createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
++ (id)gameWithFilePath:(NSString*)filePath createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError DEPRECATED_ATTRIBUTE;
 
 // returns the game with the archive id archiveID
 + (id)gameWithArchiveID:(id)archiveID error:(NSError**)outError;

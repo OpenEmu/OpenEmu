@@ -32,36 +32,43 @@
 #import "ArchiveVG.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
+#import "NSURL+OELibraryAdditions.h"
 @interface OEDBRom (Private)
-+ (id)_createRomWithoutChecksWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError; 
-
++ (id)_createRomWithoutChecksWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError DEPRECATED_ATTRIBUTE; 
++ (id)_createRomWithoutChecksWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
 @end
 @implementation OEDBRom
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBRoms
-+ (id)createRomWithFilePath:(NSString *)filePath error:(NSError **)outError
++ (id)createRomWithFilePath:(NSString *)filePath error:(NSError **)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     return [self createRomWithFilePath:filePath inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
-+ (id)createRomWithFilePath:(NSString*)filePath inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
++ (id)createRomWithFilePath:(NSString*)filePath inDatabase:(OELibraryDatabase*)database error:(NSError**)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     return [self _createRomWithoutChecksWithFilePath:filePath md5:nil crc:nil inDatabase:database error:outError];
-}
-+ (id)romWithFilePath:(NSString*)path createIfNecessary:(BOOL)createFlag error:(NSError**)outError
+} 
++ (id)romWithFilePath:(NSString*)path createIfNecessary:(BOOL)createFlag error:(NSError**)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     return [self romWithFilePath:path createIfNecessary:createFlag inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
-+ (id)createRomWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc error:(NSError**)outError
++ (id)createRomWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc error:(NSError**)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     return [self createRomWithFilePath:filePath md5:md5 crc:crc inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
-+ (id)createRomWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
++ (id)createRomWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     return [self _createRomWithoutChecksWithFilePath:filePath md5:md5 crc:crc inDatabase:database error:outError];
 }
 
-+ (id)romWithFilePath:(NSString*)path createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
++ (id)romWithFilePath:(NSString*)path createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
     if(path==nil) return nil;
     
     OEDBRom *rom = nil;
@@ -85,8 +92,10 @@
     return rom;
 }
 
-+ (id)_createRomWithoutChecksWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError; 
++ (id)_createRomWithoutChecksWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError DEPRECATED_ATTRIBUTE
 {
+    DLogDeprecated();
+    
     if(filePath == nil)
     {
         if(outError!=NULL)
@@ -167,6 +176,140 @@
     return rom;
 }
 
+#pragma mark -
+#pragma mark Creating and Obtaining OEDBRoms
++ (id)createRomWithURL:(NSURL *)url error:(NSError **)outError
+{
+    return [self createRomWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
+}
++ (id)createRomWithURL:(NSURL*)url inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
+{
+    return [self _createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
+} 
++ (id)romWithURL:(NSURL*)url createIfNecessary:(BOOL)createFlag error:(NSError**)outError
+{
+    return [self romWithURL:url createIfNecessary:createFlag inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
+}
++ (id)createRomWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc error:(NSError**)outError
+{
+    return [self createRomWithURL:url md5:md5 crc:crc inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
+}
++ (id)createRomWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
+{
+    return [self _createRomWithoutChecksWithURL:url md5:md5 crc:crc inDatabase:database error:outError];
+}
+
++ (id)romWithURL:(NSURL*)url createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
+{
+    if(url==nil) return nil;
+    
+    OEDBRom *rom = nil;
+    NSManagedObjectContext *context = [database managedObjectContext];
+    
+#warning this doesn't make sense with urls:
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"path == %@", [url path]];    
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
+    [fetchRequest setIncludesPendingChanges:YES];
+    [fetchRequest setPredicate:predicate];
+    [fetchRequest setFetchLimit:1];
+    NSArray *roms = [context executeFetchRequest:fetchRequest error:outError];
+    if(roms)
+    {
+        rom = [roms lastObject];
+    }
+    
+    if(!rom && createFlag)
+    {
+        return [self _createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
+    }
+    return rom;
+}
+
++ (id)_createRomWithoutChecksWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
+{
+    if(url == nil)
+    {
+        if(outError!=NULL)
+            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:0 userInfo:[NSDictionary dictionaryWithObject:@"_createRomWithoutChecksWithURL called without url" forKey:NSLocalizedDescriptionKey]];
+        return nil;
+    }
+    
+    NSManagedObjectContext *context = [database managedObjectContext];
+    NSEntityDescription *description = [self entityDescriptionInContext:context];
+    OEDBRom *rom = [[OEDBRom alloc] initWithEntity:description insertIntoManagedObjectContext:context];
+    
+    NSUserDefaults *standardUserDefaults = [NSUserDefaults standardUserDefaults];
+    BOOL copyToDatabase = [standardUserDefaults boolForKey:UDCopyToLibraryKey];
+    BOOL useMD5 = [standardUserDefaults boolForKey:UDUseMD5HashingKey];
+    
+    NSURL    *newURL = [url copy];
+    if(copyToDatabase && ![newURL isSubpathOfURL:[database databaseURL]])
+    {
+        NSURL         *databaseUnsortedFolderURL = [database databaseUnsortedRomsURL];
+        NSFileManager *defaultManager = [NSFileManager defaultManager];
+        
+        NSInteger i = 0;
+        NSString *fileName = [[newURL lastPathComponent] stringByDeletingPathExtension];
+        NSString *fileSuffix = [newURL pathExtension];
+                
+        newURL = [NSURL URLWithString:[newURL lastPathComponent] relativeToURL:databaseUnsortedFolderURL];
+        while([newURL checkResourceIsReachableAndReturnError:nil])
+        {
+            i++;
+            NSString *newFileName = [NSString stringWithFormat:@"%@ %d.%@", fileName, i, fileSuffix];
+            newURL = [NSURL URLWithString:newFileName relativeToURL:databaseUnsortedFolderURL];
+        }
+        
+        if(![defaultManager copyItemAtURL:url toURL:newURL error:outError])
+        {
+            [context deleteObject:rom];
+            if(outError!=NULL)
+                *outError = [NSError errorWithDomain:@"OEErrorDomain" code:1 userInfo:[NSDictionary dictionaryWithObject:@"Copying ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
+            return nil;
+        }
+    }
+    
+    [rom setPath:[newURL path]];
+    
+    if(md5!=nil) [rom setMd5:md5];
+    if(crc!=nil) [rom setCrc32:crc];
+    
+    BOOL calculateHash = (useMD5 && md5==nil) || (!useMD5 && crc==nil);
+    if(calculateHash)
+    {
+        NSData *data = [NSData dataWithContentsOfFile:[newURL path] options:NSDataReadingUncached error:outError];
+        if(!data)
+        {
+            [[NSFileManager defaultManager] removeItemAtPath:[newURL path] error:nil];
+            
+            [context deleteObject:rom];
+            if(outError!=NULL)
+                *outError = [NSError errorWithDomain:@"OEErrorDomain" code:2 userInfo:[NSDictionary dictionaryWithObject:@"Calculating Hash for ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
+            return nil;
+        }
+        
+        NSFileManager* defaultFileManager = [NSFileManager defaultManager];
+        NSString* hash;
+        if(useMD5)
+        {
+            hash = [defaultFileManager md5DigestForFileAtURL:url error:outError];
+            if(!hash)
+                return nil;
+            [rom setMd5:hash];
+        }
+        else
+        {
+            hash = [defaultFileManager crc32ForFileAtURL:url error:outError];
+            if(!hash)
+                return nil;
+            [rom setCrc32:hash];
+        }
+    }
+    
+    return rom;
+}
+#pragma mark -
+
 + (id)romWithFileName:(NSString*)filename error:(NSError**)outError
 {
     return [self romWithFileName:filename inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
@@ -190,6 +333,7 @@
     }
     return [roms lastObject];
 }
+
 + (id)romWithCRC32HashString:(NSString*)crcHash error:(NSError**)outError
 {
     return [self romWithCRC32HashString:crcHash inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
@@ -433,7 +577,6 @@
         
         [self setPath:newRomPath];
     }
-    
 }
 #pragma mark -
 #pragma mark Data Model Properties

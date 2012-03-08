@@ -762,13 +762,21 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [NSArray array];
 }
 #pragma mark -
-- (NSString*)databaseFolderPath
+- (NSString*)databaseFolderPath DEPRECATED_ATTRIBUTE
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSString *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
     return libraryFolderPath;
 }
-- (NSString*)databaseUnsortedRomsPath
+
+- (NSURL*)databaseFolderURL
+{
+    NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
+    return [NSURL fileURLWithPath:libraryFolderPath isDirectory:YES];
+}
+
+- (NSString*)databaseUnsortedRomsPath DEPRECATED_ATTRIBUTE
 {
     NSString *libraryFolderPath = [self databaseFolderPath];
     NSString *unsortedFolderPath = [libraryFolderPath stringByAppendingPathComponent:NSLocalizedString(@"unsorted", @"")];
@@ -776,6 +784,17 @@ static OELibraryDatabase *defaultDatabase = nil;
     }
     
     return unsortedFolderPath;
+}
+
+- (NSURL*)databaseUnsortedRomsURL
+{
+    NSURL    *databaseFolderURL = [self databaseFolderURL];
+    NSString *unsortedFolderName = NSLocalizedString(@"unsorted", @"Unsorted Folder Name");
+    
+    NSURL   *unsortedRomsFolderURL = [NSURL URLWithString:unsortedFolderName relativeToURL:databaseFolderURL];
+    [[NSFileManager defaultManager] createDirectoryAtURL:unsortedRomsFolderURL withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return unsortedRomsFolderURL;
 }
 #pragma mark -
 #pragma mark Private (importing)

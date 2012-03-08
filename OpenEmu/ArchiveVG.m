@@ -170,101 +170,103 @@ typedef enum
 #pragma mark Private (no session required)
 + (id)_resultFromURL:(NSURL*)url forOperation:(_ArchiveVGOperation)op error:(NSError**)outError
 {   
-    NSXMLDocument* doc = [[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:outError];
-    if(*outError!=nil)
-    {
-        NSLog(@"could not create XMLDocument");
-        NSLog(@"Error: %@", *outError);
+    @autoreleasepool {
+        NSXMLDocument* doc = [[NSXMLDocument alloc] initWithContentsOfURL:url options:NSDataReadingUncached error:outError];
+        if(*outError!=nil)
+        {
+            NSLog(@"could not create XMLDocument");
+            NSLog(@"Error: %@", *outError);
+            return nil;
+        }
+        
+        // Handle Search Result
+        if(op==AVGSearch || op==AVGGetGames)
+        {
+            NSArray* gameNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game" error:outError];
+            if(*outError!=nil)
+            {
+                NSLog(@"Could not find gameNodes");
+                NSLog(@"Error: %@", *outError);
+                return nil;
+            }
+            
+            NSMutableArray* gameDictionaries = [NSMutableArray arrayWithCapacity:[gameNodes count]];
+            [gameNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
+             {
+                 NSError* anError = nil;
+                 NSDictionary* gameDict = [self dictFromGameNode:obj error:&anError];
+                 if(anError!=nil)
+                 {             
+                     NSLog(@"Error while enumerating gameNodes");
+                     *stop = YES;
+                 }
+                 [gameDictionaries addObject: gameDict];
+             }];
+            
+            return gameDictionaries;        
+        } 
+        else if(op==AVGGetInfoByCRC || op==AVGGetInfoByID || op==AVGGetInfoByMD5) // Handle getInfoByX requests
+        {
+            NSArray* gameNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game[1]" error:outError];
+            if(*outError!=nil)
+            {
+                NSLog(@"Could not find gameNodes");
+                NSLog(@"Error: %@", *outError);
+                return nil;
+            }
+            
+            if([gameNodes count] == 0)
+            {
+                return [NSDictionary dictionary];
+            }
+            
+            if([gameNodes count] > 1)
+            {
+                // Multiple game nodes -> we got several games for a crc, md5 or archive id
+                // this is very unlikely and if it happens we just use the last one
+            }
+            NSXMLNode* gameNode = [gameNodes lastObject];
+            
+            NSDictionary* result = [self dictFromGameNode:gameNode error:outError];
+            if(*outError!=nil)
+            {
+                NSLog(@"Error getting game dictionary");
+                NSLog(@"Error: %@", *outError);
+                return nil;
+            }
+            return result;
+        } 
+        else if(op==AVGGetSystems)
+        {    
+            NSArray* systemNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/systems[1]/system" error:outError];
+            if(*outError!=nil)
+            {
+                NSLog(@"Could not find systemNodes");
+                NSLog(@"Error: %@", *outError);
+                return nil;
+            }
+            
+            NSMutableArray* systemDictionaries = [NSMutableArray arrayWithCapacity:[systemNodes count]];
+            [systemNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
+             {
+                 NSError* anError = nil;
+                 NSDictionary* systemDict = [self dictFromSystemNode:obj error:&anError];
+                 if(anError!=nil)
+                 {
+                     NSLog(@"Error while enumerating systemNodes");
+                     *stop = YES;
+                 }
+                 [systemDictionaries addObject: systemDict];
+             }];
+            return systemDictionaries;        
+        }
+        else 
+        {
+            NSLog(@"Operation %@ is not implemented yet.", [self _debug_nameOfOp:op]);
+        }
+        
         return nil;
     }
-        
-    // Handle Search Result
-    if(op==AVGSearch || op==AVGGetGames)
-    {
-        NSArray* gameNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game" error:outError];
-        if(*outError!=nil)
-        {
-            NSLog(@"Could not find gameNodes");
-            NSLog(@"Error: %@", *outError);
-            return nil;
-        }
-        
-        NSMutableArray* gameDictionaries = [NSMutableArray arrayWithCapacity:[gameNodes count]];
-        [gameNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
-         {
-             NSError* anError = nil;
-             NSDictionary* gameDict = [self dictFromGameNode:obj error:&anError];
-             if(anError!=nil)
-             {             
-                 NSLog(@"Error while enumerating gameNodes");
-                 *stop = YES;
-             }
-             [gameDictionaries addObject: gameDict];
-         }];
-        
-        return gameDictionaries;        
-    } 
-    else if(op==AVGGetInfoByCRC || op==AVGGetInfoByID || op==AVGGetInfoByMD5) // Handle getInfoByX requests
-    {
-        NSArray* gameNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/games[1]/game[1]" error:outError];
-        if(*outError!=nil)
-        {
-            NSLog(@"Could not find gameNodes");
-            NSLog(@"Error: %@", *outError);
-            return nil;
-        }
-        
-        if([gameNodes count] == 0)
-        {
-            return [NSDictionary dictionary];
-        }
-        
-        if([gameNodes count] > 1)
-        {
-            // Multiple game nodes -> we got several games for a crc, md5 or archive id
-            // this is very unlikely and if it happens we just use the last one
-        }
-        NSXMLNode* gameNode = [gameNodes lastObject];
-        
-        NSDictionary* result = [self dictFromGameNode:gameNode error:outError];
-        if(*outError!=nil)
-        {
-            NSLog(@"Error getting game dictionary");
-            NSLog(@"Error: %@", *outError);
-            return nil;
-        }
-        return result;
-    } 
-    else if(op==AVGGetSystems)
-    {    
-        NSArray* systemNodes = [[doc rootElement] nodesForXPath:@"/OpenSearchDescription[1]/systems[1]/system" error:outError];
-        if(*outError!=nil)
-        {
-            NSLog(@"Could not find systemNodes");
-            NSLog(@"Error: %@", *outError);
-            return nil;
-        }
-        
-        NSMutableArray* systemDictionaries = [NSMutableArray arrayWithCapacity:[systemNodes count]];
-        [systemNodes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
-         {
-             NSError* anError = nil;
-             NSDictionary* systemDict = [self dictFromSystemNode:obj error:&anError];
-             if(anError!=nil)
-             {
-                 NSLog(@"Error while enumerating systemNodes");
-                 *stop = YES;
-             }
-             [systemDictionaries addObject: systemDict];
-         }];
-        return systemDictionaries;        
-    }
-    else 
-    {
-        NSLog(@"Operation %@ is not implemented yet.", [self _debug_nameOfOp:op]);
-    }
-    
-    return nil;
 }
 
 

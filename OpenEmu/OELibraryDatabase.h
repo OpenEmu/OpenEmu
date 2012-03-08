@@ -60,7 +60,7 @@
 - (OEDBSystem*)systemWithArchiveName:(NSString*)name;
 - (OEDBSystem*)systemWithArchiveShortname:(NSString*)shortname;
 
-- (OEDBSystem*)systemForFile:(NSString*)filePath;
+- (OEDBSystem*)systemForFile:(NSString*)filePath DEPRECATED_ATTRIBUTE;
 - (NSInteger)systemsCount;
 
 - (OEDBGame*)gameWithArchiveID:(NSNumber*)archiveID;
@@ -70,7 +70,7 @@
 
 - (OEDBRom*)romForMD5Hash:(NSString*)hashString;
 - (OEDBRom*)romForCRC32Hash:(NSString*)crc32String;
-- (OEDBRom*)romForWithPath:(NSString*)path;
+- (OEDBRom*)romForWithPath:(NSString*)path DEPRECATED_ATTRIBUTE;
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate;
 - (NSArray*)romsInCollection:(id)collection;
 #pragma mark -
@@ -81,8 +81,10 @@
 - (id)addNewSmartCollection:(NSString*)name;
 - (id)addNewCollectionFolder:(NSString*)name;
 #pragma mark -
-@property (readonly) NSString *databaseFolderPath;
-@property (readonly) NSString *databaseUnsortedRomsPath;
+@property (readonly) NSString *databaseFolderPath DEPRECATED_ATTRIBUTE;
+@property (readonly) NSURL *databaseFolderURL;
+@property (readonly) NSString *databaseUnsortedRomsPath DEPRECATED_ATTRIBUTE;
+@property (readonly) NSURL *databaseUnsortedRomsURL;
 #pragma mark -
 @property (copy) NSURL *databaseURL;
 @property (strong) NSPersistentStoreCoordinator  *persistentStoreCoordinator;
