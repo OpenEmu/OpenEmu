@@ -81,10 +81,13 @@
 - (id)addNewSmartCollection:(NSString*)name;
 - (id)addNewCollectionFolder:(NSString*)name;
 #pragma mark -
+#pragma mark Database Folders
 @property (readonly) NSString *databaseFolderPath DEPRECATED_ATTRIBUTE;
-@property (readonly) NSURL *databaseFolderURL;
 @property (readonly) NSString *databaseUnsortedRomsPath DEPRECATED_ATTRIBUTE;
-@property (readonly) NSURL *databaseUnsortedRomsURL;
+- (NSURL *)databaseFolderURL;
+- (NSURL *)romsFolderURL;
+- (NSURL *)unsortedRomsFolderURL;
+- (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system;
 #pragma mark -
 @property (copy) NSURL *databaseURL;
 @property (strong) NSPersistentStoreCoordinator  *persistentStoreCoordinator;

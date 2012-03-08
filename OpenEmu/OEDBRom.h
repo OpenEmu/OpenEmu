@@ -53,11 +53,9 @@
 + (id)romWithMD5HashString:(NSString*)md5Hash error:(NSError**)outError;
 + (id)romWithMD5HashString:(NSString*)md5Hash inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
 
+@property (nonatomic) NSURL     *url;
 #pragma mark -
 #pragma mark Accessors
-// returns url to rom file
-- (NSURL*)url;
-
 // returns md5 hash for rom. calculates it if necessary so the method can take a long time to return, and might return nil if hash is not in db and can not be calculated
 - (NSString*)md5Hash;
 // returns md5 hash for rom if one was calculated before
@@ -97,7 +95,4 @@
 @property (nonatomic, retain)   NSSet             *saveStates;
 @property (nonatomic, readonly) NSMutableSet      *mutableSaveStates;
 @property (nonatomic, retain)   NSManagedObject   *tosec;
-
-#pragma mark -
-- (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db;
 @end
