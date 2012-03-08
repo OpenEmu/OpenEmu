@@ -29,12 +29,12 @@
 #import "OEDBRom.h"
 #import "OEDBGame.h"
 @interface OEROMImporter (Private)
-- (BOOL)_performImportWithPath:(NSString*)path error:(NSError**)outError;// paths must not contain tilde, path must be absolute
-- (BOOL)_performImportWithPaths:(NSArray*)paths error:(NSError**)outError;// paths must be absolute
-- (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString*)path error:(NSError**)outError;
+- (BOOL)_performImportWithPath:(NSString*)path error:(NSError *__autoreleasing*)outError;// paths must not contain tilde, path must be absolute
+- (BOOL)_performImportWithPaths:(NSArray*)paths error:(NSError *__autoreleasing*)outError;// paths must be absolute
+- (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString*)path error:(NSError *__autoreleasing*)outError;
 - (void)_performCancel:(BOOL)deleteChanges;
 
-- (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError**)outError; // filePath must not point to directory
+- (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError *__autoreleasing*)outError; // filePath must not point to directory
 
 - (void)_processImportQueue;
 @end
@@ -65,13 +65,13 @@
     
 }
 
-- (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError**)outError
+- (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
 {
     NSArray *pathArray = [NSArray arrayWithObject:path];
     return [self importROMsAtPaths:pathArray inBackground:bg error:outError];
 }
 
-- (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError**)outError
+- (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
 {
     // DLog(@"inPaths: %@", pathArray);
     if(!self.database)
@@ -103,12 +103,9 @@
     // remove tildes
     NSMutableArray *normalizedPaths = [NSMutableArray arrayWithCapacity:[pathArray count]];
     [pathArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
-     {
-         @autoreleasepool 
-         {
-             [normalizedPaths insertObject:[obj stringByExpandingTildeInPath] atIndex:idx];
-         }
-     }];
+    {
+        [normalizedPaths insertObject:[obj stringByExpandingTildeInPath] atIndex:idx];
+    }];
     
     // DLog(@"normalizedPaths: %@", normalizedPaths);
     
@@ -116,10 +113,10 @@
     return [self _performImportWithPaths:normalizedPaths error:outError];
 }
 
-- (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError**)outError{
+- (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError{
     return [self importROMsAtPath:[url path] inBackground:bg error:outError];
 }
-- (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError**)outError{
+- (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError{
     NSMutableArray *paths = [[NSMutableArray alloc] initWithCapacity:[urlArray count]];
     [urlArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         [paths addObject:[obj path]];
@@ -130,18 +127,18 @@
     return success;
 }
 
-- (BOOL)_performImportWithPaths:(NSArray*)paths error:(NSError**)outError
+- (BOOL)_performImportWithPaths:(NSArray*)paths error:(NSError *__autoreleasing*)outError
 {
     return [self _performImportWithPaths:paths relativeTo:nil error:outError];
 }
 
-- (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString *)basePath error:(NSError **)outError
+- (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString *)basePath error:(NSError *__autoreleasing*)outError
 {
     // DLog(@"canceld: %d", canceld);
     if (canceld)
         return YES;
     
-    NSError *error = nil;
+    __strong NSError *error = nil;
     
     BOOL success = YES;
     for (__strong NSString *aPath in paths) 
@@ -191,26 +188,26 @@
                     if(isSuppression)
                         errorBehaviour = behavior;
                 }
-                
-                if(outError!=NULL)
-                {
-                    *outError = error;
-                }
-                
                 if(behavior != OEImportErrorIgnore)
                 {
+                    if(outError!=NULL)
+                    {
+                        *outError = error;
+                    }
+                    
                     [self _performCancel:behavior==OEImportErrorCancelDeleteChanges];
                     // returning YES because error was handled
                     return YES;
                 }
+                
+                error = nil;
             }
         }
-        error = nil;
     }
     return success;
 }
 
-- (BOOL)_performImportWithPath:(NSString*)path error:(NSError**)outError
+- (BOOL)_performImportWithPath:(NSString*)path error:(NSError *__autoreleasing*)outError
 {
     // DLog(@"%d", canceld);
     if (canceld)
@@ -260,7 +257,7 @@
     canceld = YES;
 }
 
-- (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError**)outError
+- (BOOL)_performImportWithFile:(NSString*)filePath error:(NSError *__autoreleasing*)outError
 {
     NSError *strongError;
     @try {
@@ -294,6 +291,7 @@
     @finally {
         if (outError) *outError = strongError;
     }
+    strongError = nil;
 }
 
 - (NSArray*)importedRoms
