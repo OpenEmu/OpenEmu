@@ -28,12 +28,12 @@
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
 #import "OEDBGame.h"
-@interface OEROMImporter (Private)
-- (BOOL)_performImportWithPath:(NSString*)path error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE;// paths must not contain tilde, path must be absolute
-- (BOOL)_performImportWithPaths:(NSArray*)paths error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE;// paths must be absolute
-- (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString*)path error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE;
-- (void)_performCancel:(BOOL)deleteChanges;
 
+#import "NSURL+OELibraryAdditions.h"
+@interface OEROMImporter (Private)
+- (void)_performCancel:(BOOL)deleteChanges;
+- (BOOL)_performImportWithURL:(NSURL*)url error:(NSError *__autoreleasing*)outError;
+- (BOOL)_performImportWithURLS:(NSArray*)urls error:(NSError *__autoreleasing*)outError;
 // url must not point to a directory
 - (BOOL)_performImportWithFileURL:(NSURL*)url error:(NSError *__autoreleasing*)outError;
 
@@ -64,20 +64,30 @@
     dispatch_release(processingQueue);
     
     importedRoms = nil;
-    
 }
 
-- (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
+- (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
 {
-    DLogDeprecated();
-    NSArray *pathArray = [NSArray arrayWithObject:path];
-    return [self importROMsAtPaths:pathArray inBackground:bg error:outError];
+    return [self importROMsAtURL:[NSURL fileURLWithPath:path] inBackground:bg error:outError];
 }
 
-- (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
+- (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
 {
-    DLogDeprecated();
-    // DLog(@"inPaths: %@", pathArray);
+    NSMutableArray *urlArray = [NSMutableArray arrayWithCapacity:[pathArray count]];
+    [pathArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        [urlArray addObject:[NSURL fileURLWithPath:obj]]; 
+    }];
+    return [self importROMsAtURLs:urlArray inBackground:bg error:outError];
+}
+
+- (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
+{
+    NSArray *urlArray = [NSArray arrayWithObject:url];
+    return [self importROMsAtURLs:urlArray inBackground:bg error:outError];
+}
+
+- (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
+{ 
     if(!self.database)
     {
         // TODO: Create proper error
@@ -92,6 +102,7 @@
         // if we do not run on main thread it is very possible that bg and outError hold garbage!
         NSError __autoreleasing *error = nil;
         outError = &error;
+        bg=NO;
     } 
     else if(bg)
     {
@@ -99,50 +110,19 @@
         
         // DLog(@"WILL RUN IN BACKGROUND");
         // this will pass random values as bg and outError
-        [self performSelectorInBackground:@selector(importROMsAtPaths:inBackground:error:) withObject:pathArray];
+        [self performSelectorInBackground:@selector(importROMsAtURLs:inBackground:error:) withObject:urlArray];
         
         return YES;
     }
-    
-    // remove tildes
-    NSMutableArray *normalizedPaths = [NSMutableArray arrayWithCapacity:[pathArray count]];
-    [pathArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) 
-    {
-        [normalizedPaths insertObject:[obj stringByExpandingTildeInPath] atIndex:idx];
-    }];
-    
+
     // DLog(@"normalizedPaths: %@", normalizedPaths);
     
     canceld = NO;
-    return [self _performImportWithPaths:normalizedPaths error:outError];
+    return [self _performImportWithURLS:urlArray error:outError];
 }
 
-- (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
+- (BOOL)_performImportWithURLS:(NSArray*)urls error:(NSError *__autoreleasing*)outError
 {
-    NSArray *urlArray = [NSArray arrayWithObject:url];
-    return [self importROMsAtURLs:urlArray inBackground:bg error:outError];
-}
-- (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError *__autoreleasing*)outError
-{ 
-    NSMutableArray *paths = [[NSMutableArray alloc] initWithCapacity:[urlArray count]];
-    [urlArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        [paths addObject:[obj path]];
-    }];
-    
-    BOOL success = [self importROMsAtPaths:paths inBackground:bg error:outError];
-    
-    return success;
-}
-
-- (BOOL)_performImportWithPaths:(NSArray*)paths error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
-{
-    DLogDeprecated();
-    return [self _performImportWithPaths:paths relativeTo:nil error:outError];
-}
-
-- (BOOL)_performImportWithPaths:(NSArray*)paths relativeTo:(NSString *)basePath error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
-{
-    DLogDeprecated();
     // DLog(@"canceld: %d", canceld);
     if (canceld)
         return YES;
@@ -150,17 +130,13 @@
     __strong NSError *error = nil;
     
     BOOL success = YES;
-    for (__strong NSString *aPath in paths) 
+    for (__strong NSURL *aURL in urls) 
     {
         @autoreleasepool
         {
             if(canceld) return YES;
-            
-            if(basePath)
-            {
-                aPath = [basePath stringByAppendingPathComponent:aPath];
-            }
-            success = [self _performImportWithPath:aPath error:&error];
+        
+            success = [self _performImportWithURL:aURL error:&error];
             if(!success)
             {
                 OEImportErrorBehavior behavior = errorBehaviour;
@@ -216,9 +192,8 @@
     return success;
 }
 
-- (BOOL)_performImportWithPath:(NSString*)path error:(NSError *__autoreleasing*)outError DEPRECATED_ATTRIBUTE
+- (BOOL)_performImportWithURL:(NSURL*)url error:(NSError *__autoreleasing*)outError
 {
-    DLogDeprecated();
     // DLog(@"%d", canceld);
     if (canceld)
         return YES;
@@ -226,16 +201,9 @@
     // skip invisible files
     // TODO: implement proper check (hidden files without .)
     // TODO: what if we want to import those as well? add option
-    if([[path lastPathComponent] characterAtIndex:0] == '.')
-    {
-        return YES;
-    }
     
     NSFileManager *defaultManager = [NSFileManager defaultManager];
-    
-    BOOL isDir = NO;
-    
-    if(![defaultManager fileExistsAtPath:path])
+    if(![url checkResourceIsReachableAndReturnError:nil])
     {
         // DLog(@"file does not exist at path: %@", path);
         // TODO: add proper error!
@@ -243,22 +211,23 @@
         return NO;
     }
     
-    if([defaultManager fileExistsAtPath:path isDirectory:&isDir] && !isDir)
+    if(![url isDirectory])
     {
-        return [self _performImportWithFileURL:[NSURL fileURLWithPath:path] error:outError];
+        return [self _performImportWithFileURL:url error:outError];
     }
     
-    NSArray *paths = [defaultManager contentsOfDirectoryAtPath:path error:outError];
-    if(!paths)
+    
+    NSArray *urls = [defaultManager contentsOfDirectoryAtURL:url 
+                                   includingPropertiesForKeys:[NSArray arrayWithObjects:NSURLNameKey, nil]
+                                                      options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsPackageDescendants|NSDirectoryEnumerationSkipsHiddenFiles 
+                                                        error:outError];
+    if(!urls)
     {
         // DLog(@"no paths – contentsOfDirectoryAtPath:error");
         return NO;
     }
     
-    BOOL success = [self _performImportWithPaths:paths relativeTo:path error:outError];
-
-    
-    return success;
+    return [self _performImportWithURLS:urls error:outError];
 }
 
 - (void)_performCancel:(BOOL)deleteChanges

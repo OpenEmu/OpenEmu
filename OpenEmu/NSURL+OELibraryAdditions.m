@@ -43,11 +43,15 @@
     for(NSUInteger i=0; i < [parentPathComponents count]; i++)
     {
     
-        NSLog(@"checking: %@", [parentPathComponents objectAtIndex:i]);
         if([[parentPathComponents objectAtIndex:i] isNotEqualTo:[ownPathComponentes objectAtIndex:i]])
             return NO;
     }
     
     return YES;
+}
+
+- (BOOL)isDirectory
+{
+    return CFURLHasDirectoryPath((__bridge CFURLRef)self);
 }
 @end

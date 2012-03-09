@@ -44,11 +44,12 @@ typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
 }
 - (id)initWithDatabase:(OELibraryDatabase*)_database;
 
-- (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError**)outError DEPRECATED_ATTRIBUTE;
-- (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError**)outError DEPRECATED_ATTRIBUTE;
+- (BOOL)importROMsAtPath:(NSString*)path inBackground:(BOOL)bg error:(NSError**)outError;
+- (BOOL)importROMsAtPaths:(NSArray*)pathArray inBackground:(BOOL)bg error:(NSError**)outError;
 
 - (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError**)outError;
 - (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError**)outError;
+
 @property OEImportErrorBehavior errorBehaviour;
 @property (strong) OELibraryDatabase *database;
 @property __block int queueCount;

@@ -87,7 +87,7 @@
     return [self systemForURL:url inDatabase:[OELibraryDatabase defaultDatabase]];
 }
 
-+ (id)systemForURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database DEPRECATED_ATTRIBUTE
++ (id)systemForURL:(NSURL *)url inDatabase:(OELibraryDatabase *)database
 {
     return [database systemForURL:url];
 }

@@ -102,8 +102,8 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 {
     if(url == nil || ![url checkResourceIsReachableAndReturnError:outError])
     {
-        // TODO: Create error saying that filePath is nil
-        // DLog(@"filePath is nil");
+        // TODO: Create error saying that url is nil
+        // DLog(@"url is nil");
         return nil;
     }
 
@@ -120,7 +120,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     OEDBGame *game = nil;
     if(game == nil && checkFullpath)
     {
-        // DLog(@"checking fullpath: %@", filePath);
+        // DLog(@"checking fullpath: %@", url);
         OEDBRom *rom = [OEDBRom romWithURL:url createIfNecessary:NO error:outError];
         if(rom!=nil)
         {
@@ -212,7 +212,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(system == nil)
     {
         if(outError != NULL)
-            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:3 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Could not get system for file at path: %@!", url] forKey:NSLocalizedDescriptionKey]];
+            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:3 userInfo:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"Could not get system for file at url: %@!", url] forKey:NSLocalizedDescriptionKey]];
         
         [context deleteObject:game];
         [context deleteObject:rom];
@@ -499,7 +499,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
 
 + (id)gameWithArchiveDictionary:(NSDictionary *)gameInfo inDatabase:(OELibraryDatabase *)database
 {
-    // DLog(@"Deprecated: Use OEDGBGame +gameWithFilePath:createIfNecessary:error: and OEDGBGame -setArchiveVGInfo: instead");
+    // DLog(@"Deprecated: Use OEDGBGame +gameWithURL:createIfNecessary:error: and OEDGBGame -setArchiveVGInfo: instead");
     
     NSManagedObjectContext *context = [database managedObjectContext];
     NSEntityDescription *description = [NSEntityDescription entityForName:@"Game" inManagedObjectContext:context];
