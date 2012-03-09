@@ -150,13 +150,6 @@
 			remoteGlobalIDString = 8D5B49AC048680CD000E48DA;
 			remoteInfo = BSNES;
 		};
-		832BD9BE15080F9300FF0DB6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 94D7E8C915073BA000FBDD85;
-			remoteInfo = NDS;
-		};
 		948DAE5B14C9FCCF00E09DC1 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
@@ -170,6 +163,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 8227754F148946DF00B19E27;
 			remoteInfo = GameGear;
+		};
+		94EE67A61508697700F80F37 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 826FE1131014D8CF0023A8E9 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 94D7E8C915073BA000FBDD85;
+			remoteInfo = NDS;
 		};
 		C62A2545116F06C80003DEE4 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -865,7 +865,7 @@
 				3DFAAFF914464395005EF0C3 /* N64.oesystemplugin */,
 				948DAE5C14C9FCCF00E09DC1 /* NeoGeo Pocket.oesystemplugin */,
 				948DAE5E14C9FCCF00E09DC1 /* GameGear.oesystemplugin */,
-				832BD9BF15080F9300FF0DB6 /* NDS.oesystemplugin */,
+				94EE67A71508697700F80F37 /* NDS.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2456,13 +2456,6 @@
 			remoteRef = 826FE1201014D8CF0023A8E9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		832BD9BF15080F9300FF0DB6 /* NDS.oesystemplugin */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = NDS.oesystemplugin;
-			remoteRef = 832BD9BE15080F9300FF0DB6 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		948DAE5C14C9FCCF00E09DC1 /* NeoGeo Pocket.oesystemplugin */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -2475,6 +2468,13 @@
 			fileType = wrapper.cfbundle;
 			path = GameGear.oesystemplugin;
 			remoteRef = 948DAE5D14C9FCCF00E09DC1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		94EE67A71508697700F80F37 /* NDS.oesystemplugin */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = NDS.oesystemplugin;
+			remoteRef = 94EE67A61508697700F80F37 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		C62A2546116F06C80003DEE4 /* OpenEmuHelperApp */ = {
