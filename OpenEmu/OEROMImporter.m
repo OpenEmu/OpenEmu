@@ -216,9 +216,8 @@
         return [self _performImportWithFileURL:url error:outError];
     }
     
-    
     NSArray *urls = [defaultManager contentsOfDirectoryAtURL:url 
-                                   includingPropertiesForKeys:[NSArray arrayWithObjects:NSURLNameKey, nil]
+                                   includingPropertiesForKeys:[NSArray arrayWithObjects:NSURLNameKey, NSURLIsDirectoryKey, nil]
                                                       options:NSDirectoryEnumerationSkipsSubdirectoryDescendants|NSDirectoryEnumerationSkipsPackageDescendants|NSDirectoryEnumerationSkipsHiddenFiles 
                                                         error:outError];
     if(!urls)

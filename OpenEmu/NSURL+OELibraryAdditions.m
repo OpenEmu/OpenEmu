@@ -42,7 +42,6 @@
     
     for(NSUInteger i=0; i < [parentPathComponents count]; i++)
     {
-    
         if([[parentPathComponents objectAtIndex:i] isNotEqualTo:[ownPathComponentes objectAtIndex:i]])
             return NO;
     }
@@ -52,6 +51,7 @@
 
 - (BOOL)isDirectory
 {
-    return CFURLHasDirectoryPath((__bridge CFURLRef)self);
+    NSDictionary* resourceValues = [self resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey]    error:nil];
+    return [[[resourceValues allValues] lastObject] boolValue];
 }
 @end
