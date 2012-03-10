@@ -62,13 +62,13 @@
 			<array>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Player 1</string>
+					<string>Insert Coin</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEFBAButtonSelect[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Insert Coin</string>
+					<string>Player 1 Start</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEFBAButtonStart[@]</string>
 				</dict>
@@ -76,25 +76,25 @@
 			<array>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>A</string>
+					<string>Button 1</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEFBAButtonA[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>B</string>
+					<string>Button 2</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEFBAButtonB[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>X</string>
+					<string>Button 3</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEFBAButtonX[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Y</string>
+					<string>Button 4</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEFBAButtonY[@]</string>
 				</dict>
@@ -102,13 +102,13 @@
 			<array>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Trigger Left</string>
+					<string>Button 5</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEFBAButtonTriggerLeft[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
-					<string>Trigger Right</string>
+					<string>Button 6</string>
 					<key>OEControlListKeyNameKey</key>
 					<string>OEFBAButtonTriggerRight[@]</string>
 				</dict>
