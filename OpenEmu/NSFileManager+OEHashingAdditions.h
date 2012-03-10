@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface NSFileManager (OEHashingAdditions)
-- (NSString*)md5DigestForFileAtPath:(NSString*)path error:(NSError**)error;
+- (NSString*)md5DigestForFileAtPath:(NSString*)path error:(NSError**)error DEPRECATED_ATTRIBUTE;
 - (NSString*)md5DigestForFileAtURL:(NSURL*)url error:(NSError**)error;
 
-- (NSString*)crc32ForFileAtPath:(NSString*)path error:(NSError**)error;
+- (NSString*)crc32ForFileAtPath:(NSString*)path error:(NSError**)error DEPRECATED_ATTRIBUTE;
 - (NSString*)crc32ForFileAtURL:(NSURL*)url error:(NSError**)error;
 @end

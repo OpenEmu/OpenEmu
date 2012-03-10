@@ -49,6 +49,7 @@ typedef enum _OEImportErrorBehavior OEImportErrorBehavior;
 
 - (BOOL)importROMsAtURL:(NSURL*)url inBackground:(BOOL)bg error:(NSError**)outError;
 - (BOOL)importROMsAtURLs:(NSArray*)urlArray inBackground:(BOOL)bg error:(NSError**)outError;
+
 @property OEImportErrorBehavior errorBehaviour;
 @property (strong) OELibraryDatabase *database;
 @property __block int queueCount;

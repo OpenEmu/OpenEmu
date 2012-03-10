@@ -45,6 +45,7 @@
 @interface OELibraryDatabase (Private)
 - (BOOL)loadPersistantStoreWithError:(NSError**)outError;
 - (BOOL)loadManagedObjectContextWithError:(NSError**)outError;
+- (void)managedObjectContextDidSave:(NSNotification *)notification;
 
 - (NSManagedObjectModel*)managedObjectModel;
 
@@ -229,6 +230,9 @@ static OELibraryDatabase *defaultDatabase = nil;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(threadWillExit:) name:NSThreadWillExitNotification object:thread];
         
+        // Watch all the thread's managed object contexts for changes...if a change occurs we should merge it with the main thread's version
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(managedObjectContextDidSave:) name:NSManagedObjectContextDidSaveNotification object:context];
+
         [context setPersistentStoreCoordinator:coordinator];
         [managedObjectContexts setValue:context forKey:[thread name]];
         
@@ -240,14 +244,24 @@ static OELibraryDatabase *defaultDatabase = nil;
     
 }
 
+- (void)managedObjectContextDidSave:(NSNotification *)notification
+{
+    // This error checking is a bit redundant, but we want to make sure that we only merge in other thread's managed object contexts
+    if([notification object] != __managedObjectContext)
+    {
+        [__managedObjectContext performSelectorOnMainThread:@selector(mergeChangesFromContextDidSaveNotification:) withObject:notification waitUntilDone:YES];
+    }
+}
+
 - (void)threadWillExit:(NSNotification*)notification
 {   
     NSThread *thread = [notification object];
     NSString *threadName = [thread name];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
-    
-    
     NSManagedObjectContext *ctx = [managedObjectContexts valueForKey:threadName];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSThreadWillExitNotification object:thread];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSManagedObjectContextDidSaveNotification object:ctx];
+    
     if([ctx hasChanges])
         [ctx save:nil];
     [managedObjectContexts removeObjectForKey:threadName];
@@ -410,12 +424,13 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [result lastObject];
 }
 
-- (OEDBSystem*)systemForFile:(NSString*)filePath
+- (OEDBSystem*)systemForURL:(NSURL *)url
 {
     NSString *systemIdentifier = nil;
+    NSString *path = [url absoluteString];
     for(OESystemPlugin *aSystemPlugin in [OESystemPlugin allPlugins])
     {
-        if([[aSystemPlugin controller] canHandleFile:filePath]){ 
+        if([[aSystemPlugin controller] canHandleFile:path]){ 
             systemIdentifier = [aSystemPlugin systemIdentifier]; 
             break;
         }
@@ -748,20 +763,56 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [NSArray array];
 }
 #pragma mark -
-- (NSString*)databaseFolderPath
+#pragma mark Datbase Folders
+- (NSString*)databaseFolderPath DEPRECATED_ATTRIBUTE
+{
+NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+NSString *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
+return libraryFolderPath;
+}
+
+- (NSString*)databaseUnsortedRomsPath DEPRECATED_ATTRIBUTE
+{
+NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
+NSString *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
+NSString *resultPath = [libraryFolderPath stringByAppendingPathComponent:@"oldstyle_unsorted"];
+
+[[NSFileManager defaultManager] createDirectoryAtPath:resultPath withIntermediateDirectories:YES attributes:nil error:nil];
+
+return resultPath;
+}
+
+- (NSURL *)databaseFolderURL
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSString *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
-    return libraryFolderPath;
-}
-- (NSString*)databaseUnsortedRomsPath
-{
-    NSString *libraryFolderPath = [self databaseFolderPath];
-    NSString *unsortedFolderPath = [libraryFolderPath stringByAppendingPathComponent:NSLocalizedString(@"unsorted", @"")];
-    if(![[NSFileManager defaultManager] createDirectoryAtPath:unsortedFolderPath withIntermediateDirectories:YES attributes:nil error:nil]){
-    }
     
-    return unsortedFolderPath;
+    return [NSURL fileURLWithPath:libraryFolderPath isDirectory:YES];
+}
+- (NSURL *)romsFolderURL
+{
+    NSString *romsFolderName = NSLocalizedString(@"roms", @"Roms Folder Name");
+    
+    NSURL *result = [NSURL URLWithString:romsFolderName relativeToURL:[self databaseFolderURL]];
+    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return result;
+}
+- (NSURL *)unsortedRomsFolderURL
+{
+    NSString *unsortedFolderName = NSLocalizedString(@"unsorted", @"Unsorted Folder Name");
+    
+    NSURL *result = [NSURL URLWithString:unsortedFolderName relativeToURL:[self romsFolderURL]];
+    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+   
+    return result;
+}
+- (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system
+{
+    NSURL *result = [NSURL URLWithString:[system systemIdentifier] relativeToURL:[self romsFolderURL]];
+    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return result;
 }
 #pragma mark -
 #pragma mark Private (importing)

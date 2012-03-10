@@ -45,12 +45,11 @@
     IBOutlet OEHorizontalSplitView *flowlistViewContainer; // cover flow and simple list container
     IBOutlet IKImageFlowView *coverFlowView;
     IBOutlet NSTableView *listView;
-    
-    NSTimer *reloadTimer;
 }
 
 #pragma mark -
 - (NSArray *)selectedGames;
+- (NSIndexSet *)selectedIndexes;
 #pragma mark -
 #pragma mark View Selection
 - (IBAction)selectGridView:(id)sender;

@@ -64,6 +64,8 @@ typedef enum _OERectEdge
     OEMenuStyle style;
 }
 
+// If edge==OENoEdge and rect.size != {0,0} the menu is centered in the rect
+// IF edee==OENoEdge and rect.size == {0,0} the top left corner of the menu is placed on rect.origin
 - (void)openOnEdge:(OERectEdge)anedge ofRect:(NSRect)rect ofWindow:(NSWindow*)win;
 
 - (void)closeMenuWithoutChanges:(id)sender;

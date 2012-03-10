@@ -32,42 +32,44 @@
 #import "ArchiveVG.h"
 
 #import "NSFileManager+OEHashingAdditions.h"
+#import "NSURL+OELibraryAdditions.h"
 @interface OEDBRom (Private)
-+ (id)_createRomWithoutChecksWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError; 
-
++ (id)_createRomWithoutChecksWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError DEPRECATED_ATTRIBUTE; 
++ (id)_createRomWithoutChecksWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
 @end
 @implementation OEDBRom
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBRoms
-+ (id)createRomWithFilePath:(NSString *)filePath error:(NSError **)outError
++ (id)createRomWithURL:(NSURL *)url error:(NSError **)outError
 {
-    return [self createRomWithFilePath:filePath inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
+    return [self createRomWithURL:url inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
-+ (id)createRomWithFilePath:(NSString*)filePath inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
++ (id)createRomWithURL:(NSURL*)url inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
 {
-    return [self _createRomWithoutChecksWithFilePath:filePath md5:nil crc:nil inDatabase:database error:outError];
+    return [self _createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
+} 
++ (id)romWithURL:(NSURL*)url createIfNecessary:(BOOL)createFlag error:(NSError**)outError
+{
+    return [self romWithURL:url createIfNecessary:createFlag inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
-+ (id)romWithFilePath:(NSString*)path createIfNecessary:(BOOL)createFlag error:(NSError**)outError
++ (id)createRomWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc error:(NSError**)outError
 {
-    return [self romWithFilePath:path createIfNecessary:createFlag inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
+    return [self createRomWithURL:url md5:md5 crc:crc inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
 }
-+ (id)createRomWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc error:(NSError**)outError
++ (id)createRomWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
 {
-    return [self createRomWithFilePath:filePath md5:md5 crc:crc inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
-}
-+ (id)createRomWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
-{
-    return [self _createRomWithoutChecksWithFilePath:filePath md5:md5 crc:crc inDatabase:database error:outError];
+    return [self _createRomWithoutChecksWithURL:url md5:md5 crc:crc inDatabase:database error:outError];
 }
 
-+ (id)romWithFilePath:(NSString*)path createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
++ (id)romWithURL:(NSURL*)url createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
 {
-    if(path==nil) return nil;
+    if(url==nil) return nil;
     
     OEDBRom *rom = nil;
     NSManagedObjectContext *context = [database managedObjectContext];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"path == %@", path];    
+#warning this doesn't make sense with urls:
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"path == %@", [url path]];    
     NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:[self entityName]];
     [fetchRequest setIncludesPendingChanges:YES];
     [fetchRequest setPredicate:predicate];
@@ -80,19 +82,20 @@
     
     if(!rom && createFlag)
     {
-        return [self _createRomWithoutChecksWithFilePath:path md5:nil crc:nil inDatabase:database error:outError];
+        return [self _createRomWithoutChecksWithURL:url md5:nil crc:nil inDatabase:database error:outError];
     }
     return rom;
 }
 
-+ (id)_createRomWithoutChecksWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError; 
++ (id)_createRomWithoutChecksWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError
 {
-    if(filePath == nil)
+    if(url == nil)
     {
         if(outError!=NULL)
-        *outError = [NSError errorWithDomain:@"OEErrorDomain" code:0 userInfo:[NSDictionary dictionaryWithObject:@"_createRomWithoutChecksWithFilePath called without filepath" forKey:NSLocalizedDescriptionKey]];
-        return nil;   
-    }    
+            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:0 userInfo:[NSDictionary dictionaryWithObject:@"_createRomWithoutChecksWithURL called without url" forKey:NSLocalizedDescriptionKey]];
+        return nil;
+    }
+    
     NSManagedObjectContext *context = [database managedObjectContext];
     NSEntityDescription *description = [self entityDescriptionInContext:context];
     OEDBRom *rom = [[OEDBRom alloc] initWithEntity:description insertIntoManagedObjectContext:context];
@@ -101,33 +104,34 @@
     BOOL copyToDatabase = [standardUserDefaults boolForKey:UDCopyToLibraryKey];
     BOOL useMD5 = [standardUserDefaults boolForKey:UDUseMD5HashingKey];
     
-    NSString *newFilePath = [filePath copy];
-    if(copyToDatabase && ![newFilePath hasPrefix:[database databaseFolderPath]])
+    NSURL    *newURL = [url copy];
+    if(copyToDatabase && ![newURL isSubpathOfURL:[database databaseURL]])
     {
-        NSString *databaseUnsortedFolder = [database databaseUnsortedRomsPath];
+        NSURL         *databaseUnsortedFolderURL = [database unsortedRomsFolderURL];
         NSFileManager *defaultManager = [NSFileManager defaultManager];
         
         NSInteger i = 0;
-        NSString *fileName = [[newFilePath lastPathComponent] stringByDeletingPathExtension];
-        NSString *fileSuffix = [newFilePath pathExtension];
-        
-        newFilePath = [databaseUnsortedFolder stringByAppendingPathComponent:[newFilePath lastPathComponent]];
-        while([defaultManager fileExistsAtPath:newFilePath])
+        NSString *fileName = [[newURL lastPathComponent] stringByDeletingPathExtension];
+        NSString *fileSuffix = [newURL pathExtension];
+                
+        newURL = [NSURL URLWithString:[newURL lastPathComponent] relativeToURL:databaseUnsortedFolderURL];
+        while([newURL checkResourceIsReachableAndReturnError:nil])
         {
             i++;
-            newFilePath = [NSString stringWithFormat:@"%@/%@ %d.%@", databaseUnsortedFolder, fileName, i, fileSuffix];            
+            NSString *newFileName = [NSString stringWithFormat:@"%@ %d.%@", fileName, i, fileSuffix];
+            newURL = [NSURL URLWithString:newFileName relativeToURL:databaseUnsortedFolderURL];
         }
         
-        if(![defaultManager copyItemAtPath:filePath toPath:newFilePath error:outError])
+        if(![defaultManager copyItemAtURL:url toURL:newURL error:outError])
         {
             [context deleteObject:rom];
             if(outError!=NULL)
-            *outError = [NSError errorWithDomain:@"OEErrorDomain" code:1 userInfo:[NSDictionary dictionaryWithObject:@"Copying ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
+                *outError = [NSError errorWithDomain:@"OEErrorDomain" code:1 userInfo:[NSDictionary dictionaryWithObject:@"Copying ROM-File failed!" forKey:NSLocalizedDescriptionKey]];
             return nil;
         }
     }
     
-    [rom setPath:newFilePath];
+    [rom setUrl:newURL];
     
     if(md5!=nil) [rom setMd5:md5];
     if(crc!=nil) [rom setCrc32:crc];
@@ -135,10 +139,10 @@
     BOOL calculateHash = (useMD5 && md5==nil) || (!useMD5 && crc==nil);
     if(calculateHash)
     {
-        NSData *data = [NSData dataWithContentsOfFile:newFilePath options:NSDataReadingUncached error:outError];
+        NSData *data = [NSData dataWithContentsOfFile:[newURL path] options:NSDataReadingUncached error:outError];
         if(!data)
         {
-            [[NSFileManager defaultManager] removeItemAtPath:newFilePath error:nil];
+            [[NSFileManager defaultManager] removeItemAtPath:[newURL path] error:nil];
             
             [context deleteObject:rom];
             if(outError!=NULL)
@@ -146,18 +150,18 @@
             return nil;
         }
         
-        NSFileManager* defaultFileManager = [NSFileManager defaultManager];
-        NSString* hash;
+        NSFileManager *defaultFileManager = [NSFileManager defaultManager];
+        NSString *hash;
         if(useMD5)
         {
-            hash = [defaultFileManager md5DigestForFileAtPath:filePath error:outError];
+            hash = [defaultFileManager md5DigestForFileAtURL:url error:outError];
             if(!hash)
                 return nil;
             [rom setMd5:hash];
         }
         else
         {
-            hash = [defaultFileManager crc32ForFileAtPath:filePath error:outError];
+            hash = [defaultFileManager crc32ForFileAtURL:url error:outError];
             if(!hash)
                 return nil;
             [rom setCrc32:hash];
@@ -166,6 +170,7 @@
     
     return rom;
 }
+#pragma mark -
 
 + (id)romWithFileName:(NSString*)filename error:(NSError**)outError
 {
@@ -190,6 +195,7 @@
     }
     return [roms lastObject];
 }
+
 + (id)romWithCRC32HashString:(NSString*)crcHash error:(NSError**)outError
 {
     return [self romWithCRC32HashString:crcHash inDatabase:[OELibraryDatabase defaultDatabase] error:outError];
@@ -240,9 +246,14 @@
 
 #pragma mark -
 #pragma mark Accessors
+@dynamic url;
 - (NSURL*)url
 {
     return [NSURL fileURLWithPath:[self path]];
+}
+- (void)setUrl:(NSURL *)url
+{
+    [self setPath:[url path]];
 }
 
 - (NSString*)md5Hash
@@ -251,14 +262,15 @@
     if(!hash)
     {
         NSError *error = nil;
-        NSString *filePath = [self path];
-        if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+        NSURL *url = [self url];
+        if(![url checkResourceIsReachableAndReturnError:&error])
         {
             // TODO: mark self as file missing
+            DLog(@"%@", error);
             return nil;
         }
         
-        hash = [[NSFileManager defaultManager] md5DigestForFileAtPath:filePath error:&error];
+        hash = [[NSFileManager defaultManager] md5DigestForFileAtURL:url error:&error];
         if(!hash)
         {
             DLog(@"%@", error);
@@ -281,14 +293,14 @@
     if(!hash)
     {
         NSError *error = nil;
-        NSString *filePath = [self path];
-        if(![[NSFileManager defaultManager] fileExistsAtPath:filePath])
+        NSURL *url = [self url];
+        if(![url checkResourceIsReachableAndReturnError:&error])
         {
             // TODO: mark self as file missing
+            DLog(@"%@", error);
             return nil;
         }
-        
-        hash = [[NSFileManager defaultManager] crc32ForFileAtPath:filePath error:&error];
+        hash = [[NSFileManager defaultManager] crc32ForFileAtURL:url error:&error];
         if(!hash)
         {
             DLog(@"%@", error);
@@ -340,42 +352,45 @@
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
 }
 #pragma mark -
-- (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db
-{
-    NSString *filePath = [self path];
+- (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db DEPRECATED_ATTRIBUTE
+{   
+    DLog(@"doInitialSetupWithDatabase: %@", [self url]);
     
-    DLog(@"doInitialSetupWithDatabase: %@", filePath);
+    NSURL       *url         = [self url];
+    NSURL       *databaseURL = [db databaseFolderURL];
+    BOOL        useMD5       = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
+    NSError     *error       = nil;
+    NSString    *hash        = nil;
+    OEDBRom     *rom         = nil; // will point to the rom that has the same hash as self (if any)
     
-    BOOL useMD5 = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
-    NSError *error = nil;
-    
-    NSString *hash;
-    OEDBRom *rom;
+    // Calculate this rom's hash
     if(useMD5)
     {
-        hash = [[NSFileManager defaultManager] md5DigestForFileAtPath:filePath error:nil];
+        hash = [[NSFileManager defaultManager] md5DigestForFileAtURL:url error:nil];
         rom = [db romForMD5Hash:hash];
     }
     else 
     {
-        hash = [[NSFileManager defaultManager] crc32ForFileAtPath:filePath error:nil];
+        hash = [[NSFileManager defaultManager] crc32ForFileAtURL:url error:nil];
         rom = [db romForCRC32Hash:hash];
     }
     
+    // if a rom with the same hash exists we remove this rom and it's game
     if(rom)
     {
         NSSet *romsInGame = [self valueForKeyPath:@"game.roms"];
         if([romsInGame count]==1)
         {
-            NSString *path = [self path];
-            if([path hasPrefix:[[NSUserDefaults standardUserDefaults] stringForKey:UDDatabasePathKey]])
+            if([url isSubpathOfURL:databaseURL])
             {
-                [[NSFileManager defaultManager] removeItemAtPath:path error:nil];
+                [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
             }
             
             [self.managedObjectContext deleteObject:[self game]];
             [self.managedObjectContext deleteObject:self];
         }
+        
+        return;
     }
     
     if(useMD5)
@@ -383,57 +398,46 @@
     else
         [self setCrc32:hash];
     
-    NSDictionary *gameDictionary;
+    // Get info from Archive.VG
+    NSDictionary *archiveGameInfo = nil;
     if(useMD5)
     {
-        gameDictionary = [ArchiveVG gameInfoByMD5:hash];
+        archiveGameInfo = [ArchiveVG gameInfoByMD5:hash];
     } 
     else
     {
-        gameDictionary = [ArchiveVG gameInfoByCRC:hash];
+        archiveGameInfo = [ArchiveVG gameInfoByCRC:hash];
     }
     
-    OEDBGame *game = [db gameWithArchiveID:(NSNumber*)[gameDictionary valueForKey:(NSString*)AVGGameIDKey]];
+    // Remove rom.game if the db already holds a game with that archive id, and add this rom to the game that is already present
+    OEDBGame *game = [db gameWithArchiveID:(NSNumber*)[archiveGameInfo valueForKey:(NSString*)AVGGameIDKey]];
     if(game)
     {
-        NSLog(@"Game is aleady present");
-        [self.managedObjectContext deleteObject:[self game]];
+        [[self managedObjectContext] deleteObject:[self game]];
         [[game mutableRoms] addObject:self];
     } 
     else
         game = [self game];
 
-    [game mergeWithGameInfo:gameDictionary];
+    [game mergeWithGameInfo:archiveGameInfo];
     
     BOOL organize = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
-    NSString *path = [self path];
-    NSString *libraryPath = [[NSUserDefaults standardUserDefaults] stringForKey:UDDatabasePathKey];
-    if(organize && [path hasPrefix:libraryPath])
+    if(organize && [url isSubpathOfURL:databaseURL])
     {
-        NSString *systemName = [self valueForKeyPath:@"game.system.systemIdentifier"];
-        NSString *folderPath = [libraryPath stringByAppendingPathComponent:systemName];
-        
-        if(![[NSFileManager defaultManager] createDirectoryAtPath:folderPath withIntermediateDirectories:YES attributes:nil error:&error])
-        {
-            NSLog(@"could not create system folder");
-            NSLog(@"%@", error);
-            return;
-        }
-        
-        NSString *romName = [[self path] lastPathComponent];
-        
-        // TODO: use tosec for new rom path if available
-        NSString *newRomPath = [folderPath stringByAppendingPathComponent:romName];
-        if(![[NSFileManager defaultManager] moveItemAtPath:path toPath:newRomPath error:&error])
+        NSURL       *systemsROMFolder = [db romsFolderURLForSystem:[[self game] system]];
+        NSString    *romName          = [[self url] lastPathComponent];
+        // TODO : ^ use tosec for new rom path if available
+        NSURL       *newRomURL        = [NSURL URLWithString:romName relativeToURL:systemsROMFolder];
+      
+        if(![[NSFileManager defaultManager] moveItemAtURL:url toURL:newRomURL error:&error])
         {
             NSLog(@"could not move rom to new path");
             NSLog(@"%@", error);
             return;
         }
         
-        [self setPath:newRomPath];
+        [self setUrl:newRomURL];
     }
-    
 }
 #pragma mark -
 #pragma mark Data Model Properties

@@ -8,6 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
+@class OEMenu;
+@class OETableView;
+@protocol OETableViewMenuSource <NSObject>
+- (OEMenu*)tableView:(OETableView*)tableView menuForItemsAtIndexes:(NSIndexSet*)indexes;
+@end
 
 @interface OETableView : NSTableView 
 {

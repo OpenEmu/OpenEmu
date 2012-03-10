@@ -13,7 +13,7 @@
 @implementation NSFileManager (OEHashingAdditions)
 #pragma mark -
 #pragma mark md5
-- (NSString*)md5DigestForFileAtPath:(NSString*)path error:(NSError**)error
+- (NSString*)md5DigestForFileAtPath:(NSString*)path error:(NSError**)error DEPRECATED_ATTRIBUTE
 {
     return [self md5DigestForFileAtURL:[NSURL fileURLWithPath:path] error:error];
 }
@@ -87,7 +87,7 @@ static const unsigned long crc32table[] =
     0xb3667a2e, 0xc4614ab8, 0x5d681b02, 0x2a6f2b94, 0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
 };
 
-- (NSString*)crc32ForFileAtPath:(NSString*)path error:(NSError**)error
+- (NSString*)crc32ForFileAtPath:(NSString*)path error:(NSError**)error DEPRECATED_ATTRIBUTE
 {
     return [self crc32ForFileAtURL:[NSURL fileURLWithPath:path] error:error];
 }

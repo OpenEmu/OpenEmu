@@ -267,8 +267,7 @@
         filePath = [absoluteURL path];
     }
     
-    
-    OEDBGame *game = [OEDBGame gameWithFilePath:filePath createIfNecessary:YES error:outError];
+    OEDBGame *game = [OEDBGame gameWithURL:absoluteURL createIfNecessary:YES error:outError];
     if(!game) 
     {
         DLog(@"game could not be created");

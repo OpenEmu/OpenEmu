@@ -37,8 +37,10 @@
 
 #ifdef DEBUG_PRINT
 #define DLog(format, ...) NSLog(@"%s: " format, __FUNCTION__, ##__VA_ARGS__)
+#define DLogDeprecated()  NSLog(@"%s is deprecated.", __FUNCTION__)
 #else
 #define DLog(format, ...) do {} while (0)
+#define DLogDeprecated() do {} while (0)
 #endif
 
 #define LogResponderChain(__RESPONDER__) {                                                              \
@@ -50,6 +52,8 @@
     }                                                                                                   \
     NSLog(@"%@", responderChain);                                                                       \
 }
+
+
 
 #define OEDBSystemsChangedNotificationName @"OEDBSystemsChanged"
 

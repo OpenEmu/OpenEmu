@@ -31,12 +31,14 @@
 @interface OEDBRom : NSManagedObject
 #pragma mark -
 #pragma mark Creating and Obtaining OEDBRoms
-+ (id)createRomWithFilePath:(NSString*)filePath error:(NSError**)outError;
-+ (id)createRomWithFilePath:(NSString*)filePath inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
-+ (id)createRomWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc error:(NSError**)outError;
-+ (id)createRomWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
-+ (id)romWithFilePath:(NSString*)path createIfNecessary:(BOOL)createFlag error:(NSError**)outError;
-+ (id)romWithFilePath:(NSString*)path createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
+// Creating / Acquireing ROMs by filesystem representation
++ (id)createRomWithURL:(NSURL*)url error:(NSError**)outError;
++ (id)createRomWithURL:(NSURL*)url inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
++ (id)createRomWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc error:(NSError**)outError;
++ (id)createRomWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
++ (id)romWithURL:(NSURL*)url createIfNecessary:(BOOL)createFlag error:(NSError**)outError;
++ (id)romWithURL:(NSURL*)url createIfNecessary:(BOOL)createFlag inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
+
 + (id)romWithFileName:(NSString*)filename error:(NSError**)outError;
 + (id)romWithFileName:(NSString*)filename inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
 + (id)romWithCRC32HashString:(NSString*)crcHash error:(NSError**)outError;
@@ -44,11 +46,9 @@
 + (id)romWithMD5HashString:(NSString*)md5Hash error:(NSError**)outError;
 + (id)romWithMD5HashString:(NSString*)md5Hash inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
 
+@property (nonatomic) NSURL     *url;
 #pragma mark -
 #pragma mark Accessors
-// returns url to rom file
-- (NSURL*)url;
-
 // returns md5 hash for rom. calculates it if necessary so the method can take a long time to return, and might return nil if hash is not in db and can not be calculated
 - (NSString*)md5Hash;
 // returns md5 hash for rom if one was calculated before
@@ -76,7 +76,7 @@
 
 #pragma mark -
 #pragma mark Data Model Properties
-@property (nonatomic, retain)                    NSString  *path;
+@property (nonatomic, retain)                    NSString  *path DEPRECATED_ATTRIBUTE;
 @property (nonatomic, retain, getter=isFavorite) NSNumber  *favorite;
 @property (nonatomic, retain)                    NSString  *crc32;
 @property (nonatomic, retain)                    NSString  *md5;
@@ -88,7 +88,4 @@
 @property (nonatomic, retain)   NSSet             *saveStates;
 @property (nonatomic, readonly) NSMutableSet      *mutableSaveStates;
 @property (nonatomic, retain)   NSManagedObject   *tosec;
-
-#pragma mark -
-- (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db;
 @end
