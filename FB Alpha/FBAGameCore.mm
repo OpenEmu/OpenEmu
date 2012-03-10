@@ -70,7 +70,7 @@ static void video_callback(const uint16_t *data, unsigned width, unsigned height
     // If we have an interlaced mode, pitch is 1024 bytes.
     if ( height == current->videoWidth )
         stride = 1024;
-        //stride = current->thePitch;
+        //stride = current->thePitch; //2048
     
     current->videoWidth  = width;
     current->videoHeight = height;
@@ -141,9 +141,8 @@ static bool environment_callback(unsigned cmd, void *data)
         }
         case SNES_ENVIRONMENT_SET_PITCH:
         {
-            //*(const unsigned**)data = &(current->thePitch);
-            *(const unsigned**)data = (const unsigned*)current->thePitch;
-            NSLog(@"Environ SET_PITCH: %i\n", current->thePitch);
+            current->thePitch = *(const unsigned**)data;
+            NSLog(@"Environ SET_PITCH: %u\n", current->thePitch);
             break;
         }
         case SNES_ENVIRONMENT_SET_NEED_FULLPATH:
@@ -251,7 +250,6 @@ static void writeSaveFile(const char* path, int type)
     uint8_t *data;
     unsigned size;
     romName = [path copy];
-    thePitch = 1024;
     
     //load cart, read bytes, get length
     NSData* dataObj = [NSData dataWithContentsOfFile:[romName stringByStandardizingPath]];

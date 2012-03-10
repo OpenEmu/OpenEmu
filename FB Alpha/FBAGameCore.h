@@ -44,8 +44,7 @@ OE_EXPORTED_CLASS
     int videoWidth, videoHeight, maxVideoWidth, maxVideoHeight;
     int16_t pad[1][10];
     NSString *romName;
-    //const unsigned * thePitch;
-    int thePitch;
+    const unsigned * thePitch;
     double sampleRate;
 }
 
