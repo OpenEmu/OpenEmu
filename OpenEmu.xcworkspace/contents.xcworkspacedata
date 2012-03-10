@@ -43,4 +43,7 @@
    <FileRef
       location = "group:Meteor/Meteor.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:FB Alpha/FB Alpha.xcodeproj">
+   </FileRef>
 </Workspace>
