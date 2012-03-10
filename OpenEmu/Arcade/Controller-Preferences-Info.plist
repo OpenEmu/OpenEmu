@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>OEControllerImageKey</key>
+    <string>controller_snes_eu.png</string>
+    <key>OEControllerImageMaskKey</key>
+    <string>controller_snes_mask.png</string>
+    <key>OEControllerKeyPositionKey</key>
+    <dict>
+        <key>OEFBAButtonUp[@]</key>
+        <string>{169, 154}</string>
+        <key>OEFBAButtonDown[@]</key>
+        <string>{169, 110}</string>
+        <key>OEFBAButtonLeft[@]</key>
+        <string>{147, 132}</string>
+        <key>OEFBAButtonRight[@]</key>
+        <string>{192, 132}</string>
+        <key>OEFBAButtonStart[@]</key>
+        <string>{299, 117}</string>
+        <key>OEFBAButtonSelect[@]</key>
+        <string>{252, 117}</string>
+        <key>OEFBAButtonA[@]</key>
+        <string>{456, 130}</string>
+        <key>OEFBAButtonB[@]</key>
+        <string>{413, 95}</string>
+        <key>OEFBAButtonX[@]</key>
+        <string>{416, 164}</string>
+        <key>OEFBAButtonY[@]</key>
+        <string>{373, 130}</string>
+        <key>OEFBAButtonTriggerLeft[@]</key>
+        <string>{166, 220}</string>
+        <key>OEFBAButtonTriggerRight[@]</key>
+        <string>{423, 220}</string>
+    </dict>
+</dict>
+</plist>

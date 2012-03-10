@@ -96,6 +96,13 @@
 			remoteGlobalIDString = 1415540F1442B3B300A01683;
 			remoteInfo = N64;
 		};
+		9472091C150AFBEA009D7F9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 947208F0150AF7C3009D7F9E;
+			remoteInfo = Arcade;
+		};
 		94EE640F1508674A00F80F37 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */;
@@ -193,21 +200,19 @@
 		089C167EFE841241C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		3720DB590F19519D00744A9A /* VisualBoyAdvance.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = VisualBoyAdvance.icns; sourceTree = "<group>"; };
 		82CAFD010FEDD54000CCDC7E /* dsa_pub.pem */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = dsa_pub.pem; sourceTree = "<group>"; };
 		82CAFD030FEDD54800CCDC7E /* config.yaml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = config.yaml; sourceTree = "<group>"; };
 		82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OpenEmu.xcodeproj; path = ../OpenEmu/OpenEmu.xcodeproj; sourceTree = SOURCE_ROOT; };
 		82EC409E0FD9EC420017FC19 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		8D5B49B6048680CD000E48DA /* FB Alpha.oecoreplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FB Alpha.oecoreplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5B49B7048680CD000E48DA /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		947208AE150AF20B009D7F9E /* OESNESSystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OESNESSystemResponderClient.h; path = ../OpenEmu/SuperNES/OESNESSystemResponderClient.h; sourceTree = "<group>"; };
+		9472091F150AFC2A009D7F9E /* OEFBASystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEFBASystemResponderClient.h; path = ../OpenEmu/Arcade/OEFBASystemResponderClient.h; sourceTree = "<group>"; };
 		94EE68571509ABC000F80F37 /* libsnes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = libsnes.hpp; path = fbasource/libsnes.hpp; sourceTree = SOURCE_ROOT; };
 		94EE68581509ABD100F80F37 /* libsnes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = libsnes.cpp; path = fbasource/libsnes.cpp; sourceTree = SOURCE_ROOT; };
 		94EE685E1509D1B600F80F37 /* gcc-fba-libsnes.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "gcc-fba-libsnes.a"; path = "fbasource/gcc-fba-libsnes.a"; sourceTree = "<group>"; };
 		B5008DAD0E8BFB3E005AECAF /* FBAGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBAGameCore.h; sourceTree = "<group>"; };
 		B5008DAE0E8BFB3E005AECAF /* FBAGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FBAGameCore.mm; sourceTree = "<group>"; };
 		C63E6C640FCDA565009C8555 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
-		C63E6CCD0FCDABEF009C8555 /* gba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = gba.png; sourceTree = "<group>"; };
 		D2F7E65807B2D6F200F64583 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
@@ -256,9 +261,7 @@
 				82CAFD010FEDD54000CCDC7E /* dsa_pub.pem */,
 				8D5B49B7048680CD000E48DA /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
-				3720DB590F19519D00744A9A /* VisualBoyAdvance.icns */,
 				C63E6C640FCDA565009C8555 /* ControlsPreference.xib */,
-				C63E6CCD0FCDABEF009C8555 /* gba.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -267,7 +270,7 @@
 			isa = PBXGroup;
 			children = (
 				82EC3FED0FD9EAE90017FC19 /* Core */,
-				947208AE150AF20B009D7F9E /* OESNESSystemResponderClient.h */,
+				9472091F150AFC2A009D7F9E /* OEFBASystemResponderClient.h */,
 				B5008DAD0E8BFB3E005AECAF /* FBAGameCore.h */,
 				B5008DAE0E8BFB3E005AECAF /* FBAGameCore.mm */,
 			);
@@ -326,6 +329,7 @@
 				C6B9E3FD14841AC400836111 /* NeoGeo Pocket.oesystemplugin */,
 				1B32153114DDDB4000C5B50A /* GameGear.oesystemplugin */,
 				94EE64101508674A00F80F37 /* NDS.oesystemplugin */,
+				9472091D150AFBEA009D7F9E /* Arcade.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -437,6 +441,13 @@
 			fileType = wrapper.cfbundle;
 			path = N64.oesystemplugin;
 			remoteRef = 8390474B14597FE200335E4F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		9472091D150AFBEA009D7F9E /* Arcade.bundle */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = Arcade.bundle;
+			remoteRef = 9472091C150AFBEA009D7F9E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		94EE64101508674A00F80F37 /* NDS.oesystemplugin */ = {

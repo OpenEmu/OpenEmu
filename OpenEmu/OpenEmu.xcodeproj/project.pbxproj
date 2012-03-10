@@ -38,6 +38,7 @@
 				83F37152140BB197005A7353 /* Copy Files */,
 			);
 			dependencies = (
+				94720927150AFF4B009D7F9E /* PBXTargetDependency */,
 				94D7E8E9150741B500FBDD85 /* PBXTargetDependency */,
 				8291C4E0148958F500A72540 /* PBXTargetDependency */,
 				8227756F14894A2100B19E27 /* PBXTargetDependency */,
@@ -439,6 +440,16 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC310486D014006FF6A4 /* OEGameDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4ACFDCFA73011CA2CEA /* OEGameDocument.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
+		947208F1150AF7C3009D7F9E /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
+		947208F7150AF7C3009D7F9E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 947208F5150AF7C3009D7F9E /* InfoPlist.strings */; };
+		94720902150AF8F0009D7F9E /* OEFBASystemController.m in Sources */ = {isa = PBXBuildFile; fileRef = 947208FE150AF8F0009D7F9E /* OEFBASystemController.m */; };
+		94720903150AF8F0009D7F9E /* OEFBASystemResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 94720900150AF8F0009D7F9E /* OEFBASystemResponder.m */; };
+		94720906150AFB64009D7F9E /* controller_snes_eu.png in Resources */ = {isa = PBXBuildFile; fileRef = 94720904150AFB64009D7F9E /* controller_snes_eu.png */; };
+		94720907150AFB64009D7F9E /* controller_snes_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94720905150AFB64009D7F9E /* controller_snes_mask.png */; };
+		94720909150AFBBB009D7F9E /* arcade_library.png in Resources */ = {isa = PBXBuildFile; fileRef = 94720908150AFBBB009D7F9E /* arcade_library.png */; };
+		94720923150AFE28009D7F9E /* OpenEmuSystem.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711807136367240034379A /* OpenEmuSystem.framework */; };
+		94720925150AFE5D009D7F9E /* Controller-Preferences-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 94720924150AFE5D009D7F9E /* Controller-Preferences-Info.plist */; };
+		94720928150AFF59009D7F9E /* Arcade.oesystemplugin in Copy Files */ = {isa = PBXBuildFile; fileRef = 947208F0150AF7C3009D7F9E /* Arcade.oesystemplugin */; };
 		94D7E8CA15073BA000FBDD85 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C6711810136368330034379A /* Cocoa.framework */; };
 		94D7E8D015073BA000FBDD85 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */; };
 		94D7E8DA15073DB000FBDD85 /* controller_nds_mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7E8D615073DB000FBDD85 /* controller_nds_mask.png */; };
@@ -680,6 +691,20 @@
 			remoteGlobalIDString = C646574713771F12002A4F70;
 			remoteInfo = "GameBoy Advance";
 		};
+		94720920150AFE06009D7F9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C67117ED136367240034379A;
+			remoteInfo = OpenEmuSystem;
+		};
+		94720926150AFF4B009D7F9E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 947208EF150AF7C3009D7F9E;
+			remoteInfo = Arcade;
+		};
 		94D7E8E51507413400FBDD85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -796,6 +821,7 @@
 			dstPath = "~/Library/Application Support/OpenEmu/Systems";
 			dstSubfolderSpec = 0;
 			files = (
+				94720928150AFF59009D7F9E /* Arcade.oesystemplugin in Copy Files */,
 				94D7E8EA1507426A00FBDD85 /* NDS.oesystemplugin in Copy Files */,
 				8291C4E1148958FC00A72540 /* SegaMasterSystem.oesystemplugin in Copy Files */,
 				8227757014894A3300B19E27 /* GameGear.oesystemplugin in Copy Files */,
@@ -1348,6 +1374,18 @@
 		8D15AC370486D014006FF6A4 /* OpenEmu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenEmu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93B479F612BAB576008618A7 /* OEHIDManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEHIDManager.h; sourceTree = "<group>"; };
 		93B479F712BAB576008618A7 /* OEHIDManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEHIDManager.m; sourceTree = "<group>"; };
+		947208F0150AF7C3009D7F9E /* Arcade.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Arcade.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		947208F4150AF7C3009D7F9E /* Arcade-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Arcade-Info.plist"; sourceTree = "<group>"; };
+		947208F6150AF7C3009D7F9E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		947208FD150AF8F0009D7F9E /* OEFBASystemController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFBASystemController.h; sourceTree = "<group>"; };
+		947208FE150AF8F0009D7F9E /* OEFBASystemController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFBASystemController.m; sourceTree = "<group>"; };
+		947208FF150AF8F0009D7F9E /* OEFBASystemResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFBASystemResponder.h; sourceTree = "<group>"; };
+		94720900150AF8F0009D7F9E /* OEFBASystemResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OEFBASystemResponder.m; sourceTree = "<group>"; };
+		94720901150AF8F0009D7F9E /* OEFBASystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OEFBASystemResponderClient.h; sourceTree = "<group>"; };
+		94720904150AFB64009D7F9E /* controller_snes_eu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_eu.png; sourceTree = "<group>"; };
+		94720905150AFB64009D7F9E /* controller_snes_mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = controller_snes_mask.png; sourceTree = "<group>"; };
+		94720908150AFBBB009D7F9E /* arcade_library.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arcade_library.png; sourceTree = "<group>"; };
+		94720924150AFE5D009D7F9E /* Controller-Preferences-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Controller-Preferences-Info.plist"; sourceTree = "<group>"; };
 		94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NDS.oesystemplugin; sourceTree = BUILT_PRODUCTS_DIR; };
 		94D7E8CD15073BA000FBDD85 /* NDS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NDS-Info.plist"; sourceTree = "<group>"; };
 		94D7E8CF15073BA000FBDD85 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -1591,6 +1629,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		947208ED150AF7C3009D7F9E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94720923150AFE28009D7F9E /* OpenEmuSystem.framework in Frameworks */,
+				947208F1150AF7C3009D7F9E /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C615073BA000FBDD85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -1736,6 +1783,7 @@
 				820EB74A1483F9A2008EC398 /* NeoGeo Pocket.oesystemplugin */,
 				8227754F148946DF00B19E27 /* GameGear.oesystemplugin */,
 				94D7E8C915073BA000FBDD85 /* NDS.oesystemplugin */,
+				947208F0150AF7C3009D7F9E /* Arcade.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2808,6 +2856,32 @@
 			name = HID;
 			sourceTree = "<group>";
 		};
+		947208F2150AF7C3009D7F9E /* Arcade */ = {
+			isa = PBXGroup;
+			children = (
+				947208FD150AF8F0009D7F9E /* OEFBASystemController.h */,
+				947208FE150AF8F0009D7F9E /* OEFBASystemController.m */,
+				947208FF150AF8F0009D7F9E /* OEFBASystemResponder.h */,
+				94720900150AF8F0009D7F9E /* OEFBASystemResponder.m */,
+				94720901150AF8F0009D7F9E /* OEFBASystemResponderClient.h */,
+				947208F3150AF7C3009D7F9E /* Supporting Files */,
+			);
+			path = Arcade;
+			sourceTree = "<group>";
+		};
+		947208F3150AF7C3009D7F9E /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				94720908150AFBBB009D7F9E /* arcade_library.png */,
+				94720904150AFB64009D7F9E /* controller_snes_eu.png */,
+				94720905150AFB64009D7F9E /* controller_snes_mask.png */,
+				947208F5150AF7C3009D7F9E /* InfoPlist.strings */,
+				947208F4150AF7C3009D7F9E /* Arcade-Info.plist */,
+				94720924150AFE5D009D7F9E /* Controller-Preferences-Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		94D7E8CB15073BA000FBDD85 /* NDS */ = {
 			isa = PBXGroup;
 			children = (
@@ -3049,6 +3123,7 @@
 		C67118201363687A0034379A /* System Plugins */ = {
 			isa = PBXGroup;
 			children = (
+				947208F2150AF7C3009D7F9E /* Arcade */,
 				94D7E8CB15073BA000FBDD85 /* NDS */,
 				822775521489471A00B19E27 /* GameGear */,
 				820EB74D1483F9D3008EC398 /* NeoGeoPocket */,
@@ -3332,6 +3407,24 @@
 			productReference = 8D15AC370486D014006FF6A4 /* OpenEmu.app */;
 			productType = "com.apple.product-type.application";
 		};
+		947208EF150AF7C3009D7F9E /* Arcade */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 947208FB150AF7C4009D7F9E /* Build configuration list for PBXNativeTarget "Arcade" */;
+			buildPhases = (
+				947208EC150AF7C3009D7F9E /* Sources */,
+				947208ED150AF7C3009D7F9E /* Frameworks */,
+				947208EE150AF7C3009D7F9E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				94720921150AFE06009D7F9E /* PBXTargetDependency */,
+			);
+			name = Arcade;
+			productName = Arcade;
+			productReference = 947208F0150AF7C3009D7F9E /* Arcade.oesystemplugin */;
+			productType = "com.apple.product-type.bundle";
+		};
 		94D7E8C815073BA000FBDD85 /* NDS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */;
@@ -3515,6 +3608,7 @@
 				820EB7391483F9A2008EC398 /* NeoGeoPocket */,
 				8227753E148946DF00B19E27 /* GameGear */,
 				94D7E8C815073BA000FBDD85 /* NDS */,
+				947208EF150AF7C3009D7F9E /* Arcade */,
 				82C9C96F0F080C7F0071460B /* Distribution */,
 				37C802FF101564A300356EF3 /* Build & Copy OpenEmuBase */,
 				83F37141140BB166005A7353 /* Build SystemPlugins */,
@@ -3726,6 +3820,18 @@
 				8303BC0E14E318C200FCD701 /* tick_mark.png in Resources */,
 				83753F1A14F5383F00D708A7 /* OEPrefDebugController.xib in Resources */,
 				83B1E1C914FE734E00AA652F /* mixed_state.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		947208EE150AF7C3009D7F9E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				947208F7150AF7C3009D7F9E /* InfoPlist.strings in Resources */,
+				94720906150AFB64009D7F9E /* controller_snes_eu.png in Resources */,
+				94720907150AFB64009D7F9E /* controller_snes_mask.png in Resources */,
+				94720925150AFE5D009D7F9E /* Controller-Preferences-Info.plist in Resources */,
+				94720909150AFBBB009D7F9E /* arcade_library.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4092,6 +4198,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		947208EC150AF7C3009D7F9E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				94720902150AF8F0009D7F9E /* OEFBASystemController.m in Sources */,
+				94720903150AF8F0009D7F9E /* OEFBASystemResponder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		94D7E8C515073BA000FBDD85 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4261,6 +4376,16 @@
 			target = C646574713771F12002A4F70 /* GameBoy Advance */;
 			targetProxy = 83F37150140BB17C005A7353 /* PBXContainerItemProxy */;
 		};
+		94720921150AFE06009D7F9E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C67117ED136367240034379A /* OpenEmuSystem */;
+			targetProxy = 94720920150AFE06009D7F9E /* PBXContainerItemProxy */;
+		};
+		94720927150AFF4B009D7F9E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 947208EF150AF7C3009D7F9E /* Arcade */;
+			targetProxy = 94720926150AFF4B009D7F9E /* PBXContainerItemProxy */;
+		};
 		94D7E8E61507413400FBDD85 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C67117ED136367240034379A /* OpenEmuSystem */;
@@ -4360,6 +4485,14 @@
 				828ED4D90E7D98A10059F397 /* English */,
 			);
 			name = GameFilePicker.xib;
+			sourceTree = "<group>";
+		};
+		947208F5150AF7C3009D7F9E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				947208F6150AF7C3009D7F9E /* en */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 		94D7E8CE15073BA000FBDD85 /* InfoPlist.strings */ = {
@@ -4679,6 +4812,44 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		947208F9150AF7C3009D7F9E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "Arcade/Arcade-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
+			};
+			name = Debug;
+		};
+		947208FA150AF7C3009D7F9E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INFOPLIST_FILE = "Arcade/Arcade-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = oesystemplugin;
 			};
 			name = Release;
 		};
@@ -5174,6 +5345,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		947208FB150AF7C4009D7F9E /* Build configuration list for PBXNativeTarget "Arcade" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				947208F9150AF7C3009D7F9E /* Debug */,
+				947208FA150AF7C3009D7F9E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		94D7E8D415073BA000FBDD85 /* Build configuration list for PBXNativeTarget "NDS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -5181,6 +5360,7 @@
 				94D7E8D315073BA000FBDD85 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */ = {
 			isa = XCConfigurationList;
