@@ -774,7 +774,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     NSScrollView *enclosingScrollView   = [self enclosingScrollView];
     const NSRect visibleRect            = (enclosingScrollView ? [enclosingScrollView documentVisibleRect] : [self bounds]);
-    const NSRect decorativeFrame        = NSIntegralRect(NSOffsetRect((enclosingScrollView ? [enclosingScrollView frame] : visibleRect), NSMinX(visibleRect), NSMinY(visibleRect)));
+    const NSRect decorativeFrame        = NSIntegralRect(NSOffsetRect((enclosingScrollView ? [enclosingScrollView bounds] : visibleRect), NSMinX(visibleRect), NSMinY(visibleRect)));
 
     [_backgroundLayer setFrame:decorativeFrame];
     [_foregroundLayer setFrame:decorativeFrame];
