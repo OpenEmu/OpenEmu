@@ -27,7 +27,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSURL (NSURL_OELibraryAdditions)
+@interface NSURL (OELibraryAdditions)
 - (BOOL)hasImageSuffix;
 - (BOOL)isSubpathOfURL:(NSURL*)url;
 - (BOOL)isDirectory;

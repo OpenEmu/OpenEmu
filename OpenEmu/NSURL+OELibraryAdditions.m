@@ -27,31 +27,33 @@
 #import "NSURL+OELibraryAdditions.h"
 
 
-@implementation NSURL (NSURL_OELibraryAdditions)
+@implementation NSURL (OELibraryAdditions)
+
 - (BOOL)hasImageSuffix
 {
-	NSArray *imageSuffixes = [NSImage imageTypes];
-	NSString *urlSuffix = [[self pathExtension] lowercaseString];
+	NSArray  *imageSuffixes = [NSImage imageTypes];
+	NSString *urlSuffix     = [[self pathExtension] lowercaseString];
 	return [imageSuffixes containsObject:urlSuffix];
 }
 
-- (BOOL)isSubpathOfURL:(NSURL*)url
+- (BOOL)isSubpathOfURL:(NSURL *)url
 {
     NSArray *parentPathComponents = [url pathComponents];
-    NSArray *ownPathComponentes = [url pathComponents];
+    NSArray *ownPathComponentes   = [url pathComponents];
     
-    for(NSUInteger i=0; i < [parentPathComponents count]; i++)
-    {
-        if([[parentPathComponents objectAtIndex:i] isNotEqualTo:[ownPathComponentes objectAtIndex:i]])
+    NSUInteger ownPathCount = [ownPathComponentes count];
+    
+    for(NSUInteger i = 0, count = [parentPathComponents count]; i < count; i++)
+        if(i >= ownPathCount || ![[parentPathComponents objectAtIndex:i] isEqualToString:[ownPathComponentes objectAtIndex:i]])
             return NO;
-    }
     
     return YES;
 }
 
 - (BOOL)isDirectory
 {
-    NSDictionary* resourceValues = [self resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey]    error:nil];
-    return [[[resourceValues allValues] lastObject] boolValue];
+    NSDictionary *resourceValues = [self resourceValuesForKeys:[NSArray arrayWithObject:NSURLIsDirectoryKey] error:nil];
+    return [[resourceValues objectForKey:NSURLIsDirectoryKey] boolValue];
 }
+
 @end
