@@ -188,7 +188,7 @@
 
 - (NSRect)hitRect
 {
-    return [self frame];
+    return [self bounds];
 }
 
 - (void)_setIndex:(NSUInteger)index
