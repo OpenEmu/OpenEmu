@@ -154,14 +154,14 @@
         NSString *hash;
         if(useMD5)
         {
-            hash = [defaultFileManager md5DigestForFileAtURL:url error:outError];
+            hash = [defaultFileManager MD5DigestForFileAtURL:url error:outError];
             if(!hash)
                 return nil;
             [rom setMd5:hash];
         }
         else
         {
-            hash = [defaultFileManager crc32ForFileAtURL:url error:outError];
+            hash = [defaultFileManager CRC32ForFileAtURL:url error:outError];
             if(!hash)
                 return nil;
             [rom setCrc32:hash];
@@ -247,10 +247,12 @@
 #pragma mark -
 #pragma mark Accessors
 @dynamic url;
-- (NSURL*)url
+
+- (NSURL *)url
 {
     return [NSURL fileURLWithPath:[self path]];
 }
+
 - (void)setUrl:(NSURL *)url
 {
     [self setPath:[url path]];
@@ -270,7 +272,7 @@
             return nil;
         }
         
-        hash = [[NSFileManager defaultManager] md5DigestForFileAtURL:url error:&error];
+        hash = [[NSFileManager defaultManager] MD5DigestForFileAtURL:url error:&error];
         if(!hash)
         {
             DLog(@"%@", error);
@@ -300,7 +302,7 @@
             DLog(@"%@", error);
             return nil;
         }
-        hash = [[NSFileManager defaultManager] crc32ForFileAtURL:url error:&error];
+        hash = [[NSFileManager defaultManager] CRC32ForFileAtURL:url error:&error];
         if(!hash)
         {
             DLog(@"%@", error);
@@ -366,12 +368,12 @@
     // Calculate this rom's hash
     if(useMD5)
     {
-        hash = [[NSFileManager defaultManager] md5DigestForFileAtURL:url error:nil];
+        hash = [[NSFileManager defaultManager] MD5DigestForFileAtURL:url error:nil];
         rom = [db romForMD5Hash:hash];
     }
     else 
     {
-        hash = [[NSFileManager defaultManager] crc32ForFileAtURL:url error:nil];
+        hash = [[NSFileManager defaultManager] CRC32ForFileAtURL:url error:nil];
         rom = [db romForCRC32Hash:hash];
     }
     
