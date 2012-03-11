@@ -31,6 +31,7 @@
 
 @class OEGridView;
 @class OEMenu;
+
 @protocol OEGridViewDelegate <NSObject>
 
 @optional
@@ -54,7 +55,8 @@
 - (void)gridView:(OEGridView *)gridView willBeginEditingCellForItemAtIndex:(NSUInteger)index;
 - (void)gridView:(OEGridView *)gridView didEndEditingCellForItemAtIndex:(NSUInteger)index;
 - (id<NSPasteboardWriting>)gridView:(OEGridView *)gridView pasteboardWriterForIndex:(NSInteger)index;
-- (OEMenu*)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet*)indexes;
+- (OEMenu *)gridView:(OEGridView *)gridView menuForItemsAtIndexes:(NSIndexSet *)indexes;
+
 @end
 
 #pragma mark -

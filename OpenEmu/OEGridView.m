@@ -28,6 +28,7 @@
 #import "OEGridViewCell+OEGridView.h"
 #import "NSColor+OEAdditions.h"
 #import "OEMenu.h"
+
 const NSTimeInterval OEInitialPeriodicDelay = 0.4;      // Initial delay of a periodic events
 const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval of periodic events
 
@@ -160,7 +161,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     {
         // I'm not sure which is faster, iterate through the cells or use an NSPredicate:
         //   [visibleCells filteredSetUsingPredicate:[NSPredicate predicateWithFormat:@"_index == %d", index]]
-        [_visibleCells enumerateObjectsUsingBlock:^(OEGridViewCell *obj, BOOL *stop)
+        [_visibleCells enumerateObjectsUsingBlock:
+         ^ (OEGridViewCell *obj, BOOL *stop)
          {
              if([obj _index] == index)
              {
@@ -309,7 +311,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     // We add all the indexes immediately in case the visible cells shift while we are performing this operaiton
     [_selectionIndexes addIndexesInRange:NSMakeRange(0, _cachedNumberOfItems)];
-    [_visibleCells enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+    [_visibleCells enumerateObjectsUsingBlock:
+     ^ (id obj, BOOL *stop)
      {
          [obj setSelected:YES animated:YES];
      }];
@@ -324,7 +327,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 
     // We remove all the indexes immediately in case the visible cells shift while we are performing this operaiton
     [_selectionIndexes removeAllIndexes];
-    [_visibleCells enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+    [_visibleCells enumerateObjectsUsingBlock:
+     ^ (id obj, BOOL *stop)
      {
          [obj setSelected:NO animated:YES];
      }];
@@ -353,7 +357,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 - (void)OE_enqueueCellsAtIndexes:(NSIndexSet *)indexes
 {
     [indexes enumerateIndexesUsingBlock:
-     ^(NSUInteger idx, BOOL *stop)
+     ^ (NSUInteger idx, BOOL *stop)
      {
          [self OE_enqueueCell:[self cellForItemAtIndex:idx makeIfNecessary:NO]];
      }];
@@ -583,7 +587,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     // If there is no index set or no items in the index set, then there is nothing to update
     if([indexes count] == 0) return;
 
-    [indexes enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop)
+    [indexes enumerateIndexesUsingBlock:
+     ^ (NSUInteger idx, BOOL *stop)
      {
          // If the cell is not already visible, then there is nothing to reload
          if([_visibleCellsIndexes containsIndex:idx])
@@ -684,7 +689,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if([visibleAndSelected count] > 0)
     {
         [visibleAndSelected enumerateIndexesUsingBlock:
-         ^(NSUInteger idx, BOOL *stop)
+         ^ (NSUInteger idx, BOOL *stop)
          {
              OEGridViewCell *cell = [self cellForItemAtIndex:idx makeIfNecessary:NO];
              if(cell)
@@ -799,7 +804,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if([_visibleCells count] == 0) return;
 
     [_visibleCells enumerateObjectsUsingBlock:
-     ^(id obj, BOOL *stop)
+     ^ (id obj, BOOL *stop)
      {
          [obj setFrame:[self rectForCellAtIndex:[obj _index]]];
      }];
@@ -981,7 +986,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
             {
                 __block NSMutableArray *draggingItems = [NSMutableArray array];
                 [_selectionIndexes enumerateIndexesUsingBlock:
-                 ^(NSUInteger idx, BOOL *stop)
+                 ^ (NSUInteger idx, BOOL *stop)
                  {
                      id<NSPasteboardWriting> item = [_dataSource gridView:self pasteboardWriterForIndex:idx];
                      if(item != nil)
@@ -1104,7 +1109,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
             // Figure out which indexes that are currently selected that need to be deslected: indexesToDeselect = _selectionIndexes - indexesToSelect
             indexesToDeselect = [_selectionIndexes mutableCopy];
             [indexesToDeselect removeIndexes:indexesToSelect];
-            [indexesToDeselect enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop)
+            [indexesToDeselect enumerateIndexesUsingBlock:
+             ^ (NSUInteger idx, BOOL *stop)
              {
                  [[self cellForItemAtIndex:idx makeIfNecessary:NO] setSelected:NO animated:YES];
              }];
@@ -1116,7 +1122,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         {
             // Figure out which indexes that are not selected that need to be selected: indexesToSelect = _selectionIndexes - indexesToDeselect
             [indexesToSelect removeIndexes:_selectionIndexes];
-            [indexesToSelect enumerateIndexesUsingBlock:^(NSUInteger idx, BOOL *stop)
+            [indexesToSelect enumerateIndexesUsingBlock:
+             ^ (NSUInteger idx, BOOL *stop)
              {
                  [[self cellForItemAtIndex:idx makeIfNecessary:NO] setSelected:YES animated:YES];
              }];
@@ -1195,7 +1202,6 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if([_fieldEditor isHidden]) return;
 
     OEGridViewCell *delegate = [_fieldEditor delegate];
-
     if([delegate isKindOfClass:[OEGridViewCell class]]) [delegate setEditing:NO];
 
     [_fieldEditor setHidden:YES];
@@ -1207,32 +1213,28 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     [[self window] makeFirstResponder:self];
     
     NSPoint mouseLocationInWindow = [theEvent locationInWindow];
-    NSPoint mouseLocationInView = [self convertPoint:mouseLocationInWindow fromView:nil];
+    NSPoint mouseLocationInView   = [self convertPoint:mouseLocationInWindow fromView:nil];
     
     NSUInteger index = [self indexForCellAtPoint:mouseLocationInView];
     if(index != NSNotFound && _dataSourceHas.menuForItemsAtIndexes)
     {
-        BOOL itemIsSelected = [[self selectionIndexes] containsIndex:index];
-        OEGridViewCell *itemCell = [self cellForItemAtIndex:index makeIfNecessary:YES];
+        BOOL            itemIsSelected = [[self selectionIndexes] containsIndex:index];
+        OEGridViewCell *itemCell       = [self cellForItemAtIndex:index makeIfNecessary:YES];
+        NSIndexSet     *indexes        = itemIsSelected ? [self selectionIndexes] : [NSIndexSet indexSetWithIndex:index];
         
-        NSIndexSet* indexes = itemIsSelected ? [self selectionIndexes] : [NSIndexSet indexSetWithIndex:index];
-        
-        NSRect hitRect = NSInsetRect([itemCell hitRect], 5, 5);
-        NSRect hitRectOnWindow = [itemCell convertRect:hitRect toLayer:nil];
+        NSRect hitRect             = NSInsetRect([itemCell hitRect], 5, 5);
+        NSRect hitRectOnWindow     = [itemCell convertRect:hitRect toLayer:nil];
         NSRect visibleRectOnWindow = [self convertRect:[self visibleRect] toView:nil];
-        NSRect visibleItemRect = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
+        NSRect visibleItemRect     = NSIntersectionRect(hitRectOnWindow, visibleRectOnWindow);
         
-        if(!itemIsSelected)
-            [self setSelectionIndexes:[NSIndexSet indexSetWithIndex:index]];
+        if(!itemIsSelected) [self setSelectionIndexes:[NSIndexSet indexSetWithIndex:index]];
         
         OEMenu *contextMenu = [[self dataSource] gridView:self menuForItemsAtIndexes:indexes];
         
-        if([[NSUserDefaults standardUserDefaults] boolForKey:UDLightStyleGridViewMenu])
-            [contextMenu setStyle:OEMenuStyleLight];
+        if([[NSUserDefaults standardUserDefaults] boolForKey:UDLightStyleGridViewMenu]) [contextMenu setStyle:OEMenuStyleLight];
         
         OERectEdge edge = OEMaxXEdge;
-        if( NSHeight(visibleItemRect) < 25.0 )
-            edge = NSMinY(visibleItemRect) == NSMinY(visibleRectOnWindow) ? OEMaxYEdge : OEMinYEdge;
+        if(NSHeight(visibleItemRect) < 25.0) edge = NSMinY(visibleItemRect) == NSMinY(visibleRectOnWindow) ? OEMaxYEdge : OEMinYEdge;
         
         [contextMenu openOnEdge:edge ofRect:visibleItemRect ofWindow:[self window]];
         
@@ -1270,10 +1272,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     if(_cachedNumberOfItems == 0) return;
 
     NSUInteger index = 0;
-    if(_indexOfKeyboardSelection == NSNotFound)
-        index = (_cachedNumberOfItems / _cachedNumberOfVisibleColumns) * _cachedNumberOfVisibleColumns;
-    else
-        index = MIN(_indexOfKeyboardSelection, _indexOfKeyboardSelection - _cachedNumberOfVisibleColumns);
+    if(_indexOfKeyboardSelection == NSNotFound) index = (_cachedNumberOfItems / _cachedNumberOfVisibleColumns) * _cachedNumberOfVisibleColumns;
+    else                                        index = MIN(_indexOfKeyboardSelection, _indexOfKeyboardSelection - _cachedNumberOfVisibleColumns);
 
     [self OE_moveKeyboardSelectionToIndex:index];
 }
@@ -1373,8 +1373,7 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         _lastDragOperation = [_delegate gridView:self validateDrop:sender];
         [_dragIndicationLayer setHidden:(_lastDragOperation == NSDragOperationNone)];
 
-        if(![_dragIndicationLayer isHidden])
-            [_rootLayer setNeedsLayout];
+        if(![_dragIndicationLayer isHidden]) [_rootLayer setNeedsLayout];
     }
     
     return _lastDragOperation;
@@ -1431,10 +1430,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
 {
     [_dragIndicationLayer setHidden:YES];
 
-    if(_dragDestinationLayer != nil)
-        return [_dragDestinationLayer performDragOperation:sender];
-    else
-        return _delegateHas.acceptDrop && [_delegate gridView:self acceptDrop:sender];
+    if(_dragDestinationLayer != nil) return [_dragDestinationLayer performDragOperation:sender];
+    else                             return _delegateHas.acceptDrop && [_delegate gridView:self acceptDrop:sender];
 }
 
 #pragma mark -
@@ -1534,7 +1531,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         _dataSourceHas.willBeginEditingCellForItemAtIndex = [_dataSource respondsToSelector:@selector(gridView:willBeginEditingCellForItemAtIndex:)];
         _dataSourceHas.didEndEditingCellForItemAtIndex    = [_dataSource respondsToSelector:@selector(gridView:didEndEditingCellForItemAtIndex:)];
         _dataSourceHas.pasteboardWriterForIndex           = [_dataSource respondsToSelector:@selector(gridView:pasteboardWriterForIndex:)];
-        _dataSourceHas.menuForItemsAtIndexes                 = [_dataSource respondsToSelector:@selector(gridView:menuForItemsAtIndexes:)];
+        _dataSourceHas.menuForItemsAtIndexes              = [_dataSource respondsToSelector:@selector(gridView:menuForItemsAtIndexes:)];
+
         [self OE_setNeedsReloadData];
     }
 }
@@ -1558,7 +1556,8 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
     
     [_selectionIndexes removeAllIndexes];
     [_selectionIndexes addIndexes:selectionIndexes];
-    [_visibleCells enumerateObjectsUsingBlock:^(id obj, BOOL *stop)
+    [_visibleCells enumerateObjectsUsingBlock:
+     ^ (id obj, BOOL *stop)
      {
          [obj setSelected:[_selectionIndexes containsIndex:[obj _index]] animated:![CATransaction disableActions]];
      }];

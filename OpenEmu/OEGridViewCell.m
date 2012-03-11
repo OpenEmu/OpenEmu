@@ -141,22 +141,17 @@
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
-    if(_selected == selected)
-        return;
-
     _selected = selected;
 }
 
 - (void)setEditing:(BOOL)editing
 {
-    if(_editing == editing) return;
-
-    if(editing)
-        [[self gridView] OE_willBeginEditingCell:self];
-    else
-        [[self gridView] OE_didEndEditingCell:self];
-
-    _editing = editing;
+    if(_editing != editing)
+    {
+        if(editing)  [[self gridView] OE_willBeginEditingCell:self];
+        else         [[self gridView] OE_didEndEditingCell:self];
+        _editing = editing;
+    }
 }
 
 - (BOOL)isEditing
@@ -171,12 +166,13 @@
 
 - (void)setForegroundLayer:(CALayer *)foregroundLayer
 {
-    if(_foregroundLayer == foregroundLayer) return;
+    if(_foregroundLayer != foregroundLayer)
+    {
+        [_foregroundLayer removeFromSuperlayer];
+        _foregroundLayer = foregroundLayer;
 
-    [_foregroundLayer removeFromSuperlayer];
-    _foregroundLayer = foregroundLayer;
-
-    [self OE_reorderLayers];
+        [self OE_reorderLayers];
+    }
 }
 
 - (CALayer *)foregroundLayer

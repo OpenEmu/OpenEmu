@@ -230,12 +230,12 @@
                       nil];
         [cell setTextAttributes:dictionary];
         
-        NSFont *font;
+        NSFont  *font;
         NSColor *textColor;
         
-        font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
+        font      = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
         textColor = [NSColor colorWithDeviceWhite:0.80 alpha:1.0];
-        shadow = [[NSShadow alloc] init];
+        shadow    = [[NSShadow alloc] init];
         [shadow setShadowColor:[NSColor blackColor]];
         [shadow setShadowOffset:NSMakeSize(0, -1)];
         
@@ -245,7 +245,7 @@
                                           textColor, NSForegroundColorAttributeName,                                          
                                           nil];
         
-        font = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
+        font      = [[NSFontManager sharedFontManager] fontWithFamily:@"Lucida Grande" traits:0 weight:0 size:11.0];
         textColor = [NSColor colorWithDeviceWhite:1.0 alpha:1.0];
         shadow    = [[NSShadow alloc] init];
         
@@ -277,8 +277,7 @@
         NSArray *allPlugins = [OECorePlugin allPlugins];
         for(OECorePlugin *obj in allPlugins)
         {
-            if(![[obj systemIdentifiers] containsObject:[plugin systemIdentifier]])
-                continue;
+            if(![[obj systemIdentifiers] containsObject:[plugin systemIdentifier]]) continue;
             
             NSString *projectURL = [[obj infoDictionary] valueForKey:@"OEProjectURL"];
             NSString *name       = [obj displayName];

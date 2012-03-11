@@ -89,8 +89,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 + (void)initialize
 {
     // Initialize should only be ran once, subclasses should be rejected
-    if(self != [OECoverGridViewCell class])
-        return;
+    if(self != [OECoverGridViewCell class]) return;
 
     // The 'selector_ring' image contains 2 selectors (focused and unfocused).  The following code loads the selector_ring, creates 2 new images
     // (or sub images) of the selector_ring, then caches a stretchable (9 part) image for rendering the selector rings.  The active selector is
@@ -103,34 +102,34 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
 - (id)init
 {
-    if(!(self = [super init]))
-        return nil;
+    if((self = [super init]))
+    {
+        // Setup image
+        _imageLayer = [[OEGridLayer alloc] init];
+        [self addSublayer:_imageLayer];
 
-    // Setup image
-    _imageLayer = [[OEGridLayer alloc] init];
-    [self addSublayer:_imageLayer];
+        _titleLayer = [[CATextLayer alloc] init];
+        [self addSublayer:_titleLayer];
 
-    _titleLayer = [[CATextLayer alloc] init];
-    [self addSublayer:_titleLayer];
+        _ratingLayer = [[OECoverGridViewCellRatingLayer alloc] init];
+        [self addSublayer:_ratingLayer];
 
-    _ratingLayer = [[OECoverGridViewCellRatingLayer alloc] init];
-    [self addSublayer:_ratingLayer];
+        CALayer *foregroundLayer = [[CALayer alloc] init];
+        [self setForegroundLayer:foregroundLayer];
 
-    CALayer *foregroundLayer = [[CALayer alloc] init];
-    [self setForegroundLayer:foregroundLayer];
+        _statusIndicatorLayer = [[OECoverGridViewCellIndicationLayer alloc] init];
+        [foregroundLayer addSublayer:_statusIndicatorLayer];
 
-    _statusIndicatorLayer = [[OECoverGridViewCellIndicationLayer alloc] init];
-    [foregroundLayer addSublayer:_statusIndicatorLayer];
+        _glossyOverlayLayer = [[OEGridLayer alloc] init];
+        [foregroundLayer addSublayer:_glossyOverlayLayer];
 
-    _glossyOverlayLayer = [[OEGridLayer alloc] init];
-    [foregroundLayer addSublayer:_glossyOverlayLayer];
+        _selectionIndicatorLayer = [[OEGridLayer alloc] init];
+        [_selectionIndicatorLayer setHidden:YES];
+        [foregroundLayer addSublayer:_selectionIndicatorLayer];
 
-    _selectionIndicatorLayer = [[OEGridLayer alloc] init];
-    [_selectionIndicatorLayer setHidden:YES];
-    [foregroundLayer addSublayer:_selectionIndicatorLayer];
-
-    [self prepareForReuse];
-    [self OE_updateActiveSelector];
+        [self prepareForReuse];
+        [self OE_updateActiveSelector];
+    }
 
     return self;
 }
@@ -140,8 +139,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     [_dropDelayedTimer invalidate];
     _dropDelayedTimer = nil;
 
-    if([_animationGroupStack count] > 0)
-        DLog(@"Warning: There were animations on the stack that were never applied.");
+    if([_animationGroupStack count] > 0) DLog(@"Warning: There were animations on the stack that were never applied.");
 }
 
 - (NSString *)description
@@ -161,8 +159,6 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     if(!gridViewLayer) return nil;
 
     NSImage *image = [gridViewLayer valueForKey:name];
-    if(!image) return nil;
-
     if(image && NSEqualSizes([image size], size)) return image;
 
     return nil;
@@ -388,10 +384,8 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
     [CATransaction commit];
 
-    if(!_image)
-        [_imageLayer setContents:(id)[self OE_missingArtworkImage]];
-    else
-        [_imageLayer setContents:(id)_image];
+    if(!_image) [_imageLayer setContents:(id)[self OE_missingArtworkImage]];
+    else        [_imageLayer setContents:(id)_image];
 
     [_glossyOverlayLayer setContents:(id)[self OE_glossImage]];
     [_selectionIndicatorLayer setContents:(id)[self OE_selectorImage]];
@@ -484,11 +478,8 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     if(!CGRectContainsPoint([self frame], p) || ![self isInteractive]) return nil;
 
     const CGPoint pointInLayer = [self convertPoint:p fromLayer:[self superlayer]];
-
-    if(CGRectContainsPoint(_imageFrame, pointInLayer))
-        return self;
+    if(CGRectContainsPoint(_imageFrame, pointInLayer))       return self;
     else if(CGRectContainsPoint(_ratingFrame, pointInLayer)) return _ratingLayer;
-
     else if(CGRectContainsPoint(_titleFrame, pointInLayer))  return _titleLayer;
 
     return nil;
@@ -637,22 +628,17 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     _dropDelayedTimer = nil;
 
     NSPasteboard *draggingPasteboard = [sender draggingPasteboard];
-    if([[draggingPasteboard pasteboardItems] count]> 1)
-        return NSDragOperationNone;
+    if([[draggingPasteboard pasteboardItems] count]> 1) return NSDragOperationNone;
 
     id imageRepresentation = [[draggingPasteboard readObjectsForClasses:[NSArray arrayWithObject:[NSImage class]] options:nil] lastObject];
     if(!imageRepresentation)
     {
         imageRepresentation = [[[sender draggingPasteboard] readObjectsForClasses:[NSArray arrayWithObject:[NSURL class]] options:nil] lastObject];
-        if(!imageRepresentation)
-            return NSDragOperationNone;
+        if(!imageRepresentation) return NSDragOperationNone;
 
         NSString *itemUTI = nil;
-        if(![imageRepresentation getResourceValue:&itemUTI forKey:NSURLTypeIdentifierKey error:nil])
-            return NSDragOperationNone;
-
-        if(!UTTypeConformsTo((__bridge CFStringRef)itemUTI, kUTTypeImage))
-            return NSDragOperationNone;
+        if(![imageRepresentation getResourceValue:&itemUTI forKey:NSURLTypeIdentifierKey error:nil]) return NSDragOperationNone;
+        if(!UTTypeConformsTo((__bridge CFStringRef)itemUTI, kUTTypeImage))                           return NSDragOperationNone;
     }
 
     // wait a while to prevent animation when dragging is just dragging by
@@ -734,7 +720,7 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
 
     __block typeof(self) bself = self;
     [self OE_setCompletionBlock:
-     ^(BOOL finished)
+     ^ (BOOL finished)
      {
          [bself->_statusIndicatorLayer setType:bself->_indicationType];
          [bself->_statusIndicatorLayer setOpacity:1.0];
@@ -926,16 +912,16 @@ __strong static NSImage *selectorRings[2] = {nil, nil};                         
     }
 
     _animations = [[NSMutableSet alloc] initWithCapacity:[_animationDefinitions count]];
-    _finished = YES;
+    _finished   = YES;
 
     NSString *animationKey = [NSString stringWithFormat:@"0x%p", self];
     
     for(NSDictionary *obj in _animationDefinitions)
     {
         CAAnimation *animation      = [obj objectForKey:@"animation"];
-        CALayer *layer              = [obj objectForKey:@"layer"];
-        id key                      = [obj objectForKey:@"key"];
-        NSString *animationValue    = [NSString stringWithFormat:@"0x%p", animation];
+        CALayer     *layer          = [obj objectForKey:@"layer"];
+        id           key            = [obj objectForKey:@"key"];
+        NSString    *animationValue = [NSString stringWithFormat:@"0x%p", animation];
 
         [animation setDelegate:self];
         [animation setValue:animationValue forKey:animationKey];

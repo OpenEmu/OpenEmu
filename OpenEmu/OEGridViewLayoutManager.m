@@ -43,10 +43,8 @@
 
 - (void)layoutSublayersOfLayer:(CALayer *)theLayer
 {
-    if([theLayer conformsToProtocol:@protocol(OEGridViewLayoutManagerProtocol)])
-        [theLayer layoutSublayers];
-    else if([[theLayer delegate] conformsToProtocol:@protocol(OEGridViewLayoutManagerProtocol)])
-        [[theLayer delegate] layoutSublayers];
+    if([theLayer conformsToProtocol:@protocol(OEGridViewLayoutManagerProtocol)])                 [theLayer layoutSublayers];
+    else if([[theLayer delegate] conformsToProtocol:@protocol(OEGridViewLayoutManagerProtocol)]) [[theLayer delegate] layoutSublayers];
 }
 
 @end
