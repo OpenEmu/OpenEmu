@@ -78,6 +78,7 @@
     [win setTitleBarView:toolbar];
     [win setCenterTrafficLightButtons:NO];
     [win setTitleBarHeight:83.0];
+    [win setMovableByWindowBackground:NO];
    
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSInteger selectedTab = [standardDefaults integerForKey:UDSelectedPreferencesTab];
