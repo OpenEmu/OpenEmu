@@ -1,0 +1,95 @@
+#ifdef APSTUDIO_INVOKED
+ #error This file cannot be edited using the Visual C resource editor
+#endif
+
+#include "build_details.h"
+
+#ifndef FILENAME
+ #define FILENAME fba
+#endif
+
+#ifdef MMX
+ #define MMX_VER ", MMX"
+#else
+ #define MMX_VER
+#endif
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION VER_MAJOR,VER_MINOR,VER_BETA,VER_ALPHA
+ PRODUCTVERSION VER_MAJOR,VER_MINOR,VER_BETA,VER_ALPHA
+ FILEFLAGSMASK 0x3FL
+#ifdef SPECIALBUILD
+ #define SPECIALFLAG VS_FF_SPECIALBUILD
+#else
+ #define SPECIALFLAG 0x0L
+#endif
+#ifdef _DEBUG
+ #define DEBUGFLAG VS_FF_DEBUG
+#else
+ #define DEBUGFLAG 0x0L
+#endif
+#if VER_ALPHA != 0
+ FILEFLAGS SPECIALFLAG | DEBUGFLAG | VS_FF_PRIVATEBUILD | VS_FF_PRERELEASE
+#else
+ FILEFLAGS SPECIALFLAG | DEBUGFLAG
+#endif
+ FILEOS VOS__WINDOWS32
+ FILETYPE VFT_APP
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "Comments", "built on " MAKE_STRING(BUILD_DATE) ", " MAKE_STRING(BUILD_TIME) " (" MAKE_STRING(BUILD_CHAR) ", " MAKE_STRING(BUILD_COMP) ", " MAKE_STRING(BUILD_CPU) MMX_VER ").\0"
+            VALUE "CompanyName", "Team FB Alpha\0"
+            VALUE "FileDescription", APP_DESCRIPTION "\0"
+            VALUE "FileVersion", MAKE_STRING(VER_MAJOR) "," MAKE_STRING(VER_MINOR) "," MAKE_STRING(VER_BETA) "," MAKE_STRING(VER_ALPHA) "\0"
+            VALUE "InternalName", MAKE_STRING(FILENAME) "\0"
+            VALUE "LegalCopyright", "© 2004-2011 Team FB Alpha\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", MAKE_STRING(FILENAME) ".exe\0"
+ #ifdef FBA_DEBUG
+ #if VER_ALPHA != 0
+            VALUE "PrivateBuild", "Pre-release debug build\0"
+ #else
+            VALUE "PrivateBuild", "Debug build\0"
+ #endif
+#else
+ #if VER_ALPHA != 0
+            VALUE "PrivateBuild", "Pre-release build\0"
+ #endif
+#endif
+            VALUE "ProductName", APP_TITLE "\0"
+#if VER_BETA == 99 && VER_ALPHA > 90
+            VALUE "ProductVersion", "Release Candidate (v" MAKE_STRING(VER_MAJOR) "." MAKE_STRING(VER_MINOR) "." MAKE_STRING(VER_BETA) "." MAKE_STRING(VER_ALPHA) ")\0"
+#else
+ #if VER_ALPHA != 0
+            VALUE "ProductVersion", "Pre-release (alpha) version v" MAKE_STRING(VER_MAJOR) "." MAKE_STRING(VER_MINOR) "." MAKE_STRING(VER_BETA) "." MAKE_STRING(VER_ALPHA) "\0"
+ #else
+  #if VER_BETA != 0
+            VALUE "ProductVersion", "Pre-release (beta) version v" MAKE_STRING(VER_MAJOR) "." MAKE_STRING(VER_MINOR) "." MAKE_STRING(VER_BETA) "." MAKE_STRING(VER_ALPHA) "\0"
+  #else
+            VALUE "ProductVersion", "Release version v" MAKE_STRING(VER_MAJOR) "." MAKE_STRING(VER_MINOR) "." MAKE_STRING(VER_BETA) "." MAKE_STRING(VER_ALPHA) "\0"
+  #endif
+ #endif
+#endif
+#ifdef SPECIALBUILD
+			VALUE "SpecialBuild", MAKE_STRING(SPECIALBUILD) "\0"
+#endif
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+

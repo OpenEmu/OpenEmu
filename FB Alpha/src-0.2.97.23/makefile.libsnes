@@ -1,0 +1,242 @@
+DEBUG = 0
+
+ifeq ($(platform),)
+platform = unix
+ifeq ($(shell uname -a),)
+   platform = win
+else ifneq ($(findstring Darwin,$(shell uname -a)),)
+   platform = osx
+else ifneq ($(findstring MINGW,$(shell uname -a)),)
+   platform = win
+endif
+endif
+
+MAIN_FBA_DIR := src
+FBA_BURN_DIR := $(MAIN_FBA_DIR)/burn
+FBA_BURN_DRIVERS_DIR := $(MAIN_FBA_DIR)/burn/drv
+FBA_BURNER_DIR := $(MAIN_FBA_DIR)/burner
+LIBSNES_DIR := $(FBA_BURNER_DIR)/libsnes
+FBA_CPU_DIR := $(MAIN_FBA_DIR)/cpu
+FBA_LIB_DIR := $(MAIN_FBA_DIR)/dep/libs
+FBA_INTERFACE_DIR := $(MAIN_FBA_DIR)/intf
+
+ifeq ($(platform), unix)
+   TARGET := libsnes.so
+   fpic := -fPIC
+   SHARED := -shared -Wl,-no-undefined -Wl,--version-script=$(LIBSNES_DIR)/link.T
+   ENDIANNESS_DEFINES := -DLSB_FIRST
+else ifeq ($(platform), osx)
+   TARGET := libsnes.dylib
+   fpic := -fPIC
+   SHARED := -dynamiclib
+   ENDIANNESS_DEFINES := -DLSB_FIRST
+else ifeq ($(platform), ps3)
+   TARGET := libsnes.a
+   CC = ppu-lv2-gcc
+   CXX = ppu-lv2-g++
+   AR = ppu-lv2-ar
+   ENDIANNESS_DEFINES =  -DWORDS_BIGENDIAN
+   PLATFORM_DEFINES := -D__CELLOS_LV2 -DSN_TARGET_PS3
+else ifeq ($(platform), xenon)
+   TARGET := libsnes.a
+   CC = xenon-gcc
+   CXX = xenon-g++
+   AR = xenon-ar
+   ENDIANNESS_DEFINES = -DWORDS_BIGENDIAN
+   PLATFORM_DEFINES := -D__LIBXENON__ -m32 -D__ppc__
+else ifeq ($(platform), wii)
+   TARGET := libsnes.a
+   CC = powerpc-eabi-gcc
+   CXX = powerpc-eabi-g++
+   AR = powerpc-eabi-ar
+   ENDIANNESS_DEFINES = -DWORDS_BIGENDIAN
+   PLATFORM_DEFINES := -DGEKKO -mrvl -mcpu=750 -meabi -mhard-float -D__ppc__
+else
+   TARGET := snes.dll
+   CC = gcc
+   CXX = g++
+   SHARED := -shared -Wl,-no-undefined -Wl,--version-script=$(LIBSNES_DIR)/link.T
+   LDFLAGS += -static-libgcc -static-libstdc++
+   ENDIANNESS_DEFINES := -DLSB_FIRST
+endif
+
+all: $(TARGET)
+
+BURN_BLACKLIST := $(FBA_BURN_DIR)/zet_c68k.cpp \
+	$(FBA_BURN_DIR)/sek_c68k.cpp \
+	$(FBA_BURNER_DIR)/un7z.cpp \
+	$(FBA_CPU_DIR)/arm7/arm7exec.c \
+	$(FBA_CPU_DIR)/arm7/arm7core.c \
+	$(FBA_CPU_DIR)/hd6309/6309tbl.c \
+	$(FBA_CPU_DIR)/hd6309/6309ops.c \
+	$(FBA_CPU_DIR)/konami/konamtbl.c \
+	$(FBA_CPU_DIR)/konami/konamops.c \
+	$(FBA_CPU_DIR)/m68k/m68k_in.c \
+	$(FBA_CPU_DIR)/m6800/6800ops.c \
+	$(FBA_CPU_DIR)/m6800/6800tbl.c \
+	$(FBA_CPU_DIR)/m6805/6805ops.c \
+	$(FBA_CPU_DIR)/m6809/6809ops.c \
+	$(FBA_CPU_DIR)/m6809/6809tbl.c \
+	$(FBA_CPU_DIR)/sh2/mksh2.cpp \
+	$(FBA_CPU_DIR)/sh2/mksh2-x86.cpp \
+	$(FBA_CPU_DIR)/m68k/m68kmake.c \
+	$(FBA_BURNER_DIR)/wave_writer.cpp \
+	$(FBA_CPU_DIR)/m68k/m68kdasm.c \
+	$(FBA_LIBSNES_DIR)/menu.cpp \
+	$(FBA_CPU_DIR)/sh2/mksh2.cpp \
+	$(FBA_BURNER_DIR)/sshot.cpp \
+	$(FBA_BURNER_DIR)/conc.cpp \
+	$(FBA_BURNER_DIR)/dat.cpp \
+	$(FBA_BURNER_DIR)/cong.cpp \
+	$(FBA_BURNER_DIR)/image.cpp \
+	$(FBA_BURNER_DIR)/misc.cpp \
+	$(FBA_CPU_DIR)/h6280/tblh6280.c \
+	$(FBA_CPU_DIR)/m6502/t65sc02.c \
+	$(FBA_CPU_DIR)/m6502/t65c02.c \
+	$(FBA_CPU_DIR)/m6502/tdeco16.c \
+	$(FBA_CPU_DIR)/m6502/tn2a03.c \
+	$(FBA_CPU_DIR)/m6502/t6502.c \
+	$(FBA_CPU_DIR)/nec/v25sfr.c \
+	$(FBA_CPU_DIR)/nec/v25instr.c \
+	$(FBA_CPU_DIR)/nec/necinstr.c \
+	$(FBA_BURN_DIR)/drv/capcom/ctv_make.cpp
+
+FBA_BURN_DIRS := $(FBA_BURN_DIR) \
+	$(FBA_BURN_DIR)/devices \
+	$(FBA_BURN_DIR)/snd \
+	$(FBA_BURN_DRIVERS_DIR)/capcom \
+	$(FBA_BURN_DRIVERS_DIR)/cave \
+	$(FBA_BURN_DRIVERS_DIR)/dataeast \
+	$(FBA_BURN_DRIVERS_DIR)/cps3 \
+	$(FBA_BURN_DRIVERS_DIR)/galaxian \
+	$(FBA_BURN_DRIVERS_DIR)/konami \
+	$(FBA_BURN_DRIVERS_DIR)/irem \
+	$(FBA_BURN_DRIVERS_DIR)/megadrive \
+	$(FBA_BURN_DRIVERS_DIR)/misc \
+	$(FBA_BURN_DRIVERS_DIR)/neogeo \
+	$(FBA_BURN_DRIVERS_DIR)/pgm \
+	$(FBA_BURN_DRIVERS_DIR)/psikyo \
+	$(FBA_BURN_DRIVERS_DIR)/sega \
+	$(FBA_BURN_DRIVERS_DIR)/taito \
+	$(FBA_BURN_DRIVERS_DIR)/toaplan \
+	$(FBA_BURN_DRIVERS_DIR)/pre90s
+
+FBA_CPU_DIRS := $(FBA_CPU_DIR) \
+	$(FBA_CPU_DIR)/arm7 \
+	$(FBA_CPU_DIR)/arm \
+	$(FBA_CPU_DIR)/hd6309 \
+	$(FBA_CPU_DIR)/i8039 \
+	$(FBA_CPU_DIR)/konami \
+	$(FBA_CPU_DIR)/m68k \
+	$(FBA_CPU_DIR)/m6502 \
+	$(FBA_CPU_DIR)/m6800 \
+	$(FBA_CPU_DIR)/m6805 \
+	$(FBA_CPU_DIR)/m6809 \
+	$(FBA_CPU_DIR)/nec \
+	$(FBA_CPU_DIR)/s2650 \
+	$(FBA_CPU_DIR)/sh2 \
+	$(FBA_CPU_DIR)/z80 \
+	$(FBA_CPU_DIR)/h6280
+
+FBA_LIB_DIRS := $(FBA_LIB_DIR)/zlib
+
+FBA_SRC_DIRS := $(FBA_BURNER_DIR) $(FBA_BURN_DIRS) $(FBA_CPU_DIRS) $(FBA_BURNER_DIRS) $(FBA_LIB_DIRS)
+
+FBA_CXXSRCS := $(filter-out $(BURN_BLACKLIST),$(foreach dir,$(FBA_SRC_DIRS),$(wildcard $(dir)/*.cpp)))
+FBA_CXXSRCS += $(LIBSNES_DIR)/libsnes.cpp $(LIBSNES_DIR)/neocdlist.cpp
+FBA_CXXOBJ := $(FBA_CXXSRCS:.cpp=.o)
+FBA_CSRCS := $(filter-out $(BURN_BLACKLIST),$(foreach dir,$(FBA_SRC_DIRS),$(wildcard $(dir)/*.c)))
+FBA_COBJ := $(FBA_CSRCS:.c=.o)
+
+OBJS := $(FBA_COBJ) $(FBA_CXXOBJ)
+
+FBA_DEFINES := -DNO_ASMCORE \
+	-DNO_AUTOFIRE \
+	-DNO_CHEATSEARCH \
+	-DNO_COMBO \
+	-DUSE_SPEEDHACKS \
+	-DNO_PNG \
+	-DOLD_AUDIOCORE=0 \
+	-D__LIBSNES__ \
+	$(ENDIANNESS_DEFINES) \
+	$(PLATFORM_DEFINES) \
+	-DTIXML_USE_TICPP
+
+ifeq ($(DEBUG), 1)
+CFLAGS += -O0 -g
+CXXFLAGS += -O0 -g
+else
+CFLAGS += -O3 -DNDEBUG
+CXXFLAGS += -O3 -DNDEBUG
+endif
+
+CFLAGS += -std=gnu99 $(fpic) -Wno-write-strings $(FBA_DEFINES)
+CXXFLAGS += $(fpic) -Wno-write-strings $(FBA_DEFINES)
+LDFLAGS += $(fpic)
+
+INCDIRS := -I$(FBA_BURNER_DIR)/win32 \
+	-I$(LIBSNES_DIR) \
+	-I$(LIBSNES_DIR)/tchar \
+	-I$(FBA_BURN_DIR) \
+	-I$(FBA_BURN_DIR)/burner \
+	-I$(MAIN_FBA_DIR)/cpu \
+	-I$(FBA_BURN_DIR)/snd \
+	-I$(FBA_BURN_DIR)/devices \
+	-I$(FBA_INTERFACE_DIR) \
+	-I$(FBA_INTERFACE_DIR)/input \
+	-I$(FBA_INTERFACE_DIR)/cd \
+	-I$(FBA_BURNER_DIR) \
+	-I$(MAIN_FBA_DIR)/generated \
+	-I$(FBA_CPU_DIR) \
+	-I$(FBA_CPU_DIR)/m6809 \
+	-I$(FBA_CPU_DIR)/m6805 \
+	-I$(FBA_CPU_DIR)/m6800 \
+	-I$(FBA_CPU_DIR)/h6280 \
+	-I$(FBA_CPU_DIR)/nec \
+	-I$(FBA_CPU_DIR)/hd6309 \
+	-I$(FBA_CPU_DIR)/arm7 \
+	-I$(FBA_CPU_DIR)/i8039 \
+	-I$(FBA_CPU_DIR)/konami \
+	-I$(FBA_CPU_DIR)/m68k \
+	-I$(FBA_CPU_DIR)/m6502 \
+	-I$(FBA_CPU_DIR)/z80 \
+	-I$(FBA_CPU_DIR)/sh2 \
+	-I$(FBA_CPU_DIR)/s2650 \
+	-I$(FBA_CPU_DIR)/arm \
+	-I$(FBA_LIB_DIR)/zlib \
+	-I$(FBA_BURN_DIR)/drv/capcom \
+	-I$(FBA_BURN_DIR)/drv/dataeast \
+	-I$(FBA_BURN_DIR)/drv/cave \
+	-I$(FBA_BURN_DIR)/drv/neogeo \
+	-I$(FBA_BURN_DIR)/drv/psikyo \
+	-I$(FBA_BURN_DIR)/drv/sega \
+	-I$(FBA_BURN_DIR)/drv/toaplan \
+	-I$(FBA_BURN_DIR)/drv/taito \
+	-I$(FBA_LIB_DIR)
+
+$(TARGET): $(OBJS)
+	@echo "LD $@"
+ifeq ($(platform), ps3)
+	@$(AR) rcs $@ $(OBJECTS)
+else ifeq ($(platform), xenon)
+	@$(AR) rcs $@ $(OBJECTS)
+else ifeq ($(platform), wii)
+	@$(AR) rcs $@ $(OBJECTS)
+else
+	@$(CXX) -o $@ $(SHARED) $(OBJS) $(LDFLAGS)
+endif
+
+%.o: %.cpp
+	@echo "CXX $<"
+	@$(CXX) -c -o $@ $< $(CXXFLAGS) $(INCDIRS)
+
+%.o: %.c
+	@echo "CC $<"
+	@$(CC) -c -o $@ $< $(CFLAGS) $(INCDIRS)
+
+clean:
+	rm -f $(TARGET)
+	rm -f $(OBJS)
+
+.PHONY: clean
+

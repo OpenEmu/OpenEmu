@@ -1,0 +1,2388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+<head>
+<title>FB Alpha - What's New</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<style type="text/css">
+	body {
+		font-family: verdana, lucida, sans-serif;
+		font-size: 0.8em;
+		color: #333333;
+		background-color: #CE6A57;
+		margin: 0em;
+		text-align: center;
+	}
+
+	a:link {
+		color: #C03029;
+		text-decoration: none;
+	}
+
+	a:visited {
+		color: #C03029;
+		text-decoration: none;
+	}
+
+	a:hover {
+		color: #333333;
+		text-decoration: underline;
+	}
+
+	a:active {
+		color: #C03029;
+		text-decoration: underline;
+	}
+
+	a.active:link {
+		color: #C03029;
+		text-decoration: none;
+		font-weight:bold;
+		font-style: italic;
+	}
+
+	a.active:visited {
+		color: #C03029;
+		text-decoration: none;
+		font-weight:bold;
+		font-style: italic;
+	}
+
+	a.active:hover {
+		color: #333333;
+		text-decoration: underline;
+		font-weight:bold;
+		font-style: italic;
+	}
+
+	a.active:active {
+		color: #C03029;
+		text-decoration: underline;
+		font-weight:bold;
+		font-style: italic;
+	}
+
+	h2 {
+		color: #C03029;
+		font-size: 1.4em;
+		margin-top: 1em;
+	}
+
+	h3 {
+		color: #C03029;
+		font-size: 1.0em;
+	}
+
+	li {
+		padding: 0.1em;
+	}
+
+	.outer {
+		width: 78em;
+		margin: 0em auto;
+		text-align: left;
+		padding: 0.7em 0.7em 0.7em 0.7em;
+		background-color: #FFFFFF;
+		border: 0.08em solid #808080;
+		margin-top: 1em;
+		margin-bottom: 1em;
+	}
+
+	.note {
+		color: #C03029;
+		padding: 1em;
+		background-color: #DDD9D9;
+		font-style: italic;
+	}
+</style>
+</head>
+
+<body>
+<div class="outer">
+<h2>FB Alpha - What's New</h2>
+<p><a href="http://www.barryharris.me.uk">http://www.barryharris.me.uk</a><br />
+<a href="http://neosource.1emu.net/forums">http://neosource.1emu.net/forums</a></p>
+
+
+<h3>v0.2.97.23</h3>
+<ul>
+<li>Added clone of Caveman Ninja to the Data East drivers [JacKc, Corrado Tomaselli]</li>
+<li>Added bootleg of Side Pocket to the Data East drivers [Barry, Corrado Tomaselli]</li>
+<li>Allowed Neo Geo drivers to disable the watchdog reset, and used it to fix Neo Pong v1.0 which is now added to release builds [Barry]</li>
+<li>Changed the game selection dialog back to the old size and updated the dialog to be resizable [Barry]</li>
+<li>Fixed issue with disappearing preview images in game selection dialog when switching back to the window [Barry]</li>
+<li>Applied latest libsnes patches [Themaister]</li>
+<li>Standardised revision info in game titles [Barry]</li>
+<li>Made inclusion of png.h in burner.h optional in makefile via INCLUDE_LIB_PNGH flag [Barry]</li>
+<li>Updated the helpfile with the game selection dialog changes [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.22</h3>
+<ul>
+<li>Added support for 7z files for roms and samples [Barry]</li>
+<li>Added driver for Act Fancer [iq_132]</li>
+<li>Added driver for Gals Pinball [iq_132]</li>
+<li>Added driver for Momoko 120% [iq_132]</li>
+<li>Added clone of Final Fight to the CPS-1 driver JacKc, Bonky0013</li>
+<li>Added clone of Forgotton Worlds to the CPS-1 driver [JacKc, Bonky0013]</li>
+<li>Added clone of Street Fighter II to the CPS-1 driver [JacKc, Bonky0013]</li>
+<li>Added clone of Street Fighter II: Champion Edition to the CPS-1 driver [Barry]</li>
+<li>Added clone of Puzz Loop 2 to the CPS-2 driver [Barry]</li>
+<li>Added clone of Super Street Fighter 2 X to the CPS-2 driver, and added support for the graphic rom format it uses [Barry]</li>
+<li>Added clone of Vampire Hunter to the CPS-2 driver [Barry, JacKc]</li>
+<li>Added clone of Jojo's Venture to the CPS-3 driver [Barry]</li>
+<li>Added clone of Jojo's Bizarre Adventure to the CPS-3 driver [JacKc]</li>
+<li>Added bootleg of Eyes [iq_132]</li>
+<li>Added clone of X-Men to the Konami drivers [JacKc, Bonky0013]</li>
+<li>Added Super Bubble Pop to the Neo Geo driver (player 1 inputs don't work, hence debug only builds) [Barry, iq_132, JacKc]</li>
+<li>Added PCB version of Demon Front to the PGM driver (non-working, debug builds only) [JacKc]</li>
+<li>Added clone of Altered Beast to the Sega System 16B driver [Barry]</li>
+<li>Added bootleg of Silk Worm to the Tecmo driver [JacKc, Bonky0013]</li>
+<li>Changed CPS-1/2 palette handling to be more accurate, should fix some glitches [Barry]</li>
+<li>Changed CPS-2 video timing to use the values in MAME that have come from hardware measurements [Barry]</li>
+<li>Improved CPS-2 sprite list end detection [Barry]</li>
+<li>Moved the CpsGetObj() call, fixing sprite lag in Super Street Fighter II and clones [manliodp.]</li>
+<li>Fixed IRQ generation in the Irem M72 drivers, fixing video timing in Dragon Breed [Barry]</li>
+<li>Fixed sound in the Irem M72 drivers [Barry]</li>
+<li>Minor CPS-3 update with a small speedup [iq_132]</li>
+<li>Update the Mysterious Stones driver [iq_132]</li>
+<li>Removed duplicate set of Super Monaco Grand Prix [Barry]</li>
+<li>Added savestate support to the the OPL based sound cores (YM3812, YM3526 and Y8950) and interfaces [Barry]</li>
+<li>Removed previous attempt and added savestate support to the YM2413 core and interface [Barry]</li>
+<li>Added savestate support to the DEC-8 driver [Barry]</li>
+<li>Tidied and fixed Data East savestates where necessary [Barry]</li>
+<li>Fixed Sengoku 3 Unicode title (string wasn't terminated) [Barry]</li>
+<li>Moved the Pocket Gal Deluxe driver to the Data East filter [iq_132]</li>
+<li>Big-endian fixes for the new CPS-1/2 palette code, CPS-2 raster interrupts, Konami drivers and devices, PGM driver, some Misc drivers, Sega FD1089, Seta drivers, and Toaplan games that use the V25 CPU for sound [lantus]</li>
+<li>Fixed some invalid BRF_NODUMP definitions [Barry]</li>
+<li>Overhauled the cheat system [iq_132]</li>
+<li>Added overrides to allow drivers to exclude addresses from cheat searching, and used it to prevent a crash when searching for cheats in CPS Q-Sound games [Barry]</li>
+<li>Tidied the game selection dialog a bit, and changed the behaviour of "show available" to allow showing available and/or unavailable sets [Barry]</li>
+<li>Fixed TurboGrafx 16 games displaying as MVS cartridge hardware in the game selection dialog [iq_132]</li>
+<li>Added a Ctrl+W shortcut to close the current game [Barry]</li>
+<li>Made the cliprect for the OSD shortmsg wider, allowing more text to be displayed [Barry]</li>
+<li>Prevented the 68K debugger opening if the 68k interface is not in use [iq_132]</li>
+<li>Disabled menu item for 68k debugger if the 68k interface is not in use, and renamed the menu item to "Invoke 68k debugger" [Barry]</li>
+<li>Removed definition of LSB_FIRST in epx.cpp since it is now defined (or not) in the makefile [Barry]</li>
+<li>Fixed issue with definition of LSB_FIRST in makefile.mingw [Barry]</li>
+<li>Added libsnes target files [Themaister, twinaphex]</li>
+<li>Fixed some memory leaks and possible memory leaks [kev]</li>
+<li>Identified and fixed some out of bounds array issues [kev, iq_132]</li>
+<li>Updated the zlib library to v1.2.6 [Barry]</li>
+<li>Updated the libpng library to v1.5.8 [Barry]</li>
+<li>Matched all sets to MAME 0.145u3 [Barry]</li>
+<li>Matched the Megadrive sets to MESS 0.145u1 [Barry]</li>
+<li>Changed PC-Engine driver to be auto-generated from the MESS software list [Barry]</li>
+<li>Matched the PC-Engine sets to MESS 0.145u1 [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.21</h3>
+<ul>
+<li>Updated the H6280 core and interface to support multiple CPUs [iq_132]</li>
+<li>Added multiple-CPU support to debug tracking in the H6280 core and interface [Barry]</li>
+<li>Updated Final Romance 2 in the Neo Geo driver to use Razoola's updated version [Barry]</li>
+<li>Tidied World Cup '90 driver and fixed video timing and save states [Barry]</li>
+<li>Fixed negative sound samples causing an app crash in some PC-Engine games [lantus]</li>
+<li>Big-endian fixes for Capcom CPS-1/2/3, Cave, Irem, Psikyo and Megadrive drivers [lantus]</li>
+<li>Big-endian fixes for the NEC CPU core [lantus]</li>
+<li>Fixed excessive CPU usage when FB Alpha isn't doing anything [Barry]</li>
+<li>Fixed non-Ascii output in the gamelist translation template export [doomking]</li>
+<li>Hopefully fixed gamelist translation on Chinese systems [Barry]</li>
+<li>Changed gamelist localisation to use the system codepage by default [Barry]</li>
+<li>Some small localisation fixes [Barry, reported by Benjamin Siskoo]</li>
+<li>Reduced the OSD text size to fit in the cliparea [Barry]</li>
+<li>Fixed dat file writing from the command-line and added command-line options for PC-Engine dats, as found by MSVC SYMBOL build [Barry]</li>
+<li>Fixed bug in game selection dialog with not allocating enough memory for gamenames when scanning sets [Barry]</li>
+<li>Updated the default rom path to be the last path again (ie, 20 instead of 8) [Barry]</li>
+<li>Updated helpfile with command-line changes [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.20</h3>
+<ul>
+<li>Fixed a possible crash when scanning roms (seemed to affect x64 builds) [Barry]</li>
+<li>Updated dat handling to support PC-Engine console (completely forgot for the last release) [Barry]</li>
+<li>Updated help file [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.19</h3>
+<ul>
+<li>Fixed the issue in the H6280 core [Barry]</li>
+<li>Updated H6280 core with some fixes from MAME versions newer than the original core port [iq_132]</li>
+<li>Added H6280 support to the YM3812 core [Barry]</li>
+<li>Ported C6280 sound core from MAME for PC-Engine driver [iq_132]</li>
+<li>Added a driver for PC-Engine/TurboGrafx 16/SuprGrafx console hardware [iq_132]</li>
+<li>Added driver for Blomby Car [Barry]</li>
+<li>Added driver for Jackie Chan [iq_132]</li>
+<li>Added driver for Side Pocket [Barry]</li>
+<li>Added driver for games on Terra Cresta hardware [Barry]</li>
+<li>Added clone of Street Fighter III 3rd Strike to the CPS-3 driver [Barry]</li>
+<li>Added Boulder Dash, Hippodrome Midnight Resistance and Sly Spy to the DEC0 driver [Barry]</li>
+<li>Added Heavy Metal to the Sega System 1 driver [Barry]</li>
+<li>Fixed non-bootleg version of Robocop, and added all clones to the DEC0 driver [Barry]</li>
+<li>Fixed Caveman Ninja and Edward Randy in the DECO 16 drivers and enabled in release builds [Barry]</li>
+<li>Added full sound to all the DECO16 drivers now that the H6280 core works [Barry]</li>
+<li>Fixed crash when loading in the Konami Twin16 driver [Barry]</li>
+<li>Fixed loading of UPD7759 samples in Gradius2 in the Konami Twin16 driver [Barry]</li>
+<li>Fixed Naname de Magic! in the Oh My God! driver and enabled in release builds [Barry]</li>
+<li>Fixed missing ADPCM sounds in Superman in the Taito X driver [Barry]</li>
+<li>Updated PC-Engine driver to use the same zip names as the MESS software lists, similar to the Megadrive support (see help file for more info) [Barry]</li>
+<li>Fixed row and column scroll in the DEC-0 driver, and added support for Tile Ram Banking [Barry]</li>
+<li>Reverted the CPS-2 VBlank IRQ timing change from the last version, it broke raster effects [Barry]</li>
+<li>Fixed savestates in the Batrider driver [Barry]</li>
+<li>Fixed savestates in the Cave drivers where necessary [Barry]</li>
+<li>Added savestate support to the Double Dragon driver [Barry]</li>
+<li>Fixed savestates in the News driver [Barry]</li>
+<li>Fixed savestates in the Sega System 1 driver where necessary [Barry]</li>
+<li>Fixed savestates in the Sega System 16 and similar drivers where necessary [Barry]</li>
+<li>Added savestate support to the HD6309 interface [Barry]</li>
+<li>Fixed savestates in the I8039 core [Barry]</li>
+<li>Fixed savestates in the DAC sound core [Barry]</li>
+<li>Fixed savestates in the Q-Sound sound core [Barry]</li>
+<li>Added savestate support to the RF5C68PCM sound core [Barry]</li>
+<li>Fixed savestates in the SegaPCM sound core [Barry]</li>
+<li>Fixed savestates in the SN76496 sound core [Barry]</li>
+<li>Fixed bug in the YM2151 interface when enabling FM interpolation [Barry]</li>
+<li>Added volume control to the SN76496 core and normalised sound in drivers which were too loud [Barry]</li>
+<li>Added support for up to 20 rom paths, with the last ten being supplementary [Barry]</li>
+<li>Added filter for PC-Engine to game selection dialog [Barry]</li>
+<li>Added support to disable __fastcall in the vez interface via the FASTCALL makefile flag [Barry]</li>
+<li>Added support for localising the gamelist (see the help file for more information) [Barry]</li>
+<li>Readded Captain CPS's game selection dialog icon support [Barry, CaptainCPS]</li>
+<li>Fixed various localisation issues [Barry, reported by Benjamin Siskoo]</li>
+<li>Updated the help file [Barry]</li>
+<li>Split makefile.rules into makefile.burn_rules and makefile.burner_win32_rules [Barry]</li>
+<li>Reorganised the tree to work around the Windows CreateProcess 32Kb limit [Barry]</li>
+<li>Tidied the tree enough for FB Alpha to compile on Ubuntu 11.10 (linking fails) [kev]</li>
+<li>Added old code from an unreleased PSP port, including the MIP A68K module [kev]</li>
+<li>Added the required D3D headers from previous SDKs to the dec/vc/include folder [Barry]</li>
+<li>Fixed some warnings thrown up by symbol builds in different compilers [Barry]</li>
+<li>Fixed some dialog initial path issues [Barry]</li>
+<li>Matched all sets to MAME 0.144u6 [Barry]</li>
+<li>Matched the Megadrive sets to MESS 0.144u5 [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.18</h3>
+<ul>
+<li>Added driver for Lemmings [iq_132]</li>
+<li>Added support for trackball in Lemmings [Barry]</li>
+<li>Added driver for Pac-Land [iq_132]</li>
+<li>Added driver for games on Psikyo4 hardware [iq_132]</li>
+<li>Added driver for games on Rabbit Punch hardware [iq_132]</li>
+<li>Added a preliminary driver for SNES hardware, enabled in debug builds only [kev]</li>
+<li>Changed CPS-3 driver to use MAME flash dumps, and added verification for CPS-3 driver back to ROM_VERIFY dat [Barry, suggested by Haze]</li>
+<li>Added preliminary Puzzli2 protection simulation and removed the patches from the PGM driver [iq_132]</li>
+<li>Delayed the VBlank IRQ in the CPS-2 driver to part through the VBlank period, fixes disappearing text in the Dungeons & Dragons games [Barry]</li>
+<li>Added sound to fantzonep in the Sega System 16A driver [Barry]</li>
+<li>Improved IRQ timing in Sega System Y driver [Barry]</li>
+<li>Reduced the volume of some CPS-2 games that were too loud [Barry]</li>
+<li>Fixed sound in Konami drivers which weren't generating enough IRQs per frame to drive the sound [Barry]</li>
+<li>Fixed a bug in the K052360 sound core, fixes Parodius booting [Barry]</li>
+<li>Fixed inputs in Dream Land in the Bubble Bobble driver [Barry]</li>
+<li>Fixed Rambo III in the Taito B driver [Barry]</li>
+<li>Fixed default dips in Yes/No Sinri Tokimeki Chart in the Taito F2 driver [Barry]</li>
+<li>Tidied the CPS-1, CPS-2, Galaxian, Irem, Konami, Neo Geo, Sega and Taito drivers [Barry]</li>
+<li>Changed the Zet interface to initialise a single CPU at a time, updated all affected drivers [iq_132]</li>
+<li>Made sure the BurnYM2151 handlers are NULLed on exit [Barry]</li>
+<li>Incorporated endian fixes from FBANext for various CPU cores and interfaces, as well as the CPS-3, Neo Geo, Psikyo, Sega, Taito and Toaplan drivers [Barry, FBANext by Lantus]</li>
+<li>Added support for various MAME graphics decoding macros [iq_132]</li>
+<li>Added some Unicode titles to the PGM driver [JacKc]</li>
+<li>Fixed various localisation issues [Barry, reported by Benjamin Siskoo]</li>
+<li>Changed default of the "Don't change Num Lock status" option to on [Barry]</li>
+<li>Added SDL audio, input and video plugins so I can re-port to SDL [kev]</li>
+<li>Moved the burner/win32 folder to burner/platform/win32 [kev]</li>
+<li>Changed interface directory layout [kev]</li>
+<li>Changed the path handling to be more portable (changed // to \) [kev]</li>
+<li>Updated unzip.c to the latest version [kev]</li>
+<li>Improved the gamelist filter functionality and added support for Capcom (Other), Data East, Seta, SNES and Technos filters, updating relevant drivers [Barry]</li>
+<li>Moved any Irem, Kaneko, Sega, Taito or Toaplan drivers in the misc filters to the relevant filter [Barry]</li>
+<li>Moved Konami drivers from misc to the Konami filter [iq_132]</li>
+<li>Added defines for _XBOX headers and plugins in the burner and interface folders [Barry]</li>
+<li>Reduced the optimisation levels for GCC 3.4.5 to match other GCC builds, fixed some warnings that are now generated by GCC 3.4.5 [Barry]</li>
+<li>Matched all sets to MAME 0.144u4 [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.17</h3>
+<ul>
+<li>Fixed various localisation issues [Barry, reported by Benjamin Siskoo]</li>
+<li>Fixed some dipswitch descriptions in Boogie Wings and Major Title 2 [doomking]</li>
+<li>Fixed CRC error in CPS Changer version of Warriors of Fate [pmc2]</li>
+<li>Fixed Unicode title for Japanese versions of Dynasty Wars [kof2112]</li>
+<li>Fixed Unicode title for Japanese versions of Warriors of Fate [DsNo]</li>
+</ul>
+
+
+<h3>v0.2.97.16</h3>
+<ul>
+<li>Added driver for Super Locomotive [iq_132]</li>
+<li>Added clone of Warriors of Fate to the CPS-1 driver [Barry]</li>
+<li>Added Bygone to the Legend of Kage driver [iq_132]</li>
+<li>Added colour PROMs to Birdiy in Pacman driver [iq_132]</li>
+<li>Fixed spriteram2 mapping and sprite rendering in Birdiy in Pacman driver [Barry]</li>
+<li>Added correct dumps to kovsgqyz and kovsgqyza in the PGM driver [iq_132]</li>
+<li>Added clone of kovsgqyz to the PGM driver [iq_132]</li>
+<li>Fixed character selection screen in kovsgqyz and clones in the PGM driver [iq_132]</li>
+<li>Improved PGM sprite rendering [iq_132]</li>
+<li>Added PGM sprite generator to makefiles [Barry]</li>
+<li>Made V3021 RTC an external device, seperate from the PGM driver [iq_132]</li>
+<li>Removed Street Fighter II' - champion edition (street fighter 2' 920803 USA, alt) as it is a bad dump [Barry]</li>
+<li>Fixed some input and dip switch issues in the Bank Panic driver [Barry]</li>
+<li>Added a debug device tracking module and updated all device, sound and CPU modules to support it [Barry]</li>
+<li>Tidied all drivers in the cave, cps-3, megadrive, pgm, psikyo and toaplan folders, and updated to use Burn Memory module, as well as correcting any issues reported by debug tracker [Barry]</li>
+<li>Updated M6502 CPU core interface to allocate memory rather than use an array [iq_132]</li>
+<li>Updated Vez CPU core interface to allocate memory rather than use an array, and added support for auto-acknowledging IRQs [iq_132]</li>
+<li>Fixed crash when taking screenshots of vertical or flipped games using blitters other than the D3D enhanced blitter [Barry]</li>
+<li>Added option to DirectDraw blitter to force flipping as it isn't usually detected as available, see help file for more information [Barry]</li>
+<li>Fixed issue with string translation in localisation templates [Barry, doomking]</li>
+<li>Fixed issue with exporting localisation templates in GCC builds [Barry, doomking]</li>
+<li>Converted all the outstanding hard-coded strings I could see to translatable strings, let me know if you see any untranslatable strings [Barry]</li>
+<li>Tidied the string resource ids to minimise future impact on translators [Barry]</li>
+<li>Updated help file [Barry]</li>
+<li>Matched all sets to MAME 0.144u3 [Barry]</li>
+<li>Matched the Megadrive sets to MESS 0.144u3 [Barry]</li>
+<li>Updated the libpng library to v1.5.6 [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.15</h3>
+<ul>
+<li>Fixed missing menu in Windows XP [CaptainCPS, doomking]</li>
+<li>Fixed Neo Geo CD dialog game scanning timeout [CaptainCPS]</li>
+<li>Better organised the Neo Geo menu items [CaptainCPS]</li>
+</ul>
+
+
+<h3>v0.2.97.14</h3>
+<ul>
+<li>Ported the V20/V30/V33/V25/V35 CPU core from MAME [iq_132]</li>
+<li>Updated Vez interface to support above CPU core port [iq_132]</li>
+<li>Updated the M72, M90, Dynamite Duke and Raiden drivers to support the new Vez interface [iq_132]</li>
+<li>Added sound support to the V25 based Toaplan drivers Batsugun, Dogyuun, Knuckle Bash and Grind Stormer [iq_132]</li>
+<li>Added Risky Challenge and Gussun to release builds [iq_132]</li>
+<li>Ported the M6502 CPU core from MAME, and added an interface for it, replacing the old core [Barry]</li>
+<li>Enabled the sub-CPU types in the M6502 CPU Core and added support for them in the interface [iq_132]</li>
+<li>Added support for the new M6502 core to the Renegade driver, fixing some graphic issues [Barry]</li>
+<li>Added support for the new M6502 core to the DEC-8 driver, adding sound to all games [Barry]</li>
+<li>Added support for the new M6502 core to the Karnov driver, adding sound to all games [Barry]</li>
+<li>Updated the Gauntlet, Mole Attack, Mysterious Stones and Scrambled Egg drivers to support the new M6502 core [Barry]</li>
+<li>Added SAA1099 sound core module and added support to the XOR World driver which now has sound [iq_132]</li>
+<li>Added support to the DAC module for up to eight DACs [Barry]</li>
+<li>Added BURN_SND_CLIP macro [Barry]</li>
+<li>Fixed rendering MSM6295 sound in Seibu sound module [Barry]</li>
+<li>Added Neo Geo CD Load Game dialog [CaptainCPS]</li>
+<li>Integrated the Neo Geo CD Load Game dialog with the rest of the application and fixed several x64 issues [Barry]</li>
+<li>Removed the BurnMedia functionality since it is replaced by the Neo Geo CD id module, and updated all drivers to reflect the new structure [Barry]</li>
+<li>Changed the burn, burn/devices, burn/drivers, burn/sound, burner and interface folders to use defined variable types, allowing better control for ports to other architectures [Barry]</li>
+<li>Changed the CPU interfaces to use defined variable types [Barry]</li>
+<li>Fixed the source code tree to build with MinGW64 and GCC 4.6.1 allowing MinGW to build x86 and x64 builds [Barry]</li>
+<li>Consolidated the mingw345 and mingw452 makefiles, and added support for GCC 4.6.1 to the makefile [Barry]</li>
+<li>Moved the rules to makefile.rules and included makefile.rules in the mingw and vc makefiles [Barry]</li>
+<li>Moved some win32 specific stuff from burner.h to burner_win32.h [kev]</li>
+<li>Some 64-bit code fixes [TheMaister]</li>
+<li>Changed the DirectX support to load the functions at runtime, removing the need for linking to the libraries [CaptainCPS]</li>
+<li>Added support for building the experimental DirectX9 blitter and xAudio2 module with MinGW [CaptainCPS]</li>
+<li>Tidied the DirectX changes to compile cleanly [Barry]</li>
+<li>Added an alternative DirectX 9 blitter written by regret and modified it to work with FB Alpha [Barry, regret]</li>
+<li>Added driver for Dragon Ninja, Heavy Barrel and Robocop on DEC-0 hardware [Barry]</li>
+<li>Added bootleg of Knights of the Round to the CPS-1 driver [Barry, JacKc]</li>
+<li>Added clone of Pang 3 to the CPS-1 driver [Barry]</li>
+<li>Added clone of Street Fighter II Champion Edition to the CPS-1 driver [Barry]</li>
+<li>Added clone of Cobra Command to the DEC-8 driver [Barry]</li>
+<li>Added clone of Puckman to the Pacman driver [JacKc]</li>
+<li>Improved the asic27_kov protection simulation, allowing Knights of Valour: SanGuo QunYingZhuan / Sangoku Senki: SanGuo QunYingZhuan to work, albeit with incorrect roms due to rom-hoarding [iq_132]</li>
+<li>Added clone of Ninja Warriors to the Taito drivers [JacKc]</li>
+<li>Added Fix Eight to the Toaplan drivers [iq_132]</li>
+<li>Added Ghox to the Toaplan drivers [iq_132]</li>
+<li>Added support for the analog paddle in Ghox [Barry]</li>
+<li>Added clone of Alien Storm to the Sega System 18 driver [JacKc]</li>
+<li>Added clone of JJ Squakwers to the Seta driver [JacKc]</li>
+<li>Added clone of Ikari III to the SNK68 driver [JacKc]</li>
+<li>Added Pipi & Bibis to the Toaplan drivers [iq_132]</li>
+<li>Cleaned up 1945K-III driver and added support for generic rendering [iq_132]</li>
+<li>Cleaned up the 4 Enraya driver and added support for 'unknown Pacman gambling game' [iq_132]</li>
+<li>Fixed sound in Aquarium driver [Barry]</li>
+<li>Fixed sound in Armed Formation driver [Barry]</li>
+<li>Fixed crash in the Baraduke driver [Barry]</li>
+<li>Fixed Saturn in the Blue Print driver [Barry]</li>
+<li>Fixed sound in Caveman Ninja bootleg in the Caveman Ninja driver [Barry]</li>
+<li>Fixed crash when exiting CPS-1 drivers [Barry]</li>
+<li>Fixed sound in SD Gundam Psycho Salamander no Kyoui in D-Con driver [Barry]</li>
+<li>Fixed coin inputs in Garyoret in the DEC-8 driver [Barry]</li>
+<li>Fixed an app crash in the Garyoret and Gondo drivers in the DEC-8 driver [Barry]</li>
+<li>Fixed orientation in Last Mission in the DEC-8 driver [Barry]</li>
+<li>Fixed Shackled in the DEC-8 driver [Barry]</li>
+<li>Corrected main and sub CPU clocks in the Double Dragon driver [Barry]</li>
+<li>Fixed music tempo in Double Dragon [Barry]</li>
+<li>Improved the volume balance between the YM2151 and the MSM5205's in the Double Dragon driver [Barry]</li>
+<li>Added overclocking support to the Double Dragon driver [Barry]</li>
+<li>Improved video timing and sound balance in the Exed Exes driver [Barry]</li>
+<li>Added sample support to the Galaga driver [Barry]</li>
+<li>Fixed sound in Got-cha Mini Game Festival [Barry]</li>
+<li>Fixed clone of Gyrodine in the Kyugo driver [Barry]</li>
+<li>Fixed orientation of vertical games in the Lady Bug driver [Barry]</li>
+<li>Fixed bootleg of Legend of Kage in the Legend of Kage driver [Barry]</li>
+<li>Added ADPCM sound to Avengers and Trojan in the Legendary Wings driver [Barry]</li>
+<li>Fixed music tempo in the M92 driver [Barry]</li>
+<li>Fixed crash in Magical Cat Adventure driver [Barry]</li>
+<li>Added support for second DAC in Mogua Desse driver [Barry]</li>
+<li>Fixed sound in Mug Smashers driver [Barry]</li>
+<li>Added support for the NeoOpen BIOS v0.1 beta to the NeoGeo driver [Barry]</li>
+<li>Fixed driver reset in Task Force Harrier in the NMK16 driver [Barry]</li>
+<li>Fixed sound in the Afega games in the NMK16 driver [Barry]</li>
+<li>Fixed music tempo in Macross 2 and Thunder Dragon in the NMK16 driver [Barry]</li>
+<li>Big cleanup of the Pacman driver, adding support for Pengo and a few clones [iq_132]</li>
+<li>Fixed orientation of all games in the Pacman driver [Barry]</li>
+<li>Fixed Paint Roller in the Pacman driver and added to release builds [Barry]</li>
+<li>Fixed inputs in Ponpoko in the Pacman driver [Barry]</li>
+<li>Fixed Woodpecker (set 2) in the Pacman driver and added to release builds [Barry]</li>
+<li>Fixed sound in Pass driver [Barry]</li>
+<li>Fixed sound in Power Instinct (bootleg set 2) [Barry]</li>
+<li>Fixed service mode dips in Pushman driver [Barry]</li>
+<li>Fixed crash in Pushman (Korea, set 2) [Barry]</li>
+<li>Added Rally X to release builds since I obviously forgot when I wrote the driver! [Barry]</li>
+<li>Emulated the MCU in the Renegade driver [Barry]</li>
+<li>Emulated the custom ADPCM sound in the Renegade driver [Barry]</li>
+<li>Fixed DAC sound in Route 16 driver [Barry]</li>
+<li>Added NVRAM saving in the Seta 2 driver, meaning that gun callibrations are stored when exiting [Barry]</li>
+<li>Fixed clone of Joe & Mac Returns in Simple 156 driver [Barry]</li>
+<li>Fixed sound in SUNA16 driver [Barry]</li>
+<li>Fixed Get Star (bootleg set 1) in Tiger Heli driver [Barry]</li>
+<li>Emulated MCU in non-bootleg versions of Alcon and Slapfight in Tiger Heli drivers which are now working [Barry]</li>
+<li>Simulated MCU in non-bootleg version of Get Star in Tiger Heli driver which is now working [Barry]</li>
+<li>Added clone of Get Star to the Tiger Heli driver [Barry]</li>
+<li>Added ADPCM sound to Toramich in the Tiger Road driver [Barry]</li>
+<li>Fixed DAC sound in Kabuki-Z in the TNZS driver [Barry]</li>
+<li>Fixed inputs and added sound in bootleg of Toki in the Toki driver [Barry]</li>
+<li>Fixed sound in Jumping Pop in Tumble Pop bootleg driver [Barry]</li>
+<li>Fixed sound in Buccaneers and Kickle Cubele in the Vigilante driver [Barry]</li>
+<li>Fixed orientation in Vulgus [Barry]</li>
+<li>Fixed WWF WrestleFest (US bootleg) in WWF Wrestlefest driver [Barry]</li>
+<li>Fixed sound in Magic Bubble in the Yun Sung 16 driver [Barry]</li>
+<li>Fixed a crash when starting the Neo Geo driver from the command-line [Barry]</li>
+<li>Removed a 64Mb rom limit on Neo Geo sprite ROM size, fixing kof98ae and maybe some others [Barry]</li>
+<li>Fixed an app crash when exiting drivers using the taito_m68705 module [Barry]</li>
+<li>Moved Atari and Kaneko16 into the misc categories and added a category for Irem to the game selection dialog [Barry]</li>
+<li>Fixed nullifying pointers in BurnFree in the Burn memory module [Barry]</li>
+<li>Tidied all drivers in the misc_post90s and misc_pre90s folders, and updated to use Burn Memory module and BURN_SND_CLIP macro [Barry]</li>
+<li>Moved Kaneko Pandora code to it's own file [Barry]</li>
+<li>Moved Air Buster driver to misc_post90s folder [Barry]</li>
+<li>Changed sega_decode_317 in the System1 driver to support external use and removed the duplicated code in the Angel Kids driver [Barry]</li>
+<li>Matched all sets to MAME 0.144u1 [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.13</h3>
+<p>This version features what is effectively a new Neo Geo driver. The emulation should be at least as good as before, but now with added support for MVS Multislot and Neo Geo CD. The Neo Geo CD support is preliminary at this stage, compatibility is pretty good, but some games don't work currently.</p>
+<ul>
+<li>Neo Geo Updates<ul>
+<li>Added support for Neo Geo MVS multi-slot emulation and Neo Geo CDZ [Barry, heavily based on some old code from Jan_Klaassen]</li>
+<li>Changed the ISO+MP3 CD Interface module to ISO+WAV [CaptainCPS]</li>
+<li>Added some demo roms to the Neo Geo driver [Barry]</li>
+<li>Added support for the prototype sprite roms to the Neo Geo driver [Barry]</li>
+<li>Fixed text layer tiles in kof10th [iq_132]</li>
+<li>Added a hack to the sprite routines for Samurai Shodown RPG text boxes [iq_132]</li>
+<li>Added prototype of Alpha Mission II to the Neo Geo driver [Barry]</li>
+<li>Added prototype of Burning Fight to the Neo Geo driver [Barry]</li>
+<li>Added prototype of King of the Monsters 2 to the Neo Geo driver [Barry, JacKc]</li>
+<li>Fixed "most recent games" list when using Neo Geo multi-slot [Barry]</li>
+<li>Added a module to identify Neo Geo CD games [CaptainCPS]</li>
+</ul></li>
+<li>Ported H6280 CPU Core from MAME [iq_132]</li> 
+<li>Added module to support vector games [iq_132]</li>
+<li>Added driver for Aztarac [iq_132]</li>
+<li>Hooked up analog joystick and dial in Aztarac driver [Barry]</li>
+<li>Added driver for games on Data East DECO16 hardware [iq_132]</li>
+<li>Added clone of Guwange to the Cave driver [Barry]</li>
+<li>Added alternate bootleg of Street Fighter II - champion edition Accelerator! to the CPS-1 driver [JacKc]</li>
+<li>Added two clones of Battle Shark to the Taito-Z driver [Barry]</li>
+<li>Updated all source code with checks for memory used before freeing and NULLing all allocated memory after freeing [Barry]</li>
+<li>Optimised the Irem GA20 sound core [iq_132]</li>
+<li>Changed the MS5205 stream buffer allocation to account for differing refresh rates, fixing the crash in the Double Dragon driver when exiting games [Barry]</li>
+<li>Fixed some stability issues in the Cave drivers [Barry]</li>
+<li>Fixed inputs in Robocop 2 in the DECO16 driver [Barry]</li>
+<li>Fixed savestate support in the Taito-Z driver when no Z80 is present [Barry]</li>
+<li>Fixed an issue where the state of Tatio games was being auto-saved when it shouldn't be [Barry]</li>
+<li>Fixed screen clear code in Toaplan-1 games [Barry]</li>
+<li>Fixed Sound Error in Battle Bakraid [Barry]</li>
+<li>Fixed some stability issues in the Toaplan drivers [Barry]</li>
+<li>Fixed dat file generation module to output the html entities for the characters &lt;&gt; [Barry]</li>
+<li>Updated the description tag of the generated dat files to identify between arcade and Megadrive [Barry]</li>
+<li>Fixed some duplicate game descriptions [Barry]</li>
+<li>Removed a duplicate set of Demon World from the driver [Barry]</li>
+<li>Removed bioses from the driver count in the game selection dialog [Barry]</li>
+<li>Changed the background colour of clones in the game selection dialog to make them stand out a little bit more [Barry]</li>
+<li>Matched all sets to MAME 0.143u9 [Barry]</li>
+<li>Matched the Megadrive sets to MESS 0.143u8 [Barry]</li>
+<li>Updated the help file to reflect above changes [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.12</h3>
+<p><b>Note:</b> This version has some changes to the Megadrive driver. The driver is now based on the MESS software list.</p>
+<p>The game shortnames are prepended by <i>md_</i> to differentiate them from the arcade games where conflicts occur. FB Alpha will look for your roms in the normal zip names, you do <b>not</b> need to create a new copy of the games and prepend <i>md_</i>. It is advisable to have the Megadrive roms in the seventh or eighth rom paths to avoid conflicts with arcade games. Support files will need to retain the <i>md_</i> in order to avoid conflicts, however.</p>
+<p>All Megadrive games are now enabled (except for Virtua Racing because the SVP isn't emulated), most should work, however, some may not.</p>
+<ul>
+<li>Megadrive Changes</li><ul>
+<li>Updated Megadrive driver based on MESS 0.143u7 software list [Barry]</li>
+<li>Made the seventh rom path special like the eighth one so that Megadrive roms can be stored in one of the last two paths and still allow supplementary FB Alpha roms to be in a seperate path [Barry]</li>
+<li>Made the short name in the game selection dialog slightly longer to accomodate the Megadrive short names [Barry]</li>
+<li>Increased the maximum number for sek handlers to 10 [Barry]</li>
+<li>Added better SRAM support and support for custom mappers as per MESS [Barry]</li>
+<li>Removed menu option for making a datfile with both arcade games and Megadrive games, the two would conflict, and arcade and Megadrive dats need to be handled seperately [Barry]</li>
+<li>Updated the dat file creation module to remove the <i>md_</i> from the Megadrive shortnames [Barry]</li>
+</ul>
+<li>Added clone of Aquajack to the Taito-Z driver [Barry]</li>
+<li>Added clone of Vigilante to the Vigilante driver [Barry]</li>
+<li>Fixed music tempo and continuity in Item M90 and M92 drivers [iq_132]</li>
+<li>Added option to the YM2413 to decrease volume and used it to correct sound in the Mitchell driver [Barry]</li>
+<li>Fixed the gun inputs in Zombie Raid [Barry]</li>
+<li>Fixed the support file path creation for the IPS folders on app init [Barry]</li>
+<li>Fixed immediate update of Apply Patches checkbox in game selection dialog when applying IPS Patches [Barry]</li>
+<li>Added ability to search the drivers short name as well as the description in the Game Selection dialog [Barry]</li>
+<li>Made the Game Selection dialog search interactive and removed the Search button [Barry]</li>
+<li>Made the Game Selection dialog choose the current loaded game if a game is currently loaded [Barry]</li>
+<li>Fixed crash when (de)selecting auto-frameskip and using the DirectSound audio module [Barry]</li>
+<li>Restored the uxtheme style for the application [Barry]</li>
+<li>Matched all sets to MAME 0.143u7 [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.11</h3>
+<ul>
+<li>Readded the IPS Manager functionality, updating it to support x64 and the new PNG routines [Barry]</li>
+<li>Added a search option to the Game Selection dialog [Barry]</li>
+<li>Updated the help file to reflect above changes [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.10</h3>
+<ul>
+<li>Redesigned the game selection dialog [Barry]</li>
+<li>Added a dialog to view roms and/or samples required by a driver to the game selection dialog [Barry]</li>
+<li>Removed the incomplete Neo Geo multi-slot implementation [Barry]</li>
+<li>Removed the "save decrypted C roms" functionality [Barry]</li>
+<li>Removed the jukebox functionality and resources [Barry]</li>
+<li>Removed support for datfiles other than the latest ClrMAME format [Barry]</li>
+<li>Removed the package importer and resources [Barry]</li>
+<li>Removed the menu themes and resources [Barry]</li>
+<li>Removed skins and resources [Barry]</li>
+<li>Removed the gamelist translation module and resources [Barry]</li>
+<li>Removed icons support and resources [Barry]</li>
+<li>Removed the favourites functionality and resources [Barry]</li>
+<li>Removed the context menu from the game selection dialog [Barry]</li>
+<li>Removed IPS Patch functionality and resources [Barry]</li>
+<li>Removed the game information dialog and resources [Barry]</li>
+<li>Removed unneeded support file paths and resources [Barry]</li>
+<li>Removed IPS Patch functionality and resources [Barry]</li>
+<li>Restructured source code and removed any unneeded modules [Barry]</li>
+<li>Removed PNGlib and updated preview loading code to use libPNG [Barry, heavily based on some old code from Jan_Klaassen]</li>
+<li>Updated preview loading code to allow interpolation on resizing [Barry, heavily based on some old code from Jan_Klaassen]</li>
+<li>Fixed the localisation template support [Barry]</li>
+<li>Tidied up the resource files [Barry]</li>
+<li>Added flag to the makefile allowing X86 assembly code to not be built, and added support in the code to not build X86 assembly when defined [Barry]</li>
+<li>Fixed sound rendering in the YM2151 module when not using the MMX routines [Barry]</li>
+<li>Tidied up the source code to compile with Microsoft tools when building in an X64 environment [Barry]</li>
+<li>Added an option in the makefile to build an X64 binary, and updated the VC makefile and source code to support it [Barry]</li>
+<li>Added ability to change the volume of the YM2203 module and used it to bring down the volume in the 1943 driver [Barry]</li>
+<li>Fixed FM Interpolation rendering routine in the YM2203 module [Barry]</li>
+<li>Added support for the YM2610 module to mix the sounds into one stream (mono) and updated the Bonze Adventure, Darius 2, Operation Thunderbolt, Taito-B, Taito-Z and Welltris drivers to use it [Barry]</li>
+<li>Added Super Chase to release builds as it works fine except for sound [Barry]</li>
+<li>Fixed missing sounds in the 1943 driver [Barry]</li>
+<li>Disabled the corrupt boot screen in Last Hope in the Neo Geo driver [Barry, with info from Johnboy]</li>
+<li>Corrected default dip values in the PS2 datafile System 16B version of Bloxeed [Barry]</li>
+<li>Fixed some rom sizes in the Irem M72 driver [Barry]</li>
+<li>Updated the help file based on the above feature cull [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.09</h3>
+<ul>
+<li>Ported the ARM CPU core from MAME [iq_132]
+<li>Ported the MSM5205 sound core from MAME, replacing the old core [iq_132]<ul>
+<li>Updated the Asuka driver to use it [Barry]</li>
+<li>Updated the Double Dragon driver to use it [Barry]</li>
+<li>Updated the Street Fighter driver to use it [iq_132]</li>
+<li>Updated the Taito Misc driver to use it, giving ADPCM sound in Darius [Barry]</li>
+<li>Updated the Tecmo driver to use it [Barry]</li>
+</ul></li>
+<li>Ported the ES8712 sound core from MAME [iq_132]</li>
+<li>Updated the TMZ280B core to support missing sound modes [iq_132]</li>
+<li>Tidied up the samples interface [Barry]<ul>
+<li>Updated the DrvBurnStruct to support sample filename, and sample lists</li>
+<li>Updated the sample module initialisation to use the BurnSampleInfo struct</li>
+<li>Updated the Rally X driver to use the new code</li>
+<li>Added the sample path to the Support Path dialog and the config file making it configurable</li>
+<li>Added a Sample Info tab to the game information dialog</li>
+<li>Added "uses samples from" info to the game information, game selection, and jukebox dialogs</li>
+<li>Added sample support to the dat file writing module</li>
+</ul></li>
+<li>Updated the zlib library to v1.2.5 [Barry]</li>
+<li>Updated the libpng library to v1.5.4 [Barry]</li>
+<li>Added regret's DirectInput8 module and updated it for FB Alpha, replacing the DirectInput7 module [Barry]</li>
+<li>Removed dependency on dxguid lib since it is no longer available [Barry]</li>
+<li>Added ability to compile without A68K, definable via BUILD_A68K makefile option [Barry]</li>
+<li>Rewrote the Taito TC0100SCN module and updated all the drivers that used it, adding support for multiple screens and hopefully making it faster [Barry]</li>
+<li>Added double width support to the TC0480SCP module [Barry]</li>
+<li>Added multiple chip support to the PC080SN module [Barry]</li>
+<li>Fixed sprite rendering order in Warrior Blade [Barry]</li>
+<li>Added a memory management module to the burn library [iq_132]</li>
+<li>Added support to the generic tiles module to decode single tiles [Barry]</li>
+<li>Reduced the volume in the K053260 core to remove distortion and corrected the left and right channels [Barry, reported by Huggybaby]</li>
+<li>Fixed Loop Address in Sega PCM Module, as per MAME 0.141u1, fixing sound in Super Monaco Grand Prix [Barry]</li>
+<li>Added driver for Backfire [iq_132]</li>
+<li>Added driver for Chack'n Pop [iq_132]</li>
+<li>Added driver for Darius II (dual screen) and Warrior Blade [Barry]</li>
+<lI>Added driver for games on Data East Simple 156 System hardware [iq_132]</li>
+<li>Added driver for Dynamite Duke [iq_132]</li>
+<li>Added driver for games on Gaelco hardware [iq_132]</li>
+<lI>Added driver for games on Irem M62 hardware [Barry]</li>
+<lI>Added driver for games on Irem M63 hardware [iq_132]</li>
+<lI>Added driver for games on Irem M72 hardware [iq_132]</li>
+<li>Added driver for games on Irem M90 hardware, replacing old driver [iq_132]</li>
+<li>Added driver for games on Irem M92 hardware, replacing old driver [iq_132]</li>
+<li>Added driver for Lord of Gun and Alien Challenge [iq_132]</li>
+<li>Added driver for Marine Boy [kenshiro]</li>
+<li>Added driver for Operation Thunderbolt [Barry]</li>
+<li>Added driver for Pocket Gal Deluxe [iq_132]</li>
+<li>Added Cave games to the PGM driver and made other improvements to the driver [iq_132]</li>
+<li>Added some non-working clones to the PGM driver [JacKc]</li>
+<li>Added driver for the S2650 based Pacman games [iq_132]</li>
+<li>Added Fantasy Zone 2 to the Sega System 16B driver [Barry]</li>
+<li>Added driver for games on Seta hardware [iq_132]</li>
+<li>Added driver for Success Joe [iq_132]</li>
+<li>Added driver for games on Taito-B hardware [iq_132]</li>
+<li>Added driver for games on Tecmo System hardware [iq_132]</li>
+<li>Added driver for Varia Metal [iq_132]</li>
+<li>Added driver for World Cup '90 bootleg hardware [Barry]</li>
+<li>Added driver for Xor World [iq_132]</li>
+<li>Added The Pit to the Galaxian driver [Barry]</li>
+<li>Added Triple Draw Poker to the Galaxian driver [Barry]</li>
+<li>Added Puzzle Break to the Hyper Pacman driver [Barry]</li>
+<li>Added a module for the Taito TC0180VCU tilemap chip [iq_132]</li>
+<li>Added a module for the Tatio TC0640FIO I/O chip [Barry]</li>
+<li>Ported MAME's Time Keeper module to FB Alpha [Barry]</li>
+<li>Fixed some inputs in the Taito B driver [Barry]</li>
+<li>Added Thunder Fox to the Taito F2 driver [Barry]</li>
+<li>Added Operation Wolf 3, Slapshot and Top Speed to the Taito Misc driver [Barry]</li>
+<li>Added Volfied to the Taito Misc driver [Barry]</li>
+<li>Added bootleg of 1943 to the 1943 driver [Barry]</li>
+<li>Added 2 clones to the 1943 driver [Barry]</li>
+<li>Added clone of Armed Formation to the Armed Formation driver [Barry]</li>
+<li>Added clone of Black Tiger to the Black Tiger button [Barry]</li>
+<li>Added clone of Blood Bros. to the Blood Bros. driver [BisonSAS]</li>
+<li>Added Koro Koro Quest and Crusher Makochan to the Cave driver [iq_132]</li>
+<li>Removed fake region switches and added clones to Air Gallet, Mazinger Z and Pretty Soldier Sailor Moon in the Cave driver [Barry]</li>
+<li>Added clone of 1941 to the CPS-1 driver [Barry]</li>
+<li>Added bootleg of Cadillacs and Dinosaurs (Dinosaur Hunter) to the CPS-1 driver [Barry, JacKc]</li>
+<li>Added 2 clones of Captain Commando to the CPS-1 driver [Barry]</li>
+<li>Added clone of Dynasty Wars to the CPS-1 driver [Barry]</li>
+<li>Added clone of Final Fight to the CPS-1 driver [Barry]</li>
+<li>Added 2 clones of Forgotten Worlds to the CPS-1 driver [Barry]</li>
+<li>Added 2 clones of King of Dragons to the CPS-1 driver [Barry]</li>
+<li>Added clone of Knights of the Round to the CPS-1 driver [Barry]</li>
+<li>Added bootleg of The Punisher to the CPS-1 driver [JacKc]</li>
+<li>Added bootleg of Street Fighter 2 to the CPS-1 driver [Barry]</li>
+<li>Added 2 clones of Street Fighter 2 to the CPS-1 driver [Barry]</li>
+<li>Added clone of Street Fighter 2 Champion Edition to the CPS-1 driver [Barry]</li>
+<li>Added clone of UN Squadron to the CPS-1 driver [Barry]</li>
+<li>Added clone of Dungeons & Dragons: Tower of Doom to the CPS-2 driver [Barry]</li>
+<li>Added clone of Eco Fighters to the CPS-2 driver [Barry]</li>
+<li>Added clone of Gigawing to the CPS-2 driver [Barry]</li>
+<li>Added clone of Marvel vs. Capcom to the CPS-2 driver [Barry]</li>
+<li>Added clone of Ring of Destruction to the CPS-2 driver [Barry]</li>
+<li>Added clone of Street Fighter Alpha to the CPS-2 driver [Barry]</li>
+<li>Added clone of Street Fighter Alpha 2 to the CPS-2 driver [Barry]</li>
+<li>Added 2 clones of Street Fighter Alpha 3 to the CPS-2 driver [Barry]</li>
+<li>Added 3 clones of X-Men: Children of the Atom to the CPS-2 driver [Barry]</li>
+<li>Added clone of X-Men vs. Street Fighter to the CPS-2 driver [Barry]</li>
+<li>Added several Phoenix sets to the CPS-2 driver [Barry]</li>
+<li>Added clones of Red Earth to the CPS-3 driver [Barry]</li>
+<li>Added support to the CPS-3 driver for JoJo's Venture USA BIOS [Barry]</li>
+<li>Added support to the CPS-3 driver for Street Fighter III Hispanic BIOS [Barry]</li>
+<li>Added 2 clones of Street Fighter Zero to the CPS Changer driver [Barry]</li>
+<li>Added 3 clones of Street Fighter Zero to the CPS Changer driver [JacKc]</li>
+<li>Added clone of Double Dragon to the Double Dragon driver [Barry]</li>
+<li>Added clone of Biomechanical Toy to the Gaelco driver [Barry]</li>
+<li>Added clone of Amidar to the Galaxian driver [Barry]</li>
+<li>Added clone of Defend the Terra Attack on the Red UFO to the Galaxian driver [Barry]</li>
+<li>Added clone of Hot Shocker to the Galaxian driver [Barry]</li>
+<li>Added 2 clones of Moon Cresta to the Galaxian driver [Barry]</li>
+<li>Added clone of Moon Shuttle to the Galaxian driver [Barry]</li>
+<li>Added clone of Scorpion to the Galaxian driver [Barry]</li>
+<li>Added clone of Scramble to the Galaxian driver [Barry]</li>
+<li>Added clone of Streaking to the Galaxian driver [Barry]</li>
+<li>Added bootleg of Gyruss to the Gyruss driver [Barry]</li>
+<li>Added clone of Parodius DA! to the Konami driver [Barry]</li>
+<li>Added clone of Teenage Mutant Ninja Turtles to the Konami driver [Barry]</li>
+<li>Added clone of Iron Clad to the Neo Geo driver [JacKc]</li>
+<li>Added clone of Jockey GP to the Neo Geo driver [Barry]</li>
+<li>Added clone of King of Fighters '97 to the Neo Geo driver [Barry]</li>
+<li>Added clone of King of Fighters '98 to the Neo Geo driver [Barry]</li>
+<li>Added Last Hope to the Neo Geo driver [Barry, Robert]</li>
+<li>Added clone of Quiz Daisousa Sen to the Neo Geo driver [Barry, JacKC]</li>
+<li>Added clone of Quiz King of Fighters to the Neo Geo driver [Barry, JacKC]</li>
+<li>Added clone of Real Bout Fatal Fury Special to the Neo Geo driver [Barry, JacKC]</li>
+<li>Added Oriental Legend Special Plus to the PGM driver[iq_132, info from CreamyMami]</li>
+<li>Added clone of Prehistoric Isle to the Prehistoric Isle driver [Barry]</li>
+<li>Added clone of Space Bomber to the Psikyo SH-2 driver [Barry]</li>
+<li>Added clone of Fantasy Zone to the Sega System 16A driver [Barry]</li>
+<li>Added clone of Shinobi to the Sega System 16A driver [Barry]</li>
+<li>Added clone of Bloxeed to the Sega System 16B driver [Barry]</li>
+<li>Added clone of Fantasy Zone to the Sega System 16B driver [Barry]</li>
+<li>Added clone of Heavyweight Champ to the Sega System 16B diver [Barry]</li>
+<li>Added the ISG bootlegs to the Sega System 16B driver [Barry]</li>
+<li>Added clone of Desert Breaker to the Sega System 18 driver [Barry]</li>
+<li>Added clone of Galaxy Force 2 to the Sega Y-Board driver [Barry]</li>
+<li>Added clone of Rail Chase to the Sega Y-Board driver [Barry]</li>
+<li>Added clone of Street Fighter to the Street Fighter driver [Barry]</li>
+<li>Added clone of Armed Police Batrider to the Toaplan-2 driver [Barry]</li>
+<li>Added clone of Dogyuun to the Toaplan-2 driver [Barry]</li>
+<li>Added clone of Vigilante to the Vigilante driver [Barry]</li>
+<li>Made the foreground layer in Air Buster transparent [Barry, reported by BisonSAS]</li>
+<li>Fixed the background rendering in Anteater [Barry]</li>
+<li>Tidied the dips in the Blood Bros. driver [BisonSAS]</li>
+<li>Tidied up the dips, titles, and manufacturers in the Cave driver as well as fixing EEPROM config in Hotdog Storm and Metomoquester and fixing savestates [BisonSAS]</li>
+<li>Made the Resale versions of CPS-1 games run at 12MHz [Barry]</li>
+<li>Tidied up dips and added Unicode title to the Crash Race driver [BisonSAS]</li>
+<li>Forced the Demon World driver to use the Musashi 68000 core [iq_132]</li>
+<li>Fixed the Gun Smoke driver video and sound speed [Lantus]</li>
+<li>Added unicode titles, fixed some inputs and dips, and corrected some resolutions in all of the Konami drivers [BisonSAS]</li>
+<li>Fixed the sprite offset in the Konami Ultraman driver [BisonSAS]</li>
+<li>Fixed inputs and dips and added Unicode titles to the Magical Cat Adventure driver [BisonSAS]</li>
+<li>Fixed an error in the Metal Slug 5 (bootleg) driver initialisation [kenshiro]</li>
+<li>Fixed inputs and added Unicode title to the Mogura driver [BisonSAS]</li>
+<li>Labelled the HyperFlip button in Moon War [Barry]</li>
+<li>Tidied up the Power Instinct driver fixing some Z80 handling, Z80 reads and writes, sound hardware handling and boosted the interleave to fix the sound [Barry, reported by BisonSAS]</li>
+<li>Fixed a romsize in the Robocop driver [JacKc]</li>
+<li>Correctly cleared the screen in the Seta2 driver, fixing Subsino logo in Penguin Brothers [Barry, reported by BisonSAS]</li>
+<li>Added unicode titles to the Tumble Pop bootleg driver [BisonSAS]</li>
+<li>Fixed dip switches in the Turbo Outrun driver [Barry]</li>
+<li>Fixed inputs and dips and added Unicode titles to the Welltris driver [BisonSAS]</li>
+<li>Corrected clocks in the Double Dragon driver [Barry]</li>
+<li>Corrected clocks in World Cup 90 as per MAME 0.136u4 [Barry]</li>
+<li>Added ability to adjust CPU speed in the World Cup 90 driver [Barry]</li>
+<li>Added ability to adjust CPU speed in the Sega drivers [Barry]</li>
+<li>Added ability to adjust CPU speed in the Megadrive driver [Barry, suggested by manliodp]</li>
+<li>Fixed a psikyosh crash and implemented the graphics banking[iq_132]</li>
+<li>Fixed rotated screenshots [BisonSAS, regret (FBAShuffle)]</li>
+<li>Fixed the "include" implementation in the cheat file parser [BisonSAS]</li>
+<li>Removed kof95a as it seems to be a bad dump [JacKc]</li>
+<li>Excluded Neo Geo "decrypted C sets" from the build [Barry]</li>
+<li>Added support to the Neo Geo driver for a new BIOS rom [Barry]</li>
+<li>Corrected the Iron Clad V3 rom in the Neo Geo driver [JacKc]</li>
+<li>Updated the Forgotton Worlds alt gfx set loading routine to support the new rom layout [Barry]</li>
+<li>Updated the CPS-1 mappers as per MAME [Barry]</li>
+<li>Updated the dat file writing module to ignore the CPS-3 driver when writing the ROM_VERIFY dat [Barry]</li>
+<li>Fixed priorities in Magical Cat Adventure driver [iq_132]</li>
+<li>Fixed sprites in Bloxeed, making it working [Barry]</li>
+<li>Improvements to the M68705 core [iq_132]</li>
+<li>Tidied up the dips and the driver for Batrider, Battle Garegga, Batsugun and Dogyuun [JackC]</li>
+<li>Added 1360x768 to the auto-detect aspect ratio code [CaptainCPS]</li>
+<li>Fixed the favorites feature with drivers longer than 8 characters [CaptainCPS]</li>
+<li>Reverted back to the perl script for generating driverlist.h and amended it to support the changes to the BurnDriver struct since it was last used [Barry]</li>
+<li>Tidied code to build without warning using GCC 3.4.5 and GCC 4.5.2 [Barry]</li>
+<li>Updated the compile guides to work with the newest available tools [Barry]</li>
+<li>Matched all sets to MAME 0.143u6 [Barry]</li>
+</ul>
+
+
+<h3>v0.2.97.08</h3>
+<ul>
+<li>Added a sample player to the Burn library to allow external samples to used with drivers [iq_132]</li>
+<li>Added a module to display LEDs on screen [iq_132]</li>
+<li>Ported MAME's M6805 core and added an interface for it to the burn library [iq_132]</li>
+<li>Added an interface to the M68705 core for Taito games [iq_132]</li>
+<li>Enabled the Y8950 emulation in fmopl.c and created a module for it in the burn library [Barry]</li>
+<li>Fixed VSynch support in all blitters [CaptainCPS]</li>
+<li>Added a RGB hex display to the Palette Viewer [Barry]</li>
+<li>Added support to the System 16 FD1094 interface for multiple CPUs [Barry]</li>
+<li>Added memory callback support to the HD6309 core interface [Barry]</li>
+<li>Added custom tile size support to the Generic Tiles Rendering module [Barry]</li>
+<li>Added generic rendering for games using transparency tables [iq_132]</li>
+<li>Added support to the Namco Sound module for stereo sound and fixed the mono output [iq_132]</li>
+<li>Added CUS30 handling to the Namco Sound module [iq_132]</li>
+<li>Enabled m6803_internal_register_r in the M6800 CPU core [iq_132]</li>
+<li>Added driver for Air Buster [iq_132]</li>
+<li>Added driver for games on Angel Kids hardware [iq_132]</li>
+<li>Added driver for Baraduke [iq_132]</li>
+<li>Added driver for Egg Hunt [iq_132]</li>
+<li>Added driver for Fairy Land Story [iq_132]</li>
+<li>Added driver for Ginga NinkyouDen [iq_132]</li>
+<li>Hooked up the Y8950 sound in Ginga NinkyouDen [Barry]</li>
+<li>Added driver for games on Lady Bug hardware [iq_132]</li>
+<li>Added driver for Markham [iq_132]</li>
+<li>Added driver for Mogura Desse [iq_132]</li>
+<li>Added driver for Pushman [iq_132]</li>
+<li>Added driver for Sky Kid [iq_132]</li>
+<li>Added driver for Speed Spin [iq_132]</li>
+<li>Added driver for Asuka & Asuka and similar games on Taito hardware [iq_132 (thanks to JackC for testing)]</li>
+<li>Added driver for Welltris [iq_132]</li>
+<li>Added clone of 1942 to the 1942 driver [Barry]</li>
+<li>Added clone of Arkanoid to the Arkanoid driver [Barry]</li>
+<li>Enabled clones of Arkanoid that require the M68705 CPU [iq_132]</li>
+<li>Added bootleg of Final Fight to the CPS-1 driver [Barry]</li>
+<li>Added clone of Pang 3 to the CPS-1 driver [Barry]</li>
+<li>Added Street Fighter 2 (Double K.O. Turbo II) bootleg to the CPS-1 driver [iq_132]</li>
+<li>Added clone of Dark Stalkers to the CPS-2 driver [Barry]</li>
+<li>Added clone of Dungeons & Dragons: Shadow Over Mystara to the CPS-2 driver [Barry]</li>
+<li>Added clone of Hyper Street Fighter 2 to the CPS-2 driver [Barry]</li>
+<li>Added clone of Mega Man 2 to the CPS-2 driver [Barry]</li>
+<li>Added clone of Super Puzzle Fighter 2 Turbo to the CPS-2 driver [Barry]</li>
+<li>Rewrote the Dec0 driver from scratch (currently preliminary) [Barry]</li>
+<li>Added Dark Tower to the Double Dragon driver [Barry]</li>
+<li>Added clone of Moon Cresta to the Galaxian driver [Barry]</li>
+<li>Added clone of Scramble to the Galaxian driver [Barry]</li>
+<li>Added WOW New Fantasia to the Gals Panic driver [BisonSAS]</li>
+<li>Added clone of Ghosts n' Goblins to the Ghost's n' Goblins driver [Barry]</li>
+<li>Added clone of X-Men to the Konami driver [Barry]</li>
+<li>Added clone of Airwolf to the Kyugo driver [Barry]</li>
+<li>Added clone of Last Duel to the Mad Gear driver [Barry]</li>
+<li>Added clone of King of Fighters '95 to the Neo Geo driver [iq_132]</li>
+<li>Added clone of Samurai Shodown II to the Neo Geo driver [Barry]</li>
+<li>Added clone of Samurai Shodown IV to the Neo Geo driver [Barry]</li>
+<li>Added Ironclad to the the Neo Geo driver [iq_132]</li>
+<li>Added kof96ep, kof97pla, kf2k1pls, kf2k1pa, cthd2k3a, kf2k2plb, kf2k2plc, kf2k4pls, mslug5b, kof96cn, kof96ae, kof97cn, kof97xt, kof98ae and kf2k2ps2 to the Neo Geo driver [Barry]</li>
+<li>Added Popeye-Man to the Pacman driver [Barry]</li>
+<li>Added preliminary driver for Rally X [Barry]</li>
+<li>Added clone of Alien Syndrome to the Sega System 16B driver [Barry]</li>
+<li>Added clone of Super Hang-On to the Sega Hang-On driver (enabled in debug builds only because it doesn't work) [Barry]</li>
+<li>Added clone of Mega Blast to the Taito F2 driver [Barry]</li>
+<li>Enabled clones of Tiger Heli that require the M68705 core [iq_132]</li>
+<li>Added Demon World, Fire Shark, Rally Bike, and Vimana to the Toaplan-1 driver [iq_132]</li>
+<li>Added Knuckle Bash 2 to the Toaplan-2 driver [iq_132]</li>
+<li>Added clone of Outzone to the Toaplan-1 driver [Barry]</li>
+<li>PGM Changes [iq_132]<ul>
+<li>02-27-2010<ul>
+<li>Added kov2a and kov2b (kov2b is disabled) partially dumped sets</li>
+<li>Thanks to JackC for helping sort a few sets.</li>
+</ul></li>
+<li>12-05-2009<ul>
+<li>Added Happy6in1 (XingXing)</li>
+<li>Added newer 68k bios (XingXing)</li>
+<li>Added fake dip switch to switch beween 68k bios versions</li>
+<li>Added kovsh103 (XingXing)</li>
+<li>Added martmastc102 (XingXing)</li>
+<li>Added region dips for martmastc102</li>
+<li>Added proper dump for demon front (alt) (XingXing)</li>
+<li>Added several pgm bootleg/hacks from MAME Plus</li>
+<li>Added proper dump for orlegendc</li>
+<li>Labeled region dips as "fake" as they are really hacks since PGM games usually have their regions supplied by the protection devices.</li>
+</ul></li>
+</ul></li>
+<li>Corrected the CPU clocks in the Outrun driver as per MAME 0.135u4 [Barry]</li>
+<li>Fixed a memory issue when exiting the CPS-1 driver [iq_132]</li>
+<li>Fixed a crash when loading games in the Blood Bros. driver [BisonSAS and iq_132]</li>
+<li>Fixed graphics in My Angel 2 [iq_132]</li>
+<li>Emulated the M68705 in Legend of Kage rather than simulate it [iq_132]</li>
+<li>Added layer disable to the CPS-3 driver [iq_132]</li>
+<li>Fixed CPS-3 sound synch when using non-standard frame rates [CaptainCPS]</li>
+<li>Fixed a romname in mslug4nd [kenshiro]</li>
+<li>Fixed init bug in Guardians in the Seta-2 driver [kenshiro]</li>
+<li>Added UniCode titles and fixed some details in the Cross Pang driver [BisonSAS]</li>
+<li>Fixed crash in the D-Con driver [BisonSAS and iq_132]</li>
+<li>Corrected dipswitches in the F-1 Grand Prix driver [BisonSAS</li>
+<li>Fixed graphics in Fantasia II (Less Explicit) in the Gals Panic driver [BisonSAS]</li>
+<li>Fixed crash in Ultra Balloon (SunA16 driver) [Bruce Lee and iq_132]</li>
+<li>Various fixes in the Tao Taido driver [BisonSAS]</li>
+<li>Added a new support file importer module [CaptainCPS]</li>
+<li>Added option to use a background image in the menu bar [CaptainCPS]</li>
+<li>Updated the jukebox and improved Neo Geo support [CaptainCPS]</li>
+<li>Converted the driver list generation perl script to C++ and changed the documentation output to HTML [CaptainCPS]</li>
+<li>Fixed an issue when loading tracklists in the jukebox [CaptainCPS]</li>
+<li>Updated the megadrive driver to the latest one generated from the database on barryharris.me.uk [Barry]</li>
+<li>Matched all sets to MAME 0.136u3 [Barry]</li>
+<li>Updated libpng to version 1.4.0 [Barry]</li>
+<li>Fixed a MSVC compile issue with the latest libpng [CaptainCPS]</li>
+</ul>
+
+<h3>v0.2.97.07</h3>
+<ul>
+<li>Ported YM2413 core from SMS Plus and added an interface for it [Barry]</li>
+<li>Added a seperate timer to the YM3812 interface allowing the chip to be used with other FM chips and updated all the drivers that use it [Barry]</li>
+<li>Added support to the AY8910 core to handle the ports outside of the init function, and updated the YM2203 interface to use them [iq_132]</li>
+<li>Fixed a stupid bug I introduced in the K051649 core [Barry]</li>
+<li>Added timer support for the M6502 CPU [iq_132]</li>
+<li>Seperated the op code area for the M6502 CPU [iq_132]</li>
+<li>Fixed cheat support in the SH-2 CPU core [iq_132]</li>
+<li>Small fix to the Z80 core to reset the registers [iq_132]</li>
+<li>Fixed typo in the HD6309 core as per MAME 0.132u4 [iq_132]</li>
+<li>Added a palette viewer for games on Cave, CPS-1/2/3, Megadrive, Neo Geo, PGM, Psikyo and Toaplan hardware and any game using the generic tiles module, which covers most games [Barry]</li>
+<li>Fixed the XML Dat file output to properly support ampersands in rom names [Barry]</li>
+<li>Made the maximum rom name length 100 characters instead of 32 [Barry]</li>
+<li>Added a warning to BurnTransferCopy when BurnTransferInit hasn't been called [iq_132]</li>
+<li>Fixed an issue with reporting some sound options in the System Info dialog that came about when changing the sound interface to plug-ins [Barry]</li>
+<li>Removed the active Z80 core from the System Info dialog as the ZET interface only supports one core [Barry]</li>
+<li>Added support for Vista, Server 2008 and Windows 7 detection to the System Info dialog [Barry]</li>
+<li>Added an Atari filter to the game selection dialog [Barry]</li>
+<li>Added driver for Blood Bros. and Sky Smasher [iq_132]</li>
+<li>Added driver for D-Con and SD Gundam Psycho Salamander no Kyoui [iq_132]</li>
+<li>Added a preliminary driver for games on DEC-8 hardware [iq_132]</li>
+<li>Added a preliminary driver for Gauntlet [Barry]</li>
+<li>Added driver for games on Karnov hardware [iq_132]</li>
+<li>Added driver for Konami Twin 16 hardware [iq_132]</li>
+<li>Added Bells & Whistles and Sunset Riders to the Konami drivers [Barry]</li>
+<li>Added Lightning Fighters, Punk Shot, Quiz Gakumon no Susume, Teenage Mutant Ninja Turtles - Turtles in Time, Thunder Cross II  to the Konami drivers [iq_132]</li>
+<li>Added driver for Mitchell hardware [Barry]</li>
+<li>Added driver for games on NMK16 hardware [iq_132]</li>
+<li>Added driver for games on Psikyo SH hardware [iq_132]</li>
+<li>Added driver for Return of the Invaders [iq_132]</li>
+<li>Added driver for scooter Shooter [iq_132]</li>
+<li>Added Atomic Point and Snapper to the Sega System 16B driver [Barry]</li>
+<li>Added driver for Speed Rumbler [iq_132]</li>
+<li>Added preliminary driver for Toki [iq_132]</li>
+<li>Added driver for Vendetta, press F2 whilst booting to pass the ROM test [iq_132]</li>
+<li>Added driver for games on Yun Sung 16 hardware [iq_132]</li>
+<li>Added driver for WWF Superstars [iq_132]</li>
+<li>Added bootleg of Street Fighter 2 to the CPS-1 driver [Barry]</li>
+<li>Added Street Fighter II - Champion Edition Accelerator! bootleg to the CPS-1 driver [Barry]</li>
+<li>Added Street Fighter II Quicken Pt-I bootleg to the CPS-1 driver [Barry]</li>
+<li>Added sf2m9, sf2m10, sf2m11 and sf2m12 to the CPS-1 driver [Barry]</li>
+<li>Added clone of Dungeons & Dragons to the CPS-2 driver [Barry]</li>
+<li>Added clone of Battle of Atlantis to the Galaxian driver [Barry]</li>
+<li>Added a clone of Dambusters to the Galaxian driver [Barry]</li>
+<li>Added Kamakazi III to the Galaxian driver [Barry]</li>
+<li>Added various games and clones to the New Zealand Story driver [iq_132]</li>
+<li>Added clone of Pacman to the Galaxian driver [Barry]</li>
+<li>Added Phoenix Part 2 to the Galaxian driver [Barry]</li>
+<li>Added clone of Space War S to the Galaxian driver [Barry]</li>
+<li>Added clone of Strategy X to the Galaxian driver [Barry]</li>
+<li>Added clone of Metal Slug 4 to the Neo Geo driver [Barry]</li>
+<li>Added clone of Outrun to the Outrun driver [Barry]</li>
+<li>Added a clone to the Shadow Force driver [Barry]</li>
+<li>Added Back Fire to the Tecmo driver [iq_132]</li>
+<li>Added clone of Hellfire to the Toaplan-1 driver [Barry]</li>
+<li>Added clone of Battle Garegga to the Toaplan-2 driver [Barry]</li>
+<li>Added clone of X-Men to the X-Men driver [Barry]</li>
+<li>Fixed potential memory leak in the Tengai driver rom loading [kenshiro]</li>
+<li>Fixed the palette decoding in Dambusters to work with the correct PROM dump [Barry]</li>
+<li>Added Z-Rejection support to the K053245 module, fixing sprites in Bells & Whistles and Sunset Riders [iq_132]</li>
+<li>Added a module for the Konami K053936 IC module [iq_132]</li>
+<li>Added shadow support to the Konami IC chips where necessary [iq_132]</li>
+<li>Fixed Cue Brick [Barry]</li>
+<li>Fixed an issue with coin inputs in the 2 Player versions of Crime Fighters [iq_132]</li>
+<li>Fixed the Haunted Castle driver [Rasek, iq_132]</li>
+<li>Fixed an issue with the Konami Twin 16 driver when compiling with VC [Barry]</li>
+<li>Added support for the new graphic roms in gradius2 [Barry]</li>
+<li>Fixed savestates in the Gyrus driver [iq_132]</li>
+<li>Fixed the sound in Scooter Shoorer [Barry]</li>
+<li>Tidied up the Mad Gear driver to support the new sets and increased interleave which fixes the music [Barry]</li>
+<li>Modified the Power Instinct driver to use the generic drawing routines [iq_132]</li>
+<li>Added Mobile Suit Gundam EX Revue and the Sammy shooting games to the Seta2 driver [iq_132]</li>
+<li>Fixed the gun inputs in the Sammy shooting games [Barry]</li>
+<li>Added the ability to read from the X1-010 sound chip and hooked it up in the Seta2 driver, improving the sound [Barry]</li>
+<li>Fixed memory leaks in the Shadow Force driver's graphic rom loading [kenshiro]</li>
+<li>Tidied the Toki driver and added sound [Barry]</li>
+<li>PGM Updates [iq_132]
+<ul>
+<li>Fixed kov2106 thanks to the FBA Shuffle team :) [iq_132]</li>
+<li>Added a few small speedups
+<ul>
+<li>Only recalculate the whole palette when needed now rather than every frame [iq_132]</li>
+<li>Clear all video buffers in one loop [iq_132]</li>
+</ul></li>
+<li>Fixed a crash when doing line scroll (see kovsh intro - fire stage background) [iq_132]</li>
+<li>Fixed sound after save state load [iq_132]</li>
+</ul></li>
+<li>Megadrive Updates [Barry]
+<ul>
+<li>Fixed an issue with games' buggy sound programs expecting certain results back [Barry]</li>
+<li>Added support for some custom banking cartridges [Barry]</li>
+<li>Updated the web-based Megadrive driver database with the new games from HazeMD 0.14a [Barry]</li>
+<li>Removed rom editing capability from the web form [Barry]</li>
+<li>Updated the web-based Megadrive driver generator to support games with multiple roms [Barry]</li>
+<li>Added a check to the driver generator to make sure any non-working parents are included in release builds if they have working clones [Barry]</li>
+</ul></li>
+<li>Matched all sets to MAME 0.134u3 [Barry]</li>
+<li>Changed the dat file output using the ROM_VERIFY compile-time flag to produce the XML datfile type [Barry]</li>
+<li>Updated libpng to version 1.2.40 [Barry]</li>
+<li>Updated the compile guides to work with the newest available tools [Barry]</li>
+</ul>
+
+<h3>v0.2.97.06</h3>
+<p>This version includes a big change in the Z80 CPU interface. Specifically MAME's Z80 core is now used for all games. This should give better results and make the program more portable. We have done a lot of testing but if you notice any new problems please let us know and we can fix them.</p>
+<p>This version also includes changes in the EEPROM code and input assignment code. As well as the changed save states for the ZET interface, these render old config and save files pretty much useless. <b>It is advised to delete the contents of the <i>config\games</i> folder before using this version</b>. Savestates are a bit hit-and-miss at the moment anyway. I plan to pay some attention to savestates in the next version and hopefully boost compatibility.</p>
+<ul>
+<li>Fixed the ZET interface when used with MAME's Z80 CPU core and removed support for all other Z80 CPU cores [Barry]</li>
+<li>Updated lots of drivers to work with the changes to the ZET interface [Barry]</li>
+<li>Updated some more drivers to work with the ZET interface changes [iq_132]</li>
+<li>Improved existing Konami IC chip emulation and added support for some new chips [iq_132]</li>
+<li>Ported the K0051649, K053260 and K054539 sound cores from MAME [iq_132]</li>
+<li>Fixed the K0051649, K053260 and K054539 sound cores sample rate support [Barry]</li>
+<li>Added a seperate timer to the YM3526 interface allowing the chip to be used with other FM chips [Barry]</li>
+<li>Added support for the M6801 CPU in the M6800 interface [Barry]</li>
+<li>Finally, and I do mean <b>finally</b> fixed the bug in the RF5C68 core, giving full sound in Sega System 18 [Barry]</li>
+<li>Fixed the issues with the YM2203 core [Barry]</li>
+<li>Big update to the cheat interface supporting multiple CPUs [iq_132]</li>
+<li>Added savestate support to the Namco Sound module [Barry]</li>
+<li>Converted the Galaga driver to use the ZET interface and added savestate support [Barry]</li>
+<li>Converted the Sega System 1 driver to use the ZET interface [Barry]</li>
+<li>Converted the MC8123 Sega System 16B games to use the ZET interface [Barry]</li>
+<li>Converted the games in the Galaxian driver that used a custom interface to use the ZET interface [Barry]</li>
+<li>Fixed savestate support in the M6809 CPU interface [iq_132]</li>
+<li>Fixed savestate support in the M6800 series CPU interface [Barry]</li>
+<li>Replaced the EEPROM code with a port from MAME [iq_132]</li>
+<li>Updated the Battle Bakraid, Cave, CPS-1, CPS-2, ESD 16, Kaneko 16, Midas, Space Gun and Zero Point 2 drivers to work with the new EEPROM code [Barry, iq_132]</li>
+<li>Fixed problem with the low-pass filter in the DirectSound plugin [Barry]</li>
+<li>Added lots of Konami games [iq_132]</li>
+<li>Added driver for Bubble Bobble and clones [Barry]</li>
+<li>Added driver for Arabian [iq_132]</li>
+<li>Added a bootleg of SCI to the Taito Z driver [Barry]</li>
+<li>Added a clone of Forgotten Worlds to the CPS-1 driver [Barry]</li>
+<li>Added clone of The Combatribes [Barry]</li>
+<li>Added clone of Final Star Force [iq_132]</li>
+<li>Added clone of The Legend of Kage[iq_132]</li>
+<li>Fixed the DAC sound in King & Balloon [Barry]</li>
+<li>Fixed Mighty Monkey and clones and enabled in release builds [Barry]</li>
+<li>Enabled the Kangaroo driver in release builds now that the ZET interface changes made it work [iq_132]</li>
+<li>Added support for hardware specific input presets, cps.ini, Neo Geo.ini and pgm.ini [Barry]</li>
+<li>Added a Save preset button to the input dialog to save the currently defined inputs into a hardware preset file [Barry]</li>
+<li>Updated the help file with details of the new items in the Input Dialog [Barry]</li>
+<li>Fixed some issues with saving and reading files for drivers with more than 8 characters in their name [Barry]</li>
+<li>Fixed an issue when updating the previous games list with drivers with more than 8 characters in their name [Barry]</li>
+<li>Widened the short gamename column in the selection dialog [Barry]</li>
+<li>Disabled the rather annoying system beep in DEBUG builds [iq_132]</li>
+<li>Matched all sets to MAME 0.131u3 [Barry]</li>
+</ul>
+
+<h3>v0.2.97.05</h3>
+<ul>
+<li>Tidied source to compile cleanly with GCC 3.4.5, GCC 4.3.3 and the latest Microsoft SDKs [Barry]</li>
+<li>Wrote compile guides for the above which are available on my website [Barry]</li>
+<li>Replaced the readme.txt with a detailed Windows help file [Barry]</li>
+<li>Replaced the whatsnew.txt with a HTML document and added a link to it from the help menu [Barry]</li>
+<li>Updated libpng to the current version (1.2.35) [Barry]</li>
+<li>Made a new higher quality icon, with support for the nice big vista icon [Barry]</li>
+<li>Ported MAME's Konami CPU core [iq_132]</li>
+<li>Fixed an issue with the M6809 interface [iq_132]</li>
+<li>Fixed Konami core to compile with VC [Barry]</li>
+<li>Added Signed Write support to the DAC core [Barry]</li>
+<li>Added control over the volume of the DAC core [Barry]</li>
+<li>Added option to control whether the DAC core adds to the current buffer or not [Barry]</li>
+<li>Big update to the Megadrive driver [Barry]
+<ul>
+<li>Greatly improved timing
+<ul>
+<li>Changed the YM2612 to use the 68000 for timing since the Z80 can be disabled</li>
+<li>Properly supported PAL</li>
+<li>Updated the reset routine to support switching between regions</li>
+</ul></li>
+<li>Changed to MAME's Z80 core - it works much better</li>
+<li>Basic SRAM support</li>
+<li>Added support for most games that require special init functions</li>
+<li>General tidy-up and many small fixes</li>
+<li>Most games now work - testing is under way to enable games that are working (see my site for details on how you can help this effort)</li>
+<li>Updated to the latest driver generated from the database</li>
+</ul></li>
+<li>Added driver for 1943 [Barry]</li>
+<li>Added driver for F1 Grand Prix [iq_132]</li>
+<li>Added driver for games on Fuuki FG-3 hardware [iq_132]</li>
+<li>Added driver for Gyrus [iq_132]</li>
+<li>Added driver for Haunted Castle [iq_132]</li>
+<li>Added driver for Lethal Crash Race [iq_132]</li>
+<li>Added driver for Vigilante and games on similar hardware [Barry]</li>
+<li>Added clone of Chase HQ to the Taito Z driver [Barry]</li>
+<li>Added clone of Mighty Pang to the CPS-2 driver [Barry]</li>
+<li>Added clone of Night Warriors to the CPS-2 driver [Barry]</li>
+<li>Added clone of Operation Wolf to the Taito Misc driver [Barry]</li>
+<li>Added support for the Neo Geo Deck BIOS [Barry]</li>
+<li>Made the Neo Geo BIOS select more intuitive [Barry]</li>
+<li>Improved the PGM driver, see changes.txt in the PGM folder for full details [iq_132]</li>
+<li>Simulated the protection in Oriental Legends Special/Super making it playable [XingXing]</li>
+<li>Fixed background colours and added savestates to 1943 [iq_132]</li>
+<li>Fixed an issue with some sprites in World Cup '90 [Barry]</li>
+<li>Fixed text layer in Metal Slug 4 Plus [kenshiro]</li>
+<li>Added XAudio2 Sound plugin, partially based on FBA Shuffle [Barry]</li>
+<li>Fixed an issue with the Neo Geo driver flags, fixing Memory Cards and Button Macros [Barry]</li>
+<li>Added the full range of button combinations to the Neo Geo macros [Barry]</li>
+<li>Added macro support for the PGM driver [Barry]</li>
+<li>Changed the parent filters in the selection dialog to behave in the expected way [Barry]</li>
+<li>Fixed MAWS links [Barry]</li>
+<li>Moved the FPS display in the DirectX 9 blitter to the top right [FBAShuffle]</li>
+<li>Matched all sets to MAME 0.131 [Barry]</li>
+</ul>
+
+<h3>v0.2.97.04</h3>
+<ul>
+<li>Moved Namco sound to it's own module and updated the Pac-Man driver [Barry]</li>
+<li>Added driver for Galaga [Barry]</li>
+<li>Added driver for Pass [iq_132]</li>
+<li>Added a hack to get Knights of Valour 2 Plus working [XingXing]</li>
+<li>Tidied up the SoftFX blitters [Barry]
+<ul>
+<li>Updated the Enhanced blitter to allow more filters</li>
+<li>Added support to the ini file for long long integers to support the Enhanced blitter</li>
+<li>Added hq2xS, hq3xS, hq2xBold, hq3xBold, EPXB and EPXC filters from SNES9X ReRecording</li>
+<li>Added SuperEagle, 2xSaI, Super 2xSaI filters from VBA ReRecording</li>
+</ul></li>
+<li>Fixed issue with board roms in ClrMAME XML DAT generation [Barry]</li>
+<li>Changed ampersands in the ClrMAME XML DAT output to their HTML entity [Barry]</li>
+<li>Some updates to the Megadrive driver via the online generator [nj7, JackC, arturf]</li>
+<li>Fixed some rom sizes in non-working parents [Barry, pointed out by JackC]</li>
+<li>Fixed license2rtf.pl to allow hyphens in URLs [Barry]</li>
+<li>Matched all sets to MAME 0.129u6</li>
+</ul>
+
+<h3>v0.2.97.03</h3>
+<ul>
+<li>Ported MAME's ARM7 CPU core and added an interface to it [iq_132]</li>
+<li>Fixed some issues with the ARM7 code when compiled with VC [Barry]</li>
+<li>Ported MAME's S2650 CPU core and added an interface for it [iq_132]</li>
+<li>Added support for IRQ callbacks to the S2650 interface [Barry]</li>
+<li>Added support to retrieve the PC from the S2650 interface [Barry]</li>
+<li>Added support for hiscore.dat [Barry]
+<ul>
+<li>The default path is support\hiscores, and .hi files will be stored there</li>
+<li>The path is configurable via the support files dialog</li>
+<li>hiscore.dat should be placed in the path</li>
+<li>Hi Scores are only loaded and saved if the option "Save high scores when supported" is enabled</li>
+<li>Hi scores are only loaded and saved if a driver supports it (the various info dialogs will inform in the comments section if high scores are supported for a game)</li>
+<li>Added support to the Galaxian and World Cup 90 drivers</li>
+</ul></li>
+<li>Added S2650 support to the cheat and hiscore modules [Barry]</li>
+<li>Added support for hq2xS and hq3xS filters from FBA Shuffle (hq3xS only built with VC) [Barry]</li>
+<li>Added 2xPM LQ and 2xPM HQ to the SoftFX blitters [Barry]</li>
+<li>Big update to the PGM driver (see driver for details) [iq_132, tested by JackC and Aquashark]</li>
+<li>Added games on the S2650 CPU to the Galaxian driver [Barry]</li>
+<li>Added clone of Super Cobra to the Galaxian driver [Barry]</li>
+<li>Added clone of Dogyuun to the Toaplan2 driver [Barry]</li>
+<li>Added clone of World Cup 90 to the driver [Barry]</li>
+<li>Added driver for Diver Boy [iq_132]</li>
+<li>Added driver for games on Armed Formation hardware [iq_132]</li>
+<li>Added driver for games on Magical Cat Adventure hardware [iq_132]</li>
+<li>Added driver for Sky Fox [iq_132]</li>
+<li>Added driver for Got-cha Mini Game Festival [iq_132]</li>
+<li>Updated EPOS driver, fixing Dealer [iq_132]</li>
+<li>Added Warriors of Fate to the CPS Changer driver [iq_132]</li>
+<li>Changed the Megadrive driver to be generated from a status database on my website [Barry]</li>
+<li>Fixed sprite based Capcom logos in CPS-2 Phoenix games [Barry]</li>
+<li>Fixed memory leak with CPS-2 games, noticed by kenshiro and Leaf [Barry]</li>
+<li>Added savestate support to the Galaxian driver [Barry]</li>
+<li>Fixed the default dips in Tiger Road and hooked up the correct dips in F1 Dream [Barry]</li>
+<li>Corrected aspect ratio for Bank Panic [CaptainCPS]</li>
+<li>Cleaned up the 4 En Raya, Ambush, Dotrikun, Minivader, Silkroad and Wall Crash drivers [iq_132]</li>
+<li>Fixed an error in the selection dialog when pressing Cancel [CaptainCPS]</li>
+<li>Corrected an issue with scaling some PNGs for the selection dialog [CaptainCPS]</li>
+<li>Improved the Options tab in the selection dialog [CaptainCPS]</li>
+<li>Stopped the selection dialog switching to the favourites tab when adding a game to your favourites [CaptainCPS]</li>
+<li>Fixed the game information printed from the favourites game list [Barry]</li>
+<li>Added new clrMame Pro XML dat file output [Barry]</li>
+<li>Fixed rotated games when using the DirectX 9 blitter [fbashuffle]</li>
+<li>Added FPS display to the DirectX 9 blitter [fbashuffle]</li>
+<li>Matched all sets to MAME 0.129u5 [Barry]</li>
+</ul>
+
+<h3>v0.2.97.02</h3>
+<ul>
+<li>Added a driver for games on Galaxian hardware, 177 new sets [Barry]</li>
+<li>Added support for insane sample Galaxian sound sample hardware and the various AY8910 interfaces in the Galaxian driver [Barry]</li>
+<li>Moved PPI8255 module to the burn folder so it can be accessed by all drivers [Barry]</li>
+<li>Added support for a third PPI8255 [Barry]</li>
+<li>Added driver for Aquarium [iq_132]</li>
+<li>Added driver for Dark Seal [iq_132]</li>
+<li>Added driver for games on Deniam hardware [iq_132]</li>
+<li>Added driver for games on Midas hardware [iq_132]</li>
+<li>Changed the left and right sound channels in the CPS-3 driver [Barry]</li>
+<li>Fixed the speed-up hacks for Jojo's Venture [Barry]</li>
+<li>Improved analog controls in the Sega drivers when used with analog devices [CaptainCPS]</li>
+<li>Added some clones to the Toaplan2 driver [Barry]</li>
+<li>Added some new Phoenix sets to the CPS-2 driver (provided by bonky0013) [Barry]</li>
+<li>Some renames of roms in Neo Geo decrypted sets as reported by pmc2 [Barry]</li>
+<li>Fixed the aspect ratio in the Arkanoid driver [CaptainCPS]</li>
+<li>Added support to the Game Information dialog for Select, Versus, How To, Scores, Bosses and Game over previews [Barry]</li>
+<li>Added configurable path support for the above new previews [Barry]</li>
+<li>Fixed issue with selection dialog when clicking filters too fast [CaptainCPS]</li>
+<li>Added buttons to the selection dialog for tasks in the context-sensitive menu [CaptainCPS]</li>
+<li>Moved the options in the selection dialog to their own tab [CaptainCPS]</li>
+<li>Tidied the selection dialog [CaptainCPS]</li>
+<li>Tidied the rom and support path dialogs and made them less cumbersome [CaptainCPS]</li>
+<li>Changed the PNG load functions to use PNGlib [CaptainCPS]</li>
+<li>Added support for loading support files from zips [CaptainCPS]</li>
+<li>Added filter for Galaxian hardware to the selection dialog [Barry]</li>
+<li>Matched all set to MAME 0.129u3 [Barry]</li>
+<li>nb, the source is now doule-zipped similar to MAME for better compression</li>
+</ul>
+
+<h3>v0.2.97.01</h3>
+<ul>
+<li>Added driver for Black Tiger [iq_132]</li>
+<li>Added driver for Block Out [iq_132]</li>
+<li>Added driver for Blue Print [iq_132]</li>
+<li>Added driver for Cross Pang [iq_132]</li>
+<li>Added driver for Mug Smashers [iq_132]</li>
+<li>Added driver for Pirates [iq_132]</li>
+<li>Added driver for Tao Taido [iq_132]</li>
+<li>Added clone of Double Dragon 3 to the Double Dragon 3 driver [Barry]</li>
+<li>Added clone of Power Instinct to the Power Instinct driver [Barry]</li>
+<li>Added Street Fighter 2 Rainbow Set 3 to the CPS-1 driver [Barry]</li>
+<li>Applied fm.c fixes from MAME 0.128u2 [Barry]</li>
+<li>Added support to Zet to get the DE register [iq_132]</li>
+<li>Fixed the sound in Double Axle [Barry]</li>
+<li>Corrected the clocks in Prehistoric Isle fixing the music tempo [Barry]</li>
+<li>Fixed decryption for Street Fighter Zero 2 Alpha and clones [Barry]</li>
+<li>Matched all sets to MAME 0.128u7 [Barry]</li>
+<li>Changed the version string to include leading zeros in the final section [Barry]</li>
+</ul>
+
+<h3>v0.2.96.99</h3>
+<ul>
+<li>Added driver for Contra [iq_132]</li>
+<li>Added driver Funny Bubble [iq_132]</li>
+<li>Added driver for Legend of Kage [iq_132]</li>
+<li>Added driver for games on Legendary Wings hardware [iq_132]</li>
+<li>Added driver for Son Son [iq_132]</li>
+<li>Added Cue Brick to the Konami driver [Barry]</li>
+<li>Added clone of Armored Warriors to the CPS-2 driver [Barry]</li>
+<li>Added clone of Capcom Sports Club to the CPS-2 driver [Barry]</li>
+<li>Added clone of Giga Wing to the CPS-2 driver [Barry]</li>
+<li>Small speed-up in the generic tile handling, improving the speed slightly in lots of drivers [Barry]</li>
+<li>Corrected the text rom size in Samurai Shodown V and Samuari Shodown V Special [Barry]</li>
+<li>Updated the Neo Geo Bios roms [Barry]</li>
+<li>Added support for the Samurai Shodown V bootleg [Barry]</li>
+<li>Hooked up the region dip switch in the PCB version of Metal Slug 5 - this won't work until we have dumps of the actual PCB program roms though [Barry]</li>
+<li>Corrected the road colours in Enforce [Barry]</li>
+<li>Fixed sound in Ali Baba [iq_132]</li>
+<li>Fixed an issue with icon handling in the favourites module [CaptainCPS]</li>
+<li>Disabled the Neo Geo multislot menu item until such time it does something useful [Barry]</li>
+<li>Matched all sets to MAME 0.128</li>
+</ul>
+
+<h3>v0.2.96.98</h3>
+<ul>
+<li>Removed the keys for Neo Geo M1 decryption - the values are now derived from the rom, thanks to Haze and cyberwills [Barry]</li>
+<li>Fixed a memory issue in the HD6309 and M6809 CPU interfaces [kev]</li>
+<li>Allowed hi-res PNG images [CaptainCPS]</li>
+</ul>
+
+<h3>v0.2.96.97</h3>
+<ul>
+<li>Added decryption of the Neo Geo M1 roms, thanks to Andreas Naive and Haze [Barry]</li>
+<li>Added clone of Marvel vs Capcom to the CPS-2 driver [Barry]</li>
+<li>Added clone of Tengai to the Psikyo driver [Barry]</li>
+<li>Moved Cps1Draw() out of a loop resuling in a big speed up for CPS-1 [Barry]</li>
+<li>Added a "Deselect All" button to the IPS Manager dialog [Barry]</li>
+<li>Fixed an issue with the menu translation template [Barry]</li>
+<li>Matched all sets to MAME 0.127u4 [Barry]</li>
+</ul>
+
+<h3>v0.2.96.96</h3>
+<ul>
+<li>Ported MAME's M6809 CPU core [Barry]</li>
+<li>Ported MAME's HD6309 CPU core [Barry]</li>
+<li>Ported MAME's M6800, HD63701 CPU cores [Barry]</li>
+<li>Added an interface to the M6809 core and added support for it to BurnTimer and the cheat module [Barry]</li>
+<li>Added an interface to the HD6309 core and added support for it to BurnTimer and the cheat module [Barry]</li>
+<li>Added an interface to the M6800 and family cores and added support for them to BurnTimer and the cheat module [Barry]</li>
+<li>Added driver for Double Dragon and Double Dragon II [Barry]</li>
+<li>Added driver for Ghouls &amp; Ghosts [Barry]</li>
+<li>Added driver for Renegade [Barry]</li>
+<li>Added SNK16 driver [iq_132]</li>
+<li>Added clone of The New Zealand Story to it's driver [iq_132]</li>
+<li>Added analog inputs to the SNK16 driver [Barry]</li>
+<li>Hooked up the sound CPU comms in the Power Instinct 2 driver [Barry]</li>
+<li>Very big update to the Jukebox [CaptainCPS]</li>
+<li>Rewrote favourites module - delete your old favorites.dat file [CaptainCPS]</li>
+<li>Added support for icons in the gamelists [CaptainCPS]</li>
+<li>Added options to configure vertical and horizontal full-screen resolutions seperately [CaptainCPS]</li>
+<li>Fixed another bug when FBA was used under Vista [CaptainCPS]</li>
+<li>Made the inputs dialog stop the sound properly when using the shortcut key [CaptainCPS]</li>
+<li>Applied the dialog sound fix above to the dip switch and cheat dialogs [Barry]</li>
+<li>Fixed a memory leak when loading PNGs [CaptainCPS]</li>
+<li>Optimised the automatic support file download feature [CaptainCPS]</li>
+<li>Matched all sets to MAME 0.127u2 [Barry]</li>
+</ul>
+
+<h3>v0.2.96.95</h3>
+<ul>
+<li>Added driver for Zero Zone and Las Vegas Girl [iq_132]</li>
+<li>Added a clone of Three Wonders to the CPS-1 driver [Barry]</li>
+<li>Changed the FD1089 module to use the external keys [Barry]</li>
+<li>Set CPS-3 back to 60fps [Barry]</li>
+<li>Matched all sets to MAME 0.127u1 [Barry]</li>
+</ul>
+
+<h3>v0.2.96.94</h3>
+<ul>
+<li>Fixed Windows Vista crash when opening the game selection dialog [CaptainCPS]</li>
+<li>Added Missing In Action to the TMNT driver [Barry]</li>
+<li>Removed an unnecessary array in sys16_run.cpp reducing the exe size [Barry]</li>
+</ul>
+
+<h3>v0.2.96.93</h3>
+<ul>
+<li>Added support for the K007232 sound chip [Barry]</li>
+<li>Added support for the K051960 and K052109 gfx chips [Barry]</li>
+<li>Rewrote the TMNT driver which is now fully working [Barry]</li>
+<li>Added driver for Commando and clones [Barry]</li>
+<li>Added ESD16 driver [iq_132]</li>
+<li>Added NMG5 driver [iq_132]</li>
+<li>Added Tecmo driver [iq_132]</li>
+<li>Added SunA16 driver [iq_132]</li>
+<li>Added Kangaroo driver to debug builds [iq_132]</li>
+<li>Added daimakr2 to the CPS-1 driver [Barry]</li>
+<li>Added snowbrod to the Snow Bros. driver [Barry]</li>
+<li>Added sound to the Pacman driver and fixed some issues with the default inputs [Barry]</li>
+<li>Added support for the YM3562 sound chip [Barry]</li>
+<li>Added the YM3526 sound to bestbest in the SunA16 driver [Barry]</li>
+<li>Added DAC support to Stratovox [iq_132]</li>
+<li>Corrected the refresh rate in the CPS-1 driver [Barry]</li>
+<li>Changed the refresh rate in the CPS-3 driver [Barry]</li>
+<li>Imported fixes from MAME 0.126u5 for fm.c [Barry]</li>
+<li>Reduced DAC volume in fm.c for YM2612 matching MAME 0.127 [Barry]</li>
+<li>Marked the fake CHD CPS-3 sets as hacks so they can be filtered out [Barry]</li>
+<li>Fixed an issue with cheats in Z80 (ZET) based games [Barry]</li>
+<li>Added a feature to auto-download support files [CaptainCPS]</li>
+<li>Merged all the LoadPNG() calls [CaptainCPS]</li>
+<li>Added favourite gamelist support [CaptainCPS]</li>
+<li>Allowed the recent gameslist to cycle games currently in the list [CaptainCPS]</li>
+<li>Fixed issues with mouse events on the game window [CaptainCPS]</li>
+<li>Added zlib/libPNG to FBA source, they are now compiled rather than using pre-compiled libraries [CaptainCPS]</li>
+<li>Some updates to the minGW Win32 header file allowing Win32 API Versions 3.8+ to be used, and also to add support for some new functionality to older versions[Barry, CaptainCPS]</li>
+<li>Added a filter for Konami games [Barry]</li>
+<li>Matched all sets to MAME 0.127 [Barry]</li>
+</ul>
+
+<div class="note">From this point forward, all releases are handled by Barry and each individual contribution is labelled.</div>
+
+<h3>v0.2.96.92</h3>
+<ul>
+<li>CaptainCPS readded netplay and removed the dependancy on any external dlls - use them at your own risk</li>
+<li>Fixed a problem with the SuperScale filter on nVidia gfx cards</li>
+<li>Merged in CaptainCPS's improvements to the game selection dialog</li>
+<li>Fixed a problem with the game information dialog displaying incorrect images</li>
+<li>Updated the romcenter dat module to support the latest romcenter</li>
+<li>Imported fixes from MAME 0.126u4 for fm.c</li>
+<li>Added a flag for MVS Cartidges and changed hardware description output</li>
+<li>Matched all sets to MAME 0.126u4</li>
+</ul>
+
+<h3>v0.2.96.91</h3>
+<ul>
+<li>Added the 2xPM filter to the softfx filters with help from CaptainCPS</li>
+<li>Added ElSemi's SuperScale and SuperScale75 filters</li>
+<li>Made the IPS Manager fallback to Simplified Chinese as a last resort as this is the reference language for the MAME Plus IPS collection</li>
+<li>Made the IPS Manager description vertically scrollable for long descriptions and reorganised the dialog</li>
+<li>Added CaptainCPS's auto monitor aspect ratio code</li>
+<li>Added driver for Unico games</li>
+<li>Moved the drawing code in CPS-1/CPS-2 to happen after the VBLANK IRQ - this shouldn't cause any problems but if you see anything that didn't happen in previous builds let us know</li>
+</ul>
+
+<h3>v0.2.96.90</h3>
+<ul>
+<li>Burner (interface) changes
+<ul>
+<li>Added board type, genre and family filters to the game selection dialog
+<ul>
+<li>Updated all drivers with the new flags</li>
+<li>Amended the relevant dialogs to display the new genre and family information</li>
+<li>Added the genre and family flags to the -listextrainfo output</li>
+</ul></li>
+<li>Added gamelist localisation functionality
+<ul>
+<li>It works in much the same way as the UI localisation, beware though, that if you have a large file it can take some time to start the program, try and keep the file small and with only the titles you want to translate</li>
+<li>Maximum titles to translate is currently set at 5000</li>
+<li>The advantage of doing it this way is that the whole program benefits from translated titles, not just certain parts and the speed hit is only felt once rather than every time a title is retrieved</li>
+<li>Obviously this only works with UNICODE build</li>
+</ul></li>
+<li>Fixed some issues with clicking behind some dialog boxes</li>
+<li>Fixed a problem with the config file, allowing multi-byte paths to be specified</li>
+<li>Double clicking on cheats in the dialog now selects the next option, thanks to sho</li>
+<li>Changed the menu in the game selection dialog to a basic menu</li>
+<li>Increased the width of the info boxes in the game selection dialog to use all available space (and not crop text unnecessarily)</li>
+</ul></li>
+<li>Burn (emulation) changes
+<ul>
+<li>Hooked up the SN76496's in Van-Van Car</li>
+<li>Finished up sf2m13 thanks to a small patch posted by iq_132 years ago</li>
+<li>Added various homebrew games and demos (can be filtered out if you don't want to see them)</li>
+<li>Added various decrypted C sets to the Neo Geo driver (can be filtered out if you don't want to see them)</li>
+<li>Fixed a rom size issue in 8ballact</li>
+<li>Matched all sets to MAME 0.126u3</li>
+</ul></li>
+</ul>
+
+<h3>v0.2.96.89</h3>
+<ul>
+<li>Added IPS support via a manager dialog.
+<ul>
+<li>Right click on the game list, open the manager, enable the patches you want, they are saved to a config file, then right click and play with your saved patches</li>
+</ul></li>
+<li>Fixed a problem with the saving of config files where the game title has unicode in it</li>
+<li>Added iq_132's Street Fighter driver</li>
+<li>Seperated the pacman driver from the misc section</li>
+<li>Removed some CPS-1 hacks</li>
+</ul>
+
+<h3>v0.2.96.88</h3>
+<ul>
+<li>Fixed an issue with the monitor aspect radio buttons</li>
+<li>Various fixes to the themed menus</li>
+<li>Added themed menus to the game selection dialog</li>
+<li>Prevented modeless menus being used with themes</li>
+<li>Added options to view details in MAWS, CAESAR, and progretto EMMA to the game selection context menu</li>
+<li>Added PNG support to the place holder image</li>
+<li>Added option to choose skins to the Misc menu</li>
+<li>Improved the localisation support for the game selection dialog and the game information dialog</li>
+<li>Added "Enable VSync" to the video menu</li>
+<li>Matched all sets to MAME 0.126u2</li>
+</ul>
+
+<h3>v0.2.96.87</h3>
+<ul>
+<li>Added dynamic video size switching to the core</li>
+<li>Merged in CaptainCPS's menu themes code and added the options to the misc menu (disabled by default)</li>
+<li>Merged in kev's and oopswares changes to zet and added CZ80 to the source distribution</li>
+<li>Fixed an issue causing the preview image not to display on program start when the Enhanced blitter was enable</li>
+<li>Fixed an issue with localisation support and added an option to reset to UI default language</li>
+<li>Changed the hotkeys for cheat search to be used with Ctrl</li>
+<li>Added support for the widescreen mode in Street Fighter III 2nd Impact</li>
+<li>Added a fake dipswitch to Street Fighter III for widescreen since the game seems to support it</li>
+<li>Added extracted roms to all CPS-3 sets (noone is likely to port CHD support just for CPS-3 which already works anyway)</li>
+<li>Added fake dip hack to make Red Earth and War Zard work</li>
+<li>Added sf2m8 to release builds</li>
+<li>Added tigerhb1 to the Tiger Heli driver</li>
+<li>Fixed a potential crash in the ICS2115 reset routine (spotted by iq_132)</li>
+<li>Matched all sets to MAME 0.126u1</li>
+</ul>
+
+<h3>v0.2.96.86</h3>
+<ul>
+<li>Burner (interface) changes
+<ul>
+<li>Added a game information dialog to burner</li>
+<li>Tidied up the game selection dialog and seperated Kaneko 16 and Psikyo </li>
+<li>Added a context menu to the game selection dialog</li>
+<li>Added a most recently played games menu item</li>
+<li>Changed the roms dir config dialog to support upto 8 paths</li>
+<li>Fixed an issue with the roms dir config dialog that didn't let the user clear an entry</li>
+<li>Added the roms dir config dialog to the Misc menu</li>
+<li>Added a dialog to configure support files (previews, titles, flyers, marquees, controls, cabinets, pcbs, cheats and history) and added it to the Misc menu</li>
+<li>Added an option to the Misc menu to stop FBA playing with the Num Lock status (don't use this if you use a Hotrod or X-Arcade stick)</li>
+<li>Added an option to the Video menu to auto-switch to full screen after loading a game from the selection dialog</li>
+<li>Added iq_132s improvements to the cheat system
+<ul>
+<li>Adds support for Nebula/Kawaks cheat dats</li>
+<li>Adds limited (although most cheats work) support for the old format MAME cheat.dat file</li>
+<li>Adds cheat support to drivers using the ZET interface, or NEC, SH-2 and M6502 CPUs</li>
+</ul></li>
+<li>Added a basic cheat search engine</li>
+<li>Added a jukebox player - this is very preliminary and only supports WWF Wrestlefest for now (it has many problems for now)</li>
+<li>Added a menu item to write decrypted C Neo Geo roms to disk</li>
+<li>Various little GUI fixes/improvements</li>
+</ul></li>
+<li>Burn (emulation) changes
+<ul>
+<li>Merged in Oopsware's changes to the ZET interface improving support for MAME's Z80 emulator - some things are still broken though so DOZE is still the default</li>
+<li>Added a function to the CPU interfaces to return the active CPU</li>
+<li>Fixed a screen clearing issue in the CPS-1 and CPS-2 drivers when not using a 16-bit colour depth</li>
+<li>Added various bootlegs to the CPS-1 driver in various states of working and attempted to differentiate between the good, the bad and the ugly (dumps)</li>
+<li>Added offset support to the CPS-1 scroll layers</li>
+<li>Added a flag to define whether or not CPS-1 sprite rendering should happen in reverse</li>
+<li>Fixed an issue with rom loading in the sf2yyc driver</li>
+<li>Got the sf2m3 set working and the sf2m1 set almost working</li>
+<li>Added "Phoenix Edition" sets to the CPS-2 driver</li>
+<li>Changed to iq_132s current Neo Geo driver (thanks to iq_132 for updating it)</li>
+<li>Enabled the decrpyted C Neo Geo clones and bootlegs from Kawaks</li>
+<li>Added two clones of Night Striker to the Taito driver</li>
+<li>Changed some dip switches in the Double Dragon 3 driver</li>
+<li>Added Wonder League '96 to the Tumble Pop bootleg driver</li>
+<li>Updated dip switches in Wonder League Star and Jumping Pop</li>
+<li>Added the 16-bit only flag to the megadrive games - fixes rendering issues in the basic blitters</li>
+<li>Added iq_132s Vulgus driver</li>
+<li>Matched all sets to MAME 0.126</li>
+</ul></li>
+</ul>
+
+<h3>v0.2.96.85</h3>
+<ul>
+<li>Added Mazinger Z, Metamoqester, Power Instinct 2 and Power Instinct Legends to the Cave driver</li>
+<li>Lagged the sprite palette in all CPS-2 games - fixes issue in ssf2 attract</li>
+<li>Tidied up the CPS-2 split graphics rom loading</li>
+<li>Properly fixed the qadj ninja sprite bug without resorting to hacks</li>
+<li>Changed the 68000 clock frequency in later CPS-1 games</li>
+<li>Various fixes to the Double Dragon 3 / Combatribes driver</li>
+<li>Added an Italian bootleg of The Combatribes to the ddragon3 driver</li>
+<li>Added clone of Turbo Outrun and clone of Alien Storm to the Sega drivers</li>
+<li>Added iq_132s Bionic Commando driver</li>
+<li>Added iq_132s Ninja Gaiden driver</li>
+<li>Matched all sets to MAME 0.125u6</li>
+</ul>
+
+<h3>v0.2.96.84</h3>
+<ul>
+<li>Added module to emulate the TC0280GRD/TC0430GRW Taito roz layer chips</li>
+<li>Added support to the TC0100SCN module for double width rendering</li>
+<li>Added support to the TC0100SCN and TC0110PCR emulation for multiple chips</li>
+<li>Fixed priorities in Metal Black</li>
+<li>Fixed the CPS-1 palette and added screen clearing to the last palette entry</li>
+<li>Fixed a glitch in the ninja's sprite animation in qadj in the CPS-1 driver</li>
+<li>Added support for split CPS-2 graphics roms</li>
+<li>Added rent version of Capcom Sports Club to the CPS-2 driver</li>
+<li>Added clone of Mighty Pang to the CPS-2 driver</li>
+<li>Added Hotdog Storm to the Cave driver</li>
+<li>Added iq_132s The Legend of Silkroad driver</li>
+<li>Added BisonSAS's fixes to the CPS-3 driver</li>
+<li>Added proper screen clearing to the Final Star Force driver</li>
+<li>BisonSAS added various unicode titles and dip switches to 1943</li>
+<li>Matched all sets to MAME 0.125u4</li>
+</ul>
+
+<h3>v0.2.96.83</h3>
+<ul>
+<li>Added a module to control the Taito IC chips in a more efficient way</li>
+<li>Added a module to do all the common Taito functions and tidied the drivers</li>
+<li>Rewrote the PC080SN and PC090OJ emulation adding support for row scroll, double width and other features</li>
+<li>Added tile banking support to the TC0100SCN emulation</li>
+<li>Added support for configurable bit-depths to the TC0100SCN emulation</li>
+<li>Added palette offset support to the TC0480SCP emulation</li>
+<li>Added driver for Darius</li>
+<li>Added Dead Connection, Dino Rex, Growl, Koshien, Liquid Kids, Mahjong Quest, Mega Blast, Metal Black, Ninja Kids, Solitary Fighter and various quiz games to the Taito F2 driver</li>
+<li>Rewrote the Operation Wolf, Rainbow Islands and Rastan drivers to support the new Taito IC module</li>
+<li>Added Jumping and the original versions of Operation Wolf to the Taito PC080SN &amp; PC090OJ based driver</li>
+<li>Rewrote the Taito X driver to support the new Taito IC module</li>
+<li>Added Balloon Brothers, Gigandes and Last Striker to the Taito X driver</li>
+<li>Added iq_132s Dr. Tomy driver</li>
+<li>Added iq_132s Exed Exes driver</li>
+<li>Added proper screen clearing to the Hyper Pacman driver</li>
+<li>Fixed a small bug in the ClrMAME dat generation with missing quotes</li>
+<li>Matched all sets to MAME 0.125u2</li>
+</ul>
+
+<h3>v0.2.96.82</h3>
+<ul>
+<li>Added driver for Taito F-2 hardware supporting Final Blow, Football Champ, Gun &amp; Frontier, Liquid Kids and Super Space Invaders '91</li>
+<li>Added tilemap flip support to the TC0100SCN emulation</li>
+<li>Added priority map support to the TC0100SCN emulation to allow sprite blending in the Taito F2 driver</li>
+<li>Added support to the CPS-1 driver for loading stars from alternate format graphics roms</li>
+<li>Corrected all dips in the CPS-1 driver</li>
+<li>Updated mappers and configs in the CPS-1 driver to match MAME</li>
+<li>Big tidy up of the CPS-1 and CPS-2 drivers</li>
+<li>Added dynwaru and ffightj2 to the CPS-1 driver</li>
+<li>Added clone of Street Fighter Alpha 2 to the CPS-2 driver</li>
+<li>Added iq_132s driver for Pirate Ship Higemaru</li>
+<li>Updated megadrive driver to nganiere's which fixes some game names</li>
+<li>Matched all sets to MAME 0.125</li>
+</ul>
+
+<h3>v0.2.96.81</h3>
+<ul>
+<li>Added support for the TC0480SCP Taito tilemap controller</li>
+<li>Rewrote the System 16 tile rendering to allow proper col and row scroll and also support alternate tilemap selection</li>
+<li>Added Double Axle to the Taito Z driver</li>
+<li>Added 1942w to the 1942 driver</li>
+<li>Added more games to the System 1 driver</li>
+<li>Added iq_132s Green Beret driver</li>
+<li>Updated the CPS-1 mappers as per MAME</li>
+<li>Corrected clock in Varth</li>
+<li>Corrected clocks in the Kyugo driver as per MAME</li>
+<li>Corrected sprite positioning in the Kyugo driver</li>
+<li>Added a feature allowing users to go to fullscreen and back by double-clicking</li>
+<li>Added command line option -listextrainfo</li>
+<li>Fixed compile errors when using the MAME Z80 core with the Zet interface</li>
+<li>Updated the Mole, Green Beret, Pooyan and Gun Smoke drivers with BisonSAS' changes</li>
+</ul>
+
+<h3>v0.2.96.80</h3>
+<ul>
+<li>Ported MAME's Z80 core to FBA</li>
+<li>Hooked up MAME's Z80 core in the System 16 games that use MC-8123 encryption, sound now works in these games</li>
+<li>Hooked up MAME's Z80 core in the Sega System 1 games, encrypted games now work</li>
+<li>Added more games to the Sega System 1 driver</li>
+<li>Changed the Sega System 1 drivers to appear in the Sega games list</li>
+<li>Got the YM2151 sound working in Cotton</li>
+<li>Added support for the UPD7759 sound chip</li>
+<li>Hooked the UPD7759 chip up in the System 16B driver</li>
+<li>Hooked the UPD7759 chip up in the prehisle driver</li>
+<li>Hooked the UPD7759 chip up in the tmnt driver</li>
+<li>Rewrote the Sega PCM support - solves quite a few problems, particuarly in enduror, outrun and smgp</li>
+<li>Fixed an issue in the Sega System X driver which caused missing sounds in abcop and smgp</li>
+<li>Fixed bug in the YM2612 emulation when more than one chip is emulated</li>
+<li>Changed the CPS-1 rendering code to use the mapper tables from MAME</li>
+<li>Added smgpja to the X-Board driver</li>
+<li>Added shinobi4 to the System 16B driver</li>
+<li>Added ledstrm2 to the madgear driver</li>
+<li>Added command line options, -listinfowithmd and -listinfomdonly</li>
+<li>Fixed the version output in dat files</li>
+<li>Fixed bug where any rom errors weren't reported</li>
+<li>Matched all sets to MAME 0.124u3</li>
+</ul>
+
+<h3>v0.2.96.79</h3>
+<ul>
+<li>Corrected sound in the tnzs driver</li>
+<li>Correctly fixed coins in the wc90 driver</li>
+<li>Enabled Tazmania in the megadrive driver (it works and I like it :) )</li>
+<li>Added support to the FM core interfaces for sound mixing</li>
+<li>Removed kaillera support. The client can be removed and probably should be due to being a potential security risk. Left netplay, chat, etc. code in the program so it has potential to be used with a different netplay system.</li>
+</ul>
+
+<h3>v0.2.96.78</h3>
+<ul>
+<li>Added oopsware's Picodrive Megadrive driver port and tidied up and improved</li>
+<li>Started to go through Megadrive games and enabling ones that work in release builds. Only got to letter B and checked my favourites!</li>
+<li>Added iq_132s Funky Bee driver</li>
+<li>Added iq_132s Pooyan driver</li>
+<li>Ported MAME's I8039 core to FBA</li>
+<li>Added support for DAC sound</li>
+<li>Hooked up the I8039 and DAC in System 16A to add voice support to the driver</li>
+<li>Added gpilotsh and samshoh to the Neo Geo driver</li>
+<li>Updated the SN7649 emulator to determine whether to add to the sound buffer or not</li>
+<li>Removed the AY8910 part of the YM2612 emulation since it's not needed</li>
+<li>Fixed sound in 1943</li>
+<li>Fixed sound in Gunsmoke</li>
+<li>Changed the default DAT file handling to not include Megadrive games</li>
+<li>Added menu option to write DATs including Megadrive games</li>
+</ul>
+
+<h3>v0.2.96.77</h3>
+<ul>
+<li>Added driver for Taito Z hardware</li>
+<li>Added oopsware's Raiden driver and updated the nec core and vez module</li>
+<li>Retidied the nec core and vez module</li>
+<li>Added iq_132s Gun Smoke driver</li>
+<li>Added iq_132s Scrambled Egg driver</li>
+<li>Changed the M6502 core to Marat's with the interface wrote by kev</li>
+<li>Added kev's m90 driver and his updates to the m92 driver to debug builds</li>
+<li>Tidied the m90 and m92 drivers and corrected the gfx decoding in the m90 driver</li>
+<li>Updated Dec0 drivers to kev's latest version</li>
+<li>Updated Jack the Giantkiller driver to the iq_132s latest version</li>
+<li>Made the "In Game" tab the default on the game selection dialog</li>
+<li>Added a checkbox for Taito to the game selection dialog</li>
+<li>Changed some names to prevent duplicate descriptions</li>
+<li>Matched all sets to MAME 0.124u1</li>
+</ul>
+
+<h3>v0.2.96.76</h3>
+<ul>
+<li>Added driver for games on Tumble Pop bootleg hardware</li>
+<li>Tidied the System 1 driver and enabled working sets in normal builds</li>
+<li>Added support for the SN76496 family of sound chips</li>
+<li>Added sound to the Mr. Do driver</li>
+<li>Added sound to the Bank Panic driver</li>
+<li>Fixed missing music in Combatribes</li>
+<li>Fixed a compile issue with VC in the Bank Panic and New Zealand Story drivers</li>
+<li>Fixed an issue in VC builds with inputs not working in various drivers</li>
+<li>Fixed a bug in the Mysterious Stones driver with AY8910 memory allocation</li>
+<li>Corrected the ZetBc call in the 1943 driver making it playable (but still preliminary)</li>
+<li>Updated the Jack the Giantkiller driver to iq_132s latest release</li>
+<li>Updated the dec0 and tmnt drivers to the latest versions released by kev</li>
+<li>Matched all sets to MAME 0.124a</li>
+</ul>
+
+<h3>v0.2.96.75</h3>
+<ul>
+<li>Added driver for Double Dragon 3 / Combatribes</li>
+<li>Added driver for WWF Wrestlemania</li>
+<li>Added driver for Kyugo Z80-based hardware</li>
+<li>Updated the pacman driver to the latest version released by iq_132</li>
+<li>Added iq_132s Bank Panic driver</li>
+<li>Added iq_132s Mr. Do driver</li>
+<li>Added iq_132s Mysterious Stones driver</li>
+<li>Added iq_132s The New Zealand Story driver</li>
+<li>Added clone of Real Bout Fatal Fury to Neo Geo driver</li>
+<li>Added clone of Metal Slug 5 to Neo Geo driver</li>
+<li>Added clone of Dungeons &amp; Dragons: tower of doom to the CPS-2 driver</li>
+<li>Matched all sets to MAME 0.123u4</li>
+</ul>
+
+<h3>v0.2.96.74</h3>
+<ul>
+<li>Updated the CPS-3 driver to include Oopsware's latest fixes</li>
+<li>Fixed a problem with the size of m1 rom in Metal Slug 5</li>
+</ul>
+
+<h3>v0.2.96.73</h3>
+<p>Thanks go to the neosource forum regulars for a lot of this stuff. iq_132 has
+written many drivers for older games, and Oopsware has contributed some impressive
+drivers too. CaptainCPS and KOF2112 have also tidied up some things. This list
+is from memory and some stuff is sure to be missing. Here's what's new anyway;</p>
+
+<ul>
+<li>Added a generic tiles decoding routine and updated various drivers to use it</li>
+<li>Added support for 32x32 tiles in the generic tile rendering module</li>
+<li>Added support for multiple YM2203s to the YM2203 interface</li>
+<li>Updated all sets to match MAME 0.123u1</li>
+<li>Tidied up all source code to compile cleanly for all builds (unicode, non-unicode, debug, non-debug)</li>
+<li>Added support for M6502 CPU</li>
+<li>Added support for SH-2 CPU</li>
+<li>Added support for NEC V30 family CPU</li>
+<li>Seperated misc drivers into "Misc (pre 90s)" and "Misc (post 90s)"</li>
+<li>Moved some common sound cores into the burn folder</li>
+<li>Added various clones and fixed some little issues in various games</li>
+<li>Added driver for Madgear and Last Duel</li>
+<li>Added driver for 1942</li>
+<li>Added preliminary driver for 1943 and added support to the Zet interface to get the BC register</li>
+<li>Added Oopsware's CPS-3 driver</li>
+<li>Added various drivers by iq_132</li>
+<li>Cleaned up the drivers by iq_132 (seperated into Misc pre 90s category, corrected aspect ratios, fixed rom-sets, etc.)</li>
+<li>Added driver for seta2 hardware</li>
+<li>Added preliminary driver for m92 hardware in debug builds</li>
+<li>Added a d_parent module to put required parent drivers that don't have a specific driver</li>
+</ul>
+
+<h3>v0.2.96.72</h3>
+<p>This list is nothing like exhaustive. These are only the highlights of a big new version;</p>
+
+<ul>
+<li>Thanks to the contributions of OopsWare we have some nice new drivers
+<ul>
+<li>PGM Hardware</li>
+<li>Video System Hardware</li>
+<li>1945k III</li>
+<li>Gals Panic</li>
+<li>Power Instinct</li>
+<li>Shadow Force</li>
+</ul></li>
+<li>I have been busy with the following
+<ul>
+<li>Added a Sega System 18 driver</li>
+<li>Added Ace Attacker, Excite League and Super League to the Sega System 16 drivers</li>
+<li>Added various bootlegs to the Sega System 16 driver</li>
+<li>Added driver for Kaneko 16 Hardware</li>
+<li>Added Honey Dolls, Snow Bros. 3, and The Winter Bobble to the Pandora based driver</li>
+<li>Added a generic lightgun interface to the burn library and converted all existing drivers to use it</li>
+<li>Emulated column and row scroll in System 16 tilemaps (still has a few issues with a few instances)</li>
+<li>Added support for (multiple) YM2612/3438 sound chips (as used by System 18)</li>
+<li>Added support for the RF5C68 PCM sound chip (still has issues which escape me at present, used by System 18)</li>
+<li>Fixed an issue with high BPP support in the generic tiles interface</li>
+<li>Matched all sets to MAME 0.117u3 and added some clones to various driver</li>
+</ul></li>
+<li>Added Ganbare Ginkun and Riot to the Tecmo 16 driver [BisonSAS]</li>
+<li>Added kev's preliminary Dec0 driver to debug builds [kev]</li>
+</ul>
+
+<h3>v0.2.96.71</h3>
+<ul>
+<li>Added driver for Galaxy Force 2 (gforce2, gforce2j)</li>
+<li>Added driver for G-LOC (gloc, glocr360)</li>
+<li>Added driver for Line of Fire (loffire, loffirej, loffireu)</li>
+<li>Added driver for Major League (mjleague)</li>
+<li>Added driver for Power Drift (pdrift, pdrifta, pdrifte, pdriftj)</li>
+<li>Added driver for Rail Chase (rchase)</li>
+<li>Added driver for Strike Fighter (strkgftr)</li>
+<li>Fixed sprite flip in Sonic Boom</li>
+<li>Added some unicode titles [BisonSAS]</li>
+<li>Matched sets to MAME 0.114u1</li>
+</ul>
+
+<h3>v0.2.96.70</h3>
+<ul>
+<li>Datfiles should be sorted properly now - thanks to LogiqX for pointing out the errors again</li>
+</ul>
+
+<h3>v0.2.96.69</h3>
+<ul>
+<li>Optimised the FD1094 routines resulting in a big speedup for those games</li>
+<li>Fixed some minor dat file issues - thanks to LogiqX for pointing them out</li>
+</ul>
+
+<h3>v0.2.96.68</h3>
+<ul>
+<li>Added driver for Bullet using Aaron's preliminary FD1094 key (bullet)</li>
+<li>Added driver for Enduro Racer (enduror, enduror1, endurobl)</li>
+<li>Added driver for Final Tetris (finalttr)</li>
+<li>Added driver for Hang-On (hangon)</li>
+<li>Added driver for SDI (sdi, sdib, sdibl, defense)</li>
+<li>Added driver for Space Harrier (sharrier, sharrir1)</li>
+<li>Added driver for Sukeban Jansi Ryuko (sjryuko, sjryuko1)</li>
+<li>Added driver for Twin Adventure (twinadv, twinadvk)</li>
+<li>Emulated the NVRAM for X-Board, Out Run, System 16B and System 16A drivers, although Out Run games don't seem to use it</li>
+<li>Emulated the PPI I/O Chip and hooked it up for the System 16A and Out Run drivers</li>
+<li>Fixed a bug in the System 16 Tilemap rendering (fixes Golden Axe, Wrestle War and some others)</li>
+<li>Optimisations to the graphics rendering in the System 16, Out Run and X-Board drivers</li>
+<li>Added an interface to the YM2203 FM sound core</li>
+<li>Added mahjong controls to the default assignment routine and updated the mahjong games to use it</li>
+<li>Fixed savestate support in some Cave drivers [BisonSAS]</li>
+<li>Various driver cleanups [BisonSAS]</li>
+<li>Improved the rom verify feature and moved the define to the makefile</li>
+<li>Updated some unicode titles [BisonSAS]</li>
+<li>Updated sets to match MAME 0.114</li>
+</ul>
+
+<h3>v0.2.96.67</h3>
+<ul>
+<li>Added driver for AB Cop (abcop)</li>
+<li>Added driver for After Burner (aburner2, aburner)</li>
+<li>Added driver for Dunk Shot (dunkshot)</li>
+<li>Added driver for E-Swat (eswat, eswatj, eswatu)</li>
+<li>Added driver for Golden Axe (goldnaxe, goldnaxj, goldnaxu, goldnax1, goldnax2, goldnax3)</li>
+<li>Added driver for GP Rider (gprider, gprider1)</li>
+<li>Added driver for Heavyweight Champ (hwchamp)</li>
+<li>Added driver for Racing Hero (rachero)</li>
+<li>Added driver for RyuKyu (ryukyu)</li>
+<li>Added driver for Super Monaco GP (smgp, smgp5, smgp6, smgpj, smgpu, smgpu1, smgpu2, smgpu3)</li>
+<li>Added driver for Thunder Blade (thndrbld, thndrbd1)</li>
+<li>Added Jan's preliminary driver for Madgear in debug builds only (madgear)</li>
+<li>Added Kev's preliminary driver for Teenage Mutant Ninja Turtles in debug builds only (tmnt, tmntu, tmntua, tmht, tmntj, tmht2p, tmnt2pj, tmnt2po)</li>
+<li>Rewrite of the Bombjack driver [kev]</li>
+<li>Fixed a crash in some FD-1094 encrypted games</li>
+<li>Fixed the reset function for FD-1094 encrypted games</li>
+<li>Cleanups to the Taito 68K drivers [BisonSAS]</li>
+<li>Fixed bug in the preview cycling code for the Game Select dialog [CaptainCPS]</li>
+</ul>
+
+<h3>v0.2.96.66</h3>
+<ul>
+<li>Added driver for Cotton (cotton, cottonj, cottonu)</li>
+<li>Added driver for Out Run (outrun, outrun1, outrun2, outrunb)</li>
+<li>Added driver for Passing Shot (passshot, passshta, passshtj)</li>
+<li>Added driver for Super Hang-On (shangon, shangon2, shangon3, shangnle)</li>
+<li>Added driver for Turbo Out Run (toutrun, toutrun2)</li>
+<li>Fixed a bug in the System 16 Sprite rendering [kev]</li>
+<li>Fixed a problem with memory card support</li>
+<li>Updated the region dips in the Battle Bakraid and Batrider drivers [BisonSAS]</li>
+<li>Forced the Battle Bakraid driver to use the Musashi 68K core [BisonSAS]</li>
+<li>Updated some unicode titles [BisonSAS]</li>
+</ul>
+
+<h3>v0.2.96.65</h3>
+<ul>
+<li>Corrected the rom size of the v4 rom in lastbldh and lastsold</li>
+<li>Finally beat the bug that sometimes hides the license dialog (hopefully!)</li>
+<li>Updated the load dialog based on code from CaptainCPS, should be the last change as I'm really happy with it</li>
+<li>Updated sets to match MAME 0.112u4</li>
+</ul>
+
+<h3>v0.2.96.64</h3>
+<ul>
+<li>Big update to the System 16 drivers - these drivers are still preliminary and thus still have issues (major issues only listed);
+<ul>
+<li>Dynamic memory maps for System 16B are not emulated</li>
+<li>Row and Column scroll not emulated for System 16A and B</li>
+<li>Alernate tilemap select for System 16B not emulated</li>
+<li>Some of the FD1094 encrypted games require a driver reset after loading before they boot</li>
+<li>There are plenty of other small issues as well but most games are running well</li>
+</ul></li>
+<li>Added driver for Biomechanical Toy (biomtoy) [kev, cleanup by BisonSAS]</li>
+<li>Fixed blank tile bug in the Prehistoric Isle driver</li>
+<li>Fixed bad tiles in The King of Fighters 99 driver [BisonSAS, Ryo, Robert, Yuri, Takuma)</li>
+<li>Updated the CPS-1 drivers to allow brightness control in the palette</li>
+<li>Removed the XOR from spf2ta now the decryption key is known</li>
+<li>Cleanup to the Bombjack driver [BisonSAS]</li>
+<li>Fixed issues with savestates in several drivers</li>
+<li>Changed the game selection dialog again</li>
+<li>Added/fixed several non-Latin titles [doomking, BisonSAS]</li>
+<li>Updated several romsets to match MAME 0.112u3</li>
+<li>Fixed the perl script that generates the driver list so that sets can be assigned to debug builds only again</li>
+</ul>
+
+<h3>v0.2.96.63</h3>
+<ul>
+<li>Added garoubl to the Garou driver</li>
+</ul>
+
+<h3>v0.2.96.62</h3>
+<ul>
+<li>Added driver for Choko (choko)</li>
+<li>Added driver for Jyangokushi: Haoh no Saihai (jyangoku)</li>
+<li>Added various CPS-2 clones now the decryption keys are known</li>
+<li>Added rastsag1 to the Rastan driver</li>
+<li>Fixed bug with EEPROM on startup in CPS games</li>
+<li>Fixed crash bug in Q-Sound games with sound disabled</li>
+<li>Enabled the "Tournament" mode in the tournament versions of Super Street Fighter 2 - now they try to connect to  other terminals (if you just want to play the games then change the setup in the "Test Menu", access using F2)</li>
+<li>Fixed bug in datfile generation module</li>
+<li>Various rom changes to match MAME 0.112u2 (with the exception of the XOR for spf2ta)</li>
+</ul>
+
+<h3>v0.2.96.61</h3>
+<ul>
+<li>Fixed bug in System 16 sound - won't test with volume down in future!</li>
+</ul>
+
+<h3>v0.2.96.60</h3>
+<ul>
+<li>Added Sega System 16A driver supporting Action Fighter, Alex Kidd, Fantasy Zone, Quartet, Shinobi and Time Scanner</li>
+<li>Added various clones to the CPS-2 driver as the keys are now known</li>
+<li>Added driver for Street Fighter Alpha CPS-Changer</li>
+<li>Various renames and XOR removals to match MAME 0.111u5</li>
+<li>Improved save state support in numerous drivers</li>
+<li>Dropped the "(BH)" monikor from the App title</li>
+</ul>
+
+<h3>v0.2.96.59</h3>
+<ul>
+<li>Fixed issues with sound in irrmaze, joyjoy, mahretsu, pspikes2 and socbrawl</li>
+<li>Added sf2m2 to the Street Fighter 2 Champion Edition driver</li>
+<li>Amended the game selection dialog and separated CPS-1/CPS-2 games</li>
+<li>Widened the dip switch dialog</li>
+</ul>
+
+<h3>v0.2.96.58</h3>
+<p>This is a fairly big update; changes are summarised below;</p>
+<ul>
+<li>Neo Geo
+<ul>
+<li>Added driver for Diggerman (diggerma)</li>
+<li>Added driver for Jockey Grand Prix (jockeygp)</li>
+<li>Added driver for Metal Slug 5 (mslug5, ms5plus, ms5pcb)</li>
+<li>Added driver for Pochi and Nyaa (pnyaa)</li>
+<li>Added driver for Samurai Shodown V (samsho5, samsho5h, samsho5b, samsh5sp, samsh5sh, samsh5sn)</li>
+<li>Added driver for SvC Chaos - SNK vs Capcom (svc, svcboot, svcplus, svcplusa, svcsplus, svcpcb, svcpcba)</li>
+<li>Added driver for The King of Fighters 2003 (kof2003, kf2k3bl, kf2k3bla, kf2k3pl, kf2k3upl, kf2k3pcb)</li>
+<li>Added driver for V-Liner (vliner, vlinero)</li>
+<li>Added driver for Zintrick (zintrckb)</li>
+<li>Added aof3k to the Art of Fighting 3 driver</li>
+<li>Added ct2k3sp to the Crouching Tiger Hidden Dragon 2003 driver</li>
+<li>Added kog to the King of Fighters '97 driver</li>
+<li>Added lastsold to the Last Blade driver</li>
+<li>Added mslug3b6 to the Metal Slug 3 driver</li>
+<li>Added ms4plus to the Metal Slug 4 driver</li>
+<li>Added fswords to the Samurai Shodown III driver</li>
+<li>Added lans2004 to the Shock Troopers 2 driver</li>
+<li>Added kof10th, kf10thep, kf2k5uni, kf2k2mp, kf2k2mp2, kf2k2pls, kf2k2pla, kof2k4se to the King of Fighters 2002 driver</li>
+<li>ROMset changes to match MAME affecting the kizuna, kof2000, kof2001, kof2002, lastblda, matrim, mslug4, and rbff1 drivers</li>
+<li>Added emulation for PVC Protection</li>
+<li>Added extra emulation for various bootlegs and gambling games</li>
+<li>Enabled a protection patch for Metal Slug X making the game playable</li>
+<li>Updated Universe BIOS to latest version (2.2)</li>
+<li>Added missing bioses from MAME</li>
+<li>Added a compile-time define in the Neo Geo driver to strictly match the MAME bios set for romset validation purposes</li>
+<li>Removed driver for bangbedp</li>
+</ul></li>
+<li>CPS-2
+<ul>
+<li>Added the decryption algorithm routines to allow games to be decrytped without XORs</li>
+<li>Removed the XORs from drivers where the decryption key is known</li>
+<li>Added driver for Hyper Street Fighter 2 (hsf2a)</li>
+<li>Added driver for Puzz Loop 2 (pzloop2, pzloop2j)</li>
+<li>Added 19xxa to the 19XX driver</li>
+<li>Added avspa to the Alien vs Predator driver</li>
+<li>Added armwar to the Armored Warriors driver</li>
+<li>Added ddsomr1, ddsomr3 to the Dungeons &amp; Dragons: Shadow of Mystara driver</li>
+<li>Added ddtodr1 to the Dungeons &amp; Dragons: Tower of Doom driver</li>
+<li>Added mshj to the Marvel Super Heroes driver</li>
+<li>Added mshvsfj2 to the Marvel Super Heroes vs Street Fighter driver</li>
+<li>Added spf2ta to the Super Puzzle Fighter 2 Turbo driver</li>
+<li>Added ssf2tbr1 to the Super Street Fighter 2 driver</li>
+<li>Added ssf2u to the Super Street Fighter 2 Turbo driver</li>
+<li>Added xmvsfu to the X-Men vs Street Fighter driver</li>
+<li>Emulated the paddles in Puzz Loop 2 (pzloop2, pzloop2j)</li>
+<li>ROMset changes to match MAME affecting the armwar, avsp, ddsom, ddtod, dstlk, msh, mshvsf, msvc, progear, sfa, sfa3, sgemf, spf2t, vhunt2, and xmvsf drivers</li>
+<li>Corrected the descriptions in the Cyberbots driver</li>
+<li>Disabled drivers for games without XORs or decryption keys</li>
+</ul></li>
+<li>CPS-1
+<ul>
+<li>Added cawingr1 to the Carrier Air Wing driver</li>
+<li>Added ffightua to the Final Fight driver</li>
+<li>Fixed the Saturday Night Slam Masters driver so the games now boot</li>
+<li>ROMset changes to match MAME affecting the forgottn, sf2, and varth drivers</li>
+<li>Removed driver for knightsh</li>
+</ul></li>
+<li>Toaplan
+<ul>
+<li>Added driver for Hell Fire (hellfire, hellfir1, hellfir2)</li>
+<li>Added driver for Truxton (truxton)</li>
+<li>Added driver for Zero wing (zerowing)</li>
+<li>Added batsugna to the Batsugun driver</li>
+<li>Added outzoneb, outzonec to the Out Zone driver</li>
+<li>Fixed the dip switches in the Out Zone driver</li>
+<li>ROMset changes to match MAME affecting the bbakraid, dogyuun, outzone and shippumd drivers</li>
+</ul></li>
+<li>Cave
+<ul>
+<li>Added donpachk to the Donpachi driver</li>
+<li>Added theroes to the Gaia driver</li>
+<li>Added uopoko to the Puzzle Uo Poko driver</li>
+<li>ROMset changes to match MAME affecting the btlkroad, ddonpach, dfeveron, donpach, gaia and uopoko drivers</li>
+</ul></li>
+<li>Misc
+<ul>
+<li>Added driver for Cooki and Bibi 2</li>
+<li>Added driver for Cooki and Bibi 3</li>
+<li>Added driver for More More</li>
+<li>Added driver for More More Plus</li>
+<li>Added driver for Puzzle King</li>
+<li>Added driver for Toppy &amp; Rappy</li>
+<li>Added driver for Twinkle</li>
+<li>Added driver for XESS - The New Revolution (SemiCom 3-in-1)</li>
+<li>Added gtstarba to the Guardian driver</li>
+<li>Added newsa to the News driver</li>
+<li>Added slapftuk, slapfgtr to the Slap Fight driver</li>
+<li>Added snowbroc to the Snow Bros. driver</li>
+<li>Added solomon to the Solomons Key driver</li>
+<li>Added s1945a, s1945k to the Strikers 1945 driver</li>
+<li>Added supermanj to the Superman driver</li>
+<li>Added tigerhb2 to the Tiger Heli driver</li>
+<li>Added daisenpu to the Twin Hawk driver</li>
+<li>Fixed the sound generated by the YM2151 in the Final Star Force driver</li>
+<li>Fixed the hang bug in the Rastan driver when starting the game</li>
+<li>ROMset changes to match MAME affecting the gunbird, opwolf, rastan, s1945, solomon, tengai and tigerh drivers</li>
+</ul></li>
+<li>Application
+<ul>
+<li>Added a NODUMP flag for rom definitions and updated DAT file generation and rom scan routines to support it</li>
+<li>Increased the max length of a rom name to 32 characters</li>
+<li>Added support for the extra V-Liner inputs to the input dialog</li>
+<li>Made game selection dialog wider to accomodate longer game titles</li>
+<li>Fixed the player descriptions in the input dialog (Player 0 becomes Player 1, etc.)</li>
+</ul></li>
+</ul>
+
+<div class="note">From this point forward, all releases are handled by Barry and each external contribution is labelled.<br /><br />The releases below were available on the old FBA site.</div>
+
+<h3>v0.2.95.23</h3>
+<p>Time for another FinalBurn Alpha release, bringing with it an assortment of fixes and additions. Grab it while it’s hot, from our files page. Any bugs / issues should be reported to the FBA official forums.</p>
+<ul>
+<li>This is still an alpha release!</li>
+<li>Note that, if compiled with GCC, you will need to use version 3.3.x, and the experimental DirectX 9 blitter is not built</li>
+<li>Changed the way FB Alpha looks for ROMs. Now, it will always check the last path for any given .zip file, even when a .zip file of the same name is present in another path. This way, we can keep ROMs that are only needed for FB Alpha seperate without sacrifising compatibility with other emulators</li>
+<li>Changed the way Neo Geo memory cards work, allowing the use of 1 megabit cards</li>
+<li>Emulated protection in Super Sidekicks (was patched before)</li>
+<li>Fixed the last few bad game names / bad ROM definitions</li>
+<li>Fixed a few minor issues in the makefile for mingw/cygwin</li>
+<li>The debugger is now only compiled for debug builds</li>
+<li>Minor updates to compile documentation</li>
+<li>Fixed a crash at startup for some systems when autopause was activated</li>
+</ul>
+
+<h3>v0.2.95.22</h3>
+<p>This release fixes a few bugs that crept into yesterdays release. GCC is supported in this release, with a few stipulations. See below for more details regarding compiling this release with GCC. Grab this latest release from our files page.</p>
+<ul>
+<li>This is still an alpha release!</li>
+<li>Note that, if compiled with GCC, you will need to use version 3.3.x, and the experimental DirectX 9 blitter is not built</li>
+<li>Implemented workarounds to the FB Alpha executable to allow the use of windres as the resource compiler (it cannot zero-terminate strings or use a string as an RCDATA resource)</li>
+<li>Cleaned up the makefiles (variables/options now defined in the main makefile)</li>
+<li>Fixed a few game names / bad ROM definitions</li>
+<li>Fixed CPS1 games sound / crashing if started as the 1st game</li>
+<li>Fixed the Psikyo games that use an YM2610 for sound</li>
+<li>Fixed a few problems with ANSI builds</li>
+</ul>
+
+<h3>v0.2.95.21</h3>
+<p>At long last it’s time for a new version of FBA! On offer are the standard build, the source code and an optimised binary for use on Win9x / Pentium machines. You can download the latest version, from our Files page.</p>
+<p>This is still an alpha release!</p>
+<p>Note that this version CANNOT be compiled with GCC!</p>
+<ul>
+<li>converted all code to optionally use unicode</li>
+<li>Added a driver for 68EC020 based Psikyo hardware</li>
+<li>Added a second 68000 CPU core. For plain 68000 CPUs you can select which core to use, the new one also emulates 68010 and 68EC020 CPUs</li>
+<li>Fixed the overclock feature for Neo Geo</li>
+<li>Added a DirectX Graphics 9 blitter (see system requirements, below)</li>
+<li>Performed miscellaneous minor bugfixes</li>
+</ul>
+
+<h3>v0.2.94.98</h3>
+<p>Special Christmas Eve Release!</p>
+<p>A new version of FBA has been released, with the following fixes and updates. Please remember that this is still considered to be an alpha release and while we are pretty sure most of the nastier bugs have been squashed, a few may remain. So if you find a bug, please report it to the appropriate forum. All that remains is too wish our Christmas celebrating users a Merry Christmas! And to everyone else, happy Winter Solstice!</p>
+<ul>
+<li>Fixed all the new bugs introduced in the previous version</li>
+<li>Fixed the raster effects in Samurai Shodown 3</li>
+<li>Preview images can be any png file upto 1024×0124 pixels</li>
+<li>Added descriptive text to screenshot png files</li>
+<li>Added a system information dialog that’s used when FB Alpha crashes</li>
+<li>Added the english language versions of mahoudai and shippumd</li>
+</ul>
+
+<h3>v0.2.94.97</h3>
+<p>There is a new version of FBA available from our downloads page. At present an upgrade .msi is unavailable. Any users wishing to upgrade, should download the standard fba_029497.exe and extract the contents to their installation directory.</p>
+<p>This is an alpha release! Again, although we expect very few problems, there still might be some we’ve not seen.</p>
+<ul>
+<li>Fixed most of the remaining problems in v0.2.94.96</li>
+<li>Shortcut keys have changed</li>
+<li>Directories used by FB Alpha have changed</li>
+<li>Readme updated (read it completely even if you’ve read the earlier versions)</li>
+<li>The Neo Geo driver now always uses a real AES BIOS in AES mode, more differences between AES and MVS are emulated now as well</li>
+</ul>
+
+<h3>v0.2.94.96</h3>
+<p>All the files are now back online. If you downloaded the previous installer, then you only have to download the smaller upgrade installer this time around. There is also an optimised build for K6 users; as after all, they are people too… Please remember to delete the contents of you cfg/ folder before you start FBA, as the old cfg files will not be fully compatible with the new release.</p>
+
+<h3>v0.2.94.95</h3>
+<p>A new version of FBA has been released. This version fixes most of the problems in v0.2.94.56. If you downloaded the fba.msi last time, we recommend that you wait for the fba_029495_update.msi that should be released later this evening. For all the K6 people out there, an optimized K6 version will be available shortly as well. Please note that certain CPS1 games still lack sound. Downloads are currently available from the torrents page. Direct downloads will be available in a little while. If you are using FB Alpha v0.2.94.56, please upgrade. Delete all files in the FB Alpha cfg directory.</p>
+
+<h3>v0.2.94.56</h3>
+<ul>
+<li>Added a driver for Neo Geo games</li>
+<li>too many other improvements to name</li>
+</ul>
+
+<h3>v0.2.94</h3>
+<ul>
+<li>Added a driver for Cave games</li>
+<li>Added a driver for Rainbow Islands</li>
+<li>Added support for X-Arcade joystick</li>
+<li>Improved compatibility of the Direct3D blitter, and added new options</li>
+<li>re-added 3x macros for Street Fighter 2 style games</li>
+<li>Added 4-point interpolation to the ADPCM sound cores</li>
+</ul>
+
+<h3>v0.2.92</h3>
+<ul>
+<li>Small bug-fix release, relating to inputs (Z-Axis), NetPlay Chat font-size and a small speed increase</li>
+</ul>
+
+<h3>v0.2.91</h3>
+<p>(This is basically a new emulator with far too many new features to list - the following is merely a very brief summary).</p>
+<ul>
+<li>Toaplan2 emulation</li>
+<li>Massively improved CPS-2 emulation with support for all currently XORed games</li>
+<li>Improved CPS-1 emulation with support for the recent (Chinese?) hacks</li>
+<li>Many, many UI enhancements</li>
+<li>New blitters - including RGB effects, etc</li>
+<li>Demo recording and playback</li>
+</ul>
+
+<h3>v0.2.5</h3>
+<ul>
+<li>Fixed menu/cheat incompatibilty bug</li>
+<li>Added a suprise (in the source)</li>
+</ul>
+
+<h3>v0.2.4.0</h3>
+<ul>
+<li>Fixed dstlk driver for euro parent set</li>
+<li>Added mvsc driver</li>
+</ul>
+
+<h3>v0.2.3.0</h3>
+<ul>
+<li>This build should fix the drop in performance that has been experienced by people with slow PC's. This was probably caused by new Platform SDK DirectX 8.0 elements. Please let us know if you still experience a drop in performance</li>
+<li>Fixed bug with Mercs driver</li>
+</ul>
+
+<h3>v0.2.2.7</h3>
+<ul>
+<li>Added starfield emulation</li>
+<li>Added support for changing layer-sprite priorities with raster effects. (fixes glitches in Manhattan and Apocalypse stages)</li>
+<li>Fixed pgear/armwar glitch</li>
+<li>Added hotkeys for savestate slots</li>
+<li>Updated the cheat engine so it can use same cheats for multiple games</li>
+<li>Added screenshot feature</li>
+<li>Added a basic shot factory. F8 to activate</li>
+<li>Slightly changed shot factory to include sprite toggle</li>
+<li>Updated the fbcheat.dat file with a ton of cheats</li>
+<li>Driver changes</li>
+<li>Fixed controls for mercs &amp; clones</li>
+</ul>
+
+<h3>v0.2.2</h3>
+<ul>
+<li>Fixed cawing &amp; clones buildings gfx error</li>
+<li>Fixed repeating sounds</li>
+<li>Fixed sound crashing in DDTOD and other games</li>
+<li>Changed keys for volume up and down</li>
+<li>Fixed aspect ratio for vertical games</li>
+<li>Added the third button to the mtwins driver</li>
+<li>fixed crash bugs in cawingj, knightsj, qadj, striderj, varthj &amp; varthu</li>
+<li>Added more cheats</li>
+</ul>
+
+<h3>v0.2.1</h3>
+<ul>
+<li>Added drivers for ddtod, sfz3a, vsava, xmvsf &amp; xmcota</li>
+</ul>
+
+<h3>v0.138a</h3>
+<ul>
+<li>Added Drivers for mshvsf, mshvsfj, mshvsfjr1, vsav &amp; armwar</li>
+<li>No further updates have been made to this version</li>
+</ul>
+
+<h3>v0.137a</h3>
+<ul>
+<li>Fixed auto-pause</li>
+<li>Fixes to dozea.asm</li>
+<li>Fixed HotRod inputs</li>
+<li>Fixed an input menu bug when there's no DIP-SW data available</li>
+<li>Updated and fixed dipinfo.dat file</li>
+<li>Updated fbcheat.dat file</li>
+<li>Added volume control</li>
+<li>Added more accelerators</li>
+</ul>
+
+<h3>v0.137</h3>
+<p>REALLY IMPORTANT BIT: We require your feedback/input, regarding any problems/bugs you may have with the Kaillera netplay &amp; new menu. Please report any bugs to http://www.xsorbit.com/users/LEvilElmo/index.cgi - and use the FinalBurn Alpha Bug Report Board. Remember to provide details about your PC's spec's, OS, etc etc.</p>
+<p>SECOND IMPORTANT BIT: Ayeye &amp; HyperYagami have joined "Team FB Alpha."</p>
+<ul>
+<li>Added a new GUI</li>
+<li>Added rom scanning to check what roms you have</li>
+<li>Added options to show all, CPS-1 only or CPS-2 only games</li>
+<li>Added option to only show the games you got</li>
+<li>Added esc=exit for all dialogs</li>
+<li>Added CPS1 QSound (thanks for info ElSemi)</li>
+<li>Added IIR low pass filter</li>
+<li>Added Dip Switches Engine</li>
+<li>Fixed stupid error I made with the cheat dialog column widths :P</li>
+<li>Set nApplyCheatEveryXFrame to 0 as standard</li>
+<li>Fixed so the 4 player fix for batcirj only applies to netplay</li>
+<li>Added light blue background as standard for SFA3 + clones in netplay</li>
+<li>Added flip monitor as standard for XMvSF in netplay</li>
+<li>Added drivers for ddsom, dstlk, dstlkr1, sfa &amp; sfar1</li>
+<li>Updated cheats file</li>
+</ul>
+
+<h3>v0.136 WIP</h3>
+<ul>
+<li>A small fix so the the option bReadInputEveryFrame is always *ON* during netplay. Changing the value in the .ini file now only effects local play</li>
+<li>Disabled the T key during netplay until i can fix it and still make FB run under Win95</li>
+<li>Fixed four player in Battle Circuit</li>
+</ul>
+
+<h3>v0.136</h3>
+<p>REALLY IMPORTANT BIT: Delete all of the files in the "cfg folder" apart from the "finalburn file." The new cheat engine has "issues" with the old config files.</p>
+<ul>
+<li>Disabled the T (talk) key during netply until i can figure out a way of fixing the problem</li>
+<li>A small fix so the the option bReadInputEveryFrame is now always ON during netplay. Changing the value in the .ini file now only effects local play</li>
+<li>Merged in some changes from big fool</li>
+<li>Added an options dialog, still needs a bit of work but works in its current state</li>
+<li>Added the layer toggle code by gangta and removed the old Alt+L layer toggle stuff keys alt+6 -0 are used</li>
+<li>Added version 2 of HyperYagami's Cheat engine. A lack of space on the cheat menu has ment that you cannot disable cheats, but that doesn't really matter. Also made a small change for netplay cus the input dialog was getting screwed</li>
+<li>Removed the Dat type code from the .ini file. Use the buttons under options instead</li>
+<li>Cheat options input screen added :)</li>
+<li>Fixed 4 player under Battle Circuit</li>
+<li>Added lots more cheats to the fbcheat.dat file</li>
+<li>Fixed so the 4/3 player fixes only applies to the netplay games</li>
+<li>Minor tweak to the Options Input screen</li>
+<li>Added Mike's lovely FBA logo to all the doc's</li>
+</ul>
+
+<h3>v0.135</h3>
+<ul>
+<li>Readded Ayeye's pause code, works a lot better now. Also added his latest version which fixes a few bugs. the game will now pause when the panel is shown and when the window loses foucus. It is still disabled during netplay</li>
+<li>Readded HyperYagami's multi rom path stuff</li>
+<li>Fixed the updated Megaman driver</li>
+<li>Added the first version of HyperYagami's cheat engine as well as making a few changes to disable it during multiplayer</li>
+<li>A small fix so the the option bReadInputEveryFrame is always off during netplay. Changing the value in the .ini file now only effects local play</li>
+<li>Fixed the warnings that were starting to creep in all over the place</li>
+<li>Added region switches for: Battle Circuit, Eco Fighters, Armored Warriors &amp; Street Fighter Zero 2 Alpha</li>
+<li>Fixed player 2 &amp; 3 controls in Mercs</li>
+<li>Merged Logiqxs driver changes</li>
+<li>Merged Logiqxs .dat generator and added .ini setting for it</li>
+<li>Added Hotrod support in the ini</li>
+<li>Added extra ports to CPS_RW.CPP to get the kicks working in sf2ue and gain more control over rotation in forgottn</li>
+<li>Altered the Driver list so that all drivers are listed alphabetically, this fixes the "Alphabetical Doubling" in the game list, when creating an online game</li>
+<li>Got 3Player controls working in Knights of the Round</li>
+<li>Yet another tweak to the load menu - everything should now be in the correct order</li>
+<li>Added AvsP 3 Player fix &amp; DD:SoM 4 Player fix, should work fine in netplay now!</li>
+<li>Fixed Ghouls, SSF2T &amp; SF2T + Clones in netplay, they were unplayable before!</li>
+<li>Fixed the region switches in netplay!</li>
+<li>Added region switches for: DD:ToD, Pnickies, Mega Man</li>
+<li>Added Infinite Time cheats to all 1 on 1 fighting games</li>
+<li>Fixed the QNDream controller</li>
+</ul>
+
+<h3>v0.134</h3>
+<p>FinalBurn Alpha is now updated by "Team FB Alpha" (LoopMaster, KEV, Mike_Haggar &amp; TrebleWinner)</p>
+<ul>
+<li>Fixed FFightj GFX Loading</li>
+<li>Added 2 new fields to the driver structure</li>
+<li>Added Treble Winner's changes fixing descriptions of many of the inputs</li>
+<li>Changed the load dialog to support the new text fields</li>
+<li>Removed the multi rom path code as it needs fixing</li>
+<li>Added Merged CPS1 Drivers (Rest of the games!)</li>
+<li>Fixed Mercs and clones, Cawingj, Cworld2j, Pnickj &amp; Qad GFX Loading</li>
+<li>Fixed 3wonders and clones &amp; willow and clones GFX Loading + Banks</li>
+<li>Added the inputs that was missing, but were included in MAME</li>
+<li>Added Captain Commando and clones driver</li>
+<li>Added Mega Twins and clones driver (thanks to Diablo82 &amp; Treble_Winner)</li>
+<li>Fixed SF2 Init13 (thanks to Treble_Winner)</li>
+<li>Added TrebleWinners default controls code. Default controls can now be set in the ini (eg: 0=keyboard, 1=joystick 1, 2=joystick 2, etc...</li>
+<li>Minor tweak to the load menu display</li>
+<li>Added Ayeye's Pause Code. FinalBurn Alpha will now pause when the window loses focus. NB: the gui must be hidden for this to occur</li>
+<li>Fixed problems with Win95/Kaillera incompatabilities (KEV)</li>
+<li>Added drivers for the new CPS2shock releases (Battle Circuit, Eco Fighters, SFA3 clones &amp; Vampire clone)</li>
+</ul>
+
+<h3>v0.133</h3>
+<ul>
+<li>An apology for releasing the debug version by accident, sorry all. C++ caused several lock ups &amp; crashes on my PC before I built the .exe file. Several configuration setting's fouled up &amp; I lost a few unimportant files as well :(</li>
+</ul>
+
+<h3>v0.132</h3>
+<ul>
+<li>Hack Fixed the UN Squadron driver (KEV)</li>
+<li>Add WIP for better Multiply protection</li>
+<li>Patched Knights of the round so you can play it</li>
+<li>Added King of Dragons driver By Mike_Haggar with a fix by KEV</li>
+<li>Added Support for 1941 and clones</li>
+<li>A fully working King Of the Dragons Driver</li>
+<li>A very very small tweak to the game selection dialog</li>
+<li>Re-added a few lines in drv.cpp to fix on-line mode and tweaked rom search path</li>
+<li>Added Better support for the CPS1 board IDs to get all the games that need it working and changed drivers as needed</li>
+<li>Added Merged CPS2 Drivers (All games!)</li>
+<li>Added Merged CPS1 Drivers for : UN Squadron, Varth, Strider, MSword and Final Fight!</li>
+<li>Added Merged Sf2 and Sf2ce drivers with all clones with thanks to JeldrosJ3 for SF2RB2</li>
+<li>Fixed the problem with Marvel Super Heroes (Japan) loading the USA version instead of the Japan version.</li>
+</ul>
+
+<h3>v0.131</h3>
+<ul>
+<li>Now compiled with Christophe's Alpha 5 Kaillera code</li>
+<li>Fixed the crash when using Strider Hiryu (USA)</li>
+<li>Multiple ROM path support added courtesy of HyperYagami</li>
+</ul>
+
+<h3>v0.130</h3>
+<ul>
+<li>Now compiled with Christophe's Alpha 4 Kaillera code, a new version of the kailleraclient.dll is also included in this release</li>
+<li>Added lots of new drivers for Street Fighter (C.E. &amp; Turbo), mainly clones though, thanks to everyone who donated these. Too many to mention here, but SF2 Red Wave &amp; Rainbow Edition are included</li>
+<li>Drivers added for Magic Sword (Mike Haggar) and UN Squadron (KEV)</li>
+<li>Added my own Knights of the Round driver, thanks go out to Mike Haggar for fixing the GFX issues. Unfortunately the in-game controls don't work at present :( </li>
+<li>In theory it should be possible to play against someone who is using FinalBurn Kaillera Alpha 4, as both use the same code. That said, it would be better if you play against someone who is using Final Burn Alpha v0.130 :)</li>
+</ul>
+
+<h3>v0.129</h3>
+<ul>
+<li>There's no need to use patched XOR's anymore! Armwar, Pgear &amp; Pgearr1 now use the original XOR tables released by Raz. A very big thankyou goes out to Raz &amp; FinalDave for helping me solve this problem :)</li>
+<li>Pgearr1 now works correctly, and no longer reports the "1010 EXCEPTION 0000716C" message</li>
+<li>Re-ordered the games list. CPS-1/CPS-Changer games can now be found at the bottom of the game list, in alphabetical order</li>
+<li>Forced "bReadInputEveryFrame" to default as "0" (off). According to Raz this should help with the netplay. The "bDrvSaveAll" option should also be set to "0" if you are using the netplay feature</li>
+</ul>
+
+<h3>v0.128</h3>
+<ul>
+<li>Added Christophe's Kaillera source code (Alpha3), so netplay is now available!</li>
+</ul>
+
+<h3>v0.127</h3>
+<ul>
+<li>Enabled the CPS-1 drivers for:
+<ul>
+<li>Megaman/Rockman: The Power Battle</li>
+<li>Final Fight (World)</li>
+<li>Ghouls &amp; Ghosts</li>
+<li>Strider</li>
+<li>Street Fighter 2 (ETC)</li>
+<li>Street Fighter 2: C.E. (ETC)</li>
+<li>Street Fighter 2 Turbo (USA)</li>
+</ul></li>
+<li>Enabled the CPS-Changer driver for:
+<ul>
+<li>Street Fighter Zero</li>
+</ul></li>
+</ul>
+
+<h3>v0.126</h3>
+<ul>
+<li>Updated all CPS-2 drivers, to be compliant with Logiqx CPS-2 DAT 20010727</li>
+<li>Added drivers for Armwar, Pgear &amp; Pgearr1 - they currently use Haze's patched XOR's</li>
+<li>You need to add the following patched XOR's to the following ROMset's:
+<ul>
+<li>pgear_xor_haze.zip ------> pgear.zip</li>
+<li>pgearr1_xor_haze.zip ----> pgearr1.zip</li>
+<li>armwar_xor_haze.zip -----> armwar.zip</li>
+</ul></li>
+<li>Pgearr1 loads but does not work properly, it only displays a "1010 EXCEPTION 0000716C"</li>
+</ul>
+
+<h3>v0.125</h3>
+<ul>
+<li>Altered Driver for Ddsomj so that it now points to Ddsomjr1</li>
+</ul>
+
+<h3>v0.124</h3>
+<ul>
+<li>Removed CPS-1 &amp; Sega drivers</li>
+<li>Added Drivers for all CPS-2 titles, with the exception of Armoured Warriors &amp; Powered Gear</li>
+</ul>
+
+</div>
+
+</body>
+</html>

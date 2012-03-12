@@ -1,0 +1,44 @@
+#ifdef APSTUDIO_INVOKED
+ #error This file cannot be edited using the Visual C resource editor
+#endif
+
+#define MAKE_STRING_2(s) #s
+#define MAKE_STRING(s) MAKE_STRING_2(s)
+
+#ifdef __GNUC__
+ #define _WIN32_WINDOWS 0x410
+ #define _WIN32_IE 0x0500
+#endif
+
+// For version macros
+#include "version.h"
+// For APP_TITLE and APP_DESCRIPTION macros (both include quotes)
+#include "title.h"
+
+// String IDs
+#include "resource_string.h"
+
+#ifdef __GNUC__
+ #include "app_gnuc.rc"
+#else
+ #include "app.rc"
+#endif
+
+// Version resource
+#include "version.rc"
+
+// Manifest for Windows XP in themed mode
+CREATEPROCESS_MANIFEST_RESOURCE_ID RT_MANIFEST "resource/manifest.xml"
+
+// License (we need to use a custom resource type, since Windres doesn't understand rcdata strings
+ID_LICENSE 256 "license.rtf"
+
+// DirectX 9 blitter effects/shaders
+//#ifdef _MSC_VER
+ID_DX9EFFECT RCDATA	"resource/bicubic.fx"
+//#endif
+
+// GUI strings
+#include "string.rc"
+
+

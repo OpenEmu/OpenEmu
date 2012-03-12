@@ -1,0 +1,47 @@
+You may freely use, modify, and distribute both the FB Alpha source code and binary, however the following restrictions apply to the FB Alpha original material (see below for a list of libraries with differing licenses, please consult their respective documentation for more information):
+
+ - You may not sell, lease, rent or otherwise seek to gain monetary profit from FB Alpha;
+ - You must make public any changes you make to the source code;
+ - You must include, verbatim, the full text of this license;
+ - You may not distribute binaries which support games with copyright dates less then three years old;
+ - You may not distribute FB Alpha with ROM images unless you have the legal right to distribute them;
+ - You may use dynamic linked libraries (dlls) for network play only (all other use is prohibited);
+ - You may not ask for donations to support your work on any project that uses the FB Alpha source code.
+
+FB Alpha can currently be obtained from http://www.barryharris.me.uk/.
+
+FB Alpha would not exist without a lot of code from the MAME project. The MAME project is subject to it's own license, which can be found at http://mamedev.org/legal.html. Due to the use of MAME code in FB Alpha, FB Alpha is also subject to the terms of the MAME license.
+
+FB Alpha is based on Final Burn (formally at http://www.finalburn.com/), see additional text below.
+Musashi MC68000/MC68010/MC68EC020 core by Karl Stenerud (http://www.mamedev.org/).
+A68K MC68000 core by Mike Coates & Darren Olafson (http://www.mamedev.org/).
+YM3812/YM3526/Y8950 core by Jarek Burczynski & Tatsuyuki Satoh (http://www.mamedev.org/).
+YM2151 core by Jarek Burczynski (http://www.mamedev.org/).
+YM2413 core by Jarek Burczynski (http://www.mamedev.org/).
+YMF278B core by R. Belmont & O.Galibert (http://www.mamedev.org/).
+YM2608/YM2610/YM2612/YM2203 cores by Jarek Burczynski & Tatsuyuki Satoh (http://www.mamedev.org/).
+AY8910/YM2149 core by various authors (http://www.mamedev.org/).
+M6502 emulation core by Marat (http://fms.komkon.org/EMUL8/).
+I8039 emulation core by Mirko Buffoni (http://www.mamedev.org/).
+ARM7 emulation core by Steve Ellenoff (http://www.mamedev.org/).
+Z80 emulation core by Juergen Buchmueller (http://www.mamedev.org/).
+PNG functionality provided by libpng (http://www.libpng.org/) and PNGlib (http://www.madwizard.org/).
+Zip functionality provided by zlib (http://www.zlib.net/).
+
+Some graphics effects provided by the Scale2x, 2xPM, Eagle Graphics, 2xSaI, hq2x/hq3x/hq4x, hq2xS/hq3xS/SuperEagle/2xSaI (VBA), hq2xS/hq3xS/hq2xBold/hq3xBold/EPXB/EPXC (SNES9X ReRecording) and SuperScale libraries (http://scale2x.sourceforge.net/, http://2xpm.freeservers.com/, http://retrofx.com/, http://elektron.its.tudelft.nl/~dalikifa/, http://www.hiend3d.com/, http://code.google.com/p/vba-rerecording/, http://code.google.com/p/snes9x151-rerecording/, http://nebula.emulatronia.com/).
+
+Miscellaneous other components from various sources. Copyright and license information are contained in the relevant parts of the source code.
+
+All material not covered above © 2004-2010 Team FB Alpha.
+
+DISCLAIMER: The authors of FB Alpha don't guarantee its fitness for any purpose, implied or otherwise, and do not accept responsibility for any damages whatsoever that might occur when using FB Alpha. All games emulated by FB Alpha, including any images and sounds therein, are copyrighted by their respective copyright holders. FB Alpha DOES NOT INCLUDE any ROM images of emulated games.
+
+The following information and license conditions accompanied the original Final Burn emulator. They also apply to FB Alpha:
+
+"Copyright (c)2001 Dave (formally of www.finalburn.com), all rights reserved. This refers to all code except where stated otherwise (e.g. unzip and zlib code)."
+
+"You can use, modify and redistribute this code freely as long as you don't do so commercially. This copyright notice must remain with the code. If your program uses this code, you must either distribute or link to the source code. If you modify or improve this code, you must distribute the source code improvements."
+
+"Dave"
+"Former Homepage: www.finalburn.com"
+"E-mail: dave@finalburn.com"
