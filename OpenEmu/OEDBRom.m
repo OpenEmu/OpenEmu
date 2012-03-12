@@ -34,7 +34,6 @@
 #import "NSFileManager+OEHashingAdditions.h"
 #import "NSURL+OELibraryAdditions.h"
 @interface OEDBRom (Private)
-+ (id)_createRomWithoutChecksWithFilePath:(NSString*)filePath md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError DEPRECATED_ATTRIBUTE; 
 + (id)_createRomWithoutChecksWithURL:(NSURL*)url md5:(NSString*)md5 crc:(NSString*)crc inDatabase:(OELibraryDatabase*)database error:(NSError**)outError;
 @end
 @implementation OEDBRom
@@ -113,13 +112,14 @@
         NSInteger i = 0;
         NSString *fileName = [[newURL lastPathComponent] stringByDeletingPathExtension];
         NSString *fileSuffix = [newURL pathExtension];
-                
-        newURL = [NSURL URLWithString:[newURL lastPathComponent] relativeToURL:databaseUnsortedFolderURL];
+        
+        newURL = [databaseUnsortedFolderURL URLByAppendingPathComponent:[newURL lastPathComponent]  isDirectory:NO];
+
         while([newURL checkResourceIsReachableAndReturnError:nil])
         {
             i++;
             NSString *newFileName = [NSString stringWithFormat:@"%@ %d.%@", fileName, i, fileSuffix];
-            newURL = [NSURL URLWithString:newFileName relativeToURL:databaseUnsortedFolderURL];
+            newURL = [databaseUnsortedFolderURL URLByAppendingPathComponent:newFileName isDirectory:NO];
         }
         
         if(![defaultManager copyItemAtURL:url toURL:newURL error:outError])
@@ -352,94 +352,6 @@
 + (NSEntityDescription *)entityDescriptionInContext:(NSManagedObjectContext *)context
 {
     return [NSEntityDescription entityForName:[self entityName] inManagedObjectContext:context];
-}
-#pragma mark -
-- (void)doInitialSetupWithDatabase:(OELibraryDatabase*)db DEPRECATED_ATTRIBUTE
-{   
-    DLog(@"doInitialSetupWithDatabase: %@", [self url]);
-    
-    NSURL       *url         = [self url];
-    NSURL       *databaseURL = [db databaseFolderURL];
-    BOOL        useMD5       = [[NSUserDefaults standardUserDefaults] boolForKey:UDUseMD5HashingKey];
-    NSError     *error       = nil;
-    NSString    *hash        = nil;
-    OEDBRom     *rom         = nil; // will point to the rom that has the same hash as self (if any)
-    
-    // Calculate this rom's hash
-    if(useMD5)
-    {
-        hash = [[NSFileManager defaultManager] MD5DigestForFileAtURL:url error:nil];
-        rom = [db romForMD5Hash:hash];
-    }
-    else 
-    {
-        hash = [[NSFileManager defaultManager] CRC32ForFileAtURL:url error:nil];
-        rom = [db romForCRC32Hash:hash];
-    }
-    
-    // if a rom with the same hash exists we remove this rom and it's game
-    if(rom)
-    {
-        NSSet *romsInGame = [self valueForKeyPath:@"game.roms"];
-        if([romsInGame count]==1)
-        {
-            if([url isSubpathOfURL:databaseURL])
-            {
-                [[NSFileManager defaultManager] removeItemAtURL:url error:nil];
-            }
-            
-            [self.managedObjectContext deleteObject:[self game]];
-            [self.managedObjectContext deleteObject:self];
-        }
-        
-        return;
-    }
-    
-    if(useMD5)
-        [self setMd5:hash];
-    else
-        [self setCrc32:hash];
-    
-    // Get info from Archive.VG
-    NSDictionary *archiveGameInfo = nil;
-    if(useMD5)
-    {
-        archiveGameInfo = [ArchiveVG gameInfoByMD5:hash];
-    } 
-    else
-    {
-        archiveGameInfo = [ArchiveVG gameInfoByCRC:hash];
-    }
-    
-    // Remove rom.game if the db already holds a game with that archive id, and add this rom to the game that is already present
-    OEDBGame *game = [db gameWithArchiveID:(NSNumber*)[archiveGameInfo valueForKey:(NSString*)AVGGameIDKey]];
-    if(game)
-    {
-        [[self managedObjectContext] deleteObject:[self game]];
-        [[game mutableRoms] addObject:self];
-    } 
-    else
-        game = [self game];
-
-    [game mergeWithGameInfo:archiveGameInfo];
-    
-    BOOL organize = [[NSUserDefaults standardUserDefaults] boolForKey:UDOrganizeLibraryKey];
-    if(organize && [url isSubpathOfURL:databaseURL])
-    {
-        NSURL       *systemsROMFolder = [db romsFolderURLForSystem:[[self game] system]];
-        NSString    *romName          = [[self url] lastPathComponent];
-        // TODO : ^ use tosec for new rom path if available
-        NSURL       *newRomURL        = [NSURL URLWithString:romName relativeToURL:systemsROMFolder];
-      
-        if(![[NSFileManager defaultManager] moveItemAtURL:url toURL:newRomURL error:&error])
-        {
-            NSLog(@"could not move rom to new path");
-            NSLog(@"%@", error);
-            return;
-        }
-        
-        [self setUrl:newRomURL];
-    }
 }
 #pragma mark -
 #pragma mark Data Model Properties
