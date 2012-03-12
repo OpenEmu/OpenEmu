@@ -39,7 +39,7 @@
 - (BOOL)isSubpathOfURL:(NSURL *)url
 {
     NSArray *parentPathComponents = [url pathComponents];
-    NSArray *ownPathComponentes   = [url pathComponents];
+    NSArray *ownPathComponentes   = [self pathComponents];
     
     NSUInteger ownPathCount = [ownPathComponentes count];
     

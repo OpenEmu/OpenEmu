@@ -789,27 +789,30 @@ return resultPath;
     
     return [NSURL fileURLWithPath:libraryFolderPath isDirectory:YES];
 }
+
 - (NSURL *)romsFolderURL
 {
     NSString *romsFolderName = NSLocalizedString(@"roms", @"Roms Folder Name");
     
-    NSURL *result = [NSURL URLWithString:romsFolderName relativeToURL:[self databaseFolderURL]];
+    NSURL *result = [[self databaseFolderURL] URLByAppendingPathComponent:romsFolderName isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
     
     return result;
 }
+
 - (NSURL *)unsortedRomsFolderURL
 {
     NSString *unsortedFolderName = NSLocalizedString(@"unsorted", @"Unsorted Folder Name");
     
-    NSURL *result = [NSURL URLWithString:unsortedFolderName relativeToURL:[self romsFolderURL]];
+    NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:unsortedFolderName isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
    
     return result;
 }
+
 - (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system
 {
-    NSURL *result = [NSURL URLWithString:[system systemIdentifier] relativeToURL:[self romsFolderURL]];
+    NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:[system systemIdentifier] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
     
     return result;
