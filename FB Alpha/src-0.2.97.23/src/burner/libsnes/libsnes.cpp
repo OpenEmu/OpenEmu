@@ -209,7 +209,7 @@ static bool open_archive()
          if (g_find_list[i].nState == STAT_OK)
             continue;
 
-         if (g_find_list[i].ri.nType == 0 || g_find_list[i].ri.nLen == 0)
+         if (g_find_list[i].ri.nType == 0 || g_find_list[i].ri.nLen == 0 || g_find_list[i].ri.nCrc == 0)
          {
             g_find_list[i].nState = STAT_OK;
             continue;
