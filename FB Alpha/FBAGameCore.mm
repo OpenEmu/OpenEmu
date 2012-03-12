@@ -100,9 +100,9 @@ static int16_t input_state_callback(bool port, unsigned device, unsigned index, 
 	if (port == SNES_PORT_1 & device == SNES_DEVICE_JOYPAD) {
         return current->pad[0][devid];
     }
-    else if(port == SNES_PORT_2 & device == SNES_DEVICE_JOYPAD) {
-        return current->pad[1][devid];
-    }
+    //else if(port == SNES_PORT_2 & device == SNES_DEVICE_JOYPAD) {
+    //    return current->pad[1][devid];
+    //}
     
     return 0;
 }
@@ -207,7 +207,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (oneway void)didPushFBAButton:(OEFBAButton)button forPlayer:(NSUInteger)player;
 {
-    pad[player-1][FBAEmulatorValues[button]] = 0xFFFF; //1 or 0xFFFF
+    pad[player-1][FBAEmulatorValues[button]] = 1; //1 or 0xFFFF
 }
 
 - (oneway void)didReleaseFBAButton:(OEFBAButton)button forPlayer:(NSUInteger)player;
