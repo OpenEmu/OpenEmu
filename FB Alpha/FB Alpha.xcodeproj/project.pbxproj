@@ -42,7 +42,6 @@
 		82EC40A30FD9EC5A0017FC19 /* FBAGameCore.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5008DAE0E8BFB3E005AECAF /* FBAGameCore.mm */; };
 		8D5B49B0048680CD000E48DA /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C167DFE841241C02AAC07 /* InfoPlist.strings */; };
 		8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */; };
-		94EE685F1509D1B600F80F37 /* gcc-fba-libsnes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94EE685E1509D1B600F80F37 /* gcc-fba-libsnes.a */; };
 		C6C71E4A0FCDE25F002FAC4D /* ControlsPreference.xib in Resources */ = {isa = PBXBuildFile; fileRef = C63E6C640FCDA565009C8555 /* ControlsPreference.xib */; };
 /* End PBXBuildFile section */
 
@@ -209,7 +208,6 @@
 		9472091F150AFC2A009D7F9E /* OEFBASystemResponderClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OEFBASystemResponderClient.h; path = ../OpenEmu/Arcade/OEFBASystemResponderClient.h; sourceTree = "<group>"; };
 		94EE68571509ABC000F80F37 /* libsnes.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = libsnes.hpp; path = fbasource/libsnes.hpp; sourceTree = SOURCE_ROOT; };
 		94EE68581509ABD100F80F37 /* libsnes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = libsnes.cpp; path = fbasource/libsnes.cpp; sourceTree = SOURCE_ROOT; };
-		94EE685E1509D1B600F80F37 /* gcc-fba-libsnes.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "gcc-fba-libsnes.a"; path = "fbasource/gcc-fba-libsnes.a"; sourceTree = "<group>"; };
 		B5008DAD0E8BFB3E005AECAF /* FBAGameCore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBAGameCore.h; sourceTree = "<group>"; };
 		B5008DAE0E8BFB3E005AECAF /* FBAGameCore.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FBAGameCore.mm; sourceTree = "<group>"; };
 		C63E6C640FCDA565009C8555 /* ControlsPreference.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ControlsPreference.xib; sourceTree = "<group>"; };
@@ -224,7 +222,6 @@
 				82EA60570F514D8C008E18C5 /* OpenEmuBase.framework in Frameworks */,
 				8D5B49B4048680CD000E48DA /* Cocoa.framework in Frameworks */,
 				82EC409F0FD9EC420017FC19 /* libz.dylib in Frameworks */,
-				94EE685F1509D1B600F80F37 /* gcc-fba-libsnes.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,7 +231,6 @@
 		089C166AFE841209C02AAC07 /* VisualBoyAdvance */ = {
 			isa = PBXGroup;
 			children = (
-				94EE685E1509D1B600F80F37 /* gcc-fba-libsnes.a */,
 				82EA60480F514D80008E18C5 /* OpenEmu.xcodeproj */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32C88E010371C26100C91783 /* Other Sources */,
@@ -329,7 +325,7 @@
 				C6B9E3FD14841AC400836111 /* NeoGeo Pocket.oesystemplugin */,
 				1B32153114DDDB4000C5B50A /* GameGear.oesystemplugin */,
 				94EE64101508674A00F80F37 /* NDS.oesystemplugin */,
-				9472091D150AFBEA009D7F9E /* Arcade.bundle */,
+				9472091D150AFBEA009D7F9E /* Arcade.oesystemplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -443,10 +439,10 @@
 			remoteRef = 8390474B14597FE200335E4F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		9472091D150AFBEA009D7F9E /* Arcade.bundle */ = {
+		9472091D150AFBEA009D7F9E /* Arcade.oesystemplugin */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
-			path = Arcade.bundle;
+			path = Arcade.oesystemplugin;
 			remoteRef = 9472091C150AFBEA009D7F9E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};

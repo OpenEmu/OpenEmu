@@ -207,7 +207,7 @@ static void writeSaveFile(const char* path, int type)
 
 - (oneway void)didPushFBAButton:(OEFBAButton)button forPlayer:(NSUInteger)player;
 {
-    pad[player-1][FBAEmulatorValues[button]] = 0xFFFF; //1
+    pad[player-1][FBAEmulatorValues[button]] = 0xFFFF; //1 or 0xFFFF
 }
 
 - (oneway void)didReleaseFBAButton:(OEFBAButton)button forPlayer:(NSUInteger)player;
@@ -290,12 +290,16 @@ static void writeSaveFile(const char* path, int type)
             
             loadSaveFile([filePath UTF8String], SNES_MEMORY_CARTRIDGE_RAM);
         }
-        snes_set_controller_port_device(SNES_PORT_1, SNES_DEVICE_NONE); //SNES_DEVICE_JOYPAD
-        snes_set_controller_port_device(SNES_PORT_2, SNES_DEVICE_NONE);
+        //snes_set_controller_port_device(SNES_PORT_1, SNES_DEVICE_NONE); //SNES_DEVICE_JOYPAD
+        //snes_set_controller_port_device(SNES_PORT_2, SNES_DEVICE_NONE);
         
         snes_get_region();
         
         snes_run();
+        NSLog(@"returns true");
+    }
+    else if(!snes_load_cartridge_normal(NULL, data, size)) {
+        NSLog(@"returns false");
     }
     
     return YES;
