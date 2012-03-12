@@ -70,7 +70,6 @@
 
 - (OEDBRom*)romForMD5Hash:(NSString*)hashString;
 - (OEDBRom*)romForCRC32Hash:(NSString*)crc32String;
-- (OEDBRom*)romForWithPath:(NSString*)path DEPRECATED_ATTRIBUTE;
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate;
 - (NSArray*)romsInCollection:(id)collection;
 #pragma mark -
@@ -82,12 +81,12 @@
 - (id)addNewCollectionFolder:(NSString*)name;
 #pragma mark -
 #pragma mark Database Folders
-@property (readonly) NSString *databaseFolderPath DEPRECATED_ATTRIBUTE;
-@property (readonly) NSString *databaseUnsortedRomsPath DEPRECATED_ATTRIBUTE;
 - (NSURL *)databaseFolderURL;
 - (NSURL *)romsFolderURL;
 - (NSURL *)unsortedRomsFolderURL;
 - (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system;
+- (NSURL *)stateFolderURL;
+- (NSURL *)stateFolderURLForSystem:(OEDBSystem *)system;
 #pragma mark -
 @property (copy) NSURL *databaseURL;
 @property (strong) NSPersistentStoreCoordinator  *persistentStoreCoordinator;

@@ -155,10 +155,6 @@ static OELibraryDatabase *defaultDatabase = nil;
 {      
     NSLog(@"destroying LibraryDatabase");
     
-    
-    
-    
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }
@@ -721,34 +717,6 @@ static OELibraryDatabase *defaultDatabase = nil;
     return [result lastObject];
 }
 
-- (OEDBRom*)romForWithPath:(NSString*)path
-{
-    NSManagedObjectContext *context = [self managedObjectContext];
-    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"ROM" inManagedObjectContext:context];
-    
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:entityDescription];
-    [fetchRequest setFetchLimit:1];
-    [fetchRequest setIncludesPendingChanges:YES];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"path == %@", path];
-    [fetchRequest setPredicate:predicate];
-    
-    NSError *err = nil;
-    NSArray *result = [context executeFetchRequest:fetchRequest error:&err];
-    if(result==nil)
-    {        NSLog(@"Error executing fetch request to get rom by path");
-        NSLog(@"%@", err);
-        return nil;
-    }
-    else
-    {
-        NSLog(@"Result: %@", result);
-    }
-    
-    return [result lastObject];
-}
-
 - (NSArray*)romsForPredicate:(NSPredicate*)predicate
 {
     [romsController setFilterPredicate:predicate];
@@ -764,29 +732,11 @@ static OELibraryDatabase *defaultDatabase = nil;
 }
 #pragma mark -
 #pragma mark Datbase Folders
-- (NSString*)databaseFolderPath DEPRECATED_ATTRIBUTE
-{
-NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-NSString *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
-return libraryFolderPath;
-}
-
-- (NSString*)databaseUnsortedRomsPath DEPRECATED_ATTRIBUTE
-{
-NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
-NSString *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
-NSString *resultPath = [libraryFolderPath stringByAppendingPathComponent:@"oldstyle_unsorted"];
-
-[[NSFileManager defaultManager] createDirectoryAtPath:resultPath withIntermediateDirectories:YES attributes:nil error:nil];
-
-return resultPath;
-}
-
 - (NSURL *)databaseFolderURL
 {
     NSUserDefaults *standardDefaults = [NSUserDefaults standardUserDefaults];
     NSString *libraryFolderPath = [standardDefaults stringForKey:UDDatabasePathKey];
-    
+
     return [NSURL fileURLWithPath:libraryFolderPath isDirectory:YES];
 }
 
@@ -813,6 +763,26 @@ return resultPath;
 - (NSURL *)romsFolderURLForSystem:(OEDBSystem *)system
 {
     NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:[system systemIdentifier] isDirectory:YES];
+    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return result;
+}
+
+- (NSURL *)stateFolderURL
+{
+    NSString *saveStateFolderName = NSLocalizedString(@"Save States", @"Save States Folder Name");
+    NSURL    *result = [NSApp URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];    
+    result = [result URLByAppendingPathComponent:saveStateFolderName isDirectory:YES];
+
+    [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    return result;
+}
+
+- (NSURL *)stateFolderURLForSystem:(OEDBSystem *)system
+{
+    NSURL *result = [[self stateFolderURL] URLByAppendingPathComponent:[system systemIdentifier] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
     
     return result;
@@ -863,6 +833,7 @@ return resultPath;
         NSLog(@"Error getting file info: %@", outError);
         return [NSArray array];
     }
+    
     NSNumber *filesize = [fileInfo valueForKey:NSFileSize];
     NSDictionary *res = [NSDictionary dictionaryWithObjectsAndKeys:filesize, @"filesize", path, @"filepath", nil];
     return [NSArray arrayWithObject:res];
