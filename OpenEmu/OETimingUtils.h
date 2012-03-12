@@ -26,9 +26,9 @@
 
 #import <Foundation/Foundation.h>
 
-NSTimeInterval OEMonotonicTime();
+NSTimeInterval OEMonotonicTime(void);
 void OEWaitUntil(NSTimeInterval time);
 
 void OEPerfMonitorSignpost(NSString *name, NSTimeInterval maximumTime);
-void OEPerfMonitorObserve(NSString *name, NSTimeInterval maximumTime, void (^block)());
+void OEPerfMonitorObserve(NSString *name, NSTimeInterval maximumTime, void (^block)(void));
 int OESetThreadRealtime(NSTimeInterval period, NSTimeInterval computation, NSTimeInterval constraint);

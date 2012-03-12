@@ -628,7 +628,7 @@ static int PixelFormatToBPP(GLenum pixelFormat)
     return [gameCore isEmulationPaused];
 }
 
-- (void) setPauseEmulation:(BOOL)paused
+- (void)setPauseEmulation:(BOOL)paused
 {
     [gameCore setPauseEmulation:paused];
 }

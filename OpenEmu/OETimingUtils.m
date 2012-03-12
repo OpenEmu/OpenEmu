@@ -29,9 +29,10 @@
 
 static double mach_to_sec = 0;
 
-static void init_mach_time()
+static void init_mach_time(void)
 {
-    if (!mach_to_sec) {
+    if(mach_to_sec == 0.0)
+    {
         struct mach_timebase_info base;
         mach_timebase_info(&base);
         mach_to_sec = base.numer / (double)base.denom;
@@ -40,7 +41,7 @@ static void init_mach_time()
     }
 }
 
-NSTimeInterval OEMonotonicTime()
+NSTimeInterval OEMonotonicTime(void)
 {    
     init_mach_time();
     
@@ -55,24 +56,22 @@ void OEWaitUntil(NSTimeInterval time)
 }
 
 @interface OEPerfMonitorObservation : NSObject
-@property (nonatomic) NSTimeInterval totalTime;
-@property (nonatomic) NSInteger numTimesRun;
-@property (nonatomic) NSInteger numTimesOver;
+@property(nonatomic) NSTimeInterval totalTime;
+@property(nonatomic) NSInteger numTimesRun;
+@property(nonatomic) NSInteger numTimesOver;
 @end
 
 @implementation OEPerfMonitorObservation
 {
-@public
-    NSString *name;
-    NSTimeInterval maximumTime;
+    NSString       *name;
+    NSTimeInterval  maximumTime;
     
-    NSTimeInterval lastTime;
+    NSTimeInterval  lastTime;
     
     NSTimeInterval *sampledDiffs;
     int n;
 }
 @synthesize totalTime, numTimesRun, numTimesOver;
-@end
 
 static NSMutableDictionary *observations;
 static const int samplePeriod = 480;
@@ -81,17 +80,19 @@ static void OEPerfMonitorRecordEvent(OEPerfMonitorObservation *observation, NSTi
 {
     observation.totalTime += diff;
     observation.numTimesRun++;
-    if (diff >= observation->maximumTime)
+    
+    if(diff >= observation->maximumTime)
         observation.numTimesOver++;
     
     NSTimeInterval avg = observation.totalTime / observation.numTimesRun;
     
-    if (observation->n == samplePeriod) {
-        NSTimeInterval variance=0;
-        NSTimeInterval worst=DBL_MIN;
-        int i = 0;
+    if(observation->n == samplePeriod)
+    {
+        NSTimeInterval variance = 0;
+        NSTimeInterval worst    = DBL_MIN;
         
-        for (i = 0; i < samplePeriod; i++) {
+        for(int i = 0; i < samplePeriod; i++)
+        {
             NSTimeInterval t,s;
             t = observation->sampledDiffs[i];
             s = t - avg;
@@ -102,8 +103,8 @@ static void OEPerfMonitorRecordEvent(OEPerfMonitorObservation *observation, NSTi
         NSTimeInterval stddev = sqrt(variance / observation.numTimesRun);
         
         NSLog(@"%@: avg %fs (%f fps), std.dev %fs (%f fps), worst %fs / over %ld/%ld = %f%%", observation->name,
-              avg, 1/avg, stddev, 1/stddev, worst, observation.numTimesOver, observation.numTimesRun,
-              100. * (observation.numTimesOver/(float)observation.numTimesRun));
+              avg, 1 / avg, stddev, 1 / stddev, worst, observation.numTimesOver, observation.numTimesRun,
+              100. * (observation.numTimesOver / (float)observation.numTimesRun));
         observation->n = 0;
     }
     
@@ -112,11 +113,12 @@ static void OEPerfMonitorRecordEvent(OEPerfMonitorObservation *observation, NSTi
 
 static OEPerfMonitorObservation *OEPerfMonitorGetObservation(NSString *name, NSTimeInterval maximumTime)
 {
-    if (!observations) observations = [NSMutableDictionary new];
+    if(observations == nil) observations = [NSMutableDictionary new];
     
     OEPerfMonitorObservation *observation = [observations objectForKey:name];
     
-    if (!observation) {
+    if(observation == nil)
+    {
         observation = [[OEPerfMonitorObservation alloc] init];
         observation->sampledDiffs = calloc(samplePeriod, sizeof(NSTimeInterval));
         observation->name = name;
@@ -133,7 +135,8 @@ void OEPerfMonitorSignpost(NSString *name, NSTimeInterval maximumTime)
     
     NSTimeInterval time2 = OEMonotonicTime();
     
-    if (!observation->lastTime) {
+    if(observation->lastTime == 0.0)
+    {
         observation->lastTime = time2;
         return;
     }
@@ -142,7 +145,7 @@ void OEPerfMonitorSignpost(NSString *name, NSTimeInterval maximumTime)
     observation->lastTime = time2;
 }
 
-void OEPerfMonitorObserve(NSString *name, NSTimeInterval maximumTime, void (^block)())
+void OEPerfMonitorObserve(NSString *name, NSTimeInterval maximumTime, void (^block)(void))
 {
     OEPerfMonitorObservation *observation = OEPerfMonitorGetObservation(name, maximumTime);
     
@@ -153,12 +156,15 @@ void OEPerfMonitorObserve(NSString *name, NSTimeInterval maximumTime, void (^blo
     OEPerfMonitorRecordEvent(observation, time2 - time1);
 }
 
+@end
+
 #include <mach/mach_init.h>
 #include <mach/thread_policy.h>
 #include <mach/thread_act.h>
 #include <pthread.h>
 
-int OESetThreadRealtime(NSTimeInterval period, NSTimeInterval computation, NSTimeInterval constraint) {
+int OESetThreadRealtime(NSTimeInterval period, NSTimeInterval computation, NSTimeInterval constraint)
+{
     struct thread_time_constraint_policy ttcpolicy;
     int ret;
     thread_port_t threadport = pthread_mach_thread_np(pthread_self());
@@ -170,16 +176,17 @@ int OESetThreadRealtime(NSTimeInterval period, NSTimeInterval computation, NSTim
     
     NSLog(@"RT policy: %fs (limit %fs) every %fs", computation, constraint, period);
     
-    ttcpolicy.period=period / mach_to_sec; 
-    ttcpolicy.computation=computation / mach_to_sec;
-    ttcpolicy.constraint=constraint / mach_to_sec;
-    ttcpolicy.preemptible=1;
+    ttcpolicy.period      = period / mach_to_sec; 
+    ttcpolicy.computation = computation / mach_to_sec;
+    ttcpolicy.constraint  = constraint / mach_to_sec;
+    ttcpolicy.preemptible = 1;
     
-    if ((ret=thread_policy_set(threadport,
-                               THREAD_TIME_CONSTRAINT_POLICY, (thread_policy_t)&ttcpolicy,
-                               THREAD_TIME_CONSTRAINT_POLICY_COUNT)) != KERN_SUCCESS) {
+    if((ret = thread_policy_set(threadport,
+                                THREAD_TIME_CONSTRAINT_POLICY, (thread_policy_t)&ttcpolicy,
+                                THREAD_TIME_CONSTRAINT_POLICY_COUNT)) != KERN_SUCCESS) {
         NSLog(@"OESetThreadRealtime() failed.");
         return 0;
     }
+    
     return 1;
 }

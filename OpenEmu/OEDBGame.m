@@ -150,7 +150,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(game == nil && checkCRC)
     {
         // DLog(@"checking crc32...");
-        crc = [defaultFileManager crc32ForFileAtURL:url error:outError];
+        crc = [defaultFileManager CRC32ForFileAtURL:url error:outError];
         if(!crc) return nil;
         // DLog(@"crc32: %@", crc);
         
@@ -167,7 +167,7 @@ NSString *const OEPasteboardTypeGame = @"org.openEmu.game";
     if(game == nil && checkMD5)
     {
         // DLog(@"checking");
-        md5 = [defaultFileManager md5DigestForFileAtURL:url error:outError];
+        md5 = [defaultFileManager MD5DigestForFileAtURL:url error:outError];
         if(!md5)
             return nil;
         // DLog(@"md5: %@", md5);

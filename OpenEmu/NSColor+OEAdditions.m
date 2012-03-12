@@ -47,12 +47,9 @@
 
 - (CGColorRef)CGColor
 {
-    if([self isEqualTo:[NSColor blackColor]])
-        return CGColorGetConstantColor(kCGColorBlack);
-    if([self isEqualTo:[NSColor whiteColor]])
-        return CGColorGetConstantColor(kCGColorWhite);
-    if([self isEqualTo:[NSColor clearColor]])
-        return CGColorGetConstantColor(kCGColorClear);
+    if([self isEqualTo:[NSColor blackColor]]) return CGColorGetConstantColor(kCGColorBlack);
+    if([self isEqualTo:[NSColor whiteColor]]) return CGColorGetConstantColor(kCGColorWhite);
+    if([self isEqualTo:[NSColor clearColor]]) return CGColorGetConstantColor(kCGColorClear);
 
     NSColor *rgbColor = [self colorUsingColorSpaceName:NSCalibratedRGBColorSpace];
     CGFloat components[4];

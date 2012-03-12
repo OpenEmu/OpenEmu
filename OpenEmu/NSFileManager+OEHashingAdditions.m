@@ -1,44 +1,68 @@
-//
-//  NSFileManager+OEHashingAdditions.m
-//  OpenEmu
-//
-//  Created by Carl Leimbrock on 12.02.12.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
+/*
+ Copyright (c) 2012, OpenEmu Team
+ 
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+     * Redistributions of source code must retain the above copyright
+       notice, this list of conditions and the following disclaimer.
+     * Redistributions in binary form must reproduce the above copyright
+       notice, this list of conditions and the following disclaimer in the
+       documentation and/or other materials provided with the distribution.
+     * Neither the name of the OpenEmu Team nor the
+       names of its contributors may be used to endorse or promote products
+       derived from this software without specific prior written permission.
+ 
+ THIS SOFTWARE IS PROVIDED BY OpenEmu Team ''AS IS'' AND ANY
+ EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL OpenEmu Team BE LIABLE FOR ANY
+ DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 
 #import "NSFileManager+OEHashingAdditions.h"
 #import <CommonCrypto/CommonDigest.h>
-#define md5ChunkSize 1024*10
+
+#define md5ChunkSize (1024 * 10)
 #define crc32ChunkSize 8
+
 @implementation NSFileManager (OEHashingAdditions)
+
 #pragma mark -
-#pragma mark md5
-- (NSString*)md5DigestForFileAtPath:(NSString*)path error:(NSError**)error DEPRECATED_ATTRIBUTE
+#pragma mark MD5
+
+- (NSString *)MD5DigestForFileAtPath:(NSString *)path error:(NSError **)error DEPRECATED_ATTRIBUTE
 {
-    return [self md5DigestForFileAtURL:[NSURL fileURLWithPath:path] error:error];
+    return [self MD5DigestForFileAtURL:[NSURL fileURLWithPath:path] error:error];
 }
 
-- (NSString*)md5DigestForFileAtURL:(NSURL*)url error:(NSError**)error
+- (NSString *)MD5DigestForFileAtURL:(NSURL *)url error:(NSError **)error
 {
-    NSFileHandle* handle = [NSFileHandle fileHandleForReadingFromURL:url error:error];
-    if(!handle)
-        return nil;
+    NSFileHandle *handle = [NSFileHandle fileHandleForReadingFromURL:url error:error];
+    if(handle == nil) return nil;
     
     CC_MD5_CTX hashContext;
     CC_MD5_Init(&hashContext);
+    
     do {
-        @autoreleasepool {
-            NSData* data = [handle readDataOfLength:md5ChunkSize];
+        @autoreleasepool
+        {
+            NSData *data = [handle readDataOfLength:md5ChunkSize];
             CC_MD5_Update(&hashContext, [data bytes], (CC_LONG)[data length]);
-            if(!data || [data length] < md5ChunkSize) break;
+            if(data == nil || [data length] < md5ChunkSize) break;
         }
-    } while (YES);
+    } while(YES);
+    
     [handle closeFile];
     
     unsigned char digest[CC_MD5_DIGEST_LENGTH];
     CC_MD5_Final(digest, &hashContext);
     
-    return [NSString stringWithFormat: @"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
+    return [NSString stringWithFormat:@"%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x",
             digest[0], digest[1], 
             digest[2], digest[3],
             digest[4], digest[5],
@@ -51,7 +75,8 @@
 
 #pragma mark -
 #pragma mark crc32
-static const unsigned long crc32table[] =
+
+static const unsigned int crc32table[] =
 {
     0x00000000, 0x77073096, 0xee0e612c, 0x990951ba, 0x076dc419, 0x706af48f, 0xe963a535, 0x9e6495a3,
     0x0edb8832, 0x79dcb8a4, 0xe0d5e91e, 0x97d2d988, 0x09b64c2b, 0x7eb17cbd, 0xe7b82d07, 0x90bf1d91,
@@ -87,37 +112,29 @@ static const unsigned long crc32table[] =
     0xb3667a2e, 0xc4614ab8, 0x5d681b02, 0x2a6f2b94, 0xb40bbe37, 0xc30c8ea1, 0x5a05df1b, 0x2d02ef8d
 };
 
-- (NSString*)crc32ForFileAtPath:(NSString*)path error:(NSError**)error DEPRECATED_ATTRIBUTE
+- (NSString *)CRC32ForFileAtPath:(NSString *)path error:(NSError **)error DEPRECATED_ATTRIBUTE
 {
-    return [self crc32ForFileAtURL:[NSURL fileURLWithPath:path] error:error];
+    return [self CRC32ForFileAtURL:[NSURL fileURLWithPath:path] error:error];
 }
 
-- (NSString*)crc32ForFileAtURL:(NSURL*)url error:(NSError**)error
+- (NSString *)CRC32ForFileAtURL:(NSURL *)url error:(NSError **)error
 {
-    
-    @autoreleasepool {
-        NSData* data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
-        if(!data) return nil;
+    @autoreleasepool
+    {
+        NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingUncached error:error];
+        if(data == nil) return nil;
         
-        unsigned int crcval = 0xffffffff;
-        unsigned int x;
-        const void *bytes = [data bytes];
-        unsigned int length = (unsigned int)[data length];
-        crcval = 0xffffffff;
-        for (x = 0; x < length; x++) 
-        {
-            crcval = (unsigned int)((crcval >> 8) & 0x00ffffff) ^ (unsigned int)crc32table[(crcval ^ (*((unsigned char *)bytes + x))) & 0xff];
-        }
+        const unsigned char *bytes = [data bytes];
+        unsigned length = (unsigned)[data length];
+        unsigned crcval = 0xffffffff;
         
-        unsigned int crc32 = crcval ^ 0xffffffff;
-        NSString *res = [NSString stringWithFormat:@"%0x", crc32];
+        for(unsigned x = 0; x < length; x++) 
+            crcval = ((crcval >> 8) & 0x00ffffff) ^ crc32table[(crcval ^ (*(bytes + x))) & 0xff];
         
-        while([res length]<8)
-        {
-            res = [@"0" stringByAppendingString:res];
-        }
+        unsigned crc32 = crcval ^ 0xffffffff;
         
-        return res;
+        return [NSString stringWithFormat:@"%08x", crc32];
     }
 }
+
 @end

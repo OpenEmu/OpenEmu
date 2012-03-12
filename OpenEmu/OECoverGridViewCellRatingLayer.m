@@ -72,8 +72,7 @@ const NSUInteger OECoverGridViewCellRatingViewNumberOfRatings = 6;
 {
     [super setTracking:tracking];
 
-    if(![self superlayer] || ![[self superlayer] isKindOfClass:[OEGridViewCell class]])
-        return;
+    if(![self superlayer] || ![[self superlayer] isKindOfClass:[OEGridViewCell class]]) return;
 
     [(OEGridViewCell *)[self superlayer] setEditing:tracking];
 }
@@ -109,10 +108,11 @@ const NSUInteger OECoverGridViewCellRatingViewNumberOfRatings = 6;
 - (void)setRating:(NSUInteger)rating
 {
     NSUInteger newRating = MIN(rating, OECoverGridViewCellRatingViewNumberOfRatings - 1);
-    if(_rating == newRating) return;
-
-    _rating = newRating;
-    [self setNeedsDisplay];
+    if(_rating != newRating)
+    {
+        _rating = newRating;
+        [self setNeedsDisplay];
+    }
 }
 
 - (NSUInteger)rating
