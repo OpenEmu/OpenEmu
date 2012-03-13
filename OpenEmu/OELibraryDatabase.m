@@ -756,7 +756,7 @@ static OELibraryDatabase *defaultDatabase = nil;
     
     NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:unsortedFolderName isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
-   
+
     return result;
 }
 
@@ -764,14 +764,14 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSURL *result = [[self romsFolderURL] URLByAppendingPathComponent:[system systemIdentifier] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
-    
+
     return result;
 }
 
 - (NSURL *)stateFolderURL
 {
     NSString *saveStateFolderName = NSLocalizedString(@"Save States", @"Save States Folder Name");
-    NSURL    *result = [NSApp URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+    NSURL    *result = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
     result = [result URLByAppendingPathComponent:@"OpenEmu" isDirectory:YES];    
     result = [result URLByAppendingPathComponent:saveStateFolderName isDirectory:YES];
 
@@ -784,7 +784,7 @@ static OELibraryDatabase *defaultDatabase = nil;
 {
     NSURL *result = [[self stateFolderURL] URLByAppendingPathComponent:[system systemIdentifier] isDirectory:YES];
     [[NSFileManager defaultManager] createDirectoryAtURL:result withIntermediateDirectories:YES attributes:nil error:nil];
-    
+
     return result;
 }
 #pragma mark -

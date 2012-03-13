@@ -27,9 +27,29 @@
 #import "OEDBSaveState.h"
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
+#import "OEDBGame.h"
 #import "OECorePlugin.h"
+#import "NSURL+OELibraryAdditions.h"
+
+
+#define OESaveStateSuffix           @"oesavestate"
+#define OESaveStateDataFile         @"State"
+#define OESaveStateScreenshotFile   @"ScreenShot"
+#define OESaveStateLatestVersion    @"1.0"
+
+NSString *const OESaveStateInfoVersionKey           = @"Version";
+NSString *const OESaveStateInfoNameKey              = @"Name";
+NSString *const OESaveStateInfoDescriptionKey       = @"Description";
+NSString *const OESaveStateInfoROMMD5Key            = @"ROM MD5";
+NSString *const OESaveStateInfoCoreIdentifierKey    = @"Core Identifier";
+
+// NSString *const OESaveStateInfoCreationDateKey   = @"Creation Date";
+// NSString *const OESaveStateInfoBookmarkDataKey   = @"Bookmark Data";
+
 @interface OEDBSaveState ()
 + (id)OE_newSaveStateInContext:(NSManagedObjectContext*)context;
+- (BOOL)OE_createBundleAtURL:(NSURL*)url withStateFile:(NSURL*)stateFile error:(NSError*__autoreleasing*)error;
+- (NSDictionary*)OE_newInfoPlist;
 @end
 
 @implementation OEDBSaveState
@@ -43,24 +63,109 @@
 	return result;
 }
 
-+ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL screenshot:(NSURL*)screenshotFileURL
++ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL
 {
-    return [self createSaveStateNamed:name forRom:rom core:core withFile:stateFileURL screenshot:screenshotFileURL inDatabase:[OELibraryDatabase defaultDatabase]];
+    return [self createSaveStateNamed:name forRom:rom core:core withFile:stateFileURL inDatabase:[OELibraryDatabase defaultDatabase]];
 }
 
-+ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL screenshot:(NSURL*)screenshotFileURL inDatabase:(OELibraryDatabase *)database
++ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL inDatabase:(OELibraryDatabase *)database
 {
     OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database managedObjectContext]];
+    [newSaveState setName:name];
+    [newSaveState setRom:rom];
+    [newSaveState setCoreIdentifier:[core bundleIdentifier]];
     
+    NSError  *error              = nil;
+    NSString *fileName           = [NSURL validFilenameFromString:name];
+    NSURL    *saveStateFolderURL = [database stateFolderURLForSystem:[[rom game] system]];
+    NSURL    *saveStateURL       = [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.%@", fileName, OESaveStateSuffix]];
     
+    saveStateURL = [saveStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+        return [saveStateFolderURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@ %d.%@", fileName, triesCount, OESaveStateSuffix]];
+    }];
+
+    if(![newSaveState OE_createBundleAtURL:saveStateURL withStateFile:stateFileURL error:&error])
+    {
+        // TODO: remove temp files
+        NSLog(@"could not create state bundle at url: %@!", saveStateURL);
+        NSLog(@"%@", [error localizedDescription]);
+
+        return nil;
+    }
+
     return newSaveState;
 }
 
+- (BOOL)OE_createBundleAtURL:(NSURL*)bundleURL withStateFile:(NSURL*)stateFile error:(NSError*__autoreleasing*)error
+{
+    NSDictionary *directoryAttributes = nil;
+    if(![[NSFileManager defaultManager] createDirectoryAtURL:bundleURL withIntermediateDirectories:YES attributes:directoryAttributes error:error])
+    {
+        return NO;
+    }
 
+    NSURL *stateURLInBundle = [bundleURL URLByAppendingPathComponent:OESaveStateDataFile];
+    if(![[NSFileManager defaultManager] moveItemAtURL:stateFile toURL:stateURLInBundle error:error])
+    {
+        return NO;
+    }
 
+    [self setURL:bundleURL];
+    
+    NSURL           *infoPlistURL   = [bundleURL URLByAppendingPathComponent:@"Info.plist"];
+    NSDictionary    *infoPlist      = [self OE_newInfoPlist];
+    if(![infoPlist writeToURL:infoPlistURL atomically:YES])
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (NSDictionary*)OE_newInfoPlist
+{
+    NSMutableDictionary *infoPlist = [[NSMutableDictionary alloc] initWithCapacity:4];
+    // Usual Document stuff
+#warning TODO: implement
+    
+    // Save State Values
+    [infoPlist setObject:OESaveStateLatestVersion   forKey:OESaveStateInfoVersionKey];
+    [infoPlist setObject:[self name]                forKey:OESaveStateInfoNameKey];
+    [infoPlist setObject:[self coreIdentifier]      forKey:OESaveStateInfoCoreIdentifierKey];
+
+    if([self userDescription])
+        [infoPlist setObject:[self userDescription] forKey:OESaveStateInfoDescriptionKey];
+
+    return infoPlist;
+}
 #pragma mark -
 #pragma mark Data Model Properties
-@dynamic emulatorID, path, screenshot, timestamp, userDescription;
+@dynamic name, userDescription, timestamp;
+@dynamic coreIdentifier, systemIdentifier, bookmarkData;
+
+- (NSURL*)URL
+{
+    return [NSURL URLByResolvingBookmarkData:[self bookmarkData] options:0 relativeToURL:nil bookmarkDataIsStale:nil error:nil];
+}
+
+- (void)setURL:(NSURL *)url
+{
+    NSError *error = nil;
+    NSData  *bookmarkData = [url bookmarkDataWithOptions:NSURLBookmarkCreationMinimalBookmark includingResourceValuesForKeys:nil relativeToURL:nil error:&error];
+    if(!bookmarkData)
+    {
+        NSLog(@"error while creating bookmark data for state save");
+        NSLog(@"%@", [error localizedDescription]);
+        return;        
+    }
+    
+    [self setBookmarkData:bookmarkData];
+}
+
+- (NSURL*)screenshotURL
+{
+    return [NSURL URLWithString:OESaveStateScreenshotFile relativeToURL:[self URL]];
+}
 
 #pragma mark -
 #pragma mark Data Model Relationships
