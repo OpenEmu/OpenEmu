@@ -50,6 +50,7 @@ extern NSString *const OESaveStateInfoCoreIdentifierKey;
 @property (nonatomic, retain)           NSData   *bookmarkData;
 @property (nonatomic, retain)           NSURL    *URL;
 @property (nonatomic, retain, readonly) NSURL    *screenshotURL;
+@property (nonatomic, retain, readonly) NSURL    *stateFileURL;
 
 #pragma mark -
 #pragma mark Data Model Relationships

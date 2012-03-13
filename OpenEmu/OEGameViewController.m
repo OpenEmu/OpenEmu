@@ -301,7 +301,20 @@
 #pragma mark -
 - (void)loadSaveState:(OEDBSaveState *)state
 {
-//    [self loadStateFromFile:[state path] error:nil];
+    if([state rom] != [self rom])
+    {
+        NSLog(@"Invalid save state for current rom");
+        return;
+    }
+    
+    if([[self coreIdentifier] isNotEqualTo:[state coreIdentifier]])
+    {
+        NSLog(@"Invalid save state for current core");
+        return;
+    }
+    
+    NSString *path = [[state stateFileURL] path];
+    [self loadStateFromFile:path error:nil];
 }
 
 - (void)deleteSaveState:(id)state
@@ -368,7 +381,6 @@
     [self pauseGame];
     
     __block BOOL    success                 = NO;
-    NSFileManager   *defaultFileManager     = [NSFileManager defaultManager];
     NSString        *temporaryDirectoryPath = NSTemporaryDirectory();
     NSURL           *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
     NSURL           *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
@@ -395,68 +407,15 @@
         success = [[img TIFFRepresentation] writeToURL:[state screenshotURL] atomically:YES];
     }];
     
-#warning continue implementation    
-    return;
-    
-    
-    NSString *systemIdentifier = [gameSystemController systemIdentifier];
-    NSURL *systemSaveDirectoryURL= [NSURL fileURLWithPath:[[self OE_saveStatePath] stringByAppendingPathComponent:systemIdentifier]];
-    
-    NSError *err = nil;
-    success = [[NSFileManager defaultManager] createDirectoryAtURL:systemSaveDirectoryURL withIntermediateDirectories:YES attributes:nil error:&err];
-    
     if(!success)
     {
-        // TODO: inform user
-        NSLog(@"could not create save state directory");
-        NSLog(@"%@", err);
+        NSLog(@"Could not create screenshot at url: %@", [state screenshotURL]);
         return;
     }
-    
-    NSString *fileName = stateName;
-    if(!fileName) fileName = [NSString stringWithFormat:@"%@", [NSDate date]];
-    
-    NSURL *saveStateURL = [[systemSaveDirectoryURL URLByAppendingPathComponent:fileName] URLByAppendingPathExtension:@"oesavestate"];
-    
-    saveStateURL = [saveStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-        NSString *countedFileName = [NSString stringWithFormat:@"%@ %d.oesavestate", fileName, triesCount];
-        return [systemSaveDirectoryURL URLByAppendingPathComponent:countedFileName];
-    }];
-    
-    success = [[rootProxy gameCore] saveStateToFileAtPath:[saveStateURL path]];
-    if(!success)
-    {
-        // TODO: inform user
-        NSLog(@"could not write file");
-        NSLog(@"%@", err);
-        return;
-    }
-    /*
-    // we need to make sure that we are on the same thread where self.rom was created!!
-    OEDBSaveState *saveState = [OEDBSaveState newSaveStateInContext:[[self rom] managedObjectContext]];
-    
-    [saveState setPath:[saveStateURL path]];
-    [saveState setTimestamp:[NSDate date]];
-    [saveState setEmulatorID:[[rootProxy gameCore] pluginName]];
-    [saveState setRom:[self rom]];
-    
-    if(stateName != nil) [saveState setUserDescription:stateName];
-    
-    [self captureScreenshotUsingBlock:
-     ^(NSImage *img)
-     {
-         [saveState setScreenshot:[img TIFFRepresentation]];
-     }];
-     */
+
 }
 
-- (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error DEPRECATED_ATTRIBUTE
-{
-    // TODO: implement if we want this
-    return YES;
-}
-
-- (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error DEPRECATED_ATTRIBUTE
+- (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error
 {
     if(error != NULL) *error = nil;
     return [[rootProxy gameCore] loadStateFromFileAtPath:fileName];

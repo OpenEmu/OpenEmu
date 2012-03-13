@@ -28,6 +28,7 @@
 #import "OELibraryDatabase.h"
 #import "OEDBRom.h"
 #import "OEDBGame.h"
+#import "OEDBSystem.h"
 #import "OECorePlugin.h"
 #import "NSURL+OELibraryAdditions.h"
 
@@ -141,7 +142,7 @@ NSString *const OESaveStateInfoCoreIdentifierKey    = @"Core Identifier";
 #pragma mark -
 #pragma mark Data Model Properties
 @dynamic name, userDescription, timestamp;
-@dynamic coreIdentifier, systemIdentifier, bookmarkData;
+@dynamic coreIdentifier, bookmarkData;
 
 - (NSURL*)URL
 {
@@ -167,6 +168,15 @@ NSString *const OESaveStateInfoCoreIdentifierKey    = @"Core Identifier";
     return [NSURL URLWithString:OESaveStateScreenshotFile relativeToURL:[self URL]];
 }
 
+- (NSURL*)stateFileURL
+{
+    return [[self URL] URLByAppendingPathComponent:OESaveStateDataFile];
+}
+
+- (NSString*)systemIdentifier
+{
+    return [[[[self rom] game] system] systemIdentifier];
+}
 #pragma mark -
 #pragma mark Data Model Relationships
 @dynamic rom;
