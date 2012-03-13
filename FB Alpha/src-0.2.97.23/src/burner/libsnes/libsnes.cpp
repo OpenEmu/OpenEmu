@@ -490,7 +490,10 @@ bool snes_load_cartridge_normal(const char*, const uint8_t *, unsigned)
       return true;
    }
    else
+   {
+      fprintf(stderr, "[FBA] Cannot find driver.\n");
       return false;
+   }
 }
 
 void snes_set_cartridge_basename(const char *basename)
