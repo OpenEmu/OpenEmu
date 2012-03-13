@@ -671,9 +671,9 @@ static bool init_input()
 
    if(boardrom && (strcmp(boardrom,"neogeo") == 0))
    {
-      keybinds[P1_FIRE6][0] = _B(Y);
+      keybinds[P1_FIRE6][0] = _B(R); //Y
       keybinds[P1_FIRE6][1] = 0;
-      keybinds[P1_FIRED][0] = _B(X);
+      keybinds[P1_FIRED][0] = _B(Y); //X
       keybinds[P1_FIRED][1] = 0;
    }
    else

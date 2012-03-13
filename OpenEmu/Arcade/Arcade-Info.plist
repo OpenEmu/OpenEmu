@@ -78,33 +78,33 @@
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 1</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonA[@]</string>
+					<string>OEFBAButtonY[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 2</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonB[@]</string>
+					<string>OEFBAButtonX[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
 					<string>Button 3</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonX[@]</string>
-				</dict>
-				<dict>
-					<key>OEControlListKeyLabelKey</key>
-					<string>Button 4</string>
-					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonY[@]</string>
+					<string>OEFBAButtonTriggerLeft[@]</string>
 				</dict>
 			</array>
 			<array>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
+					<string>Button 4</string>
+					<key>OEControlListKeyNameKey</key>
+					<string>OEFBAButtonB[@]</string>
+				</dict>
+				<dict>
+					<key>OEControlListKeyLabelKey</key>
 					<string>Button 5</string>
 					<key>OEControlListKeyNameKey</key>
-					<string>OEFBAButtonTriggerLeft[@]</string>
+					<string>OEFBAButtonA[@]</string>
 				</dict>
 				<dict>
 					<key>OEControlListKeyLabelKey</key>
