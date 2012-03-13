@@ -109,19 +109,15 @@
         NSURL         *databaseUnsortedFolderURL = [database unsortedRomsFolderURL];
         NSFileManager *defaultManager = [NSFileManager defaultManager];
         
-        NSInteger i = 0;
         NSString *fileName = [[newURL lastPathComponent] stringByDeletingPathExtension];
         NSString *fileSuffix = [newURL pathExtension];
         
         newURL = [databaseUnsortedFolderURL URLByAppendingPathComponent:[newURL lastPathComponent]  isDirectory:NO];
+        newURL = [newURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+            NSString *newFileName = [NSString stringWithFormat:@"%@ %d.%@", fileName, triesCount, fileSuffix];
+            return [databaseUnsortedFolderURL URLByAppendingPathComponent:newFileName isDirectory:NO];
+        }];
 
-        while([newURL checkResourceIsReachableAndReturnError:nil])
-        {
-            i++;
-            NSString *newFileName = [NSString stringWithFormat:@"%@ %d.%@", fileName, i, fileSuffix];
-            newURL = [databaseUnsortedFolderURL URLByAppendingPathComponent:newFileName isDirectory:NO];
-        }
-        
         if(![defaultManager copyItemAtURL:url toURL:newURL error:outError])
         {
             [context deleteObject:rom];

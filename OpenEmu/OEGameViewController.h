@@ -106,8 +106,8 @@
 - (void)saveStateAskingUserForName:(NSString*)proposedName;
 - (void)saveStateWithName:(NSString*)stateName;
 
-- (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error;
-- (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error;
+- (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error DEPRECATED_ATTRIBUTE;
+- (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error DEPRECATED_ATTRIBUTE;
 
 #pragma mark -
 - (void)captureScreenshotUsingBlock:(void(^)(NSImage *img))block;

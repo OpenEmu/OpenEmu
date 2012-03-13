@@ -56,4 +56,18 @@
     return [[resourceValues objectForKey:NSURLIsDirectoryKey] boolValue];
 }
 
+- (NSURL*)uniqueURLUsingBlock:(NSURL*(^)(NSInteger triesCount))block
+{
+    NSURL     *result       = self;
+    NSInteger triesCount    = 1;
+    while([result checkResourceIsReachableAndReturnError:nil])
+    {
+        triesCount++;
+        result = block(triesCount);
+    }
+    
+    NSLog(@"NSURL -uniqueURLUsingBlock nedded %ld tries.", triesCount);
+    return result;
+}
+
 @end

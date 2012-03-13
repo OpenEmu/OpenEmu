@@ -48,6 +48,8 @@
 
 #import "OEHUDAlert.h"
 
+#import "NSString+UUID.h"
+#import "NSURL+OELibraryAdditions.h"
 @interface OEGameViewController ()
 
 + (OEDBRom *)OE_choseRomFromGame:(OEDBGame *)game;
@@ -366,11 +368,63 @@
     
     [self pauseGame];
     
-    NSString *systemIdentifier= [gameSystemController systemIdentifier];
+    __block BOOL    success                 = NO;
+    NSFileManager   *defaultFileManager     = [NSFileManager defaultManager];
+    NSString        *temporaryDirectoryPath = NSTemporaryDirectory();
+    NSURL           *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
+    NSURL           *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+    NSURL           *temporaryScreenshotURL = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+
+    temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+        return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+    }];
+    
+    temporaryScreenshotURL = [temporaryScreenshotURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+        return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
+    }];
+    
+    
+    success = [[rootProxy gameCore] saveStateToFileAtPath:[temporaryStateFileURL path]];
+    if(!success)
+    {
+        NSLog(@"Could not create save state file at url: %@", temporaryStateFileURL);
+        return;
+    }
+    
+    [self captureScreenshotUsingBlock:^(NSImage *img) {
+        if(!img)
+        {
+            success = NO;
+            return;
+        }
+        success = [[img TIFFRepresentation] writeToURL:temporaryScreenshotURL atomically:YES];
+    }];
+    
+    if(!success)
+    {
+        NSLog(@"Could not create screenshot file at url: %@", temporaryScreenshotURL);
+
+        [defaultFileManager removeItemAtURL:temporaryStateFileURL error:nil];
+        [defaultFileManager removeItemAtURL:temporaryScreenshotURL error:nil];
+        
+        return;
+    }
+    
+    NSLog(@"created save state file at url: %@", temporaryStateFileURL);
+    NSLog(@"created screenshot at url: %@", temporaryScreenshotURL);
+    
+    
+    
+    
+#warning continue implementation    
+    return;
+    
+    
+    NSString *systemIdentifier = [gameSystemController systemIdentifier];
     NSURL *systemSaveDirectoryURL= [NSURL fileURLWithPath:[[self OE_saveStatePath] stringByAppendingPathComponent:systemIdentifier]];
     
     NSError *err = nil;
-    BOOL success = [[NSFileManager defaultManager] createDirectoryAtURL:systemSaveDirectoryURL withIntermediateDirectories:YES attributes:nil error:&err];
+    success = [[NSFileManager defaultManager] createDirectoryAtURL:systemSaveDirectoryURL withIntermediateDirectories:YES attributes:nil error:&err];
     
     if(!success)
     {
@@ -385,15 +439,11 @@
     fileName = [self OE_convertToValidFileName:fileName];
     
     NSURL *saveStateURL = [[systemSaveDirectoryURL URLByAppendingPathComponent:fileName] URLByAppendingPathExtension:@"oesavestate"];
-    int count = 0;
     
-    while([[NSFileManager defaultManager] fileExistsAtPath:[saveStateURL path] isDirectory:NULL])
-    {
-        count++;
-        
-        NSString *countedFileName = [NSString stringWithFormat:@"%@ %d.oesavestate", fileName, count];
-        saveStateURL = [systemSaveDirectoryURL URLByAppendingPathComponent:countedFileName];
-    }
+    saveStateURL = [saveStateURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
+        NSString *countedFileName = [NSString stringWithFormat:@"%@ %d.oesavestate", fileName, triesCount];
+        return [systemSaveDirectoryURL URLByAppendingPathComponent:countedFileName];
+    }];
     
     success = [[rootProxy gameCore] saveStateToFileAtPath:[saveStateURL path]];
     if(!success)
@@ -421,13 +471,13 @@
      }];
 }
 
-- (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error
+- (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error DEPRECATED_ATTRIBUTE
 {
     // TODO: implement if we want this
     return YES;
 }
 
-- (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error
+- (BOOL)loadStateFromFile:(NSString*)fileName error:(NSError**)error DEPRECATED_ATTRIBUTE
 {
     if(error != NULL) *error = nil;
     return [[rootProxy gameCore] loadStateFromFileAtPath:fileName];
