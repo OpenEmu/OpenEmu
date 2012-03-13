@@ -25,12 +25,13 @@
  */
 
 #import <CoreData/CoreData.h>
-@class OEDBRom;
+@class OEDBRom, OECorePlugin, OELibraryDatabase;
 @interface OEDBSaveState : NSManagedObject{
 
 }
-+ (id)newSaveStateInContext:(NSManagedObjectContext*)context;
 
++ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL screenshot:(NSURL*)screenshotFileURL;
++ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL screenshot:(NSURL*)screenshotFileURL inDatabase:(OELibraryDatabase *)database;
 #pragma mark -
 #pragma mark Data Model Properties
 @property (nonatomic, retain) NSString *emulatorID;
@@ -38,7 +39,6 @@
 @property (nonatomic, retain) NSData   *screenshot;
 @property (nonatomic, retain) NSDate   *timestamp;
 @property (nonatomic, retain) NSString *userDescription;
-
 #pragma mark -
 #pragma mark Data Model Relationships
 @property (nonatomic, retain) OEDBRom *rom;

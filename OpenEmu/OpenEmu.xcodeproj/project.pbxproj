@@ -5181,6 +5181,7 @@
 				94D7E8D315073BA000FBDD85 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		C05733C708A9546B00998B17 /* Build configuration list for PBXNativeTarget "OpenEmu" */ = {
 			isa = XCConfigurationList;

@@ -53,8 +53,7 @@
     NSLog(@"%@", responderChain);                                                                       \
 }
 
-
-
+#pragma mark -
 #define OEDBSystemsChangedNotificationName @"OEDBSystemsChanged"
 
 #define OEPreferencesOpenPaneNotificationName @"OEPrefOpenPane"

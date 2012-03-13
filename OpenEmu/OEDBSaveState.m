@@ -25,10 +25,16 @@
  */
 
 #import "OEDBSaveState.h"
+#import "OELibraryDatabase.h"
+#import "OEDBRom.h"
+#import "OECorePlugin.h"
+@interface OEDBSaveState ()
++ (id)OE_newSaveStateInContext:(NSManagedObjectContext*)context;
+@end
 
 @implementation OEDBSaveState
 
-+ (id)newSaveStateInContext:(NSManagedObjectContext*)context{
++ (id)OE_newSaveStateInContext:(NSManagedObjectContext*)context{
 	NSEntityDescription *description = [NSEntityDescription entityForName:@"SaveState" inManagedObjectContext:context];
 	OEDBSaveState *result = [[OEDBSaveState alloc] initWithEntity:description insertIntoManagedObjectContext:context];
 	
@@ -36,6 +42,21 @@
 	
 	return result;
 }
+
++ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL screenshot:(NSURL*)screenshotFileURL
+{
+    return [self createSaveStateNamed:name forRom:rom core:core withFile:stateFileURL screenshot:screenshotFileURL inDatabase:[OELibraryDatabase defaultDatabase]];
+}
+
++ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL screenshot:(NSURL*)screenshotFileURL inDatabase:(OELibraryDatabase *)database
+{
+    OEDBSaveState *newSaveState = [self OE_newSaveStateInContext:[database managedObjectContext]];
+    
+    
+    return newSaveState;
+}
+
+
 
 #pragma mark -
 #pragma mark Data Model Properties
