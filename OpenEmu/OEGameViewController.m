@@ -58,7 +58,6 @@
 - (void)OE_repositionControlsWindow;
 - (BOOL)OE_loadFromURL:(NSURL *)aurl core:(OECorePlugin*)core error:(NSError **)outError;
 - (OECorePlugin *)OE_coreForFileExtension:(NSString *)ext error:(NSError **)outError;
-- (NSString *)OE_convertToValidFileName:(NSString *)fileName;
 - (void)OE_terminateEmulationWithoutNotification;
 @end
 
@@ -302,7 +301,7 @@
 #pragma mark -
 - (void)loadSaveState:(OEDBSaveState *)state
 {
-    [self loadStateFromFile:[state path] error:nil];
+//    [self loadStateFromFile:[state path] error:nil];
 }
 
 - (void)deleteSaveState:(id)state
@@ -373,16 +372,10 @@
     NSString        *temporaryDirectoryPath = NSTemporaryDirectory();
     NSURL           *temporaryDirectoryURL  = [NSURL fileURLWithPath:temporaryDirectoryPath];
     NSURL           *temporaryStateFileURL  = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
-    NSURL           *temporaryScreenshotURL = [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
 
     temporaryStateFileURL = [temporaryStateFileURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
         return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
     }];
-    
-    temporaryScreenshotURL = [temporaryScreenshotURL uniqueURLUsingBlock:^NSURL *(NSInteger triesCount) {
-        return [NSURL URLWithString:[NSString stringWithUUID] relativeToURL:temporaryDirectoryURL];
-    }];
-    
     
     success = [[rootProxy gameCore] saveStateToFileAtPath:[temporaryStateFileURL path]];
     if(!success)
@@ -391,30 +384,16 @@
         return;
     }
     
+    OEDBSaveState *state = [OEDBSaveState createSaveStateNamed:stateName forRom:[self rom] core:[gameCoreManager plugin] withFile:temporaryStateFileURL];
+    
     [self captureScreenshotUsingBlock:^(NSImage *img) {
         if(!img)
         {
             success = NO;
             return;
         }
-        success = [[img TIFFRepresentation] writeToURL:temporaryScreenshotURL atomically:YES];
+        success = [[img TIFFRepresentation] writeToURL:[state screenshotURL] atomically:YES];
     }];
-    
-    if(!success)
-    {
-        NSLog(@"Could not create screenshot file at url: %@", temporaryScreenshotURL);
-
-        [defaultFileManager removeItemAtURL:temporaryStateFileURL error:nil];
-        [defaultFileManager removeItemAtURL:temporaryScreenshotURL error:nil];
-        
-        return;
-    }
-    
-    NSLog(@"created save state file at url: %@", temporaryStateFileURL);
-    NSLog(@"created screenshot at url: %@", temporaryScreenshotURL);
-    
-    
-    
     
 #warning continue implementation    
     return;
@@ -436,7 +415,6 @@
     
     NSString *fileName = stateName;
     if(!fileName) fileName = [NSString stringWithFormat:@"%@", [NSDate date]];
-    fileName = [self OE_convertToValidFileName:fileName];
     
     NSURL *saveStateURL = [[systemSaveDirectoryURL URLByAppendingPathComponent:fileName] URLByAppendingPathExtension:@"oesavestate"];
     
@@ -453,7 +431,7 @@
         NSLog(@"%@", err);
         return;
     }
-    
+    /*
     // we need to make sure that we are on the same thread where self.rom was created!!
     OEDBSaveState *saveState = [OEDBSaveState newSaveStateInContext:[[self rom] managedObjectContext]];
     
@@ -469,6 +447,7 @@
      {
          [saveState setScreenshot:[img TIFFRepresentation]];
      }];
+     */
 }
 
 - (BOOL)saveStateToToFile:(NSString*)fileName error:(NSError**)error DEPRECATED_ATTRIBUTE
@@ -638,11 +617,7 @@
     [controlsWindow setFrameOrigin:origin];
 }
 
-- (NSString *)OE_convertToValidFileName:(NSString *)fileName
-{
-    NSCharacterSet *illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
-    return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
-}
+
 
 #pragma mark -
 #pragma mark Notifications

@@ -25,20 +25,32 @@
  */
 
 #import <CoreData/CoreData.h>
+
+extern NSString *const OESaveStateInfoVersionKey;
+extern NSString *const OESaveStateInfoNameKey;
+extern NSString *const OESaveStateInfoDescriptionKey;
+extern NSString *const OESaveStateInfoROMMD5Key;
+extern NSString *const OESaveStateInfoCoreIdentifierKey;
+
+// extern NSString *const OESaveStateInfoCreationDateKey;
+// extern NSString *const OESaveStateInfoBookmarkDataKey;
+
 @class OEDBRom, OECorePlugin, OELibraryDatabase;
-@interface OEDBSaveState : NSManagedObject{
-
-}
-
-+ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL screenshot:(NSURL*)screenshotFileURL;
-+ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL screenshot:(NSURL*)screenshotFileURL inDatabase:(OELibraryDatabase *)database;
+@interface OEDBSaveState : NSManagedObject
++ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL;
++ (id)createSaveStateNamed:(NSString*)name forRom:(OEDBRom*)rom core:(OECorePlugin*)core withFile:(NSURL*)stateFileURL inDatabase:(OELibraryDatabase *)database;
 #pragma mark -
 #pragma mark Data Model Properties
-@property (nonatomic, retain) NSString *emulatorID;
-@property (nonatomic, retain) NSString *path;
-@property (nonatomic, retain) NSData   *screenshot;
-@property (nonatomic, retain) NSDate   *timestamp;
-@property (nonatomic, retain) NSString *userDescription;
+@property (nonatomic, retain)           NSString *name;
+@property (nonatomic, retain)           NSString *userDescription;
+@property (nonatomic, retain)           NSDate   *timestamp;
+@property (nonatomic, retain)           NSString *coreIdentifier;
+
+@property (nonatomic, retain, readonly) NSString *systemIdentifier;
+@property (nonatomic, retain)           NSData   *bookmarkData;
+@property (nonatomic, retain)           NSURL    *URL;
+@property (nonatomic, retain, readonly) NSURL    *screenshotURL;
+
 #pragma mark -
 #pragma mark Data Model Relationships
 @property (nonatomic, retain) OEDBRom *rom;

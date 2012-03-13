@@ -70,4 +70,11 @@
     return result;
 }
 
+
++ (NSString*)validFilenameFromString:(NSString*)fileName
+{
+    NSCharacterSet *illegalFileNameCharacters = [NSCharacterSet characterSetWithCharactersInString:@"/\\?%*|\":<>"];
+    return [[fileName componentsSeparatedByCharactersInSet:illegalFileNameCharacters] componentsJoinedByString:@""];
+}
+
 @end
