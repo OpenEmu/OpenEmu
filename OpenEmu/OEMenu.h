@@ -52,7 +52,6 @@ typedef enum _OERectEdge
     NSMenuItem *highlightedItem;
     
     OEMenu *submenu;
-    
     OEPopupButton *popupButton;
     
     int itemsAboveScroller, itemsBelowScroller;
@@ -78,15 +77,17 @@ typedef enum _OERectEdge
 #pragma mark - NSMenu wrapping
 - (NSArray *)itemArray;
 
-@property(readonly) BOOL alternate;
+@property (readonly) BOOL alternate;
 
-@property(readwrite) NSSize minSize, maxSize;
-@property(strong) OEPopupButton *popupButton;
-@property(nonatomic, strong) OEMenu *submenu;
-@property(nonatomic, unsafe_unretained) OEMenu *supermenu;
+@property (readwrite) NSSize minSize, maxSize;
+@property (strong) OEPopupButton *popupButton;
+@property (nonatomic, strong) OEMenu *submenu;
+@property (nonatomic, unsafe_unretained) OEMenu *supermenu;
 
-@property OEMenuStyle style;
-@property OERectEdge openEdge;
+@property OEMenuStyle   style;
+@property OERectEdge    openEdge;
+@property BOOL          allowsOppositeEdge;
+@property BOOL          displaysOpenEdge;
 
 @property (nonatomic, strong) NSMenu *menu;
 @property (strong) NSMenuItem *highlightedItem;
@@ -117,6 +118,12 @@ typedef enum _OERectEdge
 - (NSRect)rectOfItem:(NSMenuItem *)m;
 
 - (BOOL)menuKeyDown:(NSEvent *)theEvent;
+
+#pragma mark -
+#pragma mark Scrolling
+- (void)scrollUp;
+- (void)scrollDown;
+
 #pragma mark -
 #pragma mark TextAttributes
 - (NSDictionary *)itemTextAttributes;

@@ -111,8 +111,6 @@
 #define flickerDelay 0.09
 
 @interface OEMenu ()
-- (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow*)win;
-
 - (BOOL)_isClosing;
 - (OEMenuView *)menuView;
 - (void)_performCloseMenu;
@@ -124,10 +122,16 @@
 
 - (void)OE_createEventMonitor;
 - (void)OE_removeEventMonitor;
+
+@property NSRect openRect;
+
+- (void)OE_repositionMenu;
+- (NSPoint)OE_originForEdge:(OERectEdge)anEdge ofWindow:(NSWindow*)win;
+- (OERectEdge)OE_oppositeRectEdgeForEdge:(OERectEdge)edge;
 @end
 
 @implementation OEMenu
-@synthesize openEdge=_edge;
+@synthesize openRect, openEdge=_edge, allowsOppositeEdge, displaysOpenEdge;
 @dynamic style;
 @synthesize menu, supermenu, visible, popupButton, delegate;
 @synthesize minSize, maxSize, itemsAboveScroller, itemsBelowScroller;
@@ -169,6 +173,8 @@
         [self setItemsAboveScroller:0];
         [self setItemsBelowScroller:0];
         
+        [self setAllowsOppositeEdge:YES];
+        
         OEMenuView *view = [[OEMenuView alloc] initWithFrame:NSZeroRect];
         [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
         [[self contentView] addSubview:view];
@@ -177,6 +183,7 @@
         [self setBackgroundColor:[NSColor clearColor]];
         [self setHasShadow:NO];
         [self setOpaque:NO];
+        [self setAlphaValue:0.0];
         
         CAAnimation *anim = [self alphaValueAnimation];
         [anim setDuration:0.075];
@@ -193,88 +200,37 @@
 
 #pragma mark -
 #pragma mark Opening / Closing the menu
-- (void)openAtPoint:(NSPoint)p ofWindow:(NSWindow *)win
+- (void)openOnEdge:(OERectEdge)anEdge ofRect:(NSRect)rect ofWindow:(NSWindow*)win
 {
     visible = YES;
     closing = NO;
     _alternate = NO;
-    self.alphaValue = 1.0;
     
-    if(_localMonitor != nil)
-    {
-        [NSEvent removeMonitor:_localMonitor];
-        _localMonitor = nil;
-    }
+    [self OE_removeEventMonitor];
+    
+    [self setOpenEdge:anEdge];
+    [self setOpenRect:rect];
+    [self updateSize];
 
-    [self OE_createEventMonitor];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeMenuWithoutChanges:) name:NSApplicationWillResignActiveNotification object:NSApp];
+
+    NSPoint point = [self OE_originForEdge:anEdge ofWindow:win];
+
+    [self setFrameOrigin:point];
+    [win addChildWindow:self ordered:NSWindowAbove];    
     
-    [self setFrameOrigin:p];
-    [win addChildWindow:self ordered:NSWindowAbove];
+    [self OE_repositionMenu];
     
     NSPoint windowP = [self convertScreenToBase:[NSEvent mouseLocation]];
     [[self menuView] highlightItemAtPoint:windowP];
     
+    [self display];
+    [self setAlphaValue:1.0];
+    
+    [self OE_createEventMonitor];
+    
     if([[self delegate] respondsToSelector:@selector(menuDidShow:)])
         [[self delegate] menuDidShow:self];
-    
-    [self display];
-}
-
-- (void)openOnEdge:(OERectEdge)anEdge ofRect:(NSRect)rect ofWindow:(NSWindow*)win
-{
-    [self setOpenEdge:anEdge];
-    [self updateSize];
-
-    NSPoint point;
-    if(!NSEqualSizes(rect.size, (NSSize){0,0}))
-    {
-        switch (anEdge) {
-            case OENoEdge:
-                point = (NSPoint){NSMidX(rect), NSMidY(rect)};
-                point = NSPointSub(point, ((NSPoint){[self frame].size.width/2, [self frame].size.height/2}));
-                break;
-            case OEMaxXEdge:
-                point = (NSPoint){NSMaxX(rect), NSMidY(rect)};
-                break;
-            case OEMinXEdge:
-                point = (NSPoint){NSMinX(rect), NSMidY(rect)};
-                point.x -= [self frame].size.width;
-                break;
-            case OEMinYEdge:
-                point = (NSPoint){NSMidX(rect), NSMinY(rect)};
-                point.y -= [self frame].size.height;
-                break;
-            case OEMaxYEdge:
-                point = (NSPoint){NSMidX(rect), NSMaxY(rect)};
-                break;
-            default:
-                break;
-        }
-        
-        switch (anEdge) {
-            case OEMaxXEdge:
-            case OEMinXEdge:
-                point.y -= [self frame].size.height/2;
-                break;
-            case OEMinYEdge:
-            case OEMaxYEdge:
-                point.x -= [self frame].size.width/2;
-                break;
-            default:
-                break;
-        }
-    }
-    else
-    {
-        point = rect.origin;
-        point.y -= [self frame].size.height;
-    }
-    
-    point.x += [win frame].origin.x;
-    point.y += [win frame].origin.y;
-    
-    [self openAtPoint:point ofWindow:win];
 }
 
 - (void)closeMenuWithoutChanges:(id)sender
@@ -319,6 +275,128 @@
 - (BOOL)isVisible
 {
     return visible && [super isVisible] && !closing;
+}
+#pragma mark -
+#pragma mark Positioning
+- (void)OE_repositionMenu
+{
+    NSLog(@"-OE_positionMenu");
+    
+    NSRect menuRect         =   [self frame];
+    NSRect screenRect       =   [[self screen] frame];
+    OERectEdge edge         =   [self openEdge];
+    NSRect intersectionRect =   NSIntersectionRect(menuRect, screenRect);
+    
+    if(NSEqualSizes(menuRect.size, intersectionRect.size))
+        return;
+    
+    NSLog(@"reposition!");
+    
+    // check if x is the problem
+    if([self allowsOppositeEdge])
+    {
+        if((edge == OEMaxXEdge || edge == OEMinXEdge) && (intersectionRect.size.width != menuRect.size.width))
+        {
+            OERectEdge oppositeEdge = [self OE_oppositeRectEdgeForEdge:edge];
+            [self setOpenEdge:oppositeEdge];
+            menuRect.origin = [self OE_originForEdge:oppositeEdge ofWindow:[self parentWindow]];      
+        }
+    }
+    
+    if(!NSEqualRects(menuRect, [self frame]))
+    {
+        [self setFrame:menuRect display:NO];
+    }
+    
+}
+
+- (NSPoint)OE_originForEdge:(OERectEdge)anEdge ofWindow:(NSWindow*)win
+{
+    NSRect  rect        = [self openRect];
+    BOOL    isSubmenu   = [self supermenu] != nil;
+    NSPoint point;
+  
+    if(!NSEqualSizes(rect.size, (NSSize){0,0}))
+    {
+        switch (anEdge) {
+            case OENoEdge:
+                point = (NSPoint){NSMidX(rect), NSMidY(rect)};
+                point = NSPointSub(point, ((NSPoint){[self frame].size.width/2, [self frame].size.height/2}));
+                break;
+            case OEMaxXEdge:
+                point = (NSPoint){NSMaxX(rect), NSMidY(rect)};
+                break;
+            case OEMinXEdge:
+                point = (NSPoint){NSMinX(rect), NSMidY(rect)};
+                point.x -= [self frame].size.width;
+                break;
+            case OEMinYEdge:
+                point = (NSPoint){NSMidX(rect), NSMinY(rect)};
+                point.y -= [self frame].size.height;
+                break;
+            case OEMaxYEdge:
+                point = (NSPoint){NSMidX(rect), NSMaxY(rect)};
+                break;
+            default:
+                break;
+        }
+        
+        switch (anEdge) {
+            case OEMaxXEdge:
+            case OEMinXEdge:
+                point.y -= [self frame].size.height/2;
+                break;
+            case OEMinYEdge:
+            case OEMaxYEdge:
+                point.x -= [self frame].size.width/2;
+                break;
+            default:
+                break;
+        }
+        
+        if(isSubmenu)
+        {
+            point.y = NSMaxY([self openRect])-NSHeight([self frame]);
+            if (anEdge == OEMaxXEdge)
+                point = NSPointSub(point, ((NSPoint){SubmenuBorderLeft-1, -SubmenuBorderTop}));
+            else
+                point = NSPointSub(point, ((NSPoint){-SubmenuBorderRight+1, -SubmenuBorderTop}));
+        }
+    }
+    else
+    {
+        point = rect.origin;
+        point.y -= [self frame].size.height;
+    }
+    
+    point.x += [win frame].origin.x;
+    point.y += [win frame].origin.y;
+
+    return point;
+}
+
+- (OERectEdge)OE_oppositeRectEdgeForEdge:(OERectEdge)edge
+{
+    switch (edge) {
+        case OENoEdge:
+            return OENoEdge;
+            break;
+        case OEMaxXEdge:
+            return OEMinXEdge;
+            break;
+        case OEMinXEdge:
+            return OEMaxXEdge;
+            break;
+        case OEMinYEdge:
+            return OEMaxYEdge;
+            break;
+        case OEMaxYEdge:
+            return OEMinYEdge;
+            break;
+        default:
+            break;
+    }
+    
 }
 
 #pragma mark -
@@ -406,16 +484,12 @@
     if(_submenu)
     {        
         NSRect selectedItemRect = [[self menuView] rectOfItem:self.highlightedItem];
-
-        _submenu.popupButton = self.popupButton;
-        _submenu.supermenu = self;
+        NSRect selectedItemRectOnWindow = [[self menuView] convertRectToBase:selectedItemRect];
+        [_submenu setDisplaysOpenEdge:NO];
+        [_submenu setPopupButton:[self popupButton]];
+        [_submenu setSupermenu:self];
         
-        [_submenu updateSize];
-        
-        NSPoint submenuSpawnPoint = (NSPoint){NSMaxX(selectedItemRect), NSHeight([self frame])-NSHeight([_submenu frame])-NSMinY(selectedItemRect)};
-        submenuSpawnPoint = NSPointSub(submenuSpawnPoint, ((NSPoint){SubmenuBorderLeft-1, -SubmenuBorderTop}));
-        submenuSpawnPoint = NSPointAdd(submenuSpawnPoint, [self frame].origin);
-        [_submenu openAtPoint:submenuSpawnPoint ofWindow:self];
+        [_submenu openOnEdge:OEMaxXEdge ofRect:selectedItemRectOnWindow ofWindow:self];
     }
     
     submenu = _submenu;
@@ -457,6 +531,7 @@
 {
     BOOL isSubmenu = [self supermenu]!=nil;
     OERectEdge openEdge = [self openEdge];
+    openEdge = [self displaysOpenEdge] ? openEdge : OENoEdge;
     
     NSSize borderSize = NSZeroSize;
     if(isSubmenu)
@@ -806,6 +881,7 @@
 - (NSBezierPath*)backgroundPath
 {
     OERectEdge openEdge = [[self menu] openEdge];
+    openEdge = [[self menu] displaysOpenEdge] ? openEdge : OENoEdge;
     BOOL isSubmenu = [[self menu] supermenu]!=nil;
     
     NSBezierPath *path;
@@ -959,8 +1035,9 @@
 #pragma mark Drawing
 - (void)drawRect:(NSRect)dirtyRect
 {
-    BOOL isSubmenu = [[self menu] supermenu]!=nil;
-    OERectEdge openEdge = [[self menu] openEdge];
+    BOOL isSubmenu          = [[self menu] supermenu]!=nil;
+    OERectEdge openEdge     = [[self menu] openEdge];
+    openEdge = [[self menu] displaysOpenEdge] ? openEdge : OENoEdge;
     
     NSColor      *backgroundColor = [self backgroundColor];
     NSGradient   *backgroundGradient = [self backgroundGradient];
@@ -1311,7 +1388,7 @@
     // a little explanation for this:
     // selecting a separator item should not be possible, so if the selected item is a separator we try to jump over it
     // this will continue until either a normal item was selected or the last (or first depending on direction) item is reached
-    // we then check if the selected item is still a separator and if so we select the item we started with
+    // we then check if the selected item is still a separator and if so we select the item we started with.
     // this ensures that a valid item will be selected after a key was pressed
     if(([theEvent keyCode] == 126 || [theEvent keyCode] == 125) && [[self menu] highlightedItem] != currentItem && [[[self menu ] highlightedItem] isSeparatorItem])
     {
@@ -1349,7 +1426,7 @@
     BOOL isSubmenu = [[self menu] supermenu] != nil;
     BOOL menuContainsImage = [[self menu] containsItemWithImage];
     OERectEdge openEdge = [[self menu] openEdge];
-
+    openEdge = [[self menu] displaysOpenEdge] ? openEdge : OENoEdge;
     
     float leftBorder, rightBorder;
     float topBorder, bottomBorder;
@@ -1421,7 +1498,8 @@
     BOOL isSubmenu = [[self menu] supermenu] != nil;
     BOOL menuContainsImage = [[self menu] containsItemWithImage];
     OERectEdge openEdge = [[self menu] openEdge];
-
+    openEdge = [[self menu] displaysOpenEdge] ? openEdge : OENoEdge;
+    
     float leftBorder, rightBorder;
     float topBorder;
     if(isSubmenu)
@@ -1479,6 +1557,13 @@
 
     return NSZeroRect;
 }
+
+#pragma mark -
+#pragma mark Scrolling
+- (void)scrollUp
+{}
+- (void)scrollDown
+{}
 
 #pragma mark -
 #pragma mark View Config Overrides
