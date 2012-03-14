@@ -344,7 +344,7 @@
         [menu addItem:[NSMenuItem separatorItem]];
         for(OEDBSaveState* saveState in saveStates)
         {
-            NSString *itemTitle = [saveState userDescription];
+            NSString *itemTitle = [saveState name];
             if(!itemTitle || [itemTitle isEqualToString:@""])
                 itemTitle = [NSString stringWithFormat:@"%@", [saveState timestamp]];
             
