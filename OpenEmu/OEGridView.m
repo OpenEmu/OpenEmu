@@ -1233,9 +1233,14 @@ const NSTimeInterval OEPeriodicInterval     = 0.075;    // Subsequent interval o
         
         if([[NSUserDefaults standardUserDefaults] boolForKey:UDLightStyleGridViewMenu]) [contextMenu setStyle:OEMenuStyleLight];
         
-        OERectEdge edge = OEMaxXEdge;
-        if(NSHeight(visibleItemRect) < 25.0) edge = NSMinY(visibleItemRect) == NSMinY(visibleRectOnWindow) ? OEMaxYEdge : OEMinYEdge;
+        [contextMenu setDisplaysOpenEdge:YES];
         
+        OERectEdge edge = OEMaxXEdge;
+        if(NSHeight(visibleItemRect) < 25.0) 
+        {
+            edge = NSMinY(visibleItemRect) == NSMinY(visibleRectOnWindow) ? OEMaxYEdge : OEMinYEdge;
+            [contextMenu setAllowsOppositeEdge:NO];
+        }     
         [contextMenu openOnEdge:edge ofRect:visibleItemRect ofWindow:[self window]];
         
         return nil;

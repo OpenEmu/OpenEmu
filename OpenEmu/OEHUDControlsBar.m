@@ -286,6 +286,7 @@
     oemenu.maxSize = NSMakeSize(500, 256);
     NSRect targetRect = (NSRect){{[sender frame].origin.x,0},{[sender frame].size.width -6, NSHeight([self frame])}};
     targetRect = NSInsetRect(targetRect, 0, 17);
+    [oemenu setDisplaysOpenEdge:YES];
     [oemenu openOnEdge:OEMaxYEdge ofRect:targetRect ofWindow:self];
 }
 
@@ -372,6 +373,7 @@
     
     OEMenu *oemenu = [menu convertToOEMenu];
     [oemenu setDelegate:self];
+    [oemenu setDisplaysOpenEdge:YES];
     [oemenu setStyle:OEMenuStyleLight];
     oemenu.itemsAboveScroller = 2;
     oemenu.maxSize = NSMakeSize(5000, 256);
