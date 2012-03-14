@@ -290,7 +290,7 @@ static void writeSaveFile(const char* path, int type)
             
             loadSaveFile([filePath UTF8String], SNES_MEMORY_CARTRIDGE_RAM);
         }
-        //snes_set_controller_port_device(SNES_PORT_1, SNES_DEVICE_NONE); //SNES_DEVICE_JOYPAD
+        //snes_set_controller_port_device(SNES_PORT_1, SNES_DEVICE_JOYPAD); //SNES_DEVICE_JOYPAD
         //snes_set_controller_port_device(SNES_PORT_2, SNES_DEVICE_NONE);
         
         snes_get_region();
