@@ -112,10 +112,10 @@
 #pragma mark -
 #pragma mark -
 
-@class OE_MenuItemsView, OE_MenuContentView, OE_MENUScrollerView;
+@class OEMenuItemsView, OEMenuContentView, OEMenuScrollerView;
 @interface OEMenu ()
 - (BOOL)_isClosing;
-- (OE_MenuContentView *)menuView;
+- (OEMenuContentView *)menuView;
 - (void)_performCloseMenu;
 - (void)_closeByClickingItem:(NSMenuItem *)selectedItem;
 - (void)setIsAlternate:(BOOL)flag;
@@ -133,7 +133,7 @@
 @end
 
 #pragma mark -
-@interface OE_MenuContentView : NSView
+@interface OEMenuContentView : NSView
 - (void)highlightItemAtPoint:(NSPoint)p;
 - (NSMenuItem *)itemAtPoint:(NSPoint)p;
 - (NSRect)rectOfItem:(NSMenuItem *)m;
@@ -149,26 +149,26 @@
 
 #pragma mark -
 @property(nonatomic, readonly) OEMenu           *menu;
-@property(nonatomic, readonly) OE_MenuItemsView *menuItemsView;
+@property(nonatomic, readonly) OEMenuItemsView *menuItemsView;
 @property(nonatomic, readonly) NSScrollView     *scrollView;
 @property NSPoint cachedContentOffset;
 @property NSSize  cachedBorderSize;
 
-@property (nonatomic, readonly) OE_MENUScrollerView *scrollUpView;
-@property (nonatomic, readonly) OE_MENUScrollerView *scrollDownView;
+@property (nonatomic, readonly) OEMenuScrollerView *scrollUpView;
+@property (nonatomic, readonly) OEMenuScrollerView *scrollDownView;
 @end
 
-@interface OE_MenuContentView ()
+@interface OEMenuContentView ()
 - (NSSize)OE_calculateRequiredViewSize;
 @end
 #pragma mark -
-@interface OE_MenuItemsView : NSView
+@interface OEMenuItemsView : NSView
 - (NSMenuItem *)itemAtPoint:(NSPoint)p;
 - (NSRect)rectOfItem:(NSMenuItem *)m;
 
 - (OEMenu *)menu;
 @end
-@interface OE_MenuItemsView ()
+@interface OEMenuItemsView ()
 - (NSSize)OE_calculateAndSetRequiredViewSize;
 @end
 #pragma mark -
@@ -180,7 +180,7 @@
 @interface OE_MenuScroller : NSScroller
 @end
 #pragma mark -
-@interface OE_MENUScrollerView : NSView
+@interface OEMenuScrollerView : NSView
 @property BOOL up;
 - (NSImage*)scrollUpArrowImageForStyle:(OEMenuStyle)style;
 - (NSImage*)scrollDownArrowImageForStyle:(OEMenuStyle)style;
@@ -235,7 +235,7 @@
         
         [self setAllowsOppositeEdge:YES];
         
-        OE_MenuContentView *view = [[OE_MenuContentView alloc] initWithFrame:(NSRect){{0,0}, {1,1}}];
+        OEMenuContentView *view = [[OEMenuContentView alloc] initWithFrame:(NSRect){{0,0}, {1,1}}];
         [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
         [[self contentView] addSubview:view];
         
@@ -588,7 +588,7 @@
     return closing;
 }
 
-- (OE_MenuContentView *)menuView
+- (OEMenuContentView *)menuView
 {
     return [[[self contentView] subviews] lastObject];
 }
@@ -700,7 +700,7 @@
                          if([incomingEvent type]==NSScrollWheel)
                              return nil;
                          
-                         OE_MenuContentView *view = [[[self contentView] subviews] lastObject];
+                         OEMenuContentView *view = [[[self contentView] subviews] lastObject];
                          
                         if([incomingEvent type] == NSFlagsChanged)
                          {
@@ -752,7 +752,7 @@
 @end
 
 #pragma mark -
-@implementation OE_MenuContentView
+@implementation OEMenuContentView
 @synthesize scrollUpView, scrollDownView;
 
 - (id)initWithFrame:(NSRect)frame
@@ -767,15 +767,15 @@
         [scrollView setHasVerticalScroller:YES];
         [scrollView setVerticalScroller:[[OE_MenuScroller alloc] init]];
         [scrollView setVerticalScrollElasticity:NSScrollElasticityNone];
-        [scrollView setDocumentView:[[OE_MenuItemsView alloc] initWithFrame:frame]];
+        [scrollView setDocumentView:[[OEMenuItemsView alloc] initWithFrame:frame]];
         
         [self addSubview:scrollView];
         
         frame.size.height = 19.0;
-        scrollUpView = [[OE_MENUScrollerView alloc] initWithFrame:frame];
+        scrollUpView = [[OEMenuScrollerView alloc] initWithFrame:frame];
         [scrollUpView setAlphaValue:0.0];
         [scrollUpView setUp:YES];
-        scrollDownView = [[OE_MENUScrollerView alloc] initWithFrame:frame];
+        scrollDownView = [[OEMenuScrollerView alloc] initWithFrame:frame];
         [scrollDownView setAlphaValue:0.0];
         
         [self addSubview:scrollUpView];
@@ -1332,7 +1332,7 @@
 
 - (NSRect)rectOfItem:(NSMenuItem *)m
 {
-    OE_MenuItemsView *itemsView = [self menuItemsView];
+    OEMenuItemsView *itemsView = [self menuItemsView];
     NSRect           rect       = [itemsView rectOfItem:m];
     return [self convertRect:rect fromView:itemsView];
 }
@@ -1455,7 +1455,7 @@
     return (OEMenu *)[self window];
 }
 
-- (OE_MenuItemsView *)menuItemsView;
+- (OEMenuItemsView *)menuItemsView;
 {
     return [[self scrollView] documentView];
 }
@@ -1468,7 +1468,7 @@
 @synthesize cachedContentOffset, cachedBorderSize;
 @end
 #pragma mark -
-@implementation OE_MenuItemsView
+@implementation OEMenuItemsView
 
 #pragma mark -
 #pragma mark View Config Overrides
@@ -1536,7 +1536,7 @@
 - (NSSize)OE_calculateAndSetRequiredViewSize
 {
     OEMenu          *menu              = [self menu];
-    OE_MenuContentView     *menuView          = [menu menuView];
+    OEMenuContentView     *menuView          = [menu menuView];
     NSArray         *menuItems         = [menu itemArray];
     NSDictionary    *titleAttributes   = [menuView itemTextAttributes];
     
@@ -1587,7 +1587,7 @@
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    OE_MenuContentView *menuView   = (OE_MenuContentView *)[[self enclosingScrollView] superview];
+    OEMenuContentView *menuView   = (OEMenuContentView *)[[self enclosingScrollView] superview];
     
     OERectEdge openEdge     = [[self menu] openEdge];
     openEdge = [[self menu] displaysOpenEdge] ? openEdge : OENoEdge;
@@ -1713,7 +1713,7 @@
     [super scrollWheel:theEvent];
     
     OEMenu              *menu = [self menu];
-    OE_MenuContentView  *view = [menu menuView];
+    OEMenuContentView  *view = [menu menuView];
     NSPoint             pointInView = [view convertPointFromBacking:[theEvent locationInWindow]];
     [view highlightItemAtPoint:pointInView];
 }
@@ -1748,7 +1748,7 @@
 }
 @end
 #pragma mark -
-@implementation OE_MENUScrollerView 
+@implementation OEMenuScrollerView 
 @synthesize up;
 - (NSImage*)scrollUpArrowImageForStyle:(OEMenuStyle)style
 {
