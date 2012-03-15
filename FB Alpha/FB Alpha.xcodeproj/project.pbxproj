@@ -4238,6 +4238,7 @@
 					"-D__LIBSNES__",
 					"-DLSB_FIRST",
 					"-DTIXML_USE_TICPP",
+					"-DNDEBUG",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"-fpic",
@@ -4252,6 +4253,7 @@
 					"-D__LIBSNES__",
 					"-DLSB_FIRST",
 					"-DTIXML_USE_TICPP",
+					"-DNDEBUG",
 				);
 				PRODUCT_NAME = "FB Alpha";
 				WRAPPER_EXTENSION = oecoreplugin;
@@ -4284,6 +4286,7 @@
 					"-D__LIBSNES__",
 					"-DLSB_FIRST",
 					"-DTIXML_USE_TICPP",
+					"-DNDEBUG",
 				);
 				OTHER_CPLUSPLUSFLAGS = (
 					"-fpic",
@@ -4298,6 +4301,7 @@
 					"-D__LIBSNES__",
 					"-DLSB_FIRST",
 					"-DTIXML_USE_TICPP",
+					"-DNDEBUG",
 				);
 				PRODUCT_NAME = "FB Alpha";
 				WRAPPER_EXTENSION = oecoreplugin;
