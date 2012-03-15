@@ -112,7 +112,7 @@
 #pragma mark -
 #pragma mark -
 
-@class OE_MenuItemsView, OE_MenuContentView;
+@class OE_MenuItemsView, OE_MenuContentView, OE_MENUScrollerView;
 @interface OEMenu ()
 - (BOOL)_isClosing;
 - (OE_MenuContentView *)menuView;
@@ -153,6 +153,9 @@
 @property(nonatomic, readonly) NSScrollView     *scrollView;
 @property NSPoint cachedContentOffset;
 @property NSSize  cachedBorderSize;
+
+@property (nonatomic, readonly) OE_MENUScrollerView *scrollUpView;
+@property (nonatomic, readonly) OE_MENUScrollerView *scrollDownView;
 @end
 
 @interface OE_MenuContentView ()
@@ -177,6 +180,12 @@
 @interface OE_MenuScroller : NSScroller
 @end
 #pragma mark -
+@interface OE_MENUScrollerView : NSView
+@property BOOL up;
+- (NSImage*)scrollUpArrowImageForStyle:(OEMenuStyle)style;
+- (NSImage*)scrollDownArrowImageForStyle:(OEMenuStyle)style;
+@end
+#pragma mark -
 #pragma mark -
 @implementation OEMenu
 @synthesize openRect, openEdge=_edge, allowsOppositeEdge, displaysOpenEdge;
@@ -195,11 +204,14 @@
     NSImage *menuArrows = [NSImage imageNamed:@"dark_menu_popover_arrow"];
     [menuArrows setName:@"dark_menu_popover_arrow_normal" forSubimageInRect:NSMakeRect(0, menuArrows.size.height/2, menuArrows.size.width, menuArrows.size.height/2)];
     [menuArrows setName:@"dark_menu_popover_arrow_selected" forSubimageInRect:NSMakeRect(0, 0, menuArrows.size.width, menuArrows.size.height/2)];
-    
-    
+        
     NSImage *scrollArrows = [NSImage imageNamed:@"dark_menu_scroll_arrows"];
-    [scrollArrows setName:@"dark_menu_scroll_up" forSubimageInRect:NSMakeRect(0, 0, 9, 15)];
-    [scrollArrows setName:@"dark_menu_scroll_down" forSubimageInRect:NSMakeRect(0, 15, 9, 15)];
+    [scrollArrows setName:@"dark_menu_scroll_down" forSubimageInRect:NSMakeRect(0, 0, 9, 7)];
+    [scrollArrows setName:@"dark_menu_scroll_up" forSubimageInRect:NSMakeRect(9, 0, 9, 7)];
+    
+    scrollArrows = [NSImage imageNamed:@"light_menu_scroll_arrows"];
+    [scrollArrows setName:@"light_menu_scroll_down" forSubimageInRect:NSMakeRect(0, 0, 9, 7)];
+    [scrollArrows setName:@"light_menu_scroll_up" forSubimageInRect:NSMakeRect(9, 0, 9, 7)];
     
     NSImage *tickMark = [NSImage imageNamed:@"tick_mark"];
     [tickMark setName:@"tick_mark_normal" forSubimageInRect:(NSRect){{0,0},{7,12}}];
@@ -741,6 +753,8 @@
 
 #pragma mark -
 @implementation OE_MenuContentView
+@synthesize scrollUpView, scrollDownView;
+
 - (id)initWithFrame:(NSRect)frame
 {
     if((self = [super initWithFrame:frame]))
@@ -757,6 +771,16 @@
         
         [self addSubview:scrollView];
         
+        frame.size.height = 19.0;
+        scrollUpView = [[OE_MENUScrollerView alloc] initWithFrame:frame];
+        [scrollUpView setAlphaValue:0.0];
+        [scrollUpView setUp:YES];
+        scrollDownView = [[OE_MENUScrollerView alloc] initWithFrame:frame];
+        [scrollDownView setAlphaValue:0.0];
+        
+        [self addSubview:scrollUpView];
+        [self addSubview:scrollDownView];
+        
         NSTrackingArea *area = [[NSTrackingArea alloc] initWithRect:[self bounds] options:NSTrackingMouseMoved|NSTrackingMouseEnteredAndExited|NSTrackingActiveInActiveApp owner:self userInfo:nil];
         [self addTrackingArea:area];
     }
@@ -764,11 +788,10 @@
 }
 
 - (void)dealloc
-{
-   while([[self trackingAreas] count] != 0)
+{    
+    while([[self trackingAreas] count] != 0)
         [self removeTrackingArea:[[self trackingAreas] lastObject]];
 }
-
 #pragma mark -
 #pragma mark Interaction
 - (void)updateTrackingAreas
@@ -1327,6 +1350,12 @@
     newScrollViewRect.size.height = newSize.height-[self cachedBorderSize].height;
     
     [[self scrollView] setFrame:newScrollViewRect];
+    
+    NSRect scrollArrowsFrame = (NSRect){{newScrollViewRect.origin.x, 0}, { NSWidth(newScrollViewRect), 19}};
+    scrollArrowsFrame.origin.y = NSMaxY(newScrollViewRect) -NSHeight([[self scrollUpView] frame]);
+    [[self scrollUpView] setFrame:scrollArrowsFrame];
+    scrollArrowsFrame.origin.y = newScrollViewRect.origin.y;
+    [[self scrollDownView] setFrame:scrollArrowsFrame];
 }
 
 - (BOOL)acceptsFirstResponder
@@ -1433,7 +1462,7 @@
 
 - (OE_MenuScrollView *)scrollView
 {
-    return [[self subviews] lastObject];
+    return [[self subviews] objectAtIndex:0];
 }
 
 @synthesize cachedContentOffset, cachedBorderSize;
@@ -1562,6 +1591,16 @@
     
     OERectEdge openEdge     = [[self menu] openEdge];
     openEdge = [[self menu] displaysOpenEdge] ? openEdge : OENoEdge;
+    
+    NSBezierPath *clippingPath = [NSBezierPath bezierPathWithRect:[self bounds]];
+    [clippingPath setWindingRule:NSEvenOddWindingRule];
+        
+    if([[menuView scrollDownView] alphaValue] == 1.0)
+        [clippingPath appendBezierPathWithRect:[menuView convertRect:[[menuView scrollDownView] frame] toView:self]];
+    if([[menuView scrollUpView] alphaValue] == 1.0)
+       [clippingPath appendBezierPathWithRect:[menuView convertRect:[[menuView scrollUpView] frame] toView:self]];
+    [clippingPath addClip];
+   
     
     // Draw Items
     NSArray *items = [[self menu] itemArray];
@@ -1707,5 +1746,30 @@
 {
     return 0.0;
 }
+@end
+#pragma mark -
+@implementation OE_MENUScrollerView 
+@synthesize up;
+- (NSImage*)scrollUpArrowImageForStyle:(OEMenuStyle)style
+{
+    return [NSImage imageNamed:style == OEMenuStyleDark ? @"dark_menu_scroll_up" : @"light_menu_scroll_up"];
+}
 
+- (NSImage*)scrollDownArrowImageForStyle:(OEMenuStyle)style
+{
+    return [NSImage imageNamed:style == OEMenuStyleDark ? @"dark_menu_scroll_down" : @"light_menu_scroll_down"];
+    
+}
+
+- (void)drawRect:(NSRect)dirtyRect
+{
+    OEMenu  *menu        = (OEMenu*)[self window];
+    NSImage *scrollArrow = [self up] ? [self scrollUpArrowImageForStyle:[menu style]] : [self scrollDownArrowImageForStyle:[menu style]];
+    
+    float x = NSMidX([self bounds])-[scrollArrow size].width/2;
+    float y = NSMidY([self bounds])-[scrollArrow size].height/2;
+    
+    NSRect targetRect = (NSRect){{x, y}, scrollArrow.size};
+    [scrollArrow drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+}
 @end
