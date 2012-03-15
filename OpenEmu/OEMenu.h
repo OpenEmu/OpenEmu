@@ -29,7 +29,7 @@
 #import "OEMenuItem.h"
 @class OEPopupButton;
 @protocol OEMenuDelegate;
-@class OE_MenuView;
+@class OE_MenuContentView;
 
 typedef enum _OEMenuStyle {
     OEMenuStyleDark,
