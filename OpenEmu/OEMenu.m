@@ -112,10 +112,10 @@
 #pragma mark -
 #pragma mark -
 
-@class OE_MenuItemsView, OE_MenuView;
+@class OE_MenuItemsView, OE_MenuContentView;
 @interface OEMenu ()
 - (BOOL)_isClosing;
-- (OE_MenuView *)menuView;
+- (OE_MenuContentView *)menuView;
 - (void)_performCloseMenu;
 - (void)_closeByClickingItem:(NSMenuItem *)selectedItem;
 - (void)setIsAlternate:(BOOL)flag;
@@ -133,7 +133,7 @@
 @end
 
 #pragma mark -
-@interface OE_MenuView : NSView
+@interface OE_MenuContentView : NSView
 - (void)highlightItemAtPoint:(NSPoint)p;
 - (NSMenuItem *)itemAtPoint:(NSPoint)p;
 - (NSRect)rectOfItem:(NSMenuItem *)m;
@@ -155,7 +155,7 @@
 @property NSSize  cachedBorderSize;
 @end
 
-@interface OE_MenuView ()
+@interface OE_MenuContentView ()
 - (NSSize)OE_calculateRequiredViewSize;
 @end
 #pragma mark -
@@ -167,6 +167,14 @@
 @end
 @interface OE_MenuItemsView ()
 - (NSSize)OE_calculateAndSetRequiredViewSize;
+@end
+#pragma mark -
+@interface OE_MenuScrollView : NSScrollView
+
+- (OEMenu *)menu;
+@end
+#pragma mark -
+@interface OE_MenuScroller : NSScroller
 @end
 #pragma mark -
 #pragma mark -
@@ -215,7 +223,7 @@
         
         [self setAllowsOppositeEdge:YES];
         
-        OE_MenuView *view = [[OE_MenuView alloc] initWithFrame:NSZeroRect];
+        OE_MenuContentView *view = [[OE_MenuContentView alloc] initWithFrame:(NSRect){{0,0}, {1,1}}];
         [view setAutoresizingMask:NSViewWidthSizable|NSViewHeightSizable];
         [[self contentView] addSubview:view];
         
@@ -262,8 +270,7 @@
     [self OE_repositionMenu];
     
     NSPoint windowP = [self convertScreenToBase:[NSEvent mouseLocation]];
-    // todo: reenable:
-//    [[self menuView] highlightItemAtPoint:windowP];
+    [[self menuView] highlightItemAtPoint:windowP];
     
     [self display];
     [self setAlphaValue:1.0];
@@ -333,14 +340,12 @@
         }
     }
     
-    /*
     // resize if nescessary
     if(NSHeight(menuRect) != NSHeight(intersectionRect))
     {
         menuRect.size.height = NSHeight(intersectionRect);
         menuRect.origin.y    = NSMinY(intersectionRect);
     }
-    */
     
     if(!NSEqualRects(menuRect, [self frame]))
     {
@@ -423,8 +428,6 @@
 {
     return visible && [super isVisible] && !closing;
 }
-
-
 
 #pragma mark -
 #pragma mark Interaction
@@ -573,7 +576,7 @@
     return closing;
 }
 
-- (OE_MenuView *)menuView
+- (OE_MenuContentView *)menuView
 {
     return [[[self contentView] subviews] lastObject];
 }
@@ -679,13 +682,13 @@
 #pragma mark -
 - (void)OE_createEventMonitor
 {
-    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask | NSScrollWheelMask handler:
+    _localMonitor = [NSEvent addLocalMonitorForEventsMatchingMask:NSLeftMouseDownMask | NSRightMouseDownMask | NSOtherMouseDownMask | NSKeyDownMask | NSFlagsChangedMask /*| NSScrollWheelMask*/ handler:
                      ^ NSEvent  *(NSEvent *incomingEvent)
                      {
                          if([incomingEvent type]==NSScrollWheel)
                              return nil;
                          
-                         OE_MenuView *view = [[[self contentView] subviews] lastObject];
+                         OE_MenuContentView *view = [[[self contentView] subviews] lastObject];
                          
                         if([incomingEvent type] == NSFlagsChanged)
                          {
@@ -737,15 +740,19 @@
 @end
 
 #pragma mark -
-@implementation OE_MenuView
+@implementation OE_MenuContentView
 - (id)initWithFrame:(NSRect)frame
 {
     if((self = [super initWithFrame:frame]))
     {
         frame.origin = (NSPoint){0,0};
         
-        NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:frame];
+        OE_MenuScrollView *scrollView = [[OE_MenuScrollView alloc] initWithFrame:frame];
         [scrollView setDrawsBackground:NO];
+        [scrollView setBorderType:NSNoBorder];
+        [scrollView setHasVerticalScroller:YES];
+        [scrollView setVerticalScroller:[[OE_MenuScroller alloc] init]];
+        [scrollView setVerticalScrollElasticity:NSScrollElasticityNone];
         [scrollView setDocumentView:[[OE_MenuItemsView alloc] initWithFrame:frame]];
         
         [self addSubview:scrollView];
@@ -1128,10 +1135,10 @@
     OERectEdge openEdge     = [[self menu] openEdge];
     openEdge = [[self menu] displaysOpenEdge] ? openEdge : OENoEdge;
     
-    NSColor      *backgroundColor = [self backgroundColor];
+    NSColor      *backgroundColor    = [self backgroundColor];
     NSGradient   *backgroundGradient = [self backgroundGradient];
-    NSBezierPath *backgroundPath = [self backgroundPath];
-    NSImage      *backgroundImage = [self backgroundImage];
+    NSBezierPath *backgroundPath     = [self backgroundPath];
+    NSImage      *backgroundImage    = [self backgroundImage];
     
     if(backgroundColor)
     {
@@ -1307,6 +1314,7 @@
     return [self convertRect:rect fromView:itemsView];
 }
 
+#define ItemViewAdditonalWidth 1
 #pragma mark -
 #pragma mark View Config Overrides
 - (void)setFrameSize:(NSSize)newSize
@@ -1423,7 +1431,7 @@
     return [[self scrollView] documentView];
 }
 
-- (NSScrollView *)scrollView
+- (OE_MenuScrollView *)scrollView
 {
     return [[self subviews] lastObject];
 }
@@ -1499,7 +1507,7 @@
 - (NSSize)OE_calculateAndSetRequiredViewSize
 {
     OEMenu          *menu              = [self menu];
-    OE_MenuView     *menuView          = [menu menuView];
+    OE_MenuContentView     *menuView          = [menu menuView];
     NSArray         *menuItems         = [menu itemArray];
     NSDictionary    *titleAttributes   = [menuView itemTextAttributes];
     
@@ -1537,19 +1545,20 @@
     contentSize.width = ItemTickMarkSpace + (menuContainsImage? ItemImageSpace : 0 ) + maxTitleWidth + ItemSubmenuSpace;
     contentSize.height = normalItemCount  *(menuContainsImage? ItemHeightWithImage : ItemHeightWithoutImage) + separatorItemCount  *ItemSeparatorHeight; 
 
-    contentSize.width = contentSize.width < [menu minSize].width ? [menu minSize].width : contentSize.width;
+    contentSize.width = ceilf(contentSize.width < [menu minSize].width ? [menu minSize].width : contentSize.width)+ItemViewAdditonalWidth;
     
     NSRect frame;
     frame.size      = contentSize;
     frame.origin    = (NSPoint){0, 0};
     [self setFrame:frame];
     
+    contentSize.width -= ItemViewAdditonalWidth;
     return contentSize;
 }
 
 - (void)drawRect:(NSRect)dirtyRect
 {
-    OE_MenuView *menuView   = (OE_MenuView *)[[self enclosingScrollView] superview];
+    OE_MenuContentView *menuView   = (OE_MenuContentView *)[[self enclosingScrollView] superview];
     
     OERectEdge openEdge     = [[self menu] openEdge];
     openEdge = [[self menu] displaysOpenEdge] ? openEdge : OENoEdge;
@@ -1654,6 +1663,49 @@
 - (OEMenu *)menu
 {
     return (OEMenu *)[self window];
+}
+
+@end
+
+#pragma mark -
+@implementation OE_MenuScrollView
+- (void)scrollWheel:(NSEvent *)theEvent
+{
+    [super scrollWheel:theEvent];
+    
+    OEMenu              *menu = [self menu];
+    OE_MenuContentView  *view = [menu menuView];
+    NSPoint             pointInView = [view convertPointFromBacking:[theEvent locationInWindow]];
+    [view highlightItemAtPoint:pointInView];
+}
+#pragma mark -
+- (OEMenu *)menu
+{
+    return (OEMenu *)[self window];
+}
+@end
+#pragma mark -
+@implementation OE_MenuScroller
+
++ (BOOL)isCompatibleWithOverlayScrollers
+{
+    return YES;
+}
+
+- (void)drawKnob
+{}
+
+- (void)drawKnobSlotInRect:(NSRect)slotRect highlight:(BOOL)flag
+{}
+
++ (CGFloat)scrollerWidthForControlSize:(NSControlSize)controlSize scrollerStyle:(NSScrollerStyle)scrollerStyle
+{
+    return 0.0;
+}
+
++ (CGFloat)scrollerWidth
+{
+    return 0.0;
 }
 
 @end
