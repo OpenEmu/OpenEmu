@@ -71,7 +71,7 @@ NSString *MupenControlNames[] = {
     
     // plugins + config
     m64p_handle section;
-    int ival = 0;
+    int ival = 2;
     ConfigOpenSection("Core", &section);
     ConfigSetParameter(section, "R4300Emulator", M64TYPE_INT, &ival);
     
@@ -79,6 +79,11 @@ NSString *MupenControlNames[] = {
     romData = [NSData dataWithContentsOfMappedFile:path];
     
     CoreDoCommand(M64CMD_ROM_OPEN, [romData length], (void*)[romData bytes]);
+    
+    CoreAttachPlugin(M64PLUGIN_GFX, 0);
+    CoreAttachPlugin(M64PLUGIN_AUDIO, 0);
+    CoreAttachPlugin(M64PLUGIN_INPUT, 0);
+    CoreAttachPlugin(M64PLUGIN_RSP, 0);
     
     return YES;
 }
@@ -186,7 +191,7 @@ NSString *MupenControlNames[] = {
 
 - (double)audioSampleRate
 {
-    return 0;
+    return 48000;
 }
 
 @end
